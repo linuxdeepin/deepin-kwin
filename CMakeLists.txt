@@ -417,6 +417,7 @@ set(kwin_KDEINIT_SRCS
     wayland_server.cpp
     wayland_cursor_theme.cpp
     virtualkeyboard.cpp
+    rootinfo_filter.cpp
    )
 
 if(KWIN_BUILD_TABBOX)
