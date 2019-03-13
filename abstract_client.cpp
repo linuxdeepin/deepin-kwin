@@ -137,6 +137,21 @@ void AbstractClient::doSetSkipPager()
 {
 }
 
+QRect AbstractClient::clientArea(clientAreaOption opt, const QPoint &p, int desktop) const
+{
+    return workspace()->clientArea(opt, p, desktop);
+}
+
+QRect AbstractClient::clientArea(clientAreaOption opt) const
+{
+    return workspace()->clientArea(opt, this);
+}
+
+QRect AbstractClient::clientArea(clientAreaOption opt, int screen, int desktop) const
+{
+    return workspace()->clientArea(opt, screen, desktop);
+}
+
 void AbstractClient::setSkipTaskbar(bool b)
 {
     int was_wants_tab_focus = wantsTabFocus();
@@ -1274,7 +1289,8 @@ void AbstractClient::checkQuickTilingMaximizationZones(int xroot, int yroot)
             return false;
         };
 
-        QRect area = workspace()->clientArea(MaximizeArea, QPoint(xroot, yroot), desktop());
+        // 检查停靠区域时不为clientArea添加gtk frame extents区域
+        QRect area = AbstractClient::clientArea(MaximizeArea, QPoint(xroot, yroot), desktop());
         if (options->electricBorderTiling()) {
             if (xroot <= area.x() + 20) {
                 mode |= QuickTileLeft;
