@@ -760,6 +760,8 @@ bool X11Client::manage(xcb_window_t w, bool isMapped)
         }
     }
 
+    dontKeepInArea = !rules()->checkStrictGeometry(true);
+
     if ((!isSpecialWindow() || isToolbar()) && isMovable() && !dontKeepInArea)
         keepInArea(area, partial_keep_in_area);
 
@@ -3838,6 +3840,7 @@ void X11Client::configureRequest(int value_mask, int rx, int ry, int rw, int rh,
         resize(requestedFrameSize);
         QRect area = workspace()->clientArea(WorkArea, this);
         if (!from_tool && (!isSpecialWindow() || isToolbar()) && !isFullScreen()
+                && rules()->checkStrictGeometry(true)
                 && area.contains(origClientGeometry))
             keepInArea(area);
 
