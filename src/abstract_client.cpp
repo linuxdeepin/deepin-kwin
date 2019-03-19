@@ -3361,6 +3361,11 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, QRect oldClientGe
     // after this one, this window would be moved
     if (!workspace() || workspace()->initializing())
         return;
+    // If the window force d'not strict geometry, And the update from Workspace::updateClientArea()
+    // then should be ignore.
+    if (workspace()->inUpdateClientArea() && !rules()->checkStrictGeometry(true)) {
+        return;
+    }
 
     VirtualDesktop *desktop = !isOnCurrentDesktop() ? desktops().constLast() : VirtualDesktopManager::self()->currentDesktop();
     if (!oldDesktop) {
