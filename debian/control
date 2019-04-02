@@ -107,7 +107,8 @@ Description: KDE window manager, common files
 Package: kwin-data
 Architecture: all
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Recommends: qml-module-qtmultimedia,
+Recommends: plasma-framework,
+            qml-module-qtmultimedia,
             qml-module-qtquick-controls,
             qml-module-qtquick-layouts,
             qml-module-qtquick-virtualkeyboard,
