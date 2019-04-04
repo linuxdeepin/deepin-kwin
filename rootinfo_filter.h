@@ -25,16 +25,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 class RootInfo;
+class Filter;
 
-class RootInfoFilter : public X11EventFilter
+class RootInfoFilter
 {
 public:
     explicit RootInfoFilter(RootInfo *parent);
+    ~RootInfoFilter();
 
-    bool event(xcb_generic_event_t *event) override;
+    bool event(xcb_generic_event_t *event);
 
 private:
     RootInfo *m_rootInfo;
+    QList<Filter*> m_filters;
 };
 
 }

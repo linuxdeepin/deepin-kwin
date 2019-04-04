@@ -577,7 +577,7 @@ void Client::readGtkFrameExtents(Xcb::Property &prop)
         if (maximizeMode() != MaximizeRestore || isFullScreen()) {
             needResize = true;
             new_geometry = new_geometry += (margins - m_gtkFrameExtents);
-        } else if (electricBorderMode() != QuickTileMode(QuickTileFlag::None)) {
+        } else if (electricBorderMode() != QuickTileMode(QuickTileFlag::QuickTileNone)) {
             needResize = true;
             new_geometry = electricBorderMaximizeGeometry(new_geometry.center(), desktop());
         }
@@ -1873,10 +1873,10 @@ bool Client::acceptsFocus() const
 static QRect hackClientArea(const Client *c, clientAreaOption opt, const QRect &rect)
 {
     switch (opt) {
-    case PlacementArea: Q_FALLTHROUGH();
-    case MovementArea: Q_FALLTHROUGH();
-    case MaximizeArea: Q_FALLTHROUGH();
-    case MaximizeFullArea: Q_FALLTHROUGH();
+    case PlacementArea: //Q_FALLTHROUGH();
+    case MovementArea: //Q_FALLTHROUGH();
+    case MaximizeArea: //Q_FALLTHROUGH();
+    case MaximizeFullArea: //Q_FALLTHROUGH();
     case FullScreenArea:
         return rect + c->gtkFrameExtents();
     default:

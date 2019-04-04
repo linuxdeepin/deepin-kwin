@@ -25,11 +25,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KWin
 {
+class Filter : public X11EventFilter
+{
+public:
+    Filter(RootInfoFilter *parent, int eventType)
+        : X11EventFilter(eventType, 0, QVector<int>{})
+        , m_parent(parent) {}
+
+    bool event(xcb_generic_event_t *event) override
+    {
+        return m_parent->event(event);
+    }
+
+private:
+    RootInfoFilter *m_parent;
+};
 
 RootInfoFilter::RootInfoFilter(RootInfo *parent)
-    : X11EventFilter(QVector<int>{XCB_PROPERTY_NOTIFY, XCB_CLIENT_MESSAGE})
-    , m_rootInfo(parent)
+    : m_rootInfo(parent)
 {
+    m_filters << new Filter(this, XCB_PROPERTY_NOTIFY)
+              << new Filter(this, XCB_CLIENT_MESSAGE);
+}
+
+RootInfoFilter::~RootInfoFilter()
+{
+    qDeleteAll(m_filters);
 }
 
 static QVector<xcb_atom_t> getNetWMAtoms(xcb_atom_t property)
