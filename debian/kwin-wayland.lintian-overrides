@@ -1,0 +1,5 @@
+kwin-wayland: package-name-doesnt-match-sonames libkdeinit5-kwin-wayland
+kwin-wayland: binary-without-manpage usr/bin/kwin_wayland
+kwin-wayland: dev-pkg-without-shlib-symlink usr/lib/*/libkdeinit5_kwin_wayland.so
+kwin-wayland: shlib-without-versioned-soname usr/lib/*/libkdeinit5_kwin_wayland.so libkdeinit5_kwin_wayland.so
+kwin-wayland: postinst-must-call-ldconfig usr/lib/*/libkdeinit5_kwin_wayland.so

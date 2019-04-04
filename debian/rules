@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+l10npkgs_firstversion_ok := 4:4.14.0-2
+
+include /usr/share/pkg-kde-tools/qt-kde-team/3/debian-qt-kde.mk
+include /usr/share/pkg-kde-tools/qt-kde-team/2/l10n-packages.mk
+
+override_dh_strip:
+	$(overridden_command) --dbgsym-migration='kwin-dbg (<= 4:5.5.5-1~~)'
+
+override_dh_auto_test:
+	# Disable auto tests at build time
+	:
