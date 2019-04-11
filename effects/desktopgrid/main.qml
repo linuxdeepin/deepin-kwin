@@ -19,31 +19,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 import QtQuick 2.0
 import org.kde.plasma.components 2.0 as Plasma
+import QtQuick.Controls 2.1
 
 Item {
-    width: childrenRect.width
-    height: childrenRect.height
+    width: childrenRect.width + buttonLayout.spacing + 32
+    height: childrenRect.height + 32
     Plasma.ButtonRow {
+        id: buttonLayout
+        anchors.centerIn: parent
         exclusive: false
         width: childrenRect.width
         height: childrenRect.height
-        Plasma.Button {
+        spacing: 16
+        Button {
             id: removeButton
             objectName: "removeButton"
             enabled: remove
             width: height
-            font.bold: true
-            font.pointSize: 20
-            text: "-"
+            background: Image {
+                source: "icons/reduce_normal.svg"
+            }
+            onHoveredChanged: {
+                background.source = removeButton.hovered ? "icons/reduce_hover.svg" : "icons/reduce_normal.svg"
+            }
+            onPressedChanged: {
+                background.source = removeButton.pressed ? "icons/reduce_press.svg" : "icons/reduce_hover.svg"
+            }
         }
-        Plasma.Button {
+        Button {
             id: addButton
             objectName: "addButton"
             enabled: add
-            font.bold: true
-            font.pointSize: 20
             width: height
-            text: "+"
+            background: Image {
+                source: "icons/add_normal.svg"
+            }
+            onHoveredChanged: {
+                background.source = addButton.hovered ? "icons/add_hover.svg" : "icons/add_normal.svg"
+            }
+            onPressedChanged: {
+                background.source = addButton.pressed ? "icons/add_press.svg" : "icons/add_hover.svg"
+            }
         }
     }
 }

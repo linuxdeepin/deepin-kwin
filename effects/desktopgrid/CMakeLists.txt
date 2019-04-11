@@ -4,6 +4,10 @@ install( FILES
     main.qml
     DESTINATION ${DATA_INSTALL_DIR}/kwin/effects/desktopgrid/
 )
+install( DIRECTORY
+    icons
+    DESTINATION ${DATA_INSTALL_DIR}/kwin/effects/desktopgrid/
+)
 
 #######################################
 # Config
