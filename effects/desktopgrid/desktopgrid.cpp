@@ -41,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
+#include <QMatrix4x4>
 
 namespace KWin
 {
