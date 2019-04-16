@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 import QtQuick 2.0
 import org.kde.plasma.components 2.0 as Plasma
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.0
 
 Item {
     width: childrenRect.width + buttonLayout.spacing + 32
