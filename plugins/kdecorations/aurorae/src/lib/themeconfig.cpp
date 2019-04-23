@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QGuiApplication>
 #include <QScreen>
+#include <QtMath>
 
 namespace Aurorae
 {
@@ -134,10 +135,11 @@ void ThemeConfig::load(const KConfig &conf)
 
     KConfigGroup border(&conf, QStringLiteral("Layout"));
     // default values taken from KCommonDecoration::layoutMetric() in kcommondecoration.cpp
-    m_borderLeft = border.readEntry("BorderLeft", defaultBorderLeft());
-    m_borderRight = border.readEntry("BorderRight", defaultBorderRight());
-    m_borderBottom = border.readEntry("BorderBottom", defaultBorderBottom());
-    m_borderTop = border.readEntry("BorderTop", defaultBorderTop());
+    // KWin FrameSvgItem 支持整数倍缩放(plasma-framework => svg.cpp => Svg::setScaleFactor)
+    m_borderLeft = qFloor(scaleFactor) * border.readEntry("BorderLeft", defaultBorderLeft());
+    m_borderRight = qFloor(scaleFactor) * border.readEntry("BorderRight", defaultBorderRight());
+    m_borderBottom = qFloor(scaleFactor) * border.readEntry("BorderBottom", defaultBorderBottom());
+    m_borderTop = qFloor(scaleFactor) * border.readEntry("BorderTop", defaultBorderTop());
 
     m_extendedBorderLeft = border.readEntry("ExtendedBorderLeft", defaultExtendedBorderLeft());
     m_extendedBorderRight = border.readEntry("ExtendedBorderRight", defaultExtendedBorderRight());
@@ -173,10 +175,11 @@ void ThemeConfig::load(const KConfig &conf)
     m_buttonMarginTop = qRound(scaleFactor * border.readEntry("ButtonMarginTop", defaultButtonMarginTop()));
     m_explicitButtonSpacer = qRound(scaleFactor * border.readEntry("ExplicitButtonSpacer", defaultExplicitButtonSpacer()));
 
-    m_paddingLeft = border.readEntry("PaddingLeft", defaultPaddingLeft());
-    m_paddingRight = border.readEntry("PaddingRight", defaultPaddingRight());
-    m_paddingTop = border.readEntry("PaddingTop", defaultPaddingTop());
-    m_paddingBottom = border.readEntry("PaddingBottom", defaultPaddingBottom());
+    // KWin FrameSvgItem 支持整数倍缩放(plasma-framework => svg.cpp => Svg::setScaleFactor)
+    m_paddingLeft = qFloor(scaleFactor) * border.readEntry("PaddingLeft", defaultPaddingLeft());
+    m_paddingRight = qFloor(scaleFactor) * border.readEntry("PaddingRight", defaultPaddingRight());
+    m_paddingTop = qFloor(scaleFactor) * border.readEntry("PaddingTop", defaultPaddingTop());
+    m_paddingBottom = qFloor(scaleFactor) * border.readEntry("PaddingBottom", defaultPaddingBottom());
 }
 
 QColor ThemeConfig::activeTextColor(bool useTabs, bool focused) const
