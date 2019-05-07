@@ -30,6 +30,7 @@
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
+#include "abstract_client.h"
 
 // Qt
 #include <QOpenGLContext>
@@ -252,6 +253,24 @@ QVariantMap DBusInterface::getWindowInfo(const QString &uuid)
     } else {
         return {};
     }
+}
+
+void DBusInterface::previewWindows(const QList<uint> wids)
+{
+    QList<AbstractClient*> clients;
+
+    for (AbstractClient *client : workspace()->allClientList()) {
+        if (wids.contains(client->window())) {
+            clients << client;
+        }
+    }
+
+    workspace()->setPreviewClientList(clients);
+}
+
+void DBusInterface::quitPreviewWindows()
+{
+    previewWindows({});
 }
 
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)

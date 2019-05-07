@@ -37,7 +37,8 @@ const QPoint invalidPoint(INT_MIN, INT_MIN);
 enum Layer {
     UnknownLayer = -1,
     FirstLayer = 0,
-    DesktopLayer = FirstLayer,
+    UnderDesktopLayer = FirstLayer,
+    DesktopLayer,
     BelowLayer,
     NormalLayer,
     DockLayer,

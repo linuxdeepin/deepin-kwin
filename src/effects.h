@@ -79,6 +79,7 @@ public:
     void windowToDesktop(EffectWindow* w, int desktop) override;
     void windowToScreen(EffectWindow* w, EffectScreen *screen) override;
     void setShowingDesktop(bool showing) override;
+    void setPreviewWindowList(const  QList<EffectWindow*> list) override;
 
     QString currentActivity() const override;
     int currentDesktop() const override;

@@ -85,6 +85,9 @@ public Q_SLOTS: // METHODS
      */
     QVariantMap getWindowInfo(const QString &uuid);
 
+    Q_NOREPLY void previewWindows(const QList<uint> wids);
+    Q_NOREPLY void quitPreviewWindows();
+
 private Q_SLOTS:
     void becomeKWinService(const QString &service);
 

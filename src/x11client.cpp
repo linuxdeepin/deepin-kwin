@@ -2004,6 +2004,7 @@ bool X11Client::takeFocus()
             }
             workspace()->setShowingDesktop(false);
         }
+        workspace()->setPreviewClientList({});
     }
 
 

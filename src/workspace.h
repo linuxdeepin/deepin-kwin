@@ -334,6 +334,11 @@ public:
     bool showingDesktop() const;
 
     void removeX11Client(X11Client *);   // Only called from X11Client::destroyClient() or X11Client::releaseWindow()
+    Q_SLOT void setPreviewClientList(const QList<AbstractClient *> &list);
+    Q_SLOT bool previewingClientList() const;
+    Q_SLOT bool previewingClient(const AbstractClient *c) const;
+
+    void sendPingToWindow(xcb_window_t w, xcb_timestamp_t timestamp);   // Called from Client::pingWindow()
     void setActiveClient(AbstractClient*);
     Group* findGroup(xcb_window_t leader) const;
     void addGroup(Group* group);
@@ -524,6 +529,7 @@ Q_SIGNALS:
     void deletedRemoved(KWin::Deleted*);
     void configChanged();
     void showingDesktopChanged(bool showing);
+    void previewClientListChanged(QList<AbstractClient*> list);
     /**
      * This signal is emitted when the stacking order changed, i.e. a window is risen
      * or lowered
@@ -638,6 +644,7 @@ private:
     QList<WindowState*> m_windowStates;
 
     bool showing_desktop;
+    QList<AbstractClient*> previewClients;
 
     QList<Group *> groups;
 

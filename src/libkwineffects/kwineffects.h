@@ -1369,6 +1369,7 @@ public:
      * Renders @p screen in the current render target
      */
     virtual void renderScreen(EffectScreen *screen) = 0;
+    virtual void setPreviewWindowList(const QList<EffectWindow*> list) = 0;
 
 Q_SIGNALS:
     /**
