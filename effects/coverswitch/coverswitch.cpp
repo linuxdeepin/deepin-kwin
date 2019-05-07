@@ -413,6 +413,7 @@ void CoverSwitchEffect::slotTabBoxAdded(int mode)
         return;
     if (!mActivated) {
         effects->setShowingDesktop(false);
+        effects->setPreviewWindowList({});
         // only for windows mode
         if (((mode == TabBoxWindowsMode && primaryTabBox) ||
                 (mode == TabBoxWindowsAlternativeMode && secondaryTabBox) ||
