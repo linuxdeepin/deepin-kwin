@@ -1014,6 +1014,7 @@ void DesktopGridEffect::setActive(bool active)
     activated = active;
     if (activated) {
         effects->setShowingDesktop(false);
+        effects->setPreviewWindowList({});
         if (timeline.currentValue() == 0)
             setup();
     } else {

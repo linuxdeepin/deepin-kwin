@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
+#include "abstract_client.h"
 
 // Qt
 #include <QOpenGLContext>
@@ -227,6 +228,24 @@ QVariantMap DBusInterface::queryWindowInfo()
         }
     );
     return QVariantMap{};
+}
+
+void DBusInterface::previewWindows(const QList<uint> wids)
+{
+    QList<AbstractClient*> clients;
+
+    for (AbstractClient *client : workspace()->allClientList()) {
+        if (wids.contains(client->windowId())) {
+            clients << client;
+        }
+    }
+
+    workspace()->setPreviewClientList(clients);
+}
+
+void DBusInterface::quitPreviewWindows()
+{
+    previewWindows({});
 }
 
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)

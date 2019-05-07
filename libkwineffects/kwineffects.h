@@ -1322,6 +1322,8 @@ public:
      **/
     virtual KSharedConfigPtr inputConfig() const = 0;
 
+    virtual void setPreviewWindowList(const QList<EffectWindow*> list) = 0;
+
 Q_SIGNALS:
     /**
      * Signal emitted when the current desktop changed.

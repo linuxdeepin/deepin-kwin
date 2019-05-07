@@ -1010,8 +1010,10 @@ void ShellClient::takeFocus()
             }
         }
     }
-    if (breakShowingDesktop)
+    if (breakShowingDesktop) {
         workspace()->setShowingDesktop(false);
+        workspace()->setPreviewClientList({});
+    }
 }
 
 void ShellClient::doSetActive()

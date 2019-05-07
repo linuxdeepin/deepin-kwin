@@ -40,5 +40,10 @@
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QVariantMap"/>
         <arg type="a{sv}" direction="out"/>
     </method>
+    <method name="previewWindows">
+        <arg type="au" direction="in"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;uint&gt;"/>
+    </method>
+    <method name="quitPreviewWindows"/>
   </interface>
 </node>

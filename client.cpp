@@ -1396,6 +1396,8 @@ void Client::takeFocus()
 
             workspace()->setShowingDesktop(false);
         }
+
+        workspace()->setPreviewClientList({});
     }
 }
 
