@@ -1483,6 +1483,7 @@ void PresentWindowsEffect::setActive(bool active)
     m_activated = active;
     if (m_activated) {
         effects->setShowingDesktop(false);
+        effects->setPreviewWindowList({});
         m_needInitialSelection = true;
         m_closeButtonCorner = (Qt::Corner)effects->kwinOption(KWin::CloseButtonCorner).toInt();
         m_decalOpacity = 0.0;

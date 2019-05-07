@@ -893,6 +893,7 @@ public:
     Q_SCRIPTABLE virtual void windowToDesktop(KWin::EffectWindow* w, int desktop) = 0;
     Q_SCRIPTABLE virtual void windowToScreen(KWin::EffectWindow* w, int screen) = 0;
     virtual void setShowingDesktop(bool showing) = 0;
+    virtual void setPreviewWindowList(const QList<EffectWindow*> list) = 0;
 
 
     // Activities
