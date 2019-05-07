@@ -66,6 +66,9 @@ public Q_SLOTS: // METHODS
     Q_NOREPLY void unclutterDesktop();
     Q_NOREPLY void showDebugConsole();
 
+    Q_NOREPLY void previewWindows(const QList<uint> wids);
+    Q_NOREPLY void quitPreviewWindows();
+
 private Q_SLOTS:
     void becomeKWinService(const QString &service);
 
