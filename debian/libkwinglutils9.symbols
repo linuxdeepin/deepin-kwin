@@ -66,7 +66,6 @@ libkwinglutils.so.9 libkwinglutils9 #MINVER#
  _ZN4KWin14GLVertexBuffer15streamingBufferEv@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer19s_virtualScreenSizeE@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer20supportsIndexedQuadsEv@Base 4:5.1.95+git20150122
- (subst)_ZN4KWin14GLVertexBuffer3mapE{size_t}@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer4drawERK7QRegionjiib@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer4drawEjii@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer5resetEv@Base 4:5.1.95+git20150122
@@ -74,7 +73,6 @@ libkwinglutils.so.9 libkwinglutils9 #MINVER#
  _ZN4KWin14GLVertexBuffer6renderERK7QRegionjb@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer6renderEj@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer7cleanupEv@Base 4:5.1.95+git20150122
- (subst)_ZN4KWin14GLVertexBuffer7setDataEPKv{size_t}@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer7setDataEiiPKfS2_@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBuffer8setColorERK6QColorb@Base 4:5.1.95+git20150122
  _ZN4KWin14GLVertexBufferC1ENS0_9UsageHintE@Base 4:5.1.95+git20150122
