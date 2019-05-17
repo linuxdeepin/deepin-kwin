@@ -2167,6 +2167,9 @@ void SceneOpenGLShadow::buildQuads()
                        std::max(left.height(), right.height()) +
                        std::max({bottomLeft.height(), bottom.height(), bottomRight.height()});
 
+    if (width == 0 || height == 0)
+        return;
+
     qreal tx1(0.0), tx2(0.0), ty1(0.0), ty2(0.0);
 
     tx2 = topLeft.width()/width;
