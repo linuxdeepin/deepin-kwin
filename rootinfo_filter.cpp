@@ -84,10 +84,24 @@ bool RootInfoFilter::event(xcb_generic_event_t *event)
         Xcb::Atom net_support(QByteArrayLiteral("_NET_SUPPORTED"));
         xcb_atom_t gtk_frame_extents = atoms->gtk_frame_extents;
 
-        if (pe->atom == net_support && !getNetWMAtoms(net_support).contains(gtk_frame_extents)) {
-            // Append _GTK_FRAME_EXTENTS atom to _NET_SUPPORTED
-            xcb_change_property(connection(), XCB_PROP_MODE_APPEND, rootWindow(),
-                                net_support, XCB_ATOM_ATOM, 32, 1, &gtk_frame_extents);
+        if (pe->atom == net_support) {
+            auto old_atoms = getNetWMAtoms(net_support);
+            QVector<xcb_atom_t> new_atoms;
+
+            if (!old_atoms.contains(gtk_frame_extents)) {
+                // Append _GTK_FRAME_EXTENTS atom to _NET_SUPPORTED
+                new_atoms << gtk_frame_extents;
+            }
+
+            if (!old_atoms.contains(atoms->gtk_show_window_menu)) {
+                // Support _GTK_SHOW_WINDOW_MENU
+                new_atoms << atoms->gtk_show_window_menu;
+            }
+
+            if (!new_atoms.isEmpty()) {
+                xcb_change_property(connection(), XCB_PROP_MODE_APPEND, rootWindow(),
+                                    net_support, XCB_ATOM_ATOM, 32, new_atoms.length(), new_atoms.constData());
+            }
         }
     }
 
