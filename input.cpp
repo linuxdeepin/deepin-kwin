@@ -477,6 +477,56 @@ public:
         }
         return true;
     }
+    bool touchDown(quint32 id, const QPointF &pos, quint32 time) override {
+        Q_UNUSED(pos)
+        Q_UNUSED(time)
+
+        AbstractClient *c = workspace()->getMovingClient();
+        // 记录move resize未开始之前的第一次触摸按下
+        if (!c && m_touch_id == UINT_MAX) {
+            m_touch_id = id;
+        }
+
+        return false;
+    }
+    bool touchMotion(quint32 id, const QPointF &pos, quint32 time) override {
+        Q_UNUSED(time)
+
+        if (id != m_touch_id) {
+            return false;
+        }
+
+        AbstractClient *c = workspace()->getMovingClient();
+        if (!c) {
+            return false;
+        }
+
+        c->updateMoveResize(pos);
+
+        return true;
+    }
+    bool touchUp(quint32 id, quint32 time) override {
+        Q_UNUSED(time)
+
+        if (id != m_touch_id) {
+            return false;
+        }
+
+        // 重置touch id
+        m_touch_id = UINT_MAX;
+
+        AbstractClient *c = workspace()->getMovingClient();
+        if (!c) {
+            return false;
+        }
+
+        c->endMoveResize();
+
+        return true;
+    }
+
+private:
+    quint32 m_touch_id = UINT_MAX;
 };
 
 class WindowSelectorFilter : public InputEventFilter {
@@ -1651,6 +1701,7 @@ void InputRedirection::setupInputFilters()
     if (LogindIntegration::self()->hasSessionControl()) {
         installInputEventFilter(new VirtualTerminalFilter);
     }
+    MoveResizeFilter *mr_filter = new MoveResizeFilter;
     if (waylandServer()) {
         installInputEventFilter(new TerminateServerFilter);
         installInputEventFilter(new DragAndDropInputFilter);
@@ -1658,10 +1709,13 @@ void InputRedirection::setupInputFilters()
         installInputEventFilter(new PopupInputFilter);
         m_windowSelector = new WindowSelectorFilter;
         installInputEventFilter(m_windowSelector);
+    } else {
+        // 非wayland平台时保证move resize事件过滤生效
+        m_firstFilter = mr_filter;
     }
     installInputEventFilter(new ScreenEdgeInputFilter);
     installInputEventFilter(new EffectsFilter);
-    installInputEventFilter(new MoveResizeFilter);
+    installInputEventFilter(mr_filter);
 #ifdef KWIN_BUILD_TABBOX
     installInputEventFilter(new TabBoxInputFilter);
 #endif
@@ -1878,11 +1932,29 @@ void InputRedirection::setupLibInputWithScreens()
 
 void InputRedirection::processPointerMotion(const QPointF &pos, uint32_t time)
 {
+    QMouseEvent event(QEvent::MouseMove, pos, QPointF(), pos, Qt::NoButton,
+                      qApp->mouseButtons(), qApp->queryKeyboardModifiers(),
+                      Qt::MouseEventSynthesizedByApplication);
+
+    if (m_firstFilter && m_firstFilter->pointerEvent(&event, 0)) {
+        return;
+    }
+
     m_pointer->processMotion(pos, time);
 }
 
 void InputRedirection::processPointerButton(uint32_t button, InputRedirection::PointerButtonState state, uint32_t time)
 {
+    const QPointF pos = QCursor::pos();
+    QMouseEvent event(state == PointerButtonReleased ? QEvent::MouseButtonRelease : QEvent::MouseButtonPress,
+                      pos, QPointF(), pos, buttonToQtMouseButton(button),
+                      qApp->mouseButtons(), qApp->queryKeyboardModifiers(),
+                      Qt::MouseEventSynthesizedByApplication);
+
+    if (m_firstFilter && m_firstFilter->pointerEvent(&event, button)) {
+        return;
+    }
+
     m_pointer->processButton(button, state, time);
 }
 
@@ -1908,16 +1980,28 @@ void InputRedirection::processKeymapChange(int fd, uint32_t size)
 
 void InputRedirection::processTouchDown(qint32 id, const QPointF &pos, quint32 time)
 {
+    if (m_firstFilter && m_firstFilter->touchDown(id, pos, time)) {
+        return;
+    }
+
     m_touch->processDown(id, pos, time);
 }
 
 void InputRedirection::processTouchUp(qint32 id, quint32 time)
 {
+    if (m_firstFilter && m_firstFilter->touchUp(id, time)) {
+        return;
+    }
+
     m_touch->processUp(id, time);
 }
 
 void InputRedirection::processTouchMotion(qint32 id, const QPointF &pos, quint32 time)
 {
+    if (m_firstFilter && m_firstFilter->touchMotion(id, pos, time)) {
+        return;
+    }
+
     m_touch->processMotion(id, pos, time);
 }
 
