@@ -352,6 +352,7 @@ private:
 
     uint m_current;
     uint m_count;
+    static uint m_maxCount;
     bool m_navigationWrapsAround;
     VirtualDesktopGrid m_grid;
     // TODO: QPointer
@@ -517,7 +518,7 @@ uint VirtualDesktopGrid::at(QPoint coords) const
 inline
 uint VirtualDesktopManager::maximum()
 {
-    return 20;
+    return m_maxCount;
 }
 
 inline
