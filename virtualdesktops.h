@@ -446,6 +446,7 @@ private:
 
     QVector<VirtualDesktop*> m_desktops;
     QPointer<VirtualDesktop> m_current;
+    static uint m_maxCount;
     bool m_navigationWrapsAround;
     VirtualDesktopGrid m_grid;
     // TODO: QPointer
@@ -649,7 +650,7 @@ const QSize &VirtualDesktopGrid::size() const
 inline
 uint VirtualDesktopManager::maximum()
 {
-    return 20;
+    return m_maxCount;
 }
 
 inline
