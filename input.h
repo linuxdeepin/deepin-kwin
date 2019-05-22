@@ -226,6 +226,8 @@ private:
     QVector<InputEventFilter*> m_filters;
     KSharedConfigPtr m_inputConfig;
 
+    InputEventFilter *m_firstFilter = nullptr;
+
     KWIN_SINGLETON(InputRedirection)
     friend InputRedirection *input();
     friend class DecorationEventFilter;
