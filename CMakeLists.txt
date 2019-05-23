@@ -8,6 +8,11 @@ set(KF5_MIN_VERSION "5.26.0")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH} )
 
+if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "sw_64")
+    set(CMAKE_C_FLAGS "-mieee")
+    set(CMAKE_CXX_FLAGS "-mieee")
+endif()
+
 find_package(ECM 0.0.11 REQUIRED NO_MODULE)
 
 include(FeatureSummary)
