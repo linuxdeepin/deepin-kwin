@@ -344,6 +344,7 @@ public:
         xcb_timestamp_t lastTimestamp;
         QTimer *timeout, *failsafeTimeout;
         bool isPending;
+        bool calledSyncRequest;
     };
     const SyncRequest &getSyncRequest() const {
         return syncRequest;
