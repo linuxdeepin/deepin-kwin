@@ -11,6 +11,11 @@ set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 
+if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "sw_64")
+    set(CMAKE_C_FLAGS "-mieee")
+    set(CMAKE_CXX_FLAGS "-mieee")
+endif()
+
 include(FeatureSummary)
 include(WriteBasicConfigVersionFile)
 include(GenerateExportHeader)
