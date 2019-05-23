@@ -292,6 +292,7 @@ public:
         QTimer *timeout, *failsafeTimeout;
         bool isPending;
         bool interactiveResize;
+        bool calledSyncRequest;
     };
     const SyncRequest &syncRequest() const {
         return m_syncRequest;
