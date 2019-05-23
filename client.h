@@ -577,6 +577,7 @@ private:
         xcb_timestamp_t lastTimestamp;
         QTimer *timeout, *failsafeTimeout;
         bool isPending;
+        bool calledSyncRequest;
     } syncRequest;
     static bool check_active_modal; ///< \see Client::checkActiveModal()
     QKeySequence _shortcut;
