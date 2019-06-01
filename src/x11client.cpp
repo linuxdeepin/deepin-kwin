@@ -1453,6 +1453,19 @@ bool X11Client::isMinimizable() const
 
 void X11Client::doMinimize()
 {
+    bool old_preview = hiddenPreview();
+     updateVisibility();
+    // 如果在执行minimize/umminimize动作前后的窗口处于hiddenPreview状态，则无
+    // 论如何都更新窗口的WM_STATE属性。否则，当kwinrc配置项HiddenPreviews=6时
+    // 窗口最小化后未处于 Iconic 状态，将导致Qt对窗口状态的判断失效
+    if (old_preview || hiddenPreview()) {
+        if (isMinimized()) {
+            exportMappingState(XCB_ICCCM_WM_STATE_ICONIC);
+        } else {
+            exportMappingState(XCB_ICCCM_WM_STATE_NORMAL);
+        }
+    }
+
     if (isShade()) {
         // NETWM restriction - KWindowInfo::isMinimized() == Hidden && !Shaded
         info->setState(isMinimized() ? NET::States() : NET::Shaded, NET::Shaded);
