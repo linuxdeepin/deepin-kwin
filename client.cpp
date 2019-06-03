@@ -1425,7 +1425,7 @@ void Client::takeFocus()
     }
     workspace()->setShouldGetFocus(this);
 
-    bool breakShowingDesktop = !keepAbove();
+    bool breakShowingDesktop = true;
     if (breakShowingDesktop) {
         foreach (const Client *c, group()->members()) {
             if (c->isDesktop()) {
@@ -1438,9 +1438,16 @@ void Client::takeFocus()
         if (workspace()->showingDesktop()) {
             // 最小化其它所有窗口
             for (Client *c : workspace()->clientList()) {
-                if (this != c && !c->isDock() && !c->isDesktop()) {
-                    c->minimize(true);
+                if (this == c || c->isDock() || c->isDesktop() || skipTaskbar()) {
+                    continue;
                 }
+
+                // 在进入到显示桌面模式后还有活跃的窗口不要最小化，如进入这个模式后才新建的窗口
+                if (c->userTime() > workspace()->showingDesktopTimestamp()) {
+                    continue;
+                }
+
+                c->minimize(true);
             }
 
             workspace()->setShowingDesktop(false);
