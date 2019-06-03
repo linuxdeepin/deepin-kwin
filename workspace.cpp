@@ -113,6 +113,7 @@ Workspace::Workspace(const QString &sessionKey)
     , force_restacking(false)
     , x_stacking_dirty(true)
     , showing_desktop(false)
+    , showing_desktop_timestamp(-1U)
     , was_user_interaction(false)
     , session_saving(false)
     , block_focus(0)
@@ -1284,6 +1285,8 @@ void Workspace::setShowingDesktop(bool showing)
     const bool changed = showing != showing_desktop;
     rootInfo()->setShowingDesktop(showing);
     showing_desktop = showing;
+    // 记录时间戳，用于判断哪些客户端是在进入到显示桌面模式后新创建的
+    showing_desktop_timestamp = kwinApp()->x11Time();
 
     AbstractClient *topDesk = nullptr;
 
