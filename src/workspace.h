@@ -332,6 +332,7 @@ public:
 
     void setShowingDesktop(bool showing);
     bool showingDesktop() const;
+    xcb_timestamp_t showingDesktopTimestamp() const;
 
     void removeX11Client(X11Client *);   // Only called from X11Client::destroyClient() or X11Client::releaseWindow()
     Q_SLOT void setPreviewClientList(const QList<AbstractClient *> &list);
@@ -644,6 +645,7 @@ private:
     QList<WindowState*> m_windowStates;
 
     bool showing_desktop;
+    xcb_timestamp_t showing_desktop_timestamp;
     QList<AbstractClient*> previewClients;
 
     QList<Group *> groups;
@@ -785,6 +787,11 @@ inline SessionManager *Workspace::sessionManager() const
 inline bool Workspace::showingDesktop() const
 {
     return showing_desktop;
+}
+
+inline xcb_timestamp_t Workspace::showingDesktopTimestamp() const
+{
+    return showing_desktop_timestamp;
 }
 
 inline bool Workspace::globalShortcutsDisabled() const
