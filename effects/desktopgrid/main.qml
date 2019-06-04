@@ -35,8 +35,10 @@ Item {
             id: removeButton
             objectName: "removeButton"
             enabled: remove
+            height: 38
             width: height
             background: Image {
+                sourceSize.width: removeButton.width
                 source: "icons/reduce_normal.svg"
             }
             onHoveredChanged: {
@@ -50,8 +52,10 @@ Item {
             id: addButton
             objectName: "addButton"
             enabled: add
+            height: 38
             width: height
             background: Image {
+                sourceSize.width: addButton.width
                 source: "icons/add_normal.svg"
             }
             onHoveredChanged: {
