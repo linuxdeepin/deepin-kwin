@@ -113,7 +113,8 @@ void Edge::reserve()
     m_reserved++;
     if (m_reserved == 1) {
         // got activated
-        activate();
+        if (!m_screenEdgeDisabled || !isScreenEdge())
+            activate();
     }
 }
 
@@ -186,6 +187,11 @@ bool Edge::activatesForPointer() const
         return true;
     }
     return false;
+}
+
+void Edge::setDisableScreenEdges(bool val)
+{
+    m_screenEdgeDisabled = val;
 }
 
 bool Edge::activatesForTouchGesture() const
@@ -709,6 +715,7 @@ ScreenEdges::ScreenEdges(QObject *parent)
     : QObject(parent)
     , m_desktopSwitching(false)
     , m_desktopSwitchingMovingClients(false)
+    , m_deepinDisableScreenEdges(true)
     , m_timeThreshold(0)
     , m_reactivateThreshold(0)
     , m_virtualDesktopLayout({})
@@ -772,6 +779,7 @@ void ScreenEdges::reconfigure()
     }
     // TODO: migrate settings to a group ScreenEdges
     KConfigGroup windowsConfig = m_config->group("Windows");
+    m_deepinDisableScreenEdges = windowsConfig.readEntry("DeepinDisableScreenEdges", true);
     setTimeThreshold(windowsConfig.readEntry("ElectricBorderDelay", 150));
     setReActivationThreshold(qMax(timeThreshold() + 50, windowsConfig.readEntry("ElectricBorderCooldown", 350)));
     int desktopSwitching = windowsConfig.readEntry("ElectricBorders", static_cast<int>(ElectricDisabled));
@@ -1131,7 +1139,7 @@ Edge *ScreenEdges::createEdge(ElectricBorder border, int x, int y, int width, in
     // Edges can not have negative size.
     Q_ASSERT(width >= 0);
     Q_ASSERT(height >= 0);
-
+    edge->setDisableScreenEdges(m_deepinDisableScreenEdges);
     edge->setBorder(border);
     edge->setGeometry(QRect(x, y, width, height));
     if (createAction) {
