@@ -2148,6 +2148,28 @@ void AbstractClient::doInteractiveResizeSync()
 {
 }
 
+bool AbstractClient::checkTileConstraints(QuickTileMode mode)
+{
+    if (mode == QuickTileMode(QuickTileFlag::None))
+        return true;
+
+    QRect target_size = quickTileGeometry(mode, Cursors::self()->mouse()->pos());
+    if (mode == QuickTileMode(QuickTileFlag::Maximize)) {
+        if (maxSize().width() < target_size.width() || maxSize().height() < target_size.height())
+            return false;
+    }
+
+    if (target_size.width() < minSize().width() || target_size.width() > maxSize().width()) {
+        return false;
+    }
+
+    if (target_size.height() < minSize().height() || target_size.height() > maxSize().height()) {
+        return false;
+    }
+
+    return true;
+}
+
 void AbstractClient::checkQuickTilingMaximizationZones(int xroot, int yroot)
 {
     QuickTileMode mode = QuickTileFlag::None;
@@ -2195,6 +2217,10 @@ void AbstractClient::checkQuickTilingMaximizationZones(int xroot, int yroot)
     }
     if (mode != electricBorderMode()) {
         setElectricBorderMode(mode);
+        if (!checkTileConstraints(mode)) {
+            setElectricBorderMode(QuickTileFlag::None);
+            return;
+        }
         if (innerBorder) {
             if (!m_electricMaximizingDelay) {
                 m_electricMaximizingDelay = new QTimer(this);

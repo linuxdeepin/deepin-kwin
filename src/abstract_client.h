@@ -1032,6 +1032,7 @@ protected:
     void updateElectricGeometryRestore();
     QRect quickTileGeometryRestore() const;
     QRect quickTileGeometry(QuickTileMode mode, const QPoint &pos) const;
+    bool checkTileConstraints(QuickTileMode mode);
     void updateQuickTileMode(QuickTileMode newMode) {
         m_quickTileMode = newMode;
     }
