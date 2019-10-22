@@ -38,6 +38,7 @@ const NET::WindowTypes SUPPORTED_UNMANAGED_WINDOW_TYPES_MASK = NET::NormalMask |
 
 Unmanaged::Unmanaged()
     : Toplevel()
+    , m_scheduledRelease(false)
 {
     switch (kwinApp()->operationMode()) {
     case Application::OperationModeXwayland:
