@@ -57,6 +57,7 @@ public:
     void raiseClient(TabBoxClient *client) const override;
     void restack(TabBoxClient *c, TabBoxClient *under) override;
     void shadeClient(TabBoxClient *c, bool b) const override;
+    void activateCurrentClient() const override;
     QWeakPointer< TabBoxClient > clientToAddToList(KWin::TabBox::TabBoxClient* client, int desktop) const override;
     QWeakPointer< TabBoxClient > desktopClient() const override;
     void activateAndClose() override;

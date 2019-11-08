@@ -71,6 +71,8 @@ public:
         Q_UNUSED(c)
         Q_UNUSED(under)
     }
+    virtual void activateCurrentClient() const {
+    }
     virtual void showOutline(const QRect &outline) {
         Q_UNUSED(outline)
     }
