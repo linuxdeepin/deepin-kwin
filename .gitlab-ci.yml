@@ -4,3 +4,6 @@
 include:
   - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/linux.yml
   - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/freebsd.yml
+  - remote: 'https://gitlab.deepin.io/dev-tools/letmeci/raw/master/gitlab-ci/dde.yml'
+variables:
+    BUILD_CLASS: "cmake"
