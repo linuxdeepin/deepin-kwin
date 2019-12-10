@@ -1652,8 +1652,7 @@ void PresentWindowsEffect::setActive(bool active)
                 m_motionManager.manage(w);
             }
         }
-
-        if (m_motionManager.managedWindows().isEmpty()) {
+        if (m_motionManager.managedWindows().isEmpty() || m_ignoreMinimized) {
             // No point triggering if there is nothing to do
             m_activated = false;
 
