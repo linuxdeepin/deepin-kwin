@@ -460,6 +460,7 @@ bool X11Client::manage(xcb_window_t w, bool isMapped)
     setModal((info->state() & NET::Modal) != 0);   // Needs to be valid before handling groups
     readTransientProperty(transientCookie);
     setDesktopFileName(rules()->checkDesktopFile(QByteArray(info->desktopFileName()), true).toUtf8());
+    loadGioDesktopFileName();
     getIcons();
     connect(this, &X11Client::desktopFileNameChanged, this, &X11Client::getIcons);
 
@@ -2218,6 +2219,14 @@ void X11Client::getIcons()
         setIcon(QIcon::fromTheme(themedIconName));
         return;
     }
+
+    // Second read icons from the environment GIO_LAUNCHED_DESKTOP_FILE
+    const QString gioIconName = iconFromGioDesktopFile();
+    if (!gioIconName.isEmpty()) {
+        setIcon(QIcon::fromTheme(gioIconName));
+        return;
+    }
+
     QIcon icon;
     auto readIcon = [this, &icon](int size, bool scale = true) {
         const QPixmap pix = KWindowSystem::icon(window(), size, size, scale, KWindowSystem::NETWM | KWindowSystem::WMHints, info);
