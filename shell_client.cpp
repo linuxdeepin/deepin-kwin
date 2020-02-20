@@ -2168,7 +2168,11 @@ KWayland::Server::XdgShellSurfaceInterface::States ShellClient::xdgSurfaceStates
 
 void ShellClient::doMinimize()
 {
-    hideClient(isMinimized());
+    if (isMinimized()) {
+        workspace()->clientHidden(this);
+    } else {
+        emit windowShown(this);
+    }
     workspace()->updateMinimizedOfTransients(this);
 }
 
