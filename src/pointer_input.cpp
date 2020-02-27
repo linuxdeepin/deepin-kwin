@@ -17,6 +17,7 @@
 #include "input_event_spy.h"
 #include "osd.h"
 #include "screens.h"
+#include "useractions.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "decorations/decoratedclient.h"
@@ -314,6 +315,10 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
     }
 
     input()->processFilters(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event, button));
+
+    if (type == QEvent::MouseButtonPress && workspace()->userActionsMenu()->isShown()) {
+        const_cast<UserActionsMenu*>(workspace()->userActionsMenu())->handleClick(m_pos.toPoint());
+    }
 
     if (state == InputRedirection::PointerButtonReleased) {
         update();

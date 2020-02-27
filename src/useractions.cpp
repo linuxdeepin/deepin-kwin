@@ -115,6 +115,13 @@ bool UserActionsMenu::isMenuClient(const AbstractClient *c) const
     return c && c == m_client;
 }
 
+void UserActionsMenu::handleClick(const QPoint &pos)
+{
+    if (isShown() && !m_menu->geometry().contains(pos)) {
+        close();
+    }
+}
+
 void UserActionsMenu::show(const QRect &pos, AbstractClient *client)
 {
     Q_ASSERT(client);
