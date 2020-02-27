@@ -692,6 +692,8 @@ int main(int argc, char * argv[])
         environment.insert(QStringLiteral("WAYLAND_DISPLAY"), server->socketName());
         qputenv("WAYLAND_DISPLAY", server->socketName().toUtf8());
     }
+    //sonald: remove dde-kwin-wayland preload
+    environment.remove("LD_PRELOAD");
     a.setProcessStartupEnvironment(environment);
 
     if (parser.isSet(xwaylandOption)) {
