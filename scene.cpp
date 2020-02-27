@@ -1010,6 +1010,9 @@ WindowPixmap::~WindowPixmap()
         QObject::disconnect(m_buffer.data(), &BufferInterface::aboutToBeDestroyed, m_buffer.data(), &BufferInterface::unref);
         m_buffer->unref();
     }
+
+    qDeleteAll(m_children);
+    m_children.clear();
 }
 
 void WindowPixmap::create()
