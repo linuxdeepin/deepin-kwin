@@ -63,6 +63,77 @@
 
 namespace KWin
 {
+static QList<MenuItem> getMenuItemInfos(AbstractClient *cl)
+{
+    if (!cl) return {};
+
+    QList<MenuItem> menu_items {
+        {"minimize", qApp->translate("WindowMenu", "Minimize"),
+            cl->isMinimizable() , false, false},
+        {"maximizeOrRestore", cl->maximizeMode() == MaximizeFull
+                    ? qApp->translate("WindowMenu", "Unmaximize")
+                    : qApp->translate("WindowMenu", "Maximize"),
+         cl->isMaximizable(), false, false},
+        {"move", qApp->translate("WindowMenu", "Move"),
+         cl->isMovable(), false, false},
+        {"resize", qApp->translate("WindowMenu", "Resize"),
+         cl->isResizable(), false, false},
+        {"always-on-top", qApp->translate("WindowMenu", "Always on Top"),
+         true, true, cl->keepAbove()},
+        {"all-workspace", qApp->translate("WindowMenu", "Always on Visible Workspace"),
+         true, true, cl->isOnAllDesktops()},
+        {"move-left", qApp->translate("WindowMenu", "Move to Workspace Left"),
+         cl->desktop() > 1, false, false},
+        {"move-right", qApp->translate("WindowMenu", "Move to Workspace Right"),
+         cl->desktop() < VirtualDesktopManager::self()->count(), false, false},
+        {"close", qApp->translate("WindowMenu", "Close"),
+         cl->isCloseable(), false, false}
+    };
+
+    return menu_items;
+}
+
+void MenuSlot::onMenuItemInvoked(const QString &id, bool checked, AbstractClient *cl)
+{
+    if (!cl) return;
+
+    if (id == "minimize") {
+        cl->minimize();
+    } else if (id == "maximizeOrRestore") {
+        if (cl->maximizeMode() == MaximizeFull) {
+            QMetaObject::invokeMethod(Workspace::self(), "performWindowOperation",
+                    Qt::QueuedConnection,
+                    Q_ARG(KWin::AbstractClient*, cl),
+                    Q_ARG(Options::WindowOperation, Options::RestoreOp));
+        } else {
+            QMetaObject::invokeMethod(Workspace::self(), "performWindowOperation",
+                    Qt::QueuedConnection,
+                    Q_ARG(KWin::AbstractClient*, cl),
+                    Q_ARG(Options::WindowOperation, Options::MaximizeOp));
+        }
+    } else if (id == "move") {
+        QMetaObject::invokeMethod(Workspace::self(), "performWindowOperation",
+                Qt::QueuedConnection,
+                Q_ARG(KWin::AbstractClient*, cl),
+                Q_ARG(Options::WindowOperation, Options::UnrestrictedMoveOp));
+    } else if (id == "resize") {
+        QMetaObject::invokeMethod(Workspace::self(), "performWindowOperation",
+                Qt::QueuedConnection,
+                Q_ARG(KWin::AbstractClient*, cl),
+                Q_ARG(Options::WindowOperation, Options::ResizeOp));
+    } else if (id == "always-on-top") {
+        cl->setKeepAbove(checked);
+    } else if (id == "all-workspace") {
+        cl->setOnAllDesktops(checked);
+    } else if (id == "move-left") {
+        cl->setDesktop(cl->desktop()-1);
+    } else if (id == "move-right") {
+        cl->setDesktop(cl->desktop()+1);
+    } else if (id == "close") {
+        cl->closeWindow();
+    }
+}
+
 
 UserActionsMenu::UserActionsMenu(QObject *parent)
     : QObject(parent)
@@ -122,6 +193,29 @@ void UserActionsMenu::handleClick(const QPoint &pos)
     }
 }
 
+void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
+{
+    if (!m_menu) {
+        m_menu = new QMenu;
+    }
+    m_menu->clear();
+    disconnect(m_menu, &QMenu::triggered, m_menu, 0);
+
+    for (const MenuItem &item : getMenuItemInfos(cl.data())) {
+        QAction *action = m_menu->addAction(item.text);
+
+        action->setProperty("id", item.id);
+        action->setCheckable(item.isCheckable);
+        action->setChecked(item.checked);
+        action->setEnabled(item.enable);
+    }
+
+    auto client = m_client.data();
+    connect(m_menu, &QMenu::triggered, m_menu, [client] (const QAction *action) {
+        MenuSlot::onMenuItemInvoked(action->property("id").toString(), action->isChecked(), client);
+    });
+}
+
 void UserActionsMenu::show(const QRect &pos, AbstractClient *client)
 {
     Q_ASSERT(client);
@@ -141,7 +235,7 @@ void UserActionsMenu::show(const QRect &pos, AbstractClient *client)
         return;
     }
     m_client = cl;
-    init();
+    prepareMenu(cl);
     m_client->blockActivityUpdates(true);
     if (kwinApp()->shouldUseWaylandForCompositing()) {
         m_menu->popup(pos.bottomLeft());
