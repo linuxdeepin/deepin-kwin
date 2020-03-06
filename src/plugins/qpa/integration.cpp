@@ -35,6 +35,16 @@ namespace KWin
 
 namespace QPA
 {
+class DDEWaylandTheme: public QGenericUnixTheme {
+public:
+    QVariant themeHint(ThemeHint hint) const {
+        if (hint == QPlatformTheme::SystemIconThemeName) {
+            return "bloom";
+        }
+
+        return QGenericUnixTheme::themeHint(hint);
+    }
+};
 
 Integration::Integration()
     : QObject()
@@ -125,7 +135,7 @@ QPlatformFontDatabase *Integration::fontDatabase() const
 
 QPlatformTheme *Integration::createPlatformTheme(const QString &name) const
 {
-    return QGenericUnixTheme::createUnixTheme(name);
+    return new DDEWaylandTheme;
 }
 
 QStringList Integration::themeNames() const
