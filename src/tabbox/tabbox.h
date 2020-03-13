@@ -12,6 +12,7 @@
 #ifndef KWIN_TABBOX_H
 #define KWIN_TABBOX_H
 
+#include <QDateTime>
 #include <QKeySequence>
 #include <QTimer>
 #include <QModelIndex>
@@ -320,6 +321,8 @@ private:
     TabBoxHandlerImpl* m_tabBox;
     bool m_delayShow;
     int m_delayShowTime;
+    const int m_delaySwitchInterval;
+    QDateTime m_delaySwitch;
 
     QTimer m_delayedShowTimer;
     int m_displayRefcount;
