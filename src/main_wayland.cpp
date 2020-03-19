@@ -233,7 +233,10 @@ void ApplicationWayland::startSession()
             QString program = arguments.takeFirst();
             QProcess *p = new QProcess(this);
             p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
-            p->setProcessEnvironment(processStartupEnvironment());
+            QProcessEnvironment environment = processStartupEnvironment();
+            //sonald: remove dde-kwin-wayland preload
+            environment.remove("LD_PRELOAD");
+            p->setProcessEnvironment(environment);
             connect(p, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), this, [p] (int code, QProcess::ExitStatus status) {
                 p->deleteLater();
                 if (status == QProcess::CrashExit) {
@@ -270,7 +273,10 @@ void ApplicationWayland::startSession()
             // this is going to happen anyway as we are the wayland and X server the app connects to
             QProcess *p = new QProcess(this);
             p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
-            p->setProcessEnvironment(processStartupEnvironment());
+            QProcessEnvironment environment = processStartupEnvironment();
+            //sonald: remove dde-kwin-wayland preload
+            environment.remove("LD_PRELOAD");
+            p->setProcessEnvironment(environment);
             p->setProgram(program);
             p->setArguments(arguments);
             p->startDetached();
@@ -692,8 +698,6 @@ int main(int argc, char * argv[])
         environment.insert(QStringLiteral("WAYLAND_DISPLAY"), server->socketName());
         qputenv("WAYLAND_DISPLAY", server->socketName().toUtf8());
     }
-    //sonald: remove dde-kwin-wayland preload
-    environment.remove("LD_PRELOAD");
     a.setProcessStartupEnvironment(environment);
 
     if (parser.isSet(xwaylandOption)) {
