@@ -39,6 +39,7 @@
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "waylandclient.h"
 #include "xwl/xwayland_interface.h"
 #include "cursor.h"
 #include <KDecoration2/Decoration>
@@ -1566,15 +1567,83 @@ public:
         seat->notifyPointerFrame();
         return true;
     }
+
+    bool passToXwayland(QKeyEvent* event) {
+        auto seat = waylandServer()->seat();
+        switch(event->key()) {
+            case Qt::Key_VolumeUp:
+            case Qt::Key_VolumeDown:
+            case Qt::Key_VolumeMute:
+            case Qt::Key_MonBrightnessUp:
+            case Qt::Key_MonBrightnessDown:
+            case Qt::Key_MicMute:
+            case Qt::Key_WLAN:
+            case Qt::Key_Display:
+            case Qt::Key_Tools:
+                break;
+
+            default: return false;
+        }
+
+        const  QList<Toplevel *> &stacking = Workspace::self()->stackingOrder();
+        if (stacking.isEmpty()) {
+            return false;
+        }
+        auto it = stacking.end();
+        do {
+            --it;
+            Toplevel *t = (*it);
+            if (t->isDeleted()) {
+                // a deleted window doesn't get mouse events
+                continue;
+            }
+            if (AbstractClient *c = dynamic_cast<AbstractClient*>(t)) {
+                if (!c->isOnCurrentActivity() || !c->isOnCurrentDesktop() || c->isMinimized() ||
+                        c->isHiddenInternal()) {
+                    continue;
+                }
+
+                if (WaylandClient* sc = dynamic_cast<WaylandClient*>(c)) {
+                    continue;
+                }
+            }
+            if (!t->readyForPainting()) {
+                continue;
+            }
+
+            if (t->isDock()) {
+                continue;
+            }
+
+            // find first non wayland client to receive hot keys
+            // this is a workaround, and will not work with xwayland client
+            seat->setFocusedKeyboardSurface(t->surface());
+            return true;
+        } while (it != stacking.begin());
+
+        return false;
+    }
+
     bool keyEvent(QKeyEvent *event) override {
         if (event->isAutoRepeat()) {
             // handled by Wayland client
             return false;
         }
+
         auto seat = waylandServer()->seat();
         input()->keyboard()->update();
+
+        auto old = seat->focusedKeyboardSurface();
+        bool steal_focus = passToXwayland(event);
+
         seat->setTimestamp(event->timestamp());
         passToWaylandServer(event);
+
+        if (steal_focus && old) {
+            auto seat = waylandServer()->seat();
+            seat->setFocusedKeyboardSurface(old);
+        }
+
         return true;
     }
     bool touchDown(qint32 id, const QPointF &pos, quint32 time) override {
