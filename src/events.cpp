@@ -1158,6 +1158,13 @@ void X11Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
         // the expectation is that the cursor is already at the provided position,
         // thus it's more a safety measurement
         Cursors::self()->mouse()->setPos(QPoint(x_root, y_root));
+        {
+            Xcb::Pointer pointer(rootWindow());
+            if (!(pointer->mask & 0xff00)) {
+                qDebug() << "no mouse pressed, ignore move request";
+                return;
+            }
+        }
         performMouseCommand(Options::MouseMove, QPoint(x_root, y_root));
     } else if (isInteractiveMoveResize() && direction == NET::MoveResizeCancel) {
         finishInteractiveMoveResize(true);
