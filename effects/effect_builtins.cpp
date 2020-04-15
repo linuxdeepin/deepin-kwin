@@ -329,7 +329,7 @@ EFFECT_FALLBACK
         QStringLiteral("Appearance"),
         QStringLiteral("minimize"),
         QUrl(QStringLiteral("http://files.kde.org/plasma/kwin/effect-videos/magic_lamp.ogv")),
-        false,
+        true,
         false,
 #ifdef EFFECT_BUILTINS
         &createHelper<MagicLampEffect>,
