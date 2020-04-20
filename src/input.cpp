@@ -1617,8 +1617,11 @@ public:
 
             // find first non wayland client to receive hot keys
             // this is a workaround, and will not work with xwayland client
-            seat->setFocusedKeyboardSurface(t->surface());
-            return true;
+            if (seat->focusedKeyboardSurface() != t->surface()) {
+                seat->setFocusedKeyboardSurface(t->surface());
+                return true;
+            }
+            break;
         } while (it != stacking.begin());
 
         return false;
@@ -1633,8 +1636,14 @@ public:
         auto seat = waylandServer()->seat();
         input()->keyboard()->update();
 
+        bool steal_focus = false;
         auto old = seat->focusedKeyboardSurface();
-        bool steal_focus = passToXwayland(event);
+        if (old) {
+            auto current_focused = waylandServer()->findClient(old);
+            if (current_focused && dynamic_cast<WaylandClient *>(current_focused)) {
+                steal_focus = passToXwayland(event);
+            }
+        }
 
         seat->setTimestamp(event->timestamp());
         passToWaylandServer(event);
