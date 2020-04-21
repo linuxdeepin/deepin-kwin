@@ -910,12 +910,12 @@ void VirtualDesktopManager::slotLeft()
 
 void VirtualDesktopManager::slotPrevious()
 {
-    moveTo<DesktopPrevious>(false);
+    moveTo<DesktopPrevious>(isNavigationWrappingAround());
 }
 
 void VirtualDesktopManager::slotNext()
 {
-    moveTo<DesktopNext>(false);
+    moveTo<DesktopNext>(isNavigationWrappingAround());
 }
 
 void VirtualDesktopManager::slotRight()
