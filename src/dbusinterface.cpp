@@ -293,6 +293,17 @@ void DBusInterface::disableGestureForClient(bool disable)
     workspace()->disableGestureForClient(disable);
 }
 
+bool DBusInterface::globalShortcutsDisabled() const
+{
+    return workspace()->globalShortcutsDisabled();
+}
+
+void DBusInterface::disableGlobalShortcutsForClient(bool disable)
+{
+    workspace()->setDisableGlobalShortcutsByUser(disable);
+    workspace()->disableGlobalShortcutsForClient(disable);
+}
+
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     : QObject(parent)
     , m_compositor(parent)

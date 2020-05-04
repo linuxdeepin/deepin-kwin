@@ -90,6 +90,8 @@ public Q_SLOTS: // METHODS
     Q_NOREPLY void quitPreviewWindows();
 
     void disableGestureForClient(bool disable);
+    bool globalShortcutsDisabled() const;
+    void disableGlobalShortcutsForClient(bool disable);
 
 private Q_SLOTS:
     void becomeKWinService(const QString &service);

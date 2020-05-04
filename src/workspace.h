@@ -377,6 +377,7 @@ public:
     bool shortcutAvailable(const QKeySequence &cut, AbstractClient* ignore = nullptr) const;
     bool globalShortcutsDisabled() const;
     void disableGlobalShortcutsForClient(bool disable);
+    void setDisableGlobalShortcutsByUser(bool yes);
 
     void setWasUserInteraction();
     bool wasUserInteraction() const;
@@ -700,6 +701,7 @@ private:
     AbstractClient* client_keys_client;
     bool global_shortcuts_disabled_for_client;
     bool gesture_disabled_for_client;
+    bool global_shortcuts_disabled_by_user;
 
     // Timer to collect requests for 'reconfigure'
     QTimer reconfigureTimer;
