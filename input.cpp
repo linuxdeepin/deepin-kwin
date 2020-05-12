@@ -1963,7 +1963,7 @@ void InputRedirection::reconfigure()
 {
     if (Application::usesLibinput()) {
         auto inputConfig = kwinApp()->inputConfig();
-        inputConfig->reparseConfiguration();
+        //inputConfig->reparseConfiguration();
         const auto config = inputConfig->group(QStringLiteral("keyboard"));
         const int delay = config.readEntry("RepeatDelay", 660);
         const int rate = config.readEntry("RepeatRate", 25);
