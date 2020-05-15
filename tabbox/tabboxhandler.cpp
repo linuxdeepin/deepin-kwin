@@ -41,6 +41,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <QOffscreenSurface>
+#include <QOpenGLContext>
+#include <QOpenGLFunctions>
 #include <X11/Xlib.h>
 #include <qpa/qwindowsysteminterface.h>
 // KDE
@@ -97,6 +100,7 @@ public:
 
 private:
     QObject *createSwitcherItem(bool desktopMode);
+    bool isUseQSGSoftwareRender();
 };
 
 TabBoxHandlerPrivate::TabBoxHandlerPrivate(TabBoxHandler *q)
@@ -297,10 +301,42 @@ QObject *TabBoxHandlerPrivate::createSwitcherItem(bool desktopMode)
     return nullptr;
 }
 #endif
-
+bool TabBoxHandlerPrivate::isUseQSGSoftwareRender()
+{
+    QOffscreenSurface surf;
+    surf.create();
+    QOpenGLContext ctx;
+    ctx.create();
+    ctx.makeCurrent(&surf);
+    QByteArray m_vendor = (const char*)ctx.functions()->glGetString(GL_VENDOR);
+    QByteArray m_renderer = (const char*)ctx.functions()->glGetString(GL_RENDERER);
+    QByteArray m_chipset;
+    const QList<QByteArray> tokens = m_renderer.split(' ');
+    if (m_renderer.contains("Gallium")) {
+        // Sample renderer string: Gallium 0.4 on AMD RV740
+        //m_galliumVersion = parseVersionString(tokens.at(1));
+        m_chipset = (tokens.at(3) == "AMD" || tokens.at(3) == "ATI") ?
+                    tokens.at(4) : tokens.at(3);
+    }
+    else {
+        // The renderer string does not contain "Gallium" anymore.
+        m_chipset = tokens.at(0);
+        // We don't know the actual version anymore, but it's at least 0.4.
+        //m_galliumVersion = kVersionNumber(0, 4, 0);
+    }
+    if (m_vendor == "VMware, Inc." && m_chipset == "llvmpipe") {
+        return true;
+    }
+    return false;
+}
 void TabBoxHandlerPrivate::show()
 {
 #ifndef KWIN_UNIT_TEST
+#ifdef __mips__
+    if(isUseQSGSoftwareRender()) {
+        QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Software);
+    }
+#endif
     if (m_qmlContext.isNull()) {
         qmlRegisterType<SwitcherItem>("org.kde.kwin", 2, 0, "Switcher");
         m_qmlContext.reset(new QQmlContext(Scripting::self()->qmlEngine()));
