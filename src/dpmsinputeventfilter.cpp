@@ -48,6 +48,7 @@ bool DpmsInputEventFilter::keyEvent(QKeyEvent *event)
 {
     if (event->type() == QKeyEvent::KeyPress) {
         notify();
+        passToWaylandServer(event);
     }
     return true;
 }
