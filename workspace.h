@@ -252,6 +252,9 @@ private:
     // Unsorted
 
 public:
+//zhd add 
+    bool isDragingWithContent()const {return m_ClientDragingWithContent;}
+//zhd add end 
     bool isOnCurrentHead();
     // True when performing Workspace::updateClientArea().
     // The calls below are valid only in that case.
@@ -540,6 +543,11 @@ private:
 
     QWidget* active_popup;
     AbstractClient* active_popup_client;
+
+
+    //zhd add 
+    bool m_ClientDragingWithContent;//拖动的时候
+    // zhd add end 
 
     int m_initialDesktop;
     void loadSessionInfo(const QString &key);

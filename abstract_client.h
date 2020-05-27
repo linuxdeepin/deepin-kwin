@@ -31,6 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QElapsedTimer>
 #include <QPointer>
 
+//zhd add start 
+#include "placeholder_window.h"
+//zhd add end 
+
 namespace KWayland
 {
 namespace Server
@@ -785,6 +789,10 @@ public:
      * Mostly for X11 clients, holds the client group
      **/
     virtual Group *group();
+
+    //zhd add  for draging window without content
+    PlaceholderWindow m_placeholderWindow;
+    //zhd add end 
 
 public Q_SLOTS:
     virtual void closeWindow() = 0;

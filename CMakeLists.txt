@@ -396,6 +396,7 @@ set(kwin_KDEINIT_SRCS
    abstract_client.cpp
    client.cpp
    client_machine.cpp
+   placeholder_window.cpp
    cursor.cpp
    debug_console.cpp
    tabgroup.cpp
