@@ -68,6 +68,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Qt
 #include <QtConcurrentRun>
 
+//zhd add 
+#define _HUAWEIYUN
+#ifdef _HUAWEIYUN
+    #define  ENABLE_DRAG_CONGTENT 0
+#else
+    #define  ENABLE_DRAG_CONGTENT 1
+#endif
+
+
+
 namespace KWin
 {
 
@@ -264,7 +274,7 @@ void Workspace::init()
     // load is needed to be called again when starting xwayalnd to sync to RootInfo, see BUG 385260
     vds->save();
 //zhd add 
-    m_ClientDragingWithContent=config->group("Workspace").readEntry("DraggingWithContent",1);
+    m_ClientDragingWithContent=config->group("Workspace").readEntry("DraggingWithContent",ENABLE_DRAG_CONGTENT);
 //zhd add  end
 
 
@@ -887,7 +897,7 @@ void Workspace::slotReconfigure()
     options->updateSettings();
 
 //zhd add  
-    m_ClientDragingWithContent=kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent",1);
+    m_ClientDragingWithContent=kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent",ENABLE_DRAG_CONGTENT);
 //zhd add end
 
     emit configChanged();
