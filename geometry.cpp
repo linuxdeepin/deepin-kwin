@@ -1319,6 +1319,13 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
             newGeom.setTop(newGeom.top() + border[Top]);
     }
 
+    if( oldGeometry.x() >= rightMax - 1 || oldGeometry.y() >= bottomMax - 1 )
+    {
+        newGeom.moveTopLeft(QPoint(qMax(leftMax, screenArea.x()) - padding[0], qMax(topMax, screenArea.y()) - padding[1]));
+    }else {
+        newGeom.moveTopLeft(QPoint( geometryRestore().x(),geometryRestore().y() ));
+    }
+
     checkOffscreenPosition(&newGeom, screenArea);
     // Obey size hints. TODO: We really should make sure it stays in the right place
     if (!isShade())
@@ -1330,15 +1337,9 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
 
 void AbstractClient::checkOffscreenPosition(QRect* geom, const QRect& screenArea)
 {
-    if (geom->left() > screenArea.right()) {
-        geom->moveLeft(screenArea.right() - screenArea.width()/4);
-    } else if (geom->right() < screenArea.left()) {
-        geom->moveRight(screenArea.left() + screenArea.width()/4);
-    }
-    if (geom->top() > screenArea.bottom()) {
-        geom->moveTop(screenArea.bottom() - screenArea.height()/4);
-    } else if (geom->bottom() < screenArea.top()) {
-        geom->moveBottom(screenArea.top() + screenArea.width()/4);
+    if( geom->left() > screenArea.right() || geom->right() < screenArea.left() || geom->top() > screenArea.bottom() || geom->bottom() < screenArea.top() )
+    {
+        geom->moveTopLeft( QPoint( screenArea.right() - screenArea.width(), screenArea.bottom() - screenArea.height()) );
     }
 }
 
