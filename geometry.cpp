@@ -1114,7 +1114,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     if (isDesktop())
         return;
     if (isFullScreen()) {
-        QRect area = workspace()->clientArea(FullScreenArea, this);
+        QRect area = workspace()->clientArea(FullScreenArea, geometryRestore().center(), desktop());
         if (geometry() != area)
             setGeometry(area);
         return;
@@ -1123,7 +1123,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
         return;
 
     if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
-        setGeometry(electricBorderMaximizeGeometry(geometry().center(), desktop()));
+        setGeometry(electricBorderMaximizeGeometry(geometryRestore().center(), desktop()));
         return;
     }
 
