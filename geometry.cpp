@@ -2725,6 +2725,13 @@ bool AbstractClient::startMoveResize()
     emit clientStartUserMovedResized(this);
     if (ScreenEdges::self()->isDesktopSwitchingMovingClients())
         ScreenEdges::self()->reserveDesktopSwitching(true, Qt::Vertical|Qt::Horizontal);
+
+    if (mode == PositionCenter && !workspace()->isDragingWithContent())
+    {
+//        qCDebug(KWIN_CORE)<<"placeholder window is created";
+        m_placeholderWindow.create(geometry(), waylandServer());
+        grabXKeyboard(m_placeholderWindow.window());
+    }
     return true;
 }
 
@@ -2828,6 +2835,13 @@ void Client::leaveMoveResize()
         ungrabXKeyboard();
     move_resize_has_keyboard_grab = false;
     m_moveResizeGrabWindow.reset();
+
+    if(!workspace()->isDragingWithContent()){
+//        qCDebug(KWIN_CORE)<<"placeholder window is released";
+        ungrabXKeyboard();
+        m_placeholderWindow.destroy();
+    }
+
     xcb_ungrab_pointer(connection(), xTime());
     if (syncRequest.counter == XCB_NONE) // don't forget to sanitize since the timeout will no more fire
         syncRequest.isPending = false;
@@ -3315,9 +3329,25 @@ void Client::doResizeSync()
 void AbstractClient::performMoveResize()
 {
     const QRect &moveResizeGeom = moveResizeGeometry();
-    if (isMove() || (isResize() && !haveResizeEffect())) {
+
+    if(isMove() ){
+        if(!workspace()->isDragingWithContent() && maximizeMode()==KWin::MaximizeRestore){
+            //qCDebug(KWIN_CORE)<<"placeholder window is moving";
+            m_placeholderWindow.setGeometry(moveResizeGeom);
+        }else
+        {
+            setGeometry(moveResizeGeom);
+            //qCDebug(KWIN_CORE)<<"client window is moving"<<maximizeMode();
+        }
+        
+    }
+    if(isResize() && !haveResizeEffect())
+    {
         setGeometry(moveResizeGeom);
     }
+    // if (isMove() || (isResize() && !haveResizeEffect())) {
+    //     setGeometry(moveResizeGeom);
+    // }
     doPerformMoveResize();
     if (isResize())
         addRepaintFull();
