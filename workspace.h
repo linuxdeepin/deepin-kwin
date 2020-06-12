@@ -352,6 +352,8 @@ public:
     void setDisableGlobalShortcutsByUser(bool yes);
     void disableHotKeysForClient(bool disable);
     bool isDisableHotKeys();
+    void disableGestureForClient(bool disable);
+    bool isDisableGesture();
 
     void sessionSaveStarted();
     void sessionSaveDone();
@@ -648,6 +650,7 @@ private:
     bool global_shortcuts_disabled_for_client;
     bool global_shortcuts_disabled_by_user;
     bool hot_keys_disabled_for_client;
+    bool gesture_disabled_for_client;
 
     // Timer to collect requests for 'reconfigure'
     QTimer reconfigureTimer;
