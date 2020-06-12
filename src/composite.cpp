@@ -124,7 +124,8 @@ Compositor::Compositor(QObject* workspace)
     connect(&m_releaseSelectionTimer, &QTimer::timeout,
             this, &Compositor::releaseCompositorSelection);
 
-    m_unusedSupportPropertyTimer.setInterval(compositorLostMessageDelay);
+    // set 20 to avoid blur window turn to black when switch compositor quickly
+    m_unusedSupportPropertyTimer.setInterval(20);
     m_unusedSupportPropertyTimer.setSingleShot(true);
     connect(&m_unusedSupportPropertyTimer, &QTimer::timeout,
             this, &Compositor::deleteUnusedSupportProperties);
