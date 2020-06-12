@@ -1427,7 +1427,7 @@ void EffectsHandlerImpl::destroyEffect(Effect *effect)
     }
 
     stopMouseInterception(effect);
-
+    
     const QList<QByteArray> properties = m_propertiesForEffects.keys();
     for (const QByteArray &property : properties) {
         removeSupportProperty(property, effect);
