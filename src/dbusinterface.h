@@ -58,35 +58,37 @@ public Q_SLOTS: // METHODS
     QString supportInformation();
     Q_NOREPLY void unclutterDesktop();
     Q_NOREPLY void showDebugConsole();
-    
-    /** 
+
+    /**
      * Instructs kwin_wayland to restart itself.
-     * 
+     *
      * This acts as an implementation detail of: kwin_wayland --replace
      */
     Q_NOREPLY void replace();
 
-    /** 
+    /**
      * Allows the user to pick a window and get info on it.
-     * 
+     *
      * When called the user's mouse cursor will become a targeting reticule.
      * On clicking a window with the target a map will be returned
-     * with various information about the picked window, such as: 
+     * with various information about the picked window, such as:
      * height, width, minimized, fullscreen, etc.
      */
     QVariantMap queryWindowInfo();
 
-    /** 
+    /**
      * Returns a map with information about the window.
-     * 
+     *
      * The map includes entries such as position, size, status, and more.
-     * 
+     *
      * @param uuid is a QUuid from Toplevel::internalId().
      */
     QVariantMap getWindowInfo(const QString &uuid);
 
     Q_NOREPLY void previewWindows(const QList<uint> wids);
     Q_NOREPLY void quitPreviewWindows();
+
+    void disableGestureForClient(bool disable);
 
 private Q_SLOTS:
     void becomeKWinService(const QString &service);

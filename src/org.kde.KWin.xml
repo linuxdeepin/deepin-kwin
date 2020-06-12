@@ -51,5 +51,8 @@
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;uint&gt;"/>
     </method>
     <method name="quitPreviewWindows"/>
+    <method name="disableGestureForClient">
+      <arg type="b" direction="in"/>
+    </method>
   </interface>
 </node>

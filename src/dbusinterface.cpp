@@ -273,6 +273,11 @@ void DBusInterface::quitPreviewWindows()
     previewWindows({});
 }
 
+void DBusInterface::disableGestureForClient(bool disable)
+{
+    workspace()->disableGestureForClient(disable);
+}
+
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     : QObject(parent)
     , m_compositor(parent)

@@ -354,6 +354,9 @@ public:
 
     void focusToNull(); // SELI TODO: Public?
 
+    void disableGestureForClient(bool disable);
+    bool isDisableGesture();
+
     void clientShortcutUpdated(AbstractClient* c);
     bool shortcutAvailable(const QKeySequence &cut, AbstractClient* ignore = nullptr) const;
     bool globalShortcutsDisabled() const;
@@ -671,6 +674,7 @@ private:
     ShortcutDialog* client_keys_dialog;
     AbstractClient* client_keys_client;
     bool global_shortcuts_disabled_for_client;
+    bool gesture_disabled_for_client;
 
     // Timer to collect requests for 'reconfigure'
     QTimer reconfigureTimer;

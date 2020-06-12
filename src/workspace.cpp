@@ -128,6 +128,7 @@ Workspace::Workspace()
     , client_keys_dialog(nullptr)
     , client_keys_client(nullptr)
     , global_shortcuts_disabled_for_client(false)
+    , gesture_disabled_for_client(false)
     , workspaceInit(true)
     , set_active_client_recursion(0)
     , block_stacking_updates(0)
@@ -1570,6 +1571,19 @@ void Workspace::disableGlobalShortcutsForClient(bool disable)
             it != m_x11Clients.constEnd();
             ++it)
         (*it)->updateMouseGrab();
+}
+
+bool Workspace::isDisableGesture()
+{
+    return gesture_disabled_for_client;
+}
+
+void Workspace::disableGestureForClient(bool disable)
+{
+    if (gesture_disabled_for_client == disable)
+        return;
+
+    gesture_disabled_for_client = disable;
 }
 
 QString Workspace::supportInformation() const
