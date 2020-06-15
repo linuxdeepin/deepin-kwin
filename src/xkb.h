@@ -62,6 +62,7 @@ public:
     Qt::KeyboardModifiers modifiers() const;
     Qt::KeyboardModifiers modifiersRelevantForGlobalShortcuts(uint32_t scanCode = 0) const;
     bool shouldKeyRepeat(quint32 key) const;
+    bool enableCrtlAltShortcuts() const;
 
     void switchToNextLayout();
     void switchToPreviousLayout();
