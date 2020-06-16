@@ -266,7 +266,7 @@ void Workspace::init()
     // load is needed to be called again when starting xwayalnd to sync to RootInfo, see BUG 385260
     vds->save();
 
-    m_ClientDragingWithContent　=　config->group("Workspace").readEntry("DraggingWithContent",ENABLE_DRAG_CONGTENT);
+    m_ClientDragingWithContent = config->group("Workspace").readEntry("DraggingWithContent",ENABLE_DRAG_CONGTENT);
 
 
 
@@ -889,7 +889,7 @@ void Workspace::slotReconfigure()
     options->updateSettings();
 
 
-    m_ClientDragingWithContent　=　kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent",ENABLE_DRAG_CONGTENT);
+    m_ClientDragingWithContent = kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent",ENABLE_DRAG_CONGTENT);
 
 
     emit configChanged();
