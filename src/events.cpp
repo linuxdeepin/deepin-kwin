@@ -1111,6 +1111,8 @@ void X11Client::focusOutEvent(xcb_focus_out_event_t *e)
         return; // hack for motif apps like netscape
     if (QApplication::activePopupWidget())
         return;
+    if (workspace()->activeClient() == this)
+        return;
 
     // When a client loses focus, FocusOut events are usually immediatelly
     // followed by FocusIn events for another client that gains the focus
