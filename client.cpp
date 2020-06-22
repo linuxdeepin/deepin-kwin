@@ -131,6 +131,8 @@ Client::Client()
     syncRequest.isPending = false;
     syncRequest.calledSyncRequest = false;
 
+    m_foucusInEventSequence = 0;
+
     // Set the initial mapping state
     mapping_state = Withdrawn;
 
@@ -2006,6 +2008,7 @@ void Client::cancelFocusOutTimer()
     if (m_focusOutTimer) {
         m_focusOutTimer->stop();
     }
+    m_foucusInEventSequence = 0;  
 }
 
 xcb_window_t Client::frameId() const
