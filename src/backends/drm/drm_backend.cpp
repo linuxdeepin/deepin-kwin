@@ -345,6 +345,11 @@ void DrmBackend::updateOutputs()
     if (oldOutputs != m_outputs) {
         readOutputsConfiguration(m_outputs);
     }
+    if (m_outputs.isEmpty()) {
+        qCDebug(KWIN_DRM) << " m_outputs is empty, creat Virtual-factoryOutput";
+        createVirtualOutput("factoryOutput", {1920, 1080}, 1);
+    }
+
     Q_EMIT screensQueried();
 }
 
