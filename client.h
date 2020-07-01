@@ -552,7 +552,7 @@ private:
     QPoint input_offset;
 
     QTimer *m_focusOutTimer;
-    int m_foucusInEventSequence;
+   // int m_foucusInEventSequence;
 
     QList<QMetaObject::Connection> m_connections;
     bool m_clientSideDecorated;

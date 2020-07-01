@@ -1141,7 +1141,7 @@ void Client::focusInEvent(xcb_focus_in_event_t *e)
     workspace()->gotFocusIn(this);   // remove from should_get_focus list
     if (activate) {
         setActive(true);
-        m_foucusInEventSequence = e->sequence;
+     //   m_foucusInEventSequence = e->sequence;
     }
     else {
         workspace()->restoreFocus();
@@ -1163,7 +1163,7 @@ void Client::focusOutEvent(xcb_focus_out_event_t *e)
         return; // hack for motif apps like netscape
     if (QApplication::activePopupWidget())
         return;
-    if(workspace()->activeClient() == this && m_foucusInEventSequence == e->sequence)
+    if(workspace()->activeClient() == this )
         return;
 
     // When a client loses focus, FocusOut events are usually immediatelly
