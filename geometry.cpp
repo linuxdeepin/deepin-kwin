@@ -1771,7 +1771,13 @@ void Client::configureRequest(int value_mask, int rx, int ry, int rw, int rh, in
         if (!from_tool && (!isSpecialWindow() || isToolbar()) && !isFullScreen()
                 && rules()->checkStrictGeometry(true)
                 && area.contains(origClientGeometry))
-            keepInArea(area);
+        {
+            if(keepAbove())
+                keepInArea(workspace()->clientArea(FullArea, this));
+            else
+                keepInArea(area);
+        }
+
 
         // this is part of the kicker-xinerama-hack... it should be
         // safe to remove when kicker gets proper ExtendedStrut support;
@@ -1825,7 +1831,10 @@ void Client::resizeWithChecks(int w, int h, xcb_gravity_t gravity, ForceGeometry
     int newx = x();
     int newy = y();
     QRect area = workspace()->clientArea(WorkArea, this);
+    if(keepAbove())
+        area = workspace()->clientArea(FullArea, this);
     // don't allow growing larger than workarea
+    // if above, don't growing larger than fullarea
     if (w > area.width())
         w = area.width();
     if (h > area.height())
