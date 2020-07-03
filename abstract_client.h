@@ -1072,9 +1072,7 @@ protected:
     Position moveResizePointerMode() const {
         return m_moveResize.pointer;
     }
-    void setMoveResizePointerMode(Position mode) {
-        m_moveResize.pointer = mode;
-    }
+    void setMoveResizePointerMode(Position mode);
     bool isMoveResizePointerButtonDown() const {
         return m_moveResize.buttonDown;
     }
