@@ -107,6 +107,8 @@ PointerInputRedirection::PointerInputRedirection(InputRedirection* parent)
     : InputDeviceHandler(parent)
     , m_cursor(nullptr)
 {
+    m_reservedMotion.delta = QSizeF(0, 0);
+    m_reservedMotion.deltaNonAccelerated = QSizeF(0, 0);
 }
 
 PointerInputRedirection::~PointerInputRedirection() = default;
@@ -259,6 +261,22 @@ void PointerInputRedirection::processMotionAbsolute(const QPointF &pos, uint32_t
 void PointerInputRedirection::processMotion(const QSizeF &delta, const QSizeF &deltaNonAccelerated, uint32_t time, quint64 timeUsec, InputDevice *device)
 {
     processMotionInternal(m_pos + QPointF(delta.width(), delta.height()), delta, deltaNonAccelerated, time, timeUsec, device);
+    // reserved motion point
+    m_reservedMotion.delta = delta;
+    m_reservedMotion.deltaNonAccelerated = deltaNonAccelerated;
+}
+
+void PointerInputRedirection::toggleMotion(const QPointF &pos, uint32_t time, InputDevice *device)
+{
+    updatePosition(pos);
+    MouseEvent event_motion(QEvent::MouseMove, m_pos, Qt::NoButton, m_qtButtons,
+                    input()->keyboardModifiers(), time,
+                    m_reservedMotion.delta, m_reservedMotion.deltaNonAccelerated, 0, device);
+    event_motion.setModifiersRelevantForGlobalShortcuts(input()->modifiersRelevantForGlobalShortcuts());
+
+    update();
+    input()->processSpies(std::bind(&InputEventSpy::pointerEvent, std::placeholders::_1, &event_motion));
+    input()->processFilters(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event_motion, 0));
 }
 
 void PointerInputRedirection::processMotionInternal(const QPointF &pos, const QSizeF &delta, const QSizeF &deltaNonAccelerated, uint32_t time, quint64 timeUsec, InputDevice *device)
@@ -299,6 +317,16 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
     default:
         Q_UNREACHABLE();
         return;
+    }
+
+    // when output change mode, if we do not move the cursor, kernel will not send pointerMotion event
+    // then client hold the last motion point before output mode changed
+    // if client use this point with the old output mode to do some action such as init the menu window position
+    // the position will be not correct in new output mode
+    // so here we first send a new motion event to client after the output changed mode
+    if (m_needToggleMotion) {
+        toggleMotion(m_pos, time, device);
+        m_needToggleMotion = false;
     }
 
     updateButton(button, state);

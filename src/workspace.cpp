@@ -2232,6 +2232,10 @@ void Workspace::desktopResized()
     if (m_geometry != oldGeometry) {
         Q_EMIT geometryChanged();
     }
+
+    if (waylandServer()) {
+        Q_EMIT outputModeChanged();
+    }
 }
 
 void Workspace::saveOldScreenSizes()

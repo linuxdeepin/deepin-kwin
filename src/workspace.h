@@ -541,6 +541,7 @@ Q_SIGNALS:
      * or lowered
      */
     void stackingOrderChanged();
+    void outputModeChanged();
 
     /**
      * This signal is emitted whenever an internal client is created.

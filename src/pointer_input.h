@@ -86,6 +86,22 @@ public:
     /**
      * @internal
      */
+    void enableToggleMotion() {
+        m_needToggleMotion = true;
+    }
+    /**
+     * @internal
+     */
+    void disableToggleMotion() {
+        m_needToggleMotion = false;
+    }
+    /**
+     * @internal
+     */
+    void toggleMotion(const QPointF &pos, uint32_t time, InputDevice *device = nullptr);
+    /**
+     * @internal
+     */
     void processMotion(const QSizeF &delta, const QSizeF &deltaNonAccelerated, uint32_t time, quint64 timeUsec, InputDevice *device);
     /**
      * @internal
@@ -171,6 +187,13 @@ private:
     bool m_confined = false;
     bool m_locked = false;
     bool m_enableConstraints = true;
+
+    struct Motion {
+       QSizeF delta;
+       QSizeF deltaNonAccelerated;
+    };
+    Motion m_reservedMotion;
+    bool m_needToggleMotion = false;
     friend class PositionUpdateBlocker;
 };
 
