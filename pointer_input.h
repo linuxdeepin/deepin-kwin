@@ -100,6 +100,23 @@ public:
     /**
      * @internal
      */
+    void enableToggleMotion() {
+        m_needToggleMotion = true;
+    }
+    /**
+     * @internal
+     */
+    void disableToggleMotion() {
+        m_needToggleMotion = false;
+    }
+    /**
+     * @internal
+     */
+    void toggleMotion(const QPointF &pos, uint32_t time, LibInput::Device *device = nullptr);
+
+    /**
+     * @internal
+     */
     void processMotion(const QPointF &pos, uint32_t time, LibInput::Device *device = nullptr);
     /**
      * @internal
@@ -179,6 +196,13 @@ private:
     bool m_confined = false;
     bool m_locked = false;
     bool m_enableConstraints = true;
+
+    struct Motion {
+       QSizeF delta;
+       QSizeF deltaNonAccelerated;
+    };
+    Motion m_reservedMotion;
+    bool m_needToggleMotion = false;
 };
 
 class CursorImage : public QObject

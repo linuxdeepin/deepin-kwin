@@ -534,6 +534,7 @@ Q_SIGNALS:
      * or lowered
      */
     void stackingOrderChanged();
+    void outputModeChanged();
 
     void activeColorChanged();
 
