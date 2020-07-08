@@ -1122,6 +1122,16 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     if (isDock())
         return;
 
+    if (maximizeMode() != MaximizeRestore) {
+        // TODO update geom_restore?
+        changeMaximize(false, false, true);   // adjust size
+        const QRect screenArea = workspace()->clientArea(ScreenArea, geometryRestore().center(), desktop());
+        QRect geom = geometry();
+        checkOffscreenPosition(&geom, screenArea);
+        setGeometry(geom);
+        return;
+    }
+
     if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
         setGeometry(electricBorderMaximizeGeometry(geometryRestore().center(), desktop()));
         return;
@@ -1307,21 +1317,6 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
         newGeom.setTop(qMax(topMax, screenArea.y()) - border[Top]);
         if (screens()->intersecting(newGeom) > 1)
             newGeom.setTop(newGeom.top() + border[Top]);
-    }
-
-    if (maximizeMode() != MaximizeRestore) {
-        changeMaximize(false, false, true);   // adjust size
-        const QRect screenArea = workspace()->clientArea(ScreenArea, geometryRestore().center(), desktop());
-        QRect geom = geometry();
-        if( geom.x() >= screenArea.right() || geom.y() >= screenArea.bottom() )
-        {
-            geom.moveTopLeft(QPoint(qMax(leftMax, screenArea.x()) - padding[0], qMax(topMax, screenArea.y()) - padding[1]));
-        }else {
-            geom.moveTopLeft(QPoint( geometryRestore().x(),geometryRestore().y() ));
-        }
-        checkOffscreenPosition(&geom, screenArea);
-        setGeometry(geom);
-        return;
     }
 
     if( oldGeometry.x() >= rightMax - 1 || oldGeometry.y() >= bottomMax - 1 )
@@ -2798,12 +2793,7 @@ void AbstractClient::finishMoveResize(bool cancel)
     if (screen() != moveResizeStartScreen()) {
         workspace()->sendClientToScreen(this, screen()); // checks rule validity
         if (maximizeMode() != MaximizeRestore)
-        {
-            changeMaximize(false, false, true);   // adjust size
-            setGeometry(geometry());
-            setGeometryRestore( geometry() );
-            return;
-        }
+            checkWorkspacePosition();
     }
 
     if (isElectricBorderMaximizing()) {
