@@ -603,9 +603,18 @@ void Toplevel::setSurface(KWaylandServer::SurfaceInterface *surface)
     if (m_surface == surface) {
         return;
     }
+    if (m_surface) {
+        disconnect(m_surface, &KWaylandServer::SurfaceInterface::opaqueChanged, this, &Toplevel::setWaylandOpaqueRegion);
+    }
+    connect(m_surface, &KWaylandServer::SurfaceInterface::opaqueChanged, this, &Toplevel::setWaylandOpaqueRegion);
     m_surface = surface;
     m_pendingSurfaceId = 0;
     Q_EMIT surfaceChanged();
+}
+
+void Toplevel::setWaylandOpaqueRegion(const QRegion &opaqueRegion)
+{
+    opaque_region = opaqueRegion;
 }
 
 int Toplevel::stackingOrder() const
