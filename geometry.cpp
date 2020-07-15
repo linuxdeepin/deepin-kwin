@@ -1137,6 +1137,24 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     if (isDock())
         return;
 
+    if (isStandAlone())
+        return;
+
+    if (maximizeMode() != MaximizeRestore) {
+        // TODO update geom_restore?
+        changeMaximize(false, false, true);   // adjust size
+        const QRect screenArea = workspace()->clientArea(ScreenArea, this);
+        QRect geom = geometry();
+        checkOffscreenPosition(&geom, screenArea);
+        setGeometry(geom);
+        return;
+    }
+
+    if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
+        setGeometry(electricBorderMaximizeGeometry(geometry().center(), desktop()));
+        return;
+    }
+
     // this can be true only if this window was mapped before KWin
     // was started - in such case, don't adjust position to workarea,
     // because the window already had its position, and if a window
