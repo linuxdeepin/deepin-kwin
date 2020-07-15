@@ -62,6 +62,9 @@ public:
     QRect inputGeometry() const override;
     QMatrix4x4 inputTransformation() const override;
     void destroyClient() override;
+    bool isStandAlone() const override;
+    bool isOverride() const override;
+    bool isActiveFullScreenRole() const override;
 
     void installPlasmaShellSurface(KWaylandServer::PlasmaShellSurfaceInterface *shellSurface);
 

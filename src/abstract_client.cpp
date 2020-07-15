@@ -285,6 +285,8 @@ Layer AbstractClient::belongsToLayer() const
             return NotificationLayer;
         return layerForDock();
     }
+    if (isOverride())
+        return UnmanagedLayer;
     if (isPopupWindow())
         return PopupLayer;
     if (isOnScreenDisplay())
@@ -298,7 +300,7 @@ Layer AbstractClient::belongsToLayer() const
     }
     if (keepBelow())
         return BelowLayer;
-    if (isActiveFullScreen())
+    if (isActiveFullScreen() || isActiveFullScreenRole())
         return ActiveLayer;
     if (keepAbove())
         return AboveLayer;
@@ -3320,7 +3322,7 @@ void AbstractClient::updateGeometryRestoresForFullscreen(AbstractOutput *output)
 
 void AbstractClient::checkWorkspacePosition(QRect oldGeometry, QRect oldClientGeometry, const VirtualDesktop *oldDesktop)
 {
-    if (isDock() || isDesktop() || !isPlaceable()) {
+    if (isDock() || isDesktop() || !isPlaceable() || isStandAlone() || isOverride()) {
         return;
     }
     enum { Left = 0, Top, Right, Bottom };
