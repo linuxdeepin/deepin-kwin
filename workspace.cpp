@@ -70,6 +70,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define  ENABLE_DRAG_CONGTENT 1
 
+#define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
+#define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
+#define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
+
 namespace KWin
 {
 
@@ -1324,6 +1328,9 @@ void Workspace::setShowingDesktop(bool showing)
     }
     if (changed)
         emit showingDesktopChanged(showing);
+
+    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    wm.call("SetShowDesktop", showing);
 }
 
 void Workspace::setPreviewClientList(const QList<AbstractClient*> &list)
