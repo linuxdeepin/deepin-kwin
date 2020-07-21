@@ -61,6 +61,10 @@
 // Qt
 #include <QtConcurrentRun>
 
+#define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
+#define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
+#define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
+
 namespace KWin
 {
 
@@ -1488,6 +1492,9 @@ void Workspace::setShowingDesktop(bool showing)
     }
     if (changed)
         Q_EMIT showingDesktopChanged(showing);
+
+    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    wm.call("SetShowDesktop", showing);
 }
 
 void Workspace::setPreviewClientList(const QList<AbstractClient*> &list)
