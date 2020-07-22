@@ -358,6 +358,11 @@ void EffectsHandlerImpl::setupAbstractClientConnections(AbstractClient* c)
             emit windowFullScreenChanged(c->effectWindow());
         }
     );
+    connect(c, &AbstractClient::quickTileModeChanged, this,
+        [this, c]() {
+            emit windowQuickTileModeChanged(c->effectWindow());
+        }
+    );
 }
 
 void EffectsHandlerImpl::setupClientConnections(Client* c)

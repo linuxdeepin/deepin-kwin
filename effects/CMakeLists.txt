@@ -104,6 +104,7 @@ set( kwin4_effect_builtins_sources
     windowgeometry/windowgeometry.cpp
     wobblywindows/wobblywindows.cpp
     zoom/zoom.cpp
+    splitscreen/splitscreen.cpp
     )
 
 qt5_add_resources( kwin4_effect_builtins_sources shaders.qrc )
@@ -173,6 +174,7 @@ include( slidingpopups/CMakeLists.txt )
 add_subdirectory( thumbnailaside )
 add_subdirectory( windowgeometry )
 add_subdirectory( zoom )
+add_subdirectory( splitscreen )
 
 # OpenGL-specific effects
 add_subdirectory( blur )
