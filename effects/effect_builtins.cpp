@@ -757,7 +757,7 @@ QStringList availableEffectNames()
 QList< BuiltInEffect > availableEffects()
 {
     QList<BuiltInEffect> result;
-    for (int i = index(BuiltInEffect::Invalid) + 1; i < index(BuiltInEffect::NumEffect); ++i) {
+    for (int i = index(BuiltInEffect::Invalid) + 1; i <= index(BuiltInEffect::SplitScreen); ++i) {
         result << BuiltInEffect(i);
     }
     return result;
