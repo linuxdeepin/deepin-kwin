@@ -1422,7 +1422,7 @@ public:
             // this is a workaround, and will not work with xwayland client
             if (seat->focusedKeyboardSurface() != t->surface()) {
                 seat->setFocusedKeyboardSurface(t->surface());
-                return true;
+                return false;
             }
             break;
         } while (it != stacking.begin());
