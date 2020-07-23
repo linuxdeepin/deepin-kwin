@@ -1196,6 +1196,18 @@ void Client::focusOutEvent(xcb_focus_out_event_t *e)
 void Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
 {
     if (direction == NET::Move) {
+        
+        //　if mouse leftbutton is not pressed ,ignore this event
+        Xcb::Pointer pointer(this->window());
+        if (pointer.isNull()) {
+            return;
+        }
+            
+        Qt::MouseButtons button = x11ToQtMouseButtons(pointer->mask);
+        if((button & Qt::LeftButton) == 0) {
+            return;
+        }
+
         // move cursor to the provided position to prevent the window jumping there on first movement
         // the expectation is that the cursor is already at the provided position,
         // thus it's more a safety measurement
