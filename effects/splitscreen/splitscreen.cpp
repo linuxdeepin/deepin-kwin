@@ -14,6 +14,8 @@ SplitScreenEffect::SplitScreenEffect()
 {
     reconfigure(ReconfigureAll);
 
+    m_backgroundMode = int(QuickTileFlag::None);
+
     connect(effects, &EffectsHandler::windowStartUserMovedResized, this, &SplitScreenEffect::slotWindowStartUserMovedResized);
     connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &SplitScreenEffect::slotWindowFinishUserMovedResized);
     connect(effects, &EffectsHandler::windowQuickTileModeChanged, this, &SplitScreenEffect::slotWindowQuickTileModeChanged);
@@ -137,21 +139,32 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
         }
     }
 
-    if (target) {
-        wm.setTransformedGeometry(target, m_backgroundRect);
+    switch (me->type()) {
+        case QEvent::MouseMove:
+            return;
+        case QEvent::MouseButtonPress:
+            if (target) {
+                effects->setElevatedWindow(target, true);
+
+//                auto c = static_cast<AbstractClient*>(static_cast<EffectWindowImpl*>(target)->window());
+//                if (c && c->quickTileMode() != QuickTileMode(m_backgroundMode)) {
+//                    effects->setQuickTileMode(target, m_backgroundMode);
+//                }
+                effects->setQuickTileMode(target, m_backgroundMode);
+                effects->addRepaintFull();
+            }
+            break;
+        case QEvent::MouseButtonRelease:
+            if (target) {
+                effects->defineCursor(Qt::PointingHandCursor);
+                effects->setElevatedWindow(target, false);
+                effects->activateWindow(target);
+            }
+            setActive(false);
+            break;
+        default:
+            return;
     }
-
-    setActive(false);
-
-    AbstractClient* target_client = nullptr;
-    auto wImpl = static_cast<EffectWindowImpl*>(target);
-    if (wImpl) {
-        target_client = static_cast<AbstractClient*>(wImpl->window());
-    }
-
-    if (!target_client)
-        return;
-
 }
 
 void SplitScreenEffect::grabbedKeyboardEvent(QKeyEvent* e)
@@ -178,8 +191,11 @@ void SplitScreenEffect::slotWindowStartUserMovedResized(EffectWindow *w)
 
 void SplitScreenEffect::slotWindowQuickTileModeChanged(EffectWindow *w)
 {
-    if (m_cacheClient)
-        m_quickTileMode = m_cacheClient->quickTileMode();
+    auto c = static_cast<AbstractClient*>(static_cast<EffectWindowImpl*>(w)->window());
+    if (c != m_cacheClient && !m_cacheClient)
+        return;
+
+    m_quickTileMode = m_cacheClient->quickTileMode();
 }
 
 void SplitScreenEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
@@ -189,14 +205,18 @@ void SplitScreenEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
 
     if (!isEnterSplitMode(m_quickTileMode)) {
         m_cacheClient = nullptr;
+        m_quickTileMode = QuickTileMode(QuickTileFlag::None);
         return;
     }
 
-    m_enterSplitClient = m_cacheClient;
+    //m_enterSplitClient = m_cacheClient;
 
     m_backgroundRect = getPreviewWindowsGeometry();
 
     setActive(true);
+
+    m_cacheClient = nullptr;
+    m_quickTileMode = QuickTileMode(QuickTileFlag::None);
 }
 
 bool SplitScreenEffect::isEnterSplitMode(QuickTileMode mode)
@@ -210,8 +230,11 @@ QRect SplitScreenEffect::getPreviewWindowsGeometry()
     QRect ret = effects->clientArea(MaximizeArea, 0, effects->currentDesktop());
     if (m_quickTileMode & QuickTileFlag::Left) {
         ret.setLeft(ret.right()-(ret.width()-ret.width()/2) + 1);
-    } else if (m_quickTileMode & QuickTileFlag::Right)
+        m_backgroundMode = int(QuickTileFlag::Right);
+    } else if (m_quickTileMode & QuickTileFlag::Right) {
         ret.setRight(ret.left()+ret.width()/2 - 1);
+        m_backgroundMode = int(QuickTileFlag::Right);
+    }
 
     return ret;
 }

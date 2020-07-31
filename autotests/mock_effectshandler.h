@@ -149,6 +149,9 @@ public:
     QVariant kwinOption(KWin::KWinOption) override {
         return QVariant();
     }
+    void setQuickTileMode(KWin::EffectWindow* w, int mode)
+    {
+    }
     bool makeOpenGLContextCurrent() override {
         return false;
     }

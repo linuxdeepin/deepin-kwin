@@ -69,6 +69,7 @@ private:
 
     QVector<WindowMotionManager> m_motionManagers;
     QRect m_backgroundRect;
+    int m_backgroundMode;
 
     QHash<int, GridSize> m_gridSizes;
     QHash<int, QVector<EffectWindow*>> m_takenSlots;
