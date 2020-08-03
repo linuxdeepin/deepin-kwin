@@ -1945,7 +1945,9 @@ void AbstractClient::loadGioDesktopFileName()
             launch_info++;
         }
 
-        if (kv[0] == "GIO_LAUNCHED_DESKTOP_FILE_PID") {
+        if (kv[0] == "WINEPREFIX") {
+            launch_info++;
+        } else if (kv[0] == "GIO_LAUNCHED_DESKTOP_FILE_PID") {
             auto gio_pid = kv[1].toInt();
             if (gio_pid == pid) {
                 launch_info++;
