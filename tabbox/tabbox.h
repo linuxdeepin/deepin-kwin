@@ -105,6 +105,7 @@ public:
     virtual bool isCloseable() const;
     virtual void close();
     virtual bool isFirstInTabBox() const;
+    virtual void setMinimized(bool set);
 
     AbstractClient* client() const {
         return m_client;

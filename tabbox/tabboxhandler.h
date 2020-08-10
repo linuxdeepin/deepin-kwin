@@ -400,6 +400,7 @@ public:
     virtual bool isCloseable() const = 0;
     virtual void close() = 0;
     virtual bool isFirstInTabBox() const = 0;
+    virtual void setMinimized(bool set) = 0;
 };
 
 /**

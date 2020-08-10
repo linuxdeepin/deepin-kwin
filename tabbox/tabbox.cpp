@@ -446,6 +446,11 @@ bool TabBoxClientImpl::isFirstInTabBox() const
     return m_client->isFirstInTabBox();
 }
 
+void TabBoxClientImpl::setMinimized(bool set)
+{
+    m_client->setMinimized(set);
+}
+
 /*********************************************************
 * TabBox
 *********************************************************/
