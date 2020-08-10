@@ -93,7 +93,7 @@ public:
     void close() override;
     bool isFirstInTabBox() const override;
     QUuid internalId() const override;
-
+    void setMinimized(bool set) override;
     AbstractClient* client() const {
         return m_client;
     }

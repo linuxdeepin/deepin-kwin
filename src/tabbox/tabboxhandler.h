@@ -383,6 +383,7 @@ public:
     virtual void close() = 0;
     virtual bool isFirstInTabBox() const = 0;
     virtual QUuid internalId() const = 0;
+    virtual void setMinimized(bool set) = 0;
 };
 
 /**
