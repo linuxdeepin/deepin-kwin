@@ -632,7 +632,6 @@ void DrmBackend::enableOutput(DrmOutput *output, bool enable)
             emit outputRemoved(output);
         } 
     }
-    readOutputsConfiguration();
     outputDpmsChanged();
     checkOutputsAreOn();
     emit screensQueried();
