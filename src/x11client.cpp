@@ -4486,6 +4486,9 @@ void X11Client::setFullScreen(bool set, bool user)
     if (user && !userCanSetFullScreen()) {
         return;
     }
+    if (isInteractiveMoveResize()) {
+        return;
+    }
 
     setShade(ShadeNone);
 
