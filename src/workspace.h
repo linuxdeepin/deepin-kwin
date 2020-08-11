@@ -493,6 +493,8 @@ public Q_SLOTS:
     void updateWindowStates();
     void captureWindowImage(int windowId, wl_resource *buffer);
 
+    void slotTouchPadTomoveWindow(int x, int y);
+    void slotEndTouchPadToMoveWindow();
 private Q_SLOTS:
     void desktopResized();
     void selectWmInputEventMask();

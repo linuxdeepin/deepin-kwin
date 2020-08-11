@@ -42,6 +42,10 @@
 #include <QDir>
 #include <QMouseEvent>
 #include <QStyleHints>
+#include <pointer_input.h>
+#include <math.h>
+//resize limit
+#define RESIZE_LIMIT 10
 
 namespace KWin
 {
@@ -1739,6 +1743,64 @@ Options::MouseCommand AbstractClient::getWheelCommand(Qt::Orientation orientatio
         return options->commandWindowWheel();
     }
     return Options::MouseNothing;
+}
+
+void AbstractClient::setMoveResizePointerMode(Gravity gravity) {
+    if (waylandServer() && isDecorated()) {
+        //if pointer is not near corner,it should not be resize mode.
+        if (Gravity::None != gravity) {
+            int left = pos().x(),
+                right = pos().x() + size().width(),
+                top = pos().y(),
+                bottom = pos().y() + size().height();
+            int cursor_x = input()->pointer()->pos().x(),
+                cursor_y = input()->pointer()->pos().y();
+            if (Gravity::Top != gravity && Gravity::Bottom != gravity && abs(left - cursor_x) > RESIZE_LIMIT && abs(right - cursor_x) > RESIZE_LIMIT) {
+                return;
+            }
+            if (Gravity::Left != gravity && Gravity::Right != gravity && abs(top - cursor_y) > RESIZE_LIMIT && abs(bottom - cursor_y) > RESIZE_LIMIT) {
+                return;
+            }
+        }
+        //if pointer is pressed,then it can't be Resize Mode,this is wrong.
+        //First it should be resize mode,then the pointer press,the client resize.
+        if (input()->pointer()->areButtonsPressed()) {
+            if (Gravity::None != gravity) {
+                return;
+            }
+        }
+    }
+    m_interactiveMoveResize.gravity = gravity;
+}
+
+void AbstractClient::touchPadToMoveWindow(int x,int y)
+{
+    Q_UNUSED(x);
+    Q_UNUSED(y);
+    if (!isMovableAcrossScreens()) {
+        return;
+    }
+
+    if (isInteractiveMoveResize()) {
+        finishInteractiveMoveResize(false);
+    }
+
+    setMoveResizePointerMode(Gravity::None);
+    setInteractiveMoveResizePointerButtonDown(true);
+    setInteractiveMoveOffset(QPoint(Cursors::self()->mouse()->pos().x() - this->clientGeometry().x(), Cursors::self()->mouse()->pos().y()  - this->clientGeometry().y()));  // map from global
+    setInvertedInteractiveMoveOffset(rect().bottomRight() - interactiveMoveOffset());
+
+    if (!startInteractiveMoveResize()) {
+        setInteractiveMoveResizePointerButtonDown(false);
+    }
+
+    updateCursor();
+}
+
+void AbstractClient::endTouchPadToMoveWindow()
+{
+    setMoveResizePointerMode(Gravity::None);
+    updateCursor();
 }
 
 bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint &globalPos)

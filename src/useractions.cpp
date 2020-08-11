@@ -1718,8 +1718,27 @@ void Workspace::slotWindowMove()
         performWindowOperation(active_client, Options::UnrestrictedMoveOp);
 }
 
-/**
- * Starts keyboard resize mode for the active client.
+void Workspace::slotTouchPadTomoveWindow(int x, int y)
+{
+    if (USABLE_ACTIVE_CLIENT) {
+        if (x == 0 && y ==0) {
+            Cursors::self()->mouse()->setPos(active_client->clientGeometry().center());
+            active_client->touchPadToMoveWindow(x, y);
+        } else {
+            Cursors::self()->mouse()->setPos(active_client->clientGeometry().center().x() + x, active_client->clientGeometry().center().y() + y);
+        }
+    }
+}
+
+void Workspace::slotEndTouchPadToMoveWindow()
+{
+    if (USABLE_ACTIVE_CLIENT) {
+        active_client->endTouchPadToMoveWindow();
+    }
+}
+
+/*!
+  Starts keyboard resize mode for the active client.
  */
 void Workspace::slotWindowResize()
 {
