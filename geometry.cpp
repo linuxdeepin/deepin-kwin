@@ -2542,6 +2542,8 @@ void Client::setFullScreen(bool set, bool user)
         return;
     if (user && !userCanSetFullScreen())
         return;
+    if(isMoveResize())
+        return;
     set = rules()->checkFullScreen(set && !isSpecialWindow());
     setShade(ShadeNone);
     bool was_fs = isFullScreen();
