@@ -457,6 +457,8 @@ public Q_SLOTS:
     void slotActivatePrevTab(); // Slot to move right the active Client.
     void slotUntab(); // Slot to remove the active client from its group.
 
+    void slotTouchPadTomoveWindow(int x, int y);
+    void slotEndTouchPadToMoveWindow();
 private Q_SLOTS:
     void desktopResized();
     void selectWmInputEventMask();

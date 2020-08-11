@@ -1083,6 +1083,36 @@ Options::MouseCommand AbstractClient::getWheelCommand(Qt::Orientation orientatio
     return Options::MouseNothing;
 }
 
+void AbstractClient::touchPadToMoveWindow(int x,int y)
+{
+    Q_UNUSED(x);
+    Q_UNUSED(y);
+    if (!isMovableAcrossScreens()) {
+        return;
+    }
+
+    if (isMoveResize()) {
+        finishMoveResize(false);
+    }
+
+    setMoveResizePointerMode(PositionCenter);
+    setMoveResizePointerButtonDown(true);
+    setMoveOffset(QPoint(Cursor::pos().x() - this->geometry().x(), Cursor::pos().y()  - this->geometry().y()));  // map from global
+    setInvertedMoveOffset(rect().bottomRight() - moveOffset());
+
+    if (!startMoveResize()) {
+        setMoveResizePointerButtonDown(false);
+    }
+
+    updateCursor();
+}
+
+void AbstractClient::endTouchPadToMoveWindow()
+{
+    setMoveResizePointerMode(PositionCenter);
+    updateCursor();
+}
+
 bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint &globalPos)
 {
     bool replay = false;

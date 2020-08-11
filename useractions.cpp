@@ -1807,6 +1807,25 @@ void Workspace::slotWindowMove()
         performWindowOperation(active_client, Options::UnrestrictedMoveOp);
 }
 
+void Workspace::slotTouchPadTomoveWindow(int x, int y)
+{
+    if (USABLE_ACTIVE_CLIENT) {
+        if (x == 0 && y ==0) {
+            Cursor::setPos(active_client->geometry().center());
+            active_client->touchPadToMoveWindow(x, y);
+        } else {
+            Cursor::setPos(active_client->geometry().center().x() + x, active_client->geometry().center().y() + y);
+        }
+    }
+}
+
+void Workspace::slotEndTouchPadToMoveWindow()
+{
+    if (USABLE_ACTIVE_CLIENT) {
+        active_client->endTouchPadToMoveWindow();
+    }
+}
+
 /*!
   Starts keyboard resize mode for the popup client
  */
