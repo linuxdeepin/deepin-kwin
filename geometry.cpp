@@ -1315,7 +1315,8 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
                 newGeom.setLeft(newGeom.left() + border[Left]);
         }
     }
-
+    if(waylandServer() && (newGeom.x() == screens()->geometry().width() - newGeom.width()))
+            newGeom.moveTopLeft(QPoint( geometryRestore().x(),geometryRestore().y()));
     checkOffscreenPosition(&newGeom, screenArea);
     // Obey size hints. TODO: We really should make sure it stays in the right place
     if (!isShade())
