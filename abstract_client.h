@@ -434,7 +434,6 @@ public:
     void leaveDesktop(VirtualDesktop *desktop);
 
     void touchPadToMoveWindow(int x,int y);
-    void endTouchPadToMoveWindow();
     /**
      * Set the window as being on the attached list of desktops
      * On X11 it will be set to the last entry
