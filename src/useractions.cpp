@@ -1733,7 +1733,7 @@ void Workspace::slotTouchPadTomoveWindow(int x, int y)
 void Workspace::slotEndTouchPadToMoveWindow()
 {
     if (USABLE_ACTIVE_CLIENT) {
-        active_client->endTouchPadToMoveWindow();
+        active_client->endInteractiveMoveResize();
     }
 }
 

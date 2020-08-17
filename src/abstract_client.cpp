@@ -1797,12 +1797,6 @@ void AbstractClient::touchPadToMoveWindow(int x,int y)
     updateCursor();
 }
 
-void AbstractClient::endTouchPadToMoveWindow()
-{
-    setMoveResizePointerMode(Gravity::None);
-    updateCursor();
-}
-
 bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint &globalPos)
 {
     bool replay = false;
