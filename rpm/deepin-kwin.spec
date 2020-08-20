@@ -16,7 +16,7 @@
 %endif
 %endif
  
-Name:    deepin-kwin
+Name:    kwin
 Version: 5.15.8.15
 Release: %{specrelease}
 Summary: KDE Window manager
