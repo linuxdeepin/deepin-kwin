@@ -416,13 +416,13 @@ bool EglGbmBackend::resetOutput(Output &o, DrmOutput *drmOutput)
         gbmSurface = std::make_shared<GbmSurface>();
         gbm_surface *gbmS = gbm_surface_create_with_modifiers(m_backend->gbmDevice(),
                                                               size.width(), size.height(),
-                                                              drmOutput->getPrimaryPlane()->getCurrentFormat(),
+                                                              drmOutput->getPrimaryPlane() ? drmOutput->getPrimaryPlane()->getCurrentFormat() : GBM_FORMAT_XRGB8888,
                                                               o.m_eglModifiers.data(), o.m_eglModifiers.count());
         gbmSurface->setSurface(gbmS);
     } else {
         gbmSurface = std::make_shared<GbmSurface>(m_backend->gbmDevice(),
                                                   size.width(), size.height(),
-                                                  drmOutput->getPrimaryPlane()->getCurrentFormat(),
+                                                  drmOutput->getPrimaryPlane() ? drmOutput->getPrimaryPlane()->getCurrentFormat() : GBM_FORMAT_XRGB8888,
                                                   GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING);
     }
 
@@ -453,36 +453,36 @@ bool EglGbmBackend::resetOutput(Output &o, DrmOutput *drmOutput)
 void EglGbmBackend::createOutput(DrmOutput *drmOutput)
 {
     Output o;
-    auto drmFormatsWithModifiers = drmOutput->getPrimaryPlane()->getFormatsWithModifiers();
-    auto itDrmH = drmFormatsWithModifiers.find(drmOutput->getPrimaryPlane()->getCurrentFormat());
-    auto itEglH = m_eglFormatsWithModifiers.find(drmOutput->getPrimaryPlane()->getCurrentFormat());
+    if (drmOutput->getPrimaryPlane()) {
+        auto drmFormatsWithModifiers = drmOutput->getPrimaryPlane()->getFormatsWithModifiers();
+        auto itDrmH = drmFormatsWithModifiers.find(drmOutput->getPrimaryPlane()->getCurrentFormat());
+        auto itEglH = m_eglFormatsWithModifiers.find(drmOutput->getPrimaryPlane()->getCurrentFormat());
 
-    int envModifiersSupport = qEnvironmentVariableIntValue("KWIN_WAYLAND_MODIFIERS_SUPPORT");
+        int envModifiersSupport = qEnvironmentVariableIntValue("KWIN_WAYLAND_MODIFIERS_SUPPORT");
 
-    if (itDrmH != drmFormatsWithModifiers.end() && itEglH != m_eglFormatsWithModifiers.end()) {
-        QVector<uint64_t> drmModifiers = itDrmH.value();
-        QVector<uint64_t> eglModifiers = itEglH.value();
+        if (itDrmH != drmFormatsWithModifiers.end() && itEglH != m_eglFormatsWithModifiers.end()) {
+            QVector<uint64_t> drmModifiers = itDrmH.value();
+            QVector<uint64_t> eglModifiers = itEglH.value();
 
+            for (auto itDrmV = drmModifiers.constBegin(); itDrmV != drmModifiers.constEnd();
+                 itDrmV++) {
+                if (*itDrmV == 0)
+                    continue;
 
-        for (auto itDrmV = drmModifiers.constBegin(); itDrmV != drmModifiers.constEnd();
-             itDrmV++) {
-            if (*itDrmV == 0)
-                continue;
-
-            for (auto itEglV = eglModifiers.constBegin(); itEglV!= eglModifiers.constEnd();
-                 itEglV++) {
-                if (*itEglV == *itDrmV && envModifiersSupport) {
-                    o.m_modifiersEnabled = true;
+                for (auto itEglV = eglModifiers.constBegin(); itEglV != eglModifiers.constEnd();
+                     itEglV++) {
+                    if (*itEglV == *itDrmV && envModifiersSupport) {
+                        o.m_modifiersEnabled = true;
+                        break;
+                    }
+                }
+                if (o.m_modifiersEnabled) {
+                    o.m_drmModifiers = drmModifiers;
+                    o.m_eglModifiers = eglModifiers;
                     break;
                 }
             }
-            if (o.m_modifiersEnabled) {
-                o.m_drmModifiers = drmModifiers;
-                o.m_eglModifiers = eglModifiers;
-                break;
-            }
         }
-
     }
 
     if (resetOutput(o, drmOutput)) {
@@ -606,7 +606,7 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o)
 
     if (o.m_modifiersEnabled) {
         o.buffer = m_backend->createBuffer(o.gbmSurface,
-                                           o.output->getPrimaryPlane()->getCurrentFormat(),
+                                           o.output->getPrimaryPlane() ? o.output->getPrimaryPlane()->getCurrentFormat() : GBM_FORMAT_XRGB8888,
                                            o.m_drmModifiers);
     } else {
         o.buffer = m_backend->createBuffer(o.gbmSurface);
