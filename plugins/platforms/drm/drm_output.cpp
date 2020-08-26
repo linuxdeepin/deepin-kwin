@@ -106,6 +106,9 @@ void DrmOutput::teardown()
 
 void DrmOutput::releaseGbm()
 {
+    if (m_isVirtual) {
+        return;
+    }
     if (DrmBuffer *b = m_crtc->current()) {
         b->releaseGbm();
     }
@@ -116,6 +119,9 @@ void DrmOutput::releaseGbm()
 
 bool DrmOutput::hideCursor()
 {
+    if (m_isVirtual) {
+        return false;
+    }
     return drmModeSetCursor(m_backend->fd(), m_crtc->id(), 0, 0, 0) == 0;
 }
 
@@ -169,6 +175,9 @@ void DrmOutput::updateCursor()
 
 void DrmOutput::moveCursor(const QPoint &globalPos)
 {
+    if (m_isVirtual) {
+        return;
+    }
     QMatrix4x4 matrix;
     QMatrix4x4 hotspotMatrix;
     if (orientation() == Qt::InvertedLandscapeOrientation) {
@@ -944,6 +953,9 @@ void DrmOutput::transform(KWayland::Server::OutputDeviceInterface::Transform tra
 
 void DrmOutput::updateMode(int modeIndex)
 {
+    if (m_isVirtual) {
+        return;
+    }
     // get all modes on the connector
     ScopedDrmPointer<_drmModeConnector, &drmModeFreeConnector> connector(drmModeGetConnector(m_backend->fd(), m_conn->id()));
 
@@ -1116,6 +1128,9 @@ bool DrmOutput::dpmsAtomicOff()
 
 bool DrmOutput::presentAtomically(DrmBuffer *buffer)
 {
+    if (m_isVirtual) {
+        return false;
+    }
     if (!LogindIntegration::self()->isActiveSession()) {
         qCWarning(KWIN_DRM) << "Logind session not active.";
         return false;
@@ -1307,6 +1322,9 @@ bool DrmOutput::doAtomicCommit(AtomicCommitMode mode)
 
 bool DrmOutput::hardwareTransformed()
 {
+    if(m_isVirtual) {
+        return true;
+    }
     if (m_primaryPlane == nullptr) {
         return false;
     }
@@ -1317,6 +1335,9 @@ bool DrmOutput::hardwareTransformed()
 
 bool DrmOutput::atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable)
 {
+    if (m_isVirtual) {
+        return false;
+    }
     if (enable) {
         auto size = hardwareTransformed() ? pixelSize() : modeSize();
         qDebug() << "---------" << __func__ << size;

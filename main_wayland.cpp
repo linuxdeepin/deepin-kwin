@@ -222,17 +222,7 @@ void ApplicationWayland::continueStartupWithoutScreens()
     if (!m_runWithoutScreen) {
         return;
     }
-    disconnect(kwinApp()->platform(), &Platform::screensQueried, this, &ApplicationWayland::continueStartupWithScreens);
-
     platform()->installDefaultDisplay();
-
-    if (operationMode() == OperationModeWaylandOnly) {
-        createCompositor();
-        connect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::continueStartupWithSceen);
-        return;
-    }
-    createCompositor();
-    connect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::startXwaylandServer);
 }
 
 void ApplicationWayland::continueStartupWithSceen()

@@ -409,6 +409,13 @@ void DrmBackend::updateOutputs()
             continue;
         }
         DrmOutput *removed = *it;
+
+        // handle it later
+        if (removed == m_defaultOutput) {
+            it++;
+            continue;
+        }
+
         it = m_outputs.erase(it);
         m_enabledOutputs.removeOne(removed);
         emit outputRemoved(removed);
@@ -493,28 +500,25 @@ void DrmBackend::updateOutputs()
     std::sort(connectedOutputs.begin(), connectedOutputs.end(), [] (DrmOutput *a, DrmOutput *b) { return a->m_conn->id() < b->m_conn->id(); });
     m_outputs = connectedOutputs;
 
+    if (!m_outputs.isEmpty() && m_defaultOutput && m_defaultOutput->isEnabled()) {
+        m_defaultOutput->waylandOutputDevice()->setEnabled(KWayland::Server::OutputDeviceInterface::Enablement::Disabled);
+        m_defaultOutput->waylandOutputDevice()->destroy();
+        m_defaultOutput->waylandOutput()->destroy();
+        m_enabledOutputs.removeOne(m_defaultOutput);
+        emit outputRemoved(m_defaultOutput);
+    }
+
     if (m_outputs.size() == 1 && m_enabledOutputs.isEmpty()) {
         auto* output = m_outputs.first();
         output->setEnabled(true);
     }
 
-    if (!m_outputs.isEmpty() && m_defaultOutput) {
-        m_defaultOutput->waylandOutputDevice()->setEnabled(KWayland::Server::OutputDeviceInterface::Enablement::Disabled);
-        m_defaultOutput->waylandOutputDevice()->destroy();
-        m_defaultOutput->waylandOutput()->destroy();
-        delete m_defaultOutput;
-        m_defaultOutput = nullptr;
-        qDebug() << QDateTime::currentDateTime().toString("yyyy-mm-dd hh:mm:ss:zzz") << Q_FUNC_INFO
-                << " ut-gfx-output: remove default output";
-    }
-
     readOutputsConfiguration();
     outputDpmsChanged();
+
     if (!m_outputs.isEmpty()) {
         emit screensQueried();
-    } else {
-        qDebug() << QDateTime::currentDateTime().toString("yyyy-mm-dd hh:mm:ss") << Q_FUNC_INFO
-                << " ut-gfx-start: m_outputs isEmpty start without screen";
+    } else if (!m_defaultOutput) {
         emit startWithoutScreen();
     }
 }
@@ -523,9 +527,6 @@ void DrmBackend::installDefaultDisplay()
 {
     DrmOutput *output = new DrmOutput(this);
     output->m_isVirtual = true;
-
-    qDebug() << QDateTime::currentDateTime().toString("yyyy-mm-dd hh:mm:ss") << Q_FUNC_INFO
-            << " ut-gfx-start:";
 
     drmModeModeInfo mode;
     strcpy(mode.name, "1920x1080");
@@ -580,17 +581,14 @@ void DrmBackend::installDefaultDisplay()
 
     m_defaultOutput = output;
 
-    qDebug() << QDateTime::currentDateTime().toString("yyyy-mm-dd hh:mm:ss") << Q_FUNC_INFO
-            << " ut-gfx-start-display:Add default output name " << output->m_mode.name
-            << " clock " << output->m_mode.clock << " hdisplay " << output->m_mode.hdisplay
-            << " hsync_start " << output->m_mode.hsync_start << " hsync_end " << output->m_mode.hsync_end
-            << " htotal " << output->m_mode.htotal << " hskew " << output->m_mode.hskew
-            << " vdisplay " << output->m_mode.vdisplay << " vsync_start " << output->m_mode.vsync_start
-            << " vsync_end " << output->m_mode.vsync_end << " vtotal " << output->m_mode.vtotal
-            << " vscan " << output->m_mode.vscan <<  " vrefresh " << output->m_mode.vrefresh
-            << " flags " << output->m_mode.flags << " type " << output->m_mode.type;
+    m_outputs << output;
+    m_enabledOutputs << output;
+    emit outputAdded(output);
 
-    //Do not add the default output in m_outputs. So the compositor not work, and this is what we want.
+    setOutputsEnabled(true);
+    setSoftWareCursor(true);
+
+    emit screensQueried();
 }
 
 void DrmBackend::readOutputsConfiguration()
@@ -701,6 +699,9 @@ void DrmBackend::configurationChangeRequested(KWayland::Server::OutputConfigurat
 DrmOutput *DrmBackend::findOutput(quint32 connector)
 {
     auto it = std::find_if(m_outputs.constBegin(), m_outputs.constEnd(), [connector] (DrmOutput *o) {
+        if (o->m_isVirtual) {
+            return false;
+        }
         return o->m_conn->id() == connector;
     });
     if (it != m_outputs.constEnd()) {
