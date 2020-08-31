@@ -64,6 +64,8 @@ public:
     virtual QIcon icon() const {
         return QIcon();
     }
+    virtual void setMinimized(bool set) {
+    }
 
 private:
     QString m_caption;
