@@ -315,6 +315,8 @@ public:
      */
     static uint maximum();
 
+    SwipeDirection desktopChangedDirection() const;
+
 public Q_SLOTS:
     /**
      * Set the number of available desktops to @a count. This function overrides any previous
@@ -373,6 +375,8 @@ public Q_SLOTS:
      * Saves number of desktops and names to configuration file
      **/
     void save();
+
+    void setDesktopChangedDirection(SwipeDirection direction);
 
 Q_SIGNALS:
     /**
@@ -495,6 +499,8 @@ private:
     NETRootInfo *m_rootInfo;
     KWayland::Server::PlasmaVirtualDesktopManagementInterface *m_virtualDesktopManagement = nullptr;
     KSharedConfig::Ptr m_config;
+
+    SwipeDirection m_direction;
 
     KWIN_SINGLETON_VARIABLE(VirtualDesktopManager, s_manager)
 };
