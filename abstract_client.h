@@ -1181,6 +1181,8 @@ private:
     // electric border/quick tiling
     QuickTileMode m_electricMode = QuickTileFlag::None;
     bool m_electricMaximizing = false;
+    // current tile maximize geometry  for UOS window pos rules
+    QRect  m_TileMaximizeGeometry; 
     /** The quick tile mode of this window.
      */
     int m_quickTileMode = int(QuickTileFlag::None);

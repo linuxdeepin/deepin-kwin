@@ -1155,8 +1155,8 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     int rightMax = screenArea.x() + screenArea.width();
     int bottomMax = screenArea.y() + screenArea.height();
     int leftMax = screenArea.x();
-    
-    // Is old screenarea exist?
+
+     // Is old screenarea exist?    
     bool oldScreenLost = true;
     for (int i = 0; i < screens()->count(); ++i ) {
         if (oldScreenArea.intersects(screens()->geometry(i))) {
@@ -1164,6 +1164,8 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
             break;
         }
     }
+
+    bool oldScreenRestore = !oldScreenLost && (workspace()->previousScreenSizes().count() != screens()->count());
 
     if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
         if (oldScreenLost) {
@@ -1173,10 +1175,14 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
                 setGeometry(electricBorderMaximizeGeometry(QPoint (0,0), desktop()));
             }
         } else {
+            //keep orgin pos because screen counts is not changed
             if (electricBorderMode() == QuickTileMode(QuickTileFlag::Maximize)) {
-                setGeometry(workspace()->clientArea(MaximizeArea, geometryRestore().center(), desktop()));
+                setGeometry(workspace()->clientArea(MaximizeArea, m_TileMaximizeGeometry.center(), desktop()));
             } else {
-                setGeometry(electricBorderMaximizeGeometry(geometryRestore().center(), desktop()));
+                 if(oldScreenRestore)
+                     setGeometry(electricBorderMaximizeGeometry(geometryRestore().center(), desktop()));
+                 else
+                     setGeometry(electricBorderMaximizeGeometry(geometry().center(), desktop()));
             }
         }
         return;
@@ -2756,6 +2762,7 @@ void AbstractClient::finishMoveResize(bool cancel)
     if (isElectricBorderMaximizing()) {
         setQuickTileMode(electricBorderMode());
         setElectricBorderMaximizing(false);
+        m_TileMaximizeGeometry = geometry();
     } else if (!cancel) {
         QRect geom_restore = geometryRestore();
         if (!(maximizeMode() & MaximizeHorizontal)) {
