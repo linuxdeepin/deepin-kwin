@@ -500,7 +500,10 @@ public:
      */
     virtual MaximizeMode requestedMaximizeMode() const;
     void maximize(MaximizeMode);
-    void setMaximize(bool vertically, bool horizontally);
+    /**
+     * Sets the maximization according to @p vertically and @p horizontally.
+     **/
+    Q_INVOKABLE void setMaximize(bool vertically, bool horizontally);
     virtual bool noBorder() const = 0;
     virtual void setNoBorder(bool set) = 0;
     virtual void blockActivityUpdates(bool b = true) = 0;
