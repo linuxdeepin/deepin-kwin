@@ -828,6 +828,10 @@ void Workspace::quickTileWindow(QuickTileMode mode)
         return;
     }
 
+    if (!active_client->checkClientAllowToTile()) {
+        return;
+    }
+
     active_client->setQuickTileMode(mode, true);
 }
 

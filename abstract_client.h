@@ -794,6 +794,9 @@ public:
 
     PlaceholderWindow m_placeholderWindow;
 
+    // When using three finger split screen, check whether the client meets the split screen conditions.
+    bool checkClientAllowToTile();
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
