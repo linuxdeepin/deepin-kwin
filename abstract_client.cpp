@@ -2129,4 +2129,18 @@ Group *AbstractClient::group()
     return nullptr;
 }
 
+bool AbstractClient::checkClientAllowToTile()
+{
+    QRect target_size = electricBorderMaximizeGeometry(Cursor::pos(), desktop());
+    if (target_size.width() < minSize().width() || target_size.width() > maxSize().width()) {
+        return false;
+    }
+
+    if (target_size.height() < minSize().height() || target_size.height() > maxSize().height()) {
+        return false;
+    }
+
+    return true;
+}
+
 }

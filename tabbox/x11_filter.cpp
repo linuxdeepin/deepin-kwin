@@ -79,7 +79,6 @@ bool X11Filter::buttonPress(xcb_button_press_event_t *event)
 {
     // press outside Tabbox?
     const auto tab = TabBox::TabBox::self();
-
     QPoint pos(event->root_x, event->root_y);
     if ((!tab->isShown() && tab->isDisplayed())
             || (!tabBox->containsPos(pos) &&
