@@ -256,6 +256,7 @@ public:
     static TabBox *self();
     static TabBox *create(QObject *parent);
 
+    bool firstClientIsMinisize();
 public Q_SLOTS:
     /**
      * Notify effects that the tab box is being shown, and only display the
@@ -354,6 +355,8 @@ private:
     QScopedPointer<X11EventFilter> m_x11EventFilter;
 
     static TabBox *s_self;
+
+    bool m_isMinisized;
 };
 
 inline
