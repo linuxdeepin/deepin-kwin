@@ -783,6 +783,11 @@ void TabBox::show()
     reference();
     m_isShown = true;
     m_tabBox->show();
+
+    m_isMinisized = false;
+    if (!currentClientList().isEmpty()) {
+        m_isMinisized = currentClientList().first()->isMinimized();
+    }
 }
 
 /*!
@@ -1657,6 +1662,11 @@ void TabBox::removeTabBoxGrab()
     if (Workspace::self()->activeClient() != nullptr)
         Workspace::self()->activeClient()->updateMouseGrab();
     m_x11EventFilter.reset();
+}
+
+bool TabBox::firstClientIsMinisize()
+{
+    return m_isMinisized;
 }
 } // namespace TabBox
 } // namespace
