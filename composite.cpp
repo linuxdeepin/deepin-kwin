@@ -408,7 +408,7 @@ void Compositor::scheduleRepaint()
 void Compositor::queueFinish()
 {
     reportCompositeIsAboutToChange(0);
-    QTimer::singleShot(2000, this, SLOT(finish()));
+    QTimer::singleShot(200, this, SLOT(finish()));
 }
 
 void Compositor::finish()
