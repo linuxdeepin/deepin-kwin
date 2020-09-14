@@ -28,6 +28,7 @@ endif()
 
 set(CMAKE_CXX_FLAGS "-Wl,--as-need -fPIE")
 set(CMAKE_EXE_LINKER_FLAGS "-pie")
+set(CMAKE_CXX_FLAGS "-DQT_X11_DEFINES_FOUND=1")
 
 include(FeatureSummary)
 include(WriteBasicConfigVersionFile)
