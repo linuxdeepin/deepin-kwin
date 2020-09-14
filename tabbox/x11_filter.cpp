@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effects.h"
 #include "screenedge.h"
 #include "tabbox/tabbox.h"
+#include "abstract_client.h"
 
 #include <KKeyServer>
 
@@ -78,6 +79,7 @@ bool X11Filter::buttonPress(xcb_button_press_event_t *event)
 {
     // press outside Tabbox?
     const auto tab = TabBox::TabBox::self();
+
     QPoint pos(event->root_x, event->root_y);
     if ((!tab->isShown() && tab->isDisplayed())
             || (!tabBox->containsPos(pos) &&
@@ -85,6 +87,7 @@ bool X11Filter::buttonPress(xcb_button_press_event_t *event)
         const QModelIndex index = tabBox->first();
         if (index.isValid()) {
             tab->setCurrentIndex(index);
+            tab->currentClient()->setMinimized(tab->firstClientIsMinisize());
         }
         tab->close();  // click outside closes tab
         return true;
