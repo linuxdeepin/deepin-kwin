@@ -195,6 +195,10 @@ void Rules::readFromCfg(const KConfigGroup& cfg)
     READ_SET_RULE(shortcut, , QString());
     READ_FORCE_RULE(disableglobalshortcuts, , false);
     READ_SET_RULE(desktopfile, , QString());
+
+    // disable minmize rule for uos
+    minimize = false;
+    minimizerule = UnusedSetRule;
 }
 
 #undef READ_MATCH_STRING

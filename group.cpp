@@ -226,7 +226,7 @@ void Workspace::updateMinimizedOfTransients(AbstractClient* c)
                 updateMinimizedOfTransients((*it));
             }
         }
-        if (c->isModal()) {
+        if (c->isModal() || c->transientFor() != NULL) {
             foreach (AbstractClient * c2, c->mainClients())
             c2->unminimize();
         }

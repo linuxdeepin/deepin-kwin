@@ -1423,8 +1423,12 @@ void Client::takeFocus()
                 if (c->userTime() > workspace()->showingDesktopTimestamp()) {
                     continue;
                 }
-
-                c->minimize(true);
+                //if 'this' is dialog , it's parent cannot minimize
+                if (this->transientFor() == c) 
+                    continue;
+                // c is dialog and it's child of this ,cannot minimize 
+                if (c->transientFor() != this)
+                    c->minimize(true);
             }
 
             workspace()->setShowingDesktop(false);
