@@ -2136,7 +2136,7 @@ void Workspace::updateMinimizedOfTransients(AbstractClient* c)
                 updateMinimizedOfTransients((*it));
             }
         }
-        if (c->isModal()) { // if a modal dialog is minimized, minimize its mainwindow too
+        if (c->isModal() || c->transientFor() != NULL) { // if a modal dialog is minimized, minimize its mainwindow too
             const auto clients = c->mainClients();
             for (AbstractClient * c2 :qAsConst(clients)) {
                 c2->minimize();

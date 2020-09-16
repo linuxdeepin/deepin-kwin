@@ -2004,10 +2004,15 @@ bool X11Client::takeFocus()
                     continue;
                 }
                 // 在进入到显示桌面模式后还有活跃的窗口不要最小化，如进入这个模式后才新建的窗口
-               if (c->userTime() > workspace()->showingDesktopTimestamp()) {
-                   continue;
+                if (c->userTime() > workspace()->showingDesktopTimestamp()) {
+                    continue;
                 }
-                c->minimize(true);
+                //if 'this' is dialog , it's parent cannot minimize
+                if (this->transientFor() == c) 
+                    continue;
+                // c is dialog and it's child of this ,cannot minimize 
+                if (c->transientFor() != this)
+                    c->minimize(true);
             }
             workspace()->setShowingDesktop(false);
         }
