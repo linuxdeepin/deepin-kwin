@@ -236,13 +236,6 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
     if (workspace() && workspace()->isDisableHotKeys()) {
         Qt::Key key = m_xkb->toQtKey(keySym);
         switch(key) {
-        case Qt::Key_MonBrightnessDown: //f1
-        case Qt::Key_MonBrightnessUp: //f2
-        case Qt::Key_KeyboardLightOnOff: //f3
-        case Qt::Key_VolumeMute: //f4
-        case Qt::Key_VolumeDown: //f5
-        case Qt::Key_VolumeUp: //f6
-        case Qt::Key_MicMute: //f7
         case Qt::Key_Display: //f8
         case Qt::Key_WLAN: //f9
         case Qt::Key_Tools: //f10
