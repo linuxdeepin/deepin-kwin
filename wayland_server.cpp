@@ -247,6 +247,9 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     m_display->createShm();
     m_seat = m_display->createSeat(m_display);
     m_seat->create();
+    // qtwayland (qt5.15) need repeateRate > 0 to enable repeat key
+    // so here we initialize key repeat_info with experienced values
+    m_seat->setKeyRepeatInfo(25, 300);
     m_display->createPointerGestures(PointerGesturesInterfaceVersion::UnstableV1, m_display)->create();
     m_display->createPointerConstraints(PointerConstraintsInterfaceVersion::UnstableV1, m_display)->create();
     auto ddm = m_display->createDataDeviceManager(m_display);
