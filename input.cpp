@@ -49,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/fakeinput_interface.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/relativepointer_interface.h>
+#include <KWayland/Server/datadevice_interface.h>
 #include <decorations/decoratedclient.h>
 #include <KDecoration2/Decoration>
 #include <KGlobalAccel>
@@ -1649,7 +1650,7 @@ public:
             seat->setPointerPos(pos);
             if (Toplevel *t = input()->pointer()->at()) {
                 // TODO: consider decorations
-                if (t->surface() != seat->dragSurface()) {
+                if (t->surface() != seat->dragSurface() && (t->surface() != seat->dragSource()->icon())) {
                     if (AbstractClient *c = qobject_cast<AbstractClient*>(t)) {
                         workspace()->activateClient(c);
                     }

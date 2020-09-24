@@ -240,6 +240,13 @@ void ShellClient::init()
             doSetGeometry(QRect(geom.topLeft(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom())));
         }
     );
+    connect(s, &SurfaceInterface::dragPositionChanged, this,
+        [this] (const QPointF &globalPos) {
+            QPoint pos(globalPos.x(), globalPos.y());
+            QRect rect = QRect(pos, m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
+            doSetGeometry(rect);
+        }
+    );
     connect(s, &SurfaceInterface::unmapped, this, &ShellClient::unmap);
     connect(s, &SurfaceInterface::unbound, this, &ShellClient::destroyClient);
     connect(s, &SurfaceInterface::destroyed, this, &ShellClient::destroyClient);
