@@ -901,6 +901,7 @@ void AbstractClient::setupWindowManagementInterface()
     w->setVirtualDesktopChangeable(true); // FIXME Matches Client::actionSupported(), but both should be implemented.
     w->setParentWindow(transientFor() ? transientFor()->windowManagementInterface() : nullptr);
     w->setGeometry(geom);
+    w->setWindowId(windowId());
     connect(this, &AbstractClient::skipTaskbarChanged, w,
         [w, this] {
             w->setSkipTaskbar(skipTaskbar());
