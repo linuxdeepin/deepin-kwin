@@ -736,6 +736,7 @@ QList< int > TabBox::currentDesktopList()
  */
 void TabBox::setCurrentClient(AbstractClient *newClient)
 {
+    saveAllClientIsMinisize();
     setCurrentIndex(m_tabBox->index(newClient->tabBoxClient()));
 }
 
@@ -1542,6 +1543,7 @@ void TabBox::close(bool abort)
     m_tabGrab = false;
     m_desktopGrab = false;
     m_noModifierGrab = false;
+    m_allClientMinisize.clear();
 }
 
 void TabBox::accept(bool closeTabBox)
@@ -1667,6 +1669,20 @@ void TabBox::removeTabBoxGrab()
 bool TabBox::firstClientIsMinisize()
 {
     return m_isMinisized;
+}
+
+void TabBox::saveAllClientIsMinisize()
+{
+    for (int i = 0; i < currentClientList().count() -1; i++) {
+        AbstractClient *c = currentClientList().at(i);
+        bool isMinisize = c->isMinimized();
+        m_allClientMinisize << isMinisize;
+    }
+}
+
+QList<bool> TabBox::getAllClientIsMinisize()
+{
+    return m_allClientMinisize;
 }
 } // namespace TabBox
 } // namespace
