@@ -13,6 +13,9 @@
 #include "tabboxhandler.h"
 #include "screens.h"
 #include "workspace.h"
+#include "tabbox.h"
+#include "abstract_client.h"
+#include "composite.h"
 // Qt
 #include <QAbstractItemModel>
 
@@ -82,6 +85,16 @@ void SwitcherItem::setCurrentIndex(int index)
     m_currentIndex = index;
     if (m_model) {
         tabBox->setCurrentIndex(m_model->index(index, 0));
+    }
+    if (!Compositor::compositing() && index == 0) {
+        if (index != tabBox->clientList().count() -1) {
+            for (int i = 0; i < tabBox->clientList().count() -1; i++) {
+                AbstractClient *c = TabBox::self()->currentClientList().at(i);
+                if (i != index) {
+                    c->setMinimized(TabBox::self()->getAllClientIsMinisize().at(i));
+                }
+            }
+        }
     }
     Q_EMIT currentIndexChanged(m_currentIndex);
 }

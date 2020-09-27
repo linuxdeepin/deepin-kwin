@@ -257,6 +257,9 @@ public:
     static TabBox *create(QObject *parent);
 
     bool firstClientIsMinisize();
+
+    void saveAllClientIsMinisize();
+    QList<bool> getAllClientIsMinisize();
 public Q_SLOTS:
     /**
      * Notify effects that the tab box is being shown, and only display the
@@ -353,7 +356,7 @@ private:
     QHash<ElectricBorder, QAction *> m_touchActivate;
     QHash<ElectricBorder, QAction *> m_touchAlternativeActivate;
     QScopedPointer<X11EventFilter> m_x11EventFilter;
-
+    QList<bool> m_allClientMinisize;
     static TabBox *s_self;
 
     bool m_isMinisized;
