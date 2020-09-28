@@ -254,7 +254,7 @@ public:
      * @param name The name of the effect.
      * @returns The effect with the given name @p name, or nullptr if there
      *     is no such effect loaded.
-     */
+     **/
     Effect *findEffect(const QString &name) const;
 
     void renderOffscreenQuickView(OffscreenQuickView *effectQuickView) const override;
@@ -266,7 +266,7 @@ public:
     EffectScreen *findScreen(int screenId) const override;
     void renderScreen(EffectScreen *screen) override;
     bool isCursorHidden() const override;
-
+    void enableEffect(const QString& name, bool enable);
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);
     void slotTabAdded(EffectWindow* from, EffectWindow* to);
