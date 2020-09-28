@@ -1048,6 +1048,7 @@ void ShellClient::setFullScreen(bool set, bool user)
 
     if (was_fs != isFullScreen()) {
         emit fullScreenChanged();
+        emit workspace()->windowStateChanged();
     }
 }
 

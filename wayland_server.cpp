@@ -391,6 +391,18 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
     m_XdgForeign = m_display->createXdgForeignInterface(m_display);
     m_XdgForeign->create();
 
+    m_clientManagement = m_display->createClientManagement(m_display);
+    m_clientManagement->create();
+    connect(m_clientManagement, &ClientManagementInterface::windowStatesRequest, this,
+        [this] () {
+            if (!workspace()) {
+                qWarning () << "windowStatesRequest before workspace initilized";
+                return;
+            }
+            workspace()->updateWindowStates();
+        }
+    );
+
     return true;
 }
 

@@ -89,6 +89,7 @@ AbstractClient::AbstractClient()
                 QRect area = workspace()->clientArea(PlacementArea, Screens::self()->current(), desktop());
                 Placement::self()->place(this, area);
                 setGeometryRestore(geometry());
+                emit workspace()->windowStateChanged();
             }
         }
     );
@@ -919,15 +920,16 @@ void AbstractClient::setupWindowManagementInterface()
     );
     connect(this, &AbstractClient::captionChanged, w, [w, this] { w->setTitle(caption()); });
 
-    connect(this, &AbstractClient::activeChanged, w, [w, this] { w->setActive(isActive()); });
-    connect(this, &AbstractClient::fullScreenChanged, w, [w, this] { w->setFullscreen(isFullScreen()); });
+    connect(this, &AbstractClient::activeChanged, w, [w, this] { w->setActive(isActive()); emit workspace()->windowStateChanged();});
+    connect(this, &AbstractClient::fullScreenChanged, w, [w, this] { w->setFullscreen(isFullScreen()); emit workspace()->windowStateChanged();});
     connect(this, &AbstractClient::keepAboveChanged, w, &PlasmaWindowInterface::setKeepAbove);
     connect(this, &AbstractClient::keepBelowChanged, w, &PlasmaWindowInterface::setKeepBelow);
-    connect(this, &AbstractClient::minimizedChanged, w, [w, this] { w->setMinimized(isMinimized()); });
+    connect(this, &AbstractClient::minimizedChanged, w, [w, this] { w->setMinimized(isMinimized()); emit workspace()->windowStateChanged();});
     connect(this, static_cast<void (AbstractClient::*)(AbstractClient*,MaximizeMode)>(&AbstractClient::clientMaximizedStateChanged), w,
         [w] (KWin::AbstractClient *c, MaximizeMode mode) {
             Q_UNUSED(c);
             w->setMaximized(mode == KWin::MaximizeFull);
+            emit workspace()->windowStateChanged();
         }
     );
     connect(this, &AbstractClient::demandsAttentionChanged, w, [w, this] { w->setDemandsAttention(isDemandingAttention()); });
@@ -947,6 +949,7 @@ void AbstractClient::setupWindowManagementInterface()
     connect(this, &AbstractClient::geometryChanged, w,
         [w, this] {
             w->setGeometry(geom);
+            emit workspace()->windowStateChanged();
         }
     );
     connect(w, &PlasmaWindowInterface::closeRequested, this, [this] { closeWindow(); });
@@ -1173,6 +1176,7 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
         screens()->setCurrent(globalPos);
         replay = replay || mustReplay;
+        workspace()->setMouseRaised(true);
         break;
     }
     case Options::MouseActivateAndLower:
@@ -1191,6 +1195,7 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
         screens()->setCurrent(globalPos);
         replay = true;
+        workspace()->setMouseRaised(true);
         break;
     case Options::MouseActivateAndPassClick:
         workspace()->takeActivity(this, Workspace::ActivityFocus);
