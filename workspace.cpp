@@ -302,6 +302,7 @@ void Workspace::init()
     initWithX11();
 
     Scripting::create(this);
+    connect(this, &Workspace::windowStateChanged, this, &Workspace::updateWindowStates);
 
     if (auto w = waylandServer()) {
         connect(w, &WaylandServer::shellClientAdded, this,
@@ -356,6 +357,7 @@ void Workspace::init()
                         updateClientArea();
                     }
                 );
+                emit windowStateChanged();
             }
         );
         connect(w, &WaylandServer::shellClientRemoved, this,
@@ -381,6 +383,7 @@ void Workspace::init()
                 markXStackingOrderAsDirty();
                 updateStackingOrder(true);
                 updateClientArea();
+                emit windowStateChanged();
             }
         );
     }
@@ -397,6 +400,39 @@ void Workspace::init()
                                           "PropertiesChanged", this, SLOT(qtactivecolorChanged()));
 
     // TODO: ungrabXServer()
+}
+
+void Workspace::updateWindowStates()
+{
+    qDeleteAll(m_windowStates);
+    m_windowStates.clear();
+
+    foreach (Toplevel * win, stacking_order) {
+        AbstractClient *client = qobject_cast<AbstractClient*>(win);
+        if (!client || m_allClients.indexOf(client) < 0)
+            continue;
+        auto windowState = new WindowState();
+
+        windowState->pid                = client->pid();
+        windowState->windowId           = client->windowId();
+        windowState->isMinimized        = client->isMinimized();
+        windowState->isFullScreen       = client->isFullScreen();
+        windowState->isActive           = client->isActive();
+        windowState->geometry.x         = client->geometry().x();
+        windowState->geometry.y         = client->geometry().y();
+        windowState->geometry.width     = client->geometry().width();
+        windowState->geometry.height    = client->geometry().height();
+        memcpy(windowState->resourceName, client->resourceName().data(), client->resourceName().size());
+
+        m_windowStates.append(windowState);
+    }
+
+    if (waylandServer()) {
+        auto clientmanagement = waylandServer()->clientManagement();
+        if (clientmanagement) {
+            clientmanagement->setWindowStates(m_windowStates);
+        }
+    }
 }
 
 void Workspace::initWithX11()
@@ -565,6 +601,7 @@ Workspace::~Workspace()
         clients.removeAll(c);
         m_allClients.removeAll(c);
         desktops.removeAll(c);
+        emit windowStateChanged();
     }
     Client::cleanupX11();
     for (UnmanagedList::iterator it = unmanaged.begin(), end = unmanaged.end(); it != end; ++it)
@@ -588,6 +625,9 @@ Workspace::~Workspace()
     delete client_keys_dialog;
     foreach (SessionInfo * s, session)
     delete s;
+
+    qDeleteAll(m_windowStates);
+    m_windowStates.clear();
 
     // TODO: ungrabXServer();
 
@@ -618,6 +658,7 @@ Client* Workspace::createClient(xcb_window_t w, bool is_mapped)
     if (c->checkClientAllowToTile()) {
         setWinSplitState(c);
     }
+    emit windowStateChanged();
     return c;
 }
 
@@ -641,6 +682,7 @@ Unmanaged* Workspace::createUnmanaged(xcb_window_t w)
     }
     addUnmanaged(c);
     emit unmanagedAdded(c);
+    emit windowStateChanged();
     return c;
 }
 
@@ -739,8 +781,8 @@ void Workspace::removeClient(Client* c)
         cancelDelayFocus();
 
     emit clientRemoved(c);
-
     updateStackingOrder(true);
+    emit windowStateChanged();
 
 #ifdef KWIN_BUILD_TABBOX
     if (tabBox->isDisplayed())
@@ -756,6 +798,7 @@ void Workspace::removeUnmanaged(Unmanaged* c)
     unmanaged.removeAll(c);
     emit unmanagedRemoved(c);
     markXStackingOrderAsDirty();
+    emit windowStateChanged();
 }
 
 void Workspace::addDeleted(Deleted* c, Toplevel *orig)

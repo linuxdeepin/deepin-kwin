@@ -132,6 +132,10 @@ void Workspace::updateStackingOrder(bool propagate_new_clients)
 
         if (active_client)
             active_client->updateMouseGrab();
+        if (isMouseRaised()) {
+            setMouseRaised(false);
+            emit windowStateChanged();
+        }
     }
 }
 
