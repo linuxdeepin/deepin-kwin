@@ -1389,8 +1389,19 @@ QStringList EffectsHandlerImpl::listOfEffects() const
     return m_effectLoader->listOfKnownEffects();
 }
 
+void EffectsHandlerImpl::enableEffect(const QString &name, bool enable)
+{
+    KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Plugins");
+    QString key = name + QStringLiteral("Enabled");
+    QString minimizeall = "minimizeallEnabled";
+    kwinConfig.writeEntry(minimizeall, !enable);
+    kwinConfig.writeEntry(key, enable);
+    kwinConfig.sync();
+}
+
 bool EffectsHandlerImpl::loadEffect(const QString& name)
 {
+    enableEffect(name, true);
     makeOpenGLContextCurrent();
     m_compositor->addRepaintFull();
 
@@ -1399,6 +1410,7 @@ bool EffectsHandlerImpl::loadEffect(const QString& name)
 
 void EffectsHandlerImpl::unloadEffect(const QString& name)
 {
+    enableEffect(name, false);
     auto it = std::find_if(effect_order.begin(), effect_order.end(),
         [name](EffectPair &pair) {
             return pair.first == name;
