@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // std
 #include <functional>
 #include <memory>
+#include <KWayland/Server/clientmanagement_interface.h>
 #include "wayland-server.h"
 
 // TODO: Cleanup the order of things in this .h file
@@ -66,6 +67,8 @@ class UserActionsMenu;
 class Compositor;
 class X11EventFilter;
 enum class Predicate;
+
+typedef KWayland::Server::ClientManagementInterface::WindowState WindowState;
 
 class KWIN_EXPORT Workspace : public QObject
 {
@@ -417,6 +420,9 @@ public:
     void clearSplitOutline();
 
     void updateSplitOutlineLayerShowHide();
+    inline void setMouseRaised(bool flag) {
+        m_mouseRaised = flag;
+    }
     //set/get/del window property
     void setWindowProperty(wl_resource* surface, const QString& name, const QVariant& value);
     const QMap< QString, QVariant >& getWindowProperty(wl_resource* surface) const;
@@ -490,6 +496,7 @@ public Q_SLOTS:
     void slotActivateNextTab(); // Slot to move left the active Client.
     void slotActivatePrevTab(); // Slot to move right the active Client.
     void slotUntab(); // Slot to remove the active client from its group.
+    void updateWindowStates();
 
     void slotTouchPadTomoveWindow(int x, int y);
     void slotEndTouchPadToMoveWindow();
@@ -541,6 +548,7 @@ Q_SIGNALS:
      */
     void stackingOrderChanged();
     void outputModeChanged();
+    void windowStateChanged();
 
     void activeColorChanged();
 
@@ -603,6 +611,10 @@ private:
     static bool sessionInfoWindowTypeMatch(Client* c, SessionInfo* info);
 
     void updateXStackingOrder();
+
+    inline bool isMouseRaised() {
+        return m_mouseRaised;
+    }
 
     AbstractClient* active_client;
     AbstractClient* last_active_client;
@@ -690,6 +702,8 @@ private:
     QList<X11EventFilter *> m_eventFilters;
     QList<X11EventFilter *> m_genericEventFilters;
     QScopedPointer<X11EventFilter> m_movingClientFilter;
+    QList<WindowState*> m_windowStates;
+    bool m_mouseRaised = false;
 
     QString activeColor;
     QString m_screenSerialNum = "";
