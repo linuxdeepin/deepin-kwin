@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // std
 #include <functional>
 #include <memory>
+#include "wayland-server.h"
 
 // TODO: Cleanup the order of things in this .h file
 
@@ -416,6 +417,11 @@ public:
     void clearSplitOutline();
 
     void updateSplitOutlineLayerShowHide();
+    //set/get/del window property
+    void setWindowProperty(wl_resource* surface, const QString& name, const QVariant& value);
+    const QMap< QString, QVariant >& getWindowProperty(wl_resource* surface) const;
+    QMap< QString, QVariant >& getWindowProperty(wl_resource* surface);
+    void delWindowProperty(wl_resource* surface);
 
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
@@ -687,6 +693,8 @@ private:
 
     QString activeColor;
     QString m_screenSerialNum = "";
+    //window property map
+    QMap< wl_resource*, QMap< QString, QVariant > > m_windowPropertyMap;
 
 private:
     friend bool performTransiencyCheck();
