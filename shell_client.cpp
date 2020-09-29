@@ -713,6 +713,13 @@ void ShellClient::updateCaption()
 
 void ShellClient::closeWindow()
 {
+    if (workspace() && surface() && isCloseable()) {
+        wl_resource* surfaceResource = surface()->resource();
+        if (surfaceResource) {
+            workspace()->delWindowProperty(surfaceResource);
+        }
+    }
+
     if (m_xdgShellSurface && isCloseable()) {
         m_xdgShellSurface->close();
         const qint32 pingSerial = static_cast<XdgShellInterface *>(m_xdgShellSurface->global())->ping(m_xdgShellSurface);
@@ -751,6 +758,16 @@ bool ShellClient::isFullScreen() const
 
 bool ShellClient::isMaximizable() const
 {
+    if (surface()) {
+        wl_resource* surfaceResource = surface()->resource();
+        if (surfaceResource) {
+            const QMap< QString, QVariant > windowPropertyMap = workspace()->getWindowProperty(surfaceResource);
+            if (windowPropertyMap.contains("maximizable") && !windowPropertyMap["maximizable"].toBool()) {
+                return false;
+            }
+        }
+    }
+
     if (m_internal) {
         return false;
     }
@@ -759,6 +776,16 @@ bool ShellClient::isMaximizable() const
 
 bool ShellClient::isMinimizable(bool isMinFunc) const
 {
+    if (surface()) {
+        wl_resource* surfaceResource = surface()->resource();
+        if (surfaceResource) {
+            const QMap< QString, QVariant > windowPropertyMap = workspace()->getWindowProperty(surfaceResource);
+            if (windowPropertyMap.contains("minimizable") && !windowPropertyMap["minimizable"].toBool()) {
+                return false;
+            }
+        }
+    }
+
     if (m_internal) {
         return false;
     }
@@ -789,6 +816,16 @@ bool ShellClient::isMovableAcrossScreens() const
 
 bool ShellClient::isResizable() const
 {
+    if (surface()) {
+        wl_resource* surfaceResource = surface()->resource();
+        if (surfaceResource) {
+            const QMap< QString, QVariant > windowPropertyMap = workspace()->getWindowProperty(surfaceResource);
+            if (windowPropertyMap.contains("resizable") && !windowPropertyMap["resizable"].toBool()) {
+                return false;
+            }
+        }
+    }
+
     if (m_plasmaShellSurface) {
         return m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::Normal;
     }

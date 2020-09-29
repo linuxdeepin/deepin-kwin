@@ -57,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "shell_client.h"
 #include "was_user_interaction_x11_filter.h"
 #include "wayland_server.h"
+#include "surface_interface.h"
 #include "xcbutils.h"
 #include "main.h"
 #include "decorations/decorationbridge.h"
@@ -592,6 +593,7 @@ Workspace::~Workspace()
 
     Xcb::Extensions::destroy();
     _self = 0;
+    m_windowPropertyMap.clear();
 }
 
 void Workspace::setupClientConnections(AbstractClient *c)
@@ -2064,6 +2066,44 @@ void Workspace::setWinSplitState(AbstractClient *client)
         xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, client->windowId(), (*reply_st).atom,
                             XCB_ATOM_CARDINAL, 32, 1, &ldata);
         free(reply_st);
+    }
+}
+
+
+//set window property
+void Workspace::setWindowProperty(wl_resource* surface, const QString& name, const QVariant& value)
+{
+    if (surface && !name.isNull() && !value.isNull()) {
+        m_windowPropertyMap[surface][name]=value;
+    } else {
+        qCritical()<<__FILE__<< __FUNCTION__<<__LINE__<<"set window property error!";
+    }
+}
+
+//get window property
+QMap< QString, QVariant >& Workspace::getWindowProperty(wl_resource* surface)
+{
+    if (!surface) {
+        qCritical()<<__FILE__<< __FUNCTION__<<__LINE__<<"get window property error!";
+    }
+    return m_windowPropertyMap[surface];
+}
+
+const QMap< QString, QVariant >& Workspace::getWindowProperty(wl_resource* surface) const
+{
+    if (!surface) {
+        qCritical()<<__FILE__<< __FUNCTION__<<__LINE__<<"get window property error!";
+    }
+    return m_windowPropertyMap[surface];
+}
+
+//del window property
+void Workspace::delWindowProperty(wl_resource* surface)
+{
+    if (surface) {
+        m_windowPropertyMap.remove(surface);
+    } else {
+        qCritical()<<__FILE__<< __FUNCTION__<<__LINE__<<"delete window property error!";
     }
 }
 
