@@ -83,16 +83,16 @@ bool RootInfoFilter::event(xcb_generic_event_t *event)
     if ((event->response_type & ~0x80) == XCB_PROPERTY_NOTIFY) {
         xcb_property_notify_event_t *pe = reinterpret_cast<xcb_property_notify_event_t*>(event);
         Xcb::Atom net_support(QByteArrayLiteral("_NET_SUPPORTED"));
-        xcb_atom_t gtk_frame_extents = atoms->gtk_frame_extents;
+        // xcb_atom_t gtk_frame_extents = atoms->gtk_frame_extents;
 
         if (pe->atom == net_support) {
             auto old_atoms = getNetWMAtoms(net_support);
             QVector<xcb_atom_t> new_atoms;
 
-            if (!old_atoms.contains(gtk_frame_extents)) {
-                // Append _GTK_FRAME_EXTENTS atom to _NET_SUPPORTED
-                new_atoms << gtk_frame_extents;
-            }
+            // if (!old_atoms.contains(gtk_frame_extents)) {
+            //     // Append _GTK_FRAME_EXTENTS atom to _NET_SUPPORTED
+            //     new_atoms << gtk_frame_extents;
+            // }
 
             if (!old_atoms.contains(atoms->gtk_show_window_menu)) {
                 // Support _GTK_SHOW_WINDOW_MENU

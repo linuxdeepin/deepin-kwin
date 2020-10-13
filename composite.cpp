@@ -194,8 +194,11 @@ void Compositor::setup()
         // don't setup while KWin is terminating. An event to restart might be lingering in the event queue due to graphics reset
         return;
     }
-    if (hasScene())
+    if (hasScene()) {
+        reportCompositeIsAboutToChange(0);
         return;
+    }
+        
     if (m_suspended) {
         QStringList reasons;
         if (m_suspended & UserSuspend) {
@@ -208,9 +211,12 @@ void Compositor::setup()
             reasons << QStringLiteral("Disabled by Script");
         }
         qCDebug(KWIN_CORE) << "Compositing is suspended, reason:" << reasons;
+        reportCompositeIsAboutToChange(0);
         return;
     } else if (!kwinApp()->platform()->compositingPossible()) {
         qCCritical(KWIN_CORE) << "Compositing is not possible";
+        reportCompositeIsAboutToChange(0);
+
         return;
     }
     m_starting = true;
