@@ -165,9 +165,6 @@ public:
     bool optionRollOverDesktops() const override {
         return false;
     }
-    KWin::SwipeDirection desktopChangedDirection() const override {
-        return KWin::SwipeDirection::Invalid;
-    }
     void paintEffectFrame(KWin::EffectFrame *, QRegion, double, double) override {}
     void paintScreen(int, QRegion, KWin::ScreenPaintData &) override {}
     void paintWindow(KWin::EffectWindow *, int, QRegion, KWin::WindowPaintData &) override {}

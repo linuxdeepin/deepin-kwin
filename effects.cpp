@@ -1068,11 +1068,6 @@ bool EffectsHandlerImpl::optionRollOverDesktops() const
     return options->isRollOverDesktops();
 }
 
-SwipeDirection EffectsHandlerImpl::desktopChangedDirection() const
-{
-    return VirtualDesktopManager::self()->desktopChangedDirection();
-}
-
 double EffectsHandlerImpl::animationTimeFactor() const
 {
     return options->animationTimeFactor();

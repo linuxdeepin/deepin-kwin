@@ -1041,8 +1041,6 @@ public:
     Q_SCRIPTABLE virtual QString desktopName(int desktop) const = 0;
     virtual bool optionRollOverDesktops() const = 0;
 
-    virtual SwipeDirection desktopChangedDirection() const = 0;
-
     virtual int activeScreen() const = 0; // Xinerama
     virtual int numScreens() const = 0; // Xinerama
     Q_SCRIPTABLE virtual int screenNumber(const QPoint& pos) const = 0;   // Xinerama
