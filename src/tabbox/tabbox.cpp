@@ -1385,6 +1385,7 @@ void TabBox::keyPress(int keyQt)
         bool testedCurrent = false; // in case of collision, prefer to stay in the current mode
         int i = 0, j = 0;
         bool bFocusDesktop = false;
+        bool isWalk = true;
         while (true) {
             if (!testedCurrent && modes[i] != mode()) {
                 ++j;
@@ -1402,6 +1403,7 @@ void TabBox::keyPress(int keyQt)
                         reset();
                         nextPrev(direction == Forward);
                     };
+                    isWalk = false;
                     if (tabBox->config().clientApplicationsMode() != TabBoxConfig::AllWindowsCurrentApplication
                                         && (tabBox->config().showDesktopMode() == TabBoxConfig::ShowDesktopClient || tabBox->clientList().isEmpty())) {
                         QWeakPointer<TabBoxClient> desktopClient = tabBox->desktopClient();
@@ -1428,7 +1430,7 @@ void TabBox::keyPress(int keyQt)
         }
         if (direction != Steady) {
             qCDebug(KWIN_TABBOX) << "== " << cuts[i].toString() << " or " << cuts[i+ModeCount].toString();
-            if (!bFocusDesktop) {
+            if (!bFocusDesktop && isWalk) {
                 KDEWalkThroughWindows(direction == Forward);
             }
         }
