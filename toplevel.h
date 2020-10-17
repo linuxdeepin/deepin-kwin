@@ -474,6 +474,16 @@ public:
         return m_internalId;
     }
 
+    /**
+     * This method set the wayland input region to the Toplevel window.
+     **/
+    void setInputRegion(const QRegion &inputRegion);
+
+    inline bool isInputRegionSet()
+    {
+        return m_isInputRegionSet;
+    }
+
 Q_SIGNALS:
     void opacityChanged(KWin::Toplevel* toplevel, qreal oldOpacity);
     void damaged(KWin::Toplevel* toplevel, const QRect& damage);
@@ -596,6 +606,7 @@ protected:
 
 protected:
     bool m_isDamaged;
+    bool m_isInputRegionSet = false;
 
 private:
     // when adding new data members, check also copyToDeleted()

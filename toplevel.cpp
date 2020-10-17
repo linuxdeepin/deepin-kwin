@@ -477,11 +477,13 @@ void Toplevel::setSurface(KWayland::Server::SurfaceInterface *surface)
         disconnect(m_surface, &SurfaceInterface::damaged, this, &Toplevel::addDamage);
         disconnect(m_surface, &SurfaceInterface::sizeChanged, this, &Toplevel::discardWindowPixmap);
         disconnect(m_surface, &SurfaceInterface::opaqueChanged, this, &Toplevel::setWaylandOpaqueRegion);
+        disconnect(m_surface, &SurfaceInterface::inputChanged, this, &Toplevel::setInputRegion);
     }
     m_surface = surface;
     connect(m_surface, &SurfaceInterface::damaged, this, &Toplevel::addDamage);
     connect(m_surface, &SurfaceInterface::sizeChanged, this, &Toplevel::discardWindowPixmap);
     connect(m_surface, &SurfaceInterface::opaqueChanged, this, &Toplevel::setWaylandOpaqueRegion);
+    connect(m_surface, &SurfaceInterface::inputChanged, this, &Toplevel::setInputRegion);
     connect(m_surface, &SurfaceInterface::subSurfaceTreeChanged, this,
         [this] {
             // TODO improve to only update actual visual area
@@ -497,6 +499,12 @@ void Toplevel::setSurface(KWayland::Server::SurfaceInterface *surface)
         }
     );
     emit surfaceChanged();
+}
+
+void Toplevel::setInputRegion(const QRegion &inputRegion)
+{
+    Q_UNUSED(inputRegion)
+    m_isInputRegionSet = true;
 }
 
 void Toplevel::setWaylandOpaqueRegion(const QRegion &opaqueRegion)

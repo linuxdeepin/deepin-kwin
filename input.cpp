@@ -2257,7 +2257,7 @@ Qt::MouseButtons InputRedirection::qtButtonStates() const
 static bool acceptsInput(Toplevel *t, const QPoint &pos)
 {
     const QRegion input = t->inputShape();
-    if (input.isEmpty()) {
+    if (!t->isInputRegionSet() && input.isEmpty()) {
         return true;
     }
     return input.translated(t->pos()).contains(pos);
