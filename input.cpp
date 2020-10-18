@@ -48,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/display.h>
 #include <KWayland/Server/fakeinput_interface.h>
 #include <KWayland/Server/seat_interface.h>
+#include <KWayland/Server/ddeseat_interface.h>
 #include <KWayland/Server/relativepointer_interface.h>
 #include <KWayland/Server/datadevice_interface.h>
 #include <decorations/decoratedclient.h>
@@ -1040,6 +1041,7 @@ public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         Q_UNUSED(nativeButton)
         auto decoration = input()->pointer()->decoration();
+        auto ddeSeat = waylandServer()->ddeSeat();
         if (!decoration) {
             return false;
         }
@@ -1049,6 +1051,7 @@ public:
             QHoverEvent e(QEvent::HoverMove, p, p);
             QCoreApplication::instance()->sendEvent(decoration->decoration(), &e);
             decoration->client()->processDecorationMove(p.toPoint(), event->globalPos());
+            ddeSeat->setPointerPos(event->globalPos());
             return true;
         }
         case QEvent::MouseButtonPress:
@@ -1062,9 +1065,11 @@ public:
             QCoreApplication::sendEvent(decoration->decoration(), &e);
             if (!e.isAccepted() && event->type() == QEvent::MouseButtonPress) {
                 decoration->client()->processDecorationButtonPress(&e);
+                ddeSeat->pointerButtonPressed(nativeButton);
             }
             if (event->type() == QEvent::MouseButtonRelease) {
                 decoration->client()->processDecorationButtonRelease(&e);
+                ddeSeat->pointerButtonReleased(nativeButton);
             }
             return true;
         }
@@ -1343,10 +1348,12 @@ class ForwardInputFilter : public InputEventFilter
 public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         seat->setTimestamp(event->timestamp());
         switch (event->type()) {
         case QEvent::MouseMove: {
             seat->setPointerPos(event->globalPos());
+            ddeSeat->setPointerPos(event->globalPos());
             MouseEvent *e = static_cast<MouseEvent*>(event);
             if (e->delta() != QSizeF()) {
                 seat->relativePointerMotion(e->delta(), e->deltaUnaccelerated(), e->timestampMicroseconds());
@@ -1355,9 +1362,11 @@ public:
         }
         case QEvent::MouseButtonPress:
             seat->pointerButtonPressed(nativeButton);
+            ddeSeat->pointerButtonPressed(nativeButton);
             break;
         case QEvent::MouseButtonRelease:
             seat->pointerButtonReleased(nativeButton);
+            ddeSeat->pointerButtonReleased(nativeButton);
             break;
         default:
             break;

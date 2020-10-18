@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/xdgshell_interface.h>
 #include <KWayland/Server/xdgforeign_interface.h>
 #include <KWayland/Server/xdgoutput_interface.h>
-
+#include <KWayland/Server/ddeseat_interface.h>
 
 // Qt
 #include <QDir>
@@ -402,6 +402,9 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
             workspace()->updateWindowStates();
         }
     );
+
+    m_ddeSeat = m_display->createDDESeat(m_display);
+    m_ddeSeat->create();
 
     return true;
 }
