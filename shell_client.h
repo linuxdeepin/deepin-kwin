@@ -192,6 +192,7 @@ protected:
     void doMinimize() override;
     void doMove(int x, int y) override;
     void updateCaption() override;
+    void leaveMoveResize() override;
 
 private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);

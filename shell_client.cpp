@@ -665,6 +665,13 @@ void ShellClient::doMove(int x, int y)
     syncGeometryToInternalWindow();
 }
 
+void ShellClient::leaveMoveResize() {
+    AbstractClient::leaveMoveResize();
+    if (m_plasmaShellSurface) {
+        m_plasmaShellSurface->resetPositionSet();
+    }
+}
+
 void ShellClient::syncGeometryToInternalWindow()
 {
     if (!m_internalWindow) {
