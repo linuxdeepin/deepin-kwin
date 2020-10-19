@@ -149,6 +149,14 @@ void XdgSurfaceWindow::handleConfigureAcknowledged(quint32 serial)
     m_lastAcknowledgedConfigureSerial = serial;
 }
 
+void XdgSurfaceWindow::leaveInteractiveMoveResize()
+{
+    Window::leaveInteractiveMoveResize();
+    if (m_plasmaShellSurface) {
+        m_plasmaShellSurface->resetPositionSet();
+    }
+}
+
 void XdgSurfaceWindow::handleCommit()
 {
     if (!surface()->buffer()) {

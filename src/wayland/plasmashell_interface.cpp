@@ -334,4 +334,9 @@ PlasmaShellSurfaceInterface *PlasmaShellSurfaceInterface::get(SurfaceInterface *
     return nullptr;
 }
 
+void PlasmaShellSurfaceInterface::resetPositionSet()
+{
+    d->m_positionSet = false;
+}
+
 }
