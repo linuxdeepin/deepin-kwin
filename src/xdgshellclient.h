@@ -101,6 +101,7 @@ protected:
     XdgSurfaceConfigure *lastAcknowledgedConfigure() const;
     void scheduleConfigure();
     void sendConfigure();
+    void leaveInteractiveMoveResize() override;
 
     QPointer<KWaylandServer::PlasmaShellSurfaceInterface> m_plasmaShellSurface;
     QPointer<KWaylandServer::DDEShellSurfaceInterface> m_ddeShellSurface;

@@ -145,6 +145,14 @@ void XdgSurfaceClient::sendConfigure()
     m_configureEvents.append(configureEvent);
 }
 
+void XdgSurfaceClient::leaveInteractiveMoveResize()
+{
+    AbstractClient::leaveInteractiveMoveResize();
+    if (m_plasmaShellSurface) {
+        m_plasmaShellSurface->resetPositionSet();
+    }
+}
+
 void XdgSurfaceClient::handleConfigureAcknowledged(quint32 serial)
 {
     m_lastAcknowledgedConfigureSerial = serial;
