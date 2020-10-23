@@ -131,10 +131,13 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
         *mask &= ~PAINT_SCREEN_REGION;
         region = infiniteRegion();
     } else if (*mask & PAINT_SCREEN_REGION) {
-        //fix(workaround): disable partial update
-        //partial update has reported rendering issues both on arm64 and x86, 
-        //this should be disabled before we figure out why it won't work. this is a temporary fix. 
+        // make sure not to go outside visible screen
+#ifdef __aarch64__
+        //sonald: on huawei platform, partial update seems not to work properly, workaround now
         region = displayRegion;
+#else
+        region &= displayRegion;
+#endif
     } else {
         // whole screen, not transformed, force region to be full
         region = displayRegion;
