@@ -315,6 +315,11 @@ void ShellClient::init()
                 performMouseCommand(Options::MouseMinimize, Cursor::pos());
             }
         );
+        connect(m_xdgShellSurface, &XdgShellSurfaceInterface::minSizeChanged, this,
+            [this] (const QSize &size) {
+                setClientMinSize(size);
+            }
+        );
         auto configure = [this] {
             if (m_closing) {
                 return;
@@ -669,6 +674,9 @@ void ShellClient::leaveMoveResize() {
     AbstractClient::leaveMoveResize();
     if (m_plasmaShellSurface) {
         m_plasmaShellSurface->resetPositionSet();
+    }
+    if (isWaitingForMoveResizeSync()) {
+        m_pendingConfigureRequests.clear();
     }
 }
 
