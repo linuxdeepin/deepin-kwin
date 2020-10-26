@@ -1186,6 +1186,8 @@ protected:
 
     bool tabTo(AbstractClient *other, bool behind, bool activate);
 
+    void setClientMinSize(const QSize &size);
+
 private:
     void handlePaletteChange();
     QSharedPointer<TabBox::TabBoxClientImpl> m_tabBoxClient;
@@ -1274,6 +1276,9 @@ private:
 
     WindowRules m_rules;
     TabGroup* tab_group = nullptr;
+
+    // min size of the buffer
+    QSize m_clientMinSize;
 
     static bool s_haveResizeEffect;
 };

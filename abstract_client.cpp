@@ -203,6 +203,14 @@ bool AbstractClient::tabTo(AbstractClient *other, bool behind, bool activate)
     return true;
 }
 
+void AbstractClient::setClientMinSize(const QSize &size)
+{
+    m_clientMinSize = size;
+    if (isDecorated()) {
+        m_clientMinSize += QSize(decoration()->borderLeft() + decoration()->borderRight(), decoration()->borderBottom() + decoration()->borderTop());
+    }
+}
+
 void AbstractClient::syncTabGroupFor(QString property, bool fromThisClient)
 {
     if (tab_group)
