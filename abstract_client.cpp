@@ -2132,16 +2132,14 @@ Group *AbstractClient::group()
 bool AbstractClient::checkClientAllowToTile()
 {
     QRect target_size = workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop());
-    target_size.setWidth(target_size.width()/2);
-    target_size.setHeight(target_size.height()/2);
+    target_size.setWidth(target_size.width() / 2);
+    target_size.setHeight(target_size.height());
 
-    if (target_size.width() < minSize().width() || target_size.width() > maxSize().width()) {
+    if (target_size.width() < minSize().width() || target_size.width() > maxSize().width())
         return false;
-    }
 
-    if (target_size.height() < minSize().height() || target_size.height() > maxSize().height()) {
+    if (target_size.height() < minSize().height() || target_size.height() > maxSize().height())
         return false;
-    }
 
     return true;
 }
