@@ -1,3 +1,23 @@
+/********************************************************************
+ KWin - the KDE window manager
+ This file is part of the KDE project.
+
+Copyright (C) 2011 Zhang Haidong <zhanghaidong@uniontech.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*********************************************************************/
+
 #include "placeholder_window.h"
 #include <KKeyServer>
 #include "wayland-server.h"
@@ -8,8 +28,11 @@
 
 namespace KWin
 {
-    PlaceholderWindow::PlaceholderWindow()
-        : X11EventFilter(QVector<int>{XCB_EXPOSE, XCB_EVENT_MASK_KEY_PRESS, XCB_VISIBILITY_NOTIFY}), m_window(XCB_WINDOW_NONE), m_shapeXRects(nullptr), m_shapeXRectsCount(0), m_waylandServer(nullptr)
+    PlaceholderWindow::PlaceholderWindow(): X11EventFilter(QVector<int>{XCB_EXPOSE, XCB_EVENT_MASK_KEY_PRESS, XCB_VISIBILITY_NOTIFY})
+	, m_window(XCB_WINDOW_NONE)
+	, m_shapeXRects(nullptr)
+	, m_shapeXRectsCount(0)
+	, m_waylandServer(nullptr)
     {
     }
 
@@ -17,15 +40,14 @@ namespace KWin
     {
     }
 
-    bool PlaceholderWindow::create(const QRect &rc, WaylandServer *ws)
+    bool PlaceholderWindow::create(const QRect& rc, WaylandServer *ws)
     {
         m_waylandServer = ws;
-        if (m_waylandServer != nullptr)
-        { //暂时不支持
+        if (m_waylandServer != nullptr) { //暂时不支持
             return false;
         }
 
-        if (!Xcb::Extensions::self()->isShapeInputAvailable()) // needed in setupOverlay()
+        if (!Xcb::Extensions::self()->isShapeInputAvailable())
             return false;
 
         destroy();
@@ -33,7 +55,9 @@ namespace KWin
         uint32_t mask = XCB_CW_OVERRIDE_REDIRECT | XCB_CW_EVENT_MASK;
         uint32_t values[] = {
             true,
-            XCB_EVENT_MASK_EXPOSURE | XCB_EVENT_MASK_KEY_PRESS};
+            XCB_EVENT_MASK_EXPOSURE | XCB_EVENT_MASK_KEY_PRESS
+	};
+
         m_window.create(rc, XCB_WINDOW_CLASS_INPUT_OUTPUT, mask, values);
         m_window.map();
 
@@ -48,11 +72,6 @@ namespace KWin
         return true;
     }
 
-    // bool PlaceholderWindow::DragingWithoutContent() const
-    // {
-    //     KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Worksapce");
-    //     return kwinConfig.readEntry("ShowWindowCotentDragging", true);
-    // }
     void PlaceholderWindow::setShape()
     {
         QRect rc = m_window.geometry();
@@ -80,15 +99,13 @@ namespace KWin
         QVector<QRect> rects = borderRect.rects();
         m_shapeXRectsCount = rects.count();
         m_shapeXRects = new xcb_rectangle_t[m_shapeXRectsCount];
-        for (int i = 0; i < rects.count(); ++i)
-        {
+        for (int i = 0; i < rects.count(); ++i) {
             m_shapeXRects[i].x = rects[i].x();
             m_shapeXRects[i].y = rects[i].y();
             m_shapeXRects[i].width = rects[i].width();
             m_shapeXRects[i].height = rects[i].height();
         }
-        xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, XCB_CLIP_ORDERING_UNSORTED,
-                             m_window, 0, 0, rects.count(), m_shapeXRects);
+        xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, XCB_CLIP_ORDERING_UNSORTED,m_window, 0, 0, rects.count(), m_shapeXRects);
         //delete[] m_shapeXRects;
         xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_INPUT, XCB_CLIP_ORDERING_UNSORTED, m_window, 0, 0, 0, NULL);
     }
@@ -97,57 +114,46 @@ namespace KWin
     {
         return m_window;
     }
+
     void PlaceholderWindow::move(uint32_t x, uint32_t y)
     {
-
         m_window.move(x, y);
     }
+
     //要设计形状 和位置
-    void PlaceholderWindow::setGeometry(const QRect &rc)
+    void PlaceholderWindow::setGeometry(const QRect& rc)
     {
         QRect currc = m_window.geometry();
-        if (currc.size() == rc.size())
-        {
+        if (currc.size() == rc.size()) {
             m_window.move(rc.x(), rc.y());
         }
-        else
-        {
+        else {
             m_window.setGeometry(rc);
             setShape();
         }
     }
+
     void PlaceholderWindow::destroy()
     {
-
         if (m_window == XCB_WINDOW_NONE)
-        {
             return;
-        }
-
-        //  m_window.unmap();
         m_window.reset();
 
-        if (m_shapeXRects != nullptr)
-        {
+        if (m_shapeXRects != nullptr) {
             delete[] m_shapeXRects;
             m_shapeXRects = nullptr;
         }
         m_window = XCB_WINDOW_NONE;
     }
+
     bool PlaceholderWindow::event(xcb_generic_event_t *event)
     {
-
         const uint8_t eventType = event->response_type & ~0x80;
         if (eventType == XCB_EXPOSE)
         {
             const auto *expose = reinterpret_cast<xcb_expose_event_t *>(event);
             if (m_window != XCB_WINDOW_NONE && expose->window == m_window)
             {
-
-                // QVector< QRect > rects = m_shape.rects();
-
-                //xcb_rectangle_t *xrects = new xcb_rectangle_t[rects.count()];
-
                 if (m_shapeXRects)
                 {
                     xcb_poly_fill_rectangle(connection(), m_window, foreground, m_shapeXRectsCount, m_shapeXRects);
@@ -155,36 +161,10 @@ namespace KWin
                 return true;
             }
         }
-        else if (eventType == XCB_VISIBILITY_NOTIFY)
-        {
-            //const auto *visibility = reinterpret_cast<xcb_visibility_notify_event_t*>(event);
-            //if (m_window != XCB_WINDOW_NONE && visibility->window == m_window) {
-            // bool was_visible = isVisible();
-            // setVisibility((visibility->state != XCB_VISIBILITY_FULLY_OBSCURED));
-            // auto compositor = Compositor::self();
-            // if (!was_visible && m_visible) {
-            //     // hack for #154825
-            //     compositor->addRepaintFull();
-            //     QTimer::singleShot(2000, compositor, &Compositor::addRepaintFull);
-            // }
-            // compositor->scheduleRepaint();
-            //}
+        else if (eventType == XCB_VISIBILITY_NOTIFY) {
         }
-        else if (eventType == XCB_KEY_PRESS)
-        {
-            // int keyQt;
-
-            // xcb_key_press_event_t *kp = (xcb_key_press_event_t *)event;
-            // KKeyServer::xcbKeyPressEventToQt(event, &keyQt);
-
-            // if(keyQt == Qt::Key_Escape){
-            //     //取消当前的拖动
-            //     int  ffffff=0;
-            // }
-
-            //return true;
+        else if (eventType == XCB_KEY_PRESS) {
         }
         return false;
     }
-
 } // namespace KWin

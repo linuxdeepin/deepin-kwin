@@ -1,10 +1,21 @@
 /********************************************************************
- * PlaceholderWindow 类 
- * 窗口移动时候，如果不显示移动窗口的内容 ，需要实例化这个窗口，
- * 这个窗口会随着鼠标移动。
- * 当取消移动（ESC ），这个窗口释放
- * 当移动结束（ 鼠标button release） ， 源窗口的要移动到当前窗口的位置
- 
+ KWin - the KDE window manager
+ This file is part of the KDE project.
+
+Copyright (C) 2011 Zhang Haidong <zhanghaidong@uniontech.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #ifndef KWIN_PLACEHOLDER_WINDDOW_H

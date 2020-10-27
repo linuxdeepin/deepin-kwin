@@ -1111,14 +1111,17 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
        oldDesktop = desktop();
     if (!oldClientGeometry.isValid())
         oldClientGeometry = oldGeometry.adjusted(border[Left], border[Top], -border[Right], -border[Bottom]);
+
     if (isDesktop())
         return;
+
     if (isFullScreen()) {
         QRect area = workspace()->clientArea(FullScreenArea, this);
         if (geometry() != area)
             setGeometry(area);
         return;
     }
+
     if (isDock())
         return;
 
@@ -1133,7 +1136,6 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     // If the window was touching an edge before but not now move it so it is again.
     // Old and new maximums have different starting values so windows on the screen
     // edge will move when a new strut is placed on the edge.
-
     QRect oldScreenArea;
     if (workspace()->inUpdateClientArea()) {
         // we need to find the screen area as it was before the change
@@ -1156,7 +1158,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     int bottomMax = screenArea.y() + screenArea.height();
     int leftMax = screenArea.x();
 
-     // Is old screenarea exist?    
+    // Is old screenarea exist?    
     bool oldScreenLost = true;
     for (int i = 0; i < screens()->count(); ++i ) {
         if (oldScreenArea.intersects(screens()->geometry(i))) {
@@ -1166,7 +1168,6 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     }
 
     bool oldScreenRestore = !oldScreenLost && (workspace()->previousScreenSizes().count() != screens()->count());
-
     if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
         if (oldScreenLost) {
             if (electricBorderMode() == QuickTileMode(QuickTileFlag::Maximize)) {
@@ -1208,22 +1209,22 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     const QRect newGeomWide = QRect(screenArea.x(), newGeom.y(), screenArea.width(), newGeom.height());   // Full screen width
    
     // These 4 compute new bounds
-    foreach (const QRect & r, workspace()->restrictedMoveArea(desktop(), StrutAreaTop).rects()) {
+    foreach (const QRect& r, workspace()->restrictedMoveArea(desktop(), StrutAreaTop).rects()) {
         QRect rect = r & newGeomTall;
         if (!rect.isEmpty())
             topMax = qMax(topMax, rect.y() + rect.height());
     }
-    foreach (const QRect & r, workspace()->restrictedMoveArea(desktop(), StrutAreaRight).rects()) {
+    foreach (const QRect& r, workspace()->restrictedMoveArea(desktop(), StrutAreaRight).rects()) {
         QRect rect = r & newGeomWide;
         if (!rect.isEmpty())
             rightMax = qMin(rightMax, rect.x());
     }
-    foreach (const QRect & r, workspace()->restrictedMoveArea(desktop(), StrutAreaBottom).rects()) {
+    foreach (const QRect& r, workspace()->restrictedMoveArea(desktop(), StrutAreaBottom).rects()) {
         QRect rect = r & newGeomTall;
         if (!rect.isEmpty())
             bottomMax = qMin(bottomMax, rect.y());
     }
-    foreach (const QRect & r, workspace()->restrictedMoveArea(desktop(), StrutAreaLeft).rects()) {
+    foreach (const QRect& r, workspace()->restrictedMoveArea(desktop(), StrutAreaLeft).rects()) {
         QRect rect = r & newGeomWide;
         if (!rect.isEmpty())
             leftMax = qMax(leftMax, rect.x() + rect.width());
