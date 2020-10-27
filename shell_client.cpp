@@ -1383,11 +1383,15 @@ void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface
 {
     m_plasmaShellSurface = surface;
     auto updatePosition = [this, surface] {
+        setGeometryRestore(QRect(surface->position(), m_geomMaximizeRestore.size()));
         QRect rect = QRect(surface->position(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
         // Shell surfaces of internal windows are sometimes desync to current value.
         // Make sure to not set window geometry of internal windows to invalid values (bug 386304)
         if (!m_internal || rect.isValid()) {
             doSetGeometry(rect);
+        }
+        if (isWaitingForMoveResizeSync()) {
+            m_pendingConfigureRequests.clear();
         }
     };
     auto updateRole = [this, surface] {
