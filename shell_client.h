@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_SHELL_CLIENT_H
 #define KWIN_SHELL_CLIENT_H
 
+#include "screens.h"
+
 #include "abstract_client.h"
 #include <KWayland/Server/xdgshell_interface.h>
 
@@ -99,7 +101,11 @@ public:
     MaximizeMode requestedMaximizeMode() const override;
 
     QRect geometryRestore() const override {
-        return m_geomMaximizeRestore;
+        QRect rect = m_geomMaximizeRestore;
+        if (screens()->count() > 1 && rect.left() > screens()->size().width()) {
+            rect.moveTopLeft(QPoint(0, 0));
+        }
+        return rect;
     }
     bool noBorder() const override;
     void setFullScreen(bool set, bool user = true) override;
