@@ -49,6 +49,7 @@ class TabletManagerV2Interface;
 class KeyboardShortcutsInhibitManagerV1Interface;
 class XdgDecorationManagerV1Interface;
 class ClientManagementInterface;
+class DDEShellInterface;
 }
 
 
@@ -129,6 +130,9 @@ public:
     }
     KWaylandServer::ClientManagementInterface *clientManagement() const {
         return m_clientManagement;
+    }
+    KWaylandServer::DDEShellInterface *ddeShell() const {
+        return m_ddeShell;
     }
 
     bool isKeyboardShortcutsInhibited() const;
@@ -278,6 +282,7 @@ private:
     InitializationFlags m_initFlags;
     QHash<AbstractWaylandOutput *, WaylandOutput *> m_waylandOutputs;
     QHash<AbstractWaylandOutput *, WaylandOutputDevice *> m_waylandOutputDevices;
+    KWaylandServer::DDEShellInterface *m_ddeShell = nullptr;
     KWIN_SINGLETON(WaylandServer)
 };
 

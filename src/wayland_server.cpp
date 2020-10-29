@@ -66,6 +66,7 @@
 #include <KWaylandServer/datacontroldevicemanager_v1_interface.h>
 #include <KWaylandServer/primaryselectiondevicemanager_v1_interface.h>
 #include <KWaylandServer/relativepointer_v1_interface.h>
+#include <KWaylandServer/ddeshell_interface.h>
 
 // Qt
 #include <QCryptographicHash>
@@ -253,6 +254,9 @@ void WaylandServer::registerXdgToplevelClient(XdgToplevelClient *client)
     if (auto palette = m_paletteManager->paletteForSurface(surface)) {
         client->installPalette(palette);
     }
+    if (auto shellSurface = DDEShellSurfaceInterface::get(surface)) {
+        client->installDDEShellSurface(shellSurface);
+    }
 
     connect(m_XdgForeign, &XdgForeignV2Interface::transientChanged, client, [this](SurfaceInterface *child) {
         Q_EMIT foreignTransientChanged(child);
@@ -271,6 +275,9 @@ void WaylandServer::registerXdgGenericClient(AbstractClient *client)
         registerShellClient(popupClient);
         if (auto shellSurface = PlasmaShellSurfaceInterface::get(client->surface())) {
             popupClient->installPlasmaShellSurface(shellSurface);
+        }
+        if (auto shellSurface = DDEShellSurfaceInterface::get(client->surface())) {
+            popupClient->installDDEShellSurface(shellSurface);
         }
         return;
     }
@@ -542,6 +549,15 @@ bool WaylandServer::init(InitializationFlags flags)
     } else {
         connect(static_cast<Application*>(qApp), &Application::workspaceCreated, this, init);
     }
+
+    m_ddeShell = new DDEShellInterface(m_display, m_display);
+    connect(m_ddeShell, &DDEShellInterface::shellSurfaceCreated,
+        [this] (DDEShellSurfaceInterface *shellSurface) {
+            if (XdgSurfaceClient *client = findXdgSurfaceClient(shellSurface->surface())) {
+                client->installDDEShellSurface(shellSurface);
+            }
+        }
+    );
 
     return true;
 }

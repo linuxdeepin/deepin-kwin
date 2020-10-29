@@ -33,6 +33,7 @@
 #include <KWaylandServer/server_decoration_palette_interface.h>
 #include <KWaylandServer/surface_interface.h>
 #include <KWaylandServer/xdgdecoration_v1_interface.h>
+#include <KWaylandServer/ddeshell_interface.h>
 
 using namespace KWaylandServer;
 
@@ -559,6 +560,124 @@ void XdgSurfaceClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *sh
     });
 }
 
+void XdgSurfaceClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
+{
+    m_ddeShellSurface = shellSurface;
+
+    connect(this, &XdgSurfaceClient::frameGeometryChanged, this,
+        [this] {
+            // porting: to confirm frameGeometry?
+            if (isDecorated()) {
+                QRect clientGeom(frameGeometry().topLeft() + clientPos(), clientSize());
+                m_ddeShellSurface->sendGeometry(clientGeom);
+            } else {
+                m_ddeShellSurface->sendGeometry(frameGeometry());
+            }
+        }
+    );
+
+    connect(this, &AbstractClient::activeChanged, this,
+            [this] {
+                m_ddeShellSurface->setActive(isActive());
+                Q_EMIT workspace()->windowStateChanged();
+                }
+            );
+    connect(this, &AbstractClient::fullScreenChanged, this,
+            [this] {
+                m_ddeShellSurface->setFullscreen(isFullScreen());
+                Q_EMIT workspace()->windowStateChanged();
+                }
+            );
+    connect(this, &AbstractClient::keepAboveChanged, m_ddeShellSurface, &DDEShellSurfaceInterface::setKeepAbove);
+    connect(this, &AbstractClient::keepBelowChanged, m_ddeShellSurface, &DDEShellSurfaceInterface::setKeepBelow);
+    connect(this, &AbstractClient::minimizedChanged, this,
+            [this] {
+                m_ddeShellSurface->setMinimized(isMinimized());
+                Q_EMIT workspace()->windowStateChanged();
+                }
+            );
+    connect(this, static_cast<void (AbstractClient::*)(AbstractClient*,MaximizeMode)>(&AbstractClient::clientMaximizedStateChanged), this,
+        [this] (KWin::AbstractClient *c, MaximizeMode mode) {
+            Q_UNUSED(c);
+            m_ddeShellSurface->setMaximized(mode == KWin::MaximizeFull);
+            Q_EMIT workspace()->windowStateChanged();
+        }
+    );
+
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::activationRequested, this,
+        [this] {
+            workspace()->activateClient(reinterpret_cast<AbstractClient*>(this));
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::minimizedRequested, this,
+        [this] (bool set) {
+            if (set) {
+                minimize();
+            } else {
+                unminimize();
+            }
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::maximizedRequested, this,
+        [this] (bool set) {
+            maximize(set ? MaximizeFull : MaximizeRestore);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::keepAboveRequested, this,
+        [this] (bool set) {
+            setKeepAbove(set);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::keepBelowRequested, this,
+        [this] (bool set) {
+            setKeepBelow(set);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::activeRequested, this,
+        [this] (bool set) {
+            if (set) {
+                workspace()->activateClient(reinterpret_cast<AbstractClient*>(this), true);
+            }
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::minimizeableRequested, this,
+        [this] (bool set) {
+            setMinimizeable(set);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::maximizeableRequested, this,
+        [this] (bool set) {
+            setMaximizeable(set);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::resizableRequested, this,
+        [this] (bool set) {
+            setResizable(set);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::acceptFocusRequested, this,
+        [this] (bool set) {
+            setAcceptFocus(set);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::modalityRequested, this,
+        [this] (bool set) {
+            setModal(set);
+        }
+    );
+    // porting to do: send the value to dde-kwin?
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::noTitleBarPropertyRequested, this,
+        [this] (qint32 value) {
+            m_noTitleBar = value;
+        }
+    );
+    connect(m_ddeShellSurface, &KWayland::Server::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this,
+        [this] (QPointF windowRadius) {
+            m_windowRadius = windowRadius;
+        }
+    );
+}
+
 void XdgSurfaceClient::setupPlasmaShellIntegration()
 {
     connect(surface(), &SurfaceInterface::mapped,
@@ -686,7 +805,7 @@ bool XdgToplevelClient::isMovableAcrossScreens() const
 
 bool XdgToplevelClient::isResizable() const
 {
-    if (isRequestedFullScreen()) {
+    if (!m_resizable || isRequestedFullScreen()) {
         return false;
     }
     if (isSpecialWindow() || isSplash() || isToolbar()) {
@@ -698,6 +817,20 @@ bool XdgToplevelClient::isResizable() const
     const QSize min = minSize();
     const QSize max = maxSize();
     return min.width() < max.width() || min.height() < max.height();
+}
+
+AbstractClient *ShellClient::findModal(bool allow_itself)
+{
+    for (auto it = transients().constBegin(); it != transients().constEnd(); ++it) {
+        if (AbstractClient* ret = (*it)->findModal(true)) {
+            return ret;
+        }
+    }
+
+    if (isModal() && allow_itself) {
+        return this;
+    }
+    return nullptr;
 }
 
 bool XdgToplevelClient::isCloseable() const
@@ -715,7 +848,7 @@ bool XdgToplevelClient::isFullScreenable() const
 
 bool XdgToplevelClient::isMaximizable() const
 {
-    if (!isResizable()) {
+    if (!isResizable() || !m_maxmizable) {
         return false;
     }
     if (rules()->checkMaximize(MaximizeRestore) != MaximizeRestore ||
@@ -730,7 +863,7 @@ bool XdgToplevelClient::isMinimizable() const
     if (isSpecialWindow() && !isTransient()) {
         return false;
     }
-    if (!rules()->checkMinimize(true)) {
+    if (!rules()->checkMinimize(true) || !m_minimizable) {
         return false;
     }
     return true;
@@ -1056,6 +1189,10 @@ bool XdgToplevelClient::dockWantsInput() const
 
 bool XdgToplevelClient::acceptsFocus() const
 {
+    if (m_ddeShellSurface && !m_acceptFocus) {
+        return m_acceptFocus;
+    }
+
     if (m_plasmaShellSurface) {
         if (m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::OnScreenDisplay ||
             m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::ToolTip) {
