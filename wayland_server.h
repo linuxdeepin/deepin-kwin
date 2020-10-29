@@ -65,6 +65,8 @@ class XdgForeignInterface;
 class XdgOutputManagerInterface;
 class ClientManagementInterface;
 class DDESeatInterface;
+class DDEShellInterface;
+class DDEShellSurfaceInterface;
 }
 }
 
@@ -121,6 +123,9 @@ public:
     }
     KWayland::Server::DDESeatInterface *ddeSeat() const {
         return m_ddeSeat;
+    }
+    KWayland::Server::DDEShellInterface *ddeShell() const {
+        return m_ddeShell;
     }
 
     QList<ShellClient*> clients() const {
@@ -258,6 +263,7 @@ private:
     KWayland::Server::XdgDecorationManagerInterface *m_xdgDecorationManager = nullptr;
     KWayland::Server::ClientManagementInterface *m_clientManagement = nullptr;
     KWayland::Server::DDESeatInterface *m_ddeSeat = nullptr;
+    KWayland::Server::DDEShellInterface *m_ddeShell = nullptr;
 
     struct {
         KWayland::Server::ClientConnection *client = nullptr;
@@ -284,6 +290,7 @@ private:
     QList<ShellClient*> m_internalClients;
     QHash<KWayland::Server::ClientConnection*, quint16> m_clientIds;
     InitalizationFlags m_initFlags;
+    QVector<KWayland::Server::DDEShellSurfaceInterface*> m_ddeShellSurfaces;
     QVector<KWayland::Server::PlasmaShellSurfaceInterface*> m_plasmaShellSurfaces;
     KWIN_SINGLETON(WaylandServer)
 };

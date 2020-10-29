@@ -37,6 +37,7 @@ class AppMenuInterface;
 class PlasmaShellSurfaceInterface;
 class QtExtendedSurfaceInterface;
 class XdgDecorationInterface;
+class DDEShellSurfaceInterface;
 }
 }
 
@@ -146,6 +147,7 @@ public:
         return m_internalWindow;
     }
 
+    void installDDEShellSurface(KWayland::Server::DDEShellSurfaceInterface *shellSurface);
     void installPlasmaShellSurface(KWayland::Server::PlasmaShellSurfaceInterface *surface);
     void installQtExtendedSurface(KWayland::Server::QtExtendedSurfaceInterface *surface);
     void installServerSideDecoration(KWayland::Server::ServerSideDecorationInterface *decoration);
@@ -181,6 +183,16 @@ public:
     bool isLocalhost() const override
     {
         return true;
+    }
+
+    void setMinimizeable(bool set)
+    {
+        m_minimizable = set;
+    }
+
+    void setMaximizeable(bool set)
+    {
+        m_maxmizable = set;
     }
 
 protected:
@@ -263,6 +275,7 @@ private:
     bool m_unmapped = true;
     QRect m_geomMaximizeRestore; // size and position of the window before it was set to maximize
     NET::WindowType m_windowType = NET::Normal;
+    QPointer<KWayland::Server::DDEShellSurfaceInterface> m_ddeShellSurface;
     QPointer<KWayland::Server::PlasmaShellSurfaceInterface> m_plasmaShellSurface;
     QPointer<KWayland::Server::QtExtendedSurfaceInterface> m_qtExtendedSurface;
     QPointer<KWayland::Server::AppMenuInterface> m_appMenuInterface;
@@ -275,6 +288,8 @@ private:
     bool m_hidden = false;
     bool m_internal;
     bool m_hasPopupGrab = false;
+    bool m_minimizable = true;
+    bool m_maxmizable = true;
     qreal m_opacity = 1.0;
 
     class RequestGeometryBlocker {
