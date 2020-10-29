@@ -62,6 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/xdgforeign_interface.h>
 #include <KWayland/Server/xdgoutput_interface.h>
 #include <KWayland/Server/ddeseat_interface.h>
+#include <KWayland/Server/ddeshell_interface.h>
 
 // Qt
 #include <QDir>
@@ -159,6 +160,15 @@ void WaylandServer::createSurface(T *surface)
     if (it != m_plasmaShellSurfaces.end()) {
         client->installPlasmaShellSurface(*it);
         m_plasmaShellSurfaces.erase(it);
+    }
+    auto it_ddeShellSurface = std::find_if(m_ddeShellSurfaces.begin(), m_ddeShellSurfaces.end(),
+        [client] (DDEShellSurfaceInterface *shellSurface) {
+            return client->surface() == shellSurface->surface();
+        }
+    );
+    if (it_ddeShellSurface != m_ddeShellSurfaces.end()) {
+        client->installDDEShellSurface(*it_ddeShellSurface);
+        m_ddeShellSurfaces.erase(it_ddeShellSurface);
     }
     if (auto menu = m_appMenuManager->appMenuForSurface(surface->surface())) {
         client->installAppMenu(menu);
@@ -405,6 +415,23 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
 
     m_ddeSeat = m_display->createDDESeat(m_display);
     m_ddeSeat->create();
+
+    m_ddeShell = m_display->createDDEShell(m_display);
+    m_ddeShell->create();
+    connect(m_ddeShell, &DDEShellInterface::shellSurfaceCreated,
+        [this] (DDEShellSurfaceInterface *shellSurface) {
+            if (ShellClient *client = findClient(shellSurface->surface())) {
+                client->installDDEShellSurface(shellSurface);
+            } else {
+                m_ddeShellSurfaces << shellSurface;
+                connect(shellSurface, &QObject::destroyed, this,
+                    [this, shellSurface] {
+                        m_ddeShellSurfaces.removeOne(shellSurface);
+                    }
+                );
+            }
+        }
+    );
 
     return true;
 }
