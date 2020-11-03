@@ -50,6 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/server_decoration_palette_interface.h>
 #include <KWayland/Server/xdgdecoration_interface.h>
 #include <KWayland/Server/ddeshell_interface.h>
+#include <KWayland/Server/datadevice_interface.h>
 
 #include <KDesktopFile>
 
@@ -388,6 +389,16 @@ void ShellClient::init()
         RuleBook::self()->discardUsed(this, false);   // Remove ApplyNow rules
         updateWindowRules(Rules::All); // Was blocked while !isManaged()
     }
+
+    connect(waylandServer()->seat(), &KWayland::Server::SeatInterface::dragStarted, this,
+        [this] {
+            auto seat = waylandServer()->seat();
+            if (seat->dragSource() && (surface() == seat->dragSource()->icon()))
+            {
+                m_isDragWindow = true;
+            }
+        }
+    );
 }
 
 void ShellClient::destroyClient()
