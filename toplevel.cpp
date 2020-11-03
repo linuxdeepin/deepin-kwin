@@ -496,8 +496,10 @@ void Toplevel::setSurface(KWayland::Server::SurfaceInterface *surface)
     connect(m_surface, &SurfaceInterface::destroyed, this,
         [this] {
             m_surface = nullptr;
+            m_surfaceId = 0;
         }
     );
+    m_surfaceId = surface->id();
     emit surfaceChanged();
 }
 

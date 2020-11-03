@@ -195,6 +195,10 @@ public:
         m_maxmizable = set;
     }
 
+    inline bool isDragWindow() {
+        return m_isDragWindow;
+    }
+
 protected:
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const override;
@@ -290,6 +294,7 @@ private:
     bool m_hasPopupGrab = false;
     bool m_minimizable = true;
     bool m_maxmizable = true;
+    bool m_isDragWindow = false;
     qreal m_opacity = 1.0;
 
     class RequestGeometryBlocker {

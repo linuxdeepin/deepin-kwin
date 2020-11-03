@@ -1646,6 +1646,7 @@ class DragAndDropInputFilter : public InputEventFilter
 public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         if (!seat->isDragPointer()) {
             return false;
         }
@@ -1657,9 +1658,10 @@ public:
         case QEvent::MouseMove: {
             const auto pos = input()->globalPointer();
             seat->setPointerPos(pos);
+            ddeSeat->setPointerPos(event->globalPos());
             if (Toplevel *t = input()->pointer()->at()) {
                 // TODO: consider decorations
-                if (t->surface() != seat->dragSurface() && (t->surface() != seat->dragSource()->icon())) {
+                if (t->surface() != seat->dragSurface()) {
                     if (AbstractClient *c = qobject_cast<AbstractClient*>(t)) {
                         workspace()->activateClient(c);
                     }
@@ -1673,9 +1675,11 @@ public:
         }
         case QEvent::MouseButtonPress:
             seat->pointerButtonPressed(nativeButton);
+            ddeSeat->pointerButtonPressed(nativeButton);
             break;
         case QEvent::MouseButtonRelease:
             seat->pointerButtonReleased(nativeButton);
+            ddeSeat->pointerButtonReleased(nativeButton);
             break;
         default:
             break;
@@ -2313,6 +2317,12 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
         }
         if (isScreenLocked) {
             if (!t->isLockScreen() && !t->isInputMethod()) {
+                continue;
+            }
+        }
+        // a drag icon window doesn't get mouse events
+        if (ShellClient *c = dynamic_cast<ShellClient*>(t)) {
+            if (c->isDragWindow()) {
                 continue;
             }
         }
