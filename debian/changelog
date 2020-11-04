@@ -108,6 +108,11 @@ kwin (4:5.15.8-1) unstable; urgency=medium
   * Release to unstable
 
  -- Yu Zhang <zhangyud@uniontech.org>  Fri, 13 Nov 2020 17:30:07 -300
+kwin (4:5.15.8.21-1) unstable; urgency=medium
+
+  *  New upstream release (5.15.8)
+
+ -- Gang Wu <wugang@uniontech.com>  Wed, 04 Nov 2020 18:38:16 +0800
 
 kwin (4:5.15.5-1) unstable; urgency=medium
 
