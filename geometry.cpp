@@ -1227,6 +1227,15 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
         newGeom=QRect(0,0,newGeom.width(),newGeom.height());
     }
 
+    if (waylandServer()) {
+        if (newGeom.left() > screenArea.right()
+                || newGeom.right() < screenArea.left()
+                || newGeom.top() > screenArea.bottom()
+                || newGeom.bottom() < screenArea.top()) {
+            newGeom.moveTopLeft(QPoint(0, 0));
+        }
+    }
+
     QRect newClientGeom = newGeom.adjusted(border[Left], border[Top], -border[Right], -border[Bottom]);
     const QRect newGeomTall = QRect(newGeom.x(), screenArea.y(), newGeom.width(), screenArea.height());   // Full screen height
     const QRect newGeomWide = QRect(screenArea.x(), newGeom.y(), screenArea.width(), newGeom.height());   // Full screen width
