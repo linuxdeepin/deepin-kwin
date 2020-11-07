@@ -215,6 +215,8 @@ protected:
     void doMove(int x, int y) override;
     void updateCaption() override;
     void leaveMoveResize() override;
+    void adjustClientMinSize(const Position mode) override;
+    void clearPendingRequest() override;
 
 private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);
@@ -326,6 +328,9 @@ private:
     QHash<qint32, PingReason> m_pingSerials;
 
     bool m_compositingSetup = false;
+
+    // min size of the buffer
+    QSize m_clientMinSize = QSize(0, 0);
 };
 
 }

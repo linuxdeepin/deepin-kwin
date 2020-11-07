@@ -1186,7 +1186,11 @@ protected:
 
     bool tabTo(AbstractClient *other, bool behind, bool activate);
 
-    void setClientMinSize(const QSize &size);
+    virtual void adjustClientMinSize(const Position mode) {
+        Q_UNUSED(mode);
+    }
+
+    virtual void clearPendingRequest() {}
 
 private:
     void handlePaletteChange();
@@ -1276,9 +1280,6 @@ private:
 
     WindowRules m_rules;
     TabGroup* tab_group = nullptr;
-
-    // min size of the buffer
-    QSize m_clientMinSize;
 
     static bool s_haveResizeEffect;
 };

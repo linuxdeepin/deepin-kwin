@@ -319,7 +319,10 @@ void ShellClient::init()
         );
         connect(m_xdgShellSurface, &XdgShellSurfaceInterface::minSizeChanged, this,
             [this] (const QSize &size) {
-                setClientMinSize(size);
+                if (size.isEmpty()) {
+                    return;
+                }
+                m_clientMinSize = size + QSize(borderLeft() + borderRight(), borderTop() + borderBottom());
             }
         );
         auto configure = [this] {
@@ -687,9 +690,38 @@ void ShellClient::leaveMoveResize() {
     if (m_plasmaShellSurface) {
         m_plasmaShellSurface->resetPositionSet();
     }
+}
+
+void ShellClient::clearPendingRequest()
+{
     if (isWaitingForMoveResizeSync()) {
         m_pendingConfigureRequests.clear();
     }
+}
+
+void ShellClient::adjustClientMinSize(const Position mode)
+{
+    if (m_clientMinSize.isEmpty()) {
+        return;
+    }
+    QRect orig = initialMoveResizeGeometry();
+    QRect moveResizeRect= moveResizeGeometry();
+
+    if ((mode & PositionLeft) && moveResizeRect.width() < m_clientMinSize.width()) {
+        moveResizeRect.setWidth(m_clientMinSize.width());
+        moveResizeRect.moveRight(orig.right());
+    }
+    if ((mode & PositionTop) && moveResizeRect.height() < m_clientMinSize.height()) {
+        moveResizeRect.setHeight(m_clientMinSize.height());
+        moveResizeRect.moveBottom(orig.bottom());
+    }
+    if ((mode & PositionRight) && moveResizeRect.width() < m_clientMinSize.width()) {
+        moveResizeRect.setWidth(m_clientMinSize.width());
+    }
+    if ((mode & PositionBottom) && moveResizeRect.height() < m_clientMinSize.height()) {
+        moveResizeRect.setHeight(m_clientMinSize.height());
+    }
+    setMoveResizeGeometry(moveResizeRect);
 }
 
 void ShellClient::syncGeometryToInternalWindow()
@@ -800,7 +832,7 @@ bool ShellClient::isMaximizable() const
 
 bool ShellClient::isMinimizable(bool isMinFunc) const
 {
-    if (m_internal || !m_maxmizable) {
+    if (m_internal || !m_minimizable) {
         return false;
     }
     return (!m_plasmaShellSurface || m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::Normal);
