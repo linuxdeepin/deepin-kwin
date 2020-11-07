@@ -3133,10 +3133,7 @@ void AbstractClient::handleMoveResize(int x, int y, int x_root, int y_root)
 
         // first resize (without checking constrains), then snap, then check bounds, then check constrains
         calculateMoveResizeGeom();
-        if (m_clientMinSize.isValid() && (moveResizeGeometry().width() < m_clientMinSize.width() || moveResizeGeometry().height() < m_clientMinSize.height())) {
-            setMoveResizeGeometry(geom);
-            return;
-        }
+        adjustClientMinSize(mode);
         // adjust new size to snap to other windows/borders
         setMoveResizeGeometry(workspace()->adjustClientSize(this, moveResizeGeometry(), mode));
 
