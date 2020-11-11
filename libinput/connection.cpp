@@ -508,11 +508,21 @@ void Connection::processEvents()
                 auto serial = libinput_tablet_tool_get_serial(tte->tool());
                 auto toolId = libinput_tablet_tool_get_tool_id(tte->tool());
 
+#ifndef KWIN_BUILD_TESTING
+                const auto &geo = screens()->geometry(tte->device()->screenId());
                 emit tabletToolEvent(tabletEventType,
-                                     tte->transformedPosition(m_size), tte->pressure(),
+                                     geo.topLeft() + tte->transformedPosition(geo.size()), tte->pressure(),
                                      tte->xTilt(), tte->yTilt(), tte->rotation(),
                                      tte->isTipDown(), tte->isNearby(), serial,
                                      toolId, event->device());
+#else
+                 emit tabletToolEvent(tabletEventType,
+                                      tte->transformedPosition(m_size), tte->pressure(),
+                                      tte->xTilt(), tte->yTilt(), tte->rotation(),
+                                      tte->isTipDown(), tte->isNearby(), serial,
+                                      toolId, event->device());
+
+#endif
                 break;
             }
             case LIBINPUT_EVENT_TABLET_TOOL_BUTTON: {
@@ -586,6 +596,20 @@ void Connection::applyScreenToDevice(Device *device)
 {
 #ifndef KWIN_BUILD_TESTING
     QMutexLocker locker(&m_mutex);
+    // calibration tablet events in tablet screen
+    if (device->isTabletTool()) {
+        int tabletScreenId = -1;
+        for (int i = 0; i < screens()->count(); i++) {
+            if (!screens()->isInternal(i)) {
+                tabletScreenId = i;
+                break;
+            }
+        }
+        int id = (tabletScreenId != -1) ? tabletScreenId : 0;
+        device->setScreenId(id);
+        device->setOrientation(screens()->orientation(id));
+        return;
+    }
     if (!device->isTouch()) {
         return;
     }
