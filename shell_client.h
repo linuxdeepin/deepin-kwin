@@ -199,6 +199,23 @@ public:
         return m_isDragWindow;
     }
 
+    enum {
+        /**  titlebar put in which gravity of client window  */
+        FRAME_TOP                 = 0,
+        FRAME_BOTTOM              = 1,
+        FRAME_LETF                = 2,
+        FRAME_RIGHT               = 3,
+    };
+
+    int getWindowGravity()
+    {
+        return m_windowGravity;
+    }
+    void setWindowGravity(int gravity)
+    {
+        m_windowGravity = gravity;
+    }
+
 protected:
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const override;
@@ -226,6 +243,7 @@ private:
     template <class T>
     void initSurface(T *shellSurface);
     void requestGeometry(const QRect &rect);
+    QPoint resetPosition(const QPoint &position, int gravity);
     void doSetGeometry(const QRect &rect);
     void createDecoration(const QRect &oldgeom);
     void destroyClient();
@@ -297,6 +315,7 @@ private:
     bool m_minimizable = true;
     bool m_maxmizable = true;
     bool m_isDragWindow = false;
+    int m_windowGravity = FRAME_TOP;
     qreal m_opacity = 1.0;
 
     class RequestGeometryBlocker {
