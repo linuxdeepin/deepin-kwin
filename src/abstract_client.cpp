@@ -920,6 +920,9 @@ void AbstractClient::blockGeometryUpdates(bool block)
 
 void AbstractClient::maximize(MaximizeMode m)
 {
+    if (waylandServer() && !isMaximizable()) {
+        return;
+    }
     setMaximize(m & MaximizeVertical, m & MaximizeHorizontal);
 }
 
