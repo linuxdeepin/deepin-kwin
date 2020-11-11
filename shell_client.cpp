@@ -564,6 +564,36 @@ void ShellClient::markAsMapped()
     updateShowOnScreenEdge();
 }
 
+QPoint ShellClient::resetPosition(const QPoint &position, int gravity)
+{
+    int dx, dy;
+    dx = dy = 0;
+
+    if (gravity < 0) {
+        // error, use the default gravity
+        gravity = getWindowGravity();
+    }
+    // dx, dy specify how the client window moves to make space for the frame
+    switch(gravity) {
+    case FRAME_TOP: // titlebar on the top
+        dx = 0;
+        dy = borderTop();
+        break;
+    // todo
+    // need implement if titlebar is on the bottom/left/right
+    default:
+        break;
+    }
+
+    int x, y;
+    x = position.x() - dx;
+    y = position.y() - dy;
+    // if y < 0, reassign y to 0, so window geometry will not out of screen
+    y = (y < 0) ? 0 : y;
+
+    return QPoint(x, y);
+}
+
 void ShellClient::createDecoration(const QRect &oldGeom)
 {
     KDecoration2::Decoration *decoration = Decoration::DecorationBridge::self()->createDecoration(this);
@@ -583,7 +613,8 @@ void ShellClient::createDecoration(const QRect &oldGeom)
     }
     setDecoration(decoration);
     // TODO: ensure the new geometry still fits into the client area (e.g. maximized windows)
-    doSetGeometry(QRect(oldGeom.topLeft(), m_clientSize + (decoration ? QSize(decoration->borderLeft() + decoration->borderRight(),
+    QPoint newPosition = resetPosition(oldGeom.topLeft(), getWindowGravity());
+    doSetGeometry(QRect(newPosition, m_clientSize + (decoration ? QSize(decoration->borderLeft() + decoration->borderRight(),
                                                                decoration->borderBottom() + decoration->borderTop()) : QSize())));
 
     emit geometryShapeChanged(this, oldGeom);
@@ -1499,7 +1530,8 @@ void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface
     m_plasmaShellSurface = surface;
     auto updatePosition = [this, surface] {
         setGeometryRestore(QRect(surface->position(), m_geomMaximizeRestore.size()));
-        QRect rect = QRect(surface->position(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
+        QPoint newPosition = resetPosition(surface->position(), getWindowGravity());
+        QRect rect = QRect(newPosition, m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
         // Shell surfaces of internal windows are sometimes desync to current value.
         // Make sure to not set window geometry of internal windows to invalid values (bug 386304)
         if (!m_internal || rect.isValid()) {
