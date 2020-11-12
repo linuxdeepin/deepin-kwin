@@ -1916,7 +1916,7 @@ bool Client::isMaximizable() const
 {
     if (!isResizable() || isToolbar())  // SELI isToolbar() ?
         return false;
-    if (rules()->checkMaximize(MaximizeRestore) == MaximizeRestore && rules()->checkMaximize(MaximizeFull) != MaximizeRestore)
+    if (rules()->checkMaximize(MaximizeRestore) == MaximizeRestore && rules()->checkMaximize(MaximizeFull) != MaximizeRestore && m_motif.maximize())
         return true;
     return false;
 }

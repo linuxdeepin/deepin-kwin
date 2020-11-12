@@ -698,7 +698,7 @@ bool Client::isMinimizable() const
 {
     if (isSpecialWindow() && !isTransient())
         return false;
-    if (!rules()->checkMinimize(true))
+    if (!rules()->checkMinimize(true)  || !m_motif.minimize())
         return false;
 
     if (isTransient()) {
