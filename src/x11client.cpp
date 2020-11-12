@@ -1424,7 +1424,7 @@ bool X11Client::isMinimizable() const
 {
     if (isSpecialWindow() && !isTransient())
         return false;
-    if (!rules()->checkMinimize(true))
+    if (!rules()->checkMinimize(true) || !m_motif.minimize())
         return false;
 
     if (isTransient()) {
@@ -4088,7 +4088,7 @@ bool X11Client::isMaximizable() const
 {
     if (!isResizable() || isToolbar())  // SELI isToolbar() ?
         return false;
-    if (rules()->checkMaximize(MaximizeRestore) == MaximizeRestore && rules()->checkMaximize(MaximizeFull) != MaximizeRestore)
+    if (rules()->checkMaximize(MaximizeRestore) == MaximizeRestore && rules()->checkMaximize(MaximizeFull) != MaximizeRestore && m_motif.maximize())
         return true;
     return false;
 }
