@@ -1187,7 +1187,23 @@ void ShellClient::takeFocus()
         }
     }
     if (breakShowingDesktop) {
-        workspace()->setShowingDesktop(false);
+        if (workspace()->showingDesktop()) {
+            // minimize all other windows
+            for (AbstractClient *c : workspace()->allClientList()) {
+                if (this == c || c->isDock() || c->isDesktop() || skipTaskbar()) {
+                    continue;
+                }
+
+                //if 'this' is dialog , it's parent cannot minimize
+                if (this->transientFor() == c)
+                    continue;
+                // c is dialog and it's child of this ,cannot minimize
+                if (c->transientFor() != this)
+                    c->minimize(true);
+            }
+
+            workspace()->setShowingDesktop(false);
+        }
         workspace()->setPreviewClientList({});
     }
 }
