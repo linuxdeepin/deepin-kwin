@@ -1436,7 +1436,7 @@ void Client::takeFocus()
     if (breakShowingDesktop) {
         if (workspace()->showingDesktop()) {
             // 最小化其它所有窗口
-            for (Client *c : workspace()->clientList()) {
+            for (AbstractClient *c : workspace()->allClientList()) {
                 if (this == c || c->isDock() || c->isDesktop() || skipTaskbar() || (c->isUtility() && c->keepAbove())) {
                     continue;
                 }
