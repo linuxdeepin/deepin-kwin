@@ -350,6 +350,7 @@ private:
 
     // min size of the buffer
     QSize m_clientMinSize = QSize(0, 0);
+    QSize m_clientMaxSize = QSize(0, 0);
 };
 
 }
