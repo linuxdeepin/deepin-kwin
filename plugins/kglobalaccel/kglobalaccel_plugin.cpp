@@ -56,3 +56,7 @@ bool KGlobalAccelImpl::checkKeyPressed(int keyQt)
 {
     return keyPressed(keyQt);
 }
+bool KGlobalAccelImpl::checkKeyReleased(int keyQt)
+{
+    return keyReleased(keyQt);
+}
