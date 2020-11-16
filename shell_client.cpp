@@ -325,6 +325,14 @@ void ShellClient::init()
                 m_clientMinSize = size + QSize(borderLeft() + borderRight(), borderTop() + borderBottom());
             }
         );
+        connect(m_xdgShellSurface, &XdgShellSurfaceInterface::maxSizeChanged, this,
+            [this] (const QSize &size) {
+                if (size.isEmpty()) {
+                    return;
+                }
+                m_clientMaxSize = size + QSize(borderLeft() + borderRight(), borderTop() + borderBottom());
+            }
+        );
         auto configure = [this] {
             if (m_closing) {
                 return;
@@ -728,25 +736,49 @@ void ShellClient::clearPendingRequest()
 
 void ShellClient::adjustClientMinSize(const Position mode)
 {
-    if (m_clientMinSize.isEmpty()) {
+    if (m_clientMinSize.isEmpty() && m_clientMaxSize.isEmpty()) {
         return;
     }
     QRect orig = initialMoveResizeGeometry();
     QRect moveResizeRect= moveResizeGeometry();
 
-    if ((mode & PositionLeft) && moveResizeRect.width() < m_clientMinSize.width()) {
-        moveResizeRect.setWidth(m_clientMinSize.width());
-        moveResizeRect.moveRight(orig.right());
+    if (!m_clientMinSize.isEmpty() && m_clientMinSize == m_clientMaxSize) {
+        setMoveResizeGeometry(orig);
+        return;
     }
-    if ((mode & PositionTop) && moveResizeRect.height() < m_clientMinSize.height()) {
-        moveResizeRect.setHeight(m_clientMinSize.height());
-        moveResizeRect.moveBottom(orig.bottom());
+    if (!m_clientMinSize.isEmpty())
+    {
+        if ((mode & PositionLeft) && moveResizeRect.width() < m_clientMinSize.width()) {
+            moveResizeRect.setWidth(m_clientMinSize.width());
+            moveResizeRect.moveRight(orig.right());
+        }
+        if ((mode & PositionTop) && moveResizeRect.height() < m_clientMinSize.height()) {
+            moveResizeRect.setHeight(m_clientMinSize.height());
+            moveResizeRect.moveBottom(orig.bottom());
+        }
+        if ((mode & PositionRight) && moveResizeRect.width() < m_clientMinSize.width()) {
+            moveResizeRect.setWidth(m_clientMinSize.width());
+        }
+        if ((mode & PositionBottom) && moveResizeRect.height() < m_clientMinSize.height()) {
+            moveResizeRect.setHeight(m_clientMinSize.height());
+        }
     }
-    if ((mode & PositionRight) && moveResizeRect.width() < m_clientMinSize.width()) {
-        moveResizeRect.setWidth(m_clientMinSize.width());
-    }
-    if ((mode & PositionBottom) && moveResizeRect.height() < m_clientMinSize.height()) {
-        moveResizeRect.setHeight(m_clientMinSize.height());
+    if (!m_clientMaxSize.isEmpty())
+    {
+        if ((mode & PositionLeft) && moveResizeRect.width() > m_clientMaxSize.width()) {
+            moveResizeRect.setWidth(m_clientMaxSize.width());
+            moveResizeRect.moveRight(orig.right());
+        }
+        if ((mode & PositionTop) && moveResizeRect.height() > m_clientMaxSize.height()) {
+            moveResizeRect.setHeight(m_clientMaxSize.height());
+            moveResizeRect.moveBottom(orig.bottom());
+        }
+        if ((mode & PositionRight) && moveResizeRect.width() > m_clientMaxSize.width()) {
+            moveResizeRect.setWidth(m_clientMaxSize.width());
+        }
+        if ((mode & PositionBottom) && moveResizeRect.height() > m_clientMaxSize.height()) {
+            moveResizeRect.setHeight(m_clientMaxSize.height());
+        }
     }
     setMoveResizeGeometry(moveResizeRect);
 }
