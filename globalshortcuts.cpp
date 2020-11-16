@@ -277,6 +277,42 @@ bool GlobalShortcutsManager::processKey(Qt::KeyboardModifiers mods, int keyQt)
     }
     return false;
 }
+bool GlobalShortcutsManager::releaseKey(Qt::KeyboardModifiers mods, int keyQt)
+{
+    if (m_kglobalAccelInterface) {
+        if (!keyQt && !mods) {
+            return false;
+        }
+        auto release = [this] (Qt::KeyboardModifiers mods, int keyQt) {
+            bool retVal = false;
+            QMetaObject::invokeMethod(m_kglobalAccelInterface,
+                                        "checkKeyReleased",
+                                        Qt::DirectConnection,
+                                        Q_RETURN_ARG(bool, retVal),
+                                        Q_ARG(int, int(mods) | keyQt));
+            return retVal;
+        };
+        if (release(mods, keyQt)) {
+            return true;
+        } else if (keyQt == Qt::Key_Backtab) {
+            // KGlobalAccel on X11 has some workaround for Backtab
+            // see kglobalaccel/src/runtime/plugins/xcb/kglobalccel_x11.cpp method x11KeyPress
+            // Apparently KKeySequenceWidget captures Shift+Tab instead of Backtab
+            // thus if the key is backtab we should adjust to add shift again and use tab
+            // in addition KWin registers the shortcut incorrectly as Alt+Shift+Backtab
+            // this should be changed to either Alt+Backtab or Alt+Shift+Tab to match KKeySequenceWidget
+            // trying the variants
+            if (release(mods | Qt::ShiftModifier, keyQt)) {
+                return true;
+            }
+            if (release(mods | Qt::ShiftModifier, Qt::Key_Tab)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 
 bool GlobalShortcutsManager::processPointerPressed(Qt::KeyboardModifiers mods, Qt::MouseButtons pointerButtons)
 {
