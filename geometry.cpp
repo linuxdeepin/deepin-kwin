@@ -1129,6 +1129,9 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
 
     if (isFullScreen()) {
         QRect area = workspace()->clientArea(FullScreenArea, this);
+        if (waylandServer()) {
+            area = workspace()->clientArea(FullScreenArea, geometryRestore().center(), desktop());
+        }
         if (geometry() != area)
             setGeometry(area);
         return;
