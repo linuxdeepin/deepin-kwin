@@ -599,10 +599,32 @@ void Connection::applyScreenToDevice(Device *device)
     // calibration tablet events in tablet screen
     if (device->isTabletTool()) {
         int tabletScreenId = -1;
+        // a special patch for tablet used for 0102/0106 branch
+        // after that, we should reconstruct the calibration for tablet
+        bool m_hasInternal = false;
         for (int i = 0; i < screens()->count(); i++) {
-            if (!screens()->isInternal(i)) {
-                tabletScreenId = i;
+            if (screens()->isInternal(i)) {
+                m_hasInternal = true;
                 break;
+            }
+        }
+        if (m_hasInternal) {
+            // for 0102, we have an internal output
+            // then tablet output is the external output
+            for (int i = 0; i < screens()->count(); i++) {
+                if (!screens()->isInternal(i)) {
+                    tabletScreenId = i;
+                    break;
+                }
+            }
+        } else {
+            // for 0106, we have two external output
+            // one is VGA, one is HDMI such as tablet output
+            for (int i = 0; i < screens()->count(); i++) {
+                if (!screens()->name(i).contains("VGA")) {
+                    tabletScreenId = i;
+                    break;
+                }
             }
         }
         int id = (tabletScreenId != -1) ? tabletScreenId : 0;
