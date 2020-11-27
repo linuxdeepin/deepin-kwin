@@ -756,7 +756,7 @@ public:
         if (event->type() == QEvent::KeyPress) {
             return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
         } else if (event->type() == QEvent::KeyRelease) {
-            return input()->shortcuts()->releaseKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
+            input()->shortcuts()->releaseKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
         }
         return false;
     }
