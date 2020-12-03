@@ -400,7 +400,7 @@ static void save_yourself(SmcConn conn_P, SmPointer ptr, int, Bool shutdown, int
         return;
     if (shutdown)
         RuleBook::self()->setUpdatesDisabled(true);
-    SmcSaveYourselfDone(conn_P, True);
+    SmcSaveYourselfDone(conn_P, 1);
 }
 
 static void die(SmcConn conn_P, SmPointer ptr)
