@@ -78,6 +78,7 @@ Build-Depends: breeze-dev (>= 4:5.9.0~),
                qttools5-dev (>= 5.11.0~),
                systemtap-sdt-dev,
                libpipewire-0.3-dev,
+	       libxcb-util0-dev,
 Standards-Version: 4.1.4
 Homepage: https://projects.kde.org/projects/kde/workspace/kwin
 Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/kwin

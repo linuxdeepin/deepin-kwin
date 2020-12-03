@@ -186,19 +186,6 @@ void KeyboardInputRedirection::update()
     if (found && found->surface()) {
         if (found->surface() != seat->focusedKeyboardSurface()) {
             seat->setFocusedKeyboardSurface(found->surface());
-            auto newKeyboard = seat->focusedKeyboard();
-            if (newKeyboard && newKeyboard->client() == waylandServer()->xWaylandConnection()) {
-                // focus passed to an XWayland surface
-                const auto selection = seat->selection();
-                auto xclipboard = waylandServer()->xclipboardSyncDataDevice();
-                if (xclipboard && selection != xclipboard.data()) {
-                    if (selection) {
-                        xclipboard->sendSelection(selection);
-                    } else {
-                        xclipboard->sendClearSelection();
-                    }
-                }
-            }
         }
     } else {
         //NOTE(sonald): clear focus will make qt app lost input, this may be a bug of Qt itself

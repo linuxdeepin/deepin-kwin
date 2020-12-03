@@ -27,7 +27,12 @@ class QProcess;
 namespace KWin
 {
 
-class ApplicationWayland : public Application
+namespace Xwl
+{
+class Xwayland;
+}
+
+class ApplicationWayland : public ApplicationWaylandAbstract
 {
     Q_OBJECT
 public:
@@ -43,7 +48,7 @@ public:
     void setInputMethodServerToStart(const QString &inputMethodServer) {
         m_inputMethodServerToStart = inputMethodServer;
     }
-    void setProcessStartupEnvironment(const QProcessEnvironment &environment) {
+    void setProcessStartupEnvironment(const QProcessEnvironment &environment) override {
         m_environment = environment;
     }
     void setSessionArgument(const QString &session) {
@@ -67,22 +72,19 @@ protected:
 
 private:
     void createBackend();
-    void createX11Connection();
     void continueStartupWithScreens();
     void continueStartupWithoutScreens();
-    void continueStartupWithSceen();
-    void continueStartupWithX();
-    void startXwaylandServer();
-    void startSession();
+    void continueStartupWithScene();
+    void continueStartupWithXwayland();
+    void startSession() override;
 
     bool m_startXWayland = false;
-    int m_xcbConnectionFd = -1;
     QStringList m_applicationsToStart;
     QString m_inputMethodServerToStart;
-    QProcess *m_xwaylandProcess = nullptr;
-    QMetaObject::Connection m_xwaylandFailConnection;
     QProcessEnvironment m_environment;
     QString m_sessionArgument;
+
+    Xwl::Xwayland *m_xwayland = nullptr;
     bool m_runWithoutScreen = false;
     bool m_disableMultiScreens = false;
 };
