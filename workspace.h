@@ -298,6 +298,13 @@ public:
     void windowToNextDesktop(AbstractClient* c);
     void sendClientToScreen(AbstractClient* c, int screen);
 
+    void addManualOverlay(xcb_window_t id) {
+        manual_overlays << id;
+    }
+    void removeManualOverlay(xcb_window_t id) {
+        manual_overlays.removeOne(id);
+    }
+
     /**
      * Shows the menu operations menu for the client and makes it active if
      * it's not already.
@@ -636,6 +643,7 @@ private:
     ToplevelList splitapp_stacking_order;    //split app
     ToplevelList unconstrained_stacking_order; // Topmost last
     ToplevelList stacking_order; // Topmost last
+    QVector<xcb_window_t> manual_overlays; //Topmost last
     bool force_restacking;
     ToplevelList x_stacking; // From XQueryTree()
     std::unique_ptr<Xcb::Tree> m_xStackingQueryTree;

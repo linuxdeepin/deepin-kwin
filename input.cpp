@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "popup_input_filter.h"
 #include "shell_client.h"
 #include "wayland_server.h"
+#include "xwl/xwayland_interface.h"
 #include <KWayland/Server/display.h>
 #include <KWayland/Server/fakeinput_interface.h>
 #include <KWayland/Server/seat_interface.h>
@@ -1705,7 +1706,19 @@ public:
             const auto pos = input()->globalPointer();
             seat->setPointerPos(pos);
             ddeSeat->setPointerPos(event->globalPos());
-            if (Toplevel *t = input()->pointer()->at()) {
+            const auto eventPos = event->globalPos();
+            // TODO: use InputDeviceHandler::at() here and check isClient()?
+            Toplevel *t = input()->pointer()->at();
+            if (auto *xwl = xwayland()) {
+                const auto ret = xwl->dragMoveFilter(t, eventPos);
+                if (ret == Xwl::DragEventReply::Ignore) {
+                    return false;
+                } else if (ret == Xwl::DragEventReply::Take) {
+                    break;
+                }
+            }
+
+            if (t) {
                 // TODO: consider decorations
                 if (t->surface() != seat->dragSurface()) {
                     if (AbstractClient *c = qobject_cast<AbstractClient*>(t)) {
