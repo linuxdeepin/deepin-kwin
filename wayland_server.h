@@ -35,6 +35,9 @@ namespace Client
 {
 class ConnectionThread;
 class Registry;
+class Compositor;
+class Seat;
+class DataDeviceManager;
 class ShmPool;
 class Surface;
 }
@@ -48,6 +51,7 @@ class DataDeviceInterface;
 class IdleInterface;
 class ShellInterface;
 class SeatInterface;
+class DataDeviceManagerInterface;
 class ServerSideDecorationManagerInterface;
 class ServerSideDecorationPaletteManagerInterface;
 class SurfaceInterface;
@@ -106,6 +110,9 @@ public:
     }
     KWayland::Server::SeatInterface *seat() {
         return m_seat;
+    }
+    KWayland::Server::DataDeviceManagerInterface *dataDeviceManager() {
+        return m_dataDeviceManager;
     }
     KWayland::Server::ShellInterface *shell() {
         return m_shell;
@@ -171,7 +178,6 @@ public:
     int createInputMethodConnection();
     void destroyInputMethodConnection();
 
-    int createXclipboardSyncConnection();
 
     /**
      * @returns true if screen is locked.
@@ -202,8 +208,14 @@ public:
     KWayland::Server::ClientConnection *screenLockerClientConnection() const {
         return m_screenLockerClientConnection;
     }
-    QPointer<KWayland::Server::DataDeviceInterface> xclipboardSyncDataDevice() const {
-        return m_xclipbaordSync.ddi;
+    KWayland::Client::Compositor *internalCompositor() {
+        return m_internalConnection.compositor;
+    }
+    KWayland::Client::Seat *internalSeat() {
+        return m_internalConnection.seat;
+    }
+    KWayland::Client::DataDeviceManager *internalDataDeviceManager() {
+        return m_internalConnection.ddm;
     }
     KWayland::Client::ShmPool *internalShmPool() {
         return m_internalConnection.shm;
@@ -246,10 +258,8 @@ Q_SIGNALS:
     void terminatingInternalClientConnection();
     void initialized();
     void foreignTransientChanged(KWayland::Server::SurfaceInterface *child);
-    void xclipboardSyncDataDeviceCreated();
 
 private:
-    void setupX11ClipboardSync();
     void shellClientShown(Toplevel *t);
     void initOutputs();
     void syncOutputsToWayland();
@@ -262,6 +272,7 @@ private:
     KWayland::Server::Display *m_display = nullptr;
     KWayland::Server::CompositorInterface *m_compositor = nullptr;
     KWayland::Server::SeatInterface *m_seat = nullptr;
+    KWayland::Server::DataDeviceManagerInterface *m_dataDeviceManager = nullptr;
     KWayland::Server::ShellInterface *m_shell = nullptr;
     KWayland::Server::XdgShellInterface *m_xdgShell5 = nullptr;
     KWayland::Server::XdgShellInterface *m_xdgShell6 = nullptr;
@@ -295,15 +306,13 @@ private:
         KWayland::Client::ConnectionThread *client = nullptr;
         QThread *clientThread = nullptr;
         KWayland::Client::Registry *registry = nullptr;
+        KWayland::Client::Compositor *compositor = nullptr;
+        KWayland::Client::Seat *seat = nullptr;
+        KWayland::Client::DataDeviceManager *ddm = nullptr;
         KWayland::Client::ShmPool *shm = nullptr;
         bool interfacesAnnounced = false;
 
     } m_internalConnection;
-    struct {
-        QProcess *process = nullptr;
-        KWayland::Server::ClientConnection *client = nullptr;
-        QPointer<KWayland::Server::DataDeviceInterface> ddi;
-    } m_xclipbaordSync;
     KWayland::Server::XdgForeignInterface *m_XdgForeign = nullptr;
     QList<ShellClient*> m_clients;
     QList<ShellClient*> m_internalClients;

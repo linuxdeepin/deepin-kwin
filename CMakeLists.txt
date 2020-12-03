@@ -526,6 +526,7 @@ set(kwin_KDEINIT_SRCS
     libinput/libinput_logging.cpp
     udev.cpp
     touch_hide_cursor_spy.cpp
+    xwl/xwayland_interface.cpp
    )
 
 include(ECMQtDeclareLoggingCategory)
@@ -692,6 +693,7 @@ set(kwin_WAYLAND_SRCS
    tabletmodemanager.cpp
 )
 
+include(ECMQtDeclareLoggingCategory)
 ecm_qt_declare_logging_category(kwin_WAYLAND_SRCS
     HEADER
         kwinscreencast_logging.h
@@ -703,7 +705,31 @@ ecm_qt_declare_logging_category(kwin_WAYLAND_SRCS
         Warning
 )
 
-add_executable(kwin_wayland ${kwin_WAYLAND_SRCS})
+set(kwin_XWAYLAND_SRCS
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/xwayland.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/databridge.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/selection.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/selection_source.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/transfer.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/clipboard.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/dnd.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/drag.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/drag_wl.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/drag_x.cpp
+   )
+
+ecm_qt_declare_logging_category(kwin_XWAYLAND_SRCS
+    HEADER
+        xwayland_logging.h
+    IDENTIFIER
+        KWIN_XWL
+    CATEGORY_NAME
+        kwin_xwl
+    DEFAULT_SEVERITY
+        Critical
+)
+
+add_executable(kwin_wayland ${kwin_WAYLAND_SRCS} ${kwin_XWAYLAND_SRCS})
 
 if (PipeWire_FOUND)
     target_sources(kwin_wayland
