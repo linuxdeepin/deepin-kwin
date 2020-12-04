@@ -650,6 +650,7 @@ void ShellClient::updateDecoration(bool check_workspace_pos, bool force)
     if (check_workspace_pos)
         checkWorkspacePosition(oldgeom, -2, oldClientGeom);
     blockGeometryUpdates(false);
+    setGeometryRestore(geometry());
 }
 
 void ShellClient::setGeometry(int x, int y, int w, int h, ForceGeometry_t force)
@@ -1574,9 +1575,9 @@ void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface
 {
     m_plasmaShellSurface = surface;
     auto updatePosition = [this, surface] {
-        setGeometryRestore(QRect(surface->position(), m_geomMaximizeRestore.size()));
         QPoint newPosition = resetPosition(surface->position(), getWindowGravity());
         QRect rect = QRect(newPosition, m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
+        setGeometryRestore(QRect(newPosition, m_geomMaximizeRestore.size()));
         // Shell surfaces of internal windows are sometimes desync to current value.
         // Make sure to not set window geometry of internal windows to invalid values (bug 386304)
         if (!m_internal || rect.isValid()) {
