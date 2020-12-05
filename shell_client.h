@@ -195,7 +195,13 @@ public:
         m_maxmizable = set;
     }
 
-    inline bool isDragWindow() {
+    void setResizable(bool set)
+    {
+        m_resizable = set;
+    }
+
+    inline bool isDragWindow()
+    {
         return m_isDragWindow;
     }
 
@@ -314,6 +320,7 @@ private:
     bool m_hasPopupGrab = false;
     bool m_minimizable = true;
     bool m_maxmizable = true;
+    bool m_resizable = true;
     bool m_isDragWindow = false;
     int m_windowGravity = FRAME_TOP;
     qreal m_opacity = 1.0;
