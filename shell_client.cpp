@@ -926,14 +926,8 @@ bool ShellClient::isMovableAcrossScreens() const
 
 bool ShellClient::isResizable() const
 {
-    if (surface()) {
-        wl_resource* surfaceResource = surface()->resource();
-        if (surfaceResource) {
-            const QMap< QString, QVariant > windowPropertyMap = workspace()->getWindowProperty(surfaceResource);
-            if (windowPropertyMap.contains("resizable") && !windowPropertyMap["resizable"].toBool()) {
-                return false;
-            }
-        }
+    if (!m_resizable || (m_clientMinSize.isValid() && !m_clientMinSize.isNull() && (m_clientMinSize == m_clientMaxSize))) {
+        return false;
     }
 
     if (m_plasmaShellSurface) {
@@ -1570,6 +1564,11 @@ void ShellClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::maximizeableRequested, this,
         [this] (bool set) {
             setMaximizeable(set);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::resizableRequested, this,
+        [this] (bool set) {
+            setResizable(set);
         }
     );
 }
