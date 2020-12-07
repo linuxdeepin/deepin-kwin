@@ -41,6 +41,7 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QWheelEvent>
+#include <QScreen>
 
 #include <Plasma/Theme>
 
@@ -2443,8 +2444,15 @@ void EffectFrameImpl::autoResize()
     QRect geometry;
     // Set size
     if (!m_text.isEmpty()) {
+        qreal scaleFactor = 1;
+        QScreen *primary = QGuiApplication::primaryScreen();
+        if (primary) {
+            const qreal dpi = primary->logicalDotsPerInchX();
+            scaleFactor = dpi / 96.0f;
+        }
+
         QFontMetrics metrics(m_font);
-        geometry.setSize(metrics.size(0, m_text));
+        geometry.setSize(QSize(metrics.width(m_text) * scaleFactor, metrics.height()));
     }
     if (!m_icon.isNull() && !m_iconSize.isEmpty()) {
         geometry.setLeft(-m_iconSize.width());
