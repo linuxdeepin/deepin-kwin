@@ -874,7 +874,8 @@ void AbstractClient::applyWindowRules()
     // IgnoreGeometry
     setDesktops(desktops());
     workspace()->sendClientToOutput(this, output());
-    setOnActivities(activities());
+    if (activities().size() != 0)
+        setOnActivities(activities());
     // Type
     maximize(maximizeMode());
     // Minimize : functions don't check, and there are two functions
