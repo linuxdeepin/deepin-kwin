@@ -571,7 +571,7 @@ void SceneOpenGL::handleGraphicsReset(GLenum status)
     qCDebug(KWIN_OPENGL) << "Attempting to reset compositing.";
     QMetaObject::invokeMethod(this, "resetCompositing", Qt::QueuedConnection);
 
-    KNotification::event(QStringLiteral("graphicsreset"), i18n("Desktop effects were restarted due to a graphics reset"));
+    //KNotification::event(QStringLiteral("graphicsreset"), i18n("Desktop effects were restarted due to a graphics reset"));
 }
 
 
