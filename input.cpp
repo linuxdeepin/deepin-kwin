@@ -2290,6 +2290,20 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
         if (effects && static_cast<EffectsHandlerImpl*>(effects)->isMouseInterception()) {
             return nullptr;
         }
+        // focus set on the first wayland override window
+        const ToplevelList &stacking_find_override = Workspace::self()->stackingOrder();
+        if (!stacking_find_override.isEmpty()) {
+            auto it = stacking_find_override.end();
+            do {
+                --it;
+                Toplevel *t = (*it);
+                if (t->isOverride()) {
+                    if (t->inputGeometry().contains(pos) && acceptsInput(t, pos)) {
+                        return t;
+                    }
+                }
+            } while (it != stacking_find_override.begin());
+        }
         const UnmanagedList &unmanaged = Workspace::self()->unmanagedList();
         foreach (Unmanaged *u, unmanaged) {
             if (u->geometry().contains(pos) && acceptsInput(u, pos)) {
