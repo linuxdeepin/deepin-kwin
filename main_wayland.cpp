@@ -154,9 +154,12 @@ ApplicationWayland::~ApplicationWayland()
     }
     if (m_xwaylandProcess) {
         m_xwaylandProcess->terminate();
-        while (m_xwaylandProcess->state() != QProcess::NotRunning) {
-            processEvents(QEventLoop::WaitForMoreEvents);
+        QTime dieTime = QTime::currentTime().addMSecs(3000);
+        qInfo() << QDateTime::currentDateTime().toString(QString::fromLatin1("hh:mm:ss.zzz")) << Q_FUNC_INFO << "begin while";
+        while (m_xwaylandProcess->state() != QProcess::NotRunning && (QTime::currentTime() < dieTime)) {
+            processEvents(QEventLoop::WaitForMoreEvents, 1000);
         }
+        qInfo() << QDateTime::currentDateTime().toString(QString::fromLatin1("hh:mm:ss.zzz")) << Q_FUNC_INFO << "finish while";
         waylandServer()->destroyXWaylandConnection();
     }
     if (QStyle *s = style()) {
