@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screens_drm.h"
 #include "udev.h"
 #include "wayland_server.h"
+#include "log.h"
 #if HAVE_GBM
 #include "egl_gbm_backend.h"
 #include <gbm.h>
@@ -317,13 +318,16 @@ void DrmBackend::openDrm()
     drmModeRes *res = resources.data();
     if (!resources) {
         qCWarning(KWIN_DRM) << "drmModeGetResources failed";
+        DLOGC("Drm get resources failed!FD[%d]", m_fd);
         return;
     }
 
     for (int i = 0; i < res->count_connectors; ++i) {
+        DLOGD("Get connector!ID[%d],Index[%d]", res->connectors[i], i);
         m_connectors << new DrmConnector(res->connectors[i], m_fd);
     }
     for (int i = 0; i < res->count_crtcs; ++i) {
+        DLOGD("Get Crtcs!ID[%d],Index[%d]", res->crtcs[i], i);
         m_crtcs << new DrmCrtc(res->crtcs[i], this, i);
     }
 
@@ -345,6 +349,7 @@ void DrmBackend::openDrm()
 
     if (m_outputs.isEmpty()) {
         qCDebug(KWIN_DRM) << "No connected outputs found on startup.";
+        DLOGC("No connected outputs found on startup!");
     }
 
     // setup udevMonitor
@@ -364,6 +369,7 @@ void DrmBackend::openDrm()
                     }
                     if (device->hasProperty("HOTPLUG", "1")) {
                         qCDebug(KWIN_DRM) << "Received hot plug event for monitored drm device";
+                        DLOGD("Received hot plug event for %s!", device->devNode());
                         updateOutputs();
                         updateCursor();
                     }
@@ -378,12 +384,14 @@ void DrmBackend::openDrm()
 void DrmBackend::updateOutputs()
 {
     if (m_fd < 0) {
+        DLOGC("Drm fd error!");
         return;
     }
 
     ScopedDrmPointer<_drmModeRes, &drmModeFreeResources> resources(drmModeGetResources(m_fd));
     if (!resources) {
         qCWarning(KWIN_DRM) << "drmModeGetResources failed";
+        DLOGC("Drm get resources failed!FD[%d]", m_fd);
         return;
     }
 
@@ -393,12 +401,15 @@ void DrmBackend::updateOutputs()
     // split up connected connectors in already or not yet assigned ones
     for (DrmConnector *con : qAsConst(m_connectors)) {
         if (!con->isConnected()) {
+            DLOGC("Connector is not connected!ID[%d]", con->id());
             continue;
         }
 
         if (DrmOutput *o = findOutput(con->id())) {
+            DLOGD("Connector is reconnected!ID[%d]", con->id());
             connectedOutputs << o;
         } else {
+            DLOGD("New Connector is connected!ID[%d]", con->id());
             pendingConnectors << con;
         }
     }
@@ -421,7 +432,8 @@ void DrmBackend::updateOutputs()
         it = m_outputs.erase(it);
         m_enabledOutputs.removeOne(removed);
         emit outputRemoved(removed);
-        qCDebug(KWIN_DRM) << "request output teardown from hotplug event";
+        qCDebug(KWIN_DRM) << "request output teardown from hotplug event" << removed->name() << removed->uuid();
+        DLOGD("Request output[%s:%x] teardown from hotplug event!", removed->name().toLocal8Bit().data(), removed->uuid().data());
         removed->teardown();
     }
 
@@ -429,9 +441,11 @@ void DrmBackend::updateOutputs()
     for (DrmConnector *con : qAsConst(pendingConnectors)) {
         ScopedDrmPointer<_drmModeConnector, &drmModeFreeConnector> connector(drmModeGetConnector(m_fd, con->id()));
         if (!connector) {
+            DLOGC("Can't find connector!");
             continue;
         }
         if (connector->count_modes == 0) {
+            DLOGC("Connector's mode count is 0!");
             continue;
         }
         bool outputDone = false;
@@ -440,11 +454,13 @@ void DrmBackend::updateOutputs()
         for (auto encId : qAsConst(encoders)) {
             ScopedDrmPointer<_drmModeEncoder, &drmModeFreeEncoder> encoder(drmModeGetEncoder(m_fd, encId));
             if (!encoder) {
+                DLOGC("Get encoder error!");
                 continue;
             }
             for (DrmCrtc *crtc : qAsConst(m_crtcs)) {
                 if (!(encoder->possible_crtcs & (1 << crtc->resIndex()))) {
-                        continue;
+                    DLOGC("No this crtc.ID[%d],Index[%d],Bitmask of possible CRTCs[%d]!", crtc->id(), crtc->resIndex(), encoder->possible_crtcs);
+                    continue;
                 }
 
                 // check if crtc isn't used yet -- currently we don't allow multiple outputs on one crtc (cloned mode)
@@ -461,6 +477,7 @@ void DrmBackend::updateOutputs()
                 // TODO: we could avoid these lib drm calls if we store all struct data in DrmCrtc and DrmConnector in the beginning
                 ScopedDrmPointer<_drmModeCrtc, &drmModeFreeCrtc> modeCrtc(drmModeGetCrtc(m_fd, crtc->id()));
                 if (!modeCrtc) {
+                    DLOGC("Get crtc[%d] error!", crtc->id());
                     continue;
                 }
 
@@ -472,21 +489,27 @@ void DrmBackend::updateOutputs()
                 connect(output, &DrmOutput::dpmsChanged, this, &DrmBackend::outputDpmsChanged);
 
                 if (modeCrtc->mode_valid) {
+                    DLOGD("Use crtc mode");
                     output->m_mode = modeCrtc->mode;
                 } else {
+                    DLOGD("Use connector mode");
                     output->m_mode = connector->modes[0];
                 }
-                qCDebug(KWIN_DRM) << "For new output use mode " << output->m_mode.name;
+                qCDebug(KWIN_DRM) << "For new output use mode " << output->m_mode.name << output->name();
+                DLOGD("Output[%s] mode[%s]", output->name().toLocal8Bit().data(), output->m_mode.name);
 
                 if (!output->init(connector.data())) {
                     qCWarning(KWIN_DRM) << "Failed to create output for connector " << con->id();
+                    DLOGC("Failed to create output for connector[%d].", con->id());
                     delete output;
                     continue;
                 }
                 if (!output->initCursor(m_cursorSize)) {
+                    DLOGD("Use software cursor.");
                     setSoftWareCursor(true);
                 }
                 qCDebug(KWIN_DRM) << "Found new output with uuid" << output->uuid();
+                DLOGD("Found new output with uuid[%s]", output->uuid().data());
 
                 connectedOutputs << output;
                 m_enabledOutputs << output;
