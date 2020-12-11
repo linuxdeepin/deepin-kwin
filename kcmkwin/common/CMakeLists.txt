@@ -10,6 +10,9 @@ set(kcmkwincommon_SRC
 qt5_add_dbus_interface(kcmkwincommon_SRC
     ${KWIN_SOURCE_DIR}/org.kde.kwin.Effects.xml kwin_effects_interface
 )
+qt5_add_dbus_interface(kcmkwincommon_SRC
+    ${KWIN_SOURCE_DIR}/org.kde.kwin.Xkb.xml kwin_xkb_interface
+)
 
 add_library(kcmkwincommon SHARED ${kcmkwincommon_SRC})
 

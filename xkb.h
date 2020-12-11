@@ -21,6 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KWIN_XKB_H
 #include "input.h"
 
+#include <QObject>
+#include <QtDBus>
+
 #include <kwin_export.h>
 
 #include <KSharedConfig>
@@ -55,9 +58,10 @@ enum KWIN_EXPORT ScreenStatus {
     AlreadyScreenOn
 };
 
-class KWIN_EXPORT Xkb : public QObject
+class KWIN_EXPORT Xkb : public QObject, protected QDBusContext
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Xkb")
 public:
     Xkb(QObject *parent = nullptr);
     ~Xkb() override;
@@ -124,6 +128,10 @@ public:
     static void updateScreenOn(ScreenStatus screen_on) {
         m_kwinScreenOn = screen_on;
     };
+public Q_SLOTS:
+    Q_SCRIPTABLE int getLeds() const {
+        return m_leds;
+    }
 Q_SIGNALS:
     void ledsChanged(const LEDs &leds);
 
