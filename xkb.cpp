@@ -90,6 +90,8 @@ Xkb::Xkb(QObject *parent)
     , m_leds()
 {
     qRegisterMetaType<KWin::Xkb::LEDs>();
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    dbus.registerObject(QStringLiteral("/Xkb"), this, QDBusConnection::ExportScriptableContents);
     if (!m_context) {
         qCDebug(KWIN_XKB) << "Could not create xkb context";
     } else {

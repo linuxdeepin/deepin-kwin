@@ -50,6 +50,8 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     X11Extras
 )
 
+find_package(Qt5DBus REQUIRED)
+
 find_package(Qt5Test ${QT_MIN_VERSION} CONFIG QUIET)
 set_package_properties(Qt5Test PROPERTIES
          PURPOSE "Required for tests"
@@ -566,6 +568,7 @@ qt5_add_dbus_adaptor( kwin_KDEINIT_SRCS org.kde.kwin.ColorCorrect.xml colorcorre
 qt5_add_dbus_adaptor( kwin_KDEINIT_SRCS ${kwin_effects_dbus_xml} effects.h KWin::EffectsHandlerImpl )
 qt5_add_dbus_adaptor( kwin_KDEINIT_SRCS org.kde.kwin.OrientationSensor.xml orientation_sensor.h KWin::OrientationSensor)
 qt5_add_dbus_adaptor( kwin_KDEINIT_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface )
+qt5_add_dbus_adaptor( kwin_KDEINIT_SRCS org.kde.kwin.Xkb.xml xkb.h KWin::Xkb )
 
 qt5_add_dbus_interface( kwin_KDEINIT_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/org.freedesktop.ScreenSaver.xml screenlocker_interface)
 
@@ -705,6 +708,7 @@ install(
         org.kde.kwin.ColorCorrect.xml
         org.kde.kwin.Effects.xml
         org.kde.KWin.VirtualDesktopManager.xml
+        org.kde.kwin.Xkb.xml
     DESTINATION
         ${KDE_INSTALL_DBUSINTERFACEDIR}
 )
