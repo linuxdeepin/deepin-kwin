@@ -2298,6 +2298,12 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
                 --it;
                 Toplevel *t = (*it);
                 if (t->isOverride()) {
+                    // a drag icon window doesn't get mouse events
+                    if (ShellClient *c = dynamic_cast<ShellClient*>(t)) {
+                        if (c->isDragWindow()) {
+                            continue;
+                        }
+                    }
                     if (t->inputGeometry().contains(pos) && acceptsInput(t, pos)) {
                         return t;
                     }
