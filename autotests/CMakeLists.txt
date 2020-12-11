@@ -456,6 +456,7 @@ add_executable(testXkb ${testXkb_SRCS} ${testprintasanbase_SRCS})
 target_link_libraries(testXkb
     Qt5::Test
     Qt5::Gui
+    Qt5::DBus
     Qt5::Widgets
     KF5::ConfigCore
     KF5::WindowSystem
