@@ -11,6 +11,9 @@
 #include "input.h"
 #include <xkbcommon/xkbcommon.h>
 
+#include <QObject>
+#include <QtDBus>
+
 #include <kwin_export.h>
 
 #include <KConfigGroup>
@@ -37,9 +40,10 @@ namespace KWaylandServer
 namespace KWin
 {
 
-class KWIN_EXPORT Xkb : public QObject
+class KWIN_EXPORT Xkb : public QObject, protected QDBusContext
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Xkb")
 public:
     Xkb(QObject *parent = nullptr);
     ~Xkb() override;
@@ -102,6 +106,11 @@ public:
     QByteArray keymapContents() const;
 
     void setDDESeat(KWaylandServer::DDESeatInterface *ddeseat);
+
+public Q_SLOTS:
+    Q_SCRIPTABLE int getLeds() const {
+        return m_leds;
+    }
 
 Q_SIGNALS:
     void ledsChanged(const LEDs &leds);

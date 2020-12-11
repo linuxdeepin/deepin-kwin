@@ -208,6 +208,7 @@ target_link_libraries(testXkb
     Qt::Gui
     Qt::Test
     Qt::Widgets
+    Qt::DBus
 
     KF5::ConfigCore
     Plasma::KWaylandServer

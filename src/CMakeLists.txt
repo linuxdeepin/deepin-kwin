@@ -162,6 +162,7 @@ qt_add_dbus_adaptor(kwin_SRCS ${kwin_effects_dbus_xml} effects.h KWin::EffectsHa
 qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
 qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionManager)
 qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
+qt_add_dbus_adaptor(kwin_SRCS org.kde.kwin.Xkb.xml xkb.h KWin::Xkb)
 
 qt_add_dbus_interface(kwin_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf5_org.freedesktop.ScreenSaver.xml screenlocker_interface)
 qt_add_dbus_interface(kwin_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/org.kde.screensaver.xml kscreenlocker_interface)
@@ -331,6 +332,7 @@ install(
         org.kde.kwin.Compositing.xml
         org.kde.kwin.Effects.xml
         org.kde.KWin.Plugins.xml
+        org.kde.kwin.Xkb.xml
         ${CMAKE_CURRENT_BINARY_DIR}/org.kde.kwin.VirtualKeyboard.xml
         ${CMAKE_CURRENT_BINARY_DIR}/org.kde.KWin.TabletModeManager.xml
     DESTINATION
