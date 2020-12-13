@@ -412,6 +412,9 @@ void ShellClient::destroyClient()
 {
     m_closing = true;
     Deleted *del = nullptr;
+    if (isMoveResize()) {
+        leaveMoveResize();
+    }
     if (workspace()) {
         del = Deleted::create(this);
     }
