@@ -54,6 +54,10 @@ public:
         m_runWithoutScreen = withoutScreen;
     }
 
+    void setDisableMultiScreens(bool disabled) {
+        m_disableMultiScreens = disabled;
+    }
+
     QProcessEnvironment processStartupEnvironment() const override {
         return m_environment;
     }
@@ -80,6 +84,7 @@ private:
     QProcessEnvironment m_environment;
     QString m_sessionArgument;
     bool m_runWithoutScreen = false;
+    bool m_disableMultiScreens = false;
 };
 
 }

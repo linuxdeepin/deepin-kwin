@@ -17,6 +17,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
+#define LOG_TAG "DrmBackend"
+
 #include "drm_backend.h"
 #include "drm_output.h"
 #include "drm_object_connector.h"
@@ -437,6 +439,11 @@ void DrmBackend::updateOutputs()
         removed->teardown();
     }
 
+    if (m_disableMultiScreens && !connectedOutputs.isEmpty()) {
+        DLOGD("skip updateOutputs for disableMultiScreens, already has connected screen");
+        return;
+    }
+
     // now check new connections
     for (DrmConnector *con : qAsConst(pendingConnectors)) {
         ScopedDrmPointer<_drmModeConnector, &drmModeFreeConnector> connector(drmModeGetConnector(m_fd, con->id()));
@@ -521,6 +528,10 @@ void DrmBackend::updateOutputs()
                 break;
             }
         }
+        if (m_disableMultiScreens && !connectedOutputs.isEmpty()) {
+            DLOGD("skip for disableMultiScreens, already has pending Connector");
+            break;
+        }
     }
     std::sort(connectedOutputs.begin(), connectedOutputs.end(), [] (DrmOutput *a, DrmOutput *b) { return a->m_conn->id() < b->m_conn->id(); });
     m_outputs = connectedOutputs;
@@ -546,6 +557,11 @@ void DrmBackend::updateOutputs()
     } else if (!m_defaultOutput) {
         emit startWithoutScreen();
     }
+}
+
+void DrmBackend::disableMultiScreens()
+{
+    m_disableMultiScreens = true;
 }
 
 void DrmBackend::installDefaultDisplay()

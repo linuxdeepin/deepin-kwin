@@ -135,6 +135,8 @@ public:
 
     void installDefaultDisplay() override;
 
+    void disableMultiScreens() override;
+
 public Q_SLOTS:
     void turnOutputsOn();
 
@@ -195,6 +197,7 @@ private:
     KWayland::Server::OutputManagementInterface *m_outputManagement = nullptr;
     gbm_device *m_gbmDevice = nullptr;
     DrmOutput *m_defaultOutput = nullptr;
+    bool m_disableMultiScreens = false;
 };
 
 

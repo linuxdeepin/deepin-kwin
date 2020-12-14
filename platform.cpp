@@ -94,6 +94,10 @@ void Platform::installDefaultDisplay()
 {
 }
 
+void Platform::disableMultiScreens()
+{
+}
+
 Screens *Platform::createScreens(QObject *parent)
 {
     Q_UNUSED(parent)
