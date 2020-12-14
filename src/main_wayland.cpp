@@ -146,6 +146,10 @@ void ApplicationWayland::performStartup()
     // first load options - done internally by a different thread
     createOptions();
 
+    if (m_disableMultiScreens) {
+        platform()->disableMultiScreens();
+    }
+
     if (!platform()->initialize()) {
         std::exit(1);
     }
@@ -471,6 +475,9 @@ int main(int argc, char * argv[])
     QCommandLineOption replaceOption(QStringLiteral("replace"),
                                     i18n("Exits this instance so it can be restarted by kwin_wayland_wrapper."));
 
+    QCommandLineOption disableMultiScreens(QStringLiteral("disable-multiscreens"),
+                                    i18n("Disable multi screens"));
+
     QCommandLineParser parser;
     a.setupCommandLine(&parser);
     parser.addOption(xwaylandOption);
@@ -480,6 +487,7 @@ int main(int argc, char * argv[])
     parser.addOption(xwaylandDisplayOption);
     parser.addOption(xwaylandXAuthorityOption);
     parser.addOption(replaceOption);
+    parser.addOption(disableMultiScreens);
 
     if (hasX11Option) {
         parser.addOption(x11DisplayOption);
@@ -564,6 +572,8 @@ int main(int argc, char * argv[])
         }
         return 0;
     }
+
+    a.setDisableMultiScreens(parser.isSet(disableMultiScreens));
 
     if (parser.isSet(exitWithSessionOption)) {
         a.setSessionArgument(parser.value(exitWithSessionOption));

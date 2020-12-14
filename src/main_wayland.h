@@ -52,6 +52,10 @@ public:
         m_sessionArgument = session;
     }
 
+    void setDisableMultiScreens(bool disabled) {
+        m_disableMultiScreens = disabled;
+    }
+
     QProcessEnvironment processStartupEnvironment() const override {
         return m_environment;
     }
@@ -70,6 +74,7 @@ private:
     QString m_inputMethodServerToStart;
     QProcessEnvironment m_environment;
     QString m_sessionArgument;
+    bool m_disableMultiScreens = false;
 
     Xwl::Xwayland *m_xwayland = nullptr;
     QVector<int> m_xwaylandListenFds;

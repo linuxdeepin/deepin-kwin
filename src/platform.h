@@ -71,6 +71,8 @@ public:
         return nullptr;
     }
 
+    virtual void disableMultiScreens() {}
+
     /**
      * Allows the platform to create a platform specific screen edge.
      * The default implementation creates a Edge.

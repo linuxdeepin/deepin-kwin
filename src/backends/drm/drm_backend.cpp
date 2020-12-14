@@ -299,6 +299,10 @@ DrmGpu *DrmBackend::addGpu(const QString &fileName)
 
 void DrmBackend::addOutput(DrmAbstractOutput *o)
 {
+    if (m_disableMultiScreens && !m_outputs.isEmpty()) {
+        qCDebug(KWIN_DRM, "skip for disableMultiScreens, already has pending Connector");
+        return;
+    }
     m_outputs.append(o);
     Q_EMIT outputAdded(o);
     enableOutput(o, true);
@@ -685,6 +689,11 @@ bool DrmBackend::applyOutputChanges(const WaylandOutputConfig &config)
         Compositor::self()->scene()->addRepaintFull();
     }
     return true;
+}
+
+void DrmBackend::disableMultiScreens()
+{
+    m_disableMultiScreens = true;
 }
 
 }

@@ -67,6 +67,8 @@ public:
 
     bool isActive() const;
 
+    void disableMultiScreens() override;
+
 public Q_SLOTS:
     void turnOutputsOn();
     void sceneInitialized() override;
@@ -105,6 +107,8 @@ private:
     QVector<DrmGpu*> m_gpus;
     QScopedPointer<DpmsInputEventFilter> m_dpmsFilter;
     QScopedPointer<PlaceholderInputEventFilter> m_placeholderFilter;
+
+    bool m_disableMultiScreens = false;
 };
 
 
