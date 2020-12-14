@@ -198,6 +198,9 @@ void ApplicationWayland::createBackend()
         }
     );
     connect(platform(), &Platform::startWithoutScreen, this, &ApplicationWayland::continueStartupWithoutScreens);
+    if (m_disableMultiScreens) {
+        platform()->disableMultiScreens();
+    }
     platform()->init();
 }
 
@@ -652,10 +655,14 @@ int main(int argc, char * argv[])
     QCommandLineOption withoutscreenOption(QStringLiteral("withoutscreen"),
                                       i18n("Start kwin without screen."));
 
+    QCommandLineOption disableMultiScreens(QStringLiteral("disable-multiscreens"),
+                                      i18n("Disable multi screens"));
+
     QCommandLineParser parser;
     a.setupCommandLine(&parser);
     parser.addOption(xwaylandOption);
     parser.addOption(withoutscreenOption);
+    parser.addOption(disableMultiScreens);
     parser.addOption(waylandSocketOption);
     if (hasX11Option) {
         parser.addOption(x11DisplayOption);
@@ -858,6 +865,7 @@ int main(int argc, char * argv[])
     a.setProcessStartupEnvironment(environment);
     a.setStartXwayland(parser.isSet(xwaylandOption));
     a.setWithoutScreen(parser.isSet(withoutscreenOption));
+    a.setDisableMultiScreens(parser.isSet(disableMultiScreens));
     a.setApplicationsToStart(parser.positionalArguments());
     a.setInputMethodServerToStart(parser.value(inputMethodOption));
     a.start();
