@@ -83,6 +83,7 @@ public:
 
     virtual void init() = 0;
     virtual void installDefaultDisplay();
+    virtual void disableMultiScreens();
     virtual Screens *createScreens(QObject *parent = nullptr);
     virtual OpenGLBackend *createOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
