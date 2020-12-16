@@ -170,6 +170,16 @@ Client::Client()
                 XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW);
         }
     });
+    connect(Cursor::self(), &Cursor::themeChanged, this, [this](){
+        xcb_cursor_t nativeCursor = Cursor::x11Cursor(Qt::ArrowCursor);
+        m_frame.defineCursor(nativeCursor);
+        // Cursor theme in gtk window follow its parent window.
+        // So after theme changed, kwin should define cursor in wrapper to reload cursor theme
+        // to make cursor theme in gtk window right.
+        m_wrapper.defineCursor(nativeCursor);
+        if (m_decoInputExtent.isValid())
+            m_decoInputExtent.defineCursor(nativeCursor);
+    });
 
     connect(this, &Client::tabGroupChanged, this,
         [this] {
