@@ -121,6 +121,8 @@ public:
         Q_UNUSED(enable);
     }
 
+    void setOriginalEdid(QByteArray edid);
+
 Q_SIGNALS:
     void modeChanged();
 
