@@ -185,6 +185,11 @@ void AbstractOutput::setWaylandMode(const QSize &size, int refreshRate)
     m_xdgOutput->done();
 }
 
+void AbstractOutput::setOriginalEdid(QByteArray edid)
+{
+    m_waylandOutputDevice->setEdid(edid);
+}
+
 void AbstractOutput::initWaylandOutputDevice(const QString &model,
                                              const QString &manufacturer,
                                              const QByteArray &uuid,
