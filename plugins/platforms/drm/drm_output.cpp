@@ -381,6 +381,8 @@ void DrmOutput::initOutputDevice(drmModeConnector *connector)
         }
     }
 
+    setOriginalEdid(m_originEdid);
+
     AbstractOutput::initWaylandOutputDevice(model, manufacturer, m_uuid, modes);
 }
 
@@ -555,6 +557,7 @@ void DrmOutput::initEdid(drmModeConnector *connector)
     }
     m_edid.eisaId = extractEisaId(edid.data());
     m_edid.serialNumber = extractSerialNumber(edid.data());
+    m_originEdid = QByteArray((const char*)edid.data()->data, 128);
 
     // parse monitor descriptor description
     extractMonitorDescriptorDescription(edid.data(), m_edid);
