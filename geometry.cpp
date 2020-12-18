@@ -1140,6 +1140,9 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     if (isDock())
         return;
 
+    if (isMoveResize())
+        return;
+
     if (waylandServer() && (isStandAlone() || isOverride()))
         return;
 
@@ -1261,8 +1264,15 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     }
     foreach (const QRect& r, workspace()->restrictedMoveArea(desktop(), StrutAreaLeft).rects()) {
         QRect rect = r & newGeomWide;
-        if (!rect.isEmpty())
-            leftMax = qMax(leftMax, rect.x() + rect.width());
+        if (!rect.isEmpty()) {
+            if (waylandServer()) {
+                if (screens()->count() > 1 || (rect.x() + rect.width()) < screenArea.width()) {
+                    leftMax = qMax(leftMax, rect.x() + rect.width());
+                }
+            } else {
+                leftMax = qMax(leftMax, rect.x() + rect.width());
+            }
+        }
     }
 
     QRect displayRect = QRect(QPoint(0,0),screens()->displaySize());
