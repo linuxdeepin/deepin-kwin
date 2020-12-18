@@ -372,7 +372,7 @@ Layer AbstractClient::belongsToLayer() const
 
     if (isOnScreenDisplay())
         return OnScreenDisplayLayer;
-    if (isNotification())
+    if (isNotification() || (waylandServer() && isTooltip()))
         return NotificationLayer;
     if (workspace()->showingDesktop() && belongsToDesktop()) {
         return AboveLayer;
