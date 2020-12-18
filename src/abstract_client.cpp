@@ -298,7 +298,7 @@ Layer AbstractClient::belongsToLayer() const
         return PopupLayer;
     if (isOnScreenDisplay())
         return OnScreenDisplayLayer;
-    if (isNotification())
+    if (isNotification() || (waylandServer() && isTooltip()))
         return NotificationLayer;
     if (isCriticalNotification())
         return CriticalNotificationLayer;
