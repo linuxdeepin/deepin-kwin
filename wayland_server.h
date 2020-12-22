@@ -67,6 +67,7 @@ class ClientManagementInterface;
 class DDESeatInterface;
 class DDEShellInterface;
 class DDEShellSurfaceInterface;
+class StrutInterface;
 }
 }
 
@@ -126,6 +127,9 @@ public:
     }
     KWayland::Server::DDEShellInterface *ddeShell() const {
         return m_ddeShell;
+    }
+    KWayland::Server::StrutInterface *strut() const {
+        return m_strut;
     }
 
     QList<ShellClient*> clients() const {
@@ -264,6 +268,7 @@ private:
     KWayland::Server::ClientManagementInterface *m_clientManagement = nullptr;
     KWayland::Server::DDESeatInterface *m_ddeSeat = nullptr;
     KWayland::Server::DDEShellInterface *m_ddeShell = nullptr;
+    KWayland::Server::StrutInterface *m_strut = nullptr;
 
     struct {
         KWayland::Server::ClientConnection *client = nullptr;

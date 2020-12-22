@@ -216,23 +216,39 @@ void Workspace::updateClientArea(bool force)
                 if (!geometry.intersects(c->geometry())) {
                     return margins;
                 }
-                // figure out which areas of the overall screen setup it borders
-                const bool left = c->geometry().left() == geometry.left();
-                const bool right = c->geometry().right() == geometry.right();
-                const bool top = c->geometry().top() == geometry.top();
-                const bool bottom = c->geometry().bottom() == geometry.bottom();
-                const bool horizontal = c->geometry().width() >= c->geometry().height();
-                if (left && ((!top && !bottom) || !horizontal)) {
-                    margins.setLeft(c->geometry().width());
-                }
-                if (right && ((!top && !bottom) || !horizontal)) {
-                    margins.setRight(c->geometry().width());
-                }
-                if (top && ((!left && !right) || horizontal)) {
-                    margins.setTop(c->geometry().height());
-                }
-                if (bottom && ((!left && !right) || horizontal)) {
-                    margins.setBottom(c->geometry().height());
+                struct KWayland::Server::deepinKwinStrut strutArea = c->strut();
+                if(strutArea.left != 0 || strutArea.right != 0 || strutArea.top != 0 || strutArea.bottom != 0) {
+                    if (strutArea.left != 0) {
+                        margins.setLeft(strutArea.left);
+                    }
+                    if (strutArea.right != 0) {
+                        margins.setRight(strutArea.right);
+                    }
+                    if (strutArea.top != 0) {
+                        margins.setTop(strutArea.top);
+                    }
+                    if (strutArea.bottom != 0) {
+                        margins.setBottom(strutArea.bottom);
+                    }
+                } else {
+                    // figure out which areas of the overall screen setup it borders
+                    const bool left = c->geometry().left() == geometry.left();
+                    const bool right = c->geometry().right() == geometry.right();
+                    const bool top = c->geometry().top() == geometry.top();
+                    const bool bottom = c->geometry().bottom() == geometry.bottom();
+                    const bool horizontal = c->geometry().width() >= c->geometry().height();
+                    if (left && ((!top && !bottom) || !horizontal)) {
+                        margins.setLeft(c->geometry().width());
+                    }
+                    if (right && ((!top && !bottom) || !horizontal)) {
+                        margins.setRight(c->geometry().width());
+                    }
+                    if (top && ((!left && !right) || horizontal)) {
+                        margins.setTop(c->geometry().height());
+                    }
+                    if (bottom && ((!left && !right) || horizontal)) {
+                        margins.setBottom(c->geometry().height());
+                    }
                 }
                 return margins;
             };
@@ -1172,7 +1188,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     } else {
         oldScreenArea = workspace()->clientArea(ScreenArea, oldGeometry.center(), oldDesktop);
     }
-    
+
     const QRect screenArea = workspace()->clientArea(ScreenArea, geometryRestore().center(), desktop());
     int topMax = screenArea.y();
     int rightMax = screenArea.x() + screenArea.width();
@@ -1245,7 +1261,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     QRect newClientGeom = newGeom.adjusted(border[Left], border[Top], -border[Right], -border[Bottom]);
     const QRect newGeomTall = QRect(newGeom.x(), screenArea.y(), newGeom.width(), screenArea.height());   // Full screen height
     const QRect newGeomWide = QRect(screenArea.x(), newGeom.y(), screenArea.width(), newGeom.height());   // Full screen width
-   
+
     // These 4 compute new bounds
     foreach (const QRect& r, workspace()->restrictedMoveArea(desktop(), StrutAreaTop).rects()) {
         QRect rect = r & newGeomTall;
@@ -1283,8 +1299,8 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
         }
         if (border[Top] && screens()->intersecting(newGeom) > 1)
           newGeom.moveLeft(newGeom.left() + border[Top]);
-        
-        // bottom 
+
+        // bottom
         if (newGeom.y() + newGeom.height() > bottomMax) {
             newGeom.moveBottom(qMin(bottomMax - 1, screenArea.bottom())+ border[Bottom]);
         }
@@ -1299,7 +1315,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
                 newGeom.setTop(newGeom.top() + border[Top]);
         }
 
-        //left 
+        //left
         if (newGeom.x() < leftMax) {
             newGeom.moveLeft(qMax(leftMax, screenArea.x()) - border[Left]);
         }
@@ -3308,12 +3324,12 @@ void AbstractClient::handleMoveResize(int x, int y, int x_root, int y_root)
                 // 2. DDE window (with titlebar exists, only height is 0)
                 //
                 // NOTE: apps may set a very small border (e.g dde apps in non-composited mode),
-                // which we need to make sure it big enough to keep above the dock area 
+                // which we need to make sure it big enough to keep above the dock area
                 if (!transposed && bTitleRect.height() <= 10) {
                     bTitleRect.setHeight(40);
 
                     // take care of old CSD windows
-                    // this contains old dde windows and deepin-terminal which have 
+                    // this contains old dde windows and deepin-terminal which have
                     // _GTK_FRAME_EXTENT attributes
                     // 60 is a modest default value for frame height
                     if (auto cli = qobject_cast<Client*>(this)) {
@@ -3445,7 +3461,7 @@ void AbstractClient::performMoveResize()
             setGeometry(moveResizeGeom);
             //qCDebug(KWIN_CORE)<<"client window is moving"<<maximizeMode();
         }
-        
+
     }
     if(isResize() && !haveResizeEffect())
     {

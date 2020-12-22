@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstract_client.h"
 #include <KWayland/Server/xdgshell_interface.h>
+#include <KWayland/Server/strut_interface.h>
 
 namespace KWayland
 {
@@ -38,6 +39,8 @@ class PlasmaShellSurfaceInterface;
 class QtExtendedSurfaceInterface;
 class XdgDecorationInterface;
 class DDEShellSurfaceInterface;
+struct deepinKwinStrut;
+class StrutInterface;
 }
 }
 
@@ -123,6 +126,9 @@ public:
     using AbstractClient::setGeometry;
     void setGeometry(int x, int y, int w, int h, ForceGeometry_t force = NormalGeometrySet) override;
     bool hasStrut() const override;
+    void setStrut(KWayland::Server::deepinKwinStrut& strutArea){m_strutArea = strutArea;}
+    KWayland::Server::deepinKwinStrut& strut(){return m_strutArea;}
+
 
     void setInternalFramebufferObject(const QSharedPointer<QOpenGLFramebufferObject> &fbo) override;
 
@@ -325,6 +331,7 @@ private:
     int m_windowGravity = FRAME_TOP;
     qreal m_opacity = 1.0;
 
+    KWayland::Server::deepinKwinStrut m_strutArea;
     class RequestGeometryBlocker {
     public:
         RequestGeometryBlocker(ShellClient *client)
