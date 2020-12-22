@@ -63,6 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/xdgoutput_interface.h>
 #include <KWayland/Server/ddeseat_interface.h>
 #include <KWayland/Server/ddeshell_interface.h>
+#include <KWayland/Server/strut_interface.h>
 
 // Qt
 #include <QDir>
@@ -77,6 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //screenlocker
 #include <KScreenLocker/KsldApp>
+#include "log.h"
 
 using namespace KWayland::Server;
 
@@ -432,6 +434,19 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
                         m_ddeShellSurfaces.removeOne(shellSurface);
                     }
                 );
+            }
+        }
+    );
+
+    m_strut = m_display->createStrut(m_display);
+    m_strut->create();
+    connect(m_strut, &StrutInterface::setStrut,
+        [this] (SurfaceInterface *surface,struct deepinKwinStrut& strutArea) {
+            if (ShellClient *client = findClient(surface)) {
+                client->setStrut(strutArea);
+                workspace()->updateClientArea();
+            } else {
+                DLOGC("Client does not exist!!!");
             }
         }
     );
