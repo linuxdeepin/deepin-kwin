@@ -1266,7 +1266,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
         QRect rect = r & newGeomWide;
         if (!rect.isEmpty()) {
             if (waylandServer()) {
-                if (screens()->count() > 1 || (rect.x() + rect.width()) < screenArea.width()) {
+                if ((rect.x() + rect.width()) < screenArea.width()) {
                     leftMax = qMax(leftMax, rect.x() + rect.width());
                 }
             } else {
