@@ -18,6 +18,10 @@
       <arg name="desktop" type="i" direction="in"/>
       <arg type="b" direction="out"/>
     </method>
+    <method name="setRepeatRateAndDelay">
+      <arg name="rate" type="i" direction="in"/>
+      <arg name="delay" type="i" direction="in"/>
+    </method>
     <method name="currentDesktop">
       <arg type="i" direction="out"/>
     </method>

@@ -61,6 +61,7 @@ public Q_SLOTS: // METHODS
     Q_NOREPLY void killWindow();
     void nextDesktop();
     void previousDesktop();
+    void setRepeatRateAndDelay(int rate,int delay);
     Q_NOREPLY void reconfigure();
     bool setCurrentDesktop(int desktop);
     bool startActivity(const QString &in0);
