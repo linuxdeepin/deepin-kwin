@@ -34,6 +34,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwinadaptor.h"
 #include "scene.h"
 #include "workspace.h"
+#include "wayland_server.h"
+#include <KWayland/Server/seat_interface.h>
+#include "log.h"
 #include "virtualdesktops.h"
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
@@ -172,6 +175,17 @@ int DBusInterface::currentDesktop()
 bool DBusInterface::setCurrentDesktop(int desktop)
 {
     return VirtualDesktopManager::self()->setCurrent(desktop);
+}
+
+void DBusInterface::setRepeatRateAndDelay(int rate, int delay)
+{
+    if (rate < 0 || delay < 0) {
+        DLOGD("rate:%d or delay:%d invalid value!", rate, delay);
+        return;
+    }
+    if (waylandServer() && waylandServer()->seat()) {
+        waylandServer()->seat()->setKeyRepeatInfo(rate, delay);
+    }
 }
 
 void DBusInterface::nextDesktop()
