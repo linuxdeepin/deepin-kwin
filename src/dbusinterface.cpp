@@ -26,6 +26,9 @@
 #include "kwinadaptor.h"
 #include "unmanaged.h"
 #include "workspace.h"
+#include "wayland_server.h"
+#include <KWaylandServer/keyboard_interface.h>
+#include <KWaylandServer/seat_interface.h>
 #include "virtualdesktops.h"
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
@@ -35,6 +38,7 @@
 // Qt
 #include <QOpenGLContext>
 #include <QDBusServiceWatcher>
+#include <QDebug>
 
 namespace KWin
 {
@@ -164,6 +168,17 @@ int DBusInterface::currentDesktop()
 bool DBusInterface::setCurrentDesktop(int desktop)
 {
     return VirtualDesktopManager::self()->setCurrent(desktop);
+}
+
+void DBusInterface::setRepeatRateAndDelay(int rate, int delay)
+{
+    if (rate < 0 || delay < 0) {
+        qDebug() << "rate:" << rate <<  " or delay:" << delay << " is invalid value!";
+        return;
+    }
+    if (waylandServer() && waylandServer()->seat()) {
+        waylandServer()->seat()->keyboard()->setRepeatInfo(rate, delay);
+    }
 }
 
 void DBusInterface::nextDesktop()
