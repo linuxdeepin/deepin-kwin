@@ -184,7 +184,7 @@ public:
      **/
     virtual QVector<QByteArray> openGLPlatformInterfaceExtensions() const;
 
-    virtual void setDamageRegion(QRegion region);
+    virtual bool setDamageRegion(QRegion region);
 
 Q_SIGNALS:
     void frameRendered();
