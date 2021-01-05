@@ -901,9 +901,9 @@ QVector<QByteArray> SceneOpenGL::openGLPlatformInterfaceExtensions() const
     return m_backend->extensions().toVector();
 }
 
-void SceneOpenGL::setDamageRegion(QRegion region)
+bool SceneOpenGL::setDamageRegion(QRegion region)
 {
-    m_backend->setDamageRegion(region);
+    return m_backend->setDamageRegion(region);
 }
 
 //****************************************

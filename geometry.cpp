@@ -237,16 +237,16 @@ void Workspace::updateClientArea(bool force)
                     const bool top = c->geometry().top() == geometry.top();
                     const bool bottom = c->geometry().bottom() == geometry.bottom();
                     const bool horizontal = c->geometry().width() >= c->geometry().height();
-                    if (left && ((!top && !bottom) || !horizontal)) {
+                    if (left && ((!top && !bottom) || !horizontal) && (c->geometry().width() < KWin::screens()->size().width())) {
                         margins.setLeft(c->geometry().width());
                     }
-                    if (right && ((!top && !bottom) || !horizontal)) {
+                    if (right && ((!top && !bottom) || !horizontal) && (c->geometry().width() < KWin::screens()->size().width())) {
                         margins.setRight(c->geometry().width());
                     }
-                    if (top && ((!left && !right) || horizontal)) {
+                    if (top && ((!left && !right) || horizontal) && (c->geometry().height() < KWin::screens()->size().height())) {
                         margins.setTop(c->geometry().height());
                     }
-                    if (bottom && ((!left && !right) || horizontal)) {
+                    if (bottom && ((!left && !right) || horizontal) && (c->geometry().height() < KWin::screens()->size().height())) {
                         margins.setBottom(c->geometry().height());
                     }
                 }

@@ -755,16 +755,16 @@ void EglGbmBackend::endRenderingFrameForScreen(int screenId, const QRegion &rend
     }
 }
 
-void EglGbmBackend::setDamageRegion(const QRegion region) {
+bool EglGbmBackend::setDamageRegion(const QRegion region) {
     int screenId = screens()->renderingIndex();
     const Output &o = m_outputs.at(screenId);
     if (!supportsBufferAge() || o.rotation.fbo) {
-        return;
+        return false;
     }
 
     if (eglSetDamageRegionHUAWEIEXT == nullptr) {
         qCWarning(KWIN_DRM) << "Failed to get eglSetDamageRegionHUAWEI address.";
-        return;
+        return false;
     }
 
     EGLint *rects;
@@ -783,8 +783,10 @@ void EglGbmBackend::setDamageRegion(const QRegion region) {
     EGLBoolean isSuccess = eglSetDamageRegionHUAWEIEXT(eglGetCurrentDisplay(), eglGetCurrentSurface(EGL_DRAW), rects, num);
     if (!isSuccess) {
         qCWarning(KWIN_DRM) << "Failed to set damage region.";
+        return false;
     }
     free(rects);
+    return true;
 }
 
 bool EglGbmBackend::usesOverlayWindow() const

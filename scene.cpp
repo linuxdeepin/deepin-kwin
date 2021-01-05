@@ -389,7 +389,9 @@ void Scene::paintSimpleScreen(int orig_mask, QRegion region)
 
     // mark: 0 is right?
     if (screens()->renderingIndex() == 0) {
-        setDamageRegion(paintedArea);
+        if (!setDamageRegion(paintedArea)) {
+            fullRepaint = true;
+        }
     }
 
     paintBackground(backgroundArea);
@@ -706,9 +708,10 @@ QVector<QByteArray> Scene::openGLPlatformInterfaceExtensions() const
     return QVector<QByteArray>{};
 }
 
-void Scene::setDamageRegion(QRegion region)
+bool Scene::setDamageRegion(QRegion region)
 {
     Q_UNUSED(region);
+    return false;
 }
 
 //****************************************

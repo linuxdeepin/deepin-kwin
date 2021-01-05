@@ -82,7 +82,7 @@ public:
 
     QVector<QByteArray> openGLPlatformInterfaceExtensions() const override;
 
-    void setDamageRegion(QRegion region) override;
+    bool setDamageRegion(QRegion region) override;
 
     static SceneOpenGL *createScene(QObject *parent);
 
