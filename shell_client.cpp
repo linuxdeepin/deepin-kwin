@@ -983,7 +983,10 @@ void ShellClient::changeMaximize(bool horizontal, bool vertical, bool adjust)
     const QRect oldGeometry = geometry();
 
     StackingUpdatesBlocker blocker(workspace());
-    RequestGeometryBlocker geometryBlocker(this);
+    if (!isMoveResize()) {
+        RequestGeometryBlocker geometryBlocker(this);
+    }
+
     // 'adjust == true' means to update the size only, e.g. after changing workspace size
     if (!adjust) {
         if (vertical)
