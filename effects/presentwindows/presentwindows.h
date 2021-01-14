@@ -319,6 +319,7 @@ private:
     // Filter box
     EffectFrame* m_filterFrame;
     QString m_windowFilter;
+    QFont m_font;
 
     // Shortcut - needed to toggle the effect
     QList<QKeySequence> shortcut;
