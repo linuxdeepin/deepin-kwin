@@ -30,6 +30,8 @@
 #include <QTimer>
 #include <QVector2D>
 #include <QVector4D>
+#include <QScreen>
+#include <QGuiApplication>
 
 #include <climits>
 #include <cmath>
@@ -1751,13 +1753,29 @@ void PresentWindowsEffect::updateFilterFrame()
     QRect area = effects->clientArea(ScreenArea, effects->activeScreen(), effects->currentDesktop());
     if (!m_filterFrame) {
         m_filterFrame = effects->effectFrame(EffectFrameStyled, false);
-        QFont font;
-        font.setPointSize(font.pointSize() * 2);
-        font.setBold(true);
-        m_filterFrame->setFont(font);
+        m_font.setPointSize(m_font.pointSize() * 2);
+        m_font.setBold(true);
+        m_filterFrame->setFont(m_font);
     }
+    qreal scaleFactor = 1;
+    QScreen *primary = QGuiApplication::primaryScreen();
+    if (primary) {
+        const qreal dpi = primary->logicalDotsPerInchX();
+        scaleFactor = dpi / 96.0f;
+    }
+
+    QString filterText = i18n("Filter:\n%1", m_windowFilter);
+    m_filterFrame->setText(filterText);
+
+    QFontMetrics metrics(m_font);
+    QRect geometry;
+    int width = metrics.width(filterText) - metrics.width(m_windowFilter);
+    if (width < metrics.width(m_windowFilter))
+        width = metrics.width(m_windowFilter);
+    geometry.setSize(QSize(width * scaleFactor, metrics.height() * 2 * scaleFactor));
+
+    m_filterFrame->setGeometry(geometry);
     m_filterFrame->setPosition(QPoint(area.x() + area.width() / 2, area.y() + area.height() / 10));
-    m_filterFrame->setText(m_windowFilter);
 }
 
 //-----------------------------------------------------------------------------
