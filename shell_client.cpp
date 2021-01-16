@@ -1122,7 +1122,8 @@ void ShellClient::setFullScreen(bool set, bool user)
     StackingUpdatesBlocker blocker1(workspace());
     GeometryUpdatesBlocker blocker2(this);
     setActive(true);
-    workspace()->setShouldGetFocus(this);
+    //workaround: if client is fullscrenn with shouldgetfocus, it will never change layers to show other windows
+//    workspace()->setShouldGetFocus(this);
     invalidateLayer();
     workspace()->updateClientLayer(this);   // active fullscreens get different layer
     qDebug() << "---------" << __func__ << layer() << belongsToLayer() << isFullScreen()
