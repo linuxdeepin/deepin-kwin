@@ -206,6 +206,11 @@ public:
         m_resizable = set;
     }
 
+    void setAcceptFocus(bool set)
+    {
+        m_acceptFocus = set;
+    }
+
     inline bool isDragWindow()
     {
         return m_isDragWindow;
@@ -327,6 +332,7 @@ private:
     bool m_minimizable = true;
     bool m_maxmizable = true;
     bool m_resizable = true;
+    bool m_acceptFocus = true;
     bool m_isDragWindow = false;
     int m_windowGravity = FRAME_TOP;
     qreal m_opacity = 1.0;
