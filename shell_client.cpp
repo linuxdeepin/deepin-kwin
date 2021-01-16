@@ -1274,6 +1274,9 @@ bool ShellClient::acceptsFocus() const
         // an unmapped window does not accept focus
         return false;
     }
+    if (!m_ddeShellSurface.isNull()) {
+        return m_acceptFocus;
+    }
     if (m_shellSurface) {
         if (m_shellSurface->isPopup()) {
             return false;
@@ -1577,6 +1580,11 @@ void ShellClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::resizableRequested, this,
         [this] (bool set) {
             setResizable(set);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::acceptFocusRequested, this,
+        [this] (bool set) {
+            setAcceptFocus(set);
         }
     );
 }
