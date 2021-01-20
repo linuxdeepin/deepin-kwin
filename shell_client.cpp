@@ -867,8 +867,16 @@ void ShellClient::closeWindow()
 
 AbstractClient *ShellClient::findModal(bool allow_itself)
 {
-    Q_UNUSED(allow_itself)
-    return nullptr;
+    for (auto it = transients().constBegin(); it != transients().constEnd(); ++it) {
+        if (AbstractClient* ret = (*it)->findModal(true)) {
+            return ret;
+        }
+    }
+
+    if (isModal() && allow_itself) {
+        return this;
+    }
+    return NULL;
 }
 
 bool ShellClient::isCloseable() const
@@ -1585,6 +1593,11 @@ void ShellClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::acceptFocusRequested, this,
         [this] (bool set) {
             setAcceptFocus(set);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::modalityRequested, this,
+        [this] (bool set) {
+            setModal(set);
         }
     );
 }
