@@ -98,6 +98,7 @@ public:
     void updateLEDs(KWin::Xkb::LEDs leds);
 
     static void createThread();
+    static QPointer<QThread> getThread();
 
 Q_SIGNALS:
     void keyChanged(quint32 key, KWin::InputRedirection::KeyboardKeyState, quint32 time, KWin::LibInput::Device *device);

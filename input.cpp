@@ -2431,6 +2431,14 @@ bool InputRedirection::isSelectingWindow() const
     return m_windowSelector ? m_windowSelector->isActive() : false;
 }
 
+QPointer<QThread> InputRedirection::getThread()
+{
+    if (m_libInput) {
+        return m_libInput->getThread();
+    }
+    return NULL;
+}
+
 InputDeviceHandler::InputDeviceHandler(InputRedirection *input)
     : QObject(input)
 {

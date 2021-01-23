@@ -236,6 +236,8 @@ public:
     void startInteractivePositionSelection(std::function<void(const QPoint &)> callback);
     bool isSelectingWindow() const;
 
+    QPointer<QThread> getThread();
+
 Q_SIGNALS:
     /**
      * @brief Emitted when the global pointer position changed
