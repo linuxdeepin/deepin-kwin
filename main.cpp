@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "sm.h"
 #include "workspace.h"
 #include "xcbutils.h"
+#include "libinput/connection.h"
 
 #include <kwineffects.h>
 
@@ -322,6 +323,10 @@ void Application::setupEventFilters()
 
 void Application::destroyWorkspace()
 {
+    auto inputThread = LibInput::Connection::self()->getThread();
+    if (inputThread) {
+        inputThread->terminate();
+    }
     delete Workspace::self();
 }
 
