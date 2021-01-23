@@ -121,6 +121,14 @@ void Connection::createThread()
     s_thread->start();
 }
 
+QPointer<QThread> Connection::getThread()
+{
+    if (s_thread) {
+        return s_thread;
+    }
+    return NULL;
+}
+
 Connection *Connection::create(QObject *parent)
 {
     Q_ASSERT(!s_self);
