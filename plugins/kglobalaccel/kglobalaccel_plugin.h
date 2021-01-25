@@ -39,7 +39,6 @@ public:
 
 public Q_SLOTS:
     bool checkKeyPressed(int keyQt);
-    bool checkKeyReleased(int keyQt);
 
 private:
     bool m_shuttingDown = false;
