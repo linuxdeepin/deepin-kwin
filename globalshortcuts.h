@@ -83,7 +83,6 @@ public:
      * @return @c true if a shortcut triggered, @c false otherwise
      */
     bool processKey(Qt::KeyboardModifiers modifiers, int keyQt);
-    bool releaseKey(Qt::KeyboardModifiers modifiers, int keyQt);
     bool processPointerPressed(Qt::KeyboardModifiers modifiers, Qt::MouseButtons pointerButtons);
     /**
      * @brief Processes a pointer axis event to decide whether a shortcut needs to be triggered.
