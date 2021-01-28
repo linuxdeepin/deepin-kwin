@@ -555,7 +555,7 @@ void DrmBackend::updateOutputs()
     if (!m_outputs.isEmpty()) {
         emit screensQueried();
     } else if (!m_defaultOutput) {
-        emit startWithoutScreen();
+        QTimer::singleShot(100, this, [=] { emit startWithoutScreen(); });
     }
 }
 
@@ -566,6 +566,13 @@ void DrmBackend::disableMultiScreens()
 
 void DrmBackend::installDefaultDisplay()
 {
+    for (DrmConnector *con : qAsConst(m_connectors)) {
+        if (con->isConnected()) {
+            DLOGD("Already received physical display, will not create virtual display");
+            return;
+        }
+    }
+    DLOGD("There is no physical display, install virtual display for system");
     DrmOutput *output = new DrmOutput(this);
     output->m_isVirtual = true;
 
