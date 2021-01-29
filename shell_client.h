@@ -128,7 +128,7 @@ public:
     bool hasStrut() const override;
     void setStrut(KWayland::Server::deepinKwinStrut& strutArea){m_strutArea = strutArea;}
     KWayland::Server::deepinKwinStrut& strut(){return m_strutArea;}
-
+    QSize calculateClientSize(const QSize& wsize);
 
     void setInternalFramebufferObject(const QSharedPointer<QOpenGLFramebufferObject> &fbo) override;
 
