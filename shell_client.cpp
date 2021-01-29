@@ -68,6 +68,7 @@ static const QByteArray s_skipClosePropertyName = QByteArrayLiteral("KWIN_SKIP_C
 
 namespace KWin
 {
+#define SHOW_SCALE 2/3
 
 ShellClient::ShellClient(ShellSurfaceInterface *surface)
     : AbstractClient()
@@ -700,9 +701,16 @@ void ShellClient::doSetGeometry(const QRect &rect)
     }
     geom = rect;
 
-    if (m_unmapped && m_geomMaximizeRestore.isEmpty() && !geom.isEmpty()) {
+    if (!m_unmapped && m_geomMaximizeRestore.isEmpty() && !geom.isEmpty()) {
         // use first valid geometry as restore geometry
-        m_geomMaximizeRestore = geom;
+        const QRect clientArea = isElectricBorderMaximizing() ?
+                    workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop()) :
+                    workspace()->clientArea(MaximizeArea, this);
+        if (isMaximizable() && (geom.size() == clientArea.size() || m_clientSize == clientArea.size())) {
+            maximize(MaximizeFull);
+        } else {
+            m_geomMaximizeRestore = geom;
+        }
     }
 
     if (!m_unmapped) {
@@ -1066,11 +1074,33 @@ void ShellClient::changeMaximize(bool horizontal, bool vertical, bool adjust)
         }
 
         if (m_geomMaximizeRestore.isValid()) {
+            auto maxArea = workspace()->clientArea(MaximizeArea, this);
+            if (m_geomMaximizeRestore.width() == maxArea.width() && m_geomMaximizeRestore.height() == maxArea.height()){
+                QSize calSize = calculateClientSize(geometry().size());
+                m_geomMaximizeRestore = QRect(m_geomMaximizeRestore.topLeft(), calSize);
+            }
             setGeometry(m_geomMaximizeRestore);
         } else {
             setGeometry(workspace()->clientArea(PlacementArea, this));
         }
     }
+}
+
+QSize ShellClient::calculateClientSize(const QSize& wsize)
+{
+    if (wsize.isEmpty())
+        return m_clientMinSize;
+    int w = wsize.width();
+    int h = wsize.height();
+
+    w = qMax(m_clientMinSize.width(), w * SHOW_SCALE);
+    h = qMax(m_clientMinSize.height(), h * SHOW_SCALE);
+    if (!m_clientMaxSize.isEmpty()) {
+        w = qMin(m_clientMaxSize.width(), w);
+        h = qMin(m_clientMaxSize.height(), h);
+    }
+
+    return QSize(w,h);
 }
 
 MaximizeMode ShellClient::maximizeMode() const
