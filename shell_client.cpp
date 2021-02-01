@@ -1195,7 +1195,9 @@ void ShellClient::takeFocus()
             if (!belongsToSameApplication(c, SameApplicationChecks())) {
                 continue;
             }
-            if (c->isDesktop()) {
+            // add isMovable to check the current client is a desktop rather than an attribute window
+            // if current client is attribute window, breakShowingDesktop is true, show all attribute window.
+            if (c->isDesktop() && !isMovable()) {
                 breakShowingDesktop = false;
                 break;
             }
