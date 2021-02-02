@@ -1317,6 +1317,10 @@ bool DrmOutput::doAtomicCommit(AtomicCommitMode mode)
         qCDebug(KWIN_DRM) << "Atomic Modeset successful.";
         m_modesetRequested = false;
         m_dpmsMode = m_dpmsModePending;
+        auto wlOutput = waylandOutput();
+        if (wlOutput) {
+            wlOutput->setDpmsMode(toWaylandDpmsMode(m_dpmsMode));
+        }
     }
 
     drmModeAtomicFree(req);
