@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "composite.h"
 #include "virtualkeyboard.h"
 #include "workspace.h"
+#include "log.h"
 #include <config-kwin.h>
 // kwin
 #include "platform.h"
@@ -549,6 +550,69 @@ void dropNiceCapability()
 }
 
 } // namespace
+void customLogMessageHandler(QtMsgType type, const QMessageLogContext &ctx, const QString &msg)
+{
+    QString kwinLog = QString::fromUtf8(qgetenv("KWIN_LOG"));
+    if (!kwinLog.isEmpty() && kwinLog.toLower() == "false") {
+        return;
+    }
+    QString kwinCategory = QString::fromUtf8(qgetenv("KWIN_LOG_CATEGORY"));
+    if (!kwinCategory.isEmpty() && kwinCategory != ctx.category) {
+        return;
+    }
+
+    bool timeFlag = true;
+    QString kwinTime = QString::fromUtf8(qgetenv("KWIN_LOG_TIME"));
+    if (!kwinTime.isEmpty() && kwinTime.toLower() == "false") {
+        timeFlag = false;
+    }
+
+    QString logInfo = "Default";
+    switch (type) {
+    case QtDebugMsg:
+        logInfo = QString("Debug");
+        break;
+    case QtWarningMsg:
+        logInfo = QString("Warning");
+        break;
+    case QtCriticalMsg:
+        logInfo = QString("Critical");
+        break;
+    case QtFatalMsg:
+        logInfo = QString("Fatal");
+        break;
+    case QtInfoMsg:
+        logInfo = QString("Info");
+        break;
+    }
+
+    pid_t pid = getpid();
+    QString stdmessage = "";
+    QString d_message = QString("[%1][%2] %3").arg(logInfo).arg(ctx.category).arg(msg);
+    if (timeFlag) {
+        QString currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
+        stdmessage = QString("%1 [%2][%3][%4] %5").arg(currentDateTime).arg(pid).arg(logInfo).arg(ctx.category).arg(msg);
+    } else {
+        stdmessage = QString("[%1][%2][%3] %4").arg(pid).arg(logInfo).arg(ctx.category).arg(msg);
+    }
+    std::cout << stdmessage.toStdString() << std::endl;
+
+    const char * cMsg = d_message.toLatin1().data();
+    switch (type) {
+    case QtDebugMsg:
+        DLOGD("%s", cMsg);
+        break;
+    case QtWarningMsg:
+        DLOGW("%s", cMsg);
+        break;
+    case QtCriticalMsg:
+        DLOGC("%s", cMsg);
+        break;
+    case QtInfoMsg:
+        DLOGI("%s", cMsg);
+        break;
+    }
+}
 
 int main(int argc, char * argv[])
 {
@@ -556,6 +620,7 @@ int main(int argc, char * argv[])
         std::cerr << "kwin_wayland does not support running as root." << std::endl;
         return 1;
     }
+    qInstallMessageHandler(customLogMessageHandler);
     KWin::disablePtrace();
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
