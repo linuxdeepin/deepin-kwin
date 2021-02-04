@@ -1,3 +1,6 @@
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
+
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(KWIN)
@@ -50,6 +53,7 @@ set_package_properties(Qt5Test PROPERTIES
          TYPE OPTIONAL
          )
 add_feature_info("Qt5Test" Qt5Test_FOUND "Required for building tests")
+
 if (NOT Qt5Test_FOUND)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
 endif()
@@ -719,6 +723,8 @@ ecm_install_icons(
 add_subdirectory(qml)
 add_subdirectory(packageplugins)
 
+
+#message("=============================== test==================================")
 if (BUILD_TESTING)
     add_subdirectory(autotests)
     add_subdirectory(tests)

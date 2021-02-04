@@ -1,3 +1,6 @@
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
+
 include_directories(${Libdrm_INCLUDE_DIRS})
 
 set(mockDRM_SRCS

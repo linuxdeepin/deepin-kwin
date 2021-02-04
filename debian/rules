@@ -17,9 +17,5 @@ include /usr/share/pkg-kde-tools/qt-kde-team/2/l10n-packages.mk
 override_dh_strip:
 	dh_strip --dbgsym-migration='kwin-dbg (<= 4:5.5.5-1~~)'
 
-override_dh_auto_test:
-	# Disable auto tests at build time
-	:
-
 override_dh_gencontrol: l10npkgs_firstversion_ok
 	dh_gencontrol
