@@ -323,16 +323,16 @@ void Application::setupEventFilters()
 
 void Application::destroyWorkspace()
 {
-    auto inputThread = LibInput::Connection::self()->getThread();
-    if (inputThread) {
-        inputThread->terminate();
-        inputThread->wait();
-    }
     delete Workspace::self();
 }
 
 void Application::destroyCompositor()
 {
+    auto inputThread = LibInput::Connection::self()->getThread();
+    if (inputThread) {
+        inputThread->terminate();
+        inputThread->wait();
+    }
     delete Compositor::self();
 }
 
