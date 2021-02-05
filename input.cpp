@@ -63,8 +63,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <xkbcommon/xkbcommon.h>
 #include <sys/sdt.h>
 
-#define GLOBALSHORTCUTPERSECONDS 3000
-
 namespace KWin
 {
 
@@ -727,17 +725,7 @@ private:
     QMap<quint32, QPointF> m_touchPoints;
 };
 
-class GlobalShortcutFilter : public QObject, public InputEventFilter {
-    Q_OBJECT
-private:
-    QTimer* m_timer = nullptr;
-    Qt::KeyboardModifiers m_mods;
-    int m_keyQt;
-private Q_SLOTS:
-    void triggerKeyPress() {
-        input()->shortcuts()->processKey(m_mods, m_keyQt);
-    }
-
+class GlobalShortcutFilter : public InputEventFilter {
 public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         Q_UNUSED(nativeButton);
@@ -766,33 +754,7 @@ public:
     }
     bool keyEvent(QKeyEvent *event) override {
         if (event->type() == QEvent::KeyPress) {
-            if (waylandServer()) {
-                if (m_timer == nullptr) {
-                    m_timer = new QTimer();
-                    connect(m_timer, SIGNAL(timeout()), this, SLOT(triggerKeyPress()));
-                }
-
-                if (input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key())) {
-                    m_mods = static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts();
-                    m_keyQt = event->key();
-                    if (waylandServer()->seat() && waylandServer()->seat()->keyRepeatRate() > 0) {
-                        QTimer::singleShot(waylandServer()->seat()->keyRepeatDelay(), this, [=] {
-                            if (m_keyQt != Qt::Key_unknown) {
-                                m_timer->setInterval(GLOBALSHORTCUTPERSECONDS / waylandServer()->seat()->keyRepeatRate());
-                                m_timer->start();
-                            }
-                        });
-                    }
-                    return true;
-                }
-            } else {
-                return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
-            }
-        } else if (event->type() == QEvent::KeyRelease) {
-            if (m_keyQt == event->key()) {
-                m_keyQt = Qt::Key_unknown;
-                m_timer->stop();
-            }
+            return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
         }
         return false;
     }
@@ -2012,15 +1974,12 @@ void InputRedirection::setupInputFilters()
     if (hasGlobalShortcutSupport) {
         installInputEventFilter(new ScreenEdgeInputFilter);
     }
-    if (waylandServer() && hasGlobalShortcutSupport) {
-        installInputEventFilter(new GlobalShortcutFilter);
-    }
     installInputEventFilter(new EffectsFilter);
     installInputEventFilter(new MoveResizeFilter);
 #ifdef KWIN_BUILD_TABBOX
     installInputEventFilter(new TabBoxInputFilter);
 #endif
-    if (!waylandServer() && hasGlobalShortcutSupport) {
+    if (hasGlobalShortcutSupport) {
         installInputEventFilter(new GlobalShortcutFilter);
     }
     installInputEventFilter(new DecorationEventFilter);
@@ -2672,4 +2631,3 @@ QWindow* InputDeviceHandler::findInternalWindow(const QPoint &pos) const
 }
 
 } // namespace
-#include "input.moc"
