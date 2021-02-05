@@ -228,9 +228,7 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
     }
 
     const quint32 previousLayout = m_xkb->currentLayout();
-    if (!autoRepeat) {
-        m_xkb->updateKey(key, state);
-    }
+    m_xkb->updateKey(key, state);
 
     const xkb_keysym_t keySym = m_xkb->currentKeysym();
     const Qt::KeyboardModifiers globalShortcutsModifiers = m_xkb->modifiersRelevantForGlobalShortcuts(key);
