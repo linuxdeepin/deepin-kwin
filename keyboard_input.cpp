@@ -130,7 +130,8 @@ void KeyboardInputRedirection::init()
     connect(keyRepeatSpy, &KeyboardRepeat::keyRepeat, this,
         std::bind(&KeyboardInputRedirection::processKey, this, std::placeholders::_1, InputRedirection::KeyboardKeyAutoRepeat, std::placeholders::_2, nullptr));
     //workaround: disable repeat handling, since clients will do it again.
-    //m_input->installInputEventSpy(keyRepeatSpy);
+    //restore keyboard repeat spy for global shortcut.
+    m_input->installInputEventSpy(keyRepeatSpy);
 
     connect(workspace(), &QObject::destroyed, this, [this] { m_inited = false; });
     connect(waylandServer(), &QObject::destroyed, this, [this] { m_inited = false; });
@@ -224,9 +225,7 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         Q_UNREACHABLE();
     }
 
-    if (!autoRepeat) {
-        m_xkb->updateKey(key, state);
-    }
+    m_xkb->updateKey(key, state);
 
     const xkb_keysym_t keySym = m_xkb->currentKeysym();
 

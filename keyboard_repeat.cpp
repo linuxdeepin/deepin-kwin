@@ -51,7 +51,7 @@ void KeyboardRepeat::handleKeyRepeat()
 
 void KeyboardRepeat::keyEvent(KeyEvent *event)
 {
-    if (event->isAutoRepeat()) {
+    if (event->isAutoRepeat() && event->type() == QEvent::KeyPress) {
         return;
     }
     const quint32 key = event->nativeScanCode();
@@ -65,6 +65,7 @@ void KeyboardRepeat::keyEvent(KeyEvent *event)
         }
     } else if (event->type() == QEvent::KeyRelease) {
         if (key == m_key) {
+            m_key = Qt::Key_unknown;
             m_timer->stop();
         }
     }
