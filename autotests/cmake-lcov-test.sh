@@ -23,8 +23,6 @@ mkdir -p coverage
 
 lcov -d ../ -c -o ./coverage/coverage.info
 
-lcov --extract ./coverage/coverage.info '*/src/*' -o ./coverage/coverage.info
-
 lcov --remove ./coverage/coverage.info '*/tests/*' '*/*_autogen/*' '*/autotests/*' '*/usr/include/*' -o ./coverage/coverage.info
 
 mkdir ../report
