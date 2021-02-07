@@ -1284,7 +1284,9 @@ bool ShellClient::acceptsFocus() const
         // an unmapped window does not accept focus
         return false;
     }
-    if (!m_ddeShellSurface.isNull()) {
+
+    //  Just return false. In case return false finally if m_acceptFoucus is true.
+    if (!m_ddeShellSurface.isNull() && !m_acceptFocus) {
         return m_acceptFocus;
     }
     if (m_shellSurface) {
