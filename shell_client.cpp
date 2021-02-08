@@ -1113,7 +1113,7 @@ void ShellClient::setFullScreen(bool set, bool user)
     } else {
         // in shell surface, maximise mode and fullscreen are exclusive
         // fullscreen->toplevel should restore the state we had before maximising
-        if (m_shellSurface && m_maximizeMode == MaximizeMode::MaximizeFull) {
+        if ((m_shellSurface || m_xdgShellSurface) && m_maximizeMode == MaximizeMode::MaximizeFull) {
             m_geomFsRestore = m_geomMaximizeRestore;
         } else {
             m_geomFsRestore = geometry();
@@ -1142,8 +1142,13 @@ void ShellClient::setFullScreen(bool set, bool user)
     } else {
         if (!m_geomFsRestore.isNull()) {
             int currentScreen = screen();
-            setGeometry(QRect(m_geomFsRestore.topLeft(), adjustedSize(m_geomFsRestore.size())));
-            if( currentScreen != screen())
+            if (m_maximizeMode == MaximizeRestore) {
+                setGeometry(QRect(m_geomFsRestore.topLeft(), adjustedSize(m_geomFsRestore.size())));
+            } else {
+                setGeometry(workspace()->clientArea(MaximizeArea, this));
+                m_geomMaximizeRestore = m_geomFsRestore;
+            }
+            if (currentScreen != screen())
                 workspace()->sendClientToScreen( this, currentScreen );
         } else {
             // does this ever happen?
