@@ -553,7 +553,10 @@ void dropNiceCapability()
 void customLogMessageHandler(QtMsgType type, const QMessageLogContext &ctx, const QString &msg)
 {
     QString kwinLog = QString::fromUtf8(qgetenv("KWIN_LOG"));
-    if (!kwinLog.isEmpty() && kwinLog.toLower() == "false") {
+    // we reorient print kwin log to syslog only if we set KWIN_LOG = true
+    if (kwinLog.isEmpty() || kwinLog.toLower() == "false") {
+        qDebug() << QDateTime::currentDateTime().toString("yyyy-mm-dd hh:mm:ss") << Q_FUNC_INFO \
+            << " do not print kwin log to syslog";
         return;
     }
     QString kwinCategory = QString::fromUtf8(qgetenv("KWIN_LOG_CATEGORY"));
