@@ -532,7 +532,7 @@ public:
      **/
     virtual bool isShadeable() const;
     virtual bool isMaximizable() const = 0;
-    virtual bool isMinimizable() const = 0;
+    virtual bool isMinimizable(bool isMinFunc = false) const = 0;
     virtual QRect iconGeometry() const;
     virtual bool userCanSetFullScreen() const = 0;
     virtual bool userCanSetNoBorder() const = 0;

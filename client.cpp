@@ -704,11 +704,13 @@ void Client::hideClient(bool hide)
 /**
  * Returns whether the window is minimizable or not
  */
-bool Client::isMinimizable() const
+bool Client::isMinimizable(bool isMinFunc) const
 {
     if (isSpecialWindow() && !isTransient())
         return false;
-    if (!rules()->checkMinimize(true)  || !m_motif.minimize())
+    if (!isMinFunc && hasNETSupport() && !m_motif.minimize())
+                return false;
+    if (!rules()->checkMinimize(true))
         return false;
 
     if (isTransient()) {

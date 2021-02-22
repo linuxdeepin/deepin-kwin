@@ -686,7 +686,7 @@ void AbstractClient::setMinimized(bool set)
 
 void AbstractClient::minimize(bool avoid_animation)
 {
-    if (!isMinimizable() || isMinimized())
+    if (!isMinimizable(true) || isMinimized())
         return;
 
     if (isShade() && info) // NETWM restriction - KWindowInfo::isMinimized() == Hidden && !Shaded

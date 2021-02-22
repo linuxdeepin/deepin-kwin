@@ -756,7 +756,7 @@ bool ShellClient::isMaximizable() const
     return true;
 }
 
-bool ShellClient::isMinimizable() const
+bool ShellClient::isMinimizable(bool isMinFunc) const
 {
     if (m_internal) {
         return false;

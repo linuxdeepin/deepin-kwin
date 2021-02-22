@@ -86,7 +86,7 @@ public:
     bool isCloseable() const override;
     bool isFullScreen() const override;
     bool isMaximizable() const override;
-    bool isMinimizable() const override;
+    bool isMinimizable(bool isMinFunc = false) const override;
     bool isMovable() const override;
     bool isMovableAcrossScreens() const override;
     bool isResizable() const override;

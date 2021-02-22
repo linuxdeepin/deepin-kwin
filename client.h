@@ -140,7 +140,7 @@ public:
     QRect geometryRestore() const override;
     MaximizeMode maximizeMode() const override;
 
-    bool isMinimizable() const override;
+    bool isMinimizable(bool isMinFunc = false) const override;
     QRect iconGeometry() const override;
 
     void setFullScreen(bool set, bool user = true) override;
