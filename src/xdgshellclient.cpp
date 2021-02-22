@@ -866,7 +866,7 @@ bool XdgToplevelClient::isMaximizable() const
     return true;
 }
 
-bool XdgToplevelClient::isMinimizable() const
+bool XdgToplevelClient::isMinimizable(bool isMinFunc) const
 {
     if (isSpecialWindow() && !isTransient()) {
         return false;

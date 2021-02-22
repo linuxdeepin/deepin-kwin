@@ -153,7 +153,7 @@ public:
     bool isMaximizable() const override;
     MaximizeMode maximizeMode() const override;
 
-    bool isMinimizable() const override;
+    bool isMinimizable(bool isMinFunc = false) const override;
     QRect iconGeometry() const override;
 
     bool isFullScreenable() const override;

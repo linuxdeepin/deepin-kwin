@@ -1420,11 +1420,13 @@ void X11Client::finishCompositing(ReleaseReason releaseReason)
 /**
  * Returns whether the window is minimizable or not
  */
-bool X11Client::isMinimizable() const
+bool X11Client::isMinimizable(bool isMinFunc) const
 {
     if (isSpecialWindow() && !isTransient())
         return false;
-    if (!rules()->checkMinimize(true) || !m_motif.minimize())
+    if (!isMinFunc && hasNETSupport() && !m_motif.minimize())
+        return false;
+    if (!rules()->checkMinimize(true))
         return false;
 
     if (isTransient()) {

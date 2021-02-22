@@ -179,7 +179,7 @@ public:
     bool isCloseable() const override;
     bool isFullScreenable() const override;
     bool isMaximizable() const override;
-    bool isMinimizable() const override;
+    bool isMinimizable(bool isMinFunc = false) const override;
     bool isPlaceable() const override;
     bool isTransient() const override;
     bool userCanSetFullScreen() const override;

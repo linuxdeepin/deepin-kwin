@@ -727,7 +727,7 @@ void AbstractClient::setMinimized(bool set)
 
 void AbstractClient::minimize(bool avoid_animation)
 {
-    if (!isMinimizable() || isMinimized())
+    if (!isMinimizable(true) || isMinimized())
         return;
 
     m_minimized = true;
@@ -3819,7 +3819,7 @@ void AbstractClient::setFullScreen(bool set, bool user)
  *
  * Default implementation returns @c false.
  */
-bool AbstractClient::isMinimizable() const
+bool AbstractClient::isMinimizable(bool isMinFunc) const
 {
     return false;
 }
