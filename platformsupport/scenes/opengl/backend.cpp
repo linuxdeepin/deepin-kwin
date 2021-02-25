@@ -121,4 +121,10 @@ void OpenGLBackend::copyPixels(const QRegion &region)
     }
 }
 
+QSharedPointer<GLTexture> OpenGLBackend::textureForOutput(AbstractOutput *requestedOutput) const
+{
+    Q_UNUSED(requestedOutput);
+    return {};
+}
+
 }

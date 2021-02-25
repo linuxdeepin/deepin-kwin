@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "drm_buffer.h"
 #if HAVE_GBM
 #include "drm_buffer_gbm.h"
+#include "gbm_dmabuf.h"
 #endif
 #include "drm_inputeventfilter.h"
 #include "drm_pointer.h"
@@ -79,6 +80,7 @@ public:
     Screens *createScreens(QObject *parent = nullptr) override;
     QPainterBackend *createQPainterBackend() override;
     OpenGLBackend* createOpenGLBackend() override;
+    DmaBufTexture *createDmaBufTexture(const QSize &size) override;
 
     void init() override;
     DrmDumbBuffer *createBuffer(const QSize &size);

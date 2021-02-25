@@ -143,6 +143,7 @@ public:
      * On Wayland this is normally a ShellClient. For X11 an Unmanaged.
      **/
     Toplevel *findToplevel(QWindow *w) const;
+    Toplevel *findToplevel(const QUuid &internalId) const;
     /**
      * @brief Finds a Toplevel for the internal window @p w.
      *

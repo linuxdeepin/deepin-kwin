@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "platform.h"
 #include "scene.h"
 #include "wayland_server.h"
+#include "abstract_output.h"
 #include <KWayland/Server/buffer_interface.h>
 #include <KWayland/Server/display.h>
 #include <KWayland/Server/surface_interface.h>
@@ -323,6 +324,18 @@ void AbstractEglBackend::setSurface(const EGLSurface &surface)
     kwinApp()->platform()->setSceneEglSurface(surface);
 }
 
+QSharedPointer<GLTexture> AbstractEglBackend::textureForOutput(AbstractOutput *requestedOutput) const
+{
+    QSharedPointer<GLTexture> texture(new GLTexture(GL_RGBA8, requestedOutput->pixelSize()));
+    GLRenderTarget renderTarget(*texture);
+
+    const QRect geo = requestedOutput->geometry();
+    QRect invGeo(geo.left(), geo.bottom(), geo.width(), -geo.height());
+    renderTarget.blitFromFramebuffer(invGeo);
+    return texture;
+}
+
+
 AbstractEglTexture::AbstractEglTexture(SceneOpenGLTexture *texture, AbstractEglBackend *backend)
     : SceneOpenGLTexturePrivate()
     , q(texture)
@@ -572,7 +585,7 @@ bool AbstractEglTexture::updateFromFBO(const QSharedPointer<QOpenGLFramebufferOb
     if (fbo.isNull()) {
         return false;
     }
-    m_isExternal = true;
+    m_foreign = true;
     m_texture = fbo->texture();
     m_size = fbo->size();
     q->setWrapMode(GL_CLAMP_TO_EDGE);
