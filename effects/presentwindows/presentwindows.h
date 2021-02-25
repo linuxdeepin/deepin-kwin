@@ -269,6 +269,8 @@ protected:
     EffectWindow* findFirstWindow() const;
     void updateCloseWindow();
 
+    void updateCloseWindowPosition();
+
     // Helper functions for mouse actions
     void mouseActionWindow(WindowMouseAction& action);
     void mouseActionDesktop(DesktopMouseAction& action);
@@ -307,6 +309,9 @@ private:
     WindowMotionManager m_motionManager;
     DataHash m_windowData;
     EffectWindow *m_highlightedWindow;
+
+    QRect m_highlightedWindowRect;
+    bool m_hoverhighlightedWindow {false};
 
     // Grid layout info
     QList<GridSize> m_gridSizes;
