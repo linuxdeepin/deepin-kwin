@@ -247,6 +247,8 @@ protected:
     EffectWindow* findFirstWindow() const;
     void updateCloseWindow();
 
+    void updateCloseWindowPosition();
+
     // Helper functions for mouse actions
     void mouseActionWindow(WindowMouseAction& action);
     void mouseActionDesktop(DesktopMouseAction& action);
@@ -288,6 +290,8 @@ private:
 
     // Timing
     std::chrono::milliseconds m_lastPresentTime;
+    QRect m_highlightedWindowRect;
+    bool m_hoverhighlightedWindow {false};
 
     // Grid layout info
     QMap<EffectScreen *, GridSize> m_gridSizes;

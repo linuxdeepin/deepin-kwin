@@ -451,6 +451,15 @@ void PresentWindowsEffect::paintWindow(EffectWindow *w, int mask, QRegion region
             if (m_motionManager.areWindowsMoving()) {
                 mask &= ~PAINT_WINDOW_LANCZOS;
             }
+
+            if (m_highlightedWindow == w && m_hoverhighlightedWindow) {
+                m_highlightedWindowRect.setX(w->geometry().x() + data.xTranslation());
+                m_highlightedWindowRect.setY(w->geometry().y() + data.yTranslation());
+                m_highlightedWindowRect.setWidth(data.xScale() * w->geometry().width());
+                m_highlightedWindowRect.setHeight(data.yScale() * w->geometry().height());
+                if (m_closeView->isVisible())
+                    updateCloseWindowPosition();
+            }
             effects->paintWindow(w, mask, region, data);
 
             if (m_showIcons) {
@@ -634,6 +643,7 @@ void PresentWindowsEffect::inputEventUpdate(const QPoint &pos, QEvent::Type type
         }
     }
 
+    m_hoverhighlightedWindow = hovering;
     if (!hovering) {
         if (m_windowFilter.isEmpty()) {
             setHighlightedWindow(nullptr);
@@ -1819,6 +1829,7 @@ void PresentWindowsEffect::updateCloseWindow()
         m_closeView->hide();
         return;
     }
+
     if (m_closeView->isVisible())
         return;
 
@@ -1829,28 +1840,50 @@ void PresentWindowsEffect::updateCloseWindow()
         return;
     }
 
-    QRect cvr(QPoint(0,0), m_closeView->size());
-    switch (m_closeButtonCorner)
-    {
-    case Qt::TopLeftCorner:
-    default:
-        cvr.moveTopLeft(rect.topLeft().toPoint()); break;
-    case Qt::TopRightCorner:
-        cvr.moveTopRight(rect.topRight().toPoint()); break;
-    case Qt::BottomLeftCorner:
-        cvr.moveBottomLeft(rect.bottomLeft().toPoint()); break;
-    case Qt::BottomRightCorner:
-        cvr.moveBottomRight(rect.bottomRight().toPoint()); break;
-    }
-
-    m_closeView->setGeometry(cvr);
-
     if (rect.contains(effects->cursorPos())) {
+        updateCloseWindowPosition();
         m_closeView->show();
         m_closeView->disarm();
     }
     else
         m_closeView->hide();
+}
+
+void PresentWindowsEffect::updateCloseWindowPosition()
+{
+    if (!m_closeView->isVisible())
+        return;
+
+    QRect cvr(QPoint(0,0), m_closeView->size());
+    switch (m_closeButtonCorner)
+    {
+    case Qt::TopLeftCorner:
+    default: {
+        QPoint topLeft = m_highlightedWindowRect.topLeft();
+        topLeft.setX(topLeft.x() + 10);
+        topLeft.setY(topLeft.y() + 10);
+        cvr.moveTopLeft(topLeft); break;
+        }
+    case Qt::TopRightCorner: {
+        QPoint topRight = m_highlightedWindowRect.topRight();
+        topRight.setX(topRight.x() - 10);
+        topRight.setY(topRight.y() + 10);
+        cvr.moveTopRight(topRight); break;
+        }
+    case Qt::BottomLeftCorner: {
+        QPoint bottomLeft = m_highlightedWindowRect.bottomLeft();
+        bottomLeft.setX(bottomLeft.x() + 10);
+        bottomLeft.setY(bottomLeft.y() - 10);
+        cvr.moveBottomLeft(bottomLeft); break;
+        }
+    case Qt::BottomRightCorner: {
+         QPoint bottomRight =  m_highlightedWindowRect.bottomRight();
+         bottomRight.setX(bottomRight.x() - 10);
+         bottomRight.setY(bottomRight.y() - 10);
+         cvr.moveBottomRight(bottomRight); break;
+        }
+    }
+    m_closeView->setGeometry(cvr);
 }
 
 void PresentWindowsEffect::closeWindow()
