@@ -38,6 +38,9 @@ public:
     virtual ~VirtualOutput();
 
     QSize pixelSize() const override;
+    QSize modeSize() const override {
+        return pixelSize();
+    }
 
     void setGeometry(const QRect &geo);
 

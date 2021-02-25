@@ -68,6 +68,7 @@ public:
     }
 
     virtual QSize pixelSize() const = 0;
+    virtual QSize modeSize() const = 0;
     qreal scale() const {
         return m_waylandOutputDevice->scaleF();
     }
@@ -125,6 +126,7 @@ public:
 
 Q_SIGNALS:
     void modeChanged();
+    void outputChange(const QRegion &damagedRegion);
 
 protected:
     void initWaylandOutputDevice(const QString &model,

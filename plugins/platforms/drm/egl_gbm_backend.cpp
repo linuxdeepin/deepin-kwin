@@ -624,13 +624,11 @@ bool EglGbmBackend::initBufferConfigs()
 
 void EglGbmBackend::present()
 {
-    for (auto &o: m_outputs) {
-        makeContextCurrent(o);
-        presentOnOutput(o);
-    }
+    Q_UNREACHABLE();
+    // Not in use. This backend does per-screen rendering.
 }
 
-void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o)
+void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &damagedRegion)
 {
     eglSwapBuffers(eglDisplay(), o.eglSurface);
     DTRACE_PROBE(EglGbmBackend, presentOnOutput);
@@ -648,6 +646,7 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o)
         // we should pass the buffer before it's presented
         m_remoteaccessManager->passBuffer(o.output, o.buffer);
     }
+    Q_EMIT o.output->outputChange(damagedRegion);
     m_backend->present(o.buffer, o.output);
 
     if (supportsBufferAge()) {
@@ -736,7 +735,7 @@ void EglGbmBackend::endRenderingFrameForScreen(int screenId, const QRegion &rend
         }
         return;
     }
-    presentOnOutput(o);
+    presentOnOutput(o, damagedRegion);
 
     // Save the damaged region to history
     // Note: damage history is only collected for the first screen. For any other screen full repaints
