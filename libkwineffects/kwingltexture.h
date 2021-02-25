@@ -1,23 +1,12 @@
-/********************************************************************
- KWin - the KDE window manager
- This file is part of the KDE project.
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
 
-Copyright (C) 2006-2007 Rivo Laks <rivolaks@hot.ee>
-Copyright (C) 2010, 2011 Martin Gräßlin <mgraesslin@kde.org>
+    SPDX-FileCopyrightText: 2006-2007 Rivo Laks <rivolaks@hot.ee>
+    SPDX-FileCopyrightText: 2010, 2011 Martin Gräßlin <mgraesslin@kde.org>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #ifndef KWIN_GLTEXTURE_H
 #define KWIN_GLTEXTURE_H
@@ -57,8 +46,15 @@ public:
     explicit GLTexture(const QImage& image, GLenum target = GL_TEXTURE_2D);
     explicit GLTexture(const QPixmap& pixmap, GLenum target = GL_TEXTURE_2D);
     explicit GLTexture(const QString& fileName);
-    GLTexture(GLenum internalFormat, int width, int height, int levels = 1);
-    explicit GLTexture(GLenum internalFormat, const QSize &size, int levels = 1);
+    GLTexture(GLenum internalFormat, int width, int height, int levels = 1, bool needsMutability = false);
+    explicit GLTexture(GLenum internalFormat, const QSize &size, int levels = 1, bool needsMutability = false);
+
+    /**
+     * Create a GLTexture wrapper around an existing texture.
+     * Management of the underlying texture remains the responsibility of the caller.
+     * @since 5.18
+     */
+    explicit GLTexture(GLuint textureId, GLenum internalFormat, const QSize &size, int levels = 1);
     virtual ~GLTexture();
 
     GLTexture & operator = (const GLTexture& tex);
@@ -69,11 +65,11 @@ public:
     int height() const;
     /**
      * @since 4.7
-     **/
+     */
     bool isYInverted() const;
     /**
      * @since 4.8
-     **/
+     */
     void setYInverted(bool inverted);
 
     /**
@@ -99,16 +95,17 @@ public:
     virtual void discard();
     void bind();
     void unbind();
-    void render(QRegion region, const QRect& rect, bool hardwareClipping = false);
+    void render(const QRegion &region, const QRect& rect, bool hardwareClipping = false);
 
     GLuint texture() const;
     GLenum target() const;
     GLenum filter() const;
     GLenum internalFormat() const;
 
+    QImage toImage() const;
+
     /** @short
      * Make the texture fully transparent
-     * Warning: this clobbers the current framebuffer binding except on fglrx
      */
     void clear();
     bool isDirty() const;
@@ -135,7 +132,7 @@ public:
      * This requires OpenGL 3.0, GL_ARB_texture_rg or OpenGL ES 3.0 or GL_EXT_texture_rg.
      *
      * @since 5.2.1
-     **/
+     */
     static bool supportsFormatRG();
 
 protected:

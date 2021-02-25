@@ -78,6 +78,7 @@ namespace KWin
 class ShellClient;
 
 class AbstractClient;
+class AbstractOutput;
 class Toplevel;
 
 class KWIN_EXPORT WaylandServer : public QObject
@@ -236,6 +237,8 @@ public:
     SocketPairConnection createConnection();
 
     void simulateUserActivity();
+
+    AbstractOutput *findOutput(KWayland::Server::OutputInterface *output) const;
 
 Q_SIGNALS:
     void shellClientAdded(KWin::ShellClient*);

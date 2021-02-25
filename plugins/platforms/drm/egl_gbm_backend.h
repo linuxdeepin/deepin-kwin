@@ -95,7 +95,7 @@ private:
     bool resetOutput(Output &output, DrmOutput *drmOutput);
     bool makeContextCurrent(const Output &output);
     void setupViewport(const Output& output);
-    void presentOnOutput(Output &output);
+    void presentOnOutput(Output &output, const QRegion &damagedRegion);
     void cleanupOutput(Output &output);
     void createOutput(DrmOutput *output);
 

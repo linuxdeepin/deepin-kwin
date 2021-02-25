@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if HAVE_GBM
 #include "egl_gbm_backend.h"
 #include <gbm.h>
-#include "gbm_dmabuf.h"
 #endif
 // KWayland
 #include <KWayland/Server/seat_interface.h>
@@ -903,15 +902,6 @@ OpenGLBackend *DrmBackend::createOpenGLBackend()
     return new EglGbmBackend(this);
 #else
     return Platform::createOpenGLBackend();
-#endif
-}
-
-DmaBufTexture *DrmBackend::createDmaBufTexture(const QSize &size)
-{
-#if HAVE_GBM
-    return GbmDmaBuf::createBuffer(size, m_gbmDevice);
-#else
-    return nullptr;
 #endif
 }
 

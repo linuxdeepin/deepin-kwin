@@ -66,7 +66,7 @@ public:
     void pageFlipped();
 
     QSize pixelSize() const override;
-    QSize modeSize() const;
+    QSize modeSize() const override;
 
     // These values are defined by the kernel
     enum class DpmsMode {

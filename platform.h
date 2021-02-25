@@ -57,6 +57,7 @@ class Screens;
 class ScreenEdges;
 class Toplevel;
 class WaylandCursorTheme;
+class DmaBufTexture;
 
 namespace Decoration
 {
@@ -87,6 +88,10 @@ public:
     virtual Screens *createScreens(QObject *parent = nullptr);
     virtual OpenGLBackend *createOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
+    virtual DmaBufTexture *createDmaBufTexture(const QSize &size) {
+        Q_UNUSED(size);
+        return nullptr;
+    }
     /**
      * Allows the platform to create a platform specific screen edge.
      * The default implementation creates a Edge.
