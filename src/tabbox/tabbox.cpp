@@ -461,7 +461,7 @@ TabBox::TabBox(QObject *parent)
     , m_noModifierGrab(false)
     , m_forcedGlobalMouseGrab(false)
     , m_ready(false)
-    , m_delaySwitchInterval(300)
+    , m_delaySwitchInterval(90)
     , m_delaySwitch(QDateTime::currentDateTime())
 {
     m_isShown = false;
@@ -1320,8 +1320,9 @@ void TabBox::oneStepThroughDesktopList(bool forward)
 
 void TabBox::keyPress(int keyQt)
 {
-    //[Alt+Tab] or [Alt+~] delay the switch, 300 milliseconds apart
-    if (qAbs(m_delaySwitch.msecsTo(QDateTime::currentDateTime())) < m_delaySwitchInterval) {
+    //[Alt+Tab] or [Alt+~] delay the switch for a few milliseconds in m_delaySwitchInterval
+    if (qAbs(m_delaySwitch.msecsTo(QDateTime::currentDateTime())) < m_delaySwitchInterval)
+    {
         return;
     }
     m_delaySwitch = QDateTime::currentDateTime();
