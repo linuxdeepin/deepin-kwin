@@ -3,6 +3,8 @@ workspace=$1
 
 cd $workspace
 
+export DISPLAY=:0.0
+
 dpkg-buildpackage -b -d -uc -us
 
 make test

@@ -18,8 +18,8 @@ add_subdirectory(tabbox)
 set( testScreenPaintData_SRCS test_screen_paint_data.cpp )
 add_executable(testScreenPaintData ${testScreenPaintData_SRCS})
 target_link_libraries( testScreenPaintData kwineffects Qt5::Test Qt5::Widgets KF5::WindowSystem)
-#add_test(NAME kwin-testScreenPaintData COMMAND testScreenPaintData)
-#ecm_mark_as_test(testScreenPaintData)
+add_test(NAME kwin-testScreenPaintData COMMAND testScreenPaintData)
+ecm_mark_as_test(testScreenPaintData)
 
 ########################################################
 # Test WindowPaintData
@@ -27,8 +27,8 @@ target_link_libraries( testScreenPaintData kwineffects Qt5::Test Qt5::Widgets KF
 set( testWindowPaintData_SRCS test_window_paint_data.cpp )
 add_executable(testWindowPaintData ${testWindowPaintData_SRCS})
 target_link_libraries( testWindowPaintData kwineffects Qt5::Widgets Qt5::Test )
-#add_test(NAME kwin-testWindowPaintData COMMAND testWindowPaintData)
-#ecm_mark_as_test(testWindowPaintData)
+add_test(NAME kwin-testWindowPaintData COMMAND testWindowPaintData)
+ecm_mark_as_test(testWindowPaintData)
 
 ########################################################
 # Test VirtualDesktopManager
@@ -72,8 +72,8 @@ target_link_libraries( testClientMachine
                        XCB::XFIXES
                        ${X11_X11_LIB} # to make jenkins happy
 )
-#add_test(NAME kwin-testClientMachine COMMAND testClientMachine)
-#ecm_mark_as_test(testClientMachine)
+add_test(NAME kwin-testClientMachine COMMAND testClientMachine)
+ecm_mark_as_test(testClientMachine)
 ########################################################
 # Test XcbWrapper
 ########################################################
@@ -90,8 +90,8 @@ target_link_libraries( testXcbWrapper
                        KF5::WindowSystem
                        XCB::XCB
 )
-#add_test(NAME kwin-testXcbWrapper COMMAND testXcbWrapper)
-#ecm_mark_as_test(testXcbWrapper)
+add_test(NAME kwin-testXcbWrapper COMMAND testXcbWrapper)
+ecm_mark_as_test(testXcbWrapper)
 
 if (XCB_ICCCM_FOUND)
     add_executable( testXcbSizeHints test_xcb_size_hints.cpp )
@@ -105,8 +105,8 @@ if (XCB_ICCCM_FOUND)
                            XCB::XCB
                            XCB::ICCCM
     )
-#    add_test(NAME kwin-testXcbSizeHints COMMAND testXcbSizeHints)
-#    ecm_mark_as_test(testXcbSizeHints)
+    add_test(NAME kwin-testXcbSizeHints COMMAND testXcbSizeHints)
+    ecm_mark_as_test(testXcbSizeHints)
 endif()
 
 ########################################################
@@ -125,8 +125,8 @@ target_link_libraries( testXcbWindow
                        KF5::WindowSystem
                        XCB::XCB
 )
-#add_test(NAME kwin-testXcbWindow COMMAND testXcbWindow)
-#ecm_mark_as_test(testXcbWindow)
+add_test(NAME kwin-testXcbWindow COMMAND testXcbWindow)
+ecm_mark_as_test(testXcbWindow)
 
 ########################################################
 # Test BuiltInEffectLoader
@@ -148,8 +148,8 @@ target_link_libraries(testBuiltInEffectLoader
     kwin4_effect_builtins
 )
 
-#add_test(NAME kwin-testBuiltInEffectLoader COMMAND testBuiltInEffectLoader)
-#ecm_mark_as_test(testBuiltInEffectLoader)
+add_test(NAME kwin-testBuiltInEffectLoader COMMAND testBuiltInEffectLoader)
+ecm_mark_as_test(testBuiltInEffectLoader)
 
 ########################################################
 # Test ScriptedEffectLoader
@@ -188,8 +188,8 @@ target_link_libraries(testScriptedEffectLoader
     kwin4_effect_builtins
 )
 
-#add_test(NAME kwin-testScriptedEffectLoader COMMAND testScriptedEffectLoader)
-#ecm_mark_as_test(testScriptedEffectLoader)
+add_test(NAME kwin-testScriptedEffectLoader COMMAND testScriptedEffectLoader)
+ecm_mark_as_test(testScriptedEffectLoader)
 
 ########################################################
 # Test PluginEffectLoader
@@ -258,8 +258,8 @@ target_link_libraries(testScreens
     KF5::WindowSystem
 )
 
-#add_test(NAME kwin_testScreens COMMAND testScreens)
-#ecm_mark_as_test(testScreens)
+add_test(NAME kwin_testScreens COMMAND testScreens)
+ecm_mark_as_test(testScreens)
 
 ########################################################
 # Test XrandRScreens
@@ -370,8 +370,8 @@ target_link_libraries(testOnScreenNotification
     KF5::ConfigCore
 )
 
-#add_test(NAME kwin-testOnScreenNotification COMMAND testOnScreenNotification)
-#ecm_mark_as_test(testOnScreenNotification)
+add_test(NAME kwin-testOnScreenNotification COMMAND testOnScreenNotification)
+ecm_mark_as_test(testOnScreenNotification)
 
 ########################################################
 # Test Gestures
@@ -412,8 +412,8 @@ if(HAVE_EPOXY_GLX)
 endif()
 add_executable(testOpenGLContextAttributeBuilder ${testOpenGLContextAttributeBuilder_SRCS})
 target_link_libraries(testOpenGLContextAttributeBuilder Qt5::Test)
-#add_test(NAME kwin-testOpenGLContextAttributeBuilder COMMAND testOpenGLContextAttributeBuilder)
-#ecm_mark_as_test(testOpenGLContextAttributeBuilder)
+add_test(NAME kwin-testOpenGLContextAttributeBuilder COMMAND testOpenGLContextAttributeBuilder)
+ecm_mark_as_test(testOpenGLContextAttributeBuilder)
 
 set(testXkb_SRCS
     test_xkb.cpp
@@ -429,8 +429,8 @@ target_link_libraries(testXkb
     KF5::WaylandServer
     XKB::XKB
 )
-#add_test(NAME kwin-testXkb COMMAND testXkb)
-#ecm_mark_as_test(testXkb)
+add_test(NAME kwin-testXkb COMMAND testXkb)
+ecm_mark_as_test(testXkb)
 
 if(HAVE_GBM)
     add_executable(testGbmSurface test_gbm_surface.cpp ../plugins/platforms/drm/gbm_surface.cpp)
@@ -444,8 +444,8 @@ target_link_libraries(testVirtualKeyboardDBus
     Qt5::Test
     Qt5::DBus
 )
-#add_test(NAME kwin-testVirtualKeyboardDBus COMMAND testVirtualKeyboardDBus)
-#ecm_mark_as_test(testVirtualKeyboardDBus)
+add_test(NAME kwin-testVirtualKeyboardDBus COMMAND testVirtualKeyboardDBus)
+ecm_mark_as_test(testVirtualKeyboardDBus)
 
 ######################################################################################################
 

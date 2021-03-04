@@ -32,8 +32,8 @@ target_link_libraries( testTabBoxClientModel
     KF5::WindowSystem
     XCB::XCB
 )
-#add_test(NAME kwin-testTabBoxClientModel COMMAND testTabBoxClientModel)
-#ecm_mark_as_test(testTabBoxClientModel)
+add_test(NAME kwin-testTabBoxClientModel COMMAND testTabBoxClientModel)
+ecm_mark_as_test(testTabBoxClientModel)
 
 ########################################################
 # Test TabBox::TabBoxHandler
@@ -64,8 +64,8 @@ target_link_libraries( testTabBoxHandler
     KF5::WindowSystem
     XCB::XCB
 )
-#add_test(NAME kwin-testTabBoxHandler COMMAND testTabBoxHandler)
-#ecm_mark_as_test(testTabBoxHandler)
+add_test(NAME kwin-testTabBoxHandler COMMAND testTabBoxHandler)
+ecm_mark_as_test(testTabBoxHandler)
 
 ########################################################
 # Test TabBox::TabBoxConfig
