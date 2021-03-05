@@ -426,8 +426,8 @@ void Client::createDecoration(const QRect& oldgeom)
 //                 move(calculateGravitation(false));
                 QRect oldgeom = geometry();
                 plainResize(sizeForClientSize(clientSize()), ForceGeometrySet);
-                if (!isShade())
-                    checkWorkspacePosition(oldgeom);
+                // if (!isShade()) //it's not necessary to checkworkspace when border changed in UOS
+                //     checkWorkspacePosition(oldgeom);
                 emit geometryShapeChanged(this, oldgeom);
             }
         );
