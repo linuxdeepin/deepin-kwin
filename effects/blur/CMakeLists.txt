@@ -1,3 +1,5 @@
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
 #######################################
 # Config
 set(kwin_blur_config_SRCS blur_config.cpp)

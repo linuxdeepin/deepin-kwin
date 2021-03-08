@@ -1,3 +1,5 @@
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
 add_subdirectory(kglobalaccel)
 add_subdirectory(qpa)
 add_subdirectory(idletime)

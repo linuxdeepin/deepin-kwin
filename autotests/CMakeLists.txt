@@ -15,6 +15,8 @@ add_subdirectory(tabbox)
 ########################################################
 # Test ScreenPaintData
 ########################################################
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
 set( testScreenPaintData_SRCS test_screen_paint_data.cpp )
 add_executable(testScreenPaintData ${testScreenPaintData_SRCS})
 target_link_libraries( testScreenPaintData kwineffects Qt5::Test Qt5::Widgets KF5::WindowSystem)
