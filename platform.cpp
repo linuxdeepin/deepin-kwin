@@ -109,6 +109,11 @@ OpenGLBackend *Platform::createOpenGLBackend()
     return nullptr;
 }
 
+OpenGLBackend *Platform::getOpenGLBackend()
+{
+    return nullptr;
+}
+
 QPainterBackend *Platform::createQPainterBackend()
 {
     return nullptr;

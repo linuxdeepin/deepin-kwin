@@ -30,6 +30,11 @@ set(CMAKE_CXX_FLAGS "-Wl,--as-need -fPIE")
 set(CMAKE_EXE_LINKER_FLAGS "-pie")
 set(CMAKE_CXX_FLAGS "-DQT_X11_DEFINES_FOUND=1")
 
+option(HUAWEI_KLU_PGV "Huawei klu project" 0)
+if(HUAWEI_KLU_PGV)
+  add_definitions("-DHUAWEI_KLU_PGV")
+endif()
+
 include(FeatureSummary)
 include(WriteBasicConfigVersionFile)
 include(GenerateExportHeader)
@@ -392,6 +397,8 @@ include_directories(BEFORE
     ${CMAKE_CURRENT_SOURCE_DIR}/effects
     ${CMAKE_CURRENT_SOURCE_DIR}/tabbox
     ${CMAKE_CURRENT_SOURCE_DIR}/platformsupport
+    ${CMAKE_CURRENT_SOURCE_DIR}/plugins/platforms
+    ${CMAKE_CURRENT_SOURCE_DIR}/platformsupport/scenes/opengl
     )
 
 add_subdirectory( libkwineffects )

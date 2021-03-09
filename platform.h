@@ -87,6 +87,7 @@ public:
     virtual void disableMultiScreens();
     virtual Screens *createScreens(QObject *parent = nullptr);
     virtual OpenGLBackend *createOpenGLBackend();
+    virtual OpenGLBackend *getOpenGLBackend();
     virtual QPainterBackend *createQPainterBackend();
     virtual DmaBufTexture *createDmaBufTexture(const QSize &size) {
         Q_UNUSED(size);
