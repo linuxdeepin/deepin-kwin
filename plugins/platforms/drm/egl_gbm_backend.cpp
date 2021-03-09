@@ -56,6 +56,7 @@ PFNEGLSETDAMAGEREGIONHUAWEIPROC eglSetDamageRegionHUAWEIEXT = nullptr;
 EglGbmBackend::EglGbmBackend(DrmBackend *b)
     : AbstractEglBackend()
     , m_backend(b)
+    , m_dmaFd(0)
 {
     // Egl is always direct rendering
     setIsDirectRendering(true);
@@ -639,6 +640,12 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &dam
                                            o.m_drmModifiers);
     } else {
         o.buffer = m_backend->createBuffer(o.gbmSurface);
+    }
+
+    DrmSurfaceBuffer* gbmbuf = static_cast<DrmSurfaceBuffer *>(o.buffer);
+    if(gbmbuf) {
+        auto bo = gbmbuf->getBo();
+        m_dmaFd = gbm_bo_get_fd(bo);
     }
 
     if(m_remoteaccessManager && gbm_surface_has_free_buffers(o.gbmSurface->surface())) {

@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "drm_buffer.h"
 #if HAVE_GBM
+#include "egl_gbm_backend.h"
 #include "drm_buffer_gbm.h"
 #include "gbm_dmabuf.h"
 #endif
@@ -80,6 +81,7 @@ public:
     Screens *createScreens(QObject *parent = nullptr) override;
     QPainterBackend *createQPainterBackend() override;
     OpenGLBackend* createOpenGLBackend() override;
+    OpenGLBackend* getOpenGLBackend() override;
     DmaBufTexture *createDmaBufTexture(const QSize &size) override;
 
     void init() override;
@@ -200,6 +202,7 @@ private:
     gbm_device *m_gbmDevice = nullptr;
     DrmOutput *m_defaultOutput = nullptr;
     bool m_disableMultiScreens = false;
+    EglGbmBackend *m_eglGbmBackend = nullptr;
 };
 
 

@@ -35,7 +35,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland_server.h"
 #include "log.h"
 #if HAVE_GBM
-#include "egl_gbm_backend.h"
 #include <gbm.h>
 #include "gbm_dmabuf.h"
 #endif
@@ -900,10 +899,16 @@ OpenGLBackend *DrmBackend::createOpenGLBackend()
 {
 #if HAVE_GBM
     m_deleteBufferAfterPageFlip = true;
-    return new EglGbmBackend(this);
+    m_eglGbmBackend =  new EglGbmBackend(this);
+    return m_eglGbmBackend;
 #else
     return Platform::createOpenGLBackend();
 #endif
+}
+
+OpenGLBackend *DrmBackend::getOpenGLBackend()
+{
+    return m_eglGbmBackend;
 }
 
 DmaBufTexture *DrmBackend::createDmaBufTexture(const QSize &size)
