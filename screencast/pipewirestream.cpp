@@ -17,6 +17,7 @@
 #include "pipewirecore.h"
 #include "platform.h"
 #include "utils.h"
+#include "drm/egl_gbm_backend.h"
 
 #include <KLocalizedString>
 
@@ -111,6 +112,17 @@ void PipeWireStream::onStreamAddBuffer(void *data, pw_buffer *buffer)
 
     spa_data->mapoffset = 0;
     spa_data->flags = SPA_DATA_FLAG_READWRITE;
+
+#ifdef HUAWEI_KLU_PGV
+    spa_data->type = SPA_DATA_DmaBuf;
+    EglGbmBackend * eglGbmBackend = static_cast<EglGbmBackend *>(kwinApp()->platform()->getOpenGLBackend());
+    spa_data->fd = eglGbmBackend ? eglGbmBackend->getFrameFd() : 0;
+    spa_data->data = nullptr;
+    const int bytesPerPixel = stream->m_hasAlpha ? 4 : 3;
+    const int stride = SPA_ROUND_UP_N (stream->m_resolution.width() * bytesPerPixel, 4);
+    spa_data->maxsize = stride * stream->m_resolution.height();
+    return;
+#endif
 
     QSharedPointer<DmaBufTexture> dmabuf(kwinApp()->platform()->createDmaBufTexture(stream->m_resolution));
     if (dmabuf) {
@@ -344,6 +356,21 @@ void PipeWireStream::recordFrame(GLTexture *frameTexture, const QRegion &damaged
 
     const auto size = frameTexture->size();
     spa_data->chunk->offset = 0;
+
+#ifdef HUAWEI_KLU_PGV
+    const uint stride = SPA_ROUND_UP_N (size.width() * 4, 4);
+    spa_data->chunk->stride = stride;
+    spa_data->chunk->size = spa_data->maxsize;
+    EglGbmBackend * eglGbmBackend = static_cast<EglGbmBackend *>(kwinApp()->platform()->getOpenGLBackend());
+    spa_data->fd = eglGbmBackend ? eglGbmBackend->getFrameFd() : 0;
+    auto cursor = Cursor::self();
+    if (m_cursor.mode == KWayland::Server::ScreencastV1Interface::Embedded && m_cursor.viewport.contains(cursor->pos())) {
+        QImage dest(data, size.width(), size.height(), QImage::Format_RGBA8888_Premultiplied);
+        QPainter painter(&dest);
+        const auto position = (cursor->pos() - m_cursor.viewport.topLeft() - softwareCursorHotspot()) * m_cursor.scale;
+        painter.drawImage(QRect{position, softwareCursor().size()}, softwareCursor());
+    }
+#else
     if (data) {
         const int bpp = data && !m_hasAlpha ? 3 : 4;
         const uint stride = SPA_ROUND_UP_N (size.width() * bpp, 4);
@@ -420,6 +447,7 @@ void PipeWireStream::recordFrame(GLTexture *frameTexture, const QRegion &damaged
         GLRenderTarget::popRenderTarget();
     }
     frameTexture->unbind();
+#endif
 
     if (m_cursor.mode == KWayland::Server::ScreencastV1Interface::Metadata) {
         sendCursorData(Cursor::self(),

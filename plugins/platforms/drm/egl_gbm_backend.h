@@ -53,6 +53,9 @@ public:
     bool perScreenRendering() const override;
     QRegion prepareRenderingForScreen(int screenId) override;
     void init() override;
+    unsigned int getFrameFd() {
+        return m_dmaFd;
+    }
 
 protected:
     void present() override;
@@ -88,7 +91,7 @@ private:
         *           if there have one equal modifier of these two modifiers vector,
         *           formats&modifiers have been supported. UMMMMMMMMM :(
         */
-        Bool m_modifiersEnabled = false;
+        bool m_modifiersEnabled = false;
         QVector<uint64_t> m_drmModifiers;
         QVector<uint64_t> m_eglModifiers;
     };
@@ -114,6 +117,8 @@ private:
     void dumpFormatsWithModifiers();
 
     void initEglPartialUpateExt();
+
+    unsigned int m_dmaFd;
 };
 
 /**
