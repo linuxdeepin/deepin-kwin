@@ -478,6 +478,12 @@ void AbstractClient::autoRaise()
     cancelAutoRaise();
 }
 
+bool AbstractClient::isMostRecentlyRaised() const
+{
+    // The last toplevel in the unconstrained stacking order is the most recently raised one.
+    return workspace()->topClientOnDesktop(VirtualDesktopManager::self()->current(), -1, true, false) == this;
+}
+
 bool AbstractClient::wantsTabFocus() const
 {
     return (isNormalWindow() || isDialog()) && wantsInput();

@@ -455,6 +455,9 @@ public:
     MouseCommand commandAll3() const {
         return CmdAll3;
     }
+    MouseWheelCommand commandAllWheel() const {
+        return CmdAllWheel;
+    }
     uint keyCmdAllModKey() const {
         return CmdAllModKey;
     }
