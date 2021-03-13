@@ -588,7 +588,10 @@ void EffectsHandlerImpl::slotShellClientShown(Toplevel *t)
 {
     ShellClient *c = static_cast<ShellClient*>(t);
     setupAbstractClientConnections(c);
-    emit windowAdded(t->effectWindow());
+    QMetaObject::invokeMethod(this, [ = ] {
+    	emit windowAdded(t->effectWindow());
+    }, Qt::QueuedConnection);
+
 }
 
 void EffectsHandlerImpl::slotUnmanagedShown(KWin::Toplevel *t)
