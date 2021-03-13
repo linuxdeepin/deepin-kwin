@@ -1245,6 +1245,8 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     }
 
     QRect newGeom = geometryRestore(); // geometry();
+    if (newGeom.size().isEmpty())
+        newGeom = geometry();
     if (oldScreenLost) {
         newGeom=QRect(0,0,newGeom.width(),newGeom.height());
     }

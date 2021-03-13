@@ -1075,7 +1075,7 @@ void ShellClient::changeMaximize(bool horizontal, bool vertical, bool adjust)
 
         if (m_geomMaximizeRestore.isValid()) {
             auto maxArea = workspace()->clientArea(MaximizeArea, this);
-            if (m_geomMaximizeRestore.width() == maxArea.width() && m_geomMaximizeRestore.height() == maxArea.height()){
+            if (m_geomMaximizeRestore.width() == maxArea.width() && m_geomMaximizeRestore.height() == maxArea.height()) {
                 QSize calSize = calculateClientSize(geometry().size());
                 m_geomMaximizeRestore = QRect(m_geomMaximizeRestore.topLeft(), calSize);
             }
