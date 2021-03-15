@@ -240,7 +240,10 @@ void ShellClient::init()
     connect(s, &SurfaceInterface::sizeChanged, this,
         [this] {
             m_clientSize = surface()->size();
-            doSetGeometry(QRect(geom.topLeft(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom())));
+            QRect rect = QRect(geom.topLeft(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
+            doSetGeometry(rect);
+            if (maximizeMode() == MaximizeMode::MaximizeRestore)
+                setGeometryRestore(rect);
         }
     );
     connect(s, &SurfaceInterface::dragPositionChanged, this,
