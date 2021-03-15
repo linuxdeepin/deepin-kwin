@@ -1568,6 +1568,7 @@ void AbstractClient::checkQuickTilingMaximizationZones(int xroot, int yroot)
         setElectricBorderMode(mode);
         if (!checkTileConstraints(mode)) {
             setElectricBorderMode(QuickTileFlag::None);
+            setElectricBorderMaximizing(mode == QuickTileMode(QuickTileFlag::None));
             return;
         }
         if (innerBorder) {
