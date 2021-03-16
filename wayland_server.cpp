@@ -64,6 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/ddeseat_interface.h>
 #include <KWayland/Server/ddeshell_interface.h>
 #include <KWayland/Server/strut_interface.h>
+#include <KWayland/Server/xwayland_keyboard_grab_v1_interface.h>
 
 // Qt
 #include <QDir>
@@ -450,6 +451,19 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
             }
         }
     );
+
+    m_grab = m_display->createZWPXwaylandKeyboardGrabManagerV1(m_display);
+    m_grab->create();
+    connect(m_grab, &ZWPXwaylandKeyboardGrabManagerV1Interface::zwpXwaylandKeyboardGrabV1Created,
+            [this] (ZWPXwaylandKeyboardGrabV1Interface *grab) {
+        qDebug() << "grab successfully!";
+        m_grabClient = grab;
+    });
+    connect(m_grab, &ZWPXwaylandKeyboardGrabManagerV1Interface::zwpXwaylandKeyboardGrabV1Destroyed,
+            [this] () {
+        m_grabClient = nullptr;
+        qDebug() << "grab destroyed!";
+    });
 
     return true;
 }

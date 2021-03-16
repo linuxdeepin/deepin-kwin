@@ -97,6 +97,7 @@ private:
     QMetaObject::Connection m_activeClientSurfaceChangedConnection;
     ModifiersChangedSpy *m_modifiersChangedSpy = nullptr;
     KeyboardLayout *m_keyboardLayout = nullptr;
+    bool isTopScreen();
 };
 
 }

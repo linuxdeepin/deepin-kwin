@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KSharedConfig>
 #include <QSet>
+#include <QDebug>
 
 #include <functional>
 
@@ -120,6 +121,9 @@ public:
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action);
     void registerTouchpadSwipeShortcut(SwipeDirection direction, QAction *action);
     void registerGlobalAccel(KGlobalAccelInterface *interface);
+
+    void fakePressKeyboard(quint32 button);
+    void fakeReleaseKeyboard(quint32 button);
 
     /**
      * @internal
@@ -216,6 +220,14 @@ public:
         std::for_each(m_spies.constBegin(), m_spies.constEnd(), function);
     }
 
+    template <class UnaryFunction>
+    bool processGrab(UnaryFunction function) {
+        if (m_grabFilter == nullptr) {
+            return false;
+        }
+        return function(*m_grabFilter);
+    }
+
     KeyboardInputRedirection *keyboard() const {
         return m_keyboard;
     }
@@ -301,6 +313,10 @@ private:
 
     QVector<InputEventFilter*> m_filters;
     QVector<InputEventSpy*> m_spies;
+
+    InputEventFilter* m_grabFilter = nullptr;
+
+    InputEventFilter *m_firstFilter = nullptr;
 
     KWIN_SINGLETON(InputRedirection)
     friend InputRedirection *input();
