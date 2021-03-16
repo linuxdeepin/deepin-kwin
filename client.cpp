@@ -57,6 +57,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // system
 #include <unistd.h>
 #include <signal.h>
+#define KEY_Num_Lock 69
+#define KEY_Caps_Lock 58
+#define KEY_Scroll_Lock 70
 
 // Put all externs before the namespace statement to allow the linker
 // to resolve them properly
@@ -1454,6 +1457,16 @@ void Client::takeFocus()
             }
 
             workspace()->setShowingDesktop(false);
+        }
+        //TODO This is a temporary solution, in order to solve the problem is: X11 application in the case of no focus, can not receive the keyboard light status change in time
+        for (int i = 0; i < 2; i++)
+        {
+            input()->fakePressKeyboard(KEY_Num_Lock);
+            input()->fakeReleaseKeyboard(KEY_Num_Lock);
+            input()->fakePressKeyboard(KEY_Caps_Lock);
+            input()->fakeReleaseKeyboard(KEY_Caps_Lock);
+            input()->fakePressKeyboard(KEY_Scroll_Lock);
+            input()->fakeReleaseKeyboard(KEY_Scroll_Lock);
         }
 
         workspace()->setPreviewClientList({});
