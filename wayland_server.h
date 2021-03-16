@@ -68,6 +68,8 @@ class DDESeatInterface;
 class DDEShellInterface;
 class DDEShellSurfaceInterface;
 class StrutInterface;
+class ZWPXwaylandKeyboardGrabManagerV1Interface;
+class ZWPXwaylandKeyboardGrabV1Interface;
 }
 }
 
@@ -130,6 +132,13 @@ public:
     }
     KWayland::Server::StrutInterface *strut() const {
         return m_strut;
+    }
+    KWayland::Server::ZWPXwaylandKeyboardGrabManagerV1Interface *zwpXwaylandKeyboardGrabManagerV1() const {
+        return m_grab;
+    }
+
+    KWayland::Server::ZWPXwaylandKeyboardGrabV1Interface *zwpXwaylandKeyboardGrabClientV1() const {
+        return m_grabClient;
     }
 
     QList<ShellClient*> clients() const {
@@ -269,6 +278,8 @@ private:
     KWayland::Server::DDESeatInterface *m_ddeSeat = nullptr;
     KWayland::Server::DDEShellInterface *m_ddeShell = nullptr;
     KWayland::Server::StrutInterface *m_strut = nullptr;
+    KWayland::Server::ZWPXwaylandKeyboardGrabManagerV1Interface *m_grab = nullptr;
+    KWayland::Server::ZWPXwaylandKeyboardGrabV1Interface *m_grabClient = nullptr;
 
     struct {
         KWayland::Server::ClientConnection *client = nullptr;

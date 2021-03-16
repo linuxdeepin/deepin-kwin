@@ -207,6 +207,21 @@ void KeyboardInputRedirection::update()
     }
 }
 
+bool KeyboardInputRedirection::isTopScreen() {
+    const ToplevelList &stacking = Workspace::self()->stackingOrder();
+    if (!stacking.isEmpty()) {
+        auto it = stacking.end();
+        do {
+            --it;
+            Toplevel *t = (*it);
+            if (t->isOverride() || t->isOnScreenDisplay()) {
+                return true;
+            }
+        } while (it != stacking.begin());
+    }
+    return false;
+}
+
 void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::KeyboardKeyState state, uint32_t time, LibInput::Device *device)
 {
     QEvent::Type type;
@@ -249,6 +264,11 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         if (59 == key) {
             return;
         }
+    }
+    if (!isTopScreen() && m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event))) {
+        qDebug()<<"processGrab true.";
+        m_xkb->forwardModifiers();
+        return;
     }
 
     m_input->processSpies(std::bind(&InputEventSpy::keyEvent, std::placeholders::_1, &event));

@@ -49,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/fakeinput_interface.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/ddeseat_interface.h>
+#include <KWayland/Server/xwayland_keyboard_grab_v1_interface.h>
 #include <KWayland/Server/relativepointer_interface.h>
 #include <KWayland/Server/datadevice_interface.h>
 #include <decorations/decoratedclient.h>
@@ -1582,6 +1583,51 @@ public:
     }
 };
 
+
+
+/**
+ * The remaining grab input filter which forwards events to grab windows
+ **/
+class GrabInputFilter : public InputEventFilter
+{
+public:
+    bool keyEvent(QKeyEvent *event) override {
+        if (!workspace()) {
+            return false;
+        }
+        if (event->isAutoRepeat()) {
+            // handled by Wayland client
+            return false;
+        }
+
+        if (waylandServer()->zwpXwaylandKeyboardGrabClientV1() == nullptr)
+            return false;
+
+        auto seat = waylandServer()->zwpXwaylandKeyboardGrabClientV1()->seat();
+        auto surface = waylandServer()->zwpXwaylandKeyboardGrabClientV1()->surface();
+        input()->keyboard()->update();
+        if (seat == nullptr || surface == nullptr){
+            return false;
+        }
+
+        //seat->setFocusedKeyboardSurface(surface);
+
+        seat->setTimestamp(event->timestamp());
+        switch (event->type()) {
+        case QEvent::KeyPress:
+            seat->keyPressed(event->nativeScanCode());
+            break;
+        case QEvent::KeyRelease:
+            seat->keyReleased(event->nativeScanCode());
+            break;
+        default:
+            break;
+        }
+
+        return true;
+    }
+};
+
 /**
  * Useful when there's no proper tablet support on the clients
  */
@@ -1954,12 +2000,25 @@ void InputRedirection::setupWorkspace()
     setupInputFilters();
 }
 
+void InputRedirection::fakePressKeyboard(quint32 button) {
+    m_keyboard->processKey(button, InputRedirection::KeyboardKeyPressed, 0);
+    waylandServer()->simulateUserActivity();
+}
+void InputRedirection::fakeReleaseKeyboard(quint32 button) {
+    m_keyboard->processKey(button, InputRedirection::KeyboardKeyReleased, 0);
+    waylandServer()->simulateUserActivity();
+}
+
 void InputRedirection::setupInputFilters()
 {
     const bool hasGlobalShortcutSupport = !waylandServer() || waylandServer()->hasGlobalShortcutSupport();
     if (LogindIntegration::self()->hasSessionControl() && hasGlobalShortcutSupport) {
         installInputEventFilter(new VirtualTerminalFilter);
     }
+
+    m_grabFilter = new GrabInputFilter;
+
+    MoveResizeFilter *mr_filter = new MoveResizeFilter;
     if (waylandServer()) {
         installInputEventSpy(new TouchHideCursorSpy);
         if (hasGlobalShortcutSupport) {
