@@ -1,3 +1,10 @@
+kwin (4:5.15.8.44-1.1) UNRELEASED; urgency=medium
+
+  * Buf fix:
+    - 66300 leave screen edge, hide outline display.
+
+ --  <sulei@uniontech.com>  Wed, 17 Mar 2021 16:18:29 +0800
+
 kwin (4:5.15.8-1) unstable; urgency=medium
 
   * Repair known bug
