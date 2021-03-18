@@ -7,7 +7,7 @@ export DISPLAY=:0.0
 
 dpkg-buildpackage -b -d -uc -us
 
-make test
+#make test
 
 project_path=$(cd `dirname $0`; pwd)
 #获取工程名
@@ -19,7 +19,11 @@ pathname=$(find . -name obj*)
 
 echo $pathname
 
-cd $pathname/tests
+cd $pathname
+
+make test
+
+cd ./tests
 
 mkdir -p coverage
 
