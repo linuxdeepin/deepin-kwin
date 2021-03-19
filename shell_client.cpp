@@ -242,7 +242,7 @@ void ShellClient::init()
             m_clientSize = surface()->size();
             QRect rect = QRect(geom.topLeft(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
             doSetGeometry(rect);
-            if (maximizeMode() == MaximizeMode::MaximizeRestore)
+            if (m_requestedMaximizeMode == MaximizeMode::MaximizeRestore)
                 setGeometryRestore(rect);
         }
     );
