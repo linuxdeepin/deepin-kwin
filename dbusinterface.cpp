@@ -188,6 +188,11 @@ void DBusInterface::setRepeatRateAndDelay(int rate, int delay)
     }
 }
 
+bool DBusInterface::xwaylandGrabed()
+{
+    return waylandServer()->zwpXwaylandKeyboardGrabClientV1() != nullptr;
+}
+
 void DBusInterface::nextDesktop()
 {
     VirtualDesktopManager::self()->moveTo<DesktopNext>();

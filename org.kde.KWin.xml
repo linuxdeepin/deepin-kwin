@@ -66,5 +66,8 @@
     <method name="disableGestureForClient">
       <arg type="b" direction="in"/>
     </method>
+    <method name="xwaylandGrabed">
+      <arg type="b" direction="out"/>
+    </method>
   </interface>
 </node>
