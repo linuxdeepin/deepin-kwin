@@ -208,6 +208,7 @@ void KeyboardInputRedirection::update()
 }
 
 bool KeyboardInputRedirection::isTopScreen() {
+    StackingUpdatesBlocker blocker(Workspace::self());
     const ToplevelList &stacking = Workspace::self()->stackingOrder();
     if (!stacking.isEmpty()) {
         auto it = stacking.end();
@@ -265,7 +266,7 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
             return;
         }
     }
-    if (!isTopScreen() && m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event))) {
+    if (m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event)) && !isTopScreen()) {
         qDebug()<<"processGrab true.";
         m_xkb->forwardModifiers();
         return;

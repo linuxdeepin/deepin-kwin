@@ -2000,15 +2000,6 @@ void InputRedirection::setupWorkspace()
     setupInputFilters();
 }
 
-void InputRedirection::fakePressKeyboard(quint32 button) {
-    m_keyboard->processKey(button, InputRedirection::KeyboardKeyPressed, 0);
-    waylandServer()->simulateUserActivity();
-}
-void InputRedirection::fakeReleaseKeyboard(quint32 button) {
-    m_keyboard->processKey(button, InputRedirection::KeyboardKeyReleased, 0);
-    waylandServer()->simulateUserActivity();
-}
-
 void InputRedirection::setupInputFilters()
 {
     const bool hasGlobalShortcutSupport = !waylandServer() || waylandServer()->hasGlobalShortcutSupport();
