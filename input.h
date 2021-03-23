@@ -122,9 +122,6 @@ public:
     void registerTouchpadSwipeShortcut(SwipeDirection direction, QAction *action);
     void registerGlobalAccel(KGlobalAccelInterface *interface);
 
-    void fakePressKeyboard(quint32 button);
-    void fakeReleaseKeyboard(quint32 button);
-
     /**
      * @internal
      */
