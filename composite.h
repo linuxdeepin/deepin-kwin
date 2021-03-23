@@ -236,6 +236,10 @@ private:
     bool m_composeAtSwapCompletion;
     int m_framesToTestForSafety = 3;
 
+    uint32_t frames = 0;
+    uint32_t fps_time = 0;
+    uint32_t fps = 0;
+
     KWIN_SINGLETON_VARIABLE(Compositor, s_compositor)
 };
 }

@@ -62,6 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <xcb/damage.h>
 
 #include <sys/sdt.h>
+#include<sys/time.h>
 
 Q_DECLARE_METATYPE(KWin::Compositor::SuspendReason)
 
@@ -722,7 +723,22 @@ void Compositor::performCompositing()
 {
     DTRACE_PROBE(Compositor, StartPerformCompositing);
 
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	uint32_t time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    uint32_t benchmark_interval = 5;
+	if (frames == 0)
+		fps_time = time;
+	if (time - fps_time > (benchmark_interval * 1000)) {
+        uint32_t fps = (float) frames / benchmark_interval;
+		qDebug("%d frames in %d seconds: %d fps\n", frames, benchmark_interval, fps);
+		fps_time = time;
+		frames = 0;
+	}
+
     composite();
+
+    frames++;
 
     DTRACE_PROBE(Compositor, EndPerformCompositing);
 }
