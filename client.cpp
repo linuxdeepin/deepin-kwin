@@ -38,6 +38,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "decorations/decoratedclient.h"
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
+#include "wayland_server.h"
+#include <KWayland/Server/seat_interface.h>
 // KDE
 #include <KLocalizedString>
 #include <KWindowSystem>
@@ -1459,14 +1461,16 @@ void Client::takeFocus()
             workspace()->setShowingDesktop(false);
         }
         //TODO This is a temporary solution, in order to solve the problem is: X11 application in the case of no focus, can not receive the keyboard light status change in time
-        for (int i = 0; i < 2; i++)
-        {
-            input()->fakePressKeyboard(KEY_Num_Lock);
-            input()->fakeReleaseKeyboard(KEY_Num_Lock);
-            input()->fakePressKeyboard(KEY_Caps_Lock);
-            input()->fakeReleaseKeyboard(KEY_Caps_Lock);
-            input()->fakePressKeyboard(KEY_Scroll_Lock);
-            input()->fakeReleaseKeyboard(KEY_Scroll_Lock);
+        if(waylandServer() && waylandServer()->seat()) {
+            for (int i = 0; i < 2; i++) {
+                waylandServer()->seat()->keyPressed(KEY_Num_Lock);
+                waylandServer()->seat()->keyReleased(KEY_Num_Lock);
+                waylandServer()->seat()->keyPressed(KEY_Caps_Lock);
+                waylandServer()->seat()->keyReleased(KEY_Caps_Lock);
+                waylandServer()->seat()->keyPressed(KEY_Scroll_Lock);
+                waylandServer()->seat()->keyReleased(KEY_Scroll_Lock);
+                waylandServer()->simulateUserActivity();
+            }
         }
 
         workspace()->setPreviewClientList({});
