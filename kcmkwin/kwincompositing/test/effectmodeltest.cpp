@@ -32,13 +32,13 @@ EffectModelTest::EffectModelTest(QObject *parent)
 }
 
 void EffectModelTest::testEffectModel() {
-    auto effectModel = new KWin::EffectModel();
+    auto effectModel = new KWin::EffectModel(this);
 
     new ModelTest(effectModel, this);
 }
 
 void EffectModelTest::testEffectFilterModel() {
-    KWin::Compositing::EffectFilterModel *model = new KWin::Compositing::EffectFilterModel();
+    KWin::Compositing::EffectFilterModel *model = new KWin::Compositing::EffectFilterModel(this);
 
     new ModelTest(model, this);
 }
