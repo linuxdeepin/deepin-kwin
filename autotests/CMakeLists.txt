@@ -400,8 +400,8 @@ target_link_libraries(testX11TimestampUpdate
     KF5::CoreAddons
     kwin
 )
-#add_test(NAME kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
-#ecm_mark_as_test(testX11TimestampUpdate)
+add_test(NAME kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
+ecm_mark_as_test(testX11TimestampUpdate)
 
 set(testOpenGLContextAttributeBuilder_SRCS
     opengl_context_attribute_builder_test.cpp
