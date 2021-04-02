@@ -1,4 +1,17 @@
-kwin (4:5.15.8.44-1.1) UNRELEASED; urgency=medium
+kwin (4:5.15.8.50-1) unstable; urgency=medium
+
+  * unit test
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 30 Mar 2021 21:24:20 +0800
+
+
+kwin (4:5.15.8.45-1) unstable; urgency=medium
+
+  * auto tests
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 18 Mar 2021 16:40:12 +0800
+
+kwin (4:5.15.8.44-1) unstable; urgency=medium
 
   * Buf fix:
     - 66300 leave screen edge, hide outline display.
