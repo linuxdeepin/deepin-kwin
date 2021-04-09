@@ -167,7 +167,7 @@ Requires:       xorg-x11-server-Xwayland
 %package        common
 Summary:        Common files for KWin X11 and KWin Wayland
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
-Requires:       kf5-kwayland%{?_isa} >= %{_kf5_version}
+Requires:       kf5-kwayland%{?_isa}
 %description    common
 %{summary}.
  
