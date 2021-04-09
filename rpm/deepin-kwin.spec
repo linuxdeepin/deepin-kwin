@@ -238,7 +238,7 @@ ln -s kwin_x11 %{buildroot}%{_bindir}/kwin
 %{_bindir}/kwin_x11
 %{_kf5_libdir}/libkdeinit5_kwin_x11.so
  
-%files
+%files common
 %{_kf5_libdir}/libkdeinit5_kwin_rules_dialog.so
 %{_datadir}/kwin
 %{_kf5_qtplugindir}/*.so
