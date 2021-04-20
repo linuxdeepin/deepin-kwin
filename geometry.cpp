@@ -2229,7 +2229,7 @@ void AbstractClient::maximize(MaximizeMode m)
     if (waylandServer() && !isMaximizable()) {
         return;
     }
-    if (m == maximizeMode()) {
+    if (m == maximizeMode() || isFullScreen()) {
         return;
     }
     setMaximize(m & MaximizeVertical, m & MaximizeHorizontal);
