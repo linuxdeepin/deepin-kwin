@@ -403,7 +403,7 @@ bool Client::manage(xcb_window_t w, bool isMapped)
 
     updateDecoration(false);   // Also gravitates
     // TODO: Is CentralGravity right here, when resizing is done after gravitating?
-    plainResize(rules()->checkSize(sizeForClientSize(geom.size()), !isMapped));
+    plainResize(rules()->checkSize(sizeForClientSize(geom.size(), SizemodeMax), !isMapped));
 
     QPoint forced_pos = rules()->checkPosition(invalidPoint, !isMapped);
     if (forced_pos != invalidPoint) {

@@ -942,7 +942,8 @@ void AbstractClient::applyWindowRules()
             && !client_rules->checkAcceptFocus(true))
         workspace()->activateNextClient(this);
     // Closeable
-    QSize s = adjustedSize();
+
+    QSize s = sizeForClientSize(clientSize(), SizemodeMax);
     if (s != size())
         resizeWithChecks(s);
     // Autogrouping : Only checked on window manage

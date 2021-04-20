@@ -1370,8 +1370,23 @@ QSize Client::sizeForClientSize(const QSize& wsize, Sizemode mode, bool noframe)
         basew_inc = m_geometryHints.minSize().width();
         baseh_inc = m_geometryHints.minSize().height();
     }
-    w = int((w - basew_inc) / width_inc) * width_inc + basew_inc;
-    h = int((h - baseh_inc) / height_inc) * height_inc + baseh_inc;
+
+    // This is changes fort bug-62549
+    switch (mode) {
+    case SizemodeAny:
+        w = int((w - basew_inc) / width_inc) * width_inc + basew_inc;
+        h = int((h - baseh_inc) / height_inc) * height_inc + baseh_inc;
+        break;
+    case SizemodeFixedW:
+        h = int((h - baseh_inc) / height_inc) * height_inc + baseh_inc;
+        break;
+    case SizemodeFixedH:
+        w = int((w - basew_inc) / width_inc) * width_inc + basew_inc;
+        break;
+    case SizemodeMax:
+        break;
+    }
+
 // code for aspect ratios based on code from FVWM
     /*
      * The math looks like this:
@@ -1707,7 +1722,7 @@ void Client::configureRequest(int value_mask, int rx, int ry, int rw, int rh, in
             nw = rw;
         if (value_mask & CWHeight)
             nh = rh;
-        QSize ns = sizeForClientSize(QSize(nw, nh));     // enforces size if needed
+        QSize ns = sizeForClientSize(QSize(nw, nh), SizemodeMax);     // enforces size if needed
         new_pos = rules()->checkPosition(new_pos);
         int newScreen = screens()->number(QRect(new_pos, ns).center());
         if (newScreen != rules()->checkScreen(newScreen))
@@ -1747,7 +1762,7 @@ void Client::configureRequest(int value_mask, int rx, int ry, int rw, int rh, in
             nw = rw;
         if (value_mask & CWHeight)
             nh = rh;
-        QSize ns = sizeForClientSize(QSize(nw, nh));
+        QSize ns = sizeForClientSize(QSize(nw, nh), SizemodeMax);
 
         if (ns != size()) { // don't restore if some app sets its own size again
             QRect origClientGeometry(pos() + clientPos(), clientSize());
