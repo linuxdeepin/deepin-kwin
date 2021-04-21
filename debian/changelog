@@ -1,3 +1,10 @@
+kwin (4:5.15.8.53-1) unstable; urgency=medium
+
+  * Bug fix:
+    - 65842 fix: repair memory leaks in effectmodeltest.cpp files。
+
+ -- Lei Su <sulei@uniontech.com>  Wed, 21 Apr 2021 16:47:39 +0800
+
 kwin (4:5.15.8.50-1) unstable; urgency=medium
 
   * unit test
