@@ -1337,6 +1337,12 @@ bool ShellClient::acceptsFocus() const
         // TODO: proper
         return true;
     }
+
+    // grab popup need accept focus
+    if (m_xdgShellPopup && m_hasPopupGrab) {
+        return true;
+    }
+
     return false;
 }
 
