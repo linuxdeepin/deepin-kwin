@@ -644,8 +644,7 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &dam
 
     DrmSurfaceBuffer* gbmbuf = static_cast<DrmSurfaceBuffer *>(o.buffer);
     if(gbmbuf) {
-        auto bo = gbmbuf->getBo();
-        m_dmaFd = gbm_bo_get_fd(bo);
+        m_dmaFd = gbmbuf->getFd();
     }
 
     if(m_remoteaccessManager && gbm_surface_has_free_buffers(o.gbmSurface->surface())) {
