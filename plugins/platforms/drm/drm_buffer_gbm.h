@@ -56,11 +56,16 @@ public:
         return m_bo;
     }
 
+    unsigned int getFd() {
+        return m_dmaFd;
+    }
+
     void releaseGbm() override;
 
 private:
     std::shared_ptr<GbmSurface> m_surface;
     gbm_bo *m_bo = nullptr;
+    unsigned int m_dmaFd = 0;
 };
 
 }

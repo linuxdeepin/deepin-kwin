@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <gbm.h>
 
 #include <sys/sdt.h>
+#include <unistd.h>
 
 namespace KWin
 {
@@ -46,6 +47,7 @@ DrmSurfaceBuffer::DrmSurfaceBuffer(int fd, const std::shared_ptr<GbmSurface> &su
         qCWarning(KWIN_DRM) << "Locking front buffer failed";
         return;
     }
+    m_dmaFd = gbm_bo_get_fd(m_bo);
     m_size = QSize(gbm_bo_get_width(m_bo), gbm_bo_get_height(m_bo));
     if (drmModeAddFB(fd, m_size.width(), m_size.height(), 24, 32, gbm_bo_get_stride(m_bo),
                      gbm_bo_get_handle(m_bo).u32, &m_bufferId) != 0) {
@@ -73,7 +75,7 @@ DrmSurfaceBuffer::DrmSurfaceBuffer(int fd, const std::shared_ptr<GbmSurface> &su
     handles[0] = gbm_bo_get_handle(m_bo).u32;
     strides[0] = gbm_bo_get_stride(m_bo);
     mods[0] = modifiers.data()[0];
-
+    m_dmaFd = gbm_bo_get_fd(m_bo);
     if (drmModeAddFB2WithModifiers(fd, m_size.width(), m_size.height(), format,
                                    handles, strides,
                                    offsets, mods, &m_bufferId, DRM_MODE_FB_MODIFIERS) != 0) {
@@ -93,6 +95,9 @@ DrmSurfaceBuffer::~DrmSurfaceBuffer()
 
 void DrmSurfaceBuffer::releaseGbm()
 {
+    if (m_dmaFd > 0) {
+        close(m_dmaFd);
+    }
     m_surface->releaseBuffer(m_bo);
     DTRACE_PROBE(DrmSurfaceBuffer, releaseGbm);
     m_bo = nullptr;
