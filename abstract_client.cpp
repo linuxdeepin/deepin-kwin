@@ -2210,7 +2210,9 @@ AbstractClient *AbstractClient::findClientWithSameCaption() const
 
 QString AbstractClient::caption() const
 {
-    QString cap = captionNormal() + captionSuffix();
+    QString cap = captionNormal();
+    if (!captionNormal().isEmpty())
+        cap += captionSuffix();
     if (unresponsive()) {
         cap += QLatin1String(" ");
         cap += i18nc("Application is not responding, appended to window title", "(Not Responding)");
