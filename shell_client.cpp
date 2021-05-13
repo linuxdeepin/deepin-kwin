@@ -704,15 +704,22 @@ void ShellClient::doSetGeometry(const QRect &rect)
     }
     geom = rect;
 
-    if (!m_unmapped && m_geomMaximizeRestore.isEmpty() && !geom.isEmpty()) {
-        // use first valid geometry as restore geometry
-        const QRect clientArea = isElectricBorderMaximizing() ?
+    if (m_geomMaximizeRestore.isEmpty() && !geom.isEmpty()) {
+        //maximizable window should wait window mapped to change maximizeMode
+        if (!m_unmapped) {
+            const QRect clientArea = isElectricBorderMaximizing() ?
                     workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop()) :
                     workspace()->clientArea(MaximizeArea, this);
-        if (isMaximizable() && (geom.size() == clientArea.size() || m_clientSize == clientArea.size())) {
-            maximize(MaximizeFull);
+            if (isMaximizable() && (geom.size() == clientArea.size() || m_clientSize == clientArea.size())) {
+                maximize(MaximizeFull);
+            } else {
+                m_geomMaximizeRestore = geom;
+            }
         } else {
-            m_geomMaximizeRestore = geom;
+            if (!isMaximizable()) {
+                // use first valid geometry as restore geometry
+                m_geomMaximizeRestore = geom;
+            }
         }
     }
 
