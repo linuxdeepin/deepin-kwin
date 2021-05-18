@@ -38,13 +38,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KDecoration2/Decoration>
 
 #include <linux/input.h>
-
+#include "../testprintasanbase.h"
 namespace KWin
 {
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_dont_crash_no_border-0");
 
-class DontCrashNoBorder : public QObject
+class DontCrashNoBorder : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -129,7 +129,9 @@ void DontCrashNoBorder::testCreateWindow()
     QVERIFY(c);
     QCOMPARE(workspace()->activeClient(), c);
     QVERIFY(!c->isDecorated());
+    testPrintlog();
 }
+
 
 }
 

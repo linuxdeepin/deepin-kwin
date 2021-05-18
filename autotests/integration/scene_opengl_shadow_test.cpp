@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "shell_client.h"
 #include "wayland_server.h"
 #include "workspace.h"
-
+#include "../testprintasanbase.h"
 Q_DECLARE_METATYPE(KWin::WindowQuadList);
 
 using namespace KWin;
@@ -56,7 +56,7 @@ using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_scene_opengl_shadow-0");
 
-class SceneOpenGLShadowTest : public QObject
+class SceneOpenGLShadowTest : public TestPrintAsanBase
 {
     Q_OBJECT
 
@@ -859,6 +859,7 @@ void SceneOpenGLShadowTest::testDistributeHugeCornerTiles()
             QFAIL(rawMessage.data());
         }
     }
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(SceneOpenGLShadowTest)

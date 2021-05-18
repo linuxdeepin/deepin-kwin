@@ -26,10 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QX11Info>
 // xcb
 #include <xcb/xcb.h>
-
+#include "testprintasanbase.h"
 using namespace KWin;
 
-class TestXcbWindow : public QObject
+class TestXcbWindow : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -206,6 +206,7 @@ void TestXcbWindow::destroyNotManaged()
     window.reset();
     Xcb::WindowAttributes attribs(w);
     QVERIFY(attribs);
+    testPrintlog();
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

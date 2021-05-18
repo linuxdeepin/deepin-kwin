@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/shell.h>
 #include <KWayland/Client/surface.h>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 using namespace KWayland::Client;
 
@@ -40,7 +40,7 @@ Q_DECLARE_METATYPE(KWin::Layer)
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_plasma_surface-0");
 
-class PlasmaSurfaceTest : public QObject
+class PlasmaSurfaceTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -440,6 +440,7 @@ void PlasmaSurfaceTest::testPanelActivate()
     QFETCH(bool, active);
     QCOMPARE(panel->dockWantsInput(), active);
     QCOMPARE(panel->isActive(), active);
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(PlasmaSurfaceTest)

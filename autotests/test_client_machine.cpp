@@ -32,12 +32,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
-
+#include "testprintasanbase.h"
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core")
 
 using namespace KWin;
 
-class TestClientMachine : public QObject
+class TestClientMachine : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -150,6 +150,7 @@ void TestClientMachine::emptyHostName()
     QVERIFY(clientMachine.isLocal());
     // should be local
     QCOMPARE(spy.isEmpty(), false);
+    testPrintlog();
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

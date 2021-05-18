@@ -26,13 +26,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "virtualdesktops.h"
 
 #include <KWayland/Client/surface.h>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_virtualdesktop-0");
 
-class VirtualDesktopTest : public QObject
+class VirtualDesktopTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -326,6 +326,7 @@ void VirtualDesktopTest::testRemoveDesktopWithWindow()
     QCOMPARE(client->desktops().count(), 1u);
     //window is only on desktop 2
     QCOMPARE(VirtualDesktopManager::self()->desktops()[1], client->desktops()[0]);
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(VirtualDesktopTest)

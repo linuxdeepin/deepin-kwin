@@ -24,13 +24,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest>
 
 #include <linux/input.h>
-
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(libinput_event_type)
 Q_DECLARE_METATYPE(libinput_button_state)
 
 using namespace KWin::LibInput;
 
-class TestLibinputPointerEvent : public QObject
+class TestLibinputPointerEvent : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -203,6 +203,7 @@ void TestLibinputPointerEvent::testAbsoluteMotion()
     QCOMPARE(pe->time(), 500u);
     QCOMPARE(pe->absolutePos(), QPointF(6.25, 6.9));
     QCOMPARE(pe->absolutePos(QSize(1280, 1024)), QPointF(640, 512));
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(TestLibinputPointerEvent)

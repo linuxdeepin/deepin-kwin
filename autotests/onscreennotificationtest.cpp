@@ -29,7 +29,6 @@
 #include <QQmlEngine>
 #include <QSignalSpy>
 #include <QTest>
-
 QTEST_MAIN(OnScreenNotificationTest);
 
 namespace KWin
@@ -136,6 +135,7 @@ void OnScreenNotificationTest::message()
     notification.setMessage(QStringLiteral("bar"));
     QCOMPARE(notification.message(), QStringLiteral("bar"));
     QCOMPARE(messageChangedSpy.count(), 2);
+    testPrintlog();
 }
 
 #include "onscreennotificationtest.moc"

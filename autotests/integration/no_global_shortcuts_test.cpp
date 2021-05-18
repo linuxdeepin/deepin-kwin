@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDBusConnection>
 
 #include <linux/input.h>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 using namespace KWayland::Client;
 
@@ -46,7 +46,7 @@ Q_DECLARE_METATYPE(KWin::ElectricBorder)
 /**
  * This test verifies the NoGlobalShortcuts initialization flag
  **/
-class NoGlobalShortcutsTest : public QObject
+class NoGlobalShortcutsTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -279,6 +279,7 @@ void NoGlobalShortcutsTest::testScreenEdge()
     quint32 timestamp = 1;
     kwinApp()->platform()->pointerMotion({5, 5}, timestamp++);
     QCOMPARE(screenEdgeSpy.count(), 0);
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(NoGlobalShortcutsTest)

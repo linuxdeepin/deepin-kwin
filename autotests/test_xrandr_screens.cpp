@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest>
 // system
 #include <unistd.h>
-
+#include "testprintasanbase.h"
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core")
 
 // mocking
@@ -44,7 +44,7 @@ static xcb_connection_t *s_connection = nullptr;
 using namespace KWin;
 using namespace KWin::Xcb;
 
-class TestXRandRScreens : public QObject
+class TestXRandRScreens : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -281,6 +281,7 @@ void TestXRandRScreens::testMultipleChanges()
     QCOMPARE(static_cast<Screens*>(screens.data())->geometry(), geo);
     QCOMPARE(screens->size(0), geo.size());
     QCOMPARE(static_cast<Screens*>(screens.data())->size(), geo.size());
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(TestXRandRScreens)

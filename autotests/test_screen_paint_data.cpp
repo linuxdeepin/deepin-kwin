@@ -25,10 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector3D>
 
 #include <QtTest>
-
+#include "testprintasanbase.h"
 using namespace KWin;
 
-class TestScreenPaintData : public QObject
+class TestScreenPaintData : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -281,6 +281,7 @@ void TestScreenPaintData::testSetRotationAxis()
     QCOMPARE(data.rotationAxis(), QVector3D(0.0, 0.0, 1.0));
     data.setRotationAxis(QVector3D(1.0, 1.0, 0.0));
     QCOMPARE(data.rotationAxis(), QVector3D(1.0, 1.0, 0.0));
+    testPrintlog();
 }
 
 QTEST_MAIN(TestScreenPaintData)

@@ -24,10 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSignalSpy>
 
 #include "../virtualkeyboard_dbus.h"
-
+#include "testprintasanbase.h"
 using KWin::VirtualKeyboardDBus;
 
-class VirtualKeyboardDBusTest : public QObject
+class VirtualKeyboardDBusTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -136,6 +136,7 @@ void VirtualKeyboardDBusTest::testRequestEnabled()
     QDBusConnection::sessionBus().asyncCall(message);
     QTRY_COMPARE(activateRequestedSpy.count(), 1);
     QTEST(activateRequestedSpy.first().first().toBool(), "expectedResult");
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(VirtualKeyboardDBusTest)

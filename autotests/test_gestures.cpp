@@ -21,10 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QTest>
 #include <QSignalSpy>
-
+#include "testprintasanbase.h"
 using namespace KWin;
 
-class GestureTest : public QObject
+class GestureTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -608,7 +608,7 @@ void GestureTest::testSwipeDiagonalCancels()
     recognizer.endSwipeGesture();
     QCOMPARE(cancelledSpy.count(), 1);
     QCOMPARE(triggeredSpy.count(), 0);
-
+    testPrintlog();
 }
 
 QTEST_MAIN(GestureTest)

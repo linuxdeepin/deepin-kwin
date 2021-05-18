@@ -21,8 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwin_wayland_test.h"
 
 #include <QObject>
-
-class GenericSceneOpenGLTest : public QObject
+#include "../testprintasanbase.h"
+class GenericSceneOpenGLTest : public TestPrintAsanBase
 {
 Q_OBJECT
 public:

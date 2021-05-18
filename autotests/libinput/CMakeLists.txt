@@ -1,12 +1,13 @@
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
 
 include_directories(${Libinput_INCLUDE_DIRS})
 include_directories(${UDEV_INCLUDE_DIR})
+include_directories(../)
 ########################################################
 # Test Devices
 ########################################################
-set( testLibinputDevice_SRCS device_test.cpp mock_libinput.cpp ../../libinput/device.cpp )
+set( testLibinputDevice_SRCS device_test.cpp mock_libinput.cpp ../../libinput/device.cpp  ../testprintasanbase.cpp)
 add_executable(testLibinputDevice ${testLibinputDevice_SRCS})
 target_link_libraries( testLibinputDevice Qt5::Test Qt5::DBus Qt5::Gui KF5::ConfigCore)
 add_test(NAME kwin-testLibinputDevice COMMAND testLibinputDevice)
@@ -20,6 +21,7 @@ set( testLibinputKeyEvent_SRCS
         mock_libinput.cpp
         ../../libinput/device.cpp
         ../../libinput/events.cpp
+         ../testprintasanbase.cpp
     )
 add_executable(testLibinputKeyEvent ${testLibinputKeyEvent_SRCS})
 target_link_libraries( testLibinputKeyEvent Qt5::Test Qt5::DBus Qt5::Widgets KF5::ConfigCore)
@@ -34,6 +36,7 @@ set( testLibinputPointerEvent_SRCS
         mock_libinput.cpp
         ../../libinput/device.cpp
         ../../libinput/events.cpp
+         ../testprintasanbase.cpp
     )
 add_executable(testLibinputPointerEvent ${testLibinputPointerEvent_SRCS})
 target_link_libraries( testLibinputPointerEvent Qt5::Test Qt5::DBus Qt5::Widgets KF5::ConfigCore)
@@ -48,6 +51,7 @@ set( testLibinputTouchEvent_SRCS
         mock_libinput.cpp
         ../../libinput/device.cpp
         ../../libinput/events.cpp
+         ../testprintasanbase.cpp
     )
 add_executable(testLibinputTouchEvent ${testLibinputTouchEvent_SRCS})
 target_link_libraries( testLibinputTouchEvent Qt5::Test Qt5::DBus Qt5::Widgets KF5::ConfigCore)
@@ -62,6 +66,7 @@ set( testLibinputGestureEvent_SRCS
         mock_libinput.cpp
         ../../libinput/device.cpp
         ../../libinput/events.cpp
+         ../testprintasanbase.cpp
     )
 add_executable(testLibinputGestureEvent ${testLibinputGestureEvent_SRCS})
 target_link_libraries( testLibinputGestureEvent Qt5::Test Qt5::DBus Qt5::Widgets KF5::ConfigCore)
@@ -76,6 +81,7 @@ set( testLibinputSwitchEvent_SRCS
         mock_libinput.cpp
         ../../libinput/device.cpp
         ../../libinput/events.cpp
+         ../testprintasanbase.cpp
     )
 add_executable(testLibinputSwitchEvent ${testLibinputSwitchEvent_SRCS})
 target_link_libraries(testLibinputSwitchEvent Qt5::Test Qt5::DBus Qt5::Widgets KF5::ConfigCore)
@@ -94,6 +100,7 @@ set( testLibinputContext_SRCS
         ../../libinput/events.cpp
         ../../libinput/libinput_logging.cpp
         ../../logind.cpp
+         ../testprintasanbase.cpp
     )
 add_executable(testLibinputContext ${testLibinputContext_SRCS})
 target_link_libraries( testLibinputContext
@@ -109,7 +116,7 @@ ecm_mark_as_test(testLibinputContext)
 ########################################################
 # Test Input Events
 ########################################################
-set( testInputEvents_SRCS input_event_test.cpp mock_libinput.cpp ../../libinput/device.cpp ../../input_event.cpp )
+set( testInputEvents_SRCS input_event_test.cpp mock_libinput.cpp ../../libinput/device.cpp ../../input_event.cpp  ../testprintasanbase.cpp)
 add_executable(testInputEvents ${testInputEvents_SRCS})
 target_link_libraries( testInputEvents Qt5::Test Qt5::DBus Qt5::Gui KF5::ConfigCore)
 add_test(NAME kwin-testInputEvents COMMAND testInputEvents)

@@ -40,13 +40,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/surface.h>
 
 #include <KWayland/Server/seat_interface.h>
-
+#include "../testprintasanbase.h"
 namespace KWin
 {
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_input_stacking_order-0");
 
-class InputStackingOrderTest : public QObject
+class InputStackingOrderTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -55,7 +55,6 @@ private Q_SLOTS:
     void cleanup();
     void testPointerFocusUpdatesOnStackingOrderChange_data();
     void testPointerFocusUpdatesOnStackingOrderChange();
-
 private:
     void render(KWayland::Client::Surface *surface);
 };
@@ -182,6 +181,7 @@ void InputStackingOrderTest::testPointerFocusUpdatesOnStackingOrderChange()
     QCOMPARE(enteredSpy.count(), 3);
     QCOMPARE(pointer->enteredSurface(), surface2);
     QCOMPARE(waylandServer()->seat()->focusedPointerSurface(), window2->surface());
+    testPrintlog();
 }
 
 }

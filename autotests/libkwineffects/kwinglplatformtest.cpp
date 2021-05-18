@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Q_DECLARE_METATYPE(KWin::Driver)
 Q_DECLARE_METATYPE(KWin::ChipClass)
-
+#include "testprintasanbase.h"
 using namespace KWin;
 
 void KWin::cleanupGL()
@@ -34,7 +34,7 @@ void KWin::cleanupGL()
     GLPlatform::cleanup();
 }
 
-class GLPlatformTest : public QObject
+class GLPlatformTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -275,6 +275,7 @@ void GLPlatformTest::testDetect()
     QCOMPARE(gl->isGLES(), settingsGroup.readEntry("GLES", false));
     QCOMPARE(gl->recommendedCompositor(), CompositingType(settingsGroup.readEntry("Compositor", int(NoCompositing))));
     QCOMPARE(gl->preferBufferSubData(), settingsGroup.readEntry("PreferBufferSubData", false));
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(GLPlatformTest)

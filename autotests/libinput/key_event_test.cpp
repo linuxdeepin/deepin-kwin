@@ -24,12 +24,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest>
 
 #include <linux/input.h>
-
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(libinput_key_state)
 
 using namespace KWin::LibInput;
 
-class TestLibinputKeyEvent : public QObject
+class TestLibinputKeyEvent : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -110,6 +110,7 @@ void TestLibinputKeyEvent::testEvent()
     QTEST(ke->state(), "expectedKeyState");
     QCOMPARE(ke->key(), key);
     QCOMPARE(ke->time(), time);
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(TestLibinputKeyEvent)

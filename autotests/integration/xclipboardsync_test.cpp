@@ -28,12 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QProcess>
 #include <QProcessEnvironment>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_xclipboard_sync-0");
 
-class XClipboardSyncTest : public QObject
+class XClipboardSyncTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -180,6 +180,7 @@ void XClipboardSyncTest::testSync()
     QCOMPARE(finishedSpy.first().first().toInt(), 0);
     delete m_pasteProcess;
     m_pasteProcess = nullptr;
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(XClipboardSyncTest)

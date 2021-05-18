@@ -22,13 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../input_event.h"
 
 #include <QtTest>
-
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(KWin::SwitchEvent::State);
 
 using namespace KWin;
 using namespace KWin::LibInput;
 
-class InputEventsTest : public QObject
+class InputEventsTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -178,6 +178,7 @@ void InputEventsTest::testInitSwitchEvent()
     QCOMPARE(event.timestamp(), ulong(timestamp));
     QCOMPARE(event.timestampMicroseconds(), micro);
     QCOMPARE(event.device(), &d);
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(InputEventsTest)

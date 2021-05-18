@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if HAVE_EPOXY_GLX
 #include "../plugins/platforms/x11/standalone/glx_context_attribute_builder.h"
 #include <epoxy/glx.h>
-
+#include "testprintasanbase.h"
 #ifndef GLX_GENERATE_RESET_ON_VIDEO_MEMORY_PURGE_NV
 #define GLX_GENERATE_RESET_ON_VIDEO_MEMORY_PURGE_NV 0x20F7
 #endif
@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace KWin;
 
-class OpenGLContextAttributeBuilderTest : public QObject
+class OpenGLContextAttributeBuilderTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -436,6 +436,7 @@ void OpenGLContextAttributeBuilderTest::testGlx()
     auto attribs = builder.build();
     QTEST(attribs, "expectedAttribs");
 #endif
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(OpenGLContextAttributeBuilderTest)

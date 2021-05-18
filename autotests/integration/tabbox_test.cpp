@@ -31,13 +31,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 
 #include <linux/input.h>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_tabbox-0");
 
-class TabBoxTest : public QObject
+class TabBoxTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -144,6 +144,7 @@ void TabBoxTest::testCapsLock()
     QVERIFY(Test::waitForWindowDestroyed(c2));
     surface1.reset();
     QVERIFY(Test::waitForWindowDestroyed(c1));
+    testPrintlog();
 }
 
 void TabBoxTest::testMoveForward()

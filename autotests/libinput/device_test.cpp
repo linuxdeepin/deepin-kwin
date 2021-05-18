@@ -28,10 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest>
 
 #include <linux/input.h>
-
+#include "testprintasanbase.h"
 using namespace KWin::LibInput;
 
-class TestLibinputDevice : public QObject
+class TestLibinputDevice : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -2398,6 +2398,7 @@ void TestLibinputDevice::testSwitch()
     QCOMPARE(d.isTabletModeSwitch(), tablet);
     QCOMPARE(d.property("tabletModeSwitch").toBool(), tablet);
     QCOMPARE(dbusProperty<bool>(d.sysName(), "tabletModeSwitch"), tablet);
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(TestLibinputDevice)

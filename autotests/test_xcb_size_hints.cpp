@@ -28,11 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // xcb
 #include <xcb/xcb.h>
 #include <xcb/xcb_icccm.h>
-
+#include "testprintasanbase.h"
 using namespace KWin;
 using namespace KWin::Xcb;
 
-class TestXcbSizeHints : public QObject
+class TestXcbSizeHints : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -370,6 +370,7 @@ void TestXcbSizeHints::geometryHintsBeforeRead()
     QCOMPARE(hints.minSize(), QSize(0, 0));
     QCOMPARE(hints.resizeIncrements(), QSize(1, 1));
     QCOMPARE(hints.windowGravity(), XCB_GRAVITY_NORTH_WEST);
+    testPrintlog();
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

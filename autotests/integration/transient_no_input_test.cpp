@@ -29,13 +29,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/shell.h>
 #include <KWayland/Client/surface.h>
-
+#include "../testprintasanbase.h"
 namespace KWin
 {
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_transient_no_input-0");
 
-class TransientNoInputTest : public QObject
+class TransientNoInputTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -107,6 +107,7 @@ void TransientNoInputTest::testTransientNoFocus()
 
     // workspace's active window should not have changed
     QCOMPARE(workspace()->activeClient(), c);
+    testPrintlog();
 }
 
 }

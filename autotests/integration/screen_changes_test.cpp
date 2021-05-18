@@ -26,13 +26,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/output.h>
 #include <KWayland/Client/xdgoutput.h>
 #include <KWayland/Client/registry.h>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_screen_changes-0");
 
-class ScreenChangesTest : public QObject
+class ScreenChangesTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -189,6 +189,7 @@ void ScreenChangesTest::testScreenAddRemove()
     QCOMPARE(o1RemovedSpy.count(), 1);
     QCOMPARE(o2RemovedSpy.count(), 1);
     QCOMPARE(outputRemovedSpy.count(), 2);
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(ScreenChangesTest)

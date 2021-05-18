@@ -28,14 +28,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KWayland/Server/display.h>
 #include <KWayland/Server/idle_interface.h>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 using namespace KWayland::Client;
 using KWayland::Server::IdleInterface;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_idle_inhbition_test-0");
 
-class TestIdleInhibition : public QObject
+class TestIdleInhibition : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -357,6 +357,7 @@ void TestIdleInhibition::testDontInhibitWhenLeftCurrentDesktop()
     QVERIFY(Test::waitForWindowDestroyed(c));
     QTRY_VERIFY(!idle->isInhibited());
     QCOMPARE(inhibitedSpy.count(), 4);
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(TestIdleInhibition)

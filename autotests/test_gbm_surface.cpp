@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest>
 
 #include <gbm.h>
-
+#include "testprintasanbase.h"
 // mocking
 
 struct gbm_device {
@@ -66,7 +66,7 @@ void gbm_surface_release_buffer(struct gbm_surface *surface, struct gbm_bo *bo)
 
 using KWin::GbmSurface;
 
-class GbmSurfaceTest : public QObject
+class GbmSurfaceTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -113,6 +113,7 @@ void GbmSurfaceTest::testBo()
     surface2.releaseBuffer(bo2);
     // so we need to clean up properly
     surface.releaseBuffer(bo2);
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(GbmSurfaceTest)

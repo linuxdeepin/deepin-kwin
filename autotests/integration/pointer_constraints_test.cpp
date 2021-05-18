@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <linux/input.h>
 
 #include <functional>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 using namespace KWayland::Client;
 
@@ -51,7 +51,7 @@ Q_DECLARE_METATYPE(PointerFunc)
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_pointer_constraints-0");
 
-class TestPointerConstraints : public QObject
+class TestPointerConstraints : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -411,6 +411,7 @@ void TestPointerConstraints::testCloseWindowWithLockedPointer()
     // this should result in unlocked
     QVERIFY(unlockedSpy.wait());
     QCOMPARE(input()->pointer()->isConstrained(), false);
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(TestPointerConstraints)

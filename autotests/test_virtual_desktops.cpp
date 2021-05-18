@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QAction>
 #include <QtTest>
-
+#include "testprintasanbase.h"
 namespace KWin {
 
 int screen_number = 0;
@@ -54,7 +54,7 @@ Q_DECLARE_METATYPE(Qt::Orientation)
 
 using namespace KWin;
 
-class TestVirtualDesktops : public QObject
+class TestVirtualDesktops : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -90,7 +90,6 @@ private Q_SLOTS:
     void changeRows();
     void load();
     void save();
-
 private:
     void addDirectionColumns();
     template<typename T>
@@ -666,7 +665,7 @@ void TestVirtualDesktops::save()
     QCOMPARE(desktops.hasKey("Name_2"), false);
     QCOMPARE(desktops.hasKey("Name_3"), false);
     QCOMPARE(desktops.hasKey("Name_4"), false);
-
+    testPrintlog();
 }
 
 QTEST_MAIN(TestVirtualDesktops)

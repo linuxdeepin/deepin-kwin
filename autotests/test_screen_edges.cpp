@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QX11Info>
 // xcb
 #include <xcb/xcb.h>
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(KWin::ElectricBorder)
 
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core")
@@ -113,7 +114,7 @@ bool TestObject::callback(KWin::ElectricBorder border)
 
 }
 
-class TestScreenEdges : public QObject
+class TestScreenEdges : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -1081,6 +1082,7 @@ void TestScreenEdges::testTouchCallback()
         QCOMPARE(e->activatesForPointer(), false);
         QCOMPARE(e->activatesForTouchGesture(), false);
     }
+    testPrintlog();
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

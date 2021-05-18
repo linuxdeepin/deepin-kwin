@@ -23,8 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../testutils.h"
 #include "../../libkwineffects/kwinxrenderutils.h"
-
-class BlendPictureTest : public QObject
+#include "testprintasanbase.h"
+class BlendPictureTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -54,6 +54,7 @@ void BlendPictureTest::testDontCrashOnTeardown()
     const auto picture2 = KWin::xRenderBlendPicture(0.6);
     Q_UNUSED(picture)
     Q_UNUSED(picture2)
+    testPrintlog();
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

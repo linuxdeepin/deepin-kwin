@@ -1,7 +1,7 @@
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
 
-include_directories(${KWIN_SOURCE_DIR})
+include_directories(${KWIN_SOURCE_DIR} ../)
 add_definitions(-DKWIN_UNIT_TEST)
 ########################################################
 # Test TabBox::ClientModel
@@ -15,6 +15,7 @@ set( testTabBoxClientModel_SRCS
      test_tabbox_clientmodel.cpp
      mock_tabboxhandler.cpp
      mock_tabboxclient.cpp
+      ../testprintasanbase.cpp
 )
 
 add_executable( testTabBoxClientModel ${testTabBoxClientModel_SRCS} )
@@ -47,6 +48,7 @@ set( testTabBoxHandler_SRCS
      test_tabbox_handler.cpp
      mock_tabboxhandler.cpp
      mock_tabboxclient.cpp
+      ../testprintasanbase.cpp
 )
 
 add_executable( testTabBoxHandler ${testTabBoxHandler_SRCS} )
@@ -74,6 +76,7 @@ set( testTabBoxConfig_SRCS
     ../../tabbox/tabboxconfig.cpp
     ../../tabbox/tabbox_logging.cpp
     test_tabbox_config.cpp
+     ../testprintasanbase.cpp
 )
 
 add_executable( testTabBoxConfig ${testTabBoxConfig_SRCS} )
@@ -89,6 +92,7 @@ set( testDesktopChain_SRCS
     ../../tabbox/desktopchain.cpp
     ../../tabbox/tabbox_logging.cpp
     test_desktopchain.cpp
+     ../testprintasanbase.cpp
 )
 
 add_executable( testDesktopChain ${testDesktopChain_SRCS} )

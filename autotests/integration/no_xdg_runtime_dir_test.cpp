@@ -19,12 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "kwin_wayland_test.h"
 #include "wayland_server.h"
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_no_xdg_runtime_dir-0");
 
-class NoXdgRuntimeDirTest : public QObject
+class NoXdgRuntimeDirTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -41,6 +41,7 @@ void NoXdgRuntimeDirTest::testInitFails()
 {
     // this test verifies that without an XDG_RUNTIME_DIR the WaylandServer fials to init
     QVERIFY(!waylandServer()->init(s_socketName.toLocal8Bit()));
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(NoXdgRuntimeDirTest)

@@ -21,10 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtTest>
 #include <xkbcommon/xkbcommon-keysyms.h>
-
+#include "testprintasanbase.h"
 using namespace KWin;
 
-class XkbTest : public QObject
+class XkbTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -507,6 +507,7 @@ void XkbTest::testFromQtKey()
     QFETCH(Qt::Key, qt);
     QFETCH(Qt::KeyboardModifiers, modifiers);
     QTEST(xkb.fromQtKey(qt, modifiers), "keySym");
+    testPrintlog();
 }
 
 QTEST_MAIN(XkbTest)

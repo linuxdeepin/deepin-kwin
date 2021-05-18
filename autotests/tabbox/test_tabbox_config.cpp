@@ -19,10 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "../../tabbox/tabboxconfig.h"
 #include <QtTest>
+#include "testprintasanbase.h"
 using namespace KWin;
 using namespace KWin::TabBox;
 
-class TestTabBoxConfig : public QObject
+class TestTabBoxConfig : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -78,6 +79,7 @@ void TestTabBoxConfig::testAssignmentOperator()
     QCOMPARE(config2.clientSwitchingMode(), TabBoxConfig::StackingOrderSwitching);
     QCOMPARE(config2.desktopSwitchingMode(), TabBoxConfig::StaticDesktopSwitching);
     QCOMPARE(config2.layoutName(), QStringLiteral("grid"));
+    testPrintlog();
 }
 
 QTEST_MAIN(TestTabBoxConfig)

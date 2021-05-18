@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Qt
 #include <QtTest>
 #include <QStringList>
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(KWin::CompositingType)
 Q_DECLARE_METATYPE(KWin::LoadEffectFlag)
 Q_DECLARE_METATYPE(KWin::LoadEffectFlags)
@@ -49,7 +50,7 @@ bool ScriptedEffect::supported()
 
 }
 
-class TestPluginEffectLoader : public QObject
+class TestPluginEffectLoader : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -418,6 +419,7 @@ void TestPluginEffectLoader::testCancelLoadAllEffects()
     // Should not load any effect
     QVERIFY(!spy.wait(100));
     QVERIFY(spy.isEmpty());
+    testPrintlog();
 }
 
 QTEST_MAIN(TestPluginEffectLoader)

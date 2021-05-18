@@ -22,10 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../../tabbox/desktopchain.h"
 
 #include <QTest>
-
+#include "testprintasanbase.h"
 using namespace KWin::TabBox;
 
-class TestDesktopChain : public QObject
+class TestDesktopChain : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -257,6 +257,7 @@ void TestDesktopChain::useChain()
     QCOMPARE(manager.next(3), (uint)2);
     QCOMPARE(manager.next(1), (uint)3);
     QCOMPARE(manager.next(2), (uint)1);
+    testPrintlog();
 }
 
 QTEST_MAIN(TestDesktopChain)

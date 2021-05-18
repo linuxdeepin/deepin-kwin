@@ -88,6 +88,7 @@ void TestTabBoxClientModel::testCreateClientListActiveClientNotInFocusChain()
     tabboxhandler.closeWindow(client.data());
     clientModel->createClientList();
     QCOMPARE(clientModel->rowCount(), 1);
+    testPrintlog();
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

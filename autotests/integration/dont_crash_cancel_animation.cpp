@@ -38,13 +38,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/shell.h>
 #include <KWayland/Client/surface.h>
-
+#include "../testprintasanbase.h"
 namespace KWin
 {
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_dont_crash_cancel_animation-0");
 
-class DontCrashCancelAnimationFromAnimationEndedTest : public QObject
+class DontCrashCancelAnimationFromAnimationEndedTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -118,6 +118,7 @@ void DontCrashCancelAnimationFromAnimationEndedTest::testScript()
     QVERIFY(windowDeletedSpy.wait());
     // make sure we animate
     QTest::qWait(200);
+    testPrintlog();
 }
 
 }

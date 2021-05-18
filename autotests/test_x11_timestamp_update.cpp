@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "main.h"
 #include "utils.h"
-
+#include "testprintasanbase.h"
 namespace KWin
 {
 
@@ -73,7 +73,7 @@ void X11TestApplication::performStartup()
 
 }
 
-class X11TimestampUpdateTest : public QObject
+class X11TimestampUpdateTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -126,6 +126,7 @@ void X11TimestampUpdateTest::testBeforeLastGrabTime()
     QVERIFY(KWin::xTime() >= timestamp);
     QCOMPARE(KWin::grabXKeyboard(), true);
     KWin::ungrabXKeyboard();
+    testPrintlog();
 }
 
 int main(int argc, char *argv[])

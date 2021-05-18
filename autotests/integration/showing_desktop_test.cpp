@@ -26,13 +26,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/plasmashell.h>
 #include <KWayland/Client/surface.h>
 #include <KWayland/Client/shell.h>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_showing_desktop-0");
 
-class ShowingDesktopTest : public QObject
+class ShowingDesktopTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -122,6 +122,7 @@ void ShowingDesktopTest::testRestoreFocusWithDesktopWindow()
 
     QVERIFY(workspace()->activeClient());
     QCOMPARE(workspace()->activeClient(), client2);
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(ShowingDesktopTest)

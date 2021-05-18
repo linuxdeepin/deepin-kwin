@@ -23,8 +23,8 @@
 #define ONSCREENNOTIFICATIONTEST_H
 
 #include <QObject>
-
-class OnScreenNotificationTest : public QObject
+#include "testprintasanbase.h"
+class OnScreenNotificationTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private slots:

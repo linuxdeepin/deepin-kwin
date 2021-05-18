@@ -27,11 +27,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <netwm.h>
 // xcb
 #include <xcb/xcb.h>
-
+#include "testprintasanbase.h"
 using namespace KWin;
 using namespace KWin::Xcb;
 
-class TestXcbWrapper : public QObject
+class TestXcbWrapper : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -524,6 +524,7 @@ void TestXcbWrapper::testMotif()
     QTEST(hints.minimize(), "expectedMinimize");
     QTEST(hints.maximize(), "expectedMaximize");
     QTEST(hints.close(), "expectedClose");
+    testPrintlog();
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

@@ -1,7 +1,7 @@
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
-
-add_executable(blendPictureTest blendpicture_test.cpp)
+#message(STATUS "TTTTTTTTTTTTTT : ${CMAKE_SAFETYTEST}")
+#message(STATUS "VVVVVVVVVVVVVV : ${CMAKE_CXX_FLAGS}")
+include_directories(../)
+add_executable(blendPictureTest blendpicture_test.cpp  ../testprintasanbase.cpp)
 set_target_properties(blendPictureTest PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
 add_test(NAME xrenderutils-blendPictureTest COMMAND blendPictureTest)
 target_link_libraries(blendPictureTest

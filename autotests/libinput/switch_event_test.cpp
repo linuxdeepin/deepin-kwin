@@ -24,12 +24,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest>
 
 #include <memory>
-
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(KWin::LibInput::SwitchEvent::State)
 
 using namespace KWin::LibInput;
 
-class TestLibinputSwitchEvent : public QObject
+class TestLibinputSwitchEvent : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -93,6 +93,7 @@ void TestLibinputSwitchEvent::testToggled()
     QCOMPARE(se->state(), state);
     QCOMPARE(se->time(), 23u);
     QCOMPARE(se->timeMicroseconds(), 23456789u);
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(TestLibinputSwitchEvent)

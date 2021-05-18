@@ -25,12 +25,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "colorcorrection/constants.h"
 
 #include <KConfigGroup>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_colorcorrect_nightcolor-0");
 
-class ColorCorrectNightColorTest : public QObject
+class ColorCorrectNightColorTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -330,6 +330,7 @@ void ColorCorrectNightColorTest::testAutoLocationUpdate()
     info = manager->info();
     QCOMPARE(info.value("LongitudeAuto").toDouble(), -180.);
     QCOMPARE(info.value("LatitudeAuto").toDouble(), 50.);
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(ColorCorrectNightColorTest)

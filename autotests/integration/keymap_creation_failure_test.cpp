@@ -30,13 +30,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KGlobalAccel>
 
 #include <linux/input.h>
-
+#include "../testprintasanbase.h"
 using namespace KWin;
 using namespace KWayland::Client;
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_keymap_creation_failure-0");
 
-class KeymapCreationFailureTest : public QObject
+class KeymapCreationFailureTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -96,6 +96,7 @@ void KeymapCreationFailureTest::testPointerButton()
     // which is sending in a pointer event
     kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, 0);
     kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, 1);
+    testPrintlog();
 }
 
 WAYLANDTEST_MAIN(KeymapCreationFailureTest)

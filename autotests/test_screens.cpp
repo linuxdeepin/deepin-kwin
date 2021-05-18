@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 // Qt
 #include <QtTest>
-
+#include "testprintasanbase.h"
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core")
 
 // Mock
@@ -40,7 +40,7 @@ QPoint Cursor::pos()
 
 }
 
-class TestScreens : public QObject
+class TestScreens : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -360,6 +360,7 @@ void TestScreens::testCurrentPoint()
     QFETCH(QPoint, cursorPos);
     screens()->setCurrent(cursorPos);
     QTEST(screens()->current(), "expected");
+    testPrintlog();
 }
 
 QTEST_MAIN(TestScreens)

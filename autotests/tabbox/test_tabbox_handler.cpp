@@ -22,10 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../testutils.h"
 #include <QtTest>
 #include <QX11Info>
-
+#include "testprintasanbase.h"
 using namespace KWin;
 
-class TestTabBoxHandler : public QObject
+class TestTabBoxHandler : public TestPrintAsanBase
 {
     Q_OBJECT
 private slots:
@@ -55,6 +55,7 @@ void TestTabBoxHandler::testDontCrashUpdateOutlineNullClient()
     tabboxhandler.setConfig(config);
     // now show the tabbox which will attempt to show the outline
     tabboxhandler.show();
+    testPrintlog();
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

@@ -24,12 +24,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest>
 
 #include <linux/input.h>
-
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(libinput_event_type)
 
 using namespace KWin::LibInput;
 
-class TestLibinputTouchEvent : public QObject
+class TestLibinputTouchEvent : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -139,6 +139,7 @@ void TestLibinputTouchEvent::testNoAssignedSlot()
     QScopedPointer<Event> event(Event::create(touchEvent));
     QVERIFY(dynamic_cast<TouchEvent*>(event.data()));
     QCOMPARE(dynamic_cast<TouchEvent*>(event.data())->id(), 0);
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(TestLibinputTouchEvent)

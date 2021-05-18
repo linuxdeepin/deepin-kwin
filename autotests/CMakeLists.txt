@@ -1,8 +1,31 @@
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_SAFETYTEST "${CMAKE_SAFETYTEST_ARG}")
+if(CMAKE_SAFETYTEST STREQUAL "")
+    set(CMAKE_SAFETYTEST "CMAKE_SAFETYTEST_ARG_OFF")
+endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D${CMAKE_SAFETYTEST}")
+if(CMAKE_SAFETYTEST STREQUAL "CMAKE_SAFETYTEST_ARG_ON")
+  #安全测试选项
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fsanitize=address -O2")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize=address -O2")
+endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fprofile-arcs -ftest-coverage")
 
 add_definitions(-DKWIN_UNIT_TEST)
 remove_definitions(-DQT_USE_QSTRINGBUILDER)
+
+# 添加asan内存泄露基类
+set(testprintasanbase_SRCS testprintasanbase.cpp)
+
+########################################################
+# Test ScreenPaintData
+########################################################
+set( testScreenPaintData_SRCS test_screen_paint_data.cpp)
+add_executable(testScreenPaintData ${testScreenPaintData_SRCS} ${testprintasanbase_SRCS})
+target_link_libraries( testScreenPaintData kwineffects Qt5::Test Qt5::Widgets KF5::WindowSystem libasan.a -lpthread -ldl -lrt)
+add_test(NAME kwin-testScreenPaintData COMMAND testScreenPaintData)
+ecm_mark_as_test(testScreenPaintData)
+
 add_subdirectory(libkwineffects)
 add_subdirectory(libxrenderutils)
 add_subdirectory(integration)
@@ -13,21 +36,10 @@ endif()
 add_subdirectory(tabbox)
 
 ########################################################
-# Test ScreenPaintData
-########################################################
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set( testScreenPaintData_SRCS test_screen_paint_data.cpp )
-add_executable(testScreenPaintData ${testScreenPaintData_SRCS})
-target_link_libraries( testScreenPaintData kwineffects Qt5::Test Qt5::Widgets KF5::WindowSystem)
-add_test(NAME kwin-testScreenPaintData COMMAND testScreenPaintData)
-ecm_mark_as_test(testScreenPaintData)
-
-########################################################
 # Test WindowPaintData
 ########################################################
 set( testWindowPaintData_SRCS test_window_paint_data.cpp )
-add_executable(testWindowPaintData ${testWindowPaintData_SRCS})
+add_executable(testWindowPaintData ${testWindowPaintData_SRCS} ${testprintasanbase_SRCS})
 target_link_libraries( testWindowPaintData kwineffects Qt5::Widgets Qt5::Test )
 add_test(NAME kwin-testWindowPaintData COMMAND testWindowPaintData)
 ecm_mark_as_test(testWindowPaintData)
@@ -39,7 +51,7 @@ set( testVirtualDesktops_SRCS
      test_virtual_desktops.cpp
      ../virtualdesktops.cpp
 )
-add_executable(testVirtualDesktops ${testVirtualDesktops_SRCS})
+add_executable(testVirtualDesktops ${testVirtualDesktops_SRCS} ${testprintasanbase_SRCS})
 
 target_link_libraries( testVirtualDesktops
                        Qt5::Test
@@ -60,7 +72,7 @@ set( testClientMachine_SRCS
      test_client_machine.cpp
      ../client_machine.cpp
 )
-add_executable( testClientMachine ${testClientMachine_SRCS} )
+add_executable( testClientMachine ${testClientMachine_SRCS} ${testprintasanbase_SRCS})
 set_target_properties(testClientMachine PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
 
 target_link_libraries( testClientMachine
@@ -82,7 +94,7 @@ ecm_mark_as_test(testClientMachine)
 set( testXcbWrapper_SRCS
      test_xcb_wrapper.cpp
 )
-add_executable( testXcbWrapper ${testXcbWrapper_SRCS} )
+add_executable( testXcbWrapper ${testXcbWrapper_SRCS} ${testprintasanbase_SRCS})
 
 target_link_libraries( testXcbWrapper
                        Qt5::Test
@@ -96,7 +108,7 @@ add_test(NAME kwin-testXcbWrapper COMMAND testXcbWrapper)
 ecm_mark_as_test(testXcbWrapper)
 
 if (XCB_ICCCM_FOUND)
-    add_executable( testXcbSizeHints test_xcb_size_hints.cpp )
+    add_executable( testXcbSizeHints test_xcb_size_hints.cpp ${testprintasanbase_SRCS})
     set_target_properties(testXcbSizeHints PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
     target_link_libraries( testXcbSizeHints
                            Qt5::Test
@@ -117,7 +129,7 @@ endif()
 set( testXcbWindow_SRCS
      test_xcb_window.cpp
 )
-add_executable( testXcbWindow ${testXcbWindow_SRCS} )
+add_executable( testXcbWindow ${testXcbWindow_SRCS} ${testprintasanbase_SRCS})
 
 target_link_libraries( testXcbWindow
                        Qt5::Test
@@ -138,7 +150,7 @@ set( testBuiltInEffectLoader_SRCS
     mock_effectshandler.cpp
     ../effectloader.cpp
 )
-add_executable( testBuiltInEffectLoader ${testBuiltInEffectLoader_SRCS})
+add_executable( testBuiltInEffectLoader ${testBuiltInEffectLoader_SRCS} ${testprintasanbase_SRCS})
 set_target_properties(testBuiltInEffectLoader PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
 
 target_link_libraries(testBuiltInEffectLoader
@@ -172,7 +184,7 @@ set( testScriptedEffectLoader_SRCS
 )
 kconfig_add_kcfg_files(testScriptedEffectLoader_SRCS ../settings.kcfgc)
 qt5_add_dbus_adaptor( testScriptedEffectLoader_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../org.kde.kwin.OrientationSensor.xml ${CMAKE_CURRENT_SOURCE_DIR}/../orientation_sensor.h KWin::OrientationSensor)
-add_executable( testScriptedEffectLoader ${testScriptedEffectLoader_SRCS})
+add_executable( testScriptedEffectLoader ${testScriptedEffectLoader_SRCS} ${testprintasanbase_SRCS})
 
 target_link_libraries(testScriptedEffectLoader
     Qt5::Concurrent
@@ -201,7 +213,7 @@ set( testPluginEffectLoader_SRCS
     mock_effectshandler.cpp
     ../effectloader.cpp
 )
-add_executable( testPluginEffectLoader ${testPluginEffectLoader_SRCS})
+add_executable( testPluginEffectLoader ${testPluginEffectLoader_SRCS} ${testprintasanbase_SRCS})
 
 target_link_libraries(testPluginEffectLoader
     Qt5::Concurrent
@@ -245,7 +257,7 @@ set( testScreens_SRCS
 kconfig_add_kcfg_files(testScreens_SRCS ../settings.kcfgc)
 qt5_add_dbus_adaptor( testScreens_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../org.kde.kwin.OrientationSensor.xml ${CMAKE_CURRENT_SOURCE_DIR}/../orientation_sensor.h KWin::OrientationSensor)
 
-add_executable( testScreens ${testScreens_SRCS})
+add_executable( testScreens ${testScreens_SRCS} ${testprintasanbase_SRCS})
 target_include_directories(testScreens BEFORE PRIVATE ./)
 target_link_libraries(testScreens
     Qt5::DBus
@@ -280,13 +292,13 @@ set( testXRandRScreens_SRCS
 )
 kconfig_add_kcfg_files(testXRandRScreens_SRCS ../settings.kcfgc)
 qt5_add_dbus_adaptor( testXRandRScreens_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../org.kde.kwin.OrientationSensor.xml ${CMAKE_CURRENT_SOURCE_DIR}/../orientation_sensor.h KWin::OrientationSensor)
-add_executable( testXRandRScreens ${testXRandRScreens_SRCS} )
+add_executable( testXRandRScreens ${testXRandRScreens_SRCS} ${testprintasanbase_SRCS})
 target_link_libraries( testXRandRScreens
                        Qt5::Test
                        Qt5::DBus
                        Qt5::Gui
                        Qt5::Sensors
-		       Qt5::Widgets
+                       Qt5::Widgets
                        KF5::ConfigCore
                        KF5::ConfigGui
                        KF5::I18n
@@ -327,7 +339,7 @@ kconfig_add_kcfg_files(testScreenEdges_SRCS ../settings.kcfgc)
 qt5_add_dbus_interface( testScreenEdges_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../org.freedesktop.ScreenSaver.xml screenlocker_interface)
 qt5_add_dbus_adaptor( testScreenEdges_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../org.kde.kwin.OrientationSensor.xml ${CMAKE_CURRENT_SOURCE_DIR}/../orientation_sensor.h KWin::OrientationSensor)
 
-add_executable( testScreenEdges ${testScreenEdges_SRCS})
+add_executable( testScreenEdges ${testScreenEdges_SRCS} ${testprintasanbase_SRCS})
 set_target_properties(testScreenEdges PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
 target_include_directories(testScreenEdges BEFORE PRIVATE ./)
 target_link_libraries(testScreenEdges
@@ -363,7 +375,7 @@ set( testOnScreenNotification_SRCS
     ../onscreennotification.cpp
     ../input_event_spy.cpp
 )
-add_executable( testOnScreenNotification ${testOnScreenNotification_SRCS})
+add_executable( testOnScreenNotification ${testOnScreenNotification_SRCS} ${testprintasanbase_SRCS})
 
 target_link_libraries(testOnScreenNotification
     Qt5::Test
@@ -382,7 +394,7 @@ set( testGestures_SRCS
     test_gestures.cpp
     ../gestures.cpp
 )
-add_executable( testGestures ${testGestures_SRCS})
+add_executable( testGestures ${testGestures_SRCS} ${testprintasanbase_SRCS})
 
 target_link_libraries(testGestures
     Qt5::Test
@@ -394,7 +406,7 @@ ecm_mark_as_test(testGestures)
 ########################################################
 # Test X11 TimestampUpdate
 ########################################################
-add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp)
+add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp ${testprintasanbase_SRCS})
 target_link_libraries(testX11TimestampUpdate
     Qt5::Test
     KF5::CoreAddons
@@ -412,7 +424,7 @@ set(testOpenGLContextAttributeBuilder_SRCS
 if(HAVE_EPOXY_GLX)
     set(testOpenGLContextAttributeBuilder_SRCS ${testOpenGLContextAttributeBuilder_SRCS} ../plugins/platforms/x11/standalone/glx_context_attribute_builder.cpp)
 endif()
-add_executable(testOpenGLContextAttributeBuilder ${testOpenGLContextAttributeBuilder_SRCS})
+add_executable(testOpenGLContextAttributeBuilder ${testOpenGLContextAttributeBuilder_SRCS} ${testprintasanbase_SRCS})
 target_link_libraries(testOpenGLContextAttributeBuilder Qt5::Test)
 add_test(NAME kwin-testOpenGLContextAttributeBuilder COMMAND testOpenGLContextAttributeBuilder)
 ecm_mark_as_test(testOpenGLContextAttributeBuilder)
@@ -421,7 +433,7 @@ set(testXkb_SRCS
     test_xkb.cpp
     ../xkb.cpp
 )
-add_executable(testXkb ${testXkb_SRCS})
+add_executable(testXkb ${testXkb_SRCS} ${testprintasanbase_SRCS})
 target_link_libraries(testXkb
     Qt5::Test
     Qt5::Gui
@@ -435,13 +447,13 @@ add_test(NAME kwin-testXkb COMMAND testXkb)
 ecm_mark_as_test(testXkb)
 
 if(HAVE_GBM)
-    add_executable(testGbmSurface test_gbm_surface.cpp ../plugins/platforms/drm/gbm_surface.cpp)
+    add_executable(testGbmSurface test_gbm_surface.cpp ../plugins/platforms/drm/gbm_surface.cpp ${testprintasanbase_SRCS})
     target_link_libraries(testGbmSurface Qt5::Test)
     add_test(NAME kwin-testGbmSurface COMMAND testGbmSurface)
     ecm_mark_as_test(testGbmSurface)
 endif()
 
-add_executable(testVirtualKeyboardDBus test_virtualkeyboard_dbus.cpp ../virtualkeyboard_dbus.cpp)
+add_executable(testVirtualKeyboardDBus test_virtualkeyboard_dbus.cpp ../virtualkeyboard_dbus.cpp ${testprintasanbase_SRCS})
 target_link_libraries(testVirtualKeyboardDBus
     Qt5::Test
     Qt5::DBus

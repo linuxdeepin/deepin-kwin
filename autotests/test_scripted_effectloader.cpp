@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Qt
 #include <QtTest>
 #include <QStringList>
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(KWin::LoadEffectFlag)
 Q_DECLARE_METATYPE(KWin::LoadEffectFlags)
 Q_DECLARE_METATYPE(KWin::Effect*)
@@ -73,7 +74,7 @@ QPoint Cursor::pos()
 
 }
 
-class TestScriptedEffectLoader : public QObject
+class TestScriptedEffectLoader : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -467,6 +468,7 @@ void TestScriptedEffectLoader::testCancelLoadAllEffects()
     // Should not load any effect
     QVERIFY(!spy.wait(100));
     QVERIFY(spy.isEmpty());
+    testPrintlog();
 }
 
 QTEST_MAIN(TestScriptedEffectLoader)

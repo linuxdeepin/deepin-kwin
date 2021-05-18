@@ -19,10 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include <kwineffects.h>
 #include <QTest>
-
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(KWin::WindowQuadList)
 
-class WindowQuadListTest : public QObject
+class WindowQuadListTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -214,6 +214,7 @@ void WindowQuadListTest::testMakeRegularGrid()
                                                                          QString::number(actualQuad.right()),
                                                                          QString::number(actualQuad.bottom()))));
     }
+    testPrintlog();
 }
 
 QTEST_MAIN(WindowQuadListTest)

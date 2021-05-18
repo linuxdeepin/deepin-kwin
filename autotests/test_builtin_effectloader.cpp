@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest>
 #include <QStringList>
 #include <QScopedPointer>
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(KWin::CompositingType)
 Q_DECLARE_METATYPE(KWin::LoadEffectFlag)
 Q_DECLARE_METATYPE(KWin::LoadEffectFlags)
@@ -52,7 +53,7 @@ bool ScriptedEffect::supported()
 
 }
 
-class TestBuiltInEffectLoader : public QObject
+class TestBuiltInEffectLoader : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -560,6 +561,7 @@ void TestBuiltInEffectLoader::testLoadAllEffects()
     qSort(loadedEffects);
     QCOMPARE(loadedEffects.at(0), QStringLiteral("kscreen"));
     QCOMPARE(loadedEffects.at(1), QStringLiteral("mouseclick"));
+    testPrintlog();
 }
 
 Q_CONSTRUCTOR_FUNCTION(forceXcb)

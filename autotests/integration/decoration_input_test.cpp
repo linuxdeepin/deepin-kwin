@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KDecoration2/Decoration>
 
 #include <linux/input.h>
-
+#include "../testprintasanbase.h"
 Q_DECLARE_METATYPE(Qt::WindowFrameSection)
 
 namespace KWin
@@ -52,7 +52,7 @@ namespace KWin
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_decoration_input-0");
 
-class DecorationInputTest : public QObject
+class DecorationInputTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -887,6 +887,7 @@ void DecorationInputTest::testTooltipDoesntEatKeyEvents()
 
     c->decoratedClient()->requestHideToolTip();
     Test::waitForWindowDestroyed(internal);
+    testPrintlog();
 }
 
 }

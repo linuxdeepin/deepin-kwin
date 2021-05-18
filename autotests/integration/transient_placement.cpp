@@ -44,14 +44,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Client/xdgshell.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/surface_interface.h>
-
+#include "../testprintasanbase.h"
 
 namespace KWin
 {
 
 static const QString s_socketName = QStringLiteral("wayland_test_kwin_transient_placement-0");
 
-class TransientPlacementTest : public QObject
+class TransientPlacementTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -460,6 +460,7 @@ void TransientPlacementTest::testXdgPopupWithPanel()
     QVERIFY(transient->hasTransientPlacementHint());
 
     QCOMPARE(transient->geometry(), QRect(50, screens()->geometry(0).height() - 200, 200, 200));
+    testPrintlog();
 }
 
 }

@@ -22,12 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../../libinput/context.h"
 #include "../../udev.h"
 #include <QtTest>
+#include "testprintasanbase.h"
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core", QtCriticalMsg)
 
 using namespace KWin;
 using namespace KWin::LibInput;
 
-class TestContext : public QObject
+class TestContext : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -86,6 +87,7 @@ void TestContext::testAssignSeat()
     QTEST(context.assignSeat("testSeat"), "expectedValue");
     // of course it's not suspended
     QVERIFY(!context.isSuspended());
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(TestContext)

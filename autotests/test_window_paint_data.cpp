@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QGraphicsScale>
 
 #include <QtTest>
-
+#include "testprintasanbase.h"
 using namespace KWin;
 
 class MockEffectWindow : public EffectWindow
@@ -376,7 +376,7 @@ void MockEffectWindow::unrefWindow()
 {
 }
 
-class TestWindowPaintData : public QObject
+class TestWindowPaintData : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -512,6 +512,7 @@ void TestWindowPaintData::testMultiplyBrightness()
     // just for safety
     QCOMPARE(1.0, data.opacity());
     QCOMPARE(1.0, data.saturation());
+    testPrintlog();
 }
 
 void TestWindowPaintData::testMultiplyOpacity()

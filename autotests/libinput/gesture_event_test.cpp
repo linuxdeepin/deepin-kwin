@@ -24,12 +24,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtTest>
 
 #include <linux/input.h>
-
+#include "testprintasanbase.h"
 Q_DECLARE_METATYPE(libinput_event_type)
 
 using namespace KWin::LibInput;
 
-class TestLibinputGestureEvent : public QObject
+class TestLibinputGestureEvent : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -208,6 +208,7 @@ void TestLibinputGestureEvent::testEnd()
         QCOMPARE(pe->scale(), gestureEvent->scale);
         QCOMPARE(pe->angleDelta(), 0.0);
     }
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(TestLibinputGestureEvent)

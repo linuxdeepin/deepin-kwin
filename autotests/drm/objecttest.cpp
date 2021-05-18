@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mock_drm.h"
 #include "../../plugins/platforms/drm/drm_object.h"
 #include <QtTest>
-
+#include "testprintasanbase.h"
 class MockDrmObject : public KWin::DrmObject
 {
 public:
@@ -75,7 +75,7 @@ bool MockDrmObject::initProps()
     return false;
 }
 
-class ObjectTest : public QObject
+class ObjectTest : public TestPrintAsanBase
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -212,6 +212,7 @@ void ObjectTest::testInitProperties()
     QCOMPARE(object.propHasEnum(0, 0), false);
     QCOMPARE(object.propHasEnum(1, 0), false);
     QCOMPARE(object.propHasEnum(2, 0), false);
+    testPrintlog();
 }
 
 QTEST_GUILESS_MAIN(ObjectTest)

@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TEST_TABBOX_CLIENT_MODEL_H
 #define TEST_TABBOX_CLIENT_MODEL_H
 #include <QObject>
-
-class TestTabBoxClientModel : public QObject
+#include "testprintasanbase.h"
+class TestTabBoxClientModel : public TestPrintAsanBase
 {
     Q_OBJECT
 private slots:

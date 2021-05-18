@@ -21,13 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kwineffects.h>
 
 #include <QtTest>
-
+#include "testprintasanbase.h"
 using namespace std::chrono_literals;
 
 // FIXME: Delete it in the future.
 Q_DECLARE_METATYPE(std::chrono::milliseconds)
 
-class TimeLineTest : public QObject
+class TimeLineTest : public TestPrintAsanBase
 {
     Q_OBJECT
 
@@ -407,6 +407,7 @@ void TimeLineTest::testRelaxedRedirectTargetMode()
     QTEST(timeLine.value(), "initialValue");
     QVERIFY(!timeLine.running());
     QVERIFY(timeLine.done());
+    testPrintlog();
 }
 
 QTEST_MAIN(TimeLineTest)
