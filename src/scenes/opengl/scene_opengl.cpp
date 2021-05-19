@@ -123,7 +123,7 @@ void SceneOpenGL::paintCursor(AbstractOutput *output, const QRegion &rendered)
     };
 
     // lazy init texture cursor only in case we need software rendering
-    if (!m_cursorTexture) {
+    if (!m_cursorTexture || m_cursorTexture->isNull()) {
         newTexture();
 
         // handle shape update on case cursor image changed
