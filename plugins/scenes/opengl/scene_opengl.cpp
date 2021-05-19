@@ -605,7 +605,7 @@ void SceneOpenGL2::paintCursor()
         return;
 
     // lazy init texture cursor only in case we need software rendering
-    if (!m_cursorTexture) {
+    if (!m_cursorTexture || m_cursorTexture->isNull()) {
         auto updateCursorTexture = [this] {
             // don't paint if no image for cursor is set
             const QImage img = kwinApp()->platform()->softwareCursor();
