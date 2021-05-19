@@ -1,3 +1,11 @@
+kwin (4:5.15.8.56-1) unstable; urgency=medium
+
+  * Bug fix:
+    - 49559 【龙芯、ARM】【3D窗管】【DDE-KWIN：5.2.0.5KWIN-X11: 5.15.8.23】窗口一部分移出屏外后，快捷键开关特效，窗口位置发生改变
+    - 62549 【1040】【日志收集工具】【5.8.0.32】设置屏幕缩放比为1.75后，大字体下导出文件名字重复提示框字体显示截断
+
+ -- Lei Su <sulei@uniontech.com>  Wed, 19 May 2021 13:31:17 +0800
+
 kwin (4:5.15.8.53-1) unstable; urgency=medium
 
   * Bug fix:
