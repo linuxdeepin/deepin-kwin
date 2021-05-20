@@ -1469,7 +1469,6 @@ void Client::takeFocus()
                 waylandServer()->seat()->keyReleased(KEY_Caps_Lock);
                 waylandServer()->seat()->keyPressed(KEY_Scroll_Lock);
                 waylandServer()->seat()->keyReleased(KEY_Scroll_Lock);
-                waylandServer()->simulateUserActivity();
             }
         }
 
