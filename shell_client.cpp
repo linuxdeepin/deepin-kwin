@@ -914,6 +914,9 @@ bool ShellClient::isMaximizable() const
     if (m_internal || !m_maxmizable) {
         return false;
     }
+    if (!transients().isEmpty()) {
+        return false;
+    }
     return true;
 }
 
