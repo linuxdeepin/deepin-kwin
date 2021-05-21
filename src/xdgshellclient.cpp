@@ -859,6 +859,9 @@ bool XdgToplevelClient::isMaximizable() const
     if (!isResizable() || !m_maxmizable) {
         return false;
     }
+    if (!transients().isEmpty()) {
+        return false;
+    }
     if (rules()->checkMaximize(MaximizeRestore) != MaximizeRestore ||
             rules()->checkMaximize(MaximizeFull) != MaximizeFull) {
         return false;
