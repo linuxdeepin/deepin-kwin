@@ -21,7 +21,7 @@ lcov -d $workdir -c -o ./report/coverage.info
 lcov --remove ./coverage/coverage.info '*/tests/*' '*/autotests/*' '*/*_autogen/*' -o ./coverage/coverage.info
 genhtml -o ./report ./report/coverage.info
 
-merge all asan.log* into asan.log
+#merge all asan.log* into asan.log
 find . -name "asan.log*" -exec cat '{}' \; > asan.log
 
 exit 0
