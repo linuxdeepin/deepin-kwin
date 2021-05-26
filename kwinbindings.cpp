@@ -134,8 +134,10 @@ DEF2("Decrease Opacity", I18N_NOOP("Decrease Opacity of Active Window by 5 %"),
 DEF2("Window On All Desktops", I18N_NOOP("Keep Window on All Desktops"),
      0, slotWindowOnAllDesktops);
 
-for (int i = 1; i < 21; ++i) {
-    DEF5(I18N_NOOP("Window to Desktop %1"),        0, std::bind(&Workspace::slotWindowToDesktop, this, i), i);
+int nIndex = 1;
+while (nIndex < 21) {
+    DEF5(I18N_NOOP("Window to Desktop %1"),        0, std::bind(&Workspace::slotWindowToDesktop, this, nIndex), nIndex);
+    nIndex++;
 }
 DEF(I18N_NOOP("Window to Next Desktop"),           0, slotWindowToNextDesktop);
 DEF(I18N_NOOP("Window to Previous Desktop"),       0, slotWindowToPreviousDesktop);
@@ -144,17 +146,18 @@ DEF(I18N_NOOP("Window One Desktop to the Left"),   0, slotWindowToDesktopLeft);
 DEF(I18N_NOOP("Window One Desktop Up"),            0, slotWindowToDesktopUp);
 DEF(I18N_NOOP("Window One Desktop Down"),          0, slotWindowToDesktopDown);
 
-for (int i = 0; i < 8; ++i) {
-    DEF3(I18N_NOOP("Window to Screen %1"),         0, slotWindowToScreen, i);
+nIndex = 0;
+while (nIndex < 8) {
+    DEF3(I18N_NOOP("Window to Screen %1"),         0, slotWindowToScreen, nIndex);
 }
 DEF(I18N_NOOP("Window to Next Screen"),            0, slotWindowToNextScreen);
 DEF(I18N_NOOP("Window to Previous Screen"),        0, slotWindowToPrevScreen);
 DEF(I18N_NOOP("Show Desktop"),                     0, slotToggleShowDesktop);
 
-for (int i = 0; i < 8; ++i) {
-    DEF3(I18N_NOOP("Switch to Screen %1"),         0, slotSwitchToScreen, i);
+nIndex = 0;
+while (nIndex < 8) {
+    DEF3(I18N_NOOP("Switch to Screen %1"),         0, slotSwitchToScreen, nIndex);
 }
-
 DEF(I18N_NOOP("Switch to Next Screen"),            0, slotSwitchToNextScreen);
 DEF(I18N_NOOP("Switch to Previous Screen"),        0, slotSwitchToPrevScreen);
 
