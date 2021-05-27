@@ -284,5 +284,5 @@ void TestScreenPaintData::testSetRotationAxis()
     testPrintlog();
 }
 
-QTEST_MAIN(TestScreenPaintData)
+QTEST_GUILESS_MAIN(TestScreenPaintData)
 #include "test_screen_paint_data.moc"

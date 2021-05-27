@@ -149,6 +149,7 @@ DEF(I18N_NOOP("Window One Desktop Down"),          0, slotWindowToDesktopDown);
 nIndex = 0;
 while (nIndex < 8) {
     DEF3(I18N_NOOP("Window to Screen %1"),         0, slotWindowToScreen, nIndex);
+    nIndex++;
 }
 DEF(I18N_NOOP("Window to Next Screen"),            0, slotWindowToNextScreen);
 DEF(I18N_NOOP("Window to Previous Screen"),        0, slotWindowToPrevScreen);
@@ -157,6 +158,7 @@ DEF(I18N_NOOP("Show Desktop"),                     0, slotToggleShowDesktop);
 nIndex = 0;
 while (nIndex < 8) {
     DEF3(I18N_NOOP("Switch to Screen %1"),         0, slotSwitchToScreen, nIndex);
+    nIndex++;
 }
 DEF(I18N_NOOP("Switch to Next Screen"),            0, slotSwitchToNextScreen);
 DEF(I18N_NOOP("Switch to Previous Screen"),        0, slotSwitchToPrevScreen);
