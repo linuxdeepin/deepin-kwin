@@ -2002,7 +2002,7 @@ bool X11Client::takeFocus()
         if (workspace()->showingDesktop()) {
             // 最小化其它所有窗口
             for (X11Client *c : workspace()->clientList()) {
-                if (this == c || c->isDock() || c->isDesktop() || skipTaskbar()) {
+                if (this == c || c->isDock() || c->isDesktop() || skipTaskbar() || (c->isUtility() && c->keepAbove())) {
                     continue;
                 }
                 // 在进入到显示桌面模式后还有活跃的窗口不要最小化，如进入这个模式后才新建的窗口
@@ -2010,9 +2010,9 @@ bool X11Client::takeFocus()
                     continue;
                 }
                 //if 'this' is dialog , it's parent cannot minimize
-                if (this->transientFor() == c) 
+                if (this->transientFor() == c)
                     continue;
-                // c is dialog and it's child of this ,cannot minimize 
+                // c is dialog and it's child of this ,cannot minimize
                 if (c->transientFor() != this)
                     c->minimize(true);
             }
