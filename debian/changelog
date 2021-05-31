@@ -1,3 +1,10 @@
+kwin (4:5.15.8.59-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 79561 The application cannot display after the triggering the setShowingDesktop action, that without taskbar and windows always top.
+
+ -- Lei Su <sulei@uniontech.com>  Mon, 31 May 2021 15:58:22 +0800
+
 kwin (4:5.15.8.58-1) unstable; urgency=medium
 
   * unit test
