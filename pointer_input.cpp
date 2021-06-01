@@ -173,8 +173,8 @@ void PointerInputRedirection::init()
     connect(workspace(), &Workspace::clientAdded, this, setupMoveResizeConnection);
     connect(waylandServer(), &WaylandServer::shellClientAdded, this, setupMoveResizeConnection);
 
-    // warp the cursor to center of screen
-    warp(screens()->geometry().center());
+    // warp the cursor to center of first screen
+    warp(screens()->geometry(0).center());
     updateAfterScreenChange();
 }
 
