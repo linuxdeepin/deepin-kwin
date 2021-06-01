@@ -22,7 +22,17 @@ set(testprintasanbase_SRCS testprintasanbase.cpp)
 ########################################################
 set( testScreenPaintData_SRCS test_screen_paint_data.cpp)
 add_executable(testScreenPaintData ${testScreenPaintData_SRCS} ${testprintasanbase_SRCS})
-target_link_libraries( testScreenPaintData kwineffects Qt5::Test Qt5::Widgets KF5::WindowSystem libasan.a -lpthread -ldl -lrt)
+# sw and mips not support asan,we block it for the moment by MACRO
+if ((${CMAKE_SYSTEM_PROCESSOR} STREQUAL "sw_64") OR (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "mips64"))
+    add_definitions(-DNOTSUPPORTASAN)
+    option(NOTSUPPORTASAN "ASAN no support" ON)
+endif()
+if (NOTSUPPORTASAN)
+    set(ASANLIBS kwineffects Qt5::Test Qt5::Widgets KF5::WindowSystem)
+else()
+    set(ASANLIBS kwineffects Qt5::Test Qt5::Widgets KF5::WindowSystem libasan.a -lpthread -ldl -lrt)
+endif()
+target_link_libraries( testScreenPaintData ${ASANLIBS})
 add_test(NAME kwin-testScreenPaintData COMMAND testScreenPaintData)
 ecm_mark_as_test(testScreenPaintData)
 

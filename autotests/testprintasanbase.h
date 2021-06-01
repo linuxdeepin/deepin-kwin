@@ -2,8 +2,12 @@
 #define TESTPRINTASANBASE_H
 
 #include <QObject>
+#ifdef NOTSUPPORTASAN
+/*nothing*/
+#else
 #if defined(CMAKE_SAFETYTEST_ARG_ON)
 #include <sanitizer/asan_interface.h>
+#endif
 #endif
 class TestPrintAsanBase : public QObject
 {
