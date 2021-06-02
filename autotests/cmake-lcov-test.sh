@@ -8,17 +8,23 @@ funcAT_UT()
 	cd ../$1
 	cmake -DCMAKE_SAFETYTEST_ARG="$2" ..
 	make -j4
-	make test
 	if [ $3 = "UT" ];then
 		echo "------------UT-----------"
+		make test
 		workdir=$(cd ../$(dirname $0)/$1; pwd)
 		mkdir -p report
 		lcov -d $workdir -c -o ./report/coverage.info
 		lcov --remove ./coverage/coverage.info '*/tests/*' '*/autotests/*' '*/*_autogen/*' -o ./coverage/coverage.info
 		genhtml -o ./report ./report/coverage.info
 	else
-		echo "------------AT-----------"
-		find . -name "asan.log.*" -exec cat '{}' \; > asan.log
+		echo "------------AT-----------";pwd
+		cd bin/
+		testList=`ls -F | grep test | grep -v "cursorhotspottest\|orientationtest\|libinputtest\|waylandclienttest\|screenedgeshowtest\|normalhintsbasesizetest"`
+		for case in $testList
+		do
+			./$case
+		done
+		find . -name "asan.log.*" -exec cat '{}' \; > ../asan.log
 	fi
 }
 

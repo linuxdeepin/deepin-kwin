@@ -57,7 +57,7 @@ ecm_mark_as_test(testWindowPaintData)
 ########################################################
 # Test VirtualDesktopManager
 ########################################################
-set( testVirtualDesktops_SRCS
+#[[set( testVirtualDesktops_SRCS
      test_virtual_desktops.cpp
      ../virtualdesktops.cpp
 )
@@ -74,7 +74,7 @@ target_link_libraries( testVirtualDesktops
 )
 #add_test(NAME kwin-testVirtualDesktops COMMAND testVirtualDesktops)
 #ecm_mark_as_test(testVirtualDesktops)
-
+]]
 ########################################################
 # Test ClientMachine
 ########################################################
@@ -218,7 +218,7 @@ ecm_mark_as_test(testScriptedEffectLoader)
 ########################################################
 # Test PluginEffectLoader
 ########################################################
-set( testPluginEffectLoader_SRCS
+#[[set( testPluginEffectLoader_SRCS
     test_plugin_effectloader.cpp
     mock_effectshandler.cpp
     ../effectloader.cpp
@@ -236,7 +236,7 @@ target_link_libraries(testPluginEffectLoader
 
 #add_test(NAME kwin-testPluginEffectLoader COMMAND testPluginEffectLoader)
 #ecm_mark_as_test(testPluginEffectLoader)
-
+]]
 ########################################################
 # FakeEffectPlugin
 ########################################################
@@ -288,7 +288,7 @@ ecm_mark_as_test(testScreens)
 ########################################################
 # Test XrandRScreens
 ########################################################
-set( testXRandRScreens_SRCS
+#[[set( testXRandRScreens_SRCS
      test_xrandr_screens.cpp
      mock_abstract_client.cpp
      mock_client.cpp
@@ -326,11 +326,11 @@ target_link_libraries( testXRandRScreens
 
 #add_test(NAME kwin-testXRandRScreens COMMAND testXRandRScreens)
 #ecm_mark_as_test(testXRandRScreens)
-
+]]
 ########################################################
 # Test ScreenEdges
 ########################################################
-set( testScreenEdges_SRCS
+#[[set( testScreenEdges_SRCS
     test_screen_edges.cpp
     mock_abstract_client.cpp
     mock_client.cpp
@@ -376,7 +376,7 @@ target_link_libraries(testScreenEdges
 
 #add_test(NAME kwin_testScreenEdges COMMAND testScreenEdges)
 #ecm_mark_as_test(testScreenEdges)
-
+]]
 ########################################################
 # Test OnScreenNotification
 ########################################################
