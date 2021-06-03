@@ -46,7 +46,10 @@ void KeyboardRepeat::handleKeyRepeat()
         m_timer->setInterval(1000 / waylandServer()->seat()->keyRepeatRate());
     }
     // TODO: better time
-    emit keyRepeat(m_key, m_time);
+    // 电源按钮键值为116,屏蔽掉电源按钮的常规长按操作
+    if (m_key != 116) {
+    	emit keyRepeat(m_key, m_time);
+    }
 }
 
 void KeyboardRepeat::keyEvent(KeyEvent *event)
