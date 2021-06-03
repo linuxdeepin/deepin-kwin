@@ -495,14 +495,16 @@ void DrmBackend::updateOutputs()
                 output->m_crtc = crtc;
                 connect(output, &DrmOutput::dpmsChanged, this, &DrmBackend::outputDpmsChanged);
 
-                if (modeCrtc->mode_valid) {
-                    DLOGD("Use crtc mode");
-                    output->m_mode = modeCrtc->mode;
-                } else {
+                if (connector) {
                     DLOGD("Use connector mode");
                     output->m_mode = connector->modes[0];
+                } else if (modeCrtc->mode_valid) {
+                    DLOGD("Use crtc mode");
+                    output->m_mode = modeCrtc->mode;
                 }
-                qCDebug(KWIN_DRM) << "For new output use mode " << output->m_mode.name << output->name();
+                qCDebug(KWIN_DRM) << "For new output use mode " << output->m_mode.name << output->name() \
+                                  << "connector mode" << connector->modes[0].name \
+                                  << "crtc mode" << modeCrtc->mode.name;
                 DLOGD("Output[%s] mode[%s]", output->name().toLocal8Bit().data(), output->m_mode.name);
 
                 if (!output->init(connector.data())) {
