@@ -331,7 +331,7 @@ void Application::destroyCompositor()
     auto inputThread = LibInput::Connection::self()->getThread();
     if (inputThread) {
         inputThread->terminate();
-        inputThread->wait();
+        // inputThread->wait();
     }
     delete Compositor::self();
 }
