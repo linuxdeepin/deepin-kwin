@@ -444,6 +444,9 @@ void Scene::windowAdded(Toplevel *c)
 
 void Scene::windowClosed(Toplevel *c, Deleted *deleted)
 {
+    if (!c) {
+        return;
+    }
     assert(m_windows.contains(c));
     if (deleted != NULL) {
         // replace c with deleted
