@@ -191,8 +191,6 @@ public:
         return {};
     }
 
-    virtual bool setDamageRegion(QRegion region);
-
 Q_SIGNALS:
     void frameRendered();
     void resetCompositing();

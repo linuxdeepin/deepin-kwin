@@ -84,7 +84,6 @@ public:
      **/
     virtual void endRenderingFrame(const QRegion &damage, const QRegion &damagedRegion) = 0;
     virtual void endRenderingFrameForScreen(int screenId, const QRegion &damage, const QRegion &damagedRegion);
-    virtual bool setDamageRegion(const QRegion region);
     virtual bool makeCurrent() = 0;
     virtual void doneCurrent() = 0;
     virtual bool usesOverlayWindow() const = 0;
