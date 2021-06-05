@@ -144,8 +144,7 @@ void AbstractEglBackend::initBufferAge()
 {
     setSupportsBufferAge(false);
 
-    if (hasExtension(QByteArrayLiteral("EGL_EXT_buffer_age")) ||
-            hasExtension(QByteArrayLiteral("EGL_HUAWEI_partial_update"))) {
+    if (hasExtension(QByteArrayLiteral("EGL_EXT_buffer_age"))) {
         const QByteArray useBufferAge = qgetenv("KWIN_USE_BUFFER_AGE");
 
         if (useBufferAge != "0")
