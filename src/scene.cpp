@@ -539,6 +539,9 @@ void Scene::removeToplevel(Toplevel *toplevel)
 
 void Scene::windowClosed(Toplevel *toplevel, Deleted *deleted)
 {
+    if (!toplevel) {
+        return;
+    }
     if (!deleted) {
         removeToplevel(toplevel);
         return;
