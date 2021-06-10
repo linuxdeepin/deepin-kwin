@@ -52,6 +52,11 @@ private Q_SLOTS:
 
 void TabBoxTest::initTestCase()
 {
+    auto curEnv = QProcessEnvironment::systemEnvironment();
+    QString XDG_SESSION_TYPE = curEnv.value(QStringLiteral("XDG_SESSION_TYPE"));
+    if(XDG_SESSION_TYPE != QLatin1String("wayland")){
+        QSKIP("Skipped on X11 only");
+    }
     qRegisterMetaType<KWin::ShellClient*>();
     qRegisterMetaType<KWin::AbstractClient*>();
     QSignalSpy workspaceCreatedSpy(kwinApp(), &Application::workspaceCreated);

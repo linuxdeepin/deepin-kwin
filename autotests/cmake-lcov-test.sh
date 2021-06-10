@@ -8,21 +8,27 @@ funcAT_UT()
 	cd ../$1
 	cmake -DCMAKE_SAFETYTEST_ARG="$2" ..
 	make -j4
+	cd bin/
+	testList=`ls -F | grep test | grep -v "cursorhotspottest\|orientationtest\|libinputtest\|waylandclienttest\|screenedgeshowtest\|normalhintsbasesizetest"`
 	if [ $3 = "UT" ];then
 		echo "------------UT-----------"
-		make test
-		workdir=$(cd ../$(dirname $0)/$1; pwd)
+		for case in $testList
+		do
+			./$case | grep "Totals:" 1>> ../ut-report.txt 2> /dev/null
+		done
+		echo "==============================" >> ../ut-report.txt
+		echo "Totals: `cat ../ut-report.txt | awk '{sum += $2}END{print sum}'` passed, `cat ../ut-report.txt | awk '{sum += $4}END{print sum}'` failed, `cat ../ut-report.txt | awk '{sum += $6}END{print sum}'` skipped, `cat ../ut-report.txt | awk '{sum += $8}END{print sum}'` blacklisted" >> ../ut-report.txt
+		echo "==============================" >> ../ut-report.txt
+		workdir=$(cd ../; pwd)
 		mkdir -p report
 		lcov -d $workdir -c -o ./report/coverage.info
 		lcov --remove ./coverage/coverage.info '*/tests/*' '*/autotests/*' '*/*_autogen/*' -o ./coverage/coverage.info
 		genhtml -o ./report ./report/coverage.info
 	else
 		echo "------------AT-----------";pwd
-		cd bin/
-		testList=`ls -F | grep test | grep -v "cursorhotspottest\|orientationtest\|libinputtest\|waylandclienttest\|screenedgeshowtest\|normalhintsbasesizetest"`
 		for case in $testList
 		do
-			./$case
+			./$case 
 		done
 		find . -name "asan.log.*" -exec cat '{}' \; > ../asan.log
 	fi
