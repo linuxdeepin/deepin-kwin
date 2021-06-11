@@ -66,10 +66,7 @@ Window::~Window()
     }
 #endif
     delete m_shellSurface;
-    // delete m_surface;
-    if (m_surface){
-        m_surface = nullptr;
-    }
+    delete m_surface;
 }
 
 WId Window::winId() const
