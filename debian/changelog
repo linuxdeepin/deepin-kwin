@@ -1,3 +1,10 @@
+kwin (4:5.15.8.62-1) unstable; urgency=medium
+
+  * unit test
+    + count test total data to ut-report.txt just like "Totals: 2263 passed, 0 failed, 3 skipped, 0 blacklisted"
+
+ -- Lei Su <sulei@uniontech.com>  Fri, 11 Jun 2021 11:37:17 +0800
+
 kwin (4:5.15.8.61-1) unstable; urgency=medium
 
   * Bug fix:
