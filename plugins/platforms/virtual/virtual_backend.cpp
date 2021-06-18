@@ -53,6 +53,9 @@ VirtualBackend::VirtualBackend(QObject *parent)
 
 VirtualBackend::~VirtualBackend()
 {
+    qDeleteAll(m_outputs.begin(), m_outputs.end());
+    m_outputs.clear();
+    m_enabledOutputs.clear();
 }
 
 void VirtualBackend::init()

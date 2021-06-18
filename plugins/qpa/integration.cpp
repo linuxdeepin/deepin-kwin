@@ -65,7 +65,24 @@ Integration::Integration()
 {
 }
 
-Integration::~Integration() = default;
+Integration::~Integration()
+{
+    if (m_fontDb != nullptr) {
+        delete m_fontDb;
+        m_fontDb = nullptr;
+    }
+    if (m_nativeInterface != nullptr) {
+        delete m_nativeInterface;
+        m_nativeInterface = nullptr;
+    }
+    for (Screen *platformScreen : m_screens) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+        QWindowSystemInterface::handleScreenRemoved(platformScreen);
+#else
+        destroyScreen(platformScreen);
+#endif
+    }
+}
 
 bool Integration::hasCapability(Capability cap) const
 {
