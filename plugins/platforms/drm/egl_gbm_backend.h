@@ -48,6 +48,7 @@ public:
     QRegion prepareRenderingFrame() override;
     void endRenderingFrame(const QRegion &renderedRegion, const QRegion &damagedRegion) override;
     void endRenderingFrameForScreen(int screenId, const QRegion &damage, const QRegion &damagedRegion) override;
+    bool setDamageRegion(const QRegion region) override;
     bool usesOverlayWindow() const override;
     bool perScreenRendering() const override;
     QRegion prepareRenderingForScreen(int screenId) override;
@@ -59,6 +60,7 @@ public:
 protected:
     void present() override;
     void cleanupSurfaces() override;
+    void aboutToStartPainting(const QRegion &damage) override;
 
 private:
     bool initializeEgl();
@@ -114,6 +116,7 @@ private:
     QHash<uint32_t, QVector<uint64_t>> m_eglFormatsWithModifiers;
     void initEglFormatsWithModifiers();
     void dumpFormatsWithModifiers();
+    void initEglPartialUpateExt();
 
     unsigned int m_dmaFd;
 };

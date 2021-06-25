@@ -98,6 +98,11 @@ void OpenGLBackend::endRenderingFrameForScreen(int screenId, const QRegion &dama
     Q_UNUSED(damagedRegion)
 }
 
+bool OpenGLBackend::setDamageRegion(const QRegion region) {
+    Q_UNUSED(region);
+    return false;
+}
+
 bool OpenGLBackend::perScreenRendering() const
 {
     return false;
@@ -120,6 +125,11 @@ QSharedPointer<GLTexture> OpenGLBackend::textureForOutput(AbstractOutput *reques
 {
     Q_UNUSED(requestedOutput);
     return {};
+}
+
+void OpenGLBackend::aboutToStartPainting(const QRegion &damage)
+{
+    Q_UNUSED(damage)
 }
 
 }

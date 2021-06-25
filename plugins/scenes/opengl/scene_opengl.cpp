@@ -646,6 +646,11 @@ void SceneOpenGL2::paintCursor()
     glDisable(GL_BLEND);
 }
 
+void SceneOpenGL::aboutToStartPainting(const QRegion &damage)
+{
+    m_backend->aboutToStartPainting(damage);
+}
+
 qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
 {
     // actually paint the frame, flushed with the NEXT frame
@@ -662,6 +667,7 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
         // trigger start render timer
         m_backend->prepareRenderingFrame();
         for (int i = 0; i < screens()->count(); ++i) {
+            screens()->setRenderingIndex(i);
             const QRect &geo = screens()->geometry(i);
             if (geo.isNull() || !geo.isValid()) {
                 qDebug() << "------- paint: invalid geometry";
@@ -899,6 +905,11 @@ bool SceneOpenGL::animationsSupported() const
 QVector<QByteArray> SceneOpenGL::openGLPlatformInterfaceExtensions() const
 {
     return m_backend->extensions().toVector();
+}
+
+bool SceneOpenGL::setDamageRegion(QRegion region)
+{
+    return m_backend->setDamageRegion(region);
 }
 
 QSharedPointer<GLTexture> SceneOpenGL::textureForOutput(AbstractOutput* output) const

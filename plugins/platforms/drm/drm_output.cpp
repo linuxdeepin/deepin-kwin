@@ -901,7 +901,7 @@ static DrmPlane::Transformations output2PlaneTransform(KWayland::Server::OutputI
     }
 }
 
-int DrmOutput::rotation()
+int DrmOutput::rotation() const
 {
     auto transform = waylandOutput()->transform();
     using KWayland::Server::OutputInterface;
@@ -921,6 +921,22 @@ int DrmOutput::rotation()
         default:
             return 0;
     }
+}
+
+QMatrix4x4 DrmOutput::transformation() const
+{
+    const QSize outputSize = modeSize();
+    const QSize logicalSize = pixelSize();
+
+    QMatrix4x4 matrix;
+    matrix.translate(outputSize.width()/2, outputSize.height()/2);
+    matrix.rotate(rotation(), 0, 0, 1);
+    matrix.translate(-logicalSize.width()/2, -logicalSize.height()/2);
+    matrix.scale(scale());
+
+    const QPoint topLeft = -globalPos();
+    matrix.translate(-topLeft.x(), -topLeft.y());
+    return matrix;
 }
 
 void DrmOutput::transform(KWayland::Server::OutputDeviceInterface::Transform transform)

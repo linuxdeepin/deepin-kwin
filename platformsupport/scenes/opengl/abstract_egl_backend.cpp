@@ -142,14 +142,19 @@ void AbstractEglBackend::initKWinGL()
 
 void AbstractEglBackend::initBufferAge()
 {
-    setSupportsBufferAge(false);
-
-    if (hasExtension(QByteArrayLiteral("EGL_EXT_buffer_age"))) {
-        const QByteArray useBufferAge = qgetenv("KWIN_USE_BUFFER_AGE");
-
-        if (useBufferAge != "0")
-            setSupportsBufferAge(true);
+    // EGL_EXT_buffer_age is old api for partial update
+    // EGL_KHR_partial_update is new api for partial update
+    // For compatibility we keep two partial update interfaces here (EGL_EXT_buffer_age and EGL_KHR_partial_update)
+    const QByteArray useBufferAge = qgetenv("KWIN_USE_BUFFER_AGE");
+    if (useBufferAge != "0") {
+        setSupportsBufferAge(hasExtension(QByteArrayLiteral("EGL_EXT_buffer_age")));
+        setSupportsPartialUpdate(hasExtension(QByteArrayLiteral("EGL_KHR_partial_update")));
     }
+
+    setSupportsHUAWEIPartialUpdate(hasExtension(QByteArrayLiteral("EGL_HUAWEI_partial_update")));
+    setSupportsSwapBuffersWithDamage(hasExtension(QByteArrayLiteral("EGL_KHR_swap_buffers_with_damage")));
+    qDebug() << __func__ << "m_haveBufferAge" << supportsBufferAge() << "m_havePartialUpdate"<<supportsPartialUpdate() \
+            <<"m_haveHUAWEIPartialUpdate"<<supportsHUAWEIPartialUpdate()<<"m_haveSwapBuffersWithDamage"<<supportsSwapBuffersWithDamage();
 }
 
 void AbstractEglBackend::initWayland()
