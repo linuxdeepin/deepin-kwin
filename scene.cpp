@@ -149,10 +149,6 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
     painted_region = region;
     repaint_region = repaint;
 
-    if (*mask & PAINT_SCREEN_BACKGROUND_FIRST) {
-        paintBackground(region);
-    }
-
     ScreenPaintData data(projection, outputGeometry);
     effects->paintScreen(*mask, region, data);
 
@@ -168,6 +164,8 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
 
     repaint_region = QRegion();
     damaged_region = QRegion();
+
+    m_paintScreenCount = 0;
 
     // make sure all clipping is restored
     Q_ASSERT(!PaintClipper::clip());
@@ -201,6 +199,7 @@ void Scene::idle()
 // the function that'll be eventually called by paintScreen() above
 void Scene::finalPaintScreen(int mask, QRegion region, ScreenPaintData& data)
 {
+    m_paintScreenCount++;
     if (mask & (PAINT_SCREEN_TRANSFORMED | PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))
         paintGenericScreen(mask, data);
     else
@@ -213,9 +212,6 @@ void Scene::finalPaintScreen(int mask, QRegion region, ScreenPaintData& data)
 // It simply paints bottom-to-top.
 void Scene::paintGenericScreen(int orig_mask, ScreenPaintData)
 {
-    if (!(orig_mask & PAINT_SCREEN_BACKGROUND_FIRST)) {
-        paintBackground(infiniteRegion());
-    }
     QVector<Phase2Data> phase2;
     phase2.reserve(stacking_order.size());
     foreach (Window * w, stacking_order) { // bottom to top
@@ -245,12 +241,22 @@ void Scene::paintGenericScreen(int orig_mask, ScreenPaintData)
         phase2.append({w, infiniteRegion(), data.clip, data.mask, data.quads});
     }
 
+    damaged_region = QRegion(QRect {{}, screens()->size()});
+    if (m_paintScreenCount == 1) {
+        aboutToStartPainting(damaged_region);
+
+        if (orig_mask & PAINT_SCREEN_BACKGROUND_FIRST) {
+            paintBackground(infiniteRegion());
+        }
+    }
+
+    if (!(orig_mask & PAINT_SCREEN_BACKGROUND_FIRST)) {
+        paintBackground(infiniteRegion());
+    }
+
     foreach (const Phase2Data & d, phase2) {
         paintWindow(d.window, d.mask, d.region, d.quads);
     }
-
-    const QSize &screenSize = screens()->size();
-    damaged_region = QRegion(0, 0, screenSize.width(), screenSize.height());
 }
 
 // The optimized case without any transformations at all.
@@ -332,6 +338,14 @@ void Scene::paintSimpleScreen(int orig_mask, QRegion region)
     const QSize &screenSize = screens()->size();
     const QRegion displayRegion(0, 0, screenSize.width(), screenSize.height());
     bool fullRepaint(dirtyArea == displayRegion); // spare some expensive region operations
+
+    // mark: 0 is right?
+    // if (screens()->renderingIndex() == 0) {
+    //     if (!setDamageRegion(paintedArea)) {
+    //         fullRepaint = true;
+    //     }
+    // }
+
     if (!fullRepaint) {
         extendPaintRegion(dirtyArea, opaqueFullscreen);
         fullRepaint = (dirtyArea == displayRegion);
@@ -368,6 +382,14 @@ void Scene::paintSimpleScreen(int orig_mask, QRegion region)
 
     QRegion paintedArea;
     // Fill any areas of the root window not covered by opaque windows
+    if (m_paintScreenCount == 1) {
+        aboutToStartPainting(dirtyArea);
+
+        if (orig_mask & PAINT_SCREEN_BACKGROUND_FIRST) {
+            paintBackground(infiniteRegion());
+        }
+    }
+
     if (!(orig_mask & PAINT_SCREEN_BACKGROUND_FIRST)) {
         paintedArea = dirtyArea - allclips;
         paintBackground(paintedArea);
@@ -616,6 +638,11 @@ void Scene::paintDesktop(int desktop, int mask, const QRegion &region, ScreenPai
     static_cast<EffectsHandlerImpl*>(effects)->paintDesktop(desktop, mask, region, data);
 }
 
+void Scene::aboutToStartPainting(const QRegion &damage)
+{
+    Q_UNUSED(damage)
+}
+
 // the function that'll be eventually called by paintWindow() above
 void Scene::finalPaintWindow(EffectWindowImpl* w, int mask, QRegion region, WindowPaintData& data)
 {
@@ -691,6 +718,12 @@ QImage *Scene::qpainterRenderBuffer() const
 QVector<QByteArray> Scene::openGLPlatformInterfaceExtensions() const
 {
     return QVector<QByteArray>{};
+}
+
+bool Scene::setDamageRegion(QRegion region)
+{
+    Q_UNUSED(region);
+    return false;
 }
 
 //****************************************

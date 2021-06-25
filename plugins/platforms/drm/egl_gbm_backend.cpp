@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
+PFNEGLSETDAMAGEREGIONKHRPROC eglSetDamageRegionKHR = nullptr;
 
 EglGbmBackend::EglGbmBackend(DrmBackend *b)
     : AbstractEglBackend()
@@ -131,13 +132,15 @@ void EglGbmBackend::init()
     initEglFormatsWithModifiers();
     //dumpFormatsWithModifiers();
 
+    initBufferAge();
+    initEglPartialUpateExt();
+
     if (!initRenderingContext()) {
         setFailed("Could not initialize rendering context");
         return;
     }
 
     initKWinGL();
-    initBufferAge();
     initWayland();
     initRemotePresent();
 }
@@ -195,6 +198,21 @@ void EglGbmBackend::initEglFormatsWithModifiers()
             }
         }
         m_eglFormatsWithModifiers.insert(format, QVector<uint64_t>());
+    }
+}
+
+void EglGbmBackend::initEglPartialUpateExt()
+{
+    qDebug() << "ut-gfx" << __func__ << extensions();
+
+    if (supportsHUAWEIPartialUpdate()) {
+        eglSetDamageRegionKHR = (PFNEGLSETDAMAGEREGIONKHRPROC)eglGetProcAddress("eglSetDamageRegionHUAWEI");
+    } else if (supportsPartialUpdate()) {
+        eglSetDamageRegionKHR = (PFNEGLSETDAMAGEREGIONKHRPROC)eglGetProcAddress("eglSetDamageRegionKHR");
+    }
+    if (eglSetDamageRegionKHR == nullptr) {
+        qWarning() << "Failed to get eglSetDamageRegionKHR address.";
+        return;
     }
 }
 
@@ -438,6 +456,9 @@ bool EglGbmBackend::resetOutput(Output &o, DrmOutput *drmOutput)
             }
             eglDestroySurface(eglDisplay(), o.eglSurface);
         }
+        if (!supportsBufferAge()) {
+            eglSurfaceAttrib(eglDisplay(), eglSurface, EGL_SWAP_BEHAVIOR, EGL_BUFFER_PRESERVED);
+        }
         o.eglSurface = eglSurface;
         o.gbmSurface = gbmSurface;
     }
@@ -539,7 +560,7 @@ bool EglGbmBackend::makeContextCurrent(const Output &output)
 bool EglGbmBackend::initBufferConfigs()
 {
     const EGLint config_attribs[] = {
-        EGL_SURFACE_TYPE,         EGL_WINDOW_BIT,
+        EGL_SURFACE_TYPE,         EGL_WINDOW_BIT | (supportsBufferAge() ? 0 : EGL_SWAP_BEHAVIOR_PRESERVED_BIT),
         EGL_RED_SIZE,             1,
         EGL_GREEN_SIZE,           1,
         EGL_BLUE_SIZE,            1,
@@ -594,10 +615,57 @@ void EglGbmBackend::present()
     // Not in use. This backend does per-screen rendering.
 }
 
+static QVector<EGLint> regionToRects(const QRegion &region, AbstractOutput *output)
+{
+    const int height = output->modeSize().height();
+
+    auto drmOutput = reinterpret_cast<DrmOutput*>(output);
+    const QMatrix4x4 matrix = drmOutput->transformation();
+
+    QVector<EGLint> rects;
+    rects.reserve(region.rectCount() * 4);
+    for (const QRect &_rect : region) {
+        const QRect rect = matrix.mapRect(_rect);
+
+        rects << rect.left();
+        rects << height - (rect.y() + rect.height());
+        rects << rect.width();
+        rects << rect.height();
+    }
+    return rects;
+}
+
+void EglGbmBackend::aboutToStartPainting(const QRegion &damagedRegion)
+{
+    // See EglGbmBackend::endRenderingFrameForScreen comment for the reason why we only support screenId=0
+    if (m_outputs.count() > 1) {
+        return;
+    }
+
+    const Output &output = m_outputs.at(0);
+    if (output.bufferAge > 0 && !damagedRegion.isEmpty() && supportsPartialUpdate()) {
+        const QRegion region = damagedRegion & output.output->geometry();
+
+        QVector<EGLint> rects = regionToRects(region, output.output);
+        const bool correct = eglSetDamageRegionKHR(eglDisplay(), output.eglSurface,
+                                                   rects.data(), rects.count()/4);
+        if (!correct) {
+            qCWarning(KWIN_DRM) << "failed eglSetDamageRegionKHR" << eglGetError();
+        }
+    }
+}
+
 void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &damagedRegion)
 {
-    eglSwapBuffers(eglDisplay(), o.eglSurface);
     DTRACE_PROBE(EglGbmBackend, presentOnOutput);
+
+    if (supportsSwapBuffersWithDamage() && !o.damageHistory.isEmpty()) {
+        QVector<EGLint> rects = regionToRects(o.damageHistory.constFirst(), o.output);
+        eglSwapBuffersWithDamageEXT(eglDisplay(), o.eglSurface,
+                                    rects.data(), rects.count()/4);
+    } else {
+        eglSwapBuffers(eglDisplay(), o.eglSurface);
+    }
 
     if (o.m_modifiersEnabled) {
         o.buffer = m_backend->createBuffer(o.gbmSurface,
@@ -719,6 +787,42 @@ void EglGbmBackend::endRenderingFrameForScreen(int screenId, const QRegion &rend
 
         o.damageHistory.prepend(damagedRegion.intersected(o.output->geometry()));
     }
+}
+
+bool EglGbmBackend::setDamageRegion(const QRegion region) {
+    int screenId = screens()->renderingIndex();
+    const Output &o = m_outputs.at(screenId);
+    if (!supportsBufferAge() || o.rotation.fbo) {
+        return false;
+    }
+
+    if (supportsBufferAge()) {
+        if (eglSetDamageRegionKHR == nullptr) {
+            qCWarning(KWIN_DRM) << "Failed to get eglSetDamageRegionHUAWEI address.";
+            return false;
+        }
+    }
+
+    EGLint *rects;
+    int num = region.rectCount();
+    QRect screenRect = screens()->geometry(screenId);
+    qreal scale = o.output->scale();
+    rects = (EGLint*)malloc(4 * num * sizeof(EGLint));
+    for (int i = 0; i < num; i++) {
+        QRect r = region.begin()[i];
+        rects[4 * i + 0] = (r.x() - screenRect.x()) * scale;
+        rects[4 * i + 1] = (-1 * (r.y() - (screenRect.y() + screenRect.height())) - r.height()) * scale;
+        rects[4 * i + 2] = r.width() * scale;
+        rects[4 * i + 3] = r.height() * scale;
+    }
+
+    EGLBoolean isSuccess = eglSetDamageRegionKHR(eglGetCurrentDisplay(), eglGetCurrentSurface(EGL_DRAW), rects, num);
+    if (!isSuccess) {
+        qCWarning(KWIN_DRM) << "Failed to set damage region.";
+        return false;
+    }
+    free(rects);
+    return true;
 }
 
 bool EglGbmBackend::usesOverlayWindow() const
