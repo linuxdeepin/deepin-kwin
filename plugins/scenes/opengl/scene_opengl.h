@@ -81,12 +81,14 @@ public:
     }
 
     QVector<QByteArray> openGLPlatformInterfaceExtensions() const override;
+    bool setDamageRegion(QRegion region) override;
     QSharedPointer<GLTexture> textureForOutput(AbstractOutput *output) const override;
 
     static SceneOpenGL *createScene(QObject *parent);
 
 protected:
     SceneOpenGL(OpenGLBackend *backend, QObject *parent = nullptr);
+    void aboutToStartPainting(const QRegion &damage) override;
     virtual void paintBackground(QRegion region);
     virtual void extendPaintRegion(QRegion &region, bool opaqueFullscreen);
     QMatrix4x4 transformation(int mask, const ScreenPaintData &data) const;

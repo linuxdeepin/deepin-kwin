@@ -102,7 +102,11 @@ public:
 
     bool hardwareTransformed();
 
-    int rotation(); // rotation degrees
+    int rotation() const; // rotation degrees
+    /**
+     * Returns a matrix that can translate into the display's coordinates system
+     */
+    QMatrix4x4 transformation() const;
 
     void advertiseLastState();
 
