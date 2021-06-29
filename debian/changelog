@@ -1,3 +1,10 @@
+kwin (4:5.15.8.62-2) unstable; urgency=medium
+
+  * memry test
+    + fix: Memory leak detection by asan.
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 29 Jun 2021 20:21:43 +0800
+
 kwin (4:5.15.8.62-1) unstable; urgency=medium
 
   * unit test
