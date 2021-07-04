@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QRect>
 #include <QSize>
 #include <QVector>
+#include <QMatrix4x4>
 
 #include <KWayland/Server/output_interface.h>
 #include <KWayland/Server/outputdevice_interface.h>
@@ -59,6 +60,16 @@ class KWIN_EXPORT AbstractOutput : public QObject
 {
     Q_OBJECT
 public:
+    enum class Transform {
+        Normal,
+        Rotated90,
+        Rotated180,
+        Rotated270,
+        Flipped,
+        Flipped90,
+        Flipped180,
+        Flipped270
+    };
     explicit AbstractOutput(QObject *parent = nullptr);
     virtual ~AbstractOutput();
 
@@ -80,6 +91,17 @@ public:
     Qt::ScreenOrientation orientation() const {
         return m_orientation;
     }
+
+    /**
+     * Returns the orientation of this output.
+     *
+     * - Flipped along the vertical axis is landscape + inv. portrait.
+     * - Rotated 90° and flipped along the horizontal axis is portrait + inv. landscape
+     * - Rotated 180° and flipped along the vertical axis is inv. landscape + inv. portrait
+     * - Rotated 270° and flipped along the horizontal axis is inv. portrait + inv. landscape +
+     *   portrait
+     */
+    Transform transformWayland() const;
 
     /*
      * Current refresh rate in 1/ms
@@ -123,6 +145,11 @@ public:
     }
 
     void setOriginalEdid(QByteArray edid);
+
+    /**
+     * Returns a matrix that can translate into the display's coordinates system
+     */
+    static QMatrix4x4 logicalToNativeMatrix(const QRect &rect, qreal scale, Transform transform);
 
 Q_SIGNALS:
     void modeChanged();
