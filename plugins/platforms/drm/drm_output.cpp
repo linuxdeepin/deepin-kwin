@@ -162,13 +162,17 @@ void DrmOutput::updateCursor()
 
     QPainter p;
     p.begin(c);
-    if (orientation() == Qt::InvertedLandscapeOrientation) {
+    /* if (orientation() == Qt::InvertedLandscapeOrientation) {
         QMatrix4x4 matrix;
         matrix.translate(cursorImage.width() / 2.0, cursorImage.height() / 2.0);
         matrix.rotate(180.0f, 0.0f, 0.0f, 1.0f);
         matrix.translate(-cursorImage.width() / 2.0, -cursorImage.height() / 2.0);
         p.setWorldTransform(matrix.toTransform());
-    }
+    } */
+
+    QRect cursorRect = QRect(QPoint(0, 0), cursorImage.size() / cursorImage.devicePixelRatio());
+    p.setWorldTransform(logicalToNativeMatrix(cursorRect, 1, transformWayland()).toTransform());
+
     p.drawImage(QPoint(0, 0), cursorImage);
     p.end();
 }
@@ -180,7 +184,7 @@ void DrmOutput::moveCursor(const QPoint &globalPos)
     }
     QMatrix4x4 matrix;
     QMatrix4x4 hotspotMatrix;
-    if (orientation() == Qt::InvertedLandscapeOrientation) {
+    /* if (orientation() == Qt::InvertedLandscapeOrientation) {
         matrix.translate(pixelSize().width() /2.0, pixelSize().height() / 2.0);
         matrix.rotate(180.0f, 0.0f, 0.0f, 1.0f);
         matrix.translate(-pixelSize().width() /2.0, -pixelSize().height() / 2.0);
@@ -193,8 +197,17 @@ void DrmOutput::moveCursor(const QPoint &globalPos)
     matrix.scale(scale());
     const auto outputGlobalPos = AbstractOutput::globalPos();
     matrix.translate(-outputGlobalPos.x(), -outputGlobalPos.y());
-    const QPoint p = matrix.map(globalPos) - hotspotMatrix.map(m_backend->softwareCursorHotspot());
-    drmModeMoveCursor(m_backend->fd(), m_crtc->id(), p.x(), p.y());
+    const QPoint p = matrix.map(globalPos) - hotspotMatrix.map(m_backend->softwareCursorHotspot());*/
+
+    const auto cursor = m_backend->softwareCursor();
+    QRect cursorRect = QRect(QPoint(0, 0), cursor.size() / cursor.devicePixelRatio());
+    Transform transform = transformWayland();
+    hotspotMatrix = logicalToNativeMatrix(cursorRect, scale(), transform);
+    matrix = logicalToNativeMatrix(geometry(), scale(), transform);
+
+    QPoint pos = matrix.map(globalPos);
+    pos -= hotspotMatrix.map(m_backend->softwareCursorHotspot());
+    drmModeMoveCursor(m_backend->fd(), m_crtc->id(), pos.x(), pos.y());
 }
 
 static QHash<int, QByteArray> s_connectorNames = {
