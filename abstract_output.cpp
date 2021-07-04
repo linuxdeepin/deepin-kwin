@@ -247,4 +247,52 @@ QSize AbstractOutput::orientateSize(const QSize &size) const
     return size;
 }
 
+AbstractOutput::Transform AbstractOutput::transformWayland() const
+{
+    return static_cast<Transform>(m_waylandOutputDevice->transform());
+}
+
+QMatrix4x4 AbstractOutput::logicalToNativeMatrix(const QRect &rect, qreal scale, Transform transform)
+{
+    QMatrix4x4 matrix;
+    matrix.scale(scale);
+
+    switch (transform) {
+    case Transform::Normal:
+    case Transform::Flipped:
+        break;
+    case Transform::Rotated90:
+    case Transform::Flipped90:
+        matrix.translate(0, rect.width());
+        matrix.rotate(-90, 0, 0, 1);
+        break;
+    case Transform::Rotated180:
+    case Transform::Flipped180:
+        matrix.translate(rect.width(), rect.height());
+        matrix.rotate(-180, 0, 0, 1);
+        break;
+    case Transform::Rotated270:
+    case Transform::Flipped270:
+        matrix.translate(rect.height(), 0);
+        matrix.rotate(-270, 0, 0, 1);
+        break;
+    }
+
+    switch (transform) {
+    case Transform::Flipped:
+    case Transform::Flipped90:
+    case Transform::Flipped180:
+    case Transform::Flipped270:
+        matrix.translate(rect.width(), 0);
+        matrix.scale(-1, 1);
+        break;
+    default:
+        break;
+    }
+
+    matrix.translate(-rect.x(), -rect.y());
+
+    return matrix;
+}
+
 }
