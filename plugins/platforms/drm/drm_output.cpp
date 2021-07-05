@@ -813,6 +813,11 @@ void DrmOutput::dpmsOnHandler()
     }
     emit dpmsChanged();
 
+    if (!m_backend->usesSoftwareCursor()) {
+        qDebug() << "setShowCursor output" << uuid() << geometry() << globalPos();
+        setShowCursor(true);
+    }
+
     m_backend->checkOutputsAreOn();
     if (!m_backend->atomicModeSetting()) {
         m_crtc->blank();
@@ -1114,6 +1119,11 @@ bool DrmOutput::dpmsAtomicOff()
     m_primaryPlane->setNext(nullptr);
     m_nextPlanesFlipList << m_primaryPlane;
 
+    if (!m_backend->usesSoftwareCursor()) {
+        qDebug() << "setHideCursor output" << uuid() << geometry() << globalPos();
+        setHideCursor(true);
+    }
+
     if (!doAtomicCommit(AtomicCommitMode::Test)) {
         qCDebug(KWIN_DRM) << "Atomic test commit to Dpms Off failed. Aborting.";
         return false;
@@ -1323,6 +1333,15 @@ bool DrmOutput::doAtomicCommit(AtomicCommitMode mode)
         }
     }
 
+    if (isNeedShowCursor()) {
+        showCursor();
+        setShowCursor(false);
+    }
+    if (isNeedHideCursor()) {
+        hideCursor();
+        setHideCursor(false);
+    }
+
     drmModeAtomicFree(req);
     return true;
 }
@@ -1347,7 +1366,7 @@ bool DrmOutput::atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable)
     }
     if (enable) {
         auto size = hardwareTransformed() ? pixelSize() : modeSize();
-        qDebug() << "---------" << __func__ << size;
+        qDebug() << "enable output" << uuid() << geometry() << globalPos();
 
         m_primaryPlane->setValue(int(DrmPlane::PropertyIndex::SrcX), 0);
         m_primaryPlane->setValue(int(DrmPlane::PropertyIndex::SrcY), 0);
@@ -1357,6 +1376,7 @@ bool DrmOutput::atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable)
         m_primaryPlane->setValue(int(DrmPlane::PropertyIndex::CrtcH), size.height());
         m_primaryPlane->setValue(int(DrmPlane::PropertyIndex::CrtcId), m_crtc->id());
     } else {
+        qDebug() << "disable output" << uuid() << geometry() << globalPos();
         if (m_backend->deleteBufferAfterPageFlip()) {
             delete m_primaryPlane->current();
             delete m_primaryPlane->next();
