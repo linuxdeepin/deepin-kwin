@@ -2860,18 +2860,7 @@ void AbstractClient::checkUnrestrictedMoveResize()
         if (!isUnrestrictedMoveResize() && moveResizeGeom.top() < desktopArea.top())   // titlebar mustn't go out
             setUnrestrictedMoveResize(true);
     }
-    if (isMove()) {
-        if (moveResizeGeom.bottom() < desktopArea.top() + titlebar_marge - 1)
-            setUnrestrictedMoveResize(true);
-        // no need to check top_marge, titlebar_marge already handles it
-        if (moveResizeGeom.top() > desktopArea.bottom() - bottom_marge + 1) // titlebar mustn't go out
-            setUnrestrictedMoveResize(true);
-        if (moveResizeGeom.right() < desktopArea.left() + left_marge)
-            setUnrestrictedMoveResize(true);
-        if (moveResizeGeom.left() > desktopArea.right() - right_marge)
-            //fix: window moved to lower right corner of screen unable to recover.
-            setUnrestrictedMoveResize(false);
-    }
+    return;
 }
 
 // When the user pressed mouse on the titlebar, don't activate move immediatelly,
