@@ -680,10 +680,14 @@ QByteArray DrmBackend::generateOutputConfigurationUuid() const
 
 void DrmBackend::enableOutput(DrmOutput *output, bool enable)
 {
-    qDebug() << "------- " << __func__ << output << enable;
+    qDebug() << "output" << output->uuid() << output->geometry() << output->globalPos() << enable;
     if (enable) {
         Q_ASSERT(!m_enabledOutputs.contains(output));
         m_enabledOutputs << output;
+        if (!usesSoftwareCursor()) {
+            qDebug() << "showCursor" ;
+            output->setShowCursor(true);
+        }
         emit outputAdded(output);
     } else {
         if (m_enabledOutputs.contains(output)) {
