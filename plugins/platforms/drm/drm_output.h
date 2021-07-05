@@ -61,6 +61,18 @@ public:
     bool hideCursor();
     void updateCursor();
     void moveCursor(const QPoint &globalPos);
+    void setShowCursor(bool flag) {
+        m_showCursor = flag;
+    }
+    bool isNeedShowCursor() {
+        return m_showCursor;
+    }
+    void setHideCursor(bool flag) {
+        m_hideCursor = flag;
+    }
+    bool isNeedHideCursor() {
+        return m_hideCursor;
+    }
     bool init(drmModeConnector *connector);
     bool present(DrmBuffer *buffer);
     void pageFlipped();
@@ -180,6 +192,8 @@ private:
     QScopedPointer<DrmDumbBuffer> m_cursor[2];
     int m_cursorIndex = 0;
     bool m_hasNewCursor = false;
+    bool m_showCursor = false;
+    bool m_hideCursor = false;
     bool m_internal = false;
     bool m_deleted = false;
     bool m_teardown = false;
