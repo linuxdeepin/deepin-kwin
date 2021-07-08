@@ -982,4 +982,21 @@ QString DrmBackend::supportInformation() const
     return supportInfo;
 }
 
+void DrmBackend::changeCursorType(CursorType cursorType)
+{
+    //switch hardware cursor to software cursor when the screen is recording
+    if (!usesSoftwareCursor() && !isCursorHidden() && cursorType == SoftwareCursor) {
+        hideCursor();
+        setSoftWareCursor(true);
+        qDebug() << "switch hardware cursor to software cursor";
+    }
+
+    //switch software cursor to hardware cursor when the screen recording is done
+    if (usesSoftwareCursor() && m_cursorEnabled && isCursorHidden() && cursorType == HardwareCursor) {
+        setSoftWareCursor(false);
+        showCursor();
+        qDebug() << "switch software cursor to hardware cursor";
+    }
+}
+
 }

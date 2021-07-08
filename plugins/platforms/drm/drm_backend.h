@@ -141,6 +141,16 @@ public:
 
     void disableMultiScreens() override;
 
+    enum CursorType {
+        HardwareCursor, ///< 硬鼠
+        SoftwareCursor  ///< 软鼠
+    };
+    ///
+    /// \brief changeCursorType 切换鼠标类型
+    /// \param cursorType 鼠标类型
+    ///
+    void changeCursorType(CursorType cursorType = HardwareCursor);
+
 public Q_SLOTS:
     void turnOutputsOn();
 
