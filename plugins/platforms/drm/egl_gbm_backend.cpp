@@ -246,6 +246,14 @@ void EglGbmBackend::initRemotePresent()
 
     qCDebug(KWIN_DRM) << "Support for remote access enabled";
     m_remoteaccessManager.reset(new RemoteAccessManager);
+
+    connect(m_remoteaccessManager.data(), &RemoteAccessManager::screenRecordStatusChanged, this, [=](bool isScreenRecording) {
+        if (isScreenRecording) {
+            m_backend->changeCursorType(DrmBackend::CursorType::SoftwareCursor);
+        } else {
+            m_backend->changeCursorType(DrmBackend::CursorType::HardwareCursor);
+        }
+    });
 }
 
 void EglGbmBackend::cleanupPostprocess(Output& output)
