@@ -171,7 +171,7 @@ void DrmOutput::updateCursor()
     } */
 
     QRect cursorRect = QRect(QPoint(0, 0), cursorImage.size() / cursorImage.devicePixelRatio());
-    p.setWorldTransform(logicalToNativeMatrix(cursorRect, 1, transformWayland()).toTransform());
+    p.setWorldTransform(logicalToNativeMatrix(cursorRect, scaleFactor(), transformWayland()).toTransform());
 
     p.drawImage(QPoint(0, 0), cursorImage);
     p.end();
