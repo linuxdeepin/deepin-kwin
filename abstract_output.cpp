@@ -69,6 +69,17 @@ QString AbstractOutput::name() const
     return QStringLiteral("%1 %2").arg(m_waylandOutput->manufacturer()).arg(m_waylandOutput->model());
 }
 
+qreal AbstractOutput::scaleFactor() const
+{
+    qreal scaleFactor = 1;
+    QScreen *primary = QGuiApplication::primaryScreen();
+    if (primary) {
+        const qreal dpi = primary->logicalDotsPerInchX();
+        scaleFactor = dpi / 96.0f;
+    }
+    return scaleFactor;
+}
+
 QRect AbstractOutput::geometry() const
 {
     return QRect(globalPos(), pixelSize() / scale());
