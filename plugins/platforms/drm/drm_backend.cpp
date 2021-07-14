@@ -194,8 +194,10 @@ void DrmBackend::reactivate()
             o->m_modesetRequested = true;
             o->pageFlipped();   // TODO: Do we really need this?
             o->m_crtc->blank();
-            o->showCursor();
-            o->moveCursor(cp);
+            if (m_enabledOutputs.contains(o)) {
+                o->showCursor();
+                o->moveCursor(cp);
+            }
         }
     }
     // restart compositor
@@ -803,7 +805,7 @@ void DrmBackend::initCursor()
             if (usesSoftwareCursor()) {
                 return;
             }
-            for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
+            for (auto it = m_enabledOutputs.constBegin(); it != m_enabledOutputs.constEnd(); ++it) {
                 if (m_cursorEnabled) {
                     if (!(*it)->showCursor()) {
                         setSoftWareCursor(true);
@@ -835,7 +837,7 @@ void DrmBackend::initCursor()
 void DrmBackend::setCursor()
 {
     if (m_cursorEnabled) {
-        for (auto it = m_outputs.constBegin(); it != m_outputs.constEnd(); ++it) {
+        for (auto it = m_enabledOutputs.constBegin(); it != m_enabledOutputs.constEnd(); ++it) {
             if (!(*it)->showCursor()) {
                 setSoftWareCursor(true);
             }
