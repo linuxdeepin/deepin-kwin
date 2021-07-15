@@ -164,7 +164,6 @@ void CompositedOutlineVisual::hide()
 {
     if (QQuickWindow *w = qobject_cast<QQuickWindow*>(m_mainItem.data())) {
         w->hide();
-        w->destroy();
     }
 }
 
