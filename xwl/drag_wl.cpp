@@ -385,8 +385,14 @@ void Xvisit::requestDragAndDropAction()
     if (m_dataOffer.isNull()) {
         return;
     }
-    const auto pref = m_preferredAction != DnDAction::None ? m_preferredAction:
-                                                           DnDAction::Copy;
+
+    //TODO
+    //不明白原作者为什么不能在这里设置None，这样会导致xcb客户端设置为不接受鼠标拖拽事件时，光标会变成copy的样式
+    //所以还是取pref的真实action作为设置鼠标样式的依据。
+    //但是依旧有一个问题，当xcb客户端设置action为move时候，m_preferredAction的值依旧是DnDAction::Copy，从xcb数据的data[4]取值就已经有问题了，待研究。
+    const auto pref = m_preferredAction;
+//    const auto pref = m_preferredAction != DnDAction::None ? m_preferredAction:
+//                                                           DnDAction::Copy;
     // we assume the X client supports Move, but this might be wrong - then
     // the drag just cancels, if the user tries to force it.
 
