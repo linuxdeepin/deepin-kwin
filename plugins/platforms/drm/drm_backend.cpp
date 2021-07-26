@@ -838,8 +838,10 @@ void DrmBackend::setCursor()
 {
     if (m_cursorEnabled) {
         for (auto it = m_enabledOutputs.constBegin(); it != m_enabledOutputs.constEnd(); ++it) {
-            if (!(*it)->showCursor()) {
-                setSoftWareCursor(true);
+            if ((*it)->isDpmsEnabled()) {
+                if (!(*it)->showCursor()) {
+                    setSoftWareCursor(true);
+                }
             }
         }
     }
