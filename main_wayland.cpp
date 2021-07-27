@@ -310,6 +310,7 @@ void ApplicationWayland::startSession()
             QProcessEnvironment environment = processStartupEnvironment();
             //sonald: remove dde-kwin-wayland preload
             environment.remove("LD_PRELOAD");
+            environment.remove("QT_MESSAGE_PATTERN");
             p->setProcessEnvironment(environment);
             p->setProcessChannelMode(QProcess::ForwardedErrorChannel);
             p->start(application);
