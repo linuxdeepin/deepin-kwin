@@ -69,5 +69,8 @@
     <method name="xwaylandGrabed">
       <arg type="b" direction="out"/>
     </method>
+    <method name="setKWinLogOutput">
+      <arg type="b" direction="in"/>
+    </method>
   </interface>
 </node>

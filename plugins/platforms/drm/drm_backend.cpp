@@ -557,6 +557,7 @@ void DrmBackend::updateOutputs()
     outputDpmsChanged();
 
     if (!m_outputs.isEmpty()) {
+        qDebug() << "emit screensQueried";
         emit screensQueried();
     } else if (!m_defaultOutput) {
         QTimer::singleShot(100, this, [=] { emit startWithoutScreen(); });

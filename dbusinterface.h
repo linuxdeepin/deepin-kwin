@@ -82,6 +82,8 @@ public Q_SLOTS: // METHODS
     void disableHotKeysForClient(bool disable);
     void disableGestureForClient(bool disable);
 
+    void setKWinLogOutput(bool isOpen);
+
 private Q_SLOTS:
     void becomeKWinService(const QString &service);
 

@@ -1183,6 +1183,9 @@ void CursorImage::updateServerCursor()
     auto p = waylandServer()->seat()->focusedPointer();
     if (!p) {
         if (needsEmit) {
+            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+                qDebug()<<"emit cursor changed"<<m_currentSource;
+            }
             emit changed();
         }
         return;
@@ -1190,6 +1193,9 @@ void CursorImage::updateServerCursor()
     auto c = p->cursor();
     if (!c) {
         if (needsEmit) {
+            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+                qDebug()<<"emit cursor changed cursor is null";
+            }
             emit changed();
         }
         return;
@@ -1197,6 +1203,9 @@ void CursorImage::updateServerCursor()
     auto cursorSurface = c->surface();
     if (cursorSurface.isNull()) {
         if (needsEmit) {
+            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+                qDebug()<<"emit cursor changed cursor surface is null";
+            }
             emit changed();
         }
         return;
@@ -1204,6 +1213,9 @@ void CursorImage::updateServerCursor()
     auto buffer = cursorSurface.data()->buffer();
     if (!buffer) {
         if (needsEmit) {
+            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+                qDebug()<<"emit cursor changed cursor buffer is null";
+            }
             emit changed();
         }
         return;
@@ -1212,6 +1224,9 @@ void CursorImage::updateServerCursor()
     m_serverCursor.image = buffer->data().copy();
     m_serverCursor.image.setDevicePixelRatio(cursorSurface->scale());
     if (needsEmit) {
+        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+            qDebug()<<"emit cursor changed m_serverCursor"<< "size" <<m_serverCursor.image.size()<<"scale"<<cursorSurface->scale();
+        }
         emit changed();
     }
 }
@@ -1331,11 +1346,17 @@ void CursorImage::updateDragCursor()
 
 void CursorImage::loadThemeCursor(CursorShape shape, Image *image)
 {
+    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+        qDebug()<<"m_cursors"<<shape.name();
+    }
     loadThemeCursor(shape, m_cursors, image);
 }
 
 void CursorImage::loadThemeCursor(const QByteArray &shape, Image *image)
 {
+    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+        qDebug()<<"m_cursors"<<shape;
+    }
     loadThemeCursor(shape, m_cursorsByName, image);
 }
 
@@ -1370,6 +1391,9 @@ void CursorImage::loadThemeCursor(const T &shape, QHash<T, Image> &cursors, Imag
         QImage img = buffer->data().copy();
         img.setDevicePixelRatio(scale);
         it = decltype(it)(cursors.insert(shape, {img, QPoint(hotSpotX, hotSpotY)}));
+        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+            qDebug()<<"get new cursor shape from m_cursorTheme"<<"size"<<img.size()<<"scale"<<scale;
+        }
     }
     image->hotSpot = it.value().hotSpot;
     image->image = it.value().image;
@@ -1412,7 +1436,13 @@ void CursorImage::reevaluteSource()
 void CursorImage::setSource(CursorSource source)
 {
     if (m_currentSource == source) {
+        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+            qDebug()<<"source equla  source@"<<source;
+        }
         return;
+    }
+    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+        qDebug()<<"source changed  old@"<<m_currentSource<<"new@"<<source;
     }
     m_currentSource = source;
     emit changed();
@@ -1420,6 +1450,9 @@ void CursorImage::setSource(CursorSource source)
 
 QImage CursorImage::image() const
 {
+    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+        qDebug()<<"get cursorImage"<<m_currentSource;
+    }
     switch (m_currentSource) {
     case CursorSource::EffectsOverride:
         return m_effectsCursor.image;
