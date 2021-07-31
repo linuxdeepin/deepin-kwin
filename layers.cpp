@@ -106,8 +106,12 @@ namespace KWin
 
 void Workspace::updateClientLayer(AbstractClient* c)
 {
-    if (c)
+    if (c) {
+        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+            qDebug() <<"updateLayer pid@"<<c->pid()<<"surface@"<<c->surfaceId()<<c->resourceClass();
+        }
         c->updateLayer();
+    }
 }
 
 void Workspace::updateStackingOrder(bool propagate_new_clients)
