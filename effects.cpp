@@ -533,6 +533,9 @@ void EffectsHandlerImpl::startPaint()
     for(QVector< KWin::EffectPair >::const_iterator it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
         if (it->second->isActive()) {
             m_activeEffects << it->second;
+            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+                qDebug() <<"effect name"<<it->first;
+            }
         }
     }
     m_currentDrawWindowIterator = m_activeEffects.constBegin();

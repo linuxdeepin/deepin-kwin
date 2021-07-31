@@ -138,6 +138,7 @@ void Screens::updateSize()
     }
     if (m_boundingSize != bounding.size()) {
         m_boundingSize = bounding.size();
+        qDebug() << "emit sizeChanged()" << m_boundingSize<<"screenCount"<<count();
         emit sizeChanged();
     }
     if (!qFuzzyCompare(m_maxScale, maxScale)) {

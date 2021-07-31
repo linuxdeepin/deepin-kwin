@@ -309,11 +309,14 @@ void Compositor::slotCompositingOptionsInitialized()
     }
 
     connect(m_scene, &Scene::resetCompositing, this, &Compositor::restart);
+    qDebug()<<"emit sceneCreated";
     emit sceneCreated();
 
     if (Workspace::self()) {
+        qDebug()<<"startupWithWorkspace";
         startupWithWorkspace();
     } else {
+        qDebug()<<"connect workspaceCreated to startupWithWorkspace";
         connect(kwinApp(), &Application::workspaceCreated, this, &Compositor::startupWithWorkspace);
     }
 }
@@ -408,8 +411,12 @@ void Compositor::startupWithWorkspace()
 
 void Compositor::scheduleRepaint()
 {
-    if (!compositeTimer.isActive())
+    if (!compositeTimer.isActive()) {
+        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+            qDebug()<<"setCompositeTimer";
+        }
         setCompositeTimer();
+    }
 }
 
 void Compositor::queueFinish()
@@ -696,6 +703,9 @@ void Compositor::addRepaintFull()
 void Compositor::timerEvent(QTimerEvent *te)
 {
     if (te->timerId() == compositeTimer.timerId()) {
+        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+            qDebug()<<"performCompositing";
+        }
         performCompositing();
     } else
         QObject::timerEvent(te);
@@ -715,7 +725,12 @@ void Compositor::bufferSwapComplete()
 
     if (m_composeAtSwapCompletion) {
         m_composeAtSwapCompletion = false;
+        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+            qDebug()<<"performCompositing";
+        }
         performCompositing();
+    } else {
+        qDebug()<<"skip performCompositing";
     }
 }
 
@@ -731,7 +746,7 @@ void Compositor::performCompositing()
 		fps_time = time;
 	if (time - fps_time > (benchmark_interval * 1000)) {
         uint32_t fps = (float) frames / benchmark_interval;
-		qDebug("%d frames in %d seconds: %d fps\n", frames, benchmark_interval, fps);
+		qDebug("%d frames in %d seconds: %d fps", frames, benchmark_interval, fps);
 		fps_time = time;
 		frames = 0;
 	}
@@ -745,6 +760,9 @@ void Compositor::performCompositing()
 
 void Compositor::composite()
 {
+    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+        qDebug()<<"++++++begin+++++++++";
+    }
     if (m_scene->usesOverlayWindow() && !isOverlayWindowVisible())
         return; // nothing is visible anyway
 
@@ -830,6 +848,12 @@ void Compositor::composite()
         }
     }
 
+    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+        foreach (Toplevel *t, windows) {
+            qDebug() <<"m_scene->paint"<<t->geometry()<<t->resourceClass()<<"surface@"<<t->surfaceId()<<"windowtype@"<<t->windowType()<<"layer@"<<t->layer();
+        }
+    }
+
     QRegion repaints = repaints_region;
     // clear all repaints, so that post-pass can add repaints for the next repaint
     repaints_region = QRegion();
@@ -868,9 +892,18 @@ void Compositor::composite()
     // scheduleRepaint() would restart it again somewhen later, called from functions that
     // would again add something pending.
     if (m_bufferSwapPending && m_scene->syncsToVBlank()) {
+        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+            qDebug()<<"m_composeAtSwapCompletion true";
+        }
         m_composeAtSwapCompletion = true;
     } else {
+        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+            qDebug()<<"scheduleRepaint";
+        }
         scheduleRepaint();
+    }
+    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+        qDebug()<<"++++++end+++++++++";
     }
 }
 
@@ -927,8 +960,9 @@ void Compositor::setCompositeTimer()
     }
 
     // Don't start the timer if we're waiting for a swap event
-    if (m_bufferSwapPending && m_composeAtSwapCompletion)
+    if (m_bufferSwapPending && m_composeAtSwapCompletion) {
         return;
+    }
 
     // Don't start the timer if all outputs are disabled
     if (!kwinApp()->platform()->areOutputsEnabled()) {
@@ -982,6 +1016,9 @@ void Compositor::setCompositeTimer()
         }*/ else {
             waitTime = 1; // ... "0" would be sufficient, but the compositor isn't the WMs only task
         }
+    }
+    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
+        qDebug()<<"compositeTimer.start waitTime"<<waitTime;
     }
     compositeTimer.start(qMin(waitTime, 250u), this); // force 4fps minimum
 }

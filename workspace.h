@@ -258,6 +258,12 @@ public:
 
     QString ActiveColor();
     void setActiveColor(QString color);
+    void enableKwinDebug(bool enable) {
+        m_kwinDebug = enable;
+    }
+    bool isKwinDebug() {
+        return m_kwinDebug;
+    }
 
 public:
     QPoint cascadeOffset(const AbstractClient *c) const;
@@ -718,6 +724,8 @@ private:
     QString m_screenSerialNum = "";
     //window property map
     QMap< wl_resource*, QMap< QString, QVariant > > m_windowPropertyMap;
+
+    bool m_kwinDebug = false;
 
 private:
     friend bool performTransiencyCheck();
