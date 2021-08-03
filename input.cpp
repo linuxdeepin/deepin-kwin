@@ -239,9 +239,6 @@ public:
             const xkb_keysym_t keysym = event->nativeVirtualKey();
             if (keysym >= XKB_KEY_XF86Switch_VT_1 && keysym <= XKB_KEY_XF86Switch_VT_12) {
                 LogindIntegration::self()->switchVirtualTerminal(keysym - XKB_KEY_XF86Switch_VT_1 + 1);
-                if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                    qDebug()<<"true type:"<<event->type();
-                }
                 return true;
             }
         }
@@ -256,9 +253,6 @@ public:
             if (event->nativeVirtualKey() == XKB_KEY_Terminate_Server) {
                 qCWarning(KWIN_CORE) << "Request to terminate server";
                 QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
-                if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                    qDebug()<<"true type:"<<event->type();
-                }
                 return true;
             }
         }
@@ -286,9 +280,6 @@ public:
                 event->type() == QEvent::MouseButtonPress ? seat->pointerButtonPressed(nativeButton) : seat->pointerButtonReleased(nativeButton);
             }
         }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
     bool wheelEvent(QWheelEvent *event) override {
@@ -301,9 +292,6 @@ public:
             const Qt::Orientation orientation = event->angleDelta().x() == 0 ? Qt::Vertical : Qt::Horizontal;
             seat->pointerAxis(orientation, orientation == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
         }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
     bool keyEvent(QKeyEvent * event) override {
@@ -312,9 +300,6 @@ public:
         }
         if (event->isAutoRepeat()) {
             // wayland client takes care of it
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<"isAutoRepeat true type:"<<event->type();
-            }
             return true;
         }
         // send event to KSldApp for global accel
@@ -323,9 +308,6 @@ public:
         event->setAccepted(false);
         QCoreApplication::sendEvent(ScreenLocker::KSldApp::self(), event);
         if (event->isAccepted()) {
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<"isAccepted true type:"<<event->type();
-            }
             return true;
         }
 
@@ -335,9 +317,6 @@ public:
         seat->setTimestamp(event->timestamp());
         if (!keyboardSurfaceAllowed()) {
             // don't pass event to seat
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<"keyboardSurfaceAllowed true type:"<<event->type();
-            }
             return true;
         }
         switch (event->type()) {
@@ -349,9 +328,6 @@ public:
             break;
         default:
             break;
-        }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"true type:"<<event->type();
         }
         return true;
     }
@@ -470,9 +446,6 @@ public:
         if (!effects) {
             return false;
         }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"type:"<<event->type();
-        }
         return static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowEvent(event);
     }
     bool keyEvent(QKeyEvent *event) override {
@@ -482,9 +455,6 @@ public:
         waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
         passToWaylandServer(event);
         static_cast< EffectsHandlerImpl* >(effects)->grabbedKeyboardEvent(event);
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
     bool touchDown(quint32 id, const QPointF &pos, quint32 time) override {
@@ -527,17 +497,11 @@ public:
         default:
             break;
         }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
     bool wheelEvent(QWheelEvent *event) override {
         Q_UNUSED(event)
         // filter out while moving a window
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"type:"<<event->type();
-        }
         return workspace()->getMovingClient() != nullptr;
     }
     bool keyEvent(QKeyEvent *event) override {
@@ -551,9 +515,6 @@ public:
                 // only update if mode didn't end
                 c->updateMoveResize(input()->globalPointer());
             }
-        }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"true type:"<<event->type();
         }
         return true;
     }
@@ -625,17 +586,11 @@ public:
         default:
             break;
         }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
     bool wheelEvent(QWheelEvent *event) override {
         Q_UNUSED(event)
         // filter out while selecting a window
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"type:"<<event->type()<<m_active;
-        }
         return m_active;
     }
     bool keyEvent(QKeyEvent *event) override {
@@ -678,9 +633,6 @@ public:
             }
         }
         // filter out while selecting a window
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
 
@@ -781,9 +733,6 @@ public:
         Q_UNUSED(nativeButton);
         if (event->type() == QEvent::MouseButtonPress) {
             if (input()->shortcuts()->processPointerPressed(event->modifiers(), event->buttons())) {
-                if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                    qDebug()<<"true type:"<<event->type();
-                }
                 return true;
             }
         }
@@ -803,16 +752,10 @@ public:
         } else if (event->angleDelta().y() > 0) {
             direction = PointerAxisUp;
         }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"type:"<<event->type();
-        }
         return input()->shortcuts()->processAxis(event->modifiers(), direction);
     }
     bool keyEvent(QKeyEvent *event) override {
         if (event->type() == QEvent::KeyPress) {
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
-            }
             return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
         }
         return false;
@@ -932,9 +875,6 @@ class InternalWindowEventFilter : public InputEventFilter {
                         event->button(), event->buttons(), event->modifiers());
         e.setAccepted(false);
         QCoreApplication::sendEvent(internal.data(), &e);
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"type:"<<event->type()<<e.isAccepted();
-        }
         return e.isAccepted();
     }
     bool wheelEvent(QWheelEvent *event) override {
@@ -963,9 +903,6 @@ class InternalWindowEventFilter : public InputEventFilter {
                         event->modifiers());
         e.setAccepted(false);
         QCoreApplication::sendEvent(internal.data(), &e);
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-           qDebug()<<"type:"<<event->type()<<e.isAccepted();
-        }
         return e.isAccepted();
     }
     bool keyEvent(QKeyEvent *event) override {
@@ -1013,9 +950,6 @@ class InternalWindowEventFilter : public InputEventFilter {
         if (QCoreApplication::sendEvent(found, &internalEvent)) {
             waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
             passToWaylandServer(event);
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<"true type:"<<event->type();
-            }
             return true;
         }
         return false;
@@ -1139,9 +1073,6 @@ public:
                 decoration->client()->processDecorationButtonRelease(&e);
                 ddeSeat->pointerButtonReleased(nativeButton);
             }
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<"true type:"<<event->type();
-            }
             return true;
         }
         default:
@@ -1173,17 +1104,11 @@ public:
         e.setAccepted(false);
         QCoreApplication::sendEvent(decoration.data(), &e);
         if (e.isAccepted()) {
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<"type:"<<event->type()<<e.isAccepted();
-            }
             return true;
         }
         if ((orientation == Qt::Vertical) && decoration->client()->titlebarPositionUnderMouse()) {
             decoration->client()->performMouseCommand(options->operationTitlebarMouseWheel(delta * -1),
                                                         event->globalPosF().toPoint());
-        }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
         }
         return true;
     }
@@ -1448,9 +1373,6 @@ public:
         default:
             break;
         }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
     bool wheelEvent(QWheelEvent *event) override {
@@ -1458,17 +1380,11 @@ public:
         seat->setTimestamp(event->timestamp());
         const Qt::Orientation orientation = event->angleDelta().x() == 0 ? Qt::Vertical : Qt::Horizontal;
         seat->pointerAxis(orientation, orientation == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
 
     bool passToXwayland(QKeyEvent* event) {
         auto seat = waylandServer()->seat();
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"type:"<<event->type();
-        }
         switch(event->key()) {
             case Qt::Key_VolumeUp:
             case Qt::Key_VolumeDown:
@@ -1556,9 +1472,7 @@ public:
             auto seat = waylandServer()->seat();
             seat->setFocusedKeyboardSurface(old);
         }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
-        }
+
         return true;
     }
     bool touchDown(quint32 id, const QPointF &pos, quint32 time) override {
@@ -1710,9 +1624,7 @@ public:
         default:
             break;
         }
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
-        }
+
         return true;
     }
 };
@@ -1753,9 +1665,6 @@ public:
             break;
         }
         waylandServer()->simulateUserActivity();
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
 
@@ -1789,9 +1698,6 @@ public:
             return false;
         }
         if (seat->isDragTouch()) {
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<"true type:"<<event->type();
-            }
             return true;
         }
         seat->setTimestamp(event->timestamp());
@@ -1838,9 +1744,6 @@ public:
             break;
         }
         // TODO: should we pass through effects?
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"true type:"<<event->type();
-        }
         return true;
     }
 
@@ -2446,7 +2349,6 @@ static bool acceptsInput(Toplevel *t, const QPoint &pos)
 Toplevel *InputRedirection::findToplevel(const QPoint &pos)
 {
     if (!Workspace::self()) {
-        qWarning()<<"Workspace::self nullptr"<<pos;
         return nullptr;
     }
     const bool isScreenLocked = waylandServer() && waylandServer()->isScreenLocked();
@@ -2454,7 +2356,6 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
     if (!isScreenLocked) {
         // if an effect overrides the cursor we don't have a window to focus
         if (effects && static_cast<EffectsHandlerImpl*>(effects)->isMouseInterception()) {
-            qDebug()<<"isMouseInterception nullptr"<<pos;
             return nullptr;
         }
         // focus set on the first wayland override window
@@ -2472,9 +2373,6 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
                         }
                     }
                     if (t->inputGeometry().contains(pos) && acceptsInput(t, pos)) {
-                        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                            qDebug()<<"focus set on the first wayland override window return t"<<pos<<t->resourceClass()<<t->surfaceId();
-                        }
                         return t;
                     }
                 }
@@ -2483,18 +2381,12 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
         const UnmanagedList &unmanaged = Workspace::self()->unmanagedList();
         foreach (Unmanaged *u, unmanaged) {
             if (u->geometry().contains(pos) && acceptsInput(u, pos)) {
-                if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                    qDebug()<<"Unmanaged"<<pos<<u->geometry()<<u->resourceClass()<<u->surfaceId();
-                }
                 return u;
             }
         }
     }
     const ToplevelList &stacking = Workspace::self()->stackingOrder();
     if (stacking.isEmpty()) {
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            qDebug()<<"stacking.isEmpty"<<pos;
-        }
         return NULL;
     }
     auto it = stacking.end();
@@ -2503,9 +2395,6 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
         Toplevel *t = (*it);
         if (t->isDeleted()) {
             // a deleted window doesn't get mouse events
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<"t->isDeleted continue"<<pos<<t->resourceClass()<<t->surfaceId();
-            }
             continue;
         }
         if (AbstractClient *c = dynamic_cast<AbstractClient*>(t)) {
@@ -2528,17 +2417,9 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
             }
         }
         if (t->inputGeometry().contains(pos) && acceptsInput(t, pos)) {
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<"return t"<<pos<<t->resourceClass()<<t->surfaceId();
-            }
             return t;
         }
     } while (it != stacking.begin());
-
-    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-        qDebug()<<"null"<<pos;
-    }
-
     return NULL;
 }
 
@@ -2686,31 +2567,8 @@ void InputDeviceHandler::updateFocus()
                                                     this, &InputDeviceHandler::update);
         }
         m_focus.focus = nullptr;
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            if (nullptr != oldFocus) {
-                qDebug()<<"focusUpdate from"<<oldFocus->resourceClass()<<oldFocus->surfaceId()<<"to nullprt";
-            }
-        }
     } else {
         m_focus.focus = m_at.at;
-        if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-            if (nullptr != oldFocus && nullptr != m_focus.focus.data()) {
-                qDebug()<<"focusUpdate from"<<oldFocus->resourceClass()<<oldFocus->surfaceId()<<"to"<<m_focus.focus.data()->resourceClass()<<m_focus.focus.data()->surfaceId();
-            }
-        }
-    }
-
-    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-        if (nullptr != oldFocus && nullptr != m_focus.focus.data()) {
-            qDebug()<<"focusUpdate from"<<oldFocus->resourceClass()<<oldFocus->surfaceId()<<"to"<<m_focus.focus.data()->resourceClass()<<m_focus.focus.data()->surfaceId();
-        } else {
-            if (nullptr != m_focus.focus.data()) {
-                qDebug()<<"focusUpdate from nullptr to"<<m_focus.focus.data()->resourceClass()<<m_focus.focus.data()->surfaceId();
-            }
-            if (nullptr != oldFocus) {
-                qDebug()<<"focusUpdate from "<<oldFocus->resourceClass()<<oldFocus->surfaceId()<<"to nullptr";
-            }
-        }
     }
 
     focusUpdate(oldFocus, m_focus.focus);

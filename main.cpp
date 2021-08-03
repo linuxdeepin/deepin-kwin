@@ -280,7 +280,6 @@ void Application::createWorkspace()
 
     // create workspace.
     (void) new Workspace(m_originalSessionKey);
-    qDebug()<<"emit workspaceCreated";
     emit workspaceCreated();
 }
 
@@ -298,7 +297,6 @@ void Application::createScreens()
     if (Screens::self()) {
         return;
     }
-    qDebug()<<"Screens::create emit screensCreated";
     Screens::create(this);
     emit screensCreated();
 }
