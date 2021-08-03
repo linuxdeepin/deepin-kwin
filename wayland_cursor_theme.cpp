@@ -21,8 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "cursor.h"
 #include "wayland_server.h"
 #include "screens.h"
+#include "workspace.h"
 // Qt
 #include <QVector>
+#include <QDebug>
 // KWayland
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Server/display.h>
@@ -70,6 +72,9 @@ void WaylandCursorTheme::loadTheme()
             destroyTheme();
         }
         m_theme = theme;
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug()<<"emit themeChanged"<<c->themeName();
+        }
         emit themeChanged();
     }
 }

@@ -307,6 +307,16 @@ void DBusInterface::disableGestureForClient(bool disable)
     workspace()->disableGestureForClient(disable);
 }
 
+void DBusInterface::setKWinLogOutput(bool isOpen)
+{
+    workspace()->enableKwinDebug(isOpen);
+}
+
+void DBusInterface::printKwinFps(bool isFps)
+{
+    workspace()->enablePrintKwinFps(isFps);
+}
+
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     : QObject(parent)
     , m_compositor(parent)

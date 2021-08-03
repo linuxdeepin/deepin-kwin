@@ -265,6 +265,14 @@ public:
         return m_kwinDebug;
     }
 
+    void enablePrintKwinFps(bool enable) {
+        m_printKwinFps = enable;
+    }
+    bool isPrintKwinFps() {
+        return m_printKwinFps;
+    }
+    
+
 public:
     QPoint cascadeOffset(const AbstractClient *c) const;
 
@@ -724,6 +732,9 @@ private:
     QString m_screenSerialNum = "";
     //window property map
     QMap< wl_resource*, QMap< QString, QVariant > > m_windowPropertyMap;
+
+    bool m_kwinDebug = false;
+    bool m_printKwinFps = false;
 
 private:
     friend bool performTransiencyCheck();
