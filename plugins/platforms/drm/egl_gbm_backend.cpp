@@ -429,8 +429,7 @@ bool EglGbmBackend::resetOutput(Output &o, DrmOutput *drmOutput)
     o.output = drmOutput;
     auto size = o.output->hardwareTransformed() ? drmOutput->pixelSize() : drmOutput->modeSize();
 
-    qDebug() <<"output "<<drmOutput->uuid()<< "size" << size <<"drmOutput->geometry"<< drmOutput->geometry() \
-             <<"pixelSize"<<drmOutput->pixelSize()<<"modeSize"<<drmOutput->modeSize();
+    qDebug() << "-----------" << __func__ << "size" << size << drmOutput->geometry();
 
     std::shared_ptr<GbmSurface> gbmSurface;
 

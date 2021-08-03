@@ -78,7 +78,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screens.h"
 #include "shadow.h"
 #include "wayland_server.h"
-#include "workspace.h"
 
 #include "thumbnailitem.h"
 
@@ -167,9 +166,6 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
     damaged_region = QRegion();
 
     m_paintScreenCount = 0;
-    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-        qDebug()<<"damage"<<damage<<"repaint"<<repaint<<"updateRegion"<<*updateRegion<<"validRegion"<<*validRegion<<"outputGeometry"<<outputGeometry;
-    }
 
     // make sure all clipping is restored
     Q_ASSERT(!PaintClipper::clip());

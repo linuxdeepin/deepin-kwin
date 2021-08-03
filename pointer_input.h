@@ -221,18 +221,6 @@ public:
     QPoint hotSpot() const;
     void markAsRendered();
 
-    enum class CursorSource {
-        LockScreen,
-        EffectsOverride,
-        MoveResize,
-        PointerSurface,
-        Decoration,
-        DragAndDrop,
-        Fallback,
-        WindowSelector
-    };
-    Q_ENUM(CursorSource);
-
 Q_SIGNALS:
     void changed();
 
@@ -255,6 +243,16 @@ private:
     template <typename T>
     void loadThemeCursor(const T &shape, QHash<T, Image> &cursors, Image *image);
 
+    enum class CursorSource {
+        LockScreen,
+        EffectsOverride,
+        MoveResize,
+        PointerSurface,
+        Decoration,
+        DragAndDrop,
+        Fallback,
+        WindowSelector
+    };
     void setSource(CursorSource source);
 
     PointerInputRedirection *m_pointer;

@@ -36,7 +36,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "orientation_sensor.h"
 #include "screens_drm.h"
 #include "wayland_server.h"
-#include "workspace.h"
 // KWayland
 #include <KWayland/Server/output_interface.h>
 #include <KWayland/Server/xdgoutput_interface.h>
@@ -130,9 +129,6 @@ bool DrmOutput::showCursor(DrmDumbBuffer *c)
 {
     if (!c) return false;
     const QSize &s = c->size();
-    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-        qDebug() << "drmModeSetCursor output" << uuid() << geometry() << globalPos()<<"size"<<s;        
-    }
     return drmModeSetCursor(m_backend->fd(), m_crtc->id(), c->handle(), s.width(), s.height()) == 0;
 }
 
@@ -179,9 +175,6 @@ void DrmOutput::updateCursor()
 
     p.drawImage(QPoint(0, 0), cursorImage);
     p.end();
-    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-        qDebug() << "output" << uuid() << geometry() << globalPos()<<"draw cursorImag" << cursorImage.size() << c->size() << "scale" << cursorImage.devicePixelRatio();        
-    }
 }
 
 void DrmOutput::moveCursor(const QPoint &globalPos)
@@ -214,9 +207,6 @@ void DrmOutput::moveCursor(const QPoint &globalPos)
 
     QPoint pos = matrix.map(globalPos);
     pos -= hotspotMatrix.map(m_backend->softwareCursorHotspot());
-    if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-        qDebug() << "drmModeMoveCursor output" << uuid() << geometry() << globalPos << pos;    
-    }
     drmModeMoveCursor(m_backend->fd(), m_crtc->id(), pos.x(), pos.y());
 }
 
