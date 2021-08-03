@@ -12,6 +12,12 @@ set(PROJECT_VERSION_MAJOR 5)
 set(QT_MIN_VERSION "5.11.0")
 set(KF5_MIN_VERSION "5.54.0")
 
+option(LOG_CONTEXT "show log context in release mode" ON)
+message(LOG_CONTEXT is ${LOG_CONTEXT})
+if(LOG_CONTEXT)
+    add_definitions(-DQT_MESSAGELOGCONTEXT)
+endif()
+
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH} )
 
 find_package(ECM 5.38 REQUIRED NO_MODULE)
@@ -798,8 +804,8 @@ add_subdirectory(packageplugins)
 
 #message("=============================== test==================================")
 if (BUILD_TESTING)
-    add_subdirectory(autotests)
-    add_subdirectory(tests)
+    #add_subdirectory(autotests)
+    #add_subdirectory(tests)
 endif()
 
 if (KF5DocTools_FOUND)

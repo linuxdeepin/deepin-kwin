@@ -144,8 +144,15 @@ void Workspace::updateClientArea(bool force)
             new_sareas[ i ][ iS ] = screens[ iS ];
     }
     for (ClientList::ConstIterator it = clients.constBegin(); it != clients.constEnd(); ++it) {
-        if (!(*it)->hasStrut())
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "****begin****"<<(*it)->geometry()<<(*it)->resourceClass()<<(*it)->surfaceId()<<(*it)->pid();
+        }
+        if (!(*it)->hasStrut()) {
+            if (workspace() && workspace()->isKwinDebug()) {
+                qDebug() << "****finish hasStrut****"<<(*it)->geometry()<<(*it)->resourceClass()<<(*it)->surfaceId()<<(*it)->pid();
+            }
             continue;
+        }
         QRect r = (*it)->adjustedClientArea(desktopArea, desktopArea);
         // sanity check that a strut doesn't exclude a complete screen geometry
         // this is a violation to EWMH, as KWin just ignores the strut
@@ -203,6 +210,9 @@ void Workspace::updateClientArea(bool force)
                     new_sareas[(*it)->desktop()][ iS ] = geo;
                 }
             }
+        }
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "****finish****"<<(*it)->geometry()<<(*it)->resourceClass()<<(*it)->surfaceId()<<(*it)->pid();
         }
     }
     if (waylandServer()) {
@@ -288,11 +298,24 @@ void Workspace::updateClientArea(bool force)
         };
         const auto clients = waylandServer()->clients();
         for (auto c : clients) {
+            if (workspace() && workspace()->isKwinDebug()) {
+                qDebug() << "****begin shellClient****"<<c->geometry()<<c->resourceClass()<<c->surfaceId()<<c->pid();
+            }
             updateStrutsForWaylandClient(c);
+            if (workspace() && workspace()->isKwinDebug()) {
+                qDebug() << "****finish shellClient****"<<c->geometry()<<c->resourceClass()<<c->surfaceId()<<c->pid();
+            }
         }
         const auto internalClients = waylandServer()->internalClients();
         for (auto c : internalClients) {
+            if (workspace() && workspace()->isKwinDebug()) {
+                qDebug() << "****begin internalClients****"<<c->geometry()<<c->resourceClass()<<c->surfaceId()<<c->pid();
+            }
             updateStrutsForWaylandClient(c);
+            if (workspace() && workspace()->isKwinDebug()) {
+                qDebug() << "****finish internalClients****"<<c->geometry()<<c->resourceClass()<<c->surfaceId()<<c->pid();
+            }
+
         }
     }
 #if 0

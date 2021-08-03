@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "context.h"
 #include "device.h"
 #include "events.h"
+#include "../workspace.h"
 #ifndef KWIN_BUILD_TESTING
 #include "../screens.h"
 #endif
@@ -239,18 +240,30 @@ void Connection::deactivate()
 
 void Connection::handleEvent()
 {
+    if (workspace() && workspace()->isKwinDebug()) {
+        qDebug() << "begin";
+    }
     QMutexLocker locker(&m_mutex);
     const bool wasEmpty = m_eventQueue.isEmpty();
     do {
         m_input->dispatch();
         Event *event = m_input->event();
         if (!event) {
+            if (workspace() && workspace()->isKwinDebug()) {
+                qDebug()<<"no event";
+            }
             break;
+        }
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug()<<"append event"<<event->type();
         }
         m_eventQueue << event;
     } while (true);
     if (wasEmpty && !m_eventQueue.isEmpty()) {
-        emit eventsRead();
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug()<<"emit eventsRead";
+        }
+	    emit eventsRead();
     }
 }
 
@@ -348,11 +361,17 @@ void Connection::processEvents()
             }
             case LIBINPUT_EVENT_KEYBOARD_KEY: {
                 KeyEvent *ke = static_cast<KeyEvent*>(event.data());
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"emit keyChanged("<<ke->key()<<")";
+                }
                 emit keyChanged(ke->key(), ke->state(), ke->time(), ke->device());
                 DTRACE_PROBE4(libinput, keyboard, "Keyboard", ke->key(), ke->state(), ke->time());
                 break;
             }
             case LIBINPUT_EVENT_POINTER_AXIS: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_POINTER_AXIS";
+                }
                 PointerEvent *pe = static_cast<PointerEvent*>(event.data());
                 struct Axis {
                     qreal delta = 0.0;
@@ -383,6 +402,9 @@ void Connection::processEvents()
                 break;
             }
             case LIBINPUT_EVENT_POINTER_BUTTON: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"emit pointerButtonChanged";
+                }
                 PointerEvent *pe = static_cast<PointerEvent*>(event.data());
                 emit pointerButtonChanged(pe->button(), pe->buttonState(), pe->time(), pe->device());
                 break;
@@ -406,11 +428,17 @@ void Connection::processEvents()
                         break;
                     }
                 }
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"emit pointerMotion"<<pe->delta()<<delta;
+                }
                 emit pointerMotion(delta, deltaNonAccel, latestTime, latestTimeUsec, pe->device());
                 break;
             }
             case LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE: {
                 PointerEvent *pe = static_cast<PointerEvent*>(event.data());
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"emit pointerMotionAbsolute("<<pe->absolutePos(m_size)<<")";
+                }
                 emit pointerMotionAbsolute(pe->absolutePos(), pe->absolutePos(m_size), pe->time(), pe->device());
                 break;
             }
@@ -418,11 +446,17 @@ void Connection::processEvents()
 #ifndef KWIN_BUILD_TESTING
                 TouchEvent *te = static_cast<TouchEvent*>(event.data());
                 const auto &geo = screens()->geometry(te->device()->screenId());
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"emit touchDown("<<te->absolutePos(geo.size())<<")";
+                }
                 emit touchDown(te->id(), geo.topLeft() + te->absolutePos(geo.size()), te->time(), te->device());
                 break;
 #endif
             }
             case LIBINPUT_EVENT_TOUCH_UP: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_TOUCH_UP";
+                }
                 TouchEvent *te = static_cast<TouchEvent*>(event.data());
                 emit touchUp(te->id(), te->time(), te->device());
                 break;
@@ -431,48 +465,75 @@ void Connection::processEvents()
 #ifndef KWIN_BUILD_TESTING
                 TouchEvent *te = static_cast<TouchEvent*>(event.data());
                 const auto &geo = screens()->geometry(te->device()->screenId());
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"emit touchMotion("<<te->absolutePos()<<")";
+                }
                 emit touchMotion(te->id(), geo.topLeft() + te->absolutePos(geo.size()), te->time(), te->device());
                 break;
 #endif
             }
             case LIBINPUT_EVENT_TOUCH_CANCEL: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_TOUCH_CANCEL";
+                }
                 emit touchCanceled(event->device());
                 break;
             }
             case LIBINPUT_EVENT_TOUCH_FRAME: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_TOUCH_FRAME";
+                }
                 emit touchFrame(event->device());
                 break;
             }
             case LIBINPUT_EVENT_GESTURE_PINCH_BEGIN: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_GESTURE_PINCH_BEGIN";
+                }
                 PinchGestureEvent *pe = static_cast<PinchGestureEvent*>(event.data());
                 emit pinchGestureBegin(pe->fingerCount(), pe->time(), pe->device());
                 break;
             }
             case LIBINPUT_EVENT_GESTURE_PINCH_UPDATE: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_GESTURE_PINCH_UPDATE";
+                }
                 PinchGestureEvent *pe = static_cast<PinchGestureEvent*>(event.data());
                 emit pinchGestureUpdate(pe->scale(), pe->angleDelta(), pe->delta(), pe->time(), pe->device());
                 break;
             }
             case LIBINPUT_EVENT_GESTURE_PINCH_END: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_GESTURE_PINCH_END";
+                }
                 PinchGestureEvent *pe = static_cast<PinchGestureEvent*>(event.data());
                 if (pe->isCancelled()) {
-                    emit pinchGestureCancelled(pe->time(), pe->device());
+                    //emit pinchGestureCancelled(pe->time(), pe->device());
                 } else {
-                    emit pinchGestureEnd(pe->time(), pe->device());
+                    //emit pinchGestureEnd(pe->time(), pe->device());
                 }
                 break;
             }
             case LIBINPUT_EVENT_GESTURE_SWIPE_BEGIN: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_GESTURE_SWIPE_BEGIN";
+                }
                 SwipeGestureEvent *se = static_cast<SwipeGestureEvent*>(event.data());
                 emit swipeGestureBegin(se->fingerCount(), se->time(), se->device());
                 break;
             }
             case LIBINPUT_EVENT_GESTURE_SWIPE_UPDATE: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_GESTURE_SWIPE_UPDATE";
+                }
                 SwipeGestureEvent *se = static_cast<SwipeGestureEvent*>(event.data());
                 emit swipeGestureUpdate(se->delta(), se->time(), se->device());
                 break;
             }
             case LIBINPUT_EVENT_GESTURE_SWIPE_END: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_GESTURE_SWIPE_END";
+                }
                 SwipeGestureEvent *se = static_cast<SwipeGestureEvent*>(event.data());
                 if (se->isCancelled()) {
                     emit swipeGestureCancelled(se->time(), se->device());
@@ -482,6 +543,9 @@ void Connection::processEvents()
                 break;
             }
             case LIBINPUT_EVENT_SWITCH_TOGGLE: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_SWITCH_TOGGLE";
+                }
                 SwitchEvent *se = static_cast<SwitchEvent*>(event.data());
                 switch (se->state()) {
                 case SwitchEvent::State::Off:
@@ -503,12 +567,21 @@ void Connection::processEvents()
                 KWin::InputRedirection::TabletEventType tabletEventType;
                 switch (event->type()) {
                 case LIBINPUT_EVENT_TABLET_TOOL_AXIS:
+                    if (workspace() && workspace()->isKwinDebug()) {
+                        qDebug()<<"LIBINPUT_EVENT_TABLET_TOOL_AXIS"<<tte->xTilt()<<tte->yTilt();
+                    }
                     tabletEventType = KWin::InputRedirection::Axis;
                     break;
                 case LIBINPUT_EVENT_TABLET_TOOL_PROXIMITY:
+                    if (workspace() && workspace()->isKwinDebug()) {
+                        qDebug()<<"LIBINPUT_EVENT_TABLET_TOOL_PROXIMITY"<<tte->xTilt()<<tte->yTilt();
+                    }
                     tabletEventType = KWin::InputRedirection::Proximity;
                     break;
                 case LIBINPUT_EVENT_TABLET_TOOL_TIP:
+                    if (workspace() && workspace()->isKwinDebug()) {
+                        qDebug()<<"LIBINPUT_EVENT_TABLET_TOOL_TIP"<<tte->xTilt()<<tte->yTilt();
+                    }
                 default:
                     tabletEventType = KWin::InputRedirection::Tip;
                     break;
@@ -534,18 +607,27 @@ void Connection::processEvents()
                 break;
             }
             case LIBINPUT_EVENT_TABLET_TOOL_BUTTON: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_TABLET_TOOL_BUTTON";
+                }
                 auto *tabletEvent = static_cast<TabletToolButtonEvent *>(event.data());
                 emit tabletToolButtonEvent(tabletEvent->buttonId(),
                                            tabletEvent->isButtonPressed());
                 break;
             }
             case LIBINPUT_EVENT_TABLET_PAD_BUTTON: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_TABLET_PAD_BUTTON";
+                }
                 auto *tabletEvent = static_cast<TabletPadButtonEvent *>(event.data());
                 emit tabletPadButtonEvent(tabletEvent->buttonId(),
                                           tabletEvent->isButtonPressed());
                 break;
             }
             case LIBINPUT_EVENT_TABLET_PAD_RING: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_TABLET_PAD_RING";
+                }
                 auto *tabletEvent = static_cast<TabletPadRingEvent *>(event.data());
                 emit tabletPadRingEvent(tabletEvent->number(),
                                         tabletEvent->position(),
@@ -554,6 +636,9 @@ void Connection::processEvents()
                 break;
             }
             case LIBINPUT_EVENT_TABLET_PAD_STRIP: {
+                if (workspace() && workspace()->isKwinDebug()) {
+                    qDebug()<<"LIBINPUT_EVENT_TABLET_PAD_STRIP";
+                }
                 auto *tabletEvent = static_cast<TabletPadStripEvent *>(event.data());
                 emit tabletPadStripEvent(tabletEvent->number(),
                                          tabletEvent->position(),
@@ -563,6 +648,7 @@ void Connection::processEvents()
             }
             default:
                 // nothing
+                qDebug()<<"default unknow libinput event";
                 break;
         }
     }
