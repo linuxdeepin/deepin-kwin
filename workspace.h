@@ -725,8 +725,6 @@ private:
     //window property map
     QMap< wl_resource*, QMap< QString, QVariant > > m_windowPropertyMap;
 
-    bool m_kwinDebug = false;
-
 private:
     friend bool performTransiencyCheck();
     friend Workspace *workspace();

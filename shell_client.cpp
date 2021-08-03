@@ -2344,7 +2344,7 @@ void ShellClient::updateClientOutputs()
     const auto outputs = waylandServer()->display()->outputs();
     int count = screens()->count();
     if (outputs.size() != count) {
-        qWarning() << "------- screens' size mismatch outputs, ignore update"<<"screen count"<<count<<"output count"<<outputs.size()<<"pid@"<<pid()<<"surface@"<<surfaceId()<<resourceClass();
+        qWarning() << "------- screens' size mismatch outputs, ignore update";
         return;
     }
 
@@ -2352,9 +2352,6 @@ void ShellClient::updateClientOutputs()
         const QRect outputGeom(output->globalPosition(), output->pixelSize() / output->scale());
         if (geometry().intersects(outputGeom)) {
             clientOutputs << output;
-            if (Workspace::self() && Workspace::self()->isKwinDebug()) {
-                qDebug()<<resourceClass()<<"surface@"<<surfaceId()<<"output"<<output->manufacturer();
-            }
         }
     }
     surface()->setOutputs(clientOutputs);
