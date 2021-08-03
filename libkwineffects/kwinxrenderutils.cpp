@@ -121,7 +121,7 @@ static xcb_render_picture_t createPicture(xcb_pixmap_t pix, int depth)
     }
     QHash<int, xcb_render_pictformat_t>::const_iterator it = s_renderFormats.constFind(depth);
     if (it == s_renderFormats.constEnd()) {
-        qCWarning(LIBKWINXRENDERUTILS) << "Could not find XRender format for depth" << depth;
+        qCWarning(KWINXRENDERUTILS) << "Could not find XRender format for depth" << depth;
         return XCB_RENDER_PICTURE_NONE;
     }
     xcb_render_picture_t pic = xcb_generate_id(c);
@@ -207,7 +207,7 @@ void setXRenderOffscreen(bool b)
     b ? ++s_renderOffscreen : --s_renderOffscreen;
     if (s_renderOffscreen < 0) {
         s_renderOffscreen = 0;
-        qCWarning(LIBKWINXRENDERUTILS) << "*** SOMETHING IS MESSED UP WITH YOUR setXRenderOffscreen() USAGE ***";
+        qCWarning(KWINXRENDERUTILS) << "*** SOMETHING IS MESSED UP WITH YOUR setXRenderOffscreen() USAGE ***";
     }
 }
 
@@ -223,7 +223,7 @@ void xRenderPopTarget()
     --s_renderOffscreen;
     if (s_renderOffscreen < 0) {
         s_renderOffscreen = 0;
-        qCWarning(LIBKWINXRENDERUTILS) << "*** SOMETHING IS MESSED UP WITH YOUR xRenderPopTarget() USAGE ***";
+        qCWarning(KWINXRENDERUTILS) << "*** SOMETHING IS MESSED UP WITH YOUR xRenderPopTarget() USAGE ***";
     }
 }
 

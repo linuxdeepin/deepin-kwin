@@ -314,6 +314,9 @@ void AbstractClient::setActive(bool act)
             workspace()->updateClientLayer(*it);
 
     doSetActive();
+    if (workspace() && workspace()->isKwinDebug()) {
+        qDebug() << "emit activeChanged" << "surface@" << surfaceId() << "pid@" << pid() << resourceName();
+    }
     emit activeChanged();
     updateMouseGrab();
 }
@@ -352,39 +355,78 @@ Layer AbstractClient::belongsToLayer() const
     // and the docks move into the NotificationLayer (which is between Above- and
     // ActiveLayer, so that active fullscreen windows will still cover everything)
     // Since the desktop is also activated, nothing should be in the ActiveLayer, though
-    if (isDesktop())
+    if (isDesktop()) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "isDesktop  layer@" << (workspace()->showingDesktop() ? AboveLayer : DesktopLayer) << resourceClass();
+        }
         return workspace()->showingDesktop() ? AboveLayer : DesktopLayer;
+    }
     if (isSplash())          // no damn annoying splashscreens
         return NormalLayer; // getting in the way of everything else
     if (isDock()) {
         if (workspace()->showingDesktop())
             return NotificationLayer;
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "isDock()  layer@" << layerForDock() << resourceClass();
+        }
         return layerForDock();
     }
 
     if (workspace()->previewingClientList() && !workspace()->previewingClient(this)) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "!previewingClient  UnderDesktopLayer layer@" << UnderDesktopLayer << resourceClass();
+        }
         return UnderDesktopLayer;
     }
 
     if (isOverride()){
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "isOverride  UnmanagedLayer layer@" << UnmanagedLayer << resourceClass();
+        }
         return UnmanagedLayer;
     }
 
-    if (isOnScreenDisplay())
+    if (isOnScreenDisplay()) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "isOnScreenDisplay  OnScreenDisplayLayer layer@" << OnScreenDisplayLayer << resourceClass();
+        }
         return OnScreenDisplayLayer;
-    if (isNotification() || (waylandServer() && isTooltip()))
+    }
+    if (isNotification() || (waylandServer() && isTooltip())) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "isNotification  NotificationLayer layer@" << NotificationLayer << resourceClass();
+        }
         return NotificationLayer;
+    }
     if (workspace()->showingDesktop() && belongsToDesktop()) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "belongsToDesktop  AboveLayer layer@" << AboveLayer << resourceClass();
+        }
         return AboveLayer;
     }
-    if (keepBelow())
+    if (keepBelow()) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "keepBelow BelowLayer layer@" << BelowLayer << resourceClass();
+        }
         return BelowLayer;
-    if (isActiveFullScreen())
+    }
+    if (isActiveFullScreen()) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "isActiveFullScreen ActiveLayer layer@" << ActiveLayer << resourceClass();
+        }
         return ActiveLayer;
+    }
 
-    if (keepAbove())
+    if (keepAbove()) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "keepAbove AboveLayer layer@" << AboveLayer << resourceClass();
+        }
         return AboveLayer;
+    }
 
+    if (workspace() && workspace()->isKwinDebug()) {
+        qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "NormalLayer layer@" << NormalLayer << resourceClass();
+    }
     return NormalLayer;
 }
 

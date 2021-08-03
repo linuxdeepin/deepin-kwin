@@ -191,6 +191,7 @@ void AbstractOutput::setEnabled(bool enable)
 void AbstractOutput::setWaylandMode(const QSize &size, int refreshRate)
 {
     if (!isEnabled()) return;
+    qCDebug(KWIN_CORE) <<  " DrmOutput::pixelSize "<<pixelSize()<<"m_xdgOutput->setLogicalSize "<<(pixelSize() / scale());
     m_waylandOutput->setCurrentMode(size, refreshRate);
     m_xdgOutput->setLogicalSize(pixelSize() / scale());
     m_xdgOutput->done();
