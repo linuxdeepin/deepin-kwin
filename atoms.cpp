@@ -62,6 +62,8 @@ Atoms::Atoms()
     , wl_surface_id(QByteArrayLiteral("WL_SURFACE_ID"))
     , kde_net_wm_appmenu_service_name(QByteArrayLiteral("_KDE_NET_WM_APPMENU_SERVICE_NAME"))
     , kde_net_wm_appmenu_object_path(QByteArrayLiteral("_KDE_NET_WM_APPMENU_OBJECT_PATH"))
+    //此原子属性是兼容dtk在触屏环境下发送的自定义XCB_CLIENT_MESSAGE事件中的_DEEPIN_MOVE_UPDATE属性
+    , deepin_move_update(QByteArrayLiteral("_DEEPIN_MOVE_UPDATE"))
     , m_dtSmWindowInfo(QByteArrayLiteral("_DT_SM_WINDOW_INFO"))
     , m_motifSupport(QByteArrayLiteral("_MOTIF_WM_INFO"))
     , m_helpersRetrieved(false)

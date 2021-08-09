@@ -71,6 +71,7 @@ public:
     Xcb::Atom wl_surface_id;
     Xcb::Atom kde_net_wm_appmenu_service_name;
     Xcb::Atom kde_net_wm_appmenu_object_path;
+    Xcb::Atom deepin_move_update;
 
     /**
      * @internal
