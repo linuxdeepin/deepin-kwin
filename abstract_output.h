@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QSize>
 #include <QVector>
 #include <QMatrix4x4>
+#include <QScreen>
+#include <QGuiApplication>
 
 #include <KWayland/Server/output_interface.h>
 #include <KWayland/Server/outputdevice_interface.h>
@@ -83,6 +85,7 @@ public:
     qreal scale() const {
         return m_waylandOutputDevice->scaleF();
     }
+    qreal scaleFactor() const;
     /*
      * The geometry of this output in global compositor co-ordinates (i.e scaled)
      */
