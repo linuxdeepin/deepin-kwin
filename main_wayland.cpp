@@ -163,6 +163,7 @@ ApplicationWayland::~ApplicationWayland()
     m_xwayland = nullptr;
     waylandServer()->terminateClientConnections();
     destroyCompositor();
+    qDebug() << QDateTime::currentDateTime().toString(QString::fromLatin1("hh:mm:ss.zzz")) << Q_FUNC_INFO << "finish";
 }
 
 void ApplicationWayland::performStartup()

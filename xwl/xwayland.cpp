@@ -36,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QProcess>
 #include <QSocketNotifier>
 #include <QThread>
+#include <QDebug>
+#include <QTime>
 
 // system
 #ifdef HAVE_UNISTD_H
@@ -97,9 +99,12 @@ Xwayland::~Xwayland()
 
     if (m_xwaylandProcess) {
         m_xwaylandProcess->terminate();
-        while (m_xwaylandProcess->state() != QProcess::NotRunning) {
+        QTime dieTime = QTime::currentTime().addMSecs(3000);
+        qDebug() << QDateTime::currentDateTime().toString(QString::fromLatin1("hh:mm:ss.zzz")) << Q_FUNC_INFO << "begin while";
+        while (m_xwaylandProcess->state() != QProcess::NotRunning && (QTime::currentTime() < dieTime)) {
             m_app->processEvents(QEventLoop::WaitForMoreEvents);
         }
+        qDebug() << QDateTime::currentDateTime().toString(QString::fromLatin1("hh:mm:ss.zzz")) << Q_FUNC_INFO << "finish while";
         waylandServer()->destroyXWaylandConnection();
     }
     s_self = nullptr;
