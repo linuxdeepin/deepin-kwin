@@ -187,6 +187,7 @@ Connection::~Connection()
     s_self = nullptr;
     delete s_context;
     s_context = nullptr;
+    qDebug() << QDateTime::currentDateTime().toString(QString::fromLatin1("hh:mm:ss.zzz")) << Q_FUNC_INFO << "input thread finish";
 }
 
 void Connection::setup()
