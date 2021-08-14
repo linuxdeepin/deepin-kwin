@@ -286,6 +286,10 @@ bool DrmOutput::init(drmModeConnector *connector)
         );
     }
 
+    connect(waylandOutput(), &KWayland::Server::OutputInterface::resourceChanged, this, [=]{
+        emit screens()->outputResourceChanged();
+    });
+
     QSize physicalSize = !m_edid.physicalSize.isEmpty() ? m_edid.physicalSize : QSize(connector->mmWidth, connector->mmHeight);
     // the size might be completely borked. E.g. Samsung SyncMaster 2494HS reports 160x90 while in truth it's 520x292
     // as this information is used to calculate DPI info, it's going to result in everything being huge
