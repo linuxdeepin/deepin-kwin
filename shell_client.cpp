@@ -201,6 +201,8 @@ void ShellClient::initSurface(T *shellSurface)
     connect(this, &ShellClient::geometryChanged, this, &ShellClient::updateClientOutputs);
     connect(screens(), &Screens::changed, this, &ShellClient::updateClientOutputs,
             Qt::QueuedConnection);
+    connect(screens(), &Screens::outputResourceChanged, this, &ShellClient::updateClientOutputs,
+            Qt::QueuedConnection);
 
     if (!m_internal) {
         setupWindowRules(false);
@@ -2356,7 +2358,8 @@ void ShellClient::updateClientOutputs()
 
     for (OutputInterface* output: qAsConst(outputs)) {
         const QRect outputGeom(output->globalPosition(), output->pixelSize() / output->scale());
-        if (geometry().intersects(outputGeom)) {
+        const auto resources = output->clientResources(surface()->client());
+        if (resources.size() > 0 && geometry().intersects(outputGeom)) {
             clientOutputs << output;
             if (workspace() && workspace()->isKwinDebug()) {
                 qDebug()<<resourceClass()<<"surface@"<<surfaceId()<<"output"<<output->manufacturer();
