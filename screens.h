@@ -187,6 +187,8 @@ Q_SIGNALS:
      */
     void maxScaleChanged();
 
+    void outputResourceChanged();
+
 protected Q_SLOTS:
     void setCount(int count);
     void startChangedTimer();
