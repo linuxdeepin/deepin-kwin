@@ -569,6 +569,12 @@ void ShellClient::markAsMapped()
         addRepaintFull();
         emit windowShown(this);
     }
+
+    if (isTransient()) {
+        QRect area = workspace()->clientArea(clientAreaOption::PlacementArea, Screens::self()->current(), desktop());
+        placeIn(area);
+    }
+
     if (shouldExposeToWindowManagement()) {
         setupWindowManagementInterface();
     }
