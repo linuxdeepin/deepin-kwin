@@ -1,5 +1,3 @@
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
 
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
@@ -399,8 +397,6 @@ add_subdirectory( tabbox )
 add_subdirectory(scripting)
 add_subdirectory(helpers)
 
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
 ########### next target ###############
 
 set(kwin_KDEINIT_SRCS
