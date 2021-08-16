@@ -1461,16 +1461,16 @@ void Client::takeFocus()
             workspace()->setShowingDesktop(false);
         }
         //TODO This is a temporary solution, in order to solve the problem is: X11 application in the case of no focus, can not receive the keyboard light status change in time
-        if(waylandServer() && waylandServer()->seat()) {
-            for (int i = 0; i < 2; i++) {
-                waylandServer()->seat()->keyPressed(KEY_Num_Lock);
-                waylandServer()->seat()->keyReleased(KEY_Num_Lock);
-                waylandServer()->seat()->keyPressed(KEY_Caps_Lock);
-                waylandServer()->seat()->keyReleased(KEY_Caps_Lock);
-                waylandServer()->seat()->keyPressed(KEY_Scroll_Lock);
-                waylandServer()->seat()->keyReleased(KEY_Scroll_Lock);
-            }
-        }
+        // if(waylandServer() && waylandServer()->seat()) {
+        //     for (int i = 0; i < 2; i++) {
+        //         waylandServer()->seat()->keyPressed(KEY_Num_Lock);
+        //         waylandServer()->seat()->keyReleased(KEY_Num_Lock);
+        //         waylandServer()->seat()->keyPressed(KEY_Caps_Lock);
+        //         waylandServer()->seat()->keyReleased(KEY_Caps_Lock);
+        //         waylandServer()->seat()->keyPressed(KEY_Scroll_Lock);
+        //         waylandServer()->seat()->keyReleased(KEY_Scroll_Lock);
+        //     }
+        // }
 
         workspace()->setPreviewClientList({});
     }
