@@ -258,8 +258,12 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         m_xkb->forwardModifiers();
         return;
     }
-
-    m_input->processSpies(std::bind(&InputEventSpy::keyEvent, std::placeholders::_1, &event));
+    // vnc使用fakeinput机制来处理虚拟按键
+    // 虚拟按键的情况下，可能会因为网络延迟的原因导致release事件收不到，触发repeat机制
+    // 从而导致字符自动连续输出，此处屏蔽掉fakeinput机制下的kwin repeat机制
+    if (time != 0) {    //该判断解决虚拟按键延时问题
+        m_input->processSpies(std::bind(&InputEventSpy::keyEvent, std::placeholders::_1, &event));
+    }
     if (!m_inited) {
         return;
     }
