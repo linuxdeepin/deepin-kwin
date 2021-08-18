@@ -83,6 +83,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <iomanip>
 #include <xkb.h>
 
+#include <sys/resource.h>
+
 namespace KWin
 {
 
@@ -466,12 +468,49 @@ void customLogMessageHandler(QtMsgType type, const QMessageLogContext &ctx, cons
     }
 }
 
+//调整系统资源限制
+static void adjustResLimit(){
+    const rlim_t cStackSize = 64L * 1024L * 1024L; // The maximum size of the process stack, in bytes.
+    const rlim_t cNofileSize = 8192; // Specifies a value one greater than the maximum file descriptor number that can be opened by this process.
+    rlimit resNoFile,resStack;
+    int rv = -1;//On success, return 0. On error, -1 is returned, and errno is set appropriately.
+
+    //调整打开文件句柄数限制
+    rv = getrlimit(RLIMIT_NOFILE,&resNoFile);
+    if (rv == 0 && resNoFile.rlim_cur < cNofileSize) {
+        resNoFile.rlim_cur = cNofileSize;
+        rv = setrlimit(RLIMIT_NOFILE,&resNoFile);
+        if (rv != 0) {
+            qWarning("adjust RLIMIT_NOFILE error:%d", rv);
+        } else {
+            qDebug() << "adjust RLIMIT_NOFILE success,rlim_cur:" << resNoFile.rlim_cur;
+        }
+    }
+
+    //调整堆栈默认大小限制
+    rv = getrlimit(RLIMIT_STACK, &resStack);
+    if (rv == 0 && resStack.rlim_cur < cStackSize) {
+        resStack.rlim_cur = cStackSize;
+        rv = setrlimit(RLIMIT_STACK, &resStack);
+        if (rv != 0) {
+            qWarning("adjust RLIMIT_STACK error:%d", rv);
+        } else {
+            qDebug() << "adjust RLIMIT_STACK success,rlim_cur:" << resStack.rlim_cur;
+        }
+    }
+
+     //调整Qt线程池默认堆栈大小
+    QThreadPool::globalInstance()->setStackSize(cStackSize);
+}
+
+
 int main(int argc, char * argv[])
 {
     if (getuid() == 0) {
         std::cerr << "kwin_wayland does not support running as root." << std::endl;
         return 1;
     }
+    adjustResLimit();//调整资源限制
     QString kwinLog = QString::fromUtf8(qgetenv("KWIN_LOG"));
     // we reorient print kwin log to syslog only if we set KWIN_LOG = true
     if (kwinLog.isEmpty() || kwinLog.toLower() == "false") {
