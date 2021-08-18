@@ -48,7 +48,7 @@ AbstractOutput::AbstractOutput(QObject *parent)
         [this] (KWayland::Server::OutputInterface::DpmsMode mode) {
         if (mode == KWayland::Server::OutputInterface::DpmsMode::On) {
             qDebug() << "-------" << "dpmsModeRequested on" << m_waylandOutput;
-            QTimer::singleShot(50, this, [=] { updateDpms(mode); });
+            QTimer::singleShot(150, this, [=] { updateDpms(mode); });
         } else {
             qDebug() << "-------" << "dpmsModeRequested off" << m_waylandOutput;
             updateDpms(mode);
