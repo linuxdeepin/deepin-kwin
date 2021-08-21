@@ -998,7 +998,9 @@ void AbstractClient::setupWindowManagementInterface()
     connect(this, &AbstractClient::geometryChanged, w,
         [w, this] {
             w->setGeometry(geom);
-            emit workspace()->windowStateChanged();
+            if (workspace()) {
+                emit workspace()->windowStateChanged();
+            }
         }
     );
     connect(w, &PlasmaWindowInterface::closeRequested, this, [this] { closeWindow(); });
