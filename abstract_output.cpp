@@ -177,6 +177,11 @@ void AbstractOutput::setEnabled(bool enable)
     }
 }
 
+void AbstractOutput::setOutputDisconnected()
+{
+    m_waylandOutput->setOutputDisconnected(true);
+}
+
 void AbstractOutput::setWaylandMode(const QSize &size, int refreshRate)
 {
     if (!isEnabled()) return;

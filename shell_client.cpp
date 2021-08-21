@@ -2359,6 +2359,15 @@ void ShellClient::updateClientOutputs()
     for (OutputInterface* output: qAsConst(outputs)) {
         const QRect outputGeom(output->globalPosition(), output->pixelSize() / output->scale());
         const auto resources = output->clientResources(surface()->client());
+        // 屏幕插拔，概率性出现kwin崩溃
+        // 通过日志发现，屏幕拔出时，output移除，emit screensQueried触发updateClientOutputs走leave output流程
+        // 概率性出现随后geometryChanged再次触发updateClientOutputs，但因为上一次已经走了leave流程，这次又会对移除的output走enter output流程
+        // 此处增加了一个outputRemoved标志，当output移除后，置outputRemoved为true
+        // 此时对于第二次重入，通过检测outputRemoved标志，如果为true, surface不更新该output
+        if (output->isOutputRemoved()) {
+            qDebug() <<"pid@"<<pid()<<"surface@"<<surfaceId()<<resourceClass()<<"have leaved output, no need to update again";
+            continue;
+        }
         if (resources.size() > 0 && geometry().intersects(outputGeom)) {
             clientOutputs << output;
             if (workspace() && workspace()->isKwinDebug()) {
