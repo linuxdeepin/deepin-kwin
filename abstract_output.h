@@ -131,6 +131,7 @@ public:
      * The default is on.
      */
     void setEnabled(bool enable);
+    void setOutputDisconnected();
 
     virtual int getGammaRampSize() const {
         return 0;

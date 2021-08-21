@@ -98,6 +98,7 @@ void DrmOutput::teardown()
     } else {
         if (!m_pageFlipPending) {
             qDebug() << "-------" << __func__ << waylandOutput();
+            setOutputDisconnected();
             setEnabled(false);
             deleteLater();
         } //else will be deleted in the page flip handler
