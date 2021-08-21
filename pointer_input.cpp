@@ -640,7 +640,7 @@ void PointerInputRedirection::focusUpdate(Toplevel *focusOld, Toplevel *focusNow
                 return;
             }
             // TODO: can we check on the client instead?
-            if (workspace()->getMovingClient()) {
+            if (workspace() && workspace()->getMovingClient()) {
                 // don't update while moving
                 return;
             }
