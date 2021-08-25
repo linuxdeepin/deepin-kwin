@@ -119,6 +119,7 @@ private:
     void initEglPartialUpateExt();
 
     unsigned int m_dmaFd;
+    unsigned int m_dumpOutputBufferCount;
 };
 
 /**

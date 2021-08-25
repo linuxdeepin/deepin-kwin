@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "logging.h"
 #include "options.h"
 #include "screens.h"
+#include "workspace.h"
 // kwin libs
 #include <kwinglplatform.h>
 // Qt
@@ -34,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // system
 #include <gbm.h>
 #include <sys/sdt.h>
+#include <sys/mman.h>
 
 namespace KWin
 {
@@ -44,6 +46,7 @@ EglGbmBackend::EglGbmBackend(DrmBackend *b)
     : AbstractEglBackend()
     , m_backend(b)
     , m_dmaFd(0)
+    , m_dumpOutputBufferCount(0)
 {
     // Egl is always direct rendering
     setIsDirectRendering(true);
@@ -687,6 +690,25 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &dam
     DrmSurfaceBuffer* gbmbuf = static_cast<DrmSurfaceBuffer *>(o.buffer);
     if(gbmbuf) {
         m_dmaFd = gbmbuf->getFd();
+
+        if (workspace() && workspace()->isDumpOutputBuffer() && gbmbuf->hasBo()) {
+            gbm_bo *dmaBo = gbmbuf->getBo();
+            quint32 stride = gbm_bo_get_stride(dmaBo);
+            QSize dmaSize = QSize(gbm_bo_get_width(dmaBo), gbm_bo_get_height(dmaBo));
+
+            unsigned char *mapData = static_cast<unsigned char *>(mmap(nullptr, stride * dmaSize.height(), PROT_READ, MAP_SHARED, m_dmaFd, 0));
+            QImage destImage = QImage(mapData, dmaSize.width(), dmaSize.height(), QImage::Format_RGB32);
+            static int count = 0;
+            QString filename = QString::fromLatin1("/tmp/output%1.png").arg(count++);
+            destImage.save(filename);
+            qDebug() << "dump output buffer:" << filename;
+
+            m_dumpOutputBufferCount++;
+            if (m_dumpOutputBufferCount >= m_outputs.size()) {
+                workspace()->dumpOutputBufferFinish();
+                m_dumpOutputBufferCount = 0;
+            }
+        }
     }
 
     if(m_remoteaccessManager && gbm_surface_has_free_buffers(o.gbmSurface->surface())) {

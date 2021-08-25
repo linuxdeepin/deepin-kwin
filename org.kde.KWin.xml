@@ -75,5 +75,6 @@
     <method name="printKwinFps">
       <arg type="b" direction="in"/>
     </method>
+    <method name="dumpOutputBuffer"/>
   </interface>
 </node>
