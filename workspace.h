@@ -271,7 +271,16 @@ public:
     bool isPrintKwinFps() {
         return m_printKwinFps;
     }
-    
+
+    void dumpOutputBuffer() {
+        m_dumpOutputBuffer = true;
+    }
+    void dumpOutputBufferFinish() {
+        m_dumpOutputBuffer = false;
+    }
+    bool isDumpOutputBuffer() {
+        return m_dumpOutputBuffer;
+    }
 
 public:
     QPoint cascadeOffset(const AbstractClient *c) const;
@@ -735,6 +744,7 @@ private:
 
     bool m_kwinDebug = false;
     bool m_printKwinFps = false;
+    bool m_dumpOutputBuffer = false;
 
 private:
     friend bool performTransiencyCheck();
