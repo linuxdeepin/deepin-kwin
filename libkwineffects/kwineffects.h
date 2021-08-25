@@ -842,7 +842,7 @@ public:
     virtual void buildQuads(EffectWindow* w, WindowQuadList& quadList) = 0;
     virtual QVariant kwinOption(KWinOption kwopt) = 0;
 
-    virtual void setQuickTileMode(EffectWindow* w, int mode) = 0;
+//    virtual void setQuickTileMode(EffectWindow* w, int mode) = 0;
     /**
      * Sets the cursor while the mouse is intercepted.
      * @see startMouseInterception

@@ -273,7 +273,7 @@ public:
     Effect *findEffect(const QString &name) const;
 
     void enableEffect(const QString& name, bool enable);
-    void setQuickTileMode(EffectWindow* w, int mode) override;
+//    void setQuickTileMode(EffectWindow* w, int mode) override;
 
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);

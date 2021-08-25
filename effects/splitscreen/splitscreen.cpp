@@ -150,7 +150,7 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
 //                if (c && c->quickTileMode() != QuickTileMode(m_backgroundMode)) {
 //                    effects->setQuickTileMode(target, m_backgroundMode);
 //                }
-                effects->setQuickTileMode(target, m_backgroundMode);
+//                effects->setQuickTileMode(target, m_backgroundMode);
                 effects->addRepaintFull();
             }
             break;
