@@ -572,9 +572,15 @@ void ShellClient::markAsMapped()
         emit windowShown(this);
     }
 
-    if (isTransient()) {
+    if (isTransient() && NET::Normal == windowType()) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "isTransient" <<geometry()<<resourceClass()<<"surface@"<<surfaceId()<<"windowtype@"<<windowType()<<"layer@"<<layer()<<"pid@"<<pid();
+        }
         QRect area = workspace()->clientArea(clientAreaOption::PlacementArea, Screens::self()->current(), desktop());
         placeIn(area);
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "after placeIn" <<geometry()<<resourceClass()<<"surface@"<<surfaceId()<<"windowtype@"<<windowType()<<"layer@"<<layer()<<"pid@"<<pid();
+        }
     }
 
     if (shouldExposeToWindowManagement()) {
