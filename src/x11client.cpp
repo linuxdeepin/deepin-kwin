@@ -683,6 +683,12 @@ bool X11Client::manage(xcb_window_t w, bool isMapped)
     const QSize constrainedClientSize = constrainClientSize(geom.size());
     resize(rules()->checkSize(clientSizeToFrameSize(constrainedClientSize), !isMapped));
 
+    /**
+     * 更新窗口禁止移动的属性，保证窗口程序在构造函数中设置的属性可以被读到
+     * 若没有这个属性，读取为空，默认窗口可以正常移动
+     **/
+    updateWindowForhibitMove();
+
     QPoint forced_pos = rules()->checkPosition(invalidPoint, !isMapped);
     if (forced_pos != invalidPoint) {
         move(forced_pos);
@@ -2074,6 +2080,18 @@ static inline QString readNameProperty(xcb_window_t w, xcb_atom_t atom)
         return retVal.simplified();
     }
     return QString();
+}
+
+Xcb::Property X11Client::fetchWindowForhibitMove() const
+{
+    return Xcb::Property(false, m_client, atoms->deepin_forhibit_move,
+                         atoms->deepin_forhibit_move, 0, 1);
+}
+
+void X11Client::updateWindowForhibitMove()
+{
+    Xcb::Property property = fetchWindowForhibitMove();
+    setWindowForhibitMove(property.toBool(32, atoms->deepin_forhibit_move));
 }
 
 QString X11Client::readName() const

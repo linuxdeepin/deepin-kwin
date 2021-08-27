@@ -1116,7 +1116,8 @@ void AbstractClient::stopDelayedInteractiveMoveResize()
 
 void AbstractClient::updateInteractiveMoveResize(const QPointF &currentGlobalCursor)
 {
-    handleInteractiveMoveResize(pos(), currentGlobalCursor.toPoint());
+    if (!windowForhibitMove())
+        handleInteractiveMoveResize(pos(), currentGlobalCursor.toPoint());
 }
 
 void AbstractClient::handleInteractiveMoveResize(const QPoint &local, const QPoint &global)
@@ -1916,6 +1917,8 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         // fallthrough
     case Options::MouseMove:
     case Options::MouseUnrestrictedMove: {
+        if (windowForhibitMove())
+            break;
         if (!isMovableAcrossScreens())
             break;
         if (isInteractiveMoveResize())
@@ -1979,6 +1982,16 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         break;
     }
     return replay;
+}
+
+void AbstractClient::setWindowForhibitMove(bool forhibit)
+{
+    m_forhibit_move = forhibit;
+}
+
+bool AbstractClient::windowForhibitMove() const
+{
+    return m_forhibit_move;
 }
 
 void AbstractClient::setTransientFor(AbstractClient *transientFor)

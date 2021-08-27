@@ -264,6 +264,11 @@ public:
     QString readPreferredColorScheme(Xcb::StringProperty &property) const;
     QString preferredColorScheme() const override;
 
+    //获取窗口禁止移动的属性
+    Xcb::Property fetchWindowForhibitMove() const;
+    //更新窗口禁止移动的属性
+    void updateWindowForhibitMove();
+
     //sets whether the client should be faked as being on all activities (and be shown during session save)
     void setSessionActivityOverride(bool needed);
     bool isClient() const override;

@@ -599,8 +599,12 @@ public:
     void updateInteractiveMoveResize(const QPointF &currentGlobalCursor);
     /**
      * Ends move resize when all pointer buttons are up again.
-     */
+     **/
     void endInteractiveMoveResize();
+
+    void setWindowForhibitMove(bool forhibit);
+    bool windowForhibitMove() const;
+
     void keyPressEvent(uint key_code);
 
     virtual void pointerEnterEvent(const QPoint &globalPos);
@@ -1236,6 +1240,8 @@ private Q_SLOTS:
 private:
     void handlePaletteChange();
     QSharedPointer<TabBox::TabBoxClientImpl> m_tabBoxClient;
+    //窗口是否被禁止移动，默认为否，可以正常移动
+    bool m_forhibit_move = false;
     bool m_firstInTabBox = false;
     bool m_skipTaskbar = false;
     /**
