@@ -405,6 +405,12 @@ bool Client::manage(xcb_window_t w, bool isMapped)
     // TODO: Is CentralGravity right here, when resizing is done after gravitating?
     plainResize(rules()->checkSize(sizeForClientSize(geom.size(), SizemodeMax), !isMapped));
 
+    /**
+     * 更新窗口禁止移动的属性，保证窗口程序在构造函数中设置的属性可以被读到
+     * 若没有这个属性，读取为空，默认窗口可以正常移动
+     **/
+    updateWindowForhibitMove();
+
     QPoint forced_pos = rules()->checkPosition(invalidPoint, !isMapped);
     if (forced_pos != invalidPoint) {
         move(forced_pos);

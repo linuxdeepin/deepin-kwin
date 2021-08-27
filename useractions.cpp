@@ -1186,8 +1186,11 @@ void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperati
 {
     if (!c)
         return;
-    if (op == Options::MoveOp || op == Options::UnrestrictedMoveOp)
+    if (op == Options::MoveOp || op == Options::UnrestrictedMoveOp){
+        if (c->windowForhibitMove())
+            return;
         Cursor::setPos(c->geometry().center());
+    }
     if (op == Options::ResizeOp || op == Options::UnrestrictedResizeOp)
         Cursor::setPos(c->geometry().bottomRight());
     switch(op) {

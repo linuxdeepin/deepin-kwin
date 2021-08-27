@@ -832,7 +832,8 @@ QSize AbstractClient::minSize() const
 
 void AbstractClient::updateMoveResize(const QPointF &currentGlobalCursor)
 {
-    handleMoveResize(pos(), currentGlobalCursor.toPoint());
+    if (!windowForhibitMove())
+        handleMoveResize(pos(), currentGlobalCursor.toPoint());
 }
 
 bool AbstractClient::hasStrut() const
@@ -1231,6 +1232,8 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         // fallthrough
     case Options::MouseMove:
     case Options::MouseUnrestrictedMove: {
+        if (windowForhibitMove())
+            break;
         if (!isMovableAcrossScreens())
             break;
         if (isMoveResize())
@@ -1677,6 +1680,16 @@ void AbstractClient::endMoveResize()
         setMoveResizePointerMode(mousePosition());
     }
     updateCursor();
+}
+
+void AbstractClient::setWindowForhibitMove(bool forhibit)
+{
+    m_forhibit_move = forhibit;
+}
+
+bool AbstractClient::windowForhibitMove() const
+{
+    return m_forhibit_move;
 }
 
 void AbstractClient::destroyDecoration()

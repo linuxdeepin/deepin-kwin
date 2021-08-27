@@ -64,6 +64,8 @@ Atoms::Atoms()
     , kde_net_wm_appmenu_object_path(QByteArrayLiteral("_KDE_NET_WM_APPMENU_OBJECT_PATH"))
     //此原子属性是兼容dtk在触屏环境下发送的自定义XCB_CLIENT_MESSAGE事件中的_DEEPIN_MOVE_UPDATE属性
     , deepin_move_update(QByteArrayLiteral("_DEEPIN_MOVE_UPDATE"))
+    //此原子属性不为0时，禁止窗口移动
+    , deepin_forhibit_move(QByteArrayLiteral("_DEEPIN_FORHIBIT_MOVE"))
     , m_dtSmWindowInfo(QByteArrayLiteral("_DT_SM_WINDOW_INFO"))
     , m_motifSupport(QByteArrayLiteral("_MOTIF_WM_INFO"))
     , m_helpersRetrieved(false)

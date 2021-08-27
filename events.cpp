@@ -778,6 +778,8 @@ void Client::propertyNotifyEvent(xcb_property_notify_event_t *e)
             checkApplicationMenuServiceName();
         else if (e->atom == atoms->kde_net_wm_appmenu_object_path)
             checkApplicationMenuObjectPath();
+        else if (e->atom == atoms->deepin_forhibit_move)
+            updateWindowForhibitMove();
         break;
     }
 }
@@ -1128,6 +1130,8 @@ bool Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x_ro
         y = this->y();
     }
 
+    if (windowForhibitMove())
+        return false;
     handleMoveResize(QPoint(x, y), QPoint(x_root, y_root));
     return true;
 }
