@@ -942,6 +942,8 @@ public:
      **/
     virtual void unregisterTouchBorder(ElectricBorder border, QAction *action) = 0;
 
+    virtual void setSplitWindow(KWin::EffectWindow* c, int mode) = 0;
+
     // functions that allow controlling windows/desktop
     virtual void activateWindow(KWin::EffectWindow* c) = 0;
     virtual KWin::EffectWindow* activeWindow() const = 0 ;

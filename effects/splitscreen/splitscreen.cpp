@@ -90,6 +90,7 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
     WindowMotionManager& wmm = m_motionManagers[desktop-1];
     if (wmm.isManaging(w) || w->isDesktop()) {
         auto area = effects->clientArea(FullArea/*ScreenArea*/, m_screen, 0);
+
         WindowPaintData d = data;
         if (w->isDesktop()) {
             d.setBrightness(0.4);
@@ -158,6 +159,7 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
                 effects->defineCursor(Qt::PointingHandCursor);
                 effects->setElevatedWindow(target, false);
                 effects->activateWindow(target);
+                effects->setSplitWindow(target, m_backgroundMode);
             }
             setActive(false);
             break;
@@ -234,7 +236,7 @@ QRect SplitScreenEffect::getPreviewWindowsGeometry(QPoint pos)
         m_backgroundMode = int(QuickTileFlag::Right);
     } else if (m_quickTileMode & QuickTileFlag::Right) {
         ret.setRight(ret.left()+ret.width()/2 - 1);
-        m_backgroundMode = int(QuickTileFlag::Right);
+        m_backgroundMode = int(QuickTileFlag::Left);
     }
 
     return ret;
@@ -418,14 +420,12 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
         if (!w) // some slots might be empty
             continue;
 
-
         // Work out where the slot is
         QRect target(
             area.x() + (slot % columns) * slotWidth,
             area.y() + (slot / columns) * slotHeight,
             slotWidth, slotHeight);
         target.adjust(35, 35, -35, -35);   // Borders
-
         double scale;
         if (target.width() / double(w->width()) < target.height() / double(w->height())) {
             // Center vertically

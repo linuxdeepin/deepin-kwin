@@ -579,6 +579,8 @@ public:
 
     void keyPressEvent(uint key_code);
 
+    void splitWinAgain(int m);
+
     void enterEvent(const QPoint &globalPos);
     void leaveEvent();
 

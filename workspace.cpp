@@ -1845,5 +1845,10 @@ void Workspace::setWasUserInteraction()
     );
 }
 
+void Workspace::setClientSplit(AbstractClient *c, int mode)
+{
+    c->splitWinAgain(mode);
+}
+
 } // namespace
 

@@ -91,6 +91,8 @@ public:
 
     void buildQuads(EffectWindow* w, WindowQuadList& quadList) override;
 
+    void setSplitWindow(EffectWindow* c, int mode) override;
+
     void activateWindow(EffectWindow* c) override;
     EffectWindow* activeWindow() const override;
     void moveWindow(EffectWindow* w, const QPoint& pos, bool snap = false, double snapAdjust = 1.0) override;

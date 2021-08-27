@@ -1692,6 +1692,19 @@ bool AbstractClient::windowForhibitMove() const
     return m_forhibit_move;
 }
 
+void AbstractClient::splitWinAgain(int m)
+{
+    setMoveResizePointerButtonDown(false);
+    QuickTileMode mode = (QuickTileFlag)m;
+    setElectricBorderMode(mode);
+    setQuickTileMode(electricBorderMode());
+    setElectricBorderMaximizing(false);
+    m_TileMaximizeGeometry = geometry();
+    emit clientFinishUserMovedResized(this);
+//    finishMoveResize(false);
+    setMoveResizePointerMode(mousePosition());
+}
+
 void AbstractClient::destroyDecoration()
 {
     delete m_decoration.decoration;

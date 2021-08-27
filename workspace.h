@@ -166,6 +166,8 @@ public:
 
     AbstractClient* clientUnderMouse(int screen) const;
 
+    void setClientSplit(AbstractClient* c, int mode);
+
     void activateClient(AbstractClient*, bool force = false);
     void requestFocus(AbstractClient* c, bool force = false);
     enum ActivityFlag {

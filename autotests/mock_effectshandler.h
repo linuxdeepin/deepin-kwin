@@ -29,6 +29,7 @@ class MockEffectsHandler : public KWin::EffectsHandler
 public:
     explicit MockEffectsHandler(KWin::CompositingType type);
     void activateWindow(KWin::EffectWindow *) override {}
+    void setSplitWindow(KWin::EffectWindow* c, int mode) override {}
     KWin::Effect *activeFullScreenEffect() const {
         return nullptr;
     }
