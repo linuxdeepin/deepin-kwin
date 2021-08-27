@@ -100,7 +100,6 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
     WindowMotionManager& wmm = m_motionManagers[0];
     if (wmm.isManaging(w) || w->isDesktop()) {
         auto area = effects->clientArea(FullArea/*ScreenArea*/, m_screen, 0);
-
         WindowPaintData d = data;
         if (w->isDesktop()) {
             d.setBrightness(BRIGHTNESS);
@@ -477,6 +476,7 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
         EffectWindow *w = takenSlots[slot];
         if (!w) // some slots might be empty
             continue;
+
 
         // Work out where the slot is
         QRect target(
