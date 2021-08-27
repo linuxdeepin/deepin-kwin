@@ -89,8 +89,7 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
     int desktop = effects->currentDesktop();
     WindowMotionManager& wmm = m_motionManagers[desktop-1];
     if (wmm.isManaging(w) || w->isDesktop()) {
-        auto area = effects->clientArea(ScreenArea, 0, 0);
-
+        auto area = effects->clientArea(FullArea/*ScreenArea*/, m_screen, 0);
         WindowPaintData d = data;
         if (w->isDesktop()) {
             d.setBrightness(0.4);
@@ -211,7 +210,9 @@ void SplitScreenEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
 
     //m_enterSplitClient = m_cacheClient;
 
-    m_backgroundRect = getPreviewWindowsGeometry();
+    QPoint pos(w->geometry().x(), w->geometry().y());
+    m_backgroundRect = getPreviewWindowsGeometry(pos);
+    m_screen = w->screen();
 
     setActive(true);
 
@@ -225,9 +226,9 @@ bool SplitScreenEffect::isEnterSplitMode(QuickTileMode mode)
             && !((mode & QuickTileFlag::Top) || (mode & QuickTileFlag::Bottom));
 }
 
-QRect SplitScreenEffect::getPreviewWindowsGeometry()
+QRect SplitScreenEffect::getPreviewWindowsGeometry(QPoint pos)
 {
-    QRect ret = effects->clientArea(MaximizeArea, 0, effects->currentDesktop());
+    QRect ret = effects->clientArea(MaximizeArea, pos, effects->currentDesktop());
     if (m_quickTileMode & QuickTileFlag::Left) {
         ret.setLeft(ret.right()-(ret.width()-ret.width()/2) + 1);
         m_backgroundMode = int(QuickTileFlag::Right);
@@ -343,7 +344,7 @@ void SplitScreenEffect::calculateWindowTransformations(EffectWindowList windows,
     if (windows.size() == 0)
         return;
 
-    calculateWindowTransformationsClosest(windows, 0, wmm);
+    calculateWindowTransformationsClosest(windows, m_screen, wmm);
 }
 
 static inline int distance(QPoint &pos1, QPoint &pos2)
@@ -417,12 +418,14 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
         if (!w) // some slots might be empty
             continue;
 
+
         // Work out where the slot is
         QRect target(
             area.x() + (slot % columns) * slotWidth,
             area.y() + (slot / columns) * slotHeight,
             slotWidth, slotHeight);
         target.adjust(35, 35, -35, -35);   // Borders
+
         double scale;
         if (target.width() / double(w->width()) < target.height() / double(w->height())) {
             // Center vertically

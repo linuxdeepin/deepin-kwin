@@ -39,7 +39,7 @@ private Q_SLOTS:
 
 private:
     bool isEnterSplitMode(QuickTileMode mode);
-    QRect getPreviewWindowsGeometry();
+    QRect getPreviewWindowsGeometry(QPoint pos);
 
     void cleanup();
 
@@ -70,6 +70,7 @@ private:
     QVector<WindowMotionManager> m_motionManagers;
     QRect m_backgroundRect;
     int m_backgroundMode;
+    int m_screen = 0;
 
     QHash<int, GridSize> m_gridSizes;
     QHash<int, QVector<EffectWindow*>> m_takenSlots;
