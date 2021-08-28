@@ -194,9 +194,10 @@ void DrmOutput::updateCursor()
 
 void DrmOutput::moveCursor(const QPoint &globalPos)
 {
-    if (m_isVirtual) {
+    if (m_isVirtual && m_oldPos == globalPos) {
         return;
     }
+    m_oldPos = globalPos;
     QMatrix4x4 matrix;
     QMatrix4x4 hotspotMatrix;
     /* if (orientation() == Qt::InvertedLandscapeOrientation) {

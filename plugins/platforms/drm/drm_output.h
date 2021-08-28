@@ -201,6 +201,7 @@ private:
     bool m_internal = false;
     bool m_deleted = false;
     bool m_teardown = false;
+    QPoint m_oldPos = QPoint(32767, 32767);
 };
 
 }
