@@ -124,17 +124,26 @@ bool DrmOutput::hideCursor()
     if (m_isVirtual) {
         return false;
     }
-    return drmModeSetCursor(m_backend->fd(), m_crtc->id(), 0, 0, 0) == 0;
+    int ret = drmModeSetCursor(m_backend->fd(), m_crtc->id(), 0, 0, 0) == 0;
+    if (false == ret) {
+        qDebug() << "drmModeSetCursor to 0/0 failed";
+    }
+    return ret;
 }
 
 bool DrmOutput::showCursor(DrmDumbBuffer *c)
 {
-    if (!c) return false;
-    const QSize &s = c->size();
-    if (workspace() && workspace()->isKwinDebug()) {
-        qDebug() << "drmModeSetCursor output" << uuid() << geometry() << globalPos()<<"size"<<s;        
+    if (!c) {
+        qDebug() << "dumb buffer is null";
+        return false;
     }
-    return drmModeSetCursor(m_backend->fd(), m_crtc->id(), c->handle(), s.width(), s.height()) == 0;
+    const QSize &s = c->size();
+    bool ret = drmModeSetCursor(m_backend->fd(), m_crtc->id(), c->handle(), s.width(), s.height()) == 0;
+    if (false == ret) {
+        qDebug() << "drmModeSetCursor failed for output" << uuid() << geometry() << globalPos() \
+                 << "drmfd" << m_backend->fd() << "crtc" << m_crtc->id() <<"size"<<s;
+    }
+    return ret;
 }
 
 bool DrmOutput::showCursor()
