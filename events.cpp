@@ -1172,8 +1172,8 @@ void Client::focusOutEvent(xcb_focus_out_event_t *e)
         return; // hack for motif apps like netscape
     if (QApplication::activePopupWidget())
         return;
-    if(workspace()->activeClient() == this )
-        return;
+    if (e->mode == XCB_NOTIFY_MODE_UNGRAB)
+        return; // ignore focus changes due to keyboard grabs
 
     // When a client loses focus, FocusOut events are usually immediatelly
     // followed by FocusIn events for another client that gains the focus
