@@ -48,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <logging.h>
 #include "abstract_egl_backend.h"
 #include "abstract_output.h"
+#include "workspace.h"
 
 #include <KWayland/Server/buffer_interface.h>
 #include <KWayland/Server/subcompositor_interface.h>
@@ -600,6 +601,9 @@ void SceneOpenGL2::paintCursor()
 {
     // don't paint if we use hardware cursor
     if (!kwinApp()->platform()->usesSoftwareCursor()) {
+        if (workspace() && workspace()->isKwinDebug()) {
+            qDebug() << "use hardware cursor";
+        }
         return;
     }
     // if it is blankcursor,no paint

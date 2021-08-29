@@ -146,6 +146,7 @@ void Platform::setSoftWareCursor(bool set)
         return;
     }
     m_softWareCursor = set;
+    qDebug() << "m_softWareCursor" << m_softWareCursor;
     if (m_softWareCursor) {
         Cursor::self()->startCursorTracking();
         connect(Cursor::self(), &Cursor::posChanged, this, &Platform::triggerCursorRepaint);
