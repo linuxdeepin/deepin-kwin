@@ -517,6 +517,7 @@ void DrmBackend::updateOutputs()
                 }
                 if (!output->initCursor(m_cursorSize)) {
                     DLOGD("Use software cursor.");
+                    qCDebug(KWIN_DRM) << "Use software cursor.";
                     setSoftWareCursor(true);
                 }
                 qCDebug(KWIN_DRM) << "Found new output with uuid" << output->uuid();
@@ -801,9 +802,11 @@ void DrmBackend::present(DrmBuffer *buffer, DrmOutput *output)
 void DrmBackend::initCursor()
 {
     m_cursorEnabled = waylandServer()->seat()->hasPointer();
+    qDebug() << "m_cursorEnabled" << m_cursorEnabled;
     connect(waylandServer()->seat(), &KWayland::Server::SeatInterface::hasPointerChanged, this,
         [this] {
             m_cursorEnabled = waylandServer()->seat()->hasPointer();
+            qDebug() << "hasPointerChanged m_cursorEnabled" << m_cursorEnabled;
             if (usesSoftwareCursor()) {
                 return;
             }
