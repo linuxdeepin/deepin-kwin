@@ -1701,6 +1701,14 @@ void AbstractClient::splitWinAgain(int m)
     setElectricBorderMaximizing(false);
     m_TileMaximizeGeometry = geometry();
     emit clientFinishUserMovedResized(this);
+    QRect rect = workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop());
+    SplitOutline::getInstance().setGeometry(rect.width()/2-10, 0, 20, rect.height());
+    if (electricBorderMode() & QuickTileFlag::Left) {
+        SplitOutline::getInstance().setLeftSplitClient(this);
+    } else if (electricBorderMode() & QuickTileFlag::Right) {
+        SplitOutline::getInstance().setRightSplitClient(this);
+    }
+    SplitOutline::getInstance().show();
 //    finishMoveResize(false);
     setMoveResizePointerMode(mousePosition());
 }

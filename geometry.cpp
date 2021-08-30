@@ -2797,6 +2797,12 @@ void AbstractClient::finishMoveResize(bool cancel)
     }
 // FRAME    update();
 
+    if (electricBorderMode() & QuickTileFlag::Left) {
+        SplitOutline::getInstance().setLeftSplitClient(this);
+    } else if (electricBorderMode() & QuickTileFlag::Right) {
+        SplitOutline::getInstance().setRightSplitClient(this);
+    }
+
     emit clientFinishUserMovedResized(this);
 }
 

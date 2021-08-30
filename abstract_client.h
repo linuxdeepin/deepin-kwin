@@ -30,6 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QElapsedTimer>
 #include <QPointer>
+#include <QWidget>
+#include <QDesktopWidget>
+#include <QMouseEvent>
 
 #include "placeholder_window.h"
 
@@ -1263,6 +1266,82 @@ public:
 private:
     AbstractClient* cl;
 };
+
+class SplitOutline : public QWidget
+{
+private:
+    explicit SplitOutline()
+        : QWidget()
+    {
+        setWindowFlags(Qt::X11BypassWindowManagerHint);
+        setWindowOpacity(0);
+        setCursor(Qt::SizeHorCursor); //设置鼠标样式
+        setStyleSheet("background:white");
+    }
+
+public:
+    void mousePressEvent(QMouseEvent* e)
+    {
+        setWindowOpacity(0.6);
+        m_mainWindowPress = true;
+    };
+
+    void mouseMoveEvent(QMouseEvent*e)
+    {
+        if (m_mainWindowPress == true) {
+            this->move(e->screenPos().x()-10, 0);
+
+            int leftSplitClientWidth = e->screenPos().x();
+            int rightSplitClientWidth = QApplication::desktop()->width() - leftSplitClientWidth;
+            if (m_leftSplitClient != nullptr) {
+                m_leftSplitClient->setGeometry(0, 0, leftSplitClientWidth, height());
+            }
+
+            if (m_rightSplitClient!=nullptr) {
+                m_rightSplitClient->setGeometry(e->screenPos().x(), 0, rightSplitClientWidth, height());
+            }
+        }
+    };
+
+    void mouseReleaseEvent(QMouseEvent* e)
+    {
+        m_mainWindowPress = false;
+        setWindowOpacity(0);
+    };
+
+    void enterEvent(QEvent *)
+    {
+        setWindowOpacity(0.5);
+    };
+
+    void leaveEvent(QEvent *)
+    {
+        setWindowOpacity(0);
+    };
+
+    void setLeftSplitClient(AbstractClient* client)
+    {
+        m_leftSplitClient = client;
+    };
+
+    void setRightSplitClient(AbstractClient* client)
+    {
+        m_rightSplitClient = client;
+    }
+
+    static SplitOutline& getInstance();
+    ~SplitOutline(){};
+
+private:
+    bool m_mainWindowPress = false;
+    AbstractClient* m_leftSplitClient = nullptr;
+    AbstractClient* m_rightSplitClient = nullptr;
+};
+
+inline SplitOutline& SplitOutline::getInstance(){
+    static SplitOutline m_splitOutline;
+    return m_splitOutline;
+}
 
 inline void AbstractClient::move(const QPoint& p, ForceGeometry_t force)
 {
