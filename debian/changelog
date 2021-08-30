@@ -1,3 +1,10 @@
+kwin (4:5.15.8.66-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 85366 fix: wps can not input when deepin-screen-recorder start
+
+ -- Lei Su <sulei@uniontech.com>  Mon, 30 Aug 2021 10:55:55 +0800
+
 kwin (4:5.15.8.65-1) unstable; urgency=medium
 
   * Bug fix:
