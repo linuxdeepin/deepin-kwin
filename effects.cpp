@@ -1713,14 +1713,6 @@ Effect *EffectsHandlerImpl::findEffect(const QString &name) const
     return (*it).second;
 }
 
-//void EffectsHandlerImpl::setQuickTileMode(EffectWindow* w, int mode)
-//{
-//    fprintf(stdout, "-----------%s\n", __func__);
-//    fflush(stdout);
-//    auto c = qobject_cast<AbstractClient*>(qobject_cast<EffectWindowImpl*>(w)->window());
-//    c->setQuickTileMode(QuickTileFlag::Left);
-//}
-
 //****************************************
 // EffectWindowImpl
 //****************************************

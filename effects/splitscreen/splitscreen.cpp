@@ -7,6 +7,11 @@
 #include <kwinglutils.h>
 #include <effects.h>
 
+#define BRIGHTNESS  0.4
+#define SCALE_F     1.0
+#define SCALE_S     2.0
+#define WINDOW_W_H  300
+
 namespace KWin
 {
 
@@ -93,7 +98,7 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
 
         WindowPaintData d = data;
         if (w->isDesktop()) {
-            d.setBrightness(0.4);
+            d.setBrightness(BRIGHTNESS);
             effects->paintWindow(w, mask, area, d);
         } else if (!w->isDesktop()) {
             //NOTE: add lanczos will make partial visible window be rendered completely,
@@ -104,7 +109,6 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
             d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
             d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
 
-            //qCDebug(BLUR_CAT) << "--------- window " << w->geometry() << geo;
             effects->paintWindow(w, mask, area, d);
         }
     } else {
@@ -145,12 +149,6 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
         case QEvent::MouseButtonPress:
             if (target) {
                 effects->setElevatedWindow(target, true);
-
-//                auto c = static_cast<AbstractClient*>(static_cast<EffectWindowImpl*>(target)->window());
-//                if (c && c->quickTileMode() != QuickTileMode(m_backgroundMode)) {
-//                    effects->setQuickTileMode(target, m_backgroundMode);
-//                }
-//                effects->setQuickTileMode(target, m_backgroundMode);
                 effects->addRepaintFull();
             }
             break;
@@ -175,17 +173,15 @@ void SplitScreenEffect::grabbedKeyboardEvent(QKeyEvent* e)
 
 void SplitScreenEffect::slotWindowStartUserMovedResized(EffectWindow *w)
 {
-    if (!w->isMovable()) {
+    if (!w->isMovable())
         return;
-    }
 
     m_window = w;
     m_geometry = w->geometry();
 
     auto wImpl = static_cast<EffectWindowImpl*>(w);
-    if (wImpl && !m_cacheClient) {
+    if (wImpl && !m_cacheClient)
         m_cacheClient = static_cast<AbstractClient*>(wImpl->window());
-    }
 
     setActive(false);
 }
@@ -210,8 +206,6 @@ void SplitScreenEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
         return;
     }
 
-    //m_enterSplitClient = m_cacheClient;
-
     QPoint pos(w->geometry().x(), w->geometry().y());
     m_backgroundRect = getPreviewWindowsGeometry(pos);
     m_screen = w->screen();
@@ -232,10 +226,10 @@ QRect SplitScreenEffect::getPreviewWindowsGeometry(QPoint pos)
 {
     QRect ret = effects->clientArea(MaximizeArea, pos, effects->currentDesktop());
     if (m_quickTileMode & QuickTileFlag::Left) {
-        ret.setLeft(ret.right()-(ret.width()-ret.width()/2) + 1);
+        ret.setLeft(ret.right() - (ret.width() - ret.width() / 2) + 1);
         m_backgroundMode = int(QuickTileFlag::Right);
     } else if (m_quickTileMode & QuickTileFlag::Right) {
-        ret.setRight(ret.left()+ret.width()/2 - 1);
+        ret.setRight(ret.left() + ret.width() / 2 - 1);
         m_backgroundMode = int(QuickTileFlag::Left);
     }
 
@@ -252,7 +246,8 @@ void SplitScreenEffect::cleanup()
     if (m_activated)
         return;
 
-    if (m_hasKeyboardGrab) effects->ungrabKeyboard();
+    if (m_hasKeyboardGrab)
+        effects->ungrabKeyboard();
     m_hasKeyboardGrab = false;
     effects->stopMouseInterception(this);
     effects->setActiveFullScreenEffect(0);
@@ -382,11 +377,12 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
     // precalculate all slot centers
     QVector<QPoint> slotCenters;
     slotCenters.resize(rows*columns);
-    for (int x = 0; x < columns; ++x)
+    for (int x = 0; x < columns; ++x) {
         for (int y = 0; y < rows; ++y) {
             slotCenters[x + y*columns] = QPoint(area.x() + slotWidth * x + slotWidth / 2,
                                                 area.y() + slotHeight * y + slotHeight / 2);
         }
+    }
 
     // Assign each window to the closest available slot
     EffectWindowList tmpList = windowlist; // use a QLinkedList copy instead?
@@ -400,7 +396,8 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
             if (dist < slotCandidateDistance) { // window is interested in this slot
                 EffectWindow *occupier = takenSlots[i];
                 assert(occupier != w);
-                if (!occupier || dist < distance((otherPos = occupier->geometry().center()), slotCenters[i])) {
+                if (!occupier ||
+                    dist < distance((otherPos = occupier->geometry().center()), slotCenters[i])) {
                     // either nobody lives here, or we're better - takeover the slot if it's our best
                     slotCandidate = i;
                     slotCandidateDistance = dist;
@@ -415,7 +412,7 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
     }
 
     m_takenSlots[desktop] = takenSlots;
-    for (int slot = 0; slot < columns*rows; ++slot) {
+    for (int slot = 0; slot < columns * rows; ++slot) {
         EffectWindow *w = takenSlots[slot];
         if (!w) // some slots might be empty
             continue;
@@ -426,7 +423,7 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
             area.y() + (slot / columns) * slotHeight,
             slotWidth, slotHeight);
         target.adjust(35, 35, -35, -35);   // Borders
-        double scale;
+        double scale = 0;
         if (target.width() / double(w->width()) < target.height() / double(w->height())) {
             // Center vertically
             scale = target.width() / double(w->width());
@@ -439,8 +436,8 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
             target.setWidth(int(w->width() * scale));
         }
         // Don't scale the windows too much
-        if (scale > 2.0 || (scale > 1.0 && (w->width() > 300 || w->height() > 300))) {
-            scale = (w->width() > 300 || w->height() > 300) ? 1.0 : 2.0;
+        if (scale > SCALE_S || (scale > SCALE_F && (w->width() > WINDOW_W_H || w->height() > WINDOW_W_H))) {
+            scale = (w->width() > WINDOW_W_H || w->height() > WINDOW_W_H) ? SCALE_F : SCALE_S;
             target = QRect(
                          target.center().x() - int(w->width() * scale) / 2,
                          target.center().y() - int(w->height() * scale) / 2,

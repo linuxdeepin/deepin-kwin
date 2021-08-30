@@ -23,11 +23,11 @@ public:
     void paintScreen(int mask, QRegion region, ScreenPaintData &data) override;
     void postPaintScreen() override;
 
-    virtual void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time) override;
-    virtual void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
+    void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time) override;
+    void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
 
-    virtual void windowInputMouseEvent(QEvent* e) override;
-    virtual void grabbedKeyboardEvent(QKeyEvent* e) override;
+    void windowInputMouseEvent(QEvent* e) override;
+    void grabbedKeyboardEvent(QKeyEvent* e) override;
 
     bool isActive() const override;
     void setActive(bool active);
