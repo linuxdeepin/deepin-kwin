@@ -2255,6 +2255,11 @@ void AbstractClient::maximize(MaximizeMode m)
     if (m == maximizeMode() || isFullScreen()) {
         return;
     }
+    // 防止因多屏变单屏窗口由扩展屏跳到主屏点击窗口恢复，窗口没更新坐标使窗口恢复时移动到不存在的扩展屏坐标，导致窗口消失的问题
+    QRect rect = geometryRestore();
+    if (screens()->count() == 1 && !screens()->geometry().intersects(rect)) {
+        setGeometryRestore(geometry());
+    }
     setMaximize(m & MaximizeVertical, m & MaximizeHorizontal);
 }
 
@@ -2871,6 +2876,12 @@ void AbstractClient::finishMoveResize(bool cancel)
             setGeometryRestore( geometry() );
             return;
         }
+        // 跨屏拖动窗口，快速最大化模式（直接将窗口拖置窗口顶端的最大化），
+        // 需要更新窗口恢复的坐标setGeometryRestore，如果不更新，刷新窗口或点击窗口恢复按钮窗口会恢复到跨屏幕之前的屏幕
+        // 在恢复时使窗口显示在当前屏幕的左上角
+        QRect clientArea = workspace()->clientArea(MaximizeArea, this);
+        QRect p(clientArea.x(),clientArea.y(),geometry().width(),geometry().height());
+        setGeometryRestore(p);
     }
 
     if (isElectricBorderMaximizing()) {
