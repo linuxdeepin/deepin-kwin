@@ -1,5 +1,8 @@
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_SAFETYTEST "${CMAKE_SAFETYTEST_ARG}")
+if(CMAKE_SAFETYTEST STREQUAL "CMAKE_SAFETYTEST_ARG_OFF")
+    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+    set(CMAKE_C_FLAGS "-g -fprofile-arcs -ftest-coverage")
+endif()
 #######################################
 # Config
 set(kwin_blur_config_SRCS blur_config.cpp)
