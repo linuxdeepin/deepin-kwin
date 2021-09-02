@@ -73,6 +73,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace KWin
 {
 
+int drmIsMaster(int fd)
+{
+    return drmAuthMagic(fd, 0) != -EACCES;
+}
+
 DrmBackend::DrmBackend(QObject *parent)
     : Platform(parent)
     , m_udev(new Udev)
@@ -812,7 +817,7 @@ void DrmBackend::initCursor()
             }
             for (auto it = m_enabledOutputs.constBegin(); it != m_enabledOutputs.constEnd(); ++it) {
                 if (m_cursorEnabled) {
-                    if (!(*it)->showCursor()) {
+                    if (!(*it)->showCursor() && drmIsMaster(fd())) {
                         setSoftWareCursor(true);
                     }
                 } else {
@@ -844,7 +849,7 @@ void DrmBackend::setCursor()
     if (m_cursorEnabled) {
         for (auto it = m_enabledOutputs.constBegin(); it != m_enabledOutputs.constEnd(); ++it) {
             if ((*it)->isDpmsEnabled()) {
-                if (!(*it)->showCursor()) {
+                if (!(*it)->showCursor() && drmIsMaster(fd())) {
                     setSoftWareCursor(true);
                 }
             }
