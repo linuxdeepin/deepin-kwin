@@ -2173,6 +2173,12 @@ void AbstractClient::maximize(MaximizeMode m)
  */
 void AbstractClient::setMaximize(bool vertically, bool horizontally)
 {
+    if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
+        if (compositing()) {
+            SplitOutline::getInstance().hide();
+        }
+    }
+    
     // changeMaximize() flips the state, so change from set->flip
     const MaximizeMode oldMode = maximizeMode();
     changeMaximize(
@@ -2796,13 +2802,13 @@ void AbstractClient::finishMoveResize(bool cancel)
         setGeometryRestore(geom_restore);
     }
 // FRAME    update();
-
-    if (electricBorderMode() & QuickTileFlag::Left) {
-        SplitOutline::getInstance().setLeftSplitClient(this);
-    } else if (electricBorderMode() & QuickTileFlag::Right) {
-        SplitOutline::getInstance().setRightSplitClient(this);
+    if (compositing()) {
+        if (electricBorderMode() & QuickTileFlag::Left) {
+            SplitOutline::getInstance().setLeftSplitClient(this);
+        } else if (electricBorderMode() & QuickTileFlag::Right) {
+            SplitOutline::getInstance().setRightSplitClient(this);
+        }
     }
-
     emit clientFinishUserMovedResized(this);
 }
 
@@ -2907,6 +2913,9 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
     if (!isFullScreen() && isMove()) {
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != geometry()) {
             GeometryUpdatesBlocker blocker(this);
+            if (compositing()) {
+                SplitOutline::getInstance().hide();
+            }
             setQuickTileMode(QuickTileFlag::None);
             const QRect &geom_restore = geometryRestore();
             setMoveOffset(QPoint(double(moveOffset().x()) / double(oldGeo.width()) * double(geom_restore.width()),

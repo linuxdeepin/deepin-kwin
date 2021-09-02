@@ -1297,7 +1297,7 @@ public:
                 m_leftSplitClient->setGeometry(0, 0, leftSplitClientWidth, height());
             }
 
-            if (m_rightSplitClient!=nullptr) {
+            if (m_rightSplitClient != nullptr) {
                 m_rightSplitClient->setGeometry(e->screenPos().x(), 0, rightSplitClientWidth, height());
             }
         }

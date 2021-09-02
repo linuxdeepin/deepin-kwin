@@ -238,6 +238,13 @@ void Client::releaseWindow(bool on_shutdown)
     if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
+
+    if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
+        if (compositing()) {
+            SplitOutline::getInstance().hide();
+        }
+    }
+    
     finishCompositing();
     RuleBook::self()->discardUsed(this, true);   // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
@@ -305,6 +312,13 @@ void Client::destroyClient()
     if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
+    
+    if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
+        if (compositing()) {
+            SplitOutline::getInstance().hide();
+        }
+    }
+
     finishCompositing(ReleaseReason::Destroyed);
     RuleBook::self()->discardUsed(this, true);   // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
@@ -741,6 +755,12 @@ bool Client::isMinimizable(bool isMinFunc) const
 
 void Client::doMinimize()
 {
+     if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
+        if (compositing()) {
+            SplitOutline::getInstance().hide();
+        }
+    }
+
     bool old_preview = hiddenPreview();
 
     updateVisibility();
@@ -1125,6 +1145,7 @@ bool Client::isCloseable() const
  */
 void Client::closeWindow()
 {
+
     if (!isCloseable())
         return;
 
