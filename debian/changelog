@@ -1,3 +1,11 @@
+kwin (4:5.15.8.67-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 66313 fix: Support for client-side _DEEPIN_FORHIBIT_MOVE attribute, which disables window movement.
+    + 90652 fix: Add judgment conditions for single test precompiling options
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 02 Sep 2021 17:09:16 +0800
+
 kwin (4:5.15.8.66-1) unstable; urgency=medium
 
   * Bug fix:
