@@ -97,6 +97,7 @@ void DrmSurfaceBuffer::releaseGbm()
 {
     if (m_dmaFd > 0) {
         close(m_dmaFd);
+        m_dmaFd = 0;
     }
     m_surface->releaseBuffer(m_bo);
     DTRACE_PROBE(DrmSurfaceBuffer, releaseGbm);
