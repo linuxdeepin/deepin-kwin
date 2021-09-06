@@ -115,8 +115,15 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
                 geo.moveCenter(center);
             }
 
-            d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
-            d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
+            if (m_hoverwin == w) {
+                d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
+                d.setScale(QVector2D((float)geo.width() / w->width() + 0.015, (float)geo.height() / w->height() + + 0.015));
+            }
+            else {
+                d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
+                d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
+            }
+
 
             if (m_hoverwin == w) {
                 if (!m_highlightFrame) {
