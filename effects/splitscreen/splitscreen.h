@@ -57,6 +57,7 @@ private:
 private:
     QRect m_geometry;
     EffectWindow *m_window = nullptr;
+    EffectWindow *m_hoverwin = nullptr;
 
     AbstractClient* m_cacheClient = nullptr;
     AbstractClient* m_enterSplitClient = nullptr;
