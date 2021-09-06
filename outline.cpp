@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QQmlEngine>
 #include <QQuickWindow>
 #include <QStandardPaths>
+#include <qdbusconnection.h>
 
 namespace KWin {
 
@@ -45,6 +46,8 @@ Outline::Outline(QObject *parent)
     , m_active(false)
 {
     connect(Compositor::self(), SIGNAL(compositingToggled(bool)), SLOT(compositingChanged()));
+    QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
+                                          "PropertiesChanged", this, SLOT(qtactivecolorChanged()));
 }
 
 Outline::~Outline()
@@ -129,6 +132,11 @@ void Outline::compositingChanged()
     if (m_active) {
         show();
     }
+}
+
+void Outline::qtactivecolorChanged()
+{
+    emit activeColorChanged();
 }
 
 OutlineVisual::OutlineVisual(Outline *outline)

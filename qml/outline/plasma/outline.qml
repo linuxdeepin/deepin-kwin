@@ -29,7 +29,10 @@ Window {
     property bool animationEnabled: false
 
     flags: Qt.BypassWindowManagerHint | Qt.FramelessWindowHint
-    color: "transparent"
+    color: {
+        return outline.activeColor
+    }
+    opacity: 0.5
 
     // outline is a context property
     x: outline.unifiedGeometry.x
@@ -44,14 +47,14 @@ Window {
             if (outline.visualParentGeometry.width > 0 && outline.visualParentGeometry.height > 0) {
                 window.animationEnabled = false
                 // move our frame to the visual parent geometry
-                svg.setGeometry(outline.visualParentGeometry)
+              //  svg.setGeometry(outline.visualParentGeometry)
                 window.animationEnabled = true
                 // and then animate it nicely to its destination
-                svg.setGeometry(outline.geometry)
+              //  svg.setGeometry(outline.geometry)
             } else {
                 // no visual parent? just move it to its destination right away
                 window.animationEnabled = false
-                svg.setGeometry(outline.geometry)
+              //  svg.setGeometry(outline.geometry)
                 window.animationEnabled = true
             }
         }
@@ -64,12 +67,12 @@ Window {
         onUnifiedGeometryChanged: {
             if (window.visible) {
                 window.animationEnabled = false
-                svg.setGeometry(outline.geometry)
+               // svg.setGeometry(outline.geometry)
                 window.animationEnabled = true
             }
         }
     }
-
+/*
     PlasmaCore.FrameSvgItem {
         id: svg
 
@@ -131,5 +134,5 @@ Window {
             NumberAnimation { duration: window.animationDuration; easing.type: Easing.InOutQuad; }
             enabled: window.animationEnabled
         }
-    }
+    }*/
 }
