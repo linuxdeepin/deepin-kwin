@@ -1692,11 +1692,18 @@ bool AbstractClient::windowForhibitMove() const
     return m_forhibit_move;
 }
 
+void AbstractClient::setSplitPositonFlag(bool flag)
+{
+    m_isModifySplitPosition = flag;
+}
+
 void AbstractClient::splitWinAgain(int m)
 {
     setMoveResizePointerButtonDown(false);
     QuickTileMode mode = (QuickTileFlag)m;
     setElectricBorderMode(mode);
+    updateQuickTileMode(QuickTileFlag::None);
+    setSplitPositonFlag(true);
     setQuickTileMode(electricBorderMode());
     setElectricBorderMaximizing(false);
     m_TileMaximizeGeometry = geometry();

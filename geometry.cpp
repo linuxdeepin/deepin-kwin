@@ -3548,9 +3548,12 @@ void AbstractClient::setQuickTileMode(QuickTileMode mode, bool keyboard)
             }
             y += current_screen_geometry.y();
 
-            int w = geometry().width();
-            int h = geometry().height();
-            setGeometryRestore(QRect(x, y, w, h));
+            if (!SplitPositionFlag()) {
+                int w = geometry().width();
+                int h = geometry().height();
+                setGeometryRestore(QRect(x, y, w, h));
+                setSplitPositonFlag(false);
+            }
         }
 
         if (mode != QuickTileMode(QuickTileFlag::None)) {

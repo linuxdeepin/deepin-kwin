@@ -947,6 +947,11 @@ protected:
         m_quickTileMode = newMode;
     }
 
+    void setSplitPositonFlag(bool flag);
+    bool SplitPositionFlag(){
+        return m_isModifySplitPosition;
+    }
+
     KWayland::Server::PlasmaWindowInterface *windowManagementInterface() const {
         return m_windowManagementInterface;
     }
@@ -1240,6 +1245,7 @@ private:
     QString m_applicationMenuObjectPath;
 
     bool m_unresponsive = false;
+    bool m_isModifySplitPosition = false;
 
     QKeySequence _shortcut;
 
