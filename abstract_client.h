@@ -1295,16 +1295,26 @@ public:
     void mouseMoveEvent(QMouseEvent*e)
     {
         if (m_mainWindowPress == true) {
-            this->move(e->screenPos().x()-10, 0);
-
             int leftSplitClientWidth = e->screenPos().x();
-            int rightSplitClientWidth = QApplication::desktop()->width() - leftSplitClientWidth;
-            if (m_leftSplitClient != nullptr) {
+            int desktopWidth = QApplication::desktop()->screenGeometry().width();
+            int rightSplitClientWidth = desktopWidth - leftSplitClientWidth;
+            int maxLeftSplitClientWidth = m_leftSplitClient->maxSize().width();
+            int minLeftSplitClientWidth = m_leftSplitClient->minSize().width();
+            int maxRightSplitClientWidth = m_rightSplitClient->maxSize().width();
+            int minRightSplitClientWidth = m_rightSplitClient->minSize().width();
+            
+            if (m_leftSplitClient != nullptr && (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
+                                             && (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
                 m_leftSplitClient->setGeometry(0, 0, leftSplitClientWidth, height());
+                m_leftSplitClient->palette();
+                this->move(e->screenPos().x()-10, 0);
             }
 
-            if (m_rightSplitClient != nullptr) {
+            if (m_rightSplitClient != nullptr &&  (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
+                                              &&  (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
                 m_rightSplitClient->setGeometry(e->screenPos().x(), 0, rightSplitClientWidth, height());
+                m_rightSplitClient->palette();
+                this->move(e->screenPos().x()-10, 0);
             }
         }
     };
