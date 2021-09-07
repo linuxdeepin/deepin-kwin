@@ -2789,6 +2789,8 @@ void AbstractClient::finishMoveResize(bool cancel)
         setQuickTileMode(electricBorderMode());
         setElectricBorderMaximizing(false);
         m_TileMaximizeGeometry = geometry();
+        checkScreen();
+        workspace()->updateScreenSplitApp(this);
     } else if (!cancel) {
         QRect geom_restore = geometryRestore();
         if (!(maximizeMode() & MaximizeHorizontal)) {
@@ -3552,8 +3554,8 @@ void AbstractClient::setQuickTileMode(QuickTileMode mode, bool keyboard)
                 int w = geometry().width();
                 int h = geometry().height();
                 setGeometryRestore(QRect(x, y, w, h));
-                setSplitPositonFlag(false);
             }
+            setSplitPositonFlag(false);
         }
 
         if (mode != QuickTileMode(QuickTileFlag::None)) {

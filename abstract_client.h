@@ -803,6 +803,12 @@ public:
 
     PlaceholderWindow m_placeholderWindow;
 
+    QuickTileMode electricBorderMode() const {
+        return m_electricMode;
+    }
+
+    void quitSplitStatus();
+
     // When using three finger split screen, check whether the client meets the split screen conditions.
     bool checkClientAllowToTile();
 
@@ -934,9 +940,7 @@ protected:
 
     // electric border / quick tiling
     void setElectricBorderMode(QuickTileMode mode);
-    QuickTileMode electricBorderMode() const {
-        return m_electricMode;
-    }
+
     void setElectricBorderMaximizing(bool maximizing);
     bool isElectricBorderMaximizing() const {
         return m_electricMaximizing;

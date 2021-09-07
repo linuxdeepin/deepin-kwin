@@ -392,6 +392,8 @@ public:
         return client_keys_dialog;
     }
 
+    void updateScreenSplitApp(Toplevel *t);
+
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
     // Keybindings
@@ -580,6 +582,7 @@ private:
     UnmanagedList unmanaged;
     DeletedList deleted;
 
+    ToplevelList splitapp_stacking_order;    //split app
     ToplevelList unconstrained_stacking_order; // Topmost last
     ToplevelList stacking_order; // Topmost last
     bool force_restacking;

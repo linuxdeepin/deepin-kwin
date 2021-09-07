@@ -1692,6 +1692,14 @@ bool AbstractClient::windowForhibitMove() const
     return m_forhibit_move;
 }
 
+void AbstractClient::quitSplitStatus()
+{
+    setElectricBorderMode(QuickTileFlag::None);
+    updateQuickTileMode(QuickTileFlag::None);
+    setSplitPositonFlag(false);
+    setGeometryRestore(geometry());
+}
+
 void AbstractClient::setSplitPositonFlag(bool flag)
 {
     m_isModifySplitPosition = flag;
@@ -1720,8 +1728,8 @@ void AbstractClient::splitWinAgain(int m)
         SplitOutline::getInstance().show();
     }
 
-//    finishMoveResize(false);
     setMoveResizePointerMode(mousePosition());
+    workspace()->updateScreenSplitApp(this);
 }
 
 void AbstractClient::destroyDecoration()
