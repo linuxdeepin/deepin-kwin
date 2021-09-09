@@ -2271,7 +2271,6 @@ void AbstractClient::maximize(MaximizeMode m)
  */
 void AbstractClient::setMaximize(bool vertically, bool horizontally)
 {
-
     cancelSplitOutline();
     
     // changeMaximize() flips the state, so change from set->flip
