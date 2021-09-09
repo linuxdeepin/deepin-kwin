@@ -243,7 +243,6 @@ void Client::releaseWindow(bool on_shutdown)
     if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
-
     cancelSplitOutline();
     
     finishCompositing();
@@ -313,7 +312,6 @@ void Client::destroyClient()
     if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
-
     cancelSplitOutline();
 
     finishCompositing(ReleaseReason::Destroyed);
