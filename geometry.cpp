@@ -2173,11 +2173,8 @@ void AbstractClient::maximize(MaximizeMode m)
  */
 void AbstractClient::setMaximize(bool vertically, bool horizontally)
 {
-    if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
-        if (compositing()) {
-            SplitOutline::getInstance().hide();
-        }
-    }
+    //taiyunqiang
+    cancelSplitOutline();
     
     // changeMaximize() flips the state, so change from set->flip
     const MaximizeMode oldMode = maximizeMode();
@@ -2804,13 +2801,7 @@ void AbstractClient::finishMoveResize(bool cancel)
         setGeometryRestore(geom_restore);
     }
 // FRAME    update();
-    if (compositing()) {
-        if (electricBorderMode() & QuickTileFlag::Left) {
-            SplitOutline::getInstance().setLeftSplitClient(this);
-        } else if (electricBorderMode() & QuickTileFlag::Right) {
-            SplitOutline::getInstance().setRightSplitClient(this);
-        }
-    }
+    handlequickTileModeChanged();
     emit clientFinishUserMovedResized(this);
 }
 
@@ -2915,9 +2906,8 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
     if (!isFullScreen() && isMove()) {
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != geometry()) {
             GeometryUpdatesBlocker blocker(this);
-            if (compositing()) {
-                SplitOutline::getInstance().hide();
-            }
+            //taiyunqiang
+            cancelSplitOutline();
             setQuickTileMode(QuickTileFlag::None);
             const QRect &geom_restore = geometryRestore();
             setMoveOffset(QPoint(double(moveOffset().x()) / double(oldGeo.width()) * double(geom_restore.width()),
@@ -3584,6 +3574,71 @@ void AbstractClient::setQuickTileMode(QuickTileMode mode, bool keyboard)
         checkWorkspacePosition(); // Just in case it's a different screen
     }
     emit quickTileModeChanged();
+}
+void AbstractClient::judgeRepeatquickTileclient()
+{
+   QMap<int, SplitOutline*>::iterator it;
+   for (it = splitManage.begin();it!=splitManage.end();)
+   {
+        if (splitManage[it.key()]->getLeftSplitClient() == this)
+        {
+            splitManage[it.key()]->setLeftSplitClient(nullptr);
+        } else if (splitManage[it.key()]->getRightSplitClient() == this) {
+            splitManage[it.key()]->setRightSplitClient(nullptr);
+        }
+
+        ++it;
+   }
+}
+
+void AbstractClient::handlequickTileModeChanged()
+{
+   if (compositing() && !splitManage.contains(screen()) && ((m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right)))) {
+      
+       SplitOutline* m_splitOutline = new SplitOutline;
+
+       if (m_quickTileMode & int(QuickTileFlag::Left)) {
+           m_splitOutline->setSplitOutlineRect(workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop()));
+           m_splitOutline->setLeftSplitClient(this);
+       } else if (m_quickTileMode & int(QuickTileFlag::Right)) {
+           m_splitOutline->setSplitOutlineRect(workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop()));
+           m_splitOutline->setRightSplitClient(this);
+       }
+       splitManage.insert(screen(), m_splitOutline);
+    } else if (compositing() && splitManage.contains(screen())) {
+        judgeRepeatquickTileclient();
+        if (m_quickTileMode & int(QuickTileFlag::Left)) {
+            splitManage[screen()]->setSplitOutlineRect(workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop()));
+            splitManage[screen()]->setLeftSplitClient(this);
+        } else if (m_quickTileMode == int(QuickTileFlag::Right)) {
+            splitManage[screen()]->setSplitOutlineRect(workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop()));
+            splitManage[screen()]->setRightSplitClient(this);
+        }
+    }
+}
+
+void AbstractClient::cancelSplitOutline()
+{
+    if (compositing() && splitManage.contains(screen()) && ((m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right)))) {
+        if (m_quickTileMode & int(QuickTileFlag::Left)) {
+            splitManage[screen()]->setLeftSplitClient(nullptr);
+        } else if (m_quickTileMode & int(QuickTileFlag::Right)) {
+            splitManage[screen()]->setRightSplitClient(nullptr);
+        }
+        if (splitManage[screen()]->getLeftSplitClient() == nullptr && splitManage[screen()]->getRightSplitClient() == nullptr) {
+            QMap<int, SplitOutline*>::iterator it;
+            for (it = splitManage.begin();it!=splitManage.end();)
+            {
+                if (it.key() == screen())
+                {
+                    delete splitManage[screen()];
+                    it = splitManage.erase(it);
+                    continue;
+                }
+                ++it;
+            }
+        }
+    }
 }
 
 void AbstractClient::sendToScreen(int newScreen)

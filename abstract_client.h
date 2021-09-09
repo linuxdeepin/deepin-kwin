@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QElapsedTimer>
 #include <QPointer>
 #include <QWidget>
-#include <QDesktopWidget>
 #include <QMouseEvent>
 
 #include "placeholder_window.h"
@@ -62,7 +61,7 @@ namespace Decoration
 class DecoratedClientImpl;
 class DecorationPalette;
 }
-
+class SplitOutline;
 class KWIN_EXPORT AbstractClient : public Toplevel
 {
     Q_OBJECT
@@ -808,9 +807,13 @@ public:
     }
 
     void quitSplitStatus();
-
+    void cancelSplitOutline();
     // When using three finger split screen, check whether the client meets the split screen conditions.
     bool checkClientAllowToTile();
+    void handlequickTileModeChanged();
+    void judgeRepeatquickTileclient();
+
+    static QMap<int, SplitOutline*> splitManage;
 
 public Q_SLOTS:
     virtual void closeWindow() = 0;
@@ -1279,8 +1282,9 @@ private:
 
 class SplitOutline : public QWidget
 {
-private:
-    explicit SplitOutline()
+public:
+
+explicit SplitOutline()
         : QWidget()
     {
         setWindowFlags(Qt::X11BypassWindowManagerHint);
@@ -1289,7 +1293,6 @@ private:
         setStyleSheet("background:white");
     }
 
-public:
     void mousePressEvent(QMouseEvent* e)
     {
         setWindowOpacity(0.6);
@@ -1299,9 +1302,8 @@ public:
     void mouseMoveEvent(QMouseEvent*e)
     {
         if (m_mainWindowPress == true) {
-            int leftSplitClientWidth = e->screenPos().x();
-            int desktopWidth = QApplication::desktop()->screenGeometry().width();
-            int rightSplitClientWidth = desktopWidth - leftSplitClientWidth;
+            int leftSplitClientWidth = e->screenPos().x() - m_workspaceRect.x();
+            int rightSplitClientWidth = m_workspaceRect.width() - leftSplitClientWidth;
             int maxLeftSplitClientWidth = m_leftSplitClient->maxSize().width();
             int minLeftSplitClientWidth = m_leftSplitClient->minSize().width();
             int maxRightSplitClientWidth = m_rightSplitClient->maxSize().width();
@@ -1309,7 +1311,7 @@ public:
             
             if (m_leftSplitClient != nullptr && (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
                                              && (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
-                m_leftSplitClient->setGeometry(0, 0, leftSplitClientWidth, height());
+                m_leftSplitClient->setGeometry(m_workspaceRect.x(), 0, leftSplitClientWidth, height());
                 m_leftSplitClient->palette();
                 this->move(e->screenPos().x()-10, 0);
             }
@@ -1342,26 +1344,51 @@ public:
     void setLeftSplitClient(AbstractClient* client)
     {
         m_leftSplitClient = client;
+        if (m_leftSplitClient!= nullptr && m_rightSplitClient!= nullptr && !isVisible())
+        {
+            setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, 0, 20, m_workspaceRect.height());
+            show();
+        }
+        if (client == nullptr && isVisible()) {
+            hide();
+        }
     };
 
     void setRightSplitClient(AbstractClient* client)
     {
         m_rightSplitClient = client;
-    }
+        if (m_leftSplitClient!= nullptr && m_rightSplitClient!= nullptr && !isVisible())
+        {
+            setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, 0, 20, m_workspaceRect.height());
+            show();
+        }
+        if (client == nullptr && isVisible()) {
+            hide();
+        }
+    };
 
-    static SplitOutline& getInstance();
+    AbstractClient* getLeftSplitClient()
+    {
+        return  m_leftSplitClient;
+    };
+
+    AbstractClient* getRightSplitClient()
+    {
+        return m_rightSplitClient;
+    };
+    
+    void setSplitOutlineRect(QRect rect)
+    {
+        m_workspaceRect = rect;
+    }
     ~SplitOutline(){};
 
 private:
     bool m_mainWindowPress = false;
     AbstractClient* m_leftSplitClient = nullptr;
     AbstractClient* m_rightSplitClient = nullptr;
+    QRect m_workspaceRect;
 };
-
-inline SplitOutline& SplitOutline::getInstance(){
-    static SplitOutline m_splitOutline;
-    return m_splitOutline;
-}
 
 inline void AbstractClient::move(const QPoint& p, ForceGeometry_t force)
 {

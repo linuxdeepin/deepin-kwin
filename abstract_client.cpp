@@ -51,6 +51,7 @@ namespace KWin
 
 QHash<QString, std::weak_ptr<Decoration::DecorationPalette>> AbstractClient::s_palettes;
 std::shared_ptr<Decoration::DecorationPalette> AbstractClient::s_defaultPalette;
+QMap<int, SplitOutline*> AbstractClient::splitManage;
 
 AbstractClient::AbstractClient()
     : Toplevel()
@@ -92,6 +93,7 @@ AbstractClient::AbstractClient()
     connect(ApplicationMenu::self(), &ApplicationMenu::applicationMenuEnabledChanged, this, [this] {
         emit hasApplicationMenuChanged(hasApplicationMenu());
     });
+    //connect(this, &AbstractClient::quickTileModeChanged, this, &AbstractClient::handlequickTileModeChanged);
 }
 
 AbstractClient::~AbstractClient()
@@ -1716,20 +1718,9 @@ void AbstractClient::splitWinAgain(int m)
     setElectricBorderMaximizing(false);
     m_TileMaximizeGeometry = geometry();
     emit clientFinishUserMovedResized(this);
-    
-    if (compositing()) {
-        QRect rect = workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop());
-        SplitOutline::getInstance().setGeometry(rect.width()/2-10, 0, 20, rect.height());
-        if (electricBorderMode() & QuickTileFlag::Left) {
-            SplitOutline::getInstance().setLeftSplitClient(this);
-        } else if (electricBorderMode() & QuickTileFlag::Right) {
-            SplitOutline::getInstance().setRightSplitClient(this);
-    }
-        SplitOutline::getInstance().show();
-    }
-
     setMoveResizePointerMode(mousePosition());
     workspace()->updateScreenSplitApp(this);
+    handlequickTileModeChanged();
 }
 
 void AbstractClient::destroyDecoration()

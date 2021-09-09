@@ -238,12 +238,8 @@ void Client::releaseWindow(bool on_shutdown)
     if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
-
-    if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
-        if (compositing()) {
-            SplitOutline::getInstance().hide();
-        }
-    }
+    //taiyunqiang
+    cancelSplitOutline();
     
     finishCompositing();
     RuleBook::self()->discardUsed(this, true);   // Remove ForceTemporarily rules
@@ -312,12 +308,8 @@ void Client::destroyClient()
     if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
-    
-    if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
-        if (compositing()) {
-            SplitOutline::getInstance().hide();
-        }
-    }
+    //taiyunqiang
+    cancelSplitOutline();
 
     finishCompositing(ReleaseReason::Destroyed);
     RuleBook::self()->discardUsed(this, true);   // Remove ForceTemporarily rules
@@ -755,11 +747,8 @@ bool Client::isMinimizable(bool isMinFunc) const
 
 void Client::doMinimize()
 {
-     if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
-        if (compositing()) {
-            SplitOutline::getInstance().hide();
-        }
-    }
+    //taiyunqiang
+    cancelSplitOutline();
 
     bool old_preview = hiddenPreview();
 
