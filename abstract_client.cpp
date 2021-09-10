@@ -1717,7 +1717,7 @@ void AbstractClient::splitWinAgain(int m)
     setQuickTileMode(electricBorderMode());
     setElectricBorderMaximizing(false);
     m_TileMaximizeGeometry = geometry();
-    emit clientFinishUserMovedResized(this);
+    //emit clientFinishUserMovedResized(this);
     setMoveResizePointerMode(mousePosition());
     workspace()->updateScreenSplitApp(this);
     handlequickTileModeChanged();

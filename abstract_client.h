@@ -812,6 +812,8 @@ public:
     bool checkClientAllowToTile();
     void handlequickTileModeChanged();
     void judgeRepeatquickTileclient();
+    bool handleSplitscreenSwap();
+
 
     static QMap<int, SplitOutline*> splitManage;
 
@@ -1312,6 +1314,7 @@ explicit SplitOutline()
             if (m_leftSplitClient != nullptr && (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
                                              && (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
                 m_leftSplitClient->setGeometry(m_workspaceRect.x(), 0, leftSplitClientWidth, height());
+                m_leftSplitClientRect = QRect(m_workspaceRect.x(), 0, leftSplitClientWidth, height());
                 m_leftSplitClient->palette();
                 this->move(e->screenPos().x()-10, 0);
             }
@@ -1319,6 +1322,7 @@ explicit SplitOutline()
             if (m_rightSplitClient != nullptr &&  (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
                                               &&  (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
                 m_rightSplitClient->setGeometry(e->screenPos().x(), 0, rightSplitClientWidth, height());
+                m_rightSplitClientRect = QRect(e->screenPos().x(), 0, rightSplitClientWidth, height());
                 m_rightSplitClient->palette();
                 this->move(e->screenPos().x()-10, 0);
             }
@@ -1377,6 +1381,16 @@ explicit SplitOutline()
         return m_rightSplitClient;
     };
     
+    QRect getLeftSplitClientRect()
+    {
+        return  m_leftSplitClientRect;
+    };
+
+    QRect getRightSplitClientRect()
+    {
+        return m_rightSplitClientRect;
+    };
+
     void setSplitOutlineRect(QRect rect)
     {
         m_workspaceRect = rect;
@@ -1388,6 +1402,9 @@ private:
     AbstractClient* m_leftSplitClient = nullptr;
     AbstractClient* m_rightSplitClient = nullptr;
     QRect m_workspaceRect;
+    QRect m_leftSplitClientRect;
+    QRect m_rightSplitClientRect;
+
 };
 
 inline void AbstractClient::move(const QPoint& p, ForceGeometry_t force)

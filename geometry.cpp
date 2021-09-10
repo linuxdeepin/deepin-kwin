@@ -2800,9 +2800,16 @@ void AbstractClient::finishMoveResize(bool cancel)
         }
         setGeometryRestore(geom_restore);
     }
+    bool splitViewFlag = false;
+    if (y() == 0) {
+       splitViewFlag = handleSplitscreenSwap();
+    }
+    
 // FRAME    update();
     handlequickTileModeChanged();
-    emit clientFinishUserMovedResized(this);
+    if (splitViewFlag == false) {
+        emit clientFinishUserMovedResized(this);
+    }
 }
 
 void Client::leaveMoveResize()
@@ -2899,6 +2906,59 @@ void AbstractClient::stopDelayedMoveResize()
     m_moveResize.delayedTimer = nullptr;
 }
 
+bool AbstractClient::handleSplitscreenSwap()
+{
+    if (m_quickTileMode & int(QuickTileFlag::Left)) {
+        QMap<int, SplitOutline*>::iterator it;
+        for (it = splitManage.begin(); it != splitManage.end();)
+        {
+             if (splitManage[it.key()]->getLeftSplitClient() == this && splitManage[it.key()]->getRightSplitClient() != nullptr)
+             {
+                  QRect workArea = workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop());
+                  QRect area  = splitManage[it.key()]->getLeftSplitClientRect();
+                  QRect swapArea =  splitManage[it.key()]->getRightSplitClientRect();
+                  //qDebug() <<"--"<< y() <<"--"<< Cursor::pos().x()<< (area.x()+ area.width()/2);
+                  if (Cursor::pos().x() > (workArea.x() + workArea.width()/2)) {
+                      //setGeometry(swapArea);
+                      //splitManage[it.key()]->getRightSplitClient()->setGeometry(area);
+                      splitManage[it.key()]->getRightSplitClient()->splitWinAgain(int(QuickTileFlag::Left));
+                      splitWinAgain(int(QuickTileFlag::Right));
+                      //splitManage[it.key()]->getRightSplitClient()->setQuickTileMode(QuickTileFlag::Left);
+                      dontMoveResize();
+                      return true;
+                  } 
+             }
+
+            ++it;
+        }    
+    } else if (m_quickTileMode & int(QuickTileFlag::Right)) {
+        QMap<int, SplitOutline*>::iterator it;
+        for (it = splitManage.begin(); it != splitManage.end();)
+        {
+             if (splitManage[it.key()]->getRightSplitClient() == this && splitManage[it.key()]->getLeftSplitClient() != nullptr)
+             {
+                  QRect workArea = workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop());
+                  QRect area  = splitManage[it.key()]->getRightSplitClientRect();
+                  QRect swapArea =  splitManage[it.key()]->getLeftSplitClientRect();
+                  //qDebug() <<"--"<< y() <<"--"<< Cursor::pos().x()<< (area.x()+ area.width()/2);
+                  if (Cursor::pos().x() < (workArea.x() + workArea.width()/2)) {
+                      //setGeometry(swapArea);
+                      //setQuickTileMode(QuickTileFlag::Left);
+                      //splitManage[it.key()]->getLeftSplitClient()->setGeometry(area);
+                      splitManage[it.key()]->getLeftSplitClient()->splitWinAgain(int(QuickTileFlag::Right));
+                      splitWinAgain(int(QuickTileFlag::Left));
+                      //splitManage[it.key()]->getLeftSplitClient()->setQuickTileMode(QuickTileFlag::Right);
+                      dontMoveResize();
+                      return true;
+                  } 
+             }
+
+            ++it;
+        }
+    } 
+    return false;   
+} 
+
 void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
 {
     const QRect oldGeo = geometry();
@@ -2906,7 +2966,7 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
     if (!isFullScreen() && isMove()) {
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != geometry()) {
             GeometryUpdatesBlocker blocker(this);
-            if(y() == 0) {
+            if (y() == 0) {
                 return;
             }
             //taiyunqiang
@@ -3578,6 +3638,7 @@ void AbstractClient::setQuickTileMode(QuickTileMode mode, bool keyboard)
     }
     emit quickTileModeChanged();
 }
+
 void AbstractClient::judgeRepeatquickTileclient()
 {
    QMap<int, SplitOutline*>::iterator it;
