@@ -2906,6 +2906,9 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
     if (!isFullScreen() && isMove()) {
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != geometry()) {
             GeometryUpdatesBlocker blocker(this);
+            if(y() == 0) {
+                return;
+            }
             //taiyunqiang
             cancelSplitOutline();
             setQuickTileMode(QuickTileFlag::None);
