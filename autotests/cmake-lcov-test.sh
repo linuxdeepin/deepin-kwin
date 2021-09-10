@@ -14,7 +14,8 @@ funcAT_UT()
 		echo "------------UT-----------"
 		for case in $testList
 		do
-			./$case | grep "Totals:" 1>> ../ut-report.txt 2> /dev/null
+			./$case >> ../ut-report-detail.txt
+			echo "$case`grep 'Totals:' ../ut-report-detail.txt | tail -n 1`" >> ../ut-report.txt 2> /dev/null
 		done
 		echo "==============================" >> ../ut-report.txt
 		echo "Totals: `cat ../ut-report.txt | awk '{sum += $2}END{print sum}'` passed, `cat ../ut-report.txt | awk '{sum += $4}END{print sum}'` failed, `cat ../ut-report.txt | awk '{sum += $6}END{print sum}'` skipped, `cat ../ut-report.txt | awk '{sum += $8}END{print sum}'` blacklisted" >> ../ut-report.txt
