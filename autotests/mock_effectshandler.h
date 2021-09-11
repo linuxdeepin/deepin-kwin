@@ -30,6 +30,8 @@ public:
     explicit MockEffectsHandler(KWin::CompositingType type);
     void activateWindow(KWin::EffectWindow *) override {}
     void setSplitWindow(KWin::EffectWindow* c, int mode) override {}
+    virtual QString getActiveColor() override {return "";};
+    bool checkWindowAllowToSplit(KWin::EffectWindow *c) override {return true;};
     KWin::Effect *activeFullScreenEffect() const {
         return nullptr;
     }
