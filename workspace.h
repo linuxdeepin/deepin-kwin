@@ -548,7 +548,7 @@ private:
 
 
 
-    bool m_ClientDragingWithContent;//拖动的时候，带内容
+    bool m_ClientDragingWithContent {false};//拖动和改变大小的时候，带内容
 
 
     int m_initialDesktop;
