@@ -894,6 +894,20 @@ void EffectsHandlerImpl::setSplitWindow(EffectWindow *c, int mode)
     }
 }
 
+bool EffectsHandlerImpl::checkWindowAllowToSplit(KWin::EffectWindow *c)
+{
+    if (auto cl = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(c)->window())) {
+        return Workspace::self()->checkClientAllowToSplit(cl);
+    }
+
+    return true;
+}
+
+QString EffectsHandlerImpl::getActiveColor()
+{
+    return Workspace::self()->ActiveColor();
+}
+
 void EffectsHandlerImpl::activateWindow(EffectWindow* c)
 {
     if (auto cl = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(c)->window())) {
@@ -2273,7 +2287,7 @@ void EffectFrameImpl::render(QRegion region, double opacity, double frameOpacity
     if (m_geometry.isEmpty()) {
         return; // Nothing to display
     }
-    m_shader = NULL;
+    //m_shader = NULL;
     setScreenProjectionMatrix(static_cast<EffectsHandlerImpl*>(effects)->scene()->screenProjectionMatrix());
     effects->paintEffectFrame(this, region, opacity, frameOpacity);
 }

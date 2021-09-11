@@ -1719,7 +1719,6 @@ void AbstractClient::splitWinAgain(int m)
     m_TileMaximizeGeometry = geometry();
     //emit clientFinishUserMovedResized(this);
     setMoveResizePointerMode(mousePosition());
-    workspace()->updateScreenSplitApp(this);
     handlequickTileModeChanged();
 }
 

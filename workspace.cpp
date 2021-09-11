@@ -387,6 +387,9 @@ void Workspace::init()
     // broadcast that Workspace is ready, but first process all events.
     QMetaObject::invokeMethod(this, "workspaceInitialized", Qt::QueuedConnection);
 
+    QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
+                                          "PropertiesChanged", this, SLOT(qtactivecolorChanged()));
+
     // TODO: ungrabXServer()
 }
 
@@ -1845,9 +1848,33 @@ void Workspace::setWasUserInteraction()
     );
 }
 
+QString Workspace::ActiveColor()
+{
+    if (activeColor.isEmpty())
+        activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    return activeColor;
+}
+
+void Workspace::setActiveColor(QString color)
+{
+    activeColor = color;
+}
+
+void Workspace::qtactivecolorChanged()
+{
+    QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    setActiveColor(clr);
+}
+
+bool Workspace::checkClientAllowToSplit(AbstractClient *c)
+{
+    return c->checkClientAllowToTile();
+}
+
 void Workspace::setClientSplit(AbstractClient *c, int mode)
 {
     c->splitWinAgain(mode);
+    workspace()->updateScreenSplitApp(c);
 }
 
 void Workspace::updateScreenSplitApp(Toplevel *t)

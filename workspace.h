@@ -36,6 +36,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // TODO: Cleanup the order of things in this .h file
 
+#define KWinDBusService "com.deepin.daemon.Appearance"
+#define KWinDBusPath    "/com/deepin/daemon/Appearance"
+#define KWinDBusInterface "com.deepin.daemon.Appearance"
+#define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
+
 class QStringList;
 class KConfig;
 class KConfigGroup;
@@ -167,6 +172,7 @@ public:
     AbstractClient* clientUnderMouse(int screen) const;
 
     void setClientSplit(AbstractClient* c, int mode);
+    bool checkClientAllowToSplit(AbstractClient *c);
 
     void activateClient(AbstractClient*, bool force = false);
     void requestFocus(AbstractClient* c, bool force = false);
@@ -243,6 +249,9 @@ public:
     }
 
     void stackScreenEdgesUnderOverrideRedirect();
+
+    QString ActiveColor();
+    void setActiveColor(QString color);
 
 public:
     QPoint cascadeOffset(const AbstractClient *c) const;
@@ -463,6 +472,9 @@ public Q_SLOTS:
 
     void slotTouchPadTomoveWindow(int x, int y);
     void slotEndTouchPadToMoveWindow();
+
+    void qtactivecolorChanged();
+
 private Q_SLOTS:
     void desktopResized();
     void selectWmInputEventMask();
@@ -506,6 +518,8 @@ Q_SIGNALS:
      * or lowered
      */
     void stackingOrderChanged();
+
+    void activeColorChanged();
 
 private:
     void init();
@@ -649,6 +663,8 @@ private:
     QList<X11EventFilter *> m_eventFilters;
     QList<X11EventFilter *> m_genericEventFilters;
     QScopedPointer<X11EventFilter> m_movingClientFilter;
+
+    QString activeColor;
 
 private:
     friend bool performTransiencyCheck();

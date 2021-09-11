@@ -3,7 +3,10 @@
 
 #include <kwineffects.h>
 #include <abstract_client.h>
+
+#include "scene.h"
 #include <QHash>
+#include <Plasma/FrameSvg>
 
 #include <utils.h>
 
@@ -58,6 +61,8 @@ private:
     QRect m_geometry;
     EffectWindow *m_window = nullptr;
     EffectWindow *m_hoverwin = nullptr;
+    EffectFrame  *m_highlightFrame = nullptr;
+    GLShader* m_splitthumbShader;
 
     AbstractClient* m_cacheClient = nullptr;
     AbstractClient* m_enterSplitClient = nullptr;

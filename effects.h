@@ -92,6 +92,8 @@ public:
     void buildQuads(EffectWindow* w, WindowQuadList& quadList) override;
 
     void setSplitWindow(EffectWindow* c, int mode) override;
+    bool checkWindowAllowToSplit(KWin::EffectWindow *c) override;
+    QString getActiveColor() override;
 
     void activateWindow(EffectWindow* c) override;
     EffectWindow* activeWindow() const override;

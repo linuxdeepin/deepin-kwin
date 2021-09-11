@@ -7,6 +7,8 @@
 #include <kwinglutils.h>
 #include <effects.h>
 
+#include <qdbusconnection.h>
+
 #define BRIGHTNESS  0.4
 #define SCALE_F     1.0
 #define SCALE_S     2.0
@@ -24,6 +26,8 @@ SplitScreenEffect::SplitScreenEffect()
     connect(effects, &EffectsHandler::windowStartUserMovedResized, this, &SplitScreenEffect::slotWindowStartUserMovedResized);
     connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &SplitScreenEffect::slotWindowFinishUserMovedResized);
     connect(effects, &EffectsHandler::windowQuickTileModeChanged, this, &SplitScreenEffect::slotWindowQuickTileModeChanged);
+
+    m_splitthumbShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral("splitthumb.glsl"));
 }
 
 SplitScreenEffect::~SplitScreenEffect()
@@ -101,20 +105,33 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
             d.setBrightness(BRIGHTNESS);
             effects->paintWindow(w, mask, area, d);
         } else if (!w->isDesktop()) {
-            //NOTE: add lanczos will make partial visible window be rendered completely,
-            //but slow down the animation
-            //mask |= PAINT_WINDOW_LANCZOS;
             auto geo = m_motionManagers[desktop-1].transformedGeometry(w);
 
             if (m_hoverwin == w) {
-                d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
-                d.setScale(QVector2D((float)geo.width() / w->width() + 0.015, (float)geo.height() / w->height() + + 0.015));
-            }
-            else {
-                d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
-                d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
+                auto center = geo.center();
+                geo.setWidth(geo.width() * 1.05f);
+                geo.setHeight(geo.height() * 1.05f);
+                geo.moveCenter(center);
             }
 
+            d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
+            d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
+
+            if (m_hoverwin == w) {
+                if (!m_highlightFrame) {
+                    m_highlightFrame = effects->effectFrame(EffectFrameUnstyled, false);
+                }
+                QRect geo_frame = geo.toRect();
+                geo_frame.adjust(-1, -1, 1, 1);
+                m_highlightFrame->setGeometry(geo_frame);
+
+
+                ShaderBinder binder(m_splitthumbShader);
+                QColor color = effects->getActiveColor();
+                m_splitthumbShader->setUniform(GLShader::Color, color);
+                m_highlightFrame->render(infiniteRegion(), 1, 0.8);
+                m_highlightFrame->setShader(m_splitthumbShader);
+            }
 
             effects->paintWindow(w, mask, area, d);
         }
@@ -295,6 +312,9 @@ void SplitScreenEffect::setActive(bool active)
                     if (w == m_window)
                         continue;
 
+                    if (!effects->checkWindowAllowToSplit(w))
+                        continue;
+
                     wmm.manage(w);
                 }
             }
@@ -458,6 +478,5 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
         motionManager.moveWindow(w, target);
     }
 }
-
 
 } // namespace KWin
