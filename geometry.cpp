@@ -2924,9 +2924,11 @@ bool AbstractClient::handleSplitscreenSwap()
                       splitManage[it.key()]->getRightSplitClient()->splitWinAgain(int(QuickTileFlag::Left));
                       splitWinAgain(int(QuickTileFlag::Right));
                       //splitManage[it.key()]->getRightSplitClient()->setQuickTileMode(QuickTileFlag::Left);
-                      dontMoveResize();
                       return true;
-                  } 
+                  } else {
+                      splitWinAgain(int(QuickTileFlag::Left));
+                      return true;
+                  }
              }
 
             ++it;
@@ -2948,9 +2950,11 @@ bool AbstractClient::handleSplitscreenSwap()
                       splitManage[it.key()]->getLeftSplitClient()->splitWinAgain(int(QuickTileFlag::Right));
                       splitWinAgain(int(QuickTileFlag::Left));
                       //splitManage[it.key()]->getLeftSplitClient()->setQuickTileMode(QuickTileFlag::Right);
-                      dontMoveResize();
                       return true;
-                  } 
+                  } else {
+                      splitWinAgain(int(QuickTileFlag::Right));
+                      return true;
+                  }
              }
 
             ++it;
