@@ -187,14 +187,7 @@ void DrmOutput::updateCursor()
     QRect cursorRect = QRect(QPoint(0, 0), cursorImage.size() / cursorImage.devicePixelRatio());
     p.setWorldTransform(logicalToNativeMatrix(cursorRect, 1, transformWayland()).toTransform());
 
-    if (qFuzzyCompare(scaleFactor(), qreal(1))) {
-        p.drawImage(QPoint(0, 0), cursorImage);
-    } else {
-        QImage cursorImageScaled = cursorImage.scaled(cursorImage.width() * scaleFactor()
-            , cursorImage.height() * scaleFactor(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        p.drawImage(QPoint(0, 0), cursorImageScaled);
-    }
-
+    p.drawImage(QPoint(0, 0), cursorImage);
     p.end();
     if (workspace() && workspace()->isKwinDebug()) {
         qDebug() << "output" << uuid() << geometry() << globalPos()<<"draw cursorImag" << cursorImage.size() << c->size() << "scale" << cursorImage.devicePixelRatio();        
