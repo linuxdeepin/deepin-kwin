@@ -303,7 +303,9 @@ void EffectsHandlerImpl::setupAbstractClientConnections(AbstractClient* c)
     );
     connect(c, &AbstractClient::clientFinishUserMovedResized, this,
         [this](AbstractClient *c) {
-            emit windowFinishUserMovedResized(c->effectWindow());
+            if (c->quickTileMode() != int(QuickTileFlag::None)) {
+                emit windowFinishUserMovedResized(c->effectWindow());
+            }
         }
     );
     connect(c, &AbstractClient::opacityChanged, this, &EffectsHandlerImpl::slotOpacityChanged);
