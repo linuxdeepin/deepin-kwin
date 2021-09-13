@@ -200,8 +200,10 @@ void DrmBackend::reactivate()
             o->pageFlipped();   // TODO: Do we really need this?
             o->m_crtc->blank();
             if (m_enabledOutputs.contains(o)) {
-                o->showCursor();
-                o->moveCursor(cp);
+                if (o->isDpmsEnabled()) {
+                    o->showCursor();
+                    o->moveCursor(cp);
+                }
             }
         }
     }
@@ -816,7 +818,7 @@ void DrmBackend::initCursor()
                 return;
             }
             for (auto it = m_enabledOutputs.constBegin(); it != m_enabledOutputs.constEnd(); ++it) {
-                if (m_cursorEnabled) {
+                if (m_cursorEnabled && (*it)->isDpmsEnabled()) {
                     if (!(*it)->showCursor() && drmIsMaster(fd())) {
                         setSoftWareCursor(true);
                     }
