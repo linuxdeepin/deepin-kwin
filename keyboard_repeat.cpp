@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "keyboard_input.h"
 #include "input_event.h"
 #include "wayland_server.h"
+#include "workspace.h"
 
 #include <KWayland/Server/seat_interface.h>
 
@@ -45,6 +46,10 @@ void KeyboardRepeat::handleKeyRepeat()
     if (waylandServer()->seat()->keyRepeatRate() != 0) {
         m_timer->setInterval(1000 / waylandServer()->seat()->keyRepeatRate());
     }
+
+    if (workspace() && workspace()->isKwinDebug()) {
+        qDebug() << "emit keyRepeat key" << m_key;
+    }
     // TODO: better time
     // 电源按钮键值为116,屏蔽掉电源按钮的常规长按操作
     if (m_key != 116) {
@@ -65,11 +70,17 @@ void KeyboardRepeat::keyEvent(KeyEvent *event)
             m_key = key;
             m_time = event->timestamp();
             m_timer->start();
+            if (workspace() && workspace()->isKwinDebug()) {
+                qDebug() << "start repeat timer key" << key;
+            }
         }
     } else if (event->type() == QEvent::KeyRelease) {
         if (key == m_key) {
             m_key = Qt::Key_unknown;
             m_timer->stop();
+            if (workspace() && workspace()->isKwinDebug()) {
+                qDebug() << "stop repeat timer key" << key;
+            }
         }
     }
 }
