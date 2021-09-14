@@ -3154,7 +3154,8 @@ void AbstractClient::handleMoveResize(int x, int y, int x_root, int y_root)
             moveResizeGeom.moveTopLeft(workspace()->adjustClientPosition(this, moveResizeGeom.topLeft(),
                                        isUnrestrictedMoveResize()));
             setMoveResizeGeometry(moveResizeGeom);
-
+            if (windowForhibitMove())
+                return;
             if (!isUnrestrictedMoveResize()) {
                 const QRegion strut = workspace()->restrictedMoveArea(desktop());   // Strut areas
                 QRegion availableArea(workspace()->clientArea(FullArea, -1, 0));   // On the screen
