@@ -1062,8 +1062,6 @@ bool X11Client::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
         x = this->x(); // translate from grab window to local coords
         y = this->y();
     }
-    if (windowForhibitMove())
-        return false;
     handleInteractiveMoveResize(QPoint(x, y), QPoint(x_root, y_root));
     if (isInteractiveMove()) {
         ScreenEdges::self()->check(QPoint(x_root, y_root), QDateTime::fromMSecsSinceEpoch(xTime(), Qt::UTC));

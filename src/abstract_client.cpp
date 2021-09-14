@@ -1380,7 +1380,8 @@ void AbstractClient::handleInteractiveMoveResize(int x, int y, int x_root, int y
             moveResizeGeom.moveTopLeft(workspace()->adjustClientPosition(this, moveResizeGeom.topLeft(),
                                        isUnrestrictedInteractiveMoveResize()));
             setMoveResizeGeometry(moveResizeGeom);
-
+            if (windowForhibitMove())
+                return;
             if (!isUnrestrictedInteractiveMoveResize()) {
                 const QRegion strut = workspace()->restrictedMoveArea(VirtualDesktopManager::self()->currentDesktop());
                 QRegion availableArea(workspace()->clientArea(FullArea, this, workspace()->activeOutput()));
