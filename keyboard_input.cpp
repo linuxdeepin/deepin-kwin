@@ -253,11 +253,7 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
             return;
         }
     }
-    if (m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event)) && !isTopScreen()) {
-        qDebug()<<"processGrab true.";
-        m_xkb->forwardModifiers();
-        return;
-    }
+
     // vnc使用fakeinput机制来处理虚拟按键
     // 虚拟按键的情况下，可能会因为网络延迟的原因导致release事件收不到，触发repeat机制
     // 从而导致字符自动连续输出，此处屏蔽掉fakeinput机制下的kwin repeat机制
@@ -267,6 +263,13 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
     if (!m_inited) {
         return;
     }
+
+    if (m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event)) && !isTopScreen()) {
+        qDebug()<<"processGrab true.";
+        m_xkb->forwardModifiers();
+        return;
+    }
+
     m_input->processFilters(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event));
 
     m_xkb->forwardModifiers();
