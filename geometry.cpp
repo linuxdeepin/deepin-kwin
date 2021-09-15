@@ -2724,11 +2724,15 @@ bool Client::doStartMoveResize()
     m_moveResizeGrabWindow.map();
     m_moveResizeGrabWindow.raise();
     updateXTime();
+    /**
+     * Change the cursor parameter in the xcb_grab_pointer_unchecked function to XCB_CURSOR_NONE.
+     * No cursor style is specified here.
+     **/
     const xcb_grab_pointer_cookie_t cookie = xcb_grab_pointer_unchecked(connection(), false, 
             frameId(),
         XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_POINTER_MOTION |
         XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW,
-        XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC, rootWindow(), Cursor::x11Cursor(cursor()), xTime());
+        XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC, rootWindow(), XCB_CURSOR_NONE, xTime());
     ScopedCPointer<xcb_grab_pointer_reply_t> pointerGrab(xcb_grab_pointer_reply(connection(), cookie, NULL));
     if (!pointerGrab.isNull() && pointerGrab->status == XCB_GRAB_STATUS_SUCCESS) {
         has_grab = true;

@@ -1237,7 +1237,7 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         if (!isMovableAcrossScreens())
             break;
         if (isMoveResize())
-            break;
+            finishMoveResize(false);
         setMoveResizePointerMode(PositionCenter);
         setMoveResizePointerButtonDown(true);
         setMoveOffset(QPoint(globalPos.x() - x(), globalPos.y() - y()));  // map from global
