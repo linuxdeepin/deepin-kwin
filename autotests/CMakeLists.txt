@@ -37,9 +37,8 @@ ecm_mark_as_test(testScreenPaintData)
 
 add_subdirectory(libkwineffects)
 add_subdirectory(libxrenderutils)
-if(CMAKE_SAFETYTEST STREQUAL "CMAKE_SAFETYTEST_ARG_OFF")
-add_subdirectory(integration)
-endif()
+# 屏蔽掉wayland相关的单测
+#add_subdirectory(integration)
 add_subdirectory(libinput)
 if (HAVE_DRM)
     add_subdirectory(drm)
@@ -426,14 +425,14 @@ ecm_mark_as_test(testGestures)
 ########################################################
 # Test X11 TimestampUpdate
 ########################################################
-add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp ${testprintasanbase_SRCS})
-target_link_libraries(testX11TimestampUpdate
-    Qt5::Test
-    KF5::CoreAddons
-    kwin
-)
-add_test(NAME kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
-ecm_mark_as_test(testX11TimestampUpdate)
+#add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp ${testprintasanbase_SRCS})
+#target_link_libraries(testX11TimestampUpdate
+#    Qt5::Test
+#    KF5::CoreAddons
+#    kwin
+#)
+#add_test(NAME kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
+#ecm_mark_as_test(testX11TimestampUpdate)
 
 set(testOpenGLContextAttributeBuilder_SRCS
     opengl_context_attribute_builder_test.cpp
