@@ -1558,11 +1558,11 @@ void AbstractClient::checkQuickTilingMaximizationZones(int xroot, int yroot)
             }
         }
 
-        if (mode != QuickTileMode(QuickTileFlag::None)) {
-            if (yroot <= area.y() + area.height() * options->electricBorderCornerRatio())
-                mode |= QuickTileFlag::Top;
-            else if (yroot >= area.y() + area.height() - area.height()  * options->electricBorderCornerRatio())
-                mode |= QuickTileFlag::Bottom;
+        if (mode != QuickTileMode(QuickTileFlag::None)) {   //temp disable 1/4 split screen by zy 2021.9.18
+//            if (yroot <= area.y() + area.height() * options->electricBorderCornerRatio())
+//                mode |= QuickTileFlag::Top;
+//            else if (yroot >= area.y() + area.height() - area.height()  * options->electricBorderCornerRatio())
+//                mode |= QuickTileFlag::Bottom;
         } else if (options->electricBorderMaximize() && yroot <= area.y() + 5 && isMaximizable()) {
             mode = QuickTileFlag::Maximize;
             innerBorder = isInScreen(QPoint(xroot, area.y() - 1));
