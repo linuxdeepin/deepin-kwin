@@ -887,10 +887,10 @@ QByteArray EffectsHandlerImpl::readRootProperty(long atom, long type, int format
     return readWindowProperty(kwinApp()->x11RootWindow(), atom, type, format);
 }
 
-void EffectsHandlerImpl::setSplitWindow(EffectWindow *c, int mode)
+void EffectsHandlerImpl::setSplitWindow(EffectWindow *c, int mode, bool isShowPreview)
 {
     if (auto cl = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(c)->window())) {
-        Workspace::self()->setClientSplit(cl, mode);
+        Workspace::self()->setClientSplit(cl, mode, isShowPreview);
     }
 }
 

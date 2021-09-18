@@ -171,8 +171,8 @@ public:
 
     AbstractClient* clientUnderMouse(int screen) const;
 
-    void setClientSplit(AbstractClient* c, int mode);
     bool checkClientAllowToSplit(AbstractClient *c);
+    void setClientSplit(AbstractClient* c, int mode, bool isShowPreview);
 
     void activateClient(AbstractClient*, bool force = false);
     void requestFocus(AbstractClient* c, bool force = false);

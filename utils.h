@@ -241,4 +241,20 @@ protected:
 Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::StrutAreas)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::QuickTileMode)
 
+#include <QDateTime>
+#include <execinfo.h>
+static void printStacktrace()
+{
+    int size = 32;
+    void *array[32];
+    int stackNum = backtrace(array, size);
+    char **stackTrace = backtrace_symbols(array, stackNum);
+    qCritical() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") << Q_FUNC_INFO << "__START";
+    for (int i = 0; i < stackNum; ++i)
+    {
+    qCritical() << "<" << i << ">" << stackTrace[i];
+    }
+   qCritical() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") << Q_FUNC_INFO << "__END";
+   free(stackTrace);
+}
 #endif

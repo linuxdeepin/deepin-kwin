@@ -1871,10 +1871,11 @@ bool Workspace::checkClientAllowToSplit(AbstractClient *c)
     return c->checkClientAllowToTile();
 }
 
-void Workspace::setClientSplit(AbstractClient *c, int mode)
+void Workspace::setClientSplit(AbstractClient *c, int mode, bool isShowPreview)
 {
     c->splitWinAgain(mode);
-    workspace()->updateScreenSplitApp(c);
+    if (mode != 1 && mode != 2)
+        workspace()->updateScreenSplitApp(c);
 }
 
 void Workspace::updateScreenSplitApp(Toplevel *t)
