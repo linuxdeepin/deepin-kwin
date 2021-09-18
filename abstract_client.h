@@ -30,8 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QElapsedTimer>
 #include <QPointer>
-#include <QWidget>
-#include <QMouseEvent>
 
 #include "placeholder_window.h"
 
