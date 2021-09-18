@@ -408,6 +408,7 @@ set(kwin_KDEINIT_SRCS
    dbusinterface.cpp
    virtualdesktopsdbustypes.cpp
    abstract_client.cpp
+   splitoutline.cpp
    client.cpp
    client_machine.cpp
    placeholder_window.cpp

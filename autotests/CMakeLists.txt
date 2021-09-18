@@ -480,6 +480,19 @@ target_link_libraries(testVirtualKeyboardDBus
 add_test(NAME kwin-testVirtualKeyboardDBus COMMAND testVirtualKeyboardDBus)
 ecm_mark_as_test(testVirtualKeyboardDBus)
 
+add_executable(testSplitOutline test_splitoutline.cpp ../splitoutline.cpp ${testprintasanbase_SRCS})
+target_link_libraries(testSplitOutline
+    Qt5::Test
+    Qt5::Gui
+    Qt5::Widgets
+    KF5::WindowSystem
+    KF5::ConfigCore
+    XCB::XCB
+    kwin
+)
+add_test(NAME kwin-testSplitOutline COMMAND testSplitOutline)
+ecm_mark_as_test(testSplitOutline)
+
 ######################################################################################################
 
 #add_custom_target(test2

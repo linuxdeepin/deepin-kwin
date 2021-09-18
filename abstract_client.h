@@ -25,13 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "rules.h"
 #include "tabgroup.h"
 #include "cursor.h"
-
+#include "splitoutline.h"
 #include <memory>
 
 #include <QElapsedTimer>
 #include <QPointer>
-#include <QWidget>
-#include <QMouseEvent>
 
 #include "placeholder_window.h"
 
@@ -814,7 +812,6 @@ public:
     void judgeRepeatquickTileclient();
     bool handleSplitscreenSwap();
 
-
     static QMap<int, SplitOutline*> splitManage;
 
 public Q_SLOTS:
@@ -1280,131 +1277,6 @@ public:
 
 private:
     AbstractClient* cl;
-};
-
-class SplitOutline : public QWidget
-{
-public:
-
-explicit SplitOutline()
-        : QWidget()
-    {
-        setWindowFlags(Qt::X11BypassWindowManagerHint);
-        setWindowOpacity(0);
-        setCursor(Qt::SizeHorCursor); //设置鼠标样式
-        setStyleSheet("background:white");
-    }
-
-    void mousePressEvent(QMouseEvent* e)
-    {
-        setWindowOpacity(0.6);
-        m_mainWindowPress = true;
-    };
-
-    void mouseMoveEvent(QMouseEvent*e)
-    {
-        if (m_mainWindowPress == true) {
-            int leftSplitClientWidth = e->screenPos().x() - m_workspaceRect.x();
-            int rightSplitClientWidth = m_workspaceRect.width() - leftSplitClientWidth;
-            int maxLeftSplitClientWidth = m_leftSplitClient->maxSize().width();
-            int minLeftSplitClientWidth = m_leftSplitClient->minSize().width();
-            int maxRightSplitClientWidth = m_rightSplitClient->maxSize().width();
-            int minRightSplitClientWidth = m_rightSplitClient->minSize().width();
-            
-            if (m_leftSplitClient != nullptr && (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
-                                             && (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
-                m_leftSplitClient->setGeometry(m_workspaceRect.x(), 0, leftSplitClientWidth, height());
-                m_leftSplitClientRect = QRect(m_workspaceRect.x(), 0, leftSplitClientWidth, height());
-                m_leftSplitClient->palette();
-                this->move(e->screenPos().x()-10, 0);
-            }
-
-            if (m_rightSplitClient != nullptr &&  (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
-                                              &&  (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
-                m_rightSplitClient->setGeometry(e->screenPos().x(), 0, rightSplitClientWidth, height());
-                m_rightSplitClientRect = QRect(e->screenPos().x(), 0, rightSplitClientWidth, height());
-                m_rightSplitClient->palette();
-                this->move(e->screenPos().x()-10, 0);
-            }
-        }
-    };
-
-    void mouseReleaseEvent(QMouseEvent* e)
-    {
-        m_mainWindowPress = false;
-        setWindowOpacity(0);
-    };
-
-    void enterEvent(QEvent *)
-    {
-        setWindowOpacity(0.5);
-    };
-
-    void leaveEvent(QEvent *)
-    {
-        setWindowOpacity(0);
-    };
-
-    void setLeftSplitClient(AbstractClient* client)
-    {
-        m_leftSplitClient = client;
-        if (m_leftSplitClient!= nullptr && m_rightSplitClient!= nullptr && !isVisible())
-        {
-            setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, 0, 20, m_workspaceRect.height());
-            show();
-        }
-        if (client == nullptr && isVisible()) {
-            hide();
-        }
-    };
-
-    void setRightSplitClient(AbstractClient* client)
-    {
-        m_rightSplitClient = client;
-        if (m_leftSplitClient!= nullptr && m_rightSplitClient!= nullptr && !isVisible())
-        {
-            setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, 0, 20, m_workspaceRect.height());
-            show();
-        }
-        if (client == nullptr && isVisible()) {
-            hide();
-        }
-    };
-
-    AbstractClient* getLeftSplitClient()
-    {
-        return  m_leftSplitClient;
-    };
-
-    AbstractClient* getRightSplitClient()
-    {
-        return m_rightSplitClient;
-    };
-    
-    QRect getLeftSplitClientRect()
-    {
-        return  m_leftSplitClientRect;
-    };
-
-    QRect getRightSplitClientRect()
-    {
-        return m_rightSplitClientRect;
-    };
-
-    void setSplitOutlineRect(QRect rect)
-    {
-        m_workspaceRect = rect;
-    }
-    ~SplitOutline(){};
-
-private:
-    bool m_mainWindowPress = false;
-    AbstractClient* m_leftSplitClient = nullptr;
-    AbstractClient* m_rightSplitClient = nullptr;
-    QRect m_workspaceRect;
-    QRect m_leftSplitClientRect;
-    QRect m_rightSplitClientRect;
-
 };
 
 inline void AbstractClient::move(const QPoint& p, ForceGeometry_t force)

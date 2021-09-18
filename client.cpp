@@ -747,8 +747,6 @@ bool Client::isMinimizable(bool isMinFunc) const
 
 void Client::doMinimize()
 {
-    //taiyunqiang
-    cancelSplitOutline();
 
     bool old_preview = hiddenPreview();
 
@@ -759,8 +757,11 @@ void Client::doMinimize()
     // 窗口最小化后未处于 Iconic 状态，将导致Qt对窗口状态的判断失效
     if (old_preview || hiddenPreview()) {
         if (isMinimized()) {
+            //taiyunqiang
+            cancelSplitOutline();
             exportMappingState(IconicState);
         } else {
+            handlequickTileModeChanged();
             exportMappingState(NormalState);
         }
     }
