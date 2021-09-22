@@ -282,6 +282,9 @@ void Workspace::updateClientArea(bool force)
             QRect r = desktopArea - margins(KWin::screens()->geometry());
             if (c->isOnAllDesktops()) {
                 for (int i = 1; i <= numberOfDesktops; ++i) {
+                    if(!c->hasAlpha()) {
+                        continue;
+                    }
                     new_wareas[ i ] = new_wareas[ i ].intersected(r);
                     for (int iS = 0; iS < nscreens; ++iS) {
                         new_sareas[ i ][ iS ] = new_sareas[ i ][ iS ].intersected(screens[iS] - margins(screens[iS]));
