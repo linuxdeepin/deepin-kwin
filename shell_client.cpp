@@ -1162,6 +1162,10 @@ void ShellClient::setFullScreen(bool set, bool user)
         return;
     if (user && !userCanSetFullScreen())
         return;
+    //当由双屏变回单屏时需要判断 m_geomFsRestore的位置是否在当前的Screen上，如果不在则需要调整
+    if (screens()->count()==1 && !screens()->geometry().intersects(m_geomFsRestore)) {
+        m_geomFsRestore.moveTo(0,0);
+    }
     set = rules()->checkFullScreen(set && !isSpecialWindow());
     setShade(ShadeNone);
     bool was_fs = isFullScreen();
