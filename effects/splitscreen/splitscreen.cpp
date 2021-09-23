@@ -80,7 +80,7 @@ void SplitScreenEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data
         w->enablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);   // Display always
     }
     w->enablePainting(EffectWindow::PAINT_DISABLED);
-    if (!(w->isDock() || w->isDesktop() || isRelevantWithPresentWindows(w))) {
+    if (!(w->isDock() || w->isDesktop() || isRelevantWithPresentWindows(w)) || m_unminWinlist.contains(w)) {
         w->disablePainting(EffectWindow::PAINT_DISABLED);
         w->disablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
     }
@@ -285,6 +285,7 @@ void SplitScreenEffect::cleanup()
         m_motionManagers.first().unmanageAll();
         m_motionManagers.removeFirst();
     }
+    m_unminWinlist.clear();
 }
 
 void SplitScreenEffect::setActive(bool active)
@@ -312,8 +313,10 @@ void SplitScreenEffect::setActive(bool active)
                     if (w == m_window)
                         continue;
 
-                    if (!effects->checkWindowAllowToSplit(w))
+                    if (!effects->checkWindowAllowToSplit(w)) {
+                        m_unminWinlist.append(w);
                         continue;
+                    }
 
                     wmm.manage(w);
                 }

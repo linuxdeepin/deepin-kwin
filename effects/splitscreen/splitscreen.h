@@ -73,6 +73,7 @@ private:
 
     QuickTileMode m_quickTileMode = QuickTileMode(QuickTileFlag::None);
 
+    QList<EffectWindow *> m_unminWinlist;
     QVector<WindowMotionManager> m_motionManagers;
     QRect m_backgroundRect;
     int m_backgroundMode;
