@@ -6,7 +6,7 @@
 
 #include "scene.h"
 #include <QHash>
-#include <Plasma/FrameSvg>
+//#include <Plasma/FrameSvg>
 
 #include <utils.h>
 

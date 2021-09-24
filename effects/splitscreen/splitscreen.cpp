@@ -239,7 +239,30 @@ void SplitScreenEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
     m_backgroundRect = getPreviewWindowsGeometry(pos);
     m_screen = w->screen();
 
-    setActive(true);
+    cleanup();
+
+    EffectWindowList windows = effects->stackingOrder();
+    int ncurrentDesktop = effects->currentDesktop();
+    WindowMotionManager wmm;
+    for (const auto& w: windows) {
+        if (w->isOnDesktop(ncurrentDesktop) && isRelevantWithPresentWindows(w)) {
+            if (w == m_window)
+                continue;
+
+            if (!effects->checkWindowAllowToSplit(w)) {
+                m_unminWinlist.append(w);
+                continue;
+            }
+
+            wmm.manage(w);
+        }
+    }
+
+    if (wmm.managedWindows().size() != 0) {
+        calculateWindowTransformations(wmm.managedWindows(), wmm);
+        m_motionManagers.append(wmm);
+        setActive(true);
+    }
 
     m_cacheClient = nullptr;
     m_quickTileMode = QuickTileMode(QuickTileFlag::None);
@@ -285,6 +308,7 @@ void SplitScreenEffect::cleanup()
         m_motionManagers.first().unmanageAll();
         m_motionManagers.removeFirst();
     }
+
     m_unminWinlist.clear();
 }
 
@@ -298,34 +322,14 @@ void SplitScreenEffect::setActive(bool active)
 
     m_activated = active;
 
-    cleanup();
-
     if (active) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);
         m_hasKeyboardGrab = effects->grabKeyboard(this);
         effects->setActiveFullScreenEffect(this);
 
-        EffectWindowList windows = effects->stackingOrder();
-        for (int i = 1; i <= effects->numberOfDesktops(); i++) {
-            WindowMotionManager wmm;
-            for (const auto& w: windows) {
-                if (w->isOnDesktop(i) && isRelevantWithPresentWindows(w)) {
-                    if (w == m_window)
-                        continue;
-
-                    if (!effects->checkWindowAllowToSplit(w)) {
-                        m_unminWinlist.append(w);
-                        continue;
-                    }
-
-                    wmm.manage(w);
-                }
-            }
-
-            calculateWindowTransformations(wmm.managedWindows(), wmm);
-            m_motionManagers.append(wmm);
-        }
     } else {
+        cleanup();
+
         auto p = m_motionManagers.begin();
         while (p != m_motionManagers.end()) {
             foreach (EffectWindow* w, p->managedWindows()) {
