@@ -120,6 +120,15 @@ namespace KWin
     {
         return m_rightSplitClientRect;
     }
+    
+    void SplitOutline::swapClientLocation()
+    {
+         m_leftSplitClient->setGeometry(m_leftSplitClientRect.x(), 0, m_leftSplitClientRect.width(), height());
+         m_leftSplitClient->palette();
+         m_rightSplitClient->setGeometry(m_rightSplitClientRect.x(), 0, m_rightSplitClientRect.width(), height());
+         m_rightSplitClient->palette();
+         updateSplitOutlinePosition();
+    }
 
     void SplitOutline::setSplitOutlineRect(QRect rect)
     {

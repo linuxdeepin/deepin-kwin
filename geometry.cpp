@@ -2801,7 +2801,8 @@ void AbstractClient::finishMoveResize(bool cancel)
         setGeometryRestore(geom_restore);
     }
     bool splitViewFlag = false;
-    if (y() == 0) {
+    QRect screenArea = workspace()->clientArea(ScreenArea, Cursor::pos(), desktop());
+    if (y() < (screenArea.height() / 5)) {
        splitViewFlag = handleSplitscreenSwap();
     }
     
@@ -2918,15 +2919,17 @@ bool AbstractClient::handleSplitscreenSwap()
                   QRect area  = splitManage[it.key()]->getLeftSplitClientRect();
                   QRect swapArea =  splitManage[it.key()]->getRightSplitClientRect();
                   //qDebug() <<"--"<< y() <<"--"<< Cursor::pos().x()<< (area.x()+ area.width()/2);
-                  if (Cursor::pos().x() > (workArea.x() + workArea.width()/2)) {
+                  if ((x() + width()/2) > (workArea.x() + workArea.width()/2)) {
                       //setGeometry(swapArea);
                       //splitManage[it.key()]->getRightSplitClient()->setGeometry(area);
                       splitManage[it.key()]->getRightSplitClient()->splitWinAgain(int(QuickTileFlag::Left));
                       splitWinAgain(int(QuickTileFlag::Right));
                       //splitManage[it.key()]->getRightSplitClient()->setQuickTileMode(QuickTileFlag::Left);
+                      splitManage[it.key()]->swapClientLocation();
                       return true;
                   } else {
                       splitWinAgain(int(QuickTileFlag::Left));
+                      splitManage[it.key()]->swapClientLocation();
                       return true;
                   }
              }
@@ -2943,16 +2946,18 @@ bool AbstractClient::handleSplitscreenSwap()
                   QRect area  = splitManage[it.key()]->getRightSplitClientRect();
                   QRect swapArea =  splitManage[it.key()]->getLeftSplitClientRect();
                   //qDebug() <<"--"<< y() <<"--"<< Cursor::pos().x()<< (area.x()+ area.width()/2);
-                  if (Cursor::pos().x() < (workArea.x() + workArea.width()/2)) {
+                  if ((x() + width()/2) < (workArea.x() + workArea.width()/2)) {
                       //setGeometry(swapArea);
                       //setQuickTileMode(QuickTileFlag::Left);
                       //splitManage[it.key()]->getLeftSplitClient()->setGeometry(area);
                       splitManage[it.key()]->getLeftSplitClient()->splitWinAgain(int(QuickTileFlag::Right));
                       splitWinAgain(int(QuickTileFlag::Left));
                       //splitManage[it.key()]->getLeftSplitClient()->setQuickTileMode(QuickTileFlag::Right);
+                      splitManage[it.key()]->swapClientLocation();
                       return true;
                   } else {
                       splitWinAgain(int(QuickTileFlag::Right));
+                      splitManage[it.key()]->swapClientLocation();
                       return true;
                   }
              }
@@ -2970,7 +2975,8 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
     if (!isFullScreen() && isMove()) {
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != geometry()) {
             GeometryUpdatesBlocker blocker(this);
-            if (y() == 0) {
+            QRect screenArea = workspace()->clientArea(ScreenArea, Cursor::pos(), desktop());
+            if (y() < (screenArea.height() / 5) && compositing() && isLeftRightSplitscreen()) {
                 return;
             }
             //taiyunqiang
@@ -3683,6 +3689,14 @@ void AbstractClient::handlequickTileModeChanged()
             splitManage[screen()]->setRightSplitClient(this);
         }
     }
+}
+
+bool AbstractClient::isLeftRightSplitscreen()
+{
+   if (splitManage[screen()]->getLeftSplitClient() != nullptr && splitManage[screen()]->getRightSplitClient() != nullptr) {
+       return true;
+   }
+   return false;
 }
 
 void AbstractClient::cancelSplitOutline()

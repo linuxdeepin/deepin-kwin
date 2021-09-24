@@ -805,6 +805,7 @@ public:
     }
 
     void quitSplitStatus();
+    bool isLeftRightSplitscreen();
     void cancelSplitOutline();
     // When using three finger split screen, check whether the client meets the split screen conditions.
     bool checkClientAllowToTile();
