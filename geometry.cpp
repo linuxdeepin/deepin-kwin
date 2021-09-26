@@ -2929,7 +2929,7 @@ bool AbstractClient::handleSplitscreenSwap()
                       return true;
                   } else {
                       splitWinAgain(int(QuickTileFlag::Left));
-                      splitManage[it.key()]->swapClientLocation();
+                      splitManage[it.key()]->resumeClientLocation();
                       return true;
                   }
              }
@@ -2957,7 +2957,7 @@ bool AbstractClient::handleSplitscreenSwap()
                       return true;
                   } else {
                       splitWinAgain(int(QuickTileFlag::Right));
-                      splitManage[it.key()]->swapClientLocation();
+                      splitManage[it.key()]->resumeClientLocation();
                       return true;
                   }
              }
@@ -3693,7 +3693,7 @@ void AbstractClient::handlequickTileModeChanged()
 
 bool AbstractClient::isLeftRightSplitscreen()
 {
-   if (splitManage[screen()]->getLeftSplitClient() != nullptr && splitManage[screen()]->getRightSplitClient() != nullptr) {
+   if (splitManage.contains(screen()) && splitManage[screen()]->getLeftSplitClient() != nullptr && splitManage[screen()]->getRightSplitClient() != nullptr) {
        return true;
    }
    return false;

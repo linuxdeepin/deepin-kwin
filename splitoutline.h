@@ -37,7 +37,9 @@ public:
     QRect getLeftSplitClientRect();
 
     QRect getRightSplitClientRect();
-  
+
+    void resumeClientLocation();
+
     void swapClientLocation();
     
     void setSplitOutlineRect(QRect rect);
