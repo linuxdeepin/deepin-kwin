@@ -152,6 +152,7 @@ namespace KWin
         m_leftSplitClient = client;
         if (clientsStatus() == 1 && !isVisible()) {
             show();
+            updateSplitOutlinePosition();
         }
         if (client == nullptr && isVisible()) {
             hide();
@@ -165,6 +166,7 @@ namespace KWin
 
         if (clientsStatus() == 1 && !isVisible()) {
             show();
+            updateSplitOutlinePosition();
         }
         if (client == nullptr && isVisible()) {
             hide();
