@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2017 ~ 2019 Deepin Technology Co., Ltd.
+ *
+ * Author:     taiyunqiang <taiyunqiang@uniontech.com>
+ *
+ * Maintainer: taiyunqiang <taiyunqiang@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "splitoutline.h"
 namespace KWin
 {
@@ -23,12 +43,12 @@ namespace KWin
     void SplitOutline::mouseMoveEvent(QMouseEvent*e)
     {
         if (m_mainWindowPress == true) {
-            int leftSplitClientWidth = e->screenPos().x() - m_workspaceRect.x();
-            int rightSplitClientWidth = m_workspaceRect.width() - leftSplitClientWidth;
-            int maxLeftSplitClientWidth = m_leftSplitClient->maxSize().width();
-            int minLeftSplitClientWidth = m_leftSplitClient->minSize().width();
-            int maxRightSplitClientWidth = m_rightSplitClient->maxSize().width();
-            int minRightSplitClientWidth = m_rightSplitClient->minSize().width();
+            const int leftSplitClientWidth = e->screenPos().x() - m_workspaceRect.x();
+            const int rightSplitClientWidth = m_workspaceRect.width() - leftSplitClientWidth;
+            const int maxLeftSplitClientWidth = m_leftSplitClient->maxSize().width();
+            const int minLeftSplitClientWidth = m_leftSplitClient->minSize().width();
+            const int maxRightSplitClientWidth = m_rightSplitClient->maxSize().width();
+            const int minRightSplitClientWidth = m_rightSplitClient->minSize().width();
             
             if (m_leftSplitClient != nullptr && (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
                                              && (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
@@ -57,7 +77,7 @@ namespace KWin
     void SplitOutline::enterEvent(QEvent *)
     {
         setWindowOpacity(0.5);
-    };
+    }
 
     void SplitOutline::leaveEvent(QEvent *)
     {
@@ -89,6 +109,15 @@ namespace KWin
         }
         if (client == nullptr && isVisible()) {
             hide();
+        }
+    }
+
+    void SplitOutline::setSplitClient(AbstractClient* client, QuickTileFlag flag)
+    {
+        if (flag == QuickTileFlag::Left) {
+            setLeftSplitClient(client);
+        } else if (flag == QuickTileFlag::Right) {
+            setRightSplitClient(client);
         }
     }
     

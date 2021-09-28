@@ -810,7 +810,6 @@ public:
     // When using three finger split screen, check whether the client meets the split screen conditions.
     bool checkClientAllowToTile();
     void handlequickTileModeChanged();
-    void judgeRepeatquickTileclient();
     bool handleSplitscreenSwap();
 
     static QMap<int, SplitOutline*> splitManage;

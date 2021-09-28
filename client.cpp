@@ -238,7 +238,7 @@ void Client::releaseWindow(bool on_shutdown)
     if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
-    //taiyunqiang
+
     cancelSplitOutline();
     
     finishCompositing();
@@ -308,7 +308,7 @@ void Client::destroyClient()
     if (isMoveResize())
         emit clientFinishUserMovedResized(this);
     emit windowClosed(this, del);
-    //taiyunqiang
+
     cancelSplitOutline();
 
     finishCompositing(ReleaseReason::Destroyed);
@@ -757,7 +757,6 @@ void Client::doMinimize()
     // 窗口最小化后未处于 Iconic 状态，将导致Qt对窗口状态的判断失效
     if (old_preview || hiddenPreview()) {
         if (isMinimized()) {
-            //taiyunqiang
             cancelSplitOutline();
             exportMappingState(IconicState);
         } else {

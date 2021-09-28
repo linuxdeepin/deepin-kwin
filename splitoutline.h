@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2017 ~ 2019 Deepin Technology Co., Ltd.
+ *
+ * Author:     taiyunqiang <taiyunqiang@uniontech.com>
+ *
+ * Maintainer: taiyunqiang <taiyunqiang@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #ifndef SPLITOUTLINE_H
 #define SPLITOUTLINE_H
 
@@ -23,10 +43,8 @@ public:
     void enterEvent(QEvent *);
 
     void leaveEvent(QEvent *);
-
-    void setLeftSplitClient(AbstractClient* client);
-
-    void setRightSplitClient(AbstractClient* client);
+    
+    void setSplitClient(AbstractClient* client, QuickTileFlag flag);
     
     void updateSplitOutlinePosition();
 
@@ -44,7 +62,10 @@ public:
     
     void setSplitOutlineRect(QRect rect);
      ~SplitOutline();
+protected:
+    void setLeftSplitClient(AbstractClient* client);
 
+    void setRightSplitClient(AbstractClient* client);
 private:
     bool m_mainWindowPress = false;
     AbstractClient* m_leftSplitClient = nullptr;
@@ -52,7 +73,7 @@ private:
     QRect m_workspaceRect;
     QRect m_leftSplitClientRect;
     QRect m_rightSplitClientRect;
-    QWidget* widgetLine;
+    QWidget* widgetLine = nullptr;
 };
 }
 #endif // SPLITOUTLINE_H
