@@ -63,6 +63,7 @@
 #include <QKeyEvent>
 #include <QThread>
 #include <qpa/qwindowsysteminterface.h>
+#include <QApplication>
 
 #include <xkbcommon/xkbcommon.h>
 
@@ -873,6 +874,16 @@ public:
         }
         return input()->shortcuts()->processAxis(event->modifiers(), direction);
     }
+    bool ismodifierShortcuts(QKeyEvent *event) {
+        QKeyEvent *key_event = static_cast<QKeyEvent *>(event);
+        if ((key_event->modifiers() & Qt::ControlModifier) && (key_event->key() == Qt::Key_F7 || key_event->key() == Qt::Key_F8
+        || key_event->key() == Qt::Key_F9 || key_event->key() == Qt::Key_F10 || key_event->key() == Qt::Key_Escape)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     bool keyEvent(QKeyEvent *event) override {
         if (event->key() == Qt::Key_PowerOff) {
             const auto modifiers = static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts();
@@ -891,6 +902,10 @@ public:
             }
         } else if (event->type() == QEvent::KeyPress) {
             if (!waylandServer()->isKeyboardShortcutsInhibited()) {
+                if (qApp->arguments().contains("/etc/deepin/greeters.d/lightdm-deepin-greeter") && ismodifierShortcuts(event)) {
+                    return false;
+                }
+
                 return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
             }
         }
