@@ -61,6 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KScreenLocker/KsldApp>
 // Qt
 #include <QKeyEvent>
+#include <QApplication>
 
 #include <xkbcommon/xkbcommon.h>
 #include <sys/sdt.h>
@@ -808,8 +809,21 @@ public:
         }
         return input()->shortcuts()->processAxis(event->modifiers(), direction);
     }
+    bool ismodifierShortcuts(QKeyEvent *event) {
+        QKeyEvent *key_event = static_cast<QKeyEvent *>(event);
+        if ((key_event->modifiers() & Qt::ControlModifier) && (key_event->key() == Qt::Key_F7 || key_event->key() == Qt::Key_F8
+        || key_event->key() == Qt::Key_F9 || key_event->key() == Qt::Key_F10 || key_event->key() == Qt::Key_Escape)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     bool keyEvent(QKeyEvent *event) override {
         if (event->type() == QEvent::KeyPress) {
+            if (qApp->arguments().contains("/etc/deepin/greeters.d/lightdm-deepin-greeter") && ismodifierShortcuts(event)) {
+                return false;
+            }
             if (workspace() && workspace()->isKwinDebug()) {
             qDebug()<<"true type:"<<event->type();
             }
