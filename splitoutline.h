@@ -59,7 +59,11 @@ public:
     void resumeClientLocation();
 
     void swapClientLocation();
+
+    void activeShow();
     
+    void noActiveHide();
+
     void setSplitOutlineRect(QRect rect);
      ~SplitOutline();
 protected:

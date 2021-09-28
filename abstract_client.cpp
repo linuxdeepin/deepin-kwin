@@ -278,6 +278,27 @@ void AbstractClient::setIcon(const QIcon &icon)
     emit iconChanged();
 }
 
+void AbstractClient::handleSplitScreenActive()
+{
+     if (!compositing()) {
+            return;
+     }
+    
+    if (splitManage.contains(screen()) && splitManage.find(screen()).value()->getLeftSplitClient() != nullptr && splitManage.find(screen()).value()->getRightSplitClient() != nullptr) {
+        if (splitManage.find(screen()).value()->getLeftSplitClient() == this && isActive()) {
+            workspace()->raiseClient(splitManage.find(screen()).value()->getRightSplitClient());
+            workspace()->raiseClient(this);
+            splitManage.find(screen()).value()->activeShow();
+        } else if (splitManage.find(screen()).value()->getRightSplitClient() == this && isActive()) {
+                  workspace()->raiseClient(splitManage.find(screen()).value()->getLeftSplitClient());
+                  workspace()->raiseClient(this);
+                  splitManage.find(screen()).value()->activeShow();
+        } else {
+                  splitManage.find(screen()).value()->noActiveHide();
+        }
+    }
+}
+
 void AbstractClient::setActive(bool act)
 {
     if (m_active == act) {
@@ -297,6 +318,7 @@ void AbstractClient::setActive(bool act)
         setShade(ShadeNormal);
 
     StackingUpdatesBlocker blocker(workspace());
+    handleSplitScreenActive();
     workspace()->updateClientLayer(this);   // active windows may get different layer
     auto mainclients = mainClients();
     for (auto it = mainclients.constBegin();

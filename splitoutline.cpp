@@ -180,6 +180,20 @@ namespace KWin
          updateSplitOutlinePosition();
     }
 
+    void SplitOutline::noActiveHide()
+    {
+        if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && isVisible())
+        {
+            hide();
+        }
+    }
+
+    void SplitOutline::activeShow()
+    {
+        show();
+        updateSplitOutlinePosition();
+    }
+
     void SplitOutline::setSplitOutlineRect(QRect rect)
     {
         m_workspaceRect = rect;

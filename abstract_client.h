@@ -328,6 +328,9 @@ public:
     bool isActive() const {
         return m_active;
     }
+
+    void handleSplitScreenActive();
+
     /**
      * Sets the client's active state to \a act.
      *
