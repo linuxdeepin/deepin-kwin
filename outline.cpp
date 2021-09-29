@@ -115,7 +115,7 @@ void Outline::setVisualParentGeometry(const QRect &visualParentGeometry)
 
 QRect Outline::unifiedGeometry() const
 {
-    return m_outlineGeometry | m_visualParentGeometry;
+    return m_outlineGeometry;// | m_visualParentGeometry;
 }
 
 void Outline::createHelper()

@@ -32,7 +32,7 @@ Window {
     color: {
         return outline.activeColor
     }
-    opacity: 0.5
+    opacity: 0.3
 
     // outline is a context property
     x: outline.unifiedGeometry.x
