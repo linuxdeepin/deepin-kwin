@@ -1336,8 +1336,7 @@ bool ShellClient::acceptsFocus() const
         return false;
     }
     if (m_plasmaShellSurface) {
-        if (m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::OnScreenDisplay ||
-            m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::ToolTip ||
+        if (m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::ToolTip ||
             m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::Notification) {
             return false;
         }
@@ -1452,6 +1451,14 @@ bool ShellClient::isOverride() const
 {
     if (m_plasmaShellSurface) {
         return m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::Override;
+    }
+    return false;
+}
+
+bool ShellClient::isActiveFullScreenRole() const
+{
+    if (m_plasmaShellSurface) {
+        return m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::ActiveFullScreen;
     }
     return false;
 }
