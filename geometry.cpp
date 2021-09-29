@@ -2800,17 +2800,16 @@ void AbstractClient::finishMoveResize(bool cancel)
         }
         setGeometryRestore(geom_restore);
     }
-    bool splitViewFlag = false;
+
+    m_isSwapHandle = false;
     QRect screenArea = workspace()->clientArea(ScreenArea, Cursor::pos(), desktop());
     if (y() < (screenArea.height() / 5)) {
-       splitViewFlag = handleSplitscreenSwap();
+        m_isSwapHandle = handleSplitscreenSwap();
     }
     
 // FRAME    update();
     handlequickTileModeChanged();
-    if (splitViewFlag == false) {
-        emit clientFinishUserMovedResized(this);
-    }
+    emit clientFinishUserMovedResized(this);
 }
 
 void Client::leaveMoveResize()

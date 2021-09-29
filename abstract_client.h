@@ -614,6 +614,11 @@ public:
     QuickTileMode quickTileMode() const {
         return QuickTileMode(m_quickTileMode);
     }
+
+    bool isSwapHandle() {
+        return m_isSwapHandle;
+    }
+
     Layer layer() const override;
     void updateLayer();
 
@@ -1215,6 +1220,8 @@ private:
      */
     int m_quickTileMode = int(QuickTileFlag::None);
     QTimer *m_electricMaximizingDelay = nullptr;
+
+    bool m_isSwapHandle = false;
 
     // geometry
     int m_blockGeometryUpdates = 0; // > 0 = New geometry is remembered, but not actually set

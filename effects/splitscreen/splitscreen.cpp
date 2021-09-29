@@ -229,7 +229,7 @@ void SplitScreenEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
     if (!m_cacheClient)
         return;
 
-    if (!isEnterSplitMode(m_quickTileMode)) {
+    if (m_cacheClient->isSwapHandle() || !isEnterSplitMode(m_quickTileMode)) {
         m_cacheClient = nullptr;
         m_quickTileMode = QuickTileMode(QuickTileFlag::None);
         return;
