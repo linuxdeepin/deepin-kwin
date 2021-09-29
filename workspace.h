@@ -401,7 +401,7 @@ public:
         return client_keys_dialog;
     }
 
-    void updateScreenSplitApp(Toplevel *t);
+    void updateScreenSplitApp(Toplevel *t, bool onlyRemove = false);
 
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);

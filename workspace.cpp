@@ -1878,33 +1878,34 @@ void Workspace::setClientSplit(AbstractClient *c, int mode, bool isShowPreview)
         workspace()->updateScreenSplitApp(c);
 }
 
-void Workspace::updateScreenSplitApp(Toplevel *t)
+void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
 {
     if (splitapp_stacking_order.contains(t)) {
         splitapp_stacking_order.removeOne(t);
     }
 
-    bool flag = false;
-    for (ToplevelList::ConstIterator it = splitapp_stacking_order.constBegin();
-            it != splitapp_stacking_order.constEnd();
-            ++it) {
-        auto c = qobject_cast<AbstractClient*>(*it);
-        if (!c) {
-            continue;
+    if (!onlyRemove) {
+        bool flag = false;
+        for (ToplevelList::ConstIterator it = splitapp_stacking_order.constBegin();
+             it != splitapp_stacking_order.constEnd();
+             ++it) {
+            auto c = qobject_cast<AbstractClient*>(*it);
+            if (!c)
+                continue;
+
+            auto target = qobject_cast<AbstractClient*>(t);
+            if (c->screen() == t->screen() && c->electricBorderMode() == target->electricBorderMode()) {
+                c->quitSplitStatus();
+                splitapp_stacking_order.removeOne(*it);
+                splitapp_stacking_order.append(t);
+                flag = true;
+                break;
+            }
         }
 
-        auto target = qobject_cast<AbstractClient*>(t);
-        if (c->screen() == t->screen() && c->electricBorderMode() == target->electricBorderMode()) {
-            c->quitSplitStatus();
-            splitapp_stacking_order.removeOne(*it);
+        if (!flag)
             splitapp_stacking_order.append(t);
-            flag = true;
-            break;
-        }
     }
-
-    if (!flag)
-        splitapp_stacking_order.append(t);
 }
 
 } // namespace
