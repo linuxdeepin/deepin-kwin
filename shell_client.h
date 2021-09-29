@@ -146,6 +146,7 @@ public:
 
     bool isStandAlone() const override;
     bool isOverride() const override;
+    bool isActiveFullScreenRole() const override;
     bool isInternal() const;
     bool isLockScreen() const override;
     bool isInputMethod() const override;

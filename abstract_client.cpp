@@ -410,7 +410,7 @@ Layer AbstractClient::belongsToLayer() const
         }
         return BelowLayer;
     }
-    if (isActiveFullScreen()) {
+    if (isActiveFullScreen() || isActiveFullScreenRole()) {
         if (workspace() && workspace()->isKwinDebug()) {
             qDebug() << "surface@" << surfaceId() << "pid@" << pid() << "isActiveFullScreen ActiveLayer layer@" << ActiveLayer << resourceClass();
         }
