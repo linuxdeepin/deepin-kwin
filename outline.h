@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <kwin_export.h>
 #include <qdbusinterface.h>
+#include "utils.h"
 
 #define KWinDBusService "com.deepin.daemon.Appearance"
 #define KWinDBusPath    "/com/deepin/daemon/Appearance"
@@ -174,7 +175,9 @@ inline
 QString Outline::ActiveColor() const
 {
     QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
-    return clr;
+    RgbToHsv rgb;
+    QString tmp = rgb.adjustBrightness(clr, -30);
+    return tmp;
 }
 
 inline

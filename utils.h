@@ -241,4 +241,31 @@ protected:
 Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::StrutAreas)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::QuickTileMode)
 
+typedef struct{
+    unsigned char R;
+    unsigned char G;
+    unsigned char B;
+    unsigned char l;
+}COLOR_RGB;
+
+typedef struct{
+    float H;
+    float S;
+    float V;
+}COLOR_HSV;
+
+class RgbToHsv
+{
+protected:
+    float minValue(float a, float b);
+    float maxValue(float a,float b);
+    void RGB_TO_HSV(const COLOR_RGB* input,COLOR_HSV* output);
+    void HSV_TO_RGB(COLOR_HSV* input,COLOR_RGB* output);
+public:
+    QString adjustBrightness(QString rgb, int step);
+
+private:
+    COLOR_RGB rgb_v;
+};
+
 #endif
