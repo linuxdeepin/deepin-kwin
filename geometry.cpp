@@ -1849,6 +1849,9 @@ void Client::resizeWithChecks(int w, int h, xcb_gravity_t gravity, ForceGeometry
         break;
     }
     setGeometry(newx, newy, w, h, force);
+    if (compositing() && splitManage.contains(screen())) {
+        //splitManage.find(screen()).value()->handleDockChangePosition();
+    }
 }
 
 // _NET_MOVERESIZE_WINDOW
@@ -2808,7 +2811,9 @@ void AbstractClient::finishMoveResize(bool cancel)
     }
     
 // FRAME    update();
-    handlequickTileModeChanged();
+    if (!m_isSwapHandle) {
+        handlequickTileModeChanged();
+    }
     emit clientFinishUserMovedResized(this);
 }
 
@@ -3629,15 +3634,11 @@ void AbstractClient::setQuickTileMode(QuickTileMode mode, bool keyboard)
 void AbstractClient::handlequickTileModeChanged()
 {
    bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
-   if (compositing() && !splitManage.contains(screen()) && flag) {
-      
+   if (compositing() && !splitManage.contains(screen()) && flag) {    
        SplitOutline* splitOutline = new SplitOutline;
-
-       splitOutline->setSplitOutlineRect(workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop()));
        splitOutline->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
        splitManage.insert(screen(), splitOutline);
     } else if (compositing() && splitManage.contains(screen()) && flag) {
-       splitManage.find(screen()).value()->setSplitOutlineRect(workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop()));
        splitManage.find(screen()).value()->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
     }
 }

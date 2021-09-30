@@ -44,7 +44,7 @@ void SplitOutlineTest::testEnabled()
      SplitOutline splitOutline;
 //     QFETCH(QRect,rect);
      QRect rect;
-     splitOutline.setSplitOutlineRect(rect);
+     //splitOutline.setSplitOutlineRect(rect);
     //  QCOMPARE(splitOutline.getLeftSplitClientRect(),rect);
     //  QFETCH(QRect,rect1);
     //  splitOutline.setSplitOutlineRect(rect1);

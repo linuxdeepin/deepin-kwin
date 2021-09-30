@@ -45,6 +45,8 @@ public:
     void leaveEvent(QEvent *);
     
     void setSplitClient(AbstractClient* client, QuickTileFlag flag);
+
+    void handleDockChangePosition();
     
     void updateSplitOutlinePosition();
 
@@ -64,7 +66,6 @@ public:
     
     void noActiveHide();
 
-    void setSplitOutlineRect(QRect rect);
      ~SplitOutline();
 protected:
     void setLeftSplitClient(AbstractClient* client);
@@ -72,6 +73,10 @@ protected:
     void setRightSplitClient(AbstractClient* client);
 
     void setCustomCursor(int direct);
+
+    void updateWorkspaceArea();
+
+    void updateLeftRightArea();
 
 private:
     bool m_mainWindowPress = false;
