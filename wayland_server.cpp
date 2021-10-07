@@ -587,7 +587,7 @@ int WaylandServer::createXWaylandConnection()
     m_xwayland.client = socket.connection;
     m_xwayland.destroyConnection = connect(m_xwayland.client, &KWayland::Server::ClientConnection::disconnected, this,
         [] {
-            qFatal("Xwayland Connection died");
+            fprintf(stderr, "Xwayland Connection died\n");
         }
     );
     return socket.fd;
