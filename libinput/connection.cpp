@@ -213,11 +213,14 @@ void Connection::doSetup()
         [this](bool active) {
             if (active) {
                 if (!m_input->isSuspended()) {
+                    qDebug() << "sessionActiveChanged active m_input has resumed";
                     return;
                 }
+                qDebug() << "sessionActiveChanged active m_input->resume";
                 m_input->resume();
                 wasSuspended = true;
             } else {
+                qDebug() << "sessionActiveChanged deactivate";
                 deactivate();
             }
         }
@@ -313,7 +316,7 @@ void Connection::processEvents()
 
                 // enable possible leds
                 libinput_device_led_update(device->device(), static_cast<libinput_led>(toLibinputLEDS(m_leds)));
-
+                qDebug() << "deviceAdded device" << device->name() << device->sysName();
                 emit deviceAdded(device);
                 break;
             }
@@ -325,6 +328,7 @@ void Connection::processEvents()
                 }
                 auto device = *it;
                 m_devices.erase(it);
+                qDebug() << "deviceRemoved device" << device->name() << device->sysName();
                 emit deviceRemoved(device);
 
                 if (device->isKeyboard()) {
@@ -649,7 +653,6 @@ void Connection::processEvents()
             }
             default:
                 // nothing
-                qDebug()<<"default unknow libinput event";
                 break;
         }
     }
