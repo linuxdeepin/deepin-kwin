@@ -96,7 +96,7 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
     }
 
     int desktop = effects->currentDesktop();
-    WindowMotionManager& wmm = m_motionManagers[desktop-1];
+    WindowMotionManager& wmm = m_motionManagers[0];
     if (wmm.isManaging(w) || w->isDesktop()) {
         auto area = effects->clientArea(FullArea/*ScreenArea*/, m_screen, 0);
 
@@ -105,7 +105,7 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
             d.setBrightness(BRIGHTNESS);
             effects->paintWindow(w, mask, area, d);
         } else if (!w->isDesktop()) {
-            auto geo = m_motionManagers[desktop-1].transformedGeometry(w);
+            auto geo = m_motionManagers[0].transformedGeometry(w);
 
             if (m_hoverwin == w) {
                 auto center = geo.center();
@@ -157,7 +157,7 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
     auto me = static_cast<QMouseEvent*>(e);
 
     EffectWindow* target = nullptr;
-    WindowMotionManager& wm = m_motionManagers[effects->currentDesktop()-1];
+    WindowMotionManager& wm = m_motionManagers[0];
     for (const auto& w : wm.managedWindows()) {
         auto geo = wm.transformedGeometry(w);
         if (geo.contains(me->pos())) {
