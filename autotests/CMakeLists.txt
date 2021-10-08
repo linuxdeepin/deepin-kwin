@@ -22,7 +22,7 @@ set(testprintasanbase_SRCS testprintasanbase.cpp)
 set( testScreenPaintData_SRCS test_screen_paint_data.cpp)
 add_executable(testScreenPaintData ${testScreenPaintData_SRCS} ${testprintasanbase_SRCS})
 # sw and mips not support asan,we block it for the moment by MACRO
-if ((${CMAKE_SYSTEM_PROCESSOR} STREQUAL "sw_64") OR (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "mips64"))
+if ((${CMAKE_SYSTEM_PROCESSOR} STREQUAL "sw_64") OR (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "mips64") OR (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "loongarch64"))
     add_definitions(-DNOTSUPPORTASAN)
     option(NOTSUPPORTASAN "ASAN no support" ON)
 endif()
