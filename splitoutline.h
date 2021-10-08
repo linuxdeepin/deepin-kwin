@@ -70,6 +70,9 @@ protected:
     void setLeftSplitClient(AbstractClient* client);
 
     void setRightSplitClient(AbstractClient* client);
+
+    void setCustomCursor(int direct);
+
 private:
     bool m_mainWindowPress = false;
     AbstractClient* m_leftSplitClient = nullptr;
@@ -78,6 +81,11 @@ private:
     QRect m_leftSplitClientRect;
     QRect m_rightSplitClientRect;
     QWidget* widgetLine = nullptr;
+
+    int maxLeftSplitClientWidth = 0;
+    int minLeftSplitClientWidth = 0;
+    int maxRightSplitClientWidth = 0;
+    int minRightSplitClientWidth = 0;
 };
 }
 #endif // SPLITOUTLINE_H

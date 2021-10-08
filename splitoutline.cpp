@@ -19,6 +19,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "splitoutline.h"
+
+#define CURSOR_LEFT     0
+#define CURSOR_RIGHT    1
+#define CURSOR_L_R      2
+
 namespace KWin
 {
  SplitOutline::SplitOutline()
@@ -26,7 +31,7 @@ namespace KWin
     {
         setWindowFlags(Qt::X11BypassWindowManagerHint);
         setWindowOpacity(0);
-        setCursor(Qt::SizeHorCursor); //设置鼠标样式
+        setCustomCursor(CURSOR_L_R); //设置鼠标样式
         setStyleSheet("border:1px; border-radius:5px;border-color:#BBBBBB; background-color:#DFDFDF");
         widgetLine = new QWidget(this);
         widgetLine->setGeometry(7,height()/2-25, 6, 50);
@@ -34,36 +39,54 @@ namespace KWin
         widgetLine->show();
     }
 
+    void SplitOutline::setCustomCursor(int direct)
+    {
+        QCursor cursor;
+        if (direct == CURSOR_LEFT) {
+            QPixmap pixmap(":/resources/themes/left-arrow.svg");
+            cursor = QCursor(pixmap, -1, -1);
+        } else if (direct == 1) {
+            QPixmap pixmap(":/resources/themes/right-arrow.svg");
+            cursor = QCursor(pixmap, -1, -1);
+        } else {
+            cursor = Qt::SizeHorCursor;
+        }
+        setCursor(cursor);
+    }
+
     void SplitOutline::mousePressEvent(QMouseEvent* e)
     {
         setWindowOpacity(1);
         m_mainWindowPress = true;
+        maxLeftSplitClientWidth = m_leftSplitClient->maxSize().width();
+        minLeftSplitClientWidth = m_leftSplitClient->minSize().width();
+        maxRightSplitClientWidth = m_rightSplitClient->maxSize().width();
+        minRightSplitClientWidth = m_rightSplitClient->minSize().width();
     }
 
     void SplitOutline::mouseMoveEvent(QMouseEvent*e)
     {
-        if (m_mainWindowPress == true) {
+        if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && m_mainWindowPress == true) {
             const int leftSplitClientWidth = e->screenPos().x() - m_workspaceRect.x();
             const int rightSplitClientWidth = m_workspaceRect.width() - leftSplitClientWidth;
-            const int maxLeftSplitClientWidth = m_leftSplitClient->maxSize().width();
-            const int minLeftSplitClientWidth = m_leftSplitClient->minSize().width();
-            const int maxRightSplitClientWidth = m_rightSplitClient->maxSize().width();
-            const int minRightSplitClientWidth = m_rightSplitClient->minSize().width();
-            
-            if (m_leftSplitClient != nullptr && (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
-                                             && (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
+
+            if ((minLeftSplitClientWidth < leftSplitClientWidth && leftSplitClientWidth < maxLeftSplitClientWidth)
+                && (maxRightSplitClientWidth > rightSplitClientWidth && rightSplitClientWidth > minRightSplitClientWidth)) {
                 m_leftSplitClient->setGeometry(m_workspaceRect.x(), 0, leftSplitClientWidth, height());
                 m_leftSplitClientRect = QRect(m_workspaceRect.x(), 0, leftSplitClientWidth, height());
                 m_leftSplitClient->palette();
-                this->move(e->screenPos().x()-10, 0);
-            }
-
-            if (m_rightSplitClient != nullptr &&  (minLeftSplitClientWidth <= leftSplitClientWidth) && (leftSplitClientWidth <= maxLeftSplitClientWidth)
-                                              &&  (minRightSplitClientWidth <= rightSplitClientWidth) && (rightSplitClientWidth <= maxRightSplitClientWidth)) {
                 m_rightSplitClient->setGeometry(e->screenPos().x(), 0, rightSplitClientWidth, height());
                 m_rightSplitClientRect = QRect(e->screenPos().x(), 0, rightSplitClientWidth, height());
                 m_rightSplitClient->palette();
                 this->move(e->screenPos().x()-10, 0);
+                setCustomCursor(CURSOR_L_R);
+            } else {
+                if (leftSplitClientWidth > rightSplitClientWidth) {
+                    setCustomCursor(CURSOR_LEFT);
+                }
+                else {
+                    setCustomCursor(CURSOR_RIGHT);
+                }
             }
         }
     }
