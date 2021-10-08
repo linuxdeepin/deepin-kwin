@@ -2913,13 +2913,13 @@ void AbstractClient::stopDelayedMoveResize()
 
 bool AbstractClient::handleSplitscreenSwap()
 {
-    if (!isLeftRightSplitscreen()) {
+    if (!isLeftRightSplitscreen() || screen() != screens()->number(geometry().center())) {
         return false;
     }
     if (m_quickTileMode & int(QuickTileFlag::Left)) {
         if (splitManage.find(screen()).value()->getLeftSplitClient() == this && splitManage.find(screen()).value()->getRightSplitClient() != nullptr)
         {
-            QRect workArea = workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop());
+            QRect workArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
             if ((x() + width()/2) > (workArea.x() + workArea.width()/2)) {
                 splitManage.find(screen()).value()->getRightSplitClient()->splitWinAgain(int(QuickTileFlag::Left));
                 splitWinAgain(int(QuickTileFlag::Right));
@@ -2935,7 +2935,7 @@ bool AbstractClient::handleSplitscreenSwap()
     } else if (m_quickTileMode & int(QuickTileFlag::Right)) {
         if (splitManage.find(screen()).value()->getRightSplitClient() == this && splitManage.find(screen()).value()->getLeftSplitClient() != nullptr)
         {
-            QRect workArea = workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop());
+            QRect workArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
             if ((x() + width()/2) < (workArea.x() + workArea.width()/2)) {
                 splitManage.find(screen()).value()->getLeftSplitClient()->splitWinAgain(int(QuickTileFlag::Right));
                 splitWinAgain(int(QuickTileFlag::Left));
@@ -2960,7 +2960,7 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != geometry()) {
             GeometryUpdatesBlocker blocker(this);
             QRect screenArea = workspace()->clientArea(ScreenArea, Cursor::pos(), desktop());
-            if (y() < (screenArea.height() / 5) && compositing() && isLeftRightSplitscreen()) {
+            if (y() < (screenArea.height() / 5) && compositing() && isLeftRightSplitscreen() && screen() == screens()->number(geometry().center())) {
                 return;
             }
 
