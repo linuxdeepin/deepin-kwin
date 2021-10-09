@@ -333,6 +333,11 @@ void Workspace::updateClientArea(bool force)
 
         oldrestrictedmovearea.clear(); // reset, no longer valid or needed
     }
+    for (int i=0; i < nscreens; i++) {
+         if (compositing() && AbstractClient::splitManage.contains(i)) {
+             AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
+         }
+    }
 }
 
 void Workspace::updateClientArea()
@@ -1849,9 +1854,6 @@ void Client::resizeWithChecks(int w, int h, xcb_gravity_t gravity, ForceGeometry
         break;
     }
     setGeometry(newx, newy, w, h, force);
-    if (compositing() && splitManage.contains(screen())) {
-        //splitManage.find(screen()).value()->handleDockChangePosition();
-    }
 }
 
 // _NET_MOVERESIZE_WINDOW

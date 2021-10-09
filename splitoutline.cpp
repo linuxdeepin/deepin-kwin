@@ -72,11 +72,11 @@ namespace KWin
 
             if ((minLeftSplitClientWidth < leftSplitClientWidth && leftSplitClientWidth < maxLeftSplitClientWidth)
                 && (maxRightSplitClientWidth > rightSplitClientWidth && rightSplitClientWidth > minRightSplitClientWidth)) {
-                m_leftSplitClient->setGeometry(m_workspaceRect.x(), m_workspaceRect.y(), leftSplitClientWidth, height());
-                m_leftSplitClientRect = QRect(m_workspaceRect.x(), m_workspaceRect.y(), leftSplitClientWidth, height());
+                m_leftSplitClient->setGeometry(m_workspaceRect.x(), m_workspaceRect.y(), leftSplitClientWidth, m_workspaceRect.height());
+                m_leftSplitClientRect = QRect(m_workspaceRect.x(), m_workspaceRect.y(), leftSplitClientWidth, m_workspaceRect.height());
                 m_leftSplitClient->palette();
-                m_rightSplitClient->setGeometry(e->screenPos().x(), m_workspaceRect.y(), rightSplitClientWidth, height());
-                m_rightSplitClientRect = QRect(e->screenPos().x(), m_workspaceRect.y(), rightSplitClientWidth, height());
+                m_rightSplitClient->setGeometry(e->screenPos().x(), m_workspaceRect.y(), rightSplitClientWidth, m_workspaceRect.height());
+                m_rightSplitClientRect = QRect(e->screenPos().x(), m_workspaceRect.y(), rightSplitClientWidth, m_workspaceRect.height());
                 m_rightSplitClient->palette();
                 this->move(e->screenPos().x()-10, m_workspaceRect.y());
                 setCustomCursor(CURSOR_L_R);
@@ -153,8 +153,9 @@ namespace KWin
     {
         if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && isVisible())
         {
+            setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, m_workspaceRect.y(), 20, m_workspaceRect.height());
             move(m_leftSplitClient->x() + m_leftSplitClient->width() - 10, m_workspaceRect.y());
-            widgetLine->setGeometry(7,height()/2-25, 6, 50);
+            widgetLine->setGeometry(7, m_workspaceRect.height()/2-25, 6, 50);
         }
     }
 
@@ -181,13 +182,13 @@ namespace KWin
     void SplitOutline::resumeClientLocation()
     {
          if ((m_rightSplitClientRect.isEmpty() || m_leftSplitClientRect.isEmpty()) && !m_workspaceRect.isEmpty()) {
-             m_leftSplitClientRect = QRect(m_workspaceRect.x(), m_workspaceRect.y(), m_workspaceRect.width()/2, height());
-             m_rightSplitClientRect = QRect(m_workspaceRect.x() + m_workspaceRect.width()/2, 0, m_workspaceRect.width()/2, height());
+             m_leftSplitClientRect = QRect(m_workspaceRect.x(), m_workspaceRect.y(), m_workspaceRect.width()/2, m_workspaceRect.height());
+             m_rightSplitClientRect = QRect(m_workspaceRect.x() + m_workspaceRect.width()/2, 0, m_workspaceRect.width()/2, m_workspaceRect.height());
          }
 
-         m_leftSplitClient->setGeometry(m_leftSplitClientRect.x(), m_workspaceRect.y(), m_leftSplitClientRect.width(), height());
+         m_leftSplitClient->setGeometry(m_leftSplitClientRect.x(), m_workspaceRect.y(), m_leftSplitClientRect.width(), m_workspaceRect.height());
          m_leftSplitClient->palette();
-         m_rightSplitClient->setGeometry(m_rightSplitClientRect.x(), m_workspaceRect.y(), m_rightSplitClientRect.width(), height());
+         m_rightSplitClient->setGeometry(m_rightSplitClientRect.x(), m_workspaceRect.y(), m_rightSplitClientRect.width(), m_workspaceRect.height());
          m_rightSplitClient->palette();
          updateSplitOutlinePosition();
     }
@@ -196,12 +197,12 @@ namespace KWin
     {
          if ((m_rightSplitClientRect.isEmpty() || m_leftSplitClientRect.isEmpty()) && !m_workspaceRect.isEmpty()) {
              m_leftSplitClientRect = QRect(m_workspaceRect.x(), m_workspaceRect.y(), m_workspaceRect.width()/2, height());
-             m_rightSplitClientRect = QRect(m_workspaceRect.x() + m_workspaceRect.width()/2, m_workspaceRect.y(), m_workspaceRect.width()/2, height());
+             m_rightSplitClientRect = QRect(m_workspaceRect.x() + m_workspaceRect.width()/2, m_workspaceRect.y(), m_workspaceRect.width()/2, m_workspaceRect.height());
          }
 
          m_leftSplitClient->setGeometry(m_workspaceRect.x(), m_workspaceRect.y(), m_rightSplitClientRect.width(), height());
          m_leftSplitClient->palette();
-         m_rightSplitClient->setGeometry(m_workspaceRect.x() + m_rightSplitClientRect.width(), m_workspaceRect.y(), m_leftSplitClientRect.width(), height());
+         m_rightSplitClient->setGeometry(m_workspaceRect.x() + m_rightSplitClientRect.width(), m_workspaceRect.y(), m_leftSplitClientRect.width(), m_workspaceRect.height());
          m_rightSplitClient->palette();
          m_leftSplitClientRect = m_leftSplitClient->geometry();
          m_rightSplitClientRect = m_rightSplitClient->geometry();
@@ -232,9 +233,9 @@ namespace KWin
     void SplitOutline::updateLeftRightArea()
     {
         if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr) {
-            m_leftSplitClient->setGeometry(m_workspaceRect.x(), m_workspaceRect.y(), m_workspaceRect.width()/2, height());
+            m_leftSplitClient->setGeometry(m_workspaceRect.x(), m_workspaceRect.y(), m_workspaceRect.width()/2, m_workspaceRect.height());
             m_leftSplitClient->palette();
-            m_rightSplitClient->setGeometry(m_workspaceRect.x() + m_workspaceRect.width()/2, m_workspaceRect.y(), m_workspaceRect.width()/2, height());
+            m_rightSplitClient->setGeometry(m_workspaceRect.x() + m_workspaceRect.width()/2, m_workspaceRect.y(), m_workspaceRect.width()/2, m_workspaceRect.height());
             m_rightSplitClient->palette();
             updateSplitOutlinePosition();  
         } 
