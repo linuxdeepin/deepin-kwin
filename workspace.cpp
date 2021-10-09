@@ -276,8 +276,9 @@ void Workspace::init()
     // load is needed to be called again when starting xwayalnd to sync to RootInfo, see BUG 385260
     vds->save();
 
-    if (config->group("Workspace").hasKey("DraggingWithContent"))
-        m_ClientDragingWithContent = config->group("Workspace").readEntry("DraggingWithContent") == "true" ? true : false;
+    m_ClientDragingWithContent = config->group("Workspace").readEntry("DraggingWithContent",ENABLE_DRAG_CONGTENT);
+
+
 
     m_initialDesktop = config->group("Workspace").readEntry("CurrentDesktop",1);
     if (!VirtualDesktopManager::self()->setCurrent(m_initialDesktop))
@@ -961,7 +962,7 @@ void Workspace::slotReconfigure()
     options->updateSettings();
 
 
-    m_ClientDragingWithContent = kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent") == "true" ? true : false;
+    m_ClientDragingWithContent = kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent",ENABLE_DRAG_CONGTENT);
 
 
     emit configChanged();
