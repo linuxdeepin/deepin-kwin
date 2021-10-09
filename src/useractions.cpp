@@ -188,7 +188,8 @@ bool UserActionsMenu::isMenuClient(const AbstractClient *c) const
 
 void UserActionsMenu::handleClick(const QPoint &pos)
 {
-    if (isShown() && !m_menu->geometry().contains(pos)) {
+    QRect rect = m_menu->geometry().translated(0,1);
+    if (isShown() && !m_menu->geometry().contains(pos) && !rect.contains(pos)) {
         close();
     }
 }
