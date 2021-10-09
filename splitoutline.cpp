@@ -180,7 +180,7 @@ namespace KWin
     
     void SplitOutline::resumeClientLocation()
     {
-         if (m_rightSplitClientRect.isEmpty() && m_leftSplitClientRect.isEmpty() && !m_workspaceRect.isEmpty()) {
+         if ((m_rightSplitClientRect.isEmpty() || m_leftSplitClientRect.isEmpty()) && !m_workspaceRect.isEmpty()) {
              m_leftSplitClientRect = QRect(m_workspaceRect.x(), m_workspaceRect.y(), m_workspaceRect.width()/2, height());
              m_rightSplitClientRect = QRect(m_workspaceRect.x() + m_workspaceRect.width()/2, 0, m_workspaceRect.width()/2, height());
          }
@@ -194,7 +194,7 @@ namespace KWin
 
     void SplitOutline::swapClientLocation()
     {
-         if (m_rightSplitClientRect.isEmpty() && m_leftSplitClientRect.isEmpty() && !m_workspaceRect.isEmpty()) {
+         if ((m_rightSplitClientRect.isEmpty() || m_leftSplitClientRect.isEmpty()) && !m_workspaceRect.isEmpty()) {
              m_leftSplitClientRect = QRect(m_workspaceRect.x(), m_workspaceRect.y(), m_workspaceRect.width()/2, height());
              m_rightSplitClientRect = QRect(m_workspaceRect.x() + m_workspaceRect.width()/2, m_workspaceRect.y(), m_workspaceRect.width()/2, height());
          }

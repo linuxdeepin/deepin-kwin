@@ -3636,10 +3636,10 @@ void AbstractClient::judgeRepeatquickTileclient()
    QMap<int, SplitOutline*>::iterator it;
    for (it = splitManage.begin();it!=splitManage.end();)
    {
-        if (splitManage.find(it.key()).value()->getLeftSplitClient() == this)
+        if (splitManage.find(it.key()).value()->getLeftSplitClient() == this && it.key() != screen())
         {
             splitManage.find(it.key()).value()->setSplitClient(nullptr, QuickTileFlag::Left);
-        } else if (splitManage.find(it.key()).value()->getRightSplitClient() == this) {
+        } else if (splitManage.find(it.key()).value()->getRightSplitClient() == this && it.key() != screen()) {
             splitManage.find(it.key()).value()->setSplitClient(nullptr, QuickTileFlag::Right);
         }
         ++it;
