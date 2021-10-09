@@ -127,16 +127,6 @@ bool BuiltInEffectLoader::loadEffect(BuiltInEffect effect, LoadEffectFlags flags
 
 bool BuiltInEffectLoader::loadEffect(const QString &name, BuiltInEffect effect, LoadEffectFlags flags)
 {
-    // 窗口动画-魔灯效果和切换工作区
-    if ((name == "magiclamp") || (name == "slide")) {
-        KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
-        if (kwinConfig.hasKey("window_animation")) {
-            if (kwinConfig.readEntry("window_animation") == "false") {
-                return false;
-            }
-        }
-    }
-
     if (effect == BuiltInEffect::Invalid) {
         return false;
     }
@@ -243,16 +233,6 @@ bool ScriptedEffectLoader::loadEffect(const QString &name)
 bool ScriptedEffectLoader::loadEffect(const KPluginMetaData &effect, LoadEffectFlags flags)
 {
     const QString name = effect.pluginId();
-    // 窗口动画-缩放效果
-    if (name == "kwin4_effect_squash") {
-        KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
-        if (kwinConfig.hasKey("window_animation")) {
-            if (kwinConfig.readEntry("window_animation") == "false") {
-                return false;
-            }
-        }
-    }
-
     if (!flags.testFlag(LoadEffectFlag::Load)) {
         qCDebug(KWIN_CORE) << "Loading flags disable effect: " << name;
         return false;
@@ -416,16 +396,6 @@ bool PluginEffectLoader::loadEffect(const KPluginMetaData &info, LoadEffectFlags
         return false;
     }
     const QString name = info.pluginId();
-    // 窗口边框特效-圆角
-    if (name == "com.deepin.scissor") {
-        KConfig config("kwinrc", KConfig::CascadeConfig);
-        KConfigGroup group_scissor(&config, "Compositing");
-        if (group_scissor.hasKey("window_border_effect")) {
-            if (group_scissor.readEntry("window_border_effect") == "false") {
-                return false;
-            }
-        }
-    }
     if (!flags.testFlag(LoadEffectFlag::Load)) {
         qCDebug(KWIN_CORE) << "Loading flags disable effect: " << name;
         return false;
