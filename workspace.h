@@ -403,6 +403,10 @@ public:
 
     void updateScreenSplitApp(Toplevel *t, bool onlyRemove = false);
 
+    void updateSplitOutlineState(uint oldDesktop, uint newDesktop);
+
+    void searchSplitScreenClient(uint Desktop);
+
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
     // Keybindings

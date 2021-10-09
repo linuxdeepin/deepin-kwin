@@ -817,6 +817,7 @@ public:
     void cancelSplitOutline();
     // When using three finger split screen, check whether the client meets the split screen conditions.
     bool checkClientAllowToTile();
+    void judgeRepeatquickTileclient();
     void handlequickTileModeChanged();
     bool handleSplitscreenSwap();
 

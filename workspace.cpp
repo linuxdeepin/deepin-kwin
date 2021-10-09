@@ -935,6 +935,7 @@ void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
     --block_focus;
 
     activateClientOnNewDesktop(newDesktop);
+    updateSplitOutlineState(oldDesktop, newDesktop);
     kwinApp()->config()->group("Workspace").writeEntry("CurrentDesktop", newDesktop);
     kwinApp()->config()->sync();
     emit currentDesktopChanged(oldDesktop, movingClient);
@@ -1908,6 +1909,32 @@ void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
             splitapp_stacking_order.append(t);
     }
 }
+
+void Workspace::updateSplitOutlineState(uint oldDesktop, uint newDesktop)
+{
+     QMap<int, SplitOutline*>::iterator it;
+     int key;
+     for (it = AbstractClient::splitManage.begin(); it!=AbstractClient::splitManage.end();)
+     {
+          key = it.key();
+          it++;
+          SplitOutline* splitOutline = AbstractClient::splitManage.take(key);
+          delete splitOutline;
+          splitOutline = nullptr;
+     }
+    searchSplitScreenClient(newDesktop);
+}
+
+void Workspace::searchSplitScreenClient(uint Desktop)
+{
+    for (int i = stacking_order.count() - 1; i > -1; --i) {
+         AbstractClient *c = qobject_cast<AbstractClient*>(stacking_order.at(i));
+         if (c->desktop() == Desktop && (c->quickTileMode() == QuickTileMode(QuickTileFlag::Left) || c->quickTileMode() == QuickTileMode(QuickTileFlag::Right))) {
+             c->handlequickTileModeChanged();
+         }
+    }
+}
+
 
 } // namespace
 

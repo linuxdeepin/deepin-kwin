@@ -3631,6 +3631,21 @@ void AbstractClient::setQuickTileMode(QuickTileMode mode, bool keyboard)
     emit quickTileModeChanged();
 }
 
+void AbstractClient::judgeRepeatquickTileclient()
+{
+   QMap<int, SplitOutline*>::iterator it;
+   for (it = splitManage.begin();it!=splitManage.end();)
+   {
+        if (splitManage.find(it.key()).value()->getLeftSplitClient() == this)
+        {
+            splitManage.find(it.key()).value()->setSplitClient(nullptr, QuickTileFlag::Left);
+        } else if (splitManage.find(it.key()).value()->getRightSplitClient() == this) {
+            splitManage.find(it.key()).value()->setSplitClient(nullptr, QuickTileFlag::Right);
+        }
+        ++it;
+   }
+}
+
 void AbstractClient::handlequickTileModeChanged()
 {
    bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
@@ -3639,6 +3654,7 @@ void AbstractClient::handlequickTileModeChanged()
        splitOutline->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
        splitManage.insert(screen(), splitOutline);
     } else if (compositing() && splitManage.contains(screen()) && flag) {
+       judgeRepeatquickTileclient();
        splitManage.find(screen()).value()->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
     }
 }
