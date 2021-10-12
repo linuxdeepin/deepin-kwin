@@ -123,6 +123,8 @@ public:
     QString desktopName(int desktop) const override;
     bool optionRollOverDesktops() const override;
 
+    SwipeDirection desktopChangedDirection() const override;
+
     QPoint cursorPos() const override;
     bool grabKeyboard(Effect* effect) override;
     void ungrabKeyboard() override;
