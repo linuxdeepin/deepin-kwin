@@ -23,6 +23,7 @@
 
 #include <QMouseEvent>
 #include <QWidget>
+#include <QPainter>
 
 #include "abstract_client.h"
 
@@ -43,6 +44,8 @@ public:
     void enterEvent(QEvent *);
 
     void leaveEvent(QEvent *);
+
+    void paintEvent(QPaintEvent *event);
     
     void setSplitClient(AbstractClient* client, QuickTileFlag flag);
 
@@ -85,7 +88,6 @@ private:
     QRect m_workspaceRect;
     QRect m_leftSplitClientRect;
     QRect m_rightSplitClientRect;
-    QWidget* widgetLine = nullptr;
 
     int maxLeftSplitClientWidth = 0;
     int minLeftSplitClientWidth = 0;

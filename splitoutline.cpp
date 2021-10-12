@@ -32,11 +32,6 @@ namespace KWin
         setWindowFlags(Qt::X11BypassWindowManagerHint);
         setWindowOpacity(0);
         setCustomCursor(CURSOR_L_R); //设置鼠标样式
-        setStyleSheet("border:1px; border-radius:5px;border-color:#BBBBBB; background-color:#DFDFDF");
-        widgetLine = new QWidget(this);
-        widgetLine->setGeometry(7,height()/2-25, 6, 50);
-        widgetLine->setStyleSheet("border-radius:3px;background-color:#7A7A7A");
-        widgetLine->show();
     }
 
     void SplitOutline::setCustomCursor(int direct)
@@ -107,6 +102,25 @@ namespace KWin
         setWindowOpacity(0);
     }
 
+    void SplitOutline::paintEvent(QPaintEvent *event)
+    {
+        Q_UNUSED(event);
+
+        QPainter splitOutlinePainter(this);
+        QPen pen;
+        pen.setColor(QColor("#BBBBBB"));
+        pen.setWidth(1);
+        splitOutlinePainter.setRenderHint(QPainter::Antialiasing, true);
+        splitOutlinePainter.setBrush(QColor("#DFDFDF"));
+        splitOutlinePainter.setPen(pen);
+        splitOutlinePainter.drawRect(0,0,width(),height());
+
+        QPainter smallLine(this);
+        smallLine.setRenderHint(QPainter::Antialiasing, true);
+        smallLine.setBrush(QColor("#7A7A7A"));
+        smallLine.drawRoundRect(QRect(7, m_workspaceRect.height()/2-25, 6, 50), 30, 30);
+    }
+
     void SplitOutline::setLeftSplitClient(AbstractClient* client)
     {
         m_leftSplitClient = client;
@@ -155,7 +169,7 @@ namespace KWin
         {
             setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, m_workspaceRect.y(), 20, m_workspaceRect.height());
             move(m_leftSplitClient->x() + m_leftSplitClient->width() - 10, m_workspaceRect.y());
-            widgetLine->setGeometry(7, m_workspaceRect.height()/2-25, 6, 50);
+            update();
         }
     }
 
