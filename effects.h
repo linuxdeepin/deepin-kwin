@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_EFFECTSIMPL_H
 #define KWIN_EFFECTSIMPL_H
 
-#include "kwineffects.h"
+#include "kwineffectsex.h"
 
 #include "scene.h"
 
@@ -63,7 +63,7 @@ class Toplevel;
 class Unmanaged;
 class WindowPropertyNotifyX11Filter;
 
-class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandler
+class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandlerEx
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Effects")

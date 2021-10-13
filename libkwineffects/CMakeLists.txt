@@ -42,6 +42,7 @@ install(TARGETS kwinxrenderutils EXPORT kdeworkspaceLibraryTargets ${INSTALL_TAR
 ###  effects lib  ###
 set(kwin_EFFECTSLIB_SRCS
     kwineffects.cpp
+    kwineffectsex.cpp
     anidata.cpp
     kwinanimationeffect.cpp
     logging.cpp
@@ -112,6 +113,7 @@ target_link_libraries(kwinglutils PUBLIC ${epoxy_LIBRARY})
 install( FILES
     kwinglobals.h
     kwineffects.h
+    kwineffectsex.h
     kwinanimationeffect.h
     kwinglplatform.h
     kwinglutils.h

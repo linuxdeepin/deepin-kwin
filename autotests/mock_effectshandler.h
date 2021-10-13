@@ -29,9 +29,6 @@ class MockEffectsHandler : public KWin::EffectsHandler
 public:
     explicit MockEffectsHandler(KWin::CompositingType type);
     void activateWindow(KWin::EffectWindow *) override {}
-    virtual QString getActiveColor() override {return "";};
-    bool checkWindowAllowToSplit(KWin::EffectWindow *c) override {return true;};
-    void setSplitWindow(KWin::EffectWindow* c, int mode, bool isShowPreview = false) override {}
     KWin::Effect *activeFullScreenEffect() const {
         return nullptr;
     }
@@ -171,9 +168,7 @@ public:
     bool optionRollOverDesktops() const override {
         return false;
     }
-    KWin::SwipeDirection desktopChangedDirection() const override {
-        return KWin::SwipeDirection::Invalid;
-    }
+
     void paintEffectFrame(KWin::EffectFrame *, QRegion, double, double) override {}
     void paintScreen(int, QRegion, KWin::ScreenPaintData &) override {}
     void paintWindow(KWin::EffectWindow *, int, QRegion, KWin::WindowPaintData &) override {}

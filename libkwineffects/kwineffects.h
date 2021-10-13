@@ -841,7 +841,6 @@ public:
     virtual void drawWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data) = 0;
     virtual void buildQuads(EffectWindow* w, WindowQuadList& quadList) = 0;
     virtual QVariant kwinOption(KWinOption kwopt) = 0;
-
     /**
      * Sets the cursor while the mouse is intercepted.
      * @see startMouseInterception
@@ -940,10 +939,6 @@ public:
      * @since 5.10
      **/
     virtual void unregisterTouchBorder(ElectricBorder border, QAction *action) = 0;
-
-    virtual bool checkWindowAllowToSplit(KWin::EffectWindow *c) = 0;
-    virtual QString getActiveColor() = 0;
-    virtual void setSplitWindow(KWin::EffectWindow* c, int mode, bool isShowPreview = false) = 0;
 
     // functions that allow controlling windows/desktop
     virtual void activateWindow(KWin::EffectWindow* c) = 0;
@@ -1045,8 +1040,6 @@ public:
     Q_SCRIPTABLE virtual int desktopToLeft(int desktop = 0, bool wrap = true) const = 0;
     Q_SCRIPTABLE virtual QString desktopName(int desktop) const = 0;
     virtual bool optionRollOverDesktops() const = 0;
-
-    virtual SwipeDirection desktopChangedDirection() const = 0;
 
     virtual int activeScreen() const = 0; // Xinerama
     virtual int numScreens() const = 0; // Xinerama
@@ -1778,7 +1771,6 @@ Q_SIGNALS:
     void windowFullScreenChanged(KWin::EffectWindow *w);
 
     void closeEffect(bool isSleepBefore);
-    void windowQuickTileModeChanged(KWin::EffectWindow *w);
 
 protected:
     QVector< EffectPair > loaded_effects;

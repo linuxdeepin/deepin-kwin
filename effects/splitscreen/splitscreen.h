@@ -2,6 +2,7 @@
 #define KWIN_SPLITSCREEN_H
 
 #include <kwineffects.h>
+#include <kwineffectsex.h>
 #include <abstract_client.h>
 
 #include "scene.h"

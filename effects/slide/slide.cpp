@@ -361,9 +361,9 @@ void SlideEffect::start(int old, int current, EffectWindow *movingWindow)
         }
 
         // suitable for two virtual desktops
-        if (effects->desktopChangedDirection() == SwipeDirection::Right) {
+        if (effectsEx->desktopChangedDirection() == SwipeDirection::Right) {
             delta.setX(abs(delta.x()));
-        } else if (effects->desktopChangedDirection() == SwipeDirection::Left) {
+        } else if (effectsEx->desktopChangedDirection() == SwipeDirection::Left) {
             delta.setX(-abs(delta.x()));
         }
         m_diff += delta - passed;
@@ -389,9 +389,9 @@ void SlideEffect::start(int old, int current, EffectWindow *movingWindow)
     }
 
     // suitable for two virtual desktops
-    if (effects->desktopChangedDirection() == SwipeDirection::Right) {
+    if (effectsEx->desktopChangedDirection() == SwipeDirection::Right) {
         m_diff.setX(abs(m_diff.x()));
-    } else if (effects->desktopChangedDirection() == SwipeDirection::Left) {
+    } else if (effectsEx->desktopChangedDirection() == SwipeDirection::Left) {
         m_diff.setX(-abs(m_diff.x()));
     }
     m_startPos = desktopCoords(old);

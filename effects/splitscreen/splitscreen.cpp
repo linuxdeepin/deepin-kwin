@@ -25,7 +25,7 @@ SplitScreenEffect::SplitScreenEffect()
 
     connect(effects, &EffectsHandler::windowStartUserMovedResized, this, &SplitScreenEffect::slotWindowStartUserMovedResized);
     connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &SplitScreenEffect::slotWindowFinishUserMovedResized);
-    connect(effects, &EffectsHandler::windowQuickTileModeChanged, this, &SplitScreenEffect::slotWindowQuickTileModeChanged);
+    connect(effectsEx, &EffectsHandlerEx::windowQuickTileModeChanged, this, &SplitScreenEffect::slotWindowQuickTileModeChanged);
 
     m_splitthumbShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral("splitthumb.glsl"));
 }
@@ -127,7 +127,7 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
 
 
                 ShaderBinder binder(m_splitthumbShader);
-                QColor color = effects->getActiveColor();
+                QColor color = effectsEx->getActiveColor();
                 m_splitthumbShader->setUniform(GLShader::Color, color);
                 m_highlightFrame->render(infiniteRegion(), 1, 0.8);
                 m_highlightFrame->setShader(m_splitthumbShader);
@@ -186,7 +186,7 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
                 effects->defineCursor(Qt::PointingHandCursor);
                 effects->setElevatedWindow(target, false);
                 effects->activateWindow(target);
-                effects->setSplitWindow(target, m_backgroundMode);
+                effectsEx->setSplitWindow(target, m_backgroundMode);
             }
             setActive(false);
             break;
@@ -249,7 +249,7 @@ void SplitScreenEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
             if (w == m_window)
                 continue;
 
-            if (!effects->checkWindowAllowToSplit(w)) {
+            if (!effectsEx->checkWindowAllowToSplit(w)) {
                 m_unminWinlist.append(w);
                 continue;
             }
