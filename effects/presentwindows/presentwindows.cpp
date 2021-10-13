@@ -598,23 +598,31 @@ void PresentWindowsEffect::inputEventUpdate(const QPoint &pos, QEvent::Type type
     EffectWindowList windows = m_motionManager.managedWindows();
     bool hovering = false;
     EffectWindow *highlightCandidate = NULL;
-    for (int i = 0; i < windows.size(); ++i) {
-        DataHash::const_iterator winData = m_windowData.constFind(windows.at(i));
-        if (winData == m_windowData.constEnd())
-            continue;
-        if (m_motionManager.transformedGeometry(windows.at(i)).contains(pos) &&
-                winData->visible && !winData->deleted) {
+    if (m_highlightedWindow) {
+        if (m_highlightedWindowRect.contains(pos))
             hovering = true;
-            if (windows.at(i) && m_highlightedWindow != windows.at(i))
-                highlightCandidate = windows.at(i);
-            break;
+    } else {
+        for (int i = 0; i < windows.size(); ++i) {
+            DataHash::const_iterator winData = m_windowData.constFind(windows.at(i));
+            if (winData == m_windowData.constEnd())
+                continue;
+            if (m_motionManager.transformedGeometry(windows.at(i)).contains(pos) &&
+                    winData->visible && !winData->deleted) {
+                hovering = true;
+                if (windows.at(i) && m_highlightedWindow != windows.at(i))
+                    highlightCandidate = windows.at(i);
+                break;
+            }
         }
     }
-
     m_hoverhighlightedWindow = hovering;
+
+    if (hovering)
+        updateCloseWindowPosition();
+
     if (!hovering)
         setHighlightedWindow(NULL);
-    if (m_highlightedWindow && m_motionManager.transformedGeometry(m_highlightedWindow).contains(pos))
+    if (m_highlightedWindow && m_highlightedWindowRect.contains(pos))
         updateCloseWindow();
     else if (m_closeView)
         m_closeView->hide();
@@ -1761,7 +1769,7 @@ void PresentWindowsEffect::updateCloseWindow()
     if (m_closeView->isVisible())
         return;
 
-    const QRectF rect(m_motionManager.targetGeometry(m_highlightedWindow));
+    const QRectF rect(m_highlightedWindowRect);
     if (2*m_closeView->width() > rect.width() && 2*m_closeView->height() > rect.height()) {
         // not for tiny windows (eg. with many windows) - they might become unselectable
         m_closeView->hide();
@@ -1781,9 +1789,6 @@ void PresentWindowsEffect::updateCloseWindow()
 
 void PresentWindowsEffect::updateCloseWindowPosition()
 {
-    if (!m_closeView->isVisible())
-        return;
-
     QRect cvr(QPoint(0,0), m_closeView->size());
     switch (m_closeButtonCorner)
     {
