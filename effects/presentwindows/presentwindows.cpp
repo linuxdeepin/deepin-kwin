@@ -415,7 +415,8 @@ void PresentWindowsEffect::paintWindow(EffectWindow *w, int mask, QRegion region
                 m_highlightedWindowRect.setY(w->geometry().y() + data.yTranslation());
                 m_highlightedWindowRect.setWidth(data.xScale() * w->geometry().width());
                 m_highlightedWindowRect.setHeight(data.yScale() * w->geometry().height());
-                updateCloseWindowPosition();
+                if (m_closeView->isVisible())
+                    updateCloseWindowPosition();
             }
             effects->paintWindow(w, mask, region, data);
 
@@ -616,9 +617,6 @@ void PresentWindowsEffect::inputEventUpdate(const QPoint &pos, QEvent::Type type
         }
     }
     m_hoverhighlightedWindow = hovering;
-
-    if (hovering)
-        updateCloseWindowPosition();
 
     if (!hovering)
         setHighlightedWindow(NULL);
@@ -1777,6 +1775,7 @@ void PresentWindowsEffect::updateCloseWindow()
     }
 
     if (rect.contains(effects->cursorPos())) {
+        updateCloseWindowPosition();
         m_closeView->show();
         m_closeView->disarm();
         // to wait for the next event cycle (or more if the show takes more time)
