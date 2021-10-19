@@ -258,11 +258,11 @@ namespace KWin
     void SplitOutline::handleDockChangePosition()
     {
         updateWorkspaceArea();
-        updateLeftRightArea();
         if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr) {
             m_leftSplitClientRect = m_leftSplitClient->geometry();
             m_rightSplitClientRect = m_rightSplitClient->geometry();
         }
+        updateSplitOutlinePosition();
     }
 
 
