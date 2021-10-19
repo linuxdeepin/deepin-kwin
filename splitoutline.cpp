@@ -49,6 +49,18 @@ namespace KWin
         setCursor(cursor);
     }
 
+    int SplitOutline::getCustomCursor()
+    {
+        return m_cursor;
+    }
+
+    void SplitOutline::updateCustomCursorState()
+    {
+        if (m_leftSplitClientRect.width() == m_rightSplitClientRect.width()) {
+            setCustomCursor(CURSOR_L_R);
+        }
+    }
+
     void SplitOutline::mousePressEvent(QMouseEvent* e)
     {
         setWindowOpacity(1);
@@ -263,6 +275,7 @@ namespace KWin
             m_rightSplitClientRect = m_rightSplitClient->geometry();
         }
         updateSplitOutlinePosition();
+        updateCustomCursorState();
     }
 
 

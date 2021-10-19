@@ -77,6 +77,10 @@ protected:
 
     void setCustomCursor(int direct);
 
+    int getCustomCursor();
+
+    void updateCustomCursorState();
+
     void updateWorkspaceArea();
 
     void updateLeftRightArea();
@@ -89,6 +93,7 @@ private:
     QRect m_leftSplitClientRect;
     QRect m_rightSplitClientRect;
 
+    int m_cursor = 2;
     int maxLeftSplitClientWidth = 0;
     int minLeftSplitClientWidth = 0;
     int maxRightSplitClientWidth = 0;
