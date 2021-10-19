@@ -2926,6 +2926,7 @@ void AbstractClient::finishMoveResize(bool cancel)
         }
     }
 
+
 // FRAME    update();
     emit clientFinishUserMovedResized(this);
 }
