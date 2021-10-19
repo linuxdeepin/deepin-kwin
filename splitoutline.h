@@ -26,6 +26,7 @@
 #include <QPainter>
 
 #include "abstract_client.h"
+#include "effects.h"
 
 namespace KWin {
 class AbstractClient;
@@ -33,7 +34,7 @@ class SplitOutline : public QWidget
 {
 public:
 
-    explicit SplitOutline();
+    explicit SplitOutline(int screen, int desktop);
 
     void mousePressEvent(QMouseEvent* e);
 
@@ -71,6 +72,12 @@ public:
     
     void noActiveHide();
 
+    int clientsStatus();
+
+    bool clearClient(AbstractClient *client);
+
+    void updateOutlineStatus();
+
      ~SplitOutline();
 protected:
     void setLeftSplitClient(AbstractClient* client);
@@ -96,10 +103,14 @@ private:
     QRect m_rightSplitClientRect;
 
     int m_cursor = 2;
+    int m_desktop = 0;
+    int m_screen = 0;
+
     int maxLeftSplitClientWidth = 0;
     int minLeftSplitClientWidth = 0;
     int maxRightSplitClientWidth = 0;
     int minRightSplitClientWidth = 0;
+
     int m_pos = 0;
 };
 }

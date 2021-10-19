@@ -71,7 +71,9 @@ enum class BuiltInEffect
     WindowGeometry,
     WobblyWindows,
     Zoom,
-    SplitScreen
+    SplitScreen,
+    SplitHandler,
+    NumEffect
 };
 
 namespace BuiltInEffects

@@ -878,6 +878,7 @@ Q_SIGNALS:
      * another group, but not when a Client gets added or removed to the Client's ClientGroup.
      **/
     void tabGroupChanged();
+    void swapSplitClient(KWin::AbstractClient *, int);
 
 protected:
     AbstractClient();

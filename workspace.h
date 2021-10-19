@@ -173,6 +173,7 @@ public:
 
     bool checkClientAllowToSplit(AbstractClient *c);
     void setClientSplit(AbstractClient* c, int mode, bool isShowPreview);
+    void updateSplitOutlinePos(int screen, int desktop);
 
     void activateClient(AbstractClient*, bool force = false);
     void requestFocus(AbstractClient* c, bool force = false);

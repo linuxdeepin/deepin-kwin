@@ -1895,6 +1895,11 @@ void Workspace::slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isSho
     setClientSplit(c, mode, isShowPreview);
 }
 
+void Workspace::updateSplitOutlinePos(int screen, int desktop)
+{
+    AbstractClient::splitManage.find(screen).value()->updateOutlineStatus();
+}
+
 void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
 {
 

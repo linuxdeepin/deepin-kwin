@@ -59,10 +59,12 @@ public:
     virtual QString getActiveColor() = 0;
     virtual void setSplitWindow(KWin::EffectWindow* c, int mode, bool isShowPreview = false) = 0;
     virtual SwipeDirection desktopChangedDirection() const = 0;
+    virtual void resetSplitOutlinePos(int screen, int desktop) = 0;
 
 Q_SIGNALS:
     void windowQuickTileModeChanged(KWin::EffectWindow *w);
     void showSplitScreenPreview(KWin::EffectWindow *w);
+    void swapSplitWin(KWin::EffectWindow *w, int index);
 
 };
 

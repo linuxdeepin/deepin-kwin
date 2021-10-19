@@ -94,6 +94,7 @@ public:
     bool checkWindowAllowToSplit(KWin::EffectWindow *c) override;
     QString getActiveColor() override;
     void setSplitWindow(EffectWindow* c, int mode, bool isShowPreview = false) override;
+    virtual void resetSplitOutlinePos(int screen, int desktop) override;
 
     void activateWindow(EffectWindow* c) override;
     EffectWindow* activeWindow() const override;

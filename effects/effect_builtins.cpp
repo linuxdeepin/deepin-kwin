@@ -44,6 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "windowgeometry/windowgeometry.h"
 #include "zoom/zoom.h"
 #include "splitscreen/splitscreen.h"
+#include "splithandler/splithandler.h"
 // OpenGL-specific effects for desktop
 #include "coverswitch/coverswitch.h"
 #include "cube/cube.h"
@@ -668,6 +669,21 @@ EFFECT_FALLBACK
         nullptr
 #endif
 EFFECT_FALLBACK
+    }, {
+        QStringLiteral("splithandler"),
+        i18ndc("kwin_effects", "Name of a KWin Effect", "splithandler"),
+        i18ndc("kwin_effects", "Comment describing the KWin Effect", "Window split window handler display"),
+        QStringLiteral("Accessibility"),
+        QString(),
+        QUrl(),
+        true,
+        false,
+#ifdef EFFECT_BUILTINS
+        &createHelper<SplitHandlerEffect>,
+        nullptr,
+        nullptr
+#endif
+EFFECT_FALLBACK
     }
     };
     return s_effectData;
@@ -741,7 +757,7 @@ QStringList availableEffectNames()
 QList< BuiltInEffect > availableEffects()
 {
     QList<BuiltInEffect> result;
-    for (int i = index(BuiltInEffect::Invalid) + 1; i <= index(BuiltInEffect::SplitScreen); ++i) {
+    for (int i = index(BuiltInEffect::Invalid) + 1; i < index(BuiltInEffect::NumEffect); ++i) {
         result << BuiltInEffect(i);
     }
     return result;

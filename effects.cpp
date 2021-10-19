@@ -368,7 +368,11 @@ void EffectsHandlerImpl::setupAbstractClientConnections(AbstractClient* c)
             emit showSplitScreenPreview(c->effectWindow());
         }
     );
-
+    connect(c, &AbstractClient::swapSplitClient, this,
+        [this](AbstractClient *c, int index) {
+            emit swapSplitWin(c->effectWindow(), index);
+        }
+    );
 }
 
 void EffectsHandlerImpl::setupClientConnections(Client* c)
@@ -896,6 +900,11 @@ void EffectsHandlerImpl::setSplitWindow(EffectWindow *c, int mode, bool isShowPr
     if (auto cl = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(c)->window())) {
         Workspace::self()->setClientSplit(cl, mode, isShowPreview);
     }
+}
+
+void EffectsHandlerImpl::resetSplitOutlinePos(int screen, int desktop)
+{
+    Workspace::self()->updateSplitOutlinePos(screen, desktop);
 }
 
 bool EffectsHandlerImpl::checkWindowAllowToSplit(KWin::EffectWindow *c)
@@ -1479,7 +1488,7 @@ void EffectsHandlerImpl::destroyEffect(Effect *effect)
     }
 
     stopMouseInterception(effect);
-    
+
     const QList<QByteArray> properties = m_propertiesForEffects.keys();
     for (const QByteArray &property : properties) {
         removeSupportProperty(property, effect);
