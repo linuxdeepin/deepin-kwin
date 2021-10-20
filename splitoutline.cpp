@@ -40,7 +40,7 @@ namespace KWin
         if (direct == CURSOR_LEFT) {
             QPixmap pixmap(":/resources/themes/left-arrow.svg");
             cursor = QCursor(pixmap, -1, -1);
-        } else if (direct == 1) {
+        } else if (direct == CURSOR_RIGHT) {
             QPixmap pixmap(":/resources/themes/right-arrow.svg");
             cursor = QCursor(pixmap, -1, -1);
         } else {
@@ -139,9 +139,7 @@ namespace KWin
         if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && !isVisible())
         {
             updateWorkspaceArea();
-            setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, m_workspaceRect.y(), 20, m_workspaceRect.height());
             show();
-            updateSplitOutlinePosition();
         }
         if (client == nullptr && isVisible()) {
             hide();
@@ -155,9 +153,7 @@ namespace KWin
         if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && !isVisible())
         {
             updateWorkspaceArea();
-            setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, m_workspaceRect.y(), 20, m_workspaceRect.height());
             show();
-            updateSplitOutlinePosition();
         }
         if (client == nullptr && isVisible()) {
             hide();
@@ -172,7 +168,7 @@ namespace KWin
         } else if (flag == QuickTileFlag::Right) {
             setRightSplitClient(client);
         }
-        updateLeftRightArea();
+        updateSplitOutlinePosition();
     }
     
     void SplitOutline::updateSplitOutlinePosition()

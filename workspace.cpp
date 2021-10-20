@@ -1876,7 +1876,7 @@ bool Workspace::checkClientAllowToSplit(AbstractClient *c)
 void Workspace::setClientSplit(AbstractClient *c, int mode, bool isShowPreview)
 {
     c->splitWinAgain(mode);
-    if (mode != 1 && mode != 2)
+    if (mode == 1 || mode == 2)
         workspace()->updateScreenSplitApp(c);
 }
 
@@ -1896,7 +1896,7 @@ void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
                 continue;
 
             auto target = qobject_cast<AbstractClient*>(t);
-            if (c->screen() == t->screen() && c->electricBorderMode() == target->electricBorderMode()) {
+            if (c->screen() == t->screen() && c->desktop() == t->desktop() && c->electricBorderMode() == target->electricBorderMode()) {
                 c->quitSplitStatus();
                 splitapp_stacking_order.removeOne(*it);
                 splitapp_stacking_order.append(t);

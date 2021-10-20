@@ -3680,7 +3680,8 @@ void AbstractClient::cancelSplitOutline()
             splitManage.erase(it);
         }
     }
-    workspace()->updateScreenSplitApp(this, true);
+    if (!isMinimized())
+        workspace()->updateScreenSplitApp(this, true);
 }
 
 void AbstractClient::sendToScreen(int newScreen)
