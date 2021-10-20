@@ -3832,7 +3832,8 @@ void AbstractClient::cancelSplitOutline()
         if (!isMinimized())
             workspace()->updateScreenSplitApp(this, true);
     }
-    workspace()->updateScreenSplitApp(this, true);
+    if (!isMinimized())
+        workspace()->updateScreenSplitApp(this, true);
 }
 
 void AbstractClient::sendToScreen(int newScreen)
