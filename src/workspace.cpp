@@ -1494,7 +1494,7 @@ void Workspace::setShowingDesktop(bool showing)
         Q_EMIT showingDesktopChanged(showing);
 
     QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
-    wm.call("SetShowDesktop", showing);
+    wm.asyncCall("SetShowDesktop", showing);
 }
 
 void Workspace::setPreviewClientList(const QList<AbstractClient*> &list)
