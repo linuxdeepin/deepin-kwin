@@ -812,13 +812,15 @@ public:
         return m_electricMode;
     }
 
+    int reCheckScreen();
+
     void quitSplitStatus();
     bool isLeftRightSplitscreen();
     void cancelSplitOutline();
     // When using three finger split screen, check whether the client meets the split screen conditions.
     bool checkClientAllowToTile();
     void judgeRepeatquickTileclient();
-    void handlequickTileModeChanged();
+    void handlequickTileModeChanged(bool isReCheckScreen = false);
     bool handleSplitscreenSwap();
 
     static QMap<int, SplitOutline*> splitManage;
@@ -1223,6 +1225,7 @@ private:
     /** The quick tile mode of this window.
      */
     int m_quickTileMode = int(QuickTileFlag::None);
+    int m_storeQuickTileMode = int(QuickTileFlag::None);
     QTimer *m_electricMaximizingDelay = nullptr;
 
     bool m_isSwapHandle = false;

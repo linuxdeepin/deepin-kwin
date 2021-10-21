@@ -284,19 +284,19 @@ void AbstractClient::handleSplitScreenActive()
             return;
      }
     
-    if (splitManage.contains(screen()) && splitManage.find(screen()).value()->getLeftSplitClient() != nullptr && splitManage.find(screen()).value()->getRightSplitClient() != nullptr) {
-        if (splitManage.find(screen()).value()->getLeftSplitClient() == this && isActive()) {
-            workspace()->raiseClient(splitManage.find(screen()).value()->getRightSplitClient());
-            workspace()->raiseClient(this);
-            splitManage.find(screen()).value()->activeShow();
-        } else if (splitManage.find(screen()).value()->getRightSplitClient() == this && isActive()) {
-                   workspace()->raiseClient(splitManage.find(screen()).value()->getLeftSplitClient());
-                   workspace()->raiseClient(this);
-                   splitManage.find(screen()).value()->activeShow();
-        } else if (splitManage.find(screen()).value()->getRightSplitClient() != this && splitManage.find(screen()).value()->getLeftSplitClient() != this) {
-                   splitManage.find(screen()).value()->noActiveHide();
-        }
-    }
+     if (splitManage.contains(screen()) && splitManage.find(screen()).value()->getLeftSplitClient() != nullptr && splitManage.find(screen()).value()->getRightSplitClient() != nullptr) {
+         if (splitManage.find(screen()).value()->getLeftSplitClient() == this && isActive()) {
+             workspace()->raiseClient(splitManage.find(screen()).value()->getRightSplitClient());
+             workspace()->raiseClient(this);
+             splitManage.find(screen()).value()->activeShow();
+         } else if (splitManage.find(screen()).value()->getRightSplitClient() == this && isActive()) {
+             workspace()->raiseClient(splitManage.find(screen()).value()->getLeftSplitClient());
+             workspace()->raiseClient(this);
+             splitManage.find(screen()).value()->activeShow();
+         } else if (splitManage.find(screen()).value()->getRightSplitClient() != this && splitManage.find(screen()).value()->getLeftSplitClient() != this) {
+             splitManage.find(screen()).value()->noActiveHide();
+         }
+     }
 }
 
 void AbstractClient::setActive(bool act)

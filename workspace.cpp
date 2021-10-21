@@ -1910,27 +1910,27 @@ void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
     }
 }
 
-void Workspace::updateSplitOutlineState(uint oldDesktop, uint newDesktop)
+void Workspace::updateSplitOutlineState(uint oldDesktop, uint newDesktop, bool isReCheckScreen)
 {
-     QMap<int, SplitOutline*>::iterator it;
-     int key;
-     for (it = AbstractClient::splitManage.begin(); it!=AbstractClient::splitManage.end();)
-     {
-          key = it.key();
-          it++;
-          SplitOutline* splitOutline = AbstractClient::splitManage.take(key);
-          delete splitOutline;
-          splitOutline = nullptr;
-     }
-    searchSplitScreenClient(newDesktop);
+    QMap<int, SplitOutline*>::iterator it;
+    int key;
+    for (it = AbstractClient::splitManage.begin(); it!=AbstractClient::splitManage.end();)
+    {
+        key = it.key();
+        it++;
+        SplitOutline* splitOutline = AbstractClient::splitManage.take(key);
+        delete splitOutline;
+        splitOutline = nullptr;
+    }
+    searchSplitScreenClient(newDesktop, isReCheckScreen);
 }
 
-void Workspace::searchSplitScreenClient(uint Desktop)
+void Workspace::searchSplitScreenClient(uint Desktop, bool isReCheckScreen)
 {
     for (int i = stacking_order.count() - 1; i > -1; --i) {
          AbstractClient *c = qobject_cast<AbstractClient*>(stacking_order.at(i));
-         if (c->desktop() == Desktop && (c->quickTileMode() == QuickTileMode(QuickTileFlag::Left) || c->quickTileMode() == QuickTileMode(QuickTileFlag::Right))) {
-             c->handlequickTileModeChanged();
+         if (c && c->desktop() == Desktop && (c->quickTileMode() == QuickTileMode(QuickTileFlag::Left) || c->quickTileMode() == QuickTileMode(QuickTileFlag::Right))) {
+             c->handlequickTileModeChanged(isReCheckScreen);
          }
     }
 }

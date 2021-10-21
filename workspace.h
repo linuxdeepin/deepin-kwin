@@ -403,9 +403,9 @@ public:
 
     void updateScreenSplitApp(Toplevel *t, bool onlyRemove = false);
 
-    void updateSplitOutlineState(uint oldDesktop, uint newDesktop);
+    void updateSplitOutlineState(uint oldDesktop, uint newDesktop, bool isReCheckScreen = false);
 
-    void searchSplitScreenClient(uint Desktop);
+    void searchSplitScreenClient(uint Desktop, bool isReCheckScreen = false);
 
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
@@ -669,6 +669,7 @@ private:
     QScopedPointer<X11EventFilter> m_movingClientFilter;
 
     QString activeColor;
+    QString m_screenSerialNum = "";
 
 private:
     friend bool performTransiencyCheck();

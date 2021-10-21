@@ -49,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
+#include <qscreen.h>
 
 namespace KWin
 {
@@ -332,11 +333,23 @@ void Workspace::updateClientArea(bool force)
             (*it)->checkWorkspacePosition();
 
         oldrestrictedmovearea.clear(); // reset, no longer valid or needed
-    }
-    for (int i=0; i < nscreens; i++) {
-         if (compositing() && AbstractClient::splitManage.contains(i)) {
-             AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
-         }
+
+        bool isSwitchScr = false;
+        QScreen *primary = QGuiApplication::primaryScreen();
+        if (primary) {
+            if (primary->serialNumber() != m_screenSerialNum && !m_screenSerialNum.isEmpty())
+                isSwitchScr = true;
+            m_screenSerialNum = primary->serialNumber();
+        }
+        if (isSwitchScr) {
+            updateSplitOutlineState(1, active_client ? active_client->desktop() : 1, true);
+        } else {
+            for (int i = 0; i < nscreens; i++) {
+                if (compositing() && AbstractClient::splitManage.contains(i)) {
+                    AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
+                }
+            }
+        }
     }
 }
 
@@ -2673,6 +2686,7 @@ void Client::positionGeometryTip()
 
 bool AbstractClient::startMoveResize()
 {
+    m_storeQuickTileMode = m_quickTileMode;
     assert(!isMoveResize());
     assert(QWidget::keyboardGrabber() == NULL);
     assert(QWidget::mouseGrabber() == NULL);
@@ -2806,16 +2820,24 @@ void AbstractClient::finishMoveResize(bool cancel)
         setGeometryRestore(geom_restore);
     }
 
-    m_isSwapHandle = false;
-    QRect screenArea = workspace()->clientArea(ScreenArea, Cursor::pos(), desktop());
-    if (y() < (screenArea.height() / 5)) {
-        m_isSwapHandle = handleSplitscreenSwap();
+    bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
+    if (flag) {
+        m_isSwapHandle = false;
+        if (isLeftRightSplitscreen()) {
+            QRect screenArea = workspace()->clientArea(ScreenArea, Cursor::pos(), desktop());
+            if (y() < (screenArea.height() / 5)) {
+                m_isSwapHandle = handleSplitscreenSwap();
+            }
+        }
+
+        if (!m_isSwapHandle) {
+            handlequickTileModeChanged();
+        }
+    }else {
+        cancelSplitOutline();
     }
     
 // FRAME    update();
-    if (!m_isSwapHandle) {
-        handlequickTileModeChanged();
-    }
     emit clientFinishUserMovedResized(this);
 }
 
@@ -3633,6 +3655,15 @@ void AbstractClient::setQuickTileMode(QuickTileMode mode, bool keyboard)
     emit quickTileModeChanged();
 }
 
+int AbstractClient::reCheckScreen()
+{
+    int nScreen = 0;
+    if (screens()->count() != 1) {
+        nScreen = screens()->number(geometry().center());
+    }
+    return nScreen;
+}
+
 void AbstractClient::judgeRepeatquickTileclient()
 {
    QMap<int, SplitOutline*>::iterator it;
@@ -3648,16 +3679,23 @@ void AbstractClient::judgeRepeatquickTileclient()
    }
 }
 
-void AbstractClient::handlequickTileModeChanged()
+void AbstractClient::handlequickTileModeChanged(bool isReCheckScreen)
 {
-   bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
-   if (compositing() && !splitManage.contains(screen()) && flag) {    
-       SplitOutline* splitOutline = new SplitOutline;
-       splitOutline->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
-       splitManage.insert(screen(), splitOutline);
-    } else if (compositing() && splitManage.contains(screen()) && flag) {
-       judgeRepeatquickTileclient();
-       splitManage.find(screen()).value()->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
+    bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
+    if (!flag)
+        return;
+
+    int nScreen = screen();
+    if (isReCheckScreen)
+        nScreen = reCheckScreen();
+
+    if (compositing() && !splitManage.contains(nScreen)) {
+        SplitOutline* splitOutline = new SplitOutline();
+        splitOutline->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
+        splitManage.insert(nScreen, splitOutline);
+    } else if (compositing() && splitManage.contains(nScreen)) {
+        judgeRepeatquickTileclient();
+        splitManage.find(nScreen).value()->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
     }
 }
 
@@ -3672,16 +3710,19 @@ bool AbstractClient::isLeftRightSplitscreen()
 void AbstractClient::cancelSplitOutline()
 {
     bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
-    if (compositing() && splitManage.contains(screen()) && flag) {
-        splitManage.find(screen()).value()->setSplitClient(nullptr, (QuickTileFlag)m_quickTileMode);
-        if (splitManage.find(screen()).value()->getLeftSplitClient() == nullptr && splitManage.find(screen()).value()->getRightSplitClient() == nullptr) {
-            auto it = splitManage.find(screen());
-            delete it.value();
-            splitManage.erase(it);
+    bool storeflag = (m_storeQuickTileMode & int(QuickTileFlag::Left)) || (m_storeQuickTileMode & int(QuickTileFlag::Right));
+    if (flag || storeflag) {
+        if (compositing() && splitManage.contains(screen())) {
+            splitManage.find(screen()).value()->setSplitClient(nullptr, flag ? (QuickTileFlag)m_quickTileMode : (QuickTileFlag)m_storeQuickTileMode);
+            if (splitManage.find(screen()).value()->getLeftSplitClient() == nullptr && splitManage.find(screen()).value()->getRightSplitClient() == nullptr) {
+                auto it = splitManage.find(screen());
+                delete it.value();
+                splitManage.erase(it);
+            }
         }
+        if (!isMinimized())
+            workspace()->updateScreenSplitApp(this, true);
     }
-    if (!isMinimized())
-        workspace()->updateScreenSplitApp(this, true);
 }
 
 void AbstractClient::sendToScreen(int newScreen)
