@@ -49,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
+#include <qscreen.h>
 
 
 namespace KWin
@@ -2770,6 +2771,7 @@ void Client::positionGeometryTip()
 
 bool AbstractClient::startMoveResize()
 {
+    m_storeQuickTileMode = m_quickTileMode;
     assert(!isMoveResize());
     assert(QWidget::keyboardGrabber() == NULL);
     assert(QWidget::mouseGrabber() == NULL);
@@ -3832,8 +3834,6 @@ void AbstractClient::cancelSplitOutline()
         if (!isMinimized())
             workspace()->updateScreenSplitApp(this, true);
     }
-    if (!isMinimized())
-        workspace()->updateScreenSplitApp(this, true);
 }
 
 void AbstractClient::sendToScreen(int newScreen)
