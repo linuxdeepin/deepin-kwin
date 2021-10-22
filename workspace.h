@@ -279,7 +279,8 @@ public:
         m_dumpOutputBuffer = false;
     }
     bool isDumpOutputBuffer() {
-        return m_dumpOutputBuffer;
+        //for now,close debug of dump output buffer
+        return false;
     }
 
 public:
