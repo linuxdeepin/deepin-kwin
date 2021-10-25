@@ -133,6 +133,8 @@ private:
     QTimer *m_timeoutTransfers = nullptr;
 
     bool m_disownPending = false;
+
+    friend class WlSource;
 };
 
 }

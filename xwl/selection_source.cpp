@@ -165,8 +165,11 @@ bool WlSource::checkStartTransfer(xcb_selection_request_event_t *event)
 
     m_dsi->requestData(*mimeIt, p[1]);
     waylandServer()->dispatch();
-
-    Q_EMIT transferReady(new xcb_selection_request_event_t(*event), p[0]);
+    
+    if (selection()->wlSource() != nullptr) {
+        Q_EMIT transferReady(new xcb_selection_request_event_t(*event), p[0]);
+    }
+    
     return true;
 }
 

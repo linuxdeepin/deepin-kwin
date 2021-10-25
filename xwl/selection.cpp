@@ -182,22 +182,37 @@ void Selection::registerXfixes()
 
 void Selection::setWlSource(WlSource *src)
 {
-    delete m_wlSrc;
-    delete m_xSrc;
-    m_wlSrc = nullptr;
-    m_xSrc = nullptr;
+    if (m_wlSrc) {
+        delete m_wlSrc;
+        m_wlSrc = nullptr;
+    }
+    
+    if (m_xSrc) {
+        delete m_wlSrc;
+        m_xSrc = nullptr;
+    }
+
     if (src) {
         m_wlSrc = src;
         connect(src, &WlSource::transferReady, this, &Selection::startTransferToX);
+        connect(src, &WlSource::destroyed, this, [=]() {
+             m_wlSrc = nullptr;
+        });
     }
 }
 
 void Selection::createX11Source(xcb_xfixes_selection_notify_event_t *event)
 {
-    delete m_wlSrc;
-    delete m_xSrc;
-    m_wlSrc = nullptr;
-    m_xSrc = nullptr;
+    if (m_wlSrc) {
+        delete m_wlSrc;
+        m_wlSrc = nullptr;
+    }
+    
+    if (m_xSrc) {
+        delete m_wlSrc;
+        m_xSrc = nullptr;
+    }
+    
     if (!event || event->owner == XCB_WINDOW_NONE) {
         return;
     }
@@ -205,6 +220,9 @@ void Selection::createX11Source(xcb_xfixes_selection_notify_event_t *event)
 
     connect(m_xSrc, &X11Source::offersChanged, this, &Selection::x11OffersChanged);
     connect(m_xSrc, &X11Source::transferReady, this, &Selection::startTransferToWayland);
+    connect(m_xSrc, &WlSource::destroyed, this, [=]() {
+        m_xSrc = nullptr;
+    });
 }
 
 void Selection::ownSelection(bool own)
