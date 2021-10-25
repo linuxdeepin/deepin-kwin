@@ -1729,6 +1729,19 @@ void AbstractClient::setSplitPositonFlag(bool flag)
     m_isModifySplitPosition = flag;
 }
 
+void AbstractClient::resetSplitGeometry(int m)
+{
+    QRect workRect = workspace()->clientArea(MaximizeArea, screen(), desktop());
+    if (geometry().width() == workRect.width() / 2)
+        return;
+
+    if ((QuickTileFlag)m == QuickTileFlag::Left) {
+        setGeometry(workRect.x(), workRect.y(), workRect.width() / 2, workRect.height());
+    } else if ((QuickTileFlag)m == QuickTileFlag::Right) {
+        setGeometry(workRect.x() + workRect.width() / 2, workRect.y(), workRect.width() / 2, workRect.height());
+    }
+}
+
 void AbstractClient::splitWinAgain(int m)
 {
     setMoveResizePointerButtonDown(false);
