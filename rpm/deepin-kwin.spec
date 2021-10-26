@@ -112,6 +112,10 @@ BuildRequires:  kdecoration-devel >= %{majmin_ver}
 BuildRequires:  kscreenlocker-devel >= %{majmin_ver}
 BuildRequires:  plasma-breeze-devel >= %{majmin_ver}
  
+# CI
+BuildRequires: libasan
+BuildRequires: libasan-static
+
 %if 0%{?tests}
 BuildRequires: dbus-x11
 BuildRequires: openbox
