@@ -407,6 +407,10 @@ public:
 
     void searchSplitScreenClient(uint Desktop, bool isReCheckScreen = false);
 
+    void clearSplitOutline();
+
+    void updateSplitOutlineLayerShowHide();
+
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
     // Keybindings

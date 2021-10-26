@@ -51,6 +51,8 @@ public:
 
     void handleDockChangePosition();
     
+    void handleSplitScreenLayer();
+
     void updateSplitOutlinePosition();
 
     AbstractClient* getLeftSplitClient();

@@ -2682,7 +2682,6 @@ void Client::positionGeometryTip()
 
 bool AbstractClient::startMoveResize()
 {
-    m_storeQuickTileMode = m_quickTileMode;
     assert(!isMoveResize());
     assert(QWidget::keyboardGrabber() == NULL);
     assert(QWidget::mouseGrabber() == NULL);
@@ -2712,6 +2711,7 @@ bool AbstractClient::startMoveResize()
         // Exit quick tile mode when the user attempts to resize a tiled window
         updateQuickTileMode(QuickTileFlag::None); // Do so without restoring original geometry
         setGeometryRestore(geometry());
+        cancelSplitOutline();
         emit quickTileModeChanged();
     }
 
@@ -2829,10 +2829,8 @@ void AbstractClient::finishMoveResize(bool cancel)
         if (!m_isSwapHandle) {
             handlequickTileModeChanged();
         }
-    }else {
-        cancelSplitOutline();
     }
-    
+
 // FRAME    update();
     emit clientFinishUserMovedResized(this);
 }
@@ -3706,10 +3704,9 @@ bool AbstractClient::isLeftRightSplitscreen()
 void AbstractClient::cancelSplitOutline()
 {
     bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
-    bool storeflag = (m_storeQuickTileMode & int(QuickTileFlag::Left)) || (m_storeQuickTileMode & int(QuickTileFlag::Right));
-    if (flag || storeflag) {
+    if (flag) {
         if (compositing() && splitManage.contains(screen())) {
-            splitManage.find(screen()).value()->setSplitClient(nullptr, flag ? (QuickTileFlag)m_quickTileMode : (QuickTileFlag)m_storeQuickTileMode);
+            splitManage.find(screen()).value()->setSplitClient(nullptr, (QuickTileFlag)m_quickTileMode);
             if (splitManage.find(screen()).value()->getLeftSplitClient() == nullptr && splitManage.find(screen()).value()->getRightSplitClient() == nullptr) {
                 auto it = splitManage.find(screen());
                 delete it.value();

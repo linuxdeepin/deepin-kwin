@@ -1916,16 +1916,11 @@ void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
 
 void Workspace::updateSplitOutlineState(uint oldDesktop, uint newDesktop, bool isReCheckScreen)
 {
-    QMap<int, SplitOutline*>::iterator it;
-    int key;
-    for (it = AbstractClient::splitManage.begin(); it!=AbstractClient::splitManage.end();)
-    {
-        key = it.key();
-        it++;
-        SplitOutline* splitOutline = AbstractClient::splitManage.take(key);
-        delete splitOutline;
-        splitOutline = nullptr;
+    if (!compositing()) {
+        return ;
     }
+
+    clearSplitOutline();
     searchSplitScreenClient(newDesktop, isReCheckScreen);
 }
 
@@ -1939,6 +1934,50 @@ void Workspace::searchSplitScreenClient(uint Desktop, bool isReCheckScreen)
     }
 }
 
+void Workspace::clearSplitOutline()
+{
+   QMap<int, SplitOutline*>::iterator it;
+     int key;
+     for (it = AbstractClient::splitManage.begin(); it!=AbstractClient::splitManage.end();)
+     {
+          key = it.key();
+          it++;
+          SplitOutline* splitOutline = AbstractClient::splitManage.take(key);
+          delete splitOutline;
+          splitOutline = nullptr;
+     }
+}
+
+void Workspace::updateSplitOutlineLayerShowHide()
+{
+    if (!compositing()) {
+        return ;
+    }
+    QVector<AbstractClient*> client_stack;
+    int desktop = VirtualDesktopManager::self()->current();
+    const Screens *s = Screens::self();
+    int nscreens = s->count();
+    while (nscreens)  {
+        for (ToplevelList::ConstIterator it = stacking_order.constBegin();
+             it != stacking_order.constEnd();
+             ++it) {
+            auto c = qobject_cast<AbstractClient*>(*it);
+            if (stacking_order.contains(c) && c->screen() == nscreens-1 && c->desktop() == desktop && !c->isMinimized()) {
+                client_stack.append(c);
+            }
+        }
+        if (!client_stack.isEmpty() && client_stack.constLast()->quickTileMode() != QuickTileMode(QuickTileFlag::Left)
+                                    && client_stack.constLast()->quickTileMode() != QuickTileMode(QuickTileFlag::Right)
+                                    && AbstractClient::splitManage.contains(client_stack.constLast()->screen())) {
+              AbstractClient::splitManage.find(client_stack.constLast()->screen()).value()->noActiveHide();
+        } else if(!client_stack.isEmpty() && (client_stack.constLast()->quickTileMode() == QuickTileMode(QuickTileFlag::Left)
+                                          || client_stack.constLast()->quickTileMode() == QuickTileMode(QuickTileFlag::Right))
+                                          && AbstractClient::splitManage.contains(client_stack.constLast()->screen())) {
+              AbstractClient::splitManage.find(client_stack.constLast()->screen()).value()->activeShow();
+        }
+        nscreens--;
+    }
+}
 
 } // namespace
 

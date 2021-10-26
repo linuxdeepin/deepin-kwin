@@ -70,6 +70,7 @@ namespace KWin
         maxRightSplitClientWidth = m_rightSplitClient->maxSize().width();
         minRightSplitClientWidth = m_rightSplitClient->minSize().width();
         m_pos = e->screenPos().x();
+        handleSplitScreenLayer();
     }
 
     void SplitOutline::mouseMoveEvent(QMouseEvent*e)
@@ -241,16 +242,17 @@ namespace KWin
 
     void SplitOutline::noActiveHide()
     {
-        if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && isVisible())
-        {
+        if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && isVisible()) {
             hide();
         }
     }
 
     void SplitOutline::activeShow()
     {
-        show();
-        updateSplitOutlinePosition();
+        if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && !isVisible()) {
+            show();
+            updateSplitOutlinePosition();
+        }
     }
 
     void SplitOutline::updateWorkspaceArea()
@@ -282,6 +284,21 @@ namespace KWin
         updateCustomCursorState();
     }
 
+    void SplitOutline::handleSplitScreenLayer()
+    {
+        if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr) {
+            if (m_leftSplitClient->isActive()) {
+                workspace()->raiseClient(m_rightSplitClient);
+                workspace()->raiseClient(m_leftSplitClient);
+            } else if (m_rightSplitClient->isActive()) {
+                workspace()->raiseClient(m_leftSplitClient);
+                workspace()->raiseClient(m_rightSplitClient);
+            } else {
+                workspace()->raiseClient(m_rightSplitClient);
+                workspace()->raiseClient(m_leftSplitClient);
+            }
+        }
+    }
 
     SplitOutline::~SplitOutline() 
     {

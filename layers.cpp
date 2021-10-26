@@ -768,6 +768,7 @@ void Workspace::updateXStackingOrder()
         }
     }
     m_xStackingDirty = false;
+    workspace()->updateSplitOutlineLayerShowHide();
 }
 
 //*******************************

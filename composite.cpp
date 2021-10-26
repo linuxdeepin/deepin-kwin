@@ -633,6 +633,7 @@ void Compositor::suspend(Compositor::SuspendReason reason)
         }
     }
     queueFinish();
+    workspace()->clearSplitOutline();
 }
 
 void Compositor::resume(Compositor::SuspendReason reason)
@@ -640,6 +641,8 @@ void Compositor::resume(Compositor::SuspendReason reason)
     Q_ASSERT(reason != NoReasonSuspend);
     m_suspended &= ~reason;
     setup(); // signal "toggled" is eventually emitted from within setup
+    int desktop = VirtualDesktopManager::self()->current();
+    workspace()->searchSplitScreenClient(desktop);
 }
 
 void Compositor::restart()
