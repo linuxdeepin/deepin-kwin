@@ -2771,7 +2771,6 @@ void Client::positionGeometryTip()
 
 bool AbstractClient::startMoveResize()
 {
-    m_storeQuickTileMode = m_quickTileMode;
     assert(!isMoveResize());
     assert(QWidget::keyboardGrabber() == NULL);
     assert(QWidget::mouseGrabber() == NULL);
@@ -2926,7 +2925,6 @@ void AbstractClient::finishMoveResize(bool cancel)
             workspace()->updateScreenSplitApp(this);
         }
     }
-
 
 // FRAME    update();
     emit clientFinishUserMovedResized(this);
