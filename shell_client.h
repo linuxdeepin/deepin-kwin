@@ -234,6 +234,13 @@ public:
         m_windowGravity = gravity;
     }
 
+    QSize minSize() const override {
+        return m_clientMinSize;
+    }
+    QSize maxSize() const override {
+        return m_clientMaxSize == QSize(0, 0) ? AbstractClient::maxSize() : m_clientMaxSize;
+    }
+
 protected:
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const override;
