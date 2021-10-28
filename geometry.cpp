@@ -49,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
-#include <qscreen.h>
+
 
 
 namespace KWin
