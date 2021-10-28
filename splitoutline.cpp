@@ -69,25 +69,34 @@ namespace KWin
         minLeftSplitClientWidth = m_leftSplitClient->minSize().width();
         maxRightSplitClientWidth = m_rightSplitClient->maxSize().width();
         minRightSplitClientWidth = m_rightSplitClient->minSize().width();
+        m_pos = e->screenPos().x();
     }
 
     void SplitOutline::mouseMoveEvent(QMouseEvent*e)
     {
+        if (e->screenPos().x() > (m_pos + 11) || e->screenPos().x() < (m_pos - 11))
+            return;
+
+        m_pos = e->screenPos().x();
         if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && m_mainWindowPress == true) {
-            const int leftSplitClientWidth = e->screenPos().x() - m_workspaceRect.x();
+            const int leftSplitClientWidth = m_pos - m_workspaceRect.x();
             const int rightSplitClientWidth = m_workspaceRect.width() - leftSplitClientWidth;
 
             if ((minLeftSplitClientWidth < leftSplitClientWidth && leftSplitClientWidth < maxLeftSplitClientWidth)
                 && (maxRightSplitClientWidth > rightSplitClientWidth && rightSplitClientWidth > minRightSplitClientWidth)) {
-                m_leftSplitClient->setGeometry(m_workspaceRect.x(), m_workspaceRect.y(), leftSplitClientWidth, m_workspaceRect.height());
-                m_leftSplitClientRect = QRect(m_workspaceRect.x(), m_workspaceRect.y(), leftSplitClientWidth, m_workspaceRect.height());
-                m_leftSplitClient->palette();
-                m_rightSplitClient->setGeometry(e->screenPos().x(), m_workspaceRect.y(), rightSplitClientWidth, m_workspaceRect.height());
-                m_rightSplitClientRect = QRect(e->screenPos().x(), m_workspaceRect.y(), rightSplitClientWidth, m_workspaceRect.height());
+
+                m_rightSplitClient->setGeometry(m_pos, m_workspaceRect.y(), rightSplitClientWidth, m_workspaceRect.height());
                 m_rightSplitClient->palette();
-                this->move(e->screenPos().x()-10, m_workspaceRect.y());
+
+                m_leftSplitClient->setGeometry(m_workspaceRect.x(), m_workspaceRect.y(), leftSplitClientWidth, m_workspaceRect.height());
+                m_leftSplitClient->palette();
+
+                m_rightSplitClientRect = QRect(m_pos, m_workspaceRect.y(), rightSplitClientWidth, m_workspaceRect.height());
+                m_leftSplitClientRect = QRect(m_workspaceRect.x(), m_workspaceRect.y(), leftSplitClientWidth, m_workspaceRect.height());
                 setCustomCursor(CURSOR_L_R);
+                this->move(m_pos - 10, m_workspaceRect.y());
             } else {
+                m_pos = m_leftSplitClientRect.width() + m_workspaceRect.x();
                 if (leftSplitClientWidth > rightSplitClientWidth) {
                     setCustomCursor(CURSOR_LEFT);
                 }
@@ -101,7 +110,6 @@ namespace KWin
     void SplitOutline::mouseReleaseEvent(QMouseEvent* e)
     {
         m_mainWindowPress = false;
-        setWindowOpacity(0);
     }
 
     void SplitOutline::enterEvent(QEvent *)
