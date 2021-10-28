@@ -49,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
-#include <qscreen.h>
+
 
 namespace KWin
 {
@@ -334,20 +334,9 @@ void Workspace::updateClientArea(bool force)
 
         oldrestrictedmovearea.clear(); // reset, no longer valid or needed
 
-        bool isSwitchScr = false;
-        QScreen *primary = QGuiApplication::primaryScreen();
-        if (primary) {
-            if (primary->serialNumber() != m_screenSerialNum && !m_screenSerialNum.isEmpty())
-                isSwitchScr = true;
-            m_screenSerialNum = primary->serialNumber();
-        }
-        if (isSwitchScr) {
-            updateSplitOutlineState(1, active_client ? active_client->desktop() : 1, true);
-        } else {
-            for (int i = 0; i < nscreens; i++) {
-                if (compositing() && AbstractClient::splitManage.contains(i)) {
-                    AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
-                }
+        for (int i = 0; i < nscreens; i++) {
+            if (compositing() && AbstractClient::splitManage.contains(i)) {
+                AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
             }
         }
     }

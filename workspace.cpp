@@ -67,6 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KStartupInfo>
 // Qt
 #include <QtConcurrentRun>
+#include <qscreen.h>
 
 #define  ENABLE_DRAG_CONGTENT 1
 
@@ -533,6 +534,8 @@ void Workspace::initWithX11()
     }
     if (new_active_client != NULL)
         activateClient(new_active_client);
+
+    connect(screens(), SIGNAL(changed()), this, SLOT(screensChanged()));
 }
 
 Workspace::~Workspace()
@@ -1866,6 +1869,20 @@ void Workspace::qtactivecolorChanged()
 {
     QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
     setActiveColor(clr);
+}
+
+void Workspace::screensChanged()
+{
+    bool isSwitchScr = false;
+    QScreen *primary = QGuiApplication::primaryScreen();
+    if (primary) {
+        if (primary->serialNumber() != m_screenSerialNum && !m_screenSerialNum.isEmpty())
+            isSwitchScr = true;
+        m_screenSerialNum = primary->serialNumber();
+    }
+    if (isSwitchScr) {
+        updateSplitOutlineState(1, active_client ? active_client->desktop() : 1, true);
+    }
 }
 
 bool Workspace::checkClientAllowToSplit(AbstractClient *c)

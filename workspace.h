@@ -478,6 +478,7 @@ public Q_SLOTS:
     void slotEndTouchPadToMoveWindow();
 
     void qtactivecolorChanged();
+    void screensChanged();
 
 private Q_SLOTS:
     void desktopResized();
