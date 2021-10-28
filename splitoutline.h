@@ -112,7 +112,6 @@ private:
     int minLeftSplitClientWidth = 0;
     int maxRightSplitClientWidth = 0;
     int minRightSplitClientWidth = 0;
-
     int m_pos = 0;
 };
 }
