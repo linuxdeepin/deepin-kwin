@@ -575,8 +575,6 @@ void Workspace::initWithX11()
     }
     if (new_active_client != NULL)
         activateClient(new_active_client);
-
-    connect(screens(), SIGNAL(changed()), this, SLOT(screensChanged()));
 }
 
 Workspace::~Workspace()
