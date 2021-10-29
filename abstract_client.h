@@ -821,6 +821,7 @@ public:
     void judgeRepeatquickTileclient();
     void handlequickTileModeChanged(bool isReCheckScreen = false);
     bool handleSplitscreenSwap();
+    bool isExitSplitscreen();
 
     static QMap<int, SplitOutline*> splitManage;
 

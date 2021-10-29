@@ -1733,7 +1733,7 @@ void AbstractClient::splitWinAgain(int m)
     //emit clientFinishUserMovedResized(this);
     setMoveResizePointerMode(mousePosition());
     handlequickTileModeChanged();
-    setGeometryRestore(geometry());
+    //setGeometryRestore(geometry());
 }
 
 void AbstractClient::destroyDecoration()

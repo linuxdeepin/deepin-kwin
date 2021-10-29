@@ -2813,17 +2813,16 @@ void AbstractClient::finishMoveResize(bool cancel)
             geom_restore.setY(geometry().y());
             geom_restore.setHeight(geometry().height());
         }
-        setGeometryRestore(geom_restore);
+        if (!isLeftRightSplitscreen() || !((m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right)))) {
+            setGeometryRestore(geom_restore);
+        }
     }
 
     bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
     if (flag) {
         m_isSwapHandle = false;
         if (isLeftRightSplitscreen()) {
-            QRect screenArea = workspace()->clientArea(ScreenArea, Cursor::pos(), desktop());
-            if (y() < (screenArea.height() / 5)) {
                 m_isSwapHandle = handleSplitscreenSwap();
-            }
         }
 
         if (!m_isSwapHandle) {
@@ -2968,7 +2967,18 @@ bool AbstractClient::handleSplitscreenSwap()
 
     }
     return false;
-} 
+}
+
+bool AbstractClient::isExitSplitscreen()
+{
+    QRect screenArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
+    if (m_quickTileMode & int(QuickTileFlag::Left)) {
+        return x() < screenArea.x()-10;
+    } else if (m_quickTileMode & int(QuickTileFlag::Right)){
+         return x()+width() > (screenArea.right()+10);
+    }
+    return false;
+}
 
 void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
 {
@@ -2977,8 +2987,7 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
     if (!isFullScreen() && isMove()) {
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != geometry()) {
             GeometryUpdatesBlocker blocker(this);
-            QRect screenArea = workspace()->clientArea(ScreenArea, Cursor::pos(), desktop());
-            if (y() < (screenArea.height() / 5) && compositing() && isLeftRightSplitscreen() && screen() == screens()->number(geometry().center())) {
+            if (!isExitSplitscreen() && compositing() && isLeftRightSplitscreen() && screen() == screens()->number(geometry().center())) {
                 return;
             }
 
