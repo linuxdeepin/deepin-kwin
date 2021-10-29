@@ -293,6 +293,8 @@ class KWIN_EXPORT AbstractClient : public Toplevel
      */
     Q_PROPERTY(QString colorScheme READ colorScheme NOTIFY colorSchemeChanged)
 
+    Q_PROPERTY(bool isSplitscreen READ isSplitscreen)
+
 public:
     virtual ~AbstractClient();
 
@@ -774,6 +776,7 @@ public:
      */
     void showApplicationMenu(int actionId);
 
+    bool isSplitscreen() const;
     bool unresponsive() const;
 
     virtual bool isInitialPositionSet() const {

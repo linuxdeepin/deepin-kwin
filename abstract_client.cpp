@@ -570,6 +570,11 @@ void AbstractClient::setDesktops(QVector<VirtualDesktop*> desktops)
     if (wasOnCurrentDesktop != isOnCurrentDesktop())
         emit desktopPresenceChanged(this, was_desk);
     emit x11DesktopIdsChanged();
+    if (compositing() && ((m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right)))) {
+        updateQuickTileMode(QuickTileFlag::None);
+        setGeometry(geometryRestore());
+        workspace()->updateSplitOutlineState(1, VirtualDesktopManager::self()->current(), true);
+    }
 }
 
 void AbstractClient::doSetDesktop(int desktop, int was_desk)
@@ -1240,6 +1245,7 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
             break;
         if (isMoveResize())
             finishMoveResize(false);
+        workspace()->raiseClient(this);
         setMoveResizePointerMode(PositionCenter);
         setMoveResizePointerButtonDown(true);
         setMoveOffset(QPoint(globalPos.x() - x(), globalPos.y() - y()));  // map from global
@@ -1278,6 +1284,7 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         if (!startMoveResize())
             setMoveResizePointerButtonDown(false);
         updateCursor();
+        cancelSplitOutline();
         break;
     }
     case Options::MouseDragTab:
@@ -2104,6 +2111,10 @@ void AbstractClient::showApplicationMenu(int actionId)
         // we don't know where the application menu button will be, show it in the top left corner instead
         Workspace::self()->showApplicationMenu(QRect(), this, actionId);
     }
+}
+bool AbstractClient::isSplitscreen() const
+{
+    return (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
 }
 
 bool AbstractClient::unresponsive() const
