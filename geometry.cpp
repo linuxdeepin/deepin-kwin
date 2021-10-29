@@ -1174,6 +1174,13 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
         }
     }
 
+    if (oldScreenLost && (quickTileMode() == QuickTileMode(QuickTileFlag::Left)
+       || quickTileMode() == QuickTileMode(QuickTileFlag::Right))) {
+        workspace()->updateScreenSplitApp(this, true);
+        setQuickTileMode(QuickTileFlag::None);
+    }
+
+
     bool oldScreenRestore = !oldScreenLost && (workspace()->previousScreenSizes().count() != screens()->count());
     if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
         if (oldScreenLost) {

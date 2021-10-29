@@ -209,6 +209,7 @@ void Workspace::init()
     Screens *screens = Screens::self();
     // get screen support
     connect(screens, SIGNAL(changed()), SLOT(desktopResized()));
+    connect(screens, SIGNAL(changed()), SLOT(screensChanged()));
     screens->setConfig(config);
     screens->reconfigure();
     connect(options, SIGNAL(configChanged()), screens, SLOT(reconfigure()));
@@ -534,8 +535,6 @@ void Workspace::initWithX11()
     }
     if (new_active_client != NULL)
         activateClient(new_active_client);
-
-    connect(screens(), SIGNAL(changed()), this, SLOT(screensChanged()));
 }
 
 Workspace::~Workspace()
@@ -1873,16 +1872,7 @@ void Workspace::qtactivecolorChanged()
 
 void Workspace::screensChanged()
 {
-    bool isSwitchScr = false;
-    QScreen *primary = QGuiApplication::primaryScreen();
-    if (primary) {
-        if (primary->serialNumber() != m_screenSerialNum && !m_screenSerialNum.isEmpty())
-            isSwitchScr = true;
-        m_screenSerialNum = primary->serialNumber();
-    }
-    if (isSwitchScr) {
-        updateSplitOutlineState(1, active_client ? active_client->desktop() : 1, true);
-    }
+    updateSplitOutlineState(1, active_client ? active_client->desktop() : 1, true);
 }
 
 bool Workspace::checkClientAllowToSplit(AbstractClient *c)
