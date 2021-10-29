@@ -26,6 +26,7 @@ SplitScreenEffect::SplitScreenEffect()
     connect(effects, &EffectsHandler::windowStartUserMovedResized, this, &SplitScreenEffect::slotWindowStartUserMovedResized);
     connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &SplitScreenEffect::slotWindowFinishUserMovedResized);
     connect(effectsEx, &EffectsHandlerEx::windowQuickTileModeChanged, this, &SplitScreenEffect::slotWindowQuickTileModeChanged);
+    connect(effectsEx, &EffectsHandlerEx::showSplitScreenPreview, this, &SplitScreenEffect::slotShowPreviewAlone);
 
     m_splitthumbShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral("splitthumb.glsl"));
 }
@@ -239,33 +240,23 @@ void SplitScreenEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
     m_backgroundRect = getPreviewWindowsGeometry(pos);
     m_screen = w->screen();
 
-    cleanup();
+    preSetActive(w);
+}
 
-    EffectWindowList windows = effects->stackingOrder();
-    int ncurrentDesktop = effects->currentDesktop();
-    WindowMotionManager wmm;
-    for (const auto& w: windows) {
-        if (w->isOnDesktop(ncurrentDesktop) && isRelevantWithPresentWindows(w)) {
-            if (w == m_window)
-                continue;
+void SplitScreenEffect::slotShowPreviewAlone(EffectWindow *w)
+{
+    m_cacheClient = static_cast<AbstractClient*>(static_cast<EffectWindowImpl*>(w)->window());
+    if (!m_cacheClient)
+        return;
 
-            if (!effectsEx->checkWindowAllowToSplit(w)) {
-                m_unminWinlist.append(w);
-                continue;
-            }
+    m_window = w;
+    m_geometry = w->geometry();
+    m_quickTileMode = m_cacheClient->quickTileMode();
+    QPoint pos(w->geometry().x(), w->geometry().y());
+    m_backgroundRect = getPreviewWindowsGeometry(pos);
+    m_screen = w->screen();
 
-            wmm.manage(w);
-        }
-    }
-
-    if (wmm.managedWindows().size() != 0) {
-        calculateWindowTransformations(wmm.managedWindows(), wmm);
-        m_motionManagers.append(wmm);
-        setActive(true);
-    }
-
-    m_cacheClient = nullptr;
-    m_quickTileMode = QuickTileMode(QuickTileFlag::None);
+    preSetActive(w);
 }
 
 bool SplitScreenEffect::isEnterSplitMode(QuickTileMode mode)
@@ -310,6 +301,37 @@ void SplitScreenEffect::cleanup()
     }
 
     m_unminWinlist.clear();
+}
+
+void SplitScreenEffect::preSetActive(EffectWindow *w)
+{
+    cleanup();
+
+    EffectWindowList windows = effects->stackingOrder();
+    int ncurrentDesktop = effects->currentDesktop();
+    WindowMotionManager wmm;
+    for (const auto& w: windows) {
+        if (w->isOnDesktop(ncurrentDesktop) && isRelevantWithPresentWindows(w)) {
+            if (w == m_window)
+                continue;
+
+            if (!effectsEx->checkWindowAllowToSplit(w)) {
+                m_unminWinlist.append(w);
+                continue;
+            }
+
+            wmm.manage(w);
+        }
+    }
+
+    if (wmm.managedWindows().size() != 0) {
+        calculateWindowTransformations(wmm.managedWindows(), wmm);
+        m_motionManagers.append(wmm);
+        setActive(true);
+    }
+
+    m_cacheClient = nullptr;
+    m_quickTileMode = QuickTileMode(QuickTileFlag::None);
 }
 
 void SplitScreenEffect::setActive(bool active)

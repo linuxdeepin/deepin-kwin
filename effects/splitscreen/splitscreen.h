@@ -40,12 +40,14 @@ private Q_SLOTS:
     void slotWindowStartUserMovedResized(EffectWindow *w);
     void slotWindowQuickTileModeChanged(EffectWindow *w);
     void slotWindowFinishUserMovedResized(EffectWindow *w);
+    void slotShowPreviewAlone(EffectWindow *w);
 
 private:
     bool isEnterSplitMode(QuickTileMode mode);
     QRect getPreviewWindowsGeometry(QPoint pos);
 
     void cleanup();
+    void preSetActive(EffectWindow *w);
 
     bool isRelevantWithPresentWindows(EffectWindow *w) const;
     void calculateWindowTransformations(EffectWindowList windows, WindowMotionManager& wmm);

@@ -413,6 +413,7 @@ public:
 
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
+    void slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isShowPreview);
     // Keybindings
     //void slotSwitchToWindow( int );
     void slotWindowToDesktop(uint i);

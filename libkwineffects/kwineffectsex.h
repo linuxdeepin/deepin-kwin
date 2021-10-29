@@ -62,6 +62,7 @@ public:
 
 Q_SIGNALS:
     void windowQuickTileModeChanged(KWin::EffectWindow *w);
+    void showSplitScreenPreview(KWin::EffectWindow *w);
 
 };
 

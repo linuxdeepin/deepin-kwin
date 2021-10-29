@@ -1885,6 +1885,15 @@ void Workspace::setClientSplit(AbstractClient *c, int mode, bool isShowPreview)
     c->splitWinAgain(mode);
     if (mode == 1 || mode == 2)
         workspace()->updateScreenSplitApp(c);
+    if (isShowPreview) {
+        emit c->showSplitPreview(c);
+    }
+}
+
+void Workspace::slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isShowPreview)
+{
+    c->cancelSplitOutline();
+    setClientSplit(c, mode, isShowPreview);
 }
 
 void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)

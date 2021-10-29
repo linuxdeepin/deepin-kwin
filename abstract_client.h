@@ -856,6 +856,7 @@ Q_SIGNALS:
     void transientChanged();
     void modalChanged();
     void quickTileModeChanged();
+    void showSplitPreview(KWin::AbstractClient*);
     void moveResizedChanged();
     void moveResizeCursorChanged(CursorShape);
     void clientStartUserMovedResized(KWin::AbstractClient*);

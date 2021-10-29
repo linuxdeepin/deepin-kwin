@@ -363,6 +363,12 @@ void EffectsHandlerImpl::setupAbstractClientConnections(AbstractClient* c)
             emit windowQuickTileModeChanged(c->effectWindow());
         }
     );
+    connect(c, &AbstractClient::showSplitPreview, this,
+            [this, c]() {
+            emit showSplitScreenPreview(c->effectWindow());
+        }
+    );
+
 }
 
 void EffectsHandlerImpl::setupClientConnections(Client* c)
