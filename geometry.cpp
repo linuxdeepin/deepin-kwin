@@ -2811,7 +2811,7 @@ bool AbstractClient::startMoveResize()
     if (ScreenEdges::self()->isDesktopSwitchingMovingClients())
         ScreenEdges::self()->reserveDesktopSwitching(true, Qt::Vertical|Qt::Horizontal);
 
-    if (mode == PositionCenter && !workspace()->isDragingWithContent())
+    if (workspace()->isDragingWithContent())
     {
 //        qCDebug(KWIN_CORE)<<"placeholder window is created";
         m_placeholderWindow.create(geometry(), waylandServer());
@@ -2949,7 +2949,7 @@ void Client::leaveMoveResize()
     move_resize_has_keyboard_grab = false;
     m_moveResizeGrabWindow.reset();
 
-    if(!workspace()->isDragingWithContent()){
+    if(workspace()->isDragingWithContent()){
 //        qCDebug(KWIN_CORE)<<"placeholder window is released";
         ungrabXKeyboard();
         m_placeholderWindow.destroy();
@@ -3508,11 +3508,13 @@ void AbstractClient::performMoveResize()
     }
     if(isResize() && !haveResizeEffect())
     {
-        setGeometry(moveResizeGeom);
+        if (workspace()->isDragingWithContent()) {
+            m_placeholderWindow.setGeometry(moveResizeGeom);
+        } else {
+            setGeometry(moveResizeGeom);
+        }
     }
-    // if (isMove() || (isResize() && !haveResizeEffect())) {
-    //     setGeometry(moveResizeGeom);
-    // }
+
     doPerformMoveResize();
     if (isResize())
         addRepaintFull();
