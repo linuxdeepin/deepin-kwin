@@ -46,6 +46,15 @@ endif()
 add_subdirectory(tabbox)
 
 ########################################################
+# Test LightWeight
+########################################################
+set(testLightWeight_SRCS test_light_weight.cpp)
+add_executable(testLightWeight ${testLightWeight_SRCS} ${testprintasanbase_SRCS})
+target_link_libraries(testLightWeight Qt5::Test)
+add_test(NAME kwin-testLightWeight COMMAND testLightWeight)
+ecm_mark_as_test(testLightWeight)
+
+########################################################
 # Test WindowPaintData
 ########################################################
 set( testWindowPaintData_SRCS test_window_paint_data.cpp )
