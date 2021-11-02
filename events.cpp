@@ -688,6 +688,8 @@ void Client::clientMessageEvent(xcb_client_message_event_t *e)
             endMoveResize();
         else
             updateMoveResize(QPoint(e->data.data32[0], e->data.data32[1]));
+    } else if (e->type == atoms->deepin_split_window) {
+        workspace()->slotSetClientSplit(this, e->data.data32[0], e->data.data32[1]);
     }
 }
 

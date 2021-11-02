@@ -565,6 +565,7 @@ private:
 
     //---------------------------------------------------------------------
 
+    void setWinSplitState(AbstractClient *client);
     void closeActivePopup();
     void updateClientArea(bool force);
     void resetClientAreas(uint desktopCount);

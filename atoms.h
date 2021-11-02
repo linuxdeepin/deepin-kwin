@@ -73,6 +73,7 @@ public:
     Xcb::Atom kde_net_wm_appmenu_object_path;
     Xcb::Atom deepin_move_update;
     Xcb::Atom deepin_forhibit_move;
+    Xcb::Atom deepin_split_window;
 
     /**
      * @internal

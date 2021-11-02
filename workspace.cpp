@@ -610,6 +610,9 @@ Client* Workspace::createClient(xcb_window_t w, bool is_mapped)
         return NULL;
     }
     addClient(c);
+    if (c->checkClientAllowToTile()) {
+        setWinSplitState(c);
+    }
     return c;
 }
 
@@ -1995,6 +1998,18 @@ void Workspace::updateSplitOutlineLayerShowHide()
               AbstractClient::splitManage.find(client_stack.constLast()->screen()).value()->activeShow();
         }
         nscreens--;
+    }
+}
+
+void Workspace::setWinSplitState(AbstractClient *client)
+{
+    int32_t ldata = 1;
+    xcb_intern_atom_cookie_t cookie_st = xcb_intern_atom( connection(), 0, strlen( "_DEEPIN_NET_SUPPORTED"), "_DEEPIN_NET_SUPPORTED");
+    xcb_intern_atom_reply_t *reply_st = xcb_intern_atom_reply( connection(), cookie_st, NULL);
+    if (reply_st) {
+        xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, client->windowId(), (*reply_st).atom,
+                            XCB_ATOM_CARDINAL, 32, 1, &ldata);
+        free(reply_st);
     }
 }
 

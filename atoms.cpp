@@ -68,6 +68,7 @@ Atoms::Atoms()
     , deepin_forhibit_move(QByteArrayLiteral("_DEEPIN_FORHIBIT_MOVE"))
     , m_dtSmWindowInfo(QByteArrayLiteral("_DT_SM_WINDOW_INFO"))
     , m_motifSupport(QByteArrayLiteral("_MOTIF_WM_INFO"))
+    , deepin_split_window(QByteArrayLiteral("_DEEPIN_SPLIT_WINDOW"))
     , m_helpersRetrieved(false)
 {
 }
