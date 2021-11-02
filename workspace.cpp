@@ -659,6 +659,9 @@ Client* Workspace::createClient(xcb_window_t w, bool is_mapped)
         setWinSplitState(c);
     }
     emit windowStateChanged();
+    if (c->checkClientAllowToTile()) {
+        setWinSplitState(c);
+    }
     return c;
 }
 
