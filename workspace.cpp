@@ -1334,6 +1334,12 @@ void Workspace::setShowingDesktop(bool showing)
     if (changed)
         emit showingDesktopChanged(showing);
 
+    if (showing_desktop) {
+        clearSplitOutline();
+    } else {
+        uint desktop = VirtualDesktopManager::self()->current();
+        workspace()->searchSplitScreenClient(desktop);
+    }
     QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
     wm.asyncCall("SetShowDesktop", showing);
 }
@@ -1941,7 +1947,7 @@ void Workspace::searchSplitScreenClient(uint Desktop, bool isReCheckScreen)
 {
     for (int i = stacking_order.count() - 1; i > -1; --i) {
          AbstractClient *c = qobject_cast<AbstractClient*>(stacking_order.at(i));
-         if (c && c->desktop() == Desktop && (c->quickTileMode() == QuickTileMode(QuickTileFlag::Left) || c->quickTileMode() == QuickTileMode(QuickTileFlag::Right))) {
+         if (c && !c->isMinimized() && c->desktop() == Desktop && (c->quickTileMode() == QuickTileMode(QuickTileFlag::Left) || c->quickTileMode() == QuickTileMode(QuickTileFlag::Right))) {
              c->handlequickTileModeChanged(isReCheckScreen);
          }
     }
