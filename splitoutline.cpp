@@ -22,6 +22,7 @@
 #include "workspace.h"
 #include "kwineffects.h"
 #include "splithandler/splithandler.h"
+#include "wayland_server.h"
 
 #define CURSOR_LEFT     0
 #define CURSOR_RIGHT    1
@@ -150,7 +151,11 @@ namespace KWin
     void SplitOutline::setLeftSplitClient(AbstractClient* client)
     {
         m_leftSplitClient = client;
-        if (clientsStatus() == 1 && !isVisible()) {
+        if (clientsStatus() == 1 && !isVisible())
+        {
+            if(waylandServer()) {
+                setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, m_workspaceRect.y(), 20, m_workspaceRect.height());
+            }
             show();
         }
         if (client == nullptr && isVisible()) {
@@ -162,8 +167,11 @@ namespace KWin
     void SplitOutline::setRightSplitClient(AbstractClient* client)
     {
         m_rightSplitClient = client;
-
-        if (clientsStatus() == 1 && !isVisible()) {
+        if (clientsStatus() == 1 && !isVisible())
+        {
+            if(waylandServer()) {
+                setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, m_workspaceRect.y(), 20, m_workspaceRect.height());
+            }
             show();
         }
         if (client == nullptr && isVisible()) {
