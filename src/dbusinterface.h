@@ -59,6 +59,7 @@ public Q_SLOTS: // METHODS
     QString supportInformation();
     Q_NOREPLY void unclutterDesktop();
     Q_NOREPLY void showDebugConsole();
+    QByteArray cursorImage();
 
     /**
      * Instructs kwin_wayland to restart itself.

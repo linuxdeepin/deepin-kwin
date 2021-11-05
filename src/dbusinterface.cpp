@@ -17,6 +17,7 @@
 #include "abstract_client.h"
 #include "atoms.h"
 #include "composite.h"
+#include "cursor.h"
 #include "debug_console.h"
 #include "main.h"
 #include "placement.h"
@@ -179,6 +180,16 @@ void DBusInterface::setRepeatRateAndDelay(int rate, int delay)
     if (waylandServer() && waylandServer()->seat()) {
         waylandServer()->seat()->keyboard()->setRepeatInfo(rate, delay);
     }
+}
+
+QByteArray DBusInterface::cursorImage()
+{
+    QImage image = Cursors::self()->currentCursor()->image();
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    buffer.open(QIODevice::WriteOnly);
+    image.save(&buffer, "PNG");
+    return ba;
 }
 
 void DBusInterface::nextDesktop()

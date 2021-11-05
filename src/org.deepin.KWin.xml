@@ -64,5 +64,8 @@
     <method name="disableGlobalShortcutsForClient">
       <arg type="b" direction="in"/>
     </method>
+    <method name="cursorImage">
+      <arg type="ay" direction="out"/>
+    </method>
   </interface>
 </node>
