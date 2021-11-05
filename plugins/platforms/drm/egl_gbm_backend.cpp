@@ -286,7 +286,6 @@ void EglGbmBackend::resetPostprocess(Output& output)
 
     GLRenderTarget *fbo = new GLRenderTarget(*back);
     output.rotation.fbo.reset(fbo);
-    qDebug() << "---------!!!!!!" << __func__;
 }
 
 void EglGbmBackend::preparePostprocess(const Output& output) const
@@ -294,7 +293,6 @@ void EglGbmBackend::preparePostprocess(const Output& output) const
     if (output.rotation.fbo) {
         GLRenderTarget::pushRenderTarget(output.rotation.fbo.get());
         GLRenderTarget::setKWinFramebuffer(output.rotation.fbo->id());
-        qDebug() << "---------!!!!!!" << __func__ << output.output->geometry();
     }
 }
 
@@ -419,7 +417,6 @@ void EglGbmBackend::renderPostprocess(Output& output)
 
     GLint ss[4];
     glGetIntegerv(GL_VIEWPORT, ss);
-    qDebug() << "-----------!!!!!!- " << __func__ << sz << ss[0] << ss[1] << ss[2] << ss[3];
     output.rotation.vbo->render(GL_TRIANGLES);
 
     output.rotation.texture->unbind();
