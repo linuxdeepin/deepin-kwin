@@ -70,6 +70,7 @@ public Q_SLOTS: // METHODS
     Q_NOREPLY void unclutterDesktop();
     Q_NOREPLY void showDebugConsole();
     bool xwaylandGrabed();
+    QByteArray cursorImage();
 
     QVariantMap queryWindowInfo();
     QVariantMap getWindowInfo(const QString &uuid);
