@@ -3689,7 +3689,7 @@ void AbstractClient::handlequickTileModeChanged(bool isReCheckScreen)
         nScreen = reCheckScreen();
 
     if (compositing() && !splitManage.contains(nScreen)) {
-        SplitOutline* splitOutline = new SplitOutline(screen(), desktop());
+        SplitOutline* splitOutline = new SplitOutline(nScreen, desktop());
         splitOutline->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
         splitManage.insert(nScreen, splitOutline);
     } else if (compositing() && splitManage.contains(nScreen)) {
