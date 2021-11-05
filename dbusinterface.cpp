@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // kwin
 #include "abstract_client.h"
+#include <pointer_input.h>
 #include "atoms.h"
 #include "composite.h"
 #include "debug_console.h"
@@ -186,6 +187,16 @@ void DBusInterface::setRepeatRateAndDelay(int rate, int delay)
     if (waylandServer() && waylandServer()->seat()) {
         waylandServer()->seat()->setKeyRepeatInfo(rate, delay);
     }
+}
+
+QByteArray DBusInterface::cursorImage()
+{
+    QImage image = input()->pointer()->cursorImage();
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    buffer.open(QIODevice::WriteOnly);
+    image.save(&buffer, "PNG");
+    return ba;
 }
 
 bool DBusInterface::xwaylandGrabed()
