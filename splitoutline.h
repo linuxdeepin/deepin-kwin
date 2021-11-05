@@ -78,6 +78,8 @@ public:
 
     void updateOutlineStatus();
 
+    bool isRecordClient(AbstractClient *client);
+
      ~SplitOutline();
 protected:
     void setLeftSplitClient(AbstractClient* client);

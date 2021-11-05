@@ -337,6 +337,13 @@ namespace KWin
         updateSplitOutlinePosition();
     }
 
+    bool SplitOutline::isRecordClient(AbstractClient *client)
+    {
+        if (client != m_leftSplitClient && client != m_rightSplitClient)
+            return false;
+        return true;
+    }
+
     SplitOutline::~SplitOutline() 
     {
 

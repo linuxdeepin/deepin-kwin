@@ -2813,7 +2813,7 @@ void AbstractClient::finishMoveResize(bool cancel)
             geom_restore.setY(geometry().y());
             geom_restore.setHeight(geometry().height());
         }
-        if (!isLeftRightSplitscreen() || !((m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right)))) {
+        if (!((m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right)))) {
             setGeometryRestore(geom_restore);
         }
     }
@@ -3700,7 +3700,9 @@ void AbstractClient::handlequickTileModeChanged(bool isReCheckScreen)
 
 bool AbstractClient::isLeftRightSplitscreen()
 {
-   if (splitManage.contains(screen()) && splitManage.find(screen()).value()->clientsStatus() == 1) {
+   if (splitManage.contains(screen())
+       && splitManage.find(screen()).value()->clientsStatus() == 1
+       && splitManage.find(screen()).value()->isRecordClient(this)) {
        return true;
    }
    return false;
