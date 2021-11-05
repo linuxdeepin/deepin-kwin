@@ -83,10 +83,14 @@ namespace KWin
 
     void SplitOutline::mouseMoveEvent(QMouseEvent*e)
     {
-        if (e->screenPos().x() > (m_pos + 11) || e->screenPos().x() < (m_pos - 11))
-            return;
+        if (e->screenPos().x() > (m_pos + 15)) {
+            m_pos += 15;
+        } else if (e->screenPos().x() < (m_pos - 15)) {
+            m_pos -= 15;
+        } else {
+            m_pos = e->screenPos().x();
+        }
 
-        m_pos = e->screenPos().x();
         if (clientsStatus() == 1 && m_mainWindowPress == true) {
             const int leftSplitClientWidth = m_pos - m_workspaceRect.x();
             const int rightSplitClientWidth = m_workspaceRect.width() - leftSplitClientWidth;
