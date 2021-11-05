@@ -1725,6 +1725,10 @@ void AbstractClient::resetSplitGeometry(int m)
     } else if ((QuickTileFlag)m == QuickTileFlag::Right) {
         setGeometry(workRect.x() + workRect.width() / 2, workRect.y(), workRect.width() / 2, workRect.height());
     }
+    if (splitManage.contains(screen())) {
+        splitManage.find(screen()).value()->setSplitClientRect((QuickTileFlag)m);
+        splitManage.find(screen()).value()->updateOutlineStatus();
+    }
 }
 
 void AbstractClient::splitWinAgain(int m)

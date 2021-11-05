@@ -2802,7 +2802,6 @@ void AbstractClient::finishMoveResize(bool cancel)
         setElectricBorderMaximizing(false);
         m_TileMaximizeGeometry = geometry();
         checkScreen();
-        workspace()->updateScreenSplitApp(this);
     } else if (!cancel) {
         QRect geom_restore = geometryRestore();
         if (!(maximizeMode() & MaximizeHorizontal)) {
@@ -2828,6 +2827,7 @@ void AbstractClient::finishMoveResize(bool cancel)
 
         if (!m_isSwapHandle) {
             handlequickTileModeChanged();
+            workspace()->updateScreenSplitApp(this);
         }
     }
 

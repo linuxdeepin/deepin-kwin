@@ -64,6 +64,8 @@ public:
 
     QRect getRightSplitClientRect();
 
+    void setSplitClientRect(QuickTileFlag flag);
+
     void resumeClientLocation();
 
     void swapClientLocation();
@@ -89,8 +91,6 @@ protected:
     void setCustomCursor(int direct);
 
     int getCustomCursor();
-
-    void updateCustomCursorState();
 
     void updateWorkspaceArea();
 
