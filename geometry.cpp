@@ -2786,7 +2786,7 @@ void AbstractClient::finishMoveResize(bool cancel)
         setGeometry(moveResizeGeom);
     }
     checkScreen(); // needs to be done because clientFinishUserMovedResized has not yet re-activated online alignment
-    if (screen() != moveResizeStartScreen()) {
+    if (screen() != moveResizeStartScreen() && !isElectricBorderMaximizing()) {
         workspace()->sendClientToScreen(this, screen()); // checks rule validity
         if (maximizeMode() != MaximizeRestore)
         {
