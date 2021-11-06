@@ -133,6 +133,11 @@ namespace KWin
         }
     }
 
+    QRect PlaceholderWindow::getGeometry() const
+    {
+        return m_window.geometry();
+    }
+
     void PlaceholderWindow::destroy()
     {
         if (m_window == XCB_WINDOW_NONE)

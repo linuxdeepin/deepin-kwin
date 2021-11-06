@@ -2932,22 +2932,28 @@ void AbstractClient::stopDelayedMoveResize()
 
 bool AbstractClient::handleSplitscreenSwap()
 {
-    if (m_quickTileMode & int(QuickTileFlag::Left)) {
-            QRect workArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
-            if ((x() + width()/2) > (workArea.x() + workArea.width()/2)) {
-                updateQuickTileMode(QuickTileFlag::Right);
-                setElectricBorderMode(QuickTileFlag::Right);
-                splitManage.find(screen()).value()->getRightSplitClient()->updateQuickTileMode(QuickTileFlag::Left);
-                splitManage.find(screen()).value()->getRightSplitClient()->setElectricBorderMode(QuickTileFlag::Left);
+    int nXcoordination = 0;
+    if (workspace()->isDragingWithContent())
+        nXcoordination = m_placeholderWindow.getGeometry().x();
+    else
+        nXcoordination = x();
 
-                emit swapSplitClient(splitManage.find(screen()).value()->getRightSplitClient(), 1);
-                splitManage.find(screen()).value()->swapClientLocation();
-                return true;
-            }
+    if (m_quickTileMode & int(QuickTileFlag::Left)) {
+        QRect workArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
+        if ((nXcoordination + width()/2) > (workArea.x() + workArea.width()/2)) {
+            updateQuickTileMode(QuickTileFlag::Right);
+            setElectricBorderMode(QuickTileFlag::Right);
+            splitManage.find(screen()).value()->getRightSplitClient()->updateQuickTileMode(QuickTileFlag::Left);
+            splitManage.find(screen()).value()->getRightSplitClient()->setElectricBorderMode(QuickTileFlag::Left);
+
+            emit swapSplitClient(splitManage.find(screen()).value()->getRightSplitClient(), 1);
+            splitManage.find(screen()).value()->swapClientLocation();
+            return true;
+        }
 
     } else if (m_quickTileMode & int(QuickTileFlag::Right)) {
             QRect workArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
-            if ((x() + width()/2) < (workArea.x() + workArea.width()/2)) {
+            if ((nXcoordination + width()/2) < (workArea.x() + workArea.width()/2)) {
                 updateQuickTileMode(QuickTileFlag::Left);
                 setElectricBorderMode(QuickTileFlag::Left);
                 splitManage.find(screen()).value()->getLeftSplitClient()->updateQuickTileMode(QuickTileFlag::Right);
@@ -2963,11 +2969,17 @@ bool AbstractClient::handleSplitscreenSwap()
 
 bool AbstractClient::isExitSplitscreen()
 {
+    int nXcoordination = 0;
+    if (workspace()->isDragingWithContent())
+        nXcoordination = m_placeholderWindow.getGeometry().x();
+    else
+        nXcoordination = x();
+
     QRect screenArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
     if (m_quickTileMode & int(QuickTileFlag::Left)) {
-        return x() < screenArea.x()-10;
+        return nXcoordination < screenArea.x()-10;
     } else if (m_quickTileMode & int(QuickTileFlag::Right)){
-         return x()+width() > (screenArea.right()+10);
+         return nXcoordination + width() > (screenArea.right()+10);
     }
     return false;
 }
@@ -2977,7 +2989,7 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
     const QRect oldGeo = geometry();
     handleMoveResize(local.x(), local.y(), global.x(), global.y());
     if (!isFullScreen() && isMove()) {
-        if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != geometry()) {
+        if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && (oldGeo != geometry() || workspace()->isDragingWithContent())) {
             GeometryUpdatesBlocker blocker(this);
 
             if (!isExitSplitscreen() && compositing() && isLeftRightSplitscreen() && screen() == screens()->number(geometry().center())) {
@@ -3389,7 +3401,7 @@ void AbstractClient::performMoveResize()
     const QRect &moveResizeGeom = moveResizeGeometry();
 
     if(isMove() ){
-        if(workspace()->isDragingWithContent() && maximizeMode()==KWin::MaximizeRestore){
+        if(workspace()->isDragingWithContent()){
             //qCDebug(KWIN_CORE)<<"placeholder window is moving";
             m_placeholderWindow.setGeometry(moveResizeGeom);
         }else

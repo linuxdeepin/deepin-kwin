@@ -45,6 +45,7 @@ namespace KWin
         void move(uint32_t x, uint32_t y);
 
         void setGeometry(const QRect &rc);
+        QRect getGeometry() const;
 
     private:
         void setShape();
