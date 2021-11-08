@@ -73,6 +73,7 @@ Atoms::Atoms()
     , primary(QByteArrayLiteral("PRIMARY"))
     , m_dtSmWindowInfo(QByteArrayLiteral("_DT_SM_WINDOW_INFO"))
     , m_motifSupport(QByteArrayLiteral("_MOTIF_WM_INFO"))
+    , deepin_lock_screen(QByteArrayLiteral("_DEEPIN_LOCK_SCREEN"))
     , m_helpersRetrieved(false)
 {
 }

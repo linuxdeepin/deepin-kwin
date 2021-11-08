@@ -80,6 +80,7 @@ public:
     Xcb::Atom incr;
     Xcb::Atom wl_selection;
     Xcb::Atom primary;
+    Xcb::Atom deepin_lock_screen;
 
     /**
      * @internal

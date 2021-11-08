@@ -743,6 +743,14 @@ Unmanaged* Workspace::createUnmanaged(xcb_window_t w)
         Unmanaged::deleteUnmanaged(c);
         return nullptr;
     }
+    if (c->fetchWindowForLockScreen()) {
+        // The focusToNull used to cancel context menus, etc.
+        focusToNull();
+        for (auto u : m_unmanaged) {
+            if (u->isKeepAbove())
+                xcb_unmap_window(connection(),u->window());
+        }
+    }
     addUnmanaged(c);
     Q_EMIT unmanagedAdded(c);
     return c;
