@@ -271,6 +271,34 @@ void Connection::handleEvent()
     }
 }
 
+void Connection::processTouchToMoveClientEvents()
+{
+    QMutexLocker locker(&m_mutex);
+    while (!m_eventQueue.isEmpty()) {
+        QScopedPointer<Event> event(m_eventQueue.takeFirst());
+        switch (event->type()) {
+        case LIBINPUT_EVENT_TOUCH_DOWN: {
+#ifndef KWIN_BUILD_TESTING
+                emit touchToMoveClientDown();
+                break;
+#endif
+        }
+        case LIBINPUT_EVENT_TOUCH_UP: {
+            emit touchToMoveClientUp();
+            break;
+        }
+        case LIBINPUT_EVENT_TOUCH_MOTION: {
+#ifndef KWIN_BUILD_TESTING
+                emit touchToMoveClientMotion();
+                break;
+#endif
+        }
+        default:
+            break;
+        }
+    }
+}
+
 void Connection::processEvents()
 {
     QMutexLocker locker(&m_mutex);
