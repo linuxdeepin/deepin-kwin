@@ -289,14 +289,21 @@ Q_SIGNALS:
     void hasAlphaNumericKeyboardChanged(bool set);
     void hasTabletModeSwitchChanged(bool set);
 
+public Q_SLOTS:
+    void touchDown();
+    void touchMotion();
+    void touchEnd();
+
 private:
     void setupLibInput();
+    void setupLibinputForTouch();
     void setupTouchpadShortcuts();
     void setupLibInputWithScreens();
     void setupWorkspace();
     void reconfigure();
     void setupInputFilters();
     void installInputEventFilter(InputEventFilter *filter);
+
     KeyboardInputRedirection *m_keyboard;
     PointerInputRedirection *m_pointer;
     TabletInputRedirection *m_tablet;
@@ -320,6 +327,7 @@ private:
     friend class DecorationEventFilter;
     friend class InternalWindowEventFilter;
     friend class ForwardInputFilter;
+    int m_nTouchPoint = 0;
 };
 
 /**

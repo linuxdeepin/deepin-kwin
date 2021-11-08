@@ -419,6 +419,22 @@ public:
         return movingClient;
     }
 
+    AbstractClient* getRequestToMovingClient() {
+        return m_requestMovingClient;
+    }
+
+    void setRequestToMovingClient(AbstractClient* client) {
+        m_requestMovingClient = client;
+    }
+
+    void setTouchToMovingClientStatus(bool isTouch) {
+        m_bIsTouchToMovingClient = isTouch;
+    }
+
+    bool touchToMovingClientStatus() {
+        return m_bIsTouchToMovingClient;
+    }
+
     /**
      * @returns Whether we have a Compositor and it is active (Scene created)
      **/
@@ -652,6 +668,8 @@ private:
     AbstractClient* last_active_client;
     AbstractClient* most_recently_raised; // Used ONLY by raiseOrLowerClient()
     AbstractClient* movingClient;
+    AbstractClient* m_requestMovingClient = nullptr;
+    bool m_bIsTouchToMovingClient = false;
 
     // Delay(ed) window focus timer and client
     QTimer* delayFocusTimer;

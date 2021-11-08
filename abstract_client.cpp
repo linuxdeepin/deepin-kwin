@@ -1782,6 +1782,7 @@ AbstractClient::Position AbstractClient::mousePosition() const
 
 void AbstractClient::endMoveResize()
 {
+    workspace()->setRequestToMovingClient(nullptr);
     setMoveResizePointerButtonDown(false);
     stopDelayedMoveResize();
     if (isMoveResize()) {
