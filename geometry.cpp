@@ -1174,8 +1174,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
         }
     }
 
-    if (oldScreenLost && (quickTileMode() == QuickTileMode(QuickTileFlag::Left)
-       || quickTileMode() == QuickTileMode(QuickTileFlag::Right))) {
+    if (oldScreenLost && isSplitscreen()) {
         workspace()->updateScreenSplitApp(this, true);
         setQuickTileMode(QuickTileFlag::None);
     }
@@ -1193,6 +1192,8 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
             //keep orgin pos because screen counts is not changed
             if (electricBorderMode() == QuickTileMode(QuickTileFlag::Maximize)) {
                 setGeometry(workspace()->clientArea(MaximizeArea, m_TileMaximizeGeometry.center(), desktop()));
+            } else if (isSplitscreen()) {
+                setGeometry(electricBorderMaximizeGeometry(geometry().center(), desktop()));
             } else {
                  if(oldScreenRestore)
                      setGeometry(electricBorderMaximizeGeometry(geometryRestore().center(), desktop()));
@@ -3649,6 +3650,10 @@ void AbstractClient::setQuickTileMode(QuickTileMode mode, bool keyboard)
 
         // Store the mode change
         m_quickTileMode = mode;
+        if (isSplitscreen()) {
+            QRect store = QRect(geometry().x(), geometry().y(), geometryRestore().width(), geometryRestore().height());
+            setGeometryRestore(store);
+        }
     }
 
     if (mode == QuickTileMode(QuickTileFlag::None)) {

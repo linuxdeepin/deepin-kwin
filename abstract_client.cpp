@@ -2118,7 +2118,7 @@ void AbstractClient::showApplicationMenu(int actionId)
 }
 bool AbstractClient::isSplitscreen() const
 {
-    return (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
+    return (m_quickTileMode == int(QuickTileFlag::Left)) || (m_quickTileMode == int(QuickTileFlag::Right));
 }
 
 bool AbstractClient::unresponsive() const
