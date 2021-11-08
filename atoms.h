@@ -74,6 +74,7 @@ public:
     Xcb::Atom deepin_move_update;
     Xcb::Atom deepin_forhibit_move;
     Xcb::Atom deepin_split_window;
+    Xcb::Atom deepin_lock_screen;
 
     /**
      * @internal

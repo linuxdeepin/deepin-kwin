@@ -49,6 +49,10 @@ public:
     }
     NET::WindowType windowType(bool direct = false, int supported_types = 0) const;
 
+    bool fetchWindowForLockScreen();
+
+    bool isKeepAbove();
+
 public Q_SLOTS:
     void release(ReleaseReason releaseReason = ReleaseReason::Release);
 protected:

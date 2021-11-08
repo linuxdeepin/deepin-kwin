@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "deleted.h"
 #include "utils.h"
 #include "xcbutils.h"
-
+#include "atoms.h"
 #include <QTimer>
 #include <QDebug>
 
@@ -68,7 +68,7 @@ bool Unmanaged::track(Window w)
     m_visual = attr->visual;
     bit_depth = geo->depth;
     info = new NETWinInfo(connection(), w, rootWindow(),
-                          NET::WMWindowType | NET::WMPid,
+                          NET::WMWindowType | NET::WMPid | NET::WMState,
                           NET::WM2Opacity |
                           NET::WM2WindowRole |
                           NET::WM2WindowClass |
@@ -163,6 +163,27 @@ NET::WindowType Unmanaged::windowType(bool direct, int supportedTypes) const
         supportedTypes = SUPPORTED_UNMANAGED_WINDOW_TYPES_MASK;
     }
     return info->windowType(NET::WindowTypes(supportedTypes));
+}
+
+bool Unmanaged::fetchWindowForLockScreen()
+{
+    auto cookie = xcb_get_property(connection(),0,this->window(),atoms->deepin_lock_screen,
+                         atoms->deepin_lock_screen,0,0);
+    xcb_get_property_reply_t *reply;
+    xcb_generic_error_t *error;
+    if ((reply = xcb_get_property_reply(connection(), cookie, &error))) {
+        if (reply->type == XCB_ATOM_ATOM && reply->format == 32 && reply->bytes_after == 1) {
+            free(reply);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Unmanaged::isKeepAbove()
+{
+    return bool(info->state() & NET::KeepAbove);
 }
 
 void Unmanaged::addDamage(const QRegion &damage)
