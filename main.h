@@ -198,6 +198,9 @@ public:
     static bool usesLibinput();
     static void setUseLibinput(bool use);
 
+    static void setUseLibinputForTouch(bool use);
+    static bool useLibinputForTouch();
+
 Q_SIGNALS:
     void x11ConnectionChanged();
     void x11ConnectionAboutToBeDestroyed();

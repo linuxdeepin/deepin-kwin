@@ -85,6 +85,8 @@ public:
 
     void processEvents();
 
+    void processTouchToMoveClientEvents();
+
     void toggleTouchpads();
     void enableTouchpads();
     void disableTouchpads();
@@ -111,6 +113,11 @@ Q_SIGNALS:
     void touchDown(qint32 id, const QPointF &absolutePos, quint32 time, KWin::LibInput::Device *device);
     void touchUp(qint32 id, quint32 time, KWin::LibInput::Device *device);
     void touchMotion(qint32 id, const QPointF &absolutePos, quint32 time, KWin::LibInput::Device *device);
+
+    void touchToMoveClientDown();
+    void touchToMoveClientUp();
+    void touchToMoveClientMotion();
+
     void hasKeyboardChanged(bool);
     void hasAlphaNumericKeyboardChanged(bool);
     void hasPointerChanged(bool);
