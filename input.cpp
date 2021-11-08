@@ -65,6 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <xkbcommon/xkbcommon.h>
 #include <sys/sdt.h>
+#include <unistd.h>
 
 namespace KWin
 {
@@ -2030,7 +2031,7 @@ void InputRedirection::init()
 {
     m_shortcuts->init();
 }
-
+static bool acceptsInput(Toplevel *t, const QPoint &pos);
 void InputRedirection::setupWorkspace()
 {
     if (waylandServer()) {
@@ -2093,6 +2094,51 @@ void InputRedirection::setupWorkspace()
                         // TODO: Fix time
                         m_pointer->processAxis(axis, delta, 0);
                         waylandServer()->simulateUserActivity();
+                    }
+                );
+                connect(device, &FakeInputDevice::pointerAxisRequestedForCapture, this,
+                    [this] (Qt::Orientation orientation, qreal delta) {
+                        const ToplevelList &stacking = Workspace::self()->stackingOrder();
+                        if (stacking.size() <= 1) {
+                            return;
+                        }
+                        auto it = stacking.end();
+                        bool ignoreFlag = false;
+                        do {
+                            --it;
+                            Toplevel *t = (*it);
+                            if (t->isDeleted()) {
+                                // a deleted window doesn't get mouse events
+                                continue;
+                            }
+                            if (!t->readyForPainting()) {
+                                continue;
+                            }
+                            if (t->isDock()) {
+                                continue;
+                            }
+                            if (AbstractClient *c = dynamic_cast<AbstractClient*>(t)) {
+                                if (!c->isOnCurrentActivity() || !c->isOnCurrentDesktop() || c->isMinimized() ||
+                                        !c->isCurrentTab() || c->isHiddenInternal()) {
+                                    continue;
+                                }
+                            }
+                            if (ignoreFlag) {
+                                auto seat = waylandServer()->seat();
+                                QPoint pos = seat->pointerPos().toPoint();
+                                if (t->inputGeometry().contains(pos) && acceptsInput(t, pos)) {
+                                    QMatrix4x4 matrix = t->inputTransformation();
+                                    KWayland::Server::SurfaceInterface * surface = t->surface();
+                                    if (surface) {
+                                        seat->pointerAxisToClient(orientation, delta, surface, matrix);
+                                    }
+                                    waylandServer()->simulateUserActivity();
+                                    break;
+                                }
+                            } else if (t->isNormalWindow()) {
+                                ignoreFlag = true;
+                            }
+                        } while (it != stacking.begin());
                     }
                 );
                 connect(device, &FakeInputDevice::touchDownRequested, this,
