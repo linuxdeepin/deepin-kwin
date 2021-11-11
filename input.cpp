@@ -302,10 +302,12 @@ public:
             return false;
         }
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         if (pointerSurfaceAllowed()) {
             seat->setTimestamp(event->timestamp());
             const Qt::Orientation orientation = event->angleDelta().x() == 0 ? Qt::Vertical : Qt::Horizontal;
             seat->pointerAxis(orientation, orientation == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
+            ddeSeat->pointerAxis(orientation, orientation == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
         }
         if (workspace() && workspace()->isKwinDebug()) {
             qDebug()<<"true type:"<<event->type();
@@ -1474,9 +1476,11 @@ public:
     }
     bool wheelEvent(QWheelEvent *event) override {
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         seat->setTimestamp(event->timestamp());
         const Qt::Orientation orientation = event->angleDelta().x() == 0 ? Qt::Vertical : Qt::Horizontal;
         seat->pointerAxis(orientation, orientation == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
+        ddeSeat->pointerAxis(orientation, orientation == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
         if (workspace() && workspace()->isKwinDebug()) {
             qDebug()<<"true type:"<<event->type();
         }
