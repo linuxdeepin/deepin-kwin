@@ -1,3 +1,9 @@
+kwin (4:5.15.10.1-1) unstable; urgency=medium
+
+  * feat: The 'wayland' branch joins the 'master' branch
+
+ -- Lei Su <sulei@uniontech.com> Thu, 11 Nov 2021 17:46:07 +0800
+
 kwin (4:5.15.8.67-1) unstable; urgency=medium
 
   * Bug fix:
