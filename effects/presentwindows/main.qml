@@ -29,5 +29,10 @@ Item {
         objectName: "closeButton"
         iconSource: "window-close"
         anchors.fill: parent
+
+        Accessible.role: Accessible.Button
+        Accessible.name: "highlightWin_closeButton"
+        Accessible.description: "super + a/w closeButton"
+        Accessible.onPressAction: pressed()
     }
 }
