@@ -2001,11 +2001,17 @@ bool Workspace::checkClientAllowToSplit(AbstractClient *c)
 
 void Workspace::setClientSplit(AbstractClient *c, int mode, bool isShowPreview)
 {
+    if (c == nullptr)
+        return;
+
     c->splitWinAgain(mode);
     if (mode == 1 || mode == 2)
         workspace()->updateScreenSplitApp(c);
     if (isShowPreview) {
         emit c->showSplitPreview(c);
+    }
+    if (active_client != c) {
+        activateClient(c);
     }
 }
 
