@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "composite.h"
 #include "drm_backend.h"
 #include "drm_output.h"
-#include "linux_dmabuf.h"
 #include "gbm_surface.h"
 #include "logging.h"
 #include "options.h"
@@ -41,6 +40,12 @@ namespace KWin
 {
 
 PFNEGLSETDAMAGEREGIONKHRPROC eglSetDamageRegionKHR = nullptr;
+typedef EGLBoolean (*eglQueryDmaBufFormatsEXT_func) (EGLDisplay dpy, EGLint max_formats, EGLint *formats, EGLint *num_formats);
+typedef EGLBoolean (*eglQueryDmaBufModifiersEXT_func) (EGLDisplay dpy, EGLint format, EGLint max_modifiers,
+                                                       EGLuint64KHR *modifiers, EGLBoolean *external_only, EGLint *num_modifiers);
+
+eglQueryDmaBufFormatsEXT_func eglQueryDmaBufFormatsEXT = nullptr;
+eglQueryDmaBufModifiersEXT_func eglQueryDmaBufModifiersEXT = nullptr;
 
 EglGbmBackend::EglGbmBackend(DrmBackend *b)
     : AbstractEglBackend()

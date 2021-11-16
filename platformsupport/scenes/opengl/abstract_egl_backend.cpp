@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "abstract_egl_backend.h"
-#include "linux_dmabuf.h"
 #include "texture.h"
 #include "composite.h"
 #include "egl_context_attribute_builder.h"
@@ -176,8 +175,6 @@ void AbstractEglBackend::initWayland()
             }
         }
     }
-
-    LinuxDmabuf::factory(this);
 }
 
 void AbstractEglBackend::initClientExtensions()
@@ -377,12 +374,11 @@ bool AbstractEglTexture::loadTexture(WindowPixmap *pixmap)
     if (auto s = pixmap->surface()) {
         s->resetTrackedDamage();
     }
-    if (buffer->linuxDmabufBuffer()) {
-        return loadDmabufTexture(buffer);
-    } else if (buffer->shmBuffer()) {
+    if (buffer->shmBuffer()) {
         return loadShmTexture(buffer);
+    } else {
+        return loadEglTexture(buffer);
     }
-    return loadEglTexture(buffer);
 }
 
 void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
@@ -399,34 +395,12 @@ void AbstractEglTexture::updateTexture(WindowPixmap *pixmap)
         return;
     }
     auto s = pixmap->surface();
-    if (DmabufBuffer *dmabuf = static_cast<DmabufBuffer *>(buffer->linuxDmabufBuffer())) {
-        q->bind();
-        glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, (GLeglImageOES) dmabuf->images()[0]);   //TODO
-        q->unbind();
-        if (m_image != EGL_NO_IMAGE_KHR) {
-            eglDestroyImageKHR(m_backend->eglDisplay(), m_image);
-        }
-        m_image = EGL_NO_IMAGE_KHR; // The wl_buffer has ownership of the image
-        // The origin in a dmabuf-buffer is at the upper-left corner, so the meaning
-        // of Y-inverted is the inverse of OpenGL.
-        const bool yInverted = !(dmabuf->flags() & KWayland::Server::LinuxDmabufUnstableV1Interface::YInverted);
-        if (m_size != dmabuf->size() || yInverted != q->isYInverted()) {
-            m_size = dmabuf->size();
-            q->setYInverted(yInverted);
-        }
-        if (s) {
-            s->resetTrackedDamage();
-        }
-        return;
-    }
     if (!buffer->shmBuffer()) {
         q->bind();
         EGLImageKHR image = attach(buffer);
         q->unbind();
         if (image != EGL_NO_IMAGE_KHR) {
-            if (m_image != EGL_NO_IMAGE_KHR) {
-                eglDestroyImageKHR(m_backend->eglDisplay(), m_image);
-            }
+            eglDestroyImageKHR(m_backend->eglDisplay(), m_image);
             m_image = image;
         }
         if (s) {
@@ -578,30 +552,6 @@ bool AbstractEglTexture::loadEglTexture(const QPointer< KWayland::Server::Buffer
         q->discard();
         return false;
     }
-
-    return true;
-}
-
-bool AbstractEglTexture::loadDmabufTexture(const QPointer< KWayland::Server::BufferInterface > &buffer)
-{
-    DmabufBuffer *dmabuf = static_cast<DmabufBuffer *>(buffer->linuxDmabufBuffer());
-    if (!dmabuf || dmabuf->images()[0] == EGL_NO_IMAGE_KHR) {
-        qCritical(KWIN_OPENGL) << "Invalid dmabuf-based wl_buffer";
-        q->discard();
-        return false;
-    }
-
-    assert(m_image == EGL_NO_IMAGE_KHR);
-
-    glGenTextures(1, &m_texture);
-    q->setWrapMode(GL_CLAMP_TO_EDGE);
-    q->setFilter(GL_NEAREST);
-    q->bind();
-    glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, (GLeglImageOES) dmabuf->images()[0]);
-    q->unbind();
-
-    m_size = dmabuf->size();
-    q->setYInverted(!(dmabuf->flags() & KWayland::Server::LinuxDmabufUnstableV1Interface::YInverted));
 
     return true;
 }
