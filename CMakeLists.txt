@@ -373,9 +373,6 @@ add_feature_info("prctl/procctl tracing control"
                  CAN_DISABLE_PTRACE
                  "Required for disallowing ptrace on kwin_wayland process")
 
-pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3)
-add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
-
 check_include_file("sys/sysmacros.h" HAVE_SYS_SYSMACROS_H)
 configure_file(config-kwin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kwin.h )
 
@@ -476,7 +473,6 @@ set(kwin_KDEINIT_SRCS
    thumbnailitem.cpp
    lanczosfilter.cpp
    deleted.cpp
-   dmabuftexture.cpp
    effects.cpp
    effectloader.cpp
    virtualdesktops.cpp
@@ -700,16 +696,6 @@ set(kwin_WAYLAND_SRCS
 )
 
 include(ECMQtDeclareLoggingCategory)
-ecm_qt_declare_logging_category(kwin_WAYLAND_SRCS
-    HEADER
-        kwinscreencast_logging.h
-    IDENTIFIER
-        KWIN_SCREENCAST
-    CATEGORY_NAME
-        kwin_screencast
-    DEFAULT_SEVERITY
-        Warning
-)
 
 set(kwin_XWAYLAND_SRCS
    ${CMAKE_CURRENT_SOURCE_DIR}/xwl/xwayland.cpp
@@ -736,15 +722,6 @@ ecm_qt_declare_logging_category(kwin_XWAYLAND_SRCS
 )
 
 add_executable(kwin_wayland ${kwin_WAYLAND_SRCS} ${kwin_XWAYLAND_SRCS})
-
-if (PipeWire_FOUND)
-    target_sources(kwin_wayland
-        PRIVATE
-        screencast/screencastmanager.cpp
-        screencast/pipewirecore.cpp
-        screencast/pipewirestream.cpp)
-    target_link_libraries(kwin_wayland PkgConfig::PipeWire)
-endif()
 
 target_link_libraries(kwin_wayland kwin KF5::Crash)
 if (HAVE_LIBCAP)
