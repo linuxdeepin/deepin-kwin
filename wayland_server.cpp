@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "screens.h"
 #include "shell_client.h"
 #include "workspace.h"
-#include "abstract_output.h"
 
 // Client
 #include <KWayland/Client/connection_thread.h>
@@ -837,18 +836,6 @@ void WaylandServer::simulateUserActivity()
     if (m_idle) {
         m_idle->simulateUserActivity();
     }
-}
-
-AbstractOutput *WaylandServer::findOutput(KWayland::Server::OutputInterface *outputIface) const
-{
-    AbstractOutput *outputFound = nullptr;
-    const auto outputs = kwinApp()->platform()->enabledOutputs();
-    for (auto output : outputs) {
-        if (static_cast<AbstractOutput *>(output)->waylandOutput() == outputIface) {
-            outputFound = static_cast<AbstractOutput *>(output);
-        }
-    }
-    return outputFound;
 }
 
 }

@@ -154,7 +154,6 @@ public:
 
 Q_SIGNALS:
     void modeChanged();
-    void outputChange(const QRegion &damagedRegion);
 
 protected:
     void initWaylandOutputDevice(const QString &model,

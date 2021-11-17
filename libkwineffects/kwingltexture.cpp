@@ -1,13 +1,24 @@
-/*
-    KWin - the KDE window manager
-    This file is part of the KDE project.
+/********************************************************************
+ KWin - the KDE window manager
+ This file is part of the KDE project.
 
-    SPDX-FileCopyrightText: 2006-2007 Rivo Laks <rivolaks@hot.ee>
-    SPDX-FileCopyrightText: 2010, 2011 Martin Gräßlin <mgraesslin@kde.org>
-    SPDX-FileCopyrightText: 2012 Philipp Knechtges <philipp-dev@knechtges.com>
+Copyright (C) 2006-2007 Rivo Laks <rivolaks@hot.ee>
+Copyright (C) 2010, 2011 Martin Gräßlin <mgraesslin@kde.org>
+Copyright (C) 2012 Philipp Knechtges <philipp-dev@knechtges.com>
 
-    SPDX-License-Identifier: GPL-2.0-or-later
-*/
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*********************************************************************/
 
 #include "kwinconfig.h" // KWIN_HAVE_OPENGL
 
@@ -179,7 +190,7 @@ GLTexture::GLTexture(const QString& fileName)
 {
 }
 
-GLTexture::GLTexture(GLenum internalFormat, int width, int height, int levels, bool needsMutability)
+GLTexture::GLTexture(GLenum internalFormat, int width, int height, int levels)
      : d_ptr(new GLTexturePrivate())
 {
     Q_D(GLTexture);
@@ -198,7 +209,7 @@ GLTexture::GLTexture(GLenum internalFormat, int width, int height, int levels, b
     bind();
 
     if (!GLPlatform::instance()->isGLES()) {
-        if (d->s_supportsTextureStorage && !needsMutability) {
+        if (d->s_supportsTextureStorage) {
             glTexStorage2D(d->m_target, levels, internalFormat, width, height);
             d->m_immutable = true;
         } else {
@@ -223,27 +234,9 @@ GLTexture::GLTexture(GLenum internalFormat, int width, int height, int levels, b
     unbind();
 }
 
-GLTexture::GLTexture(GLenum internalFormat, const QSize &size, int levels, bool needsMutability)
-    : GLTexture(internalFormat, size.width(), size.height(), levels, needsMutability)
+GLTexture::GLTexture(GLenum internalFormat, const QSize &size, int levels)
+    : GLTexture(internalFormat, size.width(), size.height(), levels)
 {
-}
-
-GLTexture::GLTexture(GLuint textureId, GLenum internalFormat, const QSize &size, int levels)
-    : d_ptr(new GLTexturePrivate())
-{
-    Q_D(GLTexture);
-    d->m_foreign = true;
-    d->m_texture = textureId;
-    d->m_target = GL_TEXTURE_2D;
-    d->m_scale.setWidth(1.0 / size.width());
-    d->m_scale.setHeight(1.0 / size.height());
-    d->m_size = size;
-    d->m_canUseMipmaps = levels > 1;
-    d->m_mipLevels = levels;
-    d->m_filter = levels > 1 ? GL_NEAREST_MIPMAP_LINEAR : GL_NEAREST;
-    d->m_internalFormat = internalFormat;
-
-    d->updateMatrix();
 }
 
 GLTexture::~GLTexture()
@@ -268,7 +261,7 @@ GLTexturePrivate::GLTexturePrivate()
  , m_filterChanged(true)
  , m_wrapModeChanged(false)
  , m_immutable(false)
- , m_foreign(false)
+ , m_isExternal(false)
  , m_mipLevels(1)
  , m_unnormalizeActive(0)
  , m_normalizeActive(0)
@@ -280,7 +273,7 @@ GLTexturePrivate::GLTexturePrivate()
 GLTexturePrivate::~GLTexturePrivate()
 {
     delete m_vbo;
-    if (m_texture != 0 && !m_foreign) {
+    if (!m_isExternal && m_texture != 0) {
         glDeleteTextures(1, &m_texture);
     }
     // Delete the FBO if this is the last Texture
@@ -341,7 +334,6 @@ void GLTexture::update(const QImage &image, const QPoint &offset, const QRect &s
         return;
 
     Q_D(GLTexture);
-    Q_ASSERT(!d->m_foreign);
 
     bool useUnpack = !src.isNull() && d->s_supportsUnpack && d->s_supportsARGB32 && image.format() == QImage::Format_ARGB32_Premultiplied;
 
@@ -456,7 +448,7 @@ void GLTexture::unbind()
     glBindTexture(d->m_target, 0);
 }
 
-void GLTexture::render(const QRegion &region, const QRect& rect, bool hardwareClipping)
+void GLTexture::render(QRegion region, const QRect& rect, bool hardwareClipping)
 {
     Q_D(GLTexture);
     if (rect.isEmpty())
@@ -519,22 +511,17 @@ GLenum GLTexture::internalFormat() const
 void GLTexture::clear()
 {
     Q_D(GLTexture);
-    Q_ASSERT(!d->m_foreign);
     if (!GLTexturePrivate::s_fbo && GLRenderTarget::supported() &&
         GLPlatform::instance()->driver() != Driver_Catalyst) // fail. -> bug #323065
         glGenFramebuffers(1, &GLTexturePrivate::s_fbo);
 
     if (GLTexturePrivate::s_fbo) {
         // Clear the texture
-        GLuint previousFramebuffer = 0;
-        glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, reinterpret_cast<GLint *>(&previousFramebuffer));
-        if (GLTexturePrivate::s_fbo != previousFramebuffer)
-            glBindFramebuffer(GL_FRAMEBUFFER, GLTexturePrivate::s_fbo);
+        glBindFramebuffer(GL_FRAMEBUFFER, GLTexturePrivate::s_fbo);
         glClearColor(0, 0, 0, 0);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, d->m_texture, 0);
         glClear(GL_COLOR_BUFFER_BIT);
-        if (GLTexturePrivate::s_fbo != previousFramebuffer)
-            glBindFramebuffer(GL_FRAMEBUFFER, previousFramebuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     } else {
         if (const int size = width()*height()) {
             uint32_t *buffer = new uint32_t[size];
@@ -617,9 +604,6 @@ bool GLTexture::isYInverted() const
 void GLTexture::setYInverted(bool inverted)
 {
     Q_D(GLTexture);
-    if (d->m_yInverted == inverted)
-        return;
-
     d->m_yInverted = inverted;
     d->updateMatrix();
 }
@@ -670,13 +654,6 @@ bool GLTexture::supportsSwizzle()
 bool GLTexture::supportsFormatRG()
 {
     return GLTexturePrivate::s_supportsTextureFormatRG;
-}
-
-QImage GLTexture::toImage() const
-{
-    QImage ret(size(), QImage::Format_RGBA8888_Premultiplied);
-    glGetTextureImage(texture(), 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, ret.sizeInBytes(), ret.bits());
-    return ret;
 }
 
 } // namespace KWin
