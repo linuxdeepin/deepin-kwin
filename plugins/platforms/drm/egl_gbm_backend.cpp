@@ -625,12 +625,15 @@ bool EglGbmBackend::initBufferConfigs()
 
 void EglGbmBackend::present()
 {
-    Q_UNREACHABLE();
-    // Not in use. This backend does per-screen rendering.
+    for (auto &o: m_outputs) {
+        makeContextCurrent(o);
+        presentOnOutput(o);
+    }
 }
 
 static QVector<EGLint> regionToRects(const QRegion &region, AbstractOutput *output)
-{
+{   
+    return QVector<EGLint>();
     const int height = output->modeSize().height();
 
     auto drmOutput = reinterpret_cast<DrmOutput*>(output);
@@ -669,7 +672,7 @@ void EglGbmBackend::aboutToStartPainting(const QRegion &damagedRegion)
     }
 }
 
-void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &damagedRegion)
+void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o)
 {
     DTRACE_PROBE(EglGbmBackend, presentOnOutput);
 
@@ -706,7 +709,7 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &dam
             qDebug() << "dump output buffer:" << filename;
 
             m_dumpOutputBufferCount++;
-            if (m_dumpOutputBufferCount >= m_outputs.size()) {
+            if (m_dumpOutputBufferCount >= (unsigned int)m_outputs.size()) {
                 workspace()->dumpOutputBufferFinish();
                 m_dumpOutputBufferCount = 0;
             }
@@ -718,7 +721,6 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &dam
         // we should pass the buffer before it's presented
         m_remoteaccessManager->passBuffer(o.output, o.buffer);
     }
-    Q_EMIT o.output->outputChange(damagedRegion);
     m_backend->present(o.buffer, o.output);
 
     if (supportsBufferAge()) {
@@ -803,7 +805,7 @@ void EglGbmBackend::endRenderingFrameForScreen(int screenId, const QRegion &rend
         }
         return;
     }
-    presentOnOutput(o, damagedRegion);
+    presentOnOutput(o);
 
     // Save the damaged region to history
     // Note: damage history is only collected for the first screen. For any other screen full repaints
