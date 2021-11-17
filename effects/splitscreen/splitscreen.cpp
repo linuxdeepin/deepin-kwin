@@ -46,7 +46,7 @@ void SplitScreenEffect::prePaintScreen(ScreenPrePaintData &data, int time)
         data.mask |= PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS;
 
         for (auto& mm: m_motionManagers) {
-            mm.calculate(time/2.0);
+            mm.calculate(time / 2);
         }
     }
 
@@ -110,13 +110,13 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
 
             if (m_hoverwin == w) {
                 auto center = geo.center();
-                geo.setWidth(geo.width() * 1.05f);
-                geo.setHeight(geo.height() * 1.05f);
+                geo.setWidth(geo.width() * 1.05);
+                geo.setHeight(geo.height() * 1.05);
                 geo.moveCenter(center);
             }
 
             d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
-            d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
+            d.setScale(QVector2D((float)(geo.width() / w->width()), (float)(geo.height() / w->height())));
 
             if (m_hoverwin == w) {
                 if (!m_highlightFrame) {
@@ -174,8 +174,7 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
             } else {
                 m_hoverwin = nullptr;
             }
-
-            return;
+            break;
         case QEvent::MouseButtonPress:
             if (target) {
                 effects->setElevatedWindow(target, true);
@@ -198,7 +197,7 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
 
 void SplitScreenEffect::grabbedKeyboardEvent(QKeyEvent* e)
 {
-
+    Q_UNUSED(e)
 }
 
 void SplitScreenEffect::slotWindowStartUserMovedResized(EffectWindow *w)
@@ -293,7 +292,7 @@ void SplitScreenEffect::cleanup()
         effects->ungrabKeyboard();
     m_hasKeyboardGrab = false;
     effects->stopMouseInterception(this);
-    effects->setActiveFullScreenEffect(0);
+    effects->setActiveFullScreenEffect(nullptr);
 
     while (m_motionManagers.size() > 0) {
         m_motionManagers.first().unmanageAll();
@@ -308,10 +307,10 @@ void SplitScreenEffect::preSetActive(EffectWindow *w)
     cleanup();
 
     EffectWindowList windows = effects->stackingOrder();
-    int ncurrentDesktop = effects->currentDesktop();
+    int currentDesktop = effects->currentDesktop();
     WindowMotionManager wmm;
     for (const auto& w: windows) {
-        if (w->isOnDesktop(ncurrentDesktop) && isRelevantWithPresentWindows(w)) {
+        if (w->isOnDesktop(currentDesktop) && isRelevantWithPresentWindows(w)) {
             if (w == m_window)
                 continue;
 
@@ -415,6 +414,8 @@ static inline int distance(QPoint &pos1, QPoint &pos2)
 void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList windowlist, int screen,
         WindowMotionManager& motionManager)
 {
+    Q_UNUSED(screen)
+
     // This layout mode requires at least one window visible
     if (windowlist.count() == 0)
         return;
