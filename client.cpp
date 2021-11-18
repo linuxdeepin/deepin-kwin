@@ -630,7 +630,7 @@ void Client::checkNoBorder()
 
 bool Client::wantsShadowToBeRendered() const
 {
-    return !isFullScreen() && maximizeMode() != MaximizeFull && !isSplitscreen();
+    return !isFullScreen() && maximizeMode() != MaximizeFull;
 }
 
 void Client::updateShape()

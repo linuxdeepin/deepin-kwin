@@ -584,5 +584,23 @@ bool Toplevel::isLocalhost() const
     return m_clientMachine->isLocal();
 }
 
+void Toplevel::handleSplitOutline(bool show)
+{
+    if (show == true) {
+        m_splitoutlineshow = true;
+        effectWindow()->sceneWindow()->shadow()->destroyed();
+        getShadow();
+    } else {
+       m_splitoutlineshow = false;
+       effectWindow()->sceneWindow()->shadow()->destroyed();
+       getShadow();
+    }
+}
+
+bool Toplevel::isShowSplitoutline() const
+{
+     return m_splitoutlineshow;
+}
+
 } // namespace
 
