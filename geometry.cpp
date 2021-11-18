@@ -3800,7 +3800,6 @@ void AbstractClient::handlequickTileModeChanged(bool isReCheckScreen)
     bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
     if (!flag)
         return;
-
     int nScreen = screen();
     if (isReCheckScreen)
         nScreen = reCheckScreen();
@@ -3809,9 +3808,11 @@ void AbstractClient::handlequickTileModeChanged(bool isReCheckScreen)
         SplitOutline* splitOutline = new SplitOutline(nScreen, desktop());
         splitOutline->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
         splitManage.insert(nScreen, splitOutline);
+        handleSplitOutline(true);
     } else if (compositing() && splitManage.contains(nScreen)) {
         judgeRepeatquickTileclient();
         splitManage.find(nScreen).value()->setSplitClient(this, (QuickTileFlag)m_quickTileMode);
+        handleSplitOutline(true);
     }
 }
 
@@ -3836,6 +3837,7 @@ void AbstractClient::cancelSplitOutline()
                 delete it.value();
                 splitManage.erase(it);
             }
+            handleSplitOutline(false);
         }
         if (!isMinimized())
             workspace()->updateScreenSplitApp(this, true);
