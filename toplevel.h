@@ -485,6 +485,9 @@ public:
         return m_isInputRegionSet;
     }
 
+    void handleSplitOutline(bool show);
+    bool isShowSplitoutline() const;
+
 Q_SIGNALS:
     void opacityChanged(KWin::Toplevel* toplevel, qreal oldOpacity);
     void damaged(KWin::Toplevel* toplevel, const QRect& damage);
@@ -634,6 +637,7 @@ private:
     QSharedPointer<QOpenGLFramebufferObject> m_internalFBO;
     // when adding new data members, check also copyToDeleted()
     qreal m_screenScale = 1.0;
+    bool m_splitoutlineshow=false;
 };
 
 inline xcb_window_t Toplevel::window() const

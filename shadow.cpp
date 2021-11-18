@@ -190,10 +190,27 @@ bool Shadow::init(KDecoration2::Decoration *decoration)
         disconnect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::shadowChanged,        m_topLevel, &Toplevel::getShadow);
         disconnect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::paddingChanged,       m_topLevel, &Toplevel::getShadow);
     }
+
     m_decorationShadow = decoration->shadow();
+
     if (!m_decorationShadow) {
         return false;
     }
+
+    QImage img = m_decorationShadow->shadow();
+    if(m_topLevel!=nullptr && m_topLevel->isShowSplitoutline()) {
+        QPainter p1;
+        p1.begin(&img);
+        p1.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+        p1.fillRect(img.rect(), QColor(0,0,0,130));
+        p1.end();
+        m_decorationShadowTemp = QSharedPointer<KDecoration2::DecorationShadow>::create();
+        m_decorationShadowTemp->setShadow(img);
+        m_decorationShadowTemp->setPadding(m_decorationShadow->padding());
+        m_decorationShadowTemp->setInnerShadowRect(m_decorationShadow->innerShadowRect());
+        m_decorationShadow = m_decorationShadowTemp;
+    }
+
     // setup connections - all just mapped to recreate
     connect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::innerShadowRectChanged, m_topLevel, &Toplevel::getShadow);
     connect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::shadowChanged,        m_topLevel, &Toplevel::getShadow);
@@ -371,6 +388,7 @@ void Shadow::setToplevel(Toplevel *topLevel)
     m_topLevel = topLevel;
     connect(m_topLevel, SIGNAL(geometryChanged()), SLOT(geometryChanged()));
 }
+
 void Shadow::geometryChanged()
 {
     if (m_cachedSize == m_topLevel->geometry().size()) {
