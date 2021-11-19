@@ -69,6 +69,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/ddeshell_interface.h>
 #include <KWayland/Server/strut_interface.h>
 #include <KWayland/Server/xwayland_keyboard_grab_v1_interface.h>
+#include <KWayland/Server/primaryselectiondevicemanager_v1_interface.h>
 
 // Qt
 #include <QDir>
@@ -452,6 +453,9 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
         m_grabClient = nullptr;
         qDebug() << "grab destroyed!";
     });
+
+    auto psdi = m_display->createPrimarySelectionDeviceManagerV1(m_display);
+    psdi->create();
 
     return true;
 }
