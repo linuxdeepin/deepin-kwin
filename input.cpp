@@ -1711,7 +1711,7 @@ public:
             return false;
         }
 
-        //seat->setFocusedKeyboardSurface(surface);
+        seat->setFocusedKeyboardSurface(surface);
 
         seat->setTimestamp(event->timestamp());
         switch (event->type()) {
