@@ -282,8 +282,6 @@ ln -s kwin_x11 %{buildroot}%{_bindir}/kwin
 # note: these are for reference (to express config defaults), they are
 # not config files themselves (so don't use %%config tag)
 %{_sysconfdir}/xdg/*.knsrc
-%{_bindir}/kwin
-%{_bindir}/kwin_x11
 
 %files wayland
 %{_kf5_bindir}/kwin_wayland
