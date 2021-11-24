@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "platform.h"
 #include "scripting/scripting.h"
 #include "utils.h"
+#include "wayland_server.h"
 // Frameworks
 #include <KConfigGroup>
 // Qt
@@ -164,6 +165,9 @@ void CompositedOutlineVisual::hide()
 {
     if (QQuickWindow *w = qobject_cast<QQuickWindow*>(m_mainItem.data())) {
         w->hide();
+        if (!waylandServer()) {
+            w->destroy();
+        }
     }
 }
 
