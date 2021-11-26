@@ -24,6 +24,7 @@
 #include <QOpenGLContext>
 
 #endif //KCMRULES
+#include "wayland_server.h"
 
 namespace KWin
 {
@@ -737,7 +738,9 @@ void Options::loadConfig()
     setCommandAll3(mouseCommand(config.readEntry("CommandAll3", "Resize"), false));
 
     // Modifier Only Shortcuts
-    config = KConfigGroup(m_settings->config(), "ModifierOnlyShortcuts");
+    if (waylandServer()) {
+        config = KConfigGroup(m_settings->config(), "ModifierOnlyShortcuts");
+    }
     m_modifierOnlyShortcuts.clear();
     if (config.hasKey("Shift")) {
         m_modifierOnlyShortcuts.insert(Qt::ShiftModifier, config.readEntry("Shift", QStringList()));
