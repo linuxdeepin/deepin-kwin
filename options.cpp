@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QOpenGLContext>
 
 #endif //KCMRULES
-
+#include "wayland_server.h"
 namespace KWin
 {
 
@@ -833,7 +833,8 @@ void Options::loadConfig()
     setVBlankTime(config.readEntry("VBlankTime", Options::defaultVBlankTime()) * 1000); // config in micro, value in nano resolution
 
     // Modifier Only Shortcuts
-    config = KConfigGroup(m_settings->config(), "ModifierOnlyShortcuts");
+    if (waylandServer())
+        config = KConfigGroup(m_settings->config(), "ModifierOnlyShortcuts");
     m_modifierOnlyShortcuts.clear();
     if (config.hasKey("Shift")) {
         m_modifierOnlyShortcuts.insert(Qt::ShiftModifier, config.readEntry("Shift", QStringList()));
