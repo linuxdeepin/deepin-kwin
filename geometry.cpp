@@ -3033,10 +3033,11 @@ void AbstractClient::stopDelayedMoveResize()
 bool AbstractClient::handleSplitscreenSwap()
 {
     int nXcoordination = 0;
-    if (workspace()->isDragingWithContent())
+    if (workspace()->isDragingWithContent()) {
         nXcoordination = m_placeholderWindow.getGeometry().x();
-    else
+    } else {
         nXcoordination = x();
+    }
 
     if (m_quickTileMode & int(QuickTileFlag::Left)) {
         QRect workArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
@@ -3052,17 +3053,17 @@ bool AbstractClient::handleSplitscreenSwap()
         }
 
     } else if (m_quickTileMode & int(QuickTileFlag::Right)) {
-            QRect workArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
-            if ((nXcoordination + width()/2) < (workArea.x() + workArea.width()/2)) {
-                updateQuickTileMode(QuickTileFlag::Left);
-                setElectricBorderMode(QuickTileFlag::Left);
-                splitManage.find(screen()).value()->getLeftSplitClient()->updateQuickTileMode(QuickTileFlag::Right);
-                splitManage.find(screen()).value()->getLeftSplitClient()->setElectricBorderMode(QuickTileFlag::Right);
+        QRect workArea = workspace()->clientArea(MaximizeArea, screen(), desktop());
+        if ((nXcoordination + width()/2) < (workArea.x() + workArea.width()/2)) {
+            updateQuickTileMode(QuickTileFlag::Left);
+            setElectricBorderMode(QuickTileFlag::Left);
+            splitManage.find(screen()).value()->getLeftSplitClient()->updateQuickTileMode(QuickTileFlag::Right);
+            splitManage.find(screen()).value()->getLeftSplitClient()->setElectricBorderMode(QuickTileFlag::Right);
 
-                emit swapSplitClient(splitManage.find(screen()).value()->getLeftSplitClient(), 1);
-                splitManage.find(screen()).value()->swapClientLocation();
-                return true;
-            }
+            emit swapSplitClient(splitManage.find(screen()).value()->getLeftSplitClient(), 1);
+            splitManage.find(screen()).value()->swapClientLocation();
+            return true;
+        }
     }
     return false;
 }

@@ -2016,7 +2016,12 @@ void Workspace::slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isSho
 
 void Workspace::updateSplitOutlinePos(int screen, int desktop)
 {
-    AbstractClient::splitManage.find(screen).value()->updateOutlineStatus();
+    auto it = AbstractClient::splitManage.find(screen);
+    if (AbstractClient::splitManage.end() == it) {
+        return;
+    }
+
+    it.value()->updateOutlineStatus();
 }
 
 void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
