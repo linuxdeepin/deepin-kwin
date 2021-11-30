@@ -47,14 +47,12 @@ SelectionSource::SelectionSource(Selection *sel)
 {
 }
 
-WlSource::WlSource(Selection *sel, KWayland::Server::DataDeviceInterface *ddi)
-    : SelectionSource(sel),
-      m_ddi(ddi)
+WlSource::WlSource(Selection *sel)
+    : SelectionSource(sel)
 {
-    Q_ASSERT(ddi);
 }
 
-void WlSource::setDataSourceIface(KWayland::Server::DataSourceInterface *dsi)
+void WlSource::setDataSourceIface(KWayland::Server::AbstractDataSource *dsi)
 {
     if (m_dsi == dsi) {
         return;
@@ -133,7 +131,7 @@ void WlSource::sendTimestamp(xcb_selection_request_event_t *event)
 bool WlSource::checkStartTransfer(xcb_selection_request_event_t *event)
 {
     // check interfaces available
-    if (!m_ddi || !m_dsi) {
+    if (!m_dsi) {
         return false;
     }
 

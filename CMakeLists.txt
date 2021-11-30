@@ -700,6 +700,7 @@ include(ECMQtDeclareLoggingCategory)
 set(kwin_XWAYLAND_SRCS
    ${CMAKE_CURRENT_SOURCE_DIR}/xwl/xwayland.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/xwl/databridge.cpp
+   ${CMAKE_CURRENT_SOURCE_DIR}/xwl/datasource.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/xwl/selection.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/xwl/selection_source.cpp
    ${CMAKE_CURRENT_SOURCE_DIR}/xwl/transfer.cpp

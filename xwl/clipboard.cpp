@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "xwayland.h"
 #include "databridge.h"
+#include "datasource.h"
 #include "selection_source.h"
 #include "transfer.h"
 
@@ -28,13 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "workspace.h"
 #include "client.h"
 
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/datadevice.h>
-#include <KWayland/Client/datasource.h>
-
 #include <KWayland/Server/seat_interface.h>
-#include <KWayland/Server/datadevice_interface.h>
-#include <KWayland/Server/datasource_interface.h>
 
 #include <xcb/xcb_event.h>
 #include <xcb/xfixes.h>
@@ -59,7 +54,7 @@ Clipboard::Clipboard(xcb_atom_t atom, QObject *parent)
                       10, 10,
                       0,
                       XCB_WINDOW_CLASS_INPUT_OUTPUT,
-                      Xwayland::self()->xcbScreen()->root_visual,
+                      XCB_COPY_FROM_PARENT,
                       XCB_CW_EVENT_MASK,
                       clipboardValues);
     registerXfixes();
@@ -69,16 +64,17 @@ Clipboard::Clipboard(xcb_atom_t atom, QObject *parent)
             this, &Clipboard::wlSelectionChanged);
 }
 
-void Clipboard::wlSelectionChanged(KWayland::Server::DataDeviceInterface *ddi)
+void Clipboard::wlSelectionChanged(KWayland::Server::AbstractDataSource *dsi)
 {
-    if (ddi && ddi != DataBridge::self()->dataDeviceIface()) {
+    if (m_waitingForTargets) {
+        return;
+    }
+
+    if (!ownsSelection(dsi)) {
         // Wayland native client provides new selection
         if (!m_checkConnection) {
             m_checkConnection = connect(workspace(), &Workspace::clientActivated,
-                                        this, [this](AbstractClient *ac) {
-                                            Q_UNUSED(ac);
-                                            checkWlSource();
-                                        });
+                                        this, &Clipboard::checkWlSource);
         }
         // remove previous source so checkWlSource() can create a new one
         setWlSource(nullptr);
@@ -86,9 +82,14 @@ void Clipboard::wlSelectionChanged(KWayland::Server::DataDeviceInterface *ddi)
     checkWlSource();
 }
 
+bool Clipboard::ownsSelection(KWayland::Server::AbstractDataSource *dsi) const
+{
+    return dsi && dsi == m_selectionSource.get();
+}
+
 void Clipboard::checkWlSource()
 {
-    auto ddi = waylandServer()->seat()->selection();
+    auto dsi = waylandServer()->seat()->selection();
     auto removeSource = [this] {
         if (wlSource()) {
             setWlSource(nullptr);
@@ -105,7 +106,7 @@ void Clipboard::checkWlSource()
     // Otherwise the Wayland source gets destroyed to shield
     // against snooping X clients.
 
-    if (!ddi || DataBridge::self()->dataDeviceIface() == ddi) {
+    if (!dsi || ownsSelection(dsi)) {
         // Xwayland source or no source
         disconnect(m_checkConnection);
         m_checkConnection = QMetaObject::Connection();
@@ -122,14 +123,11 @@ void Clipboard::checkWlSource()
         // source already exists, nothing more to do
         return;
     }
-    auto *wls = new WlSource(this, ddi);
+    auto *wls = new WlSource(this);
     setWlSource(wls);
-    auto *dsi = ddi->selection();
     if (dsi) {
         wls->setDataSourceIface(dsi);
     }
-    connect(ddi, &KWayland::Server::DataDeviceInterface::selectionChanged,
-            wls, &WlSource::setDataSourceIface);
     ownSelection(true);
 }
 
@@ -152,35 +150,36 @@ void Clipboard::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
 
 void Clipboard::x11OffersChanged(const QVector<QString> &added, const QVector<QString> &removed)
 {
-    auto *xSrc = x11Source();
-    if (!xSrc) {
+    Q_UNUSED(added)
+    Q_UNUSED(removed)
+    m_waitingForTargets = false;
+    X11Source *source = x11Source();
+    if (!source) {
+        qCWarning(KWIN_XWL) << "offers changed when not having an X11Source!?";
         return;
     }
 
-    const auto offers = xSrc->offers();
-    const bool hasOffers = offers.size() > 0;
+    const Mimes offers = source->offers();
 
-    if (hasOffers) {
-        if (!xSrc->dataSource() || !removed.isEmpty()) {
-            // create new Wl DataSource if there is none or when types
-            // were removed (Wl Data Sources can only add types)
-            auto *ddm = waylandServer()->internalDataDeviceManager();
-            auto *ds = ddm->createDataSource(xSrc);
-
-            // also offers directly the currently available types
-            xSrc->setDataSource(ds);
-            DataBridge::self()->dataDevice()->setSelection(0, ds);
-            waylandServer()->seat()->setSelection(DataBridge::self()->dataDeviceIface());
-        } else if (auto *ds = xSrc->dataSource()) {
-            for (const auto &mime : added) {
-                ds->offer(mime);
-            }
-        }
+    if (!offers.isEmpty()) {
+        QStringList mimeTypes;
+        mimeTypes.reserve(offers.size());
+        std::transform(offers.begin(), offers.end(), std::back_inserter(mimeTypes), [](const Mimes::value_type &pair) {
+            return pair.first;
+        });
+        auto newSelection = std::make_unique<XwlDataSource>(nullptr);
+        newSelection->setMimeTypes(mimeTypes);
+        connect(newSelection.get(), &XwlDataSource::dataRequested, source, &X11Source::startTransfer);
+        // we keep the old selection around because setSelection needs it to be still alive
+        std::swap(m_selectionSource, newSelection);
+        waylandServer()->seat()->setSelection(m_selectionSource.get());
     } else {
-        waylandServer()->seat()->setSelection(nullptr);
+        KWayland::Server::AbstractDataSource *currentSelection = waylandServer()->seat()->selection();
+        if (!ownsSelection(currentSelection)) {
+            waylandServer()->seat()->setSelection(nullptr);
+            m_selectionSource.reset();
+        }
     }
-    waylandServer()->internalClientConection()->flush();
-    waylandServer()->dispatch();
 }
 
 }
