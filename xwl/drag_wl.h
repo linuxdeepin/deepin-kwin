@@ -39,6 +39,7 @@ namespace Server
 class DataDeviceInterface;
 class DataSourceInterface;
 class SurfaceInterface;
+class AbstractDataSource;
 }
 }
 
@@ -66,12 +67,12 @@ public:
 
     bool end() override;
 
-    KWayland::Server::DataSourceInterface *dataSourceIface() const {
+    KWayland::Server::AbstractDataSource *dataSourceIface() const {
         return m_dsi;
     }
 
 private:
-    KWayland::Server::DataSourceInterface *m_dsi;
+    KWayland::Server::AbstractDataSource *m_dsi;
     Xvisit *m_visit = nullptr;
 };
 

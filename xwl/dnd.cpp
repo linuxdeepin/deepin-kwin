@@ -198,7 +198,7 @@ void Dnd::startDrag()
 
     // new Wl to X drag, init drag and Wl source
     m_currentDrag = new WlToXDrag();
-    auto *wls = new WlSource(this, ddi);
+    auto *wls = new WlSource(this);
     wls->setDataSourceIface(ddi->dragSource());
     setWlSource(wls);
     ownSelection(true);
