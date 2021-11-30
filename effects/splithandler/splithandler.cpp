@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2019 ~ 2019 Deepin Technology Co., Ltd.
+ *
+ * Author:     zhangyu <zhangyu@uniontech.com>
+ *
+ * Maintainer: zhangyu <zhangyu@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "splithandler.h"
 #include <abstract_client.h>
@@ -58,10 +78,12 @@ void SplitHandlerEffect::postPaintScreen()
 
     if (m_isSwap) {
         if (m_activated && m_animationTime.done()) {
-            if (m_firstEffectWin)
+            if (m_firstEffectWin) {
                 resetWinPos(m_firstEffectWin, m_splitFirstMode);
-            if (m_secondEffectWin)
+            }
+            if (m_secondEffectWin) {
                 resetWinPos(m_secondEffectWin, m_splitSecondMode);
+            }
             effectsEx->resetSplitOutlinePos(m_screen, m_desktop);
             setActive(false);
         }
@@ -71,8 +93,9 @@ void SplitHandlerEffect::postPaintScreen()
         w->setData(WindowForceBlurRole, QVariant());
     }
 
-    if (m_activated && m_animationTime.running())
+    if (m_activated && m_animationTime.running()) {
         effects->addRepaintFull();
+    }
 }
 
 void SplitHandlerEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time)
@@ -105,11 +128,11 @@ void SplitHandlerEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
 
     if (m_isSwap) {
         if (w == m_firstEffectWin) {
-            int pos = paintWinPos(m_firstEffectWin, m_splitFirstMode, m_firstPos);
-            data += QPoint(pos - w->x(), m_workarea.y() - w->y());
+            int xPos = paintWinPos(m_firstEffectWin, m_splitFirstMode, m_firstPos);
+            data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
         } else if (w == m_secondEffectWin) {
-            int pos = paintWinPos(m_secondEffectWin, m_splitSecondMode, m_secondPos);
-            data += QPoint(pos - w->x(), m_workarea.y() - w->y());
+            int xPos = paintWinPos(m_secondEffectWin, m_splitSecondMode, m_secondPos);
+            data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
         }
     }
 
@@ -131,8 +154,7 @@ void SplitHandlerEffect::setActive(bool active)
     if (active) {
         m_animationTime.reset();
         effects->setActiveFullScreenEffect(this);
-    }
-    else {
+    } else {
         m_firstEffectWin = nullptr;
         m_secondEffectWin = nullptr;
         effects->setActiveFullScreenEffect(0);
@@ -143,18 +165,24 @@ void SplitHandlerEffect::setActive(bool active)
 
 void SplitHandlerEffect::onSwapWindow(EffectWindow *w, int index)
 {
-    auto c = static_cast<AbstractClient*>(static_cast<EffectWindowImpl*>(w)->window());
-    if (c == nullptr)
+    auto ew = static_cast<EffectWindowImpl*>(w);
+    if (nullptr == ew) {
         return;
+    }
 
-    if (index == 1) {
+    auto c = static_cast<AbstractClient*>(ew->window());
+    if (nullptr == c) {
+        return;
+    }
+
+    if (SwapClientIndex::First == index) {
         m_splitFirstMode = c->quickTileMode();
         m_firstEffectWin = w;
         m_screen = w->screen();
         m_desktop = w->desktop();
         m_secondEffectWin = nullptr;
         m_firstPos = w->x();
-    } else if (index == 2) {
+    } else if (SwapClientIndex::Second == index) {
         m_splitSecondMode = c->quickTileMode();
         m_secondEffectWin = w;
         m_secondPos = w->x();
@@ -200,16 +228,18 @@ bool SplitHandlerEffect::isRelevantWithPresentWindows(EffectWindow *w) const
 
 void SplitHandlerEffect::resetWinPos(EffectWindow *w, QuickTileMode mode)
 {
-    if (mode & QuickTileFlag::Left)
+    if (mode & QuickTileFlag::Left) {
         effects->moveWindow(w, QPoint(m_workarea.x(), m_workarea.y()));
-    else
+    } else {
         effects->moveWindow(w, QPoint(m_workarea.x() + m_workarea.width() - w->width(), m_workarea.y()));
+    }
 }
 
 int SplitHandlerEffect::paintWinPos(EffectWindow *w, QuickTileMode mode, int initpos)
 {
-    if (w == nullptr)
+    if (nullptr == w) {
         return 0;
+    }
 
     qreal coef = m_animationTime.value();
     int tpos = 0;

@@ -41,14 +41,7 @@ void SplitOutlineTest::initTestCase()
 
 void SplitOutlineTest::testEnabled()
 {
-     SplitOutline splitOutline(0, 0);
-//     QFETCH(QRect,rect);
-     QRect rect;
-     //splitOutline.setSplitOutlineRect(rect);
-    //  QCOMPARE(splitOutline.getLeftSplitClientRect(),rect);
-    //  QFETCH(QRect,rect1);
-    //  splitOutline.setSplitOutlineRect(rect1);
-    //  QCOMPARE(splitOutline.getRightSplitClientRect(),rect1);
+    SplitOutline splitOutline(0, 0);
 }
 
 void SplitOutlineTest::testRequestEnabled_data()
