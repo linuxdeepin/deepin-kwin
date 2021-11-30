@@ -40,6 +40,7 @@ namespace Server
 {
 class DataDeviceInterface;
 class DataSourceInterface;
+class AbstractDataSource;
 }
 }
 
@@ -56,7 +57,7 @@ class SelectionSource : public QObject
 {
     Q_OBJECT
 public:
-    SelectionSource(Selection *sel);
+    explicit SelectionSource(Selection *sel);
 
     xcb_timestamp_t timestamp() const {
         return m_timestamp;
@@ -89,8 +90,8 @@ class WlSource : public SelectionSource
 {
     Q_OBJECT
 public:
-    WlSource(Selection *sel, KWayland::Server::DataDeviceInterface *ddi);
-    void setDataSourceIface(KWayland::Server::DataSourceInterface *dsi);
+    explicit WlSource(Selection *sel);
+    void setDataSourceIface(KWayland::Server::AbstractDataSource *dsi);
 
     bool handleSelRequest(xcb_selection_request_event_t *event);
     void sendTargets(xcb_selection_request_event_t *event);
@@ -105,8 +106,7 @@ Q_SIGNALS:
 private:
     bool checkStartTransfer(xcb_selection_request_event_t *event);
 
-    KWayland::Server::DataDeviceInterface *m_ddi = nullptr;
-    KWayland::Server::DataSourceInterface *m_dsi = nullptr;
+    KWayland::Server::AbstractDataSource *m_dsi = nullptr;
 
     QVector<QString> m_offers;
     QMetaObject::Connection  m_offerCon;
@@ -146,13 +146,15 @@ public:
         setWindow(window);
     }
 
+    void startTransfer(const QString &mimeName, qint32 fd);
+
 Q_SIGNALS:
     void offersChanged(QVector<QString> added, QVector<QString> removed);
     void transferReady(xcb_atom_t target, qint32 fd);
 
 private:
     void handleTargets();
-    void startTransfer(const QString &mimeName, qint32 fd);
+
 
     xcb_window_t m_owner;
     KWayland::Client::DataSource *m_ds = nullptr;
