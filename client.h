@@ -433,8 +433,13 @@ private:
     void sendSyncRequest();
     void leaveMoveResize() override;
     void positionGeometryTip() override;
+    // Using functions in the x11 environment
+    void grabButton(int mod);
+    void ungrabButton(int mod);
+    // Using functions in the wayland environment
     void establishCommandWindowGrab(uint8_t button);
     void establishCommandAllGrab(uint8_t button);
+
     void resizeDecoration();
     void createDecoration(const QRect &oldgeom);
 
