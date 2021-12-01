@@ -862,6 +862,32 @@ static uint16_t x11CommandAllModifier()
 #define XCapL KKeyServer::modXLock()
 #define XNumL KKeyServer::modXNumLock()
 #define XScrL KKeyServer::modXScrollLock()
+void Client::grabButton(int modifier)
+{
+    unsigned int mods[ 8 ] = {
+        0, XCapL, XNumL, XNumL | XCapL,
+        XScrL, XScrL | XCapL,
+        XScrL | XNumL, XScrL | XNumL | XCapL
+    };
+    for (int i = 0;
+            i < 8;
+            ++i)
+        m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC, modifier | mods[ i ]);
+}
+
+void Client::ungrabButton(int modifier)
+{
+    unsigned int mods[ 8 ] = {
+        0, XCapL, XNumL, XNumL | XCapL,
+        XScrL, XScrL | XCapL,
+        XScrL | XNumL, XScrL | XNumL | XCapL
+    };
+    for (int i = 0;
+            i < 8;
+            ++i)
+        m_wrapper.ungrabButton(modifier | mods[ i ]);
+}
+
 void Client::establishCommandWindowGrab(uint8_t button)
 {
     // Unfortunately there are a lot of possible modifier combinations that we need to take into
@@ -909,54 +935,85 @@ void Client::establishCommandAllGrab(uint8_t button)
  */
 void Client::updateMouseGrab()
 {
-    xcb_ungrab_button(connection(), XCB_BUTTON_INDEX_ANY, m_wrapper, XCB_MOD_MASK_ANY);
+    if (waylandServer()) {
+        xcb_ungrab_button(connection(), XCB_BUTTON_INDEX_ANY, m_wrapper, XCB_MOD_MASK_ANY);
 
-    if (TabBox::TabBox::self()->forcedGlobalMouseGrab()) { // see TabBox::establishTabBoxGrab()
-        m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC);
-        return;
-    }
+        if (TabBox::TabBox::self()->forcedGlobalMouseGrab()) { // see TabBox::establishTabBoxGrab()
+            m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC);
+            return;
+        }
 
-    // When a passive grab is activated or deactivated, the X server will generate crossing
-    // events as if the pointer were suddenly to warp from its current position to some position
-    // in the grab window. Some /broken/ X11 clients do get confused by such EnterNotify and
-    // LeaveNotify events so we release the passive grab for the active window.
-    //
-    // The passive grab below is established so the window can be raised or activated when it
-    // is clicked.
-    if ((options->focusPolicyIsReasonable() && !isActive()) ||
-            (options->isClickRaise() && !isMostRecentlyRaised())) {
-        if (options->commandWindow1() != Options::MouseNothing) {
-            establishCommandWindowGrab(XCB_BUTTON_INDEX_1);
+        // When a passive grab is activated or deactivated, the X server will generate crossing
+        // events as if the pointer were suddenly to warp from its current position to some position
+        // in the grab window. Some /broken/ X11 clients do get confused by such EnterNotify and
+        // LeaveNotify events so we release the passive grab for the active window.
+        //
+        // The passive grab below is established so the window can be raised or activated when it
+        // is clicked.
+        if ((options->focusPolicyIsReasonable() && !isActive()) ||
+                (options->isClickRaise() && !isMostRecentlyRaised())) {
+            if (options->commandWindow1() != Options::MouseNothing) {
+                establishCommandWindowGrab(XCB_BUTTON_INDEX_1);
+            }
+            if (options->commandWindow2() != Options::MouseNothing) {
+                establishCommandWindowGrab(XCB_BUTTON_INDEX_2);
+            }
+            if (options->commandWindow3() != Options::MouseNothing) {
+                establishCommandWindowGrab(XCB_BUTTON_INDEX_3);
+            }
+            if (options->commandWindowWheel() != Options::MouseNothing) {
+                establishCommandWindowGrab(XCB_BUTTON_INDEX_4);
+                establishCommandWindowGrab(XCB_BUTTON_INDEX_5);
+            }
         }
-        if (options->commandWindow2() != Options::MouseNothing) {
-            establishCommandWindowGrab(XCB_BUTTON_INDEX_2);
-        }
-        if (options->commandWindow3() != Options::MouseNothing) {
-            establishCommandWindowGrab(XCB_BUTTON_INDEX_3);
-        }
-        if (options->commandWindowWheel() != Options::MouseNothing) {
-            establishCommandWindowGrab(XCB_BUTTON_INDEX_4);
-            establishCommandWindowGrab(XCB_BUTTON_INDEX_5);
-        }
-    }
 
-    // We want to grab <command modifier> + buttons no matter what state the window is in. The
-    // client will receive funky EnterNotify and LeaveNotify events, but there is nothing that
-    // we can do about it, unfortunately.
+        // We want to grab <command modifier> + buttons no matter what state the window is in. The
+        // client will receive funky EnterNotify and LeaveNotify events, but there is nothing that
+        // we can do about it, unfortunately.
 
-    if (!workspace()->globalShortcutsDisabled()) {
-        if (options->commandAll1() != Options::MouseNothing) {
-            establishCommandAllGrab(XCB_BUTTON_INDEX_1);
+        if (!workspace()->globalShortcutsDisabled()) {
+            if (options->commandAll1() != Options::MouseNothing) {
+                establishCommandAllGrab(XCB_BUTTON_INDEX_1);
+            }
+            if (options->commandAll2() != Options::MouseNothing) {
+                establishCommandAllGrab(XCB_BUTTON_INDEX_2);
+            }
+            if (options->commandAll3() != Options::MouseNothing) {
+                establishCommandAllGrab(XCB_BUTTON_INDEX_3);
+            }
+            if (options->commandAllWheel() != Options::MouseWheelNothing) {
+                establishCommandAllGrab(XCB_BUTTON_INDEX_4);
+                establishCommandAllGrab(XCB_BUTTON_INDEX_5);
+            }
         }
-        if (options->commandAll2() != Options::MouseNothing) {
-            establishCommandAllGrab(XCB_BUTTON_INDEX_2);
+    } else {
+        if (workspace()->globalShortcutsDisabled()) {
+            m_wrapper.ungrabButton();
+            // keep grab for the simple click without modifiers if needed (see below)
+            bool not_obscured = workspace()->topClientOnDesktop(VirtualDesktopManager::self()->current(), -1, true, false) == this;
+            if (!(!options->isClickRaise() || not_obscured))
+                grabButton(XCB_NONE);
+            return;
         }
-        if (options->commandAll3() != Options::MouseNothing) {
-            establishCommandAllGrab(XCB_BUTTON_INDEX_3);
-        }
-        if (options->commandAllWheel() != Options::MouseWheelNothing) {
-            establishCommandAllGrab(XCB_BUTTON_INDEX_4);
-            establishCommandAllGrab(XCB_BUTTON_INDEX_5);
+        if (isActive() && !TabBox::TabBox::self()->forcedGlobalMouseGrab()) { // see TabBox::establishTabBoxGrab()
+            // first grab all modifier combinations
+            m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC);
+            // remove the grab for no modifiers only if the window
+            // is unobscured or if the user doesn't want click raise
+            // (it is unobscured if it the topmost in the unconstrained stacking order, i.e. it is
+            // the most recently raised window)
+            bool not_obscured = workspace()->topClientOnDesktop(VirtualDesktopManager::self()->current(), -1, true, false) == this;
+            if (!options->isClickRaise() || not_obscured)
+                ungrabButton(XCB_NONE);
+            else
+                grabButton(XCB_NONE);
+            ungrabButton(XCB_MOD_MASK_SHIFT);
+            ungrabButton(XCB_MOD_MASK_CONTROL);
+            ungrabButton(XCB_MOD_MASK_CONTROL | XCB_MOD_MASK_SHIFT);
+        } else {
+            m_wrapper.ungrabButton();
+            // simply grab all modifier combinations
+            m_wrapper.grabButton(XCB_GRAB_MODE_SYNC, XCB_GRAB_MODE_ASYNC);
         }
     }
 }
