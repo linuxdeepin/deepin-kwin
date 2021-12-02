@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "abstract_client.h"
 #include <KWayland/Server/xdgshell_interface.h>
 #include <KWayland/Server/strut_interface.h>
+#include <KWayland/Server/ddeshell_interface.h>
 
 namespace KWayland
 {
@@ -79,6 +80,8 @@ public:
     KWayland::Server::ShellSurfaceInterface *shellSurface() const {
         return m_shellSurface;
     }
+
+    KWayland::Server::DDEShellSurfaceInterface *ddeShellSurface() const;
 
     void blockActivityUpdates(bool b = true) override;
     QString captionNormal() const override {
@@ -379,6 +382,9 @@ private:
     // min size of the buffer
     QSize m_clientMinSize = QSize(0, 0);
     QSize m_clientMaxSize = QSize(0, 0);
+
+    int m_noTitleBar = -1;
+    QPointF m_windowRadius = QPointF(0.0,0.0);
 };
 
 }

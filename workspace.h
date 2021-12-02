@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <functional>
 #include <memory>
 #include <KWayland/Server/clientmanagement_interface.h>
+#include <KWayland/Server/ddeshell_interface.h>
 #include "wayland-server.h"
 
 // TODO: Cleanup the order of things in this .h file
@@ -479,6 +480,7 @@ public:
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
     void slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isShowPreview);
+    void slotGetDdeShellSurface(KWin::AbstractClient* c, QObject *& dss);
     // Keybindings
     //void slotSwitchToWindow( int );
     void slotWindowToDesktop(uint i);
