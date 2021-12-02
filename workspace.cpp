@@ -2014,6 +2014,18 @@ void Workspace::slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isSho
     setClientSplit(c, mode, isShowPreview);
 }
 
+void Workspace::slotGetDdeShellSurface(AbstractClient* c, QObject *& dss)
+{
+    if (!c) {
+        return;
+    }
+
+    ShellClient *sc = dynamic_cast<ShellClient *>(c);
+    if (sc) {
+        dss = sc->ddeShellSurface();
+    }
+}
+
 void Workspace::updateSplitOutlinePos(int screen, int desktop)
 {
     auto it = AbstractClient::splitManage.find(screen);

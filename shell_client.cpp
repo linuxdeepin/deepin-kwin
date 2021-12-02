@@ -641,6 +641,14 @@ void ShellClient::createDecoration(const QRect &oldGeom)
                 emit geometryShapeChanged(this, oldgeom);
             }
         );
+        if (m_noTitleBar != -1) {
+            disconnect(m_ddeShellSurface, &DDEShellSurfaceInterface::noTitleBarPropertyRequested, this, nullptr);
+            emit m_ddeShellSurface->noTitleBarPropertyRequested(m_noTitleBar);
+        }
+        if (!m_windowRadius.isNull()) {
+            disconnect(m_ddeShellSurface, &KWayland::Server::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this, nullptr);
+            emit m_ddeShellSurface->windowRadiusPropertyRequested(m_windowRadius);
+        }
     }
     setDecoration(decoration);
     // TODO: ensure the new geometry still fits into the client area (e.g. maximized windows)
@@ -1689,6 +1697,20 @@ void ShellClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
             setModal(set);
         }
     );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::noTitleBarPropertyRequested, this,
+        [this] (qint32 value) {
+            if (!decoration()) {
+                m_noTitleBar = value;
+            }
+        }
+    );
+    connect(m_ddeShellSurface, &KWayland::Server::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this,
+        [this] (QPointF windowRadius) {
+            if (!decoration()) {
+                m_windowRadius = windowRadius;
+            }
+        }
+    );
 }
 
 void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface)
@@ -2416,6 +2438,10 @@ bool ShellClient::isPopupWindow() const
         return true;
     }
     return false;
+}
+
+KWayland::Server::DDEShellSurfaceInterface *ShellClient::ddeShellSurface() const {
+    return m_ddeShellSurface.data();
 }
 
 }
