@@ -1,3 +1,18 @@
+kwin (4:5.15.10.2-1) unstable; urgency=medium
+
+  * Bug fix:
+    + fix: set focused keyboard surface when grabing keyboard.
+    + fix: active client from split menu tigger
+    + fix: Create PrimarySelectionDeviceManager
+    + fix: when touch to move client,kwin must need client send events.
+    + fix: super key still response when Preassigned screen
+    + fix: Dimming of shadow effect in split screen mode
+    + fix: incorrect split screen dynamic display effect
+    + fix: Add clipboard control protocol
+    + fix: Fix the tabbox wake up, click the desktop blank place does not exit.
+
+ -- Lei Su <sulei@uniontech.com>  Fri, 03 Dec 2021 15:54:10 +0800
+
 kwin (4:5.15.10.1-1) unstable; urgency=medium
 
   * feat: The 'wayland' branch joins the 'master' branch
