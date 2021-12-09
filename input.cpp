@@ -1974,24 +1974,6 @@ InputRedirection::InputRedirection(QObject *parent)
                 }
             );
         }
-    } else if (Application::useLibinputForTouch()){
-        if (LogindIntegration::self()->hasSessionControl()) {
-            setupLibinputForTouch();
-        } else {
-            LibInput::Connection::createThread();
-            if (LogindIntegration::self()->isConnected()) {
-                LogindIntegration::self()->takeControl();
-            } else {
-                connect(LogindIntegration::self(), &LogindIntegration::connectedChanged, LogindIntegration::self(), &LogindIntegration::takeControl);
-            }
-            connect(LogindIntegration::self(), &LogindIntegration::hasSessionControlChanged, this,
-                [this] (bool sessionControl) {
-                    if (sessionControl) {
-                        setupLibinputForTouch();
-                    }
-                }
-            );
-        }
     }
     connect(kwinApp(), &Application::workspaceCreated, this, &InputRedirection::setupWorkspace);
     reconfigure();
@@ -2256,9 +2238,7 @@ void InputRedirection::reconfigure()
         const int rate = config.readEntry("RepeatRate", 25);
         const bool enabled = config.readEntry("KeyboardRepeating", 1) == 0;
 
-        if(waylandServer()) {
-            waylandServer()->seat()->setKeyRepeatInfo(enabled ? rate : 0, delay);
-        }
+        waylandServer()->seat()->setKeyRepeatInfo(enabled ? rate : 0, delay);
     }
 }
 
@@ -2269,69 +2249,6 @@ static KWayland::Server::SeatInterface *findSeat()
         return nullptr;
     }
     return server->seat();
-}
-
-void InputRedirection::setupLibinputForTouch()
-{
-    if (!Application::useLibinputForTouch()) {
-        return;
-    }
-    if (m_libInput) {
-        return;
-    }
-    LibInput::Connection *conn = LibInput::Connection::create(this);
-    m_libInput = conn;
-    if (conn) {
-        connect(conn, &LibInput::Connection::eventsRead, this,
-            [this] {
-                m_libInput->processTouchToMoveClientEvents();
-            }, Qt::QueuedConnection
-        );
-        conn->setup();
-        connect(conn, &LibInput::Connection::touchToMoveClientDown, this, &InputRedirection::touchDown);
-        connect(conn, &LibInput::Connection::touchToMoveClientUp, this, &InputRedirection::touchEnd);
-        connect(conn, &LibInput::Connection::touchToMoveClientMotion, this, &InputRedirection::touchMotion);
-
-    }
-}
-
-void InputRedirection::touchDown()
-{
-    m_nTouchPoint++;
-    AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
-    if (!touchMovingClient) {
-        return;
-    }
-
-    workspace()->setTouchToMovingClientStatus(true);
-
-    if(m_nTouchPoint > 1 && touchMovingClient) {
-        touchMovingClient->endMoveResize();
-        workspace()->setRequestToMovingClient(nullptr);
-    }
-
-}
-
-void InputRedirection::touchMotion()
-{
-    AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
-    if (!touchMovingClient) {
-        return ;
-    }
-    workspace()->setTouchToMovingClientStatus(true);
-    touchMovingClient->updateMoveResize(QCursor::pos());
-}
-
-void InputRedirection::touchEnd()
-{
-    m_nTouchPoint--;
-    AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
-    if (!touchMovingClient) {
-        return ;
-    }
-    touchMovingClient->endMoveResize();
-    workspace()->setRequestToMovingClient(nullptr);
-    workspace()->setTouchToMovingClientStatus(false);
 }
 
 void InputRedirection::setupLibInput()
