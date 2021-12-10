@@ -39,7 +39,7 @@ namespace KWin
         setWindowOpacity(0);
         setCustomCursor(CURSOR_L_R); //设置鼠标样式
         updateWorkspaceArea();
-
+        setAccessibleName("splitoutline");
     }
 
     void SplitOutline::setCustomCursor(int direct)
