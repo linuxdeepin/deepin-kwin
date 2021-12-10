@@ -2617,6 +2617,9 @@ void Client::setFullScreen(bool set, bool user)
         return;
     if(isMoveResize())
         return;
+    QRect fsarea = workspace()->clientArea(FullScreenArea, this);
+    if (sizeForClientSize(fsarea.size(), SizemodeAny, true) != fsarea.size())
+        return;
     set = rules()->checkFullScreen(set && !isSpecialWindow());
     setShade(ShadeNone);
     bool was_fs = isFullScreen();
