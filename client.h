@@ -531,8 +531,7 @@ private:
     };
     FullScreenMode fullscreen_mode;
     MaximizeMode max_mode;
-    QRect geom_restore;
-    QRect geom_fs_restore;
+    QRect geom_restore; ///< Record the size of the MaximizeRestore
     QTimer* shadeHoverTimer;
     xcb_colormap_t m_colormap;
     QString cap_normal, cap_iconic, cap_suffix;
