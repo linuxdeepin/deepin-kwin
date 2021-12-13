@@ -1192,6 +1192,8 @@ protected:
     }
 
     virtual void clearPendingRequest() {}
+    ///< Record the size of the MaximizeRestore
+    QRect geom_fs_restore;
 
 private:
     void handlePaletteChange();
