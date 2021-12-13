@@ -1182,6 +1182,10 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
         }
         if (geometry() != area)
             setGeometry(area);
+
+        if (maximizeMode() == MaximizeFull) {
+            geom_fs_restore = workspace()->clientArea(MaximizeArea, this);
+        }
         return;
     }
 
@@ -2648,7 +2652,7 @@ void Client::setFullScreen(bool set, bool user)
     else {
         if (!geom_fs_restore.isNull()) {
             int currentScreen = screen();
-            setGeometry(QRect(geom_fs_restore.topLeft(), adjustedSize(geom_fs_restore.size())));
+            setGeometry(QRect(geom_fs_restore.topLeft(), adjustedSize(geom_fs_restore.size())), ForceGeometrySet);
             if( currentScreen != screen())
                 workspace()->sendClientToScreen( this, currentScreen );
         // TODO isShaded() ?
