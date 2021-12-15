@@ -62,6 +62,7 @@ class Window;
 
 class AbstractClient;
 class Client;
+class ShellClient;
 class KillWindow;
 class ShortcutDialog;
 class UserActionsMenu;
@@ -584,6 +585,8 @@ Q_SIGNALS:
     void windowStateChanged();
 
     void activeColorChanged();
+
+    void shellClientAdded(KWin::ShellClient*);
 
 private:
     void init();

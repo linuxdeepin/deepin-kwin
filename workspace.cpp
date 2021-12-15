@@ -358,6 +358,7 @@ void Workspace::init()
                     }
                 );
                 emit windowStateChanged();
+                emit shellClientAdded(c);
             }
         );
         connect(w, &WaylandServer::shellClientRemoved, this,
