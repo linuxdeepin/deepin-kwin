@@ -588,12 +588,13 @@ void Toplevel::handleSplitOutline(bool show)
 {
     if (show == true) {
         m_splitoutlineshow = true;
-        effectWindow()->sceneWindow()->shadow()->destroyed();
-        getShadow();
     } else {
-       m_splitoutlineshow = false;
-       effectWindow()->sceneWindow()->shadow()->destroyed();
-       getShadow();
+        m_splitoutlineshow = false;
+    }
+    Shadow *shadow = effectWindow()->sceneWindow()->shadow();
+    if (shadow) {
+        shadow->destroyed();
+        getShadow();
     }
 }
 
