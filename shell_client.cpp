@@ -1706,9 +1706,7 @@ void ShellClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
     );
     connect(m_ddeShellSurface, &KWayland::Server::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this,
         [this] (QPointF windowRadius) {
-            if (!decoration()) {
-                m_windowRadius = windowRadius;
-            }
+            setWindowRadius(windowRadius);
         }
     );
 }
@@ -2442,6 +2440,20 @@ bool ShellClient::isPopupWindow() const
 
 KWayland::Server::DDEShellSurfaceInterface *ShellClient::ddeShellSurface() const {
     return m_ddeShellSurface.data();
+}
+
+QPointF ShellClient::windowRadius() const
+{
+    return m_windowRadius;
+}
+
+void ShellClient::setWindowRadius(QPointF radius)
+{
+    if (radius == m_windowRadius) {
+        return;
+    }
+    m_windowRadius = radius;
+    emit windowRadiusChanged();
 }
 
 }
