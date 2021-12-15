@@ -59,6 +59,7 @@ enum class PingReason {
 class KWIN_EXPORT ShellClient : public AbstractClient
 {
     Q_OBJECT
+    Q_PROPERTY(QPointF windowRadius READ windowRadius WRITE setWindowRadius NOTIFY windowRadiusChanged)
 public:
     ShellClient(KWayland::Server::ShellSurfaceInterface *surface);
     ShellClient(KWayland::Server::XdgShellSurfaceInterface *surface);
@@ -262,9 +263,14 @@ protected:
     void leaveMoveResize() override;
     void adjustClientMinSize(const Position mode) override;
     void clearPendingRequest() override;
+    QPointF windowRadius() const;
+    void setWindowRadius(QPointF radius);
 
 private Q_SLOTS:
     void clientFullScreenChanged(bool fullScreen);
+
+Q_SIGNALS:
+    void windowRadiusChanged();
 
 private:
     void init();

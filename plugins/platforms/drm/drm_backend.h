@@ -81,6 +81,7 @@ public:
     QPainterBackend *createQPainterBackend() override;
     OpenGLBackend* createOpenGLBackend() override;
     OpenGLBackend* getOpenGLBackend() override;
+    bool requiresCompositing() const override;
 
     void init() override;
     DrmDumbBuffer *createBuffer(const QSize &size);
