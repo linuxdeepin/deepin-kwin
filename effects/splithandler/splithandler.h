@@ -32,7 +32,7 @@ class SplitHandlerEffect : public Effect
 {
     Q_OBJECT
 public:
-    enum SwapClientIndex { First, Second };
+    enum SwapClientIndex { First = 1, Second };
 
     SplitHandlerEffect();
     virtual ~SplitHandlerEffect();
