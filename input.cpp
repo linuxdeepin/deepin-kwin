@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globalshortcuts.h"
 #include "logind.h"
 #include "main.h"
+#include "recordeventmonitor.h"
 #ifdef KWIN_BUILD_TABBOX
 #include "tabbox/tabbox.h"
 #endif
@@ -2002,6 +2003,12 @@ InputRedirection::InputRedirection(QObject *parent)
                 }
             );
         }
+    } else if (Application::useXRecord()){
+        pEventMonitor = new RecordEventMonitor(this);
+        connect(pEventMonitor, &RecordEventMonitor::touchDown, this, &InputRedirection::touchDown);
+        connect(pEventMonitor, &RecordEventMonitor::touchUp, this, &InputRedirection::touchEnd);
+        connect(pEventMonitor, &RecordEventMonitor::touchMotion, this, &InputRedirection::touchMotion);
+        pEventMonitor->start();
     }
     connect(kwinApp(), &Application::workspaceCreated, this, &InputRedirection::setupWorkspace);
     reconfigure();
@@ -2012,6 +2019,8 @@ InputRedirection::~InputRedirection()
     s_self = NULL;
     qDeleteAll(m_filters);
     qDeleteAll(m_spies);
+    delete pEventMonitor;
+    pEventMonitor = nullptr;
 }
 
 void InputRedirection::installInputEventFilter(InputEventFilter *filter)
@@ -2267,7 +2276,9 @@ void InputRedirection::reconfigure()
         const int rate = config.readEntry("RepeatRate", 25);
         const bool enabled = config.readEntry("KeyboardRepeating", 1) == 0;
 
-        waylandServer()->seat()->setKeyRepeatInfo(enabled ? rate : 0, delay);
+        if(waylandServer()) {
+            waylandServer()->seat()->setKeyRepeatInfo(enabled ? rate : 0, delay);
+        }
     }
 }
 
@@ -2278,6 +2289,37 @@ static KWayland::Server::SeatInterface *findSeat()
         return nullptr;
     }
     return server->seat();
+}
+
+void InputRedirection::touchDown()
+{
+    AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
+    if (!touchMovingClient) {
+        return;
+    }
+
+    workspace()->setTouchToMovingClientStatus(true);
+}
+
+void InputRedirection::touchMotion()
+{
+    AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
+    if (!touchMovingClient) {
+        return ;
+    }
+    workspace()->setTouchToMovingClientStatus(true);
+    touchMovingClient->updateMoveResize(QCursor::pos());
+}
+
+void InputRedirection::touchEnd()
+{
+    AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
+    if (!touchMovingClient) {
+        return ;
+    }
+    touchMovingClient->endMoveResize();
+    workspace()->setRequestToMovingClient(nullptr);
+    workspace()->setTouchToMovingClientStatus(false);
 }
 
 void InputRedirection::setupLibInput()

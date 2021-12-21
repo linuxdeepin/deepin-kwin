@@ -679,15 +679,6 @@ void Client::clientMessageEvent(xcb_client_message_event_t *e)
         pos.setY(e->data.data32[2]);
 
         workspace()->showWindowMenu(QRect(pos, pos), this);
-    } else if (e->type == atoms->deepin_move_update) {
-        /*由于dtk在触屏环境下无法执行ungrab_pointer，导致无法发送标准事件_NET_WM_MOVERESIZE_MOVE。
-         *所以dtk发送自定义属性_DEEPIN_MOVE_UPDATE，通过此属性通知kwin进行窗口移动的操作。
-	 *data.data32[2]为标志位，当为0时进入移动函数，当为1时停止移动
-	 */
-        if (e->data.data32[2])
-            endMoveResize();
-        else
-            updateMoveResize(QPoint(e->data.data32[0], e->data.data32[1]));
     } else if (e->type == atoms->deepin_split_window) {
         workspace()->slotSetClientSplit(this, e->data.data32[0], e->data.data32[1]);
     }
@@ -1315,7 +1306,9 @@ void Client::focusOutEvent(xcb_focus_out_event_t *e)
 void Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
 {
     if (direction == NET::Move) {
-        
+
+        workspace()->setRequestToMovingClient(this);
+
         //　if mouse leftbutton is not pressed ,ignore this event
         Xcb::Pointer pointer(this->window());
         if (pointer.isNull()) {
