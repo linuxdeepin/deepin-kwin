@@ -434,6 +434,7 @@ set(kwin_KDEINIT_SRCS
    focuschain.cpp
    globalshortcuts.cpp
    input.cpp
+   recordeventmonitor.cpp
    input_event.cpp
    input_event_spy.cpp
    keyboard_input.cpp
@@ -678,7 +679,7 @@ set_target_properties(kwin PROPERTIES
    SOVERSION ${PROJECT_VERSION_MAJOR}
    )
 
-target_link_libraries(kwin ${kwinLibs})
+target_link_libraries(kwin ${kwinLibs} -lXext -lXtst)
 generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
 
 target_link_libraries(kwin kwinglutils ${epoxy_LIBRARY})

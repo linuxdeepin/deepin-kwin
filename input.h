@@ -38,6 +38,7 @@ class QKeySequence;
 class QMouseEvent;
 class QKeyEvent;
 class QWheelEvent;
+class RecordEventMonitor;
 
 namespace KWin
 {
@@ -289,6 +290,11 @@ Q_SIGNALS:
     void hasAlphaNumericKeyboardChanged(bool set);
     void hasTabletModeSwitchChanged(bool set);
 
+public Q_SLOTS:
+    void touchDown();
+    void touchMotion();
+    void touchEnd();
+
 private:
     void setupLibInput();
     void setupTouchpadShortcuts();
@@ -297,6 +303,7 @@ private:
     void reconfigure();
     void setupInputFilters();
     void installInputEventFilter(InputEventFilter *filter);
+
     KeyboardInputRedirection *m_keyboard;
     PointerInputRedirection *m_pointer;
     TabletInputRedirection *m_tablet;
@@ -314,6 +321,7 @@ private:
     InputEventFilter* m_grabFilter = nullptr;
 
     InputEventFilter *m_firstFilter = nullptr;
+    RecordEventMonitor *pEventMonitor = nullptr;
 
     KWIN_SINGLETON(InputRedirection)
     friend InputRedirection *input();

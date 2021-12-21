@@ -428,7 +428,7 @@ bool XcbEventFilter::nativeEventFilter(const QByteArray &eventType, void *messag
 }
 
 static bool s_useLibinput = false;
-
+static bool s_useXRecord = false;
 void Application::setUseLibinput(bool use)
 {
     s_useLibinput = use;
@@ -437,6 +437,16 @@ void Application::setUseLibinput(bool use)
 bool Application::usesLibinput()
 {
     return s_useLibinput;
+}
+
+void Application::setUseXRecord(bool use)
+{
+    s_useXRecord = use;
+}
+
+bool Application::useXRecord()
+{
+    return s_useXRecord;
 }
 
 QProcessEnvironment Application::processStartupEnvironment() const
@@ -458,6 +468,8 @@ void Application::initPlatform(const KPluginMetaData &plugin)
                 if (!(*it).toBool()) {
                     qCDebug(KWIN_CORE) << "Platform does not support input, enforcing libinput support";
                     setUseLibinput(true);
+                } else {
+                    setUseXRecord(true);
                 }
             }
         }

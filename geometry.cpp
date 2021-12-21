@@ -2838,6 +2838,11 @@ bool Client::doStartMoveResize()
     m_moveResizeGrabWindow.map();
     m_moveResizeGrabWindow.raise();
     updateXTime();
+
+    if (workspace()->touchToMovingClientStatus()) {
+        return true;
+    }
+
     /**
      * Change the cursor parameter in the xcb_grab_pointer_unchecked function to XCB_CURSOR_NONE.
      * No cursor style is specified here.
