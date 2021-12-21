@@ -1941,6 +1941,23 @@ private:
     qint32 m_touchId = -1;
 };
 
+class GlobalEventSpy : public InputEventSpy
+{
+public:
+    void touchDown(quint32 id, const QPointF &pos, quint32 time) override {
+        waylandServer()->ddeSeat()->setTouchTimestamp(time);
+        waylandServer()->ddeSeat()->touchDown(id, pos);
+    }
+    void touchMotion(quint32 id, const QPointF &pos, quint32 time) override {
+        waylandServer()->ddeSeat()->setTouchTimestamp(time);
+        waylandServer()->ddeSeat()->touchMotion(id, pos);
+    }
+    void touchUp(quint32 id, quint32 time) override {
+        waylandServer()->ddeSeat()->setTouchTimestamp(time);
+        waylandServer()->ddeSeat()->touchUp(id);
+    }
+};
+
 KWIN_SINGLETON_FACTORY(InputRedirection)
 
 static const QString s_touchpadComponent = QStringLiteral("kcm_touchpad");
@@ -2197,6 +2214,7 @@ void InputRedirection::setupInputFilters()
     MoveResizeFilter *mr_filter = new MoveResizeFilter;
     if (waylandServer()) {
         installInputEventSpy(new TouchHideCursorSpy);
+        installInputEventSpy(new GlobalEventSpy);
         if (hasGlobalShortcutSupport) {
             installInputEventFilter(new TerminateServerFilter);
         }
