@@ -1312,20 +1312,21 @@ void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperati
         QMetaObject::invokeMethod(c, "closeWindow", Qt::QueuedConnection);
         break;
     case Options::MaximizeOp:
-        if (c->maximizeMode() != MaximizeFull) {
-            c->setActive(true);
-        }
         c->maximize(c->maximizeMode() == MaximizeFull
                     ? MaximizeRestore : MaximizeFull);
+        takeActivity(c, ActivityFocus | ActivityRaise);
         break;
     case Options::HMaximizeOp:
         c->maximize(c->maximizeMode() ^ MaximizeHorizontal);
+        takeActivity(c, ActivityFocus | ActivityRaise);
         break;
     case Options::VMaximizeOp:
         c->maximize(c->maximizeMode() ^ MaximizeVertical);
+        takeActivity(c, ActivityFocus | ActivityRaise);
         break;
     case Options::RestoreOp:
         c->maximize(MaximizeRestore);
+        takeActivity(c, ActivityFocus | ActivityRaise);
         break;
     case Options::MinimizeOp:
         c->minimize();
