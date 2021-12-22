@@ -114,6 +114,7 @@ private:
     int minRightSplitClientWidth = 0;
 
     int m_pos = 0;
+    int m_splitOutlineCursorStatus = 2;
 };
 }
 #endif // SPLITOUTLINE_H
