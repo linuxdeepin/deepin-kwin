@@ -23,6 +23,7 @@
 #include "kwineffects.h"
 #include "splithandler/splithandler.h"
 #include "wayland_server.h"
+#include "platform.h"
 
 #define CURSOR_LEFT     0
 #define CURSOR_RIGHT    1
@@ -56,6 +57,10 @@ namespace KWin
             cursor = Qt::SizeHorCursor;
         }
         setCursor(cursor);
+        if (waylandServer()) {
+            m_splitOutlineCursorStatus = direct;
+            update();
+        }
     }
 
     int SplitOutline::getCustomCursor()
@@ -121,11 +126,20 @@ namespace KWin
 
     void SplitOutline::enterEvent(QEvent *)
     {
+        if (waylandServer()) {
+            kwinApp()->platform()->hideCursor();
+            m_splitOutlineCursorStatus = 2;
+            update();
+        }
         setWindowOpacity(1);
     }
 
     void SplitOutline::leaveEvent(QEvent *)
     {
+        if (waylandServer()) {
+            update();
+            kwinApp()->platform()->showCursor();
+        }
         setWindowOpacity(0);
     }
 
@@ -146,6 +160,24 @@ namespace KWin
         smallLine.setRenderHint(QPainter::Antialiasing, true);
         smallLine.setBrush(QColor("#7A7A7A"));
         smallLine.drawRoundRect(QRect(7, m_workspaceRect.height()/2-25, 6, 50), 30, 30);
+
+
+        if (waylandServer()) {
+            QPainter CursorPainter(this);
+            if (m_splitOutlineCursorStatus == CURSOR_LEFT) {
+                QImage Image(":/resources/themes/left-arrow.svg");
+                QImage nImage = Image.scaled(width(),32);
+                CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
+            } else if(m_splitOutlineCursorStatus == CURSOR_RIGHT ){
+                QImage Image(":/resources/themes/right-arrow.svg");
+                QImage nImage = Image.scaled(width(),32);
+                CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
+            } else if(m_splitOutlineCursorStatus == CURSOR_L_R) {
+                QImage Image(":/resources/themes/leftright-arrow.svg");
+                QImage nImage = Image.scaled(width(),32);
+                CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
+            }
+        }
     }
 
     void SplitOutline::setLeftSplitClient(AbstractClient* client)

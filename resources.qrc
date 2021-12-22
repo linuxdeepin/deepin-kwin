@@ -4,5 +4,6 @@
         <file>shaders/1.40/lanczos-fragment.glsl</file>
         <file>themes/left-arrow.svg</file>
         <file>themes/right-arrow.svg</file>
+        <file>themes/leftright-arrow.svg</file>
     </qresource>
 </RCC>
