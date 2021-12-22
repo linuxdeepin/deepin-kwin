@@ -3092,7 +3092,7 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
     const QRect oldGeo = geometry();
     handleMoveResize(local.x(), local.y(), global.x(), global.y());
     if (!isFullScreen() && isMove()) {
-        if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && (oldGeo != geometry() || workspace()->isDragingWithContent())) {
+        if ((quickTileMode() != QuickTileMode(QuickTileFlag::None)) && (oldGeo != geometry() || (workspace()->isDragingWithContent() && m_placeholderWindow.getGeometry() != geometry()))) {
             GeometryUpdatesBlocker blocker(this);
 
             if (!isExitSplitscreen() && compositing() && isLeftRightSplitscreen() && screen() == screens()->number(geometry().center())) {
