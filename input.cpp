@@ -1130,7 +1130,6 @@ public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         Q_UNUSED(nativeButton)
         auto decoration = input()->pointer()->decoration();
-        auto ddeSeat = waylandServer()->ddeSeat();
         if (!decoration) {
             return false;
         }
@@ -1140,7 +1139,6 @@ public:
             QHoverEvent e(QEvent::HoverMove, p, p);
             QCoreApplication::instance()->sendEvent(decoration->decoration(), &e);
             decoration->client()->processDecorationMove(p.toPoint(), event->globalPos());
-            ddeSeat->setPointerPos(event->globalPos());
             return true;
         }
         case QEvent::MouseButtonPress:
@@ -1154,11 +1152,9 @@ public:
             QCoreApplication::sendEvent(decoration->decoration(), &e);
             if (!e.isAccepted() && event->type() == QEvent::MouseButtonPress) {
                 decoration->client()->processDecorationButtonPress(&e);
-                ddeSeat->pointerButtonPressed(nativeButton);
             }
             if (event->type() == QEvent::MouseButtonRelease) {
                 decoration->client()->processDecorationButtonRelease(&e);
-                ddeSeat->pointerButtonReleased(nativeButton);
             }
             if (workspace() && workspace()->isKwinDebug()) {
                 qDebug()<<"true type:"<<event->type();
@@ -1446,12 +1442,10 @@ class ForwardInputFilter : public InputEventFilter
 public:
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         auto seat = waylandServer()->seat();
-        auto ddeSeat = waylandServer()->ddeSeat();
         seat->setTimestamp(event->timestamp());
         switch (event->type()) {
         case QEvent::MouseMove: {
             seat->setPointerPos(event->globalPos());
-            ddeSeat->setPointerPos(event->globalPos());
             MouseEvent *e = static_cast<MouseEvent*>(event);
             if (e->delta() != QSizeF()) {
                 seat->relativePointerMotion(e->delta(), e->deltaUnaccelerated(), e->timestampMicroseconds());
@@ -1460,11 +1454,9 @@ public:
         }
         case QEvent::MouseButtonPress:
             seat->pointerButtonPressed(nativeButton);
-            ddeSeat->pointerButtonPressed(nativeButton);
             break;
         case QEvent::MouseButtonRelease:
             seat->pointerButtonReleased(nativeButton);
-            ddeSeat->pointerButtonReleased(nativeButton);
             break;
         default:
             break;
@@ -1955,6 +1947,25 @@ public:
     void touchUp(quint32 id, quint32 time) override {
         waylandServer()->ddeSeat()->setTouchTimestamp(time);
         waylandServer()->ddeSeat()->touchUp(id);
+    }
+    void pointerEvent(MouseEvent *event) override {
+        auto ddeSeat = waylandServer()->ddeSeat();
+        switch (event->type()) {
+        case QEvent::MouseMove: {
+            ddeSeat->setPointerPos(event->globalPos());
+            break;
+        }
+        case QEvent::MouseButtonPress: {
+            ddeSeat->pointerButtonPressed(event->nativeButton());
+            break;
+        }
+        case QEvent::MouseButtonRelease: {
+            ddeSeat->pointerButtonReleased(event->nativeButton());
+            break;
+        }
+        default:
+            break;
+        }
     }
 };
 
