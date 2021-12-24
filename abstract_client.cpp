@@ -1350,7 +1350,7 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
             mode = left ? PositionBottomLeft : (right ? PositionBottomRight : PositionBottom);
         else
             mode = (x < width() / 2) ? PositionLeft : PositionRight;
-        setMoveResizePointerMode(mode);
+        m_moveResize.pointer = mode;
         setInvertedMoveOffset(rect().bottomRight() - moveOffset);
         setUnrestrictedMoveResize((cmd == Options::MouseUnrestrictedResize));
         if (!startMoveResize())
