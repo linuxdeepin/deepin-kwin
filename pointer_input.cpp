@@ -44,7 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KWayland/Server/pointerconstraints_interface.h>
 #include <KWayland/Server/seat_interface.h>
 #include <KWayland/Server/surface_interface.h>
-#include <KWayland/Server/ddeseat_interface.h>
 // screenlocker
 #include <KScreenLocker/KsldApp>
 
@@ -605,7 +604,6 @@ void PointerInputRedirection::focusUpdate(Toplevel *focusOld, Toplevel *focusNow
     }
 
     auto seat = waylandServer()->seat();
-    auto ddeSeat = waylandServer()->ddeSeat();
     if (!focusNow || !focusNow->surface() || decoration()) {
         // no new surface or internal window or on decoration -> cleanup
         warpXcbOnSurfaceLeft(nullptr);
@@ -630,7 +628,6 @@ void PointerInputRedirection::focusUpdate(Toplevel *focusOld, Toplevel *focusNow
     s_cursorUpdateBlocking = false;
 
     seat->setPointerPos(m_pos.toPoint());
-    ddeSeat->setPointerPos(m_pos.toPoint());
     seat->setFocusedPointerSurface(focusNow->surface(), focusNow->inputTransformation());
 
     m_focusGeometryConnection = connect(focusNow, &Toplevel::geometryChanged, this,
