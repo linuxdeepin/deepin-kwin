@@ -127,13 +127,13 @@ void SplitHandlerEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
     }
 
     if (m_isSwap) {
+        int xPos = 0;
         if (w == m_firstEffectWin) {
-            int xPos = paintWinPos(m_firstEffectWin, m_splitFirstMode, m_firstPos);
-            data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
+            xPos = paintWinPos(m_firstEffectWin, m_splitFirstMode, m_firstPos);
         } else if (w == m_secondEffectWin) {
-            int xPos = paintWinPos(m_secondEffectWin, m_splitSecondMode, m_secondPos);
-            data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
+            xPos = paintWinPos(m_secondEffectWin, m_splitSecondMode, m_secondPos);
         }
+        data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
     }
 
     effects->paintWindow(w, mask, region, data);
@@ -165,25 +165,25 @@ void SplitHandlerEffect::setActive(bool active)
 
 void SplitHandlerEffect::onSwapWindow(EffectWindow *w, int index)
 {
-    auto ew = static_cast<EffectWindowImpl*>(w);
-    if (nullptr == ew) {
+    auto effectWindow = static_cast<EffectWindowImpl*>(w);
+    if (nullptr == effectWindow) {
         return;
     }
 
-    auto c = static_cast<AbstractClient*>(ew->window());
-    if (nullptr == c) {
+    auto client = static_cast<AbstractClient*>(effectWindow->window());
+    if (nullptr == client) {
         return;
     }
 
     if (SwapClientIndex::First == index) {
-        m_splitFirstMode = c->quickTileMode();
+        m_splitFirstMode = client->quickTileMode();
         m_firstEffectWin = w;
         m_screen = w->screen();
         m_desktop = w->desktop();
         m_secondEffectWin = nullptr;
         m_firstPos = w->x();
     } else if (SwapClientIndex::Second == index) {
-        m_splitSecondMode = c->quickTileMode();
+        m_splitSecondMode = client->quickTileMode();
         m_secondEffectWin = w;
         m_secondPos = w->x();
     }

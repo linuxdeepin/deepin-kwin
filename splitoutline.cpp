@@ -38,7 +38,7 @@ namespace KWin
     {
         setWindowFlags(Qt::X11BypassWindowManagerHint);
         setWindowOpacity(0);
-        setCustomCursor(CURSOR_L_R); //设置鼠标样式
+        setCustomCursor(CURSOR_L_R);
         updateWorkspaceArea();
         setAccessibleName("splitoutline");
     }
