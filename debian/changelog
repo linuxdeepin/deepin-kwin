@@ -1,3 +1,18 @@
+kwin (4:5.15.10.5-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 97459 fix: remove ctrl+alt+K shortcut.
+    + 98636 fix: Fix the problem of rotating the screen in full-screen state and maximizing the state after exiting full-screen.
+    + 97476 add global touch event spy in input and transfer events to the client through the global touch protocol.
+    + 107288 fix: show the moving cursor after click resize window option.
+    + 106336 fix: Raise client layer and get focus when client is changed horizontally or vertically maximized.
+    + 108894 fix: modify global mouse event spy in input and transfer to events to the client through the global mouse protocol.
+    + 102479 fix: when the uos browser in a half split screen,click the title bar of uos browser to exit the split screen.
+    + 107429, 106157 fix: The space bar mouse style transformation does not take effect.
+    + 100921, 97136, 99376, 87450 fix: when touch to move client,kwin must need client send events.
+
+ -- Lei Su <sulei@uniontech.com>  Mon, 27 Dec 2021 14:53:41 +0800
+
 kwin (4:5.15.10.4-1) unstable; urgency=medium
 
   * Bug fix:
