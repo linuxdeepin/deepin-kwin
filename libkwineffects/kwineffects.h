@@ -43,6 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QHash>
 #include <QStack>
 #include <QScopedPointer>
+#include <QWidget>
 
 #include <KPluginFactory>
 #include <KSharedConfig>
@@ -2365,6 +2366,7 @@ public:
      * @since 4.11
      */
     virtual void unreferencePreviousWindowPixmap() = 0;
+    QWidget *autoTestInterface = nullptr;
 
 private:
     class Private;
