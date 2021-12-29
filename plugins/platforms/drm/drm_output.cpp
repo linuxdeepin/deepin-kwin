@@ -1268,10 +1268,11 @@ bool DrmOutput::presentLegacy(DrmBuffer *buffer)
     }
 
     // Do we need to set a new mode first?
-    if (!m_crtc->current() || m_crtc->current()->needsModeChange(buffer)) {
+    if (!m_crtc->current() || m_crtc->current()->needsModeChange(buffer) || m_modesetRequested) {
         if (!setModeLegacy(buffer)) {
             return false;
         }
+        m_modesetRequested = false;
     }
     const bool ok = drmModePageFlip(m_backend->fd(), m_crtc->id(), buffer->bufferId(), DRM_MODE_PAGE_FLIP_EVENT, this) == 0;
     if (ok) {
