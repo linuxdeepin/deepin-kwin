@@ -997,7 +997,8 @@ void DrmOutput::transform(KWayland::Server::OutputDeviceInterface::Transform tra
 
     if (m_primaryPlane) {
         auto planeTransform = output2PlaneTransform(device2OutputTransform(transform));
-        if (m_primaryPlane->supportedTransformations() & planeTransform) {
+        // atomic mode use software transform
+        if (!m_backend->atomicModeSetting() && m_primaryPlane->supportedTransformations() & planeTransform) {
             qDebug() << "---------- hardware transform" << planeTransform;
             m_primaryPlane->setTransformation(planeTransform);
         } else {
