@@ -949,6 +949,10 @@ bool AbstractClient::startInteractiveMoveResize()
     stopDelayedInteractiveMoveResize();
     if (QApplication::activePopupWidget() != nullptr)
         return false; // popups have grab
+
+    if (workspace()->moveResizeClient()) {
+        return false;
+    }
     if (isFullScreen() && (screens()->count() < 2 || !isMovableAcrossScreens()))
         return false;
     if (!doStartInteractiveMoveResize()) {
