@@ -2782,6 +2782,9 @@ bool AbstractClient::startMoveResize()
     assert(QWidget::keyboardGrabber() == NULL);
     assert(QWidget::mouseGrabber() == NULL);
     stopDelayedMoveResize();
+    if (workspace()->getMovingClient()) {
+        return false;
+    }
     if (QApplication::activePopupWidget() != NULL)
         return false; // popups have grab
     if (isFullScreen() && (screens()->count() < 2 || !isMovableAcrossScreens()))
