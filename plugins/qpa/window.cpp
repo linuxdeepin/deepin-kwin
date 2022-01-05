@@ -120,13 +120,6 @@ void Window::map()
 {
     if (!m_shellClient) {
         m_shellClient = waylandServer()->findClient(window());
-        //在m_shellClient所指对象销毁时候，将其置空，避免外部调用shellClient()函数
-        //时产生野指针导致崩溃
-        if (m_shellClient) {
-            QObject::connect(m_shellClient,&ShellClient::destroyed,[=](){
-                m_shellClient = nullptr;
-            });
-        }
     }
 }
 
