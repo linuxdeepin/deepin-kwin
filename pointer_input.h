@@ -66,6 +66,7 @@ public:
     virtual ~PointerInputRedirection();
 
     void init();
+    void updatePosition(const QPointF &pos);
 
     void updateAfterScreenChange();
     bool supportsWarping() const;
@@ -173,7 +174,6 @@ private:
 
     void updateOnStartMoveResize();
     void updateToReset();
-    void updatePosition(const QPointF &pos);
     void updateButton(uint32_t button, InputRedirection::PointerButtonState state);
     void warpXcbOnSurfaceLeft(KWayland::Server::SurfaceInterface *surface);
     QPointF applyPointerConfinement(const QPointF &pos) const;
