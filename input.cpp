@@ -1015,6 +1015,10 @@ class InternalWindowEventFilter : public InputEventFilter {
                 if (w->flags().testFlag(Qt::ToolTip)) {
                     continue;
                 }
+                auto s = waylandServer()->findClient(w);
+                if (nullptr != s && s->splitManage.size() > 0) {
+                    continue;
+                }
                 found = w;
                 break;
             }
