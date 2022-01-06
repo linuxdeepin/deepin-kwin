@@ -82,6 +82,7 @@ public:
     }
 
 private:
+    void handleLongPress();
     void cleanupInternalWindow(QWindow *old, QWindow *now) override;
     void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
 
@@ -99,6 +100,7 @@ private:
     QPointF m_lastPosition;
 
     int m_touches = 0;
+    QTimer *m_timer;
 };
 
 }

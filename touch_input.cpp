@@ -36,13 +36,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Qt
 #include <QHoverEvent>
 #include <QWindow>
+#include <QTimer>
+
+#define LONGTOUCHPRESSTIME 1000
+#define LONGTOUCHPRESSIGNOREMOTION 2
 
 namespace KWin
 {
 
 TouchInputRedirection::TouchInputRedirection(InputRedirection *parent)
     : InputDeviceHandler(parent)
+    , m_timer(new QTimer(this))
 {
+    connect(m_timer, &QTimer::timeout, this, &TouchInputRedirection::handleLongPress);
+}
+
+void TouchInputRedirection::handleLongPress()
+{
+    m_timer->stop();
+    //send right mouse event
+    input()->pointer()->updatePosition(m_lastPosition);
+    input()->pointer()->update();
+
+    input()->pointer()->processMotion(m_lastPosition, 0);
+    input()->pointer()->processButton(KWin::qtMouseButtonToButton(Qt::RightButton), InputRedirection::PointerButtonPressed, 0);
+    input()->pointer()->processButton(KWin::qtMouseButtonToButton(Qt::RightButton), InputRedirection::PointerButtonReleased, 0);
+    waylandServer()->simulateUserActivity();
 }
 
 TouchInputRedirection::~TouchInputRedirection() = default;
@@ -177,7 +196,11 @@ void TouchInputRedirection::processDown(qint32 id, const QPointF &pos, quint32 t
     m_windowUpdatedInCycle = false;
     m_touches++;
     if (m_touches == 1) {
+        input()->pointer()->updatePosition(m_lastPosition);
+        input()->pointer()->update();
         update();
+        m_timer->setInterval(LONGTOUCHPRESSTIME);
+        m_timer->start();
     }
     input()->processSpies(std::bind(&InputEventSpy::touchDown, std::placeholders::_1, id, pos, time));
     input()->processFilters(std::bind(&InputEventFilter::touchDown, std::placeholders::_1, id, pos, time));
@@ -190,6 +213,7 @@ void TouchInputRedirection::processUp(qint32 id, quint32 time, LibInput::Device 
     if (!inited()) {
         return;
     }
+    m_timer->stop();
     m_windowUpdatedInCycle = false;
     input()->processSpies(std::bind(&InputEventSpy::touchUp, std::placeholders::_1, id, time));
     input()->processFilters(std::bind(&InputEventFilter::touchUp, std::placeholders::_1, id, time));
@@ -205,6 +229,9 @@ void TouchInputRedirection::processMotion(qint32 id, const QPointF &pos, quint32
     Q_UNUSED(device)
     if (!inited()) {
         return;
+    }
+    if (abs(m_lastPosition.x() - pos.x()) > LONGTOUCHPRESSIGNOREMOTION || abs(m_lastPosition.y() - pos.y()) > LONGTOUCHPRESSIGNOREMOTION) {
+        m_timer->stop();
     }
     m_lastPosition = pos;
     m_windowUpdatedInCycle = false;
