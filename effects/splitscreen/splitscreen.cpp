@@ -349,17 +349,6 @@ void SplitScreenEffect::setActive(bool active)
         effects->setActiveFullScreenEffect(this);
 
     } else {
-        auto ptr = m_motionManagers.begin();
-        while (ptr != m_motionManagers.end()) {
-            foreach (EffectWindow* w, ptr->managedWindows()) {
-                if (w->autoTestInterface != nullptr) {
-                    delete w->autoTestInterface;
-                    w->autoTestInterface = nullptr;
-                }
-            }
-            ++ptr;
-        }
-
         cleanup();
 
         auto p = m_motionManagers.begin();
@@ -516,15 +505,7 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
                          target.center().y() - int(w->height() * scale) / 2,
                          scale * w->width(), scale * w->height());
         }
-        if (w->autoTestInterface == nullptr) {
-            w->autoTestInterface = new QWidget();
-            w->autoTestInterface->setGeometry(target);
-            w->autoTestInterface->show();
-            QString autotestname = w->windowClass();
-            w->autoTestInterface->setAccessibleName(autotestname);
-        }
-            motionManager.moveWindow(w, target);
-
+        motionManager.moveWindow(w, target);
     }
 }
 
