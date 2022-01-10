@@ -1,3 +1,16 @@
+kwin (4:5.15.10.6-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 107849 fix: modeset function in legacy mode.
+    + 110061 fix: split screen input text with keyboard failed.
+    + 92305 fix: Problem with multiple displays showing only one dde lock window.
+    + 107767 fix: use tabbox,kwin_wayland crash
+    + 106638 fix: Attempt to move the second window while moving the first one.
+    + 107970 fix: cannot rotate screen.
+    + 97290, 98191, 96116, 106980 fix: add long touch press show right menu.
+
+ -- Lei Su <sulei@uniontech.com>  Mon, 10 Jan 2022 15:49:46 +0800
+
 kwin (4:5.15.10.5-1) unstable; urgency=medium
 
   * Bug fix:
