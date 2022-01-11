@@ -712,6 +712,9 @@ Unmanaged* Workspace::createUnmanaged(xcb_window_t w)
                 }
             }
         }
+        if (compositing()) {
+            emit effects->closeEffect(true);
+        }
     }
     addUnmanaged(c);
     emit unmanagedAdded(c);
@@ -2008,6 +2011,37 @@ void Workspace::setWasUserInteraction()
     );
 }
 
+QString Workspace::getScreenNameforWayland(int screen)
+{
+    QString res;
+    QString name = screens()->name(screen);
+    QStringList names = name.split(" ");
+    if (names.size() >= 1) {
+        names = names[1].split("-");
+    } else {
+        names = names[0].split("-");
+    }
+    if (names.size() > 2) {
+        for (int i = 0; i < names.size(); i++) {
+            if (names[i].toInt() >= 1) {
+                res += names[i];
+                break;
+            } else {
+                res += names[i];
+                res += "-";
+            }
+        }
+    } else {
+        if (names.size() >= 1) {
+            res = names[1];
+        } else {
+            res = names[0];
+        }
+    }
+
+    return res;
+}
+
 QString Workspace::ActiveColor()
 {
     if (activeColor.isEmpty())
@@ -2036,8 +2070,16 @@ void Workspace::qtactivecolorChanged()
     setActiveColor(clr);
 }
 
+void Workspace::executeLock()
+{
+    LogindIntegration::self()->requestLock();
+}
+
 void Workspace::screensChanged()
 {
+    if (compositing()) {
+        emit effects->closeEffect(true);    //close multitask view
+    }
     updateSplitOutlineState(1, active_client ? active_client->desktop() : 1, true);
 }
 

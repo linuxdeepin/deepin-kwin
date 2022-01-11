@@ -68,6 +68,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/sdt.h>
 #include <unistd.h>
 
+#include "multi_touch_gesture_spy.h"
+#include "multitouchgesture.h"
+
 namespace KWin
 {
 
@@ -2012,8 +2015,13 @@ InputRedirection::InputRedirection(QObject *parent)
         connect(pEventMonitor, &RecordEventMonitor::touchDown, this, &InputRedirection::touchDown);
         connect(pEventMonitor, &RecordEventMonitor::touchUp, this, &InputRedirection::touchEnd);
         connect(pEventMonitor, &RecordEventMonitor::touchMotion, this, &InputRedirection::touchMotion);
+
         connect(pEventMonitor, &RecordEventMonitor::buttonRelease, this, &InputRedirection::buttonRelease);
         connect(pEventMonitor, &RecordEventMonitor::motion, this, &InputRedirection::motion);
+
+        connect(pEventMonitor, &RecordEventMonitor::touchDown, MultiTouchGesture::instance(), &MultiTouchGesture::handleTouchDown);
+        connect(pEventMonitor, &RecordEventMonitor::touchUp, MultiTouchGesture::instance(), &MultiTouchGesture::handleTouchUp);
+        connect(pEventMonitor, &RecordEventMonitor::touchMotion, MultiTouchGesture::instance(), &MultiTouchGesture::handleTouchMotion);
         pEventMonitor->start();
     }
     connect(kwinApp(), &Application::workspaceCreated, this, &InputRedirection::setupWorkspace);
@@ -2241,6 +2249,7 @@ void InputRedirection::setupInputFilters()
     if (waylandServer()) {
         installInputEventSpy(new TouchHideCursorSpy);
         installInputEventSpy(new GlobalEventSpy);
+        installInputEventSpy(new MultiTouchGestureSpy);
         if (hasGlobalShortcutSupport) {
             installInputEventFilter(new TerminateServerFilter);
         }
@@ -2297,8 +2306,12 @@ static KWayland::Server::SeatInterface *findSeat()
     return server->seat();
 }
 
-void InputRedirection::touchDown()
+void InputRedirection::touchDown(double x, double y, int time)
 {
+    Q_UNUSED(x)
+    Q_UNUSED(y)
+    Q_UNUSED(time)
+
     AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {
         return;
@@ -2307,8 +2320,12 @@ void InputRedirection::touchDown()
     workspace()->setTouchToMovingClientStatus(true);
 }
 
-void InputRedirection::touchMotion()
+void InputRedirection::touchMotion(double x, double y, int time)
 {
+    Q_UNUSED(x)
+    Q_UNUSED(y)
+    Q_UNUSED(time)
+
     AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {
         return ;
@@ -2317,8 +2334,10 @@ void InputRedirection::touchMotion()
     touchMovingClient->updateMoveResize(QCursor::pos());
 }
 
-void InputRedirection::touchEnd()
+void InputRedirection::touchEnd(int time)
 {
+    Q_UNUSED(time)
+
     AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {
         return ;

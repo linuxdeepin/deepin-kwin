@@ -11,6 +11,10 @@
         <file alias="splitthumb.glsl">splitscreen/splitthumb.glsl</file>
         <file alias="bk9.frag">splitscreen/bk9.frag</file>
         <file alias="bk9.vert">splitscreen/bk9.vert</file>
+        <file alias="workspacethumb.glsl">multitaskview/workspacethumb.glsl</file>
+        <file alias="windowfill.glsl">multitaskview/windowfill.glsl</file>
+        <file alias="windowhover.glsl">multitaskview/windowhover.glsl</file>
+        <file alias="workspacehover.glsl">multitaskview/workspacehover.glsl</file>
     </qresource>
     <qresource prefix="/effect-shaders-1.40">
         <file alias="coverswitch-reflection.glsl">coverswitch/shaders/1.40/coverswitch-reflection.glsl</file>
@@ -24,5 +28,25 @@
         <file alias="splitthumb.glsl">splitscreen/splitthumb.glsl</file>
         <file alias="bk9.frag">splitscreen/bk9.frag</file>
         <file alias="bk9.vert">splitscreen/bk9.vert</file>
+        <file alias="workspacethumb.glsl">multitaskview/workspacethumb.glsl</file>
+        <file alias="windowfill.glsl">multitaskview/windowfill.glsl</file>
+        <file alias="windowhover.glsl">multitaskview/windowhover.glsl</file>
+        <file alias="bk.v">multitaskview/bk.v</file>
+        <file alias="bk.f">multitaskview/bk.f</file>
+        <file alias="wbk.v">multitaskview/wbk.v</file>
+        <file alias="wbk.f">multitaskview/wbk.f</file>
+        <file alias="workspacehover.glsl">multitaskview/workspacehover.glsl</file>
+    </qresource>
+    <qresource prefix="/multitasking">
+        <file>multitaskview/translations/multitasking_ca.qm</file>
+        <file>multitaskview/translations/multitasking_hu.qm</file>
+        <file>multitaskview/translations/multitasking_nl.qm</file>
+        <file>multitaskview/translations/multitasking_pl.qm</file>
+        <file>multitaskview/translations/multitasking_sq.qm</file>
+        <file>multitaskview/translations/multitasking_tr.qm</file>
+        <file>multitaskview/translations/multitasking_zh_CN.qm</file>
+        <file>multitaskview/translations/multitasking_zh_HK.qm</file>
+        <file>multitaskview/translations/multitasking_zh_TW.qm</file>
+        <file>multitaskview/translations/multitasking.qm</file>
     </qresource>
 </RCC>

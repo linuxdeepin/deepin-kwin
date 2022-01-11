@@ -55,6 +55,7 @@ public:
 
     int takeDevice(const char *path);
     void releaseDevice(int fd);
+    void requestLock();
 
     const QString seat() const {
         return m_seatName;

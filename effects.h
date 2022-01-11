@@ -96,6 +96,9 @@ public:
     void setSplitWindow(EffectWindow* c, int mode, bool isShowPreview = false) override;
     virtual void resetSplitOutlinePos(int screen, int desktop) override;
 
+    QString getScreenNameForWayland(int screen) override;
+    void requestLock() override;
+
     void activateWindow(EffectWindow* c) override;
     EffectWindow* activeWindow() const override;
     void moveWindow(EffectWindow* w, const QPoint& pos, bool snap = false, double snapAdjust = 1.0) override;
@@ -282,6 +285,10 @@ public:
 
     void enableEffect(const QString& name, bool enable);
 //    void setQuickTileMode(EffectWindow* w, int mode) override;
+
+    void setKeepAbove(KWin::EffectWindow *c, bool) override;
+
+    void sendPointer(Qt::MouseButton type) override;
 
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);

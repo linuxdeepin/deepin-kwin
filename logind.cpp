@@ -378,6 +378,16 @@ void LogindIntegration::releaseControl()
     emit hasSessionControlChanged(false);
 }
 
+void LogindIntegration::requestLock()
+{
+    QDBusMessage message = QDBusMessage::createMethodCall(m_sessionControllerService,
+                                                          m_sessionPath,
+                                                          m_sessionControllerSessionInterface,
+                                                          QStringLiteral("Lock"));
+
+    QDBusMessage reply = m_bus.call(message);
+}
+
 int LogindIntegration::takeDevice(const char *path)
 {
     struct stat st;

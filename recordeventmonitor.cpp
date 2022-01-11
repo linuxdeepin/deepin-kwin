@@ -20,6 +20,7 @@
  */
 #include "recordeventmonitor.h"
 #include <X11/Xlibint.h>
+#include "multitouchgesture.h"
 
 // The PROXIMITYIN and PROXIMITYOUT enumeration value is the same as the event enumeration value in the EventToCore function in xorg.
 #define PROXIMITYIN     15
@@ -97,16 +98,16 @@ void RecordEventMonitor::handleRecordEvent(XRecordInterceptData* data)
             // but, those touch down event is belong to same ancestors.
             // so, if you need, you can use (event->u.keyButtonPointer.time)
             // to filter out the repeated touh down event.
-            if (m_evnetTime != event->u.keyButtonPointer.time) {
-                emit touchDown();
-                m_evnetTime = event->u.keyButtonPointer.time;
+            if (m_eventTime != event->u.keyButtonPointer.time) {
+                emit touchDown(event->u.keyButtonPointer.rootX, event->u.keyButtonPointer.rootY, event->u.keyButtonPointer.time);
+                m_eventTime = event->u.keyButtonPointer.time;
             }
             break;
         case TOUCHMOTION:
-            emit touchMotion();
+            emit touchMotion(event->u.keyButtonPointer.rootX, event->u.keyButtonPointer.rootY, event->u.keyButtonPointer.time);
             break;
         case TOUCHUP:
-            emit touchUp();
+            emit touchUp(event->u.keyButtonPointer.time);
             break;
         default:
             break;
