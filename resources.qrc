@@ -7,5 +7,9 @@
         <file>themes/leftright-arrow.svg</file>
         <file>themes/inActive.svg</file>
         <file>themes/Active.svg</file>
+        <file>themes/add-light.svg</file>
+        <file>themes/multiview_top.svg</file>
+        <file>themes/multiview_delete.svg</file>
+        <file>themes/multiview_top_active.svg</file>
     </qresource>
 </RCC>

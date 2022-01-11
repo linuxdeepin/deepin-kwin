@@ -64,6 +64,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "logind.h"
 
+#include "multitouchgesture.h"
+
 namespace KWin
 {
 //---------------------
@@ -217,6 +219,7 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     connect(ScreenEdges::self(), &ScreenEdges::approaching, this, &EffectsHandler::screenEdgeApproaching);
     connect(ScreenLockerWatcher::self(), &ScreenLockerWatcher::locked, this, &EffectsHandler::screenLockingChanged);
 
+    connect(MultiTouchGesture::instance(), &MultiTouchGesture::showMultitasking, this, &EffectsHandlerEx::showMultitasking);
     connect(kwinApp(), &Application::x11ConnectionChanged, this,
         [this] {
             registered_atoms.clear();
@@ -918,6 +921,33 @@ bool EffectsHandlerImpl::checkWindowAllowToSplit(KWin::EffectWindow *c)
     }
 
     return true;
+}
+
+void EffectsHandlerImpl::setKeepAbove(KWin::EffectWindow *c, bool b)
+{
+    if (auto client = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(c)->window())) {
+        client->setKeepAbove(b);
+    }
+}
+
+void EffectsHandlerImpl::sendPointer(Qt::MouseButton type)
+{
+    uint32_t button = KWin::qtMouseButtonToButton(Qt::LeftButton);
+    if (type == Qt::RightButton) {
+        button = KWin::qtMouseButtonToButton(Qt::RightButton);
+    }
+    input()->pointer()->processButton(button, InputRedirection::PointerButtonPressed, 0);
+    input()->pointer()->processButton(button, InputRedirection::PointerButtonReleased, 0);
+}
+
+QString EffectsHandlerImpl::getScreenNameForWayland(int screen)
+{
+    return Workspace::self()->getScreenNameforWayland(screen);
+}
+
+void EffectsHandlerImpl::requestLock()
+{
+    Workspace::self()->executeLock();
 }
 
 QString EffectsHandlerImpl::getActiveColor()

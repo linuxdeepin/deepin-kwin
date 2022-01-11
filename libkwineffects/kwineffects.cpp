@@ -1481,6 +1481,24 @@ Motion2D::~Motion2D()
 }
 
 /***************************************************************
+ Motion4D
+***************************************************************/
+
+Motion4D::Motion4D(QRect initial, double strength, double smoothness)
+    : Motion<QRect>(initial, strength, smoothness)
+{
+}
+
+Motion4D::Motion4D(const Motion4D &other)
+    : Motion<QRect>(other)
+{
+}
+
+Motion4D::~Motion4D()
+{
+}
+
+/***************************************************************
  WindowMotionManager
 ***************************************************************/
 
@@ -1516,18 +1534,23 @@ void WindowMotionManager::manage(EffectWindow *w)
 
     motion.translation.setValue(w->pos());
     motion.scale.setValue(QPointF(1.0, 1.0));
+
+    motion.fill.setValue(0);
+    m_orderWindowList.push_back(w);
 }
 
 void WindowMotionManager::unmanage(EffectWindow *w)
 {
     m_movingWindowsSet.remove(w);
     m_managedWindows.remove(w);
+    m_orderWindowList.removeOne(w);
 }
 
 void WindowMotionManager::unmanageAll()
 {
     m_managedWindows.clear();
     m_movingWindowsSet.clear();
+    m_orderWindowList.clear();
 }
 
 void WindowMotionManager::calculate(int time)
@@ -1704,6 +1727,41 @@ EffectWindow* WindowMotionManager::windowAtPoint(QPoint point, bool useStackingO
     }
 
     return nullptr;
+}
+
+void WindowMotionManager::setWindowFill(EffectWindow *w, bool fill, QRect rect)
+{
+    if (!m_managedWindows.contains(w))
+        return;
+
+    WindowMotion &motion = m_managedWindows[ w ];
+    motion.fill.setValue(fill);
+    motion.rect.setValue(rect);
+}
+
+bool WindowMotionManager::isWindowFill(EffectWindow *w)
+{
+    if (!m_managedWindows.contains(w))
+        return false;
+
+    return m_managedWindows[w].fill.value();
+}
+
+QRect WindowMotionManager::getWindowFillRect(EffectWindow *w)
+{
+    if (!m_managedWindows.contains(w))
+        return QRect();
+
+    return m_managedWindows[w].rect.value();
+}
+
+void WindowMotionManager::resetWindowFill(EffectWindow *w)
+{
+    if (!m_managedWindows.contains(w))
+        return;
+
+    WindowMotion &motion = m_managedWindows[w];
+    motion.fill.setValue(0);
 }
 
 /***************************************************************

@@ -260,6 +260,7 @@ public:
 
     void stackScreenEdgesUnderOverrideRedirect();
 
+    QString getScreenNameforWayland(int screen);
     QString ActiveColor();
     void setActiveColor(QString color);
 
@@ -290,6 +291,8 @@ public:
         //for now,close debug of dump output buffer
         return false;
     }
+
+    void executeLock();
 
 public:
     QPoint cascadeOffset(const AbstractClient *c) const;

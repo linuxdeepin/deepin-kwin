@@ -73,6 +73,7 @@ enum class BuiltInEffect
     Zoom,
     SplitScreen,
     SplitHandler,
+    MultitaskView,
     NumEffect
 };
 

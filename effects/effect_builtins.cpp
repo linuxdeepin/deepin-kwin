@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "zoom/zoom.h"
 #include "splitscreen/splitscreen.h"
 #include "splithandler/splithandler.h"
+#include "multitaskview/multitaskview.h"
 // OpenGL-specific effects for desktop
 #include "coverswitch/coverswitch.h"
 #include "cube/cube.h"
@@ -684,7 +685,22 @@ EFFECT_FALLBACK
         nullptr
 #endif
 EFFECT_FALLBACK
-    }
+    }, {
+            QStringLiteral("multitaskview"),
+            i18ndc("kwin_effects", "Name of a KWin Effect", "multitaskview"),
+            i18ndc("kwin_effects", "Comment describing the KWin Effect", "multitask view of clients"),
+            QStringLiteral("Accessibility"),
+            QString(),
+            QUrl(),
+            true,
+            false,
+    #ifdef EFFECT_BUILTINS
+            &createHelper<MultitaskViewEffect>,
+            nullptr,
+            nullptr
+    #endif
+    EFFECT_FALLBACK
+        }
     };
     return s_effectData;
 }

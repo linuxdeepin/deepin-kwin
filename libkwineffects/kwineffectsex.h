@@ -69,11 +69,17 @@ public:
      *
      */
     virtual EffectWindow *findWindow(const QUuid &w) const = 0;
+    virtual void setKeepAbove(KWin::EffectWindow *c, bool) = 0;
+    virtual QString getScreenNameForWayland(int screen) = 0;
+    virtual void requestLock() = 0;
+    virtual void sendPointer(Qt::MouseButton) = 0;
 
 Q_SIGNALS:
     void windowQuickTileModeChanged(KWin::EffectWindow *w);
     void showSplitScreenPreview(KWin::EffectWindow *w);
     void swapSplitWin(KWin::EffectWindow *w, int index);
+
+    void showMultitasking();
 
 };
 

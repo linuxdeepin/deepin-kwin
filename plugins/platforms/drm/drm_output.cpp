@@ -1115,6 +1115,9 @@ void DrmOutput::pageFlipped()
 {
     m_pageFlipPending = false;
     if (m_teardown) {
+        if (m_deleted) {
+            return;
+        }
         qCDebug(KWIN_DRM) << "tearing down, flip and delete.";
         deleteLater();
         // pass through to finish the flip

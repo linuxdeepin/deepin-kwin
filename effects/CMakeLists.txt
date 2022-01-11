@@ -7,6 +7,9 @@ endif()
 add_definitions(-DTRANSLATION_DOMAIN=\"kwin_effects\" -DEFFECT_BUILTINS)
 
 include_directories(${KWIN_SOURCE_DIR}) # for xcbutils.h
+pkg_search_module(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt)
+
+find_package(Qt5LinguistTools REQUIRED)
 
 set(kwin_effect_OWN_LIBS
     kwineffects
@@ -33,6 +36,7 @@ set(kwin_effect_QT_LIBS
     Qt5::DBus
     Qt5::Quick
     Qt5::X11Extras
+    PkgConfig::QGSETTINGS
 )
 
 set(kwin_effect_XLIB_LIBS
@@ -65,6 +69,14 @@ macro( KWIN4_ADD_EFFECT name )
     install(TARGETS kwin4_effect_${name} ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 endmacro()
+
+# translations
+file(GLOB TS LIST_DIRECTORIES false multitaskview/translations/multitasking*.ts)
+foreach(_ts_file ${TS})
+    execute_process(
+        COMMAND ${LUPDATE_EXECUTABLE} -recursive ${CMAKE_SOURCE_DIR}/translations -ts ${_ts_file})
+    execute_process(COMMAND lrelease ${_ts_file})
+endforeach()
 
 # Install the KWin/Effect service type
 install( FILES kwineffect.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR} )
@@ -106,6 +118,7 @@ set( kwin4_effect_builtins_sources
     zoom/zoom.cpp
     splitscreen/splitscreen.cpp
     splithandler/splithandler.cpp
+    multitaskview/multitaskview.cpp
     )
 
 qt5_add_resources( kwin4_effect_builtins_sources shaders.qrc )
@@ -177,6 +190,7 @@ add_subdirectory( windowgeometry )
 add_subdirectory( zoom )
 add_subdirectory( splitscreen )
 add_subdirectory( splithandler )
+add_subdirectory( multitaskview )
 
 # OpenGL-specific effects
 add_subdirectory( blur )

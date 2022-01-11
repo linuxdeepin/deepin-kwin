@@ -533,7 +533,9 @@ set(kwin_KDEINIT_SRCS
     libinput/libinput_logging.cpp
     udev.cpp
     touch_hide_cursor_spy.cpp
+    multi_touch_gesture_spy.cpp
     xwl/xwayland_interface.cpp
+    multitouchgesture.cpp
    )
 
 include(ECMQtDeclareLoggingCategory)

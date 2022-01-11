@@ -291,11 +291,12 @@ Q_SIGNALS:
     void hasTabletModeSwitchChanged(bool set);
 
 public Q_SLOTS:
-    void touchDown();
-    void touchMotion();
-    void touchEnd();
     void buttonRelease();
     void motion();
+    void touchDown(double x, double y, int time);
+    void touchMotion(double x, double y, int time);
+    void touchEnd(int time);
+
 private:
     void setupLibInput();
     void setupTouchpadShortcuts();

@@ -33,11 +33,12 @@ public:
     explicit RecordEventMonitor(QObject *parent = nullptr);
 
 signals:
-    void touchDown();
-    void touchMotion();
-    void touchUp();
     void buttonRelease();
     void motion();
+    void touchDown(double x, double y, unsigned int time);
+    void touchMotion(double x, double y, unsigned int time);
+    void touchUp(unsigned int time);
+
 public slots:
 
 protected:
@@ -45,7 +46,7 @@ protected:
     void handleRecordEvent(XRecordInterceptData *);
     void run();
     bool m_bFlag = false;
-    int m_evnetTime = 0;
+    int m_eventTime = 0;
 };
 
 #endif // RECORDEVENTMONITOR_H
