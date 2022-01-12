@@ -37,6 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMap>
 #include <QStringList>
 
+#include "wayland_server.h"
+
 namespace KWin
 {
 
@@ -484,7 +486,11 @@ void PluginEffectLoader::queryAndLoadAll()
         [this, watcher]() {
             const auto effects = watcher->result();
             for (const auto &effect : effects) {
-                const LoadEffectFlags flags = readConfig(effect.pluginId(), effect.isEnabledByDefault());
+                QString name = effect.pluginId();
+                if (waylandServer() && (name == "com.deepin.multitasking")) {
+                    continue;
+                }
+                const LoadEffectFlags flags = readConfig(name, effect.isEnabledByDefault());
                 if (flags.testFlag(LoadEffectFlag::Load)) {
                     m_queue->enqueue(qMakePair(effect, flags));
                 }
