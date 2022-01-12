@@ -934,7 +934,7 @@ OpenGLBackend *DrmBackend::getOpenGLBackend()
 
 bool DrmBackend::requiresCompositing() const
 {
-    return false;
+    return true;
 }
 
 DrmDumbBuffer *DrmBackend::createBuffer(const QSize &size)
