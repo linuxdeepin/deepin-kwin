@@ -190,9 +190,6 @@ void ShellClient::initSurface(T *shellSurface)
                 // ignore for wl_shell - there it is mutual exclusive and messes with the geometry
                 return;
             }
-            if (!isFullScreen() && m_maximizeMode == MaximizeFull) {
-                maximized = true;
-            }
             maximize(maximized ? MaximizeFull : MaximizeRestore);
         }
     );
