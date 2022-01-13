@@ -827,6 +827,7 @@ public:
     bool isExitSplitscreen();
 
     static QMap<int, SplitOutline*> splitManage;
+    void handleSwitcheffectsQuickTileSize();
 
 public Q_SLOTS:
     virtual void closeWindow() = 0;

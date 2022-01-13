@@ -2074,11 +2074,14 @@ void Workspace::updateSplitOutlineState(uint oldDesktop, uint newDesktop, bool i
     searchSplitScreenClient(newDesktop, isReCheckScreen);
 }
 
-void Workspace::searchSplitScreenClient(uint Desktop, bool isReCheckScreen)
+void Workspace::searchSplitScreenClient(uint Desktop, bool isReCheckScreen, bool isSwitcheffects)
 {
     for (int i = stacking_order.count() - 1; i > -1; --i) {
          AbstractClient *c = qobject_cast<AbstractClient*>(stacking_order.at(i));
          if (c && !c->isMinimized() && c->desktop() == Desktop && (c->quickTileMode() == QuickTileMode(QuickTileFlag::Left) || c->quickTileMode() == QuickTileMode(QuickTileFlag::Right))) {
+             if (isSwitcheffects == true) {
+                 c->handleSwitcheffectsQuickTileSize();
+             }
              c->handlequickTileModeChanged(isReCheckScreen);
          }
     }

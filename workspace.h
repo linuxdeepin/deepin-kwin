@@ -464,7 +464,7 @@ public:
 
     void updateSplitOutlineState(uint oldDesktop, uint newDesktop, bool isReCheckScreen = false);
 
-    void searchSplitScreenClient(uint Desktop, bool isReCheckScreen = false);
+    void searchSplitScreenClient(uint Desktop, bool isReCheckScreen = false, bool isSwitcheffects = false);
 
     void clearSplitOutline();
 

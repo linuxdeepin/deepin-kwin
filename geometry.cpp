@@ -3590,6 +3590,13 @@ void AbstractClient::setElectricBorderMaximizing(bool maximizing)
     elevate(maximizing);
 }
 
+void AbstractClient::handleSwitcheffectsQuickTileSize()
+{
+    QRect target_size = electricBorderMaximizeGeometry(geometry().center(), desktop());
+    const ForceGeometry_t geom_mode = isDecorated() ? ForceGeometrySet : NormalGeometrySet;
+    setGeometry(target_size, geom_mode);
+}
+
 QRect AbstractClient::electricBorderMaximizeGeometry(QPoint pos, int desktop)
 {
     if (electricBorderMode() == QuickTileMode(QuickTileFlag::Maximize)) {
