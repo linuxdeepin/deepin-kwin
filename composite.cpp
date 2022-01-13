@@ -652,7 +652,7 @@ void Compositor::resume(Compositor::SuspendReason reason)
     m_suspended &= ~reason;
     setup(); // signal "toggled" is eventually emitted from within setup
     int desktop = VirtualDesktopManager::self()->current();
-    workspace()->searchSplitScreenClient(desktop);
+    workspace()->searchSplitScreenClient(desktop, false, true);
 }
 
 void Compositor::restart()
