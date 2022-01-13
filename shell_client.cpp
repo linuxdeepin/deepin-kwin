@@ -717,7 +717,7 @@ void ShellClient::setGeometry(int x, int y, int w, int h, ForceGeometry_t force)
 
 void ShellClient::doSetGeometry(const QRect &rect)
 {
-    if (geom == rect && pendingGeometryUpdate() == PendingGeometryNone) {
+    if (!m_geomMaximizeRestore.isEmpty() && geom == rect && pendingGeometryUpdate() == PendingGeometryNone) {
         //  workaround to avoid screen flash when partial update enabled
         if (!m_unmapped) {
             addWorkspaceRepaint(visibleRect());
