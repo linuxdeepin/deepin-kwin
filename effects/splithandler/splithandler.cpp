@@ -130,10 +130,11 @@ void SplitHandlerEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
         int xPos = 0;
         if (w == m_firstEffectWin) {
             xPos = paintWinPos(m_firstEffectWin, m_splitFirstMode, m_firstPos);
+            data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
         } else if (w == m_secondEffectWin) {
             xPos = paintWinPos(m_secondEffectWin, m_splitSecondMode, m_secondPos);
+            data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
         }
-        data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
     }
 
     effects->paintWindow(w, mask, region, data);
