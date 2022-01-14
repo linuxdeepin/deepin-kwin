@@ -1,3 +1,14 @@
+kwin (4:5.15.10.8-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 110661 fix: don't allow switch compositing in wayland.
+    + 108936 fix: fix the problem that the file manager cannot switch to the normal and maximized state.
+    + 110574 fix: Non special effect split screen switching special effect split screen gap.
+    + 111010 fix: touchup can't end of client endMoveResize status.
+    + 111190 fix: Abnormal dynamic effect of position exchange between left and right windows of split screen.
+
+ -- Lei Su <sulei@uniontech.com>  Fri, 14 Jan 2022 11:24:18 +0800
+
 kwin (4:5.15.10.7-1) unstable; urgency=medium
 
   * Bug fix:
