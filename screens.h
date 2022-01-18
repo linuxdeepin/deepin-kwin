@@ -135,6 +135,8 @@ public:
      **/
     virtual QSizeF physicalSize(int screen) const;
 
+    virtual QByteArray uuid(int screen) const;
+
     /**
      * @returns @c true if the @p screen is connected through an internal display (e.g. LVDS).
      * Default implementation returns @c false.

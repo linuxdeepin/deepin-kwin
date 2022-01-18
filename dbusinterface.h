@@ -72,6 +72,9 @@ public Q_SLOTS: // METHODS
     bool xwaylandGrabed();
     QByteArray cursorImage();
 
+    void setTouchDeviceToScreenId(const QString &touchDeviceSysName, int screenId);
+    QString getTouchDeviceToScreenInfo();
+
     QVariantMap queryWindowInfo();
     QVariantMap getWindowInfo(const QString &uuid);
 

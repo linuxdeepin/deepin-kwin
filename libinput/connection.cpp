@@ -689,6 +689,80 @@ void Connection::updateScreens()
     }
 }
 
+void Connection::setTouchDeviceToScreenId(const QString &touchDeviceSysName, int screenId) {
+    bool isHasTheTouchDeivce = false;
+    for (auto device: qAsConst(m_devices)) {
+        if (device->isTouch()) {
+            if (touchDeviceSysName == device->sysName()) {
+                isHasTheTouchDeivce = true;
+                break;
+            }
+        }
+    }
+    if (!isHasTheTouchDeivce) {
+        qDebug() << "do not find touch device!";
+        return;
+    }
+    if (screenId > -1 && screenId >= screens()->count()) {
+        qDebug() << "do not find screen!";
+        return;
+    }
+    m_touchDeviceToScreenMap[touchDeviceSysName] = screenId;
+    updateScreens();
+}
+
+QString Connection::getTouchDeviceToScreenInfo(){
+    QMap<QString, int> allTouchDeviceToScreens;
+    QJsonArray allTouchDevicesAndScreens;
+    for (auto device: qAsConst(m_devices)) {
+        if (device->isTouch()) {
+            allTouchDeviceToScreens.insert(device->sysName(),0);
+        }
+    }
+    qDebug()<<allTouchDeviceToScreens;
+
+    QMapIterator<QString, int> iter(m_touchDeviceToScreenMap);
+    while(iter.hasNext()) {
+        iter.next();
+        if (iter.value() < 0 || iter.value() >= screens()->count()) {
+            continue;
+        }
+        allTouchDeviceToScreens[iter.key()] = iter.value();
+    }
+
+    QMapIterator<QString, int> allIter(allTouchDeviceToScreens);
+    while(allIter.hasNext()) {
+        allIter.next();
+        QJsonObject accelObj;
+        if (allIter.value() < 0 || allIter.value() >= screens()->count()) {
+            accelObj.insert("ScreenUuid", "");
+        } else {
+            accelObj.insert("ScreenUuid", QString(screens()->uuid(allIter.value())));
+        }
+        accelObj.insert("TouchDevice", allIter.key());
+        accelObj.insert("ScreenId", allIter.value());
+        allTouchDevicesAndScreens.append(accelObj);
+
+    }
+    for (int i = 0; i < screens()->count(); i++) {
+        bool isExist = false;
+        foreach (int v, allTouchDeviceToScreens) {
+            if (i == v) {
+                isExist = true;
+                break;
+            }
+        }
+        if (isExist) {
+            continue;
+        }
+        QJsonObject accelObj;
+        accelObj.insert("ScreenUuid", QString(screens()->uuid(i)));
+        accelObj.insert("ScreenId", i);
+        allTouchDevicesAndScreens.append(accelObj);
+    }
+
+    return QJsonDocument(allTouchDevicesAndScreens).toJson(QJsonDocument::Compact);
+}
 
 void Connection::applyScreenToDevice(Device *device)
 {
@@ -737,6 +811,9 @@ void Connection::applyScreenToDevice(Device *device)
     // let's try to find a screen for it
     if (screens()->count() == 1) {
         id = 0;
+    }
+    if (screens()->count() > 1 && m_touchDeviceToScreenMap.contains(device->sysName()) && m_touchDeviceToScreenMap[device->sysName()] > -1 && m_touchDeviceToScreenMap[device->sysName()] < screens()->count()) {
+        id = m_touchDeviceToScreenMap[device->sysName()];
     }
     if (id == -1 && !device->outputName().isEmpty()) {
         // we have an output name, try to find a screen with matching name

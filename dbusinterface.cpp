@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwinadaptor.h"
 #include "scene.h"
 #include "workspace.h"
+#include "libinput/connection.h"
 #include "wayland_server.h"
 #include <KWayland/Server/seat_interface.h>
 #include "log.h"
@@ -212,6 +213,16 @@ void DBusInterface::nextDesktop()
 void DBusInterface::previousDesktop()
 {
     VirtualDesktopManager::self()->moveTo<DesktopPrevious>();
+}
+
+void DBusInterface::setTouchDeviceToScreenId(const QString &touchDeviceSysName, int screenId)
+{
+    LibInput::Connection::self()->setTouchDeviceToScreenId(touchDeviceSysName, screenId);
+}
+
+QString DBusInterface::getTouchDeviceToScreenInfo()
+{
+    return LibInput::Connection::self()->getTouchDeviceToScreenInfo();
 }
 
 void DBusInterface::showDebugConsole()

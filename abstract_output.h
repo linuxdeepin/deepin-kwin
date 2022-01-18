@@ -145,6 +145,8 @@ public:
         Q_UNUSED(enable);
     }
 
+    QByteArray getUuid();
+
     void setOriginalEdid(QByteArray edid);
 
     /**

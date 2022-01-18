@@ -39,6 +39,7 @@ public:
     QString name(int screen) const override;
     bool isInternal(int screen) const;
     QSizeF physicalSize(int screen) const;
+    QByteArray uuid(int screen) const;
     QRect geometry(int screen) const override;
     QSize size(int screen) const override;
     qreal scale(int screen) const override;

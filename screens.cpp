@@ -229,6 +229,11 @@ QSizeF Screens::physicalSize(int screen) const
     return QSizeF(size(screen)) / 3.8;
 }
 
+QByteArray Screens::uuid(int screen) const
+{
+    return QByteArray();
+}
+
 bool Screens::isInternal(int screen) const
 {
     Q_UNUSED(screen)

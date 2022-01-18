@@ -196,6 +196,11 @@ void AbstractOutput::setOriginalEdid(QByteArray edid)
     m_waylandOutputDevice->setEdid(edid);
 }
 
+QByteArray AbstractOutput::getUuid()
+{
+    return m_waylandOutputDevice->uuid();
+}
+
 void AbstractOutput::initWaylandOutputDevice(const QString &model,
                                              const QString &manufacturer,
                                              const QByteArray &uuid,
