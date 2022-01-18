@@ -30,6 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMutex>
 #include <QVector>
 #include <QStringList>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 class QSocketNotifier;
 class QThread;
@@ -60,6 +63,10 @@ public:
      * the screen data.
      **/
     void setScreenSize(const QSize &size);
+
+    void setTouchDeviceToScreenId(const QString &touchDeviceSysName, int screenId);
+
+    QString getTouchDeviceToScreenInfo();
 
     void updateScreens();
 
@@ -171,6 +178,7 @@ private:
     KSharedConfigPtr m_config;
     bool m_touchpadsEnabled = true;
     Xkb::LEDs m_leds;
+    QMap<QString, int> m_touchDeviceToScreenMap;
 
     KWIN_SINGLETON(Connection)
     static QPointer<QThread> s_thread;

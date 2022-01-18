@@ -79,5 +79,12 @@
       <arg type="b" direction="in"/>
     </method>
     <method name="dumpOutputBuffer"/>
+    <method name="setTouchDeviceToScreenId">
+      <arg name="touchDeviceSysName" type="s" direction="in"/>
+      <arg name="screenId" type="i" direction="in"/>
+    </method>
+    <method name="getTouchDeviceToScreenInfo">
+        <arg type="s" direction="out"/>
+    </method>
   </interface>
 </node>

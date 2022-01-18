@@ -48,6 +48,15 @@ QString OutputScreens::name(int screen) const
     return enOuts.at(screen)->name();
 }
 
+QByteArray OutputScreens::uuid(int screen) const
+{
+    const auto enOuts = m_platform->enabledOutputs();
+    if (screen >= enOuts.size()) {
+        return Screens::uuid(screen);
+    }
+    return enOuts.at(screen)->getUuid();
+}
+
 bool OutputScreens::isInternal(int screen) const
 {
     const auto enOuts = m_platform->enabledOutputs();
