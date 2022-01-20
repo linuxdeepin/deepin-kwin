@@ -2303,8 +2303,10 @@ KWayland::Server::XdgShellSurfaceInterface::States ShellClient::xdgSurfaceStates
 void ShellClient::doMinimize()
 {
     if (isMinimized()) {
+        cancelSplitOutline();
         workspace()->clientHidden(this);
     } else {
+        handlequickTileModeChanged();
         emit windowShown(this);
     }
     workspace()->updateMinimizedOfTransients(this);
