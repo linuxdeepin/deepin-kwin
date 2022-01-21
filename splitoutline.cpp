@@ -37,6 +37,9 @@ namespace KWin
         , m_desktop(desktop)
     {
         setWindowFlags(Qt::X11BypassWindowManagerHint);
+        if (waylandServer()) {
+            setWindowFlags(Qt::FramelessWindowHint);
+        }
         setWindowOpacity(0);
         setCustomCursor(CURSOR_L_R);
         updateWorkspaceArea();
