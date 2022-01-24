@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "toplevel.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "useractions.h"
 #include "decorations/decoratedclient.h"
 // KDecoration
 #include <KDecoration2/Decoration>
@@ -38,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QWindow>
 #include <QTimer>
 
-#define LONGTOUCHPRESSTIME 1000
+#define LONGTOUCHPRESSTIME 1500
 #define LONGTOUCHPRESSIGNOREMOTION 2
 
 namespace KWin
@@ -204,6 +205,9 @@ void TouchInputRedirection::processDown(qint32 id, const QPointF &pos, quint32 t
     }
     input()->processSpies(std::bind(&InputEventSpy::touchDown, std::placeholders::_1, id, pos, time));
     input()->processFilters(std::bind(&InputEventFilter::touchDown, std::placeholders::_1, id, pos, time));
+    if (workspace()->userActionsMenu()->isShown()) {
+        const_cast<UserActionsMenu*>(workspace()->userActionsMenu())->handleClick(m_lastPosition.toPoint());
+    }
     m_windowUpdatedInCycle = false;
 }
 
