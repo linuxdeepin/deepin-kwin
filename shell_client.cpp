@@ -752,7 +752,7 @@ void ShellClient::doSetGeometry(const QRect &rect)
         addWorkspaceRepaint(visibleRect());
     }
     syncGeometryToInternalWindow();
-    if (hasStrut()) {
+    if (hasStrut() || isSplitscreen()) {
         workspace()->updateClientArea();
     }
     const auto old = geometryBeforeUpdateBlocking();
