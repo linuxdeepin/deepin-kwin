@@ -17,14 +17,16 @@ namespace KWin
 
 void HideCursorSpy::pointerEvent(MouseEvent *event)
 {
-    Q_UNUSED(event)
-    showCursor();
+    if (event->device()) {
+        showCursor();
+    }
 }
 
 void HideCursorSpy::wheelEvent(KWin::WheelEvent *event)
 {
-    Q_UNUSED(event)
-    showCursor();
+    if (event->device()) {
+        showCursor();
+    }
 }
 
 void HideCursorSpy::touchDown(qint32 id, const QPointF &pos, quint32 time)
