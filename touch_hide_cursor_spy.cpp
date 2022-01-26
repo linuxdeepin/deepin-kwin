@@ -20,20 +20,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "touch_hide_cursor_spy.h"
 #include "main.h"
 #include "platform.h"
+#include "input_event.h"
+
 
 namespace KWin
 {
 
 void TouchHideCursorSpy::pointerEvent(MouseEvent *event)
 {
-    Q_UNUSED(event)
-    showCursor();
+    if (event->device()) {
+        showCursor();
+    }
 }
 
 void TouchHideCursorSpy::wheelEvent(KWin::WheelEvent *event)
 {
-    Q_UNUSED(event)
-    showCursor();
+    if (event->device()) {
+        showCursor();
+    }
 }
 
 void TouchHideCursorSpy::touchDown(quint32 id, const QPointF &pos, quint32 time)
