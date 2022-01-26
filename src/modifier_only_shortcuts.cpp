@@ -12,6 +12,8 @@
 #include "screenlockerwatcher.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "kwineffects.h"
+#include "effects.h"
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -31,7 +33,7 @@ ModifierOnlyShortcuts::~ModifierOnlyShortcuts() = default;
 
 void ModifierOnlyShortcuts::keyEvent(KeyEvent *event)
 {
-    if (event->isAutoRepeat()) {
+    if (event->isAutoRepeat() || (effects != nullptr && static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab())) {
         return;
     }
     if (event->type() == QEvent::KeyPress) {
