@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "options.h"
 #include "screenlockerwatcher.h"
 #include "workspace.h"
+#include "kwineffects.h"
+#include "effects.h"
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -41,7 +43,7 @@ ModifierOnlyShortcuts::~ModifierOnlyShortcuts() = default;
 
 void ModifierOnlyShortcuts::keyEvent(KeyEvent *event)
 {
-    if (event->isAutoRepeat()) {
+    if (event->isAutoRepeat() || static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
         return;
     }
     if (event->type() == QEvent::KeyPress) {
