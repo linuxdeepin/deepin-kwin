@@ -128,6 +128,8 @@ public:
      * @see findClient(std::function<bool (const Client*)>)
      */
     Client *findClient(Predicate predicate, xcb_window_t w) const;
+    ShellClient *findShellClient(quint32 window) const;
+
     void forEachClient(std::function<void (Client*)> func);
     void forEachAbstractClient(std::function<void (AbstractClient*)> func);
     Unmanaged *findUnmanaged(std::function<bool (const Unmanaged*)> func) const;

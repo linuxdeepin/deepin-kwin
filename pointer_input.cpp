@@ -568,6 +568,8 @@ void PointerInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl 
     QCoreApplication::instance()->sendEvent(now->decoration(), &event);
     now->client()->processDecorationMove(pos.toPoint(), m_pos.toPoint());
 
+    if (decoration() == nullptr || decoration()->client() == nullptr)
+        return;
     m_decorationGeometryConnection = connect(decoration()->client(), &AbstractClient::geometryChanged, this,
         [this] {
             // ensure maximize button gets the leave event when maximizing/restore a window, see BUG 385140
