@@ -381,6 +381,13 @@ void Workspace::raiseClient(AbstractClient* c, bool nogroup)
     if (!c)
         return;
 
+    if (waylandServer()) {
+        const auto clients = waylandServer()->clients();
+        if (!clients.isEmpty() && clients.last()->isDragWindow()) {
+            return;
+        }
+    }
+
     c->cancelAutoRaise();
 
     StackingUpdatesBlocker blocker(this);
