@@ -174,6 +174,7 @@ public Q_SLOTS:
     void bufferSwapComplete();
 
 Q_SIGNALS:
+    void compositingSetup();
     void compositingToggled(bool active);
     void aboutToDestroy();
     void aboutToToggleCompositing();
