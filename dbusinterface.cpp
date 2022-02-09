@@ -338,6 +338,7 @@ CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     , m_compositor(parent)
 {
     connect(m_compositor, &Compositor::compositingToggled, this, &CompositorDBusInterface::compositingToggled);
+    connect(m_compositor, &Compositor::compositingSetup, this, &CompositorDBusInterface::compositingSetup);
     new CompositingAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject(QStringLiteral("/Compositor"), this);

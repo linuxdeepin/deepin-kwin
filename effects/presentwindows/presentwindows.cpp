@@ -45,6 +45,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector2D>
 #include <QVector4D>
 #include <QScreen>
+
+#define WATERMARK_CLASS_NAME "deepin-watermark-dbus"
+
 namespace KWin
 {
 
@@ -285,6 +288,9 @@ void PresentWindowsEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &d
             effects->prePaintWindow(w, data, time);
             return;
         }
+        if (w->windowClass().contains(WATERMARK_CLASS_NAME)) {
+            winData->visible = true;
+        }
         w->enablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);   // Display always
         w->enablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
         if (winData->visible)
@@ -302,12 +308,18 @@ void PresentWindowsEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &d
             winData->opacity = qMax(0.0, winData->opacity - time / m_fadeDuration);
         if (winData->opacity <= 0.0) {
             // don't disable painting for panels if show panel is set
-            if (!(m_showPanel && w->isDock()))
-                w->disablePainting(EffectWindow::PAINT_DISABLED);
+            if (!(m_showPanel && w->isDock())) {
+                if (!w->windowClass().contains(WATERMARK_CLASS_NAME)) {
+                    w->disablePainting(EffectWindow::PAINT_DISABLED);
+                }
+            }
         } else if (winData->opacity != 1.0)
             data.setTranslucent();
 
-        const bool isInMotion = m_motionManager.isManaging(w);
+        bool isInMotion = m_motionManager.isManaging(w);
+        if (w->windowClass().contains(WATERMARK_CLASS_NAME)) {
+            isInMotion = true;
+        }
         // Calculate window's brightness
         if (w == m_highlightedWindow || w == m_closeWindow || !m_activated)
             winData->highlight = qMin(1.0, winData->highlight + time / m_fadeDuration);
@@ -316,6 +328,9 @@ void PresentWindowsEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &d
         else
             winData->highlight = qMax(0.0, winData->highlight - time / m_fadeDuration);
 
+        if (w->windowClass().contains(WATERMARK_CLASS_NAME)) {
+            winData->highlight = 0;
+        }
         // Closed windows
         if (winData->deleted) {
             data.setTranslucent();
@@ -356,6 +371,10 @@ void PresentWindowsEffect::paintWindow(EffectWindow *w, int mask, QRegion region
         data.multiplyOpacity(winData->opacity);
         data.multiplyBrightness(interpolate(0.40, 1.0, winData->highlight));
 
+        if (w->windowClass().contains(WATERMARK_CLASS_NAME)) {
+            effects->paintWindow(w, mask, region, data);
+            return;
+        }
         if (m_motionManager.isManaging(w)) {
             if (w->isDesktop()) {
                 effects->paintWindow(w, mask, region, data);
@@ -1755,7 +1774,7 @@ void PresentWindowsEffect::setHighlightedWindow(EffectWindow *w)
     }
     m_highlightedWindow = w;
     if (m_highlightedWindow) {
-        effects->setElevatedWindow(m_highlightedWindow, true);
+        effects->setElevatedWindow(m_highlightedWindow, false);
         m_highlightedWindow->addRepaintFull(); // Trigger the first repaint
     }
 

@@ -183,6 +183,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void compositingToggled(bool active);
+    void compositingSetup();
 
 private:
     Compositor *m_compositor;
