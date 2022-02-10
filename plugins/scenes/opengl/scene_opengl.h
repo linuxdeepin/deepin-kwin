@@ -82,6 +82,7 @@ public:
 
     QVector<QByteArray> openGLPlatformInterfaceExtensions() const override;
     bool setDamageRegion(QRegion region) override;
+    QSharedPointer<GLTexture> textureForOutput(AbstractOutput *output) const override;
 
     static SceneOpenGL *createScene(QObject *parent);
 
@@ -152,6 +153,7 @@ public:
     virtual ~Window();
     bool beginRenderWindow(int mask, const QRegion &region, WindowPaintData &data);
     virtual void performPaint(int mask, QRegion region, WindowPaintData data) = 0;
+    virtual QSharedPointer<GLTexture> windowTexture() = 0;
     void endRenderWindow();
     bool bindTexture();
     void setScene(SceneOpenGL *scene) {
@@ -210,7 +212,8 @@ protected:
     QVector4D modulate(float opacity, float brightness) const;
     void setBlendEnabled(bool enabled);
     void setupLeafNodes(LeafNode *nodes, const WindowQuadList *quads, const WindowPaintData &data);
-    virtual void performPaint(int mask, QRegion region, WindowPaintData data);
+    virtual void performPaint(int mask, QRegion region, WindowPaintData data) override;
+    QSharedPointer<GLTexture> windowTexture() override;
 
 private:
     void renderSubSurface(GLShader *shader, const QMatrix4x4 &mvp, const QMatrix4x4 &windowMatrix, OpenGLWindowPixmap *pixmap, const QRegion &region, bool hardwareClipping);

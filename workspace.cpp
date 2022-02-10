@@ -1910,6 +1910,13 @@ Toplevel *Workspace::findToplevel(std::function<bool (const Toplevel*)> func) co
     return nullptr;
 }
 
+Toplevel *Workspace::findToplevel(const QUuid &internalId) const
+{
+    return findToplevel([internalId] (const KWin::Toplevel* l) -> bool {
+        return internalId == l->internalId();
+    });
+}
+
 Toplevel *Workspace::findToplevel(QWindow *w) const
 {
     if (!w) {

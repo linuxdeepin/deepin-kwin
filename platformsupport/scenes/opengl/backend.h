@@ -34,6 +34,8 @@ class SceneOpenGL;
 class SceneOpenGLTexture;
 class SceneOpenGLTexturePrivate;
 class WindowPixmap;
+class GLTexture;
+class AbstractOutput;
 
 /**
  * @brief The OpenGLBackend creates and holds the OpenGL context and is responsible for Texture from Pixmap.
@@ -218,6 +220,8 @@ public:
      * Copy a region of pixels from the current read to the current draw buffer
      */
     void copyPixels(const QRegion &region);
+
+    virtual QSharedPointer<GLTexture> textureForOutput(AbstractOutput *requestedOutput) const;
 
 protected:
     /**

@@ -18,6 +18,7 @@ if(HAVE_GBM)
         drm_buffer_gbm.cpp
         gbm_surface.cpp
         remoteaccess_manager.cpp
+        gbm_dmabuf.cpp
     )
 endif()
 
