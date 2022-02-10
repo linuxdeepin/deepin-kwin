@@ -1,3 +1,19 @@
+kwin (4:5.15.10.9-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 109715, 110133 fix: Wrong position of split screen splicing strip.
+    + 109721 fix: In the wayland platform, the client in the left and right dichotomous screen does not handle the splitOutline when performing the minimization operation.
+    + 109973 fix: Wayland platform separator title bar needs to be hidden.
+    + 107763 fix: Trigger split screen without split screen prompt dynamic effect.
+    + 107298 fix: stop trigger inner shortcuts of kwin when effects already grabed keyboard.
+    + 109640 fix: the splitmenu is not available on wayland platform.
+    + 111442 fix: show cursor when event is actually from libinput device.
+    + 111294 fix: add user action menu click when touch down.
+    + 111217 fix: disable multitasking on wayland platform.
+    + 107385 fix: cannot restore window when split screen.
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 10 Feb 2022 15:11:51 +0800
+
 kwin (4:5.15.10.8-1) unstable; urgency=medium
 
   * Bug fix:
