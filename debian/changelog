@@ -1,3 +1,11 @@
+kwin (4:5.15.10.11-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 109804 fix: In split screen mode, the right-click menu is always in the visible area and should not take effect.
+    + 113173 fix: When 3D is switched to 2D, the window tube crashes.
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 15 Feb 2022 18:38:17 +0800
+
 kwin (4:5.15.10.9-1) unstable; urgency=medium
 
   * Bug fix:
