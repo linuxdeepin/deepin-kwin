@@ -43,7 +43,7 @@ ModifierOnlyShortcuts::~ModifierOnlyShortcuts() = default;
 
 void ModifierOnlyShortcuts::keyEvent(KeyEvent *event)
 {
-    if (event->isAutoRepeat() || static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
+    if (event->isAutoRepeat() || (effects != nullptr && static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab())) {
         return;
     }
     if (event->type() == QEvent::KeyPress) {
