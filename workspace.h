@@ -297,6 +297,9 @@ private:
 
 public:
 
+    void handleReleaseMouseCommond();
+    void setClientHandleMouseCommond(AbstractClient* c);
+    AbstractClient* clientHandleMouseCommond() const { return m_clientHandlingMouseCommond; };
     bool isDragingWithContent()const {return m_ClientDragingWithContent;}
 
     bool isOnCurrentHead();
@@ -770,6 +773,8 @@ private:
     bool m_kwinDebug = false;
     bool m_printKwinFps = false;
     bool m_dumpOutputBuffer = false;
+
+    AbstractClient* m_clientHandlingMouseCommond;
 
 private:
     friend bool performTransiencyCheck();

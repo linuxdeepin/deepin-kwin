@@ -337,6 +337,7 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
     input()->processSpies(std::bind(&InputEventSpy::pointerEvent, std::placeholders::_1, &event));
 
     if (!inited()) {
+        workspace()->handleReleaseMouseCommond();
         return;
     }
 
