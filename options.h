@@ -228,7 +228,7 @@ public:
 
       </ul>
      */
-    enum FocusPolicy { ClickToFocus, FocusFollowsMouse, FocusUnderMouse, FocusStrictlyUnderMouse };
+    enum FocusPolicy { ClickToFocus, FocusFollowsMouse, FocusUnderMouse, FocusStrictlyUnderMouse, ButtonReleaseToFocus };
     FocusPolicy focusPolicy() const {
         return m_focusPolicy;
     }
