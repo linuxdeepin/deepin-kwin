@@ -1,3 +1,10 @@
+kwin (4:5.15.10.12-1) unstable; urgency=medium
+
+  * Bug fix.
+    + 111765 fix: default stack memory capacity
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 22 Feb 2022 18:35:53 +0800
+
 kwin (4:5.15.10.11-1) unstable; urgency=medium
 
   * Bug fix:
