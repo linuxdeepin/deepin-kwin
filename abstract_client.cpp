@@ -1242,23 +1242,12 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         screens()->setCurrent(globalPos);
         replay = replay || !rules()->checkAcceptFocus(acceptsFocus());
         break;
-    case Options::MouseActivateRaiseAndPassClick:{
-        if(options->focusPolicy() == Options::ClickToFocus) {
-            qCDebug(KWIN_CORE)<<">>>>>> ClickToFocus";
-            workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
-            screens()->setCurrent(globalPos);
-            replay = true;
-            workspace()->setMouseRaised(true);
-        }
-        if(options->focusPolicy() == Options::ButtonReleaseToFocus) {
-            qCDebug(KWIN_CORE)<<">>>>>> ButtonReleaseToFocus";
-            workspace()->setClientHandleMouseCommond(this);
-            screens()->setCurrent(globalPos);
-            replay = true;
-        }
-
+    case Options::MouseActivateRaiseAndPassClick:
+        workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
+        screens()->setCurrent(globalPos);
+        replay = true;
+        workspace()->setMouseRaised(true);
         break;
-    }
     case Options::MouseActivateAndPassClick:
         workspace()->takeActivity(this, Workspace::ActivityFocus);
         screens()->setCurrent(globalPos);
@@ -2021,7 +2010,7 @@ void AbstractClient::setDecoratedClient(QPointer< Decoration::DecoratedClientImp
 void AbstractClient::enterEvent(const QPoint &globalPos)
 {
     // TODO: shade hover
-    if (options->focusPolicy() == Options::ClickToFocus || options->focusPolicy() == Options::ButtonReleaseToFocus|| workspace()->userActionsMenu()->isShown())
+    if (options->focusPolicy() == Options::ClickToFocus || workspace()->userActionsMenu()->isShown())
         return;
 
     if (options->isAutoRaise() && !isDesktop() &&
