@@ -508,7 +508,6 @@ bool Client::windowEvent(xcb_generic_event_t *e)
         break;
     case XCB_BUTTON_PRESS: {
         const auto *event = reinterpret_cast<xcb_button_press_event_t*>(e);
-        qCDebug(KWIN_CORE) <<">>>>>> XCB_BUTTON_PRESS "<< event->detail;
         updateUserTime(event->time);
         buttonPressEvent(event->event, event->detail, event->state,
                          event->event_x, event->event_y, event->root_x, event->root_y, event->time);
@@ -521,7 +520,6 @@ bool Client::windowEvent(xcb_generic_event_t *e)
         break;
     case XCB_BUTTON_RELEASE: {
         const auto *event = reinterpret_cast<xcb_button_release_event_t*>(e);
-        qCDebug(KWIN_CORE) <<">>>>>> XCB_BUTTON_RELEASE"<< event->detail;;
         // don't update user time on releases
         // e.g. if the user presses Alt+F2, the Alt release
         // would appear as user input to the currently active window
@@ -1427,9 +1425,7 @@ bool Unmanaged::windowEvent(xcb_generic_event_t *e)
         // It's of course still possible that we miss the destroy in which case non-fatal
         // X errors are reported to the event loop and logged by Qt.
         m_scheduledRelease = true;
-
         QTimer::singleShot(1, this, SLOT(release()));
-        
         break;
     }
     case XCB_CONFIGURE_NOTIFY:

@@ -88,7 +88,7 @@ int Options::currentRefreshRate()
 Options::Options(QObject *parent)
     : QObject(parent)
     , m_settings(new Settings(kwinApp()->config()))
-    , m_focusPolicy(ButtonReleaseToFocus)
+    , m_focusPolicy(ClickToFocus)
     , m_nextFocusPrefersMouse(false)
     , m_clickRaise(false)
     , m_autoRaise(false)
@@ -165,7 +165,7 @@ void Options::setFocusPolicy(FocusPolicy focusPolicy)
     }
     m_focusPolicy = focusPolicy;
     emit focusPolicyChanged();
-    if (m_focusPolicy == ClickToFocus || m_focusPolicy == ButtonReleaseToFocus) {
+    if (m_focusPolicy == ClickToFocus) {
         setAutoRaise(false);
         setAutoRaiseInterval(0);
         setDelayFocusInterval(0);
@@ -196,7 +196,7 @@ void Options::setClickRaise(bool clickRaise)
 
 void Options::setAutoRaise(bool autoRaise)
 {
-    if (m_focusPolicy == ClickToFocus  || m_focusPolicy == ButtonReleaseToFocus) {
+    if (m_focusPolicy == ClickToFocus) {
         autoRaise = false;
     }
     if (m_autoRaise == autoRaise) {
@@ -212,7 +212,7 @@ void Options::setAutoRaise(bool autoRaise)
 
 void Options::setAutoRaiseInterval(int autoRaiseInterval)
 {
-    if (m_focusPolicy == ClickToFocus  || m_focusPolicy == ButtonReleaseToFocus) {
+    if (m_focusPolicy == ClickToFocus) {
         autoRaiseInterval = 0;
     }
     if (m_autoRaiseInterval == autoRaiseInterval) {
@@ -224,7 +224,7 @@ void Options::setAutoRaiseInterval(int autoRaiseInterval)
 
 void Options::setDelayFocusInterval(int delayFocusInterval)
 {
-    if (m_focusPolicy == ClickToFocus  || m_focusPolicy == ButtonReleaseToFocus) {
+    if (m_focusPolicy == ClickToFocus) {
         delayFocusInterval = 0;
     }
     if (m_delayFocusInterval == delayFocusInterval) {

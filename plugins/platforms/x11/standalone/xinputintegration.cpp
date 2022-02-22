@@ -72,7 +72,6 @@ public:
                 // if we want to use also for global mouse shortcuts, this needs to reflect state correctly
                 case XCB_BUTTON_INDEX_1:
                     kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, e->time);
-                    qCDebug(KWIN_X11STANDALONE) <<">>>>>> XI_RawButtonPress 1";
                     break;
                 case XCB_BUTTON_INDEX_2:
                     kwinApp()->platform()->pointerButtonPressed(BTN_MIDDLE, e->time);
@@ -98,7 +97,6 @@ public:
                 // if we want to use also for global mouse shortcuts, this needs to reflect state correctly
                 case XCB_BUTTON_INDEX_1:
                     kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, e->time);
-                    qCDebug(KWIN_X11STANDALONE) <<">>>>>> XI_RawButtonRelease 1";
                     break;
                 case XCB_BUTTON_INDEX_2:
                     kwinApp()->platform()->pointerButtonReleased(BTN_MIDDLE, e->time);
