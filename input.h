@@ -294,7 +294,8 @@ public Q_SLOTS:
     void touchDown();
     void touchMotion();
     void touchEnd();
-
+    void buttonRelease();
+    void motion();
 private:
     void setupLibInput();
     void setupTouchpadShortcuts();

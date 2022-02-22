@@ -71,12 +71,32 @@ void RecordEventMonitor::handleRecordEvent(XRecordInterceptData* data)
     if (data->category == XRecordFromServer) {
         xEvent * event = (xEvent *)data->data;
         switch (event->u.u.type) {
+        case ButtonRelease:
+            if (m_bFlag) {
+                emit buttonRelease();
+            }
+            break;
+        case MotionNotify:
+            if (m_bFlag) {
+                emit motion();
+            }
+            break;
+        case CreateNotify:
+            // ButtonRelease and MotionNotify will also be triggered when using the mouse,
+            // so use CreateNotify to distinguish the event.
+            // When using a TabletTool device, this event is raised first,
+            // and This event is raised when the TabletTool device is left.
+            m_bFlag = !m_bFlag;
+            break;
         case TOUCHDOWN:
             // sometimes, xrecord extend will get repeated touch down event(maybe send to the real client).
             // but, those touch down event is belong to same ancestors.
             // so, if you need, you can use (event->u.keyButtonPointer.time)
             // to filter out the repeated touh down event.
-            emit touchDown();
+            if (m_evnetTime != event->u.keyButtonPointer.time) {
+                emit touchDown();
+                m_evnetTime = event->u.keyButtonPointer.time;
+            }
             break;
         case TOUCHMOTION:
             emit touchMotion();

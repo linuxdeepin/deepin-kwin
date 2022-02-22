@@ -2012,6 +2012,8 @@ InputRedirection::InputRedirection(QObject *parent)
         connect(pEventMonitor, &RecordEventMonitor::touchDown, this, &InputRedirection::touchDown);
         connect(pEventMonitor, &RecordEventMonitor::touchUp, this, &InputRedirection::touchEnd);
         connect(pEventMonitor, &RecordEventMonitor::touchMotion, this, &InputRedirection::touchMotion);
+        connect(pEventMonitor, &RecordEventMonitor::buttonRelease, this, &InputRedirection::buttonRelease);
+        connect(pEventMonitor, &RecordEventMonitor::motion, this, &InputRedirection::motion);
         pEventMonitor->start();
     }
     connect(kwinApp(), &Application::workspaceCreated, this, &InputRedirection::setupWorkspace);
@@ -2324,6 +2326,25 @@ void InputRedirection::touchEnd()
     touchMovingClient->endMoveResize();
     workspace()->setRequestToMovingClient(nullptr);
     workspace()->setTouchToMovingClientStatus(false);
+}
+
+void InputRedirection::buttonRelease()
+{
+    AbstractClient *movingClient = workspace()->getRequestToMovingClient();
+    if (!movingClient) {
+        return;
+    }
+    movingClient->endMoveResize();
+    workspace()->setRequestToMovingClient(nullptr);
+}
+
+void InputRedirection::motion()
+{
+    AbstractClient *movingClient = workspace()->getRequestToMovingClient();
+    if (!movingClient) {
+        return;
+    }
+    movingClient->updateMoveResize(QCursor::pos());
 }
 
 void InputRedirection::setupLibInput()
