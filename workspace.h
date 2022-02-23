@@ -557,6 +557,8 @@ public Q_SLOTS:
     void qtactivecolorChanged();
     void screensChanged();
 
+    void captureWindowImage(int windowId, wl_resource *buffer);
+
 private Q_SLOTS:
     void desktopResized();
     void selectWmInputEventMask();

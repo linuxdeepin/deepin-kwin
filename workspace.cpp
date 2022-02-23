@@ -58,6 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "was_user_interaction_x11_filter.h"
 #include "wayland_server.h"
 #include "surface_interface.h"
+#include "buffer_interface.h"
 #include "xcbutils.h"
 #include "main.h"
 #include "decorations/decorationbridge.h"
@@ -434,6 +435,31 @@ void Workspace::updateWindowStates()
             clientmanagement->setWindowStates(m_windowStates);
         }
     }
+}
+
+void Workspace::captureWindowImage(int windowId, wl_resource *buffer)
+{
+    KWayland::Server::ClientManagementInterface *clientmanagement = nullptr;
+    if (waylandServer()) {
+        clientmanagement = waylandServer()->clientManagement();
+    }
+    if (!clientmanagement) {
+        return;
+    }
+
+    foreach (Toplevel *win, stacking_order) {
+        AbstractClient *client = qobject_cast<AbstractClient *>(win);
+        if (!client || m_allClients.indexOf(client) < 0) {
+            continue;
+        }
+
+        if (windowId == client->windowId()) {
+            clientmanagement->sendWindowCaption(windowId, buffer, client->surface());
+            return;
+        }
+    }
+
+    clientmanagement->sendWindowCaption(windowId, buffer, nullptr);
 }
 
 void Workspace::initWithX11()

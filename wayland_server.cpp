@@ -408,6 +408,15 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
             workspace()->updateWindowStates();
         }
     );
+    connect(m_clientManagement, &ClientManagementInterface::captureWindowImageRequest, this,
+        [this] (int windowId, wl_resource *buffer) {
+            if (!workspace()) {
+                qWarning () << __func__ << " workspace not initilized windowId " << windowId;
+                return;
+            }
+            workspace()->captureWindowImage(windowId, buffer);
+        }
+    );
 
     m_ddeSeat = m_display->createDDESeat(m_display);
     m_ddeSeat->create();
