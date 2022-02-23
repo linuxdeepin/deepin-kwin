@@ -13,7 +13,7 @@
 #define SCALE_F     1.0
 #define SCALE_S     2.0
 #define WINDOW_W_H  300
-
+#define WATERMARK_CLASS_NAME "deepin-watermark-dbus"
 namespace KWin
 {
 
@@ -81,9 +81,11 @@ void SplitScreenEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data
         w->enablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);   // Display always
     }
     w->enablePainting(EffectWindow::PAINT_DISABLED);
-    if (!(w->isDock() || w->isDesktop() || isRelevantWithPresentWindows(w)) || m_unminWinlist.contains(w)) {
-        w->disablePainting(EffectWindow::PAINT_DISABLED);
-        w->disablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
+    if (!w->windowClass().contains(WATERMARK_CLASS_NAME)) {
+        if (!(w->isDock() || w->isDesktop() || isRelevantWithPresentWindows(w)) || m_unminWinlist.contains(w)) {
+            w->disablePainting(EffectWindow::PAINT_DISABLED);
+            w->disablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
+        }
     }
 
     effects->prePaintWindow(w, data, time);
@@ -92,6 +94,11 @@ void SplitScreenEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data
 void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
     if (!isActive()) {
+        effects->paintWindow(w, mask, region, data);
+        return;
+    }
+
+    if (w->windowClass().contains(WATERMARK_CLASS_NAME)) {
         effects->paintWindow(w, mask, region, data);
         return;
     }
