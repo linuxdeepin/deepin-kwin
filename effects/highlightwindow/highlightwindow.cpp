@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
 #include "highlightwindow.h"
-
+#define WATERMARK_CLASS_NAME "deepin-watermark-dbus deepin-watermark-dbus"
 namespace KWin
 {
 
@@ -88,7 +88,9 @@ void HighlightWindowEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& 
             opacity = m_windowOpacity.end();
         }
     }
-
+    if (w->windowClass() == WATERMARK_CLASS_NAME) {
+        w->enablePainting(EffectWindow::PAINT_DISABLED);
+    }
     // Show tabbed windows and windows on other desktops if highlighted
     if (opacity != m_windowOpacity.end() && *opacity > 0.01) {
         if (w->isMinimized())
@@ -104,6 +106,11 @@ void HighlightWindowEffect::prePaintWindow(EffectWindow* w, WindowPrePaintData& 
 
 void HighlightWindowEffect::paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data)
 {
+    if ((w->windowClass() == WATERMARK_CLASS_NAME) && !m_finishing) {
+        effects->setElevatedWindow(w, true);
+        effects->paintWindow(w, mask, region, data);
+        return;
+    }
     data.multiplyOpacity(m_windowOpacity.value(w, 1.0f));
     effects->paintWindow(w, mask, region, data);
 }
@@ -256,6 +263,12 @@ void HighlightWindowEffect::prepareHighlighting()
 
 void HighlightWindowEffect::finishHighlighting()
 {
+    for (const auto w : effects->stackingOrder()) {
+        if (w->windowClass() == WATERMARK_CLASS_NAME) {
+            effects->setElevatedWindow(w, false);
+            break;
+        }
+    }
     m_finishing = true;
     m_monitorWindow = NULL;
     m_highlightedWindows.clear();
