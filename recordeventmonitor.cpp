@@ -21,6 +21,9 @@
 #include "recordeventmonitor.h"
 #include <X11/Xlibint.h>
 
+// The PROXIMITYIN and PROXIMITYOUT enumeration value is the same as the event enumeration value in the EventToCore function in xorg.
+#define PROXIMITYIN     15
+#define PROXIMITYOUT    16
 # define TOUCHDOWN      (LASTEvent + 1)
 # define TOUCHMOTION    (LASTEvent + 2)
 # define TOUCHUP        (LASTEvent + 3)
@@ -81,12 +84,13 @@ void RecordEventMonitor::handleRecordEvent(XRecordInterceptData* data)
                 emit motion();
             }
             break;
-        case CreateNotify:
-            // ButtonRelease and MotionNotify will also be triggered when using the mouse,
-            // so use CreateNotify to distinguish the event.
-            // When using a TabletTool device, this event is raised first,
-            // and This event is raised when the TabletTool device is left.
-            m_bFlag = !m_bFlag;
+        case PROXIMITYIN:
+            // When using a TabletTool device, this event is raised first
+            m_bFlag = true;
+            break;
+        case PROXIMITYOUT:
+            // This event is raised when the TabletTool device is left.
+            m_bFlag = false;
             break;
         case TOUCHDOWN:
             // sometimes, xrecord extend will get repeated touch down event(maybe send to the real client).
