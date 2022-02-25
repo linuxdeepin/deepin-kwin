@@ -30,6 +30,8 @@ public:
     void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time) override;
     void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
 
+    bool touchDown(quint32 id, const QPointF &pos, quint32 time) override;
+    bool touchUp(quint32 id, quint32 time) override;
     void windowInputMouseEvent(QEvent* e) override;
     void grabbedKeyboardEvent(QKeyEvent* e) override;
 
@@ -62,6 +64,7 @@ private:
 
 private:
     QRect m_geometry;
+    EffectWindow* targetTouchWindow = nullptr;
     EffectWindow *m_window = nullptr;
     EffectWindow *m_hoverwin = nullptr;
     EffectFrame  *m_highlightFrame = nullptr;

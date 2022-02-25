@@ -148,6 +148,40 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
     }
 }
 
+bool SplitScreenEffect::touchDown(quint32 id, const QPointF &pos, quint32 time)
+{
+    if (!m_activated)
+        return false;
+    targetTouchWindow = nullptr;
+    WindowMotionManager& wm = m_motionManagers[0];
+    for (const auto& w : wm.managedWindows()) {
+        auto geo = wm.transformedGeometry(w);
+        if (geo.contains(pos)) {
+            targetTouchWindow = w;
+            break;
+        }
+    }
+    if (targetTouchWindow) {
+        effects->setElevatedWindow(targetTouchWindow, true);
+        effects->addRepaintFull();
+    }
+    return true;
+}
+
+bool SplitScreenEffect::touchUp(quint32 id, quint32 time)
+{
+    if (!m_activated)
+        return false;
+    if (targetTouchWindow) {
+        effects->defineCursor(Qt::PointingHandCursor);
+        effects->setElevatedWindow(targetTouchWindow, false);
+        effects->activateWindow(targetTouchWindow);
+        effectsEx->setSplitWindow(targetTouchWindow, m_backgroundMode);
+    }
+    setActive(false);
+    return true;
+}
+
 void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
 {
     if (!m_activated)
