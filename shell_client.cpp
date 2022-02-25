@@ -737,6 +737,7 @@ void ShellClient::doSetGeometry(const QRect &rect)
                     workspace()->clientArea(MaximizeArea, this);
             if (isMaximizable() && (geom.size() == clientArea.size() || m_clientSize == clientArea.size())) {
                 maximize(MaximizeFull);
+                updateMaximizeMode(MaximizeFull);
             } else {
                 m_geomMaximizeRestore = geom;
             }
