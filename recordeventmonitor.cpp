@@ -46,7 +46,7 @@ void RecordEventMonitor::run()
 
     // In this, we just get touch event in a range.
     memset(pRange, 0, sizeof(XRecordRange));
-    pRange->device_events.first = TOUCHDOWN;
+    pRange->device_events.first = KeyPress;
     pRange->device_events.last  = TOUCHUP;
 
     XRecordContext context = XRecordCreateContext(pDisplay, 0, &clients, 1, &pRange, 1);
