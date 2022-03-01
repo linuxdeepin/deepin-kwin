@@ -1265,7 +1265,7 @@ void ShellClient::takeFocus()
         setActive(true);
     }
 
-    bool breakShowingDesktop = !keepAbove() && !isOnScreenDisplay();
+    bool breakShowingDesktop = true;
     if (breakShowingDesktop) {
         // check that it doesn't belong to the desktop
         const auto &clients = waylandServer()->clients();
