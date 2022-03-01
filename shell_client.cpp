@@ -458,6 +458,7 @@ void ShellClient::destroyClient()
 
 void ShellClient::deleteClient(ShellClient *c)
 {
+    workspace()->updateScreenSplitApp(c, true);
     delete c;
 }
 
