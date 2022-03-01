@@ -225,6 +225,7 @@ Client::~Client()
 // Use destroyClient() or releaseWindow(), Client instances cannot be deleted directly
 void Client::deleteClient(Client* c)
 {
+    workspace()->updateScreenSplitApp(c, true);
     delete c;
 }
 
