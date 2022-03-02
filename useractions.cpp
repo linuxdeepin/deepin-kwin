@@ -1291,6 +1291,23 @@ void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperati
     if (op == Options::MoveOp || op == Options::UnrestrictedMoveOp){
         if (c->windowForhibitMove())
             return;
+        QPoint posOffset(0,0);
+        if (c->geometry().center().x() > screens()->displaySize().width()) {
+            posOffset.setX(screens()->displaySize().width() - c->geometry().center().x());
+        } else if (c->geometry().center().x() < 0) {
+            posOffset.setX(0 - c->geometry().center().x());
+        }
+        if (c->geometry().center().y() < 0 || c->geometry().center().y() > screens()->displaySize().height()) {
+            posOffset.setY(screens()->displaySize().height() - c->geometry().center().y());
+        } else if (c->geometry().center().y() < 0) {
+            posOffset.setY(0 - c->geometry().center().x());
+        }
+        if (posOffset.x() != 0 || posOffset.y() != 0) {
+            QRect rect = c->geometry();
+            rect.moveTo(QPoint(c->geometry().x() + posOffset.x(), c->geometry().y() + posOffset.y()));
+            c->setMoveResizeGeometry(rect);
+            c->setGeometry(rect);
+        }
         Cursor::setPos(c->geometry().center());
     }
     if (op == Options::ResizeOp || op == Options::UnrestrictedResizeOp)
