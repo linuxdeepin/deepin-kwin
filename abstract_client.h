@@ -588,6 +588,10 @@ public:
     void enterEvent(const QPoint &globalPos);
     void leaveEvent();
 
+    void setMoveResizeGeometry(const QRect &geo) {
+        m_moveResize.geometry = geo;
+    }
+
     /**
      * These values represent positions inside an area
      */
@@ -1067,9 +1071,6 @@ protected:
     void updateInitialMoveResizeGeometry();
     QRect moveResizeGeometry() const {
         return m_moveResize.geometry;
-    }
-    void setMoveResizeGeometry(const QRect &geo) {
-        m_moveResize.geometry = geo;
     }
     Position moveResizePointerMode() const {
         return m_moveResize.pointer;
