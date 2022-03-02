@@ -680,8 +680,11 @@ Unmanaged* Workspace::createUnmanaged(xcb_window_t w)
         // The focusToNull used to cancel context menus, etc.
         focusToNull();
         foreach (auto u,unmanaged) {
-            if (u->isKeepAbove() && !u->fetchWindowForLockScreen())
-                xcb_unmap_window(connection(),u->window());
+            if (u->isKeepAbove() && !u->fetchWindowForLockScreen()) {
+                if (u->resourceName() != "deepin-watermark-dbus") {
+                    xcb_unmap_window(connection(),u->window());
+                }
+            }
         }
     }
     addUnmanaged(c);
