@@ -23,6 +23,3 @@ override_dh_auto_test:
 
 override_dh_gencontrol: l10npkgs_firstversion_ok
 	dh_gencontrol
-
-override_dh_auto_configure:
-	dh_auto_configure -- -DHUAWEI_KLU_PGV=1
