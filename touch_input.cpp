@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QWindow>
 #include <QTimer>
 
-#define LONGTOUCHPRESSTIME 1500
+#define LONGTOUCHPRESSTIME 1200
 #define LONGTOUCHPRESSIGNOREMOTION 2
 
 namespace KWin
@@ -234,9 +234,10 @@ void TouchInputRedirection::processMotion(qint32 id, const QPointF &pos, quint32
     if (!inited()) {
         return;
     }
-    if (abs(m_lastPosition.x() - pos.x()) > LONGTOUCHPRESSIGNOREMOTION || abs(m_lastPosition.y() - pos.y()) > LONGTOUCHPRESSIGNOREMOTION) {
-        m_timer->stop();
+    if (abs(m_lastPosition.x() - pos.x()) < LONGTOUCHPRESSIGNOREMOTION && abs(m_lastPosition.y() - pos.y()) < LONGTOUCHPRESSIGNOREMOTION) {
+        return;
     }
+    m_timer->stop();
     m_lastPosition = pos;
     m_windowUpdatedInCycle = false;
     input()->processSpies(std::bind(&InputEventSpy::touchMotion, std::placeholders::_1, id, pos, time));
