@@ -23,7 +23,7 @@
 #include <abstract_client.h>
 #include <kwinglutils.h>
 #include <effects.h>
-
+#define WATERMARK_CLASS_NAME "deepin-watermark-dbus deepin-watermark-dbus"
 namespace SplitConsts {
     const QEasingCurve TOGGLE_MODE =  QEasingCurve::OutExpo;// AnimationMode.EASE_OUT_Expo;
     static const int FADE_DURATION = 600;
@@ -107,9 +107,11 @@ void SplitHandlerEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &dat
     }
 
     w->enablePainting(EffectWindow::PAINT_DISABLED);
-    if (!(w->isDock() || w->isDesktop() || isRelevantWithPresentWindows(w)) || w->isMinimized()) {
-        w->disablePainting(EffectWindow::PAINT_DISABLED);
-        w->disablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
+    if (w->windowClass() != WATERMARK_CLASS_NAME) {
+        if (!(w->isDock() || w->isDesktop() || isRelevantWithPresentWindows(w)) || w->isMinimized()) {
+            w->disablePainting(EffectWindow::PAINT_DISABLED);
+            w->disablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
+        }
     }
 
     effects->prePaintWindow(w, data, time);
@@ -118,6 +120,11 @@ void SplitHandlerEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &dat
 void SplitHandlerEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
     if (!isActive()) {
+        effects->paintWindow(w, mask, region, data);
+        return;
+    }
+
+    if (w->windowClass() == WATERMARK_CLASS_NAME) {
         effects->paintWindow(w, mask, region, data);
         return;
     }
