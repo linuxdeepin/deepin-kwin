@@ -478,6 +478,9 @@ void WaylandServer::shellClientShown(Toplevel *t)
     }
     disconnect(c, &ShellClient::windowShown, this, &WaylandServer::shellClientShown);
     emit shellClientAdded(c);
+    if (c->checkClientAllowToTile()) {
+        c->setSplitable(true);
+    }
 }
 
 void WaylandServer::initWorkspace()

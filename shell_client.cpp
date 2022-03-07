@@ -1708,6 +1708,12 @@ void ShellClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
             setWindowRadius(windowRadius);
         }
     );
+    connect(m_ddeShellSurface, &KWayland::Server::DDEShellSurfaceInterface::splitWindowRequested, this,
+        [this] (KWayland::Server::DDEShellSurfaceInterface::SplitType type) {
+            cancelSplitOutline();
+            workspace()->setClientSplit(reinterpret_cast<AbstractClient*>(this), (int)type, true);
+        }
+    );
 }
 
 void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface)

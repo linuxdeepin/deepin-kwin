@@ -245,6 +245,12 @@ public:
         return m_clientMaxSize == QSize(0, 0) ? AbstractClient::maxSize() : m_clientMaxSize;
     }
 
+    void setSplitable(bool splitable) {
+        if (!m_ddeShellSurface)
+            return;
+        m_ddeShellSurface->sendSplitable(splitable);
+    }
+
 protected:
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const override;
