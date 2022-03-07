@@ -157,6 +157,7 @@ private:
     bool atomicReqModesetPopulate(drmModeAtomicReq *req, bool enable);
     void updateDpms(KWayland::Server::OutputInterface::DpmsMode mode) override;
     void updateMode(int modeIndex) override;
+    void updateColorCurves(KWayland::Server::OutputDeviceInterface::ColorCurves colorCurves);
     void setWaylandMode();
 
     void transform(KWayland::Server::OutputDeviceInterface::Transform transform) override;
@@ -164,6 +165,7 @@ private:
 
     int getGammaRampSize() const override;
     bool setGammaRamp(const ColorCorrect::GammaRamp &gamma) override;
+    const ColorCorrect::GammaRamp* getGammaRamp() override;
 
     DrmBackend *m_backend;
     DrmConnector *m_conn = nullptr;

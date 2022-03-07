@@ -53,6 +53,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <xf86drmMode.h>
 #include <libdrm/drm_mode.h>
 
+#include "colorcorrection/gammaramp.h"
+
 namespace KWin
 {
 DrmOutput::DrmOutput(DrmBackend *backend)
@@ -1064,6 +1066,24 @@ void DrmOutput::updateMode(int modeIndex)
     setWaylandMode();
 }
 
+void DrmOutput::updateColorCurves(KWayland::Server::OutputDeviceInterface::ColorCurves colorCurves)
+{
+    int size = getGammaRampSize();
+    if (colorCurves.red.size() != size || colorCurves.green.size() != size || colorCurves.blue.size() != size) {
+        qCCritical(KWIN_DRM) << __func__ << " colorCurves gamma size is error\n";
+        return;
+    }
+
+    ColorCorrect::GammaRamp gamma(size);
+    for (int i = 0; i < size; i++) {
+        gamma.red[i] = colorCurves.red[i];
+        gamma.green[i] = colorCurves.green[i];
+        gamma.blue[i] = colorCurves.blue[i];
+    }
+
+    setGammaRamp(gamma);
+}
+
 QSize DrmOutput::pixelSize() const
 {
     return orientateSize(QSize(m_mode.hdisplay, m_mode.vdisplay));
@@ -1519,6 +1539,11 @@ int DrmOutput::getGammaRampSize() const
 bool DrmOutput::setGammaRamp(const ColorCorrect::GammaRamp &gamma)
 {
     return m_crtc->setGammaRamp(gamma);
+}
+
+const ColorCorrect::GammaRamp* DrmOutput::getGammaRamp()
+{
+    return m_crtc->getGammaRamp();
 }
 
 }

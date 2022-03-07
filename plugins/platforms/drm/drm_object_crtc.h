@@ -71,6 +71,7 @@ public:
         return m_gammaRampSize;
     }
     bool setGammaRamp(const ColorCorrect::GammaRamp &gamma);
+    const ColorCorrect::GammaRamp* getGammaRamp() const;
 
 private:
     int m_resIndex;
@@ -80,6 +81,8 @@ private:
     DrmBuffer *m_nextBuffer = nullptr;
     DrmDumbBuffer *m_blackBuffer = nullptr;
     DrmBackend *m_backend;
+
+    ColorCorrect::GammaRamp *m_gammaRamp = nullptr;
 };
 
 }
