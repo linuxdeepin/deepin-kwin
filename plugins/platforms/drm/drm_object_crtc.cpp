@@ -36,10 +36,17 @@ DrmCrtc::DrmCrtc(uint32_t crtc_id, DrmBackend *backend, int resIndex)
     if (modeCrtc) {
         m_gammaRampSize = modeCrtc->gamma_size;
     }
+
+    ColorCorrect::GammaRamp gamma(m_gammaRampSize);
+    drmModeCrtcGetGamma(m_backend->fd(), m_id, gamma.size, gamma.red, gamma.green, gamma.blue);
+    m_gammaRamp = new ColorCorrect::GammaRamp(gamma);
 }
 
 DrmCrtc::~DrmCrtc()
 {
+    if (m_gammaRamp) {
+        delete m_gammaRamp;
+    }
 }
 
 bool DrmCrtc::atomicInit()
@@ -118,7 +125,17 @@ bool DrmCrtc::blank()
 bool DrmCrtc::setGammaRamp(const ColorCorrect::GammaRamp &gamma) {
     bool isError = drmModeCrtcSetGamma(m_backend->fd(), m_id, gamma.size,
                                 gamma.red, gamma.green, gamma.blue);
+
+    if (!isError) {
+        *m_gammaRamp = gamma;
+    }
+
     return !isError;
+}
+
+const ColorCorrect::GammaRamp* DrmCrtc::getGammaRamp() const
+{
+    return m_gammaRamp;
 }
 
 }

@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cmath>
 
+#include "colorcorrection/gammaramp.h"
+
 namespace KWin
 {
 
@@ -112,7 +114,6 @@ void AbstractOutput::setScale(qreal scale)
     m_xdgOutput->setLogicalSize(pixelSize() / scale);
     m_xdgOutput->done();
 }
-
 void AbstractOutput::setChanges(KWayland::Server::OutputChangeSet *changes)
 {
     qCDebug(KWIN_CORE) << "Set changes in AbstractOutput." << m_waylandOutputDevice->uuid();
@@ -148,6 +149,11 @@ void AbstractOutput::setChanges(KWayland::Server::OutputChangeSet *changes)
         setScale(changes->scaleF());
         updated = true;
     }
+    if (changes->colorCurvesChanged()) {
+        qCDebug(KWIN_CORE) << "Receive new colorCurves:" << changes->colorCurves().red << " " << changes->colorCurves().green << " " << changes->colorCurves().blue;
+        m_waylandOutputDevice->setColorCurves(changes->colorCurves());
+        updateColorCurves(changes->colorCurves());
+    }
 
     overallSizeCheckNeeded |= updated;
     if (overallSizeCheckNeeded) {
@@ -180,6 +186,11 @@ void AbstractOutput::setEnabled(bool enable)
 void AbstractOutput::setOutputDisconnected()
 {
     m_waylandOutput->setOutputDisconnected(true);
+}
+
+const ColorCorrect::GammaRamp* AbstractOutput::getGammaRamp()
+{
+    return nullptr;
 }
 
 void AbstractOutput::setWaylandMode(const QSize &size, int refreshRate)
@@ -223,6 +234,17 @@ void AbstractOutput::initWaylandOutputDevice(const QString &model,
     m_waylandOutput->setManufacturer(m_waylandOutputDevice->manufacturer());
     m_waylandOutput->setModel(m_waylandOutputDevice->model());
     m_waylandOutput->setPhysicalSize(rawPhysicalSize());
+
+    const ColorCorrect::GammaRamp* gamma = getGammaRamp();
+    if (gamma) {
+        KWayland::Server::OutputDeviceInterface::ColorCurves color;
+        for (unsigned int i = 0; i < gamma->size; i++) {
+            color.red.push_back(gamma->red[i]);
+            color.green.push_back(gamma->green[i]);
+            color.blue.push_back(gamma->blue[i]);
+        }
+        m_waylandOutputDevice->setColorCurves(color);
+    }
 
     int i = 0;
     for (auto mode : modes) {

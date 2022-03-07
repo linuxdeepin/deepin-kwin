@@ -140,7 +140,8 @@ public:
         Q_UNUSED(gamma);
         return false;
     }
-    
+    virtual const ColorCorrect::GammaRamp* getGammaRamp();
+
     virtual void updateEnablement(bool enable) {
         Q_UNUSED(enable);
     }
@@ -203,6 +204,9 @@ protected:
     }
     virtual void transform(KWayland::Server::OutputDeviceInterface::Transform transform) {
         Q_UNUSED(transform);
+    }
+    virtual void updateColorCurves(KWayland::Server::OutputDeviceInterface::ColorCurves colorCurves) {
+        Q_UNUSED(colorCurves);
     }
 
     void setWaylandMode(const QSize &size, int refreshRate);
