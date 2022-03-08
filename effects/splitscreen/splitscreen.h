@@ -29,7 +29,7 @@ public:
 
     void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time) override;
     void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
-
+    void drawHighlightFrame(const QRect &geo);
     bool touchDown(quint32 id, const QPointF &pos, quint32 time) override;
     bool touchUp(quint32 id, quint32 time) override;
     void windowInputMouseEvent(QEvent* e) override;
