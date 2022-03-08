@@ -9,6 +9,8 @@
         <file alias="lookingglass.frag">lookingglass/data/1.10/lookingglass.frag</file>
         <file alias="blinking-startup-fragment.glsl">startupfeedback/data/1.10/blinking-startup-fragment.glsl</file>
         <file alias="splitthumb.glsl">splitscreen/splitthumb.glsl</file>
+        <file alias="bk9.frag">splitscreen/bk9.frag</file>
+        <file alias="bk9.vert">splitscreen/bk9.vert</file>
     </qresource>
     <qresource prefix="/effect-shaders-1.40">
         <file alias="coverswitch-reflection.glsl">coverswitch/shaders/1.40/coverswitch-reflection.glsl</file>
@@ -20,5 +22,7 @@
         <file alias="lookingglass.frag">lookingglass/data/1.40/lookingglass.frag</file>
         <file alias="blinking-startup-fragment.glsl">startupfeedback/data/1.40/blinking-startup-fragment.glsl</file>
         <file alias="splitthumb.glsl">splitscreen/splitthumb.glsl</file>
+        <file alias="bk9.frag">splitscreen/bk9.frag</file>
+        <file alias="bk9.vert">splitscreen/bk9.vert</file>
     </qresource>
 </RCC>
