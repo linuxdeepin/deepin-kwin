@@ -681,7 +681,7 @@ Unmanaged* Workspace::createUnmanaged(xcb_window_t w)
         focusToNull();
         foreach (auto u,unmanaged) {
             if (u->isKeepAbove() && !u->fetchWindowForLockScreen()) {
-                if (u->resourceName() != "deepin-watermark-dbus") {
+                if (u->resourceName() != "deepin-watermark") {
                     xcb_unmap_window(connection(),u->window());
                 }
             }

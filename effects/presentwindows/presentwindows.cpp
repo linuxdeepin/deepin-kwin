@@ -46,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector4D>
 #include <QScreen>
 
-#define WATERMARK_CLASS_NAME "deepin-watermark-dbus"
+#define WATERMARK_CLASS_NAME "deepin-watermark"
 
 namespace KWin
 {
