@@ -13,7 +13,7 @@
 #define SCALE_F     1.0
 #define SCALE_S     2.0
 #define WINDOW_W_H  300
-#define WATERMARK_CLASS_NAME "deepin-watermark-dbus"
+#define WATERMARK_CLASS_NAME "deepin-watermark"
 namespace KWin
 {
 
