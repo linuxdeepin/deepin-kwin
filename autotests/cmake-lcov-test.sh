@@ -2,9 +2,9 @@
 
 funcAT_UT()
 {
-	rm -r $1
-	rm -r ../$1
-	mkdir ../$1
+	#rm -r $1
+	#rm -r ../$1
+	mkdir -p ../$1
 	cd ../$1
 	cmake -DCMAKE_SAFETYTEST_ARG="$2" ..
 	make -j4
