@@ -68,6 +68,7 @@ EglGbmBackend::EglGbmBackend(DrmBackend *b)
                 return;
             }
             cleanupOutput(*it);
+            makeContextCurrent(m_outputs.first());
             m_outputs.erase(it);
         }
     );
