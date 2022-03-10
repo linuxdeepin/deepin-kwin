@@ -45,6 +45,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVector2D>
 #include <QVector4D>
 #include <QScreen>
+#include <QUuid>
+#include <QDBusConnection>
+
+#include "kwineffectsex.h"
 
 #define WATERMARK_CLASS_NAME "deepin-watermark"
 
@@ -69,6 +73,7 @@ PresentWindowsEffect::PresentWindowsEffect()
     , m_exposeClassAction(new QAction(this))
 {
     initConfig<PresentWindowsConfig>();
+    // TODO KF6 remove atom support
     auto announceSupportProperties = [this] {
         m_atomDesktop = effects->announceSupportProperty("_KDE_PRESENT_WINDOWS_DESKTOP", this);
         m_atomWindows = effects->announceSupportProperty("_KDE_PRESENT_WINDOWS_GROUP", this);
@@ -115,10 +120,17 @@ PresentWindowsEffect::PresentWindowsEffect()
                 reCreateGrids();
         }
     );
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/PresentWindows"),
+                                                 QStringLiteral("org.kde.KWin.PresentWindows"),
+                                                 this,
+                                                 QDBusConnection::ExportScriptableSlots);
+    QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.KWin.PresentWindows"));
+
 }
 
 PresentWindowsEffect::~PresentWindowsEffect()
 {
+    QDBusConnection::sessionBus().unregisterService(QStringLiteral("org.kde.KWin.PresentWindows"));
     delete m_filterFrame;
     delete m_closeView;
 }
@@ -935,6 +947,20 @@ void PresentWindowsEffect::slotPropertyNotify(EffectWindow* w, long a)
         m_managerWindow = w;
         setActive(true);
     }
+}
+
+void PresentWindowsEffect::PresentWindows(const QStringList &windows)
+{
+    m_selectedWindows.clear();
+    for (const auto &window : windows) {
+        if (auto effectWindow = effectsEx->findWindow(QUuid(window)); effectWindow) {
+            m_selectedWindows.append(effectWindow);
+        } else if (auto effectWindow = effects->findWindow(window.toLong()); effectWindow) {
+            m_selectedWindows.append(effectWindow);
+        }
+    }
+   m_mode = ModeWindowGroup;
+   setActive(true);
 }
 
 void PresentWindowsEffect::slotCloseEffect(bool isSleepBefore)

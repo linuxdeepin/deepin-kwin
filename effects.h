@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kwineffectsex.h"
 
 #include "scene.h"
-
+#include <QUuid>
 #include <QHash>
 #include <Plasma/FrameSvg>
 
@@ -142,6 +142,7 @@ public:
     void stopMousePolling() override;
     EffectWindow* findWindow(WId id) const override;
     EffectWindow* findWindow(KWayland::Server::SurfaceInterface *surf) const override;
+    EffectWindow* findWindow(const QUuid &id) const override;
     EffectWindowList stackingOrder() const override;
     void setElevatedWindow(KWin::EffectWindow* w, bool set) override;
 

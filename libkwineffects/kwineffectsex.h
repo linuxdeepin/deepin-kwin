@@ -60,6 +60,15 @@ public:
     virtual void setSplitWindow(KWin::EffectWindow* c, int mode, bool isShowPreview = false) = 0;
     virtual SwipeDirection desktopChangedDirection() const = 0;
     virtual void resetSplitOutlinePos(int screen, int desktop) = 0;
+    /**
+     * Finds the EffectWindow for the internal window @p w.
+     * If there is no such window @c null is returned.
+     *
+     * On Wayland this returns the internal window. On X11 it returns an Unamanged with the
+     * window id matching that of the provided window @p w.
+     *
+     */
+    virtual EffectWindow *findWindow(const QUuid &w) const = 0;
 
 Q_SIGNALS:
     void windowQuickTileModeChanged(KWin::EffectWindow *w);
