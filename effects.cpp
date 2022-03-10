@@ -1152,6 +1152,16 @@ EffectWindow* EffectsHandlerImpl::findWindow(KWayland::Server::SurfaceInterface 
     return nullptr;
 }
 
+EffectWindow *EffectsHandlerImpl::findWindow(const QUuid &id) const
+{
+    if (const auto client = workspace()->findAbstractClient([&id] (const AbstractClient *c) { return c->internalId() == id; })) {
+        return client->effectWindow();
+    }
+    if (const auto unmanaged = workspace()->findUnmanaged([&id] (const Unmanaged *c) { return c->internalId() == id; })) {
+        return unmanaged->effectWindow();
+    }
+    return nullptr;
+}
 
 EffectWindowList EffectsHandlerImpl::stackingOrder() const
 {
