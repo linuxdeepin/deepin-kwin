@@ -51,10 +51,12 @@ public:
 signals:
     void bufferNoLongerNeeded(qint32 gbm_handle);
     void screenRecordStatusChanged(bool isScreenRecording);
+
 private:
     void releaseBuffer(const BufferHandle *buf);
 
     RemoteAccessManagerInterface *m_interface = nullptr;
+    int m_recordCount = 0;
 };
 
 } // KWin namespace

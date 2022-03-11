@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 #include "drm_output.h"
 #include "remoteaccess_manager.h"
+#include "composite.h"
 #include "logging.h"
 #include "drm_backend.h"
 #include "../../../wayland_server.h"
@@ -45,6 +46,10 @@ RemoteAccessManager::RemoteAccessManager(QObject *parent)
         connect(m_interface, &RemoteAccessManagerInterface::screenRecordStatusChanged, this, [=](bool isScreenRecording) {
                 emit screenRecordStatusChanged(isScreenRecording);
         });
+        connect(m_interface, &RemoteAccessManagerInterface::startRecord, this, [=](int32_t count) {
+                m_recordCount = count;
+                Compositor::self()->addRepaintFull();
+        });
     }
 }
 
@@ -69,7 +74,7 @@ void RemoteAccessManager::passBuffer(DrmOutput *output, DrmBuffer *buffer)
     DrmSurfaceBuffer* gbmbuf = static_cast<DrmSurfaceBuffer *>(buffer);
 
     // no connected RemoteAccess instance
-    if (!m_interface || !m_interface->isBound()) {
+    if (!m_interface || !m_interface->isBound() || !m_recordCount) {
         return;
     }
 
@@ -84,6 +89,13 @@ void RemoteAccessManager::passBuffer(DrmOutput *output, DrmBuffer *buffer)
     buf->setSize(gbm_bo_get_width(bo), gbm_bo_get_height(bo));
     buf->setStride(gbm_bo_get_stride(bo));
     buf->setFormat(gbm_bo_get_format(bo));
+
+    if (m_recordCount > 0) {
+        m_recordCount = m_recordCount - 1;
+    }
+    if (!m_recordCount) {
+        emit screenRecordStatusChanged(false);
+    }
 
     m_interface->sendBufferReady(output->waylandOutput(), buf);
 }
