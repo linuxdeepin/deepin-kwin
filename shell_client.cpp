@@ -1973,6 +1973,9 @@ bool ShellClient::hasStrut() const
     if (m_plasmaShellSurface->role() != PlasmaShellSurfaceInterface::Role::Panel) {
         return false;
     }
+    if (m_strutArea.left == 0 && m_strutArea.right == 0 && m_strutArea.top== 0 && m_strutArea.bottom == 0) {
+        return false;
+    }
     return m_plasmaShellSurface->panelBehavior() == PlasmaShellSurfaceInterface::PanelBehavior::AlwaysVisible;
 }
 
