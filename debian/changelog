@@ -1,3 +1,28 @@
+kwin (4:5.15.10.20-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 10889 fix: ShellClient::hasStrut() return wrong value
+    + 10889 fix: context is none before glDeleteProgram
+    + 10889 fix: The split screen dock icon forcibly exits the application and the system crashes.
+    + 10889 fix: add function setTouchDeviceToScreenId and getTouchDeviceToScreenInfo.
+    + 10889 fix: Wayland in split screen mode, split screen preview is triggered. Single touch clicking on the window in the preview box does not trigger split screen.
+    + 10889 fix: ShellClient take focus didn't break showingdesktop
+    + 10889 fix: stop trigger touch move when the x or y's length of touch move less than 2.
+    + 10889 fix: when triggering moving client postion, update geometry of the client.
+    + 10889 fix: Increase filtering range in recordeventmonitor.cpp.
+    + 10889 fix: the maximum button style of the split screen menu displays error
+    + 10889 fix: Update recordeventmonitor.cpp in commit 6220fccc04b250c7b205ddb9fcfe3d1686a104cd.
+    + 10889 fix: Unable to use TabletTool device to move dtk client.
+    + 10889 fix: DDE-kwin cannot call PresentWindows under wayland platform.
+
+  * feat:
+    + 10889 feat: add interface to support dtk show split menu
+    + Revert "Revert "feat: Add backport code for kwin update""
+    + feat: Add window caption impl
+    + feat: under wayland, adjust the screen brightness via gamma
+
+ -- Lei Su <sulei@uniontech.com>  Mon, 14 Mar 2022 18:57:23 +0800
+
 kwin (4:5.15.10.12-1) unstable; urgency=medium
 
   * Bug fix.
