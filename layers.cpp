@@ -350,6 +350,7 @@ void Workspace::lowerClientWithinApplication(AbstractClient* c)
 {
     if (!c)
         return;
+    qCDebug(KWIN_CORE) << "Workspace::raiseClient: "<< QString::fromStdString(c->resourceName().toStdString());
 
     c->cancelAutoRaise();
 
