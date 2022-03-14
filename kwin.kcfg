@@ -93,8 +93,9 @@
                 <choice name="FocusFollowsMouse"/>
                 <choice name="FocusUnderMouse"/>
                 <choice name="FocusStrictlyUnderMouse"/>
+                <choice name="ButtonReleaseToFocus"/>
             </choices>
-            <default>Options::ClickToFocus</default>
+            <default>Options::ButtonReleaseToFocus</default>
         </entry>
         <entry name="NextFocusPrefersMouse" type="Bool">
             <default>false</default>
@@ -103,7 +104,7 @@
             <default>false</default>
         </entry>
         <entry name="ActiveMouseScreen" type="Bool">
-            <default code="true">focusPolicy() != Options::ClickToFocus</default>
+            <default code="true">focusPolicy() != Options::ClickToFocus || focusPolicy() != Options::ButtonReleaseToFocus</default>
         </entry>
         <entry name="RollOverDesktops" type="Bool">
             <default>true</default>
