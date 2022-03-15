@@ -1,3 +1,10 @@
+kwin (4:5.15.10.22-1) unstable; urgency=medium
+
+  * Task:
+    + 101855 feat: add style to titlebar menu
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 15 Mar 2022 23:13:02 +0800
+
 kwin (4:5.15.10.20-1) unstable; urgency=medium
 
   * Bug fix:
