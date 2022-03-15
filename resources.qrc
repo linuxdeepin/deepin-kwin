@@ -5,5 +5,7 @@
         <file>themes/left-arrow.svg</file>
         <file>themes/right-arrow.svg</file>
         <file>themes/leftright-arrow.svg</file>
+        <file>themes/inActive.svg</file>
+        <file>themes/Active.svg</file>
     </qresource>
 </RCC>

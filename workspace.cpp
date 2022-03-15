@@ -2021,6 +2021,16 @@ void Workspace::setActiveColor(QString color)
     activeColor = color;
 }
 
+bool Workspace::isDarkTheme()
+{
+    return m_isDarkTheme;
+}
+
+void Workspace::setDarkTheme(bool isDark)
+{
+    m_isDarkTheme = isDark;
+}
+
 void Workspace::qtactivecolorChanged()
 {
     QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
