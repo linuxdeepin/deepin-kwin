@@ -232,6 +232,7 @@ void ShellClient::init()
     if (m_internalWindow) {
         updateInternalWindowGeometry();
         updateDecoration(true);
+        setWindowRadius(QPointF(8, 8));
     } else {
         doSetGeometry(QRect(QPoint(0, 0), m_clientSize));
     }

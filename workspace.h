@@ -262,6 +262,10 @@ public:
 
     QString ActiveColor();
     void setActiveColor(QString color);
+
+    bool isDarkTheme();
+    void setDarkTheme(bool isDark);
+
     void enableKwinDebug(bool enable) {
         m_kwinDebug = enable;
     }
@@ -769,6 +773,7 @@ private:
     bool m_mouseRaised = false;
 
     QString activeColor;
+    bool m_isDarkTheme = false;
     QString m_screenSerialNum = "";
     //window property map
     QMap< wl_resource*, QMap< QString, QVariant > > m_windowPropertyMap;

@@ -63,6 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kconfig.h>
 #include <QRegExp>
 #include <QMenu>
+#include <QStyleFactory>
 #include <QWidgetAction>
 #include <kauthorized.h>
 
@@ -212,12 +213,42 @@ void UserActionsMenu::handleClick(const QPoint &pos)
 
 void UserActionsMenu::prepareMenu(const QWeakPointer<AbstractClient> &cl)
 {
+    QString backgroundColor = "rgb(253,253,254)";
+    QString fontColor = "black";
+    if (workspace()->self()->isDarkTheme()) {
+        backgroundColor = "black";
+        fontColor = "white";
+    }
+
     if (!m_menu) {
         m_menu = new QMenu;
     }
     m_menu->clear();
     disconnect(m_menu, &QMenu::triggered, m_menu, 0);
-
+    m_menu->setStyleSheet(QString("\
+            QMenu {\
+            background-color: %1;\
+            border-radius:0px;\
+            }\
+            QMenu::item {\
+            font:Sans Serif;\
+            font-size:14px;\
+            padding: 6px 45px 6px 30px;\
+            color: %2;\
+            }\
+            QMenu::icon {\
+            padding: 0px 15px 0px 0px;\
+            }\
+            QMenu::icon:checked {\
+            background: transparent\
+            }\
+            QMenu::icon:checked:selected {\
+            background-color: transparent\
+            }\
+            QMenu::item:selected {\
+            background-color: %3;\
+            color: white;}").arg(backgroundColor).arg(fontColor).arg(workspace()->self()->ActiveColor()));
+    m_menu->setContentsMargins(0,8,0,8);
     for (const MenuItem &item : getMenuItemInfos(cl.data())) {
         QAction *action = m_menu->addAction(item.text);
 
@@ -225,6 +256,13 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<AbstractClient> &cl)
         action->setCheckable(item.isCheckable);
         action->setChecked(item.checked);
         action->setEnabled(item.enable);
+        if (item.checked) {
+            if (backgroundColor == "black") {
+                action->setIcon(QIcon(":/resources/themes/Active.svg"));
+            } else {
+                action->setIcon(QIcon(":/resources/themes/inActive.svg"));
+            }
+        }
     }
 
     auto client = m_client.data();
