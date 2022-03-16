@@ -1267,7 +1267,7 @@ void ShellClient::takeFocus()
         setActive(true);
     }
 
-    bool breakShowingDesktop = true;
+    bool breakShowingDesktop = !(m_windowType == NET::Override);
     if (breakShowingDesktop) {
         // check that it doesn't belong to the desktop
         const auto &clients = waylandServer()->clients();
