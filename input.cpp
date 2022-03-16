@@ -534,6 +534,7 @@ public:
         case QEvent::MouseButtonRelease:
             if (event->buttons() == Qt::NoButton) {
                 c->endMoveResize();
+                return false;
             }
             break;
         default:
