@@ -79,7 +79,6 @@
 #define  FOCUS_FOLLOWS_MOUSE          2
 #define  FOCUS_UNDER_MOUSE            4
 #define  FOCUS_STRICTLY_UNDER_MOUSE   5
-#define  BUTTON_RELEASE_TO_FOCUS      6
 
 
 KFocusConfig::~KFocusConfig()
@@ -255,8 +254,6 @@ void KFocusConfig::load(void)
         setFocus(FOCUS_UNDER_MOUSE);
     else if (key == "FocusStrictlyUnderMouse")
         setFocus(FOCUS_STRICTLY_UNDER_MOUSE);
-    else if (key == "ButtonReleaseToFocus")
-        setFocus(BUTTON_RELEASE_TO_FOCUS);
 
     int k = cg.readEntry(KWIN_AUTORAISE_INTERVAL, 750);
     setAutoRaiseInterval(k);
@@ -293,8 +290,6 @@ void KFocusConfig::save(void)
         cg.writeEntry(KWIN_FOCUS, "FocusUnderMouse");
     else if (v == FOCUS_STRICTLY_UNDER_MOUSE)
         cg.writeEntry(KWIN_FOCUS, "FocusStrictlyUnderMouse");
-    else if (v == BUTTON_RELEASE_TO_FOCUS)
-        cg.writeEntry(KWIN_FOCUS, "ButtonReleaseToFocus");
     else
         cg.writeEntry(KWIN_FOCUS, "FocusFollowsMouse");
 
