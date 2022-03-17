@@ -1,3 +1,10 @@
+kwin (4:5.15.10.24-1) unstable; urgency=medium
+
+  * Bug fix.
+    + fix: Windows open without input focus.
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 17 Mar 2022 09:56:23 +0800
+
 kwin (4:5.15.10.23-1) unstable; urgency=medium
 
   * Upgrade version.
