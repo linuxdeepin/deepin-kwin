@@ -229,12 +229,6 @@ namespace KWin
  */
 void Workspace::setActiveClient(AbstractClient* c)
 {
-    if (c){        
-        qCDebug(KWIN_CORE) <<">>>>>> Workspace::setActiveClient:"<< QString::fromStdString(c->resourceName().toStdString());
-    } else {
-        qCDebug(KWIN_CORE) <<">>>>>> Workspace::setActiveClient: get 0 client";
-    }
-
     if (active_client == c)
         return;
 
@@ -372,10 +366,8 @@ void Workspace::takeActivity(AbstractClient* c, ActivityFlags flags)
             // but it has a modal, there's no need to use handled mode, because
             // the modal doesn't get the click anyway
             // raising of the original window needs to be still done
-            if (flags & ActivityRaise) {
+            if (flags & ActivityRaise)
                 raiseClient(c);
-            }
-                
             c = modal;
         }
         cancelDelayFocus();
@@ -402,16 +394,10 @@ void Workspace::takeActivity(AbstractClient* c, ActivityFlags flags)
         return;
     }
 
-    if (flags & ActivityFocus) {
-        qCDebug(KWIN_CORE) << ">>>>>> takeActivity: ActivityFocus:";
+    if (flags & ActivityFocus)
         c->takeFocus();
-    }
-        
-    if (flags & ActivityRaise) {
-            qCDebug(KWIN_CORE) << ">>>>>> takeActivity: ActivityRaise";
-            workspace()->raiseClient(c);
-    }
-
+    if (flags & ActivityRaise)
+        workspace()->raiseClient(c);
 
     if (!c->isOnActiveScreen())
         screens()->setCurrent(c->screen());
