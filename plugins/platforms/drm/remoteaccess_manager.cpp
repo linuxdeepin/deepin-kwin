@@ -88,9 +88,4 @@ void RemoteAccessManager::passBuffer(DrmOutput *output, DrmBuffer *buffer)
     m_interface->sendBufferReady(output->waylandOutput(), buf);
 }
 
-void RemoteAccessManager::incrementRenderSequence()
-{
-    m_interface->incrementRenderSequence();
-}
-
 } // KWin namespace
