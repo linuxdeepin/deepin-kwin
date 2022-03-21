@@ -46,7 +46,6 @@ public:
     virtual ~RemoteAccessManager();
 
     void passBuffer(DrmOutput *output, DrmBuffer *buffer);
-    void incrementRenderSequence();
 
 signals:
     void bufferNoLongerNeeded(qint32 gbm_handle);
