@@ -827,11 +827,6 @@ void MultitaskViewEffect::postPaintScreen()
         m_opacityTimeLine.reset();
     }
 
-    if (m_effectFlyingBack.done()) {
-        m_effectFlyingBack.end();
-        setActive(false);
-    }
-
     if (m_activated)
         effects->addRepaintFull();
 
@@ -839,6 +834,11 @@ void MultitaskViewEffect::postPaintScreen()
         w->setData(WindowForceBlurRole, QVariant());
     }
     effects->postPaintScreen();
+
+    if (m_effectFlyingBack.done()) {
+        m_effectFlyingBack.end();
+        setActive(false);
+    }
 }
 
 void MultitaskViewEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, int time)
@@ -910,44 +910,48 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
             WindowMotionManager *mgr0, *mgr1;
             auto *lastWinManager = getWinManagerObject(m_lastDesktopIndex - 1);
             auto *curWinManager = getWinManagerObject(m_curDesktopIndex - 1);
-            lastWinManager->getMotion(m_lastDesktopIndex, w->screen(), mgr0);
-            curWinManager->getMotion(m_curDesktopIndex, w->screen(), mgr1);
             int DW1 = m_backgroundRect.width();
-            if (mgr0->isManaging(w)) {
-                auto area = effects->clientArea(ScreenArea, w->screen(), 0);
-                WindowPaintData d = data;
-                auto geo = mgr0->targetGeometry(w);
-                if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
-                    d.translate(geo.x() - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
-                } else if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
-                    d.translate(geo.x() + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+            if (lastWinManager) {
+                lastWinManager->getMotion(m_lastDesktopIndex, w->screen(), mgr0);
+                if (mgr0->isManaging(w)) {
+                    auto area = effects->clientArea(ScreenArea, w->screen(), 0);
+                    WindowPaintData d = data;
+                    auto geo = mgr0->targetGeometry(w);
+                    if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
+                        d.translate(geo.x() - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                    } else if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
+                        d.translate(geo.x() + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                    }
+                    else if (m_lastDesktopIndex < m_curDesktopIndex){
+                        d.translate(geo.x() - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                    }
+                    else {
+                        d.translate(geo.x() + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                    }
+                    d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
+                    effects->paintWindow(w, mask, area, d);     //when open, all windows flying into RegionB
                 }
-                else if (m_lastDesktopIndex < m_curDesktopIndex){
-                    d.translate(geo.x() - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
-                }
-                else {
-                    d.translate(geo.x() + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
-                }
-                d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
-                effects->paintWindow(w, mask, area, d);     //when open, all windows flying into RegionB
             }
-            else if (mgr1->isManaging(w)) {
-                auto area = effects->clientArea(ScreenArea, w->screen(), 0);
-                WindowPaintData d = data;
-                auto geo0 = mgr1->transformedGeometry(w);
-                auto geo = mgr1->targetGeometry(w);
-                if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
-                    d.translate(geo.x() + DW1 - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
-                } else if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
-                    d.translate(geo.x() - DW1 + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
-                } else if(m_lastDesktopIndex<m_curDesktopIndex) {
-                    d.translate(geo.x() + DW1 - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+            if (curWinManager) {
+                curWinManager->getMotion(m_curDesktopIndex, w->screen(), mgr1);
+                if (mgr1->isManaging(w)) {
+                    auto area = effects->clientArea(ScreenArea, w->screen(), 0);
+                    WindowPaintData d = data;
+                    auto geo0 = mgr1->transformedGeometry(w);
+                    auto geo = mgr1->targetGeometry(w);
+                    if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
+                        d.translate(geo.x() + DW1 - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                    } else if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
+                        d.translate(geo.x() - DW1 + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                    } else if(m_lastDesktopIndex<m_curDesktopIndex) {
+                        d.translate(geo.x() + DW1 - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                    }
+                    else {
+                        d.translate(geo.x() - DW1 + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                    }
+                    d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
+                    effects->paintWindow(w, mask, area, d);
                 }
-                else {
-                    d.translate(geo.x() - DW1 + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
-                }
-                d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
-                effects->paintWindow(w, mask, area, d);
             }
         }
         else {
@@ -1620,6 +1624,9 @@ void MultitaskViewEffect::setActive(bool active)
         return;
 
     m_activated = active;
+    if (!QX11Info::isPlatformX11()) {
+        effectsEx->changeBlurState(active);
+    }
 
     if(!active) {
         m_popStatus = false;
