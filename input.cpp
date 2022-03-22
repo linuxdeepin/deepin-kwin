@@ -228,13 +228,9 @@ void InputEventFilter::passToWaylandServer(QKeyEvent *event)
     switch (event->type()) {
     case QEvent::KeyPress:
         waylandServer()->seat()->keyPressed(event->nativeScanCode());
-        waylandServer()->ddeSeat()->setTimestamp(event->timestamp());
-        waylandServer()->ddeSeat()->keyPressed(event->nativeScanCode());
         break;
     case QEvent::KeyRelease:
         waylandServer()->seat()->keyReleased(event->nativeScanCode());
-        waylandServer()->ddeSeat()->setTimestamp(event->timestamp());
-        waylandServer()->ddeSeat()->keyReleased(event->nativeScanCode());
         break;
     default:
         break;
@@ -1982,6 +1978,25 @@ public:
         }
         default:
             break;
+        }
+    }
+
+    void keyEvent(KeyEvent *event) override {
+        Q_ASSERT(waylandServer());
+        if (event->isAutoRepeat()) {
+            return;
+        }
+        switch (event->type()) {
+            case QEvent::KeyPress:
+                waylandServer()->ddeSeat()->setTimestamp(event->timestamp());
+                waylandServer()->ddeSeat()->keyPressed(event->nativeScanCode());
+                break;
+            case QEvent::KeyRelease:
+                waylandServer()->ddeSeat()->setTimestamp(event->timestamp());
+                waylandServer()->ddeSeat()->keyReleased(event->nativeScanCode());
+                break;
+            default:
+                break;
         }
     }
 };
