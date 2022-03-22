@@ -563,6 +563,7 @@ public Q_SLOTS:
 
     void qtactivecolorChanged();
     void screensChanged();
+    void changeBlurStatus(bool);
 
     void captureWindowImage(int windowId, wl_resource *buffer);
 

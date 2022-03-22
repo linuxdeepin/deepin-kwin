@@ -950,6 +950,11 @@ void EffectsHandlerImpl::requestLock()
     Workspace::self()->executeLock();
 }
 
+void EffectsHandlerImpl::changeBlurState(bool state)
+{
+    Workspace::self()->changeBlurStatus(state);
+}
+
 QString EffectsHandlerImpl::getActiveColor()
 {
     return Workspace::self()->ActiveColor();

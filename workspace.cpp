@@ -2083,6 +2083,13 @@ void Workspace::screensChanged()
     updateSplitOutlineState(1, active_client ? active_client->desktop() : 1, true);
 }
 
+void Workspace::changeBlurStatus(bool state)
+{
+    if (effects) {
+        static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.deepin.blur");
+    }
+}
+
 bool Workspace::checkClientAllowToSplit(AbstractClient *c)
 {
     return c->checkClientAllowToTile();

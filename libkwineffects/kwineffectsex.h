@@ -73,6 +73,7 @@ public:
     virtual QString getScreenNameForWayland(int screen) = 0;
     virtual void requestLock() = 0;
     virtual void sendPointer(Qt::MouseButton) = 0;
+    virtual void changeBlurState(bool) = 0;
 
 Q_SIGNALS:
     void windowQuickTileModeChanged(KWin::EffectWindow *w);
