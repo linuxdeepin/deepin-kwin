@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 // KWayland
 #include <KWayland/Server/seat_interface.h>
+#include <KWayland/Server/ddeseat_interface.h>
+#include "wayland_server.h"
 // Qt
 #include <QTemporaryFile>
 #include <QKeyEvent>
@@ -442,6 +444,11 @@ void Xkb::forwardModifiers()
         return;
     }
     m_seat->updateKeyboardModifiers(m_modifierState.depressed,
+                                                     m_modifierState.latched,
+                                                     m_modifierState.locked,
+                                                     m_currentLayout);
+
+    waylandServer()->ddeSeat()->updateKeyboardModifiers(m_modifierState.depressed,
                                                      m_modifierState.latched,
                                                      m_modifierState.locked,
                                                      m_currentLayout);
