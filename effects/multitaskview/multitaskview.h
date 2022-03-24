@@ -363,6 +363,9 @@ public:
     void setActive(bool active);
     bool isReceiveEvent();
 
+    bool touchDown(quint32 id, const QPointF &pos, quint32 time) override;
+    bool touchMotion(quint32 id, const QPointF &pos, quint32 time) override;
+    bool touchUp(quint32 id, quint32 time) override;
 private Q_SLOTS:
     void toggle() {
         if (m_delayDbus)
@@ -516,6 +519,13 @@ private:
     MultiTaskEffectFlyingBack m_effectFlyingBack;
 
     workspaceMoveDirection m_moveWorkspacedirection = mvNone;
+
+    struct {
+        quint32 id = 0;
+        bool active = false;
+        bool isMotion = false;
+        QPointF pos;
+    } m_touch;
 };
 
 } // namespace KWin

@@ -1283,6 +1283,8 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
 
     switch (e->type()) {
     case QEvent::MouseMove:
+        if (m_touch.active && !m_touch.isMotion)
+            return;
     case QEvent::MouseButtonPress:
     case QEvent::MouseButtonRelease:
     case QEvent::Wheel:
@@ -3090,6 +3092,60 @@ bool MultitaskViewEffect::checkHandlerWorkspace(QPoint pos, int screen, int &des
     }
 
     return isChecked;
+}
+
+bool MultitaskViewEffect::touchDown(quint32 id, const QPointF &pos, quint32 time)
+{
+    Q_UNUSED(time)
+
+    if (!m_activated) {
+        return false;
+    }
+    // only if we don't track a touch id yet
+    if (!m_touch.active) {
+        m_touch.active = true;
+        m_touch.id = id;
+        m_touch.pos = pos.toPoint();
+        QMouseEvent event(QEvent::MouseButtonPress, pos, pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+        windowInputMouseEvent(&event);
+    }
+    return true;
+}
+
+bool MultitaskViewEffect::touchMotion(quint32 id, const QPointF &pos, quint32 time)
+{
+    Q_UNUSED(id)
+    Q_UNUSED(time)
+
+    if (!m_activated) {
+        return false;
+    }
+    if (m_touch.active && m_touch.id == id) {
+        // only update for the touch id we track
+        QMouseEvent event(QEvent::MouseMove, pos, pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+        m_touch.isMotion = true;
+        m_touch.pos = pos.toPoint();
+        windowInputMouseEvent(&event);
+        m_touch.isMotion = false;
+    }
+    return true;
+}
+
+bool MultitaskViewEffect::touchUp(quint32 id, quint32 time)
+{
+    Q_UNUSED(id)
+    Q_UNUSED(time)
+
+    if (!m_activated) {
+        return false;
+    }
+    if (m_touch.active && m_touch.id == id) {
+        m_touch.active = false;
+        m_touch.id = 0;
+        QMouseEvent event(QEvent::MouseButtonRelease, m_touch.pos, m_touch.pos, Qt::LeftButton, Qt::LeftButton ,Qt::NoModifier);
+        windowInputMouseEvent(&event);
+    }
+    return true;
 }
 
 } // namespace KWin
