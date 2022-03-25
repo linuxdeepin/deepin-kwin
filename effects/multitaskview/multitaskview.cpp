@@ -1481,6 +1481,25 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 }
             }
             break;
+        case Qt::Key_End:
+        case Qt::Key_Down:
+        case Qt::Key_PageDown:
+        case Qt::Key_Clear:
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
+                int target_desktop = 1;
+                switch (e->key())
+                {
+                case Qt::Key_End:       target_desktop = 1; break;
+                case Qt::Key_Down:      target_desktop = 2; break;
+                case Qt::Key_PageDown:  target_desktop = 3; break;
+                case Qt::Key_Clear:     target_desktop = 5; break;
+                default: break;
+                }
+                if (m_hoverWin) {
+                    moveWindowChangeDesktop(m_hoverWin, target_desktop);
+                }
+            }
+            break;
         case Qt::Key_Equal:
             if (e->modifiers() == Qt::AltModifier) {
                 addNewDesktop();
@@ -1511,6 +1530,11 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                     changeCurrentDesktop(index);
                 }
             }
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
+                if (m_hoverWin) {
+                    moveWindowChangeDesktop(m_hoverWin, 6);
+                }
+            }
             break;
         case Qt::Key_Left:
             if (e->modifiers() == Qt::MetaModifier) {
@@ -1519,6 +1543,11 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                     changeCurrentDesktop(effects->numberOfDesktops());
                 } else {
                     changeCurrentDesktop(index);
+                }
+            }
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
+                if (m_hoverWin) {
+                    moveWindowChangeDesktop(m_hoverWin, 4);
                 }
             }
             break;
