@@ -1193,6 +1193,29 @@ void MultitaskViewEffect::onDockChange(const QString &key)
     }
 }
 
+void MultitaskViewEffect::handlerWheelEvent(Qt::MouseButtons btn)
+{
+    static bool is_smooth_scrolling = false;
+    if (is_smooth_scrolling)
+        return;
+    if (btn == Qt::ForwardButton) {
+        is_smooth_scrolling = true;
+        if (effects->currentDesktop() + 1 <= effects->numberOfDesktops()) {
+            changeCurrentDesktop(effects->currentDesktop() + 1);
+        } else {
+            changeCurrentDesktop(1);
+        }
+    } else if (btn == Qt::BackButton) {
+        is_smooth_scrolling = true;
+        if (effects->currentDesktop() - 1 >= 1) {
+            changeCurrentDesktop(effects->currentDesktop() - 1);
+        } else {
+            changeCurrentDesktop(effects->numberOfDesktops());
+        }
+    }
+    QTimer::singleShot(400, [&]() { is_smooth_scrolling = false; });
+}
+
 void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
 {
     if (!isReceiveEvent()) {
@@ -1203,33 +1226,29 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
     case QEvent::MouseMove:
     case QEvent::MouseButtonPress:
     case QEvent::MouseButtonRelease:
+    case QEvent::Wheel:
         break;
     default:
         return;
     }
 
-    static bool is_smooth_scrolling = false;
-    auto mouseEvent = static_cast<QMouseEvent*>(e);
-
-    if (mouseEvent->button() == Qt::ForwardButton || mouseEvent->button() == Qt::BackButton) {
-        if (is_smooth_scrolling)
-            return;
-        if (mouseEvent->buttons() == Qt::ForwardButton) {
-            is_smooth_scrolling = true;
-            if (effects->currentDesktop() + 1 <= effects->numberOfDesktops()) {
-                changeCurrentDesktop(effects->currentDesktop() + 1);
-            } else {
-                changeCurrentDesktop(1);
-            }
-        } else if (mouseEvent->buttons() == Qt::BackButton) {
-            is_smooth_scrolling = true;
-            if (effects->currentDesktop() - 1 >= 1) {
-                changeCurrentDesktop(effects->currentDesktop() - 1);
-            } else {
-                changeCurrentDesktop(effects->numberOfDesktops());
-            }
+    if (!QX11Info::isPlatformX11() && e->type() == QEvent::Wheel) {
+        auto wheelEvent = static_cast<QWheelEvent*>(e);
+        if (wheelEvent->delta() > 0) {
+            handlerWheelEvent(Qt::ForwardButton);
+        } else if (wheelEvent->delta() < 0) {
+            handlerWheelEvent(Qt::BackButton);
         }
-        QTimer::singleShot(400, [&]() { is_smooth_scrolling = false; });
+        return;
+    }
+    
+    auto mouseEvent = static_cast<QMouseEvent*>(e);
+    if (mouseEvent->button() == Qt::ForwardButton || mouseEvent->button() == Qt::BackButton) {
+        if (mouseEvent->buttons() == Qt::ForwardButton) {
+            handlerWheelEvent(Qt::ForwardButton);
+        } else if (mouseEvent->buttons() == Qt::BackButton) {
+            handlerWheelEvent(Qt::BackButton);
+        }
         return;
     }
 

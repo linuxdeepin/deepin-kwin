@@ -415,6 +415,7 @@ private:
     void changeCurrentDesktop(int desktop);
 
     void relayDockEvent(QPoint pos, int button);
+    void handlerWheelEvent(Qt::MouseButtons);
 
 private:
     MultiViewWorkspace *getWorkspaceObject(int index, int secindex);

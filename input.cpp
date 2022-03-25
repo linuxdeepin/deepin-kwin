@@ -487,6 +487,15 @@ public:
         }
         return static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowEvent(event);
     }
+    bool wheelEvent(QWheelEvent *event) override {
+        if (!effects) {
+            return false;
+        }
+        if (workspace() && workspace()->isKwinDebug()) {
+           qDebug()<<"type:"<<event->type();
+        }
+        return static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowEvent(event);
+    }
     bool keyEvent(QKeyEvent *event) override {
         if (!effects || !static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
             return false;
