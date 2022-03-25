@@ -422,7 +422,7 @@ private:
     MultiViewWinManager *getWinManagerObject(int index);
     MultiViewWinManager *getWorkspaceWinManagerObject(int index);
     bool checkHandlerWorkspace(QPoint pos, int screen, int &desktop);
-    void moveWindowChangeDesktop(EffectWindow *w, int to);
+    void moveWindowChangeDesktop(EffectWindow *w, int to, bool isSwitch = false);
     EffectWindow *getNextWindow(EffectWindow *w);
 
 private:
