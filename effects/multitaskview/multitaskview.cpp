@@ -930,6 +930,8 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     }
                     d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
                     effects->paintWindow(w, mask, area, d);     //when open, all windows flying into RegionB
+                } else if (w->isDock()) {
+                    effects->paintWindow(w, mask, region, data);
                 }
             }
             if (curWinManager) {
@@ -951,10 +953,11 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     }
                     d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
                     effects->paintWindow(w, mask, area, d);
+                } else if (w->isDock()) {
+                    effects->paintWindow(w, mask, region, data);
                 }
             }
-        }
-        else {
+        } else {
             WindowMotionManager *wmm;
             QMutexLocker locker(&m_mutex);
             MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
