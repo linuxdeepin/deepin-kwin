@@ -1,3 +1,10 @@
+kwin (4:5.15.11.13-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 110291 fix: send mouse release event to client after moving window.
+
+ -- Lei Su <sulei@uniontech.com>  Fri, 25 Mar 2022 14:16:13 +0800
+
 kwin (4:5.15.11.11-1) unstable; urgency=medium
 
   * feat:
