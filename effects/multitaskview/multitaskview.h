@@ -229,7 +229,7 @@ public:
     }
     void calculate(int tm) {
         for (auto it = m_winManager.begin(); it != m_winManager.end(); it++) {
-            it.value().calculate(tm / 2.0);
+            it.value().calculate(tm);
         }
     }
     bool getMotion(const int desktop, const int screen, WindowMotionManager *&wm) {
