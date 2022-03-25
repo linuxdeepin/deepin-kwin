@@ -13,7 +13,7 @@ void main()
     vec2 startP=gl_FragCoord.xy - iOffset;
 
     float b = udRoundBox( startP - halfRes, halfRes, iRadius );
-    vec4 c = mix( vec4(1.0, 1.0, 1.0, 0.5), vec4(0.0,0.0,0.0,0.0), smoothstep(0.0,1.0,b) );
+    vec4 c = mix( vec4(1.0, 1.0, 1.0, 0.8), vec4(0.0,0.0,0.0,0.0), smoothstep(0.0,1.0,b) );
 
     gl_FragColor = c;
 }
