@@ -1,0 +1,23 @@
+Description: Fix uninitialized variable warning
+ If the YUV format isn't found, the code depends on .format being
+ 0. However, it was not initialized at all, so this patch initializes
+ the format member. The other members need not be initialized.
+Author: Jiri Palecek <jpalecek@web.de>
+Last-Update: 2020-06-04
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ src/platformsupport/scenes/opengl/egl_dmabuf.cpp |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/src/platformsupport/scenes/opengl/egl_dmabuf.cpp
++++ b/src/platformsupport/scenes/opengl/egl_dmabuf.cpp
+@@ -270,7 +270,7 @@ KWaylandServer::LinuxDmaBufV1ClientBuffe
+                                                                 const QSize &size,
+                                                                 quint32 flags)
+ {
+-    YuvFormat yuvFormat;
++    YuvFormat yuvFormat { 0 };
+     for (YuvFormat f : yuvFormats) {
+         if (f.format == format) {
+             yuvFormat = f;

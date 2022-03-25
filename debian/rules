@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+
+libpkgs_gen_strict_local_shlibs = $(libpkgs_all_packages) kwin-common
+include /usr/share/pkg-kde-tools/qt-kde-team/2/library-packages.mk
+
+%:
+	dh $@ --with kf5,pkgkde_symbolshelper,python3 --buildsystem kf5 --without build_stamp
+
+override_dh_python3:
+	dh_python3 usr/share/kconf_update/
+
+
+override_dh_auto_configure:
+	dh_auto_configure -Skf5 -- -DBUILD_TESTING=OFF
+
+override_dh_auto_test:
+	# Disable auto tests at build time
+	:
+
+override_dh_gencontrol-arch: libpkgs_gen_strict_local_shlibs
+	dh_gencontrol -a

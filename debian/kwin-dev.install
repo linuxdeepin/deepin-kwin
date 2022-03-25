@@ -1,0 +1,8 @@
+usr/include/kwin*.h
+usr/lib/*/cmake/KWinDBusInterface/
+usr/lib/*/cmake/KWinEffects/
+usr/lib/*/libkwineffects.so
+usr/lib/*/libkwingl*utils.so
+usr/lib/*/libkwinxrenderutils.so
+usr/share/dbus-1/interfaces/org.kde.KWin.*
+usr/share/dbus-1/interfaces/org.kde.kwin.*

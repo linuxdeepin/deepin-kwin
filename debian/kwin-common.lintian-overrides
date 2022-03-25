@@ -1,0 +1,6 @@
+kwin-common: package-name-doesnt-match-sonames libkcmkwincommon5 libkwin5
+kwin-common: lacks-unversioned-link-to-shared-library usr/lib/*/libkwin.so
+kwin-common: lacks-unversioned-link-to-shared-library usr/lib/*/libkcmkwincommon.so.5.*
+# we don’t ship header files for these, so no need for control files
+kwin-common: no-symbols-control-file usr/lib/x86_64-linux-gnu/libkcmkwincommon.so.5.*
+kwin-common: no-symbols-control-file usr/lib/x86_64-linux-gnu/libkwin.so.5.*

@@ -1,0 +1,3 @@
+usr/bin/kwin_wayland
+usr/bin/kwin_wayland_wrapper
+usr/lib/systemd/user/plasma-kwin_wayland.service
