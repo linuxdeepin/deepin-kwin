@@ -621,7 +621,7 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, int time)
 
 
         for (auto& mm: m_motionManagers) {
-            mm->calculate(15);
+            mm->calculate(time / 9.0);
         }
     }
 
