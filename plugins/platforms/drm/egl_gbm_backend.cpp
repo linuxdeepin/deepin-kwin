@@ -681,6 +681,7 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &dam
     } else {
         eglSwapBuffers(eglDisplay(), o.eglSurface);
     }
+    m_remoteaccessManager->incrementRenderSequence();
 
     if (o.m_modifiersEnabled) {
         o.buffer = m_backend->createBuffer(o.gbmSurface,
