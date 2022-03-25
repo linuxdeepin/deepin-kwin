@@ -1365,7 +1365,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                                          m_scale[screen].workspaceMgrRect.width() - wkobj->getRect().x() - wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.height());
                     if (bgrect.contains(mouseEvent->pos())) {
                         addNewDesktop();
-                        moveWindowChangeDesktop(m_windowMove, effects->numberOfDesktops());
+                        moveWindowChangeDesktop(m_windowMove, effects->numberOfDesktops(), true);
                         m_opacityStatus = true;  //start opacity and sliding effects
                     }
                 }
@@ -2623,7 +2623,7 @@ void MultitaskViewEffect::removeWinAndRelayout(EffectWindow *w)
     setActive(false);
 }
 
-void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int to)
+void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int to, bool isSwitch)
 {
     if (w->isOnAllDesktops()) {
         return;
@@ -2635,7 +2635,9 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int to)
     QVector<uint> desks{(uint)to};
     effects->windowToDesktops(w, desks);
 
-    effects->activateWindow(w);
+    if (isSwitch) {
+        effects->activateWindow(w);
+    }
 
     MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(from - 1);
     MultiViewWinManager *wkmobj1 = getWorkspaceWinManagerObject(to - 1);
