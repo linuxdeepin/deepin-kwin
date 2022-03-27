@@ -1205,6 +1205,8 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
         m_dockRect = w->geometry();
         m_dock = w;
         onDockChange("");
+    } else if (!QX11Info::isPlatformX11() && w->caption() == "org.deepin.dde.lock") {
+        setActive(false);
     } else if (isRelevantWithPresentWindows(w)) {
         m_isShieldEvent = false;
         foreach (const int i, desktopList(w)) {
@@ -1945,6 +1947,12 @@ bool MultitaskViewEffect::isRelevantWithPresentWindows(EffectWindow *w) const
 
     if (!w->isOnCurrentActivity()) {
         return false;
+    }
+    if (!QX11Info::isPlatformX11()) {
+        auto cl = static_cast<EffectWindowImpl *>(w)->window();
+        if (w->caption() == "dde-osd" || cl->isStandAlone()) {
+            return false;
+        }
     }
 
     return true;
