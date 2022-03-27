@@ -424,6 +424,10 @@ private:
     bool checkHandlerWorkspace(QPoint pos, int screen, int &desktop);
     void moveWindowChangeDesktop(EffectWindow *w, int to, bool isSwitch = false);
     EffectWindow *getNextWindow(EffectWindow *w);
+    EffectWindow *getPreWindow(EffectWindow *w);
+    EffectWindow *getHomeOrEndWindow(bool);
+    EffectWindow *getNextSameTypeWindow(EffectWindow *w);
+    EffectWindow *getPreSameTypeWindow(EffectWindow *w);
 
 private:
     QAction *m_showAction = nullptr;

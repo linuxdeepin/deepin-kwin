@@ -1481,22 +1481,50 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 }
             }
             break;
+        case Qt::Key_Home:
+            if (e->modifiers() == Qt::NoModifier) {
+                m_hoverWin = getHomeOrEndWindow(true);
+            }
+            break;
         case Qt::Key_End:
-        case Qt::Key_Down:
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
+                if (m_hoverWin) {
+                    moveWindowChangeDesktop(m_hoverWin, 1);
+                }
+            } else if (e->modifiers() == Qt::NoModifier) {
+                m_hoverWin = getHomeOrEndWindow(false);
+            }
+            break;
         case Qt::Key_PageDown:
         case Qt::Key_Clear:
             if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
-                int target_desktop = 1;
+                int target_desktop = 3;
                 switch (e->key())
                 {
-                case Qt::Key_End:       target_desktop = 1; break;
-                case Qt::Key_Down:      target_desktop = 2; break;
                 case Qt::Key_PageDown:  target_desktop = 3; break;
                 case Qt::Key_Clear:     target_desktop = 5; break;
                 default: break;
                 }
                 if (m_hoverWin) {
                     moveWindowChangeDesktop(m_hoverWin, target_desktop);
+                }
+            }
+            break;
+        case Qt::Key_Down:
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
+                if (m_hoverWin) {
+                    moveWindowChangeDesktop(m_hoverWin, 2);
+                }
+            } else if (e->modifiers() == Qt::NoModifier) {
+                if (m_hoverWin) {
+                    m_hoverWin = getNextWindow(m_hoverWin);
+                }
+            }
+            break;
+        case Qt::Key_Up:
+            if (e->modifiers() == Qt::NoModifier) {
+                if (m_hoverWin) {
+                    m_hoverWin = getPreWindow(m_hoverWin);
                 }
             }
             break;
@@ -1517,8 +1545,17 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             }
             break;
         case Qt::Key_Tab:
-            if (m_hoverWin) {
-                m_hoverWin = getNextWindow(m_hoverWin);
+            if (e->modifiers() == Qt::NoModifier) {
+                if (m_hoverWin) {
+                    m_hoverWin = getNextWindow(m_hoverWin);
+                }
+            }
+            break;
+        case Qt::Key_Backtab:
+            if (e->modifiers() == Qt::ShiftModifier) {
+                if (m_hoverWin) {
+                    m_hoverWin = getPreWindow(m_hoverWin);
+                }
             }
             break;
         case Qt::Key_Right:
@@ -1529,10 +1566,13 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 } else {
                     changeCurrentDesktop(index);
                 }
-            }
-            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
+            } else if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
                     moveWindowChangeDesktop(m_hoverWin, 6);
+                }
+            } else if (e->modifiers() == Qt::NoModifier) {
+                if (m_hoverWin) {
+                    m_hoverWin = getNextWindow(m_hoverWin);
                 }
             }
             break;
@@ -1544,10 +1584,13 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 } else {
                     changeCurrentDesktop(index);
                 }
-            }
-            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
+            } else if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
                     moveWindowChangeDesktop(m_hoverWin, 4);
+                }
+            } else if (e->modifiers() == Qt::NoModifier) {
+                if (m_hoverWin) {
+                    m_hoverWin = getPreWindow(m_hoverWin);
                 }
             }
             break;
@@ -1562,16 +1605,32 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             }
             break;
         case Qt::Key_Delete:
-            if (m_hoverWin) {
-                m_hoverWin->closeWindow();
-                m_hoverWin = nullptr;
-                m_isShieldEvent = true;
+            if (e->modifiers() == Qt::NoModifier) {
+                if (m_hoverWin) {
+                    m_hoverWin->closeWindow();
+                    m_hoverWin = nullptr;
+                    m_isShieldEvent = true;
+                }
             }
             break;
         case Qt::Key_L:
             if (e->modifiers() == Qt::MetaModifier) {
                 setActive(false);
                 effectsEx->requestLock();
+            }
+            break;
+        case Qt::Key_QuoteLeft:
+            if (e->modifiers() == Qt::AltModifier) {
+                if (m_hoverWin) {
+                    m_hoverWin = getNextSameTypeWindow(m_hoverWin);
+                }
+            }
+            break;
+        case Qt::Key_AsciiTilde:
+            if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier)) {
+                if (m_hoverWin) {
+                    m_hoverWin = getPreSameTypeWindow(m_hoverWin);
+                }
             }
             break;
         default:
@@ -2799,6 +2858,119 @@ EffectWindow *MultitaskViewEffect::getNextWindow(EffectWindow *w)
             break;
         }
     }
+    return target;
+}
+
+EffectWindow *MultitaskViewEffect::getPreWindow(EffectWindow *w)
+{
+    EffectWindow *target = nullptr;
+    EffectWindowList list;
+    MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+    if (wmobj) {
+        list = wmobj->getDesktopWinList();
+    }
+
+    int index = 0;
+    for (int i = list.size() - 1; i >= 0; i--) {
+        if (w == list[i]) {
+            index = i + 1;
+            if (index >= list.size()) {
+                target = list[0];
+            } else {
+                target = list[index];
+            }
+            break;
+        }
+    }
+    return target;
+}
+
+EffectWindow *MultitaskViewEffect::getHomeOrEndWindow(bool flag)
+{
+    EffectWindow *target = nullptr;
+    EffectWindowList list;
+    MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+    if (wmobj) {
+        list = wmobj->getDesktopWinList();
+    }
+
+    if (flag) {
+        target = list[list.size() - 1];
+    } else {
+        target = list[0];
+    }
+    return target;
+}
+
+EffectWindow *MultitaskViewEffect::getNextSameTypeWindow(EffectWindow *w)
+{
+    EffectWindow *target = nullptr;
+    EffectWindowList list;
+    MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+    if (wmobj) {
+        list = wmobj->getDesktopWinList();
+    }
+
+    EffectWindowList sameList;
+    int index = 0;
+    for (int i = list.size() - 1; i >= 0; i--) {
+        if (w->windowClass() == list[i]->windowClass()) {
+            sameList.push_back(list[i]);
+        }
+    }
+    if (sameList.size() == 1) {
+        target = w;
+    } else {
+        int index = 0;
+        for (int j = 0; j < sameList.size(); j++) {
+            if (w == sameList[j]) {
+                index = j + 1;
+                if (index >= sameList.size()) {
+                    target = sameList[0];
+                } else {
+                    target = sameList[index];
+                }
+                break;
+            }
+        }
+    }
+
+    return target;
+}
+
+EffectWindow *MultitaskViewEffect::getPreSameTypeWindow(EffectWindow *w)
+{
+    EffectWindow *target = nullptr;
+    EffectWindowList list;
+    MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+    if (wmobj) {
+        list = wmobj->getDesktopWinList();
+    }
+
+    EffectWindowList sameList;
+    int index = 0;
+    for (int i = list.size() - 1; i >= 0; i--) {
+        if (w->windowClass() == list[i]->windowClass()) {
+            sameList.push_back(list[i]);
+        }
+    }
+    if (sameList.size() == 1) {
+        target = w;
+    } else {
+        int index = 0;
+        for (int j = 0; j < sameList.size(); j++) {
+            if (w == sameList[j]) {
+                index = j - 1;
+                if (index < 0) {
+                    target = sameList[sameList.size() - 1];
+                } else {
+                    target = sameList[index];
+                }
+                break;
+            }
+        }
+    }
+
     return target;
 }
 
