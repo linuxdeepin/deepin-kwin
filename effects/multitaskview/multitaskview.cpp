@@ -2399,6 +2399,7 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         m_workspaceWinMgr.erase(m_workspaceWinMgr.begin() + desktop - 1);
     }
 
+    bool isRelayout = false;
     int newd = 0;
     QSet<int> screens;
     for (const auto &ew : effects->stackingOrder())
@@ -2417,11 +2418,10 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         MultiViewWinManager *wmobj = getWinManagerObject(newd - 1);
         MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(newd - 1);
         if (wmobj && wkmobj) {
+            isRelayout = true;
             wmobj->manageWin(ew->screen(), ew);
             wkmobj->manageWin(ew->screen(), ew);
             screens.insert(ew->screen());
-        } else {
-            newd = 0;
         }
     }
 
@@ -2429,16 +2429,17 @@ void MultitaskViewEffect::removeDesktop(int desktop)
     int currentDesktop = effects->currentDesktop();
     effects->setNumberOfDesktops(count - 1);
 
-    if (newd != 0) {
+    if (isRelayout) {
         QSet<int>::iterator iter;
+        int nrelyout = desktop == 1 ? desktop : (desktop - 1);
         for (iter = screens.begin(); iter != screens.end(); iter++) {
             WindowMotionManager *wmm;
-            MultiViewWinManager *wmobj = getWinManagerObject(newd - 1);
-            if (wmobj && wmobj->getMotion(newd, *iter, wmm)) {
-                calculateWindowTransformations(wmm->orderManagedWindows(), *wmm, newd, *iter, true);
+            MultiViewWinManager *wmobj = getWinManagerObject(nrelyout - 1);
+            if (wmobj && wmobj->getMotion(nrelyout, *iter, wmm)) {
+                calculateWindowTransformations(wmm->orderManagedWindows(), *wmm, nrelyout, *iter, true);
             }
 
-            workspaceWinRelayout(newd, *iter);
+            workspaceWinRelayout(nrelyout, *iter);
         }
     }
 
