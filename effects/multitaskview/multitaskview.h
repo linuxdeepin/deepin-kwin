@@ -422,7 +422,7 @@ private:
     MultiViewWinManager *getWinManagerObject(int index);
     MultiViewWinManager *getWorkspaceWinManagerObject(int index);
     bool checkHandlerWorkspace(QPoint pos, int screen, int &desktop);
-    void moveWindowChangeDesktop(EffectWindow *w, int to, bool isSwitch = false);
+    void moveWindowChangeDesktop(EffectWindow *w, int todesktop, int toscreen, bool isSwitch = false);
     EffectWindow *getNextWindow(EffectWindow *w);
     EffectWindow *getPreWindow(EffectWindow *w);
     EffectWindow *getHomeOrEndWindow(bool);
@@ -445,7 +445,7 @@ private:
     EffectFrame  *m_previewFrame = nullptr;
     EffectFrame  *m_closeWorkspaceFrame = nullptr;
 
-    QString      m_topFrameIcon;
+    QString       m_topFrameIcon;
 
     bool m_activated = false;
     bool m_isShieldEvent = false;

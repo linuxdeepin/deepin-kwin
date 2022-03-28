@@ -1357,7 +1357,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         } else if (m_wasWindowMove && isHoverWorkspace) {
             checkHandlerWorkspace(mouseEvent->pos(), screen, desktop);
             if (desktop != -1) {
-                moveWindowChangeDesktop(m_windowMove, desktop);
+                moveWindowChangeDesktop(m_windowMove, desktop, screen);
             } else {
                 MultiViewWorkspace *wkobj = getWorkspaceObject(screen, effects->numberOfDesktops() - 1);
                 if (wkobj) {
@@ -1365,7 +1365,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                                          m_scale[screen].workspaceMgrRect.width() - wkobj->getRect().x() - wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.height());
                     if (bgrect.contains(mouseEvent->pos())) {
                         addNewDesktop();
-                        moveWindowChangeDesktop(m_windowMove, effects->numberOfDesktops(), true);
+                        moveWindowChangeDesktop(m_windowMove, effects->numberOfDesktops(), screen, true);
                         m_opacityStatus = true;  //start opacity and sliding effects
                     }
                 }
@@ -1477,7 +1477,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 default: break;
                 }
                 if (m_hoverWin) {
-                    moveWindowChangeDesktop(m_hoverWin, target_desktop);
+                    moveWindowChangeDesktop(m_hoverWin, target_desktop, m_hoverWin->screen());
                 }
             }
             break;
@@ -1489,7 +1489,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
         case Qt::Key_End:
             if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
-                    moveWindowChangeDesktop(m_hoverWin, 1);
+                    moveWindowChangeDesktop(m_hoverWin, 1, m_hoverWin->screen());
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 m_hoverWin = getHomeOrEndWindow(false);
@@ -1506,14 +1506,14 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 default: break;
                 }
                 if (m_hoverWin) {
-                    moveWindowChangeDesktop(m_hoverWin, target_desktop);
+                    moveWindowChangeDesktop(m_hoverWin, target_desktop, m_hoverWin->screen());
                 }
             }
             break;
         case Qt::Key_Down:
             if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
-                    moveWindowChangeDesktop(m_hoverWin, 2);
+                    moveWindowChangeDesktop(m_hoverWin, 2, m_hoverWin->screen());
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
@@ -1568,7 +1568,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 }
             } else if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
-                    moveWindowChangeDesktop(m_hoverWin, 6);
+                    moveWindowChangeDesktop(m_hoverWin, 6, m_hoverWin->screen());
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
@@ -1586,7 +1586,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 }
             } else if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
-                    moveWindowChangeDesktop(m_hoverWin, 4);
+                    moveWindowChangeDesktop(m_hoverWin, 4, m_hoverWin->screen());
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
@@ -2712,46 +2712,47 @@ void MultitaskViewEffect::removeWinAndRelayout(EffectWindow *w)
     setActive(false);
 }
 
-void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int to, bool isSwitch)
+void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop, int toscreen, bool isSwitch)
 {
     if (w->isOnAllDesktops()) {
         return;
     }
 
-    int from = w->desktop();
+    int fromdesktop = w->desktop();
     QMutexLocker locker(&m_mutex);
     int screen = w->screen();
-    QVector<uint> desks{(uint)to};
+    effects->windowToScreen(w, toscreen);
+    QVector<uint> desks{(uint)todesktop};
     effects->windowToDesktops(w, desks);
 
     if (isSwitch) {
         effects->activateWindow(w);
     }
 
-    MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(from - 1);
-    MultiViewWinManager *wkmobj1 = getWorkspaceWinManagerObject(to - 1);
+    MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(fromdesktop - 1);
+    MultiViewWinManager *wkmobj1 = getWorkspaceWinManagerObject(todesktop - 1);
     if (wkmobj && wkmobj1) {
         wkmobj->removeWin(screen, w);
-        wkmobj1->manageWin(screen, w);
-        workspaceWinRelayout(from, screen);
-        workspaceWinRelayout(to, screen);
+        wkmobj1->manageWin(toscreen, w);
+        workspaceWinRelayout(fromdesktop, screen);
+        workspaceWinRelayout(todesktop, toscreen);
     }
 
-    MultiViewWinManager *wmobj = getWinManagerObject(from - 1);
+    MultiViewWinManager *wmobj = getWinManagerObject(fromdesktop - 1);
     if (wmobj) {
         wmobj->removeWin(screen, w);
         WindowMotionManager *wmm;
-        if (wmobj->getMotion(from, screen, wmm)) {
-            calculateWindowTransformations(wmm->orderManagedWindows(), *wmm, from, screen, true);
+        if (wmobj->getMotion(fromdesktop, screen, wmm)) {
+            calculateWindowTransformations(wmm->orderManagedWindows(), *wmm, fromdesktop, screen, true);
         }
     }
 
-    wmobj = getWinManagerObject(to - 1);
+    wmobj = getWinManagerObject(todesktop - 1);
     if (wmobj) {
-        wmobj->manageWin(screen, w);
+        wmobj->manageWin(toscreen, w);
         WindowMotionManager *wmmto;
-        if (wmobj->getMotion(to, screen, wmmto)) {
-            calculateWindowTransformations(wmmto->orderManagedWindows(), *wmmto, to, screen, true);
+        if (wmobj->getMotion(todesktop, toscreen, wmmto)) {
+            calculateWindowTransformations(wmmto->orderManagedWindows(), *wmmto, todesktop, toscreen, true);
         }
     }
     m_curDesktopIndex = effects->currentDesktop();
