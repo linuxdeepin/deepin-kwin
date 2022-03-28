@@ -1596,7 +1596,6 @@ public:
             case Qt::Key_WLAN:
             case Qt::Key_Display:
             case Qt::Key_Tools:
-            case Qt::Key_PowerOff:
                 break;
 
             default: return false;
