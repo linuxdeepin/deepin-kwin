@@ -1074,14 +1074,14 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
             delete metrics;
         }
 
-        if (w->keepAbove() && m_topWinFrame->icon().themeName() != MULTITASK_TOP_ACTIVE_SVG) {
+        if (w->keepAbove() && m_topFrameIcon != MULTITASK_TOP_ACTIVE_SVG) {
             QIcon icon(MULTITASK_TOP_ACTIVE_SVG);
-            icon.setThemeName(MULTITASK_TOP_ACTIVE_SVG);
+            m_topFrameIcon = MULTITASK_TOP_ACTIVE_SVG;
             m_topWinFrame->setIcon(icon);
             m_topWinFrame->setIconSize(QSize(48, 48));
-        } else if (!w->keepAbove() && m_topWinFrame->icon().themeName() != MULTITASK_TOP_SVG) {
+        } else if (!w->keepAbove() && m_topFrameIcon != MULTITASK_TOP_SVG) {
             QIcon icon(MULTITASK_TOP_SVG);
-            icon.setThemeName(MULTITASK_TOP_SVG);
+            m_topFrameIcon = MULTITASK_TOP_SVG;
             m_topWinFrame->setIcon(icon);
             m_topWinFrame->setIconSize(QSize(48, 48));
         }
