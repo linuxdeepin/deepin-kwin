@@ -9,7 +9,7 @@
     </message>
     <message>
         <source>No windows</source>
-        <translation>無窗口</translation>
+        <translation>無打開窗口</translation>
     </message>
 </context>
 </TS>
