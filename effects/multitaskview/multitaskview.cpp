@@ -1734,6 +1734,10 @@ void MultitaskViewEffect::setActive(bool active)
         return;
 
     m_activated = active;
+
+    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    wm.call( "SetMultiTaskingStatus", active);
+
     if (!QX11Info::isPlatformX11()) {
         effectsEx->changeBlurState(active);
     }
