@@ -445,6 +445,8 @@ private:
     EffectFrame  *m_previewFrame = nullptr;
     EffectFrame  *m_closeWorkspaceFrame = nullptr;
 
+    QString      m_topFrameIcon;
+
     bool m_activated = false;
     bool m_isShieldEvent = false;
     bool m_hasKeyboardGrab = false;
