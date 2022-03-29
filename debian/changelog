@@ -1,3 +1,24 @@
+kwin (4:5.15.11.14-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 119863 fix: show dde-osd and lock window in multitasking effect
+    + 120015 fix: don't show unhover workspace's frame
+    + 119559 fix: add dotted line and tips text when drag workspace to delete
+    + 119723 fix: support drag window to other screen workspace
+    + 119549 fix: solve delete first workspace but the window don't show
+    + 119537 fix: adjust copywriting
+    + 119835 fix: solve about set window keepabove but no identification
+    + 119647 fix: perfect shortcut key in mulititask view
+    + 119905 fix: add func about super + shift + num(small key board)
+    + 119935 fix: don't switch workspace when move window
+    + 119839 fix: modify fill of window transparency
+    + 119973 fix: modify start effect when in multitask view
+    + 119991 fix: solve dock hide when switch workspace
+    + 108844 fix: remove Bypassing Key_PowerOff from passToXwayland.
+    + 119577, 119573   fix: complete touch control board func
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 29 Mar 2022 19:15:32 +0800
+
 kwin (4:5.15.11.13-1) unstable; urgency=medium
 
   * Bug fix:
