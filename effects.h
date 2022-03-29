@@ -593,6 +593,14 @@ public:
      */
     QColor styledTextColor();
 
+    void setSpacing(int spacing) override {
+        m_spacing = spacing;
+    }
+
+    int getSpacing() override {
+        return m_spacing;
+    }
+
 private Q_SLOTS:
     void plasmaThemeChanged();
 
@@ -617,6 +625,8 @@ private:
     QIcon m_icon;
     QSize m_iconSize;
     QRect m_selectionGeometry;
+
+    int m_spacing;
 
     Scene::EffectFrame* m_sceneFrame;
     GLShader* m_shader;

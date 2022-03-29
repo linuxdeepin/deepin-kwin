@@ -2015,7 +2015,7 @@ void SceneOpenGL::EffectFrame::updateTextTexture()
     // Determine position on texture to paint text
     QRect rect(QPoint(0, 0), m_effectFrame->geometry().size());
     if (!m_effectFrame->icon().isNull() && !m_effectFrame->iconSize().isEmpty())
-        rect.setLeft(m_effectFrame->iconSize().width());
+        rect.setLeft(m_effectFrame->iconSize().width() + m_effectFrame->getSpacing());
 
     // If static size elide text as required
     QString text = m_effectFrame->text();

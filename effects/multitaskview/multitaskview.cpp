@@ -73,6 +73,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/resources/themes/add-light.svg";
+const char delete_workspace_png[] = ":/resources/themes/workspace_delete.png";
 
 namespace KWin
 {
@@ -770,6 +771,7 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
 
             if (diff.y() < -(target->getRect().height() / 2)) {
                 m_workspaceStatus = wpDelete;
+                renderDragWorkspacePrompt(m_screen);
             } else if (calculateSwitchPos(diff)) {
                 m_workspaceStatus = wpSwitch;
             } else {
@@ -1116,6 +1118,57 @@ void MultitaskViewEffect::renderWorkspaceHover(int screen)
         m_closeWorkspaceFrame->setPosition(QPoint(rect.x() + rect.width() - 30, rect.y() - 13));    //point 微调结果
         m_closeWorkspaceFrame->render(infiniteRegion(), 1, 0);
     }
+}
+
+void MultitaskViewEffect::renderDragWorkspacePrompt(int screen)
+{
+    MultiViewWorkspace *wkobj = getWorkspaceObject(screen, m_aciveMoveDesktop - 1);
+    if (wkobj) {
+        QRect rect = wkobj->getRect();
+        if (!m_dragTipsFrame) {
+            m_dragTipsFrame = effects->effectFrame(EffectFrameUnstyled, false);
+            m_dragTipsFrame->setAlignment(Qt::AlignHCenter);
+            m_dragTipsFrame->setSpacing(10);
+            m_dragTipsFrame->setGeometry(QRect(rect.x(), rect.y() + (rect.height() / 2) + 10, rect.width(), 30));
+
+            QIcon icon(delete_workspace_png);
+            m_dragTipsFrame->setIcon(icon);
+            m_dragTipsFrame->setIconSize(QSize(19, 20));
+
+            QFont font;
+            font.setPointSize(13);
+            m_dragTipsFrame->setFont(font);
+            m_dragTipsFrame->setText(tr("Drag upwards to remove"));
+        }
+        m_dragTipsFrame->setPosition(QPoint(rect.x() + (rect.width() / 2), rect.y() + (rect.height() / 2) + 10));
+        m_dragTipsFrame->render(infiniteRegion(), 1, 0);
+
+        drawDottedLine(rect, screen);
+    }
+}
+
+void MultitaskViewEffect::drawDottedLine(const QRect &geo, int screen)
+{
+    glLineStipple(1, 0x0f0f);
+    glLineWidth(1.0);
+    glEnable(GL_LINE_STIPPLE);
+    static GLShader* shader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::UniformColor, QString("dottedline.vert"), QStringLiteral("dottedline.frag"));
+    GLVertexBuffer* vbo = GLVertexBuffer::streamingBuffer();
+    auto area = effects->clientArea(FullArea, screen, 0);
+    vbo->reset();
+    vbo->setUseColor(false);
+    QVector<float> verts;
+    verts.reserve(4);
+    float x1 = (float)(geo.left()) * 2 / area.width() - 1.0;
+    float x2 = (float)(geo.right()) * 2 / area.width() - 1.0;
+    float y1 = 1.0 - (float)(geo.y() + geo.height()) / 2 * 2 / area.height();
+    verts << x1  << y1;
+    verts << x2  << y1;
+
+    ShaderBinder bind(shader);
+    vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
+    vbo->render(GL_LINES);
+    glDisable(GL_LINE_STIPPLE);
 }
 
 void MultitaskViewEffect::onWindowClosed(EffectWindow *w)
