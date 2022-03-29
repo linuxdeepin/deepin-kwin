@@ -1,3 +1,10 @@
+kwin (4:5.15.11.15-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 119523 fix: solve different screen layout dislocation
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 29 Mar 2022 22:16:07 +0800
+
 kwin (4:5.15.11.14-1) unstable; urgency=medium
 
   * Bug fix:
