@@ -49,6 +49,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define SCALE_F     1.0
 #define SCALE_S     2.0
 #define WINDOW_W_H  300
+#define MOUSE_MOVE_MIN_DISTANCE 2
 
 #define MAX_DESKTOP_COUNT   6
 
@@ -1382,11 +1383,13 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
 
     switch (mouseEvent->type()) {
     case QEvent::MouseMove:
+    {
+        QPoint diff = mouseEvent->pos() - m_lastWorkspaceMovePos;
         if (target) {   // window hover
             m_hoverWin = target;
             m_hoverWinBtn = target;
             m_hoverDesktop = -1;
-        } else if (!m_wasWorkspaceMove && m_aciveMoveDesktop != -1 && m_screen != -1) {     //workspace move
+        } else if (!m_wasWorkspaceMove && (abs(diff.x()) > MOUSE_MOVE_MIN_DISTANCE || (abs(diff.y()) > MOUSE_MOVE_MIN_DISTANCE)) && m_aciveMoveDesktop != -1 && m_screen != -1) {     //workspace move
             m_workspaceMoveStartPos = mouseEvent->pos();
             m_wasWorkspaceMove = true;
             m_hoverDesktop = -1;
@@ -1415,6 +1418,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         m_isShowPreview = isAddWorkspace;
 
         return;
+    }
     case QEvent::MouseButtonPress:
         if (target) {       // window press
             m_windowMove = target;
@@ -1424,6 +1428,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                 m_screen = screen;
             }
         }
+        m_lastWorkspaceMovePos = mouseEvent->pos();
 
         break;
     case QEvent::MouseButtonRelease:
