@@ -3368,6 +3368,9 @@ public:
      **/
     virtual EffectFrameStyle style() const = 0;
 
+    virtual void setSpacing(int spacing) = 0;
+    virtual int getSpacing() = 0;
+
     /**
      * If @p enable is @c true cross fading between icons and text is enabled
      * By default disabled. Use setCrossFadeProgress to cross fade.

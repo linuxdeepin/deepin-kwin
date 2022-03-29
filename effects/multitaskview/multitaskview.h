@@ -409,6 +409,8 @@ private:
 
     void renderHover(const EffectWindow *w, const QRect &rect, int order = 0);
     void renderWorkspaceHover(int screen);
+    void renderDragWorkspacePrompt(int screen);
+    void drawDottedLine(const QRect &geo, int screen);
     void handlerAfterTimeLine();
     void setWinKeepAbove(EffectWindow *w);
     void showWorkspacePreview(int screen, QPoint pos, bool isClear = false);
@@ -444,6 +446,7 @@ private:
     GLShader     *m_hoverWinShader = nullptr;
     EffectFrame  *m_previewFrame = nullptr;
     EffectFrame  *m_closeWorkspaceFrame = nullptr;
+    EffectFrame  *m_dragTipsFrame = nullptr;
 
     QString       m_topFrameIcon;
 

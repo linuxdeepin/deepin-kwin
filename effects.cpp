@@ -2239,6 +2239,7 @@ EffectFrameImpl::EffectFrameImpl(EffectFrameStyle style, bool staticSize, QPoint
     , m_point(position)
     , m_alignment(alignment)
     , m_shader(NULL)
+    , m_spacing(0)
     , m_theme(new Plasma::Theme(this))
 {
     if (m_style == EffectFrameStyled) {
@@ -2455,7 +2456,7 @@ void EffectFrameImpl::autoResize()
             scaleFactor = dpi / 96.0f;
         }
         QFontMetrics metrics(m_font);
-        geometry.setSize(QSize(metrics.width(m_text) * scaleFactor, metrics.height()));
+        geometry.setSize(QSize(metrics.width(m_text) * scaleFactor + m_spacing, metrics.height()));
     }
     if (!m_icon.isNull() && !m_iconSize.isEmpty()) {
         geometry.setLeft(-m_iconSize.width());
