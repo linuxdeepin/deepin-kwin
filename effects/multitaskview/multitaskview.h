@@ -447,6 +447,7 @@ private:
     EffectFrame  *m_previewFrame = nullptr;
     EffectFrame  *m_closeWorkspaceFrame = nullptr;
     EffectFrame  *m_dragTipsFrame = nullptr;
+    GLShader     *m_previewShader = nullptr;
 
     QString       m_topFrameIcon;
 
