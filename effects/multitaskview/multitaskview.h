@@ -125,6 +125,7 @@ public:
     QRect getCurrentRect() {return m_currentRect;}
     QRect getGeometry();
     void updateGeometry(QRect rect);
+    void setMaxHeight(int height) {m_maxHeight = height;}
     void setArea(QRect &rect, QRect &fullrect) {m_clientArea = rect; m_fullArea = fullrect;}
     QRect getClientArea() {return m_clientArea;}
     QRect getfullArea() {return m_fullArea;}
@@ -141,6 +142,7 @@ private:
     EffectFrame  *m_hoverFrame;
     int m_desktop;
     int m_screen;
+    int m_maxHeight;
     QRect m_rect;
     QRect m_currentRect;
     QRect m_clientArea;
@@ -159,7 +161,7 @@ public:
 class MultiViewWinFill : public QObject
 {
 public:
-    MultiViewWinFill(int screen, QRect rect);
+    MultiViewWinFill(int screen, QRect rect, int maxHeight);
     ~MultiViewWinFill();
 
     QRect getRect() {return m_rect;}
@@ -169,6 +171,7 @@ private:
     GLShader *m_fillShader;
     QRect m_rect;
     int m_screen;
+    int m_maxHeight;
 };
 
 class MultiViewWinManager : public QObject
@@ -484,6 +487,7 @@ private:
     int m_hoverDesktop = -1;
     int m_passiveMoveDesktop = -1;
     int m_moveWorkspaceNum = -1;
+    int m_maxHeight = 0;
 
     QHash<int, Scale_st> m_scale;
     QHash<int, QRect>    m_winBtnArea;
