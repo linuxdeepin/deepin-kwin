@@ -3492,20 +3492,24 @@ void AbstractClient::handleMoveResize(int x, int y, int x_root, int y_root)
 
 void Client::doResizeSync()
 {
-    if (!syncRequest.timeout) {
-        syncRequest.timeout = new QTimer(this);
-        connect(syncRequest.timeout, &QTimer::timeout, this, &Client::performMoveResize);
-        syncRequest.timeout->setSingleShot(true);
+    if (workspace()->isDragingWithContent()) {
+        performMoveResize();
+    } else {
+        if (!syncRequest.timeout) {
+            syncRequest.timeout = new QTimer(this);
+            connect(syncRequest.timeout, &QTimer::timeout, this, &Client::performMoveResize);
+            syncRequest.timeout->setSingleShot(true);
+        }
+        if (syncRequest.counter != XCB_NONE) {
+            syncRequest.timeout->start(250);
+            sendSyncRequest();
+        } else {                            // for clients not supporting the XSYNC protocol, we
+            syncRequest.isPending = true;   // limit the resizes to 30Hz to take pointless load from X11
+            syncRequest.timeout->start(33); // and the client, the mouse is still moved at full speed
+        }                                   // and no human can control faster resizes anyway
+        const QRect &moveResizeGeom = moveResizeGeometry();
+        m_client.setGeometry(0, 0, moveResizeGeom.width() - (borderLeft() + borderRight()), moveResizeGeom.height() - (borderTop() + borderBottom()));
     }
-    if (syncRequest.counter != XCB_NONE) {
-        syncRequest.timeout->start(250);
-        sendSyncRequest();
-    } else {                            // for clients not supporting the XSYNC protocol, we
-        syncRequest.isPending = true;   // limit the resizes to 30Hz to take pointless load from X11
-        syncRequest.timeout->start(33); // and the client, the mouse is still moved at full speed
-    }                                   // and no human can control faster resizes anyway
-    const QRect &moveResizeGeom = moveResizeGeometry();
-    m_client.setGeometry(0, 0, moveResizeGeom.width() - (borderLeft() + borderRight()), moveResizeGeom.height() - (borderTop() + borderBottom()));
 }
 
 void AbstractClient::performMoveResize()
