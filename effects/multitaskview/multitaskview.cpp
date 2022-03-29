@@ -337,20 +337,19 @@ void MultiViewWorkspace::renderWorkspaceBackGround(float t, int desktop)
     int ncurrentDesktop = effects->currentDesktop();
     QRect rect = m_workspaceBgFrame->geometry();
     QRect backgroundRect = effects->clientArea(ScreenArea, 0, ncurrentDesktop);
-    QColor color(217, 217, 217);
-    if (ncurrentDesktop == desktop) {
-        color = effectsEx->getActiveColor();
-    }
 
-    QRect geoframe = rect;
-    geoframe.adjust(-3, -3, 3, 3);
-    m_hoverFrame->setGeometry(geoframe);
-    ShaderBinder binder(m_hoverShader);
-    m_hoverShader->setUniform(GLShader::Color, color);
-    m_hoverShader->setUniform("iResolution", QVector3D(geoframe.width(), geoframe.height(), 0));
-    m_hoverShader->setUniform("iOffset", QVector2D(geoframe.x(), backgroundRect.height() - geoframe.y() - geoframe.height()));
-    m_hoverFrame->setShader(m_hoverShader);
-    m_hoverFrame->render(infiniteRegion(), 1, 0);
+    if (ncurrentDesktop == desktop) {
+        QColor color = effectsEx->getActiveColor();
+        QRect geoframe = rect;
+        geoframe.adjust(-3, -3, 3, 3);
+        m_hoverFrame->setGeometry(geoframe);
+        ShaderBinder binder(m_hoverShader);
+        m_hoverShader->setUniform(GLShader::Color, color);
+        m_hoverShader->setUniform("iResolution", QVector3D(geoframe.width(), geoframe.height(), 0));
+        m_hoverShader->setUniform("iOffset", QVector2D(geoframe.x(), backgroundRect.height() - geoframe.y() - geoframe.height()));
+        m_hoverFrame->setShader(m_hoverShader);
+        m_hoverFrame->render(infiniteRegion(), 1, 0);
+    }
 
     m_workspaceBgFrame->setShader(m_wBGShader);
     ShaderManager::instance()->pushShader(m_wBGShader);
@@ -516,6 +515,7 @@ MultitaskViewEffect::MultitaskViewEffect()
     connect(_gsettings_dde_dock, &QGSettings::changed, this, &MultitaskViewEffect::onDockChange);
 
     m_hoverWinShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral("windowhover.glsl"));
+    m_previewShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString(), QStringLiteral("workspacethumb.glsl"));
 
     reconfigure(ReconfigureAll);
 
@@ -579,6 +579,10 @@ MultitaskViewEffect::~MultitaskViewEffect()
     if (m_closeWorkspaceFrame) {
         delete m_closeWorkspaceFrame;
         m_closeWorkspaceFrame = nullptr;
+    }
+    if (m_dragTipsFrame) {
+        delete m_dragTipsFrame;
+        m_dragTipsFrame = nullptr;
     }
 }
 
@@ -699,6 +703,13 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
         }
     }
 
+    if (!m_wasWindowMove && m_isShowPreview && m_screen != -1) {
+        QPoint pos = m_addWorkspaceButton[m_screen]->getRect().topLeft();
+        showWorkspacePreview(m_screen, pos);
+    } else {
+        showWorkspacePreview(m_screen, QPoint(), true);
+    }
+
     //draw button
     if (effects->numberOfDesktops() < MAX_DESKTOP_COUNT) {
         for (int i = 0; i < m_addWorkspaceButton.size(); i++) {
@@ -716,14 +727,6 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
         renderWorkspaceHover(m_screen);
     } else {
         m_workspaceCloseBtnArea = QRect();
-    }
-
-    if (!m_wasWindowMove && m_isShowPreview && m_screen != -1) {
-        QPoint pos = m_addWorkspaceButton[m_screen]->getRect().topLeft();
-        pos += QPoint(0, 28);
-        showWorkspacePreview(m_screen, pos);
-    } else {
-        showWorkspacePreview(m_screen, QPoint(), true);
     }
 
     if (m_windowMove && m_wasWindowMove) {
@@ -2842,20 +2845,32 @@ void MultitaskViewEffect::showWorkspacePreview(int screen, QPoint pos, bool isCl
     if (!isClear) {
         if (!m_previewFrame) {
             m_previewFrame = effects->effectFrame(EffectFrameNone, false);
+            QRect maxRect = effects->clientArea(MaximizeArea, screen, 1);
             QSize size(m_scale[screen].workspaceWidth, m_scale[screen].workspaceHeight);
-            m_previewFrame->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-            m_previewFrame->setGeometry(QRect(pos, size));
+            QPoint pos1(maxRect.width(), maxRect.y() +  m_scale[screen].spacingHeight);
+            m_previewFrame->setAlignment(Qt::AlignRight | Qt::AlignTop);
+            m_previewFrame->setGeometry(QRect(pos1, size));
         }
         if (m_previewFrame->icon().isNull()) {
             QPixmap wpPix;
-            QSize size(m_scale[screen].workspaceWidth, m_scale[screen].workspaceHeight);
+            QSize size(m_scale[screen].workspaceWidth , m_scale[screen].workspaceHeight);
             MultiViewBackgroundManager::instance().getPreviewBackground(size, wpPix, screen);
+
+            QRect maxRect = effects->clientArea(MaximizeArea, screen, 1);
+            QPoint pos1(maxRect.width(), maxRect.y() + m_scale[screen].spacingHeight);
 
             QIcon icon(wpPix);
             m_previewFrame->setIcon(icon);
             m_previewFrame->setIconSize(size);
-            m_previewFrame->setPosition(pos);
+            m_previewFrame->setPosition(pos1);
         }
+
+        QRect rect = m_previewFrame->geometry();
+        ShaderBinder bind(m_previewShader);
+        m_previewShader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
+        m_previewShader->setUniform("iOffset", QVector2D(rect.x(), m_backgroundRect.height() - rect.y() - rect.height()));
+
+        m_previewFrame->setShader(m_previewShader);
         m_previewFrame->render(infiniteRegion(), 1, 0.8);
     } else {
         if (m_previewFrame && !m_previewFrame->icon().isNull()) {
