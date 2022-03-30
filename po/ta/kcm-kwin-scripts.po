@@ -1,0 +1,92 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the kwin package.
+#
+# Kishore G <kishore96@gmail.com>, 2021.
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-01-14 02:21+0000\n"
+"PO-Revision-Date: 2021-11-16 21:33+0530\n"
+"Last-Translator: Kishore G <kishore96@gmail.com>\n"
+"Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 21.11.80\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+
+#: module.cpp:40
+#, kde-format
+msgid "KWin Scripts"
+msgstr "கேவின் சிறுநிரல்கள்"
+
+#: module.cpp:42
+#, kde-format
+msgid "Configure KWin scripts"
+msgstr "கேவின் சிறுநிரல்களை அமையுங்கள்"
+
+#: module.cpp:45
+#, kde-format
+msgid "Tamás Krutki"
+msgstr ""
+
+#: module.cpp:105
+#, kde-format
+msgid "Import KWin Script"
+msgstr "கேவின் சிறுநிரலை இறக்குமதி செய்"
+
+#: module.cpp:106
+#, kde-format
+msgid "*.kwinscript|KWin scripts (*.kwinscript)"
+msgstr "*.kwinscript|கேவின் சிறுநிரல்கள் (*.kwinscript)"
+
+#: module.cpp:125
+#, kde-format
+msgctxt "Placeholder is error message returned from the install service"
+msgid ""
+"Cannot import selected script.\n"
+"%1"
+msgstr ""
+"தேர்ந்தெடுத்த சிறுநிரலை இறக்குமதி செய்ய முடியவில்லை.\n"
+"%1"
+
+#: module.cpp:139
+#, kde-format
+msgctxt "Placeholder is name of the script that was imported"
+msgid "The script \"%1\" was successfully imported."
+msgstr "\"%1\" என்ற சிறுநிரல் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டது."
+
+#: module.cpp:183
+#, kde-format
+msgid "Error when uninstalling KWin Script: %1"
+msgstr "கேவின் சிறுநிரலை நீக்குவதில் சிக்கல்: %1"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, Module)
+#: module.ui:14
+#, kde-format
+msgid "KWin script configuration"
+msgstr "கேவின் சிறுநிரல் அமைப்பு"
+
+#. i18n: ectx: property (text), widget (QPushButton, importScriptButton)
+#: module.ui:55
+#, kde-format
+msgid "Install from File..."
+msgstr "கோப்பிலிருந்து நிறுவு..."
+
+#. i18n: ectx: property (text), widget (KNS3::Button, ghnsButton)
+#: module.ui:67
+#, kde-format
+msgid "Get New Scripts..."
+msgstr "புதிய சிறுநிரல்களை பெறு…"
