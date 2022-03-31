@@ -78,6 +78,22 @@ const char delete_workspace_png[] = ":/resources/themes/workspace_delete.png";
 
 namespace KWin
 {
+QPoint calculateOffSet(const QRect& rect, const QSize screenArea, const int maxHeight)
+{
+    QPoint point;
+    point.setX(rect.x());
+    point.setY(maxHeight - rect.y() - rect.height());
+    if (!QX11Info::isPlatformX11()) {
+        if (point.x() > screenArea.width()) {
+            point.setX(point.x() - screenArea.width());
+        }
+
+        if (point.y() > screenArea.height()) {
+            point.setY(point.y() - screenArea.height());
+        }
+    }
+    return point;
+}
 
 MultiViewBackgroundManager& MultiViewBackgroundManager::instance()
 {
@@ -346,7 +362,7 @@ void MultiViewWorkspace::renderWorkspaceBackGround(float t, int desktop)
         ShaderBinder binder(m_hoverShader);
         m_hoverShader->setUniform(GLShader::Color, color);
         m_hoverShader->setUniform("iResolution", QVector3D(geoframe.width(), geoframe.height(), 0));
-        m_hoverShader->setUniform("iOffset", QVector2D(geoframe.x(), m_maxHeight - geoframe.y() - geoframe.height()));
+        m_hoverShader->setUniform("iOffset", QVector2D(calculateOffSet(geoframe, m_fullArea.size(), m_maxHeight)));
         m_hoverFrame->setShader(m_hoverShader);
         m_hoverFrame->render(infiniteRegion(), 1, 0);
     }
@@ -354,7 +370,7 @@ void MultiViewWorkspace::renderWorkspaceBackGround(float t, int desktop)
     m_workspaceBgFrame->setShader(m_wBGShader);
     ShaderManager::instance()->pushShader(m_wBGShader);
     m_wBGShader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
-    m_wBGShader->setUniform("iOffset", QVector2D(rect.x(), m_maxHeight - rect.y() - rect.height()));
+    m_wBGShader->setUniform("iOffset", QVector2D(calculateOffSet(rect, m_fullArea.size(), m_maxHeight)));
     m_wBGShader->setUniform("t", t);
     ShaderManager::instance()->popShader();
     m_workspaceBgFrame->render(infiniteRegion(), 1, 1);
@@ -375,7 +391,7 @@ void MultiViewWorkspace::setPosition(QPoint pos)
 
     ShaderBinder bind(m_shader);
     m_shader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
-    m_shader->setUniform("iOffset", QVector2D(rect.x(), m_maxHeight - rect.y() - rect.height()));
+    m_shader->setUniform("iOffset", QVector2D(calculateOffSet(rect, m_fullArea.size(), m_maxHeight)));
     if(m_bShader)
         m_workspaceBgFrame->setShader(m_shader);
 }
@@ -401,7 +417,7 @@ void MultiViewWorkspace::setImage(const QPixmap &bgPix, const QPixmap &wpPix, co
 
     ShaderBinder bind(m_shader);
     m_shader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
-    m_shader->setUniform("iOffset", QVector2D(rect.x(), m_maxHeight - rect.y() - rect.height()));
+    m_shader->setUniform("iOffset", QVector2D(calculateOffSet(rect, m_fullArea.size(), m_maxHeight)));
     if(m_bShader)
         m_workspaceBgFrame->setShader(m_shader);
 }
@@ -420,7 +436,7 @@ void MultiViewWorkspace::setImage(const QString &btf, const QRect &rect)
 
     ShaderBinder bind(m_shader);
     m_shader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
-    m_shader->setUniform("iOffset", QVector2D(rect.x(), m_maxHeight - rect.y() - rect.height()));
+    m_shader->setUniform("iOffset", QVector2D(calculateOffSet(rect, m_fullArea.size(), m_maxHeight)));
     if(m_bShader)
         m_workspaceBgFrame->setShader(m_shader);
 }
@@ -443,7 +459,7 @@ void MultiViewWorkspace::updateGeometry(QRect rect)
     m_workspaceBgFrame->setIconSize(QSize(rect.width(), rect.height()));
     ShaderBinder bind(m_shader);
     m_shader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
-    m_shader->setUniform("iOffset", QVector2D(rect.x(), m_maxHeight - rect.y() - rect.height()));
+    m_shader->setUniform("iOffset", QVector2D(calculateOffSet(rect, m_fullArea.size(), m_maxHeight)));
     if(m_bShader)
         m_workspaceBgFrame->setShader(m_shader);
 }
@@ -458,7 +474,8 @@ MultiViewWinFill::MultiViewWinFill(int screen, QRect rect, int maxHeight)
     m_fillFrame->setGeometry(rect);
     ShaderBinder binder(m_fillShader);
     m_fillShader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
-    m_fillShader->setUniform("iOffset", QVector2D(rect.x(), m_maxHeight - rect.y() - rect.height()));
+    QSize screenSize = effects->clientArea(ScreenArea, screen, 0).size();
+    m_fillShader->setUniform("iOffset", QVector2D(calculateOffSet(rect, screenSize, m_maxHeight)));
     m_fillFrame->setShader(m_fillShader);
 }
 
@@ -1045,7 +1062,7 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         ShaderBinder binder(m_hoverWinShader);
         m_hoverWinShader->setUniform(GLShader::Color, color);
         m_hoverWinShader->setUniform("iResolution", QVector3D(geoframe.width(), geoframe.height(), 0));
-        m_hoverWinShader->setUniform("iOffset", QVector2D(geoframe.x(), m_maxHeight - geoframe.y() - geoframe.height()));
+        m_hoverWinShader->setUniform("iOffset", QVector2D(calculateOffSet(geoframe, m_scale[m_screen].fullArea.size(), m_maxHeight)));
         m_hoverWinFrame->setShader(m_hoverWinShader);
         m_hoverWinFrame->render(infiniteRegion(), 1, 0);
     } else {
@@ -2311,6 +2328,7 @@ void MultitaskViewEffect::initWorkspaceBackground()
             MultiViewWorkspace *addButton = new MultiViewWorkspace(true);
             QRect buttonRect(it.value().rect.x() + it.value().rect.width() - 104, it.value().rect.y() + 56, 64, 64);
             QString buttonImage = QLatin1String(add_workspace_png);
+            addButton->setArea(it.value().rect, it.value().screenrect);
             addButton->setMaxHeight(m_maxHeight);
             addButton->setImage(buttonImage, buttonRect);
             m_addWorkspaceButton[it.value().screen] = addButton;
@@ -2353,6 +2371,7 @@ void MultitaskViewEffect::getScreenInfo()
         m_screenInfoList[infost.name] = infost;
 
         Scale_st scalest;
+        scalest.fullArea = rect;
         scalest.spacingHeight = rect.height() * SPACING_H_SCALE;
         scalest.spacingWidth = rect.width() * SPACING_W_SCALE;
         scalest.workspacingWidth = rect.width() * WORK_SPACING_SCALE;
@@ -2903,7 +2922,7 @@ void MultitaskViewEffect::showWorkspacePreview(int screen, QPoint pos, bool isCl
         QRect rect = m_previewFrame->geometry();
         ShaderBinder bind(m_previewShader);
         m_previewShader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
-        m_previewShader->setUniform("iOffset", QVector2D(rect.x(), m_maxHeight - rect.y() - rect.height()));
+        m_previewShader->setUniform("iOffset", QVector2D(calculateOffSet(rect, m_scale[m_screen].fullArea.size(), m_maxHeight)));
 
         m_previewFrame->setShader(m_previewShader);
         m_previewFrame->render(infiniteRegion(), 1, 0.8);
