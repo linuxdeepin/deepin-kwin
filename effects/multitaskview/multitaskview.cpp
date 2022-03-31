@@ -766,7 +766,8 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
 
             if (diff.y() < -(target->getRect().height() / 2)) {
                 m_workspaceStatus = wpDelete;
-                renderDragWorkspacePrompt(m_screen);
+                if (effects->numberOfDesktops() != 1)
+                    renderDragWorkspacePrompt(m_screen);
             } else if (calculateSwitchPos(diff)) {
                 m_workspaceStatus = wpSwitch;
             } else {
@@ -1065,9 +1066,14 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
             m_textWinFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
             QFont font;
-            font.setPointSize(12);
+            font.setPointSize(14);
             m_textWinFrame->setFont(font);
         }
+        if (!m_textWinBgFrame) {
+            m_textWinBgFrame = effects->effectFrame(EffectFrameStyled, false);
+            m_textWinBgFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        }
+
         {
             QFontMetrics* metrics = NULL;
             if (!metrics)
@@ -1097,9 +1103,20 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         m_winBtnArea[0] = QRect(QPoint(rect.x() + rect.width() - 25, rect.y() - 17), QSize(48, 48));
         m_winBtnArea[1] = QRect(QPoint(rect.x() - 22, rect.y() - 17), QSize(48, 48));
 
+        m_textWinBgFrame->setPosition(QPoint(rect.x() + rect.width() / 2, rect.y() + rect.height() - 40));
+        static GLShader*  shader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral("windowtext.glsl"));
+        QRect bgrect = m_textWinFrame->geometry();
+        bgrect.adjust(-16, -(48 - bgrect.height()) / 2, 16, (48 - bgrect.height()) / 2);
+        m_textWinBgFrame->setGeometry(bgrect);
+        ShaderBinder binder(shader);
+        shader->setUniform("iResolution", QVector3D(m_textWinBgFrame->geometry().width(), m_textWinBgFrame->geometry().height(), 0));
+        shader->setUniform("iOffset", QVector2D(m_textWinBgFrame->geometry().x(), m_maxHeight - m_textWinBgFrame->geometry().y() - m_textWinBgFrame->geometry().height()));
+        m_textWinBgFrame->setShader(shader);
+
+        m_textWinBgFrame->render(infiniteRegion(), 1, 0);
         m_closeWinFrame->render(infiniteRegion(), 1, 0);
         m_topWinFrame->render(infiniteRegion(), 1, 0);
-        m_textWinFrame->render(infiniteRegion(), 1, 0.7);
+        m_textWinFrame->render(infiniteRegion(), 1, 0);
     }
 }
 
@@ -2888,7 +2905,7 @@ void MultitaskViewEffect::showWorkspacePreview(int screen, QPoint pos, bool isCl
         QRect rect = m_previewFrame->geometry();
         ShaderBinder bind(m_previewShader);
         m_previewShader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
-        m_previewShader->setUniform("iOffset", QVector2D(rect.x(), m_backgroundRect.height() - rect.y() - rect.height()));
+        m_previewShader->setUniform("iOffset", QVector2D(rect.x(), m_maxHeight - rect.y() - rect.height()));
 
         m_previewFrame->setShader(m_previewShader);
         m_previewFrame->render(infiniteRegion(), 1, 0.8);

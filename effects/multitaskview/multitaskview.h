@@ -449,6 +449,7 @@ private:
     EffectFrame  *m_closeWinFrame = nullptr;
     EffectFrame  *m_topWinFrame = nullptr;
     EffectFrame  *m_textWinFrame = nullptr;
+    EffectFrame  *m_textWinBgFrame = nullptr;
     GLShader     *m_hoverWinShader = nullptr;
     EffectFrame  *m_previewFrame = nullptr;
     EffectFrame  *m_closeWorkspaceFrame = nullptr;

@@ -17,6 +17,7 @@
         <file alias="workspacehover.glsl">multitaskview/workspacehover.glsl</file>
     	<file alias="dottedline.vert">multitaskview/dottedline.vert</file>
         <file alias="dottedline.frag">multitaskview/dottedline.frag</file>
+	<file alias="windowtext.glsl">multitaskview/windowtext.glsl</file>
     </qresource>
     <qresource prefix="/effect-shaders-1.40">
         <file alias="coverswitch-reflection.glsl">coverswitch/shaders/1.40/coverswitch-reflection.glsl</file>
@@ -40,6 +41,7 @@
         <file alias="workspacehover.glsl">multitaskview/workspacehover.glsl</file>
         <file alias="dottedline.vert">multitaskview/dottedline.vert</file>
         <file alias="dottedline.frag">multitaskview/dottedline.frag</file>
+	<file alias="windowtext.glsl">multitaskview/windowtext.glsl</file>
     </qresource>
     <qresource prefix="/multitasking">
         <file>multitaskview/translations/multitasking_ca.qm</file>
