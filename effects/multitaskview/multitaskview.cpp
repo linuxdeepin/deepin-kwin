@@ -2882,24 +2882,21 @@ void MultitaskViewEffect::showWorkspacePreview(int screen, QPoint pos, bool isCl
     if (!isClear) {
         if (!m_previewFrame) {
             m_previewFrame = effects->effectFrame(EffectFrameNone, false);
-            QRect maxRect = effects->clientArea(MaximizeArea, screen, 1);
-            QSize size(m_scale[screen].workspaceWidth, m_scale[screen].workspaceHeight);
-            QPoint pos1(maxRect.width(), maxRect.y() +  m_scale[screen].spacingHeight);
             m_previewFrame->setAlignment(Qt::AlignRight | Qt::AlignTop);
-            m_previewFrame->setGeometry(QRect(pos1, size));
         }
         if (m_previewFrame->icon().isNull()) {
             QPixmap wpPix;
-            QSize size(m_scale[screen].workspaceWidth , m_scale[screen].workspaceHeight);
+            QSize size(m_scale[screen].workspaceWidth, m_scale[screen].workspaceHeight);
             MultiViewBackgroundManager::instance().getPreviewBackground(size, wpPix, screen);
 
             QRect maxRect = effects->clientArea(MaximizeArea, screen, 1);
-            QPoint pos1(maxRect.width(), maxRect.y() + m_scale[screen].spacingHeight);
+            QPoint pos1(maxRect.x() + maxRect.width(), maxRect.y() + m_scale[screen].spacingHeight);
 
             QIcon icon(wpPix);
             m_previewFrame->setIcon(icon);
             m_previewFrame->setIconSize(size);
             m_previewFrame->setPosition(pos1);
+            m_previewFrame->setGeometry(QRect(QPoint(pos1.x() - m_scale[screen].workspaceWidth, pos1.y()), size));
         }
 
         QRect rect = m_previewFrame->geometry();
