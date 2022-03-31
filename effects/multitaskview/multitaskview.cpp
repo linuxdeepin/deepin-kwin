@@ -1451,7 +1451,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                     }
                 }
             }
-        } else if (m_dockRect.contains(mouseEvent->pos())) {
+        } else if (!m_wasWindowMove && m_dockRect.contains(mouseEvent->pos())) {
             m_delayDbus = false;
             if (QX11Info::isPlatformX11()) {
                 relayDockEvent(mouseEvent->pos(), mouseEvent->button());
