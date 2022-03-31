@@ -2526,9 +2526,9 @@ void MultitaskViewEffect::removeDesktop(int desktop)
     int currentDesktop = effects->currentDesktop();
     effects->setNumberOfDesktops(count - 1);
 
+    int nrelyout = desktop == 1 ? desktop : (desktop - 1);
     if (isRelayout) {
         QSet<int>::iterator iter;
-        int nrelyout = desktop == 1 ? desktop : (desktop - 1);
         for (iter = screens.begin(); iter != screens.end(); iter++) {
             WindowMotionManager *wmm;
             MultiViewWinManager *wmobj = getWinManagerObject(nrelyout - 1);
@@ -2540,6 +2540,7 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         }
     }
 
+    effects->setCurrentDesktop(nrelyout);
     if (currentDesktop == desktop) {
         m_bgSlidingStatus = true;
         m_bgSlidingTimeLine.reset();
