@@ -1,3 +1,15 @@
+kwin (4:5.15.11.16-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 119741 fix: In the multitasking view, the touch screen cannot select the workspace
+    + 121925 fix: drag window to dock area don't quit multitask
+    + 121897 fix: workspace preview show in auxiliary screen
+    + 121341 fix: support use screenshot in multitask view
+    + 121895, 119943 fix: delete workspace set current index
+    + 119979, 121427 fix: adjust window caption background
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 31 Mar 2022 21:41:02 +0800
+
 kwin (4:5.15.11.15-1) unstable; urgency=medium
 
   * Bug fix:
