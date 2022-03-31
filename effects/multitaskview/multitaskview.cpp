@@ -70,6 +70,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define MULTITASK_TOP_SVG        ":/resources/themes/multiview_top.svg"
 #define MULTITASK_TOP_ACTIVE_SVG ":/resources/themes/multiview_top_active.svg"
 
+const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
 const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/resources/themes/add-light.svg";
@@ -900,6 +901,12 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         return;
     }
 
+    if (w->windowClass() == screen_recorder) {
+        effects->setElevatedWindow(w, true);
+        effects->paintWindow(w, mask, region, data);
+        return;
+    }
+
     int desktop = effects->currentDesktop();
     if (0 == paintingDesktop) {
         if (m_bgSlidingStatus) {
@@ -1171,8 +1178,11 @@ void MultitaskViewEffect::onWindowClosed(EffectWindow *w)
     if (!m_activated)
         return;
 
-    if (w->isDock())
+    if (w->windowClass() == screen_recorder) {
+        effects->startMouseInterception(this, Qt::PointingHandCursor);
+    } else if (w->isDock()) {
         m_dock = nullptr;
+    }
 }
 
 void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
@@ -1210,6 +1220,8 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
                 }
             }
         }
+    } else if (w->windowClass() == screen_recorder) {
+        effects->stopMouseInterception(this);
     }
 }
 
