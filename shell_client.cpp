@@ -1728,6 +1728,11 @@ void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface
 {
     m_plasmaShellSurface = surface;
     auto updatePosition = [this, surface] {
+        if (isFullScreen()) {
+            QPoint newPosition = resetPosition(surface->position(), getWindowGravity());
+            m_geomFsRestore.moveTo(newPosition);
+            return;
+        }
         QPoint newPosition = resetPosition(surface->position(), getWindowGravity());
         QRect rect = QRect(newPosition, m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
         setGeometryRestore(QRect(newPosition, m_geomMaximizeRestore.size()));
