@@ -58,6 +58,7 @@ typedef struct scaleSt {
     float workspaceHeight;
     QRect workspaceMgrRect;
     QRect windowMgrRect;
+    QRect fullArea;
 } Scale_st;
 
 typedef struct backgroundInfo {
