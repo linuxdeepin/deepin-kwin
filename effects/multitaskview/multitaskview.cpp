@@ -545,15 +545,15 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     m_workspaceSlidingStatus = false;
     m_workspaceSlidingTimeline.setEasingCurve(QEasingCurve::OutQuint);
-    m_workspaceSlidingTimeline.setDuration(std::chrono::milliseconds(500));
+    m_workspaceSlidingTimeline.setDuration(std::chrono::milliseconds(300));
 
     m_popStatus = false;
     m_popTimeLine.setEasingCurve(QEasingCurve::OutQuint);
-    m_popTimeLine.setDuration(std::chrono::milliseconds(1000));
+    m_popTimeLine.setDuration(std::chrono::milliseconds(300));
 
     m_opacityStatus = false;
     m_opacityTimeLine.setEasingCurve(QEasingCurve::OutQuint);
-    m_opacityTimeLine.setDuration(std::chrono::milliseconds(3000));
+    m_opacityTimeLine.setDuration(std::chrono::milliseconds(300));
 
     QString qm = QString(":/multitasking/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());
     QTranslator *tran = new QTranslator();
@@ -883,7 +883,7 @@ void MultitaskViewEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &da
         w->disablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
 
     if (m_bgSlidingStatus) {
-        WindowMotionManager *mgr0, *mgr1;
+        WindowMotionManager *mgr0 = nullptr, *mgr1 = nullptr;
         auto *lastWinManager = getWinManagerObject(m_lastDesktopIndex - 1);
         auto *curWinManager = getWinManagerObject(m_curDesktopIndex - 1);
         if (lastWinManager && curWinManager) {
@@ -935,11 +935,11 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
     int desktop = effects->currentDesktop();
     if (0 == paintingDesktop) {
         if (m_bgSlidingStatus) {
-            WindowMotionManager *mgr0, *mgr1;
+            WindowMotionManager *mgr0 = nullptr, *mgr1 = nullptr;
             auto *lastWinManager = getWinManagerObject(m_lastDesktopIndex - 1);
             auto *curWinManager = getWinManagerObject(m_curDesktopIndex - 1);
             QRect backgroundRect = effects->clientArea(FullScreenArea, w->screen(), 1);
-            int DW1 = backgroundRect.width();
+            int bgRectWidth = backgroundRect.width();
             if (lastWinManager) {
                 lastWinManager->getMotion(m_lastDesktopIndex, w->screen(), mgr0);
                 if (mgr0->isManaging(w)) {
@@ -947,15 +947,15 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     WindowPaintData d = data;
                     auto geo = mgr0->targetGeometry(w);
                     if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
-                        d.translate(geo.x() - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                        d.translate(geo.x() - bgRectWidth * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
                     } else if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
-                        d.translate(geo.x() + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                        d.translate(geo.x() + bgRectWidth * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
                     }
                     else if (m_lastDesktopIndex < m_curDesktopIndex){
-                        d.translate(geo.x() - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                        d.translate(geo.x() - bgRectWidth * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
                     }
                     else {
-                        d.translate(geo.x() + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                        d.translate(geo.x() + bgRectWidth * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
                     }
                     d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
                     effects->paintWindow(w, mask, area, d);     //when open, all windows flying into RegionB
@@ -971,14 +971,13 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     auto geo0 = mgr1->transformedGeometry(w);
                     auto geo = mgr1->targetGeometry(w);
                     if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
-                        d.translate(geo.x() + DW1 - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                        d.translate(geo.x() + bgRectWidth - bgRectWidth * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
                     } else if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
-                        d.translate(geo.x() - DW1 + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                        d.translate(geo.x() - bgRectWidth + bgRectWidth * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
                     } else if(m_lastDesktopIndex<m_curDesktopIndex) {
-                        d.translate(geo.x() + DW1 - DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
-                    }
-                    else {
-                        d.translate(geo.x() - DW1 + DW1 * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                        d.translate(geo.x() + bgRectWidth - bgRectWidth * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
+                    } else {
+                        d.translate(geo.x() - bgRectWidth + bgRectWidth * m_bgSlidingTimeLine.value(), geo.y() - w->y(), 0);
                     }
                     d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
                     effects->paintWindow(w, mask, area, d);
@@ -987,7 +986,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                 }
             }
         } else {
-            WindowMotionManager *wmm;
+            WindowMotionManager *wmm = nullptr;
             QMutexLocker locker(&m_mutex);
             MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
             if (wmobj && wmobj->getMotion(desktop, w->screen(), wmm)) {

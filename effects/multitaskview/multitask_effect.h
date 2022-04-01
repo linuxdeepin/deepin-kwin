@@ -23,7 +23,6 @@
 
 #include <kwineffects.h>
 #include <map>
-using namespace std;
 
 #include <QRect>
 
@@ -150,7 +149,9 @@ public:
         m_selectedWindow = nullptr;
     }
 
-    ~MultiTaskEffectFlyingBack() { reset(); }
+    ~MultiTaskEffectFlyingBack() {
+        reset();
+    }
 
     void reset() {
         m_status = -1;
@@ -207,7 +208,9 @@ public:
         reset();
     }
 
-    int getStatus() {return m_status;}
+    int getStatus() {
+        return m_status;
+    }
 
     void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) {
         if (m_status == 1) {
@@ -229,7 +232,7 @@ public:
     }
 
 private:
-    map<EffectWindow*, QPoint> m_winMotionMgr;
+    std::map<EffectWindow*, QPoint> m_winMotionMgr;
 
     TimeLine m_timeLine;
 
