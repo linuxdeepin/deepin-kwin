@@ -2477,6 +2477,9 @@ void MultitaskViewEffect::addNewDesktop()
                 for (int j = 0; j < list.size(); j++) {
                     QRect rect = list[j]->getRect();
                     m_workspaceSlidingInfo[list[j]].first = rect.x();
+                    if (j == list.size() - 1) {
+                        m_workspaceSlidingInfo[list[j]].first = m_previewFrame->geometry().x();
+                    }
                 }
             }
         }
