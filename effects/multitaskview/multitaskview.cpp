@@ -232,6 +232,12 @@ void MultiViewBackgroundManager::getBackgroundList()
     }
 }
 
+void MultiViewBackgroundManager::updateBackgroundList(const QString &file)
+{
+    if (!m_backgroundAllList.contains(file))
+        m_backgroundAllList.push_back(file);
+}
+
 void MultiViewBackgroundManager::getPreviewBackground(QSize size, QPixmap &workspaceBg, int screen)
 {
     int backgroundIndex = m_backgroundAllList.count();
@@ -2564,11 +2570,11 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         }
     }
 
-    effects->setCurrentDesktop(nrelyout);
     if (currentDesktop == desktop) {
+        effects->setCurrentDesktop(nrelyout);
         m_bgSlidingStatus = true;
         m_bgSlidingTimeLine.reset();
-        m_curDesktopIndex = effects->currentDesktop();
+        m_curDesktopIndex = nrelyout;
         m_lastDesktopIndex = desktop;
         m_isRemoveWorkspace = true;
     } else {
@@ -2673,6 +2679,7 @@ void MultitaskViewEffect::switchDesktop()
         }
     }
 
+    int ncurrent = effects->currentDesktop();
     int index = m_aciveMoveDesktop - 1;
     MultiViewWinManager *wmobj = getWinManagerObject(index);
     MultiViewWorkspace *target = getWorkspaceObject(m_screen, index);
@@ -2688,6 +2695,11 @@ void MultitaskViewEffect::switchDesktop()
             m_workspaceWinMgr.erase(m_workspaceWinMgr.begin() + index + 1);
         }
         desktopSwitchPosition(m_aciveMoveDesktop - 1 - m_moveWorkspaceNum, m_aciveMoveDesktop);
+        if (m_aciveMoveDesktop == ncurrent) {
+            ncurrent = m_aciveMoveDesktop - 1 - m_moveWorkspaceNum;
+        } else if (m_aciveMoveDesktop > ncurrent && m_aciveMoveDesktop - 1 - m_moveWorkspaceNum <= ncurrent) {
+            ncurrent += 1;
+        }
     } else if (wmobj && target && wkmobj && m_moveWorkspacedirection == mvRight) {
         MultiViewWorkspace *pretarget = getWorkspaceObject(m_screen, index + 1 + m_moveWorkspaceNum);
         if (pretarget) {
@@ -2699,6 +2711,11 @@ void MultitaskViewEffect::switchDesktop()
 
         }
         desktopSwitchPosition(m_aciveMoveDesktop + 1 + m_moveWorkspaceNum, m_aciveMoveDesktop);
+        if (m_aciveMoveDesktop == ncurrent) {
+            ncurrent = m_aciveMoveDesktop + 1 + m_moveWorkspaceNum;
+        } else if (m_aciveMoveDesktop < ncurrent && m_aciveMoveDesktop + 1 + m_moveWorkspaceNum >= ncurrent) {
+            ncurrent -= 1;
+        }
     }
 
     int dir = m_moveWorkspacedirection == 1 ? 1 : -1;
@@ -2716,6 +2733,7 @@ void MultitaskViewEffect::switchDesktop()
             effects->windowToDesktops(ew, desks);
         }
     }
+    effects->setCurrentDesktop(ncurrent);
 }
 
 void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
@@ -2776,6 +2794,12 @@ void MultitaskViewEffect::desktopAboutToRemoved(int d)
     QList<QString> list = m_screenInfoList.keys();
     for (int i = 0; i < list.count(); i++) {
         QString monitorName = list.at(i);
+
+        QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", d, monitorName);
+        if (!getReply.value().isEmpty()) {
+            QString backgroundUri = getReply.value();
+            MultiViewBackgroundManager::instance().updateBackgroundList(backgroundUri);
+        }
 
         for (int i = d; i < effects->numberOfDesktops(); i++) {
             QString backgrounduri;

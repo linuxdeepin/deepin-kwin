@@ -2085,8 +2085,12 @@ void Workspace::screensChanged()
 
 void Workspace::changeBlurStatus(bool state)
 {
-    if (effects && static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("com.deepin.blur")) {
-        static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.deepin.blur");
+    if (effects) {
+        if (state && static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("com.deepin.blur")) {
+            static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.deepin.blur");
+        } else if (!state && !static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("com.deepin.blur")) {
+            static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.deepin.blur");
+        }
     }
 }
 
