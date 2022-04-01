@@ -84,6 +84,7 @@ public:
 
     void getWorkspaceBgPath(BgInfo_st &st, QPixmap &desktopBg, QPixmap &workspaceBg);
     void getBackgroundList();
+    void updateBackgroundList(const QString &file);
     void setNewBackground(BgInfo_st &st, QPixmap &desktopBg, QPixmap &workspaceBg);
     void getPreviewBackground(QSize size, QPixmap &workspaceBg, int screen);
     QPixmap cutBackgroundPix(const QSize &size, const QString &file);
