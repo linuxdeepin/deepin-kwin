@@ -26,6 +26,7 @@ class PlasmaShellSurfaceInterface;
 class ServerSideDecorationInterface;
 class ServerSideDecorationPaletteInterface;
 class XdgToplevelDecorationV1Interface;
+class DDEShellSurfaceInterface;
 }
 
 namespace KWin
@@ -67,8 +68,30 @@ public:
     bool isStandAlone() const override;
     bool isOverride() const override;
     bool isActiveFullScreenRole() const override;
+    Window *findModal(bool allow_itself = false) override;
 
     void installPlasmaShellSurface(KWaylandServer::PlasmaShellSurfaceInterface *shellSurface);
+    void installDDEShellSurface(KWaylandServer::DDEShellSurfaceInterface *shellSurface);
+
+    void setMinimizeable(bool set)
+    {
+        m_minimizable = set;
+    }
+
+    void setMaximizeable(bool set)
+    {
+        m_maxmizable = set;
+    }
+
+    void setResizable(bool set)
+    {
+        m_resizable = set;
+    }
+
+    void setAcceptFocus(bool set)
+    {
+        m_acceptFocus = set;
+    }
 
 protected:
     void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
@@ -82,9 +105,18 @@ protected:
     void sendConfigure();
 
     QPointer<KWaylandServer::PlasmaShellSurfaceInterface> m_plasmaShellSurface;
+    QPointer<KWaylandServer::DDEShellSurfaceInterface> m_ddeShellSurface;
 
     NET::WindowType m_windowType = NET::Normal;
     Gravity m_nextGravity = Gravity::None;
+
+    bool m_minimizable = true;
+    bool m_maxmizable = true;
+    bool m_resizable = true;
+    bool m_acceptFocus = true;
+
+    int m_noTitleBar = -1;
+    QPointF m_windowRadius = QPointF(0.0,0.0);
 
 private:
     void setupPlasmaShellIntegration();

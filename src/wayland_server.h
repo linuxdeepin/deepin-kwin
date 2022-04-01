@@ -53,6 +53,7 @@ class TearingControlManagerV1Interface;
 class XwaylandShellV1Interface;
 class OutputOrderV1Interface;
 class ClientManagementInterface;
+class DDEShellInterface;
 }
 
 namespace KWin
@@ -135,6 +136,9 @@ public:
     }
     KWaylandServer::ClientManagementInterface *clientManagement() const {
         return m_clientManagement;
+    }
+    KWaylandServer::DDEShellInterface *ddeShell() const {
+        return m_ddeShell;
     }
 
     bool isKeyboardShortcutsInhibited() const;
@@ -301,6 +305,7 @@ private:
     KWaylandServer::TearingControlManagerV1Interface *m_tearingControlInterface = nullptr;
     KWaylandServer::XwaylandShellV1Interface *m_xwaylandShell = nullptr;
     KWaylandServer::ClientManagementInterface *m_clientManagement = nullptr;
+    KWaylandServer::DDEShellInterface *m_ddeShell = nullptr;
     QList<Window *> m_windows;
     InitializationFlags m_initFlags;
     QHash<Output *, KWaylandServer::OutputInterface *> m_waylandOutputs;

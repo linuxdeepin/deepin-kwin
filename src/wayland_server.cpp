@@ -69,6 +69,7 @@
 #include "wayland/xdgshell_interface.h"
 #include "wayland/xwaylandkeyboardgrab_v1_interface.h"
 #include "wayland/xwaylandshell_v1_interface.h"
+#include "wayland/ddeshell_interface.h"
 #include "workspace.h"
 #include "x11window.h"
 #include "xdgactivationv1.h"
@@ -272,6 +273,9 @@ void WaylandServer::registerXdgToplevelWindow(XdgToplevelWindow *window)
     if (auto palette = m_paletteManager->paletteForSurface(surface)) {
         window->installPalette(palette);
     }
+    if (auto shellSurface = DDEShellSurfaceInterface::get(surface)) {
+        window->installDDEShellSurface(shellSurface);
+    }
 
     connect(m_XdgForeign, &XdgForeignV2Interface::transientChanged, window, [this](SurfaceInterface *child) {
         Q_EMIT foreignTransientChanged(child);
@@ -288,6 +292,9 @@ void WaylandServer::registerXdgGenericWindow(Window *window)
         registerWindow(popup);
         if (auto shellSurface = PlasmaShellSurfaceInterface::get(popup->surface())) {
             popup->installPlasmaShellSurface(shellSurface);
+        }
+        if (auto shellSurface = DDEShellSurfaceInterface::get(window->surface())) {
+            popup->installDDEShellSurface(shellSurface);
         }
         return;
     }
@@ -541,6 +548,15 @@ bool WaylandServer::init(InitializationFlags flags)
 
     m_contentTypeManager = new KWaylandServer::ContentTypeManagerV1Interface(m_display, m_display);
     m_tearingControlInterface = new KWaylandServer::TearingControlManagerV1Interface(m_display, m_display);
+
+    m_ddeShell = new DDEShellInterface(m_display, m_display);
+    connect(m_ddeShell, &DDEShellInterface::shellSurfaceCreated,
+        [this] (DDEShellSurfaceInterface *shellSurface) {
+            if (XdgSurfaceWindow *client = findXdgSurfaceWindow(shellSurface->surface())) {
+                client->installDDEShellSurface(shellSurface);
+            }
+        }
+    );
 
     return true;
 }
