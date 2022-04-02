@@ -2245,17 +2245,21 @@ void Window::setupWindowManagementInterface()
 
     connect(this, &Window::activeChanged, w, [w, this] {
         w->setActive(isActive());
+        Q_EMIT workspace()->windowStateChanged();
     });
     connect(this, &Window::fullScreenChanged, w, [w, this] {
         w->setFullscreen(isFullScreen());
+        Q_EMIT workspace()->windowStateChanged();
     });
     connect(this, &Window::keepAboveChanged, w, &PlasmaWindowInterface::setKeepAbove);
     connect(this, &Window::keepBelowChanged, w, &PlasmaWindowInterface::setKeepBelow);
     connect(this, &Window::minimizedChanged, w, [w, this] {
         w->setMinimized(isMinimized());
+        Q_EMIT workspace()->windowStateChanged();
     });
     connect(this, static_cast<void (Window::*)(Window *, MaximizeMode)>(&Window::clientMaximizedStateChanged), w, [w](KWin::Window *c, MaximizeMode mode) {
         w->setMaximized(mode == KWin::MaximizeFull);
+        Q_EMIT workspace()->windowStateChanged();
     });
     connect(this, &Window::demandsAttentionChanged, w, [w, this] {
         w->setDemandsAttention(isDemandingAttention());

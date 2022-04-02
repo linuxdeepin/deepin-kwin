@@ -24,6 +24,7 @@
 // std
 #include <functional>
 #include <memory>
+#include "wayland/clientmanagement_interface.h"
 
 class KConfig;
 class KConfigGroup;
@@ -79,6 +80,8 @@ class PlaceholderOutput;
 class Placement;
 class OutputConfiguration;
 class TileManager;
+
+typedef KWaylandServer::ClientManagementInterface::WindowState WindowState;
 
 class KWIN_EXPORT Workspace : public QObject
 {
@@ -550,6 +553,8 @@ public Q_SLOTS:
     void setupWindowShortcutDone(bool);
 
     void updateClientArea();
+    void updateWindowStates();
+    void captureWindowImage(int windowId, wl_resource *buffer);
 
 private Q_SLOTS:
     void desktopResized();
@@ -610,6 +615,8 @@ Q_SIGNALS:
      * This signal is emitted whenever an internal window gets removed.
      */
     void internalWindowRemoved(KWin::InternalWindow *window);
+
+    void windowStateChanged();
 
 private:
     void init();
@@ -705,6 +712,8 @@ private:
     bool force_restacking;
     QList<Window *> should_get_focus; // Last is most recent
     QList<Window *> attention_chain;
+
+    QList<WindowState*> m_windowStates;
 
     bool showing_desktop;
 

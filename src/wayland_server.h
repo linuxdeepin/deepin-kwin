@@ -52,6 +52,7 @@ class DrmLeaseManagerV1;
 class TearingControlManagerV1Interface;
 class XwaylandShellV1Interface;
 class OutputOrderV1Interface;
+class ClientManagementInterface;
 }
 
 namespace KWin
@@ -131,6 +132,9 @@ public:
     KWaylandServer::XwaylandShellV1Interface *xwaylandShell() const
     {
         return m_xwaylandShell;
+    }
+    KWaylandServer::ClientManagementInterface *clientManagement() const {
+        return m_clientManagement;
     }
 
     bool isKeyboardShortcutsInhibited() const;
@@ -296,6 +300,7 @@ private:
     KWaylandServer::ContentTypeManagerV1Interface *m_contentTypeManager = nullptr;
     KWaylandServer::TearingControlManagerV1Interface *m_tearingControlInterface = nullptr;
     KWaylandServer::XwaylandShellV1Interface *m_xwaylandShell = nullptr;
+    KWaylandServer::ClientManagementInterface *m_clientManagement = nullptr;
     QList<Window *> m_windows;
     InitializationFlags m_initFlags;
     QHash<Output *, KWaylandServer::OutputInterface *> m_waylandOutputs;

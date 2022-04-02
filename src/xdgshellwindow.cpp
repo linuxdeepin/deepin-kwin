@@ -1438,6 +1438,7 @@ void XdgToplevelWindow::initialize()
     if (needsPlacement) {
         const QRectF area = workspace()->clientArea(PlacementArea, this, workspace()->activeOutput());
         workspace()->placement()->place(this, area);
+        Q_EMIT workspace()->windowStateChanged();
     }
 
     configureDecoration();
@@ -1469,6 +1470,7 @@ void XdgToplevelWindow::updateFullScreenMode(bool set)
     updateLayer();
     updateWindowRules(Rules::Fullscreen);
     Q_EMIT fullScreenChanged();
+    Q_EMIT workspace()->windowStateChanged();
 }
 
 QString XdgToplevelWindow::preferredColorScheme() const
@@ -1821,6 +1823,7 @@ void XdgPopupWindow::handleRepositionRequested(quint32 token)
 void XdgPopupWindow::relayout()
 {
     workspace()->placement()->place(this, QRect());
+    Q_EMIT workspace()->windowStateChanged();
     scheduleConfigure();
 }
 
@@ -2042,6 +2045,7 @@ void XdgPopupWindow::initialize()
 
     const QRectF area = workspace()->clientArea(PlacementArea, this, workspace()->activeOutput());
     workspace()->placement()->place(this, area);
+    Q_EMIT workspace()->windowStateChanged();
     scheduleConfigure();
 }
 

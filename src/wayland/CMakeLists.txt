@@ -161,6 +161,10 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME zkde-screencast-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/client-management.xml
+    BASENAME com-deepin-client-management
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/input-method/input-method-unstable-v1.xml
     BASENAME input-method-unstable-v1
 )
@@ -214,6 +218,7 @@ target_sources(kwin PRIVATE
     clientbuffer.cpp
     clientbufferintegration.cpp
     clientconnection.cpp
+    clientmanagement_interface.cpp
     compositor_interface.cpp
     contenttype_v1_interface.cpp
     contrast_interface.cpp
