@@ -94,6 +94,27 @@ void Workspace::desktopResized()
     }
 }
 
+void Workspace::saveClientOldPos(int previousCount, int newCount)
+{
+    m_clientOldPosList.clear();
+    if (previousCount > newCount) {
+        QMap<QString, AbstractClient*> abstractClientOldGeometry;
+        for (int i = 0; i < allClientList().count(); i++) {
+                AbstractClient *pAbstractClient = allClientList().at(i);
+                if (pAbstractClient->quickTileMode() == QuickTileMode(QuickTileFlag::Left) || pAbstractClient->quickTileMode() == QuickTileMode(QuickTileFlag::Right)) {
+                m_clientOldPosList[QString("%1,%2").arg(pAbstractClient->geometry().x()).arg(pAbstractClient->geometry().y())] = pAbstractClient;
+            }
+        }
+    } else {
+        m_clientOldPosList.clear();
+    }
+}
+
+QMap<QString, AbstractClient*> Workspace::clientOldPos()
+{
+    return m_clientOldPosList;
+}
+
 void Workspace::saveOldScreenSizes()
 {
     olddisplaysize = screens()->displaySize();
@@ -1239,12 +1260,6 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
             break;
         }
     }
-
-    if (oldScreenLost && isSplitscreen()) {
-        workspace()->updateScreenSplitApp(this, true);
-        setQuickTileMode(QuickTileFlag::None);
-    }
-
 
     bool oldScreenRestore = !oldScreenLost && (workspace()->previousScreenSizes().count() != screens()->count());
     if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {

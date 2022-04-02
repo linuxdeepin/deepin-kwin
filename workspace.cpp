@@ -213,6 +213,7 @@ void Workspace::init()
     kwinApp()->createScreens();
     Screens *screens = Screens::self();
     // get screen support
+    connect(screens, SIGNAL(countChanged(int, int)), SLOT(saveClientOldPos(int, int)));
     connect(screens, SIGNAL(changed()), SLOT(desktopResized()));
     connect(screens, SIGNAL(changed()), SLOT(screensChanged()));
     screens->setConfig(config);
@@ -2089,6 +2090,22 @@ void Workspace::screensChanged()
         emit effects->closeEffect(true);    //close multitask view
     }
     updateSplitOutlineState(1, active_client ? active_client->desktop() : 1, true);
+
+    QRect currentDisplaySize = QRect(0, 0, screens()->size().width(), screens()->size().height());
+    if (clientOldPos().keys().count() != 0) {
+        for (int i = 0; i < clientOldPos().keys().count(); i++) {
+            QString strKeys = clientOldPos().keys().at(i);
+            QStringList strKeyList = strKeys.split(",");
+            if (strKeyList.count() < 2) {
+                return;
+            }
+            QPoint pos = QPoint(strKeyList.at(0).toInt(),strKeyList.at(1).toInt());
+            if(!currentDisplaySize.contains(pos)) {
+                AbstractClient *pAbstractClient = clientOldPos()[strKeys];
+                pAbstractClient->setQuickTileMode(QuickTileFlag::None);
+            }
+        }
+    }
 }
 
 void Workspace::changeBlurStatus(bool state)
