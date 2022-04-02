@@ -294,6 +294,9 @@ public:
     EffectWindowList getChildWinList(KWin::EffectWindow *w) override;
     bool isTransientWin(KWin::EffectWindow *w) override;
 
+    void setKeyRepeatDelay(qint32 delay);
+    void resetKeyRepeatDelay();
+
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);
     void slotTabAdded(EffectWindow* from, EffectWindow* to);
@@ -384,6 +387,7 @@ private:
     EffectLoader *m_effectLoader;
     int m_trackingCursorChanges;
     std::unique_ptr<WindowPropertyNotifyX11Filter> m_x11WindowPropertyNotify;
+    qint32 m_delay;
 };
 
 class EffectWindowImpl : public EffectWindow

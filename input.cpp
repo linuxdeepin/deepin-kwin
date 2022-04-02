@@ -493,6 +493,16 @@ public:
         return static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowEvent(event);
     }
     bool keyEvent(QKeyEvent *event) override {
+        if (effects) {
+            Effect* effect = static_cast< EffectsHandlerImpl* >(effects)->findEffect("multitaskview");
+            if (effect && event->type() == QEvent::KeyPress) {
+                static_cast< EffectsHandlerImpl* >(effects)->setKeyRepeatDelay(900);
+            }
+            else {
+                static_cast< EffectsHandlerImpl* >(effects)->resetKeyRepeatDelay();
+            }
+        }
+
         if (!effects || !static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
             return false;
         }
