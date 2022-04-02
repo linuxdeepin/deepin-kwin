@@ -733,16 +733,17 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
         }
     }
 
-    for (int desktop = 0; desktop <= effects->numberOfDesktops(); desktop++) {
+    for (int desktop = effects->numberOfDesktops(); desktop >= 0; desktop--) {
         m_isShowWin = true;
         paintingDesktop = desktop;
+        if (desktop == 0) {
+            if (m_hoverDesktop != -1 && m_screen != -1 && effects->numberOfDesktops() > 1) {
+                renderWorkspaceHover(m_screen);
+            } else {
+                m_workspaceCloseBtnArea = QRect();
+            }
+        }
         effects->paintScreen(mask, region, data);
-    }
-
-    if (m_hoverDesktop != -1 && m_screen != -1 && effects->numberOfDesktops() > 1) {
-        renderWorkspaceHover(m_screen);
-    } else {
-        m_workspaceCloseBtnArea = QRect();
     }
 
     if (m_windowMove && m_wasWindowMove) {
@@ -959,8 +960,6 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     }
                     d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
                     effects->paintWindow(w, mask, area, d);     //when open, all windows flying into RegionB
-                } else if (w->isDock()) {
-                    effects->paintWindow(w, mask, region, data);
                 }
             }
             if (curWinManager) {
@@ -981,8 +980,6 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     }
                     d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
                     effects->paintWindow(w, mask, area, d);
-                } else if (w->isDock()) {
-                    effects->paintWindow(w, mask, region, data);
                 }
             }
         } else {
@@ -1018,11 +1015,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                             renderHover(w, geo.toRect(), 1);
                         }
                     }
-                } else if (w->isDock()) {
-                    effects->paintWindow(w, mask, region, data);
                 }
-            }  else if (!w->isDesktop()) {
-                effects->paintWindow(w, mask, region, data);
             }
         }
     } else {
@@ -1043,6 +1036,10 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                 effects->paintWindow(w, mask, area, d);
             }
         }
+    }
+
+    if (w->isDock()) {
+        effects->paintWindow(w, mask, region, data);
     }
 }
 
@@ -1222,6 +1219,7 @@ void MultitaskViewEffect::onWindowClosed(EffectWindow *w)
         effects->startMouseInterception(this, Qt::PointingHandCursor);
     } else if (w->isDock()) {
         m_dock = nullptr;
+        m_dockRect.setSize(QSize(0, 0));
     }
 }
 
@@ -1232,6 +1230,7 @@ void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
 
     if (w->isDock()) {
         m_dock = nullptr;
+        m_dockRect.setSize(QSize(0, 0));
     } else {
         removeWinAndRelayout(w);
         m_isShieldEvent = false;
@@ -1389,19 +1388,24 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
     switch (mouseEvent->type()) {
     case QEvent::MouseMove:
     {
-        QPoint diff = mouseEvent->pos() - m_lastWorkspaceMovePos;
-        if (target) {   // window hover
-            m_hoverWin = target;
-            m_hoverWinBtn = target;
-            m_hoverDesktop = -1;
-        } else if (!m_wasWorkspaceMove && (abs(diff.x()) > MOUSE_MOVE_MIN_DISTANCE || (abs(diff.y()) > MOUSE_MOVE_MIN_DISTANCE)) && m_aciveMoveDesktop != -1 && m_screen != -1) {     //workspace move
-            m_workspaceMoveStartPos = mouseEvent->pos();
-            m_wasWorkspaceMove = true;
-            m_hoverDesktop = -1;
-        } else if (isHoverWorkspace) {  // workspace hover
-            if (!checkHandlerWorkspace(mouseEvent->pos(), m_screen, m_hoverDesktop))
+        if (!m_dockRect.contains(mouseEvent->pos())) {
+            QPoint diff = mouseEvent->pos() - m_lastWorkspaceMovePos;
+            if (target) {   // window hover
+                m_hoverWin = target;
+                m_hoverWinBtn = target;
                 m_hoverDesktop = -1;
-            m_hoverWinBtn = nullptr;
+            } else if (!m_wasWorkspaceMove && (abs(diff.x()) > MOUSE_MOVE_MIN_DISTANCE || (abs(diff.y()) > MOUSE_MOVE_MIN_DISTANCE)) && m_aciveMoveDesktop != -1 && m_screen != -1) {     //workspace move
+                m_workspaceMoveStartPos = mouseEvent->pos();
+                m_wasWorkspaceMove = true;
+                m_hoverDesktop = -1;
+            } else if (isHoverWorkspace) {  // workspace hover
+                if (!checkHandlerWorkspace(mouseEvent->pos(), m_screen, m_hoverDesktop))
+                    m_hoverDesktop = -1;
+                m_hoverWinBtn = nullptr;
+            } else {
+                m_hoverWinBtn = nullptr;
+                m_hoverDesktop = -1;
+            }
         } else {
             m_hoverWinBtn = nullptr;
             m_hoverDesktop = -1;
@@ -1425,19 +1429,31 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         return;
     }
     case QEvent::MouseButtonPress:
-        if (target) {       // window press
-            m_windowMove = target;
-            m_windowMoveDiff = mouseEvent->pos() - target->pos();
-        } else if (isHoverWorkspace && !isAddWorkspace) {   // workspace press
-            if (checkHandlerWorkspace(mouseEvent->pos(), screen, m_aciveMoveDesktop)) {
-                m_screen = screen;
+        if (!m_dockRect.contains(mouseEvent->pos())) {
+            if (target) {       // window press
+                m_windowMove = target;
+                m_windowMoveDiff = mouseEvent->pos() - target->pos();
+            } else if (isHoverWorkspace && !isAddWorkspace) {   // workspace press
+                if (checkHandlerWorkspace(mouseEvent->pos(), screen, m_aciveMoveDesktop)) {
+                    m_screen = screen;
+                }
             }
+            m_lastWorkspaceMovePos = mouseEvent->pos();
         }
-        m_lastWorkspaceMovePos = mouseEvent->pos();
 
         break;
     case QEvent::MouseButtonRelease:
-        if (target) {
+        if (!m_wasWindowMove && m_dockRect.contains(mouseEvent->pos())) {
+            m_delayDbus = false;
+            if (QX11Info::isPlatformX11()) {
+                relayDockEvent(mouseEvent->pos(), mouseEvent->button());
+                setActive(false);
+            } else {
+                setActive(false);
+                effectsEx->sendPointer(mouseEvent->button());
+            }
+            QTimer::singleShot(400, [&]() { m_delayDbus = true; });
+        } else if (target) {
             bool isPressBtn = false;
             int i = 0;
             for (; i < m_winBtnArea.size(); i++) {
@@ -1464,30 +1480,20 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             }
         } else if (m_wasWindowMove && isHoverWorkspace) {
             checkHandlerWorkspace(mouseEvent->pos(), screen, desktop);
-            if (desktop != -1) {
+            if (desktop != -1 && !m_windowMove->isOnDesktop(desktop)) {
                 moveWindowChangeDesktop(m_windowMove, desktop, screen);
             } else {
                 MultiViewWorkspace *wkobj = getWorkspaceObject(screen, effects->numberOfDesktops() - 1);
                 if (wkobj) {
                     QRect bgrect = QRect(wkobj->getRect().x() + wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.y(),
                                          m_scale[screen].workspaceMgrRect.width() - wkobj->getRect().x() - wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.height());
-                    if (bgrect.contains(mouseEvent->pos())) {
+                    if (bgrect.contains(mouseEvent->pos()) && effects->numberOfDesktops() < 6) {
                         addNewDesktop();
                         moveWindowChangeDesktop(m_windowMove, effects->numberOfDesktops(), screen, true);
                         m_opacityStatus = true;  //start opacity and sliding effects
                     }
                 }
             }
-        } else if (!m_wasWindowMove && m_dockRect.contains(mouseEvent->pos())) {
-            m_delayDbus = false;
-            if (QX11Info::isPlatformX11()) {
-                relayDockEvent(mouseEvent->pos(), mouseEvent->button());
-                setActive(false);
-            } else {
-                setActive(false);
-                effectsEx->sendPointer(mouseEvent->button());
-            }
-            QTimer::singleShot(400, [&]() { m_delayDbus = true; });
         } else if (isHoverWorkspace && !m_wasWorkspaceMove && !m_wasWindowMove) {
             if (isAddWorkspace) {
                 addNewDesktop();
