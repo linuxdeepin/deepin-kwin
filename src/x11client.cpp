@@ -4094,6 +4094,7 @@ void X11Client::moveResizeInternal(const QRect &rect, MoveResizeMode mode)
     }
     if (oldFrameGeometry != m_frameGeometry) {
         Q_EMIT frameGeometryChanged(this, oldFrameGeometry);
+        Q_EMIT workspace()->windowStateChanged();
     }
     Q_EMIT geometryShapeChanged(this, oldFrameGeometry);
 }
@@ -4465,6 +4466,7 @@ void X11Client::setFullScreen(bool set, bool user)
     updateWindowRules(Rules::Fullscreen | Rules::Position | Rules::Size);
     Q_EMIT clientFullScreenSet(this, set, user);
     Q_EMIT fullScreenChanged();
+    Q_EMIT workspace()->windowStateChanged();
 }
 
 

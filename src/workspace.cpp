@@ -272,6 +272,7 @@ void Workspace::init()
     initializeX11();
 
     Scripting::create(this);
+    connect(this, &Workspace::windowStateChanged, this, &Workspace::updateWindowStates);
 
     if (auto server = waylandServer()) {
         connect(server, &WaylandServer::shellClientAdded, this, &Workspace::addShellClient);
@@ -287,6 +288,64 @@ void Workspace::init()
     QMetaObject::invokeMethod(this, "workspaceInitialized", Qt::QueuedConnection);
 
     // TODO: ungrabXServer()
+}
+
+void Workspace::updateWindowStates()
+{
+    qDeleteAll(m_windowStates);
+    m_windowStates.clear();
+
+    for(Toplevel *win : stacking_order) {
+        AbstractClient *client = qobject_cast<AbstractClient*>(win);
+        if (!client || m_allClients.indexOf(client) < 0)
+            continue;
+        auto windowState = new WindowState();
+
+        windowState->pid                = client->pid();
+        windowState->windowId           = client->window() ? client->window() : client->frameId();
+        windowState->isMinimized        = client->isMinimized();
+        windowState->isFullScreen       = client->isFullScreen();
+        windowState->isActive           = client->isActive();
+        windowState->geometry.x         = client->frameGeometry().x();
+        windowState->geometry.y         = client->frameGeometry().y();
+        windowState->geometry.width     = client->frameGeometry().width();
+        windowState->geometry.height    = client->frameGeometry().height();
+        memcpy(windowState->resourceName, client->resourceName().data(), client->resourceName().size());
+
+        m_windowStates.append(windowState);
+    }
+
+    if (waylandServer()) {
+        auto clientmanagement = waylandServer()->clientManagement();
+        if (clientmanagement) {
+            clientmanagement->setWindowStates(m_windowStates);
+        }
+    }
+}
+
+void Workspace::captureWindowImage(int windowId, wl_resource *buffer)
+{
+    KWaylandServer::ClientManagementInterface *clientmanagement = nullptr;
+    if (waylandServer()) {
+        clientmanagement = waylandServer()->clientManagement();
+    }
+    if (!clientmanagement) {
+        return;
+    }
+
+    for(Toplevel *win : stacking_order) {
+        AbstractClient *client = qobject_cast<AbstractClient *>(win);
+        if (!client || m_allClients.indexOf(client) < 0) {
+            continue;
+        }
+
+        if (windowId ==  (client->window() ? client->window() : client->frameId())) {
+            clientmanagement->sendWindowCaption(windowId, buffer, client->surface());
+            return;
+        }
+    }
+
+    clientmanagement->sendWindowCaption(windowId, buffer, nullptr);
 }
 
 void Workspace::initializeX11()
@@ -477,6 +536,7 @@ Workspace::~Workspace()
         const QList<AbstractClient *> shellClients = waylandServer()->clients();
         for (AbstractClient *client : shellClients) {
             client->destroyClient();
+            Q_EMIT windowStateChanged();
         }
     }
 
@@ -494,6 +554,10 @@ Workspace::~Workspace()
 
     delete RuleBook::self();
     kwinApp()->config()->sync();
+
+    qDeleteAll(m_windowStates);
+    m_windowStates.clear();
+
 
     delete Placement::self();
     delete client_keys_dialog;

@@ -48,6 +48,7 @@ class LinuxDmaBufV1ClientBuffer;
 class TabletManagerV2Interface;
 class KeyboardShortcutsInhibitManagerV1Interface;
 class XdgDecorationManagerV1Interface;
+class ClientManagementInterface;
 }
 
 
@@ -125,6 +126,9 @@ public:
     KWaylandServer::KeyboardShortcutsInhibitManagerV1Interface *keyboardShortcutsInhibitManager() const
     {
         return m_keyboardShortcutsInhibitManager;
+    }
+    KWaylandServer::ClientManagementInterface *clientManagement() const {
+        return m_clientManagement;
     }
 
     bool isKeyboardShortcutsInhibited() const;
@@ -269,6 +273,7 @@ private:
     KWaylandServer::XdgForeignV2Interface *m_XdgForeign = nullptr;
     KWaylandServer::KeyStateInterface *m_keyState = nullptr;
     KWaylandServer::PrimaryOutputV1Interface *m_primary = nullptr;
+    KWaylandServer::ClientManagementInterface *m_clientManagement = nullptr;
     QList<AbstractClient *> m_clients;
     InitializationFlags m_initFlags;
     QHash<AbstractWaylandOutput *, WaylandOutput *> m_waylandOutputs;

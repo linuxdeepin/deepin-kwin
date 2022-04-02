@@ -84,6 +84,11 @@
 
 using namespace KWaylandServer;
 
+#ifndef OPAQUE_PTR_Wl_Resource
+  #define OPAQUE_PTR_Wl_Resource
+  Q_DECLARE_OPAQUE_POINTER(wl_resource*)
+#endif
+
 namespace KWin
 {
 
@@ -507,6 +512,26 @@ bool WaylandServer::init(InitializationFlags flags)
     m_XdgForeign = new XdgForeignV2Interface(m_display, m_display);
     m_keyState = new KeyStateInterface(m_display, m_display);
     m_inputMethod = new InputMethodV1Interface(m_display, m_display);
+
+    m_clientManagement = new ClientManagementInterface(m_display, m_display);
+    connect(m_clientManagement, &ClientManagementInterface::windowStatesRequest, this,
+        [this] () {
+            if (!workspace()) {
+                qWarning () << "windowStatesRequest before workspace initilized";
+                return;
+            }
+            workspace()->updateWindowStates();
+        }
+    );
+    connect(m_clientManagement, &ClientManagementInterface::captureWindowImageRequest, this,
+        [this] (int windowId, wl_resource *buffer) {
+            if (!workspace()) {
+                qWarning () << __func__ << " workspace not initilized windowId " << windowId;
+                return;
+            }
+            workspace()->captureWindowImage(windowId, buffer);
+        }
+    );
 
     auto activation = new KWaylandServer::XdgActivationV1Interface(m_display, this);
     auto init = [this, activation] {

@@ -1265,6 +1265,7 @@ void Unmanaged::configureNotifyEvent(xcb_configure_notify_event_t *e)
         Q_EMIT clientGeometryChanged(this, old);
         Q_EMIT frameGeometryChanged(this, old);
         Q_EMIT geometryShapeChanged(this, old);
+        Q_EMIT workspace()->windowStateChanged();
     }
 }
 

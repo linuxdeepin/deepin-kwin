@@ -336,6 +336,7 @@ void WaylandClient::updateGeometry(const QRect &rect)
     }
     if (changedGeometries & WaylandGeometryFrame) {
         Q_EMIT frameGeometryChanged(this, oldFrameGeometry);
+        Q_EMIT workspace()->windowStateChanged();
     }
     Q_EMIT geometryShapeChanged(this, oldFrameGeometry);
 }

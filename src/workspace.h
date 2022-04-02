@@ -23,6 +23,7 @@
 // std
 #include <functional>
 #include <memory>
+#include <KWaylandServer/clientmanagement_interface.h>
 
 class KConfig;
 class KConfigGroup;
@@ -56,6 +57,8 @@ class VirtualDesktop;
 class X11Client;
 class X11EventFilter;
 enum class Predicate;
+
+typedef KWaylandServer::ClientManagementInterface::WindowState WindowState;
 
 class KWIN_EXPORT Workspace : public QObject
 {
@@ -481,6 +484,8 @@ public Q_SLOTS:
     void setupWindowShortcutDone(bool);
 
     void updateClientArea();
+    void updateWindowStates();
+    void captureWindowImage(int windowId, wl_resource *buffer);
 
 private Q_SLOTS:
     void desktopResized();
@@ -534,6 +539,7 @@ Q_SIGNALS:
      * This signal is emitted whenever an internal client gets removed.
      */
     void internalClientRemoved(KWin::InternalClient *client);
+    void windowStateChanged();
 
 private:
     void init();
@@ -629,6 +635,7 @@ private:
     bool m_xStackingDirty = false;
     QList<AbstractClient*> should_get_focus; // Last is most recent
     QList<AbstractClient*> attention_chain;
+    QList<WindowState*> m_windowStates;
 
     bool showing_desktop;
 

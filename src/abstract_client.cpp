@@ -1525,15 +1525,19 @@ void AbstractClient::setupWindowManagementInterface()
     );
     connect(this, &AbstractClient::captionChanged, w, [w, this] { w->setTitle(caption()); });
 
-    connect(this, &AbstractClient::activeChanged, w, [w, this] { w->setActive(isActive()); });
-    connect(this, &AbstractClient::fullScreenChanged, w, [w, this] { w->setFullscreen(isFullScreen()); });
+    connect(this, &AbstractClient::activeChanged, w, [w, this] { w->setActive(isActive());
+        Q_EMIT workspace()->windowStateChanged(); });
+    connect(this, &AbstractClient::fullScreenChanged, w, [w, this] { w->setFullscreen(isFullScreen());
+        Q_EMIT workspace()->windowStateChanged(); });
     connect(this, &AbstractClient::keepAboveChanged, w, &PlasmaWindowInterface::setKeepAbove);
     connect(this, &AbstractClient::keepBelowChanged, w, &PlasmaWindowInterface::setKeepBelow);
-    connect(this, &AbstractClient::minimizedChanged, w, [w, this] { w->setMinimized(isMinimized()); });
+    connect(this, &AbstractClient::minimizedChanged, w, [w, this] { w->setMinimized(isMinimized());
+        Q_EMIT workspace()->windowStateChanged(); });
     connect(this, static_cast<void (AbstractClient::*)(AbstractClient*,MaximizeMode)>(&AbstractClient::clientMaximizedStateChanged), w,
         [w] (KWin::AbstractClient *c, MaximizeMode mode) {
             Q_UNUSED(c);
             w->setMaximized(mode == KWin::MaximizeFull);
+            Q_EMIT workspace()->windowStateChanged();
         }
     );
     connect(this, &AbstractClient::demandsAttentionChanged, w, [w, this] { w->setDemandsAttention(isDemandingAttention()); });

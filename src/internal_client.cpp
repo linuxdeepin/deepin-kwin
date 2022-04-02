@@ -494,6 +494,7 @@ void InternalClient::commitGeometry(const QRect &rect)
     }
     if (oldFrameGeometry != m_frameGeometry) {
         Q_EMIT frameGeometryChanged(this, oldFrameGeometry);
+        Q_EMIT workspace()->windowStateChanged();
     }
     Q_EMIT geometryShapeChanged(this, oldFrameGeometry);
 }
