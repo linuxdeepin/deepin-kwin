@@ -2921,11 +2921,13 @@ void MultitaskViewEffect::setWinKeepAbove(EffectWindow *w)
     }
 
     effects->setElevatedWindow(w, false);
+    effects->activateWindow(w);
 }
 
 void MultitaskViewEffect::changeCurrentDesktop(int desktop)
 {
     effects->setCurrentDesktop(desktop);
+    m_hoverWin = nullptr;
 
     //sliding
     m_bgSlidingStatus = true;
