@@ -1324,6 +1324,8 @@ void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
     if (w->isDock()) {
         m_dock = nullptr;
         m_dockRect.setSize(QSize(0, 0));
+    } else if (!QX11Info::isPlatformX11() && w->caption() == "dde-osd") {
+        return;
     } else {
         removeWinAndRelayout(w);
         m_isShieldEvent = false;
