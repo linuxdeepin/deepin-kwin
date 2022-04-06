@@ -131,6 +131,7 @@ public:
     void setMovable(bool set);
     void setResizable(bool set);
     void setResourceName(const QString &resourceName);
+    void setWindowId(quint32 winid);
     /**
      * FIXME: still relevant with new desktops?
      */

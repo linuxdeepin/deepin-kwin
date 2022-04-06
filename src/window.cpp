@@ -2232,6 +2232,7 @@ void Window::setupWindowManagementInterface()
     w->setVirtualDesktopChangeable(true); // FIXME Matches X11Window::actionSupported(), but both should be implemented.
     w->setParentWindow(transientFor() ? transientFor()->windowManagementInterface() : nullptr);
     w->setGeometry(frameGeometry().toRect());
+    w->setWindowId(frameId());
     connect(this, &Window::skipTaskbarChanged, w, [w, this]() {
         w->setSkipTaskbar(skipTaskbar());
     });

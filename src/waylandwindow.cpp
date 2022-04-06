@@ -39,6 +39,8 @@ WaylandWindow::WaylandWindow(SurfaceInterface *surface)
     setSurface(surface);
     setupCompositing();
 
+    m_windowId = createWindowId(surface);
+
     connect(surface, &SurfaceInterface::shadowChanged,
             this, &WaylandWindow::updateShadow);
     connect(this, &WaylandWindow::frameGeometryChanged,
@@ -71,6 +73,20 @@ QString WaylandWindow::captionSuffix() const
 pid_t WaylandWindow::pid() const
 {
     return surface()->client()->processId();
+}
+
+quint32 WaylandWindow::frameId() const
+{
+    return m_windowId;
+}
+
+quint32 WaylandWindow::createWindowId(KWaylandServer::SurfaceInterface *surface)
+{
+    quint32 id = 0;
+    // TODO: this does not prevent that two surfaces of same client get same id
+    id = 1 << 16 | (surface->id() & 0xFFFF);
+
+    return id;
 }
 
 bool WaylandWindow::isClient() const
