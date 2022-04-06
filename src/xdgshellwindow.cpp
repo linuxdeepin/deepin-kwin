@@ -426,6 +426,32 @@ void XdgSurfaceWindow::updateShowOnScreenEdge()
     }
 }
 
+// if we want to do some special action only for Role::StandAlone surface
+// we first call isStandAlone
+bool XdgSurfaceWindow::isStandAlone() const
+{
+    if (m_plasmaShellSurface) {
+        return m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::StandAlone;
+    }
+    return false;
+}
+
+bool XdgSurfaceWindow::isOverride() const
+{
+    if (m_plasmaShellSurface) {
+        return m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::Override;
+    }
+    return false;
+}
+
+bool XdgSurfaceWindow::isActiveFullScreenRole() const
+{
+    if (m_plasmaShellSurface) {
+        return m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::ActiveFullScreen;
+    }
+    return false;
+}
+
 /**
  * \todo This whole plasma shell surface thing doesn't seem right. It turns xdg-toplevel into
  * something completely different! Perhaps plasmashell surfaces need to be implemented via a
@@ -474,7 +500,11 @@ void XdgSurfaceWindow::installPlasmaShellSurface(PlasmaShellSurfaceInterface *sh
         case PlasmaShellSurfaceInterface::Role::AppletPopup:
             type = NET::AppletPopup;
             break;
+        case PlasmaShellSurfaceInterface::Role::Override:
+            type = NET::Override;
+            break;
         case PlasmaShellSurfaceInterface::Role::Normal:
+        case PlasmaShellSurfaceInterface::Role::StandAlone:
         default:
             type = NET::Normal;
             break;

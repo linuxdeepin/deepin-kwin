@@ -64,6 +64,10 @@ public:
     QMatrix4x4 inputTransformation() const override;
     void destroyWindow() override;
 
+    bool isStandAlone() const override;
+    bool isOverride() const override;
+    bool isActiveFullScreenRole() const override;
+
     void installPlasmaShellSurface(KWaylandServer::PlasmaShellSurfaceInterface *shellSurface);
 
 protected:

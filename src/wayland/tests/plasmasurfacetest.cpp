@@ -165,6 +165,12 @@ int main(int argc, char **argv)
     parser.addOption(osdOption);
     QCommandLineOption tooltipOption(QStringLiteral("tooltip"));
     parser.addOption(tooltipOption);
+    QCommandLineOption standaloneOption(QStringLiteral("standalone"));
+    parser.addOption(standaloneOption);
+    QCommandLineOption overrideOption(QStringLiteral("override"));
+    parser.addOption(overrideOption);
+    QCommandLineOption fullscreenOption(QStringLiteral("fullscreen"));
+    parser.addOption(fullscreenOption);
     QCommandLineOption skipTaskbarOption(QStringLiteral("skipTaskbar"));
     parser.addOption(skipTaskbarOption);
     parser.process(app);
@@ -188,6 +194,12 @@ int main(int argc, char **argv)
         client.setRole(PlasmaShellSurface::Role::OnScreenDisplay);
     } else if (parser.isSet(tooltipOption)) {
         client.setRole(PlasmaShellSurface::Role::ToolTip);
+    } else if (parser.isSet(standaloneOption)) {
+        client.setRole(PlasmaShellSurface::Role::StandAlone);
+    } else if (parser.isSet(overrideOption)) {
+        client.setRole(PlasmaShellSurface::Role::Override);
+    } else if (parser.isSet(fullscreenOption)) {
+        client.setRole(PlasmaShellSurface::Role::ActiveFullScreen);
     }
     client.setSkipTaskbar(parser.isSet(skipTaskbarOption));
     client.setSkipSwitcher(parser.isSet(skipSwitcherOption));

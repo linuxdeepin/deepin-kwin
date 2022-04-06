@@ -93,6 +93,9 @@ public:
         ToolTip, ///< The surface represents a tooltip
         CriticalNotification, ///< The surface represents a critical notification, like battery is running out
         AppletPopup, ///< The surface represents an applet popup window
+        StandAlone, ///< The Surface represents a special surface which the same as normal surface but can not be move/resize by window manager
+        Override, ///< The Surface represents unmanaged surfaces
+        ActiveFullScreen, // The surfce used for wallpaper
     };
     /**
      * @returns The requested role, default value is @c Role::Normal.

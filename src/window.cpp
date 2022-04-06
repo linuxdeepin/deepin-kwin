@@ -916,6 +916,9 @@ Layer Window::belongsToLayer() const
         }
         return layerForDock();
     }
+    if (isOverride()) {
+        return UnmanagedLayer;
+    }
     if (isPopupWindow()) {
         return PopupLayer;
     }
@@ -934,7 +937,7 @@ Layer Window::belongsToLayer() const
     if (keepBelow()) {
         return BelowLayer;
     }
-    if (isActiveFullScreen()) {
+    if (isActiveFullScreen() || isActiveFullScreenRole()) {
         return ActiveLayer;
     }
     if (keepAbove()) {
@@ -4050,7 +4053,7 @@ void Window::sendToOutput(Output *newOutput)
 
 void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *oldDesktop)
 {
-    if (isDock() || isDesktop() || !isPlaceable()) {
+    if (isDock() || isDesktop() || !isPlaceable() || isStandAlone() || isOverride()) {
         return;
     }
 

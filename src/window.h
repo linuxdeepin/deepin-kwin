@@ -685,6 +685,10 @@ public:
     bool isComboBox() const;
     bool isDNDIcon() const;
 
+    virtual bool isStandAlone() const;
+    virtual bool isOverride() const;
+    virtual bool isActiveFullScreenRole() const;
+
     virtual bool isLockScreen() const;
     virtual bool isInputMethod() const;
     virtual bool isOutline() const;
@@ -2218,6 +2222,21 @@ inline bool Window::isComboBox() const
 inline bool Window::isDNDIcon() const
 {
     return windowType() == NET::DNDIcon;
+}
+
+inline bool Window::isStandAlone() const
+{
+    return false;
+}
+
+inline bool Window::isActiveFullScreenRole() const
+{
+    return false;
+}
+
+inline bool Window::isOverride() const
+{
+    return false;
 }
 
 inline bool Window::isLockScreen() const
