@@ -38,6 +38,8 @@ public:
 
     void updateDepth();
     void setCaption(const QString &caption);
+    quint32 frameId() const override;
+    quint32 createWindowId(KWaylandServer::SurfaceInterface *surface);
 
 protected:
     bool belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const override;
@@ -56,6 +58,7 @@ private:
     QString m_captionNormal;
     QString m_captionSuffix;
     bool m_isHidden = false;
+    quint32 m_windowId;
 };
 
 } // namespace KWin
