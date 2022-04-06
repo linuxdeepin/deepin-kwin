@@ -788,6 +788,19 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
             if (diff.y() > 1) {
                 diff.setY(0);
             }
+            if (m_dragWorkspacedirection == dragNone) {
+                if (abs(diff.y()) > abs(diff.x())) {
+                    m_dragWorkspacedirection = dragUpDown;
+                } else {
+                    m_dragWorkspacedirection = dragLeftRight;
+                }
+            }
+
+            if (m_dragWorkspacedirection == dragUpDown) {
+                diff.setX(0);
+            } else if (m_dragWorkspacedirection == dragLeftRight) {
+                diff.setY(0);
+            }
 
             if (diff.y() < -(target->getRect().height() / 2)) {
                 m_workspaceStatus = wpDelete;
@@ -801,7 +814,10 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
 
             QRect wkgeo = target->getRect().translated(diff);
             target->setPosition(wkgeo.topLeft());
-            target->renderWorkspaceBackGround(0.5, m_aciveMoveDesktop);
+            float transparent = 1.0;
+            if (m_workspaceStatus == wpDelete)
+                transparent = 0.5;
+            target->renderWorkspaceBackGround(transparent, m_aciveMoveDesktop);
 
             WindowMotionManager *wmm;
             EffectWindowList list;
@@ -1529,6 +1545,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         m_wasWorkspaceMove = false;
         m_moveWorkspaceNum = -1;
         m_moveWorkspacedirection = mvNone;
+        m_dragWorkspacedirection = dragNone;
         m_windowMove = nullptr;
         m_wasWindowMove = false;
 
@@ -2183,17 +2200,20 @@ QRect MultitaskViewEffect::calculateWorkspaceRect(int index, int screen, QRect m
 
 bool MultitaskViewEffect::calculateSwitchPos(QPoint diffPoint)
 {
+    int index = 0, num = effects->numberOfDesktops();
     if (diffPoint.x() < 0 && m_moveWorkspacedirection != mvLeft) {
         m_moveWorkspacedirection = mvLeft;
         m_moveWorkspaceNum = -1;
+        restoreWorkspacePos(index, num);
     } else if (diffPoint.x() > 0 && m_moveWorkspacedirection != mvRight) {
         m_moveWorkspacedirection = mvRight;
         m_moveWorkspaceNum = -1;
+        restoreWorkspacePos(index, num);
     } else if (diffPoint.x() == 0) {
+        restoreWorkspacePos(index, num);
         return false;
     }
 
-    int index = 0, num = effects->numberOfDesktops();
     int restore = 1;    // 0 restore self; 1 restore other;
     bool bFlag = true;
     if (m_aciveMoveDesktop == 1 && m_moveWorkspacedirection == mvLeft) {
@@ -2264,13 +2284,6 @@ bool MultitaskViewEffect::calculateSwitchPos(QPoint diffPoint)
         } else if (afterdiff < 0) {
             bFlag = false;
             m_moveWorkspaceNum = -1;
-            if (m_moveWorkspacedirection == mvLeft) {
-                index = m_aciveMoveDesktop - 2;
-                num = m_aciveMoveDesktop - 1;
-            } else if (m_moveWorkspacedirection == mvRight) {
-                index = m_aciveMoveDesktop;
-                num = m_aciveMoveDesktop + 1;
-            }
         } else if (afterdiff > 0) {
             restore = 0;
             if (m_moveWorkspaceNum == -1)
@@ -2280,29 +2293,35 @@ bool MultitaskViewEffect::calculateSwitchPos(QPoint diffPoint)
         }
     }
 
-    //  restore
     if (restore) {
-        for (; index < num; index++) {
-            MultiViewWorkspace *wkobj = getWorkspaceObject(m_screen, index);
-            if (wkobj) {
-                if (wkobj->m_posStatus == mvNone) {
-                    continue;
-                } else {
-                    wkobj->m_posStatus = mvNone;
-                    QRect currentR = wkobj->getCurrentRect();
-                    wkobj->updateGeometry(wkobj->getRect());
+        restoreWorkspacePos(index, num);
+    }
 
-                    int xdiff = wkobj->getCurrentRect().x() - currentR.x();
-                    MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(index);
-                    if (xdiff != 0 && wkmobj) {
-                        wkmobj->updatePos(m_screen, wkobj->getCurrentRect(), QPoint(xdiff, 0));
-                    }
+    return bFlag;
+}
+
+void MultitaskViewEffect::restoreWorkspacePos(int index, int num)
+{
+    for (; index < num; index++) {
+        if (index == m_aciveMoveDesktop - 1)
+            continue;
+        MultiViewWorkspace *wkobj = getWorkspaceObject(m_screen, index);
+        if (wkobj) {
+            if (wkobj->m_posStatus == mvNone) {
+                continue;
+            } else {
+                wkobj->m_posStatus = mvNone;
+                QRect currentR = wkobj->getCurrentRect();
+                wkobj->updateGeometry(wkobj->getRect());
+
+                int xdiff = wkobj->getCurrentRect().x() - currentR.x();
+                MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(index);
+                if (xdiff != 0 && wkmobj) {
+                    wkmobj->updatePos(m_screen, wkobj->getCurrentRect(), QPoint(xdiff, 0));
                 }
             }
         }
     }
-
-    return bFlag;
 }
 
 void MultitaskViewEffect::initWorkspaceBackground()
