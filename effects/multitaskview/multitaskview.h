@@ -42,6 +42,12 @@ enum workspaceMoveDirection {
     mvRight     = 0x02,
 };
 
+enum workspaceDragDirection {
+    dragNone      = 0x00,
+    dragUpDown    = 0x01,
+    dragLeftRight = 0x02,
+};
+
 typedef struct screenNameSt {
     QString  name;
     QRect    rect;
@@ -394,6 +400,7 @@ private:
     void calculateWorkSpaceWinTransformations(EffectWindowList windows, WindowMotionManager &wm, int desktop);
     QRect calculateWorkspaceRect(int index, int screen, QRect maxRect);
     bool calculateSwitchPos(QPoint diffPoint);
+    void restoreWorkspacePos(int index, int num);
 
     void initWorkspaceBackground();
     void updateWorkspacePos();
@@ -527,6 +534,7 @@ private:
     MultiTaskEffectFlyingBack m_effectFlyingBack;
 
     workspaceMoveDirection m_moveWorkspacedirection = mvNone;
+    workspaceDragDirection m_dragWorkspacedirection = dragNone;
 
     struct {
         quint32 id = 0;
