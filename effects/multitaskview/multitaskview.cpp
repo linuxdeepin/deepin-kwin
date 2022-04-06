@@ -506,6 +506,7 @@ void MultiViewWinFill::render()
 MultitaskViewEffect::MultitaskViewEffect()
     : m_showAction(new QAction(this))
     , m_mutex(QMutex::Recursive)
+    , m_timer(new QTimer(this))
 {
     QAction *a = m_showAction;
     a->setObjectName(QStringLiteral("ShowMultitasking"));
@@ -560,6 +561,8 @@ MultitaskViewEffect::MultitaskViewEffect()
     if (tran->load(qm)) {
         qApp->installTranslator(tran);
     }
+
+    connect(m_timer, &QTimer::timeout, this, &MultitaskViewEffect::motionRepeat);
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -1366,10 +1369,18 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
 
     switch (e->type()) {
     case QEvent::MouseMove:
-        if (m_touch.active && !m_touch.isMotion)
+        if (m_touch.active && !m_touch.isMotion) {
             return;
+        }
+        break;
     case QEvent::MouseButtonPress:
+        if(m_touch.active && m_touch.isPress) {
+            return;
+        }
     case QEvent::MouseButtonRelease:
+        if(m_touch.active && m_touch.isPress) {
+            return;
+        }
     case QEvent::Wheel:
         break;
     default:
@@ -3239,7 +3250,10 @@ bool MultitaskViewEffect::touchDown(quint32 id, const QPointF &pos, quint32 time
         m_touch.id = id;
         m_touch.pos = pos.toPoint();
         QMouseEvent event(QEvent::MouseButtonPress, pos, pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+        m_timer->setSingleShot(true);
+        m_timer->start(250);
         windowInputMouseEvent(&event);
+        m_touch.isPress = true;
     }
     return true;
 }
@@ -3274,10 +3288,17 @@ bool MultitaskViewEffect::touchUp(quint32 id, quint32 time)
     if (m_touch.active && m_touch.id == id) {
         m_touch.active = false;
         m_touch.id = 0;
+        m_timer->stop();
+        m_touch.isPress = false;
         QMouseEvent event(QEvent::MouseButtonRelease, m_touch.pos, m_touch.pos, Qt::LeftButton, Qt::LeftButton ,Qt::NoModifier);
         windowInputMouseEvent(&event);
     }
     return true;
 }
+
+ void MultitaskViewEffect::motionRepeat()
+ {
+    touchMotion(m_touch.id, m_touch.pos, 0);
+ }
 
 } // namespace KWin

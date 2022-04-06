@@ -445,6 +445,7 @@ private:
     EffectWindow *getHomeOrEndWindow(bool);
     EffectWindow *getNextSameTypeWindow(EffectWindow *w);
     EffectWindow *getPreSameTypeWindow(EffectWindow *w);
+    void motionRepeat();
 
 private:
     QAction *m_showAction = nullptr;
@@ -541,7 +542,9 @@ private:
         bool active = false;
         bool isMotion = false;
         QPointF pos;
+        bool isPress = false;
     } m_touch;
+    QTimer *m_timer;
 };
 
 } // namespace KWin
