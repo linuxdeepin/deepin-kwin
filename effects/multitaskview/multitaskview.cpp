@@ -1194,7 +1194,7 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         ShaderBinder binder(m_hoverWinShader);
         m_hoverWinShader->setUniform(GLShader::Color, color);
         m_hoverWinShader->setUniform("iResolution", QVector3D(geoframe.width(), geoframe.height(), 0));
-        m_hoverWinShader->setUniform("iOffset", QVector2D(calculateOffSet(geoframe, m_scale[m_screen].fullArea.size(), m_maxHeight)));
+        m_hoverWinShader->setUniform("iOffset", QVector2D(calculateOffSet(geoframe, m_scale[w->screen()].fullArea.size(), m_maxHeight)));
         m_hoverWinFrame->setShader(m_hoverWinShader);
         m_hoverWinFrame->render(infiniteRegion(), 1, 0);
     } else {
