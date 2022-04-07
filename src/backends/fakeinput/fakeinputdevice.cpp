@@ -5,7 +5,12 @@
 */
 
 #include "fakeinputdevice.h"
+#include <unistd.h>
+#include "workspace.h"
+#include "window.h"
+#include "wayland_server.h"
 #include "wayland/fakeinput_interface.h"
+#include "wayland/seat_interface.h"
 
 namespace KWin
 {
@@ -15,6 +20,53 @@ FakeInputDevice::FakeInputDevice(KWaylandServer::FakeInputDevice *device, QObjec
     : InputDevice(parent)
     , m_name(QStringLiteral("Fake Input Device %1").arg(++s_lastDeviceId))
 {
+    connect(device, &KWaylandServer::FakeInputDevice::pointerAxisRequestedForCapture, this,
+        [this] (Qt::Orientation orientation, qreal delta) {
+            if (!Workspace::self()) {
+                return;
+            }
+
+            const  QList<Window *> &stacking = Workspace::self()->stackingOrder();
+            if (stacking.size() <= 1) {
+                return;
+            }
+            auto it = stacking.end();
+            bool ignoreFlag = false;
+            do {
+                --it;
+                Window *t = (*it);
+                if (t->isDeleted()) {
+                    // a deleted window doesn't get mouse events
+                    continue;
+                }
+                if (!t->readyForPainting()) {
+                    continue;
+                }
+                if (t->isDock()) {
+                    continue;
+                }
+                if (!t->isOnCurrentActivity() || !t->isOnCurrentDesktop() || t->isMinimized() ||
+                        t->isHiddenInternal()) {
+                    continue;
+                }
+                if (ignoreFlag) {
+                    auto seat = waylandServer()->seat();
+                    QPoint pos = seat->pointerPos().toPoint();
+                    if (t->hitTest(pos)) {
+                        QMatrix4x4 matrix = t->inputTransformation();
+                        KWaylandServer::SurfaceInterface * surface = t->surface();
+                        if (surface) {
+                            seat->notifyPointerAxisToClient(orientation, delta, surface, matrix);
+                        }
+                        input()->simulateUserActivity();
+                        break;
+                    }
+                } else if (t->isNormalWindow()) {
+                    ignoreFlag = true;
+                }
+            } while (it != stacking.begin());
+        }
+    );
     connect(device, &KWaylandServer::FakeInputDevice::authenticationRequested, this, [device](const QString &application, const QString &reason) {
         // TODO: make secure
         device->setAuthentication(true);

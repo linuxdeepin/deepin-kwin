@@ -36,6 +36,7 @@ protected:
     void org_kde_kwin_fake_input_pointer_motion(Resource *resource, wl_fixed_t delta_x, wl_fixed_t delta_y) override;
     void org_kde_kwin_fake_input_button(Resource *resource, uint32_t button, uint32_t state) override;
     void org_kde_kwin_fake_input_axis(Resource *resource, uint32_t axis, wl_fixed_t value) override;
+    void org_kde_kwin_fake_input_axis_for_capture(Resource *resource, uint32_t axis, wl_fixed_t value) override;
     void org_kde_kwin_fake_input_touch_down(Resource *resource, uint32_t id, wl_fixed_t x, wl_fixed_t y) override;
     void org_kde_kwin_fake_input_touch_motion(Resource *resource, uint32_t id, wl_fixed_t x, wl_fixed_t y) override;
     void org_kde_kwin_fake_input_touch_up(Resource *resource, uint32_t id) override;
@@ -118,6 +119,7 @@ void FakeInputInterfacePrivate::org_kde_kwin_fake_input_button(Resource *resourc
         break;
     }
 }
+
 void FakeInputInterfacePrivate::org_kde_kwin_fake_input_axis(Resource *resource, uint32_t axis, wl_fixed_t value)
 {
     FakeInputDevice *d = device(resource->handle);
@@ -137,6 +139,27 @@ void FakeInputInterfacePrivate::org_kde_kwin_fake_input_axis(Resource *resource,
         return;
     }
     Q_EMIT d->pointerAxisRequested(orientation, wl_fixed_to_double(value));
+}
+
+void FakeInputInterfacePrivate::org_kde_kwin_fake_input_axis_for_capture(Resource *resource, uint32_t axis, wl_fixed_t value)
+{
+    FakeInputDevice *d = device(resource->handle);
+    if (!d || !d->isAuthenticated()) {
+        return;
+    }
+    Qt::Orientation orientation;
+    switch (axis) {
+    case WL_POINTER_AXIS_HORIZONTAL_SCROLL:
+        orientation = Qt::Horizontal;
+        break;
+    case WL_POINTER_AXIS_VERTICAL_SCROLL:
+        orientation = Qt::Vertical;
+        break;
+    default:
+        // invalid
+        return;
+    }
+    Q_EMIT d->pointerAxisRequestedForCapture(orientation, wl_fixed_to_double(value));
 }
 
 void FakeInputInterfacePrivate::org_kde_kwin_fake_input_touch_down(Resource *resource, uint32_t id, wl_fixed_t x, wl_fixed_t y)

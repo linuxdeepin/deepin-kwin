@@ -674,6 +674,26 @@ void SeatInterface::notifyPointerAxis(Qt::Orientation orientation, qreal delta, 
     d->pointer->sendAxis(orientation, delta, deltaV120, source);
 }
 
+void SeatInterface::notifyPointerAxisToClient(Qt::Orientation orientation, qint32 delta, SurfaceInterface * surface, QMatrix4x4 matrix)
+{
+    if (!d->pointer) {
+        return;
+    }
+    if (d->drag.mode == SeatInterfacePrivate::Drag::Mode::Pointer) {
+        // ignore
+        return;
+    }
+
+    const quint32 serial = d->display->nextSerial();
+    const QPointF pos = matrix.map(pointerPos());
+    SurfaceInterface * sur = d->pointer->focusedSurface();
+    if (sur != surface) {
+        d->pointer->sendEnter(surface, pos, serial);
+    }
+    d->pointer->sendAxis(orientation, delta, 1, PointerAxisSource::Wheel);
+    usleep(10000);
+}
+
 void SeatInterface::notifyPointerButton(Qt::MouseButton button, PointerButtonState state)
 {
     const quint32 nativeButton = qtToWaylandButton(button);

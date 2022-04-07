@@ -117,6 +117,10 @@ Q_SIGNALS:
      */
     void pointerAxisRequested(Qt::Orientation orientation, qreal delta);
     /**
+     * Requests a pointer axis for the given @p orientation by @p delta.
+     **/
+    void pointerAxisRequestedForCapture(Qt::Orientation orientation, qreal delta);
+    /**
      * Requests a touch down at @p pos and identified by @p id.
      */
     void touchDownRequested(quint32 id, const QPointF &pos);
