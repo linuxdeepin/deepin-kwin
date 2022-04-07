@@ -67,6 +67,7 @@ public:
         ContentType = 12,
         PanelOrientation = 13,
         HdrMetadata = 14,
+        BrightnessId = 15,
         Count
     };
 
@@ -122,6 +123,9 @@ public:
 
     static DrmContentType kwinToDrmContentType(ContentType type);
     static Output::Transform toKWinTransform(PanelOrientation orientation);
+
+    bool hasBrightness() const;
+    int32_t brightness() const;
 
 private:
     QList<std::shared_ptr<DrmConnectorMode>> generateCommonModes();

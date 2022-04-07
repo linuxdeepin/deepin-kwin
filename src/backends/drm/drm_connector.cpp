@@ -114,7 +114,8 @@ DrmConnector::DrmConnector(DrmGpu *gpu, uint32_t connectorId)
                  PropertyDefinition(QByteArrayLiteral("content type"), Requirement::Optional,
                                     {QByteArrayLiteral("No Data"), QByteArrayLiteral("Graphics"), QByteArrayLiteral("Photo"), QByteArrayLiteral("Cinema"), QByteArrayLiteral("Game")}),
                  PropertyDefinition(QByteArrayLiteral("panel orientation"), Requirement::Optional, {QByteArrayLiteral("Normal"), QByteArrayLiteral("Upside Down"), QByteArrayLiteral("Left Side Up"), QByteArrayLiteral("Right Side Up")}),
-                 PropertyDefinition(QByteArrayLiteral("HDR_OUTPUT_METADATA"), Requirement::Optional)},
+                 PropertyDefinition(QByteArrayLiteral("HDR_OUTPUT_METADATA"), Requirement::Optional),
+                 PropertyDefinition(QByteArrayLiteral("brightness"), Requirement::Optional)},
                 DRM_MODE_OBJECT_CONNECTOR)
     , m_pipeline(std::make_unique<DrmPipeline>(this))
     , m_conn(drmModeGetConnector(gpu->fd(), connectorId))
@@ -203,6 +204,19 @@ Output::SubPixel DrmConnector::subpixel() const
     default:
         Q_UNREACHABLE();
     }
+}
+
+bool DrmConnector::hasBrightness() const
+{
+    return getProp(PropertyIndex::BrightnessId);
+}
+
+int32_t DrmConnector::brightness() const
+{
+    if (const auto &prop = getProp(PropertyIndex::BrightnessId)) {
+        return prop->pending();
+    }
+    return 60;
 }
 
 bool DrmConnector::hasOverscan() const

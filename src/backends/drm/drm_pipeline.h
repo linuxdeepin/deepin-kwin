@@ -76,6 +76,7 @@ public:
     bool needsModeset() const;
     void applyPendingChanges();
     void revertPendingChanges();
+    bool needUpdateBrightness();
 
     bool setCursor(const QPoint &hotspot = QPoint());
     bool moveCursor();
@@ -114,6 +115,7 @@ public:
     uint32_t overscan() const;
     Output::RgbRange rgbRange() const;
     DrmConnector::DrmContentType contentType() const;
+    int32_t brightness() const;
 
     void setCrtc(DrmCrtc *crtc);
     void setMode(const std::shared_ptr<DrmConnectorMode> &mode);
@@ -127,6 +129,7 @@ public:
     void setRgbRange(Output::RgbRange range);
     void setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation);
     void setContentType(DrmConnector::DrmContentType type);
+    void setBrightness(int32_t brightness);
 
     enum class CommitMode {
         Test,
@@ -189,6 +192,7 @@ private:
         std::shared_ptr<ColorTransformation> colorTransformation;
         std::shared_ptr<DrmGammaRamp> gamma;
         DrmConnector::DrmContentType contentType = DrmConnector::DrmContentType::Graphics;
+        int32_t brightness = 60;
 
         std::shared_ptr<DrmPipelineLayer> layer;
         std::shared_ptr<DrmOverlayLayer> cursorLayer;

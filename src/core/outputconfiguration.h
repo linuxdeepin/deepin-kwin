@@ -29,6 +29,7 @@ public:
     uint32_t overscan;
     Output::RgbRange rgbRange;
     RenderLoop::VrrPolicy vrrPolicy;
+    int32_t brightness;
 };
 
 class KWIN_EXPORT OutputConfiguration

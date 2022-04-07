@@ -60,6 +60,7 @@ protected:
     void kde_output_configuration_v2_set_rgb_range(Resource *resource, wl_resource *outputdevice, uint32_t rgbRange) override;
     void kde_output_configuration_v2_set_primary_output(Resource *resource, struct ::wl_resource *output) override;
     void kde_output_configuration_v2_set_priority(Resource *resource, wl_resource *output, uint32_t priority) override;
+    void kde_output_configuration_v2_brightness(Resource *resource, struct ::wl_resource *outputdevice, int32_t brightness) override;
 };
 
 OutputManagementV2InterfacePrivate::OutputManagementV2InterfacePrivate(Display *display)
@@ -237,6 +238,16 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_set_priority(Re
     }
     if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputResource)) {
         outputOrder.push_back(std::make_pair(priority, output));
+    }
+}
+
+void OutputConfigurationV2Interface::kde_output_configuration_v2_brightness(Resource *resource, struct ::wl_resource *outputdevice, int32_t brightness)
+{
+    if (invalid) {
+        return;
+    }
+    if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice)) {
+        config.changeSet(output->handle())->brightness = brightness;
     }
 }
 

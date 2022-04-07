@@ -30,6 +30,7 @@ std::shared_ptr<OutputChangeSet> OutputConfiguration::constChangeSet(Output *out
         props->overscan = output->overscan();
         props->rgbRange = output->rgbRange();
         props->vrrPolicy = output->vrrPolicy();
+        props->brightness = output->brightness();
         return props;
     }
     return m_properties[output];

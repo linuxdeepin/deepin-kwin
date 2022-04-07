@@ -203,6 +203,8 @@ OutputDeviceV2Interface::OutputDeviceV2Interface(Display *display, KWin::Output 
             this, &OutputDeviceV2Interface::updateModes);
     connect(handle, &Output::rgbRangeChanged,
             this, &OutputDeviceV2Interface::updateRgbRange);
+    connect(handle, &Output::brightnessChanged,
+            this, &OutputDeviceV2Interface::updateBrightness);
 }
 
 OutputDeviceV2Interface::~OutputDeviceV2Interface()
@@ -568,6 +570,11 @@ void OutputDeviceV2Interface::updateRgbRange()
             d->sendDone(resource);
         }
     }
+}
+
+void OutputDeviceV2Interface::updateBrightness()
+{
+
 }
 
 OutputDeviceV2Interface *OutputDeviceV2Interface::get(wl_resource *native)

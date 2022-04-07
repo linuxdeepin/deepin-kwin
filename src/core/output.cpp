@@ -297,6 +297,9 @@ void Output::setState(const State &state)
     if (oldState.enabled != state.enabled) {
         Q_EMIT enabledChanged();
     }
+    if (oldState.brightness != state.brightness) {
+        Q_EMIT brightnessChanged();
+    }
 }
 
 QSize Output::orientateSize(const QSize &size) const
@@ -395,6 +398,11 @@ bool Output::isNonDesktop() const
 Output::RgbRange Output::rgbRange() const
 {
     return m_state.rgbRange;
+}
+
+int32_t Output::brightness() const
+{
+    return m_state.brightness;
 }
 
 void Output::setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation)

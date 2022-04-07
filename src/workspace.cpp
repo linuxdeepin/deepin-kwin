@@ -720,6 +720,7 @@ void Workspace::updateOutputConfiguration()
             props->overscan = static_cast<uint32_t>(outputInfo["overscan"].toInt(props->overscan));
             props->vrrPolicy = static_cast<RenderLoop::VrrPolicy>(outputInfo["vrrpolicy"].toInt(static_cast<uint32_t>(props->vrrPolicy)));
             props->rgbRange = static_cast<Output::RgbRange>(outputInfo["rgbrange"].toInt(static_cast<uint32_t>(props->rgbRange)));
+            props->brightness = static_cast<int32_t>(outputInfo["brightness"].toInt(static_cast<int32_t>(props->brightness)));
 
             if (const QJsonObject modeInfo = outputInfo["mode"].toObject(); !modeInfo.isEmpty()) {
                 if (auto mode = KWinKScreenIntegration::parseMode(output, modeInfo)) {

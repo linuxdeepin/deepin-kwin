@@ -73,6 +73,7 @@ private:
     void updateVrrPolicy();
     void updateRgbRange();
     void updateGeometry();
+    void updateBrightness();
 
     std::unique_ptr<OutputDeviceV2InterfacePrivate> d;
 };

@@ -303,6 +303,9 @@ void DrmPipeline::prepareAtomicModeset()
             rotation->setEnum(DrmPlane::Transformation::Rotate0);
         }
     }
+    if (needUpdateBrightness()) {
+        m_connector->setPending(DrmConnector::PropertyIndex::BrightnessId,  m_pending.brightness);
+    }
 }
 
 bool DrmPipeline::populateAtomicValues(drmModeAtomicReq *req)
@@ -543,6 +546,15 @@ bool DrmPipeline::needsModeset() const
     return m_pending.needsModeset;
 }
 
+bool DrmPipeline::needUpdateBrightness()
+{
+    if (!m_connector->hasBrightness()) {
+        return false;
+    }
+    return m_pending.brightness != m_current.brightness;
+}
+
+
 bool DrmPipeline::activePending() const
 {
     return m_pending.crtc && m_pending.mode && m_pending.active;
@@ -768,5 +780,15 @@ void DrmPipeline::setColorTransformation(const std::shared_ptr<ColorTransformati
 void DrmPipeline::setContentType(DrmConnector::DrmContentType type)
 {
     m_pending.contentType = type;
+}
+
+void DrmPipeline::setBrightness(int32_t brightness)
+{
+    m_pending.brightness = brightness;
+}
+
+int32_t DrmPipeline::brightness() const
+{
+    return m_pending.brightness;
 }
 }

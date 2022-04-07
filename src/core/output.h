@@ -78,6 +78,7 @@ public:
         Overscan = 0x2,
         Vrr = 0x4,
         RgbRange = 0x8,
+        ScrennBrightness = 0x10,
     };
     Q_DECLARE_FLAGS(Capabilities, Capability)
 
@@ -250,6 +251,7 @@ public:
     void setVrrPolicy(RenderLoop::VrrPolicy policy);
     RenderLoop::VrrPolicy vrrPolicy() const;
     RgbRange rgbRange() const;
+    int32_t brightness() const;
 
     ContentType contentType() const;
     void setContentType(ContentType contentType);
@@ -316,6 +318,7 @@ Q_SIGNALS:
     void overscanChanged();
     void vrrPolicyChanged();
     void rgbRangeChanged();
+    void brightnessChanged();
 
 protected:
     struct Information
@@ -347,6 +350,7 @@ protected:
         bool enabled = false;
         uint32_t overscan = 0;
         RgbRange rgbRange = RgbRange::Automatic;
+        int32_t brightness = 60;
     };
 
     void setInformation(const Information &information);
