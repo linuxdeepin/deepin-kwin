@@ -251,14 +251,11 @@ public:
         return false;
     }
     void updatePos(const int screen, QRect rect, QPoint diff) {
-        if (m_currentShowRect != rect) {
-            m_currentShowRect = rect;
-            if (m_winManager.contains(screen)) {
-                foreach (EffectWindow* w, m_winManager[screen].orderManagedWindows()) {
-                    QRectF rect = m_winManager[screen].transformedGeometry(w);
-                    rect.translate(diff);
-                    m_winManager[screen].setTransformedGeometry(w, rect);
-                }
+        if (m_winManager.contains(screen)) {
+            foreach (EffectWindow* w, m_winManager[screen].orderManagedWindows()) {
+                QRectF rect = m_winManager[screen].transformedGeometry(w);
+                rect.translate(diff);
+                m_winManager[screen].setTransformedGeometry(w, rect);
             }
         }
     }
@@ -434,12 +431,14 @@ private:
     void relayDockEvent(QPoint pos, int button);
     void handlerWheelEvent(Qt::MouseButtons);
 
+    bool checkHandlerWorkspace(QPoint pos, int screen, int &desktop);
+    void moveWindowChangeDesktop(EffectWindow *w, int todesktop, int toscreen, bool isSwitch = false);
+    bool closeWindow(EffectWindow *w);
+
 private:
     MultiViewWorkspace *getWorkspaceObject(int index, int secindex);
     MultiViewWinManager *getWinManagerObject(int index);
     MultiViewWinManager *getWorkspaceWinManagerObject(int index);
-    bool checkHandlerWorkspace(QPoint pos, int screen, int &desktop);
-    void moveWindowChangeDesktop(EffectWindow *w, int todesktop, int toscreen, bool isSwitch = false);
     EffectWindow *getNextWindow(EffectWindow *w);
     EffectWindow *getPreWindow(EffectWindow *w);
     EffectWindow *getHomeOrEndWindow(bool);
