@@ -291,6 +291,9 @@ public:
 
     void sendPointer(Qt::MouseButton type) override;
 
+    EffectWindowList getChildWinList(KWin::EffectWindow *w) override;
+    bool isTransientWin(KWin::EffectWindow *w) override;
+
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);
     void slotTabAdded(EffectWindow* from, EffectWindow* to);

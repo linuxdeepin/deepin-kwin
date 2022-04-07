@@ -930,6 +930,28 @@ void EffectsHandlerImpl::setKeepAbove(KWin::EffectWindow *c, bool b)
     }
 }
 
+EffectWindowList EffectsHandlerImpl::getChildWinList(KWin::EffectWindow *w)
+{
+    if (auto client = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(w)->window())) {
+        auto transClients = client->transients();
+        EffectWindowList ret;
+        ret.reserve(transClients.size());
+        std::transform(std::cbegin(transClients), std::cend(transClients),
+            std::back_inserter(ret),
+            [](auto c) {return c->effectWindow();});
+        return ret;
+    }
+    return {};
+}
+
+bool EffectsHandlerImpl::isTransientWin(KWin::EffectWindow *w)
+{
+    if (auto client = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(w)->window())) {
+        return client->isTransient();
+    }
+    return false;
+}
+
 void EffectsHandlerImpl::sendPointer(Qt::MouseButton type)
 {
     uint32_t button = KWin::qtMouseButtonToButton(Qt::LeftButton);

@@ -1513,9 +1513,10 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             }
             if (isPressBtn) {
                 if (i == 0) {   // close btn
-                    target->closeWindow();
-                    m_hoverWin = nullptr;
-                    m_isShieldEvent = true;
+                    if (closeWindow(target)) {
+                        m_hoverWin = nullptr;
+                        m_isShieldEvent = true;
+                    }
                 } else if (i == 1) {    //top btn
                     setWinKeepAbove(target);
                 }
@@ -1535,7 +1536,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                 MultiViewWorkspace *wkobj = getWorkspaceObject(screen, effects->numberOfDesktops() - 1);
                 if (wkobj) {
                     QRect bgrect = QRect(wkobj->getRect().x() + wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.y(),
-                                         m_scale[screen].workspaceMgrRect.width() - wkobj->getRect().x() - wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.height());
+                                         m_scale[screen].workspaceMgrRect.x() + m_scale[screen].workspaceMgrRect.width() - wkobj->getRect().x() - wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.height());
                     if (bgrect.contains(mouseEvent->pos()) && effects->numberOfDesktops() < 6) {
                         addNewDesktop();
                         moveWindowChangeDesktop(m_windowMove, effects->numberOfDesktops(), screen, true);
@@ -1770,8 +1771,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             break;
         case Qt::Key_Delete:
             if (e->modifiers() == Qt::NoModifier) {
-                if (m_hoverWin) {
-                    m_hoverWin->closeWindow();
+                if (m_hoverWin && closeWindow(m_hoverWin)) {
                     m_hoverWin = nullptr;
                     m_isShieldEvent = true;
                 }
@@ -2289,7 +2289,6 @@ bool MultitaskViewEffect::calculateSwitchPos(QPoint diffPoint)
 
                         int xdiff = pretarget->getRect().x() - target->getRect().x();
                         wkmobj->updatePos(m_screen, target->getCurrentRect(), QPoint(xdiff, 0));
-
                     }
                 } else if (m_moveWorkspacedirection == mvRight) {
                     MultiViewWorkspace *target = getWorkspaceObject(m_screen, m_aciveMoveDesktop + i);
@@ -2589,27 +2588,45 @@ void MultitaskViewEffect::removeDesktop(int desktop)
     bool isRelayout = false;
     int newd = 0;
     QSet<int> screens;
-    for (const auto &ew : effects->stackingOrder())
-    {
+    for (const auto &ew : effects->stackingOrder()) {
         if (ew->isOnAllDesktops()) {
             continue;
         }
+
         auto dl = ew->desktops();
         if (dl.size() == 0 || dl[0] < desktop) {
+            continue;
+        }
+
+        if (dl[0] == desktop) {
+            newd = dl[0] == 1 ? 1 : dl[0] - 1;
+            MultiViewWinManager *wmobj = getWinManagerObject(newd - 1);
+            MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(newd - 1);
+            if (wmobj && wkmobj) {
+                isRelayout = true;
+                wmobj->manageWin(ew->screen(), ew);
+                wkmobj->manageWin(ew->screen(), ew);
+                screens.insert(ew->screen());
+            }
+        }
+    }
+
+    for (const auto &ew : effects->stackingOrder()) {
+        if (ew->isOnAllDesktops()) {
+            continue;
+        }
+
+        auto dl = ew->desktops();
+        if (dl.size() == 0 || dl[0] < desktop) {
+            continue;
+        }
+
+        if (effectsEx->isTransientWin(ew) && !ew->isModal()) {
             continue;
         }
         newd = dl[0] == 1 ? 1 : dl[0] - 1;
         QVector<uint> desks{(uint)newd};
         effects->windowToDesktops(ew, desks);
-
-        MultiViewWinManager *wmobj = getWinManagerObject(newd - 1);
-        MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(newd - 1);
-        if (wmobj && wkmobj) {
-            isRelayout = true;
-            wmobj->manageWin(ew->screen(), ew);
-            wkmobj->manageWin(ew->screen(), ew);
-            screens.insert(ew->screen());
-        }
     }
 
     desktopAboutToRemoved(desktop);
@@ -2782,6 +2799,8 @@ void MultitaskViewEffect::switchDesktop()
     for (const auto& ew: effects->stackingOrder()) {
         if (ew->isOnAllDesktops())
             continue;
+        if (effectsEx->isTransientWin(ew) && !ew->isModal())
+            continue;
 
         auto dl = ew->desktops();
         if (dl[0] == m_aciveMoveDesktop) {
@@ -2931,6 +2950,17 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop
     QVector<uint> desks{(uint)todesktop};
     effects->windowToDesktops(w, desks);
 
+    EffectWindowList mainWinList;
+    mainWinList = w->mainWindows();
+    foreach (EffectWindow * mainWin, mainWinList) {
+        effects->windowToScreen(mainWin, toscreen);
+        QVector<uint> desks{(uint)todesktop};
+        effects->windowToDesktops(mainWin, desks);
+    }
+
+    EffectWindowList childWinList;
+    childWinList = effectsEx->getChildWinList(w);
+
     if (isSwitch) {
         effects->activateWindow(w);
     }
@@ -2938,6 +2968,16 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop
     MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(fromdesktop - 1);
     MultiViewWinManager *wkmobj1 = getWorkspaceWinManagerObject(todesktop - 1);
     if (wkmobj && wkmobj1) {
+        foreach (EffectWindow * mainWin, mainWinList) {
+            wkmobj->removeWin(screen, mainWin);
+            wkmobj1->manageWin(toscreen, mainWin);
+        }
+
+        foreach (EffectWindow *childWin, childWinList) {
+            wkmobj->removeWin(screen, childWin);
+            wkmobj1->manageWin(toscreen, childWin);
+        }
+
         wkmobj->removeWin(screen, w);
         wkmobj1->manageWin(toscreen, w);
         workspaceWinRelayout(fromdesktop, screen);
@@ -2946,6 +2986,14 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop
 
     MultiViewWinManager *wmobj = getWinManagerObject(fromdesktop - 1);
     if (wmobj) {
+        foreach (EffectWindow * mainWin, mainWinList) {
+            wmobj->removeWin(screen, mainWin);
+        }
+
+        foreach (EffectWindow *childWin, childWinList) {
+            wmobj->removeWin(screen, childWin);
+        }
+
         wmobj->removeWin(screen, w);
         WindowMotionManager *wmm;
         if (wmobj->getMotion(fromdesktop, screen, wmm)) {
@@ -2955,6 +3003,13 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop
 
     wmobj = getWinManagerObject(todesktop - 1);
     if (wmobj) {
+        foreach (EffectWindow * mainWin, mainWinList) {
+            wmobj->manageWin(toscreen, mainWin);
+        }
+        foreach (EffectWindow *childWin, childWinList) {
+            wmobj->manageWin(toscreen, childWin);
+        }
+
         wmobj->manageWin(toscreen, w);
         WindowMotionManager *wmmto;
         if (wmobj->getMotion(todesktop, toscreen, wmmto)) {
@@ -2962,6 +3017,15 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop
         }
     }
     m_curDesktopIndex = effects->currentDesktop();
+}
+
+bool MultitaskViewEffect::closeWindow(EffectWindow *w)
+{
+    if (effectsEx->getChildWinList(w).size() == 0) {
+        w->closeWindow();
+        return true;
+    }
+    return false;
 }
 
 void MultitaskViewEffect::setWinKeepAbove(EffectWindow *w)

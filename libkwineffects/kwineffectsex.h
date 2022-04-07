@@ -74,6 +74,8 @@ public:
     virtual void requestLock() = 0;
     virtual void sendPointer(Qt::MouseButton) = 0;
     virtual void changeBlurState(bool) = 0;
+    virtual EffectWindowList getChildWinList(KWin::EffectWindow *w) = 0;
+    virtual bool isTransientWin(KWin::EffectWindow *w) = 0;
 
 Q_SIGNALS:
     void windowQuickTileModeChanged(KWin::EffectWindow *w);
