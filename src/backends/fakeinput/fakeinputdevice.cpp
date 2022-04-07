@@ -6,7 +6,13 @@
 
 #include "fakeinputdevice.h"
 
+#include <unistd.h>
+#include "workspace.h"
+#include "toplevel.h"
+#include "abstract_client.h"
+#include "wayland_server.h"
 #include <KWaylandServer/fakeinput_interface.h>
+#include <KWaylandServer/seat_interface.h>
 
 namespace KWin
 {
@@ -65,6 +71,55 @@ FakeInputDevice::FakeInputDevice(KWaylandServer::FakeInputDevice *device, QObjec
             }
             // TODO: Fix time
             Q_EMIT pointerAxisChanged(axis, delta, 0, InputRedirection::PointerAxisSourceUnknown, 0, this);
+        }
+    );
+    connect(device, &KWaylandServer::FakeInputDevice::pointerAxisRequestedForCapture, this,
+        [this] (Qt::Orientation orientation, qreal delta) {
+            if (!Workspace::self()) {
+                return;
+            }
+
+            const  QList<Toplevel *> &stacking = Workspace::self()->stackingOrder();
+            if (stacking.size() <= 1) {
+                return;
+            }
+            auto it = stacking.end();
+            bool ignoreFlag = false;
+            do {
+                --it;
+                Toplevel *t = (*it);
+                if (t->isDeleted()) {
+                    // a deleted window doesn't get mouse events
+                    continue;
+                }
+                if (!t->readyForPainting()) {
+                    continue;
+                }
+                if (t->isDock()) {
+                    continue;
+                }
+                if (AbstractClient *c = dynamic_cast<AbstractClient*>(t)) {
+                    if (!c->isOnCurrentActivity() || !c->isOnCurrentDesktop() || c->isMinimized() ||
+                            c->isHiddenInternal()) {
+                        continue;
+                    }
+                }
+                if (ignoreFlag) {
+                    auto seat = waylandServer()->seat();
+                    QPoint pos = seat->pointerPos().toPoint();
+                    if (t->hitTest(pos)) {
+                        QMatrix4x4 matrix = t->inputTransformation();
+                        KWaylandServer::SurfaceInterface * surface = t->surface();
+                        if (surface) {
+                            seat->notifyPointerAxisToClient(orientation, delta, surface, matrix);
+                        }
+                        waylandServer()->simulateUserActivity();
+                        break;
+                    }
+                } else if (t->isNormalWindow()) {
+                    ignoreFlag = true;
+                }
+            } while (it != stacking.begin());
         }
     );
     connect(device, &KWaylandServer::FakeInputDevice::touchDownRequested, this,
