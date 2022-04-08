@@ -19,6 +19,7 @@
 #include "wayland/datadevice_interface.h"
 #include "wayland/keyboard_interface.h"
 #include "wayland/seat_interface.h"
+#include "wayland/ddeseat_interface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -122,6 +123,9 @@ void KeyboardInputRedirection::init()
 
     // Workaround for QTBUG-54371: if there is no real keyboard Qt doesn't request virtual keyboard
     waylandServer()->seat()->setHasKeyboard(true);
+    if (waylandServer()->ddeSeat()) {
+        waylandServer()->ddeSeat()->setHasKeyboard(true);
+    }
     // connect(m_input, &InputRedirection::hasAlphaNumericKeyboardChanged,
     //         waylandServer()->seat(), &KWaylandServer::SeatInterface::setHasKeyboard);
 

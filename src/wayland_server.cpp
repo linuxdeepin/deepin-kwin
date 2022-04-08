@@ -70,6 +70,7 @@
 #include "wayland/xwaylandkeyboardgrab_v1_interface.h"
 #include "wayland/xwaylandshell_v1_interface.h"
 #include "wayland/ddeshell_interface.h"
+#include "wayland/ddeseat_interface.h"
 #include "wayland/strut_interface.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -570,6 +571,8 @@ bool WaylandServer::init(InitializationFlags flags)
             }
         }
     );
+
+    m_ddeSeat = new DDESeatInterface(m_display, m_display);
 
     return true;
 }

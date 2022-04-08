@@ -45,6 +45,7 @@
 #include "wayland/display.h"
 #include "wayland/inputmethod_v1_interface.h"
 #include "wayland/seat_interface.h"
+#include "wayland/ddeseat_interface.h"
 #include "wayland/shmclientbuffer.h"
 #include "wayland/surface_interface.h"
 #include "wayland/tablet_v2_interface.h"
@@ -344,12 +345,17 @@ public:
             return false;
         }
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         if (pointerSurfaceAllowed()) {
             const WheelEvent *wheelEvent = static_cast<WheelEvent *>(event);
             seat->setTimestamp(wheelEvent->timestamp());
             seat->notifyPointerAxis(wheelEvent->orientation(), wheelEvent->delta(),
                                     wheelEvent->deltaV120(),
                                     kwinAxisSourceToKWaylandAxisSource(wheelEvent->axisSource()));
+            if (ddeSeat) {
+                ddeSeat->pointerAxis(wheelEvent->orientation(),
+                        wheelEvent->orientation() == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
+            }
             seat->notifyPointerFrame();
         }
         return true;
@@ -1796,10 +1802,15 @@ public:
     bool wheelEvent(WheelEvent *event) override
     {
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         seat->setTimestamp(event->timestamp());
         auto _event = static_cast<WheelEvent *>(event);
         seat->notifyPointerAxis(_event->orientation(), _event->delta(), _event->deltaV120(),
                                 kwinAxisSourceToKWaylandAxisSource(_event->axisSource()));
+        if (ddeSeat) {
+            ddeSeat->pointerAxis(_event->orientation(),
+                    _event->orientation() == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
+        }
         seat->notifyPointerFrame();
         return true;
     }
@@ -2391,6 +2402,7 @@ public:
     bool pointerEvent(MouseEvent *event, quint32 nativeButton) override
     {
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         if (!seat->isDragPointer()) {
             return false;
         }
@@ -2402,6 +2414,9 @@ public:
         case QEvent::MouseMove: {
             const auto pos = input()->globalPointer();
             seat->notifyPointerMotion(pos);
+            if (ddeSeat) {
+                ddeSeat->setPointerPos(event->globalPos());
+            }
             seat->notifyPointerFrame();
 
             const auto eventPos = event->globalPos();
@@ -2444,12 +2459,18 @@ public:
         }
         case QEvent::MouseButtonPress:
             seat->notifyPointerButton(nativeButton, KWaylandServer::PointerButtonState::Pressed);
+            if (ddeSeat) {
+                ddeSeat->pointerButtonPressed(nativeButton);
+            }
             seat->notifyPointerFrame();
             break;
         case QEvent::MouseButtonRelease:
             raiseDragTarget();
             m_dragTarget = nullptr;
             seat->notifyPointerButton(nativeButton, KWaylandServer::PointerButtonState::Released);
+            if (ddeSeat) {
+                ddeSeat->pointerButtonReleased(nativeButton);
+            }
             seat->notifyPointerFrame();
             break;
         default:
@@ -2561,6 +2582,80 @@ private:
     QPointF m_lastPos = QPointF(-1, -1);
     QPointer<Window> m_dragTarget;
     QTimer m_raiseTimer;
+};
+
+class GlobalEventSpy : public InputEventSpy
+{
+public:
+    void touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override {
+        auto ddeSeat = waylandServer()->ddeSeat();
+        if (!ddeSeat) {
+            return;
+        }
+        ddeSeat->setTouchTimestamp(time.count());
+        ddeSeat->touchDown(id, pos);
+    }
+    void touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time) override {
+        auto ddeSeat = waylandServer()->ddeSeat();
+        if (!ddeSeat) {
+            return;
+        }
+        ddeSeat->setTouchTimestamp(time.count());
+        ddeSeat->touchMotion(id, pos);
+    }
+    void touchUp(qint32 id, std::chrono::microseconds time) override {
+        auto ddeSeat = waylandServer()->ddeSeat();
+        if (!ddeSeat) {
+            return;
+        }
+        ddeSeat->setTouchTimestamp(time.count());
+        ddeSeat->touchUp(id);
+    }
+    void pointerEvent(MouseEvent *event) override {
+        auto ddeSeat = waylandServer()->ddeSeat();
+        if (!ddeSeat) {
+            return;
+        }
+        switch (event->type()) {
+        case QEvent::MouseMove: {
+            ddeSeat->setPointerPos(event->globalPos());
+            break;
+        }
+        case QEvent::MouseButtonPress: {
+            ddeSeat->pointerButtonPressed(event->nativeButton());
+            break;
+        }
+        case QEvent::MouseButtonRelease: {
+            ddeSeat->pointerButtonReleased(event->nativeButton());
+            break;
+        }
+        default:
+            break;
+        }
+    }
+
+    void keyEvent(KeyEvent *event) override {
+        Q_ASSERT(waylandServer());
+        if (event->isAutoRepeat()) {
+            return;
+        }
+        auto ddeSeat = waylandServer()->ddeSeat();
+        if (!ddeSeat) {
+            return;
+        }
+        switch (event->type()) {
+            case QEvent::KeyPress:
+                ddeSeat->setTimestamp(event->timestamp().count());
+                ddeSeat->keyPressed(event->nativeScanCode());
+                break;
+            case QEvent::KeyRelease:
+                ddeSeat->setTimestamp(event->timestamp().count());
+                ddeSeat->keyReleased(event->nativeScanCode());
+                break;
+            default:
+                break;
+        }
+    }
 };
 
 KWIN_SINGLETON_FACTORY(InputRedirection)
@@ -2833,6 +2928,7 @@ void InputRedirection::setupInputFilters()
         installInputEventFilter(new VirtualTerminalFilter);
     }
     installInputEventSpy(new HideCursorSpy);
+    installInputEventSpy(new GlobalEventSpy);
     installInputEventSpy(new UserActivitySpy);
     installInputEventSpy(new WindowInteractedSpy);
     if (hasGlobalShortcutSupport) {

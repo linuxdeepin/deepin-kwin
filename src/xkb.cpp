@@ -12,6 +12,8 @@
 #include "utils/common.h"
 #include "wayland/keyboard_interface.h"
 #include "wayland/seat_interface.h"
+#include "wayland/ddeseat_interface.h"
+#include "wayland_server.h"
 // frameworks
 #include <KConfigGroup>
 // Qt
@@ -462,6 +464,13 @@ void Xkb::forwardModifiers()
                                     m_modifierState.latched,
                                     m_modifierState.locked,
                                     m_currentLayout);
+
+    if (waylandServer()->ddeSeat()) {
+        waylandServer()->ddeSeat()->updateKeyboardModifiers(m_modifierState.depressed,
+                                    m_modifierState.latched,
+                                    m_modifierState.locked,
+                                    m_currentLayout);
+    }
 }
 
 QString Xkb::layoutName(xkb_layout_index_t index) const

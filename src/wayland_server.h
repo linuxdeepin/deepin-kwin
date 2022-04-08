@@ -54,6 +54,7 @@ class XwaylandShellV1Interface;
 class OutputOrderV1Interface;
 class ClientManagementInterface;
 class DDEShellInterface;
+class DDESeatInterface;
 class StrutInterface;
 }
 
@@ -143,6 +144,9 @@ public:
     }
     KWaylandServer::StrutInterface *strut() const {
         return m_strut;
+    }
+    KWaylandServer::DDESeatInterface *ddeSeat() const {
+        return m_ddeSeat;
     }
 
     bool isKeyboardShortcutsInhibited() const;
@@ -310,6 +314,7 @@ private:
     KWaylandServer::XwaylandShellV1Interface *m_xwaylandShell = nullptr;
     KWaylandServer::ClientManagementInterface *m_clientManagement = nullptr;
     KWaylandServer::DDEShellInterface *m_ddeShell = nullptr;
+    KWaylandServer::DDESeatInterface *m_ddeSeat = nullptr;
     KWaylandServer::StrutInterface *m_strut = nullptr;
     QList<Window *> m_windows;
     InitializationFlags m_initFlags;

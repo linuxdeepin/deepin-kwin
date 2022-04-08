@@ -24,6 +24,7 @@
 #include "wayland/pointer_interface.h"
 #include "wayland/pointerconstraints_v1_interface.h"
 #include "wayland/seat_interface.h"
+#include "wayland/ddeseat_interface.h"
 #include "wayland/surface_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -80,6 +81,12 @@ void PointerInputRedirection::init()
     waylandServer()->seat()->setHasPointer(input()->hasPointer());
     connect(input(), &InputRedirection::hasPointerChanged,
             waylandServer()->seat(), &KWaylandServer::SeatInterface::setHasPointer);
+
+    if (waylandServer()->ddeSeat()) {
+        waylandServer()->ddeSeat()->setHasPointer(input()->hasPointer());
+        connect(input(), &InputRedirection::hasPointerChanged,
+                waylandServer()->ddeSeat(), &KWaylandServer::DDESeatInterface::setHasPointer);
+    }
 
     m_cursor = new CursorImage(this);
     setInited(true);

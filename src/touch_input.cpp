@@ -15,6 +15,7 @@
 #include "input_event_spy.h"
 #include "pointer_input.h"
 #include "wayland/seat_interface.h"
+#include "wayland/ddeseat_interface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
@@ -45,6 +46,11 @@ void TouchInputRedirection::init()
     connect(input(), &InputRedirection::hasTouchChanged,
             waylandServer()->seat(), &KWaylandServer::SeatInterface::setHasTouch);
 
+    if (waylandServer()->ddeSeat()) {
+        waylandServer()->ddeSeat()->setHasTouch(input()->hasTouch());
+        connect(input(), &InputRedirection::hasTouchChanged,
+                waylandServer()->ddeSeat(), &KWaylandServer::DDESeatInterface::setHasTouch);
+    }
     setInited(true);
     InputDeviceHandler::init();
 
