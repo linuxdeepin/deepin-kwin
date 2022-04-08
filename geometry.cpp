@@ -1398,8 +1398,25 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     if (!isShade())
         newGeom.setSize(adjustedSize(newGeom.size()));
 
-    if (newGeom != geometry())
+    if (newGeom != geometry()) {
         setGeometry(newGeom);
+        return;
+    }
+
+    bool screenRectExist = true;
+    for (int i = 0; i < screens()->count(); i++ ) {
+        if (screens()->geometry(i).contains(geometry().topLeft())) {
+            screenRectExist = true;
+            break;
+        }
+        screenRectExist = false;
+    }
+
+    if (!screenRectExist) {
+        setGeometry(0, 0, geometry().width(), geometry().height());
+    } else {
+        setGeometry(geometryRestore());
+    }
 }
 
 void AbstractClient::checkOffscreenPosition(QRect* geom, const QRect& screenArea)
