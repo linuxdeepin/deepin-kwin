@@ -277,8 +277,7 @@ void Workspace::init()
     // load is needed to be called again when starting xwayalnd to sync to RootInfo, see BUG 385260
     vds->save();
 
-    if (config->group("Workspace").hasKey("DraggingWithContent"))
-        m_ClientDragingWithContent = config->group("Workspace").readEntry("DraggingWithContent") == "true" ? true : false;
+    m_ClientDragingWithContent = getDraggingWithContentStatus();
 
     m_initialDesktop = config->group("Workspace").readEntry("CurrentDesktop",1);
     if (!VirtualDesktopManager::self()->setCurrent(m_initialDesktop))
@@ -996,9 +995,7 @@ void Workspace::slotReconfigure()
     kwinApp()->config()->reparseConfiguration();
     options->updateSettings();
 
-
-    m_ClientDragingWithContent = kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent") == "true" ? true : false;
-
+    m_ClientDragingWithContent = getDraggingWithContentStatus();
 
     emit configChanged();
     m_userActionsMenu->discard();
@@ -1133,6 +1130,17 @@ AbstractClient *Workspace::findClientToActivateOnDesktop(uint desktop)
         }
     }
     return FocusChain::self()->getForActivation(desktop);
+}
+
+bool Workspace::getDraggingWithContentStatus()
+{
+    bool status = false;
+    if (kwinApp()->config()->group("Workspace").hasKey("DraggingWithContent")) {
+        if (kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent") == "0" || kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent") == "false") {
+            status = true;
+        }
+    }
+    return status;
 }
 
 /**
