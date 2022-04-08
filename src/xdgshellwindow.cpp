@@ -952,6 +952,60 @@ StrutRect XdgToplevelWindow::strutRect(StrutArea area) const
     const bool bottom = windowRect.bottom() == outputRect.bottom();
     const bool horizontal = width() >= height();
 
+    KWaylandServer::deepinKwinStrut strutArea = strut();
+    if (strutArea.left != 0 || strutArea.right != 0 || strutArea.top != 0 || strutArea.bottom != 0) {
+        switch (area) {
+        case StrutAreaTop: {
+            QRect strutTop = windowRect;
+            if (strutArea.top != 0) {
+                strutTop.setHeight(strutArea.top);
+                strutTop.setLeft(strutArea.top_start_x);
+                strutTop.setRight(strutArea.top_end_x);
+                qDebug() << "strutTop " << strutTop;
+                return StrutRect(strutTop, StrutAreaTop);
+            }
+            return StrutRect();
+        }
+        case StrutAreaRight: {
+            QRect strutRight = windowRect;
+            if (strutArea.right != 0) {
+                strutRight.setLeft(outputRect.right() - strutArea.right);
+                strutRight.setWidth(strutArea.right);
+                strutRight.setTop(strutArea.right_start_y);
+                strutRight.setBottom(strutArea.right_end_y);
+                qDebug() << "strutRight " << strutRight;
+                return StrutRect(strutRight, StrutAreaRight);
+            }
+            return StrutRect();
+        }
+        case StrutAreaBottom: {
+            QRect strutBottom = windowRect;
+            if (strutArea.bottom != 0) {
+                strutBottom.setHeight(strutArea.bottom);
+                strutBottom.setTop(outputRect.bottom() - strutArea.bottom);
+                strutBottom.setLeft(strutArea.bottom_start_x);
+                strutBottom.setRight(strutArea.bottom_end_x);
+                qDebug() << "strutBottom " << strutBottom;
+                return StrutRect(strutBottom, StrutAreaBottom);
+            }
+            return StrutRect();
+        }
+        case StrutAreaLeft: {
+            QRect strutLeft = windowRect;
+            if (strutArea.left != 0) {
+                strutLeft.setWidth(strutArea.left);
+                strutLeft.setTop(strutArea.left_start_y);
+                strutLeft.setBottom(strutArea.left_end_y);
+                qDebug() << "strutLeft " << strutLeft;
+                return StrutRect(strutLeft, StrutAreaLeft);
+            }
+            return StrutRect();
+        }
+        default:
+            return StrutRect();
+        }
+    }
+
     switch (area) {
     case StrutAreaTop:
         if (top && horizontal) {

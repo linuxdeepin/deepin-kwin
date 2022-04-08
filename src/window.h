@@ -15,6 +15,8 @@
 #include "utils/common.h"
 #include "utils/xcbutils.h"
 
+#include "wayland/strut_interface.h"
+
 #include <functional>
 #include <memory>
 
@@ -37,6 +39,7 @@ namespace KWaylandServer
 {
 class PlasmaWindowInterface;
 class SurfaceInterface;
+struct deepinKwinStrut;
 }
 
 namespace KDecoration2
@@ -1437,6 +1440,9 @@ public:
     void refOffscreenRendering();
     void unrefOffscreenRendering();
 
+    void setStrut(KWaylandServer::deepinKwinStrut& strutArea) {m_strutArea = strutArea; }
+    KWaylandServer::deepinKwinStrut strut() const {return m_strutArea; }
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -2033,6 +2039,8 @@ private:
     QString m_applicationMenuObjectPath;
 
     bool m_unresponsive = false;
+
+    KWaylandServer::deepinKwinStrut m_strutArea;
 
     QKeySequence _shortcut;
 

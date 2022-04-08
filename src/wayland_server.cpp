@@ -70,6 +70,7 @@
 #include "wayland/xwaylandkeyboardgrab_v1_interface.h"
 #include "wayland/xwaylandshell_v1_interface.h"
 #include "wayland/ddeshell_interface.h"
+#include "wayland/strut_interface.h"
 #include "workspace.h"
 #include "x11window.h"
 #include "xdgactivationv1.h"
@@ -554,6 +555,18 @@ bool WaylandServer::init(InitializationFlags flags)
         [this] (DDEShellSurfaceInterface *shellSurface) {
             if (XdgSurfaceWindow *client = findXdgSurfaceWindow(shellSurface->surface())) {
                 client->installDDEShellSurface(shellSurface);
+            }
+        }
+    );
+
+    m_strut = new StrutInterface(m_display, m_display);
+    connect(m_strut, &StrutInterface::setStrut,
+        [this] (SurfaceInterface *surface, struct deepinKwinStrut& strutArea) {
+            if (Window *client = findWindow(surface)) {
+                client->setStrut(strutArea);
+                workspace()->updateClientArea();
+            } else {
+                qDebug("Client does not exist!!!");
             }
         }
     );

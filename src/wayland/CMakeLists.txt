@@ -215,6 +215,11 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME dde-shell
 )
 
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/strut.xml
+    BASENAME strut
+)
+
 target_sources(kwin PRIVATE
     abstract_data_source.cpp
     abstract_drop_handler.cpp
@@ -276,6 +281,7 @@ target_sources(kwin PRIVATE
     shadow_interface.cpp
     shmclientbuffer.cpp
     slide_interface.cpp
+    strut_interface.cpp
     subcompositor_interface.cpp
     surface_interface.cpp
     surfacerole.cpp

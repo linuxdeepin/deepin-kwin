@@ -2589,10 +2589,10 @@ QRectF Workspace::adjustClientArea(Window *window, const QRectF &area) const
     // Handle struts at xinerama edges that are inside the virtual screen.
     // They're given in virtual screen coordinates, make them affect only
     // their xinerama screen.
-    strutLeft.setLeft(std::max(strutLeft.left(), screenArea.left()));
-    strutRight.setRight(std::min(strutRight.right(), screenArea.right()));
-    strutTop.setTop(std::max(strutTop.top(), screenArea.top()));
-    strutBottom.setBottom(std::min(strutBottom.bottom(), screenArea.bottom()));
+    strutLeft.setLeft(qMax(strutLeft.left(), screenArea.left()));
+    strutRight.setRight(qMin(strutRight.right(), screenArea.right()));
+    strutTop.setTop(qMax(strutTop.top(), screenArea.top()));
+    strutBottom.setBottom(qMin(strutBottom.bottom(), screenArea.bottom()));
 
     if (strutLeft.intersects(area)) {
         adjustedArea.setLeft(strutLeft.right());

@@ -54,6 +54,7 @@ class XwaylandShellV1Interface;
 class OutputOrderV1Interface;
 class ClientManagementInterface;
 class DDEShellInterface;
+class StrutInterface;
 }
 
 namespace KWin
@@ -139,6 +140,9 @@ public:
     }
     KWaylandServer::DDEShellInterface *ddeShell() const {
         return m_ddeShell;
+    }
+    KWaylandServer::StrutInterface *strut() const {
+        return m_strut;
     }
 
     bool isKeyboardShortcutsInhibited() const;
@@ -306,6 +310,7 @@ private:
     KWaylandServer::XwaylandShellV1Interface *m_xwaylandShell = nullptr;
     KWaylandServer::ClientManagementInterface *m_clientManagement = nullptr;
     KWaylandServer::DDEShellInterface *m_ddeShell = nullptr;
+    KWaylandServer::StrutInterface *m_strut = nullptr;
     QList<Window *> m_windows;
     InitializationFlags m_initFlags;
     QHash<Output *, KWaylandServer::OutputInterface *> m_waylandOutputs;
