@@ -454,6 +454,20 @@ bool XdgSurfaceClient::isActiveFullScreenRole() const
     return false;
 }
 
+AbstractClient *XdgSurfaceClient::findModal(bool allow_itself)
+{
+    for (auto it = transients().constBegin(); it != transients().constEnd(); ++it) {
+        if (AbstractClient* ret = (*it)->findModal(true)) {
+            return ret;
+        }
+    }
+
+    if (isModal() && allow_itself) {
+        return this;
+    }
+    return nullptr;
+}
+
 /**
  * \todo This whole plasma shell surface thing doesn't seem right. It turns xdg-toplevel into
  * something completely different! Perhaps plasmashell surfaces need to be implemented via a
@@ -671,7 +685,7 @@ void XdgSurfaceClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
             m_noTitleBar = value;
         }
     );
-    connect(m_ddeShellSurface, &KWayland::Server::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this,
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::windowRadiusPropertyRequested, this,
         [this] (QPointF windowRadius) {
             m_windowRadius = windowRadius;
         }
@@ -817,20 +831,6 @@ bool XdgToplevelClient::isResizable() const
     const QSize min = minSize();
     const QSize max = maxSize();
     return min.width() < max.width() || min.height() < max.height();
-}
-
-AbstractClient *ShellClient::findModal(bool allow_itself)
-{
-    for (auto it = transients().constBegin(); it != transients().constEnd(); ++it) {
-        if (AbstractClient* ret = (*it)->findModal(true)) {
-            return ret;
-        }
-    }
-
-    if (isModal() && allow_itself) {
-        return this;
-    }
-    return nullptr;
 }
 
 bool XdgToplevelClient::isCloseable() const
