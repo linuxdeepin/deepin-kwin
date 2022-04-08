@@ -702,6 +702,9 @@ Unmanaged* Workspace::createUnmanaged(xcb_window_t w)
     }
     connect(c, SIGNAL(needsRepaint()), m_compositor, SLOT(scheduleRepaint()));
     if (c->fetchWindowForLockScreen()) {
+        if (compositing()) {
+            emit effects->closeEffect(true);
+        }
         // The focusToNull used to cancel context menus, etc.
         focusToNull();
         foreach (auto u,unmanaged) {
@@ -710,9 +713,6 @@ Unmanaged* Workspace::createUnmanaged(xcb_window_t w)
                     xcb_unmap_window(connection(),u->window());
                 }
             }
-        }
-        if (compositing()) {
-            emit effects->closeEffect(true);
         }
     }
     addUnmanaged(c);
