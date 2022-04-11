@@ -21,12 +21,15 @@
 #include <QIcon>
 #include <QKeySequence>
 #include <QPointer>
+#include <KWaylandServer/strut_interface.h>
 
 class QMouseEvent;
 
 namespace KWaylandServer
 {
 class PlasmaWindowInterface;
+struct deepinKwinStrut;
+class StrutInterface;
 }
 
 namespace KDecoration2
@@ -883,6 +886,9 @@ public:
      */
     static QString iconFromDesktopFile(const QString &fileName);
 
+    void setStrut(KWaylandServer::deepinKwinStrut& strutArea) {m_strutArea = strutArea; }
+    KWaylandServer::deepinKwinStrut& strut() {return m_strutArea; }
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -1303,6 +1309,8 @@ private:
     QString m_applicationMenuObjectPath;
 
     bool m_unresponsive = false;
+
+    KWaylandServer::deepinKwinStrut m_strutArea;
 
     QKeySequence _shortcut;
 

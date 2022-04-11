@@ -67,6 +67,7 @@
 #include <KWaylandServer/primaryselectiondevicemanager_v1_interface.h>
 #include <KWaylandServer/relativepointer_v1_interface.h>
 #include <KWaylandServer/ddeshell_interface.h>
+#include <KWaylandServer/strut_interface.h>
 
 // Qt
 #include <QCryptographicHash>
@@ -555,6 +556,18 @@ bool WaylandServer::init(InitializationFlags flags)
         [this] (DDEShellSurfaceInterface *shellSurface) {
             if (XdgSurfaceClient *client = findXdgSurfaceClient(shellSurface->surface())) {
                 client->installDDEShellSurface(shellSurface);
+            }
+        }
+    );
+
+    m_strut = new StrutInterface(m_display, m_display);
+    connect(m_strut, &StrutInterface::setStrut,
+        [this] (SurfaceInterface *surface, struct deepinKwinStrut& strutArea) {
+            if (AbstractClient *client = findClient(surface)) {
+                client->setStrut(strutArea);
+                workspace()->updateClientArea();
+            } else {
+                qDebug("Client does not exist!!!");
             }
         }
     );

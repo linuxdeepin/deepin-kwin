@@ -50,6 +50,7 @@ class KeyboardShortcutsInhibitManagerV1Interface;
 class XdgDecorationManagerV1Interface;
 class ClientManagementInterface;
 class DDEShellInterface;
+class StrutInterface;
 }
 
 
@@ -133,6 +134,9 @@ public:
     }
     KWaylandServer::DDEShellInterface *ddeShell() const {
         return m_ddeShell;
+    }
+    KWaylandServer::StrutInterface *strut() const {
+        return m_strut;
     }
 
     bool isKeyboardShortcutsInhibited() const;
@@ -278,6 +282,7 @@ private:
     KWaylandServer::KeyStateInterface *m_keyState = nullptr;
     KWaylandServer::PrimaryOutputV1Interface *m_primary = nullptr;
     KWaylandServer::ClientManagementInterface *m_clientManagement = nullptr;
+    KWaylandServer::StrutInterface *m_strut = nullptr;
     QList<AbstractClient *> m_clients;
     InitializationFlags m_initFlags;
     QHash<AbstractWaylandOutput *, WaylandOutput *> m_waylandOutputs;
