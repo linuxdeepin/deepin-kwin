@@ -419,6 +419,7 @@ private:
     int getNumScreens();
     QVector<int>desktopList(const EffectWindow *w) const;
 
+    void renderSlidingWorkspace(MultiViewWorkspace *wkobj, int screen, int desktop, KWin::ScreenPaintData &data);
     void renderHover(const EffectWindow *w, const QRect &rect, int order = 0);
     void renderWorkspaceHover(int screen);
     void renderDragWorkspacePrompt(int screen);
@@ -495,6 +496,7 @@ private:
 
     int m_screen = -1;
     int m_aciveMoveDesktop = -1;
+    int m_deleteWorkspaceDesktop = -1;
     int m_hoverDesktop = -1;
     int m_passiveMoveDesktop = -1;
     int m_moveWorkspaceNum = -1;

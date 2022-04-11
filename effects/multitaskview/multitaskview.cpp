@@ -693,6 +693,8 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
     //draw workspace background
     for (int wi = 0; wi < m_workspaceBackgrounds.size(); wi++) {
         for (int j = 0; j < effects->numberOfDesktops(); j++) {
+            if (m_deleteWorkspaceDesktop - 1 == j)
+                continue;
             MultiViewWorkspace *wkobj = getWorkspaceObject(wi, j);
             if (wkobj) {
                 if (m_popStatus) {
@@ -707,14 +709,7 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
                         wkobj->renderWorkspaceBackGround(1, j + 1);
                     }
                 } else if (m_workspaceSlidingStatus) {
-                    float x0 = m_workspaceSlidingInfo[wkobj].first;
-                    float x1 = m_workspaceSlidingInfo[wkobj].second;
-                    float t = m_workspaceSlidingTimeline.value();
-                    float x  = (x1 - x0) * t + x0;
-                    QRect rect = wkobj->getRect();
-                    rect.moveTo(int(x), rect.y());
-                    wkobj->setRect(rect);
-                    wkobj->renderWorkspaceBackGround(1, j + 1);
+                    renderSlidingWorkspace(wkobj, wi, j, data);
                 } else {
                     wkobj->renderWorkspaceBackGround(1, j + 1);
                 }
@@ -830,7 +825,7 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
             }
 
             foreach (EffectWindow *w, list) {
-                if (w->screen() == m_screen && wmm->isManaging(w)) {
+                if (w->screen() == m_screen && wmm->isManaging(w) && !w->isMinimized()) {
                     WindowPaintData d(w, data.projectionMatrix());
                     auto geo = wmm->transformedGeometry(w);
                     geo = geo.translated(diff);
@@ -1059,7 +1054,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                 }
             }
         }
-    } else {
+    } else if (!m_workspaceSlidingStatus) {
         if (m_wasWorkspaceMove && paintingDesktop == m_aciveMoveDesktop)
             return;
 
@@ -1088,6 +1083,35 @@ void MultitaskViewEffect::handlerAfterTimeLine()
 {
     if (m_isRemoveWorkspace) {
         removeDesktopEx(m_lastDesktopIndex);
+    }
+}
+
+void MultitaskViewEffect::renderSlidingWorkspace(MultiViewWorkspace *wkobj, int screen, int desktop, KWin::ScreenPaintData &data)
+{
+    float x0 = m_workspaceSlidingInfo[wkobj].first;
+    float x1 = m_workspaceSlidingInfo[wkobj].second;
+    float t = m_workspaceSlidingTimeline.value();
+    float x  = (x1 - x0) * t + x0;
+    QRect rect = wkobj->getRect();
+    rect.moveTo(int(x), rect.y());
+    wkobj->setRect(rect);
+    wkobj->renderWorkspaceBackGround(1, desktop + 1);
+
+    WindowMotionManager *wmm;
+    MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(desktop);
+    if (wkmobj && wkmobj->getMotion(m_aciveMoveDesktop, screen, wmm)) {
+        foreach (EffectWindow *w, wmm->orderManagedWindows()) {
+            if (wmm->isManaging(w) && !w->isMinimized()) {
+                WindowPaintData d(w, data.projectionMatrix());
+                auto geo = wmm->transformedGeometry(w);
+                geo.moveTo(x + geo.x() - x1, geo.y());
+
+                d *= QVector2D((qreal)geo.width() / (qreal)w->width(), (qreal)geo.height() / (qreal)w->height());
+                d += QPoint(geo.left() - w->x(), geo.top() - w->y());
+
+                effects->drawWindow(w, PAINT_WINDOW_TRANSFORMED | PAINT_WINDOW_LANCZOS, rect, d);
+            }
+        }
     }
 }
 
@@ -2090,7 +2114,7 @@ void MultitaskViewEffect::calculateWorkSpaceWinTransformations(EffectWindowList 
 
     for (int i = 0; i < windows.size(); i++) {
         EffectWindow *w = windows[i];
-        MultiViewWorkspace *wkobj = getWorkspaceObject(w->screen(), desktop - 1);
+        MultiViewWorkspace *wkobj = getWorkspaceObject(w->screen(), m_deleteWorkspaceDesktop == 1 ? m_deleteWorkspaceDesktop : desktop - 1);
         if (!wkobj)
             continue;
         QPoint pos((w->x() - wkobj->getfullArea().x()) * WORKSPACE_SCALE + wkobj->getRect().x(), (w->y() - wkobj->getfullArea().y()) * WORKSPACE_SCALE + wkobj->getRect().y());
@@ -2568,6 +2592,7 @@ void MultitaskViewEffect::addNewDesktop()
 void MultitaskViewEffect::removeDesktop(int desktop)
 {
     m_isShieldEvent = true;
+    m_deleteWorkspaceDesktop = desktop;
     int count = effects->numberOfDesktops();
     if (desktop <= 0 || desktop > count || count == 1) {
         MultiViewWorkspace *wt = getWorkspaceObject(m_screen, desktop - 1);
@@ -2633,7 +2658,6 @@ void MultitaskViewEffect::removeDesktop(int desktop)
 
     desktopAboutToRemoved(desktop);
     int currentDesktop = effects->currentDesktop();
-    effects->setNumberOfDesktops(count - 1);
 
     int nrelyout = desktop == 1 ? desktop : (desktop - 1);
     if (isRelayout) {
@@ -2644,7 +2668,6 @@ void MultitaskViewEffect::removeDesktop(int desktop)
             if (wmobj && wmobj->getMotion(nrelyout, *iter, wmm)) {
                 calculateWindowTransformations(wmm->orderManagedWindows(), *wmm, nrelyout, *iter, true);
             }
-
             workspaceWinRelayout(nrelyout, *iter);
         }
     }
@@ -2658,6 +2681,8 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         m_isRemoveWorkspace = true;
     } else {
         m_curDesktopIndex = effects->currentDesktop();
+        if (m_curDesktopIndex > desktop)
+            effects->setCurrentDesktop(m_curDesktopIndex == 1 ? m_curDesktopIndex : (m_curDesktopIndex - 1));
         removeDesktopEx(desktop);
     }
 }
@@ -2665,7 +2690,9 @@ void MultitaskViewEffect::removeDesktop(int desktop)
 void MultitaskViewEffect::removeDesktopEx(int desktop)
 {
     QMutexLocker locker(&m_mutex);
+    effects->setNumberOfDesktops(effects->numberOfDesktops() - 1);
     m_isRemoveWorkspace = false;
+    m_deleteWorkspaceDesktop = -1;
     for (int i = 0; i < getNumScreens(); i++) {
         delete m_workspaceBackgrounds[i][desktop - 1];
         m_workspaceBackgrounds[i].removeAt(desktop - 1);
@@ -2942,6 +2969,10 @@ void MultitaskViewEffect::removeWinAndRelayout(EffectWindow *w)
 void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop, int toscreen, bool isSwitch)
 {
     if (w->isOnAllDesktops()) {
+        return;
+    }
+
+    if (effects->numberOfDesktops() < todesktop) {
         return;
     }
 
