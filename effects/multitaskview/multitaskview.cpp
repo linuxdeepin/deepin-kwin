@@ -71,6 +71,8 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define MULTITASK_TOP_SVG        ":/resources/themes/multiview_top.svg"
 #define MULTITASK_TOP_ACTIVE_SVG ":/resources/themes/multiview_top_active.svg"
 
+#define POPUP_TIME_SCALE 3.0f
+
 const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
 const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
@@ -645,7 +647,7 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, int time)
 
 
         for (auto& mm: m_motionManagers) {
-            mm->calculate(time / 5.0f);
+            mm->calculate(time / POPUP_TIME_SCALE);
         }
     }
 
@@ -663,18 +665,28 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
             MultiViewWorkspace *lwkobj = getWorkspaceObject(i, m_lastDesktopIndex - 1);
             MultiViewWorkspace *cwkobj = getWorkspaceObject(i, m_curDesktopIndex - 1);
             if (lwkobj && cwkobj) {
-                if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
-                    lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
-                    cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
-                } else if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
-                    lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
-                    cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
-                } else if (m_lastDesktopIndex < m_curDesktopIndex) {
-                    lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
-                    cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
+                if (effects->numberOfDesktops() > 2) {
+                    if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
+                        lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
+                        cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
+                    } else if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
+                        lwkobj->renderDesktopBackGround(m_bgSlidingTimeLine.value());
+                        cwkobj->renderDesktopBackGround(-1 + m_bgSlidingTimeLine.value());
+                    } else if (m_lastDesktopIndex < m_curDesktopIndex) {
+                        lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
+                        cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
+                    } else {
+                        lwkobj->renderDesktopBackGround(m_bgSlidingTimeLine.value());
+                        cwkobj->renderDesktopBackGround(-1 + m_bgSlidingTimeLine.value());
+                    }
                 } else {
-                    lwkobj->renderDesktopBackGround(m_bgSlidingTimeLine.value());
-                    cwkobj->renderDesktopBackGround(-1 + m_bgSlidingTimeLine.value());
+                    if (m_lastDesktopIndex < m_curDesktopIndex) {
+                        lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
+                        cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
+                    } else {
+                        lwkobj->renderDesktopBackGround(m_bgSlidingTimeLine.value());
+                        cwkobj->renderDesktopBackGround(-1 + m_bgSlidingTimeLine.value());
+                    }
                 }
             }
         } else {
@@ -697,14 +709,14 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
                 continue;
             MultiViewWorkspace *wkobj = getWorkspaceObject(wi, j);
             if (wkobj) {
-                if (m_popStatus) {
+                if (m_popStatus) {  //startup
                     wkobj->renderWorkspaceBackGround(m_popTimeLine.value(), j + 1);
-                } else if (m_opacityStatus) {
+                } else if (m_opacityStatus) {  //new workspace
                     if (j == effects->numberOfDesktops() - 1)
                         wkobj->renderWorkspaceBackGround(m_opacityTimeLine.value(), j + 1);
                     else
                         wkobj->renderWorkspaceBackGround(1, j + 1);
-                } else if (m_wasWorkspaceMove) {
+                } else if (m_wasWorkspaceMove) {  //move workspace
                     if (m_aciveMoveDesktop - 1 != j) {
                         wkobj->renderWorkspaceBackGround(1, j + 1);
                     }
@@ -962,16 +974,23 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     WindowPaintData d = data;
                     auto geo = mgr0->targetGeometry(w);
                     d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
-                    if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
-                        d.translate(geo.x() - bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
-                    } else if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
-                        d.translate(geo.x() + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
-                    }
-                    else if (m_lastDesktopIndex < m_curDesktopIndex){
-                        d.translate(geo.x() - bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
-                    }
-                    else {
-                        d.translate(geo.x() + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+
+                    if (effects->numberOfDesktops() > 2) {
+                        if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
+                            d.translate(geo.x() - bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        } else if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
+                            d.translate(geo.x() + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        } else if (m_lastDesktopIndex < m_curDesktopIndex) {
+                            d.translate(geo.x() - bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        } else {
+                            d.translate(geo.x() + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        }
+                    } else {
+                        if (m_lastDesktopIndex < m_curDesktopIndex) {
+                            d.translate(geo.x() - bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        } else {
+                            d.translate(geo.x() + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        }
                     }
                     effects->paintWindow(w, mask, area, d);     //when open, all windows flying into RegionB
                 }
@@ -984,14 +1003,23 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     auto geo0 = mgr1->transformedGeometry(w);
                     auto geo = mgr1->targetGeometry(w);
                     d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
-                    if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
-                        d.translate(geo.x() + bgRectWidth - bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
-                    } else if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
-                        d.translate(geo.x() - bgRectWidth + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
-                    } else if(m_lastDesktopIndex<m_curDesktopIndex) {
-                        d.translate(geo.x() + bgRectWidth - bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+
+                    if (effects->numberOfDesktops() > 2) {
+                        if (m_lastDesktopIndex == effects->numberOfDesktops() && m_curDesktopIndex == 1) {
+                            d.translate(geo.x() - bgRectWidth + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        } else if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
+                            d.translate(geo.x() + bgRectWidth - bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        } else if(m_lastDesktopIndex<m_curDesktopIndex) {
+                            d.translate(geo.x() + bgRectWidth - bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        } else {
+                            d.translate(geo.x() - bgRectWidth + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        }
                     } else {
-                        d.translate(geo.x() - bgRectWidth + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
+                        if (m_lastDesktopIndex < m_curDesktopIndex) {
+                            d.translate(geo.x() + bgRectWidth * (1 - m_bgSlidingTimeLine.value()) - w->x(), geo.y() - w->y(), 0);
+                        } else {
+                            d.translate(geo.x() + bgRectWidth * (m_bgSlidingTimeLine.value() -1) - w->x(), geo.y() - w->y(), 0);
+                        }
                     }
                     effects->paintWindow(w, mask, area, d);
                 }
