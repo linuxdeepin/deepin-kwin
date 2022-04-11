@@ -478,6 +478,7 @@ private:
     bool m_wasWindowMove = false;
 
     bool m_delayDbus = true;
+    bool m_longPressTouch = false;
 
     QPoint m_workspaceMoveStartPos;
     QPoint m_windowMoveStartPos;
