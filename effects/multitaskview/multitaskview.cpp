@@ -1461,8 +1461,8 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
     switch (mouseEvent->type()) {
     case QEvent::MouseMove:
     {
+        QPoint diff = mouseEvent->pos() - m_lastWorkspaceMovePos;
         if (!m_dockRect.contains(mouseEvent->pos())) {
-            QPoint diff = mouseEvent->pos() - m_lastWorkspaceMovePos;
             if (target) {   // window hover
                 m_hoverWin = target;
                 m_hoverWinBtn = target;
@@ -1484,7 +1484,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             m_hoverDesktop = -1;
         }
 
-        if (m_windowMove) {    // window move
+        if (m_windowMove && (abs(diff.x()) > MOUSE_MOVE_MIN_DISTANCE || (abs(diff.y()) > MOUSE_MOVE_MIN_DISTANCE))) {    // window move
             if (!m_wasWindowMove) {
                 m_windowMoveStartPos = mouseEvent->pos();
                 MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
@@ -1502,6 +1502,8 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         return;
     }
     case QEvent::MouseButtonPress:
+        m_timer->setSingleShot(true);
+        m_timer->start(250);
         if (!m_dockRect.contains(mouseEvent->pos())) {
             if (target) {       // window press
                 m_windowMove = target;
@@ -1516,6 +1518,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
 
         break;
     case QEvent::MouseButtonRelease:
+        m_timer->stop();
         if (!m_wasWindowMove && m_dockRect.contains(mouseEvent->pos())) {
             m_delayDbus = false;
             if (QX11Info::isPlatformX11()) {
@@ -1544,7 +1547,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                 } else if (i == 1) {    //top btn
                     setWinKeepAbove(target);
                 }
-            } else if (!m_wasWindowMove) {
+            } else if (!m_wasWindowMove && !m_longPressTouch) {
                 effects->defineCursor(Qt::PointingHandCursor);
                 effects->setElevatedWindow(target, false);
                 effects->activateWindow(target);
@@ -1606,6 +1609,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         m_dragWorkspacedirection = dragNone;
         m_windowMove = nullptr;
         m_wasWindowMove = false;
+        m_longPressTouch = false;
 
         break;
     default:
@@ -3347,8 +3351,6 @@ bool MultitaskViewEffect::touchDown(quint32 id, const QPointF &pos, quint32 time
         m_touch.id = id;
         m_touch.pos = pos.toPoint();
         QMouseEvent event(QEvent::MouseButtonPress, pos, pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-        m_timer->setSingleShot(true);
-        m_timer->start(250);
         windowInputMouseEvent(&event);
         m_touch.isPress = true;
     }
@@ -3385,7 +3387,6 @@ bool MultitaskViewEffect::touchUp(quint32 id, quint32 time)
     if (m_touch.active && m_touch.id == id) {
         m_touch.active = false;
         m_touch.id = 0;
-        m_timer->stop();
         m_touch.isPress = false;
         QMouseEvent event(QEvent::MouseButtonRelease, m_touch.pos, m_touch.pos, Qt::LeftButton, Qt::LeftButton ,Qt::NoModifier);
         windowInputMouseEvent(&event);
@@ -3393,9 +3394,9 @@ bool MultitaskViewEffect::touchUp(quint32 id, quint32 time)
     return true;
 }
 
- void MultitaskViewEffect::motionRepeat()
- {
-    touchMotion(m_touch.id, m_touch.pos, 0);
- }
+void MultitaskViewEffect::motionRepeat()
+{
+    m_longPressTouch = true;
+}
 
 } // namespace KWin
