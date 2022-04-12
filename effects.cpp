@@ -272,7 +272,7 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
         }
     }
     reconfigure();
-    if(waylandServer())
+    if(waylandServer() && waylandServer()->seat())
         m_delay = waylandServer()->seat()->keyRepeatDelay();
 }
 

@@ -485,7 +485,7 @@ private:
     QPoint m_windowMoveDiff;
     QPoint m_lastWorkspaceMovePos;
 
-    QHash<int, EffectFrame*>             m_tipFrames;
+    QHash<int, QList<EffectFrame*>>             m_tipFrames;
     QHash<int, MultiViewWorkspace *>     m_addWorkspaceButton;
     QHash<QString, ScreenInfo_st>        m_screenInfoList;
     QHash<int, QList<MultiViewWorkspace *>> m_workspaceBackgrounds;
