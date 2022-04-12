@@ -29,6 +29,7 @@
 #include <KWaylandServer/pointer_interface.h>
 #include <KWaylandServer/pointerconstraints_v1_interface.h>
 #include <KWaylandServer/seat_interface.h>
+#include <KWaylandServer/ddeseat_interface.h>
 #include <KWaylandServer/surface_interface.h>
 // screenlocker
 #include <KScreenLocker/KsldApp>
@@ -115,6 +116,10 @@ void PointerInputRedirection::init()
     waylandServer()->seat()->setHasPointer(input()->hasPointer());
     connect(input(), &InputRedirection::hasPointerChanged,
             waylandServer()->seat(), &KWaylandServer::SeatInterface::setHasPointer);
+
+    waylandServer()->ddeSeat()->setHasPointer(input()->hasPointer());
+    connect(input(), &InputRedirection::hasPointerChanged,
+            waylandServer()->ddeSeat(), &KWaylandServer::DDESeatInterface::setHasPointer);
 
     m_cursor = new CursorImage(this);
     setInited(true);

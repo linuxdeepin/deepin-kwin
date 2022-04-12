@@ -19,6 +19,7 @@
 #include <KDecoration2/Decoration>
 // KWayland
 #include <KWaylandServer/seat_interface.h>
+#include <KWaylandServer/ddeseat_interface.h>
 // screenlocker
 #include <KScreenLocker/KsldApp>
 // Qt
@@ -41,6 +42,10 @@ void TouchInputRedirection::init()
     waylandServer()->seat()->setHasTouch(input()->hasTouch());
     connect(input(), &InputRedirection::hasTouchChanged,
             waylandServer()->seat(), &KWaylandServer::SeatInterface::setHasTouch);
+
+    waylandServer()->ddeSeat()->setHasTouch(input()->hasTouch());
+    connect(input(), &InputRedirection::hasTouchChanged,
+            waylandServer()->ddeSeat(), &KWaylandServer::DDESeatInterface::setHasTouch);
 
     setInited(true);
     InputDeviceHandler::init();
