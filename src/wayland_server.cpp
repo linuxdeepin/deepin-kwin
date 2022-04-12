@@ -67,6 +67,7 @@
 #include <KWaylandServer/primaryselectiondevicemanager_v1_interface.h>
 #include <KWaylandServer/relativepointer_v1_interface.h>
 #include <KWaylandServer/ddeshell_interface.h>
+#include <KWaylandServer/ddeseat_interface.h>
 #include <KWaylandServer/strut_interface.h>
 
 // Qt
@@ -571,6 +572,8 @@ bool WaylandServer::init(InitializationFlags flags)
             }
         }
     );
+
+    m_ddeSeat = new DDESeatInterface(m_display, m_display);
 
     return true;
 }

@@ -50,6 +50,7 @@
 #include <KWaylandServer/shmclientbuffer.h>
 #include <KWaylandServer/surface_interface.h>
 #include <KWaylandServer/tablet_v2_interface.h>
+#include <KWaylandServer/ddeseat_interface.h>
 #include <decorations/decoratedclient.h>
 
 //screenlocker
@@ -360,12 +361,15 @@ public:
             return false;
         }
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         if (pointerSurfaceAllowed()) {
             const WheelEvent *wheelEvent = static_cast<WheelEvent *>(event);
             seat->setTimestamp(wheelEvent->timestamp());
             seat->notifyPointerAxis(wheelEvent->orientation(), wheelEvent->delta(),
                                     wheelEvent->discreteDelta(),
                                     kwinAxisSourceToKWaylandAxisSource(wheelEvent->axisSource()));
+            ddeSeat->pointerAxis(wheelEvent->orientation(),
+                    wheelEvent->orientation() == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
             seat->notifyPointerFrame();
         }
         return true;
@@ -1552,10 +1556,13 @@ public:
     }
     bool wheelEvent(QWheelEvent *event) override {
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         seat->setTimestamp(event->timestamp());
         auto _event = static_cast<WheelEvent *>(event);
         seat->notifyPointerAxis(_event->orientation(), _event->delta(), _event->discreteDelta(),
                                 kwinAxisSourceToKWaylandAxisSource(_event->axisSource()));
+        ddeSeat->pointerAxis(_event->orientation(),
+                _event->orientation() == Qt::Horizontal ? event->angleDelta().x() : event->angleDelta().y());
         seat->notifyPointerFrame();
         return true;
     }
@@ -2067,6 +2074,7 @@ public:
 
     bool pointerEvent(QMouseEvent *event, quint32 nativeButton) override {
         auto seat = waylandServer()->seat();
+        auto ddeSeat = waylandServer()->ddeSeat();
         if (!seat->isDragPointer()) {
             return false;
         }
@@ -2078,6 +2086,7 @@ public:
         case QEvent::MouseMove: {
             const auto pos = input()->globalPointer();
             seat->notifyPointerMotion(pos);
+            ddeSeat->setPointerPos(event->globalPos());
             seat->notifyPointerFrame();
 
             const auto eventPos = event->globalPos();
@@ -2120,12 +2129,14 @@ public:
         }
         case QEvent::MouseButtonPress:
             seat->notifyPointerButton(nativeButton, KWaylandServer::PointerButtonState::Pressed);
+            ddeSeat->pointerButtonPressed(nativeButton);
             seat->notifyPointerFrame();
             break;
         case QEvent::MouseButtonRelease:
             raiseDragTarget();
             m_dragTarget = nullptr;
             seat->notifyPointerButton(nativeButton, KWaylandServer::PointerButtonState::Released);
+            ddeSeat->pointerButtonReleased(nativeButton);
             seat->notifyPointerFrame();
             break;
         default:
@@ -2217,6 +2228,61 @@ private:
     QPointF m_lastPos = QPointF(-1, -1);
     QPointer<AbstractClient> m_dragTarget;
     QTimer m_raiseTimer;
+};
+
+class GlobalEventSpy : public InputEventSpy
+{
+public:
+    void touchDown(qint32 id, const QPointF &pos, quint32 time) override {
+        waylandServer()->ddeSeat()->setTouchTimestamp(time);
+        waylandServer()->ddeSeat()->touchDown(id, pos);
+    }
+    void touchMotion(qint32 id, const QPointF &pos, quint32 time) override {
+        waylandServer()->ddeSeat()->setTouchTimestamp(time);
+        waylandServer()->ddeSeat()->touchMotion(id, pos);
+    }
+    void touchUp(qint32 id, quint32 time) override {
+        waylandServer()->ddeSeat()->setTouchTimestamp(time);
+        waylandServer()->ddeSeat()->touchUp(id);
+    }
+    void pointerEvent(MouseEvent *event) override {
+        auto ddeSeat = waylandServer()->ddeSeat();
+        switch (event->type()) {
+        case QEvent::MouseMove: {
+            ddeSeat->setPointerPos(event->globalPos());
+            break;
+        }
+        case QEvent::MouseButtonPress: {
+            ddeSeat->pointerButtonPressed(event->nativeButton());
+            break;
+        }
+        case QEvent::MouseButtonRelease: {
+            ddeSeat->pointerButtonReleased(event->nativeButton());
+            break;
+        }
+        default:
+            break;
+        }
+    }
+
+    void keyEvent(KeyEvent *event) override {
+        Q_ASSERT(waylandServer());
+        if (event->isAutoRepeat()) {
+            return;
+        }
+        switch (event->type()) {
+            case QEvent::KeyPress:
+                waylandServer()->ddeSeat()->setTimestamp(event->timestamp());
+                waylandServer()->ddeSeat()->keyPressed(event->nativeScanCode());
+                break;
+            case QEvent::KeyRelease:
+                waylandServer()->ddeSeat()->setTimestamp(event->timestamp());
+                waylandServer()->ddeSeat()->keyReleased(event->nativeScanCode());
+                break;
+            default:
+                break;
+        }
+    }
 };
 
 KWIN_SINGLETON_FACTORY(InputRedirection)
@@ -2468,6 +2534,7 @@ void InputRedirection::setupInputFilters()
         installInputEventFilter(new VirtualTerminalFilter);
     }
     installInputEventSpy(new HideCursorSpy);
+    installInputEventSpy(new GlobalEventSpy);
     installInputEventSpy(new UserActivitySpy);
     if (hasGlobalShortcutSupport) {
         installInputEventFilter(new TerminateServerFilter);

@@ -8,11 +8,13 @@
 */
 #include "xkb.h"
 #include "utils/common.h"
+#include "wayland_server.h"
 // frameworks
 #include <KConfigGroup>
 // KWayland
 #include <KWaylandServer/keyboard_interface.h>
 #include <KWaylandServer/seat_interface.h>
+#include <KWaylandServer/ddeseat_interface.h>
 // Qt
 #include <QTemporaryFile>
 #include <QKeyEvent>
@@ -430,6 +432,11 @@ void Xkb::forwardModifiers()
         return;
     }
     m_seat->notifyKeyboardModifiers(m_modifierState.depressed,
+                                    m_modifierState.latched,
+                                    m_modifierState.locked,
+                                    m_currentLayout);
+
+    waylandServer()->ddeSeat()->updateKeyboardModifiers(m_modifierState.depressed,
                                     m_modifierState.latched,
                                     m_modifierState.locked,
                                     m_currentLayout);
