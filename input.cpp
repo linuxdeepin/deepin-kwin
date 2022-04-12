@@ -2067,8 +2067,9 @@ InputRedirection::~InputRedirection()
     s_self = NULL;
     qDeleteAll(m_filters);
     qDeleteAll(m_spies);
-    delete pEventMonitor;
-    pEventMonitor = nullptr;
+    pEventMonitor->terminate();
+    pEventMonitor->wait();
+    pEventMonitor->deleteLater();
 }
 
 void InputRedirection::installInputEventFilter(InputEventFilter *filter)
