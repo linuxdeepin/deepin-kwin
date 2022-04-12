@@ -8,7 +8,6 @@
 */
 #include "xkb.h"
 #include "utils/common.h"
-#include "wayland_server.h"
 // frameworks
 #include <KConfigGroup>
 // KWayland
@@ -436,7 +435,10 @@ void Xkb::forwardModifiers()
                                     m_modifierState.locked,
                                     m_currentLayout);
 
-    waylandServer()->ddeSeat()->updateKeyboardModifiers(m_modifierState.depressed,
+    if (!m_ddeSeat) {
+        return;
+    }
+    m_ddeSeat->updateKeyboardModifiers(m_modifierState.depressed,
                                     m_modifierState.latched,
                                     m_modifierState.locked,
                                     m_currentLayout);
@@ -608,6 +610,11 @@ quint32 Xkb::numberOfLayouts() const
 void Xkb::setSeat(KWaylandServer::SeatInterface *seat)
 {
     m_seat = QPointer<KWaylandServer::SeatInterface>(seat);
+}
+
+void Xkb::setDDESeat(KWaylandServer::DDESeatInterface *ddeseat)
+{
+    m_ddeSeat = QPointer<KWaylandServer::DDESeatInterface>(ddeseat);
 }
 
 }

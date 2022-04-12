@@ -31,6 +31,7 @@ typedef uint32_t xkb_layout_index_t;
 namespace KWaylandServer
 {
     class SeatInterface;
+    class DDESeatInterface;
 }
 
 namespace KWin
@@ -99,6 +100,8 @@ public:
     void setSeat(KWaylandServer::SeatInterface *seat);
     QByteArray keymapContents() const;
 
+    void setDDESeat(KWaylandServer::DDESeatInterface *ddeseat);
+
 Q_SIGNALS:
     void ledsChanged(const LEDs &leds);
     void modifierStateChanged();
@@ -150,6 +153,7 @@ private:
     Ownership m_ownership = Ownership::Server;
 
     QPointer<KWaylandServer::SeatInterface> m_seat;
+    QPointer<KWaylandServer::DDESeatInterface> m_ddeSeat;
 };
 
 inline

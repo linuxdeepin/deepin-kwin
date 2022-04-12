@@ -43,6 +43,7 @@ KeyboardInputRedirection::KeyboardInputRedirection(InputRedirection *parent)
     connect(m_xkb.data(), &Xkb::ledsChanged, this, &KeyboardInputRedirection::ledsChanged);
     if (waylandServer()) {
         m_xkb->setSeat(waylandServer()->seat());
+        m_xkb->setDDESeat(waylandServer()->ddeSeat());
     }
 }
 
