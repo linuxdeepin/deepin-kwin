@@ -229,6 +229,12 @@ namespace KWin
  */
 void Workspace::setActiveClient(AbstractClient* c)
 {
+    if (c) {
+        qCDebug(KWIN_CORE) <<"Workspace::setActiveClient:"<< QString::fromStdString(c->resourceName().toStdString());
+    } else {
+        qCDebug(KWIN_CORE) <<"Workspace::setActiveClient: get 0 client";
+    }
+
     if (active_client == c)
         return;
 
@@ -394,10 +400,15 @@ void Workspace::takeActivity(AbstractClient* c, ActivityFlags flags)
         return;
     }
 
-    if (flags & ActivityFocus)
+    if (flags & ActivityFocus) {
+        qCDebug(KWIN_CORE) << "takeActivity: flags & ActivityFocus";
         c->takeFocus();
-    if (flags & ActivityRaise)
-        workspace()->raiseClient(c);
+    }
+
+    if (flags & ActivityRaise) {
+            qCDebug(KWIN_CORE) << "takeActivity: flags & ActivityRaise";
+            workspace()->raiseClient(c);
+    }
 
     if (!c->isOnActiveScreen())
         screens()->setCurrent(c->screen());

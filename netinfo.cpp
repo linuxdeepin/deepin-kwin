@@ -161,6 +161,7 @@ void RootInfo::changeActiveWindow(xcb_window_t w, NET::RequestSource src, xcb_ti
 {
     Workspace *workspace = Workspace::self();
     if (Client* c = workspace->findClient(Predicate::WindowMatch, w)) {
+        qCDebug(KWIN_CORE)<<"RootInfo::changeActiveWindow:"<< c->resourceName()<<"; from:"<< src;
         if (timestamp == CurrentTime)
             timestamp = c->userTime();
         if (src != NET::FromApplication && src != FromTool)
@@ -177,7 +178,15 @@ void RootInfo::changeActiveWindow(xcb_window_t w, NET::RequestSource src, xcb_ti
         } else { // NET::FromApplication
             Client* c2;
             if (workspace->allowClientActivation(c, timestamp, false, true))
-                workspace->activateClient(c);
+            {
+                if(!workspace->clientHandleMouseCommond())
+                {
+                    qDebug()<<"no client wait for mousecommond";
+                    workspace->activateClient(c);
+                } else {
+                    qDebug()<<"has client wait for mousecommond";
+                }
+            }
             // if activation of the requestor's window would be allowed, allow activation too
             else if (active_window != None
                     && (c2 = workspace->findClient(Predicate::WindowMatch, active_window)) != NULL
@@ -238,6 +247,8 @@ void RootInfo::changeShowingDesktop(bool showing)
 void RootInfo::setActiveClient(AbstractClient *client)
 {
     const xcb_window_t w = client ? client->window() : xcb_window_t{XCB_WINDOW_NONE};
+    if (client)
+        qCDebug(KWIN_CORE) <<"RootInfo::setActiveClient:"<<client->resourceName();
     if (m_activeWindow == w) {
         return;
     }

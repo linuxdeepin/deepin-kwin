@@ -71,6 +71,8 @@ public:
                 // TODO: this currently ignores left handed settings, for current usage not needed
                 // if we want to use also for global mouse shortcuts, this needs to reflect state correctly
                 case XCB_BUTTON_INDEX_1:
+                    qCDebug(KWIN_X11STANDALONE) <<"XI_RawButtonPress 1";
+                    qDebug() <<"XI_RawButtonPress 1";
                     kwinApp()->platform()->pointerButtonPressed(BTN_LEFT, e->time);
                     break;
                 case XCB_BUTTON_INDEX_2:
@@ -96,6 +98,8 @@ public:
                 // TODO: this currently ignores left handed settings, for current usage not needed
                 // if we want to use also for global mouse shortcuts, this needs to reflect state correctly
                 case XCB_BUTTON_INDEX_1:
+                    qDebug() <<"XI_RawButtonRelease 1";
+                    qCDebug(KWIN_X11STANDALONE) <<"XI_RawButtonRelease 1";
                     kwinApp()->platform()->pointerButtonReleased(BTN_LEFT, e->time);
                     break;
                 case XCB_BUTTON_INDEX_2:

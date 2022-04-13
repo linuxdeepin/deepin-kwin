@@ -1250,6 +1250,7 @@ void Client::focusInEvent(xcb_focus_in_event_t *e)
     bool activate =  workspace()->allowClientActivation(this, -1U, true);
     workspace()->gotFocusIn(this);   // remove from should_get_focus list
     if (activate) {
+        qCDebug(KWIN_CORE) <<"setActive from focusInEvent";
         setActive(true);
      //   m_foucusInEventSequence = e->sequence;
     }
@@ -1314,7 +1315,7 @@ void Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
         if (pointer.isNull()) {
             return;
         }
-            
+
         Qt::MouseButtons button = x11ToQtMouseButtons(pointer->mask);
         if((button & Qt::LeftButton) == 0) {
             return;

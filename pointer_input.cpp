@@ -337,6 +337,10 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
     input()->processSpies(std::bind(&InputEventSpy::pointerEvent, std::placeholders::_1, &event));
 
     if (!inited()) {
+        // only X11 will get in this
+        if (state == InputRedirection::PointerButtonReleased) {
+            workspace()->handleReleaseMouseCommond();
+        }
         return;
     }
 
