@@ -139,6 +139,7 @@ Workspace::Workspace(const QString &sessionKey)
     , startup(0)
     , set_active_client_recursion(0)
     , block_stacking_updates(0)
+    , m_clientHandlingMouseCommond(nullptr)
 {
     // If KWin was already running it saved its configuration after loosing the selection -> Reread
     QFuture<void> reparseConfigFuture = QtConcurrent::run(options, &Options::reparseConfiguration);
@@ -2312,6 +2313,38 @@ void Workspace::delWindowProperty(wl_resource* surface)
         qCritical()<<__FILE__<< __FUNCTION__<<__LINE__<<"delete window property error!";
     }
 }
+
+void Workspace::setClientHandleMouseCommond(AbstractClient* c)
+{
+    m_clientHandlingMouseCommond = c;
+}
+
+ void Workspace::handleReleaseMouseCommond()
+ {
+    qDebug()<<"Workspace::handleReleaseMouseCommond";
+    if (m_clientHandlingMouseCommond) {
+        qDebug()<<"clientHandlingMouseCommond:"<<m_clientHandlingMouseCommond->resourceName();
+        ToplevelList list = stackingOrder();
+        AbstractClient* c = nullptr;
+        for (int i = list.size()-1; i >=0; --i) {
+            if (list.at(i)->geometry().contains(QCursor::pos())) {
+                c = qobject_cast<AbstractClient*>(list.at(i));
+                // minimized client still in stackingorder so we should skip it
+                if (c->isMinimized())
+                    continue;
+                break;
+            }
+        }
+        if (c)
+            qCDebug(KWIN_CORE) << "release on "<< c->resourceName();
+        if (c && (c->window() == m_clientHandlingMouseCommond->window()) ) {
+            qCDebug(KWIN_CORE) << "raise at release: "<< c->resourceName()<<"; id: "<<c->window();
+            takeActivity(m_clientHandlingMouseCommond, Workspace::ActivityFocus | Workspace::ActivityRaise);
+            setMouseRaised(true);
+        }
+        setClientHandleMouseCommond(nullptr);
+    }
+ }
 
 } // namespace
 

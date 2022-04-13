@@ -288,6 +288,7 @@ void AbstractClient::setIcon(const QIcon &icon)
 
 void AbstractClient::setActive(bool act)
 {
+    qCDebug(KWIN_CORE) <<"AbstractClient::setActive:" << act;
     if (m_active == act) {
         return;
     }
@@ -1242,12 +1243,20 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         screens()->setCurrent(globalPos);
         replay = replay || !rules()->checkAcceptFocus(acceptsFocus());
         break;
-    case Options::MouseActivateRaiseAndPassClick:
-        workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
-        screens()->setCurrent(globalPos);
-        replay = true;
-        workspace()->setMouseRaised(true);
-        break;
+    case Options::MouseActivateRaiseAndPassClick:{
+        if (waylandServer()) {
+            qCDebug(KWIN_CORE)<<"ClickToFocus";
+            workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
+            screens()->setCurrent(globalPos);
+            replay = true;
+            workspace()->setMouseRaised(true);
+        } else {
+            qCDebug(KWIN_CORE)<<"ButtonReleaseToFocus";
+            workspace()->setClientHandleMouseCommond(this);
+            screens()->setCurrent(globalPos);
+            replay = true;
+        }
+    }
     case Options::MouseActivateAndPassClick:
         workspace()->takeActivity(this, Workspace::ActivityFocus);
         screens()->setCurrent(globalPos);
@@ -2010,7 +2019,7 @@ void AbstractClient::setDecoratedClient(QPointer< Decoration::DecoratedClientImp
 void AbstractClient::enterEvent(const QPoint &globalPos)
 {
     // TODO: shade hover
-    if (options->focusPolicy() == Options::ClickToFocus || workspace()->userActionsMenu()->isShown())
+    if (options->focusPolicy() == Options::ClickToFocus || options->focusPolicy() == Options::ButtonReleaseToFocus || workspace()->userActionsMenu()->isShown())
         return;
 
     if (options->isAutoRaise() && !isDesktop() &&

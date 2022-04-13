@@ -228,7 +228,7 @@ public:
 
       </ul>
      */
-    enum FocusPolicy { ClickToFocus, FocusFollowsMouse, FocusUnderMouse, FocusStrictlyUnderMouse };
+    enum FocusPolicy { ClickToFocus, FocusFollowsMouse, FocusUnderMouse, FocusStrictlyUnderMouse, ButtonReleaseToFocus };
     FocusPolicy focusPolicy() const {
         return m_focusPolicy;
     }
@@ -289,7 +289,7 @@ public:
     }
 
     bool focusPolicyIsReasonable() {
-        return m_focusPolicy == ClickToFocus || m_focusPolicy == FocusFollowsMouse;
+        return m_focusPolicy == ClickToFocus || m_focusPolicy == FocusFollowsMouse || m_focusPolicy == ButtonReleaseToFocus;
     }
 
     /**
