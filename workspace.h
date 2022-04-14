@@ -274,6 +274,14 @@ public:
         return m_kwinDebug;
     }
 
+    void setCurrentPaintingScreen(int index) {
+        m_paintingScreen = index;
+    }
+
+    int getCurrentPaintingScreen() {
+        return m_paintingScreen;
+    }
+
     void enablePrintKwinFps(bool enable) {
         m_printKwinFps = enable;
     }
@@ -299,6 +307,7 @@ public:
 
 private:
     Compositor *m_compositor;
+    int m_paintingScreen = 0;
 
     //-------------------------------------------------
     // Unsorted

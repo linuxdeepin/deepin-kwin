@@ -992,6 +992,11 @@ void EffectsHandlerImpl::changeBlurState(bool state)
     Workspace::self()->changeBlurStatus(state);
 }
 
+int EffectsHandlerImpl::getCurrentPaintingScreen()
+{
+    return Workspace::self()->getCurrentPaintingScreen();
+}
+
 QString EffectsHandlerImpl::getActiveColor()
 {
     return Workspace::self()->ActiveColor();
