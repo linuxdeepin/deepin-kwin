@@ -677,6 +677,10 @@ qint64 SceneOpenGL::paint(QRegion damage, ToplevelList toplevels)
                 qDebug() << "------- paint: invalid geometry";
                 continue;
             }
+            
+            if (workspace()) {
+                workspace()->setCurrentPaintingScreen(i);
+            }
 
             QRegion update;
             QRegion valid;

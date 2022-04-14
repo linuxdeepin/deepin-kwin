@@ -99,6 +99,7 @@ public:
     QString getScreenNameForWayland(int screen) override;
     void requestLock() override;
     void changeBlurState(bool) override;
+    int getCurrentPaintingScreen() override;
 
     void activateWindow(EffectWindow* c) override;
     EffectWindow* activeWindow() const override;

@@ -71,7 +71,10 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define MULTITASK_TOP_SVG        ":/resources/themes/multiview_top.svg"
 #define MULTITASK_TOP_ACTIVE_SVG ":/resources/themes/multiview_top_active.svg"
 
-#define POPUP_TIME_SCALE 3.0f
+#define POPUP_TIME_SCALE 15.0f
+#define EFFECT_DURATION_DEFAULT 300
+#define SCISSOR_HOFFU 200
+#define SCISSOR_HOFFD 400
 
 const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
 const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
@@ -544,19 +547,19 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     m_bgSlidingStatus = false;
     m_bgSlidingTimeLine.setEasingCurve(QEasingCurve::InQuint);
-    m_bgSlidingTimeLine.setDuration(std::chrono::milliseconds(300));
+    m_bgSlidingTimeLine.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULT));
 
     m_workspaceSlidingStatus = false;
     m_workspaceSlidingTimeline.setEasingCurve(QEasingCurve::OutQuint);
-    m_workspaceSlidingTimeline.setDuration(std::chrono::milliseconds(300));
+    m_workspaceSlidingTimeline.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULT));
 
     m_popStatus = false;
     m_popTimeLine.setEasingCurve(QEasingCurve::OutQuint);
-    m_popTimeLine.setDuration(std::chrono::milliseconds(300));
+    m_popTimeLine.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULT));
 
     m_opacityStatus = false;
     m_opacityTimeLine.setEasingCurve(QEasingCurve::OutQuint);
-    m_opacityTimeLine.setDuration(std::chrono::milliseconds(300));
+    m_opacityTimeLine.setDuration(std::chrono::milliseconds(4*EFFECT_DURATION_DEFAULT));
 
     QString qm = QString(":/multitasking/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());
     QTranslator *tran = new QTranslator();
@@ -645,9 +648,8 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, int time)
         if(m_bgSlidingStatus)
             m_bgSlidingTimeLine.update(std::chrono::milliseconds(time));
 
-
         for (auto& mm: m_motionManagers) {
-            mm->calculate(time / POPUP_TIME_SCALE);
+            mm->calculate(POPUP_TIME_SCALE);
         }
     }
 
@@ -665,6 +667,17 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
             MultiViewWorkspace *lwkobj = getWorkspaceObject(i, m_lastDesktopIndex - 1);
             MultiViewWorkspace *cwkobj = getWorkspaceObject(i, m_curDesktopIndex - 1);
             if (lwkobj && cwkobj) {
+                auto area = lwkobj->getfullArea();
+                if (effects->waylandDisplay()) {
+                    if (i != effectsEx->getCurrentPaintingScreen()) {
+                        if (area.x() > 0)
+                            continue;
+                    }
+                } else {
+                    glEnable(GL_SCISSOR_TEST);
+                    glScissor(area.x(), area.y() - SCISSOR_HOFFU, area.width(), area.height() + SCISSOR_HOFFD);
+                }
+
                 if (effects->numberOfDesktops() > 2) {
                     if (m_lastDesktopIndex == 1 && m_curDesktopIndex == effects->numberOfDesktops()) {
                         lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
@@ -687,6 +700,10 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
                         lwkobj->renderDesktopBackGround(m_bgSlidingTimeLine.value());
                         cwkobj->renderDesktopBackGround(-1 + m_bgSlidingTimeLine.value());
                     }
+                }
+
+                if (nullptr == effects->waylandDisplay()) {
+                    glDisable(GL_SCISSOR_TEST);
                 }
             }
         } else {

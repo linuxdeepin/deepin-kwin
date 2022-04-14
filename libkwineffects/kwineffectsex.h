@@ -76,6 +76,7 @@ public:
     virtual void changeBlurState(bool) = 0;
     virtual EffectWindowList getChildWinList(KWin::EffectWindow *w) = 0;
     virtual bool isTransientWin(KWin::EffectWindow *w) = 0;
+    virtual int getCurrentPaintingScreen() = 0;
 
 Q_SIGNALS:
     void windowQuickTileModeChanged(KWin::EffectWindow *w);
