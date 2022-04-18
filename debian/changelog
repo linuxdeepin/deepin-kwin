@@ -1,3 +1,31 @@
+kwin (4:5.15.11.17-1) unstable; urgency=medium
+
+  * feat:
+    + 100762 feat: Switch activate client when release left button in X11
+
+  * Bug fix:
+    + 97987  fix: termail first fullscreen position error
+    + 121729 fix: first start multitasking effect exit
+    + 104984 fix: screen geometry resized, move client to the appropriate pos
+    + 110524 fix: screen count reduced, quilt splitScreen.
+    + 122605 fix: solve long touch event about x11
+    + 121349 fix: solve dbus block
+    + 122851 fix: add judge about modal win
+    + 122829 fix: modify DraggingWithContent=0 in kwinrc config
+    + 121583 fix: long press the window to exit the multitasking effect
+    + 123009 fix: limit drag workspace direction and add transparency when delete workspace
+    + 122365 fix: ajust render window order, add check about dock area when click, add check about drag window to dest the num of desktop
+    + 102480 fix: lightWeight resize window not correct
+    + 109805 fix: Realize the function of setOnAllDesktops in ddeshell protocol.
+    + 122497, 122537 fix: cancle hover window when switch workspace, active window when handler window top
+    + 122539, 123367 fix: solve show two window when drag window in wayland, optimize window fill transparency and tips of no window
+    + 123357, 123351, 122571 fix: slide wrongly when first workspace selected, flash when addind/switching workspace
+    + 123495, 123359  121757 fix: solve window division with workspace when delete workspace
+    + 121811, 119557, 123275 fix: add second workspace, remove middle workspace and remove flash phenomenon
+    + 122309, 122277, 122267 fix: update background, don't switch workspace
+
+ -- Lei Su <sulei@uniontech.com>  Mon, 18 Apr 2022 15:02:18 +0800
+
 kwin (4:5.15.11.16-1) unstable; urgency=medium
 
   * Bug fix:
