@@ -8,16 +8,16 @@
         <file alias="invert.frag">invert/data/1.10/invert.frag</file>
         <file alias="lookingglass.frag">lookingglass/data/1.10/lookingglass.frag</file>
         <file alias="blinking-startup-fragment.glsl">startupfeedback/data/1.10/blinking-startup-fragment.glsl</file>
-        <file alias="splitthumb.glsl">splitscreen/splitthumb.glsl</file>
-        <file alias="bk9.frag">splitscreen/bk9.frag</file>
+        <file alias="splitthumb.glsl">splitscreen/data/1.10/splitthumb.glsl</file>
+        <file alias="bk9.frag">splitscreen/data/1.10/bk9.frag</file>
         <file alias="bk9.vert">splitscreen/bk9.vert</file>
-        <file alias="workspacethumb.glsl">multitaskview/workspacethumb.glsl</file>
+        <file alias="workspacethumb.glsl">multitaskview/data/1.10/workspacethumb.glsl</file>
         <file alias="windowfill.glsl">multitaskview/windowfill.glsl</file>
-        <file alias="windowhover.glsl">multitaskview/windowhover.glsl</file>
-        <file alias="workspacehover.glsl">multitaskview/workspacehover.glsl</file>
+        <file alias="windowhover.glsl">multitaskview/data/1.10/windowhover.glsl</file>
+        <file alias="workspacehover.glsl">multitaskview/data/1.10/workspacehover.glsl</file>
     	<file alias="dottedline.vert">multitaskview/dottedline.vert</file>
         <file alias="dottedline.frag">multitaskview/dottedline.frag</file>
-	<file alias="windowtext.glsl">multitaskview/windowtext.glsl</file>
+	<file alias="windowtext.glsl">multitaskview/data/1.10/windowtext.glsl</file>
     </qresource>
     <qresource prefix="/effect-shaders-1.40">
         <file alias="coverswitch-reflection.glsl">coverswitch/shaders/1.40/coverswitch-reflection.glsl</file>
@@ -28,20 +28,20 @@
         <file alias="invert.frag">invert/data/1.40/invert.frag</file>
         <file alias="lookingglass.frag">lookingglass/data/1.40/lookingglass.frag</file>
         <file alias="blinking-startup-fragment.glsl">startupfeedback/data/1.40/blinking-startup-fragment.glsl</file>
-        <file alias="splitthumb.glsl">splitscreen/splitthumb.glsl</file>
-        <file alias="bk9.frag">splitscreen/bk9.frag</file>
+        <file alias="splitthumb.glsl">splitscreen/data/1.40/splitthumb.glsl</file>
+        <file alias="bk9.frag">splitscreen/data/1.40/bk9.frag</file>
         <file alias="bk9.vert">splitscreen/bk9.vert</file>
-        <file alias="workspacethumb.glsl">multitaskview/workspacethumb.glsl</file>
+        <file alias="workspacethumb.glsl">multitaskview/data/1.40/workspacethumb.glsl</file>
         <file alias="windowfill.glsl">multitaskview/windowfill.glsl</file>
-        <file alias="windowhover.glsl">multitaskview/windowhover.glsl</file>
+        <file alias="windowhover.glsl">multitaskview/data/1.40/windowhover.glsl</file>
         <file alias="bk.v">multitaskview/bk.v</file>
         <file alias="bk.f">multitaskview/bk.f</file>
         <file alias="wbk.v">multitaskview/wbk.v</file>
         <file alias="wbk.f">multitaskview/wbk.f</file>
-        <file alias="workspacehover.glsl">multitaskview/workspacehover.glsl</file>
+        <file alias="workspacehover.glsl">multitaskview/data/1.40/workspacehover.glsl</file>
         <file alias="dottedline.vert">multitaskview/dottedline.vert</file>
         <file alias="dottedline.frag">multitaskview/dottedline.frag</file>
-	<file alias="windowtext.glsl">multitaskview/windowtext.glsl</file>
+	<file alias="windowtext.glsl">multitaskview/data/1.40/windowtext.glsl</file>
     </qresource>
     <qresource prefix="/multitasking">
         <file>multitaskview/translations/multitasking_ca.qm</file>
