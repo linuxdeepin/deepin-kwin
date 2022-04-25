@@ -512,6 +512,10 @@ public:
         if (workspace() && workspace()->isKwinDebug()) {
            qDebug()<<"true type:"<<event->type();
         }
+
+        if (!static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
+            return false;
+        }
         return true;
     }
     bool touchDown(quint32 id, const QPointF &pos, quint32 time) override {
@@ -2759,6 +2763,15 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
 
     return NULL;
 }
+
+bool InputRedirection::isShortcuts(QKeyEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
+    }
+    return false;
+}
+
 
 Qt::KeyboardModifiers InputRedirection::keyboardModifiers() const
 {

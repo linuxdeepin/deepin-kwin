@@ -747,6 +747,11 @@ void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
     }
 }
 
+bool EffectsHandlerImpl::isShortcuts(QKeyEvent *event)
+{
+    return input()->isShortcuts(event);
+}
+
 void EffectsHandlerImpl::doStopMouseInterception()
 {
     input()->pointer()->removeEffectsOverrideCursor();

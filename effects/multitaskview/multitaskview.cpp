@@ -983,8 +983,15 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         return;
     }
 
-    if (w->windowClass() == screen_recorder) {
-        effects->setElevatedWindow(w, true);
+    if (w->windowClass() == screen_recorder || w == m_screenRecorderMenu) {
+        if (!m_screenRecorderMenu || w == m_screenRecorderMenu) {
+            effects->setElevatedWindow(w, true); 
+        }
+
+        effects->paintWindow(w, mask, region, data);
+        return;
+    }
+    if (w->caption() == "dde-osd" && m_isCloseScreenRecorder) {
         effects->paintWindow(w, mask, region, data);
         return;
     }
@@ -1337,7 +1344,7 @@ void MultitaskViewEffect::onWindowClosed(EffectWindow *w)
     if (!m_activated)
         return;
 
-    if (w->windowClass() == screen_recorder) {
+    if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);
     } else if (w->isDock()) {
         m_dock = nullptr;
@@ -1354,6 +1361,15 @@ void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
         m_dock = nullptr;
         m_dockRect.setSize(QSize(0, 0));
     } else if (!QX11Info::isPlatformX11() && w->caption() == "dde-osd") {
+        m_isCloseScreenRecorder = false;
+        return;
+    } else if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
+        m_isScreenRecorder = false;
+        if (!QX11Info::isPlatformX11())
+            m_isCloseScreenRecorder = true;
+        return;
+    } else if (w == m_screenRecorderMenu) {
+        m_screenRecorderMenu = nullptr;
         return;
     } else {
         removeWinAndRelayout(w);
@@ -1372,6 +1388,15 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
         onDockChange("");
     } else if (!QX11Info::isPlatformX11() && w->caption() == "org.deepin.dde.lock") {
         setActive(false);
+    } else if (w->windowClass() == screen_recorder || m_isScreenRecorder) {
+        if ((!QX11Info::isPlatformX11() && w->windowClass() != screen_recorder)
+            || (QX11Info::isPlatformX11() && w->windowClass() == screen_recorder && m_isScreenRecorder)) {
+            m_screenRecorderMenu = w;
+        }
+        effects->stopMouseInterception(this);
+        m_isScreenRecorder = true;
+    } else if (!QX11Info::isPlatformX11() && w->caption() != "dde-osd" && m_isCloseScreenRecorder) {
+        m_isCloseScreenRecorder = false;
     } else if (isRelevantWithPresentWindows(w)) {
         m_isShieldEvent = false;
         foreach (const int i, desktopList(w)) {
@@ -1383,8 +1408,6 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
                 }
             }
         }
-    } else if (w->windowClass() == screen_recorder) {
-        effects->stopMouseInterception(this);
     }
 }
 
@@ -1885,6 +1908,10 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             }
             break;
         default:
+            if (!QX11Info::isPlatformX11() && effectsEx->isShortcuts(e)) {
+                effects->ungrabKeyboard();
+                m_hasKeyboardGrab = false;
+            }
             break;
         }
     }
@@ -1926,6 +1953,10 @@ void MultitaskViewEffect::cleanup()
     if (m_activated) {
         return;
     }
+
+    m_isScreenRecorder = false;
+    m_isCloseScreenRecorder = false;
+    m_screenRecorderMenu = nullptr;
 
     if (m_hasKeyboardGrab)
         effects->ungrabKeyboard();
