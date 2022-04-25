@@ -547,6 +547,9 @@ private:
         bool isPress = false;
     } m_touch;
     QTimer *m_timer;
+    bool m_isScreenRecorder = false;
+    bool m_isCloseScreenRecorder = false;
+    EffectWindow *m_screenRecorderMenu = nullptr;
 };
 
 } // namespace KWin
