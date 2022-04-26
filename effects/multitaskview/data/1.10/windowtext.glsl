@@ -17,13 +17,12 @@ void main()
 
     float r = 8.0;
     float R = r;
-    float Q = 1.4f;
+    float Q = 0.9f;
     vec4 G = vec4(0.0, 0.0, 0.0, 0.05);
     vec4 U = vec4(G.xyz, 0);
     vec4 U1 = vec4(0.97, 0.97, 0.97, 0.8);
 
     if (x < R && y < R) {
-        x -= 0.1f; y -= 0.1f;
         float d = distance(vec2(x,y), vec2(R,R));
         float q = r - d;
         float s = smoothstep(0, Q, abs(q));
@@ -37,7 +36,6 @@ void main()
         }
     }
     else if (x < R && y > H - R) {   //left-top
-        x -= 0.1f; y += 0.1f;
         float d = distance(vec2(x, y), vec2(R, H - R));
         float q = r - d;
         float s = smoothstep(0, Q, abs(q));
@@ -53,7 +51,6 @@ void main()
         }
     }
     else if ( x > W - R && y > H - R) {
-        x += 0.2f; y += 0.2f;
         float d = distance(vec2(x, y), vec2(W - R, H - R));
         float q = r - d;
         float s = smoothstep(0, Q, abs(q));
@@ -67,7 +64,6 @@ void main()
         }
     }
     else if (x > W - R && y < R) {
-        x += 0.2f; y -= 0.2f;
         float d = distance(vec2(x, y), vec2(W - R, R));
         float q = r - d;
         float s = smoothstep(0, Q, abs(q));
