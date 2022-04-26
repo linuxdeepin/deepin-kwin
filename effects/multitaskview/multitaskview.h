@@ -423,6 +423,8 @@ private:
     int getNumScreens();
     QVector<int>desktopList(const EffectWindow *w) const;
 
+    void renderWorkspaceMove(KWin::ScreenPaintData &data);
+    void renderWindowMove(KWin::ScreenPaintData &data);
     void renderSlidingWorkspace(MultiViewWorkspace *wkobj, int screen, int desktop, KWin::ScreenPaintData &data);
     void renderHover(const EffectWindow *w, const QRect &rect, int order = 0);
     void renderWorkspaceHover(int screen);
@@ -489,7 +491,8 @@ private:
     QPoint m_windowMoveDiff;
     QPoint m_lastWorkspaceMovePos;
 
-    QHash<int, QList<EffectFrame*>>             m_tipFrames;
+    EffectWindowList                     m_flyingWinList;
+    QHash<int, QList<EffectFrame*>>      m_tipFrames;
     QHash<int, MultiViewWorkspace *>     m_addWorkspaceButton;
     QHash<QString, ScreenInfo_st>        m_screenInfoList;
     QHash<int, QList<MultiViewWorkspace *>> m_workspaceBackgrounds;
