@@ -163,7 +163,7 @@ public:
         m_winMotionMgr.clear();
     }
 
-    void add(EffectWindow* w, QPoint p) {
+    void add(EffectWindow* w, QRect p) {
         m_winMotionMgr[w] = p;
     }
 
@@ -218,21 +218,31 @@ public:
                 effects->paintWindow(w, mask, region, data);
                 return;
             } else {
-                QPoint p0 = m_winMotionMgr[w];
-                QPoint p1 = QPoint(w->x(), w->y());
+                //QPoint p0 = m_winMotionMgr[w];
+                //QPoint p1 = QPoint(w->x(), w->y());
+
                 float t = m_timeLine.value();
 
-                {
-                    QPoint p = (p0-p1) * (1-t);
-                    data.translate(p.x(), p.y());
-                    effects->paintWindow(w, mask, region, data);
-                }
+                QRect r = m_winMotionMgr[w];
+                QPoint p0 = m_winMotionMgr[w].topLeft();
+                QPoint p1 = QPoint(w->x(), w->y());
+                
+                float w0 = r.width();
+                float w1 = w->width();
+                float wt = (w1-w0) * t + w0;
+                float k = wt/w1;
+                QPoint p = (p0-p1) * (1-t);
+
+                data.setScale(QVector2D(k,k));
+                data.translate(p.x(), p.y());
+
+                effects->paintWindow(w, mask, region, data);
             }
         }
     }
 
 private:
-    std::map<EffectWindow*, QPoint> m_winMotionMgr;
+    std::map<EffectWindow*, QRect> m_winMotionMgr;
 
     TimeLine m_timeLine;
 
