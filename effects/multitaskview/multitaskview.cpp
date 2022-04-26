@@ -826,99 +826,11 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
     }
 
     if (m_windowMove && m_wasWindowMove) {
-        QPoint diff = cursorPos() - m_windowMoveStartPos;
-        QRect geo = m_windowMoveGeometry.translated(diff);
-        WindowPaintData d(m_windowMove, data.projectionMatrix());
-
-        MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
-        QRect rect1 = wmobj ? wmobj->getWindowGeometry(m_windowMove, m_windowMove->screen()) : QRect();
-        float K1 = (qreal)rect1.width() / (qreal)m_windowMove->width();
-        d += QPoint(-m_windowMove->x(), -m_windowMove->y());
-        if (cursorPos().y() < m_windowMoveStartPos.y()) {
-            int Y0 = m_scale[m_windowMove->screen()].workspaceMgrRect.bottom();
-            float k = (cursorPos().y() - m_windowMoveStartPos.y()) / float(Y0 - m_windowMoveStartPos.y());  
-            float K0 = (qreal)geo.width() / (qreal)m_windowMove->width();
-            k = K1 - k * (K1 - K0);
-            if (k < K0) k = K0;
-            d *= QVector2D(k, k);
-
-            float sx = (m_windowMoveStartPos.x() - rect1.x()) / float(rect1.width());
-            float sy = (m_windowMoveStartPos.y() - rect1.y()) / float(rect1.height());
-            float cx = cursorPos().x();
-            float cy = cursorPos().y();
-            float cw = k * m_windowMove->width(); 
-            float ch = k * m_windowMove->height(); 
-            float x0 = cx - cw * sx;
-            float y0 = cy - ch * sy;
-            d += QPoint(x0,y0);
-        }
-        else {
-            d *= QVector2D(K1, K1);
-            d += QPoint(rect1.left()+diff.x(), rect1.top()+diff.y());
-        }
-        effects->drawWindow(m_windowMove, PAINT_WINDOW_TRANSFORMED, infiniteRegion(), d);
+        renderWindowMove(data);
     }
 
     if (m_wasWorkspaceMove) {
-        MultiViewWorkspace *target = getWorkspaceObject(m_screen, m_aciveMoveDesktop - 1);
-        if (target) {
-            QPoint cursorpos = cursorPos();
-            QPoint diff = cursorpos - m_workspaceMoveStartPos;
-            if (diff.y() > 1) {
-                diff.setY(0);
-            }
-            if (m_dragWorkspacedirection == dragNone) {
-                if (abs(diff.y()) > abs(diff.x())) {
-                    m_dragWorkspacedirection = dragUpDown;
-                } else {
-                    m_dragWorkspacedirection = dragLeftRight;
-                }
-            }
-
-            if (m_dragWorkspacedirection == dragUpDown) {
-                diff.setX(0);
-            } else if (m_dragWorkspacedirection == dragLeftRight) {
-                diff.setY(0);
-            }
-
-            if (diff.y() < -(target->getRect().height() / 2)) {
-                m_workspaceStatus = wpDelete;
-                if (effects->numberOfDesktops() != 1)
-                    renderDragWorkspacePrompt(m_screen);
-            } else if (calculateSwitchPos(diff)) {
-                m_workspaceStatus = wpSwitch;
-            } else {
-                m_workspaceStatus = wpRestore;
-            }
-
-            QRect wkgeo = target->getRect().translated(diff);
-            target->setPosition(wkgeo.topLeft());
-            float transparent = 1.0;
-            if (m_workspaceStatus == wpDelete)
-                transparent = 0.5;
-            target->renderWorkspaceBackGround(transparent, m_aciveMoveDesktop);
-
-            WindowMotionManager *wmm;
-            EffectWindowList list;
-            MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(m_aciveMoveDesktop - 1);
-            if (wkmobj && wkmobj->getMotion(m_aciveMoveDesktop, m_screen, wmm)) {
-                list = wmm->orderManagedWindows();
-            }
-
-            foreach (EffectWindow *w, list) {
-                if (w->screen() == m_screen && wmm->isManaging(w) && !w->isMinimized()) {
-                    WindowPaintData d(w, data.projectionMatrix());
-                    auto geo = wmm->transformedGeometry(w);
-                    geo = geo.translated(diff);
-                    d.setOpacity(transparent);
-
-                    d *= QVector2D((qreal)geo.width() / (qreal)w->width(), (qreal)geo.height() / (qreal)w->height());
-                    d += QPoint(geo.left() - w->x(), geo.top() - w->y());
-
-                    effects->drawWindow(w, PAINT_WINDOW_TRANSFORMED, wkgeo, d);
-                }
-            }
-        }
+        renderWorkspaceMove(data);
     }
 }
 
@@ -1023,7 +935,6 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         if (!m_screenRecorderMenu || w == m_screenRecorderMenu) {
             effects->setElevatedWindow(w, true); 
         }
-
         effects->paintWindow(w, mask, region, data);
         return;
     }
@@ -1039,6 +950,9 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         }
 
         if (m_bgSlidingStatus) {
+            if (m_flyingWinList.contains(w))
+                return;
+
             WindowMotionManager *mgr0 = nullptr, *mgr1 = nullptr;
             auto *lastWinManager = getWinManagerObject(m_lastDesktopIndex - 1);
             auto *curWinManager = getWinManagerObject(m_curDesktopIndex - 1);
@@ -1212,6 +1126,104 @@ void MultitaskViewEffect::handlerAfterTimeLine()
 {
     if (m_isRemoveWorkspace) {
         removeDesktopEx(m_lastDesktopIndex);
+    }
+}
+
+void MultitaskViewEffect::renderWindowMove(KWin::ScreenPaintData &data)
+{
+    QPoint diff = cursorPos() - m_windowMoveStartPos;
+    QRect geo = m_windowMoveGeometry.translated(diff);
+    WindowPaintData d(m_windowMove, data.projectionMatrix());
+
+    MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+    QRect rect1 = wmobj ? wmobj->getWindowGeometry(m_windowMove, m_windowMove->screen()) : QRect();
+    float K1 = (qreal)rect1.width() / (qreal)m_windowMove->width();
+    d += QPoint(-m_windowMove->x(), -m_windowMove->y());
+    if (cursorPos().y() < m_windowMoveStartPos.y()) {
+        int Y0 = m_scale[m_windowMove->screen()].workspaceMgrRect.bottom();
+        float k = (cursorPos().y() - m_windowMoveStartPos.y()) / float(Y0 - m_windowMoveStartPos.y());
+        float K0 = (qreal)geo.width() / (qreal)m_windowMove->width();
+        k = K1 - k * (K1 - K0);
+        if (k < K0) k = K0;
+        d *= QVector2D(k, k);
+
+        float sx = (m_windowMoveStartPos.x() - rect1.x()) / float(rect1.width());
+        float sy = (m_windowMoveStartPos.y() - rect1.y()) / float(rect1.height());
+        float cx = cursorPos().x();
+        float cy = cursorPos().y();
+        float cw = k * m_windowMove->width();
+        float ch = k * m_windowMove->height();
+        float x0 = cx - cw * sx;
+        float y0 = cy - ch * sy;
+        d += QPoint(x0,y0);
+    }
+    else {
+        d *= QVector2D(K1, K1);
+        d += QPoint(rect1.left()+diff.x(), rect1.top()+diff.y());
+    }
+    effects->drawWindow(m_windowMove, PAINT_WINDOW_TRANSFORMED, infiniteRegion(), d);
+}
+
+void MultitaskViewEffect::renderWorkspaceMove(KWin::ScreenPaintData &data)
+{
+    MultiViewWorkspace *target = getWorkspaceObject(m_screen, m_aciveMoveDesktop - 1);
+    if (target) {
+        QPoint cursorpos = cursorPos();
+        QPoint diff = cursorpos - m_workspaceMoveStartPos;
+        if (diff.y() > 1) {
+            diff.setY(0);
+        }
+        if (m_dragWorkspacedirection == dragNone) {
+            if (abs(diff.y()) > abs(diff.x())) {
+                m_dragWorkspacedirection = dragUpDown;
+            } else {
+                m_dragWorkspacedirection = dragLeftRight;
+            }
+        }
+
+        if (m_dragWorkspacedirection == dragUpDown) {
+            diff.setX(0);
+        } else if (m_dragWorkspacedirection == dragLeftRight) {
+            diff.setY(0);
+        }
+
+        if (diff.y() < -(target->getRect().height() / 2)) {
+            m_workspaceStatus = wpDelete;
+            if (effects->numberOfDesktops() != 1)
+                renderDragWorkspacePrompt(m_screen);
+        } else if (calculateSwitchPos(diff)) {
+            m_workspaceStatus = wpSwitch;
+        } else {
+            m_workspaceStatus = wpRestore;
+        }
+
+        QRect wkgeo = target->getRect().translated(diff);
+        target->setPosition(wkgeo.topLeft());
+        float transparent = 1.0;
+        if (m_workspaceStatus == wpDelete)
+            transparent = 0.5;
+        target->renderWorkspaceBackGround(transparent, m_aciveMoveDesktop);
+
+        WindowMotionManager *wmm;
+        EffectWindowList list;
+        MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(m_aciveMoveDesktop - 1);
+        if (wkmobj && wkmobj->getMotion(m_aciveMoveDesktop, m_screen, wmm)) {
+            list = wmm->orderManagedWindows();
+        }
+
+        foreach (EffectWindow *w, list) {
+            if (w->screen() == m_screen && wmm->isManaging(w) && !w->isMinimized()) {
+                WindowPaintData d(w, data.projectionMatrix());
+                auto geo = wmm->transformedGeometry(w);
+                geo = geo.translated(diff);
+                d.setOpacity(transparent);
+
+                d *= QVector2D((qreal)geo.width() / (qreal)w->width(), (qreal)geo.height() / (qreal)w->height());
+                d += QPoint(geo.left() - w->x(), geo.top() - w->y());
+
+                effects->drawWindow(w, PAINT_WINDOW_TRANSFORMED, wkgeo, d);
+            }
+        }
     }
 }
 
@@ -2086,6 +2098,7 @@ void MultitaskViewEffect::cleanup()
     m_addWorkspaceButton.clear();
     m_workspaceBackgrounds.clear();
     m_tipFrames.clear();
+    m_flyingWinList.clear();
     MultiViewBackgroundManager::instance().clearCurrentBackgroundList();
 }
 
@@ -2779,7 +2792,14 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         m_isShieldEvent = false;
         return;
     }
+    m_flyingWinList.clear();
     m_deleteWorkspaceDesktop = desktop;
+    int currentDesktop = effects->currentDesktop();
+    if (currentDesktop == desktop) {
+        MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
+        if (wmobj)
+            m_flyingWinList = wmobj->getDesktopWinList();
+    }
 
     if (m_motionManagers.size() >= desktop) {
         delete m_motionManagers[desktop - 1];
@@ -2835,7 +2855,6 @@ void MultitaskViewEffect::removeDesktop(int desktop)
     }
 
     desktopAboutToRemoved(desktop);
-    int currentDesktop = effects->currentDesktop();
 
     int nrelyout = desktop == 1 ? desktop : (desktop - 1);
     if (isRelayout) {
@@ -3255,6 +3274,7 @@ void MultitaskViewEffect::changeCurrentDesktop(int desktop)
 {
     effects->setCurrentDesktop(desktop);
     m_hoverWin = nullptr;
+    m_flyingWinList.clear();
 
     //sliding
     m_bgSlidingStatus = true;
