@@ -96,12 +96,13 @@ public:
     QPixmap cutBackgroundPix(const QSize &size, const QString &file);
     QPixmap getCachePix(const QSize &size, QPair<QSize, QPixmap> &pair);
     void clearCurrentBackgroundList();
+    QString getRandBackground();
 
     void setMonitorInfo(QList<QMap<QString,QVariant>> monitorInfoList);
 
 private:
-    QStringList      m_backgroundAllList;
-    QStringList      m_currentBackgroundList;
+    QSet<QString>    m_backgroundAllList;
+    QSet<QString>    m_currentBackgroundList;
     int              m_desktopCount {0};
     QList<QString>   m_screenNamelist;
     QString          m_previewFile = "";

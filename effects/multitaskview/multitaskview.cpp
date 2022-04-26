@@ -172,7 +172,7 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
     } else {
         backgroundUri = QLatin1String(fallback_background_name);
     }
-    m_currentBackgroundList.push_back(backgroundUri);
+    m_currentBackgroundList.insert(backgroundUri);
     backgroundUri = toRealPath(backgroundUri);
 
     if (m_bgCachedPixmaps.contains(backgroundUri + strBackgroundPath)) {
@@ -222,37 +222,64 @@ void MultiViewBackgroundManager::getBackgroundList()
         }
     }
 
-    int currentCount = m_currentBackgroundList.count();
-    if (m_backgroundAllList.count() > currentCount) {
-        for (int i = 0; i < currentCount; i++) {
-            QString background = m_currentBackgroundList.at(i);
-            m_backgroundAllList.removeOne(background);
+    foreach (const QString &value, m_currentBackgroundList) {
+        if (m_backgroundAllList.contains(value)) {
+            m_backgroundAllList.remove(value);
         }
     }
 
     QString oldVerisonDefaultBackground(previous_default_background_name);
     QString defaultBackground(fallback_background_name);
     if (m_currentBackgroundList.contains(oldVerisonDefaultBackground)) {
-        m_backgroundAllList.removeAll(defaultBackground);
+        m_backgroundAllList.remove(defaultBackground);
     }
 }
 
 void MultiViewBackgroundManager::updateBackgroundList(const QString &file)
 {
-    if (!m_backgroundAllList.contains(file))
-        m_backgroundAllList.push_back(file);
+    if (!m_backgroundAllList.contains(file)) {
+        m_backgroundAllList.insert(file);
+    }
+    if (m_currentBackgroundList.contains(file)) {
+        m_currentBackgroundList.remove(file);
+    }
+}
+
+QString MultiViewBackgroundManager::getRandBackground()
+{
+    int index = 3;
+    QString file;
+    while (index > 0) {
+        int backgroundIndex = m_backgroundAllList.count();
+        if (backgroundIndex - 1 != 0) {
+            qsrand((uint)QTime::currentTime().msec());
+            backgroundIndex = qrand() % (backgroundIndex - 1);
+        } else {
+            backgroundIndex -= 1;
+        }
+
+        if (m_backgroundAllList.count() <= backgroundIndex) {
+            index --;
+            continue;
+        }
+
+        auto b_set = m_backgroundAllList.begin();
+        file = *(b_set + backgroundIndex);
+        if (m_currentBackgroundList.contains(file)) {
+            m_backgroundAllList.remove(file);
+            index --;
+            continue;
+        }
+        break;
+    }
+
+    return file;
 }
 
 void MultiViewBackgroundManager::getPreviewBackground(QSize size, QPixmap &workspaceBg, int screen)
 {
-    int backgroundIndex = m_backgroundAllList.count();
-    if (backgroundIndex - 1 != 0) {
-        backgroundIndex = qrand() % (backgroundIndex - 1);
-    } else {
-        backgroundIndex -= 1;
-    }
     m_previewScreen = screen;
-    m_previewFile = m_backgroundAllList.at(backgroundIndex);
+    m_previewFile = getRandBackground();
     QString rfile = toRealPath(m_previewFile);
     workspaceBg = cutBackgroundPix(size, rfile);
 }
@@ -265,19 +292,19 @@ void MultiViewBackgroundManager::setNewBackground(BgInfo_st &st, QPixmap &deskto
     QString file;
     if (st.screen == m_previewScreen && !m_previewFile.isEmpty()) {
         m_previewScreen = -1;
+        if (m_currentBackgroundList.contains(m_previewFile)) {
+            m_previewFile = getRandBackground();
+        }
         file = m_previewFile;
-        m_backgroundAllList.removeOne(file);
+        m_currentBackgroundList.insert(file);
+        if (m_backgroundAllList.count() - 1 > 0)
+            m_backgroundAllList.remove(file);
         m_previewFile = "";
     } else {
-        int backgroundIndex = m_backgroundAllList.count();
-        if (backgroundIndex - 1 != 0) {
-            backgroundIndex = qrand() % (backgroundIndex - 1);
-        } else {
-            backgroundIndex -= 1;
-        }
-        file = m_backgroundAllList.at(backgroundIndex);
-        if (backgroundIndex - 1 != -1)
-            m_backgroundAllList.removeOne(m_backgroundAllList.at(backgroundIndex));
+        file = getRandBackground();
+        if (m_backgroundAllList.count() - 1 > 0)
+            m_backgroundAllList.remove(file);
+        m_currentBackgroundList.insert(file);
     }
 
     wm.call( "SetWorkspaceBackgroundForMonitor", st.desktop, st.screenName, file);
@@ -1042,6 +1069,9 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                             d.translate(geo.x() + bgRectWidth * m_bgSlidingTimeLine.value() - w->x(), geo.y() - w->y(), 0);
                         }
                     }
+                    if (mgr0->isWindowFill(w) && lastWinManager->isHaveWinFill(w)) {
+                        mask |= PAINT_WINDOW_LANCZOS;
+                    }
                     effects->paintWindow(w, mask, area, d);     //when open, all windows flying into RegionB
                 }
             }
@@ -1071,6 +1101,10 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                             d.translate(geo.x() + bgRectWidth * (m_bgSlidingTimeLine.value() -1) - w->x(), geo.y() - w->y(), 0);
                         }
                     }
+
+                    if (mgr1->isWindowFill(w) && curWinManager->isHaveWinFill(w)) {
+                        mask |= PAINT_WINDOW_LANCZOS;
+                    }
                     effects->paintWindow(w, mask, area, d);
                 }
             }
@@ -1084,6 +1118,21 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     WindowPaintData d = data;
                     auto geo = wmm->transformedGeometry(w);
 
+                    WindowQuadList quads;
+                    foreach (const WindowQuad &quad, d.quads) {
+                        switch (quad.type()) {
+                        case WindowQuadDecoration:
+                            quads.append(quad);
+                            continue;
+                        case WindowQuadContents:
+                            quads.append(quad);
+                            continue;
+                        default:
+                            continue;
+                        }
+                    }
+                    d.quads = quads;
+
                     if (w == m_hoverWin) {
                         if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
                             renderHover(w, wmobj->getWinFill(w)->getRect());
@@ -1094,6 +1143,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
 
                     if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
                         wmobj->getWinFill(w)->render();
+                        mask |= PAINT_WINDOW_LANCZOS;
                     }
 
                     {
@@ -1132,6 +1182,11 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                 }
             }
         }
+
+        if (w->isDock()) {
+            effects->paintWindow(w, mask, region, data);
+            return;
+        }
     } else if (!m_workspaceSlidingStatus) {
         if (m_wasWorkspaceMove && paintingDesktop == m_aciveMoveDesktop)
             return;
@@ -1150,10 +1205,6 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                 effects->paintWindow(w, mask, area, d);
             }
         }
-    }
-
-    if (w->isDock()) {
-        effects->paintWindow(w, mask, region, data);
     }
 }
 
@@ -2715,7 +2766,6 @@ void MultitaskViewEffect::addNewDesktop()
 void MultitaskViewEffect::removeDesktop(int desktop)
 {
     m_isShieldEvent = true;
-    m_deleteWorkspaceDesktop = desktop;
     int count = effects->numberOfDesktops();
     if (desktop <= 0 || desktop > count || count == 1) {
         MultiViewWorkspace *wt = getWorkspaceObject(m_screen, desktop - 1);
@@ -2725,6 +2775,7 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         m_isShieldEvent = false;
         return;
     }
+    m_deleteWorkspaceDesktop = desktop;
 
     if (m_motionManagers.size() >= desktop) {
         delete m_motionManagers[desktop - 1];
