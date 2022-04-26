@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QApplication>
 #include <QDebug>
 #include <QVarLengthArray>
+#include <QScreen>
 
 #include "outline.h"
 #include "shell_client.h"
@@ -1398,25 +1399,35 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     if (!isShade())
         newGeom.setSize(adjustedSize(newGeom.size()));
 
-    if (newGeom != geometry()) {
+    if (newGeom != geometry())
         setGeometry(newGeom);
-        return;
-    }
 
+    if (!checkScreenExistByPos(geometry().topLeft())) {
+        QList<QScreen *> screenList = QGuiApplication::screens();
+        QMap<QString, QScreen *> screenMap;
+        for (int i = 0; i < screenList.count(); i++ ) {
+            QScreen *pScreen = screenList.at(i);
+            if (pScreen->geometry().x() == 0) {
+                screenMap[QString(pScreen->geometry().y())] = pScreen;
+            }
+        }
+        if (screenMap.count() > 0) {
+            setGeometry(screenMap.first()->geometry().x(), screenMap.first()->geometry().y(), geometry().width(), geometry().height());
+        }
+    }
+}
+
+bool AbstractClient::checkScreenExistByPos(QPoint pos)
+{
     bool screenRectExist = true;
     for (int i = 0; i < screens()->count(); i++ ) {
-        if (screens()->geometry(i).contains(geometry().topLeft())) {
+        if (screens()->geometry(i).contains(pos)) {
             screenRectExist = true;
             break;
         }
         screenRectExist = false;
     }
-
-    if (!screenRectExist) {
-        setGeometry(0, 0, geometry().width(), geometry().height());
-    } else {
-        setGeometry(geometryRestore());
-    }
+    return screenRectExist;
 }
 
 void AbstractClient::checkOffscreenPosition(QRect* geom, const QRect& screenArea)

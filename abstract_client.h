@@ -566,6 +566,7 @@ public:
     void checkWorkspacePosition(QRect oldGeometry = QRect(), int oldDesktop = -2,  QRect oldClientGeometry = QRect());
     virtual xcb_timestamp_t userTime() const;
     virtual void updateWindowRules(Rules::Types selection);
+    bool checkScreenExistByPos(QPoint pos);
 
     void growHorizontal();
     void shrinkHorizontal();
