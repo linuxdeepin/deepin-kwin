@@ -384,6 +384,7 @@ void MultiViewWorkspace::renderDesktopBackGround(float k)
     m_backGroundFrame->setShader(m_bkBlurShader);
     ShaderManager::instance()->pushShader(m_bkBlurShader);
     m_bkBlurShader->setUniform("dx", m_fullArea.width() * k);
+    m_bkBlurShader->setUniform("iResolution", QVector2D(m_fullArea.width(), m_fullArea.height()));
     ShaderManager::instance()->popShader();
     m_backGroundFrame->render(infiniteRegion(), 1, 1);
 }
