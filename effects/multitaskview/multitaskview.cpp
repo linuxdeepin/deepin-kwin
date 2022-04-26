@@ -586,7 +586,7 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     m_opacityStatus = false;
     m_opacityTimeLine.setEasingCurve(QEasingCurve::OutQuint);
-    m_opacityTimeLine.setDuration(std::chrono::milliseconds(4*EFFECT_DURATION_DEFAULT));
+    m_opacityTimeLine.setDuration(std::chrono::milliseconds(2*EFFECT_DURATION_DEFAULT));
 
     QString qm = QString(":/multitasking/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());
     QTranslator *tran = new QTranslator();
@@ -2428,7 +2428,7 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
         motionManager.moveWindow(w, targets.value(w));
 
         //store window grids infomation
-        m_effectFlyingBack.add(w, targets.value(w).topLeft());
+        m_effectFlyingBack.add(w, targets.value(w));
     }
 }
 
@@ -2752,7 +2752,8 @@ void MultitaskViewEffect::addNewDesktop()
                     QRect rect = list[j]->getRect();
                     m_workspaceSlidingInfo[list[j]].first = rect.x();
                     if (j == list.size() - 1 && m_previewFrame) {
-                        m_workspaceSlidingInfo[list[j]].first = m_previewFrame->geometry().x();
+                        //m_workspaceSlidingInfo[list[j]].first = m_previewFrame->geometry().x();
+                        m_workspaceSlidingInfo[list[j]].first = m_previewFramePosX;                    
                     }
                 }
             }
@@ -3297,6 +3298,8 @@ void MultitaskViewEffect::showWorkspacePreview(int screen, QPoint pos, bool isCl
 
             QRect maxRect = effects->clientArea(MaximizeArea, screen, 1);
             QPoint pos1(maxRect.x() + maxRect.width() - 20 - m_scale[screen].workspaceWidth / 2, maxRect.y() + m_scale[screen].spacingHeight);
+
+            m_previewFramePosX = pos1.x();
 
             QIcon icon(wpPix);
             m_previewFrame->setIcon(icon);

@@ -541,6 +541,7 @@ private:
     bool m_workspaceSlidingStatus;
     TimeLine m_workspaceSlidingTimeline;
     std::map <MultiViewWorkspace*, std::pair<int,int> > m_workspaceSlidingInfo;
+    int m_previewFramePosX;
 
     MultiTaskEffectFlyingBack m_effectFlyingBack;
 
