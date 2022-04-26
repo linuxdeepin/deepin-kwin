@@ -1,3 +1,20 @@
+kwin (4:5.15.11.18-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 126659 fix: add effect about quit multitask
+    + 127311 fix: show part preview about workspace
+    + 122529 fix: hover window not show frame
+    + 104984 fix: move client to a exist screen's topleft
+    + 121341 fix: use the screenshot function normally
+    + 126921 fix: modify effect about relayout when delete current workspace
+    + 125003, 123999 fix: fix some problems of fragment shader on opengl es 3.2 in klv/pgv.
+    + 123737, 123281, 122233, 119973 fix: overlapped sliding background, sliding of new workspace, startup slowly and effect of hotarea
+    + 127309, 127093, 123275, 123009 fix: optimize text about multitask
+    + 126833, 126667, 122267, 119851, 119839  fix: cancle frame about window and cancel fillset
+    + 127759, 127317, 126665, 123281, repair abnormal blur edge, wrong initial position of window when exit and effect of new workspace
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 26 Apr 2022 20:25:41 +0800
+
 kwin (4:5.15.11.17-1) unstable; urgency=medium
 
   * feat:
