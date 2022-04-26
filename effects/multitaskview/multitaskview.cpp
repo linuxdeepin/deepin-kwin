@@ -79,7 +79,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
 const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
-const char add_workspace_png[] = ":/resources/themes/add-light.svg";
+const char add_workspace_png[] = ":/resources/themes/add-light.png";//":/resources/themes/add-light.svg";
 const char delete_workspace_png[] = ":/resources/themes/workspace_delete.png";
 
 namespace KWin
@@ -354,7 +354,7 @@ MultiViewWorkspace::~MultiViewWorkspace()
 
 void MultiViewWorkspace::renderDesktopBackGround(float k)
 {
-    m_workspaceBgFrame->setShader(m_bkBlurShader);
+    m_backGroundFrame->setShader(m_bkBlurShader);
     ShaderManager::instance()->pushShader(m_bkBlurShader);
     m_bkBlurShader->setUniform("dx", m_fullArea.width() * k);
     ShaderManager::instance()->popShader();
@@ -625,6 +625,8 @@ void MultitaskViewEffect::reconfigure(ReconfigureFlags flags)
 
     m_curDesktopIndex = effects->currentDesktop();
     m_lastDesktopIndex = m_curDesktopIndex;
+
+    m_scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
 }
 
 void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, int time)
@@ -720,7 +722,17 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
                 EffectFrame *bgframe = m_tipFrames[i][0];
                 EffectFrame *tframe = m_tipFrames[i][1];
                 QRect bgrect = tframe->geometry();
-                bgrect.adjust(-10, -(30 - bgrect.height()) / 2, 10, (32 - bgrect.height()) / 2);
+                QFontMetrics* metrics = NULL;
+                if (!metrics)
+                    metrics = new QFontMetrics(tframe->font());
+                int width = metrics->width(tframe->text());
+                int height = metrics->height();
+                delete metrics;
+                bgrect.adjust(-(width - bgrect.width()) / 2 - (6 * m_scalingFactor),
+                              -(height - bgrect.height()) / 2 - (3 * m_scalingFactor),
+                              (width - bgrect.width()) / 2 + (6 * m_scalingFactor),
+                              (height - bgrect.height()) / 2 + (4 * m_scalingFactor));
+
                 bgframe->setGeometry(bgrect);
                 ShaderBinder binder(shader);
                 shader->setUniform("iResolution", QVector3D(bgframe->geometry().width(), bgframe->geometry().height(), 0));
@@ -871,6 +883,7 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
                     WindowPaintData d(w, data.projectionMatrix());
                     auto geo = wmm->transformedGeometry(w);
                     geo = geo.translated(diff);
+                    d.setOpacity(transparent);
 
                     d *= QVector2D((qreal)geo.width() / (qreal)w->width(), (qreal)geo.height() / (qreal)w->height());
                     d += QPoint(geo.left() - w->x(), geo.top() - w->y());
@@ -979,10 +992,6 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         return;
     }
 
-    if (w == m_windowMove && m_wasWindowMove) {
-        return;
-    }
-
     if (w->windowClass() == screen_recorder || w == m_screenRecorderMenu) {
         if (!m_screenRecorderMenu || w == m_screenRecorderMenu) {
             effects->setElevatedWindow(w, true); 
@@ -998,6 +1007,10 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
 
     int desktop = effects->currentDesktop();
     if (0 == paintingDesktop) {
+        if (w == m_windowMove && m_wasWindowMove) {
+            return;
+        }
+
         if (m_bgSlidingStatus) {
             WindowMotionManager *mgr0 = nullptr, *mgr1 = nullptr;
             auto *lastWinManager = getWinManagerObject(m_lastDesktopIndex - 1);
@@ -1213,23 +1226,26 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         if (!m_textWinFrame) {
             m_textWinFrame = effects->effectFrame(EffectFrameStyled, false);
             m_textWinFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-
-            QFont font;
-            font.setPointSize(14);
-            m_textWinFrame->setFont(font);
         }
         if (!m_textWinBgFrame) {
             m_textWinBgFrame = effects->effectFrame(EffectFrameStyled, false);
             m_textWinBgFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         }
 
+        int width = 0;
+        int height = 0;
         {
+            QFont font;
+            font.setPointSize(14);
+            m_textWinFrame->setFont(font);
             QFontMetrics* metrics = NULL;
             if (!metrics)
                 metrics = new QFontMetrics(m_textWinFrame->font());
             QString string = metrics->elidedText(w->caption(), Qt::ElideRight, rect.width() * 0.9);
             if (string != m_textWinFrame->text())
                 m_textWinFrame->setText(string);
+            width = metrics->width(string);
+            height = metrics->height();
             delete metrics;
         }
 
@@ -1255,7 +1271,10 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         m_textWinBgFrame->setPosition(QPoint(rect.x() + rect.width() / 2, rect.y() + rect.height() - 40));
         static GLShader*  shader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral("windowtext.glsl"));
         QRect geoframe = m_textWinFrame->geometry();
-        geoframe.adjust(-16, -(48 - geoframe.height()) / 2, 16, (48 - geoframe.height()) / 2);
+        geoframe.adjust(-(width - geoframe.width()) / 2 - (16 * m_scalingFactor),
+                        -(height - geoframe.height()) / 2 - ((48 * m_scalingFactor - height) / 2),
+                        (width - geoframe.width()) / 2 + (16 * m_scalingFactor),
+                        (height - geoframe.height()) / 2 + (48 * m_scalingFactor - height) / 2);
         m_textWinBgFrame->setGeometry(geoframe);
         ShaderBinder binder(shader);
         shader->setUniform("iResolution", QVector3D(geoframe.width(), geoframe.height(), 0));
@@ -1296,18 +1315,19 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(int screen)
         if (!m_dragTipsFrame) {
             m_dragTipsFrame = effects->effectFrame(EffectFrameUnstyled, false);
             m_dragTipsFrame->setAlignment(Qt::AlignHCenter);
-            m_dragTipsFrame->setSpacing(10);
+            if (m_scalingFactor == 1)
+                m_dragTipsFrame->setSpacing(10);
             m_dragTipsFrame->setGeometry(QRect(rect.x(), rect.y() + (rect.height() / 2) + 10, rect.width(), 30));
 
             QIcon icon(delete_workspace_png);
             m_dragTipsFrame->setIcon(icon);
-            m_dragTipsFrame->setIconSize(QSize(19, 20));
-
-            QFont font;
-            font.setPointSize(13);
-            m_dragTipsFrame->setFont(font);
-            m_dragTipsFrame->setText(tr("Drag upwards to remove"));
+            m_dragTipsFrame->setIconSize(QSize(19 * m_scalingFactor, 20 * m_scalingFactor));
         }
+
+        QFont font;
+        font.setPointSize(13);
+        m_dragTipsFrame->setFont(font);
+        m_dragTipsFrame->setText(tr("Drag upwards to remove"));
         m_dragTipsFrame->setPosition(QPoint(rect.x() + (rect.width() / 2), rect.y() + (rect.height() / 2) + 10));
         m_dragTipsFrame->render(infiniteRegion(), 1, 0);
 
@@ -1324,7 +1344,8 @@ void MultitaskViewEffect::drawDottedLine(const QRect &geo, int screen)
     GLVertexBuffer* vbo = GLVertexBuffer::streamingBuffer();
     auto area = effects->clientArea(FullArea, screen, 0);
     vbo->reset();
-    vbo->setUseColor(false);
+    vbo->setColor(QColor(255, 255, 255));
+    vbo->setUseColor(true);
     QVector<float> verts;
     verts.reserve(4);
     float x1 = (float)(geo.left()) * 2 / area.width() - 1.0;
@@ -1335,8 +1356,10 @@ void MultitaskViewEffect::drawDottedLine(const QRect &geo, int screen)
 
     ShaderBinder bind(shader);
     vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
+    glEnable(GL_BLEND);
     vbo->render(GL_LINES);
     glDisable(GL_LINE_STIPPLE);
+    glDisable(GL_BLEND);
 }
 
 void MultitaskViewEffect::onWindowClosed(EffectWindow *w)
@@ -2002,6 +2025,7 @@ void MultitaskViewEffect::cleanup()
 
     m_maxHeight = 0;
     m_windowMove = nullptr;
+    m_hoverWin = nullptr;
     m_motionManagers.clear();
     m_workspaceWinMgr.clear();
     m_addWorkspaceButton.clear();

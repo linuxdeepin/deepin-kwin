@@ -502,6 +502,7 @@ private:
     int m_passiveMoveDesktop = -1;
     int m_moveWorkspaceNum = -1;
     int m_maxHeight = 0;
+    qreal m_scalingFactor = 1;
 
     QHash<int, Scale_st> m_scale;
     QHash<int, QRect>    m_winBtnArea;
