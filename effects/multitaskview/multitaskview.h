@@ -377,8 +377,11 @@ public:
     bool touchUp(quint32 id, quint32 time) override;
 private Q_SLOTS:
     void toggle() {
-        if (m_delayDbus)
+        if (m_activated) {
+            m_effectFlyingBack.begin();
+        } else if (m_delayDbus) {
             setActive(!m_activated);
+        }
     }
 
     void onWindowAdded(EffectWindow *w);
