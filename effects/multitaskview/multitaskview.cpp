@@ -1679,9 +1679,11 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             m_delayDbus = false;
             if (QX11Info::isPlatformX11()) {
                 relayDockEvent(mouseEvent->pos(), mouseEvent->button());
-                setActive(false);
+                m_effectFlyingBack.begin();
+                effects->addRepaintFull();
             } else {
-                setActive(false);
+                m_effectFlyingBack.begin();
+                effects->addRepaintFull();
                 effectsEx->sendPointer(mouseEvent->button());
             }
             QTimer::singleShot(400, [&]() { m_delayDbus = true; });
@@ -1897,6 +1899,8 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
                     m_hoverWin = getNextWindow(m_hoverWin);
+                } else {
+                    m_hoverWin = getHomeOrEndWindow(true);
                 }
             }
             break;
@@ -3264,7 +3268,7 @@ void MultitaskViewEffect::showWorkspacePreview(int screen, QPoint pos, bool isCl
     if (!isClear) {
         if (!m_previewFrame) {
             m_previewFrame = effects->effectFrame(EffectFrameNone, false);
-            m_previewFrame->setAlignment(Qt::AlignRight | Qt::AlignTop);
+            m_previewFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         }
         if (m_previewFrame->icon().isNull()) {
             QPixmap wpPix;
@@ -3272,22 +3276,35 @@ void MultitaskViewEffect::showWorkspacePreview(int screen, QPoint pos, bool isCl
             MultiViewBackgroundManager::instance().getPreviewBackground(size, wpPix, screen);
 
             QRect maxRect = effects->clientArea(MaximizeArea, screen, 1);
-            QPoint pos1(maxRect.x() + maxRect.width(), maxRect.y() + m_scale[screen].spacingHeight);
+            QPoint pos1(maxRect.x() + maxRect.width() - 20 - m_scale[screen].workspaceWidth / 2, maxRect.y() + m_scale[screen].spacingHeight);
 
             QIcon icon(wpPix);
             m_previewFrame->setIcon(icon);
             m_previewFrame->setIconSize(size);
             m_previewFrame->setPosition(pos1);
-            m_previewFrame->setGeometry(QRect(QPoint(pos1.x() - m_scale[screen].workspaceWidth, pos1.y()), size));
+            m_previewFrame->setGeometry(QRect(QPoint(pos1.x(), pos1.y()), size));
         }
 
         QRect rect = m_previewFrame->geometry();
+        if (effects->waylandDisplay()) {
+            if (screen != effectsEx->getCurrentPaintingScreen()) {
+                if (m_scale[screen].fullArea.x() > 0)
+                    return;
+            }
+        } else {
+            glEnable(GL_SCISSOR_TEST);
+            glScissor(rect.x(), m_scale[m_screen].fullArea.height() - rect.y() - rect.height(), rect.width() / 2 + 20, rect.height());
+        }
+
         ShaderBinder bind(m_previewShader);
         m_previewShader->setUniform("iResolution", QVector3D(rect.width(), rect.height(), 0));
         m_previewShader->setUniform("iOffset", QVector2D(calculateOffSet(rect, m_scale[m_screen].fullArea.size(), m_maxHeight)));
-
         m_previewFrame->setShader(m_previewShader);
         m_previewFrame->render(infiniteRegion(), 1, 0.8);
+
+        if (nullptr == effects->waylandDisplay()) {
+            glDisable(GL_SCISSOR_TEST);
+        }
     } else {
         if (m_previewFrame && !m_previewFrame->icon().isNull()) {
             m_previewFrame->setIcon(QIcon());
