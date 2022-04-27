@@ -3424,6 +3424,9 @@ EffectWindow *MultitaskViewEffect::getHomeOrEndWindow(bool flag)
         list = wmobj->getDesktopWinList();
     }
 
+    if (list.size() <= 0)
+        return nullptr;
+
     if (flag) {
         target = list[list.size() - 1];
     } else {
