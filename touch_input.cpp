@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTimer>
 
 #define LONGTOUCHPRESSTIME 1200
-#define LONGTOUCHPRESSIGNOREMOTION 2
+#define LONGTOUCHPRESSIGNOREMOTION 5
 
 namespace KWin
 {
