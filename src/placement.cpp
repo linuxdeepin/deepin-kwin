@@ -622,16 +622,12 @@ void Placement::cascadeDesktop()
     const int desktop = VirtualDesktopManager::self()->current();
     reinitCascading(desktop);
     const auto stackingOrder = ws->stackingOrder();
-    for (Toplevel *toplevel : stackingOrder) {
-        auto client = qobject_cast<AbstractClient*>(toplevel);
-        if (!client ||
-                (!client->isOnCurrentDesktop()) ||
-                (client->isMinimized())         ||
-                (client->isOnAllDesktops())     ||
-                (!client->isMovable()))
+    for (Window *window : stackingOrder) {
+        if (!window->isClient() || (!window->isOnCurrentDesktop()) || (window->isMinimized()) || (window->isOnAllDesktops()) || (!window->isMovable())) {
             continue;
-        const QRect placementArea = workspace()->clientArea(PlacementArea, client);
-        placeCascaded(client, placementArea);
+        }
+        const QRect placementArea = workspace()->clientArea(PlacementArea, window);
+        placeCascaded(window, placementArea);
     }
 }
 

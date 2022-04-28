@@ -36,7 +36,7 @@ public:
     void paint(AbstractOutput *output, const QRegion &damage, const QList<Toplevel *> &windows,
                RenderLoop *renderLoop) override;
     Scene::EffectFrame *createEffectFrame(EffectFrameImpl *frame) override;
-    Shadow *createShadow(Toplevel *toplevel) override;
+    Shadow *createShadow(Window *window) override;
     bool makeOpenGLContextCurrent() override;
     void doneOpenGLContextCurrent() override;
     bool supportsNativeFence() const override;
@@ -115,7 +115,7 @@ public:
         const bool hardwareClipping;
     };
 
-    OpenGLWindow(Toplevel *toplevel, SceneOpenGL *scene);
+    OpenGLWindow(Window *window, SceneOpenGL *scene);
     ~OpenGLWindow() override;
 
     void performPaint(int mask, const QRegion &region, const WindowPaintData &data) override;
@@ -178,7 +178,7 @@ class SceneOpenGLShadow
     : public Shadow
 {
 public:
-    explicit SceneOpenGLShadow(Toplevel *toplevel);
+    explicit SceneOpenGLShadow(Window *window);
     ~SceneOpenGLShadow() override;
 
     GLTexture *shadowTexture() {

@@ -1044,10 +1044,11 @@ class InternalWindowEventFilter : public InputEventFilter {
         QCoreApplication::sendEvent(internal, &wheelEvent);
         return wheelEvent.isAccepted();
     }
-    bool keyEvent(QKeyEvent *event) override {
-        const QList<InternalClient *> &clients = workspace()->internalClients();
+    bool keyEvent(QKeyEvent *event) override
+    {
+        const QList<InternalWindow *> &windows = workspace()->internalWindows();
         QWindow *found = nullptr;
-        for (auto it = clients.crbegin(); it != clients.crend(); ++it) {
+        for (auto it = windows.crbegin(); it != windows.crend(); ++it) {
             if (QWindow *w = (*it)->internalWindow()) {
                 if (!w->isVisible()) {
                     continue;
@@ -1185,17 +1186,17 @@ public:
         if (!decoration) {
             return false;
         }
-        const QPointF p = event->globalPos() - decoration->client()->pos();
+        const QPointF p = event->globalPos() - decoration->window()->pos();
         switch (event->type()) {
         case QEvent::MouseMove: {
             QHoverEvent e(QEvent::HoverMove, p, p);
             QCoreApplication::instance()->sendEvent(decoration->decoration(), &e);
-            decoration->client()->processDecorationMove(p.toPoint(), event->globalPos());
+            decoration->window()->processDecorationMove(p.toPoint(), event->globalPos());
             return true;
         }
         case QEvent::MouseButtonPress:
         case QEvent::MouseButtonRelease: {
-            const auto actionResult = performClientMouseAction(event, decoration->client());
+            const auto actionResult = performWindowMouseAction(event, decoration->window());
             if (actionResult.first) {
                 return actionResult.second;
             }
@@ -1204,10 +1205,10 @@ public:
             e.setAccepted(false);
             QCoreApplication::sendEvent(decoration->decoration(), &e);
             if (!e.isAccepted() && event->type() == QEvent::MouseButtonPress) {
-                decoration->client()->processDecorationButtonPress(&e);
+                decoration->window()->processDecorationButtonPress(&e);
             }
             if (event->type() == QEvent::MouseButtonRelease) {
-                decoration->client()->processDecorationButtonRelease(&e);
+                decoration->window()->processDecorationButtonRelease(&e);
             }
             return true;
         }
@@ -1223,12 +1224,12 @@ public:
         }
         if (event->angleDelta().y() != 0) {
             // client window action only on vertical scrolling
-            const auto actionResult = performClientWheelAction(event, decoration->client());
+            const auto actionResult = performWindowWheelAction(event, decoration->window());
             if (actionResult.first) {
                 return actionResult.second;
             }
         }
-        const QPointF localPos = event->globalPosF() - decoration->client()->pos();
+        const QPointF localPos = event->globalPosition() - decoration->window()->pos();
         const Qt::Orientation orientation = (event->angleDelta().x() != 0) ? Qt::Horizontal : Qt::Vertical;
         const int delta = event->angleDelta().x() != 0 ? event->angleDelta().x() : event->angleDelta().y();
         QWheelEvent e(localPos, event->globalPosF(), QPoint(),
@@ -1242,9 +1243,9 @@ public:
         if (e.isAccepted()) {
             return true;
         }
-        if ((orientation == Qt::Vertical) && decoration->client()->titlebarPositionUnderMouse()) {
-            decoration->client()->performMouseCommand(options->operationTitlebarMouseWheel(delta * -1),
-                                                        event->globalPosF().toPoint());
+        if ((orientation == Qt::Vertical) && decoration->window()->titlebarPositionUnderMouse()) {
+            decoration->window()->performMouseCommand(options->operationTitlebarMouseWheel(delta * -1),
+                                                      event->globalPosition().toPoint());
         }
         return true;
     }
@@ -1265,7 +1266,7 @@ public:
 
         input()->touch()->setDecorationPressId(id);
         m_lastGlobalTouchPos = pos;
-        m_lastLocalTouchPos = pos - decoration->client()->pos();
+        m_lastLocalTouchPos = pos - decoration->window()->pos();
 
         QHoverEvent hoverEvent(QEvent::HoverMove, m_lastLocalTouchPos, m_lastLocalTouchPos);
         QCoreApplication::sendEvent(decoration->decoration(), &hoverEvent);
@@ -1274,7 +1275,7 @@ public:
         e.setAccepted(false);
         QCoreApplication::sendEvent(decoration->decoration(), &e);
         if (!e.isAccepted()) {
-            decoration->client()->processDecorationButtonPress(&e);
+            decoration->window()->processDecorationButtonPress(&e);
         }
         return true;
     }
@@ -1292,11 +1293,11 @@ public:
             return true;
         }
         m_lastGlobalTouchPos = pos;
-        m_lastLocalTouchPos = pos - decoration->client()->pos();
+        m_lastLocalTouchPos = pos - decoration->window()->pos();
 
         QHoverEvent e(QEvent::HoverMove, m_lastLocalTouchPos, m_lastLocalTouchPos);
         QCoreApplication::instance()->sendEvent(decoration->decoration(), &e);
-        decoration->client()->processDecorationMove(m_lastLocalTouchPos.toPoint(), pos.toPoint());
+        decoration->window()->processDecorationMove(m_lastLocalTouchPos.toPoint(), pos.toPoint());
         return true;
     }
     bool touchUp(qint32 id, quint32 time) override {
@@ -1324,7 +1325,7 @@ public:
         QMouseEvent e(QEvent::MouseButtonRelease, m_lastLocalTouchPos, m_lastGlobalTouchPos, Qt::LeftButton, Qt::MouseButtons(), input()->keyboardModifiers());
         e.setAccepted(false);
         QCoreApplication::sendEvent(decoration->decoration(), &e);
-        decoration->client()->processDecorationButtonRelease(&e);
+        decoration->window()->processDecorationButtonRelease(&e);
 
         QHoverEvent leaveEvent(QEvent::HoverLeave, QPointF(), QPointF());
         QCoreApplication::sendEvent(decoration->decoration(), &leaveEvent);
@@ -1339,13 +1340,13 @@ public:
         if (!decoration) {
             return false;
         }
-        const QPointF p = event->globalPos() - decoration->client()->pos();
+        const QPointF p = event->globalPos() - decoration->window()->pos();
         switch (event->type()) {
         case QEvent::TabletMove:
         case QEvent::TabletEnterProximity: {
             QHoverEvent e(QEvent::HoverMove, p, p);
             QCoreApplication::instance()->sendEvent(decoration->decoration(), &e);
-            decoration->client()->processDecorationMove(p.toPoint(), event->globalPos());
+            decoration->window()->processDecorationMove(p.toPoint(), event->globalPos());
             break;
         }
         case QEvent::TabletPress:
@@ -1360,10 +1361,10 @@ public:
             e.setAccepted(false);
             QCoreApplication::sendEvent(decoration->decoration(), &e);
             if (!e.isAccepted() && isPressed) {
-                decoration->client()->processDecorationButtonPress(&e);
+                decoration->window()->processDecorationButtonPress(&e);
             }
             if (event->type() == QEvent::TabletRelease) {
-                decoration->client()->processDecorationButtonRelease(&e);
+                decoration->window()->processDecorationButtonRelease(&e);
             }
             break;
         }
@@ -2000,12 +2001,12 @@ public:
         // may still happen (e.g. Release or ProximityOut events)
         auto tablet = static_cast<KWaylandServer::TabletV2Interface *>(event->tabletId().m_deviceGroupData);
 
-        Toplevel *toplevel = input()->findToplevel(event->globalPos());
-        if (!toplevel || !toplevel->surface()) {
+        Window *window = input()->findToplevel(event->globalPos());
+        if (!window || !window->surface()) {
             return false;
         }
 
-        KWaylandServer::SurfaceInterface *surface = toplevel->surface();
+        KWaylandServer::SurfaceInterface *surface = window->surface();
         tool->setCurrentSurface(surface);
 
         if (!tool->isClientSupported() || (tablet && !tablet->isSurfaceSupported(surface))) {
@@ -2014,7 +2015,7 @@ public:
 
         switch (event->type()) {
         case QEvent::TabletMove: {
-            const auto pos = toplevel->mapToLocal(event->globalPosF());
+            const auto pos = window->mapToLocal(event->globalPosF());
             tool->sendMotion(pos);
             m_cursorByTool[tool]->setPos(event->globalPos());
             break;
@@ -2022,13 +2023,13 @@ public:
             const QPoint pos = event->globalPos();
             m_cursorByTool[tool]->setPos(pos);
             tool->sendProximityIn(tablet);
-            tool->sendMotion(toplevel->mapToLocal(event->globalPosF()));
+            tool->sendMotion(window->mapToLocal(event->globalPosF()));
             break;
         } case QEvent::TabletLeaveProximity:
             tool->sendProximityOut();
             break;
         case QEvent::TabletPress: {
-            const auto pos = toplevel->mapToLocal(event->globalPosF());
+            const auto pos = window->mapToLocal(event->globalPosF());
             tool->sendMotion(pos);
             m_cursorByTool[tool]->setPos(event->globalPos());
             tool->sendDown();
@@ -2091,14 +2092,14 @@ public:
 
     KWaylandServer::TabletPadV2Interface *findAndAdoptPad(const TabletPadId &tabletPadId) const
     {
-        Toplevel *toplevel = workspace()->activeClient();
+        Window *window = workspace()->activeWindow();
         auto seat = findTabletSeat();
-        if (!toplevel || !toplevel->surface() || !seat->isClientSupported(toplevel->surface()->client())) {
+        if (!window || !window->surface() || !seat->isClientSupported(window->surface()->client())) {
             return nullptr;
         }
 
         auto tablet = static_cast<KWaylandServer::TabletV2Interface *>(tabletPadId.data);
-        KWaylandServer::SurfaceInterface *surface = toplevel->surface();
+        KWaylandServer::SurfaceInterface *surface = window->surface();
         auto pad = tablet->pad();
         if (!pad) {
             return nullptr;
@@ -2152,9 +2153,9 @@ public:
     QHash<KWaylandServer::TabletToolV2Interface*, Cursor*> m_cursorByTool;
 };
 
-static KWaylandServer::AbstractDropHandler *dropHandler(Toplevel *toplevel)
+static KWaylandServer::AbstractDropHandler *dropHandler(Window *window)
 {
-    auto surface = toplevel->surface();
+    auto surface = window->surface();
     if (!surface) {
         return nullptr;
     }
@@ -2162,7 +2163,7 @@ static KWaylandServer::AbstractDropHandler *dropHandler(Toplevel *toplevel)
     auto dropTarget = seat->dropHandlerForSurface(surface);
     if (dropTarget) {return dropTarget;}
 
-    if (qobject_cast<X11Client*>(toplevel) && xwayland()) {
+    if (qobject_cast<X11Window *>(window) && xwayland()) {
         return xwayland()->xwlDropHandler();
     }
 
@@ -3016,26 +3017,26 @@ Toplevel *InputRedirection::findManagedToplevel(const QPoint &pos)
     auto it = stacking.end();
     do {
         --it;
-        Toplevel *t = (*it);
-        if (t->isDeleted()) {
+        Window *window = (*it);
+        if (window->isDeleted()) {
             // a deleted window doesn't get mouse events
             continue;
         }
-        if (AbstractClient *c = dynamic_cast<AbstractClient*>(t)) {
-            if (!c->isOnCurrentActivity() || !c->isOnCurrentDesktop() || c->isMinimized() || c->isHiddenInternal()) {
+        if (window->isClient()) {
+            if (!window->isOnCurrentActivity() || !window->isOnCurrentDesktop() || window->isMinimized() || window->isHiddenInternal()) {
                 continue;
             }
         }
-        if (!t->readyForPainting()) {
+        if (!window->readyForPainting()) {
             continue;
         }
         if (isScreenLocked) {
-            if (!t->isLockScreen() && !t->isInputMethod()) {
+            if (!window->isLockScreen() && !window->isInputMethod()) {
                 continue;
             }
         }
-        if (t->hitTest(pos)) {
-            return t;
+        if (window->hitTest(pos)) {
+            return window;
         }
     } while (it != stacking.begin());
     return nullptr;
@@ -3145,24 +3146,24 @@ void InputDeviceHandler::init()
     connect(VirtualDesktopManager::self(), &VirtualDesktopManager::currentChanged, this, &InputDeviceHandler::update);
 }
 
-bool InputDeviceHandler::setHover(Toplevel *toplevel)
+bool InputDeviceHandler::setHover(Window *window)
 {
-    if (m_hover.window == toplevel) {
+    if (m_hover.window == window) {
         return false;
     }
     auto old = m_hover.window;
     disconnect(m_hover.surfaceCreatedConnection);
     m_hover.surfaceCreatedConnection = QMetaObject::Connection();
 
-    m_hover.window = toplevel;
+    m_hover.window = window;
     return true;
 }
 
-void InputDeviceHandler::setFocus(Toplevel *toplevel)
+void InputDeviceHandler::setFocus(Window *window)
 {
-    if (m_focus.window != toplevel) {
-        Toplevel *oldFocus = m_focus.window;
-        m_focus.window = toplevel;
+    if (m_focus.window != window) {
+        Window *oldFocus = m_focus.window;
+        m_focus.window = window;
         focusUpdate(oldFocus, m_focus.window);
     }
 }
@@ -3216,12 +3217,12 @@ void InputDeviceHandler::update()
         return;
     }
 
-    Toplevel *toplevel = nullptr;
+    Window *window = nullptr;
     if (positionValid()) {
-        toplevel = input()->findToplevel(position().toPoint());
+        window = input()->findToplevel(position().toPoint());
     }
-    // Always set the toplevel at the position of the input device.
-    setHover(toplevel);
+    // Always set the window at the position of the input device.
+    setHover(window);
 
     if (focusUpdatesBlocked()) {
         workspace()->updateFocusMousePosition(position().toPoint());

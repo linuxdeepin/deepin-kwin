@@ -207,7 +207,7 @@ void DecorationInputTest::testAxis()
     QFETCH(QPoint, decoPoint);
     MOTION(decoPoint);
     QVERIFY(input()->pointer()->decoration());
-    QCOMPARE(input()->pointer()->decoration()->client(), c);
+    QCOMPARE(input()->pointer()->decoration()->window(), window);
     QTEST(input()->pointer()->decoration()->decoration()->sectionUnderMouse(), "expectedSection");
     kwinApp()->platform()->pointerAxisVertical(5.0, timestamp++);
     QVERIFY(!c->keepBelow());
@@ -253,7 +253,7 @@ void KWin::DecorationInputTest::testDoubleClick()
     QFETCH(QPoint, decoPoint);
     MOTION(decoPoint);
     QVERIFY(input()->pointer()->decoration());
-    QCOMPARE(input()->pointer()->decoration()->client(), c);
+    QCOMPARE(input()->pointer()->decoration()->window(), window);
     QTEST(input()->pointer()->decoration()->decoration()->sectionUnderMouse(), "expectedSection");
     // double click
     PRESS;
@@ -307,7 +307,7 @@ void KWin::DecorationInputTest::testDoubleTap()
     // double click
     kwinApp()->platform()->touchDown(0, decoPoint, timestamp++);
     QVERIFY(input()->touch()->decoration());
-    QCOMPARE(input()->touch()->decoration()->client(), c);
+    QCOMPARE(input()->touch()->decoration()->window(), window);
     QTEST(input()->touch()->decoration()->decoration()->sectionUnderMouse(), "expectedSection");
     kwinApp()->platform()->touchUp(0, timestamp++);
     QVERIFY(!c->isOnAllDesktops());

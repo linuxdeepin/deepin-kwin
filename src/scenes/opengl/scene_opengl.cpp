@@ -405,9 +405,9 @@ Scene::EffectFrame *SceneOpenGL::createEffectFrame(EffectFrameImpl *frame)
     return new SceneOpenGL::EffectFrame(frame, this);
 }
 
-Shadow *SceneOpenGL::createShadow(Toplevel *toplevel)
+Shadow *SceneOpenGL::createShadow(Window *window)
 {
-    return new SceneOpenGLShadow(toplevel);
+    return new SceneOpenGLShadow(window);
 }
 
 DecorationRenderer *SceneOpenGL::createDecorationRenderer(Decoration::DecoratedClientImpl *impl)
@@ -529,8 +529,8 @@ void SceneOpenGL::performPaintWindow(EffectWindowImpl* w, int mask, const QRegio
 // OpenGLWindow
 //****************************************
 
-OpenGLWindow::OpenGLWindow(Toplevel *toplevel, SceneOpenGL *scene)
-    : Scene::Window(toplevel)
+OpenGLWindow::OpenGLWindow(Window *window, SceneOpenGL *scene)
+    : SceneWindow(window)
     , m_scene(scene)
 {
 }
@@ -1386,22 +1386,8 @@ QSharedPointer<GLTexture> DecorationShadowTextureCache::getTexture(SceneOpenGLSh
     return d.texture;
 }
 
-SceneOpenGL::~SceneOpenGL()
-{
-    if (init_ok) {
-        makeOpenGLContextCurrent();
-    }
-    if (m_lanczosFilter) {
-        delete m_lanczosFilter;
-        m_lanczosFilter = nullptr;
-    }
-    SceneOpenGL::EffectFrame::cleanup();
-    // SceneOpenGL2 被销毁时（可能发生在切换为2D模式）应该清理窗口阴影的材质缓存，否则在多次切换3D/2D后会导致窗口阴影绘制出现异常
-    DecorationShadowTextureCache::instance().clear();
-}
-
-SceneOpenGLShadow::SceneOpenGLShadow(Toplevel *toplevel)
-    : Shadow(toplevel)
+SceneOpenGLShadow::SceneOpenGLShadow(Window *window)
+    : Shadow(window)
 {
 }
 
@@ -1578,7 +1564,7 @@ void SceneOpenGLDecorationRenderer::render(const QRegion &region)
     }
 
     QRect left, top, right, bottom;
-    client()->client()->layoutDecorationRects(left, top, right, bottom);
+    client()->window()->layoutDecorationRects(left, top, right, bottom);
 
     const qreal devicePixelRatio = effectiveDevicePixelRatio();
     const int topHeight = std::ceil(top.height() * devicePixelRatio);
@@ -1680,7 +1666,7 @@ static int align(int value, int align)
 void SceneOpenGLDecorationRenderer::resizeTexture()
 {
     QRect left, top, right, bottom;
-    client()->client()->layoutDecorationRects(left, top, right, bottom);
+    client()->window()->layoutDecorationRects(left, top, right, bottom);
     QSize size;
 
     size.rwidth() = qMax(qMax(top.width(), bottom.width()),

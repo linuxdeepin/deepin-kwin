@@ -42,13 +42,11 @@ ScreencastManager::ScreencastManager(QObject *parent)
 class WindowStream : public ScreenCastStream
 {
 public:
-    WindowStream(Toplevel *toplevel, QObject *parent)
-        : ScreenCastStream(new WindowScreenCastSource(toplevel), parent)
-        , m_toplevel(toplevel)
+    WindowStream(Window *window, QObject *parent)
+        : ScreenCastStream(new WindowScreenCastSource(window), parent)
+        , m_window(window)
     {
-        if (AbstractClient *client = qobject_cast<AbstractClient *>(toplevel)) {
-            setObjectName(client->desktopFileName());
-        }
+        setObjectName(window->desktopFileName());
         connect(this, &ScreenCastStream::startStreaming, this, &WindowStream::startFeeding);
         connect(this, &ScreenCastStream::stopStreaming, this, &WindowStream::stopFeeding);
     }
@@ -57,17 +55,18 @@ private:
     void startFeeding() {
         connect(Compositor::self()->scene(), &Scene::frameRendered, this, &WindowStream::bufferToStream);
 
-        connect(m_toplevel, &Toplevel::damaged, this, &WindowStream::includeDamage);
-        m_damagedRegion = m_toplevel->visibleGeometry();
-        m_toplevel->addRepaintFull();
+        connect(m_window, &Window::damaged, this, &WindowStream::includeDamage);
+        m_damagedRegion = m_window->visibleGeometry();
+        m_window->addRepaintFull();
     }
 
     void stopFeeding() {
         disconnect(Compositor::self()->scene(), &Scene::frameRendered, this, &WindowStream::bufferToStream);
     }
 
-    void includeDamage(Toplevel *toplevel, const QRegion &damage) {
-        Q_ASSERT(m_toplevel == toplevel);
+    void includeDamage(Window *window, const QRegion &damage)
+    {
+        Q_ASSERT(m_window == window);
         m_damagedRegion |= damage;
     }
 
@@ -79,19 +78,18 @@ private:
     }
 
     QRegion m_damagedRegion;
-    Toplevel *m_toplevel;
+    Window *m_window;
 };
 
 void ScreencastManager::streamWindow(KWaylandServer::ScreencastStreamV1Interface *waylandStream, const QString &winid)
 {
-    auto *toplevel = Workspace::self()->findToplevel(winid);
-
-    if (!toplevel) {
+    auto window = Workspace::self()->findToplevel(QUuid(winid));
+    if (!window) {
         waylandStream->sendFailed(i18n("Could not find window id %1", winid));
         return;
     }
 
-    auto stream = new WindowStream(toplevel, this);
+    auto stream = new WindowStream(window, this);
     integrateStreams(waylandStream, stream);
 }
 

@@ -347,7 +347,273 @@ class KWIN_EXPORT AbstractClient : public Toplevel
 public:
     ~AbstractClient() override;
 
-    QWeakPointer<TabBox::TabBoxClientImpl> tabBoxClient() const {
+    virtual xcb_window_t frameId() const;
+    xcb_window_t window() const;
+    /**
+     * Returns the geometry of the pixmap or buffer attached to this Window.
+     *
+     * For X11 windows, this method returns server-side geometry of the Window.
+     *
+     * For Wayland windows, this method returns rectangle that the main surface
+     * occupies on the screen, in global screen coordinates.
+     */
+    QRect bufferGeometry() const;
+    /**
+     * Returns the geometry of the Window, excluding invisible portions, e.g.
+     * server-side and client-side drop shadows, etc.
+     */
+    QRect frameGeometry() const;
+    /**
+     * Returns the geometry of the client window, in global screen coordinates.
+     */
+    QRect clientGeometry() const;
+    /**
+     * Returns the extents of the server-side decoration.
+     *
+     * Note that the returned margins object will have all margins set to 0 if
+     * the window doesn't have a server-side decoration.
+     *
+     * Default implementation returns a margins object with all margins set to 0.
+     */
+    virtual QMargins frameMargins() const;
+    /**
+     * The geometry of the Window which accepts input events. This might be larger
+     * than the actual geometry, e.g. to support resizing outside the window.
+     *
+     * Default implementation returns same as geometry.
+     */
+    virtual QRect inputGeometry() const;
+    QSize size() const;
+    QPoint pos() const;
+    QRect rect() const;
+    int x() const;
+    int y() const;
+    int width() const;
+    int height() const;
+    bool isOnOutput(Output *output) const;
+    bool isOnActiveOutput() const;
+    int screen() const; // the screen where the center is
+    Output *output() const;
+    void setOutput(Output *output);
+    virtual QPoint clientPos() const
+    {
+        return QPoint(borderLeft(), borderTop());
+    }; // inside of geometry()
+    QSize clientSize() const;
+    /**
+     * Returns a rectangle that the window occupies on the screen, including drop-shadows.
+     */
+    QRect visibleGeometry() const;
+    virtual bool isClient() const;
+    virtual bool isDeleted() const;
+
+    /**
+     * Maps the specified @a point from the global screen coordinates to the frame coordinates.
+     */
+    QPoint mapToFrame(const QPoint &point) const;
+    /**
+     * Maps the specified @a point from the global screen coordinates to the surface-local
+     * coordinates of the main surface. For X11 windows, this function maps the specified point
+     * from the global screen coordinates to the buffer-local coordinates.
+     */
+    QPoint mapToLocal(const QPoint &point) const;
+    QPointF mapToLocal(const QPointF &point) const;
+    QPointF mapFromLocal(const QPointF &point) const;
+
+    // prefer isXXX() instead
+    // 0 for supported types means default for managed/unmanaged types
+    virtual NET::WindowType windowType(bool direct = false, int supported_types = 0) const = 0;
+    bool hasNETSupport() const;
+    bool isDesktop() const;
+    bool isDock() const;
+    bool isToolbar() const;
+    bool isMenu() const;
+    bool isNormalWindow() const; // normal as in 'NET::Normal or NET::Unknown non-transient'
+    bool isDialog() const;
+    bool isSplash() const;
+    bool isUtility() const;
+    bool isDropdownMenu() const;
+    bool isPopupMenu() const; // a context popup, not dropdown, not torn-off
+    bool isTooltip() const;
+    bool isNotification() const;
+    bool isCriticalNotification() const;
+    bool isOnScreenDisplay() const;
+    bool isComboBox() const;
+    bool isDNDIcon() const;
+
+    virtual bool isLockScreen() const;
+    virtual bool isInputMethod() const;
+    virtual bool isOutline() const;
+    virtual bool isInternal() const;
+
+    /**
+     * Returns the virtual desktop within the workspace() the client window
+     * is located in, 0 if it isn't located on any special desktop (not mapped yet),
+     * or NET::OnAllDesktops. Do not use desktop() directly, use
+     * isOnDesktop() instead.
+     */
+    virtual int desktop() const;
+    virtual QVector<VirtualDesktop *> desktops() const;
+    virtual QStringList activities() const;
+    bool isOnDesktop(VirtualDesktop *desktop) const;
+    bool isOnDesktop(int d) const;
+    bool isOnActivity(const QString &activity) const;
+    bool isOnCurrentDesktop() const;
+    bool isOnCurrentActivity() const;
+    bool isOnAllDesktops() const;
+    bool isOnAllActivities() const;
+
+    virtual QByteArray windowRole() const;
+    QByteArray sessionId() const;
+    QByteArray resourceName() const;
+    QByteArray resourceClass() const;
+    QByteArray wmCommand();
+    QByteArray wmClientMachine(bool use_localhost) const;
+    const ClientMachine *clientMachine() const;
+    virtual bool isLocalhost() const;
+    xcb_window_t wmClientLeader() const;
+    virtual pid_t pid() const;
+    static bool resourceMatch(const Window *c1, const Window *c2);
+
+    bool readyForPainting() const; // true if the window has been already painted its contents
+    xcb_visualid_t visual() const;
+    bool shape() const;
+    QRegion inputShape() const;
+    void setOpacity(qreal opacity);
+    qreal opacity() const;
+    int depth() const;
+    bool hasAlpha() const;
+    virtual bool setupCompositing();
+    virtual void finishCompositing(ReleaseReason releaseReason = ReleaseReason::Release);
+    Q_INVOKABLE void addRepaint(const QRect &r);
+    Q_INVOKABLE void addRepaint(const QRegion &r);
+    Q_INVOKABLE void addRepaint(int x, int y, int w, int h);
+    Q_INVOKABLE void addLayerRepaint(const QRect &r);
+    Q_INVOKABLE void addLayerRepaint(const QRegion &r);
+    Q_INVOKABLE void addLayerRepaint(int x, int y, int w, int h);
+    Q_INVOKABLE virtual void addRepaintFull();
+    // these call workspace->addRepaint(), but first transform the damage if needed
+    void addWorkspaceRepaint(const QRect &r);
+    void addWorkspaceRepaint(int x, int y, int w, int h);
+    void addWorkspaceRepaint(const QRegion &region);
+    EffectWindowImpl *effectWindow();
+    const EffectWindowImpl *effectWindow() const;
+    SceneWindow *sceneWindow() const;
+    SurfaceItem *surfaceItem() const;
+    WindowItem *windowItem() const;
+    /**
+     * Window will be temporarily painted as if being at the top of the stack.
+     * Only available if Compositor is active, if not active, this method is a no-op.
+     */
+    void elevate(bool elevate);
+
+    /**
+     * Returns the Shadow associated with this Window or @c null if it has no shadow.
+     */
+    Shadow *shadow() const;
+    /**
+     * Updates the Shadow associated with this Window from X11 Property.
+     * Call this method when the Property changes or Compositing is started.
+     */
+    void updateShadow();
+    /**
+     * Whether the Window currently wants the shadow to be rendered. Default
+     * implementation always returns @c true.
+     */
+    virtual bool wantsShadowToBeRendered() const;
+
+    /**
+     * This method returns the area that the Window window reports to be opaque.
+     * It is supposed to only provide valuable information if hasAlpha is @c true .
+     * @see hasAlpha
+     */
+    const QRegion &opaqueRegion() const;
+    QRegion shapeRegion() const;
+
+    bool skipsCloseAnimation() const;
+    void setSkipCloseAnimation(bool set);
+
+    quint32 pendingSurfaceId() const;
+    KWaylandServer::SurfaceInterface *surface() const;
+    void setSurface(KWaylandServer::SurfaceInterface *surface);
+
+    const QSharedPointer<QOpenGLFramebufferObject> &internalFramebufferObject() const;
+    QImage internalImageObject() const;
+
+    /**
+     * @returns Transformation to map from global to window coordinates.
+     *
+     * Default implementation returns a translation on negative pos().
+     * @see pos
+     */
+    virtual QMatrix4x4 inputTransformation() const;
+
+    /**
+     * Returns @c true if the window can accept input at the specified position @a point.
+     */
+    virtual bool hitTest(const QPoint &point) const;
+
+    /**
+     * The window has a popup grab. This means that when it got mapped the
+     * parent window had an implicit (pointer) grab.
+     *
+     * Normally this is only relevant for transient windows.
+     *
+     * Once the popup grab ends (e.g. pointer press outside of any Window of
+     * the client), the method popupDone should be invoked.
+     *
+     * The default implementation returns @c false.
+     * @see popupDone
+     * @since 5.10
+     */
+    virtual bool hasPopupGrab() const
+    {
+        return false;
+    }
+    /**
+     * This method should be invoked for windows with a popup grab when
+     * the grab ends.
+     *
+     * The default implementation does nothing.
+     * @see hasPopupGrab
+     * @since 5.10
+     */
+    virtual void popupDone(){};
+
+    /**
+     * @brief Finds the Window matching the condition expressed in @p func in @p list.
+     *
+     * The method is templated to operate on either a list of windows or on a list of
+     * a subclass type of Window.
+     * @param list The list to search in
+     * @param func The condition function (compare std::find_if)
+     * @return T* The found Window or @c null if there is no matching Window
+     */
+    template<class T, class U>
+    static T *findInList(const QList<T *> &list, std::function<bool(const U *)> func);
+
+    /**
+     * Whether the window is a popup.
+     *
+     * Popups can be used to implement popup menus, tooltips, combo boxes, etc.
+     *
+     * @since 5.15
+     */
+    virtual bool isPopupWindow() const;
+
+    /**
+     * A UUID to uniquely identify this Window independent of windowing system.
+     */
+    QUuid internalId() const
+    {
+        return m_internalId;
+    }
+
+    int stackingOrder() const;
+    void setStackingOrder(int order); ///< @internal
+
+    QWeakPointer<TabBox::TabBoxClientImpl> tabBoxClient() const
+    {
         return m_tabBoxClient.toWeakRef();
     }
     bool isFirstInTabBox() const {
@@ -952,6 +1218,77 @@ public Q_SLOTS:
     virtual void closeWindow() = 0;
 
 Q_SIGNALS:
+    void stackingOrderChanged();
+    void shadeChanged();
+    void opacityChanged(KWin::Window *window, qreal oldOpacity);
+    void damaged(KWin::Window *window, const QRegion &damage);
+    void inputTransformationChanged();
+    /**
+     * This signal is emitted when the Window's frame geometry changes.
+     * @deprecated since 5.19, use frameGeometryChanged instead
+     */
+    void geometryChanged();
+    void geometryShapeChanged(KWin::Window *window, const QRect &old);
+    void windowClosed(KWin::Window *window, KWin::Deleted *deleted);
+    void windowShown(KWin::Window *window);
+    void windowHidden(KWin::Window *window);
+    /**
+     * Signal emitted when the window's shape state changed. That is if it did not have a shape
+     * and received one or if the shape was withdrawn. Think of Chromium enabling/disabling KWin's
+     * decoration.
+     */
+    void shapedChanged();
+    /**
+     * Emitted whenever the Window's screen changes. This can happen either in consequence to
+     * a screen being removed/added or if the Window's geometry changes.
+     * @since 4.11
+     */
+    void screenChanged();
+    void skipCloseAnimationChanged();
+    /**
+     * Emitted whenever the window role of the window changes.
+     * @since 5.0
+     */
+    void windowRoleChanged();
+    /**
+     * Emitted whenever the window class name or resource name of the window changes.
+     * @since 5.0
+     */
+    void windowClassChanged();
+    /**
+     * @since 5.4
+     */
+    void hasAlphaChanged();
+
+    /**
+     * Emitted whenever the Surface for this Window changes.
+     */
+    void surfaceChanged();
+
+    /**
+     * Emitted whenever the window's shadow changes.
+     * @since 5.15
+     */
+    void shadowChanged();
+
+    /**
+     * This signal is emitted when the Window's buffer geometry changes.
+     */
+    void bufferGeometryChanged(KWin::Window *window, const QRect &oldGeometry);
+    /**
+     * This signal is emitted when the Window's frame geometry changes.
+     */
+    void frameGeometryChanged(KWin::Window *window, const QRect &oldGeometry);
+    /**
+     * This signal is emitted when the Window's client geometry has changed.
+     */
+    void clientGeometryChanged(KWin::Window *window, const QRect &oldGeometry);
+
+    /**
+     * This signal is emitted when the visible geometry has changed.
+     */
+    void visibleGeometryChanged();
+
     void fullScreenChanged();
     void skipTaskbarChanged();
     void skipPagerChanged();
@@ -1452,7 +1789,7 @@ inline void AbstractClient::setPendingMoveResizeMode(MoveResizeMode mode)
     m_pendingMoveResizeMode = MoveResizeMode(uint(m_pendingMoveResizeMode) | uint(mode));
 }
 
-}
+KWIN_EXPORT QDebug operator<<(QDebug debug, const Window *window);
 
 Q_DECLARE_METATYPE(KWin::AbstractClient*)
 Q_DECLARE_METATYPE(QList<KWin::AbstractClient*>)

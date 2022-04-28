@@ -277,9 +277,9 @@ TabBoxClientList TabBoxHandlerImpl::stackingOrder() const
 {
     const QList<Toplevel *> stacking = Workspace::self()->stackingOrder();
     TabBoxClientList ret;
-    for (Toplevel *toplevel : stacking) {
-        if (auto client = qobject_cast<AbstractClient*>(toplevel)) {
-            ret.append(client->tabBoxClient());
+    for (Window *toplevel : stacking) {
+        if (toplevel->isClient()) {
+            ret.append(qWeakPointerCast<TabBoxClient, TabBoxClientImpl>(toplevel->tabBoxClient()));
         }
     }
     return ret;
@@ -327,10 +327,9 @@ void TabBoxHandlerImpl::activateCurrentClient() const
 QWeakPointer<TabBoxClient> TabBoxHandlerImpl::desktopClient() const
 {
     const auto stackingOrder = Workspace::self()->stackingOrder();
-    for (Toplevel *toplevel : stackingOrder) {
-        auto client = qobject_cast<AbstractClient*>(toplevel);
-        if (client && client->isDesktop() && client->isOnCurrentDesktop() && client->output() == workspace()->activeOutput()) {
-            return client->tabBoxClient();
+    for (Window *toplevel : stackingOrder) {
+        if (toplevel->isClient() && toplevel->isDesktop() && toplevel->isOnCurrentDesktop() && toplevel->output() == workspace()->activeOutput()) {
+            return qWeakPointerCast<TabBoxClient, TabBoxClientImpl>(toplevel->tabBoxClient());
         }
     }
     return QWeakPointer<TabBoxClient>();
@@ -1047,9 +1046,10 @@ void TabBox::navigatingThroughWindows(bool forward, const QKeySequence &shortcut
         // CDE style raise / lower
         CDEWalkThroughWindows(forward);
     } else {
-        workspace()->forEachAbstractClient([](Toplevel *toplevel) {
-            if (toplevel->isPopupWindow())
+        workspace()->forEachAbstractClient([](Window *toplevel) {
+            if (toplevel->isPopupWindow()) {
                 toplevel->popupDone();
+            }
         });
         if (areModKeysDepressed(shortcut)) {
             if (startKDEWalkThroughWindows(mode))
@@ -1607,4 +1607,3 @@ QList<bool> TabBox::getAllClientIsMinisize()
 }
 } // namespace TabBox
 } // namespace
-

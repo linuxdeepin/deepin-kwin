@@ -87,21 +87,13 @@ public:
     /**
      * Adds the Toplevel to the Scene.
      *
-     * If the toplevel gets deleted, then the scene will try automatically
+     * If the window gets deleted, then the scene will try automatically
      * to re-bind an underlying scene window to the corresponding Deleted.
      *
-     * @param toplevel The window to be added.
-     * @note You can add a toplevel to scene only once.
+     * @param window The window to be added.
+     * @note You can add a window to scene only once.
      */
-    void addToplevel(Toplevel *toplevel);
-
-    /**
-     * Removes the Toplevel from the Scene.
-     *
-     * @param toplevel The window to be removed.
-     * @note You can remove a toplevel from the scene only once.
-     */
-    void removeToplevel(Toplevel *toplevel);
+    virtual SceneWindow *createWindow(Window *window) = 0;
 
     /**
      * @brief Creates the Scene backend of an EffectFrame.
@@ -115,9 +107,9 @@ public:
      * An implementing class has to create a proper instance. It is not allowed to
      * return @c null.
      *
-     * @param toplevel The Toplevel for which the Shadow needs to be created.
+     * @param window The Window for which the Shadow needs to be created.
      */
-    virtual Shadow *createShadow(Toplevel *toplevel) = 0;
+    virtual Shadow *createShadow(Window *window) = 0;
     // Flags controlling how painting is done.
     enum {
         // Window (or at least part of it) will be painted opaque.
@@ -315,7 +307,7 @@ public:
     // is the window fully opaque
     bool isOpaque() const;
     QRegion decorationShape() const;
-    void updateToplevel(Deleted *deleted);
+    void setWindow(Window *window);
     void referencePreviousPixmap();
     void unreferencePreviousPixmap();
     WindowItem *windowItem() const;
@@ -323,7 +315,8 @@ public:
     ShadowItem *shadowItem() const;
 
 protected:
-    Toplevel* toplevel;
+    Window *m_window;
+
 private:
     void referencePreviousPixmap_helper(SurfaceItem *item);
     void unreferencePreviousPixmap_helper(SurfaceItem *item);
@@ -355,55 +348,55 @@ protected:
 inline
 int Scene::Window::x() const
 {
-    return toplevel->x();
+    return m_window->x();
 }
 
 inline
 int Scene::Window::y() const
 {
-    return toplevel->y();
+    return m_window->y();
 }
 
 inline
 int Scene::Window::width() const
 {
-    return toplevel->width();
+    return m_window->width();
 }
 
 inline
 int Scene::Window::height() const
 {
-    return toplevel->height();
+    return m_window->height();
 }
 
 inline
 QRect Scene::Window::geometry() const
 {
-    return toplevel->frameGeometry();
+    return m_window->frameGeometry();
 }
 
 inline
 QSize Scene::Window::size() const
 {
-    return toplevel->size();
+    return m_window->size();
 }
 
 inline
 QPoint Scene::Window::pos() const
 {
-    return toplevel->pos();
+    return m_window->pos();
 }
 
 inline
 QRect Scene::Window::rect() const
 {
-    return toplevel->rect();
+    return m_window->rect();
 }
 
 inline
 Toplevel* Scene::Window::window() const
 {
-    return toplevel;
+    return m_window;
 }
 
 } // namespace

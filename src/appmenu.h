@@ -52,7 +52,7 @@ private:
     OrgKdeKappmenuInterface *m_appmenuInterface;
     QDBusServiceWatcher *m_kappMenuWatcher;
 
-    AbstractClient *findAbstractClientWithApplicationMenu(const QString &serviceName, const QDBusObjectPath &menuObjectPath);
+    Window *findWindowWithApplicationMenu(const QString &serviceName, const QDBusObjectPath &menuObjectPath);
 
     bool m_applicationMenuEnabled = false;
 

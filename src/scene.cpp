@@ -216,14 +216,41 @@ QMatrix4x4 Scene::createProjectionMatrix(const QRect &rect)
 
 void Scene::paintScreen(AbstractOutput *output, const QList<Toplevel *> &toplevels)
 {
-    createStackingOrder(toplevels);
-
-    const QRect geo = output->geometry();
-    QRegion update = geo, repaint = geo, valid;
-    painted_screen = output;
-
-    paintScreen(geo, repaint, &update, &valid, output->renderLoop(), createProjectionMatrix(output->geometry()));
-    clearStackingOrder();
+    if (!waylandServer()) {
+        return nullptr;
+    }
+    SurfaceItem *candidate = nullptr;
+    if (!static_cast<EffectsHandlerImpl *>(effects)->blocksDirectScanout()) {
+        for (int i = stacking_order.count() - 1; i >= 0; i--) {
+            SceneWindow *sceneWindow = stacking_order[i];
+            Window *window = sceneWindow->window();
+            if (window->isOnOutput(painted_screen) && sceneWindow->isVisible() && window->opacity() > 0) {
+                if (!window->isClient() || !window->isFullScreen() || window->opacity() != 1.0) {
+                    break;
+                }
+                if (!sceneWindow->surfaceItem()) {
+                    break;
+                }
+                SurfaceItem *topMost = findTopMostSurface(sceneWindow->surfaceItem());
+                auto pixmap = topMost->pixmap();
+                if (!pixmap) {
+                    break;
+                }
+                pixmap->update();
+                // the subsurface has to be able to cover the whole window
+                if (topMost->position() != QPoint(0, 0)) {
+                    break;
+                }
+                // and it has to be completely opaque
+                if (pixmap->hasAlphaChannel() && !topMost->opaque().contains(QRect(0, 0, sceneWindow->width(), sceneWindow->height()))) {
+                    break;
+                }
+                candidate = topMost;
+                break;
+            }
+        }
+    }
+    return candidate;
 }
 // returns mask and possibly modified region
 void Scene::paintScreen(const QRegion &damage, const QRegion &repaint,
@@ -367,6 +394,201 @@ static void accumulateRepaints(Item *item, AbstractOutput *output, QRegion *repa
     const auto childItems = item->childItems();
     for (Item *childItem : childItems) {
         accumulateRepaints(childItem, output, repaints);
+    }
+}
+
+void Scene::preparePaintGenericScreen()
+{
+    for (SceneWindow *sceneWindow : std::as_const(stacking_order)) {
+        resetRepaintsHelper(sceneWindow->windowItem(), painted_screen);
+
+        WindowPrePaintData data;
+        data.mask = m_paintContext.mask;
+        data.paint = infiniteRegion(); // no clipping, so doesn't really matter
+
+        sceneWindow->resetPaintingEnabled();
+        effects->prePaintWindow(effectWindow(sceneWindow), data, m_expectedPresentTimestamp);
+        if (sceneWindow->isPaintingEnabled()) {
+            m_paintContext.phase2Data.append(Phase2Data{
+                .window = sceneWindow,
+                .region = infiniteRegion(),
+                .opaque = data.opaque,
+                .mask = data.mask,
+            });
+        }
+    }
+
+    m_paintContext.damage = renderTargetRect();
+}
+
+void Scene::preparePaintSimpleScreen()
+{
+    for (SceneWindow *sceneWindow : std::as_const(stacking_order)) {
+        const Window *window = sceneWindow->window();
+        WindowPrePaintData data;
+        data.mask = m_paintContext.mask;
+        accumulateRepaints(sceneWindow->windowItem(), painted_screen, &data.paint);
+
+        // Clip out the decoration for opaque windows; the decoration is drawn in the second pass.
+        if (window->opacity() == 1.0) {
+            const SurfaceItem *surfaceItem = sceneWindow->surfaceItem();
+            if (Q_LIKELY(surfaceItem)) {
+                data.opaque = surfaceItem->mapToGlobal(surfaceItem->opaque());
+            }
+
+            if (window->isClient() && !window->decorationHasAlpha()) {
+                data.opaque |= sceneWindow->decorationShape().translated(sceneWindow->pos());
+            }
+        }
+
+        sceneWindow->resetPaintingEnabled();
+        effects->prePaintWindow(effectWindow(sceneWindow), data, m_expectedPresentTimestamp);
+        if (sceneWindow->isPaintingEnabled()) {
+            m_paintContext.phase2Data.append(Phase2Data{
+                .window = sceneWindow,
+                .region = data.paint,
+                .opaque = data.opaque,
+                .mask = data.mask,
+            });
+        }
+    }
+
+    // Perform an occlusion cull pass, remove surface damage occluded by opaque windows.
+    QRegion opaque;
+    for (int i = m_paintContext.phase2Data.size() - 1; i >= 0; --i) {
+        const auto &paintData = m_paintContext.phase2Data.at(i);
+        m_paintContext.damage += paintData.region - opaque;
+        if (!(paintData.mask & (PAINT_WINDOW_TRANSLUCENT | PAINT_WINDOW_TRANSFORMED))) {
+            opaque += paintData.opaque;
+        }
+    }
+}
+
+void Scene::postPaint()
+{
+    for (SceneWindow *w : std::as_const(stacking_order)) {
+        effects->postPaintWindow(effectWindow(w));
+    }
+
+    effects->postPaintScreen();
+
+    if (waylandServer()) {
+        const std::chrono::milliseconds frameTime =
+            std::chrono::duration_cast<std::chrono::milliseconds>(painted_screen->renderLoop()->lastPresentationTimestamp());
+
+        for (SceneWindow *sceneWindow : std::as_const(stacking_order)) {
+            Window *window = sceneWindow->window();
+            if (!window->isOnOutput(painted_screen)) {
+                continue;
+            }
+            if (auto surface = window->surface()) {
+                surface->frameRendered(frameTime.count());
+            }
+        }
+    }
+
+    clearStackingOrder();
+}
+
+static QMatrix4x4 createProjectionMatrix(const QRect &rect)
+{
+    // Create a perspective projection with a 60° field-of-view,
+    // and an aspect ratio of 1.0.
+    QMatrix4x4 ret;
+    ret.setToIdentity();
+    const float fovY = std::tan(qDegreesToRadians(60.0f) / 2);
+    const float aspect = 1.0f;
+    const float zNear = 0.1f;
+    const float zFar = 100.0f;
+
+    const float yMax = zNear * fovY;
+    const float yMin = -yMax;
+    const float xMin = yMin * aspect;
+    const float xMax = yMax * aspect;
+
+    ret.frustum(xMin, xMax, yMin, yMax, zNear, zFar);
+
+    const float scaleFactor = 1.1 * fovY / yMax;
+    ret.translate(xMin * scaleFactor, yMax * scaleFactor, -1.1);
+    ret.scale((xMax - xMin) * scaleFactor / rect.width(),
+              -(yMax - yMin) * scaleFactor / rect.height(),
+              0.001);
+    ret.translate(-rect.x(), -rect.y());
+    return ret;
+}
+
+QMatrix4x4 Scene::renderTargetProjectionMatrix() const
+{
+    return m_renderTargetProjectionMatrix;
+}
+
+QRect Scene::renderTargetRect() const
+{
+    return m_renderTargetRect;
+}
+
+void Scene::setRenderTargetRect(const QRect &rect)
+{
+    m_renderTargetRect = rect;
+    m_renderTargetProjectionMatrix = createProjectionMatrix(rect);
+}
+
+qreal Scene::renderTargetScale() const
+{
+    return m_renderTargetScale;
+}
+
+void Scene::setRenderTargetScale(qreal scale)
+{
+    m_renderTargetScale = scale;
+}
+
+QRegion Scene::mapToRenderTarget(const QRegion &region) const
+{
+    QRegion result;
+    for (const QRect &rect : region) {
+        result += QRect((rect.x() - m_renderTargetRect.x()) * m_renderTargetScale,
+                        (rect.y() - m_renderTargetRect.y()) * m_renderTargetScale,
+                        rect.width() * m_renderTargetScale,
+                        rect.height() * m_renderTargetScale);
+    }
+    return result;
+}
+
+void Scene::paintScreen(const QRegion &region)
+{
+    ScreenPaintData data(m_renderTargetProjectionMatrix, EffectScreenImpl::get(painted_screen));
+    effects->paintScreen(m_paintContext.mask, region, data);
+
+    m_paintScreenCount = 0;
+    Q_EMIT frameRendered();
+}
+
+// the function that'll be eventually called by paintScreen() above
+void Scene::finalPaintScreen(int mask, const QRegion &region, ScreenPaintData &data)
+{
+    m_paintScreenCount++;
+    if (mask & (PAINT_SCREEN_TRANSFORMED | PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS)) {
+        paintGenericScreen(mask, data);
+    } else {
+        paintSimpleScreen(mask, region);
+    }
+}
+
+// The generic painting code that can handle even transformations.
+// It simply paints bottom-to-top.
+void Scene::paintGenericScreen(int, const ScreenPaintData &)
+{
+    if (m_paintContext.mask & PAINT_SCREEN_BACKGROUND_FIRST) {
+        if (m_paintScreenCount == 1) {
+            paintBackground(infiniteRegion());
+        }
+    } else {
+        paintBackground(infiniteRegion());
+    }
+
+    for (const Phase2Data &paintData : std::as_const(m_paintContext.phase2Data)) {
+        paintWindow(paintData.window, paintData.mask, paintData.region);
     }
 }
 
@@ -669,20 +891,20 @@ SurfaceTexture *Scene::createSurfaceTextureWayland(SurfacePixmapWayland *pixmap)
 
 Scene::Window::Window(Toplevel *client, QObject *parent)
     : QObject(parent)
-    , toplevel(client)
+    , m_window(client)
     , disable_painting(0)
 {
-    if (qobject_cast<WaylandClient *>(client)) {
-        m_windowItem.reset(new WindowItemWayland(toplevel));
-    } else if (qobject_cast<X11Client *>(client) || qobject_cast<Unmanaged *>(client)) {
-        m_windowItem.reset(new WindowItemX11(toplevel));
-    } else if (auto internalClient = qobject_cast<InternalClient *>(client)) {
+    if (qobject_cast<WaylandWindow *>(client)) {
+        m_windowItem.reset(new WindowItemWayland(m_window));
+    } else if (qobject_cast<X11Window *>(client) || qobject_cast<Unmanaged *>(client)) {
+        m_windowItem.reset(new WindowItemX11(m_window));
+    } else if (auto internalClient = qobject_cast<InternalWindow *>(client)) {
         m_windowItem.reset(new WindowItemInternal(internalClient));
     } else {
         Q_UNREACHABLE();
     }
 
-    connect(toplevel, &Toplevel::frameGeometryChanged, this, &Window::updateWindowPosition);
+    connect(m_window, &Window::frameGeometryChanged, this, &SceneWindow::updateWindowPosition);
     updateWindowPosition();
 }
 
@@ -690,9 +912,9 @@ Scene::Window::~Window()
 {
 }
 
-void Scene::Window::updateToplevel(Deleted *deleted)
+void SceneWindow::setWindow(Window *window)
 {
-    toplevel = deleted;
+    m_window = window;
 }
 
 void Scene::Window::referencePreviousPixmap()
@@ -731,20 +953,24 @@ void Scene::Window::unreferencePreviousPixmap_helper(SurfaceItem *item)
 
 QRegion Scene::Window::decorationShape() const
 {
-    const QRect decorationInnerRect = toplevel->rect() - toplevel->frameMargins();
-    return QRegion(toplevel->rect()) - decorationInnerRect;
+    const QRect decorationInnerRect = m_window->rect() - m_window->frameMargins();
+    return QRegion(m_window->rect()) - decorationInnerRect;
 }
 
 bool Scene::Window::isVisible() const
 {
-    if (toplevel->isDeleted())
+    if (m_window->isDeleted()) {
         return false;
-    if (!toplevel->isOnCurrentDesktop())
+    }
+    if (!m_window->isOnCurrentDesktop()) {
         return false;
-    if (!toplevel->isOnCurrentActivity())
+    }
+    if (!m_window->isOnCurrentActivity()) {
         return false;
-    if (AbstractClient *c = dynamic_cast<AbstractClient*>(toplevel))
-        return c->isShown();
+    }
+    if (m_window->isClient()) {
+        return m_window->isShown();
+    }
     return true; // Unmanaged is always visible
 }
 
@@ -761,22 +987,20 @@ bool Scene::Window::isPaintingEnabled() const
 void Scene::Window::resetPaintingEnabled()
 {
     disable_painting = 0;
-    if (toplevel->isDeleted())
+    if (m_window->isDeleted()) {
         disable_painting |= PAINT_DISABLED_BY_DELETE;
-    if (static_cast<EffectsHandlerImpl*>(effects)->isDesktopRendering()) {
-        if (!toplevel->isOnDesktop(static_cast<EffectsHandlerImpl*>(effects)->currentRenderedDesktop())) {
-            disable_painting |= PAINT_DISABLED_BY_DESKTOP;
-        }
-    } else {
-        if (!toplevel->isOnCurrentDesktop())
-            disable_painting |= PAINT_DISABLED_BY_DESKTOP;
     }
-    if (!toplevel->isOnCurrentActivity())
+    if (!m_window->isOnCurrentDesktop()) {
+        disable_painting |= PAINT_DISABLED_BY_DESKTOP;
+    }
+    if (!m_window->isOnCurrentActivity()) {
         disable_painting |= PAINT_DISABLED_BY_ACTIVITY;
-    if (AbstractClient *c = dynamic_cast<AbstractClient*>(toplevel)) {
-        if (c->isMinimized())
+    }
+    if (m_window->isClient()) {
+        if (m_window->isMinimized()) {
             disable_painting |= PAINT_DISABLED_BY_MINIMIZE;
-        if (c->isHiddenInternal()) {
+        }
+        if (m_window->isHiddenInternal()) {
             disable_painting |= PAINT_DISABLED;
         }
     }

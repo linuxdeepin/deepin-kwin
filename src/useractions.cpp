@@ -1012,7 +1012,7 @@ void UserActionsMenu::slotToggleOnActivity(QAction *action)
         return;
     }
 
-    Activities::self()->toggleClientOnActivity(m_client, activity, false);
+    Activities::self()->toggleWindowOnActivity(m_window, activity, false);
     if (m_activityMenu && m_activityMenu->isVisible() && m_activityMenu->actions().count()) {
         const bool isOnAll = m_client->isOnAllActivities();
         m_activityMenu->actions().at(0)->setChecked(isOnAll);

@@ -112,11 +112,672 @@ AbstractClient::~AbstractClient()
     Q_ASSERT(m_decoration.decoration == nullptr);
 }
 
-void AbstractClient::updateMouseGrab()
+QDebug operator<<(QDebug debug, const Window *window)
+{
+    QDebugStateSaver saver(debug);
+    debug.nospace();
+    if (window) {
+        debug << window->metaObject()->className() << '(' << static_cast<const void *>(window);
+        if (window->window()) {
+            debug << ", windowId=0x" << Qt::hex << window->window() << Qt::dec;
+        }
+        if (const KWaylandServer::SurfaceInterface *surface = window->surface()) {
+            debug << ", surface=" << surface;
+        }
+        if (window->isClient()) {
+            if (!window->isPopupWindow()) {
+                debug << ", caption=" << window->caption();
+            }
+            if (window->transientFor()) {
+                debug << ", transientFor=" << window->transientFor();
+            }
+        }
+        if (debug.verbosity() > 2) {
+            debug << ", frameGeometry=" << window->frameGeometry();
+            debug << ", resourceName=" << window->resourceName();
+            debug << ", resourceClass=" << window->resourceClass();
+        }
+        debug << ')';
+    } else {
+        debug << "Window(0x0)";
+    }
+    return debug;
+}
+
+void Window::detectShape(xcb_window_t id)
+{
+    const bool wasShape = is_shape;
+    is_shape = Xcb::Extensions::self()->hasShape(id);
+    if (wasShape != is_shape) {
+        Q_EMIT shapedChanged();
+    }
+}
+
+// used only by Deleted::copy()
+void Window::copyToDeleted(Window *c)
+{
+    m_internalId = c->internalId();
+    m_bufferGeometry = c->m_bufferGeometry;
+    m_frameGeometry = c->m_frameGeometry;
+    m_clientGeometry = c->m_clientGeometry;
+    m_visual = c->m_visual;
+    bit_depth = c->bit_depth;
+    info = c->info;
+    m_client.reset(c->m_client, false);
+    ready_for_painting = c->ready_for_painting;
+    is_shape = c->is_shape;
+    m_effectWindow = std::exchange(c->m_effectWindow, nullptr);
+    if (m_effectWindow != nullptr) {
+        m_effectWindow->setWindow(this);
+    }
+    m_sceneWindow = std::exchange(c->m_sceneWindow, nullptr);
+    if (m_sceneWindow != nullptr) {
+        m_sceneWindow->setWindow(this);
+    }
+    m_shadow = std::exchange(c->m_shadow, nullptr);
+    if (m_shadow) {
+        m_shadow->setWindow(this);
+    }
+    resource_name = c->resourceName();
+    resource_class = c->resourceClass();
+    m_clientMachine = c->m_clientMachine;
+    m_clientMachine->setParent(this);
+    m_wmClientLeader = c->wmClientLeader();
+    opaque_region = c->opaqueRegion();
+    m_output = c->m_output;
+    m_skipCloseAnimation = c->m_skipCloseAnimation;
+    m_internalFBO = c->m_internalFBO;
+    m_internalImage = c->m_internalImage;
+    m_opacity = c->m_opacity;
+    m_shapeRegionIsValid = c->m_shapeRegionIsValid;
+    m_shapeRegion = c->m_shapeRegion;
+    m_stackingOrder = c->m_stackingOrder;
+}
+
+// before being deleted, remove references to everything that's now
+// owner by Deleted
+void Window::disownDataPassedToDeleted()
+{
+    info = nullptr;
+}
+
+QRect Window::visibleGeometry() const
+{
+    if (const WindowItem *item = windowItem()) {
+        return item->mapToGlobal(item->boundingRect());
+    }
+    return QRect();
+}
+
+Xcb::Property Window::fetchWmClientLeader() const
+{
+    return Xcb::Property(false, window(), atoms->wm_client_leader, XCB_ATOM_WINDOW, 0, 10000);
+}
+
+void Window::readWmClientLeader(Xcb::Property &prop)
+{
+    m_wmClientLeader = prop.value<xcb_window_t>(window());
+}
+
+void Window::getWmClientLeader()
+{
+    auto prop = fetchWmClientLeader();
+    readWmClientLeader(prop);
+}
+
+/**
+ * Returns sessionId for this window,
+ * taken either from its window or from the leader window.
+ */
+QByteArray Window::sessionId() const
+{
+    QByteArray result = Xcb::StringProperty(window(), atoms->sm_client_id);
+    if (result.isEmpty() && m_wmClientLeader && m_wmClientLeader != window()) {
+        result = Xcb::StringProperty(m_wmClientLeader, atoms->sm_client_id);
+    }
+    return result;
+}
+
+/**
+ * Returns command property for this window,
+ * taken either from its window or from the leader window.
+ */
+QByteArray Window::wmCommand()
+{
+    QByteArray result = Xcb::StringProperty(window(), XCB_ATOM_WM_COMMAND);
+    if (result.isEmpty() && m_wmClientLeader && m_wmClientLeader != window()) {
+        result = Xcb::StringProperty(m_wmClientLeader, XCB_ATOM_WM_COMMAND);
+    }
+    result.replace(0, ' ');
+    return result;
+}
+
+void Window::getWmClientMachine()
+{
+    m_clientMachine->resolve(window(), wmClientLeader());
+}
+
+/**
+ * Returns client machine for this window,
+ * taken either from its window or from the leader window.
+ */
+QByteArray Window::wmClientMachine(bool use_localhost) const
+{
+    if (!m_clientMachine) {
+        // this should never happen
+        return QByteArray();
+    }
+    if (use_localhost && m_clientMachine->isLocal()) {
+        // special name for the local machine (localhost)
+        return ClientMachine::localhost();
+    }
+    return m_clientMachine->hostName();
+}
+
+/**
+ * Returns client leader window for this client.
+ * Returns the client window itself if no leader window is defined.
+ */
+xcb_window_t Window::wmClientLeader() const
+{
+    if (m_wmClientLeader != XCB_WINDOW_NONE) {
+        return m_wmClientLeader;
+    }
+    return window();
+}
+
+void Window::getResourceClass()
+{
+    if (!info) {
+        return;
+    }
+    setResourceClass(QByteArray(info->windowClassName()).toLower(), QByteArray(info->windowClassClass()).toLower());
+}
+
+void Window::setResourceClass(const QByteArray &name, const QByteArray &className)
+{
+    resource_name = name;
+    resource_class = className;
+    Q_EMIT windowClassChanged();
+}
+
+bool Window::resourceMatch(const Window *c1, const Window *c2)
+{
+    return c1->resourceClass() == c2->resourceClass();
+}
+
+qreal Window::opacity() const
+{
+    return m_opacity;
+}
+
+void Window::setOpacity(qreal opacity)
+{
+    opacity = qBound(0.0, opacity, 1.0);
+    if (m_opacity == opacity) {
+        return;
+    }
+    const qreal oldOpacity = m_opacity;
+    m_opacity = opacity;
+    if (Compositor::compositing()) {
+        addRepaintFull();
+        Q_EMIT opacityChanged(this, oldOpacity);
+    }
+}
+
+bool Window::setupCompositing()
+{
+    if (!Compositor::compositing()) {
+        return false;
+    }
+
+    m_effectWindow = new EffectWindowImpl(this);
+    updateShadow();
+
+    m_sceneWindow = Compositor::self()->scene()->createWindow(this);
+    m_effectWindow->setSceneWindow(m_sceneWindow);
+
+    connect(windowItem(), &WindowItem::positionChanged, this, &Window::visibleGeometryChanged);
+    connect(windowItem(), &WindowItem::boundingRectChanged, this, &Window::visibleGeometryChanged);
+
+    return true;
+}
+
+void Window::finishCompositing(ReleaseReason releaseReason)
+{
+    // If the X11 window has been destroyed, avoid calling XDamageDestroy.
+    if (releaseReason != ReleaseReason::Destroyed) {
+        if (SurfaceItemX11 *item = qobject_cast<SurfaceItemX11 *>(surfaceItem())) {
+            item->destroyDamage();
+        }
+    }
+    deleteShadow();
+    deleteEffectWindow();
+    deleteSceneWindow();
+}
+
+void Window::addRepaint(const QRect &rect)
+{
+    addRepaint(QRegion(rect));
+}
+
+void Window::addRepaint(int x, int y, int width, int height)
+{
+    addRepaint(QRegion(x, y, width, height));
+}
+
+void Window::addRepaint(const QRegion &region)
+{
+    if (auto item = windowItem()) {
+        item->scheduleRepaint(region);
+    }
+}
+
+void Window::addLayerRepaint(const QRect &rect)
+{
+    addLayerRepaint(QRegion(rect));
+}
+
+void Window::addLayerRepaint(int x, int y, int width, int height)
+{
+    addLayerRepaint(QRegion(x, y, width, height));
+}
+
+void Window::addLayerRepaint(const QRegion &region)
+{
+    addRepaint(region.translated(-pos()));
+}
+
+void Window::addRepaintFull()
+{
+    addLayerRepaint(visibleGeometry());
+}
+
+void Window::addWorkspaceRepaint(int x, int y, int w, int h)
+{
+    addWorkspaceRepaint(QRect(x, y, w, h));
+}
+
+void Window::addWorkspaceRepaint(const QRect &r2)
+{
+    if (Compositor::compositing()) {
+        Compositor::self()->scene()->addRepaint(r2);
+    }
+}
+
+void Window::addWorkspaceRepaint(const QRegion &region)
+{
+    if (Compositor::compositing()) {
+        Compositor::self()->scene()->addRepaint(region);
+    }
+}
+
+void Window::setReadyForPainting()
+{
+    if (!ready_for_painting) {
+        ready_for_painting = true;
+        if (Compositor::compositing()) {
+            addRepaintFull();
+            Q_EMIT windowShown(this);
+        }
+    }
+}
+
+void Window::deleteShadow()
+{
+    delete m_shadow;
+    m_shadow = nullptr;
+}
+
+void Window::deleteEffectWindow()
+{
+    delete m_effectWindow;
+    m_effectWindow = nullptr;
+}
+
+void Window::deleteSceneWindow()
+{
+    delete m_sceneWindow;
+    m_sceneWindow = nullptr;
+}
+
+int Window::screen() const
+{
+    return kwinApp()->platform()->enabledOutputs().indexOf(m_output);
+}
+
+Output *Window::output() const
+{
+    return m_output;
+}
+
+void Window::setOutput(Output *output)
+{
+    if (m_output != output) {
+        m_output = output;
+        Q_EMIT screenChanged();
+    }
+}
+
+bool Window::isOnActiveOutput() const
+{
+    return isOnOutput(workspace()->activeOutput());
+}
+
+bool Window::isOnOutput(Output *output) const
+{
+    return output->geometry().intersects(frameGeometry());
+}
+
+Shadow *Window::shadow() const
+{
+    return m_shadow;
+}
+
+void Window::updateShadow()
+{
+    if (!Compositor::compositing()) {
+        return;
+    }
+    if (m_shadow) {
+        if (!m_shadow->updateShadow()) {
+            deleteShadow();
+        }
+        Q_EMIT shadowChanged();
+    } else {
+        m_shadow = Shadow::createShadow(this);
+        if (m_shadow) {
+            Q_EMIT shadowChanged();
+        }
+    }
+}
+
+SurfaceItem *Window::surfaceItem() const
+{
+    if (m_sceneWindow) {
+        return m_sceneWindow->surfaceItem();
+    }
+    return nullptr;
+}
+
+WindowItem *Window::windowItem() const
+{
+    if (m_sceneWindow) {
+        return m_sceneWindow->windowItem();
+    }
+    return nullptr;
+}
+
+bool Window::wantsShadowToBeRendered() const
+{
+    return !isFullScreen() && maximizeMode() != MaximizeFull;
+}
+
+void Window::getWmOpaqueRegion()
+{
+    if (!info) {
+        return;
+    }
+
+    const auto rects = info->opaqueRegion();
+    QRegion new_opaque_region;
+    for (const auto &r : rects) {
+        new_opaque_region += QRect(r.pos.x, r.pos.y, r.size.width, r.size.height);
+    }
+
+    opaque_region = new_opaque_region;
+}
+
+QRegion Window::shapeRegion() const
+{
+    if (m_shapeRegionIsValid) {
+        return m_shapeRegion;
+    }
+
+    const QRect bufferGeometry = this->bufferGeometry();
+
+    if (shape()) {
+        auto cookie = xcb_shape_get_rectangles_unchecked(kwinApp()->x11Connection(), frameId(), XCB_SHAPE_SK_BOUNDING);
+        ScopedCPointer<xcb_shape_get_rectangles_reply_t> reply(xcb_shape_get_rectangles_reply(kwinApp()->x11Connection(), cookie, nullptr));
+        if (!reply.isNull()) {
+            m_shapeRegion = QRegion();
+            const xcb_rectangle_t *rects = xcb_shape_get_rectangles_rectangles(reply.data());
+            const int rectCount = xcb_shape_get_rectangles_rectangles_length(reply.data());
+            for (int i = 0; i < rectCount; ++i) {
+                m_shapeRegion += QRegion(rects[i].x, rects[i].y, rects[i].width, rects[i].height);
+            }
+            // make sure the shape is sane (X is async, maybe even XShape is broken)
+            m_shapeRegion &= QRegion(0, 0, bufferGeometry.width(), bufferGeometry.height());
+        } else {
+            m_shapeRegion = QRegion();
+        }
+    } else {
+        m_shapeRegion = QRegion(0, 0, bufferGeometry.width(), bufferGeometry.height());
+    }
+
+    m_shapeRegionIsValid = true;
+    return m_shapeRegion;
+}
+
+void Window::discardShapeRegion()
+{
+    m_shapeRegionIsValid = false;
+    m_shapeRegion = QRegion();
+}
+
+bool Window::isClient() const
+{
+    return false;
+}
+
+bool Window::isDeleted() const
+{
+    return false;
+}
+
+bool Window::isOnCurrentActivity() const
+{
+#if KWIN_BUILD_ACTIVITIES
+    if (!Activities::self()) {
+        return true;
+    }
+    return isOnActivity(Activities::self()->current());
+#else
+    return true;
+#endif
+}
+
+void Window::elevate(bool elevate)
+{
+    if (!effectWindow()) {
+        return;
+    }
+    effectWindow()->elevate(elevate);
+    addWorkspaceRepaint(visibleGeometry());
+}
+
+pid_t Window::pid() const
+{
+    if (!info) {
+        return -1;
+    }
+    return info->pid();
+}
+
+xcb_window_t Window::frameId() const
+{
+    return m_client;
+}
+
+Xcb::Property Window::fetchSkipCloseAnimation() const
+{
+    return Xcb::Property(false, window(), atoms->kde_skip_close_animation, XCB_ATOM_CARDINAL, 0, 1);
+}
+
+void Window::readSkipCloseAnimation(Xcb::Property &property)
+{
+    setSkipCloseAnimation(property.toBool());
+}
+
+void Window::getSkipCloseAnimation()
+{
+    Xcb::Property property = fetchSkipCloseAnimation();
+    readSkipCloseAnimation(property);
+}
+
+bool Window::skipsCloseAnimation() const
+{
+    return m_skipCloseAnimation;
+}
+
+void Window::setSkipCloseAnimation(bool set)
+{
+    if (set == m_skipCloseAnimation) {
+        return;
+    }
+    m_skipCloseAnimation = set;
+    Q_EMIT skipCloseAnimationChanged();
+}
+
+KWaylandServer::SurfaceInterface *Window::surface() const
+{
+    return m_surface;
+}
+
+void Window::setSurface(KWaylandServer::SurfaceInterface *surface)
+{
+    if (m_surface == surface) {
+        return;
+    }
+    m_surface = surface;
+    m_pendingSurfaceId = 0;
+    Q_EMIT surfaceChanged();
+}
+
+int Window::stackingOrder() const
+{
+    return m_stackingOrder;
+}
+
+void Window::setStackingOrder(int order)
+{
+    if (m_stackingOrder != order) {
+        m_stackingOrder = order;
+        Q_EMIT stackingOrderChanged();
+    }
+}
+
+QByteArray Window::windowRole() const
+{
+    if (!info) {
+        return {};
+    }
+    return QByteArray(info->windowRole());
+}
+
+void Window::setDepth(int depth)
+{
+    if (bit_depth == depth) {
+        return;
+    }
+    const bool oldAlpha = hasAlpha();
+    bit_depth = depth;
+    if (oldAlpha != hasAlpha()) {
+        Q_EMIT hasAlphaChanged();
+    }
+}
+
+QRegion Window::inputShape() const
+{
+    if (m_surface) {
+        return m_surface->input();
+    } else {
+        // TODO: maybe also for X11?
+        return QRegion();
+    }
+}
+
+QMatrix4x4 Window::inputTransformation() const
+{
+    QMatrix4x4 m;
+    m.translate(-x(), -y());
+    return m;
+}
+
+bool Window::hitTest(const QPoint &point) const
+{
+    if (isDecorated()) {
+        if (m_decoration.inputRegion.contains(mapToFrame(point))) {
+            return true;
+        }
+    }
+    if (m_surface && m_surface->isMapped()) {
+        return m_surface->inputSurfaceAt(mapToLocal(point));
+    }
+    return inputGeometry().contains(point);
+}
+
+QPoint Window::mapToFrame(const QPoint &point) const
+{
+    return point - frameGeometry().topLeft();
+}
+
+QPoint Window::mapToLocal(const QPoint &point) const
+{
+    return point - bufferGeometry().topLeft();
+}
+
+QPointF Window::mapToLocal(const QPointF &point) const
+{
+    return point - bufferGeometry().topLeft();
+}
+
+QPointF Window::mapFromLocal(const QPointF &point) const
+{
+    return point + bufferGeometry().topLeft();
+}
+
+QRect Window::inputGeometry() const
+{
+    if (isDecorated()) {
+        return frameGeometry() + decoration()->resizeOnlyBorders();
+    }
+    return frameGeometry();
+}
+
+bool Window::isLocalhost() const
+{
+    if (!m_clientMachine) {
+        return true;
+    }
+    return m_clientMachine->isLocal();
+}
+
+QMargins Window::frameMargins() const
+{
+    return QMargins(borderLeft(), borderTop(), borderRight(), borderBottom());
+}
+
+bool Window::isOnDesktop(VirtualDesktop *desktop) const
+{
+    return isOnAllDesktops() || desktops().contains(desktop);
+}
+
+bool Window::isOnDesktop(int d) const
+{
+    return isOnDesktop(VirtualDesktopManager::self()->desktopForX11Id(d));
+}
+
+bool Window::isOnCurrentDesktop() const
+{
+    return isOnDesktop(VirtualDesktopManager::self()->currentDesktop());
+}
+
+void Window::updateMouseGrab()
 {
 }
 
-bool AbstractClient::belongToSameApplication(const AbstractClient *c1, const AbstractClient *c2, SameApplicationChecks checks)
+bool Window::belongToSameApplication(const Window *c1, const Window *c2, SameApplicationChecks checks)
 {
     return c1->belongsToSameApplication(c2, checks);
 }
@@ -399,8 +1060,8 @@ void AbstractClient::autoRaise()
 
 bool AbstractClient::isMostRecentlyRaised() const
 {
-    // The last toplevel in the unconstrained stacking order is the most recently raised one.
-    return workspace()->topClientOnDesktop(VirtualDesktopManager::self()->currentDesktop(), nullptr, true, false) == this;
+    // The last window in the unconstrained stacking order is the most recently raised one.
+    return workspace()->topWindowOnDesktop(VirtualDesktopManager::self()->currentDesktop(), nullptr, true, false) == this;
 }
 
 bool AbstractClient::wantsTabFocus() const
@@ -2476,7 +3137,7 @@ void AbstractClient::checkQuickTilingMaximizationZones(int xroot, int yroot)
             mode = QuickTileFlag::Maximize;
             innerBorder = isInScreen(QPoint(xroot, area.y() - 1));
         }
-        
+
         break; // no point in checking other screens to contain this... "point"...
     }
     if (mode != electricBorderMode()) {

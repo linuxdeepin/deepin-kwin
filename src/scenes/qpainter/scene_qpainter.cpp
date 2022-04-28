@@ -133,9 +133,9 @@ void SceneQPainter::paintOffscreenQuickView(OffscreenQuickView *w)
     painter->drawImage(w->geometry(), buffer);
 }
 
-Scene::Window *SceneQPainter::createWindow(Toplevel *toplevel)
+SceneWindow *SceneQPainter::createWindow(Window *window)
 {
-    return new SceneQPainter::Window(this, toplevel);
+    return new SceneQPainterWindow(this, window);
 }
 
 Scene::EffectFrame *SceneQPainter::createEffectFrame(EffectFrameImpl *frame)
@@ -143,9 +143,9 @@ Scene::EffectFrame *SceneQPainter::createEffectFrame(EffectFrameImpl *frame)
     return new QPainterEffectFrame(frame, this);
 }
 
-Shadow *SceneQPainter::createShadow(Toplevel *toplevel)
+Shadow *SceneQPainter::createShadow(Window *window)
 {
-    return new SceneQPainterShadow(toplevel);
+    return new SceneQPainterShadow(window);
 }
 
 QImage *SceneQPainter::qpainterRenderBuffer(AbstractOutput *output) const
@@ -283,13 +283,7 @@ void SceneQPainter::Window::renderDecorationItem(QPainter *painter, DecorationIt
 {
     const auto renderer = static_cast<const SceneQPainterDecorationRenderer *>(decorationItem->renderer());
     QRect dtr, dlr, drr, dbr;
-    if (auto client = qobject_cast<AbstractClient *>(toplevel)) {
-        client->layoutDecorationRects(dlr, dtr, drr, dbr);
-    } else if (auto deleted = qobject_cast<Deleted *>(toplevel)) {
-        deleted->layoutDecorationRects(dlr, dtr, drr, dbr);
-    } else {
-        return;
-    }
+    m_window->layoutDecorationRects(dlr, dtr, drr, dbr);
 
     painter->drawImage(dtr, renderer->image(SceneQPainterDecorationRenderer::DecorationPart::Top));
     painter->drawImage(dlr, renderer->image(SceneQPainterDecorationRenderer::DecorationPart::Left));
@@ -393,8 +387,8 @@ void QPainterEffectFrame::render(const QRegion &region, double opacity, double f
 //****************************************
 // QPainterShadow
 //****************************************
-SceneQPainterShadow::SceneQPainterShadow(Toplevel* toplevel)
-    : Shadow(toplevel)
+SceneQPainterShadow::SceneQPainterShadow(Window *window)
+    : Shadow(window)
 {
 }
 
@@ -463,7 +457,7 @@ void SceneQPainterDecorationRenderer::render(const QRegion &region)
 void SceneQPainterDecorationRenderer::resizeImages()
 {
     QRect left, top, right, bottom;
-    client()->client()->layoutDecorationRects(left, top, right, bottom);
+    client()->window()->layoutDecorationRects(left, top, right, bottom);
 
     auto checkAndCreate = [this](int index, const QSize &size) {
         auto dpr = effectiveDevicePixelRatio();
