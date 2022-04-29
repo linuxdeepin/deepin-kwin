@@ -8,7 +8,7 @@
 */
 #pragma once
 #include "abstract_opengl_context_attribute_builder.h"
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 namespace KWin
 {

@@ -9,9 +9,9 @@
 
 #include "deleted.h"
 #include "effects.h"
-#include "kwineffects.h"
-#include "kwingltexture.h"
-#include "kwinglutils.h"
+#include "deepin_kwineffects.h"
+#include "deepin_kwingltexture.h"
+#include "deepin_kwinglutils.h"
 #include "scene.h"
 #include "toplevel.h"
 

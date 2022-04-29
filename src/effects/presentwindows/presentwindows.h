@@ -13,8 +13,8 @@
 
 #include "presentwindows_proxy.h"
 
-#include <kwineffects.h>
-#include <kwinoffscreenquickview.h>
+#include <deepin_kwineffects.h>
+#include <deepin_kwinoffscreenquickview.h>
 
 #include <QElapsedTimer>
 #include <QFont>

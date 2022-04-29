@@ -13,10 +13,10 @@
 #include "options.h"
 #include "workspace.h"
 
-#include <kwinglutils.h>
-#include <kwinglplatform.h>
+#include <deepin_kwinglutils.h>
+#include <deepin_kwinglplatform.h>
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 #include <QFile>
 #include <QtMath>

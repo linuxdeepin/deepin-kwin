@@ -8,14 +8,14 @@
 #ifndef CONTRAST_H
 #define CONTRAST_H
 
-#include <kwineffects.h>
-#include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include <deepin_kwineffects.h>
+#include <deepin_kwinglplatform.h>
+#include <deepin_kwinglutils.h>
 
 #include <QVector>
 #include <QVector2D>
 
-#include <KWaylandServer/contrast_interface.h>
+#include <DWayland/Server/contrast_interface.h>
 
 namespace KWin
 {

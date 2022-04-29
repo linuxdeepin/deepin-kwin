@@ -15,7 +15,7 @@ EffectPackageStructure::EffectPackageStructure(QObject *parent, const QVariantLi
 
 void EffectPackageStructure::initPackage(KPackage::Package *package)
 {
-    package->setDefaultPackageRoot(QStringLiteral("kwin/effects/"));
+    package->setDefaultPackageRoot(QStringLiteral("deepin-kwin/effects/"));
 
     package->addDirectoryDefinition("code", QStringLiteral("code"), i18n("Executable Scripts"));
     package->setMimeTypes("code", {QStringLiteral("text/plain")});

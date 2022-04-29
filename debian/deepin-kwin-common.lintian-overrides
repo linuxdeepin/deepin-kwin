@@ -1,0 +1,6 @@
+deepin-kwin-common: package-name-doesnt-match-sonames libdeepin-kcmkwincommon5 libdeepin-kwin5
+deepin-kwin-common: lacks-unversioned-link-to-shared-library usr/lib/*/libdeepin-kwin.so
+deepin-kwin-common: lacks-unversioned-link-to-shared-library usr/lib/*/libdeepin-kcmkwincommon.so.5.*
+# we don’t ship header files for these, so no need for control files
+deepin-kwin-common: no-symbols-control-file usr/lib/x86_64-linux-gnu/libdeepin-kcmkwincommon.so.5.*
+deepin-kwin-common: no-symbols-control-file usr/lib/x86_64-linux-gnu/libdeepin-kwin.so.5.*

@@ -252,13 +252,13 @@ ln -s kwin_x11 %{buildroot}%{_bindir}/kwin
 %{_kf5_qtplugindir}/kpackage/packagestructure/kwin_packagestructure*.so
 %{_kf5_qtplugindir}/org.kde.kwin.scenes/*.so
 %{_qt5_qmldir}/org/kde/kwin
-%{_kf5_libdir}/kconf_update_bin/kwin5_update_default_rules
-%{_libdir}/libexec/kwin_killer_helper
-%{_libdir}/libexec/kwin_rules_dialog
+%{_kf5_libdir}/kconf_update_bin/deepin-kwin5_update_default_rules
+%{_libdir}/libexec/deepin-kwin_killer_helper
+%{_libdir}/libexec/deepin-kwin_rules_dialog
 %{_libdir}/libexec/org_kde_kwin_xclipboard_syncer
 %{_datadir}/kwincompositing
 %{_datadir}/kconf_update/kwin.upd
-%{_datadir}/doc/*/*/kcontrol/
+%{_datadir}/doc/*/*/dcontrol/
 %{_datadir}/locale/*/*/kcm-kwin-scripts.mo
 %{_datadir}/locale/*/*/kcm_kwintabbox.mo
 %{_datadir}/locale/*/*/kcmkwincompositing.mo
@@ -301,13 +301,13 @@ ln -s kwin_x11 %{buildroot}%{_bindir}/kwin
 %ldconfig_scriptlets libs
 
 %files libs
-%{_sysconfdir}/xdg/org_kde_kwin.categories
+%{_sysconfdir}/xdg/org_kde_deepin-kwin.categories
 %{_libdir}/libkwin.so.*
 %{_libdir}/libkwinxrenderutils.so.*
 %{_libdir}/libkwineffects.so.*
 %{_libdir}/libkwinglutils.so.*
 %{_libdir}/libkwin4_effect_builtins.so.*
-%{_libdir}/libkcmkwincommon.so.*
+%{_libdir}/libdeepin-kcmkwincommon.so.*
 %{_libdir}/libkdeinit5_kwin_x11.so*
 %{_libdir}/qt5/plugins/kcms/kcm_kwin_virtualdesktops.so*
 

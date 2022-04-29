@@ -12,24 +12,24 @@
 #include "workspace.h"
 #include "inputmethod.h"
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/event_queue.h>
-#include <KWayland/Client/registry.h>
-#include <KWayland/Client/plasmashell.h>
-#include <KWayland/Client/plasmawindowmanagement.h>
-#include <KWayland/Client/pointerconstraints.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/server_decoration.h>
-#include <KWayland/Client/shadow.h>
-#include <KWayland/Client/shm_pool.h>
-#include <KWayland/Client/output.h>
-#include <KWayland/Client/subcompositor.h>
-#include <KWayland/Client/subsurface.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/textinput.h>
-#include <KWayland/Client/appmenu.h>
-#include <KWaylandServer/display.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/event_queue.h>
+#include <DWayland/Client/registry.h>
+#include <DWayland/Client/plasmashell.h>
+#include <DWayland/Client/plasmawindowmanagement.h>
+#include <DWayland/Client/pointerconstraints.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/server_decoration.h>
+#include <DWayland/Client/shadow.h>
+#include <DWayland/Client/shm_pool.h>
+#include <DWayland/Client/output.h>
+#include <DWayland/Client/subcompositor.h>
+#include <DWayland/Client/subsurface.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/textinput.h>
+#include <DWayland/Client/appmenu.h>
+#include <DWayland/Server/display.h>
 
 //screenlocker
 #include <KScreenLocker/KsldApp>

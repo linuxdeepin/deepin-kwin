@@ -17,7 +17,7 @@
 #include <QWindow>
 
 K_PLUGIN_FACTORY_WITH_JSON(DesktopEffectsKCMFactory,
-                           "kcm_kwin_effects.json",
+                           "deepin-kcm_kwin_effects.json",
                            registerPlugin<KWin::DesktopEffectsKCM>();
                            registerPlugin<KWin::DesktopEffectsData>();)
 
@@ -31,7 +31,7 @@ DesktopEffectsKCM::DesktopEffectsKCM(QObject *parent, const QVariantList &args)
     qmlRegisterType<EffectsFilterProxyModel>("org.kde.private.kcms.kwin.effects", 1, 0, "EffectsFilterProxyModel");
 
     auto about = new KAboutData(
-        QStringLiteral("kcm_kwin_effects"),
+        QStringLiteral("deepin-kcm_kwin_effects"),
         i18n("Desktop Effects"),
         QStringLiteral("2.0"),
         QString(),

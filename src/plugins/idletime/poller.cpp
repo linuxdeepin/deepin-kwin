@@ -11,8 +11,8 @@
 #include <KIdleTime>
 
 #include "wayland_server.h"
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/idle_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/idle_interface.h>
 
 
 namespace KWin

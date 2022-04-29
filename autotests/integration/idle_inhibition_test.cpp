@@ -13,10 +13,10 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/idle_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/idle_interface.h>
 
 using namespace KWin;
 using namespace KWayland::Client;

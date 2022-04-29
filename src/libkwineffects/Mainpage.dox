@@ -1,7 +1,7 @@
 /** @mainpage KWin Effects Library
 
 <p>
-@ref kwineffects is a library for implementing window transition effect
+@ref deepin-kwineffects is a library for implementing window transition effect
 plugins for KWin.
 
 @authors

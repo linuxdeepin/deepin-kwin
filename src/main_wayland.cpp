@@ -21,8 +21,8 @@
 #include "xwl/xwayland.h"
 
 // KWayland
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/seat_interface.h>
 
 // KDE
 #include <KCrash>
@@ -478,7 +478,7 @@ int main(int argc, char * argv[])
     KWin::Application::createAboutData();
     KQuickAddons::QtQuickSettings::init();
 
-    const auto availablePlugins = KPluginMetaData::findPlugins(QStringLiteral("org.kde.kwin.waylandbackends"));
+    const auto availablePlugins = KPluginMetaData::findPlugins(QStringLiteral("org.kde.deepin-kwin.waylandbackends"));
     auto hasPlugin = [&availablePlugins] (const QString &name) {
         return std::any_of(availablePlugins.begin(), availablePlugins.end(),
             [name] (const KPluginMetaData &plugin) {

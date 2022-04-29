@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "kwinglplatform.h"
-#include "kwingltexture.h"
+#include "deepin_kwinglplatform.h"
+#include "deepin_kwingltexture.h"
 
 namespace KWin
 {

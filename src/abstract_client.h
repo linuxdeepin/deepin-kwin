@@ -21,7 +21,7 @@
 #include <QIcon>
 #include <QKeySequence>
 #include <QPointer>
-#include <KWaylandServer/strut_interface.h>
+#include <DWayland/Server/strut_interface.h>
 
 class QMouseEvent;
 

@@ -8,8 +8,8 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "openglbackend.h"
-#include <kwineffects.h>
-#include <kwinglutils_funcs.h>
+#include <deepin_kwineffects.h>
+#include <deepin_kwinglutils_funcs.h>
 
 #include "screens.h"
 #include "utils/common.h"

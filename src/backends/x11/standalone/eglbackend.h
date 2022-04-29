@@ -10,7 +10,7 @@
 #include "openglsurfacetexture_x11.h"
 #include "utils/common.h"
 
-#include <kwingltexture.h>
+#include <deepin_kwingltexture.h>
 #include <kwingltexture_p.h>
 
 namespace KWin

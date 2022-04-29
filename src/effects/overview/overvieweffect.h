@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <kwinquickeffect.h>
+#include <deepin_kwinquickeffect.h>
 
 #include "expolayout.h"
 

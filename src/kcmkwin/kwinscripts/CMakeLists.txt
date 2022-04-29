@@ -12,9 +12,9 @@ set(kcm_SRCS
 
 ki18n_wrap_ui(kcm_SRCS module.ui)
 
-add_library(kcm_kwin_scripts MODULE ${kcm_SRCS})
+add_library(deepin-kcm_kwin_scripts MODULE ${kcm_SRCS})
 
-target_link_libraries(kcm_kwin_scripts
+target_link_libraries(deepin-kcm_kwin_scripts
     Qt::DBus
 
     KF5::I18n
@@ -23,6 +23,6 @@ target_link_libraries(kcm_kwin_scripts
     KF5::Package
 )
 
-install(TARGETS kcm_kwin_scripts DESTINATION ${KDE_INSTALL_PLUGINDIR})
-install(FILES kwinscripts.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
-install(FILES kwinscripts.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
+install(TARGETS deepin-kcm_kwin_scripts DESTINATION ${KDE_INSTALL_PLUGINDIR})
+install(FILES deepin-kwinscripts.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
+install(FILES deepin-kwinscripts.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})

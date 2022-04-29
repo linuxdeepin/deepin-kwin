@@ -17,8 +17,8 @@
 #include "platform.h"
 #include "wayland_server.h"
 
-#include <kwinglplatform.h>
-#include <kwinoffscreenquickview.h>
+#include <deepin_kwinglplatform.h>
+#include <deepin_kwinoffscreenquickview.h>
 
 #include "utils/common.h"
 #include "abstract_client.h"

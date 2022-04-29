@@ -28,13 +28,13 @@
 #include "workspace.h"
 #include "x11eventfilter.h"
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 // KDE
 #include <KAboutData>
 #include <KLocalizedString>
 #include <KPluginMetaData>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/surface_interface.h>
 // Qt
 #include <qplatformdefs.h>
 #include <QCommandLineParser>

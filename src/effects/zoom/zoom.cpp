@@ -25,7 +25,7 @@
 #include <KGlobalAccel>
 #include <KLocalizedString>
 
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 
 namespace KWin
 {

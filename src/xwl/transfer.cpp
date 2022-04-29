@@ -16,9 +16,9 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWaylandServer/datadevice_interface.h>
-#include <KWaylandServer/datasource_interface.h>
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Server/datadevice_interface.h>
+#include <DWayland/Server/datasource_interface.h>
+#include <DWayland/Server/seat_interface.h>
 
 #include <xcb/xcb_event.h>
 #include <xcb/xfixes.h>

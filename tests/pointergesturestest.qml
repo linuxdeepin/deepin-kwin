@@ -7,7 +7,7 @@ import QtQuick 2.0
 import org.kde.kwin.tests 1.0
 
 Image {
-    source: "../48-apps-kwin.png"
+    source: "../48-apps-deepin-kwin.png"
     scale: gesture.scale * gesture.progressScale
 
     PinchGesture {

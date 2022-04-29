@@ -304,15 +304,15 @@ QStringList configModules(bool controlCenter)
     QStringList args;
     args <<  QStringLiteral("kwindecoration");
     if (controlCenter)
-        args << QStringLiteral("kwinoptions");
+        args << QStringLiteral("deepin-kwinoptions");
     else if (KAuthorized::authorizeControlModule(QStringLiteral("kde-kwinoptions.desktop")))
         args << QStringLiteral("kwinactions") << QStringLiteral("kwinfocus") <<  QStringLiteral("kwinmoving") << QStringLiteral("kwinadvanced")
-             << QStringLiteral("kwinrules") << QStringLiteral("kwincompositing") << QStringLiteral("kwineffects")
+             << QStringLiteral("kwinrules") << QStringLiteral("deepin-kwincompositing") << QStringLiteral("kwineffects")
 #ifdef KWIN_BUILD_TABBOX
-             << QStringLiteral("kwintabbox")
+             << QStringLiteral("deepin-kwintabbox")
 #endif
-             << QStringLiteral("kwinscreenedges")
-             << QStringLiteral("kwinscripts")
+             << QStringLiteral("deepin-kwinscreenedges")
+             << QStringLiteral("deepin-kwinscripts")
              ;
     return args;
 }

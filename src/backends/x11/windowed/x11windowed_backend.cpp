@@ -16,7 +16,7 @@
 #include "egl_x11_backend.h"
 #include "screens.h"
 #include "session.h"
-#include <kwinxrenderutils.h>
+#include <deepin_kwinxrenderutils.h>
 #include <cursor.h>
 #include <pointer_input.h>
 // KDE

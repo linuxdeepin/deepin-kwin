@@ -20,9 +20,9 @@
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationShadow>
 
-#include <KWaylandServer/shmclientbuffer.h>
-#include <KWaylandServer/shadow_interface.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/shmclientbuffer.h>
+#include <DWayland/Server/shadow_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
 #include <QWindow>
 

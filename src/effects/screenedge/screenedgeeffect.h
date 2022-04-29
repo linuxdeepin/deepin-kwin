@@ -8,7 +8,7 @@
 */
 #ifndef KWIN_SCREEN_EDGE_EFFECT_H
 #define KWIN_SCREEN_EDGE_EFFECT_H
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 class QTimer;
 namespace Plasma {

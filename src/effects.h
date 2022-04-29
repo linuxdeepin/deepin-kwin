@@ -11,7 +11,7 @@
 #ifndef KWIN_EFFECTSIMPL_H
 #define KWIN_EFFECTSIMPL_H
 
-#include "kwineffects.h"
+#include "deepin_kwineffects.h"
 
 #include "scene.h"
 

@@ -22,7 +22,7 @@
 #include <xf86drmMode.h>
 #include <gbm.h>
 // KWaylandServer
-#include "KWaylandServer/clientbuffer.h"
+#include <DWayland/Server/clientbuffer.h>
 #include <drm_fourcc.h>
 
 namespace KWin

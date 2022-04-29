@@ -12,7 +12,7 @@
 
 #include "toplevel.h"
 #include "utils/common.h"
-#include "kwineffects.h"
+#include "deepin_kwineffects.h"
 
 #include <QElapsedTimer>
 #include <QMatrix4x4>

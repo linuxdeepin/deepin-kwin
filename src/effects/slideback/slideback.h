@@ -11,7 +11,7 @@
 #define KWIN_SLIDEBACK_H
 
 // Include with base class for effects.
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 #include <QFuture>
 #include <QFutureInterface>

@@ -6,4 +6,4 @@ target_link_libraries(kwin_packagestructure_windowswitcher
    KF5::I18n
    KF5::Package
 )
-set_target_properties(kwin_packagestructure_windowswitcher PROPERTIES OUTPUT_NAME kwin_windowswitcher)
+set_target_properties(kwin_packagestructure_windowswitcher PROPERTIES OUTPUT_NAME deepin-kwin_windowswitcher)

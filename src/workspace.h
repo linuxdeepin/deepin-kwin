@@ -23,7 +23,7 @@
 // std
 #include <functional>
 #include <memory>
-#include <KWaylandServer/clientmanagement_interface.h>
+#include <DWayland/Server/clientmanagement_interface.h>
 
 class KConfig;
 class KConfigGroup;

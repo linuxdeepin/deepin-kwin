@@ -12,8 +12,8 @@
 #include "deleted.h"
 #include "workspace.h"
 
-#include <KWaylandServer/idle_interface.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/idle_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
 #include <algorithm>
 #include <functional>

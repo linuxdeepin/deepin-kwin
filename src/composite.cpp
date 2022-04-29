@@ -34,10 +34,10 @@
 #include "x11syncmanager.h"
 #include "utils/xcbutils.h"
 
-#include <kwinglplatform.h>
-#include <kwingltexture.h>
+#include <deepin_kwinglplatform.h>
+#include <deepin_kwingltexture.h>
 
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
 #include <KGlobalAccel>
 #include <KLocalizedString>

@@ -17,7 +17,7 @@
 #include <epoxy/glx.h>
 #include <fixx11h.h>
 
-#include <kwingltexture.h>
+#include <deepin_kwingltexture.h>
 #include <kwingltexture_p.h>
 
 #include <QHash>

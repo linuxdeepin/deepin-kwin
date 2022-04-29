@@ -7,7 +7,7 @@
 #include "dmabuftexture.h"
 
 #include "kwineglimagetexture.h"
-#include "kwinglutils.h"
+#include "deepin_kwinglutils.h"
 
 namespace KWin
 {

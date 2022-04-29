@@ -9,7 +9,7 @@
 
 class DecorationPlugin : public QQmlExtensionPlugin
 {
-    Q_PLUGIN_METADATA(IID "org.kde.kwin.decoration")
+    Q_PLUGIN_METADATA(IID "org.deepin.kwin.decoration")
     Q_OBJECT
 public:
     void registerTypes(const char *uri) override;

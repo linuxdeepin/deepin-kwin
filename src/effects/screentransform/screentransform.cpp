@@ -8,7 +8,7 @@
 */
 // own
 #include "screentransform.h"
-#include "kwinglutils.h"
+#include "deepin_kwinglutils.h"
 #include <QDebug>
 
 namespace KWin

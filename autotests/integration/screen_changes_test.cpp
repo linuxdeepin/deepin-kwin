@@ -14,9 +14,9 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWayland/Client/output.h>
-#include <KWayland/Client/xdgoutput.h>
-#include <KWayland/Client/registry.h>
+#include <DWayland/Client/output.h>
+#include <DWayland/Client/xdgoutput.h>
+#include <DWayland/Client/registry.h>
 
 using namespace KWin;
 using namespace KWayland::Client;

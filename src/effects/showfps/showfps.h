@@ -13,7 +13,7 @@
 #include <QElapsedTimer>
 #include <QFont>
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 
 namespace KWin

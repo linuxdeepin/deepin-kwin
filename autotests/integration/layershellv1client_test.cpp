@@ -13,8 +13,8 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWayland/Client/output.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/output.h>
+#include <DWayland/Client/surface.h>
 
 Q_DECLARE_METATYPE(QMargins)
 Q_DECLARE_METATYPE(KWin::Layer)

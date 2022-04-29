@@ -13,7 +13,7 @@
 
 #include <config-kwin.h>
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 #include <QTime>
 #include <QTimeLine>
 

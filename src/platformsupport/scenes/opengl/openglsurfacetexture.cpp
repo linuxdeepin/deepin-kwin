@@ -5,7 +5,7 @@
 */
 
 #include "openglsurfacetexture.h"
-#include "kwingltexture.h"
+#include "deepin_kwingltexture.h"
 
 namespace KWin
 {

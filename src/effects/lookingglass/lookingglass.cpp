@@ -14,8 +14,8 @@
 #include "lookingglassconfig.h"
 
 #include <QAction>
-#include <kwinglutils.h>
-#include <kwinglplatform.h>
+#include <deepin_kwinglutils.h>
+#include <deepin_kwinglplatform.h>
 
 #include <KStandardAction>
 #include <KGlobalAccel>

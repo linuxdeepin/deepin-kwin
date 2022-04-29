@@ -105,7 +105,7 @@ Comment[zh_TW]=桌面效果
 Icon=preferences-desktop-effects
 Type=Service
 X-KDE-PluginInfo-License=GPL
-X-KDE-PluginInfo-Name=kcm_kwin_effects
+X-KDE-PluginInfo-Name=deepin-kcm_kwin_effects
 X-KDE-ServiceTypes=Plasma/Generic
 X-KDE-FormFactors=desktop,tablet
 

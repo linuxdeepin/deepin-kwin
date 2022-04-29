@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "kwin_export.h"
+#include "deepin_kwin_export.h"
 #include <QObject>
 #include <QSharedPointer>
 

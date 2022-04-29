@@ -12,7 +12,7 @@
 #include "composite.h"
 #include "deleted.h"
 #include "effects.h"
-#include "kwingltexture.h"
+#include "deepin_kwingltexture.h"
 #include "outputscreencastsource.h"
 #include "screencaststream.h"
 #include "platform.h"
@@ -23,8 +23,8 @@
 
 #include <KLocalizedString>
 
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/output_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/output_interface.h>
 
 namespace KWin
 {

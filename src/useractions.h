@@ -10,7 +10,7 @@
 #define KWIN_USERACTIONS_H
 #include "ui_shortcutdialog.h"
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 // Qt
 #include <QDialog>

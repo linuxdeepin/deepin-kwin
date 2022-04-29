@@ -135,7 +135,7 @@ void KWinScreenEdgesConfig::monitorInit()
 
     m_form->monitorAddItem(i18n("Toggle Overview"));
 
-    const QString scriptFolder = QStringLiteral("kwin/scripts/");
+    const QString scriptFolder = QStringLiteral("deepin-kwin/scripts/");
     const auto scripts = KPackage::PackageLoader::self()->listPackages(QStringLiteral("KWin/Script"), scriptFolder);
 
     KConfigGroup config(m_config, "Plugins");

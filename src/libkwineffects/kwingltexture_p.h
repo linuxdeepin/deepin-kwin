@@ -12,9 +12,9 @@
 #ifndef KWIN_GLTEXTURE_P_H
 #define KWIN_GLTEXTURE_P_H
 
-#include "kwinconfig.h" // KWIN_HAVE_OPENGL
-#include "kwinglutils.h"
-#include <kwinglutils_export.h>
+#include "deepin_kwinconfig.h" // KWIN_HAVE_OPENGL
+#include "deepin_kwinglutils.h"
+#include <deepin_kwinglutils_export.h>
 
 #include <QSize>
 #include <QSharedData>

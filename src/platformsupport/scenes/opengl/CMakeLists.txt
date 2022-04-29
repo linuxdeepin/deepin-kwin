@@ -1,4 +1,4 @@
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     abstract_egl_backend.cpp
     basiceglsurfacetexture_internal.cpp
     basiceglsurfacetexture_wayland.cpp
@@ -9,4 +9,4 @@ target_sources(kwin PRIVATE
     openglsurfacetexture_wayland.cpp
     openglsurfacetexture_x11.cpp
 )
-target_include_directories(kwin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(deepin-kwin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

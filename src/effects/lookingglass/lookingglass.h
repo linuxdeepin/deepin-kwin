@@ -11,7 +11,7 @@
 #ifndef KWIN_LOOKINGGLASS_H
 #define KWIN_LOOKINGGLASS_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

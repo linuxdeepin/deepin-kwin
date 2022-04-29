@@ -27,10 +27,10 @@
 #include <fcntl.h>
 
 // kwin libs
-#include <kwinglplatform.h>
+#include <deepin_kwinglplatform.h>
 
 // KDE
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 // Qt
 #include <QFile>

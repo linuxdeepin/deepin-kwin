@@ -11,7 +11,7 @@
 #define KWIN_WOBBLYWINDOWS_H
 
 // Include with base class for effects.
-#include <kwindeformeffect.h>
+#include <deepin_kwindeformeffect.h>
 
 namespace KWin
 {

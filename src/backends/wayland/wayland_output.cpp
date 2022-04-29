@@ -11,8 +11,8 @@
 #include "wayland_backend.h"
 #include "wayland_server.h"
 
-#include <KWayland/Client/pointerconstraints.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/pointerconstraints.h>
+#include <DWayland/Client/surface.h>
 
 #include <KLocalizedString>
 

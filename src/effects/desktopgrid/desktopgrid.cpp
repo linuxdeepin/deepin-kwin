@@ -29,7 +29,7 @@
 
 #include <QQuickItem>
 #include <QQmlContext>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
 #include <cmath>
 
@@ -1151,7 +1151,7 @@ void DesktopGridEffect::setup()
             });
 
             view->rootContext()->setContextProperty("effects", effects);
-            view->setSource(QUrl(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kwin/effects/desktopgrid/main.qml"))));
+            view->setSource(QUrl(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("deepin-kwin/effects/desktopgrid/main.qml"))));
 
             QQuickItem *rootItem = view->rootItem();
             if (!rootItem) {

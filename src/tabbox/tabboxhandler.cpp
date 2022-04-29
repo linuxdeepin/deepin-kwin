@@ -10,7 +10,7 @@
 // own
 #include "tabboxhandler.h"
 #include <config-kwin.h>
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 #include "utils/xcbutils.h"
 // tabbox
 #include "clientmodel.h"

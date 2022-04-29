@@ -18,7 +18,7 @@
 #include "input.h"
 #include "x11eventfilter.h"
 #include "modifier_only_shortcuts.h"
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 #include <X11/extensions/XInput2.h>
 #include <X11/extensions/XI2proto.h>

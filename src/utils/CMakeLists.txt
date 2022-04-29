@@ -1,4 +1,4 @@
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     abstract_opengl_context_attribute_builder.cpp
     common.cpp
     egl_context_attribute_builder.cpp

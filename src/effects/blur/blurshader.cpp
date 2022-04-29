@@ -7,8 +7,8 @@
 
 #include "blurshader.h"
 
-#include <kwineffects.h>
-#include <kwinglplatform.h>
+#include <deepin_kwineffects.h>
+#include <deepin_kwinglplatform.h>
 
 #include <QByteArray>
 #include <QTextStream>

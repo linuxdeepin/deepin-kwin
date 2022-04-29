@@ -10,7 +10,7 @@
 
 #include "plugin.h"
 
-#include <KWaylandServer/screencast_v1_interface.h>
+#include <DWayland/Server/screencast_v1_interface.h>
 
 namespace KWin
 {

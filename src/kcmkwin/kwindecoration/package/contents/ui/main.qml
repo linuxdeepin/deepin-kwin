@@ -114,7 +114,7 @@ Kirigami.Page {
                             text: i18nc("button text", "Get New Window Decorations...")
                             icon.name: "get-hot-new-stuff"
                             visible: KAuthorized.authorize("ghns")
-                            configFile: "window-decorations.knsrc"
+                            configFile: "deepin-window-decorations.knsrc"
                             onEntryEvent: function (entry, event) {
                                 if (event == 1) { // StatusChangedEvent
                                     kcm.reloadKWinSettings()

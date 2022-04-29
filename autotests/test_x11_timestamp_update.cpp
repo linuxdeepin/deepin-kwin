@@ -42,7 +42,7 @@ X11TestApplication::X11TestApplication(int &argc, char **argv)
     removeLibraryPath(ownPath);
     addLibraryPath(ownPath);
 
-    const KPluginMetaData plugin = KPluginMetaData::findPluginById(QStringLiteral("org.kde.kwin.platforms"),
+    const KPluginMetaData plugin = KPluginMetaData::findPluginById(QStringLiteral("org.kde.deepin-kwin.platforms"),
                                                         QStringLiteral("KWinX11Platform"));
     if (!plugin.isValid()) {
         quit();

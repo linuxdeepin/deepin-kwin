@@ -55,7 +55,7 @@
 <para>In the <guilabel>Current Application</guilabel> section, the <guilabel>Forward</guilabel> and <guilabel>Reverse</guilabel> shortcuts can be set to cycle through the windows of the currently active application.  For example, if you have three &dolphin; file browser windows open, then you would be able to use these shortcuts to just cycle among the three &dolphin; windows.</para>
 <para>To change a keyboard shortcut, click the <guibutton>Forward</guibutton> or <guibutton>Reverse</guibutton> button and type the desired shortcut combination.  Be sure to use a modifier key like &Ctrl; or &Alt; as part of the shortcut, otherwise you might not be able to cycle through the window list properly.</para>
 
-<note><para>Any of the defined keyboard shortcuts can be used to invoke the Task Switcher.  To invoke the Task Switcher without using the keyboard, you can define screen edge actions in the &systemsettings; module <ulink url="help:/kcontrol/kwinscreenedges/index.html"><guilabel>Screen Edges</guilabel></ulink>.</para></note>
+<note><para>Any of the defined keyboard shortcuts can be used to invoke the Task Switcher.  To invoke the Task Switcher without using the keyboard, you can define screen edge actions in the &systemsettings; module <ulink url="help:/dcontrol/kwinscreenedges/index.html"><guilabel>Screen Edges</guilabel></ulink>.</para></note>
 </sect2>
 
 <sect2 id="content">

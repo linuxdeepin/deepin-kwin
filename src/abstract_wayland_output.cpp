@@ -12,7 +12,7 @@
 #include "waylandoutputconfig.h"
 
 // KWayland
-#include <KWaylandServer/outputchangeset_v2.h>
+#include <DWayland/Server/outputchangeset_v2.h>
 // KF5
 #include <KLocalizedString>
 

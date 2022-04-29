@@ -9,7 +9,7 @@
 #ifndef KWIN_KSCREEN_H
 #define KWIN_KSCREEN_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

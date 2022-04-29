@@ -10,7 +10,7 @@
 #define KWIN_X11_PLATFORM_H
 #include "platform.h"
 
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 #include <QObject>
 

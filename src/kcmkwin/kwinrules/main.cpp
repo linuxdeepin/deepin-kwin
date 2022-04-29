@@ -19,13 +19,13 @@ int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
 
-    KLocalizedString::setApplicationDomain("kcm_kwinrules");
+    KLocalizedString::setApplicationDomain("deepin-kcm_kwinrules");
 
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    app.setApplicationName("kwin_rules_dialog");
+    app.setApplicationName("deepin-kwin_rules_dialog");
     app.setWindowIcon(QIcon::fromTheme("preferences-system-windows-actions"));
     app.setApplicationVersion("2.0");
-    app.setDesktopFileName(QStringLiteral("org.kde.kwin_rules_dialog"));
+    app.setDesktopFileName(QStringLiteral("org.kde.deepin-kwin_rules_dialog"));
 
     QCommandLineParser parser;
     parser.setApplicationDescription(i18n("KWinRules KCM launcher"));
@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
         kcm_args << QStringLiteral("whole-app");
     }
 
-    KPluginMetaData pluginData = KPluginMetaData(QStringLiteral("kcms/kcm_kwinrules"));
+    KPluginMetaData pluginData = KPluginMetaData(QStringLiteral("kcms/deepin-kcm_kwinrules"));
 
     KCMultiDialog *dialog = new KCMultiDialog;
     dialog->addModule(pluginData, kcm_args);

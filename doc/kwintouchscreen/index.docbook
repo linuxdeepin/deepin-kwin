@@ -33,7 +33,7 @@ in the context menu. Edges with a blue square have already an attached effect,
 a grey-colored square indicates that no effect is selected for this edge.</para>
 
 <para>The number of accessible items in the context menu depends on the settings in the module
-	<ulink url="help:/kcontrol/kwineffects/index.html">
+	<ulink url="help:/dcontrol/kwineffects/index.html">
 <guilabel>Desktop Effects</guilabel></ulink> in the <guilabel>Workspace</guilabel>
 category. Select your favorite effects from the <guilabel>Window Management</guilabel> 
 group. This activates the corresponding items in the context menu.</para>

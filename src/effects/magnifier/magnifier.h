@@ -11,7 +11,7 @@
 #ifndef KWIN_MAGNIFIER_H
 #define KWIN_MAGNIFIER_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

@@ -14,7 +14,7 @@
 #include <kcmodule.h>
 #include <ksharedconfig.h>
 
-#include "kwinglobals.h"
+#include "deepin_kwinglobals.h"
 
 class QShowEvent;
 

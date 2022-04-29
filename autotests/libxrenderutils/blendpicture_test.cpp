@@ -12,7 +12,7 @@
 
 #include "../testutils.h"
 
-#include "kwinxrenderutils.h"
+#include "deepin_kwinxrenderutils.h"
 
 class BlendPictureTest : public QObject
 {

@@ -11,13 +11,13 @@
 #ifndef KWIN_DESKTOPGRID_H
 #define KWIN_DESKTOPGRID_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 #include <QObject>
 #include <QTimeLine>
 
 class QTimer;
 
-#include "kwinoffscreenquickview.h"
+#include "deepin_kwinoffscreenquickview.h"
 
 namespace KWin
 {

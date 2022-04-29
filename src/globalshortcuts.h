@@ -9,7 +9,7 @@
 #ifndef KWIN_GLOBALSHORTCUTS_H
 #define KWIN_GLOBALSHORTCUTS_H
 // KWin
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // Qt
 #include <QKeySequence>
 #include <QSharedPointer>

@@ -7,13 +7,13 @@
 #include "basiceglsurfacetexture_wayland.h"
 #include "egl_dmabuf.h"
 #include "kwineglext.h"
-#include "kwingltexture.h"
+#include "deepin_kwingltexture.h"
 #include "surfaceitem_wayland.h"
 #include "utils/common.h"
 
-#include <KWaylandServer/drmclientbuffer.h>
-#include <KWaylandServer/linuxdmabufv1clientbuffer.h>
-#include <KWaylandServer/shmclientbuffer.h>
+#include <DWayland/Server/drmclientbuffer.h>
+#include <DWayland/Server/linuxdmabufv1clientbuffer.h>
+#include <DWayland/Server/shmclientbuffer.h>
 
 namespace KWin
 {

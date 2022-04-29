@@ -9,7 +9,7 @@
 #ifndef KWIN_UDEV_H
 #define KWIN_UDEV_H
 #include <memory>
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 #include <vector>
 #include <QVector>

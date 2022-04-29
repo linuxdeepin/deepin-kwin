@@ -13,7 +13,7 @@
 // cmake stuff
 #include <config-kwin.h>
 // kwin
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // Qt
 #include <QFileInfo>
 #include <QLoggingCategory>

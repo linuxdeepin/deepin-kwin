@@ -16,7 +16,7 @@
 #include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 #include <netwm.h>
 #include <xcb/xcb_icccm.h>

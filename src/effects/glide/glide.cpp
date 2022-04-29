@@ -12,7 +12,7 @@
 
 // own
 #include "glide.h"
-#include "kwinglutils.h"
+#include "deepin_kwinglutils.h"
 
 // KConfigSkeleton
 #include "glideconfig.h"

@@ -52,7 +52,7 @@ Module::Module(QWidget *parent, const QVariantList &args) :
 
     ui->messageWidget->hide();
 
-    ui->ghnsButton->setConfigFile(QStringLiteral("kwinscripts.knsrc"));
+    ui->ghnsButton->setConfigFile(QStringLiteral("deepin-kwinscripts.knsrc"));
     connect(ui->ghnsButton, &KNS3::Button::dialogFinished, this, [this](const KNS3::Entry::List &changedEntries) {
         if (!changedEntries.isEmpty()) {
             ui->scriptSelector->clear();

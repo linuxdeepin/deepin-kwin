@@ -39,7 +39,7 @@ Name[zh_CN]=虚拟键盘
 Icon=input-keyboard-virtual
 Type=Service
 X-KDE-PluginInfo-License=GPL
-X-KDE-PluginInfo-Name=kcm_virtualkeyboard
+X-KDE-PluginInfo-Name=deepin-kcm_virtualkeyboard
 X-KDE-ServiceTypes=Plasma/Generic
 
 X-Plasma-MainScript=ui/main.qml

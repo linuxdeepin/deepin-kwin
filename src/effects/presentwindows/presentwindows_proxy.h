@@ -9,7 +9,7 @@
 
 #ifndef KWIN_PRESENTWINDOWS_PROXY_H
 #define KWIN_PRESENTWINDOWS_PROXY_H
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

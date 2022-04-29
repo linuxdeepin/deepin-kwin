@@ -6,7 +6,7 @@
 */
 
 #include "eglbackend.h"
-#include "kwinglplatform.h"
+#include "deepin_kwinglplatform.h"
 #include "logging.h"
 #include "options.h"
 #include "overlaywindow.h"

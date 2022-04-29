@@ -26,18 +26,18 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusPendingReply>
-#include <KWaylandServer/clientconnection.h>
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/clientconnection.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/keyboard.h>
-#include <KWayland/Client/output.h>
-#include <KWayland/Client/region.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/textinput.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/keyboard.h>
+#include <DWayland/Client/output.h>
+#include <DWayland/Client/region.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/textinput.h>
 #include <linux/input-event-codes.h>
 
 using namespace KWin;

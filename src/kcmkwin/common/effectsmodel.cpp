@@ -225,7 +225,7 @@ bool EffectsModel::setData(const QModelIndex &index, const QVariant &value, int 
 void EffectsModel::loadBuiltInEffects(const KConfigGroup &kwinConfig)
 {
     const QString rootDirectory = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                         QStringLiteral("kwin/builtin-effects"),
+                                                         QStringLiteral("deepin-kwin/builtin-effects"),
                                                          QStandardPaths::LocateDirectory);
 
     const QStringList nameFilters{QStringLiteral("metadata.json")};
@@ -287,7 +287,7 @@ void EffectsModel::loadJavascriptEffects(const KConfigGroup &kwinConfig)
 {
     const auto plugins = KPackage::PackageLoader::self()->listPackages(
         QStringLiteral("KWin/Effect"),
-        QStringLiteral("kwin/effects")
+        QStringLiteral("deepin-kwin/effects")
     );
     for (const KPluginMetaData &plugin : plugins) {
         EffectData effect;
@@ -333,7 +333,7 @@ void EffectsModel::loadJavascriptEffects(const KConfigGroup &kwinConfig)
 
 void EffectsModel::loadPluginEffects(const KConfigGroup &kwinConfig)
 {
-    const auto pluginEffects = KPluginMetaData::findPlugins(QStringLiteral("kwin/effects/plugins"));
+    const auto pluginEffects = KPluginMetaData::findPlugins(QStringLiteral("deepin-kwin/effects/plugins"));
     for (const KPluginMetaData &pluginEffect : pluginEffects) {
         if (!pluginEffect.isValid()) {
             continue;
@@ -607,13 +607,13 @@ static KCModule *loadBinaryConfig(const QString &configModule, QObject *parent)
         return nullptr;
     }
 
-    const KPluginMetaData metaData(QStringLiteral("kwin/effects/configs/") + configModule);
+    const KPluginMetaData metaData(QStringLiteral("deepin-kwin/effects/configs/") + configModule);
     return KPluginFactory::instantiatePlugin<KCModule>(metaData, parent).plugin;
 }
 
 static KCModule *findScriptedConfig(const QString &pluginId, QObject *parent)
 {
-    KPluginMetaData metaData(QStringLiteral("kwin/effects/configs/kcm_kwin4_genericscripted"));
+    KPluginMetaData metaData(QStringLiteral("deepin-kwin/effects/configs/kcm_kwin4_genericscripted"));
     return KPluginFactory::instantiatePlugin<KCModule>(metaData, parent, QVariantList{pluginId}).plugin;
 }
 

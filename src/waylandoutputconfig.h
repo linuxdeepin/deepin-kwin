@@ -12,7 +12,7 @@
 #include <QSize>
 
 #include "abstract_wayland_output.h"
-#include "kwin_export.h"
+#include "deepin_kwin_export.h"
 
 namespace KWin
 {

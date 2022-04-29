@@ -14,9 +14,9 @@ set(kwin_XRENDERUTILS_SRCS
     logging.cpp
 )
 
-add_library(kwinxrenderutils SHARED ${kwin_XRENDERUTILS_SRCS})
-generate_export_header(kwinxrenderutils EXPORT_FILE_NAME kwinxrenderutils_export.h)
-target_link_libraries(kwinxrenderutils
+add_library(deepin-kwinxrenderutils SHARED ${kwin_XRENDERUTILS_SRCS})
+generate_export_header(deepin-kwinxrenderutils BASE_NAME kwinxrenderutils EXPORT_FILE_NAME deepin_kwinxrenderutils_export.h)
+target_link_libraries(deepin-kwinxrenderutils
     PUBLIC
         Qt::Core
         Qt::Gui
@@ -26,28 +26,28 @@ target_link_libraries(kwinxrenderutils
         XCB::XFIXES
 )
 
-set_target_properties(kwinxrenderutils PROPERTIES
+set_target_properties(deepin-kwinxrenderutils PROPERTIES
     VERSION ${KWINEFFECTS_VERSION}
     SOVERSION ${KWINEFFECTS_SOVERSION}
 )
-set_target_properties(kwinxrenderutils PROPERTIES OUTPUT_NAME ${KWIN_NAME}xrenderutils)
+set_target_properties(deepin-kwinxrenderutils PROPERTIES OUTPUT_NAME ${KWIN_NAME}xrenderutils)
 
-install(TARGETS kwinxrenderutils EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwinxrenderutils EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ###  effects lib  ###
 set(kwin_EFFECTSLIB_SRCS
     anidata.cpp
-    kwinanimationeffect.cpp
-    kwindeformeffect.cpp
-    kwineffects.cpp
-    kwinoffscreenquickview.cpp
-    kwinquickeffect.cpp
+    deepin_kwinanimationeffect.cpp
+    deepin_kwindeformeffect.cpp
+    deepin_kwineffects.cpp
+    deepin_kwinoffscreenquickview.cpp
+    deepin_kwinquickeffect.cpp
     logging.cpp
 )
 
-add_library(kwineffects SHARED ${kwin_EFFECTSLIB_SRCS})
-generate_export_header(kwineffects EXPORT_FILE_NAME kwineffects_export.h)
-target_link_libraries(kwineffects
+add_library(deepin-kwineffects SHARED ${kwin_EFFECTSLIB_SRCS})
+generate_export_header(deepin-kwineffects BASE_NAME kwineffects EXPORT_FILE_NAME deepin_kwineffects_export.h)
+target_link_libraries(deepin-kwineffects
     PUBLIC
         KF5::ConfigCore
         KF5::CoreAddons
@@ -56,15 +56,15 @@ target_link_libraries(kwineffects
     PRIVATE
         Qt::Quick
         KF5::Declarative
-        kwinglutils
+        deepin-kwinglutils
 )
-set_target_properties(kwineffects PROPERTIES
+set_target_properties(deepin-kwineffects PROPERTIES
     VERSION ${KWINEFFECTS_VERSION}
     SOVERSION ${KWINEFFECTS_SOVERSION}
 )
-set_target_properties(kwineffects PROPERTIES OUTPUT_NAME ${KWIN_NAME}effects)
+set_target_properties(deepin-kwineffects PROPERTIES OUTPUT_NAME ${KWIN_NAME}effects)
 
-install(TARGETS kwineffects EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwineffects EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 # kwingl(es)utils library
 set(kwin_GLUTILSLIB_SRCS
@@ -76,36 +76,36 @@ set(kwin_GLUTILSLIB_SRCS
     logging.cpp
 )
 
-add_library(kwinglutils SHARED ${kwin_GLUTILSLIB_SRCS})
-generate_export_header(kwinglutils BASE_NAME kwinglutils EXPORT_FILE_NAME kwinglutils_export.h)
-target_link_libraries(kwinglutils PUBLIC XCB::XCB KF5::CoreAddons KF5::ConfigCore KF5::WindowSystem epoxy::epoxy)
-set_target_properties(kwinglutils PROPERTIES
+add_library(deepin-kwinglutils SHARED ${kwin_GLUTILSLIB_SRCS})
+generate_export_header(deepin-kwinglutils BASE_NAME kwinglutils EXPORT_FILE_NAME deepin_kwinglutils_export.h)
+target_link_libraries(deepin-kwinglutils PUBLIC XCB::XCB KF5::CoreAddons KF5::ConfigCore KF5::WindowSystem epoxy::epoxy)
+set_target_properties(deepin-kwinglutils PROPERTIES
     VERSION ${KWINEFFECTS_VERSION}
     SOVERSION ${KWINEFFECTS_SOVERSION}
     OUTPUT_NAME ${KWIN_NAME}glutils
 )
 
-install(TARGETS kwinglutils EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwinglutils EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/kwinconfig.h
-    ${CMAKE_CURRENT_BINARY_DIR}/kwineffects_export.h
-    ${CMAKE_CURRENT_BINARY_DIR}/kwinglutils_export.h
-    ${CMAKE_CURRENT_BINARY_DIR}/kwinxrenderutils_export.h
-    kwinanimationeffect.h
-    kwindeformeffect.h
-    kwineffects.h
-    kwinglobals.h
-    kwinglplatform.h
-    kwingltexture.h
-    kwinglutils.h
-    kwinglutils_funcs.h
-    kwinoffscreenquickview.h
-    kwinquickeffect.h
-    kwinxrenderutils.h
+    ${CMAKE_CURRENT_BINARY_DIR}/deepin_kwinconfig.h
+    ${CMAKE_CURRENT_BINARY_DIR}/deepin_kwineffects_export.h
+    ${CMAKE_CURRENT_BINARY_DIR}/deepin_kwinglutils_export.h
+    ${CMAKE_CURRENT_BINARY_DIR}/deepin_kwinxrenderutils_export.h
+    deepin_kwinanimationeffect.h
+    deepin_kwindeformeffect.h
+    deepin_kwineffects.h
+    deepin_kwinglobals.h
+    deepin_kwinglplatform.h
+    deepin_kwingltexture.h
+    deepin_kwinglutils.h
+    deepin_kwinglutils_funcs.h
+    deepin_kwinoffscreenquickview.h
+    deepin_kwinquickeffect.h
+    deepin_kwinxrenderutils.h
     DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KWinEffects")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/DeepinKWinEffects")
 
 
 install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/KWinEffectsConfig.cmake"
@@ -119,4 +119,4 @@ configure_package_config_file(
   INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
 )
 
-install(EXPORT KWinEffectsTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KWinEffectsTargets.cmake NAMESPACE KWinEffects:: )
+install(EXPORT KWinEffectsTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KWinEffectsTargets.cmake NAMESPACE DeepinKWinEffects:: )

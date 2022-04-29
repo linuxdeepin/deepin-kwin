@@ -9,7 +9,7 @@
 #ifndef TESTUTILS_H
 #define TESTUTILS_H
 // KWin
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // XCB
 #include <xcb/xcb.h>
 

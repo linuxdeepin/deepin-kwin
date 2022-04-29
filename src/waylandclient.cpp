@@ -11,10 +11,10 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/clientbuffer.h>
-#include <KWaylandServer/clientconnection.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/clientbuffer.h>
+#include <DWayland/Server/clientconnection.h>
+#include <DWayland/Server/surface_interface.h>
 
 #include <QFileInfo>
 

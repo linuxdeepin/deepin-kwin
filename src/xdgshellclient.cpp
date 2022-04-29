@@ -25,15 +25,15 @@
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
-#include <KWaylandServer/appmenu_interface.h>
-#include <KWaylandServer/output_interface.h>
-#include <KWaylandServer/plasmashell_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/server_decoration_interface.h>
-#include <KWaylandServer/server_decoration_palette_interface.h>
-#include <KWaylandServer/surface_interface.h>
-#include <KWaylandServer/xdgdecoration_v1_interface.h>
-#include <KWaylandServer/ddeshell_interface.h>
+#include <DWayland/Server/appmenu_interface.h>
+#include <DWayland/Server/output_interface.h>
+#include <DWayland/Server/plasmashell_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/server_decoration_interface.h>
+#include <DWayland/Server/server_decoration_palette_interface.h>
+#include <DWayland/Server/surface_interface.h>
+#include <DWayland/Server/xdgdecoration_v1_interface.h>
+#include <DWayland/Server/ddeshell_interface.h>
 
 using namespace KWaylandServer;
 

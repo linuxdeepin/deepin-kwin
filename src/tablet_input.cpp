@@ -18,8 +18,8 @@
 // KDecoration
 #include <KDecoration2/Decoration>
 // KWayland
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/surface_interface.h>
 // screenlocker
 #include <KScreenLocker/KsldApp>
 // Qt

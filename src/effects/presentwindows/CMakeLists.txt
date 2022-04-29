@@ -1,6 +1,6 @@
 #######################################
 # Effect
-install(FILES main.qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/presentwindows/)
+install(FILES main.qml DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/effects/presentwindows/)
 
 set(presentwindows_SOURCES
     main.cpp

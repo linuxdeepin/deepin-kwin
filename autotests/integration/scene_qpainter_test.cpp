@@ -18,11 +18,11 @@
 
 #include <KConfigGroup>
 
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/pointer.h>
-#include <KWaylandServer/shmclientbuffer.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/pointer.h>
+#include <DWayland/Server/shmclientbuffer.h>
+#include <DWayland/Server/surface_interface.h>
 
 #include <QPainter>
 

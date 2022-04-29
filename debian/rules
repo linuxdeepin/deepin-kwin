@@ -3,7 +3,7 @@
 
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 
-libpkgs_gen_strict_local_shlibs = $(libpkgs_all_packages) kwin-common
+libpkgs_gen_strict_local_shlibs = $(libpkgs_all_packages) deepin-kwin-common
 include /usr/share/pkg-kde-tools/qt-kde-team/2/library-packages.mk
 
 %:

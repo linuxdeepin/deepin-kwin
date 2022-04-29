@@ -11,7 +11,7 @@
 
 #include "waylandclient.h"
 #include <QPointer>
-#include <KWaylandServer/inputmethod_v1_interface.h>
+#include <DWayland/Server/inputmethod_v1_interface.h>
 
 namespace KWin
 {

@@ -6,4 +6,4 @@ target_link_libraries(kwin_packagestructure_decoration
    KF5::I18n
    KF5::Package
 )
-set_target_properties(kwin_packagestructure_decoration PROPERTIES OUTPUT_NAME kwin_decoration)
+set_target_properties(kwin_packagestructure_decoration PROPERTIES OUTPUT_NAME deepin-kwin_decoration)

@@ -9,11 +9,11 @@
 
 #ifndef KWIN_OUTLINE_H
 #define KWIN_OUTLINE_H
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 #include <QRect>
 #include <QObject>
 
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 class QQmlContext;
 class QQmlComponent;

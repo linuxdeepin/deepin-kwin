@@ -11,7 +11,7 @@
 #ifndef ANIDATA_H
 #define ANIDATA_H
 
-#include "kwinanimationeffect.h"
+#include "deepin_kwinanimationeffect.h"
 
 #include <QEasingCurve>
 

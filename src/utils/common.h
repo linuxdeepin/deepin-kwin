@@ -12,9 +12,9 @@
 
 // cmake stuff
 #include <config-kwin.h>
-#include <kwinconfig.h>
+#include <deepin_kwinconfig.h>
 // kwin
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // Qt
 #include <QLoggingCategory>
 #include <QList>

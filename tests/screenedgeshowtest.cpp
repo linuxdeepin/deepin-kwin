@@ -20,10 +20,10 @@
 
 #include <KWindowSystem>
 
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/registry.h>
-#include <KWayland/Client/plasmashell.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/registry.h>
+#include <DWayland/Client/plasmashell.h>
+#include <DWayland/Client/surface.h>
 
 class ScreenEdgeHelper : public QObject
 {

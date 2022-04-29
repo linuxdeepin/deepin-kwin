@@ -19,9 +19,9 @@
 #include <QWindow>
 #include <cmath> // for ceil()
 
-#include <KWaylandServer/surface_interface.h>
-#include <KWaylandServer/shadow_interface.h>
-#include <KWaylandServer/display.h>
+#include <DWayland/Server/surface_interface.h>
+#include <DWayland/Server/shadow_interface.h>
+#include <DWayland/Server/display.h>
 #include <KSharedConfig>
 #include <KConfigGroup>
 

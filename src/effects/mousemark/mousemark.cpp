@@ -14,8 +14,8 @@
 #include "mousemarkconfig.h"
 
 #include <QAction>
-#include <kwinconfig.h>
-#include <kwinglplatform.h>
+#include <deepin_kwinconfig.h>
+#include <deepin_kwinglplatform.h>
 #include <KGlobalAccel>
 #include <KLocalizedString>
 

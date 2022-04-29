@@ -62,7 +62,7 @@ void EffectsHandlerImplX11::doUngrabKeyboard()
 
 void EffectsHandlerImplX11::doStartMouseInterception(Qt::CursorShape shape)
 {
-    // NOTE: it is intended to not perform an XPointerGrab on X11. See documentation in kwineffects.h
+    // NOTE: it is intended to not perform an XPointerGrab on X11. See documentation in deepin_kwineffects.h
     // The mouse grab is implemented by using a full screen input only window
     if (!m_mouseInterceptionWindow.isValid()) {
         const QSize &s = Screens::self()->size();

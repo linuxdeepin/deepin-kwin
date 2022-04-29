@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 #include <QMatrix4x4>
 #include <QVector2D>

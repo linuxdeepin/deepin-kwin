@@ -8,7 +8,7 @@
 #ifndef CONTRASTSHADER_H
 #define CONTRASTSHADER_H
 
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 
 class QMatrix4x4;
 

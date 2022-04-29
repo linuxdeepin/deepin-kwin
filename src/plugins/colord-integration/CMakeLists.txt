@@ -32,6 +32,6 @@ set_source_files_properties(${COLORD_PROFILE_XML} PROPERTIES CLASSNAME CdProfile
 qt_add_dbus_interface(colordintegration_SOURCES ${COLORD_PROFILE_XML} colordprofileinterface)
 
 add_library(colordintegration MODULE ${colordintegration_SOURCES})
-set_target_properties(colordintegration PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/kwin/plugins/")
-target_link_libraries(colordintegration kwin)
-install(TARGETS colordintegration DESTINATION ${KDE_INSTALL_PLUGINDIR}/kwin/plugins/)
+set_target_properties(colordintegration PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/deepin-kwin/plugins/")
+target_link_libraries(colordintegration deepin-kwin)
+install(TARGETS colordintegration DESTINATION ${KDE_INSTALL_PLUGINDIR}/deepin-kwin/plugins/)

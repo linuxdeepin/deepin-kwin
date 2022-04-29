@@ -20,23 +20,23 @@
 #include "waylandclient.h"
 #include "workspace.h"
 #include "x11client.h"
-#include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include <deepin_kwinglplatform.h>
+#include <deepin_kwinglutils.h>
 #include <cerrno>
 
 #include "ui_debug_console.h"
 
 // KWayland
-#include <KWaylandServer/abstract_data_source.h>
-#include <KWaylandServer/clientconnection.h>
-#include <KWaylandServer/datacontrolsource_v1_interface.h>
-#include <KWaylandServer/datasource_interface.h>
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/primaryselectionsource_v1_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/shmclientbuffer.h>
-#include <KWaylandServer/subcompositor_interface.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/abstract_data_source.h>
+#include <DWayland/Server/clientconnection.h>
+#include <DWayland/Server/datacontrolsource_v1_interface.h>
+#include <DWayland/Server/datasource_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/primaryselectionsource_v1_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/shmclientbuffer.h>
+#include <DWayland/Server/subcompositor_interface.h>
+#include <DWayland/Server/surface_interface.h>
 // frameworks
 #include <KLocalizedString>
 #include <NETWM>

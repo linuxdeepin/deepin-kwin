@@ -9,7 +9,7 @@
 #ifndef KWIN_DECORATION_BRIDGE_H
 #define KWIN_DECORATION_BRIDGE_H
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 #include <KDecoration2/Private/DecorationBridge>
 

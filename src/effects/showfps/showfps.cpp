@@ -12,9 +12,9 @@
 // KConfigSkeleton
 #include "showfpsconfig.h"
 
-#include <kwinconfig.h>
+#include <deepin_kwinconfig.h>
 
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 
 #include <KLocalizedString>
 

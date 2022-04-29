@@ -14,7 +14,7 @@
 #include "scene.h"
 #include "utils/common.h"
 
-#include "kwinglplatform.h"
+#include "deepin_kwinglplatform.h"
 
 namespace KWin
 {

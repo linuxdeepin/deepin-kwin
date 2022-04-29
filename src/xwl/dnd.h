@@ -11,7 +11,7 @@
 
 #include "selection.h"
 
-#include <KWaylandServer/datadevicemanager_interface.h>
+#include <DWayland/Server/datadevicemanager_interface.h>
 #include <QPoint>
 
 namespace KWaylandServer

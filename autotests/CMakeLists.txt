@@ -11,7 +11,7 @@ add_subdirectory(tabbox)
 ########################################################
 set(testScreenPaintData_SRCS test_screen_paint_data.cpp)
 add_executable(testScreenPaintData ${testScreenPaintData_SRCS})
-target_link_libraries(testScreenPaintData kwineffects Qt::Test Qt::Widgets KF5::WindowSystem)
+target_link_libraries(testScreenPaintData deepin-kwineffects Qt::Test Qt::Widgets KF5::WindowSystem)
 add_test(NAME kwin-testScreenPaintData COMMAND testScreenPaintData)
 ecm_mark_as_test(testScreenPaintData)
 
@@ -20,7 +20,7 @@ ecm_mark_as_test(testScreenPaintData)
 ########################################################
 set(testWindowPaintData_SRCS test_window_paint_data.cpp)
 add_executable(testWindowPaintData ${testWindowPaintData_SRCS})
-target_link_libraries(testWindowPaintData kwineffects Qt::Widgets Qt::Test )
+target_link_libraries(testWindowPaintData deepin-kwineffects Qt::Widgets Qt::Test )
 add_test(NAME kwin-testWindowPaintData COMMAND testWindowPaintData)
 ecm_mark_as_test(testWindowPaintData)
 
@@ -40,7 +40,7 @@ target_link_libraries(testVirtualDesktops
     KF5::ConfigCore
     KF5::GlobalAccel
     KF5::I18n
-    Plasma::KWaylandServer
+    DWaylandServer
     KF5::WindowSystem
 )
 add_test(NAME kwin-testVirtualDesktops COMMAND testVirtualDesktops)
@@ -180,7 +180,7 @@ add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp)
 target_link_libraries(testX11TimestampUpdate
     KF5::CoreAddons
     Qt::Test
-    kwin
+    deepin-kwin
 )
 add_test(NAME kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
 ecm_mark_as_test(testX11TimestampUpdate)
@@ -211,10 +211,10 @@ target_link_libraries(testXkb
     Qt::DBus
 
     KF5::ConfigCore
-    Plasma::KWaylandServer
+    DWaylandServer
     KF5::WindowSystem
 
-    kwineffects
+    deepin-kwineffects
 
     XKB::XKB
     Qt5::XkbCommonSupportPrivate
@@ -228,7 +228,7 @@ ecm_mark_as_test(testXkb)
 add_executable(testFtrace test_ftrace.cpp)
 target_link_libraries(testFtrace
     Qt::Test
-    kwin
+    deepin-kwin
 )
 add_test(NAME kwin-testFtrace COMMAND testFtrace)
 ecm_mark_as_test(testFtrace)

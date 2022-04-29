@@ -10,7 +10,7 @@
 #ifndef KWIN_HIGHLIGHTWINDOW_H
 #define KWIN_HIGHLIGHTWINDOW_H
 
-#include <kwinanimationeffect.h>
+#include <deepin_kwinanimationeffect.h>
 
 namespace KWin
 {

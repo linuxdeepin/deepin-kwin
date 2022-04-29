@@ -10,7 +10,7 @@
 
 #include "showpaint.h"
 
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 
 #include <KGlobalAccel>
 #include <KLocalizedString>

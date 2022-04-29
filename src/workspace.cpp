@@ -11,7 +11,7 @@
 // own
 #include "workspace.h"
 // kwin libs
-#include <kwinglplatform.h>
+#include <deepin_kwinglplatform.h>
 // kwin
 #include "abstract_wayland_output.h"
 #ifdef KWIN_BUILD_ACTIVITIES

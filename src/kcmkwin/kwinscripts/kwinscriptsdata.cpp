@@ -24,7 +24,7 @@ QVector<KPluginMetaData> KWinScriptsData::pluginMetaDataList() const
         return md.isValid() && !md.rawData().value("X-KWin-Exclude-Listing").toBool();
     };
 
-    const QString scriptFolder = QStringLiteral("kwin/scripts/");
+    const QString scriptFolder = QStringLiteral("deepin-kwin/scripts/");
     return KPackage::PackageLoader::self()->findPackages(QStringLiteral("KWin/Script"), scriptFolder, filter).toVector();
 }
 

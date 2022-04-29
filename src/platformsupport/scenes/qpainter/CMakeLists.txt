@@ -1,7 +1,7 @@
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     qpaintersurfacetexture.cpp
     qpaintersurfacetexture_internal.cpp
     qpaintersurfacetexture_wayland.cpp
     qpainterbackend.cpp
 )
-target_include_directories(kwin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(deepin-kwin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

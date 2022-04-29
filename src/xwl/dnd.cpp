@@ -21,9 +21,9 @@
 #include "xwayland.h"
 #include "xwldrophandler.h"
 
-#include <KWaylandServer/compositor_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/datasource_interface.h>
+#include <DWayland/Server/compositor_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/datasource_interface.h>
 
 #include <QMouseEvent>
 

@@ -15,7 +15,7 @@
 #include <KLocalizedString>
 #include <NETWM>
 
-#include <KWaylandServer/plasmavirtualdesktop_interface.h>
+#include <DWayland/Server/plasmavirtualdesktop_interface.h>
 // Qt
 #include <QAction>
 #include <QUuid>

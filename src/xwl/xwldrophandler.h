@@ -11,7 +11,7 @@
 #ifndef XWLDROPHANDLER_H
 #define XWLDROPHANDLER_H
 
-#include <KWaylandServer/datadevice_interface.h>
+#include <DWayland/Server/datadevice_interface.h>
 
 namespace KWin {
 namespace Xwl {

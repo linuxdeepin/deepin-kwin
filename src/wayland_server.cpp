@@ -28,47 +28,47 @@
 #include "virtualdesktops.h"
 
 // Server
-#include <KWaylandServer/appmenu_interface.h>
-#include <KWaylandServer/compositor_interface.h>
-#include <KWaylandServer/datadevicemanager_interface.h>
-#include <KWaylandServer/datasource_interface.h>
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/dpms_interface.h>
-#include <KWaylandServer/idle_interface.h>
-#include <KWaylandServer/idleinhibit_v1_interface.h>
-#include <KWaylandServer/linuxdmabufv1clientbuffer.h>
-#include <KWaylandServer/output_interface.h>
-#include <KWaylandServer/plasmashell_interface.h>
-#include <KWaylandServer/plasmavirtualdesktop_interface.h>
-#include <KWaylandServer/plasmawindowmanagement_interface.h>
-#include <KWaylandServer/pointerconstraints_v1_interface.h>
-#include <KWaylandServer/pointergestures_v1_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/server_decoration_interface.h>
-#include <KWaylandServer/server_decoration_palette_interface.h>
-#include <KWaylandServer/shadow_interface.h>
-#include <KWaylandServer/subcompositor_interface.h>
-#include <KWaylandServer/blur_interface.h>
-#include <KWaylandServer/outputmanagement_v2_interface.h>
-#include <KWaylandServer/outputconfiguration_v2_interface.h>
-#include <KWaylandServer/primaryoutput_v1_interface.h>
-#include <KWaylandServer/xdgactivation_v1_interface.h>
-#include <KWaylandServer/xdgdecoration_v1_interface.h>
-#include <KWaylandServer/xdgshell_interface.h>
-#include <KWaylandServer/xdgforeign_v2_interface.h>
-#include <KWaylandServer/xdgoutput_v1_interface.h>
-#include <KWaylandServer/keystate_interface.h>
-#include <KWaylandServer/filtered_display.h>
-#include <KWaylandServer/keyboard_shortcuts_inhibit_v1_interface.h>
-#include <KWaylandServer/inputmethod_v1_interface.h>
-#include <KWaylandServer/tablet_v2_interface.h>
-#include <KWaylandServer/viewporter_interface.h>
-#include <KWaylandServer/datacontroldevicemanager_v1_interface.h>
-#include <KWaylandServer/primaryselectiondevicemanager_v1_interface.h>
-#include <KWaylandServer/relativepointer_v1_interface.h>
-#include <KWaylandServer/ddeshell_interface.h>
-#include <KWaylandServer/ddeseat_interface.h>
-#include <KWaylandServer/strut_interface.h>
+#include <DWayland/Server/appmenu_interface.h>
+#include <DWayland/Server/compositor_interface.h>
+#include <DWayland/Server/datadevicemanager_interface.h>
+#include <DWayland/Server/datasource_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/dpms_interface.h>
+#include <DWayland/Server/idle_interface.h>
+#include <DWayland/Server/idleinhibit_v1_interface.h>
+#include <DWayland/Server/linuxdmabufv1clientbuffer.h>
+#include <DWayland/Server/output_interface.h>
+#include <DWayland/Server/plasmashell_interface.h>
+#include <DWayland/Server/plasmavirtualdesktop_interface.h>
+#include <DWayland/Server/plasmawindowmanagement_interface.h>
+#include <DWayland/Server/pointerconstraints_v1_interface.h>
+#include <DWayland/Server/pointergestures_v1_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/server_decoration_interface.h>
+#include <DWayland/Server/server_decoration_palette_interface.h>
+#include <DWayland/Server/shadow_interface.h>
+#include <DWayland/Server/subcompositor_interface.h>
+#include <DWayland/Server/blur_interface.h>
+#include <DWayland/Server/outputmanagement_v2_interface.h>
+#include <DWayland/Server/outputconfiguration_v2_interface.h>
+#include <DWayland/Server/primaryoutput_v1_interface.h>
+#include <DWayland/Server/xdgactivation_v1_interface.h>
+#include <DWayland/Server/xdgdecoration_v1_interface.h>
+#include <DWayland/Server/xdgshell_interface.h>
+#include <DWayland/Server/xdgforeign_v2_interface.h>
+#include <DWayland/Server/xdgoutput_v1_interface.h>
+#include <DWayland/Server/keystate_interface.h>
+#include <DWayland/Server/filtered_display.h>
+#include <DWayland/Server/keyboard_shortcuts_inhibit_v1_interface.h>
+#include <DWayland/Server/inputmethod_v1_interface.h>
+#include <DWayland/Server/tablet_v2_interface.h>
+#include <DWayland/Server/viewporter_interface.h>
+#include <DWayland/Server/datacontroldevicemanager_v1_interface.h>
+#include <DWayland/Server/primaryselectiondevicemanager_v1_interface.h>
+#include <DWayland/Server/relativepointer_v1_interface.h>
+#include <DWayland/Server/ddeshell_interface.h>
+#include <DWayland/Server/ddeseat_interface.h>
+#include <DWayland/Server/strut_interface.h>
 
 // Qt
 #include <QCryptographicHash>
@@ -155,6 +155,12 @@ public:
         }
 
         if (!interfacesBlackList.contains(interfaceName)) {
+            return true;
+        }
+
+        QString enableBlackList = QString::fromUtf8(qgetenv("KWIN_ENABLE_INTERFACES_BLACKLIST"));
+        if (enableBlackList.isEmpty() || enableBlackList.toLower() == "false") {
+            qCDebug(KWIN_CORE) << "Interfaces blacklist is not enabled";
             return true;
         }
 

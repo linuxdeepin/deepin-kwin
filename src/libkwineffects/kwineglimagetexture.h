@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include <kwinglutils_export.h>
-#include <kwingltexture.h>
+#include <deepin_kwinglutils_export.h>
+#include <deepin_kwingltexture.h>
 
 typedef void *EGLImageKHR;
 typedef void *EGLDisplay;

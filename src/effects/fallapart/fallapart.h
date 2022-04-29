@@ -10,7 +10,7 @@
 #ifndef KWIN_FALLAPART_H
 #define KWIN_FALLAPART_H
 
-#include <kwindeformeffect.h>
+#include <deepin_kwindeformeffect.h>
 
 namespace KWin
 {

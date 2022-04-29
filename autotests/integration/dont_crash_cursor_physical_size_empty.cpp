@@ -19,11 +19,11 @@
 
 #include <KConfigGroup>
 
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/server_decoration.h>
-#include <KWayland/Client/surface.h>
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/output_interface.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/server_decoration.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/output_interface.h>
 
 using namespace KWin;
 using namespace KWayland::Client;

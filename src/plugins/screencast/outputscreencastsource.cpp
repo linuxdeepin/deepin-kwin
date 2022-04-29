@@ -9,8 +9,8 @@
 
 #include "abstract_output.h"
 #include "composite.h"
-#include "kwingltexture.h"
-#include "kwinglutils.h"
+#include "deepin_kwingltexture.h"
+#include "deepin_kwinglutils.h"
 #include "scene.h"
 
 namespace KWin

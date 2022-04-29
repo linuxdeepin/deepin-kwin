@@ -10,7 +10,7 @@
 #define KWIN_SCREENEDGEITEM_H
 
 #include <QObject>
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 class QAction;
 

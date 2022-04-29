@@ -8,7 +8,7 @@
 */
 #include "eglonxbackend.h"
 // kwineffects
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 // kwin
 #include "main.h"
 #include "options.h"

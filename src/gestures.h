@@ -9,7 +9,7 @@
 #ifndef KWIN_GESTURES_H
 #define KWIN_GESTURES_H
 
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 #include <QObject>
 #include <QPointF>

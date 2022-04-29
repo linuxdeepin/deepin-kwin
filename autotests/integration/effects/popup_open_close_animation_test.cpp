@@ -21,7 +21,7 @@
 
 #include "decorations/decoratedclient.h"
 
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 #include <linux/input.h>
 

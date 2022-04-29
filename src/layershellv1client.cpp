@@ -11,9 +11,9 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWaylandServer/layershell_v1_interface.h>
-#include <KWaylandServer/output_interface.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/layershell_v1_interface.h>
+#include <DWayland/Server/output_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
 using namespace KWaylandServer;
 

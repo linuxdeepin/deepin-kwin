@@ -25,5 +25,5 @@ target_link_libraries(KWinQpaPlugin PRIVATE
     Qt::ServiceSupportPrivate
     Freetype::Freetype # Must be after Qt5 platform support libs
     Fontconfig::Fontconfig
-    kwin
+    deepin-kwin
 )

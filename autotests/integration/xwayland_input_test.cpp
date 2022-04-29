@@ -17,7 +17,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Server/seat_interface.h>
 
 #include <QSocketNotifier>
 

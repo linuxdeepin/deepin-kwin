@@ -16,8 +16,8 @@ set(X11PLATFORM_SOURCES
 )
 
 add_library(KWinX11Platform MODULE ${X11PLATFORM_SOURCES})
-set_target_properties(KWinX11Platform PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kwin.platforms/")
-target_link_libraries(KWinX11Platform eglx11common kwin kwinxrenderutils Qt::X11Extras KF5::Crash X11::X11)
+set_target_properties(KWinX11Platform PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.deepin-kwin.platforms/")
+target_link_libraries(KWinX11Platform eglx11common deepin-kwin deepin-kwinxrenderutils Qt::X11Extras KF5::Crash X11::X11)
 if (X11_Xi_FOUND)
     target_sources(KWinX11Platform PRIVATE xinputintegration.cpp)
     target_link_libraries(KWinX11Platform X11::Xi)
@@ -41,5 +41,5 @@ install(
     TARGETS
         KWinX11Platform
     DESTINATION
-        ${KDE_INSTALL_PLUGINDIR}/org.kde.kwin.platforms/
+        ${KDE_INSTALL_PLUGINDIR}/org.kde.deepin-kwin.platforms/
 )

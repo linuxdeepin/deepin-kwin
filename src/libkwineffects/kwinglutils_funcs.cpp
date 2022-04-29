@@ -7,8 +7,8 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "kwinglutils.h"
-#include "kwinglplatform.h"
+#include "deepin_kwinglutils.h"
+#include "deepin_kwinglplatform.h"
 
 
 // Resolves given function, using getProcAddress

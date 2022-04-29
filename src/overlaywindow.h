@@ -14,7 +14,7 @@
 // xcb
 #include <xcb/xcb.h>
 
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 namespace KWin {
 class KWIN_EXPORT OverlayWindow {

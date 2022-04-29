@@ -11,7 +11,7 @@
 #ifndef KWIN_INVERT_H
 #define KWIN_INVERT_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

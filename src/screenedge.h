@@ -19,7 +19,7 @@
 #ifndef KWIN_SCREENEDGE_H
 #define KWIN_SCREENEDGE_H
 // KWin
-#include "kwinglobals.h"
+#include "deepin_kwinglobals.h"
 // KDE includes
 #include <KSharedConfig>
 // Qt

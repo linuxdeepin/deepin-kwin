@@ -14,12 +14,12 @@
 
 #include <QObject>
 
-#include <kwinglobals.h>
-#include <kwin_export.h>
+#include <deepin_kwinglobals.h>
+#include <deepin_kwin_export.h>
 
 #include <QPointer>
 #include <QTimer>
-#include <KWaylandServer/textinput_v2_interface.h>
+#include <DWayland/Server/textinput_v2_interface.h>
 
 class KStatusNotifierItem;
 class QProcess;

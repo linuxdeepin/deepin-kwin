@@ -10,7 +10,7 @@
 
 #include "snaphelper.h"
 
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 
 #include <QPainter>
 

@@ -17,7 +17,7 @@
 #include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 #include <KDecoration2/Decoration>
 
@@ -51,7 +51,7 @@ void DontCrashAuroraeDestroyDecoTest::initTestCase()
     QMetaObject::invokeMethod(kwinApp()->platform(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(int, 2));
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
-    config->group("org.kde.kdecoration2").writeEntry("library", "org.kde.kwin.aurorae");
+    config->group("org.kde.kdecoration2").writeEntry("library", "org.deepin.kwin.aurorae");
     config->sync();
     kwinApp()->setConfig(config);
 

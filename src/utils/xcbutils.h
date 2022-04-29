@@ -9,7 +9,7 @@
 #ifndef KWIN_XCB_UTILS_H
 #define KWIN_XCB_UTILS_H
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 #include "main.h"
 
 #include <QRect>

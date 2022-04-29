@@ -17,4 +17,4 @@ kconfig_add_kcfg_files(overview_SOURCES
 
 kwin4_add_effect_module(kwin4_effect_overview ${overview_SOURCES})
 
-install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/overview)
+install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/effects/overview)

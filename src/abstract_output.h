@@ -9,7 +9,7 @@
 #ifndef KWIN_ABSTRACT_OUTPUT_H
 #define KWIN_ABSTRACT_OUTPUT_H
 
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 #include <QDebug>
 #include <QObject>

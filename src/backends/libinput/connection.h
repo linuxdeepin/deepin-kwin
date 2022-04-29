@@ -9,7 +9,7 @@
 #ifndef KWIN_LIBINPUT_CONNECTION_H
 #define KWIN_LIBINPUT_CONNECTION_H
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 #include <KSharedConfig>
 

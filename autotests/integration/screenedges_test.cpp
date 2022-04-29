@@ -20,7 +20,7 @@
 #include "workspace.h"
 
 #include <KConfigGroup>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 Q_DECLARE_METATYPE(KWin::ElectricBorder)
 

@@ -8,7 +8,7 @@
 */
 #include "mock_gl.h"
 #include <QTest>
-#include <kwinglplatform.h>
+#include <deepin_kwinglplatform.h>
 
 #include <KConfig>
 #include <KConfigGroup>

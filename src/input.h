@@ -10,7 +10,7 @@
 */
 #ifndef KWIN_INPUT_H
 #define KWIN_INPUT_H
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 #include <QAction>
 #include <QObject>
 #include <QPoint>

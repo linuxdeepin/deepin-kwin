@@ -16,7 +16,7 @@
 #include <virtualkeyboarddata.h>
 #include <virtualkeyboardsettings.h>
 
-K_PLUGIN_FACTORY_WITH_JSON(KcmVirtualKeyboardFactory, "kcm_virtualkeyboard.json", registerPlugin<KcmVirtualKeyboard>(); registerPlugin<VirtualKeyboardData>();)
+K_PLUGIN_FACTORY_WITH_JSON(KcmVirtualKeyboardFactory, "deepin-kcm_virtualkeyboard.json", registerPlugin<KcmVirtualKeyboard>(); registerPlugin<VirtualKeyboardData>();)
 
 KcmVirtualKeyboard::KcmVirtualKeyboard(QObject *parent, const QVariantList &args)
     : KQuickAddons::ManagedConfigModule(parent)
@@ -27,7 +27,7 @@ KcmVirtualKeyboard::KcmVirtualKeyboard(QObject *parent, const QVariantList &args
 
     qmlRegisterAnonymousType<VirtualKeyboardSettings>("org.kde.kwin.virtualkeyboardsettings", 1);
 
-    setAboutData(new KAboutData(QStringLiteral("kcm_virtualkeyboard"),
+    setAboutData(new KAboutData(QStringLiteral("deepin-kcm_virtualkeyboard"),
                                 i18n("Virtual Keyboard"),
                                 QStringLiteral("1.0"),
                                 i18n("Choose Virtual Keyboard"),

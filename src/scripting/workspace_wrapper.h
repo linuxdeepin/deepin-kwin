@@ -16,7 +16,7 @@
 #include <QStringList>
 #include <QRect>
 #include <QQmlListProperty>
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 namespace KWin
 {
@@ -167,7 +167,7 @@ Q_SIGNALS:
 
 public:
 //------------------------------------------------------------------
-//enums copy&pasted from kwinglobals.h because qtscript is evil
+//enums copy&pasted from deepin_kwinglobals.h because qtscript is evil
 
     enum ClientAreaOption {
         ///< geometry where a window will be initially placed after being mapped

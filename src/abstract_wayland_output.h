@@ -12,7 +12,7 @@
 #include "abstract_output.h"
 #include "utils/common.h"
 #include "renderloop.h"
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 #include <QObject>
 #include <QTimer>

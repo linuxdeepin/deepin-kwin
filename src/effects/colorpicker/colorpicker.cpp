@@ -7,8 +7,8 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "colorpicker.h"
-#include <kwinglutils.h>
-#include <kwinglutils_funcs.h>
+#include <deepin_kwinglutils.h>
+#include <deepin_kwinglutils_funcs.h>
 #include <QDBusConnection>
 #include <KLocalizedString>
 #include <QDBusMetaType>

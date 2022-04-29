@@ -18,9 +18,9 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWayland/Client/surface.h>
-#include <KWaylandServer/keyboard_interface.h>
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Server/keyboard_interface.h>
+#include <DWayland/Server/seat_interface.h>
 
 #include <KGlobalAccel>
 #include <linux/input.h>

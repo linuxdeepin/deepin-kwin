@@ -20,12 +20,12 @@
 #include "workspace.h"
 #include "deleted.h"
 
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/pointer.h>
-#include <KWayland/Client/plasmashell.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/pointer.h>
+#include <DWayland/Client/plasmashell.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/surface.h>
 
 #include <linux/input.h>
 #include <xcb/xcb_icccm.h>

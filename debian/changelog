@@ -1,4 +1,4 @@
-kwin (4:5.24.3-1) unstable; urgency=medium
+deepin-kwin (4:5.24.3-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.24.3).
@@ -6,14 +6,14 @@ kwin (4:5.24.3-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Thu, 10 Mar 2022 08:02:48 +0100
 
-kwin (4:5.24.2-2) unstable; urgency=medium
+deepin-kwin (4:5.24.2-2) unstable; urgency=medium
 
   [ Patrick Franz ]
   * Add missing Breaks for libkwin4-effect-builtins1.
 
  -- Patrick Franz <deltaone@debian.org>  Fri, 04 Mar 2022 18:50:26 +0100
 
-kwin (4:5.24.2-1) unstable; urgency=medium
+deepin-kwin (4:5.24.2-1) unstable; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.24.2).
@@ -27,7 +27,7 @@ kwin (4:5.24.2-1) unstable; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Sat, 26 Feb 2022 21:58:55 +0100
 
-kwin (4:5.23.5-1) unstable; urgency=medium
+deepin-kwin (4:5.23.5-1) unstable; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.23.5).
@@ -35,7 +35,7 @@ kwin (4:5.23.5-1) unstable; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Fri, 07 Jan 2022 18:01:12 +0100
 
-kwin (4:5.23.4-1) unstable; urgency=medium
+deepin-kwin (4:5.23.4-1) unstable; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.4).
@@ -45,14 +45,14 @@ kwin (4:5.23.4-1) unstable; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Thu, 02 Dec 2021 22:25:21 +0100
 
-kwin (4:5.23.3-1) unstable; urgency=medium
+deepin-kwin (4:5.23.3-1) unstable; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.3).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 10 Nov 2021 08:39:33 +0900
 
-kwin (4:5.23.2-1) unstable; urgency=medium
+deepin-kwin (4:5.23.2-1) unstable; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.1).
@@ -61,7 +61,7 @@ kwin (4:5.23.2-1) unstable; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Wed, 03 Nov 2021 22:21:02 +0900
 
-kwin (4:5.23.0-2) unstable; urgency=medium
+deepin-kwin (4:5.23.0-2) unstable; urgency=medium
 
   [ Patrick Franz ]
   * Update upstream signing-key.
@@ -70,7 +70,7 @@ kwin (4:5.23.0-2) unstable; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Thu, 14 Oct 2021 21:44:41 +0200
 
-kwin (4:5.23.0-1) unstable; urgency=medium
+deepin-kwin (4:5.23.0-1) unstable; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.0).
@@ -81,49 +81,49 @@ kwin (4:5.23.0-1) unstable; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Thu, 14 Oct 2021 20:13:14 +0900
 
-kwin (4:5.21.5-2) unstable; urgency=medium
+deepin-kwin (4:5.21.5-2) unstable; urgency=medium
 
   [ Patrick Franz ]
   * Release to unstable.
 
  -- Patrick Franz <deltaone@debian.org>  Tue, 17 Aug 2021 03:24:05 +0200
 
-kwin (4:5.21.5-1) experimental; urgency=medium
+deepin-kwin (4:5.21.5-1) experimental; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.21.5).
 
  -- Patrick Franz <patfra71@gmail.com>  Fri, 07 May 2021 18:52:03 +0200
 
-kwin (4:5.21.4-1) experimental; urgency=medium
+deepin-kwin (4:5.21.4-1) experimental; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.21.4).
 
  -- Patrick Franz <patfra71@gmail.com>  Tue, 06 Apr 2021 17:47:06 +0200
 
-kwin (4:5.21.3-1) experimental; urgency=medium
+deepin-kwin (4:5.21.3-1) experimental; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.21.3).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 17 Mar 2021 05:49:41 +0900
 
-kwin (4:5.21.2-1) experimental; urgency=medium
+deepin-kwin (4:5.21.2-1) experimental; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.21.2).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 03 Mar 2021 05:33:49 +0900
 
-kwin (4:5.21.1-1) experimental; urgency=medium
+deepin-kwin (4:5.21.1-1) experimental; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.21.1).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 24 Feb 2021 14:36:39 +0900
 
-kwin (4:5.21.0-1) experimental; urgency=medium
+deepin-kwin (4:5.21.0-1) experimental; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.21.0).
@@ -144,31 +144,31 @@ kwin (4:5.21.0-1) experimental; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Wed, 17 Feb 2021 05:42:27 +0900
 
-kwin (4:5.20.5-1) unstable; urgency=medium
+deepin-kwin (4:5.20.5-1) unstable; urgency=medium
 
   * New upstream release (5.20.5).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 06 Jan 2021 23:50:52 +0900
 
-kwin (4:5.20.4-4) unstable; urgency=medium
+deepin-kwin (4:5.20.4-4) unstable; urgency=medium
 
   * Enable pipewire support by adding the respective B-D.
 
  -- Norbert Preining <norbert@preining.info>  Mon, 28 Dec 2020 09:44:54 +0900
 
-kwin (4:5.20.4-3) unstable; urgency=medium
+deepin-kwin (4:5.20.4-3) unstable; urgency=medium
 
   * Release to unstable.
 
  -- Norbert Preining <norbert@preining.info>  Tue, 22 Dec 2020 11:04:37 +0900
 
-kwin (4:5.20.4-2) experimental; urgency=medium
+deepin-kwin (4:5.20.4-2) experimental; urgency=medium
 
   * Rebuild for Qt transition.
 
  -- Norbert Preining <norbert@preining.info>  Sun, 13 Dec 2020 00:38:11 +0900
 
-kwin (4:5.20.4-1) experimental; urgency=medium
+deepin-kwin (4:5.20.4-1) experimental; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.20.4).
@@ -203,13 +203,13 @@ kwin (4:5.20.4-1) experimental; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Wed, 09 Dec 2020 14:17:32 +0900
 
-kwin (4:5.19.5-3) unstable; urgency=medium
+deepin-kwin (4:5.19.5-3) unstable; urgency=medium
 
   * Release to unstable.
 
  -- Norbert Preining <norbert@preining.info>  Fri, 06 Nov 2020 08:37:23 +0900
 
-kwin (4:5.19.5-2) experimental; urgency=medium
+deepin-kwin (4:5.19.5-2) experimental; urgency=medium
 
   [ Scarlett Moore ]
   * Fix "FTBFS: egl_dmabuf.cpp:97:9: error: EGL_TEXTURE_Y_XUXV_WL
@@ -221,14 +221,14 @@ kwin (4:5.19.5-2) experimental; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Mon, 02 Nov 2020 09:39:13 +0900
 
-kwin (4:5.19.5-1) experimental; urgency=medium
+deepin-kwin (4:5.19.5-1) experimental; urgency=medium
 
   * New upstream release (5.19.5).
   * Add Patrick and myself to uploaders.
 
  -- Norbert Preining <norbert@preining.info>  Mon, 19 Oct 2020 13:45:27 +0900
 
-kwin (4:5.19.4-1) experimental; urgency=medium
+deepin-kwin (4:5.19.4-1) experimental; urgency=medium
 
   * Team upload.
 
@@ -242,7 +242,7 @@ kwin (4:5.19.4-1) experimental; urgency=medium
 
  -- Jiri Palecek <jpalecek@web.de>  Mon, 15 Jun 2020 03:01:07 +0200
 
-kwin (4:5.17.5-4) unstable; urgency=medium
+deepin-kwin (4:5.17.5-4) unstable; urgency=medium
 
   * Team upload.
 
@@ -256,7 +256,7 @@ kwin (4:5.17.5-4) unstable; urgency=medium
 
  -- Lisandro Damián Nicanor Pérez Meyer <lisandro@debian.org>  Fri, 30 Oct 2020 23:23:05 -0300
 
-kwin (4:5.17.5-3) unstable; urgency=medium
+deepin-kwin (4:5.17.5-3) unstable; urgency=medium
 
   * Team upload.
 
@@ -291,7 +291,7 @@ kwin (4:5.17.5-3) unstable; urgency=medium
 
  -- Pino Toscano <pino@debian.org>  Fri, 28 Aug 2020 19:04:07 +0200
 
-kwin (4:5.17.5-2) unstable; urgency=medium
+deepin-kwin (4:5.17.5-2) unstable; urgency=medium
 
   * Team upload.
   * Upload to unstable.
@@ -299,7 +299,7 @@ kwin (4:5.17.5-2) unstable; urgency=medium
 
  -- Pino Toscano <pino@debian.org>  Fri, 14 Feb 2020 20:53:37 +0100
 
-kwin (4:5.17.5-1) experimental; urgency=medium
+deepin-kwin (4:5.17.5-1) experimental; urgency=medium
 
   * Team upload.
 
@@ -351,7 +351,7 @@ kwin (4:5.17.5-1) experimental; urgency=medium
 
  -- Pino Toscano <pino@debian.org>  Mon, 13 Jan 2020 06:45:42 +0100
 
-kwin (4:5.14.5-1) unstable; urgency=medium
+deepin-kwin (4:5.14.5-1) unstable; urgency=medium
 
   * New upstream release (5.14.5).
   * Update install files
@@ -359,14 +359,14 @@ kwin (4:5.14.5-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Thu, 24 Jan 2019 09:25:57 -0300
 
-kwin (4:5.14.3-2) unstable; urgency=medium
+deepin-kwin (4:5.14.3-2) unstable; urgency=medium
 
   * Team upload.
   * Update symbols files from logs of buildds.
 
  -- Pino Toscano <pino@debian.org>  Sat, 24 Nov 2018 16:25:34 +0100
 
-kwin (4:5.14.3-1) unstable; urgency=medium
+deepin-kwin (4:5.14.3-1) unstable; urgency=medium
 
   * Update upsteam signing-key
   * New upstream release (5.14.3).
@@ -378,14 +378,14 @@ kwin (4:5.14.3-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 23 Nov 2018 08:50:38 -0300
 
-kwin (4:5.13.5-1) unstable; urgency=medium
+deepin-kwin (4:5.13.5-1) unstable; urgency=medium
 
   * New upstream release (5.13.5).
   * Release to unstable
 
  -- Maximiliano Curia <maxy@debian.org>  Thu, 06 Sep 2018 20:40:35 +0200
 
-kwin (4:5.13.4-1) unstable; urgency=medium
+deepin-kwin (4:5.13.4-1) unstable; urgency=medium
 
   * New upstream release (5.13.4).
   * disable MouseMark and TrackMouse effects loading test
@@ -393,7 +393,7 @@ kwin (4:5.13.4-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 19 Aug 2018 23:18:06 +0200
 
-kwin (4:5.13.1-1) unstable; urgency=medium
+deepin-kwin (4:5.13.1-1) unstable; urgency=medium
 
   * New upstream release (5.13.1).
   * Update build-deps and deps with the info from cmake
@@ -405,7 +405,7 @@ kwin (4:5.13.1-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 26 Jun 2018 13:43:07 +0200
 
-kwin (4:5.12.5-1) unstable; urgency=medium
+deepin-kwin (4:5.12.5-1) unstable; urgency=medium
 
   * Bump Standards-Version to 4.1.4.
   * New upstream release (5.12.5).
@@ -418,7 +418,7 @@ kwin (4:5.12.5-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 09 May 2018 13:24:01 +0200
 
-kwin (4:5.12.4-1) unstable; urgency=medium
+deepin-kwin (4:5.12.4-1) unstable; urgency=medium
 
   * New upstream release (5.12.4).
   * Add a misc depends to kde-window-manager
@@ -427,7 +427,7 @@ kwin (4:5.12.4-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 28 Mar 2018 18:12:47 +0200
 
-kwin (4:5.12.3-1) sid; urgency=medium
+deepin-kwin (4:5.12.3-1) sid; urgency=medium
 
   * New upstream release (5.12.2).
   * New upstream release (5.12.3).
@@ -435,7 +435,7 @@ kwin (4:5.12.3-1) sid; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 07 Mar 2018 19:14:08 +0100
 
-kwin (4:5.12.1-1) sid; urgency=medium
+deepin-kwin (4:5.12.1-1) sid; urgency=medium
 
   * Add qml virtualkeyboard as a recommends
   * Use the salsa canonical urls
@@ -444,7 +444,7 @@ kwin (4:5.12.1-1) sid; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 20 Feb 2018 22:08:54 +0100
 
-kwin (4:5.12.0-2) sid; urgency=medium
+deepin-kwin (4:5.12.0-2) sid; urgency=medium
 
   * New revision
   * Add libcap as a build depends
@@ -453,7 +453,7 @@ kwin (4:5.12.0-2) sid; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 12 Feb 2018 16:03:42 +0100
 
-kwin (4:5.12.0-1) experimental; urgency=medium
+deepin-kwin (4:5.12.0-1) experimental; urgency=medium
 
   * Bump debhelper build-dep and compat to 11.
   * Build without build_stamp
@@ -471,7 +471,7 @@ kwin (4:5.12.0-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Thu, 08 Feb 2018 15:20:50 +0100
 
-kwin (4:5.11.4-1) experimental; urgency=medium
+deepin-kwin (4:5.11.4-1) experimental; urgency=medium
 
   * New upstream release (5.11.4).
   * Bump Standards-Version to 4.1.2.
@@ -482,7 +482,7 @@ kwin (4:5.11.4-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 03 Jan 2018 16:49:03 -0300
 
-kwin (4:5.10.5-2) sid; urgency=medium
+deepin-kwin (4:5.10.5-2) sid; urgency=medium
 
   * New revision
   * Bump Standards-Version to 4.1.0.
@@ -490,7 +490,7 @@ kwin (4:5.10.5-2) sid; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 03 Sep 2017 09:55:31 +0200
 
-kwin (4:5.10.5-1) experimental; urgency=medium
+deepin-kwin (4:5.10.5-1) experimental; urgency=medium
 
   [ Maximiliano Curia ]
   * New upstream release (5.10.3.1).
@@ -512,7 +512,7 @@ kwin (4:5.10.5-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 28 Aug 2017 15:29:21 +0200
 
-kwin (4:5.8.7-2) unstable; urgency=medium
+deepin-kwin (4:5.8.7-2) unstable; urgency=medium
 
   * Team upload.
   * Backport upstream patch to fix build with modularized Qt PlatformSupport.
@@ -521,7 +521,7 @@ kwin (4:5.8.7-2) unstable; urgency=medium
 
  -- Dmitry Shachnev <mitya57@debian.org>  Fri, 25 Aug 2017 14:06:50 +0300
 
-kwin (4:5.8.7-1) unstable; urgency=medium
+deepin-kwin (4:5.8.7-1) unstable; urgency=medium
 
   * New upstream release (5.8.7)
       + move the view at the correct index at startup
@@ -601,13 +601,13 @@ kwin (4:5.8.7-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 16 Jun 2017 13:43:10 +0200
 
-kwin (4:5.8.6-1) unstable; urgency=medium
+deepin-kwin (4:5.8.6-1) unstable; urgency=medium
 
   * New upstream release (5.8.6) (Closes: 846508)
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 24 Mar 2017 14:38:54 +0100
 
-kwin (4:5.8.5-2) unstable; urgency=medium
+deepin-kwin (4:5.8.5-2) unstable; urgency=medium
 
   * Be more strict about runtime dependencies.
     Thanks to Ben Longbons for reporting (Closes: 848523)
@@ -618,14 +618,14 @@ kwin (4:5.8.5-2) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sat, 18 Feb 2017 10:42:33 +0100
 
-kwin (4:5.8.5-1) experimental; urgency=medium
+deepin-kwin (4:5.8.5-1) experimental; urgency=medium
 
   * New upstream release (5.8.5).
   * Update symbols files.
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 30 Dec 2016 18:46:18 +0100
 
-kwin (4:5.8.4-1) unstable; urgency=medium
+deepin-kwin (4:5.8.4-1) unstable; urgency=medium
 
   [ Maximiliano Curia ]
   * New upstream release (5.8.4)
@@ -639,7 +639,7 @@ kwin (4:5.8.4-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 23 Nov 2016 18:36:53 +0100
 
-kwin (4:5.8.2-1) unstable; urgency=medium
+deepin-kwin (4:5.8.2-1) unstable; urgency=medium
 
   [ Automatic packaging ]
   * Update build-deps and deps with the info from cmake
@@ -649,13 +649,13 @@ kwin (4:5.8.2-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 19 Oct 2016 15:26:03 +0200
 
-kwin (4:5.8.1-1) unstable; urgency=medium
+deepin-kwin (4:5.8.1-1) unstable; urgency=medium
 
   * Update copyright information
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 16 Oct 2016 23:00:42 +0200
 
-kwin (4:5.8.0-1) unstable; urgency=medium
+deepin-kwin (4:5.8.0-1) unstable; urgency=medium
 
   [ Maximiliano Curia ]
   * New upstream release (5.8.0)
@@ -670,7 +670,7 @@ kwin (4:5.8.0-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 07 Oct 2016 14:08:55 +0200
 
-kwin (4:5.7.4-1) unstable; urgency=medium
+deepin-kwin (4:5.7.4-1) unstable; urgency=medium
 
   [ Pino Toscano ]
   * autopkgtest: switch from oxygen5-icon-theme back to the canonical
@@ -684,7 +684,7 @@ kwin (4:5.7.4-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sat, 27 Aug 2016 00:12:30 +0200
 
-kwin (4:5.7.0-1) unstable; urgency=medium
+deepin-kwin (4:5.7.0-1) unstable; urgency=medium
 
   [ Automatic packaging ]
   * Update build-deps and deps with the info from cmake
@@ -695,13 +695,13 @@ kwin (4:5.7.0-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 11 Jul 2016 10:22:59 +0200
 
-kwin (4:5.6.5-1) unstable; urgency=medium
+deepin-kwin (4:5.6.5-1) unstable; urgency=medium
 
   * New upstream release.
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 27 Jun 2016 18:14:24 +0200
 
-kwin (4:5.6.4-3) unstable; urgency=medium
+deepin-kwin (4:5.6.4-3) unstable; urgency=medium
 
   * Add kwayland windowsystem platform plugin dependency
   * Add XInput build dependency
@@ -709,14 +709,14 @@ kwin (4:5.6.4-3) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 05 Jun 2016 14:27:18 +0200
 
-kwin (4:5.6.4-2) unstable; urgency=medium
+deepin-kwin (4:5.6.4-2) unstable; urgency=medium
 
   * Update copyright information
   * Release to unstable
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 01 Jun 2016 10:42:19 +0200
 
-kwin (4:5.6.4-1) experimental; urgency=medium
+deepin-kwin (4:5.6.4-1) experimental; urgency=medium
 
   [ Automatic packaging ]
   * Update build-deps and deps with the info from cmake
@@ -743,13 +743,13 @@ kwin (4:5.6.4-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sat, 28 May 2016 21:45:59 +0200
 
-kwin (4:5.5.4-2) experimental; urgency=medium
+deepin-kwin (4:5.5.4-2) experimental; urgency=medium
 
   * Rebuild due to typo in symbols file.
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 02 Feb 2016 10:29:43 +0100
 
-kwin (4:5.5.4-1) experimental; urgency=medium
+deepin-kwin (4:5.5.4-1) experimental; urgency=medium
 
   * New upstream release (5.5.0).
   * Update symbols files from buildds logs (4:5.4.3-1.1).
@@ -762,7 +762,7 @@ kwin (4:5.5.4-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 27 Jan 2016 16:48:45 +0100
 
-kwin (4:5.4.3-1.1) unstable; urgency=medium
+deepin-kwin (4:5.4.3-1.1) unstable; urgency=medium
 
   * Non-maintainer upload.
   * Add mips64 and mips64el into the arch list of libkwinglutils6.
@@ -770,14 +770,14 @@ kwin (4:5.4.3-1.1) unstable; urgency=medium
 
  -- YunQiang Su <syq@debian.org>  Thu, 03 Dec 2015 12:37:32 +0800
 
-kwin (4:5.4.3-1) unstable; urgency=medium
+deepin-kwin (4:5.4.3-1) unstable; urgency=medium
 
   * New upstream release (5.4.3).
   * Update symbols files from buildds logs (4:5.4.2-1).
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 01 Dec 2015 11:45:37 +0100
 
-kwin (4:5.4.2-1) unstable; urgency=medium
+deepin-kwin (4:5.4.2-1) unstable; urgency=medium
 
   [ Luigi Toscano ]
   * Changes to Recommends for kwin-common:
@@ -795,7 +795,7 @@ kwin (4:5.4.2-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 06 Oct 2015 07:51:48 +0200
 
-kwin (4:5.4.1-1) unstable; urgency=medium
+deepin-kwin (4:5.4.1-1) unstable; urgency=medium
 
   * New upstream release (5.4.1).
   * New upstream patch:
@@ -804,7 +804,7 @@ kwin (4:5.4.1-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 11 Sep 2015 18:44:56 +0200
 
-kwin (4:5.4.0-2) unstable; urgency=medium
+deepin-kwin (4:5.4.0-2) unstable; urgency=medium
 
   [ Felix Geyer ]
   * Tighten the dependency of kde-window-manager on kwin-x11 to the version
@@ -812,13 +812,13 @@ kwin (4:5.4.0-2) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 06 Sep 2015 12:20:03 +0200
 
-kwin (4:5.4.0-1) unstable; urgency=medium
+deepin-kwin (4:5.4.0-1) unstable; urgency=medium
 
   * New upstream release (5.4.0).
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 04 Sep 2015 11:06:10 +0200
 
-kwin (4:5.3.2-4) unstable; urgency=medium
+deepin-kwin (4:5.3.2-4) unstable; urgency=medium
 
   * Team upload.
 
@@ -835,7 +835,7 @@ kwin (4:5.3.2-4) unstable; urgency=medium
 
  -- Felix Geyer <fgeyer@debian.org>  Wed, 26 Aug 2015 01:18:42 +0200
 
-kwin (4:5.3.2-3) unstable; urgency=high
+deepin-kwin (4:5.3.2-3) unstable; urgency=high
 
   [ Maximiliano Curia ]
   * kwin-wayland: Add qtwayland5 dependency, for the wayland qt5 plugin.
@@ -847,7 +847,7 @@ kwin (4:5.3.2-3) unstable; urgency=high
 
  -- Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Wed, 29 Jul 2015 16:43:28 -0400
 
-kwin (4:5.3.2-2) unstable; urgency=medium
+deepin-kwin (4:5.3.2-2) unstable; urgency=medium
 
   * Adds missing arches to libkwingl*utils6. (Closes: #792481) Thanks to
     Dejan Latinovic, and Scott Kitterman
@@ -855,7 +855,7 @@ kwin (4:5.3.2-2) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sat, 18 Jul 2015 18:47:45 +0200
 
-kwin (4:5.3.2-1) unstable; urgency=medium
+deepin-kwin (4:5.3.2-1) unstable; urgency=medium
 
   * New upstream release (5.3.0).
   * Update symbols files.
@@ -866,13 +866,13 @@ kwin (4:5.3.2-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 01 Jul 2015 12:20:41 +0200
 
-kwin (4:5.3.1-0ubuntu3) wily; urgency=medium
+deepin-kwin (4:5.3.1-0ubuntu3) wily; urgency=medium
 
   * No-change rebuild against Qt 5.4.2.
 
  -- Adam Conrad <adconrad@ubuntu.com>  Tue, 16 Jun 2015 00:27:17 -0600
 
-kwin (4:5.3.1-0ubuntu1) wily; urgency=medium
+deepin-kwin (4:5.3.1-0ubuntu1) wily; urgency=medium
 
   [ Scarlett Clark ]
   * Manual merge kubuntu_stable.
@@ -889,7 +889,7 @@ kwin (4:5.3.1-0ubuntu1) wily; urgency=medium
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 05 Jun 2015 02:34:16 +0200
 
-kwin (4:5.2.2a-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.2.2a-0ubuntu1) vivid; urgency=medium
 
   * New upstream release
   * New upstream tar.
@@ -897,7 +897,7 @@ kwin (4:5.2.2a-0ubuntu1) vivid; urgency=medium
 
  -- Scarlett Clark <sgclark@kubuntu.org>  Tue, 24 Mar 2015 07:33:08 -0700
 
-kwin (4:5.2.2-1) experimental; urgency=medium
+deepin-kwin (4:5.2.2-1) experimental; urgency=medium
 
   * New upstream release (5.2.1).
   * Split kwin package in common, x11 and wayland.
@@ -906,14 +906,14 @@ kwin (4:5.2.2-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 25 Mar 2015 23:17:20 +0100
 
-kwin (4:5.2.1-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.2.1-0ubuntu1) vivid; urgency=medium
 
   * New upstream release
   * Batchpatch symbols file.
 
  -- Scarlett Clark <sgclark@kubuntu.org>  Mon, 23 Feb 2015 09:42:26 -0800
 
-kwin (4:5.2.0.1-1) experimental; urgency=medium
+deepin-kwin (4:5.2.0.1-1) experimental; urgency=medium
 
   * Prepare initial Debian release.
   * Add myself as Uploader.
@@ -927,7 +927,7 @@ kwin (4:5.2.0.1-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 09 Feb 2015 09:21:57 +0100
 
-kwin (4:5.2.0.1-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.2.0.1-0ubuntu1) vivid; urgency=medium
 
   * New upstream release
   * Soversion bump properly
@@ -939,39 +939,39 @@ kwin (4:5.2.0.1-0ubuntu1) vivid; urgency=medium
 
  -- Harald Sitter <sitter@kde.org>  Tue, 27 Jan 2015 14:54:41 +0100
 
-kwin (4:5.1.95-0ubuntu2) vivid; urgency=medium
+deepin-kwin (4:5.1.95-0ubuntu2) vivid; urgency=medium
 
   * version kwayland build-dep
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 16 Jan 2015 12:30:57 +0100
 
-kwin (4:5.1.95-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.1.95-0ubuntu1) vivid; urgency=medium
 
   * New upstream beta release
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 15 Jan 2015 01:31:59 +0100
 
-kwin (4:5.1.2-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.1.2-0ubuntu1) vivid; urgency=medium
 
   * remove obsolete patch kubuntu_kf5-version.diff
   * New upstream release
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 15 Dec 2014 13:22:19 +0100
 
-kwin (4:5.1.1-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.1.1-0ubuntu1) vivid; urgency=medium
 
   * New upstream release.
   * New package libkwinglesutils5 on armhf
 
  -- Scarlett Clark <sgclark@kubuntu.org>  Mon, 10 Nov 2014 19:47:53 +0100
 
-kwin (4:5.1.0.1-0ubuntu2) vivid; urgency=medium
+deepin-kwin (4:5.1.0.1-0ubuntu2) vivid; urgency=medium
 
   * Add install.armhf files for armhf
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 07 Nov 2014 17:12:18 +0100
 
-kwin (4:5.1.0.1-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.1.0.1-0ubuntu1) vivid; urgency=medium
 
   [ Jonathan Riddell ]
   * New upstream beta release
@@ -991,7 +991,7 @@ kwin (4:5.1.0.1-0ubuntu1) vivid; urgency=medium
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 14 Oct 2014 13:49:05 +0200
 
-kwin (4:5.0.2-0ubuntu1) utopic; urgency=medium
+deepin-kwin (4:5.0.2-0ubuntu1) utopic; urgency=medium
 
   [ Harald Sitter ]
   * switch to new pkg-kde-tools
@@ -1001,7 +1001,7 @@ kwin (4:5.0.2-0ubuntu1) utopic; urgency=medium
 
  -- Scarlett Clark <sgclark@kubuntu.org>  Wed, 17 Sep 2014 18:17:10 -0700
 
-kwin (4:5.0.1-0ubuntu1~ubuntu14.10~ppa2) utopic; urgency=medium
+deepin-kwin (4:5.0.1-0ubuntu1~ubuntu14.10~ppa2) utopic; urgency=medium
 
   [ Jonathan Riddell ]
   * New upstream release
@@ -1014,13 +1014,13 @@ kwin (4:5.0.1-0ubuntu1~ubuntu14.10~ppa2) utopic; urgency=medium
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Sun, 10 Aug 2014 15:43:00 +0200
 
-kwin (4:4.98.0-0ubuntu1) utopic; urgency=medium
+deepin-kwin (4:4.98.0-0ubuntu1) utopic; urgency=medium
 
   * New upstream RC release
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 07 Jul 2014 13:20:34 +0200
 
-kwin (4:4.97.0-0ubuntu1) utopic; urgency=medium
+deepin-kwin (4:4.97.0-0ubuntu1) utopic; urgency=medium
 
   [ Scarlett Clark ]
   * Initial release.

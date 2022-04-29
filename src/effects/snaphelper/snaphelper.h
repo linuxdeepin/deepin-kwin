@@ -11,7 +11,7 @@
 #ifndef KWIN_SNAPHELPER_H
 #define KWIN_SNAPHELPER_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

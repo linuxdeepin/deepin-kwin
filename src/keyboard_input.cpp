@@ -20,10 +20,10 @@
 #include "wayland_server.h"
 #include "workspace.h"
 // KWayland
-#include <KWaylandServer/datadevice_interface.h>
-#include <KWaylandServer/keyboard_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/ddeseat_interface.h>
+#include <DWayland/Server/datadevice_interface.h>
+#include <DWayland/Server/keyboard_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/ddeseat_interface.h>
 //screenlocker
 #include <KScreenLocker/KsldApp>
 // Frameworks

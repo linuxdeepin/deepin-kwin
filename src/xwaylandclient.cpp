@@ -9,7 +9,7 @@
 
 #include "xwaylandclient.h"
 
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
 using namespace KWaylandServer;
 

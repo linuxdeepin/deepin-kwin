@@ -10,8 +10,8 @@
 #ifndef KWIN_MOUSEMARK_H
 #define KWIN_MOUSEMARK_H
 
-#include <kwineffects.h>
-#include <kwinglutils.h>
+#include <deepin_kwineffects.h>
+#include <deepin_kwinglutils.h>
 
 namespace KWin
 {

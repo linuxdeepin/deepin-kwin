@@ -9,9 +9,9 @@
 #pragma once
 
 #include "config-kwin.h"
-#include "kwinglobals.h"
+#include "deepin_kwinglobals.h"
 
-#include <KWaylandServer/screencast_v1_interface.h>
+#include <DWayland/Server/screencast_v1_interface.h>
 
 #include <QHash>
 #include <QObject>

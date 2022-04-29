@@ -1,4 +1,4 @@
-module org.kde.kwin.decoration
+module org.deepin.kwin.decoration
 plugin decorationplugin
 
 Decoration 0.1 Decoration.qml

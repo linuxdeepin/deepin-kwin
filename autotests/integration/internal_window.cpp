@@ -20,12 +20,12 @@
 #include <QPainter>
 #include <QRasterWindow>
 
-#include <KWayland/Client/keyboard.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/seat.h>
+#include <DWayland/Client/keyboard.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/seat.h>
 #include <KWindowSystem>
 
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
 #include <linux/input.h>
 

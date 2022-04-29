@@ -13,7 +13,7 @@
 
 #include "waylandclient.h"
 
-#include <KWaylandServer/xdgshell_interface.h>
+#include <DWayland/Server/xdgshell_interface.h>
 
 #include <QQueue>
 #include <QTimer>

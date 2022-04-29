@@ -56,7 +56,7 @@
 #include "x11eventfilter.h"
 
 #include "wayland_server.h"
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
 #ifndef XCB_GE_GENERIC
 #define XCB_GE_GENERIC 35

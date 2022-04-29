@@ -12,9 +12,9 @@
 #define KWIN_SLIDINGPOPUPS_H
 
 // Include with base class for effects.
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
-#include <KWaylandServer/slide_interface.h>
+#include <DWayland/Server/slide_interface.h>
 
 namespace KWin
 {

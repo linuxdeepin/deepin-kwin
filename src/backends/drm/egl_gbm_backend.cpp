@@ -29,7 +29,7 @@
 #include "drm_abstract_output.h"
 #include "egl_dmabuf.h"
 // kwin libs
-#include <kwinglplatform.h>
+#include <deepin_kwinglplatform.h>
 #include <kwineglimagetexture.h>
 // system
 #include <gbm.h>
@@ -37,9 +37,9 @@
 #include <errno.h>
 #include <drm_fourcc.h>
 // kwayland server
-#include "KWaylandServer/surface_interface.h"
-#include "KWaylandServer/linuxdmabufv1clientbuffer.h"
-#include "KWaylandServer/clientconnection.h"
+#include <DWayland/Server/surface_interface.h>
+#include <DWayland/Server/linuxdmabufv1clientbuffer.h>
+#include <DWayland/Server/clientconnection.h>
 
 namespace KWin
 {

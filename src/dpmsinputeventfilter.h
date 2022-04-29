@@ -12,7 +12,7 @@
 
 #include <QElapsedTimer>
 
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 namespace KWin
 {

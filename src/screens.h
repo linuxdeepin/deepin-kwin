@@ -10,7 +10,7 @@
 #define KWIN_SCREENS_H
 
 // KWin includes
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // KDE includes
 #include <KConfig>
 #include <KSharedConfig>

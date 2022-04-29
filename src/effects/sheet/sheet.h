@@ -13,7 +13,7 @@
 #define KWIN_SHEET_H
 
 // kwineffects
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

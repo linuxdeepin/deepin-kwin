@@ -15,7 +15,7 @@
 // Qt
 #include <QtTest>
 
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 #include "qwayland-idle-inhibit-unstable-v1.h"
 #include "qwayland-input-method-unstable-v1.h"

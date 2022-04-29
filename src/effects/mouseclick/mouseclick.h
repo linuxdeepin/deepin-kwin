@@ -10,8 +10,8 @@
 #ifndef KWIN_MOUSECLICK_H
 #define KWIN_MOUSECLICK_H
 
-#include <kwineffects.h>
-#include <kwinglutils.h>
+#include <deepin_kwineffects.h>
+#include <deepin_kwinglutils.h>
 #include <KLocalizedString>
 #include <QFont>
 

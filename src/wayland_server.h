@@ -9,7 +9,7 @@
 #ifndef KWIN_WAYLAND_SERVER_H
 #define KWIN_WAYLAND_SERVER_H
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 #include <QObject>
 #include <QPointer>

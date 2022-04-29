@@ -5,7 +5,7 @@
 */
 
 #pragma once
-#include "kwin_export.h"
+#include "deepin_kwin_export.h"
 #include <QScopedPointer>
 
 namespace KWin

@@ -5,7 +5,7 @@
 */
 import QtQuick 2.0
 import org.kde.kquickcontrolsaddons 2.0 as KQuickControlsAddons
-import org.kde.kwin.decoration 0.1
+import org.deepin.kwin.decoration 0.1
 
 DecorationButton {
     property bool closeOnDoubleClick: decorationSettings.closeOnDoubleClickOnMenu

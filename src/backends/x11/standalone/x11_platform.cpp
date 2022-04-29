@@ -13,7 +13,7 @@
 #include "session.h"
 #include "windowselector.h"
 #include <config-kwin.h>
-#include <kwinconfig.h>
+#include <deepin_kwinconfig.h>
 #if HAVE_EPOXY_GLX
 #include "glxbackend.h"
 #endif
@@ -34,7 +34,7 @@
 #include "utils/xcbutils.h"
 #include "renderloop.h"
 
-#include <kwinxrenderutils.h>
+#include <deepin_kwinxrenderutils.h>
 
 #include <KConfigGroup>
 #include <KLocalizedString>

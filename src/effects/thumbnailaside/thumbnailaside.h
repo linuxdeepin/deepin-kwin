@@ -17,7 +17,7 @@
 #ifndef KWIN_THUMBNAILASIDE_H
 #define KWIN_THUMBNAILASIDE_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 #include <QHash>
 

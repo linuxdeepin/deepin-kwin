@@ -9,8 +9,8 @@
 #include "workspace.h"
 #include "xdgshellclient.h"
 
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/xdgshell_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/xdgshell_interface.h>
 
 using namespace KWaylandServer;
 

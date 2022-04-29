@@ -13,10 +13,10 @@
 #include "utils/common.h"
 #include "wayland_server.h"
 #include "workspace.h"
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/surface_interface.h>
-#include <KWaylandServer/plasmawindowmanagement_interface.h>
-#include <KWaylandServer/xdgactivation_v1_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/surface_interface.h>
+#include <DWayland/Server/plasmawindowmanagement_interface.h>
+#include <DWayland/Server/xdgactivation_v1_interface.h>
 
 using namespace KWaylandServer;
 

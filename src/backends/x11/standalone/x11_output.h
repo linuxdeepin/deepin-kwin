@@ -10,7 +10,7 @@
 #define KWIN_X11_OUTPUT_H
 
 #include "abstract_output.h"
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 #include <QObject>
 #include <QRect>

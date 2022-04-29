@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "kwinglobals.h"
+#include "deepin_kwinglobals.h"
 
 #include <QHash>
 #include <QObject>

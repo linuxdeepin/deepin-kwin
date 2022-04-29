@@ -17,10 +17,10 @@
 #include "workspace.h"
 #include "utils/xcbutils.h"
 
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/shm_pool.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/shm_pool.h>
+#include <DWayland/Client/surface.h>
 
 #include <QPainter>
 #include <QRasterWindow>

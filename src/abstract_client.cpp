@@ -31,8 +31,8 @@
 #include "workspace.h"
 
 #include "wayland_server.h"
-#include <KWaylandServer/plasmawindowmanagement_interface.h>
-#include <KWaylandServer/output_interface.h>
+#include <DWayland/Server/plasmawindowmanagement_interface.h>
+#include <DWayland/Server/output_interface.h>
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>

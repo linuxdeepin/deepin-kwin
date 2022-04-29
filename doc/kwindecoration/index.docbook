@@ -75,7 +75,7 @@ On this tab you can change the border size and the visibility
 of the window titlebar for particular windows.</para>
 
 <para>Different options for particular windows you find in the &systemsettings;
-module <ulink url="help:/kcontrol/windowspecific">Window Rules</ulink>.
+module <ulink url="help:/dcontrol/windowspecific">Window Rules</ulink>.
 </para>
 
 <tip>

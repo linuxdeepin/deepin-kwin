@@ -8,9 +8,9 @@
 #include "composite.h"
 #include "scene.h"
 
-#include <KWaylandServer/clientbuffer.h>
-#include <KWaylandServer/subcompositor_interface.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/clientbuffer.h>
+#include <DWayland/Server/subcompositor_interface.h>
+#include <DWayland/Server/surface_interface.h>
 
 namespace KWin
 {

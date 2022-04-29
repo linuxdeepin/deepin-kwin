@@ -9,7 +9,7 @@
 #ifndef KWIN_XWL_XWAYLAND_INTERFACE
 #define KWIN_XWL_XWAYLAND_INTERFACE
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 #include <QObject>
 #include <QPoint>

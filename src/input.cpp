@@ -45,13 +45,13 @@
 #include <KDecoration2/Decoration>
 #include <KGlobalAccel>
 #include <KLocalizedString>
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/inputmethod_v1_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/shmclientbuffer.h>
-#include <KWaylandServer/surface_interface.h>
-#include <KWaylandServer/tablet_v2_interface.h>
-#include <KWaylandServer/ddeseat_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/inputmethod_v1_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/shmclientbuffer.h>
+#include <DWayland/Server/surface_interface.h>
+#include <DWayland/Server/tablet_v2_interface.h>
+#include <DWayland/Server/ddeseat_interface.h>
 #include <decorations/decoratedclient.h>
 
 //screenlocker

@@ -24,7 +24,7 @@
 #include "windowitem.h"
 #include "abstract_output.h"
 
-#include <kwinoffscreenquickview.h>
+#include <deepin_kwinoffscreenquickview.h>
 // Qt
 #include <QDebug>
 #include <QPainter>

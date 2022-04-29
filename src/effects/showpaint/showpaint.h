@@ -10,7 +10,7 @@
 #ifndef KWIN_SHOWPAINT_H
 #define KWIN_SHOWPAINT_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

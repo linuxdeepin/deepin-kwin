@@ -15,7 +15,7 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Server/seat_interface.h>
 
 namespace KWin
 {

@@ -29,11 +29,11 @@
 #include <KConfigGroup>
 #include <KGlobalAccel>
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/registry.h>
-#include <KWayland/Client/slide.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/registry.h>
+#include <DWayland/Client/slide.h>
+#include <DWayland/Client/surface.h>
 
 using namespace KWin;
 using namespace std::chrono_literals;

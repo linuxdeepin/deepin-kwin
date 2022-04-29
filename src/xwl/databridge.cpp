@@ -18,10 +18,10 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWaylandServer/clientconnection.h>
-#include <KWaylandServer/datadevicemanager_interface.h>
-#include <KWaylandServer/datadevice_interface.h>
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Server/clientconnection.h>
+#include <DWayland/Server/datadevicemanager_interface.h>
+#include <DWayland/Server/datadevice_interface.h>
+#include <DWayland/Server/seat_interface.h>
 
 using namespace KWaylandServer;
 

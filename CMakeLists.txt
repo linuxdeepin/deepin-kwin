@@ -107,12 +107,6 @@ set_package_properties(Threads PROPERTIES
     TYPE REQUIRED
 )
 
-find_package(KF5Wayland ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5Wayland PROPERTIES
-    PURPOSE "Required to build wayland platform plugin and tests"
-    TYPE REQUIRED
-)
-
 # optional frameworks
 find_package(KF5Activities ${KF5_MIN_VERSION} CONFIG)
 set_package_properties(KF5Activities PROPERTIES
@@ -150,8 +144,8 @@ set_package_properties(KScreenLocker PROPERTIES
     PURPOSE "For screenlocker integration in kwin_wayland"
 )
 
-find_package(KWaylandServer CONFIG REQUIRED)
-set_package_properties(KWaylandServer PROPERTIES
+find_package(DWayland CONFIG REQUIRED)
+set_package_properties(DWayland PROPERTIES
     TYPE REQUIRED
     PURPOSE "For Wayland integration"
 )
@@ -355,9 +349,9 @@ cmake_dependent_option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner 
 cmake_dependent_option(KWIN_BUILD_CMS "Enable building of KWin with CMS" ON "lcms2_FOUND" OFF)
 
 # Binary name of KWin
-set(KWIN_NAME "kwin")
-set(KWIN_INTERNAL_NAME_X11 "kwin_x11")
-set(KWIN_INTERNAL_NAME_WAYLAND "kwin_wayland")
+set(KWIN_NAME "deepin-kwin")
+set(KWIN_INTERNAL_NAME_X11 "deepin-kwin_x11")
+set(KWIN_INTERNAL_NAME_WAYLAND "deepin-kwin_wayland")
 
 include_directories(${XKB_INCLUDE_DIR})
 
@@ -440,7 +434,7 @@ if (BUILD_TESTING)
     find_package(WaylandProtocols 1.19 REQUIRED)
     find_package(QtWaylandScanner ${QT_MIN_VERSION} REQUIRED)
     find_package(Wayland REQUIRED COMPONENTS Client)
-    find_package(PlasmaWaylandProtocols CONFIG REQUIRED)
+    find_package(DeepinWaylandProtocols CONFIG REQUIRED)
 
     add_subdirectory(autotests)
     add_subdirectory(tests)
@@ -453,7 +447,7 @@ kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 include(CMakePackageConfigHelpers)
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KWinDBusInterface")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/DeepinKWinDBusInterface")
 configure_package_config_file(KWinDBusInterfaceConfig.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/KWinDBusInterfaceConfig.cmake"
     PATH_VARS KDE_INSTALL_DBUSINTERFACEDIR
@@ -461,7 +455,7 @@ configure_package_config_file(KWinDBusInterfaceConfig.cmake.in
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/KWinDBusInterfaceConfig.cmake
     DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 
-ecm_install_configured_files(INPUT plasma-kwin_x11.service.in plasma-kwin_wayland.service.in @ONLY
+ecm_install_configured_files(INPUT deepin-kwin_x11.service.in deepin-kwin_wayland.service.in @ONLY
             DESTINATION ${SYSTEMD_USER_UNIT_INSTALL_DIR})
 
 find_package(KF5I18n CONFIG REQUIRED)

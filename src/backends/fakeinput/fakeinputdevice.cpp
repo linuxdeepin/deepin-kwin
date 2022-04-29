@@ -11,8 +11,8 @@
 #include "toplevel.h"
 #include "abstract_client.h"
 #include "wayland_server.h"
-#include <KWaylandServer/fakeinput_interface.h>
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Server/fakeinput_interface.h>
+#include <DWayland/Server/seat_interface.h>
 
 namespace KWin
 {

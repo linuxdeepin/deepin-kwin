@@ -8,15 +8,15 @@
 #ifndef BLUR_H
 #define BLUR_H
 
-#include <kwineffects.h>
-#include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include <deepin_kwineffects.h>
+#include <deepin_kwinglplatform.h>
+#include <deepin_kwinglutils.h>
 
 #include <QVector>
 #include <QVector2D>
 #include <QStack>
 
-#include <KWaylandServer/blur_interface.h>
+#include <DWayland/Server/blur_interface.h>
 
 namespace KWin
 {

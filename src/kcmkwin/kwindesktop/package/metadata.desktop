@@ -105,7 +105,7 @@ Comment[zh_TW]=設定虛擬桌面的導覽、數字與佈局
 Icon=preferences-desktop
 Type=Service
 X-KDE-PluginInfo-License=GPL
-X-KDE-PluginInfo-Name=kcm_kwin_virtualdesktops
+X-KDE-PluginInfo-Name=deepin-kcm_kwin_virtualdesktops
 X-KDE-ServiceTypes=Plasma/Generic
 X-KDE-FormFactors=desktop
 

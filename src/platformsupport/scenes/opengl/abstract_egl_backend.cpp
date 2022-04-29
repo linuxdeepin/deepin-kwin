@@ -14,10 +14,10 @@
 #include "utils/egl_context_attribute_builder.h"
 #include "wayland_server.h"
 #include "abstract_wayland_output.h"
-#include <KWaylandServer/display.h>
+#include <DWayland/Server/display.h>
 // kwin libs
-#include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include <deepin_kwinglplatform.h>
+#include <deepin_kwinglutils.h>
 // Qt
 #include <QOpenGLContext>
 

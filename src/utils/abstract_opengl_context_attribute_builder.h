@@ -8,7 +8,7 @@
 */
 #pragma once
 #include <QDebug>
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 namespace KWin
 {

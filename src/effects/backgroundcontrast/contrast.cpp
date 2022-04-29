@@ -14,8 +14,8 @@
 #include <QTimer>
 #include <QWindow>
 
-#include <KWaylandServer/surface_interface.h>
-#include <KWaylandServer/display.h>
+#include <DWayland/Server/surface_interface.h>
+#include <DWayland/Server/display.h>
 
 namespace KWin
 {

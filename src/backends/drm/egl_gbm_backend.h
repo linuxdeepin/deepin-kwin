@@ -11,7 +11,7 @@
 #include "abstract_egl_backend.h"
 #include "utils/common.h"
 
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 
 #include <QPointer>
 #include <QSharedPointer>

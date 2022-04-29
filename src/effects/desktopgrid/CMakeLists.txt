@@ -1,6 +1,6 @@
 #######################################
 # Effect
-install(FILES main.qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/desktopgrid/)
+install(FILES main.qml DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/effects/desktopgrid/)
 
 set(desktopgrid_SOURCES
     desktopgrid.cpp
@@ -28,6 +28,6 @@ target_link_libraries(kwin_desktopgrid_config
     KF5::I18n
     KF5::XmlGui
     Qt::Quick
-    kwineffects
+    deepin-kwineffects
     KWinEffectsInterface
 )

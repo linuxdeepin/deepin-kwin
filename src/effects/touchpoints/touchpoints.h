@@ -11,7 +11,7 @@
 #ifndef KWIN_TOUCHPOINTS_H
 #define KWIN_TOUCHPOINTS_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

@@ -12,17 +12,17 @@ kcmutils_generate_module_data(
 )
 
 kconfig_add_kcfg_files(kcm_virtualkeyboard_PART_SRCS virtualkeyboardsettings.kcfgc GENERATE_MOC)
-add_library(kcm_virtualkeyboard MODULE kcmvirtualkeyboard.cpp ${kcm_virtualkeyboard_PART_SRCS})
-target_include_directories(kcm_virtualkeyboard PRIVATE ${CMAKE_SOURCE_DIR})
+add_library(deepin-kcm_virtualkeyboard MODULE kcmvirtualkeyboard.cpp ${kcm_virtualkeyboard_PART_SRCS})
+target_include_directories(deepin-kcm_virtualkeyboard PRIVATE ${CMAKE_SOURCE_DIR})
 
-target_link_libraries(kcm_virtualkeyboard
+target_link_libraries(deepin-kcm_virtualkeyboard
     KF5::I18n
     KF5::KCMUtils
     KF5::QuickAddons
 )
 
-kcoreaddons_desktop_to_json(kcm_virtualkeyboard "kcm_virtualkeyboard.desktop")
+kcoreaddons_desktop_to_json(deepin-kcm_virtualkeyboard "deepin-kcm_virtualkeyboard.desktop")
 
-install(TARGETS kcm_virtualkeyboard DESTINATION ${KDE_INSTALL_PLUGINDIR}/kcms)
-install(FILES kcm_virtualkeyboard.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
-kpackage_install_package(package kcm_virtualkeyboard kcms)
+install(TARGETS deepin-kcm_virtualkeyboard DESTINATION ${KDE_INSTALL_PLUGINDIR}/kcms)
+install(FILES deepin-kcm_virtualkeyboard.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
+kpackage_install_package(package deepin-kcm_virtualkeyboard kcms)

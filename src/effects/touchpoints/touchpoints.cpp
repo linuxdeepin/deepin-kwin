@@ -11,7 +11,7 @@
 #include "touchpoints.h"
 
 #include <QAction>
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 
 #include <KConfigGroup>
 #include <KGlobalAccel>

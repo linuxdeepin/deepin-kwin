@@ -11,9 +11,9 @@
 // frameworks
 #include <KConfigGroup>
 // KWayland
-#include <KWaylandServer/keyboard_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/ddeseat_interface.h>
+#include <DWayland/Server/keyboard_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/ddeseat_interface.h>
 // Qt
 #include <QTemporaryFile>
 #include <QKeyEvent>

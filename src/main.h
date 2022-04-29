@@ -11,7 +11,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 #include <config-kwin.h>
 
 #include <KSharedConfig>

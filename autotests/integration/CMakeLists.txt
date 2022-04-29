@@ -32,11 +32,11 @@ ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
     BASENAME idle-inhibit-unstable-v1
 )
 ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
     BASENAME kde-output-device-v2
 )
 ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework_SOURCES
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
     BASENAME kde-output-management-v2
 )
 
@@ -44,9 +44,9 @@ add_library(KWinIntegrationTestFramework SHARED ${KWinIntegrationTestFramework_S
 target_link_libraries(KWinIntegrationTestFramework
     PUBLIC
         Qt::Test
-        KF5::WaylandClient
+        DWaylandClient
         Wayland::Client
-        kwin
+        deepin-kwin
 
     PRIVATE
         kwin4_effect_builtins
@@ -122,7 +122,7 @@ integrationTest(WAYLAND_ONLY NAME testScreens SRCS screens_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testScreenEdges SRCS screenedges_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testOutputChanges SRCS outputchanges_test.cpp)
 
-qt_add_dbus_interfaces(DBUS_SRCS ${CMAKE_BINARY_DIR}/src/org.kde.kwin.VirtualKeyboard.xml)
+qt_add_dbus_interfaces(DBUS_SRCS ${CMAKE_BINARY_DIR}/src/org.deepin.kwin.VirtualKeyboard.xml)
 integrationTest(WAYLAND_ONLY NAME testVirtualKeyboardDBus SRCS test_virtualkeyboard_dbus.cpp ${DBUS_SRCS})
 
 if (KWIN_BUILD_CMS)

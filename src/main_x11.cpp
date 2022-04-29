@@ -465,7 +465,7 @@ int main(int argc, char * argv[])
     }
 
     // find and load the X11 platform plugin
-    const KPluginMetaData plugin = KPluginMetaData::findPluginById(QStringLiteral("org.kde.kwin.platforms"), QStringLiteral("KWinX11Platform"));
+    const KPluginMetaData plugin = KPluginMetaData::findPluginById(QStringLiteral("org.kde.deepin-kwin.platforms"), QStringLiteral("KWinX11Platform"));
 
     if (!plugin.isValid()) {
         std::cerr << "FATAL ERROR: KWin could not find the KWinX11Platform plugin" << std::endl;

@@ -5,7 +5,7 @@
 */
 import QtQuick 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.kwin.decoration 0.1
+import org.deepin.kwin.decoration 0.1
 
 DecorationButton {
     function widthForButton() {

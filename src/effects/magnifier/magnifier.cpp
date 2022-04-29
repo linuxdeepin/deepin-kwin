@@ -14,10 +14,10 @@
 #include "magnifierconfig.h"
 
 #include <QAction>
-#include <kwinconfig.h>
+#include <deepin_kwinconfig.h>
 #include <kstandardaction.h>
 
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 #include <KGlobalAccel>
 
 namespace KWin

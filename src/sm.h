@@ -12,7 +12,7 @@
 #define KWIN_SM_H
 
 #include <QDataStream>
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 #include <QStringList>
 #include <netwm_def.h>
 #include <QRect>

@@ -14,7 +14,7 @@
 #define KWIN_GLIDE_H
 
 // kwineffects
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KWin
 {

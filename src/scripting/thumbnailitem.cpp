@@ -17,8 +17,8 @@
 #include "virtualdesktops.h"
 #include "workspace.h"
 
-#include <kwingltexture.h>
-#include <kwinglutils.h>
+#include <deepin_kwingltexture.h>
+#include <deepin_kwinglutils.h>
 
 #include <QSGImageNode>
 #include <QRunnable>

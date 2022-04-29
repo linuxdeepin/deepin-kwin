@@ -27,8 +27,8 @@
 #include "unmanaged.h"
 #include "workspace.h"
 #include "wayland_server.h"
-#include <KWaylandServer/keyboard_interface.h>
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Server/keyboard_interface.h>
+#include <DWayland/Server/seat_interface.h>
 #include "virtualdesktops.h"
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"

@@ -9,7 +9,7 @@
 #pragma once
 
 #include <QSize>
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 
 #include "egl_gbm_backend.h"
 

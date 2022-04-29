@@ -11,7 +11,7 @@
 
 #include <QObject>
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 class OrgFreedesktopScreenSaverInterface;
 class OrgKdeScreensaverInterface;

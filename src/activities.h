@@ -9,7 +9,7 @@
 #ifndef KWIN_ACTIVITIES_H
 #define KWIN_ACTIVITIES_H
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 #include <QObject>
 #include <QStringList>

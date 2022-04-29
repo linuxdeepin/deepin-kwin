@@ -8,8 +8,8 @@
 #include "surfaceitem_wayland.h"
 #include "utils/common.h"
 
-#include <KWaylandServer/shmclientbuffer.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/shmclientbuffer.h>
+#include <DWayland/Server/surface_interface.h>
 
 #include <QPainter>
 

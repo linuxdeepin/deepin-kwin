@@ -13,9 +13,9 @@ set(kcm_kwin_virtualdesktops_PART_SRCS
 
 kconfig_add_kcfg_files(kcm_kwin_virtualdesktops_PART_SRCS virtualdesktopssettings.kcfgc GENERATE_MOC)
 
-add_library(kcm_kwin_virtualdesktops MODULE ${kcm_kwin_virtualdesktops_PART_SRCS})
+add_library(deepin-kcm_kwin_virtualdesktops MODULE ${kcm_kwin_virtualdesktops_PART_SRCS})
 
-target_link_libraries(kcm_kwin_virtualdesktops
+target_link_libraries(deepin-kcm_kwin_virtualdesktops
     Qt::DBus
 
     KF5::I18n
@@ -23,14 +23,14 @@ target_link_libraries(kcm_kwin_virtualdesktops
     KF5::QuickAddons
     KF5::XmlGui
 
-    kcmkwincommon
+    deepin-kcmkwincommon
 )
 
-kcoreaddons_desktop_to_json(kcm_kwin_virtualdesktops "kcm_kwin_virtualdesktops.desktop")
+kcoreaddons_desktop_to_json(deepin-kcm_kwin_virtualdesktops "deepin-kcm_kwin_virtualdesktops.desktop")
 
 ########### install files ###############
 
-install(FILES virtualdesktopssettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-install(TARGETS kcm_kwin_virtualdesktops DESTINATION ${KDE_INSTALL_PLUGINDIR}/kcms)
-install(FILES kcm_kwin_virtualdesktops.desktop  DESTINATION  ${KDE_INSTALL_KSERVICES5DIR})
-kpackage_install_package(package kcm_kwin_virtualdesktops kcms)
+install(FILES deepin-virtualdesktopssettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+install(TARGETS deepin-kcm_kwin_virtualdesktops DESTINATION ${KDE_INSTALL_PLUGINDIR}/kcms)
+install(FILES deepin-kcm_kwin_virtualdesktops.desktop  DESTINATION  ${KDE_INSTALL_KSERVICES5DIR})
+kpackage_install_package(package deepin-kcm_kwin_virtualdesktops kcms)

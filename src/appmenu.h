@@ -11,7 +11,7 @@
 #ifndef KWIN_APPMENU_H
 #define KWIN_APPMENU_H
 // KWin
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // Qt
 #include <QObject>
 // xcb

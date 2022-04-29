@@ -11,7 +11,7 @@
 #ifndef KWIN_SCRIPTEDEFFECT_H
 #define KWIN_SCRIPTEDEFFECT_H
 
-#include <kwinanimationeffect.h>
+#include <deepin_kwinanimationeffect.h>
 
 #include <QJSEngine>
 #include <QJSValue>
@@ -39,7 +39,7 @@ class KWIN_EXPORT ScriptedEffect : public KWin::AnimationEffect
      */
     Q_PROPERTY(bool isActiveFullScreenEffect READ isActiveFullScreenEffect NOTIFY isActiveFullScreenEffectChanged)
 public:
-    // copied from kwineffects.h
+    // copied from deepin_kwineffects.h
     enum DataRole {
         // Grab roles are used to force all other animations to ignore the window.
         // The value of the data is set to the Effect's `this` value.

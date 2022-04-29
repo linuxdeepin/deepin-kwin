@@ -11,7 +11,7 @@
 
 #include "abstract_wayland_output.h"
 
-#include <KWayland/Client/xdgshell.h>
+#include <DWayland/Client/xdgshell.h>
 
 #include <QObject>
 

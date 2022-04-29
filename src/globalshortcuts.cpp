@@ -10,7 +10,7 @@
 #include "globalshortcuts.h"
 // kwin
 #include "gestures.h"
-#include "kwinglobals.h"
+#include "deepin_kwinglobals.h"
 #include "main.h"
 #include "utils/common.h"
 #include <config-kwin.h>

@@ -10,7 +10,7 @@
 #ifndef KWIN_MAGICLAMP_H
 #define KWIN_MAGICLAMP_H
 
-#include <kwindeformeffect.h>
+#include <deepin_kwindeformeffect.h>
 
 namespace KWin
 {

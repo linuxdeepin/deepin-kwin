@@ -18,8 +18,8 @@
 #include "virtual_output.h"
 #include <logging.h>
 // kwin libs
-#include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include <deepin_kwinglplatform.h>
+#include <deepin_kwinglutils.h>
 // Qt
 #include <QOpenGLContext>
 

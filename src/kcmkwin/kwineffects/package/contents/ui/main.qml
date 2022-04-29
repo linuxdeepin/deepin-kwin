@@ -124,7 +124,7 @@ ScrollViewKCM {
             NewStuff.Button {
                 text: i18n("Get New Desktop Effects...")
                 visible: KAuthorized.authorize(KAuthorized.GHNS)
-                configFile: "kwineffect.knsrc"
+                configFile: "deepin-kwineffect.knsrc"
                 onEntryEvent: function (entry, event) {
                     if (event == 1) { // StatusChangedEvent
                         kcm.onGHNSEntriesChanged()

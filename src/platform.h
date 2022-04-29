@@ -8,8 +8,8 @@
 */
 #ifndef KWIN_PLATFORM_H
 #define KWIN_PLATFORM_H
-#include <kwin_export.h>
-#include <kwinglobals.h>
+#include <deepin_kwin_export.h>
+#include <deepin_kwinglobals.h>
 #include <epoxy/egl.h>
 #include "input.h"
 

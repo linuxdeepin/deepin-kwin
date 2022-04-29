@@ -12,8 +12,8 @@
 #include "screenshotdbusinterface1.h"
 #include "screenshotdbusinterface2.h"
 
-#include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include <deepin_kwinglplatform.h>
+#include <deepin_kwinglutils.h>
 
 #include <QPainter>
 

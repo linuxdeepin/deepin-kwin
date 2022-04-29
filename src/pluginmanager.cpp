@@ -19,7 +19,7 @@ namespace KWin
 
 KWIN_SINGLETON_FACTORY(PluginManager)
 
-static const QString s_pluginDirectory = QStringLiteral("kwin/plugins");
+static const QString s_pluginDirectory = QStringLiteral("deepin-kwin/plugins");
 
 static QJsonValue readPluginInfo(const QJsonObject &metadata, const QString &key)
 {

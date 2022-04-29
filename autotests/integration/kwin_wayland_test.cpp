@@ -68,7 +68,7 @@ WaylandTestApplication::WaylandTestApplication(OperationMode mode, int &argc, ch
     removeLibraryPath(ownPath);
     addLibraryPath(ownPath);
 
-    const KPluginMetaData plugin = KPluginMetaData::findPluginById(QStringLiteral("org.kde.kwin.waylandbackends"), "KWinWaylandVirtualBackend");
+    const KPluginMetaData plugin = KPluginMetaData::findPluginById(QStringLiteral("org.kde.deepin-kwin.waylandbackends"), "KWinWaylandVirtualBackend");
     if (!plugin.isValid()) {
         quit();
         return;

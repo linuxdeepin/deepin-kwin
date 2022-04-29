@@ -1,8 +1,8 @@
 # for things that are also used by kwin libraries
-configure_file(libkwineffects/kwinconfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkwineffects/kwinconfig.h)
+configure_file(libkwineffects/kwinconfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkwineffects/deepin_kwinconfig.h)
 configure_file(config-kwin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kwin.h)
 
-set(kwin_effects_dbus_xml ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kwin.Effects.xml)
+set(kwin_effects_dbus_xml ${CMAKE_CURRENT_SOURCE_DIR}/org.deepin.kwin.Effects.xml)
 qt_add_dbus_interface(effects_interface_SRCS ${kwin_effects_dbus_xml} kwineffects_interface)
 add_library(KWinEffectsInterface STATIC ${effects_interface_SRCS})
 target_link_libraries(KWinEffectsInterface Qt::DBus)
@@ -156,13 +156,13 @@ kconfig_add_kcfg_files(kwin_SRCS settings.kcfgc)
 kconfig_add_kcfg_files(kwin_SRCS rulesettings.kcfgc)
 kconfig_add_kcfg_files(kwin_SRCS rulebooksettingsbase.kcfgc)
 
-qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.xml dbusinterface.h KWin::DBusInterface)
-qt_add_dbus_adaptor(kwin_SRCS org.kde.kwin.Compositing.xml dbusinterface.h KWin::CompositorDBusInterface)
+qt_add_dbus_adaptor(kwin_SRCS org.deepin.KWin.xml dbusinterface.h KWin::DBusInterface)
+qt_add_dbus_adaptor(kwin_SRCS org.deepin.kwin.Compositing.xml dbusinterface.h KWin::CompositorDBusInterface)
 qt_add_dbus_adaptor(kwin_SRCS ${kwin_effects_dbus_xml} effects.h KWin::EffectsHandlerImpl)
-qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
+qt_add_dbus_adaptor(kwin_SRCS org.deepin.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
 qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionManager)
-qt_add_dbus_adaptor(kwin_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
-qt_add_dbus_adaptor(kwin_SRCS org.kde.kwin.Xkb.xml xkb.h KWin::Xkb)
+qt_add_dbus_adaptor(kwin_SRCS org.deepin.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
+qt_add_dbus_adaptor(kwin_SRCS org.deepin.kwin.Xkb.xml xkb.h KWin::Xkb)
 
 qt_add_dbus_interface(kwin_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf5_org.freedesktop.ScreenSaver.xml screenlocker_interface)
 qt_add_dbus_interface(kwin_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/org.kde.screensaver.xml kscreenlocker_interface)
@@ -173,15 +173,15 @@ ki18n_wrap_ui(kwin_SRCS
     shortcutdialog.ui
 )
 
-add_library(kwin SHARED ${kwin_SRCS})
-set_target_properties(kwin PROPERTIES
+add_library(deepin-kwin SHARED ${kwin_SRCS})
+set_target_properties(deepin-kwin PROPERTIES
    VERSION ${PROJECT_VERSION}
    SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
-target_link_libraries(kwin
-    kwineffects
-    kwinglutils
+target_link_libraries(deepin-kwin
+    deepin-kwineffects
+    deepin-kwinglutils
 
     Qt::Concurrent
     Qt::DBus
@@ -203,7 +203,8 @@ target_link_libraries(kwin
     KDecoration2::KDecoration2Private
 
     PW::KScreenLocker
-    Plasma::KWaylandServer
+    Wayland::Server
+    DWaylandServer
 
     XCB::COMPOSITE
     XCB::CURSOR
@@ -232,20 +233,20 @@ add_subdirectory(scenes)
 add_subdirectory(utils)
 
 if (KWIN_BUILD_CMS)
-    target_sources(kwin PRIVATE
+    target_sources(deepin-kwin PRIVATE
         colordevice.cpp
         colormanager.cpp
     )
-    target_link_libraries(kwin lcms2::lcms2)
+    target_link_libraries(deepin-kwin lcms2::lcms2)
 endif()
 
 if (KWIN_BUILD_ACTIVITIES)
-    target_sources(kwin PRIVATE activities.cpp)
-    target_link_libraries(kwin KF5::Activities)
+    target_sources(deepin-kwin PRIVATE activities.cpp)
+    target_link_libraries(deepin-kwin KF5::Activities)
 endif()
 
 if (KWIN_BUILD_TABBOX)
-    target_sources(kwin PRIVATE
+    target_sources(deepin-kwin PRIVATE
         tabbox/clientmodel.cpp
         tabbox/desktopchain.cpp
         tabbox/desktopmodel.cpp
@@ -256,56 +257,58 @@ if (KWIN_BUILD_TABBOX)
         tabbox/tabboxhandler.cpp
         tabbox/x11_filter.cpp
     )
-    target_link_libraries(kwin Qt::GuiPrivate)
+    target_link_libraries(deepin-kwin Qt::GuiPrivate)
 endif()
 
-qt5_generate_dbus_interface(virtualkeyboard_dbus.h org.kde.kwin.VirtualKeyboard.xml OPTIONS -A)
-qt5_generate_dbus_interface(tabletmodemanager.h org.kde.KWin.TabletModeManager.xml OPTIONS -A)
+qt5_generate_dbus_interface(virtualkeyboard_dbus.h org.deepin.kwin.VirtualKeyboard.xml OPTIONS -A)
+qt5_generate_dbus_interface(tabletmodemanager.h org.deepin.KWin.TabletModeManager.xml OPTIONS -A)
 
-generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
+generate_export_header(deepin-kwin
+    BASE_NAME KWIN
+    EXPORT_FILE_NAME deepin_kwin_export.h)
 
-add_executable(kwin_x11 main_x11.cpp)
-target_link_libraries(kwin_x11
+add_executable(deepin-kwin_x11 main_x11.cpp)
+target_link_libraries(deepin-kwin_x11
     kwin4_effect_builtins
-    kwin
+    deepin-kwin
     KF5::Crash
     Qt::X11Extras
 )
 
-install(TARGETS kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
-install(TARGETS kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
+install(TARGETS deepin-kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 add_subdirectory(xwl)
 
-add_executable(kwin_wayland
+add_executable(deepin-kwin_wayland
     main_wayland.cpp
     tabletmodemanager.cpp
 )
-target_link_libraries(kwin_wayland
+target_link_libraries(deepin-kwin_wayland
     kwin4_effect_builtins
-    kwin
+    deepin-kwin
     KF5::Crash
     KWinXwaylandServerModule
 )
 if (HAVE_LIBCAP)
-    target_link_libraries(kwin_wayland ${Libcap_LIBRARIES})
+    target_link_libraries(deepin-kwin_wayland ${Libcap_LIBRARIES})
 endif()
 
-install(TARGETS kwin_wayland ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwin_wayland ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if (HAVE_LIBCAP)
     install(
     CODE "execute_process(
             COMMAND
                 ${SETCAP_EXECUTABLE}
                 CAP_SYS_NICE=+ep
-                \$ENV{DESTDIR}${CMAKE_INSTALL_FULL_BINDIR}/kwin_wayland)"
+                \$ENV{DESTDIR}${CMAKE_INSTALL_FULL_BINDIR}/deepin-kwin_wayland)"
     )
 endif()
 
 add_subdirectory(platformsupport)
 add_subdirectory(plugins)
 
-target_link_libraries(kwin_wayland
+target_link_libraries(deepin-kwin_wayland
     KWinQpaPlugin
     KF5GlobalAccelKWinPlugin
     KF5WindowSystemKWinPlugin
@@ -315,30 +318,30 @@ target_link_libraries(kwin_wayland
 add_custom_target(
     KWinDBusInterfaces
     ALL
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.kwin.VirtualKeyboard.xml
-            ${CMAKE_CURRENT_BINARY_DIR}/org.kde.KWin.TabletModeManager.xml
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.deepin.kwin.VirtualKeyboard.xml
+            ${CMAKE_CURRENT_BINARY_DIR}/org.deepin.KWin.TabletModeManager.xml
 )
 
 if (PipeWire_FOUND)
-    target_link_libraries(kwin_wayland KWinScreencastPlugin)
+    target_link_libraries(deepin-kwin_wayland KWinScreencastPlugin)
 endif()
 
 install(FILES kwin.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR} RENAME ${KWIN_NAME}.kcfg)
 install(FILES kwin.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFY5RCDIR} RENAME ${KWIN_NAME}.notifyrc)
 install(
     FILES
-        org.kde.KWin.VirtualDesktopManager.xml
-        org.kde.KWin.xml
-        org.kde.kwin.Compositing.xml
-        org.kde.kwin.Effects.xml
-        org.kde.KWin.Plugins.xml
-        org.kde.kwin.Xkb.xml
-        ${CMAKE_CURRENT_BINARY_DIR}/org.kde.kwin.VirtualKeyboard.xml
-        ${CMAKE_CURRENT_BINARY_DIR}/org.kde.KWin.TabletModeManager.xml
+        org.deepin.KWin.VirtualDesktopManager.xml
+        org.deepin.KWin.xml
+        org.deepin.kwin.Compositing.xml
+        org.deepin.kwin.Effects.xml
+        org.deepin.KWin.Plugins.xml
+        org.deepin.kwin.Xkb.xml
+        ${CMAKE_CURRENT_BINARY_DIR}/org.deepin.kwin.VirtualKeyboard.xml
+        ${CMAKE_CURRENT_BINARY_DIR}/org.deepin.KWin.TabletModeManager.xml
     DESTINATION
         ${KDE_INSTALL_DBUSINTERFACEDIR}
 )
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kwin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/deepin_kwin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
 # Install the KWin/Script service type
-install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
+install(FILES scripting/deepin-kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})

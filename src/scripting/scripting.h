@@ -12,7 +12,7 @@
 #ifndef KWIN_SCRIPTING_H
 #define KWIN_SCRIPTING_H
 
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 
 #include <QHash>
 #include <QStringList>
@@ -268,7 +268,7 @@ class JSEngineGlobalMethodsWrapper : public QObject
     Q_OBJECT
 public:
 //------------------------------------------------------------------
-//enums copy&pasted from kwinglobals.h for exporting
+//enums copy&pasted from deepin_kwinglobals.h for exporting
 
     enum ClientAreaOption {
         ///< geometry where a window will be initially placed after being mapped

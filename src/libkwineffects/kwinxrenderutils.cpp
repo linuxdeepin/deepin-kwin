@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "kwinxrenderutils.h"
+#include "deepin_kwinxrenderutils.h"
 #include "logging_p.h"
 
 #include <QCoreApplication>

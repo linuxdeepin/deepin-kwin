@@ -10,7 +10,7 @@
 #ifndef KWIN_STARTUPFEEDBACK_H
 #define KWIN_STARTUPFEEDBACK_H
 #include <QObject>
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 #include <KStartupInfo>
 #include <KConfigWatcher>
 

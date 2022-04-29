@@ -9,7 +9,7 @@
 #ifndef KWIN_XWL_DATABRIDGE
 #define KWIN_XWL_DATABRIDGE
 
-#include "kwinglobals.h"
+#include "deepin_kwinglobals.h"
 
 #include <QAbstractNativeEventFilter>
 #include <QObject>

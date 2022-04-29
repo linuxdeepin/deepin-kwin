@@ -8,11 +8,11 @@
 #include <QQuickItem>
 #include <QQuickView>
 
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/pointer.h>
-#include <KWayland/Client/pointergestures.h>
-#include <KWayland/Client/registry.h>
-#include <KWayland/Client/seat.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/pointer.h>
+#include <DWayland/Client/pointergestures.h>
+#include <DWayland/Client/registry.h>
+#include <DWayland/Client/seat.h>
 
 using namespace KWayland::Client;
 

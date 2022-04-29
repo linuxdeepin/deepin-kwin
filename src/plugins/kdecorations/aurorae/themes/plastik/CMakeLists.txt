@@ -7,4 +7,4 @@ install(FILES package/metadata.desktop
         DESTINATION ${KDE_INSTALL_KSERVICES5DIR}/${KWIN_NAME}
         RENAME kwin4_decoration_qml_plastik.desktop)
 
-file(COPY package/ DESTINATION ${CMAKE_BINARY_DIR}/bin/kwin/decorations/kwin4_decoration_qml_plastik)
+file(COPY package/ DESTINATION ${CMAKE_BINARY_DIR}/bin/deepin-kwin/decorations/kwin4_decoration_qml_plastik)

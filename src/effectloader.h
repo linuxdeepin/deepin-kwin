@@ -8,7 +8,7 @@
 */
 #ifndef KWIN_EFFECT_LOADER_H
 #define KWIN_EFFECT_LOADER_H
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 // KDE
 #include <KPluginMetaData>
 #include <KSharedConfig>

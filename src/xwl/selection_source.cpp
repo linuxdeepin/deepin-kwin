@@ -13,9 +13,9 @@
 #include "atoms.h"
 #include "wayland_server.h"
 
-#include <KWaylandServer/datadevice_interface.h>
-#include <KWaylandServer/datasource_interface.h>
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Server/datadevice_interface.h>
+#include <DWayland/Server/datasource_interface.h>
+#include <DWayland/Server/seat_interface.h>
 
 #include <unistd.h>
 

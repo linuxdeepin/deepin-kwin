@@ -9,7 +9,7 @@
 
 #include "overlaywindow_x11.h"
 
-#include "kwinglobals.h"
+#include "deepin_kwinglobals.h"
 #include "composite.h"
 #include "scene.h"
 #include "screens.h"

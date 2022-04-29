@@ -10,7 +10,7 @@
 #define KWIN_MODIFIER_ONLY_SHORTCUTS_H
 
 #include "input_event_spy.h"
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 #include <QObject>
 #include <QSet>

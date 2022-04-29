@@ -8,7 +8,7 @@
 
 #include <config-kwin.h>
 
-#include "kwinglobals.h"
+#include "deepin_kwinglobals.h"
 
 #include <QObject>
 

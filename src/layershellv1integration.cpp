@@ -12,8 +12,8 @@
 #include "wayland_server.h"
 #include "workspace.h"
 
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/layershell_v1_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/layershell_v1_interface.h>
 
 #include <QTimer>
 

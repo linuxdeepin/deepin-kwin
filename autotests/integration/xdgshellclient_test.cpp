@@ -25,18 +25,18 @@
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationSettings>
 
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/output.h>
-#include <KWayland/Client/pointer.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/server_decoration.h>
-#include <KWayland/Client/subsurface.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/appmenu.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/output.h>
+#include <DWayland/Client/pointer.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/server_decoration.h>
+#include <DWayland/Client/subsurface.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/appmenu.h>
 
-#include <KWaylandServer/clientconnection.h>
-#include <KWaylandServer/display.h>
+#include <DWayland/Server/clientconnection.h>
+#include <DWayland/Server/display.h>
 
 #include <QDBusConnection>
 

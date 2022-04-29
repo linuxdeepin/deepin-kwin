@@ -14,7 +14,7 @@
 #include <QObject>
 #include <QtDBus>
 
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
 #include <KConfigGroup>
 

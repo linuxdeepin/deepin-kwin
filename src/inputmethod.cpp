@@ -21,12 +21,12 @@
 #include "touch_input.h"
 #include "tablet_input.h"
 
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/keyboard_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/textinput_v3_interface.h>
-#include <KWaylandServer/surface_interface.h>
-#include <KWaylandServer/inputmethod_v1_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/keyboard_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/textinput_v3_interface.h>
+#include <DWayland/Server/surface_interface.h>
+#include <DWayland/Server/inputmethod_v1_interface.h>
 
 #include <KShell>
 #include <KStatusNotifierItem>

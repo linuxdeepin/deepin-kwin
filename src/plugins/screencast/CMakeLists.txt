@@ -18,4 +18,4 @@ ecm_qt_declare_logging_category(screencast_SOURCES
 
 add_library(KWinScreencastPlugin OBJECT ${screencast_SOURCES})
 target_compile_definitions(KWinScreencastPlugin PRIVATE QT_STATICPLUGIN)
-target_link_libraries(KWinScreencastPlugin kwin PkgConfig::PipeWire)
+target_link_libraries(KWinScreencastPlugin deepin-kwin PkgConfig::PipeWire)

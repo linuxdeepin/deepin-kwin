@@ -35,8 +35,8 @@
 #include "virtualdesktops.h"
 #include "window_property_notify_x11_filter.h"
 #include "workspace.h"
-#include "kwinglutils.h"
-#include "kwinoffscreenquickview.h"
+#include "deepin_kwinglutils.h"
+#include "deepin_kwinoffscreenquickview.h"
 
 #include <QDebug>
 #include <QMouseEvent>

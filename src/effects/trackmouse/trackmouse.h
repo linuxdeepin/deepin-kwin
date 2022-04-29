@@ -12,7 +12,7 @@
 #ifndef KWIN_TRACKMOUSE_H
 #define KWIN_TRACKMOUSE_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 class QAction;
 

@@ -19,8 +19,8 @@
 #include <QTime>
 #include <QMatrix4x4>
 
-#include <kwinconfig.h>
-#include <kwinglutils.h>
+#include <deepin_kwinconfig.h>
+#include <deepin_kwinglutils.h>
 
 #include <KGlobalAccel>
 #include <KLocalizedString>

@@ -7,7 +7,7 @@
 #include "aurorae.h"
 #include "auroraetheme.h"
 #include "config-kwin.h"
-#include "kwinoffscreenquickview.h"
+#include "deepin_kwinoffscreenquickview.h"
 // qml imports
 #include "decorationoptions.h"
 // KDecoration2
@@ -127,7 +127,7 @@ QQmlComponent *Helper::component(const QString &themeName)
                 m_engine->addImportPath(paths.previous());
             }
             m_svgComponent.reset(new QQmlComponent(m_engine.data()));
-            m_svgComponent->loadUrl(QUrl(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kwin/aurorae/aurorae.qml"))));
+            m_svgComponent->loadUrl(QUrl(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("deepin-kwin/aurorae/aurorae.qml"))));
         }
         // verify that the theme exists
         if (!QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("aurorae/themes/%1/%1rc").arg(themeName.mid(16))).isEmpty()) {
@@ -208,7 +208,7 @@ void Helper::init()
             if (!fileInfo.isFile()) {
                 continue;
             }
-            if (!fileInfo.path().endsWith(QLatin1String("/org/kde/kwin/decoration"))) {
+            if (!fileInfo.path().endsWith(QLatin1String("/org/deepin/kwin/decoration"))) {
                 continue;
             }
             if (fileInfo.fileName() == QLatin1String("libdecorationplugin.so")) {
@@ -220,8 +220,8 @@ void Helper::init()
             break;
         }
     }
-    m_engine->importPlugin(pluginPath, "org.kde.kwin.decoration", nullptr);
-    qmlRegisterType<KWin::Borders>("org.kde.kwin.decoration", 0, 1, "Borders");
+    m_engine->importPlugin(pluginPath, "org.deepin.kwin.decoration", nullptr);
+    qmlRegisterType<KWin::Borders>("org.deepin.kwin.decoration", 0, 1, "Borders");
 
     qmlRegisterType<KDecoration2::Decoration>();
     qmlRegisterType<KDecoration2::DecoratedClient>();
@@ -653,8 +653,8 @@ void ThemeProvider::findAllSvgThemes()
     }
 }
 
-static const QString s_configUiPath = QStringLiteral("kwin/decorations/%1/contents/ui/config.ui");
-static const QString s_configXmlPath = QStringLiteral("kwin/decorations/%1/contents/config/main.xml");
+static const QString s_configUiPath = QStringLiteral("deepin-kwin/decorations/%1/contents/ui/config.ui");
+static const QString s_configXmlPath = QStringLiteral("deepin-kwin/decorations/%1/contents/config/main.xml");
 
 bool ThemeProvider::hasConfiguration(const QString &theme)
 {
@@ -729,7 +729,7 @@ void ConfigurationModule::initQml()
     KLocalizedTranslator *translator = new KLocalizedTranslator(this);
     QCoreApplication::instance()->installTranslator(translator);
     const KDesktopFile metaData(QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                      QStringLiteral("kwin/decorations/%1/metadata.desktop").arg(m_theme)));
+                                                      QStringLiteral("deepin-kwin/decorations/%1/metadata.desktop").arg(m_theme)));
     const QString translationDomain = metaData.desktopGroup().readEntry("X-KWin-Config-TranslationDomain", QString());
     if (!translationDomain.isEmpty()) {
         translator->setTranslationDomain(translationDomain);

@@ -22,10 +22,10 @@ int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
     int exitCode{0};
-    QCoreApplication::setApplicationName(QStringLiteral("kwin-applywindowdecoration"));
+    QCoreApplication::setApplicationName(QStringLiteral("deepin-kwin-applywindowdecoration"));
     QCoreApplication::setApplicationVersion(QStringLiteral("1.0"));
     QCoreApplication::setOrganizationDomain(QStringLiteral("kde.org"));
-    KLocalizedString::setApplicationDomain("kwin-applywindowdecoration");
+    KLocalizedString::setApplicationDomain("deepin-kwin-applywindowdecoration");
 
     QCommandLineParser *parser = new QCommandLineParser;
     parser->addHelpOption();

@@ -12,7 +12,7 @@
 #include "screenlockerwatcher.h"
 #include "wayland_server.h"
 #include "workspace.h"
-#include "kwineffects.h"
+#include "deepin_kwineffects.h"
 #include "effects.h"
 
 #include <QDBusConnection>

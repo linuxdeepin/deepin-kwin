@@ -15,7 +15,7 @@ ecm_qt_declare_logging_category(nightcolor_SOURCES
 )
 
 kconfig_add_kcfg_files(nightcolor_SOURCES nightcolorsettings.kcfgc)
-qt_add_dbus_adaptor(nightcolor_SOURCES org.kde.kwin.ColorCorrect.xml
+qt_add_dbus_adaptor(nightcolor_SOURCES org.deepin.kwin.ColorCorrect.xml
     nightcolordbusinterface.h KWin::NightColorDBusInterface)
 
 add_library(KWinNightColorPlugin SHARED ${nightcolor_SOURCES})
@@ -24,8 +24,8 @@ if (CMAKE_SYSTEM_NAME MATCHES "Linux")
     target_sources(KWinNightColorPlugin PRIVATE clockskewnotifierengine_linux.cpp)
 endif()
 
-target_link_libraries(KWinNightColorPlugin kwin)
+target_link_libraries(KWinNightColorPlugin deepin-kwin)
 
 install(FILES nightcolorsettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR} RENAME ${KWIN_NAME}_colorcorrect.kcfg)
-install(FILES org.kde.kwin.ColorCorrect.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
-install(TARGETS KWinNightColorPlugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/kwin/plugins/)
+install(FILES org.deepin.kwin.ColorCorrect.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
+install(TARGETS KWinNightColorPlugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/deepin-kwin/plugins/)

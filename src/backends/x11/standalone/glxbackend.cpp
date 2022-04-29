@@ -31,10 +31,10 @@
 #include "surfaceitem_x11.h"
 #include "utils/xcbutils.h"
 // kwin libs
-#include <kwinglplatform.h>
-#include <kwinglutils.h>
-#include <kwinoffscreenquickview.h>
-#include <kwinxrenderutils.h>
+#include <deepin_kwinglplatform.h>
+#include <deepin_kwinglutils.h>
+#include <deepin_kwinoffscreenquickview.h>
+#include <deepin_kwinxrenderutils.h>
 // Qt
 #include <QDebug>
 #include <QOpenGLContext>

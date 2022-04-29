@@ -9,7 +9,7 @@
 #ifndef KWIN_COLORPICKER_H
 #define KWIN_COLORPICKER_H
 
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 #include <QDBusContext>
 #include <QDBusMessage>
 #include <QDBusUnixFileDescriptor>

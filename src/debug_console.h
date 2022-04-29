@@ -9,7 +9,7 @@
 #ifndef KWIN_DEBUG_CONSOLE_H
 #define KWIN_DEBUG_CONSOLE_H
 
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 #include <config-kwin.h>
 #include "input.h"
 #include "input_event_spy.h"

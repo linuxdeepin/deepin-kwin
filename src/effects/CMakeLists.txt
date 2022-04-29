@@ -5,7 +5,7 @@ include_directories(${KWin_SOURCE_DIR}/src) # for xcbutils.h
 
 function(kwin_add_effect_config name)
     list(REMOVE_ITEM ARGV ${name})
-    kcoreaddons_add_plugin(${name} INSTALL_NAMESPACE "kwin/effects/configs" SOURCES ${ARGV})
+    kcoreaddons_add_plugin(${name} INSTALL_NAMESPACE "deepin-kwin/effects/configs" SOURCES ${ARGV})
 endfunction()
 
 if (CMAKE_CROSSCOMPILING)
@@ -43,7 +43,7 @@ if (HAVE_ACCESSIBILITY)
 endif()
 
 set(kwin_effect_OWN_LIBS
-    kwineffects
+    deepin-kwineffects
 )
 
 set(kwin_effect_KDE_LIBS
@@ -55,7 +55,7 @@ set(kwin_effect_KDE_LIBS
     KF5::Plasma # screenedge effect
     KF5::WindowSystem
     KF5::Service # utils / screenshot effect
-    Plasma::KWaylandServer
+    DWaylandServer
 )
 
 if (HAVE_ACCESSIBILITY)
@@ -79,10 +79,10 @@ set(kwin_effect_XCB_LIBS
     XCB::XFIXES
 )
 
-set(kwin_effect_OWN_LIBS ${kwin_effect_OWN_LIBS} kwinglutils)
+set(kwin_effect_OWN_LIBS ${kwin_effect_OWN_LIBS} deepin-kwinglutils)
 
 macro(KWIN4_ADD_EFFECT_MODULE name)
-    kcoreaddons_add_plugin(${name} STATIC SOURCES ${ARGN} INSTALL_NAMESPACE "kwin/effects/plugins")
+    kcoreaddons_add_plugin(${name} STATIC SOURCES ${ARGN} INSTALL_NAMESPACE "deepin-kwin/effects/plugins")
     target_link_libraries(${name} PRIVATE
         ${kwin_effect_KDE_LIBS}
         ${kwin_effect_OWN_LIBS}
@@ -95,14 +95,14 @@ macro(KWIN4_ADD_EFFECT_MODULE name)
 endmacro()
 
 # Install the KWin/Effect service type
-install(FILES kwineffect.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
+install(FILES deepin-kwineffect.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
 
 # scripted effects
 function(install_scripted_effect name)
-    kpackage_install_package(${name}/package kwin4_effect_${name} effects kwin)
+    kpackage_install_package(${name}/package kwin4_effect_${name} effects deepin-kwin)
 
     # necessary so tests are found without installing
-    file(COPY ${name}/package/contents ${name}/package/metadata.desktop DESTINATION ${CMAKE_BINARY_DIR}/bin/kwin/effects/kwin4_effect_${name})
+    file(COPY ${name}/package/contents ${name}/package/metadata.desktop DESTINATION ${CMAKE_BINARY_DIR}/bin/deepin-kwin/effects/kwin4_effect_${name})
 endfunction()
 install_scripted_effect(dialogparent)
 install_scripted_effect(dimscreen)
@@ -166,7 +166,7 @@ add_subdirectory(wobblywindows)
 
 # Add the builtins plugin
 add_library(kwin4_effect_builtins STATIC)
-kcoreaddons_target_static_plugins(kwin4_effect_builtins "kwin/effects/plugins" LINK_OPTION "PRIVATE")
+kcoreaddons_target_static_plugins(kwin4_effect_builtins "deepin-kwin/effects/plugins" LINK_OPTION "PRIVATE")
 target_link_libraries(kwin4_effect_builtins PRIVATE
     ${kwin_effect_KDE_LIBS}
     ${kwin_effect_OWN_LIBS}

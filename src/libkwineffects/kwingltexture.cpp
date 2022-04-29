@@ -9,11 +9,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "kwinconfig.h" // KWIN_HAVE_OPENGL
+#include "deepin_kwinconfig.h" // KWIN_HAVE_OPENGL
 
-#include "kwinglplatform.h"
-#include "kwinglutils_funcs.h"
-#include "kwinglutils.h"
+#include "deepin_kwinglplatform.h"
+#include "deepin_kwinglutils_funcs.h"
+#include "deepin_kwinglutils.h"
 
 #include "kwingltexture_p.h"
 

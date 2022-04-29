@@ -24,14 +24,14 @@
 // KDecoration
 #include <KDecoration2/Decoration>
 // KWayland
-#include <KWaylandServer/shmclientbuffer.h>
-#include <KWaylandServer/datadevice_interface.h>
-#include <KWaylandServer/display.h>
-#include <KWaylandServer/pointer_interface.h>
-#include <KWaylandServer/pointerconstraints_v1_interface.h>
-#include <KWaylandServer/seat_interface.h>
-#include <KWaylandServer/ddeseat_interface.h>
-#include <KWaylandServer/surface_interface.h>
+#include <DWayland/Server/shmclientbuffer.h>
+#include <DWayland/Server/datadevice_interface.h>
+#include <DWayland/Server/display.h>
+#include <DWayland/Server/pointer_interface.h>
+#include <DWayland/Server/pointerconstraints_v1_interface.h>
+#include <DWayland/Server/seat_interface.h>
+#include <DWayland/Server/ddeseat_interface.h>
+#include <DWayland/Server/surface_interface.h>
 // screenlocker
 #include <KScreenLocker/KsldApp>
 

@@ -14,7 +14,7 @@
 #include "inputdevice.h"
 #include "platform.h"
 #include <config-kwin.h>
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // Qt
 #include <QHash>
 #include <QImage>

@@ -8,9 +8,9 @@
 */
 #pragma once
 
-#include <kwin_export.h>
+#include <deepin_kwin_export.h>
 
-#include <KWaylandServer/linuxdmabufv1clientbuffer.h>
+#include <DWayland/Server/linuxdmabufv1clientbuffer.h>
 
 namespace KWin
 {

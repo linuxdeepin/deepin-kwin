@@ -15,12 +15,12 @@
 #include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/plasmawindowmanagement.h>
-#include <KWayland/Client/surface.h>
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/plasmawindowmanagement.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Server/seat_interface.h>
 //screenlocker
 #include <KScreenLocker/KsldApp>
 

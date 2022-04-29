@@ -16,7 +16,7 @@
 #include "x11windowed_backend.h"
 #include "x11windowed_output.h"
 // kwin libs
-#include <kwinglplatform.h>
+#include <deepin_kwinglplatform.h>
 
 namespace KWin
 {

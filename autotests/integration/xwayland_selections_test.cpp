@@ -16,7 +16,7 @@
 #include "workspace.h"
 #include "xwl/databridge.h"
 
-#include <KWaylandServer/seat_interface.h>
+#include <DWayland/Server/seat_interface.h>
 
 #include <QProcess>
 #include <QProcessEnvironment>

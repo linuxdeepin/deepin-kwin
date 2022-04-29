@@ -20,7 +20,7 @@
 
 #include "screens.h"
 #include "settings.h"
-#include <kwinglplatform.h>
+#include <deepin_kwinglplatform.h>
 #include <QOpenGLContext>
 
 #endif //KCMRULES

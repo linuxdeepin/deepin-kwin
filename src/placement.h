@@ -12,7 +12,7 @@
 #ifndef KWIN_PLACEMENT_H
 #define KWIN_PLACEMENT_H
 // KWin
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // Qt
 #include <QPoint>
 #include <QRect>

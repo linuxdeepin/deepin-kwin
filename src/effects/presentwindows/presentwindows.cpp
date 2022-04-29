@@ -15,7 +15,7 @@
 #include <KGlobalAccel>
 #include <KLocalizedString>
 
-#include <kwinglutils.h>
+#include <deepin_kwinglutils.h>
 
 #include <QMouseEvent>
 #include <netwm_def.h>
@@ -2129,7 +2129,7 @@ void PresentWindowsEffect::reCreateGrids()
 CloseWindowView::CloseWindowView(QObject *parent)
     : OffscreenQuickScene(parent)
 {
-    setSource(QUrl(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kwin/effects/presentwindows/main.qml"))));
+    setSource(QUrl(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("deepin-kwin/effects/presentwindows/main.qml"))));
     if (QQuickItem *item = rootItem()) {
         connect(item, SIGNAL(clicked()), this, SLOT(clicked()));
         setGeometry(QRect(QPoint(), QSize(item->implicitWidth(), item->implicitHeight())));

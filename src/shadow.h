@@ -12,7 +12,7 @@
 
 #include <QObject>
 #include <QPixmap>
-#include <kwineffects.h>
+#include <deepin_kwineffects.h>
 
 namespace KDecoration2
 {

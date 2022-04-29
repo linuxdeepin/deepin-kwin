@@ -11,7 +11,7 @@
 
 #include <QObject>
 #include <QVector>
-#include <KWaylandServer/drmleasedevice_v1_interface.h>
+#include <DWayland/Server/drmleasedevice_v1_interface.h>
 
 namespace KWin
 {

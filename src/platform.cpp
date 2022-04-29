@@ -25,8 +25,8 @@
 #include "wayland_server.h"
 #include "waylandoutputconfig.h"
 
-#include <KWaylandServer/outputconfiguration_v2_interface.h>
-#include <KWaylandServer/outputchangeset_v2.h>
+#include <DWayland/Server/outputconfiguration_v2_interface.h>
+#include <DWayland/Server/outputchangeset_v2.h>
 
 #include <QX11Info>
 

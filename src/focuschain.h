@@ -9,7 +9,7 @@
 #ifndef KWIN_FOCUS_CHAIN_H
 #define KWIN_FOCUS_CHAIN_H
 // KWin
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // Qt
 #include <QObject>
 #include <QHash>

@@ -20,10 +20,10 @@
 
 #include <KConfigGroup>
 
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/registry.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/slide.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/registry.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/slide.h>
 
 #include <netwm.h>
 #include <xcb/xcb_icccm.h>

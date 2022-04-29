@@ -9,7 +9,7 @@
 #ifndef KWIN_CURSOR_H
 #define KWIN_CURSOR_H
 // kwin
-#include <kwinglobals.h>
+#include <deepin_kwinglobals.h>
 // Qt
 #include <QHash>
 #include <QObject>

@@ -13,7 +13,7 @@
 
 #include <QWidget>
 
-#include "kwinglobals.h"
+#include "deepin_kwinglobals.h"
 
 namespace KWin
 {
