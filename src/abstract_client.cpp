@@ -1102,7 +1102,7 @@ void AbstractClient::startDelayedInteractiveMoveResize()
     connect(m_interactiveMoveResize.delayedTimer, &QTimer::timeout, this,
         [this]() {
             Q_ASSERT(isInteractiveMoveResizePointerButtonDown());
-            if (!startInteractiveMoveResize()) {
+            if (!isInteractiveMoveResize() && !startInteractiveMoveResize()) {
                 setInteractiveMoveResizePointerButtonDown(false);
             }
             updateCursor();
