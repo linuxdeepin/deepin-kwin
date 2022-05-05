@@ -3067,7 +3067,7 @@ void AbstractClient::startDelayedMoveResize()
     connect(m_moveResize.delayedTimer, &QTimer::timeout, this,
         [this]() {
             assert(isMoveResizePointerButtonDown());
-            if (!startMoveResize()) {
+            if (!isMoveResize() && !startMoveResize()) {
                 setMoveResizePointerButtonDown(false);
             }
             updateCursor();
