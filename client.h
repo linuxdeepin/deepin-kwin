@@ -127,6 +127,7 @@ public:
     void setOnActivities(QStringList newActivitiesList) override;
     void updateActivities(bool includeTransients);
     void blockActivityUpdates(bool b = true) override;
+    void setForceGeometry(const QRect& r);
 
     /// Is not minimized and not hidden. I.e. normally visible on some virtual desktop.
     bool isShown(bool shaded_is_shown) const override;
