@@ -229,6 +229,13 @@ void Client::deleteClient(Client* c)
     delete c;
 }
 
+
+void Client::setForceGeometry(const QRect& r)
+{
+    setGeometry(r.x(), r.y(), r.width(), r.height());
+    palette();
+}
+
 /**
  * Releases the window. The client has done its job and the window is still existing.
  */

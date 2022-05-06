@@ -1805,6 +1805,11 @@ void AbstractClient::setWindowForhibitMove(bool forhibit)
     m_forhibit_move = forhibit;
 }
 
+void AbstractClient::setForceGeometry(const QRect& r)
+{
+    geom = r;
+}
+
 bool AbstractClient::windowForhibitMove() const
 {
     return m_forhibit_move;

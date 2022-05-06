@@ -43,6 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "shell_client.h"
 #include "virtualdesktops.h"
 #include "scripting/scripting.h"
+#include "wayland_server.h"
 
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
@@ -1326,30 +1327,59 @@ void Workspace::performWindowOperation(AbstractClient* c, Options::WindowOperati
 {
     if (!c)
         return;
-    if (op == Options::MoveOp || op == Options::UnrestrictedMoveOp){
-        if (c->windowForhibitMove())
-            return;
-        QPoint posOffset(0,0);
-        if (c->geometry().center().x() > screens()->displaySize().width()) {
-            posOffset.setX(screens()->displaySize().width() - c->geometry().center().x());
-        } else if (c->geometry().center().x() < 0) {
-            posOffset.setX(0 - c->geometry().center().x());
+    if (waylandServer()) {
+        if (op == Options::MoveOp || op == Options::UnrestrictedMoveOp){
+            if (c->windowForhibitMove())
+                return;
+            QPoint posOffset(0,0);
+            if (c->geometry().center().x() > screens()->displaySize().width()) {
+                posOffset.setX(screens()->displaySize().width() - c->geometry().center().x());
+            } else if (c->geometry().center().x() < 0) {
+                posOffset.setX(0 - c->geometry().center().x());
+            }
+            if (c->geometry().center().y() < 0 || c->geometry().center().y() > screens()->displaySize().height()) {
+                posOffset.setY(screens()->displaySize().height() - c->geometry().center().y());
+            } else if (c->geometry().center().y() < 0) {
+                posOffset.setY(0 - c->geometry().center().x());
+            }
+            if (posOffset.x() != 0 || posOffset.y() != 0) {
+                QRect rect = c->geometry();
+                rect.moveTo(QPoint(c->geometry().x() + posOffset.x(), c->geometry().y() + posOffset.y()));
+                c->setMoveResizeGeometry(rect);
+                c->setGeometry(rect);
+            }
+            Cursor::setPos(c->geometry().center());
         }
-        if (c->geometry().center().y() < 0 || c->geometry().center().y() > screens()->displaySize().height()) {
-            posOffset.setY(screens()->displaySize().height() - c->geometry().center().y());
-        } else if (c->geometry().center().y() < 0) {
-            posOffset.setY(0 - c->geometry().center().x());
-        }
-        if (posOffset.x() != 0 || posOffset.y() != 0) {
+        if (op == Options::ResizeOp || op == Options::UnrestrictedResizeOp) {
             QRect rect = c->geometry();
-            rect.moveTo(QPoint(c->geometry().x() + posOffset.x(), c->geometry().y() + posOffset.y()));
-            c->setMoveResizeGeometry(rect);
-            c->setGeometry(rect);
+            bool sizeChanged = false;
+            if (c->geometry().bottomRight().x() > screens()->displaySize().width()) {
+                rect.setRight(screens()->displaySize().width());
+                sizeChanged = true;
+            }
+            if (c->geometry().bottomRight().y() > screens()->displaySize().height()) {
+                rect.setBottom(screens()->displaySize().height());
+                sizeChanged = true;
+            }
+            if (sizeChanged) {
+                if (Client *client = dynamic_cast<Client*>(c)) {
+                    client->setForceGeometry(rect);
+                } else if (ShellClient *client = dynamic_cast<ShellClient*>(c)) {
+                    client->setForceGeometry(rect);
+                }
+            }
+            Cursor::setPos(rect.bottomRight());
         }
-        Cursor::setPos(c->geometry().center());
+    } else {
+        if (op == Options::MoveOp || op == Options::UnrestrictedMoveOp){
+            if (c->windowForhibitMove())
+                return;
+            Cursor::setPos(c->geometry().center());
+        }
+        if (op == Options::ResizeOp || op == Options::UnrestrictedResizeOp) {
+            Cursor::setPos(c->geometry().bottomRight());
+        }
     }
-    if (op == Options::ResizeOp || op == Options::UnrestrictedResizeOp)
-        Cursor::setPos(c->geometry().bottomRight());
     switch(op) {
     case Options::MoveOp:
         c->performMouseCommand(Options::MouseMove, Cursor::pos());

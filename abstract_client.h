@@ -357,6 +357,8 @@ public:
         return m_demandsAttention;
     }
 
+    void setForceGeometry(const QRect& r);
+
     void cancelAutoRaise();
 
     bool wantsTabFocus() const;
