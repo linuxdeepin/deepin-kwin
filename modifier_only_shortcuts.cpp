@@ -43,7 +43,7 @@ ModifierOnlyShortcuts::~ModifierOnlyShortcuts() = default;
 
 void ModifierOnlyShortcuts::keyEvent(KeyEvent *event)
 {
-    if (event->isAutoRepeat() || (effects != nullptr && static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab())) {
+    if (event->isAutoRepeat()) {
         return;
     }
     if (event->type() == QEvent::KeyPress) {
@@ -59,6 +59,10 @@ void ModifierOnlyShortcuts::keyEvent(KeyEvent *event)
         }
     } else if (!m_pressedKeys.isEmpty()) {
         m_pressedKeys.remove(event->nativeScanCode());
+        if (effects != nullptr && static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
+            m_modifier = Qt::NoModifier;
+            return;
+        }
         if (m_pressedKeys.isEmpty() &&
             event->modifiersRelevantForGlobalShortcuts() == Qt::NoModifier &&
             !workspace()->globalShortcutsDisabled()) {
