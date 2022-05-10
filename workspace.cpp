@@ -2090,7 +2090,6 @@ void Workspace::screensChanged()
     if (compositing()) {
         emit effects->closeEffect(true);    //close multitask view
     }
-    updateSplitOutlineState(1, active_client ? active_client->desktop() : 1, true);
 
     QRect currentDisplaySize = QRect(0, 0, screens()->size().width(), screens()->size().height());
     if (clientOldPos().keys().count() != 0) {
