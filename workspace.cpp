@@ -2329,7 +2329,7 @@ void Workspace::setClientHandleMouseCommond(AbstractClient* c)
             if (list.at(i)->geometry().contains(QCursor::pos())) {
                 c = qobject_cast<AbstractClient*>(list.at(i));
                 // minimized client still in stackingorder so we should skip it
-                if (c->isMinimized())
+                if (c && c->isMinimized())
                     continue;
                 break;
             }
