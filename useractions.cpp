@@ -216,9 +216,11 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<AbstractClient> &cl)
 {
     QString backgroundColor = "rgb(253,253,254)";
     QString fontColor = "black";
+    QString disableFontColor = "rgba(0,0,0,40%)";
     if (workspace()->self()->isDarkTheme()) {
         backgroundColor = "black";
         fontColor = "white";
+        disableFontColor = "rgba(255,255,255,40%)";
     }
 
     if (!m_menu) {
@@ -235,6 +237,9 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<AbstractClient> &cl)
             font:Sans Serif;\
             font-size:14px;\
             padding: 6px 45px 6px 30px;\
+            color: %3;\
+            }\
+            QMenu::item:enabled {\
             color: %2;\
             }\
             QMenu::icon {\
@@ -247,8 +252,8 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<AbstractClient> &cl)
             background-color: transparent\
             }\
             QMenu::item:selected {\
-            background-color: %3;\
-            color: white;}").arg(backgroundColor).arg(fontColor).arg(workspace()->self()->ActiveColor()));
+            background-color: %4;\
+            color: white;}").arg(backgroundColor).arg(fontColor).arg(disableFontColor).arg(workspace()->self()->ActiveColor()));
     m_menu->setContentsMargins(0,8,0,8);
     for (const MenuItem &item : getMenuItemInfos(cl.data())) {
         QAction *action = m_menu->addAction(item.text);
