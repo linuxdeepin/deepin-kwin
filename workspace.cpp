@@ -139,7 +139,7 @@ Workspace::Workspace(const QString &sessionKey)
     , startup(0)
     , set_active_client_recursion(0)
     , block_stacking_updates(0)
-    , m_clientHandlingMouseCommond(nullptr)
+    , m_clientIDHandlingMouseCommond(0)
 {
     // If KWin was already running it saved its configuration after loosing the selection -> Reread
     QFuture<void> reparseConfigFuture = QtConcurrent::run(options, &Options::reparseConfiguration);
@@ -2313,16 +2313,14 @@ void Workspace::delWindowProperty(wl_resource* surface)
     }
 }
 
-void Workspace::setClientHandleMouseCommond(AbstractClient* c)
+void Workspace::setClientIDHandleMouseCommond(quint32 wId)
 {
-    m_clientHandlingMouseCommond = c;
+    m_clientIDHandlingMouseCommond = wId;
 }
-
  void Workspace::handleReleaseMouseCommond()
  {
     qDebug()<<"Workspace::handleReleaseMouseCommond";
-    if (m_clientHandlingMouseCommond) {
-        //qDebug()<<"clientHandlingMouseCommond:"<<m_clientHandlingMouseCommond->resourceName();
+    if (m_clientIDHandlingMouseCommond) {
         ToplevelList list = stackingOrder();
         AbstractClient* c = nullptr;
         for (int i = list.size()-1; i >=0; --i) {
@@ -2336,12 +2334,15 @@ void Workspace::setClientHandleMouseCommond(AbstractClient* c)
         }
         if (c)
             qCDebug(KWIN_CORE) << "release on "<< c->resourceName();
-        if (c && (c->window() == m_clientHandlingMouseCommond->window()) ) {
-            qCDebug(KWIN_CORE) << "raise at release: "<< c->resourceName()<<"; id: "<<c->window();
-            takeActivity(m_clientHandlingMouseCommond, Workspace::ActivityFocus | Workspace::ActivityRaise);
-            setMouseRaised(true);
+        if (c && (c->windowId() == m_clientIDHandlingMouseCommond) ) {
+            AbstractClient* tmp = qobject_cast<AbstractClient*>(Workspace::self()->findClient(Predicate::WindowMatch, m_clientIDHandlingMouseCommond));
+            if (tmp) {
+                takeActivity(tmp, Workspace::ActivityFocus | Workspace::ActivityRaise);
+                qCDebug(KWIN_CORE) << "raise at release: "<< c->resourceName()<<"; id: "<<c->window();
+                setMouseRaised(true);
+            }
         }
-        setClientHandleMouseCommond(nullptr);
+        setClientIDHandleMouseCommond(0);
     }
  }
 
