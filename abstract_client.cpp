@@ -1252,7 +1252,7 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
             workspace()->setMouseRaised(true);
         } else {
             qCDebug(KWIN_CORE)<<"ButtonReleaseToFocus";
-            workspace()->setClientHandleMouseCommond(this);
+            workspace()->setClientIDHandleMouseCommond(this->windowId());
             screens()->setCurrent(globalPos);
             replay = true;
         }

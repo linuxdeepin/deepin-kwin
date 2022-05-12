@@ -315,8 +315,8 @@ private:
 public:
 
     void handleReleaseMouseCommond();
-    void setClientHandleMouseCommond(AbstractClient* c);
-    AbstractClient* clientHandleMouseCommond() const { return m_clientHandlingMouseCommond; };
+    void setClientIDHandleMouseCommond(quint32 wId);
+    quint32 clientIDHandleMouseCommond() const { return m_clientIDHandlingMouseCommond; };
     bool isDragingWithContent()const {return m_ClientDragingWithContent;}
 
     bool isOnCurrentHead();
@@ -799,7 +799,7 @@ private:
     bool m_dumpOutputBuffer = false;
 
     QMap<QString, AbstractClient*> m_clientOldPosList;
-    AbstractClient* m_clientHandlingMouseCommond;
+    quint32 m_clientIDHandlingMouseCommond;
 
 private:
     friend bool performTransiencyCheck();

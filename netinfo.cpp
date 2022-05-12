@@ -179,7 +179,7 @@ void RootInfo::changeActiveWindow(xcb_window_t w, NET::RequestSource src, xcb_ti
             Client* c2;
             if (workspace->allowClientActivation(c, timestamp, false, true))
             {
-                if(!workspace->clientHandleMouseCommond())
+                if(!workspace->clientIDHandleMouseCommond())
                 {
                     qDebug()<<"no client wait for mousecommond";
                     workspace->activateClient(c);
