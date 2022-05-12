@@ -2322,7 +2322,7 @@ void Workspace::setClientHandleMouseCommond(AbstractClient* c)
  {
     qDebug()<<"Workspace::handleReleaseMouseCommond";
     if (m_clientHandlingMouseCommond) {
-        qDebug()<<"clientHandlingMouseCommond:"<<m_clientHandlingMouseCommond->resourceName();
+        //qDebug()<<"clientHandlingMouseCommond:"<<m_clientHandlingMouseCommond->resourceName();
         ToplevelList list = stackingOrder();
         AbstractClient* c = nullptr;
         for (int i = list.size()-1; i >=0; --i) {
