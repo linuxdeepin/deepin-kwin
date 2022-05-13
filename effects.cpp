@@ -61,7 +61,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "decorations/decorationbridge.h"
 #include <KDecoration2/DecorationSettings>
-#include <KWayland/Server/seat_interface.h>
 
 #include "logind.h"
 
@@ -272,8 +271,6 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
         }
     }
     reconfigure();
-    if(waylandServer() && waylandServer()->seat())
-        m_delay = waylandServer()->seat()->keyRepeatDelay();
 }
 
 EffectsHandlerImpl::~EffectsHandlerImpl()
@@ -968,18 +965,6 @@ void EffectsHandlerImpl::sendPointer(Qt::MouseButton type)
     }
     input()->pointer()->processButton(button, InputRedirection::PointerButtonPressed, 0);
     input()->pointer()->processButton(button, InputRedirection::PointerButtonReleased, 0);
-}
-
-void EffectsHandlerImpl::setKeyRepeatDelay(qint32 delay)
-{
-    waylandServer()->seat()->setKeyRepeatInfo(waylandServer()->seat()->keyRepeatRate(), delay);
-}
-
-void EffectsHandlerImpl::resetKeyRepeatDelay()
-{
-    if (waylandServer()->seat()->keyRepeatDelay() != m_delay) {
-        waylandServer()->seat()->setKeyRepeatInfo(waylandServer()->seat()->keyRepeatRate(), m_delay);
-    }
 }
 
 QString EffectsHandlerImpl::getScreenNameForWayland(int screen)
