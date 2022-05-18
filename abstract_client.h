@@ -836,6 +836,8 @@ public:
     static QMap<int, SplitOutline*> splitManage;
     void handleSwitcheffectsQuickTileSize();
 
+    QRect m_screenRect;     //The geometry of the screen where the client is located
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 

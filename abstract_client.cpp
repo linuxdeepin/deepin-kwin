@@ -1519,8 +1519,9 @@ void AbstractClient::updateTabGroupStates(TabGroup::States)
 {
 }
 
-void AbstractClient::doMove(int, int)
+void AbstractClient::doMove(int x, int y)
 {
+    m_screenRect = screens()->geometry(screens()->number(QPoint(x, y)));
 }
 
 void AbstractClient::updateInitialMoveResizeGeometry()

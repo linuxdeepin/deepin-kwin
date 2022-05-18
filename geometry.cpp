@@ -79,7 +79,6 @@ void Workspace::desktopResized()
         desktop_geometry.height = geom.height();
         rootInfo()->setDesktopGeometry(desktop_geometry);
     }
-
     updateClientArea();
     saveOldScreenSizes(); // after updateClientArea(), so that one still uses the previous one
 
@@ -93,27 +92,6 @@ void Workspace::desktopResized()
     if (waylandServer()) {
         emit outputModeChanged();
     }
-}
-
-void Workspace::saveClientOldPos(int previousCount, int newCount)
-{
-    m_clientOldPosList.clear();
-    if (previousCount > newCount) {
-        QMap<QString, AbstractClient*> abstractClientOldGeometry;
-        for (int i = 0; i < allClientList().count(); i++) {
-                AbstractClient *pAbstractClient = allClientList().at(i);
-                if (pAbstractClient->quickTileMode() == QuickTileMode(QuickTileFlag::Left) || pAbstractClient->quickTileMode() == QuickTileMode(QuickTileFlag::Right)) {
-                m_clientOldPosList[QString("%1,%2").arg(pAbstractClient->geometry().x()).arg(pAbstractClient->geometry().y())] = pAbstractClient;
-            }
-        }
-    } else {
-        m_clientOldPosList.clear();
-    }
-}
-
-QMap<QString, AbstractClient*> Workspace::clientOldPos()
-{
-    return m_clientOldPosList;
 }
 
 void Workspace::saveOldScreenSizes()
@@ -375,7 +353,6 @@ void Workspace::updateClientArea(bool force)
             if (new_sareas[ i ][ iS ] != screenarea [ i ][ iS ])
                 changed = true;
     }
-
     if (changed) {
         workarea = new_wareas;
         oldrestrictedmovearea = restrictedmovearea;
@@ -1219,7 +1196,6 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
 
     if (waylandServer() && (isStandAlone() || isOverride()))
         return;
-
     // this can be true only if this window was mapped before KWin
     // was started - in such case, don't adjust position to workarea,
     // because the window already had its position, and if a window
@@ -1252,11 +1228,10 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     int rightMax = screenArea.x() + screenArea.width();
     int bottomMax = screenArea.y() + screenArea.height();
     int leftMax = screenArea.x();
-
     // Is old screenarea exist?    
     bool oldScreenLost = true;
     for (int i = 0; i < screens()->count(); ++i ) {
-        if (oldScreenArea.intersects(screens()->geometry(i))) {
+        if (screens()->geometry(i) == m_screenRect) {
             oldScreenLost = false;
             break;
         }
@@ -1267,6 +1242,9 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
         if (oldScreenLost) {
             if (electricBorderMode() == QuickTileMode(QuickTileFlag::Maximize)) {
                 setGeometry(workspace()->clientArea(MaximizeArea, QPoint (0,0), desktop()));
+            } else if (quickTileMode() == QuickTileMode(QuickTileFlag::Left) || quickTileMode() == QuickTileMode(QuickTileFlag::Right)) {
+                workspace()->updateScreenSplitApp(this, true);
+                setQuickTileMode(QuickTileFlag::None);
             } else {
                 setGeometry(electricBorderMaximizeGeometry(QPoint (0,0), desktop()));
             }
@@ -1274,7 +1252,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
             //keep orgin pos because screen counts is not changed
             if (electricBorderMode() == QuickTileMode(QuickTileFlag::Maximize)) {
                 setGeometry(workspace()->clientArea(MaximizeArea, m_TileMaximizeGeometry.center(), desktop()));
-            } else if (isSplitscreen()) {
+            } else if (quickTileMode() == QuickTileMode(QuickTileFlag::Left) || quickTileMode() == QuickTileMode(QuickTileFlag::Right)) {
                 setGeometry(electricBorderMaximizeGeometry(geometry().center(), desktop()));
             } else {
                  if(oldScreenRestore)
@@ -2176,7 +2154,7 @@ void Client::setGeometry(int x, int y, int w, int h, ForceGeometry_t force)
     // Update states of all other windows in this group
     if (tabGroup())
         tabGroup()->updateStates(this, TabGroup::Geometry);
-
+    m_screenRect = screens()->geometry(screens()->number(QPoint(x, y)));
     // TODO: this signal is emitted too often
     emit geometryChanged();
 }

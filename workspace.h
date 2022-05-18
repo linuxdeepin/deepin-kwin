@@ -594,9 +594,6 @@ private Q_SLOTS:
     void saveState(QSessionManager &sm);
     void commitData(QSessionManager &sm);
 
-    void saveClientOldPos(int previousCount, int newCount);
-    QMap<QString, AbstractClient *> clientOldPos();
-
 Q_SIGNALS:
     /**
      * Emitted after the Workspace has setup the complete initialization process.
@@ -798,7 +795,6 @@ private:
     bool m_printKwinFps = false;
     bool m_dumpOutputBuffer = false;
 
-    QMap<QString, AbstractClient*> m_clientOldPosList;
     quint32 m_clientIDHandlingMouseCommond;
 
 private:
