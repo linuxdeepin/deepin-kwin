@@ -719,6 +719,7 @@ void ShellClient::setGeometry(int x, int y, int w, int h, ForceGeometry_t force)
 
 void ShellClient::doSetGeometry(const QRect &rect)
 {
+    m_screenRect = screens()->geometry(screens()->number(QPoint(rect.x(), rect.y())));
     if (!m_geomMaximizeRestore.isEmpty() && geom == rect && pendingGeometryUpdate() == PendingGeometryNone) {
         //  workaround to avoid screen flash when partial update enabled
         if (!m_unmapped) {
@@ -730,7 +731,6 @@ void ShellClient::doSetGeometry(const QRect &rect)
         addWorkspaceRepaint(visibleRect());
     }
     geom = rect;
-
     if (m_geomMaximizeRestore.isEmpty() && !geom.isEmpty()) {
         //maximizable window should wait window mapped to change maximizeMode
         if (!m_unmapped) {
