@@ -486,6 +486,8 @@ private:
     bool m_delayDbus = true;
     bool m_longPressTouch = false;
 
+    bool m_isOpenGLrender = true;
+
     QPoint m_workspaceMoveStartPos;
     QPoint m_windowMoveStartPos;
     QPoint m_windowMoveDiff;

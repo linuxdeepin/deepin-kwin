@@ -596,6 +596,12 @@ MultitaskViewEffect::MultitaskViewEffect()
     }
 
     connect(m_timer, &QTimer::timeout, this, &MultitaskViewEffect::motionRepeat);
+
+    char *ver = (char *)glGetString(GL_VERSION);
+    char *rel = strstr(ver, "OpenGL ES");
+    if (rel != NULL) {
+        m_isOpenGLrender = false;
+    }
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -1401,9 +1407,12 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(int screen)
 
 void MultitaskViewEffect::drawDottedLine(const QRect &geo, int screen)
 {
-    glLineStipple(1, 0x0f0f);
+    if (m_isOpenGLrender) {
+        glLineStipple(1, 0x0f0f);
+        glEnable(GL_LINE_STIPPLE);
+    }
     glLineWidth(1.0);
-    glEnable(GL_LINE_STIPPLE);
+    
     static GLShader* shader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::UniformColor, QString("dottedline.vert"), QStringLiteral("dottedline.frag"));
     GLVertexBuffer* vbo = GLVertexBuffer::streamingBuffer();
     auto area = effects->clientArea(FullArea, screen, 0);
@@ -1422,7 +1431,9 @@ void MultitaskViewEffect::drawDottedLine(const QRect &geo, int screen)
     vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
     glEnable(GL_BLEND);
     vbo->render(GL_LINES);
-    glDisable(GL_LINE_STIPPLE);
+    if (m_isOpenGLrender) {
+        glDisable(GL_LINE_STIPPLE);
+    }
     glDisable(GL_BLEND);
 }
 
