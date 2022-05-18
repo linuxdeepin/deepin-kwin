@@ -1183,7 +1183,7 @@ void MultitaskViewEffect::renderWorkspaceMove(KWin::ScreenPaintData &data)
         if (m_dragWorkspacedirection == dragNone) {
             if (abs(diff.y()) > abs(diff.x())) {
                 m_dragWorkspacedirection = dragUpDown;
-            } else {
+            } else if (abs(diff.y()) < abs(diff.x())) {
                 m_dragWorkspacedirection = dragLeftRight;
             }
         }
