@@ -12,7 +12,7 @@
         <file alias="bk9.frag">splitscreen/data/1.10/bk9.frag</file>
         <file alias="bk9.vert">splitscreen/bk9.vert</file>
         <file alias="workspacethumb.glsl">multitaskview/data/1.10/workspacethumb.glsl</file>
-        <file alias="windowfill.glsl">multitaskview/windowfill.glsl</file>
+        <file alias="windowfill.glsl">multitaskview/data/1.10/windowfill.glsl</file>
         <file alias="windowhover.glsl">multitaskview/data/1.10/windowhover.glsl</file>
         <file alias="workspacehover.glsl">multitaskview/data/1.10/workspacehover.glsl</file>
     	<file alias="dottedline.vert">multitaskview/dottedline.vert</file>
@@ -32,7 +32,7 @@
         <file alias="bk9.frag">splitscreen/data/1.40/bk9.frag</file>
         <file alias="bk9.vert">splitscreen/bk9.vert</file>
         <file alias="workspacethumb.glsl">multitaskview/data/1.40/workspacethumb.glsl</file>
-        <file alias="windowfill.glsl">multitaskview/windowfill.glsl</file>
+        <file alias="windowfill.glsl">multitaskview/data/1.40/windowfill.glsl</file>
         <file alias="windowhover.glsl">multitaskview/data/1.40/windowhover.glsl</file>
         <file alias="bk.v">multitaskview/bk.v</file>
         <file alias="bk.f">multitaskview/bk.f</file>
