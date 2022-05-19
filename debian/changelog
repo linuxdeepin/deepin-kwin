@@ -1,3 +1,20 @@
+kwin (4:5.15.11.24-1.1) unstable; urgency=medium
+
+  * Bug fix:
+    + 128073 fix: adjust shader about window fill in klv and pgv
+    + 129435 fix: find client with windowI
+    + 129435 fix: wild pointer make kwin crash
+    + 129261 fix: optimize drag workspace event
+    + 124017 fix: adapter klv and pgv, judge opengl or opengles
+    + 123673 fix: when window titlebar menu item not selectable on wayland, item is not grayed out
+    + 129435 fix: close lots of clients, kwin crash.
+    + 126371 fix: Revert "fix: first start multitasking effect exit".
+    + 124857 fix: when screen changed, it shouldn't update SplitOutline state.
+    + 124063, 124205 fix: cache background image when struct class
+    + 125361, 129457 fix: modify grab function of modifier only shortcut when effects send grab keyboard.
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 19 May 2022 20:19:12 +0800
+
 kwin (4:5.15.11.18-1) unstable; urgency=medium
 
   * Bug fix:
