@@ -32,6 +32,8 @@
 #include <utils.h>
 #include <QMutex>
 #include <map>
+#include <QSettings>
+#include <QThread>
 
 namespace KWin
 {
@@ -75,12 +77,25 @@ typedef struct backgroundInfo {
     QSize   desktopSize;
 } BgInfo_st;
 
+class CustomThread : public QThread
+{
+    Q_OBJECT
+public:
+    CustomThread(BgInfo_st &st);
+
+protected:
+    void run() override;
+
+    BgInfo_st m_st;
+};
+
 class MultiViewBackgroundManager: public QObject
 {
     Q_OBJECT
 
 public:
-    static MultiViewBackgroundManager& instance();
+    static MultiViewBackgroundManager *instance();
+    ~MultiViewBackgroundManager();
 
     void updateDesktopCount(int n) {
         if (m_desktopCount != n) {
@@ -89,6 +104,7 @@ public:
     }
 
     void getWorkspaceBgPath(BgInfo_st &st, QPixmap &desktopBg, QPixmap &workspaceBg);
+    void cacheWorkspaceBg(BgInfo_st &st);
     void getBackgroundList();
     void updateBackgroundList(const QString &file);
     void setNewBackground(BgInfo_st &st, QPixmap &desktopBg, QPixmap &workspaceBg);
@@ -101,18 +117,31 @@ public:
     void setMonitorInfo(QList<QMap<QString,QVariant>> monitorInfoList);
 
 private:
+    explicit MultiViewBackgroundManager();
+    static MultiViewBackgroundManager *_instance;
+
+    class CGarbo {
+    public:
+        ~CGarbo() {
+            if (MultiViewBackgroundManager::_instance)
+                delete MultiViewBackgroundManager::_instance;
+        }
+    };
+    static CGarbo Garbo;
+
+private:
     QSet<QString>    m_backgroundAllList;
     QSet<QString>    m_currentBackgroundList;
     int              m_desktopCount {0};
     QList<QString>   m_screenNamelist;
     QString          m_previewFile = "";
     int              m_previewScreen = -1;
+    QMutex          m_bgmutex;
+    QSettings *m_deepinwmrcIni = nullptr;
 
     QHash<QString, QPair<QSize, QPixmap>> m_wpCachedPixmaps;
     QHash<QString, QPair<QSize, QPixmap>> m_bgCachedPixmaps;
     QList<QMap<QString,QVariant>> m_monitorInfoList;
-
-    explicit MultiViewBackgroundManager();
 
 };
 
@@ -375,6 +404,7 @@ public:
     bool touchDown(quint32 id, const QPointF &pos, quint32 time) override;
     bool touchMotion(quint32 id, const QPointF &pos, quint32 time) override;
     bool touchUp(quint32 id, quint32 time) override;
+
 private Q_SLOTS:
     void toggle() {
         if (m_activated) {
@@ -404,6 +434,7 @@ private:
     void restoreWorkspacePos(int index, int num);
 
     void initWorkspaceBackground();
+    void cacheWorkspaceBackground();
     void updateWorkspacePos();
     void getScreenInfo();
     void setWinLayout(int desktop, const EffectWindowList &windows);

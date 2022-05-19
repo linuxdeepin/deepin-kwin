@@ -34,6 +34,7 @@
 #include <qdbusinterface.h>
 #include <qdbusreply.h>
 #include <QGSettings/qgsettings.h>
+#include <QImageReader>
 #include "multitouchgesture.h"
 #include "kwineffectsex.h"
 
@@ -101,20 +102,40 @@ QPoint calculateOffSet(const QRect& rect, const QSize screenArea, const int maxH
     return point;
 }
 
-MultiViewBackgroundManager& MultiViewBackgroundManager::instance()
+CustomThread::CustomThread(BgInfo_st &st) 
+    : QThread()
+    , m_st(st)
 {
-    static MultiViewBackgroundManager* _self = nullptr;
-    if (!_self) {
-        _self = new MultiViewBackgroundManager();
-    }
 
-    return *_self;
+}
+
+void CustomThread::run()
+{
+    MultiViewBackgroundManager::instance()->cacheWorkspaceBg(m_st);
+}
+
+MultiViewBackgroundManager *MultiViewBackgroundManager::_instance = new MultiViewBackgroundManager();
+MultiViewBackgroundManager *MultiViewBackgroundManager::instance()
+{
+    return _instance;
 }
 
 MultiViewBackgroundManager::MultiViewBackgroundManager()
     : QObject()
+    , m_bgmutex(QMutex::Recursive)
 {
+    QStringList lst = QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation);
+    if (lst.size() > 0) {
+        m_deepinwmrcIni = new QSettings(lst[0] + "/deepinwmrc", QSettings::IniFormat);
+    }
+}
 
+MultiViewBackgroundManager::~MultiViewBackgroundManager()
+{
+    if (m_deepinwmrcIni) {
+        delete m_deepinwmrcIni;
+        m_deepinwmrcIni = nullptr;
+    }
 }
 
 static QString toRealPath(const QString &path)
@@ -133,13 +154,18 @@ static QString toRealPath(const QString &path)
 
 QPixmap MultiViewBackgroundManager::cutBackgroundPix(const QSize &size, const QString &file)
 {
-    QPixmap pixmap;
-    if (pixmap.load(file)) {
-        pixmap = pixmap.scaled(size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-        if(pixmap.width() > size.width() || pixmap.height() > size.height()) {
-            pixmap = pixmap.copy(QRect(static_cast<int>((pixmap.width() - size.width()) / 2.0),
-                                       static_cast<int>((pixmap.height() - size.height()) / 2.0), size.width(), size.height()));
-        }
+    QImageReader imageReader;
+    imageReader.setFileName(file);
+    imageReader.setAutoTransform(true);
+    auto imageSize = imageReader.size();
+    auto targetScaleSize = imageSize.scaled(size, Qt::KeepAspectRatioByExpanding);
+
+    imageReader.setScaledSize(targetScaleSize);
+    QPixmap pixmap = QPixmap::fromImageReader(&imageReader);
+
+    if(pixmap.width() > size.width() || pixmap.height() > size.height()) {
+        pixmap = pixmap.copy(QRect(static_cast<int>((pixmap.width() - size.width()) / 2.0),
+                                    static_cast<int>((pixmap.height() - size.height()) / 2.0), size.width(), size.height()));
     }
 
     return pixmap;
@@ -177,7 +203,6 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
 
     if (m_bgCachedPixmaps.contains(backgroundUri + strBackgroundPath)) {
         auto& p = m_bgCachedPixmaps[backgroundUri + strBackgroundPath];
-
         desktopBg = getCachePix(st.desktopSize, p);
     }
     if (desktopBg.isNull()) {
@@ -195,6 +220,25 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
         QPixmap pixmap = cutBackgroundPix(st.workspaceSize, backgroundUri);
         m_wpCachedPixmaps[backgroundUri + strBackgroundPath] = qMakePair(st.workspaceSize, pixmap);
         workspaceBg = pixmap;
+    }
+}
+
+void MultiViewBackgroundManager::cacheWorkspaceBg(BgInfo_st &st)
+{
+    QMutexLocker locker(&m_bgmutex);
+    if (m_deepinwmrcIni) {
+        QString backgroundUri;
+        QString strBackgroundPath = QString("%1@%2").arg(st.desktop).arg(st.screenName);
+        backgroundUri = m_deepinwmrcIni->value("WorkspaceBackground/" + strBackgroundPath).toString();
+        QString strBackgroundPathkey = QString("%1%2").arg(st.desktop).arg(st.screenName);
+
+        if (!backgroundUri.isEmpty()) {
+            backgroundUri = toRealPath(backgroundUri);
+            QPixmap pixmap = cutBackgroundPix(st.desktopSize, backgroundUri);
+            m_bgCachedPixmaps[backgroundUri + strBackgroundPathkey] = qMakePair(st.desktopSize, pixmap);
+            pixmap = cutBackgroundPix(st.workspaceSize, backgroundUri);
+            m_wpCachedPixmaps[backgroundUri + strBackgroundPathkey] = qMakePair(st.workspaceSize, pixmap);
+        }
     }
 }
 
@@ -596,6 +640,8 @@ MultitaskViewEffect::MultitaskViewEffect()
     }
 
     connect(m_timer, &QTimer::timeout, this, &MultitaskViewEffect::motionRepeat);
+
+    cacheWorkspaceBackground();
 
     char *ver = (char *)glGetString(GL_VERSION);
     char *rel = strstr(ver, "OpenGL ES");
@@ -2111,7 +2157,7 @@ void MultitaskViewEffect::cleanup()
     m_workspaceBackgrounds.clear();
     m_tipFrames.clear();
     m_flyingWinList.clear();
-    MultiViewBackgroundManager::instance().clearCurrentBackgroundList();
+    MultiViewBackgroundManager::instance()->clearCurrentBackgroundList();
 }
 
 void MultitaskViewEffect::setActive(bool active)
@@ -2599,7 +2645,7 @@ void MultitaskViewEffect::initWorkspaceBackground()
             st.desktopSize = it.value().screenrect.size();
             st.workspaceSize = rect.size();
             QPixmap bgPix, wpPix;
-            MultiViewBackgroundManager::instance().getWorkspaceBgPath(st, bgPix, wpPix);
+            MultiViewBackgroundManager::instance()->getWorkspaceBgPath(st, bgPix, wpPix);
             b->setArea(it.value().rect, it.value().screenrect);
             b->setMaxHeight(m_maxHeight);
             b->setImage(bgPix, wpPix, rect);
@@ -2631,7 +2677,27 @@ void MultitaskViewEffect::initWorkspaceBackground()
         }
     }
 
-    MultiViewBackgroundManager::instance().getBackgroundList();
+    MultiViewBackgroundManager::instance()->getBackgroundList();
+}
+
+void MultitaskViewEffect::cacheWorkspaceBackground()
+{
+    getScreenInfo();
+    int count = effects->numberOfDesktops();
+    QHash<QString, ScreenInfo_st>::iterator it = m_screenInfoList.begin();
+    for (; it != m_screenInfoList.end(); it++) {
+        for (int i = 1; i <= count; i++) {
+            QRect rect = calculateWorkspaceRect(i, it.value().screen, it.value().rect);
+            BgInfo_st st;
+            st.desktop = i;
+            st.screenName = it.value().name;
+            st.desktopSize = it.value().screenrect.size();
+            st.workspaceSize = rect.size();
+            CustomThread *thread = new CustomThread(st);
+            connect(thread, &QThread::finished, thread, &QObject::deleteLater);
+            thread->start();
+        }
+    }
 }
 
 void MultitaskViewEffect::updateWorkspacePos()
@@ -2744,7 +2810,7 @@ void MultitaskViewEffect::addNewDesktop()
         bgst.desktopSize = st.screenrect.size();
         bgst.workspaceSize = rect.size();
         QPixmap bgPix, wpPix;
-        MultiViewBackgroundManager::instance().setNewBackground(bgst, bgPix, wpPix);
+        MultiViewBackgroundManager::instance()->setNewBackground(bgst, bgPix, wpPix);
         MultiViewWorkspace *b = new MultiViewWorkspace();
         b->setMaxHeight(m_maxHeight);
         b->setArea(st.rect, st.screenrect);
@@ -3116,7 +3182,7 @@ void MultitaskViewEffect::desktopAboutToRemoved(int d)
         QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", d, monitorName);
         if (!getReply.value().isEmpty()) {
             QString backgroundUri = getReply.value();
-            MultiViewBackgroundManager::instance().updateBackgroundList(backgroundUri);
+            MultiViewBackgroundManager::instance()->updateBackgroundList(backgroundUri);
         }
 
         for (int i = d; i < effects->numberOfDesktops(); i++) {
@@ -3306,7 +3372,7 @@ void MultitaskViewEffect::showWorkspacePreview(int screen, QPoint pos, bool isCl
         if (m_previewFrame->icon().isNull()) {
             QPixmap wpPix;
             QSize size(m_scale[screen].workspaceWidth, m_scale[screen].workspaceHeight);
-            MultiViewBackgroundManager::instance().getPreviewBackground(size, wpPix, screen);
+            MultiViewBackgroundManager::instance()->getPreviewBackground(size, wpPix, screen);
 
             QRect maxRect = effects->clientArea(MaximizeArea, screen, 1);
             QPoint pos1(maxRect.x() + maxRect.width() - 20 - m_scale[screen].workspaceWidth / 2, maxRect.y() + m_scale[screen].spacingHeight);
