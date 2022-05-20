@@ -61,6 +61,7 @@ void ModifierOnlyShortcuts::keyEvent(KeyEvent *event)
         m_pressedKeys.remove(event->nativeScanCode());
         if (effects != nullptr && static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
             m_modifier = Qt::NoModifier;
+            m_cachedMods = event->modifiersRelevantForGlobalShortcuts();
             return;
         }
         if (m_pressedKeys.isEmpty() &&
