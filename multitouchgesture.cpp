@@ -72,14 +72,8 @@ void MultiTouchGesture::handleTouchUp(unsigned int time)
     if (direction != DIR_NONE) {
         const DockInfo& dockInfo = getDockInfo();
         float moveDistance = 0;
-        if (dockInfo.position == Position::BOTTOM && direction == Direction::DIR_BOT) {
+        if (direction == Direction::DIR_BOT) {
             moveDistance = fabs(static_cast<float>(m_movement.end.y - m_movement.start.y));
-        } else if (dockInfo.position == Position::LEFT && direction == Direction::DIR_LEFT) {
-            moveDistance = fabs(static_cast<float>(m_movement.end.x - m_movement.start.x));
-        } else if (dockInfo.position == Position::TOP && direction == Direction::DIR_TOP) {
-            moveDistance = fabs(static_cast<float>(m_movement.end.y - m_movement.start.y));
-        } else if (dockInfo.position == Position::RIGHT && direction == Direction::DIR_RIGHT) {
-            moveDistance = fabs(static_cast<float>(m_movement.end.x - m_movement.start.x));
         }
         //fprintf(stdout, "moveStopStayTime: %d\n", moveStopStayTime);
         if (moveDistance > static_cast<float>(dockInfo.directionHeight) && stayTime > moveStopStayTime) {
