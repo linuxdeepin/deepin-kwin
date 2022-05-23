@@ -25,6 +25,12 @@
 #include <memory>
 #include <DWayland/Server/clientmanagement_interface.h>
 
+
+#define KWinDBusService "com.deepin.daemon.Appearance"
+#define KWinDBusPath    "/com/deepin/daemon/Appearance"
+#define KWinDBusInterface "com.deepin.daemon.Appearance"
+#define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
+
 class KConfig;
 class KConfigGroup;
 class KStartupInfo;
@@ -256,6 +262,12 @@ public:
     void stackScreenEdgesUnderOverrideRedirect();
 
     SessionManager *sessionManager() const;
+
+    QString ActiveColor();
+    void setActiveColor(QString color);
+
+    bool isDarkTheme();
+    void setDarkTheme(bool isDark);
 
 public:
     QPoint cascadeOffset(const AbstractClient *c) const;
@@ -496,6 +508,8 @@ public Q_SLOTS:
     void updateWindowStates();
     void captureWindowImage(int windowId, wl_resource *buffer);
 
+    void qtactivecolorChanged();
+
     void slotTouchPadTomoveWindow(int x, int y);
     void slotEndTouchPadToMoveWindow();
 private Q_SLOTS:
@@ -553,6 +567,8 @@ Q_SIGNALS:
      */
     void internalClientRemoved(KWin::InternalClient *client);
     void windowStateChanged();
+
+    void activeColorChanged();
 
 private:
     void init();
@@ -710,6 +726,9 @@ private:
     QScopedPointer<X11EventFilter> m_syncAlarmFilter;
 
     SessionManager *m_sessionManager;
+
+    QString activeColor;
+    bool m_isDarkTheme = false;
 private:
     friend bool performTransiencyCheck();
     friend Workspace *workspace();

@@ -11,5 +11,6 @@ usr/lib/*/qt5/plugins/kpackage/packagestructure/
 usr/lib/*/qt5/plugins/deepin-kwin*.so
 usr/lib/*/qt5/plugins/deepin-kwin/
 usr/lib/*/qt5/plugins/org.kde.kdecoration2/deepin-kwin5_aurorae.so
+usr/lib/*/qt5/plugins/org.kde.kdecoration2/deepin_chameleon.so
 usr/lib/*/qt5/qml/org/kde/deepin-kwin/
 usr/lib/*/qt5/qml/org/deepin/kwin/

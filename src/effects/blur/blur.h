@@ -33,6 +33,12 @@ public:
     BlurEffect();
     ~BlurEffect() override;
 
+   enum EffectDataRole {
+        BaseRole = KWin::DataRole::LanczosCacheRole + 100,
+        WindowRadiusRole = BaseRole + 1,
+        WindowClipPathRole = BaseRole + 2,
+    };
+
     static bool supported();
     static bool enabledByDefault();
 

@@ -273,6 +273,24 @@ void BlurEffect::reconfigure(ReconfigureFlags flags)
     effects->addRepaintFull();
 }
 
+QRegion rounded(QRegion region, int r)
+{
+    auto rect = region.boundingRect();
+    int x = rect.x();
+    int y = rect.y();
+    int w = rect.width()-r;
+    int h = rect.height()-r;
+    auto r1 = QRegion(x, y, r, r);
+    auto r2 = r1.translated(0, h);
+    auto r3 = r1.translated(w, h);
+    auto r4 = r1.translated(w, 0);
+    auto c1 = QRegion(x, y, 2 * r, 2 * r, QRegion::Ellipse);
+    auto c2 = c1.translated(0, h - r);
+    auto c3 = c1.translated(w - r, h - r);
+    auto c4 = c1.translated(w - r, 0);
+    return (region - (r1 + r2 + r3 + r4) + (c1 + c2 + c3 + c4));
+}
+
 void BlurEffect::updateBlurRegion(EffectWindow *w) const
 {
     QRegion region;
@@ -420,25 +438,33 @@ QRegion BlurEffect::blurRegion(const EffectWindow *w) const
     QRegion region;
 
     const QVariant value = w->data(WindowBlurBehindRole);
-    if (value.isValid()) {
+    if (1)
+    {
+        int cornerRadius = 18;
+        const QVariant valueRadius1 = w->data(WindowRadiusRole);
+        if (valueRadius1.isValid()) {
+            cornerRadius = w->data(WindowRadiusRole).toPointF().x();
+        }
+
         const QRegion appRegion = qvariant_cast<QRegion>(value);
         if (!appRegion.isEmpty()) {
             if (w->decorationHasAlpha() && effects->decorationSupportsBlurBehind()) {
                 region = QRegion(w->rect()) - w->decorationInnerRect();
             }
-            region |= appRegion.translated(w->contentsRect().topLeft()) &
-                      w->decorationInnerRect();
+            region = rounded(QRegion(w->rect()), cornerRadius);
         } else {
             // An empty region means that the blur effect should be enabled
             // for the whole window.
-            region = w->rect();
+            if (w->rect().width() < 500)
+                region = rounded(QRegion(w->rect()), 8);
+            else
+                region = rounded(QRegion(w->rect()), cornerRadius);
         }
     } else if (w->decorationHasAlpha() && effects->decorationSupportsBlurBehind()) {
         // If the client hasn't specified a blur region, we'll only enable
         // the effect behind the decoration.
         region = QRegion(w->rect()) - w->decorationInnerRect();
     }
-
     return region;
 }
 
@@ -558,6 +584,9 @@ bool BlurEffect::shouldBlur(const EffectWindow *w, int mask, const WindowPaintDa
         return false;
 
     if (w->isDesktop())
+        return false;
+
+    if (w->windowClass().contains("dde-dock") && w->isNormalWindow() && w->width() < 500)
         return false;
 
     bool scaled = !qFuzzyCompare(data.xScale(), 1.0) && !qFuzzyCompare(data.yScale(), 1.0);

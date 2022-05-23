@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>themes/popupmenu/inActive.svg</file>
+        <file>themes/popupmenu/Active.svg</file>
+    </qresource>
+</RCC>

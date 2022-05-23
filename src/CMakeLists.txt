@@ -168,6 +168,8 @@ qt_add_dbus_interface(kwin_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf5_org.fre
 qt_add_dbus_interface(kwin_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/org.kde.screensaver.xml kscreenlocker_interface)
 qt_add_dbus_interface(kwin_SRCS org.kde.kappmenu.xml appmenu_interface)
 
+qt5_add_resources( kwin_SRCS ../resources.qrc )
+
 ki18n_wrap_ui(kwin_SRCS
     debug_console.ui
     shortcutdialog.ui
@@ -345,3 +347,14 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/deepin_kwin_export.h DESTINATION ${KDE
 
 # Install the KWin/Script service type
 install(FILES scripting/deepin-kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
+
+# translations
+file(GLOB TS LIST_DIRECTORIES false translations/popupmenu/popupmenu*.ts)
+foreach(_ts_file ${TS})
+    execute_process(
+        COMMAND ${LUPDATE_EXECUTABLE} -recursive ${CMAKE_SOURCE_DIR}/translations -ts ${_ts_file})
+    execute_process(COMMAND lrelease ${_ts_file})
+endforeach()
+
+file(GLOB QM_FILES "translations/popupmenu/*.qm")
+install_files("/share/translations/popupmenu" FILES ${QM_FILES})

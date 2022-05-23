@@ -47,6 +47,9 @@
 #include <QCheckBox>
 #include <QtConcurrentRun>
 #include <QPushButton>
+#include <QTranslator>
+#include <QDir>
+
 
 #include <KGlobalAccel>
 #include <KLocalizedString>
@@ -54,12 +57,53 @@
 #include <QMenu>
 #include <QRegularExpression>
 #include <QAction>
+#include <QX11Info>
 #include <kauthorized.h>
 
 #include "killwindow.h"
 #ifdef KWIN_BUILD_TABBOX
 #include "tabbox.h"
 #endif
+
+static inline bool isPlatformX11()
+{
+    static bool x11 = QX11Info::isPlatformX11();
+    return x11;
+}
+
+static void setWindowProperty(xcb_window_t WId, xcb_atom_t propAtom, xcb_atom_t typeAtom, int format, const QByteArray &data)
+{
+    if (!isPlatformX11())
+        return;
+
+    xcb_connection_t* conn = QX11Info::connection();
+
+    if (format == 0 && data.isEmpty()) {
+        xcb_delete_property(conn, WId, propAtom);
+    } else {
+        xcb_change_property(conn, XCB_PROP_MODE_REPLACE, WId, propAtom, typeAtom, format, data.length() * 8 / format, data.constData());
+    }
+}
+
+static xcb_atom_t internAtom(const char *name, bool only_if_exists)
+{
+    if (!name || *name == 0)
+        return XCB_NONE;
+
+    if (!isPlatformX11())
+        return XCB_NONE;
+
+    xcb_intern_atom_cookie_t cookie = xcb_intern_atom(QX11Info::connection(), only_if_exists, strlen(name), name);
+    xcb_intern_atom_reply_t *reply = xcb_intern_atom_reply(QX11Info::connection(), cookie, 0);
+
+    if (!reply)
+        return XCB_NONE;
+
+    xcb_atom_t atom = reply->atom;
+    free(reply);
+
+    return atom;
+}
 
 namespace KWin
 {
@@ -155,6 +199,43 @@ UserActionsMenu::UserActionsMenu(QObject *parent)
     , m_closeOperation(nullptr)
     , m_shortcutOperation(nullptr)
 {
+    QTranslator *ts = new QTranslator(this);
+    const QString &lang_name = QLocale::system().name();
+    QString ts_file = "popupmenu_" + lang_name;
+    QString ts_fallback_file;
+
+    {
+        int index = lang_name.indexOf("_");
+
+        if (index > 0) {
+            ts_fallback_file = lang_name.left(index);
+        }
+    }
+
+    auto ts_dir_list = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+
+    if (!ts_file.isEmpty()) {
+        bool ok = false;
+
+        for (QString dir : ts_dir_list) {
+            dir += "/translations/popupmenu";
+
+            if (!QDir(dir).exists()) {
+                continue;
+            }
+            if (ts->load(ts_file, dir) && qApp->installTranslator(ts)) {
+                ok = true;
+                break;
+            }
+        }
+
+        ts_file.clear();
+
+        if (!ok && !ts_fallback_file.isEmpty()) {
+            ts_file = ts_fallback_file;
+            ts_fallback_file.clear();
+        }
+    }
 }
 
 UserActionsMenu::~UserActionsMenu()
@@ -196,11 +277,44 @@ void UserActionsMenu::handleClick(const QPoint &pos)
 
 void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
 {
+    QString backgroundColor = "rgb(253,253,254)";
+    QString fontColor = "black";
+    if (workspace()->self()->isDarkTheme()) {
+        backgroundColor = "black";
+        fontColor = "white";
+    }
     if (!m_menu) {
         m_menu = new QMenu;
+        int forceDecorate = 1;
+        ::setWindowProperty(m_menu->winId(), ::internAtom("_DEEPIN_FORCE_DECORATE", false),
+                                 XCB_ATOM_CARDINAL, 32, QByteArray(reinterpret_cast<char*>(&forceDecorate), sizeof(forceDecorate) / sizeof(char)));
     }
     m_menu->clear();
     disconnect(m_menu, &QMenu::triggered, m_menu, 0);
+    m_menu->setStyleSheet(QString("\
+            QMenu {\
+            background-color: %1;\
+            border-radius:0px;\
+            }\
+            QMenu::item {\
+            font:Sans Serif;\
+            font-size:14px;\
+            padding: 6px 45px 6px 30px;\
+            color: %2;\
+            }\
+            QMenu::icon {\
+            padding: 0px 15px 0px 0px;\
+            }\
+            QMenu::icon:checked {\
+            background: transparent\
+            }\
+            QMenu::icon:checked:selected {\
+            background-color: transparent\
+            }\
+            QMenu::item:selected {\
+            background-color: %3;\
+            color: white;}").arg(backgroundColor).arg(fontColor).arg(workspace()->self()->ActiveColor()));
+    m_menu->setContentsMargins(0,8,0,8);
 
     for (const MenuItem &item : getMenuItemInfos(cl.data())) {
         QAction *action = m_menu->addAction(item.text);
@@ -209,6 +323,13 @@ void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
         action->setCheckable(item.isCheckable);
         action->setChecked(item.checked);
         action->setEnabled(item.enable);
+        if (item.checked) {
+            if (backgroundColor == "black") {
+                action->setIcon(QIcon(":/resources/themes/popupmenu/Active.svg"));
+            } else {
+                action->setIcon(QIcon(":/resources/themes/popupmenu/inActive.svg"));
+            }
+        }
     }
 
     auto client = m_client.data();
@@ -323,6 +444,8 @@ void UserActionsMenu::init()
         return;
     }
     m_menu = new QMenu;
+
+
     connect(m_menu, &QMenu::aboutToShow, this, &UserActionsMenu::menuAboutToShow);
     connect(m_menu, &QMenu::triggered, this, &UserActionsMenu::slotWindowOperation, Qt::QueuedConnection);
 

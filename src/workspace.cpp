@@ -2057,6 +2057,34 @@ void Workspace::setWasUserInteraction()
     );
 }
 
+QString Workspace::ActiveColor()
+{
+    if (activeColor.isEmpty())
+        activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    return activeColor;
+}
+
+void Workspace::setActiveColor(QString color)
+{
+    activeColor = color;
+}
+
+bool Workspace::isDarkTheme()
+{
+    return m_isDarkTheme;
+}
+
+void Workspace::setDarkTheme(bool isDark)
+{
+    m_isDarkTheme = isDark;
+}
+
+void Workspace::qtactivecolorChanged()
+{
+    QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    setActiveColor(clr);
+}
+
 void Workspace::updateTabbox()
 {
 #ifdef KWIN_BUILD_TABBOX
