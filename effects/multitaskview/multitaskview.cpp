@@ -2096,6 +2096,20 @@ bool MultitaskViewEffect::isActive() const
     return m_activated && !effects->isScreenLocked();
 }
 
+void MultitaskViewEffect::toggle() {
+    if (m_activated) {
+        m_effectFlyingBack.begin();
+    } else if (m_delayDbus) {
+        if (!QX11Info::isPlatformX11()) {
+            QTimer::singleShot(50, [&, this]() {
+                this->setActive(!this->m_activated);
+            });
+        } else {
+            setActive(!m_activated);
+        }
+    }
+}
+
 void MultitaskViewEffect::cleanup()
 {
     if (m_activated) {
@@ -2170,7 +2184,7 @@ void MultitaskViewEffect::setActive(bool active)
 
     m_activated = active;
 
-    QTimer::singleShot(400, [&, active](){
+    QTimer::singleShot(400, [&, active]() {
         QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
         wm.call("SetMultiTaskingStatus", active);
     });
