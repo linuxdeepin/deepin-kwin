@@ -11,7 +11,7 @@
 #ifndef KWIN_EFFECTSIMPL_H
 #define KWIN_EFFECTSIMPL_H
 
-#include "deepin_kwineffects.h"
+#include "deepin_kwineffectsex.h"
 
 #include "scene.h"
 
@@ -47,7 +47,7 @@ class Toplevel;
 class Unmanaged;
 class WindowPropertyNotifyX11Filter;
 
-class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandler
+class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandlerEx
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Effects")
@@ -72,6 +72,14 @@ public:
     Effect *provides(Effect::Feature ef);
 
     void drawWindow(EffectWindow* w, int mask, const QRegion &region, WindowPaintData& data) override;
+
+    QString getActiveColor() override;
+
+    void requestLock() override;
+    void changeBlurState(bool) override;
+    int getCurrentPaintingScreen() override;
+
+    bool isShortcuts(QKeyEvent *event);
 
     void activateWindow(EffectWindow* c) override;
     EffectWindow* activeWindow() const override;
@@ -267,6 +275,14 @@ public:
     void renderScreen(EffectScreen *screen) override;
     bool isCursorHidden() const override;
     void enableEffect(const QString& name, bool enable);
+
+    void setKeepAbove(KWin::EffectWindow *c, bool) ;
+
+    void sendPointer(Qt::MouseButton type) ;
+
+    EffectWindowList getChildWinList(KWin::EffectWindow *w) ;
+    bool isTransientWin(KWin::EffectWindow *w) ;
+
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow* from, EffectWindow* to);
     void slotTabAdded(EffectWindow* from, EffectWindow* to);
@@ -582,6 +598,14 @@ public:
      */
     QColor styledTextColor();
 
+    void setSpacing(int spacing) override {
+        m_spacing = spacing;
+    }
+
+    int getSpacing() override {
+        return m_spacing;
+    }
+
 private Q_SLOTS:
     void plasmaThemeChanged();
 
@@ -606,6 +630,8 @@ private:
     QIcon m_icon;
     QSize m_iconSize;
     QRect m_selectionGeometry;
+
+    int m_spacing;
 
     Scene::EffectFrame* m_sceneFrame;
     GLShader* m_shader;

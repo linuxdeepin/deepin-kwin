@@ -267,12 +267,20 @@ public:
     void stackScreenEdgesUnderOverrideRedirect();
 
     SessionManager *sessionManager() const;
-
     QString ActiveColor();
     void setActiveColor(QString color);
 
     bool isDarkTheme();
     void setDarkTheme(bool isDark);
+
+    void setCurrentPaintingScreen(int index) {
+        m_paintingScreen = index;
+    }
+
+    int getCurrentPaintingScreen() {
+        return m_paintingScreen;
+    }
+    void executeLock();
 
 public:
     QPoint cascadeOffset(const AbstractClient *c) const;
@@ -280,6 +288,8 @@ public:
 private:
     QTimer *m_quickTileCombineTimer;
     QuickTileMode m_lastTilingMode;
+    Compositor *m_compositor;
+    int m_paintingScreen = 0;
 
     //-------------------------------------------------
     // Unsorted
@@ -517,6 +527,8 @@ public Q_SLOTS:
     void captureWindowImage(int windowId, wl_resource *buffer);
 
     void qtactivecolorChanged();
+    void screensChanged();
+    void changeBlurStatus(bool);
 
     void slotTouchPadTomoveWindow(int x, int y);
     void slotEndTouchPadToMoveWindow();

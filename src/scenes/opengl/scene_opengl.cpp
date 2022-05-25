@@ -1152,6 +1152,7 @@ void SceneOpenGL::EffectFrame::render(const QRegion &_region, double opacity, do
         if (!m_iconTexture) { // lazy creation
             m_iconTexture = new GLTexture(m_effectFrame->icon().pixmap(m_effectFrame->iconSize()));
         }
+        m_iconTexture->setWrapMode(GL_MIRRORED_REPEAT);
         m_iconTexture->bind();
         m_iconTexture->render(region, QRect(topLeft, m_effectFrame->iconSize()));
         m_iconTexture->unbind();
@@ -1220,7 +1221,7 @@ void SceneOpenGL::EffectFrame::updateTextTexture()
     // Determine position on texture to paint text
     QRect rect(QPoint(0, 0), m_effectFrame->geometry().size());
     if (!m_effectFrame->icon().isNull() && !m_effectFrame->iconSize().isEmpty())
-        rect.setLeft(m_effectFrame->iconSize().width());
+        rect.setLeft(m_effectFrame->iconSize().width() + m_effectFrame->getSpacing());
 
     // If static size elide text as required
     QString text = m_effectFrame->text();

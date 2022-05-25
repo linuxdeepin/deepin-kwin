@@ -1806,6 +1806,7 @@ Q_SIGNALS:
      * @since 5.18
      */
     void sessionStateChanged();
+    void closeEffect(bool isSleepBefore);
 
     /**
      * This signal is emitted when the visible geometry of a window changed.
@@ -3222,6 +3223,14 @@ public:
     ~Motion2D();
 };
 
+class KWINEFFECTS_EXPORT Motion4D : public Motion<QRect>
+{
+public:
+    explicit Motion4D(QRect initial = QRect(), double strength = 0.08, double smoothness = 4.0);
+    Motion4D(const Motion4D &other);
+    ~Motion4D();
+};
+
 /**
  * @short Helper class for motion dynamics in KWin effects.
  *
@@ -3370,15 +3379,27 @@ public:
         return m_movingWindowsSet.contains(w);
     }
 
+    inline EffectWindowList orderManagedWindows() const {
+        return m_orderWindowList;
+    }
+
+    void setWindowFill(EffectWindow *w, bool fill, QRect rect);
+    bool isWindowFill(EffectWindow *w);
+    QRect getWindowFillRect(EffectWindow *w);
+    void resetWindowFill(EffectWindow *w);
+
 private:
     bool m_useGlobalAnimationModifier;
     struct WindowMotion {
         // TODO: Rotation, etc?
         Motion2D translation; // Absolute position
         Motion2D scale; // xScale and yScale
+        Motion1D fill;  // is fill win background
+        Motion4D rect;  // fill rect
     };
     QHash<EffectWindow*, WindowMotion> m_managedWindows;
     QSet<EffectWindow*> m_movingWindowsSet;
+    EffectWindowList m_orderWindowList;
 };
 
 /**
@@ -3448,6 +3469,9 @@ public:
      * @returns The style of this EffectFrame.
      */
     virtual EffectFrameStyle style() const = 0;
+
+    virtual void setSpacing(int spacing) = 0;
+    virtual int getSpacing() = 0;
 
     /**
      * If @p enable is @c true cross fading between icons and text is enabled

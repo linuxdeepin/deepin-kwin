@@ -41,7 +41,8 @@ endfunction()
 if (HAVE_ACCESSIBILITY)
     include_directories(${QACCESSIBILITYCLIENT_INCLUDE_DIR})
 endif()
-
+pkg_search_module(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt)
+find_package(Qt5LinguistTools REQUIRED)
 set(kwin_effect_OWN_LIBS
     deepin-kwineffects
 )
@@ -67,6 +68,7 @@ set(kwin_effect_QT_LIBS
     Qt::DBus
     Qt::Quick
     Qt::X11Extras
+    PkgConfig::QGSETTINGS
 )
 
 set(kwin_effect_XLIB_LIBS
@@ -93,6 +95,14 @@ macro(KWIN4_ADD_EFFECT_MODULE name)
     kwin_strip_builtin_effect_metadata(${name} metadata.json)
     install(FILES metadata.json DESTINATION ${KDE_INSTALL_DATADIR}/${KWIN_NAME}/builtin-effects/${name}/)
 endmacro()
+
+# translations
+file(GLOB TS LIST_DIRECTORIES false multitaskview/translations/multitasking*.ts)
+foreach(_ts_file ${TS})
+    execute_process(
+        COMMAND ${LUPDATE_EXECUTABLE} -recursive ${CMAKE_SOURCE_DIR}/translations -ts ${_ts_file})
+    execute_process(COMMAND lrelease ${_ts_file})
+endforeach()
 
 # Install the KWin/Effect service type
 install(FILES deepin-kwineffect.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
@@ -162,6 +172,7 @@ add_subdirectory(startupfeedback)
 add_subdirectory(trackmouse)
 add_subdirectory(wobblywindows)
 add_subdirectory(scissorwindow)
+add_subdirectory(multitaskview)
 
 ###############################################################################
 

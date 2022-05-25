@@ -62,6 +62,7 @@
 // Qt
 #include <QtConcurrentRun>
 #include <QDBusConnection>
+#include <qscreen.h>
 
 namespace KWin
 {
@@ -217,8 +218,11 @@ void Workspace::init()
 {
     KSharedConfigPtr config = kwinApp()->config();
     ScreenEdges *screenEdges = ScreenEdges::self();
+    Screens *screens = Screens::self();
     screenEdges->setConfig(config);
     screenEdges->init();
+    connect(screens, SIGNAL(countChanged(int, int)), SLOT(saveClientOldPos(int, int)));
+    connect(screens, SIGNAL(changed()), SLOT(screensChanged()));
     connect(options, &Options::configChanged, screenEdges, &ScreenEdges::reconfigure);
     connect(VirtualDesktopManager::self(), &VirtualDesktopManager::layoutChanged, screenEdges, &ScreenEdges::updateLayout);
     connect(this, &Workspace::clientActivated, screenEdges, &ScreenEdges::checkBlocking);
@@ -302,7 +306,6 @@ void Workspace::init()
 
     // broadcast that Workspace is ready, but first process all events.
     QMetaObject::invokeMethod(this, "workspaceInitialized", Qt::QueuedConnection);
-
     // TODO: ungrabXServer()
 }
 
@@ -753,6 +756,9 @@ Unmanaged* Workspace::createUnmanaged(xcb_window_t w)
         return nullptr;
     }
     if (c->fetchWindowForLockScreen()) {
+        if (Compositor::compositing()) {
+            Q_EMIT effects->closeEffect(true);
+        }
         // The focusToNull used to cancel context menus, etc.
         focusToNull();
         for (auto u : m_unmanaged) {
@@ -2114,10 +2120,33 @@ void Workspace::setDarkTheme(bool isDark)
     m_isDarkTheme = isDark;
 }
 
+void Workspace::executeLock()
+{
+    //LogindIntegration::self()->requestLock();
+}
+
+void Workspace::screensChanged()
+{
+    if (Compositor::compositing()) {
+        Q_EMIT effects->closeEffect(true);    //close multitask view
+    }
+}
+
 void Workspace::qtactivecolorChanged()
 {
     QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
     setActiveColor(clr);
+}
+
+void Workspace::changeBlurStatus(bool state)
+{
+    if (effects) {
+        if (state && static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("com.deepin.blur")) {
+            static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.deepin.blur");
+        } else if (!state && !static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("com.deepin.blur")) {
+            static_cast<EffectsHandlerImpl*>(effects)->toggleEffect("com.deepin.blur");
+        }
+    }
 }
 
 void Workspace::updateTabbox()

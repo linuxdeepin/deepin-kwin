@@ -110,7 +110,7 @@ static xcb_atom_t registerSupportProperty(const QByteArray &propertyName)
 //---------------------
 
 EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
-    : EffectsHandler(Compositor::self()->backend()->compositingType())
+    : EffectsHandlerEx(Compositor::self()->backend()->compositingType())
     , keyboard_grab_effect(nullptr)
     , fullscreen_effect(nullptr)
     , m_compositor(compositor)
@@ -678,7 +678,8 @@ void EffectsHandlerImpl::startMouseInterception(Effect *effect, Qt::CursorShape 
 
 void EffectsHandlerImpl::doStartMouseInterception(Qt::CursorShape shape)
 {
-    input()->pointer()->setEffectsOverrideCursor(shape);
+    if (input()->pointer())
+        input()->pointer()->setEffectsOverrideCursor(shape);
 }
 
 void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
@@ -690,6 +691,11 @@ void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
     if (m_grabbedMouseEffects.isEmpty()) {
         doStopMouseInterception();
     }
+}
+
+bool EffectsHandlerImpl::isShortcuts(QKeyEvent *event)
+{
+    return input()->isShortcuts(event);
 }
 
 void EffectsHandlerImpl::doStopMouseInterception()
@@ -847,6 +853,65 @@ QByteArray EffectsHandlerImpl::readRootProperty(long atom, long type, int format
         return QByteArray();
     }
     return readWindowProperty(kwinApp()->x11RootWindow(), atom, type, format);
+}
+
+void EffectsHandlerImpl::setKeepAbove(KWin::EffectWindow *c, bool b)
+{
+    if (auto client = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(c)->window())) {
+        client->setKeepAbove(b);
+    }
+}
+
+EffectWindowList EffectsHandlerImpl::getChildWinList(KWin::EffectWindow *w)
+{
+    if (auto client = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(w)->window())) {
+        auto transClients = client->transients();
+        EffectWindowList ret;
+        ret.reserve(transClients.size());
+        std::transform(std::cbegin(transClients), std::cend(transClients),
+            std::back_inserter(ret),
+            [](auto c) {return c->effectWindow();});
+        return ret;
+    }
+    return {};
+}
+
+bool EffectsHandlerImpl::isTransientWin(KWin::EffectWindow *w)
+{
+    if (auto client = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(w)->window())) {
+        return client->isTransient();
+    }
+    return false;
+}
+
+void EffectsHandlerImpl::sendPointer(Qt::MouseButton type)
+{
+    uint32_t button = KWin::qtMouseButtonToButton(Qt::LeftButton);
+    if (type == Qt::RightButton) {
+        button = KWin::qtMouseButtonToButton(Qt::RightButton);
+    }
+    input()->pointer()->processButton(button, InputRedirection::PointerButtonPressed, 0);
+    input()->pointer()->processButton(button, InputRedirection::PointerButtonReleased, 0);
+}
+
+void EffectsHandlerImpl::requestLock()
+{
+    Workspace::self()->executeLock();
+}
+
+void EffectsHandlerImpl::changeBlurState(bool state)
+{
+    Workspace::self()->changeBlurStatus(state);
+}
+
+int EffectsHandlerImpl::getCurrentPaintingScreen()
+{
+    return Workspace::self()->getCurrentPaintingScreen();
+}
+
+QString EffectsHandlerImpl::getActiveColor()
+{
+    return Workspace::self()->ActiveColor();
 }
 
 void EffectsHandlerImpl::activateWindow(EffectWindow* c)
@@ -2241,7 +2306,8 @@ EffectFrameImpl::EffectFrameImpl(EffectFrameStyle style, bool staticSize, QPoint
     , m_static(staticSize)
     , m_point(position)
     , m_alignment(alignment)
-    , m_shader(nullptr)
+    , m_shader(NULL)
+    , m_spacing(0)
     , m_theme(new Plasma::Theme(this))
 {
     if (m_style == EffectFrameStyled) {
@@ -2357,7 +2423,7 @@ void EffectFrameImpl::render(const QRegion &region, double opacity, double frame
     if (m_geometry.isEmpty()) {
         return; // Nothing to display
     }
-    m_shader = nullptr;
+    // m_shader = nullptr;
     setScreenProjectionMatrix(static_cast<EffectsHandlerImpl*>(effects)->scene()->screenProjectionMatrix());
     effects->paintEffectFrame(this, region, opacity, frameOpacity);
 }
@@ -2459,7 +2525,7 @@ void EffectFrameImpl::autoResize()
         }
 
         QFontMetrics metrics(m_font);
-        geometry.setSize(QSize(metrics.width(m_text) * scaleFactor, metrics.height()));
+        geometry.setSize(QSize(metrics.width(m_text) * scaleFactor + m_spacing, metrics.height()));
     }
     if (!m_icon.isNull() && !m_iconSize.isEmpty()) {
         geometry.setLeft(-m_iconSize.width());

@@ -40,6 +40,7 @@ set(kwin_EFFECTSLIB_SRCS
     deepin_kwinanimationeffect.cpp
     deepin_kwindeformeffect.cpp
     deepin_kwineffects.cpp
+    deepin_kwineffectsex.cpp
     deepin_kwinoffscreenquickview.cpp
     deepin_kwinquickeffect.cpp
     logging.cpp
@@ -95,6 +96,7 @@ install(FILES
     deepin_kwinanimationeffect.h
     deepin_kwindeformeffect.h
     deepin_kwineffects.h
+    deepin_kwineffectsex.h
     deepin_kwinglobals.h
     deepin_kwinglplatform.h
     deepin_kwingltexture.h
