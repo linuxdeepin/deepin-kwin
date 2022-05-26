@@ -3844,9 +3844,17 @@ void AbstractClient::handlequickTileModeChanged(bool isReCheckScreen)
     bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
     if (!flag)
         return;
-    int nScreen = screen();
-    if (isReCheckScreen)
-        nScreen = reCheckScreen();
+    int nScreen = 0;
+    if (waylandServer()) {
+        if (screens()->count() != 1) {
+            nScreen = screens()->number(getConfigGeometry().center());
+        }
+    } else {
+        nScreen = screen();
+        if (isReCheckScreen) {
+            nScreen = reCheckScreen();
+        }
+    }
 
     if (compositing() && !splitManage.contains(nScreen)) {
         SplitOutline* splitOutline = new SplitOutline(nScreen, desktop());

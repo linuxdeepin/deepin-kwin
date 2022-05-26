@@ -323,7 +323,9 @@ public:
     void handleSync();
 
     static void cleanupX11();
-
+    QRect getConfigGeometry() override {
+        return geom;
+    }
 public Q_SLOTS:
     void closeWindow() override;
     void updateCaption() override;

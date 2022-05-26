@@ -838,6 +838,12 @@ public:
 
     QRect m_screenRect;     //The geometry of the screen where the client is located
 
+    /* The value returned by this function on the x11 platform is the same as the value returned by the geometry function.
+     * The setGeometry function on the wayland platform is affected by client-side image updates,
+     * and sometimes execute setGeometry function does not return the same value as the geometry function.
+     * This can be done by using getConfigGeometry function.
+     */
+    virtual QRect getConfigGeometry() = 0;
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
