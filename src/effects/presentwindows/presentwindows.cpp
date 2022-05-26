@@ -35,6 +35,7 @@
 
 #include <climits>
 #include <cmath>
+#include "workspace.h"
 
 Q_LOGGING_CATEGORY(KWIN_PRESENTWINDOWS, "kwin_effect_presentwindows", QtWarningMsg)
 
@@ -114,6 +115,11 @@ PresentWindowsEffect::PresentWindowsEffect()
                                                  this,
                                                  QDBusConnection::ExportScriptableSlots);
     QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.KWin.PresentWindows"));
+
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+                                          "ShowAllWindowChanged", this, SLOT(toggleActiveAllDesktops()));
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+                                          "ShowWindowChanged", this, SLOT(toggleActive()));
 }
 
 PresentWindowsEffect::~PresentWindowsEffect()

@@ -60,10 +60,7 @@
 #include <KStartupInfo>
 // Qt
 #include <QtConcurrentRun>
-
-#define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
-#define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
-#define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
+#include <QDBusConnection>
 
 namespace KWin
 {
@@ -203,6 +200,15 @@ Workspace::Workspace()
     initShortcuts();
 
     init();
+
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+                                          "BeginToMoveActiveWindowChanged", this, SLOT(slotWindowMove()));
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+                                          "SwitchApplicationChanged", this, SLOT(slotSwitchApplication(bool)));
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+                                          "TileActiveWindowChanged", this, SLOT(slotTileActiveWindow(int)));
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+                                          "ToggleActiveWindowMaximizeChanged", this, SLOT(slotWindowMaximize()));
 }
 
 void Workspace::init()
@@ -1303,6 +1309,20 @@ void Workspace::slotOutputDisabled(AbstractOutput *output)
             toplevel->setOutput(kwinApp()->platform()->outputAt(toplevel->frameGeometry().center()));
         }
     }
+}
+
+void Workspace::slotSwitchApplication(bool backward)
+{
+    KWin::TabBox::TabBox *tabbox = KWin::TabBox::TabBox::self();
+    if (tabbox) {
+        backward ? tabbox->slotWalkBackThroughWindows()
+                : tabbox->slotWalkThroughWindows();
+    }
+}
+
+void Workspace::slotTileActiveWindow(int side)
+{
+    quickTileWindow((QuickTileFlag)side);
 }
 
 void Workspace::slotDesktopAdded(VirtualDesktop *desktop)

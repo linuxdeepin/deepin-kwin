@@ -31,6 +31,10 @@
 #define KWinDBusInterface "com.deepin.daemon.Appearance"
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
+#define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
+#define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
+#define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
+
 class KConfig;
 class KConfigGroup;
 class KStartupInfo;
@@ -512,6 +516,10 @@ public Q_SLOTS:
 
     void slotTouchPadTomoveWindow(int x, int y);
     void slotEndTouchPadToMoveWindow();
+
+    void slotSwitchApplication(bool backward);
+    void slotTileActiveWindow(int side);
+
 private Q_SLOTS:
     void desktopResized();
     void selectWmInputEventMask();

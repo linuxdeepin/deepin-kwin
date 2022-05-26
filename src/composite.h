@@ -236,6 +236,10 @@ protected:
     void stop() override;
     void composite(RenderLoop *renderLoop) override;
 
+public Q_SLOTS:
+    void slotResumeCompositor(int reason);
+    void slotSuspendCompositor(int reason);
+
 private:
     explicit X11Compositor(QObject *parent);
     QScopedPointer<X11SyncManager> m_syncManager;

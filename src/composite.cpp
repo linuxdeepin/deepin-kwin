@@ -706,6 +706,11 @@ X11Compositor::X11Compositor(QObject *parent)
     if (qEnvironmentVariableIsSet("KWIN_MAX_FRAMES_TESTED")) {
         m_framesToTestForSafety = qEnvironmentVariableIntValue("KWIN_MAX_FRAMES_TESTED");
     }
+
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+                                        "ResumeCompositorChanged", this, SLOT(slotResumeCompositor(int)));
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+                                        "SuspendCompositorChanged", this, SLOT(slotSuspendCompositor(int)));
 }
 
 X11Compositor::~X11Compositor()
@@ -917,6 +922,16 @@ void X11Compositor::updateClientCompositeBlocking(X11Client *c)
                     }, Qt::QueuedConnection);
         }
     }
+}
+
+void X11Compositor::slotResumeCompositor(int reason)
+{
+    resume((X11Compositor::SuspendReason)reason);
+}
+
+void X11Compositor::slotSuspendCompositor(int reason)
+{
+    suspend((X11Compositor::SuspendReason)reason);
 }
 
 X11Compositor *X11Compositor::self()
