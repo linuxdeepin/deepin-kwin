@@ -693,6 +693,7 @@ void ShellClient::setGeometry(int x, int y, int w, int h, ForceGeometry_t force)
         // when the GeometryUpdateBlocker exits the current geom is passed to setGeometry
         // thus we need to set it here.
         geom = QRect(x, y, w, h);
+        m_cfgGeom = geom;
         if (pendingGeometryUpdate() == PendingGeometryForced)
             {} // maximum, nothing needed
         else if (force == ForceGeometrySet)

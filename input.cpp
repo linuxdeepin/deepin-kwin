@@ -2667,7 +2667,7 @@ Toplevel *InputRedirection::findToplevel(const QPoint &pos)
     if (!isScreenLocked) {
         // if an effect overrides the cursor we don't have a window to focus
         if (effects && static_cast<EffectsHandlerImpl*>(effects)->isMouseInterception()) {
-            qDebug()<<"isMouseInterception nullptr"<<pos;
+            // qDebug()<<"isMouseInterception nullptr"<<pos;
             return nullptr;
         }
         // focus set on the first wayland override window

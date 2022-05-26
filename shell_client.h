@@ -250,7 +250,9 @@ public:
             return;
         m_ddeShellSurface->sendSplitable(splitable);
     }
-
+    QRect getConfigGeometry() override {
+        return m_cfgGeom;
+    }
 protected:
     void addDamage(const QRegion &damage) override;
     bool belongsToSameApplication(const AbstractClient *other, SameApplicationChecks checks) const override;
@@ -394,7 +396,10 @@ private:
     // min size of the buffer
     QSize m_clientMinSize = QSize(0, 0);
     QSize m_clientMaxSize = QSize(0, 0);
-
+    /*The rect of the change to be performed by the client
+     *The current rect will be ahead of the client changes so that we can use and calculate
+     */
+    QRect m_cfgGeom;
     int m_noTitleBar = -1;
     QPointF m_windowRadius = QPointF(0.0,0.0);
 };
