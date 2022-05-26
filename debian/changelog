@@ -1,3 +1,14 @@
+kwin (4:5.15.11.25-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 124801 fix: modify screen area when adjust dock to right pos
+    + 124607 fix: Adjust the split client window status when the screen changes.
+    + 129457 fix: set cachedmods of modifier only shortcut when effects send grab keyboard.
+    + 127817 feat: touching to trigger multitaskview only happened on logic botton
+    + 124063,124205 fix: add async timer about start multitask when meta+s event
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 26 May 2022 10:25:58 +0800
+
 kwin (4:5.15.11.24-1.1) unstable; urgency=medium
 
   * Bug fix:
