@@ -2129,6 +2129,11 @@ void Workspace::slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isSho
     setClientSplit(c, mode, isShowPreview);
 }
 
+bool Workspace::slotCheckClientAllowToSplit(KWin::AbstractClient* c)
+{
+    return checkClientAllowToSplit(c);
+}
+
 void Workspace::slotGetDdeShellSurface(AbstractClient* c, QObject *& dss)
 {
     if (!c) {
