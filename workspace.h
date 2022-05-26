@@ -503,6 +503,7 @@ public:
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
     void slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isShowPreview);
+    bool slotCheckClientAllowToSplit(KWin::AbstractClient* c);
     void slotGetDdeShellSurface(KWin::AbstractClient* c, QObject *& dss);
     // Keybindings
     //void slotSwitchToWindow( int );
