@@ -31,6 +31,7 @@ class RecordEventMonitor : public QThread
     Q_OBJECT
 public:
     explicit RecordEventMonitor(QObject *parent = nullptr);
+    void stopRecord();
 
 signals:
     void buttonRelease();
@@ -47,6 +48,9 @@ protected:
     void run();
     bool m_bFlag = false;
     int m_eventTime = 0;
+    XRecordContext m_context;
+    Display *m_d0;
+
 };
 
 #endif // RECORDEVENTMONITOR_H
