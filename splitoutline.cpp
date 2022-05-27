@@ -103,7 +103,7 @@ namespace KWin
                 m_rightSplitClient->setGeometry(m_pos, m_workspaceRect.y(), rightSplitClientWidth, m_workspaceRect.height());
                 m_rightSplitClient->palette();
 
-                m_leftSplitClient->setGeometry(m_workspaceRect.x(), m_workspaceRect.y(), leftSplitClientWidth, m_workspaceRect.height());
+                m_leftSplitClient->setGeometry(m_leftSplitClient->geometry().x(), m_leftSplitClient->geometry().y(), leftSplitClientWidth, m_workspaceRect.height());
                 m_leftSplitClient->palette();
 
                 m_rightSplitClientRect = QRect(m_pos, m_workspaceRect.y(), rightSplitClientWidth, m_workspaceRect.height());
