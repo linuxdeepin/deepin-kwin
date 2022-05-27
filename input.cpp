@@ -2061,7 +2061,8 @@ InputRedirection::~InputRedirection()
     s_self = NULL;
     qDeleteAll(m_filters);
     qDeleteAll(m_spies);
-    pEventMonitor->terminate();
+    pEventMonitor->stopRecord();
+    pEventMonitor->exit();
     pEventMonitor->wait();
     pEventMonitor->deleteLater();
 }

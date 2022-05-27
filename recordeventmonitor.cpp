@@ -37,6 +37,7 @@ RecordEventMonitor::RecordEventMonitor(QObject *parent) : QThread(parent)
 void RecordEventMonitor::run()
 {
     Display *pDisplay = XOpenDisplay(nullptr);
+    m_d0 = pDisplay;
     if (pDisplay == nullptr)
         return;
 
@@ -51,6 +52,7 @@ void RecordEventMonitor::run()
     pRange->device_events.last  = TOUCHUP;
 
     XRecordContext context = XRecordCreateContext(pDisplay, 0, &clients, 1, &pRange, 1);
+    m_context = context;
     if (context == 0)
         return;
 
@@ -116,4 +118,12 @@ void RecordEventMonitor::handleRecordEvent(XRecordInterceptData* data)
 
     fflush(stdout);
     XRecordFreeData(data);
+}
+
+void RecordEventMonitor::stopRecord()
+{
+    XRecordDisableContext(m_d0, m_context);
+    XRecordFreeContext(m_d0, m_context);
+    XSync(m_d0, True);
+    XCloseDisplay(m_d0);
 }
