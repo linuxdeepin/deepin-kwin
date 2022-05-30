@@ -35,6 +35,7 @@ class ScreenShotDBusInterface2;
 struct ScreenShotWindowData;
 struct ScreenShotAreaData;
 struct ScreenShotScreenData;
+struct ScreenShotWindowSizedData;
 
 /**
  * The ScreenShotEffect provides a convenient way to capture the contents of a given window,
@@ -72,11 +73,20 @@ public:
      */
     QFuture<QImage> scheduleScreenShot(EffectWindow *window, ScreenShotFlags flags = {});
 
+    /**
+     * Schedules a screenshot of the given @a window. The returned QFuture can be used to query
+     * the image data. If the window is removed before the screenshot is taken, the future will
+     * be cancelled.
+     */
+    QFuture<QImage> scheduleScreenShot(EffectWindow *window, const QSize &size, ScreenShotFlags flags = {});
+
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
     bool isActive() const override;
     int requestedEffectChainPosition() const override;
 
     static bool supported();
+
+    bool checkInteface = true;
 
 private Q_SLOTS:
     void handleWindowClosed(EffectWindow *window);
@@ -87,6 +97,7 @@ private:
     void takeScreenShot(ScreenShotWindowData *screenshot);
     bool takeScreenShot(ScreenShotAreaData *screenshot);
     bool takeScreenShot(ScreenShotScreenData *screenshot);
+    void takeScreenShot(ScreenShotWindowSizedData *screenshot);
 
     void cancelWindowScreenShots();
     void cancelAreaScreenShots();
@@ -98,6 +109,7 @@ private:
     QVector<ScreenShotWindowData> m_windowScreenShots;
     QVector<ScreenShotAreaData> m_areaScreenShots;
     QVector<ScreenShotScreenData> m_screenScreenShots;
+    QVector<ScreenShotWindowSizedData> m_windowScreenSizedShots;
 
     std::unique_ptr<ScreenShotDBusInterface1> m_dbusInterface1;
     std::unique_ptr<ScreenShotDBusInterface2> m_dbusInterface2;

@@ -1119,6 +1119,13 @@ EffectWindow *EffectsHandlerImpl::findWindow(WId id) const
     if (Unmanaged *w = Workspace::self()->findUnmanaged(id)) {
         return w->effectWindow();
     }
+    // wayland
+    QList<Window *> list = Workspace::self()->stackingOrder();
+    for (Window *t : list) {
+        if (t->frameId() == id) {
+            return t->effectWindow();
+        }
+    }
     return nullptr;
 }
 
