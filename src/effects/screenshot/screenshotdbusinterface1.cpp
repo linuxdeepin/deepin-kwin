@@ -99,6 +99,14 @@ public:
     ScreenShotSourceWindow1(ScreenShotEffect *effect, EffectWindow *window, ScreenShotFlags flags);
 };
 
+class ScreenShotSourceWindowSized1 : public ScreenShotSourceBasic1
+{
+    Q_OBJECT
+
+public:
+    ScreenShotSourceWindowSized1(ScreenShotEffect *effect, EffectWindow *window, const QSize &size, ScreenShotFlags flags);
+};
+
 class ScreenShotSourceMulti1 : public ScreenShotSource1
 {
     Q_OBJECT
@@ -226,6 +234,14 @@ ScreenShotSourceWindow1::ScreenShotSourceWindow1(ScreenShotEffect *effect,
                                                  EffectWindow *window,
                                                  ScreenShotFlags flags)
     : ScreenShotSourceBasic1(effect->scheduleScreenShot(window, flags))
+{
+}
+
+ScreenShotSourceWindowSized1::ScreenShotSourceWindowSized1(ScreenShotEffect *effect,
+                                                 EffectWindow *window,
+                                                 const QSize &size,
+                                                 ScreenShotFlags flags)
+    : ScreenShotSourceBasic1(effect->scheduleScreenShot(window, size, flags))
 {
 }
 
@@ -504,7 +520,7 @@ bool ScreenShotDBusInterface1::checkCall() const
     if (reply.isValid()) {
         const uint pid = reply.value();
         const auto interfaces = KWin::fetchRestrictedDBusInterfacesFromPid(pid);
-        if (!interfaces.contains(s_dbusInterfaceName)) {
+        if (m_effect->checkInteface && !interfaces.contains(s_dbusInterfaceName)) {
             sendErrorReply(s_errorNotAuthorized, s_errorNotAuthorizedMsg);
             qCWarning(KWIN_SCREENSHOT) << "Process" << pid << "tried to take a screenshot without being granted to DBus interface" << s_dbusInterfaceName;
             return false;
@@ -557,6 +573,36 @@ void ScreenShotDBusInterface1::screenshotForWindow(qulonglong winId, int mask)
     }
 
     takeScreenShot(window, ScreenShotFlags(mask), new ScreenShotSinkXpixmap1(this, message()));
+}
+
+QString ScreenShotDBusInterface1::screenshotForWindowExtend(qulonglong winid, unsigned int width,unsigned int height,int mask)
+{
+    EffectWindow *window = effects->findWindow(winid);
+    if (!window || window->isDeleted()) {
+        return QString();
+    }
+
+    takeScreenShot(window, QSize(width, height), ScreenShotFlags(mask), new ScreenShotSinkFile1(this, message()));
+
+    setDelayedReply(true);
+    return QString();
+}
+
+void ScreenShotDBusInterface1::screenshotForWindowExtend(QDBusUnixFileDescriptor fd, qulonglong winid, int mask)
+{
+    EffectWindow *window = effects->findWindow(winid);
+    if (!window || window->isDeleted()) {
+        return;
+    }
+
+    const int fileDescriptor = dup(fd.fileDescriptor());
+    if (fileDescriptor == -1) {
+        sendErrorReply(s_errorFd, s_errorFdMsg);
+        return;
+    }
+
+    takeScreenShot(window, ScreenShotFlags(mask),
+                   new ScreenShotSinkPipe1(this, fileDescriptor));
 }
 
 QString ScreenShotDBusInterface1::interactive(int mask)
@@ -854,6 +900,12 @@ void ScreenShotDBusInterface1::takeScreenShot(EffectWindow *window, ScreenShotFl
                                               ScreenShotSink1 *sink)
 {
     bind(sink, new ScreenShotSourceWindow1(m_effect, window, flags));
+}
+
+void ScreenShotDBusInterface1::takeScreenShot(EffectWindow *window, const QSize &size,
+                                              ScreenShotFlags flags, ScreenShotSink1 *sink)
+{
+    bind(sink, new ScreenShotSourceWindowSized1(m_effect, window, size, flags));
 }
 
 } // namespace KWin

@@ -43,6 +43,14 @@ struct ScreenShotScreenData
     EffectScreen *screen = nullptr;
 };
 
+struct ScreenShotWindowSizedData
+{
+    QFutureInterface<QImage> promise;
+    ScreenShotFlags flags;
+    QSize size;
+    EffectWindow *window = nullptr;
+};
+
 static void convertFromGLImage(QImage &img, int w, int h)
 {
     // from QtOpenGL/qgl.cpp
@@ -83,6 +91,10 @@ ScreenShotEffect::ScreenShotEffect()
     : m_dbusInterface1(new ScreenShotDBusInterface1(this))
     , m_dbusInterface2(new ScreenShotDBusInterface2(this))
 {
+    QString checkDbusInterface = QString::fromUtf8(qgetenv("KWIN_CHECK_DBUS_INTERFACES"));
+    if (checkDbusInterface.isEmpty() || checkDbusInterface.toLower() == "false") {
+        checkInteface = false;
+    }
     connect(effects, &EffectsHandler::screenAdded, this, &ScreenShotEffect::handleScreenAdded);
     connect(effects, &EffectsHandler::screenRemoved, this, &ScreenShotEffect::handleScreenRemoved);
     connect(effects, &EffectsHandler::windowClosed, this, &ScreenShotEffect::handleWindowClosed);
@@ -172,10 +184,35 @@ QFuture<QImage> ScreenShotEffect::scheduleScreenShot(EffectWindow *window, Scree
     return data.promise.future();
 }
 
+QFuture<QImage> ScreenShotEffect::scheduleScreenShot(EffectWindow *window, const QSize &size, ScreenShotFlags flags)
+{
+    for (ScreenShotWindowSizedData &data : m_windowScreenSizedShots) {
+        if (data.window == window && data.flags == flags && data.size == size) {
+            return data.promise.future();
+        }
+    }
+
+    ScreenShotWindowSizedData data;
+    data.window = window;
+    data.flags = flags;
+    data.size = size;
+
+    m_windowScreenSizedShots.append(data);
+    window->addRepaintFull();
+
+    data.promise.reportStarted();
+    return data.promise.future();
+}
+
 void ScreenShotEffect::cancelWindowScreenShots()
 {
     while (!m_windowScreenShots.isEmpty()) {
         ScreenShotWindowData screenshot = m_windowScreenShots.takeLast();
+        screenshot.promise.reportCanceled();
+    }
+
+    while (!m_windowScreenSizedShots.isEmpty()) {
+        ScreenShotWindowSizedData screenshot = m_windowScreenSizedShots.takeLast();
         screenshot.promise.reportCanceled();
     }
 }
@@ -206,6 +243,24 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
 {
     EffectWindow *window = screenshot->window;
 
+    QRect geometry = window->expandedGeometry();
+    if (window->hasDecoration() && !(screenshot->flags & ScreenShotIncludeDecoration)) {
+        geometry = window->clientGeometry();
+    }
+
+    ScreenShotWindowSizedData sizedScreenshot;
+    sizedScreenshot.promise = screenshot->promise;
+    sizedScreenshot.flags = screenshot->flags;
+    sizedScreenshot.window = screenshot->window;
+    sizedScreenshot.size = geometry.size();
+
+    takeScreenShot(&sizedScreenshot);
+}
+
+void ScreenShotEffect::takeScreenShot(ScreenShotWindowSizedData *screenshot)
+{
+    EffectWindow *window = screenshot->window;
+
     WindowPaintData d(window);
     QRect geometry = window->expandedGeometry();
     qreal devicePixelRatio = 1;
@@ -221,7 +276,7 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
     QScopedPointer<GLTexture> offscreenTexture;
     QScopedPointer<GLRenderTarget> target;
     if (effects->isOpenGLCompositing()) {
-        offscreenTexture.reset(new GLTexture(GL_RGBA8, geometry.size() * devicePixelRatio));
+        offscreenTexture.reset(new GLTexture(GL_RGBA8, screenshot->size * devicePixelRatio));
         offscreenTexture->setFilter(GL_LINEAR);
         offscreenTexture->setWrapMode(GL_CLAMP_TO_EDGE);
         target.reset(new GLRenderTarget(*offscreenTexture));
@@ -340,6 +395,11 @@ void ScreenShotEffect::postPaintScreen()
         takeScreenShot(&screenshot);
     }
 
+    while (!m_windowScreenSizedShots.isEmpty()) {
+        ScreenShotWindowSizedData screenshot = m_windowScreenSizedShots.takeLast();
+        takeScreenShot(&screenshot);
+    }
+
     for (int i = m_areaScreenShots.count() - 1; i >= 0; --i) {
         if (takeScreenShot(&m_areaScreenShots[i])) {
             m_areaScreenShots.removeAt(i);
@@ -396,7 +456,7 @@ void ScreenShotEffect::grabPointerImage(QImage &snapshot, int xOffset, int yOffs
 
 bool ScreenShotEffect::isActive() const
 {
-    return (!m_windowScreenShots.isEmpty() || !m_areaScreenShots.isEmpty() || !m_screenScreenShots.isEmpty())
+    return (!m_windowScreenShots.isEmpty() || !m_areaScreenShots.isEmpty() || !m_screenScreenShots.isEmpty() || !m_windowScreenSizedShots.isEmpty())
             && !effects->isScreenLocked();
 }
 
@@ -428,6 +488,13 @@ void ScreenShotEffect::handleWindowClosed(EffectWindow *window)
         if (m_windowScreenShots[i].window == window) {
             m_windowScreenShots[i].promise.reportCanceled();
             m_windowScreenShots.removeAt(i);
+        }
+    }
+
+    for (int i = m_windowScreenSizedShots.count() - 1; i >= 0; --i) {
+        if (m_windowScreenSizedShots[i].window == window) {
+            m_windowScreenSizedShots[i].promise.reportCanceled();
+            m_windowScreenSizedShots.removeAt(i);
         }
     }
 }

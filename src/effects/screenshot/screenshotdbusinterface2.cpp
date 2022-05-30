@@ -289,7 +289,7 @@ bool ScreenShotDBusInterface2::checkPermissions() const
     if (reply.isValid()) {
         const uint pid = reply.value();
         const auto interfaces = KWin::fetchRestrictedDBusInterfacesFromPid(pid);
-        if (!interfaces.contains(s_dbusInterface)) {
+        if (m_effect->checkInteface && !interfaces.contains(s_dbusInterface)) {
             sendErrorReply(s_errorNotAuthorized, s_errorNotAuthorizedMessage);
             return false;
         }
