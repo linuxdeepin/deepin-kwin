@@ -68,6 +68,10 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define DBUS_DEEPIN_WM_OBJ       "/com/deepin/wm"
 #define DBUS_DEEPIN_WM_INTF      "com.deepin.wm"
 
+#define DBUS_DAEMON_DISPLAY_SERVICE "com.deepin.daemon.Display"
+#define DBUS_DAEMON_DISPLAY_OBJ     "/com/deepin/daemon/Display"
+#define DBUS_DAEMON_DISPLAY_INIF    "com.deepin.daemon.Display"
+
 #define MULTITASK_CLOSE_SVG      ":/resources/themes/multiview_delete.svg"
 #define MULTITASK_TOP_SVG        ":/resources/themes/multiview_top.svg"
 #define MULTITASK_TOP_ACTIVE_SVG ":/resources/themes/multiview_top_active.svg"
@@ -2763,7 +2767,13 @@ void MultitaskViewEffect::getScreenInfo()
         infost.screenrect = rect;
         infost.screen = i;
         if (!QX11Info::isPlatformX11()) {
-            infost.name = effectsEx->getScreenNameForWayland(i);
+            if (!isExtensionMode()) {
+                //get primary screen in copy mode
+                QDBusInterface interface(DBUS_DAEMON_DISPLAY_SERVICE, DBUS_DAEMON_DISPLAY_OBJ, DBUS_DAEMON_DISPLAY_INIF);
+                infost.name = interface.property("Primary").toString();
+            } else {
+                infost.name = effectsEx->getScreenNameForWayland(i);
+            }
         } else {
             infost.name = pScreen->name();
         }

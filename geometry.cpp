@@ -434,7 +434,7 @@ QRect Workspace::clientArea(clientAreaOption opt, int screen, int desktop) const
                 ? QRect(0, 0, displaySize.width(), displaySize.height())
                 : workarea[ desktop ];
     }
-    qDebug() << "screenArea : " << sarea << "workSpace : " << warea;
+
 
     switch(opt) {
     case MaximizeArea:
