@@ -162,7 +162,7 @@ void Workspace::storeClient(KConfigGroup &cg, int num, X11Client *c)
 void Workspace::storeSubSession(const QString &name, QSet<QByteArray> sessionIds)
 {
     //TODO clear it first
-    KConfigGroup cg(KSharedConfig::openConfig(), QLatin1String("SubSession: ") + name);
+    KConfigGroup cg(KSharedConfig::openConfig("kwinrc"), QLatin1String("SubSession: ") + name);
     int count =  0;
     int active_client = -1;
     for (auto it = m_x11Clients.begin(); it != m_x11Clients.end(); ++it) {
@@ -243,7 +243,7 @@ void Workspace::addSessionInfo(KConfigGroup &cg)
 
 void Workspace::loadSubSessionInfo(const QString &name)
 {
-    KConfigGroup cg(KSharedConfig::openConfig(), QLatin1String("SubSession: ") + name);
+    KConfigGroup cg(KSharedConfig::openConfig("kwinrc"), QLatin1String("SubSession: ") + name);
     addSessionInfo(cg);
 }
 

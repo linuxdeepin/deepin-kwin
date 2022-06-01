@@ -163,7 +163,7 @@ bool AbstractOutput::directScanoutInhibited() const
 std::chrono::milliseconds AbstractOutput::dimAnimationTime()
 {
     // See kscreen.kcfg
-    return std::chrono::milliseconds (KSharedConfig::openConfig()->group("Effect-Kscreen").readEntry("Duration", 250));
+    return std::chrono::milliseconds (KSharedConfig::openConfig("kwinrc")->group("Effect-Kscreen").readEntry("Duration", 250));
 }
 
 bool AbstractOutput::usesSoftwareCursor() const
