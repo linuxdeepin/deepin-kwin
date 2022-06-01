@@ -1,3 +1,12 @@
+kwin (4:5.15.11.29-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 124647 fix: modify left split client setGeometry logic
+    + 124391 fix: The splitOutline may be displayed.
+    + 124417 fix: fix titlebar splitmenu show when window can't split
+
+ -- Lei Su <sulei@uniontech.com>  Wed, 01 Jun 2022 14:01:17 +0800
+
 kwin (4:5.15.11.25-1) unstable; urgency=medium
 
   * Bug fix:
