@@ -73,7 +73,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define MULTITASK_TOP_ACTIVE_SVG ":/resources/themes/multiview_top_active.svg"
 
 #define POPUP_TIME_SCALE 15.0f
-#define EFFECT_DURATION_DEFAULT 300
+#define EFFECT_DURATION_DEFAULT 400
 #define SCISSOR_HOFFU 200
 #define SCISSOR_HOFFD 400
 
@@ -622,7 +622,7 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_bgSlidingTimeLine.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULT));
 
     m_workspaceSlidingStatus = false;
-    m_workspaceSlidingTimeline.setEasingCurve(QEasingCurve::OutQuint);
+    m_workspaceSlidingTimeline.setEasingCurve(QEasingCurve::Linear);
     m_workspaceSlidingTimeline.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULT));
 
     m_popStatus = false;
