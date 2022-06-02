@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "presentwindows_proxy.h"
 
 #include <kwineffects.h>
+#include <QX11Info>
+#include <QTimer>
 
 class QMouseEvent;
 class QElapsedTimer;
@@ -207,14 +209,8 @@ public:
 public Q_SLOTS:
     Q_SCRIPTABLE void PresentWindows(const QStringList &windows);
     void setActive(bool active);
-    void toggleActive()  {
-        m_mode = ModeCurrentDesktop;
-        setActive(!m_activated);
-    }
-    void toggleActiveAllDesktops()  {
-        m_mode = ModeAllDesktops;
-        setActive(!m_activated);
-    }
+    void toggleActive();
+    void toggleActiveAllDesktops();
     void toggleActiveClass();
 
     // slots for global shortcut changed
@@ -258,6 +254,8 @@ protected:
         return int((width / double(w->width())) * w->height());
     }
     bool isOverlappingAny(EffectWindow *w, const QHash<EffectWindow*, QRect> &targets, const QRegion &border);
+
+    void waylandSetActive();
 
     // Filter box
     void updateFilterFrame();
