@@ -204,6 +204,26 @@ void* PresentWindowsEffect::proxy()
     return &m_proxy;
 }
 
+void PresentWindowsEffect::toggleActive()
+{
+    m_mode = ModeCurrentDesktop;
+    if (!m_activated || QX11Info::isPlatformX11()) {
+        setActive(!m_activated);
+    } else {
+        waylandSetActive();
+    }
+}
+
+void PresentWindowsEffect::toggleActiveAllDesktops()
+{
+    m_mode = ModeAllDesktops;
+    if (!m_activated || QX11Info::isPlatformX11()) {
+        setActive(!m_activated);
+    } else {
+        waylandSetActive();
+    }
+}
+
 void PresentWindowsEffect::toggleActiveClass()
 {
     if (!m_activated) {
@@ -2079,6 +2099,13 @@ void PresentWindowsEffect::reCreateGrids()
         m_gridSizes.append(GridSize());
     }
     rearrangeWindows();
+}
+
+void PresentWindowsEffect::waylandSetActive()
+{
+    QTimer::singleShot(50, [this]() {
+      this->setActive(!this->m_activated);
+    });
 }
 
 /************************************************
