@@ -2382,26 +2382,11 @@ QRect Workspace::adjustClientArea(AbstractClient *client, const QRect &area) con
     // They're given in virtual screen coordinates, make them affect only
     // their xinerama screen.
     struct KWaylandServer::deepinKwinStrut strutArea = client->strut();
-    if (strutArea.left != 0 || strutArea.right != 0 || strutArea.top != 0 || strutArea.bottom != 0) {
-        if (strutArea.left != 0) {
-            strutLeft.setLeft(strutArea.left);
-        }
-        if (strutArea.right != 0) {
-            strutRight.setRight(strutArea.right);
-        }
-        if (strutArea.top != 0) {
-            strutTop.setTop(strutArea.top);
-        }
-        if (strutArea.bottom != 0) {
-            strutBottom.setBottom(strutArea.bottom);
-        }
-    } else {
-        strutLeft.setLeft(qMax(strutLeft.left(), screenArea.left()));
-        strutRight.setRight(qMin(strutRight.right(), screenArea.right()));
-        strutTop.setTop(qMax(strutTop.top(), screenArea.top()));
-        strutBottom.setBottom(qMin(strutBottom.bottom(), screenArea.bottom()));
-    }
 
+    strutLeft.setLeft(qMax(strutLeft.left(), screenArea.left()));
+    strutRight.setRight(qMin(strutRight.right(), screenArea.right()));
+    strutTop.setTop(qMax(strutTop.top(), screenArea.top()));
+    strutBottom.setBottom(qMin(strutBottom.bottom(), screenArea.bottom()));
 
     if (strutLeft.intersects(area)) {
         adjustedArea.setLeft(strutLeft.right() + 1);

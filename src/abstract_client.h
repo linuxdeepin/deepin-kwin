@@ -893,7 +893,7 @@ public:
     static QString iconFromDesktopFile(const QString &fileName);
 
     void setStrut(KWaylandServer::deepinKwinStrut& strutArea) {m_strutArea = strutArea; }
-    KWaylandServer::deepinKwinStrut& strut() {return m_strutArea; }
+    KWaylandServer::deepinKwinStrut strut() const {return m_strutArea; }
 
 public Q_SLOTS:
     virtual void closeWindow() = 0;
