@@ -676,6 +676,7 @@ MultitaskViewEffect::MultitaskViewEffect()
         }
         f.close();
     }
+    QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -1613,6 +1614,13 @@ void MultitaskViewEffect::onDockChange(const QString &key)
             m_dockRect.setX(m_dockRect.width() + m_dockRect.x() - height);
             m_dockRect.setWidth(height);
         }
+    }
+}
+
+void MultitaskViewEffect::screenRecorderStart()
+{
+    if (m_isScreenRecorder && !QX11Info::isPlatformX11()) {
+        effects->startMouseInterception(this, Qt::PointingHandCursor);
     }
 }
 
