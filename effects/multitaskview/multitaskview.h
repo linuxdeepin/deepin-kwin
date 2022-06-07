@@ -34,7 +34,8 @@
 #include <map>
 #include <QSettings>
 #include <QThread>
-
+#include <QDBusConnection>
+#include <QDBusMessage>
 namespace KWin
 {
 
@@ -414,6 +415,7 @@ private Q_SLOTS:
     void onCloseEffect(bool);
 
     void onDockChange(const QString &key);
+    void screenRecorderStart();
 
 private:
     void cleanup();
