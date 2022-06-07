@@ -2170,7 +2170,11 @@ void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
                 continue;
 
             auto target = qobject_cast<AbstractClient*>(t);
-            if (c->screen() == t->screen() && c->desktop() == t->desktop()) {
+            auto tScreen = t->screen();
+            if (waylandServer()) {
+                tScreen = screens()->number(target->getConfigGeometry().center());
+            }
+            if (c->screen() == tScreen && c->desktop() == t->desktop()) {
                 if (c->electricBorderMode() == target->electricBorderMode()) {
                     c->quitSplitStatus();
                     splitapp_stacking_order.removeOne(it);
