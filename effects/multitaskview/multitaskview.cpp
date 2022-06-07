@@ -82,6 +82,7 @@ const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/des
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/resources/themes/add-light.png";//":/resources/themes/add-light.svg";
 const char delete_workspace_png[] = ":/resources/themes/workspace_delete.png";
+const char displaydconfig[] = "/etc/xdg/kwin.multitask-view.display.dconfig.json";
 
 namespace KWin
 {
@@ -647,6 +648,23 @@ MultitaskViewEffect::MultitaskViewEffect()
     char *rel = strstr(ver, "OpenGL ES");
     if (rel != NULL) {
         m_isOpenGLrender = false;
+    }
+
+    QFile f(displaydconfig);
+    if (f.open(QFile::ReadOnly)) {
+        QByteArray data;
+        data = f.readAll();
+        QJsonDocument json = QJsonDocument::fromJson(data);
+        QJsonObject root = json.object();
+        QJsonObject obj = root["contents"].toObject();
+        QJsonObject wobj = obj["windowDisplay"].toObject();
+        if (!wobj["value"].isNull()) {
+            if (wobj["value"].toString() == "Enabled")
+                m_isShowWhole = true;
+            else
+                m_isShowWhole = false;
+        }
+        f.close();
     }
 }
 
