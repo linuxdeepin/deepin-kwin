@@ -29,6 +29,11 @@ namespace KWin
     class Workspace;
 }
 
+namespace KWaylandServer
+{
+    class DDEShellSurfaceInterface;
+}
+
 class KWinUtilsPrivate;
 class Q_DECL_EXPORT KWinUtils : public QObject
 {
@@ -70,7 +75,7 @@ public:
     static QObjectList unmanagedList();
     static QObject *findClient(Predicate predicate, quint32 window);
     static QObject *findUnmanaged(quint32 window);
-    static QObject *getDDEShellSurface(QObject * shellClient);
+    static KWaylandServer::DDEShellSurfaceInterface *getDDEShellSurface(QObject * shellClient);
     static void clientCheckNoBorder(QObject *client);
     static bool sendPingToWindow(quint32 WId, quint32 timestamp);
     static bool sendPingToWindow(QObject *client, quint32 timestamp);

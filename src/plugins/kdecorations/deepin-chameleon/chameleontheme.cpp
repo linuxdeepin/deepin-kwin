@@ -282,31 +282,32 @@ static void parserWindowDecoration(const UIWindowType& windowType, const QJsonVa
         //button-group
         const QJsonObject& btnObj = titlebarObj.value("button-group").toObject();
         if (!btnObj.isEmpty()) {
-            auto parseTitleBarButton = [&](const QJsonObject& btnObj) {
-                config->titlebarConfig.menuBtn.pos = btnObj.value("pos").toDouble();
-                config->titlebarConfig.menuBtn.width = btnObj.value("width").toInt();
-                config->titlebarConfig.menuBtn.height = btnObj.value("height").toInt();
+            auto parseTitleBarButton = [&](const QJsonObject& btnObj, ChameleonTheme::ThemeConfig::TitlebarBtn& configTitlebarBtn, const ChameleonTheme::ThemeConfig::TitlebarBtn& baseTitlebarBtn) {
+                paserSpecialAttribute<QPointF>(btnObj, "pos", status, configTitlebarBtn.pos, base ? baseTitlebarBtn.pos : QPointF(0.0, 0.0));
+                qCDebug(CHAMELEON) << "========== pos: " << configTitlebarBtn.pos;
+                paserSpecialAttribute<int>(btnObj, "width", status, configTitlebarBtn.width, base ? baseTitlebarBtn.width : 50);
+                paserSpecialAttribute<int>(btnObj, "height", status, configTitlebarBtn.height, base ? baseTitlebarBtn.height : 50);
             };
             for (const auto& item : btnObj.keys()) {
                 if (item == "menu") {
                     const QJsonObject& menuObj = btnObj.value(item).toObject();
-                    parseTitleBarButton(menuObj);
+                    parseTitleBarButton(menuObj, config->titlebarConfig.menuBtn, base->titlebarConfig.menuBtn);
                     config->titlebarConfig.menuBtn.btnIcon = takeIcon(menuObj.value("icon").toObject(), QIcon(), ":/deepin/themes/deepin/light/icons/menu");
                 } else if (item == "minimize") {
                     const QJsonObject& minimizeObj = btnObj.value(item).toObject();
-                    parseTitleBarButton(minimizeObj);
+                    parseTitleBarButton(minimizeObj, config->titlebarConfig.minimizeBtn, base->titlebarConfig.minimizeBtn);
                     config->titlebarConfig.minimizeBtn.btnIcon = takeIcon(minimizeObj.value("icon").toObject(), QIcon(), ":/deepin/themes/deepin/light/icons/minimize");
                 } else if (item == "maximize") {
                     const QJsonObject& maximizeObj = btnObj.value(item).toObject();
-                    parseTitleBarButton(maximizeObj);
+                    parseTitleBarButton(maximizeObj, config->titlebarConfig.maximizeBtn, base->titlebarConfig.maximizeBtn);
                     config->titlebarConfig.maximizeBtn.btnIcon = takeIcon(maximizeObj.value("icon").toObject(), QIcon(), ":/deepin/themes/deepin/light/icons/maximize");
                 } else if (item == "unmaximize") {
                     const QJsonObject& unmaximizeObj = btnObj.value(item).toObject();
-                    parseTitleBarButton(unmaximizeObj);
+                    parseTitleBarButton(unmaximizeObj, config->titlebarConfig.unmaximizeBtn, base->titlebarConfig.unmaximizeBtn);
                     config->titlebarConfig.unmaximizeBtn.btnIcon = takeIcon(unmaximizeObj.value("icon").toObject(), QIcon(), ":/deepin/themes/deepin/light/icons/unmaximize");
                 } else if (item == "close") {
                     const QJsonObject& closeObj = btnObj.value(item).toObject();
-                    parseTitleBarButton(closeObj);
+                    parseTitleBarButton(closeObj, config->titlebarConfig.closeBtn, base->titlebarConfig.closeBtn);
                     config->titlebarConfig.closeBtn.btnIcon = takeIcon(closeObj.value("icon").toObject(), QIcon(), ":/deepin/themes/deepin/light/icons/close");
                 }
             }

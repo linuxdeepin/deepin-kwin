@@ -40,6 +40,8 @@
 // #include "../../../utils/common.h"
 #include "utils/xcbutils.h"
 
+#include "xdgshellclient.h"
+
 // 为了访问 KWinEffects 的保护成员变量
 #define protected public
 #include <deepin_kwineffects.h>
@@ -170,7 +172,6 @@ static xcb_window_t getParentWindow(xcb_window_t WId)
 
 class KWinInterface
 {
-    typedef void (*WorkspaceSetDarkTheme)(void *, bool);
     typedef QObject *(*WorkspaceFindShellClient)(void *, quint32);
 
 public:
@@ -178,7 +179,6 @@ public:
     {
     }
 
-    WorkspaceSetDarkTheme setDarkTheme{nullptr};
     WorkspaceFindShellClient findShellClient{nullptr};
 };
 
@@ -727,7 +727,7 @@ QVariant KWinUtils::getParentWindow(const QObject *window) const
 
 void KWinUtils::setDarkTheme(bool isDark)
 {
-    interface->setDarkTheme(workspace(), isDark);
+    Workspace::self()->setDarkTheme(isDark);
 }
 
 void KWinUtils::addSupportedProperty(quint32 atom, bool enforce)
@@ -832,16 +832,14 @@ void KWinUtils::ShowWindowsView()
 
 }
 
-QObject *KWinUtils::getDDEShellSurface(QObject * shellClient)
+KWaylandServer::DDEShellSurfaceInterface *KWinUtils::getDDEShellSurface(QObject * shellClient)
 {
     if (!shellClient) {
         return nullptr;
     }
 
-    KWin::AbstractClient *c = dynamic_cast<KWin::AbstractClient*>(shellClient);
-    QObject * dss = nullptr;
-    QMetaObject::invokeMethod(workspace(), "slotGetDdeShellSurface", Q_ARG(KWin::AbstractClient*, c), Q_ARG(QObject *& , dss));
-    return dss;
+    KWin::AbstractClient* c = dynamic_cast<KWin::AbstractClient*>(shellClient);
+    return Workspace::self()->getDDEShellSurface(c);
 }
 
 #include "moc_kwinutils.cpp"

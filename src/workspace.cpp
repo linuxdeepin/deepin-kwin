@@ -20,6 +20,7 @@
 #include "appmenu.h"
 #include "atoms.h"
 #include "x11client.h"
+#include "xdgshellclient.h"
 #include "composite.h"
 #include "cursor.h"
 #include "dbusinterface.h"
@@ -2157,6 +2158,20 @@ void Workspace::removeInternalClient(InternalClient *client)
     updateClientArea();
 
     Q_EMIT internalClientRemoved(client);
+}
+
+KWaylandServer::DDEShellSurfaceInterface* Workspace::getDDEShellSurface(AbstractClient* c)
+{
+    if (!c) {
+        return nullptr;
+    }
+
+    XdgSurfaceClient *sc = dynamic_cast<XdgSurfaceClient *>(c);
+    if (sc) {
+        return sc->ddeShellSurface();
+    }
+
+    return nullptr;
 }
 
 Group* Workspace::findGroup(xcb_window_t leader) const

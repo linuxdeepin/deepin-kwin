@@ -24,6 +24,7 @@
 #include <functional>
 #include <memory>
 #include <DWayland/Server/clientmanagement_interface.h>
+#include <DWayland/Server/ddeshell_interface.h>
 
 
 #define KWinDBusService "com.deepin.daemon.Appearance"
@@ -444,6 +445,8 @@ public:
      * @internal
      */
     void removeInternalClient(InternalClient *client);
+
+    KWaylandServer::DDEShellSurfaceInterface* getDDEShellSurface(KWin::AbstractClient* c);
 
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);

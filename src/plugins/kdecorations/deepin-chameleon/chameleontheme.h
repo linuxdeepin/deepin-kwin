@@ -61,8 +61,8 @@ public:
 
     struct ThemeConfig
     {
-        struct TilebarBtn {
-            qreal pos;
+        struct TitlebarBtn {
+            QPointF pos;
             qint32 width;
             qint32 height;
             QIcon  btnIcon;
@@ -80,11 +80,11 @@ public:
 
             TitlebarFont font;
 
-            TilebarBtn   menuBtn;
-            TilebarBtn   minimizeBtn;
-            TilebarBtn   maximizeBtn;
-            TilebarBtn   unmaximizeBtn;
-            TilebarBtn   closeBtn;
+            TitlebarBtn   menuBtn;
+            TitlebarBtn   minimizeBtn;
+            TitlebarBtn   maximizeBtn;
+            TitlebarBtn   unmaximizeBtn;
+            TitlebarBtn   closeBtn;
         };
         struct BorderConfig {
             qreal borderWidth;

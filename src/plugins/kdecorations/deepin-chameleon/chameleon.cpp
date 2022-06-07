@@ -82,10 +82,10 @@ void Chameleon::init()
     updateTheme();
 
     if (!QX11Info::isPlatformX11() && m_client) {
-        m_ddeShellSurface = static_cast<KWaylandServer::DDEShellSurfaceInterface*>(KWinUtils::getDDEShellSurface(m_client));
+        m_ddeShellSurface = KWinUtils::getDDEShellSurface(m_client);
         if (m_ddeShellSurface) {
             connect(m_ddeShellSurface, &KWaylandServer::DDEShellSurfaceInterface::noTitleBarPropertyRequested, this,
-                [this] (qint32 value) {
+                [this, c] (qint32 value) {
                     if (value != m_noTitleBar) {
                         m_noTitleBar = value;
                         updateTitleBarArea();
@@ -320,6 +320,21 @@ QIcon Chameleon::closeIcon() const
     return m_config->titlebarConfig.closeBtn.btnIcon;
 }
 
+QPointF Chameleon::menuIconPos() const
+{
+    return m_config->titlebarConfig.menuBtn.pos;
+}
+
+qint32 Chameleon::menuIconWidth() const
+{
+    return m_config->titlebarConfig.menuBtn.width;
+}
+
+qint32 Chameleon::menuIconHeight() const
+{
+    return m_config->titlebarConfig.menuBtn.height;
+}
+
 void Chameleon::initButtons()
 {
     m_leftButtons = new KDecoration2::DecorationButtonGroup(KDecoration2::DecorationButtonGroup::Position::Left, this, &ChameleonButton::create);
@@ -350,12 +365,12 @@ void Chameleon::updateButtonsGeometry()
         const int vPadding = 0;
         const int hPadding = s->smallSpacing();
 
+        m_leftButtons->buttons().front()->setGeometry(QRectF(menuIconPos(), QSizeF(menuIconWidth(), menuIconHeight())));
         if (c->isMaximizedHorizontally()) {
             // add offsets on the side buttons, to preserve padding, but satisfy Fitts law
-            m_leftButtons->buttons().front()->setGeometry(QRectF(QPoint(0, 0), QSizeF(bWidth + hPadding, bHeight)));
-            m_leftButtons->setPos(QPointF(0, vPadding));
+            m_leftButtons->setPos(QPointF(menuIconPos().x(), menuIconPos().y() + vPadding));
         } else {
-            m_leftButtons->setPos(QPointF(hPadding + borderLeft(), vPadding));
+            m_leftButtons->setPos(QPointF(menuIconPos().x() + hPadding + borderLeft(), menuIconPos().y() + vPadding));
         }
     }
 

@@ -700,6 +700,10 @@ void XdgSurfaceClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
     );
 }
 
+KWaylandServer::DDEShellSurfaceInterface *XdgSurfaceClient::ddeShellSurface() const {
+    return m_ddeShellSurface.data();
+}
+
 void XdgSurfaceClient::setupPlasmaShellIntegration()
 {
     connect(surface(), &SurfaceInterface::mapped,
@@ -1662,6 +1666,15 @@ void XdgToplevelClient::configureDecoration()
             m_nextDecoration.reset(Decoration::DecorationBridge::self()->createDecoration(this));
         }
         break;
+    }
+
+    if (m_noTitleBar != -1) {
+        disconnect(m_ddeShellSurface, &DDEShellSurfaceInterface::noTitleBarPropertyRequested, this, nullptr);
+        Q_EMIT m_ddeShellSurface->noTitleBarPropertyRequested(m_noTitleBar);
+    }
+    if (!m_windowRadius.isNull()) {
+        disconnect(m_ddeShellSurface, &KWaylandServer::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this, nullptr);
+        Q_EMIT m_ddeShellSurface->windowRadiusPropertyRequested(m_windowRadius);
     }
 
     // All decoration updates are synchronized to toplevel configure events.

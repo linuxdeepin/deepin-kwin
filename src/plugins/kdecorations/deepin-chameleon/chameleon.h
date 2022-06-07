@@ -69,6 +69,10 @@ public:
     QIcon unmaximizeIcon() const;
     QIcon closeIcon() const;
 
+    QPointF menuIconPos() const;
+    qint32 menuIconWidth() const;
+    qint32 menuIconHeight() const;
+
 Q_SIGNALS:
     void noTitleBarChanged(bool noTitleBar);
     void effectInitialized(KWin::EffectWindow *effect);
