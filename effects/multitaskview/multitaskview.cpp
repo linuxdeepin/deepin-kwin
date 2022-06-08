@@ -82,7 +82,7 @@ const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/des
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/resources/themes/add-light.png";//":/resources/themes/add-light.svg";
 const char delete_workspace_png[] = ":/resources/themes/workspace_delete.png";
-const char displaydconfig[] = "/etc/xdg/kwin.multitask-view.display.dconfig.json";
+const char displaydconfig[] = "/dsg/configs/org.kde.kwin/org.kde.kwin.multitaskview.display.json";
 
 namespace KWin
 {
@@ -650,7 +650,12 @@ MultitaskViewEffect::MultitaskViewEffect()
         m_isOpenGLrender = false;
     }
 
-    QFile f(displaydconfig);
+    QString dconfigPath;
+    QStringList lst = QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation);
+    if (lst.size() > 0) {
+        dconfigPath = lst[0] + displaydconfig;
+    }
+    QFile f(dconfigPath);
     if (f.open(QFile::ReadOnly)) {
         QByteArray data;
         data = f.readAll();
@@ -659,7 +664,8 @@ MultitaskViewEffect::MultitaskViewEffect()
         QJsonObject obj = root["contents"].toObject();
         QJsonObject wobj = obj["windowDisplay"].toObject();
         if (!wobj["value"].isNull()) {
-            if (wobj["value"].toString() == "Enabled")
+            if (wobj["value"].toString() == "Enabled" ||
+                wobj["value"].toString() == "enabled")
                 m_isShowWhole = true;
             else
                 m_isShowWhole = false;
