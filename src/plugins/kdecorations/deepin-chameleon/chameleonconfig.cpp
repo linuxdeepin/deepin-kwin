@@ -592,16 +592,16 @@ void ChameleonConfig::updateClientWindowRadius(QObject *client)
 
     window_radius *= window_theme->windowPixelRatio();
 
-    if (window_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
-        // 如果窗口自定义设置了圆角大小
-        window_radius = window_theme->windowRadius();
-    } else if (window_theme->propertyIsValid(ChameleonWindowTheme::ThemeProperty)) {
-        // 如果窗口自定义了使用哪个主题
-        if (ChameleonTheme::instance()->loadTheme(window_theme->theme())) {
-            if (auto config_group = ChameleonTheme::instance()->themeUnmanagedConfig(static_cast<NET::WindowType>(client->property("windowType").toInt())))
-            window_radius = config_group->radius * window_theme->windowPixelRatio();
-        }
-    }
+    // if (window_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
+    //     // 如果窗口自定义设置了圆角大小
+    //     window_radius = window_theme->windowRadius();
+    // } else if (window_theme->propertyIsValid(ChameleonWindowTheme::ThemeProperty)) {
+    //     // 如果窗口自定义了使用哪个主题
+    //     if (ChameleonTheme::instance()->loadTheme(window_theme->theme())) {
+    //         if (auto config_group = ChameleonTheme::instance()->themeUnmanagedConfig(static_cast<NET::WindowType>(client->property("windowType").toInt())))
+    //         window_radius = config_group->radius * window_theme->windowPixelRatio();
+    //     }
+    // }
 
     const QVariant client_radius = client->property("windowRadius");
     if (client_radius.isValid()) {
