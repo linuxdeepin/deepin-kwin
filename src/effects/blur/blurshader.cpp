@@ -94,10 +94,11 @@ BlurShader::BlurShader(QObject *parent)
 
     streamFragUp << glHeaderString << glUniformString;
 
-    streamFragUp << "void main(void)\n";
-    streamFragUp << "{\n";
+    streamFragUp << "uniform bool clip;\n";
+    streamFragUp << "uniform vec4 rect;\n";
+    streamFragUp << "uniform sampler2D texClip;\n";
+    streamFragUp << "void main(void) {\n";
     streamFragUp << "    vec2 uv = vec2(gl_FragCoord.xy / renderTextureSize);\n";
-    streamFragUp << "    \n";
     streamFragUp << "    vec4 sum = " << texture2D << "(texUnit, uv + vec2(-halfpixel.x * 2.0, 0.0) * offset);\n";
     streamFragUp << "    sum += " << texture2D << "(texUnit, uv + vec2(-halfpixel.x, halfpixel.y) * offset) * 2.0;\n";
     streamFragUp << "    sum += " << texture2D << "(texUnit, uv + vec2(0.0, halfpixel.y * 2.0) * offset);\n";
@@ -106,8 +107,13 @@ BlurShader::BlurShader(QObject *parent)
     streamFragUp << "    sum += " << texture2D << "(texUnit, uv + vec2(halfpixel.x, -halfpixel.y) * offset) * 2.0;\n";
     streamFragUp << "    sum += " << texture2D << "(texUnit, uv + vec2(0.0, -halfpixel.y * 2.0) * offset);\n";
     streamFragUp << "    sum += " << texture2D << "(texUnit, uv + vec2(-halfpixel.x, -halfpixel.y) * offset) * 2.0;\n";
-    streamFragUp << "    \n";
     streamFragUp << "    " << fragColor << " = sum / 12.0;\n";
+    streamFragUp << "    if (clip) {\n";
+    streamFragUp << "        float ty = gl_FragCoord.y-rect.y+rect.w;\n";
+    streamFragUp << "        vec2 tc1 = vec2((gl_FragCoord.x-rect.x)/rect.z, 1.0-ty/rect.w);\n";
+    streamFragUp << "        vec4 m = " << texture2D << "(texClip, tc1);\n";
+    streamFragUp << "        " << fragColor << " *= m;\n";
+    streamFragUp << "    }\n";
     streamFragUp << "}\n";
 
     streamFragUp.flush();

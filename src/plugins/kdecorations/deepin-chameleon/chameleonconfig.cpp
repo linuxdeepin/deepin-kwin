@@ -574,7 +574,6 @@ void ChameleonConfig::updateClientWindowRadius(QObject *client)
         return;
 
     QPointF window_radius = ChameleonTheme::instance()->themeUnmanagedConfig(static_cast<NET::WindowType>(client->property("windowType").toInt()))->radius;
-    qInfo() << effect->windowClass() << "  theme window radius: " << window_radius;
 
     ChameleonWindowTheme *window_theme = buildWindowTheme(client);
 
@@ -1203,6 +1202,7 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
 
     //if (!shadow && QX11Info::isPlatformX11()) {
     if (QX11Info::isPlatformX11()) {
+
         auto s = ChameleonShadow::instance()->getShadow(&theme_config, scale);
 
         {
@@ -1210,8 +1210,11 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
             effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
 
             if (effect && s) {
+                if (effect->windowClass().contains("feibiao"))
+                    return;
+
                 effect->setData(ChameleonConfig::ShadowMaskRole, QVariant(s->shadow()));
-                effect->setData(ChameleonConfig::ShadowOffsetRole, QVariant(s->paddingTop()));   
+                effect->setData(ChameleonConfig::ShadowOffsetRole, QVariant(s->paddingTop()));
             }
         }
 

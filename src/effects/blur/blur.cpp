@@ -12,7 +12,10 @@
 #include "blurconfig.h"
 
 #include <QGuiApplication>
+#include <QImage>
 #include <QMatrix4x4>
+#include <QPainter>
+#include <QPainterPath>
 #include <QScreen> // for QGuiApplication
 #include <QTime>
 #include <QTimer>
@@ -24,6 +27,8 @@
 #include <DWayland/Server/display.h>
 #include <KSharedConfig>
 #include <KConfigGroup>
+
+Q_DECLARE_METATYPE(QPainterPath)
 
 namespace KWin
 {
@@ -438,8 +443,8 @@ QRegion BlurEffect::blurRegion(const EffectWindow *w) const
     QRegion region;
 
     const QVariant value = w->data(WindowBlurBehindRole);
-    if (1)
-    {
+    // if (value.isValid())
+    if (1) {
         int cornerRadius = 18;
         const QVariant valueRadius1 = w->data(WindowRadiusRole);
         if (valueRadius1.isValid()) {
@@ -451,10 +456,13 @@ QRegion BlurEffect::blurRegion(const EffectWindow *w) const
             if (w->decorationHasAlpha() && effects->decorationSupportsBlurBehind()) {
                 region = QRegion(w->rect()) - w->decorationInnerRect();
             }
+            //region |= appRegion.translated(w->contentsRect().topLeft()) & w->decorationInnerRect();
+            //region |= appRegion.translated(w->contentsRect().topLeft());
             region = rounded(QRegion(w->rect()), cornerRadius);
         } else {
             // An empty region means that the blur effect should be enabled
             // for the whole window.
+            //region = w->rect();
             if (w->rect().width() < 500)
                 region = rounded(QRegion(w->rect()), 8);
             else
@@ -465,6 +473,7 @@ QRegion BlurEffect::blurRegion(const EffectWindow *w) const
         // the effect behind the decoration.
         region = QRegion(w->rect()) - w->decorationInnerRect();
     }
+
     return region;
 }
 
@@ -586,8 +595,8 @@ bool BlurEffect::shouldBlur(const EffectWindow *w, int mask, const WindowPaintDa
     if (w->isDesktop())
         return false;
 
-    if (w->windowClass().contains("dde-dock") && w->isNormalWindow() && w->width() < 500)
-        return false;
+    //if (w->windowClass().contains("dde-dock") && w->isNormalWindow() && w->width()<500)
+    //    return false;
 
     bool scaled = !qFuzzyCompare(data.xScale(), 1.0) && !qFuzzyCompare(data.yScale(), 1.0);
     bool translated = data.xTranslation() || data.yTranslation();
@@ -635,10 +644,26 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
         const bool transientForIsDock = (modal ? modal->isDock() : false);
 
         if (!shape.isEmpty()) {
+            if ((w->windowClass().contains("dde-dock") && w->isNormalWindow()) || w->windowClass().contains("feibiao1")) {
+                const QVariant &data_clip_path = w->data(WindowClipPathRole);
+                const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
+                QImage img(w->size(), QImage::Format_RGBA8888);
+                //img.fill(Qt::transparent);
+                QPainter pa(&img);
+                pa.setRenderHint(QPainter::Antialiasing);
+                pa.fillPath(path, QColor(255, 255, 255, 255));
+                pa.end();
+                //img.save("/tmp/67.png");
+                m_noiseTexture.reset(new GLTexture(img));
+                m_noiseStrength = -1;
+            } else {
+                m_noiseStrength = -2;
+            }
+
             doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), w->isDock() || transientForIsDock, w->frameGeometry());
         }
     }
-
+    
     // Draw the window over the blurred area
     effects->drawWindow(w, mask, region, data);
 }
@@ -679,7 +704,7 @@ void BlurEffect::generateNoiseTexture()
     noiseImage = noiseImage.scaled(noiseImage.size() * m_scalingFactor);
 
     m_noiseTexture.reset(new GLTexture(noiseImage));
-    m_noiseTexture->setFilter(GL_NEAREST);
+    m_noiseTexture->setFilter(GL_LINEAR);
     m_noiseTexture->setWrapMode(GL_REPEAT);
 }
 
@@ -753,7 +778,26 @@ void BlurEffect::doBlur(const QRegion& shape, const QRect& screen, const float o
         glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
     }
 
-    upscaleRenderToScreen(vbo, blurRectCount * (m_downSampleIterations + 1), shape.rectCount() * 6, screenProjection, windowRect.topLeft());
+    // Render to the screen
+    if (-1 == m_noiseStrength) {
+        glEnable(GL_BLEND);
+        glActiveTexture(GL_TEXTURE1); m_noiseTexture->bind();
+        glActiveTexture(GL_TEXTURE0); m_renderTextures[1].bind();
+        m_shader->bind(BlurShader::UpSampleType);
+        m_shader->setTargetTextureSize(m_renderTextures[0].size() * GLRenderTarget::virtualScreenScale());
+        m_shader->setOffset(m_offset);
+        m_shader->setModelViewProjectionMatrix(screenProjection);
+        GLShader *shader = ShaderManager::instance()->getBoundShader();
+        shader->setUniform("clip", true);
+        shader->setUniform("texUnit", 0);
+        shader->setUniform("texClip", 1);
+        shader->setUniform("rect", QVector4D(windowRect.x(), screen.height() - windowRect.y(), windowRect.width(), windowRect.height()));
+        vbo->draw(GL_TRIANGLES, blurRectCount * (m_downSampleIterations + 1), blurRectCount);
+        m_shader->unbind();
+        glDisable(GL_BLEND);
+    } else {
+        upscaleRenderToScreen(vbo, blurRectCount * (m_downSampleIterations + 1), shape.rectCount() * 6, screenProjection, windowRect.topLeft());
+    }
 
     if (useSRGB) {
         glDisable(GL_FRAMEBUFFER_SRGB);
