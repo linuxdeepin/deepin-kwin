@@ -886,6 +886,9 @@ bool XdgToplevelClient::isMinimizable(bool isMinFunc) const
 
 bool XdgToplevelClient::isPlaceable() const
 {
+    if (m_ddeShellSurface) {
+        return true;
+    }
     return !m_plasmaShellSurface || !m_plasmaShellSurface->isPositionSet();
 }
 
