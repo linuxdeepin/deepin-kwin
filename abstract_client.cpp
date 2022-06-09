@@ -101,6 +101,9 @@ AbstractClient::AbstractClient()
     connect(ApplicationMenu::self(), &ApplicationMenu::applicationMenuEnabledChanged, this, [this] {
         emit hasApplicationMenuChanged(hasApplicationMenu());
     });
+    connect(this, &AbstractClient::screenChanged, this, [this]() {
+        workspace()->setWinSplitState(this, checkClientAllowToTile());
+    });
     //connect(this, &AbstractClient::quickTileModeChanged, this, &AbstractClient::handlequickTileModeChanged);
 }
 
@@ -2322,7 +2325,7 @@ Group *AbstractClient::group()
 
 bool AbstractClient::checkClientAllowToTile()
 {
-    QRect target_size = workspace()->clientArea(MaximizeArea, Cursor::pos(), desktop());
+    QRect target_size = workspace()->clientArea(MaximizeArea, this);
     target_size.setWidth(target_size.width() / 2);
     target_size.setHeight(target_size.height());
 

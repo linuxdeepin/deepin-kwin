@@ -844,6 +844,14 @@ public:
      * This can be done by using getConfigGeometry function.
      */
     virtual QRect getConfigGeometry() = 0;
+
+    bool isSplitPorperty(){
+        return m_spltProperty;
+    }
+    void setSplitPorperty(bool isSplitProperty){
+        m_spltProperty = isSplitProperty;
+    }
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -1211,6 +1219,7 @@ protected:
 private:
     void handlePaletteChange();
     QSharedPointer<TabBox::TabBoxClientImpl> m_tabBoxClient;
+    bool m_spltProperty = false;
     //窗口是否被禁止移动，默认为否，可以正常移动
     bool m_forhibit_move = false;
     bool m_firstInTabBox = false;

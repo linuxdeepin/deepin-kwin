@@ -499,6 +499,8 @@ public:
     const QMap< QString, QVariant >& getWindowProperty(wl_resource* surface) const;
     QMap< QString, QVariant >& getWindowProperty(wl_resource* surface);
     void delWindowProperty(wl_resource* surface);
+    void updateDisplaySizeFull();
+    void setWinSplitState(AbstractClient *client, bool isSplit = true);
 
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
@@ -663,7 +665,6 @@ private:
 
     //---------------------------------------------------------------------
 
-    void setWinSplitState(AbstractClient *client);
     void closeActivePopup();
     void updateClientArea(bool force);
     void resetClientAreas(uint desktopCount);
