@@ -36,6 +36,7 @@
 #include <QVBoxLayout>
 #include <QX11Info>
 #include <QtDBus>
+#include <QDBusConnection>
 
 // system
 #ifdef HAVE_UNISTD_H
@@ -263,6 +264,13 @@ void ApplicationX11::performStartup()
     owner->claim(m_replace || wasCrash(), true);
 
     createAtoms();
+
+    const QString &cookie = qgetenv("DDE_SESSION_PROCESS_COOKIE_ID");
+    qunsetenv(cookie.toLocal8Bit().constData());
+
+    if (!cookie.isEmpty()) {
+        QDBusInterface("com.deepin.SessionManager", "/com/deepin/SessionManager").call("Register", cookie);
+    }
 }
 
 bool ApplicationX11::notify(QObject* o, QEvent* e)
