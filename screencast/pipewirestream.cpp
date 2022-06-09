@@ -393,12 +393,34 @@ void PipeWireStream::recordFrame(GLTexture *frameTexture, const QRegion &damaged
         spa_data->chunk->size = bufferSize;
         spa_data->chunk->stride = stride;
 
-        frameTexture->bind();
-        if (GLPlatform::instance()->isGLES()) {
-            glReadPixels(0, 0, size.width(), size.height(), GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)data);
+        EglGbmBackend * eglGbmBackend = static_cast<EglGbmBackend *>(kwinApp()->platform()->getOpenGLBackend());
+        spa_data->fd = eglGbmBackend ? eglGbmBackend->getFrameFd() : 0;
+
+        if (spa_data->fd) {
+            unsigned char *map_data =
+                (unsigned char *)(mmap(NULL, stride * size.height(), PROT_READ, MAP_SHARED, spa_data->fd, 0));
+
+            if (map_data != MAP_FAILED) {
+                memcpy(data, map_data, stride * size.height());
+                munmap(map_data, stride * size.height());
+                map_data = NULL;
+            } else {
+                frameTexture->bind();
+                if (GLPlatform::instance()->isGLES()) {
+                    glReadPixels(0, 0, size.width(), size.height(), GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid *)data);
+                } else {
+                    glGetTextureImage(frameTexture->texture(), 0, m_hasAlpha ? GL_BGRA : GL_BGR, GL_UNSIGNED_BYTE, bufferSize, data);
+                }
+            }
         } else {
-            glGetTextureImage(frameTexture->texture(), 0, m_hasAlpha ? GL_BGRA : GL_BGR, GL_UNSIGNED_BYTE, bufferSize, data);
+            frameTexture->bind();
+            if (GLPlatform::instance()->isGLES()) {
+                glReadPixels(0, 0, size.width(), size.height(), GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid *)data);
+            } else {
+                glGetTextureImage(frameTexture->texture(), 0, m_hasAlpha ? GL_BGRA : GL_BGR, GL_UNSIGNED_BYTE, bufferSize, data);
+            }
         }
+
         auto cursor = Cursor::self();
         if (m_cursor.mode == KWayland::Server::ScreencastV1Interface::Embedded && m_cursor.viewport.contains(cursor->pos())) {
             QImage dest(data, size.width(), size.height(), QImage::Format_RGBA8888_Premultiplied);
