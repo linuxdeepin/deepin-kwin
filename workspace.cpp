@@ -686,9 +686,6 @@ Client* Workspace::createClient(xcb_window_t w, bool is_mapped)
         setWinSplitState(c);
     }
     emit windowStateChanged();
-    if (c->checkClientAllowToTile()) {
-        setWinSplitState(c);
-    }
     return c;
 }
 
@@ -2255,9 +2252,18 @@ void Workspace::updateSplitOutlineLayerShowHide()
     }
 }
 
-void Workspace::setWinSplitState(AbstractClient *client)
+void Workspace::setWinSplitState(AbstractClient *client, bool isSplit)
 {
-    int32_t ldata = 1;
+    int32_t ldata;
+    if (isSplit) {
+        ldata = 1;
+    } else {
+        ldata = 0;
+    }
+    if (client->isSplitPorperty() == isSplit)
+        return;
+
+    client->setSplitPorperty(isSplit);
     xcb_intern_atom_cookie_t cookie_st = xcb_intern_atom( connection(), 0, strlen( "_DEEPIN_NET_SUPPORTED"), "_DEEPIN_NET_SUPPORTED");
     xcb_intern_atom_reply_t *reply_st = xcb_intern_atom_reply( connection(), cookie_st, NULL);
     if (reply_st) {
