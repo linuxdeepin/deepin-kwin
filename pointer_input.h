@@ -80,6 +80,7 @@ public:
     }
     bool areButtonsPressed() const;
 
+    void setCursorShape(Qt::CursorShape);
     QImage cursorImage() const;
     QPoint cursorHotSpot() const;
     void markCursorAsRendered();
@@ -216,7 +217,7 @@ public:
     void removeEffectsOverrideCursor();
     void setWindowSelectionCursor(const QByteArray &shape);
     void removeWindowSelectionCursor();
-
+    void setCursorShape(Qt::CursorShape);
     QImage image() const;
     QPoint hotSpot() const;
     void markAsRendered();

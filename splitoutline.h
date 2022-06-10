@@ -32,6 +32,7 @@ namespace KWin {
 class AbstractClient;
 class SplitOutline : public QWidget
 {
+    Q_OBJECT
 public:
 
     explicit SplitOutline(int screen, int desktop);

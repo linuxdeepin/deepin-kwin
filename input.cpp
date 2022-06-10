@@ -2098,6 +2098,11 @@ void InputRedirection::init()
 {
     m_shortcuts->init();
 }
+
+void InputRedirection::setCursorShape(Qt::CursorShape shape)
+{
+    m_pointer->setCursorShape(shape);
+}
 static bool acceptsInput(Toplevel *t, const QPoint &pos);
 void InputRedirection::setupWorkspace()
 {

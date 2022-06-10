@@ -98,7 +98,7 @@ public:
 
     virtual ~InputRedirection();
     void init();
-
+    void setCursorShape(Qt::CursorShape);
     /**
      * @return const QPointF& The current global pointer position
      */
