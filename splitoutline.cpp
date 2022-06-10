@@ -170,15 +170,17 @@ namespace KWin
             if (m_splitOutlineCursorStatus == CURSOR_LEFT) {
                 QImage Image(":/resources/themes/left-arrow.svg");
                 QImage nImage = Image.scaled(width(),32);
+                input()->setCursorShape(Qt::BlankCursor);
                 CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
             } else if(m_splitOutlineCursorStatus == CURSOR_RIGHT ){
                 QImage Image(":/resources/themes/right-arrow.svg");
                 QImage nImage = Image.scaled(width(),32);
+                input()->setCursorShape(Qt::BlankCursor);
                 CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
             } else if(m_splitOutlineCursorStatus == CURSOR_L_R) {
                 QImage Image(":/resources/themes/leftright-arrow.svg");
                 QImage nImage = Image.scaled(width(),32);
-                CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
+                input()->setCursorShape(Qt::SizeHorCursor);
             }
         }
     }
