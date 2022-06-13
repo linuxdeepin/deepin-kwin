@@ -29,6 +29,7 @@
 #include "useractions.h"
 #include "virtualdesktops.h"
 #include "workspace.h"
+#include "x11client.h"
 
 #include "wayland_server.h"
 #include <DWayland/Server/plasmawindowmanagement_interface.h>
@@ -1393,6 +1394,45 @@ void AbstractClient::handleInteractiveMoveResize(int x, int y, int x_root, int y
                 bool transposed = false;
                 int requiredPixels;
                 QRect bTitleRect = titleBarRect(transposed, requiredPixels);
+
+                // NOTE: make sure CSD windows won't be dragged below struts area
+                //
+                // There are two situations this'll be true:
+                // 1. no titlebar windows (e.g gedit)
+                // 2. DDE window (with titlebar exists, only height is 0)
+                //
+                // NOTE: apps may set a very small border (e.g dde apps in non-composited mode),
+                // which we need to make sure it big enough to keep above the dock area
+                if (!transposed && bTitleRect.height() <= 10) {
+                    bTitleRect.setHeight(40);
+
+                    // take care of old CSD windows
+                    // this contains old dde windows and deepin-terminal which have
+                    // _GTK_FRAME_EXTENT attributes
+                    // 60 is a modest default value for frame height
+                    if (auto cli = qobject_cast<X11Client*>(this)) {
+                        if (cli->isClientSideDecorated()) {
+                            bTitleRect.setHeight(40 + 60);
+                        }
+                    }
+
+                } else if (transposed && bTitleRect.width() <= 10) {
+                    bTitleRect.setWidth(40);
+
+                    if (auto cli = qobject_cast<X11Client*>(this)) {
+                        if (cli->isClientSideDecorated()) {
+                            bTitleRect.setWidth(40 + 60);
+                        }
+                    }
+                }
+
+                requiredPixels = qMin(100 * (transposed ? bTitleRect.width() : bTitleRect.height()),
+                                      moveResizeGeom.width() * moveResizeGeom.height());
+
+                if (!requiredPixels) {
+                    requiredPixels = 4000;
+                }
+
                 for (;;) {
                     QRect moveResizeGeom = moveResizeGeometry();
                     const QRect titleRect(bTitleRect.translated(moveResizeGeom.topLeft()));
