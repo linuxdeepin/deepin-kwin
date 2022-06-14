@@ -1556,7 +1556,7 @@ void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
     } else if (w == m_screenRecorderMenu) {
         m_screenRecorderMenu = nullptr;
         return;
-    } else {
+    } else if (isRelevantWithPresentWindows(w)){
         removeWinAndRelayout(w);
         m_isShieldEvent = false;
     }
