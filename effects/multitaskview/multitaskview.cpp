@@ -951,6 +951,7 @@ void MultitaskViewEffect::postPaintScreen()
     if (m_effectFlyingBack.done()) {
         m_effectFlyingBack.end();
         setActive(false);
+        relayDockEvent(m_cursorPos, m_buttonType);
     }
 }
 
@@ -1784,9 +1785,10 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         if (!m_wasWindowMove && m_dockRect.contains(mouseEvent->pos())) {
             m_delayDbus = false;
             if (QX11Info::isPlatformX11()) {
-                relayDockEvent(mouseEvent->pos(), mouseEvent->button());
                 m_effectFlyingBack.begin();
                 effects->addRepaintFull();
+                m_cursorPos = mouseEvent->pos();
+                m_buttonType = mouseEvent->button();
             } else {
                 m_effectFlyingBack.begin();
                 effects->addRepaintFull();
