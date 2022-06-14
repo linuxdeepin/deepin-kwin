@@ -435,7 +435,6 @@ QRect Workspace::clientArea(clientAreaOption opt, int screen, int desktop) const
                 : workarea[ desktop ];
     }
 
-
     switch(opt) {
     case MaximizeArea:
     case PlacementArea:
