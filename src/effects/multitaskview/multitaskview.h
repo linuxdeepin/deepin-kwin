@@ -483,6 +483,9 @@ private:
     void motionRepeat();
 
 private:
+    QPoint m_cursorPos{0, 0};
+    int m_buttonType{3};
+
     QAction *m_showAction = nullptr;
     QList<QKeySequence> shortcut;
 
