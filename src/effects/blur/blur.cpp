@@ -443,30 +443,17 @@ QRegion BlurEffect::blurRegion(const EffectWindow *w) const
     QRegion region;
 
     const QVariant value = w->data(WindowBlurBehindRole);
-    // if (value.isValid())
-    if (1) {
-        int cornerRadius = 18;
-        const QVariant valueRadius1 = w->data(WindowRadiusRole);
-        if (valueRadius1.isValid()) {
-            cornerRadius = w->data(WindowRadiusRole).toPointF().x();
-        }
-
+    if (value.isValid()) {
         const QRegion appRegion = qvariant_cast<QRegion>(value);
         if (!appRegion.isEmpty()) {
             if (w->decorationHasAlpha() && effects->decorationSupportsBlurBehind()) {
                 region = QRegion(w->rect()) - w->decorationInnerRect();
             }
-            //region |= appRegion.translated(w->contentsRect().topLeft()) & w->decorationInnerRect();
-            //region |= appRegion.translated(w->contentsRect().topLeft());
-            region = rounded(QRegion(w->rect()), cornerRadius);
+            region |= appRegion.translated(w->contentsRect().topLeft()) & w->decorationInnerRect();
         } else {
             // An empty region means that the blur effect should be enabled
             // for the whole window.
-            //region = w->rect();
-            if (w->rect().width() < 500)
-                region = rounded(QRegion(w->rect()), 8);
-            else
-                region = rounded(QRegion(w->rect()), cornerRadius);
+            region = w->rect();
         }
     } else if (w->decorationHasAlpha() && effects->decorationSupportsBlurBehind()) {
         // If the client hasn't specified a blur region, we'll only enable
@@ -595,9 +582,6 @@ bool BlurEffect::shouldBlur(const EffectWindow *w, int mask, const WindowPaintDa
     if (w->isDesktop())
         return false;
 
-    //if (w->windowClass().contains("dde-dock") && w->isNormalWindow() && w->width()<500)
-    //    return false;
-
     bool scaled = !qFuzzyCompare(data.xScale(), 1.0) && !qFuzzyCompare(data.yScale(), 1.0);
     bool translated = data.xTranslation() || data.yTranslation();
 
@@ -644,17 +628,18 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
         const bool transientForIsDock = (modal ? modal->isDock() : false);
 
         if (!shape.isEmpty()) {
-            if ((w->windowClass().contains("dde-dock") && w->isNormalWindow()) || w->windowClass().contains("feibiao1")) {
-                const QVariant &data_clip_path = w->data(WindowClipPathRole);
+            const QVariant &data_clip_path = w->data(WindowClipPathRole);
+            if (data_clip_path.isValid() && !w->isDock()) {
                 const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
                 QImage img(w->size(), QImage::Format_RGBA8888);
-                //img.fill(Qt::transparent);
+                img.fill(Qt::transparent);
                 QPainter pa(&img);
                 pa.setRenderHint(QPainter::Antialiasing);
                 pa.fillPath(path, QColor(255, 255, 255, 255));
                 pa.end();
-                //img.save("/tmp/67.png");
                 m_noiseTexture.reset(new GLTexture(img));
+                m_noiseTexture->setFilter(GL_LINEAR);
+                m_noiseTexture->setWrapMode(GL_REPEAT);
                 m_noiseStrength = -1;
             } else {
                 m_noiseStrength = -2;

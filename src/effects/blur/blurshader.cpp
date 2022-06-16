@@ -112,7 +112,7 @@ BlurShader::BlurShader(QObject *parent)
     streamFragUp << "        float ty = gl_FragCoord.y-rect.y+rect.w;\n";
     streamFragUp << "        vec2 tc1 = vec2((gl_FragCoord.x-rect.x)/rect.z, 1.0-ty/rect.w);\n";
     streamFragUp << "        vec4 m = " << texture2D << "(texClip, tc1);\n";
-    streamFragUp << "        " << fragColor << " *= m;\n";
+    streamFragUp << "        " << fragColor << " *= m.a;\n";
     streamFragUp << "    }\n";
     streamFragUp << "}\n";
 

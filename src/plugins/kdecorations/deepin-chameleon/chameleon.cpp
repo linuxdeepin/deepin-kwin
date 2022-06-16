@@ -615,6 +615,11 @@ void Chameleon::updateShadow()
 {
     if (m_config && settings()->isAlphaChannelSupported()) {
         if (m_theme->validProperties() == ChameleonWindowTheme::PropertyFlags()) {
+            const QVariant &data_clip_path = effect()->data(ChameleonConfig::WindowClipPathRole);
+            if (data_clip_path.isValid()) {
+                return;
+            }
+
             { /* set shadow image for scissor effect */
                 auto shadow1 = ChameleonShadow::instance()->getShadow(m_config, m_theme->windowPixelRatio());
                 effect()->setData(ChameleonConfig::ShadowMaskRole, QVariant(shadow1->shadow()));
@@ -649,6 +654,11 @@ void Chameleon::updateShadow()
 
         if (m_theme->propertyIsValid(ChameleonWindowTheme::ShadowColorProperty)) {
             m_config->shadowConfig.shadowColor = m_theme->shadowColor();
+        }
+
+        const QVariant &data_clip_path = effect()->data(ChameleonConfig::WindowClipPathRole);
+        if (data_clip_path.isValid()) {
+            return;
         }
 
         setShadow(ChameleonShadow::instance()->getShadow(m_config, scale));

@@ -617,6 +617,13 @@ void OpenGLWindow::createRenderNode(Item *item, RenderContext *context)
     item->preprocess();
     if (auto shadowItem = qobject_cast<ShadowItem *>(item)) {
         WindowQuadList quads = clipQuads(item, context);
+
+        auto effWin = window()->effectWindow();
+        if (effWin) {
+            const QVariant &data_clip_path = effWin->data(KWin::DataRole::LanczosCacheRole + 102);
+            if (data_clip_path.isValid()) quads.clear();
+        }
+
         if (!quads.isEmpty()) {
             SceneOpenGLShadow *shadow = static_cast<SceneOpenGLShadow *>(shadowItem->shadow());
             context->renderNodes.append(RenderNode{

@@ -1210,8 +1210,10 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
             effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
 
             if (effect && s) {
-                if (effect->windowClass().contains("feibiao"))
+                const QVariant &data_clip_path = effect->data(WindowClipPathRole);
+                if (data_clip_path.isValid()) {
                     return;
+                }
 
                 effect->setData(ChameleonConfig::ShadowMaskRole, QVariant(s->shadow()));
                 effect->setData(ChameleonConfig::ShadowOffsetRole, QVariant(s->paddingTop()));
@@ -1231,25 +1233,6 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
     }
 
     auto property_data = shadow->toX11ShadowProperty();
-
-    if (window->property("shaped").toBool()) {
-        KWin::EffectWindow *effect = nullptr;
-
-        effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
-
-        if (effect) {
-            QRect shape_rect = effect->geometry();
-            const QRect window_rect(QPoint(0, 0), window->property("size").toSize());
-
-            // 减去窗口的shape区域
-            if (shape_rect.isValid() && window_rect.isValid()) {
-                property_data[ShadowTopOffse] -= shape_rect.top();
-                property_data[ShadowRightOffse] -= window_rect.right() - shape_rect.right();
-                property_data[ShadowBottomOffse] -= window_rect.bottom() - shape_rect.bottom();
-                property_data[ShadowLeftOffse] -= shape_rect.left();
-            }
-        }
-    }
 
     KWinUtils::setWindowProperty(window, m_atom_kde_net_wm_shadow,
                                  XCB_ATOM_CARDINAL, 32,
