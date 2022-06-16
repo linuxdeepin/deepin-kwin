@@ -205,7 +205,7 @@ void TouchInputRedirection::processMotion(qint32 id, const QPointF &pos, quint32
     if (!m_activeTouchPoints.contains(id)) {
         return;
     }
-    if (abs(m_lastPosition.x() - pos.x()) > LONGTOUCHPRESSIGNOREMOTION || abs(m_lastPosition.y() - pos.y()) > LONGTOUCHPRESSIGNOREMOTION) {
+    if (abs(m_lastPosition.x() - pos.x()) < LONGTOUCHPRESSIGNOREMOTION || abs(m_lastPosition.y() - pos.y()) < LONGTOUCHPRESSIGNOREMOTION) {
         return;
     }
     m_timer->stop();
