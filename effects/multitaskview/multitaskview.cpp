@@ -677,6 +677,15 @@ MultitaskViewEffect::MultitaskViewEffect()
         f.close();
     }
     QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
+    // 监听控制中心字体变化
+    QDBusConnection::sessionBus().connect("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "Changed", this, SLOT(fontChanged(QString, QString)));
+}
+
+void MultitaskViewEffect::fontChanged(const QString &fontType, const QString &fontName)
+{
+    if (fontType == "standardfont" || fontType == "monospacefont") {
+        m_fontFamily = fontName;
+    }
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -1382,6 +1391,7 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         int height = 0;
         {
             QFont font;
+            font.setFamily(m_fontFamily);
             font.setPointSize(14);
             m_textWinFrame->setFont(font);
             QFontMetrics* metrics = NULL;
@@ -1471,6 +1481,7 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(int screen)
         }
 
         QFont font;
+        font.setFamily(m_fontFamily);
         font.setPointSize(13);
         m_dragTipsFrame->setFont(font);
         m_dragTipsFrame->setText(tr("Drag upwards to remove"));
@@ -2712,6 +2723,7 @@ void MultitaskViewEffect::initWorkspaceBackground()
             EffectFrame *frame = effects->effectFrame(EffectFrameStyled, false);
             frame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
             QFont font;
+            font.setFamily(m_fontFamily);
             font.setPointSize(12);
             frame->setFont(font);
             frame->setText(tr("No windows"));

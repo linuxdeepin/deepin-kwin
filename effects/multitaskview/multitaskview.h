@@ -416,7 +416,7 @@ private Q_SLOTS:
 
     void onDockChange(const QString &key);
     void screenRecorderStart();
-
+    void fontChanged(const QString &fontType, const QString &fontName);
 private:
     void cleanup();
     bool isRelevantWithPresentWindows(EffectWindow *w) const;
@@ -591,6 +591,8 @@ private:
     bool m_isScreenRecorder = false;
     bool m_isCloseScreenRecorder = false;
     EffectWindow *m_screenRecorderMenu = nullptr;
+
+    QString m_fontFamily;
 };
 
 } // namespace KWin
