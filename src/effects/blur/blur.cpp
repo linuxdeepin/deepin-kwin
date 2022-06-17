@@ -270,6 +270,8 @@ void BlurEffect::reconfigure(ReconfigureFlags flags)
     m_expandSize = blurOffsets[m_downSampleIterations - 1].expandSize;
     m_noiseStrength = BlurConfig::noiseStrength();
 
+    m_noiseStrength = 0;
+
     m_scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
 
     updateTexture();
@@ -632,20 +634,20 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
             if (data_clip_path.isValid() && !w->isDock()) {
                 const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
                 QImage img(w->size(), QImage::Format_RGBA8888);
-                img.fill(Qt::transparent);
+                img.fill(QColor(0,0,0,0));
                 QPainter pa(&img);
                 pa.setRenderHint(QPainter::Antialiasing);
-                pa.fillPath(path, QColor(255, 255, 255, 255));
+                pa.fillPath(path, QColor(0, 0, 0, 255));
                 pa.end();
                 m_noiseTexture.reset(new GLTexture(img));
                 m_noiseTexture->setFilter(GL_LINEAR);
                 m_noiseTexture->setWrapMode(GL_REPEAT);
                 m_noiseStrength = -1;
+                doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), false, w->frameGeometry());
             } else {
                 m_noiseStrength = -2;
+                doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), w->isDock() || transientForIsDock, w->frameGeometry());
             }
-
-            doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), w->isDock() || transientForIsDock, w->frameGeometry());
         }
     }
     
@@ -766,6 +768,7 @@ void BlurEffect::doBlur(const QRegion& shape, const QRect& screen, const float o
     // Render to the screen
     if (-1 == m_noiseStrength) {
         glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glActiveTexture(GL_TEXTURE1); m_noiseTexture->bind();
         glActiveTexture(GL_TEXTURE0); m_renderTextures[1].bind();
         m_shader->bind(BlurShader::UpSampleType);
@@ -778,8 +781,12 @@ void BlurEffect::doBlur(const QRegion& shape, const QRect& screen, const float o
         shader->setUniform("texClip", 1);
         shader->setUniform("rect", QVector4D(windowRect.x(), screen.height() - windowRect.y(), windowRect.width(), windowRect.height()));
         vbo->draw(GL_TRIANGLES, blurRectCount * (m_downSampleIterations + 1), blurRectCount);
+        shader->setUniform("clip", false);
         m_shader->unbind();
+        glActiveTexture(GL_TEXTURE1); m_noiseTexture->unbind();
+        glActiveTexture(GL_TEXTURE0); m_renderTextures[1].unbind();
         glDisable(GL_BLEND);
+        m_noiseStrength = 0;
     } else {
         upscaleRenderToScreen(vbo, blurRectCount * (m_downSampleIterations + 1), shape.rectCount() * 6, screenProjection, windowRect.topLeft());
     }
@@ -825,6 +832,11 @@ void BlurEffect::upscaleRenderToScreen(GLVertexBuffer *vbo, int vboStart, int bl
 
     m_shader->setOffset(m_offset);
     m_shader->setModelViewProjectionMatrix(screenProjection);
+
+    {
+        GLShader *shader = ShaderManager::instance()->getBoundShader();
+        shader->setUniform("clip", false);
+    }
 
     //Render to the screen
     vbo->draw(GL_TRIANGLES, vboStart, blurRectCount);

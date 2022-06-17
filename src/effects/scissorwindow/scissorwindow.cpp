@@ -170,8 +170,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, st
 void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
     const QVariant &data_clip_path = w->data(ScissorWindow::WindowClipPathRole);
-    if (data_clip_path.isValid() && !w->windowClass().contains("launcher"))
-    {
+    if (data_clip_path.isValid() && !w->windowClass().contains("launcher")) {
         if (!m_shader->isValid() || w->isDesktop() || isMaximized(w)
                 || (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))
            ) {
@@ -179,8 +178,7 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
             return;
         }
 
-        static const int m = 10;
-
+        static const int m = 20;
         const QVariant &data_clip_path = w->data(ScissorWindow::WindowClipPathRole);
         const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
         QImage image(w->width() + 2 * m, w->height() + 2 * m, QImage::Format_ARGB32);
@@ -193,8 +191,7 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
         painter.drawPath(path);
         painter.end();
 
-        QByteArray source0;
-        QByteArray source1;
+        QByteArray source0, source1;
         {
             QTextStream stream(&source0);
             stream << "#version 140\n";
@@ -231,13 +228,13 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
             stream << "  vec4 c1 = texture(sampler, uv);\n";
             stream << "  vec4 c2 = Color;\n";
             stream << "  c2.rgb = vec3(0.2, 0.2, 0.2);\n";
-            stream << "  if (uv.y > 0.99) discard;\n";
             stream << "  fragColor = c2 * (1.0 - c1.a);\n";
             stream << "  fragColor.a *= (1 - c1.a) * 0.8;\n";
             stream << "}\n";
             stream.flush();
         }
 
+        effects->addRepaintFull();
 
         auto shader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, source0, source1);
         glEnable(GL_BLEND);
@@ -256,11 +253,83 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
         GLTexture tex(image);
         glActiveTexture(GL_TEXTURE0); tex.bind();
         tex.render(region, rect);
-
         ShaderManager::instance()->popShader();
 
-        effects->paintWindow(w, mask, region, data);
-        return;
+        glActiveTexture(GL_TEXTURE0); tex.unbind();
+
+        {
+            const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
+            QImage img(w->size(), QImage::Format_RGBA8888);
+            img.fill(QColor(0,0,0,0));
+            QPainter pa(&img);
+            pa.setRenderHint(QPainter::Antialiasing);
+            pa.fillPath(path, QColor(0, 255, 0, 255));
+            pa.end();
+
+            QByteArray source;
+            {
+                QTextStream stream(&source);
+
+                GLPlatform * const gl = GLPlatform::instance();
+                QByteArray varying, output, textureLookup;
+                if (!gl->isGLES()) {
+                    const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
+                    if (glsl_140)
+                        stream << "#version 140\n";
+                    varying       = glsl_140 ? QByteArrayLiteral("in")         : QByteArrayLiteral("varying");
+                    textureLookup = glsl_140 ? QByteArrayLiteral("texture")    : QByteArrayLiteral("texture2D");
+                    output        = glsl_140 ? QByteArrayLiteral("fragColor")  : QByteArrayLiteral("gl_FragColor");
+                } else {
+                    const bool glsl_es_300 = GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
+                    if (glsl_es_300)
+                        stream << "#version 300 es\n";
+                    stream << "precision highp float;\n";
+                    varying       = glsl_es_300 ? QByteArrayLiteral("in")         : QByteArrayLiteral("varying");
+                    textureLookup = glsl_es_300 ? QByteArrayLiteral("texture")    : QByteArrayLiteral("texture2D");
+                    output        = glsl_es_300 ? QByteArrayLiteral("fragColor")  : QByteArrayLiteral("gl_FragColor");
+                }
+
+                stream << "uniform sampler2D sampler, msk1;\n";
+                stream <<  varying << " vec2 texcoord0;\n";
+                if (output != QByteArrayLiteral("gl_FragColor"))
+                    stream << "\nout vec4 " << output << ";\n";
+
+                stream << "void main(){ \n";
+                stream << "  vec4 c = " << textureLookup << "(sampler, texcoord0);\n";
+                stream << "  vec4 m = " << textureLookup << "(msk1, texcoord0);\n";
+                stream << "  c *= m.a;\n";
+                stream << "  " << output << " = c;\n";
+                stream << "}\n";
+                stream.flush();
+            }
+            qInfo() << source;
+
+            auto shader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
+            ShaderManager::instance()->pushShader(shader);
+            shader->setUniform("sampler", 0);
+            shader->setUniform("msk1", 2);
+
+            auto old_shader = data.shader;
+            data.shader = shader;
+
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+            GLTexture maskTexture(img); maskTexture.setFilter(GL_LINEAR); maskTexture.setWrapMode(GL_CLAMP_TO_EDGE);
+            glActiveTexture(GL_TEXTURE2); maskTexture.bind();
+            glActiveTexture(GL_TEXTURE0);
+
+            effects->paintWindow(w, mask, region, data);
+
+            ShaderManager::instance()->popShader();
+
+            data.shader = old_shader;
+
+            glActiveTexture(GL_TEXTURE2); maskTexture.unbind();
+            glActiveTexture(GL_TEXTURE0);
+
+            return;
+        }
     } else {
         if (!m_shader->isValid() || w->isDesktop() || isMaximized(w)
                 || (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))
@@ -278,16 +347,12 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
             return;
         }
         setRoundedCornerRadius(cornerRadius);
-        //map the corners
         QRect geo(w->frameGeometry());
-        geo.setWidth(data.xScale() * geo.width());
-        geo.setHeight(data.yScale() * geo.height());
-        geo.translate(data.xTranslation(), data.yTranslation());
         QRect rect[NCorners] = {
             QRect(geo.topLeft(), m_cornerSize),
-            QRect(geo.topRight() - QPoint(m_radius - 1.5, 0), m_cornerSize),
-            QRect(geo.bottomRight() - QPoint(m_radius - 1.5, m_radius - 1.5), m_cornerSize),
-            QRect(geo.bottomLeft() - QPoint(0, m_radius - 1.5), m_cornerSize)
+            QRect(geo.topRight() - QPoint(m_radius - 1, 0), m_cornerSize),
+            QRect(geo.bottomRight() - QPoint(m_radius - 1, m_radius - 1), m_cornerSize),
+            QRect(geo.bottomLeft() - QPoint(0, m_radius - 1), m_cornerSize)
         };
         GLTexture* tex[NCorners];
         const QRect s(effects->virtualScreenGeometry());
@@ -339,6 +404,8 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
         glDisable(GL_BLEND);
         delete shwT[0]; delete shwT[1]; delete shwT[2]; delete shwT[3];
         for (int i = 0; i < NCorners; ++i) delete tex[i];
+
+        glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 }
 

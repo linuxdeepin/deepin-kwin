@@ -49,7 +49,7 @@ public:
     static bool enabledByDefault();
     static bool isMaximized(EffectWindow *w);
     
-    int requestedEffectChainPosition() const override { return 60; }
+    int requestedEffectChainPosition() const override { return 99; }
 
     void reconfigure(ReconfigureFlags flags) override;
 

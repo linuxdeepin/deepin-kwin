@@ -205,6 +205,7 @@ BlurShader::BlurShader(QObject *parent)
         m_shaderUpsample->setUniform(m_offsetLocationUpsample, float(1.0));
         m_shaderUpsample->setUniform(m_renderTextureSizeLocationUpsample, QVector2D(1.0, 1.0));
         m_shaderUpsample->setUniform(m_halfpixelLocationUpsample, QVector2D(1.0, 1.0));
+        m_shaderUpsample->setUniform("clip", false);
         ShaderManager::instance()->popShader();
 
         ShaderManager::instance()->pushShader(m_shaderCopysample.data());
