@@ -399,9 +399,9 @@ public:
     void setActive(bool active);
     bool isReceiveEvent();
 
-    bool touchDown(quint32 id, const QPointF &pos, quint32 time) /*override*/;
-    bool touchMotion(quint32 id, const QPointF &pos, quint32 time) /*override*/;
-    bool touchUp(quint32 id, quint32 time) /*override*/;
+    bool touchDown(qint32 id, const QPointF &pos, quint32 time) override;
+    bool touchMotion(qint32 id, const QPointF &pos, quint32 time) override;
+    bool touchUp(qint32 id, quint32 time) override;
 
 private Q_SLOTS:
     void toggle() {

@@ -3661,7 +3661,7 @@ bool MultitaskViewEffect::checkHandlerWorkspace(QPoint pos, EffectScreen *screen
     return isChecked;
 }
 
-bool MultitaskViewEffect::touchDown(quint32 id, const QPointF &pos, quint32 time)
+bool MultitaskViewEffect::touchDown(qint32 id, const QPointF &pos, quint32 time)
 {
     Q_UNUSED(time)
 
@@ -3680,7 +3680,7 @@ bool MultitaskViewEffect::touchDown(quint32 id, const QPointF &pos, quint32 time
     return true;
 }
 
-bool MultitaskViewEffect::touchMotion(quint32 id, const QPointF &pos, quint32 time)
+bool MultitaskViewEffect::touchMotion(qint32 id, const QPointF &pos, quint32 time)
 {
     Q_UNUSED(id)
     Q_UNUSED(time)
@@ -3699,7 +3699,7 @@ bool MultitaskViewEffect::touchMotion(quint32 id, const QPointF &pos, quint32 ti
     return true;
 }
 
-bool MultitaskViewEffect::touchUp(quint32 id, quint32 time)
+bool MultitaskViewEffect::touchUp(qint32 id, quint32 time)
 {
     Q_UNUSED(id)
     Q_UNUSED(time)

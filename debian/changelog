@@ -1,3 +1,9 @@
+deepin-kwin (4:5.24.3-deepin.1.0) unstable; urgency=medium
+
+  * add multitaskview touch support.
+
+ -- xinbo wang <wangxinbo@uniontech.com>  Sat, 18 Jun 2022 14:32:08 +0000
+
 deepin-kwin (4:5.24.3-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
