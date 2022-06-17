@@ -264,14 +264,13 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
             break;
         case QEvent::MouseButtonPress:
             if (target) {
-                effects->setElevatedWindow(target, true);
                 effects->addRepaintFull();
             }
             break;
         case QEvent::MouseButtonRelease:
             if (target) {
                 effects->defineCursor(Qt::PointingHandCursor);
-                effects->setElevatedWindow(target, false);
+                effects->setElevatedWindow(target, true);
                 effects->activateWindow(target);
                 effectsEx->setSplitWindow(target, m_backgroundMode);
             }
