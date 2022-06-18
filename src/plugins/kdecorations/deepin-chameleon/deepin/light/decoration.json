@@ -93,7 +93,7 @@
       "width": 1,
       "color": "#20000000"
     },
-    "rounded-corner-radius": "5,5",
+    "rounded-corner-radius": "18,18",
     "blur": 10,
     "opcaity": 1,
     "shadow": {
@@ -132,60 +132,56 @@
           }
         },
         "minimize": {
-          "pos": -50,
           "icon": {
             "normal": ":/deepin/themes/deepin/light/icons/minimize_normal.svg",
             "hover": ":/deepin/themes/deepin/light/icons/minimize_hover.svg",
             "press": ":/deepin/themes/deepin/light/icons/minimize_press.svg",
             "disabled": ":/deepin/themes/deepin/light/icons/minimize_disabled.svg"
           },
-          "width": 60,
-          "height": 60,
+          "width": 50,
+          "height": 50,
           "border": {
             "width": 1,
             "color": "#000000"
           }
         },
         "maximize": {
-          "pos": 0.5,
           "icon": {
             "normal": ":/deepin/themes/deepin/light/icons/maximize_normal.svg",
             "hover": ":/deepin/themes/deepin/light/icons/maximize_hover.svg",
             "press": ":/deepin/themes/deepin/light/icons/maximize_press.svg",
             "disabled": ":/deepin/themes/deepin/light/icons/maximize_disabled.svg"
           },
-          "width": 260,
-          "height": 60,
+          "width": 50,
+          "height": 50,
           "border": {
             "width": 1,
             "color": "#000000"
           }
         },
         "unmaximize": {
-          "pos": 50,
           "icon": {
             "normal": ":/deepin/themes/deepin/light/icons/unmaximize_normal.svg",
             "hover": ":/deepin/themes/deepin/light/icons/unmaximize_hover.svg",
             "press": ":/deepin/themes/deepin/light/icons/unmaximize_press.svg",
             "disabled": ":/deepin/themes/deepin/light/icons/unmaximize_disabled.svg"
           },
-          "width": 60,
-          "height": 60,
+          "width": 50,
+          "height": 50,
           "border": {
             "width": 1,
             "color": "#000000"
           }
         },
         "close": {
-          "pos": 50,
           "icon": {
             "normal": ":/deepin/themes/deepin/light/icons/close_normal.svg",
             "hover": ":/deepin/themes/deepin/light/icons/close_hover.svg",
             "press": ":/deepin/themes/deepin/light/icons/close_press.svg",
             "disabled": ":/deepin/themes/deepin/light/icons/close_disabled.svg"
           },
-          "width": 60,
-          "height": 60,
+          "width": 50,
+          "height": 50,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -222,7 +218,22 @@
     }
   },
   "1004": {
-    "desc": "上下文菜单",
+    "desc": "右键菜单",
+    "border": {
+      "width": 1,
+      "color": "#20FFFFFF"
+    },
+    "rounded-corner-radius": "18,18",
+    "blur": 30,
+    "opcaity": 1,
+    "shadow": {
+      "shadowRadius": 12,
+      "shadowOffset": "6,6",
+      "shadowColor": "#66000000"
+    }
+  },
+  "1005": {
+    "desc": "下拉菜单",
     "border": {
       "width": 1,
       "color": "#20FFFFFF"

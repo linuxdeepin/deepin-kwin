@@ -37,10 +37,11 @@ Q_LOGGING_CATEGORY(CHAMELEON, "chameleon", QtWarningMsg)
 #define BASE_THEME_DIR ":/deepin/themes"
 
 static QMap<NET::WindowType, UIWindowType> mapNETWindowType2UIWindowType = {
-    {NET::WindowType::Normal,     UIWindowType::Normal},
-    {NET::WindowType::Dialog,     UIWindowType::Dialog},
-    {NET::WindowType::Dock,       UIWindowType::Dock},
-    {NET::WindowType::PopupMenu,  UIWindowType::PopupMenu},
+    {NET::WindowType::Normal,        UIWindowType::Normal},
+    {NET::WindowType::Dialog,        UIWindowType::Dialog},
+    {NET::WindowType::Dock,          UIWindowType::Dock},
+    {NET::WindowType::PopupMenu,     UIWindowType::PopupMenu},
+    {NET::WindowType::DropdownMenu,  UIWindowType::DropdownMenu},
 };
 
 QPair<qreal, qreal> ChameleonTheme::takePair(const QVariant &value, const QPair<qreal, qreal> defaultValue)
@@ -424,6 +425,8 @@ static bool loadTheme(ChameleonTheme::ConfigGroupMap *configs, const ChameleonTh
             writeConfig(UIWindowType::Dock, windowDecObj, configs, base);
         } else if (uiWindowTypeId == static_cast<int>(UIWindowType::PopupMenu)) {
             writeConfig(UIWindowType::PopupMenu, windowDecObj, configs, base);
+        } else if (uiWindowTypeId == static_cast<int>(UIWindowType::DropdownMenu)) {
+            writeConfig(UIWindowType::DropdownMenu, windowDecObj, configs, base);
         }
 
     }

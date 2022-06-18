@@ -41,6 +41,7 @@ enum class UIWindowType {
     Dialog,
     Dock,
     PopupMenu,
+    DropdownMenu,
     Notification,
 };
 

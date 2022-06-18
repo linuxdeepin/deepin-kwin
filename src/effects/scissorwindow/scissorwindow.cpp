@@ -170,7 +170,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, st
 void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
     const QVariant &data_clip_path = w->data(ScissorWindow::WindowClipPathRole);
-    if (data_clip_path.isValid() && !w->windowClass().contains("launcher")) {
+    if (data_clip_path.isValid()) {
         if (!m_shader->isValid() || w->isDesktop() || isMaximized(w)
                 || (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))
            ) {
@@ -252,7 +252,10 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
 
         GLTexture tex(image);
         glActiveTexture(GL_TEXTURE0); tex.bind();
-        tex.render(region, rect);
+
+        if (!w->windowClass().contains("launcher"))
+            tex.render(region, rect);
+
         ShaderManager::instance()->popShader();
 
         glActiveTexture(GL_TEXTURE0); tex.unbind();
@@ -302,7 +305,6 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
                 stream << "}\n";
                 stream.flush();
             }
-            qInfo() << source;
 
             auto shader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
             ShaderManager::instance()->pushShader(shader);
