@@ -244,6 +244,10 @@ void ShellClient::init()
         [this] {
             m_clientSize = surface()->size();
             QRect rect = QRect(geom.topLeft(), m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom()));
+            // restore m_client_size when client start with setGeometry before showFullScreen, if not the restore will be empty
+            if (isFullScreen() && !surface()->size().isEmpty() && m_geomFsRestore.isEmpty()) {
+                m_geomFsRestore.setSize(m_clientSize);
+            }
             doSetGeometry(rect);
             if (m_requestedMaximizeMode == MaximizeMode::MaximizeRestore && !isSplitscreen())
                 setGeometryRestore(rect);
