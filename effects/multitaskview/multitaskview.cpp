@@ -86,7 +86,6 @@ const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/des
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/resources/themes/add-light.png";//":/resources/themes/add-light.svg";
 const char delete_workspace_png[] = ":/resources/themes/workspace_delete.png";
-const char displaydconfig[] = "/dsg/configs/org.kde.kwin/org.kde.kwin.multitaskview.display.json";
 
 namespace KWin
 {
@@ -654,27 +653,16 @@ MultitaskViewEffect::MultitaskViewEffect()
         m_isOpenGLrender = false;
     }
 
-    QString dconfigPath;
-    QStringList lst = QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation);
-    if (lst.size() > 0) {
-        dconfigPath = lst[0] + displaydconfig;
-    }
-    QFile f(dconfigPath);
-    if (f.open(QFile::ReadOnly)) {
-        QByteArray data;
-        data = f.readAll();
-        QJsonDocument json = QJsonDocument::fromJson(data);
-        QJsonObject root = json.object();
-        QJsonObject obj = root["contents"].toObject();
-        QJsonObject wobj = obj["windowDisplay"].toObject();
-        if (!wobj["value"].isNull()) {
-            if (wobj["value"].toString() == "Enabled" ||
-                wobj["value"].toString() == "enabled")
-                m_isShowWhole = true;
-            else
-                m_isShowWhole = false;
-        }
-        f.close();
+    QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
+    QDBusPendingReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.multitaskview.display", "");
+    reply.waitForFinished();
+    QDBusInterface interfaceValue("org.desktopspec.ConfigManager", reply.value().path(), "org.desktopspec.ConfigManager.Manager", QDBusConnection::systemBus());
+    QDBusReply<QVariant> replyValue = interfaceValue.call("value", "windowDisplay");
+    QString strValue = replyValue.value().toString();
+    if (strValue == "Enabled" || strValue == "enabled") {
+        m_isShowWhole = true;
+    } else {
+        m_isShowWhole = false;
     }
     QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
     // 监听控制中心字体变化
