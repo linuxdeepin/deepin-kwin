@@ -180,7 +180,8 @@ namespace KWin
             } else if(m_splitOutlineCursorStatus == CURSOR_L_R) {
                 QImage Image(":/resources/themes/leftright-arrow.svg");
                 QImage nImage = Image.scaled(width(),32);
-                input()->setCursorShape(Qt::SizeHorCursor);
+                input()->setCursorShape(Qt::BlankCursor);
+                CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
             }
         }
     }
