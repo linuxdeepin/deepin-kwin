@@ -1908,7 +1908,7 @@ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint
         replay = true;
         break;
     case Options::MouseActivateAndPassClick:
-        workspace()->takeActivity(this, Workspace::ActivityFocus);
+        workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
         workspace()->setActiveOutput(globalPos);
         replay = true;
         break;
