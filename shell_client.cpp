@@ -1286,6 +1286,10 @@ void ShellClient::takeFocus()
                 breakShowingDesktop = false;
                 break;
             }
+            if (!isMovable()) {
+                breakShowingDesktop = false;
+                break;
+            }
         }
     }
     if (breakShowingDesktop) {
