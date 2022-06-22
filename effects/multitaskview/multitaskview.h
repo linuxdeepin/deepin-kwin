@@ -482,7 +482,7 @@ private:
 
 private:
     QPoint m_cursorPos{0, 0};
-    int m_buttonType{3};
+    int m_buttonType{0};
 
     QAction *m_showAction = nullptr;
     QList<QKeySequence> shortcut;

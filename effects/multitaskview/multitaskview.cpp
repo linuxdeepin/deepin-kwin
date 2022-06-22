@@ -948,7 +948,12 @@ void MultitaskViewEffect::postPaintScreen()
     if (m_effectFlyingBack.done()) {
         m_effectFlyingBack.end();
         setActive(false);
-        relayDockEvent(m_cursorPos, m_buttonType);
+        if (QX11Info::isPlatformX11() && m_dockRect.contains(m_cursorPos)) {
+            relayDockEvent(m_cursorPos, m_buttonType);
+            m_cursorPos.setX(0);
+            m_cursorPos.setY(0);
+            m_buttonType = 0;
+        }
     }
 }
 
