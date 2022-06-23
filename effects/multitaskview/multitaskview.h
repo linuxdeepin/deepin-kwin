@@ -593,6 +593,7 @@ private:
     EffectWindow *m_screenRecorderMenu = nullptr;
 
     QString m_fontFamily;
+    Qt::MouseButton m_sendDockButton = Qt::NoButton;
 };
 
 } // namespace KWin
