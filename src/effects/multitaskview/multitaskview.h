@@ -594,6 +594,8 @@ private:
     bool m_isScreenRecorder = false;
     bool m_isCloseScreenRecorder = false;
     EffectWindow *m_screenRecorderMenu = nullptr;
+
+    Qt::MouseButton m_sendDockButton = Qt::NoButton;
 };
 
 } // namespace KWin
