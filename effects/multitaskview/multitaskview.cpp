@@ -953,6 +953,9 @@ void MultitaskViewEffect::postPaintScreen()
             m_cursorPos.setX(0);
             m_cursorPos.setY(0);
             m_buttonType = 0;
+        } else if (!QX11Info::isPlatformX11() && m_sendDockButton != Qt::NoButton) {
+            effectsEx->sendPointer(m_sendDockButton);
+            m_sendDockButton = Qt::NoButton;
         }
     }
 }
@@ -1796,7 +1799,9 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             } else {
                 m_effectFlyingBack.begin();
                 effects->addRepaintFull();
-                effectsEx->sendPointer(mouseEvent->button());
+                // fix bug 128331, move sendPointer to flyingback down
+                //effectsEx->sendPointer(mouseEvent->button());
+                m_sendDockButton = mouseEvent->button();
             }
             QTimer::singleShot(400, [&]() { m_delayDbus = true; });
         } else if (target) {
