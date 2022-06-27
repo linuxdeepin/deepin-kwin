@@ -318,6 +318,8 @@ void EglGbmBackend::renderPostprocess(Output& output)
         const bool glsl_140 = !gles && GLPlatform::instance()->glslVersion() >= kVersionNumber(1, 40);
         const bool core = glsl_140 || (gles && GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0));
 
+        const QByteArray varying_in  = core ? (gles ? "in" : "noperspective in") : "varying";
+        const QByteArray varying_out = core ? (gles ? "out" : "noperspective out") : "varying";
         const QByteArray attribute = core ? "in"        : "attribute";
         const QByteArray texture2D = core ? "texture"   : "texture2D";
         const QByteArray fragColor = core ? "fragColor" : "gl_FragColor";
@@ -344,7 +346,7 @@ void EglGbmBackend::renderPostprocess(Output& output)
         streamVert << "uniform mat4 rotateMatrix;\n";
         streamVert << attribute << " vec4 vertex;\n\n";
         streamVert << attribute << " vec4 texcoord;\n\n";
-        streamVert << "out vec2 texCoord;\n";
+        streamVert << varying_out << " vec2 texCoord;\n";
         streamVert << "void main(void)\n";
         streamVert << "{\n";
         streamVert << "    gl_Position = vertex;\n";
@@ -357,7 +359,7 @@ void EglGbmBackend::renderPostprocess(Output& output)
         streamFrag << glHeaderString;
 
         streamFrag << "uniform sampler2D texUnit;\n";
-        streamFrag << attribute << " vec2 texCoord;\n\n";
+        streamFrag << varying_in << " vec2 texCoord;\n\n";
         if (core) {
             streamFrag << "out vec4 fragColor;\n\n";
         }
