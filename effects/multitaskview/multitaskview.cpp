@@ -3162,14 +3162,14 @@ void MultitaskViewEffect::switchDesktop()
     for (const auto& ew: effects->stackingOrder()) {
         if (ew->isOnAllDesktops())
             continue;
-        if (effectsEx->isTransientWin(ew) && !ew->isModal())
+        if (effectsEx->isTransientWin(ew) && !ew->isModal() && !ew->isDialog())
             continue;
 
         auto dl = ew->desktops();
-        if (dl[0] == m_aciveMoveDesktop) {
+        if (dl[0] == m_aciveMoveDesktop && !ew->isModal()) {
             QVector<uint> desks {(uint)(m_aciveMoveDesktop - dir - m_moveWorkspaceNum * dir)};
             effects->windowToDesktops(ew, desks);
-        } else if (dl[0] >= (m_aciveMoveDesktop - dir - (dir > 0 ? m_moveWorkspaceNum : 0)) && dl[0] <= (m_aciveMoveDesktop - dir + (dir > 0 ? 0 : m_moveWorkspaceNum))) {
+        } else if (dl[0] >= (m_aciveMoveDesktop - dir - (dir > 0 ? m_moveWorkspaceNum : 0)) && dl[0] <= (m_aciveMoveDesktop - dir + (dir > 0 ? 0 : m_moveWorkspaceNum)) && !ew->isModal()) {
             int newd = dl[0] + dir;
             QVector<uint> desks {(uint)newd};
             effects->windowToDesktops(ew, desks);
