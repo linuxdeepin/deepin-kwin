@@ -1,3 +1,17 @@
+kwin (4:5.15.11.33-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 128331 fix: fix multitaskview cannot click dock in wayland
+    + 142347 fix: when kwin has no-screenlocker,meaning of login interface,it do not set splitState of window.
+    + 142651 fix: dialog and modal window can't change desktop in multitaskview.
+    + 142491 fix: fix shader error of software rotation in glsl version is less than 1.40.
+    + 141319 fix: not effect when modify multitaskview display by dde-dconfig-editor
+    + 113841 fix: when client is unmovable,meaning it's not a normal client,it shouldn't be recorded in showingDesktop.
+    + 109649, 107429 fix: modify cursor shape of splitoutline in wayland
+    + 131961, 129253 fix: right click dde-dock when in multitaskview
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 30 Jun 2022 16:28:59 +0800
+
 kwin (4:5.15.11.32-1) unstable; urgency=medium
 
   * Bug fix:
