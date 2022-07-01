@@ -140,7 +140,7 @@ void Scene::paintScreen(int* mask, const QRegion &damage, const QRegion &repaint
         //fix(workaround): disable partial update
         //partial update has reported rendering issues both on arm64 and x86, 
         //this should be disabled before we figure out why it won't work. this is a temporary fix. 
-        region = displayRegion;
+        region &= displayRegion;
 #endif
     } else {
         // whole screen, not transformed, force region to be full
