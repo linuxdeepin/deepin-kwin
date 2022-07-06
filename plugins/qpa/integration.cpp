@@ -94,6 +94,11 @@ Integration::~Integration()
     }
 }
 
+QVector<Screen*> Integration::getScreens() const
+{
+    return m_screens;
+}
+
 bool Integration::hasCapability(Capability cap) const
 {
     switch (cap) {
@@ -124,7 +129,7 @@ void Integration::initialize()
         }
     );
     QPlatformIntegration::initialize();
-    auto dummyScreen = new Screen(-1);
+    auto dummyScreen = new Screen(-1, this);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
     QWindowSystemInterface::handleScreenAdded(dummyScreen);
 #else
@@ -237,7 +242,7 @@ void Integration::initScreens()
     QVector<Screen*> newScreens;
     newScreens.reserve(qMax(screens()->count(), 1));
     for (int i = 0; i < screens()->count(); i++) {
-        auto screen = new Screen(i);
+        auto screen = new Screen(i, this);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
         QWindowSystemInterface::handleScreenAdded(screen);
 #else
@@ -246,7 +251,7 @@ void Integration::initScreens()
         newScreens << screen;
     }
     if (newScreens.isEmpty()) {
-        auto dummyScreen = new Screen(-1);
+        auto dummyScreen = new Screen(-1, this);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
         QWindowSystemInterface::handleScreenAdded(dummyScreen);
 #else

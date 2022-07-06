@@ -21,20 +21,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "platformcursor.h"
 #include "screens.h"
 #include "wayland_server.h"
+#include "integration.h"
 
 namespace KWin
 {
 namespace QPA
 {
 
-Screen::Screen(int screen)
+Screen::Screen(int screen, Integration *integration)
     : QPlatformScreen()
     , m_screen(screen)
     , m_cursor(new PlatformCursor)
+    , m_integration(integration)
 {
 }
 
 Screen::~Screen() = default;
+
+QList<QPlatformScreen *> Screen::virtualSiblings() const
+{
+    const auto screens = m_integration->getScreens();
+
+    QList<QPlatformScreen *> siblings;
+    siblings.reserve(siblings.size());
+
+    for (Screen *screen : screens) {
+        siblings << screen;
+    }
+
+    return siblings;
+}
+
 
 int Screen::depth() const
 {
