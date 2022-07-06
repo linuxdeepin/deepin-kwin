@@ -314,7 +314,7 @@ QString ScreenShotEffect::saveTempImage(const QImage &img)
     if (!temp.open()) {
         return QString();
     }
-    img.save(&temp);
+    img.save(&temp, "JPG", 100);
     temp.close();
     KNotification::event(KNotification::Notification,
                         i18nc("Notification caption that a screenshot got saved to file", "Screenshot"),
