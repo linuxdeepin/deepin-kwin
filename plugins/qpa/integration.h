@@ -67,6 +67,8 @@ public:
     KWayland::Client::Compositor *compositor() const;
     EGLDisplay eglDisplay() const;
 
+    QVector<Screen*> getScreens() const;
+
 private:
     void initScreens();
     void initEgl();

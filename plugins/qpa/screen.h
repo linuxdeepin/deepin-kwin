@@ -27,14 +27,16 @@ namespace KWin
 {
 namespace QPA
 {
+class Integration;
 class PlatformCursor;
 
 class Screen : public QPlatformScreen
 {
 public:
-    explicit Screen(int screen);
+    explicit Screen(int screen, Integration *integration);
     virtual ~Screen();
 
+    QList<QPlatformScreen *> virtualSiblings() const override;
     QRect geometry() const override;
     int depth() const override;
     QImage::Format format() const override;
@@ -45,6 +47,7 @@ public:
 
 private:
     int m_screen;
+    Integration *m_integration;
     QScopedPointer<PlatformCursor> m_cursor;
 };
 
