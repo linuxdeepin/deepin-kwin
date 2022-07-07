@@ -1,3 +1,15 @@
+kwin (4:5.15.11.34-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 131467 fix: display mode exceptio
+    + 137673 fix: fix multiscreen showtip location error
+    + 124265 fix: when useractionsmenu is shown,mouse button press event no longer process filters.
+    + 113181 Fix: the mouse run very slowly on UOS installer while using JJW video card
+    + 135375 fix: Add format and compression ratio when saving pictures
+    + 140159 fix: optimize splitoutline shown on the active client
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 07 Jul 2022 17:03:03 +0800
+
 kwin (4:5.15.11.33-1) unstable; urgency=medium
 
   * Bug fix:
