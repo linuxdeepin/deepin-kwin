@@ -137,6 +137,8 @@ void Chameleon::init()
     connect(qGuiApp, &QGuiApplication::fontChanged, this, &Chameleon::updateTitleGeometry);
 
     m_initialized = true;
+
+    KWinUtils::instance()->setInitialized();
 }
 
 void Chameleon::updateFont(QString updateType,QString val)

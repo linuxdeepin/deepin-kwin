@@ -285,7 +285,6 @@ static void parserWindowDecoration(const UIWindowType& windowType, const QJsonVa
         if (!btnObj.isEmpty()) {
             auto parseTitleBarButton = [&](const QJsonObject& btnObj, ChameleonTheme::ThemeConfig::TitlebarBtn& configTitlebarBtn, const ChameleonTheme::ThemeConfig::TitlebarBtn& baseTitlebarBtn) {
                 paserSpecialAttribute<QPointF>(btnObj, "pos", status, configTitlebarBtn.pos, base ? baseTitlebarBtn.pos : QPointF(0.0, 0.0));
-                qCDebug(CHAMELEON) << "========== pos: " << configTitlebarBtn.pos;
                 paserSpecialAttribute<int>(btnObj, "width", status, configTitlebarBtn.width, base ? baseTitlebarBtn.width : 50);
                 paserSpecialAttribute<int>(btnObj, "height", status, configTitlebarBtn.height, base ? baseTitlebarBtn.height : 50);
             };
@@ -376,7 +375,6 @@ static bool loadTheme(ChameleonTheme::ConfigGroupMap *configs, const ChameleonTh
                       ChameleonTheme::ThemeType themeType, const QString &themeName, const QList<QDir> &themeDirList)
 {
     QDir theme_dir("/");
-    
     for (const QDir &dir : themeDirList) {
         for (const QFileInfo &info : dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot)) {
             if (info.fileName() == themeName) {

@@ -142,7 +142,7 @@ protected:
 private:
     void setInitialized();
 
-    friend class Mischievous;
+    friend class Chameleon;
     Q_PRIVATE_SLOT(d, void _d_onPropertyChanged(long))
 };
 

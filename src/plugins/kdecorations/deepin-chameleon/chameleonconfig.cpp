@@ -60,7 +60,12 @@ ChameleonConfig::ChameleonConfig(QObject *parent)
     m_atom_kde_net_wm_shadow = KWinUtils::internAtom(_KDE_NET_WM_SHADOW, false);
     m_atom_net_wm_window_type = KWinUtils::internAtom(_NET_WM_WINDOW_TYPE, false);
 
-    init();
+    if (KWinUtils::instance()->isInitialized()) {
+        init();
+    } else {
+        connect(KWinUtils::instance(), &KWinUtils::initialized, this, &ChameleonConfig::init);
+    }
+    
 }
 
 ChameleonConfig *ChameleonConfig::instance()
@@ -1150,15 +1155,16 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
         ChameleonTheme::instance()->loadTheme(window_theme->theme());
     }
 
+    NET::WindowType window_type = static_cast<NET::WindowType>(window->property("windowType").toInt());
     switch (shadow_type) {
     case ActiveType:
-        theme_config = ChameleonTheme::instance()->themeConfig(static_cast<NET::WindowType>(window->property("windowType").toInt()))->normal;
+        theme_config = ChameleonTheme::instance()->themeConfig(window_type)->normal;
         break;
     case InactiveType:
-        theme_config = ChameleonTheme::instance()->themeConfig(static_cast<NET::WindowType>(window->property("windowType").toInt()))->inactive;
+        theme_config = ChameleonTheme::instance()->themeConfig(window_type)->inactive;
         break;
     case UnmanagedType:
-        theme_config = *ChameleonTheme::instance()->themeUnmanagedConfig(static_cast<NET::WindowType>(window->property("windowType").toInt()));
+        theme_config = *(ChameleonTheme::instance()->themeUnmanagedConfig(window_type));
     default:
         break;
     }
