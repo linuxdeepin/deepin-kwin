@@ -193,15 +193,21 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
 {
     QString strBackgroundPath = QString("%1%2").arg(st.desktop).arg(st.screenName);
 
-    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
-    QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", st.desktop, st.screenName);
-
     QString backgroundUri;
-    if(!getReply.value().isEmpty()) {
-        backgroundUri = getReply.value();
-    } else {
-        backgroundUri = QLatin1String(fallback_background_name);
+    QFile f(QDir::homePath() + "/.config/deepinwmrc");
+    if(!f.open(QFile::ReadOnly)) {
+        qDebug()  << "open faild!!! " << QDir::homePath() + "/.config/deepinwmrc";
+        return;
     }
+    while (!f.atEnd()) {
+        QString line = f.readLine();
+        line.remove("\n");
+        if(line.contains(QString("%1@").arg(st.desktop) + st.screenName)) {
+            backgroundUri = line.split('=').last();
+            break;
+        }
+    }
+    f.close();
     m_currentBackgroundList.insert(backgroundUri);
     backgroundUri = toRealPath(backgroundUri);
 
@@ -2143,7 +2149,14 @@ bool MultitaskViewEffect::isActive() const
     return m_activated && !effects->isScreenLocked();
 }
 
-void MultitaskViewEffect::toggle() {
+void MultitaskViewEffect::toggle()
+{
+    if (!QX11Info::isPlatformX11()) { // MultitaskView cannot be opened without login in Wayland mode
+        if(qgetenv("DISPLAY").isEmpty()) {
+            return;
+        }
+    }
+
     if (m_activated) {
         m_effectFlyingBack.begin();
     } else if (m_delayDbus) {
