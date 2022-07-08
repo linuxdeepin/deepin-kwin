@@ -94,10 +94,10 @@
       "color": "#20000000"
     },
     "rounded-corner-radius": "18,18",
-    "blur": 10,
+    "blur": 20,
     "opcaity": 1,
     "shadow": {
-      "shadowRadius": 80,
+      "shadowRadius": 40,
       "shadowOffset": "30,30",
       "shadowColor": {
         "active": "#80000000",

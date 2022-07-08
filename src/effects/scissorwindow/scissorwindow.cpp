@@ -97,6 +97,99 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
         m_shader->setUniform(sha, 1);
         m_shader->setUniform(msk, 2);
         ShaderManager::instance()->popShader();
+    }
+
+    {
+        QByteArray source0, source1;
+        {
+            QTextStream stream(&source0);
+            stream << "#version 140\n";
+            stream << "in vec4 position, texcoord;\n";
+            stream << "out vec2 texcoord0;\n";
+            stream << "uniform mat4 modelViewProjectionMatrix;\n";
+            stream << "void main() { \n";
+            stream << "  texcoord0 = texcoord.st;\n";
+            stream << "  gl_Position = modelViewProjectionMatrix * position;\n";
+            stream << "}\n";
+            stream.flush();
+        }
+        {
+            QTextStream stream(&source1);
+            stream << "#version 140\n";
+            stream << "uniform float w, h;\n";
+            stream << "in vec2 texcoord0;\n";
+            stream << "out vec4 fragColor;\n";
+            stream << "uniform sampler2D sampler, msk1;\n";
+            stream << "void main() { \n";
+            stream << "  float Pi = 6.28318530718;\n";
+            stream << "  float Directions = 60.0;\n";
+            stream << "  float Quality = 80.0;\n";
+            stream << "  float Size = 40.0;\n";
+            stream << "  vec2 Radius = Size/vec2(800, 800);\n";
+            stream << "  vec2 uv = texcoord0 - vec2(0, 0.012);\n";
+            stream << "  vec4 Color = texture(sampler, uv);\n";
+            stream << "  bool cond = (w > 300 && h > 300 && (uv.s > 0.8 || uv.s < 0.2 || uv.t > 0.8 || uv.t < 0.2)); \n";
+            stream << "  cond = w < 200 || h < 200 || cond;\n";
+            stream << "  if (cond) { \n";
+            stream << "    for(float d = 0.0; d < Pi; d += Pi / Directions){\n";
+            stream << "      for(float i = 1.0 / Quality; i <= 1.0; i += 1.0 / Quality) {\n";
+            stream << "        Color += texture(sampler, uv + vec2(cos(d), sin(d)) * Radius * i);\n";
+            stream << "      }\n";
+            stream << "    }\n";
+            stream << "  }\n";
+            stream << "  Color /= Quality * Directions - 15.0;\n";
+            stream << "  vec4 c1 = texture(sampler, texcoord0);\n";
+            stream << "  vec4 c2 = Color;\n";
+            stream << "  c2.rgb = vec3(0.05, 0.05, 0.05);\n";
+            stream << "  fragColor = c2;\n";
+            stream << "  fragColor.a *= (1 - c1.a) * 0.18;\n";
+            stream << "}\n";
+            stream.flush();
+        }
+        m_shader1 = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, source0, source1);
+    }
+
+    {
+	    QByteArray source;
+	    QTextStream stream(&source);
+	    GLPlatform *const gl = GLPlatform::instance();
+	    QByteArray varying, output, textureLookup;
+	    if (!gl->isGLES()) {
+		    const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
+		    if (glsl_140) stream << "#version 140\n";
+		    varying = glsl_140 ? QByteArrayLiteral("in")
+			    : QByteArrayLiteral("varying");
+		    textureLookup = glsl_140 ? QByteArrayLiteral("texture")
+			    : QByteArrayLiteral("texture2D");
+		    output = glsl_140 ? QByteArrayLiteral("fragColor")
+			    : QByteArrayLiteral("gl_FragColor");
+	    } else {
+		    const bool glsl_es_300 = GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
+		    if (glsl_es_300) stream << "#version 300 es\n";
+		    stream << "precision highp float;\n";
+		    varying = glsl_es_300 ? QByteArrayLiteral("in")
+			    : QByteArrayLiteral("varying");
+		    textureLookup = glsl_es_300
+			    ? QByteArrayLiteral("texture")
+			    : QByteArrayLiteral("texture2D");
+		    output = glsl_es_300 ? QByteArrayLiteral("fragColor")
+			    : QByteArrayLiteral("gl_FragColor");
+	    }
+	    stream << "uniform sampler2D sampler, msk1;\n";
+	    stream << varying << " vec2 texcoord0;\n";
+	    if (output != QByteArrayLiteral("gl_FragColor"))
+		    stream << "\nout vec4 " << output << ";\n";
+	    stream << "void main(){ \n";
+	    stream << "  vec4 c = " << textureLookup << "(sampler, texcoord0);\n";
+	    stream << "  vec4 m = " << textureLookup << "(msk1, texcoord0);\n";
+	    stream << "  c *= m.a;\n";
+	    stream << "  " << output << " = c;\n";
+	    stream << "}\n";
+	    stream.flush();
+	    m_shader2 = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
+    }
+
+    {
         for (int i = 0; i < KWindowSystem::windows().count(); ++i) {
             if (EffectWindow *win = effects->findWindow(KWindowSystem::windows().at(i)))
                 windowAdded(win);
@@ -106,9 +199,11 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
 }
 
 ScissorWindow::~ScissorWindow() {
-    delete m_shader;
+    if (m_shader) delete m_shader;
+    if (m_shader1) delete m_shader1;
+    if (m_shader2) delete m_shader2;
     for (int i = 0; i < NCorners; ++i) {
-        delete m_texMask[i];
+        if (m_texMask[i]) delete m_texMask[i];
     }
 }
 
@@ -176,81 +271,40 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region,
             effects->paintWindow(w, mask, region, data);
             return;
         }
-        static const int m = 100;
-        const QVariant &data_clip_path = w->data(ScissorWindow::WindowClipPathRole);
-        const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
-        QImage image(w->width() + 2 * m, w->height() + 2 * m, QImage::Format_ARGB32);
-        image.fill(Qt::transparent);
-        QPainter painter(&image);
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(Qt::black);
-        painter.setRenderHint(QPainter::Antialiasing);
-        painter.translate(m, m);
-        painter.drawPath(path);
-        painter.end();
-        QByteArray source0, source1;
-        {
-            QTextStream stream(&source0);
-            stream << "#version 140\n";
-            stream << "in vec4 position, texcoord;\n";
-            stream << "out vec2 texcoord0;\n";
-            stream << "uniform mat4 modelViewProjectionMatrix;\n";
-            stream << "void main() { \n";
-            stream << "  texcoord0 = texcoord.st;\n";
-            stream << "  gl_Position = modelViewProjectionMatrix * position;\n";
-            stream << "}\n";
-            stream.flush();
+	{
+            static const int m = 100;
+            const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
+            QImage image(w->width() + 2 * m, w->height() + 2 * m, QImage::Format_ARGB32);
+            image.fill(Qt::transparent);
+            QPainter painter(&image);
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(Qt::black);
+            painter.setRenderHint(QPainter::Antialiasing);
+            painter.translate(m, m);
+            painter.drawPath(path);
+            painter.end();
+
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            auto shader = m_shader1;
+            ShaderManager::instance()->pushShader(shader);
+            QRect rect = w->rect();
+            rect.adjust(-m, -m, m, m);
+            const int mvpMatrixLocation = m_shader->uniformLocation("modelViewProjectionMatrix");
+            QMatrix4x4 mvp = data.screenProjectionMatrix();
+            mvp.translate(w->x() - m, w->y() - m);
+            shader->setUniform(mvpMatrixLocation, mvp);
+            shader->setUniform("sampler", 0);
+            shader->setUniform("w", w->width());
+            shader->setUniform("h", w->height());
+            GLTexture tex(image);
+            glActiveTexture(GL_TEXTURE0);
+            tex.bind();
+            if (!w->windowClass().contains("launcher")) tex.render(region, rect);
+            ShaderManager::instance()->popShader();
+            glActiveTexture(GL_TEXTURE0);
+            tex.unbind();
         }
-        {
-            QTextStream stream(&source1);
-            stream << "#version 140\n";
-            stream << "uniform float w, h;\n";
-            stream << "in vec2 texcoord0;\n";
-            stream << "out vec4 fragColor;\n";
-            stream << "uniform sampler2D sampler, msk1;\n";
-            stream << "void main() { \n";
-            stream << "  float Pi = 6.28318530718;\n";
-            stream << "  float Directions = 60.0;\n";
-            stream << "  float Quality = 50.0;\n";
-            stream << "  float Size = 50.0;\n";
-            stream << "  vec2 Radius = Size/vec2(1000, 1000);\n";
-            stream << "  vec2 uv = texcoord0 - vec2(0, 0.01);\n";
-            stream << "  vec4 Color = texture(sampler, uv);\n";
-            stream << "  for(float d = 0.0; d < Pi; d += Pi / Directions){\n";
-            stream << "    for(float i = 1.0 / Quality; i <= 1.0; i += 1.0 / Quality) {\n";
-            stream << "      Color += texture(sampler, uv + vec2(cos(d), sin(d)) * Radius * i);\n";
-            stream << "    }\n";
-            stream << "  }\n";
-            stream << "  Color /= Quality * Directions - 15.0;\n";
-            stream << "  vec4 c1 = texture(sampler, texcoord0);\n";
-            stream << "  vec4 c2 = Color;\n";
-            stream << "  c2.rgb = vec3(0.1, 0.1, 0.1);\n";
-            stream << "  fragColor = c2;\n";
-            stream << "  fragColor.a *= (1 - c1.a) * 0.2;\n";
-            stream << "}\n";
-            stream.flush();
-        }
-        effects->addRepaintFull();
-        auto shader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, source0, source1);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        ShaderManager::instance()->pushShader(shader);
-        QRect rect = w->rect();
-        rect.adjust(-m, -m, m, m);
-        const int mvpMatrixLocation = m_shader->uniformLocation("modelViewProjectionMatrix");
-        QMatrix4x4 mvp = data.screenProjectionMatrix();
-        mvp.translate(w->x() - m, w->y() - m);
-        shader->setUniform(mvpMatrixLocation, mvp);
-        shader->setUniform("sampler", 0);
-        shader->setUniform("w", w->width() + 2 * m);
-        shader->setUniform("h", w->height() + 2 * m);
-        GLTexture tex(image);
-        glActiveTexture(GL_TEXTURE0);
-        tex.bind();
-        if (!w->windowClass().contains("launcher")) tex.render(region, rect);
-        ShaderManager::instance()->popShader();
-        glActiveTexture(GL_TEXTURE0);
-        tex.unbind();
         {
             const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
             QImage img(w->size() * 2, QImage::Format_RGBA8888);
@@ -261,45 +315,7 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region,
             pa.fillPath(path, QColor(255, 255, 255, 255));
             pa.strokePath(path, QPen(QColor(80, 80, 80, 60), 2));
             pa.end();
-            QByteArray source;
-            {
-                QTextStream stream(&source);
-                GLPlatform *const gl = GLPlatform::instance();
-                QByteArray varying, output, textureLookup;
-                if (!gl->isGLES()) {
-                    const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
-                    if (glsl_140) stream << "#version 140\n";
-                    varying = glsl_140 ? QByteArrayLiteral("in")
-                                       : QByteArrayLiteral("varying");
-                    textureLookup = glsl_140 ? QByteArrayLiteral("texture")
-                                             : QByteArrayLiteral("texture2D");
-                    output = glsl_140 ? QByteArrayLiteral("fragColor")
-                                      : QByteArrayLiteral("gl_FragColor");
-                } else {
-                    const bool glsl_es_300 = GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
-                    if (glsl_es_300) stream << "#version 300 es\n";
-                    stream << "precision highp float;\n";
-                    varying = glsl_es_300 ? QByteArrayLiteral("in")
-                                          : QByteArrayLiteral("varying");
-                    textureLookup = glsl_es_300
-                                        ? QByteArrayLiteral("texture")
-                                        : QByteArrayLiteral("texture2D");
-                    output = glsl_es_300 ? QByteArrayLiteral("fragColor")
-                                         : QByteArrayLiteral("gl_FragColor");
-                }
-                stream << "uniform sampler2D sampler, msk1;\n";
-                stream << varying << " vec2 texcoord0;\n";
-                if (output != QByteArrayLiteral("gl_FragColor"))
-                    stream << "\nout vec4 " << output << ";\n";
-                stream << "void main(){ \n";
-                stream << "  vec4 c = " << textureLookup << "(sampler, texcoord0);\n";
-                stream << "  vec4 m = " << textureLookup << "(msk1, texcoord0);\n";
-                stream << "  c *= m.a;\n";
-                stream << "  " << output << " = c;\n";
-                stream << "}\n";
-                stream.flush();
-            }
-            auto shader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
+            auto shader = m_shader2;
             ShaderManager::instance()->pushShader(shader);
             shader->setUniform("sampler", 0);
             shader->setUniform("msk1", 2);
@@ -322,7 +338,7 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region,
             return;
         }
     } else {
-        if (!m_shader->isValid() || w->isDesktop() || isMaximized(w) ||
+        if (!m_shader->isValid() || w->isDesktop() || isMaximized(w) || w->isDock() ||
             (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))) {
             effects->paintWindow(w, mask, region, data);
             return;
@@ -406,9 +422,6 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region,
             delete shwT[i];
             delete tex[i];
         }
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        effects->addRepaintFull();
     }
 }
 

@@ -70,7 +70,7 @@ private:
     QSize m_cornerSize;
 
     GLTexture *m_texMask[NCorners];
-    GLShader *m_shader;
+    GLShader *m_shader, *m_shader1, *m_shader2;
 };
 
 }
