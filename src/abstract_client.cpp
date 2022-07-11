@@ -1169,17 +1169,6 @@ void AbstractClient::checkUnrestrictedInteractiveMoveResize()
         if (!isUnrestrictedInteractiveMoveResize() && moveResizeGeom.top() < desktopArea.top())   // titlebar mustn't go out
             setUnrestrictedInteractiveMoveResize(true);
     }
-    if (isInteractiveMove()) {
-        if (moveResizeGeom.bottom() < desktopArea.top() + titlebar_marge - 1)
-            setUnrestrictedInteractiveMoveResize(true);
-        // no need to check top_marge, titlebar_marge already handles it
-        if (moveResizeGeom.top() > desktopArea.bottom() - bottom_marge + 1) // titlebar mustn't go out
-            setUnrestrictedInteractiveMoveResize(true);
-        if (moveResizeGeom.right() < desktopArea.left() + left_marge)
-            setUnrestrictedInteractiveMoveResize(true);
-        if (moveResizeGeom.left() > desktopArea.right() - right_marge)
-            setUnrestrictedInteractiveMoveResize(true);
-    }
 }
 
 // When the user pressed mouse on the titlebar, don't activate move immediately,
