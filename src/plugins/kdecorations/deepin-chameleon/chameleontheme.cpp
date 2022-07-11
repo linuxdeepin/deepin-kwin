@@ -42,6 +42,7 @@ static QMap<NET::WindowType, UIWindowType> mapNETWindowType2UIWindowType = {
     {NET::WindowType::Dock,          UIWindowType::Dock},
     {NET::WindowType::PopupMenu,     UIWindowType::PopupMenu},
     {NET::WindowType::DropdownMenu,  UIWindowType::DropdownMenu},
+    {NET::WindowType::Tooltip,       UIWindowType::Tooltip},
 };
 
 QPair<qreal, qreal> ChameleonTheme::takePair(const QVariant &value, const QPair<qreal, qreal> defaultValue)
@@ -425,6 +426,8 @@ static bool loadTheme(ChameleonTheme::ConfigGroupMap *configs, const ChameleonTh
             writeConfig(UIWindowType::PopupMenu, windowDecObj, configs, base);
         } else if (uiWindowTypeId == static_cast<int>(UIWindowType::DropdownMenu)) {
             writeConfig(UIWindowType::DropdownMenu, windowDecObj, configs, base);
+        } else if (uiWindowTypeId == static_cast<int>(UIWindowType::Tooltip)) {
+            writeConfig(UIWindowType::Tooltip, windowDecObj, configs, base);
         }
 
     }

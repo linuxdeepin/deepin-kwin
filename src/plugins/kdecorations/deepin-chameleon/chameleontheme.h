@@ -42,7 +42,7 @@ enum class UIWindowType {
     Dock,
     PopupMenu,
     DropdownMenu,
-    Notification,
+    Tooltip,
 };
 
 class ChameleonTheme
