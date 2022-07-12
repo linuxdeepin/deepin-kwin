@@ -1,3 +1,13 @@
+kwin (4:5.15.11.35-1) unstable; urgency=medium
+
+  * Bug fix:
+     + 137873 fix: Slow to open multitask view in Wayland mode
+     + 145747 fix: get stuck when click power button in multitaskview effect
+     + 137673 fix: fix multiscreen showtip location error
+     + 136133, 143527 fix: multitaskview workspace preview position not correct in wayland
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 12 Jul 2022 14:57:12 +0800
+
 kwin (4:5.15.11.34-1) unstable; urgency=medium
 
   * Bug fix:
