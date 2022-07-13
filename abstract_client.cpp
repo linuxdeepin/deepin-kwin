@@ -1824,7 +1824,6 @@ void AbstractClient::quitSplitStatus()
     setElectricBorderMode(QuickTileFlag::None);
     updateQuickTileMode(QuickTileFlag::None);
     setSplitPositonFlag(false);
-    setGeometryRestore(geometry());
 }
 
 void AbstractClient::setSplitPositonFlag(bool flag)

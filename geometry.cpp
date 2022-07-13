@@ -3891,8 +3891,10 @@ void AbstractClient::cancelSplitOutline()
             }
             handleSplitOutline(false);
         }
-        if (!isMinimized())
+        if (!isMinimized()) {
             workspace()->updateScreenSplitApp(this, true);
+            quitSplitStatus();
+        }
     }
 }
 
