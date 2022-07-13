@@ -1750,9 +1750,6 @@ void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface
         if (!m_internal || rect.isValid()) {
             doSetGeometry(rect);
         }
-        if (isWaitingForMoveResizeSync()) {
-            m_pendingConfigureRequests.clear();
-        }
     };
     auto updateRole = [this, surface] {
         NET::WindowType type = NET::Unknown;
