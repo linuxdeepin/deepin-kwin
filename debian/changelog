@@ -1,3 +1,10 @@
+kwin (4:5.15.11.36-1) unstable; urgency=medium
+
+  * Bug fix:
+    147843 fix: This reverts commit c582d637c8d93b2de106c16ea5d6dd5655db6306.
+
+ -- Lei Su <sulei@uniontech.com>  Wed, 13 Jul 2022 18:44:04 +0800
+
 kwin (4:5.15.11.35-1) unstable; urgency=medium
 
   * Bug fix:
