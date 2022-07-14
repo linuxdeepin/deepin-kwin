@@ -1532,7 +1532,11 @@ bool EffectsHandlerImpl::loadEffect(const QString& name)
     makeOpenGLContextCurrent();
     m_compositor->addRepaintFull();
 
-    return m_effectLoader->loadEffect(name);
+    bool ret = m_effectLoader->loadEffect(name);
+    if(ret) {
+        emit effectLoadFinished(name);
+    }
+    return ret;
 }
 
 void EffectsHandlerImpl::unloadEffect(const QString& name)

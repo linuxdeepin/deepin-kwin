@@ -313,6 +313,9 @@ public Q_SLOTS:
     Q_SCRIPTABLE QString supportInformation(const QString& name) const;
     Q_SCRIPTABLE QString debug(const QString& name, const QString& parameter = QString()) const;
 
+Q_SIGNALS:
+    void effectLoadFinished(QString name);
+
 protected Q_SLOTS:
     void slotClientShown(KWin::Toplevel*);
     void slotShellClientShown(KWin::Toplevel*);

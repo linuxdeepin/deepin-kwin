@@ -39,5 +39,8 @@
       <arg name="name" type="s" direction="in"/>
       <arg name="name" type="s" direction="in"/>
     </method>
+    <signal name="effectLoadFinished">
+      <arg name="active" type="s" direction="out"/>
+    </signal>
   </interface>
 </node>
