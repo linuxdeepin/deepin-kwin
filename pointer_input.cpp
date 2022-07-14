@@ -345,8 +345,9 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
     }
 
     if (type == QEvent::MouseButtonPress && workspace()->userActionsMenu()->isShown()) {
-        const_cast<UserActionsMenu*>(workspace()->userActionsMenu())->handleClick(m_pos.toPoint());
-        return;
+        if(const_cast<UserActionsMenu*>(workspace()->userActionsMenu())->handleClick(m_pos.toPoint())) {
+           return;
+        }
     }
 
     input()->processFilters(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event, button));

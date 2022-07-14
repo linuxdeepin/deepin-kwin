@@ -129,7 +129,7 @@ public:
      **/
     void show(const QRect &pos, const QWeakPointer<AbstractClient> &client);
 
-    void handleClick(const QPoint &pos);
+    bool handleClick(const QPoint &pos);
 
     void prepareMenu(const QWeakPointer<AbstractClient> &cl);
 
