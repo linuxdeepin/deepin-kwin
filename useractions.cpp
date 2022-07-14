@@ -204,12 +204,14 @@ bool UserActionsMenu::isMenuClient(const AbstractClient *c) const
     return c == m_client.data();
 }
 
-void UserActionsMenu::handleClick(const QPoint &pos)
+bool UserActionsMenu::handleClick(const QPoint &pos)
 {
     QRect rect = m_menu->geometry().translated(0,1);
     if (isShown() && !m_menu->geometry().contains(pos) && !rect.contains(pos)) {
         close();
+        return true;
     }
+    return false;
 }
 
 void UserActionsMenu::prepareMenu(const QWeakPointer<AbstractClient> &cl)
