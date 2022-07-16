@@ -1,3 +1,15 @@
+kwin (4:5.15.11.37-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 128181 fix: client cannnot touchDown after splash from screen bottom
+    + 147885 fix: when useractionsmenu is shown,mouse button press event triggering close no longer process filters.
+    + 147385 Fix: fix dde video APP cannot be modified to maximize
+    + 107429 fix: update wayland mouse style in splitscreen
+    + 135889 fix: client setmaximize when splitapp, change dock position, client will
+    +  148165, 129223, 148185 fix: add popup adjust and modify delay flag when click dock
+
+ -- Lei Su <sulei@uniontech.com>  Sat, 16 Jul 2022 19:52:36 +0800
+
 kwin (4:5.15.11.36-1) unstable; urgency=medium
 
   * Bug fix:
