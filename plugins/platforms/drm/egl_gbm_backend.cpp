@@ -68,8 +68,11 @@ EglGbmBackend::EglGbmBackend(DrmBackend *b)
                 return;
             }
             cleanupOutput(*it);
-            makeContextCurrent(m_outputs.first());
             m_outputs.erase(it);
+            if (!m_outputs.isEmpty()) {
+                setSurface(m_outputs.first().eglSurface);
+                makeContextCurrent(m_outputs.first());
+            }
         }
     );
 }
