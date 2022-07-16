@@ -1,3 +1,10 @@
+kwin (4:5.15.11.38-1) unstable; urgency=medium
+
+  * Bug fix:
+  * + 144763 fix: fix memory leak
+
+ -- jccKevin <luochaojiang@uniontech.com>  Sat, 16 Jul 2022 22:48:04 +0800
+
 kwin (4:5.15.11.37-1) unstable; urgency=medium
 
   * Bug fix:
