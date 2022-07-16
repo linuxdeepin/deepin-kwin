@@ -26,7 +26,7 @@
 #include <QScreen>
 #include <QX11Info>
 #include <QTranslator>
-
+#include <kwinglplatform.h>
 #include <kwinglutils.h>
 #include <effects.h>
 #include <kglobalaccel.h>
@@ -649,12 +649,6 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     cacheWorkspaceBackground();
 
-    char *ver = (char *)glGetString(GL_VERSION);
-    char *rel = strstr(ver, "OpenGL ES");
-    if (rel != NULL) {
-        m_isOpenGLrender = false;
-    }
-
     QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
     QDBusPendingReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.multitaskview.display", "");
     reply.waitForFinished();
@@ -913,6 +907,7 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
     if (m_wasWorkspaceMove) {
         renderWorkspaceMove(data);
     }
+
 }
 
 void MultitaskViewEffect::postPaintScreen()
@@ -950,6 +945,7 @@ void MultitaskViewEffect::postPaintScreen()
     if (m_effectFlyingBack.done()) {
         m_effectFlyingBack.end();
         setActive(false);
+        QTimer::singleShot(400, [&]() { m_delayDbus = true; });
         if (QX11Info::isPlatformX11() && m_dockRect.contains(m_cursorPos) && m_dockRect.contains(QCursor::pos())) {
             relayDockEvent(m_cursorPos, m_buttonType);
             m_cursorPos.setX(0);
@@ -1492,7 +1488,7 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(int screen)
 
 void MultitaskViewEffect::drawDottedLine(const QRect &geo, int screen)
 {
-    if (m_isOpenGLrender) {
+    if (!GLPlatform::instance()->isGLES()) {
         glLineStipple(1, 0x0f0f);
         glEnable(GL_LINE_STIPPLE);
     }
@@ -1509,14 +1505,14 @@ void MultitaskViewEffect::drawDottedLine(const QRect &geo, int screen)
     float x1 = (float)(geo.left()) * 2 / area.width() - 1.0;
     float x2 = (float)(geo.right()) * 2 / area.width() - 1.0;
     float y1 = 1.0 - (float)(geo.y() + geo.height()) / 2 * 2 / area.height();
-    verts << x1  << y1;
-    verts << x2  << y1;
+    verts << x1 << y1;
+    verts << x2 << y1;
 
     ShaderBinder bind(shader);
     vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
     glEnable(GL_BLEND);
     vbo->render(GL_LINES);
-    if (m_isOpenGLrender) {
+    if (!GLPlatform::instance()->isGLES()) {
         glDisable(GL_LINE_STIPPLE);
     }
     glDisable(GL_BLEND);
@@ -1578,19 +1574,9 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
         }
         effects->stopMouseInterception(this);
         m_isScreenRecorder = true;
-    } else if (!QX11Info::isPlatformX11() && w->caption() != "dde-osd" && m_isCloseScreenRecorder) {
-        m_isCloseScreenRecorder = false;
-    } else if (isRelevantWithPresentWindows(w)) {
-        m_isShieldEvent = false;
-        foreach (const int i, desktopList(w)) {
-            if (m_motionManagers.size() > i) {
-                m_motionManagers[i - 1]->manageWin(w->screen(), w);
-                WindowMotionManager *wmm;
-                if (m_motionManagers[i - 1]->getMotion(i, w->screen(), wmm)) {
-                    calculateWindowTransformations(wmm->orderManagedWindows(), *wmm, i, w->screen(), true);
-                }
-            }
-        }
+    } else if (w->caption() != "dde-osd") {
+        m_isShowWin = false;
+        setActive(false);
     }
 }
 
@@ -1805,7 +1791,6 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                 //effectsEx->sendPointer(mouseEvent->button());
                 m_sendDockButton = mouseEvent->button();
             }
-            QTimer::singleShot(400, [&]() { m_delayDbus = true; });
         } else if (target) {
             bool isPressBtn = false;
             int i = 0;
@@ -2369,6 +2354,10 @@ void MultitaskViewEffect::workspaceWinRelayout(int desktop, int screen)
 bool MultitaskViewEffect::isRelevantWithPresentWindows(EffectWindow *w) const
 {
     if (w->isSpecialWindow() || w->isUtility()) {
+        return false;
+    }
+
+    if (w->isPopupWindow()) {
         return false;
     }
 
@@ -3316,7 +3305,8 @@ void MultitaskViewEffect::removeWinAndRelayout(EffectWindow *w)
         }
     }
 
-    setActive(false);
+    if (isRelevantWithPresentWindows(w))
+        setActive(false);
 }
 
 void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop, int toscreen, bool isSwitch)
