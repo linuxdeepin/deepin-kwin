@@ -131,7 +131,6 @@ namespace KWin
     {
         if (waylandServer()) {
             kwinApp()->platform()->hideCursor();
-            m_splitOutlineCursorStatus = 2;
             update();
         }
         setWindowOpacity(1);
@@ -140,8 +139,8 @@ namespace KWin
     void SplitOutline::leaveEvent(QEvent *)
     {
         if (waylandServer()) {
-            update();
             kwinApp()->platform()->showCursor();
+            update();
         }
         setWindowOpacity(0);
     }
@@ -169,19 +168,19 @@ namespace KWin
             QPainter CursorPainter(this);
             if (m_splitOutlineCursorStatus == CURSOR_LEFT) {
                 QImage Image(":/resources/themes/left-arrow.svg");
-                QImage nImage = Image.scaled(width(),32);
+                QImage nImage = Image.scaled(32, 32, Qt::IgnoreAspectRatio);
                 input()->setCursorShape(Qt::BlankCursor);
-                CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
+                CursorPainter.drawImage(QPoint(-5, QCursor::pos().y()), nImage);
             } else if(m_splitOutlineCursorStatus == CURSOR_RIGHT ){
                 QImage Image(":/resources/themes/right-arrow.svg");
-                QImage nImage = Image.scaled(width(),32);
+                QImage nImage = Image.scaled(32, 32, Qt::IgnoreAspectRatio);
                 input()->setCursorShape(Qt::BlankCursor);
-                CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
+                CursorPainter.drawImage(QPoint(-5, QCursor::pos().y()), nImage);
             } else if(m_splitOutlineCursorStatus == CURSOR_L_R) {
                 QImage Image(":/resources/themes/leftright-arrow.svg");
-                QImage nImage = Image.scaled(width(),32);
+                QImage nImage = Image.scaled(32, 32, Qt::IgnoreAspectRatio);
                 input()->setCursorShape(Qt::BlankCursor);
-                CursorPainter.drawImage(QPoint(-5,QCursor::pos().y()),nImage);
+                CursorPainter.drawImage(QPoint(-5, QCursor::pos().y()), nImage);
             }
         }
     }
