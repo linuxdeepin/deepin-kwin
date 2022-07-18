@@ -76,10 +76,9 @@ void Clipboard::wlSelectionChanged(KWayland::Server::AbstractDataSource *dsi)
             m_checkConnection = connect(workspace(), &Workspace::clientActivated,
                                         this, &Clipboard::checkWlSource);
         }
-        // remove previous source so checkWlSource() can create a new one
-        setWlSource(nullptr);
+    } else {
+        checkWlSource();
     }
-    checkWlSource();
 }
 
 bool Clipboard::ownsSelection(KWayland::Server::AbstractDataSource *dsi) const
