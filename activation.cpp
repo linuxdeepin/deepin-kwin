@@ -282,7 +282,6 @@ void Workspace::setActiveClient(AbstractClient* c)
 
     emit clientActivated(active_client);
     --set_active_client_recursion;
-    workspace()->updateSplitOutlineLayerShowHide();
 }
 
 /*!
