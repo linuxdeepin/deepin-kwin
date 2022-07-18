@@ -59,6 +59,7 @@ Window::~Window()
     unmap();
     if (m_eglSurface != EGL_NO_SURFACE) {
         eglDestroySurface(m_integration->eglDisplay(), m_eglSurface);
+        m_eglSurface = EGL_NO_SURFACE;
     }
 #if HAVE_WAYLAND_EGL
     if (m_eglWaylandWindow) {

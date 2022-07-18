@@ -80,6 +80,7 @@ void AbstractEglBackend::cleanup()
     cleanupGL();
     doneCurrent();
     eglDestroyContext(m_display, m_context);
+    m_context = EGL_NO_CONTEXT;
     cleanupSurfaces();
     eglReleaseThread();
     kwinApp()->platform()->setSceneEglContext(EGL_NO_CONTEXT);
@@ -91,6 +92,7 @@ void AbstractEglBackend::cleanupSurfaces()
 {
     if (m_surface != EGL_NO_SURFACE) {
         eglDestroySurface(m_display, m_surface);
+        m_surface = EGL_NO_SURFACE;
     }
 }
 
@@ -203,6 +205,9 @@ bool AbstractEglBackend::makeCurrent()
         context->doneCurrent();
     }
     const bool current = eglMakeCurrent(m_display, m_surface, m_surface, m_context);
+    if (current != GL_TRUE) {
+        qCWarning(KWIN_OPENGL) << "Error eglMakeCurrent failed";
+    }
     return current;
 }
 
