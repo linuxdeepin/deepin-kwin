@@ -1256,9 +1256,6 @@ public:
         Q_UNUSED(time)
         auto decoration = input()->touch()->decoration();
         if (!decoration) {
-            //temp for bug#128181, force unlock when focus loss
-            input()->touch()->setDecorationPressId(-1);
-
             return false;
         }
         if (input()->touch()->decorationPressId() == -1) {
