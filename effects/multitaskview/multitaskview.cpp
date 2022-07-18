@@ -81,6 +81,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define SCISSOR_HOFFU 200
 #define SCISSOR_HOFFD 400
 
+const char notification_tips[] = "dde-osd dde-osd";
 const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
 const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
@@ -1567,16 +1568,27 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
         onDockChange("");
     } else if (!QX11Info::isPlatformX11() && w->caption() == "org.deepin.dde.lock") {
         setActive(false);
-    } else if (w->windowClass() == screen_recorder || m_isScreenRecorder) {
-        if ((!QX11Info::isPlatformX11() && w->windowClass() != screen_recorder)
-            || (QX11Info::isPlatformX11() && w->windowClass() == screen_recorder && m_isScreenRecorder)) {
-            m_screenRecorderMenu = w;
+    } else if (QX11Info::isPlatformX11()) {
+        if (w->windowClass() != screen_recorder && w->windowClass() != notification_tips) {
+            m_effectFlyingBack.begin();
+            effects->addRepaintFull();
+        } else if (w->windowClass() == screen_recorder) {
+            if (m_isScreenRecorder) {
+                m_screenRecorderMenu = w;
+            } else {
+                effects->stopMouseInterception(this);
+                m_isScreenRecorder = true;
+            }
         }
-        effects->stopMouseInterception(this);
-        m_isScreenRecorder = true;
-    } else if (w->caption() != "dde-osd") {
-        m_isShowWin = false;
-        setActive(false);
+    } else if (!QX11Info::isPlatformX11()) {
+        if (m_isScreenRecorder) {
+            m_screenRecorderMenu = w;
+        } else if (w->windowClass() == screen_recorder) {
+            effects->stopMouseInterception(this);
+            m_isScreenRecorder = true;
+        } else if (w->windowClass() != notification_tips) {
+            setActive(false);
+        }
     }
 }
 
