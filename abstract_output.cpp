@@ -141,6 +141,7 @@ void AbstractOutput::setChanges(KWayland::Server::OutputChangeSet *changes)
     if (changes->positionChanged()) {
         qCDebug(KWIN_CORE) << "Server setting position: " << changes->position();
         setGlobalPos(changes->position());
+        m_positionSet = true;
         // may just work already!
         overallSizeCheckNeeded = true;
     }
@@ -186,6 +187,11 @@ void AbstractOutput::setEnabled(bool enable)
 void AbstractOutput::setOutputDisconnected()
 {
     m_waylandOutput->setOutputDisconnected(true);
+}
+
+bool AbstractOutput::hasSetGlobalPosition()
+{
+    return m_positionSet;
 }
 
 const ColorCorrect::GammaRamp* AbstractOutput::getGammaRamp()

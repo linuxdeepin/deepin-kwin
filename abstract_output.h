@@ -132,6 +132,7 @@ public:
      */
     void setEnabled(bool enable);
     void setOutputDisconnected();
+    bool hasSetGlobalPosition();
 
     virtual int getGammaRampSize() const {
         return 0;
@@ -223,6 +224,7 @@ private:
     QSize m_physicalSize;
     Qt::ScreenOrientation m_orientation = Qt::PrimaryOrientation;
     bool m_internal = false;
+    bool m_positionSet = false;
 };
 
 }
