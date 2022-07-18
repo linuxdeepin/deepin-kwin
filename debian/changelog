@@ -1,3 +1,13 @@
+kwin (4:5.15.11.39-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 107429 fix: update wayland mouse style in splitscreen
+    + 129223 fix: optimize quit multitask view when eject window
+    + 128181 fix: remove fix touchDown incorrect code
+    + 148433, 148207, 148155 fix: spliteline toggle show and hide incorrect
+
+ -- Lei Su <sulei@uniontech.com>  Mon, 18 Jul 2022 20:45:13 +0800
+
 kwin (4:5.15.11.38-1) unstable; urgency=medium
 
   * Bug fix:
