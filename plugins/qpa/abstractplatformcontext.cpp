@@ -108,6 +108,7 @@ AbstractPlatformContext::~AbstractPlatformContext()
 {
     if (m_context != EGL_NO_CONTEXT) {
         eglDestroyContext(m_eglDisplay, m_context);
+        m_context = EGL_NO_CONTEXT;
     }
 }
 

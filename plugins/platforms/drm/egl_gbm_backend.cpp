@@ -97,6 +97,7 @@ void EglGbmBackend::cleanupOutput(Output &o)
 
     if (o.eglSurface != EGL_NO_SURFACE) {
         eglDestroySurface(eglDisplay(), o.eglSurface);
+        o.eglSurface = EGL_NO_SURFACE;
     }
 }
 
@@ -475,6 +476,7 @@ bool EglGbmBackend::resetOutput(Output &o, DrmOutput *drmOutput)
                 setSurface(eglSurface);
             }
             eglDestroySurface(eglDisplay(), o.eglSurface);
+            o.eglSurface = EGL_NO_SURFACE;
         }
         if (!supportsBufferAge()) {
             eglSurfaceAttrib(eglDisplay(), eglSurface, EGL_SWAP_BEHAVIOR, EGL_BUFFER_PRESERVED);
