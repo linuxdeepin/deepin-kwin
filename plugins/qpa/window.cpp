@@ -126,6 +126,10 @@ void Window::map()
 void Window::unmap()
 {
     if (m_shellClient) {
+        if (m_shellClient != waylandServer()->findClient(window())) {
+            // if m_shellClient have destroyed, return
+            return;
+        }
         m_shellClient->setInternalFramebufferObject(QSharedPointer<QOpenGLFramebufferObject>());
     }
     if (m_surface) {

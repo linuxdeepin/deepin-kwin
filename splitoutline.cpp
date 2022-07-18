@@ -300,10 +300,8 @@ namespace KWin
     void SplitOutline::activeShow()
     {
         if (m_leftSplitClient != nullptr && m_rightSplitClient != nullptr && !isVisible()) {
-            QTimer::singleShot(300, this, [this]{
-                show();
-                updateSplitOutlinePosition();
-            });
+            show();
+            updateSplitOutlinePosition();
         }
     }
 
