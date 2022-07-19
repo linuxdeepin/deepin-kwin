@@ -2155,8 +2155,9 @@ void Workspace::updateSplitOutlinePos(int screen, int desktop)
 
 void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
 {
-
-    if (splitapp_stacking_order.contains(t)) {
+    //TODO(Xiao YaoBing) QList< Toplevel* > I don't think this is a wise move. On the contrary,
+    // this writing will lead to wild pointer.
+    if (!splitapp_stacking_order.isEmpty() && splitapp_stacking_order.contains(t)) {
         splitapp_stacking_order.removeOne(t);
     }
 
