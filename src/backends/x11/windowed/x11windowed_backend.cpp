@@ -175,6 +175,7 @@ X11WindowedBackend::~X11WindowedBackend()
 
     if (sceneEglDisplay() != EGL_NO_DISPLAY) {
         eglTerminate(sceneEglDisplay());
+        setSceneEglDisplay(EGL_NO_DISPLAY);
     }
     if (m_connection) {
         if (m_keySymbols) {

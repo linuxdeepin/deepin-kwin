@@ -129,6 +129,7 @@ DrmGpu::~DrmGpu()
     }
     if (m_eglDisplay != EGL_NO_DISPLAY) {
         eglTerminate(m_eglDisplay);
+        m_eglDisplay = EGL_NO_DISPLAY;
     }
     qDeleteAll(m_crtcs);
     qDeleteAll(m_connectors);

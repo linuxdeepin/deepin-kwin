@@ -49,6 +49,7 @@ OffscreenSurface::~OffscreenSurface()
 {
     if (m_surface != EGL_NO_SURFACE) {
         eglDestroySurface(m_eglDisplay, m_surface);
+        m_surface = EGL_NO_SURFACE;
     }
 }
 

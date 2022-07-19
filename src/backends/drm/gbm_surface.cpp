@@ -60,6 +60,7 @@ GbmSurface::~GbmSurface()
     }
     if (m_eglSurface != EGL_NO_SURFACE) {
         eglDestroySurface(m_gpu->eglDisplay(), m_eglSurface);
+        m_eglSurface = EGL_NO_SURFACE;
     }
     if (m_surface) {
         gbm_surface_destroy(m_surface);

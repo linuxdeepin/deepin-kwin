@@ -121,6 +121,11 @@ EglWaylandBackend::EglWaylandBackend(WaylandBackend *b)
             }
             cleanupOutput(*it);
             m_outputs.erase(it);
+            if (m_outputs.isEmpty()) {
+                setSurface(EGL_NO_SURFACE);
+            } else {
+                setSurface(m_outputs.first()->m_eglSurface);
+            }
         }
     );
 }

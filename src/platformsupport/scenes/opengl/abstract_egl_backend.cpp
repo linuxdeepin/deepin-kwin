@@ -89,6 +89,7 @@ void AbstractEglBackend::cleanup()
         cleanupGL();
         doneCurrent();
         eglDestroyContext(m_display, m_context);
+        m_context = EGL_NO_CONTEXT;
         eglReleaseThread();
     }
 }
@@ -97,6 +98,7 @@ void AbstractEglBackend::cleanupSurfaces()
 {
     if (m_surface != EGL_NO_SURFACE) {
         eglDestroySurface(m_display, m_surface);
+        m_surface = EGL_NO_SURFACE;
     }
 }
 
@@ -229,6 +231,9 @@ bool AbstractEglBackend::makeCurrent()
         context->doneCurrent();
     }
     const bool current = eglMakeCurrent(m_display, m_surface, m_surface, m_context);
+    if (current == EGL_FALSE) {
+        qCWarning(KWIN_OPENGL) << "Make Context Current failed for " << eglGetError();
+    }
     return current;
 }
 

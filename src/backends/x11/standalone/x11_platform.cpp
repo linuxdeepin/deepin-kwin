@@ -124,6 +124,7 @@ X11StandalonePlatform::~X11StandalonePlatform()
     }
     if (sceneEglDisplay() != EGL_NO_DISPLAY) {
         eglTerminate(sceneEglDisplay());
+        setSceneEglDisplay(EGL_NO_DISPLAY);
     }
     if (isReady()) {
         XRenderUtils::cleanup();

@@ -42,6 +42,7 @@ void EglX11Backend::cleanupSurfaces()
 {
     for (auto it = m_surfaces.begin(); it != m_surfaces.end(); ++it) {
         eglDestroySurface(eglDisplay(), *it);
+        m_surfaces.erase(it);
     }
 }
 

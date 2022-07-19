@@ -171,6 +171,7 @@ VirtualBackend::~VirtualBackend()
 {
     if (sceneEglDisplay() != EGL_NO_DISPLAY) {
         eglTerminate(sceneEglDisplay());
+        setSceneEglDisplay(EGL_NO_DISPLAY);
     }
 }
 

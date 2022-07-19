@@ -600,6 +600,7 @@ WaylandBackend::~WaylandBackend()
 {
     if (sceneEglDisplay() != EGL_NO_DISPLAY) {
         eglTerminate(sceneEglDisplay());
+        setSceneEglDisplay(EGL_NO_DISPLAY);
     }
 
     if (m_pointerGestures) {
