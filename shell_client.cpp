@@ -1286,7 +1286,7 @@ void ShellClient::takeFocus()
                 breakShowingDesktop = false;
                 break;
             }
-            if (!isMovable()) {
+            if (c->isDock() && !isMovable()) {
                 breakShowingDesktop = false;
                 break;
             }
