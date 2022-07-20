@@ -3030,7 +3030,10 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         effects->setCurrentDesktop(nrelyout);
         m_bgSlidingStatus = true;
         m_bgSlidingTimeLine.reset();
-        m_curDesktopIndex = nrelyout;
+        if (m_curDesktopIndex == count)
+            m_curDesktopIndex = desktop - 1;
+	else
+            m_curDesktopIndex = desktop + 1;
         m_lastDesktopIndex = desktop;
         m_isRemoveWorkspace = true;
     } else {
