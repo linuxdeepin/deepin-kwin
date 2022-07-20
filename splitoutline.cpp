@@ -130,6 +130,7 @@ namespace KWin
     void SplitOutline::enterEvent(QEvent *)
     {
         if (waylandServer()) {
+            m_mouseLeave = false;
             kwinApp()->platform()->hideCursor();
             update();
         }
@@ -139,8 +140,9 @@ namespace KWin
     void SplitOutline::leaveEvent(QEvent *)
     {
         if (waylandServer()) {
-            kwinApp()->platform()->showCursor();
+            m_mouseLeave = true;
             update();
+            kwinApp()->platform()->showCursor();
         }
         setWindowOpacity(0);
     }
@@ -181,6 +183,9 @@ namespace KWin
                 QImage nImage = Image.scaled(32, 32, Qt::IgnoreAspectRatio);
                 input()->setCursorShape(Qt::BlankCursor);
                 CursorPainter.drawImage(QPoint(-5, QCursor::pos().y()), nImage);
+            }
+            if (m_mouseLeave) {
+                input()->setCursorShape(Qt::ArrowCursor);
             }
         }
     }
