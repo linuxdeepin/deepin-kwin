@@ -1310,7 +1310,6 @@ void ShellClient::takeFocus()
 
             workspace()->setShowingDesktop(false);
         }
-        workspace()->setPreviewClientList({});
     }
 }
 
