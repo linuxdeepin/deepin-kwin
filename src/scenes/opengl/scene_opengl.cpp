@@ -654,6 +654,7 @@ void OpenGLWindow::createRenderNode(Item *item, RenderContext *context)
                 .opacity = context->paintData.opacity(),
                 .hasAlpha = true,
                 .coordinateType = UnnormalizedCoordinates,
+                .typ1 = 0,
             });
         }
     } else if (auto decorationItem = qobject_cast<DecorationItem *>(item)) {
@@ -667,6 +668,7 @@ void OpenGLWindow::createRenderNode(Item *item, RenderContext *context)
                 .opacity = context->paintData.opacity(),
                 .hasAlpha = true,
                 .coordinateType = UnnormalizedCoordinates,
+                .typ1 = 0,
             });
         }
     } else if (auto surfaceItem = qobject_cast<SurfaceItem *>(item)) {
@@ -683,6 +685,7 @@ void OpenGLWindow::createRenderNode(Item *item, RenderContext *context)
                     .opacity = context->paintData.opacity(),
                     .hasAlpha = hasAlpha,
                     .coordinateType = UnnormalizedCoordinates,
+                    .typ1 = 1,
                 });
             }
         }
@@ -839,8 +842,12 @@ void OpenGLWindow::performPaint(int mask, const QRegion &region, const WindowPai
 
         setBlendEnabled(renderNode.hasAlpha || renderNode.opacity < 1.0);
 
+        if (renderNode.typ1 == 1)
+            setBlendEnabled(true);
+        shader->setUniform("typ1", renderNode.typ1);
         shader->setUniform(GLShader::ModelViewProjectionMatrix,
                            modelViewProjection * renderNode.transformMatrix);
+
         if (opacity != renderNode.opacity) {
             shader->setUniform(GLShader::ModulationConstant,
                                modulate(renderNode.opacity, data.brightness()));

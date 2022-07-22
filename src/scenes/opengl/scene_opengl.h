@@ -103,6 +103,7 @@ public:
         qreal opacity = 1;
         bool hasAlpha = false;
         TextureCoordinateType coordinateType = UnnormalizedCoordinates;
+        int typ1 = 0;
     };
 
     struct RenderContext

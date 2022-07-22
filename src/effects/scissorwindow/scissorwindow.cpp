@@ -42,6 +42,9 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
         m_texMask[i] = nullptr;
     }
 
+    m_shader1 = nullptr;
+    m_shader2 = nullptr;
+
     reconfigure(ReconfigureAll);
 
     {
@@ -242,36 +245,25 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
         effects->prePaintWindow(w, data, time);
         return;
     }
-    static int m = 4;
-    QRect geo(w->frameGeometry());
-    QRect rect[NCorners] = {
-        QRect(geo.topLeft() - QPoint(m, m), m_cornerSize + QSize(m, m)),
-        QRect(geo.topRight() - QPoint(m_radius, m), m_cornerSize + QSize(m, m)),
-        QRect(geo.bottomRight() - QPoint(m_radius, m_radius),
-              m_cornerSize + QSize(m, m)),
-        QRect(geo.bottomLeft() - QPoint(m, m_radius),
-              m_cornerSize + QSize(m, m))};
-    for (int i = 0; i < NCorners; ++i) {
-        data.paint += rect[i];
-        data.clip -= rect[i];
+
+    {
+        QRect geo(w->frameGeometry());
+        data.paint += geo;
+        data.clip -= geo;
     }
-    QRegion border(QRegion(geo.adjusted(-1, -1, 1, 1)) - geo);
-    border += QRegion(geo.x() + m_radius, geo.y(), geo.width() - m_radius * 2, 1);
-    data.paint += border;
-    data.clip -= border;
+
     effects->prePaintWindow(w, data, time);
 }
 
-void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region,
-                                WindowPaintData &data) {
-    const QVariant &data_clip_path = w->data(ScissorWindow::WindowClipPathRole);
+void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) {
+    const QVariant &data_clip_path = w->data(WindowClipPathRole);
     if (data_clip_path.isValid()) {
         if (!m_shader->isValid() || w->isDesktop() || isMaximized(w) ||
             (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))) {
             effects->paintWindow(w, mask, region, data);
             return;
         }
-	{
+        {
             static const int m = 100;
             const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
             QImage image(w->width() + 2 * m, w->height() + 2 * m, QImage::Format_ARGB32);
@@ -283,7 +275,6 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region,
             painter.translate(m, m);
             painter.drawPath(path);
             painter.end();
-
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             auto shader = m_shader1;
@@ -335,11 +326,11 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region,
             glActiveTexture(GL_TEXTURE2);
             maskTexture.unbind();
             glActiveTexture(GL_TEXTURE0);
+            effects->addRepaintFull();
             return;
         }
     } else {
-        if (!m_shader->isValid() || w->isDesktop() || isMaximized(w) || w->isDock() ||
-            (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))) {
+        if (!m_shader->isValid() || w->isDesktop() || isMaximized(w) || (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))) {
             effects->paintWindow(w, mask, region, data);
             return;
         }
@@ -352,76 +343,81 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region,
             effects->paintWindow(w, mask, region, data);
             return;
         }
-        setRoundedCornerRadius(cornerRadius);
-        QRect geo(w->frameGeometry());
-        geo.setWidth(data.xScale() * geo.width());
-        geo.setHeight(data.yScale() * geo.height());
-        geo.translate(data.xTranslation(), data.yTranslation());
-        static const int m = 4;
-        QRect rect[NCorners] = {
-            QRect(geo.topLeft() - QPoint(m, m), m_cornerSize + QSize(m, m)),
-            QRect(geo.topRight() - QPoint(m_radius - 1, m), m_cornerSize + QSize(m, m)),
-            QRect(geo.bottomRight() - QPoint(m_radius - 1, m_radius - 1), m_cornerSize + QSize(m, m)),
-            QRect(geo.bottomLeft() - QPoint(m, m_radius - 1), m_cornerSize + QSize(m, m))};
-        GLTexture *tex[NCorners];
-        const QRect s(effects->virtualScreenGeometry());
-        for (int i = 0; i < NCorners; ++i) {
-            GLTexture *t = new GLTexture(GL_RGBA8, rect[i].size());
-            t->bind();
-            glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, rect[i].x(), s.height() - rect[i].y() - rect[i].height(), rect[i].width(), rect[i].height());
-            t->unbind();
-            tex[i] = t;
+        QImage img(w->size(), QImage::Format_RGBA8888);
+        img.fill(QColor(0,0,0,0));
+        QPainter painter(&img);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QColor(0,0,0,255));
+        painter.drawRoundedRect(QRectF(w->rect()), cornerRadius*1.0+0.3, cornerRadius*1.0+0.3);
+        painter.end();
+        QByteArray source;
+        {
+            QTextStream stream(&source);
+            GLPlatform * const gl = GLPlatform::instance();
+            QByteArray varying, output, textureLookup;
+            if (!gl->isGLES()) {
+                const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
+                if (glsl_140)
+                    stream << "#version 140\n";
+                varying       = glsl_140 ? QByteArrayLiteral("in")         : QByteArrayLiteral("varying");
+                textureLookup = glsl_140 ? QByteArrayLiteral("texture")    : QByteArrayLiteral("texture2D");
+                output        = glsl_140 ? QByteArrayLiteral("fragColor")  : QByteArrayLiteral("gl_FragColor");
+            } else {
+                const bool glsl_es_300 = GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
+                if (glsl_es_300)
+                    stream << "#version 300 es\n";
+                stream << "precision highp float;\n";
+                varying       = glsl_es_300 ? QByteArrayLiteral("in")         : QByteArrayLiteral("varying");
+                textureLookup = glsl_es_300 ? QByteArrayLiteral("texture")    : QByteArrayLiteral("texture2D");
+                output        = glsl_es_300 ? QByteArrayLiteral("fragColor")  : QByteArrayLiteral("gl_FragColor");
+            }
+            stream << "uniform sampler2D sampler, msk1;\n";
+            stream << "uniform sampler2D modulation;\n";
+            stream << "uniform float saturation;\n";
+            stream << "uniform int typ1, typ2;\n";
+            stream <<  varying << " vec2 texcoord0;\n";
+            if (output != QByteArrayLiteral("gl_FragColor"))
+                stream << "\nout vec4 " << output << ";\n";
+            stream << "void main(){ \n";
+            stream << "  vec4 c = " << textureLookup << "(sampler, texcoord0);\n";
+            stream << "  if (typ1 == 1) {\n";
+            stream << "    if (typ2 == 1) {\n";
+            stream << "      vec4 m = " << textureLookup << "(msk1, texcoord0);\n";
+            stream << "      c *= m.a;\n";
+            stream << "    } else {\n";
+            stream << "      if (texcoord0.t > 0.5) {\n";
+            stream << "        vec4 m = " << textureLookup << "(msk1, texcoord0);\n";
+            stream << "        c *= m.a;\n";
+            stream << "      }\n";
+            stream << "    }\n";
+            stream << "  }\n";
+            stream << "  " << output << " = c;\n";
+            stream << "}\n";
+            stream.flush();
         }
-        effects->paintWindow(w, mask, region, data);
-        effects->addRepaintFull();
-        QImage img1, simg[4];
-        const QVariant &imgV = w->data(ShadowMaskRole);
-        if (imgV.isValid()) {
-            img1 = w->data(ShadowMaskRole).value<QImage>();
+        auto shader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
+        ShaderManager::instance()->pushShader(shader);
+        shader->setUniform("sampler", 0);
+        shader->setUniform("msk1", 1);
+        if (w->hasDecoration()) {
+            shader->setUniform("typ2", 0);
         } else {
-            img1 = QImage(300, 300, QImage::Format_ARGB32);
+            shader->setUniform("typ2", 1);
         }
-        int off = w->data(ShadowOffsetRole).value<int>();
-        int cpt = img1.width() / 2;
-        int r1 = m_radius + m;
-        simg[0] = img1.copy(off - m, off - m, r1, r1);
-        simg[1] = img1.copy(cpt, off - m, r1, r1);
-        simg[2] = img1.copy(cpt, cpt, r1, r1);
-        simg[3] = img1.copy(off - m, cpt, r1, r1);
-        GLTexture *shwT[4];
-        shwT[0] = new GLTexture(simg[0]);
-        shwT[1] = new GLTexture(simg[1]);
-        shwT[2] = new GLTexture(simg[2]);
-        shwT[3] = new GLTexture(simg[3]);
-
-        // rounded the corners
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        const int mvpMatrixLocation = m_shader->uniformLocation("modelViewProjectionMatrix");
-        ShaderManager *shaderMgr = ShaderManager::instance();
-        shaderMgr->pushShader(m_shader);
-        for (int i = 0; i < NCorners; ++i) {
-            QMatrix4x4 mvp = data.screenProjectionMatrix();
-            mvp.translate(rect[i].x(), rect[i].y());
-            m_shader->setUniform(mvpMatrixLocation, mvp);
-            m_shader->setUniform("opacity", float(data.opacity()));
-            glActiveTexture(GL_TEXTURE2);
-            m_texMask[3 - i]->bind();
-            glActiveTexture(GL_TEXTURE1);
-            shwT[i]->bind();
-            glActiveTexture(GL_TEXTURE0);
-            tex[i]->bind();
-            tex[i]->render(region, rect[i]);
-            tex[i]->unbind();
-            shwT[i]->unbind();
-            m_texMask[3 - i]->unbind();
-        }
-        shaderMgr->popShader();
-        glDisable(GL_BLEND);
-        for (int i = 0; i < NCorners; ++i) {
-            delete shwT[i];
-            delete tex[i];
-        }
+        auto old_shader = data.shader;
+        data.shader = shader;
+        GLTexture maskTexture(img);
+        maskTexture.setFilter(GL_LINEAR);
+        maskTexture.setWrapMode(GL_CLAMP_TO_EDGE);
+        glActiveTexture(GL_TEXTURE1); maskTexture.bind();
+        glActiveTexture(GL_TEXTURE0);
+        effects->paintWindow(w, mask, region, data);
+        ShaderManager::instance()->popShader();
+        data.shader = old_shader;
+        delete shader;
+        glActiveTexture(GL_TEXTURE1); maskTexture.unbind();
+        glActiveTexture(GL_TEXTURE0);
     }
 }
 

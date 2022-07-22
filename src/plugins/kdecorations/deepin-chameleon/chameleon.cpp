@@ -629,7 +629,7 @@ void Chameleon::updateShadow()
                 auto shadow1 = ChameleonShadow::instance()->getShadow(m_config, m_theme->windowPixelRatio());
                 effect()->setData(ChameleonConfig::ShadowMaskRole, QVariant(shadow1->shadow()));
                 effect()->setData(ChameleonConfig::ShadowOffsetRole, QVariant(shadow1->paddingTop()));
-	        }
+	    }
             return setShadow(ChameleonShadow::instance()->getShadow(m_config, m_theme->windowPixelRatio()));
         }
 

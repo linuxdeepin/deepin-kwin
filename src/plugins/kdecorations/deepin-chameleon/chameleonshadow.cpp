@@ -84,7 +84,6 @@ QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const 
     if (!shadow) {
         // create image
         qreal shadowStrength = shadow_color.alpha();
-        //QImage image(2 * shadow_size, 2 * shadow_size, QImage::Format_ARGB32_Premultiplied);
         QImage image(2 * shadow_size, 2 * shadow_size, QImage::Format_ARGB32);
         image.fill(Qt::transparent);
 
@@ -128,23 +127,19 @@ QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const 
 
         if (border_width > 0 && border_color.alpha() != 0) {
             painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            // 绘制path是沿着路径外圈绘制，所以此处应该+1才能把border绘制到窗口边缘
             painter.setPen(QPen(border_color, border_width + 1));
             painter.setBrush(Qt::NoBrush);
-
             if (window_radius.x() > 0 && window_radius.y() > 0) {
-                painter.drawRoundedRect(innerRect, 0.5 + window_radius.x(), 0.5 + window_radius.y());
+                painter.drawRoundedRect(innerRect, window_radius.x() - 0.5, window_radius.y() - 0.5);
             } else {
                 painter.drawRect(innerRect);
             }
         }
 
         if (!no_shadow) {
-            // mask out inner rect
             painter.setPen(Qt::NoPen);
             painter.setBrush(Qt::black);
             painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-
             if (window_radius.x() > 0 && window_radius.y() > 0) {
                 painter.drawRoundedRect(innerRect, 0.5 + window_radius.x(), 0.5 + window_radius.y());
             } else {

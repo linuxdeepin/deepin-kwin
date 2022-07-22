@@ -22,8 +22,7 @@ class ScaleEffect {
     constructor() {
         effect.configChanged.connect(this.loadConfig.bind(this));
         effect.animationEnded.connect(this.cleanupForcedRoles.bind(this));
-        effects.windowAdded.connect(this.slotWindowAdded.bind(this));
-        //effects.windowClosed.connect(this.slotWindowClosed.bind(this));
+        effects.windowAdded.connect(this.slotWindowAdded.bind(this));        
         effects.windowDataChanged.connect(this.slotWindowDataChanged.bind(this));
 
         this.loadConfig();

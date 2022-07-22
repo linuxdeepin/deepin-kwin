@@ -646,6 +646,11 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
                 doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), false, w->frameGeometry());
             } else {
                 m_noiseStrength = -2;
+                const QVariant valueRadius = w->data(WindowRadiusRole);
+                if (valueRadius.isValid()) {
+                    int cornerRadius = w->data(WindowRadiusRole).toPointF().x();
+                    shape = rounded(shape, cornerRadius);
+                }
                 doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), w->isDock() || transientForIsDock, w->frameGeometry());
             }
         }
