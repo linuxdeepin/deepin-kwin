@@ -1,3 +1,18 @@
+kwin (4:5.15.11.40-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 148195 fix: prewview window cannot minimize when client is minimize
+    + 148169 Fix: fix the problem that the selection box is invalid
+    + 148191 fix: wrong sliding direction of wallpaper when rmove workspace
+    + 148039 fix: mouse is hide in right click menu and alt + tab when operate splitscreen
+    + 147343 fix: kwin_wayland crash
+    + 147965 fix: when client belonging to dock is unmovable,meaning it's not a normal client,it shouldn't be recorded in showingDesktop.
+    + 144763 fix: reset egl objects when it has been destory
+    + 97053, 95740 fix: 解决截图,打开WPS,微信等用到剪切板拖拽模块的相关崩溃问题
+    + 148397, 148473 Fix: fix the problem that the default initialization is copy mode
+
+ -- Lei Su <sulei@uniontech.com>  Fri, 22 Jul 2022 17:05:46 +0800
+
 kwin (4:5.15.11.39-1) unstable; urgency=medium
 
   * Bug fix:
