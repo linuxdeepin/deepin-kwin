@@ -90,6 +90,24 @@ protected:
     BgInfo_st m_st;
 };
 
+class DbusThread : public QThread
+{
+    Q_OBJECT
+public:
+    DbusThread();
+
+Q_SIGNALS:
+    void activeStateChanged(bool active);
+
+public Q_SLOTS:
+    void activeChanged(bool active);
+
+protected:
+    void run() override;
+
+    bool mt_active = false;
+};
+
 class MultiViewBackgroundManager: public QObject
 {
     Q_OBJECT
@@ -592,6 +610,8 @@ private:
 
     QString m_fontFamily;
     Qt::MouseButton m_sendDockButton = Qt::NoButton;
+
+    DbusThread *m_dbusThread;
 };
 
 } // namespace KWin
