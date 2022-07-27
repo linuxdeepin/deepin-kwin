@@ -118,6 +118,27 @@ void CustomThread::run()
     MultiViewBackgroundManager::instance()->cacheWorkspaceBg(m_st);
 }
 
+DbusThread::DbusThread()
+    : QThread()
+{
+
+}
+
+void DbusThread::run()
+{
+    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    wm.asyncCall("SetMultiTaskingStatus", mt_active);
+}
+
+void DbusThread::activeChanged(bool active)
+{
+    if (isRunning()) {
+        wait();
+    }
+    mt_active = active;
+    start();
+}
+
 MultiViewBackgroundManager *MultiViewBackgroundManager::_instance = new MultiViewBackgroundManager();
 MultiViewBackgroundManager *MultiViewBackgroundManager::instance()
 {
@@ -650,6 +671,9 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     connect(m_timer, &QTimer::timeout, this, &MultitaskViewEffect::motionRepeat);
 
+    m_dbusThread = new DbusThread();
+    connect(m_dbusThread, &DbusThread::activeStateChanged, m_dbusThread, &DbusThread::activeChanged);
+
     cacheWorkspaceBackground();
 
     QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
@@ -717,6 +741,13 @@ MultitaskViewEffect::~MultitaskViewEffect()
     if (m_dragTipsFrame) {
         delete m_dragTipsFrame;
         m_dragTipsFrame = nullptr;
+    }
+    if (m_dbusThread) {
+        if (!m_dbusThread->isFinished()) {
+            m_dbusThread->wait();
+        }
+        delete m_dbusThread;
+        m_dbusThread = nullptr;
     }
 }
 
@@ -2253,10 +2284,7 @@ void MultitaskViewEffect::setActive(bool active)
 
     m_activated = active;
 
-    QTimer::singleShot(400, [&, active]() {
-        QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
-        wm.asyncCall("SetMultiTaskingStatus", active);
-    });
+    emit m_dbusThread->activeStateChanged(active);
 
     if (!QX11Info::isPlatformX11()) {
         effectsEx->changeBlurState(active);
