@@ -33,10 +33,12 @@
 #include <qdbusconnection.h>
 #include <qdbusinterface.h>
 #include <qdbusreply.h>
+#include <dlfcn.h>
 #include <QGSettings/qgsettings.h>
 #include <QImageReader>
 #include "multitouchgesture.h"
 #include "kwineffectsex.h"
+#include "report.h"
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock"))
 //Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock_primary, ("com.deepin.dde.dock.mainwindow"))
@@ -2150,6 +2152,20 @@ void MultitaskViewEffect::toggle()
         }
     }
 
+    Dl_info dli;
+    dladdr(__builtin_return_address(1), &dli);
+
+    QString name =  dli.dli_sname;
+    if (name.contains("activate")) {
+        std::string version = KWin::Report::version();
+        std::string str = "{\"tid\":1000300000,\"triggerMode\":\"Shortcut key\", \"version\":" + version + "}";
+        KWin::Report::writeEventLog(str);
+    } else {
+        std::string version = KWin::Report::version();
+        std::string str = "{\"tid\":1000300000,\"triggerMode\":\"button\", \"version\":" + version + "}";
+        KWin::Report::writeEventLog(str);
+    }
+
     if (m_activated) {
         m_effectFlyingBack.begin();
     } else if (m_delayDbus) {
@@ -2870,6 +2886,9 @@ void MultitaskViewEffect::removeBackgroundFill(EffectWindow *w, int desktop)
 
 void MultitaskViewEffect::addNewDesktop()
 {
+    std::string version = KWin::Report::version();
+    std::string str = "{\"tid\":1000300002,\"version\":" + version + "}";
+    KWin::Report::writeEventLog(str);
     int count = effects->numberOfDesktops();
     if (count >= MAX_DESKTOP_COUNT)
         return;
@@ -2939,6 +2958,9 @@ void MultitaskViewEffect::addNewDesktop()
 
 void MultitaskViewEffect::removeDesktop(int desktop)
 {
+    std::string version = KWin::Report::version();
+    std::string str = "{\"tid\":1000300001,\"version\":" + version + "}";
+    KWin::Report::writeEventLog(str);
     m_isShieldEvent = true;
     int count = effects->numberOfDesktops();
     if (desktop <= 0 || desktop > count || count == 1) {
@@ -3203,6 +3225,9 @@ void MultitaskViewEffect::switchDesktop()
 
 void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
 {
+    std::string version = KWin::Report::version();
+    std::string str = "{\"tid\":1000300003,\"version\":" + version + "}";
+    KWin::Report::writeEventLog(str);
     QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
 
     QList<QString> list = m_screenInfoList.keys();
@@ -3276,7 +3301,6 @@ void MultitaskViewEffect::desktopAboutToRemoved(int d)
             }
             wm.call( "SetWorkspaceBackgroundForMonitor", i, monitorName, backgrounduri);
         }
-
     }
 }
 

@@ -44,6 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "virtualdesktops.h"
 #include "scripting/scripting.h"
 #include "wayland_server.h"
+#include "report.h"
 
 #ifdef KWIN_BUILD_ACTIVITIES
 #include "activities.h"
@@ -1989,6 +1990,11 @@ void Workspace::showWindowMenu(const QRect &pos, AbstractClient* cl)
     }
 
     m_userActionsMenu->show(adjustPos, cl);
+
+    std::string version = KWin::Report::version();
+    std::string str = "{\"tid\":1000300006,\"version\":" + version + "}";
+    KWin::Report::writeEventLog(str);
+
 }
 
 void Workspace::showApplicationMenu(const QRect &pos, AbstractClient *c, int actionId)

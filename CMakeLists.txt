@@ -536,6 +536,7 @@ set(kwin_KDEINIT_SRCS
     multi_touch_gesture_spy.cpp
     xwl/xwayland_interface.cpp
     multitouchgesture.cpp
+    report.cpp
    )
 
 include(ECMQtDeclareLoggingCategory)
@@ -685,13 +686,13 @@ set_target_properties(kwin PROPERTIES
    SOVERSION ${PROJECT_VERSION_MAJOR}
    )
 
-target_link_libraries(kwin ${kwinLibs} -lXext -lXtst)
+target_link_libraries(kwin ${kwinLibs} -lXext -lXtst libdl.so)
 generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
 
-target_link_libraries(kwin kwinglutils ${epoxy_LIBRARY})
+target_link_libraries(kwin kwinglutils ${epoxy_LIBRARY} libdl.so)
 
-kf5_add_kdeinit_executable(kwin_x11 main_x11.cpp)
-target_link_libraries(kdeinit_kwin_x11 kwin KF5::Crash Qt5::X11Extras)
+kf5_add_kdeinit_executable(kwin_x11 report.cpp main_x11.cpp)
+target_link_libraries(kdeinit_kwin_x11 kwin KF5::Crash Qt5::X11Extras libdl.so)
 
 install(TARGETS kwin             ${INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP )
 install(TARGETS kdeinit_kwin_x11 ${INSTALL_TARGETS_DEFAULT_ARGS} )
