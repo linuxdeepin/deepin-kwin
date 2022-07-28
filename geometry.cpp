@@ -47,6 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "outline.h"
 #include "shell_client.h"
 #include "wayland_server.h"
+#include "report.h"
 
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
@@ -2958,6 +2959,10 @@ void AbstractClient::finishMoveResize(bool cancel)
         }
 
         if (!m_isSwapHandle) {
+            //拖拽
+            std::string version = KWin::Report::version();
+            std::string str = "{\"tid\":1000300004,\"triggerMode\":\"drag\", \"version\":" + version + "}";
+            KWin::Report::writeEventLog(str);
             handlequickTileModeChanged();
             workspace()->updateScreenSplitApp(this);
         }

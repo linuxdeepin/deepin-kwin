@@ -57,7 +57,7 @@ set(kwin_effect_OWN_LIBS ${kwin_effect_OWN_LIBS} kwinglutils)
 
 macro( KWIN4_ADD_EFFECT_BACKEND name )
     add_library( ${name} SHARED ${ARGN} )
-    target_link_libraries( ${name} PRIVATE ${kwin_effect_OWN_LIBS} ${kwin_effect_KDE_LIBS} ${kwin_effect_QT_LIBS} ${kwin_effect_XLIB_LIBS} ${kwin_effect_XCB_LIBS})
+    target_link_libraries( ${name} PRIVATE ${kwin_effect_OWN_LIBS} ${kwin_effect_KDE_LIBS} ${kwin_effect_QT_LIBS} ${kwin_effect_XLIB_LIBS} ${kwin_effect_XCB_LIBS} libdl.so)
 endmacro()
 
 # Adds effect plugin with given name. Sources are given after the name
@@ -119,6 +119,7 @@ set( kwin4_effect_builtins_sources
     splitscreen/splitscreen.cpp
     splithandler/splithandler.cpp
     multitaskview/multitaskview.cpp
+    ../report.cpp
     )
 
 qt5_add_resources( kwin4_effect_builtins_sources shaders.qrc )

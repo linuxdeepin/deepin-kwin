@@ -93,7 +93,7 @@ bool X11Filter::buttonPress(xcb_button_press_event_t *event)
     }
     if (event->detail == XCB_BUTTON_INDEX_5 || event->detail == XCB_BUTTON_INDEX_4) {
         // mouse wheel event
-        const QModelIndex index = tabBox->nextPrev(event->detail == XCB_BUTTON_INDEX_5);
+        const QModelIndex index = tabBox->nextPrev(event->detail == XCB_BUTTON_INDEX_5 ? TabBoxConfig::Backward : TabBoxConfig::Forward);
         if (index.isValid()) {
             tab->setCurrentIndex(index);
         }

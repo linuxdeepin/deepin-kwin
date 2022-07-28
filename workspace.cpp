@@ -50,6 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "scripting/scripting.h"
 #ifdef KWIN_BUILD_TABBOX
 #include "tabbox.h"
+#include "tabboxconfig.h"
 #endif
 #include "unmanaged.h"
 #include "useractions.h"
@@ -62,6 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "xcbutils.h"
 #include "main.h"
 #include "decorations/decorationbridge.h"
+#include "report.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -790,7 +792,7 @@ void Workspace::removeClient(Client* c)
 #ifdef KWIN_BUILD_TABBOX
     TabBox::TabBox *tabBox = TabBox::TabBox::self();
     if (tabBox->isDisplayed() && tabBox->currentClient() == c)
-        tabBox->nextPrev(true);
+        tabBox->nextPrev(TabBox::TabBoxConfig::Backward);
 #endif
 
     Q_ASSERT(clients.contains(c) || desktops.contains(c));
@@ -2106,6 +2108,10 @@ bool Workspace::checkClientAllowToSplit(AbstractClient *c)
 
 void Workspace::setClientSplit(AbstractClient *c, int mode, bool isShowPreview)
 {
+    //分屏菜单, isShowPreview 为true
+    std::string version = KWin::Report::version();
+    std::string str = "{\"tid\":1000300004,\"triggerMode\":\"split screen table\", \"version\":" + version + "}";
+    KWin::Report::writeEventLog(str);
     if (c == nullptr)
         return;
 
@@ -2320,7 +2326,7 @@ void Workspace::setClientIDHandleMouseCommond(quint32 wId)
 }
  void Workspace::handleReleaseMouseCommond()
  {
-    qDebug()<<"Workspace::handleReleaseMouseCommond";
+    //qDebug()<<"Workspace::handleReleaseMouseCommond";
     if (m_clientIDHandlingMouseCommond) {
         ToplevelList list = stackingOrder();
         AbstractClient* c = nullptr;

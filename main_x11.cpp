@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "sm.h"
 #include "workspace.h"
 #include "xcbutils.h"
+#include "report.h"
 
 // KDE
 #include <KConfigGroup>
@@ -335,6 +336,8 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
 {
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
+
+    KWin::Report::init();
 
     int primaryScreen = 0;
     xcb_connection_t *c = xcb_connect(nullptr, &primaryScreen);

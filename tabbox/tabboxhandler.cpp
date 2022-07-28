@@ -470,7 +470,7 @@ void TabBoxHandler::hide(bool abort)
     d->m_mainItem = nullptr;
 }
 
-QModelIndex TabBoxHandler::nextPrev(bool forward) const
+QModelIndex TabBoxHandler::nextPrev(TabBoxConfig::TabBoxSwitchPosition direction) const
 {
     QModelIndex ret;
     QAbstractItemModel* model;
@@ -482,7 +482,8 @@ QModelIndex TabBoxHandler::nextPrev(bool forward) const
         model = d->desktopModel();
         break;
     }
-    if (forward) {
+
+    if (direction == TabBoxConfig::Forward) {
         int column = d->index.column() + 1;
         int row = d->index.row();
         if (column == model->columnCount()) {
@@ -494,7 +495,7 @@ QModelIndex TabBoxHandler::nextPrev(bool forward) const
         ret = model->index(row, column);
         if (!ret.isValid())
             ret = model->index(0, 0);
-    } else {
+    } else if (direction == TabBoxConfig::Backward) {
         int column = d->index.column() - 1;
         int row = d->index.row();
         if (column < 0) {
@@ -512,6 +513,24 @@ QModelIndex TabBoxHandler::nextPrev(bool forward) const
                     break;
             }
         }
+    } else if (direction == TabBoxConfig::Up) {
+        int column = d->index.column();
+        int row = d->index.row() - 11;
+        if (row < 0) {
+            row += 22;
+        }
+        ret = model->index(row, column);
+        if (!ret.isValid())
+            ret = model->index(0, 0);
+    } else if (direction == TabBoxConfig::Down) {
+        int column = d->index.column();
+        int row = d->index.row() + 11;
+        if (row  >= model->rowCount()) {
+            row -= 22;
+        }
+        ret = model->index(row, column);
+        if (!ret.isValid())
+            ret = model->index(0, 0);
     }
     if (ret.isValid())
         return ret;
@@ -663,14 +682,14 @@ bool TabBoxHandler::eventFilter(QObject *watched, QEvent *e)
         d->wheelAngleDelta += delta;
         while (d->wheelAngleDelta <= -120) {
             d->wheelAngleDelta += 120;
-            const QModelIndex index = nextPrev(true);
+            const QModelIndex index = nextPrev(TabBoxConfig::Forward);
             if (index.isValid()) {
                 setCurrentIndex(index);
             }
         }
         while (d->wheelAngleDelta >= 120) {
             d->wheelAngleDelta -= 120;
-            const QModelIndex index = nextPrev(false);
+            const QModelIndex index = nextPrev(TabBoxConfig::Backward);
             if (index.isValid()) {
                 setCurrentIndex(index);
             }

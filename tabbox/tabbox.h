@@ -135,7 +135,7 @@ public:
     }
 
     void reset(bool partial_reset = false);
-    void nextPrev(bool next = true);
+    void nextPrev(TabBoxConfig::TabBoxSwitchPosition direction);
 
     void delayedShow();
     void hide(bool abort = false);
@@ -241,7 +241,7 @@ private:
     bool startWalkThroughDesktops();
     bool startWalkThroughDesktopList();
     void navigatingThroughWindows(bool forward, const QKeySequence &shortcut, TabBoxMode mode);   // TabBoxWindowsMode | TabBoxWindowsAlternativeMode
-    void KDEWalkThroughWindows(bool forward);
+    void KDEWalkThroughWindows(TabBoxConfig::TabBoxSwitchPosition forward);
     void CDEWalkThroughWindows(bool forward);
     void walkThroughDesktops(bool forward);
     void KDEOneStepThroughWindows(bool forward, TabBoxMode mode);   // TabBoxWindowsMode | TabBoxWindowsAlternativeMode

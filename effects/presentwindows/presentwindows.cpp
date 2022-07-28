@@ -49,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDBusConnection>
 
 #include "kwineffectsex.h"
+#include "report.h" //埋点
 
 #define WATERMARK_CLASS_NAME "deepin-watermark"
 
@@ -1607,6 +1608,12 @@ bool PresentWindowsEffect::isOverlappingAny(EffectWindow *w, const QHash<EffectW
 
 void PresentWindowsEffect::setActive(bool active)
 {
+    if(active) {
+        std::string version = KWin::Report::version();
+        std::string str = "{\"tid\":1000300005, \"version\":" + version + "}";
+        KWin::Report::writeEventLog(str);
+    }
+
     if (effects->activeFullScreenEffect() && effects->activeFullScreenEffect() != this)
         return;
     if (m_activated == active)
