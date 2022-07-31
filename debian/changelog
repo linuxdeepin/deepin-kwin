@@ -1,3 +1,11 @@
+kwin (4:5.15.11.41-1) unstable; urgency=medium
+
+  * store:
+   + 21921  add signal when effect changed
+   + 22067, 21919  feat: 埋点需求和alt+tab需求开发
+
+ -- Lei Su <sulei@uniontech.com>  Sun, 31 Jul 2022 21:32:15 +0800
+
 kwin (4:5.15.11.40-1) unstable; urgency=medium
 
   * Bug fix:
