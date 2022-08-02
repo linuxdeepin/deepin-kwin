@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "platform.h"
 #include "effects.h"
 #include "tabletmodemanager.h"
+#include "report.h"
 
 #ifdef PipeWire_FOUND
 #include "screencast/screencastmanager.h"
@@ -480,6 +481,9 @@ int main(int argc, char * argv[])
     } else {
         qInstallMessageHandler(customLogMessageHandler);
     }
+
+    KWin::Report::init();
+
     KWin::disablePtrace();
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
