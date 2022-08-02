@@ -402,6 +402,7 @@ private:
     QRect m_cfgGeom;
     int m_noTitleBar = -1;
     QPointF m_windowRadius = QPointF(0.0,0.0);
+    bool m_isSetWindowRadius = false;
 };
 
 }
