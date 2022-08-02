@@ -701,6 +701,7 @@ install(TARGETS kwin_x11         ${INSTALL_TARGETS_DEFAULT_ARGS} )
 set(kwin_WAYLAND_SRCS
    main_wayland.cpp
    tabletmodemanager.cpp
+   report.cpp
 )
 
 include(ECMQtDeclareLoggingCategory)
