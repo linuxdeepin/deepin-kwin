@@ -648,7 +648,7 @@ void ShellClient::createDecoration(const QRect &oldGeom)
             disconnect(m_ddeShellSurface, &DDEShellSurfaceInterface::noTitleBarPropertyRequested, this, nullptr);
             emit m_ddeShellSurface->noTitleBarPropertyRequested(m_noTitleBar);
         }
-        if (!m_windowRadius.isNull()) {
+        if (m_isSetWindowRadius) {
             disconnect(m_ddeShellSurface, &KWayland::Server::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this, nullptr);
             emit m_ddeShellSurface->windowRadiusPropertyRequested(m_windowRadius);
         }
@@ -1724,6 +1724,7 @@ void ShellClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
     );
     connect(m_ddeShellSurface, &KWayland::Server::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this,
         [this] (QPointF windowRadius) {
+            m_isSetWindowRadius = true;
             setWindowRadius(windowRadius);
         }
     );
