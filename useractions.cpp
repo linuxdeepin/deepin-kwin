@@ -1990,11 +1990,7 @@ void Workspace::showWindowMenu(const QRect &pos, AbstractClient* cl)
     }
 
     m_userActionsMenu->show(adjustPos, cl);
-
-    std::string version = KWin::Report::version();
-    std::string str = "{\"tid\":1000300006,\"version\":" + version + "}";
-    KWin::Report::writeEventLog(str);
-
+    KWin::Report::writeEventLog(KWin::Report::TriggerWindowLabel);
 }
 
 void Workspace::showApplicationMenu(const QRect &pos, AbstractClient *c, int actionId)

@@ -7,30 +7,41 @@ namespace KWin {
 namespace Report {
 void init()
 {
-    INIT_FUNC initFunc = NULL;
+    INIT_FUNC initFunc = nullptr;
 
     void *handle = dlopen(LIB_CACULATE_PATH, RTLD_LAZY);
     if (!handle) {
         fprintf(stderr, "%s\n", dlerror());
-        exit(EXIT_FAILURE);
+        return;
+        //exit(EXIT_FAILURE);
     }
 
     *(void **) (&initFunc) = dlsym(handle, "Initialize");
     (*initFunc)("kwin-x11",false);
+    dlclose(handle);
 }
 
-void writeEventLog(const std::string& str)
+void writeEventLog(TriggerType type, const std::string& mode)
 {
-    WRITE_FUNC writeFunc = NULL;
+    std::string id = std::to_string(type);
+    std::string json;
+    if(mode.size() ==0) {
+        json = "{\"tid\":" + id + ",\"version\":" + version() + "}";
+    } else {
+        json = "{\"tid\":" + id + "\"triggerMode\":\"" + mode + "\",\"version\":" + version() + "}";
+    }
+    WRITE_FUNC writeFunc = nullptr;
 
     void *handle = dlopen(LIB_CACULATE_PATH, RTLD_LAZY);
     if (!handle) {
         fprintf(stderr, "%s\n", dlerror());
-        exit(EXIT_FAILURE);
+        return;
+        //exit(EXIT_FAILURE);
     }
 
     *(void **) (&writeFunc) = dlsym(handle, "WriteEventLog");
-    (*writeFunc)(str);
+    (*writeFunc)(json);
+    dlclose(handle);
 }
 
 const std::string version()

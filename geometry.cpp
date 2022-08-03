@@ -2960,9 +2960,7 @@ void AbstractClient::finishMoveResize(bool cancel)
 
         if (!m_isSwapHandle) {
             //拖拽
-            std::string version = KWin::Report::version();
-            std::string str = "{\"tid\":1000300004,\"triggerMode\":\"drag\", \"version\":" + version + "}";
-            KWin::Report::writeEventLog(str);
+            KWin::Report::writeEventLog(KWin::Report::TriggerSplitScreen, "drag");
             handlequickTileModeChanged();
             workspace()->updateScreenSplitApp(this);
         }

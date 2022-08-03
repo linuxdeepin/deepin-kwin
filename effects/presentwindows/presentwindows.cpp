@@ -1609,9 +1609,7 @@ bool PresentWindowsEffect::isOverlappingAny(EffectWindow *w, const QHash<EffectW
 void PresentWindowsEffect::setActive(bool active)
 {
     if(active) {
-        std::string version = KWin::Report::version();
-        std::string str = "{\"tid\":1000300005, \"version\":" + version + "}";
-        KWin::Report::writeEventLog(str);
+        KWin::Report::writeEventLog(KWin::Report::TriggerAllWindow);
     }
 
     if (effects->activeFullScreenEffect() && effects->activeFullScreenEffect() != this)
