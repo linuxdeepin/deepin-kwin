@@ -826,9 +826,7 @@ void AbstractClient::shrinkVertical()
 void Workspace::quickTileWindow(QuickTileMode mode)
 {
     //拖拽
-    std::string version = KWin::Report::version();
-    std::string str = "{\"tid\":1000300004,\"triggerMode\":\"drag\", \"version\":" + version + "}";
-    KWin::Report::writeEventLog(str);
+    KWin::Report::writeEventLog(KWin::Report::TriggerSplitScreen, "drag");
     if (!active_client) {
         return;
     }

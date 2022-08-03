@@ -2111,7 +2111,7 @@ void Workspace::setClientSplit(AbstractClient *c, int mode, bool isShowPreview)
     //分屏菜单, isShowPreview 为true
     std::string version = KWin::Report::version();
     std::string str = "{\"tid\":1000300004,\"triggerMode\":\"split screen table\", \"version\":" + version + "}";
-    KWin::Report::writeEventLog(str);
+    KWin::Report::writeEventLog(KWin::Report::TriggerSplitScreen, "split screen table");
     if (c == nullptr)
         return;
 
