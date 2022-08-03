@@ -820,6 +820,16 @@ bool EffectsHandlerImpl::hasKeyboardGrab() const
     return keyboard_grab_effect != nullptr;
 }
 
+void EffectsHandlerImpl::setActiveMultitasking(bool isActive)
+{
+    m_activeMultitasking = isActive;
+}
+
+bool EffectsHandlerImpl::isActiveMultitasking()
+{
+    return m_activeMultitasking;
+}
+
 void EffectsHandlerImpl::registerPropertyType(long atom, bool reg)
 {
     if (reg)

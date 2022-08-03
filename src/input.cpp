@@ -551,7 +551,7 @@ public:
         waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
         passToWaylandServer(event);
         static_cast< EffectsHandlerImpl* >(effects)->grabbedKeyboardEvent(event);
-        if (!static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
+        if (static_cast< EffectsHandlerImpl* >(effects)->isActiveMultitasking() && !static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
             return false;
         }
         return true;

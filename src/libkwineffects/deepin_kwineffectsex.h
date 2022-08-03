@@ -65,6 +65,7 @@ public:
     virtual bool isTransientWin(KWin::EffectWindow *w) = 0;
     virtual int getCurrentPaintingScreen() = 0;
     virtual bool isShortcuts(QKeyEvent *event) = 0;
+    virtual void setActiveMultitasking(bool isActive) = 0;
 
     virtual bool checkWindowAllowToSplit(KWin::EffectWindow *c) = 0;
     virtual int getSplitMode(int desktop, QString screen) = 0;

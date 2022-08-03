@@ -99,6 +99,9 @@ public:
     QRect getSplitArea(int mode, QRect rect, QRect availableArea, QString screen, int desktop, bool isUseTmp = false) override;
     QString getScreenWithSplit() override;
 
+    void setActiveMultitasking(bool isActive) override;
+    bool isActiveMultitasking();
+
     void activateWindow(EffectWindow* c) override;
     EffectWindow* activeWindow() const override;
     void moveWindow(EffectWindow* w, const QPoint& pos, bool snap = false, double snapAdjust = 1.0) override;
@@ -394,6 +397,7 @@ private:
     int m_trackingCursorChanges;
     std::unique_ptr<WindowPropertyNotifyX11Filter> m_x11WindowPropertyNotify;
     QList<EffectScreen *> m_effectScreens;
+    bool m_activeMultitasking = false;
 };
 
 class EffectScreenImpl : public EffectScreen
