@@ -2378,7 +2378,7 @@ void InputRedirection::touchMotion(double x, double y, int time)
 void InputRedirection::touchEnd(int time)
 {
     Q_UNUSED(time)
-
+    workspace()->handleReleaseMouseCommond();
     AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {
         return ;
