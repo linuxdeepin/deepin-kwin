@@ -2245,6 +2245,11 @@ void Workspace::updateSplitOutlineLayerShowHide()
             if (stacking_order.contains(c) && c->screen() == nscreens-1 && c->desktop() == desktop && !c->isMinimized()) {
                 client_stack.append(c);
             }
+            if (waylandServer() && stacking_order.contains(c)
+                    && c->isPopupWindow()
+                    && c->screen() == nscreens-1) {
+                client_stack.append(c);
+            }
         }
         if (!client_stack.isEmpty() && client_stack.constLast()->quickTileMode() != QuickTileMode(QuickTileFlag::Left)
                                     && client_stack.constLast()->quickTileMode() != QuickTileMode(QuickTileFlag::Right)
