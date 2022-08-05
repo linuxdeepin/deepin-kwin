@@ -2152,14 +2152,16 @@ void MultitaskViewEffect::toggle()
         }
     }
 
-    Dl_info dli;
-    dladdr(__builtin_return_address(1), &dli);
+    if(!m_activated) {
+        Dl_info dli;
+        dladdr(__builtin_return_address(1), &dli);
 
-    QString name =  dli.dli_sname;
-    if (name.contains("activate")) {
-        KWin::Report::writeEventLog(KWin::Report::TriggerMutitaskview, "Shortcut key");
-    } else {
-        KWin::Report::writeEventLog(KWin::Report::TriggerMutitaskview, "button");
+        QString name =  dli.dli_sname;
+        if (name.contains("activate")) {
+            KWin::Report::writeEventLog(KWin::Report::TriggerMutitaskview, "Shortcut key");
+        } else {
+            KWin::Report::writeEventLog(KWin::Report::TriggerMutitaskview, "button");
+        }
     }
 
     if (m_activated) {
