@@ -161,7 +161,8 @@ Q_SIGNALS:
     void outputChange(const QRegion &damagedRegion);
 
 protected:
-    void initWaylandOutputDevice(const QString &model,
+    void initWaylandOutputDevice(const QString &name,
+                                 const QString &model,
                                  const QString &manufacturer,
                                  const QByteArray &uuid,
                                  const QVector<KWayland::Server::OutputDeviceInterface::Mode> &modes);

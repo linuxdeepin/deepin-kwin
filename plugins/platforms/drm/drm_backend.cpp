@@ -617,6 +617,7 @@ void DrmBackend::installDefaultDisplay()
     output->setRawPhysicalSize(QSize(0, 0));
 
     //2.init wayland output device
+    QString name = "VGA-1";
     QString model = "VGA-1000-unknown";
     QString manufacturer = "UOS";
     QByteArray uuid = "ffffffffff";
@@ -627,7 +628,7 @@ void DrmBackend::installDefaultDisplay()
     dmode.flags = KWayland::Server::OutputDeviceInterface::ModeFlag::Current;
     dmode.refreshRate = mode.vrefresh * 1000LL;
     modes << dmode;
-    output->initWaylandOutputDevice(model, manufacturer, uuid, modes);
+    output->initWaylandOutputDevice(name, model, manufacturer, uuid, modes);
 
     //3.set enable
     output->setEnabled(true);

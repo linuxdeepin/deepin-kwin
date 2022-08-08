@@ -218,7 +218,8 @@ QByteArray AbstractOutput::getUuid()
     return m_waylandOutputDevice->uuid();
 }
 
-void AbstractOutput::initWaylandOutputDevice(const QString &model,
+void AbstractOutput::initWaylandOutputDevice(const QString &name,
+                                             const QString &model,
                                              const QString &manufacturer,
                                              const QByteArray &uuid,
                                              const QVector<KWayland::Server::OutputDeviceInterface::Mode> &modes)
@@ -275,6 +276,8 @@ void AbstractOutput::initWaylandOutputDevice(const QString &model,
 
     m_waylandOutput->create();
     m_xdgOutput->setLogicalSize(pixelSize() / scale());
+    m_xdgOutput->setName(name);
+    m_xdgOutput->setDescription(manufacturer + ' ' + model);
     m_xdgOutput->done();
 }
 
