@@ -25,7 +25,7 @@ void writeEventLog(TriggerType type, const std::string& mode)
 {
     std::string id = std::to_string(type);
     std::string json;
-    if(mode.size() ==0) {
+    if(!mode.empty() && mode.size() ==0) {
         json = "{\"tid\":" + id + ",\"version\":" + version() + "}";
     } else {
         json = "{\"tid\":" + id + "\"triggerMode\":\"" + mode + "\",\"version\":" + version() + "}";
