@@ -356,6 +356,7 @@ void DrmOutput::initOutputDevice(drmModeConnector *connector)
         modelName = i18n("unknown");
     }
 
+    const QString name = connectorName + QStringLiteral("-") + QString::number(connector->connector_type_id);
     const QString model = connectorName + QStringLiteral("-") + QString::number(connector->connector_type_id) + QStringLiteral("-") + modelName;
 
     // read in mode information
@@ -423,7 +424,7 @@ void DrmOutput::initOutputDevice(drmModeConnector *connector)
 
     setOriginalEdid(m_originEdid);
 
-    AbstractOutput::initWaylandOutputDevice(model, manufacturer, m_uuid, modes);
+    AbstractOutput::initWaylandOutputDevice(name, model, manufacturer, m_uuid, modes);
 }
 
 bool DrmOutput::isCurrentMode(const drmModeModeInfo *mode) const
