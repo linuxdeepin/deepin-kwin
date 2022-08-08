@@ -591,6 +591,10 @@ public:
         case QEvent::MouseButtonRelease:
             if (event->buttons() == Qt::NoButton) {
                 c->endInteractiveMoveResize();
+                auto seat = waylandServer()->seat();
+                if (input()->pointer()->focus()) {
+                    seat->setFocusedPointerSurfaceTransformation(input()->pointer()->focus()->inputTransformation());
+                }
                 return false;
             }
             break;
