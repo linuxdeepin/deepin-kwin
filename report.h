@@ -22,7 +22,7 @@ enum TriggerType {
 };
 
 void init();
-void writeEventLog(TriggerType type, const std::string& str = nullptr);
+void writeEventLog(TriggerType type, const std::string& str = "");
 const std::string version();
 }
 }
