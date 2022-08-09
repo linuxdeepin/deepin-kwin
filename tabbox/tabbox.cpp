@@ -1131,7 +1131,7 @@ void TabBox::navigatingThroughWindows(bool forward, const QKeySequence &shortcut
     } else {
         if (areModKeysDepressed(shortcut)) {
             if (startKDEWalkThroughWindows(mode)) {
-                KDEWalkThroughWindows(forward ? TabBoxConfig::Steady : TabBoxConfig::Backward);
+                KDEWalkThroughWindows(forward ? TabBoxConfig::Forward : TabBoxConfig::Backward);
             }
         } else {
             // if the shortcut has no modifiers, don't show the tabbox,
@@ -1403,7 +1403,6 @@ void TabBox::oneStepThroughDesktopList(bool forward)
  */
 void TabBox::keyPress(int keyQt)
 {
-    qDebug() << "keyPress keyPress";
     //[Alt+Tab] or [Alt+~] delay the switch for a few milliseconds in m_delaySwitchInterval
     if (qAbs(m_delaySwitch.msecsTo(QDateTime::currentDateTime())) < m_delaySwitchInterval)
     {
@@ -1412,7 +1411,7 @@ void TabBox::keyPress(int keyQt)
     m_delaySwitch = QDateTime::currentDateTime();
 
     //enum Direction { Backward = -1, Steady = 0, Forward = 1 };
-    TabBoxConfig::TabBoxSwitchPosition direction(TabBoxConfig::Steady);
+    TabBoxConfig::TabBoxSwitchPosition direction(TabBoxConfig::Backward);
 
     auto contains = [](const QKeySequence &shortcut, int key) -> bool {
         for (int i = 0; i < shortcut.count(); ++i) {
@@ -1439,7 +1438,6 @@ void TabBox::keyPress(int keyQt)
         
         mods &= keyQt;
         if ((keyQt & ~mods) == Qt::Key_Tab) {
-            qDebug() << "Qt::Key_Tab";
             if (contains(forward, mods | Qt::Key_Backtab))
                 return TabBoxConfig::Forward;
             if (contains(backward, mods | Qt::Key_Backtab))
@@ -1447,22 +1445,18 @@ void TabBox::keyPress(int keyQt)
         }
         
         if ((keyQt & ~mods) == Qt::Key_Right) {
-            qDebug() << "Qt::Key_Right";
             return TabBoxConfig::Forward;
         }
 
         if ((keyQt & ~mods) == Qt::Key_Left) {
-            qDebug() << "Qt::Key_Left";
             return TabBoxConfig::Backward;
         }
 
         if ((keyQt & ~mods) == Qt::Key_Up) {
-            qDebug() << "Qt::Key_Up";
             return TabBoxConfig::Up;
         }
 
         if ((keyQt & ~mods) == Qt::Key_Down) {
-            qDebug() << "Qt::Key_Down";
             return TabBoxConfig::Down;
         }
 
