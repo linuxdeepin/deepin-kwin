@@ -655,13 +655,18 @@ MultitaskViewEffect::MultitaskViewEffect()
     QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
     QDBusPendingReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.multitaskview.display", "");
     reply.waitForFinished();
-    QDBusInterface interfaceValue("org.desktopspec.ConfigManager", reply.value().path(), "org.desktopspec.ConfigManager.Manager", QDBusConnection::systemBus());
-    QDBusReply<QVariant> replyValue = interfaceValue.call("value", "windowDisplay");
-    QString strValue = replyValue.value().toString();
-    if (strValue == "Enabled" || strValue == "enabled") {
-        m_isShowWhole = true;
+
+    if (!reply.isError()) {
+        QDBusInterface interfaceValue("org.desktopspec.ConfigManager", reply.value().path(), "org.desktopspec.ConfigManager.Manager", QDBusConnection::systemBus());
+        QDBusReply<QVariant> replyValue = interfaceValue.call("value", "windowDisplay");
+        QString strValue = replyValue.value().toString();
+        if (strValue == "Enabled" || strValue == "enabled") {
+            m_isShowWhole = true;
+        } else {
+            m_isShowWhole = false;
+        }
     } else {
-        m_isShowWhole = false;
+        qDebug()<<"reply.error: "<<reply.error();
     }
     QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
     // 监听控制中心字体变化
