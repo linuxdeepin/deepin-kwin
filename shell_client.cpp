@@ -951,6 +951,9 @@ bool ShellClient::isFullScreen() const
 
 bool ShellClient::isMaximizable() const
 {
+    if (!isResizable()) {
+        return false;
+    }
     if (m_internal || !m_maxmizable) {
         return false;
     }
