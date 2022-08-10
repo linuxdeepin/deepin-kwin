@@ -309,6 +309,9 @@ bool Selection::handlePropNotify(xcb_property_notify_event_t *event)
 
 void Selection::startTransferToWayland(xcb_atom_t target, qint32 fd)
 {
+    if (!m_xSrc) {
+        return;
+    }
     // create new x to wl data transfer object
     auto *transfer = new TransferXtoWl(m_atom, target, fd, m_xSrc->timestamp(), m_requestorWindow, this);
     m_xToWlTransfers << transfer;
