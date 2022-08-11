@@ -539,7 +539,6 @@ QModelIndex TabBoxHandler::nextPrev(TabBoxConfig::TabBoxSwitchPosition direction
                 ret = model->index(column, row - columncount);
         }
     }
-    qDebug() <<  "d->index " << d->index.row() << d->index.column();
     if (ret.isValid())
         return ret;
     else
