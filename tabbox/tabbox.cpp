@@ -1425,25 +1425,14 @@ void TabBox::keyPress(int keyQt)
     // tests whether a shortcut matches and handles pitfalls on ShiftKey invocation
     auto directionFor = [keyQt, contains](const QKeySequence &forward, const QKeySequence &backward) -> TabBoxConfig::TabBoxSwitchPosition {
         Qt::KeyboardModifiers mods = Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier|Qt::MetaModifier|Qt::KeypadModifier|Qt::GroupSwitchModifier;
-        //qDebug() << "directionFor directionFor" << forward.toString() << " " << backward.toString() << " keyQt: " << (keyQt & ~mods);
-        // if (contains(forward, keyQt))
-        //     return Forward;
-        // if (contains(backward, keyQt))
-        //     return Backward;
-        // if (!(keyQt & Qt::ShiftModifier))
-        //     return Steady;
+        if (contains(forward, keyQt))
+            return TabBoxConfig::Forward;
+        if (contains(backward, keyQt))
+            return TabBoxConfig::Backward;
 
         // Before testing the unshifted key (Ctrl+A vs. Ctrl+Shift+a etc.), see whether this is +Shift+Tab
         // and check that against +Shift+Backtab (as well)
-        
         mods &= keyQt;
-        if ((keyQt & ~mods) == Qt::Key_Tab) {
-            if (contains(forward, mods | Qt::Key_Backtab))
-                return TabBoxConfig::Forward;
-            if (contains(backward, mods | Qt::Key_Backtab))
-                return TabBoxConfig::Backward;
-        }
-        
         if ((keyQt & ~mods) == Qt::Key_Right) {
             return TabBoxConfig::Forward;
         }
