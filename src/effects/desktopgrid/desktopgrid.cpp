@@ -80,19 +80,6 @@ DesktopGridEffect::DesktopGridEffect()
             timelineRunning = true;
         }
     });
-    effects->registerRealtimeTouchpadSwipeShortcut(SwipeDirection::Up, a, [this](qreal cb) {
-        if (activated) return;
-
-        if (timeline.currentValue() == 0) {
-            activated = true;
-            setup();
-            activated = false;
-        }
-
-        timeline.setDirection(QTimeLine::Forward);
-        timeline.setCurrentTime(timeline.duration() * cb);
-        effects->addRepaintFull();
-    });
     connect(&timeline, &QTimeLine::frameChanged, this, []() {
         effects->addRepaintFull();
     });
@@ -1097,7 +1084,10 @@ void DesktopGridEffect::setup()
         newTimeline->setEasingCurve(QEasingCurve::InOutSine);
         hoverTimeline.append(newTimeline);
     }
-    hoverTimeline[effects->currentDesktop() - 1]->setCurrentTime(hoverTimeline[effects->currentDesktop() - 1]->duration());
+    int index = effects->currentDesktop() - 1;
+    if (index >= 0) {
+        hoverTimeline[index]->setCurrentTime(hoverTimeline[index]->duration());
+    }
 
     // Create desktop name textures if enabled
     if (desktopNameAlignment) {
