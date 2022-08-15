@@ -714,7 +714,8 @@ void XdgSurfaceClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
         }
     );
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::splitWindowRequested, this,
-        [this] (SplitType type) {
+        [this] (SplitType type, int mode) {
+            workspace()->setSplitMode(this, mode);
             workspace()->slotSetClientSplit(reinterpret_cast<AbstractClient*>(this), (int)type, true);
         }
     );
