@@ -138,6 +138,11 @@ void ChameleonButton::paint(QPainter *painter, const QRect &repaintRegion)
 
 void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
 {
+    if (!m_isMaxAvailble && !QX11Info::isPlatformX11())
+        return;
+
+    m_wlHoverStatus = true;
+
     if (KWinUtils::instance()->isCompositing()) {
         Chameleon *decoration = qobject_cast<Chameleon*>(this->decoration());
         if (decoration) {
@@ -194,6 +199,10 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
 
 void ChameleonButton::hoverLeaveEvent(QHoverEvent *event)
 {
+    if (!m_wlHoverStatus && !QX11Info::isPlatformX11())
+        return;
+
+    m_wlHoverStatus = false;
     if (KWinUtils::instance()->isCompositing()) {
         Chameleon *decoration = qobject_cast<Chameleon*>(this->decoration());
         if (decoration) {
@@ -228,6 +237,7 @@ void ChameleonButton::mousePressEvent(QMouseEvent *event)
                     if (decoration) {
                         effect = decoration->effect();
                         if (m_pSplitMenu && effect) {
+                            m_wlHoverStatus = false;
                             showSplitMenu();
                         }
                     }
