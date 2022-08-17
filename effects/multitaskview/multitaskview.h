@@ -612,6 +612,7 @@ private:
     Qt::MouseButton m_sendDockButton = Qt::NoButton;
 
     DbusThread *m_dbusThread;
+    QTimer* m_addingDesktopTimer;
 };
 
 } // namespace KWin
