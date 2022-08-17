@@ -614,6 +614,7 @@ MultitaskViewEffect::MultitaskViewEffect()
     : m_showAction(new QAction(this))
     , m_mutex(QMutex::Recursive)
     , m_timer(new QTimer(this))
+    , m_addingDesktopTimer(new QTimer(this))
 {
     QAction *a = m_showAction;
     a->setObjectName(QStringLiteral("ShowMultitasking"));
@@ -695,6 +696,9 @@ MultitaskViewEffect::MultitaskViewEffect()
     QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
     // 监听控制中心字体变化
     QDBusConnection::sessionBus().connect("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "Changed", this, SLOT(fontChanged(QString, QString)));
+    m_addingDesktopTimer->setInterval(200);
+    m_addingDesktopTimer->setSingleShot(true);
+    connect(m_addingDesktopTimer, &QTimer::timeout, this, &MultitaskViewEffect::addNewDesktop);
 }
 
 void MultitaskViewEffect::fontChanged(const QString &fontType, const QString &fontName)
@@ -2035,12 +2039,14 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             break;
         case Qt::Key_Equal:
             if (e->modifiers() == Qt::AltModifier) {
-                addNewDesktop();
+                if(!m_addingDesktopTimer->isActive())
+                    m_addingDesktopTimer->start();
             }
             break;
         case Qt::Key_Plus:
             if (e->modifiers() == (Qt::AltModifier|Qt::KeypadModifier)) {
-                addNewDesktop();
+                if(!m_addingDesktopTimer->isActive())
+                    m_addingDesktopTimer->start();
             }
             break;
         case Qt::Key_Minus:
