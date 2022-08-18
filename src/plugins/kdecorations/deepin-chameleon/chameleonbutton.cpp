@@ -183,6 +183,7 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
                             m_mousePosX = event->pos().x();
                         }
                     }
+                    decoration->requestHideToolTip();
                 }
             }
         }
