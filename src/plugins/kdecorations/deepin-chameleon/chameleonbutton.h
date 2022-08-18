@@ -22,6 +22,7 @@
 #define CHAMELEONBUTTON_H
 
 #include <KDecoration2/DecorationButton>
+#include "chameleonsplitmenu.h"
 
 class ChameleonButton : KDecoration2::DecorationButton
 {
@@ -37,8 +38,24 @@ public:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseReleaseEvent(QMouseEvent *event) override;
 
+protected Q_SLOTS:
+    void onCompositorChanged(bool);
+    void onClientAreaUpdate();
+
 protected:
     void paint(QPainter *painter, const QRect &repaintRegion) override;
+    void showSplitMenu();
+    KDecoration2::DecorationButtonType m_type;
+
+    ChameleonSplitMenu *m_pSplitMenu = nullptr;
+
+    QTimer *max_hover_timer = nullptr;
+    int m_mousePosX;
+
+    QColor m_backgroundColor;
+    KWin::EffectWindow *effect = nullptr;
+    QTimer *max_timer = nullptr;
+    bool m_isMaxAvailble = true;
 };
 
 #endif // CHAMELEONBUTTON_H

@@ -232,3 +232,16 @@ target_link_libraries(testFtrace
 )
 add_test(NAME kwin-testFtrace COMMAND testFtrace)
 ecm_mark_as_test(testFtrace)
+
+#add_executable(testSplitOutline test_splitoutline.cpp ../src/splitoutline.cpp ${testprintasanbase_SRCS})
+#target_link_libraries(testSplitOutline
+#    Qt5::Test
+#    Qt5::Gui
+#    Qt5::Widgets
+#    KF5::WindowSystem
+#    KF5::ConfigCore
+#    XCB::XCB
+#    kwin
+#)
+#add_test(NAME kwin-testSplitOutline COMMAND testSplitOutline)
+#ecm_mark_as_test(testSplitOutline)

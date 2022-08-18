@@ -12,6 +12,7 @@
 #include "placement.h"
 
 #ifndef KCMRULES
+#include "composite.h"
 #include "workspace.h"
 #include "x11client.h"
 #include "cursor.h"
@@ -852,7 +853,15 @@ void Workspace::quickTileWindow(QuickTileMode mode)
         m_quickTileCombineTimer->stop();
     }
 
-    active_client->setQuickTileMode(mode, true);
+    if (active_client->checkClientAllowToTile()) {
+        if (active_client->quickTileMode() == mode) {
+            active_client->cancelSplitManage();
+            active_client->setQuickTileMode(QuickTileFlag::None);
+        } else {
+            setSplitMode(active_client, (int)SplitMode::Two);
+            setClientSplit(active_client, (int)mode, false);
+        }
+    }
 }
 
 int Workspace::packPositionLeft(const AbstractClient *client, int oldX, bool leftEdge) const

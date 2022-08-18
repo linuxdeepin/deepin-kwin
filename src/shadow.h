@@ -84,6 +84,7 @@ public:
     bool hasDecorationShadow() const {
         return !m_decorationShadow.isNull();
     }
+
     QImage decorationShadowImage() const;
 
     QWeakPointer<KDecoration2::DecorationShadow> decorationShadow() const {
@@ -147,6 +148,7 @@ private:
     QSize m_cachedSize;
     // Decoration based shadows
     QSharedPointer<KDecoration2::DecorationShadow> m_decorationShadow;
+    QSharedPointer<KDecoration2::DecorationShadow> m_decorationShadowTemp;
 };
 
 }

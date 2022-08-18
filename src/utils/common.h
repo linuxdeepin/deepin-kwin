@@ -104,6 +104,13 @@ MaximizeMode operator^(MaximizeMode m1, MaximizeMode m2)
     return MaximizeMode(int(m1) ^ int(m2));
 }
 
+enum class SplitMode {
+    None       = 0,
+    Two        = 1 << 0,
+    Three      = 1 << 1,
+    Four       = 1 << 2,
+};
+
 enum class QuickTileFlag {
     None        = 0,
     Left        = 1 << 0,
@@ -115,6 +122,16 @@ enum class QuickTileFlag {
     Maximize    = Left | Right | Top | Bottom,
 };
 Q_DECLARE_FLAGS(QuickTileMode, QuickTileFlag)
+
+enum class SplitLocation {
+    None         = 0,
+    leftTop      = 1 << 0,
+    rightTop     = 1 << 1,
+    leftBottom   = 1 << 2,
+    rightBottom  = 1 << 3,
+    AllShow      = leftTop | rightTop | leftBottom | rightBottom,
+};
+Q_DECLARE_FLAGS(SplitLocationMode, SplitLocation)
 
 template <typename T> using ScopedCPointer = QScopedPointer<T, QScopedPointerPodDeleter>;
 
@@ -229,3 +246,30 @@ KWIN_EXPORT QPoint popupOffset(const QRect &anchorRect, const Qt::Edges anchorEd
 // Must be outside namespace
 Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::StrutAreas)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KWin::QuickTileMode)
+
+typedef struct{
+    unsigned char R;
+    unsigned char G;
+    unsigned char B;
+    unsigned char l;
+}COLOR_RGB;
+
+typedef struct{
+    float H;
+    float S;
+    float V;
+}COLOR_HSV;
+
+class RgbToHsv
+{
+protected:
+    float minValue(float a, float b);
+    float maxValue(float a,float b);
+    void RGB_TO_HSV(const COLOR_RGB* input,COLOR_HSV* output);
+    void HSV_TO_RGB(COLOR_HSV* input,COLOR_RGB* output);
+public:
+    QString adjustBrightness(QString rgb, int step);
+
+private:
+    COLOR_RGB rgb_v;
+};

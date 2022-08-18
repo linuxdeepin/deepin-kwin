@@ -37,6 +37,7 @@ add_library(
     chameleonshadow.cpp
     chameleonconfig.cpp
     chameleonwindowtheme.cpp
+    chameleonsplitmenu.cpp
     kwinutils.cpp
     themes.qrc
 )

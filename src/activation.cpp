@@ -25,7 +25,7 @@
 #include "activities.h"
 #endif
 #include "virtualdesktops.h"
-
+#include "composite.h"
 #include <kstartupinfo.h>
 #include <kstringhandler.h>
 #include <KLocalizedString>
@@ -36,6 +36,7 @@
 #include "screens.h"
 #include "useractions.h"
 #include <QDebug>
+#include "splitmanage.h"
 
 namespace KWin
 {
@@ -236,6 +237,9 @@ void Workspace::setActiveClient(AbstractClient* c)
     }
     active_client = c;
     Q_ASSERT(c == nullptr || c->isActive());
+    if (c && !c->isDesktop() && Compositor::compositing()) {
+        SplitManage::instance()->updateSplitGroup(c);
+    }
 
     if (active_client) {
         last_active_client = active_client;
@@ -287,6 +291,7 @@ void Workspace::activateClient(AbstractClient* c, bool force)
         setActiveClient(nullptr);
         return;
     }
+
     raiseClient(c);
     if (!c->isOnCurrentDesktop()) {
         ++block_focus;

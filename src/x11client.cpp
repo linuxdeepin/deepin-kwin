@@ -270,6 +270,9 @@ void X11Client::releaseWindow(bool on_shutdown)
     if (isInteractiveMoveResize())
         Q_EMIT clientFinishUserMovedResized(this);
     Q_EMIT windowClosed(this, del);
+
+    cancelSplitManage();
+
     finishCompositing();
     RuleBook::self()->discardUsed(this, true);   // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
@@ -332,6 +335,9 @@ void X11Client::destroyClient()
     if (isInteractiveMoveResize())
         Q_EMIT clientFinishUserMovedResized(this);
     Q_EMIT windowClosed(this, del);
+
+    cancelSplitManage();
+
     finishCompositing(ReleaseReason::Destroyed);
     RuleBook::self()->discardUsed(this, true);   // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
@@ -1474,6 +1480,12 @@ void X11Client::doMinimize()
         } else {
             exportMappingState(XCB_ICCCM_WM_STATE_NORMAL);
         }
+    }
+
+    if (isMinimized()) {
+        cancelSplitManage();
+    } else {
+        manageSplitClient();
     }
 
     if (isShade()) {
@@ -4618,6 +4630,9 @@ bool X11Client::doStartInteractiveMoveResize()
         m_moveResizeGrabWindow.map();
         m_moveResizeGrabWindow.raise();
         updateXTime();
+        if (workspace()->touchToMovingClientStatus()) {
+            return true;
+        }
         /**
         * Change the cursor parameter in the xcb_grab_pointer_unchecked function to XCB_CURSOR_NONE.
         * No cursor style is specified here.

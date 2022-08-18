@@ -50,7 +50,6 @@ Chameleon::Chameleon(QObject *parent, const QVariantList &args)
     : KDecoration2::Decoration(parent, args)
     , m_client(parent)
 {
-
 }
 
 Chameleon::~Chameleon()
@@ -71,6 +70,8 @@ void Chameleon::init()
 
     if (!m_client)
         m_client = KWinUtils::findClient(KWinUtils::Predicate::WindowMatch, c->windowId());
+    else
+        KWinUtils::insertChameleon(c, m_client);
 
     initButtons();
 
@@ -352,6 +353,8 @@ void Chameleon::updateButtonsGeometry()
 
     // adjust button position
     const int bHeight = noTitleBar() ? 0 : titleBarHeight();
+    KWinUtils::Window::setTitleBarHeight(m_client, bHeight);
+
     const int bWidth = bHeight;
 
     for (const QPointer<KDecoration2::DecorationButton> &button : m_leftButtons->buttons() + m_rightButtons->buttons()) {

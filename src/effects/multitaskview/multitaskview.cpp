@@ -949,8 +949,13 @@ void MultitaskViewEffect::postPaintScreen()
     if (m_effectFlyingBack.done()) {
         m_effectFlyingBack.end();
         setActive(false);
-        relayDockEvent(m_cursorPos, m_buttonType);
-        if (!QX11Info::isPlatformX11() && m_sendDockButton != Qt::NoButton) {
+        QTimer::singleShot(400, [&]() { m_delayDbus = true; });
+        if (QX11Info::isPlatformX11() && m_dockRect.contains(m_cursorPos) && m_dockRect.contains(QCursor::pos()) && m_buttonType != 0) {
+            relayDockEvent(m_cursorPos, m_buttonType);
+            m_cursorPos.setX(0);
+            m_cursorPos.setY(0);
+            m_buttonType = 0;
+        } else if (!QX11Info::isPlatformX11() && m_sendDockButton != Qt::NoButton) {
             effectsEx->sendPointer(m_sendDockButton);
             m_sendDockButton = Qt::NoButton;
         }
@@ -1005,12 +1010,12 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
     }
 
     if (m_effectFlyingBack.animating()) {
-        if (w->isOnDesktop(effects->currentDesktop())) {
+        if (w->isOnDesktop(effects->currentDesktop()) && !w->isMinimized()) {
             m_effectFlyingBack.paintWindow(w, mask, region, data);
         }
         return;
     } else if (m_effectFlyingBack.done()) {
-        if (w->isOnDesktop(effects->currentDesktop())) {
+        if (w->isOnDesktop(effects->currentDesktop()) && !w->isMinimized()) {
             effects->paintWindow(w, mask, region, data);
         }
         return;
@@ -1030,7 +1035,12 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
 
     int desktop = effects->currentDesktop();
     if (0 == paintingDesktop) {
-        if (w == m_windowMove && m_wasWindowMove) {
+        MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+        if (wmobj && m_wasWindowMove && wmobj->isSplitManage(m_windowMove->screen(), m_windowMove)) {
+            if (wmobj->isSplitManage(m_windowMove->screen(), w)) {
+                return;
+            }
+        } else if (w == m_windowMove && m_wasWindowMove) {
             return;
         }
 
@@ -1116,6 +1126,9 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     auto area = effects->clientArea(ScreenArea, w->screen(), 0);
                     WindowPaintData d = data;
                     auto geo = wmm->transformedGeometry(w);
+                    QRect hovergeo = geo.toRect();
+                    if (wmobj->isSplitManage(w->screen(), w))
+                        hovergeo = wmobj->getSplitRect(w->screen());
                     //to do
                     /*WindowQuadList quads;
                     for (const WindowQuad &quad : dataQuads) {
@@ -1136,7 +1149,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                         if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
                             renderHover(w, wmobj->getWinFill(w)->getRect());
                         } else {
-                            renderHover(w, geo.toRect());
+                            renderHover(w, hovergeo);
                         }
                     }
 
@@ -1171,11 +1184,21 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     }
                     effects->paintWindow(w, mask, area, d);
 
-                    if (w == m_hoverWinBtn) {
-                        if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
-                            renderHover(w, wmobj->getWinFill(w)->getRect(), 1);
-                        } else {
-                            renderHover(w, geo.toRect(), 1);
+                    if (wmobj->isSplitManage(w->screen(), m_hoverWinBtn)) {
+                        if (wmobj->getHoverSplit(w->screen()) == w || wmobj->isSplitManage(w->screen(), w)) {
+                            if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
+                                renderHover(w, wmobj->getWinFill(w)->getRect(), 1);
+                            } else {
+                                renderHover(w, hovergeo, 1);
+                            }
+                        }
+                    } else {
+                        if (w == m_hoverWinBtn) {
+                            if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
+                                renderHover(w, wmobj->getWinFill(w)->getRect(), 1);
+                            } else {
+                                renderHover(w, hovergeo, 1);
+                            }
                         }
                     }
                 }
@@ -1215,39 +1238,55 @@ void MultitaskViewEffect::handlerAfterTimeLine()
     }
 }
 
-void MultitaskViewEffect::renderWindowMove(KWin::ScreenPaintData &data)
+void MultitaskViewEffect::dragWindowEffect(EffectWindow *w, KWin::ScreenPaintData &data, QRect rect, QPoint diff)
 {
-    QPoint diff = cursorPos() - m_windowMoveStartPos;
     QRect geo = m_windowMoveGeometry.translated(diff);
-    WindowPaintData d(m_windowMove, data.projectionMatrix());
+    WindowPaintData d(w, data.projectionMatrix());
 
-    MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
-    QRect rect1 = wmobj ? wmobj->getWindowGeometry(m_windowMove, m_windowMove->screen()) : QRect();
-    float K1 = (qreal)rect1.width() / (qreal)m_windowMove->width();
-    d += QPoint(-m_windowMove->x(), -m_windowMove->y());
+    float K1 = (qreal)rect.width() / (qreal)w->width();
+    d += QPoint(-w->x(), -w->y());
     if (cursorPos().y() < m_windowMoveStartPos.y()) {
         int Y0 = m_scale[m_windowMove->screen()].workspaceMgrRect.bottom();
         float k = (cursorPos().y() - m_windowMoveStartPos.y()) / float(Y0 - m_windowMoveStartPos.y());
-        float K0 = (qreal)geo.width() / (qreal)m_windowMove->width();
+        float K0 = (qreal)geo.width() / (qreal)w->width();
         k = K1 - k * (K1 - K0);
         if (k < K0) k = K0;
         d *= QVector2D(k, k);
 
-        float sx = (m_windowMoveStartPos.x() - rect1.x()) / float(rect1.width());
-        float sy = (m_windowMoveStartPos.y() - rect1.y()) / float(rect1.height());
+        float sx = (m_windowMoveStartPos.x() - rect.x()) / float(rect.width());
+        float sy = (m_windowMoveStartPos.y() - rect.y()) / float(rect.height());
         float cx = cursorPos().x();
         float cy = cursorPos().y();
-        float cw = k * m_windowMove->width();
-        float ch = k * m_windowMove->height();
+        float cw = k * w->width();
+        float ch = k * w->height();
         float x0 = cx - cw * sx;
         float y0 = cy - ch * sy;
         d += QPoint(x0,y0);
     }
     else {
         d *= QVector2D(K1, K1);
-        d += QPoint(rect1.left()+diff.x(), rect1.top()+diff.y());
+        d += QPoint(rect.left()+diff.x(), rect.top()+diff.y());
     }
-    effects->drawWindow(m_windowMove, PAINT_WINDOW_TRANSFORMED, infiniteRegion(), d);
+    effects->drawWindow(w, PAINT_WINDOW_TRANSFORMED, infiniteRegion(), d);
+}
+
+void MultitaskViewEffect::renderWindowMove(KWin::ScreenPaintData &data)
+{
+    QPoint diff = cursorPos() - m_windowMoveStartPos;
+    MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+    if (wmobj) {
+        if (wmobj->isSplitManage(m_windowMove->screen(), m_windowMove)) {
+            QSet<EffectWindow *> list;
+            wmobj->getSplitList(m_windowMove->screen(), list);
+            for (auto effectw : list) {
+                QRect rect = wmobj->getWindowGeometry(effectw, m_windowMove->screen());
+                dragWindowEffect(effectw, data, rect, diff);
+            }
+        } else {
+            QRect rect = wmobj->getWindowGeometry(m_windowMove, m_windowMove->screen());
+            dragWindowEffect(m_windowMove, data, rect, diff);
+        }
+    }
 }
 
 void MultitaskViewEffect::renderWorkspaceMove(KWin::ScreenPaintData &data)
@@ -1390,7 +1429,20 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
             QFontMetrics* metrics = NULL;
             if (!metrics)
                 metrics = new QFontMetrics(m_textWinFrame->font());
-            QString string = metrics->elidedText(w->caption(), Qt::ElideRight, rect.width() * 0.9);
+            QString caption = w->caption();
+            MultiViewWinManager *wmobj = getWinManagerObject(w->desktop() - 1);
+            if (wmobj && wmobj->isSplitManage(w->screen(), (EffectWindow *)w)) {
+                QSet<EffectWindow *> list; caption = "窗口组合：";
+                wmobj->getSplitList(w->screen(), list);
+                for (auto effectw : list) {     // borrow width
+                    if (width != 0)
+                        caption += "、";
+                    caption += effectw->caption();
+                    width ++;
+                }
+                width = 0;
+            }
+            QString string = metrics->elidedText(caption, Qt::ElideRight, rect.width() * 0.9);
             if (string != m_textWinFrame->text())
                 m_textWinFrame->setText(string);
             width = metrics->width(string);
@@ -1414,9 +1466,8 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         m_closeWinFrame->setPosition(QPoint(rect.x() + rect.width() - 25, rect.y() - 17));
         m_topWinFrame->setPosition(QPoint(rect.x() - 22, rect.y() - 17));
         m_textWinFrame->setPosition(QPoint(rect.x() + rect.width() / 2, rect.y() + rect.height() - 40));
-        m_winBtnArea[effects->screens()[0]] = QRect(QPoint(rect.x() + rect.width() - 25, rect.y() - 17), QSize(48, 48));
-        if (effects->screens().size() >= 2)
-            m_winBtnArea[effects->screens()[1]] = QRect(QPoint(rect.x() - 22, rect.y() - 17), QSize(48, 48));
+        m_winBtnArea[0] = QRect(QPoint(rect.x() + rect.width() - 25, rect.y() - 17), QSize(48, 48));
+        m_winBtnArea[1] = QRect(QPoint(rect.x() - 22, rect.y() - 17), QSize(48, 48));
 
         m_textWinBgFrame->setPosition(QPoint(rect.x() + rect.width() / 2, rect.y() + rect.height() - 40));
         static GLShader* shader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral(":/effects/multitaskview/shaders/windowtext.frag"));
@@ -1748,7 +1799,14 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             if (!m_wasWindowMove) {
                 m_windowMoveStartPos = mouseEvent->pos();
                 MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
-                m_windowMoveGeometry = wmobj ? wmobj->getWindowGeometry(m_windowMove, m_windowMove->screen()) : QRect();
+                m_windowMoveGeometry = QRect();
+                if (wmobj) {
+                    if (wmobj->isSplitManage(m_windowMove->screen(), m_windowMove)) {
+                        m_windowMoveGeometry = wmobj->getSplitRect(m_windowMove->screen());
+                    } else {
+                        m_windowMoveGeometry = wmobj->getWindowGeometry(m_windowMove, m_windowMove->screen());
+                    }
+                }
 
                 int width = m_scale[m_windowMove->screen()].workspaceWidth / 2;
                 float scale = (float)width / m_windowMove->width();
@@ -1789,28 +1847,27 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             } else {
                 m_effectFlyingBack.begin();
                 effects->addRepaintFull();
-                // fix bug 128331, move sendPointer to flyingback down
-                //effectsEx->sendPointer(mouseEvent->button());
                 m_sendDockButton = mouseEvent->button();
             }
-            QTimer::singleShot(400, [&]() { m_delayDbus = true; });
         } else if (target) {
             bool isPressBtn = false;
-            auto iter = m_winBtnArea.begin();
-            for (; iter != m_winBtnArea.end(); iter++) {
-                if (m_winBtnArea[iter.key()].contains(mouseEvent->pos())) {
+            int i = 0;
+            for (; i < m_winBtnArea.size(); i++) {
+                if (m_winBtnArea[i].contains(mouseEvent->pos())) {
                     isPressBtn = true;
                     break;
                 }
             }
             if (isPressBtn) {
-                if (iter == m_winBtnArea.begin()) {   // close btn
-                    if (closeWindow(target)) {
-                        m_hoverWin = nullptr;
-                        m_isShieldEvent = true;
+                MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+                if (wmobj && wmobj->isSplitManage(target->screen(), target)) {
+                    QSet<KWin::EffectWindow *> list;
+                    wmobj->getSplitList(target->screen(), list);
+                    for (auto effectw : list) {
+                        handleWindowButton(i, effectw);
                     }
-                } else if (iter == m_winBtnArea.begin() + 1) {    //top btn
-                    setWinKeepAbove(target);
+                } else {
+                    handleWindowButton(i, target);
                 }
             } else if (!m_wasWindowMove && !m_longPressTouch) {
                 effects->defineCursor(Qt::PointingHandCursor);
@@ -1821,18 +1878,21 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                 m_effectFlyingBack.begin();
             }
         } else if (m_wasWindowMove && isHoverWorkspace) {
-            checkHandlerWorkspace(mouseEvent->pos(), screen, desktop);
-            if (desktop != -1 && !m_windowMove->isOnDesktop(desktop)) {
-                moveWindowChangeDesktop(m_windowMove, desktop, screen);
-            } else {
-                MultiViewWorkspace *wkobj = getWorkspaceObject(screen, effects->numberOfDesktops() - 1);
-                if (wkobj) {
-                    QRect bgrect = QRect(wkobj->getRect().x() + wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.y(),
-                                         m_scale[screen].workspaceMgrRect.x() + m_scale[screen].workspaceMgrRect.width() - wkobj->getRect().x() - wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.height());
-                    if (bgrect.contains(mouseEvent->pos()) && effects->numberOfDesktops() < 6) {
-                        addNewDesktop();
-                        moveWindowChangeDesktop(m_windowMove, effects->numberOfDesktops(), screen, true);
-                        m_opacityStatus = true;  //start opacity and sliding effects
+            MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+            if (wmobj && !wmobj->isSplitManage(m_windowMove->screen(), m_windowMove)) {
+                checkHandlerWorkspace(mouseEvent->pos(), screen, desktop);
+                if (desktop != -1 && !m_windowMove->isOnDesktop(desktop)) {
+                    moveWindowChangeDesktop(m_windowMove, desktop, screen);
+                } else {
+                    MultiViewWorkspace *wkobj = getWorkspaceObject(screen, effects->numberOfDesktops() - 1);
+                    if (wkobj) {
+                        QRect bgrect = QRect(wkobj->getRect().x() + wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.y(),
+                                            m_scale[screen].workspaceMgrRect.x() + m_scale[screen].workspaceMgrRect.width() - wkobj->getRect().x() - wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.height());
+                        if (bgrect.contains(mouseEvent->pos()) && effects->numberOfDesktops() < 6) {
+                            addNewDesktop();
+                            moveWindowChangeDesktop(m_windowMove, effects->numberOfDesktops(), screen, true);
+                            m_opacityStatus = true;  //start opacity and sliding effects
+                        }
                     }
                 }
             }
@@ -1904,8 +1964,8 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
         case Qt::Key_4:
         case Qt::Key_5:
         case Qt::Key_6:
-            if (e->modifiers() == Qt::MetaModifier ||
-                    e->modifiers() == (Qt::MetaModifier|Qt::KeypadModifier)) {
+            if (e->modifiers() == (Qt::ControlModifier|Qt::AltModifier) ||
+                    e->modifiers() == (Qt::ControlModifier|Qt::AltModifier|Qt::KeypadModifier)) {
                 int index = e->key() - Qt::Key_0;
                 if (effects->numberOfDesktops() >= index) {
                     if (effects->currentDesktop() != index) {
@@ -1923,7 +1983,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
         case Qt::Key_Dollar:
         case Qt::Key_Percent:
         case Qt::Key_AsciiCircum:
-            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier)) {
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier)) {
                 int target_desktop = 1;
                 switch(e->key()) {
                 case Qt::Key_Exclam:      target_desktop = 1; break;
@@ -1934,7 +1994,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 case Qt::Key_AsciiCircum: target_desktop = 6; break;
                 default: break;
                 }
-                if (m_hoverWin) {
+                if (m_hoverWin && effects->currentDesktop() != target_desktop) {
                     moveWindowChangeDesktop(m_hoverWin, target_desktop, m_hoverWin->screen());
                 }
             }
@@ -1945,8 +2005,8 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             }
             break;
         case Qt::Key_End:
-            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
-                if (m_hoverWin) {
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::KeypadModifier)) {
+                if (m_hoverWin && effects->currentDesktop() != 1) {
                     moveWindowChangeDesktop(m_hoverWin, 1, m_hoverWin->screen());
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
@@ -1955,7 +2015,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             break;
         case Qt::Key_PageDown:
         case Qt::Key_Clear:
-            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::KeypadModifier)) {
                 int target_desktop = 3;
                 switch (e->key())
                 {
@@ -1963,14 +2023,14 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 case Qt::Key_Clear:     target_desktop = 5; break;
                 default: break;
                 }
-                if (m_hoverWin) {
+                if (m_hoverWin  && effects->currentDesktop() != target_desktop) {
                     moveWindowChangeDesktop(m_hoverWin, target_desktop, m_hoverWin->screen());
                 }
             }
             break;
         case Qt::Key_Down:
-            if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
-                if (m_hoverWin) {
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::KeypadModifier)) {
+                if (m_hoverWin && effects->currentDesktop() != 2) {
                     moveWindowChangeDesktop(m_hoverWin, 2, m_hoverWin->screen());
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
@@ -2019,16 +2079,31 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             }
             break;
         case Qt::Key_Right:
-            if (e->modifiers() == Qt::MetaModifier) {
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::KeypadModifier)) {
+                if (m_hoverWin && effects->currentDesktop() != 6) {
+                    moveWindowChangeDesktop(m_hoverWin, 6, m_hoverWin->screen());
+                }
+            } else if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier)) {
+                if (effects->numberOfDesktops() == 1)
+                    break;
+                if (m_hoverWin) {
+                    int index = effects->currentDesktop() + 1;
+                    if (index > effects->numberOfDesktops()) {
+                        if (effects->numberOfDesktops() != 1)
+                            moveWindowChangeDesktop(m_hoverWin, 1, m_hoverWin->screen());
+                    } else {
+                        moveWindowChangeDesktop(m_hoverWin, index, m_hoverWin->screen());
+                    }
+                    m_hoverWin = nullptr;
+                }
+            } else if (e->modifiers() == Qt::ControlModifier | Qt::AltModifier) {
+                if (effects->numberOfDesktops() == 1)
+                    break;
                 int index = effects->currentDesktop() + 1;
                 if (index > effects->numberOfDesktops()) {
                     changeCurrentDesktop(1);
                 } else {
                     changeCurrentDesktop(index);
-                }
-            } else if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
-                if (m_hoverWin) {
-                    moveWindowChangeDesktop(m_hoverWin, 6, m_hoverWin->screen());
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
@@ -2037,16 +2112,31 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             }
             break;
         case Qt::Key_Left:
-            if (e->modifiers() == Qt::MetaModifier) {
+            if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::KeypadModifier)) {
+                if (m_hoverWin && effects->currentDesktop() != 4) {
+                    moveWindowChangeDesktop(m_hoverWin, 4, m_hoverWin->screen());
+                }
+            } else if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier)) {
+                if (effects->numberOfDesktops() == 1)
+                    break;
+                if (m_hoverWin) {
+                    int index = effects->currentDesktop() - 1;
+                    if (index <= 0) {
+                        if (effects->numberOfDesktops() != 1)
+                            moveWindowChangeDesktop(m_hoverWin, effects->numberOfDesktops(), m_hoverWin->screen());
+                    } else {
+                        moveWindowChangeDesktop(m_hoverWin, index, m_hoverWin->screen());
+                    }
+                    m_hoverWin = nullptr;
+                }
+            } else if (e->modifiers() == Qt::ControlModifier | Qt::AltModifier) {
+                if (effects->numberOfDesktops() == 1)
+                    break;
                 int index = effects->currentDesktop() - 1;
                 if (index <= 0) {
                     changeCurrentDesktop(effects->numberOfDesktops());
                 } else {
                     changeCurrentDesktop(index);
-                }
-            } else if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
-                if (m_hoverWin) {
-                    moveWindowChangeDesktop(m_hoverWin, 4, m_hoverWin->screen());
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
@@ -2189,6 +2279,7 @@ void MultitaskViewEffect::cleanup()
     m_maxHeight = 0;
     m_windowMove = nullptr;
     m_hoverWin = nullptr;
+    m_hoverWinBtn = nullptr;
     m_motionManagers.clear();
     m_workspaceWinMgr.clear();
     m_addWorkspaceButton.clear();
@@ -2280,13 +2371,18 @@ void MultitaskViewEffect::setWinLayout(int desktop, const EffectWindowList &wind
     MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
 
     for (auto effectScreen : effects->screens()) {           //number of screens
+        QSet<KWin::EffectWindow *> splitList;
+        effectsEx->getActiveSplitList(splitList, desktop, effectScreen->name());
+        if (splitList.size() >= 2)
+            wmobj->setSplitList(effectScreen, splitList);
+
         WindowMotionManager wmm;
         WindowMotionManager workspacewmm;
         EffectWindowList winList;
         for (const auto& w: windows) {
             if (w->isOnDesktop(desktop) && isRelevantWithPresentWindows(w) && w->screen() == effectScreen && checkConfig(w)) {
-                wmm.manage(w);
                 workspacewmm.manage(w);
+                wmm.manage(w);
                 winList.push_back(w);
             } else if (w->isDock()) {
                 m_dockRect = w->geometry();
@@ -2419,15 +2515,37 @@ void MultitaskViewEffect::calculateWindowTransformations(EffectWindowList window
 void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList windowlist, int desktop, EffectScreen *screen,
         WindowMotionManager& motionManager, bool isReLayout)
 {
-    QHash<EffectWindow*, QRect> targets;
-
-    for (EffectWindow *w : windowlist) {
-        QRect rect = w->geometry();
-        targets[w] = rect;
+    QSet<EffectWindow *> splitlist;
+    MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
+    if (wmobj) {
+        wmobj->getSplitList(screen, splitlist);
+        if (splitlist.size() < 2) {
+            splitlist.clear();
+            wmobj->setSplitList(screen, splitlist);
+        }
     }
 
-    QRect screenRect = effects->clientArea(MaximizeFullArea, screen, 1);
-    QRect desktopRect = effects->clientArea(MaximizeArea, screen, 1);
+    EffectWindow *splitwin = nullptr;
+    int lindex = 0;
+    QHash<EffectWindow*, QRect> targets;
+    QRect desktopRect = effects->clientArea(MaximizeArea, screen, desktop);
+    for (EffectWindow *w : windowlist) {
+        if (splitlist.contains(w) && lindex != splitlist.size() - 1) {
+            lindex ++;
+            continue;
+        }
+        if (splitlist.contains(w)) {
+            splitwin = w;
+            wmobj->setHoverSplit(w->screen(), w);
+            targets[w] = desktopRect;
+        } else {
+            QRect rect = w->geometry();
+            targets[w] = rect;
+        }
+    }
+
+    QRect screenRect = effects->clientArea(MaximizeFullArea, screen, desktop);
+    
     float scaleHeight = screenRect.height() * FIRST_WIN_SCALE;
     int minSpacingH = m_scale[screen].spacingHeight;
     int totalw = m_scale[screen].spacingWidth;
@@ -2443,6 +2561,9 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
         overlap = false;
         for (int i = windowlist.size() - 1; i >= 0; i--) {
             EffectWindow *w = windowlist[i];
+            if (splitlist.contains(w) && splitwin != w) {
+                continue;
+            }
             QRect *target = &targets[w];
             float width = target->width();
             if (target->height() > scaleHeight) {
@@ -2485,6 +2606,9 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
     totalw = m_scale[screen].spacingWidth;
     for (int i = windowlist.size() - 1; i >= 0; i--) {
         EffectWindow *w = windowlist[i];
+        if (splitlist.contains(w) && splitwin != w) {
+            continue;
+        }
         QRect *target = &targets[w];
         float width = 0.0, height = 0.0;
         bool isFill = false;
@@ -2515,6 +2639,7 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
         }
 
         target->setRect(x, winYPos + (scaleHeight - height) / 2, width, height);
+        
         if (isFill) {
             QRect rect(x, winYPos, width, scaleHeight);
             motionManager.setWindowFill(w, true, rect);
@@ -2523,10 +2648,40 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
         x += width;
         x += m_scale[screen].spacingWidth;
 
-        motionManager.moveWindow(w, targets.value(w));
+        if (splitlist.contains(w)) {
+            if (wmobj)
+                wmobj->setSplitRect(screen, *target);
+            calculateSplitWindowTransformations(targets.value(w), desktopRect, motionManager, splitlist);
+        } else {
+            motionManager.moveWindow(w, targets.value(w));
+        }
 
         //store window grids infomation
         m_effectFlyingBack.add(w, targets.value(w));
+    }
+}
+
+void MultitaskViewEffect::calculateSplitWindowTransformations(QRect rect, QRect desktopRect, WindowMotionManager& wmm, QSet<EffectWindow *> &list)
+{
+    for (auto splitW : list) {
+        auto client = static_cast<AbstractClient*>(static_cast<EffectWindowImpl*>(splitW)->window());
+        if (!client)
+            continue;
+
+        QuickTileMode mode = client->quickTileMode();
+        QRect crect = client->frameGeometry();
+        float wsacle = (float)crect.width() / (float)desktopRect.width();
+        int width = rect.width() * wsacle;
+        float hsacle = (float)crect.height() / (float)desktopRect.height();
+        int height = rect.height() * hsacle;
+        QRect srect(rect.x(), rect.y(), width, height);
+        if (mode & QuickTileFlag::Right) {
+            srect.moveLeft(rect.x() + rect.width() - width);
+        }
+        if (mode & QuickTileFlag::Bottom) {
+            srect.moveTop(rect.y() + rect.height() - height);
+        }
+        wmm.moveWindow(splitW, srect);
     }
 }
 
@@ -3153,6 +3308,10 @@ void MultitaskViewEffect::switchDesktop()
         }
     }
     effects->setCurrentDesktop(ncurrent);
+    int src = m_aciveMoveDesktop;
+    for (int i = 0; i <= m_moveWorkspaceNum; i++) {
+        effectsEx->switchSplitWorkspace(src, m_moveWorkspacedirection == mvLeft ? src-- : src++);
+    }
 }
 
 void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
@@ -3287,6 +3446,11 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop
         return;
     }
 
+    MultiViewWinManager *wmobj1 = getWinManagerObject(w->desktop() - 1);
+    if (wmobj1 && wmobj1->isSplitManage(w->screen(), w)) {
+        return;
+    }
+
     int fromdesktop = w->desktop();
     QMutexLocker locker(&m_mutex);
     EffectScreen *screen = w->screen();
@@ -3366,6 +3530,10 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop
 bool MultitaskViewEffect::closeWindow(EffectWindow *w)
 {
     if (effectsEx->getChildWinList(w).size() == 0) {
+        MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
+        if (wmobj && wmobj->isSplitManage(w->screen(), w)) {
+            wmobj->removeSplit(w->screen(), w);
+        }
         w->closeWindow();
         return true;
     }
@@ -3625,6 +3793,18 @@ EffectWindow *MultitaskViewEffect::getPreSameTypeWindow(EffectWindow *w)
     return target;
 }
 
+void MultitaskViewEffect::handleWindowButton(int index, EffectWindow *w)
+{
+    if (index == 0) {   // close btn
+        if (closeWindow(w)) {
+            m_hoverWin = nullptr;
+            m_isShieldEvent = true;
+        }
+    } else if (index == 1) {    //top btn
+        setWinKeepAbove(w);
+    }
+}
+
 MultiViewWorkspace *MultitaskViewEffect::getWorkspaceObject(EffectScreen *screen, int secindex)
 {
     MultiViewWorkspace *target = nullptr;
@@ -3701,6 +3881,7 @@ bool MultitaskViewEffect::touchMotion(qint32 id, const QPointF &pos, quint32 tim
         QMouseEvent event(QEvent::MouseMove, pos, pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
         m_touch.isMotion = true;
         m_touch.pos = pos.toPoint();
+        effectsEx->setCursorPos(pos.toPoint());
         windowInputMouseEvent(&event);
         m_touch.isMotion = false;
     }

@@ -570,6 +570,9 @@ public:
     int stackingOrder() const;
     void setStackingOrder(int order); ///< @internal
 
+    void handleSplitOutline(bool show);
+    bool isShowSplitoutline() const;
+
 Q_SIGNALS:
     void stackingOrderChanged();
     void shadeChanged();
@@ -714,6 +717,7 @@ private:
     // when adding new data members, check also copyToDeleted()
     qreal m_opacity = 1.0;
     int m_stackingOrder = 0;
+    bool m_splitoutlineshow = false;
 };
 
 inline xcb_window_t Toplevel::window() const

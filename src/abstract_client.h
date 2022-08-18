@@ -14,7 +14,7 @@
 #include "options.h"
 #include "rules.h"
 #include "cursor.h"
-
+#include "splitoutline.h"
 #include <memory>
 
 #include <QElapsedTimer>
@@ -51,7 +51,7 @@ namespace Decoration
 class DecoratedClientImpl;
 class DecorationPalette;
 }
-
+class SplitOutline;
 class KWIN_EXPORT AbstractClient : public Toplevel
 {
     Q_OBJECT
@@ -342,6 +342,8 @@ class KWIN_EXPORT AbstractClient : public Toplevel
      */
     Q_PROPERTY(bool hidden READ isHiddenInternal NOTIFY hiddenChanged)
 
+    // Q_PROPERTY(bool isSplitscreen READ isSplitscreen)
+
 public:
     ~AbstractClient() override;
 
@@ -378,6 +380,7 @@ public:
     bool isActive() const {
         return m_active;
     }
+
     /**
      * Sets the client's active state to \a act.
      *
@@ -607,6 +610,10 @@ public:
 
     void keyPressEvent(uint key_code);
 
+    void setWindowSplitFromPreview(int mode);
+//    void splitWinAgain(int m);
+    void resetSplitGeometry(int m);
+
     virtual void pointerEnterEvent(const QPoint &globalPos);
     virtual void pointerLeaveEvent();
 
@@ -626,6 +633,27 @@ public:
     QuickTileMode quickTileMode() const {
         return QuickTileMode(m_quickTileMode);
     }
+
+    bool isSplitWindow() {
+        return m_quickTileMode != QuickTileMode(QuickTileFlag::None)
+            && m_quickTileMode != QuickTileMode(QuickTileFlag::Maximize)
+            && m_quickTileMode != QuickTileMode(QuickTileFlag::Horizontal)
+            && m_quickTileMode != QuickTileMode(QuickTileFlag::Vertical);
+    }
+
+    bool isSwapHandle() {
+        return m_isSwapHandle;
+    }
+
+    void setTitleBarHeight(int height)
+    {
+        if (m_titleBarHeight != height)
+            m_titleBarHeight = height;
+    }
+    int getTitleBarHeight() const {
+        return m_titleBarHeight;
+    }
+
     Layer layer() const override;
     void updateLayer();
 
@@ -895,6 +923,31 @@ public:
     void setStrut(KWaylandServer::deepinKwinStrut& strutArea) {m_strutArea = strutArea; }
     KWaylandServer::deepinKwinStrut strut() const {return m_strutArea; }
 
+    QuickTileMode electricBorderMode() const {
+        return m_electricMode;
+    }
+
+    int reCheckScreen();
+
+    void quitSplitStatus();
+    void cancelSplitManage();
+    // When using three finger split screen, check whether the client meets the split screen conditions.
+    bool checkClientAllowToTile();
+    bool checkClientAllowToFourSplit();
+
+    void manageSplitClient(bool isQuickMatch = false, bool isRecheckScreen = false);
+    //void handlequickTileModeChanged(bool isReCheckScreen = false);
+    bool handleSplitscreenSwap();
+
+    bool checkResizable(QSize size);
+
+    bool isSplitProperty() {
+        return m_splitProperty;
+    }
+    void setSplitProperty(bool isSplit) {
+        m_splitProperty = isSplit;
+    }
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -926,6 +979,7 @@ Q_SIGNALS:
     void transientChanged();
     void modalChanged();
     void quickTileModeChanged();
+    void showSplitPreview(KWin::AbstractClient*);
     void moveResizedChanged();
     void moveResizeCursorChanged(CursorShape);
     void clientStartUserMovedResized(KWin::AbstractClient*);
@@ -942,6 +996,21 @@ Q_SIGNALS:
     void unresponsiveChanged(bool);
     void decorationChanged();
     void hiddenChanged();
+
+    void swapSplitClient(QSet<KWin::AbstractClient *> list, int, int);
+
+    //splitoutline mouse event
+    void startShowMasking(KWin::AbstractClient*);
+    void resizeMasking(KWin::AbstractClient*);
+    void exitMasking();
+
+public:
+    // electric border / quick tiling
+    void setElectricBorderMode(QuickTileMode mode);
+
+    void updateQuickTileMode(QuickTileMode newMode) {
+        m_quickTileMode = newMode;
+    }
 
 protected:
     AbstractClient();
@@ -1032,11 +1101,7 @@ protected:
     bool isActiveFullScreen() const;
     virtual Layer layerForDock() const;
 
-    // electric border / quick tiling
-    void setElectricBorderMode(QuickTileMode mode);
-    QuickTileMode electricBorderMode() const {
-        return m_electricMode;
-    }
+    void setCustomOutlineQml(bool flag, QRect rect = QRect());
     void setElectricBorderMaximizing(bool maximizing);
     bool isElectricBorderMaximizing() const {
         return m_electricMaximizing;
@@ -1045,8 +1110,10 @@ protected:
     QRect quickTileGeometryRestore() const;
     QRect quickTileGeometry(QuickTileMode mode, const QPoint &pos) const;
     bool checkTileConstraints(QuickTileMode mode);
-    void updateQuickTileMode(QuickTileMode newMode) {
-        m_quickTileMode = newMode;
+
+    void setSplitPositonFlag(bool flag);
+    bool SplitPositionFlag(){
+        return m_isModifySplitPosition;
     }
 
     // geometry handling
@@ -1239,6 +1306,7 @@ private Q_SLOTS:
 
 private:
     void handlePaletteChange();
+    QRect getCalculateSplitGeometry();
     QSharedPointer<TabBox::TabBoxClientImpl> m_tabBoxClient;
     //窗口是否被禁止移动，默认为否，可以正常移动
     bool m_forhibit_move = false;
@@ -1283,7 +1351,11 @@ private:
     bool m_electricMaximizing = false;
     // The quick tile mode of this window.
     int m_quickTileMode = int(QuickTileFlag::None);
+    int m_storeQuickTileMode = int(QuickTileFlag::None);
     QTimer *m_electricMaximizingDelay = nullptr;
+
+    bool m_isSwapHandle = false;
+    bool m_splitProperty = false;
 
     // geometry
     int m_blockGeometryUpdates = 0; // > 0 = New geometry is remembered, but not actually set
@@ -1322,6 +1394,8 @@ private:
     QString m_applicationMenuObjectPath;
 
     bool m_unresponsive = false;
+    bool m_isModifySplitPosition = false;
+    int m_titleBarHeight = 0;
 
     KWaylandServer::deepinKwinStrut m_strutArea;
 

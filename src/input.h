@@ -112,7 +112,7 @@ public:
 
     ~InputRedirection() override;
     void init();
-
+    void setCursorShape(Qt::CursorShape);
     /**
      * @return const QPointF& The current global pointer position
      */
@@ -286,6 +286,11 @@ Q_SIGNALS:
     void hasPointerChanged(bool set);
     void hasTouchChanged(bool set);
     void hasTabletModeSwitchChanged(bool set);
+
+public Q_SLOTS:
+    void touchDown();
+    void touchMotion();
+    void touchEnd();
 
 private Q_SLOTS:
     void handleInputConfigChanged(const KConfigGroup &group);

@@ -235,5 +235,144 @@ QPoint popupOffset(const QRect &anchorRect, const Qt::Edges anchorEdge, const Qt
 
 } // namespace
 
+#include <cmath>
+#include <qcolor.h>
+
+float RgbToHsv::minValue(float a,float b)
+{
+    float temp = b;
+    if(a < temp)
+        temp = a;
+    return temp;
+}
+
+float RgbToHsv::maxValue(float a,float b)
+{
+    float temp = b;
+    if(a > temp)
+        temp = a;
+    return temp;
+}
+
+void RgbToHsv::RGB_TO_HSV(const COLOR_RGB* input,COLOR_HSV* output)
+{
+    float r,g,b,minRGB,maxRGB,deltaRGB;
+
+    r = input->R/255.0f;
+    g = input->G/255.0f;
+    b = input->B/255.0f;
+    minRGB = minValue(r,minValue(g,b));
+    maxRGB = maxValue(r,maxValue(g,b));
+    deltaRGB = maxRGB - minRGB;
+
+    output->V = maxRGB;
+    if(maxRGB != 0.0f)
+        output->S = deltaRGB / maxRGB;
+    else
+        output->S = 0.0f;
+    if (output->S <= 0.0f) {
+        output->H = 0.0f;
+    } else {
+        if (r == maxRGB) {
+            output->H = (g-b)/deltaRGB;
+        } else {
+            if (g == maxRGB) {
+                output->H = 2.0f + (b-r)/deltaRGB;
+            } else {
+                if (b == maxRGB) {
+                    output->H = 4.0f + (r-g)/deltaRGB;
+                }
+            }
+        }
+        output->H = output->H * 60.0f;
+        if (output->H < 0.0f) {
+            output->H += 360;
+        }
+        output->H /= 360;
+    }
+}
+
+void RgbToHsv::HSV_TO_RGB(COLOR_HSV* input,COLOR_RGB* output)
+{
+    float R,G,B;
+    int k;
+    float aa,bb,cc,f;
+    if (input->S <= 0.0f)
+        R = G = B = input->V;
+    else {
+        if (input->H == 1.0f)
+            input->H = 0.0f;
+        input->H *= 6.0f;
+        k = (int)floor(input->H);
+        f = input->H - k;
+        aa = input->V * (1.0f - input->S);
+        bb = input->V * (1.0f - input->S * f);
+        cc = input->V * (1.0f -(input->S * (1.0f - f)));
+        switch(k)
+        {
+        case 0:
+            R = input->V;
+            G = cc;
+            B =aa;
+            break;
+        case 1:
+            R = bb;
+            G = input->V;
+            B = aa;
+            break;
+        case 2:
+            R =aa;
+            G = input->V;
+            B = cc;
+            break;
+        case 3:
+            R = aa;
+            G = bb;
+            B = input->V;
+            break;
+        case 4:
+            R = cc;
+            G = aa;
+            B = input->V;
+            break;
+        case 5:
+            R = input->V;
+            G = aa;
+            B = bb;
+            break;
+        }
+    }
+    output->R = (unsigned char)(R * 255);
+    output->G = (unsigned char)(G * 255);
+    output->B = (unsigned char)(B * 255);
+}
+
+QString RgbToHsv::adjustBrightness(QString rgb, int step)
+{
+    rgb = rgb.mid(1);
+    QColor color(rgb.toUInt(NULL,16));
+    rgb_v.R = color.red();
+    rgb_v.G = color.green();
+    rgb_v.B = color.blue();
+    rgb_v.l = 0x64;
+
+    COLOR_HSV hsv_v;
+
+    RGB_TO_HSV(&rgb_v,&hsv_v);
+    rgb_v.l += step;
+    if(rgb_v.l <= 0) {
+        rgb_v.l = 1;
+    } else if (rgb_v.l >= 100) {
+        rgb_v.l = 100;
+    }
+
+    hsv_v.V = rgb_v.l / 100.0;
+    HSV_TO_RGB(&hsv_v,&rgb_v);
+    char c[8] = {0};
+    sprintf(c, "#%02x%02x%02x", rgb_v.R, rgb_v.G, rgb_v.B);
+    QString str(c);
+    return str;
+}
+
 #ifndef KCMRULES
 #endif

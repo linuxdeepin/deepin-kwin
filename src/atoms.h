@@ -80,6 +80,8 @@ public:
     Xcb::Atom incr;
     Xcb::Atom wl_selection;
     Xcb::Atom primary;
+    Xcb::Atom deepin_split_window;
+    Xcb::Atom deepin_split_outline;
     Xcb::Atom deepin_lock_screen;
     Xcb::Atom deepin_move_update;
     Xcb::Atom deepin_forhibit_move;

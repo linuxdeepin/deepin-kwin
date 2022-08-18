@@ -15,7 +15,10 @@ Window {
     property bool animationEnabled: false
 
     flags: Qt.BypassWindowManagerHint | Qt.FramelessWindowHint
-    color: "transparent"
+    color: {
+        return outline.activeColor
+    }
+    opacity: 0.2
 
     // outline is a context property
     x: outline.unifiedGeometry.x
@@ -67,7 +70,7 @@ Window {
             height = geometry.height
         }
 
-        imagePath: "widgets/translucentbackground"
+        //imagePath: "widgets/translucentbackground"
 
         x: 0
         y: 0

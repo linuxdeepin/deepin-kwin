@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>up</title>
+    <defs>
+        <polygon id="path-1" points="18.4596284 23.624344 14.4596222 23.624344 14.4420345 16.5714474 11.8016942 19.2121801 9 16.4104859 16.4595733 9 23.8709678 16.4130993 21.0705812 19.2119501 18.4420703 16.5833163"></polygon>
+        <filter x="-33.6%" y="-27.4%" width="167.2%" height="168.4%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.4 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#393939" offset="0%"></stop>
+            <stop stop-color="#000000" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="up" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="up-arrow" fill-opacity="0.4" fill="#000000" opacity="0" x="0" y="0" width="32" height="32"></rect>
+        <g id="path5900" fill-rule="nonzero">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#FFFFFF" xlink:href="#path-1"></use>
+        </g>
+        <polygon id="Path" fill="url(#linearGradient-3)" points="22.4566416 16.412824 16.4571616 10.411964 10.4165516 16.412824 11.8016416 17.797914 15.4360316 14.162984 15.4571316 22.411964 17.4571316 22.411964 17.4360316 14.162984 21.0707916 17.797914"></polygon>
+    </g>
+</svg>

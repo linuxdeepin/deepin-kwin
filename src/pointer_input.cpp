@@ -545,6 +545,11 @@ bool PointerInputRedirection::areButtonsPressed() const
     return false;
 }
 
+void PointerInputRedirection::setCursorShape(Qt::CursorShape shape)
+{
+    m_cursor->setCursorShape(shape);
+}
+
 bool PointerInputRedirection::focusUpdatesBlocked()
 {
     if (waylandServer()->seat()->isDragPointer()) {
@@ -1174,6 +1179,11 @@ void CursorImage::updateServerCursor()
     if (needsEmit) {
         Q_EMIT changed();
     }
+}
+
+void CursorImage::setCursorShape(Qt::CursorShape shape)
+{
+    loadThemeCursor(shape, &m_fallbackCursor);
 }
 
 void CursorImage::setEffectsOverrideCursor(Qt::CursorShape shape)

@@ -2,5 +2,10 @@
     <qresource prefix="/resources">
         <file>themes/popupmenu/inActive.svg</file>
         <file>themes/popupmenu/Active.svg</file>
+        <file>themes/left-arrow.svg</file>
+        <file>themes/leftright-arrow.svg</file>
+        <file>themes/right-arrow.svg</file>
+        <file>themes/down-arrow.svg</file>
+        <file>themes/up-arrow.svg</file>
     </qresource>
 </RCC>

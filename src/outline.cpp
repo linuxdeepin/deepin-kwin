@@ -15,6 +15,7 @@
 #include "platform.h"
 #include "scripting/scripting.h"
 #include "utils/common.h"
+#include "wayland_server.h"
 // Frameworks
 #include <KConfigGroup>
 // Qt
@@ -24,6 +25,7 @@
 #include <QQmlEngine>
 #include <QQuickWindow>
 #include <QStandardPaths>
+#include <qdbusconnection.h>
 
 namespace KWin {
 
@@ -34,6 +36,8 @@ Outline::Outline(QObject *parent)
     , m_active(false)
 {
     connect(Compositor::self(), &Compositor::compositingToggled, this, &Outline::compositingChanged);
+    QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
+                                          "PropertiesChanged", this, SLOT(qtactivecolorChanged()));
 }
 
 Outline::~Outline()
@@ -101,7 +105,7 @@ void Outline::setVisualParentGeometry(const QRect &visualParentGeometry)
 
 QRect Outline::unifiedGeometry() const
 {
-    return m_outlineGeometry | m_visualParentGeometry;
+    return m_outlineGeometry;// | m_visualParentGeometry;
 }
 
 void Outline::createHelper()
@@ -118,6 +122,11 @@ void Outline::compositingChanged()
     if (m_active) {
         show();
     }
+}
+
+void Outline::qtactivecolorChanged()
+{
+    Q_EMIT activeColorChanged();
 }
 
 OutlineVisual::OutlineVisual(Outline *outline)
@@ -145,7 +154,9 @@ void CompositedOutlineVisual::hide()
 {
     if (QQuickWindow *w = qobject_cast<QQuickWindow*>(m_mainItem.data())) {
         w->hide();
-        w->destroy();
+        if (!waylandServer()) {
+            w->destroy();
+        }
     }
 }
 

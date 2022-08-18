@@ -41,6 +41,7 @@ class Q_DECL_EXPORT KWinUtils : public QObject
     Q_PROPERTY(bool initialized READ isInitialized)
 
 public:
+    void setInitialized();
     enum MaximizeMode {
         MaximizeRestore    = 0, ///< The window is not maximized in any direction.
         MaximizeVertical   = 1, ///< The window is maximized vertically.
@@ -57,7 +58,8 @@ public:
     };
 
     ~KWinUtils();
-
+    static void insertChameleon(QObject *decorationClient, QObject *client);
+    static QObject *findObjectByDecorationClient(QObject *decorationClient);
     static KWinUtils *instance();
     static QObject *findObjectByClassName(const QByteArray &name, const QObjectList &list);
 
@@ -94,7 +96,14 @@ public:
 
     static bool compositorIsActive();
 
+    struct Window {
+        static void setQuikTileMode(QObject* window, int mode, int m, bool isShowReview = false);
+        static bool checkSupportFourSplit(QObject *window);
+        static void setTitleBarHeight(QObject *window, int titleBarHeight);
+    };
+
     static quint32 internAtom(const QByteArray &name, bool only_if_exists);
+    static bool isShowSplitMenu();
 
     Q_INVOKABLE quint32 getXcbAtom(const QString &name, bool only_if_exists) const;
     Q_INVOKABLE bool isSupportedAtom(quint32 atom) const;
@@ -140,9 +149,9 @@ protected:
     KWinUtilsPrivate *d;
 
 private:
-    void setInitialized();
 
-    friend class Chameleon;
+    friend class Mischievous;
+    static QHash<QObject *, QObject *> waylandChameleonClients;
     Q_PRIVATE_SLOT(d, void _d_onPropertyChanged(long))
 };
 

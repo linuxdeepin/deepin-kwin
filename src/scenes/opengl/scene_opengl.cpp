@@ -34,7 +34,7 @@
 #include "surfaceitem.h"
 #include "windowitem.h"
 #include "abstract_output.h"
-
+#include "splitmanage.h"
 #include <cmath>
 #include <cstddef>
 
@@ -92,6 +92,27 @@ bool SceneOpenGL::initFailed() const
 void SceneOpenGL::paintCursor(AbstractOutput *output, const QRegion &rendered)
 {
     Cursor* cursor = Cursors::self()->currentCursor();
+    const QPoint cursorPos = cursor->pos() - cursor->hotspot();
+    QString screen = kwinApp()->platform()->outputAt(cursorPos)->name();
+
+    if (SplitManage::instance()->isShowSplitLine(screen)) {
+        QRect rectv;
+        QRect recth;
+        SplitManage::instance()->getHVRect(screen, recth, rectv);
+        if (!rectv.isEmpty() && rectv.contains(cursorPos)) {
+            SplitOutline::instance()->showOutline(rectv);
+        }
+
+        if (!recth.isEmpty() && recth.contains(cursorPos)) {
+            SplitOutline::instance()->showOutline(recth);
+        }
+
+        if (recth.isEmpty() && rectv.isEmpty()) {
+            SplitOutline::instance()->hideOutline();
+        }
+    } else {
+        SplitOutline::instance()->hideOutline();
+    }
 
     // don't paint if we use hardware cursor or the cursor is hidden
     if (!output || !output->usesSoftwareCursor()
@@ -101,7 +122,7 @@ void SceneOpenGL::paintCursor(AbstractOutput *output, const QRegion &rendered)
     }
 
     // figure out which part of the cursor needs to be repainted
-    const QPoint cursorPos = cursor->pos() - cursor->hotspot();
+
     const QRect cursorRect = cursor->rect();
     QRegion region;
     for (const QRect &rect : rendered) {

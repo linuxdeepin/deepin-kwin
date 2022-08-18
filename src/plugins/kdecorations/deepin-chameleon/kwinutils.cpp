@@ -52,8 +52,11 @@
 
 #include <functional>
 
+#include "workspace.h"
+#include "abstract_output.h"
+#include "splitmanage.h"
 using namespace KWin;
-
+QHash<QObject *, QObject *> KWinUtils::waylandChameleonClients;
 static inline bool isPlatformX11()
 {
     static bool x11 = QX11Info::isPlatformX11();
@@ -476,6 +479,14 @@ QObject *KWinUtils::findClient(KWinUtils::Predicate predicate, quint32 window)
     return Workspace::self()->findClient(KWin::Predicate(static_cast<int>(predicate)), window);
 }
 
+bool KWinUtils::isShowSplitMenu()
+{
+    if (!workspace())
+        return false;
+
+    return Workspace::self()->isShowSplitMenu();
+}
+
 QObject *KWinUtils::findUnmanaged(quint32 window)
 {
     return Workspace::self()->findUnmanaged(window);
@@ -832,6 +843,25 @@ void KWinUtils::ShowWindowsView()
 
 }
 
+void KWinUtils::Window::setQuikTileMode(QObject *window, int mode, int m, bool isShowReview)
+{
+    KWin::AbstractClient *c = dynamic_cast<KWin::AbstractClient*>(window);
+    KWin::workspace()->setSplitMode(c, mode);
+    KWin::workspace()->slotSetClientSplit(c, m, isShowReview);
+}
+
+bool KWinUtils::Window::checkSupportFourSplit(QObject *window)
+{
+    KWin::AbstractClient *c = dynamic_cast<KWin::AbstractClient*>(window);
+    return KWin::workspace()->checkClientSupportFourSplit(c);
+}
+
+void KWinUtils::Window::setTitleBarHeight(QObject *window, int titleBarHeight)
+{
+    KWin::AbstractClient *c = dynamic_cast<KWin::AbstractClient*>(window);
+    return KWin::workspace()->setClientTitleBarHeight(c, titleBarHeight);
+}
+
 KWaylandServer::DDEShellSurfaceInterface *KWinUtils::getDDEShellSurface(QObject * shellClient)
 {
     if (!shellClient) {
@@ -842,4 +872,19 @@ KWaylandServer::DDEShellSurfaceInterface *KWinUtils::getDDEShellSurface(QObject 
     return Workspace::self()->getDDEShellSurface(c);
 }
 
+void KWinUtils::insertChameleon(QObject *decorationClient, QObject *client)
+{
+    if (decorationClient) {
+        waylandChameleonClients.insert(decorationClient, client);
+    }
+}
+
+QObject *KWinUtils::findObjectByDecorationClient(QObject *decorationClient)
+{
+    auto it = waylandChameleonClients.find(decorationClient);
+    if (it != waylandChameleonClients.end()) {
+        return it.value();
+    }
+    return nullptr;
+}
 #include "moc_kwinutils.cpp"

@@ -21,6 +21,7 @@
 #include "inputmethod.h"
 #include "keyboard_input.h"
 #include "main.h"
+#include "recordeventmonitor.h"
 #include "pointer_input.h"
 #include "session.h"
 #include "tablet_input.h"
@@ -912,7 +913,10 @@ public:
                 if (qApp->arguments().contains("/etc/deepin/greeters.d/lightdm-deepin-greeter") && ismodifierShortcuts(event)) {
                     return false;
                 }
-
+                AbstractClient *c = dynamic_cast<AbstractClient*>(input()->pointer()->focus());
+                if (c && c->resourceName() == "dde-lock") {
+                    return false;
+                }
                 return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
             }
         }
@@ -2402,6 +2406,14 @@ InputRedirection::InputRedirection(QObject *parent)
     qRegisterMetaType<KWin::InputRedirection::PointerAxis>();
     setupInputBackends();
     connect(kwinApp(), &Application::workspaceCreated, this, &InputRedirection::setupWorkspace);
+
+    if (!waylandServer()) {
+        RecordEventMonitor  *pEventMonitor = RecordEventMonitor::instance();
+        connect(pEventMonitor, &RecordEventMonitor::touchDown, this, &InputRedirection::touchDown);
+        connect(pEventMonitor, &RecordEventMonitor::touchUp, this, &InputRedirection::touchEnd);
+        connect(pEventMonitor, &RecordEventMonitor::touchMotion, this, &InputRedirection::touchMotion);
+        pEventMonitor->start();
+    }
 }
 
 InputRedirection::~InputRedirection()
@@ -2413,6 +2425,43 @@ InputRedirection::~InputRedirection()
     s_self = nullptr;
     qDeleteAll(m_filters);
     qDeleteAll(m_spies);
+
+    RecordEventMonitor  *pEventMonitor = RecordEventMonitor::instance();
+    pEventMonitor->stopRecord();
+    pEventMonitor->exit();
+    pEventMonitor->wait();
+    pEventMonitor->deleteLater();
+}
+
+void InputRedirection::touchDown()
+{
+    AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
+    if (!touchMovingClient) {
+        return;
+    }
+
+    workspace()->setTouchToMovingClientStatus(true);
+}
+
+void InputRedirection::touchMotion()
+{
+    AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
+    if (!touchMovingClient) {
+        return ;
+    }
+    workspace()->setTouchToMovingClientStatus(true);
+    touchMovingClient->updateInteractiveMoveResize(QCursor::pos());
+}
+
+void InputRedirection::touchEnd()
+{
+    AbstractClient *touchMovingClient = workspace()->getRequestToMovingClient();
+    if (!touchMovingClient) {
+        return ;
+    }
+    touchMovingClient->endInteractiveMoveResize();
+    workspace()->setRequestToMovingClient(nullptr);
+    workspace()->setTouchToMovingClientStatus(false);
 }
 
 void InputRedirection::installInputEventFilter(InputEventFilter *filter)
@@ -2449,6 +2498,11 @@ void InputRedirection::init()
             this, &InputRedirection::handleInputConfigChanged);
 
     m_shortcuts->init();
+}
+
+void InputRedirection::setCursorShape(Qt::CursorShape shape)
+{
+    m_pointer->setCursorShape(shape);
 }
 
 void InputRedirection::setupWorkspace()

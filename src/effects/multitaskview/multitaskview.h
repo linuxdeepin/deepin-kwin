@@ -256,6 +256,7 @@ public:
             it.value().unmanageAll();
             ++it;
         }
+        m_splitList.clear();
     }
     void resetWindow() {
         QHash<EffectScreen *, WindowMotionManager>::iterator it;
@@ -302,6 +303,12 @@ public:
                         auto fillgeo = getWinFill(w)->getRect();
                         fillgeo.adjust(-5, -5, 5, 5);
                         if (fillgeo.contains(pos)) {
+                            return w;
+                        }
+                    } else if (isSplitManage(screen, w)) {
+                        auto splitgeo = getSplitRect(screen);
+                        splitgeo.adjust(-5, -5, 5, 5);
+                        if (splitgeo.contains(pos)) {
                             return w;
                         }
                     }
@@ -367,9 +374,46 @@ public:
         m_windowFill.remove(w);
     }
 
+/******************split window******************************/
+
+    void setSplitList(EffectScreen *screen, QSet<KWin::EffectWindow *> &list) {
+        m_splitList[screen] = list;
+    }
+
+    void getSplitList(EffectScreen *screen, QSet<KWin::EffectWindow *> &list) {
+        list = m_splitList[screen];
+    }
+
+    void setSplitRect(EffectScreen *screen, QRect rect) {
+        m_splitRect[screen] = rect;
+    }
+
+    QRect getSplitRect(EffectScreen *screen) {
+        return m_splitRect[screen];
+    }
+
+    bool isSplitManage(EffectScreen *screen, EffectWindow *w) {
+        return m_splitList[screen].contains(w);
+    }
+
+    void setHoverSplit(EffectScreen *screen, EffectWindow *w) {
+        m_hoverSplit[screen] = w;
+    }
+
+    EffectWindow *getHoverSplit(EffectScreen *screen) {
+        return m_hoverSplit[screen];
+    }
+
+    void removeSplit(EffectScreen *screen, EffectWindow *w) {
+        m_splitList[screen].remove(w);
+    }
+
 private:
-    QHash<EffectScreen *, WindowMotionManager> m_winManager;
-    QHash<EffectWindow *, MultiViewWinFill *> m_windowFill;
+    QHash<EffectScreen *, WindowMotionManager>  m_winManager;
+    QHash<EffectWindow *, MultiViewWinFill *>   m_windowFill;
+    QHash<EffectScreen *, QSet<EffectWindow *>> m_splitList;
+    QHash<EffectScreen *, QRect>                m_splitRect;
+    QHash<EffectScreen *, EffectWindow *>       m_hoverSplit;
     int m_desktop;
     QRect m_currentShowRect;
     QRect m_rect;
@@ -403,6 +447,10 @@ public:
     bool touchMotion(qint32 id, const QPointF &pos, quint32 time) override;
     bool touchUp(qint32 id, quint32 time) override;
 
+    int requestedEffectChainPosition() const override {
+        return 90;
+    }
+
 private Q_SLOTS:
     void toggle() {
         if (m_activated) {
@@ -425,6 +473,7 @@ private:
     void calculateWindowTransformations(EffectWindowList windows, WindowMotionManager& wmm, int desktop, EffectScreen *screen, bool isReLayout = false);
     void calculateWindowTransformationsClosest(EffectWindowList windowlist, int desktop, EffectScreen *screen,
             WindowMotionManager& motionManager, bool isReLayout = false);
+    void calculateSplitWindowTransformations(QRect rect, QRect desktopRect, WindowMotionManager& wmm, QSet<EffectWindow *> &list);
 
     void calculateWorkSpaceWinTransformations(EffectWindowList windows, WindowMotionManager &wm, int desktop);
     QRect calculateWorkspaceRect(int index, EffectScreen *screen, QRect maxRect);
@@ -459,6 +508,7 @@ private:
     void renderWorkspaceHover(EffectScreen *screen);
     void renderDragWorkspacePrompt(EffectScreen *screen);
     void drawDottedLine(const QRect &geo, EffectScreen *screen);
+    void dragWindowEffect(EffectWindow *w, KWin::ScreenPaintData &data, QRect rect, QPoint diff);
     void handlerAfterTimeLine();
     void setWinKeepAbove(EffectWindow *w);
     void showWorkspacePreview(EffectScreen *screen, QPoint pos, bool isClear = false);
@@ -470,6 +520,7 @@ private:
     bool checkHandlerWorkspace(QPoint pos, EffectScreen *screen, int &desktop);
     void moveWindowChangeDesktop(EffectWindow *w, int todesktop, EffectScreen *toscreen, bool isSwitch = false);
     bool closeWindow(EffectWindow *w);
+    void handleWindowButton(int index, EffectWindow *w);
 
 private:
     MultiViewWorkspace *getWorkspaceObject(EffectScreen *screen, int secindex);
@@ -483,9 +534,6 @@ private:
     void motionRepeat();
 
 private:
-    QPoint m_cursorPos{0, 0};
-    int m_buttonType{3};
-
     QAction *m_showAction = nullptr;
     QList<QKeySequence> shortcut;
 
@@ -525,14 +573,14 @@ private:
     QPoint m_windowMoveDiff;
     QPoint m_lastWorkspaceMovePos;
 
-    std::chrono::milliseconds lastPresentTime;
-    EffectWindowList                     m_flyingWinList;
+    std::chrono::milliseconds                       lastPresentTime;
+    EffectWindowList                                m_flyingWinList;
     QHash<EffectScreen *, QList<EffectFrame*>>      m_tipFrames;
     QHash<EffectScreen *, MultiViewWorkspace *>     m_addWorkspaceButton;
-    QHash<QString, ScreenInfo_st>        m_screenInfoList;
+    QHash<QString, ScreenInfo_st>                   m_screenInfoList;
     QHash<EffectScreen *, QList<MultiViewWorkspace *>> m_workspaceBackgrounds;
-    QVector<MultiViewWinManager *>       m_motionManagers;
-    QVector<MultiViewWinManager *>       m_workspaceWinMgr;
+    QVector<MultiViewWinManager *>                  m_motionManagers;
+    QVector<MultiViewWinManager *>                  m_workspaceWinMgr;
     QRect m_backgroundRect;
     QRect m_dockRect;
     QRect m_windowMoveGeometry;
@@ -547,7 +595,7 @@ private:
     qreal m_scalingFactor = 1;
 
     QHash<EffectScreen *, Scale_st> m_scale;
-    QHash<EffectScreen *, QRect>    m_winBtnArea;
+    QHash<int, QRect>    m_winBtnArea;
     QRect                m_workspaceCloseBtnArea;
 
     enum workspaceStatus {
@@ -596,6 +644,8 @@ private:
     EffectWindow *m_screenRecorderMenu = nullptr;
 
     Qt::MouseButton m_sendDockButton = Qt::NoButton;
+    QPoint          m_cursorPos;
+    int             m_buttonType = 0;
 };
 
 } // namespace KWin

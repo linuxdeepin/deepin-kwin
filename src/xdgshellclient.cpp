@@ -337,6 +337,7 @@ void XdgSurfaceClient::destroyClient()
         leaveInteractiveMoveResize();
         Q_EMIT clientFinishUserMovedResized(this);
     }
+    cancelSplitManage();
     m_configureTimer->stop();
     cleanTabBox();
     Deleted *deleted = Deleted::create(this);
@@ -582,6 +583,13 @@ void XdgSurfaceClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *sh
     });
 }
 
+void XdgSurfaceClient::setSplitable(int splitable) {
+    if (!m_ddeShellSurface || m_splitable == splitable)
+        return;
+    m_splitable = splitable;
+    m_ddeShellSurface->sendSplitable(splitable);
+}
+
 void XdgSurfaceClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
 {
     m_ddeShellSurface = shellSurface;
@@ -703,6 +711,11 @@ void XdgSurfaceClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::windowRadiusPropertyRequested, this,
         [this] (QPointF windowRadius) {
             m_windowRadius = windowRadius;
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::splitWindowRequested, this,
+        [this] (SplitType type) {
+            workspace()->slotSetClientSplit(reinterpret_cast<AbstractClient*>(this), (int)type, true);
         }
     );
 }
@@ -1110,8 +1123,10 @@ void XdgToplevelClient::doMinimize()
 {
     if (isMinimized()) {
         workspace()->clientHidden(this);
+        cancelSplitManage();
     } else {
         Q_EMIT windowShown(this);
+        manageSplitClient();
     }
     workspace()->updateMinimizedOfTransients(this);
 }

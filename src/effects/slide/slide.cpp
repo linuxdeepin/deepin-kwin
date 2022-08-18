@@ -348,6 +348,13 @@ void SlideEffect::start(int old, int current, EffectWindow *movingWindow)
         if (wrap) {
             wrapDiff(delta, w, h);
         }
+
+        // suitable for two virtual desktops
+        if (effectsEx->desktopChangedDirection() == SwipeDirection::Right) {
+            delta.setX(abs(delta.x()));
+        } else if (effectsEx->desktopChangedDirection() == SwipeDirection::Left) {
+            delta.setX(-abs(delta.x()));
+        }
         m_diff += delta - passed;
         m_startPos = currentPos;
         // TODO: Figure out how to smooth movement.
@@ -368,6 +375,13 @@ void SlideEffect::start(int old, int current, EffectWindow *movingWindow)
     m_diff = desktopCoords(current) - desktopCoords(old);
     if (wrap) {
         wrapDiff(m_diff, w, h);
+    }
+
+    // suitable for two virtual desktops
+    if (effectsEx->desktopChangedDirection() == SwipeDirection::Right) {
+        m_diff.setX(abs(m_diff.x()));
+    } else if (effectsEx->desktopChangedDirection() == SwipeDirection::Left) {
+        m_diff.setX(-abs(m_diff.x()));
     }
     m_startPos = desktopCoords(old);
     m_timeLine.reset();

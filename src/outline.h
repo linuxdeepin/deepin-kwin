@@ -12,8 +12,16 @@
 #include <deepin_kwinglobals.h>
 #include <QRect>
 #include <QObject>
+#include <QDebug>
 
 #include <deepin_kwin_export.h>
+#include <qdbusinterface.h>
+#include "utils/common.h"
+
+#define KWinDBusService "com.deepin.daemon.Appearance"
+#define KWinDBusPath    "/com/deepin/daemon/Appearance"
+#define KWinDBusInterface "com.deepin.daemon.Appearance"
+#define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
 class QQmlContext;
 class QQmlComponent;
@@ -38,6 +46,7 @@ class Outline : public QObject {
     Q_PROPERTY(QRect visualParentGeometry READ visualParentGeometry NOTIFY visualParentGeometryChanged)
     Q_PROPERTY(QRect unifiedGeometry READ unifiedGeometry NOTIFY unifiedGeometryChanged)
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
+    Q_PROPERTY(QString activeColor READ ActiveColor NOTIFY activeColorChanged)
 public:
     ~Outline() override;
 
@@ -96,15 +105,18 @@ public:
     QRect unifiedGeometry() const;
 
     bool isActive() const;
+    QString ActiveColor() const;
 
 private Q_SLOTS:
     void compositingChanged();
+    void qtactivecolorChanged();
 
 Q_SIGNALS:
     void activeChanged();
     void geometryChanged();
     void unifiedGeometryChanged();
     void visualParentGeometryChanged();
+    void activeColorChanged();
 
 private:
     void createHelper();
@@ -146,6 +158,15 @@ inline
 bool Outline::isActive() const
 {
     return m_active;
+}
+
+inline
+QString Outline::ActiveColor() const
+{
+    QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    RgbToHsv rgb;
+    QString tmp = rgb.adjustBrightness(clr, -30);
+    return tmp;
 }
 
 inline

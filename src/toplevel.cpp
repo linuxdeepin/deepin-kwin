@@ -728,5 +728,25 @@ bool Toplevel::isOnCurrentDesktop() const
     return isOnDesktop(VirtualDesktopManager::self()->currentDesktop());
 }
 
+void Toplevel::handleSplitOutline(bool show)
+{
+    if (show == true) {
+        m_splitoutlineshow = true;
+    } else {
+        m_splitoutlineshow = false;
+    }
+
+    //Shadow *shadow = effectWindow()->sceneWindow()->shadow();
+    //if (shadow) {
+    //    shadow->destroyed();
+    //    getShadow();
+    //}
+}
+
+bool Toplevel::isShowSplitoutline() const
+{
+     return m_splitoutlineshow;
+}
+
 } // namespace
 

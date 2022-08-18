@@ -54,6 +54,8 @@
 #include "main.h"
 #include "decorations/decorationbridge.h"
 #include "xwaylandclient.h"
+#include "splitoutline.h"
+#include "splitmanage.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -63,6 +65,8 @@
 #include <QtConcurrentRun>
 #include <QDBusConnection>
 #include <qscreen.h>
+
+const char displaydconfig[] = "/dsg/configs/org.kde.kwin/org.kde.kwin.splitmenu.display.json";
 
 namespace KWin
 {
@@ -221,7 +225,6 @@ void Workspace::init()
     Screens *screens = Screens::self();
     screenEdges->setConfig(config);
     screenEdges->init();
-    connect(screens, SIGNAL(countChanged(int, int)), SLOT(saveClientOldPos(int, int)));
     connect(screens, SIGNAL(changed()), SLOT(screensChanged()));
     connect(options, &Options::configChanged, screenEdges, &ScreenEdges::reconfigure);
     connect(VirtualDesktopManager::self(), &VirtualDesktopManager::layoutChanged, screenEdges, &ScreenEdges::updateLayout);
@@ -306,6 +309,9 @@ void Workspace::init()
 
     // broadcast that Workspace is ready, but first process all events.
     QMetaObject::invokeMethod(this, "workspaceInitialized", Qt::QueuedConnection);
+    QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
+                                          "PropertiesChanged", this, SLOT(qtactivecolorChanged()));
+
     // TODO: ungrabXServer()
 }
 
@@ -329,6 +335,13 @@ void Workspace::updateWindowStates()
         windowState->geometry.y         = client->frameGeometry().y();
         windowState->geometry.width     = client->frameGeometry().width();
         windowState->geometry.height    = client->frameGeometry().height();
+        XdgSurfaceClient *xdgClient = qobject_cast<XdgSurfaceClient *>(client);
+        if (xdgClient) {
+            windowState->splitable = xdgClient->getSplitable();
+        }
+
+        QByteArray uuid = client->internalId().toString().toLatin1();
+        memcpy(windowState->uuid, uuid.data(), uuid.size());
         memcpy(windowState->resourceName, client->resourceName().data(), client->resourceName().size());
 
         m_windowStates.append(windowState);
@@ -740,6 +753,9 @@ X11Client *Workspace::createClient(xcb_window_t w, bool is_mapped)
         return nullptr;
     }
     addClient(c);
+    if (c->checkClientAllowToTile()) {
+        setWinSplitState(c);
+    }
     return c;
 }
 
@@ -1108,6 +1124,7 @@ void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
     --block_focus;
 
     activateClientOnNewDesktop(VirtualDesktopManager::self()->desktopForX11Id(newDesktop));
+    // updateSplitOutlineState(oldDesktop, newDesktop);
     kwinApp()->config()->group("Workspace").writeEntry("CurrentDesktop", newDesktop);
     kwinApp()->config()->sync();
     Q_EMIT currentDesktopChanged(oldDesktop, movingClient);
@@ -1115,10 +1132,8 @@ void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
 
 void Workspace::updateClientVisibilityOnDesktopChange(VirtualDesktop *newDesktop)
 {
-    for (auto it = stacking_order.constBegin();
-            it != stacking_order.constEnd();
-            ++it) {
-        X11Client *c = qobject_cast<X11Client *>(*it);
+    for (int i = 0; i < stacking_order.size() ; ++i) {
+        X11Client *c = qobject_cast<X11Client *>(stacking_order.at(i));
         if (!c) {
             continue;
         }
@@ -1310,6 +1325,7 @@ void Workspace::slotOutputDisabled(AbstractOutput *output)
 
     disconnect(output, &AbstractOutput::geometryChanged, this, &Workspace::desktopResized);
     desktopResized();
+    SplitManage::instance()->quickCustomSplit(VirtualDesktopManager::self()->currentDesktop()->x11DesktopNumber(), output->name());
 
     const auto stack = xStackingOrder();
     for (Toplevel *toplevel : stack) {
@@ -1538,6 +1554,11 @@ void Workspace::setShowingDesktop(bool showing)
         if (!waylandServer()) {
             QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
             wm.asyncCall("SetShowDesktop", showing);
+        }
+        if (showing_desktop) {
+            SplitManage::instance()->setSplitLineStateEx(VirtualDesktopManager::self()->currentDesktop()->x11DesktopNumber(), "", false);
+        } else {
+            SplitManage::instance()->setSplitLineStateEx(VirtualDesktopManager::self()->currentDesktop()->x11DesktopNumber(), "", true, true);
         }
     }
 }
@@ -2130,6 +2151,14 @@ void Workspace::screensChanged()
     if (Compositor::compositing()) {
         Q_EMIT effects->closeEffect(true);    //close multitask view
     }
+
+    for (int i = 0; i < m_allClients.count(); i++) {
+        AbstractClient *pAbstractClient = m_allClients.at(i);
+        if (!waylandServer()) {
+            setWinSplitState(pAbstractClient, pAbstractClient->checkClientAllowToTile());
+        }
+    }
+
 }
 
 void Workspace::qtactivecolorChanged()
@@ -2338,6 +2367,13 @@ void Workspace::desktopResized()
     ScreenEdges::self()->recreateEdges();
 
     if (m_geometry != oldGeometry) {
+        if (outputs.size() > 1 && (m_geometry.width() < oldGeometry.width() || m_geometry.height() < oldGeometry.height())) {
+            for (const AbstractOutput *output : outputs) {
+                if (!output->name().isEmpty() && output != m_activeOutput) {
+                    SplitManage::instance()->quickCustomSplit(VirtualDesktopManager::self()->currentDesktop()->x11DesktopNumber(), output->name());
+                }
+            }
+        }
         Q_EMIT geometryChanged();
     }
 
@@ -2535,10 +2571,25 @@ void Workspace::updateClientArea()
                 ++it) {
             (*it)->checkWorkspacePosition();
         }
+        if (active_client && Compositor::compositing()) {
+            SplitManage::instance()->updateSplitGroup(active_client);
+            Q_EMIT clientAreaUpdate();
+        }
 
         m_oldRestrictedAreas.clear(); // reset, no longer valid or needed
         m_inUpdateClientArea = false;
+
+        // for (int i = 0; i < Screens::self()->count(); i++) {
+        //     if (Compositor::compositing() && AbstractClient::splitManage.contains(i)) {
+        //         AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
+        //     }
+        // }
     }
+    // for (int i = 0; i < Screens::self()->count(); i++) {
+    //     if (Compositor::compositing() && AbstractClient::splitManage.contains(i)) {
+    //         AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
+    //     }
+    // }
 }
 
 /**
@@ -3171,4 +3222,155 @@ void Workspace::fixPositionAfterCrash(xcb_window_t w, const xcb_get_geometry_rep
     }
 }
 
+bool Workspace::isUseSplitMenuToSplit()
+{
+    return m_isUseSplitMenu;
+}
+
+void Workspace::slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isShowPreview)
+{
+    Q_EMIT activeSplitEvent();
+    m_isUseSplitMenu = true;
+    //c->cancelSplitManage();
+    setClientSplit(c, mode, isShowPreview);
+    m_isUseSplitMenu = false;
+}
+
+void Workspace::splitWindow(QString uuid, int splitType)
+{
+    AbstractClient* client = findAbstractClient(uuid);
+    if (client) {
+        slotSetClientSplit(client, splitType, true);
+    }
+}
+
+bool Workspace::checkClientAllowToSplit(AbstractClient *c)
+{
+    bool isAllowSplit = c->checkClientAllowToTile();
+
+    int splitmode = SplitManage::instance()->getSplitMode(c->desktop(), c->output()->name());
+    if (isAllowSplit && (splitmode == int(SplitMode::Three) || splitmode == int(SplitMode::Four))) {
+        isAllowSplit = c->checkClientAllowToFourSplit();
+    }
+    return isAllowSplit;
+}
+
+bool Workspace::checkClientSupportFourSplit(AbstractClient *c)
+{
+    if (nullptr == c) {
+        return false;
+    }
+    return c->checkClientAllowToFourSplit();
+}
+
+void Workspace::setClientTitleBarHeight(AbstractClient *c, int height)
+{
+    if (nullptr == c) {
+        return;
+    }
+    c->setTitleBarHeight(height);
+}
+
+void Workspace::setClientSplit(AbstractClient *c, int mode, bool isShowPreview)
+{
+    if (c == nullptr)
+        return;
+
+    c->setWindowSplitFromPreview(mode);
+    if (isShowPreview) {
+        Q_EMIT c->showSplitPreview(c);
+    }
+    if (active_client != c) {
+        activateClient(c);
+    }
+}
+
+void Workspace::updateSplitOutlineState(uint oldDesktop, uint newDesktop, bool isReCheckScreen)
+{
+    if (!Compositor::compositing()) {
+        return ;
+    }
+    clearSplitOutline();
+    // searchSplitScreenClient(newDesktop, isReCheckScreen);
+}
+
+void Workspace::clearSplitOutline()
+{
+//    QMap<int, SplitOutline*>::iterator it;
+//      int key;
+//      for (it = AbstractClient::splitManage.begin(); it!=AbstractClient::splitManage.end();)
+//      {
+//           key = it.key();
+//           it++;
+//           SplitOutline* splitOutline = AbstractClient::splitManage.take(key);
+//           delete splitOutline;
+//           splitOutline = nullptr;
+//      }
+}
+
+void Workspace::setWinSplitState(AbstractClient *client, bool isSplit)
+{
+    int32_t ldata = 0;
+    if (isSplit)
+        ldata = 1;
+
+    if (client->isSplitProperty() == isSplit)
+        return;
+    client->setSplitProperty(isSplit);
+    xcb_intern_atom_cookie_t cookie_st = xcb_intern_atom( connection(), 0, strlen( "_DEEPIN_NET_SUPPORTED"), "_DEEPIN_NET_SUPPORTED");
+    xcb_intern_atom_reply_t *reply_st = xcb_intern_atom_reply( connection(), cookie_st, NULL);
+    if (reply_st) {
+        //0 not support split screen
+        //1 support 1/2 split screen
+        //2 support 1/4 split screen
+        if (client->checkClientAllowToFourSplit()) {
+            ldata = 2;
+        }
+        xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, client->window(), (*reply_st).atom,
+                            XCB_ATOM_CARDINAL, 32, 1, &ldata);
+        free(reply_st);
+    }
+}
+
+void Workspace::setSplitMode(AbstractClient *c, int splitMode)
+{
+    SplitManage::instance()->setSplitMode(c->desktop(), c->output()->name(), splitMode);
+}
+
+void Workspace::setShowSplitLine(bool flag, QRect rect)
+{
+    if (flag) {
+        SplitOutline::instance()->showOutline(rect);
+    } else {
+        SplitOutline::instance()->hideOutline();
+    }
+}
+
+bool Workspace::isShowSplitMenu()
+{
+    bool isShow = true;
+    QString dconfigPath;
+    QStringList lst = QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation);
+    if (lst.size() > 0) {
+        dconfigPath = lst[0] + displaydconfig;
+    }
+    QFile f(dconfigPath);
+    if (f.open(QFile::ReadOnly)) {
+        QByteArray data;
+        data = f.readAll();
+        QJsonDocument json = QJsonDocument::fromJson(data);
+        QJsonObject root = json.object();
+        QJsonObject obj = root["contents"].toObject();
+        QJsonObject wobj = obj["windowDisplay"].toObject();
+        if (!wobj["value"].isNull()) {
+            if (wobj["value"].toString() == "Enabled" ||
+                wobj["value"].toString() == "enabled")
+                isShow = true;
+            else
+                isShow = false;
+        }
+        f.close();
+    }
+    return isShow;
+}
 } // namespace

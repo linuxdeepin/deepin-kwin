@@ -36,6 +36,11 @@
 #define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
 #define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
 
+#define KWinDBusService "com.deepin.daemon.Appearance"
+#define KWinDBusPath    "/com/deepin/daemon/Appearance"
+#define KWinDBusInterface "com.deepin.daemon.Appearance"
+#define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
+
 class KConfig;
 class KConfigGroup;
 class KStartupInfo;
@@ -185,6 +190,12 @@ public:
     AbstractClient* mostRecentlyActivatedClient() const;
 
     AbstractClient *clientUnderMouse(AbstractOutput *output) const;
+
+    bool checkClientAllowToSplit(AbstractClient *c);
+    bool checkClientSupportFourSplit(AbstractClient *c);
+    void setClientTitleBarHeight(AbstractClient *c, int height);
+    void setClientSplit(AbstractClient* c, int mode, bool isShowPreview);
+    void splitWindow(QString uuid, int splitType);
 
     void activateClient(AbstractClient*, bool force = false);
     bool requestFocus(AbstractClient* c, bool force = false);
@@ -420,6 +431,22 @@ public:
         return movingClient;
     }
 
+    AbstractClient* getRequestToMovingClient() {
+        return m_requestMovingClient;
+    }
+
+    void setRequestToMovingClient(AbstractClient* client) {
+        m_requestMovingClient = client;
+    }
+
+    void setTouchToMovingClientStatus(bool isTouch) {
+        m_bIsTouchToMovingClient = isTouch;
+    }
+
+    bool touchToMovingClientStatus() {
+        return m_bIsTouchToMovingClient;
+    }
+
     void markXStackingOrderAsDirty();
 
     void quickTileWindow(QuickTileMode mode);
@@ -458,8 +485,18 @@ public:
 
     KWaylandServer::DDEShellSurfaceInterface* getDDEShellSurface(KWin::AbstractClient* c);
 
+    void updateSplitOutlineState(uint oldDesktop, uint newDesktop, bool isReCheckScreen = false);
+
+    void clearSplitOutline();
+
+    void setSplitMode(AbstractClient *c, int splitMode);
+    bool isUseSplitMenuToSplit();
+    void setShowSplitLine(bool flag, QRect rect);
+    bool isShowSplitMenu();
+
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
+    void slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isShowPreview);
     // Keybindings
     //void slotSwitchToWindow( int );
     void slotWindowToDesktop(VirtualDesktop *desktop);
@@ -557,6 +594,7 @@ Q_SIGNALS:
      */
     void workspaceInitialized();
     void geometryChanged();
+    void clientAreaUpdate();
 
     //Signals required for the scripting interface
     void desktopPresenceChanged(KWin::AbstractClient*, int);
@@ -593,6 +631,8 @@ Q_SIGNALS:
     void windowStateChanged();
 
     void activeColorChanged();
+
+    void activeSplitEvent();
 
 private:
     void init();
@@ -632,6 +672,7 @@ private:
 
     //---------------------------------------------------------------------
 
+    void setWinSplitState(AbstractClient *client, bool isSplit = true);
     void closeActivePopup();
     void updateClientVisibilityOnDesktopChange(VirtualDesktop *newDesktop);
     void activateClientOnNewDesktop(VirtualDesktop *desktop);
@@ -667,6 +708,8 @@ private:
     AbstractClient* active_client;
     AbstractClient* last_active_client;
     AbstractClient* movingClient;
+    AbstractClient* m_requestMovingClient = nullptr;
+    bool m_bIsTouchToMovingClient = false;
 
     // Delay(ed) window focus timer and client
     QTimer* delayFocusTimer;
@@ -682,6 +725,7 @@ private:
     QList<Toplevel *> unconstrained_stacking_order; // Topmost last
     QList<Toplevel *> stacking_order; // Topmost last
     QVector<xcb_window_t> manual_overlays; //Topmost last
+
     bool force_restacking;
     QList<Toplevel *> x_stacking; // From XQueryTree()
     std::unique_ptr<Xcb::Tree> m_xStackingQueryTree;
@@ -754,6 +798,10 @@ private:
 
     QString activeColor;
     bool m_isDarkTheme = false;
+
+    QString m_screenSerialNum = "";
+    bool m_isUseSplitMenu = false;
+
 private:
     friend bool performTransiencyCheck();
     friend Workspace *workspace();

@@ -33,6 +33,7 @@
 #include "workspace.h"
 #include "x11syncmanager.h"
 #include "utils/xcbutils.h"
+#include "virtualdesktops.h"
 
 #include <deepin_kwinglplatform.h>
 #include <deepin_kwingltexture.h>
@@ -770,6 +771,7 @@ void X11Compositor::suspend(X11Compositor::SuspendReason reason)
         }
     }
     stop();
+    workspace()->clearSplitOutline();
 }
 
 void X11Compositor::resume(X11Compositor::SuspendReason reason)

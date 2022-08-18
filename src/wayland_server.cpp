@@ -552,6 +552,15 @@ bool WaylandServer::init(InitializationFlags flags)
             workspace()->captureWindowImage(windowId, buffer);
         }
     );
+    connect(m_clientManagement, &ClientManagementInterface::splitWindowRequest, this,
+        [this] (QString uuid, int splitType) {
+            if (!workspace()) {
+                qWarning () << __func__ << " workspace not initilized windowId " << uuid;
+                return;
+            }
+            workspace()->splitWindow(uuid, splitType);
+        }
+    );
 
     auto activation = new KWaylandServer::XdgActivationV1Interface(m_display, this);
     auto init = [this, activation] {
@@ -611,6 +620,25 @@ void WaylandServer::shellClientShown(Toplevel *toplevel)
     }
     disconnect(client, &AbstractClient::windowShown, this, &WaylandServer::shellClientShown);
     Q_EMIT shellClientAdded(client);
+    if (!client->isDesktop() && client->checkClientAllowToTile()) {
+        XdgSurfaceClient *xdgClient = qobject_cast<XdgSurfaceClient *>(client);
+        int splitable = 0;
+        if (xdgClient) {
+            if (client->checkClientAllowToFourSplit()) {
+                xdgClient->setSplitable(2);
+                splitable = 2;
+            } else {
+                xdgClient->setSplitable(1);
+                splitable = 1;
+            }
+        }
+        auto clientmanagement = waylandServer()->clientManagement();
+        if (clientmanagement) {
+            workspace()->updateWindowStates();
+            clientmanagement->sendSplitChange(client->internalId().toString(), splitable);
+        }
+    }
+
 }
 
 void WaylandServer::initWorkspace()

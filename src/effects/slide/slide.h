@@ -14,6 +14,7 @@
 
 // kwineffects
 #include <deepin_kwineffects.h>
+#include <deepin_kwineffectsex.h>
 
 namespace KWin
 {

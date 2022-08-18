@@ -224,6 +224,7 @@ VirtualDesktopManager::VirtualDesktopManager(QObject *parent)
     : QObject(parent)
     , m_navigationWrapsAround(false)
     , m_rootInfo(nullptr)
+    , m_direction(SwipeDirection::Invalid)
 {
 }
 
@@ -535,6 +536,11 @@ VirtualDesktop *VirtualDesktopManager::currentDesktop() const
     return m_current;
 }
 
+SwipeDirection VirtualDesktopManager::desktopChangedDirection() const
+{
+    return m_direction;
+}
+
 bool VirtualDesktopManager::setCurrent(uint newDesktop)
 {
     if (newDesktop < 1 || newDesktop > count() || newDesktop == current()) {
@@ -677,7 +683,10 @@ void VirtualDesktopManager::updateLayout()
         // Not given, set default layout
         m_rows = count() == 1u ? 1 : 2;
         columns = count() / m_rows;
+    } else if (columns > (count() / m_rows)) {
+        columns = count() / m_rows;
     }
+
     setNETDesktopLayout(orientation,
         columns, m_rows, 0 //rootInfo->desktopLayoutCorner() // Not really worth implementing right now.
     );
@@ -763,6 +772,14 @@ void VirtualDesktopManager::save()
 
     // Save to disk
     group.sync();
+}
+
+void VirtualDesktopManager::setDesktopChangedDirection(SwipeDirection direction)
+{
+    if (m_direction == direction) {
+        return;
+    }
+    m_direction = direction;
 }
 
 QString VirtualDesktopManager::defaultName(int desktop) const
@@ -870,6 +887,7 @@ void VirtualDesktopManager::slotSwitchTo()
     if (!ok) {
         return;
     }
+    setDesktopChangedDirection(SwipeDirection::Invalid);
     setCurrent(i);
 }
 
@@ -894,11 +912,13 @@ void VirtualDesktopManager::slotLeft()
 
 void VirtualDesktopManager::slotPrevious()
 {
+    setDesktopChangedDirection(SwipeDirection::Left);
     moveTo<DesktopPrevious>(isNavigationWrappingAround());
 }
 
 void VirtualDesktopManager::slotNext()
 {
+    setDesktopChangedDirection(SwipeDirection::Right);
     moveTo<DesktopNext>(isNavigationWrappingAround());
 }
 

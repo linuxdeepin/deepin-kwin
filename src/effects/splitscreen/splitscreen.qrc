@@ -1,0 +1,14 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/effects/splitscreen/">
+  <file>shaders/splitthumb.frag</file>
+  <file>shaders/splitthumb_core.frag</file>
+  <file>shaders/previewfill.frag</file>
+  <file>shaders/previewfill_core.frag</file>
+  <file>shaders/scrollthumb.frag</file>
+  <file>shaders/scrollthumb_core.frag</file>
+  <file>icon/scrollbar.svg</file>
+  <file>icon/scrollbar_hover.svg</file>
+  <file>icon/scrollbar_active.svg</file>
+</qresource>
+</RCC>
+

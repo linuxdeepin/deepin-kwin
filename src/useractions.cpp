@@ -125,7 +125,8 @@ static QList<MenuItem> getMenuItemInfos(AbstractClient *cl)
         {"always-on-top", qApp->translate("WindowMenu", "Always on Top"),
          true, true, cl->keepAbove()},
         {"all-workspace", qApp->translate("WindowMenu", "Always on Visible Workspace"),
-         true, true, cl->isOnAllDesktops()},
+        !cl->isSplitWindow(), true, cl->isOnAllDesktops()},
+        //  true, true, cl->isOnAllDesktops()},
         {"move-left", qApp->translate("WindowMenu", "Move to Workspace Left"),
          cl->desktop() > 1, false, false},
         {"move-right", qApp->translate("WindowMenu", "Move to Workspace Right"),
@@ -1596,6 +1597,9 @@ void Workspace::slotWindowToPrevScreen()
  */
 void Workspace::slotWindowMaximize()
 {
+    if (Compositor::compositing()) {
+        Q_EMIT effects->closeEffect(true);
+    }
     if (USABLE_ACTIVE_CLIENT)
         performWindowOperation(active_client, Options::MaximizeOp);
 }

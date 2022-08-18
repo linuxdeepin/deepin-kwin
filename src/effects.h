@@ -79,7 +79,25 @@ public:
     void changeBlurState(bool) override;
     int getCurrentPaintingScreen() override;
 
-    bool isShortcuts(QKeyEvent *event);
+    bool isShortcuts(QKeyEvent *event) override;
+
+    bool checkWindowAllowToSplit(KWin::EffectWindow *c) override;
+    int getSplitMode(int desktop, QString screen) override;
+    void setSplitWindow(EffectWindow* c, int mode, bool isShowPreview = false) override;
+    void resetSplitOutlinePos(QString screen, int desktop) override;
+    void setShowLine(bool flag, QRect rt = QRect()) override;
+    void raiseActiveWindow(int desktop, QString screen) override;
+    EffectWindow *findSplitGroupSecondaryClient(int desktop, QString screen) override;
+    void setSplitOutlinePos(int pos, bool isLeftRight = true) override;
+
+    bool getOutlineState() override;
+    void getOutlineRect(QString screen, QRect &hRect, QRect &vRect) override;
+    void getSplitList(QSet<KWin::EffectWindow *> &list, int &location, int desktop, QString screen) override;
+    void getActiveSplitList(QSet<KWin::EffectWindow *> &list, int desktop, QString screen) override;
+    void switchSplitWorkspace(int srcdesktop, int dstdesktop) override;
+    void getStockSplitList(QSet<KWin::EffectWindow *> &list, int desktop, QString screen) override;
+    QRect getSplitArea(int mode, QRect rect, QRect availableArea, QString screen, int desktop, bool isUseTmp = false) override;
+    QString getScreenWithSplit() override;
 
     void activateWindow(EffectWindow* c) override;
     EffectWindow* activeWindow() const override;
@@ -109,7 +127,10 @@ public:
     QString desktopName(int desktop) const override;
     bool optionRollOverDesktops() const override;
 
+    SwipeDirection desktopChangedDirection() const override;
+
     QPoint cursorPos() const override;
+    void setCursorPos(const QPoint& pos) override;
     bool grabKeyboard(Effect* effect) override;
     void ungrabKeyboard() override;
     // not performing XGrabPointer
@@ -274,6 +295,7 @@ public:
     EffectScreen *findScreen(int screenId) const override;
     void renderScreen(EffectScreen *screen) override;
     bool isCursorHidden() const override;
+    void setQuickTileMode(EffectWindow* w, int mode);
     void enableEffect(const QString& name, bool enable);
 
     void setKeepAbove(KWin::EffectWindow *c, bool) ;

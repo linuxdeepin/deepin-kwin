@@ -37,6 +37,7 @@
 #include "workspace.h"
 #include "deepin_kwinglutils.h"
 #include "deepin_kwinoffscreenquickview.h"
+#include "splitmanage.h"
 
 #include <QDebug>
 #include <QMouseEvent>
@@ -184,6 +185,11 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
         [this](KWin::Deleted *d) {
             Q_EMIT windowDeleted(d->effectWindow());
             elevated_windows.removeAll(d->effectWindow());
+        }
+    );
+    connect(ws, &Workspace::activeSplitEvent, this,
+        [this]() {
+            Q_EMIT splitEventActive();
         }
     );
     connect(ws->sessionManager(), &SessionManager::stateChanged, this,
@@ -355,6 +361,27 @@ void EffectsHandlerImpl::setupClientConnections(AbstractClient* c)
     connect(c, &AbstractClient::visibleGeometryChanged, this, [this, c]() {
         Q_EMIT windowExpandedGeometryChanged(c->effectWindow());
     });
+    connect(c, &AbstractClient::quickTileModeChanged, this,
+        [this, c]() {
+            Q_EMIT windowQuickTileModeChanged(c->effectWindow());
+        }
+    );
+    connect(c, &AbstractClient::showSplitPreview, this,
+            [this, c]() {
+            Q_EMIT showSplitScreenPreview(c->effectWindow());
+        }
+    );
+    connect(c, &AbstractClient::swapSplitClient, this,
+        [this](QSet<AbstractClient *> clist, int index, int direction) {
+            QSet<KWin::EffectWindow *> list;
+            QSetIterator<AbstractClient *>tmpit(clist);
+            while(tmpit.hasNext()) {
+                AbstractClient *c = tmpit.next();
+                list.insert(c->effectWindow());
+            }
+            Q_EMIT swapSplitWin(list, index, direction);
+        }
+    );
 }
 
 void EffectsHandlerImpl::setupUnmanagedConnections(Unmanaged* u)
@@ -909,9 +936,97 @@ int EffectsHandlerImpl::getCurrentPaintingScreen()
     return Workspace::self()->getCurrentPaintingScreen();
 }
 
+void EffectsHandlerImpl::setSplitWindow(EffectWindow *c, int mode, bool isShowPreview)
+{
+    if (auto cl = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(c)->window())) {
+        Workspace::self()->setClientSplit(cl, mode, isShowPreview);
+    }
+}
+
+void EffectsHandlerImpl::resetSplitOutlinePos(QString screen, int desktop)
+{
+    SplitManage::instance()->updateSplitOutlineRect(desktop, screen);
+}
+
+bool EffectsHandlerImpl::checkWindowAllowToSplit(KWin::EffectWindow *c)
+{
+    if (auto cl = qobject_cast<AbstractClient *>(static_cast<EffectWindowImpl *>(c)->window())) {
+        return Workspace::self()->checkClientAllowToSplit(cl);
+    }
+
+    return true;
+}
+
 QString EffectsHandlerImpl::getActiveColor()
 {
     return Workspace::self()->ActiveColor();
+}
+
+int EffectsHandlerImpl::getSplitMode(int desktop, QString screen)
+{
+    return SplitManage::instance()->getSplitMode(desktop, screen);
+}
+
+void EffectsHandlerImpl::setShowLine(bool flag, QRect rt)
+{
+    Workspace::self()->setShowSplitLine(flag, rt);
+}
+
+bool EffectsHandlerImpl::getOutlineState()
+{
+    return false;
+    // return SplitManage::instance()->getSplitLineState();
+}
+
+void EffectsHandlerImpl::getOutlineRect(QString screen, QRect &hRect, QRect &vRect)
+{
+    SplitManage::instance()->getHVRect(screen, hRect, vRect);
+}
+
+void EffectsHandlerImpl::getSplitList(QSet<KWin::EffectWindow *> &list, int &location, int desktop, QString screen)
+{
+    SplitManage::instance()->getSplitWinList(list, location, desktop, screen);
+}
+
+QString EffectsHandlerImpl::getScreenWithSplit()
+{
+    return SplitManage::instance()->getScreenWithSplit();
+}
+
+void EffectsHandlerImpl::getStockSplitList(QSet<KWin::EffectWindow *> &list, int desktop, QString screen)
+{
+    SplitManage::instance()->getStockSplitWinList(list, desktop, screen);
+}
+
+void EffectsHandlerImpl::getActiveSplitList(QSet<KWin::EffectWindow *> &list, int desktop, QString screen)
+{
+    SplitManage::instance()->getActiveSplitWinList(list, desktop, screen);
+}
+
+void EffectsHandlerImpl::switchSplitWorkspace(int srcdesktop, int dstdesktop)
+{
+    SplitManage::instance()->switchWorkspaceGroup(srcdesktop, dstdesktop);
+}
+
+QRect EffectsHandlerImpl::getSplitArea(int mode, QRect rect, QRect availableArea, QString screen, int desktop, bool isUseTmp)
+{
+    return SplitManage::instance()->getQuickTileArea(nullptr, desktop, screen, (QuickTileMode)mode, rect, availableArea, false, isUseTmp);
+}
+
+EffectWindow *EffectsHandlerImpl::findSplitGroupSecondaryClient(int desktop, QString screen)
+{
+    EffectWindow *cl = SplitManage::instance()->findSecondaryClient(desktop, screen)->effectWindow();
+    return cl;
+}
+
+void EffectsHandlerImpl::raiseActiveWindow(int desktop, QString screen)
+{
+    SplitManage::instance()->raiseActiveSplitClient(desktop, screen);
+}
+
+void EffectsHandlerImpl::setSplitOutlinePos(int pos, bool isLeftRight)
+{
+    SplitOutline::instance()->setShowPos(pos, isLeftRight);
 }
 
 void EffectsHandlerImpl::activateWindow(EffectWindow* c)
@@ -1103,6 +1218,11 @@ QString EffectsHandlerImpl::desktopName(int desktop) const
 bool EffectsHandlerImpl::optionRollOverDesktops() const
 {
     return options->isRollOverDesktops();
+}
+
+SwipeDirection EffectsHandlerImpl::desktopChangedDirection() const
+{
+    return VirtualDesktopManager::self()->desktopChangedDirection();
 }
 
 double EffectsHandlerImpl::animationTimeFactor() const
@@ -1382,6 +1502,11 @@ void EffectsHandlerImpl::doCheckInputWindowStacking()
 QPoint EffectsHandlerImpl::cursorPos() const
 {
     return Cursors::self()->mouse()->pos();
+}
+
+void EffectsHandlerImpl::setCursorPos(const QPoint& pos)
+{
+    Cursors::self()->mouse()->setPos(pos);
 }
 
 void EffectsHandlerImpl::reserveElectricBorder(ElectricBorder border, Effect *effect)

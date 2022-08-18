@@ -21,6 +21,8 @@ endif()
 
 set(kwin_SRCS
     3rdparty/xcursor.c
+    splitoutline.cpp
+    splitmanage.cpp
     abstract_client.cpp
     abstract_output.cpp
     abstract_wayland_output.cpp
@@ -90,6 +92,7 @@ set(kwin_SRCS
     rootinfo_filter.cpp
     rulebooksettings.cpp
     rules.cpp
+    recordeventmonitor.cpp
     scene.cpp
     screenedge.cpp
     screenlockerwatcher.cpp
@@ -228,6 +231,8 @@ target_link_libraries(deepin-kwin
     epoxy::epoxy
 
     Threads::Threads
+    -lXext
+    -lXtst
 )
 
 add_subdirectory(backends)

@@ -583,6 +583,21 @@ void X11Client::clientMessageEvent(xcb_client_message_event_t *e)
         pos.setY(e->data.data32[2]);
 
         workspace()->showWindowMenu(QRect(pos, pos), this);
+    } else if (e->type == atoms->deepin_split_window) {
+        int mode = e->data.data32[2];
+        if (mode == 1 ||
+            mode == 2 ||
+            mode == 4)
+            workspace()->setSplitMode(this, mode);
+        workspace()->slotSetClientSplit(this, e->data.data32[0], e->data.data32[1]);
+    } else if (e->type == atoms->deepin_split_outline) {
+        bool flag = e->data.data32[0];
+        if (flag) {
+            QRect geo = QRect(e->data.data32[1], e->data.data32[2], e->data.data32[3], e->data.data32[4]);
+            setCustomOutlineQml(flag, geo);
+        } else {
+            setCustomOutlineQml(flag);
+        }
     }
 }
 
@@ -1145,6 +1160,7 @@ void X11Client::focusOutEvent(xcb_focus_out_event_t *e)
 void X11Client::NETMoveResize(int x_root, int y_root, NET::Direction direction)
 {
     if (direction == NET::Move) {
+        workspace()->setRequestToMovingClient(this);
         //　if mouse leftbutton is not pressed ,ignore this event
         Xcb::Pointer pointer(this->window());
         if (pointer.isNull()) {

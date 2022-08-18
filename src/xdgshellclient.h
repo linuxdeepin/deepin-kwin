@@ -93,6 +93,13 @@ public:
         m_acceptFocus = set;
     }
 
+    void setSplitable(int splitable);
+
+    int getSplitable()
+    {
+        return m_splitable;
+    }
+
 protected:
     void moveResizeInternal(const QRect &rect, MoveResizeMode mode) override;
 
@@ -139,6 +146,7 @@ private:
     std::optional<quint32> m_lastAcknowledgedConfigureSerial;
     QRect m_windowGeometry;
     bool m_haveNextWindowGeometry = false;
+    int m_splitable = 0;
 };
 
 class XdgToplevelConfigure final : public XdgSurfaceConfigure
