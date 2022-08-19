@@ -163,6 +163,7 @@ namespace KWin
 
         QPainter smallLine(this);
         smallLine.setRenderHint(QPainter::Antialiasing, true);
+        smallLine.setPen(Qt::NoPen);
         smallLine.setBrush(QColor("#7A7A7A"));
         smallLine.drawRoundRect(QRect(7, m_workspaceRect.height()/2-25, 6, 50), 30, 30);
 
