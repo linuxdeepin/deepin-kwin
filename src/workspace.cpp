@@ -1555,10 +1555,12 @@ void Workspace::setShowingDesktop(bool showing)
             QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
             wm.asyncCall("SetShowDesktop", showing);
         }
-        if (showing_desktop) {
-            SplitManage::instance()->setSplitLineStateEx(VirtualDesktopManager::self()->currentDesktop()->x11DesktopNumber(), "", false);
-        } else {
-            SplitManage::instance()->setSplitLineStateEx(VirtualDesktopManager::self()->currentDesktop()->x11DesktopNumber(), "", true, true);
+        if (Compositor::compositing()) {
+            if (showing_desktop) {
+                SplitManage::instance()->setSplitLineStateEx(VirtualDesktopManager::self()->currentDesktop()->x11DesktopNumber(), "", false);
+            } else {
+                SplitManage::instance()->setSplitLineStateEx(VirtualDesktopManager::self()->currentDesktop()->x11DesktopNumber(), "", true, true);
+            }
         }
     }
 }

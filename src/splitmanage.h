@@ -132,7 +132,7 @@ private:
     void checkSplitWindowEx(AbstractClient *client);
     void cacheSplitWin(AbstractClient *client, QString screen = "");
     void checkOcclusion(AbstractClient *client, QString screen = "");
-    bool isSplitSplicing(AbstractClient *client, AbstractClient *target);
+    bool isSplitSplicing(AbstractClient *client, AbstractClient *target, bool isUseClientScr);
     void checkSplitMode(int desktop, QString screen, SplitLocationMode location, QSet<AbstractClient *> &list);
     SplitGroup *getObj(int desktop);
 

@@ -1014,7 +1014,7 @@ bool AbstractClient::startInteractiveMoveResize()
         }
     }
 
-    if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
+    if (Compositor::compositing() && quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
         SplitManage::instance()->setSplitLineStateEx(desktop(), output()->name(), false);
         if (interactiveMoveResizeGravity() != Gravity::None) { // Cannot use isResize() yet
             // Exit quick tile mode when the user attempts to resize a tiled window
@@ -1024,6 +1024,8 @@ bool AbstractClient::startInteractiveMoveResize()
             updateQuickTileMode(QuickTileFlag::None); // Do so without restoring original geometry
             Q_EMIT quickTileModeChanged();*/
         }
+    } else if (Compositor::compositing()) {
+        SplitManage::instance()->setSplitLineStateEx(desktop(), "", false);
     }
 
     updateInitialMoveResizeGeometry();
@@ -1092,6 +1094,8 @@ void AbstractClient::finishInteractiveMoveResize(bool cancel)
     } else if (Compositor::compositing() && keepAbove()) {
         SplitManage::instance()->updateSplitGroup(this);
     }
+    if (Compositor::compositing() && !isSplitWindow())
+        SplitManage::instance()->setSplitLineStateEx(desktop(), "", true, true);
 
     SplitManage::instance()->resetDirection();
     if (!m_isSwapHandle)
@@ -3644,8 +3648,11 @@ void AbstractClient::manageSplitClient(bool isQuickMatch, bool isRecheckScreen)
 
 void AbstractClient::cancelSplitManage()
 {
-    if (m_quickTileMode == int(QuickTileFlag::None) || !Compositor::compositing())
+    if (m_quickTileMode == int(QuickTileFlag::None) || !Compositor::compositing()) {
+        if (Compositor::compositing())
+            SplitManage::instance()->setSplitLineStateEx(desktop(), output()->name(), true, true);
         return;
+    }
 
     SplitManage::instance()->removeWinSplit(this);
     if (!isMinimized())

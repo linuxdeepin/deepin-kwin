@@ -468,6 +468,8 @@ bool SplitManage::isHaveAboveWin(int desktop, QString screen)
             return false;
         else if (c->keepAbove())
             return true;
+        else
+            return true;
     }
     return false;
 }
@@ -840,8 +842,12 @@ void SplitManage::checkOcclusion(AbstractClient *client, QString screen)
 
 void SplitManage::createSplitGroup(AbstractClient *client, QString screen)
 {
-    if (screen.isEmpty())
+    bool isUseClient = false;
+    if (screen.isEmpty()) {
+        isUseClient = true;
         screen = client->output()->name();
+    }
+
     int desktop = client->desktop();
     if (!getObj(desktop))
         return;
@@ -876,7 +882,7 @@ void SplitManage::createSplitGroup(AbstractClient *client, QString screen)
     if (lefttop && location & SplitLocation::leftTop) {
         if (!(lefttop->quickTileMode() & m) && lefttop != leftbottom)
             lefttop = nullptr;
-        if (isSplitSplicing(client, lefttop)) {
+        if (isSplitSplicing(client, lefttop, isUseClient)) {
             getObj(desktop)->cacheActiveClient(lefttop, screen);
             getObj(desktop)->setSplitLocation(lefttop, screen, true);
         }
@@ -884,7 +890,7 @@ void SplitManage::createSplitGroup(AbstractClient *client, QString screen)
     if (leftbottom && location & SplitLocation::leftBottom) {
         if (!(leftbottom->quickTileMode() & m) && lefttop != leftbottom)
             leftbottom = nullptr;
-        if (isSplitSplicing(client, leftbottom)) {
+        if (isSplitSplicing(client, leftbottom, isUseClient)) {
             getObj(desktop)->cacheActiveClient(leftbottom, screen);
             getObj(desktop)->setSplitLocation(leftbottom, screen, true);
         }
@@ -892,7 +898,7 @@ void SplitManage::createSplitGroup(AbstractClient *client, QString screen)
     if (righttop && location & SplitLocation::rightTop) {
         if (!(righttop->quickTileMode() & m) && righttop != rightbottom)
             righttop = nullptr;
-        if (isSplitSplicing(client, righttop)) {
+        if (isSplitSplicing(client, righttop, isUseClient)) {
             getObj(desktop)->cacheActiveClient(righttop, screen);
             getObj(desktop)->setSplitLocation(righttop, screen, true);
         }
@@ -900,7 +906,7 @@ void SplitManage::createSplitGroup(AbstractClient *client, QString screen)
     if (rightbottom && location & SplitLocation::rightBottom) {
         if (!(rightbottom->quickTileMode() & m) && righttop != rightbottom)
             rightbottom = nullptr;
-        if (isSplitSplicing(client, rightbottom)) {
+        if (isSplitSplicing(client, rightbottom, isUseClient)) {
             getObj(desktop)->cacheActiveClient(rightbottom, screen);
             getObj(desktop)->setSplitLocation(rightbottom, screen, true);
         }
@@ -1284,13 +1290,17 @@ void SplitManage::getStockSplitWinList(QSet<KWin::EffectWindow *> &list, int des
     }
 }
 
-bool SplitManage::isSplitSplicing(AbstractClient *client, AbstractClient *target)
+bool SplitManage::isSplitSplicing(AbstractClient *client, AbstractClient *target, bool isUseClientScr)
 {
     bool flag = false;
     if (!client || !target)
         return flag;
 
-    QRect maxiArea = workspace()->clientArea(MaximizeArea, Cursors::self()->mouse()->pos(), client->desktop());
+    QRect maxiArea;
+    if (isUseClientScr)
+        maxiArea = workspace()->clientArea(MaximizeArea, client);
+    else
+        maxiArea = workspace()->clientArea(MaximizeArea, Cursors::self()->mouse()->pos(), client->desktop());
     int w = client->moveResizeGeometry().width();
     int h = client->moveResizeGeometry().height();
     int tw = target->moveResizeGeometry().width();
