@@ -479,7 +479,7 @@ void SplitManage::updateSplitRect(int desktop, QString screen, int pos, bool isT
 
     QRect hrect = getObj(desktop)->getShowRect(screen);
     QRect vrect = getObj(desktop)->getShowRect(screen, false);
-    QRect rect = workspace()->clientArea(MaximizeArea, 0, desktop);
+    QRect rect = workspace()->clientArea(MaximizeArea, Cursors::self()->mouse()->pos(), desktop);
     if (isTopDown) {
         hrect.moveTop(pos - 7);
         getObj(desktop)->setShowRect(screen, hrect);

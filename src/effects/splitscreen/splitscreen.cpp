@@ -115,7 +115,7 @@ void SplitScreenEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::mi
 void SplitScreenEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
 {
     effects->paintScreen(mask, region, data);
-    if (m_previewRect.height() > m_backgroundRect.height())
+    if (!isShowMasking && m_previewRect.height() > m_backgroundRect.height())
         showScroll();
 }
 
