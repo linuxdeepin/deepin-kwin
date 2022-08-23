@@ -43,6 +43,7 @@ private Q_SLOTS:
     void slotWindowQuickTileModeChanged(EffectWindow *w);
     void slotWindowFinishUserMovedResized(EffectWindow *w);
     void slotShowPreviewAlone(EffectWindow *w);
+    void slotHandleShowingDesktop(bool showingDesktop);
 
 private:
     bool isEnterSplitMode(QuickTileMode mode);

@@ -28,6 +28,7 @@ SplitScreenEffect::SplitScreenEffect()
     connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &SplitScreenEffect::slotWindowFinishUserMovedResized);
     connect(effectsEx, &EffectsHandlerEx::windowQuickTileModeChanged, this, &SplitScreenEffect::slotWindowQuickTileModeChanged);
     connect(effectsEx, &EffectsHandlerEx::showSplitScreenPreview, this, &SplitScreenEffect::slotShowPreviewAlone);
+    connect(effects, &EffectsHandler::showingDesktopChanged, this, &SplitScreenEffect::slotHandleShowingDesktop);
 
     m_splitthumbShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral("splitthumb.glsl"));
 }
@@ -595,4 +596,8 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
     }
 }
 
+void SplitScreenEffect::slotHandleShowingDesktop(bool showingDesktop) {
+    if(showingDesktop)
+        setActive(false);
+}
 } // namespace KWin
