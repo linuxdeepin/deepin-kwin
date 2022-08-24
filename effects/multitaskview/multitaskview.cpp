@@ -696,6 +696,9 @@ MultitaskViewEffect::MultitaskViewEffect()
     QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
     // 监听控制中心字体变化
     QDBusConnection::sessionBus().connect("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "Changed", this, SLOT(fontChanged(QString, QString)));
+    // 监听是否锁屏
+    QDBusConnection::sessionBus().connect("com.deepin.dde.lockFront", "/com/deepin/dde/lockFront", "com.deepin.dde.lockFront", "Visible", this, SLOT(lockFrontChanged(bool)));
+
     m_addingDesktopTimer->setInterval(200);
     m_addingDesktopTimer->setSingleShot(true);
     connect(m_addingDesktopTimer, &QTimer::timeout, this, &MultitaskViewEffect::addNewDesktop);
@@ -706,6 +709,11 @@ void MultitaskViewEffect::fontChanged(const QString &fontType, const QString &fo
     if (fontType == "standardfont" || fontType == "monospacefont") {
         m_fontFamily = fontName;
     }
+}
+
+void MultitaskViewEffect::lockFrontChanged(bool b)
+{
+    m_isLockFrontShown = b;
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -2201,6 +2209,10 @@ void MultitaskViewEffect::toggle()
         } else {
             KWin::Report::writeEventLog(KWin::Report::TriggerMutitaskview, "button");
         }
+    }
+
+    if(m_isLockFrontShown) {
+        return;
     }
 
     if (m_activated) {

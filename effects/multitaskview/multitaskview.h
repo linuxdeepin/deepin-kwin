@@ -435,6 +435,7 @@ private Q_SLOTS:
     void onDockChange(const QString &key);
     void screenRecorderStart();
     void fontChanged(const QString &fontType, const QString &fontName);
+    void lockFrontChanged(bool b);
 private:
     void cleanup();
     bool isRelevantWithPresentWindows(EffectWindow *w) const;
@@ -530,7 +531,7 @@ private:
     bool m_isShowWin = true;
     bool m_isShowPreview = false;
     bool m_wasWindowMove = false;
-
+    bool m_isLockFrontShown = false;
     bool m_delayDbus = true;
     bool m_longPressTouch = false;
 
