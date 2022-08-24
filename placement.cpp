@@ -826,7 +826,7 @@ void AbstractClient::shrinkVertical()
 void Workspace::quickTileWindow(QuickTileMode mode)
 {
     //拖拽
-    KWin::Report::writeEventLog(KWin::Report::TriggerSplitScreen, "drag");
+    KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerSplitScreen, "drag");
     if (!active_client) {
         return;
     }

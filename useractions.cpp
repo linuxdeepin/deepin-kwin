@@ -1990,7 +1990,7 @@ void Workspace::showWindowMenu(const QRect &pos, AbstractClient* cl)
     }
 
     m_userActionsMenu->show(adjustPos, cl);
-    KWin::Report::writeEventLog(KWin::Report::TriggerWindowLabel);
+    KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerWindowLabel);
 }
 
 void Workspace::showApplicationMenu(const QRect &pos, AbstractClient *c, int actionId)
