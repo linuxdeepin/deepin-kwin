@@ -21,9 +21,24 @@ enum TriggerType {
     TriggerWindowLabel = 1000300006,         //触发窗口标题栏菜单功能
 };
 
-void init();
-void writeEventLog(TriggerType type, const std::string& str = "");
-const std::string version();
+class eventLog{
+
+    eventLog();
+
+public:
+    static eventLog* instance();
+    ~eventLog();
+    void init();
+    void writeEventLog(TriggerType type, const std::string& str = "");
+    const std::string version();
+private:
+    //static eventLog m_instance;
+    void* m_handle {nullptr};
+    std::string m_version;
+    WRITE_FUNC m_writeFunc = nullptr;
+};
+
+
 }
 }
 

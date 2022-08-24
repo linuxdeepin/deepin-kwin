@@ -2205,9 +2205,9 @@ void MultitaskViewEffect::toggle()
     if(!m_activated) {
         QObject *obj = sender();
         if (obj && obj->objectName() == "ShowMultitasking") {
-            KWin::Report::writeEventLog(KWin::Report::TriggerMutitaskview, "Shortcut key");
+            KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerMutitaskview, "Shortcut key");
         } else {
-            KWin::Report::writeEventLog(KWin::Report::TriggerMutitaskview, "button");
+            KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerMutitaskview, "button");
         }
     }
 
@@ -2932,7 +2932,7 @@ void MultitaskViewEffect::removeBackgroundFill(EffectWindow *w, int desktop)
 
 void MultitaskViewEffect::addNewDesktop()
 {
-    KWin::Report::writeEventLog(KWin::Report::TriggerMoveWorkspace);
+    KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerMoveWorkspace);
     int count = effects->numberOfDesktops();
     if (count >= MAX_DESKTOP_COUNT)
         return;
@@ -3002,7 +3002,7 @@ void MultitaskViewEffect::addNewDesktop()
 
 void MultitaskViewEffect::removeDesktop(int desktop)
 {
-    KWin::Report::writeEventLog(KWin::Report::TriggerAddWorkspace);
+    KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerAddWorkspace);
     m_isShieldEvent = true;
     int count = effects->numberOfDesktops();
     if (desktop <= 0 || desktop > count || count == 1) {
@@ -3267,7 +3267,7 @@ void MultitaskViewEffect::switchDesktop()
 
 void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
 {
-    KWin::Report::writeEventLog(KWin::Report::TriggerDeleteWorkspace);
+    KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerDeleteWorkspace);
     QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
 
     QList<QString> list = m_screenInfoList.keys();
