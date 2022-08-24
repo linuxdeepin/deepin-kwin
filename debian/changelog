@@ -1,3 +1,13 @@
+kwin (4:5.15.11.49-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 150889 fix: did not update output when popup client show
+    + 154237 fix: On showingdesktop status, split effect is still active
+    + 153127 fix: pressing shortcut once, two workspace added
+    + 151849 fix: 键入“super+L”锁屏快捷键，触控屏触发多任务视图
+
+ -- Lei Su <sulei@uniontech.com>  Wed, 24 Aug 2022 17:20:42 +0800
+
 kwin (4:5.15.11.42-1) unstable; urgency=medium
 
   * Bug fix:
