@@ -451,6 +451,9 @@ public:
         return 90;
     }
 
+Q_SIGNALS:
+    void sigAddNewDesktop(EffectWindow *w, EffectScreen *s);
+
 private Q_SLOTS:
     void toggle() {
         if (m_activated) {
@@ -466,6 +469,7 @@ private Q_SLOTS:
     void onCloseEffect(bool);
 
     void onDockChange(const QString &key);
+    void onAddNewDesktop(EffectWindow *w, EffectScreen *s);
 
 private:
     void cleanup();
@@ -476,13 +480,13 @@ private:
     void calculateSplitWindowTransformations(QRect rect, QRect desktopRect, WindowMotionManager& wmm, QSet<EffectWindow *> &list);
 
     void calculateWorkSpaceWinTransformations(EffectWindowList windows, WindowMotionManager &wm, int desktop);
-    QRect calculateWorkspaceRect(int index, EffectScreen *screen, QRect maxRect);
+    QRect calculateWorkspaceRect(int index, int nums, EffectScreen *screen, QRect maxRect);
     bool calculateSwitchPos(QPoint diffPoint);
     void restoreWorkspacePos(int index, int num);
 
     void initWorkspaceBackground();
     void cacheWorkspaceBackground();
-    void updateWorkspacePos();
+    void updateWorkspacePos(int num);
     void getScreenInfo();
     void setWinLayout(int desktop, const EffectWindowList &windows);
     void updateWorkspaceWinLayout(int numDesktops);
@@ -490,7 +494,7 @@ private:
     void removeWinAndRelayout(EffectWindow *w);
     void createBackgroundFill(EffectWindow *w, QRect rect, int desktop);
     void removeBackgroundFill(EffectWindow *w, int desktop);
-    void addNewDesktop();
+    void addNewDesktop(EffectWindow *w = nullptr, EffectScreen *s = nullptr);
     void removeDesktop(int desktop);
     void removeDesktopEx(int desktop);
     void switchDesktop();
@@ -521,6 +525,7 @@ private:
     void moveWindowChangeDesktop(EffectWindow *w, int todesktop, EffectScreen *toscreen, bool isSwitch = false);
     bool closeWindow(EffectWindow *w);
     void handleWindowButton(int index, EffectWindow *w);
+    void addDesktopThread(EffectWindow *w = nullptr, EffectScreen *s = nullptr);
 
 private:
     MultiViewWorkspace *getWorkspaceObject(EffectScreen *screen, int secindex);
@@ -579,6 +584,7 @@ private:
     QHash<EffectScreen *, MultiViewWorkspace *>     m_addWorkspaceButton;
     QHash<QString, ScreenInfo_st>                   m_screenInfoList;
     QHash<EffectScreen *, QList<MultiViewWorkspace *>> m_workspaceBackgrounds;
+    QHash<EffectScreen *, MultiViewWorkspace *>     m_workspaceBackgroundsTmp;
     QVector<MultiViewWinManager *>                  m_motionManagers;
     QVector<MultiViewWinManager *>                  m_workspaceWinMgr;
     QRect m_backgroundRect;

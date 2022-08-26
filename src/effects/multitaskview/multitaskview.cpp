@@ -27,6 +27,7 @@
 #include <QScreen>
 #include <QX11Info>
 #include <QTranslator>
+#include <QtConcurrent>
 
 #include <effects.h>
 #include <kglobalaccel.h>
@@ -608,6 +609,8 @@ MultitaskViewEffect::MultitaskViewEffect()
     //connect(effectsEx, &EffectsHandlerEx::showMultitasking, this, [=]() {
     //    this->toggle();
     //});
+
+    connect(this, &MultitaskViewEffect::sigAddNewDesktop, this, &MultitaskViewEffect::onAddNewDesktop);
 
     connect(_gsettings_dde_dock, &QGSettings::changed, this, &MultitaskViewEffect::onDockChange);
     m_hoverWinShader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral(":/effects/multitaskview/shaders/windowhover.frag"));
@@ -1889,16 +1892,14 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                         QRect bgrect = QRect(wkobj->getRect().x() + wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.y(),
                                             m_scale[screen].workspaceMgrRect.x() + m_scale[screen].workspaceMgrRect.width() - wkobj->getRect().x() - wkobj->getRect().width(), m_scale[screen].workspaceMgrRect.height());
                         if (bgrect.contains(mouseEvent->pos()) && effects->numberOfDesktops() < 6) {
-                            addNewDesktop();
-                            moveWindowChangeDesktop(m_windowMove, effects->numberOfDesktops(), screen, true);
-                            m_opacityStatus = true;  //start opacity and sliding effects
+                            addDesktopThread(m_windowMove, screen);
                         }
                     }
                 }
             }
         } else if (isHoverWorkspace && !m_wasWorkspaceMove && !m_wasWindowMove) {
             if (isAddWorkspace) {
-                addNewDesktop();
+                addDesktopThread();
             } else if (m_workspaceCloseBtnArea.contains(mouseEvent->pos())) {
                 removeDesktop(m_aciveMoveDesktop);
             } else {
@@ -2048,12 +2049,12 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             break;
         case Qt::Key_Equal:
             if (e->modifiers() == Qt::AltModifier) {
-                addNewDesktop();
+                addDesktopThread();
             }
             break;
         case Qt::Key_Plus:
             if (e->modifiers() == (Qt::AltModifier|Qt::KeypadModifier)) {
-                addNewDesktop();
+                addDesktopThread();
             }
             break;
         case Qt::Key_Minus:
@@ -2686,11 +2687,11 @@ void MultitaskViewEffect::calculateSplitWindowTransformations(QRect rect, QRect 
     }
 }
 
-QRect MultitaskViewEffect::calculateWorkspaceRect(int index, EffectScreen *screen, QRect maxRect)
+QRect MultitaskViewEffect::calculateWorkspaceRect(int index, int nums, EffectScreen *screen, QRect maxRect)
 {
     int spacingScale = maxRect.y() + m_scale[screen].spacingHeight;
     int workspacingScale = m_scale[screen].workspacingWidth;
-    int nums = effects->numberOfDesktops();
+    // int nums = effects->numberOfDesktops();
     int thumbWidth = m_scale[screen].workspaceWidth;
     int xfpos = maxRect.width() / 2 - ((thumbWidth * nums) / 2) - (nums / 2 * (workspacingScale/* / 2*/));
     int xpos = xfpos + (thumbWidth + (workspacingScale /*/ 2*/)) * (index - 1);
@@ -2834,7 +2835,7 @@ void MultitaskViewEffect::initWorkspaceBackground()
         QList<MultiViewWorkspace *> list;
         for (int i = 1; i <= count; i++) {
             MultiViewWorkspace *b = new MultiViewWorkspace();
-            QRect rect = calculateWorkspaceRect(i, it.value().screen, it.value().rect);
+            QRect rect = calculateWorkspaceRect(i, count, it.value().screen, it.value().rect);
             BgInfo_st st;
             st.desktop = i;
             st.screenName = it.value().name;
@@ -2883,7 +2884,7 @@ void MultitaskViewEffect::cacheWorkspaceBackground()
     QHash<QString, ScreenInfo_st>::iterator it = m_screenInfoList.begin();
     for (; it != m_screenInfoList.end(); it++) {
         for (int i = 1; i <= count; i++) {
-            QRect rect = calculateWorkspaceRect(i, it.value().screen, it.value().rect);
+            QRect rect = calculateWorkspaceRect(i, count, it.value().screen, it.value().rect);
             BgInfo_st st;
             st.desktop = i;
             st.screenName = it.value().name;
@@ -2896,12 +2897,12 @@ void MultitaskViewEffect::cacheWorkspaceBackground()
     }
 }
 
-void MultitaskViewEffect::updateWorkspacePos()
+void MultitaskViewEffect::updateWorkspacePos(int num)
 {
     for (auto iter = m_workspaceBackgrounds.begin(); iter != m_workspaceBackgrounds.end(); iter++) {
         QList<MultiViewWorkspace *> list = iter.value();
         for (int j = 0; j < list.size(); j++) {
-            QRect rect = calculateWorkspaceRect(j + 1, iter.key(), list[j]->getClientArea());
+            QRect rect = calculateWorkspaceRect(j + 1, num, iter.key(), list[j]->getClientArea());
             list[j]->setRect(rect);
         }
     }
@@ -2981,19 +2982,16 @@ void MultitaskViewEffect::removeBackgroundFill(EffectWindow *w, int desktop)
     wmobj->removeWinFill(w);
 }
 
-void MultitaskViewEffect::addNewDesktop()
+void MultitaskViewEffect::addNewDesktop(EffectWindow *w, EffectScreen *s)
 {
     int count = effects->numberOfDesktops();
-    if (count >= MAX_DESKTOP_COUNT)
-        return;
 
     m_isShieldEvent = true;
-    effects->setNumberOfDesktops(count + 1);
     QList<QString> list = m_screenInfoList.keys();
     for (int i = 0; i < list.size(); i++) {
         QString screenName = list[i];
         ScreenInfo_st &st = m_screenInfoList[screenName];
-        QRect rect = calculateWorkspaceRect(count + 1, st.screen, st.rect);
+        QRect rect = calculateWorkspaceRect(count + 1, count + 1, st.screen, st.rect);
         BgInfo_st bgst;
         bgst.desktop = count + 1;
         bgst.screen = st.screen;
@@ -3002,7 +3000,7 @@ void MultitaskViewEffect::addNewDesktop()
         bgst.workspaceSize = rect.size();
         QPixmap bgPix, wpPix;
         MultiViewBackgroundManager::instance()->setNewBackground(bgst, bgPix, wpPix);
-        MultiViewWorkspace *b = new MultiViewWorkspace();
+        MultiViewWorkspace *b = m_workspaceBackgroundsTmp[st.screen];//new MultiViewWorkspace();
         b->setMaxHeight(m_maxHeight);
         b->setArea(st.rect, st.screenrect);
         b->setImage(bgPix, wpPix, rect);
@@ -3011,8 +3009,6 @@ void MultitaskViewEffect::addNewDesktop()
     }
 
     {
-        m_workspaceSlidingStatus = true;
-        m_workspaceSlidingTimeline.reset();
         m_workspaceSlidingInfo.clear();
         {
             for (auto iter = m_workspaceBackgrounds.begin(); iter != m_workspaceBackgrounds.end(); iter++) {
@@ -3029,25 +3025,8 @@ void MultitaskViewEffect::addNewDesktop()
         }
     }
 
-    updateWorkspacePos();
-    EffectWindowList windowsList = effects->stackingOrder();
-    setWinLayout(count + 1, windowsList);
-    updateWorkspaceWinLayout(count);
-
-    {
-        {
-            for (auto iter = m_workspaceBackgrounds.begin(); iter != m_workspaceBackgrounds.end(); iter++) {
-                QList<MultiViewWorkspace *> list = m_workspaceBackgrounds[iter.key()];
-                for (int j = 0; j < list.size(); j++) {
-                    QRect rect = list[j]->getRect();
-                    m_workspaceSlidingInfo[list[j]].second = rect.x();
-                }
-            }
-        }
-    }
-
-    changeCurrentDesktop(effects->numberOfDesktops());
-    m_isShieldEvent = false;
+    updateWorkspacePos(count + 1);
+    Q_EMIT sigAddNewDesktop(w, s);
 }
 
 void MultitaskViewEffect::removeDesktop(int desktop)
@@ -3179,7 +3158,7 @@ void MultitaskViewEffect::removeDesktopEx(int desktop)
         }
     }
 
-    updateWorkspacePos();
+    updateWorkspacePos(effects->numberOfDesktops());
     updateWorkspaceWinLayout(effects->numberOfDesktops());
 
     {
@@ -3910,6 +3889,54 @@ bool MultitaskViewEffect::touchUp(qint32 id, quint32 time)
 void MultitaskViewEffect::motionRepeat()
 {
     m_longPressTouch = true;
+}
+
+void MultitaskViewEffect::addDesktopThread(EffectWindow *w, EffectScreen *s)
+{
+    int count = effects->numberOfDesktops();
+    if (count >= MAX_DESKTOP_COUNT)
+        return;
+
+    m_isShieldEvent = true;
+    m_workspaceBackgroundsTmp.clear();
+    QList<QString> list = m_screenInfoList.keys();
+    for (int i = 0; i < list.size(); i++) {
+        QString screenName = list[i];
+        ScreenInfo_st &st = m_screenInfoList[screenName];
+        MultiViewWorkspace *b = new MultiViewWorkspace();
+        m_workspaceBackgroundsTmp[st.screen] = b;
+    }
+
+    QFuture<void> f = QtConcurrent::run(this, &MultitaskViewEffect::addNewDesktop, w, s);
+}
+
+void MultitaskViewEffect::onAddNewDesktop(EffectWindow *w, EffectScreen *s)
+{
+    int count = effects->numberOfDesktops();
+    effects->setNumberOfDesktops(count + 1);
+    m_workspaceSlidingStatus = true;
+    m_workspaceSlidingTimeline.reset();
+    EffectWindowList windowsList = effects->stackingOrder();
+    setWinLayout(count + 1, windowsList);
+    updateWorkspaceWinLayout(count);
+
+    {
+        for (auto iter = m_workspaceBackgrounds.begin(); iter != m_workspaceBackgrounds.end(); iter++) {
+            QList<MultiViewWorkspace *> list = m_workspaceBackgrounds[iter.key()];
+            for (int j = 0; j < list.size(); j++) {
+                QRect rect = list[j]->getRect();
+                m_workspaceSlidingInfo[list[j]].second = rect.x();
+            }
+        }
+    }
+
+    changeCurrentDesktop(effects->numberOfDesktops());
+    if (w != nullptr && s != nullptr) {
+        moveWindowChangeDesktop(w, effects->numberOfDesktops(), s, true);
+        m_opacityStatus = true;  //start opacity and sliding effects
+    }
+
+    m_isShieldEvent = false;
 }
 
 } // namespace KWin
