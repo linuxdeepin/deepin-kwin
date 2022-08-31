@@ -636,7 +636,6 @@ void AbstractClient::setDesktops(QVector<VirtualDesktop*> desktops)
         emit desktopPresenceChanged(this, was_desk);
     emit x11DesktopIdsChanged();
     if (compositing() && ((m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right)))) {
-        updateQuickTileMode(QuickTileFlag::None);
         //setGeometry(geometryRestore());
         workspace()->updateSplitOutlineState(1, VirtualDesktopManager::self()->current(), true);
     }
