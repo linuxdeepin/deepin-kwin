@@ -1079,12 +1079,12 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
     }
 
     if (m_effectFlyingBack.animating()) {
-        if (w->isOnDesktop(effects->currentDesktop())) {
+        if (w->isOnDesktop(effects->currentDesktop()) && !w->isMinimized()) {
             m_effectFlyingBack.paintWindow(w, mask, region, data);
         }
         return;
     } else if (m_effectFlyingBack.done()) {
-        if (w->isOnDesktop(effects->currentDesktop())) {
+        if (w->isOnDesktop(effects->currentDesktop()) && !w->isMinimized()) {
             effects->paintWindow(w, mask, region, data);
         }
         return;
