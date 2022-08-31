@@ -108,7 +108,8 @@ ShellClient::~ShellClient() = default;
 template <class T>
 void ShellClient::initSurface(T *shellSurface)
 {
-    m_caption = shellSurface->title().simplified();
+    if(!m_internalWindow)
+        m_caption = shellSurface->title().simplified();
     // delay till end of init
     QTimer::singleShot(0, this, &ShellClient::updateCaption);
     connect(shellSurface, &T::destroyed, this, &ShellClient::destroyClient);
@@ -1434,6 +1435,10 @@ void ShellClient::findInternalWindow()
         const QVariant windowType = m_internalWindow->property("type");
         if (!windowType.isNull()) {
             m_windowType = static_cast<NET::WindowType>(windowType.toInt());
+        }
+        const QVariant title = m_internalWindow->property("title");
+        if(!title.isNull()) {
+            m_caption = title.toString();
         }
         setOpacity(m_internalWindow->opacity());
 

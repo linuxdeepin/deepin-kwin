@@ -1662,7 +1662,7 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
         } else if (w->windowClass() == screen_recorder) {
             effects->stopMouseInterception(this);
             m_isScreenRecorder = true;
-        } else if (w->windowClass() != notification_tips) {
+        } else if (w->windowClass() != notification_tips && w->caption() != "deepin-splitoutline") {
             setActive(false);
         }
     }

@@ -44,6 +44,7 @@ namespace KWin
         setCustomCursor(CURSOR_L_R);
         updateWorkspaceArea();
         setAccessibleName("splitoutline");
+        setWindowTitle("deepin-splitoutline");
     }
 
     void SplitOutline::setCustomCursor(int direct)
