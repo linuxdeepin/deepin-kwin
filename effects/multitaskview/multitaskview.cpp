@@ -229,6 +229,32 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
         }
     }
     f.close();
+
+    //when background is empty, get a new background
+    QStringList preinstalledWallpapers;
+    if (backgroundUri.isEmpty()) {
+        QDBusInterface remoteApp(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF);
+        QDBusReply<QString> reply = remoteApp.call( "List", "background");
+
+        QJsonDocument json = QJsonDocument::fromJson(reply.value().toUtf8());
+        QJsonArray arr = json.array();
+        if (!arr.isEmpty()) {
+            auto p = arr.constBegin();
+            while (p != arr.constEnd()) {
+                auto o = p->toObject();
+                if (!o.value("Id").isUndefined() && !o.value("Deletable").toBool()) {
+                    preinstalledWallpapers << o.value("Id").toString();
+                }
+                ++p;
+            }
+        }
+    }
+    if (preinstalledWallpapers.size() > 0) {
+        int id = QRandomGenerator::global()->bounded(preinstalledWallpapers.size());
+        backgroundUri = preinstalledWallpapers[id];
+    }
+
+
     m_currentBackgroundList.insert(backgroundUri);
     backgroundUri = toRealPath(backgroundUri);
 
