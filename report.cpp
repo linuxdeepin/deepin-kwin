@@ -18,19 +18,6 @@ eventLog::eventLog()
     if (QFileInfo::exists(LIB_CACULATE_PATH)) {
         m_handle = dlopen(LIB_CACULATE_PATH, RTLD_LAZY);
     }
-
-    QProcess p;
-    p.start("apt policy kwin-data");
-    p.waitForFinished();
-    QString str = p.readAllStandardOutput();
-    QStringList lines = str.split("\n");
-    if (lines.size() > 1) {
-        if (lines.at(1).split("：").size() > 1) {
-            m_version = lines.at(1).split("：").at(1).toStdString();
-        } else if (lines.at(1).split(":").size() > 1){
-            m_version = lines.at(1).split(":").at(1).toStdString();
-        }
-    }
 }
 
 eventLog::~eventLog()
@@ -49,7 +36,13 @@ void eventLog::init()
 
     *(void **) (&initFunc) = dlsym(m_handle, "Initialize");
     *(void **) (&m_writeFunc) = dlsym(m_handle, "WriteEventLog");
-    (*initFunc)("kwin-x11",false);
+    
+    if(initFunc) {
+        (*initFunc)("kwin",false);
+    } else{
+        dlclose(m_handle);
+        m_handle = nullptr;
+    }
 }
 
 void eventLog::writeEventLog(TriggerType type, const std::string& mode)
@@ -71,6 +64,25 @@ void eventLog::writeEventLog(TriggerType type, const std::string& mode)
 
 const std::string eventLog::version()
 {
+    if(m_version != "") {
+        return m_version;
+    }
+
+    QString version;
+    QProcess p;
+    p.start("dpkg -s kwin-data");
+    p.waitForFinished();
+    while(!p.atEnd()) {
+        QString line = p.readLine();
+        if (line.contains("Version")) {
+            QStringList strlist = line.split(" ");
+            if (strlist.size() > 1) {
+                version = strlist.at(1);
+                version.remove("\n");
+                m_version = version.toStdString();
+            }
+        }
+    }
     return m_version;
 }
 
