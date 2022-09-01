@@ -34,7 +34,7 @@ public:
 private:
     //static eventLog m_instance;
     void* m_handle {nullptr};
-    std::string m_version;
+    std::string m_version {""};
     WRITE_FUNC m_writeFunc = nullptr;
 };
 
