@@ -659,10 +659,6 @@ MultitaskViewEffect::MultitaskViewEffect()
         onCloseEffect(true);
     });
 
-    connect(effectsEx, &EffectsHandlerEx::showMultitasking, this, [=]() {
-        this->toggle();
-    });
-
     connect(_gsettings_dde_dock, &QGSettings::changed, this, &MultitaskViewEffect::onDockChange);
 
     m_hoverWinShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral("windowhover.glsl"));
