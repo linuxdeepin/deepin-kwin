@@ -219,7 +219,6 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, Scene *scene)
     connect(ScreenEdges::self(), &ScreenEdges::approaching, this, &EffectsHandler::screenEdgeApproaching);
     connect(ScreenLockerWatcher::self(), &ScreenLockerWatcher::locked, this, &EffectsHandler::screenLockingChanged);
 
-    connect(MultiTouchGesture::instance(), &MultiTouchGesture::showMultitasking, this, &EffectsHandlerEx::showMultitasking);
     connect(kwinApp(), &Application::x11ConnectionChanged, this,
         [this] {
             registered_atoms.clear();
