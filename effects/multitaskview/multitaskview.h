@@ -123,6 +123,7 @@ public:
     }
 
     void getWorkspaceBgPath(BgInfo_st &st, QPixmap &desktopBg, QPixmap &workspaceBg);
+    void setWorkspaceBgPath(int desktop, QString screenName, QString bg);
     void cacheWorkspaceBg(BgInfo_st &st);
     void getBackgroundList();
     void updateBackgroundList(const QString &file);
@@ -155,8 +156,8 @@ private:
     QList<QString>   m_screenNamelist;
     QString          m_previewFile = "";
     int              m_previewScreen = -1;
-    QMutex          m_bgmutex;
-    QSettings *m_deepinwmrcIni = nullptr;
+    QMutex           m_bgmutex;
+    KConfig          *m_deepinWMConfig = nullptr;
 
     QHash<QString, QPair<QSize, QPixmap>> m_wpCachedPixmaps;
     QHash<QString, QPair<QSize, QPixmap>> m_bgCachedPixmaps;
@@ -435,7 +436,6 @@ private Q_SLOTS:
     void onDockChange(const QString &key);
     void screenRecorderStart();
     void fontChanged(const QString &fontType, const QString &fontName);
-    void lockFrontChanged(bool b);
 private:
     void cleanup();
     bool isRelevantWithPresentWindows(EffectWindow *w) const;
@@ -531,7 +531,6 @@ private:
     bool m_isShowWin = true;
     bool m_isShowPreview = false;
     bool m_wasWindowMove = false;
-    bool m_isLockFrontShown = false;
     bool m_delayDbus = true;
     bool m_longPressTouch = false;
 
