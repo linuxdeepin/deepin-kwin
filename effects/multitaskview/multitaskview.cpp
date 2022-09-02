@@ -41,12 +41,15 @@
 #include "report.h"
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock"))
+Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dde.appearance"))
 //Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock_primary, ("com.deepin.dde.dock.mainwindow"))
 #define GsettingsDockPosition   "position"
 //#define GsettingsDockBottom     "bottom"
 //#define GsettingsDockPrimary    "only-show-primary"
 #define GsettingsDockHeight     "window-size-efficient"
 //#define GsettingsDockShow       "hide-mode"
+#define GsettingsBackgroundUri  "backgroundUris"
+#define DeepinWMConfigName      "deepinwmrc"
 
 #define BRIGHTNESS  0.4
 #define SCALE_F     1.0
@@ -86,6 +89,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 const char notification_tips[] = "dde-osd dde-osd";
 const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
 const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
+const char defaultSecondBackgroundUri[] = "francesco-ungaro-1fzbUyzsHV8-unsplash";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/resources/themes/add-light.png";//":/resources/themes/add-light.svg";
 const char delete_workspace_png[] = ":/resources/themes/workspace_delete.png";
@@ -148,18 +152,15 @@ MultiViewBackgroundManager *MultiViewBackgroundManager::instance()
 MultiViewBackgroundManager::MultiViewBackgroundManager()
     : QObject()
     , m_bgmutex(QMutex::Recursive)
+    , m_deepinWMConfig(new KConfig(DeepinWMConfigName, KConfig::CascadeConfig))
 {
-    QStringList lst = QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation);
-    if (lst.size() > 0) {
-        m_deepinwmrcIni = new QSettings(lst[0] + "/deepinwmrc", QSettings::IniFormat);
-    }
 }
 
 MultiViewBackgroundManager::~MultiViewBackgroundManager()
 {
-    if (m_deepinwmrcIni) {
-        delete m_deepinwmrcIni;
-        m_deepinwmrcIni = nullptr;
+    if (m_deepinWMConfig) {
+        delete m_deepinWMConfig;
+        m_deepinWMConfig = nullptr;
     }
 }
 
@@ -214,46 +215,38 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
 {
     QString strBackgroundPath = QString("%1%2").arg(st.desktop).arg(st.screenName);
 
-    QString backgroundUri;
-    QFile f(QDir::homePath() + "/.config/deepinwmrc");
-    if(!f.open(QFile::ReadOnly)) {
-        qDebug()  << "open faild!!! " << QDir::homePath() + "/.config/deepinwmrc";
-        return;
-    }
-    while (!f.atEnd()) {
-        QString line = f.readLine();
-        line.remove("\n");
-        if(line.contains(QString("%1@").arg(st.desktop) + st.screenName)) {
-            backgroundUri = line.split('=').last();
-            break;
-        }
-    }
-    f.close();
-
-    //when background is empty, get a new background
-    QStringList preinstalledWallpapers;
+    m_deepinWMConfig->checkUpdate(QString("%1%2%3").arg(st.desktop).arg("@", st.screenName), DeepinWMConfigName);
+    QString backgroundUri = m_deepinWMConfig->group("WorkspaceBackground").readEntry(QString("%1%2%3").arg(st.desktop).arg("@", st.screenName));
     if (backgroundUri.isEmpty()) {
-        QDBusInterface remoteApp(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF);
-        QDBusReply<QString> reply = remoteApp.call( "List", "background");
+        backgroundUri = _gsettings_dde_appearance->get(GsettingsBackgroundUri).toStringList().value(st.desktop - 1);
+        if (st.desktop == 1) {
+            if(!QFileInfo(toRealPath(backgroundUri)).isFile()) {
+                backgroundUri = fallback_background_name;
+            }
+        } else {
+            if (!QFileInfo(toRealPath(backgroundUri)).isFile()) {
+                QDBusInterface remoteApp(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF);
+                QDBusReply<QString> reply = remoteApp.call( "List", "background");
 
-        QJsonDocument json = QJsonDocument::fromJson(reply.value().toUtf8());
-        QJsonArray arr = json.array();
-        if (!arr.isEmpty()) {
-            auto p = arr.constBegin();
-            while (p != arr.constEnd()) {
-                auto o = p->toObject();
-                if (!o.value("Id").isUndefined() && !o.value("Deletable").toBool()) {
-                    preinstalledWallpapers << o.value("Id").toString();
+                QJsonDocument json = QJsonDocument::fromJson(reply.value().toUtf8());
+                QJsonArray arr = json.array();
+                if (!arr.isEmpty()) {
+                    auto p = arr.constBegin();
+                    while (p != arr.constEnd()) {
+                        auto o = p->toObject();
+                        if (!o.value("Id").isUndefined() && !o.value("Deletable").toBool()) {
+                            if(o.value("Id").toString().contains(defaultSecondBackgroundUri)) {
+                                backgroundUri = o.value("Id").toString();
+                                break;
+                            }
+                        }
+                        ++p;
+                    }
                 }
-                ++p;
             }
         }
+        setWorkspaceBgPath(st.desktop, st.screenName, backgroundUri);
     }
-    if (preinstalledWallpapers.size() > 0) {
-        int id = QRandomGenerator::global()->bounded(preinstalledWallpapers.size());
-        backgroundUri = preinstalledWallpapers[id];
-    }
-
 
     m_currentBackgroundList.insert(backgroundUri);
     backgroundUri = toRealPath(backgroundUri);
@@ -280,22 +273,38 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
     }
 }
 
+void MultiViewBackgroundManager::setWorkspaceBgPath(int desktop, QString screenName, QString bg)
+{
+    m_deepinWMConfig->group("WorkspaceBackground").writeEntry(QString("%1%2%3").arg(desktop).arg("@" ,screenName), bg);
+    m_deepinWMConfig->sync();
+
+    QStringList allWallpaper = _gsettings_dde_appearance->get(GsettingsBackgroundUri).toStringList();
+
+    if (desktop > allWallpaper.size()) {
+        allWallpaper.reserve(desktop);
+
+        for (int i = allWallpaper.size(); i < desktop; ++i) {
+            allWallpaper.append(QString());
+        }
+    }
+
+    allWallpaper[desktop - 1] = bg;
+    _gsettings_dde_appearance->set(GsettingsBackgroundUri, allWallpaper);
+}
+
 void MultiViewBackgroundManager::cacheWorkspaceBg(BgInfo_st &st)
 {
     QMutexLocker locker(&m_bgmutex);
-    if (m_deepinwmrcIni) {
-        QString backgroundUri;
-        QString strBackgroundPath = QString("%1@%2").arg(st.desktop).arg(st.screenName);
-        backgroundUri = m_deepinwmrcIni->value("WorkspaceBackground/" + strBackgroundPath).toString();
-        QString strBackgroundPathkey = QString("%1%2").arg(st.desktop).arg(st.screenName);
+    QString backgroundUri;
+    backgroundUri = m_deepinWMConfig->group("WorkspaceBackground").readEntry( QString("%1%2%3").arg(st.desktop).arg("@", st.screenName));
+    QString strBackgroundPathkey = QString("%1%2").arg(st.desktop).arg(st.screenName);
 
-        if (!backgroundUri.isEmpty()) {
-            backgroundUri = toRealPath(backgroundUri);
-            QPixmap pixmap = cutBackgroundPix(st.desktopSize, backgroundUri);
-            m_bgCachedPixmaps[backgroundUri + strBackgroundPathkey] = qMakePair(st.desktopSize, pixmap);
-            pixmap = cutBackgroundPix(st.workspaceSize, backgroundUri);
-            m_wpCachedPixmaps[backgroundUri + strBackgroundPathkey] = qMakePair(st.workspaceSize, pixmap);
-        }
+    if (!backgroundUri.isEmpty()) {
+        backgroundUri = toRealPath(backgroundUri);
+        QPixmap pixmap = cutBackgroundPix(st.desktopSize, backgroundUri);
+        m_bgCachedPixmaps[backgroundUri + strBackgroundPathkey] = qMakePair(st.desktopSize, pixmap);
+        pixmap = cutBackgroundPix(st.workspaceSize, backgroundUri);
+        m_wpCachedPixmaps[backgroundUri + strBackgroundPathkey] = qMakePair(st.workspaceSize, pixmap);
     }
 }
 
@@ -718,8 +727,6 @@ MultitaskViewEffect::MultitaskViewEffect()
     QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
     // 监听控制中心字体变化
     QDBusConnection::sessionBus().connect("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "Changed", this, SLOT(fontChanged(QString, QString)));
-    // 监听是否锁屏
-    QDBusConnection::sessionBus().connect("com.deepin.dde.lockFront", "/com/deepin/dde/lockFront", "com.deepin.dde.lockFront", "Visible", this, SLOT(lockFrontChanged(bool)));
 
     m_addingDesktopTimer->setInterval(200);
     m_addingDesktopTimer->setSingleShot(true);
@@ -731,11 +738,6 @@ void MultitaskViewEffect::fontChanged(const QString &fontType, const QString &fo
     if (fontType == "standardfont" || fontType == "monospacefont") {
         m_fontFamily = fontName;
     }
-}
-
-void MultitaskViewEffect::lockFrontChanged(bool b)
-{
-    m_isLockFrontShown = b;
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -2232,10 +2234,6 @@ void MultitaskViewEffect::toggle()
         } else {
             KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerMutitaskview, "button");
         }
-    }
-
-    if(m_isLockFrontShown) {
-        return;
     }
 
     if (m_activated) {
