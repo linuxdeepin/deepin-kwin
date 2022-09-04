@@ -271,8 +271,6 @@ public:
     */
     QModelIndex nextPrev(TabBoxConfig::TabBoxSwitchPosition direction) const;
 
-    int calculateColumnCount(QAbstractItemModel* model) const;
-
     /**
     * Initializes the model based on the current config.
     * This method has to be invoked before showing the TabBox.
