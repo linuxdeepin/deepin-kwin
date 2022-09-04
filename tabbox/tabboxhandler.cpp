@@ -484,10 +484,8 @@ QModelIndex TabBoxHandler::nextPrev(TabBoxConfig::TabBoxSwitchPosition direction
         break;
     }
 
-    int columncount = calculateColumnCount(model);
+    int viewColumnCount  = d->clientModel()->getViewColumnCount();
 
-    int r = d->index.row() / columncount + 1;
-    int c = d->index.row() % columncount;
     if (direction == TabBoxConfig::Forward) {
         int column = d->index.column() + 1;
         int row = d->index.row();
@@ -519,59 +517,35 @@ QModelIndex TabBoxHandler::nextPrev(TabBoxConfig::TabBoxSwitchPosition direction
             }
         }
     } else if (direction == TabBoxConfig::Up) {
-        if(d->index.row() / columncount == 0) {
-            ret = model->index(d->index.row(), d->index.column());
-        } else {
-            int column = d->index.column();
-            int row = d->index.row() - columncount;
-            ret = model->index(row, column);
-            if (!ret.isValid())
-                ret = model->index(0, 0);
+        if (viewColumnCount != 0) {
+            if(d->index.row() / viewColumnCount == 0) {
+                ret = model->index(d->index.row(), d->index.column());
+            } else {
+                int column = d->index.column();
+                int row = d->index.row() - viewColumnCount;
+                ret = model->index(row, column);
+                if (!ret.isValid())
+                    ret = model->index(0, 0);
+            }
         }
     } else if (direction == TabBoxConfig::Down) {
-        if(d->index.row() / columncount >= model->rowCount() / columncount) {
-            ret = model->index(d->index.row(), d->index.column());
-        } else {
-            int column = d->index.column();
-            int row = d->index.row() + columncount;
-            ret = model->index(row, column);
-            if (!ret.isValid())
-                ret = model->index(column, row - columncount);
+        if (viewColumnCount != 0) {
+            if(d->index.row() / viewColumnCount >= model->rowCount() / viewColumnCount) {
+                ret = model->index(d->index.row(), d->index.column());
+            } else {
+                int column = d->index.column();
+                int row = d->index.row() + viewColumnCount;
+                ret = model->index(row, column);
+                if (!ret.isValid())
+                    ret = model->index(column, row - viewColumnCount);
+            }
         }
     }
+    
     if (ret.isValid())
         return ret;
     else
         return d->index;
-}
-
-int TabBoxHandler::calculateColumnCount(QAbstractItemModel* model) const
-{
-    int count = model->columnCount();
-    int itemNeedScale = false;
-    int spacing = 32 * 2 + 4;
-    int itemWidth = 128 + 20;
-
-    QDesktopWidget* desktopWidget = QApplication::desktop();
-    QRect screenRect = desktopWidget->screenGeometry();
-    int maxWidth = screenRect.width() - 70 * 2;
-
-    int maxItemsEachRow = (maxWidth - spacing) / itemWidth;
-    if (maxItemsEachRow < 7 && count > maxItemsEachRow) {
-        itemNeedScale = true;
-        maxItemsEachRow = count > 7 ? count : 7;
-    }
-
-    if (maxItemsEachRow * 2 < count) {
-        maxItemsEachRow = count / 2;
-        itemNeedScale = true;
-    }
-
-    if (itemNeedScale) {
-        itemWidth = maxWidth / maxItemsEachRow;
-    }
-
-    return maxItemsEachRow;
 }
 
 QModelIndex TabBoxHandler::desktopIndex(int desktop) const

@@ -66,6 +66,10 @@ public:
     virtual QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
     Q_INVOKABLE QString longestCaption() const;
 
+    Q_INVOKABLE void setViewColumnCount(int viewColumnCount);
+    int getViewColumnCount() const {
+        return m_viewColumnCount;
+    }
     /**
     * @param client The TabBoxClient whose index should be returned
     * @return Returns the ModelIndex of given TabBoxClient or an invalid ModelIndex
@@ -105,6 +109,7 @@ public Q_SLOTS:
 
 private:
     TabBoxClientList m_clientList;
+    int              m_viewColumnCount = 0;
 };
 
 } // namespace Tabbox
