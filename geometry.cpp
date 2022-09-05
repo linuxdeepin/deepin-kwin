@@ -1195,7 +1195,7 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
     if (isMoveResize())
         return;
 
-    if (waylandServer() && (isStandAlone() || isOverride()))
+    if (waylandServer() && (isStandAlone() || isOverride() || isOnScreenDisplay()))
         return;
     // this can be true only if this window was mapped before KWin
     // was started - in such case, don't adjust position to workarea,
