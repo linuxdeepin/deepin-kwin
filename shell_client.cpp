@@ -1791,7 +1791,7 @@ void ShellClient::installPlasmaShellSurface(PlasmaShellSurfaceInterface *surface
         }
         if (type != m_windowType) {
             m_windowType = type;
-            if (m_windowType == NET::Desktop || type == NET::Dock || type == NET::OnScreenDisplay || type == NET::Notification || type == NET::Tooltip) {
+            if (m_windowType == NET::Desktop || type == NET::Dock || type == NET::Notification || type == NET::Tooltip) {
                 setOnAllDesktops(true);
             }
             workspace()->updateClientArea();
