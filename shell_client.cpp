@@ -2011,7 +2011,7 @@ bool ShellClient::hasStrut() const
 
 void ShellClient::updateIcon()
 {
-    const QString waylandIconName = QStringLiteral("wayland");
+    const QString waylandIconName = QStringLiteral("dde");
     const QString dfIconName = iconFromDesktopFile();
     const QString iconName = dfIconName.isEmpty() ? waylandIconName : dfIconName;
     if (iconName == icon().name()) {
