@@ -2064,10 +2064,13 @@ InputRedirection::~InputRedirection()
     s_self = NULL;
     qDeleteAll(m_filters);
     qDeleteAll(m_spies);
-    pEventMonitor->stopRecord();
-    pEventMonitor->exit();
-    pEventMonitor->wait();
-    pEventMonitor->deleteLater();
+
+    if (Application::useXRecord()) {
+        pEventMonitor->stopRecord();
+        pEventMonitor->exit();
+        pEventMonitor->wait();
+        pEventMonitor->deleteLater();
+    }
 }
 
 void InputRedirection::installInputEventFilter(InputEventFilter *filter)

@@ -465,8 +465,10 @@ void ShellClient::destroyClient()
 
 void ShellClient::deleteClient(ShellClient *c)
 {
-    workspace()->updateScreenSplitApp(c, true);
-    delete c;
+    if (workspace() != nullptr) {
+        workspace()->updateScreenSplitApp(c, true);
+        delete c;
+    }
 }
 
 QStringList ShellClient::activities() const
