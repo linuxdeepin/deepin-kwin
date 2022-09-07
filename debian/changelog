@@ -1,3 +1,16 @@
+kwin (4:5.15.11.51-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 154303 fix: set default wayland icon is dde.
+    + 151723 fix: PPT copy paste exception
+    + 154431 fix: dde-lock not hide splitbar
+    + 107434 fix: splitoutline no conform to ui design
+    + 155873 156563 fix: dde-lock will show with dde-dock
+    + 151433 fix: the problem of atl + tab up and down arrow keys switching
+    + 148181 fix: remove single finger toggling multitaskview
+
+ -- Lei Su <sulei@uniontech.com>  Wed, 7 Sep 2022 15:34:42 +0800
+
 kwin (4:5.15.11.49-1) unstable; urgency=medium
 
   * Bug fix:
