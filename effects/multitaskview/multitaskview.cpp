@@ -1844,6 +1844,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         return;
     }
     case QEvent::MouseButtonPress:
+        m_isShowPreview = isAddWorkspace;
         m_timer->setSingleShot(true);
         m_timer->start(250);
         if (!m_dockRect.contains(mouseEvent->pos())) {
