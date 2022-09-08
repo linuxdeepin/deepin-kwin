@@ -8,9 +8,8 @@
         <file alias="invert.frag">invert/data/1.10/invert.frag</file>
         <file alias="lookingglass.frag">lookingglass/data/1.10/lookingglass.frag</file>
         <file alias="blinking-startup-fragment.glsl">startupfeedback/data/1.10/blinking-startup-fragment.glsl</file>
-        <file alias="splitthumb.glsl">splitscreen/data/1.10/splitthumb.glsl</file>
-        <file alias="bk9.frag">splitscreen/data/1.10/bk9.frag</file>
-        <file alias="bk9.vert">splitscreen/bk9.vert</file>
+        <file alias="splitthumb.vert">splitscreen/data/1.10/splitthumb.glsl</file>
+        <file alias="splitthumb.frag">splitscreen/data/1.10/bk9.frag</file>
         <file alias="workspacethumb.glsl">multitaskview/data/1.10/workspacethumb.glsl</file>
         <file alias="windowfill.glsl">multitaskview/data/1.10/windowfill.glsl</file>
         <file alias="windowhover.glsl">multitaskview/data/1.10/windowhover.glsl</file>
@@ -28,9 +27,8 @@
         <file alias="invert.frag">invert/data/1.40/invert.frag</file>
         <file alias="lookingglass.frag">lookingglass/data/1.40/lookingglass.frag</file>
         <file alias="blinking-startup-fragment.glsl">startupfeedback/data/1.40/blinking-startup-fragment.glsl</file>
-        <file alias="splitthumb.glsl">splitscreen/data/1.40/splitthumb.glsl</file>
-        <file alias="bk9.frag">splitscreen/data/1.40/bk9.frag</file>
-        <file alias="bk9.vert">splitscreen/bk9.vert</file>
+        <file alias="splitthumb.vert">splitscreen/data/1.40/splitthumb.glsl</file>
+        <file alias="splitthumb.frag">splitscreen/data/1.40/bk9.frag</file>
         <file alias="workspacethumb.glsl">multitaskview/data/1.40/workspacethumb.glsl</file>
         <file alias="windowfill.glsl">multitaskview/data/1.40/windowfill.glsl</file>
         <file alias="windowhover.glsl">multitaskview/data/1.40/windowhover.glsl</file>
