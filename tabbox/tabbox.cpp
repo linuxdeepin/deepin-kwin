@@ -1433,6 +1433,14 @@ void TabBox::keyPress(int keyQt)
         // Before testing the unshifted key (Ctrl+A vs. Ctrl+Shift+a etc.), see whether this is +Shift+Tab
         // and check that against +Shift+Backtab (as well)
         mods &= keyQt;
+
+        if ((keyQt & ~mods) == Qt::Key_Tab) {
+            if (contains(forward, mods | Qt::Key_Backtab))
+                return TabBoxConfig::Forward;
+            if (contains(backward, mods | Qt::Key_Backtab))
+                return TabBoxConfig::Backward;
+        }
+
         if ((keyQt & ~mods) == Qt::Key_Right) {
             return TabBoxConfig::Forward;
         }
