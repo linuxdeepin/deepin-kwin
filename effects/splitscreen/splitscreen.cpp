@@ -30,11 +30,13 @@ SplitScreenEffect::SplitScreenEffect()
     connect(effectsEx, &EffectsHandlerEx::showSplitScreenPreview, this, &SplitScreenEffect::slotShowPreviewAlone);
     connect(effects, &EffectsHandler::showingDesktopChanged, this, &SplitScreenEffect::slotHandleShowingDesktop);
 
-    m_splitthumbShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture | ShaderTrait::Modulate, QString(), QStringLiteral("splitthumb.glsl"));
+    m_splitthumbShader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::UniformColor, QStringLiteral("splitthumb.vert"), QStringLiteral("splitthumb.frag"));
 }
 
 SplitScreenEffect::~SplitScreenEffect()
 {
+    if (m_splitthumbShader)
+        delete m_splitthumbShader;
 }
 
 void SplitScreenEffect::reconfigure(ReconfigureFlags flags)
@@ -144,55 +146,23 @@ void SplitScreenEffect::paintWindow(EffectWindow *w, int mask, QRegion region, W
 
 void SplitScreenEffect::drawHighlightFrame(const QRect &geo)
 {
-    if (QX11Info::isPlatformX11()) {
-        if (!m_highlightFrame) {
-            m_highlightFrame = effects->effectFrame(EffectFrameUnstyled, false);
-        }
-        QRect geo_frame = geo;
-        geo_frame.adjust(-1, -1, 1, 1);
-        m_highlightFrame->setGeometry(geo_frame);
+    static const float lw = 4.0f;
+    auto area = effects->clientArea(FullArea, m_screen, 0);
+    GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
+    vbo->reset();
 
-        ShaderBinder binder(m_splitthumbShader);
-        QColor color = effectsEx->getActiveColor();
-        m_splitthumbShader->setUniform(GLShader::Color, color);
-        m_highlightFrame->render(infiniteRegion(), 1, 0.8);
-        m_highlightFrame->setShader(m_splitthumbShader);
-    } else {
-        glLineWidth(10);
-        static GLShader*  shader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::MapTexture, QString("bk9.vert"), QStringLiteral("bk9.frag"));
-        GLVertexBuffer* vbo = GLVertexBuffer::streamingBuffer();
-        auto area = effects->clientArea(FullArea/*ScreenArea*/, m_screen, 0);
-        vbo->reset();
-        vbo->setUseColor(false);
-        QVector<float> verts;
-        verts.reserve(8);
-        float x1 = (float)(geo.left()-5)*2/area.width() - 1.0;
-        float x2 = (float)(geo.right()+5)*2/area.width()- 1.0;
-        float y1 = 1.0 - (float)geo.top()*2/area.height();
-        float y2 = 1.0 - (float)(geo.bottom()+5)*2/area.height();
-        verts << x1  << y1;
-        verts << x2  << y1;
+    float x1 = (geo.left() - lw) * 2.0f / area.width() - 1.0f;
+    float x2 = (geo.right() + lw + 0.8f) * 2.0f / area.width() - 1.0f;
+    float y1 = 1.0f - (geo.top() - lw) * 2.0f / area.height();
+    float y2 = 1.0f - (geo.bottom() + lw + 0.5f) * 2.0f / area.height();
 
-        x1 = (float)(geo.left())*2/area.width() - 1.0;
+    QVector<float> verts;
+    verts << x1 << y1 << x2 << y1 << x1 << y2 << x2 << y2;
+    vbo->setData(4, 2, verts.data(), NULL);
 
-        verts << x1 << y1;
-        verts << x1 << y2;
-
-        y2 = 1.0 - (float)(geo.bottom())*2/area.height();
-        verts << x1<<y2;
-        verts << x2 << y2;
-
-        x2 = (float)geo.right()*2/area.width()- 1.0;
-        verts << x2 << y2;
-        verts << x2 << y1;
-
-
-        ShaderBinder bind(shader);
-        vbo->setData(verts.size()/2, 2, verts.data(), NULL);
-        QColor color = effectsEx->getActiveColor();
-        shader->setUniform(GLShader::Color,color);
-        vbo->render(GL_LINES);
-    }
+    ShaderBinder bind(m_splitthumbShader);
+    m_splitthumbShader->setUniform(GLShader::Color, effectsEx->getActiveColor());
+    vbo->render(GL_TRIANGLE_STRIP);
 }
 
 bool SplitScreenEffect::touchDown(quint32 id, const QPointF &pos, quint32 time)

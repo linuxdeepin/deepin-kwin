@@ -1,9 +1,5 @@
 #version 140
-out vec4 fragColor;
-uniform vec4 geometryColor;
-
+in vec4 position;
 void main() {
-    vec4 color = geometryColor;
-
-    fragColor = color;
+   gl_Position = position;
 }
