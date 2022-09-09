@@ -83,6 +83,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
 
 #define POPUP_TIME_SCALE 15.0f
 #define EFFECT_DURATION_DEFAULT 400
+#define EFFECT_DURATION_DEFAULTEX 500
 #define SCISSOR_HOFFU 200
 #define SCISSOR_HOFFD 400
 
@@ -680,11 +681,11 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_lastDesktopIndex = m_curDesktopIndex;
 
     m_bgSlidingStatus = false;
-    m_bgSlidingTimeLine.setEasingCurve(QEasingCurve::InQuint);
-    m_bgSlidingTimeLine.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULT));
+    m_bgSlidingTimeLine.setEasingCurve(QEasingCurve::OutQuint);
+    m_bgSlidingTimeLine.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULTEX));
 
     m_workspaceSlidingStatus = false;
-    m_workspaceSlidingTimeline.setEasingCurve(QEasingCurve::Linear);
+    m_workspaceSlidingTimeline.setEasingCurve(QEasingCurve::OutQuint);
     m_workspaceSlidingTimeline.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULT));
 
     m_popStatus = false;
@@ -826,6 +827,9 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, int time)
 
         if(m_bgSlidingStatus)
             m_bgSlidingTimeLine.update(std::chrono::milliseconds(time));
+
+        if (m_windowEffectState)
+            m_windowEffect.update(time);
 
         for (auto& mm: m_motionManagers) {
             mm->calculate(POPUP_TIME_SCALE);
@@ -1009,6 +1013,10 @@ void MultitaskViewEffect::postPaintScreen()
         m_opacityTimeLine.reset();
     }
 
+    if (m_windowEffect.getStatus() == 2) {
+        m_windowEffectState = false;
+    }
+
     if (m_activated)
         effects->addRepaintFull();
 
@@ -1110,6 +1118,11 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
             return;
         }
 
+        if (m_windowEffectState && m_flyingWinList.contains(w)) {
+            m_windowEffect.paintWindow(w, mask, region, data);
+            return;
+        }
+
         if (m_bgSlidingStatus) {
             if (m_flyingWinList.contains(w))
                 return;
@@ -1152,7 +1165,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
             }
             if (curWinManager) {
                 curWinManager->getMotion(m_curDesktopIndex, w->screen(), mgr1);
-                if (mgr1->isManaging(w)) {
+                if (mgr1->isManaging(w) && !(m_windowEffectState && m_flyingWinList.contains(w))) {
                     auto area = effects->clientArea(ScreenArea, w->screen(), 0);
                     WindowPaintData d = data;
                     auto geo0 = mgr1->transformedGeometry(w);
@@ -1286,7 +1299,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
 void MultitaskViewEffect::handlerAfterTimeLine()
 {
     if (m_isRemoveWorkspace) {
-        removeDesktopEx(m_lastDesktopIndex);
+        cleanDesktopData(m_lastDesktopIndex);
     }
 }
 
@@ -2340,6 +2353,7 @@ void MultitaskViewEffect::setActive(bool active)
         m_bgSlidingTimeLine.reset();
 
         m_effectFlyingBack.reset();
+        m_windowEffectState = false;
     } else {
         m_popStatus = true;   //start popup TimeLine
         m_popTimeLine.reset();
@@ -2353,6 +2367,7 @@ void MultitaskViewEffect::setActive(bool active)
         m_effectFlyingBack.reset();
 
         m_isShieldEvent = false;
+        m_windowEffectState = false;
     }
 
 
@@ -2437,6 +2452,26 @@ void MultitaskViewEffect::updateWorkspaceWinLayout(int numDesktops)
     }
 }
 
+void MultitaskViewEffect::updateWorkspaceWinLayout(int numDesktops, int desktop)
+{
+    int num = 0;
+    if (m_workspaceWinMgr.size() >= numDesktops) {
+        num = numDesktops;
+    } else {
+        return;
+    }
+
+    for (int i = 0; i < num; i++) {
+        for (int s = 0; s < getNumScreens(); s++) {
+            WindowMotionManager *wmm;
+            if (!m_workspaceWinMgr[i]->getMotion(i + 1, s, wmm)) {
+                continue;
+            }
+            precalculateWorkSpaceWinTransformations(wmm->managedWindows(), *wmm, desktop <= i + 1 ? i + 2 : i + 1);
+        }
+    }
+}
+
 void MultitaskViewEffect::workspaceWinRelayout(int desktop, int screen)
 {
     WindowMotionManager *wmm;
@@ -2515,6 +2550,24 @@ void MultitaskViewEffect::calculateWorkSpaceWinTransformations(EffectWindowList 
     for (int i = 0; i < windows.size(); i++) {
         EffectWindow *w = windows[i];
         MultiViewWorkspace *wkobj = getWorkspaceObject(w->screen(), m_deleteWorkspaceDesktop == 1 ? m_deleteWorkspaceDesktop : desktop - 1);
+        if (!wkobj)
+            continue;
+        QPoint pos((w->x() - wkobj->getfullArea().x()) * WORKSPACE_SCALE + wkobj->getRect().x(), (w->y() - wkobj->getfullArea().y()) * WORKSPACE_SCALE + wkobj->getRect().y());
+        QSize size(w->width() * WORKSPACE_SCALE, w->height() * WORKSPACE_SCALE);
+        QRect rect(pos, size);
+        wm.setTransformedGeometry(w, rect);
+    }
+}
+
+void MultitaskViewEffect::precalculateWorkSpaceWinTransformations(EffectWindowList windows, WindowMotionManager &wm, int desktop)
+{
+    if (0 == windows.size() || 0 == m_workspaceBackgrounds.size()) {
+        return;
+    }
+
+    for (int i = 0; i < windows.size(); i++) {
+        EffectWindow *w = windows[i];
+        MultiViewWorkspace *wkobj = getWorkspaceObject(w->screen(), desktop - 1);
         if (!wkobj)
             continue;
         QPoint pos((w->x() - wkobj->getfullArea().x()) * WORKSPACE_SCALE + wkobj->getRect().x(), (w->y() - wkobj->getfullArea().y()) * WORKSPACE_SCALE + wkobj->getRect().y());
@@ -2641,14 +2694,16 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
 
         //store window grids infomation
         m_effectFlyingBack.add(w, targets.value(w));
+        if (m_flyingWinList.contains(w))
+            m_windowEffect.add(w, QRect(), targets.value(w));
     }
 }
 
-QRect MultitaskViewEffect::calculateWorkspaceRect(int index, int screen, QRect maxRect)
+QRect MultitaskViewEffect::calculateWorkspaceRect(int index, int screen, QRect maxRect, int customDesktopCount)
 {
     int spacingScale = maxRect.y() + m_scale[screen].spacingHeight;
     int workspacingScale = m_scale[screen].workspacingWidth;
-    int nums = effects->numberOfDesktops();
+    int nums = customDesktopCount ? customDesktopCount : effects->numberOfDesktops();
     int thumbWidth = m_scale[screen].workspaceWidth;
     int xfpos = maxRect.width() / 2 - ((thumbWidth * nums) / 2) - (nums / 2 * (workspacingScale/* / 2*/));
     int xpos = xfpos + (thumbWidth + (workspacingScale /*/ 2*/)) * (index - 1);
@@ -2866,6 +2921,22 @@ void MultitaskViewEffect::updateWorkspacePos()
     }
 }
 
+void MultitaskViewEffect::updateWorkspacePos(int removedesktop)
+{
+    int index = 0;
+    for (int i = 0; i < m_workspaceBackgrounds.size(); i++) {
+        QList<MultiViewWorkspace *> list = m_workspaceBackgrounds[i];
+        for (int j = 0; j < list.size(); j++) {
+            if (j == removedesktop - 1)
+                continue;
+            QRect rect = calculateWorkspaceRect(index + 1, i, list[j]->getClientArea(), effects->numberOfDesktops() - 1);
+            list[j]->setRect(rect);
+            index ++;
+        }
+        index = 0;
+    }
+}
+
 void MultitaskViewEffect::getScreenInfo()
 {
     m_screenInfoList.clear();
@@ -3035,13 +3106,24 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         m_isShieldEvent = false;
         return;
     }
+    m_windowEffect.reset();
     m_flyingWinList.clear();
+    m_windowInfo.clear();
     m_deleteWorkspaceDesktop = desktop;
     int currentDesktop = effects->currentDesktop();
     if (currentDesktop == desktop) {
         MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
-        if (wmobj)
+        if (wmobj) {
             m_flyingWinList = wmobj->getDesktopWinList();
+            wmobj->getDesktopWinInfo(m_windowInfo);
+            QHash<int, WindowMotionManager>::iterator it;
+            for (it = m_windowInfo.begin(); it != m_windowInfo.end(); it++) {
+                for (const auto& w : it.value().managedWindows()) {
+                    // minfo[w] = it.value().transformedGeometry(w);
+                    m_windowEffect.add(w, it.value().transformedGeometry(w).toRect(), QRect());
+                }
+            }
+        }
     }
 
     if (m_motionManagers.size() >= desktop) {
@@ -3116,17 +3198,50 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         effects->setCurrentDesktop(nrelyout);
         m_bgSlidingStatus = true;
         m_bgSlidingTimeLine.reset();
-        if (m_curDesktopIndex == count)
-            m_curDesktopIndex = desktop - 1;
-	else
+        m_windowEffectState = true;
+        m_windowEffect.begin();
+        m_curDesktopIndex = nrelyout;
+        if (desktop == 1)
             m_curDesktopIndex = desktop + 1;
         m_lastDesktopIndex = desktop;
         m_isRemoveWorkspace = true;
+        startremoveDesktopEffect(desktop);
     } else {
         m_curDesktopIndex = effects->currentDesktop();
         if (m_curDesktopIndex > desktop)
             effects->setCurrentDesktop(m_curDesktopIndex == 1 ? m_curDesktopIndex : (m_curDesktopIndex - 1));
         removeDesktopEx(desktop);
+    }
+}
+
+void MultitaskViewEffect::startremoveDesktopEffect(int desktop)
+{
+    m_workspaceSlidingStatus = true;
+    m_workspaceSlidingTimeline.reset();
+    m_workspaceSlidingInfo.clear();
+    {
+        for (int i = 0; i < m_workspaceBackgrounds.size(); i++) {
+            QList<MultiViewWorkspace *> list = m_workspaceBackgrounds[i];
+            for (int j = 0; j < list.size(); j++) {
+                if (j == desktop - 1)
+                    continue;
+                QRect rect = list[j]->getRect();
+                m_workspaceSlidingInfo[list[j]].first = rect.x();
+            }
+        }
+    }
+
+    updateWorkspacePos(desktop);
+    updateWorkspaceWinLayout(effects->numberOfDesktops() - 1, desktop);
+
+    for (int i = 0; i < m_workspaceBackgrounds.size(); i++) {
+        QList<MultiViewWorkspace *> list = m_workspaceBackgrounds[i];
+        for (int j = 0; j < list.size(); j++) {
+            if (j == desktop - 1)
+                continue;
+            QRect rect = list[j]->getRect();
+            m_workspaceSlidingInfo[list[j]].second = rect.x();
+        }
     }
 }
 
@@ -3169,6 +3284,19 @@ void MultitaskViewEffect::removeDesktopEx(int desktop)
         }
     }
 
+    m_isShieldEvent = false;
+}
+
+void MultitaskViewEffect::cleanDesktopData(int desktop)
+{
+    QMutexLocker locker(&m_mutex);
+    effects->setNumberOfDesktops(effects->numberOfDesktops() - 1);
+    m_isRemoveWorkspace = false;
+    m_deleteWorkspaceDesktop = -1;
+    for (int i = 0; i < getNumScreens(); i++) {
+        delete m_workspaceBackgrounds[i][desktop - 1];
+        m_workspaceBackgrounds[i].removeAt(desktop - 1);
+    }
     m_isShieldEvent = false;
 }
 

@@ -362,6 +362,16 @@ public:
         return list;
     }
 
+    void getDesktopWinInfo(/*QHash<EffectWindow *, QRect> &minfo*/QHash<int, WindowMotionManager> &minfo) {
+        // QHash<int, WindowMotionManager>::iterator it;
+        // for (it = m_winManager.begin(); it != m_winManager.end(); it++) {
+        //     for (const auto& w : it.value().managedWindows()) {
+        //         minfo[w] = it.value().transformedGeometry(w);
+        //     }
+        // }
+        minfo = m_winManager;
+    }
+
     int getDesktopWinNumofScreen(int screen) {
         if (m_winManager.contains(screen)) {
             return m_winManager[screen].orderManagedWindows().size();
@@ -444,16 +454,19 @@ private:
             WindowMotionManager& motionManager, bool isReLayout = false);
 
     void calculateWorkSpaceWinTransformations(EffectWindowList windows, WindowMotionManager &wm, int desktop);
-    QRect calculateWorkspaceRect(int index, int screen, QRect maxRect);
+    void precalculateWorkSpaceWinTransformations(EffectWindowList windows, WindowMotionManager &wm, int desktop);
+    QRect calculateWorkspaceRect(int index, int screen, QRect maxRect, int customDesktopCount = 0);
     bool calculateSwitchPos(QPoint diffPoint);
     void restoreWorkspacePos(int index, int num);
 
     void initWorkspaceBackground();
     void cacheWorkspaceBackground();
     void updateWorkspacePos();
+    void updateWorkspacePos(int removedesktop);
     void getScreenInfo();
     void setWinLayout(int desktop, const EffectWindowList &windows);
     void updateWorkspaceWinLayout(int numDesktops);
+    void updateWorkspaceWinLayout(int numDesktops, int desktop);
     void workspaceWinRelayout(int desktop, int screen = -1);
     void removeWinAndRelayout(EffectWindow *w);
     void createBackgroundFill(EffectWindow *w, QRect rect, int desktop);
@@ -461,6 +474,8 @@ private:
     void addNewDesktop();
     void removeDesktop(int desktop);
     void removeDesktopEx(int desktop);
+    void startremoveDesktopEffect(int desktop);
+    void cleanDesktopData(int desktop);
     void switchDesktop();
     void desktopSwitchPosition(int to, int from);
     void desktopAboutToRemoved(int d);
@@ -540,6 +555,7 @@ private:
     QPoint m_lastWorkspaceMovePos;
 
     EffectWindowList                     m_flyingWinList;
+    QHash<int, WindowMotionManager>      m_windowInfo;
     QHash<int, QList<EffectFrame*>>      m_tipFrames;
     QHash<int, MultiViewWorkspace *>     m_addWorkspaceButton;
     QHash<QString, ScreenInfo_st>        m_screenInfoList;
@@ -579,6 +595,7 @@ private:
     int          m_curDesktopIndex;
     int          m_lastDesktopIndex;
     bool         m_isRemoveWorkspace = false;
+    bool         m_windowEffectState = false;
 
     TimeLine     m_popTimeLine;
     bool         m_popStatus;
@@ -592,6 +609,7 @@ private:
     int m_previewFramePosX;
 
     MultiTaskEffectFlyingBack m_effectFlyingBack;
+    MultiTaskWindowEffect     m_windowEffect;
 
     workspaceMoveDirection m_moveWorkspacedirection = mvNone;
     workspaceDragDirection m_dragWorkspacedirection = dragNone;

@@ -31,6 +31,8 @@ namespace KWin
 
 #define DURATION_FLYING_BACK 300
 
+#define DURATION_FLYING_BACK1 500
+
 #define DURATION_WORKSPACE_SWITCH 300
 
 // Translate and scale a rect along line
@@ -256,6 +258,112 @@ private:
      * 1: mouse hitted one window
      */
     int m_why;
+};
+
+class MultiTaskWindowEffect
+{
+public:
+   MultiTaskWindowEffect() {
+        m_status = -1;
+
+        m_timeLine.setEasingCurve(QEasingCurve::OutQuint);
+        m_timeLine.setDuration(std::chrono::milliseconds(DURATION_FLYING_BACK1));
+        m_timeLine.reset();
+    } 
+    MultiTaskWindowEffect(const QEasingCurve &type, int duration) {
+        m_status = -1;
+
+        m_timeLine.setEasingCurve(type);
+        m_timeLine.setDuration(std::chrono::milliseconds(duration));
+        m_timeLine.reset();
+    } 
+    ~MultiTaskWindowEffect() {} 
+
+    void reset() {
+        m_status = -1;
+
+        m_timeLine.reset();
+
+        m_winMotionMgr.clear();
+    }
+
+    void add(EffectWindow* w, QRect from, QRect to) {
+        if (m_winMotionMgr.find(w) == m_winMotionMgr.end())
+            m_winMotionMgr[w] = RectInpl{from, to};
+        else
+            m_winMotionMgr[w].r1 = to;
+    }
+
+    void begin() {
+        m_status = 0;
+        m_timeLine.reset();
+    }
+
+    void update(int time) {
+        if (m_status == 0) {
+            m_timeLine.update(std::chrono::milliseconds(time));
+            m_status = 1;
+        } else if (m_status == 1) {
+            m_timeLine.update(std::chrono::milliseconds(time));
+            if (m_timeLine.done())
+                m_status = 2;
+        } else {
+        }
+    }
+
+    void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) {
+        if (m_status > 0) {
+            if (0 == m_winMotionMgr.count(w))
+                return;
+
+            float t = m_timeLine.value();
+            RectInpl rtpl = m_winMotionMgr[w];
+            QRect cur = rtpl.get(t);
+
+            float k = 1.0f * cur.width() / w->width();
+            QPoint p = cur.topLeft() - w->pos();
+
+            data.setScale(QVector2D(k,k));
+            data.translate(p.x(), p.y());
+
+            effects->paintWindow(w, mask, region, data);
+        }
+    }
+
+    int getStatus() {
+        return m_status;
+    }
+
+    struct RectInpl {
+        QRect r0, r1;
+        QRect get(float t) {
+            float x0 = r0.x();
+            float y0 = r0.y();
+            float x1 = r1.x();
+            float y1 = r1.y();
+
+            float w0 = r0.width();
+            float h0 = r0.height();
+            float w1 = r1.width();
+            float h1 = r1.height();
+
+            float x = interp(x0, x1, t); 
+            float y = interp(y0, y1, t); 
+            float w = interp(w0, w1, t); 
+            float h = interp(h0, h1, t); 
+
+            return QRect(int(x), int(y), int(w), int(h));
+        }
+
+        float interp(float v0, float v1, float t) {
+            return (v1 - v0) * t + v0; 
+        }
+    };
+
+private:
+    std::map<EffectWindow*, RectInpl> m_winMotionMgr;
+    TimeLine m_timeLine;
+    int m_status;  // -1:reset  0:start,  1:doing   2:end
 };
 
 }
