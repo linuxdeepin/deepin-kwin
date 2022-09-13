@@ -29,7 +29,7 @@ public:
     static eventLog* instance();
     ~eventLog();
     void init();
-    void writeEventLog(TriggerType type, const std::string& str = "");
+    void writeEventLog(TriggerType type, const std::string& str = "", const std::string &application = "");
     const std::string version();
 private:
     //static eventLog m_instance;
