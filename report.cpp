@@ -35,8 +35,7 @@ void eventLog::init()
     }
 
     *(void **) (&initFunc) = dlsym(m_handle, "Initialize");
-    *(void **) (&m_writeFunc) = dlsym(m_handle, "WriteEventLog");
-    
+
     if(initFunc) {
         (*initFunc)("kwin",false);
     } else{
@@ -45,18 +44,21 @@ void eventLog::init()
     }
 }
 
-void eventLog::writeEventLog(TriggerType type, const std::string& mode)
+void eventLog::writeEventLog(TriggerType type, const std::string& mode, const std::string& application)
 {
+    *(void **) (&m_writeFunc) = dlsym(m_handle, "WriteEventLog");
     if (!m_handle || !m_writeFunc) {
         return;
     }
 
     std::string id = std::to_string(type);
     std::string json;
-    if (!mode.empty() && mode.size() ==0) {
+    if (mode == "") {
         json = "{\"tid\":" + id + ",\"version\":" + version() + "}";
-    } else {
+    } else if(application == "") {
         json = "{\"tid\":" + id + "\"triggerMode\":\"" + mode + "\",\"version\":" + version() + "}";
+    } else {
+        json = "{\"tid\":" + id + "\"triggerMode\":\"" + mode + "\"triggerApplication\":\"" + application + "\",\"version\":" + version() + "}";
     }
 
     (*m_writeFunc)(json);
