@@ -502,6 +502,10 @@ public:
     void updateDisplaySizeFull();
     void setWinSplitState(AbstractClient *client, bool isSplit = true);
 
+    void initPendingClients();
+    void updatePendingClients(AbstractClient* client);
+    bool pendingForClients();
+
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
     void slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isShowPreview);
@@ -727,6 +731,7 @@ private:
     bool showing_desktop;
     xcb_timestamp_t showing_desktop_timestamp;
     QList<AbstractClient*> previewClients;
+    QList<AbstractClient*> m_pendingClients;
 
     GroupList groups;
 

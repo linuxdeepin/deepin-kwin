@@ -409,6 +409,8 @@ void DrmBackend::updateOutputs()
     QVector<DrmOutput*> connectedOutputs;
     QVector<DrmConnector*> pendingConnectors;
 
+    bool outputChanged = false;
+
     // split up connected connectors in already or not yet assigned ones
     for (DrmConnector *con : qAsConst(m_connectors)) {
         if (!con->isConnected()) {
@@ -422,6 +424,7 @@ void DrmBackend::updateOutputs()
         } else {
             DLOGD("New Connector is connected!ID[%d]", con->id());
             pendingConnectors << con;
+            outputChanged = true;
         }
     }
 
@@ -439,6 +442,8 @@ void DrmBackend::updateOutputs()
             it++;
             continue;
         }
+
+        outputChanged = true;
 
         it = m_outputs.erase(it);
         m_enabledOutputs.removeOne(removed);
@@ -546,6 +551,12 @@ void DrmBackend::updateOutputs()
         }
     }
     std::sort(connectedOutputs.begin(), connectedOutputs.end(), [] (DrmOutput *a, DrmOutput *b) { return a->m_conn->id() < b->m_conn->id(); });
+
+    if (!outputChanged) {
+        qCDebug(KWIN_DRM) << "Not output chenged, stop update outputs";
+        return;
+    }
+
     m_outputs = connectedOutputs;
 
     if (!m_outputs.isEmpty() && m_defaultOutput && m_defaultOutput->isEnabled()) {

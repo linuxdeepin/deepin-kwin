@@ -367,6 +367,9 @@ void Workspace::init()
         connect(w, &WaylandServer::shellClientRemoved, this,
             [this] (ShellClient *c) {
                 m_allClients.removeAll(c);
+                if (m_pendingClients.contains(c)) {
+                    m_pendingClients.removeAll(c);
+                }
                 if (c == most_recently_raised) {
                     most_recently_raised = nullptr;
                 }
@@ -629,6 +632,9 @@ Workspace::~Workspace()
         // from crashing.
         clients.removeAll(c);
         m_allClients.removeAll(c);
+        if (m_pendingClients.contains(c)) {
+            m_pendingClients.removeAll(c);
+        }
         desktops.removeAll(c);
         emit windowStateChanged();
     }
@@ -2285,6 +2291,42 @@ void Workspace::setWinSplitState(AbstractClient *client, bool isSplit)
     }
 }
 
+void Workspace::initPendingClients() {
+    if (!m_pendingClients.empty()) {
+        m_pendingClients.clear();
+    }
+    for (auto it = m_allClients.constBegin(); it != m_allClients.constEnd(); ++it) {
+        if ((*it)->isFullScreen() || (*it)->maximizeMode() & MaximizeHorizontal || (*it)->isDock() || (*it)->isDesktop()) {
+            m_pendingClients.append(*it);
+        }
+    }
+    if (isKwinDebug()) {
+        for (auto it = m_pendingClients.constBegin(); it != m_pendingClients.constEnd(); ++it) {
+            qCritical() << __FUNCTION__ << __LINE__ << "pending update client " << (*it)->caption() << " geometry " << (*it)->geometry();
+        }
+    }
+}
+
+void Workspace::updatePendingClients(AbstractClient* client) {
+    if (m_pendingClients.contains(client)) {
+        QRect screenarea = workspace()->clientArea(ScreenArea, client);
+        if (isKwinDebug()) {
+            qCritical() << __FUNCTION__ << __LINE__ << "update pending client "
+                    << client->caption() << " geometry " << client->geometry() << " screenarea " << screenarea;
+        }
+        if (client->isFullScreen() || client->maximizeMode() & MaximizeHorizontal) {
+            if (client->geometry().width() == screenarea.width()) {
+                m_pendingClients.removeAll(client);
+            }
+        } else {
+            m_pendingClients.removeAll(client);
+        }
+    }
+}
+
+bool Workspace::pendingForClients() {
+    return !m_pendingClients.empty();
+}
 
 //set window property
 void Workspace::setWindowProperty(wl_resource* surface, const QString& name, const QVariant& value)
