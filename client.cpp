@@ -2170,6 +2170,7 @@ void Client::addDamage(const QRegion &damage)
             setupWindowManagementInterface();
         }
     }
+    workspace()->updatePendingClients(this);
     repaints_region += damage;
     Toplevel::addDamage(damage);
 }

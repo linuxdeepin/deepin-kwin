@@ -551,6 +551,7 @@ void ShellClient::addDamage(const QRegion &damage)
         m_clientSize = s->size();
         updatePendingGeometry();
     }
+    workspace()->updatePendingClients(this);
     markAsMapped();
     setDepth((s->buffer()->hasAlphaChannel() && !isDesktop()) ? 32 : 24);
     repaints_region += damage.translated(clientPos());

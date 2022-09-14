@@ -763,6 +763,9 @@ void Compositor::performCompositing()
 
 void Compositor::composite()
 {
+    if (workspace()->pendingForClients()) {
+        return;
+    }
     if (workspace() && workspace()->isKwinDebug()) {
         qDebug()<<"++++++begin+++++++++";
     }

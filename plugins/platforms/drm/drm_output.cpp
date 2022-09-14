@@ -1099,6 +1099,9 @@ void DrmOutput::setWaylandMode()
 {
     AbstractOutput::setWaylandMode(QSize(m_mode.hdisplay, m_mode.vdisplay),
                                    refreshRateForMode(&m_mode));
+    if (workspace()) {
+        workspace()->initPendingClients();
+    }
 }
 
 void DrmOutput::advertiseLastState()
@@ -1106,8 +1109,7 @@ void DrmOutput::advertiseLastState()
     qDebug() << "---------- " << __func__ << geometry() << scale();
     setGlobalPos(globalPos());
     setScale(scale());
-    AbstractOutput::setWaylandMode(QSize(m_mode.hdisplay, m_mode.vdisplay),
-                                   refreshRateForMode(&m_mode));
+    setWaylandMode();
     emit screens()->changed();
     emit modeChanged();
 }
