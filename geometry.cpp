@@ -379,6 +379,10 @@ void Workspace::updateClientArea(bool force)
                 ++it)
             (*it)->checkWorkspacePosition();
 
+        QTimer::singleShot(400, [&]() {
+            workspace()->updateSplitOutlineState(1, VirtualDesktopManager::self()->current(), true);
+        });
+
         oldrestrictedmovearea.clear(); // reset, no longer valid or needed
 
         for (int i = 0; i < nscreens; i++) {
