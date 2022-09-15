@@ -2033,6 +2033,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 }
                 if (m_hoverWin) {
                     moveWindowChangeDesktop(m_hoverWin, target_desktop, m_hoverWin->screen());
+                    m_hoverWin = nullptr;
                 }
             }
             break;
