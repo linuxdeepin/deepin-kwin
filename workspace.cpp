@@ -2302,9 +2302,19 @@ void Workspace::initPendingClients() {
     }
     if (isKwinDebug()) {
         for (auto it = m_pendingClients.constBegin(); it != m_pendingClients.constEnd(); ++it) {
-            qCritical() << __FUNCTION__ << __LINE__ << "pending update client " << (*it)->caption() << " geometry " << (*it)->geometry();
+            qCritical() << __FUNCTION__ << __LINE__ << "pending update client "
+                    << (*it)->caption() << " geometry " << (*it)->geometry();
         }
     }
+    // timeout for 2s
+    QTimer::singleShot(2000, this, [=] {
+        if (!m_pendingClients.empty()) {
+            if (isKwinDebug()) {
+                qCritical() << __FUNCTION__ << __LINE__ << "clear pending clients";
+            }
+            m_pendingClients.clear();
+        }
+    });
 }
 
 void Workspace::updatePendingClients(AbstractClient* client) {
@@ -2312,10 +2322,16 @@ void Workspace::updatePendingClients(AbstractClient* client) {
         QRect screenarea = workspace()->clientArea(ScreenArea, client);
         if (isKwinDebug()) {
             qCritical() << __FUNCTION__ << __LINE__ << "update pending client "
-                    << client->caption() << " geometry " << client->geometry() << " screenarea " << screenarea;
+                    << client->caption() << " geometry " << client->geometry()
+                    << " screenarea " << screenarea;
         }
         if (client->isFullScreen() || client->maximizeMode() & MaximizeHorizontal) {
             if (client->geometry().width() == screenarea.width()) {
+                m_pendingClients.removeAll(client);
+            }
+        } else if (client->isDesktop()) {
+            if (client->geometry().width() == screenarea.width() &&
+                        client->geometry().height() == screenarea.height()) {
                 m_pendingClients.removeAll(client);
             }
         } else {
