@@ -407,6 +407,10 @@ void ShellClient::init()
             }
         }
     );
+
+    connect(screens(), &Screens::changed, this, [this]() {
+       this->setSplitable(this->checkClientAllowToTile());
+    });
 }
 
 void ShellClient::destroyClient()
