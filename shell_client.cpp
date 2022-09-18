@@ -966,6 +966,17 @@ bool ShellClient::isMaximizable() const
 
 bool ShellClient::isMinimizable(bool isMinFunc) const
 {
+    if (isTransient()) {
+        bool shown_mainwindow = false;
+        auto mainclients = mainClients();
+        for (auto it = mainclients.constBegin();
+                it != mainclients.constEnd();
+                ++it)
+            if ((*it)->isShown(true))
+                shown_mainwindow = true;
+        if (!shown_mainwindow)
+            return true;
+    }
     if (m_internal || !m_minimizable) {
         return false;
     }
