@@ -2950,7 +2950,7 @@ void AbstractClient::finishMoveResize(bool cancel)
 
         if (!m_isSwapHandle) {
             //拖拽
-            KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerSplitScreen, "drag", this->caption().toStdString());
+            KWin::Report::EventLog::instance()->writeEventLog(KWin::Report::TriggerSplitScreen, "drag", this->caption().toStdString());
             handlequickTileModeChanged();
             workspace()->updateScreenSplitApp(this);
         }

@@ -469,7 +469,7 @@ int main(int argc, char * argv[])
         qInstallMessageHandler(customLogMessageHandler);
     }
 
-    KWin::Report::eventLog::instance()->init();
+    KWin::Report::EventLog::instance()->init();
 
     KWin::disablePtrace();
     KWin::Application::setupMalloc();

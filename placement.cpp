@@ -815,7 +815,7 @@ void Workspace::quickTileWindow(QuickTileMode mode)
         return;
     }
     //拖拽
-    KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerSplitScreen, "drag", active_client->caption().toStdString());
+    KWin::Report::EventLog::instance()->writeEventLog(KWin::Report::TriggerSplitScreen, "drag", active_client->caption().toStdString());
 
     if (!active_client->checkClientAllowToTile()) {
         return;

@@ -324,7 +324,7 @@ KWIN_EXPORT int kdemain(int argc, char * argv[])
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
 
-    KWin::Report::eventLog::instance()->init();
+    KWin::Report::EventLog::instance()->init();
 
     int primaryScreen = 0;
     xcb_connection_t *c = xcb_connect(nullptr, &primaryScreen);
