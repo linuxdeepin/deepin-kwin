@@ -2102,7 +2102,7 @@ bool Workspace::checkClientAllowToSplit(AbstractClient *c)
 void Workspace::setClientSplit(AbstractClient *c, int mode, bool isShowPreview)
 {
     //分屏菜单, isShowPreview 为true
-    KWin::Report::eventLog::instance()->writeEventLog(KWin::Report::TriggerSplitScreen, "split screen table", c->caption().toStdString());
+    KWin::Report::EventLog::instance()->writeEventLog(KWin::Report::TriggerSplitScreen, "split screen table", c->caption().toStdString());
     if (c == nullptr)
         return;
 

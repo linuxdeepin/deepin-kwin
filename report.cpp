@@ -12,28 +12,29 @@
 namespace KWin {
 namespace Report {
 
-eventLog* eventLog::instance()
+EventLog* EventLog::instance()
 {
-    static eventLog m_instance;
-    return &m_instance;
+    static EventLog instance;
+    return &instance;
 }
 
-eventLog::eventLog()
+EventLog::EventLog()
 {
-    if (QFileInfo::exists(LIB_CACULATE_PATH)) {
-        m_handle = dlopen(LIB_CACULATE_PATH, RTLD_LAZY);
-    }
+
 }
 
-eventLog::~eventLog()
+EventLog::~EventLog()
 {
     if (m_handle) {
         dlclose(m_handle);
     }
 }
 
-void eventLog::init()
+void EventLog::init()
 {
+    if (QFileInfo::exists(LIB_CACULATE_PATH)) {
+        m_handle = dlopen(LIB_CACULATE_PATH, RTLD_LAZY);
+    }
     INIT_FUNC initFunc = nullptr;
     if (!m_handle) {
         return;
@@ -41,15 +42,15 @@ void eventLog::init()
 
     *(void **) (&initFunc) = dlsym(m_handle, "Initialize");
 
-    if(initFunc) {
+    if (initFunc) {
         (*initFunc)("kwin",false);
-    } else{
+    } else {
         dlclose(m_handle);
         m_handle = nullptr;
     }
 }
 
-void eventLog::writeEventLog(TriggerType type, const std::string& mode, const std::string& application)
+void EventLog::writeEventLog(TriggerType type, const std::string& mode, const std::string& application)
 {
     *(void **) (&m_writeFunc) = dlsym(m_handle, "WriteEventLog");
     if (!m_handle || !m_writeFunc) {
@@ -60,7 +61,7 @@ void eventLog::writeEventLog(TriggerType type, const std::string& mode, const st
     std::string json;
     if (mode == "") {
         json = "{\"tid\":" + id + ",\"version\":" + version() + "}";
-    } else if(application == "") {
+    } else if (application == "") {
         json = "{\"tid\":" + id + "\"triggerMode\":\"" + mode + "\",\"version\":" + version() + "}";
     } else {
         json = "{\"tid\":" + id + "\"triggerMode\":\"" + mode + "\"triggerApplication\":\"" + application + "\",\"version\":" + version() + "}";
@@ -69,9 +70,9 @@ void eventLog::writeEventLog(TriggerType type, const std::string& mode, const st
     (*m_writeFunc)(json);
 }
 
-const std::string eventLog::version()
+const std::string &EventLog::version()
 {
-    if(m_version != "") {
+    if (m_version != "") {
         return m_version;
     }
 
