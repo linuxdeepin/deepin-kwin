@@ -1029,7 +1029,7 @@ class InternalWindowEventFilter : public InputEventFilter {
                     continue;
                 }
                 auto s = waylandServer()->findClient(w);
-                if (nullptr != s && s->splitManage.size() > 0) {
+                if (nullptr != s && s->caption() == "deepin-splitoutline") {
                     continue;
                 }
                 found = w;
