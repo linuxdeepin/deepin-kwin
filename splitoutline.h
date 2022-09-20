@@ -116,7 +116,7 @@ private:
 
     int m_pos = 0;
     int m_splitOutlineCursorStatus = 2;
-    bool m_mouseLeave = false;
+    bool m_mouseLeave = true;
 };
 }
 #endif // SPLITOUTLINE_H
