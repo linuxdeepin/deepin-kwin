@@ -67,6 +67,8 @@ EglGbmBackend::EglGbmBackend(DrmBackend *b)
             if (it == m_outputs.end()) {
                 return;
             }
+            setSurface((*it).eglSurface);
+            makeContextCurrent(*it);
             cleanupOutput(*it);
             m_outputs.erase(it);
             if (!m_outputs.isEmpty()) {
