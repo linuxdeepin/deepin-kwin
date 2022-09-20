@@ -1602,6 +1602,9 @@ void MultitaskViewEffect::onWindowClosed(EffectWindow *w)
 
     if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);
+        if (QX11Info::isPlatformX11()) {
+            m_hasKeyboardGrab = effects->grabKeyboard(this);
+        }
     } else if (w->isDock()) {
         m_dock = nullptr;
         m_dockRect.setSize(QSize(0, 0));
@@ -1649,6 +1652,23 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
             m_effectFlyingBack.begin();
             effects->addRepaintFull();
         } else if (w->windowClass() == screen_recorder) {
+            {
+                m_wasWorkspaceMove = false;
+                if (MultiViewWorkspace *wt = getWorkspaceObject(m_screen, m_aciveMoveDesktop - 1))
+                    wt->updateGeometry(wt->getRect());
+                m_aciveMoveDesktop = -1;
+                m_moveWorkspaceNum = -1;
+                m_moveWorkspacedirection = mvNone;
+                m_dragWorkspacedirection = dragNone;
+                m_workspaceStatus = wpNone;
+                m_windowMove = nullptr;
+                m_wasWindowMove = false;
+            }
+            {
+                if (m_hasKeyboardGrab)
+                    effects->ungrabKeyboard();
+                m_hasKeyboardGrab = false;
+            }
             if (m_isScreenRecorder) {
                 m_screenRecorderMenu = w;
             } else {
@@ -1660,6 +1680,18 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
         if (m_isScreenRecorder) {
             m_screenRecorderMenu = w;
         } else if (w->windowClass() == screen_recorder) {
+            {
+                m_wasWorkspaceMove = false;
+                if (MultiViewWorkspace *wt = getWorkspaceObject(m_screen, m_aciveMoveDesktop - 1))
+                    wt->updateGeometry(wt->getRect());
+                m_aciveMoveDesktop = -1;
+                m_moveWorkspaceNum = -1;
+                m_moveWorkspacedirection = mvNone;
+                m_dragWorkspacedirection = dragNone;
+                m_workspaceStatus = wpNone;
+                m_windowMove = nullptr;
+                m_wasWindowMove = false;
+            }
             effects->stopMouseInterception(this);
             m_isScreenRecorder = true;
         } else if (w->windowClass() != notification_tips && w->caption() != "deepin-splitoutline") {
@@ -1703,7 +1735,7 @@ void MultitaskViewEffect::onDockChange(const QString &key)
 
 void MultitaskViewEffect::screenRecorderStart()
 {
-    if (m_isScreenRecorder && !QX11Info::isPlatformX11()) {
+    if (m_isScreenRecorder /*&& !QX11Info::isPlatformX11()*/) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);
     }
 }
