@@ -1570,7 +1570,10 @@ void ShellClient::updatePendingGeometry()
         }
         //else serialId < m_lastAckedConfigureRequest and the state is now irrelevant and can be ignored
     }
-    doSetGeometry(QRect(position, m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom())));
+    if(!areGeometryUpdatesBlocked()) {
+        doSetGeometry(QRect(position, m_clientSize + QSize(borderLeft() + borderRight(), borderTop() + borderBottom())));
+    }
+
     updateMaximizeMode(maximizeMode);
 }
 
