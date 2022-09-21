@@ -1,14 +1,10 @@
-#version 140
-
 uniform float dx;
 uniform sampler2D sampler;
 uniform vec2 iResolution;
 uniform vec4 modulation;
 uniform float saturation;
 
-in vec2 texcoord0;
-
-out vec4 fragColor;
+varying vec2 texcoord0;
 
 void main()
 {
@@ -25,7 +21,7 @@ void main()
     // Normalized pixel coordinates (from 0 to 1)
     vec2 uv = texcoord0;
     // Pixel colour
-    vec4 Color = texture(sampler, uv);
+    vec4 Color = texture2D(sampler, uv);
 
     float calculateTimes = Pi/Directions;
     float qualities = 1.0/Quality;
@@ -35,11 +31,11 @@ void main()
     {
 		for(float i=qualities; i<=1.0; i+=qualities)
         {
-			Color += texture(sampler, uv+vec2(cos(d),sin(d))*Radius*i);
+			Color += texture2D(sampler, uv+vec2(cos(d),sin(d))*Radius*i);
         }
     }
 
     // Output to screen
     Color /= Quality * Directions - 15.0;
-    fragColor =  Color;
+    gl_FragColor = Color;
 }

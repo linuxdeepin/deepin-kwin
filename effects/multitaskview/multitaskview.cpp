@@ -1576,12 +1576,6 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(int screen)
 
 void MultitaskViewEffect::drawDottedLine(const QRect &geo, int screen)
 {
-    if (!GLPlatform::instance()->isGLES()) {
-        glLineStipple(1, 0x0f0f);
-        glEnable(GL_LINE_STIPPLE);
-    }
-    glLineWidth(1.0);
-    
     static GLShader* shader = ShaderManager::instance()->generateShaderFromResources(ShaderTrait::UniformColor, QString("dottedline.vert"), QStringLiteral("dottedline.frag"));
     GLVertexBuffer* vbo = GLVertexBuffer::streamingBuffer();
     auto area = effects->clientArea(FullArea, screen, 0);
@@ -1589,21 +1583,16 @@ void MultitaskViewEffect::drawDottedLine(const QRect &geo, int screen)
     vbo->setColor(QColor(255, 255, 255));
     vbo->setUseColor(true);
     QVector<float> verts;
-    verts.reserve(4);
+    verts.reserve(44);
     float x1 = (float)(geo.left()) * 2 / area.width() - 1.0;
     float x2 = (float)(geo.right()) * 2 / area.width() - 1.0;
     float y1 = 1.0 - (float)(geo.y() + geo.height()) / 2 * 2 / area.height();
-    verts << x1 << y1;
-    verts << x2 << y1;
-
+    for (int i = 0; i < 22; i++) {
+        verts << x1 + (x2 - x1) / 21.0f * i << y1;
+    }
     ShaderBinder bind(shader);
     vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
-    glEnable(GL_BLEND);
     vbo->render(GL_LINES);
-    if (!GLPlatform::instance()->isGLES()) {
-        glDisable(GL_LINE_STIPPLE);
-    }
-    glDisable(GL_BLEND);
 }
 
 void MultitaskViewEffect::onWindowClosed(EffectWindow *w)
