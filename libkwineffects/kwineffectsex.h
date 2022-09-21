@@ -78,7 +78,6 @@ public:
     virtual bool isTransientWin(KWin::EffectWindow *w) = 0;
     virtual int getCurrentPaintingScreen() = 0;
     virtual bool isShortcuts(QKeyEvent *event) = 0;
-    virtual Effect *findEffect(const QString &name) const = 0;
 
 Q_SIGNALS:
     void windowQuickTileModeChanged(KWin::EffectWindow *w);
