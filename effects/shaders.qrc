@@ -14,6 +14,10 @@
         <file alias="windowfill.glsl">multitaskview/data/1.10/windowfill.glsl</file>
         <file alias="windowhover.glsl">multitaskview/data/1.10/windowhover.glsl</file>
         <file alias="workspacehover.glsl">multitaskview/data/1.10/workspacehover.glsl</file>
+        <file alias="bk.v">multitaskview/data/1.10/bk.v</file>
+        <file alias="bk.f">multitaskview/data/1.10/bk.f</file>
+        <file alias="wbk.v">multitaskview/data/1.10/wbk.v</file>
+        <file alias="wbk.f">multitaskview/data/1.10/wbk.f</file>
     	<file alias="dottedline.vert">multitaskview/dottedline.vert</file>
         <file alias="dottedline.frag">multitaskview/dottedline.frag</file>
 	<file alias="windowtext.glsl">multitaskview/data/1.10/windowtext.glsl</file>
@@ -32,11 +36,11 @@
         <file alias="workspacethumb.glsl">multitaskview/data/1.40/workspacethumb.glsl</file>
         <file alias="windowfill.glsl">multitaskview/data/1.40/windowfill.glsl</file>
         <file alias="windowhover.glsl">multitaskview/data/1.40/windowhover.glsl</file>
-        <file alias="bk.v">multitaskview/bk.v</file>
-        <file alias="bk.f">multitaskview/bk.f</file>
-        <file alias="wbk.v">multitaskview/wbk.v</file>
-        <file alias="wbk.f">multitaskview/wbk.f</file>
         <file alias="workspacehover.glsl">multitaskview/data/1.40/workspacehover.glsl</file>
+        <file alias="bk.v">multitaskview/data/1.40/bk.v</file>
+        <file alias="bk.f">multitaskview/data/1.40/bk.f</file>
+        <file alias="wbk.v">multitaskview/data/1.40/wbk.v</file>
+        <file alias="wbk.f">multitaskview/data/1.40/wbk.f</file>
         <file alias="dottedline.vert">multitaskview/dottedline.vert</file>
         <file alias="dottedline.frag">multitaskview/dottedline.frag</file>
 	<file alias="windowtext.glsl">multitaskview/data/1.40/windowtext.glsl</file>
