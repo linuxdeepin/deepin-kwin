@@ -89,6 +89,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
 
 const char notification_tips[] = "dde-osd dde-osd";
 const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
+const char split_outline[] = "kwin_x11 kwin";
 const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
 const char defaultSecondBackgroundUri[] = "francesco-ungaro-1fzbUyzsHV8-unsplash";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
@@ -1648,7 +1649,7 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
     } else if (!QX11Info::isPlatformX11() && w->caption() == "org.deepin.dde.lock") {
         setActive(false);
     } else if (QX11Info::isPlatformX11()) {
-        if (w->windowClass() != screen_recorder && w->windowClass() != notification_tips) {
+        if (w->windowClass() != screen_recorder && w->windowClass() != notification_tips && w->windowClass() != split_outline) {
             m_effectFlyingBack.begin();
             effects->addRepaintFull();
         } else if (w->windowClass() == screen_recorder) {
