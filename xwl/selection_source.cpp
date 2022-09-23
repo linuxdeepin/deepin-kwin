@@ -217,6 +217,17 @@ void X11Source::handleTargets()
             continue;
         }
 
+        if (mimeStrings[0] == "image/icon"
+                || mimeStrings[0] == "image/x-icon"
+                || mimeStrings[0] == "image/x-win-bitmap"
+                || mimeStrings[0] == "image/vnd.microsoft.icon"
+                || mimeStrings[0] == "application/ico"
+                || mimeStrings[0] == "image/ico"
+                || mimeStrings[0] == "text/ico"
+                || mimeStrings[0] == "image/x-ico") {
+            qCWarning(KWIN_XWL) << "xwl:skip mime type " << mimeStrings[0];
+            continue;
+        }
 
         const auto mimeIt = std::find_if(m_offers.begin(), m_offers.end(),
                                            [value, i](const Mime &m)
