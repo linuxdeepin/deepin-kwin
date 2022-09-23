@@ -18,6 +18,8 @@
 
 #include <QTimer>
 
+#include <xwayland_logging.h>
+
 namespace KWin {
 namespace Xwl {
 
@@ -100,6 +102,18 @@ bool Selection::handleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
         m_timestamp = event->timestamp;
         return true;
     }
+
+    if (event == m_lastEvent) {
+        qCWarning(KWIN_XWL) << "xwl:skip same selection event " << event;
+        return true;
+    }
+    m_lastEvent = event;
+
+    if (event->timestamp - m_lastTimestamp < SELECTION_STRIDE_TIME) {
+        qCWarning(KWIN_XWL) << "xwl:skip quick selection event " << event;
+        return true;
+    }
+    m_lastTimestamp = event->timestamp;
 
     // Being here means some other X window has claimed the selection.
     doHandleXfixesNotify(event);
