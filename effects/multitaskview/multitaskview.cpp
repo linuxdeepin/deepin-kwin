@@ -2068,6 +2068,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
                     moveWindowChangeDesktop(m_hoverWin, 1, m_hoverWin->screen());
+                    m_hoverWin = nullptr;
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 m_hoverWin = getHomeOrEndWindow(false);
@@ -2085,6 +2086,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 }
                 if (m_hoverWin) {
                     moveWindowChangeDesktop(m_hoverWin, target_desktop, m_hoverWin->screen());
+                    m_hoverWin = nullptr;
                 }
             }
             break;
@@ -2092,6 +2094,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
                     moveWindowChangeDesktop(m_hoverWin, 2, m_hoverWin->screen());
+                    m_hoverWin = nullptr;
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
@@ -2151,6 +2154,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             } else if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
                     moveWindowChangeDesktop(m_hoverWin, 6, m_hoverWin->screen());
+                    m_hoverWin = nullptr;
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
@@ -2169,6 +2173,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             } else if (e->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier | Qt::KeypadModifier)) {
                 if (m_hoverWin) {
                     moveWindowChangeDesktop(m_hoverWin, 4, m_hoverWin->screen());
+                    m_hoverWin = nullptr;
                 }
             } else if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
