@@ -75,6 +75,9 @@ bool Clipboard::ownsSelection(KWayland::Server::AbstractDataSource *dsi) const
 
 void Clipboard::checkWlSource()
 {
+    if (m_waitingForTargets) {
+        return;
+    }
     auto dsi = waylandServer()->seat()->selection();
     auto removeSource = [this] {
         if (wlSource()) {
@@ -119,12 +122,11 @@ void Clipboard::checkWlSource()
 
 void Clipboard::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
 {
-    createX11Source(NULL);
-
     const auto *ac = workspace()->activeClient();
     if (!qobject_cast<const KWin::Client *>(ac)) {
         // clipboard is only allowed to be acquired when Xwayland has focus
         // TODO: can we make this stronger (window id comparision)?
+        createX11Source(NULL);
         return;
     }
     createX11Source(event);
