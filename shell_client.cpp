@@ -1099,7 +1099,9 @@ void ShellClient::changeMaximize(bool horizontal, bool vertical, bool adjust)
 
     // TODO: check rules
     if (m_requestedMaximizeMode == MaximizeFull) {
-        m_geomMaximizeRestore = oldGeometry;
+        if (!m_geomMaximizeRestore.isValid()) {
+            m_geomMaximizeRestore = oldGeometry;
+        }
         // TODO: Client has more checks
         if (options->electricBorderMaximize()) {
             updateQuickTileMode(QuickTileFlag::Maximize);
@@ -1223,6 +1225,7 @@ void ShellClient::setFullScreen(bool set, bool user)
         if (!m_geomFsRestore.isNull()) {
             int currentScreen = screen();
             if (m_maximizeMode == MaximizeRestore) {
+                m_geomMaximizeRestore = m_geomFsRestore;
                 setGeometry(QRect(m_geomFsRestore.topLeft(), adjustedSize(m_geomFsRestore.size())));
             } else {
                 setGeometry(workspace()->clientArea(MaximizeArea, this));
