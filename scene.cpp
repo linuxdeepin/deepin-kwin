@@ -473,8 +473,9 @@ void Scene::createStackingOrder(ToplevelList toplevels)
 {
     // TODO: cache the stacking_order in case it has not changed
     foreach (Toplevel *c, toplevels) {
-        assert(m_windows.contains(c));
-        stacking_order.append(m_windows[ c ]);
+        if (m_windows.contains(c)) {
+            stacking_order.append(m_windows[ c ]);
+        }
     }
 }
 
