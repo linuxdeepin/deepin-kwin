@@ -3898,11 +3898,6 @@ void AbstractClient::cancelSplitOutline()
     if (flag) {
         if (compositing() && splitManage.contains(screen())) {
             splitManage.find(screen()).value()->setSplitClient(nullptr, (QuickTileFlag)m_quickTileMode);
-            if (splitManage.find(screen()).value()->getLeftSplitClient() == nullptr && splitManage.find(screen()).value()->getRightSplitClient() == nullptr) {
-                auto it = splitManage.find(screen());
-                delete it.value();
-                splitManage.erase(it);
-            }
             handleSplitOutline(false);
         }
         if (!isMinimized()) {

@@ -2188,7 +2188,6 @@ void Workspace::updateSplitOutlineState(uint oldDesktop, uint newDesktop, bool i
         return ;
     }
 
-    clearSplitOutline();
     searchSplitScreenClient(newDesktop, isReCheckScreen);
 }
 
