@@ -557,7 +557,7 @@ void PresentWindowsEffect::slotWindowClosed(EffectWindow *w)
         w->refWindow();
     }
     if (m_highlightedWindow == w)
-        setHighlightedWindow(findFirstWindow());
+        setHighlightedWindow(NULL);
     if (m_closeWindow == w) {
         return; // don't rearrange, get's nulled when unref'd
     }
@@ -1044,7 +1044,7 @@ void PresentWindowsEffect::rearrangeWindows()
         if (winData != m_windowData.end() && !winData->visible)
             setHighlightedWindow(findFirstWindow());
     } else
-        setHighlightedWindow(findFirstWindow());
+        setHighlightedWindow(NULL);
 
     int screens = effects->numScreens();
     for (int screen = 0; screen < screens; screen++) {
