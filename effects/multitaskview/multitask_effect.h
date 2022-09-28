@@ -25,6 +25,7 @@
 #include <map>
 
 #include <QRect>
+#include <iostream>
 
 namespace KWin
 {
@@ -269,15 +270,15 @@ public:
         m_timeLine.setEasingCurve(QEasingCurve::OutQuint);
         m_timeLine.setDuration(std::chrono::milliseconds(DURATION_FLYING_BACK1));
         m_timeLine.reset();
-    } 
+    }
     MultiTaskWindowEffect(const QEasingCurve &type, int duration) {
         m_status = -1;
 
         m_timeLine.setEasingCurve(type);
         m_timeLine.setDuration(std::chrono::milliseconds(duration));
         m_timeLine.reset();
-    } 
-    ~MultiTaskWindowEffect() {} 
+    }
+    ~MultiTaskWindowEffect() {}
 
     void reset() {
         m_status = -1;
@@ -301,7 +302,8 @@ public:
 
     void update(int time) {
         if (m_status == 0) {
-            m_timeLine.update(std::chrono::milliseconds(time));
+            m_timeLine.reset();
+            m_timeLine.setElapsed(std::chrono::milliseconds(10));
             m_status = 1;
         } else if (m_status == 1) {
             m_timeLine.update(std::chrono::milliseconds(time));
@@ -325,7 +327,6 @@ public:
 
             data.setScale(QVector2D(k,k));
             data.translate(p.x(), p.y());
-
             effects->paintWindow(w, mask, region, data);
         }
     }
@@ -347,16 +348,16 @@ public:
             float w1 = r1.width();
             float h1 = r1.height();
 
-            float x = interp(x0, x1, t); 
-            float y = interp(y0, y1, t); 
-            float w = interp(w0, w1, t); 
-            float h = interp(h0, h1, t); 
+            float x = interp(x0, x1, t);
+            float y = interp(y0, y1, t);
+            float w = interp(w0, w1, t);
+            float h = interp(h0, h1, t);
 
             return QRect(int(x), int(y), int(w), int(h));
         }
 
         float interp(float v0, float v1, float t) {
-            return (v1 - v0) * t + v0; 
+            return (v1 - v0) * t + v0;
         }
     };
 
