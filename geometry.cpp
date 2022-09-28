@@ -219,8 +219,8 @@ void Workspace::updateClientArea(bool force)
                     if (strutArea.left != 0) {
                         margins.setLeft(strutArea.left);
                     }
-                    if (strutArea.right != 0 && strutArea.right >= c->geometry().width()) {
-                        margins.setRight(c->geometry().width());
+                    if (strutArea.right != 0) {
+                        margins.setRight(strutArea.right);
                     }
                     if (strutArea.top != 0) {
                         margins.setTop(strutArea.top);
