@@ -1121,6 +1121,10 @@ static bool areModKeysDepressed(const QKeySequence& seq) {
 
 void TabBox::navigatingThroughWindows(bool forward, const QKeySequence &shortcut, TabBoxMode mode)
 {
+    if(currentClient() && currentClient()->isResize()) {
+        currentClient()->endMoveResize();
+    }
+
     if (!m_ready || isGrabbed() || !Workspace::self()->isOnCurrentHead()) {
         return;
     }
