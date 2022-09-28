@@ -39,6 +39,7 @@
 #include "multitouchgesture.h"
 #include "kwineffectsex.h"
 #include "report.h"
+#include <QDateTime>
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock"))
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dde.appearance"))
@@ -682,11 +683,11 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_lastDesktopIndex = m_curDesktopIndex;
 
     m_bgSlidingStatus = false;
-    m_bgSlidingTimeLine.setEasingCurve(QEasingCurve::OutQuint);
+    m_bgSlidingTimeLine.setEasingCurve(QEasingCurve::InQuint);
     m_bgSlidingTimeLine.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULTEX));
 
     m_workspaceSlidingStatus = false;
-    m_workspaceSlidingTimeline.setEasingCurve(QEasingCurve::OutQuint);
+    m_workspaceSlidingTimeline.setEasingCurve(QEasingCurve::Linear);
     m_workspaceSlidingTimeline.setDuration(std::chrono::milliseconds(EFFECT_DURATION_DEFAULT));
 
     m_popStatus = false;
@@ -3242,14 +3243,15 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         effects->setCurrentDesktop(nrelyout);
         m_bgSlidingStatus = true;
         m_bgSlidingTimeLine.reset();
-        m_windowEffectState = true;
-        m_windowEffect.begin();
         m_curDesktopIndex = nrelyout;
         if (desktop == 1)
             m_curDesktopIndex = desktop + 1;
         m_lastDesktopIndex = desktop;
         m_isRemoveWorkspace = true;
         startremoveDesktopEffect(desktop);
+        m_windowEffectState = true;
+        m_windowEffect.begin();
+        effects->addRepaintFull();
     } else {
         m_curDesktopIndex = effects->currentDesktop();
         if (m_curDesktopIndex > desktop)
@@ -3691,6 +3693,7 @@ void MultitaskViewEffect::setWinKeepAbove(EffectWindow *w)
 
 void MultitaskViewEffect::changeCurrentDesktop(int desktop)
 {
+    m_curDesktopIndex = effects->currentDesktop();
     effects->setCurrentDesktop(desktop);
     m_hoverWin = nullptr;
     m_flyingWinList.clear();
