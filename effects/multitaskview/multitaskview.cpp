@@ -2348,6 +2348,7 @@ void MultitaskViewEffect::cleanup()
     m_maxHeight = 0;
     m_windowMove = nullptr;
     m_hoverWin = nullptr;
+    m_hoverWinBtn = nullptr;
     m_motionManagers.clear();
     m_workspaceWinMgr.clear();
     m_addWorkspaceButton.clear();
