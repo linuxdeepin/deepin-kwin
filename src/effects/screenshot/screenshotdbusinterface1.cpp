@@ -477,7 +477,12 @@ static QString saveTempImage(const QImage &image)
     if (image.isNull()) {
         return QString();
     }
-    QTemporaryFile temp(QDir::tempPath() + QDir::separator() + QLatin1String("kwin_screenshot_XXXXXX.jpg"));
+    QString recorderPath = QDir::tempPath() + QDir::separator() + QLatin1String("screen-recorder");
+    QDir recorderDir(recorderPath);
+    if(!recorderDir.exists()) {
+        recorderDir.mkdir(recorderPath);
+    }
+    QTemporaryFile temp(recorderPath + QDir::separator() + QLatin1String("deepin-kwin_screenshot_XXXXXX.jpg"));
     temp.setAutoRemove(false);
     if (!temp.open()) {
         return QString();
