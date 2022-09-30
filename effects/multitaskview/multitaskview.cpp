@@ -1649,7 +1649,10 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
     } else if (!QX11Info::isPlatformX11() && w->caption() == "org.deepin.dde.lock") {
         setActive(false);
     } else if (QX11Info::isPlatformX11()) {
-        if (w->windowClass() != screen_recorder && w->windowClass() != notification_tips && w->windowClass() != split_outline) {
+        if (w->windowClass() != screen_recorder
+            && w->windowClass() != notification_tips
+            && w->windowClass() != split_outline
+            && !w->isUtility()) {
             m_effectFlyingBack.begin();
             effects->addRepaintFull();
         } else if (w->windowClass() == screen_recorder) {
