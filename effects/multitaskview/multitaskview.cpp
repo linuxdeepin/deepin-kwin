@@ -39,7 +39,6 @@
 #include "multitouchgesture.h"
 #include "kwineffectsex.h"
 #include "report.h"
-#include <QDateTime>
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock"))
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dde.appearance"))

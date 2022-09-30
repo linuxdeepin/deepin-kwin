@@ -66,7 +66,26 @@ void Workspace::desktopResized()
         desktop_geometry.height = geom.height();
         rootInfo()->setDesktopGeometry(desktop_geometry);
     }
+
+    if (waylandServer()) {
+        foreach (auto it, splitapp_stacking_order) {
+            auto c = qobject_cast<AbstractClient*>(it);
+            if (!c)
+                continue;
+
+            c->setQuickTileMode(QuickTileFlag::None);
+        }
+        if (splitapp_stacking_order.size()) {
+            QTimer::singleShot(400, [&]() {
+                workspace()->updateSplitOutlineState(1, VirtualDesktopManager::self()->current(), true);
+            });
+            splitapp_stacking_order.clear();
+        }
+    }
+
+    workspace()->setScreenAreaChange(true);
     updateClientArea();
+    workspace()->setScreenAreaChange(false);
     saveOldScreenSizes(); // after updateClientArea(), so that one still uses the previous one
 
     // TODO: emit a signal instead and remove the deep function calls into edges and effects
@@ -1231,12 +1250,13 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
 
     bool oldScreenRestore = !oldScreenLost && (workspace()->previousScreenSizes().count() != screens()->count());
     if (quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
+        if (workspace()->isScreenAreaChanged() && (quickTileMode() == QuickTileMode(QuickTileFlag::Left) || quickTileMode() == QuickTileMode(QuickTileFlag::Right))) {
+            workspace()->updateScreenSplitApp(this, true);
+            setQuickTileMode(QuickTileFlag::None);
+        }
         if (oldScreenLost) {
             if (electricBorderMode() == QuickTileMode(QuickTileFlag::Maximize)) {
                 setGeometry(workspace()->clientArea(MaximizeArea, QPoint (0,0), desktop()));
-            } else if (quickTileMode() == QuickTileMode(QuickTileFlag::Left) || quickTileMode() == QuickTileMode(QuickTileFlag::Right)) {
-                workspace()->updateScreenSplitApp(this, true);
-                setQuickTileMode(QuickTileFlag::None);
             } else {
                 setGeometry(electricBorderMaximizeGeometry(QPoint (0,0), desktop()));
             }
@@ -1244,8 +1264,6 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
             //keep orgin pos because screen counts is not changed
             if (electricBorderMode() == QuickTileMode(QuickTileFlag::Maximize)) {
                 setGeometry(workspace()->clientArea(MaximizeArea, m_TileMaximizeGeometry.center(), desktop()));
-            } else if (quickTileMode() == QuickTileMode(QuickTileFlag::Left) || quickTileMode() == QuickTileMode(QuickTileFlag::Right)) {
-                setGeometry(electricBorderMaximizeGeometry(geometry().center(), desktop()));
             } else {
                  if(oldScreenRestore)
                      setGeometry(electricBorderMaximizeGeometry(geometryRestore().center(), desktop()));
