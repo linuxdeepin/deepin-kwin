@@ -1,3 +1,7 @@
+// Copyright 2014  Martin Gräßlin <mgraesslin@kde.org>
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #ifndef KWIN_REPORT_H
 #define KWIN_REPORT_H
 

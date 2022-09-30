@@ -1,3 +1,7 @@
+// Copyright 2014  Martin Gräßlin <mgraesslin@kde.org>
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #include "multitouchgesture.h"
 #include <math.h>
 #include "screens.h"
