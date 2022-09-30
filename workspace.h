@@ -572,6 +572,13 @@ public Q_SLOTS:
 
     void captureWindowImage(int windowId, wl_resource *buffer);
 
+    void setScreenAreaChange(bool flag) {
+        m_isScreenAreaChange = flag;
+    }
+    bool isScreenAreaChanged() {
+        return m_isScreenAreaChange;
+    }
+
 private Q_SLOTS:
     void desktopResized();
     void selectWmInputEventMask();
@@ -787,6 +794,8 @@ private:
     bool m_kwinDebug = false;
     bool m_printKwinFps = false;
     bool m_dumpOutputBuffer = false;
+
+    bool m_isScreenAreaChange = false;
 
     quint32 m_clientIDHandlingMouseCommond;
 
