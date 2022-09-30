@@ -1,0 +1,65 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: deepin-kwin
+Upstream-Contact:  <>
+Source: https://github.com/linuxdeepin/deepin-kwin
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
+
+Files: .arcconfig .arclint .release.json .gitlab-ci.yml
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+# document
+Files: HACKING.md README.md TESTING.md
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+# unit test
+Files: autotests/* tests/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+# submodule
+Files: colorcorrection/* data/* doc/* effects/* kcmkwin/* libkwineffects/* packageplugins/* platformsupport/* plugins/* po/* qml/* scripting/* scripts/* shaders/* tabbox/* themes/* helpers/* kconf_update/* debug_console.ui shortcutdialog.ui resources.qrc
+Copyright: None
+License: GPL-2.0-or-later
+
+# shell
+Files: ExtraDesktop.sh Messages.sh
+Copyright: None
+License: GPL-2.0-or-later
+
+# kde configuration
+Files: org.kde.*
+Copyright: None
+License: GPL-2.0-or-later
+
+# cmake
+Files: CMakeLists.txt cmake/* config-kwin.h.cmake KWinDBusInterfaceConfig.cmake.in
+Copyright: None
+License: GPL-2.0-or-later
+
+# images
+Files: 16-apps-kwin.png 32-apps-kwin.png 48-apps-kwin.png
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+# debian and redhat
+Files: debian/* rpm/*
+Copyright: None
+License: CC0-1.0
+
+# git github
+Files: .github/* .gitignore
+Copyright: None
+License: CC0-1.0
+
+#
+Files: Mainpage.dox kwin.kcfg kwin.notifyrc org.freedesktop.ScreenSaver.xml sc-apps-kwin.svgz settings.kcfgc
+Copyright: None
+License: CC0-1.0
+
