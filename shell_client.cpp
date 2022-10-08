@@ -955,7 +955,11 @@ bool ShellClient::isMaximizable() const
         return false;
     }
     if (!transients().isEmpty()) {
-        return false;
+        for (auto it = transients().constBegin(),
+                                  end = transients().constEnd(); it != end; ++it) {
+            if ((*it)->isTooltip())
+                return false;
+        }
     }
     return true;
 }
