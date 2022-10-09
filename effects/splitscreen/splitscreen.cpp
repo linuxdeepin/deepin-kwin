@@ -244,8 +244,21 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
                 effects->setElevatedWindow(target, true);
                 effects->activateWindow(target);
                 effectsEx->setSplitWindow(target, m_backgroundMode);
+            } else {
+                effectsEx->resetSplitGeometry();
             }
-            setActive(false);
+
+            // temp code
+            // the client will reset to half screen area after setActive(false) on wayland,
+            // because the client damage to new geometry will cost some time.
+            // setActive(false) directly will cause client blink.
+            if (!QX11Info::isPlatformX11()) {
+                QTimer::singleShot(50, [this]{
+                    setActive(false);
+                        });
+            } else {
+                setActive(false);
+            }
             break;
         default:
             return;

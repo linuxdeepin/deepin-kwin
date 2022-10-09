@@ -734,6 +734,11 @@ bool EffectsHandlerImpl::isShortcuts(QKeyEvent *event)
     return input()->isShortcuts(event);
 }
 
+void EffectsHandlerImpl::resetSplitGeometry()
+{
+        Workspace::self()->slotResetSplitGeometry();
+}
+
 void EffectsHandlerImpl::doStopMouseInterception()
 {
     input()->pointer()->removeEffectsOverrideCursor();

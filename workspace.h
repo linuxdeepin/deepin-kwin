@@ -557,6 +557,7 @@ public Q_SLOTS:
     void setupWindowShortcutDone(bool);
 
     void updateClientArea();
+    void slotResetSplitGeometry();
 
     void slotActivateNextTab(); // Slot to move left the active Client.
     void slotActivatePrevTab(); // Slot to move right the active Client.
@@ -794,6 +795,7 @@ private:
     bool m_kwinDebug = false;
     bool m_printKwinFps = false;
     bool m_dumpOutputBuffer = false;
+    AbstractClient* m_lastSplitClient = nullptr;
 
     bool m_isScreenAreaChange = false;
 

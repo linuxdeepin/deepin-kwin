@@ -88,6 +88,7 @@ public:
     int getCurrentPaintingScreen() override;
 
     bool isShortcuts(QKeyEvent *event);
+    void resetSplitGeometry();
 
     void activateWindow(EffectWindow* c) override;
     EffectWindow* activeWindow() const override;

@@ -2174,11 +2174,19 @@ void Workspace::updateScreenSplitApp(Toplevel *t, bool onlyRemove)
                     c->quitSplitStatus();
                     splitapp_stacking_order.removeOne(it);
                 } else {
-                    c->resetSplitGeometry(c->electricBorderMode());
+                    m_lastSplitClient = c;
                 }
             }
         }
         splitapp_stacking_order.append(t);
+    }
+}
+
+void Workspace::slotResetSplitGeometry()
+{
+    if (m_lastSplitClient) {
+        m_lastSplitClient->resetSplitGeometry(m_lastSplitClient->electricBorderMode());
+        m_lastSplitClient = nullptr;
     }
 }
 
