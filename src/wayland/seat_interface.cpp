@@ -12,6 +12,7 @@
 #include "datadevice_interface.h"
 #include "datadevice_interface_p.h"
 #include "datasource_interface.h"
+#include "ddesecurity_interface.h"
 #include "display.h"
 #include "display_p.h"
 #include "keyboard_interface.h"
@@ -39,6 +40,9 @@
 namespace KWaylandServer
 {
 static const int s_version = 8;
+
+#define BUF_SIZE 256
+#define CLIPBOARD_NAME "dde-clipboard-d"
 
 SeatInterfacePrivate *SeatInterfacePrivate::get(SeatInterface *seat)
 {
@@ -158,13 +162,14 @@ void SeatInterfacePrivate::registerDataDevice(DataDeviceInterface *dataDevice)
                      [this](AbstractDataSource *source, SurfaceInterface *origin, quint32 serial, DragAndDropIcon *dragIcon) {
                          q->startDrag(source, origin, serial, dragIcon);
                      });
+    qCWarning(KWIN_CORE) << "new dataDevice " << dataDevice << "@" << dataDevice->processId();
     // is the new DataDevice for the current keyoard focus?
     if (globalKeyboard.focus.surface) {
         // same client?
         if (*globalKeyboard.focus.surface->client() == dataDevice->client()) {
             globalKeyboard.focus.selections.append(dataDevice);
             if (currentSelection) {
-                dataDevice->sendSelection(currentSelection);
+                verifySelection(dataDevice, currentSelection);
             }
         }
     }
@@ -203,10 +208,10 @@ void SeatInterfacePrivate::registerDataControlDevice(DataControlDeviceV1Interfac
         // See https://github.com/swaywm/wlr-protocols/issues/92
         if (dataDevice->selection() && dataDevice->selection()->mimeTypes().contains(QLatin1String("application/x-kde-onlyReplaceEmpty")) && currentSelection) {
             dataDevice->selection()->cancel();
-            dataDevice->sendSelection(currentSelection);
+            verifySelection(dataDevice, currentSelection);
             return;
         }
-        q->setSelection(dataDevice->selection());
+        q->setSelection(dataDevice->selection(), false);
     });
 
     QObject::connect(dataDevice, &DataControlDeviceV1Interface::primarySelectionChanged, q, [this, dataDevice] {
@@ -222,9 +227,9 @@ void SeatInterfacePrivate::registerDataControlDevice(DataControlDeviceV1Interfac
         }
         q->setPrimarySelection(dataDevice->primarySelection());
     });
-
+    qCWarning(KWIN_CORE) << "new dataDevice " << dataDevice << "@" << dataDevice->processId();
     if (currentSelection) {
-        dataDevice->sendSelection(currentSelection);
+        verifySelection(dataDevice, currentSelection);
     }
     if (currentPrimarySelection) {
         dataDevice->sendPrimarySelection(currentPrimarySelection);
@@ -244,13 +249,15 @@ void SeatInterfacePrivate::registerPrimarySelectionDevice(PrimarySelectionDevice
     QObject::connect(primarySelectionDevice, &PrimarySelectionDeviceV1Interface::selectionChanged, q, [this, primarySelectionDevice] {
         updatePrimarySelection(primarySelectionDevice);
     });
+    qCWarning(KWIN_CORE) << "new primarySelectionDevice "
+        << primarySelectionDevice << "@" << primarySelectionDevice->processId();
     // is the new DataDevice for the current keyoard focus?
     if (globalKeyboard.focus.surface) {
         // same client?
         if (*globalKeyboard.focus.surface->client() == primarySelectionDevice->client()) {
             globalKeyboard.focus.primarySelections.append(primarySelectionDevice);
             if (currentPrimarySelection) {
-                primarySelectionDevice->sendSelection(currentPrimarySelection);
+                verifySelection(primarySelectionDevice, currentPrimarySelection);
             }
         }
     }
@@ -297,7 +304,7 @@ void SeatInterfacePrivate::updateSelection(DataDeviceInterface *dataDevice)
     if (!(globalKeyboard.focus.surface && (*globalKeyboard.focus.surface->client() == dataDevice->client()))) {
         return;
     }
-    q->setSelection(dataDevice->selection());
+    q->setSelection(dataDevice->selection(), true);
 }
 
 void SeatInterfacePrivate::updatePrimarySelection(PrimarySelectionDeviceV1Interface *primarySelectionDevice)
@@ -315,6 +322,210 @@ void SeatInterfacePrivate::sendCapabilities()
     for (SeatInterfacePrivate::Resource *resource : seatResources) {
         send_capabilities(resource->handle, capabilities);
     }
+}
+
+void SeatInterfacePrivate::addSecurityInterface(DDESecurityInterface* new_security)
+{
+    if (new_security == ddeSecurity) {
+        return;
+    }
+    ddeSecurity = new_security;
+    QObject::connect(ddeSecurity, &DDESecurityInterface::copySecurityVerified, q,
+        [this](uint32_t serial, uint32_t permission) {
+            handleCopySecurityVerified(serial, permission);
+        }
+    );
+}
+
+bool SeatInterfacePrivate::skipVerify(pid_t pid)
+{
+    char proc_pid_path[BUF_SIZE];
+    char buf[BUF_SIZE];
+    char task_name[BUF_SIZE];
+    sprintf(proc_pid_path, "/proc/%d/status", pid);
+    FILE *fp = fopen(proc_pid_path, "r");
+    if (NULL != fp) {
+        if (fgets(buf, BUF_SIZE - 1, fp) == NULL) {
+            fclose(fp);
+        }
+        fclose(fp);
+        sscanf(buf, "%*s %s", task_name);
+    }
+    return !strcmp(task_name, CLIPBOARD_NAME);
+}
+
+bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, AbstractDataSource *dataSource)
+{
+    if (!dataDevice || !dataSource) {
+        qCWarning(KWIN_CORE) << "verify selection bad source or device...";
+        return false;
+    }
+
+    if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl) {
+        if (skipVerify(dataDevice->processId())) {
+            dataDevice->sendSelection(dataSource);
+            qCWarning(KWIN_CORE) << "sec_cp:skip verify for " << dataDevice << "@" << dataDevice->processId();
+            return false;
+        }
+    }
+
+    qCWarning(KWIN_CORE) << "set_cp:verify selection from " << dataSource << "@"
+            << dataSource->processId() << " to " << dataDevice << " @ " << dataDevice->processId();
+    int serial = ddeSecurity->doVerifySecurity(DDESecurityInterface::SecurityType::SEC_CLIPBOARD_COPY, dataSource->processId(), dataDevice->processId());
+    if (serial > 0) {
+        VerifyState* state = new VerifyState(dataSource);
+        state->serial = serial;
+        state->dataDevice = dataDevice;
+        state->dataSource = dataSource;
+        state->deviceType = dataDevice->deviceType();
+        verifyingState.insert(serial, state);
+        return true;
+    }
+    if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl &&
+            dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
+        dataDevice->sendPrimarySelection(dataSource);
+    } else {
+        dataDevice->sendSelection(dataSource);
+    }
+    return false;
+}
+
+uint32_t SeatInterfacePrivate::verifySelectionForX11(AbstractDataSource *dataSource, int target)
+{
+    if (target <= 0 || !dataSource) {
+        qCWarning(KWIN_CORE) << "verify selection for x11, bad source or device...";
+        return 0;
+    }
+    qCDebug(KWIN_CORE) << "verify selection for x11, from "
+            << dataSource << "@" << dataSource->processId() << " to " << target;
+    int serial = ddeSecurity->doVerifySecurity(DDESecurityInterface::SecurityType::SEC_CLIPBOARD_COPY, dataSource->processId(), target);
+    if (serial > 0) {
+        currentVerifySelection = dataSource;
+        VerifyState* state = new VerifyState(dataSource);
+        state->serial = serial;
+        state->dataDevice = nullptr;
+        state->dataSource = dataSource;
+        state->deviceType = AbstractDataDevice::DeviceType::DeviceType_X11;
+        verifyingState.insert(serial, state);
+        return serial;
+    }
+    return 0;
+}
+
+void SeatInterfacePrivate::handleCopySecurityVerified(uint32_t serial, uint32_t permission)
+{
+    qCDebug(KWIN_CORE) << "handle copy security verified serial "
+                                    << serial << " permission " << permission;
+    if (permission != DDESecurityInterface::Permission::PERMISSION_ALLOW) {
+        if (verifyingState.contains(serial)) {
+            VerifyState* state = verifyingState.value(serial);
+            if (state->deviceType == AbstractDataDevice::DeviceType::DeviceType_X11) {
+                Q_EMIT q->x11CopySecurityVerified(serial, false);
+            }
+            verifyingState.remove(serial);
+        }
+        return;
+    }
+    if (verifyingState.contains(serial)) {
+        VerifyState* state = verifyingState.value(serial);
+        if (state->dragSurface) {
+            handleDragSecurityVerified(serial, permission);
+            return;
+        }
+        if (state->dataSource != currentVerifySelection && state->dataSource != primaryVerifySelection) {
+            qWarning() << "handle copy security verified, but find no verify selection  " << serial;
+            verifyingState.remove(serial);
+            return;
+        }
+        switch (state->deviceType) {
+        case AbstractDataDevice::DeviceType::DeviceType_Data:
+            if(globalKeyboard.focus.selections.contains(state->dataDevice)) {
+                state->dataDevice->sendSelection(state->dataSource);
+            }
+            break;
+        case AbstractDataDevice::DeviceType::DeviceType_DataControl:
+            if(dataControlDevices.contains(static_cast<DataControlDeviceV1Interface*>(state->dataDevice))) {
+                if (state->dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
+                    state->dataDevice->sendPrimarySelection(state->dataSource);
+                } else {
+                    state->dataDevice->sendSelection(state->dataSource);
+                }
+            }
+            break;
+        case AbstractDataDevice::DeviceType::DeviceType_Primary:
+            if (primarySelectionDevices.contains(static_cast<PrimarySelectionDeviceV1Interface*>(state->dataDevice))) {
+                state->dataDevice->sendSelection(state->dataSource);
+            }
+            break;
+        case AbstractDataDevice::DeviceType::DeviceType_X11:
+            verifyingState.remove(serial);
+            Q_EMIT q->x11CopySecurityVerified(serial, true);
+            return;
+        default:
+            break;
+        }
+        verifyingState.remove(serial);
+        if(verifyingState.isEmpty()) {
+            qCWarning(KWIN_CORE) << "handle verified done " << serial << " permission " << permission;
+            if (state->dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
+                currentPrimarySelection = primaryVerifySelection;
+                Q_EMIT q->primarySelectionChanged(state->dataSource);
+            } else {
+                currentSelection = currentVerifySelection;
+                Q_EMIT q->selectionChanged(state->dataSource);
+            }
+        }
+    }
+}
+
+bool SeatInterfacePrivate::verifyDrag(SurfaceInterface *surface, AbstractDataDevice *dataDevice, AbstractDataSource *dataSource)
+{
+    int serial = ddeSecurity->doVerifySecurity(DDESecurityInterface::SecurityType::SEC_CLIPBOARD_COPY, dataSource->processId(), dataDevice->processId());
+    if (dataSource->processId() == dataDevice->processId()) {
+        return false;
+    }
+    qCDebug(KWIN_CORE) << "do drag verify from "
+            << dataSource->processId()<< " to " << dataDevice->processId() << " serial " << serial;
+    if (serial > 0) {
+        VerifyState* state = new VerifyState(dataSource);
+        state->serial = serial;
+        state->dataDevice = dataDevice;
+        state->dataSource = dataSource;
+        state->dragSurface = surface;
+        verifyingState.insert(serial, state);
+        return true;
+    }
+    return false;
+}
+
+void SeatInterfacePrivate::handleDragSecurityVerified(uint32_t serial, uint32_t permission)
+{
+    if (permission != DDESecurityInterface::Permission::PERMISSION_ALLOW) {
+        qWarning() << "handle drag verified serial " << serial << " permission deny.";
+        verifyingState.remove(serial);
+        return;
+    }
+
+    if (!verifyingState.contains(serial)) {
+        qWarning() << "handle drag verified, bug has no serial " << serial;
+        return;
+    }
+
+    VerifyState* state = verifyingState.value(serial);
+    if (!state->dragSurface || state->dragSurface != drag.pendingSurface || state->dataSource != drag.source) {
+        qWarning() << "handle drag verified, bug drag data has changed, drop " << serial;
+        verifyingState.remove(serial);
+        return;
+    }
+
+    if (drag.mode == SeatInterfacePrivate::Drag::Mode::Pointer) {
+        q->setDragTarget(drag.pendingTarget, drag.pendingSurface, q->pointerPos(), drag.pendingTransformation);
+    } else {
+        if (drag.mode == SeatInterfacePrivate::Drag::Mode::Touch) {
+            q->setDragTarget(drag.pendingTarget, drag.pendingSurface, globalTouch.focus.firstTouchPos, drag.pendingTransformation);
+        }
+    }
+    verifyingState.remove(serial);
 }
 
 void SeatInterface::setHasKeyboard(bool has)
@@ -515,6 +726,23 @@ void SeatInterface::setDragTarget(AbstractDropHandler *dropTarget,
 
 void SeatInterface::setDragTarget(AbstractDropHandler *target, SurfaceInterface *surface, const QMatrix4x4 &inputTransformation)
 {
+    AbstractDataSource *dataSource = nullptr;
+    if (d->drag.source) {
+        dataSource = d->drag.source;
+    }
+
+    bool doVerify = false;
+    if (dataSource && target) {
+        doVerify = d->verifyDrag(surface, target, dataSource);
+    }
+
+    if (doVerify) {
+        d->drag.pendingSurface = surface;
+        d->drag.pendingTarget = target;
+        d->drag.pendingTransformation = inputTransformation;
+        return;
+    }
+
     if (d->drag.mode == SeatInterfacePrivate::Drag::Mode::Pointer) {
         setDragTarget(target, surface, pointerPos(), inputTransformation);
     } else {
@@ -931,7 +1159,7 @@ void SeatInterface::setFocusedKeyboardSurface(SurfaceInterface *surface)
         const QVector<DataDeviceInterface *> dataDevices = d->dataDevicesForSurface(surface);
         d->globalKeyboard.focus.selections = dataDevices;
         for (auto dataDevice : dataDevices) {
-            dataDevice->sendSelection(d->currentSelection);
+            d->verifySelection(dataDevice, d->currentSelection);
         }
         // primary selection
         QVector<PrimarySelectionDeviceV1Interface *> primarySelectionDevices;
@@ -943,7 +1171,7 @@ void SeatInterface::setFocusedKeyboardSurface(SurfaceInterface *surface)
 
         d->globalKeyboard.focus.primarySelections = primarySelectionDevices;
         for (auto primaryDataDevice : primarySelectionDevices) {
-            primaryDataDevice->sendSelection(d->currentPrimarySelection);
+            d->verifySelection(primaryDataDevice, d->currentPrimarySelection);
         }
     }
 
@@ -1265,10 +1493,21 @@ AbstractDataSource *SeatInterface::selection() const
     return d->currentSelection;
 }
 
-void SeatInterface::setSelection(AbstractDataSource *selection)
+void SeatInterface::setSelection(AbstractDataSource *selection, bool sendControl)
 {
     if (d->currentSelection == selection) {
         return;
+    }
+
+    bool doVerify = false;
+
+    if (sendControl && selection) {
+        d->lastSourcePid = selection->processId();
+    }
+
+    if (!sendControl && selection &&
+            selection->extSourceType() != AbstractDataSource::SourceType::FromXClient) {
+        selection->origin_pid = d->lastSourcePid;
     }
 
     if (d->currentSelection) {
@@ -1283,17 +1522,25 @@ void SeatInterface::setSelection(AbstractDataSource *selection)
         connect(selection, &AbstractDataSource::aboutToBeDestroyed, this, cleanup);
     }
 
-    d->currentSelection = selection;
-
+    if (selection) {
+        d->currentVerifySelection = selection;
+    } else {
+        d->currentSelection = selection;
+    }
     for (auto focussedSelection : std::as_const(d->globalKeyboard.focus.selections)) {
-        focussedSelection->sendSelection(selection);
+        doVerify = d->verifySelection(focussedSelection, selection);
     }
 
-    for (auto control : std::as_const(d->dataControlDevices)) {
-        control->sendSelection(selection);
+    if(sendControl) {
+        for (auto control : std::as_const(d->dataControlDevices)) {
+            doVerify = d->verifySelection(control, selection);
+        }
     }
 
-    Q_EMIT selectionChanged(selection);
+    if (!doVerify) {
+        d->currentSelection = selection;
+        Q_EMIT selectionChanged(selection);
+    }
 }
 
 AbstractDataSource *SeatInterface::primarySelection() const
@@ -1318,16 +1565,27 @@ void SeatInterface::setPrimarySelection(AbstractDataSource *selection)
         connect(selection, &AbstractDataSource::aboutToBeDestroyed, this, cleanup);
     }
 
-    d->currentPrimarySelection = selection;
+    if (selection) {
+        d->primaryVerifySelection = selection;
+    } else {
+        d->currentPrimarySelection = selection;
+    }
 
+    bool doVerify = false;
     for (auto focussedSelection : std::as_const(d->globalKeyboard.focus.primarySelections)) {
-        focussedSelection->sendSelection(selection);
+        doVerify = d->verifySelection(focussedSelection, selection);
     }
     for (auto control : std::as_const(d->dataControlDevices)) {
-        control->sendPrimarySelection(selection);
+        doVerify = d->verifySelection(control, selection);
     }
 
-    Q_EMIT primarySelectionChanged(selection);
+    if (!doVerify) {
+        d->currentPrimarySelection = selection;
+        Q_EMIT primarySelectionChanged(selection);
+    } else {
+        d->currentPrimarySelection = nullptr;
+        Q_EMIT primarySelectionChanged(nullptr);
+    }
 }
 
 void SeatInterface::startDrag(AbstractDataSource *dragSource, SurfaceInterface *originSurface, int dragSerial, DragAndDropIcon *dragIcon)
@@ -1368,5 +1626,10 @@ void SeatInterface::startDrag(AbstractDataSource *dragSource, SurfaceInterface *
 DragAndDropIcon *SeatInterface::dragIcon() const
 {
     return d->drag.dragIcon;
+}
+
+void SeatInterface::addSecurityInterface(DDESecurityInterface* security)
+{
+    d->addSecurityInterface(security);
 }
 }

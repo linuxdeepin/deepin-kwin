@@ -10,6 +10,8 @@
 #include <QObject>
 #include <memory>
 
+#include "abstract_data_device.h"
+
 struct wl_resource;
 struct wl_client;
 
@@ -30,7 +32,7 @@ class PrimarySelectionDeviceV1InterfacePrivate;
  * @see PrimarySelectionSourceInterface
  * Lifespan is mapped to the underlying object
  */
-class KWIN_EXPORT PrimarySelectionDeviceV1Interface : public QObject
+class KWIN_EXPORT PrimarySelectionDeviceV1Interface : public AbstractDataDevice
 {
     Q_OBJECT
 public:
@@ -40,7 +42,7 @@ public:
 
     PrimarySelectionSourceV1Interface *selection() const;
 
-    void sendSelection(AbstractDataSource *other);
+    void sendSelection(AbstractDataSource *other) override;
 
     wl_client *client() const;
 

@@ -111,9 +111,10 @@ void DataControlDeviceV1InterfacePrivate::zwlr_data_control_device_v1_destroy_re
 }
 
 DataControlDeviceV1Interface::DataControlDeviceV1Interface(SeatInterface *seat, wl_resource *resource)
-    : QObject()
+    : AbstractDataDevice()
     , d(new DataControlDeviceV1InterfacePrivate(this, seat, resource))
 {
+    m_deviceType = DeviceType_DataControl;
     SeatInterfacePrivate *seatPrivate = SeatInterfacePrivate::get(seat);
     seatPrivate->registerDataControlDevice(this);
 }

@@ -225,8 +225,14 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME dde-seat
 )
 
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dde-security.xml
+    BASENAME dde-security
+)
+
 target_sources(kwin PRIVATE
     abstract_data_source.cpp
+    abstract_data_device.cpp
     abstract_drop_handler.cpp
     appmenu_interface.cpp
     blur_interface.cpp
@@ -248,6 +254,7 @@ target_sources(kwin PRIVATE
     ddeseat_interface.cpp
     ddekeyboard_interface.cpp
     ddeshell_interface.cpp
+    ddesecurity_interface.cpp
     display.cpp
     dpms_interface.cpp
     drmclientbuffer.cpp

@@ -22,6 +22,8 @@ public:
 
     DataControlDeviceManagerV1Interface *q;
 
+    Display *const m_display;
+
 protected:
     void zwlr_data_control_manager_v1_create_data_source(Resource *resource, uint32_t id) override;
     void zwlr_data_control_manager_v1_get_data_device(Resource *resource, uint32_t id, wl_resource *seat) override;
@@ -31,6 +33,7 @@ protected:
 DataControlDeviceManagerV1InterfacePrivate::DataControlDeviceManagerV1InterfacePrivate(DataControlDeviceManagerV1Interface *q, Display *d)
     : QtWaylandServer::zwlr_data_control_manager_v1(*d, s_version)
     , q(q)
+    , m_display(d)
 {
 }
 
@@ -42,6 +45,7 @@ void DataControlDeviceManagerV1InterfacePrivate::zwlr_data_control_manager_v1_cr
         return;
     }
     DataControlSourceV1Interface *dataSource = new DataControlSourceV1Interface(q, data_source_resource);
+    dataSource->pid = m_display->getConnection(resource->client())->processId();
     Q_EMIT q->dataSourceCreated(dataSource);
 }
 
@@ -59,6 +63,7 @@ void DataControlDeviceManagerV1InterfacePrivate::zwlr_data_control_manager_v1_ge
         return;
     }
     DataControlDeviceV1Interface *dataDevice = new DataControlDeviceV1Interface(s, data_device_resource);
+    dataDevice->pid = m_display->getConnection(resource->client())->processId();
     Q_EMIT q->dataDeviceCreated(dataDevice);
 }
 

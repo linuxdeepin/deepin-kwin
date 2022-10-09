@@ -97,9 +97,10 @@ void PrimarySelectionDeviceV1InterfacePrivate::zwp_primary_selection_device_v1_d
 }
 
 PrimarySelectionDeviceV1Interface::PrimarySelectionDeviceV1Interface(SeatInterface *seat, wl_resource *resource)
-    : QObject()
+    : AbstractDataDevice()
     , d(new PrimarySelectionDeviceV1InterfacePrivate(this, seat, resource))
 {
+    m_deviceType = DeviceType_Primary;
     SeatInterfacePrivate *seatPrivate = SeatInterfacePrivate::get(seat);
     seatPrivate->registerPrimarySelectionDevice(this);
 }

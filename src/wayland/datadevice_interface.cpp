@@ -167,6 +167,7 @@ DataDeviceInterface::DataDeviceInterface(SeatInterface *seat, wl_resource *resou
     : AbstractDropHandler(nullptr)
     , d(new DataDeviceInterfacePrivate(seat, this, resource))
 {
+    m_deviceType = DeviceType_Data;
     SeatInterfacePrivate *seatPrivate = SeatInterfacePrivate::get(seat);
     seatPrivate->registerDataDevice(this);
 }

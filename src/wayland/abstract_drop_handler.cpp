@@ -10,7 +10,7 @@
 namespace KWaylandServer
 {
 AbstractDropHandler::AbstractDropHandler(QObject *parent)
-    : QObject(parent)
+    : AbstractDataDevice(parent)
 {
 }
 

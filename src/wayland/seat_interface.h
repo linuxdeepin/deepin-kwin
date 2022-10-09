@@ -32,6 +32,7 @@ class TextInputV1Interface;
 class TextInputV2Interface;
 class TextInputV3Interface;
 class TouchInterface;
+class DDESecurityInterface;
 
 /**
  * Describes the source types for axis events. This indicates to the
@@ -636,7 +637,7 @@ public:
      * @see selection
      * @see selectionChanged
      */
-    void setSelection(AbstractDataSource *selection);
+    void setSelection(AbstractDataSource *selection, bool sendControl = false);
 
     KWaylandServer::AbstractDataSource *primarySelection() const;
     void setPrimarySelection(AbstractDataSource *selection);
@@ -649,7 +650,11 @@ public:
      */
     DragAndDropIcon *dragIcon() const;
 
+    uint32_t verifySelectionForX11(AbstractDataSource *source, int target);
+
     static SeatInterface *get(wl_resource *native);
+
+    void addSecurityInterface(DDESecurityInterface* security);
 
 Q_SIGNALS:
     void nameChanged(const QString &);
@@ -703,6 +708,8 @@ Q_SIGNALS:
      * @see focusedKeyboardSurface
      */
     void focusedKeyboardSurfaceAboutToChange(SurfaceInterface *nextSurface);
+
+    void x11CopySecurityVerified(uint32_t serial, bool success);
 
 private:
     std::unique_ptr<SeatInterfacePrivate> d;

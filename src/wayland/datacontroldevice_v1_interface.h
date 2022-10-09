@@ -7,6 +7,8 @@
 
 #include "kwin_export.h"
 
+#include "abstract_data_device.h"
+
 #include <QObject>
 #include <memory>
 
@@ -27,10 +29,9 @@ class SurfaceInterface;
  *
  * DataControlDeviceV1Interface corresponds to the Wayland interface @c zwlr_data_control_device_v1.
  */
-class KWIN_EXPORT DataControlDeviceV1Interface : public QObject
+class KWIN_EXPORT DataControlDeviceV1Interface : public AbstractDataDevice
 {
     Q_OBJECT
-
 public:
     ~DataControlDeviceV1Interface() override;
 
@@ -38,9 +39,9 @@ public:
     DataControlSourceV1Interface *selection() const;
     DataControlSourceV1Interface *primarySelection() const;
 
-    void sendSelection(AbstractDataSource *other);
+    void sendSelection(AbstractDataSource *other) override;
 
-    void sendPrimarySelection(AbstractDataSource *other);
+    void sendPrimarySelection(AbstractDataSource *other) override;
 
 Q_SIGNALS:
     void selectionChanged(KWaylandServer::DataControlSourceV1Interface *dataSource);

@@ -7,6 +7,7 @@
 #pragma once
 
 // KWayland
+#include "abstract_data_device.h"
 #include "seat_interface.h"
 // Qt
 #include <QHash>
@@ -29,6 +30,19 @@ class TextInputV2Interface;
 class TextInputV3Interface;
 class PrimarySelectionDeviceV1Interface;
 class DragAndDropIcon;
+class DDESecurityInterface;
+
+class VerifyState : public QObject
+{
+    Q_OBJECT
+public:
+    VerifyState(QObject *parent) : QObject(parent) {}
+    uint32_t serial;
+    AbstractDataSource *dataSource;
+    AbstractDataDevice *dataDevice;
+    SurfaceInterface *dragSurface = nullptr;
+    int deviceType = AbstractDataDevice::DeviceType_Unknown;
+};
 
 class SeatInterfacePrivate : public QtWaylandServer::wl_seat
 {
@@ -44,6 +58,13 @@ public:
     void registerDataControlDevice(DataControlDeviceV1Interface *dataDevice);
     void endDrag();
     void cancelDrag();
+
+    bool verifySelection(AbstractDataDevice* dataDevice, AbstractDataSource *dataSource);
+    uint32_t verifySelectionForX11(AbstractDataSource *source, int target);
+    bool verifyDrag(SurfaceInterface *surface, AbstractDataDevice* dataDevice, AbstractDataSource *dataSource);
+    void handleCopySecurityVerified(uint32_t serial, uint32_t permission);
+    void handleDragSecurityVerified(uint32_t serial, uint32_t permission);
+    void addSecurityInterface(DDESecurityInterface* security);
 
     SeatInterface *q;
     QPointer<Display> display;
@@ -68,6 +89,16 @@ public:
     // the last thing copied into the clipboard content
     AbstractDataSource *currentSelection = nullptr;
     AbstractDataSource *currentPrimarySelection = nullptr;
+    AbstractDataSource *currentVerifySelection = nullptr;
+    AbstractDataSource *primaryVerifySelection = nullptr;
+
+    DDESecurityInterface* ddeSecurity = nullptr;
+
+    QMap<uint32_t, VerifyState*> verifyingState;
+
+    // Add for get the real pid of source
+    // clipboard cache the source and clear the orgin pid
+    pid_t lastSourcePid = -1;
 
     // Pointer related members
     struct Pointer
@@ -134,9 +165,12 @@ public:
         Mode mode = Mode::None;
         AbstractDataSource *source = nullptr;
         QPointer<SurfaceInterface> surface;
+        SurfaceInterface *pendingSurface = nullptr;
         QPointer<AbstractDropHandler> target;
+        QPointer<AbstractDropHandler> pendingTarget;
         QPointer<DragAndDropIcon> dragIcon;
         QMatrix4x4 transformation;
+        QMatrix4x4 pendingTransformation;
         std::optional<quint32> dragImplicitGrabSerial;
         QMetaObject::Connection dragSourceDestroyConnection;
     };
@@ -152,6 +186,7 @@ protected:
 private:
     void updateSelection(DataDeviceInterface *dataDevice);
     void updatePrimarySelection(PrimarySelectionDeviceV1Interface *primarySelectionDevice);
+    bool skipVerify(pid_t pid);
 };
 
 } // namespace KWaylandServer

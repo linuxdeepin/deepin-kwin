@@ -9,13 +9,13 @@
 
 #include "kwin_export.h"
 
-#include <QObject>
+#include "abstract_data_device.h"
 
 namespace KWaylandServer
 {
 class SurfaceInterface;
 
-class KWIN_EXPORT AbstractDropHandler : public QObject
+class KWIN_EXPORT AbstractDropHandler : public AbstractDataDevice
 {
     Q_OBJECT
 public:

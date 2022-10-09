@@ -29,6 +29,12 @@ class KWIN_EXPORT AbstractDataSource : public QObject
 {
     Q_OBJECT
 public:
+    enum class SourceType {
+        FromWaylandClient,
+        FromXClient,
+        FromPrimary
+    };
+
     virtual bool isAccepted() const
     {
         return false;
@@ -80,6 +86,36 @@ public:
     {
         return nullptr;
     };
+
+    /**
+     * The pid of the Source endpoint.
+     *
+     * Please note: if the Source got created with @link Display::createClient @endlink
+     * the pid will be identical to the process running the KWayland::Server::Display.
+     *
+     * @returns The pid of the Source.
+     **/
+    virtual pid_t processId()
+    {
+        if (origin_pid > 0) {
+            return origin_pid;
+        }
+        return pid;
+    }
+
+    virtual SourceType sourceType()
+    {
+        return SourceType::FromWaylandClient;
+    }
+
+    virtual SourceType extSourceType()
+    {
+        return sourceType();
+    }
+
+    // The pid of the Source
+    pid_t pid = 0;
+    pid_t origin_pid = -1;
 
 Q_SIGNALS:
     void aboutToBeDestroyed();

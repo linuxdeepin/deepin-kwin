@@ -29,6 +29,11 @@ public:
 
     QStringList mimeTypes() const override;
 
+    virtual SourceType extSourceType() override
+    {
+        return SourceType::FromPrimary;
+    }
+
     static PrimarySelectionSourceV1Interface *get(wl_resource *native);
     wl_client *client() const override;
 

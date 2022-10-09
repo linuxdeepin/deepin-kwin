@@ -22,6 +22,8 @@ public:
 
     DataDeviceManagerInterface *q;
 
+    Display *const m_display;
+
 private:
     void createDataSource(wl_client *client, wl_resource *resource, uint32_t id);
     void getDataDevice(wl_client *client, wl_resource *resource, uint32_t id, wl_resource *seat);
@@ -34,6 +36,7 @@ protected:
 DataDeviceManagerInterfacePrivate::DataDeviceManagerInterfacePrivate(DataDeviceManagerInterface *q, Display *d)
     : QtWaylandServer::wl_data_device_manager(*d, s_version)
     , q(q)
+    , m_display(d)
 {
 }
 
@@ -45,6 +48,7 @@ void DataDeviceManagerInterfacePrivate::data_device_manager_create_data_source(R
         return;
     }
     DataSourceInterface *dataSource = new DataSourceInterface(data_source_resource);
+    dataSource->pid = m_display->getConnection(resource->client())->processId();
     Q_EMIT q->dataSourceCreated(dataSource);
 }
 
@@ -62,6 +66,7 @@ void DataDeviceManagerInterfacePrivate::data_device_manager_get_data_device(Reso
         return;
     }
     DataDeviceInterface *dataDevice = new DataDeviceInterface(s, data_device_resource);
+    dataDevice->pid = m_display->getConnection(resource->client())->processId();
     Q_EMIT q->dataDeviceCreated(dataDevice);
 }
 

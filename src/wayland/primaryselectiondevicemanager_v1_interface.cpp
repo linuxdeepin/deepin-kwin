@@ -22,6 +22,8 @@ public:
 
     PrimarySelectionDeviceManagerV1Interface *q;
 
+    Display *const m_display;
+
 protected:
     void zwp_primary_selection_device_manager_v1_create_source(Resource *resource, uint32_t id) override;
     void zwp_primary_selection_device_manager_v1_get_device(Resource *resource, uint32_t id, wl_resource *seat) override;
@@ -31,6 +33,7 @@ protected:
 PrimarySelectionDeviceManagerV1InterfacePrivate::PrimarySelectionDeviceManagerV1InterfacePrivate(PrimarySelectionDeviceManagerV1Interface *q, Display *d)
     : QtWaylandServer::zwp_primary_selection_device_manager_v1(*d, s_version)
     , q(q)
+    , m_display(d)
 {
 }
 
@@ -42,6 +45,7 @@ void PrimarySelectionDeviceManagerV1InterfacePrivate::zwp_primary_selection_devi
         return;
     }
     PrimarySelectionSourceV1Interface *dataSource = new PrimarySelectionSourceV1Interface(data_source_resource);
+    dataSource->pid = m_display->getConnection(resource->client())->processId();
     Q_EMIT q->dataSourceCreated(dataSource);
 }
 
@@ -59,6 +63,7 @@ void PrimarySelectionDeviceManagerV1InterfacePrivate::zwp_primary_selection_devi
         return;
     }
     PrimarySelectionDeviceV1Interface *dataDevice = new PrimarySelectionDeviceV1Interface(s, data_device_resource);
+    dataDevice->pid = m_display->getConnection(resource->client())->processId();
     Q_EMIT q->dataDeviceCreated(dataDevice);
 }
 

@@ -81,7 +81,7 @@ public:
 
     DataSourceInterface *selection() const;
 
-    void sendSelection(KWaylandServer::AbstractDataSource *other);
+    void sendSelection(KWaylandServer::AbstractDataSource *other) override;
     /**
      * The event is sent when a drag-and-drop operation is ended because the implicit grab is removed.
      */
