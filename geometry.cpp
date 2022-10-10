@@ -1380,6 +1380,15 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
                 newGeom.setLeft(newGeom.left() + border[Left]);
         }
     }
+
+    //when dock move to top, move dock hide window
+    QRect maxArea = workspace()->clientArea(MaximizeArea, this);
+    if(maxArea.y() > newGeom.y() ) {
+        if (newGeom.y() < topMax) {
+            newGeom.moveTop(qMax(topMax, screenArea.y()) - border[Top]);
+        }
+    }
+
     if(waylandServer() && (newGeom.x() == screens()->geometry().width() - newGeom.width()))
             newGeom.moveTopLeft(QPoint( geometryRestore().x(),geometryRestore().y()));
     checkOffscreenPosition(&newGeom, screenArea);
