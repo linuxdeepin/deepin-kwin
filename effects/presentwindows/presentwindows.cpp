@@ -52,6 +52,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "report.h" //埋点
 
 #define WATERMARK_CLASS_NAME "deepin-watermark"
+const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
+const char notification_tips[] = "dde-osd dde-osd";
+const char kwin_x11[] = "kwin_x11 kwin";
 
 namespace KWin
 {
@@ -125,6 +128,11 @@ PresentWindowsEffect::PresentWindowsEffect()
                                                  this,
                                                  QDBusConnection::ExportScriptableSlots);
     QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.KWin.PresentWindows"));
+    QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time",
+                                          "/com/deepin/ScreenRecorder/time",
+                                          "com.deepin.ScreenRecorder.time",
+                                          "start", this, SLOT(screenRecorderStart()));
+
 
 }
 
@@ -133,6 +141,13 @@ PresentWindowsEffect::~PresentWindowsEffect()
     QDBusConnection::sessionBus().unregisterService(QStringLiteral("org.kde.KWin.PresentWindows"));
     delete m_filterFrame;
     delete m_closeView;
+}
+
+void PresentWindowsEffect::screenRecorderStart()
+{
+    if (m_isScreenRecorder /*&& !QX11Info::isPlatformX11()*/) {
+        effects->startMouseInterception(this, Qt::PointingHandCursor);
+    }
 }
 
 void PresentWindowsEffect::reconfigure(ReconfigureFlags)
@@ -341,7 +356,7 @@ void PresentWindowsEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &d
         if (winData->opacity <= 0.0) {
             // don't disable painting for panels if show panel is set
             if (!(m_showPanel && w->isDock())) {
-                if (!w->windowClass().contains(WATERMARK_CLASS_NAME)) {
+                if (!w->windowClass().contains(WATERMARK_CLASS_NAME) && w->windowClass() != screen_recorder) {
                     w->disablePainting(EffectWindow::PAINT_DISABLED);
                 }
             }
@@ -390,6 +405,18 @@ void PresentWindowsEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &d
 
 void PresentWindowsEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
+    if (w->windowClass() == screen_recorder || w == m_screenRecorderMenu) {
+        if (!m_screenRecorderMenu || w == m_screenRecorderMenu) {
+            effects->setElevatedWindow(w, true);
+        }
+        effects->paintWindow(w, mask, region, data);
+        return;
+    }
+    if (w->caption() == "dde-osd" && m_isCloseScreenRecorder) {
+        effects->paintWindow(w, mask, region, data);
+        return;
+    }
+
     if (m_activated || m_motionManager.areWindowsMoving()) {
         DataHash::const_iterator winData = m_windowData.constFind(w);
         if (winData == m_windowData.constEnd() || (w->isDock() && m_showPanel)) {
@@ -407,6 +434,7 @@ void PresentWindowsEffect::paintWindow(EffectWindow *w, int mask, QRegion region
             effects->paintWindow(w, mask, region, data);
             return;
         }
+
         if (m_motionManager.isManaging(w)) {
             if (w->isDesktop()) {
                 effects->paintWindow(w, mask, region, data);
@@ -509,6 +537,37 @@ void PresentWindowsEffect::slotWindowAdded(EffectWindow *w)
 {
     if (!m_activated)
         return;
+
+    if (!QX11Info::isPlatformX11() && w->caption() == "org.deepin.dde.lock") {
+        setActive(false);
+    } else if (QX11Info::isPlatformX11()) {
+        if (w->windowClass() != screen_recorder && w->windowClass() != notification_tips && w->windowClass() != kwin_x11) {
+            effects->addRepaintFull();
+            setActive(false);
+        } else if (w->windowClass() == screen_recorder) {
+            {
+                if (m_hasKeyboardGrab)
+                    effects->ungrabKeyboard();
+                m_hasKeyboardGrab = false;
+            }
+            if (m_isScreenRecorder) {
+                m_screenRecorderMenu = w;
+            } else {
+                effects->stopMouseInterception(this);
+                m_isScreenRecorder = true;
+            }
+        }
+    } else if (!QX11Info::isPlatformX11()) {
+        if (m_isScreenRecorder) {
+            m_screenRecorderMenu = w;
+        } else if (w->windowClass() == screen_recorder) {
+            effects->stopMouseInterception(this);
+            m_isScreenRecorder = true;
+        } else if (w->windowClass() != notification_tips) {
+            setActive(false);
+        }
+    }
+
     WindowData *winData = &m_windowData[w];
     winData->visible = isVisibleWindow(w);
     winData->opacity = 0.0;
@@ -546,6 +605,16 @@ void PresentWindowsEffect::slotWindowAdded(EffectWindow *w)
 
 void PresentWindowsEffect::slotWindowClosed(EffectWindow *w)
 {
+    if (!m_activated)
+        return;
+
+    if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
+        effects->startMouseInterception(this, Qt::PointingHandCursor);
+        if (QX11Info::isPlatformX11()) {
+            m_hasKeyboardGrab = effects->grabKeyboard(this);
+        }
+    }
+
     if (m_managerWindow == w)
         m_managerWindow = NULL;
     DataHash::iterator winData = m_windowData.find(w);
@@ -573,6 +642,9 @@ void PresentWindowsEffect::slotWindowClosed(EffectWindow *w)
 
 void PresentWindowsEffect::slotWindowDeleted(EffectWindow *w)
 {
+    if (!m_activated)
+        return;
+
     DataHash::iterator winData = m_windowData.find(w);
     if (winData == m_windowData.end())
         return;
@@ -580,6 +652,19 @@ void PresentWindowsEffect::slotWindowDeleted(EffectWindow *w)
     delete winData->iconFrame;
     m_windowData.erase(winData);
     m_motionManager.unmanage(w);
+
+    if (!QX11Info::isPlatformX11() && w->caption() == "dde-osd") {
+        m_isCloseScreenRecorder = false;
+        return;
+    } else if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
+        m_isScreenRecorder = false;
+        if (!QX11Info::isPlatformX11())
+            m_isCloseScreenRecorder = true;
+        return;
+    } else if (w == m_screenRecorderMenu) {
+        m_screenRecorderMenu = nullptr;
+        return;
+    }
 }
 
 void PresentWindowsEffect::slotWindowGeometryShapeChanged(EffectWindow* w, const QRect& old)
@@ -884,6 +969,12 @@ void PresentWindowsEffect::grabbedKeyboardEvent(QKeyEvent *e)
         case 0:
             return; // HACK: Workaround for Qt bug on unbound keys (#178547)
         default:
+            if((e->modifiers() == Qt::ControlModifier | Qt::AltModifier)) {
+                if(e->key() == Qt::Key_C) {
+                    setActive(false);
+                }
+                return;
+            }
             if (!e->text().isEmpty()) {
                 m_windowFilter.append(e->text());
                 updateFilterFrame();

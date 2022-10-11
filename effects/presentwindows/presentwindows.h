@@ -229,6 +229,7 @@ public Q_SLOTS:
 private Q_SLOTS:
     void closeWindow();
     void elevateCloseWindow();
+    void screenRecorderStart();
 
 protected:
     // Window rearranging
@@ -291,6 +292,9 @@ private:
     bool m_fillGaps;
     double m_fadeDuration;
     bool m_showPanel;
+    bool m_isScreenRecorder = false;
+    bool m_isCloseScreenRecorder = false;
+    EffectWindow *m_screenRecorderMenu = nullptr;
 
     // Activation
     bool m_activated;
