@@ -1632,6 +1632,8 @@ void ShellClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
 
     connect(this, &ShellClient::geometryChanged, this, &ShellClient::updateClientOutputs);
 
+    connect(this, &ShellClient::moveResizedChanged, this, [this] { this->setSplitable(this->checkClientAllowToTile()); });
+
     connect(this, &AbstractClient::activeChanged, this,
             [this] {
                 m_ddeShellSurface->setActive(isActive());
