@@ -15,6 +15,11 @@
 #define CURSOR_RIGHT    1
 #define CURSOR_L_R      2
 
+#define MAXWIDTH 20
+#define MAXPOS 10
+#define MINWIDTH 4
+#define MINPOS 2
+
 namespace KWin
 {
  SplitOutline::SplitOutline(int screen, int desktop)
@@ -31,6 +36,8 @@ namespace KWin
         updateWorkspaceArea();
         setAccessibleName("splitoutline");
         setWindowTitle("deepin-splitoutline");
+        splitoutlineWidth = MINWIDTH;
+        splitoutlinePos = MINPOS;
     }
 
     void SplitOutline::setCustomCursor(int direct)
@@ -116,21 +123,27 @@ namespace KWin
 
     void SplitOutline::enterEvent(QEvent *)
     {
+        splitoutlineWidth = MAXWIDTH;
+        splitoutlinePos = MAXPOS;
         if (waylandServer()) {
             m_mouseLeave = false;
             kwinApp()->platform()->hideCursor();
             update();
         }
+        updateSplitOutlinePosition();
         setWindowOpacity(1);
     }
 
     void SplitOutline::leaveEvent(QEvent *)
     {
+        splitoutlineWidth = MINWIDTH;
+        splitoutlinePos = MINPOS;
         if (waylandServer()) {
             m_mouseLeave = true;
             update();
             kwinApp()->platform()->showCursor();
         }
+        updateSplitOutlinePosition();
         setWindowOpacity(0);
     }
 
@@ -145,14 +158,13 @@ namespace KWin
         splitOutlinePainter.setRenderHint(QPainter::Antialiasing, true);
         splitOutlinePainter.setBrush(QColor("#DFDFDF"));
         splitOutlinePainter.setPen(pen);
-        splitOutlinePainter.drawRect(0,0,width(),height());
+        splitOutlinePainter.drawRect(0, 0, width(), height());
 
         QPainter smallLine(this);
         smallLine.setRenderHint(QPainter::Antialiasing, true);
         smallLine.setPen(Qt::NoPen);
         smallLine.setBrush(QColor("#7A7A7A"));
         smallLine.drawRoundRect(QRect(7, m_workspaceRect.height()/2-25, 6, 50), 30, 30);
-
 
         if (waylandServer()) {
             QPainter CursorPainter(this);
@@ -184,7 +196,7 @@ namespace KWin
         if (clientsStatus() == 1 && !isVisible())
         {
             if(waylandServer()) {
-                setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, m_workspaceRect.y(), 20, m_workspaceRect.height());
+                setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2) - splitoutlinePos, m_workspaceRect.y(), splitoutlineWidth, m_workspaceRect.height());
             }
             show();
         }
@@ -200,7 +212,7 @@ namespace KWin
         if (clientsStatus() == 1 && !isVisible())
         {
             if(waylandServer()) {
-                setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, m_workspaceRect.y(), 20, m_workspaceRect.height());
+                setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2) - splitoutlinePos, m_workspaceRect.y(), splitoutlineWidth, m_workspaceRect.height());
             }
             show();
         }
@@ -225,8 +237,8 @@ namespace KWin
     {
         if (clientsStatus() == 1)
         {
-            setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2)-10, m_workspaceRect.y(), 20, m_workspaceRect.height());
-            move(m_leftSplitClient->x() + m_leftSplitClient->width() - 10, m_workspaceRect.y());
+            setGeometry((m_workspaceRect.x() + m_workspaceRect.width()/2) - splitoutlinePos, m_workspaceRect.y(), splitoutlineWidth, m_workspaceRect.height());
+            move(m_leftSplitClient->x() + m_leftSplitClient->width() - splitoutlinePos, m_workspaceRect.y());
             update();
         }
     }
