@@ -2002,6 +2002,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 if (m_hoverWin && effects->currentDesktop() != target_desktop) {
                     moveWindowChangeDesktop(m_hoverWin, target_desktop, m_hoverWin->screen());
                 }
+                m_hoverWin = nullptr;
             }
             break;
         case Qt::Key_Home:
@@ -2014,6 +2015,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 if (m_hoverWin && effects->currentDesktop() != 1) {
                     moveWindowChangeDesktop(m_hoverWin, 1, m_hoverWin->screen());
                 }
+                m_hoverWin = nullptr;
             } else if (e->modifiers() == Qt::NoModifier) {
                 m_hoverWin = getHomeOrEndWindow(false);
             }
@@ -2031,6 +2033,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 if (m_hoverWin  && effects->currentDesktop() != target_desktop) {
                     moveWindowChangeDesktop(m_hoverWin, target_desktop, m_hoverWin->screen());
                 }
+                m_hoverWin = nullptr;
             }
             break;
         case Qt::Key_Down:
@@ -2038,6 +2041,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 if (m_hoverWin && effects->currentDesktop() != 2) {
                     moveWindowChangeDesktop(m_hoverWin, 2, m_hoverWin->screen());
                 }
+                m_hoverWin = nullptr;
             } else if (e->modifiers() == Qt::NoModifier) {
                 if (m_hoverWin) {
                     m_hoverWin = getNextWindow(m_hoverWin);
@@ -2088,6 +2092,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 if (m_hoverWin && effects->currentDesktop() != 6) {
                     moveWindowChangeDesktop(m_hoverWin, 6, m_hoverWin->screen());
                 }
+                m_hoverWin = nullptr;
             } else if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier)) {
                 if (effects->numberOfDesktops() == 1)
                     break;
@@ -2121,6 +2126,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 if (m_hoverWin && effects->currentDesktop() != 4) {
                     moveWindowChangeDesktop(m_hoverWin, 4, m_hoverWin->screen());
                 }
+                m_hoverWin = nullptr;
             } else if (e->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier)) {
                 if (effects->numberOfDesktops() == 1)
                     break;
