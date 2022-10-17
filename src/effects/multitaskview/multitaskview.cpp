@@ -1228,7 +1228,11 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                 d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
                 d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
                 mask |= PAINT_SCREEN_TRANSFORMED;
-                effects->paintWindow(w, mask, area, d);
+                MultiViewWorkspace *wkobj = getWorkspaceObject(w->screen(), paintingDesktop - 1);
+                if (wkobj)
+                    effects->paintWindow(w, mask, wkobj->getCurrentRect(), d);
+                else
+                    effects->paintWindow(w, mask, area, d);
             }
         }
     }
