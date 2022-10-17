@@ -1,3 +1,11 @@
+deepin-kwin (4:5.24.3-deepin.1.6) unstable; urgency=medium
+
+  * Bug fix
+    + 150513 149775 abnormal aspect of titlebar of 3rd window, right-angle of window in spliting screen
+    + 140793 142753 142699 140571 xingyun bug list
+
+ -- Lei Su <sulei@uniontech.com>  Mon, 17 Oct 2022 17:26:39 +0800
+
 deepin-kwin (4:5.24.3-deepin.1.5) unstable; urgency=medium
  
   * Bug fix
