@@ -21,6 +21,7 @@
  */
 
 #include "scissorwindow.h"
+#include "effects.h"
 
 #include <deepin_kwineffects.h>
 #include <deepin_kwinglplatform.h>
@@ -330,7 +331,7 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
             return;
         }
     } else {
-        if (!m_shader->isValid() || w->isDesktop() || isMaximized(w) || (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))) {
+        if (!m_shader->isValid() || w->isDesktop() || isMaximized(w, data)) {
             effects->paintWindow(w, mask, region, data);
             return;
         }
@@ -338,6 +339,18 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
         const QVariant valueRadius = w->data(WindowRadiusRole);
         if (valueRadius.isValid()) {
             cornerRadius = w->data(WindowRadiusRole).toPointF().x();
+        } else {
+            if (!(w->isDesktop() || w->isDock())) {
+                EffectsHandlerImpl *effs = static_cast<EffectsHandlerImpl *>(effects);
+                auto e = effs->findEffect("splitscreen");
+                if (e && e->isActive()) {
+                    auto geom = effects->findScreen(w->screen()->name())->geometry();
+                    if ((w->x() + data.xTranslation() == geom.x()) || (w->x() + data.xTranslation() + w->width() * data.xScale() == geom.x() + geom.width())) {
+                    }
+                    else
+                        cornerRadius = 8;
+                }
+            }
         }
         if (cornerRadius < 2) {
             effects->paintWindow(w, mask, region, data);
@@ -428,13 +441,21 @@ bool ScissorWindow::supported() {
 }
 
 void ScissorWindow::windowAdded(EffectWindow *w) {
-    if (!w->hasDecoration()) return;
+    if (!w->hasDecoration())
+        return;
 }
 
 bool ScissorWindow::isMaximized(EffectWindow *w) {
     auto geom = effects->findScreen(w->screen()->name())->geometry();
-    return (w->x() == geom.x() && w->width() == geom.width()) ||
+    return (w->x() == geom.x() && w->width() == geom.width()) &&
            (w->y() == geom.y() && w->height() == geom.height());
+}
+
+bool ScissorWindow::isMaximized(EffectWindow *w, const PaintData& data)
+{
+    auto geom = effects->findScreen(w->screen()->name())->geometry();
+    return (w->x() + data.xTranslation() == geom.x() && w->width() * data.xScale() == geom.width()) ||
+            (w->y() + data.yTranslation() == geom.y() && w->height() * data.yScale() == geom.height());
 }
 
 }  // namespace KWin

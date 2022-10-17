@@ -48,7 +48,8 @@ public:
     static bool supported();
     static bool enabledByDefault();
     static bool isMaximized(EffectWindow *w);
-    
+    static bool isMaximized(EffectWindow *w, const PaintData& data);
+
     int requestedEffectChainPosition() const override { return 99; }
 
     void reconfigure(ReconfigureFlags flags) override;
