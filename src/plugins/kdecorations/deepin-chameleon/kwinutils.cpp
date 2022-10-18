@@ -428,24 +428,14 @@ QObject *KWinUtils::virtualDesktop()
 
 QObjectList KWinUtils::clientList()
 {
-    if (!KWinUtils::scripting())
+    if (!workspace())
         return {};
 
-    const QObjectList scripting_children = KWinUtils::scripting()->children();
-    QObject *jsWorkspaceWrapper = KWinUtils::findObjectByClassName(QByteArrayLiteral("KWin::QtScriptWorkspaceWrapper"), scripting_children);
-
-    if (!jsWorkspaceWrapper) {
-        return {};
-    }
-
-    QList<KWin::X11Client*> clients;
-    bool ok = QMetaObject::invokeMethod(jsWorkspaceWrapper, "clientList", Q_RETURN_ARG(QList<KWin::X11Client*>, clients));
-
-    if (!ok) {
-        return {};
-    }
-
+    QList<KWin::AbstractClient*> clients = workspace()->allClientList();
     QObjectList list;
+    for (KWin::AbstractClient *c : clients) {
+        list << c;
+    }
 
     return list;
 }

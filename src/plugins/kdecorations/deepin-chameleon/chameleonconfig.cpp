@@ -60,12 +60,7 @@ ChameleonConfig::ChameleonConfig(QObject *parent)
     m_atom_kde_net_wm_shadow = KWinUtils::internAtom(_KDE_NET_WM_SHADOW, false);
     m_atom_net_wm_window_type = KWinUtils::internAtom(_NET_WM_WINDOW_TYPE, false);
 
-    if (KWinUtils::instance()->isInitialized()) {
-        init();
-    } else {
-        connect(KWinUtils::instance(), &KWinUtils::initialized, this, &ChameleonConfig::init);
-    }
-    
+    QTimer::singleShot(100, this, [this]() { init(); });
 }
 
 ChameleonConfig *ChameleonConfig::instance()
@@ -259,7 +254,6 @@ void ChameleonConfig::onCompositingToggled(bool active)
         // 需要重设窗口的clip path特效数据
         for (QObject *client : KWinUtils::clientList()) {
             updateClientClipPath(client);
-
             if (!canForceSetBorder(client)) {
                 updateClientWindowRadius(client);
             }
