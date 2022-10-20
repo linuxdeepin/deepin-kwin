@@ -22,7 +22,9 @@ class WaylandOutput : public QObject
 public:
     explicit WaylandOutput(AbstractWaylandOutput *output, QObject *parent = nullptr);
 
-    KWaylandServer::OutputInterface *waylandOutput() const;
+    KWaylandServer::OutputInterface *waylandOutput() const{
+        return m_waylandOutput.data();
+    };
 
 private Q_SLOTS:
     void handleDpmsModeChanged();

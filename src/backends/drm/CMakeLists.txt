@@ -24,6 +24,7 @@ set(DRM_SOURCES
     gbm_surface.cpp
     gbm_dmabuf.cpp
     placeholderinputeventfilter.cpp
+    remoteaccess_manager.cpp
 )
 
 add_library(KWinWaylandDrmBackend MODULE ${DRM_SOURCES})

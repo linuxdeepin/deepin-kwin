@@ -10,6 +10,7 @@
 #define KWIN_EGL_GBM_BACKEND_H
 #include "abstract_egl_backend.h"
 #include "utils/common.h"
+#include "remoteaccess_manager.h"
 
 #include <deepin_kwinglutils.h>
 
@@ -88,6 +89,7 @@ private:
     bool initializeEgl();
     bool initBufferConfigs();
     bool initRenderingContext();
+    void initRemotePresent();
 
     enum class ImportMode {
         Dmabuf,
@@ -141,6 +143,8 @@ private:
     QMap<uint32_t, EGLConfig> m_configs;
 
     static EglGbmBackend *renderingBackend();
+
+    QScopedPointer<RemoteAccessManager> m_remoteaccessManager;
 
     void setForceXrgb8888(DrmAbstractOutput *output);
 

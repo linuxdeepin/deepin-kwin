@@ -235,6 +235,8 @@ public:
 
     AbstractWaylandOutput *findOutput(KWaylandServer::OutputInterface *output) const;
 
+    WaylandOutput *findWaylandOutput(AbstractWaylandOutput * output) const;
+
     /**
      * Returns the first socket name that can be used to connect to this server.
      * For a full list, use display()->socketNames()

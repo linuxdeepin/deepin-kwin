@@ -365,6 +365,15 @@ AbstractWaylandOutput *WaylandServer::findOutput(KWaylandServer::OutputInterface
     return nullptr;
 }
 
+WaylandOutput *WaylandServer::findWaylandOutput(AbstractWaylandOutput * output) const
+{
+    if (m_waylandOutputs.contains(output))
+    {
+        return m_waylandOutputs[output];
+    }
+    return nullptr;
+}
+
 bool WaylandServer::start()
 {
     return m_display->start();

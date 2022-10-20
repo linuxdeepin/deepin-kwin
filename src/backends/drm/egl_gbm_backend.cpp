@@ -28,6 +28,8 @@
 #include "drm_pipeline.h"
 #include "drm_abstract_output.h"
 #include "egl_dmabuf.h"
+#include "abstract_wayland_output.h"
+#include "wayland_server.h"
 // kwin libs
 #include <deepin_kwinglplatform.h>
 #include <kwineglimagetexture.h>
@@ -128,6 +130,7 @@ void EglGbmBackend::init()
     if (isPrimary()) {
         initKWinGL();
         initWayland();
+        initRemotePresent();
     }
 }
 
@@ -146,6 +149,24 @@ bool EglGbmBackend::initRenderingContext()
         addOutput(output);
     }
     return true;
+}
+
+void EglGbmBackend::initRemotePresent()
+{
+    if (qEnvironmentVariableIsSet("KWIN_NO_REMOTE")) {
+        return;
+    }
+
+    qCDebug(KWIN_DRM) << "Support for remote access enabled";
+    m_remoteaccessManager.reset(new RemoteAccessManager);
+
+    connect(m_remoteaccessManager.data(), &RemoteAccessManager::screenRecordStatusChanged, this, [=](bool isScreenRecording) {
+        if (isScreenRecording) {
+            //m_backend->changeCursorType(DrmBackend::CursorType::SoftwareCursor);
+        } else {
+            //m_backend->changeCursorType(DrmBackend::CursorType::HardwareCursor);
+        }
+    });
 }
 
 bool EglGbmBackend::resetOutput(Output &output)
@@ -622,6 +643,14 @@ void EglGbmBackend::endFrame(AbstractOutput *drmOutput, const QRegion &renderedR
 
     const QRegion dirty = damagedRegion.intersected(output.output->geometry());
     QSharedPointer<DrmBuffer> buffer = endFrameWithBuffer(drmOutput, dirty);
+
+    if(m_remoteaccessManager) {// && gbm_surface_has_free_buffers(output.gbmSurface->surface())) {
+        // GBM surface is released on page flip so
+        // we should pass the buffer before it's presented
+        auto abstractWaylandOutput = static_cast<AbstractWaylandOutput *>(drmOutput);
+        m_remoteaccessManager->passBuffer(waylandServer()->findWaylandOutput(abstractWaylandOutput), buffer.get());
+    }
+
     output.output->present(buffer, dirty);
 }
 

@@ -131,11 +131,6 @@ WaylandOutput::WaylandOutput(AbstractWaylandOutput *output, QObject *parent)
     connect(output, &AbstractWaylandOutput::scaleChanged, this, &WaylandOutput::scheduleUpdate);
 }
 
-KWaylandServer::OutputInterface *WaylandOutput::waylandOutput() const
-{
-    return m_waylandOutput.data();
-}
-
 void WaylandOutput::scheduleUpdate()
 {
     m_updateTimer.start();
