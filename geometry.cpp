@@ -2652,6 +2652,9 @@ void Client::setFullScreen(bool set, bool user)
         return;
     if(isMoveResize())
         return;
+
+    cancelSplitOutline();
+
     QRect fsarea = workspace()->clientArea(FullScreenArea, this);
     if (sizeForClientSize(fsarea.size(), SizemodeAny, true) != fsarea.size())
         return;
