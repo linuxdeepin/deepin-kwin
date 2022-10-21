@@ -116,6 +116,9 @@ bool BuiltInEffectLoader::loadEffect(BuiltInEffect effect, LoadEffectFlags flags
 
 bool BuiltInEffectLoader::loadEffect(const QString &name, BuiltInEffect effect, LoadEffectFlags flags)
 {
+    if (waylandServer() && name == "contrast") {
+        return false;
+    }
     // 窗口动画-魔灯效果和切换工作区
     if ((name == "magiclamp") || (name == "slide")) {
         KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
