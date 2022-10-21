@@ -2222,12 +2222,16 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
                 }
             }
             break;
+        case Qt::Key_Space:
+            if (e->modifiers() == (Qt::AltModifier)) {
+                break;
+            }
         default:
             if (!QX11Info::isPlatformX11() && effectsEx->isShortcuts(e)) {
                 QTimer::singleShot(20, [&, this]() {
                     effects->ungrabKeyboard();
+                    m_hasKeyboardGrab = false;
                     });
-                m_hasKeyboardGrab = false;
             }
             break;
         }
