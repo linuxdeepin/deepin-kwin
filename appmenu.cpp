@@ -2,6 +2,7 @@
 // Copyright (c) 2011 Lionel Chauvin <megabigbug@yahoo.fr>
 // Copyright (c) 2011,2012 Cédric Bellegarde <gnumdk@gmail.com>
 // Copyright 2014  Martin Gräßlin <mgraesslin@kde.org>
+// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
