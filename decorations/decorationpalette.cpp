@@ -1,6 +1,7 @@
 // Copyright 2014  Hugo Pereira Da Costa <hugo.pereira@free.fr>
 // Copyright 2014  Martin Gräßlin <mgraesslin@kde.org>
 // Copyright 2015  Mika Allan Rauhala <mika.allan.rauhala@gmail.com>
+// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 

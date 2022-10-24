@@ -1,6 +1,7 @@
 // Copyright (C) 2013 Martin Gräßlin <mgraesslin@kde.org>
 // Copyright (C) 2018 Roman Gilg <subdiff@gmail.com>
 // Copyright 2014  Martin Gräßlin <mgraesslin@kde.org>
+// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
