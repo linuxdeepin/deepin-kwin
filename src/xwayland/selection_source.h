@@ -8,6 +8,7 @@
 */
 #pragma once
 
+#include <QMap>
 #include <QObject>
 #include <QVector>
 
@@ -50,6 +51,8 @@ public:
         m_timestamp = time;
     }
 
+    uint32_t pid = 0;
+
 protected:
     Selection *selection() const
     {
@@ -84,11 +87,13 @@ public:
     void setDataSourceIface(KWaylandServer::AbstractDataSource *dsi);
 
     bool handleSelectionRequest(xcb_selection_request_event_t *event);
-    void sendTargets(xcb_selection_request_event_t *event);
+    void sendTargets(xcb_selection_request_event_t *event, bool success = true);
+    void verifySendTargets(xcb_selection_request_event_t *event);
     void sendTimestamp(xcb_selection_request_event_t *event);
 
     void receiveOffer(const QString &mime);
     void sendSelectionNotify(xcb_selection_request_event_t *event, bool success);
+    void handleTargetVerified(uint32_t serial, bool success);
 
 Q_SIGNALS:
     void transferReady(xcb_selection_request_event_t *event, qint32 fd);
@@ -100,6 +105,8 @@ private:
 
     QVector<QString> m_offers;
     QMetaObject::Connection m_offerConnection;
+
+    QMap<uint32_t,xcb_selection_request_event_t*> m_verifyingEvents;
 
     Q_DISABLE_COPY(WlSource)
 };

@@ -55,6 +55,7 @@ class OutputOrderV1Interface;
 class ClientManagementInterface;
 class DDEShellInterface;
 class DDESeatInterface;
+class DDESecurityInterface;
 class StrutInterface;
 }
 
@@ -141,6 +142,9 @@ public:
     }
     KWaylandServer::DDEShellInterface *ddeShell() const {
         return m_ddeShell;
+    }
+    KWaylandServer::DDESecurityInterface *ddeSecurity() const {
+        return m_ddeSecurity;
     }
     KWaylandServer::StrutInterface *strut() const {
         return m_strut;
@@ -319,6 +323,7 @@ private:
     KWaylandServer::ClientManagementInterface *m_clientManagement = nullptr;
     KWaylandServer::DDEShellInterface *m_ddeShell = nullptr;
     KWaylandServer::DDESeatInterface *m_ddeSeat = nullptr;
+    KWaylandServer::DDESecurityInterface *m_ddeSecurity = nullptr;
     KWaylandServer::StrutInterface *m_strut = nullptr;
     QList<Window *> m_windows;
     InitializationFlags m_initFlags;

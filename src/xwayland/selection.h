@@ -16,6 +16,8 @@
 struct xcb_xfixes_selection_notify_event_t;
 
 class QTimer;
+class QLibrary;
+typedef struct _XDisplay Display;
 
 namespace KWin
 {
@@ -66,11 +68,14 @@ public:
     }
     void overwriteRequestorWindow(xcb_window_t window);
 
+    int getWindowPID(ulong wid);
+
 Q_SIGNALS:
     void transferFinished(xcb_timestamp_t eventTime);
 
 protected:
     Selection(xcb_atom_t atom, QObject *parent);
+    virtual ~Selection();
     void registerXfixes();
 
     virtual void doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event) = 0;
@@ -111,6 +116,8 @@ private:
     void startTimeoutTransfersTimer();
     void endTimeoutTransfersTimer();
 
+    typedef int (*GetWindowPidPtr)(Display* dpy, ulong window);
+
     xcb_atom_t m_atom = XCB_ATOM_NONE;
     xcb_window_t m_window = XCB_WINDOW_NONE;
     xcb_window_t m_requestorWindow = XCB_WINDOW_NONE;
@@ -120,6 +127,10 @@ private:
     // at the same time.
     WlSource *m_waylandSource = nullptr;
     X11Source *m_xSource = nullptr;
+
+    Display *m_Display;
+    QLibrary* m_uaceExtDll;
+    GetWindowPidPtr fuc_GetWindowPid;
 
     // active transfers
     QVector<TransferWltoX *> m_wlToXTransfers;

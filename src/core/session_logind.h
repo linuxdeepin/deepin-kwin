@@ -28,6 +28,7 @@ public:
     int openRestricted(const QString &fileName) override;
     void closeRestricted(int fileDescriptor) override;
     void switchTo(uint terminal) override;
+    void updateDisplay(QString displayNumber) override;
 
 private Q_SLOTS:
     void handleResumeDevice(uint major, uint minor, QDBusUnixFileDescriptor fileDescriptor);

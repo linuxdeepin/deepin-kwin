@@ -19,7 +19,10 @@
 #include <xcb/xcb_event.h>
 #include <xcb/xfixes.h>
 
+#include <X11/Xlib.h>
+
 #include <QTimer>
+#include <QLibrary>
 
 namespace KWin
 {
@@ -85,6 +88,37 @@ Selection::Selection(xcb_atom_t atom, QObject *parent)
     m_window = xcb_generate_id(kwinApp()->x11Connection());
     m_requestorWindow = m_window;
     xcb_flush(xcbConn);
+
+    m_Display = XOpenDisplay(NULL);
+    m_uaceExtDll = new QLibrary("uaceExtDll");
+    if (m_uaceExtDll) {
+        if (!m_uaceExtDll->load()) {
+            qWarning() << "Can not load uaceExtDll";
+            delete m_uaceExtDll;
+            m_uaceExtDll = nullptr;
+        } else {
+            fuc_GetWindowPid = (GetWindowPidPtr)m_uaceExtDll->resolve("GetWindowPID");
+            if (!fuc_GetWindowPid) {
+                qWarning() << "Can not resolve GetWindowPID";
+                m_uaceExtDll->unload();
+                delete m_uaceExtDll;
+                m_uaceExtDll = nullptr;
+            }
+        }
+    }
+}
+
+Selection::~Selection()
+{
+    if (m_Display) {
+        XCloseDisplay(m_Display);
+        m_Display = nullptr;
+    }
+    if (m_uaceExtDll) {
+        m_uaceExtDll->unload();
+        delete m_uaceExtDll;
+        m_uaceExtDll = nullptr;
+    }
 }
 
 bool Selection::handleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
@@ -191,6 +225,16 @@ void Selection::createX11Source(xcb_xfixes_selection_notify_event_t *event)
 
     connect(m_xSource, &X11Source::offersChanged, this, &Selection::x11OffersChanged);
     connect(m_xSource, &X11Source::transferReady, this, &Selection::startTransferToWayland);
+}
+
+int Selection::getWindowPID(ulong wid)
+{
+    if (!m_Display || !fuc_GetWindowPid) {
+        qWarning() << "Can not open display";
+        return -1;
+    }
+
+    return fuc_GetWindowPid(m_Display, wid);
 }
 
 void Selection::ownSelection(bool own)

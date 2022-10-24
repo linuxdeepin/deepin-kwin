@@ -68,7 +68,7 @@ void WlSource::sendSelectionNotify(xcb_selection_request_event_t *event, bool su
 bool WlSource::handleSelectionRequest(xcb_selection_request_event_t *event)
 {
     if (event->target == atoms->targets) {
-        sendTargets(event);
+        verifySendTargets(event);
     } else if (event->target == atoms->timestamp) {
         sendTimestamp(event);
     } else if (event->target == atoms->delete_atom) {
@@ -82,7 +82,7 @@ bool WlSource::handleSelectionRequest(xcb_selection_request_event_t *event)
     return true;
 }
 
-void WlSource::sendTargets(xcb_selection_request_event_t *event)
+void WlSource::sendTargets(xcb_selection_request_event_t *event, bool success)
 {
     QVector<xcb_atom_t> targets;
     targets.resize(m_offers.size() + 2);
@@ -90,9 +90,11 @@ void WlSource::sendTargets(xcb_selection_request_event_t *event)
     targets[1] = atoms->targets;
 
     size_t cnt = 2;
-    for (const auto &mime : std::as_const(m_offers)) {
-        targets[cnt] = Selection::mimeTypeToAtom(mime);
-        cnt++;
+    if (success) {
+        for (const auto &mime : std::as_const(m_offers)) {
+            targets[cnt] = Selection::mimeTypeToAtom(mime);
+            cnt++;
+        }
     }
 
     xcb_change_property(kwinApp()->x11Connection(),
@@ -101,8 +103,36 @@ void WlSource::sendTargets(xcb_selection_request_event_t *event)
                         event->property,
                         XCB_ATOM_ATOM,
                         32, cnt, targets.data());
-    sendSelectionNotify(event, true);
+    qCWarning(KWIN_XWL) << "send targets from " << (m_dsi ? m_dsi->processId() : -1)
+            << " to requestor " << event->requestor << selection()->getWindowPID(event->requestor);
+    sendSelectionNotify(event, success);
 }
+
+void WlSource::verifySendTargets(xcb_selection_request_event_t *event)
+{
+    uint32_t serial = waylandServer()->seat()->verifySelectionForX11(m_dsi, selection()->getWindowPID(event->requestor));
+    qCWarning(KWIN_XWL) << "verify targets from " << m_dsi->processId() << " to requestor "
+            << event << event->requestor << selection()->getWindowPID(event->requestor)<< " serial " << serial;
+    if (serial <= 0) {
+        sendTargets(event);
+    }
+    m_verifyingEvents.insert(serial, new xcb_selection_request_event_t(*event));
+    connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::x11CopySecurityVerified,
+            this, &WlSource::handleTargetVerified);
+}
+
+void WlSource::handleTargetVerified(uint32_t serial, bool success)
+{
+    qCWarning(KWIN_XWL) << "handle targets verified serial " << serial << " success " << success;
+    if (!m_verifyingEvents.contains(serial)) {
+        return;
+    }
+    xcb_selection_request_event_t *event = m_verifyingEvents.value(serial);
+    qCWarning(KWIN_XWL) << "handle targets verified from " << (m_dsi ? m_dsi->processId() : -1)
+            << " to requestor " << event << event->requestor << selection()->getWindowPID(event->requestor);
+    sendTargets(event, success);
+    m_verifyingEvents.remove(serial);
+ }
 
 void WlSource::sendTimestamp(xcb_selection_request_event_t *event)
 {
@@ -163,6 +193,22 @@ X11Source::X11Source(Selection *selection, xcb_xfixes_selection_notify_event_t *
     , m_owner(event->owner)
 {
     setTimestamp(event->timestamp);
+
+    pid = selection->getWindowPID(event->owner);
+    qCWarning(KWIN_XWL) << "xwl:sel " << selection << " getWindowPID " << event->owner << " pid " << pid;
+    if (pid > 0) {
+        return;
+    }
+
+    auto *xcbConn = kwinApp()->x11Connection();
+    xcb_get_property_cookie_t cookie = xcb_get_property(xcbConn, 0, event->owner, atoms->wm_pid, XCB_ATOM_CARDINAL, 0, 1);
+    xcb_get_property_reply_t *reply = xcb_get_property_reply(xcbConn, cookie, nullptr);
+    if (reply) {
+        if (reply->value_len == 1 && reply->format == sizeof(uint32_t) * 8) {
+            pid = *reinterpret_cast<uint32_t *>(xcb_get_property_value(reply));
+        }
+        free(reply);
+    }
 }
 
 void X11Source::getTargets()

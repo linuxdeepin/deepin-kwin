@@ -20,6 +20,7 @@
 #include "xwldrophandler.h"
 
 #include "core/output.h"
+#include "core/session.h"
 #include "input_event_spy.h"
 #include "keyboard_input.h"
 #include "main_wayland.h"
@@ -329,6 +330,8 @@ void Xwayland::handleXwaylandReady()
     qputenv("DISPLAY", m_launcher->displayName().toLatin1());
     qputenv("XAUTHORITY", m_launcher->xauthority().toLatin1());
     m_app->setProcessStartupEnvironment(env);
+
+    kwinApp()->session()->updateDisplay(m_launcher->displayName());
 
     connect(workspace(), &Workspace::outputOrderChanged, this, &Xwayland::updatePrimary);
     updatePrimary();

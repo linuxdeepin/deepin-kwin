@@ -347,4 +347,18 @@ void LogindSession::handlePrepareForSleep(bool sleep)
     }
 }
 
+void LogindSession::updateDisplay(QString displayNumber)
+{
+    if (m_sessionPath.isEmpty()) {
+        return;
+    }
+
+    QDBusMessage message = QDBusMessage::createMethodCall(s_serviceName,
+                                                          m_sessionPath,
+                                                          s_sessionInterface,
+                                                          QStringLiteral("UpdateDisplay"));
+    message.setArguments(QVariantList{QVariant(displayNumber.constData())});
+    QDBusConnection::systemBus().call(message);
+}
+
 } // namespace KWin

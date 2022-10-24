@@ -86,6 +86,8 @@ public:
      */
     virtual void switchTo(uint terminal) = 0;
 
+    virtual void updateDisplay(QString displayNumber){}
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the session is resuming from suspend.

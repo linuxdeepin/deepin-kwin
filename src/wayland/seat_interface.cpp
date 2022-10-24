@@ -439,12 +439,12 @@ void SeatInterfacePrivate::handleCopySecurityVerified(uint32_t serial, uint32_t 
         }
         switch (state->deviceType) {
         case AbstractDataDevice::DeviceType::DeviceType_Data:
-            if(globalKeyboard.focus.selections.contains(state->dataDevice)) {
+            if (globalKeyboard.focus.selections.contains(static_cast<DataDeviceInterface *>(state->dataDevice))) {
                 state->dataDevice->sendSelection(state->dataSource);
             }
             break;
         case AbstractDataDevice::DeviceType::DeviceType_DataControl:
-            if(dataControlDevices.contains(static_cast<DataControlDeviceV1Interface*>(state->dataDevice))) {
+            if (dataControlDevices.contains(static_cast<DataControlDeviceV1Interface *>(state->dataDevice))) {
                 if (state->dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
                     state->dataDevice->sendPrimarySelection(state->dataSource);
                 } else {
@@ -1632,4 +1632,10 @@ void SeatInterface::addSecurityInterface(DDESecurityInterface* security)
 {
     d->addSecurityInterface(security);
 }
+
+uint32_t SeatInterface::verifySelectionForX11(AbstractDataSource *source, int target)
+{
+    return d->verifySelectionForX11(source, target);
+}
+
 }

@@ -160,6 +160,7 @@ void Clipboard::x11OffersChanged(const QStringList &added, const QStringList &re
         });
         auto newSelection = std::make_unique<XwlDataSource>();
         newSelection->setMimeTypes(mimeTypes);
+        newSelection->pid = source->pid;
         connect(newSelection.get(), &XwlDataSource::dataRequested, source, &X11Source::startTransfer);
         // we keep the old selection around because setSelection needs it to be still alive
         std::swap(m_selectionSource, newSelection);
