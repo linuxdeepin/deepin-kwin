@@ -284,7 +284,7 @@ void SplitScreenEffect::showScroll()
 
     int previewstep = 0;
     if (!m_scrollStartRect.isEmpty()) {
-        s = (float)(m_scrollRect.y() - m_scrollStartRect.y()) / (float)(m_backgroundRect.height() - 39);
+        s = (float)(m_scrollRect.y() - m_scrollStartRect.y()) / (float)(m_backgroundRect.height() - 43);
         m_scrollMoveDistance = m_scrollMoveStart - (m_previewRect.height() - m_backgroundRect.height()) * s;
         previewstep = m_scrollMoveDistance - m_previewRect.y();
     }
@@ -369,9 +369,9 @@ void SplitScreenEffect::handleWheelEvent(Qt::MouseButtons btn)
     m_isWheelScroll = true;
     if (btn == Qt::ForwardButton) {
         if (m_scrollRect.y() > m_backgroundRect.y()) {
-            int y = m_scrollRect.y() - 15;
+            int y = m_scrollRect.y() - m_scrollStep;
             QPoint pos;
-            if (y <= m_backgroundRect.y())
+            if (y <= m_backgroundRect.y() + 2)
                 pos = QPoint(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_backgroundRect.y() + 2);
             else
                 pos = QPoint(m_backgroundRect.x() + m_backgroundRect.width() - 16, y);
@@ -379,16 +379,16 @@ void SplitScreenEffect::handleWheelEvent(Qt::MouseButtons btn)
         }
     } else if (btn == Qt::BackButton) {
         if (m_scrollRect.bottom() < m_backgroundRect.bottom()) {
-            int y = m_scrollRect.bottom() + 15;
+            int y = m_scrollRect.bottom() + m_scrollStep;
             QPoint pos;
-            if (y >= m_backgroundRect.bottom())
-                pos = QPoint(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_scrollRect.y() + 15 - y + m_backgroundRect.bottom() - 2);
+            if (y >= m_backgroundRect.bottom() - 2)
+                pos = QPoint(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_backgroundRect.bottom() - 41);
             else
-                pos = QPoint(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_scrollRect.y() + 15);
+                pos = QPoint(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_scrollRect.y() + m_scrollStep);
             m_scrollRect = QRect(pos, QSize(15, 39));
         }
     }
-    QTimer::singleShot(300, [&]() { m_isWheelScroll = false; });
+    QTimer::singleShot(50, [&]() { m_isWheelScroll = false; });
 }
 
 void SplitScreenEffect::relayDockEvent(QPoint pos, int button)
@@ -477,8 +477,8 @@ void SplitScreenEffect::windowInputMouseEvent(QEvent* e)
     switch (me->type()) {
     case QEvent::MouseMove:
         if (m_scrollStatus == 2) {
-            if (me->pos().y() - m_scrollStartPosY + m_scrollStartRect.y() > m_backgroundRect.y() &&
-                me->pos().y() + m_scrollStartRect.bottom() - m_scrollStartPosY < m_backgroundRect.bottom()) {
+            if (me->pos().y() - m_scrollStartPosY + m_scrollStartRect.y() > m_backgroundRect.y() + 2 &&
+                me->pos().y() + m_scrollStartRect.bottom() - m_scrollStartPosY < m_backgroundRect.bottom() - 2) {
                QPoint pos(m_backgroundRect.x() + m_backgroundRect.width() - 16, me->pos().y() - m_scrollStartPosY + m_scrollStartRect.y());
                m_scrollRect = QRect(pos, QSize(15, 39));
             }
@@ -638,7 +638,7 @@ void SplitScreenEffect::slotWindowFinishUserMovedResized(EffectWindow *w)
 
     createBackgroundFill(m_screen, true, true);
     m_backgroundRect = getPreviewWindowsGeometry();
-    m_scrollRect = QRect(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_backgroundRect.y(), 15, 39);
+    m_scrollRect = QRect(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_backgroundRect.y() + 2, 15, 39);
     m_scrollStartRect = m_scrollRect;
     preSetActive(w);
     m_scrollMoveStart = m_previewRect.y();
@@ -668,7 +668,7 @@ void SplitScreenEffect::slotShowPreviewAlone(EffectWindow *w)
 
     createBackgroundFill(m_screen, false);
     m_backgroundRect = getPreviewWindowsGeometry();
-    m_scrollRect = QRect(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_backgroundRect.y(), 15, 39);
+    m_scrollRect = QRect(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_backgroundRect.y() + 2, 15, 39);
     m_scrollStartRect = m_scrollRect;
     preSetActive(w);
     m_scrollMoveStart = m_previewRect.y();
@@ -937,7 +937,7 @@ bool SplitScreenEffect::reLayout()
     m_backgroundRect = getPreviewWindowsGeometry();
     calculateWindowTransformations(winList, wmm);
     m_motionManagers.append(wmm);
-    m_scrollRect = QRect(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_backgroundRect.y(), 15, 39);
+    m_scrollRect = QRect(m_backgroundRect.x() + m_backgroundRect.width() - 16, m_backgroundRect.y() + 2, 15, 39);
     m_scrollStartRect = m_scrollRect;
     m_scrollMoveStart = m_previewRect.y();
     return true;
@@ -1190,6 +1190,8 @@ void SplitScreenEffect::calculateWindowTransformationsClosest(EffectWindowList w
     }
     m_previewRect = m_backgroundRect;
     m_previewRect.setHeight(totalh);
+
+    m_scrollStep = (float)(100 * (m_backgroundRect.height() - 4)) / (float)(totalh - m_backgroundRect.height());
 }
 
 void SplitScreenEffect::createBackgroundFill(QString screen, bool isRecalculate, bool isUseTmp)

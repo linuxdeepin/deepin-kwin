@@ -152,6 +152,7 @@ private:
     int                 m_scrollMoveDistance = 0;
     int                 m_scrollMoveStart = 0;
     int                 m_scrollStatus = 0;     // 1 hover; 2 press;
+    float                 m_scrollStep = 0;
 
     QString             m_screen;
 
