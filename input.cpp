@@ -829,7 +829,7 @@ public:
     }
     bool keyEvent(QKeyEvent *event) override {
         if (event->type() == QEvent::KeyPress) {
-            if (qApp->arguments().contains("/etc/deepin/greeters.d/lightdm-deepin-greeter") && ismodifierShortcuts(event)) {
+            if (qApp->arguments().contains("/etc/deepin/greeters.d/lightdm-deepin-greeter")) {
                 return false;
             }
             if (workspace() && workspace()->isKwinDebug()) {
