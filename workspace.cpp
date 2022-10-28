@@ -1420,6 +1420,15 @@ void Workspace::setShowingDesktop(bool showing)
                     }
                 }
             }
+            if(last_keepAbove_clients.contains(c) && showing == false) {
+                c->setKeepAbove(true);
+                last_keepAbove_clients.removeOne(c);
+            }
+
+            if (!c->isDock() && c->keepAbove() && showing == true) {
+                last_keepAbove_clients.append(c);
+                c->setKeepAbove(false);
+            }
         }
     }
     } // ~StackingUpdatesBlocker
