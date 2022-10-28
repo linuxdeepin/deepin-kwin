@@ -747,6 +747,7 @@ private:
 
     ShortcutDialog* client_keys_dialog;
     AbstractClient* client_keys_client;
+    QList<AbstractClient*> last_keepAbove_clients;
     bool global_shortcuts_disabled_for_client;
     bool global_shortcuts_disabled_by_user;
     bool hot_keys_disabled_for_client;
