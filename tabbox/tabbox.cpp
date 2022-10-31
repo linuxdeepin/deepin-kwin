@@ -1143,6 +1143,13 @@ void TabBox::navigatingThroughWindows(bool forward, const QKeySequence &shortcut
             KDEOneStepThroughWindows(forward, mode);
         }
     }
+
+    //stop move resize when active tabbox
+    for (AbstractClient* current : currentClientList()) {
+        if (current->isMove() || current->isResize()) {
+            current->endMoveResize();
+        }
+    }
 }
 
 void TabBox::slotWalkThroughWindows()
