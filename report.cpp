@@ -52,8 +52,16 @@ void EventLog::init()
 
 void EventLog::writeEventLog(TriggerType type, const std::string& mode, const std::string& application)
 {
+    if (!m_handle) {
+        if (QFileInfo::exists(LIB_CACULATE_PATH)) {
+            m_handle = dlopen(LIB_CACULATE_PATH, RTLD_LAZY);
+        }
+        if (!m_handle) {
+            return;
+        }
+    }
     *(void **) (&m_writeFunc) = dlsym(m_handle, "WriteEventLog");
-    if (!m_handle || !m_writeFunc) {
+    if (!m_writeFunc) {
         return;
     }
 
