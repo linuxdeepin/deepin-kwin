@@ -60,6 +60,7 @@ public Q_SLOTS: // METHODS
 
     void setTouchDeviceToScreenId(const QString &touchDeviceSysName, int screenId);
     QString getTouchDeviceToScreenInfo();
+    bool showingDesktop();
 
     QVariantMap queryWindowInfo();
     QVariantMap getWindowInfo(const QString &uuid);

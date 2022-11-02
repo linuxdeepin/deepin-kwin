@@ -160,6 +160,11 @@ int DBusInterface::currentDesktop()
     return VirtualDesktopManager::self()->current();
 }
 
+bool DBusInterface::showingDesktop()
+{
+    return workspace()->showingDesktop();
+}
+
 bool DBusInterface::setCurrentDesktop(int desktop)
 {
     return VirtualDesktopManager::self()->setCurrent(desktop);
