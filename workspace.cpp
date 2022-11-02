@@ -1450,10 +1450,6 @@ void Workspace::setShowingDesktop(bool showing)
         uint desktop = VirtualDesktopManager::self()->current();
         workspace()->searchSplitScreenClient(desktop);
     }
-    if (!waylandServer()) {
-        QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
-        wm.asyncCall("SetShowDesktop", showing);
-    }
 }
 
 void Workspace::setPreviewClientList(const QList<AbstractClient*> &list)

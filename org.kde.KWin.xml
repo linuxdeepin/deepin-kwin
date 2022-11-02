@@ -86,5 +86,8 @@
     <method name="getTouchDeviceToScreenInfo">
         <arg type="s" direction="out"/>
     </method>
+    <method name="showingDesktop">
+        <arg type="b" direction="out"/>
+    </method>
   </interface>
 </node>
