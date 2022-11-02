@@ -23,6 +23,7 @@
 #define SCISSORWINDOW_H
 
 #include <deepin_kwineffects.h>
+#include <map>
 
 namespace KWin { class GLTexture; }
 
@@ -71,7 +72,9 @@ private:
     QSize m_cornerSize;
 
     GLTexture *m_texMask[NCorners];
-    GLShader *m_shader, *m_shader1, *m_shader2;
+    //GLTexture *m_maskTexture;
+    GLShader *m_shader, *m_shader1, *m_shader2, *m_shader3;
+    std::map<int, GLTexture*> m_texMaskMap;
 };
 
 }

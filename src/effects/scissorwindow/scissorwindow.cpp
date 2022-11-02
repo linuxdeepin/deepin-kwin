@@ -194,6 +194,70 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
     }
 
     {
+        QByteArray source;
+        QTextStream stream(&source);
+        GLPlatform *const gl = GLPlatform::instance();
+        QByteArray varying, output, textureLookup;
+        if (!gl->isGLES())
+        {
+            const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
+            if (glsl_140)
+                stream << "#version 140\n";
+            varying = glsl_140 ? QByteArrayLiteral("in") : QByteArrayLiteral("varying");
+            textureLookup = glsl_140 ? QByteArrayLiteral("texture") : QByteArrayLiteral("texture2D");
+            output = glsl_140 ? QByteArrayLiteral("fragColor") : QByteArrayLiteral("gl_FragColor");
+        }
+        else
+        {
+            const bool glsl_es_300 = GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
+            if (glsl_es_300)
+                stream << "#version 300 es\n";
+            stream << "precision highp float;\n";
+            varying = glsl_es_300 ? QByteArrayLiteral("in") : QByteArrayLiteral("varying");
+            textureLookup = glsl_es_300 ? QByteArrayLiteral("texture") : QByteArrayLiteral("texture2D");
+            output = glsl_es_300 ? QByteArrayLiteral("fragColor") : QByteArrayLiteral("gl_FragColor");
+        }
+        stream << "uniform sampler2D sampler, msk1;\n";
+        stream << "uniform sampler2D modulation;\n";
+        stream << "uniform float saturation;\n";
+        stream << "uniform vec2 k;\n";
+        stream << "uniform int typ1, typ2;\n";
+        stream << varying << " vec2 texcoord0;\n";
+        if (output != QByteArrayLiteral("gl_FragColor"))
+            stream << "\nout vec4 " << output << ";\n";
+        stream << "void main(){ \n";
+        stream << "  vec4 c = " << textureLookup << "(sampler, texcoord0);\n";
+        stream << "  if (typ1 == 1) {\n";
+        stream << "    if (typ2 == 1) {\n";
+        stream << "      vec2 tc = texcoord0 * k;\n";
+        stream << "      vec4 m0 = " << textureLookup << "(msk1, tc);\n";
+        stream << "      tc = texcoord0 * k - vec2(0, k.t - 1.0);\n";
+        stream << "      tc.t = 1.0 - tc.t;\n";
+        stream << "      vec4 m1 = " << textureLookup << "(msk1, tc);\n";
+        stream << "      tc = texcoord0 * k - vec2(k.s - 1.0, 0);\n";
+        stream << "      tc.s = 1.0 - tc.s;\n";
+        stream << "      vec4 m2 = " << textureLookup << "(msk1, tc);\n";
+        stream << "      tc = 1.0 - ((texcoord0 - 1.0) * k + 1.0);\n";
+        stream << "      vec4 m3 = " << textureLookup << "(msk1, tc);\n";
+        stream << "      c *= (m0.a * m1.a * m2.a * m3.a);\n";
+        stream << "    } else {\n";
+        stream << "      if (texcoord0.t > 0.5) {\n";
+        stream << "          vec2 tc = texcoord0 * k - vec2(0, k.t - 1.0);\n";
+        stream << "          tc.t = 1.0 - tc.t;\n";
+        stream << "          vec4 m1 = " << textureLookup << "(msk1, tc);\n";
+        stream << "          tc = 1.0 - ((texcoord0 - 1.0) * k + 1.0);\n";
+        stream << "          vec4 m3 = " << textureLookup << "(msk1, tc);\n";
+        stream << "          c *= (m1.a * m3.a);\n";
+        stream << "      }\n";
+        stream << "    }\n";
+        stream << "  }\n";
+        stream << "  " << output << " = c;\n";
+        stream << "}\n";
+        stream.flush();
+        m_shader3 = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
+    }
+
+    {
         for (int i = 0; i < KWindowSystem::windows().count(); ++i) {
             if (EffectWindow *win = effects->findWindow(KWindowSystem::windows().at(i)))
                 windowAdded(win);
@@ -206,6 +270,11 @@ ScissorWindow::~ScissorWindow() {
     if (m_shader) delete m_shader;
     if (m_shader1) delete m_shader1;
     if (m_shader2) delete m_shader2;
+    if (m_shader3) delete m_shader3;
+    for (auto itr = m_texMaskMap.begin(); itr != m_texMaskMap.end(); itr++) {
+        delete itr->second;
+    }
+    m_texMaskMap.clear();
     for (int i = 0; i < NCorners; ++i) {
         if (m_texMask[i]) delete m_texMask[i];
     }
@@ -335,7 +404,7 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
             effects->paintWindow(w, mask, region, data);
             return;
         }
-        int cornerRadius = 0.0f;
+        float cornerRadius = 0.0f;
         const QVariant valueRadius = w->data(WindowRadiusRole);
         if (valueRadius.isValid()) {
             cornerRadius = w->data(WindowRadiusRole).toPointF().x();
@@ -356,81 +425,46 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
             effects->paintWindow(w, mask, region, data);
             return;
         }
-        QImage img(w->size(), QImage::Format_RGBA8888);
-        img.fill(QColor(0,0,0,0));
-        QPainter painter(&img);
-        painter.setRenderHint(QPainter::Antialiasing);
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QColor(0,0,0,255));
-        painter.drawRoundedRect(QRectF(w->rect()), cornerRadius*1.0+0.3, cornerRadius*1.0+0.3);
-        painter.end();
-        QByteArray source;
+
+        if (0 == m_texMaskMap.count(cornerRadius))
         {
-            QTextStream stream(&source);
-            GLPlatform * const gl = GLPlatform::instance();
-            QByteArray varying, output, textureLookup;
-            if (!gl->isGLES()) {
-                const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
-                if (glsl_140)
-                    stream << "#version 140\n";
-                varying       = glsl_140 ? QByteArrayLiteral("in")         : QByteArrayLiteral("varying");
-                textureLookup = glsl_140 ? QByteArrayLiteral("texture")    : QByteArrayLiteral("texture2D");
-                output        = glsl_140 ? QByteArrayLiteral("fragColor")  : QByteArrayLiteral("gl_FragColor");
-            } else {
-                const bool glsl_es_300 = GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
-                if (glsl_es_300)
-                    stream << "#version 300 es\n";
-                stream << "precision highp float;\n";
-                varying       = glsl_es_300 ? QByteArrayLiteral("in")         : QByteArrayLiteral("varying");
-                textureLookup = glsl_es_300 ? QByteArrayLiteral("texture")    : QByteArrayLiteral("texture2D");
-                output        = glsl_es_300 ? QByteArrayLiteral("fragColor")  : QByteArrayLiteral("gl_FragColor");
-            }
-            stream << "uniform sampler2D sampler, msk1;\n";
-            stream << "uniform sampler2D modulation;\n";
-            stream << "uniform float saturation;\n";
-            stream << "uniform int typ1, typ2;\n";
-            stream <<  varying << " vec2 texcoord0;\n";
-            if (output != QByteArrayLiteral("gl_FragColor"))
-                stream << "\nout vec4 " << output << ";\n";
-            stream << "void main(){ \n";
-            stream << "  vec4 c = " << textureLookup << "(sampler, texcoord0);\n";
-            stream << "  if (typ1 == 1) {\n";
-            stream << "    if (typ2 == 1) {\n";
-            stream << "      vec4 m = " << textureLookup << "(msk1, texcoord0);\n";
-            stream << "      c *= m.a;\n";
-            stream << "    } else {\n";
-            stream << "      if (texcoord0.t > 0.5) {\n";
-            stream << "        vec4 m = " << textureLookup << "(msk1, texcoord0);\n";
-            stream << "        c *= m.a;\n";
-            stream << "      }\n";
-            stream << "    }\n";
-            stream << "  }\n";
-            stream << "  " << output << " = c;\n";
-            stream << "}\n";
-            stream.flush();
+            QImage img(QSize(36,36), QImage::Format_RGBA8888);
+            img.fill(QColor(0,0,0,0));
+            QPainter painter(&img);
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QColor(255,255,255,255));
+            painter.setRenderHint(QPainter::Antialiasing);
+            painter.drawEllipse(0,0,36,36);
+            painter.end();
+
+            m_texMaskMap[cornerRadius] = new GLTexture(img.copy(0, 0, 18, 18));
+            m_texMaskMap[cornerRadius]->setFilter(GL_LINEAR);
+            m_texMaskMap[cornerRadius]->setWrapMode(GL_CLAMP_TO_EDGE);
         }
-        auto shader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
-        ShaderManager::instance()->pushShader(shader);
-        shader->setUniform("sampler", 0);
-        shader->setUniform("msk1", 1);
+
+        ShaderManager::instance()->pushShader(m_shader3);
+        m_shader3->setUniform("typ1", 1);
+        m_shader3->setUniform("sampler", 0);
+        m_shader3->setUniform("msk1", 1);
+        m_shader3->setUniform("k", QVector2D(w->width() / cornerRadius, w->height() / cornerRadius));
         if (w->hasDecoration()) {
-            shader->setUniform("typ2", 0);
+            m_shader3->setUniform("typ2", 0);
         } else {
-            shader->setUniform("typ2", 1);
+            m_shader3->setUniform("typ2", 1);
         }
         auto old_shader = data.shader;
-        data.shader = shader;
-        GLTexture maskTexture(img);
-        maskTexture.setFilter(GL_LINEAR);
-        maskTexture.setWrapMode(GL_CLAMP_TO_EDGE);
-        glActiveTexture(GL_TEXTURE1); maskTexture.bind();
+        data.shader = m_shader3;
+
+        glActiveTexture(GL_TEXTURE1);
+        m_texMaskMap[cornerRadius]->bind();
         glActiveTexture(GL_TEXTURE0);
         effects->paintWindow(w, mask, region, data);
         ShaderManager::instance()->popShader();
         data.shader = old_shader;
-        delete shader;
-        glActiveTexture(GL_TEXTURE1); maskTexture.unbind();
+        glActiveTexture(GL_TEXTURE1);
+        m_texMaskMap[cornerRadius]->unbind();
         glActiveTexture(GL_TEXTURE0);
+        return;
     }
 }
 
