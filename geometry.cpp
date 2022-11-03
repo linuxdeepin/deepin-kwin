@@ -1409,7 +1409,11 @@ void AbstractClient::checkWorkspacePosition(QRect oldGeometry, int oldDesktop, Q
             }
         }
         if (screenMap.count() > 0) {
-            setGeometry(screenMap.first()->geometry().x(), screenMap.first()->geometry().y(), geometry().width(), geometry().height());
+            if(newGeom != geometry()) {
+                setGeometry(screenMap.first()->geometry().x(), screenMap.first()->geometry().y(), newGeom.width(), newGeom.height());
+            } else {
+                setGeometry(screenMap.first()->geometry().x(), screenMap.first()->geometry().y(), geometry().width(), geometry().height());
+            }
         }
     }
 }
