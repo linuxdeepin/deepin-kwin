@@ -168,7 +168,7 @@ MultiViewBackgroundManager::~MultiViewBackgroundManager()
 
 static QString toRealPath(const QString &path)
 {
-    QString res = path;
+    QString res = QUrl::fromPercentEncoding(path.toUtf8());
     if (res.startsWith("file:///")) {
         res.remove("file://");
     }
