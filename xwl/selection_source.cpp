@@ -50,6 +50,17 @@ void WlSource::setDataSourceIface(KWayland::Server::AbstractDataSource *dsi)
     m_offerCon = connect(dsi,
                          &KWayland::Server::DataSourceInterface::mimeTypeOffered,
                          this, &WlSource::receiveOffer);
+    connect(dsi, &KWayland::Server::AbstractDataSource::aboutToBeDestroyed,
+                         this, [this](){
+        qCDebug(KWIN_XWL) << "WlSource::setDataSourceIface" << "aboutToBeDestroyed";
+        m_dsi = nullptr;
+    });
+    connect(waylandServer()->dataDeviceManager(), &KWayland::Server::DataDeviceManagerInterface::dataSourceDestroyed, this,
+        [this]() {
+            qCDebug(KWIN_XWL) << "WlSource::setDataSourceIface" << "dataSourceDestroyed";
+            m_dsi = nullptr;
+        }
+    );
     m_dsi = dsi;
 }
 
@@ -121,6 +132,9 @@ bool WlSource::checkStartTransfer(xcb_selection_request_event_t *event)
     if (!m_dsi) {
         return false;
     }
+    if (selection() == nullptr || selection()->wlSource() == nullptr) {
+        return false;
+    }
 
     const auto targets = Selection::atomToMimeTypes(event->target);
     if (targets.isEmpty()) {
@@ -137,9 +151,8 @@ bool WlSource::checkStartTransfer(xcb_selection_request_event_t *event)
         return firstTarget == b;
     };
     // check supported mimes
-    const auto offers = m_dsi->mimeTypes();
-    const auto mimeIt = std::find_if(offers.begin(), offers.end(), cmp);
-    if (mimeIt == offers.end()) {
+    const auto mimeIt = std::find_if(m_offers.begin(), m_offers.end(), cmp);
+    if (mimeIt == m_offers.end()) {
         // Requested Mime not supported. Not sending selection.
         return false;
     }
@@ -150,6 +163,11 @@ bool WlSource::checkStartTransfer(xcb_selection_request_event_t *event)
         return false;
     }
 
+    //check again
+    if (!m_dsi) {
+        return false;
+    }
+    qCDebug(KWIN_XWL) << "WlSource::checkStartTransfer" << "m_dsi->requestData";
     m_dsi->requestData(*mimeIt, p[1]);
     waylandServer()->dispatch();
     
