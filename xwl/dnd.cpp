@@ -181,7 +181,6 @@ void Dnd::startDrag()
         return;
     }
     // there can only ever be one Wl native drag at the same time
-    Q_ASSERT(!m_currentDrag);
 
     // new Wl to X drag, init drag and Wl source
     m_currentDrag = new WlToXDrag();
