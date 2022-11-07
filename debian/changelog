@@ -1,3 +1,13 @@
+deepin-kwin (4:5.24.3-deepin.1.8) unstable; urgency=medium
+
+  * Bug fix:
+    + fix: support set split mode when request split window use splitmenu
+    + fix: optimize the efficiency about scroll
+    + 161753 fix: optimize the efficiency about scroll
+    + 157787 fix: modify about the dock can't show fillet
+
+ -- Lei Su <sulei@uniontech.com>  Mon, 07 Nov 2022 16:55:52 +0800
+
 deepin-kwin (4:5.24.3-deepin.1.7) unstable; urgency=medium
 
   * Bug fix:
