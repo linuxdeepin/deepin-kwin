@@ -1791,6 +1791,7 @@ void AbstractClient::endMoveResize()
         setMoveResizePointerMode(mousePosition());
     }
     updateCursor();
+    setSplitable(this->checkClientAllowToTile());
 }
 
 void AbstractClient::setWindowForhibitMove(bool forhibit)

@@ -820,8 +820,10 @@ void Workspace::quickTileWindow(QuickTileMode mode)
     if (!active_client->checkClientAllowToTile()) {
         return;
     }
-
     active_client->setQuickTileMode(mode, true);
+
+    active_client->handlequickTileModeChanged();
+    workspace()->updateScreenSplitApp(active_client);
 }
 
 int Workspace::packPositionLeft(const AbstractClient* cl, int oldx, bool left_edge) const
