@@ -374,6 +374,9 @@ bool DrmGpu::checkCrtcAssignment(QVector<DrmConnector*> connectors, QVector<DrmC
 
 bool DrmGpu::testPendingConfiguration(TestMode mode)
 {
+    if (!m_atomicModeSetting) {
+        waitIdle();
+    }
     QVector<DrmConnector *> connectors;
     for (const auto &conn : qAsConst(m_connectors)) {
         if (conn->isConnected()) {
