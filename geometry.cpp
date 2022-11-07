@@ -1670,6 +1670,8 @@ void Client::getWmNormalHints()
     m_geometryHints.fetch();
     m_geometryHints.read();
 
+    workspace()->setWinSplitState(this, this->checkClientAllowToTile());
+
     if (!hadFixedAspect && m_geometryHints.hasAspect()) {
         // align to eventual new contraints
         maximize(max_mode);
