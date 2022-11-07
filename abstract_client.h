@@ -840,6 +840,8 @@ public:
         m_spltProperty = isSplitProperty;
     }
 
+    virtual void setSplitable(bool splitable) { }
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 

@@ -916,16 +916,25 @@ void ShellClient::closeWindow()
 
 AbstractClient *ShellClient::findModal(bool allow_itself)
 {
-    for (auto it = transients().constBegin(); it != transients().constEnd(); ++it) {
-        if (AbstractClient* ret = (*it)->findModal(true)) {
-            return ret;
-        }
+    AbstractClient* root = this;
+    auto p = transientFor();
+    while (p) {
+        root = p;
+        p = p->transientFor();
     }
 
-    if (isModal() && allow_itself) {
-        return this;
+    QStack<AbstractClient*> stack;
+    stack.push(root);
+    while (!stack.empty()) {
+        auto *cur = stack.top();
+        stack.pop();
+        if (cur->isModal())
+            return cur;
+        for (auto it = cur->transients().constBegin(); it != cur->transients().constEnd(); ++it)
+            stack.push(*it);
     }
-    return NULL;
+
+    return nullptr;
 }
 
 bool ShellClient::isCloseable() const
@@ -1646,8 +1655,6 @@ void ShellClient::installDDEShellSurface(DDEShellSurfaceInterface *shellSurface)
     );
 
     connect(this, &ShellClient::geometryChanged, this, &ShellClient::updateClientOutputs);
-
-    connect(this, &ShellClient::moveResizedChanged, this, [this] { this->setSplitable(this->checkClientAllowToTile()); });
 
     connect(this, &AbstractClient::activeChanged, this,
             [this] {
