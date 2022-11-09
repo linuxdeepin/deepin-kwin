@@ -15,6 +15,7 @@
 #include "screens.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "useractions.h"
 #include "virtualdesktops.h"
 #include "screens.h"
 #include "decorations/decorationbridge.h"
@@ -948,6 +949,9 @@ bool ShellClient::isFullScreen() const
 
 bool ShellClient::isMaximizable() const
 {
+    if (workspace()->userActionsMenu()->isShown()) {
+        return false;
+    }
     if (!isResizable()) {
         return false;
     }
