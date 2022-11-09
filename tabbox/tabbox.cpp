@@ -471,7 +471,7 @@ TabBox::TabBox(QObject *parent)
     , m_noModifierGrab(false)
     , m_forcedGlobalMouseGrab(false)
     , m_ready(false)
-    , m_delaySwitchInterval(300)
+    , m_delaySwitchInterval(150)
     , m_delaySwitch(QDateTime::currentDateTime())
 {
     m_isShown = false;
