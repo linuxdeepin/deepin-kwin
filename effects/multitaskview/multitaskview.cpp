@@ -2376,10 +2376,6 @@ void MultitaskViewEffect::setActive(bool active)
 
     emit m_dbusThread->activeStateChanged(active);
 
-    if (!QX11Info::isPlatformX11()) {
-        effectsEx->changeBlurState(active);
-    }
-
     if(!active) {
         m_popStatus = false;
         m_popTimeLine.reset();
