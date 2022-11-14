@@ -565,6 +565,7 @@ private:
     QRect m_backgroundRect;
     QRect m_dockRect;
     QRect m_windowMoveGeometry;
+    QRect m_allFullArea;
 
     int m_screen = -1;
     int m_aciveMoveDesktop = -1;

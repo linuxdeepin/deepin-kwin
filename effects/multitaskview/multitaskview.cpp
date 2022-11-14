@@ -64,6 +64,9 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
 #define WORK_SPACING_SCALE  (float)(40.0 / 1920.0)
 #define SPACING_H_SCALE     (float)(20.0 / 1080.0)
 #define SPACING_W_SCALE     (float)(20.0 / 1920.0)
+#define ADDBTN_W_SCALE      (float)(104.0 / 1920.0)
+#define ADDBTN_H_SCALE      (float)(56.0 / 1080.0)
+#define ADDBTN_SIZE_SCALE   (float)(64.0 / 1920.0)
 
 #define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
 #define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
@@ -84,8 +87,6 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
 #define POPUP_TIME_SCALE 15.0f
 #define EFFECT_DURATION_DEFAULT 400
 #define EFFECT_DURATION_DEFAULTEX 500
-#define SCISSOR_HOFFU 200
-#define SCISSOR_HOFFD 400
 
 const char notification_tips[] = "dde-osd dde-osd";
 const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
@@ -854,12 +855,11 @@ void MultitaskViewEffect::paintScreen(int mask, QRegion region, ScreenPaintData 
                 auto area = lwkobj->getfullArea();
                 if (effects->waylandDisplay()) {
                     if (i != effectsEx->getCurrentPaintingScreen()) {
-                        if (area.x() > 0)
-                            continue;
+                        continue;
                     }
                 } else {
                     glEnable(GL_SCISSOR_TEST);
-                    glScissor(area.x(), area.y() - SCISSOR_HOFFU, area.width(), area.height() + SCISSOR_HOFFD);
+                    glScissor(area.x(), 0, area.width(), m_allFullArea.height());
                 }
 
                 if (effects->numberOfDesktops() > 2) {
@@ -2912,7 +2912,10 @@ void MultitaskViewEffect::initWorkspaceBackground()
             m_tipFrames[it.value().screen].push_back(frame);
 
             MultiViewWorkspace *addButton = new MultiViewWorkspace(true);
-            QRect buttonRect(it.value().rect.x() + it.value().rect.width() - 104, it.value().rect.y() + 56, 64, 64);
+            QRect buttonRect(it.value().rect.x() + it.value().rect.width() - it.value().rect.width() * ADDBTN_W_SCALE,
+                             it.value().rect.y() + it.value().rect.height() * ADDBTN_H_SCALE,
+                             it.value().rect.width() * ADDBTN_SIZE_SCALE,
+                             it.value().rect.width() * ADDBTN_SIZE_SCALE);
             QString buttonImage = QLatin1String(add_workspace_png);
             addButton->setArea(it.value().rect, it.value().screenrect);
             addButton->setMaxHeight(m_maxHeight);
@@ -2974,6 +2977,7 @@ void MultitaskViewEffect::updateWorkspacePos(int removedesktop)
 void MultitaskViewEffect::getScreenInfo()
 {
     m_screenInfoList.clear();
+    m_allFullArea = effects->clientArea(FullArea, 0, effects->currentDesktop());
     for (int i = 0; i < getNumScreens(); i++) {
         QRect rect = effects->clientArea(FullScreenArea, i, effects->currentDesktop());
         QRect maxRect = effects->clientArea(MaximizeArea, i, effects->currentDesktop());
@@ -3099,7 +3103,7 @@ void MultitaskViewEffect::addNewDesktop()
                     m_workspaceSlidingInfo[list[j]].first = rect.x();
                     if (j == list.size() - 1 && m_previewFrame) {
                         //m_workspaceSlidingInfo[list[j]].first = m_previewFrame->geometry().x();
-                        m_workspaceSlidingInfo[list[j]].first = m_previewFramePosX;                    
+                        m_workspaceSlidingInfo[list[j]].first = m_previewFramePosX;
                     }
                 }
             }
@@ -3742,7 +3746,7 @@ void MultitaskViewEffect::showWorkspacePreview(int screen, QPoint pos, bool isCl
             }
         } else {
             glEnable(GL_SCISSOR_TEST);
-            glScissor(rect.x(), m_scale[m_screen].fullArea.height() - rect.y() - rect.height(), rect.width() / 2 + 20, rect.height());
+            glScissor(rect.x(), m_allFullArea.height() - rect.y() - rect.height(), rect.width() / 2 + 20, rect.height());
         }
 
         ShaderBinder bind(m_previewShader);
