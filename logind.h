@@ -53,6 +53,7 @@ Q_SIGNALS:
     void hasSessionControlChanged(bool);
     void sessionActiveChanged(bool);
     void virtualTerminalChanged(int);
+    void switchTtyChanged();
 
     void signalPrepareForSleep(bool isSleepBefore);
 

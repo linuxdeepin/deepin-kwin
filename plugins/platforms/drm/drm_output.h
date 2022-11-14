@@ -175,6 +175,8 @@ private:
     bool m_dpmsAtomicOffPending = false;
     bool m_modesetRequested = true;
 
+    bool m_isSwitchTty = false;
+
     struct {
         Qt::ScreenOrientation orientation;
         drmModeModeInfo mode;
