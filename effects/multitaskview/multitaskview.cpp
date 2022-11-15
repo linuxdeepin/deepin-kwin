@@ -3097,13 +3097,14 @@ void MultitaskViewEffect::addNewDesktop()
         m_workspaceSlidingInfo.clear();
         {
             for (int i = 0; i < m_workspaceBackgrounds.size(); i++) {
+                QRect maxRect = effects->clientArea(MaximizeArea, i, 1);
+                QPoint pos(maxRect.x() + maxRect.width() - 20 - m_scale[i].workspaceWidth / 2, maxRect.y() + m_scale[i].spacingHeight);
                 QList<MultiViewWorkspace *> list = m_workspaceBackgrounds[i];
                 for (int j = 0; j < list.size(); j++) {
                     QRect rect = list[j]->getRect();
                     m_workspaceSlidingInfo[list[j]].first = rect.x();
                     if (j == list.size() - 1 && m_previewFrame) {
-                        //m_workspaceSlidingInfo[list[j]].first = m_previewFrame->geometry().x();
-                        m_workspaceSlidingInfo[list[j]].first = m_previewFramePosX;
+                        m_workspaceSlidingInfo[list[j]].first = pos.x();
                     }
                 }
             }
