@@ -431,7 +431,6 @@ void PresentWindowsEffect::paintWindow(EffectWindow *w, int mask, QRegion region
         data.multiplyBrightness(interpolate(0.40, 1.0, winData->highlight));
 
         if (w->windowClass().contains(WATERMARK_CLASS_NAME)) {
-            effects->setElevatedWindow(w, true);
             effects->paintWindow(w, mask, region, data);
             return;
         }
@@ -1916,7 +1915,7 @@ void PresentWindowsEffect::setHighlightedWindow(EffectWindow *w)
     }
     m_highlightedWindow = w;
     if (m_highlightedWindow) {
-        effects->setElevatedWindow(m_highlightedWindow, true);
+        effects->setElevatedWindow(m_highlightedWindow, false);
         m_highlightedWindow->addRepaintFull(); // Trigger the first repaint
     }
 
