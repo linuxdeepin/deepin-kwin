@@ -1174,6 +1174,8 @@ bool Client::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, in
 
     if ((state & buttonMask) == 0) {
         endMoveResize();
+        workspace()->setRequestToMovingClient(nullptr);
+        workspace()->setTouchToMovingClientStatus(false);
     }
     return true;
 }
