@@ -389,17 +389,20 @@ void Workspace::updateClientArea(bool force)
         });
 
         oldrestrictedmovearea.clear(); // reset, no longer valid or needed
-
-        for (int i = 0; i < nscreens; i++) {
-            if (compositing() && AbstractClient::splitManage.contains(i)) {
-                AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
+        if (effects && !static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("multitaskview")) {
+            for (int i = 0; i < nscreens; i++) {
+                if (compositing() && AbstractClient::splitManage.contains(i)) {
+                    AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
+                }
             }
         }
     }
-    for (int i=0; i < nscreens; i++) {
-         if (compositing() && AbstractClient::splitManage.contains(i)) {
-             AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
-         }
+    if (effects && !static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("multitaskview")) {
+        for (int i=0; i < nscreens; i++) {
+                if (compositing() && AbstractClient::splitManage.contains(i)) {
+                    AbstractClient::splitManage.find(i).value()->handleDockChangePosition();
+                }
+        }
     }
 }
 
