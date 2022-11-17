@@ -21,6 +21,10 @@
       <arg type="b" direction="out"/>
       <arg name="name" type="s" direction="in"/>
     </method>
+    <method name="isEffectActived">
+      <arg type="b" direction="out"/>
+      <arg name="name" type="s" direction="in"/>
+    </method>
     <method name="isEffectSupported">
       <arg type="b" direction="out"/>
       <arg name="name" type="s" direction="in"/>
