@@ -2277,7 +2277,7 @@ void MultitaskViewEffect::toggle()
         }
     }
 
-    if(!m_activated) {
+    if (!m_activated && m_delayDbus) {
         QObject *obj = sender();
         if (obj && obj->objectName() == "ShowMultitasking") {
             KWin::Report::EventLog::instance()->writeEventLog(KWin::Report::TriggerMutitaskview, "Shortcut key");
