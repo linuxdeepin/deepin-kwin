@@ -44,6 +44,7 @@
 #include <xf86drm.h>
 #include <xf86drmMode.h>
 #include <libdrm/drm_mode.h>
+#include <math.h>
 
 #ifndef DRM_CAP_CURSOR_WIDTH
 #define DRM_CAP_CURSOR_WIDTH 0x8
@@ -624,7 +625,7 @@ void DrmBackend::installDefaultDisplay()
     dmode.id = 0;
     dmode.size = QSize(mode.hdisplay, mode.vdisplay);
     dmode.flags = KWayland::Server::OutputDeviceInterface::ModeFlag::Current;
-    dmode.refreshRate = mode.vrefresh * 1000LL;
+    dmode.refreshRate = round(mode.vrefresh * 1000LL);
     modes << dmode;
     output->initWaylandOutputDevice(name, model, manufacturer, uuid, modes);
 
