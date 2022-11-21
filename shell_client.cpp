@@ -193,6 +193,9 @@ void ShellClient::initSurface(T *shellSurface)
             Qt::QueuedConnection);
     connect(screens(), &Screens::outputResourceChanged, this, &ShellClient::updateClientOutputs,
             Qt::QueuedConnection);
+    connect(this, &ShellClient::geometryChanged, this, []{
+        workspace()->updateStackingOrder(true);
+    });
 
     if (!m_internal) {
         setupWindowRules(false);
