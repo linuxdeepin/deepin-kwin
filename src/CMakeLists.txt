@@ -8,11 +8,9 @@ add_library(KWinEffectsInterface STATIC ${effects_interface_SRCS})
 target_link_libraries(KWinEffectsInterface Qt::DBus)
 
 add_subdirectory(effects)
-add_subdirectory(scripts)
 add_subdirectory(tabbox)
 add_subdirectory(scripting)
 add_subdirectory(helpers)
-add_subdirectory(qml)
 
 add_subdirectory(libkwineffects)
 if (KWIN_BUILD_KCMS)
