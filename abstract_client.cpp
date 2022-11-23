@@ -68,20 +68,6 @@ AbstractClient::AbstractClient()
 
     connect(Decoration::DecorationBridge::self(), &QObject::destroyed, this, &AbstractClient::destroyDecoration);
 
-    // replace on-screen-display on size changes
-    connect(this, &AbstractClient::geometryShapeChanged, this,
-        [this] (Toplevel *c, const QRect &old) {
-            Q_UNUSED(c)
-            if (isOnScreenDisplay() && !geometry().isEmpty() && old.size() != geometry().size() && !isInitialPositionSet()) {
-                GeometryUpdatesBlocker blocker(this);
-                QRect area = workspace()->clientArea(PlacementArea, Screens::self()->current(), desktop());
-                Placement::self()->place(this, area);
-                setGeometryRestore(geometry());
-                emit workspace()->windowStateChanged();
-            }
-        }
-    );
-
     connect(this, &AbstractClient::paddingChanged, this, [this]() {
         m_visibleRectBeforeGeometryUpdate = visibleRect();
     });
