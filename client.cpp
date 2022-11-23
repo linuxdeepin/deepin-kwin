@@ -21,6 +21,7 @@
 #include "shadow.h"
 #include "workspace.h"
 #include "screenedge.h"
+#include "screens.h"
 #include "decorations/decorationbridge.h"
 #include "decorations/decoratedclient.h"
 #include <KDecoration2/Decoration>
@@ -185,6 +186,20 @@ Client::Client()
         });
 
     // SELI TODO: Initialize xsizehints??
+
+    // replace on-screen-display on size changes
+    connect(this, &AbstractClient::geometryShapeChanged, this,
+        [this] (Toplevel *c, const QRect &old) {
+            Q_UNUSED(c)
+            if (isOnScreenDisplay() && !geometry().isEmpty() && old.size() != geometry().size() && !isInitialPositionSet()) {
+                GeometryUpdatesBlocker blocker(this);
+                QRect area = workspace()->clientArea(PlacementArea, Screens::self()->current(), desktop());
+                Placement::self()->place(this, area);
+                setGeometryRestore(geometry());
+                emit workspace()->windowStateChanged();
+            }
+        }
+    );
 }
 
 /**
