@@ -18,7 +18,6 @@ usr/share/knotifications5/deepin-kwin.notifyrc
 usr/share/knsrcfiles/
 usr/share/kpackage/kcms/deepin-kcm_kwin*
 usr/share/kpackage/kcms/deepin-kcm_virtualkeyboard/
-usr/share/krunner/dbusplugins/deepin-kwin-runner-windows.desktop
 usr/share/kservices5/deepin-kcm_kwin_*.desktop
 usr/share/kservices5/deepin-kcm_kwinrules.desktop
 usr/share/kservices5/deepin-kcm_virtualkeyboard.desktop
