@@ -562,6 +562,12 @@ public:
     void setPosition(const QPoint& point) override;
     const QString& text() const override;
     void setText(const QString& text) override;
+    const bool& blur() const override {
+        return m_blur;
+    }
+    void setBlur(const bool& blur) override {
+        m_blur = blur;
+    }
     EffectFrameStyle style() const override {
         return m_style;
     };
@@ -629,6 +635,9 @@ private:
     GLShader* m_shader;
 
     Plasma::Theme *m_theme;
+
+    // Blur
+    bool m_blur = true;
 };
 
 inline
