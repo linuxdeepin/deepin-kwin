@@ -508,6 +508,7 @@ void PresentWindowsEffect::paintWindow(EffectWindow *w, int mask, QRegion region
                     const float a = 0.9 * data.opacity() * m_decalOpacity * 0.75;
                     data.shader->setUniform(GLShader::ModulationConstant, QVector4D(a, a, a, a));
                 }
+                winData->iconFrame->setBlur(false);
                 winData->iconFrame->render(region, 0.9 * data.opacity() * m_decalOpacity, 0.75);
             }
             if (m_showCaptions) {
@@ -518,6 +519,7 @@ void PresentWindowsEffect::paintWindow(EffectWindow *w, int mask, QRegion region
                     const float a = 0.9 * data.opacity() * m_decalOpacity * 0.75;
                     data.shader->setUniform(GLShader::ModulationConstant, QVector4D(a, a, a, a));
                 }
+                winData->textFrame->setBlur(false);
                 winData->textFrame->render(region, 0.9 * data.opacity() * m_decalOpacity, 0.75);
             }
         } else {

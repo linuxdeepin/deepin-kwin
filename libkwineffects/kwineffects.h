@@ -3348,6 +3348,12 @@ public:
     virtual const QSize& iconSize() const = 0;
 
     /**
+     * Set Blur.
+     */
+    virtual const bool& blur() const = 0;
+    virtual void setBlur(const bool& blur) = 0;
+
+    /**
      * Sets the geometry of a selection.
      * To remove the selection set a null rect.
      * @param selection The geometry of the selection in screen coordinates.
