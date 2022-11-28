@@ -11,7 +11,7 @@
         <file>themes/multiview_top.svg</file>
         <file>themes/multiview_delete.svg</file>
         <file>themes/multiview_top_active.svg</file>
-        <file>themes/workspace_delete.png</file>
+        <file>themes/workspace_delete.svg</file>
         <file>themes/add-light.png</file>
     </qresource>
 </RCC>
