@@ -95,7 +95,7 @@ const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/des
 const char defaultSecondBackgroundUri[] = "francesco-ungaro-1fzbUyzsHV8-unsplash";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/resources/themes/add-light.png";//":/resources/themes/add-light.svg";
-const char delete_workspace_png[] = ":/resources/themes/workspace_delete.png";
+const char delete_workspace_png[] = ":/resources/themes/workspace_delete.svg";
 
 namespace KWin
 {
@@ -780,6 +780,10 @@ MultitaskViewEffect::~MultitaskViewEffect()
     if (m_dragTipsFrame) {
         delete m_dragTipsFrame;
         m_dragTipsFrame = nullptr;
+    }
+    if (m_dragTipsFrameShadow) {
+        delete m_dragTipsFrameShadow;
+        m_dragTipsFrameShadow = nullptr;
     }
     if (m_dbusThread) {
         if (!m_dbusThread->isFinished()) {
@@ -1551,24 +1555,42 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(int screen)
     MultiViewWorkspace *wkobj = getWorkspaceObject(screen, m_aciveMoveDesktop - 1);
     if (wkobj) {
         QRect rect = wkobj->getRect();
-        if (!m_dragTipsFrame) {
-            m_dragTipsFrame = effects->effectFrame(EffectFrameUnstyled, false);
-            m_dragTipsFrame->setAlignment(Qt::AlignHCenter);
+        if (!m_dragTipsFrameShadow) {
+            m_dragTipsFrameShadow = effects->effectFrame(EffectFrameStyled, false);
+            m_dragTipsFrameShadow->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
             if (m_scalingFactor == 1)
-                m_dragTipsFrame->setSpacing(10);
-            m_dragTipsFrame->setGeometry(QRect(rect.x(), rect.y() + (rect.height() / 2) + 10, rect.width(), 30));
+                m_dragTipsFrameShadow->setSpacing(13);
+            m_dragTipsFrameShadow->setGeometry(QRect(rect.x(), rect.y() + (rect.height() / 2) + 25, rect.width(), 28));
 
             QIcon icon(delete_workspace_png);
-            m_dragTipsFrame->setIcon(icon);
-            m_dragTipsFrame->setIconSize(QSize(19 * m_scalingFactor, 20 * m_scalingFactor));
+            m_dragTipsFrameShadow->setIcon(icon);
+            m_dragTipsFrameShadow->setIconSize(QSize(22 * m_scalingFactor, 21 * m_scalingFactor));
         }
 
         QFont font;
         font.setFamily(m_fontFamily);
         font.setPointSize(13);
+        m_dragTipsFrameShadow->setFont(font);
+        m_dragTipsFrameShadow->setText(tr("Drag upwards to remove"));
+        m_dragTipsFrameShadow->setPosition(QPoint(rect.x() + (rect.width() / 2), rect.y() + (rect.height() / 2) + 27));
+        m_dragTipsFrameShadow->render(infiniteRegion(), 1, 0);
+
+
+        if (!m_dragTipsFrame) {
+            m_dragTipsFrame = effects->effectFrame(EffectFrameUnstyled, false);
+            m_dragTipsFrame->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
+            if (m_scalingFactor == 1)
+                m_dragTipsFrame->setSpacing(13);
+            m_dragTipsFrame->setGeometry(QRect(rect.x(), rect.y() + (rect.height() / 2) + 25, rect.width(), 28));
+
+            QIcon icon(delete_workspace_png);
+            m_dragTipsFrame->setIcon(icon);
+            m_dragTipsFrame->setIconSize(QSize(21 * m_scalingFactor, 21 * m_scalingFactor));
+        }
+
         m_dragTipsFrame->setFont(font);
         m_dragTipsFrame->setText(tr("Drag upwards to remove"));
-        m_dragTipsFrame->setPosition(QPoint(rect.x() + (rect.width() / 2), rect.y() + (rect.height() / 2) + 10));
+        m_dragTipsFrame->setPosition(QPoint(rect.x() + (rect.width() / 2), rect.y() + (rect.height() / 2) + 27));
         m_dragTipsFrame->render(infiniteRegion(), 1, 0);
 
         drawDottedLine(rect, screen);
