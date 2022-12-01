@@ -181,6 +181,12 @@ static QString toRealPath(const QString &path)
     return res;
 }
 
+static QString convertPath(const QString &path)
+{
+    QString res = QUrl::fromPercentEncoding(path.toUtf8());
+    return res;
+}
+
 QPixmap MultiViewBackgroundManager::cutBackgroundPix(const QSize &size, const QString &file)
 {
     QImageReader imageReader;
@@ -251,6 +257,7 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
         setWorkspaceBgPath(st.desktop, st.screenName, backgroundUri);
     }
 
+    backgroundUri = convertPath(backgroundUri);
     m_currentBackgroundList.insert(backgroundUri);
     backgroundUri = toRealPath(backgroundUri);
 
@@ -329,7 +336,7 @@ void MultiViewBackgroundManager::getBackgroundList()
         while (p != arr.constEnd()) {
             auto o = p->toObject();
             if (!o.value("Id").isUndefined() && !o.value("Deletable").toBool()) {
-                m_backgroundAllList << o.value("Id").toString();
+                m_backgroundAllList << convertPath(o.value("Id").toString());
             }
             ++p;
         }
