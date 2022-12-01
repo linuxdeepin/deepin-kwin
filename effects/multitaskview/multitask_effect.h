@@ -217,7 +217,7 @@ public:
 
     void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) {
         if (m_status == 1) {
-            if (w->isDesktop() || w->isDock()) {
+            if (w->isDesktop() || w->isDock() || m_winMotionMgr.find(w) == m_winMotionMgr.end()) {
                 effects->paintWindow(w, mask, region, data);
                 return;
             } else {
