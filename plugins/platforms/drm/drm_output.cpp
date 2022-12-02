@@ -41,6 +41,7 @@
 #include <libdrm/drm_mode.h>
 
 #include "colorcorrection/gammaramp.h"
+#define MAXTRYTIMES 60
 
 namespace KWin
 {
@@ -288,19 +289,6 @@ bool DrmOutput::init(drmModeConnector *connector)
 
     connect(waylandOutput(), &KWayland::Server::OutputInterface::resourceChanged, this, [=]{
         emit screens()->outputResourceChanged();
-    });
-
-    connect(LogindIntegration::self(), &LogindIntegration::switchTtyChanged, this, [this]{
-        m_isSwitchTty = true;
-        QTimer::singleShot(200, [this]{
-            m_isSwitchTty = false;
-        });
-    });
-
-    connect(LogindIntegration::self(), &LogindIntegration::sessionActiveChanged, this, [this](bool active){
-        if (active) {
-            m_isSwitchTty = false;
-        }
     });
 
     QSize physicalSize = !m_edid.physicalSize.isEmpty() ? m_edid.physicalSize : QSize(connector->mmWidth, connector->mmHeight);
@@ -1238,15 +1226,14 @@ bool DrmOutput::presentAtomically(DrmBuffer *buffer)
     m_primaryPlane->setNext(buffer);
     m_nextPlanesFlipList << m_primaryPlane;
 
+    static uint8_t tryTimes = 0;
     if (!doAtomicCommit(AtomicCommitMode::Test)) {
         //TODO: When we use planes for layered rendering, fallback to renderer instead. Also for direct scanout?
         //TODO: Probably should undo setNext and reset the flip list
         qCDebug(KWIN_DRM) << "Atomic test commit failed. Aborting present.";
-        if (m_isSwitchTty) {
-            qCDebug(KWIN_DRM) << "Don't change to last mode when switching tty.";
+        if (++tryTimes <= MAXTRYTIMES) {
             return false;
         }
-
         // go back to previous state
         if (m_lastWorkingState.valid) {
             m_mode = m_lastWorkingState.mode;
@@ -1265,6 +1252,7 @@ bool DrmOutput::presentAtomically(DrmBuffer *buffer)
         }
         return false;
     }
+    tryTimes = 0;
 
     const bool wasModeset = m_modesetRequested;
     if (!doAtomicCommit(AtomicCommitMode::Real)) {
