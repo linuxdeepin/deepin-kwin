@@ -191,6 +191,7 @@ private:
     bool m_deleted = false;
     bool m_teardown = false;
     QPoint m_oldPos = QPoint(32767, 32767);
+    uint8_t m_tryTimes = 0;
 };
 
 }

@@ -1226,12 +1226,15 @@ bool DrmOutput::presentAtomically(DrmBuffer *buffer)
     m_primaryPlane->setNext(buffer);
     m_nextPlanesFlipList << m_primaryPlane;
 
-    static uint8_t tryTimes = 0;
     if (!doAtomicCommit(AtomicCommitMode::Test)) {
         //TODO: When we use planes for layered rendering, fallback to renderer instead. Also for direct scanout?
         //TODO: Probably should undo setNext and reset the flip list
         qCDebug(KWIN_DRM) << "Atomic test commit failed. Aborting present.";
-        if (++tryTimes <= MAXTRYTIMES) {
+        if (++m_tryTimes <= MAXTRYTIMES) {
+            m_modesetRequested = true;
+            // TODO: forward to OutputInterface and OutputDeviceInterface
+            setWaylandMode();
+            emit screens()->changed();
             return false;
         }
         // go back to previous state
@@ -1252,7 +1255,7 @@ bool DrmOutput::presentAtomically(DrmBuffer *buffer)
         }
         return false;
     }
-    tryTimes = 0;
+    m_tryTimes = 0;
 
     const bool wasModeset = m_modesetRequested;
     if (!doAtomicCommit(AtomicCommitMode::Real)) {
