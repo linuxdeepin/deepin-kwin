@@ -326,6 +326,7 @@ public:
     AbstractClient* topClientOnDesktop(int desktop, int screen, bool unconstrained = false,
                                bool only_normal = true) const;
     AbstractClient* findDesktop(bool topmost, int desktop) const;
+    AbstractClient* findScreenLock(bool topmost, int desktop) const;
     void sendClientToDesktop(AbstractClient* c, int desktop, bool dont_activate);
     void windowToPreviousDesktop(AbstractClient* c);
     void windowToNextDesktop(AbstractClient* c);

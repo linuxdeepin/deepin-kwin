@@ -224,6 +224,20 @@ void Workspace::setActiveClient(AbstractClient* c)
     if (active_client == c)
         return;
 
+    if (active_client && c) {
+        if (active_client->isOnScreenDisplay() && active_client->wantsInput()
+                            && c->layer() <= active_client->layer()) {
+            qCDebug(KWIN_CORE) << "skip set active client from "
+                    << active_client->resourceName() << " to " << c->resourceName();
+            if (c->isActive()) {
+                c->setActive(false);
+            }
+            updateFocusMousePosition(Cursor::pos());
+            emit clientActivated(active_client);
+            return;
+        }
+    }
+
     if (active_popup && active_popup_client != c && set_active_client_recursion == 0)
         closeActivePopup();
     if (m_userActionsMenu->hasClient() && !m_userActionsMenu->isMenuClient(c) && set_active_client_recursion == 0) {
@@ -288,6 +302,16 @@ void Workspace::activateClient(AbstractClient* c, bool force)
         setActiveClient(NULL);
         return;
     }
+
+    if (active_client && c) {
+        if (active_client->isOnScreenDisplay() && active_client->wantsInput()
+                            && c->layer() <= active_client->layer()) {
+            qCDebug(KWIN_CORE) << "skip active change from "
+                    << active_client->resourceName() << " to " << c->resourceName();
+            return;
+        }
+    }
+
     raiseClient(c);
     if (!c->isOnCurrentDesktop()) {
         ++block_focus;
@@ -496,6 +520,18 @@ bool Workspace::activateNextClient(AbstractClient* c)
         if (!get_focus) {
             // nope, ask the focus chain for the next candidate
             get_focus = FocusChain::self()->nextForDesktop(c, desktop);
+        }
+    }
+
+    if (get_focus == NULL) {   // focus the lockscreen
+        get_focus = findScreenLock(true, desktop);
+        if (get_focus != NULL) {
+            if (!get_focus->isActive()) {
+                requestFocus(get_focus);
+            } else {
+                setActiveClient(get_focus);
+            }
+            return true;
         }
     }
 
