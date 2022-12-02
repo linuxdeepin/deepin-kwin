@@ -506,7 +506,7 @@ bool AbstractClient::isMostRecentlyRaised() const
 
 bool AbstractClient::wantsTabFocus() const
 {
-    return (isNormalWindow() || isDialog()) && wantsInput();
+    return (isNormalWindow() || isDialog() || isOnScreenDisplay()) && wantsInput();
 }
 
 bool AbstractClient::isSpecialWindow() const
