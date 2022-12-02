@@ -470,7 +470,6 @@ void LogindIntegration::switchVirtualTerminal(quint32 vtNr)
                                                           QStringLiteral("SwitchTo"));
     message.setArguments(QVariantList{vtNr});
     m_bus.asyncCall(message);
-    emit switchTtyChanged();
 }
 
 } // namespace
