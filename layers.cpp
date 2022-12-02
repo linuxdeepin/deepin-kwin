@@ -263,6 +263,19 @@ AbstractClient* Workspace::topClientOnDesktop(int desktop, int screen, bool unco
     return 0;
 }
 
+AbstractClient* Workspace::findScreenLock(bool topmost, int desktop) const
+{
+    if (topmost) {
+        for (int i = stacking_order.size() - 1; i >= 0; i--) {
+            AbstractClient *c = qobject_cast<AbstractClient*>(stacking_order.at(i));
+            if (c && c->isOnDesktop(desktop) && c->wantsTabFocus()
+                    && c->isShown(true))
+                return c;
+        }
+    }
+    return NULL;
+}
+
 AbstractClient* Workspace::findDesktop(bool topmost, int desktop) const
 {
 // TODO    Q_ASSERT( block_stacking_updates == 0 );
