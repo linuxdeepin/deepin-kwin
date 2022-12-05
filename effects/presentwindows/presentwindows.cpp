@@ -972,6 +972,13 @@ void PresentWindowsEffect::grabbedKeyboardEvent(QKeyEvent *e)
         case 0:
             return; // HACK: Workaround for Qt bug on unbound keys (#178547)
         default:
+            if (!QX11Info::isPlatformX11() && effectsEx->isShortcuts(e)) {
+                QTimer::singleShot(20, [&, this]() {
+                    effects->ungrabKeyboard();
+                    m_hasKeyboardGrab = false;
+                    });
+                return;
+            }
             if((e->modifiers() == Qt::ControlModifier | Qt::AltModifier)) {
                 if(e->key() == Qt::Key_C) {
                     setActive(false);
