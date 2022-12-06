@@ -300,6 +300,8 @@ private:
     TabletInputRedirection *m_tablet;
     TouchInputRedirection *m_touch;
 
+    bool m_hasFakeInput = false;
+
     GlobalShortcutsManager *m_shortcuts;
 
     LibInput::Connection *m_libInput = nullptr;
