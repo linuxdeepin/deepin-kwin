@@ -2103,6 +2103,11 @@ void InputRedirection::setupWorkspace()
         using namespace KWayland::Server;
         FakeInputInterface *fakeInput = waylandServer()->display()->createFakeInput(this);
         fakeInput->create();
+        auto seat = waylandServer()->seat();
+        m_hasFakeInput = true;
+        if (!seat->hasPointer() && seat->hasTouch()) {
+            seat->setHasPointer(true);
+        }
         connect(fakeInput, &FakeInputInterface::deviceCreated, this,
             [this] (FakeInputDevice *device) {
                 connect(device, &FakeInputDevice::authenticationRequested, this,
@@ -2500,7 +2505,7 @@ void InputRedirection::setupLibInput()
                     if (m_libInput->isSuspended()) {
                         return;
                     }
-                    s->setHasPointer(set);
+                    s->setHasPointer(set | (m_hasFakeInput && s->hasTouch()));
                 }
             );
             connect(conn, &LibInput::Connection::hasTouchChanged, this,
