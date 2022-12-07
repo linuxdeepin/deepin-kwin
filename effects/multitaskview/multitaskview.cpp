@@ -1284,6 +1284,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         }
 
         if (w->isDock()) {
+            m_dockRect = w->geometry();
             effects->paintWindow(w, mask, region, data);
             return;
         }
