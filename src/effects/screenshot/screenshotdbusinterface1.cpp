@@ -18,6 +18,8 @@
 #include <QDir>
 #include <QTemporaryFile>
 #include <QtConcurrent>
+#include <QDBusContext>
+#include <QDBusMessage>
 
 #include <unistd.h>
 
@@ -472,7 +474,7 @@ ScreenShotSinkFile1::ScreenShotSinkFile1(ScreenShotDBusInterface1 *interface,
 {
 }
 
-static QString saveTempImage(const QImage &image)
+static QString saveTempImage(const QImage &image, bool sendNotify)
 {
     if (image.isNull()) {
         return QString();
@@ -489,16 +491,30 @@ static QString saveTempImage(const QImage &image)
     }
     image.save(&temp);
     temp.close();
-    KNotification::event(KNotification::Notification,
-                         i18nc("Notification caption that a screenshot got saved to file", "Screenshot"),
-                         i18nc("Notification with path to screenshot file", "Screenshot saved to %1", temp.fileName()),
-                         QStringLiteral("spectacle"));
+
+    if (sendNotify) {
+        KNotification::event(KNotification::Notification,
+                             i18nc("Notification caption that a screenshot got saved to file", "Screenshot"),
+                             i18nc("Notification with path to screenshot file", "Screenshot saved to %1", temp.fileName()),
+                             QStringLiteral("spectacle"));
+    }
     return temp.fileName();
 }
 
 void ScreenShotSinkFile1::flush(const QImage &image)
 {
-    QDBusConnection::sessionBus().send(m_replyMessage.createReply(saveTempImage(image)));
+    // TODO: 为 dde-dock 跳过检查
+    bool sendNotify { true };
+    auto reply = QDBusConnection::sessionBus().interface()->servicePid(m_replyMessage.service());
+    qDebug() << "SKIP dde-dock preview";
+    if (reply.isValid()) {
+      QFile file(QString("/proc/%1/cmdline").arg(reply.value()));
+      if (file.open(QIODevice::ReadOnly | QFile::Text)) {
+        sendNotify = !file.readAll().compare("/usr/bin/dde-dock");
+      }
+    }
+
+    QDBusConnection::sessionBus().send(m_replyMessage.createReply(saveTempImage(image, sendNotify)));
 }
 
 ScreenShotDBusInterface1::ScreenShotDBusInterface1(ScreenShotEffect *effect, QObject *parent)
