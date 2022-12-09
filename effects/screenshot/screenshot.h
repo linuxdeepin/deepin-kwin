@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KWIN_SCREENSHOT_H
 #define KWIN_SCREENSHOT_H
 
+#include <effects.h>
 #include <kwineffects.h>
 #include <QDBusContext>
 #include <QDBusConnection>
@@ -161,6 +162,7 @@ private:
     void showInfoMessage(InfoMessageMode mode);
     void hideInfoMessage();
     bool isTakingScreenshot() const;
+    bool isProhibitScreenshot();
     EffectWindow *m_scheduledScreenshot;
     ScreenShotType m_type;
     QRect m_scheduledGeometry;
