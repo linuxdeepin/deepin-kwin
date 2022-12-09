@@ -59,6 +59,7 @@ class ClientManagementInterface;
 class DDESeatInterface;
 class DDEShellInterface;
 class DDEShellSurfaceInterface;
+class DDERestrictInterface;
 class StrutInterface;
 class ZWPXwaylandKeyboardGrabManagerV1Interface;
 class ZWPXwaylandKeyboardGrabV1Interface;
@@ -126,6 +127,9 @@ public:
     KWayland::Server::DDEShellInterface *ddeShell() const {
         return m_ddeShell;
     }
+    KWayland::Server::DDERestrictInterface *ddeRestrict() const {
+        return m_ddeRestrict;
+    }
     KWayland::Server::StrutInterface *strut() const {
         return m_strut;
     }
@@ -148,6 +152,7 @@ public:
     ShellClient *findClient(KWayland::Server::SurfaceInterface *surface) const;
     AbstractClient *findAbstractClient(KWayland::Server::SurfaceInterface *surface) const;
     ShellClient *findClient(QWindow *w) const;
+    AbstractClient *findClient(const QByteArray &resource) const;
 
     /**
      * return a transient parent of a surface imported with the foreign protocol, if any
@@ -166,7 +171,6 @@ public:
     int createInputMethodConnection();
     void destroyInputMethodConnection();
 
-
     /**
      * @returns true if screen is locked.
      **/
@@ -180,6 +184,11 @@ public:
      * @returns whether any kind of global shortcuts are supported.
      **/
     bool hasGlobalShortcutSupport() const;
+
+    /**
+     * @return whether there are clients that prohibits screenshots
+     */
+    bool hasProhibitWindows() const;
 
     void createInternalConnection();
     void initWorkspace();
@@ -279,6 +288,7 @@ private:
     KWayland::Server::ClientManagementInterface *m_clientManagement = nullptr;
     KWayland::Server::DDESeatInterface *m_ddeSeat = nullptr;
     KWayland::Server::DDEShellInterface *m_ddeShell = nullptr;
+    KWayland::Server::DDERestrictInterface *m_ddeRestrict = nullptr;
     KWayland::Server::StrutInterface *m_strut = nullptr;
     KWayland::Server::ZWPXwaylandKeyboardGrabManagerV1Interface *m_grab = nullptr;
     KWayland::Server::ZWPXwaylandKeyboardGrabV1Interface *m_grabClient = nullptr;

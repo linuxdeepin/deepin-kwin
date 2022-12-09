@@ -55,6 +55,7 @@
 #include <KWayland/Server/xdgoutput_interface.h>
 #include <KWayland/Server/ddeseat_interface.h>
 #include <KWayland/Server/ddeshell_interface.h>
+#include <KWayland/Server/dderestrict_interface.h>
 #include <KWayland/Server/strut_interface.h>
 #include <KWayland/Server/xwayland_keyboard_grab_v1_interface.h>
 #include <KWayland/Server/primaryselectiondevicemanager_v1_interface.h>
@@ -426,6 +427,9 @@ bool WaylandServer::init(const QByteArray &socketName, InitalizationFlags flags)
         }
     );
 
+    m_ddeRestrict = m_display->createDDERestrict(m_display);
+    m_ddeRestrict->create();
+
     m_strut = m_display->createStrut(m_display);
     m_strut->create();
     connect(m_strut, &StrutInterface::setStrut,
@@ -726,6 +730,19 @@ static ShellClient *findClientInList(const QList<ShellClient*> &clients, KWaylan
     return *it;
 }
 
+static ShellClient *findClientInList(const QList<ShellClient*> &clients, const QByteArray &resource)
+{
+    auto it = std::find_if(clients.begin(), clients.end(),
+        [resource] (ShellClient *c) {
+            return c->resourceClass() == resource;
+        }
+    );
+    if (it == clients.end()) {
+        return nullptr;
+    }
+    return *it;
+}
+
 ShellClient *WaylandServer::findClient(quint32 id) const
 {
     if (id == 0) {
@@ -752,6 +769,23 @@ ShellClient *WaylandServer::findClient(SurfaceInterface *surface) const
         return c;
     }
     return nullptr;
+}
+
+AbstractClient *WaylandServer::findClient(const QByteArray &resource) const
+{
+    if (resource.isEmpty()) {
+        return nullptr;
+    }
+    if (ShellClient *c = findClientInList(m_clients, resource)) {
+        return c;
+    }
+    if (ShellClient *c = findClientInList(m_internalClients, resource)) {
+        return c;
+    }
+
+    return workspace()->findClient([resource](const Client *c) {
+        return c->resourceName() == resource;
+    });
 }
 
 AbstractClient *WaylandServer::findAbstractClient(SurfaceInterface *surface) const
@@ -834,6 +868,24 @@ bool WaylandServer::hasScreenLockerIntegration() const
 bool WaylandServer::hasGlobalShortcutSupport() const
 {
     return !m_initFlags.testFlag(InitalizationFlag::NoGlobalShortcuts);
+}
+
+bool WaylandServer::hasProhibitWindows() const
+{
+    QList<QByteArray> white_windows = m_ddeRestrict->clientWhitelists();
+    if(white_windows.isEmpty())
+        return true;
+
+    foreach(const QByteArray& resource, white_windows) {
+        if(resource.isEmpty())
+            continue;
+
+        auto c = findClient(resource);
+        if (c && c->isShown(true)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void WaylandServer::simulateUserActivity()

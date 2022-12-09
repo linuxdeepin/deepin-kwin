@@ -197,6 +197,7 @@ public:
 
     QVariant kwinOption(KWinOption kwopt) override;
     bool isScreenLocked() const override;
+    bool prohibitScreenshot() const override;
 
     bool makeOpenGLContextCurrent() override;
     void doneOpenGLContextCurrent() override;
