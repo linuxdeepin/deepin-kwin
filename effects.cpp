@@ -47,6 +47,7 @@
 
 #include "decorations/decorationbridge.h"
 #include <KDecoration2/DecorationSettings>
+#include <KWayland/Server/dderestrict_interface.h>
 
 #include "logind.h"
 
@@ -1717,6 +1718,16 @@ QString EffectsHandlerImpl::supportInformation(const QString &name) const
 bool EffectsHandlerImpl::isScreenLocked() const
 {
     return ScreenLockerWatcher::self()->isLocked();
+}
+
+bool EffectsHandlerImpl::prohibitScreenshot() const
+{
+    auto dde_restrict =  waylandServer()->ddeRestrict();
+
+    if (!dde_restrict)
+        return false;
+
+    return dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows();
 }
 
 QString EffectsHandlerImpl::debug(const QString& name, const QString& parameter) const

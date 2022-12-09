@@ -1207,6 +1207,8 @@ public:
      **/
     virtual bool isScreenLocked() const = 0;
 
+    virtual bool prohibitScreenshot() const = 0;
+
     /**
      * @brief Makes the OpenGL compositing context current.
      *

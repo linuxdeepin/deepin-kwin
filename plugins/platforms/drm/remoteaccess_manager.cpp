@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // system
 #include <KWayland/Server/output_interface.h>
+#include <KWayland/Server/dderestrict_interface.h>
 #include <unistd.h>
 #include <gbm.h>
 #include <errno.h>
@@ -66,6 +67,11 @@ void RemoteAccessManager::releaseBuffer(const BufferHandle *buf)
 
 void RemoteAccessManager::passBuffer(DrmOutput *output, DrmBuffer *buffer)
 {
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
+        return;
+    }
+
     DrmSurfaceBuffer* gbmbuf = static_cast<DrmSurfaceBuffer *>(buffer);
 
     // no connected RemoteAccess instance

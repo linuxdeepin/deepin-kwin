@@ -23,6 +23,7 @@
 
 #include <KWayland/Server/display.h>
 #include <KWayland/Server/output_interface.h>
+#include <KWayland/Server/dderestrict_interface.h>
 
 namespace KWin
 {
@@ -88,6 +89,11 @@ private:
 
 void ScreencastManager::streamWindow(KWayland::Server::ScreencastStreamV1Interface *waylandStream, const QString &winid)
 {
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
+        return;
+    }
+
     auto *toplevel = Workspace::self()->findToplevel(winid);
 
     if (!toplevel) {
@@ -103,6 +109,11 @@ void ScreencastManager::streamOutput(KWayland::Server::ScreencastStreamV1Interfa
                                      KWayland::Server::OutputInterface *output,
                                      KWayland::Server::ScreencastV1Interface::CursorMode mode)
 {
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
+        return;
+    }
+
     AbstractOutput *streamOutput = waylandServer()->findOutput(output);
 
     if (!streamOutput) {
