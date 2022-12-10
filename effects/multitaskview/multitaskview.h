@@ -123,6 +123,7 @@ public:
     }
 
     void getWorkspaceBgPath(BgInfo_st &st, QPixmap &desktopBg, QPixmap &workspaceBg);
+    QString getWorkspaceBgPath(int desktop, QString screenName);
     void setWorkspaceBgPath(int desktop, QString screenName, QString bg);
     void cacheWorkspaceBg(BgInfo_st &st);
     void getBackgroundList();
@@ -478,7 +479,7 @@ private:
     void cleanDesktopData(int desktop);
     void switchDesktop();
     void desktopSwitchPosition(int to, int from);
-    void desktopAboutToRemoved(int d);
+    void desktopAboutToRemoved(int d, int num);
     bool checkConfig(EffectWindow *w);
     bool isExtensionMode() const;
     int getNumScreens();
@@ -596,6 +597,7 @@ private:
     bool         m_bgSlidingStatus;
     int          m_curDesktopIndex;
     int          m_lastDesktopIndex;
+    int          m_bgSlidingState = 0;
     bool         m_isRemoveWorkspace = false;
     bool         m_windowEffectState = false;
 
@@ -609,6 +611,7 @@ private:
     TimeLine m_workspaceSlidingTimeline;
     std::map <MultiViewWorkspace*, std::pair<int,int> > m_workspaceSlidingInfo;
     int m_previewFramePosX;
+    int m_workspaceSlidingState = 0;
 
     MultiTaskEffectFlyingBack m_effectFlyingBack;
     MultiTaskWindowEffect     m_windowEffect;

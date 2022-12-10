@@ -34,6 +34,7 @@
 #include <qdbusinterface.h>
 #include <qdbusreply.h>
 #include <dlfcn.h>
+#include <QtConcurrent>
 #include <QGSettings/qgsettings.h>
 #include <QImageReader>
 #include "multitouchgesture.h"
@@ -223,41 +224,8 @@ QPixmap MultiViewBackgroundManager::getCachePix(const QSize &size, QPair<QSize, 
 void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desktopBg, QPixmap &workspaceBg)
 {
     QString strBackgroundPath = QString("%1%2").arg(st.desktop).arg(st.screenName);
+    QString backgroundUri = getWorkspaceBgPath(st.desktop, st.screenName);
 
-    m_deepinWMConfig->checkUpdate(QString("%1%2%3").arg(st.desktop).arg("@", st.screenName), DeepinWMConfigName);
-    QString backgroundUri = m_deepinWMConfig->group("WorkspaceBackground").readEntry(QString("%1%2%3").arg(st.desktop).arg("@", st.screenName));
-    if (backgroundUri.isEmpty()) {
-        backgroundUri = _gsettings_dde_appearance->get(GsettingsBackgroundUri).toStringList().value(st.desktop - 1);
-        if (st.desktop == 1) {
-            if(!QFileInfo(toRealPath(backgroundUri)).isFile()) {
-                backgroundUri = fallback_background_name;
-            }
-        } else {
-            if (!QFileInfo(toRealPath(backgroundUri)).isFile()) {
-                QDBusInterface remoteApp(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF);
-                QDBusReply<QString> reply = remoteApp.call( "List", "background");
-
-                QJsonDocument json = QJsonDocument::fromJson(reply.value().toUtf8());
-                QJsonArray arr = json.array();
-                if (!arr.isEmpty()) {
-                    auto p = arr.constBegin();
-                    while (p != arr.constEnd()) {
-                        auto o = p->toObject();
-                        if (!o.value("Id").isUndefined() && !o.value("Deletable").toBool()) {
-                            if(o.value("Id").toString().contains(defaultSecondBackgroundUri)) {
-                                backgroundUri = o.value("Id").toString();
-                                break;
-                            }
-                        }
-                        ++p;
-                    }
-                }
-            }
-        }
-        setWorkspaceBgPath(st.desktop, st.screenName, backgroundUri);
-    }
-
-    backgroundUri = convertPath(backgroundUri);
     m_currentBackgroundList.insert(backgroundUri);
     backgroundUri = toRealPath(backgroundUri);
 
@@ -283,13 +251,54 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
     }
 }
 
+QString MultiViewBackgroundManager::getWorkspaceBgPath(int desktop, QString screenName)
+{
+    QString strBackgroundPath = QString("%1%2").arg(desktop).arg(screenName);
+
+    m_deepinWMConfig->checkUpdate(QString("%1%2%3").arg(desktop).arg("@", screenName), DeepinWMConfigName);
+    QString backgroundUri = m_deepinWMConfig->group("WorkspaceBackground").readEntry(QString("%1%2%3").arg(desktop).arg("@", screenName));
+    if (backgroundUri.isEmpty()) {
+        backgroundUri = _gsettings_dde_appearance->get(GsettingsBackgroundUri).toStringList().value(desktop - 1);
+        if (desktop == 1) {
+            if(!QFileInfo(toRealPath(backgroundUri)).isFile()) {
+                backgroundUri = fallback_background_name;
+            }
+        } else {
+            if (!QFileInfo(toRealPath(backgroundUri)).isFile()) {
+                QDBusInterface remoteApp(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF);
+                QDBusReply<QString> reply = remoteApp.call( "List", "background");
+
+                QJsonDocument json = QJsonDocument::fromJson(reply.value().toUtf8());
+                QJsonArray arr = json.array();
+                if (!arr.isEmpty()) {
+                    auto p = arr.constBegin();
+                    while (p != arr.constEnd()) {
+                        auto o = p->toObject();
+                        if (!o.value("Id").isUndefined() && !o.value("Deletable").toBool()) {
+                            if(o.value("Id").toString().contains(defaultSecondBackgroundUri)) {
+                                backgroundUri = o.value("Id").toString();
+                                break;
+                            }
+                        }
+                        ++p;
+                    }
+                }
+            }
+        }
+        setWorkspaceBgPath(desktop, screenName, backgroundUri);
+    }
+
+    backgroundUri = convertPath(backgroundUri);
+
+    return backgroundUri;
+}
+
 void MultiViewBackgroundManager::setWorkspaceBgPath(int desktop, QString screenName, QString bg)
 {
     m_deepinWMConfig->group("WorkspaceBackground").writeEntry(QString("%1%2%3").arg(desktop).arg("@" ,screenName), bg);
     m_deepinWMConfig->sync();
 
     QStringList allWallpaper = _gsettings_dde_appearance->get(GsettingsBackgroundUri).toStringList();
-
     if (desktop > allWallpaper.size()) {
         allWallpaper.reserve(desktop);
 
@@ -826,8 +835,15 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, int time)
         if(m_effectFlyingBack.animating())
             m_effectFlyingBack.update(time);
 
-        if(m_workspaceSlidingStatus)
-            m_workspaceSlidingTimeline.update(std::chrono::milliseconds(time));
+        if(m_workspaceSlidingStatus) {
+            if (m_workspaceSlidingState == 0) {
+                m_workspaceSlidingState = 1;
+                m_workspaceSlidingTimeline.reset();
+                m_workspaceSlidingTimeline.setElapsed(std::chrono::milliseconds(30));
+            } else {
+                m_workspaceSlidingTimeline.update(std::chrono::milliseconds(time));
+            }
+        }
 
         data.mask |= PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS
                   |  PAINT_SCREEN_BACKGROUND_FIRST;
@@ -838,8 +854,15 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, int time)
         if(m_opacityStatus)
             m_opacityTimeLine.update(std::chrono::milliseconds(time));
 
-        if(m_bgSlidingStatus)
-            m_bgSlidingTimeLine.update(std::chrono::milliseconds(time));
+        if(m_bgSlidingStatus) {
+            if (m_bgSlidingState == 0) {
+                m_bgSlidingState = 1;
+                m_bgSlidingTimeLine.reset();
+                m_bgSlidingTimeLine.setElapsed(std::chrono::milliseconds(30));
+            } else {
+                m_bgSlidingTimeLine.update(std::chrono::milliseconds(time));
+            }
+        }
 
         if (m_windowEffectState)
             m_windowEffect.update(time);
@@ -1006,12 +1029,13 @@ void MultitaskViewEffect::postPaintScreen()
     if (m_bgSlidingTimeLine.done()) {
         m_bgSlidingStatus = false;
         m_bgSlidingTimeLine.reset();
-
+        m_bgSlidingState = 0;
         handlerAfterTimeLine();
     }
 
     if (m_workspaceSlidingTimeline.done()) {
         m_workspaceSlidingStatus = false;
+        m_workspaceSlidingState = 0;
         m_workspaceSlidingTimeline.reset();
     }
 
@@ -3264,7 +3288,7 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         effects->windowToDesktops(ew, desks);
     }
 
-    desktopAboutToRemoved(desktop);
+    QFuture<void> f = QtConcurrent::run(this, &MultitaskViewEffect::desktopAboutToRemoved, desktop, effects->numberOfDesktops());
 
     int nrelyout = desktop == 1 ? desktop : (desktop - 1);
     if (isRelayout) {
@@ -3553,29 +3577,23 @@ void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
     }
 }
 
-void MultitaskViewEffect::desktopAboutToRemoved(int d)
+void MultitaskViewEffect::desktopAboutToRemoved(int d, int num)
 {
     QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
-
     QList<QString> list = m_screenInfoList.keys();
     for (int i = 0; i < list.count(); i++) {
         QString monitorName = list.at(i);
-
-        QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", d, monitorName);
-        if (!getReply.value().isEmpty()) {
-            QString backgroundUri = getReply.value();
+        QString backgroundUri = MultiViewBackgroundManager::instance()->getWorkspaceBgPath(d, monitorName);
+         if (!backgroundUri.isEmpty()) {
             MultiViewBackgroundManager::instance()->updateBackgroundList(backgroundUri);
         }
 
-        for (int i = d; i < effects->numberOfDesktops(); i++) {
-            QString backgrounduri;
-            QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", i + 1, monitorName);
-            if (!getReply.value().isEmpty()) {
-                backgrounduri = getReply.value();
-            } else {
-                backgrounduri = QLatin1String(fallback_background_name);
+        for (int i = d; i < num; i++) {
+            QString backgroundUriEx = MultiViewBackgroundManager::instance()->getWorkspaceBgPath(i + 1, monitorName);
+            if (backgroundUriEx.isEmpty()) {
+                backgroundUriEx = QLatin1String(fallback_background_name);
             }
-            wm.call( "SetWorkspaceBackgroundForMonitor", i, monitorName, backgrounduri);
+            wm.call( "SetWorkspaceBackgroundForMonitor", i, monitorName, backgroundUriEx);
         }
     }
 }
