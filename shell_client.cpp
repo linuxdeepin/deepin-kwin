@@ -242,6 +242,14 @@ void ShellClient::init()
             doSetGeometry(rect);
             if (m_requestedMaximizeMode == MaximizeMode::MaximizeRestore && !isSplitscreen())
                 setGeometryRestore(rect);
+
+	    if ((!isSpecialWindow() || isToolbar()) && !isFullScreen()) {
+                QRect area = workspace()->clientArea(WorkArea, this);
+                if(keepAbove())
+                    keepInArea(workspace()->clientArea(FullArea, this));
+                else
+                    keepInArea(area);
+            }
         }
     );
     connect(s, &SurfaceInterface::dragPositionChanged, this,
