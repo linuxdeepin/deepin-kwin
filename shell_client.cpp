@@ -923,18 +923,22 @@ AbstractClient *ShellClient::findModal(bool allow_itself)
         p = p->transientFor();
     }
 
+    QVector<AbstractClient*> mods;
     QStack<AbstractClient*> stack;
     stack.push(root);
     while (!stack.empty()) {
         auto *cur = stack.top();
         stack.pop();
         if (cur->isModal())
-            return cur;
+            mods.push_back(cur);
         for (auto it = cur->transients().constBegin(); it != cur->transients().constEnd(); ++it)
             stack.push(*it);
     }
 
-    return nullptr;
+    if (mods.count() > 0)
+        return mods.last();
+    else 
+        return nullptr;
 }
 
 bool ShellClient::isCloseable() const
