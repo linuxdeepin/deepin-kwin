@@ -1268,6 +1268,8 @@ void ShellClient::setFullScreen(bool set, bool user)
     }
     updateWindowRules(Rules::Fullscreen|Rules::Position|Rules::Size);
 
+    cancelSplitOutline();
+
     if (was_fs != isFullScreen()) {
         emit fullScreenChanged();
         emit workspace()->windowStateChanged();
