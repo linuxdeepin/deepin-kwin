@@ -7,6 +7,7 @@
 #include "abstract_output.h"
 #include "wayland_server.h"
 #include "screens.h"
+#include "workspace.h"
 
 // KWayland
 #include <KWayland/Server/display.h>
@@ -131,6 +132,7 @@ void AbstractOutput::setChanges(KWayland::Server::OutputChangeSet *changes)
         m_positionSet = true;
         // may just work already!
         overallSizeCheckNeeded = true;
+        workspace()->initPendingClients();
     }
     if (changes->scaleChanged()) {
         qCDebug(KWIN_CORE) << "Setting scale:" << changes->scale();
