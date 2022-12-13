@@ -1,3 +1,18 @@
+kwin (4:5.15.11.69-1) unstable; urgency=medium
+
+  * Bug fix:
+   + 175281 fix: repair the effect slow
+   + 171791 fix: fix dock area can't update
+   + 169215 fix: full screen mode can't quit split-screen
+   + 171835 fix: Fix presentwindows can't screenshorts with shortcut
+   + 171575 fix: presence of black strip when switch from expanded mode to one
+   + 163873 fix: abnormal switching virtual desktop when four-fingers sliding
+   + 162717 fix: touch long press no effect when no pointer
+   + 162863 fix: elevated highlight window when execute super+A
+   + 171957, 170627, 170541, 163333 fix: Fix focus error in lock screen
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 13 Dec 2022 19:39:54 +0800
+
 kwin (4:5.15.11.51-1) unstable; urgency=medium
 
   * Bug fix:
