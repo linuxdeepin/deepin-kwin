@@ -12,10 +12,20 @@
 
 namespace KWin
 {
-
+volatile bool MovingClientX11Filter::isMove = false;
 MovingClientX11Filter::MovingClientX11Filter()
     : X11EventFilter(QVector<int>{XCB_KEY_PRESS, XCB_MOTION_NOTIFY, XCB_BUTTON_PRESS, XCB_BUTTON_RELEASE})
 {
+}
+
+bool MovingClientX11Filter::getMoveStatus()
+{
+    return isMove;
+}
+
+void MovingClientX11Filter::setMoveStatus(const bool &status)
+{
+    isMove = status;
 }
 
 bool MovingClientX11Filter::event(xcb_generic_event_t *event)
@@ -25,6 +35,7 @@ bool MovingClientX11Filter::event(xcb_generic_event_t *event)
         return false;
     }
     auto testWindow = [client, event] (xcb_window_t window) {
+        isMove = true;
         return client->moveResizeGrabWindow() == window && client->windowEvent(event);
     };
 

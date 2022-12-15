@@ -18,7 +18,7 @@
 #include "cursor.h"
 #include "netinfo.h"
 #include "workspace.h"
-
+#include "moving_client_x11_filter.h"
 #include "placement.h"
 #include "geometrytip.h"
 #include "rules.h"
@@ -2995,6 +2995,7 @@ void AbstractClient::finishMoveResize(bool cancel)
 
 // FRAME    update();
     emit clientFinishUserMovedResized(this);
+    MovingClientX11Filter::setMoveStatus(false);
 }
 
 void Client::leaveMoveResize()
@@ -3150,7 +3151,7 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
 {
     const QRect oldGeo = geometry();
     handleMoveResize(local.x(), local.y(), global.x(), global.y());
-    if (!isFullScreen() && isMove()) {
+    if (!isFullScreen() && isMove() && MovingClientX11Filter::getMoveStatus()) {
         if ((quickTileMode() != QuickTileMode(QuickTileFlag::None)) && (oldGeo != geometry() || (workspace()->isDragingWithContent() && m_placeholderWindow.getGeometry() != geometry()))) {
             GeometryUpdatesBlocker blocker(this);
 
