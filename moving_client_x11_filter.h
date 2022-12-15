@@ -17,6 +17,9 @@ public:
     explicit MovingClientX11Filter();
 
     bool event(xcb_generic_event_t *event) override;
+    static volatile bool isMove;
+    static bool getMoveStatus();
+    static void setMoveStatus(const bool &status);
 };
 
 }
