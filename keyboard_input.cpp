@@ -251,7 +251,7 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         return;
     }
 
-    if (m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event)) && !isTopScreen()) {
+    if (!isTopScreen() && m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event))) {
         qDebug()<<"processGrab true.";
         m_xkb->forwardModifiers();
         return;
