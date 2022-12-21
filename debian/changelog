@@ -1,3 +1,13 @@
+kwin (4:5.15.11.70-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 165575 fix: wayland add judge about the window keep in area
+    + 176683 fix: dialog can not get keyboard focus when add mail account
+    + 175237 fix: exit splitScreen when select move in right-click menu
+    + 122483 Fix: fix the problem that the window cannot be maximized
+
+ -- Lei Su <sulei@uniontech.com>  Wed, 21 Dec 2022 16:28:50 +0800
+
 kwin (4:5.15.11.69-1) unstable; urgency=medium
 
   * Bug fix:
