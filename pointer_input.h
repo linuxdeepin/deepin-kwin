@@ -54,7 +54,6 @@ public:
 
     void init();
     void updatePosition(const QPointF &pos);
-    void windowPosChanged();
 
     void updateAfterScreenChange();
     bool supportsWarping() const;
