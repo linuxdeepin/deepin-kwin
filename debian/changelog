@@ -1,3 +1,10 @@
+kwin (4:5.15.11.71-1) unstable; urgency=medium
+
+  * Buf fix:
+    + 171681 fix: splitoutline not hide when client send to this screen
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 22 Dec 2022 13:07:23 +0800
+
 kwin (4:5.15.11.70-1) unstable; urgency=medium
 
   * Bug fix:
