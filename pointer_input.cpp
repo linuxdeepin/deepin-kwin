@@ -119,7 +119,6 @@ void PointerInputRedirection::init()
     m_cursor = new CursorImage(this);
     setInited(true);
     InputDeviceHandler::init();
-    connect(workspace(), &Workspace::clientMaximizedChanged, this, &PointerInputRedirection::windowPosChanged);
 
     connect(m_cursor, &CursorImage::changed, kwinApp()->platform(), &Platform::cursorChanged);
     emit m_cursor->changed();
@@ -907,12 +906,6 @@ void PointerInputRedirection::updatePosition(const QPointF &pos)
     }
     m_pos = p;
     emit input()->globalPointerChanged(m_pos);
-}
-
-void PointerInputRedirection::windowPosChanged()
-{
-    auto seat = waylandServer()->seat();
-    emit seat->windowPosChanged();
 }
 
 void PointerInputRedirection::updateButton(uint32_t button, InputRedirection::PointerButtonState state)

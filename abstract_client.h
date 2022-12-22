@@ -868,7 +868,6 @@ Q_SIGNALS:
     void paletteChanged(const QPalette &p);
     void colorSchemeChanged();
     void captionChanged();
-    void maximizedChanged();
     void clientMaximizedStateChanged(KWin::AbstractClient*, MaximizeMode);
     void clientMaximizedStateChanged(KWin::AbstractClient* c, bool h, bool v);
     void transientChanged();

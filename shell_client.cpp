@@ -2033,7 +2033,6 @@ void ShellClient::updateMaximizeMode(MaximizeMode maximizeMode)
 
     emit clientMaximizedStateChanged(this, m_maximizeMode);
     emit clientMaximizedStateChanged(this, m_maximizeMode & MaximizeHorizontal, m_maximizeMode & MaximizeVertical);
-    emit maximizedChanged();
 }
 
 bool ShellClient::hasStrut() const
