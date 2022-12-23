@@ -3151,7 +3151,10 @@ void AbstractClient::handleMoveResize(const QPoint &local, const QPoint &global)
 {
     const QRect oldGeo = geometry();
     handleMoveResize(local.x(), local.y(), global.x(), global.y());
-    if (!isFullScreen() && isMove() && MovingClientX11Filter::getMoveStatus()) {
+    if (!isFullScreen() && isMove()) {
+        if (!waylandServer() && !MovingClientX11Filter::getMoveStatus()) 
+            return;
+
         if ((quickTileMode() != QuickTileMode(QuickTileFlag::None)) && (oldGeo != geometry() || (workspace()->isDragingWithContent() && m_placeholderWindow.getGeometry() != geometry()))) {
             GeometryUpdatesBlocker blocker(this);
 
