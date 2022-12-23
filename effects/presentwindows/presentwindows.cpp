@@ -608,9 +608,6 @@ void PresentWindowsEffect::slotWindowAdded(EffectWindow *w)
 
 void PresentWindowsEffect::slotWindowClosed(EffectWindow *w)
 {
-    if (!m_activated)
-        return;
-
     if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);
         if (QX11Info::isPlatformX11()) {
@@ -645,9 +642,6 @@ void PresentWindowsEffect::slotWindowClosed(EffectWindow *w)
 
 void PresentWindowsEffect::slotWindowDeleted(EffectWindow *w)
 {
-    if (!m_activated)
-        return;
-
     DataHash::iterator winData = m_windowData.find(w);
     if (winData == m_windowData.end())
         return;
