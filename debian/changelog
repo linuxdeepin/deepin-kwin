@@ -1,3 +1,11 @@
+kwin (4:5.15.11.72-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 175237 fix: only in X11 exit splitScreen when select move in right-click menu
+    + 171417 fix: Fix lock screen focus changed by processGrab
+
+ -- Lei Su <sulei@uniontech.com>  Fri, 23 Dec 2022 11:24:54 +0800
+
 kwin (4:5.15.11.71-1) unstable; urgency=medium
 
   * Buf fix:
