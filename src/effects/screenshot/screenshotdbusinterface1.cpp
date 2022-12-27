@@ -510,7 +510,7 @@ void ScreenShotSinkFile1::flush(const QImage &image)
     if (reply.isValid()) {
       QFile file(QString("/proc/%1/cmdline").arg(reply.value()));
       if (file.open(QIODevice::ReadOnly | QFile::Text)) {
-        sendNotify = !file.readAll().compare(DEFINE_DDE_DOCK_PATH"dde-dock");
+        sendNotify = !file.readAll().startsWith(DEFINE_DDE_DOCK_PATH"dde-dock");
       }
     }
 
