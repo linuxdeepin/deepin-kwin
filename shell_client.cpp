@@ -189,7 +189,7 @@ void ShellClient::initSurface(T *shellSurface)
     connect(shellSurface, &T::transientForChanged, this, &ShellClient::setTransient);
 
     connect(this, &ShellClient::geometryChanged, this, &ShellClient::updateClientOutputs);
-    connect(screens(), &Screens::changed, this, &ShellClient::updateClientOutputs,
+    connect(screens(), &Screens::changed, this, &ShellClient::handleScreenChanged,
             Qt::QueuedConnection);
     connect(screens(), &Screens::outputResourceChanged, this, &ShellClient::updateClientOutputs,
             Qt::QueuedConnection);
@@ -2470,6 +2470,18 @@ void ShellClient::popupDone()
     if (m_xdgShellPopup) {
         m_xdgShellPopup->popupDone();
     }
+}
+
+void ShellClient::handleScreenChanged()
+{
+    QRect screenarea = workspace()->clientArea(ScreenArea, this);
+    if (isOnScreenDisplay() && !screenarea.intersects(geometry())) {
+        QRect rect = QRect(screenarea.topLeft(), geometry().size());
+        if (rect.isValid()) {
+            doSetGeometry(rect);
+        }
+    }
+    updateClientOutputs();
 }
 
 void ShellClient::updateClientOutputs()

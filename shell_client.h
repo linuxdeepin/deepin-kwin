@@ -286,6 +286,7 @@ private:
     void markAsMapped();
     void setTransient();
     bool shouldExposeToWindowManagement();
+    void handleScreenChanged();
     void updateClientOutputs();
     KWayland::Server::XdgShellSurfaceInterface::States xdgSurfaceStates() const;
     void updateShowOnScreenEdge();
