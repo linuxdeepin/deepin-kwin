@@ -78,6 +78,7 @@ void Workspace::desktopResized()
         if (splitapp_stacking_order.size()) {
             QTimer::singleShot(400, [&]() {
                 workspace()->updateSplitOutlineState(1, VirtualDesktopManager::self()->current(), true);
+                clearSplitOutline();
             });
             splitapp_stacking_order.clear();
         }
@@ -386,6 +387,7 @@ void Workspace::updateClientArea(bool force)
 
         QTimer::singleShot(400, [&]() {
             workspace()->updateSplitOutlineState(1, VirtualDesktopManager::self()->current(), true);
+            clearSplitOutline();
         });
 
         oldrestrictedmovearea.clear(); // reset, no longer valid or needed
