@@ -820,6 +820,11 @@ void Workspace::quickTileWindow(QuickTileMode mode)
     if (!active_client->checkClientAllowToTile()) {
         return;
     }
+
+    auto t = active_client->quickTileMode();
+    if (t == QuickTileMode(QuickTileFlag::Left) || t == QuickTileMode(QuickTileFlag::Right)) {
+        active_client->cancelSplitOutline();
+    }
     active_client->setQuickTileMode(mode, true);
 
     active_client->handlequickTileModeChanged();
