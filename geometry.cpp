@@ -490,6 +490,12 @@ QRegion Workspace::restrictedMoveArea(int desktop, StrutAreas areas) const
     foreach (const StrutRect & rect, restrictedmovearea[desktop])
     if (areas & rect.area())
         region += rect;
+
+    for (auto it = m_allClients.constBegin(); it != m_allClients.constEnd(); ++it) {
+        if ((*it)->isDock()) {
+            region += (*it)->geometry();
+        }
+    }
     return region;
 }
 
