@@ -2388,6 +2388,7 @@ void ShellClient::doMinimize()
 {
     if (isMinimized()) {
         cancelSplitOutline();
+        workspace()->updateSplitOutlineLayerShowHide();
         workspace()->clientHidden(this);
     } else {
         handlequickTileModeChanged();
