@@ -44,6 +44,7 @@
 #include <xf86drm.h>
 #include <xf86drmMode.h>
 #include <libdrm/drm_mode.h>
+#include <chrono>
 
 #ifndef DRM_CAP_CURSOR_WIDTH
 #define DRM_CAP_CURSOR_WIDTH 0x8
@@ -163,6 +164,16 @@ void DrmBackend::checkOutputsAreOn()
 
 void DrmBackend::activate(bool active)
 {
+    static std::chrono::time_point<std::chrono::steady_clock> st0 = std::chrono::steady_clock::now();
+    auto st1 = std::chrono::steady_clock::now();
+    if (m_enabledOutputs.count() > 1) {
+        if (m_enabledOutputs[0]->geometry() == m_enabledOutputs[1]->geometry()) {
+            if (1000 > std::chrono::duration_cast<std::chrono::milliseconds>(st1 - st0).count())
+                return;
+        }
+    }
+    st0 = st1;
+
     if (active) {
         qCDebug(KWIN_DRM) << "Activating session.";
         reactivate();
@@ -193,6 +204,9 @@ void DrmBackend::reactivate()
                 }
             }
         }
+    }
+    for (auto it = m_enabledOutputs.constBegin(); it != m_enabledOutputs.constEnd(); ++it) {
+        (*it)->m_modesetRequested = true;
     }
     // restart compositor
     m_pageFlipsPending = 0;
