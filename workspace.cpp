@@ -373,6 +373,9 @@ void Workspace::init()
                     c->setShortcut(QString());   // Remove from client_keys
                 }
                 clientHidden(c);
+                if (m_lastSplitClient == c) {
+                    m_lastSplitClient = nullptr;
+                }
                 emit clientRemoved(c);
                 markXStackingOrderAsDirty();
                 updateStackingOrder(true);
@@ -800,6 +803,10 @@ void Workspace::removeClient(Client* c)
         last_active_client = 0;
     if (c == delayfocus_client)
         cancelDelayFocus();
+
+    if (m_lastSplitClient == c) {
+        m_lastSplitClient = nullptr;
+    }
 
     emit clientRemoved(c);
     updateStackingOrder(true);
