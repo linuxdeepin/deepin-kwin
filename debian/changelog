@@ -1,3 +1,12 @@
+kwin (4:5.15.11.73-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 163333 fix: Update screen lock position when screen has been changed
+    + 177001 fix: when the client is closed or deleted，it should slotWindowClosed or slotWindowDeleted in PresentWindowsEffect.
+    + 176865, 176845, 180173 fix: blackscreen when switch tty and gui fastly and window can moved under dock
+
+ -- Lei Su <sulei@uniontech.com>  Wed, 28 Dec 2022 17:11:55 +0800
+
 kwin (4:5.15.11.72-1) unstable; urgency=medium
 
   * Bug fix:
