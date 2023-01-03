@@ -1,3 +1,10 @@
+kwin (4:5.15.11.75-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 181137 when the client is closed or deleted, and PresentWindowsEffect is activated，in this case，execute screenrecorder code.
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 03 Jan 2023 19:24:22 +0800
+
 kwin (4:5.15.11.74-1) unstable; urgency=medium
 
   * Bug fix:
