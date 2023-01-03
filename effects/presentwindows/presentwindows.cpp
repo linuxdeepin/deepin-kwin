@@ -608,10 +608,12 @@ void PresentWindowsEffect::slotWindowAdded(EffectWindow *w)
 
 void PresentWindowsEffect::slotWindowClosed(EffectWindow *w)
 {
-    if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
-        effects->startMouseInterception(this, Qt::PointingHandCursor);
-        if (QX11Info::isPlatformX11()) {
-            m_hasKeyboardGrab = effects->grabKeyboard(this);
+    if (m_activated) {
+        if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
+            effects->startMouseInterception(this, Qt::PointingHandCursor);
+            if (QX11Info::isPlatformX11()) {
+                m_hasKeyboardGrab = effects->grabKeyboard(this);
+            }
         }
     }
 
@@ -650,17 +652,16 @@ void PresentWindowsEffect::slotWindowDeleted(EffectWindow *w)
     m_windowData.erase(winData);
     m_motionManager.unmanage(w);
 
-    if (!QX11Info::isPlatformX11() && w->caption() == "dde-osd") {
-        m_isCloseScreenRecorder = false;
-        return;
-    } else if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
-        m_isScreenRecorder = false;
-        if (!QX11Info::isPlatformX11())
-            m_isCloseScreenRecorder = true;
-        return;
-    } else if (w == m_screenRecorderMenu) {
-        m_screenRecorderMenu = nullptr;
-        return;
+    if (m_activated) {
+        if (!QX11Info::isPlatformX11() && w->caption() == "dde-osd") {
+            m_isCloseScreenRecorder = false;
+        } else if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
+            m_isScreenRecorder = false;
+            if (!QX11Info::isPlatformX11())
+                m_isCloseScreenRecorder = true;
+        } else if (w == m_screenRecorderMenu) {
+            m_screenRecorderMenu = nullptr;
+        }
     }
 }
 
