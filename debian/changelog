@@ -1,3 +1,13 @@
+kwin (4:5.15.11.74-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 179719 fix: add judge when delete workspace about window list
+    + 175305 fix: splitoutline apper after touchpad splitscreen
+    + 169229 fix: splitoutline hide after window minimized
+    + 169653 fix: cannot splitscreen after screen changed
+
+ -- Lei Su <sulei@uniontech.com>  Tue, 03 Jan 2023 17:16:08 +0800
+
 kwin (4:5.15.11.73-1) unstable; urgency=medium
 
   * Bug fix:
