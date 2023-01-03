@@ -2698,6 +2698,8 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
         overlap = false;
         for (int i = windowlist.size() - 1; i >= 0; i--) {
             EffectWindow *w = windowlist[i];
+            if (!motionManager.isManaging(w))
+                continue;
             QRect *target = &targets[w];
             float width = target->width();
             if (target->height() > scaleHeight) {
@@ -2740,6 +2742,9 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
     totalw = m_scale[screen].spacingWidth;
     for (int i = windowlist.size() - 1; i >= 0; i--) {
         EffectWindow *w = windowlist[i];
+        if (!motionManager.isManaging(w))
+            continue;
+
         QRect *target = &targets[w];
         float width = 0.0, height = 0.0;
         bool isFill = false;
@@ -3655,14 +3660,16 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop
     int fromdesktop = w->desktop();
     QMutexLocker locker(&m_mutex);
     int screen = w->screen();
-    effects->windowToScreen(w, toscreen);
+    if (screen != toscreen)
+        effects->windowToScreen(w, toscreen);
     QVector<uint> desks{(uint)todesktop};
     effects->windowToDesktops(w, desks);
 
     EffectWindowList mainWinList;
     mainWinList = w->mainWindows();
     foreach (EffectWindow * mainWin, mainWinList) {
-        effects->windowToScreen(mainWin, toscreen);
+        if (mainWin->screen() != toscreen)
+            effects->windowToScreen(mainWin, toscreen);
         QVector<uint> desks{(uint)todesktop};
         effects->windowToDesktops(mainWin, desks);
     }
