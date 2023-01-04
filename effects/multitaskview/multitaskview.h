@@ -566,6 +566,7 @@ private:
     QVector<MultiViewWinManager *>       m_workspaceWinMgr;
     QRect m_backgroundRect;
     QRect m_dockRect;
+    QRect m_osdRect;    // record screen recorder notifications position
     QRect m_windowMoveGeometry;
     QRect m_allFullArea;
 
@@ -632,7 +633,7 @@ private:
     EffectWindow *m_screenRecorderMenu = nullptr;
 
     QString m_fontFamily;
-    Qt::MouseButton m_sendDockButton = Qt::NoButton;
+    Qt::MouseButton m_sendButton = Qt::NoButton; // send to outside dock or osd pointer button
 
     DbusThread *m_dbusThread;
     QTimer* m_addingDesktopTimer;

@@ -1070,9 +1070,9 @@ void MultitaskViewEffect::postPaintScreen()
             m_cursorPos.setX(0);
             m_cursorPos.setY(0);
             m_buttonType = 0;
-        } else if (!QX11Info::isPlatformX11() && m_sendDockButton != Qt::NoButton) {
-            effectsEx->sendPointer(m_sendDockButton);
-            m_sendDockButton = Qt::NoButton;
+        } else if (!QX11Info::isPlatformX11() && m_sendButton != Qt::NoButton) {
+            effectsEx->sendPointer(m_sendButton);
+            m_sendButton = Qt::NoButton;
         }
     }
 }
@@ -1663,6 +1663,8 @@ void MultitaskViewEffect::onWindowClosed(EffectWindow *w)
     } else if (w->isDock()) {
         m_dock = nullptr;
         m_dockRect.setSize(QSize(0, 0));
+    } else if (!QX11Info::isPlatformX11() && w->windowClass() == notification_tips) {
+        m_osdRect.setSize(QSize(0, 0));
     }
 }
 
@@ -1676,6 +1678,7 @@ void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
         m_dockRect.setSize(QSize(0, 0));
     } else if (!QX11Info::isPlatformX11() && w->caption() == "dde-osd") {
         m_isCloseScreenRecorder = false;
+        m_osdRect.setSize(QSize(0, 0));
         return;
     } else if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
         m_isScreenRecorder = false;
@@ -1700,6 +1703,8 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
         m_dockRect = w->geometry();
         m_dock = w;
         onDockChange("");
+    } else if (!QX11Info::isPlatformX11() && w->windowClass() == notification_tips) {
+        m_osdRect = w->geometry();
     } else if (!QX11Info::isPlatformX11() && w->caption() == "org.deepin.dde.lock") {
         setActive(false);
     } else if (QX11Info::isPlatformX11()) {
@@ -1967,9 +1972,14 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
                 m_effectFlyingBack.begin();
                 effects->addRepaintFull();
                 // fix bug 128331, move sendPointer to flyingback down
-                //effectsEx->sendPointer(mouseEvent->button());
-                m_sendDockButton = mouseEvent->button();
+                // effectsEx->sendPointer(mouseEvent->button());
+                m_sendButton = mouseEvent->button();
             }
+        } else if (!m_wasWindowMove && !QX11Info::isPlatformX11() && m_osdRect.contains(mouseEvent->pos())) {
+            m_effectFlyingBack.begin();
+            effects->addRepaintFull();
+            // for pointer could click view button on notification after screen recorder
+            m_sendButton = mouseEvent->button();
         } else if (target) {
             bool isPressBtn = false;
             int i = 0;
