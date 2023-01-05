@@ -1,0 +1,62 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: deepin-kwin
+Upstream-Contact:  <>
+Source: https://github.com/linuxdeepin/deepin-kwin.git
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
+
+Files: .github/workflows*.yml
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: autotests/* 
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: debian/* rpm/* CMakeLists.txt
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: doc/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: po/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: src/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: *.png data/icons/*.png themes/*.svg
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: kconf_update/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: .gitignore .release.json .tx/config
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: data/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: tests/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later
+
+Files: CONTRIBUTING.md Mainpage.dox KWinDBusInterfaceConfig.cmake.in deepin-kwin_wayland.service.in deepin-kwin_x11.service.in resources.qrc README.md  .tx/deepin.conf
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-2.0-or-later 
+
+
+
+
