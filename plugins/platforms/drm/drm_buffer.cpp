@@ -5,12 +5,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "drm_buffer.h"
+#include "drm_buffer_gbm.h"
 
 #include "logging.h"
 
 // system
 #include <sys/mman.h>
 #include <errno.h>
+#include <unistd.h>
 // drm
 #include <xf86drm.h>
 #include <xf86drmMode.h>
@@ -73,6 +75,10 @@ bool DrmDumbBuffer::needsModeChange(DrmBuffer *b) const {
 
 bool DrmDumbBuffer::map(QImage::Format format)
 {
+    if (m_image && !m_image->isNull())
+	    return true;
+
+    delete m_image;
     if (!m_handle || !m_bufferId) {
         return false;
     }
@@ -89,6 +95,34 @@ bool DrmDumbBuffer::map(QImage::Format format)
     m_memory = address;
     m_image = new QImage((uchar*)m_memory, m_size.width(), m_size.height(), m_stride, format);
     return !m_image->isNull();
+}
+
+bool DrmDumbBuffer::copyGbmToDumbBuffer(DrmBuffer *buffer)
+{
+    // m_image->fill(Qt::green);
+    // return true;
+    DrmSurfaceBuffer* gbmbuf = static_cast<DrmSurfaceBuffer *>(buffer);
+    if(gbmbuf) {
+        unsigned int dmaFd = gbmbuf->getFd();
+
+        if (gbmbuf->hasBo()) {
+            gbm_bo *dmaBo = gbmbuf->getBo();
+            quint32 stride = gbm_bo_get_stride(dmaBo);
+            QSize dmaSize = QSize(gbm_bo_get_width(dmaBo), gbm_bo_get_height(dmaBo));
+
+            unsigned char *address = static_cast<unsigned char *>(mmap(nullptr, stride * dmaSize.height(), PROT_READ, MAP_SHARED, dmaFd, 0));
+            if (address == MAP_FAILED) {
+                return false;
+            }
+            memcpy(m_memory, address, stride * dmaSize.height());
+            munmap(address, stride * dmaSize.height());
+            close(dmaFd);
+            return true;
+        }
+        return false;
+    }
+
+    return false;
 }
 
 }
