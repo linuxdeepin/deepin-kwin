@@ -12,6 +12,7 @@
 // kwin
 #include "abstract_client.h"
 #include <pointer_input.h>
+#include <touch_input.h>
 #include "atoms.h"
 #include "composite.h"
 #include "debug_console.h"
@@ -323,6 +324,16 @@ void DBusInterface::disableGestureForClient(bool disable)
 void DBusInterface::setKWinLogOutput(bool isOpen)
 {
     workspace()->enableKwinDebug(isOpen);
+}
+
+void DBusInterface::setEnableTouchLongPress(bool flag)
+{
+    input()->touch()->setEnableLongPress(flag);
+}
+
+bool DBusInterface::isEnableTouchLongPress()
+{
+    return input()->touch()->isEnableLongPress();
 }
 
 void DBusInterface::printKwinFps(bool isFps)
