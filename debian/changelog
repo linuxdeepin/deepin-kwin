@@ -1,3 +1,10 @@
+deepin-kwin (4:5.24.3-deepin.1.10) unstable; urgency=medium
+
+  * Bug fix:
+    + 181439 fix: unmanage window hiding when lockscreen
+
+ -- Lei Su <sulei@uniontech.com>  Thu, 05 Jan 2023 16:51:15 +0800
+
 deepin-kwin (4:5.24.3-deepin.1.9) unstable; urgency=medium
 
   * Bug fix:
