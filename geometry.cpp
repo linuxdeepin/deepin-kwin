@@ -3946,13 +3946,6 @@ void AbstractClient::sendToScreen(int newScreen)
             }
         }
     }
-
-    if (waylandServer()) {
-        if (m_moveResize.startScreen != newScreen) {
-            workspace()->updateSplitOutlineLayerShowHide();
-        }
-    }
-
     if (screen() == newScreen)   // Don't use isOnScreen(), that's true even when only partially
         return;
 
