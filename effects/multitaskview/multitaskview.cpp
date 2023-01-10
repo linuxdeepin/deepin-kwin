@@ -40,6 +40,7 @@
 #include "multitouchgesture.h"
 #include "kwineffectsex.h"
 #include "report.h"
+#include "workspace.h"
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock"))
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dde.appearance"))
@@ -2427,6 +2428,10 @@ void MultitaskViewEffect::setActive(bool active)
         return;
 
     m_activated = active;
+
+    QDBusMessage message =QDBusMessage::createSignal("/KWin", "org.kde.KWin", "MultitaskStateChanged");
+    message << bool(m_activated);
+    QDBusConnection::sessionBus().send(message);
 
     emit m_dbusThread->activeStateChanged(active);
 

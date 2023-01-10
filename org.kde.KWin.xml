@@ -89,5 +89,9 @@
     <method name="showingDesktop">
         <arg type="b" direction="out"/>
     </method>
+    <signal name="ClientMinimizeChanged">
+        <arg type="i" name="windowId"/>
+        <arg type="b" name="isMinimized"/>
+    </signal>
   </interface>
 </node>
