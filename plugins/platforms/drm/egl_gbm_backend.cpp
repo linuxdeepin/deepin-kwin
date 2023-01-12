@@ -14,10 +14,12 @@
 #include "options.h"
 #include "screens.h"
 #include "workspace.h"
+#include "drm_gpu.h"
 // kwin libs
 #include <kwinglplatform.h>
 // Qt
 #include <QOpenGLContext>
+#include <QDebug>
 // system
 #include <gbm.h>
 #include <sys/sdt.h>
@@ -34,17 +36,33 @@ typedef EGLBoolean (*eglQueryDmaBufModifiersEXT_func) (EGLDisplay dpy, EGLint fo
 eglQueryDmaBufFormatsEXT_func eglQueryDmaBufFormatsEXT = nullptr;
 eglQueryDmaBufModifiersEXT_func eglQueryDmaBufModifiersEXT = nullptr;
 
-EglGbmBackend::EglGbmBackend(DrmBackend *b)
+EglGbmBackend::EglGbmBackend(DrmBackend *drmBackend, DrmGpu *gpu)
     : AbstractEglBackend()
-    , m_backend(b)
+    , m_backend(drmBackend)
+    , m_gpu(gpu)
     , m_dmaFd(0)
     , m_dumpOutputBufferCount(0)
 {
     // Egl is always direct rendering
     setIsDirectRendering(true);
     setSyncsToVBlank(true);
-    connect(m_backend, &DrmBackend::outputAdded, this, &EglGbmBackend::createOutput);
-    connect(m_backend, &DrmBackend::outputRemoved, this,
+
+    const auto outputs = m_backend->drmOutputs();
+    for (auto output: outputs) {
+        createOutput(output);
+    }
+    connectToGpu(gpu);
+}
+
+EglGbmBackend::~EglGbmBackend()
+{
+    cleanup();
+}
+
+void EglGbmBackend::connectToGpu(DrmGpu *gpu)
+{
+    connect(gpu, &DrmGpu::outputEnabled, this, &EglGbmBackend::createOutput);
+    connect(gpu, &DrmGpu::outputDisabled, this,
         [this] (DrmOutput *output) {
             auto it = std::find_if(m_outputs.begin(), m_outputs.end(),
                 [output] (const Output &o) {
@@ -64,11 +82,6 @@ EglGbmBackend::EglGbmBackend(DrmBackend *b)
             }
         }
     );
-}
-
-EglGbmBackend::~EglGbmBackend()
-{
-    cleanup();
 }
 
 void EglGbmBackend::cleanupSurfaces()
@@ -108,12 +121,12 @@ bool EglGbmBackend::initializeEgl()
             return false;
         }
 
-        auto device = gbm_create_device(m_backend->fd());
+        auto device = gbm_create_device(m_gpu->fd());
         if (!device) {
             setFailed("Could not create gbm device");
             return false;
         }
-        m_backend->setGbmDevice(device);
+        m_gpu->setGbmDevice(device);
 
         display = eglGetPlatformDisplayEXT(platform, device, nullptr);
     }
@@ -424,6 +437,48 @@ void EglGbmBackend::renderPostprocess(Output& output)
     ShaderManager::instance()->popShader();
 }
 
+static QString getEglErrorString(EGLint errorCode)
+{
+    switch (errorCode) {
+    case EGL_SUCCESS:
+        return QStringLiteral("EGL_SUCCESS");
+    case EGL_NOT_INITIALIZED:
+        return QStringLiteral("EGL_NOT_INITIALIZED");
+    case EGL_BAD_ACCESS:
+        return QStringLiteral("EGL_BAD_ACCESS");
+    case EGL_BAD_ALLOC:
+        return QStringLiteral("EGL_BAD_ALLOC");
+    case EGL_BAD_ATTRIBUTE:
+        return QStringLiteral("EGL_BAD_ATTRIBUTE");
+    case EGL_BAD_CONTEXT:
+        return QStringLiteral("EGL_BAD_CONTEXT");
+    case EGL_BAD_CONFIG:
+        return QStringLiteral("EGL_BAD_CONFIG");
+    case EGL_BAD_CURRENT_SURFACE:
+        return QStringLiteral("EGL_BAD_CURRENT_SURFACE");
+    case EGL_BAD_DISPLAY:
+        return QStringLiteral("EGL_BAD_DISPLAY");
+    case EGL_BAD_SURFACE:
+        return QStringLiteral("EGL_BAD_SURFACE");
+    case EGL_BAD_MATCH:
+        return QStringLiteral("EGL_BAD_MATCH");
+    case EGL_BAD_PARAMETER:
+        return QStringLiteral("EGL_BAD_PARAMETER");
+    case EGL_BAD_NATIVE_PIXMAP:
+        return QStringLiteral("EGL_BAD_NATIVE_PIXMAP");
+    case EGL_BAD_NATIVE_WINDOW:
+        return QStringLiteral("EGL_BAD_NATIVE_WINDOW");
+    case EGL_CONTEXT_LOST:
+        return QStringLiteral("EGL_CONTEXT_LOST");
+    default:
+        return QString::number(errorCode, 16);
+    }
+}
+
+static QString getEglErrorString()
+{
+    return getEglErrorString(eglGetError());
+}
 
 bool EglGbmBackend::resetOutput(Output &o, DrmOutput *drmOutput)
 {
@@ -431,22 +486,22 @@ bool EglGbmBackend::resetOutput(Output &o, DrmOutput *drmOutput)
     auto size = o.output->hardwareTransformed() ? drmOutput->pixelSize() : drmOutput->modeSize();
 
     qDebug() <<"output "<<drmOutput->uuid()<< "size" << size <<"drmOutput->geometry"<< drmOutput->geometry() \
-             <<"pixelSize"<<drmOutput->pixelSize()<<"modeSize"<<drmOutput->modeSize();
+             <<"pixelSize"<<drmOutput->pixelSize()<<"modeSize"<<drmOutput->modeSize() << drmOutput->name() << drmOutput->rotation() << drmOutput->hardwareTransformed();
 
     std::shared_ptr<GbmSurface> gbmSurface;
 
     if (o.m_modifiersEnabled) {
         qDebug("---------- formats&modifiers have been enabled!");
         gbmSurface = std::make_shared<GbmSurface>();
-        gbm_surface *gbmS = gbm_surface_create_with_modifiers(m_backend->gbmDevice(),
+        gbm_surface *gbmS = gbm_surface_create_with_modifiers(m_gpu->gbmDevice(),
                                                               size.width(), size.height(),
-                                                              drmOutput->getPrimaryPlane() ? drmOutput->getPrimaryPlane()->getCurrentFormat() : GBM_FORMAT_XRGB8888,
+                                                              GBM_FORMAT_XRGB8888,
                                                               o.m_eglModifiers.data(), o.m_eglModifiers.count());
         gbmSurface->setSurface(gbmS);
     } else {
-        gbmSurface = std::make_shared<GbmSurface>(m_backend->gbmDevice(),
+        gbmSurface = std::make_shared<GbmSurface>(m_gpu->gbmDevice(),
                                                   size.width(), size.height(),
-                                                  drmOutput->getPrimaryPlane() ? drmOutput->getPrimaryPlane()->getCurrentFormat() : GBM_FORMAT_XRGB8888,
+                                                  GBM_FORMAT_XRGB8888,
                                                   GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING);
     }
 
@@ -680,11 +735,11 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &dam
     m_remoteaccessManager->incrementRenderSequence();
 
     if (o.m_modifiersEnabled) {
-        o.buffer = m_backend->createBuffer(o.gbmSurface,
-                                           o.output->getPrimaryPlane() ? o.output->getPrimaryPlane()->getCurrentFormat() : GBM_FORMAT_XRGB8888,
-                                           o.m_drmModifiers);
+        o.buffer = m_backend->primaryGpu()->createBuffer(o.gbmSurface,
+                                                         o.output->getPrimaryPlane() ? o.output->getPrimaryPlane()->getCurrentFormat() : GBM_FORMAT_XRGB8888,
+                                                         o.m_drmModifiers);
     } else {
-        o.buffer = m_backend->createBuffer(o.gbmSurface);
+        o.buffer = m_backend->primaryGpu()->createBuffer(o.gbmSurface);
     }
 
     DrmSurfaceBuffer* gbmbuf = static_cast<DrmSurfaceBuffer *>(o.buffer);
@@ -711,18 +766,38 @@ void EglGbmBackend::presentOnOutput(EglGbmBackend::Output &o, const QRegion &dam
         }
     }
 
-    if(m_remoteaccessManager && gbm_surface_has_free_buffers(o.gbmSurface->surface())) {
+    if(m_remoteaccessManager && o.gbmSurface && gbm_surface_has_free_buffers(o.gbmSurface->surface())) {
         // GBM surface is released on page flip so
         // we should pass the buffer before it's presented
         m_remoteaccessManager->passBuffer(o.output, o.buffer);
     }
     Q_EMIT o.output->outputChange(damagedRegion);
-    m_backend->present(o.buffer, o.output);
+
+    if (o.output->gpu()->atomicModeSetting()) {
+        m_backend->present(o.buffer, o.output);
+    } else {
+        auto size = o.output->hardwareTransformed() ? o.output->pixelSize() : o.output->modeSize();
+        if (!o.dumbBuffer){
+            o.dumbBuffer = o.output->gpu()->createBuffer(size);
+        }
+
+        if (!o.dumbBuffer->image()) {
+            if (!o.dumbBuffer->map()) {
+                delete o.dumbBuffer;
+                o.dumbBuffer = nullptr;
+            }
+        }
+
+        if (o.dumbBuffer && o.dumbBuffer->copyGbmToDumbBuffer(o.buffer)) {
+            m_backend->present(o.dumbBuffer, o.output);
+            delete o.buffer;
+            o.buffer = nullptr;
+        }
+    }
 
     if (supportsBufferAge()) {
         eglQuerySurface(eglDisplay(), o.eglSurface, EGL_BUFFER_AGE_EXT, &o.bufferAge);
     }
-
 }
 
 void EglGbmBackend::screenGeometryChanged(const QSize &size)

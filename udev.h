@@ -9,6 +9,9 @@
 #include <memory>
 #include <kwin_export.h>
 
+#include <vector>
+#include <QVector>
+
 struct udev;
 struct udev_device;
 struct udev_monitor;
@@ -28,6 +31,7 @@ public:
     int sysNum() const;
     const char *property(const char *key);
     bool hasProperty(const char *key, const char *value);
+    QString action() const;
 
     operator udev_device*() const {
         return m_device;
@@ -68,8 +72,8 @@ public:
     bool isValid() const {
         return m_udev != nullptr;
     }
-    UdevDevice::Ptr primaryGpu();
-    UdevDevice::Ptr primaryFramebuffer();
+    std::vector<UdevDevice::Ptr> listGPUs();
+    std::vector<UdevDevice::Ptr> listFramebuffers();
     UdevDevice::Ptr deviceFromSyspath(const char *syspath);
     UdevMonitor *monitor();
     operator udev*() const {
