@@ -7,6 +7,7 @@ set(DRM_SOURCES
     drm_output.cpp
     drm_buffer.cpp
     drm_inputeventfilter.cpp
+    drm_gpu.cpp
     logging.cpp
     scene_qpainter_drm_backend.cpp
     screens_drm.cpp
@@ -21,6 +22,8 @@ if(HAVE_GBM)
         gbm_dmabuf.cpp
     )
 endif()
+
+add_definitions(-DHAVE_EGL_STREAMS=0)
 
 include_directories(${CMAKE_SOURCE_DIR}/platformsupport/scenes/opengl)
 

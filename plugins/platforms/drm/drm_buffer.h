@@ -7,6 +7,8 @@
 #ifndef KWIN_DRM_BUFFER_H
 #define KWIN_DRM_BUFFER_H
 
+#include <gbm.h>
+
 #include <QImage>
 #include <QSize>
 
@@ -50,6 +52,7 @@ public:
     bool needsModeChange(DrmBuffer *b) const override;
 
     bool map(QImage::Format format = QImage::Format_RGB32);
+    bool copyGbmToDumbBuffer(DrmBuffer *buffer);
     quint32 handle() const {
         return m_handle;
     }
