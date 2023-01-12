@@ -813,7 +813,7 @@ public:
 
     void quitSplitStatus();
     bool isLeftRightSplitscreen();
-    void cancelSplitOutline();
+    void cancelSplitOutline(bool isDefaultCursor = true);
     // When using three finger split screen, check whether the client meets the split screen conditions.
     bool checkClientAllowToTile();
     void judgeRepeatquickTileclient();

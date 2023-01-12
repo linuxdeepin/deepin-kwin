@@ -770,7 +770,7 @@ void Client::doMinimize()
     // 窗口最小化后未处于 Iconic 状态，将导致Qt对窗口状态的判断失效
     if (old_preview || hiddenPreview()) {
         if (isMinimized()) {
-            cancelSplitOutline();
+            cancelSplitOutline(false);
             exportMappingState(IconicState);
         } else {
             handlequickTileModeChanged();

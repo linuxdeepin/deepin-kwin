@@ -69,6 +69,8 @@ public:
 
     bool isRecordClient(AbstractClient *client);
 
+    void setDefaultCustomCursor();
+
      ~SplitOutline();
 protected:
     void setLeftSplitClient(AbstractClient* client);

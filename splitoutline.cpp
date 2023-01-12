@@ -400,6 +400,11 @@ namespace KWin
         return true;
     }
 
+    void SplitOutline::setDefaultCustomCursor()
+    {
+        setCustomCursor(CURSOR_L_R);
+    }
+
     SplitOutline::~SplitOutline() 
     {
 
