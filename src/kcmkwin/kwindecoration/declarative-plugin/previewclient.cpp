@@ -246,10 +246,12 @@ bool PreviewClient::providesContextHelp() const
     return m_providesContextHelp;
 }
 
+#if !defined(KDECORATION_VERSION) || KDECORATION_VERSION >= KDECORATION_VERSION_CHECK(5, 27, 1, 0)
 QString PreviewClient::windowClass() const
 {
     return {};
 }
+#endif
 
 WId PreviewClient::windowId() const
 {

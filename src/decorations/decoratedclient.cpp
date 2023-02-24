@@ -302,10 +302,12 @@ bool DecoratedClientImpl::isApplicationMenuActive() const
     return m_client->applicationMenuActive();
 }
 
+#if !defined(KDECORATION_VERSION) || KDECORATION_VERSION >= KDECORATION_VERSION_CHECK(5, 27, 1, 0)
 QString DecoratedClientImpl::windowClass() const
 {
     return m_client->resourceName() + QLatin1Char(' ') + m_client->resourceClass();
 }
+#endif
 
 }
 }

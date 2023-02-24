@@ -7,6 +7,7 @@
 #define KDECOARTIONS_PREVIEW_CLIENT_H
 
 #include "../../../decorations/decorationpalette.h"
+#include "../../../utils/version.h"
 
 #include <KDecoration2/Private/DecoratedClientPrivate>
 #include <QObject>
@@ -73,7 +74,9 @@ public:
     bool isShadeable() const override;
     bool isShaded() const override;
     bool providesContextHelp() const override;
+#if !defined(KDECORATION_VERSION) || KDECORATION_VERSION >= KDECORATION_VERSION_CHECK(5, 27, 1, 0)
     QString windowClass() const override;
+#endif
 
     int width() const override;
     int height() const override;

@@ -9,6 +9,7 @@
 #ifndef KWIN_DECORATED_CLIENT_H
 #define KWIN_DECORATED_CLIENT_H
 #include "options.h"
+#include "utils/version.h"
 
 #include <KDecoration2/Private/DecoratedClientPrivate>
 
@@ -55,7 +56,9 @@ public:
     bool providesContextHelp() const override;
     QSize size() const override;
     int width() const override;
+#if !defined(KDECORATION_VERSION) || KDECORATION_VERSION >= KDECORATION_VERSION_CHECK(5, 27, 1, 0)
     QString windowClass() const override;
+#endif
     WId windowId() const override;
 
     Qt::Edges adjacentScreenEdges() const override;
