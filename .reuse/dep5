@@ -1,0 +1,100 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: deepin-kwin
+Upstream-Contact: UnionTech Software Technology Co., Ltd. <>
+Source: https://github.com/linuxdeepin/deepin-kwin
+
+# ci
+Files: .github/* .gitlab-ci.yml
+Copyright: None
+License: CC0-1.0
+
+# config
+Files: .clang-format *.kcfg *.kcfgc *.frag *.ui *.vert **/qmldir
+Copyright: None
+License: CC0-1.0
+
+# debian rpm archlinux
+Files: debian/* rpm/* archlinux/*
+Copyright: None
+License: CC0-1.0
+
+# doc
+Files: doc/*
+Copyright: None
+License: CC0-1.0
+
+# translation
+Files: translations/* po/* **/*.qm **/*.ts
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-3.0-or-later
+
+# png svg
+Files: **/*.svg **/*.png **/*.dci **/*.gif logo.png
+Copyright: UnionTech Software Technology Co., Ltd.
+License: CC0-1.0
+
+# xml toml json conf yaml ...
+Files: **/*.json
+  **/*.service
+  **/*.txt
+  **/*.sh
+  **/*.html
+  **/conf
+  .gitignore
+  **/*.desktop
+  **/*.css
+  **/*.ttf
+  *.conf
+  **/*.xml
+  .release.json
+  **/*.in
+  src/kcmkwin/kwinscripts/deepin-kwinscripts.knsrc
+  src/kcmkwin/kwintabbox/deepin-kwinswitcher.knsrc
+  src/kcmkwin/kwineffects/deepin-kwineffect.knsrc
+  kconf_update/*.upd
+  kconf_update/*.pl
+  kconf_update/*.py
+  src/kcmkwin/kwinoptions/AUTHORS
+Copyright: None
+License: CC0-1.0
+
+# README and changelog
+Files: **/*.md
+  README.md
+  README.zh_CN.md
+  CONTRIBUTING.md
+  src/kcmkwin/kwinoptions/ChangeLog
+Copyright: UnionTech Software Technology Co., Ltd.
+License: CC-BY-4.0
+
+# Project file
+Files: **/*.cmake
+  **/CMakeLists.txt
+  *.in *.qrc
+  CMakeLists.txt
+Copyright: None
+License: CC0-1.0
+
+# autotests
+Files: autotests/*
+Copyright: None
+License: CC0-1.0
+
+# 3rd
+Files: src/3rdparty/xcursor.h src/3rdparty/xcursor.c
+Copyright: Keith Packard
+License: CC0-1.0
+
+# intel
+Files: src/platformsupport/scenes/opengl/drm_fourcc.h
+Copyright: 2011 Intel Corporation
+License: MIT-CMU
+
+# kde
+Files: src/kwin.notifyrc
+  **/.directory
+  src/plugins/kdecorations/aurorae/*
+  *.dox
+  data/org_kde_deepin-kwin.categories
+Copyright: None
+License: CC0-1.0

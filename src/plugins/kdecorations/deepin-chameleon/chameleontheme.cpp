@@ -1,23 +1,6 @@
-/*
- * Copyright (C) 2017 ~ 2019 Deepin Technology Co., Ltd.
- *
- * Author:     zccrs <zccrs@live.com>
- *
- * Maintainer: zccrs <zhangjide@deepin.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+// SPDX-FileCopyrightText: 2018 - 2023 UnionTech Software Technology Co., Ltd.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include "chameleontheme.h"
 
 #include <QSettings>
@@ -262,7 +245,7 @@ void paserSpecialAttribute(const QJsonObject& jsonObj, const QString& key, const
 
 static void parserWindowDecoration(const UIWindowType& windowType, const QJsonValue& windowDecoration, const QString& status,
                                     ChameleonTheme::ThemeConfig *config, const ChameleonTheme::ThemeConfig *base)
-{   
+{
     const QJsonObject& windowDecObj = windowDecoration.toObject();
     config->windowDesc = windowDecObj.value("desc").toString();
     qCDebug(CHAMELEON) << "parser window: " << config->windowDesc;
