@@ -73,6 +73,7 @@ public:
     bool isShadeable() const override;
     bool isShaded() const override;
     bool providesContextHelp() const override;
+    QString windowClass() const override;
 
     int width() const override;
     int height() const override;

@@ -246,6 +246,11 @@ bool PreviewClient::providesContextHelp() const
     return m_providesContextHelp;
 }
 
+QString PreviewClient::windowClass() const
+{
+    return {};
+}
+
 WId PreviewClient::windowId() const
 {
     return 0;

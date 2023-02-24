@@ -302,5 +302,10 @@ bool DecoratedClientImpl::isApplicationMenuActive() const
     return m_client->applicationMenuActive();
 }
 
+QString DecoratedClientImpl::windowClass() const
+{
+    return m_client->resourceName() + QLatin1Char(' ') + m_client->resourceClass();
+}
+
 }
 }
