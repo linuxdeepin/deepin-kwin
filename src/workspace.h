@@ -494,6 +494,9 @@ public:
     void setShowSplitLine(bool flag, QRect rect);
     bool isShowSplitMenu();
 
+    void maximizeActiveClient();
+    void restoreActiveClient();
+
 public Q_SLOTS:
     void performWindowOperation(KWin::AbstractClient* c, Options::WindowOperation op);
     void slotSetClientSplit(KWin::AbstractClient* c, int mode, bool isShowPreview);

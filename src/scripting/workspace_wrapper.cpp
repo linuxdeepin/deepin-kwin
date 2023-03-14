@@ -392,6 +392,16 @@ QList<KWin::AbstractClient *> QtScriptWorkspaceWrapper::clientList() const
     return workspace()->allClientList();
 }
 
+void QtScriptWorkspaceWrapper::maximizeActiveClient() const
+{
+    return workspace()->maximizeActiveClient();
+}
+
+void QtScriptWorkspaceWrapper::restoreActiveClient() const
+{
+    return workspace()->restoreActiveClient();
+}
+
 QQmlListProperty<KWin::AbstractClient> DeclarativeScriptWorkspaceWrapper::clients()
 {
     return QQmlListProperty<KWin::AbstractClient>(this, nullptr, &DeclarativeScriptWorkspaceWrapper::countClientList, &DeclarativeScriptWorkspaceWrapper::atClientList);

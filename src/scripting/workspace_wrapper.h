@@ -418,6 +418,8 @@ public:
      * List of Clients currently managed by KWin.
      */
     Q_INVOKABLE QList<KWin::AbstractClient *> clientList() const;
+    Q_INVOKABLE void maximizeActiveClient() const;
+    Q_INVOKABLE void restoreActiveClient() const;
 
     explicit QtScriptWorkspaceWrapper(QObject* parent = nullptr);
 };

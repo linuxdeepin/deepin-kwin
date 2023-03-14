@@ -1984,6 +1984,24 @@ void Workspace::slotWindowResize()
         performWindowOperation(active_client, Options::UnrestrictedResizeOp);
 }
 
+void Workspace::maximizeActiveClient()
+{
+    if (Compositor::compositing()) {
+        Q_EMIT effects->closeEffect(true);
+    }
+    if (USABLE_ACTIVE_CLIENT && active_client->maximizeMode() != MaximizeFull)
+        performWindowOperation(active_client, Options::MaximizeOp);
+}
+
+void Workspace::restoreActiveClient()
+{
+    if (Compositor::compositing()) {
+        Q_EMIT effects->closeEffect(true);
+    }
+    if (USABLE_ACTIVE_CLIENT && active_client->maximizeMode() == MaximizeFull)
+        performWindowOperation(active_client, Options::MaximizeOp);
+}
+
 #undef USABLE_ACTIVE_CLIENT
 
 void AbstractClient::setShortcut(const QString& _cut)
