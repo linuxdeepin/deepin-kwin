@@ -9,7 +9,18 @@ Copyright: None
 License: CC0-1.0
 
 # config
-Files: .clang-format *.kcfg *.kcfgc *.frag *.ui *.vert **/qmldir
+Files: .clang-format
+  *.kcfg
+  *.kcfgc
+  *.frag
+  *.ui
+  *.vert
+  **/qmldir
+  configures/deepin-kwinrulesrc
+  configures/deepin-kdeglobals
+  configures/deepin-kglobalshortcutsrc
+  configures/deepin-klaunchrc
+  configures/deepin-kwinrc
 Copyright: None
 License: CC0-1.0
 

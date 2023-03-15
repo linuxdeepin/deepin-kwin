@@ -164,7 +164,7 @@ void TestXdgShellClientRules::initTestCase()
     QCOMPARE(outputs[1]->geometry(), QRect(1280, 0, 1280, 1024));
     Test::initWaylandWorkspace();
 
-    m_config = KSharedConfig::openConfig(QStringLiteral("kwinrulesrc"), KConfig::SimpleConfig);
+    m_config = KSharedConfig::openConfig(QStringLiteral("deepin-kwinrulesrc"), KConfig::SimpleConfig);
     RuleBook::self()->setConfig(m_config);
 }
 

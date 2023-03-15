@@ -80,7 +80,7 @@ StartupFeedbackEffect::StartupFeedbackEffect()
     , m_lastPresentTime(std::chrono::milliseconds::zero())
     , m_type(BouncingFeedback)
     , m_cursorSize(24)
-    , m_configWatcher(KConfigWatcher::create(KSharedConfig::openConfig("klaunchrc", KConfig::NoGlobals)))
+    , m_configWatcher(KConfigWatcher::create(KSharedConfig::openConfig("deepin-klaunchrc", KConfig::NoGlobals)))
     , m_splashVisible(false)
 {
     // TODO: move somewhere that is x11-specific

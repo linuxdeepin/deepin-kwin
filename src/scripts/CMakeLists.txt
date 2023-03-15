@@ -10,3 +10,7 @@ add_kwin_script(videowall)
 add_kwin_script(synchronizeskipswitcher)
 add_kwin_script(desktopchangeosd)
 add_kwin_script(minimizeall)
+add_kwin_script(ddelauncher)
+add_kwin_script(ddeshortcuts)
+
+add_subdirectory(screenedge)

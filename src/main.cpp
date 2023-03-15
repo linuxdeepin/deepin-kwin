@@ -138,7 +138,7 @@ void Application::start()
     setQuitOnLastWindowClosed(false);
 
     if (!m_config) {
-        m_config = KSharedConfig::openConfig("kwinrc");
+        m_config = KSharedConfig::openConfig("deepin-kwinrc");
     }
     if (!m_config->isImmutable() && m_configLock) {
         // TODO: This shouldn't be necessary

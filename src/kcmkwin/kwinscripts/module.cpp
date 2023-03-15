@@ -33,7 +33,7 @@
 Module::Module(QWidget *parent, const QVariantList &args) :
     KCModule(parent, args),
     ui(new Ui::Module),
-    m_kwinConfig(KSharedConfig::openConfig("kwinrc")),
+    m_kwinConfig(KSharedConfig::openConfig("deepin-kwinrc")),
     m_kwinScriptsData(new KWinScriptsData(this))
 {
     KAboutData *about = new KAboutData("kwin-scripts",

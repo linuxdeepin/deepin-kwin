@@ -181,6 +181,8 @@ Depends: kwayland-integration (>= 5.24),
          ${misc:Depends},
          ${shlibs:Depends},
 Provides: deepin-kwin
+Conflicts: dde-kwin
+Replaces: dde-kwin
 Description: KDE window manager, wayland version, PREVIEW release
  KWin (pronounced as one syllable "deepin-kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
@@ -281,6 +283,8 @@ Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Breaks: deepin-kwin-addons (<< 4:5.14)
 Provides: deepin-kwin, x-window-manager
+Conflicts: dde-kwin
+Replaces: dde-kwin
 Description: KDE window manager, X11 version
  KWin (pronounced as one syllable "deepin-kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete

@@ -24,7 +24,7 @@ namespace Decoration
 {
 
 DecorationPalette::DecorationPalette(const QString &colorScheme)
-    : m_colorScheme(colorScheme != QStringLiteral("kdeglobals") ? colorScheme : QString() )
+    : m_colorScheme(colorScheme != QStringLiteral("deepin-kdeglobals") ? colorScheme : QString() )
 {
     if (m_colorScheme.isEmpty()) {
         m_colorSchemeConfig = KSharedConfig::openConfig(m_colorScheme, KConfig::FullConfig);

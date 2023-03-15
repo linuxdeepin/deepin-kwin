@@ -26,7 +26,7 @@ RuleBookSettings::RuleBookSettings(const QString &configname, KConfig::OpenFlags
 }
 
 RuleBookSettings::RuleBookSettings(KConfig::OpenFlags flags, QObject *parent)
-    : RuleBookSettings(QStringLiteral("kwinrulesrc"), flags, parent)
+    : RuleBookSettings(QStringLiteral("deepin-kwinrulesrc"), flags, parent)
 {
 }
 

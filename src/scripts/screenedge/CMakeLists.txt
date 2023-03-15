@@ -1,0 +1,3 @@
+add_kwin_script(runcommandaction)
+add_kwin_script(closewindowaction)
+

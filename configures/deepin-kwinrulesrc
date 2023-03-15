@@ -1,0 +1,41 @@
+[1]
+Description=dde-dock
+desktop=-1
+desktopsrule=2
+wmclass=dde-dock dde-dock
+wmclasscomplete=true
+wmclassmatch=1
+
+[2]
+Description=dde-launcher
+strictgeometry=false
+strictgeometryrule=2
+wmclass=dde-launcher dde-launcher
+wmclasscomplete=true
+wmclassmatch=1
+
+[3]
+Description=Disable Minmium for Dialogs
+minimize=false
+minimizerule=2
+strictgeometry[$d]
+strictgeometryrule[$d]
+types=32
+wmclass=
+wmclasscomplete=false
+wmclassmatch=0
+
+[4]
+#解除坚果云窗口的最大限制，设置其最大值为500x500，防止在kwin上使用aurorae窗口修饰主题时窗口大小错误
+Description=Window settings for nutstore
+desktop[$d]
+desktoprule[$d]
+maxsize=500,500
+maxsizerule=2
+types=1
+wmclass=nutstore
+wmclasscomplete=false
+wmclassmatch=1
+
+[General]
+count=4

@@ -44,6 +44,7 @@ if (NOT Qt5Test_FOUND)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
 endif()
 
+include(GNUInstallDirs)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -457,6 +458,8 @@ ecm_setup_qtplugin_macro_names(
 add_subdirectory(data)
 add_subdirectory(kconf_update)
 add_subdirectory(src)
+add_subdirectory(configures)
+add_subdirectory(deepin-wm-dbus)
 
 if (BUILD_TESTING)
     find_package(WaylandProtocols 1.19 REQUIRED)

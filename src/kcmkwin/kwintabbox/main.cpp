@@ -49,7 +49,7 @@ using namespace TabBox;
 
 KWinTabBoxConfig::KWinTabBoxConfig(QWidget* parent, const QVariantList& args)
     : KCModule(parent, args)
-    , m_config(KSharedConfig::openConfig("kwinrc"))
+    , m_config(KSharedConfig::openConfig("deepin-kwinrc"))
     , m_data(new KWinTabboxData(this))
 {
     QTabWidget* tabWidget = new QTabWidget(this);
@@ -125,7 +125,7 @@ static QList<KPackage::Package> availableLnFPackages()
         pkg.setFallbackPackage(KPackage::Package());
         if (!pkg.filePath("defaults").isEmpty()) {
             KSharedConfigPtr conf = KSharedConfig::openConfig(pkg.filePath("defaults"));
-            KConfigGroup cg = KConfigGroup(conf, "kwinrc");
+            KConfigGroup cg = KConfigGroup(conf, "deepin-kwinrc");
             cg = KConfigGroup(&cg, "WindowSwitcher");
             if (!cg.readEntry("LayoutName", QString()).isEmpty()) {
                 packages << pkg;

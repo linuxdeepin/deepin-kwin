@@ -309,7 +309,7 @@ void ApplicationX11::crashChecking()
     if (crashes >= 2) {
         // Disable compositing if we have had too many crashes
         qCDebug(KWIN_CORE) << "Too many crashes recently, disabling compositing";
-        KConfigGroup compgroup(KSharedConfig::openConfig("kwinrc"), "Compositing");
+        KConfigGroup compgroup(KSharedConfig::openConfig("deepin-kwinrc"), "Compositing");
         compgroup.writeEntry("Enabled", false);
     }
     // Reset crashes count if we stay up for more that 15 seconds

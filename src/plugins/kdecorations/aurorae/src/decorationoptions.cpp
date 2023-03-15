@@ -27,7 +27,7 @@ void ColorSettings::update(const QPalette &pal)
 void ColorSettings::init(const QPalette &pal)
 {
     m_palette = pal;
-    KConfigGroup wmConfig(KSharedConfig::openConfig(QStringLiteral("kdeglobals")), QStringLiteral("WM"));
+    KConfigGroup wmConfig(KSharedConfig::openConfig(QStringLiteral("deepin-kdeglobals")), QStringLiteral("WM"));
     m_activeFrameColor      = wmConfig.readEntry("frame", pal.color(QPalette::Active, QPalette::Window));
     m_inactiveFrameColor    = wmConfig.readEntry("inactiveFrame", m_activeFrameColor);
     m_activeTitleBarColor   = wmConfig.readEntry("activeBackground", pal.color(QPalette::Active, QPalette::Highlight));
@@ -255,4 +255,3 @@ Borders::operator QMargins() const
 }
 
 } // namespace
-

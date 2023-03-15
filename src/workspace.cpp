@@ -66,7 +66,7 @@
 #include <QDBusConnection>
 #include <qscreen.h>
 
-const char displaydconfig[] = "/dsg/configs/org.kde.kwin/org.kde.kwin.splitmenu.display.json";
+const char displaydconfig[] = "/dsg/configs/org.deepin.kwin/org.deepin.kwin.splitmenu.display.json";
 
 namespace KWin
 {

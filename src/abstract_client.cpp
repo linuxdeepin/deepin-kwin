@@ -66,7 +66,7 @@ AbstractClient::AbstractClient()
 #ifdef KWIN_BUILD_TABBOX
     , m_tabBoxClient(QSharedPointer<TabBox::TabBoxClientImpl>(new TabBox::TabBoxClientImpl(this)))
 #endif
-    , m_colorScheme(QStringLiteral("kdeglobals"))
+    , m_colorScheme(QStringLiteral("deepin-kdeglobals"))
 {
     connect(this, &AbstractClient::clientStartUserMovedResized,  this, &AbstractClient::moveResizedChanged);
     connect(this, &AbstractClient::clientFinishUserMovedResized, this, &AbstractClient::moveResizedChanged);
@@ -806,7 +806,7 @@ void AbstractClient::setColorScheme(const QString &colorScheme)
 {
     QString requestedColorScheme = colorScheme;
     if (requestedColorScheme.isEmpty()) {
-        requestedColorScheme = QStringLiteral("kdeglobals");
+        requestedColorScheme = QStringLiteral("deepin-kdeglobals");
     }
 
     if (!m_palette || m_colorScheme != requestedColorScheme) {
@@ -824,14 +824,14 @@ void AbstractClient::setColorScheme(const QString &colorScheme)
                 s_palettes[m_colorScheme] = m_palette;
             } else {
                 if (!s_defaultPalette) {
-                    s_defaultPalette = std::make_shared<Decoration::DecorationPalette>(QStringLiteral("kdeglobals"));
-                    s_palettes[QStringLiteral("kdeglobals")] = s_defaultPalette;
+                    s_defaultPalette = std::make_shared<Decoration::DecorationPalette>(QStringLiteral("deepin-kdeglobals"));
+                    s_palettes[QStringLiteral("deepin-kdeglobals")] = s_defaultPalette;
                 }
 
                 m_palette = s_defaultPalette;
             }
 
-            if (m_colorScheme == QStringLiteral("kdeglobals")) {
+            if (m_colorScheme == QStringLiteral("deepin-kdeglobals")) {
                 s_defaultPalette = m_palette;
             }
         } else {
@@ -2476,7 +2476,7 @@ void AbstractClient::checkQuickTilingMaximizationZones(int xroot, int yroot)
             mode = QuickTileFlag::Maximize;
             innerBorder = isInScreen(QPoint(xroot, area.y() - 1));
         }
-        
+
         break; // no point in checking other screens to contain this... "point"...
     }
     if (mode != electricBorderMode()) {

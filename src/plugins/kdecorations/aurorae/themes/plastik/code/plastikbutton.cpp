@@ -109,7 +109,7 @@ QPixmap PlastikButtonProvider::icon(ButtonIcon icon, int size, bool active, bool
     QPixmap image(size, size);
     image.fill(Qt::transparent);
     QPainter p(&image);
-    KConfigGroup wmConfig(KSharedConfig::openConfig(QStringLiteral("kdeglobals")), QStringLiteral("WM"));
+    KConfigGroup wmConfig(KSharedConfig::openConfig(QStringLiteral("deepin-kdeglobals")), QStringLiteral("WM"));
     const QColor color = wmConfig.readEntry("activeForeground", QPalette().color(QPalette::Active, QPalette::HighlightedText));
 
     if (shadow) {
