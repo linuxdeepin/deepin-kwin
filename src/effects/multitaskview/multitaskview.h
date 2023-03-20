@@ -451,7 +451,6 @@ private Q_SLOTS:
     void onWindowClosed(EffectWindow *w);
     void onCloseEffect(bool);
 
-    void onDockChange(const QString &key);
     void onAddNewDesktop(EffectWindow *w, EffectScreen *s);
 
 private:
@@ -501,7 +500,6 @@ private:
     void showWorkspacePreview(EffectScreen *screen, QPoint pos, bool isClear = false);
     void changeCurrentDesktop(int desktop);
 
-    void relayDockEvent(QPoint pos, int button);
     void handlerWheelEvent(Qt::MouseButtons);
 
     bool checkHandlerWorkspace(QPoint pos, EffectScreen *screen, int &desktop);
@@ -526,7 +524,6 @@ private:
     QList<QKeySequence> shortcut;
 
     EffectWindow *m_windowMove = nullptr;
-    EffectWindow *m_dock = nullptr;
     EffectWindow *m_hoverWinBtn = nullptr;
     EffectWindow *m_hoverWin = nullptr;
     EffectFrame  *m_hoverWinFrame = nullptr;
@@ -571,7 +568,6 @@ private:
     QVector<MultiViewWinManager *>                  m_motionManagers;
     QVector<MultiViewWinManager *>                  m_workspaceWinMgr;
     QRect m_backgroundRect;
-    QRect m_dockRect;
     QRect m_windowMoveGeometry;
 
     EffectScreen *m_screen = nullptr;
