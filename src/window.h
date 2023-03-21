@@ -776,7 +776,7 @@ public:
     int depth() const;
     bool hasAlpha() const;
     virtual bool setupCompositing();
-    virtual void finishCompositing(ReleaseReason releaseReason = ReleaseReason::Release);
+    virtual void finishCompositing();
     // these call workspace->addRepaint(), but first transform the damage if needed
     void addWorkspaceRepaint(const QRectF &r);
     void addWorkspaceRepaint(int x, int y, int w, int h);
