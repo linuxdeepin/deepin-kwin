@@ -17,7 +17,6 @@
 #include <qdbusconnection.h>
 #include <qdbusinterface.h>
 #include <qdbusreply.h>
-#include <QGSettings/qgsettings.h>
 #include <QImageReader>
 #include "deepin_kwineffects.h"
 #include "workspace.h"

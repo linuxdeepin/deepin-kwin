@@ -15,7 +15,7 @@ if (DISABLE_DEEPIN_WM)
     set(DEEPIN_WM_SUFFIX "-->")
     add_definitions(-DDISABLE_DEEPIN_WM)
 else()
-    pkg_search_module(GSETTINGS REQUIRED gsettings-qt)
+    pkg_check_modules(Gsettings REQUIRED IMPORTED_TARGET gsettings-qt)
 endif()
 
 configure_file(com.deepin.wm.xml.in com.deepin.wm.xml)
@@ -49,12 +49,6 @@ add_executable(
     ${wm_SRCS}
 )
 
-target_include_directories(
-    ${TARGET_NAME}
-    PRIVATE
-    ${GSETTINGS_INCLUDE_DIRS}
-)
-
 target_link_libraries(
     ${TARGET_NAME}
     Qt5::Core
@@ -62,7 +56,7 @@ target_link_libraries(
     KF5::ConfigCore
     KF5::WindowSystem
     KF5::GlobalAccel
-    ${GSETTINGS_LDFLAGS}
+    PkgConfig::Gsettings
 )
 
 install(TARGETS ${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})

@@ -41,7 +41,6 @@ endfunction()
 if (HAVE_ACCESSIBILITY)
     include_directories(${QACCESSIBILITYCLIENT_INCLUDE_DIR})
 endif()
-pkg_search_module(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt)
 find_package(Qt5LinguistTools REQUIRED)
 set(kwin_effect_OWN_LIBS
     deepin-kwineffects
@@ -68,7 +67,6 @@ set(kwin_effect_QT_LIBS
     Qt::DBus
     Qt::Quick
     Qt::X11Extras
-    PkgConfig::QGSETTINGS
 )
 
 set(kwin_effect_XLIB_LIBS
