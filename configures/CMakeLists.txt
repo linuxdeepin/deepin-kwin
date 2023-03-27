@@ -13,5 +13,5 @@ install(
     FILES
         org.deepin.kwin.splitmenu.display.json
     DESTINATION
-        "${CMAKE_INSTALL_DATAROOTDIR}/dsg/configs/org.deepin.kwin"
+        "share/dsg/configs/org.deepin.kwin"
 )

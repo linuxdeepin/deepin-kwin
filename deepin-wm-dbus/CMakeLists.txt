@@ -26,14 +26,14 @@ install(
     FILES 
         ${CMAKE_CURRENT_BINARY_DIR}/com.deepin.wm.xml
     DESTINATION
-        "${CMAKE_INSTALL_DATAROOTDIR}/dbus-1/interfaces"
+        "share/dbus-1/interfaces"
 )
 
 install(
     FILES 
         ${CMAKE_CURRENT_BINARY_DIR}/com.deepin.wm.service
     DESTINATION
-        "${CMAKE_INSTALL_DATAROOTDIR}/dbus-1/services"
+        "share/dbus-1/services"
 )
 
 qt5_add_dbus_adaptor(
@@ -67,4 +67,4 @@ target_link_libraries(
     ${GSETTINGS_LDFLAGS}
 )
 
-install(TARGETS ${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS ${TARGET_NAME} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
