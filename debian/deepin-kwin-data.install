@@ -28,3 +28,8 @@ usr/share/kservicetypes5/deepin-kwin*.desktop
 usr/share/deepin-kwin/
 usr/share/locale/
 usr/share/qlogging-categories5/
+etc/deepin-kdeglobals
+etc/deepin-kglobalshortcutsrc
+etc/deepin-klaunchrc
+etc/deepin-kwinrc
+etc/deepin-kwinrulesrc
