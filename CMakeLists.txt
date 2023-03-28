@@ -458,7 +458,6 @@ add_subdirectory(data)
 add_subdirectory(kconf_update)
 add_subdirectory(src)
 add_subdirectory(configures)
-add_subdirectory(deepin-wm-dbus)
 
 if (BUILD_TESTING)
     find_package(WaylandProtocols 1.19 REQUIRED)

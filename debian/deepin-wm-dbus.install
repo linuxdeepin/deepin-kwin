@@ -1,4 +1,0 @@
-usr/bin/deepin-wm-dbus
-usr/share/dbus-1/interfaces
-usr/share/dbus-1/services/com.deepin.wm.service
-usr/share/dsg/configs/org.deepin.kwin/org.deepin.kwin.splitmenu.display.json

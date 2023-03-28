@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=com.deepin.wm
-Exec=${CMAKE_INSTALL_BINDIR}/${TARGET_NAME}

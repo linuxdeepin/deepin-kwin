@@ -33,3 +33,4 @@ etc/deepin-kglobalshortcutsrc
 etc/deepin-klaunchrc
 etc/deepin-kwinrc
 etc/deepin-kwinrulesrc
+usr/share/dsg/configs/org.deepin.kwin/org.deepin.kwin.splitmenu.display.json

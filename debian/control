@@ -180,7 +180,6 @@ Depends: kwayland-integration (>= 5.24),
          xwayland,
          ${misc:Depends},
          ${shlibs:Depends},
-         deepin-wm-dbus,
 Provides: deepin-kwin
 Conflicts: dde-kwin
 Replaces: dde-kwin
@@ -282,7 +281,6 @@ Description: KDE window manager x11 plugin
 Package: deepin-kwin-x11
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends},
-         deepin-wm-dbus,
 Breaks: deepin-kwin-addons (<< 4:5.14)
 Provides: deepin-kwin, x-window-manager
 Conflicts: dde-kwin
@@ -345,10 +343,3 @@ Description: KDE window manager render utils library
  of windows and switching between them.
  .
  This package is part of the KDE base workspace module.
-
-Package: deepin-wm-dbus
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends},
- kwin-x11, kwin-wayland
-Description: deepin-wm dbus on the DDE
- Let kwin work well in the Deepin Desktop Environment.
