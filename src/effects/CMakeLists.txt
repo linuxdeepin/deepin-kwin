@@ -154,6 +154,7 @@ add_subdirectory(thumbnailaside)
 add_subdirectory(touchpoints)
 add_subdirectory(zoom)
 add_subdirectory(splithandler)
+add_subdirectory(black-screen)
 
 # OpenGL-specific effects
 add_subdirectory(blur)
