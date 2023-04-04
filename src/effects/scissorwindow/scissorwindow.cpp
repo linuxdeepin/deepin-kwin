@@ -245,6 +245,7 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
                 windowAdded(win);
         }
         connect(effects, &EffectsHandler::windowAdded, this, &ScissorWindow::windowAdded);
+        connect(effects, &EffectsHandler::windowDeleted, this, &ScissorWindow::windowDeleted);
     }
 }
 
@@ -315,72 +316,97 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
             effects->paintWindow(w, mask, region, data);
             return;
         }
-        {
-            static const int m = 100;
-            const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
-            QImage image(w->width() + 2 * m, w->height() + 2 * m, QImage::Format_ARGB32);
-            image.fill(Qt::transparent);
-            QPainter painter(&image);
+
+        const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
+        static const int extraWindowFrame = 100;
+
+        if (!m_clipMaskMap.count(w) || m_clipMaskMap[w].maskPath != path) {
+            QImage clipMaskImage(w->width() + 2 * extraWindowFrame, w->height() + 2 * extraWindowFrame, QImage::Format_ARGB32);
+            clipMaskImage.fill(Qt::transparent);
+
+            QPainter painter(&clipMaskImage);
             painter.setPen(Qt::NoPen);
             painter.setBrush(Qt::black);
             painter.setRenderHint(QPainter::Antialiasing);
-            painter.translate(m, m);
+            painter.translate(extraWindowFrame, extraWindowFrame);
             painter.drawPath(path);
             painter.end();
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            auto shader = m_shader1;
-            ShaderManager::instance()->pushShader(shader);
-            QRect rect = w->rect();
-            rect.adjust(-m, -m, m, m);
-            const int mvpMatrixLocation = m_shader->uniformLocation("modelViewProjectionMatrix");
-            QMatrix4x4 mvp = data.screenProjectionMatrix();
-            mvp.translate(w->x() - m, w->y() - m);
-            shader->setUniform(mvpMatrixLocation, mvp);
-            shader->setUniform("sampler", 0);
-            shader->setUniform("w", w->width());
-            shader->setUniform("h", w->height());
-            GLTexture tex(image);
-            glActiveTexture(GL_TEXTURE0);
-            tex.bind();
-            if (!w->windowClass().contains("launcher")) tex.render(region, rect);
-            ShaderManager::instance()->popShader();
-            glActiveTexture(GL_TEXTURE0);
-            tex.unbind();
-        }
-        {
-            const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
-            QImage img(w->size() * 2, QImage::Format_RGBA8888);
-            img.fill(QColor(0, 0, 0, 0));
-            QPainter pa(&img);
+
+            QImage borderImage(w->size() * 2, QImage::Format_RGBA8888);
+            borderImage.fill(QColor(0, 0, 0, 0));
+            QPainter pa(&borderImage);
             pa.setRenderHint(QPainter::Antialiasing);
             pa.scale(2, 2);
             pa.fillPath(path, QColor(255, 255, 255, 255));
             pa.strokePath(path, QPen(QColor(80, 80, 80, 60), 2));
             pa.end();
+
+            m_clipMaskMap[w] = WindowMaskCache {
+                .maskPath = path,
+                .maskTexture = std::make_shared<GLTexture>(clipMaskImage),
+                .borderTexture = std::make_shared<GLTexture>(borderImage),
+            };
+
+            m_clipMaskMap[w].borderTexture->setFilter(GL_LINEAR);
+            m_clipMaskMap[w].borderTexture->setWrapMode(GL_CLAMP_TO_EDGE);
+        }
+
+        const WindowMaskCache& cache = m_clipMaskMap[w];
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        QRect rect = w->rect();
+        rect.adjust(-extraWindowFrame, -extraWindowFrame, extraWindowFrame, extraWindowFrame);
+
+        {
+            auto shader = m_shader1;
+            ShaderManager::instance()->pushShader(shader);
+            const int mvpMatrixLocation = m_shader->uniformLocation("modelViewProjectionMatrix");
+            QMatrix4x4 mvp = data.screenProjectionMatrix();
+            mvp.translate(w->x() - extraWindowFrame, w->y() - extraWindowFrame);
+            shader->setUniform(mvpMatrixLocation, mvp);
+            shader->setUniform("sampler", 0);
+            shader->setUniform("w", w->width());
+            shader->setUniform("h", w->height());
+
+            std::shared_ptr<GLTexture> tex = cache.maskTexture;
+            glActiveTexture(GL_TEXTURE0); tex->bind();
+
+            if (!w->windowClass().contains("launcher")) tex->render(region, rect);
+            ShaderManager::instance()->popShader();
+            glActiveTexture(GL_TEXTURE0);
+            tex->unbind();
+        }
+
+        {
             auto shader = m_shader2;
             ShaderManager::instance()->pushShader(shader);
             shader->setUniform("sampler", 0);
             shader->setUniform("msk1", 2);
             auto old_shader = data.shader;
             data.shader = shader;
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            GLTexture maskTexture(img);
-            maskTexture.setFilter(GL_LINEAR);
-            maskTexture.setWrapMode(GL_CLAMP_TO_EDGE);
-            glActiveTexture(GL_TEXTURE2);
-            maskTexture.bind();
+
+            std::shared_ptr<GLTexture> tex = cache.maskTexture;
+            glActiveTexture(GL_TEXTURE0); tex->bind();
+
+            std::shared_ptr<GLTexture> maskTexture = cache.borderTexture;
+            glActiveTexture(GL_TEXTURE2); maskTexture->bind();
+
             glActiveTexture(GL_TEXTURE0);
             effects->paintWindow(w, mask, region, data);
+
             ShaderManager::instance()->popShader();
             data.shader = old_shader;
+
             glActiveTexture(GL_TEXTURE2);
-            maskTexture.unbind();
             glActiveTexture(GL_TEXTURE0);
-            effects->addRepaintFull();
-            return;
+
+            tex->unbind();
+            maskTexture->unbind();
         }
+
+        return;
     } else {
         if (!m_shader->isValid() || w->isDesktop() || isMaximized(w, data)) {
             effects->paintWindow(w, mask, region, data);
@@ -459,6 +485,16 @@ bool ScissorWindow::supported() {
 void ScissorWindow::windowAdded(EffectWindow *w) {
     if (!w->hasDecoration())
         return;
+}
+
+void ScissorWindow::windowDeleted(EffectWindow *w) {
+    m_clipMaskMap.erase(w);
+
+    const QVariant &data_clip_path = w->data(WindowClipPathRole);
+    if (data_clip_path.isValid()) {
+        // FIXME: The reason for redrawing is that there are false shadows in the window of the clip path, and the screen needs to be forcibly updated.
+        effects->addRepaintFull();
+    }
 }
 
 bool ScissorWindow::isMaximized(EffectWindow *w) {

@@ -5,7 +5,11 @@
 #define SCISSORWINDOW_H
 
 #include <deepin_kwineffects.h>
+
+#include <QPainterPath>
+
 #include <map>
+#include <memory>
 
 namespace KWin { class GLTexture; }
 
@@ -14,6 +18,12 @@ namespace KWin {
 class ScissorWindow : public Effect
 {
     Q_OBJECT
+
+    struct WindowMaskCache {
+        QPainterPath maskPath;
+        std::shared_ptr<GLTexture> maskTexture;
+        std::shared_ptr<GLTexture> borderTexture;
+    };
 
 public:
     ScissorWindow();
@@ -47,6 +57,7 @@ public:
 
 protected Q_SLOTS:
     void windowAdded(EffectWindow *window);
+    void windowDeleted(EffectWindow *window);
 
 private:
     enum { TopLeft = 0, TopRight, BottomRight, BottomLeft, NCorners };
@@ -57,6 +68,7 @@ private:
     //GLTexture *m_maskTexture;
     GLShader *m_shader, *m_shader1, *m_shader2, *m_shader3;
     std::map<int, GLTexture*> m_texMaskMap;
+    std::map<EffectWindow*, WindowMaskCache> m_clipMaskMap;
 };
 
 }
