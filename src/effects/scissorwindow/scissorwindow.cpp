@@ -119,7 +119,7 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
         || isMaximized(w)
         || (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS)))
     {
-        effects->paintWindow(w, mask, region, data);
+        effects->drawWindow(w, mask, region, data);
         return;
     }
 
@@ -167,7 +167,7 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             glActiveTexture(GL_TEXTURE2); maskTexture->bind();
 
             glActiveTexture(GL_TEXTURE0);
-            effects->paintWindow(w, mask, region, data);
+            effects->drawWindow(w, mask, region, data);
 
             ShaderManager::instance()->popShader();
             data.shader = old_shader;
@@ -198,7 +198,7 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             }
         }
         if (cornerRadius < 2) {
-            effects->paintWindow(w, mask, region, data);
+            effects->drawWindow(w, mask, region, data);
             return;
         }
 
@@ -234,7 +234,7 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
         glActiveTexture(GL_TEXTURE1);
         m_texMaskMap[cornerRadius]->bind();
         glActiveTexture(GL_TEXTURE0);
-        effects->paintWindow(w, mask, region, data);
+        effects->drawWindow(w, mask, region, data);
         ShaderManager::instance()->popShader();
         data.shader = old_shader;
         glActiveTexture(GL_TEXTURE1);
