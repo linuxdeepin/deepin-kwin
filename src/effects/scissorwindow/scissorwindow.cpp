@@ -18,9 +18,17 @@
 
 Q_DECLARE_METATYPE(QPainterPath)
 
+static void ensureResources()
+{
+    // Must initialize resources manually because the effect is a static lib.
+    Q_INIT_RESOURCE(scissor);
+}
+
 namespace KWin {
 
-ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
+ScissorWindow::ScissorWindow() : Effect() {
+    ensureResources();
+
     for (int i = 0; i < NCorners; ++i) {
         m_texMask[i] = nullptr;
     }
@@ -29,164 +37,15 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
 
     reconfigure(ReconfigureAll);
 
-    {
-        QByteArray source;
-        QTextStream stream(&source);
+    m_maskShader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture,
+                                                                     QByteArray(),
+                                                                     ":/effects/scissor/mask.frag"
+                                                                  );
 
-        GLPlatform *const gl = GLPlatform::instance();
-        QByteArray varying, output, textureLookup;
-        if (!gl->isGLES()) {
-            const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
-            if (glsl_140) stream << "#version 140\n";
-            varying = glsl_140 ? QByteArrayLiteral("in")
-                               : QByteArrayLiteral("varying");
-            textureLookup = glsl_140 ? QByteArrayLiteral("texture")
-                                     : QByteArrayLiteral("texture2D");
-            output = glsl_140 ? QByteArrayLiteral("fragColor")
-                              : QByteArrayLiteral("gl_FragColor");
-        } else {
-            const bool glsl_es_300 =
-                GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
-            if (glsl_es_300) stream << "#version 300 es\n";
-            stream << "precision highp float;\n";
-            varying = glsl_es_300 ? QByteArrayLiteral("in")
-                                  : QByteArrayLiteral("varying");
-            textureLookup = glsl_es_300 ? QByteArrayLiteral("texture")
-                                        : QByteArrayLiteral("texture2D");
-            output = glsl_es_300 ? QByteArrayLiteral("fragColor")
-                                 : QByteArrayLiteral("gl_FragColor");
-        }
-
-        stream << "uniform float opacity;\n";
-        stream << "uniform sampler2D img, msk, sha;\n";
-        stream << varying << " vec2 texcoord0;\n";
-        if (output != QByteArrayLiteral("gl_FragColor"))
-            stream << "\nout vec4 " << output << ";\n";
-
-        stream << "void main(){ \n";
-        stream << "  vec4 c = " << textureLookup << "(img, texcoord0);\n";
-        stream << "  vec4 s = " << textureLookup << "(sha, vec2(texcoord0.s,1-texcoord0.t));\n";
-        stream << "  vec4 m = " << textureLookup << "(msk, texcoord0);\n";
-        stream << "  vec4 clr = vec4(0);\n";
-        stream << "  clr.rgb = s.rgb * opacity + c.rgb * (1.0 - s.a * opacity);\n";
-        stream << "  clr.a = 1 - m.a;\n";
-        stream << "  " << output << " = clr;\n";
-        stream << "}\n";
-        stream.flush();
-        m_shader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
-        int img = m_shader->uniformLocation("img");
-        int sha = m_shader->uniformLocation("sha");
-        int msk = m_shader->uniformLocation("msk");
-        ShaderManager::instance()->pushShader(m_shader);
-        m_shader->setUniform(img, 0);
-        m_shader->setUniform(sha, 1);
-        m_shader->setUniform(msk, 2);
-        ShaderManager::instance()->popShader();
-    }
-
-    {
-	    QByteArray source;
-	    QTextStream stream(&source);
-	    GLPlatform *const gl = GLPlatform::instance();
-	    QByteArray varying, output, textureLookup;
-	    if (!gl->isGLES()) {
-		    const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
-		    if (glsl_140) stream << "#version 140\n";
-		    varying = glsl_140 ? QByteArrayLiteral("in")
-			    : QByteArrayLiteral("varying");
-		    textureLookup = glsl_140 ? QByteArrayLiteral("texture")
-			    : QByteArrayLiteral("texture2D");
-		    output = glsl_140 ? QByteArrayLiteral("fragColor")
-			    : QByteArrayLiteral("gl_FragColor");
-	    } else {
-		    const bool glsl_es_300 = GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
-		    if (glsl_es_300) stream << "#version 300 es\n";
-		    stream << "precision highp float;\n";
-		    varying = glsl_es_300 ? QByteArrayLiteral("in")
-			    : QByteArrayLiteral("varying");
-		    textureLookup = glsl_es_300
-			    ? QByteArrayLiteral("texture")
-			    : QByteArrayLiteral("texture2D");
-		    output = glsl_es_300 ? QByteArrayLiteral("fragColor")
-			    : QByteArrayLiteral("gl_FragColor");
-	    }
-	    stream << "uniform sampler2D sampler, msk1;\n";
-	    stream << varying << " vec2 texcoord0;\n";
-	    if (output != QByteArrayLiteral("gl_FragColor"))
-		    stream << "\nout vec4 " << output << ";\n";
-	    stream << "void main(){ \n";
-	    stream << "  vec4 c = " << textureLookup << "(sampler, texcoord0);\n";
-	    stream << "  vec4 m = " << textureLookup << "(msk1, texcoord0);\n";
-	    stream << "  c *= m.a;\n";
-	    stream << "  " << output << " = c;\n";
-	    stream << "}\n";
-	    stream.flush();
-	    m_maskShader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
-    }
-
-    {
-        QByteArray source;
-        QTextStream stream(&source);
-        GLPlatform *const gl = GLPlatform::instance();
-        QByteArray varying, output, textureLookup;
-        if (!gl->isGLES())
-        {
-            const bool glsl_140 = gl->glslVersion() >= kVersionNumber(1, 40);
-            if (glsl_140)
-                stream << "#version 140\n";
-            varying = glsl_140 ? QByteArrayLiteral("in") : QByteArrayLiteral("varying");
-            textureLookup = glsl_140 ? QByteArrayLiteral("texture") : QByteArrayLiteral("texture2D");
-            output = glsl_140 ? QByteArrayLiteral("fragColor") : QByteArrayLiteral("gl_FragColor");
-        }
-        else
-        {
-            const bool glsl_es_300 = GLPlatform::instance()->glslVersion() >= kVersionNumber(3, 0);
-            if (glsl_es_300)
-                stream << "#version 300 es\n";
-            stream << "precision highp float;\n";
-            varying = glsl_es_300 ? QByteArrayLiteral("in") : QByteArrayLiteral("varying");
-            textureLookup = glsl_es_300 ? QByteArrayLiteral("texture") : QByteArrayLiteral("texture2D");
-            output = glsl_es_300 ? QByteArrayLiteral("fragColor") : QByteArrayLiteral("gl_FragColor");
-        }
-        stream << "uniform sampler2D sampler, msk1;\n";
-        stream << "uniform sampler2D modulation;\n";
-        stream << "uniform float saturation;\n";
-        stream << "uniform vec2 k;\n";
-        stream << "uniform int typ1, typ2;\n";
-        stream << varying << " vec2 texcoord0;\n";
-        if (output != QByteArrayLiteral("gl_FragColor"))
-            stream << "\nout vec4 " << output << ";\n";
-        stream << "void main(){ \n";
-        stream << "  vec4 c = " << textureLookup << "(sampler, texcoord0);\n";
-        stream << "  if (typ1 == 1) {\n";
-        stream << "    if (typ2 == 1) {\n";
-        stream << "      vec2 tc = texcoord0 * k;\n";
-        stream << "      vec4 m0 = " << textureLookup << "(msk1, tc);\n";
-        stream << "      tc = texcoord0 * k - vec2(0, k.t - 1.0);\n";
-        stream << "      tc.t = 1.0 - tc.t;\n";
-        stream << "      vec4 m1 = " << textureLookup << "(msk1, tc);\n";
-        stream << "      tc = texcoord0 * k - vec2(k.s - 1.0, 0);\n";
-        stream << "      tc.s = 1.0 - tc.s;\n";
-        stream << "      vec4 m2 = " << textureLookup << "(msk1, tc);\n";
-        stream << "      tc = 1.0 - ((texcoord0 - 1.0) * k + 1.0);\n";
-        stream << "      vec4 m3 = " << textureLookup << "(msk1, tc);\n";
-        stream << "      c *= (m0.a * m1.a * m2.a * m3.a);\n";
-        stream << "    } else {\n";
-        stream << "      if (texcoord0.t > 0.5) {\n";
-        stream << "          vec2 tc = texcoord0 * k - vec2(0, k.t - 1.0);\n";
-        stream << "          tc.t = 1.0 - tc.t;\n";
-        stream << "          vec4 m1 = " << textureLookup << "(msk1, tc);\n";
-        stream << "          tc = 1.0 - ((texcoord0 - 1.0) * k + 1.0);\n";
-        stream << "          vec4 m3 = " << textureLookup << "(msk1, tc);\n";
-        stream << "          c *= (m1.a * m3.a);\n";
-        stream << "      }\n";
-        stream << "    }\n";
-        stream << "  }\n";
-        stream << "  " << output << " = c;\n";
-        stream << "}\n";
-        stream.flush();
-        m_filletOptimizeShader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
-    }
+    m_filletOptimizeShader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture,
+                                                                               QByteArray(),
+                                                                               ":/effects/scissor/fillet.frag"
+                                                                            );
 
     {
         for (int i = 0; i < KWindowSystem::windows().count(); ++i) {
@@ -199,7 +58,6 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
 }
 
 ScissorWindow::~ScissorWindow() {
-    if (m_shader) delete m_shader;
     if (m_maskShader) delete m_maskShader;
     if (m_filletOptimizeShader) delete m_filletOptimizeShader;
     for (auto itr = m_texMaskMap.begin(); itr != m_texMaskMap.end(); itr++) {
@@ -241,7 +99,7 @@ void ScissorWindow::buildTextureMask() {
 
 void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
                                    std::chrono::milliseconds time) {
-    if (!m_shader->isValid() || effects->hasActiveFullScreenEffect() ||
+    if (effects->hasActiveFullScreenEffect() ||
         w->isDesktop() || isMaximized(w)) {
         effects->prePaintWindow(w, data, time);
         return;
@@ -257,8 +115,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
 }
 
 void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
-    if (!m_shader->isValid()
-        || w->isDesktop()
+    if (w->isDesktop()
         || isMaximized(w)
         || (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS)))
     {

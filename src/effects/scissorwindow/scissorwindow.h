@@ -65,7 +65,7 @@ private:
 
     GLTexture *m_texMask[NCorners];
     //GLTexture *m_maskTexture;
-    GLShader *m_shader, *m_maskShader, *m_filletOptimizeShader;
+    GLShader *m_maskShader, *m_filletOptimizeShader;
     std::map<int, GLTexture*> m_texMaskMap;
     std::map<EffectWindow*, WindowMaskCache> m_clipMaskMap;
 };
