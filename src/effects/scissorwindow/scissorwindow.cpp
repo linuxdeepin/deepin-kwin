@@ -257,12 +257,6 @@ void ScissorWindow::windowAdded(EffectWindow *w) {
 
 void ScissorWindow::windowDeleted(EffectWindow *w) {
     m_clipMaskMap.erase(w);
-
-    const QVariant &data_clip_path = w->data(WindowClipPathRole);
-    if (data_clip_path.isValid()) {
-        // FIXME: The reason for redrawing is that there are false shadows in the window of the clip path, and the screen needs to be forcibly updated.
-        effects->addRepaintFull();
-    }
 }
 
 bool ScissorWindow::isMaximized(EffectWindow *w) {
