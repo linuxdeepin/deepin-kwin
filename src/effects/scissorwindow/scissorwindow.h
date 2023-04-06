@@ -22,7 +22,6 @@ class ScissorWindow : public Effect
     struct WindowMaskCache {
         QPainterPath maskPath;
         std::shared_ptr<GLTexture> maskTexture;
-        std::shared_ptr<GLTexture> borderTexture;
     };
 
 public:
@@ -53,7 +52,7 @@ public:
 
     void prePaintWindow(EffectWindow* w, WindowPrePaintData& data, std::chrono::milliseconds time) override;
 
-    void paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data) override;
+    void drawWindow(EffectWindow* w, int mask, const QRegion& region, WindowPaintData& data) override;
 
 protected Q_SLOTS:
     void windowAdded(EffectWindow *window);
@@ -66,7 +65,7 @@ private:
 
     GLTexture *m_texMask[NCorners];
     //GLTexture *m_maskTexture;
-    GLShader *m_shader, *m_shader1, *m_shader2, *m_shader3;
+    GLShader *m_shader, *m_maskShader, *m_filletOptimizeShader;
     std::map<int, GLTexture*> m_texMaskMap;
     std::map<EffectWindow*, WindowMaskCache> m_clipMaskMap;
 };

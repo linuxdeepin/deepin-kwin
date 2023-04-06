@@ -25,8 +25,7 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
         m_texMask[i] = nullptr;
     }
 
-    m_shader1 = nullptr;
-    m_shader2 = nullptr;
+    m_maskShader = nullptr;
 
     reconfigure(ReconfigureAll);
 
@@ -86,56 +85,6 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
     }
 
     {
-        QByteArray source0, source1;
-        {
-            QTextStream stream(&source0);
-            stream << "#version 140\n";
-            stream << "in vec4 position, texcoord;\n";
-            stream << "out vec2 texcoord0;\n";
-            stream << "uniform mat4 modelViewProjectionMatrix;\n";
-            stream << "void main() { \n";
-            stream << "  texcoord0 = texcoord.st;\n";
-            stream << "  gl_Position = modelViewProjectionMatrix * position;\n";
-            stream << "}\n";
-            stream.flush();
-        }
-        {
-            QTextStream stream(&source1);
-            stream << "#version 140\n";
-            stream << "uniform float w, h;\n";
-            stream << "in vec2 texcoord0;\n";
-            stream << "out vec4 fragColor;\n";
-            stream << "uniform sampler2D sampler, msk1;\n";
-            stream << "void main() { \n";
-            stream << "  float Pi = 6.28318530718;\n";
-            stream << "  float Directions = 60.0;\n";
-            stream << "  float Quality = 80.0;\n";
-            stream << "  float Size = 40.0;\n";
-            stream << "  vec2 Radius = Size/vec2(800, 800);\n";
-            stream << "  vec2 uv = texcoord0 - vec2(0, 0.012);\n";
-            stream << "  vec4 Color = texture(sampler, uv);\n";
-            stream << "  bool cond = (w > 300 && h > 300 && (uv.s > 0.8 || uv.s < 0.2 || uv.t > 0.8 || uv.t < 0.2)); \n";
-            stream << "  cond = w < 200 || h < 200 || cond;\n";
-            stream << "  if (cond) { \n";
-            stream << "    for(float d = 0.0; d < Pi; d += Pi / Directions){\n";
-            stream << "      for(float i = 1.0 / Quality; i <= 1.0; i += 1.0 / Quality) {\n";
-            stream << "        Color += texture(sampler, uv + vec2(cos(d), sin(d)) * Radius * i);\n";
-            stream << "      }\n";
-            stream << "    }\n";
-            stream << "  }\n";
-            stream << "  Color /= Quality * Directions - 15.0;\n";
-            stream << "  vec4 c1 = texture(sampler, texcoord0);\n";
-            stream << "  vec4 c2 = Color;\n";
-            stream << "  c2.rgb = vec3(0.05, 0.05, 0.05);\n";
-            stream << "  fragColor = c2;\n";
-            stream << "  fragColor.a *= (1 - c1.a) * 0.18;\n";
-            stream << "}\n";
-            stream.flush();
-        }
-        m_shader1 = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, source0, source1);
-    }
-
-    {
 	    QByteArray source;
 	    QTextStream stream(&source);
 	    GLPlatform *const gl = GLPlatform::instance();
@@ -172,7 +121,7 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
 	    stream << "  " << output << " = c;\n";
 	    stream << "}\n";
 	    stream.flush();
-	    m_shader2 = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
+	    m_maskShader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
     }
 
     {
@@ -236,7 +185,7 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
         stream << "  " << output << " = c;\n";
         stream << "}\n";
         stream.flush();
-        m_shader3 = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
+        m_filletOptimizeShader = ShaderManager::instance()->generateCustomShader(ShaderTrait::MapTexture, QByteArray(), source);
     }
 
     {
@@ -251,9 +200,8 @@ ScissorWindow::ScissorWindow() : Effect(), m_shader(nullptr) {
 
 ScissorWindow::~ScissorWindow() {
     if (m_shader) delete m_shader;
-    if (m_shader1) delete m_shader1;
-    if (m_shader2) delete m_shader2;
-    if (m_shader3) delete m_shader3;
+    if (m_maskShader) delete m_maskShader;
+    if (m_filletOptimizeShader) delete m_filletOptimizeShader;
     for (auto itr = m_texMaskMap.begin(); itr != m_texMaskMap.end(); itr++) {
         delete itr->second;
     }
@@ -308,33 +256,25 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
     effects->prePaintWindow(w, data, time);
 }
 
-void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) {
+void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
+    if (!m_shader->isValid()
+        || w->isDesktop()
+        || isMaximized(w)
+        || (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS)))
+    {
+        effects->paintWindow(w, mask, region, data);
+        return;
+    }
+
     const QVariant &data_clip_path = w->data(WindowClipPathRole);
     if (data_clip_path.isValid()) {
-        if (!m_shader->isValid() || w->isDesktop() || isMaximized(w) ||
-            (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS))) {
-            effects->paintWindow(w, mask, region, data);
-            return;
-        }
-
         const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
         static const int extraWindowFrame = 100;
 
         if (!m_clipMaskMap.count(w) || m_clipMaskMap[w].maskPath != path) {
-            QImage clipMaskImage(w->width() + 2 * extraWindowFrame, w->height() + 2 * extraWindowFrame, QImage::Format_ARGB32);
-            clipMaskImage.fill(Qt::transparent);
-
-            QPainter painter(&clipMaskImage);
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(Qt::black);
-            painter.setRenderHint(QPainter::Antialiasing);
-            painter.translate(extraWindowFrame, extraWindowFrame);
-            painter.drawPath(path);
-            painter.end();
-
-            QImage borderImage(w->size() * 2, QImage::Format_RGBA8888);
-            borderImage.fill(QColor(0, 0, 0, 0));
-            QPainter pa(&borderImage);
+            QImage maskImage(w->size() * 2, QImage::Format_RGBA8888);
+            maskImage.fill(QColor(0, 0, 0, 0));
+            QPainter pa(&maskImage);
             pa.setRenderHint(QPainter::Antialiasing);
             pa.scale(2, 2);
             pa.fillPath(path, QColor(255, 255, 255, 255));
@@ -343,12 +283,11 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
 
             m_clipMaskMap[w] = WindowMaskCache {
                 .maskPath = path,
-                .maskTexture = std::make_shared<GLTexture>(clipMaskImage),
-                .borderTexture = std::make_shared<GLTexture>(borderImage),
+                .maskTexture = std::make_shared<GLTexture>(maskImage),
             };
 
-            m_clipMaskMap[w].borderTexture->setFilter(GL_LINEAR);
-            m_clipMaskMap[w].borderTexture->setWrapMode(GL_CLAMP_TO_EDGE);
+            m_clipMaskMap[w].maskTexture->setFilter(GL_LINEAR);
+            m_clipMaskMap[w].maskTexture->setWrapMode(GL_CLAMP_TO_EDGE);
         }
 
         const WindowMaskCache& cache = m_clipMaskMap[w];
@@ -360,37 +299,14 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
         rect.adjust(-extraWindowFrame, -extraWindowFrame, extraWindowFrame, extraWindowFrame);
 
         {
-            auto shader = m_shader1;
-            ShaderManager::instance()->pushShader(shader);
-            const int mvpMatrixLocation = m_shader->uniformLocation("modelViewProjectionMatrix");
-            QMatrix4x4 mvp = data.screenProjectionMatrix();
-            mvp.translate(w->x() - extraWindowFrame, w->y() - extraWindowFrame);
-            shader->setUniform(mvpMatrixLocation, mvp);
-            shader->setUniform("sampler", 0);
-            shader->setUniform("w", w->width());
-            shader->setUniform("h", w->height());
-
-            std::shared_ptr<GLTexture> tex = cache.maskTexture;
-            glActiveTexture(GL_TEXTURE0); tex->bind();
-
-            if (!w->windowClass().contains("launcher")) tex->render(region, rect);
-            ShaderManager::instance()->popShader();
-            glActiveTexture(GL_TEXTURE0);
-            tex->unbind();
-        }
-
-        {
-            auto shader = m_shader2;
+            auto shader = m_maskShader;
             ShaderManager::instance()->pushShader(shader);
             shader->setUniform("sampler", 0);
             shader->setUniform("msk1", 2);
             auto old_shader = data.shader;
             data.shader = shader;
 
-            std::shared_ptr<GLTexture> tex = cache.maskTexture;
-            glActiveTexture(GL_TEXTURE0); tex->bind();
-
-            std::shared_ptr<GLTexture> maskTexture = cache.borderTexture;
+            std::shared_ptr<GLTexture> maskTexture = cache.maskTexture;
             glActiveTexture(GL_TEXTURE2); maskTexture->bind();
 
             glActiveTexture(GL_TEXTURE0);
@@ -402,16 +318,11 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
             glActiveTexture(GL_TEXTURE2);
             glActiveTexture(GL_TEXTURE0);
 
-            tex->unbind();
             maskTexture->unbind();
         }
 
         return;
     } else {
-        if (!m_shader->isValid() || w->isDesktop() || isMaximized(w, data)) {
-            effects->paintWindow(w, mask, region, data);
-            return;
-        }
         float cornerRadius = 0.0f;
         const QVariant valueRadius = w->data(WindowRadiusRole);
         if (valueRadius.isValid()) {
@@ -450,18 +361,18 @@ void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, Windo
             m_texMaskMap[cornerRadius]->setWrapMode(GL_CLAMP_TO_EDGE);
         }
 
-        ShaderManager::instance()->pushShader(m_shader3);
-        m_shader3->setUniform("typ1", 1);
-        m_shader3->setUniform("sampler", 0);
-        m_shader3->setUniform("msk1", 1);
-        m_shader3->setUniform("k", QVector2D(w->width() / cornerRadius, w->height() / cornerRadius));
+        ShaderManager::instance()->pushShader(m_filletOptimizeShader);
+        m_filletOptimizeShader->setUniform("typ1", 1);
+        m_filletOptimizeShader->setUniform("sampler", 0);
+        m_filletOptimizeShader->setUniform("msk1", 1);
+        m_filletOptimizeShader->setUniform("k", QVector2D(w->width() / cornerRadius, w->height() / cornerRadius));
         if (w->hasDecoration()) {
-            m_shader3->setUniform("typ2", 0);
+            m_filletOptimizeShader->setUniform("typ2", 0);
         } else {
-            m_shader3->setUniform("typ2", 1);
+            m_filletOptimizeShader->setUniform("typ2", 1);
         }
         auto old_shader = data.shader;
-        data.shader = m_shader3;
+        data.shader = m_filletOptimizeShader;
 
         glActiveTexture(GL_TEXTURE1);
         m_texMaskMap[cornerRadius]->bind();
