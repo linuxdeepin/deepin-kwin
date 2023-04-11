@@ -6,7 +6,7 @@ install(
         deepin-klaunchrc
         deepin-kdeglobals
     DESTINATION
-        ${CMAKE_INSTALL_SYSCONFDIR}
+        ${KDE_INSTALL_CONFDIR}
 )
 
 install(
