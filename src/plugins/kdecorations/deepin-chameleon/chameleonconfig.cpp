@@ -579,8 +579,9 @@ void ChameleonConfig::updateClientWindowRadius(QObject *client)
     } else if (window_theme->propertyIsValid(ChameleonWindowTheme::ThemeProperty)) {
         // 如果窗口自定义了使用哪个主题
         if (ChameleonTheme::instance()->loadTheme(window_theme->theme())) {
-            if (auto config_group = ChameleonTheme::instance()->themeUnmanagedConfig(static_cast<NET::WindowType>(client->property("windowType").toInt())))
-            window_radius = config_group->radius * window_theme->windowPixelRatio();
+            if (auto config_group = ChameleonTheme::instance()->themeUnmanagedConfig(static_cast<NET::WindowType>(client->property("windowType").toInt()))) {
+                window_radius = config_group->radius * window_theme->windowPixelRatio();
+            }
         }
     }
 
@@ -591,6 +592,9 @@ void ChameleonConfig::updateClientWindowRadius(QObject *client)
             window_radius = radius;
         }
     }
+
+    // NOTE: 窗口圆角的范围不得超过高度的一半，否则会产生视觉错误。
+    window_radius = QPointF(std::min(window_radius.x(), effect->height() / 2.0), std::min(window_radius.y(), effect->height() / 2.0));
 
     const QVariant &effect_window_radius = effect->data(ChameleonConfig::WindowRadiusRole);
     bool need_update = true;
@@ -1148,12 +1152,15 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
 
     qreal scale = window_theme->windowPixelRatio();
 
-    /*
     if (window_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
         theme_config.radius = window_theme->windowRadius();
-        scale = 1.0; // 窗口自定义的值不受缩放控制
+        KWin::EffectWindow *effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
+        if (effect) {
+            auto radiusVariant = effect->data(WindowRadiusRole);
+            theme_config.radius = radiusVariant.toPointF();
+            scale = 1.0; // 窗口自定义的值不受缩放控制
+        }
     }
-    */
 
     if (window_theme->propertyIsValid(ChameleonWindowTheme::BorderWidthProperty)) {
         theme_config.borderConfig.borderWidth = window_theme->borderWidth();
