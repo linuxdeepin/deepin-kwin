@@ -1,3 +1,9 @@
+deepin-kwin (4:5.25.1-kwin.5.24.3) unstable; urgency=medium
+
+  * New upstream release (5.25.1).
+
+ -- Dingyuan Zhang <lxz@lxz-PC>  Mon, 17 Apr 2023 14:41:20 +0800
+
 deepin-kwin (4:5.25.0-kwin.5.24.3) unstable; urgency=medium
 
   * Features:
