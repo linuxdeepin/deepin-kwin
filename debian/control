@@ -107,6 +107,7 @@ Depends: hwdata,
          libkf5globalaccel-bin,
          qml-module-org-kde-kquickcontrolsaddons,
          qml-module-qtmultimedia,
+         libopengl0,
          ${misc:Depends},
          ${shlibs:Depends},
 Recommends: libqt5multimedia5-plugins, plasma-desktop (>= 4:5.24)
