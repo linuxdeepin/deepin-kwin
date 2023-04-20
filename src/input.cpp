@@ -2430,11 +2430,13 @@ InputRedirection::~InputRedirection()
     qDeleteAll(m_filters);
     qDeleteAll(m_spies);
 
-    RecordEventMonitor  *pEventMonitor = RecordEventMonitor::instance();
-    pEventMonitor->stopRecord();
-    pEventMonitor->exit();
-    pEventMonitor->wait();
-    pEventMonitor->deleteLater();
+    if (!waylandServer()) {
+        RecordEventMonitor  *pEventMonitor = RecordEventMonitor::instance();
+        pEventMonitor->stopRecord();
+        pEventMonitor->exit();
+        pEventMonitor->wait();
+        pEventMonitor->deleteLater();
+    }
 }
 
 void InputRedirection::touchDown()
