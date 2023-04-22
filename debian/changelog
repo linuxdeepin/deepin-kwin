@@ -1,3 +1,11 @@
+deepin-kwin (4:5.25.2-kwin.5.24.3) unstable; urgency=medium
+
+  * fix: dde-launcher always show on topLeft with screen (2332c35a24c94eb52258b2e80f3cf1e3851307a1)
+  * fix: cannot use super to launch dde-launcher on wayland mode (2ad537220fd25e74b94537a23e5640020ecf03e9)
+  * Fix crash on exit in wayland (b22d9f21cd7380a6d765e1c9e34408762a48f74f)
+
+ -- Dingyuan Zhang <lxz@lxz-PC>  Sat, 22 Apr 2023 18:55:52 +0800
+
 deepin-kwin (4:5.25.1-kwin.5.24.3) unstable; urgency=medium
 
   * New upstream release (5.25.1).
