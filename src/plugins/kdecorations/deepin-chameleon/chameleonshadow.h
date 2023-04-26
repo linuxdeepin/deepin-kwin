@@ -15,8 +15,8 @@ class ChameleonShadow
 public:
     static ChameleonShadow *instance();
 
-    static QString buildShadowCacheKey(const ChameleonTheme::ThemeConfig *config, qreal scale);
-    QSharedPointer<KDecoration2::DecorationShadow> getShadow(const ChameleonTheme::ThemeConfig *config, qreal scale);
+    static QString buildShadowCacheKey(const ChameleonTheme::ThemeConfig &config, qreal scale);
+    QSharedPointer<KDecoration2::DecorationShadow> getShadow(const ChameleonTheme::ThemeConfig &config, qreal scale);
 
     void clearCache();
 

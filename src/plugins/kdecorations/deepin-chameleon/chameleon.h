@@ -31,7 +31,6 @@ public:
 
     void paint(QPainter *painter, const QRect &repaintArea) override;
 
-    const ChameleonTheme::ThemeConfig *themeConfig() const;
     KWin::EffectWindow *effect() const;
     bool noTitleBar() const;
 
@@ -100,8 +99,8 @@ private:
 
     QMarginsF m_titleBarAreaMargins;
     QPainterPath m_borderPath;
-    ChameleonTheme::ConfigGroup* m_configGroup = nullptr;
-    ChameleonTheme::ThemeConfig *m_config = nullptr;
+    ChameleonTheme::ConfigGroup* m_baseConfigGroup = nullptr;
+    ChameleonTheme::ThemeConfig m_config;
     ChameleonWindowTheme *m_theme = nullptr;
 
     QString m_title;

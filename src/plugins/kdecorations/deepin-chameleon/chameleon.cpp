@@ -173,11 +173,6 @@ void Chameleon::paint(QPainter *painter, const QRect &repaintArea)
     }
 }
 
-const ChameleonTheme::ThemeConfig *Chameleon::themeConfig() const
-{
-    return m_config;
-}
-
 KWin::EffectWindow *Chameleon::effect() const
 {
     if (m_effect)
@@ -219,12 +214,12 @@ qreal Chameleon::borderWidth() const
         return m_theme->borderWidth();
     }
 
-    return m_config->borderConfig.borderWidth;
+    return m_config.borderConfig.borderWidth;
 }
 
 qreal Chameleon::titleBarHeight() const
 {
-    return m_config->titlebarConfig.height * m_theme->windowPixelRatio();
+    return m_config.titlebarConfig.height * m_theme->windowPixelRatio();
 }
 
 qreal Chameleon::shadowRadius() const
@@ -233,7 +228,7 @@ qreal Chameleon::shadowRadius() const
         return m_theme->shadowRadius();
     }
 
-    return m_config->shadowConfig.shadowRadius;
+    return m_config.shadowConfig.shadowRadius;
 }
 
 QPointF Chameleon::shadowOffset() const
@@ -242,7 +237,7 @@ QPointF Chameleon::shadowOffset() const
         return m_theme->shadowOffset();
     }
 
-    return m_config->shadowConfig.shadowOffset;
+    return m_config.shadowConfig.shadowOffset;
 }
 
 QPointF Chameleon::windowRadius() const
@@ -251,7 +246,7 @@ QPointF Chameleon::windowRadius() const
         return m_theme->windowRadius();
     }
 
-    return m_config->radius * m_theme->windowPixelRatio();
+    return m_config.radius * m_theme->windowPixelRatio();
 }
 
 QMarginsF Chameleon::mouseInputAreaMargins() const
@@ -260,7 +255,7 @@ QMarginsF Chameleon::mouseInputAreaMargins() const
         return m_theme->mouseInputAreaMargins();
     }
 
-    return m_config->mouseInputAreaMargins;
+    return m_config.mouseInputAreaMargins;
 }
 
 QColor Chameleon::shadowColor() const
@@ -269,7 +264,7 @@ QColor Chameleon::shadowColor() const
         return m_theme->shadowColor();
     }
 
-    return m_config->shadowConfig.shadowColor;
+    return m_config.shadowConfig.shadowColor;
 }
 
 QColor Chameleon::borderColor() const
@@ -278,47 +273,47 @@ QColor Chameleon::borderColor() const
         return m_theme->borderColor();
     }
 
-    return m_config->borderConfig.borderColor;
+    return m_config.borderConfig.borderColor;
 }
 
 QIcon Chameleon::menuIcon() const
 {
-    return m_config->titlebarConfig.menuBtn.btnIcon;
+    return m_config.titlebarConfig.menuBtn.btnIcon;
 }
 
 QIcon Chameleon::minimizeIcon() const
 {
-    return m_config->titlebarConfig.minimizeBtn.btnIcon;
+    return m_config.titlebarConfig.minimizeBtn.btnIcon;
 }
 
 QIcon Chameleon::maximizeIcon() const
 {
-    return m_config->titlebarConfig.maximizeBtn.btnIcon;
+    return m_config.titlebarConfig.maximizeBtn.btnIcon;
 }
 
 QIcon Chameleon::unmaximizeIcon() const
 {
-    return m_config->titlebarConfig.unmaximizeBtn.btnIcon;
+    return m_config.titlebarConfig.unmaximizeBtn.btnIcon;
 }
 
 QIcon Chameleon::closeIcon() const
 {
-    return m_config->titlebarConfig.closeBtn.btnIcon;
+    return m_config.titlebarConfig.closeBtn.btnIcon;
 }
 
 QPointF Chameleon::menuIconPos() const
 {
-    return m_config->titlebarConfig.menuBtn.pos;
+    return m_config.titlebarConfig.menuBtn.pos;
 }
 
 qint32 Chameleon::menuIconWidth() const
 {
-    return m_config->titlebarConfig.menuBtn.width;
+    return m_config.titlebarConfig.menuBtn.width;
 }
 
 qint32 Chameleon::menuIconHeight() const
 {
-    return m_config->titlebarConfig.menuBtn.height;
+    return m_config.titlebarConfig.menuBtn.height;
 }
 
 void Chameleon::initButtons()
@@ -393,7 +388,7 @@ void Chameleon::updateTitleGeometry()
     const QFontMetricsF fontMetrics(m_font);
     int full_width = fontMetrics.width(m_title) * m_theme->windowPixelRatio();
 
-    if (m_config->titlebarConfig.area == Qt::TopEdge || m_config->titlebarConfig.area == Qt::BottomEdge) {
+    if (m_config.titlebarConfig.area == Qt::TopEdge || m_config.titlebarConfig.area == Qt::BottomEdge) {
         int buttons_width = m_leftButtons->geometry().width()
             + m_rightButtons->geometry().width() + 2 * s->smallSpacing();
 
@@ -462,11 +457,11 @@ void Chameleon::updateTheme()
 
     configGroup = ChameleonTheme::instance()->themeConfig(client->windowType());
 
-    if (m_configGroup == configGroup) {
+    if (m_baseConfigGroup == configGroup) {
         return;
     }
 
-    m_configGroup = configGroup;
+    m_baseConfigGroup = configGroup;
     updateConfig();
 }
 
@@ -477,7 +472,8 @@ void Chameleon::updateConfig()
     bool active = c->isActive();
     bool hasAlpha = settings()->isAlphaChannelSupported();
 
-    m_config = active ? &m_configGroup->normal : &m_configGroup->inactive;
+    // NOTE: base config is read from preset configuration, override it.
+    m_config = active ? m_baseConfigGroup->normal : m_baseConfigGroup->inactive;
 
     updateMouseInputAreaMargins();
     updateTitleBarArea();
@@ -510,7 +506,7 @@ void Chameleon::updateTitleBarArea()
     qreal border_width = windowNeedBorder() ? borderWidth() : 0;
     qreal titlebar_height = noTitleBar() ? 0 : titleBarHeight();
 
-    switch (m_config->titlebarConfig.area) {
+    switch (m_config.titlebarConfig.area) {
     case Qt::LeftEdge:
         m_titleBarAreaMargins.setLeft(titlebar_height);
         setTitleBar(QRect(border_width, border_width, titlebar_height, c->height()));
@@ -601,7 +597,8 @@ void Chameleon::updateBorderPath()
 
 void Chameleon::updateShadow()
 {
-    if (m_config && settings()->isAlphaChannelSupported()) {
+    // TODO: should use std::options to check m_config valid?
+    if (settings()->isAlphaChannelSupported()) {
         if (m_theme->validProperties() == ChameleonWindowTheme::PropertyFlags()) {
             return setShadow(ChameleonShadow::instance()->getShadow(m_config, m_theme->windowPixelRatio()));
         }
@@ -609,29 +606,29 @@ void Chameleon::updateShadow()
         qreal scale = m_theme->windowPixelRatio();
         // 优先使用窗口自己设置的属性
         if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
-            m_config->radius = m_theme->windowRadius();
+            m_config.radius = m_theme->windowRadius();
             // 这里的数据是已经缩放过的，因此scale值需要为1
             scale = 1.0;
         }
 
         if (m_theme->propertyIsValid(ChameleonWindowTheme::BorderWidthProperty)) {
-            m_config->borderConfig.borderWidth = m_theme->borderWidth();
+            m_config.borderConfig.borderWidth = m_theme->borderWidth();
         }
 
         if (m_theme->propertyIsValid(ChameleonWindowTheme::BorderColorProperty)) {
-            m_config->borderConfig.borderColor = m_theme->borderColor();
+            m_config.borderConfig.borderColor = m_theme->borderColor();
         }
 
         if (m_theme->propertyIsValid(ChameleonWindowTheme::ShadowRadiusProperty)) {
-            m_config->shadowConfig.shadowRadius = m_theme->shadowRadius();
+            m_config.shadowConfig.shadowRadius = m_theme->shadowRadius();
         }
 
         if (m_theme->propertyIsValid(ChameleonWindowTheme::ShadowOffsetProperty)) {
-            m_config->shadowConfig.shadowOffset = m_theme->shadowOffset();
+            m_config.shadowConfig.shadowOffset = m_theme->shadowOffset();
         }
 
         if (m_theme->propertyIsValid(ChameleonWindowTheme::ShadowColorProperty)) {
-            m_config->shadowConfig.shadowColor = m_theme->shadowColor();
+            m_config.shadowConfig.shadowColor = m_theme->shadowColor();
         }
 
         setShadow(ChameleonShadow::instance()->getShadow(m_config, scale));
@@ -683,8 +680,8 @@ bool Chameleon::windowNeedBorder() const
 
 QColor Chameleon::getTextColor() const
 {
-    if (m_config->titlebarConfig.font.textColor.isValid())
-        return m_config->titlebarConfig.font.textColor;
+    if (m_config.titlebarConfig.font.textColor.isValid())
+        return m_config.titlebarConfig.font.textColor;
 
     auto c = client().data();
 
@@ -693,8 +690,8 @@ QColor Chameleon::getTextColor() const
 
 QColor Chameleon::getBackgroundColor() const
 {
-    if (m_config->titlebarConfig.backgroundColor.isValid())
-        return m_config->titlebarConfig.backgroundColor;
+    if (m_config.titlebarConfig.backgroundColor.isValid())
+        return m_config.titlebarConfig.backgroundColor;
 
     auto c = client().data();
 

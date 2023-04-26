@@ -17,14 +17,14 @@ ChameleonShadow *ChameleonShadow::instance()
     return _global_cs;
 }
 
-QString ChameleonShadow::buildShadowCacheKey(const ChameleonTheme::ThemeConfig *config, qreal scale)
+QString ChameleonShadow::buildShadowCacheKey(const ChameleonTheme::ThemeConfig &config, qreal scale)
 {
-    auto window_radius = config->radius * scale;
-    auto shadow_offset = config->shadowConfig.shadowOffset;
-    QColor shadow_color = config->shadowConfig.shadowColor;
-    int shadow_size = config->shadowConfig.shadowRadius;
-    qreal border_width = config->borderConfig.borderWidth;
-    QColor border_color = config->borderConfig.borderColor;
+    auto window_radius = config.radius * scale;
+    auto shadow_offset = config.shadowConfig.shadowOffset;
+    QColor shadow_color = config.shadowConfig.shadowColor;
+    int shadow_size = config.shadowConfig.shadowRadius;
+    qreal border_width = config.borderConfig.borderWidth;
+    QColor border_color = config.borderConfig.borderColor;
 
     const QPointF shadow_overlap(qMax(window_radius.x(), 3.0), qMax(window_radius.y(), 3.0));
     const QMargins &paddings = QMargins(shadow_size - shadow_offset.x() - shadow_overlap.x(),
@@ -38,23 +38,23 @@ QString ChameleonShadow::buildShadowCacheKey(const ChameleonTheme::ThemeConfig *
                                                 .arg(border_width).arg(border_color.name());
 }
 
-QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const ChameleonTheme::ThemeConfig *config, qreal scale)
+QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const ChameleonTheme::ThemeConfig &config, qreal scale)
 {
-    if ((config->shadowConfig.shadowColor.alpha() == 0 || qIsNull(config->shadowConfig.shadowRadius))
-            && (config->borderConfig.borderColor.alpha() == 0 || qIsNull(config->borderConfig.borderWidth))) {
+    if ((config.shadowConfig.shadowColor.alpha() == 0 || qIsNull(config.shadowConfig.shadowRadius))
+            && (config.borderConfig.borderColor.alpha() == 0 || qIsNull(config.borderConfig.borderWidth))) {
         return m_emptyShadow;
     }
 
-    bool no_shadow = config->shadowConfig.shadowColor.alpha() == 0 || qIsNull(config->shadowConfig.shadowRadius);
+    bool no_shadow = config.shadowConfig.shadowColor.alpha() == 0 || qIsNull(config.shadowConfig.shadowRadius);
 
-    auto window_radius = config->radius * scale;
-    auto shadow_offset = config->shadowConfig.shadowOffset;
-    QColor shadow_color = config->shadowConfig.shadowColor;
+    auto window_radius = config.radius * scale;
+    auto shadow_offset = config.shadowConfig.shadowOffset;
+    QColor shadow_color = config.shadowConfig.shadowColor;
     // 因为阴影区域会抹除窗口圆角区域，所以阴影大小需要额外加上窗口圆角大小
-    int shadow_size = config->shadowConfig.shadowRadius + window_radius.x() + window_radius.y();
+    int shadow_size = config.shadowConfig.shadowRadius + window_radius.x() + window_radius.y();
 
-    qreal border_width = config->borderConfig.borderWidth;
-    QColor border_color = config->borderConfig.borderColor;
+    qreal border_width = config.borderConfig.borderWidth;
+    QColor border_color = config.borderConfig.borderColor;
 
     const QPointF shadow_overlap(qMax(window_radius.x(), 3.0), qMax(window_radius.y(), 3.0));
     const QMargins &paddings = QMargins(shadow_size - shadow_offset.x() - shadow_overlap.x(),

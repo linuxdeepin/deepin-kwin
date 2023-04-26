@@ -1187,13 +1187,13 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
         theme_config.borderConfig.borderWidth = 0;
     }
 
-    const QString &shadow_key = ChameleonShadow::buildShadowCacheKey(&theme_config, scale);
+    const QString &shadow_key = ChameleonShadow::buildShadowCacheKey(theme_config, scale);
     X11Shadow *shadow = m_x11ShadowCache.value(shadow_key);
 
     //if (!shadow && QX11Info::isPlatformX11()) {
     if (QX11Info::isPlatformX11()) {
 
-        auto s = ChameleonShadow::instance()->getShadow(&theme_config, scale);
+        auto s = ChameleonShadow::instance()->getShadow(theme_config, scale);
 
         {
             KWin::EffectWindow *effect = nullptr;
