@@ -1,3 +1,11 @@
+deepin-kwin (4:5.25.3-kwin.5.24.3) unstable; urgency=medium
+
+  * fix: ensure the shadow item after stack of the window (690a5b336198b65f19b82efa06aeaae2bc2d376d)
+  * fix: All windows share a theme (6c3324e30c0c35ec66c2353ac27340999a2b3950)
+  * fix: DPMS off seems to blank compositor's back or front buffer (ae4ce6239c3cf0f7bbfb9c71d21d35a1f3cff556)
+
+ -- Dingyuan Zhang <lxz@lxz-PC>  Thu, 04 May 2023 09:51:49 +0800
+
 deepin-kwin (4:5.25.2-kwin.5.24.3) unstable; urgency=medium
 
   * fix: dde-launcher always show on topLeft with screen (2332c35a24c94eb52258b2e80f3cf1e3851307a1)
