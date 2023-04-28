@@ -60,6 +60,16 @@ private:
     xcb_glx_drawable_t m_glxDrawable;
 };
 
+class GlxBackend;
+class DpmsEventFilter : public X11EventFilter
+{
+public:
+    DpmsEventFilter(int eventCode, GlxBackend *backend);
+    bool event(xcb_generic_event_t *event) override;
+
+private:
+    GlxBackend *m_backend;
+};
 
 /**
  * @brief OpenGL Backend using GLX over an X overlay window.
@@ -80,6 +90,9 @@ public:
     void init() override;
 
     Display *display() const { return m_x11Display; }
+
+Q_SIGNALS:
+    void dpmsStateChanged(bool on);
 
 private:
     void vblank(std::chrono::nanoseconds timestamp);
@@ -107,8 +120,10 @@ private:
     QHash<xcb_visualid_t, FBConfigInfo *> m_fbconfigHash;
     QHash<xcb_visualid_t, int> m_visualDepthHash;
     std::unique_ptr<SwapEventFilter> m_swapEventFilter;
+    std::unique_ptr<DpmsEventFilter> m_dpmsEventFilter;
     DamageJournal m_damageJournal;
     int m_bufferAge;
+    int m_forceFullRepaintCount = 0;
     bool m_haveMESACopySubBuffer = false;
     bool m_haveMESASwapControl = false;
     bool m_haveEXTSwapControl = false;
