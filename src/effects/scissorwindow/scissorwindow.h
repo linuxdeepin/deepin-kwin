@@ -46,9 +46,9 @@ public:
 
     void reconfigure(ReconfigureFlags flags) override;
 
-    void setRoundedCornerRadius(int radius);
+    void setRoundedCornerRadius(const QPointF& radius);
 
-    void buildTextureMask();
+    void buildTextureMask(const QPointF& radius);
 
     void prePaintWindow(EffectWindow* w, WindowPrePaintData& data, std::chrono::milliseconds time) override;
 
@@ -60,13 +60,10 @@ protected Q_SLOTS:
 
 private:
     enum { TopLeft = 0, TopRight, BottomRight, BottomLeft, NCorners };
-    int m_radius;
-    QSize m_cornerSize;
 
-    GLTexture *m_texMask[NCorners];
-    //GLTexture *m_maskTexture;
-    GLShader *m_maskShader, *m_filletOptimizeShader;
-    std::map<int, GLTexture*> m_texMaskMap;
+    GLShader *m_maskShader;
+    GLShader *m_filletOptimizeShader;
+    std::map<QPointF, GLTexture*> m_texMaskMap;
     std::map<EffectWindow*, WindowMaskCache> m_clipMaskMap;
 };
 

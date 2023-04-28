@@ -22,6 +22,7 @@
 #include <QX11Info>
 #include <QGuiApplication>
 #include <QTimer>
+#include <QPointF>
 
 #include <xcb/xcb.h>
 #include <X11/Xlib.h>
@@ -1151,6 +1152,7 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
     }
 
     qreal scale = window_theme->windowPixelRatio();
+    QPointF maxWindowRadius;
 
     if (window_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
         theme_config.radius = window_theme->windowRadius();
@@ -1158,6 +1160,7 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
         if (effect) {
             auto radiusVariant = effect->data(WindowRadiusRole);
             theme_config.radius = radiusVariant.toPointF();
+            maxWindowRadius = QPointF(effect->width() / 2.0, effect->height() / 2.0);
             scale = 1.0; // 窗口自定义的值不受缩放控制
         }
     }
@@ -1193,7 +1196,7 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
     //if (!shadow && QX11Info::isPlatformX11()) {
     if (QX11Info::isPlatformX11()) {
 
-        auto s = ChameleonShadow::instance()->getShadow(theme_config, scale);
+        auto s = ChameleonShadow::instance()->getShadow(theme_config, scale, maxWindowRadius);
 
         {
             KWin::EffectWindow *effect = nullptr;

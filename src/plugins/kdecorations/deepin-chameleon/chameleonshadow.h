@@ -16,7 +16,7 @@ public:
     static ChameleonShadow *instance();
 
     static QString buildShadowCacheKey(const ChameleonTheme::ThemeConfig &config, qreal scale);
-    QSharedPointer<KDecoration2::DecorationShadow> getShadow(const ChameleonTheme::ThemeConfig &config, qreal scale);
+    QSharedPointer<KDecoration2::DecorationShadow> getShadow(const ChameleonTheme::ThemeConfig &config, qreal scale, const QPointF maxWindowRadius = {});
 
     void clearCache();
 

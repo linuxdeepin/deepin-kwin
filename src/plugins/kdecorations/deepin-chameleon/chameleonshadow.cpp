@@ -38,7 +38,7 @@ QString ChameleonShadow::buildShadowCacheKey(const ChameleonTheme::ThemeConfig &
                                                 .arg(border_width).arg(border_color.name());
 }
 
-QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const ChameleonTheme::ThemeConfig &config, qreal scale)
+QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const ChameleonTheme::ThemeConfig &config, qreal scale, const QPointF maxWindowRadius)
 {
     if ((config.shadowConfig.shadowColor.alpha() == 0 || qIsNull(config.shadowConfig.shadowRadius))
             && (config.borderConfig.borderColor.alpha() == 0 || qIsNull(config.borderConfig.borderWidth))) {
@@ -48,6 +48,11 @@ QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const 
     bool no_shadow = config.shadowConfig.shadowColor.alpha() == 0 || qIsNull(config.shadowConfig.shadowRadius);
 
     auto window_radius = config.radius * scale;
+    if (!config.radius.isNull() && !maxWindowRadius.isNull()) {
+        window_radius = QPointF(std::min(window_radius.x(), maxWindowRadius.x()),
+                                std::min(window_radius.y(), maxWindowRadius.y()));
+    }
+
     auto shadow_offset = config.shadowConfig.shadowOffset;
     QColor shadow_color = config.shadowConfig.shadowColor;
     // 因为阴影区域会抹除窗口圆角区域，所以阴影大小需要额外加上窗口圆角大小

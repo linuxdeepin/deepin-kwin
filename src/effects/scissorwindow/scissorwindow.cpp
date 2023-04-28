@@ -16,6 +16,8 @@
 #include <QPainterPath>
 #include <QTextStream>
 
+#include <algorithm>
+
 Q_DECLARE_METATYPE(QPainterPath)
 
 static void ensureResources()
@@ -28,10 +30,6 @@ namespace KWin {
 
 ScissorWindow::ScissorWindow() : Effect() {
     ensureResources();
-
-    for (int i = 0; i < NCorners; ++i) {
-        m_texMask[i] = nullptr;
-    }
 
     m_maskShader = nullptr;
 
@@ -64,45 +62,37 @@ ScissorWindow::~ScissorWindow() {
         delete itr->second;
     }
     m_texMaskMap.clear();
-    for (int i = 0; i < NCorners; ++i) {
-        if (m_texMask[i]) delete m_texMask[i];
-    }
 }
 
 void ScissorWindow::reconfigure(ReconfigureFlags flags) {
     Q_UNUSED(flags)
-    setRoundedCornerRadius(18);
+    setRoundedCornerRadius({18, 18});
 }
 
-void ScissorWindow::setRoundedCornerRadius(int radius) {
-    m_radius = radius;
-    m_cornerSize = QSize(m_radius, m_radius);
-    buildTextureMask();
+void ScissorWindow::setRoundedCornerRadius(const QPointF& radius) {
+    buildTextureMask(radius);
 }
 
-void ScissorWindow::buildTextureMask() {
-    for (int i = 0; i < NCorners; ++i) delete m_texMask[i];
-    static int m = 4;
-    QImage img(m_radius * 2 + m * 2, m_radius * 2 + m * 2, QImage::Format_ARGB32);
+void ScissorWindow::buildTextureMask(const QPointF& radius) {
+    QImage img(QSize(radius.x() * 2, radius.y() * 2), QImage::Format_RGBA8888);
     img.fill(QColor(0, 0, 0, 0));
-    QPainter p(&img);
-    p.setPen(Qt::NoPen);
-    p.setBrush(QColor(0, 0, 0, 255));
-    p.setRenderHint(QPainter::Antialiasing);
-    p.drawEllipse(QRectF(m, m, m_radius * 2, m_radius * 2));
-    p.end();
-    m_texMask[TopLeft] = new GLTexture(img.copy(0, 0, m_radius + m, m_radius + m));
-    m_texMask[TopRight] = new GLTexture(img.copy(m_radius + m, 0, m_radius + m, m_radius + m));
-    m_texMask[BottomLeft] = new GLTexture(img.copy(0, m_radius + m, m_radius + m, m_radius + m));
-    m_texMask[BottomRight] = new GLTexture(img.copy(m_radius + m, m_radius + m, m_radius + m, m_radius + m));
+    QPainter painter(&img);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor(255, 255, 255, 255));
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.drawEllipse(0, 0, radius.x() * 2, radius.y() * 2);
+    painter.end();
+
+    m_texMaskMap[radius] = new GLTexture(img.copy(0, 0, radius.x(), radius.y()));
+    m_texMaskMap[radius]->setFilter(GL_LINEAR);
+    m_texMaskMap[radius]->setWrapMode(GL_CLAMP_TO_EDGE);
 }
 
 void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
                                    std::chrono::milliseconds time) {
     if (effects->hasActiveFullScreenEffect() ||
         w->isDesktop() || isMaximized(w)) {
-        effects->prePaintWindow(w, data, time);
-        return;
+        return effects->prePaintWindow(w, data, time);
     }
 
     {
@@ -116,12 +106,10 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
 
 void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
     if (w->isDesktop() || isMaximized(w)) {
-        effects->drawWindow(w, mask, region, data);
-        return;
+        return effects->drawWindow(w, mask, region, data);
     }
 
-    const QVariant &data_clip_path = w->data(WindowClipPathRole);
-    if (data_clip_path.isValid()) {
+    if (const auto &data_clip_path = w->data(WindowClipPathRole); data_clip_path.isValid()) {
         const QPainterPath path = qvariant_cast<QPainterPath>(data_clip_path);
         static const int extraWindowFrame = 100;
 
@@ -177,10 +165,12 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
 
         return;
     } else {
-        float cornerRadius = 0.0f;
+        QPointF cornerRadius;
         const QVariant valueRadius = w->data(WindowRadiusRole);
         if (valueRadius.isValid()) {
-            cornerRadius = w->data(WindowRadiusRole).toPointF().x();
+            cornerRadius = w->data(WindowRadiusRole).toPointF();
+            cornerRadius = QPointF(std::min(cornerRadius.x(), w->width() / 2.0),
+                                   std::min(cornerRadius.y(), w->height() / 2.0));
         } else {
             if (!(w->isDesktop() || w->isDock())) {
                 EffectsHandlerImpl *effs = static_cast<EffectsHandlerImpl *>(effects);
@@ -190,36 +180,24 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
                     if ((w->x() + data.xTranslation() == geom.x()) || (w->x() + data.xTranslation() + w->width() * data.xScale() == geom.x() + geom.width())) {
                     }
                     else
-                        cornerRadius = 8;
+                        cornerRadius = {8, 8};
                 }
             }
         }
-        if (cornerRadius < 2) {
-            effects->drawWindow(w, mask, region, data);
-            return;
+
+        if (cornerRadius.x() < 2 && cornerRadius.y() < 2) {
+            return effects->drawWindow(w, mask, region, data);
         }
 
-        if (0 == m_texMaskMap.count(cornerRadius))
-        {
-            QImage img(QSize(36,36), QImage::Format_RGBA8888);
-            img.fill(QColor(0,0,0,0));
-            QPainter painter(&img);
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QColor(255,255,255,255));
-            painter.setRenderHint(QPainter::Antialiasing);
-            painter.drawEllipse(0,0,36,36);
-            painter.end();
-
-            m_texMaskMap[cornerRadius] = new GLTexture(img.copy(0, 0, 18, 18));
-            m_texMaskMap[cornerRadius]->setFilter(GL_LINEAR);
-            m_texMaskMap[cornerRadius]->setWrapMode(GL_CLAMP_TO_EDGE);
+        if (!m_texMaskMap.count(cornerRadius)) {
+            buildTextureMask(cornerRadius);
         }
 
         ShaderManager::instance()->pushShader(m_filletOptimizeShader);
         m_filletOptimizeShader->setUniform("typ1", 1);
         m_filletOptimizeShader->setUniform("sampler", 0);
         m_filletOptimizeShader->setUniform("msk1", 1);
-        m_filletOptimizeShader->setUniform("k", QVector2D(w->width() / cornerRadius, w->height() / cornerRadius));
+        m_filletOptimizeShader->setUniform("k", QVector2D(w->width() / cornerRadius.x(), w->height() / cornerRadius.y()));
         if (w->hasDecoration()) {
             m_filletOptimizeShader->setUniform("typ2", 0);
         } else {

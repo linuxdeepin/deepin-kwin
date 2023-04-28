@@ -280,21 +280,21 @@ void BlurEffect::reconfigure(ReconfigureFlags flags)
     effects->addRepaintFull();
 }
 
-QRegion rounded(QRegion region, int r)
+QRegion rounded(QRegion region, const QPointF& r)
 {
     auto rect = region.boundingRect();
     int x = rect.x();
     int y = rect.y();
-    int w = rect.width()-r;
-    int h = rect.height()-r;
-    auto r1 = QRegion(x, y, r, r);
+    int w = rect.width() - r.x();
+    int h = rect.height() - r.y();
+    auto r1 = QRegion(x, y, r.x(), r.y());
     auto r2 = r1.translated(0, h);
     auto r3 = r1.translated(w, h);
     auto r4 = r1.translated(w, 0);
-    auto c1 = QRegion(x, y, 2 * r, 2 * r, QRegion::Ellipse);
-    auto c2 = c1.translated(0, h - r);
-    auto c3 = c1.translated(w - r, h - r);
-    auto c4 = c1.translated(w - r, 0);
+    auto c1 = QRegion(x, y, 2 * r.x(), 2 * r.y(), QRegion::Ellipse);
+    auto c2 = c1.translated(0, h - r.y());
+    auto c3 = c1.translated(w - r.x(), h - r.y());
+    auto c4 = c1.translated(w - r.x(), 0);
     return (region - (r1 + r2 + r3 + r4) + (c1 + c2 + c3 + c4));
 }
 
@@ -647,15 +647,20 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
             } else {
                 m_noiseStrength = -2;
                 const QVariant valueRadius = w->data(WindowRadiusRole);
-                if (valueRadius.isValid()) {
-                    int cornerRadius = w->data(WindowRadiusRole).toPointF().x();
+                if (valueRadius.isValid() &&
+                    valueRadius.toPointF().x() > 2 &&
+                    valueRadius.toPointF().y() > 2)
+                {
+                    QPointF cornerRadius = w->data(WindowRadiusRole).toPointF();
+                    cornerRadius = QPointF(std::min(cornerRadius.x(), w->width() / 2.0),
+                                           std::min(cornerRadius.y(), w->height() / 2.0));
                     shape = rounded(shape, cornerRadius);
                 }
                 doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), w->isDock() || transientForIsDock, w->frameGeometry());
             }
         }
     }
-    
+
     // Draw the window over the blurred area
     effects->drawWindow(w, mask, region, data);
 }
@@ -943,4 +948,3 @@ bool BlurEffect::blocksDirectScanout() const
 }
 
 } // namespace KWin
-

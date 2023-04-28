@@ -604,9 +604,12 @@ void Chameleon::updateShadow()
         }
 
         qreal scale = m_theme->windowPixelRatio();
+        QPointF maxWindowRadius;
         // 优先使用窗口自己设置的属性
         if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
             m_config.radius = m_theme->windowRadius();
+            auto w = effect();
+            maxWindowRadius = QPointF(w->width() / 2.0, w->height() / 2.0);
             // 这里的数据是已经缩放过的，因此scale值需要为1
             scale = 1.0;
         }
@@ -631,7 +634,7 @@ void Chameleon::updateShadow()
             m_config.shadowConfig.shadowColor = m_theme->shadowColor();
         }
 
-        setShadow(ChameleonShadow::instance()->getShadow(m_config, scale));
+        setShadow(ChameleonShadow::instance()->getShadow(m_config, scale, maxWindowRadius));
     }
 }
 
