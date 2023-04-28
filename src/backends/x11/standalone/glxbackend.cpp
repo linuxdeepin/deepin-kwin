@@ -43,6 +43,9 @@
 // system
 #include <unistd.h>
 
+// x11
+#include <X11/extensions/scrnsaver.h>
+
 #include <deque>
 #include <algorithm>
 #if HAVE_DL_LIBRARY
@@ -92,6 +95,31 @@ bool SwapEventFilter::event(xcb_generic_event_t *event)
 
     RenderLoopPrivate *renderLoopPrivate = RenderLoopPrivate::get(kwinApp()->platform()->renderLoop());
     renderLoopPrivate->notifyFrameCompleted(timestamp);
+
+    return true;
+}
+
+DpmsEventFilter::DpmsEventFilter(int eventCode, GlxBackend *backend)
+    : X11EventFilter(eventCode)
+    , m_backend(backend)
+{
+
+}
+
+bool DpmsEventFilter::event(xcb_generic_event_t *event)
+{
+    struct xcb_screensaver_notify_event
+    {
+        uint8_t      response_type;
+        uint8_t      state; /* ScreenSaverOff, ScreenSaverOn, ScreenSaverCycle*/
+        uint8_t      offset;
+        uint8_t      kid;
+        xcb_window_t window;	    /* screen saver window */
+        xcb_window_t root;	    /* root window of event screen */
+    };
+
+    xcb_screensaver_notify_event *se = reinterpret_cast<xcb_screensaver_notify_event*>(event);
+    Q_EMIT m_backend->dpmsStateChanged(se->state == ScreenSaverOn);
 
     return true;
 }
@@ -229,8 +257,32 @@ void GlxBackend::init()
     if (hasExtension(QByteArrayLiteral("GLX_EXT_buffer_age"))) {
         const QByteArray useBufferAge = qgetenv("KWIN_USE_BUFFER_AGE");
 
-        if (useBufferAge != "0")
+        if (useBufferAge != "0") {
             setSupportsBufferAge(true);
+
+            int scrnsaver_event_base, scrnsaver_error_base;
+            if (XScreenSaverQueryExtension(display(), &scrnsaver_event_base, &scrnsaver_error_base)
+                && scrnsaver_event_base != 0) {
+                m_dpmsEventFilter = std::make_unique<DpmsEventFilter>(scrnsaver_event_base + ScreenSaverNotify, this);
+                XScreenSaverSelectInput(display(), window, ScreenSaverNotifyMask);
+
+                connect(this, &GlxBackend::dpmsStateChanged, this, [this] (bool on) {
+                    // Make the buffer age to invalid when dpms state chaged, for issue: https://gitlab.freedesktop.org/xorg/xserver/-/issues/1296
+                    // When dpms off and dpms on soon(The interval of one second may be repeated), you will see the screen is flash with the some
+                    // part of black in some frame, maybe one of front buffer and back buffer is broke, and kwin only draw a part of the buffer,
+                    // so the other part of the buffer is black.
+                    // So, we need ensure repaint the full screen on dpms on to avoid this bug.
+                    m_bufferAge = 0;
+                    m_damageJournal.clear();
+
+                    if (on) {
+                        // Maybe double buffer or triple buffer, presume the max buffers count is 3.
+                        // Ensure all buffers to full repaint.
+                        m_forceFullRepaintCount = 3;
+                    }
+                });
+            }
+        }
     }
 
     // If the buffer age extension is unsupported, glXSwapBuffers() is not guaranteed to
@@ -747,7 +799,11 @@ QRegion GlxBackend::beginFrame(AbstractOutput *output)
     glViewport(0, 0, size.width(), size.height());
 
     if (supportsBufferAge()) {
-        repaint = m_damageJournal.accumulate(m_bufferAge, screens()->geometry());
+        if (m_forceFullRepaintCount-- > 0 ) {
+            repaint = screens()->geometry();
+        } else {
+            repaint = m_damageJournal.accumulate(m_bufferAge, screens()->geometry());
+        }
     }
 
     glXWaitX();
