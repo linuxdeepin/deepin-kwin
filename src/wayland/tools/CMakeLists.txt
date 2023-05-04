@@ -1,7 +1,7 @@
 # Allow building just qtwaylandscanner_kde when cross-compiling since the
 # dependencies for the rest of the targets might not be installed on the host.
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
-    cmake_minimum_required(VERSION 3.16)
+    cmake_minimum_required(VERSION 3.13)
     project(qtwaylandscanner_kde CXX)
     set(CMAKE_CXX_STANDARD 20)
     find_package(Qt5 5.15.0 CONFIG REQUIRED Core)

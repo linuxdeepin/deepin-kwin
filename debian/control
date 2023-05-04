@@ -4,9 +4,9 @@ Priority: optional
 Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
 Uploaders: Aurélien COUDERC <coucouf@debian.org>,
            Patrick Franz <deltaone@debian.org>,
-Build-Depends: breeze-dev (>= 4:5.26.70~),
-               cmake (>= 3.16~),
-               debhelper-compat (= 13),
+Build-Depends: breeze-dev (>= 4:5.14.5-1),
+               cmake (>= 3.13~),
+               debhelper-compat (= 12),
                dh-sequence-kf5,
                dh-sequence-python3,
                extra-cmake-modules (>= 5.102.0~),
