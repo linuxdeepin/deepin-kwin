@@ -395,7 +395,7 @@ add_feature_info("SCHED_RESET_ON_FORK"
                  "Required for running kwin_wayland with real-time scheduling")
 
 
-pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.29)
+pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.15)
 add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
 
 if (KWIN_BUILD_NOTIFICATIONS)
