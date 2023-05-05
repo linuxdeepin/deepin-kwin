@@ -306,7 +306,7 @@ void ItemRendererOpenGL::renderItem(Item *item, int mask, const QRegion &region,
 
         renderNode.geometry.postProcessTextureCoordinates(renderNode.texture->matrix(renderNode.coordinateType));
 
-        renderNode.geometry.copy(std::span(&map[v], renderNode.geometry.count()));
+        renderNode.geometry.copy(&map[v], renderNode.geometry.count());
         v += renderNode.geometry.count();
     }
 

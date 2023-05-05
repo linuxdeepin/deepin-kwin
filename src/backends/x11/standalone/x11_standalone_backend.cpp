@@ -51,7 +51,6 @@
 #include <QX11Info>
 #endif
 
-#include <span>
 
 namespace KWin
 {
@@ -284,8 +283,8 @@ void X11StandaloneBackend::doUpdateOutputs()
         T resources(rootWindow());
         if (!resources.isNull()) {
 
-            std::span crtcs(resources.crtcs(), resources->num_crtcs);
-            for (auto crtc : crtcs) {
+            for (int i = 0; i < resources->num_crtcs; ++i) {
+                auto crtc = resources.crtcs()[i];
                 Xcb::RandR::CrtcInfo info(crtc, resources->config_timestamp);
 
                 const QRect geometry = info.rect();
@@ -295,7 +294,8 @@ void X11StandaloneBackend::doUpdateOutputs()
 
                 float refreshRate = -1.0f;
 
-                for (auto mode : std::span(resources.modes(), resources->num_modes)) {
+                for (int j = 0; j < resources->num_modes; ++j) {
+                    auto mode = resources.modes()[j];
                     if (info->mode == mode.id) {
                         if (mode.htotal != 0 && mode.vtotal != 0) { // BUG 313996
                             // refresh rate calculation - WTF was wikipedia 1998 when I needed it?
@@ -313,7 +313,8 @@ void X11StandaloneBackend::doUpdateOutputs()
                     }
                 }
 
-                for (auto xcbOutput : std::span(info.outputs(), info->num_outputs)) {
+                for (int k = 0; k < info->num_outputs; ++k) {
+                    auto xcbOutput = info.outputs()[k];
                     Xcb::RandR::OutputInfo outputInfo(xcbOutput, resources->config_timestamp);
                     if (outputInfo->crtc != crtc) {
                         continue;
@@ -336,9 +337,8 @@ void X11StandaloneBackend::doUpdateOutputs()
                     output->setRenderLoop(m_renderLoop.get());
                     output->setCrtc(crtc);
                     output->setGammaRampSize(gamma.isNull() ? 0 : gamma->size);
-                    auto it = std::find(crtcs.begin(), crtcs.end(), crtc);
-                    int crtcIndex = std::distance(crtcs.begin(), it);
-                    output->setXineramaNumber(crtcIndex);
+                    // i+1???
+                    output->setXineramaNumber(i);
 
                     QSize physicalSize(outputInfo->mm_width, outputInfo->mm_height);
                     switch (info->rotation) {

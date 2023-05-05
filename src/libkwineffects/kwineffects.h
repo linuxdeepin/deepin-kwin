@@ -3007,7 +3007,7 @@ public:
      * @param destination The destination buffer. This needs to be at least large
      *                    enough to contain all elements.
      */
-    void copy(std::span<GLVertex2D> destination);
+    void copy(GLVertex2D *destination, std::size_t number);
     /**
      * Append a WindowVertex as a geometry vertex.
      *

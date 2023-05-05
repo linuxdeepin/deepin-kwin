@@ -1020,10 +1020,10 @@ WindowQuadList WindowQuadList::makeRegularGrid(int xSubdivisions, int ySubdivisi
     return ret;
 }
 
-void RenderGeometry::copy(std::span<GLVertex2D> destination)
+void RenderGeometry::copy(GLVertex2D *destination, std::size_t number)
 {
-    Q_ASSERT(int(destination.size()) >= size());
-    for (std::size_t i = 0; i < destination.size(); ++i) {
+    Q_ASSERT(number >= size());
+    for (std::size_t i = 0; i < number; ++i) {
         destination[i] = at(i);
     }
 }
