@@ -10,7 +10,7 @@ target_sources(kcm_kwin_scripts PRIVATE
 )
 
 target_link_libraries(kcm_kwin_scripts
-    Qt::DBus
+    Qt${QT_MAJOR_VERSION}::DBus
 
     KF5::I18n
     KF5::KCMUtilsCore

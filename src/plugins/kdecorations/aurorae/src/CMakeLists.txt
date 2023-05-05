@@ -22,8 +22,8 @@ target_link_libraries(kwin5_aurorae
     KF5::I18n
     KF5::Package
     KF5::WindowSystem
-    Qt::Quick
-    Qt::UiTools
+    Qt${QT_MAJOR_VERSION}::Quick
+    Qt${QT_MAJOR_VERSION}::UiTools
 )
 
 install(TARGETS kwin5_aurorae DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
@@ -39,7 +39,7 @@ set_target_properties(decorationplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CM
 target_link_libraries(decorationplugin
     KDecoration2::KDecoration
     KF5::ConfigWidgets
-    Qt::Quick
+    Qt${QT_MAJOR_VERSION}::Quick
 )
 install(TARGETS decorationplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwin/decoration)
 

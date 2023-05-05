@@ -3,7 +3,11 @@ set(krunnerintegration_SOURCES
     windowsrunnerinterface.cpp
 )
 
-qt_add_dbus_adaptor(krunnerintegration_SOURCES org.kde.krunner1.xml windowsrunnerinterface.h KWin::WindowsRunner)
+if (QT_MAJOR_VERSION EQUAL "5")
+    qt5_add_dbus_adaptor(krunnerintegration_SOURCES org.kde.krunner1.xml windowsrunnerinterface.h KWin::WindowsRunner)
+else()
+    qt_add_dbus_adaptor(krunnerintegration_SOURCES org.kde.krunner1.xml windowsrunnerinterface.h KWin::WindowsRunner)
+endif()
 
 add_library(krunnerintegration MODULE ${krunnerintegration_SOURCES})
 target_link_libraries(krunnerintegration kwin KF5::Runner)

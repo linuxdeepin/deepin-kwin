@@ -20,7 +20,7 @@ target_link_libraries(kwin4_effect_tileseditor PRIVATE
     KF5::GlobalAccel
     KF5::I18n
 
-    Qt::Quick
+    Qt${QT_MAJOR_VERSION}::Quick
     )
 
 install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/tileseditor)

@@ -42,12 +42,12 @@ target_link_libraries(kwineffects
         KF5::WindowSystem
         XCB::XCB
     PRIVATE
-        Qt::Quick
+        Qt${QT_MAJOR_VERSION}::Quick
         KF5::I18n
         kwinglutils
 )
 if (QT_MAJOR_VERSION EQUAL "6")
-    target_link_libraries(kwineffects PRIVATE Qt::GuiPrivate)
+    target_link_libraries(kwineffects PRIVATE Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
 set_target_properties(kwineffects PROPERTIES
     VERSION ${KWINEFFECTS_VERSION}

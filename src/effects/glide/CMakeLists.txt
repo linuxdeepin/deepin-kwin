@@ -30,7 +30,7 @@ if (KWIN_BUILD_KCMS)
         KF5::ConfigWidgets
         KF5::CoreAddons
         KF5::I18n
-        Qt::DBus
+        Qt${QT_MAJOR_VERSION}::DBus
         KWinEffectsInterface
     )
 endif()

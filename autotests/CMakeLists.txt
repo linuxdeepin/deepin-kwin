@@ -11,7 +11,7 @@ add_subdirectory(drm)
 ########################################################
 set(testWindowPaintData_SRCS test_window_paint_data.cpp)
 add_executable(testWindowPaintData ${testWindowPaintData_SRCS})
-target_link_libraries(testWindowPaintData kwineffects Qt::Widgets Qt::Test )
+target_link_libraries(testWindowPaintData kwineffects Qt${QT_MAJOR_VERSION}::Widgets Qt::Test )
 add_test(NAME kwin-testWindowPaintData COMMAND testWindowPaintData)
 ecm_mark_as_test(testWindowPaintData)
 
@@ -28,7 +28,7 @@ target_link_libraries(testVirtualDesktops
     kwin
 
     Qt::Test
-    Qt::Widgets
+    Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
     KF5::GlobalAccel
@@ -50,9 +50,9 @@ add_executable(testClientMachine ${testClientMachine_SRCS})
 set_target_properties(testClientMachine PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
 
 target_link_libraries(testClientMachine
-    Qt::Concurrent
+    Qt${QT_MAJOR_VERSION}::Concurrent
     Qt::Test
-    Qt::Widgets
+    Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
     KF5::WindowSystem
@@ -63,9 +63,9 @@ target_link_libraries(testClientMachine
     ${X11_X11_LIB} # to make jenkins happy
 )
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(testClientMachine Qt::X11Extras)
+    target_link_libraries(testClientMachine Qt${QT_MAJOR_VERSION}::X11Extras)
 else()
-    target_link_libraries(testClientMachine Qt::GuiPrivate)
+    target_link_libraries(testClientMachine Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
 add_test(NAME kwin-testClientMachine COMMAND testClientMachine)
 ecm_mark_as_test(testClientMachine)
@@ -77,7 +77,7 @@ add_executable(testXcbWrapper test_xcb_wrapper.cpp xcb_scaling_mock.cpp)
 
 target_link_libraries(testXcbWrapper
     Qt::Test
-    Qt::Widgets
+    Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
     KF5::WindowSystem
@@ -85,9 +85,9 @@ target_link_libraries(testXcbWrapper
     XCB::XCB
 )
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(testXcbWrapper Qt::X11Extras)
+    target_link_libraries(testXcbWrapper Qt${QT_MAJOR_VERSION}::X11Extras)
 else()
-    target_link_libraries(testXcbWrapper Qt::GuiPrivate)
+    target_link_libraries(testXcbWrapper Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
 add_test(NAME kwin-testXcbWrapper COMMAND testXcbWrapper)
 ecm_mark_as_test(testXcbWrapper)
@@ -97,7 +97,7 @@ if (XCB_ICCCM_FOUND)
     set_target_properties(testXcbSizeHints PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
     target_link_libraries(testXcbSizeHints
         Qt::Test
-        Qt::Widgets
+        Qt${QT_MAJOR_VERSION}::Widgets
 
         KF5::ConfigCore
         KF5::WindowSystem
@@ -106,9 +106,9 @@ if (XCB_ICCCM_FOUND)
         XCB::XCB
     )
     if (QT_MAJOR_VERSION EQUAL "5")
-        target_link_libraries(testXcbSizeHints Qt::X11Extras)
+        target_link_libraries(testXcbSizeHints Qt${QT_MAJOR_VERSION}::X11Extras)
     else()
-        target_link_libraries(testXcbSizeHints Qt::GuiPrivate)
+        target_link_libraries(testXcbSizeHints Qt${QT_MAJOR_VERSION}::GuiPrivate)
     endif()
     add_test(NAME kwin-testXcbSizeHints COMMAND testXcbSizeHints)
     ecm_mark_as_test(testXcbSizeHints)
@@ -121,7 +121,7 @@ add_executable(testXcbWindow test_xcb_window.cpp xcb_scaling_mock.cpp)
 
 target_link_libraries(testXcbWindow
     Qt::Test
-    Qt::Widgets
+    Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
     KF5::WindowSystem
@@ -129,9 +129,9 @@ target_link_libraries(testXcbWindow
     XCB::XCB
 )
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(testXcbWindow Qt::X11Extras)
+    target_link_libraries(testXcbWindow Qt${QT_MAJOR_VERSION}::X11Extras)
 else()
-    target_link_libraries(testXcbWindow Qt::GuiPrivate)
+    target_link_libraries(testXcbWindow Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
 add_test(NAME kwin-testXcbWindow COMMAND testXcbWindow)
 ecm_mark_as_test(testXcbWindow)
@@ -149,10 +149,10 @@ set(testOnScreenNotification_SRCS
 add_executable(testOnScreenNotification ${testOnScreenNotification_SRCS})
 
 target_link_libraries(testOnScreenNotification
-    Qt::DBus
-    Qt::Quick
+    Qt${QT_MAJOR_VERSION}::DBus
+    Qt${QT_MAJOR_VERSION}::Quick
     Qt::Test
-    Qt::Widgets # QAction include
+    Qt${QT_MAJOR_VERSION}::Widgets # QAction include
 
     KF5::ConfigCore
 )
@@ -206,14 +206,19 @@ set(testXkb_SRCS
     ../src/xkb.cpp
     test_xkb.cpp
 )
-qt_add_dbus_interface(testXkb_SRCS ${CMAKE_SOURCE_DIR}/src/org.freedesktop.DBus.Properties.xml dbusproperties_interface)
+if (QT_MAJOR_VERSION EQUAL "5")
+    qt5_add_dbus_interface(testXkb_SRCS ${CMAKE_SOURCE_DIR}/src/org.freedesktop.DBus.Properties.xml dbusproperties_interface)
+else()
+    qt_add_dbus_interface(testXkb_SRCS ${CMAKE_SOURCE_DIR}/src/org.freedesktop.DBus.Properties.xml dbusproperties_interface)
+endif()
+
 add_executable(testXkb ${testXkb_SRCS})
 target_link_libraries(testXkb
     kwin
 
-    Qt::Gui
+    Qt${QT_MAJOR_VERSION}::Gui
     Qt::Test
-    Qt::Widgets
+    Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
     KF5::WindowSystem
@@ -225,7 +230,7 @@ target_link_libraries(testXkb
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(testXkb Qt5XkbCommonSupport::Qt5XkbCommonSupport)
 else()
-    target_link_libraries(testXkb Qt::GuiPrivate)
+    target_link_libraries(testXkb Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
 add_test(NAME kwin-testXkb COMMAND testXkb)
 ecm_mark_as_test(testXkb)

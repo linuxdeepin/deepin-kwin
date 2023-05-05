@@ -9,7 +9,11 @@ set(kcm_screenedges_SRCS
     kwinscreenedgeconfigform.cpp
 )
 
-qt_add_dbus_interface(kcm_screenedges_SRCS ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface)
+if (QT_MAJOR_VERSION EQUAL "5")
+    qt5_add_dbus_interface(kcm_screenedges_SRCS ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface)
+else()
+    qt_add_dbus_interface(kcm_screenedges_SRCS ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface)
+endif()
 
 set(kcm_kwinscreenedges_PART_SRCS main.cpp ${kcm_screenedges_SRCS})
 
@@ -26,7 +30,7 @@ ki18n_wrap_ui(kcm_kwinscreenedges_PART_SRCS main.ui)
 kconfig_add_kcfg_files(kcm_kwinscreenedges_PART_SRCS kwinscreenedgesettings.kcfgc kwinscreenedgescriptsettings.kcfgc kwinscreenedgeeffectsettings.kcfgc)
 kcoreaddons_add_plugin(kcm_kwinscreenedges SOURCES ${kcm_kwinscreenedges_PART_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings_qwidgets")
 set(kcm_screenedges_LIBS
-    Qt::DBus
+    Qt${QT_MAJOR_VERSION}::DBus
 
     KF5::ConfigCore
     KF5::ConfigWidgets

@@ -12,5 +12,5 @@ target_link_libraries(kwin4_effect_colorpicker PRIVATE
 
     KF5::I18n
 
-    Qt::DBus
+    Qt${QT_MAJOR_VERSION}::DBus
 )

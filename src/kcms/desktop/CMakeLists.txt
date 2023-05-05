@@ -17,7 +17,7 @@ kcoreaddons_add_plugin(kcm_kwin_virtualdesktops SOURCES ${kcm_kwin_virtualdeskto
 kcmutils_generate_desktop_file(kcm_kwin_virtualdesktops)
 
 target_link_libraries(kcm_kwin_virtualdesktops
-    Qt::DBus
+    Qt${QT_MAJOR_VERSION}::DBus
 
     KF5::I18n
     KF5::KCMUtils

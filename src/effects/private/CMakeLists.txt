@@ -11,10 +11,10 @@ add_library(effectsplugin
 target_link_libraries(effectsplugin
     kwineffects
 
-    Qt::Core
-    Qt::Gui
-    Qt::Qml
-    Qt::Quick
+    Qt${QT_MAJOR_VERSION}::Core
+    Qt${QT_MAJOR_VERSION}::Gui
+    Qt${QT_MAJOR_VERSION}::Qml
+    Qt${QT_MAJOR_VERSION}::Quick
 )
 
 install(DIRECTORY qml/ DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwin/private/effects)

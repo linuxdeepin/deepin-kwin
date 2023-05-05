@@ -21,7 +21,7 @@ target_link_libraries(kwin4_effect_desktopgrid PRIVATE
     KF5::GlobalAccel
     KF5::I18n
 
-    Qt::Quick
+    Qt${QT_MAJOR_VERSION}::Quick
     )
 
 #######################################
@@ -39,7 +39,7 @@ if (KWIN_BUILD_KCMS)
         KF5::GlobalAccel
         KF5::I18n
         KF5::XmlGui
-        Qt::Quick
+        Qt${QT_MAJOR_VERSION}::Quick
         kwineffects
         KWinEffectsInterface
     )

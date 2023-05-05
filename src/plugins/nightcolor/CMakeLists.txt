@@ -18,7 +18,11 @@ ecm_qt_declare_logging_category(KWinNightColorPlugin
 kconfig_add_kcfg_files(KWinNightColorPlugin nightcolorsettings.kcfgc)
 
 set(nightcolor_xml_SOURCES)
-qt_add_dbus_adaptor(nightcolor_xml_SOURCES org.kde.kwin.ColorCorrect.xml nightcolordbusinterface.h KWin::NightColorDBusInterface)
+if (QT_MAJOR_VERSION EQUAL "5")
+    qt5_add_dbus_adaptor(nightcolor_xml_SOURCES org.kde.kwin.ColorCorrect.xml nightcolordbusinterface.h KWin::NightColorDBusInterface)
+else()
+    qt_add_dbus_adaptor(nightcolor_xml_SOURCES org.kde.kwin.ColorCorrect.xml nightcolordbusinterface.h KWin::NightColorDBusInterface)
+endif()
 target_sources(KWinNightColorPlugin PRIVATE ${nightcolor_xml_SOURCES})
 
 if (CMAKE_SYSTEM_NAME MATCHES "Linux")

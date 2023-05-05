@@ -9,7 +9,7 @@ endif()
 # in a directory other than the one where the target is defined. It should be fixed in 3.20.
 add_library(WaylandProtocols_xml OBJECT)
 set_property(TARGET WaylandProtocols_xml PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_link_libraries(WaylandProtocols_xml Qt::Core Wayland::Server)
+target_link_libraries(WaylandProtocols_xml Qt${QT_MAJOR_VERSION}::Core Wayland::Server)
 target_link_libraries(kwin WaylandProtocols_xml)
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml

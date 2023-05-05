@@ -29,7 +29,7 @@ set(kwin_kcm_rules_XCB_LIBS
 )
 
 set(kcm_libs
-    Qt::Quick
+    Qt${QT_MAJOR_VERSION}::Quick
 
     KF5::KCMUtils
     KF5::I18n

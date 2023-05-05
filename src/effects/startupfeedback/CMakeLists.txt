@@ -13,6 +13,6 @@ target_link_libraries(kwin4_effect_startupfeedback PRIVATE
     kwineffects
     kwinglutils
 
-    Qt::DBus
-    Qt::Widgets
+    Qt${QT_MAJOR_VERSION}::DBus
+    Qt${QT_MAJOR_VERSION}::Widgets
 )

@@ -13,7 +13,7 @@ kcoreaddons_add_plugin(kcm_kwin_effects SOURCES ${kcm_kwin_effects_PART_SRCS} IN
 kcmutils_generate_desktop_file(kcm_kwin_effects)
 
 target_link_libraries(kcm_kwin_effects
-    Qt::DBus
+    Qt${QT_MAJOR_VERSION}::DBus
 
     KF5::KCMUtils
     KF5::I18n

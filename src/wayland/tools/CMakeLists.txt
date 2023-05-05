@@ -43,7 +43,7 @@ else()
     # host build
     remove_definitions(-DQT_NO_CAST_FROM_ASCII)
     add_executable(qtwaylandscanner_kde qtwaylandscanner.cpp)
-    target_link_libraries(qtwaylandscanner_kde Qt::Core)
+    target_link_libraries(qtwaylandscanner_kde Qt${QT_MAJOR_VERSION}::Core)
     include(ECMMarkNonGuiExecutable)
     ecm_mark_nongui_executable(qtwaylandscanner_kde)
 endif()

@@ -149,7 +149,11 @@ integrationTest(WAYLAND_ONLY NAME testOutputChanges SRCS outputchanges_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testTiles SRCS tiles_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testFractionalScaling SRCS fractional_scaling_test.cpp)
 
-qt_add_dbus_interfaces(DBUS_SRCS ${CMAKE_BINARY_DIR}/src/org.kde.kwin.VirtualKeyboard.xml)
+if (QT_MAJOR_VERSION EQUAL "5")
+    qt5_add_dbus_interfaces(DBUS_SRCS ${CMAKE_BINARY_DIR}/src/org.kde.kwin.VirtualKeyboard.xml)
+else()
+    qt_add_dbus_interfaces(DBUS_SRCS ${CMAKE_BINARY_DIR}/src/org.kde.kwin.VirtualKeyboard.xml)
+endif()
 integrationTest(WAYLAND_ONLY NAME testVirtualKeyboardDBus SRCS test_virtualkeyboard_dbus.cpp ${DBUS_SRCS})
 integrationTest(WAYLAND_ONLY NAME testNightColor SRCS nightcolor_test.cpp LIBS KWinNightColorPlugin)
 

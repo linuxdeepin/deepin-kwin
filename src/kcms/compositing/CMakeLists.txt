@@ -11,9 +11,15 @@ set(kwincompositing_SRC
 
 kconfig_add_kcfg_files(kwincompositing_SRC kwincompositing_setting.kcfgc GENERATE_MOC)
 
+if (QT_MAJOR_VERSION EQUAL "5")
+qt5_add_dbus_interface(kwincompositing_SRC
+    ${KWin_SOURCE_DIR}/src/org.kde.kwin.Compositing.xml kwin_compositing_interface
+)
+else()
 qt_add_dbus_interface(kwincompositing_SRC
     ${KWin_SOURCE_DIR}/src/org.kde.kwin.Compositing.xml kwin_compositing_interface
 )
+endif()
 
 ki18n_wrap_ui(kwincompositing_SRC compositing.ui)
 
@@ -21,8 +27,8 @@ kcoreaddons_add_plugin(kwincompositing SOURCES ${kwincompositing_SRC} INSTALL_NA
 kcmutils_generate_desktop_file(kwincompositing)
 
 target_link_libraries(kwincompositing
-    Qt::DBus
-    Qt::Widgets
+    Qt${QT_MAJOR_VERSION}::DBus
+    Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
     KF5::CoreAddons

@@ -29,7 +29,7 @@ target_link_libraries(kcm_kwindecoration
     KF5::KCMUtils
     KF5::NewStuff
     KF5::QuickAddons
-    Qt::Quick
+    Qt${QT_MAJOR_VERSION}::Quick
 )
 
 set(kwin-applywindowdecoration_SRCS
@@ -43,7 +43,7 @@ add_executable(kwin-applywindowdecoration ${kwin-applywindowdecoration_SRCS})
 
 target_link_libraries(kwin-applywindowdecoration
     KDecoration2::KDecoration
-    Qt::DBus
+    Qt${QT_MAJOR_VERSION}::DBus
     KF5::I18n
     KF5::KCMUtils
 )

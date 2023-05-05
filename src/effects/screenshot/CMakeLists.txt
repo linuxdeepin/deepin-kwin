@@ -9,7 +9,11 @@ set(screenshot_SOURCES
     screenshotdbusinterface2.cpp
 )
 
-qt_add_dbus_adaptor(screenshot_SOURCES org.kde.KWin.ScreenShot2.xml screenshotdbusinterface2.h KWin::ScreenShotDBusInterface2)
+if (QT_MAJOR_VERSION EQUAL "5")
+    qt5_add_dbus_adaptor(screenshot_SOURCES org.kde.KWin.ScreenShot2.xml screenshotdbusinterface2.h KWin::ScreenShotDBusInterface2)
+else()
+    qt_add_dbus_adaptor(screenshot_SOURCES org.kde.KWin.ScreenShot2.xml screenshotdbusinterface2.h KWin::ScreenShotDBusInterface2)
+endif()
 
 kwin4_add_effect_module(kwin4_effect_screenshot ${screenshot_SOURCES})
 target_link_libraries(kwin4_effect_screenshot PRIVATE
@@ -19,8 +23,8 @@ target_link_libraries(kwin4_effect_screenshot PRIVATE
     KF5::Service
     KF5::I18n
 
-    Qt::Concurrent
-    Qt::DBus
+    Qt${QT_MAJOR_VERSION}::Concurrent
+    Qt${QT_MAJOR_VERSION}::DBus
 )
 
 if (KWIN_BUILD_NOTIFICATIONS)
