@@ -195,7 +195,7 @@ CustomTile *TileManager::parseTilingJSon(const QJsonValue &val, const QRectF &av
     } else if (val.isArray()) {
         const auto arr = val.toArray();
         auto avail = availableArea;
-        for (auto it = arr.cbegin(); it != arr.cend(); it++) {
+        for (auto it = arr.begin(); it != arr.end(); it++) {
             if ((*it).isObject()) {
                 auto *tile = parseTilingJSon(*it, avail, parentTile);
                 if (tile && parentTile->layoutDirection() == Tile::LayoutDirection::Horizontal) {
