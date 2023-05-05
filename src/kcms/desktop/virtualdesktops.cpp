@@ -34,7 +34,11 @@ VirtualDesktops::VirtualDesktops(QObject *parent, const QVariantList &args)
                                        QStringLiteral("2.0"), QString(), KAboutLicense::GPL);
     setAboutData(about);
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterType<VirtualDesktopsSettings>();
+#else
     qmlRegisterAnonymousType<VirtualDesktopsSettings>("org.kde.kwin.kcm.desktop", 0);
+#endif
 
     setButtons(Apply | Default | Help);
 

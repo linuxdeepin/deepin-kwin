@@ -24,7 +24,11 @@ KcmXwayland::KcmXwayland(QObject *parent, const QVariantList &args)
     , m_settings(new KWinXwaylandSettings(m_data))
 {
     registerSettings(m_settings);
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterType<KWinXwaylandSettings>();
+#else
     qmlRegisterAnonymousType<KWinXwaylandSettings>("org.kde.kwin.kwinxwaylandsettings", 1);
+#endif
 
     setAboutData(new KAboutData(QStringLiteral("kcm_kwinxwayland"),
                                 i18n("Legacy X11 App Support"),

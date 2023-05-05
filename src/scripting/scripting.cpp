@@ -675,7 +675,11 @@ void KWin::Scripting::init()
     qmlRegisterType<WindowThumbnailItem>("org.kde.kwin", 2, 0, "ThumbnailItem");
     qmlRegisterType<DBusCall>("org.kde.kwin", 2, 0, "DBusCall");
     qmlRegisterType<ScreenEdgeItem>("org.kde.kwin", 2, 0, "ScreenEdgeItem");
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterType<ScriptingModels::V2::ClientModel>();
+#else
     qmlRegisterAnonymousType<ScriptingModels::V2::ClientModel>("org.kde.kwin", 2);
+#endif
     qmlRegisterType<ScriptingModels::V2::SimpleClientModel>("org.kde.kwin", 2, 0, "ClientModel");
     qmlRegisterType<ScriptingModels::V2::ClientModelByScreen>("org.kde.kwin", 2, 0, "ClientModelByScreen");
     qmlRegisterType<ScriptingModels::V2::ClientModelByScreenAndDesktop>("org.kde.kwin", 2, 0, "ClientModelByScreenAndDesktop");
@@ -696,6 +700,17 @@ void KWin::Scripting::init()
     });
     qmlRegisterSingletonInstance("org.kde.kwin", 3, 0, "Options", options);
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterType<KWin::Window>();
+    qmlRegisterType<KWin::VirtualDesktop>();
+    qmlRegisterType<KWin::X11Window>();
+    qmlRegisterType<QAbstractItemModel>();
+    qmlRegisterType<KWin::Window>();
+    qmlRegisterType<KWin::VirtualDesktop>();
+    qmlRegisterType<KWin::X11Window>();
+    qmlRegisterType<QAbstractItemModel>();
+    qmlRegisterType<KWin::TileManager>();
+#else
     qmlRegisterAnonymousType<KWin::Window>("org.kde.kwin", 2);
     qmlRegisterAnonymousType<KWin::VirtualDesktop>("org.kde.kwin", 2);
     qmlRegisterAnonymousType<KWin::X11Window>("org.kde.kwin", 2);
@@ -705,6 +720,7 @@ void KWin::Scripting::init()
     qmlRegisterAnonymousType<KWin::X11Window>("org.kde.kwin", 3);
     qmlRegisterAnonymousType<QAbstractItemModel>("org.kde.kwin", 3);
     qmlRegisterAnonymousType<KWin::TileManager>("org.kde.kwin", 3);
+#endif
     // TODO: call the qml types as the C++ types?
     qmlRegisterUncreatableType<KWin::CustomTile>("org.kde.kwin", 3, 0, "CustomTile", QStringLiteral("Cannot create objects of type Tile"));
     qmlRegisterUncreatableType<KWin::Tile>("org.kde.kwin", 3, 0, "Tile", QStringLiteral("Cannot create objects of type AbstractTile"));

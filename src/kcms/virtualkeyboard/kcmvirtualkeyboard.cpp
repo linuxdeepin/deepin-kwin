@@ -23,8 +23,11 @@ KcmVirtualKeyboard::KcmVirtualKeyboard(QObject *parent, const QVariantList &args
     , m_data(new VirtualKeyboardData(this))
     , m_model(new VirtualKeyboardsModel(this))
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterType<VirtualKeyboardSettings>();
+#else
     qmlRegisterAnonymousType<VirtualKeyboardSettings>("org.kde.kwin.virtualkeyboardsettings", 1);
-
+#endif
     setAboutData(new KAboutData(QStringLiteral("kcm_virtualkeyboard"),
                                 i18n("Virtual Keyboard"),
                                 QStringLiteral("1.0"),
