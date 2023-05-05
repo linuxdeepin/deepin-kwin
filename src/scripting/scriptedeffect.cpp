@@ -338,13 +338,17 @@ QJSValue ScriptedEffect::animate_helper(const QJSValue &object, AnimationType an
 {
     QJSValue windowProperty = object.property(QStringLiteral("window"));
     if (!windowProperty.isObject()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Window property missing in animation options"));
+#endif
         return QJSValue();
     }
 
     EffectWindow *window = qobject_cast<EffectWindow *>(windowProperty.toQObject());
     if (!window) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Window property references invalid window"));
+#endif
         return QJSValue();
     }
 
@@ -353,7 +357,9 @@ QJSValue ScriptedEffect::animate_helper(const QJSValue &object, AnimationType an
     QJSValue animations = object.property(QStringLiteral("animations")); // array
     if (!animations.isUndefined()) {
         if (!animations.isArray()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
             m_engine->throwError(QStringLiteral("Animations provided but not an array"));
+#endif
             return QJSValue();
         }
 
@@ -365,11 +371,15 @@ QJSValue ScriptedEffect::animate_helper(const QJSValue &object, AnimationType an
                 const uint set = s.set | settings.at(0).set;
                 // Catch show stoppers (incompletable animation)
                 if (!(set & AnimationSettings::Type)) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
                     m_engine->throwError(QStringLiteral("Type property missing in animation options"));
+#endif
                     return QJSValue();
                 }
                 if (!(set & AnimationSettings::Duration)) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
                     m_engine->throwError(QStringLiteral("Duration property missing in animation options"));
+#endif
                     return QJSValue();
                 }
                 // Complete local animations from global settings
@@ -414,11 +424,15 @@ QJSValue ScriptedEffect::animate_helper(const QJSValue &object, AnimationType an
                     auto uniformProperty = value.property(QStringLiteral("uniform")).toString();
                     auto shader = findShader(s.shader.value());
                     if (!shader) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
                         m_engine->throwError(QStringLiteral("Shader for given shaderId not found"));
+#endif
                         return {};
                     }
                     if (!effects->makeOpenGLContextCurrent()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
                         m_engine->throwError(QStringLiteral("Failed to make OpenGL context current"));
+#endif
                         return {};
                     }
                     ShaderBinder binder{shader};
@@ -433,11 +447,15 @@ QJSValue ScriptedEffect::animate_helper(const QJSValue &object, AnimationType an
     if (settings.count() == 1) {
         const uint set = settings.at(0).set;
         if (!(set & AnimationSettings::Type)) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
             m_engine->throwError(QStringLiteral("Type property missing in animation options"));
+#endif
             return QJSValue();
         }
         if (!(set & AnimationSettings::Duration)) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
             m_engine->throwError(QStringLiteral("Duration property missing in animation options"));
+#endif
             return QJSValue();
         }
     } else if (!(settings.at(0).set & AnimationSettings::Type)) { // invalid global
@@ -445,7 +463,9 @@ QJSValue ScriptedEffect::animate_helper(const QJSValue &object, AnimationType an
     }
 
     if (settings.isEmpty()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("No animations provided"));
+#endif
         return QJSValue();
     }
 
@@ -647,7 +667,9 @@ void ScriptedEffect::registerShortcut(const QString &objectName, const QString &
                                       const QString &keySequence, const QJSValue &callback)
 {
     if (!callback.isCallable()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Shortcut handler must be callable"));
+#endif
         return;
     }
     QAction *action = new QAction(this);
@@ -699,7 +721,9 @@ int ScriptedEffect::animationTime(int defaultTime) const
 bool ScriptedEffect::registerScreenEdge(int edge, const QJSValue &callback)
 {
     if (!callback.isCallable()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Screen edge handler must be callable"));
+#endif
         return false;
     }
     auto it = screenEdgeCallbacks().find(edge);
@@ -716,7 +740,9 @@ bool ScriptedEffect::registerScreenEdge(int edge, const QJSValue &callback)
 bool ScriptedEffect::registerRealtimeScreenEdge(int edge, const QJSValue &callback)
 {
     if (!callback.isCallable()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Screen edge handler must be callable"));
+#endif
         return false;
     }
     auto it = realtimeScreenEdgeCallbacks().find(edge);
@@ -768,7 +794,9 @@ bool ScriptedEffect::registerTouchScreenEdge(int edge, const QJSValue &callback)
         return false;
     }
     if (!callback.isCallable()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Touch screen edge handler must be callable"));
+#endif
         return false;
     }
     QAction *action = new QAction(this);
@@ -799,7 +827,9 @@ QJSEngine *ScriptedEffect::engine() const
 uint ScriptedEffect::addFragmentShader(ShaderTrait traits, const QString &fragmentShaderFile)
 {
     if (!effects->makeOpenGLContextCurrent()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Failed to make OpenGL context current"));
+#endif
         return 0;
     }
     const QString shaderDir{QLatin1String("kwin/effects/") + m_effectName + QLatin1String("/contents/shaders/")};
@@ -807,7 +837,9 @@ uint ScriptedEffect::addFragmentShader(ShaderTrait traits, const QString &fragme
 
     auto shader = ShaderManager::instance()->generateShaderFromFile(static_cast<KWin::ShaderTraits>(int(traits)), {}, fragment);
     if (!shader->isValid()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Shader failed to load"));
+#endif
         // 0 is never a valid shader identifier, it's ensured the first shader gets id 1
         return 0;
     }
@@ -830,11 +862,15 @@ void ScriptedEffect::setUniform(uint shaderId, const QString &name, const QJSVal
 {
     auto shader = findShader(shaderId);
     if (!shader) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Shader for given shaderId not found"));
+#endif
         return;
     }
     if (!effects->makeOpenGLContextCurrent()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Failed to make OpenGL context current"));
+#endif
         return;
     }
     auto setColorUniform = [this, shader, name] (const QColor &color)
@@ -843,7 +879,9 @@ void ScriptedEffect::setUniform(uint shaderId, const QString &name, const QJSVal
             return;
         }
         if (!shader->setUniform(name.toUtf8().constData(), color)) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
             m_engine->throwError(QStringLiteral("Failed to set uniform ") + name);
+#endif
         }
     };
     ShaderBinder binder{shader};
@@ -851,30 +889,42 @@ void ScriptedEffect::setUniform(uint shaderId, const QString &name, const QJSVal
         setColorUniform(value.toString());
     } else if (value.isNumber()) {
         if (!shader->setUniform(name.toUtf8().constData(), float(value.toNumber()))) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
             m_engine->throwError(QStringLiteral("Failed to set uniform ") + name);
+#endif
         }
     } else if (value.isArray()) {
         const auto length = value.property(QStringLiteral("length")).toInt();
         if (length == 2) {
             if (!shader->setUniform(name.toUtf8().constData(), QVector2D{float(value.property(0).toNumber()), float(value.property(1).toNumber())})) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
                 m_engine->throwError(QStringLiteral("Failed to set uniform ") + name);
+#endif
             }
         } else if (length == 3) {
             if (!shader->setUniform(name.toUtf8().constData(), QVector3D{float(value.property(0).toNumber()), float(value.property(1).toNumber()), float(value.property(2).toNumber())})) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
                 m_engine->throwError(QStringLiteral("Failed to set uniform ") + name);
+#endif
             }
         } else if (length == 4) {
             if (!shader->setUniform(name.toUtf8().constData(), QVector4D{float(value.property(0).toNumber()), float(value.property(1).toNumber()), float(value.property(2).toNumber()), float(value.property(3).toNumber())})) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
                 m_engine->throwError(QStringLiteral("Failed to set uniform ") + name);
+#endif
             }
         } else {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
             m_engine->throwError(QStringLiteral("Invalid number of elements in array"));
+#endif
         }
     } else if (value.isVariant()) {
         const auto variant = value.toVariant();
         setColorUniform(variant.value<QColor>());
     } else {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Invalid value provided for uniform"));
+#endif
     }
 }
 

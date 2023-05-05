@@ -376,7 +376,9 @@ void KWin::Script::callDBus(const QString &service, const QString &path, const Q
 bool KWin::Script::registerShortcut(const QString &objectName, const QString &text, const QString &keySequence, const QJSValue &callback)
 {
     if (!callback.isCallable()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Shortcut handler must be callable"));
+#endif
         return false;
     }
 
@@ -397,7 +399,9 @@ bool KWin::Script::registerShortcut(const QString &objectName, const QString &te
 bool KWin::Script::registerScreenEdge(int edge, const QJSValue &callback)
 {
     if (!callback.isCallable()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Screen edge handler must be callable"));
+#endif
         return false;
     }
 
@@ -427,7 +431,9 @@ bool KWin::Script::unregisterScreenEdge(int edge)
 bool KWin::Script::registerTouchScreenEdge(int edge, const QJSValue &callback)
 {
     if (!callback.isCallable()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("Touch screen edge handler must be callable"));
+#endif
         return false;
     }
     if (m_touchScreenEdgeCallbacks.contains(edge)) {
@@ -461,7 +467,9 @@ bool KWin::Script::unregisterTouchScreenEdge(int edge)
 void KWin::Script::registerUserActionsMenu(const QJSValue &callback)
 {
     if (!callback.isCallable()) {
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_engine->throwError(QStringLiteral("User action handler must be callable"));
+#endif
         return;
     }
     m_userActionsMenuCallbacks.append(callback);
