@@ -27,7 +27,7 @@ class QQmlContext;
 class QQmlEngine;
 class QAction;
 class QMenu;
-class QRecursiveMutex;
+class QMutex;
 class QQuickWindow;
 class KConfigGroup;
 
@@ -319,7 +319,7 @@ private:
     /**
      * Lock to protect the scripts member variable.
      */
-    std::unique_ptr<QRecursiveMutex> m_scriptsLock;
+    std::unique_ptr<QMutex> m_scriptsLock;
 
     // Preferably call ONLY at load time
     void runScripts();

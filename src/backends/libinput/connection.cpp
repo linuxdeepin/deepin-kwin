@@ -103,6 +103,7 @@ Connection::Connection(std::unique_ptr<Context> &&input)
     : m_notifier(nullptr)
     , m_connectionAdaptor(std::make_unique<ConnectionAdaptor>(this))
     , m_input(std::move(input))
+    , m_mutex(QMutex::Recursive)
 {
     Q_ASSERT(m_input);
     // need to connect to KGlobalSettings as the mouse KCM does not emit a dedicated signal

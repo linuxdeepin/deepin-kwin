@@ -14,7 +14,7 @@
 
 #include <QObject>
 #include <QPointer>
-#include <QRecursiveMutex>
+#include <QMutex>
 #include <QSize>
 #include <QStringList>
 #include <QVector>
@@ -74,7 +74,7 @@ private:
     void applyScreenToDevice(Device *device);
     void doSetup();
     std::unique_ptr<QSocketNotifier> m_notifier;
-    QRecursiveMutex m_mutex;
+    QMutex m_mutex;
     std::deque<std::unique_ptr<Event>> m_eventQueue;
     QVector<Device *> m_devices;
     KSharedConfigPtr m_config;
