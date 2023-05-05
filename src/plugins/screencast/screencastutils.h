@@ -30,8 +30,10 @@ static GLenum closestGLType(const QImage &image)
     switch (image.format()) {
     case QImage::Format_RGB888:
         return GL_RGB;
-    case QImage::Format_BGR888:
-        return GL_BGR;
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+     case QImage::Format_BGR888:
+         return GL_BGR;
+#endif
     case QImage::Format_RGB32:
     case QImage::Format_RGBX8888:
     case QImage::Format_RGBA8888:

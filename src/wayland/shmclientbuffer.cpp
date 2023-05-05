@@ -88,9 +88,9 @@ static QImage::Format imageFormatForShmFormat(uint32_t format)
     switch (format) {
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
     case WL_SHM_FORMAT_ABGR16161616:
-        return QImage::Format_RGBA64_Premultiplied;
+        return QImage::Format_Invalid;
     case WL_SHM_FORMAT_XBGR16161616:
-        return QImage::Format_RGBX64;
+        return QImage::Format_Invalid;
     case WL_SHM_FORMAT_ARGB2101010:
         return QImage::Format_A2RGB30_Premultiplied;
     case WL_SHM_FORMAT_XRGB2101010:
