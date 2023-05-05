@@ -8,9 +8,9 @@ target_sources(kwin PRIVATE
 
 target_link_libraries(kwin
     X11::XCB
-    X11::X11
+    X11
     XCB::PRESENT
 )
 if (X11_Xi_FOUND)
-    target_link_libraries(kwin X11::Xi)
+    target_link_libraries(kwin Xi)
 endif()
