@@ -844,9 +844,8 @@ void GLPlatform::detect(OpenGLPlatformInterface platformInterface)
             m_extensions.insert(name);
         }
     } else {
-        const QByteArray extensions = (const char *)glGetString(GL_EXTENSIONS);
-        QList<QByteArray> extensionsList = extensions.split(' ');
-        m_extensions = {extensionsList.constBegin(), extensionsList.constEnd()};
+        const QByteArray extensions = (const char *) glGetString(GL_EXTENSIONS);
+        m_extensions = QSet<QByteArray>::fromList(extensions.split(' '));
     }
 
     // Parse the Mesa version
