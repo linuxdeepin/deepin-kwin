@@ -73,7 +73,7 @@ static std::vector<quint32> textToKey(const QString &text)
         return {};
     }
 
-    if (text.isUpper()) {
+    if (text.data()->isUpper()) {
         return {KEY_LEFTSHIFT, quint32(keyCode.value())};
     }
 
