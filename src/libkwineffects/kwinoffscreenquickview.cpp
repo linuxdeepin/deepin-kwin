@@ -359,9 +359,10 @@ void OffscreenQuickView::forwardMouseEvent(QEvent *e)
     }
     case QEvent::Wheel: {
         QWheelEvent *we = static_cast<QWheelEvent *>(e);
-        const QPointF widgetPos = d->m_view->mapFromGlobal(we->position().toPoint());
-        QWheelEvent cloneEvent(widgetPos, we->globalPosition(), we->pixelDelta(), we->angleDelta(), we->buttons(),
-                               we->modifiers(), we->phase(), we->inverted());
+        const QPointF widgetPos = d->m_view->mapFromGlobal(we->posF().toPoint());
+        QWheelEvent cloneEvent(widgetPos, we->globalPos(), we->pixelDelta(), we->angleDelta(),
+                               we->delta(), we->orientation(), we->buttons(),
+                               we->modifiers(), we->phase(), we->source(), we->inverted());
         QCoreApplication::sendEvent(d->m_view.get(), &cloneEvent);
         e->setAccepted(cloneEvent.isAccepted());
         return;

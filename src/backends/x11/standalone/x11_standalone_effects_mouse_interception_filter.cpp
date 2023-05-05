@@ -62,7 +62,8 @@ bool EffectsMouseInterceptionX11Filter::event(xcb_generic_event_t *event)
                     // angleDelta = angleDelta.transposed();
                 }
 
-                QWheelEvent ev(QPoint(me->event_x, me->event_y), QCursor::pos(), QPoint(), angleDelta, buttons, modifiers, Qt::NoScrollPhase, false);
+                QWheelEvent ev(QPoint(me->event_x, me->event_y), QCursor::pos(), QPoint(), angleDelta,
+                        0, Qt::Horizontal, buttons, modifiers, Qt::NoScrollPhase, Qt::MouseEventNotSynthesized, false);
                 ev.setTimestamp(me->time);
                 return m_effects->checkInputWindowEvent(&ev);
             }

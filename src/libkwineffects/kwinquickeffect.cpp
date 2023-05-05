@@ -474,7 +474,7 @@ void QuickSceneEffect::windowInputMouseEvent(QEvent *event)
         globalPosition = mouseEvent->globalPos();
     } else if (QWheelEvent *wheelEvent = dynamic_cast<QWheelEvent *>(event)) {
         buttons = wheelEvent->buttons();
-        globalPosition = wheelEvent->globalPosition().toPoint();
+        globalPosition = wheelEvent->globalPosF().toPoint();
     } else {
         return;
     }

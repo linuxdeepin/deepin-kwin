@@ -1169,7 +1169,7 @@ std::pair<bool, bool> performWindowWheelAction(QWheelEvent *event, Window *windo
         }
     }
     if (wasAction) {
-        return std::make_pair(wasAction, !window->performMouseCommand(command, event->globalPosition()));
+        return std::make_pair(wasAction, !window->performMouseCommand(command, event->globalPosF()));
     }
     return std::make_pair(wasAction, false);
 }
@@ -1197,12 +1197,15 @@ class InternalWindowEventFilter : public InputEventFilter
             return false;
         }
         QWindow *internal = static_cast<InternalWindow *>(input()->pointer()->focus())->handle();
-        const QPointF localPos = event->globalPosition() - internal->position();
-        QWheelEvent wheelEvent(localPos, event->globalPosition(), QPoint(),
+        const QPointF localPos = event->globalPosF() - internal->position();
+        QWheelEvent wheelEvent(localPos, event->globalPosF(), QPoint(),
                                event->angleDelta() * -1,
+                               event->delta(),
+                               event->orientation(),
                                event->buttons(),
                                event->modifiers(),
                                Qt::NoScrollPhase,
+                               event->source(),
                                false);
         QCoreApplication::sendEvent(internal, &wheelEvent);
         return wheelEvent.isAccepted();
@@ -1420,13 +1423,16 @@ public:
                 return actionResult.second;
             }
         }
-        const QPointF localPos = event->globalPosition() - decoration->window()->pos();
+        const QPointF localPos = event->globalPosF() - decoration->window()->pos();
         const Qt::Orientation orientation = (event->angleDelta().x() != 0) ? Qt::Horizontal : Qt::Vertical;
-        QWheelEvent e(localPos, event->globalPosition(), QPoint(),
+        QWheelEvent e(localPos, event->globalPosF(), QPoint(),
                       event->angleDelta(),
+                      event->delta(),
+                      event->orientation(),
                       event->buttons(),
                       event->modifiers(),
                       Qt::NoScrollPhase,
+                      event->source(),
                       false);
         e.setAccepted(false);
         QCoreApplication::sendEvent(decoration, &e);
@@ -1436,7 +1442,7 @@ public:
         if ((orientation == Qt::Vertical) && decoration->window()->titlebarPositionUnderMouse()) {
             if (float delta = m_accumulator.accumulate(event)) {
                 decoration->window()->performMouseCommand(options->operationTitlebarMouseWheel(delta * -1),
-                                                          event->globalPosition());
+                                                          event->globalPosF());
             }
         }
         return true;
