@@ -15,7 +15,7 @@
 
 namespace KWaylandServer
 {
-Q_NAMESPACE_EXPORT(KWIN_EXPORT)
+Q_NAMESPACE
 /**
  * ContentHint allows to modify the behavior of the text input.
  */
