@@ -299,7 +299,11 @@ void LinuxDmaBufV1ClientBufferIntegration::setSupportedFormatsWithModifiers(cons
     if (LinuxDmaBufV1FeedbackPrivate::get(d->defaultFeedback.get())->m_tranches != tranches) {
         QHash<uint32_t, QVector<uint64_t>> set;
         for (const auto &tranche : tranches) {
-            set.insert(tranche.formatTable);
+            QHash<uint32_t, QVector<uint64_t>>::const_iterator it = tranche.formatTable.constBegin();
+            while (it != tranche.formatTable.constEnd()) {
+                set.insert(it.key(), it.value());
+                ++it;
+            }
         }
         d->supportedModifiers = set;
         d->mainDevice = tranches.first().device;
