@@ -147,7 +147,7 @@ enum class LED {
     CapsLock = 1 << 1,
     ScrollLock = 1 << 2
 };
-Q_DECLARE_FLAGS(LEDs, LED)
+typedef QFlags<LED> LEDs;
 Q_FLAG_NS(LEDs)
 
 /**
