@@ -21,6 +21,7 @@
 #include <QSet>
 
 #include <functional>
+#include <memory>
 
 class KGlobalAccelInterface;
 class QAction;

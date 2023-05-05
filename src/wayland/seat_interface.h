@@ -12,6 +12,8 @@
 #include <QObject>
 #include <QPoint>
 
+#include <memory>
+
 struct wl_client;
 struct wl_resource;
 

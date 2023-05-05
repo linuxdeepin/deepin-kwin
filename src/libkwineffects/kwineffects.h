@@ -40,7 +40,7 @@
 #include <cmath>
 #include <functional>
 #include <optional>
-#include <span>
+#include <memory>
 
 class KConfigGroup;
 class QFont;

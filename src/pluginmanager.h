@@ -14,6 +14,8 @@
 
 #include <KPluginMetaData>
 
+#include <memory>
+
 namespace KWin
 {
 

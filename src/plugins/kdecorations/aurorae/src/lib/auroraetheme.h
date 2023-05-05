@@ -16,6 +16,8 @@
 
 #include <KDecoration2/DecorationButton>
 
+#include <memory>
+
 Q_DECLARE_LOGGING_CATEGORY(AURORAE)
 
 class KConfig;

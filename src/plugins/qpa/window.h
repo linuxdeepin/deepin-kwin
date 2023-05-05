@@ -14,6 +14,8 @@
 #include <QPointer>
 #include <qpa/qplatformwindow.h>
 
+#include <memory>
+
 class QOpenGLFramebufferObject;
 
 namespace KWin

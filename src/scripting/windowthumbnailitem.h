@@ -12,6 +12,8 @@
 
 #include <epoxy/gl.h>
 
+#include <memory>
+
 namespace KWin
 {
 class Window;

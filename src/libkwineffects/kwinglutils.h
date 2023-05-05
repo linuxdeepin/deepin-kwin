@@ -18,6 +18,8 @@
 #include <QSize>
 #include <QStack>
 
+#include <memory>
+
 /** @addtogroup kwineffects */
 /** @{ */
 

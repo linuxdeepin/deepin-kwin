@@ -14,6 +14,8 @@
 #include <pipewire/pipewire.h>
 #include <spa/utils/hook.h>
 
+#include <memory>
+
 namespace KWin
 {
 

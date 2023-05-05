@@ -19,6 +19,8 @@
 #endif
 #include <qpa/qplatformintegration.h>
 
+#include <memory>
+
 namespace KWin
 {
 

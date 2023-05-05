@@ -8,6 +8,8 @@
 
 #include "scene/itemrenderer.h"
 
+#include <memory>
+
 class QPainter;
 
 namespace KWin

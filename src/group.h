@@ -13,6 +13,8 @@
 #include "utils/common.h"
 #include <netwm.h>
 
+#include <memory>
+
 namespace KWin
 {
 

@@ -12,6 +12,8 @@
 
 #include "kwinscreenedge.h"
 
+#include <memory>
+
 namespace Ui
 {
 class KWinTouchScreenConfigUi;

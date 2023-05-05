@@ -7,6 +7,8 @@
 
 #include <QWidget>
 
+#include <memory>
+
 class ScreenPreviewWidgetPrivate;
 
 class ScreenPreviewWidget : public QWidget

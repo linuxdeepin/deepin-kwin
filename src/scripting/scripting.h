@@ -22,6 +22,8 @@
 #include <QDBusContext>
 #include <QDBusMessage>
 
+#include <memory>
+
 class QQmlComponent;
 class QQmlContext;
 class QQmlEngine;

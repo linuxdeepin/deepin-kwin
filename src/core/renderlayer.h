@@ -15,6 +15,8 @@
 #include <QPointer>
 #include <QRegion>
 
+#include <memory>
+
 namespace KWin
 {
 

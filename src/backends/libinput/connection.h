@@ -20,6 +20,8 @@
 #include <QVector>
 #include <deque>
 
+#include <memory>
+
 class QSocketNotifier;
 class QThread;
 

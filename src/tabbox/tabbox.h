@@ -17,6 +17,8 @@
 #include <QModelIndex>
 #include <QTimer>
 
+#include <memory>
+
 class KConfigGroup;
 class KLazyLocalizedString;
 class QAction;

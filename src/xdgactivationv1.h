@@ -14,6 +14,8 @@
 #include <QPointer>
 #include <QSharedPointer>
 
+#include <memory>
+
 namespace KWaylandServer
 {
 class SeatInterface;

@@ -14,6 +14,8 @@
 
 #include <QPainter>
 
+#include <memory>
+
 namespace KWin
 {
 namespace QPA

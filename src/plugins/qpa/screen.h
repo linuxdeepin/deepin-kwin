@@ -12,6 +12,8 @@
 
 #include <QPointer>
 
+#include <memory>
+
 namespace KWin
 {
 class Output;

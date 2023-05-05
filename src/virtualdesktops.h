@@ -21,6 +21,8 @@
 #include <KConfig>
 #include <KSharedConfig>
 
+#include <memory>
+
 class KLocalizedString;
 class NETRootInfo;
 class QAction;

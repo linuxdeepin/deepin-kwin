@@ -13,6 +13,8 @@
 #include "utils/common.h"
 #include <kwin_export.h>
 
+#include <memory>
+
 namespace KWin
 {
 
