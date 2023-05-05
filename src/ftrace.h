@@ -52,7 +52,7 @@ public:
             return;
         }
         QTextStream stream(&m_file);
-        (stream << ... << args) << Qt::endl;
+        (stream << ... << args) << "\n";
     }
 
 Q_SIGNALS:

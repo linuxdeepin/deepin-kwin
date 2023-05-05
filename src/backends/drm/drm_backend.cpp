@@ -378,10 +378,10 @@ QString DrmBackend::supportInformation() const
     QDebug s(&supportInfo);
     s.nospace();
     s << "Name: "
-      << "DRM" << Qt::endl;
-    s << "Active: " << m_active << Qt::endl;
+      << "DRM\n";
+    s << "Active: " << m_active << "\n";
     for (size_t g = 0; g < m_gpus.size(); g++) {
-        s << "Atomic Mode Setting on GPU " << g << ": " << m_gpus.at(g)->atomicModeSetting() << Qt::endl;
+        s << "Atomic Mode Setting on GPU " << g << ": " << m_gpus.at(g)->atomicModeSetting() << "\n";
     }
     return supportInfo;
 }

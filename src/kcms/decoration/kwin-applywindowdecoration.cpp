@@ -62,19 +62,18 @@ int main(int argc, char **argv)
                     if (!path.isEmpty() && path == QStringLiteral("%1/metadata.desktop").arg(requestedTheme)) {
                         requestedTheme = QString("__aurorae__svg__").append(splitTheme.last());
                         themeResolved = true;
-                        ts << i18n("Resolved %1 to the KWin Aurorae theme \"%2\", and will attempt to set that as your current theme.")
-                                  .arg(parser->positionalArguments().first(), requestedTheme)
-                           << Qt::endl;
+                        ts << i18n("Resolved %1 to the KWin Aurorae theme \"%2\", and will attempt to set that as your current theme.\n")
+                                  .arg(parser->positionalArguments().first(), requestedTheme);
                     }
                 }
             } else {
-                ts << i18n("You attempted to pass a file path, but this could not be resolved to a theme, and we will have to abort, due to having no theme to set") << Qt::endl;
+                ts << i18n("You attempted to pass a file path, but this could not be resolved to a theme, and we will have to abort, due to having no theme to set\n");
                 exitCode = -1;
             }
         }
 
         if (settings->theme() == requestedTheme) {
-            ts << i18n("The requested theme \"%1\" is already set as the window decoration theme.", requestedTheme) << Qt::endl;
+            ts << i18n("The requested theme \"%1\" is already set as the window decoration theme.\n", requestedTheme);
             // not an error condition, just nothing happens
         } else if (themeResolved) {
             int index{-1};
@@ -96,27 +95,26 @@ int main(int argc, char **argv)
                                                                       QStringLiteral("org.kde.KWin"),
                                                                       QStringLiteral("reloadConfig"));
                     QDBusConnection::sessionBus().send(message);
-                    ts << i18n("Successfully applied the cursor theme %1 to your current Plasma session",
-                               model->data(model->index(index), KDecoration2::Configuration::DecorationsModel::ThemeNameRole).toString())
-                       << Qt::endl;
+                    ts << i18n("Successfully applied the cursor theme %1 to your current Plasma session\n",
+                               model->data(model->index(index), KDecoration2::Configuration::DecorationsModel::ThemeNameRole).toString());
                 } else {
                     ts << i18n("Failed to save your theme settings - the reason is unknown, but this is an unrecoverable error. You may find that simply trying again will work.");
                     exitCode = -1;
                 }
             } else {
-                ts << i18n("Could not find theme \"%1\". The theme should be one of the following options: %2", requestedTheme, availableThemes.join(QStringLiteral(", "))) << Qt::endl;
+                ts << i18n("Could not find theme \"%1\". The theme should be one of the following options: %2\n", requestedTheme, availableThemes.join(QStringLiteral(", ")));
                 exitCode = -1;
             }
         }
     } else if (parser->isSet(QStringLiteral("list-themes"))) {
-        ts << i18n("You have the following KWin window decoration themes on your system:") << Qt::endl;
+        ts << i18n("You have the following KWin window decoration themes on your system:\n");
         for (int i = 0; i < model->rowCount(); ++i) {
             const QString displayName = model->data(model->index(i), Qt::DisplayRole).toString();
             const QString themeName = model->data(model->index(i), KDecoration2::Configuration::DecorationsModel::ThemeNameRole).toString();
             if (settings->theme() == themeName) {
-                ts << QStringLiteral(" * %1 (theme name: %2 - current theme for this Plasma session)").arg(displayName, themeName) << Qt::endl;
+                ts << QStringLiteral(" * %1 (theme name: %2 - current theme for this Plasma session)").arg(displayName, themeName);
             } else {
-                ts << QStringLiteral(" * %1 (theme name: %2)").arg(displayName, themeName) << Qt::endl;
+                ts << QStringLiteral(" * %1 (theme name: %2)").arg(displayName, themeName);
             }
         }
     } else {
