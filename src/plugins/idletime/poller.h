@@ -11,6 +11,7 @@
 #include <KIdleTime/private/abstractsystempoller.h>
 #include <QHash>
 #include <QTimer>
+#include <QtPlugin>
 
 namespace KWin
 {
@@ -20,7 +21,7 @@ class IdleDetector;
 class KWinIdleTimePoller : public AbstractSystemPoller
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID AbstractSystemPoller_iid FILE "kwin.json")
+    Q_PLUGIN_METADATA(IID "org.kde.kidletime.AbstractSystemPoller" FILE "kwin.json")
     Q_INTERFACES(AbstractSystemPoller)
 
 public:
