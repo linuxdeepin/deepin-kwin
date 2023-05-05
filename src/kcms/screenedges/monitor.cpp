@@ -27,7 +27,7 @@ namespace KWin
 
 static QScreen *screenFromWidget(const QWidget *widget)
 {
-    QScreen *screen = widget->screen();
+    QScreen *screen = QGuiApplication::primaryScreen();
     if (screen) {
         return screen;
     }
