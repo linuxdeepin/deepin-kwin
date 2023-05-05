@@ -223,7 +223,7 @@ target_link_libraries(testXkb
     XKB::XKB
 )
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(testXkb Qt5::XkbCommonSupportPrivate)
+    target_link_libraries(testXkb Qt5XkbCommonSupport::Qt5XkbCommonSupport)
 else()
     target_link_libraries(testXkb Qt::GuiPrivate)
 endif()

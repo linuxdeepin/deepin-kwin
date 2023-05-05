@@ -423,6 +423,14 @@ include_directories(BEFORE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/colors
 )
 
+if (QT_MAJOR_VERSION EQUAL "5")
+    include_directories(${Qt5XkbCommonSupport_INCLUDE_DIRS})
+    include_directories(${Qt5ServiceSupport_INCLUDE_DIRS})
+    include_directories(${Qt5EventDispatcherSupport_INCLUDE_DIRS})
+    include_directories(${Qt5FontDatabaseSupport_INCLUDE_DIRS})
+    include_directories(${Qt5ThemeSupport_INCLUDE_DIRS})
+endif()
+
 check_cxx_compiler_flag(-Wno-unused-parameter COMPILER_UNUSED_PARAMETER_SUPPORTED)
 if (COMPILER_UNUSED_PARAMETER_SUPPORTED)
     add_compile_options(-Wno-unused-parameter)

@@ -229,7 +229,7 @@ target_link_libraries(kwin
     lcms2::lcms2
 )
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(kwin Qt5::X11Extras Qt5::XkbCommonSupportPrivate)
+    target_link_libraries(kwin Qt5::X11Extras Qt5XkbCommonSupport::Qt5XkbCommonSupport)
 endif()
 
 if (KWIN_BUILD_NOTIFICATIONS)

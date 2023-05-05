@@ -30,9 +30,9 @@ target_link_libraries(KWinQpaPlugin PRIVATE
 )
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(KWinQpaPlugin PRIVATE
-        Qt::FontDatabaseSupportPrivate
-        Qt::ThemeSupportPrivate
-        Qt::EventDispatcherSupportPrivate
-        Qt::ServiceSupportPrivate
+        Qt5FontDatabaseSupport::Qt5FontDatabaseSupport
+        Qt5ThemeSupport::Qt5ThemeSupport
+        Qt5EventDispatcherSupport::Qt5EventDispatcherSupport
+        Qt5ServiceSupport::Qt5ServiceSupport
     )
 endif()
