@@ -207,6 +207,7 @@ using Shortcut = std::variant<KeyboardShortcut, PointerButtonShortcut, PointerAx
 class GlobalShortcut
 {
 public:
+    GlobalShortcut() = default;
     GlobalShortcut(Shortcut &&shortcut, QAction *action);
     ~GlobalShortcut();
 

@@ -44,6 +44,7 @@ class TouchCallback
 {
 public:
     using CallbackFunction = std::function<void(ElectricBorder border, const QPointF &, Output *output)>;
+    TouchCallback() = default;
     explicit TouchCallback(QAction *touchUpAction, TouchCallback::CallbackFunction progressCallback);
     ~TouchCallback();
 
