@@ -12,6 +12,8 @@
 
 #include "wayland/datadevice_interface.h"
 
+#include <QVector>
+
 #include <xcb/xcb.h>
 
 namespace KWin

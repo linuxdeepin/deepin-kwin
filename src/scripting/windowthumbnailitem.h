@@ -9,6 +9,7 @@
 
 #include <QQuickItem>
 #include <QUuid>
+#include <QPointer>
 
 #include <epoxy/gl.h>
 

@@ -10,6 +10,7 @@
 
 #include <QTimer>
 #include <QWindow>
+#include <QUrl>
 
 namespace KWin
 {

@@ -27,6 +27,7 @@
 #include <QQuickWindow>
 #include <QStandardPaths>
 #include <QTimer>
+#include <QUuid>
 #include <qpa/qwindowsysteminterface.h>
 // KDE
 #include <KLocalizedString>

@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QQuickItem>
 #include <QRect>
+#include <QPointer>
 
 #include <optional>
 
