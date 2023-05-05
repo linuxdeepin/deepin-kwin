@@ -414,7 +414,7 @@ void GLTexture::update(const QImage &image, const QPoint &offset, const QRect &s
             im = image.copy(src);
         }
         if (im.format() != uploadFormat) {
-            im.convertTo(uploadFormat);
+            im = im.convertToFormat(uploadFormat);
         }
     }
 
