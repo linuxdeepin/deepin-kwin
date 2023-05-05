@@ -239,7 +239,7 @@ static ChipClass detectRadeonClass(const QByteArray &chipset)
     const QString chipset16 = QString::fromLatin1(chipset);
     QString name = extract(chipset16, QStringLiteral("HD [0-9]{4}")); // HD followed by a space and 4 digits
     if (!name.isEmpty()) {
-        const int id = QStringView(name).right(4).toInt();
+        const int id = QStringView(name).right(4).toString().toInt();
         if (id == 6250 || id == 6310) { // Palm
             return Evergreen;
         }
@@ -265,7 +265,7 @@ static ChipClass detectRadeonClass(const QByteArray &chipset)
 
     name = extract(chipset16, QStringLiteral("X[0-9]{3,4}")); // X followed by 3-4 digits
     if (!name.isEmpty()) {
-        const int id = QStringView(name).mid(1, -1).toInt();
+        const int id = QStringView(name).mid(1, -1).toString().toInt();
 
         // X1xxx
         if (id >= 1300) {
@@ -316,7 +316,7 @@ static ChipClass detectNVidiaClass(const QString &chipset)
 {
     QString name = extract(chipset, QStringLiteral("\\bNV[0-9,A-F]{2}\\b")); // NV followed by two hexadecimal digits
     if (!name.isEmpty()) {
-        const int id = QStringView(chipset).mid(2, -1).toInt(nullptr, 16); // Strip the 'NV' from the id
+        const int id = QStringView(chipset).mid(2, -1).toString().toInt(nullptr, 16); // Strip the 'NV' from the id
 
         switch (id & 0xf0) {
         case 0x00:
@@ -371,7 +371,7 @@ static ChipClass detectNVidiaClass(const QString &chipset)
             name.chop(1);
         }
 
-        const int id = QStringView(name).right(4).toInt();
+        const int id = QStringView(name).right(4).toString().toInt();
         if (id < 6000) {
             return NV30;
         }
@@ -394,7 +394,7 @@ static ChipClass detectNVidiaClass(const QString &chipset)
             name.chop(1);
         }
 
-        const int id = QStringView(name).right(3).toInt();
+        const int id = QStringView(name).right(3).toString().toInt();
         if (id >= 100 && id < 600) {
             if (id >= 400) {
                 return GF100;
