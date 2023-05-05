@@ -36,7 +36,10 @@ public:
         Q_ASSERT(s_scopes > 0);
         s_scopes--;
     }
-    Q_DISABLE_COPY_MOVE(RebindScope)
+    RebindScope(const RebindScope &) = delete;
+    RebindScope(const RebindScope &&) = delete;
+    RebindScope &operator=(const RebindScope &) = delete;
+    RebindScope &operator=(RebindScope&&);
     static bool isRebinding()
     {
         return s_scopes > 0;
