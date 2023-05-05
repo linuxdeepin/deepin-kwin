@@ -54,7 +54,7 @@ int main(int argc, char **argv)
             if (QFileInfo::exists(requestedTheme) && QFileInfo(requestedTheme).isDir()) {
                 // Since this is the name of a directory, let's do a bit of checking to see
                 // if we know enough about it to deduce that this is, in fact, a theme.
-                QStringList splitTheme = requestedTheme.split(QStringLiteral("/"), Qt::SkipEmptyParts);
+                QStringList splitTheme = requestedTheme.split(QStringLiteral("/"), QString::SkipEmptyParts);
                 if (splitTheme.count() > 3 && splitTheme[splitTheme.count() - 3] == QStringLiteral("aurorae") && splitTheme[splitTheme.count() - 2] == QStringLiteral("themes")) {
                     // We think this is an aurorae theme, but let's just make a little more certain...
                     QString file(QStringLiteral("aurorae/themes/%1/metadata.desktop").arg(splitTheme.last()));
