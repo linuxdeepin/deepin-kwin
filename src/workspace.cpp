@@ -1579,8 +1579,8 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
                             m_outputOrder.end());
     }
 
-    const QSet<Output *> oldOutputsSet(oldOutputs.constBegin(), oldOutputs.constEnd());
-    const QSet<Output *> outputsSet(m_outputs.constBegin(), m_outputs.constEnd());
+    const QSet<Output *> oldOutputsSet(oldOutputs.toSet());
+    const QSet<Output *> outputsSet(m_outputs.toSet());
 
     const auto added = outputsSet - oldOutputsSet;
     for (Output *output : added) {

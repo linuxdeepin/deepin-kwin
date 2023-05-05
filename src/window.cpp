@@ -2347,9 +2347,9 @@ void Window::setupWindowManagementInterface()
     }
 
     connect(this, &Window::activitiesChanged, w, [w, this] {
-        const auto newActivities = QSet<QString>(m_activityList.begin(), m_activityList.end());
+        const auto newActivities = QSet<QString>(m_activityList.toSet());
         const auto oldActivitiesList = w->plasmaActivities();
-        const auto oldActivities = QSet<QString>(oldActivitiesList.begin(), oldActivitiesList.end());
+        const auto oldActivities = QSet<QString>(oldActivitiesList.toSet());
 
         const auto activitiesToAdd = newActivities - oldActivities;
         for (const auto &activity : activitiesToAdd) {
