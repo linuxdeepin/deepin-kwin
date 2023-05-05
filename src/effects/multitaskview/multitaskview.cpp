@@ -36,9 +36,9 @@
 #define SPACING_H_SCALE     (float)(20.0 / 1080.0)
 #define SPACING_W_SCALE     (float)(20.0 / 1920.0)
 
-#define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
-#define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
-#define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_SERVICE  "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_OBJ      "/org/deepin/dde/Appearance1"
+#define DBUS_APPEARANCE_INTF     "org.deepin.dde.Appearance1"
 
 #define MULTITASK_CLOSE_SVG      ":/effects/multitaskview/buttons/multiview_delete.svg"
 #define MULTITASK_TOP_SVG        ":/effects/multitaskview/buttons/multiview_top.svg"
