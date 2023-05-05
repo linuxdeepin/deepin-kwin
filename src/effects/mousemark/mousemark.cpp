@@ -26,7 +26,7 @@
 namespace KWin
 {
 
-static consteval QPoint nullPoint()
+static QPoint nullPoint()
 {
     return QPoint(-1, -1);
 }
