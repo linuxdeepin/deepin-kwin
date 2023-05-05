@@ -57,7 +57,7 @@ public:
 
 bool QuickSceneEffectPrivate::isItemOnScreen(QQuickItem *item, EffectScreen *screen) const
 {
-    if (!item || !screen || !views.contains(screen)) {
+    if (!item || !screen || views.find(screen) == views.end()) {
         return false;
     }
 
