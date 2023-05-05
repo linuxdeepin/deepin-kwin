@@ -137,7 +137,7 @@ void Clipboard::doHandleXfixesNotify(xcb_xfixes_selection_notify_event_t *event)
         source->getTargets();
         m_waitingForTargets = true;
     } else {
-        qCWarning(KWIN_XWL) << "Could not create a source from" << event << Qt::hex << (event ? event->owner : -1);
+        qCWarning(KWIN_XWL) << "Could not create a source from" << event << std::hex << (event ? event->owner : -1);
     }
 }
 
