@@ -742,9 +742,14 @@ void Workspace::updateOutputConfiguration()
         setFallbackOutputOrder();
         return;
     }
-    std::erase_if(outputOrder, [&cfg](const auto &pair) {
-        return !cfg.constChangeSet(pair.second)->enabled;
-    });
+    std::vector<std::pair<uint32_t, Output *>>::iterator it;
+    for (it = outputOrder.begin(); it != outputOrder.end();) {
+        if (!cfg.constChangeSet(it->second)->enabled) {
+            it = outputOrder.erase(it);
+        } else {
+            ++it;
+        }
+    }
     std::sort(outputOrder.begin(), outputOrder.end(), [](const auto &left, const auto &right) {
         if (left.first == right.first) {
             // sort alphabetically as a fallback
