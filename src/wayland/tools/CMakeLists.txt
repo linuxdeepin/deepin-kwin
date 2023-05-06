@@ -5,7 +5,7 @@ if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
     project(qtwaylandscanner_kde CXX)
     set(CMAKE_CXX_STANDARD 20)
     find_package(Qt5 5.11.3 CONFIG REQUIRED Core)
-    find_package(ECM ${KF5_MIN_VERSION} NO_MODULE REQUIRED)
+    find_package(ECM ${KF5_CURRENT_VERSION} NO_MODULE REQUIRED)
     set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 endif()
 

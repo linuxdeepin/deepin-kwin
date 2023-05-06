@@ -9,9 +9,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(QT_MIN_VERSION "5.11.3")
 set(KF5_MIN_VERSION "5.54.0")
+set(KF5_CURRENT_VERSION "5.102.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.54")
 
-find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM "${KF5_CURRENT_VERSION}" REQUIRED NO_MODULE)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${ECM_MODULE_PATH})
