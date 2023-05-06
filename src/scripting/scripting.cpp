@@ -678,6 +678,11 @@ KWin::Scripting::Scripting(QObject *parent)
     connect(Workspace::self(), &Workspace::workspaceInitialized, this, &Scripting::start);
 }
 
+QObject *kauthorizedProxy_singleton_provider(QQmlEngine *, QJSEngine *)
+{
+    return new KWin::DeclarativeScriptWorkspaceWrapper();
+}
+
 void KWin::Scripting::init()
 {
     qmlRegisterType<WindowThumbnailItem>("org.kde.kwin", 2, 0, "ThumbnailItem");
@@ -703,10 +708,8 @@ void KWin::Scripting::init()
     qmlRegisterType<ScriptingModels::V3::VirtualDesktopModel>("org.kde.kwin", 3, 0, "VirtualDesktopModel");
     qmlRegisterUncreatableType<KWin::QuickSceneView>("org.kde.kwin", 3, 0, "SceneView", QStringLiteral("Can't instantiate an object of type SceneView"));
 
-    qmlRegisterSingletonType<DeclarativeScriptWorkspaceWrapper>("org.kde.kwin", 3, 0, "Workspace", [](QQmlEngine *qmlEngine, QJSEngine *jsEngine) {
-        return new DeclarativeScriptWorkspaceWrapper();
-    });
-    qmlRegisterSingletonInstance("org.kde.kwin", 3, 0, "Options", options);
+    qmlRegisterSingletonType<KWin::DeclarativeScriptWorkspaceWrapper>("org.kde.kwin", 3, 0, "Workspace", kauthorizedProxy_singleton_provider);
+    //qmlRegisterSingletonInstance("org.kde.kwin", 3, 0, "Options", options);
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     qmlRegisterType<KWin::Window>();
