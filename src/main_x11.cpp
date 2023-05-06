@@ -384,7 +384,9 @@ int main(int argc, char *argv[])
     qunsetenv("QT_SCALE_FACTOR");
     QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
     // KSMServer talks to us directly on DBus.
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     QCoreApplication::setAttribute(Qt::AA_DisableSessionManager);
+#endif
     // For sharing thumbnails between our scene graph and qtquick.
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
