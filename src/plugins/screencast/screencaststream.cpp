@@ -38,6 +38,10 @@
 
 #include <libdrm/drm_fourcc.h>
 
+#define SPA_POD_PROP_FLAG_HINT_DICT (1u<<2)
+#define SPA_POD_PROP_FLAG_MANDATORY (1u<<3)
+#define SPA_POD_PROP_FLAG_DONT_FIXATE (1u<<4)
+
 namespace KWin
 {
 
@@ -154,7 +158,9 @@ void ScreenCastStream::onStreamParamChanged(void *data, uint32_t id, const struc
 
         uint32_t modifiersCount = SPA_POD_CHOICE_N_VALUES(modifierPod);
         uint64_t *modifiers = (uint64_t *)SPA_POD_CHOICE_VALUES(modifierPod);
-        receivedModifiers = QVector<uint64_t>(modifiers, modifiers + modifiersCount);
+        for (uint32_t i = 0; i < modifiersCount; i++) {
+            receivedModifiers.push_back(modifiers[i]);
+        }
     }
     if (modifierProperty && (!pw->m_dmabufParams || !receivedModifiers.contains(pw->m_dmabufParams->modifier))) {
         if (modifierProperty->flags & SPA_POD_PROP_FLAG_DONT_FIXATE) {
