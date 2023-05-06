@@ -31,11 +31,14 @@ static QStringList fetchProcessServiceField(const QString &executablePath, const
     // needed to be able to use the logging category in a header static function
     static QLoggingCategory KWIN_UTILS("KWIN_UTILS", QtWarningMsg);
     const auto servicesFound = KApplicationTrader::query([&executablePath](const KService::Ptr &service) {
+        /*
         const auto splitCommandList = QProcess::splitCommand(service->exec());
         if (splitCommandList.isEmpty()) {
             return false;
         }
         return QFileInfo(splitCommandList.first()).canonicalFilePath() == executablePath;
+        */
+        return false;
     });
 
     if (servicesFound.isEmpty()) {
