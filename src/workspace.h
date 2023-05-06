@@ -27,19 +27,14 @@
 #include <DWayland/Server/ddeshell_interface.h>
 
 
-#define KWinDBusService "com.deepin.daemon.Appearance"
-#define KWinDBusPath    "/com/deepin/daemon/Appearance"
-#define KWinDBusInterface "com.deepin.daemon.Appearance"
+#define KWinDBusService "org.deepin.dde.Appearance1"
+#define KWinDBusPath    "/org/deepin/dde/Appearance1"
+#define KWinDBusInterface "org.deepin.dde.Appearance1"
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
-#define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
-#define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
-#define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
-
-#define KWinDBusService "com.deepin.daemon.Appearance"
-#define KWinDBusPath    "/com/deepin/daemon/Appearance"
-#define KWinDBusInterface "com.deepin.daemon.Appearance"
-#define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
+#define DBUS_DEEPIN_WM_SERVICE "org.deepin.dde.Appearance1"
+#define DBUS_DEEPIN_WM_OBJ "/org/deepin/dde/Appearance1"
+#define DBUS_DEEPIN_WM_INTF "org.deepin.dde.Appearance1"
 
 class KConfig;
 class KConfigGroup;
