@@ -59,10 +59,15 @@ void ThumbnailTextureProvider::setTexture(const std::shared_ptr<GLTexture> &nati
         const GLuint textureId = nativeTexture->texture();
         m_nativeTexture = nativeTexture;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 3)
         m_texture.reset(m_window->createTextureFromNativeObject(QQuickWindow::NativeObjectTexture,
                                                                 &textureId, 0,
                                                                 nativeTexture->size(),
                                                                 QQuickWindow::TextureHasAlphaChannel));
+#else
+        m_texture.reset(m_window->createTextureFromId(textureId, nativeTexture->size(),
+                                                                 QQuickWindow::TextureHasAlphaChannel));
+#endif
 #else
         m_texture.reset(QNativeInterface::QSGOpenGLTexture::fromNative(textureId, m_window,
                                                                        nativeTexture->size(),
