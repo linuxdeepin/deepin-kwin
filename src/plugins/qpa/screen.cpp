@@ -116,5 +116,19 @@ QDpi PlaceholderScreen::logicalDpi() const
     return dpi > 0 ? QDpi(dpi, dpi) : QDpi(96, 96);
 }
 
+QList<QPlatformScreen *> PlaceholderScreen::virtualSiblings() const
+{
+    QList<QPlatformScreen *> siblings;
+
+    if (!m_virtualSibling)
+        return siblings;
+
+    for (QScreen *screen : QGuiApplication::screens()) {
+        if (screen->handle() && screen->handle() != this)
+            siblings << screen->handle();
+    }
+    return siblings;
+}
+
 }
 }

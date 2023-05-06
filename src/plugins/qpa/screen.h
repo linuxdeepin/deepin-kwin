@@ -50,10 +50,18 @@ private:
     Integration *m_integration;
 };
 
-class PlaceholderScreen : public QPlatformPlaceholderScreen
-{
+class PlaceholderScreen : public QPlatformScreen {
 public:
+    PlaceholderScreen(bool virtualSibling = true) : m_virtualSibling(virtualSibling) {}
     QDpi logicalDpi() const override;
+    bool isPlaceholder() const { return true; }
+    QRect geometry() const override { return QRect(); }
+    QRect availableGeometry() const override { return QRect(); }
+    int depth() const override { return 32; }
+    QImage::Format format() const override { return QImage::Format::Format_RGB32; }
+    QList<QPlatformScreen *> virtualSiblings() const override;
+private:
+    bool m_virtualSibling = true;
 };
 
 }

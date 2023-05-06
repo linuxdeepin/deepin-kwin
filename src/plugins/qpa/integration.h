@@ -61,7 +61,7 @@ private Q_SLOTS:
 private:
     std::unique_ptr<QPlatformFontDatabase> m_fontDb;
     std::unique_ptr<QPlatformNativeInterface> m_nativeInterface;
-    QPlatformPlaceholderScreen *m_dummyScreen = nullptr;
+    QPlatformScreen *m_dummyScreen = nullptr;
     QHash<Output *, Screen *> m_screens;
     std::unique_ptr<QGenericUnixServices> m_services;
 };

@@ -57,10 +57,18 @@ Integration::Integration()
 Integration::~Integration()
 {
     for (QPlatformScreen *platformScreen : std::as_const(m_screens)) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
         QWindowSystemInterface::handleScreenRemoved(platformScreen);
+#else
+        destroyScreen(platformScreen);
+#endif
     }
     if (m_dummyScreen) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
         QWindowSystemInterface::handleScreenRemoved(m_dummyScreen);
+#else
+        destroyScreen(m_dummyScreen);
+#endif
     }
 }
 
@@ -105,7 +113,11 @@ void Integration::initialize()
     QPlatformIntegration::initialize();
 
     m_dummyScreen = new PlaceholderScreen();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
     QWindowSystemInterface::handleScreenAdded(m_dummyScreen);
+#else
+    screenAdded(m_dummyScreen);
+#endif
 }
 
 QAbstractEventDispatcher *Integration::createEventDispatcher() const
@@ -176,11 +188,19 @@ void Integration::handleWorkspaceCreated()
 void Integration::handleOutputEnabled(Output *output)
 {
     Screen *platformScreen = new Screen(output, this);
-    QWindowSystemInterface::handleScreenAdded(platformScreen);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+        QWindowSystemInterface::handleScreenAdded(platformScreen);
+#else
+        screenAdded(platformScreen);
+#endif
     m_screens.insert(output, platformScreen);
 
     if (m_dummyScreen) {
-        QWindowSystemInterface::handleScreenRemoved(m_dummyScreen);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+        QWindowSystemInterface::handleScreenAdded(m_dummyScreen);
+#else
+        screenAdded(m_dummyScreen);
+#endif
         m_dummyScreen = nullptr;
     }
 }
@@ -195,10 +215,18 @@ void Integration::handleOutputDisabled(Output *output)
 
     if (m_screens.isEmpty()) {
         m_dummyScreen = new PlaceholderScreen();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
         QWindowSystemInterface::handleScreenAdded(m_dummyScreen);
+#else
+        screenAdded(m_dummyScreen);
+#endif
     }
 
-    QWindowSystemInterface::handleScreenRemoved(platformScreen);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+        QWindowSystemInterface::handleScreenRemoved(platformScreen);
+#else
+        destroyScreen(platformScreen);
+#endif
 }
 
 QPlatformNativeInterface *Integration::nativeInterface() const
