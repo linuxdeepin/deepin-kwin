@@ -115,10 +115,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
 }
 
 void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
-    if (w->isDesktop()
-        || isMaximized(w)
-        || (mask & (PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS)))
-    {
+    if (w->isDesktop() || isMaximized(w)) {
         effects->drawWindow(w, mask, region, data);
         return;
     }
