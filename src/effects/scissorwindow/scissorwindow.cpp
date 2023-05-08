@@ -66,14 +66,9 @@ ScissorWindow::~ScissorWindow() {
 
 void ScissorWindow::reconfigure(ReconfigureFlags flags) {
     Q_UNUSED(flags)
-    setRoundedCornerRadius({18, 18});
 }
 
-void ScissorWindow::setRoundedCornerRadius(const QPointF& radius) {
-    buildTextureMask(radius);
-}
-
-void ScissorWindow::buildTextureMask(const QPointF& radius) {
+void ScissorWindow::buildTextureMask(const QString& key, const QPointF& radius) {
     QImage img(QSize(radius.x() * 2, radius.y() * 2), QImage::Format_RGBA8888);
     img.fill(QColor(0, 0, 0, 0));
     QPainter painter(&img);
@@ -83,9 +78,9 @@ void ScissorWindow::buildTextureMask(const QPointF& radius) {
     painter.drawEllipse(0, 0, radius.x() * 2, radius.y() * 2);
     painter.end();
 
-    m_texMaskMap[radius] = new GLTexture(img.copy(0, 0, radius.x(), radius.y()));
-    m_texMaskMap[radius]->setFilter(GL_LINEAR);
-    m_texMaskMap[radius]->setWrapMode(GL_CLAMP_TO_EDGE);
+    m_texMaskMap[key] = new GLTexture(img.copy(0, 0, radius.x(), radius.y()));
+    m_texMaskMap[key]->setFilter(GL_LINEAR);
+    m_texMaskMap[key]->setWrapMode(GL_CLAMP_TO_EDGE);
 }
 
 void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
@@ -189,8 +184,10 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             return effects->drawWindow(w, mask, region, data);
         }
 
-        if (!m_texMaskMap.count(cornerRadius)) {
-            buildTextureMask(cornerRadius);
+        const QString& key = QString("%1+%2").arg(cornerRadius.toPoint().x()).arg(cornerRadius.toPoint().y()
+        );
+        if (!m_texMaskMap.count(key)) {
+            buildTextureMask(key, cornerRadius);
         }
 
         ShaderManager::instance()->pushShader(m_filletOptimizeShader);
@@ -207,13 +204,13 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
         data.shader = m_filletOptimizeShader;
 
         glActiveTexture(GL_TEXTURE1);
-        m_texMaskMap[cornerRadius]->bind();
+        m_texMaskMap[key]->bind();
         glActiveTexture(GL_TEXTURE0);
         effects->drawWindow(w, mask, region, data);
         ShaderManager::instance()->popShader();
         data.shader = old_shader;
         glActiveTexture(GL_TEXTURE1);
-        m_texMaskMap[cornerRadius]->unbind();
+        m_texMaskMap[key]->unbind();
         glActiveTexture(GL_TEXTURE0);
         return;
     }
