@@ -1,3 +1,14 @@
+deepin-kwin (4:5.25.4-kwin.5.24.3) unstable; urgency=medium
+
+  * fix: multitaskview freeze (a1f4a39f4eba828be3c668becd9ee9a07af058c0)
+  * chore: allow window cropping on screen update (f8ee05dad702d7e269f2c0c629f45a5c64cf4a4f)
+  * chore: set all windows 0 rounded corners by default (c9b9bd85801c0bed4f7b3883af15beecc4ff3d15)
+  * fix: toggle window effect not working (3c243d731ad6fa130f42a9db25f89eb84bec8f9e)
+  * chore: remove some default shortcuts (267402240ef5bb6fef92c00319106666ed2761bf)
+  * chore: Pick the best fillet (b5bab8bfb2fd75128199155fdd7845f9e15661b6)
+
+ -- Dingyuan Zhang <lxz@lxz-PC>  Mon, 08 May 2023 11:31:33 +0800
+
 deepin-kwin (4:5.25.3-kwin.5.24.3) unstable; urgency=medium
 
   * fix: ensure the shadow item after stack of the window (690a5b336198b65f19b82efa06aeaae2bc2d376d)
@@ -60,7 +71,7 @@ deepin-kwin (4:5.24.3-deepin.1.6) unstable; urgency=medium
  -- Lei Su <sulei@uniontech.com>  Mon, 17 Oct 2022 17:26:39 +0800
 
 deepin-kwin (4:5.24.3-deepin.1.5) unstable; urgency=medium
- 
+
   * Bug fix
 
  -- xinbo wang <wangxinbo@uniontech.com>  Thu, 18 Aug 2022 20:22:06 +0000
@@ -73,7 +84,7 @@ deepin-kwin (4:5.24.3-deepin.1.4) unstable; urgency=medium
 
 deepin-kwin (4:5.24.3-deepin.1.3) unstable; urgency=medium
 
-  * package 7.0 
+  * package 7.0
 
  -- guokaka <guokaka@uniontech.com>  Mon, 08 Aug 2022 19:49:18 +0000
 
