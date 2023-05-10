@@ -18,9 +18,9 @@
 #include <qdbusinterface.h>
 #include "utils/common.h"
 
-#define KWinDBusService "org.deepin.dde.Appearance1"
-#define KWinDBusPath    "/org/deepin/dde/Appearance1"
-#define KWinDBusInterface "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_PATH    "/org/deepin/dde/Appearance1"
+#define DBUS_APPEARANCE_INTERFACE "org.deepin.dde.Appearance1"
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
 class QQmlContext;
@@ -163,7 +163,7 @@ bool Outline::isActive() const
 inline
 QString Outline::ActiveColor() const
 {
-    QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    QString clr = QDBusInterface(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE).property("QtActiveColor").toString();
     RgbToHsv rgb;
     QString tmp = rgb.adjustBrightness(clr, -30);
     return tmp;

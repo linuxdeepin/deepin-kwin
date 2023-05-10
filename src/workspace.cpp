@@ -309,7 +309,7 @@ void Workspace::init()
 
     // broadcast that Workspace is ready, but first process all events.
     QMetaObject::invokeMethod(this, "workspaceInitialized", Qt::QueuedConnection);
-    QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
+    QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, KWinDBusPropertyInterface,
                                           "PropertiesChanged", this, SLOT(qtactivecolorChanged()));
 
     // TODO: ungrabXServer()
@@ -2124,7 +2124,7 @@ void Workspace::setWasUserInteraction()
 QString Workspace::ActiveColor()
 {
     if (activeColor.isEmpty())
-        activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+        activeColor = QDBusInterface(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE).property("QtActiveColor").toString();
     return activeColor;
 }
 
@@ -2165,7 +2165,7 @@ void Workspace::screensChanged()
 
 void Workspace::qtactivecolorChanged()
 {
-    QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    QString clr = QDBusInterface(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE).property("QtActiveColor").toString();
     setActiveColor(clr);
 }
 

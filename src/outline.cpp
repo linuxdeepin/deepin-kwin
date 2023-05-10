@@ -36,7 +36,7 @@ Outline::Outline(QObject *parent)
     , m_active(false)
 {
     connect(Compositor::self(), &Compositor::compositingToggled, this, &Outline::compositingChanged);
-    QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
+    QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, KWinDBusPropertyInterface,
                                           "PropertiesChanged", this, SLOT(qtactivecolorChanged()));
 }
 

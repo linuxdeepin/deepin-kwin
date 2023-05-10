@@ -181,7 +181,7 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
 {
     QString strBackgroundPath = QString("%1%2").arg(st.desktop).arg(st.screenName);
 
-    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    QDBusInterface wm(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
     QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", st.desktop, st.screenName);
     QString backgroundUri;
     if(!getReply.value().isEmpty()) {
@@ -323,7 +323,7 @@ void MultiViewBackgroundManager::setNewBackground(BgInfo_st &st, QPixmap &deskto
 {
     QString strBackgroundPath = QString("%1%2").arg(st.desktop).arg(st.screenName);
 
-    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    QDBusInterface wm(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
     QString file;
     if (st.screen == m_previewScreen && !m_previewFile.isEmpty()) {
         m_previewScreen = nullptr;
@@ -641,7 +641,7 @@ MultitaskViewEffect::MultitaskViewEffect()
     if (rel != NULL) {
         m_isOpenGLrender = false;
     }
-    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+    QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE,
                                         "ShowWorkspaceChanged", this, SLOT(toggle()));
 }
 
@@ -2277,7 +2277,7 @@ void MultitaskViewEffect::setActive(bool active)
 
     effectsEx->setActiveMultitasking(m_activated);
     QTimer::singleShot(400, [&, active](){
-        QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+        QDBusInterface wm(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
         wm.call("SetMultiTaskingStatus", active);
     });
 
@@ -3268,7 +3268,7 @@ void MultitaskViewEffect::switchDesktop()
 
 void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
 {
-    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    QDBusInterface wm(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
 
     QList<QString> list = m_screenInfoList.keys();
     for (int i = 0; i < list.size(); i++) {
@@ -3319,7 +3319,7 @@ void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
 
 void MultitaskViewEffect::desktopAboutToRemoved(int d)
 {
-    QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
+    QDBusInterface wm(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
 
     QList<QString> list = m_screenInfoList.keys();
     for (int i = 0; i < list.count(); i++) {

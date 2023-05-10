@@ -26,10 +26,9 @@
 #include <DWayland/Server/clientmanagement_interface.h>
 #include <DWayland/Server/ddeshell_interface.h>
 
-
-#define KWinDBusService "org.deepin.dde.Appearance1"
-#define KWinDBusPath    "/org/deepin/dde/Appearance1"
-#define KWinDBusInterface "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_PATH    "/org/deepin/dde/Appearance1"
+#define DBUS_APPEARANCE_INTERFACE "org.deepin.dde.Appearance1"
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
 #define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
