@@ -32,9 +32,9 @@
 #define KWinDBusInterface "org.deepin.dde.Appearance1"
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
-#define DBUS_DEEPIN_WM_SERVICE "org.deepin.dde.Appearance1"
-#define DBUS_DEEPIN_WM_OBJ "/org/deepin/dde/Appearance1"
-#define DBUS_DEEPIN_WM_INTF "org.deepin.dde.Appearance1"
+#define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
+#define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
+#define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
 
 class KConfig;
 class KConfigGroup;
