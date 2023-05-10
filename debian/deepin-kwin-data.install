@@ -29,8 +29,9 @@ usr/share/deepin-kwin/
 usr/share/locale/
 usr/share/qlogging-categories5/
 etc/xdg/deepin-kdeglobals
-etc/xdg/deepin-kglobalshortcutsrc
+etc/xdg/kglobalshortcutsrc
 etc/xdg/deepin-klaunchrc
 etc/xdg/deepin-kwinrc
 etc/xdg/deepin-kwinrulesrc
+etc/skel/.config/kglobalshortcutsrc
 usr/share/dsg/configs/org.deepin.kwin/org.deepin.kwin.splitmenu.display.json
