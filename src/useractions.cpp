@@ -1229,8 +1229,7 @@ void Workspace::initShortcuts()
         0, slotWindowAbove);
     DEF2("Window Below Other Windows", I18N_NOOP("Keep Window Below Others"),
         0, slotWindowBelow);
-    DEF(I18N_NOOP("Activate Window Demanding Attention"),
-        Qt::CTRL + Qt::ALT + Qt::Key_A, slotActivateAttentionWindow);
+    DEF(I18N_NOOP("Activate Window Demanding Attention"), 0, slotActivateAttentionWindow);
     DEF(I18N_NOOP("Setup Window Shortcut"),
         0, slotSetupWindowShortcut);
     DEF2("Window Move Center", I18N_NOOP("Move Window to the Center"), 0,
@@ -1255,10 +1254,8 @@ void Workspace::initShortcuts()
         Qt::META + Qt::Key_Left, std::bind(&Workspace::quickTileWindow, this, QuickTileFlag::Left));
     DEF4("Window Quick Tile Right", I18N_NOOP("Quick Tile Window to the Right"),
         Qt::META + Qt::Key_Right, std::bind(&Workspace::quickTileWindow, this, QuickTileFlag::Right));
-    DEF4("Window Quick Tile Top", I18N_NOOP("Quick Tile Window to the Top"),
-        Qt::META + Qt::Key_Up, std::bind(&Workspace::quickTileWindow, this, QuickTileFlag::Top));
-    DEF4("Window Quick Tile Bottom", I18N_NOOP("Quick Tile Window to the Bottom"),
-        Qt::META + Qt::Key_Down, std::bind(&Workspace::quickTileWindow, this, QuickTileFlag::Bottom));
+    DEF4("Window Quick Tile Top", I18N_NOOP("Quick Tile Window to the Top"), 0, std::bind(&Workspace::quickTileWindow, this, QuickTileFlag::Top));
+    DEF4("Window Quick Tile Bottom", I18N_NOOP("Quick Tile Window to the Bottom"), 0, std::bind(&Workspace::quickTileWindow, this, QuickTileFlag::Bottom));
     DEF4("Window Quick Tile Top Left", I18N_NOOP("Quick Tile Window to the Top Left"),
         0, std::bind(&Workspace::quickTileWindow, this, QuickTileFlag::Top | QuickTileFlag::Left));
     DEF4("Window Quick Tile Bottom Left", I18N_NOOP("Quick Tile Window to the Bottom Left"),
