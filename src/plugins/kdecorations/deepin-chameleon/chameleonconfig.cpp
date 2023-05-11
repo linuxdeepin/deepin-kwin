@@ -594,9 +594,6 @@ void ChameleonConfig::updateClientWindowRadius(QObject *client)
         }
     }
 
-    // NOTE: 窗口圆角的范围不得超过高度的一半，否则会产生视觉错误。
-    window_radius = QPointF(std::min(window_radius.x(), effect->height() / 2.0), std::min(window_radius.y(), effect->height() / 2.0));
-
     const QVariant &effect_window_radius = effect->data(ChameleonConfig::WindowRadiusRole);
     bool need_update = true;
 

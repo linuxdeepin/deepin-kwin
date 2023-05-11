@@ -652,8 +652,12 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
                     valueRadius.toPointF().y() > 2)
                 {
                     QPointF cornerRadius = w->data(WindowRadiusRole).toPointF();
-                    cornerRadius = QPointF(std::min(cornerRadius.x(), w->width() / 2.0),
-                                           std::min(cornerRadius.y(), w->height() / 2.0));
+                    const qreal xMin{ std::min(cornerRadius.x(),
+                                               w->width() / 2.0) };
+                    const qreal yMin{ std::min(cornerRadius.y(),
+                                               w->height() / 2.0) };
+                    const qreal minRadius{ std::min(xMin, yMin) };
+                    cornerRadius = QPointF(minRadius, minRadius);
                     shape = rounded(shape, cornerRadius);
                 }
                 doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), w->isDock() || transientForIsDock, w->frameGeometry());

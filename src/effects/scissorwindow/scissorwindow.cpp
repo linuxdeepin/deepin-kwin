@@ -164,8 +164,10 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
         const QVariant valueRadius = w->data(WindowRadiusRole);
         if (valueRadius.isValid()) {
             cornerRadius = w->data(WindowRadiusRole).toPointF();
-            cornerRadius = QPointF(std::min(cornerRadius.x(), w->width() / 2.0),
-                                   std::min(cornerRadius.y(), w->height() / 2.0));
+            const qreal xMin{ std::min(cornerRadius.x(), w->width() / 2.0) };
+            const qreal yMin{ std::min(cornerRadius.y(), w->height() / 2.0) };
+            const qreal minRadius{ std::min(xMin, yMin) };
+            cornerRadius = QPointF(minRadius, minRadius);
         } else {
             if (!(w->isDesktop() || w->isDock())) {
                 EffectsHandlerImpl *effs = static_cast<EffectsHandlerImpl *>(effects);
