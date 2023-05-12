@@ -42,7 +42,11 @@
 #include <QFile>
 #include <QHostInfo>
 #include <QRandomGenerator>
+#if (QT_VERSION > QT_VERSION_CHECK(5, 11, 3))
 #include <QScopeGuard>
+#else
+#include "utils/qscopeguard.h"
+#endif
 #include <QSocketNotifier>
 #include <QTimer>
 #include <QtConcurrentRun>

@@ -9,7 +9,12 @@
 
 #include <QCoreApplication>
 #include <QFile>
+
+#if (QT_VERSION > QT_VERSION_CHECK(5, 11, 3))
 #include <QScopeGuard>
+#else
+#include "../../utils/qscopeguard.h"
+#endif
 
 #include <errno.h>
 #include <signal.h>

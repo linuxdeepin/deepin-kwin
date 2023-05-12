@@ -11,7 +11,11 @@
 #include "ramfile.h"
 #include "common.h" // for logging
 
+#if (QT_VERSION > QT_VERSION_CHECK(5, 11, 3))
 #include <QScopeGuard>
+#else
+#include "qscopeguard.h"
+#endif
 
 #include <cerrno>
 #include <fcntl.h>
