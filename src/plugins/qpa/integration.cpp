@@ -25,6 +25,7 @@
 
 #include <qpa/qplatformwindow.h>
 #include <qpa/qwindowsysteminterface.h>
+#include <qpa/qplatformintegrationfactory_p.h>
 
 #include <QtEventDispatcherSupport/private/qunixeventdispatcher_qpa_p.h>
 #include <QtFontDatabaseSupport/private/qgenericunixfontdatabase_p.h>
@@ -50,6 +51,7 @@ Integration::Integration()
     : QObject()
     , QPlatformIntegration()
     , m_fontDb(new QGenericUnixFontDatabase())
+    , m_nativeInterface(nullptr)
     , m_services(new QGenericUnixServices())
 {
 }
@@ -106,6 +108,12 @@ void Integration::initialize()
 
     m_dummyScreen = new PlaceholderScreen();
     QWindowSystemInterface::handleScreenAdded(m_dummyScreen);
+}
+
+QPlatformNativeInterface *Integration::nativeInterface() const
+{
+    // return m_nativeInterface;
+    return QPlatformIntegration::nativeInterface();
 }
 
 QAbstractEventDispatcher *Integration::createEventDispatcher() const
@@ -170,6 +178,15 @@ void Integration::handlePlatformCreated()
     const QVector<AbstractOutput *> outputs = kwinApp()->platform()->enabledOutputs();
     for (AbstractOutput *output : outputs) {
         handleOutputEnabled(output);
+    }
+
+    if (!m_nativeInterface) {
+        int argc = 0;
+        auto* interface = QPlatformIntegrationFactory::create("wayland", {}, argc, {});
+        qInfo() << Q_FUNC_INFO << interface;
+        if (interface) {
+            m_nativeInterface = interface->nativeInterface();
+        }
     }
 }
 

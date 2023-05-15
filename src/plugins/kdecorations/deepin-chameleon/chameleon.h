@@ -5,6 +5,7 @@
 #define CHAMELEON_H
 
 #include "chameleontheme.h"
+#include "chameleonwindowglobaltheme.h"
 
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationButtonGroup>
@@ -16,6 +17,7 @@
 #include <QSettings>
 #include <QScreen>
 #include <QPainterPath>
+#include <QPointer>
 #include <QFont>
 #include <DWayland/Server/ddeshell_interface.h>
 
@@ -66,6 +68,7 @@ private Q_SLOTS:
     void updateFont(QString updateType,QString val);
 
 private:
+    ChameleonWindowGlobalTheme *GlobalTheme();
     void initButtons();
     void updateButtonsGeometry();
 
