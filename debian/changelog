@@ -1,3 +1,9 @@
+deepin-kwin (4:5.25.5-kwin.5.24.3) unstable; urgency=medium
+
+  * fix: unable to start multitasking plugin (d407a7edcf8971f95cee0024f3c053f1d569398a)
+
+ -- Dingyuan Zhang <lxz@lxz-PC>  Tue, 16 May 2023 11:04:35 +0800
+
 deepin-kwin (4:5.25.4-kwin.5.24.3) unstable; urgency=medium
 
   * fix: multitaskview freeze (a1f4a39f4eba828be3c668becd9ee9a07af058c0)
