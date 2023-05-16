@@ -36,10 +36,6 @@
 #define SPACING_H_SCALE     (float)(20.0 / 1080.0)
 #define SPACING_W_SCALE     (float)(20.0 / 1920.0)
 
-#define DBUS_APPEARANCE_SERVICE  "org.deepin.dde.Appearance1"
-#define DBUS_APPEARANCE_OBJ      "/org/deepin/dde/Appearance1"
-#define DBUS_APPEARANCE_INTF     "org.deepin.dde.Appearance1"
-
 #define MULTITASK_CLOSE_SVG      ":/effects/multitaskview/buttons/multiview_delete.svg"
 #define MULTITASK_TOP_SVG        ":/effects/multitaskview/buttons/multiview_top.svg"
 #define MULTITASK_TOP_ACTIVE_SVG ":/effects/multitaskview/buttons/multiview_top_active.svg"
@@ -241,7 +237,7 @@ void MultiViewBackgroundManager::clearCurrentBackgroundList()
 void MultiViewBackgroundManager::getBackgroundList()
 {
     m_backgroundAllList.clear();
-    QDBusInterface remoteApp(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF);
+    QDBusInterface remoteApp(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
     QDBusReply<QString> reply = remoteApp.call( "List", "background");
 
     QJsonDocument json = QJsonDocument::fromJson(reply.value().toUtf8());
@@ -641,7 +637,7 @@ MultitaskViewEffect::MultitaskViewEffect()
     if (rel != NULL) {
         m_isOpenGLrender = false;
     }
-    QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE,
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
                                         "ShowWorkspaceChanged", this, SLOT(toggle()));
 }
 
