@@ -37,7 +37,17 @@ class DDEShellInterfacePrivate;
 class DDEShellSurfaceInterface;
 class DDEShellSurfaceInterfacePrivate;
 
-
+enum class SplitType {
+    None        = 0,
+    Left        = 1 << 0,
+    Right       = 1 << 1,
+    Top         = 1 << 2,
+    Bottom      = 1 << 3,
+    LeftTop     = Left | Top,
+    RightTop    = Right | Top,
+    LeftBottom  = Left | Bottom,
+    RightBottom = Right | Bottom,
+};
 /** @class DDEShellInterface
  *
  *
@@ -71,6 +81,7 @@ public:
     static DDEShellSurfaceInterface *get(SurfaceInterface *surface);
 
     void sendGeometry(const QRect &geom);
+    void sendSplitable(int splitable);
 
     void setActive(bool set);
     void setMinimized(bool set);
@@ -78,6 +89,7 @@ public:
     void setFullscreen(bool set);
     void setKeepAbove(bool set);
     void setKeepBelow(bool set);
+    void setOnAllDesktops(bool set);
     void setCloseable(bool set);
     void setMinimizeable(bool set);
     void setMaximizeable(bool set);
@@ -95,6 +107,7 @@ Q_SIGNALS:
     void fullscreenRequested(bool set);
     void keepAboveRequested(bool set);
     void keepBelowRequested(bool set);
+    void onAllDesktopsRequested(bool set);
     void closeableRequested(bool set);
     void minimizeableRequested(bool set);
     void maximizeableRequested(bool set);
@@ -106,6 +119,8 @@ Q_SIGNALS:
 
     void noTitleBarPropertyRequested(qint32 value);
     void windowRadiusPropertyRequested(QPointF windowRadius);
+    void nonStandardWindowPropertyRequested(const QMap<QString, QVariant> &mapNonStandardWindowPropertyData);
+    void splitWindowRequested(SplitType splitType, int splitMode);
 private:
     friend class DDEShellInterfacePrivate;
     explicit DDEShellSurfaceInterface(SurfaceInterface *surface, wl_resource *resource);

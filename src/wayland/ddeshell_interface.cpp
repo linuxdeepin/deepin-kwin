@@ -210,6 +210,9 @@ void DDEShellSurfaceInterfacePrivate::dde_shell_surface_set_state(Resource *reso
     if (flags & DDE_SHELL_STATE_KEEP_BELOW) {
         Q_EMIT q->keepBelowRequested(state & DDE_SHELL_STATE_KEEP_BELOW);
     }
+    if (flags & DDE_SHELL_STATE_ON_ALL_DESKTOPS) {
+        Q_EMIT q->onAllDesktopsRequested(state & DDE_SHELL_STATE_ON_ALL_DESKTOPS);
+    }
     if (flags & DDE_SHELL_STATE_CLOSEABLE) {
         Q_EMIT q->closeableRequested(state & DDE_SHELL_STATE_CLOSEABLE);
     }
@@ -248,6 +251,10 @@ void DDEShellSurfaceInterfacePrivate::dde_shell_surface_set_property(Resource *r
         QPointF pnt = QPointF(value[0],value[1]);
         Q_EMIT q->windowRadiusPropertyRequested(pnt);
     }
+    if (property & DDE_SHELL_PROPERTY_QUICKTILE) {
+        int *value = static_cast<int *>(dataArr->data);
+        Q_EMIT q->splitWindowRequested((SplitType)value[0], value[1]);
+    }
 }
 
 void DDEShellSurfaceInterface::setActive(bool set)
@@ -268,6 +275,11 @@ void DDEShellSurfaceInterface::setKeepAbove(bool set)
 void DDEShellSurfaceInterface::setKeepBelow(bool set)
 {
     d->setState(DDE_SHELL_STATE_KEEP_BELOW, set);
+}
+
+void DDEShellSurfaceInterface::setOnAllDesktops(bool set)
+{
+    d->setState(DDE_SHELL_STATE_ON_ALL_DESKTOPS, set);
 }
 
 void DDEShellSurfaceInterface::setMaximized(bool set)
@@ -323,6 +335,24 @@ void DDEShellSurfaceInterface::setModal(bool set)
 void DDEShellSurfaceInterface::sendGeometry(const QRect &geom)
 {
     d->sendGeometry(geom);
+}
+
+void DDEShellSurfaceInterface::sendSplitable(int splitable)
+{
+    if (splitable == 0) {
+        d->setState(DDE_SHELL_STATE_NO_SPLIT, true);
+        d->setState(DDE_SHELL_STATE_TWO_SPLIT, false);
+        d->setState(DDE_SHELL_STATE_FOUR_SPLIT, false);
+    } else {
+        d->setState(DDE_SHELL_STATE_NO_SPLIT, false);
+        if (splitable == 1) {
+            d->setState(DDE_SHELL_STATE_FOUR_SPLIT, false);
+            d->setState(DDE_SHELL_STATE_TWO_SPLIT, true);
+        } else if (splitable == 2) {
+            d->setState(DDE_SHELL_STATE_TWO_SPLIT, false);
+            d->setState(DDE_SHELL_STATE_FOUR_SPLIT, true);
+        }
+    }
 }
 
 }

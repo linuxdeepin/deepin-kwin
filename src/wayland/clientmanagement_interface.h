@@ -64,6 +64,8 @@ public:
         bool isMinimized;
         bool isFullScreen;
         bool isActive;
+        int32_t splitable;
+        char uuid[256];
     };
 
     static ClientManagementInterface *get(wl_resource *native);
@@ -71,12 +73,14 @@ public:
 
     void sendWindowCaptionImage(int windowId, wl_resource *buffer, QImage image);
     void sendWindowCaption(int windowId, wl_resource *buffer, SurfaceInterface* surface);
+    void sendSplitChange(const QString& uuid, int splitable);
 
 Q_SIGNALS:
     void windowStatesRequest();
     void windowStatesChanged();
 
     void captureWindowImageRequest(int windowId, wl_resource *buffer);
+    void splitWindowRequest(QString uuid, int splitType);
 
 private:
     QScopedPointer<ClientManagementInterfacePrivate> d;
