@@ -113,6 +113,11 @@ public:
     KWinDisplay(QObject *parent)
         : KWaylandServer::FilteredDisplay(parent)
     {
+        QString enableBlackList = QString::fromUtf8(qgetenv("KWIN_ENABLE_INTERFACES_BLACKLIST"));
+        if (enableBlackList.isEmpty() || enableBlackList.toLower() == "false") {
+            qCDebug(KWIN_CORE) << "Interfaces blacklist is not enabled";
+            m_enableBlackList = false;
+        }
     }
 
     static QByteArray sha256(const QString &fileName)
@@ -162,6 +167,7 @@ public:
     };
 
     QSet<QString> m_reported;
+    bool m_enableBlackList = true;
 
     bool allowInterface(KWaylandServer::ClientConnection *client, const QByteArray &interfaceName) override
     {
@@ -178,6 +184,10 @@ public:
         }
 
         if (!interfacesBlackList.contains(interfaceName)) {
+            return true;
+        }
+
+        if (!m_enableBlackList) {
             return true;
         }
 
