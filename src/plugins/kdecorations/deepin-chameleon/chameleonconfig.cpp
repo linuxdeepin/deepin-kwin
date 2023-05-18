@@ -112,7 +112,7 @@ void ChameleonConfig::onConfigChanged()
     KConfig config("deepin-kwinrc", KConfig::CascadeConfig);
     KConfigGroup group_decoration(&config, "org.kde.kdecoration2");
 
-    bool active = group_decoration.readEntry("deepin_library") == "com.deepin.chameleon";
+    bool active = group_decoration.readEntry("library") == "com.deepin.chameleon";
 
     setActivated(active);
 
