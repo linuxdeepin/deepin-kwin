@@ -59,6 +59,7 @@
 #include "was_user_interaction_x11_filter.h"
 #include "wayland_server.h"
 #include "xwaylandwindow.h"
+#include "xdgshellwindow.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -2256,6 +2257,13 @@ X11Window *Workspace::findClient(Predicate predicate, xcb_window_t w) const
     return nullptr;
 }
 
+Window* Workspace::findWaylandWindow(quint32 window) const
+{
+    if (waylandServer())
+        return waylandServer()->findWindow(window);
+    return nullptr;
+}
+
 Window *Workspace::findToplevel(std::function<bool(const Window *)> func) const
 {
     if (auto *ret = Window::findInList(m_allClients, func)) {
@@ -2369,6 +2377,20 @@ void Workspace::removeInternalWindow(InternalWindow *window)
 void Workspace::setInitialDesktop(int desktop)
 {
     m_initialDesktop = desktop;
+}
+
+KWaylandServer::DDEShellSurfaceInterface* Workspace::getDDEShellSurface(Window* c)
+{
+    if (!c) {
+        return nullptr;
+    }
+
+    XdgSurfaceWindow *sc = dynamic_cast<XdgSurfaceWindow *>(c);
+    if (sc) {
+        return sc->ddeShellSurface();
+    }
+
+    return nullptr;
 }
 
 Group *Workspace::findGroup(xcb_window_t leader) const

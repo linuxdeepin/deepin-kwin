@@ -25,6 +25,7 @@
 #include <functional>
 #include <memory>
 #include "wayland/clientmanagement_interface.h"
+#include "wayland/ddeshell_interface.h"
 
 class KConfig;
 class KConfigGroup;
@@ -138,6 +139,7 @@ public:
      * @see findClient(std::function<bool (const X11Window *)>)
      */
     X11Window *findClient(Predicate predicate, xcb_window_t w) const;
+    Window* findWaylandWindow(quint32 window) const;
     void forEachClient(std::function<void(X11Window *)> func);
     void forEachAbstractClient(std::function<void(Window *)> func);
     Unmanaged *findUnmanaged(std::function<bool(const Unmanaged *)> func) const;
@@ -472,6 +474,8 @@ public:
 #if KWIN_BUILD_ACTIVITIES
     Activities *activities() const;
 #endif
+
+    KWaylandServer::DDEShellSurfaceInterface* getDDEShellSurface(KWin::Window* c);
 
     /**
      * Apply the requested output configuration. Note that you must use this function

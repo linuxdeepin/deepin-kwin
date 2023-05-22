@@ -73,6 +73,8 @@ public:
     void installPlasmaShellSurface(KWaylandServer::PlasmaShellSurfaceInterface *shellSurface);
     void installDDEShellSurface(KWaylandServer::DDEShellSurfaceInterface *shellSurface);
 
+    KWaylandServer::DDEShellSurfaceInterface *ddeShellSurface() const;
+
     void setMinimizeable(bool set)
     {
         m_minimizable = set;

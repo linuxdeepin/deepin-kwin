@@ -797,6 +797,17 @@ void WaylandServer::removeWindow(Window *c)
     }
 }
 
+static Window *findWindowInList(const QList<Window *> &windows, quint32 id)
+{
+    auto it = std::find_if(windows.begin(), windows.end(), [id](Window *w) {
+        return w->frameId() == id;
+    });
+    if (it == windows.end()) {
+        return nullptr;
+    }
+    return *it;
+}
+
 static Window *findWindowInList(const QList<Window *> &windows, const KWaylandServer::SurfaceInterface *surface)
 {
     auto it = std::find_if(windows.begin(), windows.end(), [surface](Window *w) {
@@ -806,6 +817,17 @@ static Window *findWindowInList(const QList<Window *> &windows, const KWaylandSe
         return nullptr;
     }
     return *it;
+}
+
+Window *WaylandServer::findWindow(quint32 id) const
+{
+    if (id == 0) {
+        return nullptr;
+    }
+    if (Window *c = findWindowInList(m_windows, id)) {
+        return c;
+    }
+    return nullptr;
 }
 
 Window *WaylandServer::findWindow(const KWaylandServer::SurfaceInterface *surface) const

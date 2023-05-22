@@ -166,6 +166,7 @@ public:
         return m_windows;
     }
     void removeWindow(Window *c);
+    Window *findWindow(quint32 id) const;
     Window *findWindow(const KWaylandServer::SurfaceInterface *surface) const;
     XdgToplevelWindow *findXdgToplevelWindow(KWaylandServer::SurfaceInterface *surface) const;
     XdgSurfaceWindow *findXdgSurfaceWindow(KWaylandServer::SurfaceInterface *surface) const;
