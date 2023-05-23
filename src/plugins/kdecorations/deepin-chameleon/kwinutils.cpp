@@ -475,7 +475,7 @@ void KWinUtils::clientCheckNoBorder(QObject *client)
 
 bool KWinUtils::sendPingToWindow(quint32 WId, quint32 timestamp)
 {
-    //Workspace::self()->sendPingToWindow(WId, timestamp);
+    Workspace::self()->sendPingToWindow(WId, timestamp);
     return true;
 }
 

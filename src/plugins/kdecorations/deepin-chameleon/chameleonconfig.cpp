@@ -777,11 +777,11 @@ void ChameleonConfig::debugWindowStartupTime(QObject *toplevel)
     toplevel->setProperty("_D_CHECKER_DAMAGE_COUNT", damage_count_str.isEmpty() ? 20 : damage_count_str.toInt());
 
     // 监听窗口请求重绘的事件
-    connect(toplevel, SIGNAL(damaged(KWin::Toplevel*, const QRect&)),
-            this, SLOT(onToplevelDamaged(KWin::Toplevel*,QRect)), Qt::UniqueConnection);
+    connect(toplevel, SIGNAL(damaged(KWin::Toplevel*, const QRegion&)),
+            this, SLOT(onToplevelDamaged(KWin::Toplevel*,QRegion)), Qt::UniqueConnection);
 }
 
-void ChameleonConfig::onToplevelDamaged(KWin::Toplevel *toplevel, const QRect &damage)
+void ChameleonConfig::onToplevelDamaged(KWin::Toplevel *toplevel, const QRegion &damage)
 {
     Q_UNUSED(damage)
     QObject *w = reinterpret_cast<QObject*>(toplevel);
@@ -857,8 +857,8 @@ void ChameleonConfig::onToplevelDamaged(KWin::Toplevel *toplevel, const QRect &d
                 checker_timer->stop();
                 checker_timer->deleteLater();
                 // 断开无用的链接
-                disconnect(w, SIGNAL(damaged(KWin::Toplevel*, const QRect&)),
-                           this, SLOT(onToplevelDamaged(KWin::Toplevel*,QRect)));
+                disconnect(w, SIGNAL(damaged(KWin::Toplevel*, const QRegion&)),
+                           this, SLOT(onToplevelDamaged(KWin::Toplevel*,QRegion)));
                 qint64 start = appStartTime(w);
                 // 结束应用启动时间的调试
                 appStartTimeMap[w] = 0;

@@ -97,7 +97,7 @@ private Q_SLOTS:
 
     // 用于调试窗口启动速度
     void debugWindowStartupTime(QObject *toplevel);
-    void onToplevelDamaged(KWin::Toplevel* toplevel, const QRect& damage);
+    void onToplevelDamaged(KWin::Toplevel* toplevel, const QRegion& damage);
 
     void onShellClientAdded(KWin::ShellClient *client);
     void updateWindowRadius();

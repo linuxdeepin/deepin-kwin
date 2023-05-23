@@ -1394,6 +1394,13 @@ void Workspace::selectWmInputEventMask()
     );
 }
 
+void Workspace::sendPingToWindow(xcb_window_t window, xcb_timestamp_t timestamp)
+{
+    if (rootInfo()) {
+        rootInfo()->sendPing(window, timestamp);
+    }
+}
+
 /**
  * Sends client \a c to desktop \a desk.
  *
