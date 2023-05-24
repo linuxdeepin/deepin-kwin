@@ -255,6 +255,8 @@ public:
         return m_xdgActivationIntegration;
     }
 
+    quint32 createWindowId(KWaylandServer::SurfaceInterface *surface);
+
 Q_SIGNALS:
     void windowAdded(KWin::Window *);
     void windowRemoved(KWin::Window *);
@@ -274,6 +276,7 @@ private:
     void handleOutputRemoved(Output *output);
     void handleOutputEnabled(Output *output);
     void handleOutputDisabled(Output *output);
+    quint16 createClientId(KWaylandServer::ClientConnection *c);
 
     class LockScreenPresentationWatcher : public QObject
     {
@@ -319,6 +322,7 @@ private:
     KWaylandServer::StrutInterface *m_strut = nullptr;
     QList<Window *> m_windows;
     InitializationFlags m_initFlags;
+    QHash<KWaylandServer::ClientConnection*, quint16> m_clientIds;
     QHash<Output *, KWaylandServer::OutputInterface *> m_waylandOutputs;
     QHash<Output *, KWaylandServer::OutputDeviceV2Interface *> m_waylandOutputDevices;
     KWaylandServer::DrmLeaseManagerV1 *m_leaseManager = nullptr;

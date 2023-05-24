@@ -82,11 +82,7 @@ quint32 WaylandWindow::frameId() const
 
 quint32 WaylandWindow::createWindowId(KWaylandServer::SurfaceInterface *surface)
 {
-    quint32 id = 0;
-    // TODO: this does not prevent that two surfaces of same client get same id
-    id = 1 << 16 | (surface->id() & 0xFFFF);
-
-    return id;
+    return waylandServer()->createWindowId(surface);
 }
 
 bool WaylandWindow::isClient() const
