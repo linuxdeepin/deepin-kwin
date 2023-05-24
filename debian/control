@@ -110,9 +110,8 @@ Depends: hwdata,
          qml-module-qtmultimedia,
          ${misc:Depends},
          ${shlibs:Depends},
-Recommends: libqt5multimedia5-plugins, plasma-desktop (>= 4:5.24)
+Recommends: libqt5multimedia5-plugins
 Suggests: deepin-kwin-addons (>= 4:5.24)
-Breaks: plasma-workspace (<< 4:5.14), plasma-workspace-dev (<< 4:5.14)
 Description: KDE window manager, common files
  KWin (pronounced as one syllable "deepin-kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
@@ -160,7 +159,6 @@ Depends: deepin-kwin-common (= ${binary:Version}),
          qtbase5-dev (>= 5.15.0~),
          ${misc:Depends},
          ${shlibs:Depends},
-Breaks: kde-workspace-dev
 Replaces: kde-workspace-dev
 Description: KDE window manager - devel files
  KWin (pronounced as one syllable "deepin-kwin") is the window
@@ -196,7 +194,6 @@ Description: KDE window manager, wayland version, PREVIEW release
  This package provides the wayland version, which is still a work in progress
  project, and is available as a PREVIEW release. Don't expect the same
  stability as with the x11 version.
-Breaks: plasma-workspace-wayland (<< 4:5.14)
 
 Package: deepin-kwin-wayland-backend-drm
 Section: libs
