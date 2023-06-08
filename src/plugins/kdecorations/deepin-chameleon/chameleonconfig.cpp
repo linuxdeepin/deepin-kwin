@@ -23,7 +23,11 @@
 #include <QGuiApplication>
 #include <QTimer>
 #include <QPointF>
+#include <QDBusConnection>
+#include <QDBusConnectionInterface>
+#include <QDBusInterface>
 
+#include <qglobal.h>
 #include <xcb/xcb.h>
 #include <X11/Xlib.h>
 
@@ -323,6 +327,18 @@ void ChameleonConfig::onWindowShapeChanged(quint32 windowId)
 
     // 避免短时间内大量触发其阴影的更新
     buildKWinX11ShadowDelay(window);
+}
+
+
+void ChameleonConfig::onAppearanceChanged(const QString& key, const QString& value)
+{
+    Q_UNUSED(value);
+
+    if (key.toLower() != "gtk") {
+        return;
+    }
+
+    QMetaObject::invokeMethod(this, &ChameleonConfig::onConfigChanged, Qt::QueuedConnection);
 }
 
 void ChameleonConfig::updateWindowNoBorderProperty(QObject *window)
@@ -888,6 +904,23 @@ void ChameleonConfig::onToplevelDamaged(KWin::Toplevel *toplevel, const QRegion 
 
 void ChameleonConfig::init()
 {
+    // FIXME: reconfigure is very expensive, use listener
+    connect(QDBusConnection::sessionBus().interface(),
+            &QDBusConnectionInterface::serviceOwnerChanged,
+            this,
+            [=](const QString &name, const QString &, const QString &newOwner) {
+                if (newOwner.isEmpty() || name != "org.deepin.dde.Appearance1") {
+                    return;
+                }
+                QDBusConnection::sessionBus()
+                    .connect("org.deepin.dde.Appearance1",
+                             "/org/deepin/dde/Appearance1",
+                             "org.deepin.dde.Appearance1",
+                             "Changed",
+                             this,
+                             SLOT(onAppearanceChanged(QString, QString)));
+    });
+
     connect(Workspace::self(), SIGNAL(configChanged()), this, SLOT(onConfigChanged()));
     connect(Workspace::self(), SIGNAL(clientAdded(KWin::AbstractClient*)), this, SLOT(onClientAdded(KWin::AbstractClient*)));
     connect(Workspace::self(), SIGNAL(unmanagedAdded(KWin::Unmanaged*)), this, SLOT(onUnmanagedAdded(KWin::Unmanaged*)));
