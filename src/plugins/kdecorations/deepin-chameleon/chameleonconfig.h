@@ -87,6 +87,8 @@ private Q_SLOTS:
     void onWindowDataChanged(KWin::EffectWindow *window, int role);
     void onWindowShapeChanged(quint32 windowId);
 
+    void onAppearanceChanged(const QString& key, const QString& value);
+
     void updateWindowNoBorderProperty(QObject *window);
     void updateWindowBlurArea(KWin::EffectWindow *window, int role);
     void updateWindowSize();
