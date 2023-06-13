@@ -474,13 +474,13 @@ class KWIN_EXPORT Window : public QObject
      *
      * @deprecated Use frameGeometry
      */
-    Q_PROPERTY(QRectF geometry READ frameGeometry WRITE moveResize NOTIFY frameGeometryChanged)
+    Q_PROPERTY(QRectF geometry READ frameGeometry WRITE moveResizeGeometry NOTIFY frameGeometryChanged)
 
     /**
      * The geometry of this Window. Be aware that depending on resize mode the frameGeometryChanged
      * signal might be emitted at each resize step or only at the end of the resize operation.
      */
-    Q_PROPERTY(QRectF frameGeometry READ frameGeometry WRITE moveResize NOTIFY frameGeometryChanged)
+    Q_PROPERTY(QRectF frameGeometry READ frameGeometry WRITE moveResizeGeometry NOTIFY frameGeometryChanged)
 
     /**
      * Whether the Window is currently being moved by the user.
@@ -1151,6 +1151,7 @@ public:
     void move(const QPointF &point);
     void resize(const QSizeF &size);
     void moveResize(const QRectF &rect);
+    void moveResizeGeometry(const QRectF &rect);
 
     virtual QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &s) = 0;
     void keepInArea(QRectF area, bool partial = false);

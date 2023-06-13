@@ -676,7 +676,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
         area = workspace()->clientArea(PlacementArea, this, output->geometry().center());
     }
 
-    if (isDesktop()) {
+    if (isDesktop() || isDock()) {
         // KWin doesn't manage desktop windows
         placementDone = true;
     }

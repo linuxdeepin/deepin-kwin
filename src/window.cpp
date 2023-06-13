@@ -3732,6 +3732,11 @@ void Window::moveResize(const QRectF &rect)
     moveResizeInternal(rect, MoveResizeMode::MoveResize);
 }
 
+void Window::moveResizeGeometry(const QRectF &rect)
+{
+    qWarning() << resourceName() << "skip move resize change from property";
+}
+
 void Window::setElectricBorderMode(QuickTileMode mode)
 {
     if (mode != QuickTileMode(QuickTileFlag::Maximize)) {
