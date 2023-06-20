@@ -26,5 +26,15 @@
   <file>buttons/multiview_top_active.svg</file>
   <file>buttons/multiview_top.svg</file>
   <file>buttons/workspace_delete.png</file>
+  <file>translations/multitasking_ca.qm</file>
+  <file>translations/multitasking_hu.qm</file>
+  <file>translations/multitasking_nl.qm</file>
+  <file>translations/multitasking_pl.qm</file>
+  <file>translations/multitasking.qm</file>
+  <file>translations/multitasking_sq.qm</file>
+  <file>translations/multitasking_tr.qm</file>
+  <file>translations/multitasking_zh_CN.qm</file>
+  <file>translations/multitasking_zh_HK.qm</file>
+  <file>translations/multitasking_zh_TW.qm</file>
 </qresource>
 </RCC>
