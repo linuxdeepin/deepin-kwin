@@ -29,6 +29,11 @@ public:
     explicit Chameleon(QObject *parent = nullptr, const QVariantList &args = QVariantList());
     ~Chameleon();
 
+    enum class FontType {
+        StandardFont,
+        FontSize,
+    };
+
     void paint(QPainter *painter, const QRect &repaintArea) override;
 
     KWin::EffectWindow *effect() const;
@@ -63,7 +68,8 @@ protected:
     void init() override;
 
 private Q_SLOTS:
-    void updateFont(QString updateType,QString val);
+    void updateFont(FontType updateType, const QString &val);
+    void onAppearanceChanged(const QString &key, const QString &value);
 
 private:
     void initButtons();
@@ -92,6 +98,7 @@ private:
     bool windowNeedBorder() const;
 
     QColor getTextColor() const;
+    qreal getScaleFactor() const;
 
     bool m_initialized = false;
     qint8 m_noTitleBar = -1;

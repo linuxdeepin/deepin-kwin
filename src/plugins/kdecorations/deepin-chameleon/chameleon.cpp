@@ -118,25 +118,53 @@ void Chameleon::init()
     connect(m_theme, &ChameleonWindowTheme::mouseInputAreaMarginsChanged, this, &Chameleon::updateMouseInputAreaMargins);
     connect(m_theme, &ChameleonWindowTheme::windowPixelRatioChanged, this, &Chameleon::updateShadow);
     connect(m_theme, &ChameleonWindowTheme::windowPixelRatioChanged, this, &Chameleon::updateTitleBarArea);
-    connect(qGuiApp, &QGuiApplication::fontChanged, this, &Chameleon::updateTitleGeometry);
+
+    auto updateAppearance = [=] {
+        static QDBusInterface interface("org.deepin.dde.Appearance1",
+                                        "/org/deepin/dde/Appearance1",
+                                        "org.deepin.dde.Appearance1");
+        QObject::connect(&interface, SIGNAL(Changed(QString, QString)), this, SLOT(onAppearanceChanged(QString, QString)));
+        updateFont(FontType::StandardFont, interface.property("StandardFont").value<QString>());
+        updateFont(FontType::FontSize, interface.property("FontSize").value<QString>());
+    };
+
+    connect(QDBusConnection::sessionBus().interface(),
+             &QDBusConnectionInterface::serviceOwnerChanged,
+             this,
+             [=](const QString &name, const QString &, const QString &newOwner) {
+                 if (newOwner.isEmpty() || name != "org.deepin.dde.Appearance1") {
+                     return;
+                 }
+                 updateAppearance();
+    });
+
+    if (QDBusInterface("org.deepin.dde.Appearance1",
+                       "/org/deepin/dde/Appearance1",
+                       "org.deepin.dde.Appearance1").isValid())
+    {
+        updateAppearance();
+    }
 
     m_initialized = true;
 
     KWinUtils::instance()->setInitialized();
 }
 
-void Chameleon::updateFont(QString updateType,QString val)
+void Chameleon::updateFont(FontType updateType, const QString &val)
 {
-    if (updateType == "standardfont") {
-        m_font.setFamily(val);
-        updateTitleGeometry();
-    } else if (updateType == "fontsize") {
-        double value = val.toDouble();
-        if (value <= 0)
-            return;
-        m_font.setPointSizeF(value);
-        updateTitleGeometry();
+    switch (updateType) {
+        case FontType::StandardFont:
+            m_font.setFamily(val);
+            break;
+        case FontType::FontSize:
+            double value = val.toDouble();
+            if (value <= 0)
+                return;
+            m_font.setPointSizeF(value * getScaleFactor());
+            break;
     }
+
+    updateTitleGeometry();
 }
 
 void Chameleon::paint(QPainter *painter, const QRect &repaintArea)
@@ -219,7 +247,7 @@ qreal Chameleon::borderWidth() const
 
 qreal Chameleon::titleBarHeight() const
 {
-    return m_config.titlebarConfig.height * m_theme->windowPixelRatio();
+    return m_config.titlebarConfig.height * getScaleFactor();
 }
 
 qreal Chameleon::shadowRadius() const
@@ -246,7 +274,7 @@ QPointF Chameleon::windowRadius() const
         return m_theme->windowRadius();
     }
 
-    return m_config.radius * m_theme->windowPixelRatio();
+    return m_config.radius * getScaleFactor();
 }
 
 QMarginsF Chameleon::mouseInputAreaMargins() const
@@ -303,17 +331,17 @@ QIcon Chameleon::closeIcon() const
 
 QPointF Chameleon::menuIconPos() const
 {
-    return m_config.titlebarConfig.menuBtn.pos;
+    return m_config.titlebarConfig.menuBtn.pos * getScaleFactor();
 }
 
 qint32 Chameleon::menuIconWidth() const
 {
-    return m_config.titlebarConfig.menuBtn.width;
+    return m_config.titlebarConfig.menuBtn.width * getScaleFactor();
 }
 
 qint32 Chameleon::menuIconHeight() const
 {
-    return m_config.titlebarConfig.menuBtn.height;
+    return m_config.titlebarConfig.menuBtn.height *getScaleFactor();
 }
 
 void Chameleon::initButtons()
@@ -386,7 +414,7 @@ void Chameleon::updateTitleGeometry()
     m_title = client().data()->caption();
     // 使用系统字体，不要使用 settings() 中的字体
     const QFontMetricsF fontMetrics(m_font);
-    int full_width = fontMetrics.width(m_title) * m_theme->windowPixelRatio();
+    int full_width = fontMetrics.width(m_title) * getScaleFactor();
 
     if (m_config.titlebarConfig.area == Qt::TopEdge || m_config.titlebarConfig.area == Qt::BottomEdge) {
         int buttons_width = m_leftButtons->geometry().width()
@@ -600,10 +628,10 @@ void Chameleon::updateShadow()
     // TODO: should use std::options to check m_config valid?
     if (settings()->isAlphaChannelSupported()) {
         if (m_theme->validProperties() == ChameleonWindowTheme::PropertyFlags()) {
-            return setShadow(ChameleonShadow::instance()->getShadow(m_config, m_theme->windowPixelRatio()));
+            return setShadow(ChameleonShadow::instance()->getShadow(m_config, getScaleFactor()));
         }
 
-        qreal scale = m_theme->windowPixelRatio();
+        qreal scale = getScaleFactor();
         QPointF maxWindowRadius;
         // 优先使用窗口自己设置的属性
         if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
@@ -662,6 +690,17 @@ void Chameleon::onNoTitlebarPropertyChanged(quint32 windowId)
     m_noTitleBar = -1;
 }
 
+void Chameleon::onAppearanceChanged(const QString &key, const QString &value)
+{
+    if (key.toLower() == "fontsize") {
+        updateFont(FontType::FontSize, value);
+    }
+
+    if (key.toLower() == "standardfont") {
+        updateFont(FontType::StandardFont, value);
+    }
+}
+
 bool Chameleon::windowNeedRadius() const
 {
     auto c = client().data();
@@ -689,6 +728,17 @@ QColor Chameleon::getTextColor() const
     auto c = client().data();
 
     return  c->color(c->isActive() ? KDecoration2::ColorGroup::Active : KDecoration2::ColorGroup::Inactive, KDecoration2::ColorRole::Foreground);
+}
+
+qreal Chameleon::getScaleFactor() const
+{
+    if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowPixelRatioProperty)) {
+        return m_theme->windowPixelRatio();
+    }
+
+    QDBusInterface interface("org.deepin.dde.Appearance1", "/org/deepin/dde/Appearance1", "org.deepin.dde.Appearance1");
+    QDBusReply<qreal> reply = interface.call("GetScaleFactor");
+    return reply.value();
 }
 
 QColor Chameleon::getBackgroundColor() const
