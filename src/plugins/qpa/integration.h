@@ -44,6 +44,7 @@ public:
     QPlatformOpenGLContext *createPlatformOpenGLContext(QOpenGLContext *context) const override;
     QPlatformServices *services() const override;
     void initialize() override;
+    QPlatformNativeInterface *nativeInterface() const override;
 
     QHash<AbstractOutput *, Screen *> screens() const;
 

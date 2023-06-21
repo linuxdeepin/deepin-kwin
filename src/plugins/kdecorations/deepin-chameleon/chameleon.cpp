@@ -2,11 +2,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "chameleon.h"
+#include <qvariant.h>
 #include "chameleonshadow.h"
 #include "chameleonbutton.h"
 #include "chameleonconfig.h"
 #include "chameleontheme.h"
 #include "chameleonwindowtheme.h"
+#include "chameleonwindowglobaltheme.h"
 #include "kwinutils.h"
 
 #include <KDecoration2/DecoratedClient>
@@ -24,6 +26,7 @@
 #include <QtDBus>
 #include <QX11Info>
 #include <QMap>
+#include <QTimer>
 
 #include "abstract_client.h"
 
@@ -61,6 +64,30 @@ void Chameleon::init()
     // 要放到updateTheme调用之前初始化此对象
     auto global_config = ChameleonConfig::instance();
     m_theme = new ChameleonWindowTheme(m_client, this);
+    if (!ChameleonWindowGlobalTheme::Instance()) {
+        QTimer* globalThemeChecker = new QTimer(this);
+        globalThemeChecker->setProperty("_count", 0);
+        connect(globalThemeChecker, &QTimer::timeout, this, [=] {
+            int count = globalThemeChecker->property("_count").toInt();
+            if (count > 10) {
+                globalThemeChecker->deleteLater();
+                return;
+            }
+            globalThemeChecker->setProperty("_count", ++count);
+            if (ChameleonWindowGlobalTheme::Instance()) {
+                globalThemeChecker->deleteLater();
+                connect(ChameleonWindowGlobalTheme::Instance(), &ChameleonWindowGlobalTheme::validPropertiesChanged, this, [=] {
+                    updateTheme();
+                    updateShadow();
+                    updateTitleBarArea();
+                    updateBorderPath();
+                });
+                Q_EMIT ChameleonWindowGlobalTheme::Instance()->validPropertiesChanged(ChameleonWindowGlobalTheme::Instance()->validProperties());
+            }
+        });
+        globalThemeChecker->setInterval(5000);
+        globalThemeChecker->start();
+    }
 
     m_font = qGuiApp->font();
     updateTheme();
@@ -316,6 +343,19 @@ qint32 Chameleon::menuIconHeight() const
     return m_config.titlebarConfig.menuBtn.height;
 }
 
+ChameleonWindowGlobalTheme *Chameleon::GlobalTheme() {
+    static ChameleonWindowGlobalTheme* theme = nullptr;
+    if (!theme) {
+        auto tmp = ChameleonWindowGlobalTheme::Instance();
+        if (tmp) {
+            theme = tmp;
+            connect(theme, &ChameleonWindowGlobalTheme::validPropertiesChanged, this, &Chameleon::updateTheme);
+        }
+    }
+
+    return theme;
+}
+
 void Chameleon::initButtons()
 {
     m_leftButtons = new KDecoration2::DecorationButtonGroup(KDecoration2::DecorationButtonGroup::Position::Left, this, &ChameleonButton::create);
@@ -436,10 +476,16 @@ void Chameleon::updateTitleGeometry()
 
 void Chameleon::updateTheme()
 {
+    using Global = ChameleonWindowGlobalTheme;
+
     QString theme_name;
 
     if (m_theme->propertyIsValid(ChameleonWindowTheme::ThemeProperty)) {
         theme_name = m_theme->theme();
+    } else if (auto global = Global::Instance()) {
+        const QVariant& theme = global->theme();
+        qInfo() << theme_name;
+        theme_name = theme.toString();
     }
 
     KWin::AbstractClient* client = dynamic_cast<KWin::AbstractClient*>(m_client);
@@ -599,12 +645,20 @@ void Chameleon::updateShadow()
 {
     // TODO: should use std::options to check m_config valid?
     if (settings()->isAlphaChannelSupported()) {
-        if (m_theme->validProperties() == ChameleonWindowTheme::PropertyFlags()) {
-            return setShadow(ChameleonShadow::instance()->getShadow(m_config, m_theme->windowPixelRatio()));
+        QPointF maxWindowRadius;
+        qreal scale = m_theme->windowPixelRatio();
+
+        if (auto global = GlobalTheme()) {
+            const QVariant& radius = global->radius();
+            if (radius.isValid()) {
+                m_config.radius = radius.toPointF();
+                auto w = effect();
+                maxWindowRadius = QPointF(w->width() / 2.0, w->height() / 2.0);
+                // 这里的数据是已经缩放过的，因此scale值需要为1
+                scale = 1.0;
+            }
         }
 
-        qreal scale = m_theme->windowPixelRatio();
-        QPointF maxWindowRadius;
         // 优先使用窗口自己设置的属性
         if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
             m_config.radius = m_theme->windowRadius();
