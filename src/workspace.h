@@ -557,7 +557,7 @@ public Q_SLOTS:
     void updateWindowStates();
     void captureWindowImage(int windowId, wl_resource *buffer);
 
-    void qtactivecolorChanged();
+    void onDBusAppearancePropertyChanged(const QString &key, const QString &value);
     void screensChanged();
     void changeBlurStatus(bool);
 

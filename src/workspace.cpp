@@ -309,9 +309,13 @@ void Workspace::init()
 
     // broadcast that Workspace is ready, but first process all events.
     QMetaObject::invokeMethod(this, "workspaceInitialized", Qt::QueuedConnection);
-    QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, KWinDBusPropertyInterface,
-                                          "PropertiesChanged", this, SLOT(qtactivecolorChanged()));
+    QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE,
+                                          "Changed", this, SLOT(onDBusAppearancePropertyChanged(QString, QString)));
 
+    onDBusAppearancePropertyChanged("QtActiveColor", QDBusInterface(DBUS_APPEARANCE_SERVICE,
+                                                         DBUS_APPEARANCE_PATH,
+                                                         DBUS_APPEARANCE_INTERFACE).property("QtActiveColor")
+                                                                                   .toString());
     // TODO: ungrabXServer()
 }
 
@@ -2170,10 +2174,13 @@ void Workspace::screensChanged()
 
 }
 
-void Workspace::qtactivecolorChanged()
+void Workspace::onDBusAppearancePropertyChanged(const QString &key, const QString &value)
 {
-    QString clr = QDBusInterface(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE).property("QtActiveColor").toString();
-    setActiveColor(clr);
+    if (key != "QtActiveColor") {
+        return;
+    }
+
+    setActiveColor(value);
 }
 
 void Workspace::changeBlurStatus(bool state)
