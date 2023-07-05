@@ -1,3 +1,16 @@
+deepin-kwin (4:5.25.6-kwin.5.24.3) unstable; urgency=medium
+
+  * 400fc24c5 fix: Title bar doesn't change with theme
+  * f97b4f0b3 Fix: not load multitasking translate
+  * 90ba2dc7b feat: 3rd window title bar support HiDPI
+  * c3a0ac868 chore: remove plasma-desktop recommend
+  * d4a2597d7 fix: dde-kwin-debug not working
+  * c62fa07e3 chore(CI): Update obs tag build workflow
+  * d47d829c0 fix: wrong dark theme config
+  * 92c444a18 fix: tabbox not working
+
+ -- Dingyuan Zhang <lxz@lxz-v23>  Wed, 05 Jul 2023 11:10:57 +0800
+
 deepin-kwin (4:5.25.5-kwin.5.24.3) unstable; urgency=medium
 
   * fix: unable to start multitasking plugin (d407a7edcf8971f95cee0024f3c053f1d569398a)
