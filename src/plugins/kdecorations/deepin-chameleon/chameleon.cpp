@@ -119,30 +119,15 @@ void Chameleon::init()
     connect(m_theme, &ChameleonWindowTheme::windowPixelRatioChanged, this, &Chameleon::updateShadow);
     connect(m_theme, &ChameleonWindowTheme::windowPixelRatioChanged, this, &Chameleon::updateTitleBarArea);
 
-    auto updateAppearance = [=] {
-        static QDBusInterface interface("org.deepin.dde.Appearance1",
-                                        "/org/deepin/dde/Appearance1",
-                                        "org.deepin.dde.Appearance1");
-        QObject::connect(&interface, SIGNAL(Changed(QString, QString)), this, SLOT(onAppearanceChanged(QString, QString)));
-        updateFont(FontType::StandardFont, interface.property("StandardFont").value<QString>());
-        updateFont(FontType::FontSize, interface.property("FontSize").value<QString>());
-    };
+    connect(global_config, &ChameleonConfig::appearanceChanged, this, &Chameleon::onAppearanceChanged);
 
-    connect(QDBusConnection::sessionBus().interface(),
-             &QDBusConnectionInterface::serviceOwnerChanged,
-             this,
-             [=](const QString &name, const QString &, const QString &newOwner) {
-                 if (newOwner.isEmpty() || name != "org.deepin.dde.Appearance1") {
-                     return;
-                 }
-                 updateAppearance();
-    });
-
-    if (QDBusInterface("org.deepin.dde.Appearance1",
-                       "/org/deepin/dde/Appearance1",
-                       "org.deepin.dde.Appearance1").isValid())
+    if (QDBusInterface interface("org.deepin.dde.Appearance1",
+                           "/org/deepin/dde/Appearance1",
+                      "org.deepin.dde.Appearance1");
+        interface.isValid())
     {
-        updateAppearance();
+        onAppearanceChanged("fontsize", interface.property("FontSize").value<QString>());
+        onAppearanceChanged("standardfont", interface.property("StandardFont").value<QString>());
     }
 
     m_initialized = true;
@@ -736,9 +721,7 @@ qreal Chameleon::getScaleFactor() const
         return m_theme->windowPixelRatio();
     }
 
-    QDBusInterface interface("org.deepin.dde.Appearance1", "/org/deepin/dde/Appearance1", "org.deepin.dde.Appearance1");
-    QDBusReply<qreal> reply = interface.call("GetScaleFactor");
-    return reply.value();
+    return ChameleonConfig::instance()->screenScaleFactor();
 }
 
 QColor Chameleon::getBackgroundColor() const

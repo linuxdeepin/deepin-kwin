@@ -102,6 +102,7 @@ private:
 
     bool m_initialized = false;
     qint8 m_noTitleBar = -1;
+    qreal m_scaleFactor = 1;
     QObject *m_client = nullptr;
 
     QMarginsF m_titleBarAreaMargins;
