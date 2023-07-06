@@ -29,6 +29,12 @@ class ShellClient;
 class AbstractClient;
 }
 
+QT_BEGIN_NAMESPACE
+
+class QDBusPendingCallWatcher;
+
+QT_END_NAMESPACE
+
 class X11Shadow;
 class ChameleonConfig : public QObject
 {
@@ -63,6 +69,8 @@ public:
 
     QString theme() const;
 
+    qreal screenScaleFactor() const;
+
 public Q_SLOTS:
     bool setTheme(QString theme);
 
@@ -73,6 +81,8 @@ Q_SIGNALS:
     void windowForceDecoratePropertyChanged(quint32 windowId);
     void windowScissorWindowPropertyChanged(quint32 windowId);
     void windowTypeChanged(QObject *window);
+    void screenScaleFactorChanged(qreal scale);
+    void appearanceChanged(const QString& key, const QString& value);
 
 protected:
     explicit ChameleonConfig(QObject *parent = nullptr);
@@ -88,6 +98,7 @@ private Q_SLOTS:
     void onWindowShapeChanged(quint32 windowId);
 
     void onAppearanceChanged(const QString& key, const QString& value);
+    void onScreenScaleFactorChanged(QDBusPendingCallWatcher *watcher);
 
     void updateWindowNoBorderProperty(QObject *window);
     void updateWindowBlurArea(KWin::EffectWindow *window, int role);
@@ -128,6 +139,8 @@ private:
     quint32 m_atom_deepin_scissor_window;
     quint32 m_atom_kde_net_wm_shadow;
     quint32 m_atom_net_wm_window_type;
+
+    qreal m_scaleFactor;
 
     QMap<QString, X11Shadow*> m_x11ShadowCache;
     QHash<QObject*, quint32> m_pendingWindows;

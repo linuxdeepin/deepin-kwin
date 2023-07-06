@@ -26,6 +26,7 @@
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
+#include <QDBusPendingCallWatcher>
 
 #include <qglobal.h>
 #include <xcb/xcb.h>
@@ -40,6 +41,7 @@ Q_DECLARE_METATYPE(QPainterPath)
 
 ChameleonConfig::ChameleonConfig(QObject *parent)
     : QObject(parent)
+    , m_scaleFactor(1)
 {
     m_atom_deepin_chameleon = KWinUtils::internAtom(_DEEPIN_CHAMELEON, false);
     m_atom_deepin_no_titlebar = KWinUtils::internAtom(_DEEPIN_NO_TITLEBAR, false);
@@ -81,6 +83,11 @@ bool ChameleonConfig::isActivated() const
 QString ChameleonConfig::theme() const
 {
     return m_theme;
+}
+
+qreal ChameleonConfig::screenScaleFactor() const
+{
+    return m_scaleFactor;
 }
 
 bool ChameleonConfig::setTheme(QString theme)
@@ -339,6 +346,17 @@ void ChameleonConfig::onAppearanceChanged(const QString& key, const QString& val
     }
 
     QMetaObject::invokeMethod(this, &ChameleonConfig::onConfigChanged, Qt::QueuedConnection);
+}
+
+void ChameleonConfig::onScreenScaleFactorChanged(QDBusPendingCallWatcher *watcher)
+{
+    QDBusPendingReply<qreal> reply = *watcher;
+    if (!reply.isError() && m_scaleFactor != reply.value()) {
+        m_scaleFactor = reply.value();
+        Q_EMIT screenScaleFactorChanged(m_scaleFactor);
+    }
+
+    watcher->deleteLater();
 }
 
 void ChameleonConfig::updateWindowNoBorderProperty(QObject *window)
@@ -945,6 +963,34 @@ void ChameleonConfig::init()
     connect(this, &ChameleonConfig::windowTypeChanged, this, &ChameleonConfig::updateWindowNoBorderProperty, Qt::QueuedConnection);
 
     onConfigChanged();
+
+    auto bindAppearance = [=] {
+        static QDBusInterface interface("org.deepin.dde.Appearance1",
+                                        "/org/deepin/dde/Appearance1",
+                                        "org.deepin.dde.Appearance1");
+        if (!interface.isValid()) {
+            return;
+        }
+
+        QObject::connect(&interface, SIGNAL(Changed(QString, QString)), this, SLOT(appearanceChanged(QString, QString)));
+
+        QDBusPendingCall call = interface.asyncCall("GetScaleFactor");
+        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(call, this);
+        QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
+                        this, SLOT(onScreenScaleFactor(QDBusPendingCallWatcher*)));
+    };
+
+    connect(QDBusConnection::sessionBus().interface(),
+             &QDBusConnectionInterface::serviceOwnerChanged,
+             this,
+             [=](const QString &name, const QString &, const QString &newOwner) {
+                 if (newOwner.isEmpty() || name != "org.deepin.dde.Appearance1") {
+                     return;
+                 }
+                 bindAppearance();
+    });
+
+    bindAppearance();
 }
 
 void ChameleonConfig::setActivated(const bool active)
