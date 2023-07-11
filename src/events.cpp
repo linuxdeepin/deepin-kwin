@@ -44,6 +44,8 @@
 #include <QStyleHints>
 #include <QWheelEvent>
 
+#include <QDBusInterface>
+
 #include <kkeyserver.h>
 
 #include <xcb/damage.h>
@@ -143,11 +145,25 @@ static xcb_window_t findEventWindow(xcb_generic_event_t *event)
     }
 }
 
+void Workspace::registerDDESession() const
+{
+    const QString &cookie = qgetenv("DDE_SESSION_PROCESS_COOKIE_ID");
+    qunsetenv(cookie.toLocal8Bit().constData());
+
+    if (!cookie.isEmpty()) {
+        QDBusInterface("com.deepin.SessionManager", "/com/deepin/SessionManager").call("Register", cookie);
+    }
+}
+
 /**
  * Handles workspace specific XCB event
  */
 bool Workspace::workspaceEvent(xcb_generic_event_t *e)
 {
+    if (isDDESessionRegister() == false) {
+        registerDDESession();
+        setDDESessionRegister(true);
+    }
     const uint8_t eventType = e->response_type & ~0x80;
 
     const xcb_window_t eventWindow = findEventWindow(e);

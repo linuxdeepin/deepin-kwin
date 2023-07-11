@@ -295,12 +295,23 @@ public:
      */
     TileManager *tileManager(Output *output);
 
+    bool isDDESessionRegister() const {
+        return m_isDDESessionRegister;
+    }
+
+    void setDDESessionRegister(bool isRegister) {
+        m_isDDESessionRegister = isRegister;
+    }
+
+    // from dde-kwin: let startdde know that dde has started
+    void registerDDESession() const;
 public:
     QPoint cascadeOffset(const Window *c) const;
 
 private:
     QTimer *m_quickTileCombineTimer;
     QuickTileMode m_lastTilingMode;
+    bool m_isDDESessionRegister = false;
 
     //-------------------------------------------------
     // Unsorted
