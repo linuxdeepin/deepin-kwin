@@ -65,7 +65,7 @@ DecorationBridge::~DecorationBridge()
 
 QString DecorationBridge::readPlugin()
 {
-    return kwinApp()->config()->group(s_pluginName).readEntry("deepin_library", s_defaultPlugin);
+    return kwinApp()->config()->group(s_pluginName).readEntry("library", s_defaultPlugin);
 }
 
 static bool readNoPlugin()
