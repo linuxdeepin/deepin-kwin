@@ -313,7 +313,11 @@ void ItemRendererOpenGL::renderItem(Item *item, int mask, const QRegion &region,
     vbo->unmap();
     vbo->bindArrays();
 
-    GLShader *shader = ShaderManager::instance()->pushShader(shaderTraits);
+    GLShader *shader = data.shader;
+    if (!shader) {
+        shader = ShaderManager::instance()->pushShader(shaderTraits);
+    }
+
     shader->setUniform(GLShader::Saturation, data.saturation());
 
     if (renderContext.hardwareClipping) {
@@ -359,7 +363,9 @@ void ItemRendererOpenGL::renderItem(Item *item, int mask, const QRegion &region,
 
     setBlendEnabled(false);
 
-    ShaderManager::instance()->popShader();
+    if (!data.shader) {
+        ShaderManager::instance()->popShader();
+    }
 
     if (renderContext.hardwareClipping) {
         glDisable(GL_SCISSOR_TEST);

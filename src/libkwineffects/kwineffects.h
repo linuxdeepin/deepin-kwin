@@ -14,6 +14,7 @@
 
 #include <kwinconfig.h>
 #include <kwineffects_export.h>
+#include <kwinglutils.h>
 #include <kwinglobals.h>
 
 #include <QEasingCurve>
@@ -3428,6 +3429,11 @@ public:
      */
     std::optional<qreal> renderTargetScale() const;
     void setRenderTargetScale(qreal scale);
+
+    /**
+     * Shader to be used for rendering, if any.
+     */
+    GLShader* shader = nullptr;
 
 private:
     const std::unique_ptr<WindowPaintDataPrivate> d;

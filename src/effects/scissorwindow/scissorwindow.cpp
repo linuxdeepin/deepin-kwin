@@ -136,6 +136,9 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             m_maskShader->setUniform("sampler", 0);
             m_maskShader->setUniform("msk1", 2);
 
+            auto old_shader = data.shader;
+            data.shader = m_maskShader.get();
+
             std::shared_ptr<GLTexture> maskTexture = cache.maskTexture;
             glActiveTexture(GL_TEXTURE2); maskTexture->bind();
 
@@ -143,6 +146,7 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             effects->drawWindow(w, mask, region, data);
 
             ShaderManager::instance()->popShader();
+            data.shader = old_shader;
 
             glActiveTexture(GL_TEXTURE2);
             glActiveTexture(GL_TEXTURE0);
@@ -195,11 +199,15 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             m_filletOptimizeShader->setUniform("typ2", 1);
         }
 
+        auto old_shader = data.shader;
+        data.shader = m_filletOptimizeShader.get();
+
         glActiveTexture(GL_TEXTURE1);
         m_texMaskMap[key]->bind();
         glActiveTexture(GL_TEXTURE0);
         effects->drawWindow(w, mask, region, data);
         ShaderManager::instance()->popShader();
+        data.shader = old_shader;
         glActiveTexture(GL_TEXTURE1);
         m_texMaskMap[key]->unbind();
         glActiveTexture(GL_TEXTURE0);
