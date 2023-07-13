@@ -1,3 +1,9 @@
+deepin-kwin (4:5.25.7-kwin.5.24.3) unstable; urgency=medium
+
+  * ac10aefe fix: not enable decoration
+
+ -- Dingyuan Zhang <lxz@lxz-v23>  Tue, 11 Jul 2023 11:13:52 +0800
+
 deepin-kwin (4:5.25.6-kwin.5.24.3) unstable; urgency=medium
 
   * 400fc24c5 fix: Title bar doesn't change with theme
