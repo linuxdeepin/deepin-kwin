@@ -1284,7 +1284,7 @@ bool XdgToplevelWindow::dockWantsInput() const
 bool XdgToplevelWindow::acceptsFocus() const
 {
     if (m_plasmaShellSurface) {
-        if (m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::OnScreenDisplay || m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::ToolTip) {
+        if (m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::ToolTip) {
             return false;
         }
         switch (m_plasmaShellSurface->role()) {
