@@ -1543,7 +1543,15 @@ void X11Window::doMinimize()
         // NETWM restriction - KWindowInfo::isMinimized() == Hidden && !Shaded
         info->setState(isMinimized() ? NET::States() : NET::Shaded, NET::Shaded);
     }
+    bool old_preview = hiddenPreview();
     updateVisibility();
+    if (old_preview || hiddenPreview()) {
+        if (isMinimized()) {
+            exportMappingState(XCB_ICCCM_WM_STATE_ICONIC);
+        } else {
+            exportMappingState(XCB_ICCCM_WM_STATE_NORMAL);
+        }
+    }
     updateAllowedActions();
     workspace()->updateMinimizedOfTransients(this);
 }
