@@ -96,7 +96,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
 }
 
 void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
-    if (w->isDesktop() || isMaximized(w)) {
+    if (isMaximized(w)) {
         return effects->drawWindow(w, mask, region, data);
     }
 
@@ -171,15 +171,16 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
                 if (e && e->isActive()) {
                     auto geom = effects->findScreen(w->screen()->name())->geometry();
                     if ((w->x() + data.xTranslation() == geom.x()) || (w->x() + data.xTranslation() + w->width() * data.xScale() == geom.x() + geom.width())) {
-                    }
-                    else
+                        //do nothing
+                    }  else {
                         cornerRadius = {8, 8};
+                    }
                 }
             }
         }
 
         if (cornerRadius.x() < 2 && cornerRadius.y() < 2) {
-            return effects->drawWindow(w, mask, region, data);
+            cornerRadius = {8, 8};
         }
 
         const QString& key = QString("%1+%2").arg(cornerRadius.toPoint().x()).arg(cornerRadius.toPoint().y()
