@@ -4,11 +4,16 @@
 #include <QMouseEvent>
 #include <QtMath>
 #include <QX11Info>
+#include <qdbusconnection.h>
+#include <qdbusinterface.h>
+#include <qdbusreply.h>
 
 #include <kwinglutils.h>
 #include <effects.h>
 
 #include <qdbusconnection.h>
+
+#include "workspace.h"
 
 #define BRIGHTNESS  0.4
 #define SCALE_F     1.0
@@ -412,6 +417,10 @@ void SplitScreenEffect::setActive(bool active)
         return;
 
     m_activated = active;
+
+    QDBusMessage message =QDBusMessage::createSignal("/KWin", "org.kde.KWin", "SplitScreenStateChanged");
+    message << bool(m_activated);
+    QDBusConnection::sessionBus().send(message);
 
     if (active) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);

@@ -59,6 +59,7 @@ DBusInterface::DBusInterface(QObject *parent)
     dbus.connect(QString(), QStringLiteral("/KWin"), QStringLiteral("org.kde.KWin"), QStringLiteral("reloadConfig"),
                  Workspace::self(), SLOT(slotReloadConfig()));
     connect(kwinApp(), &Application::x11ConnectionChanged, this, &DBusInterface::announceService);
+    connect(Workspace::self(), &Workspace::clientMinimizedChanged, this, &DBusInterface::slotClientMinimizeChanged);
 }
 
 void DBusInterface::becomeKWinService(const QString &service)
@@ -333,6 +334,11 @@ void DBusInterface::printKwinFps(bool isFps)
 void DBusInterface::dumpOutputBuffer()
 {
     workspace()->dumpOutputBuffer();
+}
+
+void DBusInterface::slotClientMinimizeChanged(KWin::AbstractClient*client)
+{
+    emit ClientMinimizeChanged(client->windowId(), client->isMinimized());
 }
 
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)

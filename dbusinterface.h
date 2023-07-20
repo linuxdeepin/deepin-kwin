@@ -10,6 +10,7 @@
 #include <QObject>
 #include <QtDBus>
 
+#include "abstract_client.h"
 #include "virtualdesktopsdbustypes.h"
 
 namespace KWin
@@ -76,6 +77,10 @@ public Q_SLOTS: // METHODS
     void setKWinLogOutput(bool isOpen);
     void printKwinFps(bool isFps);
     void dumpOutputBuffer();
+    void slotClientMinimizeChanged(KWin::AbstractClient*client);
+
+Q_SIGNALS:
+    void ClientMinimizeChanged(int windowId, bool isMinimized);
 
 private Q_SLOTS:
     void becomeKWinService(const QString &service);

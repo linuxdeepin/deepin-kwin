@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KNotification>
 
 #include <unistd.h>
+#include <QX11Info>
 
 namespace KWin
 {
@@ -325,9 +326,11 @@ QString ScreenShotEffect::saveTempImage(const QImage &img)
 }
 
 void ScreenShotEffect::screenshotWindowUnderCursor(int mask)
-{
-    if (isProhibitScreenshot())
+{   
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return;
+    }
     if (isTakingScreenshot()) {
         sendErrorReply(s_errorAlreadyTaking, s_errorAlreadyTakingMsg);
         return;
@@ -352,8 +355,10 @@ void ScreenShotEffect::screenshotWindowUnderCursor(int mask)
 
 QString ScreenShotEffect::screenshotForWindowExtend(qulonglong winid, unsigned int width,unsigned int height,int mask)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return QString();
+    }
     if (!calledFromDBus()) {
         qDebug()<<"calledFromDBus failed";
         return QString();
@@ -379,8 +384,10 @@ QString ScreenShotEffect::screenshotForWindowExtend(qulonglong winid, unsigned i
 
 void ScreenShotEffect::screenshotForWindowExtend(QDBusUnixFileDescriptor fd, qulonglong winid, int mask)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return;
+    }
     if (!calledFromDBus()) {
         return;
     }
@@ -401,8 +408,10 @@ void ScreenShotEffect::screenshotForWindowExtend(QDBusUnixFileDescriptor fd, qul
 
 void ScreenShotEffect::screenshotForWindow(qulonglong winid, int mask)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return;
+    }
 
     m_type = (ScreenShotType) mask;
     EffectWindow* w = effects->findWindow(winid);
@@ -415,8 +424,10 @@ void ScreenShotEffect::screenshotForWindow(qulonglong winid, int mask)
 
 QString ScreenShotEffect::interactive(int mask)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return QString();
+    }
     if (!calledFromDBus()) {
         return QString();
     }
@@ -447,8 +458,10 @@ QString ScreenShotEffect::interactive(int mask)
 
 void ScreenShotEffect::interactive(QDBusUnixFileDescriptor fd, int mask)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return;
+    }
     if (!calledFromDBus()) {
         return;
     }
@@ -502,8 +515,10 @@ void ScreenShotEffect::hideInfoMessage()
 
 QString ScreenShotEffect::screenshotFullscreen(bool captureCursor)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return QString();
+    }
     if (!calledFromDBus()) {
         return QString();
     }
@@ -521,8 +536,10 @@ QString ScreenShotEffect::screenshotFullscreen(bool captureCursor)
 
 void ScreenShotEffect::screenshotFullscreen(QDBusUnixFileDescriptor fd, bool captureCursor)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return;
+    }
     if (!calledFromDBus()) {
         return;
     }
@@ -555,8 +572,10 @@ void ScreenShotEffect::screenshotFullscreen(QDBusUnixFileDescriptor fd, bool cap
 
 QString ScreenShotEffect::screenshotScreen(int screen, bool captureCursor)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return QString();
+    }
     if (!calledFromDBus()) {
         return QString();
     }
@@ -578,8 +597,10 @@ QString ScreenShotEffect::screenshotScreen(int screen, bool captureCursor)
 
 void ScreenShotEffect::screenshotScreen(QDBusUnixFileDescriptor fd, bool captureCursor)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return;
+    }
     if (!calledFromDBus()) {
         return;
     }
@@ -617,8 +638,10 @@ void ScreenShotEffect::screenshotScreen(QDBusUnixFileDescriptor fd, bool capture
 
 QString ScreenShotEffect::screenshotArea(int x, int y, int width, int height, bool captureCursor)
 {
-    if (isProhibitScreenshot())
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
         return QString();
+    }
     if (!calledFromDBus()) {
         return QString();
     }
@@ -731,11 +754,12 @@ void ScreenShotEffect::windowClosed( EffectWindow* w )
 }
 
 bool ScreenShotEffect::isProhibitScreenshot()
-{
-    if(static_cast<EffectsHandlerImpl*>(effects)->prohibitScreenshot()) {
-        return true;
+{   
+    if (!QX11Info::isPlatformX11()) {
+        if(static_cast<EffectsHandlerImpl*>(effects)->prohibitScreenshot()) {
+            return true;
+        }
     }
-
     return false;
 }
 
