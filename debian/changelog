@@ -1,3 +1,9 @@
+deepin-kwin (4:5.25.8-kwin.5.24.3) unstable; urgency=medium
+
+  * 4a7dfc0 fix: freeze when create decoration
+
+ -- Dingyuan Zhang <lxz@lxz-v23>  Fri, 28 Jul 2023 16:09:59 +0800
+
 deepin-kwin (4:5.25.7-kwin.5.24.3) unstable; urgency=medium
 
   * ac10aefe fix: not enable decoration
