@@ -121,14 +121,16 @@ void Chameleon::init()
 
     connect(global_config, &ChameleonConfig::appearanceChanged, this, &Chameleon::onAppearanceChanged);
 
-    if (QDBusInterface interface("org.deepin.dde.Appearance1",
-                           "/org/deepin/dde/Appearance1",
-                      "org.deepin.dde.Appearance1");
-        interface.isValid())
-    {
-        onAppearanceChanged("fontsize", interface.property("FontSize").value<QString>());
-        onAppearanceChanged("standardfont", interface.property("StandardFont").value<QString>());
-    }
+    QTimer::singleShot(0, this, [=] {
+        if (QDBusInterface interface("org.deepin.dde.Appearance1",
+                            "/org/deepin/dde/Appearance1",
+                        "org.deepin.dde.Appearance1");
+            interface.isValid())
+        {
+            onAppearanceChanged("fontsize", interface.property("FontSize").value<QString>());
+            onAppearanceChanged("standardfont", interface.property("StandardFont").value<QString>());
+        }
+    });
 
     m_initialized = true;
 
