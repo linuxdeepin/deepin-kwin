@@ -4,13 +4,18 @@
 #include "chameleonbutton.h"
 #include "chameleon.h"
 #include "kwinutils.h"
+#include "chameleonwindowtheme.h"
+
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
 #include <QTimer>
 #include <QHoverEvent>
 #include <QPainter>
 #include <QDebug>
+#include <QRect>
+#include <QPoint>
 #include <QX11Info>
+#include <qnamespace.h>
 
 #include "workspace.h"
 
@@ -88,28 +93,35 @@ void ChameleonButton::paint(QPainter *painter, const QRect &repaintRegion)
         state = QIcon::Active;
     }
 
+    auto config = decoration->theme().titlebarConfig;
+
+    auto drawButton  = [painter, decoration](const QIcon &icon, const QSize &btnSize, const QRect &rect, QIcon::Mode mode) {
+        QPixmap pixmap = icon.pixmap(std::max(btnSize.width(), btnSize.height()) * decoration->getScaleFactor(), mode);
+        painter->drawPixmap(rect, pixmap, QRect(QPoint(0, pixmap.height() - btnSize.height() * decoration->getScaleFactor()) / 2, btnSize * decoration->getScaleFactor()));
+    };
+
     switch (type()) {
     case KDecoration2::DecorationButtonType::Menu: {
-        c->icon().paint(painter, rect);
+        drawButton(c->icon(), {config.menuBtn.width, config.menuBtn.height}, rect, state);
         break;
     }
     case KDecoration2::DecorationButtonType::ApplicationMenu: {
-        decoration->menuIcon().paint(painter, rect, Qt::AlignCenter, state);
+        drawButton(decoration->menuIcon(), {config.menuBtn.width, config.menuBtn.height}, rect, state);
         break;
     }
     case KDecoration2::DecorationButtonType::Minimize: {
-        decoration->minimizeIcon().paint(painter, rect, Qt::AlignCenter, state);
+        drawButton(decoration->minimizeIcon(), {config.minimizeBtn.width, config.minimizeBtn.height}, rect, state);
         break;
     }
     case KDecoration2::DecorationButtonType::Maximize: {
         if (isChecked())
-            decoration->unmaximizeIcon().paint(painter, rect, Qt::AlignCenter, state);
+            drawButton(decoration->unmaximizeIcon(), {config.unmaximizeBtn.width, config.unmaximizeBtn.height}, rect, state);
         else
-            decoration->maximizeIcon().paint(painter, rect, Qt::AlignCenter, state);
+            drawButton(decoration->maximizeIcon(), {config.maximizeBtn.width, config.maximizeBtn.height}, rect, state);
         break;
     }
     case KDecoration2::DecorationButtonType::Close: {
-        decoration->closeIcon().paint(painter, rect, Qt::AlignCenter, state);
+        drawButton(decoration->closeIcon(), {config.closeBtn.width, config.closeBtn.height}, rect, state);
         break;
     }
     default:

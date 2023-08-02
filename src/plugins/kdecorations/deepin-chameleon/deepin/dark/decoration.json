@@ -4,7 +4,7 @@
   "1001": {
     "desc": "普通窗口",
     "titlebar": {
-      "height": 50,
+      "height": 24,
       "area": 1,
       "mouseInputAreaMargins": "5,5,5,5",
       "bgcolor": "#252525",
@@ -17,15 +17,15 @@
       },
       "button-group": {
         "menu": {
-          "pos": "12.77,9",
+          "pos": "12,3",
           "icon": {
             "normal": ":/deepin/themes/deepin/dark/icons/menu_normal.svg",
             "hover": ":/deepin/themes/deepin/dark/icons/menu_hover.svg",
             "press": ":/deepin/themes/deepin/dark/icons/menu_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/menu_disabled.svg"
           },
-          "width": 32,
-          "height": 32,
+          "width": 18,
+          "height": 18,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -38,8 +38,8 @@
             "press": ":/deepin/themes/deepin/dark/icons/minimize_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/minimize_disabled.svg"
           },
-          "width": 50,
-          "height": 50,
+          "width": 40,
+          "height": 24,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -52,8 +52,8 @@
             "press": ":/deepin/themes/deepin/dark/icons/maximize_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/maximize_disabled.svg"
           },
-          "width": 50,
-          "height": 50,
+          "width": 40,
+          "height": 24,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -66,8 +66,8 @@
             "press": ":/deepin/themes/deepin/dark/icons/unmaximize_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/unmaximize_disabled.svg"
           },
-          "width": 50,
-          "height": 50,
+          "width": 40,
+          "height": 24,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -80,8 +80,8 @@
             "press": ":/deepin/themes/deepin/dark/icons/close_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/close_disabled.svg"
           },
-          "width": 50,
-          "height": 50,
+          "width": 40,
+          "height": 24,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -108,7 +108,7 @@
   "1002": {
     "desc": "对话框",
     "titlebar": {
-      "height": 50,
+      "height": 24,
       "area": 1,
       "bgcolor": "#252525",
       "font-family": "SourceHanSansSC",
@@ -117,15 +117,15 @@
       "text-color": "#000000",
       "button-group": {
         "menu": {
-          "pos": "10,10",
+          "pos": "12,3",
           "icon": {
             "normal": ":/deepin/themes/deepin/dark/icons/menu_normal.svg",
             "hover": ":/deepin/themes/deepin/dark/icons/menu_hover.svg",
             "press": ":/deepin/themes/deepin/dark/icons/menu_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/menu_disabled.svg"
           },
-          "width": 32,
-          "height": 32,
+          "width": 18,
+          "height": 18,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -138,8 +138,8 @@
             "press": ":/deepin/themes/deepin/dark/icons/minimize_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/minimize_disabled.svg"
           },
-          "width": 50,
-          "height": 50,
+          "width": 40,
+          "height": 24,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -152,8 +152,8 @@
             "press": ":/deepin/themes/deepin/dark/icons/maximize_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/maximize_disabled.svg"
           },
-          "width": 50,
-          "height": 50,
+          "width": 40,
+          "height": 24,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -166,8 +166,8 @@
             "press": ":/deepin/themes/deepin/dark/icons/unmaximize_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/unmaximize_disabled.svg"
           },
-          "width": 50,
-          "height": 50,
+          "width": 40,
+          "height": 24,
           "border": {
             "width": 1,
             "color": "#000000"
@@ -180,8 +180,8 @@
             "press": ":/deepin/themes/deepin/dark/icons/close_press.svg",
             "disabled": ":/deepin/themes/deepin/dark/icons/close_disabled.svg"
           },
-          "width": 50,
-          "height": 50,
+          "width": 40,
+          "height": 24,
           "border": {
             "width": 1,
             "color": "#000000"

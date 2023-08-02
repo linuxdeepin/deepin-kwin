@@ -331,6 +331,11 @@ qint32 Chameleon::menuIconHeight() const
     return m_config.titlebarConfig.menuBtn.height *getScaleFactor();
 }
 
+ChameleonTheme::ThemeConfig Chameleon::theme() const
+{
+    return m_config;
+}
+
 void Chameleon::initButtons()
 {
     m_leftButtons = new KDecoration2::DecorationButtonGroup(KDecoration2::DecorationButtonGroup::Position::Left, this, &ChameleonButton::create);
@@ -348,7 +353,7 @@ void Chameleon::updateButtonsGeometry()
     const int bHeight = noTitleBar() ? 0 : titleBarHeight();
     KWinUtils::Window::setTitleBarHeight(m_client, bHeight);
 
-    const int bWidth = bHeight;
+    const int bWidth = m_config.titlebarConfig.width * getScaleFactor();
 
     for (const QPointer<KDecoration2::DecorationButton> &button : m_leftButtons->buttons() + m_rightButtons->buttons()) {
         button.data()->setGeometry(QRectF(QPoint(0, 0), QSizeF(bWidth, bHeight)));

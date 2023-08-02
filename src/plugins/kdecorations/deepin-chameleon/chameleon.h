@@ -60,6 +60,9 @@ public:
     qint32 menuIconWidth() const;
     qint32 menuIconHeight() const;
 
+    ChameleonTheme::ThemeConfig theme() const;
+    qreal getScaleFactor() const;
+
 Q_SIGNALS:
     void noTitleBarChanged(bool noTitleBar);
     void effectInitialized(KWin::EffectWindow *effect);
@@ -98,7 +101,6 @@ private:
     bool windowNeedBorder() const;
 
     QColor getTextColor() const;
-    qreal getScaleFactor() const;
 
     bool m_initialized = false;
     qint8 m_noTitleBar = -1;

@@ -59,6 +59,7 @@ public:
         };
         struct TitlebarConfig {
             qreal     height;
+            qreal     width;
             Qt::Edge  area;
             QColor    backgroundColor;
 

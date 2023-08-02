@@ -254,7 +254,8 @@ static void parserWindowDecoration(const UIWindowType& windowType, const QJsonVa
     const QJsonObject titlebarObj = windowDecObj.value("titlebar").toObject();
     //unmanaged窗口没有titlebar
     if (status != "unmanaged" && !titlebarObj.isEmpty()) {
-        paserSpecialAttribute<qreal>(titlebarObj, "height", status, config->titlebarConfig.height, base ? base->titlebarConfig.height : 50.0);
+        paserSpecialAttribute<qreal>(titlebarObj, "height", status, config->titlebarConfig.height, base ? base->titlebarConfig.height : 24.0);
+        paserSpecialAttribute<qreal>(titlebarObj, "width", status, config->titlebarConfig.width, base ? base->titlebarConfig.width : 40);
         paserSpecialAttribute<Qt::Edge>(titlebarObj, "area", status, config->titlebarConfig.area, base ? base->titlebarConfig.area : Qt::TopEdge);
         paserSpecialAttribute<QColor>(titlebarObj, "bgcolor", status, config->titlebarConfig.backgroundColor, base ? base->titlebarConfig.backgroundColor : QColor());
 
@@ -269,8 +270,8 @@ static void parserWindowDecoration(const UIWindowType& windowType, const QJsonVa
         if (!btnObj.isEmpty()) {
             auto parseTitleBarButton = [&](const QJsonObject& btnObj, ChameleonTheme::ThemeConfig::TitlebarBtn& configTitlebarBtn, const ChameleonTheme::ThemeConfig::TitlebarBtn& baseTitlebarBtn) {
                 paserSpecialAttribute<QPointF>(btnObj, "pos", status, configTitlebarBtn.pos, base ? baseTitlebarBtn.pos : QPointF(0.0, 0.0));
-                paserSpecialAttribute<int>(btnObj, "width", status, configTitlebarBtn.width, base ? baseTitlebarBtn.width : 50);
-                paserSpecialAttribute<int>(btnObj, "height", status, configTitlebarBtn.height, base ? baseTitlebarBtn.height : 50);
+                paserSpecialAttribute<int>(btnObj, "width", status, configTitlebarBtn.width, base ? baseTitlebarBtn.width : 40);
+                paserSpecialAttribute<int>(btnObj, "height", status, configTitlebarBtn.height, base ? baseTitlebarBtn.height : 24);
             };
             for (const auto& item : btnObj.keys()) {
                 if (item == "menu") {
