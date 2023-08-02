@@ -340,7 +340,7 @@ void ChameleonConfig::onWindowShapeChanged(quint32 windowId)
 
 void ChameleonConfig::onAppearanceChanged(const QString& key, const QString& value)
 {
-    Q_UNUSED(value);
+    Q_EMIT appearanceChanged(key, value);
 
     if (key.toLower() != "gtk") {
         return;
@@ -923,23 +923,6 @@ void ChameleonConfig::onToplevelDamaged(KWin::Toplevel *toplevel, const QRegion 
 
 void ChameleonConfig::init()
 {
-    // FIXME: reconfigure is very expensive, use listener
-    connect(QDBusConnection::sessionBus().interface(),
-            &QDBusConnectionInterface::serviceOwnerChanged,
-            this,
-            [=](const QString &name, const QString &, const QString &newOwner) {
-                if (newOwner.isEmpty() || name != "org.deepin.dde.Appearance1") {
-                    return;
-                }
-                QDBusConnection::sessionBus()
-                    .connect("org.deepin.dde.Appearance1",
-                             "/org/deepin/dde/Appearance1",
-                             "org.deepin.dde.Appearance1",
-                             "Changed",
-                             this,
-                             SLOT(onAppearanceChanged(QString, QString)));
-    });
-
     connect(Workspace::self(), SIGNAL(configChanged()), this, SLOT(onConfigChanged()));
     connect(Workspace::self(), SIGNAL(clientAdded(KWin::AbstractClient*)), this, SLOT(onClientAdded(KWin::AbstractClient*)));
     connect(Workspace::self(), SIGNAL(unmanagedAdded(KWin::Unmanaged*)), this, SLOT(onUnmanagedAdded(KWin::Unmanaged*)));
@@ -973,12 +956,12 @@ void ChameleonConfig::init()
             return;
         }
 
-        QObject::connect(&interface, SIGNAL(Changed(QString, QString)), this, SLOT(appearanceChanged(QString, QString)));
+        QObject::connect(&interface, SIGNAL(Changed(QString, QString)), this, SLOT(onAppearanceChanged(QString, QString)));
 
         QDBusPendingCall call = interface.asyncCall("GetScaleFactor");
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(call, this);
         QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
-                        this, SLOT(onScreenScaleFactor(QDBusPendingCallWatcher*)));
+                         this, SLOT(onScreenScaleFactorChanged(QDBusPendingCallWatcher*)));
     };
 
     connect(QDBusConnection::sessionBus().interface(),
@@ -992,6 +975,7 @@ void ChameleonConfig::init()
     });
 
     bindAppearance();
+    QTimer::singleShot(1000, this, bindAppearance);
 }
 
 void ChameleonConfig::setActivated(const bool active)
