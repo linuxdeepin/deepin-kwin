@@ -484,9 +484,6 @@ configure_package_config_file(KWinDBusInterfaceConfig.cmake.in
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/KWinDBusInterfaceConfig.cmake
     DESTINATION ${CMAKECONFIG_INSTALL_DIR})
 
-ecm_install_configured_files(INPUT deepin-kwin_x11.service.in deepin-kwin_wayland.service.in @ONLY
-            DESTINATION ${SYSTEMD_USER_UNIT_INSTALL_DIR})
-
 find_package(KF5I18n CONFIG REQUIRED)
 ki18n_install(po)
 
