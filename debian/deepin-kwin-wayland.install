@@ -1,3 +1,2 @@
 usr/bin/deepin-kwin_wayland
 usr/bin/deepin-kwin_wayland_wrapper
-usr/lib/systemd/user/deepin-kwin_wayland.service
