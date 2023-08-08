@@ -1,3 +1,14 @@
+deepin-kwin (4:5.25.9-kwin.5.24.3) unstable; urgency=medium
+
+  * chore: remove useless service file
+    (5d31bdec536b53546898b0b7738ff55c59d16edb)
+  * fix: button disappeared when using custom config;
+    (59a8429062c4ef7513b1d0dba00f34ec06c7ab33)
+  * fix: freeze because of appearance
+    (3d7a7a53a7910952f144b5d95315bce02462e1ea)
+
+ -- bluesky <chenchongbiao@deepin.org>  Mon, 14 Aug 2023 16:00:45 +0800
+
 deepin-kwin (4:5.25.8-kwin.5.24.3) unstable; urgency=medium
 
   * 4a7dfc0 fix: freeze when create decoration
