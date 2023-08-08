@@ -335,8 +335,7 @@ static void writeConfig(const UIWindowType& windowType, const QJsonValue& window
             const auto& it = base->managedConfigGroupMap.find(windowType);
             base_active = &(it->normal);
             base_inactive = &(it->inactive);
-        }
-        if (base->unmanagedConfigMap.contains(windowType)) {
+        } else if (base->unmanagedConfigMap.contains(windowType)) {
             const auto& it = base->unmanagedConfigMap.find(windowType);
             base_active = &*it;
         }
@@ -349,7 +348,7 @@ static void writeConfig(const UIWindowType& windowType, const QJsonValue& window
     ChameleonTheme::ThemeConfig* config_unmanaged = &unmanagedConfig;
 
     parserWindowDecoration(windowType, windowDecoration, "active", config_active, base_active);
-    parserWindowDecoration(windowType, windowDecoration, "inactive", config_inactive, config_active);
+    parserWindowDecoration(windowType, windowDecoration, "inactive", config_inactive, base_inactive);
     parserWindowDecoration(windowType, windowDecoration, "unmanaged", config_unmanaged, config_active);
 
     configs->managedConfigGroupMap.insert(windowType, managedConfigGroup);
