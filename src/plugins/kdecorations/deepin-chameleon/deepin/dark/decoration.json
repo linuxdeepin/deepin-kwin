@@ -114,7 +114,7 @@
       "font-family": "SourceHanSansSC",
       "font-size": 14,
       "text-align": "center",
-      "text-color": "#000000",
+      "text-color": "#BBBBBB",
       "button-group": {
         "menu": {
           "pos": "12,3",
