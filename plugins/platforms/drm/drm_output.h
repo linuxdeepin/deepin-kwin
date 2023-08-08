@@ -27,6 +27,8 @@ class DrmDumbBuffer;
 class DrmPlane;
 class DrmConnector;
 class DrmCrtc;
+class Cursor;
+class DrmGpu;
 
 class KWIN_EXPORT DrmOutput : public AbstractOutput
 {
@@ -106,16 +108,23 @@ public:
         return m_primaryPlane;
     }
 
+    bool hardwareTransforms() const;
+    
+    DrmGpu *gpu() {
+        return m_gpu;
+    }
+
     bool m_isVirtual = false;
 
 Q_SIGNALS:
     void dpmsChanged();
 
 private:
+    friend class DrmGpu;
     friend class DrmBackend;
     friend class DrmCrtc;   // TODO: For use of setModeLegacy. Remove later when we allow multiple connectors per crtc
                             //       and save the connector ids in the DrmCrtc instance.
-    DrmOutput(DrmBackend *backend);
+    DrmOutput(DrmBackend *backend, DrmGpu* gpu);
 
     bool presentAtomically(DrmBuffer *buffer);
 
@@ -155,6 +164,7 @@ private:
     const ColorCorrect::GammaRamp* getGammaRamp() override;
 
     DrmBackend *m_backend;
+    DrmGpu *m_gpu;
     DrmConnector *m_conn = nullptr;
     DrmCrtc *m_crtc = nullptr;
     bool m_lastGbm = false;
@@ -168,8 +178,8 @@ private:
     bool m_scalingCapable = false;
 
     uint32_t m_blobId = 0;
-    DrmPlane* m_primaryPlane = nullptr;
-    DrmPlane* m_cursorPlane = nullptr;
+    DrmPlane *m_primaryPlane = nullptr;
+    DrmPlane *m_cursorPlane = nullptr;
     QVector<DrmPlane*> m_nextPlanesFlipList;
     bool m_pageFlipPending = false;
     bool m_dpmsAtomicOffPending = false;

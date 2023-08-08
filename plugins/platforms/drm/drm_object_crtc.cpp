@@ -23,22 +23,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "drm_buffer.h"
 #include "logging.h"
 #include <colorcorrection/gammaramp.h>
+#include "drm_gpu.h"
 
 namespace KWin
 {
 
-DrmCrtc::DrmCrtc(uint32_t crtc_id, DrmBackend *backend, int resIndex)
-    : DrmObject(crtc_id, backend->fd()),
+DrmCrtc::DrmCrtc(uint32_t crtc_id, DrmBackend *backend, DrmGpu *gpu, int resIndex)
+    : DrmObject(crtc_id, gpu->fd()),
       m_resIndex(resIndex),
-      m_backend(backend)
+      m_backend(backend),
+      m_gpu(gpu)
 {
-    ScopedDrmPointer<_drmModeCrtc, &drmModeFreeCrtc> modeCrtc(drmModeGetCrtc(backend->fd(), crtc_id));
+    ScopedDrmPointer<_drmModeCrtc, &drmModeFreeCrtc> modeCrtc(drmModeGetCrtc(gpu->fd(), crtc_id));
     if (modeCrtc) {
         m_gammaRampSize = modeCrtc->gamma_size;
     }
 
     ColorCorrect::GammaRamp gamma(m_gammaRampSize);
-    drmModeCrtcGetGamma(m_backend->fd(), m_id, gamma.size, gamma.red, gamma.green, gamma.blue);
+    drmModeCrtcGetGamma(m_gpu->fd(), m_id, gamma.size, gamma.red, gamma.green, gamma.blue);
     m_gammaRamp = new ColorCorrect::GammaRamp(gamma);
 }
 
@@ -97,11 +99,12 @@ bool DrmCrtc::blank()
     if (!m_output) {
         return false;
     }
-    if (m_backend->atomicModeSetting()) {
+
+    if (m_gpu->atomicModeSetting()) {
         return false;
     }
     if (!m_blackBuffer) {
-        DrmDumbBuffer *blackBuffer = m_backend->createBuffer(m_output->pixelSize());
+        DrmDumbBuffer *blackBuffer = m_gpu->createBuffer(m_output->pixelSize());
         if (!blackBuffer->map()) {
             delete blackBuffer;
             return false;
@@ -123,7 +126,7 @@ bool DrmCrtc::blank()
 }
 
 bool DrmCrtc::setGammaRamp(const ColorCorrect::GammaRamp &gamma) {
-    bool isError = drmModeCrtcSetGamma(m_backend->fd(), m_id, gamma.size,
+    bool isError = drmModeCrtcSetGamma(m_gpu->fd(), m_id, gamma.size,
                                 gamma.red, gamma.green, gamma.blue);
 
     if (!isError) {

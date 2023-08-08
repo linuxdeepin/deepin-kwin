@@ -32,11 +32,13 @@ struct GammaRamp;
 class DrmBackend;
 class DrmBuffer;
 class DrmDumbBuffer;
+class GammaRamp;
+class DrmGpu;
 
 class DrmCrtc : public DrmObject
 {
 public:
-    DrmCrtc(uint32_t crtc_id, DrmBackend *backend, int resIndex);
+    DrmCrtc(uint32_t crtc_id, DrmBackend *backend, DrmGpu *gpu, int resIndex);
 
     virtual ~DrmCrtc();
 
@@ -72,6 +74,10 @@ public:
     }
     bool setGammaRamp(const ColorCorrect::GammaRamp &gamma);
     const ColorCorrect::GammaRamp* getGammaRamp() const;
+    
+    DrmGpu *gpu() {
+        return m_gpu;
+    }
 
 private:
     int m_resIndex;
@@ -83,6 +89,7 @@ private:
     DrmBackend *m_backend;
 
     ColorCorrect::GammaRamp *m_gammaRamp = nullptr;
+    DrmGpu *m_gpu;
 };
 
 }

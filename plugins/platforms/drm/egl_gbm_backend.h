@@ -18,8 +18,10 @@ namespace KWin
 {
 class DrmBackend;
 class DrmBuffer;
+class DrmDumbBuffer;
 class DrmOutput;
 class GbmSurface;
+class DrmGpu;
 
 /**
  * @brief OpenGL Backend using Egl on a GBM surface.
@@ -28,7 +30,7 @@ class EglGbmBackend : public AbstractEglBackend
 {
     Q_OBJECT
 public:
-    EglGbmBackend(DrmBackend *b);
+    EglGbmBackend(DrmBackend *b, DrmGpu *gpu);
     virtual ~EglGbmBackend();
     void screenGeometryChanged(const QSize &size) override;
     SceneOpenGLTexturePrivate *createBackendTexture(SceneOpenGLTexture *texture) override;
@@ -44,6 +46,8 @@ public:
         return m_dmaFd;
     }
 
+    void connectToGpu(DrmGpu *gpu);
+
 protected:
     void present() override;
     void cleanupSurfaces() override;
@@ -57,6 +61,7 @@ private:
     struct Output {
         DrmOutput *output = nullptr;
         DrmBuffer *buffer = nullptr;
+        DrmDumbBuffer *dumbBuffer = nullptr;
         std::shared_ptr<GbmSurface> gbmSurface;
         EGLSurface eglSurface = EGL_NO_SURFACE;
         int bufferAge = 0;
@@ -96,6 +101,7 @@ private:
     void renderPostprocess(Output& output);
 
     DrmBackend *m_backend;
+    DrmGpu *m_gpu;
     QVector<Output> m_outputs;
     QScopedPointer<RemoteAccessManager> m_remoteaccessManager;
     friend class EglGbmTexture;
