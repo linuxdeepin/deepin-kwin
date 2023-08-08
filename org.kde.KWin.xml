@@ -89,5 +89,11 @@
     <method name="showingDesktop">
         <arg type="b" direction="out"/>
     </method>
+    <method name="setEnableTouchLongPress">
+      <arg type="b" direction="in"/>
+    </method>
+    <method name="isEnableTouchLongPress">
+      <arg type="b" direction="out"/>
+    </method>
   </interface>
 </node>

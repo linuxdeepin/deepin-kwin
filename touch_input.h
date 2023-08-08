@@ -67,6 +67,12 @@ public:
     QPointF position() const override {
         return m_lastPosition;
     }
+    void setEnableLongPress(bool flag) {
+        m_isEnableLongPress = flag;
+    }
+    bool isEnableLongPress() {
+        return m_isEnableLongPress;
+    }
 
 private:
     void handleLongPress();
@@ -78,6 +84,7 @@ private:
     bool m_inited = false;
     qint32 m_decorationId = -1;
     qint32 m_internalId = -1;
+    bool m_isEnableLongPress = false;
     /**
      * external/kwayland
      **/

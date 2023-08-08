@@ -76,6 +76,8 @@ public Q_SLOTS: // METHODS
     void setKWinLogOutput(bool isOpen);
     void printKwinFps(bool isFps);
     void dumpOutputBuffer();
+    void setEnableTouchLongPress(bool flag);
+    bool isEnableTouchLongPress();
 
 private Q_SLOTS:
     void becomeKWinService(const QString &service);

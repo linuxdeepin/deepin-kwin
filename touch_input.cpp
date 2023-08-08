@@ -42,6 +42,9 @@ TouchInputRedirection::TouchInputRedirection(InputRedirection *parent)
 void TouchInputRedirection::handleLongPress()
 {
     m_timer->stop();
+    if (!m_isEnableLongPress) {
+        return;
+    }
     //send right mouse event
     input()->pointer()->updatePosition(m_lastPosition);
     input()->pointer()->update();
