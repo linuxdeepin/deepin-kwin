@@ -309,13 +309,27 @@ void Workspace::init()
 
     // broadcast that Workspace is ready, but first process all events.
     QMetaObject::invokeMethod(this, "workspaceInitialized", Qt::QueuedConnection);
-    QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE,
-                                          "Changed", this, SLOT(onDBusAppearancePropertyChanged(QString, QString)));
+    connect(QDBusConnection::sessionBus().interface(),
+            &QDBusConnectionInterface::serviceOwnerChanged,
+            this,
+            [=](const QString &name, const QString &, const QString &newOwner) {
+                if (newOwner.isEmpty() || name != "org.deepin.dde.Appearance1") {
+                    return;
+                }
+                QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE,
+                                                      "Changed", this, SLOT(onDBusAppearancePropertyChanged(QString, QString)));
 
-    onDBusAppearancePropertyChanged("QtActiveColor", QDBusInterface(DBUS_APPEARANCE_SERVICE,
-                                                         DBUS_APPEARANCE_PATH,
-                                                         DBUS_APPEARANCE_INTERFACE).property("QtActiveColor")
-                                                                                   .toString());
+                QDBusInterface propertyInterface(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, "org.freedesktop.DBus.Properties");
+                QDBusPendingCall pcallActiveColor = propertyInterface.asyncCall(QLatin1String("Get"), "QtActiveColor");
+                QDBusPendingCallWatcher *watcherActiveColor = new QDBusPendingCallWatcher(pcallActiveColor, this);
+                connect(watcherActiveColor, &QDBusPendingCallWatcher::finished, this, [this](QDBusPendingCallWatcher *watcher) {
+                    QDBusPendingReply<QString> reply = *watcher;
+                    if (!reply.isError()) {
+                        onDBusAppearancePropertyChanged("QtActiveColor", reply.argumentAt<0>());
+                    }
+                    watcher->deleteLater();
+                });
+    });
     // TODO: ungrabXServer()
 }
 

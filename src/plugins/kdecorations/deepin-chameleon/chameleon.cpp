@@ -123,12 +123,29 @@ void Chameleon::init()
 
     QTimer::singleShot(0, this, [=] {
         if (QDBusInterface interface("org.deepin.dde.Appearance1",
-                            "/org/deepin/dde/Appearance1",
-                        "org.deepin.dde.Appearance1");
+                                     "/org/deepin/dde/Appearance1",
+                                     "org.freedesktop.DBus.Properties");
             interface.isValid())
         {
+            QDBusPendingCall pcall = interface.asyncCall(QLatin1String("Get"), "FontSize");
+            QDBusPendingCallWatcher *watcherFontSize = new QDBusPendingCallWatcher(pcall, this);
+            connect(watcherFontSize, &QDBusPendingCallWatcher::finished, this, [this](QDBusPendingCallWatcher *watcher) {
+                QDBusPendingReply<QString> reply = *watcher;
+                if (!reply.isError()) {
+                    onAppearanceChanged("fontsize", reply.argumentAt<0>());
+                }
+                watcher->deleteLater();
+            });
             onAppearanceChanged("fontsize", interface.property("FontSize").value<QString>());
-            onAppearanceChanged("standardfont", interface.property("StandardFont").value<QString>());
+            QDBusPendingCall pcallstandardfont = interface.asyncCall(QLatin1String("Get"), "StandardFont");
+            QDBusPendingCallWatcher *watcherStandardFont = new QDBusPendingCallWatcher(pcallstandardfont, this);
+            connect(watcherStandardFont, &QDBusPendingCallWatcher::finished, this, [this](QDBusPendingCallWatcher *watcher) {
+                QDBusPendingReply<QString> reply = *watcher;
+                if (!reply.isError()) {
+                    onAppearanceChanged("standardfont", reply.argumentAt<0>());
+                }
+                watcher->deleteLater();
+            });
         }
     });
 
