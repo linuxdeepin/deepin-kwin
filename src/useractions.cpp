@@ -50,6 +50,14 @@
 #include <QTranslator>
 #include <QDir>
 
+#include <QFont>
+#include <QFontDatabase>
+#include <QDBusInterface>
+#include <QDBusReply>
+
+#define DBUS_APPEARANCE_SERVICE "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_OBJ "/com/deepin/daemon/Appearance"
+#define DBUS_APPEARANCE_INTF "com.deepin.daemon.Appearance"
 
 #include <KGlobalAccel>
 #include <KLocalizedString>
@@ -281,6 +289,23 @@ void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
     QString backgroundColor = "rgb(253,253,254)";
     QString fontColor = "black";
     QString disableFontColor = "rgba(0,0,0,40%)";
+
+    QFont menuFont;
+    QDBusInterface appearanceInterface(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF);
+
+    if (appearanceInterface.isValid()) {
+       QVariant fontSizeVariant = appearanceInterface.property("FontSize");
+      if (fontSizeVariant.isValid()){
+               double fontSize = fontSizeVariant.toDouble();        
+   	       menuFont.setPointSizeF(fontSize);  // 将属性值赋值给 menuFont
+           qDebug()<<menuFont.pointSize();
+        } else {
+            qWarning() << "Failed to get 'FontSize' property from DBus interface";
+        }
+    } else {
+        qWarning() << "DBus interface is not valid";
+    }
+
     if (workspace()->self()->isDarkTheme()) {
         backgroundColor = "black";
         fontColor = "white";
@@ -301,7 +326,7 @@ void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
             }\
             QMenu::item {\
             font:Sans Serif;\
-            font-size:14px;\
+            font-size:%5px;\
             padding: 6px 45px 6px 30px;\
             color: %3;\
             }\
@@ -319,7 +344,7 @@ void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
             }\
             QMenu::item:selected {\
             background-color: %4;\
-            color: white;}").arg(backgroundColor).arg(fontColor).arg(disableFontColor).arg(workspace()->self()->ActiveColor()));
+            color: white;}").arg(backgroundColor).arg(fontColor).arg(disableFontColor).arg(workspace()->self()->ActiveColor()).arg(menuFont.pointSize()));
     m_menu->setContentsMargins(0,8,0,8);
 
     for (const MenuItem &item : getMenuItemInfos(cl.data())) {
