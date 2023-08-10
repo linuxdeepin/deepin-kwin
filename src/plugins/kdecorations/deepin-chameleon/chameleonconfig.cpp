@@ -974,8 +974,6 @@ void ChameleonConfig::init()
                  bindAppearance();
     });
 
-    bindAppearance();
-    QTimer::singleShot(1000, this, bindAppearance);
 }
 
 void ChameleonConfig::setActivated(const bool active)
