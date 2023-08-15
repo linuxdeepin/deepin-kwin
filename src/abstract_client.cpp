@@ -3655,7 +3655,7 @@ void AbstractClient::cancelSplitManage()
     }
 
     SplitManage::instance()->removeWinSplit(this);
-    if (!isMinimized())
+    if (!isMinimized() && !isMaximizable())
         quitSplitStatus();
 }
 
