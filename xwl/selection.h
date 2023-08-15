@@ -25,8 +25,6 @@ class TransferXtoWl;
 class WlSource;
 class X11Source;
 
-#define SELECTION_STRIDE_TIME 2000
-
 /*
  * Base class representing generic X selections and their respective
  * Wayland counter-parts.
@@ -110,8 +108,6 @@ private:
     xcb_window_t m_window = XCB_WINDOW_NONE;
     xcb_window_t m_requestorWindow = XCB_WINDOW_NONE;
     xcb_timestamp_t m_timestamp;
-    xcb_timestamp_t m_lastTimestamp = XCB_CURRENT_TIME;
-    xcb_xfixes_selection_notify_event_t *m_lastEvent = nullptr;
 
     // Active source, if any. Only one of them at max can exist
     // at the same time.
