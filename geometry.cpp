@@ -3919,12 +3919,15 @@ bool AbstractClient::isLeftRightSplitscreen()
    return false;
 }
 
-void AbstractClient::cancelSplitOutline()
+void AbstractClient::cancelSplitOutline(bool isDefaultCursor)
 {
     bool flag =  (m_quickTileMode & int(QuickTileFlag::Left)) || (m_quickTileMode & int(QuickTileFlag::Right));
     if (flag) {
         if (compositing() && splitManage.contains(screen())) {
             splitManage.find(screen()).value()->setSplitClient(nullptr, (QuickTileFlag)m_quickTileMode);
+            if (isDefaultCursor) {
+                splitManage.find(screen()).value()->setDefaultCustomCursor();
+            }
             handleSplitOutline(false);
         }
         if (!isMinimized()) {
