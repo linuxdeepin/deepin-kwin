@@ -41,6 +41,14 @@
 #endif
 #include "appmenu.h"
 
+#include <QFont>
+#include <QDBusInterface>
+#include <QDBusReply>
+
+#define DBUS_APPEARANCE_SERVICE "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_OBJ "/com/deepin/daemon/Appearance"
+#define DBUS_APPEARANCE_INTF "com.deepin.daemon.Appearance"
+
 #include <KProcess>
 
 #include <QAction>
@@ -281,6 +289,21 @@ void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
     QString backgroundColor = "rgb(253,253,254)";
     QString fontColor = "black";
     QString disableFontColor = "rgba(0,0,0,40%)";
+
+    QFont menuFont;
+    QDBusInterface appearanceInterface(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF);
+    if (appearanceInterface.isValid()) {
+       QVariant fontSizeVariant = appearanceInterface.property("FontSize");
+       if (fontSizeVariant.isValid()){
+            double fontSize = fontSizeVariant.toDouble();        
+   	    menuFont.setPointSizeF(fontSize);
+       }else {
+            qWarning() << "Failed to get 'FontSize' property from DBus interface";
+        }
+    }else{
+        qWarning() << "DBus interface is not valid";
+    }
+
     if (workspace()->self()->isDarkTheme()) {
         backgroundColor = "black";
         fontColor = "white";
