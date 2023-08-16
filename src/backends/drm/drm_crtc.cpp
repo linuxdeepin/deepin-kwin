@@ -19,7 +19,7 @@ namespace KWin
 {
 
 DrmCrtc::DrmCrtc(DrmGpu *gpu, uint32_t crtcId, int pipeIndex, DrmPlane *primaryPlane, DrmPlane *cursorPlane)
-    : DrmObject(gpu, crtcId, {PropertyDefinition(QByteArrayLiteral("MODE_ID"), Requirement::Required), PropertyDefinition(QByteArrayLiteral("ACTIVE"), Requirement::Required), PropertyDefinition(QByteArrayLiteral("VRR_ENABLED"), Requirement::Optional), PropertyDefinition(QByteArrayLiteral("GAMMA_LUT"), Requirement::Optional), PropertyDefinition(QByteArrayLiteral("GAMMA_LUT_SIZE"), Requirement::Optional)}, DRM_MODE_OBJECT_CRTC)
+    : DrmObject(gpu, crtcId, {PropertyDefinition(QByteArrayLiteral("MODE_ID"), Requirement::Required), PropertyDefinition(QByteArrayLiteral("ACTIVE"), Requirement::Required), PropertyDefinition(QByteArrayLiteral("VRR_ENABLED"), Requirement::Optional), PropertyDefinition(QByteArrayLiteral("GAMMA_LUT"), Requirement::Optional), PropertyDefinition(QByteArrayLiteral("GAMMA_LUT_SIZE"), Requirement::Optional), PropertyDefinition(QByteArrayLiteral("CTM"), Requirement::Optional)}, DRM_MODE_OBJECT_CRTC)
     , m_crtc(drmModeGetCrtc(gpu->fd(), crtcId))
     , m_pipeIndex(pipeIndex)
     , m_primaryPlane(primaryPlane)
@@ -95,6 +95,9 @@ DrmPlane *DrmCrtc::cursorPlane() const
 
 void DrmCrtc::disable()
 {
+    if (m_ctm) {
+        drmModeDestroyPropertyBlob(gpu()->fd(), m_ctm);
+    }
     setPending(PropertyIndex::Active, 0);
     setPending(PropertyIndex::ModeId, 0);
 }
@@ -106,6 +109,27 @@ void DrmCrtc::releaseBuffers()
     }
     if (m_currentBuffer) {
         m_currentBuffer->releaseBuffer();
+    }
+}
+
+bool DrmCrtc::hasCTM() const
+{
+    return getProp(PropertyIndex::CTM);
+}
+
+void DrmCrtc::setCTM(uint16_t r, uint16_t g, uint16_t b) {
+    if (gpu()->atomicModeSetting()) {
+        drm_color_ctm blob = {
+            .matrix = {
+                r, 0, 0,
+                0, g, 0,
+                0, 0, b}};
+        auto tmp = m_ctm;
+        if (drmModeCreatePropertyBlob(gpu()->fd(), &blob, sizeof(blob), &m_ctm) == 0) {
+            setPending(DrmCrtc::PropertyIndex::CTM, m_ctm);
+            if (tmp)
+                drmModeDestroyPropertyBlob(gpu()->fd(), tmp);
+        }
     }
 }
 }

@@ -61,6 +61,7 @@ protected:
     void kde_output_configuration_v2_set_primary_output(Resource *resource, struct ::wl_resource *output) override;
     void kde_output_configuration_v2_set_priority(Resource *resource, wl_resource *output, uint32_t priority) override;
     void kde_output_configuration_v2_brightness(Resource *resource, struct ::wl_resource *outputdevice, int32_t brightness) override;
+    void kde_output_configuration_v2_ctm(Resource *resource, struct ::wl_resource *outputdevice, int32_t red, int32_t green, int32_t blue) override;
 };
 
 OutputManagementV2InterfacePrivate::OutputManagementV2InterfacePrivate(Display *display)
@@ -248,6 +249,16 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_brightness(Reso
     }
     if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice)) {
         config.changeSet(output->handle())->brightness = brightness;
+    }
+}
+
+void OutputConfigurationV2Interface::kde_output_configuration_v2_ctm(Resource *resource, struct ::wl_resource *outputdevice, int32_t r, int32_t g, int32_t b)
+{
+    if (invalid) {
+        return;
+    }
+    if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice)) {
+        config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};;
     }
 }
 

@@ -30,6 +30,7 @@ public:
     Output::RgbRange rgbRange;
     RenderLoop::VrrPolicy vrrPolicy;
     int32_t brightness;
+    Output::CtmValue ctmValue;
 };
 
 class KWIN_EXPORT OutputConfiguration

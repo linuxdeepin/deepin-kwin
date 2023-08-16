@@ -36,6 +36,7 @@ static const QMap<uint32_t, QVector<uint64_t>> legacyCursorFormats = {{DRM_FORMA
 DrmPipeline::DrmPipeline(DrmConnector *conn)
     : m_connector(conn)
 {
+    m_ctmEnabled = qEnvironmentVariableIntValue("KWIN_CTM_ENABLED") == 1;
 }
 
 DrmPipeline::~DrmPipeline()
@@ -306,6 +307,9 @@ void DrmPipeline::prepareAtomicModeset()
     if (needUpdateBrightness()) {
         m_connector->setPending(DrmConnector::PropertyIndex::BrightnessId,  m_pending.brightness);
     }
+    if (needCTM()) {
+        m_pending.crtc->setCTM(m_pending.ctmValue.r, m_pending.ctmValue.g, m_pending.ctmValue.b);
+    }
 }
 
 bool DrmPipeline::populateAtomicValues(drmModeAtomicReq *req)
@@ -554,6 +558,19 @@ bool DrmPipeline::needUpdateBrightness()
     return m_pending.brightness != m_current.brightness;
 }
 
+bool DrmPipeline::needCTM()
+{
+    if (!m_ctmEnabled) {
+        return false;
+    }
+    if (!m_pending.crtc) {
+        return false;
+    }
+    if (!m_pending.crtc->hasCTM()) {
+        return false;
+    }
+    return m_pending.ctmValue != m_current.ctmValue;
+}
 
 bool DrmPipeline::activePending() const
 {
@@ -791,4 +808,15 @@ int32_t DrmPipeline::brightness() const
 {
     return m_pending.brightness;
 }
+
+void DrmPipeline::setCTM(Output::CtmValue ctmValue)
+{
+    m_pending.ctmValue = ctmValue;
+}
+
+Output::CtmValue DrmPipeline::ctmValue() const
+{
+    return m_pending.ctmValue;
+}
+
 }

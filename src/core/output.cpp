@@ -38,6 +38,14 @@ QDebug operator<<(QDebug debug, const Output *output)
     return debug;
 }
 
+bool Output::CtmValue::operator==(const CtmValue &cc) const
+{
+    return r == cc.r && g == cc.g && b == cc.b;
+}
+bool Output::CtmValue::operator!=(const CtmValue &cc) const {
+    return !operator==(cc);
+}
+
 OutputMode::OutputMode(const QSize &size, uint32_t refreshRate, Flags flags)
     : m_size(size)
     , m_refreshRate(refreshRate)
@@ -230,6 +238,8 @@ void Output::applyChanges(const OutputConfiguration &config)
     next.position = props->pos;
     next.scale = props->scale;
     next.rgbRange = props->rgbRange;
+    next.brightness = props->brightness;
+    next.ctmValue = props->ctmValue;
 
     setState(next);
     setVrrPolicy(props->vrrPolicy);
@@ -403,6 +413,11 @@ Output::RgbRange Output::rgbRange() const
 int32_t Output::brightness() const
 {
     return m_state.brightness;
+}
+
+Output::CtmValue Output::ctmValue() const
+{
+    return m_state.ctmValue;
 }
 
 void Output::setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation)

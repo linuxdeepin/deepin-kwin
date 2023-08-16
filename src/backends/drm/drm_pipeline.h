@@ -77,6 +77,7 @@ public:
     void applyPendingChanges();
     void revertPendingChanges();
     bool needUpdateBrightness();
+    bool needCTM();
 
     bool setCursor(const QPoint &hotspot = QPoint());
     bool moveCursor();
@@ -116,6 +117,7 @@ public:
     Output::RgbRange rgbRange() const;
     DrmConnector::DrmContentType contentType() const;
     int32_t brightness() const;
+    Output::CtmValue ctmValue() const;
 
     void setCrtc(DrmCrtc *crtc);
     void setMode(const std::shared_ptr<DrmConnectorMode> &mode);
@@ -130,6 +132,7 @@ public:
     void setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation);
     void setContentType(DrmConnector::DrmContentType type);
     void setBrightness(int32_t brightness);
+    void setCTM(Output::CtmValue ctmValue);
 
     enum class CommitMode {
         Test,
@@ -178,6 +181,8 @@ private:
     bool m_pageflipPending = false;
     bool m_modesetPresentPending = false;
 
+    bool m_ctmEnabled = false;
+
     struct State
     {
         DrmCrtc *crtc = nullptr;
@@ -193,6 +198,7 @@ private:
         std::shared_ptr<DrmGammaRamp> gamma;
         DrmConnector::DrmContentType contentType = DrmConnector::DrmContentType::Graphics;
         int32_t brightness = 60;
+        Output::CtmValue ctmValue;
 
         std::shared_ptr<DrmPipelineLayer> layer;
         std::shared_ptr<DrmOverlayLayer> cursorLayer;

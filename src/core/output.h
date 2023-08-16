@@ -99,6 +99,12 @@ public:
     };
     Q_ENUM(RgbRange)
 
+    struct CtmValue {
+        uint16_t r, g, b;
+        bool operator==(const CtmValue &cv) const;
+        bool operator!=(const CtmValue &cv) const;
+    };
+
     explicit Output(QObject *parent = nullptr);
     ~Output() override;
 
@@ -252,6 +258,7 @@ public:
     RenderLoop::VrrPolicy vrrPolicy() const;
     RgbRange rgbRange() const;
     int32_t brightness() const;
+    CtmValue ctmValue() const;
 
     ContentType contentType() const;
     void setContentType(ContentType contentType);
@@ -351,6 +358,7 @@ protected:
         uint32_t overscan = 0;
         RgbRange rgbRange = RgbRange::Automatic;
         int32_t brightness = 60;
+        CtmValue ctmValue;
     };
 
     void setInformation(const Information &information);
