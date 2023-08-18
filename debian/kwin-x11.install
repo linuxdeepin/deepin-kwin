@@ -1,0 +1,2 @@
+usr/bin/kwin_x11
+usr/lib/systemd/user/plasma-kwin_x11.service
