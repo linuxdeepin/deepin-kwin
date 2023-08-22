@@ -1,3 +1,14 @@
+deepin-kwin (4:5.25.10-kwin.5.24.3) unstable; urgency=medium
+
+  * 8e123163 fix split window
+  * eb3d5155 fix: incorrect window radius of 3rdparty window
+  * a46f3bb1 fix: border color of window is black
+  * aa69c642 fix: black border will appear first and then the interface will appear.
+  * 6d6e739b fix: showing split outline when null active client 
+  * 60dcfb7c fix(workspace): UI freeze
+
+ -- bluesky <lxz@lxz-v23>  Tue, 22 Aug 2023 11:12:13 +0800
+
 deepin-kwin (4:5.25.9-kwin.5.24.3) unstable; urgency=medium
 
   * chore: remove useless service file
