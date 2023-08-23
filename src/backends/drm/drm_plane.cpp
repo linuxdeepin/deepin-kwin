@@ -11,6 +11,7 @@
 
 #include "config-kwin.h"
 
+#include "drm_adaptor.h"
 #include "drm_buffer.h"
 #include "drm_gpu.h"
 #include "drm_logging.h"

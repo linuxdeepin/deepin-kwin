@@ -7,6 +7,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
+#include "drm_adaptor.h"
 #include "drm_connector.h"
 #include "drm_crtc.h"
 #include "drm_gpu.h"

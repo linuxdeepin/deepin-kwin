@@ -1,5 +1,6 @@
 target_sources(kwin PRIVATE
     drm_abstract_output.cpp
+    drm_adaptor.cpp
     drm_backend.cpp
     drm_buffer.cpp
     drm_buffer_gbm.cpp
