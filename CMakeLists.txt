@@ -233,7 +233,7 @@ endif()
 pkg_check_modules(XKBX11 IMPORTED_TARGET xkbcommon-x11 REQUIRED)
 add_feature_info(XKBX11 XKBX11_FOUND "Required for handling keyboard events in X11 backend")
 
-find_package(Libinput 1.19)
+find_package(Libinput 1.12)
 set_package_properties(Libinput PROPERTIES TYPE REQUIRED PURPOSE "Required for input handling on Wayland.")
 
 find_package(UDev)
@@ -244,7 +244,7 @@ set_package_properties(UDev PROPERTIES
     PURPOSE "Required for input handling on Wayland."
 )
 
-find_package(Libdrm 2.4.112)
+find_package(Libdrm 2.4.99)
 set_package_properties(Libdrm PROPERTIES TYPE REQUIRED PURPOSE "Required for drm output on Wayland.")
 
 find_package(gbm)
