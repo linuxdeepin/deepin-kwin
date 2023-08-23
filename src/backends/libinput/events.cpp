@@ -8,6 +8,7 @@
 */
 #include "events.h"
 #include "device.h"
+#include "input_adaptor.h"
 
 #include <QSize>
 
@@ -200,18 +201,20 @@ QVector<InputRedirection::PointerAxis> PointerEvent::axis() const
 
 qreal PointerEvent::scrollValue(InputRedirection::PointerAxis axis) const
 {
+    Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_AXIS);
     const libinput_pointer_axis a = axis == InputRedirection::PointerAxisHorizontal
         ? LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL
         : LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL;
-    return libinput_event_pointer_get_scroll_value(m_pointerEvent, a) * device()->scrollFactor();
+    return libinput_event_pointer_get_axis_value(m_pointerEvent, a) * device()->scrollFactor();
 }
 
 qint32 PointerEvent::scrollValueV120(InputRedirection::PointerAxis axis) const
 {
+    Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_AXIS);
     const libinput_pointer_axis a = (axis == InputRedirection::PointerAxisHorizontal)
         ? LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL
         : LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL;
-    return libinput_event_pointer_get_scroll_value_v120(m_pointerEvent, a);
+    return libinput_event_pointer_get_axis_value(m_pointerEvent, a);
 }
 
 TouchEvent::TouchEvent(libinput_event *event, libinput_event_type type)

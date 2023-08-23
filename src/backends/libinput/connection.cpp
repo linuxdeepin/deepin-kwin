@@ -10,6 +10,7 @@
 #include "context.h"
 #include "device.h"
 #include "events.h"
+#include "input_adaptor.h"
 
 // TODO: Make it compile also in testing environment
 #ifndef KWIN_BUILD_TESTING
