@@ -19,6 +19,7 @@
 #include "drm_output.h"
 #include "drm_shadow_buffer.h"
 #include "egl_dmabuf.h"
+#include "gbm_adaptor.h"
 #include "kwineglutils_p.h"
 #include "scene/surfaceitem_wayland.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"

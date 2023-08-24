@@ -25,6 +25,7 @@
 #include "drm_shadow_buffer.h"
 #include "drm_virtual_egl_layer.h"
 #include "egl_dmabuf.h"
+#include "gbm_adaptor.h"
 #include "gbm_dmabuf.h"
 #include "kwineglutils_p.h"
 #include "linux_dmabuf.h"

@@ -98,7 +98,12 @@ GbmBuffer::~GbmBuffer()
         m_clientBuffer->unref();
     }
     if (m_mapping) {
+#ifdef SUPPORT_FULL_GBM
         gbm_bo_unmap(m_bo, m_mapping);
+#else
+        uint32_t stride = m_strides[0];
+        munmap(m_data, stride * m_size.height());
+#endif
     }
     if (m_surface) {
         m_surface->releaseBuffer(this);
@@ -133,7 +138,15 @@ bool GbmBuffer::map(uint32_t flags)
         return true;
     }
     uint32_t stride = m_strides[0];
+#ifdef SUPPORT_FULL_GBM
     m_data = gbm_bo_map(m_bo, 0, 0, m_size.width(), m_size.height(), flags, &stride, &m_mapping);
+#else
+    int fd = gbm_bo_get_fd(m_bo);
+    m_data = mmap(nullptr, stride * m_size.height(), PROT_WRITE|PROT_READ, MAP_SHARED, fd, 0);
+    if (m_data == MAP_FAILED) {
+        return false;
+    }
+#endif
     return m_data;
 }
 
