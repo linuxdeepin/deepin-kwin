@@ -235,6 +235,17 @@ add_feature_info(XKBX11 XKBX11_FOUND "Required for handling keyboard events in X
 
 find_package(Libinput 1.12)
 set_package_properties(Libinput PROPERTIES TYPE REQUIRED PURPOSE "Required for input handling on Wayland.")
+try_compile(USE_GESTURE_HOLD
+        ${CMAKE_CURRENT_BINARY_DIR}/try_compile
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/libinput_test.cc
+    LINK_LIBRARIES
+        Libinput::Libinput
+)
+
+if(USE_GESTURE_HOLD)
+  add_definitions(-DSUPPORT_GESTURE_HOLD)
+endif()
 
 find_package(UDev)
 set_package_properties(UDev PROPERTIES

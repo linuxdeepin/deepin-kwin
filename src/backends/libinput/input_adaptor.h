@@ -14,6 +14,8 @@ extern "C" {
 
 #include <libinput.h>
 
+#ifndef SUPPORT_GESTURE_HOLD
+
 enum libinput_event_adaptor_type {
     LIBINPUT_EVENT_POINTER_SCROLL_WHEEL = libinput_event_type::LIBINPUT_EVENT_POINTER_AXIS + 1,
     LIBINPUT_EVENT_POINTER_SCROLL_FINGER,
@@ -25,6 +27,8 @@ enum libinput_event_adaptor_type {
 enum libinput_tablet_tool_adaptor_type {
     LIBINPUT_TABLET_TOOL_TYPE_TOTEM = libinput_tablet_tool_type::LIBINPUT_TABLET_TOOL_TYPE_LENS + 1,
 };
+
+#endif
 
 #ifdef __cplusplus
 }
