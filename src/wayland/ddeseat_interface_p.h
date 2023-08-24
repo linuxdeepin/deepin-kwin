@@ -78,7 +78,7 @@ class DDEPointerInterfacePrivate : public QtWaylandServer::dde_pointer
 public:
     static DDEPointerInterfacePrivate *get(DDEPointerInterface *pointer);
 
-    DDEPointerInterfacePrivate(DDEPointerInterface *q, DDESeatInterface *seat, wl_resource *resource);
+    DDEPointerInterfacePrivate(DDEPointerInterface *q, DDESeatInterface *seat);
     ~DDEPointerInterfacePrivate() override;
 
     DDEPointerInterface *q;
@@ -92,7 +92,7 @@ class DDETouchInterfacePrivate : public QtWaylandServer::dde_touch
 {
 public:
     static DDETouchInterfacePrivate *get(DDETouchInterface *touch);
-    DDETouchInterfacePrivate(DDETouchInterface *q, DDESeatInterface *seat, wl_resource *resource);
+    DDETouchInterfacePrivate(DDETouchInterface *q, DDESeatInterface *seat);
     ~DDETouchInterfacePrivate() override;
 
     DDETouchInterface *q;

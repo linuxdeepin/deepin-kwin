@@ -36,9 +36,8 @@ DDEKeyboardInterfacePrivate *DDEKeyboardInterfacePrivate::get(DDEKeyboardInterfa
     return keyboard->d.data();
 }
 
-DDEKeyboardInterfacePrivate::DDEKeyboardInterfacePrivate(DDEKeyboardInterface *q, DDESeatInterface *seat, wl_resource *resource)
-    : QtWaylandServer::dde_keyboard(resource)
-    , q(q)
+DDEKeyboardInterfacePrivate::DDEKeyboardInterfacePrivate(DDEKeyboardInterface *q, DDESeatInterface *seat)
+    : q(q)
     , ddeSeat(seat)
 {
 }
@@ -50,8 +49,8 @@ void DDEKeyboardInterfacePrivate::dde_keyboard_release(Resource *resource)
     wl_resource_destroy(resource->handle);
 }
 
-DDEKeyboardInterface::DDEKeyboardInterface(DDESeatInterface *seat, wl_resource *resource)
-    : d(new DDEKeyboardInterfacePrivate(this, seat, resource))
+DDEKeyboardInterface::DDEKeyboardInterface(DDESeatInterface *seat)
+    : d(new DDEKeyboardInterfacePrivate(this, seat))
 {
 }
 
@@ -69,27 +68,45 @@ void DDEKeyboardInterface::setKeymap(int fd, quint32 size)
 
 void DDEKeyboardInterfacePrivate::sendKeymap(int fd, quint32 size)
 {
-    send_keymap(keymap_format_xkb_v1, fd, size);
+    const auto keyboardResources = resourceMap();
+    for (Resource *resource : keyboardResources) {
+        send_keymap(resource->handle, keymap_format_xkb_v1, fd, size);
+    }
 }
 
 void DDEKeyboardInterfacePrivate::sendModifiers(quint32 depressed, quint32 latched, quint32 locked, quint32 group, quint32 serial)
 {
-    send_modifiers(serial, depressed, latched, locked, group);
+    const auto keyboardResources = resourceMap();
+    for (Resource *resource : keyboardResources) {
+        send_modifiers(resource->handle, serial, depressed, latched, locked, group);
+    }
 }
 
 void DDEKeyboardInterfacePrivate::sendModifiers()
 {
-    sendModifiers(ddeSeat->depressedModifiers(), ddeSeat->latchedModifiers(), ddeSeat->lockedModifiers(), ddeSeat->groupModifiers(), ddeSeat->lastModifiersSerial());
+    sendModifiers(ddeSeat->depressedModifiers(),
+                  ddeSeat->latchedModifiers(),
+                  ddeSeat->lockedModifiers(),
+                  ddeSeat->groupModifiers(),
+                  ddeSeat->lastModifiersSerial());
 }
 
 void DDEKeyboardInterface::keyPressed(quint32 key, quint32 serial)
 {
-    d->send_key(serial, d->ddeSeat->timestamp(), key, QtWaylandServer::dde_keyboard::key_state::key_state_pressed);
+    const auto keyboardResources = d->resourceMap();
+    for (DDEKeyboardInterfacePrivate::Resource *resource : keyboardResources) {
+        d->send_key(resource->handle, serial, d->ddeSeat->timestamp(), key,
+                    QtWaylandServer::dde_keyboard::key_state::key_state_pressed);
+    }
 }
 
 void DDEKeyboardInterface::keyReleased(quint32 key, quint32 serial)
 {
-    d->send_key(serial, d->ddeSeat->timestamp(), key, QtWaylandServer::dde_keyboard::key_state::key_state_released);
+    const auto keyboardResources = d->resourceMap();
+    for (DDEKeyboardInterfacePrivate::Resource *resource : keyboardResources) {
+        d->send_key(resource->handle, serial, d->ddeSeat->timestamp(), key,
+                    QtWaylandServer::dde_keyboard::key_state::key_state_released);
+    }
 }
 
 void DDEKeyboardInterface::updateModifiers(quint32 depressed, quint32 latched, quint32 locked, quint32 group, quint32 serial)
@@ -103,7 +120,10 @@ void DDEKeyboardInterface::repeatInfo(qint32 charactersPerSecond, qint32 delay)
         // only supported since version 4
         return;
     }
-    d->send_repeat_info(charactersPerSecond, delay);
+    const auto keyboardResources = d->resourceMap();
+    for (DDEKeyboardInterfacePrivate::Resource *resource : keyboardResources) {
+        d->send_repeat_info(resource->handle, charactersPerSecond, delay);
+    }
 }
 
 }

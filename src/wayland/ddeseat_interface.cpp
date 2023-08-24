@@ -42,6 +42,9 @@ DDESeatInterfacePrivate::DDESeatInterfacePrivate(DDESeatInterface *q, Display *d
     , q(q)
     , display(d)
 {
+    ddepointer.reset(new DDEPointerInterface(q));
+    ddekeyboard.reset(new DDEKeyboardInterface(q));
+    ddetouch.reset(new DDETouchInterface(q));
 }
 
 DDESeatInterfacePrivate *DDESeatInterfacePrivate::get(DDESeatInterface *ddeseat)
@@ -50,36 +53,18 @@ DDESeatInterfacePrivate *DDESeatInterfacePrivate::get(DDESeatInterface *ddeseat)
 }
 
 void DDESeatInterfacePrivate::dde_seat_get_dde_pointer(Resource *resource, uint32_t id) {
-    if (ddepointer) {
-        DDEPointerInterfacePrivate *pointerPrivate = DDEPointerInterfacePrivate::get(ddepointer.data());
-        pointerPrivate->add(resource->client(), id, resource->version());
-    } else {
-        wl_resource *pointer_resource = wl_resource_create(resource->client(), &dde_pointer_interface, s_ddePointerVersion, id);
-        ddepointer.reset(new DDEPointerInterface(q, pointer_resource));
-        Q_EMIT q->ddePointerCreated(ddepointer.data());
-    }
+    DDEPointerInterfacePrivate *pointerPrivate = DDEPointerInterfacePrivate::get(ddepointer.data());
+    pointerPrivate->add(resource->client(), id, resource->version());
 }
 
 void DDESeatInterfacePrivate::dde_seat_get_dde_keyboard(Resource *resource, uint32_t id) {
-    if (ddekeyboard) {
-        DDEKeyboardInterfacePrivate *keyboardPrivate = DDEKeyboardInterfacePrivate::get(ddekeyboard.data());
-        keyboardPrivate->add(resource->client(), id, resource->version());
-    } else {
-        wl_resource *keyboard_resource = wl_resource_create(resource->client(), &dde_keyboard_interface, s_ddeKeyboardVersion, id);
-        ddekeyboard.reset(new DDEKeyboardInterface(q, keyboard_resource));
-        Q_EMIT q->ddeKeyboardCreated(ddekeyboard.data());
-    }
+    DDEKeyboardInterfacePrivate *keyboardPrivate = DDEKeyboardInterfacePrivate::get(ddekeyboard.data());
+    keyboardPrivate->add(resource->client(), id, resource->version());
 }
 
 void DDESeatInterfacePrivate::dde_seat_get_dde_touch(Resource *resource, uint32_t id) {
-    if (ddetouch) {
-        DDETouchInterfacePrivate *touchPrivate = DDETouchInterfacePrivate::get(ddetouch.data());
-        touchPrivate->add(resource->client(), id, resource->version());
-    } else {
-        wl_resource *touch_resource = wl_resource_create(resource->client(), &dde_touch_interface, s_ddeTouchVersion, id);
-        ddetouch.reset(new DDETouchInterface(q, touch_resource));
-        Q_EMIT q->ddeTouchCreated(ddetouch.data());
-    }
+    DDETouchInterfacePrivate *touchPrivate = DDETouchInterfacePrivate::get(ddetouch.data());
+    touchPrivate->add(resource->client(), id, resource->version());
 }
 
 bool DDESeatInterfacePrivate::updateKey(quint32 key, Keyboard::State state)
@@ -313,9 +298,8 @@ DDEPointerInterfacePrivate *DDEPointerInterfacePrivate::get(DDEPointerInterface 
     return pointer->d.data();
 }
 
-DDEPointerInterfacePrivate::DDEPointerInterfacePrivate(DDEPointerInterface *q, DDESeatInterface *seat, wl_resource *resource)
-    : QtWaylandServer::dde_pointer(resource)
-    , q(q)
+DDEPointerInterfacePrivate::DDEPointerInterfacePrivate(DDEPointerInterface *q, DDESeatInterface *seat)
+    : q(q)
     , ddeSeat(seat)
 {
 }
@@ -326,14 +310,12 @@ DDEPointerInterfacePrivate::~DDEPointerInterfacePrivate()
 
 void DDEPointerInterfacePrivate::dde_pointer_get_motion(Resource *resource)
 {
-    Q_UNUSED(resource)
-
     const QPointF globalPos = ddeSeat->pointerPos();
-    send_motion(wl_fixed_from_double(globalPos.x()), wl_fixed_from_double(globalPos.y()));
+    send_motion(resource->handle, wl_fixed_from_double(globalPos.x()), wl_fixed_from_double(globalPos.y()));
 }
 
-DDEPointerInterface::DDEPointerInterface(DDESeatInterface *seat, wl_resource *resource)
-    : d(new DDEPointerInterfacePrivate(this, seat, resource))
+DDEPointerInterface::DDEPointerInterface(DDESeatInterface *seat)
+    : d(new DDEPointerInterfacePrivate(this, seat))
 {
 }
 
@@ -347,26 +329,41 @@ DDESeatInterface *DDEPointerInterface::ddeSeat() const
 void DDEPointerInterface::buttonPressed(quint32 button)
 {
     const QPointF globalPos = d->ddeSeat->pointerPos();
-    d->send_button(wl_fixed_from_double(globalPos.x()), wl_fixed_from_double(globalPos.y()), button,
-            QtWaylandServer::dde_pointer::button_state::button_state_pressed);
+    const auto pointerResources = d->resourceMap();
+    for (DDEPointerInterfacePrivate::Resource *resource : pointerResources) {
+        d->send_button(resource->handle, wl_fixed_from_double(globalPos.x()),
+                       wl_fixed_from_double(globalPos.y()), button,
+                       QtWaylandServer::dde_pointer::button_state::button_state_pressed);
+    }
 }
 
 void DDEPointerInterface::buttonReleased(quint32 button)
 {
     const QPointF globalPos = d->ddeSeat->pointerPos();
-    d->send_button(wl_fixed_from_double(globalPos.x()), wl_fixed_from_double(globalPos.y()), button,
-            QtWaylandServer::dde_pointer::button_state::button_state_released);
+    const auto pointerResources = d->resourceMap();
+    for (DDEPointerInterfacePrivate::Resource *resource : pointerResources) {
+        d->send_button(resource->handle, wl_fixed_from_double(globalPos.x()),
+                       wl_fixed_from_double(globalPos.y()), button,
+                       QtWaylandServer::dde_pointer::button_state::button_state_released);
+    }
 }
 
 void DDEPointerInterface::axis(Qt::Orientation orientation, qint32 delta)
 {
-    d->send_axis(0, (orientation == Qt::Vertical) ? WL_POINTER_AXIS_VERTICAL_SCROLL : WL_POINTER_AXIS_HORIZONTAL_SCROLL,
-            wl_fixed_from_int(delta));
+    const auto pointerResources = d->resourceMap();
+    for (DDEPointerInterfacePrivate::Resource *resource : pointerResources) {
+        d->send_axis(resource->handle, 0,
+                     (orientation == Qt::Vertical) ? WL_POINTER_AXIS_VERTICAL_SCROLL : WL_POINTER_AXIS_HORIZONTAL_SCROLL,
+                     wl_fixed_from_int(delta));
+    }
 }
 
 void DDEPointerInterface::sendMotion(const QPointF &position)
 {
-    d->send_motion(wl_fixed_from_double(position.x()), wl_fixed_from_double(position.y()));
+    const auto pointerResources = d->resourceMap();
+    for (DDEPointerInterfacePrivate::Resource *resource : pointerResources) {
+        d->send_motion(resource->handle, wl_fixed_from_double(position.x()), wl_fixed_from_double(position.y()));
+    }
 }
 
 /*********************************
@@ -377,9 +374,8 @@ DDETouchInterfacePrivate *DDETouchInterfacePrivate::get(DDETouchInterface *touch
     return touch->d.data();
 }
 
-DDETouchInterfacePrivate::DDETouchInterfacePrivate(DDETouchInterface *q, DDESeatInterface *seat, wl_resource *resource)
-    : QtWaylandServer::dde_touch(resource)
-    , q(q)
+DDETouchInterfacePrivate::DDETouchInterfacePrivate(DDETouchInterface *q, DDESeatInterface *seat)
+    : q(q)
     , ddeSeat(seat)
 {
 }
@@ -391,8 +387,8 @@ void DDETouchInterfacePrivate::dde_touch_release(Resource *resource)
     wl_resource_destroy(resource->handle);
 }
 
-DDETouchInterface::DDETouchInterface(DDESeatInterface *seat, wl_resource *resource)
-    : d(new DDETouchInterfacePrivate(this, seat, resource))
+DDETouchInterface::DDETouchInterface(DDESeatInterface *seat)
+    : d(new DDETouchInterfacePrivate(this, seat))
 {
 }
 
@@ -413,17 +409,28 @@ DDESeatInterface *DDETouchInterface::ddeSeat() const
 
 void DDETouchInterface::touchDown(qint32 id, const QPointF &pos)
 {
-    d->send_down(id, d->ddeSeat->touchtimestamp(), wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
+    const auto toutchResources = d->resourceMap();
+    for (DDETouchInterfacePrivate::Resource *resource : toutchResources) {
+        d->send_down(resource->handle, id, d->ddeSeat->touchtimestamp(),
+                     wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
+    }
 }
 
 void DDETouchInterface::touchMotion(qint32 id, const QPointF &pos)
 {
-    d->send_motion(id, d->ddeSeat->touchtimestamp(), wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
+    const auto toutchResources = d->resourceMap();
+    for (DDETouchInterfacePrivate::Resource *resource : toutchResources) {
+        d->send_motion(resource->handle, id, d->ddeSeat->touchtimestamp(),
+                       wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
+    }
 }
 
 void DDETouchInterface::touchUp(qint32 id)
 {
-    d->send_up(id, d->ddeSeat->touchtimestamp());
+    const auto toutchResources = d->resourceMap();
+    for (DDETouchInterfacePrivate::Resource *resource : toutchResources) {
+        d->send_up(resource->handle, id, d->ddeSeat->touchtimestamp());
+    }
 }
 
 }
