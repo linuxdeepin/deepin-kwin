@@ -8,6 +8,8 @@
 */
 #include "drm_adaptor.h"
 
+#ifndef SUPPORT_DRM_ITERATOR
+
 static inline const uint32_t *
 get_formats_ptr(const struct drm_format_modifier_blob *blob)
 {
@@ -70,6 +72,39 @@ static bool _drmModeFormatModifierGetNext(const drmModePropertyBlobRes *blob,
     return true;
 }
 
+bool drmModeFormatModifierBlobIterNext(const drmModePropertyBlobRes *blob,
+                                       drmModeFormatModifierIterator *iter)
+{
+    drmModeFormatModifierIterator tmp;
+    bool has_fmt;
+
+    if (!blob || !iter)
+        return false;
+
+    tmp.fmt_idx = iter->fmt_idx;
+    tmp.mod_idx = iter->mod_idx;
+
+    /* With the current state of things, DRM/KMS drivers are allowed to
+     * construct blobs having formats and no modifiers. Userspace can't
+     * legitimately abort in such cases.
+     *
+     * While waiting for the kernel to perhaps disallow formats with no
+     * modifiers in IN_FORMATS blobs, skip the format altogether.
+     */
+    do {
+        has_fmt = _drmModeFormatModifierGetNext(blob, &tmp);
+        if (has_fmt && tmp.mod != DRM_FORMAT_MOD_INVALID)
+            *iter = tmp;
+
+    } while (has_fmt && tmp.mod == DRM_FORMAT_MOD_INVALID);
+
+    return has_fmt;
+}
+
+#endif
+
+#ifndef DSUPPORT_DRM_TYPENAME
+
 const char *drmModeGetConnectorTypeName(uint32_t connector_type)
 {
     switch (connector_type) {
@@ -120,31 +155,4 @@ const char *drmModeGetConnectorTypeName(uint32_t connector_type)
     }
 }
 
-bool drmModeFormatModifierBlobIterNext(const drmModePropertyBlobRes *blob,
-                                       drmModeFormatModifierIterator *iter)
-{
-    drmModeFormatModifierIterator tmp;
-    bool has_fmt;
-
-    if (!blob || !iter)
-        return false;
-
-    tmp.fmt_idx = iter->fmt_idx;
-    tmp.mod_idx = iter->mod_idx;
-
-    /* With the current state of things, DRM/KMS drivers are allowed to
-     * construct blobs having formats and no modifiers. Userspace can't
-     * legitimately abort in such cases.
-     *
-     * While waiting for the kernel to perhaps disallow formats with no
-     * modifiers in IN_FORMATS blobs, skip the format altogether.
-     */
-    do {
-        has_fmt = _drmModeFormatModifierGetNext(blob, &tmp);
-        if (has_fmt && tmp.mod != DRM_FORMAT_MOD_INVALID)
-            *iter = tmp;
-
-    } while (has_fmt && tmp.mod == DRM_FORMAT_MOD_INVALID);
-
-    return has_fmt;
-}
+#endif

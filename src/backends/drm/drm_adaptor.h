@@ -28,6 +28,9 @@ extern "C" {
 
 #include <xf86drm.h>
 #include <xf86drmMode.h>
+#include <libdrm/drm_mode.h>
+
+#ifndef SUPPORT_DRM_ITERATOR
 
 #define DRM_MODE_CONNECTOR_WRITEBACK 18
 #define DRM_MODE_CONNECTOR_SPI 19
@@ -66,10 +69,15 @@ typedef struct _drmModeFormatModifierIterator
     uint64_t mod;
 } drmModeFormatModifierIterator;
 
-const char *drmModeGetConnectorTypeName(uint32_t connector_type);
-
 bool drmModeFormatModifierBlobIterNext(const drmModePropertyBlobRes *blob,
                                        drmModeFormatModifierIterator *iter);
+
+#endif
+
+#ifndef DSUPPORT_DRM_TYPENAME
+const char *drmModeGetConnectorTypeName(uint32_t connector_type);
+#endif
+
 #if defined(__cplusplus)
 }
 #endif

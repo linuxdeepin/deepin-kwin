@@ -260,6 +260,42 @@ else()
     set(HAVE_GBM_BO_CREATE_WITH_MODIFIERS2 0)
 endif()
 
+try_compile(USE_FULL_GBM
+        ${CMAKE_CURRENT_BINARY_DIR}/try_compile
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/gbm_test.cc
+    LINK_LIBRARIES
+        gbm::gbm
+)
+
+if(USE_FULL_GBM)
+  add_definitions(-DSUPPORT_FULL_GBM)
+endif()
+
+try_compile(USE_DRM_TYPENAME
+        ${CMAKE_CURRENT_BINARY_DIR}/try_compile
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/drm_test.cc
+    LINK_LIBRARIES
+        Libdrm::Libdrm
+)
+
+if(USE_DRM_TYPENAME)
+  add_definitions(-DSUPPORT_DRM_TYPENAME)
+endif()
+
+try_compile(USE_DRM_ITERATOR
+        ${CMAKE_CURRENT_BINARY_DIR}/try_compile
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/drm_iterator_test.cc
+    LINK_LIBRARIES
+        Libdrm::Libdrm
+)
+
+if(USE_DRM_ITERATOR)
+  add_definitions(-DSUPPORT_DRM_ITERATOR)
+endif()
+
 pkg_check_modules(Libxcvt IMPORTED_TARGET libxcvt>=0.1.1 REQUIRED)
 add_feature_info(Libxcvt Libxcvt_FOUND "Required for generating modes in the drm backend")
 

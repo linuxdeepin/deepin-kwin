@@ -16,6 +16,8 @@
 #include "drm_pipeline.h"
 #include "drm_pointer.h"
 
+#include <xf86drmMode.h>
+
 #include <cerrno>
 #include <cstring>
 #include <libxcvt/libxcvt.h>

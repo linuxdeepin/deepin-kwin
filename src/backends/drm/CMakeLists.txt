@@ -1,17 +1,3 @@
-try_compile(USE_FULL_GBM
-        ${CMAKE_CURRENT_BINARY_DIR}/try_compile
-    SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/gbm_test.cc
-    LINK_LIBRARIES
-        gbm::gbm
-)
-
-message(STATUS "check FULL_GBM: ${USE_FULL_GBM}")
-
-if(USE_FULL_GBM)
-  add_definitions(-DSUPPORT_FULL_GBM)
-endif()
-
 target_sources(kwin PRIVATE
     drm_abstract_output.cpp
     drm_adaptor.cpp
