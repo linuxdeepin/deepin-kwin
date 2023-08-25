@@ -120,6 +120,11 @@ void Chameleon::init()
     connect(m_theme, &ChameleonWindowTheme::windowPixelRatioChanged, this, &Chameleon::updateTitleBarArea);
 
     connect(global_config, &ChameleonConfig::appearanceChanged, this, &Chameleon::onAppearanceChanged);
+    connect(global_config, &ChameleonConfig::globalWindowRadiusChanged, this, [=]() {
+        updateShadow();
+        updateBorderPath();
+        updateTitleBarArea();
+    });
 
     QTimer::singleShot(0, this, [=] {
         if (QDBusInterface interface("org.deepin.dde.Appearance1",
@@ -277,6 +282,10 @@ QPointF Chameleon::windowRadius() const
     if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
         return m_theme->windowRadius();
     }
+
+    auto globalWindowRadius = ChameleonConfig::instance()->globalWindowRadius();
+    if (globalWindowRadius != ChameleonConfig::InvalidRadius)
+        return globalWindowRadius;
 
     return m_config.radius * getScaleFactor();
 }
@@ -636,20 +645,10 @@ void Chameleon::updateShadow()
 {
     // TODO: should use std::options to check m_config valid?
     if (settings()->isAlphaChannelSupported()) {
-        if (m_theme->validProperties() == ChameleonWindowTheme::PropertyFlags()) {
-            return setShadow(ChameleonShadow::instance()->getShadow(m_config, getScaleFactor()));
-        }
-
-        qreal scale = getScaleFactor();
-        QPointF maxWindowRadius;
         // 优先使用窗口自己设置的属性
-        if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
-            m_config.radius = m_theme->windowRadius();
-            auto w = effect();
-            maxWindowRadius = QPointF(w->width() / 2.0, w->height() / 2.0);
-            // 这里的数据是已经缩放过的，因此scale值需要为1
-            scale = 1.0;
-        }
+        m_config.radius = windowRadius();
+        auto w = effect();
+        QPointF maxWindowRadius = QPointF(w->width() / 2.0, w->height() / 2.0);
 
         if (m_theme->propertyIsValid(ChameleonWindowTheme::BorderWidthProperty)) {
             m_config.borderConfig.borderWidth = m_theme->borderWidth();
@@ -671,7 +670,8 @@ void Chameleon::updateShadow()
             m_config.shadowConfig.shadowColor = m_theme->shadowColor();
         }
 
-        setShadow(ChameleonShadow::instance()->getShadow(m_config, scale, maxWindowRadius));
+        // 这里的数据是已经缩放过的，因此scale值需要为1
+        setShadow(ChameleonShadow::instance()->getShadow(m_config, 1.0, maxWindowRadius));
     }
 }
 

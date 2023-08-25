@@ -60,6 +60,7 @@ public:
     };
 
     static ChameleonConfig *instance();
+    static const QPointF InvalidRadius;
 
     quint32 atomDeepinChameleon() const;
     quint32 atomDeepinNoTitlebar() const;
@@ -70,6 +71,7 @@ public:
     QString theme() const;
 
     qreal screenScaleFactor() const;
+    QPointF globalWindowRadius() const;
 
 public Q_SLOTS:
     bool setTheme(QString theme);
@@ -82,6 +84,7 @@ Q_SIGNALS:
     void windowScissorWindowPropertyChanged(quint32 windowId);
     void windowTypeChanged(QObject *window);
     void screenScaleFactorChanged(qreal scale);
+    void globalWindowRadiusChanged(QPointF radius);
     void appearanceChanged(const QString& key, const QString& value);
 
 protected:
@@ -99,6 +102,7 @@ private Q_SLOTS:
 
     void onAppearanceChanged(const QString& key, const QString& value);
     void onScreenScaleFactorChanged(QDBusPendingCallWatcher *watcher);
+    void onFetchingWindowRadiusFinished(QDBusPendingCallWatcher *watcher);
 
     void updateWindowNoBorderProperty(QObject *window);
     void updateWindowBlurArea(KWin::EffectWindow *window, int role);
@@ -129,6 +133,8 @@ private:
     void enforceWindowProperties(QObject *client);
     void enforcePropertiesForWindows(bool enable);
     bool setWindowOverrideType(QObject *client, bool enable);
+    void setGlobalWindowRadius(QPointF radius);
+    void setGlobalWindowRadius(qreal radius);
 
     bool m_activated = false;
     QString m_theme;
@@ -141,6 +147,7 @@ private:
     quint32 m_atom_net_wm_window_type;
 
     qreal m_scaleFactor;
+    QPointF m_globalWindowRadius;
 
     QMap<QString, X11Shadow*> m_x11ShadowCache;
     QHash<QObject*, quint32> m_pendingWindows;

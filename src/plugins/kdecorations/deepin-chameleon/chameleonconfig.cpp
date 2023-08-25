@@ -27,6 +27,7 @@
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
 #include <QDBusPendingCallWatcher>
+#include <QDBusServiceWatcher>
 
 #include <qglobal.h>
 #include <xcb/xcb.h>
@@ -39,9 +40,12 @@ using namespace KWin;
 
 Q_DECLARE_METATYPE(QPainterPath)
 
+const QPointF ChameleonConfig::InvalidRadius = QPointF{-1, -1};
+
 ChameleonConfig::ChameleonConfig(QObject *parent)
     : QObject(parent)
     , m_scaleFactor(1)
+    , m_globalWindowRadius(InvalidRadius)
 {
     m_atom_deepin_chameleon = KWinUtils::internAtom(_DEEPIN_CHAMELEON, false);
     m_atom_deepin_no_titlebar = KWinUtils::internAtom(_DEEPIN_NO_TITLEBAR, false);
@@ -189,12 +193,14 @@ void ChameleonConfig::updateWindowRadius()
         return;
     }
 
+    QPointF window_radius = m_globalWindowRadius;
+
     const QVariant client_radius = window->property("windowRadius");
-    if (!client_radius.isValid()) {
-        return;
+    if (client_radius.isValid()) {
+        window_radius = client_radius.toPointF();
     }
-    QPointF window_radius = client_radius.toPointF();
-    if (window_radius.isNull()) {
+
+    if (window_radius == InvalidRadius || window_radius.isNull()) {
         return;
     }
 
@@ -340,13 +346,13 @@ void ChameleonConfig::onWindowShapeChanged(quint32 windowId)
 
 void ChameleonConfig::onAppearanceChanged(const QString& key, const QString& value)
 {
-    Q_EMIT appearanceChanged(key, value);
-
-    if (key.toLower() != "gtk") {
-        return;
+    if (key.toLower() == "gtk") {
+        QMetaObject::invokeMethod(this, &ChameleonConfig::onConfigChanged, Qt::QueuedConnection);
     }
 
-    QMetaObject::invokeMethod(this, &ChameleonConfig::onConfigChanged, Qt::QueuedConnection);
+    if (key.toLower() == "windowradius") {
+        setGlobalWindowRadius(value.toDouble());
+    }
 }
 
 void ChameleonConfig::onScreenScaleFactorChanged(QDBusPendingCallWatcher *watcher)
@@ -358,6 +364,31 @@ void ChameleonConfig::onScreenScaleFactorChanged(QDBusPendingCallWatcher *watche
     }
 
     watcher->deleteLater();
+}
+
+void ChameleonConfig::onFetchingWindowRadiusFinished(QDBusPendingCallWatcher *watcher)
+{
+    QDBusPendingReply<QVariant> reply = *watcher;
+    if (!reply.isError()) {
+        setGlobalWindowRadius(reply.value().toInt());
+    } else {
+        qCCritical(CHAMELEON) << "Cannot fetch global window radius from appearance:" << reply.error();
+    }
+
+    watcher->deleteLater();
+}
+
+void ChameleonConfig::setGlobalWindowRadius(QPointF radius)
+{
+    if (radius != m_globalWindowRadius) {
+        m_globalWindowRadius = radius;
+        Q_EMIT globalWindowRadiusChanged(m_globalWindowRadius);
+    }
+}
+
+void ChameleonConfig::setGlobalWindowRadius(qreal radius)
+{
+    setGlobalWindowRadius({radius, radius});
 }
 
 void ChameleonConfig::updateWindowNoBorderProperty(QObject *window)
@@ -608,6 +639,10 @@ void ChameleonConfig::updateClientWindowRadius(QObject *client)
     }
 
     window_radius *= window_theme->windowPixelRatio();
+
+    if (m_globalWindowRadius != InvalidRadius) {
+        window_radius = m_globalWindowRadius;
+    }
 
     if (window_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
         // 如果窗口自定义设置了圆角大小
@@ -948,32 +983,31 @@ void ChameleonConfig::init()
 
     onConfigChanged();
 
-    auto bindAppearance = [=] {
+    QDBusServiceWatcher *watcher = new QDBusServiceWatcher("org.deepin.dde.Appearance1",
+                                                        QDBusConnection::sessionBus(),
+                                                        QDBusServiceWatcher::WatchForOwnerChange,
+                                                        this);
+    connect(watcher, &QDBusServiceWatcher::serviceOwnerChanged, this, [=] {
         static QDBusInterface interface("org.deepin.dde.Appearance1",
                                         "/org/deepin/dde/Appearance1",
                                         "org.deepin.dde.Appearance1");
-        if (!interface.isValid()) {
+        static QDBusInterface properties("org.deepin.dde.Appearance1",
+                                        "/org/deepin/dde/Appearance1",
+                                        "org.freedesktop.DBus.Properties");
+        if (!interface.isValid() || !properties.isValid()) {
             return;
         }
-
-        QObject::connect(&interface, SIGNAL(Changed(QString, QString)), this, SLOT(onAppearanceChanged(QString, QString)));
+        QObject::connect(&interface, SIGNAL(Changed(QString,QString)), this, SLOT(onAppearanceChanged(QString,QString)));
+        QObject::connect(&interface, SIGNAL(Changed(QString,QString)), this, SIGNAL(appearanceChanged(QString,QString)));
+        QDBusPendingCall radius = properties.asyncCall(QLatin1String("Get"), "org.deepin.dde.Appearance1", "WindowRadius");
+        QDBusPendingCallWatcher *radiusWatcher = new QDBusPendingCallWatcher(radius, this);
+        QObject::connect(radiusWatcher, &QDBusPendingCallWatcher::finished, this, &ChameleonConfig::onFetchingWindowRadiusFinished);
 
         QDBusPendingCall call = interface.asyncCall("GetScaleFactor");
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(call, this);
         QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
                          this, SLOT(onScreenScaleFactorChanged(QDBusPendingCallWatcher*)));
-    };
-
-    connect(QDBusConnection::sessionBus().interface(),
-             &QDBusConnectionInterface::serviceOwnerChanged,
-             this,
-             [=](const QString &name, const QString &, const QString &newOwner) {
-                 if (newOwner.isEmpty() || name != "org.deepin.dde.Appearance1") {
-                     return;
-                 }
-                 bindAppearance();
     });
-
 }
 
 void ChameleonConfig::setActivated(const bool active)
@@ -1421,4 +1455,8 @@ bool ChameleonConfig::setWindowOverrideType(QObject *client, bool enable)
     }
 
     return false;
+}
+
+QPointF ChameleonConfig::globalWindowRadius() const {
+    return m_globalWindowRadius;
 }
