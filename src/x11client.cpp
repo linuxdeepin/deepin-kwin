@@ -46,6 +46,7 @@
 #include <QFileInfo>
 #include <QMouseEvent>
 #include <QProcess>
+#include <QThread>
 // xcb
 #include <xcb/xcb_icccm.h>
 // system
@@ -1308,6 +1309,11 @@ bool X11Client::userCanSetNoBorder() const
 
 void X11Client::setNoBorder(bool set)
 {
+    if (!effects){
+        // TODO: Consider using a non-blocking delay mechanism to avoid thread blocking.
+        const int delayMilliseconds = 200;
+        QThread::msleep(delayMilliseconds);
+    }
     if (!userCanSetNoBorder())
         return;
     set = rules()->checkNoBorder(set);
