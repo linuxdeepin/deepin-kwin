@@ -91,7 +91,7 @@
     },
     "border": {
       "width": 1,
-      "color": "#20000000"
+      "color": "#e0e0e0"
     },
     "rounded-corner-radius": "18,18",
     "blur": 10,
@@ -191,7 +191,7 @@
     },
     "border": {
       "width": 1,
-      "color": "#0F000000"
+      "color": "#e0e0e0"
     },
     "rounded-corner-radius": "18,18",
     "blur": 10,
