@@ -350,7 +350,7 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::doRenderTestBuffer(Surface &
 std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importBuffer(Surface &surface, const std::shared_ptr<GbmBuffer> &sourceBuffer) const
 {
     if (m_bufferTarget == BufferTarget::Dumb || surface.importMode == MultiGpuImportMode::DumbBuffer) {
-        return importWithCpu(surface, sourceBuffer.get());
+        return importWithCpu(surface, sourceBuffer.get(), true);
     } else if (m_gpu != m_eglBackend->gpu()) {
         return importDmabuf(sourceBuffer.get());
     } else {
@@ -376,10 +376,10 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importDmabuf(GbmBuffer *sour
     return ret;
 }
 
-std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithCpu(Surface &surface, GbmBuffer *sourceBuffer) const
+std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithCpu(Surface &surface, GbmBuffer *sourceBuffer, bool isDump) const
 {
     Q_ASSERT(surface.importSwapchain && !surface.importSwapchain->isEmpty());
-    if (!sourceBuffer->map(GBM_BO_TRANSFER_READ)) {
+    if (!sourceBuffer->map(GBM_BO_TRANSFER_READ, isDump)) {
         qCWarning(KWIN_DRM, "mapping a %s gbm_bo failed: %s", formatName(sourceBuffer->format()).name, strerror(errno));
         return nullptr;
     }

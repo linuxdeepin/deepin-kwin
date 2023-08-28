@@ -280,7 +280,7 @@ try_compile(USE_FULL_GBM
 )
 
 if(USE_FULL_GBM)
-  add_definitions(-DSUPPORT_FULL_GBM)
+#  add_definitions(-DSUPPORT_FULL_GBM)
 endif()
 
 try_compile(USE_DRM_TYPENAME

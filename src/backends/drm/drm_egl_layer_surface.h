@@ -83,7 +83,7 @@ private:
     std::shared_ptr<DrmFramebuffer> doRenderTestBuffer(Surface &surface) const;
     std::shared_ptr<DrmFramebuffer> importBuffer(Surface &surface, const std::shared_ptr<GbmBuffer> &sourceBuffer) const;
     std::shared_ptr<DrmFramebuffer> importDmabuf(GbmBuffer *sourceBuffer) const;
-    std::shared_ptr<DrmFramebuffer> importWithCpu(Surface &surface, GbmBuffer *sourceBuffer) const;
+    std::shared_ptr<DrmFramebuffer> importWithCpu(Surface &surface, GbmBuffer *sourceBuffer, bool isDump = false) const;
 
     Surface m_surface;
     Surface m_oldSurface;

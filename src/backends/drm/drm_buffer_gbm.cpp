@@ -134,16 +134,27 @@ uint32_t GbmBuffer::flags() const
     return m_flags;
 }
 
-bool GbmBuffer::map(uint32_t flags)
+bool GbmBuffer::map(uint32_t flags, bool isDump)
 {
     if (m_data) {
         return true;
     }
     uint32_t stride = m_strides[0];
     int fd = gbm_bo_get_fd(m_bo);
-    m_data = mmap(nullptr, stride * m_size.height(), PROT_WRITE|PROT_READ, MAP_SHARED, fd, 0);
+    uint32_t offset = gbm_bo_get_offset(m_bo, 0);
+
+    if (isDump) {
+        drm_mode_map_dumb mapArgs;
+        memset(&mapArgs, 0, sizeof mapArgs);
+        mapArgs.handle = m_handles[0];
+        if (drmIoctl(fd, DRM_IOCTL_MODE_MAP_DUMB, &mapArgs) != 0) {
+            return false;
+        }
+        offset = mapArgs.offset;
+    }
+    m_data = mmap(nullptr, stride * m_size.height(), flags, MAP_SHARED, fd, offset);
     if (m_data != MAP_FAILED) {
-        return m_data;
+        return true;
     }
 #ifdef SUPPORT_FULL_GBM
     m_data = gbm_bo_map(m_bo, 0, 0, m_size.width(), m_size.height(), flags, &stride, &m_mapping);
