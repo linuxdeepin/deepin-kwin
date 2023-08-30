@@ -26,6 +26,7 @@ set(kwin_EFFECTSLIB_SRCS
     anidata.cpp
     kwinanimationeffect.cpp
     kwineffects.cpp
+    kwineffectsex.cpp
     kwinoffscreeneffect.cpp
     kwinoffscreenquickview.cpp
     kwinquickeffect.cpp

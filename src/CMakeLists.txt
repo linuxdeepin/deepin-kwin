@@ -187,6 +187,8 @@ target_sources(kwin PRIVATE
     xdgshellwindow.cpp
     xkb.cpp
     xwaylandwindow.cpp
+    splitscreen/splitmanage.cpp
+    splitscreen/splitbar.cpp
 )
 
 target_link_libraries(kwin

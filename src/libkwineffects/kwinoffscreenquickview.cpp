@@ -684,6 +684,9 @@ void OffscreenQuickScene::setSource(const QUrl &source, const QVariantMap &initi
         qCWarning(LIBKWINEFFECTS) << "Root object of effect quick view" << source << "is not a QQuickItem";
         return;
     }
+    for (auto it = initialProperties.begin(); it != initialProperties.end(); ++it) {
+        item->setProperty(it.key().toStdString().c_str(), it.value());
+    }
 
     qmlObject.release();
     d->quickItem.reset(item);

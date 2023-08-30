@@ -33,7 +33,7 @@ public:
     bool isOutline() const override;
     bool isUnmanaged() const override;
 
-    QString captionNormal() const override { return {}; }
+    QString captionNormal() const override { return wm_name; }
     QString captionSuffix() const override { return {}; }
     bool isCloseable() const override { return false; }
     bool isShown() const override { return false; }
@@ -73,8 +73,10 @@ private:
     void checkOutput();
     void associate();
     void initialize();
+    QString readName();
     bool m_outline = false;
     bool m_scheduledRelease = false;
+    QString wm_name;
 };
 
 } // namespace

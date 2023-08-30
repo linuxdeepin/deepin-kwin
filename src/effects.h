@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "kwineffects.h"
+#include "kwineffectsex.h"
 
 #include "kwinoffscreenquickview.h"
 #include "scene/workspacescene.h"
@@ -44,7 +44,7 @@ class TabletEvent;
 class TabletPadId;
 class TabletToolId;
 
-class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandler
+class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandlerEx
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Effects")
@@ -168,6 +168,7 @@ public:
     bool decorationsHaveAlpha() const override;
 
     std::unique_ptr<EffectFrame> effectFrame(EffectFrameStyle style, bool staticSize, const QPoint &position, Qt::Alignment alignment) const override;
+    std::unique_ptr<EffectFrameEx> effectFrameEx(QString url, bool staticSize, const QPoint &position, Qt::Alignment alignment) const override;
 
     QVariant kwinOption(KWinOption kwopt) override;
     bool isScreenLocked() const override;
@@ -261,6 +262,9 @@ public:
 
     KWin::EffectWindow *inputPanel() const override;
     bool isInputPanelOverlay() const override;
+
+    int getQuickTileMode(KWin::EffectWindow *w) override;
+    void setQuickTileWindow(KWin::EffectWindow *w, int mode) override;
 
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow *from, EffectWindow *to);
@@ -537,8 +541,14 @@ class EffectFrameQuickScene : public OffscreenQuickScene
     Q_PROPERTY(bool crossFadeEnabled READ crossFadeEnabled NOTIFY crossFadeEnabledChanged)
     Q_PROPERTY(qreal crossFadeProgress READ crossFadeProgress NOTIFY crossFadeProgressChanged)
 
+    Q_PROPERTY(QColor color READ color NOTIFY colorChanged)
+    Q_PROPERTY(int radius READ radius NOTIFY radiusChanged)
+    Q_PROPERTY(QSize size READ size NOTIFY sizeChanged)
+
 public:
     EffectFrameQuickScene(EffectFrameStyle style, bool staticSize, QPoint position,
+                          Qt::Alignment alignment, QObject *parent = nullptr);
+    EffectFrameQuickScene(QString url, bool staticSize, QPoint position,
                           Qt::Alignment alignment, QObject *parent = nullptr);
     ~EffectFrameQuickScene() override;
 
@@ -580,6 +590,18 @@ public:
     QPoint position() const;
     void setPosition(const QPoint &point);
 
+    void setColor(QColor &color);
+    QColor &color();
+    Q_SIGNAL void colorChanged();
+
+    void setRadius(int radius);
+    int &radius();
+    Q_SIGNAL void radiusChanged();
+
+    void setSize(QSize &size);
+    QSize &size();
+    Q_SIGNAL void sizeChanged();
+
 private:
     void reposition();
 
@@ -598,15 +620,21 @@ private:
     qreal m_frameOpacity = 0.0;
     bool m_crossFadeEnabled = false;
     qreal m_crossFadeProgress = 0.0;
+    QColor m_color;
+    int m_radius;
+    QSize m_size;
+
 };
 
 class KWIN_EXPORT EffectFrameImpl
     : public QObject,
-      public EffectFrame
+      public EffectFrameEx
 {
     Q_OBJECT
 public:
     explicit EffectFrameImpl(EffectFrameStyle style, bool staticSize = true, QPoint position = QPoint(-1, -1),
+                             Qt::Alignment alignment = Qt::AlignCenter);
+    explicit EffectFrameImpl(QString url, bool staticSize = true, QPoint position = QPoint(-1, -1),
                              Qt::Alignment alignment = Qt::AlignCenter);
     ~EffectFrameImpl() override;
 
@@ -630,6 +658,11 @@ public:
     void enableCrossFade(bool enable) override;
     qreal crossFadeProgress() const override;
     void setCrossFadeProgress(qreal progress) override;
+
+    void  setColor(QColor &color) override;
+    QColor &color() const override;
+    void setRadius(int radius) override;
+    int &radius() override;
 
 private:
     Q_DISABLE_COPY(EffectFrameImpl) // As we need to use Qt slots we cannot copy this class

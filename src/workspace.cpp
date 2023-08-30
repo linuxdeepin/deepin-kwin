@@ -60,6 +60,7 @@
 #include "wayland_server.h"
 #include "xwaylandwindow.h"
 #include "xdgshellwindow.h"
+#include "splitscreen/splitmanage.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -131,6 +132,7 @@ Workspace::Workspace()
     , m_focusChain(std::make_unique<FocusChain>())
     , m_applicationMenu(std::make_unique<ApplicationMenu>())
     , m_placementTracker(std::make_unique<PlacementTracker>(this))
+    , m_splitManage(std::make_unique<SplitManage>())
 {
     // If KWin was already running it saved its configuration after loosing the selection -> Reread
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -268,6 +270,9 @@ void Workspace::init()
     if (auto server = waylandServer()) {
         connect(server, &WaylandServer::windowAdded, this, &Workspace::addWaylandWindow);
         connect(server, &WaylandServer::windowRemoved, this, &Workspace::removeWaylandWindow);
+
+        // connect(server, &WaylandServer::windowAdded, m_splitManage.get(), &SplitManage::add);
+        // connect(server, &WaylandServer::windowRemoved, m_splitManage.get(), &SplitManage::remove);
     }
 
     // broadcast that Workspace is ready, but first process all events.
@@ -277,6 +282,12 @@ void Workspace::init()
 
     connect(this, &Workspace::windowAdded, m_placementTracker.get(), &PlacementTracker::add);
     connect(this, &Workspace::windowRemoved, m_placementTracker.get(), &PlacementTracker::remove);
+
+    connect(this, &Workspace::windowAdded, m_splitManage.get(), &SplitManage::add);
+    connect(this, &Workspace::windowRemoved, m_splitManage.get(), &SplitManage::remove);
+    connect(this, &Workspace::unmanagedAdded, m_splitManage.get(), &SplitManage::add);
+    connect(this, &Workspace::internalWindowAdded, m_splitManage.get(), &SplitManage::add);
+
     m_placementTracker->init(getPlacementTrackerHash());
 }
 
@@ -1094,7 +1105,6 @@ void Workspace::addWaylandWindow(Window *window)
 {
     setupWindowConnections(window);
     window->updateLayer();
-
     if (window->isPlaceable()) {
         const QRectF area = clientArea(PlacementArea, window, activeOutput());
         bool placementDone = false;
@@ -3427,5 +3437,10 @@ Activities *Workspace::activities() const
     return m_activities.get();
 }
 #endif
+
+SplitManage *Workspace::getSplitManage() const
+{
+    return m_splitManage.get();
+}
 
 } // namespace

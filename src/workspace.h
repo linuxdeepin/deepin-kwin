@@ -81,6 +81,7 @@ class PlaceholderOutput;
 class Placement;
 class OutputConfiguration;
 class TileManager;
+class SplitManage;
 
 typedef KWaylandServer::ClientManagementInterface::WindowState WindowState;
 
@@ -487,6 +488,7 @@ public:
 #endif
 
     KWaylandServer::DDEShellSurfaceInterface* getDDEShellSurface(KWin::Window* c);
+    SplitManage *getSplitManage() const;
 
     /**
      * Apply the requested output configuration. Note that you must use this function
@@ -800,6 +802,7 @@ private:
     PlaceholderOutput *m_placeholderOutput = nullptr;
     std::unique_ptr<PlaceholderInputEventFilter> m_placeholderFilter;
     std::map<Output *, std::unique_ptr<TileManager>> m_tileManagers;
+    std::unique_ptr<SplitManage> m_splitManage;
 
 private:
     friend bool performTransiencyCheck();

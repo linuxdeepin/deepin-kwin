@@ -116,12 +116,13 @@ bool Unmanaged::track(xcb_window_t w)
     m_visual = attr->visual;
     bit_depth = geo->depth;
     info = new NETWinInfo(kwinApp()->x11Connection(), w, kwinApp()->x11RootWindow(),
-                          NET::WMWindowType | NET::WMPid,
+                          NET::WMWindowType | NET::WMPid | NET::WMName,
                           NET::WM2Opacity | NET::WM2WindowRole | NET::WM2WindowClass | NET::WM2OpaqueRegion);
     setOpacity(info->opacityF());
     getResourceClass();
     getWmClientLeader();
     getWmClientMachine();
+    wm_name = readName();
     if (Xcb::Extensions::self()->isShapeAvailable()) {
         xcb_shape_select_input(kwinApp()->x11Connection(), w, true);
     }
@@ -234,5 +235,12 @@ void Unmanaged::damageNotifyEvent()
         item->processDamage();
     }
 }
+
+QString Unmanaged::readName()
+{
+    QString str = QString::fromUtf8(info->name());
+    return str.mid(0, str.indexOf("—")).simplified();
+}
+
 
 } // namespace

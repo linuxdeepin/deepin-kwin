@@ -80,6 +80,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
+#include "splitscreen/splitmanage.h"
 
 #include <array>
 
@@ -162,6 +163,10 @@ void Workspace::propagateWindows(bool propagate_new_windows)
     newWindowStack.reserve(newWindowStack.size() + 2 * stacking_order.size()); // *2 for inputWindow
 
     for (int i = stacking_order.size() - 1; i >= 0; --i) {
+        if (stacking_order.at(i)->caption().contains("splitbar")) {
+            newWindowStack << stacking_order.at(i)->frameId();
+        }
+
         X11Window *window = qobject_cast<X11Window *>(stacking_order.at(i));
         if (!window || window->hiddenPreview()) {
             continue;
@@ -516,6 +521,14 @@ static Layer computeLayer(const Window *window)
  */
 QList<Window *> Workspace::constrainedStackingOrder()
 {
+    QHash<QString, Window *> splitBarWindow;
+    m_splitManage->getSplitBarWindow(splitBarWindow);
+    QHash<QString, Window *>::const_iterator sit = splitBarWindow.constBegin();
+    while (sit != splitBarWindow.constEnd()) {
+        unconstrained_stacking_order.removeAll(sit.value());
+        ++sit;
+    }
+
     // Sort the windows based on their layers while preserving their relative order in the
     // unconstrained stacking order.
     std::array<QList<Window *>, NumLayers> windows;
@@ -564,6 +577,23 @@ QList<Window *> Workspace::constrainedStackingOrder()
                 constraints.enqueue(child);
             }
         }
+    }
+
+    QHash<QString, QVector<Window *>> splitWindows;
+    m_splitManage->getSplitWindows(splitWindows);
+
+    QHash<QString, QVector<Window *>>::const_iterator it = splitWindows.constBegin();
+    while (it != splitWindows.constEnd() && splitBarWindow.size() > 0) {
+        int i = 0, j = 0;
+        // Layer li = NormalLayer, lj = NormalLayer;
+        for (auto val : it.value()) {
+            if ((j = stacking.indexOf(val)) > i)
+                i = j;
+            // if ((lj = val->layer()) > li)
+                // li = lj;
+        }
+        stacking.insert(i + 1, splitBarWindow[it.key()]);
+        ++it;
     }
 
     return stacking;

@@ -119,7 +119,7 @@ static xcb_atom_t registerSupportProperty(const QByteArray &propertyName)
 //---------------------
 
 EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, WorkspaceScene *scene)
-    : EffectsHandler(Compositor::self()->backend()->compositingType())
+    : EffectsHandlerEx(Compositor::self()->backend()->compositingType())
     , keyboard_grab_effect(nullptr)
     , fullscreen_effect(nullptr)
     , m_compositor(compositor)
@@ -1611,6 +1611,11 @@ std::unique_ptr<EffectFrame> EffectsHandlerImpl::effectFrame(EffectFrameStyle st
     return std::make_unique<EffectFrameImpl>(style, staticSize, position, alignment);
 }
 
+std::unique_ptr<EffectFrameEx> EffectsHandlerImpl::effectFrameEx(QString url, bool staticSize = true, const QPoint &position = QPoint(-1, -1), Qt::Alignment alignment = Qt::AlignCenter) const
+{
+    return std::make_unique<EffectFrameImpl>(url, staticSize, position, alignment);
+}
+
 QVariant EffectsHandlerImpl::kwinOption(KWinOption kwopt)
 {
     switch (kwopt) {
@@ -1915,6 +1920,23 @@ bool EffectsHandlerImpl::isInputPanelOverlay() const
         return panel->mode() == InputPanelV1Window::Mode::Overlay;
     }
     return true;
+}
+
+int EffectsHandlerImpl::getQuickTileMode(KWin::EffectWindow *w)
+{
+    auto window = static_cast<EffectWindowImpl *>(w)->window();
+    if (window->isClient()) {
+        return window->quickTileMode();
+    }
+    return 0;
+}
+
+void EffectsHandlerImpl::setQuickTileWindow(KWin::EffectWindow *w, int mode)
+{
+    auto window = static_cast<EffectWindowImpl *>(w)->window();
+    if (window->isClient()) {
+        return window->setQuickTileMode((QuickTileMode)mode);
+    }
 }
 
 //****************************************
@@ -2398,6 +2420,25 @@ EffectFrameQuickScene::EffectFrameQuickScene(EffectFrameStyle style, bool static
     }
 }
 
+EffectFrameQuickScene::EffectFrameQuickScene(QString url, bool staticSize, QPoint position,
+                                             Qt::Alignment alignment, QObject *parent)
+    : OffscreenQuickScene(parent)
+    , m_static(staticSize)
+    , m_point(position)
+    , m_alignment(alignment)
+{
+    // TODO read from kwinApp()->config() "QmlPath" like Outline/OnScreenNotification
+    // *if* someone really needs this to be configurable.
+    const QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, url);
+
+    setSource(QUrl::fromLocalFile(path), QVariantMap{{QStringLiteral("effectFrame"), QVariant::fromValue(this)}});
+
+    if (rootItem()) {
+        connect(rootItem(), &QQuickItem::implicitWidthChanged, this, &EffectFrameQuickScene::reposition);
+        connect(rootItem(), &QQuickItem::implicitHeightChanged, this, &EffectFrameQuickScene::reposition);
+    }
+}
+
 EffectFrameQuickScene::~EffectFrameQuickScene() = default;
 
 EffectFrameStyle EffectFrameQuickScene::style() const
@@ -2574,10 +2615,64 @@ void EffectFrameQuickScene::reposition()
     setGeometry(geometry);
 }
 
+void EffectFrameQuickScene::setColor(QColor &color)
+{
+    if (m_color != color) {
+        m_color = color;
+        Q_EMIT colorChanged();
+    }
+}
+
+QColor &EffectFrameQuickScene::color()
+{
+    return m_color;
+}
+
+void EffectFrameQuickScene::setRadius(int radius)
+{
+    if (m_radius != radius) {
+        m_radius = radius;
+        Q_EMIT radiusChanged();
+    }
+}
+
+int &EffectFrameQuickScene::radius()
+{
+    return m_radius;
+}
+
+void EffectFrameQuickScene::setSize(QSize &size)
+{
+    if (m_size != size) {
+        m_size = size;
+        Q_EMIT sizeChanged();
+    }
+}
+
+QSize &EffectFrameQuickScene::size()
+{
+    return m_size;
+}
+
 EffectFrameImpl::EffectFrameImpl(EffectFrameStyle style, bool staticSize, QPoint position, Qt::Alignment alignment)
     : QObject(nullptr)
-    , EffectFrame()
+    , EffectFrameEx()
     , m_view(new EffectFrameQuickScene(style, staticSize, position, alignment, nullptr))
+{
+    connect(m_view, &OffscreenQuickScene::repaintNeeded, this, [this] {
+        effects->addRepaint(geometry());
+    });
+    connect(m_view, &OffscreenQuickScene::geometryChanged, this, [this](const QRect &oldGeometry, const QRect &newGeometry) {
+        effects->addRepaint(oldGeometry);
+        m_geometry = newGeometry;
+        effects->addRepaint(newGeometry);
+    });
+}
+
+EffectFrameImpl::EffectFrameImpl(QString url, bool staticSize, QPoint position, Qt::Alignment alignment)
+    : QObject(nullptr)
+    , EffectFrameEx()
+    , m_view(new EffectFrameQuickScene(url, staticSize, position, alignment, nullptr))
 {
     connect(m_view, &OffscreenQuickScene::repaintNeeded, this, [this] {
         effects->addRepaint(geometry());
@@ -2632,6 +2727,8 @@ const QRect &EffectFrameImpl::geometry() const
 void EffectFrameImpl::setGeometry(const QRect &geometry, bool force)
 {
     m_view->setGeometry(geometry);
+    QSize s = geometry.size();
+    m_view->setSize(s);
 }
 
 const QIcon &EffectFrameImpl::icon() const
@@ -2710,6 +2807,26 @@ qreal EffectFrameImpl::crossFadeProgress() const
 void EffectFrameImpl::setCrossFadeProgress(qreal progress)
 {
     m_view->setCrossFadeProgress(progress);
+}
+
+void EffectFrameImpl::setColor(QColor &color)
+{
+    m_view->setColor(color);
+}
+
+QColor &EffectFrameImpl::color() const
+{
+    return m_view->color();
+}
+
+void EffectFrameImpl::setRadius(int radius)
+{
+    m_view->setRadius(radius);
+}
+
+int &EffectFrameImpl::radius()
+{
+    return m_view->radius();
 }
 
 } // namespace
