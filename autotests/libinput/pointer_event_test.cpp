@@ -15,6 +15,8 @@
 
 #include <linux/input.h>
 
+#include "input_adaptor.h"
+
 Q_DECLARE_METATYPE(libinput_event_type)
 Q_DECLARE_METATYPE(libinput_button_state)
 
@@ -70,9 +72,9 @@ void TestLibinputPointerEvent::testType_data()
     QTest::newRow("motion") << LIBINPUT_EVENT_POINTER_MOTION;
     QTest::newRow("absolute motion") << LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE;
     QTest::newRow("button") << LIBINPUT_EVENT_POINTER_BUTTON;
-    QTest::newRow("scroll wheel") << LIBINPUT_EVENT_POINTER_SCROLL_WHEEL;
-    QTest::newRow("scroll finger") << LIBINPUT_EVENT_POINTER_SCROLL_FINGER;
-    QTest::newRow("scroll continuous") << LIBINPUT_EVENT_POINTER_SCROLL_CONTINUOUS;
+    QTest::newRow("scroll wheel") << (libinput_event_type)LIBINPUT_EVENT_POINTER_SCROLL_WHEEL;
+    QTest::newRow("scroll finger") << (libinput_event_type)LIBINPUT_EVENT_POINTER_SCROLL_FINGER;
+    QTest::newRow("scroll continuous") << (libinput_event_type)LIBINPUT_EVENT_POINTER_SCROLL_CONTINUOUS;
 }
 
 void TestLibinputPointerEvent::testType()
@@ -145,7 +147,7 @@ void TestLibinputPointerEvent::testScrollWheel()
     // this test verifies pointer axis functionality
     libinput_event_pointer *pointerEvent = new libinput_event_pointer;
     pointerEvent->device = m_nativeDevice;
-    pointerEvent->type = LIBINPUT_EVENT_POINTER_SCROLL_WHEEL;
+    pointerEvent->type = (libinput_event_type)LIBINPUT_EVENT_POINTER_SCROLL_WHEEL;
     QFETCH(bool, horizontal);
     QFETCH(bool, vertical);
     QFETCH(QPointF, value);
@@ -162,7 +164,7 @@ void TestLibinputPointerEvent::testScrollWheel()
     std::unique_ptr<Event> event(Event::create(pointerEvent));
     auto pe = dynamic_cast<PointerEvent *>(event.get());
     QVERIFY(pe);
-    QCOMPARE(pe->type(), LIBINPUT_EVENT_POINTER_SCROLL_WHEEL);
+    QCOMPARE(pe->type(), (libinput_event_type)LIBINPUT_EVENT_POINTER_SCROLL_WHEEL);
     QCOMPARE(pe->axis().contains(KWin::InputRedirection::PointerAxisHorizontal), horizontal);
     QCOMPARE(pe->axis().contains(KWin::InputRedirection::PointerAxisVertical), vertical);
     QCOMPARE(pe->scrollValue(KWin::InputRedirection::PointerAxisHorizontal), value.x());
@@ -192,7 +194,7 @@ void TestLibinputPointerEvent::testScrollFinger()
     // this test verifies pointer axis functionality
     libinput_event_pointer *pointerEvent = new libinput_event_pointer;
     pointerEvent->device = m_nativeDevice;
-    pointerEvent->type = LIBINPUT_EVENT_POINTER_SCROLL_FINGER;
+    pointerEvent->type = (libinput_event_type)LIBINPUT_EVENT_POINTER_SCROLL_FINGER;
     QFETCH(bool, horizontal);
     QFETCH(bool, vertical);
     QFETCH(QPointF, value);
@@ -231,7 +233,7 @@ void TestLibinputPointerEvent::testScrollContinuous()
     // this test verifies pointer axis functionality
     libinput_event_pointer *pointerEvent = new libinput_event_pointer;
     pointerEvent->device = m_nativeDevice;
-    pointerEvent->type = LIBINPUT_EVENT_POINTER_SCROLL_CONTINUOUS;
+    pointerEvent->type = (libinput_event_type)LIBINPUT_EVENT_POINTER_SCROLL_CONTINUOUS;
     QFETCH(bool, horizontal);
     QFETCH(bool, vertical);
     QFETCH(QPointF, value);

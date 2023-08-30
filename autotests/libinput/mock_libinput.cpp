@@ -12,6 +12,8 @@
 
 #include <linux/input.h>
 
+#include "input_adaptor.h"
+
 int libinput_device_keyboard_has_key(struct libinput_device *device, uint32_t code)
 {
     return device->keys.contains(code);

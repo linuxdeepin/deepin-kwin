@@ -42,15 +42,16 @@ target_link_libraries(cursorhotspottest Qt${QT_MAJOR_VERSION}::Widgets)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 if (QT_MAJOR_VERSION EQUAL "5")
+    find_package(Qt${QT_MAJOR_VERSION}WaylandClient ${QT_MIN_VERSION} CONFIG REQUIRED NO_MODULE COMPONENTS Private)
     add_executable(xdgactivationtest-qt5 xdgactivationtest-qt5.cpp)
-    target_link_libraries(xdgactivationtest-qt5 Qt${QT_MAJOR_VERSION}::Widgets Qt::WaylandClient Qt::WaylandClientPrivate Wayland::Client)
+    target_link_libraries(xdgactivationtest-qt5 Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::WaylandClient Qt${QT_MAJOR_VERSION}::WaylandClientPrivate Wayland::Client)
     ecm_add_qtwayland_client_protocol(xdgactivationtest-qt5
         PROTOCOL ${WaylandProtocols_DATADIR}/staging/xdg-activation/xdg-activation-v1.xml
         BASENAME xdg-activation-v1
     )
 
     add_executable(lockscreenoverlaytest lockscreenoverlaytest.cpp)
-    target_link_libraries(lockscreenoverlaytest Qt${QT_MAJOR_VERSION}::Widgets Qt::WaylandClient Qt::WaylandClientPrivate Wayland::Client KF5::WindowSystem)
+    target_link_libraries(lockscreenoverlaytest Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::WaylandClient Qt${QT_MAJOR_VERSION}::WaylandClientPrivate Wayland::Client KF5::WindowSystem)
     ecm_add_qtwayland_client_protocol(lockscreenoverlaytest
         PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-lockscreen-overlay-v1.xml
         BASENAME kde-lockscreen-overlay-v1

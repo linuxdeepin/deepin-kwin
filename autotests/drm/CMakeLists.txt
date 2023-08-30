@@ -1,6 +1,7 @@
 set(mockDRM_SRCS
     mock_drm.cpp
     ../../src/backends/drm/drm_abstract_output.cpp
+    ../../src/backends/drm/drm_adaptor.cpp
     ../../src/backends/drm/drm_backend.cpp
     ../../src/backends/drm/drm_buffer.cpp
     ../../src/backends/drm/drm_buffer_gbm.cpp
@@ -57,6 +58,6 @@ target_include_directories(LibDrmTest
 # Tests
 ########################################################
 add_executable(testDrm drmTest.cpp)
-target_link_libraries(testDrm LibDrmTest Qt::Test)
+target_link_libraries(testDrm LibDrmTest Qt${QT_MAJOR_VERSION}::Test)
 add_test(NAME kwin-testDrm COMMAND testDrm)
 ecm_mark_as_test(testDrm)

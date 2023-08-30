@@ -12,6 +12,8 @@
 #include <QRasterWindow>
 #include <QTimer>
 
+#include <memory>
+
 class Window : public QRasterWindow
 {
     Q_OBJECT

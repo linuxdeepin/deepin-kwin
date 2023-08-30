@@ -16,6 +16,7 @@
 namespace KWaylandServer
 {
 Q_NAMESPACE
+extern KWIN_EXPORT const QMetaObject staticMetaObject;
 /**
  * ContentHint allows to modify the behavior of the text input.
  */

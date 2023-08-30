@@ -20,7 +20,7 @@ target_link_libraries(testTabBoxClientModel
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Quick
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
     Qt${QT_MAJOR_VERSION}::GuiPrivate
 
@@ -57,7 +57,7 @@ target_link_libraries(testTabBoxHandler
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Quick
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
     Qt${QT_MAJOR_VERSION}::GuiPrivate
 
@@ -84,7 +84,7 @@ set(testTabBoxConfig_SRCS
 )
 
 add_executable(testTabBoxConfig ${testTabBoxConfig_SRCS})
-target_link_libraries(testTabBoxConfig Qt${QT_MAJOR_VERSION}::Core Qt::Test)
+target_link_libraries(testTabBoxConfig Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Test)
 add_test(NAME kwin-testTabBoxConfig COMMAND testTabBoxConfig)
 ecm_mark_as_test(testTabBoxConfig)
 
@@ -99,6 +99,6 @@ set(testDesktopChain_SRCS
 )
 
 add_executable(testDesktopChain ${testDesktopChain_SRCS})
-target_link_libraries(testDesktopChain Qt${QT_MAJOR_VERSION}::Core Qt::Test)
+target_link_libraries(testDesktopChain Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Test)
 add_test(NAME kwin-testDesktopChain COMMAND testDesktopChain)
 ecm_mark_as_test(testDesktopChain)

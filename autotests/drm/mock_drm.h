@@ -27,6 +27,7 @@ class MockPlane;
 
 class MockProperty {
 public:
+    MockProperty(){}
     MockProperty(MockObject *obj, QString name, uint64_t initialValue, uint32_t flags, QVector<QByteArray> enums = {});
     ~MockProperty() = default;
 
@@ -51,6 +52,7 @@ public:
 
 class MockObject {
 public:
+    MockObject(){}
     MockObject(MockGpu *gpu);
     virtual ~MockObject();
 
@@ -66,6 +68,7 @@ public:
 
 class MockConnector : public MockObject {
 public:
+    MockConnector(){}
     MockConnector(MockGpu *gpu, bool nonDesktop = false);
     MockConnector(const MockConnector &obj) = default;
     ~MockConnector() = default;
@@ -91,6 +94,7 @@ public:
 
 class MockCrtc : public MockObject {
 public:
+    MockCrtc(){}
     MockCrtc(MockGpu *gpu, const std::shared_ptr<MockPlane> &legacyPlane, int pipeIndex, int gamma_size = 255);
     MockCrtc(const MockCrtc &obj) = default;
     ~MockCrtc() = default;
@@ -114,6 +118,7 @@ enum class PlaneType {
 
 class MockPlane : public MockObject {
 public:
+    MockPlane(){}
     MockPlane(MockGpu *gpu, PlaneType type, int crtcIndex);
     MockPlane(const MockPlane &obj) = default;
     ~MockPlane() = default;

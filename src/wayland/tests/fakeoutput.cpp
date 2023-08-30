@@ -51,23 +51,23 @@ void FakeOutput::setScale(qreal scale)
 
 void FakeOutput::setSubPixel(SubPixel subPixel)
 {
-    setInformation({
-        .subPixel = subPixel,
-    });
+    Information info;
+    info.subPixel = subPixel;
+    setInformation(info);
 }
 
 void FakeOutput::setDpmsSupported(bool supported)
 {
-    setInformation({
-        .capabilities = supported ? Capability::Dpms : Capabilities(),
-    });
+    Information info;
+    info.capabilities = supported ? Capability::Dpms : Capabilities();
+    setInformation(info);
 }
 
 void FakeOutput::setPhysicalSize(QSize size)
 {
-    setInformation({
-        .physicalSize = size,
-    });
+    Information info;
+    info.physicalSize = size;
+    setInformation(info);
 }
 
 void FakeOutput::setName(const QString &name)

@@ -11,6 +11,8 @@
 #include <QTemporaryFile>
 #include <QTest>
 
+#include <memory>
+
 #include "ftrace.h"
 
 class TestFTrace : public QObject

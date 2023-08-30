@@ -11,7 +11,7 @@ add_subdirectory(drm)
 ########################################################
 set(testWindowPaintData_SRCS test_window_paint_data.cpp)
 add_executable(testWindowPaintData ${testWindowPaintData_SRCS})
-target_link_libraries(testWindowPaintData kwineffects Qt${QT_MAJOR_VERSION}::Widgets Qt::Test )
+target_link_libraries(testWindowPaintData kwineffects Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::Test )
 add_test(NAME kwin-testWindowPaintData COMMAND testWindowPaintData)
 ecm_mark_as_test(testWindowPaintData)
 
@@ -27,7 +27,7 @@ add_executable(testVirtualDesktops ${testVirtualDesktops_SRCS})
 target_link_libraries(testVirtualDesktops
     kwin
 
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
@@ -51,7 +51,7 @@ set_target_properties(testClientMachine PROPERTIES COMPILE_DEFINITIONS "NO_NONE_
 
 target_link_libraries(testClientMachine
     Qt${QT_MAJOR_VERSION}::Concurrent
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
@@ -76,7 +76,7 @@ ecm_mark_as_test(testClientMachine)
 add_executable(testXcbWrapper test_xcb_wrapper.cpp xcb_scaling_mock.cpp)
 
 target_link_libraries(testXcbWrapper
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
@@ -96,7 +96,7 @@ if (XCB_ICCCM_FOUND)
     add_executable(testXcbSizeHints test_xcb_size_hints.cpp xcb_scaling_mock.cpp)
     set_target_properties(testXcbSizeHints PROPERTIES COMPILE_DEFINITIONS "NO_NONE_WINDOW")
     target_link_libraries(testXcbSizeHints
-        Qt::Test
+        Qt${QT_MAJOR_VERSION}::Test
         Qt${QT_MAJOR_VERSION}::Widgets
 
         KF5::ConfigCore
@@ -120,7 +120,7 @@ endif()
 add_executable(testXcbWindow test_xcb_window.cpp xcb_scaling_mock.cpp)
 
 target_link_libraries(testXcbWindow
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
@@ -151,7 +151,7 @@ add_executable(testOnScreenNotification ${testOnScreenNotification_SRCS})
 target_link_libraries(testOnScreenNotification
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Quick
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets # QAction include
 
     KF5::ConfigCore
@@ -170,7 +170,7 @@ set(testGestures_SRCS
 add_executable(testGestures ${testGestures_SRCS})
 
 target_link_libraries(testGestures
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
 )
 
 add_test(NAME kwin-testGestures COMMAND testGestures)
@@ -182,7 +182,7 @@ ecm_mark_as_test(testGestures)
 add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp)
 target_link_libraries(testX11TimestampUpdate
     KF5::CoreAddons
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     kwin
 )
 add_test(NAME kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
@@ -198,7 +198,7 @@ if (HAVE_EPOXY_GLX)
     set(testOpenGLContextAttributeBuilder_SRCS ${testOpenGLContextAttributeBuilder_SRCS} ../src/backends/x11/standalone/x11_standalone_glx_context_attribute_builder.cpp)
 endif()
 add_executable(testOpenGLContextAttributeBuilder ${testOpenGLContextAttributeBuilder_SRCS})
-target_link_libraries(testOpenGLContextAttributeBuilder epoxy::epoxy Qt::Test)
+target_link_libraries(testOpenGLContextAttributeBuilder epoxy::epoxy Qt${QT_MAJOR_VERSION}::Test)
 add_test(NAME kwin-testOpenGLContextAttributeBuilder COMMAND testOpenGLContextAttributeBuilder)
 ecm_mark_as_test(testOpenGLContextAttributeBuilder)
 
@@ -217,7 +217,7 @@ target_link_libraries(testXkb
     kwin
 
     Qt${QT_MAJOR_VERSION}::Gui
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
 
     KF5::ConfigCore
@@ -240,7 +240,7 @@ ecm_mark_as_test(testXkb)
 ########################################################
 add_executable(testFtrace test_ftrace.cpp)
 target_link_libraries(testFtrace
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     kwin
 )
 add_test(NAME kwin-testFtrace COMMAND testFtrace)
@@ -251,7 +251,7 @@ ecm_mark_as_test(testFtrace)
 ########################################################
 add_executable(testUtils test_utils.cpp)
 target_link_libraries(testUtils
-    Qt::Test
+    Qt${QT_MAJOR_VERSION}::Test
     kwin
 )
 add_test(NAME kwin-testUtils COMMAND testUtils)
