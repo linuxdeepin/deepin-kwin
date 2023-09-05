@@ -30,6 +30,7 @@ public:
     Xcb::Atom wm_client_leader;
     Xcb::Atom wm_window_role;
     Xcb::Atom wm_state;
+    Xcb::Atom wm_toggle_split_menu;
     Xcb::Atom sm_client_id;
 
     Xcb::Atom motif_wm_hints;

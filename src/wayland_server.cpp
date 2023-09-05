@@ -548,6 +548,28 @@ bool WaylandServer::init(InitializationFlags flags)
             workspace()->captureWindowImage(windowId, buffer);
         }
     );
+    connect(m_clientManagement, &ClientManagementInterface::windowFromPointRequest, this,
+        [this] () {
+            if (!waylandServer())
+                return;
+            auto client_management = waylandServer()->clientManagement();
+            if (!client_management)
+                return;
+            Window *target = input()->findToplevel(Cursors::self()->mouse()->pos());
+            if (target)
+                client_management->sendWindowFromPoint(target->frameId());
+        }
+    );
+    connect(m_clientManagement, &ClientManagementInterface::showSplitMenuRequest, this,
+        [this] (const QRect &botton_rect, uint32_t wid) {
+            workspace()->showSplitMenu(botton_rect, wid);
+        }
+    );
+    connect(m_clientManagement, &ClientManagementInterface::hideSplitMenuRequest, this,
+        [this] (bool delay) {
+            workspace()->hideSplitMenu(delay);
+        }
+    );
 
     auto activation = new KWaylandServer::XdgActivationV1Interface(m_display, this);
     auto init = [this, activation] {

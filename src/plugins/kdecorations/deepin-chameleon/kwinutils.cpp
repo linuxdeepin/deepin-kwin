@@ -476,7 +476,17 @@ bool KWinUtils::isShowSplitMenu()
     if (!workspace())
         return false;
 
-    return false;
+    return true;
+}
+
+void KWinUtils::showSplitMenu(const QRect &rect, uint32_t client_id)
+{
+    workspace()->showSplitMenu(rect, client_id);
+}
+
+void KWinUtils::hideSplitMenu(bool delay)
+{
+    workspace()->hideSplitMenu(delay);
 }
 
 QObject *KWinUtils::findUnmanaged(quint32 window)

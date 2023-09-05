@@ -61,6 +61,7 @@
 #include "xwaylandwindow.h"
 #include "xdgshellwindow.h"
 #include "splitscreen/splitmanage.h"
+#include "splitscreen/splitmenu.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -2350,6 +2351,15 @@ QString Workspace::ActiveColor()
     //     m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
     // return m_activeColor;
     return "#1F1E33";
+}
+void Workspace::showSplitMenu(const QRect &rect, uint32_t client_id)
+{
+    SplitMenu::instance()->Show(rect, client_id);
+}
+
+void Workspace::hideSplitMenu(bool delay)
+{
+    SplitMenu::instance()->Hide(delay);
 }
 
 void Workspace::updateTabbox()

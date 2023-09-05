@@ -46,17 +46,25 @@ public:
     void sendWindowStates(wl_resource *resource);
     void sendWindowCaption(int windowId, bool succeed, wl_resource *buffer);
     void sendSplitChange(const QString& uuid, int splitable);
+    void sendWindowFromPoint(uint32_t wid);
     void splitWindow(QString uuid, int splitType);
+    void getWindowFromPoint();
+    void showSplitMenu(const QRect &botton_rect, uint32_t wid);
+    void hideSplitMenu(bool delay);
 
     ClientManagementInterface::WindowState m_windowStates[MAX_WINDOWS];
     uint32_t m_windowCount;
 
 protected:
     void com_deepin_client_management_get_window_states(Resource *resource) override;
-    void com_deepin_client_management_capture_window_image(Resource *resource,
-        int32_t window_id, struct ::wl_resource *buffer) override;
-    void com_deepin_client_management_split_window(Resource *resource,
-        const QString &uuid, int32_t splitType) override;
+    // void com_deepin_client_management_capture_window_image(Resource *resource,
+    //     int32_t window_id, struct ::wl_resource *buffer) override;
+    // void com_deepin_client_management_split_window(Resource *resource,
+    //     const QString &uuid, int32_t splitType) override;
+    void com_deepin_client_management_get_window_from_point(Resource *resource) override;
+    void com_deepin_client_management_show_split_menu(Resource *resource,
+            int32_t x, int32_t y, int32_t width, int32_t height, uint32_t wid) override;
+    void com_deepin_client_management_hide_split_menu(Resource *resource, int32_t delay) override;
 private:
     QString m_splitUuid;
     int     m_splitable = 0;
@@ -75,18 +83,42 @@ void ClientManagementInterfacePrivate::com_deepin_client_management_get_window_s
     getWindowStates();
 }
 
-void ClientManagementInterfacePrivate::com_deepin_client_management_capture_window_image(Resource *resource, int windowId, wl_resource *buffer)
+// void ClientManagementInterfacePrivate::com_deepin_client_management_capture_window_image(Resource *resource, int windowId, wl_resource *buffer)
+// {
+//     Q_UNUSED(resource);
+
+//     captureWindowImage(windowId, buffer);
+// }
+
+// void ClientManagementInterfacePrivate::com_deepin_client_management_split_window(Resource *resource, const QString &uuid, int32_t splitType)
+// {
+//     Q_UNUSED(resource);
+
+//     splitWindow(uuid, splitType);
+// }
+
+void ClientManagementInterfacePrivate::com_deepin_client_management_get_window_from_point(Resource *resource)
 {
     Q_UNUSED(resource);
 
-    captureWindowImage(windowId, buffer);
+    getWindowFromPoint();
 }
 
-void ClientManagementInterfacePrivate::com_deepin_client_management_split_window(Resource *resource, const QString &uuid, int32_t splitType)
+void ClientManagementInterfacePrivate::com_deepin_client_management_show_split_menu(Resource *resource,
+        int32_t x, int32_t y, int32_t width, int32_t height, uint32_t wid)
 {
     Q_UNUSED(resource);
 
-    splitWindow(uuid, splitType);
+    QRect botton_rect = QRect(x, y, width, height);
+    if (botton_rect.isValid())
+        showSplitMenu(botton_rect, wid);
+}
+
+void ClientManagementInterfacePrivate::com_deepin_client_management_hide_split_menu(Resource *resource, int32_t delay)
+{
+    Q_UNUSED(resource);
+
+    hideSplitMenu(delay);
 }
 
 void ClientManagementInterfacePrivate::getWindowStates()
@@ -103,6 +135,21 @@ void ClientManagementInterfacePrivate::captureWindowImage(int windowId, wl_resou
 void ClientManagementInterfacePrivate::splitWindow(QString uuid, int splitType)
 {
     Q_EMIT q->splitWindowRequest(uuid, splitType);
+}
+
+void ClientManagementInterfacePrivate::getWindowFromPoint()
+{
+    Q_EMIT q->windowFromPointRequest();
+}
+
+void ClientManagementInterfacePrivate::showSplitMenu(const QRect &botton_rect, uint32_t wid)
+{
+    Q_EMIT q->showSplitMenuRequest(botton_rect, wid);
+}
+
+void ClientManagementInterfacePrivate::hideSplitMenu(bool delay)
+{
+    Q_EMIT q->hideSplitMenuRequest(delay);
 }
 
 void ClientManagementInterfacePrivate::sendWindowStates(wl_resource *resource)
@@ -132,7 +179,7 @@ void ClientManagementInterfacePrivate::sendWindowCaption(int windowId, bool succ
     const auto clientResources = resourceMap();
     for (Resource *resource : clientResources) {
         qWarning() << __func__ << ":" << __LINE__ << "ut-gfx-capture-sendWindowCaption: windowId " << windowId << " resource" << resource->handle;
-        com_deepin_client_management_send_capture_callback(resource->handle, windowId, succeed, buffer);
+        // com_deepin_client_management_send_capture_callback(resource->handle, windowId, succeed, buffer);
     }
 }
 
@@ -143,9 +190,16 @@ void ClientManagementInterfacePrivate::sendSplitChange(const QString& uuid, int 
         m_splitable = splitable;
         const auto clientResources = resourceMap();
         for (Resource *resource : clientResources) {
-            com_deepin_client_management_send_split_change(resource->handle, m_splitUuid.toLatin1().data(), m_splitable);
+            // com_deepin_client_management_send_split_change(resource->handle, m_splitUuid.toLatin1().data(), m_splitable);
         }
     }
+}
+
+void ClientManagementInterfacePrivate::sendWindowFromPoint(uint32_t wid)
+{
+    const auto clientResources = resourceMap();
+    for (Resource *resource : clientResources)
+        com_deepin_client_management_send_window_from_point(resource->handle, wid);
 }
 
 ClientManagementInterface::ClientManagementInterface(Display *display, QObject *parent)
@@ -223,6 +277,11 @@ void ClientManagementInterface::sendWindowCaption(int windowId, wl_resource *buf
 void ClientManagementInterface::sendSplitChange(const QString& uuid, int splitable)
 {
     d->sendSplitChange(uuid, splitable);
+}
+
+void ClientManagementInterface::sendWindowFromPoint(uint32_t wid)
+{
+    d->sendWindowFromPoint(wid);
 }
 
 }

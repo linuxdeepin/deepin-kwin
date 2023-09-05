@@ -105,6 +105,9 @@ public:
     static quint32 internAtom(const QByteArray &name, bool only_if_exists);
     static bool isShowSplitMenu();
 
+    static void showSplitMenu(const QRect &button_rect, uint32_t client_id);
+    static void hideSplitMenu(bool delay);
+
     Q_INVOKABLE quint32 getXcbAtom(const QString &name, bool only_if_exists) const;
     Q_INVOKABLE bool isSupportedAtom(quint32 atom) const;
     Q_INVOKABLE QVariant getGtkFrame(const QObject *window) const;

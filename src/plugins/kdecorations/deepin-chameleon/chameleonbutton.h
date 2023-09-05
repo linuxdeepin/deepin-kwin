@@ -47,7 +47,7 @@ protected:
     void showSplitMenu();
     KDecoration2::DecorationButtonType m_type;
 
-    ChameleonSplitMenu *m_pSplitMenu = nullptr;
+    // ChameleonSplitMenu *m_pSplitMenu = nullptr;
 
     QTimer *max_hover_timer = nullptr;
     int m_mousePosX;
@@ -57,6 +57,8 @@ protected:
     QTimer *max_timer = nullptr;
     bool m_isMaxAvailble = true;
     bool m_wlHoverStatus = false;
+
+    uint32_t wid;
 };
 
 #endif // CHAMELEONBUTTON_H

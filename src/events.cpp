@@ -609,6 +609,14 @@ void X11Window::clientMessageEvent(xcb_client_message_event_t *e)
             minimize();
         }
         return;
+    } else if (e->type == atoms->wm_toggle_split_menu) {
+        if (e->data.data32[0] == 1) {
+            QRect botton_rect(e->data.data32[1], e->data.data32[2], e->data.data32[3], e->data.data32[4]);
+            if (botton_rect.isValid())
+                workspace()->showSplitMenu(botton_rect, e->window);
+        } else {
+            workspace()->hideSplitMenu(e->data.data32[1]);
+        }
     }
 }
 
