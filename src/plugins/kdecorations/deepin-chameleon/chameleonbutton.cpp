@@ -71,10 +71,6 @@ ChameleonButton::ChameleonButton(KDecoration2::DecorationButtonType type, const 
 
 ChameleonButton::~ChameleonButton()
 {
-    // if (m_pSplitMenu) {
-    //     delete m_pSplitMenu;
-    //     m_pSplitMenu = nullptr;
-    // }
 }
 
 KDecoration2::DecorationButton *ChameleonButton::create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent)
@@ -157,39 +153,6 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
                 }
                 if (m_type == KDecoration2::DecorationButtonType::Maximize) {
                     if (KWinUtils::instance()->isCompositing()) {
-                        // if (!m_pSplitMenu && KWinUtils::isShowSplitMenu()) {
-                        //     QObject *client = nullptr;
-                        //     if (QX11Info::isPlatformX11()) {
-                        //         client = KWinUtils::findClient(KWinUtils::Predicate::WindowMatch, decoration->client().data()->windowId());
-                        //     } else {
-                        //         client = KWinUtils::findObjectByDecorationClient(decoration->client().data());
-                        //     }
-                        //     bool isSupportFourSplit = KWinUtils::Window::checkSupportFourSplit(client);
-                        //     m_pSplitMenu = new ChameleonSplitMenu(nullptr, isSupportFourSplit);
-                        //     m_pSplitMenu->setEffect(client);
-                        // }
-                        // if (m_pSplitMenu) {
-                        //     m_pSplitMenu->stopTime();
-                        //     m_pSplitMenu->Hide();
-                        // }
-                        // m_backgroundColor = decoration->getBackgroundColor();
-
-                        // if (KWinUtils::isShowSplitMenu()) {
-                        //     if (!max_hover_timer) {
-                        //         max_hover_timer = new QTimer();
-                        //         max_hover_timer->setSingleShot(true);
-
-                        //         connect(max_hover_timer, &QTimer::timeout, [this]{
-                        //             KWinUtils::showSplitMenu(effect->geometry().toRect(), wid);
-                        //         });
-                        //         max_hover_timer->start(500);
-                        //         m_mousePosX = event->pos().x();
-                        //     }
-                        //     else {
-                        //         max_hover_timer->start(500);
-                        //         m_mousePosX = event->pos().x();
-                        //     }
-                        // }
                         QPoint topleft(geometry().x() + effect->geometry().x(), geometry().y() + effect->geometry().y());
                         QRect rect(topleft, geometry().toRect().size());
                         KWinUtils::showSplitMenu(rect, wid);
@@ -266,11 +229,6 @@ void ChameleonButton::mouseReleaseEvent(QMouseEvent *event)
         if (!m_isMaxAvailble) {
             event->setLocalPos(QPointF(event->localPos().x() - OUT_RELEASE_EVENT, event->localPos().y()));
         }
-        // if (m_pSplitMenu) {
-        //     m_pSplitMenu->setShowSt(false);
-        //     // m_pSplitMenu->Hide();
-        //     // m_pSplitMenu->startTime(500);
-        // }
         KWinUtils::hideSplitMenu(true);
     }
     KDecoration2::DecorationButton::mouseReleaseEvent(event);
@@ -286,49 +244,12 @@ void ChameleonButton::onCompositorChanged(bool active)
 
 void ChameleonButton::onClientAreaUpdate()
 {
-    // if (m_pSplitMenu) {
-    //     Chameleon *decoration = qobject_cast<Chameleon*>(this->decoration());
-    //     if (decoration) {
-    //         if (KWinUtils::instance()->isCompositing()) {
-    //             QObject *client = nullptr;
-    //             if (QX11Info::isPlatformX11()) {
-    //                 client = KWinUtils::findClient(KWinUtils::Predicate::WindowMatch, decoration->client().data()->windowId());
-    //             } else {
-    //                 client = KWinUtils::findObjectByDecorationClient(decoration->client().data());
-    //             }
-    //             bool isSupportFourSplit = KWinUtils::Window::checkSupportFourSplit(client);
-    //             if (m_pSplitMenu->getSupportFourSplit() != isSupportFourSplit) {
-    //                 delete m_pSplitMenu;
-    //                 m_pSplitMenu = new ChameleonSplitMenu(nullptr, isSupportFourSplit);
-    //                 m_pSplitMenu->setEffect(client);
-    //             }
-    //         }
-    //     }
-    // }
     Chameleon *decoration = qobject_cast<Chameleon*>(this->decoration());
     wid = decoration->client().data()->windowId();
 }
 
 void ChameleonButton::showSplitMenu()
 {
-    // qreal x = effect->geometry().x();
-    // qreal y = effect->geometry().y();
-    // QPoint p(x + geometry().x(), y + geometry().height());
-    // QPoint mousePos = QPoint(x + m_mousePosX, y + geometry().height());
-    // QPoint point;
-    // QRect screenGeometry;
-    // for (auto effectScreen : KWin::effects->screens()) {
-    //     screenGeometry = effectScreen->geometry();
-    //     if (screenGeometry.contains(p)) {
-    //         point = p;
-    //         break;
-    //     } else if (screenGeometry.contains(mousePos)) {
-    //         point = mousePos;
-    //         break;
-    //     }
-    // }
-    // m_pSplitMenu->setShowSt(true);
-    // m_pSplitMenu->stopTime();
-    // m_pSplitMenu->Show(screenGeometry, point, m_backgroundColor);
+
 }
 

@@ -22,6 +22,7 @@ SplitPreviewEffect::SplitPreviewEffect()
     : lastPresentTime(std::chrono::milliseconds::zero())
 {
     connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &SplitPreviewEffect::toggle);
+    connect(effectsEx, &EffectsHandlerEx::triggerSplitPreview, this, &SplitPreviewEffect::toggle);
     if (!m_effectFrame) {
         m_effectFrame = effectsEx->effectFrameEx("kwin/effects/splitscreen/qml/main.qml", false);
     }
@@ -186,7 +187,7 @@ QRect SplitPreviewEffect::getPreviewWindowsGeometry(EffectWindow *w)
 {
     int mode = effectsEx->getQuickTileMode(w);
     QRectF ret = effectsEx->getQuickTileGeometry(w, mode^0b11, w->clientGeometry().topLeft());
-
+    m_backgroundMode = mode ^ 0b11;
     return ret.toRect();
 }
 

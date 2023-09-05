@@ -77,6 +77,7 @@ public:
                                                      Qt::Alignment alignment = Qt::AlignCenter) const = 0;
 
 Q_SIGNALS:
+    void triggerSplitPreview(KWin::EffectWindow *w);
     void windowQuickTileModeChanged(KWin::EffectWindow *w);
     void showSplitScreenPreview(KWin::EffectWindow *w);
     void swapSplitWin(KWin::EffectWindow *w, int index);

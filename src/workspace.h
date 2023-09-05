@@ -471,6 +471,9 @@ public:
     void quickTileWindow(QuickTileMode mode);
     void switchWindow(Direction direction);
 
+    bool splitBarStatus() { return m_splitBarState; }
+    void setSplitBarStatus(int state) { m_splitBarState = state; }
+
     ShortcutDialog *shortcutDialog() const
     {
         return m_windowKeysDialog;
@@ -658,6 +661,8 @@ Q_SIGNALS:
 
     void windowStateChanged();
 
+    void splitBarCursorChanged();
+
 private:
     void init();
     void initializeX11();
@@ -828,6 +833,7 @@ private:
     std::unique_ptr<SplitManage> m_splitManage;
 
     QString m_activeColor;
+    bool m_splitBarState;
 
 private:
     friend bool performTransiencyCheck();

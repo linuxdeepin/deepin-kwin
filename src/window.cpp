@@ -4595,6 +4595,12 @@ void Window::maybeSendFrameCallback()
     }
 }
 
+void Window::setQuickTileFromMenu(QuickTileMode mode)
+{
+    setQuickTileMode(mode);
+    Q_EMIT triggerSplitPreview(this);
+}
+
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)
     : m_window(window)
 {

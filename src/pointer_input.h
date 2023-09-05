@@ -219,6 +219,9 @@ public:
 Q_SIGNALS:
     void changed();
 
+public Q_SLOTS:
+    void updateSplitBarCursor();
+
 private:
     void reevaluteSource();
     void updateServerCursor();
@@ -236,6 +239,7 @@ private:
     std::unique_ptr<ShapeCursorSource> m_fallbackCursor;
     std::unique_ptr<ShapeCursorSource> m_moveResizeCursor;
     std::unique_ptr<ShapeCursorSource> m_windowSelectionCursor;
+    std::unique_ptr<ShapeCursorSource> m_splitScreenCursor;
 
     struct
     {

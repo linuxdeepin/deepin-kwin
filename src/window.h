@@ -1446,6 +1446,8 @@ public:
 
     QRectF quickTileGeometry(QuickTileMode mode, const QPointF &pos) const;
 
+    void setQuickTileFromMenu(QuickTileMode mode);
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -1579,6 +1581,7 @@ Q_SIGNALS:
     void decorationChanged();
     void hiddenChanged();
     void lockScreenOverlayChanged();
+    void triggerSplitPreview(KWin::Window *w);
 
 protected:
     void setWindowHandles(xcb_window_t client);

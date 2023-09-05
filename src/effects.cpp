@@ -358,6 +358,9 @@ void EffectsHandlerImpl::setupWindowConnections(Window *window)
     connect(window, &Window::decorationChanged, this, [this, window]() {
         Q_EMIT windowDecorationChanged(window->effectWindow());
     });
+    connect(window, &Window::triggerSplitPreview, this, [this](Window *window) {
+        Q_EMIT triggerSplitPreview(window->effectWindow());
+    });
 }
 
 void EffectsHandlerImpl::setupUnmanagedConnections(Unmanaged *u)

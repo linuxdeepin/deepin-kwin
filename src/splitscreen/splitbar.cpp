@@ -55,11 +55,16 @@ void SplitBar::mouseReleaseEvent(QMouseEvent* e)
 void SplitBar::enterEvent(QEvent *)
 {
     m_opacityEffect->setOpacity(1.0);
+    setCursor(Qt::SizeHorCursor);
+    workspace()->setSplitBarStatus(1);
+    Q_EMIT workspace()->splitBarCursorChanged();
 }
 
 void SplitBar::leaveEvent(QEvent *)
 {
+    workspace()->setSplitBarStatus(0);
     m_opacityEffect->setOpacity(0.0);
+    setCursor(Qt::ArrowCursor);
 }
 
 void SplitBar::paintEvent(QPaintEvent *event)

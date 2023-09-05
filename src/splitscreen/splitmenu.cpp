@@ -54,13 +54,6 @@ SplitMenu::SplitMenu()
     shadow->setBlurRadius(10);
     this->setGraphicsEffect(shadow);
 
-    // QString qm = QString(":/resources/translations/splitmenu_%1.qm").arg(QLocale::system().name());
-    // auto tran = new QTranslator(this);
-    // if (tran->load(qm)) {
-    //     qApp->installTranslator(tran);
-    // } else {
-    //     qCDebug(SPLIT_MENU) << "load " << qm << "failed";
-    // }
 }
 
 SplitMenu::~SplitMenu()
@@ -99,7 +92,7 @@ bool SplitMenu::eventFilter(QObject *obj, QEvent *event)
         if (event->type() == QEvent::MouseButtonRelease) {
             llabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/left_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             if (m_client) {
-                m_client->setQuickTileMode(QuickTileFlag::Left);
+                m_client->setQuickTileFromMenu(QuickTileFlag::Left);
             }
             llabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             Hide(false, true);
@@ -118,7 +111,7 @@ bool SplitMenu::eventFilter(QObject *obj, QEvent *event)
         if (event->type() == QEvent::MouseButtonRelease) {
             clabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/right_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             if (m_client) {
-                m_client->setQuickTileMode(QuickTileFlag::Right);
+                m_client->setQuickTileFromMenu(QuickTileFlag::Right);
             }
             clabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             Hide(false, true);
