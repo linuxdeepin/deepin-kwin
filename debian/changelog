@@ -1,3 +1,13 @@
+kwin (4:5.27.2.12-deepin12-1) unstable; urgency=medium
+
+  [ jccKevin ]
+  * New upstream release (5.27.2).
+  * Adaption on Qt5.11 and kf5 5.54
+  * Add dde protocols supports
+  * Add dde features
+
+ -- jccKevin <luochaojiang@uniontech.com>  Tue, 05 Sep 2023 23:13:26 +0800
+
 kwin (4:5.27.2-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
