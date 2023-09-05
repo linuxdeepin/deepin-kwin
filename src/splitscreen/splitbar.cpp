@@ -25,8 +25,8 @@ SplitBar::SplitBar(QString screenName)
     setAttribute(Qt::WA_TranslucentBackground, true);
     setWindowTitle(screenName);
     connect(workspace()->getSplitManage(), &SplitManage::signalSplitWindow, this, &SplitBar::slotUpdateState);
-    // setWindowOpacity(1.0);
-    setGeometry(950, 0, 20, 1080);
+
+    setGeometry(0, 0, 1, 1);
     m_opacityEffect = new QGraphicsOpacityEffect;
     setGraphicsEffect(m_opacityEffect);
     m_opacityEffect->setOpacity(0.7);
@@ -49,21 +49,16 @@ void SplitBar::mouseMoveEvent(QMouseEvent*e)
 
 void SplitBar::mouseReleaseEvent(QMouseEvent* e)
 {
-    // m_mainWindowPress = false;
     Q_EMIT splitbarPosChanged(m_screenName, QPointF(), true);
 }
 
 void SplitBar::enterEvent(QEvent *)
 {
-    // if (waylandServer())
-    //     setWindowOpacity(1.0);
     m_opacityEffect->setOpacity(1.0);
 }
 
 void SplitBar::leaveEvent(QEvent *)
 {
-    // if (waylandServer())
-    //     setWindowOpacity(0.0);
     m_opacityEffect->setOpacity(0.0);
 }
 
@@ -84,9 +79,7 @@ void SplitBar::paintEvent(QPaintEvent *event)
 
     painter.setRenderHint(QPainter::Antialiasing, true);
     const qreal radius = 4;
-
-    // QRectF rect = QRect(6, m_workspaceRect.height()/2-50, 9, 100);
-    QRectF rect = QRect(6, 1080/2-50, 9, 100);
+    QRectF rect = QRect(6, event->rect().height() / 2 - 50, 9, 100);
     QPainterPath path;
 
     path.moveTo(rect.bottomRight() - QPointF(0, radius));
@@ -107,7 +100,6 @@ void SplitBar::slotUpdateState(QString &name, Window *w)
     if (m_screenName != name)
         return;
     if (w == nullptr) {
-        // m_opacityEffect->setOpacity(0.0);
         setGeometry(0, 0, 1, 1);
         return;
     }
@@ -118,7 +110,6 @@ void SplitBar::slotUpdateState(QString &name, Window *w)
     } else if (w->quickTileMode() == int(QuickTileFlag::Right)) {
         setGeometry(geo.x() -10, geo.y(), 20, geo.height());
     }
-
     show();
     update();
 }

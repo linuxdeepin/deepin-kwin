@@ -196,6 +196,7 @@ void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, bool isfi
         QVector<Window *> vect;
         splitgroup->getSplitWindow(vect);
         for (auto &w : vect) {
+            Workspace::self()->raiseWindow(w);
             QRectF geo = w->clientGeometry();
             if (w->quickTileMode() == int(QuickTileFlag::Left)) {
                 w->moveResize(QRect(geo.x(), geo.y(), pos.x() - geo.x(), geo.height()));

@@ -1444,6 +1444,8 @@ public:
     void setStrut(KWaylandServer::deepinKwinStrut& strutArea) {m_strutArea = strutArea; }
     KWaylandServer::deepinKwinStrut strut() const {return m_strutArea; }
 
+    QRectF quickTileGeometry(QuickTileMode mode, const QPointF &pos) const;
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 
@@ -1724,7 +1726,7 @@ protected:
     }
     void updateElectricGeometryRestore();
     QRectF quickTileGeometryRestore() const;
-    QRectF quickTileGeometry(QuickTileMode mode, const QPointF &pos) const;
+
     void updateQuickTileMode(QuickTileMode newMode)
     {
         m_quickTileMode = newMode;

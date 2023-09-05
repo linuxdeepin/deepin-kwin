@@ -11,18 +11,20 @@
 #include <QWindow>
 #include <QKeyEvent>
 
-#define BRIGHTNESS  0.4
-#define SCALE_F     1.0
-#define SCALE_S     2.0
-#define WINDOW_W_H  300
+#define BRIGHTNESS          0.4
 #define FIRST_WIN_SCALE     (float)(720.0 / 1080.0)
+#define SPACING_H           (float)(20.0 / 1080.0)
+#define SPACING_W           (float)(20.0 / 1920.0)
 
 namespace KWin
 {
 SplitPreviewEffect::SplitPreviewEffect()
     : lastPresentTime(std::chrono::milliseconds::zero())
 {
-    connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &SplitPreviewEffect::test);
+    connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &SplitPreviewEffect::toggle);
+    if (!m_effectFrame) {
+        m_effectFrame = effectsEx->effectFrameEx("kwin/effects/splitscreen/qml/main.qml", false);
+    }
 }
 
 SplitPreviewEffect::~SplitPreviewEffect()
@@ -40,8 +42,6 @@ void SplitPreviewEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::m
     }
     lastPresentTime = presentTime;
     if (isActive()) {
-        // if (m_effectExit.animating())
-        //     m_effectExit.update(time);
         data.mask |= PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS;
         for (auto& mm: m_motionManagers) {
             mm.calculate(time / 2.0);
@@ -75,25 +75,6 @@ void SplitPreviewEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &dat
 {
     data.mask |= PAINT_WINDOW_TRANSFORMED;
 
-    // if (m_activated) {
-    //     w->enablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);   // Display always
-    // }
-    // w->enablePainting(EffectWindow::PAINT_DISABLED);
-
-    // QString cap;
-    // if (QX11Info::isPlatformX11()) {
-    //     if (w->caption().isEmpty() && effectsEx->getNETWMName(w) == WATERMARK_CLASS_NAME)
-    //         cap = WATERMARK_CLASS_NAME;
-    // } else {
-    //     cap = w->windowClass();
-    // }
-    // if (!cap.contains(WATERMARK_CLASS_NAME)) {
-    //     if (!(w->isDock() || w->isDesktop() || isRelevantWithPresentWindows(w)) || m_unminWinlist.contains(w)) {
-    //         w->disablePainting(EffectWindow::PAINT_DISABLED);
-    //         w->disablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
-    //     }
-    // }
-
     effects->prePaintWindow(w, data, presentTime);
 }
 
@@ -107,31 +88,23 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
     int desktop = effects->currentDesktop();
     WindowMotionManager& wmm = m_motionManagers[0];
     if (wmm.isManaging(w) || w->isDesktop()) {
-        auto area = effects->clientArea(FullArea/*ScreenArea*/, w);
+        auto area = effects->clientArea(FullArea, w);
         QRegion reg(area.toRect());
         WindowPaintData d = data;
         if (w->isDesktop()) {
             d.setBrightness(BRIGHTNESS);
-            
             effects->paintWindow(w, mask, reg, d);
         } else if (!w->isDesktop()) {
             auto geo = m_motionManagers[0].transformedGeometry(w);
-
             d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
             d.setScale(QVector2D((float)(geo.width() / w->width()), (float)(geo.height() / w->height())));
-
             effects->paintWindow(w, mask, reg, d);
 
             if (m_hoverwin == w) {
-                if (!m_effectFrame) {
-                    m_effectFrame = effectsEx->effectFrameEx("kwin/effects/splitscreen/qml/main.qml", false);
-                }
                 m_effectFrame->setGeometry(geo.adjusted(-4, -4, 4, 4).toRect());
                 m_effectFrame->setRadius(8);
                 m_effectFrame->render(region);
             }
-
-            
         }
     } else {
         effects->paintWindow(w, mask, region, data);
@@ -143,7 +116,7 @@ bool SplitPreviewEffect::isActive() const
     return m_activated && !effects->isScreenLocked();
 }
 
-void SplitPreviewEffect::test(KWin::EffectWindow *w)
+void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
 {
     if (!effectsEx->getQuickTileMode(w))
         return;
@@ -156,15 +129,11 @@ void SplitPreviewEffect::test(KWin::EffectWindow *w)
             if (w == m_window)
                 continue;
 
-            // if (!effectsEx->checkWindowAllowToSplit(w)) {
-            //     m_unminWinlist.append(w);
-            //     continue;
-            // }
-
             wmm.manage(w);
         }
     }
     m_backgroundRect = getPreviewWindowsGeometry(w);
+    m_screenRect = effects->clientArea(ScreenArea, w->screen(), currentDesktop);
 
     if (wmm.managedWindows().size() != 0) {
         calculateWindowTransformations(wmm.managedWindows(), wmm);
@@ -183,25 +152,12 @@ void SplitPreviewEffect::setActive(bool active)
 
     m_activated = active;
 
-    // QDBusMessage message =QDBusMessage::createSignal("/KWin", "org.kde.KWin", "SplitScreenStateChanged");
-    // message << bool(m_activated);
-    // QDBusConnection::sessionBus().send(message);
-
     if (active) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);
         m_hasKeyboardGrab = effects->grabKeyboard(this);
         effects->setActiveFullScreenEffect(this);
-
     } else {
         cleanup();
-
-        // auto p = m_motionManagers.begin();
-        // while (p != m_motionManagers.end()) {
-        //     for (auto &w : p->managedWindows()) {
-        //         p->moveWindow(w, w->clientGeometry());
-        //     }
-        //     ++p;
-        // }
     }
 
     effects->addRepaintFull();
@@ -224,20 +180,12 @@ void SplitPreviewEffect::cleanup()
         m_motionManagers.removeFirst();
     }
 
-    // m_unminWinlist.clear();
 }
 
 QRect SplitPreviewEffect::getPreviewWindowsGeometry(EffectWindow *w)
 {
     int mode = effectsEx->getQuickTileMode(w);
-    QRectF ret = effects->clientArea(MaximizeArea, w);
-    if (mode == int(QuickTileFlag::Left)) {
-        ret.setLeft(ret.right() - (ret.width() - ret.width() / 2) + 1);
-        m_backgroundMode = int(QuickTileFlag::Right);
-    } else if (mode == int(QuickTileFlag::Right)) {
-        ret.setRight(ret.left() + ret.width() / 2 - 1);
-        m_backgroundMode = int(QuickTileFlag::Left);
-    }
+    QRectF ret = effectsEx->getQuickTileGeometry(w, mode^0b11, w->clientGeometry().topLeft());
 
     return ret.toRect();
 }
@@ -284,25 +232,10 @@ void SplitPreviewEffect::windowInputMouseEvent(QEvent* e)
         case QEvent::MouseButtonRelease:
             if (target) {
                 effects->defineCursor(Qt::PointingHandCursor);
-                // effects->setElevatedWindow(target, true);
                 effects->activateWindow(target);
                 effectsEx->setQuickTileWindow(target, m_backgroundMode);
-                // effectsEx->setSplitWindow(target, m_backgroundMode);
-            } else {
-                // effectsEx->resetSplitGeometry();
             }
-
-            // temp code
-            // the client will reset to half screen area after setActive(false) on wayland,
-            // because the client damage to new geometry will cost some time.
-            // setActive(false) directly will cause client blink.
-            // if (!QX11Info::isPlatformX11()) {
-            //     QTimer::singleShot(50, [this]{
-            //         setActive(false);
-            //             });
-            // } else {
-                setActive(false);
-            // }
+            setActive(false);
             break;
         default:
             return;
@@ -358,12 +291,11 @@ void SplitPreviewEffect::calculateWindowTransformations(EffectWindowList windows
     if (windows.size() == 0)
         return;
 
-    calculateWindowTransformationsClosest(windows, /*m_screen*/0, wmm);
+    calculateWindowTransformationsClosest(windows, wmm);
 }
 
 
-void SplitPreviewEffect::calculateWindowTransformationsClosest(EffectWindowList windowlist, int screen,
-        WindowMotionManager& motionManager/*, bool isReLayout*/)
+void SplitPreviewEffect::calculateWindowTransformationsClosest(EffectWindowList windowlist, WindowMotionManager& motionManager)
 {
     QHash<EffectWindow*, QRect> targets;
     for (auto &w : windowlist) {
@@ -373,10 +305,9 @@ void SplitPreviewEffect::calculateWindowTransformationsClosest(EffectWindowList 
 
     QRect clientRect = m_backgroundRect;
     float scaleHeight = clientRect.height() * FIRST_WIN_SCALE;
-    int minSpacingH = 20;//m_scale[screen].spacingHeight;
-    int minSpacingW = 20;//m_scale[screen].spacingWidth;
-    int totalw = 20;//m_scale[screen].spacingWidth;
-    
+    int minSpacingH = SPACING_H * m_screenRect.height();
+    int minSpacingW = SPACING_W * m_screenRect.width();
+    int totalw = minSpacingW;
     QList<int> centerList;
     int row = 1;
     int index = 1;
@@ -429,7 +360,6 @@ void SplitPreviewEffect::calculateWindowTransformationsClosest(EffectWindowList 
 
     float winYPos = (clientRect.height() - (index - 1) * minSpacingH - index * scaleHeight) / 2 + clientRect.y();
     row = 1;
-    
     int x = centerList.size() >= row ? centerList[row - 1] : 0;
     totalw = minSpacingW;
     for (int i = windowlist.size() - 1; i >= 0; i--) {

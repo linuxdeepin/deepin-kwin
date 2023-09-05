@@ -1939,6 +1939,15 @@ void EffectsHandlerImpl::setQuickTileWindow(KWin::EffectWindow *w, int mode)
     }
 }
 
+QRectF EffectsHandlerImpl::getQuickTileGeometry(KWin::EffectWindow *w, int mode, QPointF pos)
+{
+    auto window = static_cast<EffectWindowImpl *>(w)->window();
+    if (window->isClient()) {
+        return window->quickTileGeometry((QuickTileMode)mode, pos);
+    }
+    return QRectF();
+}
+
 //****************************************
 // EffectScreenImpl
 //****************************************

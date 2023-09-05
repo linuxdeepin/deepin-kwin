@@ -40,9 +40,9 @@ public Q_SLOTS:
     void slotUpdateState(QString &, Window *);
 
 private:
-    QString m_screenName;
-    QGraphicsOpacityEffect *m_opacityEffect;
+    QString                 m_screenName;
+    QGraphicsOpacityEffect  *m_opacityEffect;
+    QRectF                  m_screenRect;
 };
-    
 }
 #endif

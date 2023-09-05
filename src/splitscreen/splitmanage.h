@@ -15,7 +15,6 @@
 namespace KWin {
 
 class Window;
-// class Workspace;
 
 class SplitGroup
 {
@@ -23,7 +22,7 @@ public:
     SplitGroup(int);
     ~SplitGroup(){};
 
-    int desktop() {return m_desktop;};
+    int desktop() { return m_desktop; };
     void setDesktop(int);
     void storeSplitWindow(Window *);
     void deleteSplitWindow(Window *);
@@ -44,7 +43,6 @@ public:
 
     void add(Window *window);
     void remove(Window *window);
-    // void unmanagedAdd(Window *window);
     void getSplitWindows(QHash<QString, QVector<Window *>> &);
     void getSplitBarWindow(QHash<QString, Window *> &);
 
@@ -52,7 +50,6 @@ public:
     void uninhibit();
 
 Q_SIGNALS:
-    // void signalWindowGeometry(QString, Window *);
     void signalSplitWindow(QString &, Window *w);
 
 public Q_SLOTS:
@@ -61,14 +58,8 @@ public Q_SLOTS:
 private:
     struct WindowData
     {
-        // QUuid outputUuid;
         QRectF geometry;
-        // MaximizeMode maximize;
         QuickTileMode quickTile;
-        // QRectF geometryRestore;
-        // bool fullscreen;
-        // QRectF fullscreenGeometryRestore;
-        // uint32_t interactiveMoveResizeCount;
         QString screenName;
         int desktop;
     };
@@ -86,8 +77,6 @@ private:
     QHash<QString, QSet<SplitGroup *>> m_splitGroupManage;
     QHash<QString, SplitBar *> m_splitBarManage;
     QHash<QString, Window *> m_splitBarWindows;
-    // QHash<QString, QHash<Window *, WindowData>> m_data;
-    // QVector<Window *> m_savedWindow;
     QHash<Window *, WindowData> m_data;
 };
 }

@@ -58,7 +58,7 @@ public:
 
     virtual void setQuickTileWindow(KWin::EffectWindow *w, int mode) = 0;
     virtual int getQuickTileMode(KWin::EffectWindow *w) = 0;
-
+    virtual QRectF getQuickTileGeometry(KWin::EffectWindow *w, int mode, QPointF pos) = 0;
     virtual std::unique_ptr<EffectFrameEx> effectFrameEx(QString url, bool staticSize = true, 
                                                      const QPoint &position = QPoint(-1, -1),
                                                      Qt::Alignment alignment = Qt::AlignCenter) const = 0;

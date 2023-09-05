@@ -270,9 +270,6 @@ void Workspace::init()
     if (auto server = waylandServer()) {
         connect(server, &WaylandServer::windowAdded, this, &Workspace::addWaylandWindow);
         connect(server, &WaylandServer::windowRemoved, this, &Workspace::removeWaylandWindow);
-
-        // connect(server, &WaylandServer::windowAdded, m_splitManage.get(), &SplitManage::add);
-        // connect(server, &WaylandServer::windowRemoved, m_splitManage.get(), &SplitManage::remove);
     }
 
     // broadcast that Workspace is ready, but first process all events.

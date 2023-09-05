@@ -266,6 +266,8 @@ public:
     int getQuickTileMode(KWin::EffectWindow *w) override;
     void setQuickTileWindow(KWin::EffectWindow *w, int mode) override;
 
+    QRectF getQuickTileGeometry(KWin::EffectWindow *w, int mode, QPointF pos) override;
+
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow *from, EffectWindow *to);
     void slotTabAdded(EffectWindow *from, EffectWindow *to);
