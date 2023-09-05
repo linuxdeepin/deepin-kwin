@@ -5,11 +5,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15 as QQC2
+import QtQuick 2.3
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.4 as QQC2
 
-import org.kde.kirigami 2.12 as Kirigami
+import org.kde.kirigami 2.5 as Kirigami
 
 Rectangle {
     id: root
@@ -35,7 +35,7 @@ Rectangle {
             Layout.preferredWidth: root.effectFrame.iconSize.width
             Layout.preferredHeight: root.effectFrame.iconSize.height
             Layout.alignment: Qt.AlignHCenter
-            visible: valid
+            visible: true
             source: root.effectFrame.icon
         }
 

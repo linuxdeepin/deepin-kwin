@@ -27,6 +27,7 @@
 #include "internalwindow.h"
 #include "osd.h"
 #include "pointer_input.h"
+#include "mousebuttons.h"
 #include "scene/itemrenderer.h"
 #include "unmanaged.h"
 #include "x11window.h"
@@ -62,6 +63,7 @@
 #include <QQuickWindow>
 #include <QStandardPaths>
 #include <QWheelEvent>
+#include <QQmlContext>
 
 namespace KWin
 {
@@ -673,7 +675,8 @@ void EffectsHandlerImpl::startMouseInterception(Effect *effect, Qt::CursorShape 
 
 void EffectsHandlerImpl::doStartMouseInterception(Qt::CursorShape shape)
 {
-    input()->pointer()->setEffectsOverrideCursor(shape);
+    if (input()->pointer())
+        input()->pointer()->setEffectsOverrideCursor(shape);
 
     // We want to allow global shortcuts to be triggered when moving a
     // window so it is possible to pick up a window and then move it to a
@@ -696,6 +699,11 @@ void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
     if (m_grabbedMouseEffects.isEmpty()) {
         doStopMouseInterception();
     }
+}
+
+bool EffectsHandlerImpl::isShortcuts(QKeyEvent *event)
+{
+    return input()->isShortcuts(event);
 }
 
 void EffectsHandlerImpl::doStopMouseInterception()
@@ -922,6 +930,66 @@ QByteArray EffectsHandlerImpl::readRootProperty(long atom, long type, int format
         return QByteArray();
     }
     return readWindowProperty(kwinApp()->x11RootWindow(), atom, type, format);
+}
+
+void EffectsHandlerImpl::setKeepAbove(KWin::EffectWindow *c, bool b)
+{
+    if (auto client = qobject_cast<Window *>(static_cast<EffectWindowImpl *>(c)->window())) {
+        client->setKeepAbove(b);
+    }
+}
+
+EffectWindowList EffectsHandlerImpl::getChildWinList(KWin::EffectWindow *w)
+{
+    if (auto client = qobject_cast<Window *>(static_cast<EffectWindowImpl *>(w)->window())) {
+        auto transClients = client->transients();
+        EffectWindowList ret;
+        ret.reserve(transClients.size());
+        std::transform(std::cbegin(transClients), std::cend(transClients),
+            std::back_inserter(ret),
+            [](auto c) {return c->effectWindow();});
+        return ret;
+    }
+    return {};
+}
+
+bool EffectsHandlerImpl::isTransientWin(KWin::EffectWindow *w)
+{
+    if (auto client = qobject_cast<Window *>(static_cast<EffectWindowImpl *>(w)->window())) {
+        return client->isTransient();
+    }
+    return false;
+}
+
+void EffectsHandlerImpl::sendPointer(Qt::MouseButton type)
+{
+    uint32_t button = KWin::qtMouseButtonToButton(Qt::LeftButton);
+    if (type == Qt::RightButton) {
+        button = KWin::qtMouseButtonToButton(Qt::RightButton);
+    }
+    input()->pointer()->processButton(button, InputRedirection::PointerButtonPressed, std::chrono::microseconds(0));
+    input()->pointer()->processButton(button, InputRedirection::PointerButtonReleased, std::chrono::microseconds(0));
+}
+
+void EffectsHandlerImpl::requestLock()
+{
+    // Workspace::self()->executeLock();
+}
+
+void EffectsHandlerImpl::changeBlurState(bool state)
+{
+    // Workspace::self()->changeBlurStatus(state);
+}
+
+EffectScreen *EffectsHandlerImpl::getCurrentPaintingScreen()
+{
+    // return Workspace::self()->getCurrentPaintingScreen();
+    return 0;
+}
+
+QString EffectsHandlerImpl::getActiveColor()
+{
+    return Workspace::self()->ActiveColor();
 }
 
 void EffectsHandlerImpl::activateWindow(EffectWindow *effectWindow)
@@ -2663,6 +2731,29 @@ QSize &EffectFrameQuickScene::size()
     return m_size;
 }
 
+void EffectFrameQuickScene::setImage(const QUrl &image)
+{
+    m_image = image;
+    Q_EMIT imageChanged();
+}
+
+void EffectFrameQuickScene::setImage(const QPixmap &image)
+{
+    QByteArray array;
+    QBuffer buffer(&array);
+    buffer.open(QIODevice::WriteOnly);
+    image.save(&buffer, "JPEG");
+    QString url("data:image/jpg;base64,");
+    url.append(QString::fromLatin1(array.toBase64().data()));
+    m_image = QUrl(url);
+    Q_EMIT imageChanged();
+}
+
+const QUrl &EffectFrameQuickScene::image() const
+{
+    return m_image;
+}
+
 EffectFrameImpl::EffectFrameImpl(EffectFrameStyle style, bool staticSize, QPoint position, Qt::Alignment alignment)
     : QObject(nullptr)
     , EffectFrameEx()
@@ -2836,6 +2927,21 @@ void EffectFrameImpl::setRadius(int radius)
 int &EffectFrameImpl::radius()
 {
     return m_view->radius();
+}
+
+void EffectFrameImpl::setImage(const QUrl &image)
+{
+    m_view->setImage(image);
+}
+
+void EffectFrameImpl::setImage(const QPixmap &image)
+{
+    m_view->setImage(image);
+}
+
+const QUrl &EffectFrameImpl::image() const
+{
+    return m_view->image();
 }
 
 } // namespace

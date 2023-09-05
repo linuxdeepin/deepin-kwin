@@ -27,6 +27,10 @@
 #include "wayland/clientmanagement_interface.h"
 #include "wayland/ddeshell_interface.h"
 
+#define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
+#define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
+#define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
+
 class KConfig;
 class KConfigGroup;
 class KStartupInfo;
@@ -291,6 +295,8 @@ public:
 
     SessionManager *sessionManager() const;
 
+    QString ActiveColor();
+
     /**
      * @returns the TileManager associated to a given output
      */
@@ -306,6 +312,16 @@ public:
 
     // from dde-kwin: let startdde know that dde has started
     void registerDDESession() const;
+
+    // void setCurrentPaintingScreen(int index) {
+    //     m_paintingScreen = index;
+    // }
+
+    // int getCurrentPaintingScreen() {
+    //     return m_paintingScreen;
+    // }
+    // void executeLock();
+
 public:
     QPoint cascadeOffset(const Window *c) const;
 
@@ -313,6 +329,8 @@ private:
     QTimer *m_quickTileCombineTimer;
     QuickTileMode m_lastTilingMode;
     bool m_isDDESessionRegister = false;
+    // Compositor *m_compositor;
+    // int m_paintingScreen = 0;
 
     //-------------------------------------------------
     // Unsorted
@@ -573,6 +591,9 @@ public Q_SLOTS:
     void updateWindowStates();
     void captureWindowImage(int windowId, wl_resource *buffer);
 
+    // void screensChanged();
+    // void changeBlurStatus(bool);
+
 private Q_SLOTS:
     void desktopResized();
     void selectWmInputEventMask();
@@ -803,6 +824,8 @@ private:
     std::unique_ptr<PlaceholderInputEventFilter> m_placeholderFilter;
     std::map<Output *, std::unique_ptr<TileManager>> m_tileManagers;
     std::unique_ptr<SplitManage> m_splitManage;
+
+    QString m_activeColor;
 
 private:
     friend bool performTransiencyCheck();

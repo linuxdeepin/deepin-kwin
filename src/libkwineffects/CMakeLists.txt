@@ -83,6 +83,7 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/kwinglutils_export.h
     kwinanimationeffect.h
     kwineffects.h
+    kwineffectsex.h
     kwinglobals.h
     kwinglplatform.h
     kwingltexture.h

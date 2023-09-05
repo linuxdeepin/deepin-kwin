@@ -91,6 +91,7 @@ Build-Depends: breeze-dev (>= 4:5.14.5-1),
                qtwayland5-dev-tools,
                wayland-protocols (>= 1.31~),
                xwayland (>= 2:1.20.4.71-1~),
+               libgsettings-qt-dev,
 Standards-Version: 4.6.2
 Homepage: https://projects.kde.org/projects/kde/workspace/kwin
 Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/kwin

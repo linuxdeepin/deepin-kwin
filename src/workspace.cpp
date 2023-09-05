@@ -68,6 +68,7 @@
 #include <KStartupInfo>
 // Qt
 #include <QtConcurrentRun>
+#include <qscreen.h>
 // xcb
 #include <xcb/xinerama.h>
 
@@ -2341,6 +2342,14 @@ void Workspace::setWasUserInteraction()
                        [this] {
                            m_wasUserInteractionFilter.reset();
                        });
+}
+
+QString Workspace::ActiveColor()
+{
+    // if (m_activeColor.isEmpty())
+    //     m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    // return m_activeColor;
+    return "#1F1E33";
 }
 
 void Workspace::updateTabbox()

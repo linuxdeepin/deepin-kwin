@@ -538,6 +538,9 @@ public:
         waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
         passToWaylandServer(event);
         static_cast<EffectsHandlerImpl *>(effects)->grabbedKeyboardEvent(event);
+        // if (!static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
+        //     return false;
+        // }
         return true;
     }
     bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override
@@ -3313,6 +3316,14 @@ Window *InputRedirection::findManagedToplevel(const QPointF &pos)
         }
     } while (it != stacking.begin());
     return nullptr;
+}
+
+bool InputRedirection::isShortcuts(QKeyEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        return input()->shortcuts()->processKey(static_cast<KeyEvent*>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
+    }
+    return false;
 }
 
 Qt::KeyboardModifiers InputRedirection::keyboardModifiers() const

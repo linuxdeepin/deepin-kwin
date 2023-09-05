@@ -5,8 +5,8 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
+import QtQuick 2.3
+import QtQuick.Layouts 1.3
 
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 3.0 as PlasmaComponents
@@ -43,7 +43,7 @@ Item {
             Layout.preferredHeight: root.effectFrame.iconSize.height
             Layout.alignment: Qt.AlignHCenter
             animated: root.effectFrame.crossFadeEnabled
-            visible: valid
+            visible: true
             source: root.effectFrame.icon
         }
 

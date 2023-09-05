@@ -175,6 +175,8 @@ public:
         return m_shortcuts;
     }
 
+    bool isShortcuts(QKeyEvent *event);
+
     /**
      * Sends an event through all InputFilters.
      * The method @p function is invoked on each input filter. Processing is stopped if

@@ -66,6 +66,14 @@ public:
     void drawWindow(EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data) override;
     void renderWindow(EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data) override;
 
+    QString getActiveColor() override;
+
+    void requestLock() override;
+    void changeBlurState(bool) override;
+    EffectScreen *getCurrentPaintingScreen() override;
+
+    bool isShortcuts(QKeyEvent *event) override;
+
     void activateWindow(EffectWindow *c) override;
     EffectWindow *activeWindow() const override;
     void moveWindow(EffectWindow *w, const QPoint &pos, bool snap = false, double snapAdjust = 1.0) override;
@@ -262,6 +270,13 @@ public:
 
     KWin::EffectWindow *inputPanel() const override;
     bool isInputPanelOverlay() const override;
+
+    void setKeepAbove(KWin::EffectWindow *c, bool) override;
+
+    void sendPointer(Qt::MouseButton type) override;
+
+    EffectWindowList getChildWinList(KWin::EffectWindow *w) override;
+    bool isTransientWin(KWin::EffectWindow *w) override;
 
     int getQuickTileMode(KWin::EffectWindow *w) override;
     void setQuickTileWindow(KWin::EffectWindow *w, int mode) override;
@@ -546,6 +561,7 @@ class EffectFrameQuickScene : public OffscreenQuickScene
     Q_PROPERTY(QColor color READ color NOTIFY colorChanged)
     Q_PROPERTY(int radius READ radius NOTIFY radiusChanged)
     Q_PROPERTY(QSize size READ size NOTIFY sizeChanged)
+    Q_PROPERTY(QUrl image READ image NOTIFY imageChanged)
 
 public:
     EffectFrameQuickScene(EffectFrameStyle style, bool staticSize, QPoint position,
@@ -604,6 +620,11 @@ public:
     QSize &size();
     Q_SIGNAL void sizeChanged();
 
+    void setImage(const QUrl &image);
+    void setImage(const QPixmap &image);
+    const QUrl &image() const;
+    Q_SIGNAL void imageChanged();
+
 private:
     void reposition();
 
@@ -625,7 +646,7 @@ private:
     QColor m_color;
     int m_radius;
     QSize m_size;
-
+    QUrl m_image;
 };
 
 class KWIN_EXPORT EffectFrameImpl
@@ -665,6 +686,9 @@ public:
     QColor &color() const override;
     void setRadius(int radius) override;
     int &radius() override;
+    void setImage(const QUrl &image) override;
+    void setImage(const QPixmap &image) override;
+    const QUrl &image() const override;
 
 private:
     Q_DISABLE_COPY(EffectFrameImpl) // As we need to use Qt slots we cannot copy this class
