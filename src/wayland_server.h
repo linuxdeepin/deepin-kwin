@@ -248,6 +248,8 @@ public:
         m_linuxDmabufBuffers.remove(buffer);
     }
 
+    KWaylandServer::OutputInterface *findWaylandOutput(Output * output) const;
+
     /**
      * Returns the first socket name that can be used to connect to this server.
      * For a full list, use display()->socketNames()

@@ -29,6 +29,7 @@ target_sources(kwin PRIVATE
     drm_virtual_egl_layer.cpp
     drm_virtual_output.cpp
     gbm_adaptor.cpp
+    remoteaccess_manager.cpp
 )
 
 target_link_libraries(kwin Libdrm::Libdrm gbm::gbm PkgConfig::Libxcvt)

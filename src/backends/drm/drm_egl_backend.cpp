@@ -9,6 +9,7 @@
 #include "drm_egl_backend.h"
 #include "basiceglsurfacetexture_internal.h"
 #include "basiceglsurfacetexture_wayland.h"
+#include "remoteaccess_manager.h"
 // kwin
 #include "core/renderloop_p.h"
 #include "drm_abstract_output.h"
@@ -33,6 +34,7 @@
 #include "scene/surfaceitem_wayland.h"
 #include "wayland/clientconnection.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"
+#include "wayland/remote_access_interface.h"
 #include "wayland/surface_interface.h"
 // kwin libs
 #include <kwineglimagetexture.h>
@@ -95,6 +97,20 @@ bool EglGbmBackend::initializeEgl()
     return initEglAPI();
 }
 
+void EglGbmBackend::initRemotePresent()
+{
+    if (qEnvironmentVariableIsSet("KWIN_NO_REMOTE")) {
+        return;
+    }
+
+    qCDebug(KWIN_DRM) << "Support for remote access enabled";
+    m_remoteaccessManager = std::make_shared<RemoteAccessManager>(this);
+
+    connect(m_remoteaccessManager.get(), &RemoteAccessManager::screenRecordStatusChanged, this, [=](bool isScreenRecording) {
+        qCDebug(KWIN_DRM) << "Remote access isScreenRecording " << isScreenRecording;
+    });
+}
+
 void EglGbmBackend::init()
 {
     if (!initializeEgl()) {
@@ -109,6 +125,7 @@ void EglGbmBackend::init()
     initBufferAge();
     initKWinGL();
     initWayland();
+    initRemotePresent();
 }
 
 bool EglGbmBackend::initRenderingContext()
@@ -204,6 +221,11 @@ std::unique_ptr<SurfaceTexture> EglGbmBackend::createSurfaceTextureWayland(Surfa
 
 void EglGbmBackend::present(Output *output)
 {
+    std::shared_ptr<DrmFramebuffer> buffer = static_cast<EglGbmLayer *>(primaryLayer(output))->currentBuffer();
+    if (m_remoteaccessManager) {
+        m_remoteaccessManager->passBuffer(output, buffer->buffer());
+    }
+
     static_cast<DrmAbstractOutput *>(output)->present();
 }
 

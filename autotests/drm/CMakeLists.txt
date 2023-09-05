@@ -29,6 +29,7 @@ set(mockDRM_SRCS
     ../../src/backends/drm/drm_shadow_buffer.cpp
     ../../src/backends/drm/drm_virtual_egl_layer.cpp
     ../../src/backends/drm/drm_virtual_output.cpp
+    ../../src/backends/drm/remoteaccess_manager.cpp
 )
 
 include_directories(${Libdrm_INCLUDE_DIRS})

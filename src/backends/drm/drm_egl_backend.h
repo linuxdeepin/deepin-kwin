@@ -42,6 +42,7 @@ class DrmGpu;
 class EglGbmLayer;
 class DrmOutputLayer;
 class DrmPipeline;
+class RemoteAccessManager;
 
 struct GbmFormat
 {
@@ -87,10 +88,12 @@ private:
     bool initializeEgl();
     bool initBufferConfigs();
     bool initRenderingContext();
+    void initRemotePresent();
 
     DrmBackend *m_backend;
     QHash<uint32_t, GbmFormat> m_formats;
     QHash<uint32_t, EGLConfig> m_configs;
+    std::shared_ptr<RemoteAccessManager> m_remoteaccessManager;
 
     friend class EglGbmTexture;
 };

@@ -345,6 +345,15 @@ void WaylandServer::handleOutputDisabled(Output *output)
     }
 }
 
+KWaylandServer::OutputInterface *WaylandServer::findWaylandOutput(Output * output) const
+{
+    if (m_waylandOutputs.contains(output))
+    {
+        return m_waylandOutputs[output];
+    }
+    return nullptr;
+}
+
 bool WaylandServer::start()
 {
     return m_display->start();
