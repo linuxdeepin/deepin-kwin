@@ -172,37 +172,27 @@ void ChameleonSplitMenu::leaveEvent(QEvent *e)
 
 void ChameleonSplitMenu::paintEvent(QPaintEvent *e)
 {
-    QPainter painter(this);
-
-    QColor col_menu = QColor("#EEEEEE");
-    col_menu.setAlpha(255 * 0.8);
-    llabel->setGeometry(QRect(14, 14, 44, 58));
-    clabel->setGeometry(QRect(60, 14, 44, 58));
+    Q_UNUSED(e)
+    llabel->setGeometry(QRect(13, 13, 44, 58));
+    clabel->setGeometry(QRect(59, 13, 44, 58));
     if (m_isSupportFourSplit) {
-        threeLabelLeft->setGeometry(QRect(120, 14, 44, 58));
-        threeLabelTopRight->setGeometry(QRect(166, 14, 44, 28));
-        threeLabelBottomRight->setGeometry(QRect(166, 44, 44, 28));
+        threeLabelLeft->setGeometry(QRect(119, 13, 44, 58));
+        threeLabelTopRight->setGeometry(QRect(165, 13, 44, 28));
+        threeLabelBottomRight->setGeometry(QRect(165, 43, 44, 28));
 
-        threeLabelTopLeft->setGeometry(QRect(14, 88, 44, 28));
-        threeLabelBottomLeft->setGeometry(QRect(14, 118, 44, 28));
-        threeLabelRight->setGeometry(QRect(60, 88, 44, 58));
+        threeLabelTopLeft->setGeometry(QRect(13, 87, 44, 28));
+        threeLabelBottomLeft->setGeometry(QRect(13, 117, 44, 28));
+        threeLabelRight->setGeometry(QRect(59, 87, 44, 58));
 
-        fourLabelTopLeft->setGeometry(QRect(120, 88, 44, 28));
-        fourLabelBottomLeft->setGeometry(QRect(120, 118, 44, 28));
-        fourLabelTopRight->setGeometry(QRect(166, 88, 44, 28));
-        fourLabelBottomRight->setGeometry(QRect(166, 118, 44, 28));
+        fourLabelTopLeft->setGeometry(QRect(119, 87, 44, 28));
+        fourLabelBottomLeft->setGeometry(QRect(119, 117, 44, 28));
+        fourLabelTopRight->setGeometry(QRect(165, 87, 44, 28));
+        fourLabelBottomRight->setGeometry(QRect(165, 117, 44, 28));
 
-        blabel->setGeometry(QRect(0, 0, 224, 160));
+        blabel->setGeometry(QRect(0, 0, 222, 158));
     } else {
-        blabel->setGeometry(QRect(0, 0, 119, 87));
+        blabel->setGeometry(QRect(0, 0, 116, 84));
     }
-    painter.setRenderHints(QPainter::Antialiasing, true);
-
-    painter.setPen(QPen(Qt::transparent, 1));
-    painter.setBrush(QBrush(col_menu));
-    QPainterPath painterPath;
-    painterPath.addRoundedRect(QRect(0, 0, width(), height()), 18, 18);
-    painter.drawPath(painterPath);
 }
 
 bool ChameleonSplitMenu::eventFilter(QObject *obj, QEvent *event)
@@ -453,11 +443,11 @@ void ChameleonSplitMenu::Show(const QRect& screenGeom, QPoint pos, QColor color)
 
     QSize menuSize;
     if (m_isSupportFourSplit) {//surpport four split
-        pos.setX(m_pos.x() - 91);
-        menuSize = QSize(224, 160);
+        pos.setX(m_pos.x() - 90);
+        menuSize = QSize(222, 158);
     } else {
-        pos.setX(m_pos.x() - 37);
-        menuSize = QSize(119, 87);
+        pos.setX(m_pos.x() - 36);
+        menuSize = QSize(116, 84);
     }
     setFixedSize(menuSize);
     QRect displayRect = QRect(pos, QSize(menuSize.width(), menuSize.height()));
