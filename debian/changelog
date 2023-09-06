@@ -1,3 +1,11 @@
+kwin (4:5.27.2.13-deepin13-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * New upstream release (5.27.2).
+  * Temp remove split cursor in wayland
+
+ -- zhangyu <zhangyud@uniontech.com>  Wed, 06 Sep 2023 11:15:26 +0800
+
 kwin (4:5.27.2.12-deepin12-1) unstable; urgency=medium
 
   [ jccKevin ]
