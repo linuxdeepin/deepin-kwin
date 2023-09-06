@@ -47,6 +47,8 @@
 #include <QFileInfo>
 #include <QMouseEvent>
 #include <QProcess>
+#include <QDBusMessage>
+#include <QDBusConnection>
 // xcb
 #include <xcb/xcb_icccm.h>
 // system
@@ -342,6 +344,7 @@ void X11Window::releaseWindow(bool on_shutdown)
         Q_EMIT clientFinishUserMovedResized(this);
     }
     Q_EMIT windowClosed(this, del);
+    broadcastDbusDestroySignal(window());
     finishCompositing();
     workspace()->rulebook()->discardUsed(this, true); // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
@@ -408,6 +411,7 @@ void X11Window::destroyWindow()
         Q_EMIT clientFinishUserMovedResized(this);
     }
     Q_EMIT windowClosed(this, del);
+    broadcastDbusDestroySignal(window());
     finishCompositing(ReleaseReason::Destroyed);
     workspace()->rulebook()->discardUsed(this, true); // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
@@ -4668,6 +4672,10 @@ QRect X11Window::fullscreenMonitorsArea(NETFullscreenMonitors requestedTopology)
 
 bool X11Window::doStartInteractiveMoveResize()
 {
+    QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "clientMoveResize");
+    message << bool(true) << int(this->window());
+    QDBusConnection::sessionBus().send(message);
+
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
         bool has_grab = false;
         // This reportedly improves smoothness of the moveresize operation,
@@ -4698,6 +4706,10 @@ bool X11Window::doStartInteractiveMoveResize()
 
 void X11Window::leaveInteractiveMoveResize()
 {
+    QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "clientMoveResize");
+    message << bool(false) << int(this->window());
+    QDBusConnection::sessionBus().send(message);
+
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
         if (move_resize_has_keyboard_grab) {
             ungrabXKeyboard();

@@ -58,5 +58,9 @@
     <signal name="showingDesktopChanged">
         <arg name="showing" type="b" direction="out"/>
     </signal>
+    <method name="isOnCurrentDesktop">
+      <arg type="i" direction="in"/>
+      <arg type="b" direction="out"/>
+    </method>
   </interface>
 </node>

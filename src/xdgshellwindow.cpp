@@ -32,6 +32,7 @@
 #include "wayland/ddeshell_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "wayland/dderestrict_interface.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -340,6 +341,15 @@ void XdgSurfaceWindow::destroyWindow()
     }
     m_configureTimer->stop();
     cleanTabBox();
+
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict) {
+         auto protectedWindowIdLists = dde_restrict->protectedWindowIdLists();
+        if (protectedWindowIdLists.contains(window())) {
+            broadcastDbusDestroySignal(window());
+        }
+    }
+
     Deleted *deleted = Deleted::create(this);
     Q_EMIT windowClosed(this, deleted);
     StackingUpdatesBlocker blocker(workspace());
@@ -1077,6 +1087,7 @@ void XdgToplevelWindow::closeWindow()
         sendPing(PingReason::CloseWindow);
         m_shellSurface->sendClose();
     }
+    broadcastDbusDestroySignal(window());
 }
 
 XdgSurfaceConfigure *XdgToplevelWindow::sendRoleConfigure() const

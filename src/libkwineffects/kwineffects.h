@@ -1261,6 +1261,11 @@ public:
      */
     virtual bool isScreenLocked() const = 0;
 
+    virtual bool prohibitScreenshot(qulonglong winid) const = 0;
+    virtual int windowPId(KWin::EffectWindow *w) = 0;
+    // virtual quint32 windowId() const = 0;
+    virtual QImage getProhibitShotImage(QSize size) = 0;
+
     /**
      * @brief Makes the OpenGL compositing context current.
      *

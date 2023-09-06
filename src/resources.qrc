@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>themes/prohibited.svg</file>
+    </qresource>
+</RCC>

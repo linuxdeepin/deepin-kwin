@@ -38,6 +38,8 @@
 // Qt
 #include <QAction>
 #include <QKeyEvent>
+#include <QDBusMessage>
+#include <QDBusConnection>
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -1431,6 +1433,9 @@ void TabBox::close(bool abort)
     m_tabGrab = false;
     m_desktopGrab = false;
     m_noModifierGrab = false;
+
+    QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "tabboxClosed");
+    QDBusConnection::sessionBus().send(message);
 }
 
 void TabBox::accept(bool closeTabBox)

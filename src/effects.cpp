@@ -51,6 +51,7 @@
 #include "waylandwindow.h"
 #include "window_property_notify_x11_filter.h"
 #include "workspace.h"
+#include "wayland/dderestrict_interface.h"
 
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationSettings>
@@ -1736,6 +1737,41 @@ bool EffectsHandlerImpl::isScreenLocked() const
 #endif
 }
 
+bool EffectsHandlerImpl::prohibitScreenshot(qulonglong winid) const
+{
+    if (!waylandServer() || !workspace()) {
+        return false;
+    }
+
+    auto dde_restrict = waylandServer()->ddeRestrict();
+
+    if (!dde_restrict)
+        return false;
+
+    auto protectedWindowIdLists = dde_restrict->protectedWindowIdLists();
+    if (winid) {
+        for (int i = 0; i < protectedWindowIdLists.length(); i++) {
+            if (protectedWindowIdLists[i] == winid)
+                return true;
+        }
+        return false;
+    }
+
+    if (workspace()->hasProtectedWindow()) {
+        return true;
+    }
+
+    return dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows();
+}
+
+QImage EffectsHandlerImpl::getProhibitShotImage(QSize size)
+{
+    if (!workspace()) {
+        return QImage();
+    }
+    return workspace()->getProhibitShotImage(size);
+}
+
 QString EffectsHandlerImpl::debug(const QString &name, const QString &parameter) const
 {
     QString internalName = name.toLower();
@@ -2017,6 +2053,14 @@ QRectF EffectsHandlerImpl::getQuickTileGeometry(KWin::EffectWindow *w, int mode,
         return window->quickTileGeometry((QuickTileMode)mode, pos);
     }
     return QRectF();
+}
+
+int EffectsHandlerImpl::windowPId(KWin::EffectWindow *w)
+{
+    if (auto client = qobject_cast<Window *>(static_cast<EffectWindowImpl *>(w)->window())) {
+        return client->pid();
+    }
+    return 0;
 }
 
 //****************************************
@@ -2445,6 +2489,12 @@ bool EffectWindowImpl::isX11Client() const
 {
     return m_x11Window;
 }
+
+// quint32 EffectWindowImpl::windowId() const
+// {
+//     auto client = qobject_cast<Window *>(static_cast<EffectWindowImpl *>(w)->window())
+//     return client->window();
+// }
 
 //****************************************
 // EffectWindowGroupImpl

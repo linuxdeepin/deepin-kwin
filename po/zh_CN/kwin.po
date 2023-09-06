@@ -2785,3 +2785,8 @@ msgstr ""
 "正在使用什么 OpenGL 驱动，和哪些特效正在运行。\n"
 "请将此本文下面的信息贴至一个剪贴板服务，\n"
 "例如 https://paste.kde.org ，而不是直接贴到请求支持的贴子中。\n"
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr "文件涉密，无法显示"

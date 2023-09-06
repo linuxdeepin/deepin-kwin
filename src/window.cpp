@@ -53,6 +53,9 @@
 #include <QDir>
 #include <QMouseEvent>
 #include <QStyleHints>
+#include <QDBusMessage>
+#include <QDBusConnection>
+#include <QX11Info>
 
 namespace KWin
 {
@@ -1076,6 +1079,10 @@ void Window::setDesktop(int desktop)
         desktops << VirtualDesktopManager::self()->desktopForX11Id(desktop);
     }
     setDesktops(desktops);
+
+    QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "ClientToDesktopStateChanged");
+    message << int(this->window()) << int(desktop);
+    QDBusConnection::sessionBus().send(message);
 }
 
 void Window::setDesktops(QVector<VirtualDesktop *> desktops)
@@ -1147,6 +1154,12 @@ void Window::setDesktops(QVector<VirtualDesktop *> desktops)
         Q_EMIT desktopPresenceChanged(this, was_desk);
     }
     Q_EMIT x11DesktopIdsChanged();
+
+    if (QX11Info::isPlatformX11() && desktops.size() > 1) {
+        QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "ClientToDesktopStateChanged");
+        message << int(this->window()) << (int)desktops.last()->x11DesktopNumber();
+        QDBusConnection::sessionBus().send(message);
+    }
 }
 
 void Window::doSetDesktop()
@@ -4602,6 +4615,13 @@ void Window::setQuickTileFromMenu(QuickTileMode mode)
 {
     setQuickTileMode(mode);
     Q_EMIT triggerSplitPreview(this);
+}
+
+void Window::broadcastDbusDestroySignal(int pid)
+{
+    QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "DestroyWindowChanged");
+    message << pid;
+    QDBusConnection::sessionBus().send(message);
 }
 
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)

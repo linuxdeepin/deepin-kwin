@@ -200,6 +200,7 @@ target_link_libraries(kwin
     Qt${QT_MAJOR_VERSION}::Concurrent
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Quick
+    Qt${QT_MAJOR_VERSION}::X11Extras
 
     KF5::ConfigCore
     KF5::ConfigWidgets

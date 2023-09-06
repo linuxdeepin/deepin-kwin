@@ -21,6 +21,8 @@
 #include <QStringList>
 #include <QTimer>
 #include <QVector>
+#include <QSize>
+#include <QImage>
 // std
 #include <functional>
 #include <memory>
@@ -315,6 +317,8 @@ public:
     // from dde-kwin: let startdde know that dde has started
     void registerDDESession() const;
 
+     bool hasProtectedWindow();
+
     // void setCurrentPaintingScreen(int index) {
     //     m_paintingScreen = index;
     // }
@@ -331,6 +335,7 @@ private:
     QTimer *m_quickTileCombineTimer;
     QuickTileMode m_lastTilingMode;
     bool m_isDDESessionRegister = false;
+    QImage m_prohibitShotImage;
     // Compositor *m_compositor;
     // int m_paintingScreen = 0;
 
@@ -345,7 +350,7 @@ public:
     QHash<const Output *, QRect> previousScreenSizes() const;
     int oldDisplayWidth() const;
     int oldDisplayHeight() const;
-
+    QImage getProhibitShotImage(QSize size);
     /**
      * Returns the list of windows sorted in stacking order, with topmost window
      * at the last position
@@ -595,6 +600,7 @@ public Q_SLOTS:
     void updateClientArea();
     void updateWindowStates();
     void captureWindowImage(int windowId, wl_resource *buffer);
+    void slotClientMinimizeChanged(KWin::Window *window);
 
     // void screensChanged();
     // void changeBlurStatus(bool);

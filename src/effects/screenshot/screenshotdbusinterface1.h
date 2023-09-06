@@ -183,9 +183,16 @@ private:
     void showInfoMessage(InfoMessageMode mode);
     void hideInfoMessage();
 
+    bool isProhibitScreenshot(qulonglong winid = 0);
+
+    QImage getProhibitShotImage(QSize size);
+
     ScreenShotEffect *m_effect;
     std::unique_ptr<ScreenShotSink1> m_sink;
     std::unique_ptr<ScreenShotSource1> m_source;
+    QString m_blackPixmapPath;
+    QString prohibitImagePath(int nWidth, int nHeight);
+    QImage m_prohibitShotImage;
 };
 
 } // namespace KWin

@@ -1448,6 +1448,7 @@ public:
 
     void setQuickTileFromMenu(QuickTileMode mode);
 
+    void broadcastDbusDestroySignal(int pid);
 public Q_SLOTS:
     virtual void closeWindow() = 0;
 

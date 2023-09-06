@@ -25,6 +25,7 @@ target_link_libraries(kwin4_effect_screenshot PRIVATE
 
     Qt${QT_MAJOR_VERSION}::Concurrent
     Qt${QT_MAJOR_VERSION}::DBus
+    Qt${QT_MAJOR_VERSION}::X11Extras
 )
 
 if (KWIN_BUILD_NOTIFICATIONS)

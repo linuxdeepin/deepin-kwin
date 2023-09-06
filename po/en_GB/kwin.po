@@ -3651,3 +3651,8 @@ msgstr ""
 #~ msgstr ""
 #~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; "
 #~ "6.8 for translucency and shadows to work.</qt>"
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr "The confidential file cannot be displayed"

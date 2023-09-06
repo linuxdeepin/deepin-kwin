@@ -220,6 +220,11 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dde-restrict.xml
+    BASENAME dde-restrict
+)
+
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/strut.xml
     BASENAME strut
 )
@@ -258,6 +263,7 @@ target_sources(kwin PRIVATE
     ddeseat_interface.cpp
     ddekeyboard_interface.cpp
     ddeshell_interface.cpp
+    dderestrict_interface.cpp
     ddesecurity_interface.cpp
     display.cpp
     dpms_interface.cpp

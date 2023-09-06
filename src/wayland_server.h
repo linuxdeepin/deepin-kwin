@@ -55,6 +55,7 @@ class OutputOrderV1Interface;
 class ClientManagementInterface;
 class DDEShellInterface;
 class DDESeatInterface;
+class DDERestrictInterface;
 class DDESecurityInterface;
 class StrutInterface;
 }
@@ -152,6 +153,9 @@ public:
     KWaylandServer::DDESeatInterface *ddeSeat() const {
         return m_ddeSeat;
     }
+    KWaylandServer::DDERestrictInterface *ddeRestrict() const {
+        return m_ddeRestrict;
+    }
 
     bool isKeyboardShortcutsInhibited() const;
 
@@ -174,6 +178,7 @@ public:
     Window *findWindow(const KWaylandServer::SurfaceInterface *surface) const;
     XdgToplevelWindow *findXdgToplevelWindow(KWaylandServer::SurfaceInterface *surface) const;
     XdgSurfaceWindow *findXdgSurfaceWindow(KWaylandServer::SurfaceInterface *surface) const;
+    Window *findClient(const QByteArray &resource) const;
 
     /**
      * @returns a transient parent of a surface imported with the foreign protocol, if any
@@ -205,6 +210,11 @@ public:
      * @returns whether any kind of global shortcuts are supported.
      */
     bool hasGlobalShortcutSupport() const;
+
+     /**
+     * @return whether there are clients that prohibits screenshots
+     */
+    bool hasProhibitWindows() const;
 
     void initWorkspace();
 
@@ -325,6 +335,7 @@ private:
     KWaylandServer::ClientManagementInterface *m_clientManagement = nullptr;
     KWaylandServer::DDEShellInterface *m_ddeShell = nullptr;
     KWaylandServer::DDESeatInterface *m_ddeSeat = nullptr;
+    KWaylandServer::DDERestrictInterface *m_ddeRestrict = nullptr;
     KWaylandServer::DDESecurityInterface *m_ddeSecurity = nullptr;
     KWaylandServer::StrutInterface *m_strut = nullptr;
     QList<Window *> m_windows;

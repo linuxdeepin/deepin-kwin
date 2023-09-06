@@ -12,6 +12,7 @@
 #include <QObject>
 #include <QtDBus>
 
+#include "window.h"
 #include "virtualdesktopsdbustypes.h"
 
 namespace KWin
@@ -89,6 +90,8 @@ public Q_SLOTS: // METHODS
     QVariantMap getWindowInfo(const QString &uuid);
 
     Q_NOREPLY void showDesktop(bool show);
+
+    bool isOnCurrentDesktop(int window);
 
 Q_SIGNALS:
     void showingDesktopChanged(bool showing);

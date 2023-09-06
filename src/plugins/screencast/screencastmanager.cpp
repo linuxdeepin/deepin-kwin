@@ -23,6 +23,7 @@
 #include "window.h"
 #include "windowscreencastsource.h"
 #include "workspace.h"
+#include "wayland/dderestrict_interface.h"
 
 #include <KLocalizedString>
 
@@ -101,6 +102,11 @@ void ScreencastManager::streamWindow(KWaylandServer::ScreencastStreamV1Interface
                                      const QString &winid,
                                      KWaylandServer::ScreencastV1Interface::CursorMode mode)
 {
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
+        return;
+    }
+
     auto window = Workspace::self()->findToplevel(QUuid(winid));
     if (!window) {
         waylandStream->sendFailed(i18n("Could not find window id %1", winid));
@@ -124,6 +130,11 @@ void ScreencastManager::streamVirtualOutput(KWaylandServer::ScreencastStreamV1In
                                             double scale,
                                             KWaylandServer::ScreencastV1Interface::CursorMode mode)
 {
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
+        return;
+    }
+
     auto output = kwinApp()->outputBackend()->createVirtualOutput(name, size, scale);
     streamOutput(stream, output, mode);
     connect(stream, &KWaylandServer::ScreencastStreamV1Interface::finished, output, [output] {
@@ -142,6 +153,11 @@ void ScreencastManager::streamOutput(KWaylandServer::ScreencastStreamV1Interface
                                      Output *streamOutput,
                                      KWaylandServer::ScreencastV1Interface::CursorMode mode)
 {
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
+        return;
+    }
+
     if (!streamOutput) {
         waylandStream->sendFailed(i18n("Could not find output"));
         return;

@@ -260,6 +260,19 @@ void DBusInterface::onShowingDesktopChanged(bool show, bool /*animated*/)
     Q_EMIT showingDesktopChanged(show);
 }
 
+bool DBusInterface::isOnCurrentDesktop(int window)
+{
+    QList<Window*> allClientList = workspace()->allClientList();
+
+    for (int i = 0; i < allClientList.count(); i++) {
+        auto c = allClientList.at(i);
+        if ((int)c->window() == window) {
+            return c->isOnDesktop(VirtualDesktopManager::self()->current());
+        }
+    }
+    return false;
+}
+
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     : QObject(parent)
     , m_compositor(parent)

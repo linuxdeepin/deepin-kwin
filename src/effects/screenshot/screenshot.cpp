@@ -16,6 +16,13 @@
 #include <kwinglutils.h>
 
 #include <QPainter>
+#include <QX11Info>
+#include <QDBusInterface>
+#include <QDBusReply>
+
+#define ProhibitScreenshotDBusService "com.deepin.prohibitscreenshot"
+#define ProhibitScreenshotDBusPath "/com/deepin/prohibitscreenshot"
+#define ProhibitScreenshotDBusInterface "deepin.prohibitscreenshot.interface"
 
 namespace KWin
 {
@@ -262,6 +269,10 @@ void ScreenShotEffect::paintScreen(int mask, const QRegion &region, ScreenPaintD
 
 void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
 {
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
+            return;
+    }
     EffectWindow *window = screenshot->window;
 
     QRect geometry = window->expandedGeometry().toRect();
@@ -280,6 +291,10 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
 
 void ScreenShotEffect::takeScreenShot(ScreenShotWindowSizedData *screenshot)
 {
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
+            return;
+    }
     EffectWindow *window = screenshot->window;
 
     WindowPaintData d;
@@ -345,6 +360,10 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowSizedData *screenshot)
 
 bool ScreenShotEffect::takeScreenShot(ScreenShotAreaData *screenshot)
 {
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
+            return true;
+    }
     if (!effects->waylandDisplay()) {
         // On X11, all screens are painted simultaneously and there is no native HiDPI support.
         QImage snapshot = blitScreenshot(screenshot->area);
@@ -388,6 +407,10 @@ bool ScreenShotEffect::takeScreenShot(ScreenShotAreaData *screenshot)
 
 bool ScreenShotEffect::takeScreenShot(ScreenShotScreenData *screenshot)
 {
+    if (!QX11Info::isPlatformX11()) {
+        if (isProhibitScreenshot())
+            return true;
+    }
     if (!m_paintedScreen || screenshot->screen == m_paintedScreen) {
         qreal devicePixelRatio = 1.0;
         if (screenshot->flags & ScreenShotNativeResolution) {
@@ -496,6 +519,15 @@ void ScreenShotEffect::handleWindowClosed(EffectWindow *window)
             m_windowScreenSizedShots.removeAt(i);
         }
     }
+}
+
+bool ScreenShotEffect::isProhibitScreenshot(qulonglong winid)
+{
+    if(static_cast<EffectsHandlerImpl*>(effects)->prohibitScreenshot(winid)) {
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace KWin

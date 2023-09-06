@@ -72,6 +72,7 @@
 #include "wayland/ddeshell_interface.h"
 #include "wayland/ddeseat_interface.h"
 #include <wayland/ddesecurity_interface.h>
+#include <wayland/dderestrict_interface.h>
 #include "wayland/strut_interface.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -619,6 +620,8 @@ bool WaylandServer::init(InitializationFlags flags)
     m_ddeSecurity = new DDESecurityInterface(m_display, m_display);
     m_seat->addSecurityInterface(m_ddeSecurity);
 
+    m_ddeRestrict = new DDERestrictInterface(m_display, m_display);
+
     return true;
 }
 
@@ -952,6 +955,55 @@ bool WaylandServer::hasScreenLockerIntegration() const
 bool WaylandServer::hasGlobalShortcutSupport() const
 {
     return !m_initFlags.testFlag(InitializationFlag::NoGlobalShortcuts);
+}
+
+static Window *findClientInList(const QList<Window*> &clients, const QByteArray &resource)
+{
+    auto it = std::find_if(clients.begin(), clients.end(),
+        [resource] (Window *c) {
+            return c->resourceClass() == resource;
+        }
+    );
+    if (it == clients.end()) {
+        return nullptr;
+    }
+    return *it;
+}
+
+bool WaylandServer::hasProhibitWindows() const
+{
+    QList<QByteArray> white_windows = m_ddeRestrict->clientWhitelists();
+    if(white_windows.isEmpty())
+        return true;
+
+    for (int i = 0; i < white_windows.count(); i++) {
+        QByteArray resource = white_windows.at(i);
+        if(resource.isEmpty())
+            continue;
+        auto c = findClient(resource);
+        if (c && c->isShown()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+Window *WaylandServer::findClient(const QByteArray &resource) const
+{
+    if (resource.isEmpty()) {
+        return nullptr;
+    }
+    if (Window *c = findClientInList(m_windows, resource)) {
+        return c;
+    }
+    return nullptr;
+    // if (Window *c = findClientInList(m_internalWindows, resource)) {
+    //     return c;
+    // }
+
+    // return workspace()->findClient([resource](const Client *c) {
+    //     return c->resourceName() == resource;
+    // });
 }
 
 bool WaylandServer::isKeyboardShortcutsInhibited() const

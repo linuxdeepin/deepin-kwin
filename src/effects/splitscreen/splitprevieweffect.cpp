@@ -10,6 +10,8 @@
 #include "../utils/common.h"
 #include <QWindow>
 #include <QKeyEvent>
+#include <QDBusMessage>
+#include <QDBusConnection>
 
 #define BRIGHTNESS          0.4
 #define FIRST_WIN_SCALE     (float)(720.0 / 1080.0)
@@ -151,6 +153,10 @@ void SplitPreviewEffect::setActive(bool active)
         return;
 
     m_activated = active;
+
+    QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "SplitScreenStateChanged");
+    message << bool(m_activated);
+    QDBusConnection::sessionBus().send(message);
 
     if (active) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);

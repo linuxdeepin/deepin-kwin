@@ -180,6 +180,8 @@ public:
 
     QVariant kwinOption(KWinOption kwopt) override;
     bool isScreenLocked() const override;
+    bool prohibitScreenshot(qulonglong winid) const override;
+    QImage getProhibitShotImage(QSize size) override;
 
     bool makeOpenGLContextCurrent() override;
     void doneOpenGLContextCurrent() override;
@@ -282,6 +284,8 @@ public:
     void setQuickTileWindow(KWin::EffectWindow *w, int mode) override;
 
     QRectF getQuickTileGeometry(KWin::EffectWindow *w, int mode, QPointF pos) override;
+
+    int windowPId(KWin::EffectWindow *w) override;
 
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow *from, EffectWindow *to);
@@ -522,6 +526,7 @@ public:
 
     void setData(int role, const QVariant &data) override;
     QVariant data(int role) const override;
+    // quint32 windowId() const override;
 
 private:
     void refVisible(const EffectWindowVisibleRef *holder) override;

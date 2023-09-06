@@ -70,6 +70,9 @@
 // Qt
 #include <QtConcurrentRun>
 #include <qscreen.h>
+#include <QPainter>
+#include <QFont>
+
 // xcb
 #include <xcb/xinerama.h>
 
@@ -207,6 +210,7 @@ void Workspace::init()
     connect(options, &Options::configChanged, m_screenEdges.get(), &ScreenEdges::reconfigure);
     connect(VirtualDesktopManager::self(), &VirtualDesktopManager::layoutChanged, m_screenEdges.get(), &ScreenEdges::updateLayout);
     connect(this, &Workspace::windowActivated, m_screenEdges.get(), &ScreenEdges::checkBlocking);
+    connect(this, &Workspace::windowMinimizedChanged, this, &Workspace::slotClientMinimizeChanged);
 
     connect(this, &Workspace::windowRemoved, m_focusChain.get(), &FocusChain::remove);
     connect(this, &Workspace::windowActivated, m_focusChain.get(), &FocusChain::setActiveWindow);
@@ -363,6 +367,13 @@ void Workspace::captureWindowImage(int windowId, wl_resource *buffer)
     }
 
     clientmanagement->sendWindowCaption(windowId, buffer, nullptr);
+}
+
+void Workspace::slotClientMinimizeChanged(KWin::Window *window)
+{
+    QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "ClientMinimizeChanged");
+    message << int(window->window()) << bool(window->isMinimized());
+    QDBusConnection::sessionBus().send(message);
 }
 
 void Workspace::initializeX11()
@@ -1891,6 +1902,12 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
     }
     if (changed) {
         Q_EMIT showingDesktopChanged(showing, animated);
+    }
+
+    if (changed) {
+        QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "ShowingDesktopStateChanged");
+        message << bool(showing);
+        QDBusConnection::sessionBus().send(message);
     }
 }
 
@@ -3457,6 +3474,48 @@ Activities *Workspace::activities() const
 SplitManage *Workspace::getSplitManage() const
 {
     return m_splitManage.get();
+}
+
+QImage Workspace::getProhibitShotImage(QSize size)
+{
+    if(size.isEmpty()) {
+        return QImage();
+    }
+    if (!m_prohibitShotImage.isNull() && m_prohibitShotImage.size() == size) {
+        return m_prohibitShotImage;
+    }
+    m_prohibitShotImage = QImage(size, QImage::Format_ARGB32);
+    m_prohibitShotImage.fill(QColor(0xD4, 0xD4, 0xD4));
+
+    QString imageText = i18n("The confidential file cannot be displayed");
+
+    // 为这个QImage构造一个QPainter
+    QPainter painter(&m_prohibitShotImage);
+
+    // 改变画笔和字体
+    QPen pen = painter.pen();
+    // 设置画笔的颜色
+    pen.setColor(QColor(65, 77, 104));
+
+    painter.setPen(pen);
+    QFont font;
+    // 设置显示字体的大小
+    font.setPixelSize(14);
+    // 采用系统的字体
+    // painter.setFont(font);
+
+    QImage prohibitImage(":/resources/themes/prohibited.svg");
+
+    QPoint position((size.width() - prohibitImage.width()) / 2, size.height() / 2 - prohibitImage.height());
+
+    painter.drawImage(position, prohibitImage);
+
+    // 将文字写在Image的中心
+    QRect rect = m_prohibitShotImage.rect();
+    rect.setTop(prohibitImage.height() / 2);
+    painter.drawText(rect, Qt::AlignCenter, imageText);
+
+    return m_prohibitShotImage;
 }
 
 } // namespace
