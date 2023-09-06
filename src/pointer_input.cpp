@@ -890,7 +890,7 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
     m_windowSelectionCursor = std::make_unique<ShapeCursorSource>();
     m_decoration.cursor = std::make_unique<ShapeCursorSource>();
     m_serverCursor.cursor = std::make_unique<SurfaceCursorSource>();
-    m_splitScreenCursor = std::make_unique<ShapeCursorSource>();
+    // m_splitScreenCursor = std::make_unique<ShapeCursorSource>();
 
 #if KWIN_BUILD_SCREENLOCKER
     if (waylandServer()->hasScreenLockerIntegration()) {
@@ -906,7 +906,7 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
     const auto clients = workspace()->allClientList();
     std::for_each(clients.begin(), clients.end(), setupMoveResizeConnection);
     connect(workspace(), &Workspace::windowAdded, this, setupMoveResizeConnection);
-    connect(workspace(), &Workspace::splitBarCursorChanged, this, &CursorImage::updateSplitBarCursor);
+    // connect(workspace(), &Workspace::splitBarCursorChanged, this, &CursorImage::updateSplitBarCursor);
 
     m_fallbackCursor->setShape(Qt::ArrowCursor);
 
@@ -915,7 +915,7 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
     m_moveResizeCursor->setTheme(m_waylandImage.theme());
     m_windowSelectionCursor->setTheme(m_waylandImage.theme());
     m_decoration.cursor->setTheme(m_waylandImage.theme());
-    m_splitScreenCursor->setTheme(m_waylandImage.theme());
+    // m_splitScreenCursor->setTheme(m_waylandImage.theme());
 
     connect(&m_waylandImage, &WaylandCursorImage::themeChanged, this, [this] {
         m_effectsCursor->setTheme(m_waylandImage.theme());
@@ -923,7 +923,7 @@ CursorImage::CursorImage(PointerInputRedirection *parent)
         m_moveResizeCursor->setTheme(m_waylandImage.theme());
         m_windowSelectionCursor->setTheme(m_waylandImage.theme());
         m_decoration.cursor->setTheme(m_waylandImage.theme());
-        m_splitScreenCursor->setTheme(m_waylandImage.theme());
+        // m_splitScreenCursor->setTheme(m_waylandImage.theme());
     });
 
     KWaylandServer::PointerInterface *pointer = waylandServer()->seat()->pointer();
@@ -1041,8 +1041,8 @@ void CursorImage::removeWindowSelectionCursor()
 
 void CursorImage::updateSplitBarCursor()
 {
-    m_splitScreenCursor->setShape(Qt::SizeHorCursor);
-    reevaluteSource();
+    // m_splitScreenCursor->setShape(Qt::SizeHorCursor);
+    // reevaluteSource();
 }
 
 WaylandCursorImage::WaylandCursorImage(QObject *parent)
@@ -1133,10 +1133,10 @@ void CursorImage::reevaluteSource()
         setSource(m_decoration.cursor.get());
         return;
     }
-    if (workspace() && workspace()->splitBarStatus()) {
-        setSource(m_splitScreenCursor.get());
-        return;
-    }
+    // if (workspace() && workspace()->splitBarStatus()) {
+    //     setSource(m_splitScreenCursor.get());
+    //     return;
+    // }
     const KWaylandServer::PointerInterface *pointer = waylandServer()->seat()->pointer();
     if (pointer && pointer->focusedSurface()) {
         setSource(m_serverCursor.cursor.get());

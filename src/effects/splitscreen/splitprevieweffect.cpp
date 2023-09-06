@@ -21,7 +21,6 @@ namespace KWin
 SplitPreviewEffect::SplitPreviewEffect()
     : lastPresentTime(std::chrono::milliseconds::zero())
 {
-    connect(effects, &EffectsHandler::windowFinishUserMovedResized, this, &SplitPreviewEffect::toggle);
     connect(effectsEx, &EffectsHandlerEx::triggerSplitPreview, this, &SplitPreviewEffect::toggle);
     if (!m_effectFrame) {
         m_effectFrame = effectsEx->effectFrameEx("kwin/effects/splitscreen/qml/main.qml", false);

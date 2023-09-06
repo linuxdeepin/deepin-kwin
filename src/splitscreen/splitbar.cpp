@@ -57,7 +57,7 @@ void SplitBar::enterEvent(QEvent *)
     m_opacityEffect->setOpacity(1.0);
     setCursor(Qt::SizeHorCursor);
     workspace()->setSplitBarStatus(1);
-    Q_EMIT workspace()->splitBarCursorChanged();
+    // Q_EMIT workspace()->splitBarCursorChanged();
 }
 
 void SplitBar::leaveEvent(QEvent *)

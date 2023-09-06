@@ -1701,6 +1701,9 @@ void Window::finishInteractiveMoveResize(bool cancel)
 
     m_interactiveMoveResize.counter++;
     Q_EMIT clientFinishUserMovedResized(this);
+    if (wasMove) {
+        Q_EMIT triggerSplitPreview(this);
+    }
 }
 
 // This function checks if it actually makes sense to perform a restricted move/resize.
