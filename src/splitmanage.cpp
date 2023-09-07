@@ -11,6 +11,8 @@
 #include "screens.h"
 #include "abstract_output.h"
 
+Q_LOGGING_CATEGORY(KWIN_SPLIT, "kwin_split")
+
 #define SPLITOUTLINE_WIDTH 14
 namespace KWin {
 
@@ -428,6 +430,11 @@ void SplitManage::getHVRect(QString screen, QRect &hRect, QRect &vRect)
 
 bool SplitManage::isShowSplitLine(QString screen)
 {
+    if (!Workspace::self()->activeClient()) {
+        // If active client of current workspace is null, do not show split outline
+        qCDebug(KWIN_SPLIT) << "Not showing split outline because of active client of current workspace is null.";
+        return false;
+    }
     if (getObj(effects->currentDesktop()))
         return getObj(effects->currentDesktop())->getSplitLineState(screen);
     return false;
