@@ -89,8 +89,6 @@ void SplitOutline::mousePressEvent(QMouseEvent* e)
 
     // handleSplitScreenLayer();
     m_activeClient = Workspace::self()->activeClient();
-    if (!m_activeClient)
-        return;
     m_activeClientMode = m_activeClient->quickTileMode();
     m_desktop = effects->currentDesktop();//m_activeClient->desktop();
     //m_screen = m_activeClient->output()->name();
