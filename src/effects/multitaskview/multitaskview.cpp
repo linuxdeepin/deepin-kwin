@@ -3315,30 +3315,38 @@ void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
 
 void MultitaskViewEffect::desktopAboutToRemoved(int d)
 {
-    QDBusInterface wm(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
+    QEventLoop *event = new QEventLoop(this);
+    connect(event, &QEventLoop::quit, event, &QEventLoop::deleteLater);
 
-    QList<QString> list = m_screenInfoList.keys();
-    for (int i = 0; i < list.count(); i++) {
-        QString monitorName = list.at(i);
+    QtConcurrent::run([this, d, event] {
+        QDBusInterface wm(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
 
-        QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", d, monitorName);
-        if (!getReply.value().isEmpty()) {
-            QString backgroundUri = getReply.value();
-            MultiViewBackgroundManager::instance()->updateBackgroundList(backgroundUri);
-        }
+        QList<QString> list = m_screenInfoList.keys();
+        for (int i = 0; i < list.count(); i++) {
+            QString monitorName = list.at(i);
 
-        for (int i = d; i < effects->numberOfDesktops(); i++) {
-            QString backgrounduri;
-            QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", i + 1, monitorName);
+            QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", d, monitorName);
             if (!getReply.value().isEmpty()) {
-                backgrounduri = getReply.value();
-            } else {
-                backgrounduri = QLatin1String(fallback_background_name);
+                QString backgroundUri = getReply.value();
+                MultiViewBackgroundManager::instance()->updateBackgroundList(backgroundUri);
             }
-            wm.call( "SetWorkspaceBackgroundForMonitor", i, monitorName, backgrounduri);
-        }
 
-    }
+            for (int i = d; i < effects->numberOfDesktops(); i++) {
+                QString backgrounduri;
+                QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", i + 1, monitorName);
+                if (!getReply.value().isEmpty()) {
+                    backgrounduri = getReply.value();
+                } else {
+                    backgrounduri = QLatin1String(fallback_background_name);
+                }
+                wm.call( "SetWorkspaceBackgroundForMonitor", i, monitorName, backgrounduri);
+            }
+
+        }
+        event->quit();
+    });
+
+    event->exec();
 }
 
 void MultitaskViewEffect::removeWinAndRelayout(EffectWindow *w)
