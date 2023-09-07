@@ -1809,6 +1809,8 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             if (QX11Info::isPlatformX11()) {
                 m_effectFlyingBack.begin();
                 effects->addRepaintFull();
+                m_cursorPos = mouseEvent->pos();
+                m_buttonType = mouseEvent->button();
             } else {
                 m_effectFlyingBack.begin();
                 effects->addRepaintFull();
