@@ -14,7 +14,7 @@ override_dh_python3:
 
 
 override_dh_auto_configure:
-	dh_auto_configure -Skf5 -- -DBUILD_TESTING=OFF
+	dh_auto_configure -Skf5 -- -DBUILD_TESTING=OFF -DKWIN_BUILD_CMS=OFF
 
 override_dh_auto_test:
 	# Disable auto tests at build time
