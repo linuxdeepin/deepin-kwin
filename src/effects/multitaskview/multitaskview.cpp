@@ -1407,6 +1407,8 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         m_closeWinFrame->setPosition(QPoint(rect.x() + rect.width() - 12, rect.y() - 10));
         m_topWinFrame->setPosition(QPoint(rect.x() - 22, rect.y() - 17));
         m_textWinFrame->setPosition(QPoint(rect.x() + rect.width() / 2, rect.y() + rect.height() - 40));
+        if (m_winBtnArea.size() < 2)
+            m_winBtnArea.resize(2);
         m_winBtnArea[0] = QRect(QPoint(rect.x() + rect.width() - 25, rect.y() - 17), QSize(48, 48));
         m_winBtnArea[1] = QRect(QPoint(rect.x() - 22, rect.y() - 17), QSize(48, 48));
 
@@ -1833,21 +1835,21 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             m_sendButton = mouseEvent->button();
         } else if (target) {
             bool isPressBtn = false;
-            auto iter = m_winBtnArea.begin();
-            for (; iter != m_winBtnArea.end(); iter++) {
-                if (m_winBtnArea[iter.key()].contains(mouseEvent->pos())) {
+            int btn = 0;
+            for (; btn < m_winBtnArea.size(); ++btn) {
+                if (m_winBtnArea[btn].contains(mouseEvent->pos())) {
                     isPressBtn = true;
                     break;
                 }
             }
             if (isPressBtn) {
-                if (iter == m_winBtnArea.begin()) {   // close btn
+                if (btn == 0) {   // close btn
                     if (closeWindow(target)) {
                         m_hoverWin = nullptr;
                         m_winBtnArea.clear();
                         m_isShieldEvent = true;
                     }
-                } else if (iter == m_winBtnArea.begin() + 1) {    //top btn
+                } else if (btn == 1) {    //top btn
                     setWinKeepAbove(target);
                 }
             } else if (!m_wasWindowMove && !m_longPressTouch) {

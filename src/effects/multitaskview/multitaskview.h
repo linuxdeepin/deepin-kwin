@@ -574,7 +574,7 @@ private:
     qreal m_scalingFactor = 1;
 
     QHash<EffectScreen *, Scale_st> m_scale;
-    QHash<int, QRect>    m_winBtnArea;
+    QVector<QRect>    m_winBtnArea;
     QRect                m_workspaceCloseBtnArea;
 
     enum workspaceStatus {
