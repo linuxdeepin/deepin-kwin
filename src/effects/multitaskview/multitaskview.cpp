@@ -386,6 +386,7 @@ void MultiViewBackgroundManager::setMonitorInfo(QList<QMap<QString,QVariant>> mo
 MultiViewAddButton::MultiViewAddButton()
 {
     m_background = effects->effectFrame(EffectFrameNone, false);
+    m_background->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 }
 
 MultiViewAddButton::~MultiViewAddButton()
@@ -405,6 +406,7 @@ void MultiViewAddButton::setImage(const QString &btf, const QRect &rect)
 
     QIcon icon(btf);
     m_background->setIcon(icon);
+    m_background->setIconSize(QSize(rect.width(), rect.height()));
 }
 
 void MultiViewAddButton::setRect(const QRect &rect)
@@ -1162,14 +1164,13 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(paintingDesktop - 1);
         if (wkmobj && wkmobj->getMotion(paintingDesktop, w->screen(), wmm)) {
             if (wmm->isManaging(w)) {
-                auto area = effects->clientArea(ScreenArea, w->screen(), 0).toRect();
                 WindowPaintData d = data;
-                auto geo = wmm->transformedGeometry(w);
+                auto geo = wmm->transformedGeometry(w).toRect();
 
                 d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
                 d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
-                mask |= PAINT_SCREEN_TRANSFORMED;
-                effects->paintWindow(w, mask, area, d);
+                geo &= m_workspaceBackgrounds[w->screen()][paintingDesktop - 1]->getGeometry();
+                effects->paintWindow(w, mask, geo, d);
             }
         }
     }
