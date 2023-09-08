@@ -34,7 +34,7 @@ public:
     void paintEvent(QPaintEvent *event);
 
 Q_SIGNALS:
-    void splitbarPosChanged(QString, QPointF, bool);
+    void splitbarPosChanged(QString, QPointF, Window *, bool);
 
 public Q_SLOTS:
     void slotUpdateState(QString &, Window *);
@@ -43,6 +43,7 @@ private:
     QString                 m_screenName;
     QGraphicsOpacityEffect  *m_opacityEffect;
     QRectF                  m_screenRect;
+    Window                  *m_window = nullptr;
 };
 }
 #endif

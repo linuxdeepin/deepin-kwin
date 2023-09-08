@@ -1598,7 +1598,8 @@ void Window::setMaximize(bool vertically, bool horizontally)
     if (horizontally) {
         mode = MaximizeMode(mode | MaximizeHorizontal);
     }
-    setTile(nullptr);
+    if (vertically && horizontally)
+        setTile(nullptr);
     maximize(mode);
 }
 
@@ -4622,6 +4623,15 @@ void Window::broadcastDbusDestroySignal(int pid)
     QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "DestroyWindowChanged");
     message << pid;
     QDBusConnection::sessionBus().send(message);
+}
+
+void Window::resizeSplitWindow(QPointF &pos)
+{
+    if (m_tile) {
+        int mode = quickTileMode();
+        m_tile->resizeFromGravity(Gravity(mode ^ 0b11), pos.x(), pos.y());
+        return;
+    }
 }
 
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)

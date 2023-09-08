@@ -10,7 +10,8 @@
 #include "splitmanage.h"
 #include "wayland_server.h"
 #include "workspace.h"
-
+#include <QtX11Extras/QX11Info>
+#include <X11/extensions/shape.h>
 
 namespace KWin {
 
@@ -24,12 +25,13 @@ SplitBar::SplitBar(QString screenName)
     }
     setAttribute(Qt::WA_TranslucentBackground, true);
     setWindowTitle(screenName);
+
     connect(workspace()->getSplitManage(), &SplitManage::signalSplitWindow, this, &SplitBar::slotUpdateState);
 
     setGeometry(0, 0, 1, 1);
     m_opacityEffect = new QGraphicsOpacityEffect;
     setGraphicsEffect(m_opacityEffect);
-    m_opacityEffect->setOpacity(0.7);
+    m_opacityEffect->setOpacity(1);
     show();
 }
 
@@ -44,20 +46,18 @@ void SplitBar::mousePressEvent(QMouseEvent* e)
 void SplitBar::mouseMoveEvent(QMouseEvent*e)
 {
     move(e->screenPos().x(), 0);
-    Q_EMIT splitbarPosChanged(m_screenName, e->screenPos(), false);
+    Q_EMIT splitbarPosChanged(m_screenName, e->screenPos(), m_window, false);
 }
 
 void SplitBar::mouseReleaseEvent(QMouseEvent* e)
 {
-    Q_EMIT splitbarPosChanged(m_screenName, QPointF(), true);
+    Q_EMIT splitbarPosChanged(m_screenName, QPointF(), m_window, true);
 }
 
 void SplitBar::enterEvent(QEvent *)
 {
     m_opacityEffect->setOpacity(1.0);
     setCursor(Qt::SizeHorCursor);
-    workspace()->setSplitBarStatus(1);
-    // Q_EMIT workspace()->splitBarCursorChanged();
 }
 
 void SplitBar::leaveEvent(QEvent *)
@@ -108,8 +108,8 @@ void SplitBar::slotUpdateState(QString &name, Window *w)
         setGeometry(0, 0, 1, 1);
         return;
     }
-
-    QRectF geo = w->clientGeometry();
+    m_window = w;
+    QRectF geo = w->frameGeometry();
     if (w->quickTileMode() == int(QuickTileFlag::Left)) {
         setGeometry(geo.x() + geo.width() - 10, geo.y(), 20, geo.height());
     } else if (w->quickTileMode() == int(QuickTileFlag::Right)) {

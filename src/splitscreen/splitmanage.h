@@ -53,7 +53,7 @@ Q_SIGNALS:
     void signalSplitWindow(QString &, Window *w);
 
 public Q_SLOTS:
-    void updateSplitWindowGeometry(QString, QPointF, bool);
+    void updateSplitWindowGeometry(QString, QPointF, Window *, bool);
 
 private:
     struct WindowData

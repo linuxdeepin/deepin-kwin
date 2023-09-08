@@ -1447,6 +1447,7 @@ public:
     QRectF quickTileGeometry(QuickTileMode mode, const QPointF &pos) const;
 
     void setQuickTileFromMenu(QuickTileMode mode);
+    void resizeSplitWindow(QPointF &pos);
 
     void broadcastDbusDestroySignal(int pid);
 public Q_SLOTS:

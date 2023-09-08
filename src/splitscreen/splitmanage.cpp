@@ -165,7 +165,7 @@ void SplitManage::getSplitWindows(QHash<QString, QVector<Window *>> &hash)
             splitgroup->getSplitWindow(vect);
             if (vect.size() > 1) {
                 hash[key] = vect;
-                Q_EMIT signalSplitWindow(key, vect[0]);
+                Q_EMIT signalSplitWindow(key, vect.contains(workspace()->activeWindow()) ? workspace()->activeWindow() : vect[0]);
             } else {
                 Q_EMIT signalSplitWindow(key, nullptr);
             }
@@ -180,31 +180,14 @@ void SplitManage::getSplitBarWindow(QHash<QString, Window *> &hash)
     hash = m_splitBarWindows;
 }
 
-void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, bool isfinish)
+void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w, bool isfinish)
 {
     if (isfinish) {
         Workspace::self()->outline()->hide();
         return;
     }
-    int desktop = VirtualDesktopManager::self()->current();
-    const Output *output = Workspace::self()->outputAt(pos);
-    const VirtualDesktop *virtualDesktop = VirtualDesktopManager::self()->currentDesktop();
-    QRectF rect = Workspace::self()->clientArea(MaximizeArea, output, virtualDesktop);
-
-    SplitGroup *splitgroup = getGroup(desktop, name);
-    if (splitgroup) {
-        QVector<Window *> vect;
-        splitgroup->getSplitWindow(vect);
-        for (auto &w : vect) {
-            Workspace::self()->raiseWindow(w);
-            QRectF geo = w->clientGeometry();
-            if (w->quickTileMode() == int(QuickTileFlag::Left)) {
-                w->moveResize(QRect(geo.x(), geo.y(), pos.x() - geo.x(), geo.height()));
-            } else {
-                w->moveResize(QRect(pos.x(), geo.y(), rect.right() - pos.x(), geo.height()));
-            }
-        }
-    }
+    Workspace::self()->raiseWindow(w);
+    w->resizeSplitWindow(pos);
 }
 
 void SplitManage::inhibit()
