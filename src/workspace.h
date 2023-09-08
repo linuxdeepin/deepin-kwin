@@ -599,7 +599,6 @@ public Q_SLOTS:
 
     void updateClientArea();
     void updateWindowStates();
-    void captureWindowImage(int windowId, wl_resource *buffer);
     void slotClientMinimizeChanged(KWin::Window *window);
 
     // void screensChanged();

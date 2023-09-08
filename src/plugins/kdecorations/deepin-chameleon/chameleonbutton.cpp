@@ -63,10 +63,7 @@ ChameleonButton::ChameleonButton(KDecoration2::DecorationButtonType type, const 
     }
     if (m_type == KDecoration2::DecorationButtonType::Maximize) {
         connect(KWinUtils::compositor(), SIGNAL(compositingToggled(bool)), this, SLOT(onCompositorChanged(bool)));
-        connect(KWinUtils::workspace(), SIGNAL(clientAreaUpdate()), this, SLOT(onClientAreaUpdate()));
     }
-
-    wid = decoration->client().data()->windowId();
 }
 
 ChameleonButton::~ChameleonButton()
@@ -153,9 +150,11 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
                 }
                 if (m_type == KDecoration2::DecorationButtonType::Maximize) {
                     if (KWinUtils::instance()->isCompositing()) {
-                        QPoint topleft(geometry().x() + effect->geometry().x(), geometry().y() + effect->geometry().y());
-                        QRect rect(topleft, geometry().toRect().size());
-                        KWinUtils::showSplitMenu(rect, wid);
+                        auto c = decoration->client().data();
+                        if (c) {
+                            uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
+                            KWinUtils::showSplitMenu(geometry().translated(effect->pos()).toRect(), wid);
+                        }
                     }
                     decoration->requestHideToolTip();
                 }
@@ -206,7 +205,11 @@ void ChameleonButton::mousePressEvent(QMouseEvent *event)
                         effect = decoration->effect();
                         if (effect) {
                             m_wlHoverStatus = false;
-                            KWinUtils::showSplitMenu(effect->geometry().toRect(), wid);
+                            auto c = decoration->client().data();
+                            if (c) {
+                                uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
+                                KWinUtils::showSplitMenu(geometry().translated(effect->pos()).toRect(), wid);
+                            }
                         }
                     }
                 }
@@ -229,7 +232,7 @@ void ChameleonButton::mouseReleaseEvent(QMouseEvent *event)
         if (!m_isMaxAvailble) {
             event->setLocalPos(QPointF(event->localPos().x() - OUT_RELEASE_EVENT, event->localPos().y()));
         }
-        KWinUtils::hideSplitMenu(true);
+        KWinUtils::hideSplitMenu(false);
     }
     KDecoration2::DecorationButton::mouseReleaseEvent(event);
     m_isMaxAvailble = true;
@@ -241,15 +244,3 @@ void ChameleonButton::onCompositorChanged(bool active)
         KWinUtils::hideSplitMenu(false);
     }
 }
-
-void ChameleonButton::onClientAreaUpdate()
-{
-    Chameleon *decoration = qobject_cast<Chameleon*>(this->decoration());
-    wid = decoration->client().data()->windowId();
-}
-
-void ChameleonButton::showSplitMenu()
-{
-
-}
-

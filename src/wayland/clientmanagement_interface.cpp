@@ -42,12 +42,9 @@ public:
 
     void updateWindowStates();
     void getWindowStates();
-    void captureWindowImage(int windowId, wl_resource *buffer);
     void sendWindowStates(wl_resource *resource);
     void sendWindowCaption(int windowId, bool succeed, wl_resource *buffer);
-    void sendSplitChange(const QString& uuid, int splitable);
     void sendWindowFromPoint(uint32_t wid);
-    void splitWindow(QString uuid, int splitType);
     void getWindowFromPoint();
     void showSplitMenu(const QRect &botton_rect, uint32_t wid);
     void hideSplitMenu(bool delay);
@@ -57,10 +54,6 @@ public:
 
 protected:
     void com_deepin_client_management_get_window_states(Resource *resource) override;
-    // void com_deepin_client_management_capture_window_image(Resource *resource,
-    //     int32_t window_id, struct ::wl_resource *buffer) override;
-    // void com_deepin_client_management_split_window(Resource *resource,
-    //     const QString &uuid, int32_t splitType) override;
     void com_deepin_client_management_get_window_from_point(Resource *resource) override;
     void com_deepin_client_management_show_split_menu(Resource *resource,
             int32_t x, int32_t y, int32_t width, int32_t height, uint32_t wid) override;
@@ -82,20 +75,6 @@ void ClientManagementInterfacePrivate::com_deepin_client_management_get_window_s
 
     getWindowStates();
 }
-
-// void ClientManagementInterfacePrivate::com_deepin_client_management_capture_window_image(Resource *resource, int windowId, wl_resource *buffer)
-// {
-//     Q_UNUSED(resource);
-
-//     captureWindowImage(windowId, buffer);
-// }
-
-// void ClientManagementInterfacePrivate::com_deepin_client_management_split_window(Resource *resource, const QString &uuid, int32_t splitType)
-// {
-//     Q_UNUSED(resource);
-
-//     splitWindow(uuid, splitType);
-// }
 
 void ClientManagementInterfacePrivate::com_deepin_client_management_get_window_from_point(Resource *resource)
 {
@@ -124,17 +103,6 @@ void ClientManagementInterfacePrivate::com_deepin_client_management_hide_split_m
 void ClientManagementInterfacePrivate::getWindowStates()
 {
     Q_EMIT q->windowStatesRequest();
-}
-
-void ClientManagementInterfacePrivate::captureWindowImage(int windowId, wl_resource *buffer)
-{
-    qWarning() << __func__ << ":" << __LINE__ << "ut-gfx-capture: windowId " << windowId;
-    Q_EMIT q->captureWindowImageRequest(windowId, buffer);
-}
-
-void ClientManagementInterfacePrivate::splitWindow(QString uuid, int splitType)
-{
-    Q_EMIT q->splitWindowRequest(uuid, splitType);
 }
 
 void ClientManagementInterfacePrivate::getWindowFromPoint()
@@ -183,18 +151,6 @@ void ClientManagementInterfacePrivate::sendWindowCaption(int windowId, bool succ
     }
 }
 
-void ClientManagementInterfacePrivate::sendSplitChange(const QString& uuid, int splitable)
-{
-    if (splitable > 0) {
-        m_splitUuid = uuid;
-        m_splitable = splitable;
-        const auto clientResources = resourceMap();
-        for (Resource *resource : clientResources) {
-            // com_deepin_client_management_send_split_change(resource->handle, m_splitUuid.toLatin1().data(), m_splitable);
-        }
-    }
-}
-
 void ClientManagementInterfacePrivate::sendWindowFromPoint(uint32_t wid)
 {
     const auto clientResources = resourceMap();
@@ -229,54 +185,6 @@ void ClientManagementInterface::setWindowStates(QList<WindowState*> &windowState
         d->m_windowCount = i;
     }
     Q_EMIT windowStatesChanged();
-}
-
-void ClientManagementInterface::sendWindowCaptionImage(int windowId, wl_resource *buffer, QImage image)
-{
-    bool succeed = false;
-    wl_shm_buffer *shm_buffer = wl_shm_buffer_get(buffer);
-    if (shm_buffer && !image.isNull()) {
-        wl_shm_buffer_begin_access(shm_buffer);
-        void *data = wl_shm_buffer_get_data(shm_buffer);
-        if (data) {
-            succeed = true;
-            memcpy(data, image.bits(), image.sizeInBytes());
-        }
-        wl_shm_buffer_end_access(shm_buffer);
-    }
-    d->sendWindowCaption(windowId, succeed, buffer);
-}
-
-void ClientManagementInterface::sendWindowCaption(int windowId, wl_resource *buffer, SurfaceInterface* surface)
-{
-    if (!surface || !surface->buffer()) {
-        d->sendWindowCaption(windowId, false, buffer);
-        return;
-    }
-
-    auto shmClient = qobject_cast<ShmClientBuffer *>(surface->buffer());
-
-    if(!shmClient) {
-        return;
-    }
-
-    bool succeed = false;
-    wl_shm_buffer *shm_buffer = wl_shm_buffer_get(buffer);
-    if (shm_buffer) {
-        QImage image = shmClient->data();
-        void *data = wl_shm_buffer_get_data(shm_buffer);
-        if (!image.isNull())
-        {
-            memcpy(data, image.bits(), image.sizeInBytes());
-            succeed = true;
-        }
-    }
-    d->sendWindowCaption(windowId, succeed, buffer);
-}
-
-void ClientManagementInterface::sendSplitChange(const QString& uuid, int splitable)
-{
-    d->sendSplitChange(uuid, splitable);
 }
 
 void ClientManagementInterface::sendWindowFromPoint(uint32_t wid)

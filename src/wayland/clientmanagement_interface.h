@@ -71,17 +71,12 @@ public:
     static ClientManagementInterface *get(wl_resource *native);
     void setWindowStates(QList<WindowState*> &windowStates);
 
-    void sendWindowCaptionImage(int windowId, wl_resource *buffer, QImage image);
-    void sendWindowCaption(int windowId, wl_resource *buffer, SurfaceInterface* surface);
-    void sendSplitChange(const QString& uuid, int splitable);
     void sendWindowFromPoint(uint32_t wid);
 
 Q_SIGNALS:
     void windowStatesRequest();
     void windowStatesChanged();
 
-    void captureWindowImageRequest(int windowId, wl_resource *buffer);
-    void splitWindowRequest(QString uuid, int splitType);
     void windowFromPointRequest();
     void showSplitMenuRequest(const QRect &botton_rect, uint32_t wid);
     void hideSplitMenuRequest(bool delay);

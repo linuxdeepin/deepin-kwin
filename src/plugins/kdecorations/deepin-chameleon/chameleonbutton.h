@@ -40,11 +40,9 @@ public:
 
 protected Q_SLOTS:
     void onCompositorChanged(bool);
-    void onClientAreaUpdate();
 
 protected:
     void paint(QPainter *painter, const QRect &repaintRegion) override;
-    void showSplitMenu();
     KDecoration2::DecorationButtonType m_type;
 
     QTimer *max_hover_timer = nullptr;
@@ -55,8 +53,6 @@ protected:
     QTimer *max_timer = nullptr;
     bool m_isMaxAvailble = true;
     bool m_wlHoverStatus = false;
-
-    uint32_t wid;
 };
 
 #endif // CHAMELEONBUTTON_H

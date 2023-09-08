@@ -346,30 +346,6 @@ void Workspace::updateWindowStates()
     }
 }
 
-void Workspace::captureWindowImage(int windowId, wl_resource *buffer)
-{
-    KWaylandServer::ClientManagementInterface *clientmanagement = nullptr;
-    if (waylandServer()) {
-        clientmanagement = waylandServer()->clientManagement();
-    }
-    if (!clientmanagement) {
-        return;
-    }
-
-    for(Window *client : stacking_order) {
-        if (m_allClients.indexOf(client) < 0) {
-            continue;
-        }
-
-        if (windowId ==  (client->window() ? client->window() : client->frameId())) {
-            clientmanagement->sendWindowCaption(windowId, buffer, client->surface());
-            return;
-        }
-    }
-
-    clientmanagement->sendWindowCaption(windowId, buffer, nullptr);
-}
-
 void Workspace::slotClientMinimizeChanged(KWin::Window *window)
 {
     QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "ClientMinimizeChanged");
@@ -2370,6 +2346,7 @@ QString Workspace::ActiveColor()
     // return m_activeColor;
     return "#1F1E33";
 }
+
 void Workspace::showSplitMenu(const QRect &rect, uint32_t client_id)
 {
     SplitMenu::instance()->Show(rect, client_id);

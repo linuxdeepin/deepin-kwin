@@ -540,15 +540,6 @@ bool WaylandServer::init(InitializationFlags flags)
             workspace()->updateWindowStates();
         }
     );
-    connect(m_clientManagement, &ClientManagementInterface::captureWindowImageRequest, this,
-        [this] (int windowId, wl_resource *buffer) {
-            if (!workspace()) {
-                qWarning () << __func__ << " workspace not initilized windowId " << windowId;
-                return;
-            }
-            workspace()->captureWindowImage(windowId, buffer);
-        }
-    );
     connect(m_clientManagement, &ClientManagementInterface::windowFromPointRequest, this,
         [this] () {
             if (!waylandServer())
