@@ -2163,6 +2163,16 @@ EffectWindowImpl::~EffectWindowImpl()
 {
 }
 
+void EffectWindowImpl::refVisibleEx(int reason)
+{
+    m_window->windowItem()->refVisible(reason);
+}
+
+void EffectWindowImpl::unrefVisibleEx(int reason)
+{
+    m_window->windowItem()->unrefVisible(reason);
+}
+
 void EffectWindowImpl::refVisible(const EffectWindowVisibleRef *holder)
 {
     m_windowItem->refVisible(holder->reason());

@@ -2738,6 +2738,9 @@ public:
      */
     virtual void unreferencePreviousWindowPixmap() = 0;
 
+    virtual void refVisibleEx(int) = 0;
+    virtual void unrefVisibleEx(int) = 0;
+
 protected:
     friend EffectWindowVisibleRef;
     virtual void refVisible(const EffectWindowVisibleRef *holder) = 0;

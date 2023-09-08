@@ -528,6 +528,9 @@ public:
     QVariant data(int role) const override;
     // quint32 windowId() const override;
 
+    void refVisibleEx(int) override;
+    void unrefVisibleEx(int) override;
+
 private:
     void refVisible(const EffectWindowVisibleRef *holder) override;
     void unrefVisible(const EffectWindowVisibleRef *holder) override;

@@ -130,7 +130,9 @@ void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
         if (w->isOnDesktop(currentDesktop) && isRelevantWithPresentWindows(w)) {
             if (w == m_window)
                 continue;
-
+            if (w->isMinimized()) {
+                w->refVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
+            }
             wmm.manage(w);
         }
     }
@@ -180,8 +182,15 @@ void SplitPreviewEffect::cleanup()
     effects->stopMouseInterception(this);
     effects->setActiveFullScreenEffect(nullptr);
     lastPresentTime = std::chrono::milliseconds::zero();
-
+    int currentDesktop = effects->currentDesktop();
     while (m_motionManagers.size() > 0) {
+        for (const auto& w: m_motionManagers.first().managedWindows()) {
+            if (w->isOnDesktop(currentDesktop) && isRelevantWithPresentWindows(w)) {
+                if (w->isMinimized()) {
+                    w->unrefVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
+                }
+            }
+        }
         m_motionManagers.first().unmanageAll();
         m_motionManagers.removeFirst();
     }
