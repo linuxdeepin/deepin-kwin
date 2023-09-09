@@ -28,6 +28,9 @@ QuickRootTile::QuickRootTile(TileManager *tiling, Tile *parentItem)
         connect(tile, &Tile::relativeGeometryChanged, this, [this, tile]() {
             relayoutToFit(tile);
         });
+        connect(tile, &Tile::windowsChanged, this, [this]() {
+            resetRelative();
+        });
 
         return std::unique_ptr<Tile>(tile);
     };
@@ -203,6 +206,14 @@ void QuickRootTile::setVerticalSplit(qreal split)
     geom = m_bottomRightTile->relativeGeometry();
     geom.setTop(effectiveSplit);
     m_bottomRightTile->setRelativeGeometry(geom);
+}
+
+void QuickRootTile::resetRelative()
+{
+    if (m_leftVerticalTile->windows().size() == 0 && m_rightVerticalTile->windows().size() == 0) {
+        m_leftVerticalTile->setRelativeGeometry(QRectF(0, 0, 0.5, 1));
+        m_rightVerticalTile->setRelativeGeometry(QRectF(0.5, 0, 0.5, 1));
+    }
 }
 
 } // namespace KWin
