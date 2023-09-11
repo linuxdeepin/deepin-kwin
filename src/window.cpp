@@ -1707,9 +1707,10 @@ void Window::finishInteractiveMoveResize(bool cancel)
     if (isElectricBorderMaximizing()) {
         setQuickTileMode(electricBorderMode());
         setElectricBorderMaximizing(false);
-    } else if (wasMove && (input()->modifiersRelevantForGlobalShortcuts() & Qt::ShiftModifier)) {
-        setQuickTileMode(QuickTileFlag::Custom);
     }
+    // else if (wasMove && (input()->modifiersRelevantForGlobalShortcuts() & Qt::ShiftModifier)) {  //temp disable custom split screen by zy 2023.9.11
+    //     setQuickTileMode(QuickTileFlag::Custom);
+    // }
     setElectricBorderMode(QuickTileMode(QuickTileFlag::None));
     workspace()->outline()->hide();
 
@@ -1821,7 +1822,7 @@ void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &gl
             handleInteractiveMoveResize(local.x(), local.y(), global.x(), global.y()); // fix position
         }
 
-        if (input()->modifiersRelevantForGlobalShortcuts() & Qt::ShiftModifier) {
+        /*if (input()->modifiersRelevantForGlobalShortcuts() & Qt::ShiftModifier) {    //temp disable custom split screen by zy 2023.9.11
             resetQuickTilingMaximizationZones();
             const auto &r = quickTileGeometry(QuickTileFlag::Custom, global);
             if (r.isEmpty()) {
@@ -1831,7 +1832,8 @@ void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &gl
                     workspace()->outline()->show(r.toRect(), moveResizeGeometry().toRect());
                 }
             }
-        } else {
+        } else*/
+        {
             if (quickTileMode() == QuickTileMode(QuickTileFlag::None) && isResizable()) {
                 checkQuickTilingMaximizationZones(global.x(), global.y());
             }
@@ -2903,12 +2905,12 @@ void Window::checkQuickTilingMaximizationZones(int xroot, int yroot)
             }
         }
 
-        if (mode != QuickTileMode(QuickTileFlag::None)) {
-            if (yroot <= area.y() + area.height() * options->electricBorderCornerRatio()) {
-                mode |= QuickTileFlag::Top;
-            } else if (yroot >= area.y() + area.height() - area.height() * options->electricBorderCornerRatio()) {
-                mode |= QuickTileFlag::Bottom;
-            }
+        if (mode != QuickTileMode(QuickTileFlag::None)) {   //temp disable 1/4 split screen by zy 2023.9.11
+            // if (yroot <= area.y() + area.height() * options->electricBorderCornerRatio()) {
+            //     mode |= QuickTileFlag::Top;
+            // } else if (yroot >= area.y() + area.height() - area.height() * options->electricBorderCornerRatio()) {
+            //     mode |= QuickTileFlag::Bottom;
+            // }
         } else if (options->electricBorderMaximize() && yroot <= area.y() + 5 && isMaximizable()) {
             mode = QuickTileFlag::Maximize;
             innerBorder = isInScreen(QPoint(xroot, area.y() - 1));
