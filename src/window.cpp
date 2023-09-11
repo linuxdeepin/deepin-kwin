@@ -3903,41 +3903,8 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard)
     if (mode != QuickTileMode(QuickTileFlag::None)) {
         // If trying to tile to the side that the window is already tiled to move the window to the next
         // screen near the tile if it exists and swap the tile side, otherwise toggle the mode (set QuickTileFlag::None)
-        if (quickTileMode() == mode) {
-            Output *currentOutput = moveResizeOutput();
-            Output *nextOutput = currentOutput;
-            Output *candidateOutput = currentOutput;
-            if ((mode & QuickTileFlag::Horizontal) == QuickTileMode(QuickTileFlag::Left)) {
-                candidateOutput = workspace()->findOutput(nextOutput, Workspace::DirectionWest);
-            } else if ((mode & QuickTileFlag::Horizontal) == QuickTileMode(QuickTileFlag::Right)) {
-                candidateOutput = workspace()->findOutput(nextOutput, Workspace::DirectionEast);
-            }
-            bool shiftHorizontal = candidateOutput != nextOutput;
-            nextOutput = candidateOutput;
-            if ((mode & QuickTileFlag::Vertical) == QuickTileMode(QuickTileFlag::Top)) {
-                candidateOutput = workspace()->findOutput(nextOutput, Workspace::DirectionNorth);
-            } else if ((mode & QuickTileFlag::Vertical) == QuickTileMode(QuickTileFlag::Bottom)) {
-                candidateOutput = workspace()->findOutput(nextOutput, Workspace::DirectionSouth);
-            }
-            bool shiftVertical = candidateOutput != nextOutput;
-            nextOutput = candidateOutput;
-
-            if (nextOutput == currentOutput) {
-                mode = QuickTileFlag::None; // No other screens in the tile direction, toggle tiling
-            } else {
-                // Move to other screen
-                moveResize(geometryRestore().translated(nextOutput->geometry().topLeft() - currentOutput->geometry().topLeft()));
-                whichScreen = nextOutput->geometry().center();
-
-                // Swap sides
-                if (shiftHorizontal) {
-                    mode = (~mode & QuickTileFlag::Horizontal) | (mode & QuickTileFlag::Vertical);
-                }
-                if (shiftVertical) {
-                    mode = (~mode & QuickTileFlag::Vertical) | (mode & QuickTileFlag::Horizontal);
-                }
-            }
-        } else if (quickTileMode() == QuickTileMode(QuickTileFlag::None)) {
+        // remove the func of moving other screens when splitting windows again     -- by zy 2023.9.11
+        if (quickTileMode() == QuickTileMode(QuickTileFlag::None)) {
             // Not coming out of an existing tile, not shifting monitors, we're setting a brand new tile.
             // Store geometry first, so we can go out of this tile later.
             setGeometryRestore(quickTileGeometryRestore());
