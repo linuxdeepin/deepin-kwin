@@ -1,3 +1,12 @@
+kwin (4:5.27.2.14-deepin14) unstable; urgency=medium
+
+  [ xinbo wang ]
+  * Add prohibit screenshot interface
+  * Add new multitaskview
+  * Add new split menu
+
+ -- xinbo wang <wangxinbo@uniontech.com>  Mon, 11 Sep 2023 16:27:11 +0800
+
 kwin (4:5.27.2.13-deepin13-1) unstable; urgency=medium
 
   [ zhangyu ]
