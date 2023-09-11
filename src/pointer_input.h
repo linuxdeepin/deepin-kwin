@@ -239,7 +239,7 @@ private:
     std::unique_ptr<ShapeCursorSource> m_fallbackCursor;
     std::unique_ptr<ShapeCursorSource> m_moveResizeCursor;
     std::unique_ptr<ShapeCursorSource> m_windowSelectionCursor;
-    // std::unique_ptr<ShapeCursorSource> m_splitScreenCursor;
+    std::unique_ptr<ShapeCursorSource> m_splitScreenCursor;
 
     struct
     {
