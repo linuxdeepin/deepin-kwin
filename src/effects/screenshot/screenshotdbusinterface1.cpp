@@ -1042,9 +1042,8 @@ bool ScreenShotDBusInterface1::isProhibitScreenshot(qulonglong winid)
 
 QString ScreenShotDBusInterface1::prohibitImagePath(int nWidth, int nHeight)
 {
-    QImage img(nWidth, nHeight, QImage::Format_RGB888);
-    img.fill(QColor(Qt::black));
-    img.save(m_blackPixmapPath);
+    QImage prohibitImage(":/resources/themes/prohibited.svg");
+    prohibitImage.save(m_blackPixmapPath);
 
     return m_blackPixmapPath;
 }
