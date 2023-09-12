@@ -265,6 +265,7 @@ public:
     EffectScreen *screenAt(const QPoint &point) const override;
     EffectScreen *findScreen(const QString &name) const override;
     EffectScreen *findScreen(int screenId) const override;
+    EffectScreen *findScreen(Output *output) const override;
     void renderScreen(EffectScreen *screen) override;
     bool isCursorHidden() const override;
     QRect renderTargetRect() const override;

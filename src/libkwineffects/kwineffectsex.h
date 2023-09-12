@@ -15,7 +15,6 @@
 #include <kwineffects_export.h>
 #include <kwinglobals.h>
 
-
 /**
  * Logging category to be used inside the KWin effects.
  * Do not use in this library.
@@ -26,6 +25,7 @@ namespace KWin
 {
 
 class EffectWindow;
+class Output;
 
 #define KWIN_EFFECT_API_MAKE_VERSION( major, minor ) (( major ) << 8 | ( minor ))
 #define KWIN_EFFECT_API_VERSION_MAJOR 0
@@ -75,11 +75,10 @@ public:
     virtual std::unique_ptr<EffectFrameEx> effectFrameEx(QString url, bool staticSize = true, 
                                                      const QPoint &position = QPoint(-1, -1),
                                                      Qt::Alignment alignment = Qt::AlignCenter) const = 0;
+    virtual EffectScreen *findScreen(Output *output) const = 0;
 
 Q_SIGNALS:
     void triggerSplitPreview(KWin::EffectWindow *w);
-    void windowQuickTileModeChanged(KWin::EffectWindow *w);
-    void showSplitScreenPreview(KWin::EffectWindow *w);
     void swapSplitWin(KWin::EffectWindow *w, int index);
 
     void showMultitasking();

@@ -2886,10 +2886,11 @@ void MultitaskViewEffect::getScreenInfo()
 {
     m_screenInfoList.clear();
     m_allFullArea = effects->clientArea(FullArea, effects->screens().first(), effects->currentDesktop()).toRect();
-    for (EffectScreen *effectScreen : effects->screens()) {
+
+    for (Output *output : workspace()->outputs()) {
+        EffectScreen *effectScreen = effectsEx->findScreen(output);
         QRect rect = effects->clientArea(FullScreenArea, effectScreen, effects->currentDesktop()).toRect();
         QRect maxRect = effects->clientArea(MaximizeArea, effectScreen, effects->currentDesktop()).toRect();
-
         ScreenInfo_st infost;
         infost.rect = maxRect;
         infost.screenrect = rect;
@@ -2913,6 +2914,10 @@ void MultitaskViewEffect::getScreenInfo()
 
         if (m_maxHeight < rect.y() + rect.height())
             m_maxHeight = rect.y() + rect.height();
+        if (!isExtensionMode()) {
+            break;
+        }
+
     }
 }
 

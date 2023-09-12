@@ -1957,6 +1957,11 @@ EffectScreen *EffectsHandlerImpl::findScreen(int screenId) const
     return m_effectScreens.value(screenId);
 }
 
+EffectScreen *EffectsHandlerImpl::findScreen(Output *output) const
+{
+    return EffectScreenImpl::get(output);
+}
+
 void EffectsHandlerImpl::slotOutputAdded(Output *output)
 {
     EffectScreen *screen = new EffectScreenImpl(output, this);
