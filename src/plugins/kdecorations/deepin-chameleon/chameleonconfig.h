@@ -118,6 +118,7 @@ private Q_SLOTS:
 
     void onShellClientAdded(KWin::ShellClient *client);
     void updateWindowRadius();
+    void updateAppearanceConn();
 
 private:
     void init();
