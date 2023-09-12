@@ -1892,6 +1892,9 @@ protected:
     void setDesktopFileName(const QString &name);
     QString iconFromDesktopFile() const;
 
+    void loadGioDesktopFileName();
+    QString iconFromGioDesktopFile() const;
+
     void updateApplicationMenuServiceName(const QString &serviceName);
     void updateApplicationMenuObjectPath(const QString &objectPath);
 
@@ -2041,6 +2044,9 @@ private:
         QRegion inputRegion;
     } m_decoration;
     QString m_desktopFileName;
+
+    // GIO_LAUNCHED_DESKTOP_FILE environment
+    QByteArray m_gioDesktopFileName;
 
     bool m_applicationMenuActive = false;
     QString m_applicationMenuServiceName;

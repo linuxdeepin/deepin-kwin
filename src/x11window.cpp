@@ -522,6 +522,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
         desktopFileName = QString::fromUtf8(info->gtkApplicationId());
     }
     setDesktopFileName(rules()->checkDesktopFile(desktopFileName, true));
+    loadGioDesktopFileName();
     getIcons();
     connect(this, &X11Window::desktopFileNameChanged, this, &X11Window::getIcons);
 
@@ -2293,6 +2294,13 @@ void X11Window::getIcons()
         setIcon(QIcon::fromTheme(themedIconName));
         return;
     }
+    // Second read icons from the environment GIO_LAUNCHED_DESKTOP_FILE
+    const QString gioIconName = iconFromGioDesktopFile();
+    if (!gioIconName.isEmpty()) {
+        setIcon(QIcon::fromTheme(gioIconName));
+        return;
+    }
+
     QIcon icon;
     auto readIcon = [this, &icon](int size, bool scale = true) {
         const QPixmap pix = KX11Extras::icon(window(), size, size, scale, KX11Extras::NETWM | KX11Extras::WMHints, info);
