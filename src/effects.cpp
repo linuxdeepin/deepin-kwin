@@ -2319,6 +2319,28 @@ MANAGED_HELPER(bool, isUnresponsive, unresponsive, false)
 
 #undef MANAGED_HELPER
 
+#define MANAGED_HELPEREX(rettype, prototype, propertyname, defaultValue)                     \
+    rettype EffectWindowImpl::prototype() const                                            \
+    {                                                                                      \
+        auto client = static_cast<Window *>(m_window->isClient() ? m_window : nullptr);    \
+        if (client) {                                                                      \
+            return client->propertyname();                                                 \
+        }                                                                                  \
+        auto deleted = static_cast<Deleted *>(m_window->isDeleted() ? m_window : nullptr); \
+        if (deleted) {                                                                     \
+            return deleted->propertyname();                                                \
+        }                                                                                  \
+        auto unmanage = static_cast<Unmanaged *>(m_window->isUnmanaged() ? m_window : nullptr); \
+        if (unmanage) {                                                                     \
+            return unmanage->propertyname();                                                \
+        }                                                                                   \
+        return defaultValue;                                                               \
+    }
+
+MANAGED_HELPEREX(QString, captionNormal, captionNormal, QString());
+
+#undef MANAGED_HELPEREX
+
 // legacy from tab groups, can be removed when no effects use this any more.
 bool EffectWindowImpl::isCurrentTab() const
 {

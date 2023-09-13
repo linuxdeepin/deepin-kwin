@@ -436,6 +436,7 @@ public:
     QRectF clientGeometry() const override;
 
     QString caption() const override;
+    QString captionNormal() const override;
 
     QRectF expandedGeometry() const override;
     EffectScreen *screen() const override;

@@ -2486,6 +2486,7 @@ public:
     virtual void deleteProperty(long atom) const = 0;
 
     virtual QString caption() const = 0;
+    virtual QString captionNormal() const = 0;
     virtual QIcon icon() const = 0;
     virtual QString windowClass() const = 0;
     virtual QString windowRole() const = 0;

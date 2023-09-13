@@ -958,6 +958,10 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
     }
 
     if (m_effectFlyingBack.animating()) {
+        if (w->captionNormal().contains(WATERMARK_CLASS_NAME)) {
+            effects->paintWindow(w, mask, region, data);
+            return;
+        }
         if (w->isOnDesktop(effects->currentDesktop()) && !w->isMinimized()) {
             m_effectFlyingBack.paintWindow(w, mask, region, data);
         }
@@ -984,6 +988,11 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
     int desktop = effects->currentDesktop();
     if (0 == paintingDesktop) {
         if (w == m_windowMove && m_wasWindowMove) {
+            return;
+        }
+
+        if (w->captionNormal().contains(WATERMARK_CLASS_NAME)) {
+            effects->paintWindow(w, mask, region, data);
             return;
         }
 
