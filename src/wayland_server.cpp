@@ -47,6 +47,8 @@
 #include "wayland/output_order_v1_interface.h"
 #include "wayland/outputdevice_v2_interface.h"
 #include "wayland/outputmanagement_v2_interface.h"
+#include "wayland/outputdevice_v1_interface.h"
+#include "wayland/outputmanagement_v1_interface.h"
 #include "wayland/plasmashell_interface.h"
 #include "wayland/plasmavirtualdesktop_interface.h"
 #include "wayland/plasmawindowmanagement_interface.h"
@@ -320,11 +322,17 @@ void WaylandServer::handleOutputAdded(Output *output)
     if (!output->isPlaceholder() && !output->isNonDesktop()) {
         m_waylandOutputDevices.insert(output, new KWaylandServer::OutputDeviceV2Interface(m_display, output));
     }
+    if (!output->isPlaceholder() && !output->isNonDesktop()) {
+        m_waylandOutputV1Devices.insert(output, new KWaylandServer::OutputDeviceInterface(m_display, output));
+    }
 }
 
 void WaylandServer::handleOutputRemoved(Output *output)
 {
     if (auto outputDevice = m_waylandOutputDevices.take(output)) {
+        outputDevice->remove();
+    }
+    if (auto outputDevice = m_waylandOutputV1Devices.take(output)) {
         outputDevice->remove();
     }
 }
@@ -523,6 +531,7 @@ bool WaylandServer::init(InitializationFlags flags)
     });
 
     m_outputManagement = new OutputManagementV2Interface(m_display, m_display);
+    m_outputV1Management = new OutputManagementInterface(m_display, m_display);
 
     m_xdgOutputManagerV1 = new XdgOutputManagerV1Interface(m_display, m_display);
     new SubCompositorInterface(m_display, m_display);

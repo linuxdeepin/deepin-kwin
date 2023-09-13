@@ -27,6 +27,7 @@ class ClientConnection;
 class Display;
 class OutputInterface;
 class OutputDeviceV2Interface;
+class OutputDeviceInterface;
 class SeatInterface;
 struct ClientBufferDestroyListener;
 
@@ -48,6 +49,7 @@ public:
     bool running = false;
     QList<OutputInterface *> outputs;
     QList<OutputDeviceV2Interface *> outputdevicesV2;
+    QList<OutputDeviceInterface *> outputdevices;
     QVector<SeatInterface *> seats;
     QVector<ClientConnection *> clients;
     QStringList socketNames;

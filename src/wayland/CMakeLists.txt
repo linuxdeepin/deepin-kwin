@@ -239,6 +239,16 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME dde-security
 )
 
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/outputdevice.xml
+    BASENAME org-kde-kwin-outputdevice
+)
+
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/output-management.xml
+    BASENAME outputmanagement
+)
+
 target_sources(kwin PRIVATE
     abstract_data_source.cpp
     abstract_data_device.cpp
@@ -286,6 +296,8 @@ target_sources(kwin PRIVATE
     output_order_v1_interface.cpp
     outputdevice_v2_interface.cpp
     outputmanagement_v2_interface.cpp
+    outputdevice_v1_interface.cpp
+    outputmanagement_v1_interface.cpp
     plasmashell_interface.cpp
     plasmavirtualdesktop_interface.cpp
     plasmawindowmanagement_interface.cpp

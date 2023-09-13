@@ -38,7 +38,9 @@ class PlasmaWindowActivationFeedbackInterface;
 class PlasmaVirtualDesktopManagementInterface;
 class PlasmaWindowManagementInterface;
 class OutputDeviceV2Interface;
+class OutputDeviceInterface;
 class OutputManagementV2Interface;
+class OutputManagementInterface;
 class XdgForeignV2Interface;
 class XdgOutputManagerV1Interface;
 class LinuxDmaBufV1ClientBufferIntegration;
@@ -314,6 +316,7 @@ private:
     KWaylandServer::PlasmaVirtualDesktopManagementInterface *m_virtualDesktopManagement = nullptr;
     KWaylandServer::ServerSideDecorationManagerInterface *m_decorationManager = nullptr;
     KWaylandServer::OutputManagementV2Interface *m_outputManagement = nullptr;
+    KWaylandServer::OutputManagementInterface *m_outputV1Management = nullptr;
     KWaylandServer::AppMenuManagerInterface *m_appMenuManager = nullptr;
     KWaylandServer::ServerSideDecorationPaletteManagerInterface *m_paletteManager = nullptr;
     KWaylandServer::IdleInterface *m_idle = nullptr;
@@ -343,6 +346,7 @@ private:
     QHash<KWaylandServer::ClientConnection*, quint16> m_clientIds;
     QHash<Output *, KWaylandServer::OutputInterface *> m_waylandOutputs;
     QHash<Output *, KWaylandServer::OutputDeviceV2Interface *> m_waylandOutputDevices;
+    QHash<Output *, KWaylandServer::OutputDeviceInterface *> m_waylandOutputV1Devices;
     KWaylandServer::DrmLeaseManagerV1 *m_leaseManager = nullptr;
     KWaylandServer::OutputOrderV1Interface *m_outputOrder = nullptr;
     KWIN_SINGLETON(WaylandServer)
