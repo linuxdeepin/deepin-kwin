@@ -431,8 +431,6 @@ void SplitManage::getHVRect(QString screen, QRect &hRect, QRect &vRect)
 bool SplitManage::isShowSplitLine(QString screen)
 {
     if (!Workspace::self()->activeClient()) {
-        // If active client of current workspace is null, do not show split outline
-        qCDebug(KWIN_SPLIT) << "Not showing split outline because of active client of current workspace is null.";
         return false;
     }
     if (getObj(effects->currentDesktop()))
