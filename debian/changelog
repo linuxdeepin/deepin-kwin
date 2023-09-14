@@ -1,3 +1,18 @@
+kwin (4:5.27.2.15-deepin15) unstable; urgency=medium
+
+  [ huangzeming ]
+  * 218337 fix: windows and add button were shown uncorrectly at the resolution of 1024*768 in multitaskview
+  * 218371 fix: functions of close and top button are opposite in multitaskview
+  * 218995 fix: press and hold maximize button, splitmenu disappears after button released
+  * 217627 fix: the problem of roll desktops when super + ->/<-
+  * 217611 fix: the problem of Win+D not being able to hide above window
+  * 218593 fix: solve the watermark display in multitaskview and splitscreen
+  * 218835 fix: optimize screen info and add extended judgment
+  * 217277 fix: tabbox can't show UI
+  * 218769 fix: change the dock preview effect in protected window
+
+ -- huangzeming <huangzeming@uniontech.com>  Thu, 14 Sep 2023 17:40:23 +0800
+
 kwin (4:5.27.2.14-deepin14) unstable; urgency=medium
 
   [ xinbo wang ]
