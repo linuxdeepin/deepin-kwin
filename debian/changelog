@@ -1,3 +1,11 @@
+deepin-kwin (4:5.25.11-kwin.5.24.3) unstable; urgency=medium
+
+  * fix: multiview freeze when switching workspace
+  * optimize: avoid activating appearance service
+  * fix: missing owner changed signal
+
+ -- bluesky <lxz@lxz-v23>  Thu, 14 Sep 2023 09:37:38 +0800
+
 deepin-kwin (4:5.25.10-kwin.5.24.3) unstable; urgency=medium
 
   * 8e123163 fix split window
