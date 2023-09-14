@@ -2089,7 +2089,7 @@ bool X11Window::takeFocus()
     }
     workspace()->setShouldGetFocus(this);
 
-    bool breakShowingDesktop = !keepAbove();
+    bool breakShowingDesktop = true;
     if (breakShowingDesktop) {
         const auto members = group()->members();
         for (const X11Window *c : members) {
@@ -2100,7 +2100,27 @@ bool X11Window::takeFocus()
         }
     }
     if (breakShowingDesktop) {
-        workspace()->setShowingDesktop(false);
+        if (workspace()->showingDesktop()) {
+            // 最小化其它所有窗口
+            for (Window *c : workspace()->allClientList()) {
+                if (this == c || c->isDock() || c->isDesktop() || skipTaskbar() || (c->isUtility() && c->keepAbove())) {
+                    continue;
+                }
+
+                // 在进入到显示桌面模式后还有活跃的窗口不要最小化，如进入这个模式后才新建的窗口
+                if (c->userTime() > workspace()->showingDesktopTimestamp()) {
+                    continue;
+                }
+                //if 'this' is dialog , it's parent cannot minimize
+                if (this->transientFor() == c)
+                    continue;
+                // c is dialog and it's child of this ,cannot minimize
+                if (c->transientFor() != this)
+                    c->minimize(true);
+            }
+
+            workspace()->setShowingDesktop(false);
+        }
     }
 
     return true;

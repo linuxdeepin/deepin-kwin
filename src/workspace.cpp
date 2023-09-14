@@ -130,6 +130,7 @@ Workspace::Workspace()
     , m_delayFocusWindow(nullptr)
     , force_restacking(false)
     , showing_desktop(false)
+    , showing_desktop_timestamp(-1U)
     , was_user_interaction(false)
     , block_focus(0)
     , m_splitBarState(false)
@@ -1842,6 +1843,7 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
         rootInfo()->setShowingDesktop(showing);
     }
     showing_desktop = showing;
+    showing_desktop_timestamp = kwinApp()->x11Time();
 
     Window *topDesk = nullptr;
 
@@ -1864,6 +1866,8 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
                             cm->updateLayer();
                         }
                     }
+                } else if (window->keepAbove()) {
+                    window->updateLayer();
                 }
             }
         }

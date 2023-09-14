@@ -944,7 +944,7 @@ Layer Window::belongsToLayer() const
         return ActiveLayer;
     }
     if (keepAbove()) {
-        return AboveLayer;
+        return workspace()->showingDesktop() ? NormalLayer : AboveLayer;
     }
 
     return NormalLayer;

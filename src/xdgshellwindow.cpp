@@ -1276,7 +1276,23 @@ bool XdgToplevelWindow::takeFocus()
         setActive(true);
     }
     if (!keepAbove() && !isOnScreenDisplay() && !belongsToDesktop()) {
-        workspace()->setShowingDesktop(false);
+        if (workspace()->showingDesktop()) {
+            // minimize all other windows
+            for (Window *c : workspace()->allClientList()) {
+                if (this == c || c->isDock() || c->isDesktop() || skipTaskbar()) {
+                    continue;
+                }
+
+                //if 'this' is dialog , it's parent cannot minimize
+                if (this->transientFor() == c)
+                    continue;
+                // c is dialog and it's child of this ,cannot minimize
+                if (c->transientFor() != this) {
+                    c->minimize(true);
+                }
+            }
+            workspace()->setShowingDesktop(false);
+        }
     }
     return true;
 }
