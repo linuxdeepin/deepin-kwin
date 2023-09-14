@@ -489,6 +489,11 @@ void KWinUtils::hideSplitMenu(bool delay)
     workspace()->hideSplitMenu(delay);
 }
 
+void KWinUtils::setSplitMenuKeepShowing(bool keep)
+{
+    workspace()->setSplitMenuKeepShowing(keep);
+}
+
 QObject *KWinUtils::findUnmanaged(quint32 window)
 {
     return Workspace::self()->findUnmanaged(window);

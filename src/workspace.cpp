@@ -2361,6 +2361,11 @@ void Workspace::hideSplitMenu(bool delay)
     SplitMenu::instance()->Hide(delay);
 }
 
+void Workspace::setSplitMenuKeepShowing(bool keep)
+{
+    SplitMenu::instance()->setKeepShowing(keep);
+}
+
 void Workspace::updateTabbox()
 {
 #if KWIN_BUILD_TABBOX

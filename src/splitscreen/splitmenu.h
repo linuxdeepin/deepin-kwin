@@ -29,6 +29,8 @@ public:
     void Show(const QRect &button_rect, uint32_t client_id);
     void Hide(bool delay, bool internal = false);
 
+    void setKeepShowing(bool keep) { m_keepShowing = keep; }
+
 private:
     explicit SplitMenu();
     ~SplitMenu() override;
@@ -41,6 +43,7 @@ private:
     void stopTime();
 
     bool m_isShow = false;
+    bool m_keepShowing = false;
     bool m_isDark = false;
     bool entered = false;
     bool upside = false;

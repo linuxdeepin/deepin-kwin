@@ -298,8 +298,10 @@ public:
     SessionManager *sessionManager() const;
 
     QString ActiveColor();
+
     void showSplitMenu(const QRect &rect, uint32_t client_id);
     void hideSplitMenu(bool delay);
+    void setSplitMenuKeepShowing(bool keep);
 
     /**
      * @returns the TileManager associated to a given output

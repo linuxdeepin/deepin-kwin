@@ -68,6 +68,8 @@ ChameleonButton::ChameleonButton(KDecoration2::DecorationButtonType type, const 
 
 ChameleonButton::~ChameleonButton()
 {
+    KWinUtils::setSplitMenuKeepShowing(false);
+    KWinUtils::hideSplitMenu(false);
 }
 
 KDecoration2::DecorationButton *ChameleonButton::create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent)
@@ -133,7 +135,7 @@ void ChameleonButton::paint(QPainter *painter, const QRect &repaintRegion)
 
 void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
 {
-    if (!m_isMaxAvailble && !QX11Info::isPlatformX11())
+    if (!m_isMaxAvailble)
         return;
 
     m_wlHoverStatus = true;
@@ -167,7 +169,7 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
 
 void ChameleonButton::hoverLeaveEvent(QHoverEvent *event)
 {
-    if (!m_wlHoverStatus && !QX11Info::isPlatformX11())
+    if (!m_wlHoverStatus)
         return;
 
     m_wlHoverStatus = false;
@@ -208,6 +210,7 @@ void ChameleonButton::mousePressEvent(QMouseEvent *event)
                             auto c = decoration->client().data();
                             if (c) {
                                 uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
+                                KWinUtils::setSplitMenuKeepShowing(true);
                                 KWinUtils::showSplitMenu(geometry().translated(effect->pos()).toRect(), wid);
                             }
                         }
@@ -229,10 +232,13 @@ void ChameleonButton::mouseReleaseEvent(QMouseEvent *event)
         if (max_timer) {
             max_timer->stop();
         }
+        if (!geometry().contains(event->localPos()))
+            KWinUtils::setSplitMenuKeepShowing(false);
         if (!m_isMaxAvailble) {
             event->setLocalPos(QPointF(event->localPos().x() - OUT_RELEASE_EVENT, event->localPos().y()));
         }
         KWinUtils::hideSplitMenu(false);
+        KWinUtils::setSplitMenuKeepShowing(false);
     }
     KDecoration2::DecorationButton::mouseReleaseEvent(event);
     m_isMaxAvailble = true;

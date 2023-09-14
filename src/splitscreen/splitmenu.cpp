@@ -12,7 +12,7 @@
 #include <QPainter>
 #include <QtMath>
 
-#define LONG_PRESS_TIME 300
+#define LONG_PRESS_TIME 500
 #define HIDE_DELAY_TIME 300
 
 namespace KWin
@@ -29,7 +29,7 @@ SplitMenu *SplitMenu::instance()
 SplitMenu::SplitMenu()
 {
     if (waylandServer()) {
-        setWindowFlags(Qt::Popup | Qt::X11BypassWindowManagerHint);
+        setWindowFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
     } else {
         setWindowFlags(Qt::X11BypassWindowManagerHint);
     }
@@ -225,7 +225,7 @@ void SplitMenu::Show(const QRect &button_rect, uint32_t client_id)
 
 void SplitMenu::Hide(bool delay, bool internal)
 {
-    if (entered && !internal)
+    if ((entered && !internal) || m_keepShowing)
         return;
     stopTime();
     if (!delay || !m_isShow) {
