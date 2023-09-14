@@ -84,8 +84,9 @@ void DataDeviceInterfacePrivate::data_device_start_drag(Resource *resource,
 
     const SurfaceRole *surfaceRole = SurfaceRole::get(iconSurface);
     if (surfaceRole) {
-        wl_resource_post_error(resource->handle, error_role, "the icon surface already has a role assigned %s", surfaceRole->name().constData());
-        return;
+        //TODO Workaround Temporarily lift this restriction
+        //wl_resource_post_error(resource->handle, error_role, "the icon surface already has a role assigned %s", surfaceRole->name().constData());
+        //return;
     }
 
     SurfaceInterface *focusSurface = SurfaceInterface::get(originResource);
