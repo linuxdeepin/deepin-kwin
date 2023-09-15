@@ -1,3 +1,10 @@
+kwin (4:5.27.2.16-deepin16-1) unstable; urgency=medium
+
+  [ jccKevin ]
+  * Disable DRM modifiers by default
+
+ -- jccKevin <luochaojiang@uniontech.com>  Fri, 15 Sep 2023 15:25:50 +0800
+
 kwin (4:5.27.2.15-deepin15) unstable; urgency=medium
 
   [ huangzeming ]
