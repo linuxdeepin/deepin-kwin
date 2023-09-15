@@ -27,10 +27,10 @@ public:
     QPaintDevice *paintDevice() override;
     void flush(QWindow *window, const QRegion &region, const QPoint &offset) override;
     void resize(const QSize &size, const QRegion &staticContents) override;
+    void beginPaint(const QRegion &region) override;
 
 private:
-    QImage m_backBuffer;
-    QImage m_frontBuffer;
+    QImage m_buffer;
 };
 
 }
