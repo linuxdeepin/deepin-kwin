@@ -191,6 +191,7 @@ target_sources(kwin PRIVATE
     splitscreen/splitbar.cpp
     splitscreen/splitmenu.cpp
     splitscreen/splitscreen.qrc
+    resources.qrc
 )
 
 target_link_libraries(kwin

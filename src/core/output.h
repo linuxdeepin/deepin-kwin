@@ -105,6 +105,14 @@ public:
         bool operator!=(const CtmValue &cv) const;
     };
 
+    struct shm_rp_buffer {
+        int64_t fd = -1;        /**< optional fd for data */
+        uint32_t mapOffset;     /**< offset to map fd at */
+        uint32_t maxSize;       /**< max size of data */
+        QSize outputSize;       /**< last frame output size */
+        void *data;
+    };
+
     explicit Output(QObject *parent = nullptr);
     ~Output() override;
 
@@ -272,6 +280,16 @@ public:
     virtual bool setCursor(CursorSource *source);
     virtual bool moveCursor(const QPoint &position);
 
+    void creatShmRemoteProhibitBuffer();
+
+    int shmRemoteProhibitBufferFd();
+
+    int dupShmRemoteProhibitBufferFd();
+
+    void freeShmRemoteProhibitBuffer();
+
+    QSize shmRemoteProhibitBufferSize();
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the geometry of this output has changed.
@@ -326,6 +344,9 @@ Q_SIGNALS:
     void vrrPolicyChanged();
     void rgbRangeChanged();
     void brightnessChanged();
+
+private:
+    shm_rp_buffer m_shm_rp_buffer;
 
 protected:
     struct Information

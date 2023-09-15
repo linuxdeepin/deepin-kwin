@@ -171,19 +171,19 @@ bool Workspace::hasProtectedWindow()
         if (protectedWindowIdLists.contains(-1)) {
             hasProtectedWindow = true;
         } else if (effects) {
-            if (static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("multitaskview")
-                || static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("presentwindows")
-                || static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("highlightwindow") 
-                || static_cast<EffectsHandlerImpl*>(effects)->isEffectLoaded("splitscreen")){
+            if (static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("multitaskview")
+                || static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("presentwindows")
+                || static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("highlightwindow")
+                || static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("splitscreen")){
                 hasProtectedWindow = true;
             }
         }
 
         if (!hasProtectedWindow) {
-            for (int i = 0; i < protectedWindowIdLists.length(); i++) {
-                for (int j = 0; i < stacking_order.count(); j ++){
+            for (int i = 0; i < protectedWindowIdLists.count(); i++) {
+                for (int j = 0; j < stacking_order.count(); j++) {
                     Window *win = stacking_order.at(j);
-                    if (!win || m_allClients.indexOf(win) < 0)
+                    if (!win || m_allClients.indexOf(win) < 0 || win->window() == 0)
                         continue;
 
                     if ((protectedWindowIdLists[i] == win->window()) && !win->isMinimized()) {

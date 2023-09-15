@@ -179,6 +179,7 @@ private:
 
     bool checkCall() const;
     bool isTakingScreenshot() const;
+    void sendReplyImage(const QImage &img);
 
     void showInfoMessage(InfoMessageMode mode);
     void hideInfoMessage();

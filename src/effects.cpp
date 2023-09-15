@@ -1594,6 +1594,13 @@ bool EffectsHandlerImpl::isEffectLoaded(const QString &name) const
     return it != loaded_effects.constEnd();
 }
 
+bool EffectsHandlerImpl::isEffectActived(const QString& name) const
+{
+    auto it = std::find_if(loaded_effects.constBegin(), loaded_effects.constEnd(),
+        [&name](const EffectPair &pair) { return (pair.first == name && pair.second->isActive()); });
+    return it != loaded_effects.constEnd();
+}
+
 bool EffectsHandlerImpl::isEffectSupported(const QString &name)
 {
     // If the effect is loaded, it is obviously supported.

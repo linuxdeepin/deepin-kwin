@@ -299,6 +299,7 @@ public Q_SLOTS:
     Q_SCRIPTABLE void toggleEffect(const QString &name);
     Q_SCRIPTABLE void unloadEffect(const QString &name);
     Q_SCRIPTABLE bool isEffectLoaded(const QString &name) const;
+    Q_SCRIPTABLE bool isEffectActived(const QString& name) const;
     Q_SCRIPTABLE bool isEffectSupported(const QString &name);
     Q_SCRIPTABLE QList<bool> areEffectsSupported(const QStringList &names);
     Q_SCRIPTABLE QString supportInformation(const QString &name) const;

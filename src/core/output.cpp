@@ -9,11 +9,15 @@
 
 #include "output.h"
 #include "outputconfiguration.h"
+#include "workspace.h"
 
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
 
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <unistd.h>
 namespace KWin
 {
 
@@ -75,6 +79,7 @@ Output::Output(QObject *parent)
 
 Output::~Output()
 {
+    freeShmRemoteProhibitBuffer();
 }
 
 void Output::ref()
@@ -447,6 +452,73 @@ bool Output::setCursor(CursorSource *source)
 bool Output::moveCursor(const QPoint &position)
 {
     return false;
+}
+
+void Output::creatShmRemoteProhibitBuffer()
+{
+    auto size = modeSize();
+
+    m_shm_rp_buffer.mapOffset = 0;
+    m_shm_rp_buffer.maxSize = size.width() * size.height() * 4;
+    m_shm_rp_buffer.outputSize = size;
+
+    m_shm_rp_buffer.fd = memfd_create("kwin-remote-prohibit-memfd", MFD_CLOEXEC | MFD_ALLOW_SEALING);
+    if (m_shm_rp_buffer.fd == -1) {
+        qCCritical(KWIN_CORE) << "memfd: Can't create memfd";
+        return;
+    }
+
+    if (ftruncate (m_shm_rp_buffer.fd, m_shm_rp_buffer.maxSize) < 0) {
+        qCCritical(KWIN_CORE) << "memfd: Can't truncate to" <<  m_shm_rp_buffer.maxSize;
+        return;
+    }
+
+    unsigned int seals = F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL;
+    if (fcntl(m_shm_rp_buffer.fd, F_ADD_SEALS, seals) == -1) {
+        qCWarning(KWIN_CORE) << "memfd: Failed to add seals";
+    }
+
+    m_shm_rp_buffer.data = mmap(nullptr,
+                        m_shm_rp_buffer.maxSize,
+                        PROT_READ | PROT_WRITE,
+                        MAP_SHARED,
+                        m_shm_rp_buffer.fd,
+                        m_shm_rp_buffer.mapOffset);
+    if (m_shm_rp_buffer.data == MAP_FAILED) {
+        qCCritical(KWIN_CORE) << "memfd: Failed to mmap memory";
+        close(m_shm_rp_buffer.fd);
+        m_shm_rp_buffer.fd = -1;
+        return;
+    } else {
+        qCDebug(KWIN_CORE) << "memfd: created successfully" <<  m_shm_rp_buffer.data <<  m_shm_rp_buffer.fd;
+    }
+
+    QImage img = workspace()->getProhibitShotImage(size);
+    memcpy(m_shm_rp_buffer.data, img.bits(), m_shm_rp_buffer.maxSize);
+}
+
+int Output::shmRemoteProhibitBufferFd()
+{
+    return m_shm_rp_buffer.fd;
+}
+
+int Output::dupShmRemoteProhibitBufferFd()
+{
+    return fcntl(m_shm_rp_buffer.fd, F_DUPFD, 0);
+}
+
+void Output::freeShmRemoteProhibitBuffer()
+{
+    if (m_shm_rp_buffer.fd != -1) {
+        memset(m_shm_rp_buffer.data, 0, m_shm_rp_buffer.maxSize);
+        munmap(m_shm_rp_buffer.data, m_shm_rp_buffer.maxSize);
+        close(m_shm_rp_buffer.fd);
+    }
+}
+
+QSize Output::shmRemoteProhibitBufferSize()
+{
+    return m_shm_rp_buffer.outputSize;
 }
 
 } // namespace KWin

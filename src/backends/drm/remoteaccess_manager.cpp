@@ -24,9 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "drm_backend.h"
 #include "wayland_server.h"
 #include "drm_buffer_gbm.h"
+#include "workspace.h"
 
 // system
 #include "wayland/output_interface.h"
+#include "wayland/dderestrict_interface.h"
 #include "core/output.h"
 #include <unistd.h>
 #include <gbm.h>
@@ -60,15 +62,30 @@ RemoteAccessManager::~RemoteAccessManager()
 
 void RemoteAccessManager::releaseBuffer(const BufferHandle *buf)
 {
-    int ret = close(buf->fd());
-    if (Q_UNLIKELY(ret)) {
-        qCWarning(KWIN_DRM) << "Couldn't close released GBM fd:" << strerror(errno);
+    if (!buf) {
+        qCWarning(KWIN_DRM) << "buf is already released.";
+        return;
+    }
+    if (buf->fd() != -1) {
+        int ret = close(buf->fd());
+        if (Q_UNLIKELY(ret)) {
+            qCWarning(KWIN_DRM) << "Couldn't close released GBM fd:" << strerror(errno);
+        }
     }
     delete buf;
 }
 
 void RemoteAccessManager::passBuffer(Output *output, DrmGpuBuffer *buffer)
 {
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
+        return;
+    }
+
+    bool hasProtectedWindow = false;
+    if (workspace() && workspace()->hasProtectedWindow())
+        hasProtectedWindow = true;
+
     GbmBuffer* gbmbuf = static_cast<GbmBuffer *>(buffer);
     // no connected RemoteAccess instance
     if (!m_interface && m_interface->isBound()) {
@@ -82,10 +99,27 @@ void RemoteAccessManager::passBuffer(Output *output, DrmGpuBuffer *buffer)
 
     auto buf = new BufferHandle;
     auto bo = gbmbuf->bo();
-    buf->setFd(gbm_bo_get_fd(bo));
     buf->setSize(gbm_bo_get_width(bo), gbm_bo_get_height(bo));
-    buf->setStride(gbm_bo_get_stride(bo));
     buf->setFormat(gbm_bo_get_format(bo));
+
+    if (hasProtectedWindow) {
+        if (output->shmRemoteProhibitBufferFd() == -1) {
+            output->creatShmRemoteProhibitBuffer();
+        } else if (output->modeSize() != output->shmRemoteProhibitBufferSize()) {
+            output->freeShmRemoteProhibitBuffer();
+            output->creatShmRemoteProhibitBuffer();
+        }
+        buf->setFd(output->dupShmRemoteProhibitBufferFd());
+        buf->setStride(output->modeSize().width() * 4);
+    } else {
+        buf->setFd(gbm_bo_get_fd(bo));
+        buf->setStride(gbm_bo_get_stride(bo));
+    }
+
+    if (buf->fd() == -1) {
+        delete buf;
+        return;
+    }
 
     m_interface->sendBufferReady(waylandServer()->findWaylandOutput(output), buf);
 }
