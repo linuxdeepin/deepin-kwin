@@ -299,7 +299,7 @@ std::shared_ptr<GbmSurface> EglGbmLayerSurface::createGbmSurface(const QSize &si
 {
     static bool modifiersEnvSet = false;
     static const bool modifiersEnv = qEnvironmentVariableIntValue("KWIN_DRM_USE_MODIFIERS", &modifiersEnvSet) != 0;
-    bool allowModifiers = m_gpu->addFB2ModifiersSupported() && (!modifiersEnvSet || (modifiersEnvSet && modifiersEnv)) && !modifiers.isEmpty();
+    bool allowModifiers = m_gpu->addFB2ModifiersSupported() && modifiersEnv && !modifiers.isEmpty();
 #if !HAVE_GBM_BO_GET_FD_FOR_PLANE
     allowModifiers &= m_gpu == m_eglBackend->gpu();
 #endif
