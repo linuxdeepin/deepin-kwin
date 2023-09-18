@@ -22,7 +22,8 @@
 #define CHAMELEONBUTTON_H
 
 #include <KDecoration2/DecorationButton>
-#include "chameleonsplitmenu.h"
+#include <QTimer>
+#include "kwineffects.h"
 
 class ChameleonButton : KDecoration2::DecorationButton
 {
@@ -52,7 +53,6 @@ protected:
     KWin::EffectWindow *effect = nullptr;
     QTimer *max_timer = nullptr;
     bool m_isMaxAvailble = true;
-    bool m_wlHoverStatus = false;
 };
 
 #endif // CHAMELEONBUTTON_H

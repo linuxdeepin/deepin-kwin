@@ -138,8 +138,6 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
     if (!m_isMaxAvailble)
         return;
 
-    m_wlHoverStatus = true;
-
     if (KWinUtils::instance()->isCompositing()) {
         Chameleon *decoration = qobject_cast<Chameleon*>(this->decoration());
         if (decoration) {
@@ -169,10 +167,6 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
 
 void ChameleonButton::hoverLeaveEvent(QHoverEvent *event)
 {
-    if (!m_wlHoverStatus)
-        return;
-
-    m_wlHoverStatus = false;
     if (KWinUtils::instance()->isCompositing()) {
         Chameleon *decoration = qobject_cast<Chameleon*>(this->decoration());
         if (decoration) {
@@ -206,7 +200,6 @@ void ChameleonButton::mousePressEvent(QMouseEvent *event)
                     if (decoration) {
                         effect = decoration->effect();
                         if (effect) {
-                            m_wlHoverStatus = false;
                             auto c = decoration->client().data();
                             if (c) {
                                 uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
