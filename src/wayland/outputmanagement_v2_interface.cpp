@@ -282,6 +282,7 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
     applied = true;
     if (invalid) {
         qCWarning(KWIN_CORE) << "Rejecting configuration change because a request output is no longer available";
+        applied = false;
         send_failed();
         return;
     }
@@ -292,6 +293,7 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
     });
     if (allDisabled) {
         qCWarning(KWIN_CORE) << "Disabling all outputs through configuration changes is not allowed";
+        applied = false;
         send_failed();
         return;
     }
@@ -303,6 +305,7 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
         });
         if (outputOrder.size() != desktopOutputs) {
             qWarning(KWIN_CORE) << "Provided output order doesn't contain all outputs!";
+            applied = false;
             send_failed();
             return;
         }
@@ -317,6 +320,7 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
         for (const auto &[index, name] : std::as_const(outputOrder)) {
             if (index != i) {
                 qCWarning(KWIN_CORE) << "Provided output order is invalid!";
+                applied = false;
                 send_failed();
                 return;
             }
@@ -328,9 +332,11 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
         });
     }
     if (workspace()->applyOutputConfiguration(config, sortedOrder)) {
+        applied = false;
         send_applied();
     } else {
         qCDebug(KWIN_CORE) << "Applying config failed";
+        applied = false;
         send_failed();
     }
 }
