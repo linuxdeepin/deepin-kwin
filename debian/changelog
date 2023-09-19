@@ -1,3 +1,12 @@
+kwin (4:5.27.2.18-deepin18-1) unstable; urgency=medium
+
+  [ jccKevin ]
+  * fix: Add remote access data lost
+  * fix: when OutputConfiguration applied,reset value of applying
+  * fix: cancel the limit of icon surface role for temporary
+
+ -- jccKevin <luochaojiang@uniontech.com>  Tue, 19 Sep 2023 16:15:45 +0800
+
 kwin (4:5.27.2.17-deepin17-1) unstable; urgency=medium
 
   [ jccKevin ]
