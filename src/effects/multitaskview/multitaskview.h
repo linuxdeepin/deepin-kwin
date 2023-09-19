@@ -159,9 +159,10 @@ public:
     const QRect &getRect() const {return m_rect;}
 
 private:
-    std::unique_ptr<KWin::EffectFrame> m_background;
+    std::unique_ptr<KWin::EffectFrameEx> m_background;
 
     int m_maxHeight;
+    int m_scale;
     QRect m_rect;
     QRect m_clientArea;
     QRect m_fullArea;
@@ -196,7 +197,7 @@ public:
     void setPosition(QPoint pos);
 
 private:
-    std::unique_ptr<KWin::EffectFrame> m_backGroundFrame;
+    std::unique_ptr<KWin::EffectFrameEx> m_backGroundFrame;
     std::unique_ptr<KWin::EffectFrameEx> m_workspaceBgFrame;
     std::unique_ptr<KWin::EffectFrameEx> m_hoverFrame;
     int m_desktop;
@@ -519,14 +520,14 @@ private:
     EffectWindow *m_hoverWinBtn = nullptr;
     EffectWindow *m_hoverWin = nullptr;
     std::unique_ptr<EffectFrameEx> m_hoverWinFrame = nullptr;
-    std::unique_ptr<EffectFrame> m_closeWinFrame = nullptr;
-    std::unique_ptr<EffectFrame> m_topWinFrame = nullptr;
-    std::unique_ptr<EffectFrame> m_textWinFrame = nullptr;
+    std::unique_ptr<EffectFrameEx> m_closeWinFrame = nullptr;
+    std::unique_ptr<EffectFrameEx> m_topWinFrame = nullptr;
+    std::unique_ptr<EffectFrameEx> m_textWinFrame = nullptr;
     std::unique_ptr<EffectFrameEx> m_textWinBgFrame = nullptr;
-    std::unique_ptr<EffectFrame> m_previewFrame = nullptr;
-    std::unique_ptr<EffectFrame> m_closeWorkspaceFrame = nullptr;
-    std::unique_ptr<EffectFrame> m_dragTipsFrame = nullptr;
-    std::unique_ptr<EffectFrame> m_dragTipsFrameShadow = nullptr;
+    std::unique_ptr<EffectFrameEx> m_previewFrame = nullptr;
+    std::unique_ptr<EffectFrameEx> m_closeWorkspaceFrame = nullptr;
+    std::unique_ptr<EffectFrameEx> m_dragTipsFrame = nullptr;
+    std::unique_ptr<EffectFrameEx> m_dragTipsFrameShadow = nullptr;
     std::unique_ptr<GLShader> m_dottedLineShader = nullptr;
 
     QString       m_topFrameIcon;

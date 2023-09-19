@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.10
 import QtGraphicalEffects 1.0
 
 Rectangle {
@@ -16,6 +16,7 @@ Rectangle {
         width: root.width
         height: root.height
         source: root.effectFrame.image
+        sourceSize: root.effectFrame.size
 
         layer.enabled: true
         layer.effect: OpacityMask {
@@ -24,8 +25,8 @@ Rectangle {
                 height: icon.height
                 Rectangle {
                     anchors.centerIn: parent
-                    width: icon.width
-                    height: icon.height
+                    width: icon.width - 2
+                    height: icon.height - 2
                     radius: root.radius
                 }
             }

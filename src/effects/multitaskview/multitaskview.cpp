@@ -63,6 +63,7 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define ADDBTN_W_SCALE      (float)(104.0 / 1920.0)
 #define ADDBTN_H_SCALE      (float)(56.0 / 1080.0)
 #define ADDBTN_SIZE_SCALE   (float)(64.0 / 1920.0)
+#define ADDBTN_RADIUS_SCALE (float)(18.0 / 1920.0)
 
 #define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
 #define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
@@ -385,8 +386,7 @@ void MultiViewBackgroundManager::setMonitorInfo(QList<QMap<QString,QVariant>> mo
 
 MultiViewAddButton::MultiViewAddButton()
 {
-    m_background = effects->effectFrame(EffectFrameNone, false);
-    m_background->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    m_background = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/addbutton.qml", false);
 }
 
 MultiViewAddButton::~MultiViewAddButton()
@@ -396,7 +396,8 @@ MultiViewAddButton::~MultiViewAddButton()
 
 void MultiViewAddButton::render()
 {
-    m_background->render(infiniteRegion(), 1, 0);
+    m_background->setRadius(m_fullArea.width() * ADDBTN_RADIUS_SCALE);
+    m_background->render(infiniteRegion(), 0.6, 0);
 }
 
 void MultiViewAddButton::setImage(const QString &btf, const QRect &rect)
@@ -404,9 +405,8 @@ void MultiViewAddButton::setImage(const QString &btf, const QRect &rect)
     m_rect = rect;
     m_background->setGeometry(rect);
 
-    QIcon icon(btf);
-    m_background->setIcon(icon);
-    m_background->setIconSize(QSize(rect.width(), rect.height()));
+    m_background->setImage(btf);
+    m_background->setGeometry(rect);
 }
 
 void MultiViewAddButton::setRect(const QRect &rect)
@@ -419,7 +419,7 @@ MultiViewWorkspace::MultiViewWorkspace(bool flag)
     : m_backGroundFrame(nullptr)
     , m_desktop(0), m_bShader(flag)
 {
-    m_backGroundFrame = effects->effectFrame(EffectFrameNone, false);
+    m_backGroundFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
 
     m_workspaceBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", false);
     m_workspaceBgFrame->setRadius(10);
@@ -475,12 +475,10 @@ void MultiViewWorkspace::setImage(const QPixmap &bgPix, const QPixmap &wpPix, co
     m_backGroundFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_backGroundFrame->setGeometry(m_fullArea);
     m_backGroundFrame->setPosition(m_fullArea.topLeft());
-    m_backGroundFrame->setIcon(icon);
-    m_backGroundFrame->setIconSize(QSize(m_fullArea.width(), m_fullArea.height()));
+    m_backGroundFrame->setImage(bgPix);
 
     m_workspaceBgFrame->setGeometry(rect);
 
-    icon = wpPix;
     m_workspaceBgFrame->setImage(bgPix);
 }
 
@@ -490,7 +488,6 @@ void MultiViewWorkspace::setImage(const QString &btf, const QRect &rect)
     m_currentRect = rect;
     m_workspaceBgFrame->setGeometry(rect);
 
-    QIcon icon(btf);
     m_workspaceBgFrame->setImage(btf);
 }
 
@@ -597,39 +594,38 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/windowhover.qml", false);
     m_hoverWinFrame->setRadius(10);
 
-    m_closeWinFrame = effects->effectFrame(EffectFrameNone, false);
+    m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
     m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    m_closeWinFrame->setIcon(QIcon(MULTITASK_CLOSE_SVG));
-    m_closeWinFrame->setIconSize(QSize(24, 24));
+    m_closeWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
+    m_closeWinFrame->setGeometry(QRect(0, 0, 24, 24));
 
-    m_topWinFrame = effects->effectFrame(EffectFrameUnstyled, false);
+    m_topWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
     m_topWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    m_topWinFrame->setGeometry(QRect(0, 0, 24, 24));
 
-    m_textWinFrame = effects->effectFrame(EffectFrameStyled, false);
-    m_textWinFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    m_textWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
 
     m_textWinBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/textbg.qml", false);
     m_textWinBgFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_textWinBgFrame->setRadius(10);
 
-    m_previewFrame = effects->effectFrame(EffectFrameNone, false);
+    m_previewFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", false);
     m_previewFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    m_previewFrame->setRadius(10);
 
-    m_closeWorkspaceFrame = effects->effectFrame(EffectFrameNone, false);
+    m_closeWorkspaceFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
     m_closeWorkspaceFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    m_closeWorkspaceFrame->setIcon(QIcon(MULTITASK_CLOSE_SVG));
-    m_closeWorkspaceFrame->setIconSize(QSize(24, 24));
+    m_closeWorkspaceFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
+    m_closeWorkspaceFrame->setGeometry(QRect(0, 0, 24, 24));
 
-    m_dragTipsFrame = effects->effectFrame(EffectFrameUnstyled, false);
+    m_dragTipsFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
     m_dragTipsFrame->setAlignment(Qt::AlignHCenter);
-    m_dragTipsFrame->setIcon(QIcon(delete_workspace_png));
+    m_dragTipsFrame->setImage(QUrl::fromLocalFile(delete_workspace_png));
     m_dragTipsFrame->setIconSize(QSize(19 * m_scalingFactor, 20 * m_scalingFactor));
 
-    m_dragTipsFrameShadow = effects->effectFrame(EffectFrameStyled, false);
+    m_dragTipsFrameShadow = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
     m_dragTipsFrameShadow->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
-
-    QIcon icon(delete_workspace_png);
-    m_dragTipsFrameShadow->setIcon(icon);
+    m_dragTipsFrameShadow->setImage(QUrl::fromLocalFile(delete_workspace_png));
     m_dragTipsFrameShadow->setIconSize(QSize(22 * m_scalingFactor, 21 * m_scalingFactor));
 }
 
@@ -1393,20 +1389,16 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         }
 
         if (w->keepAbove() && m_topFrameIcon != MULTITASK_TOP_ACTIVE_SVG) {
-            QIcon icon(MULTITASK_TOP_ACTIVE_SVG);
             m_topFrameIcon = MULTITASK_TOP_ACTIVE_SVG;
-            m_topWinFrame->setIcon(icon);
-            m_topWinFrame->setIconSize(QSize(24, 24));
+            m_topWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_TOP_ACTIVE_SVG));
         } else if (!w->keepAbove() && m_topFrameIcon != MULTITASK_TOP_SVG) {
-            QIcon icon(MULTITASK_TOP_SVG);
             m_topFrameIcon = MULTITASK_TOP_SVG;
-            m_topWinFrame->setIcon(icon);
-            m_topWinFrame->setIconSize(QSize(24, 24));
+            m_topWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_TOP_SVG));
         }
 
         // button point 微调结果
         m_closeWinFrame->setPosition(QPoint(rect.x() + rect.width() - 12, rect.y() - 10));
-        m_topWinFrame->setPosition(QPoint(rect.x() - 22, rect.y() - 17));
+        m_topWinFrame->setPosition(QPoint(rect.x() - 12, rect.y() - 10));
         m_textWinFrame->setPosition(QPoint(rect.x() + rect.width() / 2, rect.y() + rect.height() - 40));
         if (m_winBtnArea.size() < 2)
             m_winBtnArea.resize(2);
@@ -1420,7 +1412,7 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
                         (height - geoframe.height()) / 2 + (48 * m_scalingFactor - height) / 2);
         m_textWinBgFrame->setGeometry(geoframe);
 
-        m_textWinFrame->setPosition(QPoint(rect.x() + rect.width() / 2 - 18, rect.y() + rect.height() - 40));
+        m_textWinFrame->setPosition(QPoint(rect.x() + rect.width() / 2, rect.y() + rect.height() - 40));
 
         m_closeWinFrame->render(infiniteRegion(), 1, 0);
         m_topWinFrame->render(infiniteRegion(), 1, 0);
@@ -3645,7 +3637,7 @@ void MultitaskViewEffect::changeCurrentDesktop(int desktop)
 void MultitaskViewEffect::showWorkspacePreview(EffectScreen *screen, QRect addButtonRect, bool isClear)
 {
     if (!isClear) {
-        if (m_previewFrame->icon().isNull()) {
+        if (m_previewFrame->image().isEmpty()) {
             QPixmap wpPix;
             QSize size(m_scale[screen].workspaceWidth, m_scale[screen].workspaceHeight);
             MultiViewBackgroundManager::instance()->getPreviewBackground(size, wpPix, screen);
@@ -3655,10 +3647,7 @@ void MultitaskViewEffect::showWorkspacePreview(EffectScreen *screen, QRect addBu
 
             m_previewFramePosX = pos1.x();
 
-            QIcon icon(wpPix);
-            m_previewFrame->setIcon(icon);
-            m_previewFrame->setIconSize(size);
-            m_previewFrame->setPosition(pos1);
+            m_previewFrame->setImage(wpPix);
             m_previewFrame->setGeometry(QRect(QPoint(pos1.x(), pos1.y()), size));
         }
 
@@ -3681,8 +3670,8 @@ void MultitaskViewEffect::showWorkspacePreview(EffectScreen *screen, QRect addBu
             glDisable(GL_SCISSOR_TEST);
         }
     } else {
-        if (m_previewFrame && !m_previewFrame->icon().isNull()) {
-            m_previewFrame->setIcon(QIcon());
+        if (m_previewFrame && !m_previewFrame->image().isEmpty()) {
+            m_previewFrame->setImage(QUrl());
         }
     }
 }
