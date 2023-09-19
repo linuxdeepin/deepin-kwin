@@ -300,4 +300,11 @@ std::shared_ptr<GLTexture> EglGbmBackend::importBufferObjectAsTexture(gbm_bo *bo
     }
 }
 
+void EglGbmBackend::addRenderSequence()
+{
+    if (m_remoteaccessManager) {
+        m_remoteaccessManager->incrementRenderSequence();
+    }
+}
+
 } // namespace KWin

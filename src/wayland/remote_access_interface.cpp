@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <QHash>
 #include <QMutableHashIterator>
+#include <QMutex>
 
 #include <fcntl.h>
 #include <functional>
@@ -165,6 +166,8 @@ private:
     QHash<qint32, BufferHolder> sentBuffers;
     QHash<wl_resource *, qint32> requestFrames;
     QHash<wl_resource*, qint32> lastFrames;
+
+    QMutex m_mutex;
 };
 
 const quint32 RemoteAccessManagerInterfacePrivate::s_version = 2;
@@ -212,6 +215,8 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
         Q_EMIT q->bufferReleased(buf);
         return;
     }
+
+    QMutexLocker locker(&m_mutex);
     // store buffer locally, clients will ask it later
     sentBuffers[buf->fd()] = holder;
 }
@@ -227,6 +232,7 @@ bool RemoteAccessManagerInterfacePrivate::unref(BufferHolder &bh)
     if (!bh.counter) {
         // no more clients using this buffer
         qCDebug(KWIN_CORE) << "[ut-gfx ]Buffer released, fd" << bh.buf->fd();
+        QMutexLocker locker(&m_mutex);
         sentBuffers.remove(bh.buf->fd());
         Q_EMIT q->bufferReleased(bh.buf);
         return true;
@@ -282,6 +288,15 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_rel
     // all holders should decrement their counter as one client is gone
     requestFrames.remove(resource->handle);
     lastFrames.remove(resource->handle);
+
+    QMutableHashIterator<qint32, BufferHolder> itr(sentBuffers);
+    while (itr.hasNext()) {
+        BufferHolder &bh = itr.next().value();
+        if (unref(bh)) {
+            itr.remove();
+        }
+    }
+
     wl_resource_destroy(resource->handle);
 }
 

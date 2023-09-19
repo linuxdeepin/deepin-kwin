@@ -84,6 +84,8 @@ public:
     EGLImageKHR importBufferObjectAsImage(gbm_bo *bo);
     std::shared_ptr<GLTexture> importBufferObjectAsTexture(gbm_bo *bo);
 
+    void addRenderSequence();
+
 private:
     bool initializeEgl();
     bool initBufferConfigs();

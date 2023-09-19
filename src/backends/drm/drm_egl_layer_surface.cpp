@@ -134,6 +134,7 @@ bool EglGbmLayerSurface::endRendering(DrmPlane::Transformations renderOrientatio
         m_shadowBuffer->render(renderOrientation);
         GLFramebuffer::popFramebuffer();
     }
+    m_eglBackend->addRenderSequence();
     const auto gbmBuffer = m_surface.gbmSurface->swapBuffers(damagedRegion);
     if (!gbmBuffer) {
         return false;
