@@ -1,3 +1,12 @@
+kwin (4:5.27.2.17-deepin17-1) unstable; urgency=medium
+
+  [ jccKevin ]
+  * Add output device v1 support
+  * fix: wayland can't use prohibit screenshot interface
+  * fix: solve leave without hide after long press maxi button show splitmenu
+
+ -- jccKevin <luochaojiang@uniontech.com>  Tue, 19 Sep 2023 14:15:06 +0800
+
 kwin (4:5.27.2.16-deepin16-1) unstable; urgency=medium
 
   [ jccKevin ]
