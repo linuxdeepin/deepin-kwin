@@ -3183,9 +3183,9 @@ void MultitaskViewEffect::removeDesktopEx(int desktop)
     effects->setNumberOfDesktops(effects->numberOfDesktops() - 1);
     m_isRemoveWorkspace = false;
     m_deleteWorkspaceDesktop = -1;
-    for (auto effectScreen : effects->screens()) {
-        delete m_workspaceBackgrounds[effectScreen][desktop - 1];
-        m_workspaceBackgrounds[effectScreen].removeAt(desktop - 1);
+    for (auto &workspace_list : m_workspaceBackgrounds) {
+        delete workspace_list[desktop - 1];
+        workspace_list.removeAt(desktop - 1);
     }
 
     {
