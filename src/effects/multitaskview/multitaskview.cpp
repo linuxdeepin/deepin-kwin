@@ -912,21 +912,6 @@ void MultitaskViewEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &da
 {
     data.mask |= PAINT_WINDOW_TRANSFORMED;
 
-    // if (m_activated && checkConfig(w)) {
-    //     w->enablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
-    // }
-    // if (w->isOnDesktop(paintingDesktop))
-    //     w->enablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
-    // else if (w->isDesktop())
-    //     w->disablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
-    // if (0 != paintingDesktop) {
-    //     if (w->isMinimized())
-    //         w->disablePainting(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
-    // }
-
-    // if (m_windowMove && m_wasWindowMove && m_windowMove->findModal() == w)
-    //     w->disablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
-
     if (m_bgSlidingStatus) {
         WindowMotionManager *mgr0 = nullptr, *mgr1 = nullptr;
         auto *lastWinManager = getWinManagerObject(m_lastDesktopIndex - 1);
@@ -934,10 +919,6 @@ void MultitaskViewEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &da
         if (lastWinManager && curWinManager) {
             lastWinManager->getMotion(m_lastDesktopIndex, w->screen(), mgr0);
             curWinManager->getMotion(m_curDesktopIndex, w->screen(), mgr1);
-            // if (mgr0->isManaging(w) || mgr1->isManaging(w))
-            //     w->enablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
-            // if (w->isDesktop())
-            //     w->disablePainting(EffectWindow::PAINT_DISABLED_BY_DESKTOP);
         }
     }
 
@@ -1081,21 +1062,6 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     auto area = effects->clientArea(ScreenArea, w->screen(), 0).toRect();
                     WindowPaintData d = data;
                     auto geo = wmm->transformedGeometry(w);
-                    //to do
-                    // WindowQuadList quads;
-                    // for (const WindowQuad &quad : dataQuads) {
-                    //     switch (quad.type()) {
-                    //     case WindowQuadDecoration:
-                    //         quads.append(quad);
-                    //         continue;
-                    //     case WindowQuadContents:
-                    //         quads.append(quad);
-                    //         continue;
-                    //     default:
-                    //         continue;
-                    //     }
-                    // }
-                    // d.quads = quads;
 
                     if (w == m_hoverWin) {
                         if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
@@ -1159,7 +1125,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         WindowMotionManager *wmm;
         MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(paintingDesktop - 1);
         if (wkmobj && wkmobj->getMotion(paintingDesktop, w->screen(), wmm)) {
-            if (wmm->isManaging(w)) {
+            if (wmm->isManaging(w) && !w->isMinimized()) {
                 WindowPaintData d = data;
                 auto geo = wmm->transformedGeometry(w).toRect();
 
@@ -2255,6 +2221,10 @@ void MultitaskViewEffect::cleanup()
     m_flyingWinList.clear();
     m_notificationList.clear();
     MultiViewBackgroundManager::instance()->clearCurrentBackgroundList();
+
+    for (EffectWindow *w : effects->stackingOrder()) {
+        w->unrefVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP);
+    }
 }
 
 void MultitaskViewEffect::setActive(bool active)
@@ -2326,6 +2296,10 @@ void MultitaskViewEffect::setActive(bool active)
 
         for (int i = 1; i <= effects->numberOfDesktops(); i++) {        //number of desktops
             setWinLayout(i, windowsList);
+        }
+
+        for (EffectWindow *w : windowsList) {
+            w->refVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP);
         }
 
         effects->addRepaintFull();
