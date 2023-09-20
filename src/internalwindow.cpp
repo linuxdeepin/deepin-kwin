@@ -246,6 +246,14 @@ bool InternalWindow::isOutline() const
     return false;
 }
 
+bool InternalWindow::isSplitBar() const
+{
+    if (m_handle) {
+        return captionNormal().contains("splitbar");
+    }
+    return false;
+}
+
 bool InternalWindow::isShown() const
 {
     return readyForPainting();

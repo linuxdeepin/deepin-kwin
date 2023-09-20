@@ -34,6 +34,7 @@ Deleted::Deleted()
     , m_keepBelow(false)
     , m_wasPopupWindow(false)
     , m_wasOutline(false)
+    , m_wasSplitBar(false)
     , m_wasLockScreen(false)
 {
 }
@@ -112,6 +113,7 @@ void Deleted::copyToDeleted(Window *window)
 
     m_wasPopupWindow = window->isPopupWindow();
     m_wasOutline = window->isOutline();
+    m_wasSplitBar = window->isSplitBar();
     m_wasLockScreen = window->isLockScreen();
 }
 

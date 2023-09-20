@@ -31,6 +31,7 @@ public:
     QPointF clientPos() const override;
     NET::WindowType windowType(bool direct = false, int supported_types = 0) const override;
     bool isOutline() const override;
+    bool isSplitBar() const override;
     bool isUnmanaged() const override;
 
     QString captionNormal() const override { return wm_name; }
@@ -75,6 +76,7 @@ private:
     void initialize();
     QString readName();
     bool m_outline = false;
+    bool m_splitbar = false;
     bool m_scheduledRelease = false;
     QString wm_name;
 };

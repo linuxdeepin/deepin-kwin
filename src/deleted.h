@@ -129,6 +129,10 @@ public:
     {
         return m_wasLockScreen;
     }
+    bool isSplitBar() const override
+    {
+        return m_wasSplitBar;
+    }
 
 private Q_SLOTS:
     void mainWindowClosed(KWin::Window *window);
@@ -165,6 +169,7 @@ private:
     QString m_caption;
     bool m_wasPopupWindow;
     bool m_wasOutline;
+    bool m_wasSplitBar;
     bool m_wasLockScreen;
 };
 

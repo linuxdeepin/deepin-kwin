@@ -282,6 +282,8 @@ class KWIN_EXPORT Window : public QObject
      */
     Q_PROPERTY(bool outline READ isOutline)
 
+    Q_PROPERTY(bool splitbar READ isSplitBar)
+
     /**
      * This property holds a UUID to uniquely identify this Window.
      */
@@ -695,6 +697,7 @@ public:
     virtual bool isLockScreen() const;
     virtual bool isInputMethod() const;
     virtual bool isOutline() const;
+    virtual bool isSplitBar() const;
     virtual bool isInternal() const;
 
     /**
@@ -2272,6 +2275,11 @@ inline bool Window::isInputMethod() const
 }
 
 inline bool Window::isOutline() const
+{
+    return false;
+}
+
+inline bool Window::isSplitBar() const
 {
     return false;
 }

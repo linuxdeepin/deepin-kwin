@@ -132,6 +132,7 @@ bool Unmanaged::track(xcb_window_t w)
     setupCompositing();
     if (QWindow *internalWindow = findInternalWindow()) {
         m_outline = internalWindow->property("__kwin_outline").toBool();
+        m_splitbar = wm_name.isEmpty() ? false : wm_name.contains("splitbar");
     }
     if (effects) {
         static_cast<EffectsHandlerImpl *>(effects)->checkInputWindowStacking();
@@ -204,6 +205,11 @@ NET::WindowType Unmanaged::windowType(bool direct, int supportedTypes) const
 bool Unmanaged::isOutline() const
 {
     return m_outline;
+}
+
+bool Unmanaged::isSplitBar() const
+{
+    return m_splitbar;
 }
 
 bool Unmanaged::isUnmanaged() const

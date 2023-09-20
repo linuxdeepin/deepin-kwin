@@ -33,6 +33,7 @@ SplitBar::SplitBar(QString screenName)
     setGraphicsEffect(m_opacityEffect);
     m_opacityEffect->setOpacity(1);
     show();
+    setProperty("__kwin_splitbar", true);
 }
 
 SplitBar::~SplitBar()
