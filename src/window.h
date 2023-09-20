@@ -1451,6 +1451,7 @@ public:
 
     void setQuickTileFromMenu(QuickTileMode mode);
     void resizeSplitWindow(QPointF &pos);
+    bool isSplitWindow();
 
     void broadcastDbusDestroySignal(int pid);
 public Q_SLOTS:

@@ -11,6 +11,7 @@
 
 #include "../utils/common.h"
 #include "splitbar.h"
+#include <QMutex>
 
 namespace KWin {
 
@@ -38,7 +39,7 @@ class SplitManage : public QObject
     Q_OBJECT
 
 public:
-    explicit SplitManage(){};
+    explicit SplitManage();
     ~SplitManage(){};
 
     void add(Window *window);
@@ -66,6 +67,10 @@ private:
 
 private:
     void handleQuickTile();
+    void windowScreenChange();
+    void windowDesktopChange();
+    void removeQuickTile(Window *window);
+    void updateStorage(Window *window);
     bool isSplitWindow(Window *window);
     void createSplitBar(QString &);
     SplitGroup *createGroup(int &, QString &);
@@ -78,6 +83,7 @@ private:
     QHash<QString, SplitBar *> m_splitBarManage;
     QHash<QString, Window *> m_splitBarWindows;
     QHash<Window *, WindowData> m_data;
+    QMutex m_mutex;
 };
 }
 

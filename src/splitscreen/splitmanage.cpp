@@ -13,6 +13,7 @@
 #include "../core/output.h"
 #include "workspace.h"
 #include "outline.h"
+#include <QThread>
 
 namespace KWin {
 
@@ -45,6 +46,11 @@ void SplitGroup::getSplitWindow(QVector<Window *> &vec)
 /*********************************************/
 // split manage
 /*********************************************/
+SplitManage::SplitManage()
+    : m_mutex(QMutex::Recursive)
+{
+}
+
 void SplitManage::add(Window *window)
 {
     if (window->isUnmanaged() || window->isAppletPopup() || window->isSpecialWindow() || window->isInternal()) {
@@ -53,6 +59,8 @@ void SplitManage::add(Window *window)
         return;
     }
     connect(window, &Window::quickTileModeChanged, this, &SplitManage::handleQuickTile);
+    connect(window, &Window::screenChanged, this, &SplitManage::windowScreenChange);
+    connect(window, &Window::desktopChanged, this, &SplitManage::windowDesktopChange);
     WindowData data = dataForWindow(window);
     m_data[window] = data;
 }
@@ -62,9 +70,9 @@ void SplitManage::remove(Window *window)
     inhibit();
     if (m_data.contains(window)) {
         disconnect(window, &Window::quickTileModeChanged, this, &SplitManage::handleQuickTile);
-        SplitGroup *splitgroup = getGroup(m_data[window].desktop, m_data[window].screenName);
-        if (splitgroup)
-            splitgroup->deleteSplitWindow(window);
+        disconnect(window, &Window::screenChanged, this, &SplitManage::windowScreenChange);
+        disconnect(window, &Window::desktopChanged, this, &SplitManage::windowDesktopChange);
+        removeQuickTile(window);
         m_data.remove(window);
     }
     uninhibit();
@@ -77,17 +85,23 @@ bool SplitManage::isSplitWindow(Window *window)
 
 void SplitManage::handleQuickTile()
 {
+    QMutexLocker locker(&m_mutex);
     inhibit();
     Window *window = qobject_cast<Window *>(QObject::sender());
     Q_ASSERT(window);
-    SplitGroup *splitgroup = getGroup(m_data[window].desktop, m_data[window].screenName);
-    if (splitgroup)
-        splitgroup->deleteSplitWindow(window);
+    removeQuickTile(window);
 
     int desktop = VirtualDesktopManager::self()->current();
+    if (window->desktop() == -1)
+        desktop = -1;
     QString screenName = window->output()->name() + "splitbar";
     if (isSplitWindow(window)) {
-        createGroup(desktop, screenName)->storeSplitWindow(window);
+        if (desktop == -1) {
+            for (int i = 1; i <= VirtualDesktopManager::self()->count(); ++i) {
+                createGroup(i, screenName)->storeSplitWindow(window);
+            }
+        } else
+            createGroup(desktop, screenName)->storeSplitWindow(window);
         createSplitBar(screenName);
         {
             m_data[window].desktop = desktop;
@@ -95,6 +109,59 @@ void SplitManage::handleQuickTile()
         }
     }
     uninhibit();
+}
+
+void SplitManage::windowScreenChange()
+{
+    QMutexLocker locker(&m_mutex);
+    Window *window = qobject_cast<Window *>(QObject::sender());
+    if (window->output()->name().isEmpty())
+        return;
+    updateStorage(window);
+}
+
+void SplitManage::windowDesktopChange()
+{
+    QMutexLocker locker(&m_mutex);
+    Window *window = qobject_cast<Window *>(QObject::sender());
+    updateStorage(window);
+}
+
+void SplitManage::updateStorage(Window *window)
+{
+    inhibit();
+    removeQuickTile(window);
+    int desktop = window->desktop();
+    QString screenName = window->output()->name() + "splitbar";
+    if (isSplitWindow(window)) {
+        if (desktop == -1) {
+            for (int i = 1; i <= VirtualDesktopManager::self()->count(); ++i) {
+                createGroup(i, screenName)->storeSplitWindow(window);
+            }
+        } else
+            createGroup(desktop, screenName)->storeSplitWindow(window);
+        createSplitBar(screenName);
+    }
+    {
+        m_data[window].desktop = desktop;
+        m_data[window].screenName = screenName;
+    }
+    uninhibit();
+}
+
+void SplitManage::removeQuickTile(Window *window)
+{
+    if (m_data[window].desktop == -1) {
+        for (int i = 1; i <= VirtualDesktopManager::self()->count(); ++i) {
+            SplitGroup *splitgroup = getGroup(i, m_data[window].screenName);
+            if (splitgroup)
+                splitgroup->deleteSplitWindow(window);
+        }
+    } else {
+        SplitGroup *splitgroup = getGroup(m_data[window].desktop, m_data[window].screenName);
+        if (splitgroup)
+            splitgroup->deleteSplitWindow(window);
+    }
 }
 
 SplitManage::WindowData SplitManage::dataForWindow(Window *window) const
@@ -182,8 +249,7 @@ void SplitManage::getSplitBarWindow(QHash<QString, Window *> &hash)
 
 void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w, bool isfinish)
 {
-    if (isfinish) {
-        Workspace::self()->outline()->hide();
+    if (isfinish || w == nullptr) {
         return;
     }
     Workspace::self()->raiseWindow(w);

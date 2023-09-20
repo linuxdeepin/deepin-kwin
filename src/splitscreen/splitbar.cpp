@@ -107,11 +107,12 @@ void SplitBar::slotUpdateState(QString &name, Window *w)
 {
     if (m_screenName != name)
         return;
+    m_window = w;
     if (w == nullptr) {
         setGeometry(0, 0, 1, 1);
         return;
     }
-    m_window = w;
+
     QRectF geo = w->frameGeometry();
     if (w->quickTileMode() == int(QuickTileFlag::Left)) {
         setGeometry(geo.x() + geo.width() - 10, geo.y(), 20, geo.height());

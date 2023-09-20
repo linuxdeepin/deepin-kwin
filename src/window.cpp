@@ -3956,6 +3956,10 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard)
         }
 
         doSetQuickTileMode();
+        if (isSplitWindow()) {
+            Tile *tile = workspace()->tileManager(output())->quickTile(QuickTileFlag(m_quickTileMode));
+            setTile(tile);
+        }
         Q_EMIT quickTileModeChanged();
 
         return;
@@ -4090,9 +4094,12 @@ void Window::sendToOutput(Output *newOutput)
     const QRectF oldGeom = moveResizeGeometry();
     const QRectF oldScreenArea = workspace()->clientArea(MaximizeArea, this, moveResizeOutput());
     const QRectF screenArea = workspace()->clientArea(MaximizeArea, this, newOutput);
-
     if (m_quickTileMode == QuickTileMode(QuickTileFlag::Custom)) {
         setTile(nullptr);
+    }
+    if (isSplitWindow()) {
+        Tile *tile = workspace()->tileManager(newOutput)->quickTile(QuickTileMode(m_quickTileMode));
+        setTile(tile);
     }
 
     QRectF newGeom = moveToArea(oldGeom, oldScreenArea, screenArea);
@@ -4663,6 +4670,15 @@ void Window::resizeSplitWindow(QPointF &pos)
         m_tile->resizeFromGravity(Gravity(mode ^ 0b11), pos.x(), pos.y());
         return;
     }
+}
+
+bool Window::isSplitWindow()
+{
+    if (m_quickTileMode == QuickTileMode(QuickTileFlag::Left) ||
+        m_quickTileMode == QuickTileMode(QuickTileFlag::Right)) {
+        return true;
+    }
+    return false;
 }
 
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)
