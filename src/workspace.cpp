@@ -292,6 +292,7 @@ void Workspace::init()
     connect(this, &Workspace::windowRemoved, m_splitManage.get(), &SplitManage::remove);
     connect(this, &Workspace::unmanagedAdded, m_splitManage.get(), &SplitManage::add);
     connect(this, &Workspace::internalWindowAdded, m_splitManage.get(), &SplitManage::add);
+    connect(this, &Workspace::preRemoveInternalWindow, m_splitManage.get(), &SplitManage::removeInternal);
 
     m_placementTracker->init(getPlacementTrackerHash());
 }

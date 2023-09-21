@@ -372,6 +372,7 @@ void InternalWindow::destroyWindow()
         Q_EMIT clientFinishUserMovedResized(this);
     }
 
+    Q_EMIT workspace()->preRemoveInternalWindow(this);
     Deleted *deleted = Deleted::create(this);
     Q_EMIT windowClosed(this, deleted);
 

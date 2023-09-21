@@ -54,8 +54,10 @@ SplitManage::SplitManage()
 void SplitManage::add(Window *window)
 {
     if (window->isUnmanaged() || window->isAppletPopup() || window->isSpecialWindow() || window->isInternal()) {
-        if (window->caption().contains("splitbar") && !m_splitBarWindows.contains(window->caption()))
+        if (window->caption().contains("splitbar") && !m_splitBarWindows.contains(window->caption())) {
+            m_pause = false;
             m_splitBarWindows.insert(window->caption(), window);
+        }
         return;
     }
     connect(window, &Window::quickTileModeChanged, this, &SplitManage::handleQuickTile);
@@ -74,6 +76,22 @@ void SplitManage::remove(Window *window)
         disconnect(window, &Window::desktopChanged, this, &SplitManage::windowDesktopChange);
         removeQuickTile(window);
         m_data.remove(window);
+    }
+    uninhibit();
+}
+
+void SplitManage::removeInternal(Window *window)
+{
+    QMutexLocker locker(&m_mutex);
+    inhibit();
+    if (window->isUnmanaged() || window->isAppletPopup() || window->isSpecialWindow() || window->isInternal()) {
+        if (window->caption().contains("splitbar") && m_splitBarWindows.contains(window->caption())) {
+            m_pause = true;
+            m_splitBarWindows.remove(window->caption());
+            if (m_splitBarManage.contains(window->caption())) {
+                m_splitBarManage.remove(window->caption());
+            }
+        }
     }
     uninhibit();
 }
@@ -222,7 +240,7 @@ void SplitManage::createSplitBar(QString &name)
 
 void SplitManage::getSplitWindows(QHash<QString, QVector<Window *>> &hash)
 {
-    if (m_inhibitCount != 0)
+    if (m_inhibitCount != 0 || m_pause)
         return;
     int desktop = VirtualDesktopManager::self()->current();
     for (QString key : m_splitBarManage.keys()) {

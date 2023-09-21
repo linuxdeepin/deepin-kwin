@@ -49,6 +49,7 @@ public:
 
     void inhibit();
     void uninhibit();
+    void removeInternal(Window *window);
 
 Q_SIGNALS:
     void signalSplitWindow(QString &, Window *w);
@@ -84,6 +85,7 @@ private:
     QHash<QString, Window *> m_splitBarWindows;
     QHash<Window *, WindowData> m_data;
     QMutex m_mutex;
+    bool m_pause = false;
 };
 }
 
