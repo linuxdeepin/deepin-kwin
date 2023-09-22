@@ -629,8 +629,6 @@ private:
     EffectWindow *m_screenRecorderMenu = nullptr;
 
     Qt::MouseButton m_sendButton = Qt::NoButton; // send to outside dock or osd pointer button
-
-    QTimer* m_addingDesktopTimer;
 };
 
 } // namespace KWin

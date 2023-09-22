@@ -531,7 +531,6 @@ MultitaskViewEffect::MultitaskViewEffect()
     : m_showAction(new QAction(this))
     , m_mutex(QMutex::Recursive)
     , m_timer(new QTimer(this))
-    , m_addingDesktopTimer(new QTimer(this))
     , m_timerCheckWindowClose(new QTimer(this))
 {
     QAction *a = m_showAction;
@@ -1993,14 +1992,12 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             break;
         case Qt::Key_Equal:
             if (e->modifiers() == Qt::AltModifier) {
-                if(!m_addingDesktopTimer->isActive())
-                    m_addingDesktopTimer->start();
+                addNewDesktop();
             }
             break;
         case Qt::Key_Plus:
             if (e->modifiers() == (Qt::AltModifier|Qt::KeypadModifier)) {
-                if(!m_addingDesktopTimer->isActive())
-                    m_addingDesktopTimer->start();
+                addNewDesktop();
             }
             break;
         case Qt::Key_Minus:
