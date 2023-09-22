@@ -2819,7 +2819,7 @@ void EffectFrameQuickScene::reposition()
     setGeometry(geometry);
 }
 
-void EffectFrameQuickScene::setColor(QColor &color)
+void EffectFrameQuickScene::setColor(const QColor &color)
 {
     if (m_color != color) {
         m_color = color;
@@ -3041,7 +3041,7 @@ void EffectFrameImpl::setCrossFadeProgress(qreal progress)
     m_view->setCrossFadeProgress(progress);
 }
 
-void EffectFrameImpl::setColor(QColor &color)
+void EffectFrameImpl::setColor(const QColor &color)
 {
     m_view->setColor(color);
 }

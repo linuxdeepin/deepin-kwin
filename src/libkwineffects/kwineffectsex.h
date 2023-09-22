@@ -40,7 +40,7 @@ public:
     explicit EffectFrameEx();
     virtual ~EffectFrameEx();
 
-    virtual void  setColor(QColor &color) = 0;
+    virtual void  setColor(const QColor &color) = 0;
     virtual const QColor &color() const = 0;
     virtual void setRadius(int radius) = 0;
     virtual const int &radius() = 0;

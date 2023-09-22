@@ -601,7 +601,11 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", false);
     m_hoverWinFrame->setRadius(10);
 
-    m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+    m_hoverWinBg = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
+    m_hoverWinBg->setColor("#A0A0A0");
+    m_hoverWinBg->setRadius(10);
+
+    m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
     m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_closeWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
     m_closeWinFrame->setGeometry(QRect(0, 0, 24, 24));
@@ -612,9 +616,10 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     m_textWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
 
-    m_textWinBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/textbg.qml", false);
+    m_textWinBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
     m_textWinBgFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_textWinBgFrame->setRadius(10);
+    m_textWinBgFrame->setColor("#E0E0E0");
 
     m_previewFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", true);
     m_previewFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -1350,6 +1355,8 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         QColor color = effectsEx->getActiveColor();
         QRect geoframe = rect;
         geoframe.adjust(-5, -5, 5, 5);
+        m_hoverWinBg->setGeometry(geoframe);
+        m_hoverWinBg->render(infiniteRegion(), 0.5, 0);
         m_hoverWinFrame->setGeometry(geoframe);
         m_hoverWinFrame->setColor(color);
         m_hoverWinFrame->render(infiniteRegion(), 1, 0);

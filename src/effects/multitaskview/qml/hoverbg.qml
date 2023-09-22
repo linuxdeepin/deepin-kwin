@@ -5,6 +5,6 @@ Rectangle {
     property QtObject effectFrame: null
     width: effectFrame.size.width
     height: effectFrame.size.height
-    color: "#E0E0E0"
+    color: effectFrame.color
     radius: effectFrame.radius
 }

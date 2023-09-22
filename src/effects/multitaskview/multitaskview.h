@@ -523,6 +523,7 @@ private:
     EffectWindow *m_hoverWinBtn = nullptr;
     EffectWindow *m_hoverWin = nullptr;
     std::unique_ptr<EffectFrameEx> m_hoverWinFrame = nullptr;
+    std::unique_ptr<EffectFrameEx> m_hoverWinBg = nullptr;
     std::unique_ptr<EffectFrameEx> m_closeWinFrame = nullptr;
     std::unique_ptr<EffectFrameEx> m_topWinFrame = nullptr;
     std::unique_ptr<EffectFrameEx> m_textWinFrame = nullptr;

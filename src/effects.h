@@ -620,7 +620,7 @@ public:
     void setPosition(const QPoint &point);
     void setPosition(const QPoint &point, bool force);
 
-    void setColor(QColor &color);
+    void setColor(const QColor &color);
     const QColor &color();
     Q_SIGNAL void colorChanged();
 
@@ -695,7 +695,7 @@ public:
     qreal crossFadeProgress() const override;
     void setCrossFadeProgress(qreal progress) override;
 
-    void  setColor(QColor &color) override;
+    void  setColor(const QColor &color) override;
     const QColor &color() const override;
     void setRadius(int radius) override;
     const int &radius() override;
