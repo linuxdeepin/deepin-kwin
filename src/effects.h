@@ -287,6 +287,7 @@ public:
     QRectF getQuickTileGeometry(KWin::EffectWindow *w, int mode, QPointF pos) override;
 
     int windowPId(KWin::EffectWindow *w) override;
+    bool isWinAllowSplit(KWin::EffectWindow *) override;
 
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow *from, EffectWindow *to);
@@ -530,7 +531,6 @@ public:
 
     void setData(int role, const QVariant &data) override;
     QVariant data(int role) const override;
-    // quint32 windowId() const override;
 
     void refVisibleEx(int) override;
     void unrefVisibleEx(int) override;

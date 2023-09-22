@@ -58,6 +58,7 @@ private:
     int                          m_backgroundMode;
     std::chrono::milliseconds    lastPresentTime;
     std::unique_ptr<EffectFrameEx>  m_effectFrame;
+    QList<EffectWindow *>           m_unPreviewWin;
 };
 }
 #endif

@@ -76,6 +76,7 @@ public:
                                                      const QPoint &position = QPoint(-1, -1),
                                                      Qt::Alignment alignment = Qt::AlignCenter) const = 0;
     virtual EffectScreen *findScreen(Output *output) const = 0;
+    virtual bool isWinAllowSplit(KWin::EffectWindow *) = 0;
 
 Q_SIGNALS:
     void triggerSplitPreview(KWin::EffectWindow *w);

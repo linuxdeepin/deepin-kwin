@@ -2075,6 +2075,15 @@ int EffectsHandlerImpl::windowPId(KWin::EffectWindow *w)
     return 0;
 }
 
+bool EffectsHandlerImpl::isWinAllowSplit(KWin::EffectWindow *w)
+{
+    auto window = static_cast<EffectWindowImpl *>(w)->window();
+    if (window->isClient()) {
+        return window->isResizable();
+    }
+    return false;
+}
+
 //****************************************
 // EffectScreenImpl
 //****************************************
@@ -2534,12 +2543,6 @@ bool EffectWindowImpl::isX11Client() const
 {
     return m_x11Window;
 }
-
-// quint32 EffectWindowImpl::windowId() const
-// {
-//     auto client = qobject_cast<Window *>(static_cast<EffectWindowImpl *>(w)->window())
-//     return client->window();
-// }
 
 //****************************************
 // EffectWindowGroupImpl

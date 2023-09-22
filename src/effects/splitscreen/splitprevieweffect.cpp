@@ -93,6 +93,9 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
         return;
     }
 
+    if (m_unPreviewWin.contains(w))
+        return;
+
     int desktop = effects->currentDesktop();
     WindowMotionManager& wmm = m_motionManagers[0];
     if (wmm.isManaging(w) || w->isDesktop()) {
@@ -136,6 +139,10 @@ void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
         if (w->isOnDesktop(currentDesktop) && isRelevantWithPresentWindows(w)) {
             if (w == m_window)
                 continue;
+            if (!effectsEx->isWinAllowSplit(w)) {
+                m_unPreviewWin.append(w);
+                continue;
+            }
             if (w->isMinimized()) {
                 w->refVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
             }
@@ -200,7 +207,7 @@ void SplitPreviewEffect::cleanup()
         m_motionManagers.first().unmanageAll();
         m_motionManagers.removeFirst();
     }
-
+    m_unPreviewWin.clear();
 }
 
 QRect SplitPreviewEffect::getPreviewWindowsGeometry(EffectWindow *w)
