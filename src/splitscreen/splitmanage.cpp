@@ -63,6 +63,7 @@ void SplitManage::add(Window *window)
     connect(window, &Window::quickTileModeChanged, this, &SplitManage::handleQuickTile);
     connect(window, &Window::screenChanged, this, &SplitManage::windowScreenChange);
     connect(window, &Window::desktopChanged, this, &SplitManage::windowDesktopChange);
+    connect(window, &Window::minimizedChanged, this, &SplitManage::updateSplitWindowsGroup);
     WindowData data = dataForWindow(window);
     m_data[window] = data;
 }
@@ -74,6 +75,7 @@ void SplitManage::remove(Window *window)
         disconnect(window, &Window::quickTileModeChanged, this, &SplitManage::handleQuickTile);
         disconnect(window, &Window::screenChanged, this, &SplitManage::windowScreenChange);
         disconnect(window, &Window::desktopChanged, this, &SplitManage::windowDesktopChange);
+        disconnect(window, &Window::minimizedChanged, this, &SplitManage::updateSplitWindowsGroup);
         removeQuickTile(window);
         m_data.remove(window);
     }
@@ -114,12 +116,7 @@ void SplitManage::handleQuickTile()
         desktop = -1;
     QString screenName = window->output()->name() + "splitbar";
     if (isSplitWindow(window)) {
-        if (desktop == -1) {
-            for (int i = 1; i <= VirtualDesktopManager::self()->count(); ++i) {
-                createGroup(i, screenName)->storeSplitWindow(window);
-            }
-        } else
-            createGroup(desktop, screenName)->storeSplitWindow(window);
+        addQuickTile(desktop, screenName, window);
         createSplitBar(screenName);
         {
             m_data[window].desktop = desktop;
@@ -152,12 +149,7 @@ void SplitManage::updateStorage(Window *window)
     int desktop = window->desktop();
     QString screenName = window->output()->name() + "splitbar";
     if (isSplitWindow(window)) {
-        if (desktop == -1) {
-            for (int i = 1; i <= VirtualDesktopManager::self()->count(); ++i) {
-                createGroup(i, screenName)->storeSplitWindow(window);
-            }
-        } else
-            createGroup(desktop, screenName)->storeSplitWindow(window);
+        addQuickTile(desktop, screenName, window);
         createSplitBar(screenName);
     }
     {
@@ -165,6 +157,32 @@ void SplitManage::updateStorage(Window *window)
         m_data[window].screenName = screenName;
     }
     uninhibit();
+}
+
+void SplitManage::updateSplitWindowsGroup()
+{
+    QMutexLocker locker(&m_mutex);
+    inhibit();
+    Window *window = qobject_cast<Window *>(QObject::sender());
+    if (isSplitWindow(window)) {
+        if (window->isMinimized()) {
+            removeQuickTile(window);
+        } else {
+            addQuickTile(m_data[window].desktop, m_data[window].screenName, window);
+        }
+    }
+    uninhibit();
+}
+
+void SplitManage::addQuickTile(int desktop, QString screenName, Window *window)
+{
+    if (desktop == -1) {
+        for (int i = 1; i <= VirtualDesktopManager::self()->count(); ++i) {
+            createGroup(i, screenName)->storeSplitWindow(window);
+        }
+    } else {
+        createGroup(desktop, screenName)->storeSplitWindow(window);
+    }
 }
 
 void SplitManage::removeQuickTile(Window *window)

@@ -71,9 +71,11 @@ private:
     void windowScreenChange();
     void windowDesktopChange();
     void removeQuickTile(Window *window);
+    void addQuickTile(int desktop, QString screenName, Window *window);
     void updateStorage(Window *window);
     bool isSplitWindow(Window *window);
     void createSplitBar(QString &);
+    void updateSplitWindowsGroup();
     SplitGroup *createGroup(int &, QString &);
     SplitGroup *getGroup(int &, QString &);
     WindowData dataForWindow(Window *window) const;
