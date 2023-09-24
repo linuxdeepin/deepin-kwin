@@ -64,6 +64,7 @@ void SplitManage::add(Window *window)
     connect(window, &Window::screenChanged, this, &SplitManage::windowScreenChange);
     connect(window, &Window::desktopChanged, this, &SplitManage::windowDesktopChange);
     connect(window, &Window::minimizedChanged, this, &SplitManage::updateSplitWindowsGroup);
+    connect(window, &Window::fullScreenChanged, this, &SplitManage::updateSplitWindowsGroup);
     WindowData data = dataForWindow(window);
     m_data[window] = data;
 }
@@ -76,6 +77,7 @@ void SplitManage::remove(Window *window)
         disconnect(window, &Window::screenChanged, this, &SplitManage::windowScreenChange);
         disconnect(window, &Window::desktopChanged, this, &SplitManage::windowDesktopChange);
         disconnect(window, &Window::minimizedChanged, this, &SplitManage::updateSplitWindowsGroup);
+        disconnect(window, &Window::fullScreenChanged, this, &SplitManage::updateSplitWindowsGroup);
         removeQuickTile(window);
         m_data.remove(window);
     }
@@ -165,7 +167,7 @@ void SplitManage::updateSplitWindowsGroup()
     inhibit();
     Window *window = qobject_cast<Window *>(QObject::sender());
     if (isSplitWindow(window)) {
-        if (window->isMinimized()) {
+        if (window->isMinimized() || window->isFullScreen()) {
             removeQuickTile(window);
         } else {
             addQuickTile(m_data[window].desktop, m_data[window].screenName, window);
