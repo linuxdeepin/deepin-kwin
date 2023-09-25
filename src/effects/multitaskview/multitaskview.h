@@ -159,7 +159,7 @@ public:
     const QRect &getRect() const {return m_rect;}
 
 private:
-    std::unique_ptr<KWin::EffectFrameEx> m_background;
+    std::unique_ptr<KWin::EffectFrameEx> m_button;
 
     int m_maxHeight;
     int m_scale;

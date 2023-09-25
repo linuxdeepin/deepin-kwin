@@ -386,7 +386,7 @@ void MultiViewBackgroundManager::setMonitorInfo(QList<QMap<QString,QVariant>> mo
 
 MultiViewAddButton::MultiViewAddButton()
 {
-    m_background = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/addbutton.qml", false);
+    m_button = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/addbutton.qml", true);
 }
 
 MultiViewAddButton::~MultiViewAddButton()
@@ -396,34 +396,33 @@ MultiViewAddButton::~MultiViewAddButton()
 
 void MultiViewAddButton::render()
 {
-    m_background->setRadius(m_fullArea.width() * ADDBTN_RADIUS_SCALE);
-    m_background->render(infiniteRegion(), 0.6, 0);
+    m_button->setRadius(m_fullArea.width() * ADDBTN_RADIUS_SCALE);
+    m_button->render(infiniteRegion(), 0.6, 0);
 }
 
 void MultiViewAddButton::setImage(const QString &btf, const QRect &rect)
 {
     m_rect = rect;
-    m_background->setGeometry(rect);
-
-    m_background->setImage(btf);
-    m_background->setGeometry(rect);
+    m_button->setImage(btf);
+    m_button->setGeometry(rect);
 }
 
 void MultiViewAddButton::setRect(const QRect &rect)
 {
     m_rect = rect;
-    m_background->setGeometry(rect);
+    m_button->setGeometry(rect);
 }
 
 MultiViewWorkspace::MultiViewWorkspace(bool flag)
     : m_backGroundFrame(nullptr)
     , m_desktop(0), m_bShader(flag)
 {
-    m_backGroundFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
+    m_backGroundFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+    m_backGroundFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
-    m_workspaceBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", false);
+    m_workspaceBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", true);
     m_workspaceBgFrame->setRadius(10);
-    m_hoverFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacehover.qml", false);
+    m_hoverFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", true);
     m_hoverFrame->setRadius(10);
 }
 
@@ -434,6 +433,7 @@ MultiViewWorkspace::~MultiViewWorkspace()
 
 void MultiViewWorkspace::renderDesktopBackGround(float k)
 {
+    m_backGroundFrame->setPosition(QPoint(m_fullArea.x() + k * m_fullArea.width(), m_fullArea.y()), true);
     m_backGroundFrame->render(infiniteRegion(), 1, 1);
 }
 
@@ -592,15 +592,15 @@ MultitaskViewEffect::MultitaskViewEffect()
     QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
                                         "ShowWorkspaceChanged", this, SLOT(toggle()));
 
-    m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/windowhover.qml", false);
+    m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", false);
     m_hoverWinFrame->setRadius(10);
 
-    m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
+    m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
     m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_closeWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
     m_closeWinFrame->setGeometry(QRect(0, 0, 24, 24));
 
-    m_topWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
+    m_topWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
     m_topWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_topWinFrame->setGeometry(QRect(0, 0, 24, 24));
 
@@ -610,11 +610,11 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_textWinBgFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_textWinBgFrame->setRadius(10);
 
-    m_previewFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", false);
+    m_previewFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", true);
     m_previewFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_previewFrame->setRadius(10);
 
-    m_closeWorkspaceFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
+    m_closeWorkspaceFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
     m_closeWorkspaceFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_closeWorkspaceFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
     m_closeWorkspaceFrame->setGeometry(QRect(0, 0, 24, 24));
@@ -663,9 +663,6 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::
         if(m_effectFlyingBack.animating())
             m_effectFlyingBack.advance(presentTime);
 
-        // if(m_workspaceSlidingStatus)
-        //     m_workspaceSlidingTimeline.advance(presentTime);
-
         if(m_workspaceSlidingStatus) {
             if (m_workspaceSlidingState == 0) {
                 m_workspaceSlidingState = 1;
@@ -684,9 +681,6 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::
 
         if(m_opacityStatus)
             m_opacityTimeLine.advance(presentTime);
-
-        // if(m_bgSlidingStatus)
-        //     m_bgSlidingTimeLine.advance(presentTime);
 
         if(m_bgSlidingStatus) {
             if (m_bgSlidingState == 0) {
@@ -1142,7 +1136,6 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
 void MultitaskViewEffect::handlerAfterTimeLine()
 {
     if (m_isRemoveWorkspace) {
-        // removeDesktopEx(m_lastDesktopIndex);
         cleanDesktopData(m_lastDesktopIndex);
     }
 }
@@ -1261,7 +1254,6 @@ void MultitaskViewEffect::renderSlidingWorkspace(MultiViewWorkspace *wkobj, Effe
     if (wkmobj && wkmobj->getMotion(m_aciveMoveDesktop, screen, wmm)) {
         for (EffectWindow *w : wmm->orderManagedWindows()) {
             if (wmm->isManaging(w) && !w->isMinimized()) {
-                // WindowPaintData d(w, data.projectionMatrix());
                 WindowPaintData d(data.projectionMatrix());
                 auto geo = wmm->transformedGeometry(w);
                 geo.moveTo(x + geo.x() - x1, geo.y());
@@ -2080,7 +2072,6 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
         case Qt::Key_L:
             if (e->modifiers() == Qt::MetaModifier) {
                 setActive(false);
-                effectsEx->requestLock();
             }
             break;
         case Qt::Key_QuoteLeft:
@@ -2245,10 +2236,6 @@ void MultitaskViewEffect::setActive(bool active)
             QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
             wm.call("SetMultiTaskingStatus", active);
         });
-    }
-
-    if (!QX11Info::isPlatformX11()) {
-        effectsEx->changeBlurState(active);
     }
 
     if(!active) {

@@ -41,9 +41,9 @@ public:
     virtual ~EffectFrameEx();
 
     virtual void  setColor(QColor &color) = 0;
-    virtual QColor &color() const = 0;
+    virtual const QColor &color() const = 0;
     virtual void setRadius(int radius) = 0;
-    virtual int &radius() = 0;
+    virtual const int &radius() = 0;
     virtual void setImage(const QUrl &image) = 0;
     virtual void setImage(const QPixmap &image) = 0;
     virtual const QUrl &image() const = 0;
@@ -64,12 +64,9 @@ public:
     virtual QRectF getQuickTileGeometry(KWin::EffectWindow *w, int mode, QPointF pos) = 0;
     virtual QString getActiveColor() = 0;
     virtual void setKeepAbove(KWin::EffectWindow *c, bool) = 0;
-    virtual void requestLock() = 0;
     virtual void sendPointer(Qt::MouseButton) = 0;
-    virtual void changeBlurState(bool) = 0;
     virtual EffectWindowList getChildWinList(KWin::EffectWindow *w) = 0;
     virtual bool isTransientWin(KWin::EffectWindow *w) = 0;
-    virtual EffectScreen *getCurrentPaintingScreen() = 0;
     virtual bool isShortcuts(QKeyEvent *event) = 0;
 
     virtual std::unique_ptr<EffectFrameEx> effectFrameEx(QString url, bool staticSize = true, 

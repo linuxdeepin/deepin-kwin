@@ -975,22 +975,6 @@ void EffectsHandlerImpl::sendPointer(Qt::MouseButton type)
     input()->pointer()->processButton(button, InputRedirection::PointerButtonReleased, std::chrono::microseconds(0));
 }
 
-void EffectsHandlerImpl::requestLock()
-{
-    // Workspace::self()->executeLock();
-}
-
-void EffectsHandlerImpl::changeBlurState(bool state)
-{
-    // Workspace::self()->changeBlurStatus(state);
-}
-
-EffectScreen *EffectsHandlerImpl::getCurrentPaintingScreen()
-{
-    // return Workspace::self()->getCurrentPaintingScreen();
-    return 0;
-}
-
 QString EffectsHandlerImpl::getActiveColor()
 {
     return Workspace::self()->ActiveColor();
@@ -2755,12 +2739,26 @@ void EffectFrameQuickScene::setPosition(const QPoint &point)
     }
 
     m_point = point;
-    reposition();
+
+    if ((m_point.x() >= 0 && m_point.y() >= 0))
+        reposition();
+}
+
+void EffectFrameQuickScene::setPosition(const QPoint &point, bool force)
+{
+    if (m_point == point) {
+        return;
+    }
+
+    m_point = point;
+
+    if (force || (m_point.x() >= 0 && m_point.y() >= 0))
+        reposition();
 }
 
 void EffectFrameQuickScene::reposition()
 {
-    if (!rootItem() || m_point.x() < 0 || m_point.y() < 0) {
+    if (!rootItem()) {
         return;
     }
 
@@ -2801,7 +2799,7 @@ void EffectFrameQuickScene::setColor(QColor &color)
     }
 }
 
-QColor &EffectFrameQuickScene::color()
+const QColor &EffectFrameQuickScene::color()
 {
     return m_color;
 }
@@ -2814,7 +2812,7 @@ void EffectFrameQuickScene::setRadius(int radius)
     }
 }
 
-int &EffectFrameQuickScene::radius()
+const int &EffectFrameQuickScene::radius()
 {
     return m_radius;
 }
@@ -2827,7 +2825,7 @@ void EffectFrameQuickScene::setSize(QSize &size)
     }
 }
 
-QSize &EffectFrameQuickScene::size()
+const QSize &EffectFrameQuickScene::size()
 {
     return m_size;
 }
@@ -2961,6 +2959,11 @@ void EffectFrameImpl::setPosition(const QPoint &point)
     m_view->setPosition(point);
 }
 
+void EffectFrameImpl::setPosition(const QPoint &point, bool force)
+{
+    m_view->setPosition(point, force);
+}
+
 void EffectFrameImpl::render(const QRegion &region, double opacity, double frameOpacity)
 {
     if (!m_view->rootItem()) {
@@ -3015,7 +3018,7 @@ void EffectFrameImpl::setColor(QColor &color)
     m_view->setColor(color);
 }
 
-QColor &EffectFrameImpl::color() const
+const QColor &EffectFrameImpl::color() const
 {
     return m_view->color();
 }
@@ -3025,7 +3028,7 @@ void EffectFrameImpl::setRadius(int radius)
     m_view->setRadius(radius);
 }
 
-int &EffectFrameImpl::radius()
+const int &EffectFrameImpl::radius()
 {
     return m_view->radius();
 }

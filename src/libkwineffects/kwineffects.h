@@ -3828,6 +3828,7 @@ public:
     virtual void render(const QRegion &region = infiniteRegion(), double opacity = 1.0, double frameOpacity = 1.0) = 0;
 
     virtual void setPosition(const QPoint &point) = 0;
+    virtual void setPosition(const QPoint &point, bool force) = 0;
     /**
      * Set the text alignment for static frames and the position alignment
      * for non-static.

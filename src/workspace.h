@@ -326,15 +326,6 @@ public:
 
      bool hasProtectedWindow();
 
-    // void setCurrentPaintingScreen(int index) {
-    //     m_paintingScreen = index;
-    // }
-
-    // int getCurrentPaintingScreen() {
-    //     return m_paintingScreen;
-    // }
-    // void executeLock();
-
 public:
     QPoint cascadeOffset(const Window *c) const;
 
@@ -343,8 +334,6 @@ private:
     QuickTileMode m_lastTilingMode;
     bool m_isDDESessionRegister = false;
     QImage m_prohibitShotImage;
-    // Compositor *m_compositor;
-    // int m_paintingScreen = 0;
 
     //-------------------------------------------------
     // Unsorted

@@ -68,10 +68,6 @@ public:
 
     QString getActiveColor() override;
 
-    void requestLock() override;
-    void changeBlurState(bool) override;
-    EffectScreen *getCurrentPaintingScreen() override;
-
     bool isShortcuts(QKeyEvent *event) override;
 
     void activateWindow(EffectWindow *c) override;
@@ -619,17 +615,18 @@ public:
 
     QPoint position() const;
     void setPosition(const QPoint &point);
+    void setPosition(const QPoint &point, bool force);
 
     void setColor(QColor &color);
-    QColor &color();
+    const QColor &color();
     Q_SIGNAL void colorChanged();
 
     void setRadius(int radius);
-    int &radius();
+    const int &radius();
     Q_SIGNAL void radiusChanged();
 
     void setSize(QSize &size);
-    QSize &size();
+    const QSize &size();
     Q_SIGNAL void sizeChanged();
 
     void setImage(const QUrl &image);
@@ -656,7 +653,7 @@ private:
     bool m_crossFadeEnabled = false;
     qreal m_crossFadeProgress = 0.0;
     QColor m_color;
-    int m_radius;
+    int m_radius = 0;
     QSize m_size;
     QUrl m_image;
 };
@@ -686,6 +683,7 @@ public:
     const QSize &iconSize() const override;
     void setIconSize(const QSize &size) override;
     void setPosition(const QPoint &point) override;
+    void setPosition(const QPoint &point, bool force) override;
     const QString &text() const override;
     void setText(const QString &text) override;
     EffectFrameStyle style() const override;
@@ -695,9 +693,9 @@ public:
     void setCrossFadeProgress(qreal progress) override;
 
     void  setColor(QColor &color) override;
-    QColor &color() const override;
+    const QColor &color() const override;
     void setRadius(int radius) override;
-    int &radius() override;
+    const int &radius() override;
     void setImage(const QUrl &image) override;
     void setImage(const QPixmap &image) override;
     const QUrl &image() const override;
