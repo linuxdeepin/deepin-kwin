@@ -290,7 +290,20 @@ void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w
     if (isfinish || w == nullptr) {
         return;
     }
-    Workspace::self()->raiseWindow(w);
+
+    if (w != workspace()->activeWindow()) {
+        QList<Window *> list = workspace()->stackingOrder();
+        std::reverse(list.begin(), list.end());
+        for (auto it = list.constBegin(); it != list.constEnd(); ++it) {
+            if ((*it) && !(*it)->isClient())
+                continue;
+            if ((*it)->isSplitWindow() && (*it)->desktop() == w->desktop() && (*it)->screen() == w->screen()) {
+                Workspace::self()->raiseWindow((*it));
+                break;
+            }
+        }
+    }
+
     w->resizeSplitWindow(pos);
 }
 
