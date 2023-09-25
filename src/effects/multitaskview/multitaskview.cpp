@@ -546,6 +546,8 @@ MultitaskViewEffect::MultitaskViewEffect()
     connect(effects, &EffectsHandler::windowAdded, this, &MultitaskViewEffect::onWindowAdded);
     connect(effects, &EffectsHandler::windowDeleted, this, &MultitaskViewEffect::onWindowDeleted);
     connect(effects, &EffectsHandler::windowClosed, this, &MultitaskViewEffect::onWindowClosed);
+    connect(effects, &EffectsHandler::screenAdded, this, [this] { onCloseEffect(true); });
+    connect(effects, &EffectsHandler::screenRemoved, this, [this] { onCloseEffect(true); });
 
     connect(_gsettings_dde_dock, &QGSettings::changed, this, &MultitaskViewEffect::onDockChange);
 
