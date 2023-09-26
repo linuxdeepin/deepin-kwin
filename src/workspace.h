@@ -37,6 +37,11 @@
 #define KWinDBusInterface "com.deepin.daemon.Appearance"
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
+#define DBUS_LOGIN_SERVICE       "org.freedesktop.login1"
+#define DBUS_MANAGER_PATH        "/org/freedesktop/login1"
+#define DBUS_MANAGER_INTF        "org.freedesktop.login1.Manager"
+#define DBUS_SESSION_INTF        "org.freedesktop.login1.Session"
+
 class KConfig;
 class KConfigGroup;
 class KStartupInfo;
@@ -303,6 +308,8 @@ public:
 
     QString ActiveColor();
     void setActiveColor(QString color);
+
+    QString getProcessSessionPath() const;
 
     void showSplitMenu(const QRect &rect, uint32_t client_id);
     void hideSplitMenu(bool delay);
@@ -681,6 +688,7 @@ private:
     void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, T *receiver, Slot slot);
     void setupWindowShortcut(Window *window);
     bool switchWindow(Window *window, Direction direction, QPoint curPos, VirtualDesktop *desktop);
+    void setProcessSessionPath();
 
     void propagateWindows(bool propagate_new_windows); // Called only from updateStackingOrder
     QList<Window *> constrainedStackingOrder();
@@ -842,6 +850,7 @@ private:
     std::unique_ptr<SplitManage> m_splitManage;
 
     QString m_activeColor;
+    QString m_sessionPath;
     bool m_splitBarState;
 
 private:

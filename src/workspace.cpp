@@ -301,6 +301,25 @@ void Workspace::init()
                                           "PropertiesChanged", this, SLOT(qtActiveColorChanged()));
 
     m_placementTracker->init(getPlacementTrackerHash());
+
+    setProcessSessionPath();
+}
+
+void Workspace::setProcessSessionPath()
+{
+    const QString sessionId = qEnvironmentVariable("XDG_SESSION_ID", QStringLiteral("auto"));
+    QDBusMessage message = QDBusMessage::createMethodCall(DBUS_LOGIN_SERVICE, DBUS_MANAGER_PATH,
+            DBUS_MANAGER_INTF, "GetSession");
+    message.setArguments({sessionId});
+    QDBusMessage reply = QDBusConnection::systemBus().call(message);
+    if (reply.type() != QDBusMessage::ErrorMessage) {
+        m_sessionPath = reply.arguments().constFirst().value<QDBusObjectPath>().path();
+    }
+}
+
+QString Workspace::getProcessSessionPath() const
+{
+    return m_sessionPath;
 }
 
 QString Workspace::getPlacementTrackerHash()

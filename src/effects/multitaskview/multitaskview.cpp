@@ -2072,6 +2072,12 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
         case Qt::Key_L:
             if (e->modifiers() == Qt::MetaModifier) {
                 setActive(false);
+                QString sessionPath = workspace()->getProcessSessionPath();
+                if (!sessionPath.isEmpty()) {
+                    QDBusMessage message = QDBusMessage::createMethodCall(DBUS_LOGIN_SERVICE, sessionPath,
+                            DBUS_SESSION_INTF, "Lock");
+                    QDBusConnection::systemBus().asyncCall(message);
+                }
             }
             break;
         case Qt::Key_QuoteLeft:
