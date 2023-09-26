@@ -206,7 +206,7 @@ void SplitPreviewEffect::cleanup()
 QRect SplitPreviewEffect::getPreviewWindowsGeometry(EffectWindow *w)
 {
     int mode = effectsEx->getQuickTileMode(w);
-    QRectF ret = effectsEx->getQuickTileGeometry(w, mode^0b11, w->clientGeometry().topLeft());
+    QRectF ret = effectsEx->getQuickTileGeometry(w, mode^0b11, effects->cursorPos());
     m_backgroundMode = mode ^ 0b11;
     return ret.toRect();
 }
