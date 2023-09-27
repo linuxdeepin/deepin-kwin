@@ -70,6 +70,7 @@ private:
     void handleQuickTile();
     void windowScreenChange();
     void windowDesktopChange();
+    void windowFrameSizeChange();
     void removeQuickTile(Window *window);
     void addQuickTile(int desktop, QString screenName, Window *window);
     void updateStorage(Window *window);
@@ -88,6 +89,7 @@ private:
     QHash<Window *, WindowData> m_data;
     QMutex m_mutex;
     bool m_pause = false;
+    Window *m_lastWin = nullptr;
 };
 }
 

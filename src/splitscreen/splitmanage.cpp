@@ -13,6 +13,7 @@
 #include "../core/output.h"
 #include "workspace.h"
 #include "outline.h"
+#include "wayland_server.h"
 #include <QThread>
 
 namespace KWin {
@@ -65,6 +66,7 @@ void SplitManage::add(Window *window)
     connect(window, &Window::desktopChanged, this, &SplitManage::windowDesktopChange);
     connect(window, &Window::minimizedChanged, this, &SplitManage::updateSplitWindowsGroup);
     connect(window, &Window::fullScreenChanged, this, &SplitManage::updateSplitWindowsGroup);
+    connect(window, &Window::frameGeometryChanged, this, &SplitManage::windowFrameSizeChange);
     WindowData data = dataForWindow(window);
     m_data[window] = data;
 }
@@ -78,6 +80,7 @@ void SplitManage::remove(Window *window)
         disconnect(window, &Window::desktopChanged, this, &SplitManage::windowDesktopChange);
         disconnect(window, &Window::minimizedChanged, this, &SplitManage::updateSplitWindowsGroup);
         disconnect(window, &Window::fullScreenChanged, this, &SplitManage::updateSplitWindowsGroup);
+        disconnect(window, &Window::frameGeometryChanged, this, &SplitManage::windowFrameSizeChange);
         removeQuickTile(window);
         m_data.remove(window);
     }
@@ -125,7 +128,17 @@ void SplitManage::handleQuickTile()
             m_data[window].screenName = screenName;
         }
     }
+    m_lastWin = window;
     uninhibit();
+}
+
+void SplitManage::windowFrameSizeChange()
+{
+    Window *window = qobject_cast<Window *>(QObject::sender());
+    if (waylandServer() && m_lastWin == window) {
+        workspace()->updateStackingOrder();
+        m_lastWin = nullptr;
+    }
 }
 
 void SplitManage::windowScreenChange()

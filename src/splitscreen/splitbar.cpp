@@ -29,9 +29,7 @@ SplitBar::SplitBar(QString screenName)
     connect(workspace()->getSplitManage(), &SplitManage::signalSplitWindow, this, &SplitBar::slotUpdateState);
 
     setGeometry(0, 0, 1, 1);
-    m_opacityEffect = new QGraphicsOpacityEffect;
-    setGraphicsEffect(m_opacityEffect);
-    m_opacityEffect->setOpacity(1);
+
     show();
     setProperty("__kwin_splitbar", true);
 }
@@ -57,7 +55,7 @@ void SplitBar::mouseReleaseEvent(QMouseEvent* e)
 
 void SplitBar::enterEvent(QEvent *)
 {
-    m_opacityEffect->setOpacity(1.0);
+    setWindowOpacity(1);
     setCursor(Qt::SizeHorCursor);
     workspace()->setSplitBarStatus(1);
     Q_EMIT workspace()->splitBarCursorChanged();
@@ -66,7 +64,7 @@ void SplitBar::enterEvent(QEvent *)
 void SplitBar::leaveEvent(QEvent *)
 {
     workspace()->setSplitBarStatus(0);
-    m_opacityEffect->setOpacity(0.0);
+    setWindowOpacity(0);
     setCursor(Qt::ArrowCursor);
 }
 
