@@ -431,6 +431,12 @@ void Workspace::lowerWindowRequest(Window *window)
 
 void Workspace::restack(Window *window, Window *under, bool force)
 {
+    // Do not anything if the clint not in stacks
+    // note: The client maybe is deleting
+    //       When this call is from TabBoxHandlerImpl::restack
+    if (!unconstrained_stacking_order.contains(window))
+        return;
+
     Q_ASSERT(unconstrained_stacking_order.contains(under));
     if (!force && !Window::belongToSameApplication(under, window)) {
         // put in the stacking order below _all_ windows belonging to the active application
