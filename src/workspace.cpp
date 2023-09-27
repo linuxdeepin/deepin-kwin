@@ -246,6 +246,8 @@ void Workspace::init()
     //  load is needed to be called again when starting xwayalnd to sync to RootInfo, see BUG 385260
     vds->save();
 
+    m_initialDesktop = config->group("Workspace").readEntry("CurrentDesktop", 1);
+
     if (!VirtualDesktopManager::self()->setCurrent(m_initialDesktop)) {
         VirtualDesktopManager::self()->setCurrent(1);
     }
@@ -1319,6 +1321,8 @@ void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
     --block_focus;
 
     activateWindowOnNewDesktop(VirtualDesktopManager::self()->desktopForX11Id(newDesktop));
+    kwinApp()->config()->group("Workspace").writeEntry("CurrentDesktop", newDesktop);
+    kwinApp()->config()->sync();
     Q_EMIT currentDesktopChanged(oldDesktop, m_moveResizeWindow);
 }
 
