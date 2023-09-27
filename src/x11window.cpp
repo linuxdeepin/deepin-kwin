@@ -3994,7 +3994,10 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
         QRectF area = workspace()->clientArea(WorkArea, this, moveResizeOutput());
         if (!from_tool && (!isSpecialWindow() || isToolbar()) && !isFullScreen()
             && area.contains(origClientGeometry)) {
-            keepInArea(area);
+                if(keepAbove())
+                    keepInArea(workspace()->clientArea(FullArea, this));
+                else
+                    keepInArea(area);
         }
 
         // this is part of the kicker-xinerama-hack... it should be
@@ -4054,7 +4057,10 @@ QRectF X11Window::resizeWithChecks(const QRectF &geometry, qreal w, qreal h, xcb
     qreal newx = geometry.x();
     qreal newy = geometry.y();
     QRectF area = workspace()->clientArea(WorkArea, this, geometry.center());
-    // don't allow growing larger than workarea
+    if (keepAbove())
+        area = workspace()->clientArea(FullArea, this);
+     // don't allow growing larger than workarea
+     // if above, don't growing larger than fullarea
     if (w > area.width()) {
         w = area.width();
     }
