@@ -38,6 +38,8 @@
 #include <KDecoration2/Decoration>
 
 #include <QApplication>
+#include <QDBusInterface>
+#include <QDBusPendingCall>
 #include <QDebug>
 #include <QHoverEvent>
 #include <QKeyEvent>
@@ -939,6 +941,11 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
         return true;
     }
     if (isInteractiveMoveResizePointerButtonDown()) {
+        //Click on the parent window of the modal dialog box to play the prompt sound.
+        if (!transients().isEmpty() && transients().last()->isModal()) {
+            QDBusInterface soundEffect("com.deepin.daemon.SoundEffect", "/com/deepin/daemon/SoundEffect");
+            soundEffect.asyncCall("PlaySystemSound", "dialog-error");
+        }
         if (w == wrapperId()) {
             xcb_allow_events(kwinApp()->x11Connection(), XCB_ALLOW_SYNC_POINTER, XCB_TIME_CURRENT_TIME); // xTime());
         }
