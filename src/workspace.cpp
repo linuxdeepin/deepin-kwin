@@ -2484,7 +2484,7 @@ void Workspace::updateMinimizedOfTransients(Window *window)
                 updateMinimizedOfTransients((*it));
             }
         }
-        if (window->isModal()) { // if a modal dialog is minimized, minimize its mainwindow too
+        if (window->isModal() || window->transientFor() != NULL) { // if a modal dialog is minimized, minimize its mainwindow too
             const auto windows = window->mainWindows();
             for (Window *main : std::as_const(windows)) {
                 main->minimize();

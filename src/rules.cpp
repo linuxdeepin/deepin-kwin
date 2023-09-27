@@ -180,6 +180,9 @@ void Rules::readFromSettings(const RuleSettings *settings)
     READ_SET_RULE(shortcut);
     READ_FORCE_RULE(disableglobalshortcuts, );
     READ_SET_RULE(desktopfile);
+    // disable minmize rule for uos
+    minimize = false;
+    minimizerule = UnusedSetRule;
 }
 
 #undef READ_MATCH_STRING
