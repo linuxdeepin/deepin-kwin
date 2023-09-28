@@ -489,7 +489,7 @@ static QString saveTempImage(const QImage &image)
     if (image.isNull()) {
         return QString();
     }
-    QTemporaryFile temp(QDir::tempPath() + QDir::separator() + QLatin1String("kwin_screenshot_XXXXXX.png"));
+    QTemporaryFile temp(QDir::tempPath() + QDir::separator() + QLatin1String("kwin_screenshot_XXXXXX.jpg"));
     temp.setAutoRemove(false);
     if (!temp.open()) {
         return QString();
