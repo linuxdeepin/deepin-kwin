@@ -93,6 +93,8 @@ public Q_SLOTS: // METHODS
 
     bool isOnCurrentDesktop(int window);
 
+    void disableGestureForClient(bool disable);
+
 Q_SIGNALS:
     void showingDesktopChanged(bool showing);
 

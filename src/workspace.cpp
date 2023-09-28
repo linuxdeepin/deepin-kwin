@@ -133,6 +133,7 @@ Workspace::Workspace()
     , showing_desktop_timestamp(-1U)
     , was_user_interaction(false)
     , block_focus(0)
+    , gesture_disabled_for_client(false)
     , m_splitBarState(false)
     , m_userActionsMenu(new UserActionsMenu(this))
     , m_sessionManager(new SessionManager(this))
@@ -1914,6 +1915,19 @@ void Workspace::disableGlobalShortcutsForClient(bool disable)
     for (auto it = m_x11Clients.constBegin(); it != m_x11Clients.constEnd(); ++it) {
         (*it)->updateMouseGrab();
     }
+}
+
+bool Workspace::isDisableGesture()
+{
+    return gesture_disabled_for_client;
+}
+
+void Workspace::disableGestureForClient(bool disable)
+{
+    if (gesture_disabled_for_client == disable)
+        return;
+
+    gesture_disabled_for_client = disable;
 }
 
 QString Workspace::supportInformation() const
