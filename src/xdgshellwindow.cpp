@@ -691,6 +691,13 @@ void XdgSurfaceWindow::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
             }
         }
     );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::onAllDesktopsRequested, this,
+        [this] (bool set) {
+            if (set) {
+                setOnAllDesktops(set);
+            }
+        }
+    );
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::minimizeableRequested, this,
         [this] (bool set) {
             setMinimizeable(set);
