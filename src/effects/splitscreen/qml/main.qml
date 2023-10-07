@@ -19,7 +19,7 @@ Rectangle {
         id: rect2;
         width: parent.width;
         height: parent.height;
-        border.color: "lightsteelblue";
+        border.color: root.effectFrame.color;
         border.width: 4;
         color: "transparent";
         radius: root.effectFrame.radius;

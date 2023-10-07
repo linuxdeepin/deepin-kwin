@@ -114,6 +114,8 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
             if (m_hoverwin == w) {
                 m_effectFrame->setGeometry(geo.adjusted(-4, -4, 4, 4).toRect());
                 m_effectFrame->setRadius(8);
+                QColor color(effectsEx->getActiveColor());
+                m_effectFrame->setColor(color);
                 m_effectFrame->render(region);
             }
         }

@@ -297,6 +297,9 @@ void Workspace::init()
     connect(this, &Workspace::internalWindowAdded, m_splitManage.get(), &SplitManage::add);
     connect(this, &Workspace::preRemoveInternalWindow, m_splitManage.get(), &SplitManage::removeInternal);
 
+    QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
+                                          "PropertiesChanged", this, SLOT(qtActiveColorChanged()));
+
     m_placementTracker->init(getPlacementTrackerHash());
 }
 
@@ -2364,10 +2367,20 @@ void Workspace::setWasUserInteraction()
 
 QString Workspace::ActiveColor()
 {
-    // if (m_activeColor.isEmpty())
-    //     m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
-    // return m_activeColor;
-    return "#1F1E33";
+    if (m_activeColor.isEmpty())
+        m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    return m_activeColor;
+}
+
+void Workspace::setActiveColor(QString color)
+{
+    m_activeColor = color;
+}
+
+void Workspace::qtActiveColorChanged()
+{
+    QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    setActiveColor(clr);
 }
 
 void Workspace::showSplitMenu(const QRect &rect, uint32_t client_id)

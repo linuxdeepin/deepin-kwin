@@ -32,6 +32,10 @@
 #define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
 #define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
 #define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
+#define KWinDBusService "com.deepin.daemon.Appearance"
+#define KWinDBusPath    "/com/deepin/daemon/Appearance"
+#define KWinDBusInterface "com.deepin.daemon.Appearance"
+#define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
 class KConfig;
 class KConfigGroup;
@@ -298,6 +302,7 @@ public:
     SessionManager *sessionManager() const;
 
     QString ActiveColor();
+    void setActiveColor(QString color);
 
     void showSplitMenu(const QRect &rect, uint32_t client_id);
     void hideSplitMenu(bool delay);
@@ -607,8 +612,7 @@ public Q_SLOTS:
     void updateWindowStates();
     void slotClientMinimizeChanged(KWin::Window *window);
 
-    // void screensChanged();
-    // void changeBlurStatus(bool);
+    void qtActiveColorChanged();
 
 private Q_SLOTS:
     void desktopResized();
