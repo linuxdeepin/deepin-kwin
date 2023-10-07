@@ -923,7 +923,7 @@ public:
                     input()->shortcuts()->processKey(modifiers, Qt::Key_PowerDown);
                 });
                 m_powerDown.start();
-                return true;
+                return false;
             } else if (event->type() == QEvent::KeyRelease) {
                 const bool ret = !m_powerDown.isActive() || input()->shortcuts()->processKey(modifiers, event->key());
                 m_powerDown.stop();
