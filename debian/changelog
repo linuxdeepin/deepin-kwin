@@ -1,3 +1,10 @@
+kwin (4:5.27.2.20-deepin20-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * fix: multitask, splitscreen, patch, bug
+
+ -- zhangyu <zhangyud@uniontech.com>  Sun, 8 Otc 2023 16:00:21 +0800
+
 kwin (4:5.27.2.19-deepin19-1) unstable; urgency=medium
 
   [ huangzeming ]
