@@ -4657,6 +4657,8 @@ void Window::maybeSendFrameCallback()
 void Window::setQuickTileFromMenu(QuickTileMode mode)
 {
     setQuickTileMode(mode);
+    if (workspace()->activeWindow() != this)
+        workspace()->activateWindow(this, true);
     Q_EMIT triggerSplitPreview(this);
 }
 
