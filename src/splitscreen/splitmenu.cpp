@@ -54,14 +54,6 @@ SplitMenu::SplitMenu()
     shadow->setBlurRadius(10);
     this->setGraphicsEffect(shadow);
 
-    QString qm = QString(":/splitmenu/translations/splitmenu_%1.qm").arg(QLocale::system().name());
-    auto tran = new QTranslator(this);
-    if (tran->load(qm)) {
-        qApp->installTranslator(tran);
-        qWarning() << "install";
-    } else {
-        qCDebug(SPLIT_MENU) << "load " << qm << "failed";
-    }
 }
 
 SplitMenu::~SplitMenu()
@@ -98,39 +90,39 @@ bool SplitMenu::eventFilter(QObject *obj, QEvent *event)
 
     if (obj == llabel) {
         if (event->type() == QEvent::MouseButtonRelease) {
-            llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            llabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/left_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             if (m_client) {
                 m_client->setQuickTileFromMenu(QuickTileFlag::Left);
             }
-            llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            llabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             Hide(false, true);
         } else if (event->type() == QEvent::Enter) {
-            llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            llabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/left_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             QPoint pos = m_pos;
             pos.setX(m_pos.x() - 70);
             pos.setY(m_pos.y() + sign * 50);
-            QToolTip::showText(pos, tr("Tile window to left of screen"), this);
+            QToolTip::showText(pos, tr("Tile window to left of screen"));
         } else if (event->type() == QEvent::Leave) {
-            llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            llabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             QToolTip::hideText();
         }
         return false;
     } else if (obj == clabel) {
         if (event->type() == QEvent::MouseButtonRelease) {
-            clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            clabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/right_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             if (m_client) {
                 m_client->setQuickTileFromMenu(QuickTileFlag::Right);
             }
-            clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            clabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             Hide(false, true);
         } else if (event->type() == QEvent::Enter) {
-            clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            clabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/right_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             QPoint pos = m_pos;
             pos.setX(m_pos.x() - 20);
             pos.setY(m_pos.y() + sign * 50);
-            QToolTip::showText(pos, tr("Tile window to right of screen"), this);
+            QToolTip::showText(pos, tr("Tile window to right of screen"));
         } else if (event->type() == QEvent::Leave) {
-            clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            clabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
             QToolTip::hideText();
         }
         return false;
@@ -140,24 +132,24 @@ bool SplitMenu::eventFilter(QObject *obj, QEvent *event)
             icon = "restore";
         }
         if (event->type() == QEvent::MouseButtonRelease) {
-            rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+            rlabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/%2_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
             if (m_client) {
                 m_client->setQuickTileMode(QuickTileFlag::Maximize);
             }
-            rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+            rlabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
             Hide(false, true);
         } else if (event->type() == QEvent::Enter) {
-            rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+            rlabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/%2_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
             QPoint pos = m_pos;
             pos.setX(m_pos.x() + 30);
             pos.setY(m_pos.y() + sign * 50);
             if (m_client && m_client->maximizeMode() == MaximizeMode::MaximizeFull) {
-                QToolTip::showText(pos, tr("Unmaximize"), this);
+                QToolTip::showText(pos, tr("Unmaximize"));
             } else {
-                QToolTip::showText(pos, tr("Maximize"), this);
+                QToolTip::showText(pos, tr("Maximize"));
             }
         } else if (event->type() == QEvent::Leave) {
-            rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+            rlabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
             QToolTip::hideText();
         }
         return false;
@@ -279,14 +271,14 @@ void SplitMenu::checkTheme()
         str = "light";
         m_color = QColor(255, 255, 255);
     }
-    llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
-    clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+    llabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+    clabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
     if (m_client) {
         QString icon = "max";
         if (m_client->maximizeMode() == MaximizeMode::MaximizeFull) {
             icon = "restore";
         }
-        rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+        rlabel->setStyleSheet(QString("background-image:url(:/resources/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
     }
 }
 
