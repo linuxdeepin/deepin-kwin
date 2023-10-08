@@ -67,6 +67,7 @@ void SplitManage::add(Window *window)
     connect(window, &Window::minimizedChanged, this, &SplitManage::updateSplitWindowsGroup);
     connect(window, &Window::fullScreenChanged, this, &SplitManage::updateSplitWindowsGroup);
     connect(window, &Window::frameGeometryChanged, this, &SplitManage::windowFrameSizeChange);
+    connect(window, &Window::keepAboveChanged, this, &SplitManage::windowKeepAboveChange);
     WindowData data = dataForWindow(window);
     m_data[window] = data;
 }
@@ -81,6 +82,7 @@ void SplitManage::remove(Window *window)
         disconnect(window, &Window::minimizedChanged, this, &SplitManage::updateSplitWindowsGroup);
         disconnect(window, &Window::fullScreenChanged, this, &SplitManage::updateSplitWindowsGroup);
         disconnect(window, &Window::frameGeometryChanged, this, &SplitManage::windowFrameSizeChange);
+        disconnect(window, &Window::keepAboveChanged, this, &SplitManage::windowKeepAboveChange);
         removeQuickTile(window);
         m_data.remove(window);
     }
@@ -105,7 +107,7 @@ void SplitManage::removeInternal(Window *window)
 
 bool SplitManage::isSplitWindow(Window *window)
 {
-    return (window->quickTileMode() == int(QuickTileFlag::Left)) || (window->quickTileMode() == int(QuickTileFlag::Right));
+    return (window != nullptr) && ((window->quickTileMode() == int(QuickTileFlag::Left)) || (window->quickTileMode() == int(QuickTileFlag::Right)));
 }
 
 void SplitManage::handleQuickTile()
@@ -138,6 +140,27 @@ void SplitManage::windowFrameSizeChange()
     if (waylandServer() && m_lastWin == window) {
         workspace()->updateStackingOrder();
         m_lastWin = nullptr;
+    }
+    if (waylandServer() && isSplitWindow(window)) {
+        Window *w = nullptr;
+        if (m_topLayer > NormalLayer && m_topWin && m_topWin->desktop() == VirtualDesktopManager::self()->current() && m_topWin->screen() == window->screen()) {
+            w = m_topWin;
+        } else if (workspace()->activeWindow() == window) {
+            w = window;
+        }
+        if (w) {
+            QString name = w->output()->name() + "splitbar";
+            Q_EMIT signalSplitWindow(name, w);
+        }
+    }
+}
+
+void SplitManage::windowKeepAboveChange(bool above)
+{
+    Window *window = qobject_cast<Window *>(QObject::sender());
+    if (waylandServer() && isSplitWindow(window)) {
+        m_topLayer = window->layer();
+        m_topWin = above ? window : nullptr;
     }
 }
 
@@ -198,6 +221,10 @@ void SplitManage::addQuickTile(int desktop, QString screenName, Window *window)
     } else {
         createGroup(desktop, screenName)->storeSplitWindow(window);
     }
+    if (window->layer() > NormalLayer) {
+        m_topLayer = window->layer();
+        m_topWin = window;
+    }
 }
 
 void SplitManage::removeQuickTile(Window *window)
@@ -213,6 +240,8 @@ void SplitManage::removeQuickTile(Window *window)
         if (splitgroup)
             splitgroup->deleteSplitWindow(window);
     }
+    if (m_topWin == window)
+        m_topWin = nullptr;
 }
 
 SplitManage::WindowData SplitManage::dataForWindow(Window *window) const
@@ -283,7 +312,8 @@ void SplitManage::getSplitWindows(QHash<QString, QVector<Window *>> &hash)
             splitgroup->getSplitWindow(vect);
             if (vect.size() > 1) {
                 hash[key] = vect;
-                Q_EMIT signalSplitWindow(key, vect.contains(workspace()->activeWindow()) ? workspace()->activeWindow() : vect[0]);
+                Window *w = vect.contains(m_topWin) ? m_topWin : (vect.contains(workspace()->activeWindow()) ? workspace()->activeWindow() : vect[0]);
+                Q_EMIT signalSplitWindow(key, w);
             } else {
                 Q_EMIT signalSplitWindow(key, nullptr);
             }
@@ -311,7 +341,10 @@ void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w
             if ((*it) && !(*it)->isClient())
                 continue;
             if ((*it)->isSplitWindow() && (*it)->desktop() == w->desktop() && (*it)->screen() == w->screen()) {
+                m_topLayer = (*it)->layer();
+                m_topWin = (*it);
                 Workspace::self()->raiseWindow((*it));
+                workspace()->activateWindow((*it), true);
                 break;
             }
         }

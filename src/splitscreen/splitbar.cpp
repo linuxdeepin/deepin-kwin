@@ -44,7 +44,6 @@ void SplitBar::mousePressEvent(QMouseEvent* e)
 
 void SplitBar::mouseMoveEvent(QMouseEvent*e)
 {
-    move(e->screenPos().x(), 0);
     Q_EMIT splitbarPosChanged(m_screenName, e->screenPos(), m_window, false);
 }
 

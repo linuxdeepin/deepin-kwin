@@ -71,6 +71,7 @@ private:
     void windowScreenChange();
     void windowDesktopChange();
     void windowFrameSizeChange();
+    void windowKeepAboveChange(bool);
     void removeQuickTile(Window *window);
     void addQuickTile(int desktop, QString screenName, Window *window);
     void updateStorage(Window *window);
@@ -82,14 +83,16 @@ private:
     WindowData dataForWindow(Window *window) const;
 
 private:
-    int m_inhibitCount = 0;
-    QHash<QString, QSet<SplitGroup *>> m_splitGroupManage;
-    QHash<QString, SplitBar *> m_splitBarManage;
-    QHash<QString, Window *> m_splitBarWindows;
-    QHash<Window *, WindowData> m_data;
-    QMutex m_mutex;
-    bool m_pause = false;
-    Window *m_lastWin = nullptr;
+    int                                 m_inhibitCount = 0;
+    QHash<QString, QSet<SplitGroup *>>  m_splitGroupManage;
+    QHash<QString, SplitBar *>          m_splitBarManage;
+    QHash<QString, Window *>            m_splitBarWindows;
+    QHash<Window *, WindowData>         m_data;
+    QMutex                              m_mutex;
+    bool                                m_pause = false;
+    Window                              *m_lastWin = nullptr;
+    Window                              *m_topWin = nullptr;
+    Layer                               m_topLayer = NormalLayer;
 };
 }
 
