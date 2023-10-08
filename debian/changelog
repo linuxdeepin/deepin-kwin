@@ -1,3 +1,10 @@
+kwin (4:5.27.2.21-deepin21-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * revert: fix: tooltips were shown uncorrectly in splitmenu
+
+ -- huangzeming <huangzeming@uniontech.com>  Sun, 08 Oct 2023 17:40:47 +0800
+
 kwin (4:5.27.2.20-deepin20-1) unstable; urgency=medium
 
   [ zhangyu ]
