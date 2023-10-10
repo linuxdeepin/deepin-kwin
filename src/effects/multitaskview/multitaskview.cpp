@@ -1496,6 +1496,8 @@ void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
     if (!m_activated)
         return;
 
+    w->unrefVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP);
+
     if (w->isDock()) {
         m_dock = nullptr;
         m_dockRect.setSize(QSize(0, 0));
@@ -1525,6 +1527,8 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
 {
     if (!m_activated)
         return;
+
+    w->refVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP);
 
     if (w->isDock()) {
         m_dockRect = w->frameGeometry().toRect();
