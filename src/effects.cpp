@@ -362,6 +362,9 @@ void EffectsHandlerImpl::setupWindowConnections(Window *window)
     connect(window, &Window::triggerSplitPreview, this, [this](Window *window) {
         Q_EMIT triggerSplitPreview(window->effectWindow());
     });
+    connect(window, &Window::swapSplitWindow, this, [this](Window *window, int index) {
+        Q_EMIT swapSplitWin(window->effectWindow(), index);
+    });
 }
 
 void EffectsHandlerImpl::setupUnmanagedConnections(Unmanaged *u)
@@ -2066,6 +2069,31 @@ bool EffectsHandlerImpl::isWinAllowSplit(KWin::EffectWindow *w)
         return window->isResizable();
     }
     return false;
+}
+
+bool EffectsHandlerImpl::isSplitWin(KWin::EffectWindow *w)
+{
+    auto window = static_cast<EffectWindowImpl *>(w)->window();
+    if (window->isClient()) {
+        return window->isSplitWindow();
+    }
+    return false;
+}
+
+void EffectsHandlerImpl::updateQuickTileMode(KWin::EffectWindow *w, int mode)
+{
+    auto window = static_cast<EffectWindowImpl *>(w)->window();
+    if (window->isClient()) {
+        window->updateQuickTileMode(mode);
+    }
+}
+
+void EffectsHandlerImpl::updateWindowTile(KWin::EffectScreen *screen)
+{
+    if (screen) {
+        EffectScreenImpl *screenImpl = static_cast<EffectScreenImpl *>(screen);
+        workspace()->updateWinTile(screenImpl->platformOutput());
+    }
 }
 
 //****************************************

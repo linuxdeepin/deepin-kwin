@@ -74,6 +74,9 @@ public:
                                                      Qt::Alignment alignment = Qt::AlignCenter) const = 0;
     virtual EffectScreen *findScreen(Output *output) const = 0;
     virtual bool isWinAllowSplit(KWin::EffectWindow *) = 0;
+    virtual bool isSplitWin(KWin::EffectWindow *) = 0;
+    virtual void updateQuickTileMode(KWin::EffectWindow *, int mode) = 0;
+    virtual void updateWindowTile(KWin::EffectScreen *) = 0;
 
 Q_SIGNALS:
     void triggerSplitPreview(KWin::EffectWindow *w);

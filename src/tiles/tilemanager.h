@@ -52,6 +52,7 @@ public:
     KWin::Tile *quickTile(QuickTileMode mode) const;
 
     TileModel *model() const;
+    void swapTile();
 
 Q_SIGNALS:
     void tileRemoved(KWin::Tile *tile);

@@ -132,6 +132,9 @@ void SplitManage::handleQuickTile()
     }
     m_lastWin = window;
     uninhibit();
+    if (waylandServer()) {
+        workspace()->updateStackingOrder();
+    }
 }
 
 void SplitManage::windowFrameSizeChange()
@@ -171,6 +174,9 @@ void SplitManage::windowScreenChange()
     if (window->output()->name().isEmpty())
         return;
     updateStorage(window);
+    if (waylandServer()) {
+        workspace()->updateStackingOrder();
+    }
 }
 
 void SplitManage::windowDesktopChange()
@@ -178,6 +184,9 @@ void SplitManage::windowDesktopChange()
     QMutexLocker locker(&m_mutex);
     Window *window = qobject_cast<Window *>(QObject::sender());
     updateStorage(window);
+    if (waylandServer()) {
+        workspace()->updateStackingOrder();
+    }
 }
 
 void SplitManage::updateStorage(Window *window)
@@ -210,6 +219,9 @@ void SplitManage::updateSplitWindowsGroup()
         }
     }
     uninhibit();
+    if (waylandServer()) {
+        workspace()->updateStackingOrder();
+    }
 }
 
 void SplitManage::addQuickTile(int desktop, QString screenName, Window *window)

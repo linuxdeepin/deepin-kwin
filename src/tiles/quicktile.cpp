@@ -216,4 +216,17 @@ void QuickRootTile::resetRelative()
     }
 }
 
+void QuickRootTile::swapTile()
+{
+    QRectF rightRect = QRectF(1.0 - m_leftVerticalTile->relativeGeometry().width(), 0, m_leftVerticalTile->relativeGeometry().width(), 1);
+    QRectF leftRect = QRectF(0, 0, m_rightVerticalTile->relativeGeometry().width(), 1);
+
+    m_leftVerticalTile->onlyUpdateRelativeGeometry(rightRect);
+    m_rightVerticalTile->onlyUpdateRelativeGeometry(leftRect);
+
+    std::unique_ptr<Tile> tmpT = std::move(m_leftVerticalTile);
+    m_leftVerticalTile = std::move(m_rightVerticalTile);
+    m_rightVerticalTile = std::move(tmpT);
+}
+
 } // namespace KWin

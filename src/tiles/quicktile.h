@@ -34,6 +34,8 @@ public:
     qreal verticalSplit() const;
     void setVerticalSplit(qreal split);
 
+    void swapTile();
+
 private:
     void relayoutToFit(Tile *tile);
     void resetRelative();

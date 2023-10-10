@@ -1667,9 +1667,11 @@ bool Window::startInteractiveMoveResize()
         }
     }
 
-    if (m_tile && !m_tile->supportsResizeGravity(interactiveMoveResizeGravity())) {
-        setQuickTileMode(QuickTileFlag::None);
-    }
+    // if (m_tile && !m_tile->supportsResizeGravity(interactiveMoveResizeGravity())) {
+    //     setQuickTileMode(QuickTileFlag::None);
+    // }
+    m_initRectForSplit = workspace()->clientArea(MaximizeArea, this);
+    m_currentModeForSplit = quickTileMode();
 
     updateElectricGeometryRestore();
     checkUnrestrictedInteractiveMoveResize();
@@ -1704,9 +1706,11 @@ void Window::finishInteractiveMoveResize(bool cancel)
         }
     }
 
+    bool needTrigger = false;
     if (isElectricBorderMaximizing()) {
         setQuickTileMode(electricBorderMode());
         setElectricBorderMaximizing(false);
+        needTrigger = true;
     }
     // else if (wasMove && (input()->modifiersRelevantForGlobalShortcuts() & Qt::ShiftModifier)) {  //temp disable custom split screen by zy 2023.9.11
     //     setQuickTileMode(QuickTileFlag::Custom);
@@ -1716,9 +1720,12 @@ void Window::finishInteractiveMoveResize(bool cancel)
 
     m_interactiveMoveResize.counter++;
     Q_EMIT clientFinishUserMovedResized(this);
-    if (wasMove) {
+    if (needTrigger && isSplitWindow()) {
         Q_EMIT triggerSplitPreview(this);
+    } else if (wasMove && isSplitWindow()) {
+        Q_EMIT swapSplitWindow(this, 2);
     }
+    m_initPosForSplit = QPointF();
 }
 
 // This function checks if it actually makes sense to perform a restricted move/resize.
@@ -1805,12 +1812,38 @@ void Window::updateInteractiveMoveResize(const QPointF &currentGlobalCursor)
     handleInteractiveMoveResize(pos(), currentGlobalCursor);
 }
 
+bool Window::isExitSplitMode(QPointF pos)
+{
+    if (m_initPosForSplit.isNull()) {
+        m_initPosForSplit = pos;
+    }
+    if (m_quickTileMode == int(QuickTileFlag::Left)) {
+        return pos.x() < (m_initPosForSplit.x() - 10) || pos.x() > (m_initRectForSplit.width() - width() + m_initPosForSplit.x() + 10);
+    } else if (m_quickTileMode == int(QuickTileFlag::Right)) {
+        return pos.x() > m_initPosForSplit.x() + 10 || pos.x() < (m_initPosForSplit.x() - m_initRectForSplit.width() + width() - 10);
+    }
+    return true;
+}
+
+void Window::handleSplitWinSwap()
+{
+    QRectF geo = frameGeometry();
+
+    if (m_initRectForSplit.center().x() > geo.center().x() && m_currentModeForSplit == QuickTileMode(QuickTileFlag::Right)) {
+        Q_EMIT swapSplitWindow(this, 1);
+        m_currentModeForSplit = QuickTileFlag::Left;
+    } else if (m_initRectForSplit.center().x() < geo.center().x() && m_currentModeForSplit == QuickTileMode(QuickTileFlag::Left)) {
+        Q_EMIT swapSplitWindow(this, 1);
+        m_currentModeForSplit = QuickTileFlag::Right;
+    }
+}
+
 void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &global)
 {
     const QRectF oldGeo = moveResizeGeometry();
     handleInteractiveMoveResize(local.x(), local.y(), global.x(), global.y());
     if (!isRequestedFullScreen() && isInteractiveMove()) {
-        if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != moveResizeGeometry()) {
+        if (quickTileMode() != QuickTileMode(QuickTileFlag::None) && oldGeo != moveResizeGeometry() && isExitSplitMode(global)) {
             GeometryUpdatesBlocker blocker(this);
             setQuickTileMode(QuickTileFlag::None);
             const QRectF &geom_restore = geometryRestore();
@@ -1820,6 +1853,10 @@ void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &gl
                 setMoveResizeGeometry(geom_restore);
             }
             handleInteractiveMoveResize(local.x(), local.y(), global.x(), global.y()); // fix position
+            m_currentModeForSplit = QuickTileFlag::None;
+            Q_EMIT swapSplitWindow(this, 0);
+        } else {
+            handleSplitWinSwap();
         }
 
         /*if (input()->modifiersRelevantForGlobalShortcuts() & Qt::ShiftModifier) {    //temp disable custom split screen by zy 2023.9.11
@@ -4685,6 +4722,12 @@ bool Window::isSplitWindow()
         return true;
     }
     return false;
+}
+
+void Window::updateQuickTileMode(int mode)
+{
+    if (m_quickTileMode != mode)
+        m_quickTileMode = mode;
 }
 
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)

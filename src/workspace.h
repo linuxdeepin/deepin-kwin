@@ -518,6 +518,8 @@ public:
     KWaylandServer::DDEShellSurfaceInterface* getDDEShellSurface(KWin::Window* c);
     SplitManage *getSplitManage() const;
 
+    void updateWinTile(Output *output);
+
     /**
      * Apply the requested output configuration. Note that you must use this function
      * instead of Platform::applyOutputChanges().

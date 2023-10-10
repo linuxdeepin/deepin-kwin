@@ -1452,6 +1452,9 @@ public:
     void setQuickTileFromMenu(QuickTileMode mode);
     void resizeSplitWindow(QPointF &pos);
     bool isSplitWindow();
+    bool isExitSplitMode(QPointF);
+    void handleSplitWinSwap();
+    void updateQuickTileMode(int mode);
 
     void broadcastDbusDestroySignal(int pid);
 public Q_SLOTS:
@@ -1588,6 +1591,7 @@ Q_SIGNALS:
     void hiddenChanged();
     void lockScreenOverlayChanged();
     void triggerSplitPreview(KWin::Window *w);
+    void swapSplitWindow(KWin::Window *w, int index);
 
 protected:
     void setWindowHandles(xcb_window_t client);
@@ -2067,6 +2071,9 @@ private:
     bool m_lockScreenOverlay = false;
     uint32_t m_offscreenRenderCount = 0;
     QTimer m_offscreenFramecallbackTimer;
+    QRectF m_initRectForSplit;
+    QPointF m_initPosForSplit = QPointF();
+    QuickTileMode m_currentModeForSplit;
 };
 
 /**

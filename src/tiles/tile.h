@@ -53,6 +53,8 @@ public:
 
     virtual bool supportsResizeGravity(Gravity gravity);
 
+    void onlyUpdateRelativeGeometry(const QRectF &geom);
+
     /**
      * Geometry of the tile in units between 0 and 1 relative to the screen geometry
      */

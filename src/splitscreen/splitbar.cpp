@@ -29,7 +29,7 @@ SplitBar::SplitBar(QString screenName)
     connect(workspace()->getSplitManage(), &SplitManage::signalSplitWindow, this, &SplitBar::slotUpdateState);
 
     setGeometry(0, 0, 1, 1);
-
+    setWindowOpacity(0);
     show();
     setProperty("__kwin_splitbar", true);
 }

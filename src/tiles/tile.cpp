@@ -101,7 +101,6 @@ void Tile::setRelativeGeometry(const QRectF &geom)
     if (m_relativeGeometry == constrainedGeom) {
         return;
     }
-
     m_relativeGeometry = constrainedGeom;
 
     Q_EMIT relativeGeometryChanged();
@@ -111,6 +110,11 @@ void Tile::setRelativeGeometry(const QRectF &geom)
     for (auto *w : std::as_const(m_windows)) {
         w->moveResize(windowGeometry());
     }
+}
+
+void Tile::onlyUpdateRelativeGeometry(const QRectF &geom)
+{
+    m_relativeGeometry = geom;
 }
 
 QRectF Tile::relativeGeometry() const

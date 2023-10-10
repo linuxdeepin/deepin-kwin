@@ -284,6 +284,9 @@ public:
 
     int windowPId(KWin::EffectWindow *w) override;
     bool isWinAllowSplit(KWin::EffectWindow *) override;
+    bool isSplitWin(KWin::EffectWindow *) override;
+    void updateQuickTileMode(KWin::EffectWindow *, int mode) override;
+    void updateWindowTile(KWin::EffectScreen *) override;
 
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow *from, EffectWindow *to);

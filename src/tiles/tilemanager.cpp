@@ -314,6 +314,11 @@ void TileManager::saveSettings()
     cg.sync(); // FIXME: less frequent?
 }
 
+void TileManager::swapTile()
+{
+    m_quickRootTile->swapTile();
+}
+
 } // namespace KWin
 
 #include "moc_tilemanager.cpp"

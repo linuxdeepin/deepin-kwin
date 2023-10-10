@@ -3436,6 +3436,14 @@ void Workspace::fixPositionAfterCrash(xcb_window_t w, const xcb_get_geometry_rep
     }
 }
 
+void Workspace::updateWinTile(Output *output)
+{
+    tileManager(output)->swapTile();
+    if (waylandServer()) {
+        updateStackingOrder();
+    }
+}
+
 FocusChain *Workspace::focusChain() const
 {
     return m_focusChain.get();
