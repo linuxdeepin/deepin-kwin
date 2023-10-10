@@ -574,6 +574,12 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_opacityTimeLine.setEasingCurve(QEasingCurve::OutQuint);
     m_opacityTimeLine.setDuration(std::chrono::milliseconds(2*EFFECT_DURATION_DEFAULT));
 
+    const KSharedConfigPtr config = KSharedConfig::openConfig("kwinrc");
+    if (config) {
+        const KConfigGroup config_group(config, "Compositing");
+        setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true));
+    }
+
     QString qm = QString(":/multitasking/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());
     QTranslator *tran = new QTranslator();
     if (tran->load(qm)) {
@@ -661,13 +667,17 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::
 {
     if (isActive()) {
         if(m_effectFlyingBack.animating())
-            m_effectFlyingBack.advance(presentTime);
+            m_effectFlyingBack.update(presentTime, motionEffectEnable());
 
         if(m_workspaceSlidingStatus) {
             if (m_workspaceSlidingState == 0) {
                 m_workspaceSlidingState = 1;
                 m_workspaceSlidingTimeline.reset();
-                m_workspaceSlidingTimeline.setElapsed(std::chrono::milliseconds(30));
+                if (motionEffectEnable()) {
+                    m_workspaceSlidingTimeline.setElapsed(std::chrono::milliseconds(30));
+                } else {
+                    m_workspaceSlidingTimeline.setElapsed(m_workspaceSlidingTimeline.duration());
+                }
             } else {
                 m_workspaceSlidingTimeline.advance(presentTime);
             }
@@ -676,27 +686,41 @@ void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::
         data.mask |= PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS
                   |  PAINT_SCREEN_BACKGROUND_FIRST;
 
-        if(m_popStatus)
-            m_popTimeLine.advance(presentTime);
+        if(m_popStatus) {
+            if (motionEffectEnable()) {
+                m_popTimeLine.advance(presentTime);
+            } else {
+                m_popTimeLine.setElapsed(m_popTimeLine.duration());
+            }
+        }
 
-        if(m_opacityStatus)
-            m_opacityTimeLine.advance(presentTime);
+        if(m_opacityStatus) {
+            if (motionEffectEnable()) {
+                m_opacityTimeLine.advance(presentTime);
+            } else {
+                m_opacityTimeLine.setElapsed(m_opacityTimeLine.duration());
+            }
+        }
 
         if(m_bgSlidingStatus) {
             if (m_bgSlidingState == 0) {
                 m_bgSlidingState = 1;
                 m_bgSlidingTimeLine.reset();
-                m_bgSlidingTimeLine.setElapsed(std::chrono::milliseconds(30));
+                if (motionEffectEnable()) {
+                    m_bgSlidingTimeLine.setElapsed(std::chrono::milliseconds(30));
+                } else {
+                    m_bgSlidingTimeLine.setElapsed(m_bgSlidingTimeLine.duration());
+                }
             } else {
                 m_bgSlidingTimeLine.advance(presentTime);
             }
         }
 
         if (m_windowEffectState)
-            m_windowEffect.advance(presentTime);
+            m_windowEffect.update(presentTime, motionEffectEnable());
 
         for (auto& mm: m_motionManagers) {
-            mm->calculate(POPUP_TIME_SCALE);
+            mm->calculate(POPUP_TIME_SCALE, motionEffectEnable());
         }
     }
 

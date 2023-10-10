@@ -186,15 +186,19 @@ public:
     }
 
 
-    void advance(std::chrono::milliseconds presentTime) {
+    void update(std::chrono::milliseconds presentTime, bool motionEffectEnable) {
         if (m_status == 0) {
-            m_timeLine.advance(presentTime);
+            if (motionEffectEnable) {
+                m_timeLine.advance(presentTime);
+            } else {
+                m_timeLine.setElapsed(m_timeLine.duration());
+            }
             m_status = 1;
         } else if (m_status == 1) {
-            m_timeLine.advance(presentTime);
             if (m_timeLine.done()) {
                 m_status = 2;
             }
+            m_timeLine.advance(presentTime);
         }
     }
 
@@ -299,15 +303,19 @@ public:
         m_timeLine.reset();
     }
 
-    void advance(std::chrono::milliseconds presentTime) {
+    void update(std::chrono::milliseconds presentTime, bool motionEffectEnable) {
         if (m_status == 0) {
             m_timeLine.reset();
-            m_timeLine.setElapsed(std::chrono::milliseconds(10));
+            if (motionEffectEnable) {
+                m_timeLine.setElapsed(std::chrono::milliseconds(10));
+            } else {
+                m_timeLine.setElapsed(m_timeLine.duration());
+            }
             m_status = 1;
         } else if (m_status == 1) {
-            m_timeLine.advance(presentTime);
             if (m_timeLine.done())
                 m_status = 2;
+            m_timeLine.advance(presentTime);
         } else {
         }
     }

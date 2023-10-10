@@ -1276,6 +1276,21 @@ void WindowMotionManager::calculate(int time)
     }
 }
 
+void WindowMotionManager::calculate(int time, bool motionEffectEnable)
+{
+    if (!motionEffectEnable) {
+        m_movingWindowsSet.clear();
+        QHash<EffectWindow *, WindowMotion>::iterator it = m_managedWindows.begin();
+        for (; it != m_managedWindows.end(); ++it) {
+            WindowMotion *motion = &it.value();
+            motion->translation.finish();
+            motion->scale.finish();
+        }
+    } else {
+        calculate(time);
+    }
+}
+
 void WindowMotionManager::reset()
 {
     QHash<EffectWindow *, WindowMotion>::iterator it = m_managedWindows.begin();

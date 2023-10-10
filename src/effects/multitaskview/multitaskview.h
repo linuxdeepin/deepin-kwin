@@ -285,9 +285,9 @@ public:
             ++it;
         }
     }
-    void calculate(int tm) {
+    void calculate(int tm, bool motionEffectEnable) {
         for (auto it = m_winManager.begin(); it != m_winManager.end(); it++) {
-            it.value().calculate(tm);
+            it.value().calculate(tm, motionEffectEnable);
         }
     }
 
@@ -426,6 +426,9 @@ public:
     bool touchMotion(quint32 id, const QPointF &pos, quint32 time) /*override*/;
     bool touchUp(quint32 id, quint32 time) /*override*/;
 
+    void setMotionEffect(bool enable) { m_motionEffectEnable = enable; }
+    bool motionEffectEnable() const { return m_motionEffectEnable; }
+
 private Q_SLOTS:
     void toggle();
 
@@ -546,6 +549,8 @@ private:
     bool m_closingWindow = false;
 
     bool m_isOpenGLrender = true;
+
+    bool m_motionEffectEnable = true;
 
     QPoint m_workspaceMoveStartPos;
     QPoint m_windowMoveStartPos;

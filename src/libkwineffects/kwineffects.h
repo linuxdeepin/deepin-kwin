@@ -3673,6 +3673,7 @@ public:
      * Effect::PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS flag.
      */
     void calculate(int time);
+    void calculate(int time, bool motionEffectEnable);
     /**
      * Modify a registered window's paint data to make it appear
      * at its real location on the screen. Usually called in
