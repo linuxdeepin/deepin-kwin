@@ -389,10 +389,11 @@ void SessionManager::aboutToSaveSession(const QString &name)
     storeSession(name, SMSavePhase0);
 }
 
-void SessionManager::finishSaveSession(const QString &name)
+int SessionManager::finishSaveSession(const QString &name)
 {
     Q_EMIT finishSessionSaveRequested(name);
     storeSession(name, SMSavePhase2);
+    return 0;
 }
 
 void SessionManager::quit()

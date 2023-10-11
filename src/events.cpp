@@ -46,8 +46,9 @@
 #include <QMouseEvent>
 #include <QStyleHints>
 #include <QWheelEvent>
-
+#include <QProcess>
 #include <QDBusInterface>
+#include <unistd.h>
 
 #include <kkeyserver.h>
 
@@ -210,6 +211,13 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
     if (isDDESessionRegister() == false) {
         registerDDESession();
         setDDESessionRegister(true);
+
+        QTimer::singleShot(2000, []() {
+            QProcess *usmserver = new QProcess();
+            usmserver->setProcessEnvironment(QProcessEnvironment::systemEnvironment());
+            usmserver->setProgram("/usr/bin/usmserver");
+            usmserver->start();
+        });
     }
     const uint8_t eventType = e->response_type & ~0x80;
 

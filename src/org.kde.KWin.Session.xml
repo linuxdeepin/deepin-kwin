@@ -18,6 +18,7 @@
       </method>
       <method name="finishSaveSession">
           <arg name="name" type="s" direction="in" />
+          <arg type="i" direction="out" />
       </method>
       <!-- Shutdown kwin at the end of the session -->
       <method name="quit">
