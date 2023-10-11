@@ -1,3 +1,10 @@
+kwin (4:5.27.2.22-deepin22-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * revert: fix: usmserver; mulititask; splitwindow;
+
+ -- zhangyu <zhangyud@uniontech.com>  Wed, 11 Oct 2023 18:10:47 +0800
+
 kwin (4:5.27.2.21-deepin21-1) unstable; urgency=medium
 
   [ huangzeming ]
