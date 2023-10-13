@@ -1,3 +1,10 @@
+kwin (4:5.27.2.24-deepin24-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * 220059 fix: active the maximize window frome split menu
+
+ -- zhangyu <zhangyud@uniontech.com>  Fri, 13 Oct 2023 18:15:17 +0800
+
 kwin (4:5.27.2.23-deepin23-1) unstable; urgency=medium
 
   [ huangzeming ]
