@@ -4691,12 +4691,13 @@ void Window::maybeSendFrameCallback()
     }
 }
 
-void Window::setQuickTileFromMenu(QuickTileMode mode)
+void Window::setQuickTileFromMenu(QuickTileMode mode, bool isShowPreview)
 {
     setQuickTileMode(mode);
     if (workspace()->activeWindow() != this)
         workspace()->activateWindow(this, true);
-    Q_EMIT triggerSplitPreview(this);
+    if (isShowPreview)
+        Q_EMIT triggerSplitPreview(this);
 }
 
 void Window::broadcastDbusDestroySignal(int pid)

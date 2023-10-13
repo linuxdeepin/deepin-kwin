@@ -1449,7 +1449,7 @@ public:
 
     QRectF quickTileGeometry(QuickTileMode mode, const QPointF &pos) const;
 
-    void setQuickTileFromMenu(QuickTileMode mode);
+    void setQuickTileFromMenu(QuickTileMode mode, bool isShowPreview = true);
     void resizeSplitWindow(QPointF &pos);
     bool isSplitWindow();
     bool isExitSplitMode(QPointF);
