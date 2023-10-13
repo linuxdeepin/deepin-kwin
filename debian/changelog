@@ -1,3 +1,16 @@
+kwin (4:5.27.2.23-deepin23-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * 219585 fix: repair the split trigger effect color
+  * 219595 fix: split window don't show rounded corners
+  * 220059 fix: active the maximize window frome split menu
+  * 219551 fix: tooltips were shown uncorrectly in splitmenu
+  * 218475/218491 fix: several shortcuts didn't respond in multitaskview
+  * 218361 fix: make color of hover frame in multitaskview consistent with active color
+  * 218359 fix: add window background hover in multitaskview
+
+ -- huangzeming <huangzeming@uniontech.com>  Fri, 13 Oct 2023 17:36:17 +0800
+
 kwin (4:5.27.2.22-deepin22-1) unstable; urgency=medium
 
   [ zhangyu ]
