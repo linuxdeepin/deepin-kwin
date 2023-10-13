@@ -6,6 +6,7 @@
 #include "effects.h"
 
 #include <kwineffects.h>
+#include <kwineffectsex.h>
 #include <kwinglplatform.h>
 #include <kwinglutils.h>
 #include <kwindowsystem.h>
@@ -82,7 +83,7 @@ void ScissorWindow::buildTextureMask(const QString& key, const QPointF& radius) 
 void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
                                    std::chrono::milliseconds time) {
     if (effects->hasActiveFullScreenEffect() ||
-        w->isDesktop() || isMaximized(w) || w->isOutline() || w->isSplitBar()) {
+        w->isDesktop() || isMaximized(w) || w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w)) {
         return effects->prePaintWindow(w, data, time);
     }
 
@@ -96,7 +97,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
 }
 
 void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
-    if (isMaximized(w) || w->isOutline() || w->isSplitBar()) {
+    if (isMaximized(w) || w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w)) {
         return effects->drawWindow(w, mask, region, data);
     }
 
