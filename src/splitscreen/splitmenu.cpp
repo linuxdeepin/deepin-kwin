@@ -142,7 +142,7 @@ bool SplitMenu::eventFilter(QObject *obj, QEvent *event)
         if (event->type() == QEvent::MouseButtonRelease) {
             rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
             if (m_client) {
-                m_client->setQuickTileMode(QuickTileFlag::Maximize);
+                m_client->setQuickTileFromMenu(QuickTileFlag::Maximize, false);
             }
             rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
             Hide(false, true);
