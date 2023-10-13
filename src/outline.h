@@ -41,6 +41,7 @@ class KWIN_EXPORT Outline : public QObject
     Q_PROPERTY(QRect visualParentGeometry READ visualParentGeometry NOTIFY visualParentGeometryChanged)
     Q_PROPERTY(QRect unifiedGeometry READ unifiedGeometry NOTIFY unifiedGeometryChanged)
     Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
+    Q_PROPERTY(QString activeColor READ ActiveColor WRITE setActiveColor NOTIFY activeColorChanged)
 public:
     explicit Outline();
     ~Outline() override;
@@ -99,6 +100,9 @@ public:
     const QRect &visualParentGeometry() const;
     QRect unifiedGeometry() const;
 
+    QString ActiveColor();
+    void setActiveColor(QString color);
+
     bool isActive() const;
 
 private Q_SLOTS:
@@ -109,6 +113,7 @@ Q_SIGNALS:
     void geometryChanged();
     void unifiedGeometryChanged();
     void visualParentGeometryChanged();
+    void activeColorChanged();
 
 private:
     void createHelper();
@@ -116,6 +121,7 @@ private:
     QRect m_outlineGeometry;
     QRect m_visualParentGeometry;
     bool m_active;
+    QString m_activeColor;
 };
 
 class KWIN_EXPORT OutlineVisual

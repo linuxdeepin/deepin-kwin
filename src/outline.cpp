@@ -23,6 +23,11 @@
 #include <QQmlEngine>
 #include <QQuickWindow>
 #include <QStandardPaths>
+#include <qdbusinterface.h>
+
+#define KWinDBusService "com.deepin.daemon.Appearance"
+#define KWinDBusPath    "/com/deepin/daemon/Appearance"
+#define KWinDBusInterface "com.deepin.daemon.Appearance"
 
 namespace KWin
 {
@@ -128,6 +133,21 @@ const QRect &Outline::visualParentGeometry() const
 bool Outline::isActive() const
 {
     return m_active;
+}
+
+QString Outline::ActiveColor()
+{
+    if (m_activeColor.isEmpty())
+        m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+    return m_activeColor;
+}
+
+void Outline::setActiveColor(QString color)
+{
+    if (m_activeColor != color) {
+        m_activeColor = color;
+        Q_EMIT activeColorChanged();
+    }
 }
 
 OutlineVisual::OutlineVisual(Outline *outline)

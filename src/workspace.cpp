@@ -2386,14 +2386,17 @@ void Workspace::setWasUserInteraction()
 
 QString Workspace::ActiveColor()
 {
-    if (m_activeColor.isEmpty())
+    if (m_activeColor.isEmpty()) {
         m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+        outline()->setActiveColor(m_activeColor);
+    }
     return m_activeColor;
 }
 
 void Workspace::setActiveColor(QString color)
 {
     m_activeColor = color;
+    outline()->setActiveColor(m_activeColor);
 }
 
 void Workspace::qtActiveColorChanged()
