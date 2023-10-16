@@ -266,6 +266,7 @@ public:
     bool isCursorHidden() const override;
     QRect renderTargetRect() const override;
     qreal renderTargetScale() const override;
+    void enableEffect(const QString& name, bool enable);
 
     KWin::EffectWindow *inputPanel() const override;
     bool isInputPanelOverlay() const override;
