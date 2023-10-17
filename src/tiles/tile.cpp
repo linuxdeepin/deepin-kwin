@@ -13,6 +13,7 @@
 #include "virtualdesktops.h"
 #include "window.h"
 #include "workspace.h"
+#include "wayland_server.h"
 
 #include <cmath>
 
@@ -108,7 +109,12 @@ void Tile::setRelativeGeometry(const QRectF &geom)
     Q_EMIT windowGeometryChanged();
 
     for (auto *w : std::as_const(m_windows)) {
-        w->moveResize(windowGeometry());
+        QRectF rect = windowGeometry();
+        if (waylandServer()) {
+            if (w->constrainClientSize(rect.size()).width() > rect.width())
+                continue;
+        }
+        w->moveResize(rect);
     }
 }
 
