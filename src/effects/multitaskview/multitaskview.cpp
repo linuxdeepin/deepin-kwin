@@ -1150,6 +1150,9 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(paintingDesktop - 1);
         if (wkmobj && wkmobj->getMotion(paintingDesktop, w->screen(), wmm)) {
             if (wmm->isManaging(w) && !w->isMinimized()) {
+                if (workspace()->showingDesktop() && w->desktop() == m_curDesktopIndex)
+                    return;
+
                 WindowPaintData d = data;
                 auto geo = wmm->transformedGeometry(w).toRect();
 
@@ -1253,6 +1256,9 @@ void MultitaskViewEffect::renderWorkspaceMove(KWin::ScreenPaintData &data)
 
         for (EffectWindow *w : list) {
             if (w->screen() == m_screen && wmm->isManaging(w) && !w->isMinimized()) {
+                if (workspace()->showingDesktop() && w->desktop() == m_curDesktopIndex)
+                    return;
+
                 WindowPaintData d(data.projectionMatrix());
                 auto geo = wmm->transformedGeometry(w);
                 geo = geo.translated(diff);
