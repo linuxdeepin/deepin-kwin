@@ -1,3 +1,10 @@
+kwin (4:5.27.2.25-deepin25-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * 219051 fix: Add HuWei partial update support
+
+ -- huangzeming <huangzeming@uniontech.com>  Tue, 17 Oct 2023 12:16:13 +0800
+
 kwin (4:5.27.2.24-deepin24-1) unstable; urgency=medium
 
   [ zhangyu ]
