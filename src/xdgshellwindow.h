@@ -271,6 +271,7 @@ private:
     bool m_isInitialized = false;
     bool m_userNoBorder = false;
     bool m_isTransient = false;
+    bool m_isSendT = false;
     QPointer<Output> m_fullScreenRequestedOutput;
     std::shared_ptr<KDecoration2::Decoration> m_nextDecoration;
 };

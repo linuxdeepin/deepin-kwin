@@ -734,6 +734,12 @@ void XdgSurfaceWindow::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
             m_windowRadius = windowRadius;
         }
     );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::splitWindowRequested, this,
+        [this] (KWaylandServer::SplitType type) {
+            Window::setQuickTileFromMenu(QuickTileMode(int(type)));
+
+        }
+    );
 }
 
 KWaylandServer::DDEShellSurfaceInterface *XdgSurfaceWindow::ddeShellSurface() const {
@@ -1683,6 +1689,11 @@ void XdgToplevelWindow::initialize()
     setupWindowManagementInterface();
 
     m_isInitialized = true;
+
+    if (!m_isSendT && isResizable()) {
+        m_ddeShellSurface->sendSplitable(true);
+        m_isSendT = true;
+    }
 }
 
 void XdgToplevelWindow::updateMaximizeMode(MaximizeMode maximizeMode)

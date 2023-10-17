@@ -53,6 +53,7 @@ public:
 
     void setState(dde_shell_state flag, bool set);
     void sendGeometry(const QRect &geom);
+    void sendSplitable(bool splitable);
 
 private:
     quint32 m_state = 0;
@@ -63,6 +64,7 @@ private:
     void dde_shell_surface_request_active(Resource *resource) override;
     void dde_shell_surface_set_state(Resource *resource, uint32_t flags, uint32_t state) override;
     void dde_shell_surface_set_property(Resource *resource, uint32_t property, wl_array *dataArr) override;
+    void dde_shell_surface_request_split_window(Resource *resource, uint32_t split_type) override;
 };
 
 /*********************************
@@ -251,10 +253,26 @@ void DDEShellSurfaceInterfacePrivate::dde_shell_surface_set_property(Resource *r
         QPointF pnt = QPointF(value[0],value[1]);
         Q_EMIT q->windowRadiusPropertyRequested(pnt);
     }
-    if (property & DDE_SHELL_PROPERTY_QUICKTILE) {
-        int *value = static_cast<int *>(dataArr->data);
-        Q_EMIT q->splitWindowRequested((SplitType)value[0], value[1]);
+}
+
+void DDEShellSurfaceInterfacePrivate::dde_shell_surface_request_split_window(Resource *resource, uint32_t split_type)
+{
+    Q_UNUSED(resource)
+    switch (split_type) {
+    case DDE_SHELL_SPLIT_TYPE_LEFT_SPLIT:
+        Q_EMIT q->splitWindowRequested(KWaylandServer::SplitType::leftSplit);
+        break;
+    case DDE_SHELL_SPLIT_TYPE_RIGHT_SPLIT:
+        Q_EMIT q->splitWindowRequested(KWaylandServer::SplitType::rightSplit);
+        break;
+    default:
+        break;
     }
+}
+
+void DDEShellSurfaceInterfacePrivate::sendSplitable(bool splitable)
+{
+    send_splitable(int(splitable));
 }
 
 void DDEShellSurfaceInterface::setActive(bool set)
@@ -337,22 +355,9 @@ void DDEShellSurfaceInterface::sendGeometry(const QRect &geom)
     d->sendGeometry(geom);
 }
 
-void DDEShellSurfaceInterface::sendSplitable(int splitable)
+void DDEShellSurfaceInterface::sendSplitable(bool splitable)
 {
-    if (splitable == 0) {
-        d->setState(DDE_SHELL_STATE_NO_SPLIT, true);
-        d->setState(DDE_SHELL_STATE_TWO_SPLIT, false);
-        d->setState(DDE_SHELL_STATE_FOUR_SPLIT, false);
-    } else {
-        d->setState(DDE_SHELL_STATE_NO_SPLIT, false);
-        if (splitable == 1) {
-            d->setState(DDE_SHELL_STATE_FOUR_SPLIT, false);
-            d->setState(DDE_SHELL_STATE_TWO_SPLIT, true);
-        } else if (splitable == 2) {
-            d->setState(DDE_SHELL_STATE_TWO_SPLIT, false);
-            d->setState(DDE_SHELL_STATE_FOUR_SPLIT, true);
-        }
-    }
+    d->sendSplitable(splitable);
 }
 
 }

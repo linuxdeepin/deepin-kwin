@@ -672,6 +672,8 @@ void X11Window::clientMessageEvent(xcb_client_message_event_t *e)
         } else {
             workspace()->hideSplitMenu(e->data.data32[1]);
         }
+    } else if (e->type == atoms->deepin_split_window) {
+        setQuickTileFromMenu(QuickTileMode(e->data.data32[0]), e->data.data32[1]);
     }
 }
 

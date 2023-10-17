@@ -331,7 +331,9 @@ public:
     // from dde-kwin: let startdde know that dde has started
     void registerDDESession() const;
 
-     bool hasProtectedWindow();
+    bool hasProtectedWindow();
+
+    void setWinSplitState(Window *w, bool isSplit);
 
 public:
     QPoint cascadeOffset(const Window *c) const;

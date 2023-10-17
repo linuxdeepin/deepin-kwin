@@ -79,6 +79,7 @@ public:
     Xcb::Atom wl_selection;
     Xcb::Atom primary;
     Xcb::Atom edid;
+    Xcb::Atom deepin_split_window;
 
     /**
      * @internal
