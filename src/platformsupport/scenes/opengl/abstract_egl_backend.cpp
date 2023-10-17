@@ -33,6 +33,7 @@ namespace KWin
 {
 
 static EGLContext s_globalShareContext = EGL_NO_CONTEXT;
+PFNEGLSETDAMAGEREGIONKHRPROC eglSetDamageRegionKHR = nullptr;
 
 static bool isOpenGLES_helper()
 {
@@ -176,7 +177,20 @@ void AbstractEglBackend::initBufferAge()
             setSupportsPartialUpdate(true);
         }
     }
-    setSupportsSwapBuffersWithDamage(hasExtension(QByteArrayLiteral("EGL_EXT_swap_buffers_with_damage")));
+
+    setSupportsHUAWEIPartialUpdate(hasExtension(QByteArrayLiteral("EGL_HUAWEI_partial_update")));
+    setSupportsSwapBuffersWithDamage(hasExtension(QByteArrayLiteral("EGL_KHR_swap_buffers_with_damage")));
+
+    if (supportsHUAWEIPartialUpdate()) {
+        eglSetDamageRegionKHR = (PFNEGLSETDAMAGEREGIONKHRPROC)eglGetProcAddress("eglSetDamageRegionHUAWEI");
+    } else if (supportsPartialUpdate()) {
+        eglSetDamageRegionKHR = (PFNEGLSETDAMAGEREGIONKHRPROC)eglGetProcAddress("eglSetDamageRegionKHR");
+    }
+    if (eglSetDamageRegionKHR == nullptr) {
+        setSupportsSwapBuffersWithDamage(hasExtension(QByteArrayLiteral("EGL_EXT_swap_buffers_with_damage")));
+        qWarning() << "Failed to get eglSetDamageRegionKHR address.";
+        return;
+    }
 }
 
 void AbstractEglBackend::initWayland()

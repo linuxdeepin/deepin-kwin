@@ -76,13 +76,19 @@ public:
 
     bool supportsBufferAge() const
     {
-        return m_haveBufferAge;
+        return m_haveBufferAge || m_havePartialUpdate;
+    }
+
+    bool supportsHUAWEIPartialUpdate() const
+    {
+        return m_haveHUAWEIPartialUpdate;
     }
 
     bool supportsPartialUpdate() const
     {
         return m_havePartialUpdate;
     }
+
     bool supportsSwapBuffersWithDamage() const
     {
         return m_haveSwapBuffersWithDamage;
@@ -147,6 +153,11 @@ protected:
         m_haveBufferAge = value;
     }
 
+    void setSupportsHUAWEIPartialUpdate(bool value)
+    {
+        m_haveHUAWEIPartialUpdate = value;
+    }
+
     void setSupportsPartialUpdate(bool value)
     {
         m_havePartialUpdate = value;
@@ -184,6 +195,7 @@ private:
     /**
      * @brief Whether the backend supports EGL_KHR_partial_update
      */
+    bool m_haveHUAWEIPartialUpdate = false;
     bool m_havePartialUpdate = false;
     bool m_haveSwapBuffersWithDamage = false;
     /**

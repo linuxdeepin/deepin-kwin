@@ -118,11 +118,13 @@ void EglGbmBackend::init()
         return;
     }
 
+    initBufferAge();
+
     if (!initRenderingContext()) {
         setFailed("Could not initialize rendering context");
         return;
     }
-    initBufferAge();
+
     initKWinGL();
     initWayland();
     initRemotePresent();
