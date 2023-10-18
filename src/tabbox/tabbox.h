@@ -263,6 +263,7 @@ public:
         return m_noModifierGrab;
     }
     void setCurrentIndex(QModelIndex index, bool notifyEffects = true);
+    bool firstClientIsMinisize();
 
 public Q_SLOTS:
     /**
@@ -357,6 +358,7 @@ private:
     QHash<ElectricBorder, QAction *> m_touchActivate;
     QHash<ElectricBorder, QAction *> m_touchAlternativeActivate;
     std::unique_ptr<X11EventFilter> m_x11EventFilter;
+    bool m_isMinisized;
 };
 
 } // namespace TabBox

@@ -79,6 +79,7 @@ bool X11Filter::buttonPress(xcb_button_press_event_t *event)
         const QModelIndex index = tabBox->nextPrev(event->detail == XCB_BUTTON_INDEX_5);
         if (index.isValid()) {
             tab->setCurrentIndex(index);
+            tab->currentClient()->setMinimized(tab->firstClientIsMinisize());
         }
         return true;
     }
