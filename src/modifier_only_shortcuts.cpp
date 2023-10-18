@@ -17,6 +17,7 @@
 #endif
 #include "wayland_server.h"
 #include "workspace.h"
+#include "effects.h"
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -55,6 +56,11 @@ void ModifierOnlyShortcuts::keyEvent(KeyEvent *event)
         }
     } else if (!m_pressedKeys.isEmpty()) {
         m_pressedKeys.remove(event->nativeScanCode());
+        if (effects != nullptr && static_cast< EffectsHandlerImpl* >(effects)->hasKeyboardGrab()) {
+            m_modifier = Qt::NoModifier;
+            m_cachedMods = event->modifiersRelevantForGlobalShortcuts();
+            return;
+        }
         if (m_pressedKeys.isEmpty() && event->modifiersRelevantForGlobalShortcuts() == Qt::NoModifier && workspace() && !workspace()->globalShortcutsDisabled()) {
             if (m_modifier != Qt::NoModifier) {
                 const auto list = options->modifierOnlyDBusShortcut(m_modifier);

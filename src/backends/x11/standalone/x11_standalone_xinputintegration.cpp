@@ -23,6 +23,7 @@
 #include "workspace.h"
 #include "x11eventfilter.h"
 #include <kwinglobals.h>
+#include "effects.h"
 
 #include <X11/extensions/XI2proto.h>
 #include <X11/extensions/XInput2.h>
@@ -190,6 +191,9 @@ public:
 
     bool event(xcb_generic_event_t *event) override
     {
+        if (effects && static_cast<EffectsHandlerImpl *>(effects)->hasKeyboardGrab()) {
+            return false;
+        }
         xcb_key_press_event_t *ke = reinterpret_cast<xcb_key_press_event_t *>(event);
         if (ke->event == ke->root) {
             const uint8_t eventType = event->response_type & ~0x80;
