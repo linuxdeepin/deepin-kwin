@@ -265,6 +265,8 @@ public:
     void setCurrentIndex(QModelIndex index, bool notifyEffects = true);
     bool firstClientIsMinisize();
 
+    void saveAllClientIsMinisize();
+    QList<bool> getAllClientIsMinisize();
 public Q_SLOTS:
     /**
      * Notify effects that the tab box is being shown, and only display the
@@ -358,6 +360,7 @@ private:
     QHash<ElectricBorder, QAction *> m_touchActivate;
     QHash<ElectricBorder, QAction *> m_touchAlternativeActivate;
     std::unique_ptr<X11EventFilter> m_x11EventFilter;
+    QList<bool> m_allClientMinisize;
     bool m_isMinisized;
 };
 

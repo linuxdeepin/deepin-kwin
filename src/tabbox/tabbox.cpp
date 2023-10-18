@@ -694,6 +694,7 @@ QList<int> TabBox::currentDesktopList()
 
 void TabBox::setCurrentClient(Window *newClient)
 {
+    saveAllClientIsMinisize();
     setCurrentIndex(m_tabBox->index(qWeakPointerCast<TabBoxClient, TabBoxClientImpl>(newClient->tabBoxClient())));
 }
 
@@ -1462,6 +1463,7 @@ void TabBox::close(bool abort)
     m_tabGrab = false;
     m_desktopGrab = false;
     m_noModifierGrab = false;
+    m_allClientMinisize.clear();
 
     QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "tabboxClosed");
     QDBusConnection::sessionBus().send(message);
@@ -1598,6 +1600,20 @@ void TabBox::removeTabBoxGrab()
 bool TabBox::firstClientIsMinisize()
 {
     return m_isMinisized;
+}
+
+void TabBox::saveAllClientIsMinisize()
+{
+    for (int i = 0; i < currentClientList().count() -1; i++) {
+        Window *c = currentClientList().at(i);
+        bool isMinisize = c->isMinimized();
+        m_allClientMinisize << isMinisize;
+    }
+}
+
+QList<bool> TabBox::getAllClientIsMinisize()
+{
+    return m_allClientMinisize;
 }
 } // namespace TabBox
 } // namespace

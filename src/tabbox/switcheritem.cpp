@@ -87,6 +87,18 @@ void SwitcherItem::setCurrentIndex(int index)
     if (m_model) {
         tabBox->setCurrentIndex(m_model->index(index, 0));
     }
+
+    if (!Compositor::compositing() && index == 0) {
+        if (index != tabBox->clientList().count() -1) {
+            for (int i = 0; i < tabBox->clientList().count() -1; i++) {
+                Window *c = workspace()->tabbox()->currentClientList().at(i);
+                if (i != index) {
+                    c->setMinimized(workspace()->tabbox()->getAllClientIsMinisize().at(i));
+                }
+            }
+        }
+    }
+
     Q_EMIT currentIndexChanged(m_currentIndex);
 
     TabBox *tabBox = workspace()->tabbox();
