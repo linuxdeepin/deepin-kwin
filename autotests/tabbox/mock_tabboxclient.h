@@ -67,6 +67,9 @@ public:
         return QUuid{};
     }
 
+    void setMinimized(bool set) override {
+    }
+
 private:
     QString m_caption;
 };

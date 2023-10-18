@@ -443,6 +443,12 @@ QUuid TabBoxClientImpl::internalId() const
     return m_client->internalId();
 }
 
+void TabBoxClientImpl::setMinimized(bool set)
+{
+    m_client->setMinimized(set);
+}
+
+
 /*********************************************************
  * TabBox
  *********************************************************/

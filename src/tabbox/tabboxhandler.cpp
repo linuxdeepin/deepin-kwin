@@ -82,6 +82,7 @@ public:
     bool isShown;
     TabBoxClient *lastRaisedClient, *lastRaisedClientSucc;
     int wheelAngleDelta = 0;
+    bool m_lastRaisedClientWasMinimized;
 
 private:
     QObject *createSwitcherItem(bool desktopMode);
@@ -96,6 +97,7 @@ TabBoxHandlerPrivate::TabBoxHandlerPrivate(TabBoxHandler *q)
     isShown = false;
     lastRaisedClient = nullptr;
     lastRaisedClientSucc = nullptr;
+    m_lastRaisedClientWasMinimized = false;
     config = TabBoxConfig();
     m_clientModel = new ClientModel(q);
     m_desktopModel = new DesktopModel(q);
@@ -180,11 +182,12 @@ void TabBoxHandlerPrivate::updateHighlightWindows()
             q->shadeClient(lastRaisedClient, true);
             if (lastRaisedClientSucc) {
                 q->restack(lastRaisedClient, lastRaisedClientSucc);
+                lastRaisedClient->setMinimized(m_lastRaisedClientWasMinimized);
             }
-            // TODO lastRaisedClient->setMinimized( lastRaisedClientWasMinimized );
         }
 
         lastRaisedClient = currentClient;
+        m_lastRaisedClientWasMinimized = currentClient->isMinimized();
         if (lastRaisedClient) {
             q->shadeClient(lastRaisedClient, false);
             // TODO if ( (lastRaisedClientWasMinimized = lastRaisedClient->isMinimized()) )
@@ -232,6 +235,7 @@ void TabBoxHandlerPrivate::endHighlightWindows(bool abort)
     }
     lastRaisedClient = nullptr;
     lastRaisedClientSucc = nullptr;
+    m_lastRaisedClientWasMinimized = false;
     // highlight windows
     q->highlightWindows();
 }
@@ -394,6 +398,7 @@ void TabBoxHandler::show()
     d->isShown = true;
     d->lastRaisedClient = nullptr;
     d->lastRaisedClientSucc = nullptr;
+    d->m_lastRaisedClientWasMinimized = false;
     if (d->config.isShowTabBox()) {
         d->show();
     }
