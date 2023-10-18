@@ -74,6 +74,8 @@ public:
     void restack(TabBox::TabBoxClient *c, TabBox::TabBoxClient *under) override
     {
     }
+    virtual void activateCurrentClient() const {
+    }
     virtual void showOutline(const QRect &outline)
     {
     }

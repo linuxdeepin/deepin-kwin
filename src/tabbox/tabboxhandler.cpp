@@ -199,6 +199,7 @@ void TabBoxHandlerPrivate::updateHighlightWindows()
             }
             lastRaisedClientSucc = (succIdx < order.count()) ? order.at(succIdx).toStrongRef().data() : nullptr;
             q->raiseClient(lastRaisedClient);
+            q->activateCurrentClient();
         }
     }
 

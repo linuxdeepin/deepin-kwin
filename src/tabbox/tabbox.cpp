@@ -326,6 +326,11 @@ void TabBoxHandlerImpl::shadeClient(TabBoxClient *c, bool b) const
     }
 }
 
+void TabBoxHandlerImpl::activateCurrentClient() const
+{
+    m_tabBox->accept(false);
+}
+
 QWeakPointer<TabBoxClient> TabBoxHandlerImpl::desktopClient() const
 {
     const auto stackingOrder = Workspace::self()->stackingOrder();
@@ -1447,9 +1452,8 @@ void TabBox::accept(bool closeTabBox)
     if (c) {
         Workspace::self()->activateWindow(c);
         shadeActivate(c);
-        if (c->isDesktop()) {
-            Workspace::self()->setShowingDesktop(!Workspace::self()->showingDesktop(), !m_desktopListConfig.isHighlightWindows());
-        }
+        if (c->isDesktop() && !Workspace::self()->showingDesktop())
+            Workspace::self()->setShowingDesktop(true);
     }
 }
 
