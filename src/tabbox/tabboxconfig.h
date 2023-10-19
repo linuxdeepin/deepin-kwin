@@ -124,6 +124,17 @@ public:
         ClientTabBox, ///< TabBox uses TabBoxClientModel
         DesktopTabBox ///< TabBox uses TabBoxDesktopModel
     };
+    /**
+    * TabBoxMode switch position by alt+tab and ← → ↑ ↓
+    */
+    enum TabBoxSwitchPosition {
+        Forward,
+        Backward,
+        Steady,
+        Up,
+        Down
+    };
+
     TabBoxConfig();
     ~TabBoxConfig();
     TabBoxConfig &operator=(const TabBoxConfig &object);

@@ -54,6 +54,10 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE QString longestCaption() const;
 
+    Q_INVOKABLE void setViewColumnCount(int viewColumnCount);
+    int getViewColumnCount() const {
+        return m_viewColumnCount;
+    }
     /**
      * @param client The TabBoxClient whose index should be returned
      * @return Returns the ModelIndex of given TabBoxClient or an invalid ModelIndex
@@ -99,6 +103,7 @@ private:
         TabBoxClientList &stickyClients);
 
     TabBoxClientList m_clientList;
+    int              m_viewColumnCount = 0;
 };
 
 } // namespace Tabbox

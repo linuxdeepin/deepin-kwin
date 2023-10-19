@@ -172,7 +172,7 @@ public:
     /**
      * Shows the next or previous item, depending on \a next
      */
-    void nextPrev(bool next = true);
+    void nextPrev(TabBoxConfig::TabBoxSwitchPosition direction);
 
     /**
      * Shows the tab box after some delay.
@@ -307,7 +307,7 @@ private:
     bool startWalkThroughDesktops();
     bool startWalkThroughDesktopList();
     void navigatingThroughWindows(bool forward, const QKeySequence &shortcut, TabBoxMode mode); // TabBoxWindowsMode | TabBoxWindowsAlternativeMode
-    void KDEWalkThroughWindows(bool forward);
+    void KDEWalkThroughWindows(TabBoxConfig::TabBoxSwitchPosition forward);
     void CDEWalkThroughWindows(bool forward);
     void walkThroughDesktops(bool forward);
     void KDEOneStepThroughWindows(bool forward, TabBoxMode mode); // TabBoxWindowsMode | TabBoxWindowsAlternativeMode

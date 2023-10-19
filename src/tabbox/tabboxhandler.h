@@ -254,7 +254,7 @@ public:
      * @return The next or previous item. If there is no matching item
      * the current item will be returned.
      */
-    QModelIndex nextPrev(bool forward) const;
+    QModelIndex nextPrev(TabBoxConfig::TabBoxSwitchPosition direction) const;
 
     /**
      * Initializes the model based on the current config.

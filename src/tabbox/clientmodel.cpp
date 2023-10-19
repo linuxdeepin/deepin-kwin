@@ -94,6 +94,12 @@ QString ClientModel::longestCaption() const
     return caption;
 }
 
+void ClientModel::setViewColumnCount(int viewColumnCount)
+{
+    m_viewColumnCount = viewColumnCount;
+}
+
+
 int ClientModel::columnCount(const QModelIndex &parent) const
 {
     return 1;

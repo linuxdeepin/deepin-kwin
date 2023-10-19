@@ -648,9 +648,9 @@ void TabBox::reset(bool partial_reset)
     Q_EMIT tabBoxUpdated();
 }
 
-void TabBox::nextPrev(bool next)
+void TabBox::nextPrev(TabBoxConfig::TabBoxSwitchPosition direction)
 {
-    setCurrentIndex(m_tabBox->nextPrev(next), false);
+    setCurrentIndex(m_tabBox->nextPrev(direction));
     Q_EMIT tabBoxUpdated();
 }
 
@@ -904,7 +904,7 @@ bool TabBox::handleWheelEvent(QWheelEvent *event)
     if (event->angleDelta().y() == 0) {
         return false;
     }
-    const QModelIndex index = m_tabBox->nextPrev(event->angleDelta().y() > 0);
+    const QModelIndex index = m_tabBox->nextPrev(event->angleDelta().y() > 0  ? TabBoxConfig::Backward : TabBoxConfig::Forward);
     if (index.isValid()) {
         setCurrentIndex(index);
     }
@@ -1046,6 +1046,10 @@ static bool areModKeysDepressed(const QKeySequence &seq)
 
 void TabBox::navigatingThroughWindows(bool forward, const QKeySequence &shortcut, TabBoxMode mode)
 {
+    if(currentClient() && currentClient()->isInteractiveResize()) {
+        currentClient()->endInteractiveMoveResize();
+    }
+
     if (!m_ready || isGrabbed()) {
         return;
     }
@@ -1056,12 +1060,19 @@ void TabBox::navigatingThroughWindows(bool forward, const QKeySequence &shortcut
     } else {
         if (areModKeysDepressed(shortcut)) {
             if (startKDEWalkThroughWindows(mode)) {
-                KDEWalkThroughWindows(forward);
+                KDEWalkThroughWindows(forward ? TabBoxConfig::Forward : TabBoxConfig::Backward);
             }
         } else {
             // if the shortcut has no modifiers, don't show the tabbox,
             // don't grab, but simply go to the next window
             KDEOneStepThroughWindows(forward, mode);
+        }
+    }
+
+    //stop move resize when active tabbox
+    for (Window* current : currentClientList()) {
+        if (current->isInteractiveMove() || current->isInteractiveResize()) {
+            current->endInteractiveMoveResize();
         }
     }
 }
@@ -1231,7 +1242,7 @@ bool TabBox::startWalkThroughDesktopList()
     return startWalkThroughDesktops(TabBoxDesktopListMode);
 }
 
-void TabBox::KDEWalkThroughWindows(bool forward)
+void TabBox::KDEWalkThroughWindows(TabBoxConfig::TabBoxSwitchPosition forward)
 {
     const int length = currentClientList().length();
     if ((m_tabBoxMode == TabBoxWindowsMode && length <= 1) || (m_tabBoxMode == TabBoxCurrentAppWindowsMode && length <= 1))
@@ -1244,7 +1255,7 @@ void TabBox::KDEWalkThroughWindows(bool forward)
 
 void TabBox::walkThroughDesktops(bool forward)
 {
-    nextPrev(forward);
+    nextPrev(forward ? TabBoxConfig::Backward : TabBoxConfig::Forward);
     delayedShow();
 }
 
@@ -1304,7 +1315,7 @@ void TabBox::KDEOneStepThroughWindows(bool forward, TabBoxMode mode)
 {
     setMode(mode);
     reset();
-    nextPrev(forward);
+    nextPrev(forward ? TabBoxConfig::Backward : TabBoxConfig::Forward);
     if (Window *c = currentClient()) {
         Workspace::self()->activateWindow(c);
         shadeActivate(c);
@@ -1315,7 +1326,7 @@ void TabBox::oneStepThroughDesktops(bool forward, TabBoxMode mode)
 {
     setMode(mode);
     reset();
-    nextPrev(forward);
+    nextPrev(forward ? TabBoxConfig::Backward : TabBoxConfig::Forward);
     if (currentDesktop() != -1) {
         setCurrentDesktop(currentDesktop());
     }
@@ -1333,12 +1344,13 @@ void TabBox::oneStepThroughDesktopList(bool forward)
 
 void TabBox::keyPress(int keyQt)
 {
-    enum Direction {
-        Backward = -1,
-        Steady = 0,
-        Forward = 1,
-    };
-    Direction direction(Steady);
+    // enum Direction {
+    //     Backward = -1,
+    //     Steady = 0,
+    //     Forward = 1,
+    // };
+    // Direction direction(Steady);
+    TabBoxConfig::TabBoxSwitchPosition direction(TabBoxConfig::Backward);
 
     auto contains = [](const QKeySequence &shortcut, int key) -> bool {
         for (int i = 0; i < shortcut.count(); ++i) {
@@ -1350,40 +1362,56 @@ void TabBox::keyPress(int keyQt)
     };
 
     // tests whether a shortcut matches and handles pitfalls on ShiftKey invocation
-    auto directionFor = [keyQt, contains](const QKeySequence &forward, const QKeySequence &backward) -> Direction {
+    auto directionFor = [keyQt, contains](const QKeySequence &forward, const QKeySequence &backward) -> TabBoxConfig::TabBoxSwitchPosition {
+        Qt::KeyboardModifiers mods = Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier|Qt::MetaModifier|Qt::KeypadModifier|Qt::GroupSwitchModifier;
         if (contains(forward, keyQt)) {
-            return Forward;
+            TabBoxConfig::Forward;
         }
         if (contains(backward, keyQt)) {
-            return Backward;
+            return TabBoxConfig::Backward;
         }
-        if (!(keyQt & Qt::ShiftModifier)) {
-            return Steady;
-        }
+        // if (!(keyQt & Qt::ShiftModifier)) {
+        //     return Steady;
+        // }
 
         // Before testing the unshifted key (Ctrl+A vs. Ctrl+Shift+a etc.), see whether this is +Shift+Tab
         // and check that against +Shift+Backtab (as well)
-        Qt::KeyboardModifiers mods = Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::MetaModifier | Qt::KeypadModifier | Qt::GroupSwitchModifier;
+
         mods &= keyQt;
+
         if ((keyQt & ~mods) == Qt::Key_Tab) {
-            if (contains(forward, mods | Qt::Key_Backtab)) {
-                return Forward;
-            }
-            if (contains(backward, mods | Qt::Key_Backtab)) {
-                return Backward;
-            }
+            if (contains(forward, mods | Qt::Key_Backtab))
+                return TabBoxConfig::Forward;
+            if (contains(backward, mods | Qt::Key_Backtab))
+                return TabBoxConfig::Backward;
+        }
+
+        if ((keyQt & ~mods) == Qt::Key_Right) {
+            return TabBoxConfig::Forward;
+        }
+
+        if ((keyQt & ~mods) == Qt::Key_Left) {
+            return TabBoxConfig::Backward;
+        }
+
+        if ((keyQt & ~mods) == Qt::Key_Up) {
+            return TabBoxConfig::Up;
+        }
+
+        if ((keyQt & ~mods) == Qt::Key_Down) {
+            return TabBoxConfig::Down;
         }
 
         // if the shortcuts do not match, try matching again after filtering the shift key from keyQt
         // it is needed to handle correctly the ALT+~ shorcut for example as it is coded as ALT+SHIFT+~ in keyQt
         if (contains(forward, keyQt & ~Qt::ShiftModifier)) {
-            return Forward;
+            return TabBoxConfig::Forward;
         }
         if (contains(backward, keyQt & ~Qt::ShiftModifier)) {
-            return Backward;
+            return TabBoxConfig::Backward;
         }
 
-        return Steady;
+        return TabBoxConfig::Steady;
     };
 
     if (m_tabGrab) {
@@ -1411,13 +1439,13 @@ void TabBox::keyPress(int keyQt)
             }
             testedCurrent = true;
             direction = directionFor(cuts[i], cuts[i + ModeCount]);
-            if (direction != Steady) {
+            if (direction != TabBoxConfig::Steady) {
                 if (modes[i] != mode()) {
                     accept(false);
                     setMode(modes[i]);
                     auto replayWithChangedTabboxMode = [this, direction]() {
                         reset();
-                        nextPrev(direction == Forward);
+                        nextPrev(direction);
                     };
                     QTimer::singleShot(50, this, replayWithChangedTabboxMode);
                 }
@@ -1428,25 +1456,25 @@ void TabBox::keyPress(int keyQt)
             }
             i = (i + 1) % ModeCount;
         }
-        if (direction != Steady) {
+        if (direction != TabBoxConfig::Steady) {
             qCDebug(KWIN_TABBOX) << "== " << cuts[i].toString() << " or " << cuts[i + ModeCount].toString();
-            KDEWalkThroughWindows(direction == Forward);
+            KDEWalkThroughWindows(direction);
         }
     } else if (m_desktopGrab) {
         direction = directionFor(m_cutWalkThroughDesktops, m_cutWalkThroughDesktopsReverse);
-        if (direction == Steady) {
+        if (direction == TabBoxConfig::Steady) {
             direction = directionFor(m_cutWalkThroughDesktopList, m_cutWalkThroughDesktopListReverse);
         }
-        if (direction != Steady) {
-            walkThroughDesktops(direction == Forward);
+        if (direction != TabBoxConfig::Steady) {
+            walkThroughDesktops(direction == TabBoxConfig::Forward);
         }
     }
 
     if (m_desktopGrab || m_tabGrab) {
-        if (((keyQt & ~Qt::KeyboardModifierMask) == Qt::Key_Escape) && direction == Steady) {
+        if (((keyQt & ~Qt::KeyboardModifierMask) == Qt::Key_Escape) && direction == TabBoxConfig::Steady) {
             // if Escape is part of the shortcut, don't cancel
             close(true);
-        } else if (direction == Steady) {
+        } else if (direction == TabBoxConfig::Steady) {
             QKeyEvent event(QEvent::KeyPress, keyQt & ~Qt::KeyboardModifierMask, Qt::NoModifier);
             grabbedKeyEvent(&event);
         }

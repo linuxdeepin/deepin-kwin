@@ -4552,7 +4552,7 @@ void Window::cleanTabBox()
 #if KWIN_BUILD_TABBOX
     TabBox::TabBox *tabBox = workspace()->tabbox();
     if (tabBox && tabBox->isDisplayed() && tabBox->currentClient() == this) {
-        tabBox->nextPrev(true);
+        tabBox->nextPrev(TabBox::TabBoxConfig::Backward);
     }
 #endif
 }

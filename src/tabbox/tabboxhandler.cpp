@@ -442,7 +442,7 @@ void TabBoxHandler::hide(bool abort)
     d->m_mainItem = nullptr;
 }
 
-QModelIndex TabBoxHandler::nextPrev(bool forward) const
+QModelIndex TabBoxHandler::nextPrev(TabBoxConfig::TabBoxSwitchPosition direction) const
 {
     QModelIndex ret;
     QAbstractItemModel *model;
@@ -456,7 +456,10 @@ QModelIndex TabBoxHandler::nextPrev(bool forward) const
     default:
         Q_UNREACHABLE();
     }
-    if (forward) {
+
+    int viewColumnCount  = d->clientModel()->getViewColumnCount();
+
+    if (direction == TabBoxConfig::Forward) {
         int column = d->index.column() + 1;
         int row = d->index.row();
         if (column == model->columnCount()) {
@@ -470,7 +473,7 @@ QModelIndex TabBoxHandler::nextPrev(bool forward) const
         if (!ret.isValid()) {
             ret = model->index(0, 0);
         }
-    } else {
+    } else  if (direction == TabBoxConfig::Backward) {
         int column = d->index.column() - 1;
         int row = d->index.row();
         if (column < 0) {
@@ -490,7 +493,32 @@ QModelIndex TabBoxHandler::nextPrev(bool forward) const
                 }
             }
         }
+    } else if (direction == TabBoxConfig::Up) {
+        if (viewColumnCount != 0) {
+            if(d->index.row() / viewColumnCount == 0) {
+                ret = model->index(d->index.row(), d->index.column());
+            } else {
+                int column = d->index.column();
+                int row = d->index.row() - viewColumnCount;
+                ret = model->index(row, column);
+                if (!ret.isValid())
+                    ret = model->index(0, 0);
+            }
+        }
+    } else if (direction == TabBoxConfig::Down) {
+        if (viewColumnCount != 0) {
+            if(d->index.row() / viewColumnCount >= model->rowCount() / viewColumnCount) {
+                ret = model->index(d->index.row(), d->index.column());
+            } else {
+                int column = d->index.column();
+                int row = d->index.row() + viewColumnCount;
+                ret = model->index(row, column);
+                if (!ret.isValid())
+                    ret = model->index(column, row - viewColumnCount);
+            }
+        }
     }
+
     if (ret.isValid()) {
         return ret;
     } else {
@@ -652,14 +680,14 @@ bool TabBoxHandler::eventFilter(QObject *watched, QEvent *e)
         d->wheelAngleDelta += delta;
         while (d->wheelAngleDelta <= -120) {
             d->wheelAngleDelta += 120;
-            const QModelIndex index = nextPrev(true);
+            const QModelIndex index = nextPrev(TabBoxConfig::Forward);
             if (index.isValid()) {
                 setCurrentIndex(index);
             }
         }
         while (d->wheelAngleDelta >= 120) {
             d->wheelAngleDelta -= 120;
-            const QModelIndex index = nextPrev(false);
+            const QModelIndex index = nextPrev(TabBoxConfig::Backward);
             if (index.isValid()) {
                 setCurrentIndex(index);
             }
