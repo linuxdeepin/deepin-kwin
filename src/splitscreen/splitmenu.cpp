@@ -58,7 +58,6 @@ SplitMenu::SplitMenu()
     auto tran = new QTranslator(this);
     if (tran->load(qm)) {
         qApp->installTranslator(tran);
-        qWarning() << "install";
     } else {
         qCDebug(SPLIT_MENU) << "load " << qm << "failed";
     }

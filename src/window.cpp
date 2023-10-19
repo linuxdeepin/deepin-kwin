@@ -43,6 +43,7 @@
 #include "wayland/surface_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "x11window.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -56,6 +57,8 @@
 #include <QDBusMessage>
 #include <QDBusConnection>
 #include <QX11Info>
+
+#define DEFAULT_REQUIRED_PIXELS 4000
 
 namespace KWin
 {
@@ -1765,21 +1768,6 @@ void Window::checkUnrestrictedInteractiveMoveResize()
             setUnrestrictedInteractiveMoveResize(true);
         }
     }
-    if (isInteractiveMove()) {
-        if (moveResizeGeom.bottom() < desktopArea.top() + titlebar_marge) {
-            setUnrestrictedInteractiveMoveResize(true);
-        }
-        // no need to check top_marge, titlebar_marge already handles it
-        if (moveResizeGeom.top() > desktopArea.bottom() - bottom_marge) { // titlebar mustn't go out
-            setUnrestrictedInteractiveMoveResize(true);
-        }
-        if (moveResizeGeom.right() < desktopArea.left() + left_marge) {
-            setUnrestrictedInteractiveMoveResize(true);
-        }
-        if (moveResizeGeom.left() > desktopArea.right() - right_marge) {
-            setUnrestrictedInteractiveMoveResize(true);
-        }
-    }
 }
 
 // When the user pressed mouse on the titlebar, don't activate move immediately,
@@ -2004,45 +1992,28 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
             // Make sure the titlebar isn't behind a restricted area. We don't need to restrict
             // the other directions. If not visible enough, move the window to the closest valid
             // point. We bruteforce this by slowly moving the window back to its previous position
-            const StrutRects strut = workspace()->restrictedMoveArea(VirtualDesktopManager::self()->currentDesktop());
-            QRegion availableArea(workspace()->clientArea(FullArea, this, workspace()->activeOutput()).toRect());
-            for (const QRect &rect : strut) {
-                availableArea -= rect;
+            QRegion availableArea;
+            for (Output *s : workspace()->outputs()) {
+                availableArea += workspace()->clientArea(PlacementArea, s, VirtualDesktopManager::self()->currentDesktop()).toRect();
             }
             bool transposed = false;
             int requiredPixels;
-            QRectF bTitleRect = titleBarRect(nextMoveResizeGeom, transposed, requiredPixels);
-            int lastVisiblePixels = -1;
             QRectF lastTry = nextMoveResizeGeom;
             bool titleFailed = false;
             for (;;) {
-                const QRect titleRect = bTitleRect.translated(nextMoveResizeGeom.topLeft()).toRect();
                 int visiblePixels = 0;
-                int realVisiblePixels = 0;
+                requiredPixels = 0;
                 for (const QRect &rect : availableArea) {
-                    const QRect r = rect & titleRect;
-                    realVisiblePixels += r.width() * r.height();
-                    if ((transposed && r.width() == titleRect.width()) || // Only the full size regions...
-                        (!transposed && r.height() == titleRect.height())) { // ...prevents long slim areas
-                        visiblePixels += r.width() * r.height();
-                    }
+                    const QRect r = rect & lastTry.toRect();
+                    visiblePixels += r.width() * r.height();
+                    if (r.width() > 0)
+                        requiredPixels += qMax(40 * r.width(), 160 * r.height());
                 }
 
-                if (visiblePixels >= requiredPixels) {
+                if (visiblePixels >= requiredPixels && visiblePixels != 0) {
                     break; // We have reached a valid position
                 }
 
-                if (realVisiblePixels <= lastVisiblePixels) {
-                    if (titleFailed && realVisiblePixels < lastVisiblePixels) {
-                        break; // we won't become better
-                    } else {
-                        if (!titleFailed) {
-                            nextMoveResizeGeom = lastTry;
-                        }
-                        titleFailed = true;
-                    }
-                }
-                lastVisiblePixels = realVisiblePixels;
                 QRectF currentTry = nextMoveResizeGeom;
                 lastTry = currentTry;
 
@@ -2102,6 +2073,29 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
         bottomright = QPointF(nextMoveResizeGeom.left() + size.width(), nextMoveResizeGeom.top() + size.height());
         orig = nextMoveResizeGeom;
 
+        const StrutRects strut = workspace()->restrictedMoveArea(VirtualDesktopManager::self()->currentDesktop());
+        for (auto strutRect : strut) {
+            if (strutRect.area()) {
+                if (!strutRect.intersects(output()->geometry()))
+                    break;
+                if (strutRect.area() == StrutAreaTop){
+                    if (topleft.y() < strutRect.bottom())
+                        topleft.setY(strutRect.bottom());
+                } else if (strutRect.area() == StrutAreaRight){
+                    if (bottomright.x() > strutRect.left())
+                        bottomright.setX(strutRect.left());
+                } else if (strutRect.area() == StrutAreaBottom){
+                    if (bottomright.y() > strutRect.top())
+                        bottomright.setY(strutRect.top());
+                } else if (strutRect.area() == StrutAreaLeft){
+                    int w = strutRect.width();
+                    if (topleft.x() < strutRect.right())
+                        topleft.setX(strutRect.right());
+                }
+                break;
+            }
+        }
+
         // if aspect ratios are specified, both dimensions may change.
         // Therefore grow to the right/bottom if needed.
         // TODO it should probably obey gravity rather than always using right/bottom ?
@@ -2138,13 +2132,52 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
 
             if (!isUnrestrictedInteractiveMoveResize()) {
                 const StrutRects strut = workspace()->restrictedMoveArea(VirtualDesktopManager::self()->currentDesktop());
-                QRegion availableArea(workspace()->clientArea(FullArea, this, workspace()->activeOutput()).toRect());
-                for (const QRect &rect : strut) {
-                    availableArea -= rect; // Strut areas
+                QRegion availableArea;
+                for (Output *s : workspace()->outputs()) {
+                    availableArea += workspace()->clientArea(PlacementArea, s, VirtualDesktopManager::self()->currentDesktop()).toRect();
                 }
                 bool transposed = false;
                 int requiredPixels;
                 QRectF bTitleRect = titleBarRect(nextMoveResizeGeom, transposed, requiredPixels);
+
+                // NOTE: make sure CSD windows won't be dragged below struts area
+                //
+                // There are two situations this'll be true:
+                // 1. no titlebar windows (e.g gedit)
+                // 2. DDE window (with titlebar exists, only height is 0)
+                //
+                // NOTE: apps may set a very small border (e.g dde apps in non-composited mode),
+                // which we need to make sure it big enough to keep above the dock area
+                if (!transposed && bTitleRect.height() <= 10) {
+                    bTitleRect.setHeight(40);
+
+                    // take care of old CSD windows
+                    // this contains old dde windows and deepin-terminal which have
+                    // _GTK_FRAME_EXTENT attributes
+                    // 60 is a modest default value for frame height
+                    if (auto cli = qobject_cast<X11Window*>(this)) {
+                        if (cli->isClientSideDecorated()) {
+                            bTitleRect.setHeight(40 + 60);
+                        }
+                    }
+
+                } else if (transposed && bTitleRect.width() <= 10) {
+                    bTitleRect.setWidth(40);
+
+                    if (auto cli = qobject_cast<X11Window*>(this)) {
+                        if (cli->isClientSideDecorated()) {
+                            bTitleRect.setWidth(40 + 60);
+                        }
+                    }
+                }
+
+                requiredPixels = qMin(150 * (transposed ? bTitleRect.width() : bTitleRect.height()),
+                        nextMoveResizeGeom.width() * nextMoveResizeGeom.height());
+
+                if (!requiredPixels) {
+                    requiredPixels = DEFAULT_REQUIRED_PIXELS;
+                }
+
                 for (;;) {
                     QRectF currentTry = nextMoveResizeGeom;
                     const QRectF titleRect(bTitleRect.translated(currentTry.topLeft()));
