@@ -1,3 +1,30 @@
+kwin (4:5.27.2.26-deepin26-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * feat: add dbus interface setEnableTouchLongPress and isEnableTouchLongPress.
+  * fix: touch screen can't show user action menu.
+  * fix: Update value of LONGTOUCHPRESSIGNOREMOTION is 5,same as x11.
+  * fix: show cursor when event is actually from libinput device.
+  * fix: add long touch press show right menu.
+  * fix: Fix focus error in lock screen
+  * feat: Add interface to disable multi-screens
+  * fix: add window fool-proofing
+  * fix: windows were still painted while showing desktop in multitaskview
+  * fix: disable launcher shortcut in effects
+  * fix: add window minimum judgment in wayland
+  * fix: dtk split menu protocol
+  * feat: alt+tab需求开发
+  * fix: the bug about alt + ~ show non same window
+  * fix: 按下caps键后，再按Alt+tab后切换窗口的顺序变为了反向
+  * fix: when tabbox in 2D,make all client keep old minimized.
+  * fix: when tabbox in 2D,keep first client minisize.
+  * fix: alt+tab can't keep minimized window minimized in 2D mode
+  * fix: quick switch window and long press the shortcut key
+  * feat: activate minimized if not composited
+  * fix: after reboot,the magiclamp effect invalid.
+
+ -- wangboyu <wangboyu@uniontech.com>  Fri, 20 Oct 2023 21:13:13 +0800
+
 kwin (4:5.27.2.25-deepin25-1) unstable; urgency=medium
 
   [ huangzeming ]
