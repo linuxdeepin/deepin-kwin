@@ -54,6 +54,10 @@ public:
         m_sessionArgument = session;
     }
 
+    void setDisableMultiScreens(bool disabled) {
+        m_disableMultiScreens = disabled;
+    }
+
     XwaylandInterface *xwayland() const override;
 
 protected:
@@ -65,6 +69,7 @@ private:
     void startSession();
     void refreshSettings(const KConfigGroup &group, const QByteArrayList &names);
 
+    bool m_disableMultiScreens = false;
     bool m_startXWayland = false;
     QStringList m_applicationsToStart;
     QString m_inputMethodServerToStart;

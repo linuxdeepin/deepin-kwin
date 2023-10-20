@@ -139,6 +139,10 @@ void ApplicationWayland::performStartup()
     // first load options - done internally by a different thread
     createOptions();
 
+    if (m_disableMultiScreens) {
+        kwinApp()->outputBackend()->disableMultiScreens();
+    }
+
     if (!outputBackend()->initialize()) {
         std::exit(1);
     }
@@ -360,6 +364,9 @@ int main(int argc, char *argv[])
     QCommandLineOption replaceOption(QStringLiteral("replace"),
                                      i18n("Exits this instance so it can be restarted by kwin_wayland_wrapper."));
 
+    QCommandLineOption disableMultiScreens(QStringLiteral("disable-multiscreens"),
+                                    i18n("Disable multi screens"));
+
     QCommandLineOption drmOption(QStringLiteral("drm"), i18n("Render through drm node."));
     QCommandLineOption locale1Option(QStringLiteral("locale1"), i18n("Extract locale information from locale1 rather than the user's configuration"));
 
@@ -372,6 +379,7 @@ int main(int argc, char *argv[])
     parser.addOption(xwaylandDisplayOption);
     parser.addOption(xwaylandXAuthorityOption);
     parser.addOption(replaceOption);
+    parser.addOption(disableMultiScreens);
     parser.addOption(x11DisplayOption);
     parser.addOption(waylandDisplayOption);
     parser.addOption(virtualFbOption);
@@ -431,6 +439,8 @@ int main(int argc, char *argv[])
         QDBusConnection::sessionBus().call(msg, QDBus::NoBlock);
         return 0;
     }
+
+    a.setDisableMultiScreens(parser.isSet(disableMultiScreens));
 
     if (parser.isSet(exitWithSessionOption)) {
         a.setSessionArgument(parser.value(exitWithSessionOption));

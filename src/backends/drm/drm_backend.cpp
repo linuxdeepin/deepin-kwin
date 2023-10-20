@@ -304,6 +304,10 @@ DrmGpu *DrmBackend::addGpu(const QString &fileName)
 
 void DrmBackend::addOutput(DrmAbstractOutput *o)
 {
+    if (m_disableMultiScreens && !m_outputs.isEmpty()) {
+        qCDebug(KWIN_DRM, "skip for disableMultiScreens, already has pending Connector");
+        return;
+    }
     m_outputs.append(o);
     Q_EMIT outputAdded(o);
     o->updateEnabled(true);
@@ -528,5 +532,10 @@ void DrmBackend::releaseBuffers()
 const std::vector<std::unique_ptr<DrmGpu>> &DrmBackend::gpus() const
 {
     return m_gpus;
+}
+
+void DrmBackend::disableMultiScreens()
+{
+    m_disableMultiScreens = true;
 }
 }

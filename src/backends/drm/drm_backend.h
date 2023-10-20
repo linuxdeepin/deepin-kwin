@@ -69,6 +69,8 @@ public:
 
     bool isActive() const;
 
+    void disableMultiScreens() override;
+
     void setRenderBackend(DrmRenderBackend *backend);
     DrmRenderBackend *renderBackend() const;
 
@@ -113,6 +115,8 @@ private:
     DrmRenderBackend *m_renderBackend = nullptr;
 
     gbm_bo *createBo(const QSize &size, quint32 format, const QVector<uint64_t> &modifiers);
+
+    bool m_disableMultiScreens = false;
 };
 
 }

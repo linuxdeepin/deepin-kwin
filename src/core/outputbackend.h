@@ -101,6 +101,8 @@ public:
      */
     virtual bool applyOutputChanges(const OutputConfiguration &config);
 
+    virtual void disableMultiScreens() {}
+
 public Q_SLOTS:
     virtual void sceneInitialized(){};
 
