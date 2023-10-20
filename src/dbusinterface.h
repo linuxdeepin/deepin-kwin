@@ -95,6 +95,9 @@ public Q_SLOTS: // METHODS
 
     void disableGestureForClient(bool disable);
 
+    void setEnableTouchLongPress(bool flag);
+    bool isEnableTouchLongPress();
+
 Q_SIGNALS:
     void showingDesktopChanged(bool showing);
 

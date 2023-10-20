@@ -15,6 +15,7 @@
 
 // kwin
 #include "atoms.h"
+#include "touch_input.h"
 #include "composite.h"
 #include "core/output.h"
 #include "core/renderbackend.h"
@@ -141,6 +142,17 @@ void DBusInterface::showDebugConsole()
     DebugConsole *console = new DebugConsole;
     console->show();
 }
+
+void DBusInterface::setEnableTouchLongPress(bool flag)
+{
+    input()->touch()->setEnableLongPress(flag);
+}
+
+bool DBusInterface::isEnableTouchLongPress()
+{
+    return input()->touch()->isEnableLongPress();
+}
+
 
 void DBusInterface::replace()
 {

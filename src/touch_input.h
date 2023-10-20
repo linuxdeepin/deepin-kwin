@@ -71,6 +71,13 @@ public:
         return m_activeTouchPoints.count();
     }
 
+    void setEnableLongPress(bool flag) {
+        m_isEnableLongPress = flag;
+    }
+    bool isEnableLongPress() {
+        return m_isEnableLongPress;
+    }
+
 private:
     void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
 
@@ -81,6 +88,7 @@ private:
     bool m_inited = false;
     qint32 m_decorationId = -1;
     qint32 m_internalId = -1;
+    bool m_isEnableLongPress = false;
     QMetaObject::Connection m_focusGeometryConnection;
     bool m_windowUpdatedInCycle = false;
     QPointF m_lastPosition;
