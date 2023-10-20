@@ -96,7 +96,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
     effects->prePaintWindow(w, data, time);
 }
 
-void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
+void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) {
     if (isMaximized(w) || w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w)) {
         return effects->drawWindow(w, mask, region, data);
     }

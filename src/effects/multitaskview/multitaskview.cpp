@@ -86,7 +86,7 @@ const char split_outline[] = "kwin_x11 kwin";
 const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/desktop.jpg";
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/effects/multitaskview/buttons/add-light.png";//":/resources/themes/add-light.svg";
-const char delete_workspace_png[] = ":/effects/multitaskview/buttons/workspace_delete.png";
+const char delete_workspace_png[] = ":/effects/multitaskview/buttons/workspace_delete.svg";
 
 static void ensureResources()
 {
@@ -421,6 +421,7 @@ MultiViewWorkspace::MultiViewWorkspace(bool flag)
     m_backGroundFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
     m_workspaceBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", true);
+    m_workspaceBgFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_workspaceBgFrame->setRadius(10);
     m_hoverFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", true);
     m_hoverFrame->setRadius(10);
@@ -451,7 +452,7 @@ void MultiViewWorkspace::renderWorkspaceBackGround(float t, int desktop)
         m_hoverFrame->render(infiniteRegion(), 1, 0);
     }
 
-    m_workspaceBgFrame->render(infiniteRegion(), 1, 1);
+    m_workspaceBgFrame->render(infiniteRegion(), t, 1);
 }
 
 void MultiViewWorkspace::render(bool isDrawBg)
@@ -464,7 +465,7 @@ void MultiViewWorkspace::render(bool isDrawBg)
 
 void MultiViewWorkspace::setPosition(QPoint pos)
 {
-    m_workspaceBgFrame->setPosition(pos);
+    m_workspaceBgFrame->setPosition(pos, true);
 }
 
 void MultiViewWorkspace::setImage(const QPixmap &bgPix, const QPixmap &wpPix, const QRect &rect)
@@ -513,8 +514,10 @@ MultiViewWinFill::MultiViewWinFill(EffectScreen *screen, QRect rect, int maxHeig
     , m_screen(screen)
     , m_maxHeight(maxHeight)
 {
-    m_fillFrame = effects->effectFrame(EffectFrameUnstyled, false);
+    m_fillFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
     m_fillFrame->setGeometry(rect);
+    m_fillFrame->setColor("#A0A0A0");
+    m_fillFrame->setRadius(5);
 }
 
 MultiViewWinFill::~MultiViewWinFill()
@@ -524,7 +527,7 @@ MultiViewWinFill::~MultiViewWinFill()
 
 void MultiViewWinFill::render()
 {
-    m_fillFrame->render(infiniteRegion(), 1, 0);
+    m_fillFrame->render(infiniteRegion(), 0.5, 0);
 }
 
 MultitaskViewEffect::MultitaskViewEffect()
@@ -553,8 +556,6 @@ MultitaskViewEffect::MultitaskViewEffect()
     ensureResources();
     reconfigure(ReconfigureAll);
 
-    m_dottedLineShader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::UniformColor, QString(":/effects/multitaskview/shaders/dottedline.vert"), QStringLiteral(":/effects/multitaskview/shaders/dottedline.frag"));
-
     m_curDesktopIndex = effects->currentDesktop();
     m_lastDesktopIndex = m_curDesktopIndex;
 
@@ -580,7 +581,7 @@ MultitaskViewEffect::MultitaskViewEffect()
         setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true));
     }
 
-    QString qm = QString(":/multitasking/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());
+    QString qm = QString(":/effects/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());
     QTranslator *tran = new QTranslator();
     if (tran->load(qm)) {
         qApp->installTranslator(tran);
@@ -600,10 +601,6 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", false);
     m_hoverWinFrame->setRadius(10);
-
-    m_hoverWinBg = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
-    m_hoverWinBg->setColor("#A0A0A0");
-    m_hoverWinBg->setRadius(10);
 
     m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
     m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -631,14 +628,18 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_closeWorkspaceFrame->setGeometry(QRect(0, 0, 24, 24));
 
     m_dragTipsFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
-    m_dragTipsFrame->setAlignment(Qt::AlignHCenter);
+    m_dragTipsFrame->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
     m_dragTipsFrame->setImage(QUrl::fromLocalFile(delete_workspace_png));
-    m_dragTipsFrame->setIconSize(QSize(19 * m_scalingFactor, 20 * m_scalingFactor));
+    m_dragTipsFrame->setIconSize(QSize(21 * m_scalingFactor, 21 * m_scalingFactor));
+    m_dragTipsFrame->setText(tr("Drag upwards to remove"));
+    m_dragTipsFrame->setColor(QColor(Qt::white));
 
     m_dragTipsFrameShadow = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
     m_dragTipsFrameShadow->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
     m_dragTipsFrameShadow->setImage(QUrl::fromLocalFile(delete_workspace_png));
     m_dragTipsFrameShadow->setIconSize(QSize(22 * m_scalingFactor, 21 * m_scalingFactor));
+    m_dragTipsFrameShadow->setText(tr("Drag upwards to remove"));
+    m_dragTipsFrameShadow->setColor(QColor(Qt::black));
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -1361,8 +1362,6 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         QColor color = effectsEx->getActiveColor();
         QRect geoframe = rect;
         geoframe.adjust(-5, -5, 5, 5);
-        m_hoverWinBg->setGeometry(geoframe);
-        m_hoverWinBg->render(infiniteRegion(), 0.5, 0);
         m_hoverWinFrame->setGeometry(geoframe);
         m_hoverWinFrame->setColor(color);
         m_hoverWinFrame->render(infiniteRegion(), 1, 0);
@@ -1434,20 +1433,18 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(EffectScreen *screen)
     if (wkobj) {
         QRect rect = wkobj->getRect();
 
-        m_dragTipsFrameShadow->setGeometry(QRect(rect.x(), rect.y() + (rect.height() / 2) + 25, rect.width(), 28));
-        m_dragTipsFrame->setGeometry(QRect(rect.x(), rect.y() + (rect.height() / 2) + 10, rect.width(), 30));
-
         QFont font;
+        font.setFamily(m_fontFamily);
         font.setPointSize(13);
-        m_dragTipsFrameShadow->setFont(font);
-        m_dragTipsFrameShadow->setText(tr("Drag upwards to remove"));
-        m_dragTipsFrameShadow->setPosition(QPoint(rect.x() + (rect.width() / 2), rect.y() + (rect.height() / 2) + 27));
-        m_dragTipsFrameShadow->render(infiniteRegion(), 1, 0);
+        QFontMetrics metrics(font);
+        int width = m_dragTipsFrameShadow->iconSize().width() + metrics.horizontalAdvance(tr("Drag upwards to remove")) + 13;
 
-        font.setPointSize(13);
+        m_dragTipsFrameShadow->setFont(font);
+        m_dragTipsFrameShadow->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, 28));
         m_dragTipsFrame->setFont(font);
-        m_dragTipsFrame->setText(tr("Drag upwards to remove"));
-        m_dragTipsFrame->setPosition(QPoint(rect.x() + (rect.width() / 2), rect.y() + (rect.height() / 2) + 27));
+        m_dragTipsFrame->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, 28));
+
+        m_dragTipsFrameShadow->render(infiniteRegion(), 1, 0);
         m_dragTipsFrame->render(infiniteRegion(), 1, 0);
 
         drawDottedLine(rect, screen);
@@ -1456,6 +1453,10 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(EffectScreen *screen)
 
 void MultitaskViewEffect::drawDottedLine(const QRect &geo, EffectScreen *screen)
 {
+    static std::unique_ptr<GLShader> shader = ShaderManager::instance()->generateShaderFromFile(
+            ShaderTrait::UniformColor,
+            QStringLiteral(":/effects/multitaskview/shaders/dottedline.vert"),
+            QStringLiteral(":/effects/multitaskview/shaders/dottedline.frag"));
     GLVertexBuffer* vbo = GLVertexBuffer::streamingBuffer();
     auto area = effects->clientArea(FullArea, screen, 0);
     vbo->reset();
@@ -1470,7 +1471,7 @@ void MultitaskViewEffect::drawDottedLine(const QRect &geo, EffectScreen *screen)
     for (int i = 0; i < 22; i++) {
         verts << x1 + (x2 - x1) / 21.0f * i << y1;
     }
-    ShaderBinder bind(m_dottedLineShader.get());
+    ShaderBinder bind(shader.get());
     vbo->setData(verts.size() / 2, 2, verts.data(), NULL);
     vbo->render(GL_LINES);
 }
@@ -1501,8 +1502,6 @@ void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
 {
     if (!m_activated)
         return;
-
-    w->unrefVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP);
 
     if (w->isDock()) {
         m_dock = nullptr;
@@ -1636,6 +1635,13 @@ void MultitaskViewEffect::screenRecorderStart()
 {
     if (m_isScreenRecorder /*&& !QX11Info::isPlatformX11()*/) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);
+    }
+}
+
+void MultitaskViewEffect::fontChanged(const QString &fontType, const QString &fontName)
+{
+    if (fontType == "standardfont" || fontType == "monospacefont") {
+        m_fontFamily = fontName;
     }
 }
 

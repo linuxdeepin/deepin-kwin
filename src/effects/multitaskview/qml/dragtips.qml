@@ -1,11 +1,11 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.0
 
-ColumnLayout {
+RowLayout {
     id: root
     property QtObject effectFrame: null
 
-    spacing: 5
+    spacing: 13
 
     Image {
         id: icon
@@ -19,5 +19,6 @@ ColumnLayout {
         font.family: root.effectFrame.font.family
         font.pointSize: root.effectFrame.font.pointSize
         text: root.effectFrame.text
+        color: root.effectFrame.color
     }
 }

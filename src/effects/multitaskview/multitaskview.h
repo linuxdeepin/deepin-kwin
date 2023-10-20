@@ -224,7 +224,7 @@ public:
     QRect getRect() {return m_rect;}
     void render();
 private:
-    std::unique_ptr<EffectFrame> m_fillFrame;
+    std::unique_ptr<EffectFrameEx> m_fillFrame;
     QRect m_rect;
     EffectScreen *m_screen;
     int m_maxHeight;
@@ -439,6 +439,7 @@ private Q_SLOTS:
 
     void onDockChange(const QString &key);
     void screenRecorderStart();
+    void fontChanged(const QString &fontType, const QString &fontName);
 
 private:
     void cleanup();
@@ -523,7 +524,6 @@ private:
     EffectWindow *m_hoverWinBtn = nullptr;
     EffectWindow *m_hoverWin = nullptr;
     std::unique_ptr<EffectFrameEx> m_hoverWinFrame = nullptr;
-    std::unique_ptr<EffectFrameEx> m_hoverWinBg = nullptr;
     std::unique_ptr<EffectFrameEx> m_closeWinFrame = nullptr;
     std::unique_ptr<EffectFrameEx> m_topWinFrame = nullptr;
     std::unique_ptr<EffectFrameEx> m_textWinFrame = nullptr;
@@ -532,7 +532,6 @@ private:
     std::unique_ptr<EffectFrameEx> m_closeWorkspaceFrame = nullptr;
     std::unique_ptr<EffectFrameEx> m_dragTipsFrame = nullptr;
     std::unique_ptr<EffectFrameEx> m_dragTipsFrameShadow = nullptr;
-    std::unique_ptr<GLShader> m_dottedLineShader = nullptr;
 
     QString       m_topFrameIcon;
 
@@ -634,6 +633,7 @@ private:
     bool m_isCloseScreenRecorder = false;
     EffectWindow *m_screenRecorderMenu = nullptr;
 
+    QString m_fontFamily;
     Qt::MouseButton m_sendButton = Qt::NoButton; // send to outside dock or osd pointer button
 };
 
