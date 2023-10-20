@@ -118,6 +118,17 @@ bool UserActionsMenu::isMenuWindow(const Window *window) const
     return window && window == m_window;
 }
 
+bool UserActionsMenu::handleClick(const QPoint &pos)
+{
+    QRect rect = m_menu->geometry().translated(0,1);
+    if (isShown() && !m_menu->geometry().contains(pos) && !rect.contains(pos)) {
+        close();
+        return true;
+    }
+    return false;
+}
+
+
 void UserActionsMenu::show(const QRect &pos, Window *window)
 {
     Q_ASSERT(window);

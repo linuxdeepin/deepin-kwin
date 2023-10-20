@@ -75,6 +75,7 @@ private:
     void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
 
     void focusUpdate(Window *focusOld, Window *focusNow) override;
+    void handleLongPress();
 
     QSet<qint32> m_activeTouchPoints;
     bool m_inited = false;
@@ -83,6 +84,7 @@ private:
     QMetaObject::Connection m_focusGeometryConnection;
     bool m_windowUpdatedInCycle = false;
     QPointF m_lastPosition;
+    QTimer *m_timer;
 };
 
 }

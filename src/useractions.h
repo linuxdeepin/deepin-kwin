@@ -88,6 +88,8 @@ public:
      */
     void show(const QRect &pos, Window *window);
 
+    bool handleClick(const QPoint &pos);
+
 public Q_SLOTS:
     /**
      * Delayed initialization of the activity menu.
