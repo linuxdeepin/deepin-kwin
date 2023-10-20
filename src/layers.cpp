@@ -255,6 +255,19 @@ Window *Workspace::topWindowOnDesktop(VirtualDesktop *desktop, Output *output, b
     return nullptr;
 }
 
+Window* Workspace::findScreenLock(bool topmost, VirtualDesktop *desktop) const
+{
+    if (topmost) {
+        for (int i = stacking_order.size() - 1; i >= 0; i--) {
+            Window *c = qobject_cast<Window*>(stacking_order.at(i));
+            if (c && c->isOnDesktop(desktop) && c->wantsTabFocus()
+                    && c->isShown())
+                return c;
+        }
+    }
+    return NULL;
+}
+
 Window *Workspace::findDesktop(bool topmost, VirtualDesktop *desktop) const
 {
     // TODO    Q_ASSERT( block_stacking_updates == 0 );

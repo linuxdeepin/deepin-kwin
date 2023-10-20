@@ -330,6 +330,11 @@ void DrmBackend::updateOutputs()
         }
     }
 
+    if (m_outputs.isEmpty()) {
+        qCDebug(KWIN_DRM) << " m_outputs is empty, creat Virtual-factoryOutput";
+        createVirtualOutput("factoryOutput", {1920, 1080}, 1);
+    }
+
     Q_EMIT outputsQueried();
 
     for (auto it = m_gpus.begin(); it != m_gpus.end();) {

@@ -368,6 +368,7 @@ public:
     Window *topWindowOnDesktop(VirtualDesktop *desktop, Output *output = nullptr, bool unconstrained = false,
                                bool only_normal = true) const;
     Window *findDesktop(bool topmost, VirtualDesktop *desktop) const;
+    Window *findScreenLock(bool topmost, VirtualDesktop *desktop) const;
     void sendWindowToDesktop(Window *window, int desktop, bool dont_activate);
     void windowToPreviousDesktop(Window *window);
     void windowToNextDesktop(Window *window);
