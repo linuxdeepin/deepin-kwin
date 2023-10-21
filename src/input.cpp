@@ -25,6 +25,7 @@
 #include "inputmethod.h"
 #include "keyboard_input.h"
 #include "main.h"
+#include "recordeventmonitor.h"
 #include "mousebuttons.h"
 #include "pointer_input.h"
 #include "tablet_input.h"
@@ -2689,6 +2690,9 @@ InputRedirection::~InputRedirection()
     s_self = nullptr;
     qDeleteAll(m_filters);
     qDeleteAll(m_spies);
+
+    delete pEventMonitor;
+    pEventMonitor = nullptr;
 }
 
 void InputRedirection::installInputEventFilter(InputEventFilter *filter)
@@ -2741,6 +2745,12 @@ void InputRedirection::setupWorkspace()
 
         setupTouchpadShortcuts();
         setupInputFilters();
+    } else if (Application::useXRecord()) {
+        pEventMonitor = new RecordEventMonitor(this);
+        connect(pEventMonitor, &RecordEventMonitor::touchDown, this, &InputRedirection::touchDown);
+        connect(pEventMonitor, &RecordEventMonitor::touchUp, this, &InputRedirection::touchEnd);
+        connect(pEventMonitor, &RecordEventMonitor::touchMotion, this, &InputRedirection::touchMotion);
+        pEventMonitor->start();
     }
 }
 
@@ -2759,6 +2769,37 @@ QObject *InputRedirection::lastInputHandler() const
 void InputRedirection::setLastInputHandler(QObject *device)
 {
     m_lastInputDevice = device;
+}
+
+void InputRedirection::touchDown()
+{
+    Window *touchMovingClient = workspace()->getRequestToMovingClient();
+    if (!touchMovingClient) {
+        return;
+    }
+
+    workspace()->setTouchToMovingClientStatus(true);
+}
+
+void InputRedirection::touchMotion()
+{
+    Window *touchMovingClient = workspace()->getRequestToMovingClient();
+    if (!touchMovingClient) {
+        return ;
+    }
+    workspace()->setTouchToMovingClientStatus(true);
+    touchMovingClient->updateInteractiveMoveResize(QCursor::pos());
+}
+
+void InputRedirection::touchEnd()
+{
+    Window *touchMovingClient = workspace()->getRequestToMovingClient();
+    if (!touchMovingClient) {
+        return ;
+    }
+    touchMovingClient->endInteractiveMoveResize();
+    workspace()->setRequestToMovingClient(nullptr);
+    workspace()->setTouchToMovingClientStatus(false);
 }
 
 class WindowInteractedSpy : public InputEventSpy

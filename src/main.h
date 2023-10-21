@@ -136,6 +136,9 @@ public:
     void unregisterEventFilter(X11EventFilter *filter);
     bool dispatchEvent(xcb_generic_event_t *event);
 
+    static void setUseXRecord(bool use);
+    static bool useXRecord();
+
     xcb_timestamp_t x11Time() const
     {
         return m_x11Time;

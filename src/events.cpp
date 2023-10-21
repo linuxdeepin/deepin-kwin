@@ -1120,6 +1120,8 @@ bool X11Window::buttonReleaseEvent(xcb_window_t w, int button, int state, int x,
 
     if ((state & buttonMask) == 0) {
         endInteractiveMoveResize();
+        workspace()->setRequestToMovingClient(nullptr);
+        workspace()->setTouchToMovingClientStatus(false);
     }
     return true;
 }
@@ -1250,6 +1252,7 @@ void X11Window::focusOutEvent(xcb_focus_out_event_t *e)
 void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction direction)
 {
     if (direction == NET::Move) {
+        workspace()->setRequestToMovingClient(this);
         // move cursor to the provided position to prevent the window jumping there on first movement
         // the expectation is that the cursor is already at the provided position,
         // thus it's more a safety measurement

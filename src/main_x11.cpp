@@ -253,7 +253,7 @@ void ApplicationX11::lostSelection()
 void ApplicationX11::performStartup()
 {
     crashChecking();
-
+    setUseXRecord(true);
     owner.reset(new KWinSelectionOwner());
     connect(owner.get(), &KSelectionOwner::failedToClaimOwnership, [] {
         fputs(i18n("kwin: unable to claim manager selection, another wm running? (try using --replace)\n").toLocal8Bit().constData(), stderr);

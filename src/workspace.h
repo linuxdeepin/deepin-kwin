@@ -335,6 +335,22 @@ public:
 
     void setWinSplitState(Window *w, bool isSplit);
 
+     Window* getRequestToMovingClient() {
+        return m_requestMovingClient;
+    }
+
+    void setRequestToMovingClient(Window* client) {
+        m_requestMovingClient = client;
+    }
+
+    void setTouchToMovingClientStatus(bool isTouch) {
+        m_bIsTouchToMovingClient = isTouch;
+    }
+
+    bool touchToMovingClientStatus() {
+        return m_bIsTouchToMovingClient;
+    }
+
 public:
     QPoint cascadeOffset(const Window *c) const;
 
@@ -680,6 +696,12 @@ Q_SIGNALS:
 
     void splitBarCursorChanged();
 
+    void touchDownByRecord(double x, double y, unsigned int time);
+    void touchMotionByRecord(double x, double y, unsigned int time);
+    void touchUpByRecord(unsigned int time);
+    void buttonReleaseByRecord();
+    void motionByRecord();
+
 private:
     void init();
     void initializeX11();
@@ -855,6 +877,9 @@ private:
     QString m_activeColor;
     QString m_sessionPath;
     bool m_splitBarState;
+
+    Window* m_requestMovingClient = nullptr;
+    bool m_bIsTouchToMovingClient = false;
 
 private:
     friend bool performTransiencyCheck();

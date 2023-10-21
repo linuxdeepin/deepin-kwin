@@ -76,6 +76,7 @@ namespace KWin
 Options *options;
 Atoms *atoms;
 int Application::crashes = 0;
+static bool s_useXRecord = false;
 
 Application::Application(Application::OperationMode mode, int &argc, char **argv)
     : QApplication(argc, argv)
@@ -90,6 +91,16 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
     qRegisterMetaType<KWaylandServer::SurfaceInterface *>("KWaylandServer::SurfaceInterface *");
     qRegisterMetaType<KSharedConfigPtr>();
     qRegisterMetaType<std::chrono::nanoseconds>();
+}
+
+void Application::setUseXRecord(bool use)
+{
+    s_useXRecord = use;
+}
+
+bool Application::useXRecord()
+{
+    return s_useXRecord;
 }
 
 void Application::setConfigLock(bool lock)

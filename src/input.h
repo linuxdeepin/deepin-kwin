@@ -29,6 +29,7 @@ class QKeySequence;
 class QMouseEvent;
 class QKeyEvent;
 class QWheelEvent;
+class RecordEventMonitor;
 
 namespace KWin
 {
@@ -304,6 +305,9 @@ Q_SIGNALS:
 public Q_SLOTS:
     void addInputDevice(InputDevice *device);
     void removeInputDevice(InputDevice *device);
+    void touchDown();
+    void touchMotion();
+    void touchEnd();
 
 private Q_SLOTS:
     void handleInputConfigChanged(const KConfigGroup &group);
@@ -344,6 +348,11 @@ private:
     bool m_hasTouch = false;
     bool m_hasTabletModeSwitch = false;
     bool m_touchpadsEnabled = true;
+
+    InputEventFilter* m_grabFilter = nullptr;
+
+    InputEventFilter *m_firstFilter = nullptr;
+    RecordEventMonitor *pEventMonitor = nullptr;
 
     KWIN_SINGLETON(InputRedirection)
     friend InputRedirection *input();

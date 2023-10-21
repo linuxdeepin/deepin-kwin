@@ -97,6 +97,7 @@ target_sources(kwin PRIVATE
     idle_inhibition.cpp
     idledetector.cpp
     input.cpp
+    recordeventmonitor.cpp
     input_event.cpp
     input_event_spy.cpp
     inputmethod.cpp
@@ -248,6 +249,8 @@ target_link_libraries(kwin
     Threads::Threads
     Wayland::Server
     lcms2::lcms2
+    -lXext
+    -lXtst
 )
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(kwin Qt5::X11Extras Qt5XkbCommonSupport::Qt5XkbCommonSupport)
