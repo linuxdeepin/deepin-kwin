@@ -139,7 +139,6 @@ void SplitSwapEffect::setActive(bool active)
         return;
     m_activated = active;
     if (active) {
-        m_animationTime.reset();
         effects->setActiveFullScreenEffect(this);
     } else {
         m_isSwap = false;
@@ -162,6 +161,7 @@ void SplitSwapEffect::onSwapWindow(EffectWindow *w, int index)
     } else if (index == 2) {
         m_isSwap = false;
         m_isFinish = true;
+        m_animationTime.setElapsed(std::chrono::milliseconds(1));
     } else if (index == 1) {
         m_isSwap = true;
         m_isFinish = false;
