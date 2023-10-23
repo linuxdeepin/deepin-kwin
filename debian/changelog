@@ -1,3 +1,10 @@
+kwin (4:5.27.2.27-deepin27-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  *  fix: when touch to move client,kwin must need client send events.
+
+ -- wangboyu <wangboyu@uniontech.com>  Mon, 23 Oct 2023 9:30:13 +0800
+
 kwin (4:5.27.2.26-deepin26-1) unstable; urgency=medium
 
   [ wangboyu ]
