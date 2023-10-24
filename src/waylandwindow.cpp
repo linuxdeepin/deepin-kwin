@@ -100,6 +100,11 @@ bool WaylandWindow::isLocalhost() const
     return true;
 }
 
+bool WaylandWindow::isWaterMark() const
+{
+    return m_captionNormal.contains("deepin-watermark");
+}
+
 Window *WaylandWindow::findModal(bool allow_itself)
 {
     return nullptr;

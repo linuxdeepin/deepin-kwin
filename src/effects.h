@@ -479,6 +479,7 @@ public:
     bool isPopupWindow() const override;
     bool isOutline() const override;
     bool isSplitBar() const override;
+    bool isWaterMark() const override;
     bool isLockScreen() const override;
 
     KWaylandServer::SurfaceInterface *surface() const override;

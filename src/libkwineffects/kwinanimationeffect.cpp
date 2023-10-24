@@ -539,6 +539,11 @@ static inline float geometryCompensation(int flags, float v)
 
 void AnimationEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
 {
+    if (w->isWaterMark()) {
+        effects->setElevatedWindow(w, true);
+        effects->paintWindow(w, mask, region, data);
+        return;
+    }
     Q_D(AnimationEffect);
     AniMap::const_iterator entry = d->m_animations.constFind(w);
     auto finalRegion = region;

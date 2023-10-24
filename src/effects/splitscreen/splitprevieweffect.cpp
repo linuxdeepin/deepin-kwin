@@ -17,7 +17,6 @@
 #define FIRST_WIN_SCALE     (float)(720.0 / 1080.0)
 #define SPACING_H           (float)(20.0 / 1080.0)
 #define SPACING_W           (float)(20.0 / 1920.0)
-#define WATERMARK_CLASS_NAME "deepin-watermark"
 
 namespace KWin
 {
@@ -88,7 +87,7 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
         return;
     }
 
-    if (w->captionNormal().contains(WATERMARK_CLASS_NAME)) {
+    if (w->isWaterMark()) {
         effects->paintWindow(w, mask, region, data);
         return;
     }

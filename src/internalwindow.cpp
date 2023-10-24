@@ -254,6 +254,14 @@ bool InternalWindow::isSplitBar() const
     return false;
 }
 
+bool InternalWindow::isWaterMark() const
+{
+    if (m_handle) {
+        return captionNormal().contains("deepin-watermark");
+    }
+    return false;
+}
+
 bool InternalWindow::isShown() const
 {
     return readyForPainting();

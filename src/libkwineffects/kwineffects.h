@@ -2345,6 +2345,8 @@ class KWINEFFECTS_EXPORT EffectWindow : public QObject
 
     Q_PROPERTY(bool splitbar READ isSplitBar CONSTANT)
 
+    Q_PROPERTY(bool watermark READ isWaterMark CONSTANT)
+
     /**
      * The PID of the application this window belongs to.
      *
@@ -2680,6 +2682,8 @@ public:
     virtual bool isOutline() const = 0;
 
     virtual bool isSplitBar() const = 0;
+
+    virtual bool isWaterMark() const = 0;
 
     /**
      * @since 5.22

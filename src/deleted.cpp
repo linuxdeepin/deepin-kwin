@@ -114,6 +114,7 @@ void Deleted::copyToDeleted(Window *window)
     m_wasPopupWindow = window->isPopupWindow();
     m_wasOutline = window->isOutline();
     // m_wasSplitBar = window->isSplitBar();
+    m_wasWaterMark = window->isWaterMark();
     m_wasLockScreen = window->isLockScreen();
 }
 

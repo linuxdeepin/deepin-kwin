@@ -284,6 +284,8 @@ class KWIN_EXPORT Window : public QObject
 
     Q_PROPERTY(bool splitbar READ isSplitBar)
 
+    Q_PROPERTY(bool watermark READ isWaterMark)
+
     /**
      * This property holds a UUID to uniquely identify this Window.
      */
@@ -698,6 +700,7 @@ public:
     virtual bool isInputMethod() const;
     virtual bool isOutline() const;
     virtual bool isSplitBar() const;
+    virtual bool isWaterMark() const;
     virtual bool isInternal() const;
 
     /**
@@ -2288,6 +2291,11 @@ inline bool Window::isOutline() const
 }
 
 inline bool Window::isSplitBar() const
+{
+    return false;
+}
+
+inline bool Window::isWaterMark() const
 {
     return false;
 }

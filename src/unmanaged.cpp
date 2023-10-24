@@ -135,6 +135,7 @@ bool Unmanaged::track(xcb_window_t w)
         m_outline = internalWindow->property("__kwin_outline").toBool();
         m_splitbar = wm_name.isEmpty() ? false : wm_name.contains("splitbar");
     }
+    m_watermark = wm_name.isEmpty() ? false : wm_name.contains("deepin-watermark");
     if (effects) {
         static_cast<EffectsHandlerImpl *>(effects)->checkInputWindowStacking();
     }
@@ -214,6 +215,11 @@ bool Unmanaged::isOutline() const
 bool Unmanaged::isSplitBar() const
 {
     return m_splitbar;
+}
+
+bool Unmanaged::isWaterMark() const
+{
+    return m_watermark;
 }
 
 bool Unmanaged::isUnmanaged() const

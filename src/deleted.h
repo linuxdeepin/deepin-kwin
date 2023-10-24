@@ -133,6 +133,10 @@ public:
     {
         return m_wasSplitBar;
     }
+    bool isWaterMark() const override
+    {
+        return m_wasWaterMark;
+    }
 
 private Q_SLOTS:
     void mainWindowClosed(KWin::Window *window);
@@ -170,6 +174,7 @@ private:
     bool m_wasPopupWindow;
     bool m_wasOutline;
     bool m_wasSplitBar;
+    bool m_wasWaterMark;
     bool m_wasLockScreen;
 };
 

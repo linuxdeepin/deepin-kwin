@@ -78,8 +78,6 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define SCISSOR_HOFFU 200
 #define SCISSOR_HOFFD 400
 
-#define WATERMARK_CLASS_NAME "deepin-watermark"
-
 const char notification_tips[] = "dde-osd dde-osd";
 const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
 const char split_outline[] = "kwin_x11 kwin";
@@ -962,7 +960,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
     }
 
     if (m_effectFlyingBack.animating()) {
-        if (w->captionNormal().contains(WATERMARK_CLASS_NAME)) {
+        if (w->isWaterMark()) {
             effects->paintWindow(w, mask, region, data);
             return;
         }
@@ -995,7 +993,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
             return;
         }
 
-        if (w->captionNormal().contains(WATERMARK_CLASS_NAME)) {
+        if (w->isWaterMark()) {
             effects->paintWindow(w, mask, region, data);
             return;
         }
