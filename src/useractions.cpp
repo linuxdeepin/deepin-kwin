@@ -149,7 +149,7 @@ void UserActionsMenu::show(const QRect &pos, Window *window)
     }
     m_window = windowPtr;
     init();
-    m_menu->popup(pos.bottomLeft());
+    m_menu->popup(pos.topLeft());
 }
 
 void UserActionsMenu::grabInput()
@@ -1789,7 +1789,18 @@ void Workspace::slotWindowOperations()
 
 void Workspace::showWindowMenu(const QRect &pos, Window *window)
 {
-    m_userActionsMenu->show(pos, window);
+    if (!window)
+        return;
+    auto adjustPos = pos;
+    auto area = clientArea(ScreenArea, window);
+
+    adjustPos.setX(qMax(int(area.x()), adjustPos.x()));
+    adjustPos.setY(qMax(int(area.y()), adjustPos.y()));
+    // incase of no titlebar window's menu show in another screen
+    if (clientArea(ScreenArea, window).height() == adjustPos.y()) {
+        adjustPos.translate(0, -1);
+    }
+    m_userActionsMenu->show(adjustPos, window);
 }
 
 void Workspace::showApplicationMenu(const QRect &pos, Window *window, int actionId)
