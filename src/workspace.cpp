@@ -2619,8 +2619,10 @@ void Workspace::desktopResized()
 
     const auto stack = stackingOrder();
     for (Window *window : stack) {
-        window->setMoveResizeOutput(outputAt(window->moveResizeGeometry().center()));
-        window->setOutput(outputAt(window->frameGeometry().center()));
+        if (window && !window->isSplitBar()) {
+            window->setMoveResizeOutput(outputAt(window->moveResizeGeometry().center()));
+            window->setOutput(outputAt(window->frameGeometry().center()));
+        }
     }
 
     // restore cursor position

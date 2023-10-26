@@ -110,7 +110,8 @@ void Workspace::updateStackingOrder(bool propagate_new_windows)
         propagateWindows(propagate_new_windows);
 
         for (int i = 0; i < stacking_order.size(); ++i) {
-            stacking_order[i]->setStackingOrder(i);
+            if (stacking_order[i])
+                stacking_order[i]->setStackingOrder(i);
         }
 
         Q_EMIT stackingOrderChanged();
@@ -163,7 +164,7 @@ void Workspace::propagateWindows(bool propagate_new_windows)
     newWindowStack.reserve(newWindowStack.size() + 2 * stacking_order.size()); // *2 for inputWindow
 
     for (int i = stacking_order.size() - 1; i >= 0; --i) {
-        if (stacking_order.at(i)->caption().contains("splitbar")) {
+        if (stacking_order.at(i) && stacking_order.at(i)->isSplitBar()) {
             newWindowStack << stacking_order.at(i)->frameId();
         }
 
@@ -604,14 +605,13 @@ QList<Window *> Workspace::constrainedStackingOrder()
     QHash<QString, QVector<Window *>>::const_iterator it = splitWindows.constBegin();
     while (it != splitWindows.constEnd() && splitBarWindow.size() > 0) {
         int i = 0, j = 0;
-        // Layer li = NormalLayer, lj = NormalLayer;
         for (auto val : it.value()) {
             if ((j = stacking.indexOf(val)) > i)
                 i = j;
-            // if ((lj = val->layer()) > li)
-                // li = lj;
         }
-        stacking.insert(i + 1, splitBarWindow[it.key()]);
+        if (splitBarWindow[it.key()]) {
+            stacking.insert(i + 1, splitBarWindow[it.key()]);
+        }
         ++it;
     }
 

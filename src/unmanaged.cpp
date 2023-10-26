@@ -21,6 +21,7 @@
 #include <QTimer>
 #include <QWidget>
 #include <QWindow>
+#include <QThread>
 
 #include <xcb/shape.h>
 
@@ -145,6 +146,9 @@ void Unmanaged::release(ReleaseReason releaseReason)
     Deleted *del = nullptr;
     if (releaseReason != ReleaseReason::KWinShutsDown) {
         del = Deleted::create(this);
+    }
+    if (releaseReason != ReleaseReason::Release) {
+        Q_EMIT workspace()->preRemoveInternalWindow(this);
     }
     Q_EMIT windowClosed(this, del);
     finishCompositing(releaseReason);

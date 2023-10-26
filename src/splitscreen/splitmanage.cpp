@@ -30,7 +30,8 @@ void SplitGroup::setDesktop(int d)
 
 void SplitGroup::storeSplitWindow(Window *w)
 {
-    m_splitGroup.push_back(w);
+    if (!m_splitGroup.contains(w))
+        m_splitGroup.push_back(w);
 }
 
 void SplitGroup::deleteSplitWindow(Window *w)
@@ -55,8 +56,7 @@ SplitManage::SplitManage()
 void SplitManage::add(Window *window)
 {
     if (window->isUnmanaged() || window->isAppletPopup() || window->isSpecialWindow() || window->isInternal()) {
-        if (window->caption().contains("splitbar") && !m_splitBarWindows.contains(window->caption())) {
-            m_pause = false;
+        if (window->isSplitBar() && !m_splitBarWindows.contains(window->caption())) {
             m_splitBarWindows.insert(window->caption(), window);
         }
         return;
@@ -92,17 +92,22 @@ void SplitManage::remove(Window *window)
 void SplitManage::removeInternal(Window *window)
 {
     QMutexLocker locker(&m_mutex);
+    bool isRemove = false;
     inhibit();
     if (window->isUnmanaged() || window->isAppletPopup() || window->isSpecialWindow() || window->isInternal()) {
-        if (window->caption().contains("splitbar") && m_splitBarWindows.contains(window->caption())) {
-            m_pause = true;
+        if (window->isSplitBar() && m_splitBarWindows.contains(window->caption())) {
+            isRemove = true;
             m_splitBarWindows.remove(window->caption());
             if (m_splitBarManage.contains(window->caption())) {
+                disconnect(m_splitBarManage[window->caption()], &SplitBar::splitbarPosChanged, this, &SplitManage::updateSplitWindowGeometry);
+                disconnect(this, &SplitManage::signalSplitWindow, m_splitBarManage[window->caption()], &SplitBar::slotUpdateState);
                 m_splitBarManage.remove(window->caption());
             }
         }
     }
     uninhibit();
+    if (isRemove)
+        workspace()->updateStackingOrder();
 }
 
 bool SplitManage::isSplitWindow(Window *window)
@@ -303,18 +308,20 @@ SplitGroup *SplitManage::createGroup(int &desktop, QString &name)
     return splitgroup;
 }
 
-void SplitManage::createSplitBar(QString &name)
+void SplitManage::createSplitBar(QString name)
 {
     if (!m_splitBarManage.contains(name)) {
+        m_splitBarManage.insert(name, nullptr);
         SplitBar *splitbar = new SplitBar(name);
-        m_splitBarManage.insert(name, splitbar);
+        m_splitBarManage[name] = splitbar;
         connect(splitbar, &SplitBar::splitbarPosChanged, this, &SplitManage::updateSplitWindowGeometry);
+        connect(this, &SplitManage::signalSplitWindow, splitbar, &SplitBar::slotUpdateState);
     }
 }
 
 void SplitManage::getSplitWindows(QHash<QString, QVector<Window *>> &hash)
 {
-    if (m_inhibitCount != 0 || m_pause)
+    if (m_inhibitCount != 0)
         return;
     int desktop = VirtualDesktopManager::self()->current();
     for (QString key : m_splitBarManage.keys()) {

@@ -1239,7 +1239,7 @@ class InternalWindowEventFilter : public InputEventFilter
                 if (w->flags().testFlag(Qt::ToolTip)) {
                     continue;
                 }
-                if ((*it)->captionNormal().contains("splitbar")) {
+                if ((*it)->isSplitBar()) {
                     continue;
                 }
                 found = w;

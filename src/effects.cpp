@@ -1219,7 +1219,7 @@ EffectWindowList EffectsHandlerImpl::stackingOrder() const
     QList<Window *> list = workspace()->stackingOrder();
     EffectWindowList ret;
     for (Window *t : list) {
-        if (EffectWindow *w = t->effectWindow()) {
+        if (EffectWindow *w = t ? t->effectWindow() : nullptr) {
             ret.append(w);
         }
     }

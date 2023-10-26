@@ -1670,9 +1670,6 @@ bool Window::startInteractiveMoveResize()
         }
     }
 
-    // if (m_tile && !m_tile->supportsResizeGravity(interactiveMoveResizeGravity())) {
-    //     setQuickTileMode(QuickTileFlag::None);
-    // }
     m_initRectForSplit = workspace()->clientArea(MaximizeArea, this);
     m_currentModeForSplit = quickTileMode();
 
@@ -1802,6 +1799,12 @@ void Window::updateInteractiveMoveResize(const QPointF &currentGlobalCursor)
 
 bool Window::isExitSplitMode(QPointF pos)
 {
+    if (!Compositor::compositing()) {
+        if (m_tile && !m_tile->supportsResizeGravity(interactiveMoveResizeGravity())) {
+            setQuickTileMode(QuickTileFlag::None);
+        }
+        return true;
+    }
     if (m_initPosForSplit.isNull()) {
         m_initPosForSplit = pos;
     }

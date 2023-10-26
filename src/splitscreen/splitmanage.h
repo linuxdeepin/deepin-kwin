@@ -76,7 +76,7 @@ private:
     void addQuickTile(int desktop, QString screenName, Window *window);
     void updateStorage(Window *window);
     bool isSplitWindow(Window *window);
-    void createSplitBar(QString &);
+    void createSplitBar(QString);
     void updateSplitWindowsGroup();
     SplitGroup *createGroup(int &, QString &);
     SplitGroup *getGroup(int &, QString &);
@@ -89,7 +89,6 @@ private:
     QHash<QString, Window *>            m_splitBarWindows;
     QHash<Window *, WindowData>         m_data;
     QMutex                              m_mutex;
-    bool                                m_pause = false;
     Window                              *m_lastWin = nullptr;
     Window                              *m_topWin = nullptr;
     Layer                               m_topLayer = NormalLayer;

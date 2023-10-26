@@ -693,7 +693,7 @@ Q_SIGNALS:
      * This signal is emitted whenever an internal window gets removed.
      */
     void internalWindowRemoved(KWin::InternalWindow *window);
-    void preRemoveInternalWindow(KWin::InternalWindow *window);
+    void preRemoveInternalWindow(KWin::Window *window);
 
     void windowStateChanged();
 

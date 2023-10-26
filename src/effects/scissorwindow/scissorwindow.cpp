@@ -83,7 +83,7 @@ void ScissorWindow::buildTextureMask(const QString& key, const QPointF& radius) 
 void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
                                    std::chrono::milliseconds time) {
     if (effects->hasActiveFullScreenEffect() ||
-        w->isDesktop() || isMaximized(w) || w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w)) {
+        w->isDesktop() || w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w) || isMaximized(w)) {
         return effects->prePaintWindow(w, data, time);
     }
 
@@ -97,7 +97,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
 }
 
 void ScissorWindow::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) {
-    if (isMaximized(w) || w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w)) {
+    if (w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w) || isMaximized(w)) {
         return effects->drawWindow(w, mask, region, data);
     }
 

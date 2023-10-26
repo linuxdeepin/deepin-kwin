@@ -26,8 +26,6 @@ SplitBar::SplitBar(QString screenName)
     setAttribute(Qt::WA_TranslucentBackground, true);
     setWindowTitle(screenName);
 
-    connect(workspace()->getSplitManage(), &SplitManage::signalSplitWindow, this, &SplitBar::slotUpdateState);
-
     setGeometry(0, 0, 1, 1);
     setWindowOpacity(0);
     show();
