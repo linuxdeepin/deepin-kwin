@@ -2470,7 +2470,7 @@ bool MultitaskViewEffect::isRelevantWithPresentWindows(EffectWindow *w) const
     }
     if (!QX11Info::isPlatformX11()) {
         auto cl = static_cast<EffectWindowImpl *>(w)->window();
-        if (w->windowClass() == notification_tips || cl->isStandAlone()) {
+        if (w->windowClass() == notification_tips || w->windowClass() == screen_recorder || cl->isStandAlone()) {
             return false;
         }
     }
