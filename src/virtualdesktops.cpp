@@ -810,47 +810,7 @@ void VirtualDesktopManager::initShortcuts()
     QAction *slotDownAction = addAction(QStringLiteral("Switch One Desktop Down"), i18n("Switch One Desktop Down"), &VirtualDesktopManager::slotDown);
     KGlobalAccel::setGlobalShortcut(slotDownAction, QKeySequence(Qt::CTRL | Qt::META | Qt::Key_Down));
 
-    // Gestures
-    // These connections decide which desktop to end on after gesture ends
-    connect(m_swipeGestureReleasedX.get(), &QAction::triggered, this, &VirtualDesktopManager::gestureReleasedX);
-    connect(m_swipeGestureReleasedY.get(), &QAction::triggered, this, &VirtualDesktopManager::gestureReleasedY);
-
-    const auto left = [this](qreal cb) {
-        if (grid().width() > 1) {
-            m_currentDesktopOffset.setX(cb);
-            Q_EMIT currentChanging(current(), m_currentDesktopOffset);
-        }
-    };
-    const auto right = [this](qreal cb) {
-        if (grid().width() > 1) {
-            m_currentDesktopOffset.setX(-cb);
-            Q_EMIT currentChanging(current(), m_currentDesktopOffset);
-        }
-    };
-    input()->registerRealtimeTouchpadSwipeShortcut(SwipeDirection::Left, 3, m_swipeGestureReleasedX.get(), left);
-    input()->registerRealtimeTouchpadSwipeShortcut(SwipeDirection::Right, 3, m_swipeGestureReleasedX.get(), right);
-    input()->registerRealtimeTouchpadSwipeShortcut(SwipeDirection::Left, 4, m_swipeGestureReleasedX.get(), left);
-    input()->registerRealtimeTouchpadSwipeShortcut(SwipeDirection::Right, 4, m_swipeGestureReleasedX.get(), right);
-    input()->registerRealtimeTouchpadSwipeShortcut(SwipeDirection::Down, 3, m_swipeGestureReleasedY.get(), [this](qreal cb) {
-        if (grid().height() > 1) {
-            m_currentDesktopOffset.setY(-cb);
-            Q_EMIT currentChanging(current(), m_currentDesktopOffset);
-        }
-    });
-    input()->registerRealtimeTouchpadSwipeShortcut(SwipeDirection::Up, 3, m_swipeGestureReleasedY.get(), [this](qreal cb) {
-        if (grid().height() > 1) {
-            m_currentDesktopOffset.setY(cb);
-            Q_EMIT currentChanging(current(), m_currentDesktopOffset);
-        }
-    });
-    input()->registerTouchscreenSwipeShortcut(SwipeDirection::Left, 3, m_swipeGestureReleasedX.get(), left);
-    input()->registerTouchscreenSwipeShortcut(SwipeDirection::Right, 3, m_swipeGestureReleasedX.get(), right);
-
-    // axis events
-    input()->registerAxisShortcut(Qt::ControlModifier | Qt::AltModifier, PointerAxisDown,
-                                  findChild<QAction *>(QStringLiteral("Switch to Next Desktop")));
-    input()->registerAxisShortcut(Qt::ControlModifier | Qt::AltModifier, PointerAxisUp,
-                                  findChild<QAction *>(QStringLiteral("Switch to Previous Desktop")));
+    //Note: The default gesture that provided by kwin is conflicts with dde-daemon
 }
 
 void VirtualDesktopManager::gestureReleasedY()

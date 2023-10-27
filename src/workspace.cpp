@@ -76,6 +76,10 @@
 // xcb
 #include <xcb/xinerama.h>
 
+#define DBUS_DEEPIN_WM_SERVICE   "com.deepin.wm"
+#define DBUS_DEEPIN_WM_OBJ       "/com/deepin/wm"
+#define DBUS_DEEPIN_WM_INTF      "com.deepin.wm"
+
 namespace KWin
 {
 
@@ -203,6 +207,9 @@ Workspace::Workspace()
     initShortcuts();
 
     init();
+
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "QuickTileWindow", this, SLOT(tileActiveWindow(uint)));
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "WindowMaximize", this, SLOT(toggleActiveMaximize()));
 }
 
 void Workspace::init()
@@ -2405,6 +2412,16 @@ void Workspace::qtActiveColorChanged()
 {
     QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
     setActiveColor(clr);
+}
+
+void Workspace::tileActiveWindow(uint side)
+{
+    quickTileWindow((QuickTileMode)side);
+}
+
+void Workspace::toggleActiveMaximize()
+{
+    slotWindowMaximize();
 }
 
 void Workspace::showSplitMenu(const QRect &rect, uint32_t client_id)

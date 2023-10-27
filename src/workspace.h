@@ -631,6 +631,9 @@ public Q_SLOTS:
 
     void qtActiveColorChanged();
 
+    void tileActiveWindow(uint);
+    void toggleActiveMaximize();
+
 private Q_SLOTS:
     void desktopResized();
     void selectWmInputEventMask();
