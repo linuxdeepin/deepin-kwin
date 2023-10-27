@@ -94,7 +94,7 @@ bool VirtualEglGbmLayer::createGbmSurface()
 {
     static bool modifiersEnvSet = false;
     static const bool modifiersEnv = qEnvironmentVariableIntValue("KWIN_DRM_USE_MODIFIERS", &modifiersEnvSet) != 0;
-    const bool allowModifiers = !modifiersEnvSet || modifiersEnv;
+    const bool allowModifiers = modifiersEnv;
 
     const auto tranches = m_eglBackend->dmabuf()->tranches();
     for (const auto &tranche : tranches) {

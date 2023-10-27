@@ -223,9 +223,12 @@ std::unique_ptr<SurfaceTexture> EglGbmBackend::createSurfaceTextureWayland(Surfa
 
 void EglGbmBackend::present(Output *output)
 {
-    std::shared_ptr<DrmFramebuffer> buffer = static_cast<EglGbmLayer *>(primaryLayer(output))->currentBuffer();
-    if (m_remoteaccessManager) {
-        m_remoteaccessManager->passBuffer(output, buffer->buffer());
+    EglGbmLayer* gbmLayer = dynamic_cast<EglGbmLayer *>(primaryLayer(output));
+    if (gbmLayer) {
+        std::shared_ptr<DrmFramebuffer> buffer = gbmLayer->currentBuffer();
+        if (m_remoteaccessManager) {
+            m_remoteaccessManager->passBuffer(output, buffer->buffer());
+        }
     }
 
     static_cast<DrmAbstractOutput *>(output)->present();
