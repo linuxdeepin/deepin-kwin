@@ -1,3 +1,11 @@
+kwin (4:5.27.2.28-deepin28-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  *  fix: 218929\220107\223061\223949
+  *  task: 288601\288599
+
+ -- zhangyu <zhangyud@uniontech.com>  Sun, 29 Oct 2023 16:25:13 +0800
+
 kwin (4:5.27.2.27-deepin27-1) unstable; urgency=medium
 
   [ wangboyu ]
