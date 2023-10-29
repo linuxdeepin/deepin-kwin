@@ -12,11 +12,16 @@
 #include <QKeyEvent>
 #include <QDBusMessage>
 #include <QDBusConnection>
+#include "configreader.h"
 
 #define BRIGHTNESS          0.4
 #define FIRST_WIN_SCALE     (float)(720.0 / 1080.0)
 #define SPACING_H           (float)(20.0 / 1080.0)
 #define SPACING_W           (float)(20.0 / 1920.0)
+
+#define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
+#define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
 
 namespace KWin
 {
@@ -27,11 +32,16 @@ SplitPreviewEffect::SplitPreviewEffect()
     if (!m_effectFrame) {
         m_effectFrame = effectsEx->effectFrameEx("kwin/effects/splitscreen/qml/main.qml", false);
     }
+    m_configReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
+                                      DBUS_APPEARANCE_INTF, "WindowRadius");
 }
 
 SplitPreviewEffect::~SplitPreviewEffect()
 {
-
+    if (m_configReader) {
+        delete m_configReader;
+        m_configReader = nullptr;
+    }
 }
 
 void SplitPreviewEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
@@ -112,7 +122,7 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
 
             if (m_hoverwin == w) {
                 m_effectFrame->setGeometry(geo.adjusted(-4, -4, 4, 4).toRect());
-                m_effectFrame->setRadius(8);
+                m_effectFrame->setRadius(m_radius);
                 QColor color(effectsEx->getActiveColor());
                 m_effectFrame->setColor(color);
                 m_effectFrame->render(region);
@@ -152,6 +162,10 @@ void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
     }
     m_backgroundRect = getPreviewWindowsGeometry(w);
     m_screenRect = effects->clientArea(ScreenArea, w->screen(), currentDesktop);
+
+    if (m_configReader->getProperty().isValid()) {
+        m_radius = m_configReader->getProperty().toFloat() ? 10.0 : 0.0;
+    }
 
     if (wmm.managedWindows().size() != 0) {
         calculateWindowTransformations(wmm.managedWindows(), wmm);

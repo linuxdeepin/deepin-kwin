@@ -76,6 +76,8 @@ typedef struct backgroundInfo {
     QSize   desktopSize;
 } BgInfo_st;
 
+class ConfigReader;
+
 class CustomThread : public QThread
 {
     Q_OBJECT
@@ -218,7 +220,7 @@ public:
 class MultiViewWinFill : public QObject
 {
 public:
-    MultiViewWinFill(EffectScreen *screen, QRect rect, int maxHeight);
+    MultiViewWinFill(EffectScreen *screen, QRect rect, float radius, int maxHeight);
     ~MultiViewWinFill();
 
     QRect getRect() {return m_rect;}
@@ -464,7 +466,7 @@ private:
     void updateWorkspaceWinLayout(int numDesktops, int desktop);
     void workspaceWinRelayout(int desktop, EffectScreen *screen = nullptr);
     void removeWinAndRelayout(EffectWindow *w);
-    void createBackgroundFill(EffectWindow *w, QRect rect, int desktop);
+    void createBackgroundFill(EffectWindow *w, QRect rect, float radius, int desktop);
     void removeBackgroundFill(EffectWindow *w, int desktop);
     void addNewDesktop();
     void removeDesktop(int desktop);
@@ -482,7 +484,7 @@ private:
     void renderWorkspaceMove(KWin::ScreenPaintData &data);
     void renderWindowMove(KWin::ScreenPaintData &data);
     void renderSlidingWorkspace(MultiViewWorkspace *wkobj, EffectScreen *screen, int desktop, KWin::ScreenPaintData &data);
-    void renderHover(const EffectWindow *w, const QRect &rect, int order = 0);
+    void renderHover(const EffectWindow *w, const QRect &rect, int order = 0, float radius = 0.0);
     void renderWorkspaceHover(EffectScreen *screen);
     void renderDragWorkspacePrompt(EffectScreen *screen);
     void drawDottedLine(const QRect &geo, EffectScreen *screen);
@@ -619,6 +621,8 @@ private:
 
     workspaceMoveDirection m_moveWorkspacedirection = mvNone;
     workspaceDragDirection m_dragWorkspacedirection = dragNone;
+    ConfigReader           *m_configReader;
+    float                  m_radius = 0.0;
 
     struct {
         quint32 id = 0;

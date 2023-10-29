@@ -3792,6 +3792,9 @@ public:
     QRect getWindowFillRect(EffectWindow *w);
     void resetWindowFill(EffectWindow *w);
 
+    void setWindowRadius(EffectWindow *w, float radius);
+    float getWindowRadius(EffectWindow *w);
+
 private:
     bool m_useGlobalAnimationModifier;
     struct WindowMotion
@@ -3801,6 +3804,7 @@ private:
         Motion2D scale; // xScale and yScale
         Motion1D fill;  // is fill win background
         Motion4D rect;  // fill rect
+        Motion1D radius;
     };
     QHash<EffectWindow *, WindowMotion> m_managedWindows;
     QSet<EffectWindow *> m_movingWindowsSet;

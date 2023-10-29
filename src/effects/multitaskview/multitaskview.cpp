@@ -37,6 +37,7 @@
 #include <QGSettings/qgsettings.h>
 #include <QImageReader>
 #include "workspace.h"
+#include "configreader.h"
 //#include "multitouchgesture.h"       //to do
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock"))
@@ -507,7 +508,7 @@ void MultiViewWorkspace::updateGeometry(QRect rect)
     m_workspaceBgFrame->setGeometry(rect);
 }
 
-MultiViewWinFill::MultiViewWinFill(EffectScreen *screen, QRect rect, int maxHeight)
+MultiViewWinFill::MultiViewWinFill(EffectScreen *screen, QRect rect, float radius, int maxHeight)
     : m_rect(rect)
     , m_screen(screen)
     , m_maxHeight(maxHeight)
@@ -598,7 +599,6 @@ MultitaskViewEffect::MultitaskViewEffect()
                                         "ShowWorkspaceChanged", this, SLOT(toggle()));
 
     m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", false);
-    m_hoverWinFrame->setRadius(10);
 
     m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
     m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -638,6 +638,9 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_dragTipsFrameShadow->setIconSize(QSize(22 * m_scalingFactor, 21 * m_scalingFactor));
     m_dragTipsFrameShadow->setText(tr("Drag upwards to remove"));
     m_dragTipsFrameShadow->setColor(QColor(Qt::black));
+
+    m_configReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
+                                      DBUS_APPEARANCE_INTF, "WindowRadius");
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -645,6 +648,10 @@ MultitaskViewEffect::~MultitaskViewEffect()
     if (m_showAction) {
         delete m_showAction;
         m_showAction = nullptr;
+    }
+    if (m_configReader) {
+        delete m_configReader;
+        m_configReader = nullptr;
     }
 }
 
@@ -1086,14 +1093,6 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     WindowPaintData d = data;
                     auto geo = wmm->transformedGeometry(w);
 
-                    if (w == m_hoverWin) {
-                        if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
-                            renderHover(w, wmobj->getWinFill(w)->getRect());
-                        } else {
-                            renderHover(w, geo.toRect());
-                        }
-                    }
-
                     if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
                         wmobj->getWinFill(w)->render();
                         // mask |= PAINT_WINDOW_LANCZOS;
@@ -1124,6 +1123,15 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                         d += QPoint(qRound(dx), qRound(dy));
                     }
                     effects->paintWindow(w, mask, area, d);
+
+                    if (w == m_hoverWin) {
+                        float radius = wmm->getWindowRadius(w);
+                        if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
+                            renderHover(w, wmobj->getWinFill(w)->getRect(), 0, radius);
+                        } else {
+                            renderHover(w, geo.toRect(), 0, radius);
+                        }
+                    }
 
                     if (w == m_hoverWinBtn) {
                         if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
@@ -1354,7 +1362,7 @@ QColor pixmapMainColor(QPixmap p, double bright) //p为目标图片 bright为亮
                   int(bright*b/t)>255?255:int(bright*b/t)); //最后返回的值是亮度系数×平均数,若超出255则设置为255也就是最大值，防止乘与亮度系数后导致某些值大于255的情况。
 }
 
-void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, int order)
+void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, int order, float radius)
 {
     if (!order) {
         QColor color = effectsEx->getActiveColor();
@@ -1362,6 +1370,7 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         geoframe.adjust(-5, -5, 5, 5);
         m_hoverWinFrame->setGeometry(geoframe);
         m_hoverWinFrame->setColor(color);
+        m_hoverWinFrame->setRadius(radius);
         m_hoverWinFrame->render(infiniteRegion(), 1, 0);
     } else {
         int width = 0;
@@ -2325,6 +2334,8 @@ void MultitaskViewEffect::setActive(bool active)
         m_hasKeyboardGrab = effects->grabKeyboard(this);
         effects->setActiveFullScreenEffect(this);
 
+        m_radius = m_configReader->getProperty().isValid() ? m_configReader->getProperty().toFloat() : 8.0;
+
         EffectWindowList windowsList = effects->stackingOrder();
         int ncurrentDesktop = effects->currentDesktop();
 
@@ -2558,6 +2569,7 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
     int row = 1;
     int index = 1;
     int xpos = 0;
+    float radius = 0.0;
     bool overlap;
     do {
         overlap = false;
@@ -2603,6 +2615,12 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
         }
     } while (overlap);  //calculation layout row
 
+    {
+        if (m_radius > 0) {
+            radius = row <= 2 ? 18.0 : 10.0;
+        }
+    }
+
     float winYPos = (clientRect.height() - (index - 1) * minSpacingH - index * scaleHeight) / 2 + clientRect.y();
     row = 1;
     int x = centerList[row - 1];
@@ -2645,8 +2663,9 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
         if (isFill) {
             QRect rect(x, winYPos, width, scaleHeight);
             motionManager.setWindowFill(w, true, rect);
-            createBackgroundFill(w, rect, desktop);
+            createBackgroundFill(w, rect, radius, desktop);
         }
+        motionManager.setWindowRadius(w, radius);
         x += width;
         x += m_scale[screen].spacingWidth;
 
@@ -2958,13 +2977,13 @@ bool MultitaskViewEffect::isExtensionMode() const
     return false;
 }
 
-void MultitaskViewEffect::createBackgroundFill(EffectWindow *w, QRect rect, int desktop)
+void MultitaskViewEffect::createBackgroundFill(EffectWindow *w, QRect rect, float radius, int desktop)
 {
     MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
     if (!wmobj || wmobj->isHaveWinFill(w))
         return;
 
-    MultiViewWinFill *fill = new MultiViewWinFill(w->screen(), rect, m_maxHeight);
+    MultiViewWinFill *fill = new MultiViewWinFill(w->screen(), rect, radius, m_maxHeight);
     wmobj->setWinFill(w, fill);
 }
 

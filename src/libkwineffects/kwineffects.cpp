@@ -1449,6 +1449,21 @@ void WindowMotionManager::resetWindowFill(EffectWindow *w)
     motion.fill.setValue(0);
 }
 
+void WindowMotionManager::setWindowRadius(EffectWindow *w, float radius)
+{
+    if (!m_managedWindows.contains(w))
+        return;
+    WindowMotion &motion = m_managedWindows[ w ];
+    motion.radius.setValue(radius);
+}
+
+float WindowMotionManager::getWindowRadius(EffectWindow *w)
+{
+    if (!m_managedWindows.contains(w))
+        return 0.0;
+    return m_managedWindows[w].radius.value();
+}
+
 /***************************************************************
  EffectFramePrivate
 ***************************************************************/
