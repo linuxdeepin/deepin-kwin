@@ -1,3 +1,10 @@
+kwin (4:5.27.2.29-deepin29-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  *  fix: optimize about radius acquisition
+
+ -- zhangyu <zhangyud@uniontech.com>  Mon, 30 Oct 2023 14:52:13 +0800
+
 kwin (4:5.27.2.28-deepin28-1) unstable; urgency=medium
 
   [ zhangyu ]
