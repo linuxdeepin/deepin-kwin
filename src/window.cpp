@@ -27,6 +27,7 @@
 #include "focuschain.h"
 #include "input.h"
 #include "outline.h"
+#include "placeholder_window.h"
 #include "placement.h"
 #if KWIN_BUILD_TABBOX
 #include "tabbox.h"
@@ -70,6 +71,7 @@ static inline int sign(int v)
 
 QHash<QString, std::weak_ptr<Decoration::DecorationPalette>> Window::s_palettes;
 std::shared_ptr<Decoration::DecorationPalette> Window::s_defaultPalette;
+std::unique_ptr<PlaceholderWindow> Window::s_placeholderWindow = nullptr;
 
 Window::Window()
     : m_output(workspace()->activeOutput())
@@ -1679,6 +1681,14 @@ bool Window::startInteractiveMoveResize()
     if (workspace()->screenEdges()->isDesktopSwitchingMovingClients()) {
         workspace()->screenEdges()->reserveDesktopSwitching(true, Qt::Vertical | Qt::Horizontal);
     }
+
+    if (!workspace()->isDraggingWithContent()) {
+        if (!s_placeholderWindow)
+            s_placeholderWindow = std::make_unique<PlaceholderWindow>();
+        s_placeholderWindow->create(frameGeometry().toRect(), waylandServer());
+        grabXKeyboard(s_placeholderWindow->window());
+    }
+
     return true;
 }
 
@@ -2246,7 +2256,9 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
     }
 
     if (nextMoveResizeGeom != currentMoveResizeGeom) {
-        if (isInteractiveMove()) {
+        if (!workspace()->isDraggingWithContent() && s_placeholderWindow) {
+            s_placeholderWindow->setGeometry(nextMoveResizeGeom.toRect());
+        } else if (isInteractiveMove()) {
             move(nextMoveResizeGeom.topLeft());
         } else {
             doInteractiveResizeSync(nextMoveResizeGeom);
@@ -2915,6 +2927,13 @@ void Window::updateCursor()
 
 void Window::leaveInteractiveMoveResize()
 {
+    if (!workspace()->isDraggingWithContent() && s_placeholderWindow) {
+        if (isInteractiveMoveResize())
+            moveResize(s_placeholderWindow->getGeometry());
+        ungrabXKeyboard();
+        s_placeholderWindow->destroy();
+    }
+
     workspace()->setMoveResizeWindow(nullptr);
     setInteractiveMoveResize(false);
     if (workspace()->screenEdges()->isDesktopSwitchingMovingClients()) {

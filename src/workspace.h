@@ -555,6 +555,8 @@ public:
 
     float getWindowRadius();
 
+    bool isDraggingWithContent() const { return m_clientDraggingWithContent; }
+
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
     // Keybindings
@@ -887,6 +889,9 @@ private:
     ConfigReader                 *m_configReader = nullptr;
     Window* m_requestMovingClient = nullptr;
     bool m_bIsTouchToMovingClient = false;
+
+    bool m_clientDraggingWithContent = false;
+    bool getDraggingWithContentStatus();
 
 private:
     friend bool performTransiencyCheck();

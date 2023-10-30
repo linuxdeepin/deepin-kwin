@@ -259,6 +259,8 @@ void Workspace::init()
     //  load is needed to be called again when starting xwayalnd to sync to RootInfo, see BUG 385260
     vds->save();
 
+    m_clientDraggingWithContent = getDraggingWithContentStatus();
+
     m_initialDesktop = config->group("Workspace").readEntry("CurrentDesktop", 1);
 
     if (!VirtualDesktopManager::self()->setCurrent(m_initialDesktop)) {
@@ -1332,6 +1334,8 @@ void Workspace::slotReconfigure()
 
     kwinApp()->config()->reparseConfiguration();
     options->updateSettings();
+
+    m_clientDraggingWithContent = getDraggingWithContentStatus();
 
     Q_EMIT configChanged();
     m_userActionsMenu->discard();
@@ -3619,6 +3623,19 @@ void Workspace::setWinSplitState(Window *w, bool isSplit)
 float Workspace::getWindowRadius()
 {
     return m_configReader->getProperty().isValid() ? m_configReader->getProperty().toFloat() : 8.0;
+}
+
+bool Workspace::getDraggingWithContentStatus()
+{
+    if (waylandServer())
+        return true;
+    bool status = true;
+    if (kwinApp()->config()->group("Workspace").hasKey("DraggingWithContent")) {
+        if (kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent") == "0" || kwinApp()->config()->group("Workspace").readEntry("DraggingWithContent") == "false") {
+            status = false;
+        }
+    }
+    return status;
 }
 
 } // namespace

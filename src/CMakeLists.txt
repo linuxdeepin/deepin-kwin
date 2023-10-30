@@ -122,6 +122,7 @@ target_sources(kwin PRIVATE
     options.cpp
     osd.cpp
     outline.cpp
+    placeholder_window.cpp
     placeholderinputeventfilter.cpp
     placeholderoutput.cpp
     placement.cpp

@@ -113,6 +113,14 @@ bool ScriptedEffectLoader::loadEffect(const QString &name)
 bool ScriptedEffectLoader::loadEffect(const KPluginMetaData &effect, LoadEffectFlags flags)
 {
     const QString name = effect.pluginId();
+    if (!effects->waylandDisplay()) {
+        if (name == "kwin4_effect_squash") {
+            KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
+            if (kwinConfig.hasKey("window_animation") && kwinConfig.readEntry("window_animation") == "false") {
+                return false;
+            }
+        }
+    }
     if (!flags.testFlag(LoadEffectFlag::Load)) {
         qCDebug(KWIN_CORE) << "Loading flags disable effect: " << name;
         return false;
@@ -282,6 +290,19 @@ bool PluginEffectLoader::loadEffect(const KPluginMetaData &info, LoadEffectFlags
         return false;
     }
     const QString name = info.pluginId();
+    if (!effects->waylandDisplay()) {
+        if (name == "magiclamp" || name == "slide") {
+            KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
+            if (kwinConfig.hasKey("window_animation") && kwinConfig.readEntry("window_animation") == "false") {
+                return false;
+            }
+        } else if (name == "scissor") {
+            KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
+            if (kwinConfig.hasKey("window_border_effect") && kwinConfig.readEntry("window_border_effect") == "false") {
+                return false;
+            }
+        }
+    }
     if (!flags.testFlag(LoadEffectFlag::Load)) {
         qCDebug(KWIN_CORE) << "Loading flags disable effect: " << name;
         return false;

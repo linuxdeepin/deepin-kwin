@@ -55,6 +55,7 @@ class ClientMachine;
 class Deleted;
 class EffectWindowImpl;
 class Tile;
+class PlaceholderWindow;
 class Scene;
 class Shadow;
 class SurfaceItem;
@@ -1940,6 +1941,8 @@ protected:
     void cleanTabBox();
 
     QStringList m_activityList;
+
+    static std::unique_ptr<PlaceholderWindow> s_placeholderWindow;
 
 private Q_SLOTS:
     void shadeHover();
