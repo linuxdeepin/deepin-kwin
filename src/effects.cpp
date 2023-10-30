@@ -2108,6 +2108,11 @@ void EffectsHandlerImpl::updateWindowTile(KWin::EffectScreen *screen)
     }
 }
 
+float EffectsHandlerImpl::getOsRadius()
+{
+    return workspace()->getWindowRadius();
+}
+
 //****************************************
 // EffectScreenImpl
 //****************************************

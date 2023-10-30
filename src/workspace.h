@@ -97,6 +97,7 @@ class Placement;
 class OutputConfiguration;
 class TileManager;
 class SplitManage;
+class ConfigReader;
 
 typedef KWaylandServer::ClientManagementInterface::WindowState WindowState;
 
@@ -552,6 +553,8 @@ public:
      */
     bool applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder = {});
 
+    float getWindowRadius();
+
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
     // Keybindings
@@ -881,6 +884,7 @@ private:
     QString m_sessionPath;
     bool m_splitBarState;
 
+    ConfigReader                 *m_configReader = nullptr;
     Window* m_requestMovingClient = nullptr;
     bool m_bIsTouchToMovingClient = false;
 

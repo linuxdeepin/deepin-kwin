@@ -76,8 +76,6 @@ typedef struct backgroundInfo {
     QSize   desktopSize;
 } BgInfo_st;
 
-class ConfigReader;
-
 class CustomThread : public QThread
 {
     Q_OBJECT
@@ -621,7 +619,6 @@ private:
 
     workspaceMoveDirection m_moveWorkspacedirection = mvNone;
     workspaceDragDirection m_dragWorkspacedirection = dragNone;
-    ConfigReader           *m_configReader;
     float                  m_radius = 0.0;
 
     struct {

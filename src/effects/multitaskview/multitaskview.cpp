@@ -37,7 +37,6 @@
 #include <QGSettings/qgsettings.h>
 #include <QImageReader>
 #include "workspace.h"
-#include "configreader.h"
 //#include "multitouchgesture.h"       //to do
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock"))
@@ -638,9 +637,6 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_dragTipsFrameShadow->setIconSize(QSize(22 * m_scalingFactor, 21 * m_scalingFactor));
     m_dragTipsFrameShadow->setText(tr("Drag upwards to remove"));
     m_dragTipsFrameShadow->setColor(QColor(Qt::black));
-
-    m_configReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
-                                      DBUS_APPEARANCE_INTF, "WindowRadius");
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -648,10 +644,6 @@ MultitaskViewEffect::~MultitaskViewEffect()
     if (m_showAction) {
         delete m_showAction;
         m_showAction = nullptr;
-    }
-    if (m_configReader) {
-        delete m_configReader;
-        m_configReader = nullptr;
     }
 }
 
@@ -2334,7 +2326,7 @@ void MultitaskViewEffect::setActive(bool active)
         m_hasKeyboardGrab = effects->grabKeyboard(this);
         effects->setActiveFullScreenEffect(this);
 
-        m_radius = m_configReader->getProperty().isValid() ? m_configReader->getProperty().toFloat() : 8.0;
+        m_radius = effectsEx->getOsRadius();
 
         EffectWindowList windowsList = effects->stackingOrder();
         int ncurrentDesktop = effects->currentDesktop();

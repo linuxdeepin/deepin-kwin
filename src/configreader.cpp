@@ -7,15 +7,10 @@ namespace KWin
 ConfigReaderThread::ConfigReaderThread(const QString &service, const QString &path, const QString &interface, const QString &propertyName)
     : m_service(service), m_path(path), m_interface(interface), m_propertyName(propertyName)
 {
-    connect(this, &ConfigReaderThread::finished, this, [=](){
-        this->deleteLater();
-    });
 }
 
 ConfigReaderThread::~ConfigReaderThread()
 {
-    requestInterruption();
-    wait();
 }
 
 void ConfigReaderThread::run()
@@ -23,8 +18,6 @@ void ConfigReaderThread::run()
     bool found = false;
     QDBusConnection sessionBus = QDBusConnection::sessionBus();
     for (int i = 1; i < MAXTIMES; i *= 2) {
-        if (isInterruptionRequested())
-            return;
         auto sleepfunc = [&i]{
             QThread::sleep(i);
         };
@@ -56,10 +49,10 @@ void ConfigReaderThread::run()
 ConfigReader::ConfigReader(const QString &service, const QString &path, const QString &interface, const QString &propertyName)
     : m_interface(interface), m_propertyName(propertyName)
 {
-    m_thread = new ConfigReaderThread(service, path, interface, propertyName);
-    connect(m_thread, SIGNAL(propertyFound(QVariant)), this, SLOT(slotSetProperty(QVariant)));
+    ConfigReaderThread *thread = new ConfigReaderThread(service, path, interface, propertyName);
+    connect(thread, SIGNAL(propertyFound(QVariant)), this, SLOT(slotSetProperty(QVariant)));
 
-    m_thread->start();
+    thread->start();
 
     QDBusConnection::sessionBus().connect(service, path, "org.freedesktop.DBus.Properties", "PropertiesChanged",
                                           "sa{sv}as", this, SLOT(slotUpdateProperty(QDBusMessage)));
@@ -67,11 +60,6 @@ ConfigReader::ConfigReader(const QString &service, const QString &path, const QS
 
 ConfigReader::~ConfigReader()
 {
-    if (m_thread) {
-        m_thread->requestInterruption();
-        m_thread->wait();
-        m_thread = nullptr;
-    }
 }
 
 void ConfigReader::slotUpdateProperty(QDBusMessage msg)

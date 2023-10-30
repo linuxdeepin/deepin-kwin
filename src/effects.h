@@ -288,6 +288,7 @@ public:
     bool isSplitWin(KWin::EffectWindow *) override;
     void updateQuickTileMode(KWin::EffectWindow *, int mode) override;
     void updateWindowTile(KWin::EffectScreen *) override;
+    float getOsRadius() override;
 
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow *from, EffectWindow *to);

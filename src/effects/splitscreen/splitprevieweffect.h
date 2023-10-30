@@ -18,7 +18,6 @@ class QQuickView;
 
 namespace KWin
 {
-class ConfigReader;
 
 class SplitPreviewEffect : public Effect
 {
@@ -58,7 +57,6 @@ private:
     QRect                        m_backgroundRect;
     QRectF                       m_screenRect;
     int                          m_backgroundMode;
-    ConfigReader                 *m_configReader;
     float                        m_radius = 10.0;
     std::chrono::milliseconds    lastPresentTime;
     std::unique_ptr<EffectFrameEx>  m_effectFrame;

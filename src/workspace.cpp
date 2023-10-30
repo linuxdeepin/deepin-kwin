@@ -62,6 +62,7 @@
 #include "xdgshellwindow.h"
 #include "splitscreen/splitmanage.h"
 #include "splitscreen/splitmenu.h"
+#include "configreader.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -79,6 +80,10 @@
 #define DBUS_DEEPIN_WM_SERVICE   "com.deepin.wm"
 #define DBUS_DEEPIN_WM_OBJ       "/com/deepin/wm"
 #define DBUS_DEEPIN_WM_INTF      "com.deepin.wm"
+
+#define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
+#define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
 
 namespace KWin
 {
@@ -308,6 +313,9 @@ void Workspace::init()
                                           "PropertiesChanged", this, SLOT(qtActiveColorChanged()));
 
     m_placementTracker->init(getPlacementTrackerHash());
+
+    m_configReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
+                                      DBUS_APPEARANCE_INTF, "WindowRadius");
 
     setProcessSessionPath();
 }
@@ -603,6 +611,11 @@ Workspace::~Workspace()
 
     for (Output *output : std::as_const(m_outputs)) {
         output->unref();
+    }
+
+    if (m_configReader) {
+        delete m_configReader;
+        m_configReader = nullptr;
     }
 
     _self = nullptr;
@@ -3601,6 +3614,11 @@ void Workspace::setWinSplitState(Window *w, bool isSplit)
             free(reply_st);
         }
     }
+}
+
+float Workspace::getWindowRadius()
+{
+    return m_configReader->getProperty().isValid() ? m_configReader->getProperty().toFloat() : 8.0;
 }
 
 } // namespace

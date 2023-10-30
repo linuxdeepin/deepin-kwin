@@ -57,7 +57,6 @@ private:
     QString m_interface;
     QString m_propertyName;
     QVariant m_property;
-    ConfigReaderThread *m_thread = nullptr;
 };
 
 }
