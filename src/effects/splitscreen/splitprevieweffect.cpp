@@ -261,6 +261,9 @@ void SplitPreviewEffect::windowInputMouseEvent(QEvent* e)
             break;
         case QEvent::MouseButtonRelease:
             if (target) {
+                if (target->isMinimized()) {
+                    target->unrefVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
+                }
                 effects->defineCursor(Qt::PointingHandCursor);
                 effects->activateWindow(target);
                 effectsEx->setQuickTileWindow(target, m_backgroundMode);
