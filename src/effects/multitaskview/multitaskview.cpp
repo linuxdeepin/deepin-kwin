@@ -2279,16 +2279,9 @@ void MultitaskViewEffect::setActive(bool active)
 
     m_activated = active;
 
-    QDBusMessage message =QDBusMessage::createSignal("/KWin", "org.kde.KWin", "MultitaskStateChanged");
+    QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "MultitaskStateChanged");
     message << bool(m_activated);
     QDBusConnection::sessionBus().send(message);
-
-    if (!effects->waylandDisplay()) {
-        QTimer::singleShot(400, [&, active](){
-            QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
-            wm.call("SetMultiTaskingStatus", active);
-        });
-    }
 
     if(!active) {
         m_popStatus = false;
