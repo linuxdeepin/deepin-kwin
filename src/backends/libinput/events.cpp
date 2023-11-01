@@ -34,6 +34,7 @@ std::unique_ptr<Event> Event::create(libinput_event *event)
     case LIBINPUT_EVENT_POINTER_BUTTON:
     case LIBINPUT_EVENT_POINTER_MOTION:
     case LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE:
+    case LIBINPUT_EVENT_POINTER_AXIS:
         return std::make_unique<PointerEvent>(event, t);
     case LIBINPUT_EVENT_TOUCH_DOWN:
     case LIBINPUT_EVENT_TOUCH_UP:
