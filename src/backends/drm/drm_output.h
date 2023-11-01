@@ -59,8 +59,8 @@ public:
 
     void setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation) override;
 
-private:
     bool setDrmDpmsMode(DpmsMode mode);
+private:
     void setDpmsMode(DpmsMode mode) override;
 
     QList<std::shared_ptr<OutputMode>> getModes() const;

@@ -332,7 +332,11 @@ void DrmBackend::updateOutputs()
 
     if (m_outputs.isEmpty()) {
         qCDebug(KWIN_DRM) << " m_outputs is empty, creat Virtual-factoryOutput";
-        createVirtualOutput("factoryOutput", {1920, 1080}, 1);
+        m_primaryVirtualOutput = createVirtualOutput("factoryOutput", {1920, 1080}, 1);
+    } else {
+        if (m_primaryVirtualOutput) {
+            removeVirtualOutput(m_primaryVirtualOutput);
+        }
     }
 
     Q_EMIT outputsQueried();
@@ -404,7 +408,7 @@ Output *DrmBackend::createVirtualOutput(const QString &name, const QSize &size, 
 
 void DrmBackend::removeVirtualOutput(Output *output)
 {
-    auto virtualOutput = qobject_cast<DrmVirtualOutput *>(output);
+    auto virtualOutput = static_cast<DrmVirtualOutput *>(output);
     if (!virtualOutput) {
         return;
     }

@@ -575,6 +575,7 @@ void DrmGpu::dispatchEvents()
 
 void DrmGpu::removeOutput(DrmOutput *output)
 {
+    output->setDrmDpmsMode(Output::DpmsMode::Off);
     qCDebug(KWIN_DRM) << "Removing output" << output;
     m_pipelines.removeOne(output->pipeline());
     output->pipeline()->setLayers(nullptr, nullptr);
