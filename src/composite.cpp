@@ -133,7 +133,7 @@ Compositor::Compositor(QObject *workspace)
     connect(options, &Options::animationSpeedChanged, this, &Compositor::configChanged);
 
     // 2 sec which should be enough to restart the compositor.
-    static const int compositorLostMessageDelay = 2000;
+    static const int compositorLostMessageDelay = 100;
 
     m_releaseSelectionTimer.setSingleShot(true);
     m_releaseSelectionTimer.setInterval(compositorLostMessageDelay);
