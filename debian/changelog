@@ -1,3 +1,10 @@
+kwin (4:5.27.2.31-deepin31-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * 225959 fix: close window effects, cold start time is degraded compared to historical baseline
+
+ -- huangzeming <huangzeming@uniontech.com>  Fri, 03 Nov 2023 18:05:20 +0800
+
 kwin (4:5.27.2.30-deepin30-1) unstable; urgency=medium
 
   [ huangzeming ]
