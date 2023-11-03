@@ -1,3 +1,16 @@
+kwin (4:5.27.2.30-deepin30-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * 223809 fix: maximized window didn't overspread while dock in smart-hide mode
+  * 218423 fix: add lightweight configuration
+  * 224691 fix: solve the split window don't minimize
+  * 225439 fix: modifier keys make x11-window type anything in wayland.
+  * 218403 fix: touchpad can't exit multitaskview in wayland.
+  * 221051 fix: reset screen dpms off at unplug
+  * 218659 fix: fix the issue where the mouse wheel cannot be used
+
+ -- huangzeming <huangzeming@uniontech.com>  Fri, 03 Nov 2023 17:16:08 +0800
+
 kwin (4:5.27.2.29-deepin29-1) unstable; urgency=medium
 
   [ zhangyu ]
