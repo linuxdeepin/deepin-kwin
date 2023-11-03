@@ -1078,6 +1078,10 @@ bool XdgToplevelWindow::hasStrut() const
     if (m_plasmaShellSurface->role() != PlasmaShellSurfaceInterface::Role::Panel) {
         return false;
     }
+    KWaylandServer::deepinKwinStrut strutArea = strut();
+    if (strutArea.top == 0 && strutArea.left == 0 && strutArea.bottom == 0 && strutArea.right == 0) {
+        return false;
+    }
     return m_plasmaShellSurface->panelBehavior() == PlasmaShellSurfaceInterface::PanelBehavior::AlwaysVisible;
 }
 
