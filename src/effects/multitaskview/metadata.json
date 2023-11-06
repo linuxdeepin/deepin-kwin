@@ -4,7 +4,7 @@
         "Description": "Show all window",
         "Description[zh_CN]": "多任务视图",
         "EnabledByDefault": true,
-        "Id": "com.deepin.multitasking",
+        "Id": "multitaskview",
         "License": "GPL",
         "Name": "multitaskview Windows",
         "Name[ar]": "النوافذ الحاضرة",

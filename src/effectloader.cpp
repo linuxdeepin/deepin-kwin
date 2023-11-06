@@ -301,6 +301,11 @@ bool PluginEffectLoader::loadEffect(const KPluginMetaData &info, LoadEffectFlags
             if (kwinConfig.hasKey("window_border_effect") && kwinConfig.readEntry("window_border_effect") == "false") {
                 return false;
             }
+        } else if (name == "multitaskview") {
+            KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Plugins");
+            if (kwinConfig.hasKey("com.deepin.multitaskingEnabled") && kwinConfig.readEntry("com.deepin.multitaskingEnabled") == "false") {
+                return false;
+            }
         }
     }
     if (!flags.testFlag(LoadEffectFlag::Load)) {
