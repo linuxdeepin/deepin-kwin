@@ -271,6 +271,7 @@ bool DrmGpu::updateOutputs()
         const bool stillExists = existing.contains(conn);
         if (!stillExists || !conn->isConnected()) {
             if (output) {
+                output->setDrmDpmsMode(Output::DpmsMode::Off);
                 removeOutput(output);
             }
             conn->disable();
@@ -575,7 +576,6 @@ void DrmGpu::dispatchEvents()
 
 void DrmGpu::removeOutput(DrmOutput *output)
 {
-    output->setDrmDpmsMode(Output::DpmsMode::Off);
     qCDebug(KWIN_DRM) << "Removing output" << output;
     m_pipelines.removeOne(output->pipeline());
     output->pipeline()->setLayers(nullptr, nullptr);

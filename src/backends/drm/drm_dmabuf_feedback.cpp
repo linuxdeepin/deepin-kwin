@@ -62,7 +62,12 @@ void DmabufFeedback::scanoutFailed(KWaylandServer::SurfaceInterface *surface, co
         if (!m_attemptedFormats[dmabufAttrs.format].contains(dmabufAttrs.modifier)) {
             m_attemptedFormats[dmabufAttrs.format] << dmabufAttrs.modifier;
             QVector<KWaylandServer::LinuxDmaBufV1Feedback::Tranche> scanoutTranches;
-            const auto tranches = m_eglBackend->dmabuf()->tranches();
+            QVector<KWaylandServer::LinuxDmaBufV1Feedback::Tranche> tranches;
+            if (m_eglBackend->dmabuf()) {
+                tranches = m_eglBackend->dmabuf()->tranches();
+            } else {
+                qCWarning(KWIN_DRM) << "scanoutFailed failed for dma buffer not supported";
+            }
             for (const auto &tranche : tranches) {
                 KWaylandServer::LinuxDmaBufV1Feedback::Tranche scanoutTranche;
                 for (auto it = tranche.formatTable.constBegin(); it != tranche.formatTable.constEnd(); it++) {

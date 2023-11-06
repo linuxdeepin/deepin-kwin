@@ -96,6 +96,11 @@ bool VirtualEglGbmLayer::createGbmSurface()
     static const bool modifiersEnv = qEnvironmentVariableIntValue("KWIN_DRM_USE_MODIFIERS", &modifiersEnvSet) != 0;
     const bool allowModifiers = modifiersEnv;
 
+    if (!m_eglBackend->dmabuf()) {
+        qCWarning(KWIN_DRM) << "failed for dma buffer not supported";
+        return false;
+    }
+
     const auto tranches = m_eglBackend->dmabuf()->tranches();
     for (const auto &tranche : tranches) {
         for (auto it = tranche.formatTable.constBegin(); it != tranche.formatTable.constEnd(); it++) {
