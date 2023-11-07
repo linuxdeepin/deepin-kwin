@@ -74,6 +74,7 @@ public:
     bool addFB2ModifiersSupported() const;
     bool asyncPageflipSupported() const;
     bool isNVidia() const;
+    bool isHisi() const;
     gbm_device *gbmDevice() const;
     EGLDisplay eglDisplay() const;
     DrmBackend *platform() const;
@@ -132,6 +133,7 @@ private:
     bool m_isVirtualMachine;
     bool m_asyncPageflipSupported = false;
     bool m_isRemoved = false;
+    bool m_isHisi = false;
     clockid_t m_presentationClock;
     gbm_device *m_gbmDevice;
     EGLDisplay m_eglDisplay = EGL_NO_DISPLAY;

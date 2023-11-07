@@ -143,7 +143,7 @@ bool GbmBuffer::map(uint32_t flags, bool isDump)
     int fd = gbm_bo_get_fd(m_bo);
     uint32_t offset = gbm_bo_get_offset(m_bo, 0);
 
-    if (isDump) {
+    if (isDump && !gpu()->isHisi()) {
         drm_mode_map_dumb mapArgs;
         memset(&mapArgs, 0, sizeof mapArgs);
         mapArgs.handle = m_handles[0];
@@ -152,6 +152,7 @@ bool GbmBuffer::map(uint32_t flags, bool isDump)
         }
         offset = mapArgs.offset;
     }
+
     m_data = mmap(nullptr, stride * m_size.height(), flags, MAP_SHARED, fd, offset);
     if (m_data != MAP_FAILED) {
         return true;

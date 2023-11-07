@@ -321,7 +321,7 @@ std::shared_ptr<GbmSurface> EglGbmLayerSurface::createGbmSurface(const QSize &si
     if (m_gpu == m_eglBackend->gpu()) {
         gbmFlags |= GBM_BO_USE_SCANOUT;
     }
-    if (forceLinear || m_gpu != m_eglBackend->gpu()) {
+    if ((forceLinear || m_gpu != m_eglBackend->gpu()) && !m_gpu->isHisi() && !m_eglBackend->gpu()->isHisi()) {
         gbmFlags |= GBM_BO_USE_LINEAR;
     }
     const auto ret = GbmSurface::createSurface(m_eglBackend, size, format, gbmFlags, config);

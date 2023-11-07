@@ -22,7 +22,7 @@ DumbSwapchain::DumbSwapchain(DrmGpu *gpu, const QSize &size, uint32_t drmFormat)
 {
     for (int i = 0; i < 2; i++) {
         auto buffer = DrmDumbBuffer::createDumbBuffer(gpu, size, drmFormat);
-        if (!buffer->map(QImage::Format::Format_ARGB32)) {
+        if (!buffer->map(QImage::Format::Format_RGB32)) {
             break;
         }
         buffer->image()->fill(Qt::black);
