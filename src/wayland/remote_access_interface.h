@@ -34,8 +34,9 @@ class BufferHandlePrivate;
  *     and release its' fd afterwards.
  **/
 
-class KWIN_EXPORT BufferHandle
+class KWIN_EXPORT BufferHandle : public QObject
 {
+    Q_OBJECT
 public:
     explicit BufferHandle();
     virtual ~BufferHandle();

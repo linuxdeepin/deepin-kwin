@@ -42,7 +42,8 @@ public:
 };
 
 BufferHandle::BufferHandle()
-    : d(new BufferHandlePrivate)
+    : QObject(nullptr)
+    ,d(new BufferHandlePrivate)
 {
 }
 

@@ -454,71 +454,93 @@ bool Output::moveCursor(const QPoint &position)
     return false;
 }
 
-void Output::creatShmRemoteProhibitBuffer()
+Output::shm_rp_buffer *Output::creatForDumpBuffer(QSize size, void *data)
 {
-    auto size = modeSize();
+    shm_rp_buffer *buffer = new shm_rp_buffer();
+    buffer->mapOffset = 0;
+    buffer->maxSize = size.width() * size.height() * 4;
+    buffer->outputSize = size;
 
-    m_shm_rp_buffer.mapOffset = 0;
-    m_shm_rp_buffer.maxSize = size.width() * size.height() * 4;
-    m_shm_rp_buffer.outputSize = size;
-
-    m_shm_rp_buffer.fd = memfd_create("kwin-remote-prohibit-memfd", MFD_CLOEXEC | MFD_ALLOW_SEALING);
-    if (m_shm_rp_buffer.fd == -1) {
+    buffer->fd = memfd_create("kwin-remote-prohibit-memfd", MFD_CLOEXEC | MFD_ALLOW_SEALING);
+    if (buffer->fd == -1) {
         qCCritical(KWIN_CORE) << "memfd: Can't create memfd";
-        return;
+        return nullptr;
     }
 
-    if (ftruncate (m_shm_rp_buffer.fd, m_shm_rp_buffer.maxSize) < 0) {
-        qCCritical(KWIN_CORE) << "memfd: Can't truncate to" <<  m_shm_rp_buffer.maxSize;
-        return;
+    if (ftruncate(buffer->fd, buffer->maxSize) < 0) {
+        qCCritical(KWIN_CORE) << "memfd: Can't truncate to" << buffer->maxSize;
+        return nullptr;
     }
 
     unsigned int seals = F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL;
-    if (fcntl(m_shm_rp_buffer.fd, F_ADD_SEALS, seals) == -1) {
+    if (fcntl(buffer->fd, F_ADD_SEALS, seals) == -1) {
         qCWarning(KWIN_CORE) << "memfd: Failed to add seals";
     }
 
-    m_shm_rp_buffer.data = mmap(nullptr,
-                        m_shm_rp_buffer.maxSize,
+    buffer->data = mmap(nullptr,
+                        buffer->maxSize,
                         PROT_READ | PROT_WRITE,
                         MAP_SHARED,
-                        m_shm_rp_buffer.fd,
-                        m_shm_rp_buffer.mapOffset);
-    if (m_shm_rp_buffer.data == MAP_FAILED) {
+                        buffer->fd,
+                        buffer->mapOffset);
+    if (buffer->data == MAP_FAILED) {
         qCCritical(KWIN_CORE) << "memfd: Failed to mmap memory";
-        close(m_shm_rp_buffer.fd);
-        m_shm_rp_buffer.fd = -1;
-        return;
+        close(buffer->fd);
+        buffer->fd = -1;
+        return nullptr;
     } else {
-        qCDebug(KWIN_CORE) << "memfd: created successfully" <<  m_shm_rp_buffer.data <<  m_shm_rp_buffer.fd;
+        qCDebug(KWIN_CORE) << "memfd: created successfully" << buffer->data << buffer->fd;
     }
 
-    QImage img = workspace()->getProhibitShotImage(size);
-    memcpy(m_shm_rp_buffer.data, img.bits(), m_shm_rp_buffer.maxSize);
+    if (data) {
+        memcpy(buffer->data, data, buffer->maxSize);
+    } else {
+        QImage img = workspace()->getProhibitShotImage(size);
+        memcpy(buffer->data, img.bits(), buffer->maxSize);
+    }
+    return buffer;
+}
+
+void Output::destroyForDumpBuffer(shm_rp_buffer* shmbuf)
+{
+    if (shmbuf && shmbuf->fd != -1) {
+        memset(shmbuf->data, 0, shmbuf->maxSize);
+        munmap(shmbuf->data, shmbuf->maxSize);
+        close(shmbuf->fd);
+        delete shmbuf;
+        shmbuf = nullptr;
+    }
+}
+
+void Output::creatShmRemoteProhibitBuffer()
+{
+    m_shm_rp_buffer = creatForDumpBuffer(modeSize());
 }
 
 int Output::shmRemoteProhibitBufferFd()
 {
-    return m_shm_rp_buffer.fd;
+    return m_shm_rp_buffer->fd;
 }
 
 int Output::dupShmRemoteProhibitBufferFd()
 {
-    return fcntl(m_shm_rp_buffer.fd, F_DUPFD, 0);
+    return fcntl(m_shm_rp_buffer->fd, F_DUPFD, 0);
 }
 
 void Output::freeShmRemoteProhibitBuffer()
 {
-    if (m_shm_rp_buffer.fd != -1) {
-        memset(m_shm_rp_buffer.data, 0, m_shm_rp_buffer.maxSize);
-        munmap(m_shm_rp_buffer.data, m_shm_rp_buffer.maxSize);
-        close(m_shm_rp_buffer.fd);
+    if (m_shm_rp_buffer && m_shm_rp_buffer->fd != -1) {
+        memset(m_shm_rp_buffer->data, 0, m_shm_rp_buffer->maxSize);
+        munmap(m_shm_rp_buffer->data, m_shm_rp_buffer->maxSize);
+        close(m_shm_rp_buffer->fd);
+        delete m_shm_rp_buffer;
+        m_shm_rp_buffer = nullptr;
     }
 }
 
 QSize Output::shmRemoteProhibitBufferSize()
 {
-    return m_shm_rp_buffer.outputSize;
+    return m_shm_rp_buffer->outputSize;
 }
 
 } // namespace KWin

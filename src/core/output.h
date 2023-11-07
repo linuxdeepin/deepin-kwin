@@ -282,6 +282,10 @@ public:
 
     void creatShmRemoteProhibitBuffer();
 
+    shm_rp_buffer* creatForDumpBuffer(QSize size, void *data = nullptr);
+
+    void destroyForDumpBuffer(shm_rp_buffer* shmbuf);
+
     int shmRemoteProhibitBufferFd();
 
     int dupShmRemoteProhibitBufferFd();
@@ -346,7 +350,7 @@ Q_SIGNALS:
     void brightnessChanged();
 
 private:
-    shm_rp_buffer m_shm_rp_buffer;
+    shm_rp_buffer* m_shm_rp_buffer = nullptr;
 
 protected:
     struct Information

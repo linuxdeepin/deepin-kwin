@@ -37,6 +37,8 @@ class DrmBuffer;
 class DrmGpuBuffer;
 class Display;
 class Output;
+class DrmDumbBuffer;
+class GbmBuffer;
 
 using KWaylandServer::RemoteAccessManagerInterface;
 using KWaylandServer::BufferHandle;
@@ -49,6 +51,9 @@ public:
     ~RemoteAccessManager() override;
 
     void passBuffer(Output *output, DrmGpuBuffer *buffer);
+    void passGbmBuffer(Output *output, GbmBuffer *buffer);
+    void passDumBuffer(Output *output, DrmDumbBuffer *buffer);
+    void passProhibitBuffer(Output *output, DrmGpuBuffer *buffer);
     void incrementRenderSequence();
 
 Q_SIGNALS:
