@@ -37,6 +37,7 @@
 #include "x11_standalone_output.h"
 #include "x11_standalone_screenedges_filter.h"
 #include "xkb.h"
+#include "x11_standalone_xrender_backend.h"
 
 #include "../common/kwinxrenderutils.h"
 
@@ -164,6 +165,11 @@ std::unique_ptr<OpenGLBackend> X11StandaloneBackend::createOpenGLBackend()
     }
 }
 
+std::unique_ptr<XRenderBackend> X11StandaloneBackend::createXRenderBackend()
+{
+    return std::make_unique<X11XRenderBackend>(this);
+}
+
 std::unique_ptr<Edge> X11StandaloneBackend::createScreenEdge(ScreenEdges *edges)
 {
     if (!m_screenEdgesFilter) {
@@ -250,6 +256,9 @@ QVector<CompositingType> X11StandaloneBackend::supportedCompositors() const
     QVector<CompositingType> compositors;
 #if HAVE_EPOXY_GLX
     compositors << OpenGLCompositing;
+#endif
+#ifdef KWIN_HAVE_XRENDER_COMPOSITING
+    compositors << XRenderCompositing;
 #endif
     compositors << NoCompositing;
     return compositors;

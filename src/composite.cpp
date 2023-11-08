@@ -26,12 +26,15 @@
 #include "internalwindow.h"
 #include "openglbackend.h"
 #include "qpainterbackend.h"
+#include "xrenderbackend.h"
 #include "scene/cursorscene.h"
 #include "scene/itemrenderer_opengl.h"
 #include "scene/itemrenderer_qpainter.h"
+#include "scene/itemrenderer_xrender.h"
 #include "scene/surfaceitem_x11.h"
 #include "scene/workspacescene_opengl.h"
 #include "scene/workspacescene_qpainter.h"
+#include "scene/workspacescene_xrender.h"
 #include "shadow.h"
 #include "unmanaged.h"
 #include "useractions.h"
@@ -74,6 +77,8 @@
 
 #include <cstdio>
 #include <dlfcn.h>
+
+#include <unistd.h>
 
 Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 
@@ -284,6 +289,21 @@ bool Compositor::attemptQPainterCompositing()
     return true;
 }
 
+bool Compositor::attemptXRenderCompositing()
+{
+    std::unique_ptr<XRenderBackend> backend(kwinApp()->outputBackend()->createXRenderBackend());
+    if (!backend || backend->isFailed()) {
+        return false;
+    }
+
+    m_scene = std::make_unique<WorkspaceSceneXRender>(backend.get());
+    m_cursorScene = std::make_unique<CursorScene>(std::make_unique<ItemRendererXRender>());
+    m_backend = std::move(backend);
+
+    qCDebug(KWIN_CORE) << "XRender compositing has been successfully initialized";
+    return true;
+}
+
 bool Compositor::setupStart()
 {
     if (kwinApp()->isTerminating()) {
@@ -318,7 +338,6 @@ bool Compositor::setupStart()
         candidateCompositors.append(m_selectedCompositor);
     } else {
         candidateCompositors = availableCompositors;
-
         const auto userConfigIt = std::find(candidateCompositors.begin(), candidateCompositors.end(), options->compositingMode());
         if (userConfigIt != candidateCompositors.end()) {
             candidateCompositors.erase(userConfigIt);
@@ -331,6 +350,10 @@ bool Compositor::setupStart()
     for (auto type : std::as_const(candidateCompositors)) {
         bool stop = false;
         switch (type) {
+        case XRenderCompositing:
+            qCDebug(KWIN_CORE) << "Attempting to load the XRender scene";
+            stop = attemptXRenderCompositing();
+            break;
         case OpenGLCompositing:
             qCDebug(KWIN_CORE) << "Attempting to load the OpenGL scene";
             stop = attemptOpenGLCompositing();

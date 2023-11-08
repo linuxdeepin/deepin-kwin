@@ -12,6 +12,7 @@
 
 #include <variant>
 
+#include <xcb/render.h>
 namespace KWin
 {
 
@@ -23,10 +24,11 @@ public:
     RenderTarget();
     explicit RenderTarget(GLFramebuffer *fbo);
     explicit RenderTarget(QImage *image);
+    explicit RenderTarget(xcb_render_picture_t *renderPicture);
 
     QSize size() const;
 
-    using NativeHandle = std::variant<GLFramebuffer *, QImage *>;
+    using NativeHandle = std::variant<GLFramebuffer *, QImage *, xcb_render_picture_t *>;
     NativeHandle nativeHandle() const;
 
     void setDevicePixelRatio(qreal ratio);

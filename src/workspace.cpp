@@ -2237,6 +2237,9 @@ QString Workspace::supportInformation() const
             support.append(QStringLiteral("OpenGL 2 Shaders are used\n"));
             break;
         }
+        case XRenderCompositing:
+            support.append(QStringLiteral("Compositing Type: XRender\n"));
+            break;
         case QPainterCompositing:
             support.append("Compositing Type: QPainter\n");
             break;

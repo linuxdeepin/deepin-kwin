@@ -7,6 +7,8 @@
 #include "rendertarget.h"
 #include "kwinglutils.h"
 
+#include <QDesktopWidget>
+
 namespace KWin
 {
 
@@ -24,13 +26,23 @@ RenderTarget::RenderTarget(QImage *image)
 {
 }
 
+RenderTarget::RenderTarget(xcb_render_picture_t *renderPicture)
+    : m_nativeHandle(renderPicture)
+{
+}
+
+
 QSize RenderTarget::size() const
 {
     if (auto fbo = std::get_if<GLFramebuffer *>(&m_nativeHandle)) {
         return (*fbo)->size();
     } else if (auto image = std::get_if<QImage *>(&m_nativeHandle)) {
         return (*image)->size();
-    } else {
+    }  else if (auto renderPicture = std::get_if<xcb_render_picture_t *>(&m_nativeHandle)) {
+        QDesktopWidget desktopWidget;
+        QRect screenRect = desktopWidget.screenGeometry();
+        return QSize(screenRect.width(), screenRect.height());
+    }  else {
         Q_UNREACHABLE();
     }
 }

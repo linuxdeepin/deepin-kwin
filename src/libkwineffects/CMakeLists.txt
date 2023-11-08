@@ -50,6 +50,9 @@ target_link_libraries(kwineffects
 if (QT_MAJOR_VERSION EQUAL "6")
     target_link_libraries(kwineffects PRIVATE Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
+if (KWIN_HAVE_XRENDER_COMPOSITING)
+    target_link_libraries(kwineffects PRIVATE XCB::XFIXES)
+endif()
 set_target_properties(kwineffects PROPERTIES
     VERSION ${KWINEFFECTS_VERSION}
     SOVERSION ${KWINEFFECTS_SOVERSION}

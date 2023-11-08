@@ -22,6 +22,7 @@ namespace XRenderUtils
 {
 static xcb_connection_t *s_connection = nullptr;
 static xcb_window_t s_rootWindow = XCB_WINDOW_NONE;
+static XRenderPicture s_blendPicture(XCB_RENDER_PICTURE_NONE);
 
 void init(xcb_connection_t *connection, xcb_window_t rootWindow)
 {
@@ -87,12 +88,12 @@ void XRenderPicture::fromImage(const QImage &img)
                   0, 0, 0, depth, img.sizeInBytes(), img.constBits());
     xcb_free_gc(c, cid);
 
-    d = std::make_unique<XRenderPictureData>(createPicture(xpix, depth));
+    d = new XRenderPictureData(createPicture(xpix, depth));
     xcb_free_pixmap(c, xpix);
 }
 
 XRenderPicture::XRenderPicture(xcb_pixmap_t pix, int depth)
-    : d(std::make_unique<XRenderPictureData>(createPicture(pix, depth)))
+    : d(new XRenderPictureData(createPicture(pix, depth)))
 {
 }
 
@@ -104,8 +105,76 @@ XRenderPictureData::~XRenderPictureData()
     }
 }
 
+XFixesRegion::XFixesRegion(const QRegion &region)
+{
+    m_region = xcb_generate_id(XRenderUtils::s_connection);
+    QVector<xcb_rectangle_t> xrects;
+    xrects.reserve(region.rectCount());
+    for (const QRect &rect : region) {
+        xcb_rectangle_t xrect;
+        xrect.x = rect.x();
+        xrect.y = rect.y();
+        xrect.width = rect.width();
+        xrect.height = rect.height();
+        xrects.append(xrect);
+    }
+    xcb_xfixes_create_region(XRenderUtils::s_connection, m_region, xrects.count(), xrects.constData());
+}
+
+XFixesRegion::~XFixesRegion()
+{
+    xcb_xfixes_destroy_region(XRenderUtils::s_connection, m_region);
+}
+
+XFixesRegion::operator xcb_xfixes_region_t()
+{
+    return m_region;
+}
+
 namespace XRenderUtils
 {
+
+XRenderPicture xRenderFill(const xcb_render_color_t &c)
+{
+    xcb_pixmap_t pixmap = xcb_generate_id(XRenderUtils::s_connection);
+    xcb_create_pixmap(XRenderUtils::s_connection, 32, pixmap, XRenderUtils::s_rootWindow, 1, 1);
+    XRenderPicture fill(pixmap, 32);
+    xcb_free_pixmap(XRenderUtils::s_connection, pixmap);
+
+    uint32_t values[] = {true};
+    xcb_render_change_picture(XRenderUtils::s_connection, fill, XCB_RENDER_CP_REPEAT, values);
+
+    xcb_rectangle_t rect = {0, 0, 1, 1};
+    xcb_render_fill_rectangles(XRenderUtils::s_connection, XCB_RENDER_PICT_OP_SRC, fill, c, 1, &rect);
+    return fill;
+}
+
+XRenderPicture xRenderBlendPicture(double opacity)
+{
+    static xcb_render_color_t s_blendColor = {0, 0, 0, 0};
+    s_blendColor.alpha = uint16_t(opacity * 0xffff);
+    if (XRenderUtils::s_blendPicture == XCB_RENDER_PICTURE_NONE) {
+        XRenderUtils::s_blendPicture = xRenderFill(s_blendColor);
+    } else {
+        xcb_rectangle_t rect = {0, 0, 1, 1};
+        xcb_render_fill_rectangles(XRenderUtils::s_connection, XCB_RENDER_PICT_OP_SRC, XRenderUtils::s_blendPicture, s_blendColor, 1, &rect);
+    }
+    return XRenderUtils::s_blendPicture;
+}
+
+xcb_render_color_t preMultiply(const QColor &c, float opacity)
+{
+    xcb_render_color_t color;
+    const uint A = c.alpha() * opacity,
+               R = c.red(),
+               G = c.green(),
+               B = c.blue();
+    color.alpha = (A | A << 8);
+    color.red   = (R | R << 8) * color.alpha / 0x10000;
+    color.green = (G | G << 8) * color.alpha / 0x10000;
+    color.blue  = (B | B << 8) * color.alpha / 0x10000;
+    return color;
+}
 
 struct PictFormatData
 {

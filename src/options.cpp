@@ -63,6 +63,7 @@ Options::Options(QObject *parent)
     , m_useCompositing(Options::defaultUseCompositing())
     , m_hiddenPreviews(Options::defaultHiddenPreviews())
     , m_glSmoothScale(Options::defaultGlSmoothScale())
+    , m_xrenderSmoothScale(Options::defaultXrenderSmoothScale())
     , m_glStrictBinding(Options::defaultGlStrictBinding())
     , m_glStrictBindingFollowsDriver(Options::defaultGlStrictBindingFollowsDriver())
     , m_glPreferBufferSwap(Options::defaultGlPreferBufferSwap())
@@ -584,6 +585,15 @@ void Options::setGlSmoothScale(int glSmoothScale)
     Q_EMIT glSmoothScaleChanged();
 }
 
+void Options::setXrenderSmoothScale(bool xrenderSmoothScale)
+{
+    if (m_xrenderSmoothScale == xrenderSmoothScale) {
+        return;
+    }
+    m_xrenderSmoothScale = xrenderSmoothScale;
+    Q_EMIT xrenderSmoothScaleChanged();
+}
+
 void Options::setGlStrictBinding(bool glStrictBinding)
 {
     if (m_glStrictBinding == glStrictBinding) {
@@ -830,7 +840,9 @@ bool Options::loadCompositingConfig(bool force)
     bool useCompositing = false;
     CompositingType compositingMode = NoCompositing;
     QString compositingBackend = config.readEntry("Backend", "OpenGL");
-    if (compositingBackend == "QPainter") {
+    if (compositingBackend == QStringLiteral("XRender")) {
+        compositingMode = XRenderCompositing;
+    } if (compositingBackend == "QPainter") {
         compositingMode = QPainterCompositing;
     } else {
         compositingMode = OpenGLCompositing;
@@ -841,6 +853,11 @@ bool Options::loadCompositingConfig(bool force)
         case 'O':
             qCDebug(KWIN_CORE) << "Compositing forced to OpenGL mode by environment variable";
             compositingMode = OpenGLCompositing;
+            useCompositing = true;
+            break;
+        case 'X':
+            qCDebug(KWIN_CORE) << "Compositing forced to XRender mode by environment variable";
+            compositingMode = XRenderCompositing;
             useCompositing = true;
             break;
         case 'Q':
@@ -904,6 +921,8 @@ void Options::reloadCompositingSettings(bool force)
         c = Options::defaultGlPreferBufferSwap();
     }
     setGlPreferBufferSwap(c);
+
+    m_xrenderSmoothScale = config.readEntry("XRenderSmoothScale", false);
 
     HiddenPreviews previews = Options::defaultHiddenPreviews();
     // 4 - off, 5 - shown, 6 - always, other are old values

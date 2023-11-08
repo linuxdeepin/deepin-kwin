@@ -36,7 +36,7 @@ KWIN_EXPORT Q_NAMESPACE
          * use EffectsHandler::isOpenGLCompositing().
          */
         OpenGLCompositing = 1,
-        /* XRenderCompositing = 1<<1, */
+        XRenderCompositing = 1 << 1,
         QPainterCompositing = 1 << 2,
     };
 

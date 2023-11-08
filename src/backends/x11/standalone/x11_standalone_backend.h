@@ -48,6 +48,7 @@ public:
 
     std::unique_ptr<OpenGLBackend> createOpenGLBackend() override;
     QVector<CompositingType> supportedCompositors() const override;
+    std::unique_ptr<XRenderBackend> createXRenderBackend() override;
 
     void initOutputs();
     void scheduleUpdateOutputs();

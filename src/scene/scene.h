@@ -10,6 +10,8 @@
 
 #include <QObject>
 
+#include <xcb/render.h>
+
 #include <memory>
 
 namespace KWin
@@ -85,6 +87,12 @@ public:
     virtual void prePaint(SceneDelegate *delegate) = 0;
     virtual void postPaint() = 0;
     virtual void paint(RenderTarget *renderTarget, const QRegion &region) = 0;
+
+    /**
+     * The render buffer used by an XRender based compositor scene.
+     * Default implementation returns XCB_RENDER_PICTURE_NONE
+     */
+    virtual xcb_render_picture_t xrenderBufferPicture() const;
 
 Q_SIGNALS:
     void delegateRemoved(SceneDelegate *delegate);

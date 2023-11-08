@@ -15,6 +15,7 @@
 #include "output.h"
 #include "outputconfiguration.h"
 #include "qpainterbackend.h"
+#include "xrenderbackend.h"
 
 namespace KWin
 {
@@ -40,6 +41,11 @@ std::unique_ptr<OpenGLBackend> OutputBackend::createOpenGLBackend()
 }
 
 std::unique_ptr<QPainterBackend> OutputBackend::createQPainterBackend()
+{
+    return nullptr;
+}
+
+std::unique_ptr<XRenderBackend> OutputBackend::createXRenderBackend()
 {
     return nullptr;
 }

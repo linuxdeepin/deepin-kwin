@@ -12,6 +12,8 @@
 #include "virtual_output.h"
 #include "virtual_qpainter_backend.h"
 
+#include "../../platformsupport/scenes/xrender/xrenderbackend.h"
+
 namespace KWin
 {
 

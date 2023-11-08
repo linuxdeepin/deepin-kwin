@@ -208,6 +208,7 @@ class KWIN_EXPORT Options : public QObject
      * -1 = auto
      */
     Q_PROPERTY(int glSmoothScale READ glSmoothScale WRITE setGlSmoothScale NOTIFY glSmoothScaleChanged)
+    Q_PROPERTY(bool xrenderSmoothScale READ isXrenderSmoothScale WRITE setXrenderSmoothScale NOTIFY xrenderSmoothScaleChanged)
     Q_PROPERTY(bool glStrictBinding READ isGlStrictBinding WRITE setGlStrictBinding NOTIFY glStrictBindingChanged)
     /**
      * Whether strict binding follows the driver or has been overwritten by a user defined config value.
@@ -675,6 +676,10 @@ public:
     {
         return m_glSmoothScale;
     }
+    // XRender
+    bool isXrenderSmoothScale() const {
+        return m_xrenderSmoothScale;
+    }
 
     // Settings that should be auto-detected
     bool isGlStrictBinding() const
@@ -768,6 +773,7 @@ public:
     void setUseCompositing(bool useCompositing);
     void setHiddenPreviews(int hiddenPreviews);
     void setGlSmoothScale(int glSmoothScale);
+    void setXrenderSmoothScale(bool xrenderSmoothScale);
     void setGlStrictBinding(bool glStrictBinding);
     void setGlStrictBindingFollowsDriver(bool glStrictBindingFollowsDriver);
     void setGlPreferBufferSwap(char glPreferBufferSwap);
@@ -875,6 +881,9 @@ public:
     {
         return 2;
     }
+    static bool defaultXrenderSmoothScale() {
+        return false;
+    }
     static bool defaultGlStrictBinding()
     {
         return true;
@@ -979,6 +988,7 @@ Q_SIGNALS:
     void useCompositingChanged();
     void hiddenPreviewsChanged();
     void glSmoothScaleChanged();
+    void xrenderSmoothScaleChanged();
     void glStrictBindingChanged();
     void glStrictBindingFollowsDriverChanged();
     void glPreferBufferSwapChanged();
@@ -1026,6 +1036,7 @@ private:
     bool m_useCompositing;
     HiddenPreviews m_hiddenPreviews;
     int m_glSmoothScale;
+    bool m_xrenderSmoothScale;
     // Settings that should be auto-detected
     bool m_glStrictBinding;
     bool m_glStrictBindingFollowsDriver;

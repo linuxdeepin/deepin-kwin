@@ -15,8 +15,10 @@
 #include <kwin_export.h>
 // Qt
 #include <QExplicitlySharedDataPointer>
+#include <QRegion>
 // XCB
 #include <xcb/render.h>
+#include <xcb/xfixes.h>
 
 #include <memory>
 
@@ -59,7 +61,18 @@ public:
 
 private:
     void fromImage(const QImage &img);
-    std::unique_ptr<XRenderPictureData> d;
+    QExplicitlySharedDataPointer< XRenderPictureData > d;
+};
+
+class KWIN_EXPORT XFixesRegion
+{
+public:
+    explicit XFixesRegion(const QRegion &region);
+    virtual ~XFixesRegion();
+
+    operator xcb_xfixes_region_t();
+private:
+    xcb_xfixes_region_t m_region;
 };
 
 inline XRenderPictureData::XRenderPictureData(xcb_render_picture_t pic)
@@ -73,7 +86,7 @@ inline xcb_render_picture_t XRenderPictureData::value()
 }
 
 inline XRenderPicture::XRenderPicture(xcb_render_picture_t pic)
-    : d(std::make_unique<XRenderPictureData>(pic))
+    : d(new XRenderPictureData(pic))
 {
 }
 
@@ -98,6 +111,10 @@ KWIN_EXPORT xcb_render_pictformat_t findPictFormat(xcb_visualid_t visual);
  * Returns the xcb_render_directformat_t for the given Xrender format.
  */
 KWIN_EXPORT const xcb_render_directformat_t *findPictFormatInfo(xcb_render_pictformat_t format);
+
+KWIN_EXPORT XRenderPicture xRenderFill(const xcb_render_color_t &c);
+KWIN_EXPORT XRenderPicture xRenderBlendPicture(double opacity);
+KWIN_EXPORT xcb_render_color_t preMultiply(const QColor &c, float opacity = 1.0);
 
 /**
  * @internal

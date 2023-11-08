@@ -15,6 +15,7 @@ set(X11PLATFORM_SOURCES
     x11_standalone_screenedges_filter.cpp
     x11_standalone_windowselector.cpp
     x11_standalone_xfixes_cursor_event_filter.cpp
+    x11_standalone_xrender_backend.cpp
 )
 
 add_library(KWinX11Platform OBJECT ${X11PLATFORM_SOURCES})

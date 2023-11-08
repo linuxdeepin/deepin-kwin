@@ -43,6 +43,8 @@
 #include <QMap>
 
 #include "window.h"
+#include "composite.h"
+#include "core/renderbackend.h"
 
 Q_DECLARE_METATYPE(QPainterPath)
 
@@ -160,10 +162,19 @@ void Chameleon::paint(QPainter *painter, const QRect &repaintArea)
 {
     auto s = settings().data();
 
-    if (!noTitleBar()) {
-        if (windowNeedRadius()) {
-            painter->setClipPath(m_borderPath);
+    painter->setClipPath(m_borderPath);
+
+    if (windowNeedBorder()) {
+        qreal border_width = borderWidth();
+
+        // 支持alpha通道时在阴影上绘制border
+        if (!qIsNull(border_width)) {
+            painter->fillPath(m_borderPath, borderColor());//m_borderPath
+            //painter->fillRect(repaintArea, borderColor());//m_borderPath
         }
+    }
+
+    if (!noTitleBar()) {
         painter->setFont(m_font);
 
         painter->fillRect(titleBar() & repaintArea, getBackgroundColor());
@@ -173,20 +184,6 @@ void Chameleon::paint(QPainter *painter, const QRect &repaintArea)
         // draw all buttons
         m_leftButtons->paint(painter, repaintArea);
         m_rightButtons->paint(painter, repaintArea);
-    }
-
-    if (windowNeedBorder()) {
-        qreal border_width = borderWidth();
-
-        // 支持alpha通道时在阴影上绘制border
-        if (!qIsNull(border_width)) {
-            if (noTitleBar()) {
-                painter->fillPath(m_borderPath, borderColor());
-            } else {
-                // 绘制path是沿着路径外圈绘制，所以此处应该+1才能把border绘制到窗口边缘
-                painter->strokePath(m_borderPath, QPen(borderColor(), border_width + 1));
-            }
-        }
     }
 }
 
@@ -568,8 +565,8 @@ void Chameleon::updateBorderPath()
 {
     auto c = client().data();
     QRectF client_rect(0, 0, c->width(), c->height());
-    client_rect += borders();
-    client_rect.moveTopLeft(QPointF(0, 0));
+        client_rect += borders();
+        client_rect.moveTopLeft(QPointF(0, 0));
 
     QPainterPath path;
     KWin::EffectWindow *effect = this->effect();
@@ -707,17 +704,24 @@ void Chameleon::onNoTitlebarPropertyChanged(quint32 windowId)
 
 bool Chameleon::windowNeedRadius() const
 {
+    if (settings()->isAlphaChannelSupported() &&
+        KWin::Compositor::self()->backend()->compositingType() == KWin::XRenderCompositing ) {
+        return false;
+    }
+
     auto c = client().data();
     return KWinUtils::instance()->isCompositing() && c->adjacentScreenEdges() == Qt::Edges();
 }
 
 bool Chameleon::windowNeedBorder() const
 {
-    if (client().data()->isMaximized())
+    if (client().data()->isMaximized()) {
         return false;
+    }
 
     // 开启窗口混成时可以在阴影图片中绘制窗口边框
-    if (settings()->isAlphaChannelSupported()) {
+    if (settings()->isAlphaChannelSupported() &&
+        KWin::Compositor::self()->backend()->compositingType() != KWin::XRenderCompositing ) {
         return false;
     }
 

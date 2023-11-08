@@ -285,7 +285,7 @@ void WorkspaceScene::preparePaintSimpleScreen()
         accumulateRepaints(windowItem, painted_delegate, &data.paint);
 
         // Clip out the decoration for opaque windows; the decoration is drawn in the second pass.
-        if (window->opacity() == 1.0) {
+        if (window->opacity() >= 0.95) {
             const SurfaceItem *surfaceItem = windowItem->surfaceItem();
             if (Q_LIKELY(surfaceItem)) {
                 data.opaque = surfaceItem->mapToGlobal(surfaceItem->opaque());
@@ -312,7 +312,7 @@ void WorkspaceScene::preparePaintSimpleScreen()
         const auto &paintData = m_paintContext.phase2Data.at(i);
         m_paintContext.damage += paintData.region - opaque;
         if (!(paintData.mask & (PAINT_WINDOW_TRANSLUCENT | PAINT_WINDOW_TRANSFORMED))) {
-            opaque += paintData.opaque;
+                opaque += paintData.opaque;
         }
     }
 
@@ -411,7 +411,9 @@ void WorkspaceScene::paintSimpleScreen(int, const QRegion &region)
         }
     }
 
-    m_renderer->renderBackground(visible);
+    if (!visible.isEmpty()) {
+        m_renderer->renderBackground(visible);
+    }
 
     for (const Phase2Data &paintData : std::as_const(m_paintContext.phase2Data)) {
         paintWindow(paintData.item, paintData.mask, paintData.region);

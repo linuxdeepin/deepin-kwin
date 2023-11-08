@@ -19,7 +19,7 @@
 */
 
 #cmakedefine01 HAVE_EPOXY_GLX
-
+#cmakedefine01 KWIN_HAVE_XRENDER_COMPOSITING
 #cmakedefine01 HAVE_DL_LIBRARY
 
 #endif

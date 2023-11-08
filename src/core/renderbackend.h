@@ -42,7 +42,7 @@ public:
     virtual OutputLayer *primaryLayer(Output *output) = 0;
     virtual void present(Output *output) = 0;
 
-    virtual QHash<uint32_t, QVector<uint64_t>> supportedFormats() const;
+    virtual QHash<uint32_t, QVector<uint64_t>> supportedFormats() const; // 非纯虚
 
     virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureInternal(SurfacePixmapInternal *pixmap);
     virtual std::unique_ptr<SurfaceTexture> createSurfaceTextureX11(SurfacePixmapX11 *pixmap);

@@ -180,6 +180,7 @@ private:
 
     bool attemptOpenGLCompositing();
     bool attemptQPainterCompositing();
+    bool attemptXRenderCompositing();
 
     Output *findOutput(RenderLoop *loop) const;
     void addOutput(Output *output);
