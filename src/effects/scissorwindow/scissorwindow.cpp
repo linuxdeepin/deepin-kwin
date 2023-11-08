@@ -87,12 +87,6 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
         return effects->prePaintWindow(w, data, time);
     }
 
-    {
-        QRect geo(w->frameGeometry().toRect());
-        data.paint += geo;
-        data.opaque -= geo;
-    }
-
     effects->prePaintWindow(w, data, time);
 }
 
