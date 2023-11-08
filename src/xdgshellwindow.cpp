@@ -1694,7 +1694,7 @@ void XdgToplevelWindow::initialize()
 
     m_isInitialized = true;
 
-    if (!m_isSendT && isResizable()) {
+    if (m_ddeShellSurface && !m_isSendT && isResizable()) {
         m_ddeShellSurface->sendSplitable(true);
         m_isSendT = true;
     }
