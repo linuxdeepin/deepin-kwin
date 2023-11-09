@@ -51,7 +51,7 @@ public:
 
     void prePaintWindow(EffectWindow* w, WindowPrePaintData& data, std::chrono::milliseconds time) override;
 
-    void paintWindow(EffectWindow* w, int mask, QRegion region, WindowPaintData& data) override;
+    void drawWindow(EffectWindow* w, int mask, const QRegion& region, WindowPaintData& data) override;
 
 protected Q_SLOTS:
     void windowAdded(EffectWindow *window);

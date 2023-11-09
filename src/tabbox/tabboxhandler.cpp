@@ -174,7 +174,7 @@ void TabBoxHandlerPrivate::updateHighlightWindows()
         lastRaisedClient = currentClient;
         // don't elevate desktop
         const auto desktop = q->desktopClient().toStrongRef();
-        if (currentClient && (!desktop || currentClient->internalId() != desktop->internalId())) {
+        if (currentClient) {
             q->elevateClient(currentClient, w, true);
         }
     } else {
