@@ -353,6 +353,9 @@ void PlasmaWindowInterfacePrivate::org_kde_plasma_window_bind_resource(Resource 
     if (m_pid != 0) {
         send_pid_changed(resource->handle, m_pid);
     }
+    if(windowId != 0){
+        send_window_id(resource->handle,windowId);
+    }
     if (!m_title.isEmpty()) {
         send_title_changed(resource->handle, m_title);
     }
