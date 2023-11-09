@@ -12,6 +12,7 @@
 
 ChameleonWindowTheme::ChameleonWindowTheme(QObject *window, QObject *parent)
     : QObject(parent)
+    , m_settingsProxy(new QObject(this))
     , m_window(window)
 {
     if (!window)
@@ -24,7 +25,7 @@ ChameleonWindowTheme::ChameleonWindowTheme(QObject *window, QObject *parent)
         return;
 
     // 将ChameleonWindowTheme对象的属性绑定到对应x11窗口的settings属性
-    ok = KWinUtils::instance()->buildNativeSettings(this, window_id);
+    ok = KWinUtils::instance()->buildNativeSettings(m_settingsProxy, window_id);
     Q_UNUSED(ok);
 
     updateScreen();
@@ -38,6 +39,16 @@ ChameleonWindowTheme::PropertyFlags ChameleonWindowTheme::validProperties() cons
 bool ChameleonWindowTheme::propertyIsValid(ChameleonWindowTheme::PropertyFlag p) const
 {
     return m_validProperties.testFlag(p);
+}
+
+QVariant ChameleonWindowTheme::property(const char *name) const
+{
+    return m_settingsProxy ? m_settingsProxy->property(name) : QVariant();
+}
+
+bool ChameleonWindowTheme::setProperty(const char *name, const QVariant &value)
+{
+    return m_settingsProxy ? m_settingsProxy->setProperty(name, value) : false;
 }
 
 QString ChameleonWindowTheme::theme() const
