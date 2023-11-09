@@ -53,6 +53,9 @@ public:
     QMarginsF mouseInputAreaMargins() const;
     qreal windowPixelRatio() const;
 
+    QVariant property(const char *name) const;
+    bool setProperty(const char *name, const QVariant &value);
+
 public Q_SLOTS:
     void setValidProperties(qint64 validProperties);
 
@@ -72,6 +75,7 @@ private:
     void updateScreen();
     void updateScreenScale();
 
+    QObject *m_settingsProxy = nullptr;
     QObject *m_window = nullptr;
     QScreen *m_screen = nullptr;
     PropertyFlags m_validProperties;
