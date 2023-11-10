@@ -161,8 +161,6 @@ protected:
      */
     void startupWithWorkspace();
 
-    virtual void configChanged();
-
     void destroyCompositorSelection();
 
     static Compositor *s_compositor;
@@ -276,7 +274,6 @@ public:
 
     void toggleCompositing() override;
     void reinitialize() override;
-    void configChanged() override;
     bool compositingPossible() const override;
     QString compositingNotPossibleReason() const override;
     bool openGLCompositingIsBroken() const override;

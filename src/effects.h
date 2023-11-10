@@ -360,6 +360,7 @@ protected:
 private:
     void registerPropertyType(long atom, bool reg);
     void destroyEffect(Effect *effect);
+    void reconfigureEffects();
 
     typedef QVector<Effect *> EffectsList;
     typedef EffectsList::const_iterator EffectsIterator;

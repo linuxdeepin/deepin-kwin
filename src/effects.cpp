@@ -142,6 +142,8 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, WorkspaceScene *s
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject(QStringLiteral("/Effects"), this);
 
+    connect(options, &Options::animationSpeedChanged, this, &EffectsHandlerImpl::reconfigureEffects);
+
     Workspace *ws = Workspace::self();
     VirtualDesktopManager *vds = VirtualDesktopManager::self();
     connect(ws, &Workspace::showingDesktopChanged, this, [this](bool showing, bool animated) {
@@ -1570,6 +1572,14 @@ void EffectsHandlerImpl::destroyEffect(Effect *effect)
     }
 
     delete effect;
+}
+
+void EffectsHandlerImpl::reconfigureEffects()
+{
+    makeOpenGLContextCurrent();
+    for (const EffectPair &pair : loaded_effects) {
+        pair.second->reconfigure(Effect::ReconfigureAll);
+    }
 }
 
 void EffectsHandlerImpl::reconfigureEffect(const QString &name)

@@ -129,9 +129,6 @@ private:
 Compositor::Compositor(QObject *workspace)
     : QObject(workspace)
 {
-    connect(options, &Options::configChanged, this, &Compositor::configChanged);
-    connect(options, &Options::animationSpeedChanged, this, &Compositor::configChanged);
-
     // 2 sec which should be enough to restart the compositor.
     static const int compositorLostMessageDelay = 100;
 
@@ -620,11 +617,6 @@ void Compositor::deleteUnusedSupportProperties()
     }
 }
 
-void Compositor::configChanged()
-{
-    reinitialize();
-}
-
 void Compositor::reinitialize()
 {
     // Reparse config. Config options will be reloaded by start()
@@ -822,6 +814,14 @@ X11Compositor::X11Compositor(QObject *parent)
     if (qEnvironmentVariableIsSet("KWIN_MAX_FRAMES_TESTED")) {
         m_framesToTestForSafety = qEnvironmentVariableIntValue("KWIN_MAX_FRAMES_TESTED");
     }
+
+    connect(options, &Options::configChanged, this, [this]() {
+        if (m_suspended) {
+            stop();
+        } else {
+            reinitialize();
+        }
+    });
 }
 
 X11Compositor::~X11Compositor()
@@ -855,15 +855,6 @@ void X11Compositor::reinitialize()
     // Resume compositing if suspended.
     m_suspended = NoReasonSuspend;
     Compositor::reinitialize();
-}
-
-void X11Compositor::configChanged()
-{
-    if (m_suspended) {
-        stop();
-        return;
-    }
-    Compositor::configChanged();
 }
 
 void X11Compositor::suspend(X11Compositor::SuspendReason reason)
