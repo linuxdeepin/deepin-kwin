@@ -356,6 +356,7 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resour
         applied = false;
         send_failed();
     }
+    config.reset();
 }
 
 }
