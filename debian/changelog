@@ -1,3 +1,10 @@
+kwin (4:5.27.2.33-deepin33-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * Bug fix
+
+ -- zhangyu <zhangyud@uniontech.com>  Mon, 13 Nov 2023 10:52:20 +0800
+
 kwin (4:5.27.2.32-deepin32-1) unstable; urgency=medium
 
   [ zhangyu ]
