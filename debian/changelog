@@ -1,3 +1,10 @@
+kwin (4:5.27.2.34-deepin34-1) unstable; urgency=medium
+
+  [ Chaojiang Luo ]
+  * fix: Do not restart wayland compositing when config change
+
+ -- jccKevin <luochaojiang@uniontech.com>  Mon, 13 Nov 2023 16:52:26 +0800
+
 kwin (4:5.27.2.33-deepin33-1) unstable; urgency=medium
 
   [ zhangyu ]
