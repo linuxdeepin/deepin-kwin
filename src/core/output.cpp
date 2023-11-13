@@ -519,11 +519,17 @@ void Output::creatShmRemoteProhibitBuffer()
 
 int Output::shmRemoteProhibitBufferFd()
 {
+    if (!m_shm_rp_buffer) {
+        return -1;
+    }
     return m_shm_rp_buffer->fd;
 }
 
 int Output::dupShmRemoteProhibitBufferFd()
 {
+    if (!m_shm_rp_buffer) {
+        return -1;
+    }
     return fcntl(m_shm_rp_buffer->fd, F_DUPFD, 0);
 }
 
@@ -540,6 +546,9 @@ void Output::freeShmRemoteProhibitBuffer()
 
 QSize Output::shmRemoteProhibitBufferSize()
 {
+    if (!m_shm_rp_buffer) {
+        return QSize();
+    }
     return m_shm_rp_buffer->outputSize;
 }
 
