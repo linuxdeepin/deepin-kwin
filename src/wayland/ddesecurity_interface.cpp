@@ -194,6 +194,9 @@ void DDESecuritySessionInterfacePrivate::security_session_report_security(Resour
 
 bool DDESecuritySessionInterfacePrivate::sendVerifySecurity(uint32_t types, uint32_t client, uint32_t target, uint32_t serial)
 {
+    if (!resource()) {
+        return false;
+    }
     if (types & support_types != types) {
         return false;
         qDebug() << "The session cat not support this types " << ((types ^ support_types) & types);
