@@ -75,7 +75,8 @@ DrmGpu::DrmGpu(DrmBackend *backend, const QString &devNode, int fd, dev_t device
     // find out what driver this kms device is using
     DrmUniquePtr<drmVersion> version(drmGetVersion(fd));
     qCDebug(KWIN_DRM) << __func__ << "find gpu " << version->name;
-    m_isHisi = strstr(version->name, "hisi");
+    m_isHisi = strstr(version->name, "hisi") || strstr(version->name, "huanglong");
+    m_isDisplayLink = strstr(version->name, "udl");
     m_isNVidia = strstr(version->name, "nvidia-drm");
     m_isVirtualMachine = strstr(version->name, "virtio") || strstr(version->name, "qxl")
         || strstr(version->name, "vmwgfx") || strstr(version->name, "vboxvideo");
@@ -702,6 +703,11 @@ bool DrmGpu::isNVidia() const
 bool DrmGpu::isHisi() const
 {
     return m_isHisi;
+}
+
+bool DrmGpu::isDlink() const
+{
+    return m_isDisplayLink;
 }
 
 bool DrmGpu::isRemoved() const

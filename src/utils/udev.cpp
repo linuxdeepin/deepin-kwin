@@ -126,6 +126,14 @@ std::vector<UdevDevice::Ptr> Udev::listGPUs()
     enumerate.scan();
     auto vect = enumerate.find();
     std::sort(vect.begin(), vect.end(), [](const UdevDevice::Ptr &device1, const UdevDevice::Ptr &device2) {
+        // prevent usb devices from becoming the primaryGpu
+        if (device1->isHotpluggable()) {
+            return false;
+        }
+        if (device2->isHotpluggable()) {
+            return true;
+        }
+
         // if set as boot GPU, prefer 1
         if (device1->isBootVga()) {
             return true;
@@ -215,6 +223,12 @@ bool UdevDevice::isBootVga() const
     }
     const char *systAttrValue = udev_device_get_sysattr_value(pci, "boot_vga");
     return systAttrValue && qstrcmp(systAttrValue, "1") == 0;
+}
+
+bool UdevDevice::isHotpluggable() const
+{
+    QString devPath = QString::fromUtf8(udev_device_get_devpath(m_device));
+    return devPath.toLower().contains("usb");
 }
 
 QString UdevDevice::seat() const

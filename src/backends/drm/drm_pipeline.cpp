@@ -239,7 +239,9 @@ void DrmPipeline::prepareAtomicPresentation()
     }
 
     m_pending.crtc->setPending(DrmCrtc::PropertyIndex::VrrEnabled, m_pending.syncMode == RenderLoopPrivate::SyncMode::Adaptive || m_pending.syncMode == RenderLoopPrivate::SyncMode::AdaptiveAsync);
-    m_pending.crtc->setPending(DrmCrtc::PropertyIndex::Gamma_LUT, m_pending.gamma ? m_pending.gamma->blobId() : 0);
+    if (m_pending.gamma) {
+        m_pending.crtc->setPending(DrmCrtc::PropertyIndex::Gamma_LUT, m_pending.gamma->blobId());
+    }
     const auto fb = m_pending.layer->currentBuffer().get();
     m_pending.crtc->primaryPlane()->set(QPoint(0, 0), fb->buffer()->size(), centerBuffer(orientateSize(fb->buffer()->size(), m_pending.bufferOrientation), m_pending.mode->size()));
     m_pending.crtc->primaryPlane()->setBuffer(fb);
@@ -731,7 +733,7 @@ DrmConnector::DrmContentType DrmPipeline::contentType() const
 
 void DrmPipeline::setCrtc(DrmCrtc *crtc)
 {
-    if (crtc && m_pending.crtc && crtc->gammaRampSize() != m_pending.crtc->gammaRampSize() && m_pending.colorTransformation) {
+    if (crtc && m_pending.crtc && crtc->gammaRampSize() > 0 && crtc->gammaRampSize() != m_pending.crtc->gammaRampSize() && m_pending.colorTransformation) {
         m_pending.gamma = std::make_shared<DrmGammaRamp>(crtc, m_pending.colorTransformation);
     }
     m_pending.crtc = crtc;
@@ -791,7 +793,9 @@ void DrmPipeline::setRgbRange(Output::RgbRange range)
 void DrmPipeline::setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation)
 {
     m_pending.colorTransformation = transformation;
-    m_pending.gamma = std::make_shared<DrmGammaRamp>(m_pending.crtc, transformation);
+    if (m_pending.crtc && m_pending.crtc->gammaRampSize() > 0) {
+        m_pending.gamma = std::make_shared<DrmGammaRamp>(m_pending.crtc, transformation);
+    }
 }
 
 void DrmPipeline::setContentType(DrmConnector::DrmContentType type)

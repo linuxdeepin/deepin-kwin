@@ -118,7 +118,7 @@ DrmPipeline::Error DrmPipeline::applyPendingChangesLegacy()
                 return err;
             }
         }
-        if (m_pending.gamma && drmModeCrtcSetGamma(gpu()->fd(), m_pending.crtc->id(), m_pending.gamma->lut().size(), m_pending.gamma->lut().red(), m_pending.gamma->lut().green(), m_pending.gamma->lut().blue()) != 0) {
+        if (m_pending.gamma && m_pending.gamma->lut().size() > 0 && drmModeCrtcSetGamma(gpu()->fd(), m_pending.crtc->id(), m_pending.gamma->lut().size(), m_pending.gamma->lut().red(), m_pending.gamma->lut().green(), m_pending.gamma->lut().blue()) != 0) {
             qCWarning(KWIN_DRM) << "Setting gamma failed!" << strerror(errno);
             return errnoToError();
         }

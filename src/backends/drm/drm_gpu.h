@@ -75,6 +75,7 @@ public:
     bool asyncPageflipSupported() const;
     bool isNVidia() const;
     bool isHisi() const;
+    bool isDlink() const;
     gbm_device *gbmDevice() const;
     EGLDisplay eglDisplay() const;
     DrmBackend *platform() const;
@@ -134,6 +135,7 @@ private:
     bool m_asyncPageflipSupported = false;
     bool m_isRemoved = false;
     bool m_isHisi = false;
+    bool m_isDisplayLink = false;
     clockid_t m_presentationClock;
     gbm_device *m_gbmDevice;
     EGLDisplay m_eglDisplay = EGL_NO_DISPLAY;

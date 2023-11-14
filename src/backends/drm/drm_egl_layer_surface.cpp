@@ -255,6 +255,11 @@ std::optional<EglGbmLayerSurface::Surface> EglGbmLayerSurface::createSurface(con
         return std::nullopt;
     };
     std::sort(preferredFormats.begin(), preferredFormats.end(), sort);
+    if (m_gpu && m_gpu->isDlink()) {
+        if (const auto surface = testFormats(preferredFormats, MultiGpuImportMode::DumbBuffer)) {
+            return surface;
+        }
+    }
     if (const auto surface = testFormats(preferredFormats, MultiGpuImportMode::Dmabuf)) {
         return surface;
     }
@@ -264,6 +269,11 @@ std::optional<EglGbmLayerSurface::Surface> EglGbmLayerSurface::createSurface(con
         }
     }
     std::sort(fallbackFormats.begin(), fallbackFormats.end(), sort);
+    if (m_gpu && m_gpu->isDlink()) {
+        if (const auto surface = testFormats(fallbackFormats, MultiGpuImportMode::DumbBuffer)) {
+            return surface;
+        }
+    }
     if (const auto surface = testFormats(fallbackFormats, MultiGpuImportMode::Dmabuf)) {
         return surface;
     }
