@@ -363,7 +363,11 @@ bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, Abstr
 
     if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl) {
         if (skipVerify(dataDevice->processId())) {
-            dataDevice->sendSelection(dataSource);
+            if (dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
+                dataDevice->sendPrimarySelection(dataSource);
+            } else {
+                dataDevice->sendSelection(dataSource);
+            }
             qCWarning(KWIN_CORE) << "sec_cp:skip verify for " << dataDevice << "@" << dataDevice->processId();
             return false;
         }

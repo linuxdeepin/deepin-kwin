@@ -163,6 +163,7 @@ void Primary::x11OffersChanged(const QStringList &added, const QStringList &remo
         });
         auto newSelection = std::make_unique<XwlDataSource>();
         newSelection->setMimeTypes(mimeTypes);
+        newSelection->setExtSourceType(KWaylandServer::AbstractDataSource::SourceType::FromPrimary);
         connect(newSelection.get(), &XwlDataSource::dataRequested, source, &X11Source::startTransfer);
         // we keep the old selection around because setPrimarySelection needs it to be still alive
         std::swap(m_primarySelectionSource, newSelection);

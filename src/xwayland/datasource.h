@@ -53,6 +53,15 @@ public:
 
     bool isAccepted() const override;
 
+    void setExtSourceType(const SourceType &type)
+    {
+        m_extSourceType = type;
+    }
+    SourceType extSourceType() override
+    {
+        return m_extSourceType;
+    }
+
 Q_SIGNALS:
     void dataRequested(const QString &mimeType, qint32 fd);
     void dropped();
@@ -64,6 +73,7 @@ private:
     KWaylandServer::DataDeviceManagerInterface::DnDActions m_supportedDndActions;
     KWaylandServer::DataDeviceManagerInterface::DnDAction m_dndAction = KWaylandServer::DataDeviceManagerInterface::DnDAction::None;
     bool m_accepted = false;
+    SourceType m_extSourceType = SourceType::FromXClient;
 };
 }
 }
