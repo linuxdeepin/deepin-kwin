@@ -50,6 +50,7 @@
 #include "wayland/shmclientbuffer.h"
 #include "wayland/surface_interface.h"
 #include "wayland/tablet_v2_interface.h"
+#include "wayland/xwaylandkeyboardgrab_v1_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "xkb.h"
@@ -2393,6 +2394,49 @@ static KWaylandServer::AbstractDropHandler *dropHandler(Window *window)
     return nullptr;
 }
 
+/**
+ * The remaining grab input filter which forwards events to grab windows
+ **/
+class GrabInputFilter : public InputEventFilter
+{
+public:
+    bool keyEvent(KeyEvent *event) override {
+        if (!workspace()) {
+            return false;
+        }
+        if (event->isAutoRepeat()) {
+            // handled by Wayland client
+            return false;
+        }
+
+        if (!waylandServer()->XWaylandKeyboardGrabClientV1()) {
+            return false;
+        }
+
+        KWaylandServer::SurfaceInterface *surface = waylandServer()->XWaylandKeyboardGrabClientV1()->surface();
+        KWaylandServer::SeatInterface *seat = waylandServer()->XWaylandKeyboardGrabClientV1()->seat();
+        input()->keyboard()->update();
+        if (!surface || !seat) {
+            return false;
+        }
+
+        seat->setFocusedKeyboardSurface(surface);
+        seat->setTimestamp(event->timestamp());
+        switch (event->type()) {
+        case QEvent::KeyPress:
+            seat->notifyKeyboardKey(event->nativeScanCode(), KWaylandServer::KeyboardKeyState::Pressed);
+            break;
+        case QEvent::KeyRelease:
+            seat->notifyKeyboardKey(event->nativeScanCode(), KWaylandServer::KeyboardKeyState::Released);
+            break;
+        default:
+            break;
+        }
+
+        return true;
+    }
+};
+
 class DragAndDropInputFilter : public QObject, public InputEventFilter
 {
     Q_OBJECT
@@ -2972,6 +3016,9 @@ void InputRedirection::setupInputFilters()
         {
         installInputEventFilter(new VirtualTerminalFilter);
     }
+
+    m_grabFilter = new GrabInputFilter;
+
     installInputEventSpy(new HideCursorSpy);
     installInputEventSpy(new GlobalEventSpy);
     installInputEventSpy(new UserActivitySpy);

@@ -538,6 +538,18 @@ bool WaylandServer::init(InitializationFlags flags)
     m_XdgForeign = new XdgForeignV2Interface(m_display, m_display);
     m_inputMethod = new InputMethodV1Interface(m_display, m_display);
     m_xWaylandKeyboardGrabManager = new XWaylandKeyboardGrabManagerV1Interface(m_display, m_display);
+    connect(m_xWaylandKeyboardGrabManager, &XWaylandKeyboardGrabManagerV1Interface::XWaylandKeyboardGrabV1Created,
+        [this] (XWaylandKeyboardGrabV1Interface *grab) {
+            m_grabClient = grab;
+            qDebug() << "grab successfully";
+        }
+    );
+    connect(m_xWaylandKeyboardGrabManager, &XWaylandKeyboardGrabManagerV1Interface::XWaylandKeyboardGrabV1Destroyed,
+        [this] () {
+            m_grabClient = nullptr;
+            qDebug() << "grab destroyed";
+        }
+    );
 
     m_clientManagement = new ClientManagementInterface(m_display, m_display);
     connect(m_clientManagement, &ClientManagementInterface::windowStatesRequest, this,

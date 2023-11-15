@@ -38,6 +38,20 @@
 namespace KWin
 {
 
+static bool isTopScreen()
+{
+    const QList<Window *> &stacking = Workspace::self()->stackingOrder();
+    if (!stacking.isEmpty()) {
+        for (auto it = stacking.rbegin(); it != stacking.rend(); ++it) {
+            Window *w = (*it);
+            if (w->isOverride() || w->isOnScreenDisplay()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 KeyboardInputRedirection::KeyboardInputRedirection(InputRedirection *parent)
     : QObject(parent)
     , m_input(parent)
@@ -268,6 +282,12 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
     if (!m_inited) {
         return;
     }
+
+    if (m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event)) && !isTopScreen()) {
+        m_xkb->forwardModifiers();
+        return;
+    }
+
     input()->setLastInputHandler(this);
     m_input->processFilters(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event));
 

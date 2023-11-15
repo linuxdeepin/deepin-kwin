@@ -217,6 +217,14 @@ public:
         std::for_each(m_spies.constBegin(), m_spies.constEnd(), function);
     }
 
+    template <class UnaryFunction>
+    bool processGrab(UnaryFunction function) {
+        if (m_grabFilter == nullptr) {
+            return false;
+        }
+        return function(*m_grabFilter);
+    }
+
     KeyboardInputRedirection *keyboard() const
     {
         return m_keyboard;

@@ -49,6 +49,7 @@ class TabletManagerV2Interface;
 class KeyboardShortcutsInhibitManagerV1Interface;
 class XdgDecorationManagerV1Interface;
 class XWaylandKeyboardGrabManagerV1Interface;
+class XWaylandKeyboardGrabV1Interface;
 class ContentTypeManagerV1Interface;
 class DrmLeaseManagerV1;
 class TearingControlManagerV1Interface;
@@ -157,6 +158,9 @@ public:
     }
     KWaylandServer::DDERestrictInterface *ddeRestrict() const {
         return m_ddeRestrict;
+    }
+    KWaylandServer::XWaylandKeyboardGrabV1Interface *XWaylandKeyboardGrabClientV1() const {
+        return m_grabClient;
     }
 
     bool isKeyboardShortcutsInhibited() const;
@@ -332,6 +336,7 @@ private:
     KWaylandServer::XdgForeignV2Interface *m_XdgForeign = nullptr;
     XdgActivationV1Integration *m_xdgActivationIntegration = nullptr;
     KWaylandServer::XWaylandKeyboardGrabManagerV1Interface *m_xWaylandKeyboardGrabManager = nullptr;
+    KWaylandServer::XWaylandKeyboardGrabV1Interface *m_grabClient = nullptr;
     KWaylandServer::ContentTypeManagerV1Interface *m_contentTypeManager = nullptr;
     KWaylandServer::TearingControlManagerV1Interface *m_tearingControlInterface = nullptr;
     KWaylandServer::XwaylandShellV1Interface *m_xwaylandShell = nullptr;

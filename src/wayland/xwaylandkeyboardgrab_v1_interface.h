@@ -22,6 +22,7 @@ class SeatInterface;
 class SurfaceInterface;
 class XWaylandKeyboardGrabV1InterfacePrivate;
 class XWaylandKeyboardGrabManagerV1InterfacePrivate;
+class XWaylandKeyboardGrabV1Interface;
 
 class KWIN_EXPORT XWaylandKeyboardGrabManagerV1Interface : public QObject
 {
@@ -30,6 +31,10 @@ public:
     explicit XWaylandKeyboardGrabManagerV1Interface(Display *display, QObject *parent = nullptr);
     ~XWaylandKeyboardGrabManagerV1Interface() override;
     bool hasGrab(SurfaceInterface *surface, SeatInterface *seat) const;
+
+Q_SIGNALS:
+    void XWaylandKeyboardGrabV1Created(XWaylandKeyboardGrabV1Interface *grab);
+    void XWaylandKeyboardGrabV1Destroyed();
 
 private:
     friend class XWaylandKeyboardGrabManagerV1InterfacePrivate;
@@ -42,9 +47,12 @@ class KWIN_EXPORT XWaylandKeyboardGrabV1Interface : public QObject
 public:
     ~XWaylandKeyboardGrabV1Interface() override;
 
+    SurfaceInterface *surface() const;
+    SeatInterface *seat() const;
+
 private:
     friend class XWaylandKeyboardGrabManagerV1InterfacePrivate;
-    XWaylandKeyboardGrabV1Interface(wl_resource *resource);
+    XWaylandKeyboardGrabV1Interface(wl_resource *resource, SurfaceInterface *surface, SeatInterface *seat);
     std::unique_ptr<XWaylandKeyboardGrabV1InterfacePrivate> d;
 };
 

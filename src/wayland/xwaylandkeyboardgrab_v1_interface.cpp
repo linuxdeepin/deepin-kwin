@@ -32,8 +32,12 @@ protected:
 class XWaylandKeyboardGrabV1InterfacePrivate : QtWaylandServer::zwp_xwayland_keyboard_grab_v1
 {
 public:
-    XWaylandKeyboardGrabV1InterfacePrivate(XWaylandKeyboardGrabV1Interface *q, wl_resource *resource);
+    XWaylandKeyboardGrabV1InterfacePrivate(XWaylandKeyboardGrabV1Interface *q, wl_resource *resource,
+            SurfaceInterface *surface, SeatInterface *seat);
     XWaylandKeyboardGrabV1Interface *const q;
+
+    SurfaceInterface *surface;
+    SeatInterface *seat;
 
 protected:
     void zwp_xwayland_keyboard_grab_v1_destroy(Resource *resource) override;
@@ -60,11 +64,13 @@ void XWaylandKeyboardGrabManagerV1InterfacePrivate::zwp_xwayland_keyboard_grab_m
     }
     const auto surfaceInterface = SurfaceInterface::get(surface);
     const auto seatInterface = SeatInterface::get(seat);
-    auto grab = new XWaylandKeyboardGrabV1Interface(keyboardGrab);
+    auto grab = new XWaylandKeyboardGrabV1Interface(keyboardGrab, surfaceInterface, seatInterface);
     QObject::connect(grab, &QObject::destroyed, q, [this, surfaceInterface, seatInterface] {
         m_grabs.remove({surfaceInterface, seatInterface});
+        Q_EMIT q->XWaylandKeyboardGrabV1Destroyed();
     });
     m_grabs.insert({SurfaceInterface::get(surface), SeatInterface::get(seat)}, grab);
+    Q_EMIT q->XWaylandKeyboardGrabV1Created(grab);
 }
 
 XWaylandKeyboardGrabManagerV1Interface::XWaylandKeyboardGrabManagerV1Interface(Display *display, QObject *parent)
@@ -82,9 +88,12 @@ bool XWaylandKeyboardGrabManagerV1Interface::hasGrab(SurfaceInterface *surface, 
     return d->m_grabs.contains({surface, seat});
 }
 
-XWaylandKeyboardGrabV1InterfacePrivate::XWaylandKeyboardGrabV1InterfacePrivate(XWaylandKeyboardGrabV1Interface *q, wl_resource *resource)
+XWaylandKeyboardGrabV1InterfacePrivate::XWaylandKeyboardGrabV1InterfacePrivate(XWaylandKeyboardGrabV1Interface *q, wl_resource *resource,
+        SurfaceInterface *surface, SeatInterface *seat)
     : zwp_xwayland_keyboard_grab_v1(resource)
     , q(q)
+    , surface(surface)
+    , seat(seat)
 {
 }
 
@@ -98,13 +107,23 @@ void XWaylandKeyboardGrabV1InterfacePrivate::zwp_xwayland_keyboard_grab_v1_destr
     delete q;
 }
 
-XWaylandKeyboardGrabV1Interface::XWaylandKeyboardGrabV1Interface(wl_resource *resource)
-    : d(std::make_unique<XWaylandKeyboardGrabV1InterfacePrivate>(this, resource))
+XWaylandKeyboardGrabV1Interface::XWaylandKeyboardGrabV1Interface(wl_resource *resource, SurfaceInterface *surface, SeatInterface *seat)
+    : d(std::make_unique<XWaylandKeyboardGrabV1InterfacePrivate>(this, resource, surface, seat))
 {
 }
 
 XWaylandKeyboardGrabV1Interface::~XWaylandKeyboardGrabV1Interface()
 {
+}
+
+SurfaceInterface *XWaylandKeyboardGrabV1Interface::surface() const
+{
+    return d->surface;
+}
+
+SeatInterface *XWaylandKeyboardGrabV1Interface::seat() const
+{
+    return d->seat;
 }
 
 }
