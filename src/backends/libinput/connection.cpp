@@ -315,7 +315,7 @@ void Connection::processEvents()
             for (const InputRedirection::PointerAxis &axis : axes) {
                 Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
                                                                   pointerEvent->scrollValue(axis),
-                                                                  pointerEvent->scrollValueV120(axis),
+                                                                  0,
                                                                   InputRedirection::PointerAxisSourceWheel,
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
