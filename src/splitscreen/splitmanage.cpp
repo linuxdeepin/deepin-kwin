@@ -350,9 +350,14 @@ void SplitManage::getSplitBarWindow(QHash<QString, Window *> &hash)
 void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w, bool isfinish)
 {
     if (isfinish || w == nullptr) {
+        m_isCreatePlaceHolder = false;
+        if (!workspace()->isDraggingWithContent()) {
+            m_activeWin->destroyPlaceHolder();
+        }
         return;
     }
 
+    m_activeWin = w;
     if (w != workspace()->activeWindow()) {
         QList<Window *> list = workspace()->stackingOrder();
         std::reverse(list.begin(), list.end());
@@ -362,6 +367,7 @@ void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w
             if ((*it)->isSplitWindow() && (*it)->desktop() == w->desktop() && (*it)->screen() == w->screen()) {
                 m_topLayer = (*it)->layer();
                 m_topWin = (*it);
+                m_activeWin = (*it);
                 Workspace::self()->raiseWindow((*it));
                 workspace()->activateWindow((*it), true);
                 break;
@@ -369,6 +375,10 @@ void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w
         }
     }
 
+    if (!workspace()->isDraggingWithContent() && !m_isCreatePlaceHolder) {
+        m_isCreatePlaceHolder = true;
+        m_activeWin->createPlaceHolder();
+    }
     w->resizeSplitWindow(pos);
 }
 

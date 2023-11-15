@@ -91,7 +91,9 @@ private:
     QMutex                              m_mutex;
     Window                              *m_lastWin = nullptr;
     Window                              *m_topWin = nullptr;
+    Window                              *m_activeWin = nullptr;
     Layer                               m_topLayer = NormalLayer;
+    bool                                m_isCreatePlaceHolder = false;
 };
 }
 

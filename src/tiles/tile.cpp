@@ -14,6 +14,7 @@
 #include "window.h"
 #include "workspace.h"
 #include "wayland_server.h"
+#include "placeholder_window.h"
 
 #include <cmath>
 
@@ -114,7 +115,11 @@ void Tile::setRelativeGeometry(const QRectF &geom)
             if (w->constrainClientSize(rect.size()).width() > rect.width())
                 continue;
         }
-        w->moveResize(rect);
+        if (!workspace()->isDraggingWithContent() && workspace()->activeWindow() == w) {
+            w->moveResizeLightWeight(rect);
+        } else {
+            w->moveResize(rect);
+        }
     }
 }
 
