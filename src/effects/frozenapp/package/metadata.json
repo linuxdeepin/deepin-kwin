@@ -66,7 +66,7 @@
         "Description[x-test]": "xxDesaturate windows of unresponsive (frozen) applicationsxx",
         "Description[zh_CN]": "降低无响应/已卡死窗口的颜色饱和度",
         "Description[zh_TW]": "降低無回應（凍結）應用程式視窗的飽和度",
-        "EnabledByDefault": true,
+        "EnabledByDefault": false,
         "Icon": "preferences-system-windows-effect-frozenapp",
         "Id": "kwin4_effect_frozenapp",
         "License": "GPL",
