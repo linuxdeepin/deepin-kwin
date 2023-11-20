@@ -559,7 +559,7 @@ private:
 
     EffectWindowList                     m_flyingWinList;
     QHash<EffectScreen *, WindowMotionManager>      m_windowInfo;
-    std::map<EffectScreen *, std::vector<std::unique_ptr<EffectFrame>>> m_tipFrames;
+    std::map<EffectScreen *, std::vector<std::unique_ptr<EffectFrameEx>>> m_tipFrames;
     QHash<EffectScreen *, MultiViewAddButton *>     m_addWorkspaceButton;
     QHash<QString, ScreenInfo_st>        m_screenInfoList;
     QHash<EffectScreen *, QList<MultiViewWorkspace *>> m_workspaceBackgrounds;

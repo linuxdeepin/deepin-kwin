@@ -793,22 +793,19 @@ void MultitaskViewEffect::paintScreen(int mask, const QRegion &region, ScreenPai
         MultiViewWinManager *wmobj = getWinManagerObject(effects->currentDesktop() - 1);
         if (wmobj && wmobj->getDesktopWinNumofScreen(iter.key()) == 0) {
             if (m_tipFrames.find(iter.key()) != m_tipFrames.end() && m_tipFrames[iter.key()].size() == 2) {
-                std::unique_ptr<EffectFrame> &bgframe = m_tipFrames[iter.key()][0];
-                std::unique_ptr<EffectFrame> &tframe = m_tipFrames[iter.key()][1];
+                std::unique_ptr<EffectFrameEx> &bgframe = m_tipFrames[iter.key()][0];
+                std::unique_ptr<EffectFrameEx> &tframe = m_tipFrames[iter.key()][1];
                 QRect bgrect = tframe->geometry();
-                QFontMetrics* metrics = NULL;
-                if (!metrics)
-                    metrics = new QFontMetrics(tframe->font());
-                int width = metrics->width(tframe->text());
-                int height = metrics->height();
-                delete metrics;
-                bgrect.adjust(-(width - bgrect.width()) / 2 - (6 * m_scalingFactor),
-                              -(height - bgrect.height()) / 2 - (3 * m_scalingFactor),
-                              (width - bgrect.width()) / 2 + (6 * m_scalingFactor),
-                              (height - bgrect.height()) / 2 + (4 * m_scalingFactor));
+                QFontMetrics metrics(tframe->font());
+                int width = metrics.width(tframe->text());
+                int height = metrics.height();
+                bgrect.adjust(-(width - bgrect.width()) / 2 - (20 * m_scalingFactor),
+                              -(height - bgrect.height()) / 2 - (10 * m_scalingFactor),
+                              (width - bgrect.width()) / 2 + (20 * m_scalingFactor),
+                              (height - bgrect.height()) / 2 + (11 * m_scalingFactor));
 
                 bgframe->setGeometry(bgrect);
-                bgframe->render(infiniteRegion(), 1, 0);
+                bgframe->render(infiniteRegion(), 0.8, 0);
                 tframe->render(infiniteRegion(), 1, 0);
             }
         }
@@ -1371,15 +1368,12 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
             QFont font;
             font.setPointSize(14);
             m_textWinFrame->setFont(font);
-            QFontMetrics* metrics = NULL;
-            if (!metrics)
-                metrics = new QFontMetrics(m_textWinFrame->font());
-            QString string = metrics->elidedText(w->caption(), Qt::ElideRight, rect.width() * 0.9);
+            QFontMetrics metrics(m_textWinFrame->font());
+            QString string = metrics.elidedText(w->caption(), Qt::ElideRight, rect.width() * 0.9);
             if (string != m_textWinFrame->text())
                 m_textWinFrame->setText(string);
-            width = metrics->width(string);
-            height = metrics->height();
-            delete metrics;
+            width = metrics.width(string);
+            height = metrics.height();
         }
 
         if (w->keepAbove() && m_topFrameIcon != MULTITASK_TOP_ACTIVE_SVG) {
@@ -1405,8 +1399,6 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
                         (width - geoframe.width()) / 2 + (16 * m_scalingFactor),
                         (height - geoframe.height()) / 2 + (48 * m_scalingFactor - height) / 2);
         m_textWinBgFrame->setGeometry(geoframe);
-
-        m_textWinFrame->setPosition(QPoint(rect.x() + rect.width() / 2, rect.y() + rect.height() - 40));
 
         m_closeWinFrame->render(infiniteRegion(), 1, 0);
         m_topWinFrame->render(infiniteRegion(), 1, 0);
@@ -2826,9 +2818,11 @@ void MultitaskViewEffect::initWorkspaceBackground()
         m_workspaceBackgrounds[it.value().screen] = list;
 
         {
-            std::unique_ptr<EffectFrame> bgframe = effects->effectFrame(EffectFrameStyled, false);
+            std::unique_ptr<EffectFrameEx> bgframe = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
             bgframe->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-            std::unique_ptr<EffectFrame> frame = effects->effectFrame(EffectFrameStyled, false);
+            bgframe->setColor("#E0E0E0");
+            bgframe->setRadius(5);
+            std::unique_ptr<EffectFrameEx> frame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
             frame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
             QFont font;
             font.setPointSize(12);
