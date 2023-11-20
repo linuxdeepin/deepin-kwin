@@ -147,8 +147,17 @@ void RemoteAccessManager::passDumBuffer(Output *output, DrmDumbBuffer *dumbuf)
     }
 
     connect(buf, &QObject::destroyed, this, [this, output, shmbuf]() {
-        qCWarning(KWIN_DRM) << __func__ << " destroy shmbuf of dump buffer " << output << shmbuf;
-        output->destroyForDumpBuffer(shmbuf);
+        if (output && output != m_removedOutput) {
+            qCWarning(KWIN_DRM) << __func__ << "destroy shmbuf of dump buffer " << output << shmbuf;
+            output->destroyForDumpBuffer(shmbuf);
+        }
+    });
+
+    connect(workspace(), &Workspace::outputRemoved, this, [this, output](Output *o) {
+        if (output == o) {
+            qCWarning(KWIN_DRM) << __func__ << "output has been removed " << output;
+            m_removedOutput = output;
+        }
     });
 
     m_interface->sendBufferReady(waylandServer()->findWaylandOutput(output), buf);

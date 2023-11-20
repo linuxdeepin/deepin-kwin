@@ -64,6 +64,7 @@ private:
     void releaseBuffer(const BufferHandle *buf);
 
     RemoteAccessManagerInterface *m_interface = nullptr;
+    Output *m_removedOutput = nullptr;
 };
 
 } // KWin namespace
