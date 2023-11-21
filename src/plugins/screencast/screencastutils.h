@@ -8,6 +8,8 @@
 
 #include "kwinglplatform.h"
 #include "kwingltexture.h"
+#include "kwinglutils.h"
+
 #include <spa/buffer/buffer.h>
 #include <spa/param/video/raw.h>
 
@@ -50,7 +52,7 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
 {
     const QSize size = texture->size();
     bool isGLES = GLPlatform::instance()->isGLES();
-    bool invertNeeded = isGLES ^ texture->isYInverted();
+    bool invertNeeded = texture->isYInverted();
     const bool invertNeededAndSupported = invertNeeded && GLPlatform::instance()->supports(PackInvert);
     GLboolean prev;
     if (invertNeededAndSupported) {
@@ -60,7 +62,10 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
 
     texture->bind();
     if (GLPlatform::instance()->isGLES()) {
+        GLFramebuffer fbo(texture);
+        GLFramebuffer::pushFramebuffer(&fbo);
         glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+        GLFramebuffer::popFramebuffer();
     } else if (GLPlatform::instance()->glVersion() >= kVersionNumber(4, 5)) {
         glGetTextureImage(texture->texture(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->chunk->size, spa->data);
     } else {

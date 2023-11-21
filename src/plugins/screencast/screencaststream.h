@@ -21,6 +21,7 @@
 #include <chrono>
 #include <memory>
 #include <optional>
+#include <QDateTime>
 
 #include <pipewire/pipewire.h>
 #include <spa/param/format-utils.h>
@@ -129,6 +130,9 @@ private:
     quint64 m_sequential = 0;
     bool m_hasDmaBuf = false;
     bool m_waitForNewBuffers = false;
+
+    QDateTime m_lastSent;
+
 };
 
 } // namespace KWin
