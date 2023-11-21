@@ -145,21 +145,21 @@ public:
 
     Q_SCRIPTABLE bool retarget(quint64 animationId, const QJSValue &newTarget,
                                int newRemainingTime = -1);
-    Q_SCRIPTABLE bool retarget(const QList<quint64> &animationIds, const QJSValue &newTarget,
+    Q_SCRIPTABLE bool retarget(const QJSValue &animationIds, const QJSValue &newTarget,
                                int newRemainingTime = -1);
     Q_SCRIPTABLE bool freezeInTime(quint64 animationId, qint64 frozenTime);
-    Q_SCRIPTABLE bool freezeInTime(const QList<quint64> &animationIds, qint64 frozenTime);
+    Q_SCRIPTABLE bool freezeInTime(const QJSValue &animationIds, qint64 frozenTime);
 
     Q_SCRIPTABLE bool redirect(quint64 animationId, Direction direction,
                                TerminationFlags terminationFlags = TerminateAtSource);
-    Q_SCRIPTABLE bool redirect(const QList<quint64> &animationIds, Direction direction,
+    Q_SCRIPTABLE bool redirect(const QJSValue &animationIds, Direction direction,
                                TerminationFlags terminationFlags = TerminateAtSource);
 
     Q_SCRIPTABLE bool complete(quint64 animationId);
-    Q_SCRIPTABLE bool complete(const QList<quint64> &animationIds);
+    Q_SCRIPTABLE bool complete(const QJSValue &animationIds);
 
     Q_SCRIPTABLE bool cancel(quint64 animationId);
-    Q_SCRIPTABLE bool cancel(const QList<quint64> &animationIds);
+    Q_SCRIPTABLE bool cancel(const QJSValue &animationIds);
 
     Q_SCRIPTABLE QList<int> touchEdgesForAction(const QString &action) const;
 
