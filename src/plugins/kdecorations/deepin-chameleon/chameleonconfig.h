@@ -5,6 +5,7 @@
 #define CHAMELEONCONFIG_H
 
 #include <QObject>
+#include <QDBusInterface>
 
 #include <deepin_kwineffects.h>
 
@@ -152,6 +153,9 @@ private:
 
     QMap<QString, X11Shadow*> m_x11ShadowCache;
     QHash<QObject*, quint32> m_pendingWindows;
+
+    QScopedPointer<QDBusInterface> m_interface;
+    QScopedPointer<QDBusInterface> m_properties;
 };
 
 #endif // CHAMELEONCONFIG_H

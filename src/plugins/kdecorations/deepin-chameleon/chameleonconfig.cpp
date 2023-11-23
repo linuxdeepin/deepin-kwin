@@ -994,34 +994,37 @@ void ChameleonConfig::init()
 
 void ChameleonConfig::updateAppearanceConn()
 {
-    QDBusInterface daemon("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus");
+    auto daemon = new QDBusInterface("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus");
     const QString AppearanceService("org.deepin.dde.Appearance1");
-    QDBusPendingCall existence = daemon.asyncCall(QLatin1String("NameHasOwner"), QVariant::fromValue(AppearanceService));
+    QDBusPendingCall existence = daemon->asyncCall(QLatin1String("NameHasOwner"), QVariant::fromValue(AppearanceService));
     QDBusPendingCallWatcher *existenceWatcher = new QDBusPendingCallWatcher(existence, this);
     connect(existenceWatcher, &QDBusPendingCallWatcher::finished, this, [=] (QDBusPendingCallWatcher *self){
         QDBusPendingReply<bool> reply(*self);
         if (reply.isValid() && reply.value()) {
-            QDBusInterface interface(AppearanceService,
-                                    "/org/deepin/dde/Appearance1",
-                                    "org.deepin.dde.Appearance1");
-            QDBusInterface properties(AppearanceService,
-                                    "/org/deepin/dde/Appearance1",
-                                    "org.freedesktop.DBus.Properties");
-            if (!interface.isValid() || !properties.isValid()) {
+            m_interface.reset(new QDBusInterface(AppearanceService,
+                                                "/org/deepin/dde/Appearance1",
+                                                "org.deepin.dde.Appearance1"));
+            m_properties.reset(new QDBusInterface(AppearanceService,
+                                                "/org/deepin/dde/Appearance1",
+                                                "org.freedesktop.DBus.Properties"));
+            if (!m_interface->isValid() || !m_properties->isValid()) {
+                m_interface.reset();
+                m_properties.reset();
                 return;
             }
-            connect(&interface, SIGNAL(Changed(QString,QString)), this, SLOT(onAppearanceChanged(QString,QString)));
-            connect(&interface, SIGNAL(Changed(QString,QString)), this, SIGNAL(appearanceChanged(QString,QString)));
-            QDBusPendingCall radius = properties.asyncCall(QLatin1String("Get"), "org.deepin.dde.Appearance1", "WindowRadius");
+            connect(m_interface.data(), SIGNAL(Changed(QString,QString)), this, SLOT(onAppearanceChanged(QString,QString)));
+            connect(m_interface.data(), SIGNAL(Changed(QString,QString)), this, SIGNAL(appearanceChanged(QString,QString)));
+            QDBusPendingCall radius = m_properties->asyncCall(QLatin1String("Get"), "org.deepin.dde.Appearance1", "WindowRadius");
             QDBusPendingCallWatcher *radiusWatcher = new QDBusPendingCallWatcher(radius, this);
             connect(radiusWatcher, &QDBusPendingCallWatcher::finished, this, &ChameleonConfig::onFetchingWindowRadiusFinished);
 
-            QDBusPendingCall call = interface.asyncCall("GetScaleFactor");
+            QDBusPendingCall call = m_interface->asyncCall("GetScaleFactor");
             QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(call, this);
             connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
                                 this, SLOT(onScreenScaleFactorChanged(QDBusPendingCallWatcher*)));
         }
         self->deleteLater();
+        daemon->deleteLater();
     });
 }
 
