@@ -1752,6 +1752,17 @@ XdgToplevelWindow::DecorationMode XdgToplevelWindow::preferredDecorationMode() c
         return DecorationMode::None;
     }
 
+    if (m_serverDecoration) {
+        switch (m_serverDecoration->preferredMode()) {
+        case ServerSideDecorationManagerInterface::Mode::None:
+            return DecorationMode::None;
+        case ServerSideDecorationManagerInterface::Mode::Client:
+            return DecorationMode::Client;
+        case ServerSideDecorationManagerInterface::Mode::Server:
+            return DecorationMode::Server;
+        }
+    }
+
     if (m_xdgDecoration) {
         switch (m_xdgDecoration->preferredMode()) {
         case XdgToplevelDecorationV1Interface::Mode::Undefined:
@@ -1761,17 +1772,6 @@ XdgToplevelWindow::DecorationMode XdgToplevelWindow::preferredDecorationMode() c
         case XdgToplevelDecorationV1Interface::Mode::Client:
             return DecorationMode::Client;
         case XdgToplevelDecorationV1Interface::Mode::Server:
-            return DecorationMode::Server;
-        }
-    }
-
-    if (m_serverDecoration) {
-        switch (m_serverDecoration->preferredMode()) {
-        case ServerSideDecorationManagerInterface::Mode::None:
-            return DecorationMode::None;
-        case ServerSideDecorationManagerInterface::Mode::Client:
-            return DecorationMode::Client;
-        case ServerSideDecorationManagerInterface::Mode::Server:
             return DecorationMode::Server;
         }
     }
