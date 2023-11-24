@@ -1,3 +1,18 @@
+kwin (4:5.27.2.38-deepin38-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * Bug fix
+    fix: drag the icon in the Dock application area to display the titlebar window
+    fix: touch events weren't processed in multitaskview
+    fix: tips for desktops without window in multitaskview
+    fix: c++ interface param about js call
+    fix: Fix the black screen issue with gles screencast
+    fix: screencasting: on memfd, skip the QImage step
+    fix: fix wild pointer in remote acces
+
+ -- wangboyu <wangboyu@uniontech.com>  Fri, 24 Nov 2023 14:47:40 +0800
+
+
 kwin (4:5.27.2.37-deepin37-1) unstable; urgency=medium
 
   [ zhangyu ]
