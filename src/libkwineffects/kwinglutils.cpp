@@ -972,12 +972,6 @@ void GLFramebuffer::pushFramebuffer(GLFramebuffer *fbo)
     s_fbos.push(fbo);
 }
 
-void GLFramebuffer::pushFramebuffers(QStack<GLFramebuffer *> fbos)
-{
-    fbos.top()->bind();
-    s_fbos.append(fbos);
-}
-
 GLFramebuffer *GLFramebuffer::popFramebuffer()
 {
     GLFramebuffer *ret = s_fbos.pop();
@@ -991,11 +985,13 @@ GLFramebuffer *GLFramebuffer::popFramebuffer()
 }
 
 GLFramebuffer::GLFramebuffer()
+    : m_colorAttachment(nullptr)
 {
 }
 
 GLFramebuffer::GLFramebuffer(GLTexture *colorAttachment)
     : mSize(colorAttachment->size())
+    , m_colorAttachment(colorAttachment)
 {
     // Make sure FBO is supported
     if (sSupported && !colorAttachment->isNull()) {
@@ -1010,6 +1006,7 @@ GLFramebuffer::GLFramebuffer(GLuint handle, const QSize &size)
     , mSize(size)
     , mValid(true)
     , mForeign(true)
+    , m_colorAttachment(nullptr)
 {
 }
 
@@ -1155,6 +1152,11 @@ void GLFramebuffer::blitFromFramebuffer(const QRect &source, const QRect &destin
     glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, GL_COLOR_BUFFER_BIT, filter);
 
     GLFramebuffer::popFramebuffer();
+}
+
+GLTexture *GLFramebuffer::colorAttachment() const
+{
+    return m_colorAttachment;
 }
 
 // ------------------------------------------------------------------
