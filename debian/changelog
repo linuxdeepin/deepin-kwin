@@ -1,3 +1,11 @@
+kwin (4:5.27.2.39-deepin39-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * Bug fix
+    plugins/blur: Rewrite it
+
+ -- wangboyu <wangboyu@uniontech.com>  Fri, 24 Nov 2023 18:57:40 +0800
+
 kwin (4:5.27.2.38-deepin38-1) unstable; urgency=medium
 
   [ wangboyu ]
