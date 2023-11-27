@@ -10,6 +10,9 @@
 #include "input.h"
 #include <xkbcommon/xkbcommon.h>
 
+#include <QObject>
+#include <QtDBus>
+
 #include <kwin_export.h>
 
 #include <KConfigGroup>
@@ -38,9 +41,10 @@ class SeatInterface;
 namespace KWin
 {
 
-class KWIN_EXPORT Xkb : public QObject
+class KWIN_EXPORT Xkb : public QObject, protected QDBusContext
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Xkb")
 public:
     Xkb(bool followLocale1 = false);
     ~Xkb() override;
@@ -110,6 +114,10 @@ public:
 
 public Q_SLOTS:
     void reconfigure();
+
+    Q_SCRIPTABLE int getLeds() const {
+        return m_leds;
+    }
 
 Q_SIGNALS:
     void ledsChanged(const LEDs &leds);

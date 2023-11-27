@@ -98,6 +98,8 @@ Xkb::Xkb(bool followLocale1)
     , m_followLocale1(followLocale1)
 {
     qRegisterMetaType<KWin::LEDs>();
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    dbus.registerObject(QStringLiteral("/Xkb"), this, QDBusConnection::ExportScriptableContents);
     if (!m_context) {
         qCDebug(KWIN_XKB) << "Could not create xkb context";
     } else {

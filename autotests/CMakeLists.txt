@@ -219,6 +219,7 @@ target_link_libraries(testXkb
     Qt${QT_MAJOR_VERSION}::Gui
     Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
+    Qt${QT_MAJOR_VERSION}::DBus
 
     KF5::ConfigCore
     KF5::WindowSystem

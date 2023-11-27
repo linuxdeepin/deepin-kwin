@@ -283,6 +283,7 @@ if (QT_MAJOR_VERSION EQUAL "5")
     qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
     qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionManager)
     qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
+    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.kwin.Xkb.xml xkb.h KWin::Xkb)
 else()
     qt_add_dbus_adaptor(kwin_dbus_SRCS scripting/org.kde.kwin.Script.xml scripting/scripting.h KWin::AbstractScript)
     qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.xml dbusinterface.h KWin::DBusInterface)
@@ -291,6 +292,7 @@ else()
     qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
     qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionManager)
     qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
+    qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.kwin.Xkb.xml xkb.h KWin::Xkb)
 endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
@@ -420,6 +422,7 @@ install(
         org.kde.kwin.Compositing.xml
         org.kde.kwin.Effects.xml
         org.kde.KWin.Plugins.xml
+        org.kde.kwin.Xkb.xml
         ${CMAKE_CURRENT_BINARY_DIR}/org.kde.kwin.VirtualKeyboard.xml
         ${CMAKE_CURRENT_BINARY_DIR}/org.kde.KWin.TabletModeManager.xml
     DESTINATION

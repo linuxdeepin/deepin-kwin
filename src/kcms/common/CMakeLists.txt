@@ -11,9 +11,15 @@ if (QT_MAJOR_VERSION EQUAL "5")
 qt5_add_dbus_interface(kcmkwincommon_SRC
     ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface
 )
+qt5_add_dbus_interface(kcmkwincommon_SRC
+    ${KWin_SOURCE_DIR}/src/org.kde.kwin.Xkb.xml kwin_xkb_interface
+)
 else()
 qt_add_dbus_interface(kcmkwincommon_SRC
     ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface
+)
+qt_add_dbus_interface(kcmkwincommon_SRC
+    ${KWin_SOURCE_DIR}/src/org.kde.kwin.Xkb.xml kwin_xkb_interface
 )
 endif()
 
