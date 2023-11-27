@@ -31,11 +31,10 @@ void main() {
                 vec4 m1 = texture(msk1, tc);
                 tc = 1.0 - ((texcoord0 - 1.0) * k + 1.0);
                 vec4 m3 = texture(msk1, tc);
-                c *= (m1.a * m3.a);
+                c *= (modulation * m1.a * m3.a);
             }
         }
     }
-
     fragColor = c;
 }
 

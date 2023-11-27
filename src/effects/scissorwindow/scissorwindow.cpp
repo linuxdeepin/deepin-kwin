@@ -4,6 +4,7 @@
 
 #include "scissorwindow.h"
 #include "effects.h"
+#include "scene/surfaceitem.h"
 
 #include <kwineffects.h>
 #include <kwineffectsex.h>
@@ -87,6 +88,23 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
         return effects->prePaintWindow(w, data, time);
     }
 
+    QPointF cornerRadius;
+    const QVariant valueRadius = w->data(WindowRadiusRole);
+    if (valueRadius.isValid()) {
+        cornerRadius = valueRadius.toPointF();
+        const qreal xMin{ std::min(cornerRadius.x(), w->width() / 2.0) };
+        const qreal yMin{ std::min(cornerRadius.y(), w->height() / 2.0) };
+        const qreal minRadius{ std::min(xMin, yMin) };
+        cornerRadius = QPointF(minRadius, minRadius);
+    }
+    if (!cornerRadius.isNull()) {
+        QRect corner1(w->frameGeometry().topLeft().toPoint(), QSize(cornerRadius.x(), cornerRadius.y()));
+        QRect corner2(w->frameGeometry().topRight().x()- cornerRadius.x(), w->frameGeometry().topRight().y(), w->frameGeometry().topRight().x() , w->frameGeometry().topRight().y() +  cornerRadius.y());
+        QRect corner3(w->frameGeometry().bottomLeft().x() , w->frameGeometry().bottomLeft().y()-cornerRadius.y(), w->frameGeometry().bottomLeft().x() + cornerRadius.x(), w->frameGeometry().bottomLeft().y());
+        QRect corner4(w->frameGeometry().bottomRight().x()- cornerRadius.x(), w->frameGeometry().bottomRight().y()- cornerRadius.y(),w->frameGeometry().bottomRight().x(), w->frameGeometry().bottomRight().y());
+        data.paint = data.paint | corner1 | corner2 | corner3 | corner4;
+        data.opaque = data.opaque - corner1 - corner2 -corner3 - corner4;
+    }
     effects->prePaintWindow(w, data, time);
 }
 
@@ -154,7 +172,7 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
         QPointF cornerRadius;
         const QVariant valueRadius = w->data(WindowRadiusRole);
         if (valueRadius.isValid()) {
-            cornerRadius = w->data(WindowRadiusRole).toPointF();
+            cornerRadius = valueRadius.toPointF();
             const qreal xMin{ std::min(cornerRadius.x(), w->width() / 2.0) };
             const qreal yMin{ std::min(cornerRadius.y(), w->height() / 2.0) };
             const qreal minRadius{ std::min(xMin, yMin) };
@@ -173,41 +191,42 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
                 }
             }
         }
-
-        if (cornerRadius.x() < 2 && cornerRadius.y() < 2) {
-            cornerRadius = {8, 8};
-        }
-
-        const QString& key = QString("%1+%2").arg(cornerRadius.toPoint().x()).arg(cornerRadius.toPoint().y()
-        );
-        if (!m_texMaskMap.count(key)) {
-            buildTextureMask(key, cornerRadius);
-        }
-
-        ShaderManager::instance()->pushShader(m_filletOptimizeShader.get());
-        m_filletOptimizeShader->setUniform("typ1", 1);
-        m_filletOptimizeShader->setUniform("sampler", 0);
-        m_filletOptimizeShader->setUniform("msk1", 1);
-        m_filletOptimizeShader->setUniform("k", QVector2D(w->width() / cornerRadius.x(), w->height() / cornerRadius.y()));
-        if (w->hasDecoration()) {
-            m_filletOptimizeShader->setUniform("typ2", 0);
+        if (cornerRadius.isNull()) {
+            effects->drawWindow(w, mask, region, data);
         } else {
-            m_filletOptimizeShader->setUniform("typ2", 1);
+            Window* window = static_cast<EffectWindowImpl *>(w)->window();
+            window->surfaceItem()->setScissorAlpha(true);
+            const QString& key = QString("%1+%2").arg(cornerRadius.toPoint().x()).arg(cornerRadius.toPoint().y()
+            );
+            if (!m_texMaskMap.count(key)) {
+                buildTextureMask(key, cornerRadius);
+            }
+
+            ShaderManager::instance()->pushShader(m_filletOptimizeShader.get());
+            m_filletOptimizeShader->setUniform("typ1", 1);
+            m_filletOptimizeShader->setUniform("sampler", 0);
+            m_filletOptimizeShader->setUniform("msk1", 1);
+            m_filletOptimizeShader->setUniform("k", QVector2D(w->width() / cornerRadius.x(), w->height() / cornerRadius.y()));
+            if (w->hasDecoration()) {
+                m_filletOptimizeShader->setUniform("typ2", 0);
+            } else {
+                m_filletOptimizeShader->setUniform("typ2", 1);
+            }
+
+            auto old_shader = data.shader;
+            data.shader = m_filletOptimizeShader.get();
+
+            glActiveTexture(GL_TEXTURE1);
+            m_texMaskMap[key]->bind();
+            glActiveTexture(GL_TEXTURE0);
+            effects->drawWindow(w, mask, region, data);
+            ShaderManager::instance()->popShader();
+            data.shader = old_shader;
+            glActiveTexture(GL_TEXTURE1);
+            m_texMaskMap[key]->unbind();
+            glActiveTexture(GL_TEXTURE0);
+            return;
         }
-
-        auto old_shader = data.shader;
-        data.shader = m_filletOptimizeShader.get();
-
-        glActiveTexture(GL_TEXTURE1);
-        m_texMaskMap[key]->bind();
-        glActiveTexture(GL_TEXTURE0);
-        effects->drawWindow(w, mask, region, data);
-        ShaderManager::instance()->popShader();
-        data.shader = old_shader;
-        glActiveTexture(GL_TEXTURE1);
-        m_texMaskMap[key]->unbind();
-        glActiveTexture(GL_TEXTURE0);
-        return;
     }
 }
 

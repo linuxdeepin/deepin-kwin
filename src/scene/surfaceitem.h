@@ -42,6 +42,13 @@ public:
 
     virtual ContentType contentType() const;
 
+    void setScissorAlpha(bool alpha) {
+        m_hasScissor = alpha;
+    }
+    bool getScissorAlpha() {
+        return m_hasScissor;
+    }
+
 Q_SIGNALS:
     void damaged();
 
@@ -57,6 +64,7 @@ protected:
     std::unique_ptr<SurfacePixmap> m_previousPixmap;
     QMatrix4x4 m_surfaceToBufferMatrix;
     int m_referencePixmapCounter = 0;
+    bool m_hasScissor = false;
 };
 
 class KWIN_EXPORT SurfaceTexture

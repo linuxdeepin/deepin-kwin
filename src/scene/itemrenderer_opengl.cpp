@@ -192,7 +192,7 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context)
                     .geometry = geometry,
                     .transformMatrix = context->transformStack.top(),
                     .opacity = context->opacityStack.top(),
-                    .hasAlpha = pixmap->hasAlphaChannel(),
+                    .hasAlpha = surfaceItem->getScissorAlpha() ? true : pixmap->hasAlphaChannel(),
                     .coordinateType = NormalizedCoordinates,
                     .scale = scale,
                 });
