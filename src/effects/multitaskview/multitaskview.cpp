@@ -3283,7 +3283,8 @@ void MultitaskViewEffect::cleanDesktopData(int desktop)
 
 void MultitaskViewEffect::switchDesktop()
 {
-    for (auto effectScreen : effects->screens()) {
+    for (auto screenInfo : m_screenInfoList) {
+        EffectScreen *effectScreen = screenInfo.screen;
         for (int j = 0; j <= m_moveWorkspaceNum; j++) {
             MultiViewWorkspace *target = getWorkspaceObject(effectScreen, m_aciveMoveDesktop - 1);
             MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(m_aciveMoveDesktop - 1);
