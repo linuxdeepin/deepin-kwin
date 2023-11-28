@@ -1,3 +1,11 @@
+kwin (4:5.27.2.40-deepin40-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * Bug fix
+    fix: switching workspace caused crash in duplicate mode in multitaskview
+
+ -- wangboyu <wangboyu@uniontech.com>  Tue, 28 Nov 2023 18:34:40 +0800
+
 kwin (4:5.27.2.39-deepin39-1) unstable; urgency=medium
 
   [ wangboyu ]
