@@ -71,6 +71,10 @@ bool X11Filter::buttonPress(xcb_button_press_event_t *event)
     QPoint pos(event->root_x, event->root_y);
     if ((!tab->isShown() && tab->isDisplayed())
         || (!tabBox->containsPos(pos) && (event->detail == XCB_BUTTON_INDEX_1 || event->detail == XCB_BUTTON_INDEX_2 || event->detail == XCB_BUTTON_INDEX_3))) {
+        const QModelIndex index = tabBox->first();
+        if (index.isValid()) {
+            tab->setCurrentIndex(index);
+        }
         tab->close(); // click outside closes tab
         return true;
     }
