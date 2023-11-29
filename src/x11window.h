@@ -292,7 +292,8 @@ public:
     Xcb::StringProperty fetchApplicationMenuObjectPath() const;
     void readApplicationMenuObjectPath(Xcb::StringProperty &property);
     void checkApplicationMenuObjectPath();
-
+    void updateProhibitScreenshot(bool isProhibit) { m_isProhibitScreenshotWindow = isProhibit; }
+    bool isProhibitScreenshotWindow() override;
     struct SyncRequest
     {
         xcb_sync_counter_t counter;
@@ -541,6 +542,8 @@ private:
     QRectF m_lastFrameGeometry;
     QRectF m_lastClientGeometry;
     std::unique_ptr<X11DecorationRenderer> m_decorationRenderer;
+
+    bool m_isProhibitScreenshotWindow = false;
 };
 
 inline xcb_window_t X11Window::wrapperId() const

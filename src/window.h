@@ -1947,6 +1947,8 @@ protected:
 
     static std::unique_ptr<PlaceholderWindow> s_placeholderWindow;
 
+    virtual bool isProhibitScreenshotWindow();
+
 private Q_SLOTS:
     void shadeHover();
     void shadeUnhover();

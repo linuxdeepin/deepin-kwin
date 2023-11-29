@@ -41,6 +41,7 @@
 #include "virtualdesktops.h"
 #include "wayland/output_interface.h"
 #include "wayland/plasmawindowmanagement_interface.h"
+#include "wayland/dderestrict_interface.h"
 #include "wayland/surface_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -1402,7 +1403,7 @@ void Window::minimize(bool avoid_animation)
     }
 
     // TODO: merge signal with s_minimized
-    Q_EMIT clientMinimized(this, !avoid_animation);
+    Q_EMIT clientMinimized(this, !(avoid_animation || isProhibitScreenshotWindow()));
     Q_EMIT minimizedChanged();
 }
 
@@ -1420,7 +1421,7 @@ void Window::unminimize(bool avoid_animation)
     doMinimize();
 
     updateWindowRules(Rules::Minimize);
-    Q_EMIT clientUnminimized(this, !avoid_animation);
+    Q_EMIT clientUnminimized(this, !(avoid_animation || isProhibitScreenshotWindow()));
     Q_EMIT minimizedChanged();
 }
 
@@ -4807,6 +4808,22 @@ void Window::destroyPlaceHolder()
         ungrabXKeyboard();
         s_placeholderWindow->destroy();
     }
+}
+
+bool Window::isProhibitScreenshotWindow()
+{
+    if (!waylandServer()) {
+        return false;
+    }
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (!dde_restrict)
+        return false;
+
+    auto protectedWindowIdLists = dde_restrict->protectedWindowIdLists();
+    if (protectedWindowIdLists.contains(window())) {
+        return true;
+    }
+    return false;
 }
 
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)

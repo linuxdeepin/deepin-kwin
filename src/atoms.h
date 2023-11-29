@@ -80,6 +80,7 @@ public:
     Xcb::Atom primary;
     Xcb::Atom edid;
     Xcb::Atom deepin_split_window;
+    Xcb::Atom deepin_prohibit_screenshot;
 
     /**
      * @internal

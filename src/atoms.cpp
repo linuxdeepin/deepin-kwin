@@ -74,6 +74,7 @@ Atoms::Atoms()
     , m_dtSmWindowInfo(QByteArrayLiteral("_DT_SM_WINDOW_INFO"))
     , m_motifSupport(QByteArrayLiteral("_MOTIF_WM_INFO"))
     , deepin_split_window(QByteArrayLiteral("_DEEPIN_SPLIT_WINDOW"))
+    , deepin_prohibit_screenshot(QByteArrayLiteral("_DEEPIN_PROHIBIT_SCREENSHOT"))
     , m_helpersRetrieved(false)
 {
 }

@@ -4943,4 +4943,12 @@ void X11Window::updateWindowPixmap()
     }
 }
 
+bool X11Window::isProhibitScreenshotWindow()
+{
+    if (waylandServer()) {
+        return Window::isProhibitScreenshotWindow();
+    }
+    return m_isProhibitScreenshotWindow;
+}
+
 } // namespace
