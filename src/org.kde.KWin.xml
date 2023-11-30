@@ -49,7 +49,11 @@
         <arg type="s" direction="in"/>
         <arg type="a{sv}" direction="out"/>
     </method>
-
+    <method name="previewWindows">
+        <arg type="au" direction="in"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;uint&gt;"/>
+    </method>
+    <method name="quitPreviewWindows"/>
     <property name="showingDesktop" type="b" access="read"/>
     <method name="showDesktop">
         <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>

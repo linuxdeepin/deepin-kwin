@@ -290,6 +290,22 @@ void DBusInterface::disableGestureForClient(bool disable)
     workspace()->disableGestureForClient(disable);
 }
 
+void DBusInterface::previewWindows(const QList<uint> wids)
+{
+    QList<Window*> clients;
+    for (Window *w : workspace()->allClientList()) {
+        if (wids.contains(w->window())) {
+            clients << w;
+        }
+    }
+    workspace()->setPreviewClientList(clients);
+}
+
+void DBusInterface::quitPreviewWindows()
+{
+    previewWindows({});
+}
+
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     : QObject(parent)
     , m_compositor(parent)

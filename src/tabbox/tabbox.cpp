@@ -730,6 +730,7 @@ void TabBox::show()
         return;
     }
     workspace()->setShowingDesktop(false);
+    workspace()->setPreviewClientList({});
     reference();
     m_isShown = true;
     m_tabBox->show();

@@ -448,6 +448,10 @@ public:
     bool showingDesktop() const;
     xcb_timestamp_t showingDesktopTimestamp() const;
 
+    Q_SLOT void setPreviewClientList(const QList<Window *> &list);
+    Q_SLOT bool previewingClientList() const;
+    Q_SLOT bool previewingClient(const Window *c) const;
+
     void removeX11Window(X11Window *); // Only called from X11Window::destroyWindow() or X11Window::releaseWindow()
     void setActiveWindow(Window *window);
     Group *findGroup(xcb_window_t leader) const;
@@ -896,6 +900,8 @@ private:
 
     bool m_clientDraggingWithContent = false;
     bool getDraggingWithContentStatus();
+
+    QList<Window*> previewClients;
 
 private:
     friend bool performTransiencyCheck();

@@ -510,6 +510,7 @@ void Workspace::initializeX11()
         desktop_geometry.height = m_geometry.height();
         rootInfo->setDesktopGeometry(desktop_geometry);
         setShowingDesktop(false);
+        setPreviewClientList({});
 
     } // End updates blocker block
 
@@ -1205,6 +1206,9 @@ void Workspace::removeWindow(Window *window)
         window->setShortcut(QString()); // Remove from client_keys
         windowShortcutUpdated(window); // Needed, since this is otherwise delayed by setShortcut() and wouldn't run
     }
+    if(!previewClients.isEmpty() && previewingClient(window)){
+        previewClients.removeAll(window);
+    }
 
     Q_EMIT windowRemoved(window);
 
@@ -1418,6 +1422,7 @@ void Workspace::updateWindowVisibilityOnDesktopChange(VirtualDesktop *newDesktop
     if (showingDesktop()) { // Do this only after desktop change to avoid flicker
         setShowingDesktop(false);
     }
+    setPreviewClientList({});
 }
 
 void Workspace::activateWindowOnNewDesktop(VirtualDesktop *desktop)
@@ -1534,6 +1539,8 @@ void Workspace::updateCurrentActivity(const QString &new_activity)
     if (showingDesktop()) { // Do this only after desktop change to avoid flicker
         setShowingDesktop(false);
     }
+
+    setPreviewClientList({});
 
     // Restore the focus on this desktop
     --block_focus;
@@ -3646,6 +3653,53 @@ bool Workspace::getDraggingWithContentStatus()
         }
     }
     return status;
+}
+
+void Workspace::setPreviewClientList(const QList<Window*> &list)
+{
+    const bool changed = previewClients != list;
+
+    if (!changed)
+        return;
+
+    previewClients = list;
+
+    { // for the blocker RAII
+    StackingUpdatesBlocker blocker(this); // updateLayer & lowerClient would invalidate stacking_order
+    for (int i = stacking_order.count() - 1; i > -1; --i) {
+        Window *c = qobject_cast<Window*>(stacking_order.at(i));
+        if (c && c->isOnCurrentDesktop()) {
+            if (!c->isDock() && !c->isDesktop()) {
+                if (list.contains(c)) {
+                    if (c->isMinimized()) {
+                        // 记录窗口的最小化状态
+                        c->setProperty("__deepin_kwin_minimized", true);
+                        // 恢复最小化以便预览窗口
+                        c->unminimize(true);
+                    }
+                } else {
+                    if (c->property("__deepin_kwin_minimized").toBool()) {
+                        c->setProperty("__deepin_kwin_minimized", QVariant());
+                        // 恢复窗口被预览之前的状态
+                        c->minimize(true);
+                    }
+                }
+
+                c->updateLayer();
+            }
+        }
+    }
+    } // ~StackingUpdatesBlocker
+}
+
+bool Workspace::previewingClientList() const
+{
+    return !previewClients.isEmpty();
+}
+
+bool Workspace::previewingClient(const Window *c) const
+{
+    return previewClients.contains(const_cast<Window*>(c));
 }
 
 } // namespace

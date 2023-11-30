@@ -925,6 +925,9 @@ Layer Window::belongsToLayer() const
         }
         return layerForDock();
     }
+    if (workspace()->previewingClientList() && !workspace()->previewingClient(this)) {
+        return UnderDesktopLayer;
+    }
     if (isOverride()) {
         return UnmanagedLayer;
     }
@@ -951,6 +954,9 @@ Layer Window::belongsToLayer() const
     }
     if (keepAbove()) {
         return workspace()->showingDesktop() ? NormalLayer : AboveLayer;
+    }
+    if (workspace()->showingDesktop() && workspace()->previewingClientList() && workspace()->previewingClient(this)) {
+        return AboveLayer;
     }
 
     return NormalLayer;
