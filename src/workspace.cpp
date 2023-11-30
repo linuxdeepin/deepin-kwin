@@ -3605,6 +3605,16 @@ QImage Workspace::getProhibitShotImage(QSize size)
     return m_prohibitShotImage;
 }
 
+bool Workspace::isDarkTheme()
+{
+    return m_isDarkTheme;
+}
+
+void Workspace::setDarkTheme(bool isDark)
+{
+    m_isDarkTheme = isDark;
+}
+
 void Workspace::setWinSplitState(Window *w, bool isSplit)
 {
     int32_t ldata = isSplit ? 1 : 0;

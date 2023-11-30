@@ -2790,3 +2790,33 @@ msgstr ""
 #, kde-format
 msgid "The confidential file cannot be displayed"
 msgstr "文件涉密，无法显示"
+
+msgid "Minimize"
+msgstr "最小化"
+
+msgid "Unmaximize"
+msgstr "还原"
+
+msgid "Maximize"
+msgstr "最大化"
+
+msgid "Move"
+msgstr "移动"
+
+msgid "Resize"
+msgstr "更改大小"
+
+msgid "Always on Top"
+msgstr "总在最前"
+
+msgid "Always on Visible Workspace"
+msgstr "总在可见工作区"
+
+msgid "Move to Workspace Left"
+msgstr "移至左边的工作区"
+
+msgid "Move to Workspace Right"
+msgstr "移至右边的工作区"
+
+msgid "Close"
+msgstr "关闭"

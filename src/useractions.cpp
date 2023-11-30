@@ -68,6 +68,87 @@
 namespace KWin
 {
 
+static QList<MenuItem> getMenuItemInfos(Window *cl)
+{
+    if (!cl) return {};
+
+    QList<MenuItem> menu_items {
+        {"minimize", i18n("Minimize"),
+            cl->isMinimizable() , false, false},
+        {"maximizeOrRestore", cl->maximizeMode() == MaximizeFull
+                    ? i18n("Unmaximize")
+                    : i18n("Maximize"),
+         cl->isMaximizable(), false, false},
+        {"move", i18n("Move"),
+         cl->isMovable(), false, false},
+        {"resize", i18n("Resize"),
+         cl->isResizable(), false, false},
+        {"always-on-top", i18n("Always on Top"),
+         true, true, cl->keepAbove()},
+        {"all-workspace", i18n("Always on Visible Workspace"),
+         !cl->isSplitWindow(), true, cl->isOnAllDesktops()},
+        {"move-left", i18n("Move to Workspace Left"),
+         cl->desktop() > 1, false, false},
+        {"move-right", i18n("Move to Workspace Right"),
+         cl->desktop() < VirtualDesktopManager::self()->count(), false, false},
+        {"close", i18n("Close"),
+         cl->isCloseable(), false, false}
+    };
+
+    return menu_items;
+}
+
+void MenuSlot::onMenuItemInvoked(const QString &id, bool checked, Window *cl)
+{
+    if (!cl) return;
+
+    if (id == "minimize") {
+        cl->minimize();
+    } else if (id == "maximizeOrRestore") {
+        if (cl->maximizeMode() == MaximizeFull) {
+            QMetaObject::invokeMethod(Workspace::self(), "performWindowOperation",
+                    Qt::QueuedConnection,
+                    Q_ARG(KWin::Window*, cl),
+                    Q_ARG(Options::WindowOperation, Options::RestoreOp));
+        } else {
+            QMetaObject::invokeMethod(Workspace::self(), "performWindowOperation",
+                    Qt::QueuedConnection,
+                    Q_ARG(KWin::Window*, cl),
+                    Q_ARG(Options::WindowOperation, Options::MaximizeOp));
+        }
+    } else if (id == "move") {
+        QMetaObject::invokeMethod(Workspace::self(), "performWindowOperation",
+                Qt::QueuedConnection,
+                Q_ARG(KWin::Window*, cl),
+                Q_ARG(Options::WindowOperation, Options::UnrestrictedMoveOp));
+    } else if (id == "resize") {
+        QMetaObject::invokeMethod(Workspace::self(), "performWindowOperation",
+                Qt::QueuedConnection,
+                Q_ARG(KWin::Window*, cl),
+                Q_ARG(Options::WindowOperation, Options::ResizeOp));
+    } else if (id == "always-on-top") {
+        cl->setKeepAbove(checked);
+    } else if (id == "all-workspace") {
+        cl->setOnAllDesktops(checked);
+    } else if (id == "move-left") {
+        cl->setDesktop(cl->desktop()-1);
+        // auto tileMode = cl->quickTileMode();
+        // if (Workspace::self()->compositing() && ((tileMode & int(QuickTileFlag::Left)) || (tileMode & int(QuickTileFlag::Right)))) {
+        //     cl->cancelSplitOutline();
+        //     cl->setGeometry(cl->geometryRestore());
+        // }
+    } else if (id == "move-right") {
+        cl->setDesktop(cl->desktop()+1);
+        // auto tileMode = cl->quickTileMode();
+        // if (Workspace::self()->compositing() && ((tileMode & int(QuickTileFlag::Left)) || (tileMode & int(QuickTileFlag::Right)))) {
+        //     cl->cancelSplitOutline();
+        //     cl->setGeometry(cl->geometryRestore());
+        // }
+    } else if (id == "close") {
+        cl->closeWindow();
+    }
+}
+
 UserActionsMenu::UserActionsMenu(QObject *parent)
     : QObject(parent)
     , m_menu(nullptr)
@@ -128,6 +209,75 @@ bool UserActionsMenu::handleClick(const QPoint &pos)
     return false;
 }
 
+void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
+{
+    double fontScale = 1;/*workspace()->getConfigReader()->getProperty().isValid() ? workspace()->getConfigReader()->getProperty().toDouble() / 10.5 : 1;*/
+    QString backgroundColor = "rgb(253,253,254)";
+    QString fontColor = "black";
+    QString disableFontColor = "rgba(0,0,0,40%)";
+    qreal scalingFactor = 1.0;/*qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);*/
+    QString fontSize = QString::number(int(fontScale * 14.0 * scalingFactor)) + "px";
+    QString rightPadding = QString::number(45 * fontScale * fontScale * scalingFactor) + "px";
+    if (workspace()->self()->isDarkTheme()) {
+        backgroundColor = "black";
+        fontColor = "white";
+        disableFontColor = "rgba(255,255,255,40%)";
+    }
+
+    if (!m_menu) {
+        m_menu = new QMenu;
+        m_menu->setWindowTitle("ctx-menu");
+    }
+    m_menu->clear();
+    disconnect(m_menu, &QMenu::triggered, m_menu, 0);
+    m_menu->setStyleSheet(QString("\
+            QMenu {\
+            background-color: %1;\
+            border-radius:0px;\
+            }\
+            QMenu::item {\
+            font:Sans Serif;\
+            font-size: %5;\
+            padding: 6px %6 6px 30px;\
+            color: %3;\
+            }\
+            QMenu::item:enabled {\
+            color: %2;\
+            }\
+            QMenu::icon {\
+            padding: 0px 15px 0px 0px;\
+            }\
+            QMenu::icon:checked {\
+            background: transparent\
+            }\
+            QMenu::icon:checked:selected {\
+            background-color: transparent\
+            }\
+            QMenu::item:selected {\
+            background-color: %4;\
+            color: white;}").arg(backgroundColor).arg(fontColor).arg(disableFontColor).arg(workspace()->self()->ActiveColor()).arg(fontSize).arg(rightPadding));
+    m_menu->setContentsMargins(0,8,0,8);
+    for (const MenuItem &item : getMenuItemInfos(cl.data())) {
+        QAction *action = m_menu->addAction(item.text);
+
+        action->setProperty("id", item.id);
+        action->setCheckable(item.isCheckable);
+        action->setChecked(item.checked);
+        action->setEnabled(item.enable);
+        if (item.checked) {
+            if (backgroundColor == "black") {
+                action->setIcon(QIcon(":/resources/themes/Active.svg"));
+            } else {
+                action->setIcon(QIcon(":/resources/themes/inActive.svg"));
+            }
+        }
+    }
+
+    auto client = m_window.data();
+    connect(m_menu, &QMenu::triggered, m_menu, [client] (const QAction *action) {
+        MenuSlot::onMenuItemInvoked(action->property("id").toString(), action->isChecked(), client);
+    });
+}
 
 void UserActionsMenu::show(const QRect &pos, Window *window)
 {
@@ -147,6 +297,8 @@ void UserActionsMenu::show(const QRect &pos, Window *window)
     if (!KAuthorized::authorizeAction(QStringLiteral("kwin_rmb"))) {
         return;
     }
+
+    prepareMenu(window);
     m_window = windowPtr;
     init();
     m_menu->popup(pos.topLeft());

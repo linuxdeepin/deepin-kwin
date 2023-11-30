@@ -352,6 +352,9 @@ public:
         return m_bIsTouchToMovingClient;
     }
 
+    bool isDarkTheme();
+    void setDarkTheme(bool isDark);
+
 public:
     QPoint cascadeOffset(const Window *c) const;
 
@@ -856,6 +859,7 @@ private:
     bool m_blockedPropagatingNewWindows; // Propagate also new windows after enabling stacking updates?
     std::unique_ptr<Xcb::Window> m_nullFocus;
     friend class StackingUpdatesBlocker;
+    bool m_isDarkTheme = false;
 
     std::unique_ptr<KillWindow> m_windowKiller;
     std::unique_ptr<X11EventFilter> m_movingClientFilter;

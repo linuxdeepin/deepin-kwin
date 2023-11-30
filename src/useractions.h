@@ -23,6 +23,35 @@ namespace KWin
 {
 class Window;
 
+struct MenuItem {
+    QString id;
+    QString text;
+    bool enable;
+    bool isCheckable;
+    bool checked;
+};
+
+class Q_DECL_HIDDEN MenuSlot : public QObject
+{
+    Q_OBJECT
+public:
+    MenuSlot(KWin::Window *cl, QObject *parent = nullptr)
+        : QObject(parent)
+        , m_client(cl)
+    {}
+
+    static void onMenuItemInvoked(const QString &id, bool checked, Window *cl);
+
+public Q_SLOTS:
+    void onMenuItemInvoked(const QString &id, bool checked)
+    {
+        onMenuItemInvoked(id, checked, m_client);
+    }
+
+private:
+    Window *m_client;
+};
+
 /**
  * @brief Menu shown for a Window.
  *
@@ -89,6 +118,8 @@ public:
     void show(const QRect &pos, Window *window);
 
     bool handleClick(const QPoint &pos);
+
+    void prepareMenu(const QWeakPointer<Window> &cl);
 
 public Q_SLOTS:
     /**
