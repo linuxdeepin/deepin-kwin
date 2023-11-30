@@ -498,8 +498,6 @@ private:
     void moveWindowChangeDesktop(EffectWindow *w, int todesktop, EffectScreen *toscreen, bool isSwitch = false);
     bool closeWindow(EffectWindow *w);
 
-    void frameSetImage();
-
 private:
     MultiViewWorkspace *getWorkspaceObject(EffectScreen *screen, int secindex);
     MultiViewWinManager *getWinManagerObject(int index);

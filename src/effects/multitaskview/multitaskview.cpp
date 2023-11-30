@@ -540,7 +540,6 @@ MultitaskViewEffect::MultitaskViewEffect()
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_S);
     KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_S);
     shortcut = KGlobalAccel::self()->shortcut(a);
-    // effects->registerGlobalShortcut(Qt::META + Qt::Key_S, a);
     connect(a, SIGNAL(triggered(bool)), this, SLOT(toggle()));
 
     connect(effects, &EffectsHandler::windowAdded, this, &MultitaskViewEffect::onWindowAdded);
@@ -573,10 +572,11 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_opacityTimeLine.setEasingCurve(QEasingCurve::OutQuint);
     m_opacityTimeLine.setDuration(std::chrono::milliseconds(2*EFFECT_DURATION_DEFAULT));
 
-    const KSharedConfigPtr config = KSharedConfig::openConfig("kwinrc");
-    if (config) {
-        const KConfigGroup config_group(config, "Compositing");
+    KConfigGroup config_group(KSharedConfig::openConfig("kwinrc"), "Compositing");
+    if (effects->waylandDisplay()) {
         setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true));
+    } else {
+        setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true) && config_group.readEntry("window_animation", true));
     }
 
     QString qm = QString(":/effects/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());
