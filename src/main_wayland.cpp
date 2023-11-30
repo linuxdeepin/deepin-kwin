@@ -271,6 +271,11 @@ void ApplicationWayland::startSession()
     }
 }
 
+void ApplicationWayland::exitWayland()
+{
+    _exit(0);
+}
+
 XwaylandInterface *ApplicationWayland::xwayland() const
 {
     return m_xwayland.get();
@@ -310,7 +315,7 @@ int main(int argc, char *argv[])
     KSignalHandler::self()->watchSignal(SIGINT);
     KSignalHandler::self()->watchSignal(SIGHUP);
     QObject::connect(KSignalHandler::self(), &KSignalHandler::signalReceived,
-                     &a, &QCoreApplication::exit);
+                     &a, &KWin::ApplicationWayland::exitWayland);
 
     KWin::Application::createAboutData();
 
