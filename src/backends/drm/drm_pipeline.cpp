@@ -36,7 +36,11 @@ static const QMap<uint32_t, QVector<uint64_t>> legacyCursorFormats = {{DRM_FORMA
 DrmPipeline::DrmPipeline(DrmConnector *conn)
     : m_connector(conn)
 {
-    m_ctmEnabled = qEnvironmentVariableIntValue("KWIN_CTM_ENABLED") == 1;
+    if (conn->gpu()->isHisi()) {
+        m_ctmEnabled = true;
+    } else {
+        m_ctmEnabled = qEnvironmentVariableIntValue("KWIN_CTM_ENABLED") == 1;  //非华为机器默认关闭，遗留后续解决。初步推断是驱动问题导致
+    }
 }
 
 DrmPipeline::~DrmPipeline()
