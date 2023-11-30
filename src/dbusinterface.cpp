@@ -366,14 +366,14 @@ bool CompositorDBusInterface::platformRequiresCompositing() const
 void CompositorDBusInterface::resume()
 {
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        static_cast<X11Compositor *>(m_compositor)->resume(X11Compositor::ScriptSuspend);
+        static_cast<X11Compositor *>(m_compositor)->resume(X11Compositor::UserSuspend);
     }
 }
 
 void CompositorDBusInterface::suspend()
 {
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
-        static_cast<X11Compositor *>(m_compositor)->suspend(X11Compositor::ScriptSuspend);
+        static_cast<X11Compositor *>(m_compositor)->suspend(X11Compositor::UserSuspend);
     }
 }
 
