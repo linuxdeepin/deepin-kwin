@@ -73,11 +73,56 @@
 #include <xcb/damage.h>
 
 #include <cstdio>
+#include <dlfcn.h>
 
 Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 
 namespace KWin
 {
+
+static int devicePerformanceLevel()
+{
+    static int level = -1;
+    if (level != -1) {
+        return level;
+    }
+
+    level = 0;
+    std::unique_ptr<void, int(*)(void*)> file_handle(dlopen("libdtkwmjack.so", RTLD_NOW), &dlclose);
+    if (!file_handle) {
+        qCWarning(KWIN_CORE) << "Errors in function dlopen:" << dlerror();
+        return 0;
+    }
+
+    void *function_handle = dlsym(file_handle.get(), "InitDtkWmDisplay");
+    if (!function_handle) {
+        qCWarning(KWIN_CORE) << "Fail to find function 'InitDtkWmDisplay':" << dlerror();
+        return 0;
+    }
+    int (*InitDtkWmDisplay)() = reinterpret_cast<int(*)()>(function_handle);
+    if (InitDtkWmDisplay() != 0) {
+        return 0;
+    }
+
+    function_handle = dlsym(file_handle.get(), "GetDevicePerformanceLevel");
+    if (!function_handle) {
+        qCWarning(KWIN_CORE) << "Fail to find function 'GetDevicePerformanceLevel':" << dlerror();
+        return 0;
+    }
+    int (*GetDevicePerformanceLevle)() = reinterpret_cast<int(*)()>(function_handle);
+    level = GetDevicePerformanceLevle();
+    qCDebug(KWIN_CORE) << "Device performance level:" << level;
+
+    function_handle = dlsym(file_handle.get(), "DestoryDtkWmDisplay");
+    if (!function_handle) {
+        qCWarning(KWIN_CORE) << "Fail to find function 'DestoryDtkWmDisplay':" << dlerror();
+        return level;
+    }
+    void (*DestoryDtkWmDisplay)() = reinterpret_cast<void(*)()>(function_handle);
+    DestoryDtkWmDisplay();
+
+    return level;
+}
 
 Compositor *Compositor::s_compositor = nullptr;
 Compositor *Compositor::self()
@@ -906,6 +951,12 @@ void X11Compositor::start()
         qCWarning(KWIN_CORE) << "Compositing is not possible";
         return;
     }
+
+    if (devicePerformanceLevel() == 0) {
+        qCWarning(KWIN_CORE) << "Compositing is disbaled due to low performance level";
+        return;
+    }
+
     if (!Compositor::setupStart()) {
         // Internal setup failed, abort.
         return;
