@@ -183,10 +183,6 @@ public:
             return false;
         }
 
-        if (client != waylandServer()->xWaylandConnection() && xwaylandInterfaces.contains(interfaceName)) {
-            return false;
-        }
-
         if (!interfacesBlackList.contains(interfaceName)) {
             return true;
         }
