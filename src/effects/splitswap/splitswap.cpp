@@ -155,6 +155,7 @@ void SplitSwapEffect::onSwapWindow(EffectWindow *w, int index)
 {
     m_animationTime.reset();
     if (index == 0) {
+        m_animationTime.setElapsed(m_duration);
         m_isSwap = false;
         m_isFinish = true;
         return;
