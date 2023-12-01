@@ -676,7 +676,6 @@ QString ScreenShotDBusInterface1::screenshotForWindowExtend(qulonglong winid, un
 
     takeScreenShot(window, QSize(width, height), ScreenShotFlags(mask), new ScreenShotSinkFile1(this, message()));
 
-    setDelayedReply(true);
     return QString();
 }
 
