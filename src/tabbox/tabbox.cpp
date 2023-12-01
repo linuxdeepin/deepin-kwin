@@ -694,7 +694,6 @@ QList<int> TabBox::currentDesktopList()
 
 void TabBox::setCurrentClient(Window *newClient)
 {
-    saveAllClientIsMinisize();
     setCurrentIndex(m_tabBox->index(qWeakPointerCast<TabBoxClient, TabBoxClientImpl>(newClient->tabBoxClient())));
 }
 
@@ -729,6 +728,7 @@ void TabBox::show()
         m_isShown = false;
         return;
     }
+    saveAllClientIsMinisize();
     workspace()->setShowingDesktop(false);
     workspace()->setPreviewClientList({});
     reference();

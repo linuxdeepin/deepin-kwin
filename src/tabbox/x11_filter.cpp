@@ -74,6 +74,10 @@ bool X11Filter::buttonPress(xcb_button_press_event_t *event)
         const QModelIndex index = tabBox->first();
         if (index.isValid()) {
             tab->setCurrentIndex(index);
+            Window *w = tab->currentClient();
+            if (w) {
+                w->setMinimized(tab->firstClientIsMinisize());
+            }
         }
         tab->close(); // click outside closes tab
         return true;

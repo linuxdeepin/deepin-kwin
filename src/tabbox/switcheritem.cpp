@@ -88,9 +88,9 @@ void SwitcherItem::setCurrentIndex(int index)
         tabBox->setCurrentIndex(m_model->index(index, 0));
     }
 
-    if (!Compositor::compositing() && index == 0) {
-        if (index != tabBox->clientList().count() -1) {
-            for (int i = 0; i < tabBox->clientList().count() -1; i++) {
+    if (!Compositor::compositing()) {
+        if (index != tabBox->clientList().count() - 1) {
+            for (int i = 0; i < tabBox->clientList().count() - 1; i++) {
                 Window *c = workspace()->tabbox()->currentClientList().at(i);
                 QList<bool> minisizeClientList = workspace()->tabbox()->getAllClientIsMinisize();
                 if (i != index && i < minisizeClientList.count() && tabBox->clientList().count() == minisizeClientList.count()) {
