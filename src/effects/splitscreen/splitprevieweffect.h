@@ -44,9 +44,11 @@ private:
     QRect getPreviewWindowsGeometry(EffectWindow *w);
     void setActive(bool);
     void cleanup();
+    void relayout();
 
 public Q_SLOTS:
     void toggle(KWin::EffectWindow *w);
+    void slotWindowGeometryChanged(EffectWindow *window, const QRectF &geometry);
 
 private:
     bool                         m_activated = false;

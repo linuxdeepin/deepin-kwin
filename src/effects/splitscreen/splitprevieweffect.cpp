@@ -24,6 +24,7 @@ SplitPreviewEffect::SplitPreviewEffect()
     : lastPresentTime(std::chrono::milliseconds::zero())
 {
     connect(effectsEx, &EffectsHandlerEx::triggerSplitPreview, this, &SplitPreviewEffect::toggle);
+    connect(effects, &EffectsHandler::windowFrameGeometryChanged, this, &SplitPreviewEffect::slotWindowGeometryChanged);
     if (!m_effectFrame) {
         m_effectFrame = effectsEx->effectFrameEx("kwin/effects/splitscreen/qml/main.qml", false);
     }
@@ -283,6 +284,24 @@ void SplitPreviewEffect::grabbedKeyboardEvent(QKeyEvent *e)
             setActive(false);
             break;
         }
+    }
+}
+
+void SplitPreviewEffect::slotWindowGeometryChanged(EffectWindow *window, const QRectF &geometry)
+{
+    if (isActive() && effects->waylandDisplay() && effectsEx->getQuickTileMode(window)) {
+        auto area = effects->clientArea(MaximizeArea, window);
+        QRegion r = QRegion(area.toRect()).subtracted(QRegion(window->frameGeometry().toRect()));
+        m_backgroundRect = r.boundingRect();
+        relayout();
+    }
+}
+
+void SplitPreviewEffect::relayout()
+{
+    if (m_motionManagers.size()) {
+        WindowMotionManager& wm = m_motionManagers[0];
+        calculateWindowTransformations(wm.managedWindows(), wm);
     }
 }
 
