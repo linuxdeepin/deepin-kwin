@@ -1,3 +1,22 @@
+kwin (4:5.27.2.42-deepin42-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * Bug fix
+    fix: finish swap timeline when split window exited
+    fix: relayout window preview in wayland
+    fix: delay display of preview window.
+    fix: Fix the issue of KLV eye protection mode failure
+    fix: repair the ineffective about effects switch
+    fix: solve the window transparent when preview from dock
+    fix: add dbus interface to get led status of keyboard.
+    fix: prohibit window uneffect when minimize
+    fix: desktop was black after upgrading from 1062 to 1070
+    fix: animations in multitaskview weren't controlled by window_animation field
+    fix: change kde default useraction menu to dde style.
+    fix: replace from QApplication::exit to _exit in signhandler of kill.
+
+ -- huangzeming <huangzeming@uniontech.com>  Fri, 01 Dec 2023 15:07:59 +0800
+
 kwin (4:5.27.2.41-deepin41-1) unstable; urgency=medium
 
   [ huangzeming ]
