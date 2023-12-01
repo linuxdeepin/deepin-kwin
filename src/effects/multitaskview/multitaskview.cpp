@@ -529,17 +529,36 @@ void MultiViewWinFill::render()
 }
 
 MultitaskViewEffect::MultitaskViewEffect()
-    : m_showAction(new QAction(this))
+    : m_showActions(new QAction(this))
+    , m_showActionw(new QAction(this))
+    , m_showActiona(new QAction(this))
     , m_mutex(QMutex::Recursive)
     , m_timer(new QTimer(this))
     , m_timerCheckWindowClose(new QTimer(this))
 {
-    QAction *a = m_showAction;
-    a->setObjectName(QStringLiteral("ShowMultitasking"));
+    QAction *s = m_showActions;
+    s->setObjectName(QStringLiteral("ShowMultitasking"));
+    s->setText("Show Multitasking View");
+    KGlobalAccel::self()->setDefaultShortcut(s, QList<QKeySequence>() << Qt::META + Qt::Key_S);
+    KGlobalAccel::self()->setShortcut(s, QList<QKeySequence>() << Qt::META + Qt::Key_S);
+    shortcut = KGlobalAccel::self()->shortcut(s);
+
+    QAction *w = m_showActionw;
+    w->setObjectName(QStringLiteral("ShowMultitaskingW"));
+    w->setText("Show Multitasking View");
+    KGlobalAccel::self()->setDefaultShortcut(w, QList<QKeySequence>() << Qt::META + Qt::Key_W);
+    KGlobalAccel::self()->setShortcut(w, QList<QKeySequence>() << Qt::META + Qt::Key_W);
+    shortcutw = KGlobalAccel::self()->shortcut(w);
+
+    QAction *a = m_showActiona;
+    a->setObjectName(QStringLiteral("ShowMultitaskingA"));
     a->setText("Show Multitasking View");
-    KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_S);
-    KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_S);
-    shortcut = KGlobalAccel::self()->shortcut(a);
+    KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_A);
+    KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_A);
+    shortcuta = KGlobalAccel::self()->shortcut(a);
+
+    connect(s, SIGNAL(triggered(bool)), this, SLOT(toggle()));
+    connect(w, SIGNAL(triggered(bool)), this, SLOT(toggle()));
     connect(a, SIGNAL(triggered(bool)), this, SLOT(toggle()));
 
     connect(effects, &EffectsHandler::windowAdded, this, &MultitaskViewEffect::onWindowAdded);
@@ -641,9 +660,17 @@ MultitaskViewEffect::MultitaskViewEffect()
 
 MultitaskViewEffect::~MultitaskViewEffect()
 {
-    if (m_showAction) {
-        delete m_showAction;
-        m_showAction = nullptr;
+    if (m_showActions) {
+        delete m_showActions;
+        m_showActions = nullptr;
+    }
+    if (m_showActionw) {
+        delete m_showActionw;
+        m_showActionw = nullptr;
+    }
+    if (m_showActiona) {
+        delete m_showActiona;
+        m_showActiona = nullptr;
     }
 }
 
@@ -1919,7 +1946,9 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
     }
 
     if (e->type() == QEvent::KeyPress) {
-        if (shortcut.contains(e->key() + e->modifiers())) {
+        if (shortcut.contains(e->key() + e->modifiers()) ||
+            shortcuta.contains(e->key() + e->modifiers()) ||
+            shortcutw.contains(e->key() + e->modifiers())) {
             toggle();
             return;
         }
