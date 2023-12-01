@@ -17,6 +17,9 @@
 #include <QMutex>
 #include <QSize>
 #include <QStringList>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QVector>
 #include <deque>
 
@@ -51,6 +54,9 @@ public:
         m_config = config;
     }
 
+    Q_INVOKABLE void setTouchDeviceToScreenId(const QString &touchDeviceSysName, const QString &screenUuid);
+
+    QString getTouchDeviceToScreenInfo();
     void setup();
     void updateScreens();
     void deactivate();
@@ -83,6 +89,7 @@ private:
     std::unique_ptr<ConnectionAdaptor> m_connectionAdaptor;
     std::unique_ptr<Context> m_input;
     std::unique_ptr<Udev> m_udev;
+    QMap<QString, QString> m_touchDeviceToScreenMap;
 };
 
 }

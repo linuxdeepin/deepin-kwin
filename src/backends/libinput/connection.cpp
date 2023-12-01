@@ -44,6 +44,7 @@ class ConnectionAdaptor : public QObject
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.KWin.InputDeviceManager")
     Q_PROPERTY(QStringList devicesSysNames READ devicesSysNames CONSTANT)
+    Q_PROPERTY(QString getTouchDeviceToScreenInfo READ getTouchDeviceToScreenInfo CONSTANT)
 
 private:
     Connection *m_con;
@@ -63,7 +64,7 @@ public:
         QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/InputDevice"),
                                                      QStringLiteral("org.kde.KWin.InputDeviceManager"),
                                                      this,
-                                                     QDBusConnection::ExportAllProperties | QDBusConnection::ExportAllSignals);
+                                                     QDBusConnection::ExportAllProperties | QDBusConnection::ExportScriptableContents | QDBusConnection::ExportAllSignals);
     }
 
     ~ConnectionAdaptor() override
@@ -74,6 +75,15 @@ public:
     QStringList devicesSysNames()
     {
         return m_con->devicesSysNames();
+    }
+
+    QString getTouchDeviceToScreenInfo()
+    {
+        return m_con->getTouchDeviceToScreenInfo();
+    }
+    Q_SCRIPTABLE void setTouchDeviceToScreenId(const QString &touchDeviceSysName, const QString &screenUuid)
+    {
+        m_con->setTouchDeviceToScreenId(touchDeviceSysName, screenUuid);
     }
 
 Q_SIGNALS:
@@ -588,6 +598,88 @@ void Connection::updateScreens()
     }
 }
 
+void Connection::setTouchDeviceToScreenId(const QString &touchDeviceSysName, const QString &screenUuid) {
+    bool isHasTheTouchDeivce = false;
+    for (auto device: qAsConst(m_devices)) {
+        if (device->isTouch()) {
+            if (touchDeviceSysName == device->sysName()) {
+                isHasTheTouchDeivce = true;
+                break;
+            }
+        }
+    }
+    if (!isHasTheTouchDeivce) {
+        qDebug() << "do not find touch device!";
+        return;
+    }
+    const QVector<Output *> outputs = kwinApp()->outputBackend()->outputs();
+    bool isExist = false;
+    for (Output *output : outputs) {
+        if (!output->isEnabled()) {
+            continue;
+        }
+        if (output->uuid() == screenUuid) {
+            isExist = true;
+            break;
+        }
+    }
+    if (!isExist) {
+        qDebug() << "do not find screen!";
+        return;
+    }
+    m_touchDeviceToScreenMap[touchDeviceSysName] = screenUuid;
+    updateScreens();
+}
+
+QString Connection::getTouchDeviceToScreenInfo(){
+    QMap<QString, QString> allTouchDeviceToScreens;
+    QJsonArray allTouchDevicesAndScreens;
+    for (auto device: qAsConst(m_devices)) {
+        if (device->isTouch()) {
+            allTouchDeviceToScreens.insert(device->sysName(),"");
+        }
+    }
+
+    QMapIterator<QString, QString> iter(m_touchDeviceToScreenMap);
+    while(iter.hasNext()) {
+        iter.next();
+        allTouchDeviceToScreens[iter.key()] = iter.value();
+    }
+
+    QMapIterator<QString, QString> allIter(allTouchDeviceToScreens);
+    while(allIter.hasNext()) {
+        allIter.next();
+        QJsonObject accelObj;
+        accelObj.insert("TouchDevice", allIter.key());
+        accelObj.insert("ScreenUuid", allIter.value());
+        allTouchDevicesAndScreens.append(accelObj);
+
+    }
+    const QVector<Output *> outputs = kwinApp()->outputBackend()->outputs();
+    for (Output *output : outputs) {
+        if (!output->isEnabled()) {
+            continue;
+        }
+        bool isExist = false;
+        QMap<QString, QString>::iterator iter = allTouchDeviceToScreens.begin();
+        while (iter != allTouchDeviceToScreens.end()) {
+            if (output->uuid() == iter.value()) {
+                isExist = true;
+                break;
+            }
+            iter++;
+        }
+        if (isExist) {
+            continue;
+        }
+        QJsonObject accelObj;
+        accelObj.insert("ScreenUuid", output->uuid().toString());
+        allTouchDevicesAndScreens.append(accelObj);
+    }
+
+    return QJsonDocument(allTouchDevicesAndScreens).toJson(QJsonDocument::Compact);
+}
+
 void Connection::applyScreenToDevice(Device *device)
 {
 #ifndef KWIN_BUILD_TESTING
@@ -598,9 +690,22 @@ void Connection::applyScreenToDevice(Device *device)
 
     Output *deviceOutput = nullptr;
     const QVector<Output *> outputs = kwinApp()->outputBackend()->outputs();
+    //find the screen according to the output of uuid
+    if (m_touchDeviceToScreenMap.contains(device->sysName())) {
+        QString uuid = m_touchDeviceToScreenMap[device->sysName()];
+        for (Output *output : outputs) {
+            if (!output->isEnabled()) {
+                continue;
+            }
+            if (output->uuid() == uuid) {
+                deviceOutput = output;
+                break;
+            }
+        }
+    }
 
     // let's try to find a screen for it
-    if (!device->outputName().isEmpty()) {
+    if (!deviceOutput && !device->outputName().isEmpty()) {
         // we have an output name, try to find a screen with matching name
         for (Output *output : outputs) {
             if (!output->isEnabled()) {
