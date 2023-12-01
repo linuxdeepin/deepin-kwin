@@ -1,3 +1,12 @@
+kwin (4:5.27.2.43-deepin43-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * Bug fix
+    fix: remove meta+a\meta+w functions
+
+ -- wangboyu <wangboyu@uniontech.com>  Fri, 01 Dec 2023 16:19:40 +0800
+
+
 kwin (4:5.27.2.42-deepin42-1) unstable; urgency=medium
 
   [ huangzeming ]
