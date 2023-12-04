@@ -1,3 +1,13 @@
+kwin (4:5.27.2.44-deepin44-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * Bug fix
+    fix: Filter the simulated touch devices and do not add them to the Xwayland event sending
+    fix: tabbox crash in app_opentab pressure testing script.
+    fix: when playing a video, the video cannot continue to play after minimizing the window and then restoring it
+
+ -- wangboyu <wangboyu@uniontech.com>  Fri, 03 Dec 2023 18:00:40 +0800
+
 kwin (4:5.27.2.43-deepin43-1) unstable; urgency=medium
 
   [ wangboyu ]
