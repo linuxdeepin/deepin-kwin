@@ -148,6 +148,12 @@ void XdgSurfaceWindow::sendConfigure()
 void XdgSurfaceWindow::handleConfigureAcknowledged(quint32 serial)
 {
     m_lastAcknowledgedConfigureSerial = serial;
+
+    // The xdg protocol does not have a minimized state, and this state needs to be supplemented through the dde shell protocol
+    if (m_ddeShellSurface && isMinimized()) {
+        m_ddeShellSurface->setMinimized(false);
+        m_ddeShellSurface->setMinimized(isMinimized());
+    }
 }
 
 void XdgSurfaceWindow::leaveInteractiveMoveResize()
