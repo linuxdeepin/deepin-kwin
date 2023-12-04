@@ -92,8 +92,9 @@ void SwitcherItem::setCurrentIndex(int index)
         if (index != tabBox->clientList().count() -1) {
             for (int i = 0; i < tabBox->clientList().count() -1; i++) {
                 Window *c = workspace()->tabbox()->currentClientList().at(i);
-                if (i != index) {
-                    c->setMinimized(workspace()->tabbox()->getAllClientIsMinisize().at(i));
+                QList<bool> minisizeClientList = workspace()->tabbox()->getAllClientIsMinisize();
+                if (i != index && i < minisizeClientList.count() && tabBox->clientList().count() == minisizeClientList.count()) {
+                    c->setMinimized(minisizeClientList.at(i));
                 }
             }
         }
