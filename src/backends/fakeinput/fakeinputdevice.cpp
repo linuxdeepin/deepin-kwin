@@ -204,4 +204,9 @@ bool FakeInputDevice::isLidSwitch() const
     return false;
 }
 
+bool FakeInputDevice::isFakeinput() const
+{
+    return true;
+}
+
 } // namespace KWin

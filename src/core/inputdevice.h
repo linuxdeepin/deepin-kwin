@@ -43,6 +43,7 @@ public:
     virtual bool isTabletPad() const = 0;
     virtual bool isTabletModeSwitch() const = 0;
     virtual bool isLidSwitch() const = 0;
+    virtual bool isFakeinput() const;
 
     virtual QString outputName() const;
     virtual void setOutputName(const QString &outputName);

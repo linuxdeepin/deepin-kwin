@@ -3173,7 +3173,7 @@ void InputRedirection::updateAvailableInputDevices()
     }
 
     const bool hasTouch = std::any_of(m_inputDevices.constBegin(), m_inputDevices.constEnd(), [](InputDevice *device) {
-        return device->isTouch();
+        return !device->isFakeinput() && device->isTouch();
     });
     if (m_hasTouch != hasTouch) {
         m_hasTouch = hasTouch;

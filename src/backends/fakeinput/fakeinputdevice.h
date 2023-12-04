@@ -41,6 +41,7 @@ public:
     bool isTabletPad() const override;
     bool isTabletModeSwitch() const override;
     bool isLidSwitch() const override;
+    bool isFakeinput() const override;
 
 private:
     QString m_name;
