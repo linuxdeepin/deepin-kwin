@@ -745,6 +745,10 @@ QVariant KWinUtils::getParentWindow(const QObject *window) const
 
 void KWinUtils::setDarkTheme(bool isDark)
 {
+    KWin::Workspace *ws = static_cast<KWin::Workspace *>(workspace());
+    if (ws) {
+        ws->setDarkTheme(isDark);
+    }
 }
 
 void KWinUtils::addSupportedProperty(quint32 atom, bool enforce)

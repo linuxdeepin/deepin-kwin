@@ -49,6 +49,7 @@
 #include <QCheckBox>
 #include <QPushButton>
 #include <QtConcurrentRun>
+#include <QScreen>
 
 #include <KGlobalAccel>
 #include <KLazyLocalizedString>
@@ -211,11 +212,11 @@ bool UserActionsMenu::handleClick(const QPoint &pos)
 
 void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
 {
-    double fontScale = 1;/*workspace()->getConfigReader()->getProperty().isValid() ? workspace()->getConfigReader()->getProperty().toDouble() / 10.5 : 1;*/
+    double fontScale = workspace()->getFontSizeScale();
     QString backgroundColor = "rgb(253,253,254)";
     QString fontColor = "black";
     QString disableFontColor = "rgba(0,0,0,40%)";
-    qreal scalingFactor = 1.0;/*qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);*/
+    qreal scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
     QString fontSize = QString::number(int(fontScale * 14.0 * scalingFactor)) + "px";
     QString rightPadding = QString::number(45 * fontScale * fontScale * scalingFactor) + "px";
     if (workspace()->self()->isDarkTheme()) {

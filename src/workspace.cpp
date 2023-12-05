@@ -319,6 +319,9 @@ void Workspace::init()
     m_configReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
                                       DBUS_APPEARANCE_INTF, "WindowRadius");
 
+    m_fontSizeConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
+                                      DBUS_APPEARANCE_INTF, "FontSize");
+
     setProcessSessionPath();
 }
 
@@ -619,6 +622,11 @@ Workspace::~Workspace()
     if (m_configReader) {
         delete m_configReader;
         m_configReader = nullptr;
+    }
+
+    if (m_fontSizeConfigReader) {
+        delete m_fontSizeConfigReader;
+        m_fontSizeConfigReader = nullptr;
     }
 
     _self = nullptr;
@@ -3637,9 +3645,13 @@ void Workspace::setWinSplitState(Window *w, bool isSplit)
     }
 }
 
-float Workspace::getWindowRadius()
+float Workspace::getWindowRadius() const
 {
     return m_configReader->getProperty().isValid() ? m_configReader->getProperty().toFloat() : 8.0;
+}
+
+double Workspace::getFontSizeScale() const {
+    return m_fontSizeConfigReader->getProperty().isValid() ? m_fontSizeConfigReader->getProperty().toDouble() / 10.5 : 1.0;
 }
 
 bool Workspace::getDraggingWithContentStatus()

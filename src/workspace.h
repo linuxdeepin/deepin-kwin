@@ -560,7 +560,9 @@ public:
      */
     bool applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder = {});
 
-    float getWindowRadius();
+    float getWindowRadius() const;
+
+    double getFontSizeScale() const;
 
     bool isDraggingWithContent() const { return m_clientDraggingWithContent; }
 
@@ -894,7 +896,8 @@ private:
     QString m_sessionPath;
     bool m_splitBarState;
 
-    ConfigReader                 *m_configReader = nullptr;
+    ConfigReader *m_configReader = nullptr;
+    ConfigReader *m_fontSizeConfigReader = nullptr;
     Window* m_requestMovingClient = nullptr;
     bool m_bIsTouchToMovingClient = false;
 
