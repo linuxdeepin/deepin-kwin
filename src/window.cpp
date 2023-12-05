@@ -1052,7 +1052,7 @@ bool Window::isMostRecentlyRaised() const
 
 bool Window::wantsTabFocus() const
 {
-    return (isNormalWindow() || isDialog() || isAppletPopup() || isOnScreenDisplay()) && wantsInput();
+    return (isNormalWindow() || isDialog() || isAppletPopup()) && wantsInput();
 }
 
 bool Window::isSpecialWindow() const

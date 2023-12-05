@@ -286,7 +286,6 @@ void Workspace::activateWindow(Window *window, bool force)
         setActiveWindow(nullptr);
         return;
     }
-
     raiseWindow(window);
     if (!window->isOnCurrentDesktop()) {
         ++block_focus;
@@ -505,18 +504,6 @@ bool Workspace::activateNextWindow(Window *window)
         if (!focusCandidate) {
             // nope, ask the focus chain for the next candidate
             focusCandidate = m_focusChain->nextForDesktop(window, desktop);
-        }
-    }
-
-    if (focusCandidate == NULL) {   // focus the lockscreen
-        focusCandidate = findScreenLock(true, desktop);
-        if (focusCandidate != NULL) {
-            if (!focusCandidate->isActive()) {
-                requestFocus(focusCandidate);
-            } else {
-                setActiveWindow(focusCandidate);
-            }
-            return true;
         }
     }
 
