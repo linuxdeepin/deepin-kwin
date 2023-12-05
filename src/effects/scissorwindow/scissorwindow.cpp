@@ -195,7 +195,9 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             effects->drawWindow(w, mask, region, data);
         } else {
             Window* window = static_cast<EffectWindowImpl *>(w)->window();
-            window->surfaceItem()->setScissorAlpha(true);
+            SurfaceItem *surfaceItem = static_cast<SurfaceItem *>(window->surfaceItem());
+            if (surfaceItem)
+                surfaceItem->setScissorAlpha(true);
             const QString& key = QString("%1+%2").arg(cornerRadius.toPoint().x()).arg(cornerRadius.toPoint().y()
             );
             if (!m_texMaskMap.count(key)) {
