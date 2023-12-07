@@ -1,3 +1,15 @@
+kwin (4:5.27.2.45-deepin45-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * Bug fix
+    feat: Remove CVT mode on Hisi devices
+    fix: collapse caused by surfaceitem setScissorAlpha
+    fix: Fix screen stuck while display mode changed
+    Revert "fix: Fix focus error in lock screen"
+    fix: wrong font and color for window menu options
+
+ -- wangboyu <wangboyu@uniontech.com>  Thu, 07 Dec 2023 18:29:40 +0800
+
 kwin (4:5.27.2.44-deepin44-1) unstable; urgency=medium
 
   [ wangboyu ]
