@@ -122,6 +122,7 @@ DrmConnector::DrmConnector(DrmGpu *gpu, uint32_t connectorId)
                 DRM_MODE_OBJECT_CONNECTOR)
     , m_pipeline(std::make_unique<DrmPipeline>(this))
     , m_conn(drmModeGetConnector(gpu->fd(), connectorId))
+    , m_gpu(gpu)
 {
     if (m_conn) {
         for (int i = 0; i < m_conn->count_encoders; ++i) {
@@ -310,7 +311,9 @@ bool DrmConnector::updateProperties()
         }
         m_modes.clear();
         m_modes.append(m_driverModes);
-        m_modes.append(generateCommonModes());
+        if (!m_gpu->isHisi()) {
+            m_modes.append(generateCommonModes());
+        }
         if (m_pipeline->mode()) {
             if (const auto mode = findMode(*m_pipeline->mode()->nativeMode())) {
                 m_pipeline->setMode(mode);

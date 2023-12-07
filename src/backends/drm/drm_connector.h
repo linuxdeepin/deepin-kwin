@@ -139,6 +139,8 @@ private:
     QList<std::shared_ptr<DrmConnectorMode>> m_modes;
     uint32_t m_possibleCrtcs = 0;
 
+    DrmGpu *m_gpu = nullptr;
+
     friend QDebug &operator<<(QDebug &s, const KWin::DrmConnector *obj);
 };
 
