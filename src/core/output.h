@@ -100,7 +100,9 @@ public:
     Q_ENUM(RgbRange)
 
     struct CtmValue {
-        uint16_t r, g, b;
+        uint16_t r = 0;
+        uint16_t g = 0;
+        uint16_t b = 0;
         bool operator==(const CtmValue &cv) const;
         bool operator!=(const CtmValue &cv) const;
     };
