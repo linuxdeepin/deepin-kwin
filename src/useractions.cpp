@@ -274,9 +274,11 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
         }
     }
 
-    auto client = m_window.data();
-    connect(m_menu, &QMenu::triggered, m_menu, [client] (const QAction *action) {
-        MenuSlot::onMenuItemInvoked(action->property("id").toString(), action->isChecked(), client);
+    connect(m_menu, &QMenu::triggered, m_menu, [this] (const QAction *action) {
+        QPointer<Window> c = m_window ? m_window : QPointer<Window>(Workspace::self()->activeWindow());
+        if (!c.isNull()) {
+            MenuSlot::onMenuItemInvoked(action->property("id").toString(), action->isChecked(), c.data());
+        }
     });
 }
 
