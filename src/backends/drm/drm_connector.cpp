@@ -19,6 +19,7 @@
 #include <xf86drmMode.h>
 
 #include <cerrno>
+#include <cmath>
 #include <cstring>
 #include <libxcvt/libxcvt.h>
 
@@ -122,7 +123,6 @@ DrmConnector::DrmConnector(DrmGpu *gpu, uint32_t connectorId)
                 DRM_MODE_OBJECT_CONNECTOR)
     , m_pipeline(std::make_unique<DrmPipeline>(this))
     , m_conn(drmModeGetConnector(gpu->fd(), connectorId))
-    , m_gpu(gpu)
 {
     if (m_conn) {
         for (int i = 0; i < m_conn->count_encoders; ++i) {
@@ -311,9 +311,7 @@ bool DrmConnector::updateProperties()
         }
         m_modes.clear();
         m_modes.append(m_driverModes);
-        if (!m_gpu->isHisi()) {
-            m_modes.append(generateCommonModes());
-        }
+        m_modes.append(generateCommonModes());
         if (m_pipeline->mode()) {
             if (const auto mode = findMode(*m_pipeline->mode()->nativeMode())) {
                 m_pipeline->setMode(mode);
@@ -430,7 +428,7 @@ std::shared_ptr<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, 
         .vsync_end = modeInfo->vsync_end,
         .vtotal = modeInfo->vtotal,
         .vscan = 1,
-        .vrefresh = uint32_t(modeInfo->vrefresh),
+        .vrefresh = std::ceil(modeInfo->vrefresh),
         .flags = modeInfo->mode_flags,
         .type = DRM_MODE_TYPE_USERDEF,
     };
