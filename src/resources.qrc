@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/resources">
         <file>../themes/prohibited.svg</file>
+        <file>../themes/active.svg</file>
+        <file>../themes/inactive.svg</file>
     </qresource>
 </RCC>

@@ -267,9 +267,9 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
         action->setEnabled(item.enable);
         if (item.checked) {
             if (backgroundColor == "black") {
-                action->setIcon(QIcon(":/resources/themes/Active.svg"));
+                action->setIcon(QIcon(":/resources/themes/active.svg"));
             } else {
-                action->setIcon(QIcon(":/resources/themes/inActive.svg"));
+                action->setIcon(QIcon(":/resources/themes/inactive.svg"));
             }
         }
     }
