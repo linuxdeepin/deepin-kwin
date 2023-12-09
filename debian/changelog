@@ -1,3 +1,14 @@
+kwin (4:5.27.2.46-deepin46-1) unstable; urgency=medium
+
+  * [ Chaojiang Luo ]
+    fix: Fixed the issue that the mouse was red during the KLV boot process
+    feat: round up to an integer for vrefresh
+    fix: launcher window can be dragged
+    fix: the right-click menu actually responds to the inactive window
+    fix: there is no selected state in the menu bar
+
+ -- jccKevin <luochaojiang@uniontech.com>  Sat, 09 Dec 2023 16:58:05 +0800
+
 kwin (4:5.27.2.45-deepin45-1) unstable; urgency=medium
 
   [ wangboyu ]
