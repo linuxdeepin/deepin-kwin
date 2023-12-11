@@ -565,6 +565,16 @@ public:
 
     bool isDraggingWithContent() const { return m_clientDraggingWithContent; }
 
+    void enablePrintKwinFps(bool enable)
+    {
+        m_printKwinFps = enable;
+    }
+
+    bool isPrintKwinFps()
+    {
+        return m_printKwinFps;
+    }
+
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
     // Keybindings
@@ -904,6 +914,8 @@ private:
     bool getDraggingWithContentStatus();
 
     QList<Window*> previewClients;
+
+    bool m_printKwinFps = false;
 
 private:
     friend bool performTransiencyCheck();

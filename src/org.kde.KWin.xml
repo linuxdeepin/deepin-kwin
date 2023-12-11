@@ -75,5 +75,8 @@
     <method name="isEnableTouchLongPress">
       <arg type="b" direction="out"/>
     </method>
+    <method name="printKwinFps">
+      <arg type="b" direction="in"/>
+    </method>
   </interface>
 </node>

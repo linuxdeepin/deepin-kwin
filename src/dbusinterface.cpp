@@ -306,6 +306,11 @@ void DBusInterface::quitPreviewWindows()
     previewWindows({});
 }
 
+void DBusInterface::printKwinFps(bool isFps)
+{
+    workspace()->enablePrintKwinFps(isFps);
+}
+
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     : QObject(parent)
     , m_compositor(parent)

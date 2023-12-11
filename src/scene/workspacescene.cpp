@@ -75,6 +75,7 @@
 #include "x11window.h"
 
 #include <QtMath>
+#include <sys/time.h>
 
 namespace KWin
 {
@@ -183,6 +184,7 @@ SurfaceItem *WorkspaceScene::scanoutCandidate() const
 
 void WorkspaceScene::prePaint(SceneDelegate *delegate)
 {
+    printFPS(delegate);
     createStackingOrder();
 
     painted_delegate = delegate;
@@ -488,6 +490,32 @@ void WorkspaceScene::doneOpenGLContextCurrent()
 bool WorkspaceScene::supportsNativeFence() const
 {
     return false;
+}
+
+void WorkspaceScene::printFPS(SceneDelegate *delegate)
+{
+    if(workspace() && workspace()->isPrintKwinFps()) {
+        bool contains = m_frames.contains(delegate);
+        if (!contains) {
+          m_frames[delegate] =0;
+          m_fps_time[delegate] =0;
+          m_fps[delegate] =0;
+        }
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        uint32_t time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+        uint32_t benchmark_interval = 5;
+        if (m_frames[delegate] == 0)
+            m_fps_time[delegate] = time;
+        if (time - m_fps_time[delegate] > (benchmark_interval * 1000)) {
+            uint32_t fps = (float) m_frames[delegate] / benchmark_interval;
+            qDebug()<<"WorkspaceScene::printFPS SceneDelegate: " << delegate;
+            qDebug("%d frames in %d seconds: %d fps", m_frames[delegate], benchmark_interval, fps);
+            m_fps_time[delegate] = time;
+            m_frames[delegate] = 0;
+        }
+        m_frames[delegate]++;
+    }
 }
 
 } // namespace

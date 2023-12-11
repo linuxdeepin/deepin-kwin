@@ -101,6 +101,8 @@ public Q_SLOTS: // METHODS
     void setEnableTouchLongPress(bool flag);
     bool isEnableTouchLongPress();
 
+    void printKwinFps(bool isFps);
+
 Q_SIGNALS:
     void showingDesktopChanged(bool showing);
 

@@ -86,6 +86,8 @@ public:
         return {};
     }
 
+    void printFPS(SceneDelegate *delegate);
+
 Q_SIGNALS:
     void preFrameRender();
     void frameRendered();
@@ -142,6 +144,10 @@ private:
     int m_paintScreenCount = 0;
     PaintContext m_paintContext;
     std::unique_ptr<DragAndDropIconItem> m_dndIcon;
+
+    QMap<SceneDelegate *, uint32_t> m_frames;
+    QMap<SceneDelegate *, uint32_t> m_fps_time;
+    QMap<SceneDelegate *, uint32_t> m_fps;
 };
 
 } // namespace
