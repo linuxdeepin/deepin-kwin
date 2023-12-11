@@ -1,3 +1,10 @@
+kwin (4:5.27.2.47-deepin47-1) unstable; urgency=medium
+
+  * [ wangboyu ]
+    fix: updateAvailableInputDevices when device is not fakeinput.
+
+ -- wangboyu <wangboyu@uniontech.com>  Mon, 11 Dec 2023 21:09:05 +0800
+
 kwin (4:5.27.2.46-deepin46-1) unstable; urgency=medium
 
   * [ Chaojiang Luo ]
