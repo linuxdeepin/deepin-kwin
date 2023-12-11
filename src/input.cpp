@@ -3135,7 +3135,8 @@ void InputRedirection::addInputDevice(InputDevice *device)
     m_inputDevices.append(device);
     Q_EMIT deviceAdded(device);
 
-    updateAvailableInputDevices();
+    if (!device->isFakeinput())
+        updateAvailableInputDevices();
 }
 
 void InputRedirection::removeInputDevice(InputDevice *device)
@@ -3143,7 +3144,8 @@ void InputRedirection::removeInputDevice(InputDevice *device)
     m_inputDevices.removeOne(device);
     Q_EMIT deviceRemoved(device);
 
-    updateAvailableInputDevices();
+    if (!device->isFakeinput())
+        updateAvailableInputDevices();
 }
 
 void InputRedirection::updateAvailableInputDevices()
@@ -3173,7 +3175,7 @@ void InputRedirection::updateAvailableInputDevices()
     }
 
     const bool hasTouch = std::any_of(m_inputDevices.constBegin(), m_inputDevices.constEnd(), [](InputDevice *device) {
-        return !device->isFakeinput() && device->isTouch();
+        return device->isTouch();
     });
     if (m_hasTouch != hasTouch) {
         m_hasTouch = hasTouch;
