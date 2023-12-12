@@ -189,7 +189,7 @@ bool Workspace::hasProtectedWindow()
                     if (!win || m_allClients.indexOf(win) < 0 || win->window() == 0)
                         continue;
 
-                    if ((protectedWindowIdLists[i] == win->window()) && !win->isMinimized()) {
+                    if ((protectedWindowIdLists[i] == win->window()) && !win->isMinimized() && win->isOnCurrentDesktop()) {
                         hasProtectedWindow = true;
                         break;
                     }
