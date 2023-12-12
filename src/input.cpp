@@ -929,6 +929,10 @@ public:
                 return ret;
             }
         } else if (event->type() == QEvent::KeyPress) {
+            static auto user = QProcessEnvironment::systemEnvironment().value("USER");
+            if (user == "lightdm") {
+                return false;
+            }
             if (!waylandServer()->isKeyboardShortcutsInhibited()) {
                 return input()->shortcuts()->processKey(static_cast<KeyEvent *>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
             }
