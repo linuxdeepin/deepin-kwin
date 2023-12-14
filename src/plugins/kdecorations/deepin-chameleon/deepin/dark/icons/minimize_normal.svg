@@ -1,3 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <polygon fill="#FFF" points="10.482 1 11 1 11 0 10.482 0 .518 0 0 0 0 1 .518 1" opacity=".6" transform="translate(15 19)"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>minimise_normal</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="第三方标题栏40-24" transform="translate(-977, -188)">
+            <g id="dark-50" transform="translate(853, 31)">
+                <g id="minimise_normal" transform="translate(124, 157)">
+                    <rect id="Rectangle-10" fill-opacity="0.1" fill="#FFFFFF" opacity="0" x="0" y="0" width="50" height="50"></rect>
+                    <g transform="translate(19, 25)" fill="#C5CFE0" id="Line">
+                        <polygon points="12.5555556 1 13 1 13 0 12.5555556 0 0.444444444 0 0 0 0 1 0.444444444 1"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

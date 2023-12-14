@@ -1,6 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g fill="none" fill-rule="evenodd">
-    <rect width="40" height="40" fill="#34344B" fill-opacity=".1"/>
-    <path fill="#2CA7F8" fill-rule="nonzero" d="M15,22.25 L15,17.75 L15,16 L16.8,16 L23.2,16 L25,16 L25,17.75 L25,22.25 L25,24 L23.2,24 L16.8,24 L15,24 L15,22.25 Z M16,23 L24,23 L24,17 L16,17 L16,23 Z"/>
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>maximize_press</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="第三方标题栏40-24" transform="translate(-1266, -333)">
+            <g id="dark-50" transform="translate(1231, 31)">
+                <g id="maximize_press" transform="translate(35, 302)">
+                    <rect id="Rectangle-11" fill-opacity="0.1" fill="#000000" x="0" y="0" width="50" height="50"></rect>
+                    <path d="M31,21 L31,30 L20,30 L20,21 L31,21 Z M30,22 L21,22 L21,29 L30,29 L30,22 Z" id="maximize_normal" fill="#0081FF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

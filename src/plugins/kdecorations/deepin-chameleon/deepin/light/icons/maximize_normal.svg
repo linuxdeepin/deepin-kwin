@@ -1,3 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <path fill="#303030" fill-rule="evenodd" d="M15,22.25 L15,17.75 L15,16 L16.8,16 L23.2,16 L25,16 L25,17.75 L25,22.25 L25,24 L23.2,24 L16.8,24 L15,24 L15,22.25 Z M16,23 L24,23 L24,17 L16,17 L16,23 Z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>maximize_normal</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="第三方标题栏40-24" transform="translate(-1355, -333)">
+            <g id="dark-50" transform="translate(1231, 31)">
+                <g id="maximize_normal" transform="translate(124, 302)">
+                    <rect id="Rectangle-11" fill-opacity="0.1" fill="#000000" opacity="0" x="0" y="0" width="50" height="50"></rect>
+                    <g transform="translate(20, 21)" fill="#536076">
+                        <path d="M11,0 L11,9 L0,9 L0,0 L11,0 Z M10,1 L1,1 L1,8 L10,8 L10,1 Z"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>
