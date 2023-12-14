@@ -246,9 +246,6 @@ void SeatInterfacePrivate::registerPrimarySelectionDevice(PrimarySelectionDevice
         globalKeyboard.focus.primarySelections.removeOne(primarySelectionDevice);
     };
     QObject::connect(primarySelectionDevice, &QObject::destroyed, q, dataDeviceCleanup);
-    QObject::connect(primarySelectionDevice, &PrimarySelectionDeviceV1Interface::selectionChanged, q, [this, primarySelectionDevice] {
-        updatePrimarySelection(primarySelectionDevice);
-    });
     qCWarning(KWIN_CORE) << "new primarySelectionDevice "
         << primarySelectionDevice << "@" << primarySelectionDevice->processId();
     // is the new DataDevice for the current keyoard focus?
