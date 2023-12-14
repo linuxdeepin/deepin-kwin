@@ -2203,7 +2203,8 @@ EffectScreen::Transform EffectScreenImpl::transform() const
 //****************************************
 
 EffectWindowImpl::EffectWindowImpl(Window *window)
-    : m_window(window)
+    : EffectWindow(window)
+    , m_window(window)
     , m_windowItem(nullptr)
 {
     // Deleted windows are not managed. So, when windowClosed signal is

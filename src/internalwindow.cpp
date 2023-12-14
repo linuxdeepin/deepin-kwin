@@ -262,6 +262,14 @@ bool InternalWindow::isWaterMark() const
     return false;
 }
 
+bool InternalWindow::isWindowMenu() const
+{
+    if (m_handle) {
+        return captionNormal().contains("ctx-menu");
+    }
+    return false;
+}
+
 bool InternalWindow::isShown() const
 {
     return readyForPainting();
@@ -540,6 +548,7 @@ void InternalWindow::markAsMapped()
         setupCompositing();
         setReadyForPainting();
         workspace()->addInternalWindow(this);
+        setWindowRadius();
     }
 }
 

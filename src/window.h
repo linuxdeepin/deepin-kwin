@@ -19,6 +19,7 @@
 
 #include <functional>
 #include <memory>
+#include <kwineffects.h>
 
 #include <NETWM>
 
@@ -69,6 +70,15 @@ enum class ReleaseReason {
     Release, ///< Normal Release after e.g. an Unmap notify event (window still valid)
     Destroyed, ///< Release after an Destroy notify event (window no longer valid)
     KWinShutsDown ///< Release on KWin Shutdown (window still valid)
+};
+
+enum EffectDataRole {
+    BaseRole = KWin::DataRole::WindowForceBackgroundContrastRole + 100,
+    WindowRadiusRole = BaseRole + 1,
+    WindowClipPathRole = BaseRole + 2,
+    WindowMaskTextureRole = BaseRole + 3,
+    ShadowMaskRole = KWin::DataRole::WindowForceBackgroundContrastRole + 201,
+    ShadowOffsetRole
 };
 
 namespace TabBox
@@ -286,6 +296,8 @@ class KWIN_EXPORT Window : public QObject
     Q_PROPERTY(bool splitbar READ isSplitBar)
 
     Q_PROPERTY(bool watermark READ isWaterMark)
+
+    Q_PROPERTY(bool windowmenu READ isWindowMenu)
 
     /**
      * This property holds a UUID to uniquely identify this Window.
@@ -702,6 +714,7 @@ public:
     virtual bool isOutline() const;
     virtual bool isSplitBar() const;
     virtual bool isWaterMark() const;
+    virtual bool isWindowMenu() const;
     virtual bool isInternal() const;
 
     /**
@@ -1903,6 +1916,7 @@ protected:
     void startDecorationDoubleClickTimer();
     void invalidateDecorationDoubleClickTimer();
     void updateDecorationInputShape();
+    void setWindowRadius();
 
     void setDesktopFileName(const QString &name);
     QString iconFromDesktopFile() const;
@@ -2304,6 +2318,11 @@ inline bool Window::isSplitBar() const
 }
 
 inline bool Window::isWaterMark() const
+{
+    return false;
+}
+
+inline bool Window::isWindowMenu() const
 {
     return false;
 }

@@ -47,6 +47,7 @@ public:
     bool isOutline() const override;
     bool isSplitBar() const override;
     bool isWaterMark() const override;
+    bool isWindowMenu() const override;
     bool isShown() const override;
     bool isHiddenInternal() const override;
     void hideClient() override;

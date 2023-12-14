@@ -4832,6 +4832,14 @@ bool Window::isProhibitScreenshotWindow()
     return false;
 }
 
+void Window::setWindowRadius()
+{
+    if (m_effectWindow) {
+        QPointF r(Workspace::self()->getWindowRadius(), Workspace::self()->getWindowRadius());
+        m_effectWindow->setData(WindowRadiusRole, QVariant::fromValue(r));
+    }
+}
+
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)
     : m_window(window)
 {

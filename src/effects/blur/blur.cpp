@@ -244,6 +244,11 @@ void BlurEffect::updateBlurRegion(EffectWindow *w)
 
     if (valid) {
         m_windows[w].region = region;
+        if (region.isEmpty()) {
+            w->setData(WindowBlurBehindRole, 1);
+        } else {
+            w->setData(WindowBlurBehindRole, region);
+        }
     } else {
         if (auto it = m_windows.find(w); it != m_windows.end()) {
             effects->makeOpenGLContextCurrent();
@@ -372,7 +377,8 @@ QRegion BlurEffect::blurRegion(EffectWindow *w) const
     QRegion region;
 
     if (auto it = m_windows.find(w); it != m_windows.end()) {
-        const QRegion &appRegion = it->second.region;
+        const QVariant value = w->data(WindowBlurBehindRole);
+        const QRegion &appRegion = qvariant_cast<QRegion>(value);
         if (!appRegion.isEmpty()) {
             if (w->decorationHasAlpha() && decorationSupportsBlurBehind(w)) {
                 region = decorationBlurRegion(w);

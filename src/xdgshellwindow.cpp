@@ -2316,6 +2316,7 @@ void XdgPopupWindow::initialize()
     workspace()->placement()->place(this, area);
     Q_EMIT workspace()->windowStateChanged();
     scheduleConfigure();
+    setWindowRadius();
 }
 
 } // namespace KWin

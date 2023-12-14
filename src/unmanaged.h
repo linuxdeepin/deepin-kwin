@@ -19,6 +19,8 @@ namespace KWin
 class KWIN_EXPORT Unmanaged : public Window
 {
     Q_OBJECT
+    Q_PROPERTY(qulonglong frameId READ frameId CONSTANT)
+    Q_PROPERTY(qulonglong windowId READ window CONSTANT)
 public:
     explicit Unmanaged();
     bool windowEvent(xcb_generic_event_t *e);

@@ -2378,7 +2378,7 @@ public:
         PAINT_DISABLED_BY_ACTIVITY = 1 << 5
     };
 
-    explicit EffectWindow();
+    explicit EffectWindow(QObject *parent = nullptr);
     ~EffectWindow() override;
 
     Q_SCRIPTABLE virtual void addRepaint(const QRect &r) = 0;
