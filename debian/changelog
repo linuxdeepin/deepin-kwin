@@ -1,3 +1,14 @@
+kwin (4:5.27.2.48-deepin48-1) unstable; urgency=medium
+
+  * [ wangboyu ]
+    fix: add function setTouchDeviceToScreenId and getTouchDeviceToScreenInfo. 
+    fix: greeter will be killed when the shortcut of alt+f4 is pressed.
+    fix: thirdpart titlebar icon don't change with system zoom
+    fix: remove selectionchanged/selectioncleared of primary selection. 
+    fix: prohibit screen active when client change desktop
+
+ -- wangboyu <wangboyu@uniontech.com>  Fri, 15 Dec 2023 17:48:05 +0800
+
 kwin (4:5.27.2.47-deepin47-1) unstable; urgency=medium
 
   * [ wangboyu ]
