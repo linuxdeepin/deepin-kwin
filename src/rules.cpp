@@ -63,6 +63,7 @@ Rules::Rules()
     , aboverule(UnusedSetRule)
     , belowrule(UnusedSetRule)
     , fullscreenrule(UnusedSetRule)
+    , hidewindowmenurule(UnusedSetRule)
     , noborderrule(UnusedSetRule)
     , decocolorrule(UnusedForceRule)
     , blockcompositingrule(UnusedForceRule)
@@ -161,6 +162,7 @@ void Rules::readFromSettings(const RuleSettings *settings)
     READ_SET_RULE(above);
     READ_SET_RULE(below);
     READ_SET_RULE(fullscreen);
+    READ_SET_RULE(hidewindowmenu);
     READ_SET_RULE(noborder);
 
     READ_FORCE_RULE(decocolor, getDecoColor);
@@ -240,6 +242,7 @@ void Rules::write(RuleSettings *settings) const
     WRITE_SET_RULE(above, Above, );
     WRITE_SET_RULE(below, Below, );
     WRITE_SET_RULE(fullscreen, Fullscreen, );
+    WRITE_SET_RULE(hidewindowmenu, Hidewindowmenu, );
     WRITE_SET_RULE(noborder, Noborder, );
     auto colorToString = [](const QString &value) -> QString {
         if (value.endsWith(QLatin1String(".colors"))) {
@@ -292,6 +295,7 @@ bool Rules::isEmpty() const
             && aboverule == UnusedSetRule
             && belowrule == UnusedSetRule
             && fullscreenrule == UnusedSetRule
+            && hidewindowmenurule == UnusedSetRule
             && noborderrule == UnusedSetRule
             && decocolorrule == UnusedForceRule
             && blockcompositingrule == UnusedForceRule
@@ -651,6 +655,7 @@ APPLY_RULE(skipswitcher, SkipSwitcher, bool)
 APPLY_RULE(above, KeepAbove, bool)
 APPLY_RULE(below, KeepBelow, bool)
 APPLY_RULE(fullscreen, FullScreen, bool)
+APPLY_RULE(hidewindowmenu, HideWindowMenu, bool)
 APPLY_RULE(noborder, NoBorder, bool)
 APPLY_FORCE_RULE(decocolor, DecoColor, QString)
 APPLY_FORCE_RULE(blockcompositing, BlockCompositing, bool)
@@ -726,6 +731,7 @@ bool Rules::discardUsed(bool withdrawn)
     DISCARD_USED_SET_RULE(above);
     DISCARD_USED_SET_RULE(below);
     DISCARD_USED_SET_RULE(fullscreen);
+    DISCARD_USED_SET_RULE(hidewindowmenu);
     DISCARD_USED_SET_RULE(noborder);
     DISCARD_USED_FORCE_RULE(decocolor);
     DISCARD_USED_FORCE_RULE(blockcompositing);
@@ -886,6 +892,7 @@ CHECK_RULE(SkipSwitcher, bool)
 CHECK_RULE(KeepAbove, bool)
 CHECK_RULE(KeepBelow, bool)
 CHECK_RULE(FullScreen, bool)
+CHECK_RULE(HideWindowMenu, bool)
 CHECK_RULE(NoBorder, bool)
 CHECK_FORCE_RULE(DecoColor, QString)
 CHECK_FORCE_RULE(BlockCompositing, bool)

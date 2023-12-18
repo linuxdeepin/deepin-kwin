@@ -300,6 +300,17 @@
       <default code="true">Rules::UnusedSetRule</default>
     </entry>
 
+    <entry name="hidewindowmenu" type="Bool">
+      <label>Hidewindowmenu</label>
+      <default>false</default>
+    </entry>
+    <entry name="hidewindowmenurule" type="Int">
+      <label>Hidewindowmenu rule type</label>
+      <min code="true">Rules::UnusedSetRule</min>
+      <max code="true">static_cast&lt;Rules::SetRule&gt;(Rules::ForceTemporarily)</max>
+      <default code="true">Rules::UnusedSetRule</default>
+    </entry>
+
     <entry name="noborder" type="Bool">
       <label>No titlebar and frame</label>
       <default>false</default>

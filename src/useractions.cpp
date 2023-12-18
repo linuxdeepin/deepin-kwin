@@ -294,7 +294,7 @@ void UserActionsMenu::show(const QRect &pos, Window *window)
     if (isShown()) { // recursion
         return;
     }
-    if (windowPtr->isDesktop() || windowPtr->isDock()) {
+    if (windowPtr->isDesktop() || windowPtr->isDock() || (windowPtr->rules() && windowPtr->rules()->checkHideWindowMenu(false))) {
         return;
     }
     if (!KAuthorized::authorizeAction(QStringLiteral("kwin_rmb"))) {

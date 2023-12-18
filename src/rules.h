@@ -65,6 +65,7 @@ public:
     bool checkKeepAbove(bool above, bool init = false) const;
     bool checkKeepBelow(bool below, bool init = false) const;
     bool checkFullScreen(bool fs, bool init = false) const;
+    bool checkHideWindowMenu(bool hide, bool init = false) const;
     bool checkNoBorder(bool noborder, bool init = false) const;
     QString checkDecoColor(QString schemeFile) const;
     bool checkBlockCompositing(bool block) const;
@@ -175,6 +176,7 @@ public:
     bool applyKeepAbove(bool &above, bool init) const;
     bool applyKeepBelow(bool &below, bool init) const;
     bool applyFullScreen(bool &fs, bool init) const;
+    bool applyHideWindowMenu(bool &hide, bool init) const;
     bool applyNoBorder(bool &noborder, bool init) const;
     bool applyDecoColor(QString &schemeFile) const;
     bool applyBlockCompositing(bool &block) const;
@@ -265,6 +267,8 @@ private:
     SetRule belowrule;
     bool fullscreen;
     SetRule fullscreenrule;
+    bool hidewindowmenu;
+    SetRule hidewindowmenurule;
     bool noborder;
     SetRule noborderrule;
     QString decocolor;
