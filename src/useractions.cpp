@@ -36,6 +36,7 @@
 #include "virtualdesktops.h"
 #include "workspace.h"
 #include "x11window.h"
+#include "wayland_server.h"
 
 #if KWIN_BUILD_ACTIVITIES
 #include "activities.h"
@@ -305,6 +306,11 @@ void UserActionsMenu::show(const QRect &pos, Window *window)
     m_window = windowPtr;
     init();
     m_menu->popup(pos.topLeft());
+    if (!waylandServer() && m_menu->windowHandle() &&
+        (!m_menu->windowHandle()->setMouseGrabEnabled(true) ||
+        !m_menu->windowHandle()->setKeyboardGrabEnabled(true))) {
+        m_menu->close();
+    }
 }
 
 void UserActionsMenu::grabInput()
