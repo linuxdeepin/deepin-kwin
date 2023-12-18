@@ -23,6 +23,8 @@
 #include <cstring>
 #include <libxcvt/libxcvt.h>
 
+#include <QProcess>
+
 namespace KWin
 {
 
@@ -296,6 +298,24 @@ bool DrmConnector::updateProperties()
         m_physicalSize = QSize(m_conn->mmWidth, m_conn->mmHeight);
     } else {
         m_physicalSize = m_edid.physicalSize();
+    }
+
+    // Huawei KLVU 410 and KLVV420 devices use mipi screens and do not provide
+    // edid, so the screen size cannot be obtained through drm. The screen size
+    // obtained from the external screen is 571mm x 381mm. Set a fixed screen
+    // size for these two devices.
+    if (m_physicalSize.isEmpty()) {
+        QStringList strArg;
+        strArg << "-s" << "system-product-name";
+        QProcess proc;
+        proc.setProgram("dmidecode");
+        proc.setArguments(strArg);
+        proc.start(QIODevice::ReadWrite);
+        proc.waitForFinished(-1);
+        QString oputput = proc.readAllStandardOutput().data();
+        if (oputput.contains("KLVU") || oputput.contains("KLVV")) {
+            m_physicalSize = QSize(571, 381);
+        }
     }
 
     // update modes
