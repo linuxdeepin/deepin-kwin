@@ -39,6 +39,7 @@ class OutputConfigurationInterface : public QObject, QtWaylandServer::org_kde_kw
     Q_OBJECT
 public:
     explicit OutputConfigurationInterface(wl_resource *resource);
+    virtual ~OutputConfigurationInterface();
 
     bool applied = false;
     bool invalid = false;
@@ -83,41 +84,54 @@ OutputManagementInterface::OutputManagementInterface(Display *display, QObject *
     : QObject(parent)
     , d(new OutputManagementInterfacePrivate(display))
 {
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " construct configurationM ";
 }
 
-OutputManagementInterface::~OutputManagementInterface() = default;
+OutputManagementInterface::~OutputManagementInterface()
+{
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " destruct configurationM ";
+}
 
 OutputConfigurationInterface::OutputConfigurationInterface(wl_resource *resource)
     : QtWaylandServer::org_kde_kwin_outputconfiguration(resource)
 {
-    const auto reject = [this](Output *output) {
-        invalid = true;
-    };
-    // luocj
-    connect(workspace(), &Workspace::outputAdded, this, reject);
-    connect(workspace(), &Workspace::outputRemoved, this, reject);
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " construct configuration ";
+}
+
+OutputConfigurationInterface::~OutputConfigurationInterface()
+{
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " destruct configuration ";
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_enable(Resource *resource, wl_resource *outputdevice, int32_t enable)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " enable " << enable;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
-    if (OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice)) {
-        config.changeSet(output->handle())->enabled = enable;
-    }
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " enable " << enable;
+
+    config.changeSet(output->handle())->enabled = enable;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_mode(Resource *resource, wl_resource *outputdevice, int32_t mode_id)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " mode_id " << mode_id;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
-    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " mode_id " << mode_id;
+
     OutputDeviceModeInterface *mode = output->getMode(mode_id);
     if (output && mode) {
+        qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output
+                << " invalid " << invalid << " mode_id " << mode_id
+                << " size " << mode->size() << " refreshRate "
+                << mode->refreshRate() << " mode " << mode->flags();
         config.changeSet(output->handle())->mode = mode->m_handle.lock();
     } else {
         invalid = true;
@@ -126,10 +140,14 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_mode(Resourc
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_transform(Resource *resource, wl_resource *outputdevice, int32_t transform)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " enable " << transform;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " transform " << transform;
+
     auto toTransform = [transform]() {
         switch (transform) {
         case WL_OUTPUT_TRANSFORM_90:
@@ -152,28 +170,32 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_transform(Re
         }
     };
     auto _transform = toTransform();
-    if (OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice)) {
-        config.changeSet(output->handle())->transform = _transform;
-    }
+    config.changeSet(output->handle())->transform = _transform;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_position(Resource *resource, wl_resource *outputdevice, int32_t x, int32_t y)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " x " << x << " y " << y;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
-    if (OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice)) {
-        config.changeSet(output->handle())->pos = QPoint(x, y);
-    }
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " x " << x << " y " << y;
+
+    config.changeSet(output->handle())->pos = QPoint(x, y);
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_scale(Resource *resource, wl_resource *outputdevice, int32_t scale)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " scale " << scale;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " scale " << scale;
+
     qreal doubleScale = wl_fixed_to_double(scale);
 
     // the fractional scaling protocol only speaks in unit of 120ths
@@ -186,17 +208,19 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_scale(Resour
         return;
     }
 
-    if (OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice)) {
-        config.changeSet(output->handle())->scale = doubleScale;
-    }
+    config.changeSet(output->handle())->scale = doubleScale;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_scalef(Resource *resource, wl_resource *outputdevice, wl_fixed_t scale)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " scale " << scale;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " scale " << scale;
+
     qreal doubleScale = wl_fixed_to_double(scale);
 
     // the fractional scaling protocol only speaks in unit of 120ths
@@ -209,84 +233,95 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_scalef(Resou
         return;
     }
 
-    if (OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice)) {
-        config.changeSet(output->handle())->scale = doubleScale;
-    }
+    config.changeSet(output->handle())->scale = doubleScale;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_overscan(Resource *resource, wl_resource *outputdevice, uint32_t overscan)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " overscan " << overscan;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " overscan " << overscan;
+
     if (overscan > 100) {
         qCWarning(KWIN_CORE) << "Invalid overscan requested:" << overscan;
         return;
     }
-    if (OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice)) {
-        config.changeSet(output->handle())->overscan = overscan;
-    }
+    config.changeSet(output->handle())->overscan = overscan;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_set_vrr_policy(Resource *resource, wl_resource *outputdevice, uint32_t policy)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " policy " << policy;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " policy " << policy;
+
     if (policy > static_cast<uint32_t>(RenderLoop::VrrPolicy::Automatic)) {
         qCWarning(KWIN_CORE) << "Invalid Vrr Policy requested:" << policy;
         return;
     }
-    if (OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice)) {
-        config.changeSet(output->handle())->vrrPolicy = static_cast<RenderLoop::VrrPolicy>(policy);
-    }
+    config.changeSet(output->handle())->vrrPolicy = static_cast<RenderLoop::VrrPolicy>(policy);
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_colorcurves(Resource *resource, wl_resource *outputdevice, wl_array *red, wl_array *green, wl_array *blue)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " red " << red;
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
+        return;
+    }
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " red " << red;
     //luocj
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_brightness(Resource *resource, wl_resource *outputdevice, int32_t brightness)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " brightness " << brightness;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
-    if (OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice)) {
-        config.changeSet(output->handle())->brightness = brightness;
-    }
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " brightness " << brightness;
+
+    config.changeSet(output->handle())->brightness = brightness;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_ctm(Resource *resource, wl_resource *outputdevice, int32_t r, int32_t g, int32_t b)
 {
-    qCDebug(KWIN_CORE) << "outputv1:outputdevice " << outputdevice << " invalid " << invalid << " r " << r;
-    if (invalid) {
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
         return;
     }
-    if (OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice)) {
-        config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};;
-    }
+
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " r " << r;
+
+    config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_destroy(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:resource " << resource << " invalid " << invalid;
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " invalid " << invalid;
     wl_resource_destroy(resource->handle);
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_destroy_resource(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:resource " << resource << " invalid " << invalid;
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " invalid " << invalid;
     delete this;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:resource " << resource << " invalid " << invalid;
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " invalid " << invalid;
     if (applied) {
         qCWarning(KWIN_CORE) << "Rejecting because an output configuration can be applied only once";
         return;
@@ -348,7 +383,7 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resour
         });
     }
     if (workspace()->applyOutputConfiguration(config, sortedOrder)) {
-        qCDebug(KWIN_CORE) << "outputv1:resource " << resource << " send_applied";
+        qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " send_applied";
         applied = false;
         send_applied();
     } else {

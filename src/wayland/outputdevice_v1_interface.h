@@ -48,6 +48,8 @@ public:
 
     KWin::Output *handle() const;
 
+    bool invalid() const;
+
     OutputDeviceModeInterface *getMode(int modeId);
 
     static OutputDeviceInterface *get(wl_resource *native);
