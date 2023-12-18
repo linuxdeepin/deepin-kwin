@@ -874,9 +874,6 @@ bool XdgToplevelWindow::isMovableAcrossScreens() const
     if (rules()->checkPosition(invalidPoint) != invalidPoint) {
         return false;
     }
-    if (m_plasmaShellSurface) {
-        return m_plasmaShellSurface->role() == PlasmaShellSurfaceInterface::Role::Normal;
-    }
     return true;
 }
 
