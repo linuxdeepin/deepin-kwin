@@ -384,13 +384,6 @@ void Workspace::updateWindowStates()
 
         m_windowStates.append(windowState);
     }
-
-    if (waylandServer()) {
-        auto clientmanagement = waylandServer()->clientManagement();
-        if (clientmanagement) {
-            clientmanagement->setWindowStates(m_windowStates);
-        }
-    }
 }
 
 void Workspace::slotClientMinimizeChanged(KWin::Window *window)

@@ -579,6 +579,60 @@ bool WaylandServer::init(InitializationFlags flags)
             workspace()->hideSplitMenu(delay);
         }
     );
+    connect(m_clientManagement, &ClientManagementInterface::allWindowIdRequest, this,
+        [this] () {
+            if (!waylandServer())
+                return;
+            auto client_management = waylandServer()->clientManagement();
+            if (!client_management)
+                return;
+            const QList<Window *> &window_list = workspace()->stackingOrder();
+            QList<uint32_t> id_list;
+            for (Window *w : window_list)
+                id_list.append(w->window() ? w->window() : w->frameId());
+            client_management->sendAllWindowId(id_list);
+        }
+    );
+    connect(m_clientManagement, &ClientManagementInterface::specificWindowStateRequest, this,
+        [this] (uint32_t wid) {
+            if (!waylandServer())
+                return;
+            auto client_management = waylandServer()->clientManagement();
+            if (!client_management)
+                return;
+            Window *client = workspace()->findWaylandWindow(wid);
+            if (!client) {
+                client = workspace()->findClient(Predicate::WindowMatch, wid);
+                if (!client)
+                    return;
+            }
+            const std::string name = client->resourceName().toStdString(),
+                    uuid = client->internalId().toString().toStdString();
+            WindowState state = {
+                .pid = client->pid(),
+                .windowId = wid,
+                .resourceName = {0},
+                .geometry = {
+                    .x = client->frameGeometry().x(),
+                    .y = client->frameGeometry().y(),
+                    .width = client->frameGeometry().width(),
+                    .height = client->frameGeometry().height()
+                },
+                .isMinimized = client->isMinimized(),
+                .isFullScreen = client->isFullScreen(),
+                .isActive = client->isActive(),
+                .splitable = 0,
+                .uuid = {0}
+            };
+            std::copy_n(name.begin(),
+                    std::min(static_cast<decltype(name.length())>(sizeof(state.resourceName) - 1), name.length()),
+                    state.resourceName);
+            std::copy_n(uuid.begin(),
+                    std::min(static_cast<decltype(uuid.length())>(sizeof(state.uuid) - 1), uuid.length()),
+                    state.uuid);
+            client_management->sendSpecificWindowState(state);
+        }
+    );
 
     auto activation = new KWaylandServer::XdgActivationV1Interface(m_display, this);
     auto init = [this, activation] {

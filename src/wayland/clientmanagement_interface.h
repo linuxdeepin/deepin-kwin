@@ -72,6 +72,8 @@ public:
     void setWindowStates(QList<WindowState*> &windowStates);
 
     void sendWindowFromPoint(uint32_t wid);
+    void sendAllWindowId(const QList<uint32_t> &id_list);
+    void sendSpecificWindowState(const WindowState &state);
 
 Q_SIGNALS:
     void windowStatesRequest();
@@ -80,6 +82,8 @@ Q_SIGNALS:
     void windowFromPointRequest();
     void showSplitMenuRequest(const QRect &botton_rect, uint32_t wid);
     void hideSplitMenuRequest(bool delay);
+    void allWindowIdRequest();
+    void specificWindowStateRequest(uint32_t wid);
 
 private:
     QScopedPointer<ClientManagementInterfacePrivate> d;
