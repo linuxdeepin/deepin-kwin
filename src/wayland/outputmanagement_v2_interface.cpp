@@ -258,7 +258,7 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_ctm(Resource *r
         return;
     }
     if (OutputDeviceV2Interface *output = OutputDeviceV2Interface::get(outputdevice)) {
-        config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};;
+        config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};
     }
 }
 

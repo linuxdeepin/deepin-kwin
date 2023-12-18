@@ -23,6 +23,17 @@ ColorLUT::ColorLUT(const std::shared_ptr<ColorTransformation> &transformation, s
     }
 }
 
+ColorLUT::ColorLUT(const Output::ColorCurves colorCurves, size_t size)
+    : m_colorCurves(colorCurves)
+{
+    m_data.fill(0, 3 * size);
+    for (uint64_t i = 0; i < size; i++) {
+        m_data[i] = colorCurves.red[i];
+        m_data[i + size] = colorCurves.green[i];
+        m_data[i + size * 2] = colorCurves.blue[i];
+    }
+}
+
 uint16_t *ColorLUT::red() const
 {
     return const_cast<uint16_t *>(m_data.constData());

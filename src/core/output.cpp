@@ -46,7 +46,18 @@ bool Output::CtmValue::operator==(const CtmValue &cc) const
 {
     return r == cc.r && g == cc.g && b == cc.b;
 }
+
 bool Output::CtmValue::operator!=(const CtmValue &cc) const {
+    return !operator==(cc);
+}
+
+bool Output::ColorCurves::operator==(const ColorCurves &cc) const
+{
+    return red == cc.red && green == cc.green && blue == cc.blue;
+}
+
+bool Output::ColorCurves::operator!=(const ColorCurves &cc) const
+{
     return !operator==(cc);
 }
 
@@ -315,6 +326,12 @@ void Output::setState(const State &state)
     if (oldState.brightness != state.brightness) {
         Q_EMIT brightnessChanged();
     }
+    if (oldState.ctmValue != state.ctmValue) {
+        Q_EMIT ctmValueChanged();
+    }
+    if (oldState.colorCurves != state.colorCurves) {
+        Q_EMIT colorCurvesChanged();
+    }
 }
 
 QSize Output::orientateSize(const QSize &size) const
@@ -423,6 +440,11 @@ int32_t Output::brightness() const
 Output::CtmValue Output::ctmValue() const
 {
     return m_state.ctmValue;
+}
+
+Output::ColorCurves Output::colorCurves() const
+{
+    return m_state.colorCurves;
 }
 
 void Output::setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation)

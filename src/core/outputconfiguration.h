@@ -31,6 +31,7 @@ public:
     RenderLoop::VrrPolicy vrrPolicy;
     int32_t brightness;
     Output::CtmValue ctmValue;
+    Output::ColorCurves colorCurves;
 };
 
 class KWIN_EXPORT OutputConfiguration

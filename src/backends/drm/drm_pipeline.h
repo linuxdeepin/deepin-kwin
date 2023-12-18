@@ -37,6 +37,7 @@ class DrmGammaRamp
 {
 public:
     DrmGammaRamp(DrmCrtc *crtc, const std::shared_ptr<ColorTransformation> &transformation);
+    DrmGammaRamp(DrmCrtc *crtc, const Output::ColorCurves colorCurves);
     ~DrmGammaRamp();
 
     const ColorLUT &lut() const;
@@ -118,6 +119,7 @@ public:
     DrmConnector::DrmContentType contentType() const;
     int32_t brightness() const;
     Output::CtmValue ctmValue() const;
+    Output::ColorCurves colorCurves() const;
 
     void setCrtc(DrmCrtc *crtc);
     void setMode(const std::shared_ptr<DrmConnectorMode> &mode);
@@ -133,6 +135,7 @@ public:
     void setContentType(DrmConnector::DrmContentType type);
     void setBrightness(int32_t brightness);
     void setCTM(Output::CtmValue ctmValue);
+    void setColorCurves(Output::ColorCurves colorCurves);
 
     enum class CommitMode {
         Test,
@@ -197,8 +200,9 @@ private:
         std::shared_ptr<ColorTransformation> colorTransformation;
         std::shared_ptr<DrmGammaRamp> gamma;
         DrmConnector::DrmContentType contentType = DrmConnector::DrmContentType::Graphics;
-        int32_t brightness = 60;
+        int32_t brightness = -1;
         Output::CtmValue ctmValue;
+        Output::ColorCurves colorCurves;
 
         std::shared_ptr<DrmPipelineLayer> layer;
         std::shared_ptr<DrmOverlayLayer> cursorLayer;

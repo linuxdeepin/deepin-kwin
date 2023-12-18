@@ -53,6 +53,11 @@ static QtWaylandServer::org_kde_kwin_outputdevice::vrr_policy kwinVrrPolicyToOut
     return static_cast<QtWaylandServer::org_kde_kwin_outputdevice::vrr_policy>(policy);
 }
 
+static QtWaylandServer::org_kde_kwin_outputdevice::rgb_range kwinRgbRangeToOutputDeviceRgbRange(Output::RgbRange range)
+{
+    return static_cast<QtWaylandServer::org_kde_kwin_outputdevice::rgb_range>(range);
+}
+
 class OutputDeviceInterfacePrivate : public QtWaylandServer::org_kde_kwin_outputdevice
 {
 public:
@@ -75,6 +80,8 @@ public:
     void sendVrrPolicy(Resource *resource);
     void sendRgbRange(Resource *resource);
     void sendColorCurves(Resource *resource);
+    void sendBrightness(Resource *resource);
+    void sendCtmValue(Resource *resource);
 
     OutputDeviceInterface *q;
     QPointer<Display> m_display;
@@ -102,9 +109,8 @@ public:
     Output::RgbRange m_rgbRange = Output::RgbRange::Automatic;
 
     int m_brightness = 120;
-    // luocj
-    // ColorCurves colorCurves;
-    Output::CtmValue ctmValue;
+    Output::ColorCurves m_colorCurves;
+    Output::CtmValue m_ctmValue;
 
     bool m_invalid = false;
 
@@ -177,15 +183,15 @@ OutputDeviceInterface::OutputDeviceInterface(Display *display, KWin::Output *han
             this, &OutputDeviceInterface::updateRgbRange);
     connect(handle, &Output::brightnessChanged,
             this, &OutputDeviceInterface::updateBrightness);
+    connect(handle, &Output::ctmValueChanged,
+            this, &OutputDeviceInterface::updateCtmValue);
+    connect(handle, &Output::colorCurvesChanged,
+            this, &OutputDeviceInterface::updateCurvesChanged);
 
-    const auto rejectRemoved = [this, handle](Output *output) {
-        qCDebug(KWIN_CORE) << "outputv1:" << this << " rejectRemoved output " << output;
-        if (output == handle) {
-            d->m_invalid = true;
-        }
-    };
-    connect(workspace(), &Workspace::outputRemoved, this, rejectRemoved);
-
+    connect(handle, &QObject::destroyed, this, [this, handle]() {
+        qCDebug(KWIN_CORE) << "outputv1:" << this << " rejectdestroy output " << handle;
+        d->m_invalid = true;
+    });
 }
 
 OutputDeviceInterface::~OutputDeviceInterface()
@@ -244,6 +250,8 @@ void OutputDeviceInterfacePrivate::org_kde_kwin_outputdevice_bind_resource(Resou
     sendVrrPolicy(resource);
     sendRgbRange(resource);
     sendColorCurves(resource);
+    sendBrightness(resource);
+    sendCtmValue(resource);
     sendDone(resource);
 }
 
@@ -312,10 +320,10 @@ void OutputDeviceInterfacePrivate::sendEisaId(Resource *resource)
     }
 }
 
-// luocj
 void OutputDeviceInterfacePrivate::sendName(Resource *resource)
 {
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_name " << m_name;
+    send_name(resource->handle, m_name);
 }
 
 void OutputDeviceInterfacePrivate::sendDone(Resource *resource)
@@ -363,13 +371,44 @@ void OutputDeviceInterfacePrivate::sendVrrPolicy(Resource *resource)
 void OutputDeviceInterfacePrivate::sendRgbRange(Resource *resource)
 {
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_rgbRange " << m_rgbRange;
-    // luocj
-    // send_rgb_range(resource->handle, m_rgbRange);
+    send_rgb_range(resource->handle, kwinRgbRangeToOutputDeviceRgbRange(m_rgbRange));
 }
 
 void OutputDeviceInterfacePrivate::sendColorCurves(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " sendColorCurves resource " << resource;
+    qCDebug(KWIN_CORE) << "outputv1:" << q << " sendColorCurves resource " << resource
+            << " m_colorCurves " << m_colorCurves.red << m_colorCurves.green << m_colorCurves.blue;
+
+    wl_array wlRed, wlGreen, wlBlue;
+
+    auto fillArray = [](const QVector<quint16> &origin, wl_array *dest) {
+        wl_array_init(dest);
+        const size_t memLength = sizeof(uint16_t) * origin.size();
+        void *s = wl_array_add(dest, memLength);
+        memcpy(s, origin.data(), memLength);
+    };
+    fillArray(m_colorCurves.red, &wlRed);
+    fillArray(m_colorCurves.green, &wlGreen);
+    fillArray(m_colorCurves.blue, &wlBlue);
+
+    org_kde_kwin_outputdevice_send_colorcurves(resource->handle, &wlRed, &wlGreen, &wlBlue);
+
+    wl_array_release(&wlRed);
+    wl_array_release(&wlGreen);
+    wl_array_release(&wlBlue);
+}
+
+void OutputDeviceInterfacePrivate::sendBrightness(Resource *resource)
+{
+    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_brightness " << m_brightness;
+    send_brightness(resource->handle, m_brightness);
+}
+
+void OutputDeviceInterfacePrivate::sendCtmValue(Resource *resource)
+{
+    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
+            << " m_ctmValue " << m_ctmValue.r << m_ctmValue.g << m_ctmValue.b;
+    send_ctm(resource->handle, m_ctmValue.r, m_ctmValue.g, m_ctmValue.b);
 }
 
 void OutputDeviceInterface::updateGeometry()
@@ -627,7 +666,35 @@ void OutputDeviceInterface::updateBrightness()
         d->m_brightness = brightness;
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
-            d->sendRgbRange(resource);
+            d->sendBrightness(resource);
+            d->sendDone(resource);
+        }
+    }
+}
+
+void OutputDeviceInterface::updateCtmValue()
+{
+    Output::CtmValue ctm = d->m_handle->ctmValue();
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " ctm " << ctm.r << ctm.g << ctm.b;
+    if (d->m_ctmValue != ctm) {
+        d->m_ctmValue = ctm;
+        const auto clientResources = d->resourceMap();
+        for (const auto &resource : clientResources) {
+            d->sendCtmValue(resource);
+            d->sendDone(resource);
+        }
+    }
+}
+
+void OutputDeviceInterface::updateCurvesChanged()
+{
+    Output::ColorCurves colorCurves = d->m_handle->colorCurves();
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " ctm " << colorCurves.red << colorCurves.green << colorCurves.blue;
+    if (d->m_colorCurves != colorCurves) {
+        d->m_colorCurves = colorCurves;
+        const auto clientResources = d->resourceMap();
+        for (const auto &resource : clientResources) {
+            d->sendColorCurves(resource);
             d->sendDone(resource);
         }
     }

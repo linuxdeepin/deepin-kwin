@@ -277,8 +277,34 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_colorcurves(
         invalid = true;
         return;
     }
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " red " << red;
-    //luocj
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output
+            << " invalid " << invalid << " red " << red << " green " << green << " blue " << blue;
+
+    Output::ColorCurves oldCc = output->handle()->colorCurves();
+
+    auto checkArg = [](const wl_array *newColor, const QVector<quint16> &oldColor) {
+        return (newColor->size % sizeof(uint16_t) == 0) && (newColor->size / sizeof(uint16_t) == static_cast<size_t>(oldColor.size()));
+    };
+    if (!checkArg(red, oldCc.red) || !checkArg(green, oldCc.green) || !checkArg(blue, oldCc.blue)) {
+        qCWarning(KWIN_CORE) << "Requested to change color curves, but have wrong size.";
+        return;
+    }
+
+    Output::ColorCurves cc;
+
+    auto fillVector = [](const wl_array *array, QVector<quint16> *v) {
+        const uint16_t *pos = (uint16_t *)array->data;
+
+        while ((char *)pos < (char *)array->data + array->size) {
+            v->append(*pos);
+            pos++;
+        }
+    };
+    fillVector(red, &cc.red);
+    fillVector(green, &cc.green);
+    fillVector(blue, &cc.blue);
+
+    config.changeSet(output->handle())->colorCurves = cc;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_brightness(Resource *resource, wl_resource *outputdevice, int32_t brightness)
@@ -302,9 +328,9 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_ctm(Resource
         return;
     }
 
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " r " << r;
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " r " << r << " g " << g << " b " << b;
 
-    config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};;
+    config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_destroy(Resource *resource)

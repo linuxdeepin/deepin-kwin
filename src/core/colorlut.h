@@ -13,6 +13,8 @@
 
 #include "kwin_export.h"
 
+#include "output.h"
+
 namespace KWin
 {
 
@@ -22,6 +24,7 @@ class KWIN_EXPORT ColorLUT
 {
 public:
     ColorLUT(const std::shared_ptr<ColorTransformation> &transformation, size_t size);
+    ColorLUT(const Output::ColorCurves colorCurves, size_t size);
 
     uint16_t *red() const;
     uint16_t *green() const;
@@ -32,6 +35,7 @@ public:
 private:
     QVector<uint16_t> m_data;
     const std::shared_ptr<ColorTransformation> m_transformation;
+    const Output::ColorCurves m_colorCurves;
 };
 
 }

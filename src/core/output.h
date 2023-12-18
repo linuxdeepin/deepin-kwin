@@ -107,6 +107,14 @@ public:
         bool operator!=(const CtmValue &cv) const;
     };
 
+    struct ColorCurves {
+        QVector<quint16> red = {0};
+        QVector<quint16> green = {0};
+        QVector<quint16> blue = {0};
+        bool operator==(const ColorCurves &cc) const;
+        bool operator!=(const ColorCurves &cc) const;
+    };
+
     struct shm_rp_buffer {
         int64_t fd = -1;        /**< optional fd for data */
         uint32_t mapOffset;     /**< offset to map fd at */
@@ -269,6 +277,7 @@ public:
     RgbRange rgbRange() const;
     int32_t brightness() const;
     CtmValue ctmValue() const;
+    ColorCurves colorCurves() const;
 
     ContentType contentType() const;
     void setContentType(ContentType contentType);
@@ -350,6 +359,8 @@ Q_SIGNALS:
     void vrrPolicyChanged();
     void rgbRangeChanged();
     void brightnessChanged();
+    void ctmValueChanged();
+    void colorCurvesChanged();
 
 private:
     shm_rp_buffer* m_shm_rp_buffer = nullptr;
@@ -384,8 +395,9 @@ protected:
         bool enabled = false;
         uint32_t overscan = 0;
         RgbRange rgbRange = RgbRange::Automatic;
-        int32_t brightness = 60;
+        int32_t brightness = -1;
         CtmValue ctmValue;
+        ColorCurves colorCurves;
     };
 
     void setInformation(const Information &information);

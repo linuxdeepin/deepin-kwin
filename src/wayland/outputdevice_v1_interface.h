@@ -76,6 +76,8 @@ private:
     void updateRgbRange();
     void updateGeometry();
     void updateBrightness();
+    void updateCtmValue();
+    void updateCurvesChanged();
 
     std::unique_ptr<OutputDeviceInterfacePrivate> d;
 };

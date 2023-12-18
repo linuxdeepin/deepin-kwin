@@ -418,6 +418,7 @@ bool DrmOutput::queueChanges(const OutputConfiguration &config)
     m_pipeline->setBrightness(props->brightness);
     m_pipeline->setRenderOrientation(outputToPlaneTransform(props->transform));
     m_pipeline->setCTM(props->ctmValue);
+    m_pipeline->setColorCurves(props->colorCurves);
     if (!envOnlySoftwareRotations && m_gpu->atomicModeSetting()) {
         m_pipeline->setBufferOrientation(m_pipeline->renderOrientation());
     }
@@ -445,6 +446,7 @@ void DrmOutput::applyQueuedChanges(const OutputConfiguration &config)
     next.rgbRange = m_pipeline->rgbRange();
     next.brightness = m_pipeline->brightness();
     next.ctmValue = m_pipeline->ctmValue();
+    next.colorCurves = m_pipeline->colorCurves();
 
     setState(next);
     setVrrPolicy(props->vrrPolicy);
