@@ -2309,6 +2309,7 @@ void XdgPopupWindow::initialize()
     Window *parent = waylandServer()->findWindow(m_shellSurface->parentSurface());
     parent->addTransient(this);
     setTransientFor(parent);
+    setupWindowRules(false);
 
     updateReactive();
 
