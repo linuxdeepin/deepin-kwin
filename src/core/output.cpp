@@ -486,11 +486,14 @@ Output::shm_rp_buffer *Output::creatForDumpBuffer(QSize size, void *data)
     buffer->fd = memfd_create("kwin-remote-prohibit-memfd", MFD_CLOEXEC | MFD_ALLOW_SEALING);
     if (buffer->fd == -1) {
         qCCritical(KWIN_CORE) << "memfd: Can't create memfd";
+        delete buffer;
         return nullptr;
     }
 
     if (ftruncate(buffer->fd, buffer->maxSize) < 0) {
         qCCritical(KWIN_CORE) << "memfd: Can't truncate to" << buffer->maxSize;
+        close(buffer->fd);
+        delete buffer;
         return nullptr;
     }
 
@@ -508,7 +511,7 @@ Output::shm_rp_buffer *Output::creatForDumpBuffer(QSize size, void *data)
     if (buffer->data == MAP_FAILED) {
         qCCritical(KWIN_CORE) << "memfd: Failed to mmap memory";
         close(buffer->fd);
-        buffer->fd = -1;
+        delete buffer;
         return nullptr;
     } else {
         qCDebug(KWIN_CORE) << "memfd: created successfully" << buffer->data << buffer->fd;

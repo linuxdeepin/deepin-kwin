@@ -273,10 +273,10 @@ void DrmPipeline::prepareAtomicDisable()
 void DrmPipeline::prepareAtomicModeset()
 {
     m_connector->setPending(DrmConnector::PropertyIndex::CrtcId, m_pending.crtc->id());
-    if (const auto &prop = m_connector->getProp(DrmConnector::PropertyIndex::Broadcast_RGB)) {
+    if (const auto prop = m_connector->getProp(DrmConnector::PropertyIndex::Broadcast_RGB)) {
         prop->setEnum(m_pending.rgbRange);
     }
-    if (const auto &prop = m_connector->getProp(DrmConnector::PropertyIndex::LinkStatus)) {
+    if (const auto prop = m_connector->getProp(DrmConnector::PropertyIndex::LinkStatus)) {
         prop->setEnum(DrmConnector::LinkStatus::Good);
     }
     if (const auto overscan = m_connector->getProp(DrmConnector::PropertyIndex::Overscan)) {
