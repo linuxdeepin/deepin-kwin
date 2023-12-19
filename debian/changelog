@@ -1,3 +1,11 @@
+kwin (4:5.27.2.50-deepin50-1) unstable; urgency=medium
+
+  [ Chaojiang Luo ]
+  *  feat: Add compatibility for v2
+  *  feat: fix static check error
+
+ -- jccKevin <luochaojiang@uniontech.com>  Tue, 19 Dec 2023 20:06:31 +0800
+
 kwin (4:5.27.2.49-deepin49-1) unstable; urgency=medium
 
   [ huangzeming ]
