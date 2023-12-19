@@ -346,6 +346,7 @@ find_package(XCB 1.10 REQUIRED COMPONENTS
     XFIXES
     XKB
     XINERAMA
+    XTEST
 )
 set_package_properties(XCB PROPERTIES TYPE REQUIRED)
 

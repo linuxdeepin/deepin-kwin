@@ -74,6 +74,8 @@
 #include <QThread>
 #include <qpa/qwindowsysteminterface.h>
 
+// xcb
+#include <xcb/xtest.h>
 #include <xkbcommon/xkbcommon.h>
 
 #include "osd.h"
@@ -2404,6 +2406,51 @@ static KWaylandServer::AbstractDropHandler *dropHandler(Window *window)
 class GrabInputFilter : public InputEventFilter
 {
 public:
+bool pointerEvent(MouseEvent *event, quint32 nativeButton) override {
+        if (waylandServer()->XWaylandKeyboardGrabClientV1() == nullptr) {
+            isPress = false;
+            return false;
+        }
+        auto conn = kwinApp()->x11Connection();
+        if(!conn) {
+            return false;
+        }
+
+        Window *toplevel = nullptr;
+        auto surface = waylandServer()->XWaylandKeyboardGrabClientV1()->surface();
+
+        for (int i = 0; i < workspace()->stackingOrder().count(); i++) {
+            Window *client = workspace()->stackingOrder().at(i);
+            if (client && client->surface() == surface){
+                toplevel = client;
+                break;
+            }
+        }
+        if (!toplevel || toplevel->frameGeometry().contains(event->globalPos())) {
+            return false;
+        }
+
+        switch (event->type()) {
+        case QEvent::MouseButtonPress: {
+            isPress = true;
+            break;
+        }
+        case QEvent::MouseButtonRelease: {
+            if (!isPress) {
+                break;
+            }
+            isPress = false;
+            xcb_test_fake_input(conn,XCB_MOTION_NOTIFY,0,XCB_CURRENT_TIME,XCB_NONE,event->globalPos().x(),event->globalPos().y(),0);
+            xcb_test_fake_input(conn,XCB_BUTTON_PRESS,nativeButton2xcbButton(nativeButton),XCB_CURRENT_TIME,XCB_NONE,0,0,0);
+            xcb_test_fake_input(conn,XCB_BUTTON_RELEASE,nativeButton2xcbButton(nativeButton),XCB_CURRENT_TIME,XCB_NONE,0,0,0);
+            break;
+        }
+        default:
+            break;
+        }
+        return false;
+    }
+
     bool keyEvent(KeyEvent *event) override {
         if (!workspace()) {
             return false;
@@ -2439,6 +2486,18 @@ public:
 
         return true;
     }
+private:
+    int nativeButton2xcbButton(quint32 nativeButton) {
+        switch(nativeButton) {
+        case 272: return XCB_BUTTON_INDEX_1;
+        case 273: return XCB_BUTTON_INDEX_3;
+        case 274: return XCB_BUTTON_INDEX_2;
+        default: break;
+        }
+        return 0;
+    }
+
+    bool isPress = false;
 };
 
 class DragAndDropInputFilter : public QObject, public InputEventFilter
