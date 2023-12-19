@@ -78,5 +78,8 @@
     <method name="printKwinFps">
       <arg type="b" direction="in"/>
     </method>
+    <method name="disableGlobalShortcutsForClient">
+      <arg type="b" direction="in"/>
+    </method>
   </interface>
 </node>

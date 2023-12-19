@@ -132,6 +132,12 @@ void DBusInterface::nextDesktop()
     VirtualDesktopManager::self()->moveTo(VirtualDesktopManager::Direction::Next);
 }
 
+void DBusInterface::disableGlobalShortcutsForClient(bool disable)
+{
+    workspace()->setDisableGlobalShortcutsByUser(disable);
+    workspace()->disableGlobalShortcutsForClient(disable);
+}
+
 void DBusInterface::previousDesktop()
 {
     VirtualDesktopManager::self()->moveTo(VirtualDesktopManager::Direction::Previous);

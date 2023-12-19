@@ -1951,11 +1951,23 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
     }
 }
 
+void Workspace::setDisableGlobalShortcutsByUser(bool yes)
+{
+    if (m_globalShortcutsDisabledByUser != yes) {
+        m_globalShortcutsDisabledByUser = yes;
+    }
+}
+
 void Workspace::disableGlobalShortcutsForClient(bool disable)
 {
     if (m_globalShortcutsDisabledForWindow == disable) {
         return;
     }
+
+    if (m_globalShortcutsDisabledByUser && !disable) {
+        return;
+    }
+
     QDBusMessage message = QDBusMessage::createMethodCall(QStringLiteral("org.kde.kglobalaccel"),
                                                           QStringLiteral("/kglobalaccel"),
                                                           QStringLiteral("org.kde.KGlobalAccel"),

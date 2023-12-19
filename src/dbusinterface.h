@@ -72,6 +72,7 @@ public Q_SLOTS: // METHODS
 
     Q_NOREPLY void previewWindows(const QList<uint> wids);
     Q_NOREPLY void quitPreviewWindows();
+    void disableGlobalShortcutsForClient(bool disable);
 
     /**
      * Allows the user to pick a window and get info on it.
