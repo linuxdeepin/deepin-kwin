@@ -854,7 +854,7 @@ bool XdgToplevelWindow::isRequestedFullScreen() const
 
 bool XdgToplevelWindow::isMovable() const
 {
-    if (!m_resizable || isRequestedFullScreen()) {
+    if (isRequestedFullScreen()) {
         return false;
     }
     if ((isSpecialWindow() && !isSplash() && !isToolbar()) || isAppletPopup()) {
@@ -882,7 +882,7 @@ bool XdgToplevelWindow::isMovableAcrossScreens() const
 
 bool XdgToplevelWindow::isResizable() const
 {
-    if (isRequestedFullScreen()) {
+    if (!m_resizable || isRequestedFullScreen()) {
         return false;
     }
     if (isSpecialWindow() || isSplash() || isToolbar()) {
