@@ -1,3 +1,21 @@
+kwin (4:5.27.2.49-deepin49-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * Task
+    feat: replaced interface GetAllWindowStates with GetAllWindowStatesList
+    feat: ignore output added and removed signal
+  * Bug fix
+    feat: replaced interface GetAllWindowStates with GetAllWindowStatesList
+    fix: the right-click menu should not be displayed after using the alt+space shortcut key in the launcher window
+    fix: the right-click menu position of all areas of the taskbar is displayed incorrectly
+    fix: the pop-up window of the self-developed Qt application cannot be moved
+    fix: fix the radius of unmanage window
+    fix: Resolve inability to obtain screen size
+    fix: launcher window can be dragged
+    Revert "fix: launcher window can be dragged"
+
+ -- huangzeming <huangzeming@uniontech.com>  Tue, 19 Dec 2023 16:35:12 +0800
+
 kwin (4:5.27.2.48-deepin48-1) unstable; urgency=medium
 
   * [ wangboyu ]
