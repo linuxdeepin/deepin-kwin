@@ -1207,9 +1207,6 @@ void Workspace::removeWindow(Window *window)
         window->setShortcut(QString()); // Remove from client_keys
         windowShortcutUpdated(window); // Needed, since this is otherwise delayed by setShortcut() and wouldn't run
     }
-    if(!previewClients.isEmpty() && previewingClient(window)){
-        previewClients.removeAll(window);
-    }
 
     Q_EMIT windowRemoved(window);
 
