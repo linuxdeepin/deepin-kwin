@@ -72,6 +72,11 @@ static void xkbLogHandler(xkb_context *context, xkb_log_level priority, const ch
     }
 }
 
+static inline bool isKeypadKey(xkb_keysym_t keySym)
+{
+    return keySym >= XKB_KEY_KP_Space && keySym <= XKB_KEY_KP_9;
+}
+
 #if HAVE_XKBCOMMON_NO_SECURE_GETENV
 constexpr xkb_context_flags KWIN_XKB_CONTEXT_FLAGS = XKB_CONTEXT_NO_SECURE_GETENV;
 #else
@@ -421,6 +426,7 @@ void Xkb::updateModifiers()
     if (xkb_state_mod_index_is_active(m_state, m_metaModifier, XKB_STATE_MODS_EFFECTIVE) == 1) {
         mods |= Qt::MetaModifier;
     }
+
     if (m_keysym >= XKB_KEY_KP_Space && m_keysym <= XKB_KEY_KP_9) {
         mods |= Qt::KeypadModifier;
     }
@@ -530,6 +536,10 @@ Qt::KeyboardModifiers Xkb::modifiersRelevantForGlobalShortcuts(uint32_t scanCode
         mods |= Qt::MetaModifier;
     }
 
+    if (isKeypadKey(m_keysym)) {
+        mods |= Qt::KeypadModifier;
+    }
+
     Qt::KeyboardModifiers consumedMods = m_consumedModifiers;
     if ((mods & Qt::ShiftModifier) && (consumedMods == Qt::ShiftModifier)) {
         // test whether current keysym is a letter
@@ -539,6 +549,11 @@ Qt::KeyboardModifiers Xkb::modifiersRelevantForGlobalShortcuts(uint32_t scanCode
         if (QChar::isLetter(toQtKey(m_keysym, scanCode, Qt::ControlModifier))) {
             consumedMods = Qt::KeyboardModifiers();
         }
+    }
+
+    // if keypad shortcut with ShiftModifier, add ShiftModifier to pair kglobalaccel
+    if (mods & Qt::KeypadModifier && mods & Qt::ShiftModifier ) {
+        return (mods & ~consumedMods | Qt::ShiftModifier);
     }
 
     return mods & ~consumedMods;
