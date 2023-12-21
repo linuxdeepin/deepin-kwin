@@ -297,13 +297,14 @@ void WorkspaceScene::preparePaintSimpleScreen()
             }
         }
 
-        effects->prePaintWindow(window->effectWindow(), data, m_expectedPresentTimestamp);
         m_paintContext.phase2Data.append(Phase2Data{
             .item = windowItem,
             .region = data.paint,
             .opaque = data.opaque,
             .mask = data.mask,
         });
+
+        effects->prePaintWindow(window->effectWindow(), data, m_expectedPresentTimestamp);
     }
 
     // Perform an occlusion cull pass, remove surface damage occluded by opaque windows.
