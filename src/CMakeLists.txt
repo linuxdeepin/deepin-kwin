@@ -251,10 +251,10 @@ target_link_libraries(kwin
     EGL::EGL
     epoxy::epoxy
 
+    gsettings-qt
     Threads::Threads
     Wayland::Server
     lcms2::lcms2
-    dl
     -lXext
     -lXtst
 )

@@ -388,6 +388,9 @@ void EffectsHandlerImpl::setupUnmanagedConnections(Unmanaged *u)
 
 void EffectsHandlerImpl::reconfigure()
 {
+    if (compositingType() & XRenderCompositing) {
+        return;
+    }
     m_effectLoader->queryAndLoadAll();
 }
 

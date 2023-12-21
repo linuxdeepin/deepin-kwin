@@ -65,6 +65,7 @@
 
 #include <QDateTime>
 #include <QFutureWatcher>
+#include <QGSettings/QGSettings>
 #include <QMenu>
 #include <QOpenGLContext>
 #include <QQuickWindow>
@@ -76,58 +77,15 @@
 #include <xcb/damage.h>
 
 #include <cstdio>
-#include <dlfcn.h>
 
 #include <unistd.h>
 
 Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 
+#define GSETTINGS_DDE_APPEARANCE "com.deepin.dde.appearance"
+
 namespace KWin
 {
-
-static int devicePerformanceLevel()
-{
-    static int level = -1;
-    if (level != -1) {
-        return level;
-    }
-
-    level = 0;
-    std::unique_ptr<void, int(*)(void*)> file_handle(dlopen("libdtkwmjack.so", RTLD_NOW), &dlclose);
-    if (!file_handle) {
-        qCWarning(KWIN_CORE) << "Errors in function dlopen:" << dlerror();
-        return 0;
-    }
-
-    void *function_handle = dlsym(file_handle.get(), "InitDtkWmDisplay");
-    if (!function_handle) {
-        qCWarning(KWIN_CORE) << "Fail to find function 'InitDtkWmDisplay':" << dlerror();
-        return 0;
-    }
-    int (*InitDtkWmDisplay)() = reinterpret_cast<int(*)()>(function_handle);
-    if (InitDtkWmDisplay() != 0) {
-        return 0;
-    }
-
-    function_handle = dlsym(file_handle.get(), "GetDevicePerformanceLevel");
-    if (!function_handle) {
-        qCWarning(KWIN_CORE) << "Fail to find function 'GetDevicePerformanceLevel':" << dlerror();
-        return 0;
-    }
-    int (*GetDevicePerformanceLevle)() = reinterpret_cast<int(*)()>(function_handle);
-    level = GetDevicePerformanceLevle();
-    qCDebug(KWIN_CORE) << "Device performance level:" << level;
-
-    function_handle = dlsym(file_handle.get(), "DestoryDtkWmDisplay");
-    if (!function_handle) {
-        qCWarning(KWIN_CORE) << "Fail to find function 'DestoryDtkWmDisplay':" << dlerror();
-        return level;
-    }
-    void (*DestoryDtkWmDisplay)() = reinterpret_cast<void(*)()>(function_handle);
-    DestoryDtkWmDisplay();
-
-    return level;
-}
 
 Compositor *Compositor::s_compositor = nullptr;
 Compositor *Compositor::self()
@@ -392,7 +350,9 @@ bool Compositor::setupStart()
         return false;
     }
 
-    m_selectedCompositor = m_backend->compositingType();
+    if (waylandServer()) {
+        m_selectedCompositor = m_backend->compositingType();
+    }
 
     if (!Workspace::self() && m_backend && m_backend->compositingType() == QPainterCompositing) {
         // Force Software QtQuick on first startup with QPainter.
@@ -401,6 +361,12 @@ bool Compositor::setupStart()
 #else
         QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);
 #endif
+    }
+
+    if (!waylandServer() && m_backend && m_backend->compositingType() == XRenderCompositing) {
+        if (QGSettings::isSchemaInstalled(GSETTINGS_DDE_APPEARANCE)) {
+            QGSettings(GSETTINGS_DDE_APPEARANCE).set("opacity", 1);
+        }
     }
 
     Q_EMIT sceneCreated();
@@ -972,11 +938,6 @@ void X11Compositor::start()
         return;
     } else if (!compositingPossible()) {
         qCWarning(KWIN_CORE) << "Compositing is not possible";
-        return;
-    }
-
-    if (devicePerformanceLevel() == 0) {
-        qCWarning(KWIN_CORE) << "Compositing is disbaled due to low performance level";
         return;
     }
 

@@ -15,5 +15,7 @@
     </method>
     <method name="resume">
     </method>
+    <method name="reinitialize">
+    </method>
   </interface>
 </node>
