@@ -22,6 +22,7 @@
 #include <QUuid>
 
 #include <algorithm>
+#include <fstream>
 
 namespace KWin
 {
@@ -678,6 +679,30 @@ void VirtualDesktopManager::updateLayout()
     );
 }
 
+static bool isSectionExists()
+{
+    std::ifstream file(std::string(getenv("HOME")) + "/.config/kwinrc");
+    std::string line;
+    int count = 0;
+
+    if (!file.is_open()) {
+        return false;
+    }
+    while (std::getline(file, line)) {
+        if (line == "[Desktops]") {
+            ++count;
+        }
+        if (line == "[VirtualDesktops]") {
+            --count;
+        }
+    }
+    file.close();
+    if (count == 1) {
+        return true;
+    }
+    return false;
+}
+
 void VirtualDesktopManager::load()
 {
     s_loadingDesktopSettings = true;
@@ -685,7 +710,12 @@ void VirtualDesktopManager::load()
         return;
     }
 
-    KConfigGroup group(m_config, QStringLiteral("Desktops"));
+    KConfigGroup group(m_config, QStringLiteral("VirtualDesktops"));
+    if (isSectionExists()) {
+        KConfigGroup oldGroup(m_config, QStringLiteral("Desktops"));
+        group.writeEntry("Number", oldGroup.readEntry("Number", 1));
+        group.sync();
+    }
     const int n = group.readEntry("Number", 1);
     setCount(n);
 
@@ -722,7 +752,7 @@ void VirtualDesktopManager::save()
     if (!m_config) {
         return;
     }
-    KConfigGroup group(m_config, QStringLiteral("Desktops"));
+    KConfigGroup group(m_config, QStringLiteral("VirtualDesktops"));
 
     for (int i = count() + 1; group.hasKey(QStringLiteral("Id_%1").arg(i)); i++) {
         group.deleteEntry(QStringLiteral("Id_%1").arg(i));
