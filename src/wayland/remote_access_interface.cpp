@@ -19,6 +19,12 @@
 
 #include <fcntl.h>
 #include <functional>
+#include <sys/time.h>
+#include <unistd.h>
+
+#define MAX_BUFFERS_SIZE 100
+#define REMOVE_BUFFERS_SIZE 10
+#define REMOVE_BUFFERS_SECOND 5
 
 namespace KWaylandServer
 {
@@ -61,6 +67,9 @@ void BufferHandle::setFd(qint32 fd)
 
 qint32 BufferHandle::fd() const
 {
+    if (!d) {
+        return -1;
+    }
     return d->fd;
 }
 
@@ -118,6 +127,7 @@ struct BufferHolder
 {
     BufferHandle *buf;
     quint64 counter;
+    struct timeval lifetime;
 };
 
 class RemoteAccessManagerInterfacePrivate : public QtWaylandServer::org_kde_kwin_remote_access_manager
@@ -193,6 +203,7 @@ RemoteAccessManagerInterfacePrivate::RemoteAccessManagerInterfacePrivate(RemoteA
 void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface *output, BufferHandle *buf)
 {
     BufferHolder holder{buf, 0};
+    gettimeofday(&holder.lifetime, NULL);
     // notify clients
     //qCDebug(KWIN_CORE) << "Server buffer sent: fd" << buf->fd();
     for (auto res : resourceMap()) {
@@ -230,6 +241,30 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
     QMutexLocker locker(&m_mutex);
     // store buffer locally, clients will ask it later
     sentBuffers[buf->fd()] = holder;
+
+    int size = sentBuffers.size();
+    if (size > MAX_BUFFERS_SIZE)
+    {
+        QList<qint32> keys = sentBuffers.keys();
+        for (int i = 0; i < keys.size(); i++) {
+            int fd = keys[i];
+            if (!sentBuffers.contains(fd)) {
+                continue;
+            }
+            if (holder.lifetime.tv_sec - sentBuffers[fd].lifetime.tv_sec > REMOVE_BUFFERS_SECOND) {
+                if (size <= REMOVE_BUFFERS_SIZE) {
+                    break;
+                }
+                sentBuffers[fd].counter = 0;
+                if (sentBuffers[fd].buf)
+                    Q_EMIT q->bufferReleased(sentBuffers[fd].buf);
+                sentBuffers.remove(fd);
+                close(fd);
+                size--;
+            }
+        }
+        qCDebug(KWIN_CORE) << "buffers over " << MAX_BUFFERS_SIZE << ",released.now size of buffers is " << size;
+    }
 }
 
 void RemoteAccessManagerInterfacePrivate::incrementRenderSequence()
@@ -383,6 +418,9 @@ RemoteBufferInterfacePrivate::~RemoteBufferInterfacePrivate()
 
 int RemoteBufferInterfacePrivate::sendGbmHandle()
 {
+    if (!wrapped) {
+        return -1;
+    }
     if (fcntl(wrapped->fd(), F_GETFL) == -1) {
         return -1;
     }
