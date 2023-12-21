@@ -1,3 +1,16 @@
+kwin (4:5.27.2.51-deepin51-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * feat: add support for switching compositing backend
+  * feat: add XRender backend support.
+  *  fix: keypad shortcut donnot take effect
+  *  fix: update from 1040 to 1060, workspace's number change from three to two
+  *  fix: x11 grab window cannot recieve pointer press
+  *  fix: repair the window can't show when close from dock preview
+  *  fix: x11 alt+space popup window can't disapear
+
+ -- huangzeming <huangzeming@uniontech.com>  Thu, 21 Dec 2023 19:12:26 +0800
+
 kwin (4:5.27.2.50-deepin50-1) unstable; urgency=medium
 
   [ Chaojiang Luo ]
