@@ -101,6 +101,11 @@ class ConfigReader;
 
 typedef KWaylandServer::ClientManagementInterface::WindowState WindowState;
 
+enum OpenMenuActionType {
+    RightClick,
+    AltSpace
+};
+
 class KWIN_EXPORT Workspace : public QObject
 {
     Q_OBJECT
@@ -406,7 +411,7 @@ public:
      * Shows the menu operations menu for the window and makes it active if
      * it's not already.
      */
-    void showWindowMenu(const QRect &pos, Window *cl);
+    void showWindowMenu(const QRect &pos, Window *cl, OpenMenuActionType type = OpenMenuActionType::RightClick);
     const UserActionsMenu *userActionsMenu() const
     {
         return m_userActionsMenu;

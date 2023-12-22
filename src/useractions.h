@@ -8,6 +8,7 @@
 */
 #pragma once
 #include "ui_shortcutdialog.h"
+#include "workspace.h"
 
 #include <kwinglobals.h>
 
@@ -115,7 +116,7 @@ public:
      * @param pos The position where the menu should be shown.
      * @param window The Window for which the Menu has to be shown.
      */
-    void show(const QRect &pos, Window *window);
+    void show(const QRect &pos, Window *window, OpenMenuActionType type);
 
     bool handleClick(const QPoint &pos);
 

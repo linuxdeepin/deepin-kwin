@@ -283,7 +283,7 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
     });
 }
 
-void UserActionsMenu::show(const QRect &pos, Window *window)
+void UserActionsMenu::show(const QRect &pos, Window *window, OpenMenuActionType type)
 {
     Q_ASSERT(window);
     QPointer<Window> windowPtr(window);
@@ -306,9 +306,8 @@ void UserActionsMenu::show(const QRect &pos, Window *window)
     m_window = windowPtr;
     init();
     m_menu->popup(pos.topLeft());
-    if (!waylandServer() && m_menu->windowHandle() &&
-        (!m_menu->windowHandle()->setMouseGrabEnabled(true) ||
-        !m_menu->windowHandle()->setKeyboardGrabEnabled(true))) {
+    if (!waylandServer() && type == OpenMenuActionType::AltSpace && m_menu->windowHandle() &&
+        (!m_menu->windowHandle()->setMouseGrabEnabled(true) || !m_menu->windowHandle()->setKeyboardGrabEnabled(true))) {
         m_menu->close();
     }
 }
@@ -1945,10 +1944,10 @@ void Workspace::slotWindowOperations()
     }
     const QPoint pos(m_activeWindow->frameGeometry().left() + m_activeWindow->frameMargins().left(),
                      m_activeWindow->frameGeometry().top() + m_activeWindow->frameMargins().top());
-    showWindowMenu(QRect(pos, pos), m_activeWindow);
+    showWindowMenu(QRect(pos, pos), m_activeWindow, OpenMenuActionType::AltSpace);
 }
 
-void Workspace::showWindowMenu(const QRect &pos, Window *window)
+void Workspace::showWindowMenu(const QRect &pos, Window *window, OpenMenuActionType type)
 {
     if (!window)
         return;
@@ -1961,7 +1960,7 @@ void Workspace::showWindowMenu(const QRect &pos, Window *window)
     if (clientArea(ScreenArea, window).height() == adjustPos.y()) {
         adjustPos.translate(0, -1);
     }
-    m_userActionsMenu->show(adjustPos, window);
+    m_userActionsMenu->show(adjustPos, window, type);
 }
 
 void Workspace::showApplicationMenu(const QRect &pos, Window *window, int actionId)
