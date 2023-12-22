@@ -1,3 +1,12 @@
+kwin (4:5.27.2.52-deepin52-1) unstable; urgency=medium
+
+  [ gengzhijie ]
+  * fix: right click third-part titlebar can't show menu
+  * fix: add dbus interface of disableGlobalShortcutsForClient according to kwin of 106x.
+  * fix: Fix screen flash for damage error
+
+ -- gengzhijie <gengzhijie@uniontech.com>  Fri, 22 Dec 2023 13:09:07 +0800
+
 kwin (4:5.27.2.51-deepin51-1) unstable; urgency=medium
 
   [ huangzeming ]
