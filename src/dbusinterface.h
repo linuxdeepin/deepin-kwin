@@ -62,6 +62,7 @@ public Q_SLOTS: // METHODS
     QString activeOutputName();
     Q_NOREPLY void unclutterDesktop();
     Q_NOREPLY void showDebugConsole();
+    bool xwaylandGrabed();
 
     /**
      * Instructs kwin_wayland to restart itself.

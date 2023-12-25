@@ -28,6 +28,7 @@
 #include "virtualdesktops.h"
 #include "window.h"
 #include "workspace.h"
+#include "wayland_server.h"
 #if KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
@@ -315,6 +316,11 @@ void DBusInterface::quitPreviewWindows()
 void DBusInterface::printKwinFps(bool isFps)
 {
     workspace()->enablePrintKwinFps(isFps);
+}
+
+bool DBusInterface::xwaylandGrabed()
+{
+    return waylandServer()->XWaylandKeyboardGrabClientV1() != nullptr;
 }
 
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
