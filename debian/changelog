@@ -1,3 +1,10 @@
+kwin (4:5.27.2.53-deepin53-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * Revert "fix: Fix screen flash for damage error"
+
+ -- wangboyu <wangboyu@uniontech.com>  Mon, 26 Dec 2023 17:54:07 +0800
+
 kwin (4:5.27.2.52-deepin52-1) unstable; urgency=medium
 
   [ gengzhijie ]
