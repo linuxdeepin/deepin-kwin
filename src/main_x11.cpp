@@ -15,6 +15,7 @@
 #include "backends/x11/standalone/x11_standalone_backend.h"
 #include "core/outputbackend.h"
 #include "core/session.h"
+#include "logger.h"
 #include "outline.h"
 #include "screenedge.h"
 #include "sm.h"
@@ -372,6 +373,8 @@ void ApplicationX11::crashHandler(int signal)
 
 int main(int argc, char *argv[])
 {
+    KWin::Logger::instance()->installMessageHandler();
+
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
 

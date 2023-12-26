@@ -113,6 +113,7 @@ target_sources(kwin PRIVATE
     layershellv1integration.cpp
     layershellv1window.cpp
     linux_dmabuf.cpp
+    logger.cpp
     main.cpp
     modifier_only_shortcuts.cpp
     mousebuttons.cpp
@@ -252,6 +253,7 @@ target_link_libraries(kwin
     epoxy::epoxy
 
     gsettings-qt
+    systemd
     Threads::Threads
     Wayland::Server
     lcms2::lcms2

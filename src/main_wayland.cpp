@@ -19,6 +19,7 @@
 #include "core/session.h"
 #include "effects.h"
 #include "inputmethod.h"
+#include "logger.h"
 #include "tabletmodemanager.h"
 #include "utils/realtime.h"
 #include "wayland/display.h"
@@ -285,6 +286,8 @@ XwaylandInterface *ApplicationWayland::xwayland() const
 
 int main(int argc, char *argv[])
 {
+    KWin::Logger::instance()->installMessageHandler();
+
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
     KWin::gainRealTime();
