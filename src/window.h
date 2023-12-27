@@ -611,7 +611,7 @@ public:
     ~Window() override;
 
     virtual xcb_window_t frameId() const;
-    xcb_window_t window() const;
+    virtual xcb_window_t window() const;
     /**
      * Returns the geometry of the pixmap or buffer attached to this Window.
      *

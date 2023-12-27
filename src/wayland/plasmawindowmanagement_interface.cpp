@@ -416,6 +416,10 @@ void PlasmaWindowInterfacePrivate::setPid(quint32 pid)
 
 void PlasmaWindowInterfacePrivate::setWindowId(quint32 winid)
 {
+    if (windowId == winid) {
+        return;
+    }
+    windowId = winid;
     const auto clientResources = resourceMap();
 
     for (auto resource : clientResources) {

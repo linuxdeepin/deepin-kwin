@@ -298,10 +298,10 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowSizedData *screenshot)
     EffectWindow *window = screenshot->window;
 
     WindowPaintData d;
-    QRectF geometry = window->expandedGeometry();
+    QRectF geometry = window->frameGeometry();
     qreal devicePixelRatio = 1;
     if (window->hasDecoration() && !(screenshot->flags & ScreenShotIncludeDecoration)) {
-        geometry = window->clientGeometry();
+        geometry = window->frameGeometry();
     }
     if (screenshot->flags & ScreenShotNativeResolution) {
         if (const EffectScreen *screen = window->screen()) {
@@ -312,7 +312,17 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowSizedData *screenshot)
     std::unique_ptr<GLTexture> offscreenTexture;
     std::unique_ptr<GLFramebuffer> target;
     if (effects->isOpenGLCompositing()) {
-        offscreenTexture.reset(new GLTexture(GL_RGBA8, QSizeF(screenshot->size * devicePixelRatio).toSize()));
+        float fscale = 1.f;
+        if (geometry.width() >= geometry.height()) {
+            fscale = (float)screenshot->size.width() / (float)geometry.width();
+        } else {
+            fscale = (float)screenshot->size.height() / (float)geometry.height();
+        }
+
+        int w = geometry.width() * fscale;
+        int h = geometry.height() * fscale;
+
+        offscreenTexture.reset(new GLTexture(GL_RGBA8, QSize(w, h)));
         offscreenTexture->setFilter(GL_LINEAR);
         offscreenTexture->setWrapMode(GL_CLAMP_TO_EDGE);
         target.reset(new GLFramebuffer(offscreenTexture.get()));

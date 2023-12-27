@@ -41,6 +41,7 @@ public:
     void updateDepth();
     void setCaption(const QString &caption);
     quint32 frameId() const override;
+    quint32 window() const override;
     quint32 createWindowId(KWaylandServer::SurfaceInterface *surface);
 
 protected:

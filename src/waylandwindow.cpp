@@ -80,6 +80,11 @@ quint32 WaylandWindow::frameId() const
     return m_windowId;
 }
 
+quint32 WaylandWindow::window() const
+{
+    return m_windowId;
+}
+
 quint32 WaylandWindow::createWindowId(KWaylandServer::SurfaceInterface *surface)
 {
     return waylandServer()->createWindowId(surface);
