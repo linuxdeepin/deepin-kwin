@@ -1356,6 +1356,10 @@ bool XdgToplevelWindow::acceptsFocus() const
             break;
         }
     }
+    // Just return false. In case return false finally if m_acceptFoucus is true.
+    if (!m_ddeShellSurface.isNull() && !m_acceptFocus) {
+        return m_acceptFocus;
+    }
     return !isZombie() && readyForPainting();
 }
 
