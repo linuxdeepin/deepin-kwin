@@ -615,6 +615,9 @@ public Q_SLOTS:
     void slotWindowRaiseOrLower();
     void slotActivateAttentionWindow();
 
+    void slotWindowMaximizeByShortcut();
+    void slotWindowUnMaximizeByShortcut();
+
     void slotWindowCenter();
 
     void slotWindowMoveLeft();

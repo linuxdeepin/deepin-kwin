@@ -1156,7 +1156,9 @@ void Workspace::initShortcuts()
     initShortcut("Window Close", i18n("Close Window"),
                  Qt::ALT | Qt::Key_F4, &Workspace::slotWindowClose);
     initShortcut("Window Maximize", i18n("Maximize Window"),
-                 Qt::META | Qt::Key_PageUp, &Workspace::slotWindowMaximize);
+                 Qt::META | Qt::Key_Up, &Workspace::slotWindowMaximizeByShortcut);
+    initShortcut("Window Unmaximize", i18n("Maximize Window"),
+                 Qt::META | Qt::Key_Down, &Workspace::slotWindowUnMaximizeByShortcut);
     initShortcut("Window Maximize Vertical", i18n("Maximize Window Vertically"),
                  0, &Workspace::slotWindowMaximizeVertical);
     initShortcut("Window Maximize Horizontal", i18n("Maximize Window Horizontally"),
@@ -1623,6 +1625,18 @@ void Workspace::slotWindowMaximizeVertical()
     if (USABLE_ACTIVE_WINDOW) {
         performWindowOperation(m_activeWindow, Options::VMaximizeOp);
     }
+}
+
+void Workspace::slotWindowMaximizeByShortcut()
+{
+    m_activeWindow->maximize(MaximizeFull);
+    takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
+}
+
+void Workspace::slotWindowUnMaximizeByShortcut()
+{
+    m_activeWindow->maximize(MaximizeRestore);
+    takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
 }
 
 /**
