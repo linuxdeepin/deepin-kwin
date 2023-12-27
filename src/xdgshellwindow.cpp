@@ -1505,6 +1505,7 @@ void XdgToplevelWindow::handleMaximizeRequested()
     if (m_isInitialized) {
         maximize(MaximizeFull);
         scheduleConfigure();
+        setTile(nullptr);
     } else {
         m_initialStates |= XdgToplevelInterface::State::Maximized;
     }

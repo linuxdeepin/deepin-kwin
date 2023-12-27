@@ -137,9 +137,7 @@ void SplitManage::handleQuickTile()
     }
     m_lastWin = window;
     uninhibit();
-    if (waylandServer()) {
-        workspace()->updateStackingOrder();
-    }
+    workspace()->updateStackingOrder();
 }
 
 void SplitManage::windowFrameSizeChange()
