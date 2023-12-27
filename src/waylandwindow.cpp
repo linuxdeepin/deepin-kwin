@@ -349,4 +349,11 @@ void WaylandWindow::updateGeometry(const QRectF &rect)
     Q_EMIT geometryShapeChanged(this, oldFrameGeometry);
 }
 
+void WaylandWindow::doSetDesktop()
+{
+    if (!isOnCurrentDesktop()) {
+        workspace()->activateNextWindow(this);
+    }
+}
+
 } // namespace KWin

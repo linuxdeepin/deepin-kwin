@@ -33,6 +33,7 @@ public:
     bool isHiddenInternal() const override;
     void hideClient() override;
     void showClient() override;
+    void doSetDesktop() override;
 
     virtual QRectF frameRectToBufferRect(const QRectF &rect) const;
     bool isHidden() const;
