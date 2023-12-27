@@ -1725,21 +1725,12 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         return;
     }
 
-    if (!QX11Info::isPlatformX11() && e->type() == QEvent::Wheel) {
+    if (e->type() == QEvent::Wheel) {
         auto wheelEvent = static_cast<QWheelEvent*>(e);
-        if (wheelEvent->delta() > 0) {
-            handlerWheelEvent(Qt::ForwardButton);
-        } else if (wheelEvent->delta() < 0) {
-            handlerWheelEvent(Qt::BackButton);
-        }
-        return;
-    }
-
-    if (mouseEvent->button() == Qt::ForwardButton || mouseEvent->button() == Qt::BackButton) {
-        if (mouseEvent->buttons() == Qt::ForwardButton) {
-            handlerWheelEvent(Qt::ForwardButton);
-        } else if (mouseEvent->buttons() == Qt::BackButton) {
-            handlerWheelEvent(Qt::BackButton);
+        if (wheelEvent->angleDelta().y() < 0) {
+            handlerWheelEvent(QX11Info::isPlatformX11() ? Qt::ForwardButton : Qt::BackButton);
+        } else if (wheelEvent->angleDelta().y() > 0) {
+            handlerWheelEvent(QX11Info::isPlatformX11() ? Qt::BackButton : Qt::ForwardButton);
         }
         return;
     }
