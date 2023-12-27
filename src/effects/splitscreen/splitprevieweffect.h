@@ -34,6 +34,8 @@ public:
 
     void windowInputMouseEvent(QEvent* e) override;
     void grabbedKeyboardEvent(QKeyEvent* e) override;
+    bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;
+    bool touchUp(qint32 id, std::chrono::microseconds time) override;
 
     bool isActive() const override;
 
@@ -56,6 +58,7 @@ private:
     QVector<WindowMotionManager> m_motionManagers;
     EffectWindow                 *m_window = nullptr;
     EffectWindow                 *m_hoverwin = nullptr;
+    EffectWindow                 *m_targetTouchWindow = nullptr;
     QRect                        m_backgroundRect;
     QRectF                       m_screenRect;
     int                          m_backgroundMode;

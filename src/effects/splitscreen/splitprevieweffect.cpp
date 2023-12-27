@@ -452,4 +452,36 @@ void SplitPreviewEffect::calculateWindowTransformationsClosest(EffectWindowList 
     }
 }
 
+bool SplitPreviewEffect::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+{
+    if (!m_activated)
+        return false;
+    m_targetTouchWindow = nullptr;
+    WindowMotionManager& wm = m_motionManagers[0];
+    for (const auto& w : wm.managedWindows()) {
+        auto geo = wm.transformedGeometry(w);
+        if (geo.contains(pos)) {
+            m_targetTouchWindow = w;
+            break;
+        }
+    }
+    return true;
+}
+
+bool SplitPreviewEffect::touchUp(qint32 id, std::chrono::microseconds time)
+{
+    if (!m_activated)
+        return false;
+    if (m_targetTouchWindow) {
+        if (m_targetTouchWindow->isMinimized()) {
+            m_targetTouchWindow->unrefVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
+        }
+        effects->defineCursor(Qt::PointingHandCursor);
+        effects->activateWindow(m_targetTouchWindow);
+        effectsEx->setQuickTileWindow(m_targetTouchWindow, m_backgroundMode);
+    }
+    setActive(false);
+    return true;
+}
+
 }
