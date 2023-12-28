@@ -169,6 +169,8 @@ private:
     QHash<wl_resource*, qint32> lastFrames;
 
     QMutex m_mutex;
+protected:
+    void org_kde_kwin_remote_access_manager_bind_resource(Resource *resource) override;
 };
 
 const quint32 RemoteAccessManagerInterfacePrivate::s_version = 2;
@@ -225,6 +227,11 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
 void RemoteAccessManagerInterfacePrivate::incrementRenderSequence()
 {
     renderSequence++;
+}
+
+void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_bind_resource(Resource *resource)
+{
+    Q_EMIT q->addedClient();
 }
 
 bool RemoteAccessManagerInterfacePrivate::unref(BufferHolder &bh)

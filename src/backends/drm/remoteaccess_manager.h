@@ -59,6 +59,7 @@ public:
 Q_SIGNALS:
     void bufferNoLongerNeeded(qint32 gbm_handle);
     void screenRecordStatusChanged(bool isScreenRecording);
+    void addedClient();
 
 private:
     void releaseBuffer(const BufferHandle *buf);

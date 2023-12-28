@@ -85,6 +85,7 @@ Q_SIGNALS:
     void bufferReleased(const BufferHandle *buf);
     void screenRecordStatusChanged(bool isScreenRecording);
     void startRecord(int count);
+    void addedClient();
 
 private:
     friend class Display;

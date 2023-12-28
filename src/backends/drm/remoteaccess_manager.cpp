@@ -48,6 +48,9 @@ RemoteAccessManager::RemoteAccessManager(QObject *parent)
         connect(m_interface, &RemoteAccessManagerInterface::screenRecordStatusChanged, this, [=](bool isScreenRecording) {
             Q_EMIT screenRecordStatusChanged(isScreenRecording);
         });
+        connect(m_interface, &RemoteAccessManagerInterface::addedClient, this, [=]() {
+            Q_EMIT addedClient();
+        });
 
         connect(m_interface, &RemoteAccessManagerInterface::bufferReleased,
                 this, &RemoteAccessManager::releaseBuffer);

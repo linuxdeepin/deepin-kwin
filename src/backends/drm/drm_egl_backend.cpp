@@ -110,6 +110,19 @@ void EglGbmBackend::initRemotePresent()
     connect(m_remoteaccessManager.get(), &RemoteAccessManager::screenRecordStatusChanged, this, [=](bool isScreenRecording) {
         //qCDebug(KWIN_DRM) << "Remote access isScreenRecording " << isScreenRecording;
     });
+    connect(m_remoteaccessManager.get(), &RemoteAccessManager::addedClient, this, [=]() {
+        QTimer::singleShot(100, this, [this] {
+            const auto outputs = kwinApp()->outputBackend()->outputs();
+            for (int i = 0; i < outputs.count(); ++i) {
+                const auto o = outputs[i];
+                if (o->isEnabled() && m_outputToBuffers.contains(o)) {
+                    if (m_remoteaccessManager) {
+                        m_remoteaccessManager->passBuffer(o, m_outputToBuffers[o]);
+                    }
+                }
+            }
+        });
+    });
 }
 
 void EglGbmBackend::init()
@@ -228,6 +241,7 @@ void EglGbmBackend::present(Output *output)
     if (gbmLayer) {
         std::shared_ptr<DrmFramebuffer> buffer = gbmLayer->currentBuffer();
         if (m_remoteaccessManager) {
+            m_outputToBuffers[output] = buffer->buffer();
             m_remoteaccessManager->passBuffer(output, buffer->buffer());
         }
     }
