@@ -102,6 +102,7 @@ void Chameleon::init()
                         if (windowRadius != m_theme->windowRadius()) {
                             m_theme->setProperty("windowRadius",windowRadius);
                             updateBorderPath();
+                            updateShadow();
                         }
                     }
                 }
