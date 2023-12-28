@@ -494,7 +494,7 @@ static QString saveTempImage(const QImage &image)
     if (!temp.open()) {
         return QString();
     }
-    image.save(&temp);
+    image.save(&temp, "JPG", 100);
     temp.close();
     qCInfo(KWIN_SCREENSHOT) << "Screenshot saved to" << temp.fileName();
 #if KWIN_BUILD_NOTIFICATIONS
