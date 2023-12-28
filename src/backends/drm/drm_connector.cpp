@@ -308,7 +308,7 @@ bool DrmConnector::updateProperties()
         QStringList strArg;
         strArg << "-s" << "system-product-name";
         QProcess proc;
-        proc.setProgram("dmidecode");
+        proc.setProgram("/usr/sbin/dmidecode");
         proc.setArguments(strArg);
         proc.start(QIODevice::ReadWrite);
         proc.waitForFinished(-1);
