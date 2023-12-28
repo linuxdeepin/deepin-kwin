@@ -569,6 +569,14 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     connect(_gsettings_dde_dock, &QGSettings::changed, this, &MultitaskViewEffect::onDockChange);
 
+    connect(m_timerCheckWindowClose, &QTimer::timeout, this,
+        [this] () {
+            if (this->m_closingWindow) {
+                this->setActive(false);
+            }
+        }
+    );
+
     ensureResources();
     reconfigure(ReconfigureAll);
 
