@@ -107,7 +107,7 @@ void EglGbmBackend::initRemotePresent()
     m_remoteaccessManager = std::make_shared<RemoteAccessManager>(this);
 
     connect(m_remoteaccessManager.get(), &RemoteAccessManager::screenRecordStatusChanged, this, [=](bool isScreenRecording) {
-        qCDebug(KWIN_DRM) << "Remote access isScreenRecording " << isScreenRecording;
+        //qCDebug(KWIN_DRM) << "Remote access isScreenRecording " << isScreenRecording;
     });
 }
 

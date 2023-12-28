@@ -184,7 +184,7 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
 {
     BufferHolder holder{buf, 0};
     // notify clients
-    qCDebug(KWIN_CORE) << "Server buffer sent: fd" << buf->fd();
+    //qCDebug(KWIN_CORE) << "Server buffer sent: fd" << buf->fd();
     for (auto res : resourceMap()) {
         auto client = wl_resource_get_client(res->handle);
         auto boundScreens = output->clientResources(display->getConnection(client));
@@ -232,7 +232,7 @@ bool RemoteAccessManagerInterfacePrivate::unref(BufferHolder &bh)
     bh.counter--;
     if (!bh.counter) {
         // no more clients using this buffer
-        qCDebug(KWIN_CORE) << "[ut-gfx ]Buffer released, fd" << bh.buf->fd();
+        //qCDebug(KWIN_CORE) << "[ut-gfx ]Buffer released, fd" << bh.buf->fd();
         QMutexLocker locker(&m_mutex);
         sentBuffers.remove(bh.buf->fd());
         Q_EMIT q->bufferReleased(bh.buf);
@@ -271,7 +271,7 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
             // all relevant buffers are already unreferenced
             return;
         }
-        qCDebug(KWIN_CORE) << "Remote buffer returned, client" << wl_resource_get_id(resource->handle) << ", fd" << bh.buf->fd();
+        //qCDebug(KWIN_CORE) << "Remote buffer returned, client" << wl_resource_get_id(resource->handle) << ", fd" << bh.buf->fd();
         unref(bh);
         gsScreenRecord.setObjectName(SCREEN_RECORDING_FINISHED);
     });

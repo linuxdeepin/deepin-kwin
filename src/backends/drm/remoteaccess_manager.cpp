@@ -108,7 +108,7 @@ void RemoteAccessManager::passGbmBuffer(Output *output, GbmBuffer *gbmbuf)
         return;
     }
 
-    qCWarning(KWIN_DRM) << __func__ << output << gbmbuf;
+    //qCWarning(KWIN_DRM) << __func__ << output << gbmbuf;
 
     auto buf = new BufferHandle;
     buf->setSize(gbm_bo_get_width(bo), gbm_bo_get_height(bo));
