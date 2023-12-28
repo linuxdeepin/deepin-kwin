@@ -162,7 +162,7 @@ void X11XRenderBackend::present(Output *output /* int mask, const QRegion &damag
     const auto displaySize = workspace()->geometry().size();
     if (Scene::PAINT_SCREEN_REGION) {
         // Use the damage region as the clip region for the root window
-        QRegion region(output->geometry(), QRegion::Rectangle);
+        QRegion region(workspace()->geometry(), QRegion::Rectangle);
         XFixesRegion frontRegion(region);
         xcb_xfixes_set_picture_clip_region(connection(), m_front, frontRegion, 0, 0);
         // copy composed buffer to the root window
