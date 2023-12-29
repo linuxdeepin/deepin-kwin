@@ -139,6 +139,11 @@ public:
      */
     virtual void createOpenGLSafePoint(OpenGLSafePoint safePoint);
 
+    EffectType effectType() const
+    {
+        return m_effectType;
+    }
+
 Q_SIGNALS:
     void compositingToggled(bool active);
     void aboutToDestroy();
@@ -164,6 +169,8 @@ protected:
     void destroyCompositorSelection();
 
     static Compositor *s_compositor;
+
+    EffectType m_effectType = EffectType::AutoSelect;
 
 protected Q_SLOTS:
     virtual void composite(RenderLoop *renderLoop);

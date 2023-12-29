@@ -603,7 +603,9 @@ MultitaskViewEffect::MultitaskViewEffect()
     if (effects->waylandDisplay()) {
         setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true));
     } else {
-        setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true) && config_group.readEntry("window_animation", true));
+        EffectType effectType = effectsEx->effectType();
+        setMotionEffect(effectType == EffectType::OpenGLComplete && config_group.readEntry("MultitaskViewMotionEffect", true)
+                && config_group.readEntry("window_animation", true));
     }
 
     QString qm = QString(":/effects/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());

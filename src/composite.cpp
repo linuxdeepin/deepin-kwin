@@ -77,15 +77,96 @@
 #include <xcb/damage.h>
 
 #include <cstdio>
-
+#include <dlfcn.h>
 #include <unistd.h>
 
 Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 
 #define GSETTINGS_DDE_APPEARANCE "com.deepin.dde.appearance"
 
+#define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
+
 namespace KWin
 {
+
+static EffectType getDConfigUserEffectType()
+{
+    QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
+    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.compositing", "");
+    if (!reply.isValid()) {
+        qCWarning(KWIN_CORE) << "Error in DConfig reply:" << reply.error();
+        return EffectType::AutoSelect;
+    }
+
+    QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, reply.value().path(), CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+    QDBusReply<QVariant> replyValue = interfaceValue.call("value", "user_type");
+    int type = replyValue.value().toInt();
+    if (type < EffectType::AutoSelect || type > EffectType::NoneCompositor) {
+        qCWarning(KWIN_CORE) << "Unknown effect type:" << type;
+        return EffectType::AutoSelect;
+    }
+    return static_cast<EffectType>(type);
+}
+
+static void setDConfigCurrentEffectType(EffectType type)
+{
+    QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
+    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.compositing", "");
+    if (!reply.isValid()) {
+        qCWarning(KWIN_CORE) << "Error in DConfig reply:" << reply.error();
+        return;
+    }
+
+    QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, reply.value().path(), CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+    interfaceValue.asyncCall("setValue", "current_type", QVariant::fromValue(QDBusVariant(static_cast<int>(type))));
+}
+
+static int devicePerformanceLevel()
+{
+    static int level = -1;
+    if (level != -1) {
+        return level;
+    }
+
+    level = 0;
+    std::unique_ptr<void, int(*)(void*)> file_handle(dlopen("libdtkwmjack.so", RTLD_LAZY), &dlclose);
+    if (!file_handle) {
+        qCWarning(KWIN_CORE) << "Errors in function dlopen:" << dlerror();
+        return 0;
+    }
+
+    void *function_handle = dlsym(file_handle.get(), "InitDtkWmDisplay");
+    if (!function_handle) {
+        qCWarning(KWIN_CORE) << "Fail to find function 'InitDtkWmDisplay':" << dlerror();
+        return 0;
+    }
+    int (*InitDtkWmDisplay)() = reinterpret_cast<int(*)()>(function_handle);
+
+    function_handle = dlsym(file_handle.get(), "GetDevicePerformanceLevel");
+    if (!function_handle) {
+        qCWarning(KWIN_CORE) << "Fail to find function 'GetDevicePerformanceLevel':" << dlerror();
+        return 0;
+    }
+    int (*GetDevicePerformanceLevle)() = reinterpret_cast<int(*)()>(function_handle);
+
+    function_handle = dlsym(file_handle.get(), "DestoryDtkWmDisplay");
+    if (!function_handle) {
+        qCWarning(KWIN_CORE) << "Fail to find function 'DestoryDtkWmDisplay':" << dlerror();
+        return 0;
+    }
+    void (*DestoryDtkWmDisplay)() = reinterpret_cast<void(*)()>(function_handle);
+
+    if (InitDtkWmDisplay() != 0) {
+        return 0;
+    }
+    level = GetDevicePerformanceLevle();
+    DestoryDtkWmDisplay();
+
+    qCDebug(KWIN_CORE) << "Device performance level:" << level;
+    return level;
+}
 
 Compositor *Compositor::s_compositor = nullptr;
 Compositor *Compositor::self()
@@ -291,15 +372,20 @@ bool Compositor::setupStart()
     const QVector<CompositingType> availableCompositors = kwinApp()->outputBackend()->supportedCompositors();
     QVector<CompositingType> candidateCompositors;
 
+    CompositingType configSelected = options->compositingMode();
+    if (!waylandServer()) {
+        configSelected = m_effectType == EffectType::XRenderComplete ? XRenderCompositing : OpenGLCompositing;
+    }
+
     // If compositing has been restarted, try to use the last used compositing type.
     if (m_selectedCompositor != NoCompositing) {
         candidateCompositors.append(m_selectedCompositor);
     } else {
         candidateCompositors = availableCompositors;
-        const auto userConfigIt = std::find(candidateCompositors.begin(), candidateCompositors.end(), options->compositingMode());
+        const auto userConfigIt = std::find(candidateCompositors.begin(), candidateCompositors.end(), configSelected);
         if (userConfigIt != candidateCompositors.end()) {
             candidateCompositors.erase(userConfigIt);
-            candidateCompositors.prepend(options->compositingMode());
+            candidateCompositors.prepend(configSelected);
         } else {
             qCWarning(KWIN_CORE) << "Configured compositor not supported by Platform. Falling back to defaults";
         }
@@ -934,10 +1020,35 @@ void X11Compositor::start()
         if (m_suspended & ScriptSuspend) {
             reasons << QStringLiteral("Disabled by Script");
         }
+        m_effectType = EffectType::NoneCompositor;
+        setDConfigCurrentEffectType(EffectType::NoneCompositor);
         qCInfo(KWIN_CORE) << "Compositing is suspended, reason:" << reasons;
         return;
     } else if (!compositingPossible()) {
+        m_effectType = EffectType::NoneCompositor;
+        setDConfigCurrentEffectType(EffectType::NoneCompositor);
         qCWarning(KWIN_CORE) << "Compositing is not possible";
+        return;
+    }
+
+    m_effectType = getDConfigUserEffectType();
+    if (m_effectType == EffectType::AutoSelect) {
+        int level = devicePerformanceLevel();
+        if (level == 1) {
+            m_effectType = EffectType::OpenGLComplete;
+        } else if (level == 2) {
+            m_effectType = EffectType::OpenGLNoMotion;
+        } else {
+            m_effectType = EffectType::XRenderComplete;
+        }
+        qCDebug(KWIN_CORE) << "Effect type is automatically set to" << m_effectType;
+    }
+
+    qCDebug(KWIN_CORE) << "Current effect type:" << m_effectType;
+    setDConfigCurrentEffectType(m_effectType);
+
+    if (m_effectType == EffectType::NoneCompositor) {
+        qCDebug(KWIN_CORE) << "Compositing is disabled by DConfig";
         return;
     }
 

@@ -11,6 +11,7 @@
 // config
 #include <config-kwin.h>
 // KWin
+#include "effects.h"
 #include "plugin.h"
 #include "scripting/scriptedeffect.h"
 #include "utils/common.h"
@@ -28,6 +29,16 @@
 
 namespace KWin
 {
+
+const QMap<EffectType, QSet<QString>> exceptEffectList = {
+    {EffectType::OpenGLNoMotion, {
+        "kwin4_effect_maximize", "kwin4_effect_scale", "kwin4_effect_squash", "kwin4_effect_fadingpopups"
+    }},
+    {EffectType::OpenGLNoScissor, {
+        "kwin4_effect_maximize", "kwin4_effect_scale", "kwin4_effect_squash", "kwin4_effect_fadingpopups",
+        "scissor"
+    }}
+};
 
 AbstractEffectLoader::AbstractEffectLoader(QObject *parent)
     : QObject(parent)
@@ -114,7 +125,12 @@ bool ScriptedEffectLoader::loadEffect(const KPluginMetaData &effect, LoadEffectF
 {
     const QString name = effect.pluginId();
     if (!effects->waylandDisplay()) {
-        if (name == "kwin4_effect_squash") {
+        EffectType effectType = effectsEx->effectType();
+        if (exceptEffectList.contains(effectType) && exceptEffectList[effectType].contains(name)) {
+            return false;
+        }
+        if (name == "kwin4_effect_squash" || name == "kwin4_effect_maximize"
+                || name == "kwin4_effect_scale" || name == "kwin4_effect_fadingpopups") {
             KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
             if (kwinConfig.hasKey("window_animation") && kwinConfig.readEntry("window_animation") == "false") {
                 return false;
@@ -291,6 +307,10 @@ bool PluginEffectLoader::loadEffect(const KPluginMetaData &info, LoadEffectFlags
     }
     const QString name = info.pluginId();
     if (!effects->waylandDisplay()) {
+        EffectType effectType = effectsEx->effectType();
+        if (exceptEffectList.contains(effectType) && exceptEffectList[effectType].contains(name)) {
+            return false;
+        }
         if (name == "magiclamp" || name == "slide") {
             KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
             if (kwinConfig.hasKey("window_animation") && kwinConfig.readEntry("window_animation") == "false") {

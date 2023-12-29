@@ -1902,6 +1902,11 @@ Effect *EffectsHandlerImpl::findEffect(const QString &name) const
     return (*it).second;
 }
 
+EffectType EffectsHandlerImpl::effectType() const
+{
+    return m_compositor->effectType();
+}
+
 void EffectsHandlerImpl::renderOffscreenQuickView(OffscreenQuickView *w) const
 {
     if (!w->isVisible()) {

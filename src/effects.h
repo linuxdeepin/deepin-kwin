@@ -255,6 +255,8 @@ public:
      */
     Effect *findEffect(const QString &name) const;
 
+    EffectType effectType() const override;
+
     void renderOffscreenQuickView(OffscreenQuickView *effectQuickView) const override;
 
     SessionState sessionState() const override;

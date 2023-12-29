@@ -40,6 +40,15 @@ KWIN_EXPORT Q_NAMESPACE
         QPainterCompositing = 1 << 2,
     };
 
+enum EffectType {
+    AutoSelect = 0,
+    OpenGLComplete,
+    OpenGLNoMotion,
+    OpenGLNoScissor,
+    XRenderComplete,
+    NoneCompositor
+};
+
 enum OpenGLPlatformInterface {
     NoOpenGLPlatformInterface = 0,
     GlxPlatformInterface,
