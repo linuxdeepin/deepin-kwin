@@ -2857,6 +2857,8 @@ void InputRedirection::setupWorkspace()
         connect(pEventMonitor, &RecordEventMonitor::touchDown, this, &InputRedirection::touchDown);
         connect(pEventMonitor, &RecordEventMonitor::touchUp, this, &InputRedirection::touchEnd);
         connect(pEventMonitor, &RecordEventMonitor::touchMotion, this, &InputRedirection::touchMotion);
+        connect(pEventMonitor, &RecordEventMonitor::buttonRelease, this, &InputRedirection::buttonRelease);
+        connect(pEventMonitor, &RecordEventMonitor::motion, this, &InputRedirection::motion);
         pEventMonitor->start();
     }
 }
@@ -2876,6 +2878,25 @@ QObject *InputRedirection::lastInputHandler() const
 void InputRedirection::setLastInputHandler(QObject *device)
 {
     m_lastInputDevice = device;
+}
+
+void InputRedirection::buttonRelease()
+{
+    Window *movingClient = workspace()->getRequestToMovingClient();
+    if (!movingClient) {
+        return;
+    }
+    movingClient->endInteractiveMoveResize();
+    workspace()->setRequestToMovingClient(nullptr);
+}
+
+void InputRedirection::motion()
+{
+    Window *movingClient = workspace()->getRequestToMovingClient();
+    if (!movingClient) {
+        return;
+    }
+    movingClient->updateInteractiveMoveResize(QCursor::pos());
 }
 
 void InputRedirection::touchDown()

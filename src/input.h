@@ -313,6 +313,8 @@ Q_SIGNALS:
 public Q_SLOTS:
     void addInputDevice(InputDevice *device);
     void removeInputDevice(InputDevice *device);
+    void buttonRelease();
+    void motion();
     void touchDown();
     void touchMotion();
     void touchEnd();
