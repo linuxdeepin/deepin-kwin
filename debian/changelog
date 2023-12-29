@@ -1,3 +1,26 @@
+kwin (4:5.27.2.54-deepin54-1) unstable; urgency=medium
+
+  [ gengzhijie ]
+  * fix: VGA screen become black in XRender compositor
+  * fix: after showing desktop, type alt+tab and click      in empty area, windows don't restore
+  * fix: unable to use TabletTool device to move dtk client
+  * fix: add dbus interface to know if x11 client grabbed keyboard.
+  * fix: update shadow when radius change in wayland
+  * fix: wheel events in multitaskview
+  * fix: screenshot on wayland was not clear
+  * fix: closing browser stuck in multitaskview
+  * fix: repair the preview problem in dock
+  * fix: perfect the touch event in split preview
+  * fix: quit split from maxi in wayland
+  * fix: when the text management search input box is activated, the text prompt after hovering the mouse to the Sogou input method icon cancels the search input box state
+  * feat: journal and debug config adaptation
+  * fix: set fullpath for dmidecode.
+  * fix: remove some log about remoteaccess.
+  * fix: window to desktop will change active client.
+  * fix: remove some code about KWinKScreenIntegration and setting default display mode.
+
+ -- gengzhijie <gengzhijie@uniontech.com>  Fri, 29 Dec 2023 15:30:34 +0800
+
 kwin (4:5.27.2.53-deepin53-1) unstable; urgency=medium
 
   [ wangboyu ]
