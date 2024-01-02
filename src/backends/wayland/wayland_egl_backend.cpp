@@ -37,6 +37,8 @@
 #include <drm_fourcc.h>
 #include <gbm.h>
 
+#include "core/gbmloader.h"
+
 #include "wayland-linux-dmabuf-unstable-v1-client-protocol.h"
 
 namespace KWin
@@ -50,12 +52,15 @@ WaylandEglLayerBuffer::WaylandEglLayerBuffer(const QSize &size, uint32_t format,
     gbm_device *gbmDevice = backend->backend()->gbmDevice();
 
     if (!modifiers.isEmpty()) {
-        m_bo = gbm_bo_create_with_modifiers(gbmDevice,
+        if (GbmLoader::loader() && GbmLoader::loader()->createWithModifiers) {
+            qDebug() << "createWithModifiers " << gbmDevice << size << format << modifiers;
+            m_bo = GbmLoader::loader()->createWithModifiers(gbmDevice,
                                             size.width(),
                                             size.height(),
                                             format,
                                             modifiers.constData(),
                                             modifiers.size());
+        }
     }
 
     if (!m_bo) {

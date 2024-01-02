@@ -54,6 +54,7 @@ target_sources(kwin PRIVATE
     core/colorlut.cpp
     core/colorpipelinestage.cpp
     core/colortransformation.cpp
+    core/gbmloader.cpp
     core/inputbackend.cpp
     core/inputdevice.cpp
     core/output.cpp
@@ -260,6 +261,7 @@ target_link_libraries(kwin
     dl
     -lXext
     -lXtst
+    -ldl
 )
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(kwin Qt5::X11Extras Qt5XkbCommonSupport::Qt5XkbCommonSupport)

@@ -10,6 +10,7 @@
 #include "outputbackend.h"
 
 #include "dmabuftexture.h"
+#include "gbmloader.h"
 #include "inputbackend.h"
 #include "openglbackend.h"
 #include "output.h"
@@ -28,6 +29,7 @@ OutputBackend::OutputBackend(QObject *parent)
 
 OutputBackend::~OutputBackend()
 {
+    GbmLoader::release();
 }
 
 std::unique_ptr<InputBackend> OutputBackend::createInputBackend()

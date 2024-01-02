@@ -7,6 +7,7 @@
 #pragma once
 
 #include "config-kwin.h"
+#include "core/gbmloader.h"
 #include "dmabuftexture.h"
 #include <libdrm/drm_fourcc.h>
 
@@ -66,11 +67,14 @@ inline gbm_bo *createGbmBo(gbm_device *device, const QSize &size, quint32 format
                                            modifiers.constData(), modifiers.count(),
                                            GBM_BO_USE_RENDERING);
 #else
-        bo = gbm_bo_create_with_modifiers(device,
+        if (GbmLoader::loader() && GbmLoader::loader()->createWithModifiers) {
+            qDebug() << "createWithModifiers " << device << size << format << modifiers;
+            bo = GbmLoader::loader()->createWithModifiers(device,
                                           size.width(),
                                           size.height(),
                                           format,
                                           modifiers.constData(), modifiers.count());
+        }
 #endif
     }
 
