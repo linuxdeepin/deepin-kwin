@@ -621,7 +621,7 @@ public:
     void setOutput(Output *output);
 
     LEDs leds() const override;
-    void setLeds(LEDs leds) override;
+    void setLeds(LEDs leds, bool force = false) override;
 
     QRectF defaultOutputArea() const;
     bool supportsOutputArea() const;

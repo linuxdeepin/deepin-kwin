@@ -3214,7 +3214,7 @@ void InputRedirection::addInputDevice(InputDevice *device)
     connect(device, &InputDevice::tabletPadStripEvent,
             m_tablet, &TabletInputRedirection::tabletPadStripEvent);
 
-    device->setLeds(m_leds);
+    device->setLeds(m_leds, true);
 
     m_inputDevices.append(device);
     Q_EMIT deviceAdded(device);

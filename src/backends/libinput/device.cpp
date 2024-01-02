@@ -680,9 +680,9 @@ LEDs Device::leds() const
     return m_leds;
 }
 
-void Device::setLeds(LEDs leds)
+void Device::setLeds(LEDs leds, bool force)
 {
-    if (m_leds != leds) {
+    if (m_leds != leds || force) {
         m_leds = leds;
         libinput_device_led_update(m_device, toLibinputLEDS(m_leds));
     }

@@ -87,7 +87,7 @@ LEDs X11WindowedInputDevice::leds() const
     return LEDs();
 }
 
-void X11WindowedInputDevice::setLeds(LEDs leds)
+void X11WindowedInputDevice::setLeds(LEDs leds, bool force)
 {
 }
 

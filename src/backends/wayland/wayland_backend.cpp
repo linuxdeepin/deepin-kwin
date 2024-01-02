@@ -220,7 +220,7 @@ LEDs WaylandInputDevice::leds() const
     return LEDs();
 }
 
-void WaylandInputDevice::setLeds(LEDs leds)
+void WaylandInputDevice::setLeds(LEDs leds, bool force)
 {
 }
 

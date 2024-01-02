@@ -67,7 +67,7 @@ KWin::LEDs InputDevice::leds() const
     return {};
 }
 
-void InputDevice::setLeds(KWin::LEDs leds)
+void InputDevice::setLeds(KWin::LEDs leds, bool force)
 {
 }
 

@@ -49,7 +49,7 @@ public:
     void setEnabled(bool enabled) override;
 
     LEDs leds() const override;
-    void setLeds(LEDs leds) override;
+    void setLeds(LEDs leds, bool force = false) override;
 
     bool isKeyboard() const override;
     bool isAlphaNumericKeyboard() const override;

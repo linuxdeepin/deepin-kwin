@@ -155,7 +155,7 @@ LEDs FakeInputDevice::leds() const
     return LEDs();
 }
 
-void FakeInputDevice::setLeds(LEDs leds)
+void FakeInputDevice::setLeds(LEDs leds, bool force)
 {
 }
 
