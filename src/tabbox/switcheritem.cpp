@@ -14,6 +14,7 @@
 #include "tabbox.h"
 #include "workspace.h"
 #include "window.h"
+#include "core/renderbackend.h"
 // Qt
 #include <QAbstractItemModel>
 #include <QDBusMessage>
@@ -39,6 +40,8 @@ SwitcherItem::SwitcherItem(QObject *parent)
     });
     connect(workspace(), &Workspace::outputsChanged, this, &SwitcherItem::screenGeometryChanged);
     connect(Compositor::self(), &Compositor::compositingToggled, this, &SwitcherItem::compositingChanged);
+    connect(Compositor::self(), &Compositor::compositingToggled, this, &SwitcherItem::updateWindowColor);
+    updateWindowColor(true);
 }
 
 SwitcherItem::~SwitcherItem()
@@ -53,6 +56,17 @@ void SwitcherItem::setItem(QObject *item)
     }
     m_item = item;
     Q_EMIT itemChanged();
+}
+
+QString SwitcherItem::windowColor() const
+{
+    return m_windowColor;
+}
+
+void SwitcherItem::setWindowColor(QString windowColor)
+{
+    m_windowColor = windowColor;
+    Q_EMIT windowColorChanged(m_windowColor);
 }
 
 void SwitcherItem::setModel(QAbstractItemModel *model)
@@ -136,6 +150,17 @@ void SwitcherItem::setNoModifierGrab(bool set)
 bool SwitcherItem::compositing()
 {
     return Compositor::compositing();
+}
+
+void SwitcherItem::updateWindowColor(bool active)
+{
+    if (active) {
+        if (Compositor::self() && Compositor::self()->backend() && Compositor::self()->backend()->compositingType() == XRenderCompositing) {
+            setWindowColor(QString("#ffffffff"));
+        } else {
+            setWindowColor(QString("transparent"));
+        }
+    }
 }
 
 }

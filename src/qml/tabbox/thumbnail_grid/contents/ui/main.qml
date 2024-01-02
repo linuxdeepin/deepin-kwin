@@ -177,7 +177,7 @@ KWin.Switcher {
             Rectangle {
                 anchors.fill: parent
                 anchors.margins: 1
-                color: "transparent"
+                color: tabBox.windowColor
                 radius: 6
                 antialiasing: true
                 border.width: 1

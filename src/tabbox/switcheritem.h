@@ -33,6 +33,7 @@ class SwitcherItem : public QObject
      * The main QML item that will be displayed in the Dialog
      */
     Q_PROPERTY(QObject *item READ item WRITE setItem NOTIFY itemChanged)
+    Q_PROPERTY(QString windowColor READ windowColor WRITE setWindowColor NOTIFY windowColorChanged)
 
     Q_CLASSINFO("DefaultProperty", "item")
 public:
@@ -47,6 +48,8 @@ public:
     void setCurrentIndex(int index);
     QObject *item() const;
     void setItem(QObject *item);
+    QString windowColor() const;
+    void setWindowColor(QString windowColor);
     bool noModifierGrab() const
     {
         return m_noModifierGrab;
@@ -68,6 +71,10 @@ Q_SIGNALS:
     void itemChanged();
     void noModifierGrabChanged();
     void compositingChanged();
+    void windowColorChanged(QString windowColor);
+
+private Q_SLOTS:
+    void updateWindowColor(bool active);
 
 private:
     QAbstractItemModel *m_model;
@@ -77,6 +84,7 @@ private:
     int m_currentIndex;
     QMetaObject::Connection m_selectedIndexConnection;
     bool m_noModifierGrab = false;
+    QString m_windowColor;
 };
 
 inline QAbstractItemModel *SwitcherItem::model() const
