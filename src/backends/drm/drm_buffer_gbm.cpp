@@ -48,6 +48,9 @@ static std::array<uint32_t, 4> getStrides(gbm_bo *bo)
     int i = 0;
     for (; i < gbm_bo_get_plane_count(bo); i++) {
         ret[i] = gbm_bo_get_stride_for_plane(bo, i);
+        if (ret[i] == 0) {
+            ret[i] = gbm_bo_get_width(bo) * 4;
+        }
     }
     for (; i < 4; i++) {
         ret[i] = 0;

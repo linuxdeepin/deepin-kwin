@@ -30,6 +30,9 @@ inline DmaBufAttributes dmaBufAttributesForBo(gbm_bo *bo)
         attributes.fd[i] = FileDescriptor{gbm_bo_get_fd_for_plane(bo, i)};
         attributes.offset[i] = gbm_bo_get_offset(bo, i);
         attributes.pitch[i] = gbm_bo_get_stride_for_plane(bo, i);
+        if (attributes.pitch[i] == 0) {
+            attributes.pitch[i] = gbm_bo_get_width(bo) * 4;
+        }
     }
 #else
     if (attributes.planeCount > 1) {
@@ -39,6 +42,9 @@ inline DmaBufAttributes dmaBufAttributesForBo(gbm_bo *bo)
     attributes.fd[0] = FileDescriptor{gbm_bo_get_fd(bo)};
     attributes.offset[0] = gbm_bo_get_offset(bo, 0);
     attributes.pitch[0] = gbm_bo_get_stride_for_plane(bo, 0);
+    if (attributes.pitch[0] == 0) {
+        attributes.pitch[0] = gbm_bo_get_width(bo) * 4;
+    }
 #endif
 
     return attributes;
