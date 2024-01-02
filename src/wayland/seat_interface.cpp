@@ -919,8 +919,11 @@ void SeatInterface::notifyPointerAxisToClient(Qt::Orientation orientation, qint3
     if (sur != surface) {
         d->pointer->sendEnter(surface, pos, serial);
     }
-    d->pointer->sendAxis(orientation, delta, 1, PointerAxisSource::Wheel);
+    d->pointer->sendAxis(orientation, delta, 0, PointerAxisSource::Wheel);
+    d->pointer->sendFrame();
     usleep(10000);
+    if (sur != nullptr)
+        d->pointer->sendEnter(sur, pos, serial);
 }
 
 void SeatInterface::notifyPointerButton(Qt::MouseButton button, PointerButtonState state)
