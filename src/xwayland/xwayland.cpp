@@ -380,6 +380,7 @@ void Xwayland::updatePrimary()
         return;
     }
 
+#ifdef SUPPORT_OUTPUT_PRIMARY_ORDER
     Output *const primaryOutput = workspace()->outputOrder().front();
     for (int i = 0; i < resources->num_crtcs; ++i) {
         Xcb::RandR::CrtcInfo crtcInfo(crtcs[i], resources->config_timestamp);
@@ -393,6 +394,7 @@ void Xwayland::updatePrimary()
             }
         }
     }
+#endif
 }
 
 void Xwayland::handleSelectionLostOwnership()
