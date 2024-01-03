@@ -595,7 +595,9 @@ void BlurEffect::blur(EffectWindow *w, int mask, const QRegion &region, WindowPa
     // Fetch the pixels behind the shape that is going to be blurred.
     const QRegion dirtyRegion = region & backgroundRect;
     for (const QRect &dirtyRect : dirtyRegion) {
-        renderInfo.framebuffers[0]->blitFromFramebuffer(dirtyRect, dirtyRect.translated(-backgroundRect.topLeft()));
+        renderInfo.framebuffers[0]->blitFromFramebuffer(
+                effects->mapToRenderTarget(QRectF(dirtyRect)).toRect(),
+                dirtyRect.translated(-backgroundRect.topLeft()));
     }
 
     // Upload the geometry: the first 6 vertices are used when downsampling and upsampling offscreen,
