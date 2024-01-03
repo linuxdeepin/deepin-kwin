@@ -389,6 +389,7 @@ void EffectsHandlerImpl::setupUnmanagedConnections(Unmanaged *u)
 void EffectsHandlerImpl::reconfigure()
 {
     if (compositingType() & XRenderCompositing) {
+        m_effectLoader->loadEffect("highlightwindow");
         return;
     }
     m_effectLoader->queryAndLoadAll();
