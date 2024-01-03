@@ -1,3 +1,12 @@
+kwin (4:5.27.2.56-deepin56-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * feat: add effect type configuration
+  * fix: pop-up animation appears when the window is minimized and closed through the dock
+  * fix: window switcher background is transparent in xrender mode
+
+ -- huangzeming <huangzeming@uniontech.com>  Wed, 03 Jan 2024 17:44:39 +0800
+
 kwin (4:5.27.2.55-deepin55-1) unstable; urgency=medium
 
   [ wangboyu ]
