@@ -47,6 +47,18 @@ AbstractEglBackend::AbstractEglBackend(dev_t deviceId)
     : m_deviceId(deviceId)
 {
     connect(Compositor::self(), &Compositor::aboutToDestroy, this, &AbstractEglBackend::teardown);
+
+    {
+        QStringList strArg;
+        strArg << "-s" << "system-product-name";
+        QProcess proc;
+        proc.setProgram("/usr/sbin/dmidecode");
+        proc.setArguments(strArg);
+        proc.start(QIODevice::ReadWrite);
+        proc.waitForFinished(-1);
+        m_productName = proc.readAllStandardOutput().data();
+        qCDebug(KWIN_OPENGL) << __func__ << "system_product_name " << m_productName;
+    }
 }
 
 AbstractEglBackend::~AbstractEglBackend()
@@ -173,7 +185,7 @@ void AbstractEglBackend::initBufferAge()
 
     if (hasExtension(QByteArrayLiteral("EGL_KHR_partial_update"))) {
         const QByteArray usePartialUpdate = qgetenv("KWIN_USE_PARTIAL_UPDATE");
-        if (usePartialUpdate != "0") {
+        if (usePartialUpdate != "0" && !m_productName.contains("PGUX")) {
             setSupportsPartialUpdate(true);
         }
     }
