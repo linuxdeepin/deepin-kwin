@@ -29,6 +29,8 @@
 #include "window.h"
 #include "workspace.h"
 #include "wayland_server.h"
+#include "wayland/keyboard_interface.h"
+#include "wayland/seat_interface.h"
 #if KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
@@ -160,6 +162,17 @@ bool DBusInterface::isEnableTouchLongPress()
     return input()->touch()->isEnableLongPress();
 }
 
+void DBusInterface::setRepeatRateAndDelay(int rate, int delay)
+{
+    if (rate < 0 || delay < 0) {
+        QString message = QStringLiteral("rate:%1 or delay:%2 is invalid value!").arg(rate).arg(delay);
+        qWarning() << message;
+        return;
+    }
+    if (waylandServer() && waylandServer()->seat()) {
+        waylandServer()->seat()->keyboard()->setRepeatInfo(rate, delay);
+    }
+}
 
 void DBusInterface::replace()
 {
