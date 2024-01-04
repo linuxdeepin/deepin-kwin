@@ -207,6 +207,7 @@ target_sources(kwin PRIVATE
     splitscreen/splitscreen.qrc
     resources.qrc
     configreader.cpp
+    dockrect.cpp
 )
 
 target_link_libraries(kwin

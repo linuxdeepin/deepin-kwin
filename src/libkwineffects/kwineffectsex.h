@@ -85,6 +85,8 @@ Q_SIGNALS:
     void swapSplitWin(KWin::EffectWindow *w, int index);
 
     void showMultitasking();
+    void windowMinimizedAnimation(KWin::EffectWindow *w, QPointF initialPos);
+    void unmanagedAddedAnimation(KWin::EffectWindow *w, QPoint point);
 
 };
 

@@ -557,7 +557,7 @@ void AnimationEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Win
 
             switch (anim->attribute) {
             case Opacity:
-                data.multiplyOpacity(qMax(w->isMinimized() ? 0.0f : 0.15f, interpolated(*anim)));
+                data.multiplyOpacity(interpolated(*anim));
                 break;
             case Brightness:
                 data.multiplyBrightness(interpolated(*anim));

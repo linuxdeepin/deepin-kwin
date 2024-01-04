@@ -321,7 +321,11 @@ void Workspace::init()
 
     m_fontSizeConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
                                       DBUS_APPEARANCE_INTF, "FontSize");
-
+    m_dockInter = new DBusDock();
+    if (m_dockInter) {
+        slotDockPositionChanged();
+        connect(m_dockInter, &DBusDock::FrontendRectChanged, this, &Workspace::slotDockPositionChanged);
+    }
     setProcessSessionPath();
 }
 
@@ -3482,4 +3486,30 @@ bool Workspace::previewingClient(const Window *c) const
     return previewClients.contains(const_cast<Window*>(c));
 }
 
+void Workspace::setDockLastPosition(QRectF rect)
+{
+    m_lastDockPos = rect;
+}
+
+QRectF Workspace::getDockLastPosition()
+{
+    return m_lastDockPos;
+}
+
+void Workspace::slotDockPositionChanged()
+{
+    if (m_dockInter) {
+        QRect rect = m_dockInter->frontendRect();
+        if (rect != QRect()) {
+            setDockLastPosition(rect);
+        }
+    }
+}
+
+int Workspace::getDockDirection()
+{
+    if (m_dockInter)
+        return m_dockInter->position();
+    return 2;
+}
 } // namespace

@@ -9,11 +9,15 @@
 "use strict";
 
 var squashEffect = {
-    duration: animationTime(250),
     loadConfig: function () {
-        squashEffect.duration = animationTime(250);
+        squashEffect.miniSize = effect.readConfig("miniSize", 10);
+        squashEffect.miniDuration = effect.readConfig("miniDuration", 360) / 2;
+        squashEffect.miniCurve = effect.readConfig("miniCurve", 10);
+        squashEffect.unminiSize = effect.readConfig("unminiSize", 10);
+        squashEffect.unminiDuration = effect.readConfig("unminiDuration", 360) / 2;
+        squashEffect.unminiCurve = effect.readConfig("unminiCurve", 10);
     },
-    slotWindowMinimized: function (window) {
+    slotWindowMinimized: function (window, pos) {
         if (effects.hasActiveFullScreenEffect) {
             return;
         }
@@ -21,9 +25,7 @@ var squashEffect = {
         // If the window doesn't have an icon in the task manager,
         // don't animate it.
         var iconRect = window.iconGeometry;
-        if (iconRect.width == 0 || iconRect.height == 0) {
-            return;
-        }
+        var windowRect = window.geometry;
 
         if (window.unminimizeAnimation) {
             if (redirect(window.unminimizeAnimation, Effect.Backward)) {
@@ -39,13 +41,12 @@ var squashEffect = {
             }
             cancel(window.minimizeAnimation);
         }
-
-        var windowRect = window.geometry;
-
+        pos.x += windowRect.width * squashEffect.miniSize / 100 / 2;
+        pos.y += windowRect.height * squashEffect.miniSize / 100 / 2;
         window.minimizeAnimation = animate({
             window: window,
-            curve: QEasingCurve.InCubic,
-            duration: squashEffect.duration,
+            curve: squashEffect.miniCurve,
+            duration: animationTime(squashEffect.miniDuration),
             animations: [
                 {
                     type: Effect.Size,
@@ -54,21 +55,15 @@ var squashEffect = {
                         value2: windowRect.height
                     },
                     to: {
-                        value1: iconRect.width,
-                        value2: iconRect.height
+                        value1: windowRect.width * squashEffect.miniSize / 100,
+                        value2: windowRect.height * squashEffect.miniSize / 100
                     }
                 },
                 {
-                    type: Effect.Translation,
-                    from: {
-                        value1: 0.0,
-                        value2: 0.0
-                    },
+                    type: Effect.Position,
                     to: {
-                        value1: iconRect.x - windowRect.x -
-                            (windowRect.width - iconRect.width) / 2,
-                        value2: iconRect.y - windowRect.y -
-                            (windowRect.height - iconRect.height) / 2,
+                        value1: pos.x,
+                        value2: pos.y
                     }
                 },
                 {
@@ -79,7 +74,7 @@ var squashEffect = {
             ]
         });
     },
-    slotWindowUnminimized: function (window) {
+    slotWindowUnminimized: function (window, pos) {
         if (effects.hasActiveFullScreenEffect) {
             return;
         }
@@ -90,7 +85,6 @@ var squashEffect = {
         if (iconRect.width == 0 || iconRect.height == 0) {
             return;
         }
-
         if (window.minimizeAnimation) {
             if (redirect(window.minimizeAnimation, Effect.Backward)) {
                 return;
@@ -107,17 +101,19 @@ var squashEffect = {
         }
 
         var windowRect = window.geometry;
-
+        var m_pos = {x: iconRect.x, y: iconRect.y};
+        m_pos.x = m_pos.x + iconRect.width / 2 + window.width * squashEffect.unminiSize / 100 / 2;
+        m_pos.y = m_pos.y + iconRect.height / 2 + window.height * squashEffect.unminiSize / 100 / 2;
         window.unminimizeAnimation = animate({
             window: window,
-            curve: QEasingCurve.OutCubic,
-            duration: squashEffect.duration,
+            curve: squashEffect.unminiCurve,
+            duration: animationTime(squashEffect.unminiDuration),
             animations: [
                 {
                     type: Effect.Size,
                     from: {
-                        value1: iconRect.width,
-                        value2: iconRect.height
+                        value1: windowRect.width * squashEffect.unminiSize / 100,
+                        value2: windowRect.height * squashEffect.unminiSize / 100
                     },
                     to: {
                         value1: windowRect.width,
@@ -125,16 +121,10 @@ var squashEffect = {
                     }
                 },
                 {
-                    type: Effect.Translation,
+                    type: Effect.Position,
                     from: {
-                        value1: iconRect.x - windowRect.x -
-                            (windowRect.width - iconRect.width) / 2,
-                        value2: iconRect.y - windowRect.y -
-                            (windowRect.height - iconRect.height) / 2,
-                    },
-                    to: {
-                        value1: 0.0,
-                        value2: 0.0
+                        value1: m_pos.x,
+                        value2: m_pos.y
                     }
                 },
                 {
@@ -146,8 +136,9 @@ var squashEffect = {
         });
     },
     init: function () {
+        squashEffect.loadConfig();
         effect.configChanged.connect(squashEffect.loadConfig);
-        effects.windowMinimized.connect(squashEffect.slotWindowMinimized);
+        effects.windowMinimizedAnimation.connect(squashEffect.slotWindowMinimized);
         effects.windowUnminimized.connect(squashEffect.slotWindowUnminimized);
     }
 };

@@ -720,6 +720,11 @@ QJSValue ScriptedEffect::readConfig(const QString &key, const QJSValue &defaultV
     return m_engine->toScriptValue(m_config->property(key));
 }
 
+int ScriptedEffect::onDockChanged()
+{
+    return Workspace::self()->getDockDirection();
+}
+
 int ScriptedEffect::displayWidth() const
 {
     return workspace()->geometry().width();

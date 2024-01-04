@@ -17,6 +17,7 @@
 #include "options.h"
 #include "sm.h"
 #include "utils/common.h"
+#include "dockrect.h"
 // Qt
 #include <QStringList>
 #include <QTimer>
@@ -581,6 +582,11 @@ public:
         return m_printKwinFps;
     }
 
+    void setDockLastPosition(QRectF rect);
+    QRectF getDockLastPosition();
+    int getDockHiddenState();
+    int getDockDirection();
+
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
     // Keybindings
@@ -665,6 +671,7 @@ public Q_SLOTS:
 
     void tileActiveWindow(uint);
     void toggleActiveMaximize();
+    void slotDockPositionChanged();
 
 private Q_SLOTS:
     void desktopResized();
@@ -927,6 +934,8 @@ private:
 
     bool m_printKwinFps = false;
 
+    QRectF m_lastDockPos = QRectF();
+    DBusDock *m_dockInter = nullptr;
 private:
     friend bool performTransiencyCheck();
     friend Workspace *workspace();

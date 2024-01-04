@@ -167,6 +167,7 @@ public:
 
     Q_SCRIPTABLE void setUniform(uint shaderId, const QString &name, const QJSValue &value);
 
+    Q_SCRIPTABLE int onDockChanged();
     QHash<int, QJSValueList> &screenEdgeCallbacks()
     {
         return m_screenEdgeCallbacks;

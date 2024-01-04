@@ -18,26 +18,20 @@ const blacklist = [
     "ksplashqml ksplashqml"
 ];
 
-class ScaleEffect {
-    constructor() {
-        effect.configChanged.connect(this.loadConfig.bind(this));
-        effect.animationEnded.connect(this.cleanupForcedRoles.bind(this));
-        effects.windowAdded.connect(this.slotWindowAdded.bind(this));
-        effects.windowClosed.connect(this.slotWindowClosed.bind(this));
-        effects.windowDataChanged.connect(this.slotWindowDataChanged.bind(this));
-
-        this.loadConfig();
-    }
-
-    loadConfig() {
-        const defaultDuration = 200;
-        const duration = effect.readConfig("Duration", defaultDuration) || defaultDuration;
-        this.duration = animationTime(duration);
-        this.inScale = effect.readConfig("InScale", 0.8);
-        this.outScale = effect.readConfig("OutScale", 0.8);
-    }
-
-    static isScaleWindow(window) {
+var scaleEffect = {
+    loadConfig: function (window) {
+        scaleEffect.addSize = effect.readConfig("addSize", 30);
+        scaleEffect.addLauncherSize = effect.readConfig("addLauncherSize", 120);
+        scaleEffect.addDuration = effect.readConfig("addDuration", 360) / 2;
+        scaleEffect.addLauncherDuration = effect.readConfig("addLauncherDuration", 360) / 2;
+        scaleEffect.addCurve = effect.readConfig("addCurve", 10);
+        scaleEffect.closedSize = effect.readConfig("closedSize", 30);
+        scaleEffect.closedLauncherSize = effect.readConfig("closedLauncherSize", 120);
+        scaleEffect.closedDuration = effect.readConfig("closedDuration", 360) / 2;
+        scaleEffect.closedLauncherDuration = effect.readConfig("closedLauncherDuration", 800) / 2;
+        scaleEffect.closedCurve = effect.readConfig("closedCurve", 10);
+    },
+    isScaleWindow: function (window) {
         // We don't want to animate most of plasmashell's windows, yet, some
         // of them we want to, for example, Task Manager Settings window.
         // The problem is that all those window share single window class.
@@ -73,100 +67,137 @@ class ScaleEffect {
             return false;
         }
 
-        return window.normalWindow || window.dialog;
-    }
+        if (window.windowClass == "dde-launcher dde-launcher")
+            return true;
 
-    setupForcedRoles(window) {
+        return window.normalWindow || window.dialog;
+    },
+    setupForcedRoles: function (window) {
         window.setData(Effect.WindowForceBackgroundContrastRole, true);
         window.setData(Effect.WindowForceBlurRole, true);
-    }
-
-    cleanupForcedRoles(window) {
+    },
+    cleanupForcedRoles: function (window) {
         window.setData(Effect.WindowForceBackgroundContrastRole, null);
         window.setData(Effect.WindowForceBlurRole, null);
-    }
-
-    slotWindowAdded(window) {
+    },
+    slotWindowAdded: function (window) {
         if (effects.hasActiveFullScreenEffect) {
             return;
         }
-        if (!ScaleEffect.isScaleWindow(window)) {
+        if (!scaleEffect.isScaleWindow(window)) {
             return;
         }
         if (!window.visible) {
             return;
         }
-        if (effect.isGrabbed(window, Effect.WindowAddedGrabRole)) {
+        if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
             return;
         }
-        this.setupForcedRoles(window);
+        scaleEffect.setupForcedRoles(window);
+        var windowRect = window.geometry;
+        var scaleSize = scaleEffect.addSize;
+        var scaleDuration = scaleEffect.addDuration;
+        if (window.windowClass == "dde-launcher dde-launcher") {
+            scaleSize = scaleEffect.addLauncherSize;
+            scaleDuration = scaleEffect.addLauncherDuration;
+        }
         window.scaleInAnimation = animate({
             window: window,
-            curve: QEasingCurve.OutCubic,
-            duration: this.duration,
+            curve: scaleEffect.addCurve,
+            duration: animationTime(scaleDuration),
             animations: [
                 {
-                    type: Effect.Scale,
-                    from: this.inScale
+                    type: Effect.Size,
+                    from: {
+                        value1: windowRect.width * scaleSize / 100,
+                        value2: windowRect.height * scaleSize / 100
+                    },
+                    to: {
+                        value1: windowRect.width,
+                        value2: windowRect.height
+                    }
                 },
                 {
                     type: Effect.Opacity,
-                    from: 0
-                }
+                    from: 0.0,
+                    to: 1.0
+                },
             ]
         });
-    }
-
-    slotWindowClosed(window) {
+    },
+    slotWindowClosed: function (window) {
         if (effects.hasActiveFullScreenEffect) {
             return;
         }
-        if (!ScaleEffect.isScaleWindow(window)) {
+        if (!scaleEffect.isScaleWindow(window)) {
             return;
         }
-        if (!window.visible || window.skipsCloseAnimation) {
+        if (!window.visible) {
             return;
         }
-        if (effect.isGrabbed(window, Effect.WindowClosedGrabRole)) {
+        if (!effect.grab(window, Effect.WindowClosedGrabRole)) {
             return;
         }
         if (window.scaleInAnimation) {
             cancel(window.scaleInAnimation);
             delete window.scaleInAnimation;
         }
-        this.setupForcedRoles(window);
+        scaleEffect.setupForcedRoles(window);
+        var windowRect = window.geometry;
+        var scaleSize = scaleEffect.closedSize
+        var scaleDuration = scaleEffect.closedDuration;
+        if (window.windowClass == "dde-launcher dde-launcher") {
+            scaleSize = scaleEffect.closedLauncherSize;
+            scaleDuration = scaleEffect.closedLauncherDuration;
+        }
         window.scaleOutAnimation = animate({
             window: window,
-            curve: QEasingCurve.InCubic,
-            duration: this.duration,
+            curve: scaleEffect.closedCurve,
+            duration: animationTime(scaleDuration),
             animations: [
                 {
-                    type: Effect.Scale,
-                    to: this.outScale
+                    type: Effect.Size,
+                    to: {
+                        value1: windowRect.width * scaleSize / 100,
+                        value2: windowRect.height * scaleSize / 100
+                    },
+                    from: {
+                        value1: windowRect.width,
+                        value2: windowRect.height
+                    }
                 },
                 {
                     type: Effect.Opacity,
-                    to: 0
-                }
+                    to: 0.0,
+                    from: 1.0
+                },
             ]
         });
-    }
-
-    slotWindowDataChanged(window, role) {
+    },
+    slotWindowDataChanged: function (window, role) {
         if (role == Effect.WindowAddedGrabRole) {
             if (window.scaleInAnimation && effect.isGrabbed(window, role)) {
                 cancel(window.scaleInAnimation);
                 delete window.scaleInAnimation;
-                this.cleanupForcedRoles(window);
+                scaleEffect.cleanupForcedRoles(window);
             }
         } else if (role == Effect.WindowClosedGrabRole) {
             if (window.scaleOutAnimation && effect.isGrabbed(window, role)) {
                 cancel(window.scaleOutAnimation);
                 delete window.scaleOutAnimation;
-                this.cleanupForcedRoles(window);
+                scaleEffect.cleanupForcedRoles(window);
             }
         }
-    }
-}
+    },
+    init: function () {
+        scaleEffect.loadConfig();
 
-new ScaleEffect();
+        effect.configChanged.connect(scaleEffect.loadConfig);
+        effect.animationEnded.connect(scaleEffect.cleanupForcedRoles);
+        effects.windowAdded.connect(scaleEffect.slotWindowAdded);
+        effects.windowClosed.connect(scaleEffect.slotWindowClosed);
+        effects.windowDataChanged.connect(scaleEffect.slotWindowDataChanged);
+    }
+};
+
+scaleEffect.init();

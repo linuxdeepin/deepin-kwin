@@ -325,6 +325,7 @@ void EffectsHandlerImpl::setupWindowConnections(Window *window)
         // TODO: notify effects even if it should not animate?
         if (animate) {
             Q_EMIT windowMinimized(window->effectWindow());
+            toggleMinimizedAnimation(window);
         }
     });
     connect(window, &Window::clientUnminimized, this, [this](Window *window, bool animate) {
@@ -535,6 +536,17 @@ void EffectsHandlerImpl::slotOpacityChanged(Window *window, qreal oldOpacity)
     Q_EMIT windowOpacityChanged(window->effectWindow(), oldOpacity, (qreal)window->opacity());
 }
 
+
+void EffectsHandlerImpl::toggleMinimizedAnimation(Window *window)
+{
+    QRectF dockLastPosition = Workspace::self()->getDockLastPosition();
+    if (window->iconGeometry() != QRectF() && dockLastPosition.contains(window->iconGeometry())) {
+        Q_EMIT windowMinimizedAnimation(window->effectWindow(), window->iconGeometry().center());
+    } else {
+        Q_EMIT windowMinimizedAnimation(window->effectWindow(), dockLastPosition.center());
+    }
+}
+
 void EffectsHandlerImpl::slotWindowShown(Window *window)
 {
     Q_ASSERT(window->isClient());
@@ -549,6 +561,7 @@ void EffectsHandlerImpl::slotUnmanagedShown(Window *window)
     Unmanaged *u = static_cast<Unmanaged *>(window);
     setupUnmanagedConnections(u);
     Q_EMIT windowAdded(u->effectWindow());
+    Q_EMIT unmanagedAddedAnimation(window->effectWindow(), cursorPos());
 }
 
 void EffectsHandlerImpl::slotWindowClosed(Window *original, Deleted *d)
