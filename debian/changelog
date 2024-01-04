@@ -1,3 +1,13 @@
+kwin (4:5.27.2.57-deepin57-1) unstable; urgency=medium
+
+  [ Chaojiang Luo ]
+  * feat: disable partial update for pgux
+  * feat: fix gbm_bo_get_stride_for_plane get stride failed
+  * feat: add dynamic load for gbm modify
+  * fix: the window is minimized after ending the preview in the dock
+
+ -- jccKevin <luochaojiang@uniontech.com>  Thu, 04 Jan 2024 16:09:43 +0800
+
 kwin (4:5.27.2.56-deepin56-1) unstable; urgency=medium
 
   [ huangzeming ]
