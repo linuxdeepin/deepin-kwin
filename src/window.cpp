@@ -1745,6 +1745,8 @@ void Window::finishInteractiveMoveResize(bool cancel)
         Q_EMIT swapSplitWindow(this, 2);
     }
     m_initPosForSplit = QPointF();
+
+    Q_EMIT inputTransformationChanged();
 }
 
 // This function checks if it actually makes sense to perform a restricted move/resize.
