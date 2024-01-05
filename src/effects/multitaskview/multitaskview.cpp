@@ -1701,15 +1701,10 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
     if (!isReceiveEvent()) {
         return;
     }
-    auto mouseEvent = static_cast<QMouseEvent*>(e);
-    QPoint diff = mouseEvent->pos() - m_lastWorkspaceMovePos;
 
     switch (e->type()) {
     case QEvent::MouseMove:
         if (m_touch.active && !m_touch.isMotion) {
-            return;
-        }
-        if (diff.x() == 0 && diff.y() == 0) {
             return;
         }
         break;
@@ -1737,6 +1732,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         return;
     }
 
+    auto mouseEvent = static_cast<QMouseEvent*>(e);
     EffectWindow* target = nullptr;
     bool isAddWorkspace = false;
     bool isHoverWorkspace = false;
@@ -1772,6 +1768,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         return false;
     };
 
+    QPoint diff = mouseEvent->pos() - m_lastWorkspaceMovePos;
     switch (mouseEvent->type()) {
     case QEvent::MouseMove:
     {
@@ -1810,7 +1807,12 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             }
             m_wasWindowMove = true;
         }
-        m_isShowPreview = isAddWorkspace;
+
+        if (abs(diff.x()) > MOUSE_MOVE_MIN_DISTANCE || abs(diff.y()) > MOUSE_MOVE_MIN_DISTANCE) {
+            m_isShowPreview = isAddWorkspace;
+        } else {
+            m_isShowPreview = false;
+        }
 
         return;
     }
