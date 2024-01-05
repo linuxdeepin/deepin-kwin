@@ -1,3 +1,21 @@
+kwin (4:5.27.2.58-deepin58-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * feat: dynamic response to DConfig effect type
+  * fix: add dbus interface to set repeat and delay of keyboard.
+  * fix: kwin has invalid shortcuts
+  * fix: after turning off the window special effects switch and then turning it on again, the taskbar transparency adjustment value becomes 1
+  * fix: Fix the issue of failed simulation of mouse scrolling events
+  * fix: capslock led donnot reset when reboot
+  * fix: the Always Visible Workspace button in the right-click menu cannot be clicked when the window is split
+  * feat: animation effect
+  * fix: buttons in multitaskview didn't show using touchscreen
+  * fix: blur effect was broken on VGA screen
+  * fix: split preview can show right angle
+  * fix: in XRender, alt+tab can't preview minimized window
+
+ -- huangzeming <huangzeming@uniontech.com>  Fri, 05 Jan 2024 18:59:19 +0800
+
 kwin (4:5.27.2.57-deepin57-1) unstable; urgency=medium
 
   [ Chaojiang Luo ]
