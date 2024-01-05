@@ -88,7 +88,7 @@ static QList<MenuItem> getMenuItemInfos(Window *cl)
         {"always-on-top", i18n("Always on Top"),
          true, true, cl->keepAbove()},
         {"all-workspace", i18n("Always on Visible Workspace"),
-         !cl->isSplitWindow(), true, cl->isOnAllDesktops()},
+         true, true, cl->isOnAllDesktops()},
         {"move-left", i18n("Move to Workspace Left"),
          cl->desktop() > 1, false, false},
         {"move-right", i18n("Move to Workspace Right"),
