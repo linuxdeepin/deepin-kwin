@@ -21,7 +21,6 @@ kcmutils_generate_module_data(
 kconfig_add_kcfg_files(kcmkwindecoration_SRCS kwindecorationsettings.kcfgc GENERATE_MOC)
 
 kcoreaddons_add_plugin(kcm_kwindecoration SOURCES ${kcmkwindecoration_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings")
-kcmutils_generate_desktop_file(kcm_kwindecoration)
 
 target_link_libraries(kcm_kwindecoration
     KDecoration2::KDecoration

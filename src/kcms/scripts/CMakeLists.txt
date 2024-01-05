@@ -3,7 +3,6 @@ add_definitions(-DTRANSLATION_DOMAIN=\"kcm_kwin_scripts\")
 
 kcoreaddons_add_plugin(kcm_kwin_scripts INSTALL_NAMESPACE plasma/kcms/systemsettings)
 
-kcmutils_generate_desktop_file(kcm_kwin_scripts)
 target_sources(kcm_kwin_scripts PRIVATE
     module.cpp
     kwinscriptsdata.cpp

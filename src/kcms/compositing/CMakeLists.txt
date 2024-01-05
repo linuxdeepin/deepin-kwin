@@ -24,7 +24,6 @@ endif()
 ki18n_wrap_ui(kwincompositing_SRC compositing.ui)
 
 kcoreaddons_add_plugin(kwincompositing SOURCES ${kwincompositing_SRC} INSTALL_NAMESPACE "plasma/kcms/systemsettings_qwidgets")
-kcmutils_generate_desktop_file(kwincompositing)
 
 target_link_libraries(kwincompositing
     Qt${QT_MAJOR_VERSION}::DBus

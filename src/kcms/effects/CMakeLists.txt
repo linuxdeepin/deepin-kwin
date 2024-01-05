@@ -10,7 +10,6 @@ set(kcm_kwin_effects_PART_SRCS
 )
 
 kcoreaddons_add_plugin(kcm_kwin_effects SOURCES ${kcm_kwin_effects_PART_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings")
-kcmutils_generate_desktop_file(kcm_kwin_effects)
 
 target_link_libraries(kcm_kwin_effects
     Qt${QT_MAJOR_VERSION}::DBus
