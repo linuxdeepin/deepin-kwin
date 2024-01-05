@@ -91,16 +91,26 @@ Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 namespace KWin
 {
 
-static EffectType getDConfigUserEffectType()
+static QString DConfigCompositingReplyPath()
 {
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
     QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.compositing", "");
     if (!reply.isValid()) {
         qCWarning(KWIN_CORE) << "Error in DConfig reply:" << reply.error();
+        return "";
+    }
+    return reply.value().path();
+}
+
+static EffectType getDConfigUserEffectType()
+{
+    QString path = DConfigCompositingReplyPath();
+    if (path.isEmpty()) {
+        qWarning(KWIN_CORE) << "Fail to get DConfig user type";
         return EffectType::AutoSelect;
     }
 
-    QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, reply.value().path(), CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+    QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
     QDBusReply<QVariant> replyValue = interfaceValue.call("value", "user_type");
     int type = replyValue.value().toInt();
     if (type < EffectType::AutoSelect || type > EffectType::NoneCompositor) {
@@ -112,14 +122,13 @@ static EffectType getDConfigUserEffectType()
 
 static void setDConfigCurrentEffectType(EffectType type)
 {
-    QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
-    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.compositing", "");
-    if (!reply.isValid()) {
-        qCWarning(KWIN_CORE) << "Error in DConfig reply:" << reply.error();
+    QString path = DConfigCompositingReplyPath();
+    if (path.isEmpty()) {
+        qWarning(KWIN_CORE) << "Fail to set DConfig current type";
         return;
     }
 
-    QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, reply.value().path(), CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+    QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
     interfaceValue.asyncCall("setValue", "current_type", QVariant::fromValue(QDBusVariant(static_cast<int>(type))));
 }
 
@@ -239,6 +248,16 @@ Compositor::Compositor(QObject *workspace)
 
     connect(kwinApp(), &Application::x11ConnectionChanged, this, &Compositor::initializeX11);
     connect(kwinApp(), &Application::x11ConnectionAboutToBeDestroyed, this, &Compositor::cleanupX11);
+
+    if (!waylandServer()) {
+        QString path = DConfigCompositingReplyPath();
+        if (!path.isEmpty()) {
+            QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE,
+                    "valueChanged", this, SLOT(handleDConfigUserTypeChanged(QString)));
+        } else {
+            qCWarning(KWIN_CORE) << "Fail to connect to DConfig valueChanged";
+        }
+    }
 
     // register DBus
     new CompositorDBusInterface(this);
@@ -768,6 +787,13 @@ void Compositor::reinitialize()
 void Compositor::handleFrameRequested(RenderLoop *renderLoop)
 {
     composite(renderLoop);
+}
+
+void Compositor::handleDConfigUserTypeChanged(const QString &type)
+{
+    if (type == "user_type") {
+        reinitialize();
+    }
 }
 
 void Compositor::composite(RenderLoop *renderLoop)

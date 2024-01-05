@@ -176,6 +176,7 @@ protected Q_SLOTS:
     virtual void composite(RenderLoop *renderLoop);
 
 private Q_SLOTS:
+    void handleDConfigUserTypeChanged(const QString &type);
     void handleFrameRequested(RenderLoop *renderLoop);
 
 private:

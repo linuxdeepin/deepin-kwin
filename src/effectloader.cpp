@@ -32,11 +32,12 @@ namespace KWin
 
 const QMap<EffectType, QSet<QString>> exceptEffectList = {
     {EffectType::OpenGLNoMotion, {
-        "kwin4_effect_maximize", "kwin4_effect_scale", "kwin4_effect_squash", "kwin4_effect_fadingpopups"
+        "kwin4_effect_maximize", "kwin4_effect_scale", "kwin4_effect_squash", "kwin4_effect_fadingpopups",
+        "magiclamp", "slide"
     }},
     {EffectType::OpenGLNoScissor, {
         "kwin4_effect_maximize", "kwin4_effect_scale", "kwin4_effect_squash", "kwin4_effect_fadingpopups",
-        "scissor"
+        "magiclamp", "slide", "scissor"
     }}
 };
 
