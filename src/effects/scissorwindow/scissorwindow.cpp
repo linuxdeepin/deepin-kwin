@@ -177,19 +177,6 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             const qreal yMin{ std::min(cornerRadius.y(), w->height() / 2.0) };
             const qreal minRadius{ std::min(xMin, yMin) };
             cornerRadius = QPointF(minRadius, minRadius);
-        } else {
-            if (!(w->isDesktop() || w->isDock())) {
-                EffectsHandlerImpl *effs = static_cast<EffectsHandlerImpl *>(effects);
-                auto e = effs->findEffect("splitscreen");
-                if (e && e->isActive()) {
-                    auto geom = effects->findScreen(w->screen()->name())->geometry();
-                    if ((w->x() + data.xTranslation() == geom.x()) || (w->x() + data.xTranslation() + w->width() * data.xScale() == geom.x() + geom.width())) {
-                        //do nothing
-                    }  else {
-                        cornerRadius = {8, 8};
-                    }
-                }
-            }
         }
         if (cornerRadius.isNull()) {
             effects->drawWindow(w, mask, region, data);
