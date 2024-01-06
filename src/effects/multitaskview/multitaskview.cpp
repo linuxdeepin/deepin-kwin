@@ -3001,7 +3001,7 @@ void MultitaskViewEffect::createBackgroundFill(EffectWindow *w, QRect rect, floa
 void MultitaskViewEffect::removeBackgroundFill(EffectWindow *w, int desktop)
 {
     MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
-    if (!wmobj || wmobj->isHaveWinFill(w))
+    if (!wmobj || !wmobj->isHaveWinFill(w))
         return;
 
     wmobj->removeWinFill(w);
