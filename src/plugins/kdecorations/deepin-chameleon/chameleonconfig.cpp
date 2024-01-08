@@ -617,11 +617,8 @@ void ChameleonConfig::updateClientWindowRadius(QObject *client)
     bool need_update = true;
 
     if (effect_window_radius.isValid()) {
-        auto old_window_radius = effect_window_radius.toPointF();
-
-        if (old_window_radius == window_radius) {
-            need_update = false;
-        }
+        auto role_window_radius = effect_window_radius.toPointF();
+        window_radius = role_window_radius;
     }
 
     if (need_update) {
