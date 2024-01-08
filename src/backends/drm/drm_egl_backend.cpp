@@ -36,6 +36,7 @@
 #include "wayland/linuxdmabufv1clientbuffer.h"
 #include "wayland/remote_access_interface.h"
 #include "wayland/surface_interface.h"
+#include "workspace.h"
 // kwin libs
 #include <kwineglimagetexture.h>
 #include <kwinglplatform.h>
@@ -241,6 +242,11 @@ OutputLayer *EglGbmBackend::primaryLayer(Output *output)
 
 std::shared_ptr<GLTexture> EglGbmBackend::textureForOutput(Output *output) const
 {
+    if (workspace() && workspace()->hasProtectedWindow()) {
+        GLTexture texture(workspace()->getProhibitShotImage(QSize(workspace()->geometry().width(), workspace()->geometry().height())).mirrored(false, true));
+        std::shared_ptr<GLTexture> sharedTexture = std::make_shared<GLTexture>(texture);
+        return sharedTexture;
+    }
     const auto drmOutput = static_cast<DrmAbstractOutput *>(output);
     return static_cast<EglGbmLayer *>(drmOutput->primaryLayer())->texture();
 }
