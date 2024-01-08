@@ -91,13 +91,13 @@
     },
     "border": {
       "width": 1,
-      "color": "#20000000"
+      "color": "#10000000"
     },
     "rounded-corner-radius": "0,0",
     "blur": 10,
     "opcaity": 1,
     "shadow": {
-      "shadowRadius": 40,
+      "shadowRadius": 80,
       "shadowOffset": "0,30",
       "shadowColor": {
         "active": "#80000000",
@@ -191,7 +191,7 @@
     },
     "border": {
       "width": 1,
-      "color": "#0F000000"
+      "color": "#05000000"
     },
     "rounded-corner-radius": "0,0",
     "blur": 10,
@@ -206,7 +206,7 @@
     "desc": "dock栏",
     "border": {
       "width": 1,
-      "color": "#20FFFFFF"
+      "color": "#05000000"
     },
     "rounded-corner-radius": "0,0",
     "blur": 10,
@@ -221,7 +221,7 @@
     "desc": "右键菜单",
     "border": {
       "width": 1,
-      "color": "#20FFFFFF"
+      "color": "#05000000"
     },
     "rounded-corner-radius": "18,18",
     "blur": 30,
@@ -236,7 +236,7 @@
     "desc": "下拉菜单",
     "border": {
       "width": 1,
-      "color": "#20FFFFFF"
+      "color": "#05000000"
     },
     "rounded-corner-radius": "0,0",
     "blur": 30,
@@ -251,7 +251,7 @@
     "desc": "工具框",
     "border": {
       "width": 1,
-      "color": "#20000000"
+      "color": "#05000000"
     },
     "rounded-corner-radius": "8,8",
     "blur": 30,
