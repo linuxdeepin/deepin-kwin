@@ -799,10 +799,7 @@ void Compositor::handleDConfigUserTypeChanged(const QString &type)
 void Compositor::composite(RenderLoop *renderLoop)
 {
     if (m_backend->checkGraphicsReset()) {
-        qCDebug(KWIN_CORE) << "Graphics reset occurred";
-#if KWIN_BUILD_NOTIFICATIONS
-        KNotification::event(QStringLiteral("graphicsreset"), i18n("Desktop effects were restarted due to a graphics reset"));
-#endif
+        qCDebug(KWIN_CORE) << "Graphics reset occurred...";
         reinitialize();
         return;
     }
