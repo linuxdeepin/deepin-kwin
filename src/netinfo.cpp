@@ -232,6 +232,10 @@ void RootInfo::gotPing(xcb_window_t w, xcb_timestamp_t timestamp)
 
 void RootInfo::changeShowingDesktop(bool showing)
 {
+    // Displaying the desktop is not processed while the window is being resized.
+    if (Workspace::self()->moveResizeWindow() && showing){
+        return;
+    }
     Workspace::self()->setShowingDesktop(showing);
 }
 
