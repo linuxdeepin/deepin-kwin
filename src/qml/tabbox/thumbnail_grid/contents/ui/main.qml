@@ -26,9 +26,7 @@ KWin.Switcher {
         onVisibleChanged: {
             if (visible) {
                 dialogMainItem.calculateColumnCount();
-                if (typeof(dde) != 'undefined' && "enableDxcb" in dde) {
-                    dialogMainItem.composited = dde.kwinUtils.isCompositing();
-                }
+                dialogMainItem.composited = tabBox.compositing;
             } else {
                 itemsView.highCount = 0;
             }

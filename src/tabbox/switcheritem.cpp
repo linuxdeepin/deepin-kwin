@@ -149,7 +149,7 @@ void SwitcherItem::setNoModifierGrab(bool set)
 
 bool SwitcherItem::compositing()
 {
-    return Compositor::compositing();
+    return Compositor::compositing() && Compositor::self()->effectType() != EffectType::XRenderComplete;
 }
 
 void SwitcherItem::updateWindowColor(bool active)
