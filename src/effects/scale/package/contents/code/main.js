@@ -70,7 +70,7 @@ var scaleEffect = {
         if (window.windowClass == "dde-launcher dde-launcher")
             return true;
 
-        return window.normalWindow || window.dialog;
+        return true;
     },
     setupForcedRoles: function (window) {
         window.setData(Effect.WindowForceBackgroundContrastRole, true);
