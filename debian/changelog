@@ -1,3 +1,17 @@
+kwin (4:5.27.2.59-deepin59-1) unstable; urgency=medium
+
+  [ yangtian ]
+  * fix: window filled background didn't align with window after relayout
+  * fix: transparency of scissor effect
+  * fix: dialog animation
+  * fix: enable prohibit screenshot in sunloginClient
+  * fix: shadow at the top of window
+  * fix: modify window default radius
+  * fix: delete notification due to graphics reset
+  * fix: moveResize window without button press
+
+ -- yangtian <yangtian@uniontech.com>  Tue, 09 Jan 2024 16:39:20 +0800
+
 kwin (4:5.27.2.58-deepin58-1) unstable; urgency=medium
 
   [ huangzeming ]
