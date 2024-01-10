@@ -4413,6 +4413,15 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
         newGeom.setTop(std::max(topMax, screenArea.y()));
     }
 
+    // when dock move to bottom, move the window to the top of the dock 
+    QRect maxArea = workspace()->clientArea(MaximizeArea, this, newGeom.center()).toRect();
+    if ((maxArea.bottom()-borderBottom()) < newGeom.bottom() ) {
+        newGeom.moveBottom(maxArea.bottom() - borderBottom());
+    }
+    if ((maxArea.y() + borderTop()) > newGeom.y()){
+        newGeom.moveTop(maxArea.y() + borderTop());
+    }
+
     checkOffscreenPosition(&newGeom, screenArea);
     // Obey size hints. TODO: We really should make sure it stays in the right place
     if (!isShade()) {
