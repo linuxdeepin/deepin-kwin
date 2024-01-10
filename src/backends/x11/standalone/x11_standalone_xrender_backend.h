@@ -56,7 +56,7 @@ public:
 
     OverlayWindow *overlayWindow() const override;
     void showOverlay() override;
-    void screenGeometryChanged(const QSize &size) override;
+    void screenGeometryChanged() override;
 
 private:
     void init(bool createOverlay);

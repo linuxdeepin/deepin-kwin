@@ -67,6 +67,8 @@ X11XRenderBackend::X11XRenderBackend(X11StandaloneBackend *backend)
     connect(m_vsyncMonitor.get(), &VsyncMonitor::vblankOccurred, this, &X11XRenderBackend::vblank);
 
     init(true);
+
+    connect(workspace(), &Workspace::geometryChanged, this, &X11XRenderBackend::screenGeometryChanged);
 }
 
 X11XRenderBackend::~X11XRenderBackend()
@@ -190,9 +192,8 @@ void X11XRenderBackend::vblank(std::chrono::nanoseconds timestamp)
     renderLoopPrivate->notifyFrameCompleted(timestamp);
 }
 
-void X11XRenderBackend::screenGeometryChanged(const QSize &size)
+void X11XRenderBackend::screenGeometryChanged()
 {
-    Q_UNUSED(size)
     init(false);
 }
 

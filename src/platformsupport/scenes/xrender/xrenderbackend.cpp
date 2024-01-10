@@ -83,9 +83,8 @@ void XRenderBackend::setFailed(const QString &reason)
     m_failed = true;
 }
 
-void XRenderBackend::screenGeometryChanged(const QSize &size)
+void XRenderBackend::screenGeometryChanged()
 {
-    Q_UNUSED(size)
 }
 
 

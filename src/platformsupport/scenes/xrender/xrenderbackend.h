@@ -63,7 +63,7 @@ public:
      *
      * @param size The new screen size
      */
-    virtual void screenGeometryChanged(const QSize &size);
+    virtual void screenGeometryChanged();
     /**
      * @brief The compositing buffer hold by this backend.
      *
