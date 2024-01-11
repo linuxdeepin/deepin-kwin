@@ -43,6 +43,9 @@ var scaleEffect = {
             return window.hasDecoration;
         }
 
+        if (window.windowClass == "dde-lock org.deepin.dde.lock")
+            return true;
+
         if (blacklist.indexOf(window.windowClass) != -1) {
             return false;
         }
@@ -97,7 +100,7 @@ var scaleEffect = {
         var windowRect = window.geometry;
         var scaleSize = scaleEffect.addSize;
         var scaleDuration = scaleEffect.addDuration;
-        if (window.windowClass == "dde-launcher dde-launcher") {
+        if (window.windowClass == "dde-launcher dde-launcher" || window.windowClass == "dde-lock org.deepin.dde.lock") {
             scaleSize = scaleEffect.addLauncherSize;
             scaleDuration = scaleEffect.addLauncherDuration;
         }
@@ -146,7 +149,7 @@ var scaleEffect = {
         var windowRect = window.geometry;
         var scaleSize = scaleEffect.closedSize
         var scaleDuration = scaleEffect.closedDuration;
-        if (window.windowClass == "dde-launcher dde-launcher") {
+        if (window.windowClass == "dde-launcher dde-launcher" || window.windowClass == "dde-lock org.deepin.dde.lock") {
             scaleSize = scaleEffect.closedLauncherSize;
             scaleDuration = scaleEffect.closedLauncherDuration;
         }

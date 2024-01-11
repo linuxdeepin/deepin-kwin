@@ -122,7 +122,7 @@ function isPopupWindow(window) {
 }
 
 function isFadingWindow(window) {
-    if (window.windowClass == "deepin-screen-recorder deepin-screen-recorder")
+    if (window.windowClass == "deepin-screen-recorder deepin-screen-recorder" || window.windowClass == "dde-lock org.deepin.dde.lock")
         return false;
     return true;
 }
@@ -310,6 +310,9 @@ var fadingPopupsEffect = {
             return;
         }
         if (!isPopupWindow(window)) {
+            return;
+        }
+        if (!isFadingWindow(window)) {
             return;
         }
         if (!window.visible) {
