@@ -1,3 +1,18 @@
+kwin (4:5.27.2.60-deepin60-1) unstable; urgency=medium
+
+  [ gengzhijie ]
+  * fix: zx install error
+  * fix: animation of shutdown menu
+  * fix: shadow of right click menu
+  * fix: gtk window shows black border
+  * fix: the maximized window of the secondary screen does not cover the entire screen
+  * fix: window position in multitaskview on secondary screen was incorrect on wayland
+  * fix: after adjusting the screen transform in xrender mode, only half of screen is displayed
+  * fix: the window is not adapted to display after adjusting the position of the taskbar in the lower part of the screen
+  * fix: show left triggered when window changes size
+
+ -- gengzhijie <gengzhijie@uniontech.com>  Thu, 11 Jan 2024 18:17:01 +0800
+
 kwin (4:5.27.2.59-deepin59-1) unstable; urgency=medium
 
   [ yangtian ]
