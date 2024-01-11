@@ -1,3 +1,10 @@
+kwin (4:5.27.2.61-deepin61-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  *  feat: Add alternative for EGL_LINUX_DMA_BUF_EXT 
+
+ -- wangboyu <wangboyu@uniontech.com>  Thu, 11 Jan 2024 20:17:01 +0800
+
 kwin (4:5.27.2.60-deepin60-1) unstable; urgency=medium
 
   [ gengzhijie ]
