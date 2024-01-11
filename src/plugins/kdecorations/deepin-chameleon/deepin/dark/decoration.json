@@ -225,9 +225,9 @@
     },
     "rounded-corner-radius": "18,18",
     "blur": 30,
-    "opcaity": 0,
+    "opcaity": 1,
     "shadow": {
-      "shadowRadius": 0,
+      "shadowRadius": 12,
       "shadowOffset": "6,6",
       "shadowColor": "#66000000"
     }
