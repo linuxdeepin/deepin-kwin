@@ -503,9 +503,9 @@ bool GlxBackend::initFbConfig()
         0};
 
     // Only request sRGB configurations with default depth 24 as it can cause problems with other default depths. See bugs #408594 and #423014.
-    if (Xcb::defaultDepth() == 24) {
-        fbconfig = chooseGlxFbConfig(display(), attribs_srgb);
-    }
+    // if (Xcb::defaultDepth() == 24) {
+    //     fbconfig = chooseGlxFbConfig(display(), attribs_srgb);
+    // }
     if (!fbconfig) {
         fbconfig = chooseGlxFbConfig(display(), attribs);
     }
