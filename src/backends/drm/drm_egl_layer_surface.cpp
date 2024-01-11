@@ -182,7 +182,26 @@ std::shared_ptr<GLTexture> EglGbmLayerSurface::texture() const
         qCWarning(KWIN_DRM) << "Failed to record frame: No gbm buffer!";
         return nullptr;
     }
-    return m_eglBackend->importBufferObjectAsTexture(m_surface.currentBuffer->bo());
+
+    std::shared_ptr<GLTexture> texture =
+            m_eglBackend->importBufferObjectAsTexture(m_surface.currentBuffer->bo());
+    if (texture.get()) {
+        return texture;
+    }
+
+    GbmBuffer *sourceBuffer = m_surface.currentBuffer.get();
+    if (!sourceBuffer->map(GBM_BO_TRANSFER_READ, false)) {
+        qCWarning(KWIN_DRM, "mapping a %s gbm_bo failed: %s",
+                  formatName(sourceBuffer->format()).name, strerror(errno));
+        return nullptr;
+    }
+
+    QImage image((uchar *)sourceBuffer->mappedData(),
+                sourceBuffer->size().width(),sourceBuffer->size().height(), QImage::Format_RGB32);
+    GLTexture tex(image.mirrored(false, true));
+    texture = std::make_shared<GLTexture>(tex);
+
+    return texture;
 }
 
 std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::renderTestBuffer(const QSize &bufferSize, const QMap<uint32_t, QVector<uint64_t>> &formats)
