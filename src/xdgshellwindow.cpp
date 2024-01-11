@@ -1004,7 +1004,7 @@ StrutRect XdgToplevelWindow::strutRect(StrutArea area) const
             if (strutArea.top != 0) {
                 strutTop.setHeight(strutArea.top);
                 strutTop.setLeft(strutArea.top_start_x);
-                strutTop.setRight(strutArea.top_end_x);
+                strutTop.setWidth(strutArea.top_end_x - strutArea.top_start_x);
                 strutTop &= outputRect;
                 qDebug() << "strutTop " << strutTop;
                 return StrutRect(strutTop, StrutAreaTop);
@@ -1017,7 +1017,7 @@ StrutRect XdgToplevelWindow::strutRect(StrutArea area) const
                 strutRight.setLeft(outputRect.right() - strutArea.right);
                 strutRight.setWidth(strutArea.right);
                 strutRight.setTop(strutArea.right_start_y);
-                strutRight.setBottom(strutArea.right_end_y);
+                strutRight.setHeight(strutArea.right_end_y - strutArea.right_start_y);
                 strutRight &= outputRect;
                 qDebug() << "strutRight " << strutRight;
                 return StrutRect(strutRight, StrutAreaRight);
@@ -1030,7 +1030,7 @@ StrutRect XdgToplevelWindow::strutRect(StrutArea area) const
                 strutBottom.setHeight(strutArea.bottom);
                 strutBottom.setTop(outputRect.bottom() - strutArea.bottom);
                 strutBottom.setLeft(strutArea.bottom_start_x);
-                strutBottom.setRight(strutArea.bottom_end_x);
+                strutBottom.setWidth(strutArea.bottom_end_x - strutArea.bottom_start_x);
                 strutBottom &= outputRect;
                 qDebug() << "strutBottom " << strutBottom;
                 return StrutRect(strutBottom, StrutAreaBottom);
@@ -1042,7 +1042,7 @@ StrutRect XdgToplevelWindow::strutRect(StrutArea area) const
             if (strutArea.left != 0) {
                 strutLeft.setWidth(strutArea.left);
                 strutLeft.setTop(strutArea.left_start_y);
-                strutLeft.setBottom(strutArea.left_end_y);
+                strutLeft.setHeight(strutArea.left_end_y - strutArea.left_start_y);
                 strutLeft &= outputRect;
                 qDebug() << "strutLeft " << strutLeft;
                 return StrutRect(strutLeft, StrutAreaLeft);
