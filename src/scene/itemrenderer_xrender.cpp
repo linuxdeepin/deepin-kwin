@@ -223,14 +223,17 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
     if (!(win && win->isShade())) {
         xcb_render_picture_t clientAlpha = XCB_RENDER_PICTURE_NONE;
         if (!opaque) {
-            clientAlpha = XRenderUtils::xRenderBlendPicture(data.opacity());
+            if (win->resourceClass().contains("wine") && win->isDialog() && win->caption().isEmpty()) {
+                clientAlpha = XRenderUtils::xRenderBlendPicture(0);
+            } else {
+                clientAlpha = XRenderUtils::xRenderBlendPicture(data.opacity());
+            }
         }
         XFixesRegion xregion(region);
         xcb_xfixes_set_picture_clip_region(connection(), renderTarget, xregion, 0, 0);
 
-        xcb_render_composite(connection(), clientRenderOp, pic, 0, renderTarget,
+        xcb_render_composite(connection(), clientRenderOp, pic, clientAlpha, renderTarget,
                                 cr.x(), cr.y(), 0, 0, dr.x(), dr.y(), dr.width(), dr.height());
-
     }
 }
 
