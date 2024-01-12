@@ -586,6 +586,7 @@ public:
     QRectF getDockLastPosition();
     int getDockHiddenState();
     int getDockDirection();
+    bool getBlurStatus();
 
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);

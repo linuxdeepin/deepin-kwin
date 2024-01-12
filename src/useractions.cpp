@@ -214,7 +214,7 @@ bool UserActionsMenu::handleClick(const QPoint &pos)
 void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
 {
     double fontScale = workspace()->getFontSizeScale();
-    QString backgroundColor = "rgb(253,253,254)";
+    QString backgroundColor = workspace()->self()->getBlurStatus() ? "rgba(253,253,254,65%)" : "rgba(253,253,254,100%)";
     QString fontColor = "black";
     QString disableFontColor = "rgba(0,0,0,40%)";
     qreal scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);

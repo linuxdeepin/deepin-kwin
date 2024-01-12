@@ -3512,4 +3512,11 @@ int Workspace::getDockDirection()
         return m_dockInter->position();
     return 2;
 }
+
+bool Workspace::getBlurStatus()
+{
+    if (waylandServer() || Compositor::self()->effectType() == EffectType::XRenderComplete || Compositor::self()->effectType() == EffectType::NoneCompositor)
+        return false;
+    return true;
+}
 } // namespace
