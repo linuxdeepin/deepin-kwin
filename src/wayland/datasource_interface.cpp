@@ -105,7 +105,7 @@ DataSourceInterface::~DataSourceInterface() = default;
 void DataSourceInterface::accept(const QString &mimeType)
 {
     d->send_target(mimeType);
-    d->isAccepted = !mimeType.isNull();
+    d->isAccepted = !mimeType.isEmpty();
 }
 
 void DataSourceInterface::requestData(const QString &mimeType, qint32 fd)
