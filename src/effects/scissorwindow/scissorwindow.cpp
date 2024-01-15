@@ -99,9 +99,9 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
     }
     if (!cornerRadius.isNull()) {
         QRect corner1(w->frameGeometry().topLeft().toPoint(), QSize(cornerRadius.x(), cornerRadius.y()));
-        QRect corner2(w->frameGeometry().topRight().x()- cornerRadius.x(), w->frameGeometry().topRight().y(), w->frameGeometry().topRight().x() , w->frameGeometry().topRight().y() +  cornerRadius.y());
-        QRect corner3(w->frameGeometry().bottomLeft().x() , w->frameGeometry().bottomLeft().y()-cornerRadius.y(), w->frameGeometry().bottomLeft().x() + cornerRadius.x(), w->frameGeometry().bottomLeft().y());
-        QRect corner4(w->frameGeometry().bottomRight().x()- cornerRadius.x(), w->frameGeometry().bottomRight().y()- cornerRadius.y(),w->frameGeometry().bottomRight().x(), w->frameGeometry().bottomRight().y());
+        QRect corner2(w->frameGeometry().topRight().x()- cornerRadius.x(), w->frameGeometry().topRight().y(), cornerRadius.x(), cornerRadius.y());
+        QRect corner3(w->frameGeometry().bottomLeft().x() , w->frameGeometry().bottomLeft().y() - cornerRadius.y(), cornerRadius.x(), cornerRadius.y());
+        QRect corner4(w->frameGeometry().bottomRight().x() - cornerRadius.x(), w->frameGeometry().bottomRight().y()- cornerRadius.y(), cornerRadius.x(), cornerRadius.y());
         data.paint = data.paint | corner1 | corner2 | corner3 | corner4;
         data.opaque = data.opaque - corner1 - corner2 -corner3 - corner4;
     }
