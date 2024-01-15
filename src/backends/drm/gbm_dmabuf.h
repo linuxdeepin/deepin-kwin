@@ -13,6 +13,8 @@
 
 #include <gbm.h>
 
+#include <QDebug>
+
 namespace KWin
 {
 
@@ -27,7 +29,9 @@ inline DmaBufAttributes dmaBufAttributesForBo(gbm_bo *bo)
 
 #if HAVE_GBM_BO_GET_FD_FOR_PLANE
     for (int i = 0; i < attributes.planeCount; ++i) {
-        attributes.fd[i] = FileDescriptor{gbm_bo_get_fd_for_plane(bo, i)};
+        if (GbmLoader::loader() && GbmLoader::loader()->gbmBoGetFdForPlane) {
+            attributes.fd[i] = FileDescriptor{GbmLoader::loader()->gbmBoGetFdForPlane(bo, i)};
+        }
         attributes.offset[i] = gbm_bo_get_offset(bo, i);
         attributes.pitch[i] = gbm_bo_get_stride_for_plane(bo, i);
         if (attributes.pitch[i] == 0) {
@@ -66,12 +70,15 @@ inline gbm_bo *createGbmBo(gbm_device *device, const QSize &size, quint32 format
     gbm_bo *bo = nullptr;
     if (modifiers.count() > 0 && !(modifiers.count() == 1 && modifiers[0] == DRM_FORMAT_MOD_INVALID)) {
 #if HAVE_GBM_BO_CREATE_WITH_MODIFIERS2
-        bo = gbm_bo_create_with_modifiers2(device,
+        if (GbmLoader::loader() && GbmLoader::loader()->createWithModifiers2) {
+            qDebug() << "createWithModifiers2 " << device << size << format << modifiers;
+            bo = GbmLoader::loader()->createWithModifiers2(device,
                                            size.width(),
                                            size.height(),
                                            format,
                                            modifiers.constData(), modifiers.count(),
                                            GBM_BO_USE_RENDERING);
+        }
 #else
         if (GbmLoader::loader() && GbmLoader::loader()->createWithModifiers) {
             qDebug() << "createWithModifiers " << device << size << format << modifiers;

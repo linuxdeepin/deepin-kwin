@@ -17,6 +17,15 @@ typedef gbm_bo *(*CreateWithModifiers)(struct gbm_device *gbm,
                                        const uint64_t *modifiers,
                                        const unsigned int count);
 
+typedef gbm_bo *(*CreateWithModifiers2)(struct gbm_device *gbm,
+                              uint32_t width, uint32_t height,
+                              uint32_t format,
+                              const uint64_t *modifiers,
+                              const unsigned int count,
+                              uint32_t flags);
+
+typedef int (*GbmBoGetFdForPlane)(struct gbm_bo *bo, int plane);
+
 class GbmLoader
 {
 private:
@@ -35,4 +44,6 @@ public:
     static void release();
 
     CreateWithModifiers createWithModifiers{nullptr};
+    CreateWithModifiers2 createWithModifiers2{nullptr};
+    GbmBoGetFdForPlane gbmBoGetFdForPlane{nullptr};
 };

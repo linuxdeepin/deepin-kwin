@@ -17,6 +17,7 @@
 #include "kwineglutils_p.h"
 #include "wayland/clientbuffer.h"
 #include "wayland/linuxdmabufv1clientbuffer.h"
+#include "core/gbmloader.h"
 
 #include <cerrno>
 #include <drm_fourcc.h>
@@ -170,7 +171,9 @@ void GbmBuffer::createFds()
 {
 #if HAVE_GBM_BO_GET_FD_FOR_PLANE
     for (uint32_t i = 0; i < m_planeCount; i++) {
-        m_fds[i] = FileDescriptor(gbm_bo_get_fd_for_plane(m_bo, i));
+        if (GbmLoader::loader() && GbmLoader::loader()->gbmBoGetFdForPlane) {
+            m_fds[i] = FileDescriptor(GbmLoader::loader()->gbmBoGetFdForPlane(m_bo, i));
+        }
         if (!m_fds[i].isValid()) {
             m_fds = {};
             return;

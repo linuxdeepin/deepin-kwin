@@ -31,7 +31,9 @@ GbmLoader::GbmLoader()
 {
     m_gbmHandle = dlopen("libgbm.so", RTLD_LAZY | RTLD_LOCAL);
     if (m_gbmHandle) {
-        *(void **)(&createWithModifiers) = dlsym(m_gbmHandle, "gbm_bo_create_with_modifiers");
+        *(void **)(&createWithModifiers)    = dlsym(m_gbmHandle, "gbm_bo_create_with_modifiers");
+        *(void **)(&createWithModifiers2)   = dlsym(m_gbmHandle, "gbm_bo_create_with_modifiers2");
+        *(void **)(&gbmBoGetFdForPlane)     = dlsym(m_gbmHandle, "gbm_bo_get_fd_for_plane");
     }
 }
 
