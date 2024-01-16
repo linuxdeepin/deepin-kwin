@@ -277,7 +277,7 @@ Description: KDE window manager x11 plugin
 
 Package: deepin-kwin-x11
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends},
+Depends: ${misc:Depends}, ${shlibs:Depends}, dde-qt5xcb-plugin(>= 5.6.21)
 Breaks: deepin-kwin-addons (<< 4:5.14)
 Provides: deepin-kwin, x-window-manager
 Conflicts: dde-kwin
