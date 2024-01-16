@@ -1,3 +1,9 @@
+deepin-kwin (4:5.25.13-kwin.5.24.3) unstable; urgency=medium
+
+  * fix #6579
+
+ -- Mike Chen <chenke@deepin.org>  Tue, 16 Jan 2024 20:17:30 +0800
+
 deepin-kwin (4:5.25.12-kwin.5.24.3) unstable; urgency=medium
 
   * update
