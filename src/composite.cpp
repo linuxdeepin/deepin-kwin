@@ -401,12 +401,14 @@ bool Compositor::setupStart()
         candidateCompositors.append(m_selectedCompositor);
     } else {
         candidateCompositors = availableCompositors;
-        const auto userConfigIt = std::find(candidateCompositors.begin(), candidateCompositors.end(), configSelected);
-        if (userConfigIt != candidateCompositors.end()) {
-            candidateCompositors.erase(userConfigIt);
-            candidateCompositors.prepend(configSelected);
-        } else {
-            qCWarning(KWIN_CORE) << "Configured compositor not supported by Platform. Falling back to defaults";
+        if (!waylandServer()) {
+            const auto userConfigIt = std::find(candidateCompositors.begin(), candidateCompositors.end(), configSelected);
+            if (userConfigIt != candidateCompositors.end()) {
+                candidateCompositors.erase(userConfigIt);
+                candidateCompositors.prepend(configSelected);
+            } else {
+                qCWarning(KWIN_CORE) << "Configured compositor not supported by Platform. Falling back to defaults";
+            }
         }
     }
 

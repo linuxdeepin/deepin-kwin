@@ -74,7 +74,6 @@ void Logger::installMessageHandler()
 
 void Logger::append(int level, const char *file, int line, const char *func, const char *category, const QString &msg)
 {
-    QMutexLocker locker(&m_mutex);
     sd_journal_send("MESSAGE=%s",
                     msg.toStdString().c_str(),
                     "PRIORITY=%d",
