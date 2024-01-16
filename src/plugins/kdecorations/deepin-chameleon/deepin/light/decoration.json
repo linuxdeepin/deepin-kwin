@@ -97,8 +97,8 @@
     "blur": 10,
     "opcaity": 1,
     "shadow": {
-      "shadowRadius": 80,
-      "shadowOffset": "0,30",
+      "shadowRadius": 50,
+      "shadowOffset": "0,22",
       "shadowColor": {
         "active": "#80000000",
         "inactive": "#40000000"
