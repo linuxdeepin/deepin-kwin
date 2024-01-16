@@ -124,6 +124,8 @@ function isPopupWindow(window) {
 function isFadingWindow(window) {
     if (window.windowClass == "deepin-screen-recorder deepin-screen-recorder" || window.windowClass == "dde-lock org.deepin.dde.lock")
         return false;
+    if (window.tooltip)
+        return false;
     return true;
 }
 

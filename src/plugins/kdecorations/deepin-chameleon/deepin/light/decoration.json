@@ -257,9 +257,9 @@
     "blur": 30,
     "opcaity": 1,
     "shadow": {
-      "shadowRadius": 10,
-      "shadowOffset": "10,10",
-      "shadowColor": "#33000000"
+      "shadowRadius": 30,
+      "shadowOffset": "0,10",
+      "shadowColor": "#44000000"
     }
   }
 }
