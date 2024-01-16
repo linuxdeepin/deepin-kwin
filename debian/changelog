@@ -1,3 +1,14 @@
+kwin (4:5.27.2.63-deepin63-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  *  fix: tooltip shadow
+  *  fix: performance optimization.
+  *  fix: Fix screen flash black due to damage error
+  *  fix: shadow radius of normal window by yangtian
+  *  fix: the variable of isAccepted using isEmpty insteadof isNull.
+
+ -- wangboyu <wangboyu@uniontech.com>  Tue, 16 Jan 2024 20:08:01 +0800
+
 kwin (4:5.27.2.62-deepin62-1) unstable; urgency=medium
 
   [ wangboyu ]
