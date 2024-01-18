@@ -187,6 +187,8 @@ OutputDeviceInterface::OutputDeviceInterface(Display *display, KWin::Output *han
             this, &OutputDeviceInterface::updateCtmValue);
     connect(handle, &Output::colorCurvesChanged,
             this, &OutputDeviceInterface::updateCurvesChanged);
+    connect(handle, &Output::doneChanged,
+            this, &OutputDeviceInterface::done);
 
     connect(handle, &QObject::destroyed, this, [this, handle]() {
         qCDebug(KWIN_CORE) << "outputv1:" << this << " rejectdestroy output " << handle;
@@ -222,6 +224,12 @@ KWin::Output *OutputDeviceInterface::handle() const
 bool OutputDeviceInterface::invalid() const
 {
     return d->m_invalid;
+}
+
+void OutputDeviceInterface::done() {
+    for (auto resource : d->resourceMap()) {
+        d->sendDone(resource);
+    }
 }
 
 void OutputDeviceInterfacePrivate::org_kde_kwin_outputdevice_destroy_global()
@@ -416,7 +424,6 @@ void OutputDeviceInterface::updateGeometry()
     const auto clientResources = d->resourceMap();
     for (const auto &resource : clientResources) {
         d->sendGeometry(resource);
-        d->sendDone(resource);
     }
 }
 
@@ -498,7 +505,6 @@ void OutputDeviceInterface::updateScale()
     const auto clientResources = d->resourceMap();
     for (const auto &resource : clientResources) {
         d->sendScale(resource);
-        d->sendDone(resource);
     }
 }
 
@@ -533,10 +539,6 @@ void OutputDeviceInterface::updateModes()
     }
 
     qDeleteAll(oldModes.crbegin(), oldModes.crend());
-
-    for (auto resource : clientResources) {
-        d->sendDone(resource);
-    }
 }
 
 void OutputDeviceInterface::updateCurrentMode()
@@ -554,7 +556,6 @@ void OutputDeviceInterface::updateCurrentMode()
                 const auto clientResources = d->resourceMap();
                 for (auto resource : clientResources) {
                     d->sendCurrentMode(resource);
-                    d->sendDone(resource);
                 }
                 updateGeometry();
             }
@@ -570,7 +571,6 @@ void OutputDeviceInterface::updateEdid()
     const auto clientResources = d->resourceMap();
     for (const auto &resource : clientResources) {
         d->sendEdid(resource);
-        d->sendDone(resource);
     }
 }
 
@@ -583,7 +583,6 @@ void OutputDeviceInterface::updateEnabled()
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendEnabled(resource);
-            d->sendDone(resource);
         }
     }
 }
@@ -597,7 +596,6 @@ void OutputDeviceInterface::updateUuid()
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendUuid(resource);
-            d->sendDone(resource);
         }
     }
 }
@@ -611,7 +609,6 @@ void OutputDeviceInterface::updateCapabilities()
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendCapabilities(resource);
-            d->sendDone(resource);
         }
     }
 }
@@ -625,7 +622,6 @@ void OutputDeviceInterface::updateOverscan()
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendOverscan(resource);
-            d->sendDone(resource);
         }
     }
 }
@@ -639,7 +635,6 @@ void OutputDeviceInterface::updateVrrPolicy()
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendVrrPolicy(resource);
-            d->sendDone(resource);
         }
     }
 }
@@ -653,7 +648,6 @@ void OutputDeviceInterface::updateRgbRange()
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendRgbRange(resource);
-            d->sendDone(resource);
         }
     }
 }
@@ -667,7 +661,6 @@ void OutputDeviceInterface::updateBrightness()
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendBrightness(resource);
-            d->sendDone(resource);
         }
     }
 }
@@ -681,7 +674,6 @@ void OutputDeviceInterface::updateCtmValue()
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendCtmValue(resource);
-            d->sendDone(resource);
         }
     }
 }
@@ -695,7 +687,6 @@ void OutputDeviceInterface::updateCurvesChanged()
         const auto clientResources = d->resourceMap();
         for (const auto &resource : clientResources) {
             d->sendColorCurves(resource);
-            d->sendDone(resource);
         }
     }
 }

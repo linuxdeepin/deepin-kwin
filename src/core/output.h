@@ -340,6 +340,8 @@ Q_SIGNALS:
      */
     void aboutToChange();
 
+    void doneChanged();
+
     /**
      * Notifies that the output changed based on a user interaction.
      *

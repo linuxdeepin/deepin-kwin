@@ -296,41 +296,57 @@ void Output::setState(const State &state)
 
     m_state = state;
 
-    if (oldGeometry != geometry()) {
-        Q_EMIT geometryChanged();
-    }
+    bool isChanged = false;
     if (oldState.scale != state.scale) {
+        isChanged = true;
         Q_EMIT scaleChanged();
     }
     if (oldState.modes != state.modes) {
+        isChanged = true;
         Q_EMIT modesChanged();
     }
     if (oldState.currentMode != state.currentMode) {
+        isChanged = true;
         Q_EMIT currentModeChanged();
     }
     if (oldState.transform != state.transform) {
+        isChanged = true;
         Q_EMIT transformChanged();
     }
     if (oldState.overscan != state.overscan) {
+        isChanged = true;
         Q_EMIT overscanChanged();
     }
     if (oldState.dpmsMode != state.dpmsMode) {
+        isChanged = true;
         Q_EMIT dpmsModeChanged();
     }
     if (oldState.rgbRange != state.rgbRange) {
+        isChanged = true;
         Q_EMIT rgbRangeChanged();
     }
     if (oldState.enabled != state.enabled) {
+        isChanged = true;
         Q_EMIT enabledChanged();
     }
     if (oldState.brightness != state.brightness) {
+        isChanged = true;
         Q_EMIT brightnessChanged();
     }
     if (oldState.ctmValue != state.ctmValue) {
+        isChanged = true;
         Q_EMIT ctmValueChanged();
     }
     if (oldState.colorCurves != state.colorCurves) {
+        isChanged = true;
         Q_EMIT colorCurvesChanged();
+    }
+    if (oldGeometry != geometry()) {
+        isChanged = true;
+        Q_EMIT geometryChanged();
+    }
+    if (isChanged) {
+        Q_EMIT doneChanged();
     }
 }
 

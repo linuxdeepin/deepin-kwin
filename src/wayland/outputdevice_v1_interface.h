@@ -78,6 +78,7 @@ private:
     void updateBrightness();
     void updateCtmValue();
     void updateCurvesChanged();
+    void done();
 
     std::unique_ptr<OutputDeviceInterfacePrivate> d;
 };
