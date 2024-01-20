@@ -548,7 +548,6 @@ void InternalWindow::markAsMapped()
         setupCompositing();
         setReadyForPainting();
         workspace()->addInternalWindow(this);
-        setWindowRadius();
     }
 }
 

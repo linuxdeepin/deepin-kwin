@@ -20,7 +20,7 @@
 #include <functional>
 #include <memory>
 #include <kwineffects.h>
-
+#include "windowradius/windowradius.h"
 #include <NETWM>
 
 #include <QElapsedTimer>
@@ -1051,6 +1051,11 @@ public:
     virtual MaximizeMode maximizeMode() const;
     virtual MaximizeMode requestedMaximizeMode() const;
     virtual void maximize(MaximizeMode mode);
+    void setMaximized(bool maxi) { m_maximized = maxi; }
+    bool isMaximized() const
+    {
+        return m_maximized;
+    }
     /**
      * Sets the maximization according to @p vertically and @p horizontally.
      */
@@ -1477,8 +1482,12 @@ public:
     void destroyPlaceHolder();
 
     void broadcastDbusDestroySignal(int pid);
+
+    void updateWindowRadius(float scale = 1.0);
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
+    void onWindowRadiusChanged(float &, float &);
 
 protected Q_SLOTS:
     void setReadyForPainting();
@@ -1564,6 +1573,8 @@ Q_SIGNALS:
      * This signal is emitted when associated tile has changed, including from and to none
      */
     void tileChanged(KWin::Tile *tile);
+
+    void waylandWindowRadiusChanged(QPointF);
 
     void fullScreenChanged();
     void skipTaskbarChanged();
@@ -1916,7 +1927,6 @@ protected:
     void startDecorationDoubleClickTimer();
     void invalidateDecorationDoubleClickTimer();
     void updateDecorationInputShape();
-    void setWindowRadius();
 
     void setDesktopFileName(const QString &name);
     QString iconFromDesktopFile() const;
@@ -1977,6 +1987,7 @@ private:
     std::unique_ptr<EffectWindowImpl> m_effectWindow;
     std::unique_ptr<WindowItem> m_windowItem;
     std::unique_ptr<Shadow> m_shadow;
+    std::unique_ptr<WindowRadius> m_windowRadiusObj;
     QString resource_name;
     QString resource_class;
     ClientMachine *m_clientMachine;
@@ -2012,6 +2023,7 @@ private:
     bool m_keepBelow = false;
     bool m_demandsAttention = false;
     bool m_minimized = false;
+    bool m_maximized = false;
     QTimer *m_autoRaiseTimer = nullptr;
     QTimer *m_shadeHoverTimer = nullptr;
     ShadeMode m_shadeMode = ShadeNone;

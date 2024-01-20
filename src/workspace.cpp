@@ -63,6 +63,7 @@
 #include "splitscreen/splitmanage.h"
 #include "splitscreen/splitmenu.h"
 #include "configreader.h"
+#include "windowradius/windowradiusmanager.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -150,6 +151,7 @@ Workspace::Workspace()
     , m_applicationMenu(std::make_unique<ApplicationMenu>())
     , m_placementTracker(std::make_unique<PlacementTracker>(this))
     , m_splitManage(std::make_unique<SplitManage>())
+    , m_windowRadiusManager(std::make_unique<WindowRadiusManager>())
 {
     // If KWin was already running it saved its configuration after loosing the selection -> Reread
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -311,13 +313,14 @@ void Workspace::init()
     connect(this, &Workspace::internalWindowAdded, m_splitManage.get(), &SplitManage::add);
     connect(this, &Workspace::preRemoveInternalWindow, m_splitManage.get(), &SplitManage::removeInternal);
 
+    connect(this, &Workspace::windowAdded, m_windowRadiusManager.get(), &WindowRadiusManager::onWindowAdded);
+    connect(this, &Workspace::unmanagedAdded, m_windowRadiusManager.get(), &WindowRadiusManager::onWindowAdded);
+    connect(this, &Workspace::internalWindowAdded, m_windowRadiusManager.get(), &WindowRadiusManager::onWindowAdded);
+
     QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
                                           "PropertiesChanged", this, SLOT(qtActiveColorChanged()));
 
     m_placementTracker->init(getPlacementTrackerHash());
-
-    m_configReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
-                                      DBUS_APPEARANCE_INTF, "WindowRadius");
 
     m_fontSizeConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
                                       DBUS_APPEARANCE_INTF, "FontSize");
@@ -614,11 +617,6 @@ Workspace::~Workspace()
 
     for (Output *output : std::as_const(m_outputs)) {
         output->unref();
-    }
-
-    if (m_configReader) {
-        delete m_configReader;
-        m_configReader = nullptr;
     }
 
     if (m_fontSizeConfigReader) {
@@ -3350,6 +3348,11 @@ SplitManage *Workspace::getSplitManage() const
     return m_splitManage.get();
 }
 
+WindowRadiusManager *Workspace::getWindowRadiusMgr() const
+{
+    return m_windowRadiusManager.get();
+}
+
 QImage Workspace::getProhibitShotImage(QSize size)
 {
     if(size.isEmpty()) {
@@ -3419,7 +3422,7 @@ void Workspace::setWinSplitState(Window *w, bool isSplit)
 
 float Workspace::getWindowRadius() const
 {
-    return m_configReader->getProperty().isValid() ? m_configReader->getProperty().toFloat() : 8.0;
+    return m_windowRadiusManager.get()->getOsRadius();
 }
 
 double Workspace::getFontSizeScale() const {

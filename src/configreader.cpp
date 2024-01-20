@@ -80,6 +80,8 @@ void ConfigReader::slotUpdateProperty(QDBusMessage msg)
             }
         }
     }
+    if (m_propertyName == "WindowRadius")
+        Q_EMIT sigRadiusChanged(m_property);
 }
 
 void ConfigReader::slotSetProperty(QVariant property)

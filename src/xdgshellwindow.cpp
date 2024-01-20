@@ -33,6 +33,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "wayland/dderestrict_interface.h"
+// #include "windowradius/windowradius.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -738,6 +739,7 @@ void XdgSurfaceWindow::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::windowRadiusPropertyRequested, this,
         [this] (QPointF windowRadius) {
             m_windowRadius = windowRadius;
+            Q_EMIT waylandWindowRadiusChanged(windowRadius);
         }
     );
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::splitWindowRequested, this,
@@ -1822,8 +1824,9 @@ void XdgToplevelWindow::configureDecoration()
         Q_EMIT m_ddeShellSurface->noTitleBarPropertyRequested(m_noTitleBar);
     }
     if (!m_windowRadius.isNull()) {
-        disconnect(m_ddeShellSurface, &KWaylandServer::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this, nullptr);
+        // disconnect(m_ddeShellSurface, &KWaylandServer::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this, nullptr);
         Q_EMIT m_ddeShellSurface->windowRadiusPropertyRequested(m_windowRadius);
+        Q_EMIT waylandWindowRadiusChanged(m_windowRadius);
     }
 
     // All decoration updates are synchronized to toplevel configure events.
@@ -2326,7 +2329,6 @@ void XdgPopupWindow::initialize()
     workspace()->placement()->place(this, area);
     Q_EMIT workspace()->windowStateChanged();
     scheduleConfigure();
-    setWindowRadius();
 }
 
 } // namespace KWin

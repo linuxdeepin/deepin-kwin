@@ -49,6 +49,9 @@ public:
         m_property = property;
     }
 
+Q_SIGNALS:
+    void sigRadiusChanged(QVariant);
+
 public Q_SLOTS:
     void slotUpdateProperty(QDBusMessage msg);
     void slotSetProperty(QVariant property);

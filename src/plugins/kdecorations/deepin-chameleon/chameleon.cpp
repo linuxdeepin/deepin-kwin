@@ -56,11 +56,6 @@ Chameleon::Chameleon(QObject *parent, const QVariantList &args)
 
 Chameleon::~Chameleon()
 {
-    if (KWin::EffectWindow *effect = this->effect()) {
-        // 清理窗口特效的数据
-        effect->setData(ChameleonConfig::WindowRadiusRole, QVariant());
-        effect->setData(ChameleonConfig::WindowMaskTextureRole, QVariant());
-    }
 }
 
 void Chameleon::init()
@@ -587,27 +582,9 @@ void Chameleon::updateBorderPath()
                     need_update = false;
                 }
             }
-
-            if (need_update) {
-                // 清理已缓存的旧的窗口mask材质
-                effect->setData(ChameleonConfig::WindowMaskTextureRole, QVariant());
-                // 设置新的窗口圆角
-                if (window_radius.isNull()) {
-                    effect->setData(ChameleonConfig::WindowRadiusRole, QVariant());
-                } else {
-                    effect->setData(ChameleonConfig::WindowRadiusRole, QVariant::fromValue(window_radius));
-                }
-            }
         }
     } else {
         path.addRect(client_rect);
-
-        if (effect) {
-            // 清理已缓存的旧的窗口mask材质
-            effect->setData(ChameleonConfig::WindowMaskTextureRole, QVariant());
-            // 清理窗口圆角的设置
-            effect->setData(ChameleonConfig::WindowRadiusRole, QVariant());
-        }
     }
 
     m_borderPath = path;

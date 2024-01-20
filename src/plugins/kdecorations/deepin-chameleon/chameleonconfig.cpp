@@ -212,17 +212,6 @@ void ChameleonConfig::updateWindowRadius()
             need_update = false;
         }
     }
-
-    if (need_update) {
-        // 清理已缓存的旧的窗口mask材质
-        effect->setData(ChameleonConfig::WindowMaskTextureRole, QVariant());
-        // 设置新的窗口圆角
-        if (window_radius.isNull()) {
-            effect->setData(ChameleonConfig::WindowRadiusRole, QVariant());
-        } else {
-            effect->setData(ChameleonConfig::WindowRadiusRole, QVariant::fromValue(window_radius));
-        }
-    }
 }
 
 static bool canForceSetBorder(const QObject *window)
@@ -620,17 +609,6 @@ void ChameleonConfig::updateClientWindowRadius(QObject *client)
         auto role_window_radius = effect_window_radius.toPointF();
         window_radius = role_window_radius;
     }
-
-    if (need_update) {
-        // 清理已缓存的旧的窗口mask材质
-        effect->setData(ChameleonConfig::WindowMaskTextureRole, QVariant());
-        // 设置新的窗口圆角
-        if (window_radius.isNull()) {
-            effect->setData(ChameleonConfig::WindowRadiusRole, QVariant());
-        } else {
-            effect->setData(ChameleonConfig::WindowRadiusRole, QVariant::fromValue(window_radius));
-        }
-    }
 }
 
 void ChameleonConfig::updateClientClipPath(QObject *client)
@@ -646,12 +624,6 @@ void ChameleonConfig::updateClientClipPath(QObject *client)
     if (!clip_data.isEmpty()) {
         QDataStream ds(clip_data);
         ds >> path;
-    }
-
-    if (path.isEmpty()) {
-        effect->setData(WindowClipPathRole, QVariant());
-    } else {
-        effect->setData(WindowClipPathRole, QVariant::fromValue(path));
     }
 }
 
@@ -1299,22 +1271,12 @@ void ChameleonConfig::enforcePropertiesForWindows(bool enable)
         } else {
             // 重置窗口的noborder状态
             KWinUtils::instance()->clientCheckNoBorder(client);
-
-            // 清理窗口的裁剪
-            if (KWin::EffectWindow *effect = findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly)) {
-                effect->setData(WindowClipPathRole, QVariant());
-            }
         }
     }
 
     for (QObject *unmanaged : KWinUtils::unmanagedList()) {
         if (enable) {
             enforceWindowProperties(unmanaged);
-        } else {
-            // 清理窗口的裁剪
-            if (KWin::EffectWindow *effect = findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly)) {
-                effect->setData(WindowClipPathRole, QVariant());
-            }
         }
     }
 }

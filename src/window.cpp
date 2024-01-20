@@ -46,6 +46,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
+#include "windowradius/windowradiusmanager.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -129,6 +130,8 @@ Window::Window()
         Q_EMIT hasApplicationMenuChanged(hasApplicationMenu());
     });
     connect(&m_offscreenFramecallbackTimer, &QTimer::timeout, this, &Window::maybeSendFrameCallback);
+
+    connect(Workspace::self()->getWindowRadiusMgr(), &WindowRadiusManager::sigRadiusChanged, this, &Window::onWindowRadiusChanged);
 }
 
 Window::~Window()
@@ -357,6 +360,8 @@ bool Window::setupCompositing()
 
     m_effectWindow = std::make_unique<EffectWindowImpl>(this);
     updateShadow();
+    if(!QX11Info::isPlatformX11())
+        updateWindowRadius();
 
     m_windowItem = createItem(scene);
     m_effectWindow->setWindowItem(m_windowItem.get());
@@ -4848,12 +4853,29 @@ bool Window::isProhibitScreenshotWindow()
     return false;
 }
 
-void Window::setWindowRadius()
+void Window::updateWindowRadius(float scale)
 {
-    if (m_effectWindow) {
-        QPointF r(Workspace::self()->getWindowRadius(), Workspace::self()->getWindowRadius());
-        m_effectWindow->setData(WindowRadiusRole, QVariant::fromValue(r));
+    if (!Compositor::compositing()) {
+        return;
     }
+
+    if (m_windowRadiusObj) {
+        if (!m_windowRadiusObj->updateWindowRadius(scale)) {
+            m_windowRadiusObj.reset();
+        }
+        Q_EMIT shadowChanged();
+    } else {
+        m_windowRadiusObj = std::make_unique<WindowRadius>(this);
+        if (m_windowRadiusObj) {
+            m_windowRadiusObj->updateWindowRadius(scale);
+            Q_EMIT shadowChanged();
+        }
+    }
+}
+
+void Window::onWindowRadiusChanged(float &p, float &scale)
+{
+    updateWindowRadius(scale);
 }
 
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)
