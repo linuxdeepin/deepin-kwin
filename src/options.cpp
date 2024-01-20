@@ -20,6 +20,7 @@
 #include <QProcess>
 
 #include "settings.h"
+#include "wayland_server.h"
 #include "workspace.h"
 #include <QOpenGLContext>
 #include <kwinglplatform.h>
@@ -878,20 +879,23 @@ bool Options::loadCompositingConfig(bool force)
             break;
         }
     }
+    const bool platformSupportsNoCompositing = kwinApp()->outputBackend()->supportedCompositors().contains(NoCompositing);
+    if (waylandServer()) {
+        useCompositing |= force || config.readEntry("Enabled", Options::defaultUseCompositing()) || !platformSupportsNoCompositing;
+    } else if (compositingMode != NoCompositing) {
+        bool useOpenGL = config.readEntry("Enabled", Options::defaultUseCompositing());
+        compositingMode = useOpenGL ? OpenGLCompositing : XRenderCompositing;
+        useCompositing = true;
+    }
     setCompositingMode(compositingMode);
 
-    const bool platformSupportsNoCompositing = kwinApp()->outputBackend()->supportedCompositors().contains(NoCompositing);
     if (m_compositingMode == NoCompositing && platformSupportsNoCompositing) {
         setUseCompositing(false);
         return false; // do not even detect compositing preferences if explicitly disabled
     }
 
     // it's either enforced by env or by initial resume from "suspend" or we check the settings
-    setUseCompositing(useCompositing || force || config.readEntry("Enabled", Options::defaultUseCompositing() || !platformSupportsNoCompositing));
-
-    if (!m_useCompositing) {
-        return false; // not enforced or necessary and not "enabled" by settings
-    }
+    setUseCompositing(useCompositing);
     return true;
 }
 

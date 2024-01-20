@@ -91,6 +91,8 @@ Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 namespace KWin
 {
 
+static bool s_internalChanged = false;
+
 static QString DConfigCompositingReplyPath()
 {
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
@@ -120,16 +122,17 @@ static EffectType getDConfigUserEffectType()
     return static_cast<EffectType>(type);
 }
 
-static void setDConfigCurrentEffectType(EffectType type)
+static void setDConfigUserEffectType(EffectType type)
 {
     QString path = DConfigCompositingReplyPath();
     if (path.isEmpty()) {
-        qWarning(KWIN_CORE) << "Fail to set DConfig current type";
+        qWarning(KWIN_CORE) << "Fail to set DConfig user type";
         return;
     }
 
+    s_internalChanged = true;
     QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
-    interfaceValue.asyncCall("setValue", "current_type", QVariant::fromValue(QDBusVariant(static_cast<int>(type))));
+    interfaceValue.asyncCall("setValue", "user_type", QVariant::fromValue(QDBusVariant(static_cast<int>(type))));
 }
 
 static int devicePerformanceLevel()
@@ -796,6 +799,10 @@ void Compositor::handleFrameRequested(RenderLoop *renderLoop)
 void Compositor::handleDConfigUserTypeChanged(const QString &type)
 {
     if (type == "user_type") {
+        if (s_internalChanged) {
+            s_internalChanged = false;
+            return;
+        }
         reinitialize();
     }
 }
@@ -1062,17 +1069,24 @@ void X11Compositor::start()
             reasons << QStringLiteral("Disabled by Script");
         }
         m_effectType = EffectType::NoneCompositor;
-        setDConfigCurrentEffectType(EffectType::NoneCompositor);
         qCInfo(KWIN_CORE) << "Compositing is suspended, reason:" << reasons;
         return;
     } else if (!compositingPossible()) {
         m_effectType = EffectType::NoneCompositor;
-        setDConfigCurrentEffectType(EffectType::NoneCompositor);
         qCWarning(KWIN_CORE) << "Compositing is not possible";
         return;
     }
 
-    m_effectType = getDConfigUserEffectType();
+    KConfigGroup config(kwinApp()->config(), "Compositing");
+    if (config.hasKey("Enabled")) {
+        m_effectType = config.readEntry("Enabled", true) ? EffectType::OpenGLComplete : EffectType::XRenderComplete;
+        setDConfigUserEffectType(m_effectType);
+        config.deleteEntry("Enabled");
+        config.sync();
+    } else {
+        m_effectType = getDConfigUserEffectType();
+    }
+
     if (m_effectType == EffectType::AutoSelect) {
         int level = devicePerformanceLevel();
         if (level == 1) {
@@ -1082,11 +1096,11 @@ void X11Compositor::start()
         } else {
             m_effectType = EffectType::XRenderComplete;
         }
+        setDConfigUserEffectType(m_effectType);
         qCDebug(KWIN_CORE) << "Effect type is automatically set to" << m_effectType;
     }
 
     qCDebug(KWIN_CORE) << "Current effect type:" << m_effectType;
-    setDConfigCurrentEffectType(m_effectType);
 
     if (m_effectType == EffectType::NoneCompositor) {
         qCDebug(KWIN_CORE) << "Compositing is disabled by DConfig";
