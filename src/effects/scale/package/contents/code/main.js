@@ -15,7 +15,15 @@ const blacklist = [
     "ksmserver-logout-greeter ksmserver-logout-greeter",
 
     // KDE Plasma splash screen has to be animated only by the login effect.
-    "ksplashqml ksplashqml"
+    "ksplashqml ksplashqml",
+    "dde-osd dde-osd",
+    "dde-clipboard dde-clipboard"
+];
+
+const whitelist = [
+    "dde-lock org.deepin.dde.lock",
+    "dde-launcher dde-launcher",
+    "dde-polkit-agent dde-polkit-agent"
 ];
 
 var scaleEffect = {
@@ -70,10 +78,11 @@ var scaleEffect = {
             return false;
         }
 
-        if (window.windowClass == "dde-launcher dde-launcher")
+        if (whitelist.indexOf(window.windowClass) != -1) {
             return true;
+        }
 
-        return true;
+        return window.normalWindow || window.dialog;
     },
     setupForcedRoles: function (window) {
         window.setData(Effect.WindowForceBackgroundContrastRole, true);

@@ -17,7 +17,8 @@ var blacklist = [
     // The lockscreen isn't a popup window
     "kscreenlocker_greet kscreenlocker_greet",
     // KDE Plasma splash screen has to be animated only by the login effect.
-    "ksplashqml ksplashqml"
+    "ksplashqml ksplashqml",
+    "dde-osd dde-osd"
 ];
 
 var dockPos = 2;
@@ -176,7 +177,7 @@ var fadingPopupsEffect = {
         var width = windowRect.width;
         var height = windowRect.height;
         var padding = 5;
-        if (window.windowClass == "dde-launcher dde-launcher") {
+        if (window.windowClass == "dde-launcher dde-launcher" && !window.popupMenu) {
             point = calDockPos(windowRect);
             point = calcDiagonalPosPadding(point, windowRect, padding);
             return point;
@@ -259,7 +260,7 @@ var fadingPopupsEffect = {
         fadingPopupsEffect.setupForcedRoles(window);
         var windowRect = window.geometry;
         fadingPopupsEffect.addUnmanagedSize = effect.readConfig("addUnmanagedSize", 30);
-        if (window.windowClass != "dde-launcher dde-launcher" && window.popupMenu && (cursorpos.x < windowRect.x - 2 || cursorpos.x > windowRect.x + windowRect.width + 2)) { //二级菜单
+        if (window.popupMenu && (cursorpos.x < windowRect.x - 2 || cursorpos.x > windowRect.x + windowRect.width + 2)) { //二级菜单
             fadingPopupsEffect.addUnmanagedSize = 100;
         }
         var initialPos = fadingPopupsEffect.calcDiagonalPos(window, cursorpos, windowRect);
