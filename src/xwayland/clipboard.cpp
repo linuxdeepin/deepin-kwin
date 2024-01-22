@@ -168,7 +168,7 @@ void Clipboard::x11OffersChanged(const QStringList &added, const QStringList &re
     } else {
         KWaylandServer::AbstractDataSource *currentSelection = waylandServer()->seat()->selection();
         if (!ownsSelection(currentSelection)) {
-            waylandServer()->seat()->setSelection(nullptr);
+            waylandServer()->seat()->setSelection(nullptr,true);
             m_selectionSource.reset();
         }
     }
