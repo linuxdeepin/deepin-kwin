@@ -278,14 +278,6 @@ void UserActionsMenu::handleClick(const QPoint &pos)
 
 void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
 {
-    QString backgroundColor = "rgb(253,253,254)";
-    QString fontColor = "black";
-    QString disableFontColor = "rgba(0,0,0,40%)";
-    if (workspace()->self()->isDarkTheme()) {
-        backgroundColor = "black";
-        fontColor = "white";
-        disableFontColor = "rgba(255,255,255,40%)";
-    }
     if (!m_menu) {
         m_menu = new QMenu;
         int forceDecorate = 1;
@@ -294,33 +286,6 @@ void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
     }
     m_menu->clear();
     disconnect(m_menu, &QMenu::triggered, m_menu, 0);
-    m_menu->setStyleSheet(QString("\
-            QMenu {\
-            background-color: %1;\
-            border-radius:0px;\
-            }\
-            QMenu::item {\
-            font:Sans Serif;\
-            font-size:14px;\
-            padding: 6px 45px 6px 30px;\
-            color: %3;\
-            }\
-            QMenu::item:enabled {\
-            color: %2;\
-            }\
-            QMenu::icon {\
-            padding: 0px 15px 0px 0px;\
-            }\
-            QMenu::icon:checked {\
-            background: transparent\
-            }\
-            QMenu::icon:checked:selected {\
-            background-color: transparent\
-            }\
-            QMenu::item:selected {\
-            background-color: %4;\
-            color: white;}").arg(backgroundColor).arg(fontColor).arg(disableFontColor).arg(workspace()->self()->ActiveColor()));
-    m_menu->setContentsMargins(0,8,0,8);
 
     for (const MenuItem &item : getMenuItemInfos(cl.data())) {
         QAction *action = m_menu->addAction(item.text);
@@ -329,13 +294,6 @@ void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
         action->setCheckable(item.isCheckable);
         action->setChecked(item.checked);
         action->setEnabled(item.enable);
-        if (item.checked) {
-            if (backgroundColor == "black") {
-                action->setIcon(QIcon(":/resources/themes/popupmenu/Active.svg"));
-            } else {
-                action->setIcon(QIcon(":/resources/themes/popupmenu/inActive.svg"));
-            }
-        }
     }
 
     auto client = m_client.data();
