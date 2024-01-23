@@ -1510,6 +1510,8 @@ bool X11Window::isMinimizable() const
     if (isAppletPopup()) {
         return false;
     }
+    if (hasNETSupport() && !m_motif.minimize())
+        return false;
     if (!rules()->checkMinimize(true)) {
         return false;
     }
@@ -4204,6 +4206,8 @@ bool X11Window::isMaximizable() const
     if (isAppletPopup()) {
         return false;
     }
+    if (hasNETSupport() && !m_motif.maximize())
+        return false;
     if (rules()->checkMaximize(MaximizeRestore) == MaximizeRestore && rules()->checkMaximize(MaximizeFull) != MaximizeRestore) {
         return true;
     }
