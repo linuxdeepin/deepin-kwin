@@ -1,16 +1,12 @@
-#version 300 es
-precision highp float;
-
 uniform sampler2D sampler, msk1;
-
-in vec2 texcoord0;
-out vec4 fragColor;
+uniform vec4 modulation;
+varying vec2 texcoord0;
 
 void main() {
-    vec4 c = texture(sampler, texcoord0);
-    vec4 m = texture(msk1, texcoord0);
-    c *= m.a;
-    fragColor = c;
+    vec4 c = texture2D(sampler, texcoord0);
+    vec4 m = texture2D(msk1, texcoord0);
+    c *= (moduliation * m.a);
+    gl_FragColor = c;
 }
 
 // vim: set ft=glsl:
