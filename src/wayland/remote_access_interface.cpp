@@ -293,9 +293,7 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_rel
     QMutableHashIterator<qint32, BufferHolder> itr(sentBuffers);
     while (itr.hasNext()) {
         BufferHolder &bh = itr.next().value();
-        if (unref(bh)) {
-            itr.remove();
-        }
+        unref(bh);
     }
 
     wl_resource_destroy(resource->handle);
