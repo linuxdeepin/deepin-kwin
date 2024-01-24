@@ -346,10 +346,6 @@ void ChameleonConfig::onWindowShapeChanged(quint32 windowId)
 
 void ChameleonConfig::onAppearanceChanged(const QString& key, const QString& value)
 {
-    if (key.toLower() == "gtk") {
-        QMetaObject::invokeMethod(this, &ChameleonConfig::onConfigChanged, Qt::QueuedConnection);
-    }
-
     if (key.toLower() == "windowradius") {
         setGlobalWindowRadius(value.toDouble());
     }
@@ -982,6 +978,13 @@ void ChameleonConfig::init()
     connect(this, &ChameleonConfig::windowTypeChanged, this, &ChameleonConfig::updateWindowNoBorderProperty, Qt::QueuedConnection);
 
     onConfigChanged();
+
+    QDBusConnection::sessionBus().connect(QStringLiteral(DBUS_DEEPIN_WM_SERVICE),
+                                          QStringLiteral(DBUS_DEEPIN_WM_OBJ),
+                                          QStringLiteral(DBUS_DEEPIN_WM_INTF),
+                                          QStringLiteral("DecorationThemeChanged"),
+                                          this,
+                                          SLOT(onConfigChanged()));
 
     // init may be invoked after appearance interface registered
     updateAppearanceConn();
