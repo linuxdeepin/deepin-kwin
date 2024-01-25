@@ -272,7 +272,9 @@ void TestDragAndDrop::testPointerDragAndDrop()
 
     // verify that we did not get any further input events
     QVERIFY(pointerMotionSpy.isEmpty());
-    QCOMPARE(buttonPressSpy.count(), 1);
+    // the release event is sent primarily for xwayland
+    QCOMPARE(buttonPressSpy.count(), 2);
+
 }
 
 void TestDragAndDrop::testTouchDragAndDrop()
@@ -530,7 +532,8 @@ void TestDragAndDrop::testPointerEventsIgnored()
     QCOMPARE(axisSpy.count(), 1);
     QCOMPARE(pointerMotionSpy.count(), 1);
     QCOMPARE(pointerEnteredSpy.count(), 1);
-    QCOMPARE(buttonSpy.count(), 1);
+    // the release event is sent primary for xwayland, see BUG 465444
+    QCOMPARE(buttonSpy.count(), 2);
     QVERIFY(pointerLeftSpy.isEmpty());
 }
 

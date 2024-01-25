@@ -956,12 +956,15 @@ void SeatInterface::notifyPointerButton(quint32 button, PointerButtonState state
                 // not our drag button - ignore
                 return;
             }
+            QPointF localPosition = focusedPointerSurfaceTransformation().map(d->globalPointer.pos);
+            d->pointer->sendButton(button, state, serial, localPosition);
             d->endDrag();
             return;
         }
     }
 
-    d->pointer->sendButton(button, state, serial);
+    QPointF localPosition = focusedPointerSurfaceTransformation().map(d->globalPointer.pos);
+    d->pointer->sendButton(button, state, serial, localPosition);
 }
 
 void SeatInterface::notifyPointerFrame()
@@ -1377,7 +1380,8 @@ void SeatInterface::notifyTouchUp(qint32 id)
         if (!touchPrivate->hasTouchesForClient(focusedTouchSurface()->client())) {
             // Client did not bind touch, fall back to emulating with pointer events.
             const quint32 serial = display()->nextSerial();
-            d->pointer->sendButton(BTN_LEFT, PointerButtonState::Released, serial);
+            QPointF localPosition = focusedPointerSurfaceTransformation().map(d->globalPointer.pos);
+            d->pointer->sendButton(BTN_LEFT, PointerButtonState::Released, serial, localPosition);
             d->pointer->sendFrame();
         }
     }
