@@ -1483,11 +1483,11 @@ public:
 
     void broadcastDbusDestroySignal(int pid);
 
-    void updateWindowRadius(float scale = 1.0);
+    void updateWindowRadius();
 
 public Q_SLOTS:
     virtual void closeWindow() = 0;
-    void onWindowRadiusChanged(float &, float &);
+    void onWindowRadiusChanged(float &);
 
 protected Q_SLOTS:
     void setReadyForPainting();

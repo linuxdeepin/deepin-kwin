@@ -28,7 +28,7 @@ WindowRadiusManager::~WindowRadiusManager()
 
 void WindowRadiusManager::onWindowAdded(Window *window)
 {
-    window->updateWindowRadius(m_scale);
+    window->updateWindowRadius();
     connect(window, static_cast<void (Window::*)(Window *, bool, bool)>(&Window::clientMaximizedStateChanged), this, &WindowRadiusManager::onWindowMaxiChanged);
 }
 
@@ -37,13 +37,13 @@ void WindowRadiusManager::onRadiusChange(QVariant property)
     float r = property.toFloat();
     if (m_radius != r)
         m_radius = r;
-    Q_EMIT sigRadiusChanged(r, m_scale);
+    Q_EMIT sigRadiusChanged(r);
 }
 
 void WindowRadiusManager::onWindowMaxiChanged(Window *window, bool h, bool v)
 {
     window->setMaximized(h && v);
-    window->updateWindowRadius(m_scale);
+    window->updateWindowRadius();
 }
 
 float WindowRadiusManager::getOsRadius()
@@ -51,6 +51,11 @@ float WindowRadiusManager::getOsRadius()
     if (m_radius <= 0.0)
         m_radius = m_configReader->getProperty().isValid() ? m_configReader->getProperty().toFloat() : 0.0;
     return m_radius <= 0.0 ? 0.0 : m_radius;
+}
+
+float WindowRadiusManager::getOsScale()
+{
+    return m_scale;
 }
 
 }

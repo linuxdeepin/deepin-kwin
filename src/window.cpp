@@ -4853,29 +4853,29 @@ bool Window::isProhibitScreenshotWindow()
     return false;
 }
 
-void Window::updateWindowRadius(float scale)
+void Window::updateWindowRadius()
 {
     if (!Compositor::compositing()) {
         return;
     }
 
     if (m_windowRadiusObj) {
-        if (!m_windowRadiusObj->updateWindowRadius(scale)) {
+        if (!m_windowRadiusObj->updateWindowRadius()) {
             m_windowRadiusObj.reset();
         }
         Q_EMIT shadowChanged();
     } else {
         m_windowRadiusObj = std::make_unique<WindowRadius>(this);
         if (m_windowRadiusObj) {
-            m_windowRadiusObj->updateWindowRadius(scale);
+            m_windowRadiusObj->updateWindowRadius();
             Q_EMIT shadowChanged();
         }
     }
 }
 
-void Window::onWindowRadiusChanged(float &p, float &scale)
+void Window::onWindowRadiusChanged(float &p)
 {
-    updateWindowRadius(scale);
+    updateWindowRadius();
 }
 
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)

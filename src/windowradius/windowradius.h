@@ -32,7 +32,7 @@ public:
     explicit WindowRadius(Window *window);
     ~WindowRadius();
 
-    bool updateWindowRadius(float scale);
+    bool updateWindowRadius();
 
     void setWindowRadius(QPointF);
     QPointF windowRadius();

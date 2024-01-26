@@ -52,11 +52,11 @@ WindowRadius::~WindowRadius()
 {
 }
 
-bool WindowRadius::updateWindowRadius(float scale)
+bool WindowRadius::updateWindowRadius()
 {
     if (!m_window || !m_window->effectWindow())
         return false;
-    m_scale = scale;
+
     KWin::EffectWindowImpl *effect = m_window->effectWindow();
     if (m_window->isMaximized()) {
         effect->setData(WindowClipPathRole, QVariant());
@@ -73,7 +73,7 @@ bool WindowRadius::updateWindowRadius(float scale)
     if (path.isEmpty()) {
         effect->setData(WindowClipPathRole, QVariant());
         QPointF radius = windowRadius();
-        effect->setData(WindowRadiusRole, QVariant::fromValue(radius * scale));
+        effect->setData(WindowRadiusRole, QVariant::fromValue(radius * Workspace::self()->getWindowRadiusMgr()->getOsScale()));
     } else {
         effect->setData(WindowRadiusRole, QVariant());
         effect->setData(WindowClipPathRole, QVariant::fromValue(path));

@@ -262,7 +262,7 @@ QPointF Chameleon::windowRadius() const
         return m_theme->windowRadius();
     }
 
-    return m_config->radius * m_theme->windowPixelRatio();
+    return m_config->radius;
 }
 
 QMarginsF Chameleon::mouseInputAreaMargins() const

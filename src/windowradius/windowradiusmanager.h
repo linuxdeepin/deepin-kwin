@@ -18,9 +18,10 @@ public:
 
 public:
     float getOsRadius();
+    float getOsScale();
 
 Q_SIGNALS:
-    void sigRadiusChanged(float &, float &);
+    void sigRadiusChanged(float &);
 
 public Q_SLOTS:
     void onRadiusChange(QVariant);
