@@ -55,6 +55,7 @@ private:
     QLabel *llabel;
     QLabel *clabel;
     QLabel *rlabel;
+    float   m_scale = 1.0;
 
     QTimer *show_timer = nullptr;
     QTimer *hide_timer = nullptr;

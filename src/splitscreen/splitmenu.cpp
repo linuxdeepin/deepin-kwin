@@ -11,6 +11,7 @@
 #include <QEvent>
 #include <QPainter>
 #include <QtMath>
+#include <QScreen>
 
 #define LONG_PRESS_TIME 500
 #define HIDE_DELAY_TIME 300
@@ -35,8 +36,10 @@ SplitMenu::SplitMenu()
     }
     setAttribute(Qt::WA_TranslucentBackground);
 
+    m_scale = QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96;
+
     layout = new QHBoxLayout();
-    layout->setSpacing(5);
+    layout->setSpacing(5 * m_scale);
     llabel = new QLabel(this);
     clabel = new QLabel(this);
     rlabel = new QLabel(this);
@@ -97,39 +100,39 @@ bool SplitMenu::eventFilter(QObject *obj, QEvent *event)
 
     if (obj == llabel) {
         if (event->type() == QEvent::MouseButtonRelease) {
-            llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str));
             if (m_client) {
                 m_client->setQuickTileFromMenu(QuickTileFlag::Left);
             }
-            llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
             Hide(false, true);
         } else if (event->type() == QEvent::Enter) {
-            llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str));
             QPoint pos = m_pos;
             pos.setX(m_pos.x() - 70);
-            pos.setY(m_pos.y() + sign * 50);
+            pos.setY(m_pos.y() + sign * 50 * m_scale);
             QToolTip::showText(pos, tr("Tile window to left of screen"), this);
         } else if (event->type() == QEvent::Leave) {
-            llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
             QToolTip::hideText();
         }
         return false;
     } else if (obj == clabel) {
         if (event->type() == QEvent::MouseButtonRelease) {
-            clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str));
             if (m_client) {
                 m_client->setQuickTileFromMenu(QuickTileFlag::Right);
             }
-            clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
             Hide(false, true);
         } else if (event->type() == QEvent::Enter) {
-            clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str));
             QPoint pos = m_pos;
             pos.setX(m_pos.x() - 20);
-            pos.setY(m_pos.y() + sign * 50);
+            pos.setY(m_pos.y() + sign * 50 * m_scale);
             QToolTip::showText(pos, tr("Tile window to right of screen"), this);
         } else if (event->type() == QEvent::Leave) {
-            clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+            clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
             QToolTip::hideText();
         }
         return false;
@@ -139,24 +142,24 @@ bool SplitMenu::eventFilter(QObject *obj, QEvent *event)
             icon = "restore";
         }
         if (event->type() == QEvent::MouseButtonRelease) {
-            rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+            rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
             if (m_client) {
                 m_client->setQuickTileFromMenu(QuickTileFlag::Maximize, false);
             }
-            rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+            rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
             Hide(false, true);
         } else if (event->type() == QEvent::Enter) {
-            rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_hover.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+            rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
             QPoint pos = m_pos;
             pos.setX(m_pos.x() + 30);
-            pos.setY(m_pos.y() + sign * 50);
+            pos.setY(m_pos.y() + sign * 50 * m_scale);
             if (m_client && m_client->maximizeMode() == MaximizeMode::MaximizeFull) {
                 QToolTip::showText(pos, tr("Unmaximize"), this);
             } else {
                 QToolTip::showText(pos, tr("Maximize"), this);
             }
         } else if (event->type() == QEvent::Leave) {
-            rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+            rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
             QToolTip::hideText();
         }
         return false;
@@ -220,7 +223,7 @@ void SplitMenu::Show(const QRect &button_rect, uint32_t client_id)
         show_timer = new QTimer();
     show_timer->setSingleShot(true);
     checkTheme();
-    checkArea(button_rect, QSize(158, 85));
+    checkArea(button_rect, QSize(m_scale > 1.0 ? 156 * m_scale : 158, m_scale > 1.0 ? 81 * m_scale : 85));
     connect(show_timer, &QTimer::timeout,
         [this] {
             m_isShow = true;
@@ -278,14 +281,17 @@ void SplitMenu::checkTheme()
         str = "light";
         m_color = QColor(255, 255, 255);
     }
-    llabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
-    clabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str));
+    llabel->setMaximumSize(37 * m_scale, 37 * m_scale);
+    llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
+    clabel->setMaximumSize(37 * m_scale, 37 * m_scale);
+    clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
     if (m_client) {
         QString icon = "max";
         if (m_client->maximizeMode() == MaximizeMode::MaximizeFull) {
             icon = "restore";
         }
-        rlabel->setStyleSheet(QString("background-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg); background-repeat:no-repeat;background-position:center;").arg(str).arg(icon));
+        rlabel->setMaximumSize(37 * m_scale, 37 * m_scale);
+        rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
     }
 }
 
@@ -293,7 +299,7 @@ void SplitMenu::checkArea(const QRect &button_rect, const QSize &size)
 {
     m_pos = button_rect.bottomLeft();
     QRect area = workspace()->clientArea(MaximizeArea, m_client).toRect();
-    QPoint pos(m_pos.x() - 75, m_pos.y());
+    QPoint pos(m_pos.x() - (m_scale > 1.0 ? 69 * m_scale : 67), m_pos.y());
 
     upside = false;
     QMargins margin(7, 14, 7, 2);
