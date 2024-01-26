@@ -24,6 +24,7 @@
 #include <QObject>
 
 #include <kwineffects.h>
+#include <window.h>
 
 // 标记窗口当前是否正在使用变色龙窗口标题栏主题
 #define _DEEPIN_CHAMELEON "_DEEPIN_CHAMELEON_THEME"
@@ -40,6 +41,7 @@
 namespace KWin {
 class X11Window;
 class Unmanaged;
+class InternalWindow;
 class EffectWindow;
 class WaylandWindow;
 class Window;
@@ -98,6 +100,7 @@ private Q_SLOTS:
     void onClientAdded(KWin::Window *client);
     // 针对X11BypassWindowManagerHint类型的窗口需要做一些特殊处理
     void onUnmanagedAdded(KWin::Unmanaged *client);
+    void onInternalWindowAdded(KWin::InternalWindow *client);
     void onCompositingToggled(bool active);
     void onWindowPropertyChanged(quint32 windowId, quint32 atom);
     void onWindowDataChanged(KWin::EffectWindow *window, int role);
@@ -123,6 +126,7 @@ private:
 
     void setActivated(const bool active);
     void buildKWinX11Shadow(QObject *client);
+    void buildKWinWaylandShadow(QObject *client, KWin::Window * window);
     void buildKWinX11ShadowDelay(QObject *client, int delay = 100);
     void buildKWinX11ShadowForNoBorderWindows();
     void clearKWinX11ShadowForWindows();

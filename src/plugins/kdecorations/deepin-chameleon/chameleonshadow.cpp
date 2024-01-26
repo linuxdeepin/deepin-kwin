@@ -36,7 +36,7 @@ ChameleonShadow *ChameleonShadow::instance()
 
 QString ChameleonShadow::buildShadowCacheKey(const ChameleonTheme::ThemeConfig *config, qreal scale)
 {
-    auto window_radius = config->radius * scale;
+    auto window_radius = config->radius;
     auto shadow_offset = config->shadowConfig.shadowOffset;
     QColor shadow_color = config->shadowConfig.shadowColor;
     int shadow_size = config->shadowConfig.shadowRadius;
@@ -64,7 +64,7 @@ QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const 
 
     bool no_shadow = config->shadowConfig.shadowColor.alpha() == 0 || qIsNull(config->shadowConfig.shadowRadius);
 
-    auto window_radius = config->radius * scale;
+    auto window_radius = config->radius;
     auto shadow_offset = config->shadowConfig.shadowOffset;
     QColor shadow_color = config->shadowConfig.shadowColor;
     // 因为阴影区域会抹除窗口圆角区域，所以阴影大小需要额外加上窗口圆角大小

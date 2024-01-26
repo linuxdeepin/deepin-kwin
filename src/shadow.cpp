@@ -45,7 +45,7 @@ std::unique_ptr<Shadow> Shadow::createShadow(Window *window)
 {
     auto shadow = createShadowFromDecoration(window);
     if (!shadow && waylandServer()) {
-        shadow = createShadowFromWayland(window);
+        shadow = createShadowFromWindowProperty(window);
     }
     if (!shadow && kwinApp()->x11Connection()) {
         shadow = createShadowFromX11(window);
@@ -94,6 +94,19 @@ std::unique_ptr<Shadow> Shadow::createShadowFromWayland(Window *window)
     }
     auto shadow = Compositor::self()->scene()->createShadow(window);
     if (!shadow->init(s)) {
+        return nullptr;
+    }
+    return shadow;
+}
+
+std::unique_ptr<Shadow> Shadow::createShadowFromWindowProperty(Window *window)
+{
+    const bool isEnabled = window->property("kwin_popup_shadow_enabled").toBool();
+    if (!isEnabled) {
+        return nullptr;
+    }
+    auto shadow = Compositor::self()->scene()->createShadow(window);
+    if (!shadow->init()) {
         return nullptr;
     }
     return shadow;
@@ -169,6 +182,41 @@ bool Shadow::init(const QVector<uint32_t> &data)
                         data[ShadowElementsCount],
                         data[ShadowElementsCount + 1],
                         data[ShadowElementsCount + 2]);
+    Q_EMIT offsetChanged();
+    if (!prepareBackend()) {
+        return false;
+    }
+    Q_EMIT textureChanged();
+    return true;
+}
+
+bool Shadow::init()
+{
+    if (!m_window)
+        return false;
+    const bool isEnabled = m_window->property("kwin_popup_shadow_enabled").toBool();
+    if (!isEnabled) {
+        return false;
+    }
+    const QImage leftTile = m_window->property("kwin_popup_shadow_left").value<QImage>();
+    const QImage topLeftTile = m_window->property("kwin_popup_shadow_top_left").value<QImage>();
+    const QImage topTile = m_window->property("kwin_popup_shadow_top").value<QImage>();
+    const QImage topRightTile = m_window->property("kwin_popup_shadow_top_right").value<QImage>();
+    const QImage rightTile = m_window->property("kwin_popup_shadow_right").value<QImage>();
+    const QImage bottomRightTile = m_window->property("kwin_popup_shadow_bottom_right").value<QImage>();
+    const QImage bottomTile = m_window->property("kwin_popup_shadow_bottom").value<QImage>();
+    const QImage bottomLeftTile = m_window->property("kwin_popup_shadow_bottom_left").value<QImage>();
+
+    m_shadowElements[ShadowElementLeft] = leftTile;
+    m_shadowElements[ShadowElementTopLeft] = topLeftTile;
+    m_shadowElements[ShadowElementTop] = topTile;
+    m_shadowElements[ShadowElementTopRight] = topRightTile;
+    m_shadowElements[ShadowElementRight] = rightTile;
+    m_shadowElements[ShadowElementBottomRight] = bottomRightTile;
+    m_shadowElements[ShadowElementBottom] = bottomTile;
+    m_shadowElements[ShadowElementBottomLeft] = bottomLeftTile;
+
+    m_offset = m_window->property("kwin_popup_shadow_margin").value<QMargins>();
     Q_EMIT offsetChanged();
     if (!prepareBackend()) {
         return false;
@@ -277,7 +325,7 @@ bool Shadow::updateShadow()
         return false;
     }
 
-    if (m_decorationShadow) {
+    if (m_decorationShadow && m_window->isNormalWindow()) {
         if (m_window) {
             if (m_window->decoration()) {
                 if (init(m_window->decoration())) {
@@ -289,13 +337,8 @@ bool Shadow::updateShadow()
     }
 
     if (waylandServer()) {
-        if (m_window && m_window->surface()) {
-            if (const auto &s = m_window->surface()->shadow()) {
-                if (init(s)) {
-                    return true;
-                }
-            }
-        }
+        if (init())
+            return true;
     }
 
     if (InternalWindow *window = qobject_cast<InternalWindow *>(m_window)) {

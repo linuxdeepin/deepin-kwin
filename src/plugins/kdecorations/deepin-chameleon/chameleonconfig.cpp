@@ -49,6 +49,7 @@ using namespace KWin;
 #define DDE_NEED_UPDATE_NOBORDER "__dde__need_update_noborder"
 
 Q_DECLARE_METATYPE(QPainterPath)
+Q_DECLARE_METATYPE(QMargins)
 
 ChameleonConfig::ChameleonConfig(QObject *parent)
     : QObject(parent)
@@ -152,9 +153,14 @@ void ChameleonConfig::onClientAdded(KWin::Window *client)
     connect(c, SIGNAL(hasAlphaChanged()), this, SLOT(updateClientX11Shadow()));
     connect(c, SIGNAL(shapedChanged()), this, SLOT(updateClientX11Shadow()));
     connect(c, SIGNAL(geometryChanged()), this, SLOT(updateWindowSize()));
+    connect(client, &KWin::Window::waylandShadowChanged, client, &KWin::Window::updateShadow);
 
     enforceWindowProperties(c);
-    buildKWinX11Shadow(c);
+    if (QX11Info::isPlatformX11()) {
+        buildKWinX11Shadow(c);
+    } else {
+        buildKWinWaylandShadow(c, client);
+    }
     if (qEnvironmentVariableIsSet(D_KWIN_DEBUG_APP_START_TIME)) {
         debugWindowStartupTime(c);
     }
@@ -172,6 +178,17 @@ void ChameleonConfig::onUnmanagedAdded(KWin::Unmanaged *client)
     enforceWindowProperties(c);
     buildKWinX11Shadow(c);
     debugWindowStartupTime(c);
+}
+
+void ChameleonConfig::onInternalWindowAdded(KWin::InternalWindow *client)
+{
+    auto p = reinterpret_cast<KWin::Window *>(client);
+    if (p)
+        connect(p, &KWin::Window::waylandShadowChanged, p, &KWin::Window::updateShadow);
+    QObject *c = reinterpret_cast<QObject*>(client);
+    if (!QX11Info::isPlatformX11()) {
+        buildKWinWaylandShadow(c, p);
+    }
 }
 
 void ChameleonConfig::onShellClientAdded(KWin::WaylandWindow *client)
@@ -879,6 +896,7 @@ void ChameleonConfig::init()
     connect(Workspace::self(), SIGNAL(configChanged()), this, SLOT(onConfigChanged()));
     connect(Workspace::self(), SIGNAL(windowAdded(KWin::Window*)), this, SLOT(onClientAdded(KWin::Window*)));
     connect(Workspace::self(), SIGNAL(unmanagedAdded(KWin::Unmanaged*)), this, SLOT(onUnmanagedAdded(KWin::Unmanaged*)));
+    connect(Workspace::self(), SIGNAL(internalWindowAdded(KWin::InternalWindow*)), this, SLOT(onInternalWindowAdded(KWin::InternalWindow*)));
     connect(KWinUtils::compositor(), SIGNAL(compositingToggled(bool)), this, SLOT(onCompositingToggled(bool)));
     connect(KWinUtils::instance(), &KWinUtils::windowPropertyChanged, this, &ChameleonConfig::onWindowPropertyChanged);
     connect(KWinUtils::instance(), &KWinUtils::windowShapeChanged, this, &ChameleonConfig::onWindowShapeChanged);
@@ -1168,6 +1186,17 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
         theme_config.borderConfig.borderWidth = 0;
     }
 
+    KWin::EffectWindow *effect = nullptr;
+    QPointF radius = QPointF(0.0, 0.0);
+    effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
+    if (effect) {
+        const QVariant &window_radius = effect->data(WindowRadiusRole);
+        if (window_radius.isValid()) {
+            radius = window_radius.toPointF();
+            theme_config.radius = radius;
+        }
+    }
+
     const QString &shadow_key = ChameleonShadow::buildShadowCacheKey(&theme_config, scale);
     X11Shadow *shadow = m_x11ShadowCache.value(shadow_key);
 
@@ -1208,6 +1237,130 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
     KWinUtils::setWindowProperty(window, m_atom_kde_net_wm_shadow,
                                  XCB_ATOM_CARDINAL, 32,
                                  QByteArray((char*)property_data.constData(), property_data.size() * 4));
+}
+
+void ChameleonConfig::buildKWinWaylandShadow(QObject *window, KWin::Window *w)
+{
+    bool force_decorate = window->property(DDE_FORCE_DECORATE).toBool();
+    bool can_build_shadow = canForceSetBorder(window);
+
+    // 应该强制为菜单类型的窗口创建阴影
+    if (!force_decorate && window->property("popupMenu").toBool()) {
+        // 设置了 GTK_FRAME_EXTENTS 的窗口不接管其阴影
+        if (!window->property("clientSideDecorated").toBool())
+            can_build_shadow = true;
+    }
+
+    if (can_build_shadow) {
+        // 对于可以强制设置显示边框的窗口, "如果声明了边框强制修饰/当前有边框/无边框但透明"的窗口不创建阴影
+        if (force_decorate
+                || (window->property("noBorder").isValid() && !window->property("noBorder").toBool())
+                || window->property("alpha").toBool()) {
+            return;
+        }
+    } else if (!force_decorate) {
+        return;
+    }
+
+    ChameleonWindowTheme *window_theme = buildWindowTheme(window);
+
+    if (!window_theme->property("__connected_for_shadow").toBool()) {
+        auto update = [window, w, this] {
+            buildKWinWaylandShadow(window, w);
+        };
+
+        connect(window_theme, &ChameleonWindowTheme::themeChanged, this, update);
+        connect(window_theme, &ChameleonWindowTheme::shadowRadiusChanged, this, update);
+        connect(window_theme, &ChameleonWindowTheme::shadowOffectChanged, this, update);
+        connect(window_theme, &ChameleonWindowTheme::shadowColorChanged, this, update);
+        connect(window_theme, &ChameleonWindowTheme::windowRadiusChanged, this, update);
+        connect(window_theme, &ChameleonWindowTheme::borderColorChanged, this, update);
+        connect(window_theme, &ChameleonWindowTheme::borderWidthChanged, this, update);
+        connect(window_theme, &ChameleonWindowTheme::windowPixelRatioChanged, this, update);
+        // 标记为已初始化信号链接
+        window_theme->setProperty("__connected_for_shadow", true);
+    }
+
+    ShadowCacheType shadow_type = UnmanagedType;
+    ChameleonTheme::ConfigGroup theme_group;
+    ChameleonTheme::ThemeConfig theme_config;
+
+    // 如果有效，应该使用窗口自定的主题
+    if (window_theme->propertyIsValid(ChameleonWindowTheme::ThemeProperty)) {
+        ChameleonTheme::instance()->loadTheme(window_theme->theme());
+    }
+
+    NET::WindowType window_type = NET::PopupMenu;
+    theme_config = *(ChameleonTheme::instance()->themeUnmanagedConfig(window_type));
+
+    KWin::EffectWindow *effect = nullptr;
+    QPointF radius = QPointF(0.0, 0.0);
+    effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
+    if (effect) {
+        const QVariant &window_radius = effect->data(WindowRadiusRole);
+        if (window_radius.isValid()) {
+            radius = window_radius.toPointF();
+            theme_config.radius = radius;
+        }
+    }
+    qreal scale = window_theme->windowPixelRatio();
+
+    if (window_theme->propertyIsValid(ChameleonWindowTheme::BorderWidthProperty)) {
+        theme_config.borderConfig.borderWidth = window_theme->borderWidth();
+    }
+
+    if (window_theme->propertyIsValid(ChameleonWindowTheme::BorderColorProperty)) {
+        theme_config.borderConfig.borderColor = window_theme->borderColor();
+    }
+
+    if (window_theme->propertyIsValid(ChameleonWindowTheme::ShadowColorProperty)) {
+        theme_config.shadowConfig.shadowColor = window_theme->shadowColor();
+    }
+
+    if (window_theme->propertyIsValid(ChameleonWindowTheme::ShadowOffsetProperty)) {
+        theme_config.shadowConfig.shadowOffset = window_theme->shadowOffset();
+    }
+
+    if (window_theme->propertyIsValid(ChameleonWindowTheme::ShadowRadiusProperty)) {
+        theme_config.shadowConfig.shadowRadius = window_theme->shadowRadius();
+    }
+
+    auto shadow = ChameleonShadow::instance()->getShadow(&theme_config, scale);
+    const QImage &shadow_image = shadow->shadow();
+    const QMargins &margins = shadow->padding();
+
+    QList<QRect> shadow_rect_list {
+        shadow->topGeometry(),
+        shadow->topRightGeometry(),
+        shadow->rightGeometry(),
+        shadow->bottomRightGeometry(),
+        shadow->bottomGeometry(),
+        shadow->bottomLeftGeometry(),
+        shadow->leftGeometry(),
+        shadow->topLeftGeometry()
+    };
+
+    QList<QString> shadow_property_list {
+        "kwin_popup_shadow_top",
+        "kwin_popup_shadow_top_right",
+        "kwin_popup_shadow_right",
+        "kwin_popup_shadow_bottom_right",
+        "kwin_popup_shadow_bottom",
+        "kwin_popup_shadow_bottom_left",
+        "kwin_popup_shadow_left",
+        "kwin_popup_shadow_top_left",
+    };
+
+    for (int i = 0; i < ShadowElements::ShadowElementsCount; ++i) {
+        const QRect &rect = shadow_rect_list[i];
+        const QImage &sub_img = shadow_image.copy(rect);
+        window->setProperty(shadow_property_list[i].toUtf8().constData(), QVariant::fromValue(sub_img));
+    }
+
+    window->setProperty("kwin_popup_shadow_margin", QVariant::fromValue(margins));
+    window->setProperty("kwin_popup_shadow_enabled", QVariant::fromValue(true));
+    Q_EMIT w->waylandShadowChanged();
+
 }
 
 void ChameleonConfig::buildKWinX11ShadowDelay(QObject *client, int delay)

@@ -136,7 +136,9 @@ private:
     static std::unique_ptr<Shadow> createShadowFromDecoration(Window *window);
     static std::unique_ptr<Shadow> createShadowFromWayland(Window *window);
     static std::unique_ptr<Shadow> createShadowFromInternalWindow(Window *window);
+    static std::unique_ptr<Shadow> createShadowFromWindowProperty(Window *window);
     static QVector<uint32_t> readX11ShadowProperty(xcb_window_t id);
+    bool init();
     bool init(const QVector<uint32_t> &data);
     bool init(KDecoration2::Decoration *decoration);
     bool init(const QPointer<KWaylandServer::ShadowInterface> &shadow);

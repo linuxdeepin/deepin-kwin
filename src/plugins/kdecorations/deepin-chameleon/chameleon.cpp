@@ -598,6 +598,14 @@ void Chameleon::updateShadow()
         qCDebug(CHAMELEON) << " has not effect window";
         return;
     }
+    QPointF radius = QPointF(0.0, 0.0);
+    if (effect()) {
+        const QVariant &window_radius = effect()->data(ChameleonConfig::WindowRadiusRole);
+        if (window_radius.isValid()) {
+            radius = window_radius.toPointF();
+            m_config->radius = radius;
+        }
+    }
     if (m_config && settings()->isAlphaChannelSupported()) {
         if (m_theme->validProperties() == ChameleonWindowTheme::PropertyFlags()) {
             const QVariant &data_clip_path = effect()->data(ChameleonConfig::WindowClipPathRole);
@@ -615,11 +623,11 @@ void Chameleon::updateShadow()
 
         qreal scale = m_theme->windowPixelRatio();
         // 优先使用窗口自己设置的属性
-        if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
-            m_config->radius = m_theme->windowRadius();
-            // 这里的数据是已经缩放过的，因此scale值需要为1
-            scale = 1.0;
-        }
+        // if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
+        //     m_config->radius = m_theme->windowRadius();
+        //     // 这里的数据是已经缩放过的，因此scale值需要为1
+        //     scale = 1.0;
+        // }
 
         if (m_theme->propertyIsValid(ChameleonWindowTheme::BorderWidthProperty)) {
             m_config->borderConfig.borderWidth = m_theme->borderWidth();

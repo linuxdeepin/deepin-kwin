@@ -1623,6 +1623,7 @@ Q_SIGNALS:
     void lockScreenOverlayChanged();
     void triggerSplitPreview(KWin::Window *w);
     void swapSplitWindow(KWin::Window *w, int index);
+    void waylandShadowChanged();
 
 protected:
     void setWindowHandles(xcb_window_t client);
