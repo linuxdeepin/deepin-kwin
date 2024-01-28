@@ -1,3 +1,12 @@
+kwin (4:5.27.2.65-deepin65-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  *  fix: the conflict between animation and dde effect
+  *  fix: glsl version of scissor shader
+  *  feat: protocol: add wl_pointer.warp event
+  *  fix: reconstruct window radius
+ -- wangboyu <wangboyu@uniontech.com>  Sun, 28 Jan 2024 12:51:01 +0800
+
 kwin (4:5.27.2.64-deepin64-1) unstable; urgency=medium
 
   [ wangboyu ]
