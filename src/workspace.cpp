@@ -825,6 +825,7 @@ void Workspace::updateOutputConfiguration()
             }
             const QJsonObject pos = outputInfo["pos"].toObject();
             props->pos = QPoint(pos["x"].toInt(), pos["y"].toInt());
+            qCDebug(KWIN_CORE) << "Reading output configuration for " << output << " pos " << props->pos << " current pos " << output->geometry().topLeft();
             if (const QJsonValue scale = outputInfo["scale"]; !scale.isUndefined()) {
                 props->scale = scale.toDouble(1.);
             }
@@ -842,8 +843,15 @@ void Workspace::updateOutputConfiguration()
             }
         } else {
             props->enabled = true;
-            props->pos = pos;
-            props->transform = output->panelOrientation();
+            QPoint output_pos = output->geometry().topLeft();
+            if (output_pos != QPoint(-1, -1)) {
+                props->pos = output_pos;
+                props->transform = output->transform();
+            } else {
+                props->pos = pos;
+                props->transform = output->panelOrientation();
+            }
+            qCDebug(KWIN_CORE) << "Reading none configuration for " << output << " pos " << props->pos << " current pos " << output->geometry().topLeft();
             outputOrder.push_back(std::make_pair(0, output));
         }
         pos.setX(pos.x() + output->geometry().width());
