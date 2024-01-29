@@ -1,3 +1,11 @@
+kwin (4:5.27.2.66-deepin66-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  *  fix: shadow and scissor refresh 
+  *  fix: optimize split menu positon scale
+  *  fix: repair window's radius scale
+ -- wangboyu <wangboyu@uniontech.com>  Mon, 29 Jan 2024 09:56:01 +0800
+
 kwin (4:5.27.2.65-deepin65-1) unstable; urgency=medium
 
   [ wangboyu ]
