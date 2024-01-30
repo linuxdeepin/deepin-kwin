@@ -18,6 +18,7 @@
 #include "wayland/surface_interface.h"
 #include "wayland_server.h"
 #include "window.h"
+#include "scene/surfaceitem.h"
 
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationShadow>
@@ -145,8 +146,21 @@ QVector<uint32_t> Shadow::readX11ShadowProperty(xcb_window_t id)
     return ret;
 }
 
-bool Shadow::init(const QVector<uint32_t> &data)
+bool Shadow::init(const QVector<uint32_t> &shadowData)
 {
+    QVector<uint32_t> data = shadowData;
+    if (m_window->shape()) {
+        Item *item = qobject_cast<Item *>(m_window->surfaceItem());
+        if (item) {
+            QRect shape_rect = item->opaque().boundingRect();
+            QRect window_rect(QPoint(0, 0), m_window->frameGeometry().toRect().size());
+            data[ShadowTopOffse] -= shape_rect.top();
+            data[ShadowRightOffse] -= window_rect.right() - shape_rect.right();
+            data[ShadowBottomOffse] -= window_rect.bottom() - shape_rect.bottom();
+            data[ShadowLeftOffse] -= shape_rect.left();
+        }
+    }
+
     QVector<Xcb::WindowGeometry> pixmapGeometries(ShadowElementsCount);
     QVector<xcb_get_image_cookie_t> getImageCookies(ShadowElementsCount);
     auto *c = kwinApp()->x11Connection();

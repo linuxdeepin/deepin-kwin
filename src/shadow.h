@@ -100,7 +100,11 @@ public:
         ShadowElementBottomLeft,
         ShadowElementLeft,
         ShadowElementTopLeft,
-        ShadowElementsCount
+        ShadowElementsCount,
+        ShadowTopOffse = ShadowElementsCount,
+        ShadowRightOffse = ShadowTopOffse + 1,
+        ShadowBottomOffse = ShadowTopOffse + 2,
+        ShadowLeftOffse = ShadowTopOffse + 3
     };
     QSize elementSize(ShadowElements element) const;
 
@@ -139,7 +143,7 @@ private:
     static std::unique_ptr<Shadow> createShadowFromWindowProperty(Window *window);
     static QVector<uint32_t> readX11ShadowProperty(xcb_window_t id);
     bool init();
-    bool init(const QVector<uint32_t> &data);
+    bool init(const QVector<uint32_t> &shadowData);
     bool init(KDecoration2::Decoration *decoration);
     bool init(const QPointer<KWaylandServer::ShadowInterface> &shadow);
     bool init(const QWindow *window);
