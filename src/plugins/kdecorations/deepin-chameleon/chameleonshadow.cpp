@@ -124,7 +124,9 @@ QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const 
             } else {
                 painter.drawRect(innerRect);
             }
-        } else if (border_width > 0 && border_color.alpha() != 0) {
+        }
+
+        if (border_width > 0 && border_color.alpha() != 0) {
             painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
             painter.setPen(QPen(border_color, border_width + 1));
             painter.setBrush(Qt::NoBrush);
