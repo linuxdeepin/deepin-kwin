@@ -280,24 +280,6 @@ void BlurEffect::reconfigure(ReconfigureFlags flags)
     effects->addRepaintFull();
 }
 
-QRegion rounded(QRegion region, const QPointF& r)
-{
-    auto rect = region.boundingRect();
-    int x = rect.x();
-    int y = rect.y();
-    int w = rect.width() - r.x();
-    int h = rect.height() - r.y();
-    auto r1 = QRegion(x, y, r.x(), r.y());
-    auto r2 = r1.translated(0, h);
-    auto r3 = r1.translated(w, h);
-    auto r4 = r1.translated(w, 0);
-    auto c1 = QRegion(x, y, 2 * r.x(), 2 * r.y(), QRegion::Ellipse);
-    auto c2 = c1.translated(0, h - r.y());
-    auto c3 = c1.translated(w - r.x(), h - r.y());
-    auto c4 = c1.translated(w - r.x(), 0);
-    return (region - (r1 + r2 + r3 + r4) + (c1 + c2 + c3 + c4));
-}
-
 void BlurEffect::updateBlurRegion(EffectWindow *w) const
 {
     QRegion region;
@@ -658,9 +640,26 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
                                                w->height() / 2.0) };
                     const qreal minRadius{ std::min(xMin, yMin) };
                     cornerRadius = QPointF(minRadius, minRadius);
-                    shape = rounded(shape, cornerRadius);
+
+                    // 模糊区域的圆角处不会进行多采样，此处应该减小区域，防止和窗口border叠加处出现圆角锯齿
+                    QPainterPath path;
+                    path.addRoundedRect(QRectF(w->frameGeometry()).adjusted(0.5, 0.5, -0.5, -0.5),
+                                        cornerRadius.x() + 0.5, cornerRadius.y() + 0.5);
+                    QPainterPath blur_path;
+                    blur_path.addRegion(shape);
+
+                    if (!(blur_path - path).isEmpty()) {
+                        // 模糊区域未超出窗口有效区域时不做任何处理
+                        // 将模糊区域限制在窗口的裁剪区域内
+                        blur_path &= path;
+                        shape = QRegion(blur_path.toFillPolygon().toPolygon());
+                    } else {
+                        shape = QRegion();
+                    }
                 }
-                doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), w->isDock() || transientForIsDock, w->frameGeometry());
+
+                if (!shape.isEmpty())
+                    doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), w->isDock() || transientForIsDock, w->frameGeometry());
             }
         }
     }
