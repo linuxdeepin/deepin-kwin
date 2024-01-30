@@ -91,7 +91,9 @@ BlurEffect::BlurEffect()
     reconfigure(ReconfigureAll);
 
     if (effects->xcbConnection()) {
-        net_wm_blur_region = effects->announceSupportProperty(s_blurAtomName, this);
+        QTimer::singleShot(100, [this] () {
+            net_wm_blur_region = effects->announceSupportProperty(s_blurAtomName, this);
+        });
     }
 
     if (effects->waylandDisplay()) {

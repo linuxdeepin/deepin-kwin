@@ -987,7 +987,11 @@ X11Compositor::X11Compositor(QObject *parent)
         if (m_suspended) {
             stop();
         } else {
-            reinitialize();
+            start();
+            if (effects)   // setupCompositing() may fail
+                effects->reconfigure();
+            if (WorkspaceScene *s = scene())
+                s->addRepaintFull();
         }
     });
 }
