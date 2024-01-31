@@ -278,7 +278,12 @@ void ApplicationWayland::startSession()
         currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
         qDebug() << currentDateTime << "start application finished";
     }
-    KWin::Logger::instance()->installMessageHandler();
+    //TODO 这里暂时去掉了kwin日志写入到syslog的功能，原因如下：
+    /* kwin的日志改成写入到syslog之后，其实是qt输出的日志现在改到写入到syslog中了，其实kwin启动的时候，
+        会带着启动xwayland、startdde等，这些应用的日志和wayland协议的日志是通过fprintf打印的，它们只
+        会输出到重定向的文件里边，所以最终导致一部分日志会在syslog里边，一部分会在.kwin.log里边，应用的
+        日志和wayland协议的日志有些是没有时间戳的，这样导致日志执行的时间就无法确定，导致问题反而更难分析
+    */
 }
 
 void ApplicationWayland::exitWayland()
