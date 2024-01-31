@@ -641,20 +641,32 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
                     const qreal minRadius{ std::min(xMin, yMin) };
                     cornerRadius = QPointF(minRadius, minRadius);
 
-                    // 模糊区域的圆角处不会进行多采样，此处应该减小区域，防止和窗口border叠加处出现圆角锯齿
-                    QPainterPath path;
-                    path.addRoundedRect(QRectF(w->frameGeometry()).adjusted(0.5, 0.5, -0.5, -0.5),
-                                        cornerRadius.x() + 0.5, cornerRadius.y() + 0.5);
-                    QPainterPath blur_path;
-                    blur_path.addRegion(shape);
-
-                    if (!(blur_path - path).isEmpty()) {
-                        // 模糊区域未超出窗口有效区域时不做任何处理
-                        // 将模糊区域限制在窗口的裁剪区域内
-                        blur_path &= path;
-                        shape = QRegion(blur_path.toFillPolygon().toPolygon());
+                    if (w->property("__RADIUS").value<QPointF>() == cornerRadius
+                        && w->property("__SHAPE").value<QRegion>() == shape
+                        && w->property("__FRAME_GEOMETRY").value<QRect>() == w->frameGeometry()) {
+                        shape = w->property("__SHAPE_NEW").value<QRegion>();
                     } else {
-                        shape = QRegion();
+                        w->setProperty("__RADIUS", cornerRadius);
+                        w->setProperty("__SHAPE", shape);
+                        w->setProperty("__FRAME_GEOMETRY", w->frameGeometry());
+
+                        // 模糊区域的圆角处不会进行多采样，此处应该减小区域，防止和窗口border叠加处出现圆角锯齿
+                        QPainterPath path;
+                        path.addRoundedRect(QRectF(w->frameGeometry()).adjusted(0.5, 0.5, -0.5, -0.5),
+                                            cornerRadius.x() + 0.5, cornerRadius.y() + 0.5);
+                        QPainterPath blur_path;
+                        blur_path.addRegion(shape);
+
+                        if (!(blur_path - path).isEmpty()) {
+                            // 模糊区域未超出窗口有效区域时不做任何处理
+                            // 将模糊区域限制在窗口的裁剪区域内
+                            blur_path &= path;
+                            shape = QRegion(blur_path.toFillPolygon().toPolygon());
+                        } else {
+                            shape = QRegion();
+                        }
+
+                        w->setProperty("__SHAPE_NEW", shape);
                     }
                 }
 
