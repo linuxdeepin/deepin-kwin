@@ -104,10 +104,10 @@ QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const 
         }
 
         // contrast pixel
-        QRectF innerRect = QRectF(shadow_size - shadow_offset.x() - shadow_overlap.x(),
-                                  shadow_size - shadow_offset.y() - shadow_overlap.y(),
-                                  shadow_offset.x() + 2 * shadow_overlap.x(),
-                                  shadow_offset.y() + 2 * shadow_overlap.y());
+        QRectF innerRect = QRectF(shadow_size - shadow_offset.x() - shadow_overlap.x() - 0.5,
+                                  shadow_size - shadow_offset.y() - shadow_overlap.y() - 0.5,
+                                  shadow_offset.x() + 2 * shadow_overlap.x() + 1,
+                                  shadow_offset.y() + 2 * shadow_overlap.y() + 1);
 
         QPainter painter(&image);
 
@@ -120,7 +120,7 @@ QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const 
             painter.setBrush(Qt::black);
             painter.setCompositionMode(QPainter::CompositionMode_DestinationOut);
             if (window_radius.x() > 0 && window_radius.y() > 0) {
-                painter.drawRoundedRect(innerRect, 0.5 + window_radius.x(), 0.5 + window_radius.y());
+                painter.drawRoundedRect(innerRect, window_radius.x(), window_radius.y());
             } else {
                 painter.drawRect(innerRect);
             }
@@ -128,10 +128,10 @@ QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const 
 
         if (border_width > 0 && border_color.alpha() != 0) {
             painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            painter.setPen(QPen(border_color, border_width + 1));
+            painter.setPen(QPen(border_color, border_width));
             painter.setBrush(Qt::NoBrush);
             if (window_radius.x() > 0 && window_radius.y() > 0) {
-                painter.drawRoundedRect(innerRect, window_radius.x() - 0.5, window_radius.y() - 0.5);
+                painter.drawRoundedRect(innerRect, window_radius.x() + 0.5, window_radius.y() + 0.5);
             } else {
                 painter.drawRect(innerRect);
             }
