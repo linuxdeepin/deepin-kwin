@@ -637,7 +637,7 @@ void ChameleonConfig::updateClientWindowRadius(QObject *client)
     window_radius *= window_theme->windowPixelRatio();
 
     if (m_globalWindowRadius != InvalidRadius) {
-        window_radius = m_globalWindowRadius;
+        window_radius = m_globalWindowRadius * window_theme->windowPixelRatio();
     }
 
     if (window_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
