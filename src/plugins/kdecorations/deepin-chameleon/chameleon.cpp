@@ -125,6 +125,11 @@ void Chameleon::init()
         updateBorderPath();
         updateTitleBarArea();
     });
+    connect(global_config, &ChameleonConfig::screenScaleFactorChanged, this, [=]() {
+        updateShadow();
+        updateBorderPath();
+        updateTitleBarArea();
+    });
 
     QTimer::singleShot(0, this, [=] {
         if (QDBusInterface interface("org.deepin.dde.Appearance1",
@@ -279,15 +284,7 @@ QPointF Chameleon::shadowOffset() const
 
 QPointF Chameleon::windowRadius() const
 {
-    if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
-        return m_theme->windowRadius();
-    }
-
-    auto globalWindowRadius = ChameleonConfig::instance()->globalWindowRadius();
-    if (globalWindowRadius != ChameleonConfig::InvalidRadius)
-        return globalWindowRadius;
-
-    return m_config.radius * getScaleFactor();
+    return m_config.radius;
 }
 
 QMarginsF Chameleon::mouseInputAreaMargins() const
@@ -646,7 +643,16 @@ void Chameleon::updateShadow()
     // TODO: should use std::options to check m_config valid?
     if (settings()->isAlphaChannelSupported()) {
         // 优先使用窗口自己设置的属性
-        m_config.radius = windowRadius();
+        if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
+            m_config.radius = m_theme->windowRadius();
+        }
+        else {
+            auto globalWindowRadius = ChameleonConfig::instance()->globalWindowRadius();
+            if (globalWindowRadius != ChameleonConfig::InvalidRadius) {
+                m_config.radius = globalWindowRadius * getScaleFactor();
+            }
+        }
+
         auto w = effect();
         QPointF maxWindowRadius = QPointF(w->width() / 2.0, w->height() / 2.0);
 
