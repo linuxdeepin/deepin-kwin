@@ -119,6 +119,7 @@ BlurEffect::BlurEffect()
     connect(effects, &EffectsHandler::xcbConnectionChanged, this, [this]() {
         net_wm_blur_region = effects->announceSupportProperty(s_blurAtomName, this);
     });
+    connect(effects, &EffectsHandler::windowGeometryShapeChanged, this, &BlurEffect::slotWindowGeometryShapeChanged);
 
     // Fetch the blur regions for all windows
     const auto stackingOrder = effects->stackingOrder();
@@ -838,4 +839,11 @@ bool BlurEffect::blocksDirectScanout() const
     return false;
 }
 
+void BlurEffect::slotWindowGeometryShapeChanged(KWin::EffectWindow *w, const QRectF &old)
+{
+    if(w) {
+        updateBlurRegion(w);
+    }
+
+}
 } // namespace KWin

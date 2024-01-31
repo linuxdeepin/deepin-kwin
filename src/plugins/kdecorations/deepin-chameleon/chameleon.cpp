@@ -598,13 +598,16 @@ void Chameleon::updateShadow()
         qCDebug(CHAMELEON) << " has not effect window";
         return;
     }
-    QPointF radius = QPointF(0.0, 0.0);
+    QPointF radius;
     if (effect()) {
         const QVariant &window_radius = effect()->data(ChameleonConfig::WindowRadiusRole);
         if (window_radius.isValid()) {
             radius = window_radius.toPointF();
-            m_config->radius = radius;
         }
+        if (radius.isNull()) {
+            radius = QPointF(0.0, 0.0);
+        }
+        m_config->radius = radius;
     }
     if (m_config && settings()->isAlphaChannelSupported()) {
         if (m_theme->validProperties() == ChameleonWindowTheme::PropertyFlags()) {

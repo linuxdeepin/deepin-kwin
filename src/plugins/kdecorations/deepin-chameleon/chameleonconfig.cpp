@@ -442,7 +442,7 @@ void ChameleonConfig::updateWindowBlurArea(KWin::EffectWindow *window, int role)
     // 优先使用窗口裁剪区域，如裁剪区域无效时使用窗口圆角属性
     if (path.isEmpty()) {
         // 模糊区域的圆角处不会进行多采样，此处应该减小区域，防止和窗口border叠加处出现圆角锯齿
-        path.addRoundedRect(QRectF(window->rect()).adjusted(0.5, 0.5, -0.5, -0.5), radius.x() + 0.5, radius.y() + 0.5);
+        path.addRoundedRect(QRectF(window->rect()), radius.x(), radius.y());
     }
 
     QPainterPath blur_path;
@@ -1187,14 +1187,17 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
     }
 
     KWin::EffectWindow *effect = nullptr;
-    QPointF radius = QPointF(0.0, 0.0);
+    QPointF radius;
     effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
     if (effect) {
         const QVariant &window_radius = effect->data(WindowRadiusRole);
         if (window_radius.isValid()) {
             radius = window_radius.toPointF();
-            theme_config.radius = radius;
         }
+        if (radius.isNull()) {
+            radius = QPointF(0.0, 0.0);
+        }
+        theme_config.radius = radius;
     }
 
     const QString &shadow_key = ChameleonShadow::buildShadowCacheKey(&theme_config, scale);
@@ -1241,26 +1244,8 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
 
 void ChameleonConfig::buildKWinWaylandShadow(QObject *window, KWin::Window *w)
 {
-    bool force_decorate = window->property(DDE_FORCE_DECORATE).toBool();
-    bool can_build_shadow = canForceSetBorder(window);
-
-    // 应该强制为菜单类型的窗口创建阴影
-    if (!force_decorate && window->property("popupMenu").toBool()) {
-        // 设置了 GTK_FRAME_EXTENTS 的窗口不接管其阴影
-        if (!window->property("clientSideDecorated").toBool())
-            can_build_shadow = true;
-    }
-
-    if (can_build_shadow) {
-        // 对于可以强制设置显示边框的窗口, "如果声明了边框强制修饰/当前有边框/无边框但透明"的窗口不创建阴影
-        if (force_decorate
-                || (window->property("noBorder").isValid() && !window->property("noBorder").toBool())
-                || window->property("alpha").toBool()) {
-            return;
-        }
-    } else if (!force_decorate) {
-        return;
-    }
+    if (!w->isPopupWindow())
+        return ;
 
     ChameleonWindowTheme *window_theme = buildWindowTheme(window);
 
@@ -1294,14 +1279,17 @@ void ChameleonConfig::buildKWinWaylandShadow(QObject *window, KWin::Window *w)
     theme_config = *(ChameleonTheme::instance()->themeUnmanagedConfig(window_type));
 
     KWin::EffectWindow *effect = nullptr;
-    QPointF radius = QPointF(0.0, 0.0);
+    QPointF radius;
     effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
     if (effect) {
         const QVariant &window_radius = effect->data(WindowRadiusRole);
         if (window_radius.isValid()) {
             radius = window_radius.toPointF();
-            theme_config.radius = radius;
         }
+        if (radius.isNull()) {
+            radius = QPointF(0.0, 0.0);
+        }
+        theme_config.radius = radius;
     }
     qreal scale = window_theme->windowPixelRatio();
 

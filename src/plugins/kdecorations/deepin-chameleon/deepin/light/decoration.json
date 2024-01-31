@@ -197,9 +197,9 @@
     "blur": 10,
     "opcaity": 1,
     "shadow": {
-      "shadowRadius": 40,
-      "shadowOffset": "0,20",
-      "shadowColor": "#33000000"
+      "shadowRadius": 30,
+      "shadowOffset": "0,12",
+      "shadowColor": "#50000000"
     }
   },
   "1003": {
@@ -214,7 +214,7 @@
     "shadow": {
       "shadowRadius": 8,
       "shadowOffset": "0,2",
-      "shadowColor": "20000000"
+      "shadowColor": "#50000000"
     }
   },
   "1004": {
@@ -227,9 +227,9 @@
     "blur": 30,
     "opcaity": 1,
     "shadow": {
-      "shadowRadius": 12,
-      "shadowOffset": "6,6",
-      "shadowColor": "#66000000"
+      "shadowRadius": 30,
+      "shadowOffset": "0,12",
+      "shadowColor": "#50000000"
     }
   },
   "1005": {
@@ -242,9 +242,9 @@
     "blur": 30,
     "opcaity": 1,
     "shadow": {
-      "shadowRadius": 12,
-      "shadowOffset": "6,6",
-      "shadowColor": "#66000000"
+      "shadowRadius": 30,
+      "shadowOffset": "0,12",
+      "shadowColor": "#50000000"
     }
   },
   "1006": {
@@ -258,8 +258,8 @@
     "opcaity": 1,
     "shadow": {
       "shadowRadius": 30,
-      "shadowOffset": "0,10",
-      "shadowColor": "#44000000"
+      "shadowOffset": "0,12",
+      "shadowColor": "#50000000"
     }
   }
 }

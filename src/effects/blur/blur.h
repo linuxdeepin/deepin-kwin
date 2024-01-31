@@ -73,6 +73,7 @@ public Q_SLOTS:
     void slotScreenRemoved(KWin::EffectScreen *screen);
     void slotPropertyNotify(KWin::EffectWindow *w, long atom);
     void setupDecorationConnections(EffectWindow *w);
+    void slotWindowGeometryShapeChanged(KWin::EffectWindow *w, const QRectF &old);
 
 private:
     void initBlurStrengthValues();
