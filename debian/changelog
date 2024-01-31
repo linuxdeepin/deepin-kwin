@@ -1,3 +1,19 @@
+kwin (4:5.27.2.67-deepin67-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * feat: remove the log of kwin writing to syslog for now.
+  * fix: blur region, scissor and shadow
+  * fix: check the minimize and maximize attribute when window create
+  * fix: shape window shadow
+  * fix: solve switch 2d to 3d black screen problem
+  * fix: dock will flash after switching theme color
+  * feat: optimize the clipboard seat process
+  * feat: Fix screen position changed after external screen re-plugin
+  * Revert "fix: remove some code about KWinKScreenIntegration and setting default display mode."
+  * fix: Avoid double remove in QHash sentBuffers
+
+ -- huangzeming <huangzeming@uniontech.com>  Wed, 31 Jan 2024 17:08:48 +0800
+
 kwin (4:5.27.2.66-deepin66-1) unstable; urgency=medium
 
   [ wangboyu ]
