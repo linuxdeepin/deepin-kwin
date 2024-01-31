@@ -76,6 +76,14 @@ void ScissorWindow::buildTextureMask(const QString& key, const QPointF& radius) 
     painter.setBrush(QColor(255, 255, 255, 255));
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawEllipse(0, 0, radius.x() * 2, radius.y() * 2);
+
+    // Draw crosshairs to prevent subpixels
+    const auto center = img.rect().center();
+    painter.setPen(QColor(255, 255, 255, 255));
+    painter.setRenderHint(QPainter::Antialiasing, false);
+    painter.drawLine(center.x(), 0, center.x(), img.rect().bottom());
+    painter.drawLine(0, center.y(), img.rect().right(), center.y());
+
     painter.end();
 
     m_texMaskMap[key] = new GLTexture(img.copy(0, 0, radius.x(), radius.y()));
