@@ -507,9 +507,6 @@ void Compositor::initializeX11()
         m_selectionOwner->claim(true);
         m_selectionOwner->setOwning(true);
     }
-
-    xcb_composite_redirect_subwindows(connection, kwinApp()->x11RootWindow(),
-                                      XCB_COMPOSITE_REDIRECT_MANUAL);
 }
 
 void Compositor::cleanupX11()
@@ -566,6 +563,12 @@ void Compositor::startupWithWorkspace()
 
     if (m_releaseSelectionTimer.isActive()) {
         m_releaseSelectionTimer.stop();
+    }
+
+    xcb_connection_t *connection = kwinApp()->x11Connection();
+    if (connection) {
+        xcb_composite_redirect_subwindows(connection, kwinApp()->x11RootWindow(),
+                                          XCB_COMPOSITE_REDIRECT_MANUAL);
     }
 }
 
