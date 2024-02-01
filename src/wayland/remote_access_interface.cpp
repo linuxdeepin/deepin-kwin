@@ -286,15 +286,9 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
 
 void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_release(Resource *resource)
 {
-    // all holders should decrement their counter as one client is gone
     requestFrames.remove(resource->handle);
     lastFrames.remove(resource->handle);
 
-    QMutableHashIterator<qint32, BufferHolder> itr(sentBuffers);
-    while (itr.hasNext()) {
-        BufferHolder &bh = itr.next().value();
-        unref(bh);
-    }
 
     wl_resource_destroy(resource->handle);
 }
