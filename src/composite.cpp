@@ -444,10 +444,6 @@ bool Compositor::setupStart()
     if (!m_backend) {
         m_state = State::Off;
 
-        if (auto *con = kwinApp()->x11Connection()) {
-            xcb_composite_unredirect_subwindows(con, kwinApp()->x11RootWindow(),
-                                                XCB_COMPOSITE_REDIRECT_MANUAL);
-        }
         if (m_selectionOwner) {
             m_selectionOwner->setOwning(false);
             m_selectionOwner->release();
@@ -506,6 +502,11 @@ void Compositor::initializeX11()
         // Force claim ownership.
         m_selectionOwner->claim(true);
         m_selectionOwner->setOwning(true);
+    }
+
+    if (waylandServer()) {
+        xcb_composite_redirect_subwindows(connection, kwinApp()->x11RootWindow(),
+                                          XCB_COMPOSITE_REDIRECT_MANUAL);
     }
 }
 
