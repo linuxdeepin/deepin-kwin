@@ -1,3 +1,10 @@
+kwin (4:5.27.2.68-deepin68-1) unstable; urgency=medium
+
+  [ dingzhixuan ]
+  * fix: unable to open x11 application on wayland
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Thu, 01 Feb 2024 19:44:01 +0800
+
 kwin (4:5.27.2.67-deepin67-1) unstable; urgency=medium
 
   [ huangzeming ]
