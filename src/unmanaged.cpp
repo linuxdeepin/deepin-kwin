@@ -131,6 +131,7 @@ bool Unmanaged::track(xcb_window_t w)
     getWmOpaqueRegion();
     getSkipCloseAnimation();
     setupCompositing();
+    updateWindowRadius();
     if (QWindow *internalWindow = findInternalWindow()) {
         m_outline = internalWindow->property("__kwin_outline").toBool();
         m_splitbar = wm_name.isEmpty() ? false : wm_name.contains("splitbar");

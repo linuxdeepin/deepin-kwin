@@ -4875,7 +4875,6 @@ void Window::updateWindowRadius()
     } else {
         m_windowRadiusObj = std::make_unique<WindowRadius>(this);
         if (m_windowRadiusObj) {
-            m_windowRadiusObj->updateWindowRadius();
             Q_EMIT shadowChanged();
         }
     }

@@ -73,7 +73,7 @@ bool WindowRadius::updateWindowRadius()
     if (path.isEmpty()) {
         effect->setData(WindowClipPathRole, QVariant());
         QPointF radius = windowRadius();
-        effect->setData(WindowRadiusRole, QVariant::fromValue(radius * Workspace::self()->getWindowRadiusMgr()->getOsScale()));
+        effect->setData(WindowRadiusRole, QVariant::fromValue(radius));
     } else {
         effect->setData(WindowRadiusRole, QVariant());
         effect->setData(WindowClipPathRole, QVariant::fromValue(path));
@@ -103,13 +103,18 @@ QPointF WindowRadius::windowRadius()
     }
     QPointF radius;
     if (l.count() < 2) {
-        radius.setX(Workspace::self()->getWindowRadiusMgr()->getOsRadius());
-        radius.setY(Workspace::self()->getWindowRadiusMgr()->getOsRadius());
+        radius.setX(Workspace::self()->getWindowRadiusMgr()->getOsRadius() * Workspace::self()->getWindowRadiusMgr()->getOsScale());
+        radius.setY(Workspace::self()->getWindowRadiusMgr()->getOsRadius() * Workspace::self()->getWindowRadiusMgr()->getOsScale());
     } else {
         radius.setX(l.first().toDouble());
         radius.setY(l.at(1).toDouble());
     }
     return radius;
+}
+
+QString WindowRadius::theme() const
+{
+    return property("theme").toString();
 }
 
 void WindowRadius::onUpdateWindowRadiusChanged()
@@ -119,7 +124,7 @@ void WindowRadius::onUpdateWindowRadiusChanged()
 
 void WindowRadius::onUpdateWindowRadiusByWayland(QPointF windowRadius)
 {
-    setProperty("windowRadius",windowRadius);
+    setProperty("windowRadius",windowRadius * Workspace::self()->getWindowRadiusMgr()->getOsScale());
     m_window->updateWindowRadius();
 }
 

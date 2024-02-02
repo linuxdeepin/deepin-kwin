@@ -11,8 +11,9 @@ class Window;
 class WindowRadius : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QPointF windowRadius READ windowRadius WRITE setWindowRadius NOTIFY windowRadiusChanged)
     Q_PROPERTY(qint64 validProperties READ validProperties WRITE setValidProperties NOTIFY validPropertiesChanged)
+    Q_PROPERTY(QString theme READ theme NOTIFY themeChanged)
+    Q_PROPERTY(QPointF windowRadius READ windowRadius WRITE setWindowRadius NOTIFY windowRadiusChanged)
 
 public:
     enum PropertyFlag {
@@ -36,6 +37,7 @@ public:
 
     void setWindowRadius(QPointF);
     QPointF windowRadius();
+    QString theme() const;
 
     PropertyFlags validProperties() const;
     bool propertyIsValid(PropertyFlag p) const;
@@ -43,6 +45,7 @@ public:
 Q_SIGNALS:
     void windowRadiusChanged();
     void validPropertiesChanged(qint64 validProperties);
+    void themeChanged();
 
 public Q_SLOTS:
     void onUpdateWindowRadiusChanged();
