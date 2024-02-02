@@ -17,7 +17,12 @@ const blacklist = [
     // KDE Plasma splash screen has to be animated only by the login effect.
     "ksplashqml ksplashqml",
     "dde-osd dde-osd",
-    "dde-clipboard dde-clipboard"
+    "dde-clipboard dde-clipboard",
+    "dde-blackwidget dde-blackwidget",
+    "dde-desktop dde-desktop",
+    "deepin-screen-recorder deepin-screen-recorder",
+    "plasmashell plasmashell",
+    "plasmashell org.kde.plasmashell"
 ];
 
 const whitelist = [
@@ -40,17 +45,6 @@ var scaleEffect = {
         scaleEffect.closedCurve = effect.readConfig("closedCurve", 10);
     },
     isScaleWindow: function (window) {
-        // We don't want to animate most of plasmashell's windows, yet, some
-        // of them we want to, for example, Task Manager Settings window.
-        // The problem is that all those window share single window class.
-        // So, the only way to decide whether a window should be animated is
-        // to use a heuristic: if a window has decoration, then it's most
-        // likely a dialog or a settings window so we have to animate it.
-        if (window.windowClass == "plasmashell plasmashell"
-                || window.windowClass == "plasmashell org.kde.plasmashell") {
-            return window.hasDecoration;
-        }
-
         if (window.windowClass == "dde-lock org.deepin.dde.lock")
             return true;
 
@@ -105,6 +99,12 @@ var scaleEffect = {
         if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
             return;
         }
+        if (window.dock || window.splash || window.toolbar
+            || window.notification || window.onScreenDisplay
+            || window.criticalNotification
+            || window.appletPopup) {
+            return ;
+        }
         scaleEffect.setupForcedRoles(window);
         var windowRect = window.geometry;
         var scaleSize = scaleEffect.addSize;
@@ -149,6 +149,12 @@ var scaleEffect = {
         }
         if (!effect.grab(window, Effect.WindowClosedGrabRole)) {
             return;
+        }
+        if (window.dock || window.splash || window.toolbar
+            || window.notification || window.onScreenDisplay
+            || window.criticalNotification
+            || window.appletPopup) {
+            return ;
         }
         if (window.scaleInAnimation) {
             cancel(window.scaleInAnimation);
