@@ -2486,6 +2486,22 @@ void Workspace::setSplitMenuKeepShowing(bool keep)
     SplitMenu::instance()->setKeepShowing(keep);
 }
 
+void Workspace::handleReleaseMouseCommand()
+{
+    if (m_clientIDHandlingMouseCommand) {
+        Window *w = input()->findToplevel(Cursors::self()->mouse()->pos());
+        if (w) {
+            qCDebug(KWIN_CORE) << "release on:" << w->resourceName();
+            Window* tmp = findClient(Predicate::WindowMatch, m_clientIDHandlingMouseCommand);
+            if (tmp && tmp->window() == w->window()) {
+                takeActivity(tmp, Workspace::ActivityFocus | Workspace::ActivityRaise);
+                qCDebug(KWIN_CORE) << "raise at release:" << w->resourceName() << "; id:" << w->window();
+            }
+        }
+        setClientIDHandleMouseCommand(0);
+    }
+}
+
 void Workspace::updateTabbox()
 {
 #if KWIN_BUILD_TABBOX

@@ -2610,7 +2610,12 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         replay = replay || !rules()->checkAcceptFocus(acceptsFocus());
         break;
     case Options::MouseActivateRaiseAndPassClick:
-        workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
+        if (waylandServer()) {
+            workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
+        } else {
+            workspace()->takeActivity(this, Workspace::ActivityFocus);
+            workspace()->setClientIDHandleMouseCommand(window());
+        }
         workspace()->setActiveOutput(globalPos);
         replay = true;
         break;
@@ -2678,6 +2683,9 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         }
         if (isInteractiveMoveResize()) {
             finishInteractiveMoveResize(false);
+        }
+        if (!waylandServer()) {
+            workspace()->raiseWindow(this);
         }
         setInteractiveMoveResizeGravity(Gravity::None);
         setInteractiveMoveResizePointerButtonDown(true);
@@ -3349,7 +3357,7 @@ void Window::pointerEnterEvent(const QPointF &globalPos)
         startShadeHoverTimer();
     }
 
-    if (options->focusPolicy() == Options::ClickToFocus || workspace()->userActionsMenu()->isShown()) {
+    if (options->focusPolicy() == Options::ClickToFocus || options->focusPolicy() == Options::ButtonReleaseToFocus || workspace()->userActionsMenu()->isShown()) {
         return;
     }
 

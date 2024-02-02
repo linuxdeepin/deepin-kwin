@@ -215,6 +215,12 @@ namespace KWin
  */
 void Workspace::setActiveWindow(Window *window)
 {
+    if (window) {
+        qCDebug(KWIN_CORE) <<"Workspace::setActiveWindow:"<< window->resourceName();
+    } else {
+        qCDebug(KWIN_CORE) <<"Workspace::setActiveWindow: get 0 window";
+    }
+
     if (m_activeWindow == window) {
         return;
     }
@@ -400,9 +406,11 @@ bool Workspace::takeActivity(Window *window, ActivityFlags flags)
     bool ret = true;
 
     if (flags & ActivityFocus) {
+        qCDebug(KWIN_CORE) << "takeActivity: flags & ActivityFocus";
         ret &= window->takeFocus();
     }
     if (flags & ActivityRaise) {
+        qCDebug(KWIN_CORE) << "takeActivity: flags & ActivityRaise";
         workspace()->raiseWindow(window);
     }
 

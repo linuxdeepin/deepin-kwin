@@ -261,7 +261,8 @@ public:
          * the mouse points onto the desktop, the desktop has focus. The same holds
          * for windows on the dock.
          */
-        FocusStrictlyUnderMouse
+        FocusStrictlyUnderMouse,
+        ButtonReleaseToFocus
     };
     Q_ENUM(FocusPolicy)
 
@@ -356,7 +357,7 @@ public:
 
     bool focusPolicyIsReasonable()
     {
-        return m_focusPolicy == ClickToFocus || m_focusPolicy == FocusFollowsMouse;
+        return m_focusPolicy == ClickToFocus || m_focusPolicy == FocusFollowsMouse || m_focusPolicy == ButtonReleaseToFocus;
     }
 
     enum ActivationDesktopPolicy {

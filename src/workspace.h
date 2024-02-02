@@ -323,6 +323,16 @@ public:
     void hideSplitMenu(bool delay);
     void setSplitMenuKeepShowing(bool keep);
 
+    void handleReleaseMouseCommand();
+
+    void setClientIDHandleMouseCommand(xcb_window_t wId) {
+        m_clientIDHandlingMouseCommand = wId;
+    }
+
+    xcb_window_t clientIDHandleMouseCommand() const {
+        return m_clientIDHandlingMouseCommand;
+    }
+
     /**
      * @returns the TileManager associated to a given output
      */
@@ -939,6 +949,8 @@ private:
 
     QRectF m_lastDockPos = QRectF();
     DBusDock *m_dockInter = nullptr;
+
+    xcb_window_t m_clientIDHandlingMouseCommand = 0;
 private:
     friend bool performTransiencyCheck();
     friend Workspace *workspace();
