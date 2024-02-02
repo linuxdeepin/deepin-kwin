@@ -1244,7 +1244,7 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
 
 void ChameleonConfig::buildKWinWaylandShadow(QObject *window, KWin::Window *w)
 {
-    if (!w->isPopupWindow())
+    if (w->isDock())
         return ;
 
     ChameleonWindowTheme *window_theme = buildWindowTheme(window);
