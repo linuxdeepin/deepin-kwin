@@ -1,3 +1,12 @@
+kwin (4:5.27.2.69-deepin69-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * fix: raise window after button released
+  * fix: display the outline of window when show desktop
+  * fix: modify window radius scale
+
+ -- wangboyu <wangboyu@uniontech.com>  Sun 03 Feb 2024 23:21:01 +0800
+
 kwin (4:5.27.2.68-deepin68-1) unstable; urgency=medium
 
   [ dingzhixuan ]
