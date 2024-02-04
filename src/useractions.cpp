@@ -1155,7 +1155,7 @@ void Workspace::initShortcuts()
                  Qt::ALT | Qt::Key_F3, &Workspace::slotWindowOperations);
     initShortcut("Window Close", i18n("Close Window"),
                  Qt::ALT | Qt::Key_F4, &Workspace::slotWindowClose);
-    initShortcut("Window Maximize", i18n("Maximize Window"),
+    initShortcut("Window Absolute Maximize", i18n("Maximize Window"),
                  Qt::META | Qt::Key_Up, &Workspace::slotWindowMaximizeByShortcut);
     initShortcut("Window Unmaximize", i18n("Maximize Window"),
                  Qt::META | Qt::Key_Down, &Workspace::slotWindowUnMaximizeByShortcut);
