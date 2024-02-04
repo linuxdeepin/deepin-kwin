@@ -99,8 +99,7 @@ XRenderPicture::XRenderPicture(xcb_pixmap_t pix, int depth)
 
 XRenderPictureData::~XRenderPictureData()
 {
-    if (picture != XCB_RENDER_PICTURE_NONE) {
-        Q_ASSERT(qApp);
+    if (picture != XCB_RENDER_PICTURE_NONE && qApp && XRenderUtils::s_connection) {
         xcb_render_free_picture(XRenderUtils::s_connection, picture);
     }
 }

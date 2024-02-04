@@ -2798,8 +2798,12 @@ InputRedirection::~InputRedirection()
     qDeleteAll(m_filters);
     qDeleteAll(m_spies);
 
-    delete pEventMonitor;
-    pEventMonitor = nullptr;
+    if (Application::useXRecord()) {
+        pEventMonitor->stopRecord();
+        pEventMonitor->exit();
+        pEventMonitor->wait();
+        pEventMonitor->deleteLater();
+    }
 }
 
 void InputRedirection::installInputEventFilter(InputEventFilter *filter)
