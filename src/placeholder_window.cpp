@@ -14,11 +14,13 @@
 namespace KWin
 {
 
-PlaceholderWindow::PlaceholderWindow(): X11EventFilter(QVector<int>{XCB_EXPOSE, XCB_EVENT_MASK_KEY_PRESS, XCB_VISIBILITY_NOTIFY})
-, m_window(XCB_WINDOW_NONE)
-, m_shapeXRects(nullptr)
-, m_shapeXRectsCount(0)
-, m_waylandServer(nullptr)
+PlaceholderWindow::PlaceholderWindow()
+    : X11EventFilter(QVector<int>{XCB_EXPOSE, XCB_EVENT_MASK_KEY_PRESS, XCB_VISIBILITY_NOTIFY})
+    , m_window(XCB_WINDOW_NONE)
+    , m_shapeXRects(nullptr)
+    , m_takeOver(0)
+    , m_shapeXRectsCount(0)
+    , m_waylandServer(nullptr)
 {
 }
 
@@ -26,14 +28,14 @@ PlaceholderWindow::~PlaceholderWindow()
 {
 }
 
-bool PlaceholderWindow::create(const QRect& rc, WaylandServer *ws)
+bool PlaceholderWindow::create(const QRect& rc, xcb_window_t to_take_over, WaylandServer *ws)
 {
     m_waylandServer = ws;
     if (m_waylandServer != nullptr) { //暂时不支持
         return false;
     }
 
-    if (!Xcb::Extensions::self()->isShapeInputAvailable())
+    if (!to_take_over || !Xcb::Extensions::self()->isShapeInputAvailable())
         return false;
 
     destroy();
@@ -46,6 +48,8 @@ bool PlaceholderWindow::create(const QRect& rc, WaylandServer *ws)
 
     m_window.create(rc, XCB_WINDOW_CLASS_INPUT_OUTPUT, mask, values);
     m_window.map();
+
+    m_takeOver = to_take_over;
 
     foreground = xcb_generate_id(connection());
     mask = XCB_GC_FOREGROUND | XCB_GC_GRAPHICS_EXPOSURES;
@@ -103,12 +107,18 @@ quint32 PlaceholderWindow::window() const
 
 void PlaceholderWindow::move(uint32_t x, uint32_t y)
 {
+    if (m_window == XCB_WINDOW_NONE)
+        return;
+
     m_window.move(x, y);
 }
 
 //要设计形状 和位置
 void PlaceholderWindow::setGeometry(const QRect& rc)
 {
+    if (m_window == XCB_WINDOW_NONE)
+        return;
+
     QRect currc = m_window.geometry().toRect();
     if (currc.size() == rc.size()) {
         m_window.move(rc.x(), rc.y());
@@ -121,6 +131,9 @@ void PlaceholderWindow::setGeometry(const QRect& rc)
 
 QRect PlaceholderWindow::getGeometry() const
 {
+    if (m_window == XCB_WINDOW_NONE)
+        return QRect();
+
     return m_window.geometry().toRect();
 }
 
@@ -135,6 +148,7 @@ void PlaceholderWindow::destroy()
         m_shapeXRects = nullptr;
     }
     m_window = XCB_WINDOW_NONE;
+    m_takeOver = 0;
 }
 
 bool PlaceholderWindow::event(xcb_generic_event_t *event)

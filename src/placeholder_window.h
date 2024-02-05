@@ -25,7 +25,7 @@ public:
 public:
     quint32 window() const;
 
-    bool create(const QRect &rc, WaylandServer *ws = nullptr);
+    bool create(const QRect &rc, xcb_window_t to_take_over, WaylandServer *ws = nullptr);
     void destroy();
 
     bool event(xcb_generic_event_t *event) override;
@@ -34,12 +34,15 @@ public:
     void setGeometry(const QRect &rc);
     QRect getGeometry() const;
 
+    bool takeOver(xcb_window_t wid) const { return m_takeOver && m_takeOver == wid; }
+
 private:
     void setShape();
 
 private:
     Xcb::Window m_window;
     xcb_rectangle_t *m_shapeXRects;
+    xcb_window_t m_takeOver;
     int m_shapeXRectsCount;
     xcb_gcontext_t foreground;
 

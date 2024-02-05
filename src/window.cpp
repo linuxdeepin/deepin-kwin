@@ -1845,7 +1845,7 @@ bool Window::isExitSplitMode(QPointF pos)
 void Window::handleSplitWinSwap()
 {
     QRectF geo = frameGeometry();
-    if (!workspace()->isDraggingWithContent())
+    if (s_placeholderWindow && s_placeholderWindow->takeOver(window()))
         geo = s_placeholderWindow->getGeometry();
 
     if (m_initRectForSplit.center().x() > geo.center().x() && m_currentModeForSplit == QuickTileMode(QuickTileFlag::Right)) {
@@ -1863,7 +1863,8 @@ void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &gl
     handleInteractiveMoveResize(local.x(), local.y(), global.x(), global.y());
     if (!isRequestedFullScreen() && isInteractiveMove()) {
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None)
-            && (oldGeo != moveResizeGeometry() || !workspace()->isDraggingWithContent())
+            && (oldGeo != moveResizeGeometry()
+                    || (s_placeholderWindow && s_placeholderWindow->takeOver(window()) && oldGeo != s_placeholderWindow->getGeometry()))
             && isExitSplitMode(global)) {
             GeometryUpdatesBlocker blocker(this);
             setQuickTileMode(QuickTileFlag::None);
@@ -2276,9 +2277,7 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
     }
 
     if (nextMoveResizeGeom != currentMoveResizeGeom) {
-        if (!workspace()->isDraggingWithContent() && s_placeholderWindow) {
-            s_placeholderWindow->setGeometry(nextMoveResizeGeom.toRect());
-        } else if (isInteractiveMove()) {
+        if (isInteractiveMove()) {
             move(nextMoveResizeGeom.topLeft());
         } else {
             doInteractiveResizeSync(nextMoveResizeGeom);
@@ -3917,6 +3916,10 @@ void Window::move(const QPointF &point)
     const QRectF rect = QRectF(point, m_moveResizeGeometry.size());
 
     setMoveResizeGeometry(rect);
+    if (s_placeholderWindow && s_placeholderWindow->takeOver(window())) {
+        s_placeholderWindow->setGeometry(rect.toRect());
+        return;
+    }
     moveResizeInternal(rect, MoveResizeMode::Move);
 }
 
@@ -3925,25 +3928,26 @@ void Window::resize(const QSizeF &size)
     const QRectF rect = QRectF(m_moveResizeGeometry.topLeft(), size);
 
     setMoveResizeGeometry(rect);
+    if (s_placeholderWindow && s_placeholderWindow->takeOver(window())) {
+        s_placeholderWindow->setGeometry(rect.toRect());
+        return;
+    }
     moveResizeInternal(rect, MoveResizeMode::Resize);
 }
 
 void Window::moveResize(const QRectF &rect)
 {
     setMoveResizeGeometry(rect);
+    if (s_placeholderWindow && s_placeholderWindow->takeOver(window())) {
+        s_placeholderWindow->setGeometry(rect.toRect());
+        return;
+    }
     moveResizeInternal(rect, MoveResizeMode::MoveResize);
 }
 
 void Window::moveResizeGeometry(const QRectF &rect)
 {
     qWarning() << resourceName() << "skip move resize change from property";
-}
-
-void Window::moveResizeLightWeight(const QRectF &rect)
-{
-    if (s_placeholderWindow) {
-        s_placeholderWindow->setGeometry(rect.toRect());
-    }
 }
 
 void Window::setElectricBorderMode(QuickTileMode mode)
@@ -4832,16 +4836,17 @@ void Window::createPlaceHolder()
     if (!s_placeholderWindow) {
         s_placeholderWindow = std::make_unique<PlaceholderWindow>();
     }
-    s_placeholderWindow->create(frameGeometry().toRect(), waylandServer());
+    s_placeholderWindow->create(frameGeometry().toRect(), window(), waylandServer());
     grabXKeyboard(s_placeholderWindow->window());
 }
 
 void Window::destroyPlaceHolder()
 {
-    if (s_placeholderWindow) {
-        moveResize(s_placeholderWindow->getGeometry());
+    if (s_placeholderWindow && s_placeholderWindow->takeOver(window())) {
+        QRect geom = s_placeholderWindow->getGeometry();
         ungrabXKeyboard();
         s_placeholderWindow->destroy();
+        moveResize(geom);
     }
 }
 

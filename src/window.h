@@ -1177,7 +1177,6 @@ public:
     void resize(const QSizeF &size);
     void moveResize(const QRectF &rect);
     void moveResizeGeometry(const QRectF &rect);
-    void moveResizeLightWeight(const QRectF &rect);
 
     virtual QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &s) = 0;
     void keepInArea(QRectF area, bool partial = false);
