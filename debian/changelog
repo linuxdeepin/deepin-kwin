@@ -1,3 +1,15 @@
+kwin (4:5.27.2.70-deepin70-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * fix: cancel osd effect
+  * fix: kwin crashes on logout
+  * fix: cancel noise strength in blur
+  * fix: send the buffer of output in remoteaccess when the output is longly not presented.
+  * fix: dock panel shadow in wayland
+  * fix: only destroy the resource when remoteaccessManager is released.
+
+ -- huangzeming <huangzeming@uniontech.com>  Tue, 20 Feb 2024 10:59:57 +0800
+
 kwin (4:5.27.2.69-deepin69-1) unstable; urgency=medium
 
   [ wangboyu ]
