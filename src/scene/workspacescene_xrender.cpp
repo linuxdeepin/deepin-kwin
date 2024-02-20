@@ -95,6 +95,10 @@ bool SceneXRenderShadow::prepareBackend()
     return true;
 }
 
+void SceneXRenderShadow::resetTexture()
+{
+}
+
 //****************************************
 // XRenderDecorationRenderer
 //****************************************

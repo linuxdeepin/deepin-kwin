@@ -134,6 +134,7 @@ protected:
     };
 
     virtual bool prepareBackend() = 0;
+    virtual void resetTexture() = 0;
 
 private:
     static std::unique_ptr<Shadow> createShadowFromX11(Window *window);

@@ -745,7 +745,6 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     readApplicationMenuServiceName(applicationMenuServiceNameCookie);
     readApplicationMenuObjectPath(applicationMenuObjectPathCookie);
 
-    updateWindowRadius();
     updateDecoration(false); // Also gravitates
     // TODO: Is CentralGravity right here, when resizing is done after gravitating?
     const QSizeF constrainedClientSize = constrainClientSize(geom.size());
@@ -4601,6 +4600,7 @@ void X11Window::maximize(MaximizeMode mode)
     Q_EMIT quickTileModeChanged();
 
     if (max_mode != old_mode) {
+        setMaximized(max_mode & MaximizeHorizontal && max_mode & MaximizeVertical);
         Q_EMIT clientMaximizedStateChanged(this, max_mode);
         Q_EMIT clientMaximizedStateChanged(this, max_mode & MaximizeHorizontal, max_mode & MaximizeVertical);
     }

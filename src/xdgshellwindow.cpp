@@ -34,7 +34,6 @@
 #include "workspace.h"
 #include "useractions.h"
 #include "wayland/dderestrict_interface.h"
-// #include "windowradius/windowradius.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -1735,6 +1734,7 @@ void XdgToplevelWindow::updateMaximizeMode(MaximizeMode maximizeMode)
     }
     m_maximizeMode = maximizeMode;
     updateWindowRules(Rules::MaximizeVert | Rules::MaximizeHoriz);
+    setMaximized(maximizeMode & MaximizeHorizontal && maximizeMode & MaximizeVertical);
     Q_EMIT clientMaximizedStateChanged(this, maximizeMode);
     Q_EMIT clientMaximizedStateChanged(this, maximizeMode & MaximizeHorizontal, maximizeMode & MaximizeVertical);
 }

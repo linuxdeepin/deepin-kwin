@@ -85,6 +85,7 @@ public:
 
 protected:
     bool prepareBackend() override;
+    void resetTexture() override;
 private:
     XRenderPicture* m_pictures[ShadowElementsCount];
 };

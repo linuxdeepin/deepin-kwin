@@ -137,6 +137,10 @@ public:
     {
         return m_wasWaterMark;
     }
+    bool isSplitMenu() const override
+    {
+        return m_wasSplitMenu;
+    }
 
 private Q_SLOTS:
     void mainWindowClosed(KWin::Window *window);
@@ -176,6 +180,7 @@ private:
     bool m_wasSplitBar;
     bool m_wasWaterMark;
     bool m_wasLockScreen;
+    bool m_wasSplitMenu;
 };
 
 inline void Deleted::refWindow()

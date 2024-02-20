@@ -46,7 +46,8 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
-#include "windowradius/windowradiusmanager.h"
+#include "windowstyle/windowstylemanager.h"
+#include "windowstyle/decorationstyle.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -138,7 +139,7 @@ Window::Window()
     });
     connect(&m_offscreenFramecallbackTimer, &QTimer::timeout, this, &Window::maybeSendFrameCallback);
 
-    connect(Workspace::self()->getWindowRadiusMgr(), &WindowRadiusManager::sigRadiusChanged, this, &Window::onWindowRadiusChanged);
+    connect(Workspace::self()->getWindowStyleMgr(), &WindowStyleManager::sigRadiusChanged, this, &Window::onWindowRadiusChanged);
 }
 
 Window::~Window()
@@ -367,9 +368,10 @@ bool Window::setupCompositing()
 
     m_effectWindow = std::make_unique<EffectWindowImpl>(this);
     updateShadow();
-    if(!QX11Info::isPlatformX11())
+    if(!QX11Info::isPlatformX11()) {
+        createWinStyle();
         updateWindowRadius();
-
+    }
     m_windowItem = createItem(scene);
     m_effectWindow->setWindowItem(m_windowItem.get());
 
@@ -4876,22 +4878,61 @@ bool Window::isProhibitScreenshotWindow()
     return false;
 }
 
+WindowRadius *Window::windowRadiusObj() const
+{
+    return m_windowRadiusObj.get();
+}
+
 void Window::updateWindowRadius()
+{
+    if (m_windowRadiusObj) {
+        int ret = m_windowRadiusObj->updateWindowRadius();
+        if (ret == 0) {
+            m_windowRadiusObj.reset();
+        } else if (ret == 1) {
+            updateWindowShadow();
+        }
+    } else {
+        m_windowRadiusObj = std::make_unique<WindowRadius>(this);
+        if (m_windowRadiusObj) {
+            updateWindowRadius();
+        }
+    }
+}
+
+WindowShadow *Window::windowShadowObj() const
+{
+    return m_windowShadowObj.get();
+}
+
+void Window::updateWindowShadow()
 {
     if (!Compositor::compositing()) {
         return;
     }
-
-    if (m_windowRadiusObj) {
-        if (!m_windowRadiusObj->updateWindowRadius()) {
-            m_windowRadiusObj.reset();
-        }
-        Q_EMIT shadowChanged();
+    if (m_windowShadowObj) {
+        m_windowShadowObj->updateWindowShadow();
+        updateShadow();
     } else {
-        m_windowRadiusObj = std::make_unique<WindowRadius>(this);
-        if (m_windowRadiusObj) {
-            Q_EMIT shadowChanged();
+        m_windowShadowObj = std::make_unique<WindowShadow>(this);
+        if (m_windowShadowObj) {
+            updateWindowShadow();
         }
+    }
+}
+
+DecorationStyle *Window::windowStyleObj() const
+{
+    return m_windowStyle.get();
+}
+
+void Window::createWinStyle()
+{
+    if (!m_windowStyle) {
+        if (QX11Info::isPlatformX11())
+            m_windowStyle = std::make_unique<X11DecorationStyle>(this);
+        else
+            m_windowStyle = std::make_unique<WaylandDecorationStyle>(this);
     }
 }
 

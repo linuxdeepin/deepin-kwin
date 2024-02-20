@@ -36,6 +36,7 @@ Deleted::Deleted()
     , m_wasOutline(false)
     , m_wasSplitBar(false)
     , m_wasLockScreen(false)
+    , m_wasSplitMenu(false)
 {
 }
 
@@ -116,6 +117,7 @@ void Deleted::copyToDeleted(Window *window)
     // m_wasSplitBar = window->isSplitBar();
     m_wasWaterMark = window->isWaterMark();
     m_wasLockScreen = window->isLockScreen();
+    m_wasSplitMenu = window->isSplitMenu();
 }
 
 void Deleted::unrefWindow()

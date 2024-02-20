@@ -63,8 +63,9 @@
 #include "splitscreen/splitmanage.h"
 #include "splitscreen/splitmenu.h"
 #include "configreader.h"
-#include "windowradius/windowradiusmanager.h"
 #include "composite.h"
+#include "windowstyle/windowstylemanager.h"
+
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -152,7 +153,6 @@ Workspace::Workspace()
     , m_applicationMenu(std::make_unique<ApplicationMenu>())
     , m_placementTracker(std::make_unique<PlacementTracker>(this))
     , m_splitManage(std::make_unique<SplitManage>())
-    , m_windowRadiusManager(std::make_unique<WindowRadiusManager>())
 {
     // If KWin was already running it saved its configuration after loosing the selection -> Reread
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -204,7 +204,7 @@ Workspace::Workspace()
         Q_ASSERT(kwinApp()->operationMode() == Application::OperationMode::OperationModeX11);
         X11Compositor::create(this);
     }
-
+    m_windowStyleManager = std::make_unique<WindowStyleManager>();
     m_decorationBridge = std::make_unique<Decoration::DecorationBridge>();
     m_decorationBridge->init();
     connect(this, &Workspace::configChanged, m_decorationBridge.get(), &Decoration::DecorationBridge::reconfigure);
@@ -290,6 +290,11 @@ void Workspace::init()
     // care if the xcb connection is broken or has an error.
     connect(kwinApp(), &Application::x11ConnectionChanged, this, &Workspace::initializeX11);
     connect(kwinApp(), &Application::x11ConnectionAboutToBeDestroyed, this, &Workspace::cleanupX11);
+
+    connect(this, &Workspace::windowAdded, m_windowStyleManager.get(), &WindowStyleManager::onWindowAdded);
+    connect(this, &Workspace::unmanagedAdded, m_windowStyleManager.get(), &WindowStyleManager::onWindowAdded);
+    connect(this, &Workspace::internalWindowAdded, m_windowStyleManager.get(), &WindowStyleManager::onWindowAdded);
+
     initializeX11();
 
     Scripting::create(this);
@@ -313,10 +318,6 @@ void Workspace::init()
     connect(this, &Workspace::unmanagedAdded, m_splitManage.get(), &SplitManage::add);
     connect(this, &Workspace::internalWindowAdded, m_splitManage.get(), &SplitManage::add);
     connect(this, &Workspace::preRemoveInternalWindow, m_splitManage.get(), &SplitManage::removeInternal);
-
-    connect(this, &Workspace::windowAdded, m_windowRadiusManager.get(), &WindowRadiusManager::onWindowAdded);
-    connect(this, &Workspace::unmanagedAdded, m_windowRadiusManager.get(), &WindowRadiusManager::onWindowAdded);
-    connect(this, &Workspace::internalWindowAdded, m_windowRadiusManager.get(), &WindowRadiusManager::onWindowAdded);
 
     QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
                                           "PropertiesChanged", this, SLOT(qtActiveColorChanged()));
@@ -3616,9 +3617,9 @@ SplitManage *Workspace::getSplitManage() const
     return m_splitManage.get();
 }
 
-WindowRadiusManager *Workspace::getWindowRadiusMgr() const
+WindowStyleManager *Workspace::getWindowStyleMgr() const
 {
-    return m_windowRadiusManager.get();
+    return m_windowStyleManager.get();
 }
 
 QImage Workspace::getProhibitShotImage(QSize size)
@@ -3699,7 +3700,7 @@ void Workspace::setWinSplitState(Window *w, bool isSplit)
 
 float Workspace::getWindowRadius() const
 {
-    return m_windowRadiusManager.get()->getOsRadius();
+    return m_windowStyleManager.get()->getOsRadius();
 }
 
 double Workspace::getFontSizeScale() const {

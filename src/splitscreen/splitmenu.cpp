@@ -38,6 +38,8 @@ SplitMenu::SplitMenu()
 
     m_scale = QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96;
 
+    setWindowTitle("splitmenu");
+
     layout = new QHBoxLayout();
     layout->setSpacing(5 * m_scale);
     llabel = new QLabel(this);

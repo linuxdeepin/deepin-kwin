@@ -270,6 +270,14 @@ bool InternalWindow::isWindowMenu() const
     return false;
 }
 
+bool InternalWindow::isSplitMenu() const
+{
+    if (m_handle) {
+        return captionNormal().contains("splitmenu");
+    }
+    return false;
+}
+
 bool InternalWindow::isShown() const
 {
     return readyForPainting();

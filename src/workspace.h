@@ -102,7 +102,7 @@ class OutputConfiguration;
 class TileManager;
 class SplitManage;
 class ConfigReader;
-class WindowRadiusManager;
+class WindowStyleManager;
 
 typedef KWaylandServer::ClientManagementInterface::WindowState WindowState;
 
@@ -571,7 +571,7 @@ public:
 
     KWaylandServer::DDEShellSurfaceInterface* getDDEShellSurface(KWin::Window* c);
     SplitManage *getSplitManage() const;
-    WindowRadiusManager *getWindowRadiusMgr() const;
+    WindowStyleManager *getWindowStyleMgr() const;
 
     void updateWinTile(Output *output);
 
@@ -940,7 +940,7 @@ private:
     std::unique_ptr<PlaceholderInputEventFilter> m_placeholderFilter;
     std::map<Output *, std::unique_ptr<TileManager>> m_tileManagers;
     std::unique_ptr<SplitManage> m_splitManage;
-    std::unique_ptr<WindowRadiusManager> m_windowRadiusManager;
+    std::unique_ptr<WindowStyleManager> m_windowStyleManager;
 
     QString m_activeColor;
     QString m_sessionPath;

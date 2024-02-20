@@ -50,6 +50,7 @@ public:
 
 protected:
     bool prepareBackend() override;
+    void resetTexture() override;
 };
 
 class SceneQPainterDecorationRenderer : public DecorationRenderer

@@ -222,6 +222,20 @@ QVector<QRectF> SurfaceItemXwayland::shape() const
     return shape;
 }
 
+QRegion SurfaceItemXwayland::opaque() const
+{
+    QRegion shapeRegion;
+    for (const QRectF &shapePart : shape()) {
+        shapeRegion |= shapePart.toRect();
+    }
+    if (!m_window->hasAlpha()) {
+        return shapeRegion;
+    } else {
+        return m_window->opaqueRegion() & shapeRegion;
+    }
+    return QRegion();
+}
+
 void SurfaceItemXwayland::handleWindowClosed(Window *original, Deleted *deleted)
 {
     m_window = deleted;

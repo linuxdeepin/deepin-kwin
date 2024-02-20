@@ -205,8 +205,10 @@ target_sources(kwin PRIVATE
     splitscreen/splitbar.cpp
     splitscreen/splitmenu.cpp
     splitscreen/splitscreen.qrc
-    windowradius/windowradius.cpp
-    windowradius/windowradiusmanager.cpp
+    windowstyle/windowradius.cpp
+    windowstyle/windowstylemanager.cpp
+    windowstyle/windowshadow.cpp
+    windowstyle/decorationstyle.cpp
     resources.qrc
     configreader.cpp
     dockrect.cpp

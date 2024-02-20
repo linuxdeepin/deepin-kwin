@@ -62,6 +62,9 @@ bool SceneQPainterShadow::prepareBackend()
 {
     return true;
 }
+void SceneQPainterShadow::resetTexture()
+{
+}
 
 //****************************************
 // QPainterDecorationRenderer

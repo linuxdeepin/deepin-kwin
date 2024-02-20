@@ -20,7 +20,8 @@
 #include <functional>
 #include <memory>
 #include <kwineffects.h>
-#include "windowradius/windowradius.h"
+#include "windowstyle/windowradius.h"
+#include "windowstyle/windowshadow.h"
 #include <NETWM>
 
 #include <QElapsedTimer>
@@ -62,6 +63,7 @@ class Shadow;
 class SurfaceItem;
 class VirtualDesktop;
 class WindowItem;
+class DecorationStyle;
 
 /**
  * Enum to describe the reason why a Window has to be released.
@@ -308,6 +310,8 @@ class KWIN_EXPORT Window : public QObject
     Q_PROPERTY(bool watermark READ isWaterMark)
 
     Q_PROPERTY(bool windowmenu READ isWindowMenu)
+
+    Q_PROPERTY(bool splitmenu READ isSplitMenu)
 
     /**
      * This property holds a UUID to uniquely identify this Window.
@@ -726,6 +730,7 @@ public:
     virtual bool isWaterMark() const;
     virtual bool isWindowMenu() const;
     virtual bool isInternal() const;
+    virtual bool isSplitMenu() const;
 
     /**
      * Returns the virtual desktop within the workspace() the client window
@@ -962,6 +967,9 @@ public:
     void cancelAutoRaise();
 
     bool wantsTabFocus() const;
+
+    QRectF cacheShapeGeometry() { return m_cacheShapeGeometry; }
+    void setCacheShapeGeometry(QRectF rect) { m_cacheShapeGeometry = rect; }
 
     virtual void updateMouseGrab();
     /**
@@ -1492,7 +1500,12 @@ public:
 
     void broadcastDbusDestroySignal(int pid);
 
+    WindowRadius *windowRadiusObj() const;
     void updateWindowRadius();
+    WindowShadow *windowShadowObj() const;
+    void updateWindowShadow();
+    DecorationStyle  *windowStyleObj() const;
+    void createWinStyle();
 
     struct timeval constructTimeval() const {
         return m_constructTimeval;
@@ -2006,6 +2019,8 @@ private:
     std::unique_ptr<WindowItem> m_windowItem;
     std::unique_ptr<Shadow> m_shadow;
     std::unique_ptr<WindowRadius> m_windowRadiusObj;
+    std::unique_ptr<WindowShadow> m_windowShadowObj;
+    std::unique_ptr<DecorationStyle>  m_windowStyle;
     QString resource_name;
     QString resource_class;
     ClientMachine *m_clientMachine;
@@ -2129,6 +2144,7 @@ private:
     QRectF m_initRectForSplit;
     QPointF m_initPosForSplit = QPointF();
     QuickTileMode m_currentModeForSplit;
+    QRectF m_cacheShapeGeometry = QRectF();
 
     struct timeval m_constructTimeval;
     EventTrackingState m_firstComposite = EventTrackingState::Ready;
@@ -2356,6 +2372,11 @@ inline bool Window::isWaterMark() const
 }
 
 inline bool Window::isWindowMenu() const
+{
+    return false;
+}
+
+inline bool Window::isSplitMenu() const
 {
     return false;
 }

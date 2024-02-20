@@ -73,13 +73,8 @@ std::unique_ptr<Shadow> Shadow::createShadowFromX11(Window *window)
 
 std::unique_ptr<Shadow> Shadow::createShadowFromDecoration(Window *window)
 {
-    if (!window->decoration()) {
-        return nullptr;
-    }
     auto shadow = Compositor::self()->scene()->createShadow(window);
-    if (!shadow->init(window->decoration())) {
-        return nullptr;
-    }
+
     return shadow;
 }
 
@@ -208,32 +203,50 @@ bool Shadow::init()
 {
     if (!m_window)
         return false;
-    const bool isEnabled = m_window->property("kwin_popup_shadow_enabled").toBool();
-    if (!isEnabled) {
-        return false;
+    if (!m_window->windowShadowObj())
+        return true;
+
+    if (!WindowShadow::m_cacheShadow.contains(m_window->windowShadowObj()->m_key)) {
+        m_offset = QMargins();
+        resetTexture();
+        Q_EMIT offsetChanged();
+        Q_EMIT textureChanged();
+        return true;
     }
-    const QImage leftTile = m_window->property("kwin_popup_shadow_left").value<QImage>();
-    const QImage topLeftTile = m_window->property("kwin_popup_shadow_top_left").value<QImage>();
-    const QImage topTile = m_window->property("kwin_popup_shadow_top").value<QImage>();
-    const QImage topRightTile = m_window->property("kwin_popup_shadow_top_right").value<QImage>();
-    const QImage rightTile = m_window->property("kwin_popup_shadow_right").value<QImage>();
-    const QImage bottomRightTile = m_window->property("kwin_popup_shadow_bottom_right").value<QImage>();
-    const QImage bottomTile = m_window->property("kwin_popup_shadow_bottom").value<QImage>();
-    const QImage bottomLeftTile = m_window->property("kwin_popup_shadow_bottom_left").value<QImage>();
 
-    m_shadowElements[ShadowElementLeft] = leftTile;
-    m_shadowElements[ShadowElementTopLeft] = topLeftTile;
-    m_shadowElements[ShadowElementTop] = topTile;
-    m_shadowElements[ShadowElementTopRight] = topRightTile;
-    m_shadowElements[ShadowElementRight] = rightTile;
-    m_shadowElements[ShadowElementBottomRight] = bottomRightTile;
-    m_shadowElements[ShadowElementBottom] = bottomTile;
-    m_shadowElements[ShadowElementBottomLeft] = bottomLeftTile;
+    m_shadowElements[ShadowElementTop] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][0];
+    m_shadowElements[ShadowElementTopRight] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][1];
+    m_shadowElements[ShadowElementRight] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][2];
+    m_shadowElements[ShadowElementBottomRight] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][3];
+    m_shadowElements[ShadowElementBottom] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][4];
+    m_shadowElements[ShadowElementBottomLeft] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][5];
+    m_shadowElements[ShadowElementLeft] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][6];
+    m_shadowElements[ShadowElementTopLeft] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][7];
 
-    m_offset = m_window->property("kwin_popup_shadow_margin").value<QMargins>();
+    m_offset = m_window->windowShadowObj()->m_padding;
+
+    if (m_window->shape()) {
+        Item *item = qobject_cast<Item *>(m_window->surfaceItem());
+        if (item) {
+            QVector<uint32_t> data;
+            data << m_offset.top()
+                 << m_offset.right()
+                 << m_offset.bottom()
+                 << m_offset.left();
+            QRect shape_rect = item->opaque().boundingRect();
+            QRect window_rect(QPoint(0, 0), m_window->frameGeometry().toRect().size());
+            data[0] -= shape_rect.top();
+            data[1] -= window_rect.right() - shape_rect.right();
+            data[2] -= window_rect.bottom() - shape_rect.bottom();
+            data[3] -= shape_rect.left();
+
+            m_offset = QMargins(data[3], data[0], data[1], data[2]);
+        }
+    }
+
     Q_EMIT offsetChanged();
     if (!prepareBackend()) {
-        return false;
+        return true;
     }
     Q_EMIT textureChanged();
     return true;
@@ -338,6 +351,9 @@ bool Shadow::updateShadow()
     if (!m_window) {
         return false;
     }
+
+    if (init())
+        return true;
 
     if (m_decorationShadow && m_window->isNormalWindow()) {
         if (m_window) {

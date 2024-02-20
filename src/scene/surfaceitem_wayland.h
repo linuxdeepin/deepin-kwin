@@ -90,6 +90,7 @@ public:
     explicit SurfaceItemXwayland(Window *window, Scene *scene, Item *parent = nullptr);
 
     QVector<QRectF> shape() const override;
+    QRegion opaque() const override;
 
 private:
     void handleWindowClosed(Window *original, Deleted *deleted);

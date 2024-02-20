@@ -57,6 +57,7 @@ QString ChameleonShadow::buildShadowCacheKey(const ChameleonTheme::ThemeConfig *
 
 QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const ChameleonTheme::ThemeConfig *config, qreal scale)
 {
+    return m_emptyShadow;
     if ((config->shadowConfig.shadowColor.alpha() == 0 || qIsNull(config->shadowConfig.shadowRadius))
             && (config->borderConfig.borderColor.alpha() == 0 || qIsNull(config->borderConfig.borderWidth))) {
         return m_emptyShadow;

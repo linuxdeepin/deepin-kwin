@@ -69,6 +69,7 @@ public:
 
 protected:
     bool prepareBackend() override;
+    void resetTexture() override;
 
 private:
     std::shared_ptr<GLTexture> m_texture;

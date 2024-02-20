@@ -132,10 +132,11 @@ bool Unmanaged::track(xcb_window_t w)
     getWmOpaqueRegion();
     getSkipCloseAnimation();
     setupCompositing();
-    updateWindowRadius();
+
     if (QWindow *internalWindow = findInternalWindow()) {
         m_outline = internalWindow->property("__kwin_outline").toBool();
         m_splitbar = wm_name.isEmpty() ? false : wm_name.contains("splitbar");
+        m_splitmenu = wm_name.isEmpty() ? false : wm_name.contains("splitmenu");
     }
     m_watermark = wm_name.isEmpty() ? false : wm_name.contains("deepin-watermark");
     if (effects) {
@@ -227,6 +228,11 @@ bool Unmanaged::isWaterMark() const
 bool Unmanaged::isUnmanaged() const
 {
     return true;
+}
+
+bool Unmanaged::isSplitMenu() const
+{
+    return m_splitmenu;
 }
 
 QWindow *Unmanaged::findInternalWindow() const

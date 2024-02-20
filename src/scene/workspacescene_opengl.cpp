@@ -180,16 +180,13 @@ SceneOpenGLShadow::~SceneOpenGLShadow()
     }
 }
 
+void SceneOpenGLShadow::resetTexture()
+{
+    m_texture.reset();
+}
+
 bool SceneOpenGLShadow::prepareBackend()
 {
-    if (hasDecorationShadow()) {
-        // simplifies a lot by going directly to
-        WorkspaceScene *scene = Compositor::self()->scene();
-        scene->makeOpenGLContextCurrent();
-        m_texture = DecorationShadowTextureCache::instance().getTexture(this);
-
-        return true;
-    }
     const QSize top(shadowElement(ShadowElementTop).size());
     const QSize topRight(shadowElement(ShadowElementTopRight).size());
     const QSize right(shadowElement(ShadowElementRight).size());
