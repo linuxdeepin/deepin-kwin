@@ -108,8 +108,8 @@ void Chameleon::init()
     connect(c, &KDecoration2::DecoratedClient::maximizeableChanged, this, &Chameleon::updateTitleBarArea);
     connect(this, &Chameleon::noTitleBarChanged, this, &Chameleon::updateTitleBarArea, Qt::QueuedConnection);
     connect(m_theme, &ChameleonWindowTheme::themeChanged, this, &Chameleon::updateTheme);
-    connect(m_theme, &ChameleonWindowTheme::windowRadiusChanged, this, &Chameleon::updateBorderPath);
     connect(m_theme, &ChameleonWindowTheme::windowRadiusChanged, this, &Chameleon::updateShadow);
+    connect(m_theme, &ChameleonWindowTheme::windowRadiusChanged, this, &Chameleon::updateBorderPath);
     connect(m_theme, &ChameleonWindowTheme::borderWidthChanged, this, &Chameleon::updateShadow);
     connect(m_theme, &ChameleonWindowTheme::borderColorChanged, this, &Chameleon::updateShadow);
     connect(m_theme, &ChameleonWindowTheme::shadowRadiusChanged, this, &Chameleon::updateShadow);
@@ -518,8 +518,6 @@ void Chameleon::updateConfig()
     // NOTE: base config is read from preset configuration, override it.
     m_config = active ? m_baseConfigGroup->normal : m_baseConfigGroup->inactive;
 
-    updateMouseInputAreaMargins();
-    updateTitleBarArea();
     // 解决关闭应用更新shadow闪屏的问题(bug87758)
     // if ((c == sender()) && !active) {
     //     return;
@@ -534,6 +532,8 @@ void Chameleon::updateConfig()
     } else {
         updateShadow();
     }
+    updateTitleBarArea();
+    updateMouseInputAreaMargins();
     update();
 }
 
