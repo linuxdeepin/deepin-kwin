@@ -1701,7 +1701,6 @@ bool Window::startInteractiveMoveResize()
     m_currentModeForSplit = quickTileMode();
 
     updateElectricGeometryRestore();
-    checkUnrestrictedInteractiveMoveResize();
     Q_EMIT clientStartUserMovedResized(this);
     if (workspace()->screenEdges()->isDesktopSwitchingMovingClients()) {
         workspace()->screenEdges()->reserveDesktopSwitching(true, Qt::Vertical | Qt::Horizontal);
@@ -2070,7 +2069,7 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
                 bool topChanged = !qFuzzyCompare(currentMoveResizeGeom.top(), currentTry.top());
                 bool btmChanged = !qFuzzyCompare(currentMoveResizeGeom.bottom(), currentTry.bottom());
                 auto fixChangedState = [titleFailed](bool &major, bool &counter, bool &ad1, bool &ad2) {
-                    counter = false;
+                    // counter = false;
                     if (titleFailed) {
                         major = false;
                     }
