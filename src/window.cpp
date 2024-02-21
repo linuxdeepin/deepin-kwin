@@ -2040,7 +2040,7 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
                     const QRect r = rect & lastTry.toRect();
                     visiblePixels += r.width() * r.height();
                     if (r.width() > 0)
-                        requiredPixels += qMax(40 * r.width(), 160 * r.height());
+                        requiredPixels += qMax(40 * r.width(), 150 * r.height());
                 }
 
                 if (visiblePixels >= requiredPixels && visiblePixels != 0) {
