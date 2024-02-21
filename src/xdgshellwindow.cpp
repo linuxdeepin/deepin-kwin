@@ -1307,7 +1307,7 @@ bool XdgToplevelWindow::takeFocus()
         sendPing(PingReason::FocusWindow);
         setActive(true);
     }
-    if (!keepAbove() && !isOnScreenDisplay() && !belongsToDesktop()) {
+    if (!isOnScreenDisplay() && !belongsToDesktop()) {
         if (workspace()->showingDesktop()) {
             // minimize all other windows
             for (Window *c : workspace()->allClientList()) {
