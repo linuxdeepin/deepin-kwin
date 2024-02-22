@@ -1,3 +1,11 @@
+kwin (4:5.27.2.71-deepin71-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * feat: add event tracking
+  * fix: bug fix
+
+ -- zhangyu <zhangyud@uniontech.com>  Thu, 22 Feb 2024 20:59:57 +0800
+
 kwin (4:5.27.2.70-deepin70-1) unstable; urgency=medium
 
   [ huangzeming ]
