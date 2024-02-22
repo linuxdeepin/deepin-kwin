@@ -371,6 +371,9 @@ void XdgSurfaceWindow::destroyWindow()
 void XdgSurfaceWindow::updateClientArea()
 {
     if (hasStrut()) {
+        if (isMaximized() && m_plasmaShellSurface) {
+            m_plasmaShellSurface->resetPositionSet();
+        }
         workspace()->updateClientArea();
     }
 }
