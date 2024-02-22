@@ -26,6 +26,7 @@
 #include <QDBusInterface>
 #include <QDBusReply>
 #include <QDBusConnectionInterface>
+#include <QPainter>
 
 #include <unistd.h>
 
@@ -1054,8 +1055,20 @@ bool ScreenShotDBusInterface1::isProhibitScreenshot(qulonglong winid)
 
 QString ScreenShotDBusInterface1::prohibitImagePath(int nWidth, int nHeight)
 {
-    QImage prohibitImage(":/resources/themes/prohibited.svg");
-    prohibitImage.save(m_blackPixmapPath);
+    if (nWidth <= 0 || nHeight <= 0) {
+        return QString();
+    }
+
+    QSize size(nWidth, nHeight);
+    QImage prohibitShotImage = QImage(size, QImage::Format_ARGB32);
+    prohibitShotImage.fill(QColor(0xD4, 0xD4, 0xD4));
+
+    QPainter painter(&prohibitShotImage);
+    QImage prohibitImage(":/resources/themes/icon-lock.svg");
+
+    QPoint position((size.width() - prohibitImage.width()) / 2, (size.height() - prohibitImage.height()) / 2);
+    painter.drawImage(position, prohibitImage);
+    prohibitShotImage.save(m_blackPixmapPath);
 
     return m_blackPixmapPath;
 }
