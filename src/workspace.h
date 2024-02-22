@@ -582,7 +582,7 @@ public:
 
     double getFontSizeScale() const;
 
-    bool isDraggingWithContent() const { return m_clientDraggingWithContent; }
+    bool isDraggingWithContent() const;
 
     void enablePrintKwinFps(bool enable)
     {

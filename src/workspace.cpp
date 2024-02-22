@@ -3703,6 +3703,13 @@ bool Workspace::getDraggingWithContentStatus()
     return status;
 }
 
+bool Workspace::isDraggingWithContent() const
+{
+    if (Compositor::compositing())
+        return true;
+    return m_clientDraggingWithContent;
+}
+
 void Workspace::setPreviewClientList(const QList<Window*> &list)
 {
     const bool changed = previewClients != list;
