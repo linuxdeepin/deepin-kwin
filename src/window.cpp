@@ -1172,7 +1172,7 @@ void Window::setDesktops(QVector<VirtualDesktop *> desktops)
     }
     Q_EMIT x11DesktopIdsChanged();
 
-    if (QX11Info::isPlatformX11() && desktops.size() > 1) {
+    if (QX11Info::isPlatformX11() && desktops.size() > 0) {
         QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "ClientToDesktopStateChanged");
         message << int(this->window()) << (int)desktops.last()->x11DesktopNumber();
         QDBusConnection::sessionBus().send(message);
