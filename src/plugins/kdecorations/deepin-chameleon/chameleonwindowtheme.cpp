@@ -34,6 +34,8 @@ ChameleonWindowTheme::ChameleonWindowTheme(QObject *window, QObject *parent)
     if (!window)
         return;
 
+    updateScreen();
+
     bool ok = false;
     quint32 window_id = KWinUtils::instance()->getWindowId(window, &ok);
 
@@ -43,8 +45,6 @@ ChameleonWindowTheme::ChameleonWindowTheme(QObject *window, QObject *parent)
     // 将ChameleonWindowTheme对象的属性绑定到对应x11窗口的settings属性
     ok = KWinUtils::instance()->buildNativeSettings(this, window_id);
     Q_UNUSED(ok);
-
-    updateScreen();
 }
 
 ChameleonWindowTheme::PropertyFlags ChameleonWindowTheme::validProperties() const
