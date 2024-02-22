@@ -60,6 +60,12 @@
 #include <QDBusMessage>
 #include <QDBusConnection>
 #include <QX11Info>
+#include <QDBusPendingReply>
+#include <QDBusVariant>
+#include <QDBusInterface>
+
+#include <sys/time.h>
+#include <unistd.h>
 
 #define DEFAULT_REQUIRED_PIXELS 4000
 
@@ -93,6 +99,7 @@ Window::Window()
     , m_colorScheme(QStringLiteral("kdeglobals"))
     , m_moveResizeOutput(workspace()->activeOutput())
 {
+    gettimeofday(&m_constructTimeval, nullptr);
     connect(this, &Window::bufferGeometryChanged, this, &Window::inputTransformationChanged);
 
     // Only for compatibility reasons, drop in the next major release.
@@ -4901,6 +4908,65 @@ WindowOffscreenRenderRef::~WindowOffscreenRenderRef()
     if (m_window) {
         m_window->unrefOffscreenRendering();
     }
+}
+
+void Window::setFirstComposite(EventTrackingState firstComposite)
+{
+    m_firstComposite = firstComposite;
+}
+
+QVariant Window::createTimespanDBusMessage(struct timeval createTimeval, int tid, std::string event)
+{
+    static bool initialized = false;
+    static QList<QString> filteredProcessList;
+    struct timeval compositeTimeval;
+    char processRunningPath[18] = { 0 };
+    char cProcessFullPath[4096] = { 0 };
+    QString qtProcessFullPath;
+    uint timespan = 0;
+
+    gettimeofday(&compositeTimeval, nullptr);
+    if (compositeTimeval.tv_sec > createTimeval.tv_sec) {
+        timespan = (compositeTimeval.tv_sec - createTimeval.tv_sec) * 1000000 + compositeTimeval.tv_usec - createTimeval.tv_usec;
+    } else {
+        timespan = compositeTimeval.tv_usec - createTimeval.tv_usec;
+    }
+    sprintf(processRunningPath, "/proc/%d/exe", pid());
+    if (readlink(processRunningPath, cProcessFullPath, 4096) == -1) {
+        return QVariant();
+    }
+    qtProcessFullPath = QString(cProcessFullPath);
+
+    if (!initialized) {
+        QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
+        QDBusPendingReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.eventtracking", "");
+        reply.waitForFinished();
+        if (!reply.isError()) {
+            QDBusInterface interfaceValue("org.desktopspec.ConfigManager", reply.value().path(), "org.desktopspec.ConfigManager.Manager", QDBusConnection::systemBus());
+            QDBusMessage replyValue = interfaceValue.call("value", "filterList");
+            QDBusVariant dbusVariant = replyValue.arguments().at(0).value<QDBusVariant>();
+            QDBusArgument dbusArguments = dbusVariant.variant().value<QDBusArgument>();
+            QList<QString> tempFilteredProcessList;
+            dbusArguments.beginArray();
+            while (!dbusArguments.atEnd()) {
+                dbusArguments >> tempFilteredProcessList;
+                filteredProcessList.append(tempFilteredProcessList[0]);
+            }
+            dbusArguments.endArray();
+            initialized = true;
+        } else {
+            qCDebug(KWIN_CORE) << "dconfig reply.error: " << reply.error();
+            return QVariant();
+        }
+    }
+
+    for (const auto &filteredProcessFullPath : filteredProcessList) {
+        if (filteredProcessFullPath == qtProcessFullPath) {
+            return QVariant();
+        }
+    }
+    workspace()->pids().insert(pid());
+    return QVariant(QString("{\"tid\":%1,\"event\":\"%2\",\"target\":\"%3\",\"message\":{\"timespan\":%4}}").arg(tid).arg(event.c_str()).arg(qtProcessFullPath).arg(timespan));
 }
 
 } // namespace KWin

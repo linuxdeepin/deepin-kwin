@@ -478,7 +478,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     m_geometryHints.init(window());
     m_motif.init(window());
     info = new WinInfo(this, m_client, kwinApp()->x11RootWindow(), properties, properties2);
-
+    workspace()->checkIfFirstWindowOfProcess(this);
     if (isDesktop() && bit_depth == 32) {
         // force desktop windows to be opaque. It's a desktop after all, there is no window below
         bit_depth = 24;

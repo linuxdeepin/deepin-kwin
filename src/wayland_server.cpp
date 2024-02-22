@@ -292,6 +292,8 @@ void WaylandServer::registerXdgToplevelWindow(XdgToplevelWindow *window)
     connect(m_XdgForeign, &XdgForeignV2Interface::transientChanged, window, [this](SurfaceInterface *child) {
         Q_EMIT foreignTransientChanged(child);
     });
+
+    workspace()->checkIfFirstWindowOfProcess(window);
 }
 
 void WaylandServer::registerXdgGenericWindow(Window *window)

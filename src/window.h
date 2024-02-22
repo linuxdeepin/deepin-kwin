@@ -81,6 +81,16 @@ enum EffectDataRole {
     ShadowOffsetRole
 };
 
+/**
+ * An enum describing the current state of toplevel event tracking.
+ */
+enum EventTrackingState {
+    Ready, // Haven't send event tracking data.
+    SendAddRepaintFull, // Have sent addRepaintFull event tracking data (1000300007).
+    SendFinalDrawWindow, // Have sent performPaint event tracking data (1000300008).
+    Down // Don't need to send event tracking data.
+};
+
 namespace TabBox
 {
 class TabBoxClientImpl;
@@ -1484,6 +1494,14 @@ public:
 
     void updateWindowRadius();
 
+    struct timeval constructTimeval() const {
+        return m_constructTimeval;
+    }
+    EventTrackingState firstComposite() const {
+        return m_firstComposite;
+    }
+    void setFirstComposite(EventTrackingState firstComposite);
+    QVariant createTimespanDBusMessage(struct timeval createTimeval, int tid, std::string event);
 public Q_SLOTS:
     virtual void closeWindow() = 0;
     void onWindowRadiusChanged(float &);
@@ -2111,6 +2129,9 @@ private:
     QRectF m_initRectForSplit;
     QPointF m_initPosForSplit = QPointF();
     QuickTileMode m_currentModeForSplit;
+
+    struct timeval m_constructTimeval;
+    EventTrackingState m_firstComposite = EventTrackingState::Ready;
 };
 
 /**

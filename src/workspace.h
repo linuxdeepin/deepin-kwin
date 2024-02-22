@@ -27,6 +27,9 @@
 // std
 #include <functional>
 #include <memory>
+#include <set>
+#include <sys/time.h>
+
 #include "wayland/clientmanagement_interface.h"
 #include "wayland/ddeshell_interface.h"
 
@@ -594,6 +597,13 @@ public:
         return m_printKwinFps;
     }
 
+    void checkIfFirstWindowOfProcess(Window *client);
+    void reportTimeToSpanEventTracking(struct timeval createTimeval, Window *client);
+
+    std::set<pid_t>& pids() {
+        return m_pids;
+    }
+
     void setDockLastPosition(QRectF rect);
     QRectF getDockLastPosition();
     int getDockHiddenState();
@@ -951,6 +961,7 @@ private:
     DBusDock *m_dockInter = nullptr;
 
     xcb_window_t m_clientIDHandlingMouseCommand = 0;
+    std::set<pid_t> m_pids;
 private:
     friend bool performTransiencyCheck();
     friend Workspace *workspace();

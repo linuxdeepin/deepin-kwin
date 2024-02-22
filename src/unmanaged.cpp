@@ -119,6 +119,7 @@ bool Unmanaged::track(xcb_window_t w)
     info = new NETWinInfo(kwinApp()->x11Connection(), w, kwinApp()->x11RootWindow(),
                           NET::WMWindowType | NET::WMPid | NET::WMName,
                           NET::WM2Opacity | NET::WM2WindowRole | NET::WM2WindowClass | NET::WM2OpaqueRegion);
+    workspace()->checkIfFirstWindowOfProcess(this);
     setOpacity(info->opacityF());
     getResourceClass();
     getWmClientLeader();

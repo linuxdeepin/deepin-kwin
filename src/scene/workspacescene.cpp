@@ -75,6 +75,9 @@
 #include "x11window.h"
 
 #include <QtMath>
+#include <QDBusConnection>
+#include <QDBusMessage>
+
 #include <sys/time.h>
 
 namespace KWin
@@ -464,6 +467,18 @@ void WorkspaceScene::paintWindow(WindowItem *item, int mask, const QRegion &regi
         return;
     }
 
+    if (!waylandServer()) {
+        if (item->window() && !item->window()->isDeleted() && item->window()->firstComposite() == EventTrackingState::Ready) {
+            qCDebug(KWIN_CORE) << "beginDrawWindow" << item->window()->resourceName();
+            item->window()->setFirstComposite(EventTrackingState::SendAddRepaintFull);
+            QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "timeToDisplay");
+            QVariant timespanDBusMessage = item->window()->createTimespanDBusMessage(item->window()->constructTimeval(), 1000300007, "begin-paint");
+            if (!timespanDBusMessage.isNull()) {
+                message << timespanDBusMessage;
+                QDBusConnection::sessionBus().send(message);
+            }
+        }
+    }
     WindowPaintData data(m_renderer->renderTargetProjectionMatrix());
     effects->paintWindow(item->window()->effectWindow(), mask, region, data);
 }
@@ -477,6 +492,18 @@ void WorkspaceScene::finalPaintWindow(EffectWindowImpl *w, int mask, const QRegi
 // will be eventually called from drawWindow()
 void WorkspaceScene::finalDrawWindow(EffectWindowImpl *w, int mask, const QRegion &region, WindowPaintData &data)
 {
+    if (!waylandServer()) {
+        if (w->window() && !w->window()->isDeleted() && w->window()->firstComposite() == EventTrackingState::SendAddRepaintFull) {
+            qCDebug(KWIN_CORE) << "finalDrawWindow" << w->window()->resourceName();
+            w->window()->setFirstComposite(EventTrackingState::SendFinalDrawWindow);
+            QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "timeToDisplay");
+            QVariant timespanDBusMessage = w->window()->createTimespanDBusMessage(w->window()->constructTimeval(), 1000300008, "perform-paint");
+            if (!timespanDBusMessage.isNull()) {
+                message << timespanDBusMessage;
+                QDBusConnection::sessionBus().send(message);
+            }
+        }
+    }
     m_renderer->renderItem(w->windowItem(), mask, region, data);
 }
 

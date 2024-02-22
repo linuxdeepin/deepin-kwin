@@ -64,6 +64,7 @@
 #include "splitscreen/splitmenu.h"
 #include "configreader.h"
 #include "windowradius/windowradiusmanager.h"
+#include "composite.h"
 // KDE
 #include <KConfig>
 #include <KConfigGroup>
@@ -1028,6 +1029,8 @@ void Workspace::removeFromStack(Window *window)
 X11Window *Workspace::createX11Window(xcb_window_t windowId, bool is_mapped)
 {
     StackingUpdatesBlocker blocker(this);
+    struct timeval createTimeval;
+    gettimeofday(&createTimeval, nullptr);
     X11Window *window = nullptr;
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
         window = new X11Window();
@@ -1046,6 +1049,7 @@ X11Window *Workspace::createX11Window(xcb_window_t windowId, bool is_mapped)
     if (window->isResizable())
         setWinSplitState(window, true);
     Q_EMIT windowAdded(window);
+    reportTimeToSpanEventTracking(createTimeval, window);
     return window;
 }
 
@@ -1056,6 +1060,8 @@ Unmanaged *Workspace::createUnmanaged(xcb_window_t windowId)
             return nullptr;
         }
     }
+    struct timeval createTimeval;
+    gettimeofday(&createTimeval, nullptr);
     Unmanaged *window = new Unmanaged();
     if (!window->track(windowId)) {
         Unmanaged::deleteUnmanaged(window);
@@ -1063,6 +1069,7 @@ Unmanaged *Workspace::createUnmanaged(xcb_window_t windowId)
     }
     addUnmanaged(window);
     Q_EMIT unmanagedAdded(window);
+    reportTimeToSpanEventTracking(createTimeval, window);
     return window;
 }
 
@@ -3773,6 +3780,26 @@ void Workspace::slotDockPositionChanged()
         QRect rect = m_dockInter->frontendRect();
         if (rect != QRect()) {
             setDockLastPosition(rect);
+        }
+    }
+}
+
+void Workspace::checkIfFirstWindowOfProcess(Window *client)
+{
+    if (m_pids.find(client->pid()) != m_pids.end()) {
+        client->setFirstComposite(EventTrackingState::Down);
+    }
+}
+
+void Workspace::reportTimeToSpanEventTracking(struct timeval createTimeval, Window *client)
+{
+    if (!Compositor::compositing() && client->firstComposite() == EventTrackingState::Ready) {
+        client->setFirstComposite(EventTrackingState::SendAddRepaintFull);
+        QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "timeToDisplay");
+        QVariant timespanDBusMessage = client->createTimespanDBusMessage(createTimeval, 1000300007, "begin-paint");
+        if (!timespanDBusMessage.isNull()) {
+            message << timespanDBusMessage;
+            QDBusConnection::sessionBus().send(message);
         }
     }
 }
