@@ -987,14 +987,18 @@ bool EffectsHandlerImpl::isTransientWin(KWin::EffectWindow *w)
     return false;
 }
 
-void EffectsHandlerImpl::sendPointer(Qt::MouseButton type)
+void EffectsHandlerImpl::sendPointer(const QPointF &pos, Qt::MouseButton type)
 {
     uint32_t button = KWin::qtMouseButtonToButton(Qt::LeftButton);
     if (type == Qt::RightButton) {
         button = KWin::qtMouseButtonToButton(Qt::RightButton);
     }
+
+    const QPointF current = input()->pointer()->pos();
+    input()->pointer()->processMotionAbsolute(pos, std::chrono::milliseconds(0));
     input()->pointer()->processButton(button, InputRedirection::PointerButtonPressed, std::chrono::microseconds(0));
     input()->pointer()->processButton(button, InputRedirection::PointerButtonReleased, std::chrono::microseconds(0));
+    input()->pointer()->processMotionAbsolute(current, std::chrono::milliseconds(0));
 }
 
 QString EffectsHandlerImpl::getActiveColor()

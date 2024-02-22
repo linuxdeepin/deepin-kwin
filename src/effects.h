@@ -276,7 +276,7 @@ public:
 
     void setKeepAbove(KWin::EffectWindow *c, bool) override;
 
-    void sendPointer(Qt::MouseButton type) override;
+    void sendPointer(const QPointF &pos, Qt::MouseButton type) override;
 
     EffectWindowList getChildWinList(KWin::EffectWindow *w) override;
     bool isTransientWin(KWin::EffectWindow *w) override;

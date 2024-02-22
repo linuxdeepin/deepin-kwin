@@ -64,7 +64,7 @@ public:
     virtual QRectF getQuickTileGeometry(KWin::EffectWindow *w, int mode, QPointF pos) = 0;
     virtual QString getActiveColor() = 0;
     virtual void setKeepAbove(KWin::EffectWindow *c, bool) = 0;
-    virtual void sendPointer(Qt::MouseButton) = 0;
+    virtual void sendPointer(const QPointF &pos, Qt::MouseButton) = 0;
     virtual EffectWindowList getChildWinList(KWin::EffectWindow *w) = 0;
     virtual bool isTransientWin(KWin::EffectWindow *w) = 0;
     virtual bool isShortcuts(QKeyEvent *event) = 0;
