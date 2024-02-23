@@ -1011,7 +1011,6 @@ StrutRect XdgToplevelWindow::strutRect(StrutArea area) const
                 strutTop.setLeft(strutArea.top_start_x);
                 strutTop.setWidth(strutArea.top_end_x - strutArea.top_start_x);
                 strutTop &= outputRect;
-                qDebug() << "strutTop " << strutTop;
                 return StrutRect(strutTop, StrutAreaTop);
             }
             return StrutRect();
@@ -1024,7 +1023,6 @@ StrutRect XdgToplevelWindow::strutRect(StrutArea area) const
                 strutRight.setTop(strutArea.right_start_y);
                 strutRight.setHeight(strutArea.right_end_y - strutArea.right_start_y);
                 strutRight &= outputRect;
-                qDebug() << "strutRight " << strutRight;
                 return StrutRect(strutRight, StrutAreaRight);
             }
             return StrutRect();
@@ -1032,12 +1030,11 @@ StrutRect XdgToplevelWindow::strutRect(StrutArea area) const
         case StrutAreaBottom: {
             QRect strutBottom = windowRect;
             if (strutArea.bottom != 0) {
-                strutBottom.setHeight(strutArea.bottom);
                 strutBottom.setTop(outputRect.bottom() - strutArea.bottom);
+                strutBottom.setHeight(strutArea.bottom);
                 strutBottom.setLeft(strutArea.bottom_start_x);
                 strutBottom.setWidth(strutArea.bottom_end_x - strutArea.bottom_start_x);
                 strutBottom &= outputRect;
-                qDebug() << "strutBottom " << strutBottom;
                 return StrutRect(strutBottom, StrutAreaBottom);
             }
             return StrutRect();
@@ -1049,7 +1046,6 @@ StrutRect XdgToplevelWindow::strutRect(StrutArea area) const
                 strutLeft.setTop(strutArea.left_start_y);
                 strutLeft.setHeight(strutArea.left_end_y - strutArea.left_start_y);
                 strutLeft &= outputRect;
-                qDebug() << "strutLeft " << strutLeft;
                 return StrutRect(strutLeft, StrutAreaLeft);
             }
             return StrutRect();

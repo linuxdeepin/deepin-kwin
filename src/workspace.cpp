@@ -2778,7 +2778,7 @@ QRectF Workspace::adjustClientArea(Window *window, const QRectF &area) const
         if (strutTop.top() < screenArea.top()) {
             strutTop = QRect();
         }
-        if (strutBottom.bottom() < screenArea.bottom()) {
+        if (strutBottom.bottom() > screenArea.bottom()) {
             strutBottom = QRect();
         }
     }
