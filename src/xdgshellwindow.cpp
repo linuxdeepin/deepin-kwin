@@ -2046,6 +2046,10 @@ void XdgToplevelWindow::maximize(MaximizeMode mode)
         } else {
             updateQuickTileMode(QuickTileFlag::None);
         }
+        // When maximizing the window, it is necessary to reset the positionset.
+        if (m_plasmaShellSurface) {
+            m_plasmaShellSurface->resetPositionSet();
+        }
     } else {
         updateQuickTileMode(QuickTileFlag::None);
     }
