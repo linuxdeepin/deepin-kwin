@@ -168,6 +168,14 @@ private:
     QHash<wl_resource *, qint32> requestFrames;
     QHash<wl_resource*, qint32> lastFrames;
 
+
+    /**
+     * Clients of this interface.
+     * This may be screenshot app, video capture app,
+     * remote control app etc.
+     */
+    QList<Resource *> clientResources;
+
     QMutex m_mutex;
 protected:
     void org_kde_kwin_remote_access_manager_bind_resource(Resource *resource) override;
@@ -231,6 +239,8 @@ void RemoteAccessManagerInterfacePrivate::incrementRenderSequence()
 
 void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_bind_resource(Resource *resource)
 {
+    // add newly created client resource to the list
+    clientResources << resource;
     Q_EMIT q->addedClient();
 }
 
@@ -273,7 +283,7 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
     auto rbuf = new RemoteBufferInterface(bh.buf, RbiResource);
 
     QObject::connect(rbuf, &QObject::destroyed, [resource, &bh, this] {
-       if (!resourceMap().contains(resource->client())) {
+        if (!clientResources.contains(resource)) {
             // remote buffer destroy confirmed after client is already gone
             // all relevant buffers are already unreferenced
             return;
@@ -295,6 +305,7 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_rel
 {
     requestFrames.remove(resource->handle);
     lastFrames.remove(resource->handle);
+    clientResources.removeAll(resource);
 
 
     wl_resource_destroy(resource->handle);
