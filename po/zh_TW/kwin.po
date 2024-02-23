@@ -2795,6 +2795,41 @@ msgstr ""
 "請將這些資訊寫在這段介紹文字下面，送到代碼儲存 (paste bin) 服務，如 https://"
 "paste.kde.org 而不是貼到支援討論串中。\n"
 
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr "文件涉密，无法显示"
+
+msgid "Minimize"
+msgstr "最小化"
+
+msgid "Unmaximize"
+msgstr "还原"
+
+msgid "Maximize"
+msgstr "最大化"
+
+msgid "Move"
+msgstr "移动"
+
+msgid "Resize"
+msgstr "變更大小"
+
+msgid "Always on Top"
+msgstr "永遠置於上方"
+
+msgid "Always on Visible Workspace"
+msgstr "永遠在可見工作區"
+
+msgid "Move to Workspace Left"
+msgstr "移至左方工作區"
+
+msgid "Move to Workspace Right"
+msgstr "移至右方工作區"
+
+msgid "Close"
+msgstr "關閉"
+
 #~ msgid "&No Border"
 #~ msgstr "沒有邊框(&N)"
 

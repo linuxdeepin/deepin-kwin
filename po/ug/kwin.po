@@ -1131,7 +1131,7 @@ msgstr "ياردەمچى قورالىنى بىۋاسىتە چاقىرىشقا ب
 #, kde-format
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
-msgstr ""
+msgstr "<b>ئىلتىماس \"%1\" ئىنكاس قايتۇرمىدى</b>"
 
 #: helpers/killer/killer.cpp:86
 #, kde-kuit-format
@@ -1140,6 +1140,8 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3) but the application is not responding.</para>"
 msgstr ""
+"<para>سىز قوللىنىشچان پروگراممىنىڭ كۆزنىكىنى تاقاشنى سىناپ بېقىڭ، لېكىن بۇ پروگرامما ئىنكاس قايتۇرمىدى. </"
+"para>"
 
 #: helpers/killer/killer.cpp:88
 #, kde-kuit-format
@@ -1157,6 +1159,9 @@ msgid ""
 "para><para><warning>Terminating the application will close all of its child "
 "windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
+"<para>پروگراممىنى تاقاشقا زورلىماقچىمۇ?</para><para><warning>"
+"پروگراممىنى تاقاشقا كۈچ ئۇنىڭ بارلىق تارماق كۆزنەكلىرىنى تاقايدۇ."
+"ساقلانمىغان سانلىق مەلۇماتلارنىڭ ھەممىسى يوقاپ كېتىدۇ.</warning></para>"
 
 #: helpers/killer/killer.cpp:94
 #, kde-format
@@ -1166,22 +1171,22 @@ msgstr "پروگرامما %1 نى توختات(&T)"
 #: helpers/killer/killer.cpp:95
 #, kde-format
 msgid "Wait Longer"
-msgstr ""
+msgstr "ئۇزۇنراق ساقلاڭ"
 
 #: input.cpp:2009
 #, kde-format
 msgid "Move the tablet to the next output"
-msgstr ""
+msgstr "تاختا كومپيۇتېرنى كېيىنكى چىقىرىش ئۈسكۈنىسىگە يۆتكەڭ"
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablet moved to %1"
-msgstr ""
+msgstr "بۇ تاختا كومپيۇتېر 1% كە يۆتكەلدى"
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablets switched outputs"
-msgstr ""
+msgstr "رەقەملەشتۈرۈلگەن چىقىرىش ئۈسكۈنىسى"
 
 #: input.cpp:3065
 #, kde-format
@@ -1200,6 +1205,8 @@ msgid ""
 "Select window to force close with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"تاقاشنى زورلىماقچى بولغان كۆزنەكنى تاللاڭ، سول مائۇس كۇنۇپكىسىنى بېسىڭ ياكى كۇنۇپكىنى كىرگۈزۈڭ. \n"
+"ئەمەلدىن قالدۇرۇش ئۈچۈن Esc كۇنۇپكىسى ياكى ئوڭ مائۇس كۇنۇپكىسىنى بېسىڭ."
 
 #: main.cpp:179
 #, kde-format
@@ -1514,13 +1521,13 @@ msgstr "كۆزنەكلەر"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "name"
-msgstr ""
+msgstr "ئىسىم"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:95
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "appname"
-msgstr ""
+msgstr "قوللىنىشچان پروگرامما نامى"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:97
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:150
@@ -2751,7 +2758,7 @@ msgstr "كېيىنكى ئېكرانغا ئالماشتۇر"
 #: useractions.cpp:1120
 #, kde-format
 msgid "Switch to Previous Screen"
-msgstr ""
+msgstr "ئالدىنقى ئېكرانغا ئالماشتۇرۇش"
 
 #: useractions.cpp:1121
 #, fuzzy, kde-format
@@ -2805,6 +2812,8 @@ msgid ""
 "as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
+"كۆزنەك باشقۇرغۇچ مائۇس تۇرۇشلۇق ئېكراننى ھەرىكەت ئېكرانى قىلىپ بېكىتتى. \n"
+"بولمىسا قايسى ئېكرانغا ئالماشتۇرۇشنى ئېنىق بىلگىلى بولمايدۇ ."
 
 #: virtualdesktops.cpp:693 virtualdesktops.cpp:764
 #, kde-format
@@ -2850,7 +2859,7 @@ msgstr "ئۈستەلئۈستى %1 غا ئالماشتۇر"
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
-msgstr ""
+msgstr "(ئىنكاس قايتۇرمىغان)"
 
 #: workspace.cpp:1846
 #, kde-format
@@ -2866,6 +2875,47 @@ msgid ""
 "paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
+"KWin قوللايدىغان ئۇچۇر\n"
+"تۆۋەندىكى ئۇچۇرلارنى قوللاشقا ئىشلىتىش كېرەك ، مەسىلەن ، https://forum.kde.org قوللاشنى تەلەپ قىلىش . \n"
+"ئۇ نۆۋەتتىكى ئەمەلىي مىساللارنى ئىشلىتىشنى ئۆز ئىچىگە ئالغان نۆۋەتتىكى ئەمەلىي مىساللار ئۇچۇرى بىلەن تەمىنلەيدۇ، بۇلار قايسى تاللاش تۈرلىرىنى ئىشلىتىشنى ئۆز ئىچىگە ئالىدۇ.\n"
+"ھازىر قانداق OpenGL قوزغىتىلىۋاتىدۇ ، ۋە قايسى ئالاھىدە ئۈنۈملەر ئىشلىتىلىۋاتىدۇ . \n"
+"بۇ ماقالىنىڭ ئاستىدىكى ئۇچۇرلارنى چاپلاش تاختىسى مۇلازىمىتىگە چاپلاڭ.\n"
+"مەسىلەن https://paste.kde.org قوللاشنى تەلەپ قىلغان چاپلىمىغا بىۋاستە چاپلىماسلىق كېرەك . \n"
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr "بۇ ھۆججەتلەر مەخپىي بولۇپ، كۆرسىتىلمىدى، شۇڭا ئۇلار تەۋرەنمىدى"
+
+msgid "Minimize"
+msgstr "كىچىكلىتىش"
+
+msgid "Unmaximize"
+msgstr "ئەسلىگە كەلتۈرۈش"
+
+msgid "Maximize"
+msgstr "چوڭايتىش"
+
+msgid "Move"
+msgstr "يۆتكەش"
+
+msgid "Resize"
+msgstr "چوڭلىقىنى تەڭشەش"
+
+msgid "Always on Top"
+msgstr "دائىم ئەڭ ئۈستى تەرەپتە تۇرسۇن"
+
+msgid "Always on Visible Workspace"
+msgstr "دائىم خىزمەت رايونىدا كۆرۈنسۇن"
+
+msgid "Move to Workspace Left"
+msgstr "سولدىكى خىزمەت رايونىغا يۆتكەش"
+
+msgid "Move to Workspace Right"
+msgstr "ئوڭدىكى خىزمەت رايونىغا يۆتكەش"
+
+msgid "Close"
+msgstr "تاقاش"
 
 #~ msgid "&No Border"
 #~ msgstr "گىرۋەكسىز(&N)"

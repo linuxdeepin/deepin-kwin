@@ -61,19 +61,19 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Rename"
-msgstr ""
+msgstr "نامىنى ئۆزگەرتىش"
 
 #: package/contents/ui/main.qml:102
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Confirm new name"
-msgstr ""
+msgstr "يېڭى ئىسىمنى دەلىللەش"
 
 #: package/contents/ui/main.qml:110
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Remove"
-msgstr ""
+msgstr "چىقىرىۋېتىش"
 
 #: package/contents/ui/main.qml:137
 #, kde-format
@@ -81,43 +81,45 @@ msgid ""
 "Virtual desktops have been changed outside this settings application. Saving "
 "now will overwrite the changes."
 msgstr ""
+"بۇ تەڭشەك پروگراممىسىنىڭ سىرتىدا مەۋھۇم ئۈستەل يۈزى ئۆزگەرتىلدى. "
+"ھازىر تېجەش ئۆزگىرىشلەرنى قاپلىۋالىدۇ."
 
 #: package/contents/ui/main.qml:153
 #, kde-format
 msgid "Row %1"
-msgstr ""
+msgstr "%1 قۇر"
 
 #: package/contents/ui/main.qml:166
 #, kde-format
 msgctxt "@action:button"
 msgid "Add"
-msgstr ""
+msgstr "قوش"
 
 #: package/contents/ui/main.qml:184
 #, kde-format
 msgid "1 Row"
 msgid_plural "%1 Rows"
-msgstr[0] ""
+msgstr[0] "%1 قۇرلار"
 
 #: package/contents/ui/main.qml:200
 #, kde-format
 msgid "Options:"
-msgstr ""
+msgstr ":تاللانمىلار"
 
 #: package/contents/ui/main.qml:202
 #, kde-format
 msgid "Navigation wraps around"
-msgstr ""
+msgstr "دەۋرىيلىك ئالماشتۇرغۇچ"
 
 #: package/contents/ui/main.qml:220
 #, kde-format
 msgid "Show animation when switching:"
-msgstr ""
+msgstr ":ئالماشتۇرغاندا كارتون"
 
 #: package/contents/ui/main.qml:271
 #, kde-format
 msgid "Show on-screen display when switching:"
-msgstr ""
+msgstr ":ئالماشتۇرغاندا ئېكران ئەسكەرتمىسىنى كۆرسىتىڭ"
 
 #: package/contents/ui/main.qml:290
 #, kde-format
@@ -127,7 +129,7 @@ msgstr ""
 #: package/contents/ui/main.qml:314
 #, kde-format
 msgid "Show desktop layout indicators"
-msgstr ""
+msgstr "ئۈستەل يۈزى ئورۇنلاشتۇرۇش كۆرسەتكۈچلىرىنى كۆرسىتىڭ"
 
 #: virtualdesktops.cpp:33
 #, fuzzy, kde-format
