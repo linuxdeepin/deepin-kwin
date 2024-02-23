@@ -76,7 +76,8 @@ DrmOutputLayer *DrmVirtualOutput::primaryLayer() const
 
 void DrmVirtualOutput::recreateSurface()
 {
-    m_layer = m_gpu->platform()->renderBackend()->createLayer(this);
+    if (m_gpu->platform()->renderBackend())
+        m_layer = m_gpu->platform()->renderBackend()->createLayer(this);
 }
 
 }

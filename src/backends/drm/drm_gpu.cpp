@@ -222,6 +222,9 @@ void DrmGpu::initDrmResources()
 
 bool DrmGpu::updateOutputs()
 {
+    if (!m_platform->renderBackend()) {
+        return false;
+    }
     waitIdle();
     DrmUniquePtr<drmModeRes> resources(drmModeGetResources(m_fd));
     if (!resources) {
