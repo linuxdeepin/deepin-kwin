@@ -291,10 +291,6 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
 
 void ScreenShotEffect::takeScreenShot(ScreenShotWindowSizedData *screenshot)
 {
-    if (!QX11Info::isPlatformX11()) {
-        if (isProhibitScreenshot())
-            return;
-    }
     EffectWindow *window = screenshot->window;
 
     WindowPaintData d;

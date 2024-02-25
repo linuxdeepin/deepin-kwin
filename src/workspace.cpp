@@ -3651,13 +3651,22 @@ QImage Workspace::getProhibitShotImage(QSize size)
 
     QImage prohibitImage(":/resources/themes/prohibited.svg");
 
-    QPoint position((size.width() - prohibitImage.width()) / 2, size.height() / 2 - prohibitImage.height());
+    int nWidth = (size.width() - prohibitImage.width()) / 2;
+    int nHeight = (size.height()  - prohibitImage.height()) / 2;
+
+    if (nWidth < 0) {
+        nWidth = 0;
+    } else if (nHeight < 0) {
+        nHeight = 0;
+    }
+
+    QPoint position(nWidth, nHeight);
 
     painter.drawImage(position, prohibitImage);
 
     // 将文字写在Image的中心
     QRect rect = m_prohibitShotImage.rect();
-    rect.setTop(prohibitImage.height() / 2);
+    rect.setTop(prohibitImage.height());
     painter.drawText(rect, Qt::AlignCenter, imageText);
 
     return m_prohibitShotImage;
