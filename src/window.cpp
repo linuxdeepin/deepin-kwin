@@ -1135,6 +1135,7 @@ void Window::setDesktops(QVector<VirtualDesktop *> desktops)
             for (auto desktop : std::as_const(m_desktops)) {
                 if (!currentDesktops.contains(desktop->id())) {
                     windowManagementInterface()->addPlasmaVirtualDesktop(desktop->id());
+                    windowManagementInterface()->setVirtualDesktop(VirtualDesktopManager::self()->desktops().indexOf(desktop));
                 } else {
                     currentDesktops.removeOne(desktop->id());
                 }
@@ -2457,6 +2458,7 @@ void Window::setupWindowManagementInterface()
 
     for (const auto vd : std::as_const(m_desktops)) {
         w->addPlasmaVirtualDesktop(vd->id());
+        w->setVirtualDesktop(VirtualDesktopManager::self()->desktops().indexOf(vd));
     }
     // We need to set `OnAllDesktops` after the actual VD list has been added.
     // Otherwise it will unconditionally add the current desktop to the interface

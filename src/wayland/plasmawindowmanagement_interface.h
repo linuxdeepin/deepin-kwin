@@ -178,6 +178,15 @@ public:
     void setIcon(const QIcon &icon);
 
     /**
+     * Set the virtual desktop of the PlasmaWindowInterface.
+     *
+     * Deprecated! Map window on a virtual desktop.
+     *
+     * @param desktop The new virtual desktop
+     */
+    void setVirtualDesktop(quint32 desktop);
+
+    /**
      * Adds a new desktop to this window: a window can be on
      * an arbitrary subset of virtual desktops.
      * If it's on none it will be considered on all desktops.

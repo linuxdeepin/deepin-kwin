@@ -60,6 +60,7 @@ public:
     void setTitle(const QString &title);
     void setAppId(const QString &appId);
     void setPid(quint32 pid);
+    void setVirtualDesktop(quint32 desktop);
     void setThemedIconName(const QString &iconName);
     void setIcon(const QIcon &icon);
     void unmap();
@@ -78,6 +79,7 @@ public:
     bool unmapped = false;
     PlasmaWindowInterface *parentWindow = nullptr;
     QMetaObject::Connection parentWindowDestroyConnection;
+    quint32 m_virtualDesktop = 0;
     QStringList plasmaVirtualDesktops;
     QStringList plasmaActivities;
     QRect geometry;
@@ -342,6 +344,7 @@ void PlasmaWindowInterfacePrivate::org_kde_plasma_window_bind_resource(Resource 
     for (const auto &desk : std::as_const(plasmaVirtualDesktops)) {
         send_virtual_desktop_entered(resource->handle, desk);
     }
+    send_virtual_desktop_changed(resource->handle, m_virtualDesktop);
     for (const auto &activity : std::as_const(plasmaActivities)) {
         if (resource->version() >= ORG_KDE_PLASMA_WINDOW_ACTIVITY_ENTERED_SINCE_VERSION) {
             send_activity_entered(resource->handle, activity);
@@ -424,6 +427,19 @@ void PlasmaWindowInterfacePrivate::setWindowId(quint32 winid)
 
     for (auto resource : clientResources) {
         send_window_id(resource->handle, winid);
+    }
+}
+
+void PlasmaWindowInterfacePrivate::setVirtualDesktop(quint32 desktop)
+{
+    if (m_virtualDesktop == desktop) {
+        return;
+    }
+    m_virtualDesktop = desktop;
+    const auto clientResources = resourceMap();
+
+    for (auto resource : clientResources) {
+        send_virtual_desktop_changed(resource->handle, desktop);
     }
 }
 
@@ -1017,6 +1033,11 @@ void PlasmaWindowInterface::setGeometry(const QRect &geometry)
 void PlasmaWindowInterface::setApplicationMenuPaths(const QString &serviceName, const QString &objectPath)
 {
     d->setApplicationMenuPaths(serviceName, objectPath);
+}
+
+void PlasmaWindowInterface::setVirtualDesktop(quint32 desktop)
+{
+    d->setVirtualDesktop(desktop);
 }
 
 quint32 PlasmaWindowInterface::internalId() const
