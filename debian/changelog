@@ -1,3 +1,10 @@
+kwin (4:5.27.2.72-deepin72-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * fix: bug fix
+
+ -- zhangyu <zhangyud@uniontech.com>  Sun, 25 Feb 2024 20:13:57 +0800
+
 kwin (4:5.27.2.71-deepin71-1) unstable; urgency=medium
 
   [ zhangyu ]
