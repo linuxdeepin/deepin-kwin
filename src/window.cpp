@@ -2284,7 +2284,9 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
     }
 
     if (nextMoveResizeGeom != currentMoveResizeGeom) {
-        if (isInteractiveMove()) {
+        if (s_placeholderWindow && s_placeholderWindow->takeOver(window())) {
+            moveResize(nextMoveResizeGeom);
+        } else if (isInteractiveMove()) {
             move(nextMoveResizeGeom.topLeft());
         } else {
             doInteractiveResizeSync(nextMoveResizeGeom);
