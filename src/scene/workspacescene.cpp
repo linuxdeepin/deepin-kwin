@@ -288,7 +288,7 @@ void WorkspaceScene::preparePaintSimpleScreen()
         accumulateRepaints(windowItem, painted_delegate, &data.paint);
 
         // Clip out the decoration for opaque windows; the decoration is drawn in the second pass.
-        if (window->opacity() >= 0.95) {
+        if (window->opacity() == 1.0) {
             const SurfaceItem *surfaceItem = windowItem->surfaceItem();
             if (Q_LIKELY(surfaceItem)) {
                 data.opaque = surfaceItem->mapToGlobal(surfaceItem->opaque());
