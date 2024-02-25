@@ -90,9 +90,6 @@ Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 
 namespace KWin
 {
-
-static bool s_internalChanged = false;
-
 static QString DConfigCompositingReplyPath()
 {
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
@@ -130,7 +127,6 @@ static void setDConfigUserEffectType(EffectType type)
         return;
     }
 
-    s_internalChanged = true;
     QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
     interfaceValue.asyncCall("setValue", "user_type", QVariant::fromValue(QDBusVariant(static_cast<int>(type))));
 }
@@ -803,8 +799,8 @@ void Compositor::handleFrameRequested(RenderLoop *renderLoop)
 void Compositor::handleDConfigUserTypeChanged(const QString &type)
 {
     if (type == "user_type") {
-        if (s_internalChanged) {
-            s_internalChanged = false;
+        EffectType effectType = getDConfigUserEffectType();
+        if (effectType ==  EffectType::AutoSelect || effectType == m_effectType) {
             return;
         }
         reinitialize();
