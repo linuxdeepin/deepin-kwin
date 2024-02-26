@@ -90,6 +90,11 @@ public:
         m_resizable = set;
     }
 
+    void setCloseable(bool set)
+    {
+        m_closeable = set;
+    }
+
     void setAcceptFocus(bool set)
     {
         m_acceptFocus = set;
@@ -116,6 +121,7 @@ protected:
     bool m_minimizable = true;
     bool m_maxmizable = true;
     bool m_resizable = true;
+    bool m_closeable = true;
     bool m_acceptFocus = true;
 
     int m_noTitleBar = -1;

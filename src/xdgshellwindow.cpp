@@ -723,6 +723,11 @@ void XdgSurfaceWindow::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
             setResizable(set);
         }
     );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::closeableRequested, this,
+        [this] (bool set) {
+            setCloseable(set);
+        }
+    );
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::acceptFocusRequested, this,
         [this] (bool set) {
             setAcceptFocus(set);
@@ -903,7 +908,7 @@ bool XdgToplevelWindow::isResizable() const
 
 bool XdgToplevelWindow::isCloseable() const
 {
-    return !isDesktop() && !isDock();
+    return !isDesktop() && !isDock() && m_closeable;
 }
 
 bool XdgToplevelWindow::isFullScreenable() const
