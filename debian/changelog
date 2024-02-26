@@ -1,3 +1,17 @@
+kwin (4:5.27.2.73-deepin73-1) unstable; urgency=medium
+
+  [ dingzhixuan ]
+  * fix: KuGou Music cause xwayland crash
+  * fix: reconstruct window shadow
+  * fix: When the useractionmenu appears, filter out the operation of maximizing and minimizing the window.
+  * feat: add dde shell closeable request
+  * fix: there is no event tracking data in wayland
+  * fix:  Revert "Xwayland:Update pointer state before ending the drag"
+  * fix: window can be resized out of screen
+  * fix: maximiz the init need reset positonset
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Tue, 27 Feb 2024 00:06:06 +0800
+
 kwin (4:5.27.2.72-deepin72-1) unstable; urgency=medium
 
   [ zhangyu ]
