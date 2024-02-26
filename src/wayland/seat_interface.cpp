@@ -971,8 +971,6 @@ void SeatInterface::notifyPointerButton(quint32 button, PointerButtonState state
                 // not our drag button - ignore
                 return;
             }
-            QPointF localPosition = focusedPointerSurfaceTransformation().map(d->globalPointer.pos);
-            d->pointer->sendButton(button, state, serial, localPosition);
             d->endDrag();
             return;
         }
