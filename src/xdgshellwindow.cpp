@@ -32,6 +32,7 @@
 #include "wayland/ddeshell_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "useractions.h"
 #include "wayland/dderestrict_interface.h"
 // #include "windowradius/windowradius.h"
 
@@ -921,6 +922,9 @@ bool XdgToplevelWindow::isFullScreenable() const
 
 bool XdgToplevelWindow::isMaximizable() const
 {
+    if (workspace()->userActionsMenu()->isShown()) {
+        return false;
+    }
     if (!isResizable() || !m_maxmizable || isAppletPopup()) {
         return false;
     }
