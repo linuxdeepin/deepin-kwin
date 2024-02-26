@@ -836,6 +836,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     }
 
     updateShape();
+    recordShape(window(), 255);
 
     // CT: Extra check for stupid jdk 1.3.1. But should make sense in general
     // if client has initial state set to Iconic and is transient with a parent
@@ -4323,6 +4324,7 @@ void X11Window::updateServerGeometry()
             sendSyntheticConfigureNotify();
         }
         updateShape();
+        recordShape(window(), 255);
     } else {
         m_frame.move(m_bufferGeometry.topLeft());
         sendSyntheticConfigureNotify();

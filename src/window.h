@@ -767,7 +767,7 @@ public:
     bool readyForPainting() const; // true if the window has been already painted its contents
     xcb_visualid_t visual() const;
     bool shape() const;
-    QRegion inputShape() const;
+    virtual QRegion inputShape() const;
     void setOpacity(qreal opacity);
     qreal opacity() const;
     int depth() const;

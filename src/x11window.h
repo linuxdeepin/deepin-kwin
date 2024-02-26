@@ -196,6 +196,7 @@ public:
     void invalidateDecoration() override;
 
     void updateShape();
+    virtual void recordShape(xcb_window_t id, xcb_shape_kind_t kind) { }
 
     /// resizeWithChecks() resizes according to gravity, and checks workarea position
     QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &size) override;
