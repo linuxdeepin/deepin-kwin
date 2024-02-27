@@ -32,6 +32,7 @@
 #include "wayland/ddeshell_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "useractions.h"
 #include "wayland/dderestrict_interface.h"
 
 #include <KDecoration2/DecoratedClient>
@@ -1951,6 +1952,10 @@ void XdgToplevelWindow::setFullScreen(bool set, bool user)
 static bool changeMaximizeRecursion = false;
 void XdgToplevelWindow::maximize(MaximizeMode mode)
 {
+    if (workspace()->userActionsMenu()->isShown()) {
+        return;
+    }
+
     if (changeMaximizeRecursion) {
         return;
     }
