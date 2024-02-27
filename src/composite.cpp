@@ -90,6 +90,39 @@ Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 
 namespace KWin
 {
+template <typename T> using ScopedCPointer = QScopedPointer<T, QScopedPointerPodDeleter>;
+static QByteArray PROP_COMPOSITE_TOGGLING("_NET_KDE_COMPOSITE_TOGGLING");
+static xcb_atom_t ATOM_COMPOSITE_TOGGLING = 0;
+
+static void reportCompositeChangeFinished()
+{
+    xcb_delete_property(kwinApp()->x11Connection(), kwinApp()->x11RootWindow(), ATOM_COMPOSITE_TOGGLING);
+}
+
+static void reportCompositeIsAboutToChange(int value)
+{
+    auto c = kwinApp()->x11Connection();
+    if (!c) {
+        return;
+    }
+
+    if (!ATOM_COMPOSITE_TOGGLING) {
+        // get the atom for the propertyName
+        ScopedCPointer<xcb_intern_atom_reply_t> atomReply(xcb_intern_atom_reply(c,
+                    xcb_intern_atom_unchecked(c, false, PROP_COMPOSITE_TOGGLING.size(),
+                        PROP_COMPOSITE_TOGGLING.constData()), NULL));
+        if (atomReply.isNull()) {
+            return;
+        }
+
+        ATOM_COMPOSITE_TOGGLING = atomReply->atom;
+    }
+
+    // announce property on root window
+    xcb_change_property(c, XCB_PROP_MODE_REPLACE, kwinApp()->x11RootWindow(),
+            ATOM_COMPOSITE_TOGGLING, ATOM_COMPOSITE_TOGGLING, 8, 4, &value);
+}
+
 static QString DConfigCompositingReplyPath()
 {
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
@@ -479,6 +512,7 @@ bool Compositor::setupStart()
     }
 
     Q_EMIT sceneCreated();
+    reportCompositeIsAboutToChange(1);
 
     return true;
 }
@@ -661,6 +695,7 @@ void Compositor::stop()
     if (m_state == State::Off || m_state == State::Stopping) {
         return;
     }
+    reportCompositeIsAboutToChange(0);
     m_state = State::Stopping;
     Q_EMIT aboutToToggleCompositing();
 
