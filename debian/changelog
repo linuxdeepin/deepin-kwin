@@ -1,3 +1,13 @@
+kwin (4:5.27.2.74-deepin74-1) unstable; urgency=medium
+
+  [ gengzhijie ]
+  * fix: there are a lot of xcb error BadAtom
+  * feat: improve glmark2 score
+  * fix: When the useractionmenu appears, filter out the operation of maximizing and minimizing the window.
+  * fix: Revert "fix: When the useractionmenu appears, filter out the operation of maximizing and minimizing the window."
+
+ -- gengzhijie <gengzhijie@uniontech.com>  Tue, 27 Feb 2024 15:49:02 +0800
+
 kwin (4:5.27.2.73-deepin73-1) unstable; urgency=medium
 
   [ dingzhixuan ]
