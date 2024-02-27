@@ -13,6 +13,7 @@
 #if KWIN_BUILD_ACTIVITIES
 #include "activities.h"
 #endif
+#include "composite.h"
 #include "decorations/decorationbridge.h"
 #include "deleted.h"
 #include "placement.h"
@@ -825,6 +826,9 @@ XdgToplevelWindow::XdgToplevelWindow(XdgToplevelInterface *shellSurface)
 
 XdgToplevelWindow::~XdgToplevelWindow()
 {
+    if (m_isBenchWindow) {
+        Compositor::self()->decrementBenchWindow();
+    }
 }
 
 XdgToplevelInterface *XdgToplevelWindow::shellSurface() const
@@ -1721,6 +1725,12 @@ void XdgToplevelWindow::initialize()
     if (m_ddeShellSurface && !m_isSendT && isResizable()) {
         m_ddeShellSurface->sendSplitable(true);
         m_isSendT = true;
+    }
+
+    if (resourceName().contains("glmark2")) {
+        Compositor::self()->incrementBenchWindow();
+        surface()->skipBuffer();
+        m_isBenchWindow = true;
     }
 }
 

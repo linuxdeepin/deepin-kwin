@@ -582,6 +582,9 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
 
     if (bufferRef != current.buffer) {
         if (bufferRef) {
+            if (isSkipBuffer) {
+                bufferRef->sendRelease();
+            }
             bufferRef->unref();
         }
         bufferRef = current.buffer;
@@ -1125,6 +1128,11 @@ void SurfaceInterface::setPreferredScale(qreal scale)
     for (auto child : qAsConst(d->current.above)) {
         child->surface()->setPreferredScale(scale);
     }
+}
+
+void SurfaceInterface::skipBuffer()
+{
+    d->isSkipBuffer = 1;
 }
 
 } // namespace KWaylandServer

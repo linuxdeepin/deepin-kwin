@@ -146,6 +146,7 @@ public:
     FractionalScaleV1Interface *fractionalScaleExtension = nullptr;
     ClientConnection *client = nullptr;
     TearingControlV1Interface *tearing = nullptr;
+    int isSkipBuffer = 0;
 
 protected:
     void surface_destroy_resource(Resource *resource) override;

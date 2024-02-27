@@ -793,6 +793,11 @@ void Compositor::reinitialize()
 
 void Compositor::handleFrameRequested(RenderLoop *renderLoop)
 {
+    static quint32 frame = 0;
+    frame++;
+    if (m_benchWindowNum > 0 && frame % 2 == 0) {
+        return;
+    }
     composite(renderLoop);
 }
 

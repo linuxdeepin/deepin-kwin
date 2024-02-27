@@ -70,6 +70,16 @@ public:
      */
     bool isActive();
 
+    void incrementBenchWindow() {
+        m_benchWindowNum++;
+    }
+
+    void decrementBenchWindow() {
+        if (m_benchWindowNum > 0) {
+            m_benchWindowNum--;
+        }
+    }
+
     WorkspaceScene *scene() const
     {
         return m_scene.get();
@@ -202,6 +212,7 @@ private:
     void preparePaintPass(RenderLayer *layer, QRegion *repaint);
     void paintPass(RenderLayer *layer, RenderTarget *target, const QRegion &region);
 
+    quint32 m_benchWindowNum = 0;
     State m_state = State::Off;
     std::unique_ptr<CompositorSelectionOwner> m_selectionOwner;
     QTimer m_releaseSelectionTimer;

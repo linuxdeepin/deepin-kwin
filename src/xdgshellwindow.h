@@ -280,6 +280,7 @@ private:
     bool m_isSendT = false;
     QPointer<Output> m_fullScreenRequestedOutput;
     std::shared_ptr<KDecoration2::Decoration> m_nextDecoration;
+    bool m_isBenchWindow = false;
 };
 
 class XdgPopupWindow final : public XdgSurfaceWindow

@@ -45,6 +45,7 @@ public:
     };
 
     bool isReferenced() const;
+    void sendRelease();
     bool isDestroyed() const;
 
     void ref();
