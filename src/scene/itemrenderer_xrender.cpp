@@ -223,7 +223,7 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
     if (!(win && win->isShade())) {
         xcb_render_picture_t clientAlpha = XCB_RENDER_PICTURE_NONE;
         if (!opaque) {
-            if (win->resourceClass().contains("wine") && win->isDialog() && win->caption().isEmpty()) {
+            if (win->hasAlpha() && win->isDialog() && win->caption().isEmpty()) {
                 clientAlpha = XRenderUtils::xRenderBlendPicture(0);
             } else {
                 clientAlpha = XRenderUtils::xRenderBlendPicture(data.opacity());
