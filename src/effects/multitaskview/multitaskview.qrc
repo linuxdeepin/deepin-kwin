@@ -10,6 +10,7 @@
   <file>shaders/dottedline_core.frag</file>
   <file>shaders/dottedline.vert</file>
   <file>shaders/dottedline_core.vert</file>
+  <file>translations/multitasking_bo.qm</file>
   <file>translations/multitasking_ca.qm</file>
   <file>translations/multitasking_hu.qm</file>
   <file>translations/multitasking_nl.qm</file>
