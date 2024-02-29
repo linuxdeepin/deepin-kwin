@@ -1,13 +1,25 @@
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
+
+    SPDX-FileCopyrightText: 2024 zhang yu <zhangyud@uniontech.com>
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #include "windowstylemanager.h"
 #include "workspace.h"
 #include "unmanaged.h"
 #include "configreader.h"
 #include "composite.h"
 #include <QScreen>
+#include <QGSettings/qgsettings.h>
 
 #define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
 #define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
 #define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
+
+Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_deepin_xsetting, ("com.deepin.xsettings"))
+#define GsettingsDtkRadius     "dtk-window-radius"
 
 namespace KWin
 {
@@ -77,8 +89,14 @@ void WindowStyleManager::onCompositingChanged(bool acitve)
 
 float WindowStyleManager::getOsRadius()
 {
-    if (m_osRadius <= 0.0)
-        m_osRadius = m_configReader->getProperty().isValid() ? m_configReader->getProperty().toFloat() : 0.0;
+    if (m_osRadius <= 0.0) {
+        if (m_configReader->getProperty().isValid()) {
+            m_osRadius = m_configReader->getProperty().toFloat();
+        } else {
+            m_osRadius = _gsettings_deepin_xsetting->get(GsettingsDtkRadius).toInt();
+        }
+    }
+
     return m_osRadius <= 0.0 ? 0.0 : m_osRadius;
 }
 

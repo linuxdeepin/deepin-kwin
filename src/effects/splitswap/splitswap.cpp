@@ -154,16 +154,16 @@ void SplitSwapEffect::setActive(bool active)
 void SplitSwapEffect::onSwapWindow(EffectWindow *w, int index)
 {
     m_animationTime.reset();
-    if (index == 0) {
+    if (index == 0) {           //quit split state
         m_animationTime.setElapsed(m_duration);
         m_isSwap = false;
         m_isFinish = true;
         return;
-    } else if (index == 2) {
+    } else if (index == 2) {    //finish split swap
         m_isSwap = false;
         m_isFinish = true;
         m_animationTime.setElapsed(std::chrono::milliseconds(1));
-    } else if (index == 1) {
+    } else if (index == 1) {    //swaping
         m_isSwap = true;
         m_isFinish = false;
         m_leftMode = m_leftMode ^ 0b11;

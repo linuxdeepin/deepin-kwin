@@ -1,3 +1,11 @@
+/*
+    KWin - the KDE window manager
+    This file is part of the KDE project.
+
+    SPDX-FileCopyrightText: 2024 zhang yu <zhangyud@uniontech.com>
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 #ifndef WINDOWRADIUS_H
 #define WINDOWRADIUS_H
 
