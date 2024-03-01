@@ -91,7 +91,7 @@
     },
     "border": {
       "width": 1,
-      "color": "#10000000"
+      "color": "#4d000000"
     },
     "rounded-corner-radius": "0,0",
     "blur": 10,
