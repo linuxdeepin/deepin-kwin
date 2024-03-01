@@ -1,3 +1,11 @@
+kwin (4:5.27.2.76-deepin76-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * fix: border color of windows in 2d
+  * fix: wps checkbox cannot click for passthrough
+
+ -- huangzeming <huangzeming@uniontech.com>  Fri, 01 Mar 2024 11:22:05 +0800
+
 kwin (4:5.27.2.75-deepin75-1) unstable; urgency=medium
 
   [ gengzhijie ]
