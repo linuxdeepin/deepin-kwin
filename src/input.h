@@ -14,7 +14,7 @@
 #include <QObject>
 #include <QPoint>
 #include <QPointer>
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 
 #include <KConfigWatcher>
 #include <KSharedConfig>

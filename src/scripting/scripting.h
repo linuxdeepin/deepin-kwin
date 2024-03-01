@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 
 #include <QHash>
 #include <QJSEngine>

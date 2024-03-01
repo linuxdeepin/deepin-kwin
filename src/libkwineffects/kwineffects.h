@@ -15,7 +15,7 @@
 #include <kwinconfig.h>
 #include <kwineffects_export.h>
 #include <kwinglutils.h>
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 
 #include <QEasingCurve>
 #include <QIcon>

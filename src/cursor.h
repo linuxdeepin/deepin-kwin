@@ -8,7 +8,7 @@
 */
 #pragma once
 // kwin
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 // Qt
 #include <QHash>
 #include <QObject>

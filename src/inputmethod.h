@@ -16,7 +16,7 @@
 #include <QObject>
 
 #include "kwin_export.h"
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 
 #include <QPointer>
 #include <QTimer>

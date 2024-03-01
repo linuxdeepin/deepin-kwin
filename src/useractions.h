@@ -10,7 +10,7 @@
 #include "ui_shortcutdialog.h"
 #include "workspace.h"
 
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 
 // Qt
 #include <QDialog>

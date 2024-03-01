@@ -11,7 +11,7 @@
 #pragma once
 
 #include <config-kwin.h>
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 
 #include <KSharedConfig>
 #include <memory>

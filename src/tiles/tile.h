@@ -10,7 +10,7 @@
 #pragma once
 
 #include "kwin_export.h"
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 #include <utils/common.h>
 
 #include <QObject>

@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include <kwinglobals.h>
-#include <kwinglutils_export.h>
+#include "kwinglobals.h"
+#include "deepin-kwinglutils_export.h"
 
 #include <QByteArray>
 #include <QSet>

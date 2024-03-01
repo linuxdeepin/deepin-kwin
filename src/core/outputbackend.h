@@ -11,7 +11,7 @@
 
 #include <epoxy/egl.h>
 #include "kwin_export.h"
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 
 #include <QObject>
 

@@ -1,7 +1,7 @@
 #ifndef KWIN_CONFIGREADER_H
 #define KWIN_CONFIGREADER_H
 
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 #include <QDBusInterface>
 #include <QDBusConnectionInterface>
 #include <QDBusArgument>

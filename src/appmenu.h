@@ -10,7 +10,7 @@
 */
 #pragma once
 // KWin
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 // Qt
 #include <QObject>
 // xcb

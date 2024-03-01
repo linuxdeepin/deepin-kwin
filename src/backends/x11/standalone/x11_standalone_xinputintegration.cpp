@@ -22,7 +22,7 @@
 #include "modifier_only_shortcuts.h"
 #include "workspace.h"
 #include "x11eventfilter.h"
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 #include "effects.h"
 
 #include <X11/extensions/XI2proto.h>

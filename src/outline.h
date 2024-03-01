@@ -10,7 +10,7 @@
 #pragma once
 #include <QObject>
 #include <QRect>
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 #include <memory>
 
 #include "kwin_export.h"

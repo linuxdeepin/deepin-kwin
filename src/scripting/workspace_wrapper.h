@@ -15,7 +15,7 @@
 #include <QRect>
 #include <QSize>
 #include <QStringList>
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 
 namespace KWin
 {

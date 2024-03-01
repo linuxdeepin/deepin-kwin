@@ -9,7 +9,7 @@
 #pragma once
 // KWin
 #include "kwin_export.h"
-#include <kwinglobals.h>
+#include "kwinglobals.h"
 // Qt includes
 #include <QAction>
 #include <QObject>
