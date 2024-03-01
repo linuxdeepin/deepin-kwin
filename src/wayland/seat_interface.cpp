@@ -246,6 +246,9 @@ void SeatInterfacePrivate::registerPrimarySelectionDevice(PrimarySelectionDevice
         globalKeyboard.focus.primarySelections.removeOne(primarySelectionDevice);
     };
     QObject::connect(primarySelectionDevice, &QObject::destroyed, q, dataDeviceCleanup);
+    QObject::connect(primarySelectionDevice, &PrimarySelectionDeviceV1Interface::selectionChanged, q, [this, primarySelectionDevice] {
+        updatePrimarySelection(primarySelectionDevice);
+    });
     qCWarning(KWIN_CORE) << "new primarySelectionDevice "
         << primarySelectionDevice << "@" << primarySelectionDevice->processId();
     // is the new DataDevice for the current keyoard focus?
@@ -389,7 +392,9 @@ bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, Abstr
         dataDevice->sendPrimarySelection(dataSource);
     } else {
         // The client is updated only after the signal sent by itself or dataControlDevices
-        if (dataDevice->processId() == dataSource->pid 
+        if (dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
+                dataDevice->sendPrimarySelection(dataSource);
+            } else if (dataDevice->processId() == dataSource->pid
             || allDataControlDevices.contains(dataDevice->processId()) || allDataControlDevices.contains(dataSource->pid)) {
             dataDevice->sendSelection(dataSource);
         }
