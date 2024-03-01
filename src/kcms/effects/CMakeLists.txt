@@ -1,17 +1,17 @@
 # KI18N Translation Domain for this library.
-add_definitions(-DTRANSLATION_DOMAIN=\"kcm_kwin_effects\")
+add_definitions(-DTRANSLATION_DOMAIN=\"deepin-kcm_kwin_effects\")
 
 ########### next target ###############
 
-set(kcm_kwin_effects_PART_SRCS
+set(deepin-kcm_kwin_effects_PART_SRCS
     kcm.cpp
     effectsfilterproxymodel.cpp
     desktopeffectsdata.cpp
 )
 
-kcoreaddons_add_plugin(kcm_kwin_effects SOURCES ${kcm_kwin_effects_PART_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings")
+kcoreaddons_add_plugin(deepin-kcm_kwin_effects SOURCES ${deepin-kcm_kwin_effects_PART_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings")
 
-target_link_libraries(kcm_kwin_effects
+target_link_libraries(deepin-kcm_kwin_effects
     Qt${QT_MAJOR_VERSION}::DBus
 
     KF5::KCMUtils
@@ -21,10 +21,10 @@ target_link_libraries(kcm_kwin_effects
     KF5::QuickAddons
     KF5::XmlGui
 
-    kcmkwincommon
+    deepin-kcmkwincommon
 )
 
 ########### install files ###############
 
 install(FILES kwineffect.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
-kpackage_install_package(package kcm_kwin_effects kcms)
+kpackage_install_package(package deepin-kcm_kwin_effects kcms)

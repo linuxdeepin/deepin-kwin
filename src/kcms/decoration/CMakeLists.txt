@@ -1,5 +1,5 @@
 # KI18N Translation Domain for this library
-add_definitions(-DTRANSLATION_DOMAIN=\"kcm_kwindecoration\")
+add_definitions(-DTRANSLATION_DOMAIN=\"deepin-kcm_kwindecoration\")
 
 add_subdirectory(declarative-plugin)
 
@@ -20,9 +20,9 @@ kcmutils_generate_module_data(
 
 kconfig_add_kcfg_files(kcmkwindecoration_SRCS kwindecorationsettings.kcfgc GENERATE_MOC)
 
-kcoreaddons_add_plugin(kcm_kwindecoration SOURCES ${kcmkwindecoration_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings")
+kcoreaddons_add_plugin(deepin-kcm_kwindecoration SOURCES ${kcmkwindecoration_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings")
 
-target_link_libraries(kcm_kwindecoration
+target_link_libraries(deepin-kcm_kwindecoration
     KDecoration2::KDecoration
     KF5::I18n
     KF5::KCMUtils
@@ -54,4 +54,4 @@ install(FILES kwindecorationsettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/window-decorations.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
 install(TARGETS deepin-kwin-applywindowdecoration DESTINATION ${KDE_INSTALL_LIBEXECDIR})
 
-kpackage_install_package(package kcm_kwindecoration kcms)
+kpackage_install_package(package deepin-kcm_kwindecoration kcms)

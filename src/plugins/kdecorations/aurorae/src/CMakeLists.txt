@@ -5,17 +5,17 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-set(kwin5_aurorae_PART_SRCS
+set(deepin-kwin5_aurorae_PART_SRCS
     aurorae.cpp
     decorationoptions.cpp
     lib/auroraetheme.cpp
     lib/themeconfig.cpp
 )
 
-add_library(kwin5_aurorae MODULE ${kwin5_aurorae_PART_SRCS})
-set_target_properties(kwin5_aurorae PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kdecoration2/")
+add_library(deepin-kwin5_aurorae MODULE ${deepin-kwin5_aurorae_PART_SRCS})
+set_target_properties(deepin-kwin5_aurorae PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kdecoration2/")
 
-target_link_libraries(kwin5_aurorae
+target_link_libraries(deepin-kwin5_aurorae
     KDecoration2::KDecoration
     kwineffects
     KF5::ConfigWidgets
@@ -26,7 +26,7 @@ target_link_libraries(kwin5_aurorae
     Qt${QT_MAJOR_VERSION}::UiTools
 )
 
-install(TARGETS kwin5_aurorae DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
+install(TARGETS deepin-kwin5_aurorae DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
 
 set(decoration_plugin_SRCS
     colorhelper.cpp

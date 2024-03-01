@@ -45,7 +45,7 @@ target_link_libraries(kwineffects
     PRIVATE
         Qt${QT_MAJOR_VERSION}::Quick
         KF5::I18n
-        kwinglutils
+        deepinkwinglutils
 )
 if (QT_MAJOR_VERSION EQUAL "6")
     target_link_libraries(kwineffects PRIVATE Qt${QT_MAJOR_VERSION}::GuiPrivate)
@@ -70,15 +70,15 @@ set(kwin_GLUTILSLIB_SRCS
     logging.cpp
 )
 
-add_library(kwinglutils SHARED ${kwin_GLUTILSLIB_SRCS})
-generate_export_header(kwinglutils BASE_NAME kwinglutils EXPORT_FILE_NAME kwinglutils_export.h)
-target_link_libraries(kwinglutils PUBLIC XCB::XCB KF5::CoreAddons KF5::ConfigCore KF5::WindowSystem epoxy::epoxy)
-set_target_properties(kwinglutils PROPERTIES
+add_library(deepinkwinglutils SHARED ${kwin_GLUTILSLIB_SRCS})
+generate_export_header(deepinkwinglutils BASE_NAME deepinkwinglutils EXPORT_FILE_NAME kwinglutils_export.h)
+target_link_libraries(deepinkwinglutils PUBLIC XCB::XCB KF5::CoreAddons KF5::ConfigCore KF5::WindowSystem epoxy::epoxy)
+set_target_properties(deepinkwinglutils PROPERTIES
     VERSION ${KWINEFFECTS_VERSION}
     SOVERSION ${KWINEFFECTS_SOVERSION}
 )
 
-install(TARGETS kwinglutils EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepinkwinglutils EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/kwinconfig.h
@@ -90,7 +90,7 @@ install(FILES
     kwinglobals.h
     kwinglplatform.h
     kwingltexture.h
-    kwinglutils.h
+    deepinkwinglutils.h
     kwinglutils_funcs.h
     kwinoffscreeneffect.h
     kwinoffscreenquickview.h

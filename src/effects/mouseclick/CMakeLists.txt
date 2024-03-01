@@ -13,7 +13,7 @@ kconfig_add_kcfg_files(mouseclick_SOURCES
 kwin4_add_effect_module(kwin4_effect_mouseclick ${mouseclick_SOURCES})
 target_link_libraries(kwin4_effect_mouseclick PRIVATE
     kwineffects
-    kwinglutils
+    deepinkwinglutils
 
     KF5::ConfigGui
     KF5::GlobalAccel

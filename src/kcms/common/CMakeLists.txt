@@ -1,5 +1,5 @@
 # KI18N Translation Domain for this library
-add_definitions(-DTRANSLATION_DOMAIN=\"kcmkwincommon\")
+add_definitions(-DTRANSLATION_DOMAIN=\"deepin-kcmkwincommon\")
 
 include_directories(${KWin_SOURCE_DIR}/src/effects)
 
@@ -23,9 +23,9 @@ qt_add_dbus_interface(kcmkwincommon_SRC
 )
 endif()
 
-add_library(kcmkwincommon SHARED ${kcmkwincommon_SRC})
+add_library(deepin-kcmkwincommon SHARED ${kcmkwincommon_SRC})
 
-target_link_libraries(kcmkwincommon
+target_link_libraries(deepin-kcmkwincommon
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::DBus
     KF5::CoreAddons
@@ -35,9 +35,9 @@ target_link_libraries(kcmkwincommon
     KF5::KCMUtils
 )
 
-set_target_properties(kcmkwincommon PROPERTIES
+set_target_properties(deepin-kcmkwincommon PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
-install(TARGETS kcmkwincommon ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
+install(TARGETS deepin-kcmkwincommon ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)

@@ -1,5 +1,5 @@
 # KI18N Translation Domain for this library
-add_definitions(-DTRANSLATION_DOMAIN=\"kcm_kwinrules\")
+add_definitions(-DTRANSLATION_DOMAIN=\"deepin-kcm_kwinrules\")
 add_definitions(-DKCMRULES)
 
 include_directories(../../)
@@ -45,10 +45,10 @@ target_link_libraries(KWinRulesObjects ${kcm_libs} ${kwin_kcm_rules_XCB_LIBS})
 
 add_executable(kwin_rules_dialog main.cpp)
 target_link_libraries(kwin_rules_dialog KWinRulesObjects)
-target_compile_definitions(kwin_rules_dialog PRIVATE KCMRULES_PLUGIN="plasma/kcms/systemsettings/kcm_kwinrules")
+target_compile_definitions(kwin_rules_dialog PRIVATE KCMRULES_PLUGIN="plasma/kcms/systemsettings/deepin-kcm_kwinrules")
 install(TARGETS kwin_rules_dialog DESTINATION ${KDE_INSTALL_LIBEXECDIR})
 
-kcoreaddons_add_plugin(kcm_kwinrules SOURCES kcmrules.cpp INSTALL_NAMESPACE "plasma/kcms/systemsettings")
-target_link_libraries(kcm_kwinrules KWinRulesObjects)
+kcoreaddons_add_plugin(deepin-kcm_kwinrules SOURCES kcmrules.cpp INSTALL_NAMESPACE "plasma/kcms/systemsettings")
+target_link_libraries(deepin-kcm_kwinrules KWinRulesObjects)
 
-kpackage_install_package(package kcm_kwinrules kcms)
+kpackage_install_package(package deepin-kcm_kwinrules kcms)

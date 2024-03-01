@@ -214,7 +214,7 @@ target_sources(deepin-kwin PRIVATE
 
 target_link_libraries(deepin-kwin
     kwineffects
-    kwinglutils
+    deepinkwinglutils
 
     Qt${QT_MAJOR_VERSION}::Concurrent
     Qt${QT_MAJOR_VERSION}::DBus

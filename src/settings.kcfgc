@@ -1,4 +1,4 @@
-File=kwin.kcfg
+File=deepin-kwin.kcfg
 NameSpace=KWin
 ClassName=Settings
 # options.h is needed for FocusPolicy and PlacementPolicy

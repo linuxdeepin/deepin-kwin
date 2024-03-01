@@ -1,14 +1,14 @@
 # KI18N Translation Domain for this library
-add_definitions(-DTRANSLATION_DOMAIN=\"kcm_kwin_scripts\")
+add_definitions(-DTRANSLATION_DOMAIN=\"deepin-kcm_kwin_scripts\")
 
-kcoreaddons_add_plugin(kcm_kwin_scripts INSTALL_NAMESPACE plasma/kcms/systemsettings)
+kcoreaddons_add_plugin(deepin-kcm_kwin_scripts INSTALL_NAMESPACE plasma/kcms/systemsettings)
 
-target_sources(kcm_kwin_scripts PRIVATE
+target_sources(deepin-kcm_kwin_scripts PRIVATE
     module.cpp
     kwinscriptsdata.cpp
 )
 
-target_link_libraries(kcm_kwin_scripts
+target_link_libraries(deepin-kcm_kwin_scripts
     Qt${QT_MAJOR_VERSION}::DBus
 
     KF5::I18n
@@ -20,5 +20,5 @@ target_link_libraries(kcm_kwin_scripts
     KF5::ItemViews
 )
 
-kpackage_install_package(package kcm_kwin_scripts kcms)
+kpackage_install_package(package deepin-kcm_kwin_scripts kcms)
 install(FILES kwinscripts.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})

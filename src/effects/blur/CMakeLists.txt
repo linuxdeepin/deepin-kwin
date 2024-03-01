@@ -15,7 +15,7 @@ kwin4_add_effect_module(kwin4_effect_blur ${blur_SOURCES})
 target_link_libraries(kwin4_effect_blur PRIVATE
     deepin-kwin
     kwineffects
-    kwinglutils
+    deepinkwinglutils
 
     KF5::ConfigGui
 

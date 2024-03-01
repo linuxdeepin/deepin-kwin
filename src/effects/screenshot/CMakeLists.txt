@@ -18,7 +18,7 @@ endif()
 kwin4_add_effect_module(kwin4_effect_screenshot ${screenshot_SOURCES})
 target_link_libraries(kwin4_effect_screenshot PRIVATE
     kwineffects
-    kwinglutils
+    deepinkwinglutils
 
     KF5::Service
     KF5::I18n
