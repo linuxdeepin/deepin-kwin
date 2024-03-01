@@ -1,3 +1,13 @@
+kwin (4:5.27.2.77-deepin77-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * fix: border color of dialog window in 2d
+  * fix: get radius from dtk gsettings, add lisence
+  * fix: Modifying PrimarySelection Invalidation Issues
+  * fix: using memory's copy instead of glReadPixels.
+
+ -- huangzeming <huangzeming@uniontech.com>  Fri, 01 Mar 2024 18:18:37 +0800
+
 kwin (4:5.27.2.76-deepin76-1) unstable; urgency=medium
 
   [ huangzeming ]
