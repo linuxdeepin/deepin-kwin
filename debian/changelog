@@ -1,3 +1,13 @@
+kwin (4:5.27.2.75-deepin75-1) unstable; urgency=medium
+
+  [ gengzhijie ]
+  * feat: add fault tolerance for remote buffer.
+  * fix: fixed the issue that the laucher couldn't be fullscreen
+  * fix: add bo and ug language
+  * fix: rendering problem of wine app in cloud desktop
+
+ -- gengzhijie <gengzhijie@uniontech.com>  Fri, 01 Mar 2024 10:22:39 +0800
+
 kwin (4:5.27.2.74-deepin74-1) unstable; urgency=medium
 
   [ gengzhijie ]
