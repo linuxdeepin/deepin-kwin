@@ -43,7 +43,7 @@
 #include "decorations/decorationbridge.h"
 #include "inputmethod.h"
 #include "inputpanelv1window.h"
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 #include "scene/windowitem.h"
 #include "utils/xcbutils.h"
 #include "virtualdesktops.h"

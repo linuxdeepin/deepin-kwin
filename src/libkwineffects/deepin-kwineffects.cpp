@@ -9,7 +9,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "kwineffects.h"
+#include "deepin-kwineffects.h"
 
 #include "config-kwin.h"
 

@@ -13,13 +13,13 @@
 #include <QEasingCurve>
 #include <QElapsedTimer>
 #include <QtMath>
-#include <kwinoffscreeneffect.h>
-#include <kwineffects_export.h>
+#include "deepin-kwinoffscreeneffect.h"
+#include "deepin-kwineffects_export.h"
 
 namespace KWin
 {
 
-class KWINEFFECTS_EXPORT FPx2
+class DEEPIN_KWINEFFECTS_EXPORT FPx2
 {
 public:
     FPx2()
@@ -190,7 +190,7 @@ class AnimationEffectPrivate;
  *
  * @since 4.8
  */
-class KWINEFFECTS_EXPORT AnimationEffect : public CrossFadeEffect
+class DEEPIN_KWINEFFECTS_EXPORT AnimationEffect : public CrossFadeEffect
 {
     Q_OBJECT
 

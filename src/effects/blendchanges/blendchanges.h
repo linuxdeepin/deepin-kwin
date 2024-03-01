@@ -8,8 +8,8 @@
 */
 #pragma once
 #include <chrono>
-#include <kwinoffscreeneffect.h>
-#include <kwineffects.h>
+#include "deepin-kwinoffscreeneffect.h"
+#include "deepin-kwineffects.h"
 
 namespace KWin
 {

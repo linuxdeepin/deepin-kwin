@@ -10,9 +10,9 @@
 #pragma once
 
 // kwin
-#include "kwingltexture.h"
-#include "kwinglutils_funcs.h"
-#include <kwinglutils_export.h>
+#include "deepin-kwingltexture.h"
+#include "deepin-kwinglutils_funcs.h"
+#include "deepin-kwinglutils_export.h"
 
 // Qt
 #include <QSize>
@@ -41,20 +41,20 @@ class GLVertexBufferPrivate;
 //  well as checking for GL version and extensions
 //  Note that GL context has to be created by the time this function is called
 typedef void (*resolveFuncPtr)();
-void DEEPINKWINGLUTILS_EXPORT initGL(const std::function<resolveFuncPtr(const char *)> &resolveFunction);
+void DEEPIN_KWINGLUTILS_EXPORT initGL(const std::function<resolveFuncPtr(const char *)> &resolveFunction);
 // Cleans up all resources hold by the GL Context
-void DEEPINKWINGLUTILS_EXPORT cleanupGL();
+void DEEPIN_KWINGLUTILS_EXPORT cleanupGL();
 
-bool DEEPINKWINGLUTILS_EXPORT hasGLVersion(int major, int minor, int release = 0);
+bool DEEPIN_KWINGLUTILS_EXPORT hasGLVersion(int major, int minor, int release = 0);
 // use for both OpenGL and GLX extensions
-bool DEEPINKWINGLUTILS_EXPORT hasGLExtension(const QByteArray &extension);
+bool DEEPIN_KWINGLUTILS_EXPORT hasGLExtension(const QByteArray &extension);
 
 // detect OpenGL error (add to various places in code to pinpoint the place)
-bool DEEPINKWINGLUTILS_EXPORT checkGLError(const char *txt);
+bool DEEPIN_KWINGLUTILS_EXPORT checkGLError(const char *txt);
 
-QList<QByteArray> DEEPINKWINGLUTILS_EXPORT openGLExtensions();
+QList<QByteArray> DEEPIN_KWINGLUTILS_EXPORT openGLExtensions();
 
-class DEEPINKWINGLUTILS_EXPORT GLShader
+class DEEPIN_KWINGLUTILS_EXPORT GLShader
 {
 public:
     enum Flags {
@@ -191,7 +191,7 @@ Q_DECLARE_FLAGS(ShaderTraits, ShaderTrait)
  * @author Martin Gräßlin <mgraesslin@kde.org>
  * @since 4.7
  */
-class DEEPINKWINGLUTILS_EXPORT ShaderManager
+class DEEPIN_KWINGLUTILS_EXPORT ShaderManager
 {
 public:
     ~ShaderManager();
@@ -325,7 +325,7 @@ private:
  *
  * @since 4.10
  */
-class DEEPINKWINGLUTILS_EXPORT ShaderBinder
+class DEEPIN_KWINGLUTILS_EXPORT ShaderBinder
 {
 public:
     /**
@@ -384,7 +384,7 @@ inline GLShader *ShaderBinder::shader()
  *
  * @author Rivo Laks <rivolaks@hot.ee>
  */
-class DEEPINKWINGLUTILS_EXPORT GLFramebuffer
+class DEEPIN_KWINGLUTILS_EXPORT GLFramebuffer
 {
 public:
     /**
@@ -522,7 +522,7 @@ struct GLVertexAttrib
  * @author Martin Gräßlin <mgraesslin@kde.org>
  * @since 4.6
  */
-class DEEPINKWINGLUTILS_EXPORT GLVertexBuffer
+class DEEPIN_KWINGLUTILS_EXPORT GLVertexBuffer
 {
 public:
     /**

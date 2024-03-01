@@ -11,9 +11,9 @@
 
 #pragma once
 
-#include "kwinconfig.h" // KWIN_HAVE_OPENGL
-#include "kwinglutils.h"
-#include <kwinglutils_export.h>
+#include "deepin-kwinconfig.h" // KWIN_HAVE_OPENGL
+#include "deepin-kwinglutils.h"
+#include "deepin-kwinglutils_export.h"
 
 #include <QImage>
 #include <QMatrix4x4>
@@ -26,7 +26,7 @@ namespace KWin
 // forward declarations
 class GLVertexBuffer;
 
-class DEEPINKWINGLUTILS_EXPORT GLTexturePrivate
+class DEEPIN_KWINGLUTILS_EXPORT GLTexturePrivate
     : public QSharedData
 {
 public:

@@ -23,7 +23,7 @@
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 #include <DWayland/Client/buffer.h>
 #include <DWayland/Client/compositor.h>

@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 namespace KWin
 {

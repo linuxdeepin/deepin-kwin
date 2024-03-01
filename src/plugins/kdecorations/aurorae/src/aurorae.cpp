@@ -6,7 +6,7 @@
 #include "aurorae.h"
 
 #include "config-kwin.h"
-#include "kwineffects.h"
+#include "deepin-kwineffects.h"
 
 #include "auroraetheme.h"
 #include "kwinoffscreenquickview.h"

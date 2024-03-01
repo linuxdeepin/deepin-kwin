@@ -8,8 +8,8 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "kwinanimationeffect.h"
-#include "kwinglutils.h"
+#include "deepin-kwinanimationeffect.h"
+#include "deepin-kwinglutils.h"
 #include "anidata_p.h"
 
 #include <QDateTime>

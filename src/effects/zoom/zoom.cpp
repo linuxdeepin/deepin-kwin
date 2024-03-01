@@ -24,7 +24,7 @@
 #include <QVector2D>
 #include <kstandardaction.h>
 
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 namespace KWin
 {

@@ -8,13 +8,13 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 
 // need to call GLTexturePrivate::initStatic()
-#include "kwingltexture_p.h"
+#include "deepin-kwingltexture_p.h"
 
-#include "kwineffects.h"
-#include "kwinglplatform.h"
+#include "deepin-kwineffects.h"
+#include "deepin-kwinglplatform.h"
 #include "logging_p.h"
 
 #include <QFile>

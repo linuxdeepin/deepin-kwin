@@ -11,7 +11,7 @@
 #pragma once
 
 // Include with base class for effects.
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 namespace KWaylandServer
 {

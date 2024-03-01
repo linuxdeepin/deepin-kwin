@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <kwinglutils_export.h>
+#include <deepin-kwinglutils_export.h>
 
 #include <QExplicitlySharedDataPointer>
 #include <QMatrix4x4>
@@ -36,7 +36,7 @@ enum TextureCoordinateType {
     UnnormalizedCoordinates,
 };
 
-class DEEPINKWINGLUTILS_EXPORT GLTexture
+class DEEPIN_KWINGLUTILS_EXPORT GLTexture
 {
 public:
     explicit GLTexture(GLenum target);

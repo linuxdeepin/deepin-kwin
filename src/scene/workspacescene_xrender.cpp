@@ -30,7 +30,7 @@
 #include "decorations/decoratedclient.h"
 #include "itemrenderer_xrender.h"
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include "../backends/x11/common/kwinxrenderutils.h"
 
 #include <xcb/xfixes.h>

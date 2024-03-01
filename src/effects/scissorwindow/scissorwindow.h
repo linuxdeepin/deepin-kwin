@@ -4,8 +4,8 @@
 #ifndef SCISSORWINDOW_H
 #define SCISSORWINDOW_H
 
-#include <kwineffects.h>
-#include <kwinglutils.h>
+#include "deepin-kwineffects.h"
+#include "deepin-kwinglutils.h"
 
 #include <QPainterPath>
 

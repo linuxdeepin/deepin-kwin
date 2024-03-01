@@ -18,7 +18,7 @@
 #include <kwinconfig.h>
 
 #include <KGlobalAccel>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 namespace KWin
 {

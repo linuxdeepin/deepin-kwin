@@ -20,7 +20,7 @@
 #include <QTime>
 
 #include <kwinconfig.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 #include <KGlobalAccel>
 #include <KLocalizedString>

@@ -15,7 +15,7 @@
 #include "virtual_backend.h"
 #include "virtual_output.h"
 // kwin libs
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 #ifndef EGL_PLATFORM_SURFACELESS_MESA
 #define EGL_PLATFORM_SURFACELESS_MESA 0x31DD

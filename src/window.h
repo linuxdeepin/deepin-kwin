@@ -19,7 +19,7 @@
 
 #include <functional>
 #include <memory>
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include "windowradius/windowradius.h"
 #include <NETWM>
 

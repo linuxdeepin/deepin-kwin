@@ -36,7 +36,7 @@
 #include "screenlockerwatcher.h"
 #endif
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 // KDE
 #include <KAboutData>

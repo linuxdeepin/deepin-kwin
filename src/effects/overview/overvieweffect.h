@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <kwinquickeffect.h>
+#include "deepin-kwinquickeffect.h"
 
 namespace KWin
 {

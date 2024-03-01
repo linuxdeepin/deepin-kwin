@@ -3,9 +3,9 @@ include(ECMSetupVersion)
 include(ECMSetupQtPluginMacroNames)
 
 ecm_setup_version(${PROJECT_VERSION}
-                  VARIABLE_PREFIX KWINEFFECTS
+                  VARIABLE_PREFIX DEEPIN_KWINEFFECTS
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/deepin-kwineffects_version.h"
-                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KWinEffectsConfigVersion.cmake"
+                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/DeepinKWinEffectsConfigVersion.cmake"
                   SOVERSION 14
 )
 
@@ -24,12 +24,12 @@ ecm_setup_qtplugin_macro_names(
 ###  effects lib  ###
 set(kwin_EFFECTSLIB_SRCS
     anidata.cpp
-    kwinanimationeffect.cpp
-    kwineffects.cpp
-    kwineffectsex.cpp
-    kwinoffscreeneffect.cpp
-    kwinoffscreenquickview.cpp
-    kwinquickeffect.cpp
+    deepin-kwinanimationeffect.cpp
+    deepin-kwineffects.cpp
+    deepin-kwineffectsex.cpp
+    deepin-kwinoffscreeneffect.cpp
+    deepin-kwinoffscreenquickview.cpp
+    deepin-kwinquickeffect.cpp
     logging.cpp
     sharedqmlengine.cpp
 )
@@ -58,57 +58,57 @@ set_target_properties(deepin-kwineffects PROPERTIES
     SOVERSION ${KWINEFFECTS_SOVERSION}
 )
 
-install(TARGETS deepin-kwineffects EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwineffects EXPORT DeepinKWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 # kwingl(es)utils library
 set(kwin_GLUTILSLIB_SRCS
-    kwinglplatform.cpp
-    kwingltexture.cpp
-    kwinglutils.cpp
-    kwinglutils_funcs.cpp
-    kwineglimagetexture.cpp
+    deepin-kwinglplatform.cpp
+    deepin-kwingltexture.cpp
+    deepin-kwinglutils.cpp
+    deepin-kwinglutils_funcs.cpp
+    deepin-kwineglimagetexture.cpp
     logging.cpp
 )
 
 add_library(deepin-kwinglutils SHARED ${kwin_GLUTILSLIB_SRCS})
-generate_export_header(deepin-kwinglutils BASE_NAME deepin-kwinglutils EXPORT_FILE_NAME kwinglutils_export.h)
+generate_export_header(deepin-kwinglutils BASE_NAME deepin-kwinglutils EXPORT_FILE_NAME deepin-kwinglutils_export.h)
 target_link_libraries(deepin-kwinglutils PUBLIC XCB::XCB KF5::CoreAddons KF5::ConfigCore KF5::WindowSystem epoxy::epoxy)
 set_target_properties(deepin-kwinglutils PROPERTIES
     VERSION ${KWINEFFECTS_VERSION}
     SOVERSION ${KWINEFFECTS_SOVERSION}
 )
 
-install(TARGETS deepin-kwinglutils EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwinglutils EXPORT DeepinKWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/kwinconfig.h
+    ${CMAKE_CURRENT_BINARY_DIR}/deepin-kwinconfig.h
     ${CMAKE_CURRENT_BINARY_DIR}/deepin-kwineffects_export.h
-    ${CMAKE_CURRENT_BINARY_DIR}/kwinglutils_export.h
-    kwinanimationeffect.h
+    ${CMAKE_CURRENT_BINARY_DIR}/deepin-kwinglutils_export.h
+    deepin-kwinanimationeffect.h
     deepin-kwineffects.h
     deepin-kwineffectsex.h
-    kwinglobals.h
-    kwinglplatform.h
-    kwingltexture.h
-    kwinglutils.h
-    kwinglutils_funcs.h
-    kwinoffscreeneffect.h
-    kwinoffscreenquickview.h
-    kwinquickeffect.h
+    deepin-kwinglobals.h
+    deepin-kwinglplatform.h
+    deepin-kwingltexture.h
+    deepin-kwinglutils.h
+    deepin-kwinglutils_funcs.h
+    deepin-kwinoffscreeneffect.h
+    deepin-kwinoffscreenquickview.h
+    deepin-kwinquickeffect.h
     DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KWinEffects")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/DeepinKWinEffects")
 
 
-install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/KWinEffectsConfig.cmake"
-               "${CMAKE_CURRENT_BINARY_DIR}/KWinEffectsConfigVersion.cmake"
+install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/DeepinKWinEffectsConfig.cmake"
+               "${CMAKE_CURRENT_BINARY_DIR}/DeepinKWinEffectsConfigVersion.cmake"
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel )
 
 configure_package_config_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/KWinEffectsConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/KWinEffectsConfig.cmake"
+  "${CMAKE_CURRENT_SOURCE_DIR}/DeepinKWinEffectsConfig.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/DeepinKWinEffectsConfig.cmake"
   INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
 )
 
-install(EXPORT KWinEffectsTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KWinEffectsTargets.cmake NAMESPACE KWinEffects:: )
+install(EXPORT DeepinKWinEffectsTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE DeepinKWinEffectsTargets.cmake NAMESPACE DeepinKWinEffects:: )

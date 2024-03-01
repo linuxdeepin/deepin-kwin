@@ -21,7 +21,7 @@
 #include <KGlobalAccel>
 #include <KPluginMetaData>
 #include <kconfigloader.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 // Qt
 #include <QAction>
 #include <QFile>

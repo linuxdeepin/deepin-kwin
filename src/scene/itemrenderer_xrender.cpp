@@ -9,7 +9,7 @@
 #include "scene/shadowitem.h"
 #include "scene/decorationitem.h"
 #include "scene/workspacescene_xrender.h"
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include "../platformsupport/scenes/xrender/xrendersurfacetexture_x11.h"
 
 

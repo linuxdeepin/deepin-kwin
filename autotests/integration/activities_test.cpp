@@ -17,7 +17,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 #include <QDBusConnection>
 #include <QDBusMessage>

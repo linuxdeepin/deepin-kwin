@@ -15,7 +15,7 @@
 #include "plugin.h"
 #include "scripting/scriptedeffect.h"
 #include "utils/common.h"
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 // KDE
 #include <KConfigGroup>
 #include <KPackage/Package>

@@ -13,8 +13,8 @@
 #include <QFont>
 #include <QHash>
 #include <deque>
-#include <kwineffects.h>
-#include <kwinglutils.h>
+#include "deepin-kwineffects.h"
+#include "deepin-kwinglutils.h"
 
 namespace KWin
 {

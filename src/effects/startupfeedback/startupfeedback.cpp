@@ -24,7 +24,7 @@
 #include <KSharedConfig>
 #include <KWindowSystem>
 // KWin
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 // based on StartupId in KRunner by Lubos Lunak
 // SPDX-FileCopyrightText: 2001 Lubos Lunak <l.lunak@kde.org>

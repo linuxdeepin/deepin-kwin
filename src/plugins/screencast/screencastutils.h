@@ -8,7 +8,7 @@
 
 #include "kwinglplatform.h"
 #include "kwingltexture.h"
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 
 #include <spa/buffer/buffer.h>
 #include <spa/param/video/raw.h>

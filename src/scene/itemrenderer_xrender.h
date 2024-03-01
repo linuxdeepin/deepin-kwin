@@ -2,8 +2,8 @@
 
 #include "scene/itemrenderer.h"
 #include "scene/surfaceitem_x11.h"
-#include "kwineffects.h"
-#include "kwinglutils.h"
+#include "deepin-kwineffects.h"
+#include "deepin-kwinglutils.h"
 
 #include <xcb/render.h>
 #include <xcb/xfixes.h>

@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "kwineffects.h"
-#include "kwinglutils.h"
+#include "deepin-kwineffects.h"
+#include "deepin-kwinglutils.h"
 #include "scene/itemrenderer.h"
 
 namespace KWin

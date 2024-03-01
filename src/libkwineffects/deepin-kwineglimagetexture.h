@@ -10,7 +10,7 @@
 #pragma once
 
 #include <kwingltexture.h>
-#include <kwinglutils_export.h>
+#include "deepin-kwinglutils_export.h"
 
 typedef void *EGLImageKHR;
 typedef void *EGLDisplay;
@@ -19,7 +19,7 @@ typedef void *EGLClientBuffer;
 namespace KWin
 {
 
-class DEEPINKWINGLUTILS_EXPORT EGLImageTexture : public GLTexture
+class DEEPIN_KWINGLUTILS_EXPORT EGLImageTexture : public GLTexture
 {
 public:
     EGLImageTexture(EGLDisplay display, EGLImageKHR image, int internalFormat, const QSize &size);

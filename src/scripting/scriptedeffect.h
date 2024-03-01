@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <kwinanimationeffect.h>
+#include "deepin-kwinanimationeffect.h"
 
 #include <QJSEngine>
 #include <QJSValue>

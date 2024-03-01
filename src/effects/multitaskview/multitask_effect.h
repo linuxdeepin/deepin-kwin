@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include <map>
 
 #include <QRect>

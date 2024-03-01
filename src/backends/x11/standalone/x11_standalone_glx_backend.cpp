@@ -34,7 +34,7 @@
 #include "workspace.h"
 // kwin libs
 #include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 #include <kwinoffscreenquickview.h>
 // Qt
 #include <QDebug>

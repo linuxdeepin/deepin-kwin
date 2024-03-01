@@ -17,7 +17,7 @@
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 #include "decorations/decoratedclient.h"
 #include "decorations/decorationbridge.h"

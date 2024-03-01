@@ -9,7 +9,7 @@
 #ifndef KWIN_SPLITPREVIEW_H
 #define KWIN_SPLITPREVIEW_H
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include <kwineffectsex.h>
 #include "kwinoffscreenquickview.h"
 #include <QQuickView>

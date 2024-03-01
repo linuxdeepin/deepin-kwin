@@ -9,7 +9,7 @@
 #ifndef EFFECTS_SPLITSWAP_H_
 #define EFFECTS_SPLITSWAP_H_
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include <kwineffectsex.h>
 #include "../utils/common.h"
 

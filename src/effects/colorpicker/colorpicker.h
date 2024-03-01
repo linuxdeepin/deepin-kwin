@@ -13,7 +13,7 @@
 #include <QDBusMessage>
 #include <QDBusUnixFileDescriptor>
 #include <QObject>
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 namespace KWin
 {

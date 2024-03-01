@@ -11,7 +11,7 @@
 
 #include "scene/scene.h"
 
-#include "kwineffects.h"
+#include "deepin-kwineffects.h"
 #include "utils/common.h"
 #include "window.h"
 

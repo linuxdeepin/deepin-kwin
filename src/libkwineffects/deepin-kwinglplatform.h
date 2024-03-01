@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 #include "deepin-kwinglutils_export.h"
 
 #include <QByteArray>
@@ -191,7 +191,7 @@ enum ChipClass {
 };
 // clang-format on
 
-class DEEPINKWINGLUTILS_EXPORT GLPlatform
+class DEEPIN_KWINGLUTILS_EXPORT GLPlatform
 {
 public:
     ~GLPlatform();

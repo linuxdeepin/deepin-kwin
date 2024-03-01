@@ -4,9 +4,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "kwinoffscreeneffect.h"
-#include "kwingltexture.h"
-#include "kwinglutils.h"
+#include "deepin-kwinoffscreeneffect.h"
+#include "deepin-kwingltexture.h"
+#include "deepin-kwinglutils.h"
 
 namespace KWin
 {

@@ -7,7 +7,7 @@
 
 #include "contrastshader.h"
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include <kwinglplatform.h>
 
 #include <QByteArray>

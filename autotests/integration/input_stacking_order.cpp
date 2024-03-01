@@ -16,7 +16,7 @@
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 #include <DWayland/Client/compositor.h>
 #include <DWayland/Client/connection_thread.h>

@@ -27,7 +27,7 @@
 #include "kwinutils.h"
 #include "workspace.h"
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 #include <KConfig>
 #include <KConfigGroup>

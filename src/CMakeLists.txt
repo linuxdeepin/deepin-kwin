@@ -1,5 +1,5 @@
 # for things that are also used by deepin-kwin libraries
-configure_file(libkwineffects/kwinconfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkwineffects/kwinconfig.h)
+configure_file(libkwineffects/deepin-kwinconfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkwineffects/deepin-kwinconfig.h)
 configure_file(config-kwin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kwin.h)
 
 set(kwin_effects_dbus_xml ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kwin.Effects.xml)
@@ -370,7 +370,7 @@ else()
     qt_generate_dbus_interface(tabletmodemanager.h org.kde.KWin.TabletModeManager.xml OPTIONS -A)
 endif()
 
-generate_export_header(deepin-kwin EXPORT_FILE_NAME kwin_export.h)
+generate_export_header(deepin-kwin EXPORT_FILE_NAME deepin-kwin_export.h)
 
 add_executable(deepin-kwin_x11 main_x11.cpp)
 target_link_libraries(deepin-kwin_x11
@@ -439,7 +439,7 @@ install(
     DESTINATION
         ${KDE_INSTALL_DBUSINTERFACEDIR}
 )
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kwin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/deepin-kwin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
 # Install the KWin/Script service type
 install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})

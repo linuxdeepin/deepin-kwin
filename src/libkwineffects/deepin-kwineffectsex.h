@@ -10,10 +10,10 @@
 #ifndef KWINEFFECTSEX_H
 #define KWINEFFECTSEX_H
 
-#include "kwineffects.h"
-#include "kwinconfig.h"
-#include "kwineffects_export.h"
-#include "kwinglobals.h"
+#include "deepin-kwineffects.h"
+#include "deepin-kwinconfig.h"
+#include "deepin-kwineffects_export.h"
+#include "deepin-kwinglobals.h"
 
 /**
  * Logging category to be used inside the KWin effects.
@@ -27,7 +27,7 @@ namespace KWin
 class EffectWindow;
 class Output;
 
-class KWINEFFECTS_EXPORT EffectFrameEx : public EffectFrame
+class DEEPIN_KWINEFFECTS_EXPORT EffectFrameEx : public EffectFrame
 {
     // Q_OBJECT
 public:
@@ -46,7 +46,7 @@ public:
 
 };
 
-class KWINEFFECTS_EXPORT EffectsHandlerEx : public EffectsHandler
+class DEEPIN_KWINEFFECTS_EXPORT EffectsHandlerEx : public EffectsHandler
 {
     Q_OBJECT
 public:
@@ -87,7 +87,7 @@ Q_SIGNALS:
 /**
  * Pointer to the global EffectsHandlerEx object.
  **/
-extern KWINEFFECTS_EXPORT EffectsHandlerEx* effectsEx;
+extern DEEPIN_KWINEFFECTS_EXPORT EffectsHandlerEx* effectsEx;
 
 } // namespace
 

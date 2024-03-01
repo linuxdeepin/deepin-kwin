@@ -10,7 +10,7 @@
 #pragma once
 
 #include <QObject>
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 namespace KDecoration2
 {

@@ -10,7 +10,7 @@
 #include "abstract_egl_backend.h"
 #include "drm_render_backend.h"
 
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 #include <QHash>
 #include <QPointer>

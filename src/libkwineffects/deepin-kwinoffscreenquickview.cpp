@@ -7,9 +7,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "kwinoffscreenquickview.h"
+#include "deepin-kwinoffscreenquickview.h"
 
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 #include "logging_p.h"
 #include "sharedqmlengine.h"
 
@@ -713,4 +713,4 @@ QQuickItem *OffscreenQuickScene::rootItem() const
 
 } // namespace KWin
 
-#include "kwinoffscreenquickview.moc"
+#include "deepin-kwinoffscreenquickview.moc"

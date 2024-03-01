@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 class QMatrix4x4;
 

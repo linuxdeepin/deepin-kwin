@@ -13,9 +13,9 @@
 #pragma once
 
 #include <kwinconfig.h>
-#include <kwineffects_export.h>
-#include <kwinglutils.h>
-#include "kwinglobals.h"
+#include "deepin-kwineffects_export.h"
+#include "deepin-kwinglutils.h"
+#include "deepin-kwinglobals.h"
 
 #include <QEasingCurve>
 #include <QIcon>
@@ -194,7 +194,7 @@ enum EffectFrameStyle {
 /**
  * Scale a rect by a scalar.
  */
-KWINEFFECTS_EXPORT inline QRectF scaledRect(const QRectF &rect, qreal scale)
+DEEPIN_KWINEFFECTS_EXPORT inline QRectF scaledRect(const QRectF &rect, qreal scale)
 {
     return QRectF{rect.x() * scale, rect.y() * scale, rect.width() * scale, rect.height() * scale};
 }
@@ -202,7 +202,7 @@ KWINEFFECTS_EXPORT inline QRectF scaledRect(const QRectF &rect, qreal scale)
 /**
  * Round a vector to nearest integer.
  */
-KWINEFFECTS_EXPORT inline QVector2D roundVector(const QVector2D &input)
+DEEPIN_KWINEFFECTS_EXPORT inline QVector2D roundVector(const QVector2D &input)
 {
     return QVector2D(std::round(input.x()), std::round(input.y()));
 }
@@ -213,7 +213,7 @@ KWINEFFECTS_EXPORT inline QVector2D roundVector(const QVector2D &input)
  * By default, QPointF::toPoint() rounds which can cause problems in certain
  * cases.
  */
-KWINEFFECTS_EXPORT inline QPoint flooredPoint(const QPointF &point)
+DEEPIN_KWINEFFECTS_EXPORT inline QPoint flooredPoint(const QPointF &point)
 {
     return QPoint(std::floor(point.x()), std::floor(point.y()));
 }
@@ -283,7 +283,7 @@ KWINEFFECTS_EXPORT inline QPoint flooredPoint(const QPointF &point)
  *
  * There is in general no need to call the matching doneCurrent method.
  */
-class KWINEFFECTS_EXPORT Effect : public QObject
+class DEEPIN_KWINEFFECTS_EXPORT Effect : public QObject
 {
     Q_OBJECT
 public:
@@ -701,7 +701,7 @@ protected:
 /**
  * Prefer the KWIN_EFFECT_FACTORY macros.
  */
-class KWINEFFECTS_EXPORT EffectPluginFactory : public KPluginFactory
+class DEEPIN_KWINEFFECTS_EXPORT EffectPluginFactory : public KPluginFactory
 {
     Q_OBJECT
 public:
@@ -799,7 +799,7 @@ public:
  *  desktop or create a special input window to receive mouse and keyboard
  *  events.
  */
-class KWINEFFECTS_EXPORT EffectsHandler : public QObject
+class DEEPIN_KWINEFFECTS_EXPORT EffectsHandler : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int currentDesktop READ currentDesktop WRITE setCurrentDesktop NOTIFY desktopChanged)
@@ -1980,7 +1980,7 @@ protected:
 /**
  * The EffectScreen class represents a screen used by/for Effect classes.
  */
-class KWINEFFECTS_EXPORT EffectScreen : public QObject
+class DEEPIN_KWINEFFECTS_EXPORT EffectScreen : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QRect geometry READ geometry NOTIFY geometryChanged)
@@ -2078,7 +2078,7 @@ class EffectWindowVisibleRef;
  * The purpose is to hide internal data and also to serve as a single
  *  representation for the case when Client/Unmanaged becomes Deleted.
  */
-class KWINEFFECTS_EXPORT EffectWindow : public QObject
+class DEEPIN_KWINEFFECTS_EXPORT EffectWindow : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QRectF geometry READ geometry)
@@ -2766,7 +2766,7 @@ private:
  * The EffectWindowDeletedRef provides a convenient way to prevent deleting a closed
  * window until an effect has finished animating it.
  */
-class KWINEFFECTS_EXPORT EffectWindowDeletedRef
+class DEEPIN_KWINEFFECTS_EXPORT EffectWindowDeletedRef
 {
 public:
     EffectWindowDeletedRef()
@@ -2820,7 +2820,7 @@ private:
  * The EffectWindowVisibleRef provides a convenient way to force the visible status of a
  * window until an effect is finished animating it.
  */
-class KWINEFFECTS_EXPORT EffectWindowVisibleRef
+class DEEPIN_KWINEFFECTS_EXPORT EffectWindowVisibleRef
 {
 public:
     EffectWindowVisibleRef()
@@ -2879,7 +2879,7 @@ private:
     int m_reason;
 };
 
-class KWINEFFECTS_EXPORT EffectWindowGroup
+class DEEPIN_KWINEFFECTS_EXPORT EffectWindowGroup
 {
 public:
     virtual ~EffectWindowGroup();
@@ -2904,7 +2904,7 @@ struct GLVertex3D
  * A vertex is one position in a window. WindowQuad consists of four WindowVertex objects
  * and represents one part of a window.
  */
-class KWINEFFECTS_EXPORT WindowVertex
+class DEEPIN_KWINEFFECTS_EXPORT WindowVertex
 {
 public:
     WindowVertex();
@@ -2944,7 +2944,7 @@ private:
  * WindowQuads consists of four WindowVertex objects and represents one part of a window.
  */
 // NOTE: This class expects the (original) vertices to be in the clockwise order starting from topleft.
-class KWINEFFECTS_EXPORT WindowQuad
+class DEEPIN_KWINEFFECTS_EXPORT WindowQuad
 {
 public:
     WindowQuad();
@@ -2962,7 +2962,7 @@ private:
     WindowVertex verts[4];
 };
 
-class KWINEFFECTS_EXPORT WindowQuadList
+class DEEPIN_KWINEFFECTS_EXPORT WindowQuadList
     : public QVector<WindowQuad>
 {
 public:
@@ -2979,7 +2979,7 @@ public:
  * for easily converting from WindowQuad and related classes to lists of
  * GLVertex2D. This class assumes rendering happens as unindexed triangles.
  */
-class KWINEFFECTS_EXPORT RenderGeometry : public QVector<GLVertex2D>
+class DEEPIN_KWINEFFECTS_EXPORT RenderGeometry : public QVector<GLVertex2D>
 {
 public:
     /**
@@ -3087,7 +3087,7 @@ private:
     VertexSnappingMode m_vertexSnappingMode = VertexSnappingMode::Round;
 };
 
-class KWINEFFECTS_EXPORT WindowPrePaintData
+class DEEPIN_KWINEFFECTS_EXPORT WindowPrePaintData
 {
 public:
     int mask;
@@ -3111,7 +3111,7 @@ public:
     void setTransformed();
 };
 
-class KWINEFFECTS_EXPORT PaintData
+class DEEPIN_KWINEFFECTS_EXPORT PaintData
 {
 public:
     virtual ~PaintData();
@@ -3280,7 +3280,7 @@ private:
     const std::unique_ptr<PaintDataPrivate> d;
 };
 
-class KWINEFFECTS_EXPORT WindowPaintData : public PaintData
+class DEEPIN_KWINEFFECTS_EXPORT WindowPaintData : public PaintData
 {
 public:
     WindowPaintData();
@@ -3459,7 +3459,7 @@ private:
     const std::unique_ptr<WindowPaintDataPrivate> d;
 };
 
-class KWINEFFECTS_EXPORT ScreenPaintData
+class DEEPIN_KWINEFFECTS_EXPORT ScreenPaintData
 {
 public:
     ScreenPaintData();
@@ -3486,7 +3486,7 @@ private:
     std::unique_ptr<Private> d;
 };
 
-class KWINEFFECTS_EXPORT ScreenPrePaintData
+class DEEPIN_KWINEFFECTS_EXPORT ScreenPrePaintData
 {
 public:
     int mask;
@@ -3498,7 +3498,7 @@ public:
  * @internal
  */
 template<typename T>
-class KWINEFFECTS_EXPORT Motion
+class DEEPIN_KWINEFFECTS_EXPORT Motion
 {
 public:
     /**
@@ -3597,7 +3597,7 @@ private:
  * 1D space. Although it can be used directly by itself it is
  * recommended to use a motion manager instead.
  */
-class KWINEFFECTS_EXPORT Motion1D : public Motion<double>
+class DEEPIN_KWINEFFECTS_EXPORT Motion1D : public Motion<double>
 {
 public:
     explicit Motion1D(double initial = 0.0, double strength = 0.08, double smoothness = 4.0);
@@ -3612,7 +3612,7 @@ public:
  * 2D space. Although it can be used directly by itself it is
  * recommended to use a motion manager instead.
  */
-class KWINEFFECTS_EXPORT Motion2D : public Motion<QPointF>
+class DEEPIN_KWINEFFECTS_EXPORT Motion2D : public Motion<QPointF>
 {
 public:
     explicit Motion2D(QPointF initial = QPointF(), double strength = 0.08, double smoothness = 4.0);
@@ -3620,7 +3620,7 @@ public:
     ~Motion2D();
 };
 
-class KWINEFFECTS_EXPORT Motion4D : public Motion<QRect>
+class DEEPIN_KWINEFFECTS_EXPORT Motion4D : public Motion<QRect>
 {
 public:
     explicit Motion4D(QRect initial = QRect(), double strength = 0.08, double smoothness = 4.0);
@@ -3640,7 +3640,7 @@ public:
  * are moving at any given time it can also be used as a notifier as
  * to see whether the effect is active or not.
  */
-class KWINEFFECTS_EXPORT WindowMotionManager
+class DEEPIN_KWINEFFECTS_EXPORT WindowMotionManager
 {
 public:
     /**
@@ -3821,7 +3821,7 @@ private:
  * another that doesn't.
  * It is recommended to use this class whenever displaying text.
  */
-class KWINEFFECTS_EXPORT EffectFrame
+class DEEPIN_KWINEFFECTS_EXPORT EffectFrame
 {
 public:
     EffectFrame();
@@ -3911,7 +3911,7 @@ private:
 /**
  * The TimeLine class is a helper for controlling animations.
  */
-class KWINEFFECTS_EXPORT TimeLine
+class DEEPIN_KWINEFFECTS_EXPORT TimeLine
 {
 public:
     /**
@@ -4162,7 +4162,7 @@ private:
 /**
  * Pointer to the global EffectsHandler object.
  */
-extern KWINEFFECTS_EXPORT EffectsHandler *effects;
+extern DEEPIN_KWINEFFECTS_EXPORT EffectsHandler *effects;
 
 /***************************************************************
  WindowVertex

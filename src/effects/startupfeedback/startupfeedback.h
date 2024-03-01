@@ -11,7 +11,7 @@
 #include <KConfigWatcher>
 #include <KStartupInfo>
 #include <QObject>
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 #include <chrono>
 

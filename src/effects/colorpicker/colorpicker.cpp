@@ -10,7 +10,7 @@
 #include <KLocalizedString>
 #include <QDBusConnection>
 #include <QDBusMetaType>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 #include <kwinglutils_funcs.h>
 
 Q_DECLARE_METATYPE(QColor)

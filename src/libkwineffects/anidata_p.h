@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "kwinanimationeffect.h"
+#include "deepin-kwinanimationeffect.h"
 
 #include <QEasingCurve>
 
@@ -46,7 +46,7 @@ private:
 };
 typedef QSharedPointer<PreviousWindowPixmapLock> PreviousWindowPixmapLockPtr;
 
-class KWINEFFECTS_EXPORT AniData
+class DEEPIN_KWINEFFECTS_EXPORT AniData
 {
 public:
     AniData();

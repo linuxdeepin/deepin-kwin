@@ -21,7 +21,7 @@
 #include <kwineglimagetexture.h>
 #include <kwineglutils_p.h>
 #include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 // Qt
 #include <QOpenGLContext>
 

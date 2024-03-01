@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 #include <QTimer>
 #include <QWindow>

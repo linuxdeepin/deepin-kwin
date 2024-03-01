@@ -17,7 +17,7 @@
 #include "wayland_server.h"
 
 #include "kwingltexture.h"
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 
 #include <DWayland/Client/compositor.h>
 #include <DWayland/Client/pointer.h>

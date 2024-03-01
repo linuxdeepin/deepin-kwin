@@ -4,7 +4,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "kwinquickeffect.h"
+#include "deepin-kwinquickeffect.h"
 
 #include "logging_p.h"
 #include "sharedqmlengine.h"

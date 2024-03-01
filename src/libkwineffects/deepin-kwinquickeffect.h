@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "kwineffects.h"
-#include "kwinoffscreenquickview.h"
+#include "deepin-kwineffects.h"
+#include "deepin-kwinoffscreenquickview.h"
 
 namespace KWin
 {
@@ -23,7 +23,7 @@ class QuickSceneEffectPrivate;
  *
  * @see QuickSceneEffect, OffscreenQuickView
  */
-class KWINEFFECTS_EXPORT QuickSceneView : public OffscreenQuickView
+class DEEPIN_KWINEFFECTS_EXPORT QuickSceneView : public OffscreenQuickView
 {
     Q_OBJECT
 
@@ -63,7 +63,7 @@ private:
  *
  * @see QuickSceneView
  */
-class KWINEFFECTS_EXPORT QuickSceneEffect : public Effect
+class DEEPIN_KWINEFFECTS_EXPORT QuickSceneEffect : public Effect
 {
     Q_OBJECT
     Q_PROPERTY(QuickSceneView *activeView READ activeView NOTIFY activeViewChanged)
@@ -96,7 +96,7 @@ public:
 
     /**
      * Get a view at the given direction from the active view
-     * Returns null if no other views exist in the given direction 
+     * Returns null if no other views exist in the given direction
      */
     Q_INVOKABLE KWin::QuickSceneView *getView(Qt::Edge edge);
 

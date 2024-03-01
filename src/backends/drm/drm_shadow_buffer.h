@@ -9,7 +9,7 @@
 #pragma once
 
 #include <QSize>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 #include "drm_egl_backend.h"
 #include "drm_plane.h"

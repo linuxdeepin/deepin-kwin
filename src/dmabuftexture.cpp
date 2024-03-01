@@ -6,7 +6,7 @@
 
 #include "dmabuftexture.h"
 
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 
 #include <unistd.h>
 

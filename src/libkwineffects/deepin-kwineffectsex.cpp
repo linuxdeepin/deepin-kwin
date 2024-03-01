@@ -1,4 +1,4 @@
-#include "kwineffectsex.h"
+#include "deepin-kwineffectsex.h"
 
 namespace KWin
 {

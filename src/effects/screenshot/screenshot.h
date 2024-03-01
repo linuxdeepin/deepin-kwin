@@ -11,7 +11,7 @@
 #pragma once
 
 #include <effects.h>
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 #include <QFuture>
 #include <QFutureInterface>

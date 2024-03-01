@@ -14,7 +14,7 @@
 
 #include <QTime>
 #include <QTimeLine>
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 namespace KWin
 {

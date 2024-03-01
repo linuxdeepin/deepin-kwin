@@ -19,7 +19,7 @@
 #include "workspace.h"
 
 #include <kwingltexture.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 #include <QQuickWindow>
 #include <QRunnable>

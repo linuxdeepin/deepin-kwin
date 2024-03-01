@@ -23,7 +23,7 @@
 #define KWIN_MULTITASKVIEW_H
 
 #include "window.h"
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 #include "scene/scene.h"
 #include "multitask_effect.h"
 #include "kwineffectsex.h"

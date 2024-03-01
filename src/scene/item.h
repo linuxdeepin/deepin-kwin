@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "kwineffects.h"
+#include "deepin-kwineffects.h"
 #include "kwinglobals.h"
 
 #include <QMatrix4x4>

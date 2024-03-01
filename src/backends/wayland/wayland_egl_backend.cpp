@@ -23,7 +23,7 @@
 
 // kwin libs
 #include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 // KDE
 #include <DWayland/Client/shm_pool.h>

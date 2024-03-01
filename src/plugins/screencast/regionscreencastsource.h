@@ -10,7 +10,7 @@
 
 #include <QImage>
 #include <kwingltexture.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 namespace KWin
 {

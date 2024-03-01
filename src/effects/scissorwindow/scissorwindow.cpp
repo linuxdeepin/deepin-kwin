@@ -6,10 +6,10 @@
 #include "effects.h"
 #include "scene/surfaceitem.h"
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include <kwineffectsex.h>
 #include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 #include <kwindowsystem.h>
 
 #include <QFile>

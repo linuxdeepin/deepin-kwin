@@ -34,7 +34,7 @@
 #include "xkb.h"
 #include <cerrno>
 #include <kwinglplatform.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 
 #include "ui_debug_console.h"
 

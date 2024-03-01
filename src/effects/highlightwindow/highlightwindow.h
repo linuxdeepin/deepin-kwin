@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <kwinanimationeffect.h>
+#include "deepin-kwinanimationeffect.h"
 
 namespace KWin
 {

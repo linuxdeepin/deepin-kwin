@@ -23,7 +23,7 @@
 
 #include <KDecoration2/DecorationButton>
 #include <QTimer>
-#include "kwineffects.h"
+#include "deepin-kwineffects.h"
 
 class ChameleonButton : KDecoration2::DecorationButton
 {

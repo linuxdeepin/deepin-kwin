@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include <kwinoffscreenquickview.h>
 
 #include <QElapsedTimer>

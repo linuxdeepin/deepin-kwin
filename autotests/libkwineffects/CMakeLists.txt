@@ -14,7 +14,7 @@ kwineffects_unit_tests(
     timelinetest
 )
 
-add_executable(kwinglplatformtest kwinglplatformtest.cpp mock_gl.cpp ../../src/libkwineffects/kwinglplatform.cpp)
+add_executable(kwinglplatformtest kwinglplatformtest.cpp mock_gl.cpp ../../src/libkwineffects/deepin-kwinglplatform.cpp)
 add_test(NAME kwineffects-kwinglplatformtest COMMAND kwinglplatformtest)
 target_link_libraries(kwinglplatformtest Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Gui KF5::ConfigCore XCB::XCB)
 if (QT_MAJOR_VERSION EQUAL "5")

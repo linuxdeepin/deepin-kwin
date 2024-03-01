@@ -8,7 +8,7 @@
 */
 #include "x11_common_egl_backend.h"
 // kwineffects
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 // kwin
 #include "core/outputbackend.h"
 #include "main.h"

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 
 #include <xcb/sync.h>
 #include <xcb/xcb.h>

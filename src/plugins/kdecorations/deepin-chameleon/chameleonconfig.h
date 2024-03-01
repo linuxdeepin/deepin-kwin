@@ -23,7 +23,7 @@
 
 #include <QObject>
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 #include <window.h>
 
 // 标记窗口当前是否正在使用变色龙窗口标题栏主题

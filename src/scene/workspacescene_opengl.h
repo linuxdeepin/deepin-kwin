@@ -16,7 +16,7 @@
 #include "scene/workspacescene.h"
 #include "shadow.h"
 
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 
 namespace KWin
 {

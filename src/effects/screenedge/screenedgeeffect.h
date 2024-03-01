@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 class QTimer;
 namespace Plasma

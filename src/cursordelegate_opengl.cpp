@@ -10,7 +10,7 @@
 #include "core/rendertarget.h"
 #include "cursor.h"
 #include "kwingltexture.h"
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 #include "scene/cursorscene.h"
 
 #include <cmath>

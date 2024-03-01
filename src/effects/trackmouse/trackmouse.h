@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <kwineffects.h>
+#include "deepin-kwineffects.h"
 
 class QAction;
 

@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <kwinglutils_export.h>
+#include "deepin-kwinglutils_export.h"
 
 #include <epoxy/gl.h>
 #include <functional>
@@ -31,7 +31,7 @@ namespace KWin
 {
 
 typedef void (*resolveFuncPtr)();
-void DEEPINKWINGLUTILS_EXPORT glResolveFunctions(const std::function<resolveFuncPtr(const char *)> &resolveFunction);
+void DEEPIN_KWINGLUTILS_EXPORT glResolveFunctions(const std::function<resolveFuncPtr(const char *)> &resolveFunction);
 
 // GL_ARB_robustness / GL_EXT_robustness
 using glGetGraphicsResetStatus_func = GLenum (*)();
@@ -39,8 +39,8 @@ using glReadnPixels_func = void (*)(GLint x, GLint y, GLsizei width, GLsizei hei
                                     GLenum format, GLenum type, GLsizei bufSize, GLvoid *data);
 using glGetnUniformfv_func = void (*)(GLuint program, GLint location, GLsizei bufSize, GLfloat *params);
 
-extern DEEPINKWINGLUTILS_EXPORT glGetGraphicsResetStatus_func glGetGraphicsResetStatus;
-extern DEEPINKWINGLUTILS_EXPORT glReadnPixels_func glReadnPixels;
-extern DEEPINKWINGLUTILS_EXPORT glGetnUniformfv_func glGetnUniformfv;
+extern DEEPIN_KWINGLUTILS_EXPORT glGetGraphicsResetStatus_func glGetGraphicsResetStatus;
+extern DEEPIN_KWINGLUTILS_EXPORT glReadnPixels_func glReadnPixels;
+extern DEEPIN_KWINGLUTILS_EXPORT glGetnUniformfv_func glGetnUniformfv;
 
 } // namespace

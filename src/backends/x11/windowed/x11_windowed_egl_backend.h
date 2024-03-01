@@ -10,7 +10,7 @@
 
 #include "../common/x11_common_egl_backend.h"
 #include "core/outputlayer.h"
-#include "kwinglutils.h"
+#include "deepin-kwinglutils.h"
 
 #include <QMap>
 

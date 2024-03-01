@@ -10,7 +10,7 @@
 #include <composite.h>
 #include <core/output.h>
 #include <kwingltexture.h>
-#include <kwinglutils.h>
+#include "deepin-kwinglutils.h"
 #include <scene/workspacescene.h>
 #include <workspace.h>
 
