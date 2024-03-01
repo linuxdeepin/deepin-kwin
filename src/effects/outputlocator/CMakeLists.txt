@@ -5,7 +5,7 @@
 
 kwin4_add_effect_module(kwin4_effect_outputlocator main.cpp outputlocator.cpp)
 target_link_libraries(kwin4_effect_outputlocator PRIVATE
-    kwineffects
+    deepin-kwineffects
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Quick
     KF5::I18n

@@ -13,7 +13,7 @@
 #include <kcmodule.h>
 #include <ksharedconfig.h>
 
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 
 class QShowEvent;
 

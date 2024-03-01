@@ -17,7 +17,7 @@ set_target_properties(deepin-kwin5_aurorae PROPERTIES LIBRARY_OUTPUT_DIRECTORY "
 
 target_link_libraries(deepin-kwin5_aurorae
     KDecoration2::KDecoration
-    kwineffects
+    deepin-kwineffects
     KF5::ConfigWidgets
     KF5::I18n
     KF5::Package

@@ -19,7 +19,7 @@
 
 #include <xcb/xcb.h>
 
-#include <kwinconfig.h>
+#include "deepin-kwinconfig.h"
 
 #define KWIN_QT5_PORTING 0
 

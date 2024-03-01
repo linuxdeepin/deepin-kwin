@@ -10,8 +10,8 @@
 #pragma once
 
 #include <epoxy/egl.h>
-#include "kwin_export.h"
-#include "kwinglobals.h"
+#include "deepin-kwin_export.h"
+#include "deepin-kwinglobals.h"
 
 #include <QObject>
 

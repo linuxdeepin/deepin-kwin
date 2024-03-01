@@ -11,7 +11,7 @@ add_subdirectory(drm)
 ########################################################
 set(testWindowPaintData_SRCS test_window_paint_data.cpp)
 add_executable(testWindowPaintData ${testWindowPaintData_SRCS})
-target_link_libraries(testWindowPaintData kwineffects Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::Test )
+target_link_libraries(testWindowPaintData deepin-kwineffects Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::Test )
 add_test(NAME deepin-kwin-testWindowPaintData COMMAND testWindowPaintData)
 ecm_mark_as_test(testWindowPaintData)
 
@@ -224,7 +224,7 @@ target_link_libraries(testXkb
     KF5::ConfigCore
     KF5::WindowSystem
 
-    kwineffects
+    deepin-kwineffects
 
     XKB::XKB
 )

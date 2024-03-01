@@ -46,8 +46,8 @@
 #include "x11syncmanager.h"
 #include "x11window.h"
 
-#include <kwinglplatform.h>
-#include <kwingltexture.h>
+#include <deepin-kwinglplatform.h>
+#include "deepin-kwingltexture.h"
 
 #include <KCrash>
 #include <KGlobalAccel>

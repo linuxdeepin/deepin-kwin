@@ -8,8 +8,8 @@
 */
 #pragma once
 // KWin
-#include "kwin_export.h"
-#include "kwinglobals.h"
+#include "deepin-kwin_export.h"
+#include "deepin-kwinglobals.h"
 // Qt includes
 #include <QAction>
 #include <QObject>

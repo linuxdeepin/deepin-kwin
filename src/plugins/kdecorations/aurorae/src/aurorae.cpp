@@ -9,7 +9,7 @@
 #include "deepin-kwineffects.h"
 
 #include "auroraetheme.h"
-#include "kwinoffscreenquickview.h"
+#include "deepin-kwinoffscreenquickview.h"
 // qml imports
 #include "decorationoptions.h"
 // KDecoration2

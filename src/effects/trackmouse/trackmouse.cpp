@@ -19,7 +19,7 @@
 #include <QPainter>
 #include <QTime>
 
-#include <kwinconfig.h>
+#include "deepin-kwinconfig.h"
 #include "deepin-kwinglutils.h"
 
 #include <KGlobalAccel>

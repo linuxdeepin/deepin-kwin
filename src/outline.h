@@ -10,10 +10,10 @@
 #pragma once
 #include <QObject>
 #include <QRect>
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 #include <memory>
 
-#include "kwin_export.h"
+#include "deepin-kwin_export.h"
 #include <memory>
 
 class QQmlContext;

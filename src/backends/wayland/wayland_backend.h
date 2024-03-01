@@ -15,7 +15,7 @@
 #include "core/inputdevice.h"
 #include "core/outputbackend.h"
 #include "utils/filedescriptor.h"
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 // Qt
 #include <QHash>
 #include <QImage>

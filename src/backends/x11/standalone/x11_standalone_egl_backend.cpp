@@ -9,7 +9,7 @@
 #include "core/outputbackend.h"
 #include "core/overlaywindow.h"
 #include "core/renderloop_p.h"
-#include "kwinglplatform.h"
+#include "deepin-kwinglplatform.h"
 #include "options.h"
 #include "scene/surfaceitem_x11.h"
 #include "scene/workspacescene.h"

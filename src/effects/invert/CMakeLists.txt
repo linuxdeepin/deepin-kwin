@@ -9,7 +9,7 @@ set(invert_SOURCES
 
 kwin4_add_effect_module(kwin4_effect_invert ${invert_SOURCES})
 target_link_libraries(kwin4_effect_invert PRIVATE
-    kwineffects
+    deepin-kwineffects
     deepin-kwinglutils
 
     KF5::GlobalAccel

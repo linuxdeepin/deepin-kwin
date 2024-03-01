@@ -5,7 +5,9 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#pragma once
+#ifndef CD3243DD_3A53_4A53_A15A_A47D6EE0F3BB
+#define CD3243DD_3A53_4A53_A15A_A47D6EE0F3BB
+
 
 #include "libkwineffects/deepin-kwineffects.h"
 #include "libkwineffects/deepin-kwinglutils.h"
@@ -158,3 +160,6 @@ inline bool BlurEffect::provides(Effect::Feature feature)
 }
 
 } // namespace KWin
+
+
+#endif /* CD3243DD_3A53_4A53_A15A_A47D6EE0F3BB */

@@ -7,8 +7,8 @@
 #include "scene/surfaceitem.h"
 
 #include "deepin-kwineffects.h"
-#include <kwineffectsex.h>
-#include <kwinglplatform.h>
+#include <deepin-kwineffectsex.h>
+#include <deepin-kwinglplatform.h>
 #include "deepin-kwinglutils.h"
 #include <kwindowsystem.h>
 

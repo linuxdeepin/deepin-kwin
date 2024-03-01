@@ -8,7 +8,7 @@
 #pragma once
 
 #include "deepin-kwineffects.h"
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 #include "deepin-kwinglutils.h"
 
 #include <QVector2D>

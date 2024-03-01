@@ -7,7 +7,7 @@
 #include "outputlocator.h"
 
 #include <algorithm>
-#include <kwinoffscreenquickview.h>
+#include <deepin-kwinoffscreenquickview.h>
 
 #include <KLocalizedString>
 

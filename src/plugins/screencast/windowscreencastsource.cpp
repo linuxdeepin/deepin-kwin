@@ -13,7 +13,7 @@
 #include "deleted.h"
 #include "effects.h"
 #include "deepin-kwineffects.h"
-#include "kwingltexture.h"
+#include "deepin-kwingltexture.h"
 #include "deepin-kwinglutils.h"
 #include "scene/itemrenderer.h"
 #include "scene/windowitem.h"

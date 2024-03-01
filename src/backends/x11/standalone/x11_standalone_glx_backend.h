@@ -17,8 +17,8 @@
 #include <fixx11h.h>
 #include <xcb/glx.h>
 
-#include <kwingltexture.h>
-#include <kwingltexture_p.h>
+#include "deepin-kwingltexture.h"
+#include <deepin-kwingltexture_p.h>
 
 #include <QHash>
 #include <memory>

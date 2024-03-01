@@ -15,7 +15,7 @@ kconfig_add_kcfg_files(desktopgrid_SOURCES
 kwin4_add_effect_module(kwin4_effect_desktopgrid ${desktopgrid_SOURCES})
 
 target_link_libraries(kwin4_effect_desktopgrid PRIVATE
-    kwineffects
+    deepin-kwineffects
 
     KF5::ConfigGui
     KF5::GlobalAccel
@@ -40,7 +40,7 @@ if (KWIN_BUILD_KCMS)
         KF5::I18n
         KF5::XmlGui
         Qt${QT_MAJOR_VERSION}::Quick
-        kwineffects
+        deepin-kwineffects
         KWinEffectsInterface
     )
 endif()

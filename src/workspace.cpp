@@ -12,7 +12,7 @@
 // own
 #include "workspace.h"
 // kwin libs
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 // kwin
 #include "core/output.h"
 #if KWIN_BUILD_ACTIVITIES

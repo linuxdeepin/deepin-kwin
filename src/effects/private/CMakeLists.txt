@@ -9,7 +9,7 @@ add_library(effectsplugin
 )
 
 target_link_libraries(effectsplugin
-    kwineffects
+    deepin-kwineffects
 
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::Gui

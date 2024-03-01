@@ -18,9 +18,9 @@
 #include "wayland/display.h"
 #include "wayland_server.h"
 // kwin libs
-#include <kwineglimagetexture.h>
+#include <deepin-kwineglimagetexture.h>
 #include <kwineglutils_p.h>
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 #include "deepin-kwinglutils.h"
 // Qt
 #include <QOpenGLContext>

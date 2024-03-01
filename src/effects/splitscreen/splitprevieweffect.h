@@ -10,8 +10,8 @@
 #define KWIN_SPLITPREVIEW_H
 
 #include "deepin-kwineffects.h"
-#include <kwineffectsex.h>
-#include "kwinoffscreenquickview.h"
+#include <deepin-kwineffectsex.h>
+#include "deepin-kwinoffscreenquickview.h"
 #include <QQuickView>
 
 class QQuickView;

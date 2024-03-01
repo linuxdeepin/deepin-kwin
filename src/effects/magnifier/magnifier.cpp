@@ -15,7 +15,7 @@
 
 #include <QAction>
 #include <kstandardaction.h>
-#include <kwinconfig.h>
+#include "deepin-kwinconfig.h"
 
 #include <KGlobalAccel>
 #include "deepin-kwinglutils.h"

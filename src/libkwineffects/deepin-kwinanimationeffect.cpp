@@ -1042,4 +1042,4 @@ AnimationEffect::AniMap AnimationEffect::state() const
 
 } // namespace KWin
 
-#include "moc_kwinanimationeffect.cpp"
+#include "moc_deepin-kwinanimationeffect.cpp"

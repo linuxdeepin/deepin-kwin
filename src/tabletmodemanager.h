@@ -10,8 +10,8 @@
 #include <KConfigWatcher>
 #include <QObject>
 #include <config-kwin.h>
-#include "kwin_export.h"
-#include "kwinglobals.h"
+#include "deepin-kwin_export.h"
+#include "deepin-kwinglobals.h"
 
 namespace KWin
 {

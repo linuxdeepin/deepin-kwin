@@ -12,7 +12,7 @@ kconfig_add_kcfg_files(thumbnailaside_SOURCES
 
 kwin4_add_effect_module(kwin4_effect_thumbnailaside ${thumbnailaside_SOURCES})
 target_link_libraries(kwin4_effect_thumbnailaside PRIVATE
-    kwineffects
+    deepin-kwineffects
     deepin-kwinglutils
 
     KF5::ConfigGui

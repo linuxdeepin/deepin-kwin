@@ -16,8 +16,8 @@
 #include <KGlobalAccel>
 #include <KLocalizedString>
 #include <QAction>
-#include <kwinconfig.h>
-#include <kwinglplatform.h>
+#include "deepin-kwinconfig.h"
+#include <deepin-kwinglplatform.h>
 
 #include <QPainter>
 

@@ -51,7 +51,7 @@ target_link_libraries(
     Qt5::Qml
     X11
     XCB::XCB
-    kwineffects
+    deepin-kwineffects
     KDecoration2::KDecoration
     KF5::CoreAddons
     KF5::ConfigCore

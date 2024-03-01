@@ -8,7 +8,7 @@
 #include "contrastshader.h"
 
 #include "deepin-kwineffects.h"
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 
 #include <QByteArray>
 #include <QMatrix4x4>

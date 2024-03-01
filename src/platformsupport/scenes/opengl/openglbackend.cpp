@@ -9,7 +9,7 @@
 */
 #include "openglbackend.h"
 #include "deepin-kwineffects.h"
-#include <kwinglutils_funcs.h>
+#include "deepin-kwinglutils_funcs.h"
 
 #include "utils/common.h"
 #include "workspace.h"

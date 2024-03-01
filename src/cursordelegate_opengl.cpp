@@ -9,7 +9,7 @@
 #include "core/renderlayer.h"
 #include "core/rendertarget.h"
 #include "cursor.h"
-#include "kwingltexture.h"
+#include "deepin-kwingltexture.h"
 #include "deepin-kwinglutils.h"
 #include "scene/cursorscene.h"
 

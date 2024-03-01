@@ -9,7 +9,7 @@
 #pragma once
 
 #include <QObject>
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 
 class QAction;
 

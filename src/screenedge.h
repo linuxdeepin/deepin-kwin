@@ -18,7 +18,7 @@
 
 #pragma once
 // KWin
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 // KDE includes
 #include <KSharedConfig>
 // Qt

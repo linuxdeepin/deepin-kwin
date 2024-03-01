@@ -38,8 +38,8 @@
 #include "wayland/surface_interface.h"
 #include "workspace.h"
 // kwin libs
-#include <kwineglimagetexture.h>
-#include <kwinglplatform.h>
+#include <deepin-kwineglimagetexture.h>
+#include <deepin-kwinglplatform.h>
 // system
 #include <drm_fourcc.h>
 #include <errno.h>

@@ -11,7 +11,7 @@
 #include <QVector>
 #include <memory>
 
-#include "kwin_export.h"
+#include "deepin-kwin_export.h"
 
 #include "output.h"
 

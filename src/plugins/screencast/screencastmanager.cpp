@@ -12,7 +12,7 @@
 #include "core/outputbackend.h"
 #include "deleted.h"
 #include "effects.h"
-#include "kwingltexture.h"
+#include "deepin-kwingltexture.h"
 #include "outputscreencastsource.h"
 #include "regionscreencastsource.h"
 #include "scene/workspacescene.h"

@@ -13,7 +13,7 @@
 */
 #include "workspacescene_opengl.h"
 
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 
 #include "composite.h"
 #include "core/output.h"

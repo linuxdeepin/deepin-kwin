@@ -16,7 +16,7 @@
 #include "wayland_qpainter_backend.h"
 #include "wayland_server.h"
 
-#include "kwingltexture.h"
+#include "deepin-kwingltexture.h"
 #include "deepin-kwinglutils.h"
 
 #include <DWayland/Client/compositor.h>

@@ -11,7 +11,7 @@
 #include <QDBusConnection>
 #include <QDBusMetaType>
 #include "deepin-kwinglutils.h"
-#include <kwinglutils_funcs.h>
+#include "deepin-kwinglutils_funcs.h"
 
 Q_DECLARE_METATYPE(QColor)
 

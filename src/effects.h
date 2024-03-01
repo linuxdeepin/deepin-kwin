@@ -10,9 +10,9 @@
 
 #pragma once
 
-#include "kwineffectsex.h"
+#include "deepin-kwineffectsex.h"
 
-#include "kwinoffscreenquickview.h"
+#include "deepin-kwinoffscreenquickview.h"
 #include "scene/workspacescene.h"
 
 #include <QFont>

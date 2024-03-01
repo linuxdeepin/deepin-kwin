@@ -18,7 +18,7 @@
 #include "window.h"
 #include "workspace.h"
 
-#include <kwingltexture.h>
+#include "deepin-kwingltexture.h"
 #include "deepin-kwinglutils.h"
 
 #include <QQuickWindow>

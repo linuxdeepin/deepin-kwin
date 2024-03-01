@@ -26,7 +26,7 @@
 #include "deepin-kwinglutils.h"
 #include "scene/scene.h"
 #include "multitask_effect.h"
-#include "kwineffectsex.h"
+#include "deepin-kwineffectsex.h"
 #include <QHash>
 //#include <utils.h>
 #include <QMutex>

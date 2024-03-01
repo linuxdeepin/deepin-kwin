@@ -14,7 +14,7 @@ kconfig_add_kcfg_files(slidingpopups_SOURCES
 kwin4_add_effect_module(kwin4_effect_slidingpopups ${slidingpopups_SOURCES})
 target_link_libraries(kwin4_effect_slidingpopups PRIVATE
     deepin-kwin
-    kwineffects
+    deepin-kwineffects
 
     KF5::ConfigGui
 )

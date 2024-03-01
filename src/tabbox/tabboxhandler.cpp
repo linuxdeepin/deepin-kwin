@@ -17,7 +17,7 @@
 #include "switcheritem.h"
 #include "tabbox_logging.h"
 #include "utils/xcbutils.h"
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 // Qt
 #include <QKeyEvent>
 #include <QQmlComponent>

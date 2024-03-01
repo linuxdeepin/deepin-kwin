@@ -12,7 +12,7 @@ kconfig_add_kcfg_files(wobblywindows_SOURCES
 
 kwin4_add_effect_module(kwin4_effect_wobblywindows ${wobblywindows_SOURCES})
 target_link_libraries(kwin4_effect_wobblywindows PRIVATE
-    kwineffects
+deepin-kwineffects
 
     KF5::ConfigGui
 )

@@ -33,9 +33,9 @@
 #include "utils/xcbutils.h"
 #include "workspace.h"
 // kwin libs
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 #include "deepin-kwinglutils.h"
-#include <kwinoffscreenquickview.h>
+#include <deepin-kwinoffscreenquickview.h>
 // Qt
 #include <QDebug>
 #include <QOpenGLContext>

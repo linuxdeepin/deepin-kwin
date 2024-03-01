@@ -8,7 +8,7 @@
 */
 #include "screenedgeeffect.h"
 // KWin
-#include <kwingltexture.h>
+#include "deepin-kwingltexture.h"
 #include "deepin-kwinglutils.h"
 // KDE
 #include <Plasma/Svg>

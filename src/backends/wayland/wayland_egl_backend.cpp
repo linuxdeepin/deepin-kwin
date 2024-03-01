@@ -22,7 +22,7 @@
 #include <unistd.h>
 
 // kwin libs
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 #include "deepin-kwinglutils.h"
 
 // KDE

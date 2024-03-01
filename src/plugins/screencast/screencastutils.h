@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "kwinglplatform.h"
-#include "kwingltexture.h"
+#include "deepin-kwinglplatform.h"
+#include "deepin-kwingltexture.h"
 #include "deepin-kwinglutils.h"
 
 #include <spa/buffer/buffer.h>

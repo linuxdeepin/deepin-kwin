@@ -13,7 +13,7 @@
 #include <tuple>
 #include <vector>
 
-#include "kwin_export.h"
+#include "deepin-kwin_export.h"
 
 typedef struct _cmsPipeline_struct cmsPipeline;
 

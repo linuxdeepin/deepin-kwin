@@ -1,6 +1,6 @@
 #pragma once
 
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 #include <QMutex>
 
 #define LOG_EMERG   0   /* system is unusable */

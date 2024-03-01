@@ -33,7 +33,7 @@
 #include "x11window.h"
 #include "xkb.h"
 #include <cerrno>
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 #include "deepin-kwinglutils.h"
 
 #include "ui_debug_console.h"

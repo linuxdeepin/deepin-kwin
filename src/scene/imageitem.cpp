@@ -6,7 +6,7 @@
 
 #include "scene/imageitem.h"
 
-#include <kwingltexture.h>
+#include "deepin-kwingltexture.h"
 
 namespace KWin
 {

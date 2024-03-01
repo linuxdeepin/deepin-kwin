@@ -12,7 +12,7 @@ kconfig_add_kcfg_files(magnifier_SOURCES
 
 kwin4_add_effect_module(kwin4_effect_magnifier ${magnifier_SOURCES})
 target_link_libraries(kwin4_effect_magnifier PRIVATE
-    kwineffects
+    deepin-kwineffects
     deepin-kwinglutils
 
     KF5::ConfigGui

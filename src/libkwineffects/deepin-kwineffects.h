@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include <kwinconfig.h>
+#include "deepin-kwinconfig.h"
 #include "deepin-kwineffects_export.h"
 #include "deepin-kwinglutils.h"
 #include "deepin-kwinglobals.h"

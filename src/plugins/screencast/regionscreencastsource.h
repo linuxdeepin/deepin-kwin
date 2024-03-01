@@ -9,7 +9,7 @@
 #include "screencastsource.h"
 
 #include <QImage>
-#include <kwingltexture.h>
+#include "deepin-kwingltexture.h"
 #include "deepin-kwinglutils.h"
 
 namespace KWin

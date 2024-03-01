@@ -12,7 +12,7 @@
 #include "screenshotdbusinterface1.h"
 #include "screenshotdbusinterface2.h"
 
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 #include "deepin-kwinglutils.h"
 
 #include <QPainter>

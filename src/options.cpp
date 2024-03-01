@@ -23,7 +23,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include <QOpenGLContext>
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 
 #endif // KCMRULES
 

@@ -17,7 +17,7 @@ kconfig_add_kcfg_files(overview_SOURCES
 
 kwin4_add_effect_module(kwin4_effect_overview ${overview_SOURCES})
 target_link_libraries(kwin4_effect_overview PRIVATE
-    kwineffects
+    deepin-kwineffects
 
     KF5::ConfigGui
     KF5::GlobalAccel

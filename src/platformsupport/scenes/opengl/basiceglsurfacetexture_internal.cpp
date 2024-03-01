@@ -5,7 +5,7 @@
 */
 
 #include "basiceglsurfacetexture_internal.h"
-#include "kwingltexture.h"
+#include "deepin-kwingltexture.h"
 #include "scene/surfaceitem_internal.h"
 #include "utils/common.h"
 

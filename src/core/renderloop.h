@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 #include "options.h"
 
 #include <QObject>

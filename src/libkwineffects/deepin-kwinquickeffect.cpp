@@ -545,4 +545,4 @@ bool QuickSceneEffect::touchUp(qint32 id, std::chrono::microseconds time)
 
 } // namespace KWin
 
-#include <moc_kwinquickeffect.cpp>
+#include "moc_deepin-kwinquickeffect.cpp"

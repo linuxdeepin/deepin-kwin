@@ -1722,5 +1722,5 @@ TimeLine &TimeLine::operator=(const TimeLine &other)
 
 } // namespace
 
-#include "moc_kwineffects.cpp"
-#include "moc_kwinglobals.cpp"
+#include "moc_deepin-kwineffects.cpp"
+#include "moc_deepin-kwinglobals.cpp"

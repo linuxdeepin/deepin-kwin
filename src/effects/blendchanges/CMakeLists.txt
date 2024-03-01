@@ -8,7 +8,7 @@ set(blendchanges_SOURCES
 
 kwin4_add_effect_module(kwin4_effect_blend ${blendchanges_SOURCES})
 target_link_libraries(kwin4_effect_blend PRIVATE
-    kwineffects
+    deepin-kwineffects
     deepin-kwinglutils
     Qt${QT_MAJOR_VERSION}::DBus
 )

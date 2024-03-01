@@ -10,7 +10,7 @@
 #define EFFECTS_SPLITSWAP_H_
 
 #include "deepin-kwineffects.h"
-#include <kwineffectsex.h>
+#include <deepin-kwineffectsex.h>
 #include "../utils/common.h"
 
 namespace KWin

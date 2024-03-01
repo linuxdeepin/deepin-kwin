@@ -10,7 +10,7 @@
 
 #include "main.h"
 #include "utils/c_ptr.h"
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 
 #include <QRect>
 #include <QRegion>

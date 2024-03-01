@@ -15,7 +15,7 @@
 #include <QAction>
 #include <QFile>
 #include <QStandardPaths>
-#include <kwinglplatform.h>
+#include <deepin-kwinglplatform.h>
 #include "deepin-kwinglutils.h"
 
 #include <QMatrix4x4>

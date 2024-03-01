@@ -7,7 +7,7 @@
 #pragma once
 
 #include "deepin-kwineffects.h"
-#include "kwinglobals.h"
+#include "deepin-kwinglobals.h"
 
 #include <QMatrix4x4>
 #include <QObject>
