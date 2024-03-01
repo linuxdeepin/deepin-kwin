@@ -1,2 +1,2 @@
 usr/bin/deepin-kwin_x11
-usr/lib/systemd/user/plasma-deepin-kwin_x11.service
+usr/lib/systemd/user/deepin-kwin_x11.service
