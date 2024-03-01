@@ -52,6 +52,7 @@ namespace KWin
 EglGbmBackend::EglGbmBackend(DrmBackend *drmBackend)
     : AbstractEglBackend(drmBackend->primaryGpu()->deviceId())
     , m_backend(drmBackend)
+    , m_dmaFd(0)
 {
     drmBackend->setRenderBackend(this);
     setIsDirectRendering(true);
@@ -240,6 +241,14 @@ void EglGbmBackend::present(Output *output)
     EglGbmLayer* gbmLayer = dynamic_cast<EglGbmLayer *>(primaryLayer(output));
     if (gbmLayer) {
         std::shared_ptr<DrmFramebuffer> buffer = gbmLayer->currentBuffer();
+        if (m_dmaFd > 0) {
+            close(m_dmaFd);
+            m_dmaFd = 0;
+        }
+        if (GbmBuffer *gbmbuf = dynamic_cast<GbmBuffer *>(buffer->buffer())) {
+            auto bo = gbmbuf->bo();
+            m_dmaFd = gbm_bo_get_fd(bo);
+        }
         if (m_remoteaccessManager) {
             m_outputToBuffers[output] = buffer->buffer();
             m_remoteaccessManager->passBuffer(output, buffer->buffer());

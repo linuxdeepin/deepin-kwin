@@ -12,6 +12,11 @@
 
 #include <spa/buffer/buffer.h>
 #include <spa/param/video/raw.h>
+#include "../../backends/drm/drm_egl_backend.h"
+#include "composite.h"
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <unistd.h>
 
 
 namespace KWin
@@ -59,17 +64,45 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
         glGetBooleanv(GL_PACK_INVERT_MESA, &prev);
         glPixelStorei(GL_PACK_INVERT_MESA, GL_TRUE);
     }
+    const uint stride = SPA_ROUND_UP_N (size.width() * 4, 4);
+    spa->chunk->stride = stride;
+    spa->chunk->size = spa->maxsize;
+    EglGbmBackend * eglGbmBackend = static_cast<EglGbmBackend *>(Compositor::self()->backend());
+    spa->fd = eglGbmBackend ? eglGbmBackend->getFrameFd() : 0;
 
-    texture->bind();
-    if (GLPlatform::instance()->isGLES()) {
-        GLFramebuffer fbo(texture);
-        GLFramebuffer::pushFramebuffer(&fbo);
-        glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
-        GLFramebuffer::popFramebuffer();
-    } else if (GLPlatform::instance()->glVersion() >= kVersionNumber(4, 5)) {
-        glGetTextureImage(texture->texture(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->chunk->size, spa->data);
+    if (spa->fd) {
+        unsigned char *map_data = static_cast<unsigned char *>((mmap(NULL, stride * size.height(), PROT_READ, MAP_SHARED, spa->fd, 0)));
+
+        if (map_data != MAP_FAILED) {
+            memcpy(spa->data, map_data, stride * size.height());
+            munmap(map_data, stride * size.height());
+            map_data = NULL;
+        } else {
+            texture->bind();
+            if (GLPlatform::instance()->isGLES()) {
+                GLFramebuffer fbo(texture);
+                GLFramebuffer::pushFramebuffer(&fbo);
+                glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+                GLFramebuffer::popFramebuffer();
+            } else if (GLPlatform::instance()->glVersion() >= kVersionNumber(4, 5)) {
+                glGetTextureImage(texture->texture(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->chunk->size, spa->data);
+            } else {
+                glGetTexImage(texture->target(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+            }
+        }
+
     } else {
-        glGetTexImage(texture->target(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+        texture->bind();
+        if (GLPlatform::instance()->isGLES()) {
+            GLFramebuffer fbo(texture);
+            GLFramebuffer::pushFramebuffer(&fbo);
+            glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+            GLFramebuffer::popFramebuffer();
+        } else if (GLPlatform::instance()->glVersion() >= kVersionNumber(4, 5)) {
+            glGetTextureImage(texture->texture(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->chunk->size, spa->data);
+        } else {
+            glGetTexImage(texture->target(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+        }
     }
 
     if (invertNeededAndSupported) {

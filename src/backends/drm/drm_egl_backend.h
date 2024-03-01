@@ -84,6 +84,9 @@ public:
 
     EGLImageKHR importBufferObjectAsImage(gbm_bo *bo);
     std::shared_ptr<GLTexture> importBufferObjectAsTexture(gbm_bo *bo);
+    unsigned int getFrameFd() {
+        return m_dmaFd;
+    }
 
     void addRenderSequence();
 
@@ -98,6 +101,7 @@ private:
     QHash<uint32_t, EGLConfig> m_configs;
     QHash<Output *, DrmGpuBuffer*> m_outputToBuffers;
     std::shared_ptr<RemoteAccessManager> m_remoteaccessManager;
+    unsigned int m_dmaFd;
 
     friend class EglGbmTexture;
 };
