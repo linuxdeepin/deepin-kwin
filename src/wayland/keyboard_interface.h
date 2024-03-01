@@ -21,7 +21,7 @@ enum class KeyboardKeyState : quint32;
 /**
  * @brief Resource for the wl_keyboard interface.
  */
-class KWIN_EXPORT KeyboardInterface : public QObject
+class DEEPIN_KWIN_EXPORT KeyboardInterface : public QObject
 {
     Q_OBJECT
 public:

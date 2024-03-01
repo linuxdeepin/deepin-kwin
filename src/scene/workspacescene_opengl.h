@@ -22,7 +22,7 @@ namespace KWin
 {
 class OpenGLBackend;
 
-class KWIN_EXPORT WorkspaceSceneOpenGL : public WorkspaceScene
+class DEEPIN_KWIN_EXPORT WorkspaceSceneOpenGL : public WorkspaceScene
 {
     Q_OBJECT
 

@@ -16,11 +16,11 @@
 #include "window.h"
 #include "workspace.h"
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/output.h>
-#include <KWayland/Client/server_decoration.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/output.h>
+#include <DWayland/Client/server_decoration.h>
+#include <DWayland/Client/surface.h>
 
 #include <QDBusConnection>
 

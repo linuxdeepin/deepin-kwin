@@ -10,12 +10,12 @@
 #include "wayland/display.h"
 #include "wayland/server_decoration_interface.h"
 
-#include "KWayland/Client/compositor.h"
-#include "KWayland/Client/connection_thread.h"
-#include "KWayland/Client/event_queue.h"
-#include "KWayland/Client/registry.h"
-#include "KWayland/Client/server_decoration.h"
-#include "KWayland/Client/surface.h"
+#include "DWayland/Client/compositor.h"
+#include "DWayland/Client/connection_thread.h"
+#include "DWayland/Client/event_queue.h"
+#include "DWayland/Client/registry.h"
+#include "DWayland/Client/server_decoration.h"
+#include "DWayland/Client/surface.h"
 
 class TestServerSideDecoration : public QObject
 {

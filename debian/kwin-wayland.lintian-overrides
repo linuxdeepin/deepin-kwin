@@ -1,2 +1,2 @@
-kwin-wayland: no-manual-page [usr/bin/kwin_wayland]
+kwin-wayland: no-manual-page [usr/bin/deepin-kwin_wayland]
 kwin-wayland: no-manual-page [usr/bin/kwin_wayland_wrapper]

@@ -21,7 +21,7 @@ class ColorManagerPrivate;
 /**
  * The ColorManager class is the entry point into color management facilities.
  */
-class KWIN_EXPORT ColorManager : public QObject
+class DEEPIN_KWIN_EXPORT ColorManager : public QObject
 {
     Q_OBJECT
 

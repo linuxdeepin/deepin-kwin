@@ -67,7 +67,7 @@ class InputDevice;
  * getting input first (e.g. screen edges) and filter the input event out if we currently have
  * a full input grab.
  */
-class KWIN_EXPORT InputRedirection : public QObject
+class DEEPIN_KWIN_EXPORT InputRedirection : public QObject
 {
     Q_OBJECT
 public:
@@ -390,7 +390,7 @@ private:
  * Deleting an instance of InputEventFilter automatically uninstalls it from
  * InputRedirection.
  */
-class KWIN_EXPORT InputEventFilter
+class DEEPIN_KWIN_EXPORT InputEventFilter
 {
 public:
     InputEventFilter();
@@ -456,7 +456,7 @@ protected:
     bool passToInputMethod(QKeyEvent *event);
 };
 
-class KWIN_EXPORT InputDeviceHandler : public QObject
+class DEEPIN_KWIN_EXPORT InputDeviceHandler : public QObject
 {
     Q_OBJECT
 public:

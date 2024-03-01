@@ -29,7 +29,7 @@ class Display;
  *
  * @see Display
  */
-class KWIN_EXPORT ClientConnection : public QObject
+class DEEPIN_KWIN_EXPORT ClientConnection : public QObject
 {
     Q_OBJECT
 public:

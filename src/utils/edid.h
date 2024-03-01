@@ -22,7 +22,7 @@ namespace KWin
  *
  * http://read.pudn.com/downloads110/ebook/456020/E-EDID%20Standard.pdf
  */
-class KWIN_EXPORT Edid
+class DEEPIN_KWIN_EXPORT Edid
 {
 public:
     Edid();

@@ -18,7 +18,7 @@ namespace KWin
 /**
  * The InputDevice class represents an input device, e.g. a mouse, or a keyboard, etc.
  */
-class KWIN_EXPORT InputDevice : public QObject
+class DEEPIN_KWIN_EXPORT InputDevice : public QObject
 {
     Q_OBJECT
 

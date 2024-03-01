@@ -10,11 +10,11 @@
 #include "wayland/output_interface.h"
 #include "wayland/xdgoutput_v1_interface.h"
 
-#include "KWayland/Client/connection_thread.h"
-#include "KWayland/Client/event_queue.h"
-#include "KWayland/Client/output.h"
-#include "KWayland/Client/registry.h"
-#include "KWayland/Client/xdgoutput.h"
+#include "DWayland/Client/connection_thread.h"
+#include "DWayland/Client/event_queue.h"
+#include "DWayland/Client/output.h"
+#include "DWayland/Client/registry.h"
+#include "DWayland/Client/xdgoutput.h"
 
 #include "../../tests/fakeoutput.h"
 

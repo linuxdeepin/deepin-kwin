@@ -16,7 +16,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT RenderLoopPrivate
+class DEEPIN_KWIN_EXPORT RenderLoopPrivate
 {
 public:
     static RenderLoopPrivate *get(RenderLoop *loop);

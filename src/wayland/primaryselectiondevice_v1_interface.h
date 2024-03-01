@@ -32,7 +32,7 @@ class PrimarySelectionDeviceV1InterfacePrivate;
  * @see PrimarySelectionSourceInterface
  * Lifespan is mapped to the underlying object
  */
-class KWIN_EXPORT PrimarySelectionDeviceV1Interface : public AbstractDataDevice
+class DEEPIN_KWIN_EXPORT PrimarySelectionDeviceV1Interface : public AbstractDataDevice
 {
     Q_OBJECT
 public:

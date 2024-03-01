@@ -24,7 +24,7 @@ class XdgForeignV2InterfacePrivate;
  * This parent relationship is traced by the transientChanged signal and the
  * transientFor method.
  */
-class KWIN_EXPORT XdgForeignV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT XdgForeignV2Interface : public QObject
 {
     Q_OBJECT
 public:

@@ -36,7 +36,7 @@ class FakeInputInterfacePrivate;
  *
  * @see FakeInputDevice
  */
-class KWIN_EXPORT FakeInputInterface : public QObject
+class DEEPIN_KWIN_EXPORT FakeInputInterface : public QObject
 {
     Q_OBJECT
 
@@ -62,7 +62,7 @@ private:
  *
  * @see FakeInputInterface
  */
-class KWIN_EXPORT FakeInputDevice : public QObject
+class DEEPIN_KWIN_EXPORT FakeInputDevice : public QObject
 {
     Q_OBJECT
 public:

@@ -9,7 +9,7 @@
 #pragma once
 
 #include "core/output.h"
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QObject>
 #include <QSize>
@@ -44,7 +44,7 @@ private:
 /**
  * Wayland outputs in a nested X11 setup
  */
-class KWIN_EXPORT X11WindowedOutput : public Output
+class DEEPIN_KWIN_EXPORT X11WindowedOutput : public Output
 {
     Q_OBJECT
 public:

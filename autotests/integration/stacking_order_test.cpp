@@ -18,8 +18,8 @@
 #include "workspace.h"
 #include "x11window.h"
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/surface.h>
 
 #include <xcb/xcb.h>
 #include <xcb/xcb_icccm.h>

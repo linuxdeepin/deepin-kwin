@@ -19,7 +19,7 @@ class KeyStateInterfacePrivate;
 /**
  * @brief Exposes key states to wayland clients
  */
-class KWIN_EXPORT KeyStateInterface : public QObject
+class DEEPIN_KWIN_EXPORT KeyStateInterface : public QObject
 {
     Q_OBJECT
 

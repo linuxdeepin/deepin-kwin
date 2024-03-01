@@ -18,7 +18,7 @@ class Display;
 class SlideManagerInterfacePrivate;
 class SlideInterfacePrivate;
 
-class KWIN_EXPORT SlideManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT SlideManagerInterface : public QObject
 {
     Q_OBJECT
 
@@ -32,7 +32,7 @@ private:
     std::unique_ptr<SlideManagerInterfacePrivate> d;
 };
 
-class KWIN_EXPORT SlideInterface : public QObject
+class DEEPIN_KWIN_EXPORT SlideInterface : public QObject
 {
     Q_OBJECT
 public:

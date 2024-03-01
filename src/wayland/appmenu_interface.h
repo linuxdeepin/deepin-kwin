@@ -27,7 +27,7 @@ class AppMenuInterfacePrivate;
  * This global can be used for clients to bind AppmenuInterface instances
  * and notifies when a new one is created
  */
-class KWIN_EXPORT AppMenuManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT AppMenuManagerInterface : public QObject
 {
     Q_OBJECT
 
@@ -55,7 +55,7 @@ private:
  * This interface is attached to a wl_surface and provides access to where
  * the AppMenu DBus interface is registered.
  */
-class KWIN_EXPORT AppMenuInterface : public QObject
+class DEEPIN_KWIN_EXPORT AppMenuInterface : public QObject
 {
     Q_OBJECT
 public:

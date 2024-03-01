@@ -11,12 +11,12 @@
 # )
 
 # add_library(SceneXRenderBackend STATIC ${xrenderbackend_SOURCES})
-# target_link_libraries(SceneXRenderBackend kwin Qt::Core Qt::Gui)
+# target_link_libraries(SceneXRenderBackend deepin-kwin Qt::Core Qt::Gui)
 # target_include_directories(SceneXRenderBackend PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     xrenderbackend.cpp
     xrendersurfacetexture_x11.cpp
     xrendersurfacetexture.cpp
 )
-target_include_directories(kwin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(deepin-kwin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

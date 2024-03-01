@@ -21,7 +21,7 @@ class ItemRenderer;
 class Output;
 class Scene;
 
-class KWIN_EXPORT SceneDelegate : public RenderLayerDelegate
+class DEEPIN_KWIN_EXPORT SceneDelegate : public RenderLayerDelegate
 {
 public:
     explicit SceneDelegate(Scene *scene);
@@ -42,7 +42,7 @@ private:
     Output *m_output = nullptr;
 };
 
-class KWIN_EXPORT Scene : public QObject
+class DEEPIN_KWIN_EXPORT Scene : public QObject
 {
     Q_OBJECT
 

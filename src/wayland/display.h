@@ -44,7 +44,7 @@ class SeatInterface;
  *
  * @todo Improve documentation
  */
-class KWIN_EXPORT Display : public QObject
+class DEEPIN_KWIN_EXPORT Display : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool running READ isRunning NOTIFY runningChanged)

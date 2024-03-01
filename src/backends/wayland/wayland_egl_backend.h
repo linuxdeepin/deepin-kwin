@@ -13,7 +13,7 @@
 #include "core/outputlayer.h"
 #include "utils/damagejournal.h"
 
-#include <KWayland/Client/buffer.h>
+#include <DWayland/Client/buffer.h>
 
 #include <memory>
 

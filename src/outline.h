@@ -13,7 +13,7 @@
 #include <kwinglobals.h>
 #include <memory>
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 #include <memory>
 
 class QQmlContext;
@@ -34,7 +34,7 @@ class OutlineVisual;
  * @author Arthur Arlt
  * @since 4.7
  */
-class KWIN_EXPORT Outline : public QObject
+class DEEPIN_KWIN_EXPORT Outline : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QRect geometry READ geometry NOTIFY geometryChanged)
@@ -124,7 +124,7 @@ private:
     QString m_activeColor;
 };
 
-class KWIN_EXPORT OutlineVisual
+class DEEPIN_KWIN_EXPORT OutlineVisual
 {
 public:
     OutlineVisual(Outline *outline);

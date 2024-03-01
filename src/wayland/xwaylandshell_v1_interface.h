@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QObject>
 
@@ -24,7 +24,7 @@ class XwaylandShellV1Interface;
 class XwaylandShellV1InterfacePrivate;
 class XwaylandSurfaceV1InterfacePrivate;
 
-class KWIN_EXPORT XwaylandSurfaceV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT XwaylandSurfaceV1Interface : public QObject
 {
     Q_OBJECT
 
@@ -39,7 +39,7 @@ private:
     std::unique_ptr<XwaylandSurfaceV1InterfacePrivate> d;
 };
 
-class KWIN_EXPORT XwaylandShellV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT XwaylandShellV1Interface : public QObject
 {
     Q_OBJECT
 

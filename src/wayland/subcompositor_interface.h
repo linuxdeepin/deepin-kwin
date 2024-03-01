@@ -29,7 +29,7 @@ class SubSurfaceInterfacePrivate;
  *
  * The SubCompositorInterface corresponds to the Wayland interface @c wl_subcompositor.
  */
-class KWIN_EXPORT SubCompositorInterface : public QObject
+class DEEPIN_KWIN_EXPORT SubCompositorInterface : public QObject
 {
     Q_OBJECT
 
@@ -50,7 +50,7 @@ private:
 /**
  * The SubSurfaceInterface corresponds to the Wayland interface @c wl_subsurface.
  */
-class KWIN_EXPORT SubSurfaceInterface : public QObject
+class DEEPIN_KWIN_EXPORT SubSurfaceInterface : public QObject
 {
     Q_OBJECT
 

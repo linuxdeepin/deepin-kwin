@@ -28,7 +28,7 @@ class BlurInterfacePrivate;
  * @see BlurInterface
  * @see SurfaceInterface
  */
-class KWIN_EXPORT BlurManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT BlurManagerInterface : public QObject
 {
     Q_OBJECT
 public:
@@ -55,7 +55,7 @@ private:
  * @see BlurManagerInterface
  * @see SurfaceInterface
  */
-class KWIN_EXPORT BlurInterface : public QObject
+class DEEPIN_KWIN_EXPORT BlurInterface : public QObject
 {
     Q_OBJECT
 public:

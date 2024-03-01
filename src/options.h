@@ -88,7 +88,7 @@ enum PlacementPolicy {
 
 class Settings;
 
-class KWIN_EXPORT Options : public QObject
+class DEEPIN_KWIN_EXPORT Options : public QObject
 {
     Q_OBJECT
     Q_ENUM(XwaylandCrashPolicy)
@@ -1082,7 +1082,7 @@ private:
     MouseCommand wheelToMouseCommand(MouseWheelCommand com, int delta) const;
 };
 
-extern KWIN_EXPORT Options *options;
+extern DEEPIN_KWIN_EXPORT Options *options;
 
 } // namespace
 

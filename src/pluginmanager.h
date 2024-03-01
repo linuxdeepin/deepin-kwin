@@ -25,7 +25,7 @@ class PluginFactory;
 /**
  * The PluginManager class loads and unloads binary compositor extensions.
  */
-class KWIN_EXPORT PluginManager : public QObject
+class DEEPIN_KWIN_EXPORT PluginManager : public QObject
 {
     Q_OBJECT
 

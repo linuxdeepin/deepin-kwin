@@ -7,16 +7,16 @@
 #include "wayland_display.h"
 #include "wayland_logging.h"
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/pointerconstraints.h>
-#include <KWayland/Client/pointergestures.h>
-#include <KWayland/Client/registry.h>
-#include <KWayland/Client/relativepointer.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/shm_pool.h>
-#include <KWayland/Client/subcompositor.h>
-#include <KWayland/Client/xdgdecoration.h>
-#include <KWayland/Client/xdgshell.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/pointerconstraints.h>
+#include <DWayland/Client/pointergestures.h>
+#include <DWayland/Client/registry.h>
+#include <DWayland/Client/relativepointer.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/shm_pool.h>
+#include <DWayland/Client/subcompositor.h>
+#include <DWayland/Client/xdgdecoration.h>
+#include <DWayland/Client/xdgshell.h>
 
 #include <QMutex>
 #include <QThread>

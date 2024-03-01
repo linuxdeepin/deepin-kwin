@@ -20,7 +20,7 @@ namespace KWin
 
 class ColorTransformation;
 
-class KWIN_EXPORT ColorLUT
+class DEEPIN_KWIN_EXPORT ColorLUT
 {
 public:
     ColorLUT(const std::shared_ptr<ColorTransformation> &transformation, size_t size);

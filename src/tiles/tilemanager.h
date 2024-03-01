@@ -14,7 +14,7 @@
 #include "scripting/tilemodel.h"
 #include "tile.h"
 #include "utils/common.h"
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QAbstractItemModel>
 #include <QObject>
@@ -34,7 +34,7 @@ class TileModel;
 /**
  * Custom tiling zones management per output.
  */
-class KWIN_EXPORT TileManager : public QObject
+class DEEPIN_KWIN_EXPORT TileManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(KWin::Tile *rootTile READ rootTile CONSTANT)
@@ -73,6 +73,6 @@ private:
     friend class CustomTile;
 };
 
-KWIN_EXPORT QDebug operator<<(QDebug debug, const TileManager *tileManager);
+DEEPIN_KWIN_EXPORT QDebug operator<<(QDebug debug, const TileManager *tileManager);
 
 } // namespace KWin

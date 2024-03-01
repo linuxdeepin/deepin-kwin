@@ -34,7 +34,7 @@ class RenderLoop;
  * the output layer is not set explicitly, it's inherited from the parent render layer.
  * Output layers can be freely assigned or unassigned to render layers.
  */
-class KWIN_EXPORT RenderLayer : public QObject
+class DEEPIN_KWIN_EXPORT RenderLayer : public QObject
 {
     Q_OBJECT
 

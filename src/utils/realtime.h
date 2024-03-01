@@ -14,6 +14,6 @@ namespace KWin
 /**
  * Makes the calling thread to use realtime scheduling.
  */
-KWIN_EXPORT void gainRealTime();
+DEEPIN_KWIN_EXPORT void gainRealTime();
 
 } // namespace KWin

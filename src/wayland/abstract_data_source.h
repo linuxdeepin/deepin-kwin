@@ -25,7 +25,7 @@ namespace KWaylandServer
 // Anything related to selections are pure virtual, content relating
 // to drag and drop has a default implementation
 
-class KWIN_EXPORT AbstractDataSource : public QObject
+class DEEPIN_KWIN_EXPORT AbstractDataSource : public QObject
 {
     Q_OBJECT
 public:

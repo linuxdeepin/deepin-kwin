@@ -8,7 +8,7 @@
 */
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include "renderloop.h"
 
@@ -36,7 +36,7 @@ enum class ContentType {
     Game = 3,
 };
 
-class KWIN_EXPORT OutputMode
+class DEEPIN_KWIN_EXPORT OutputMode
 {
 public:
     enum class Flag : uint {
@@ -60,7 +60,7 @@ private:
 /**
  * Generic output representation.
  */
-class KWIN_EXPORT Output : public QObject
+class DEEPIN_KWIN_EXPORT Output : public QObject
 {
     Q_OBJECT
 
@@ -422,7 +422,7 @@ inline QRect Output::rect() const
     return QRect(QPoint(0, 0), geometry().size());
 }
 
-KWIN_EXPORT QDebug operator<<(QDebug debug, const Output *output);
+DEEPIN_KWIN_EXPORT QDebug operator<<(QDebug debug, const Output *output);
 
 } // namespace KWin
 

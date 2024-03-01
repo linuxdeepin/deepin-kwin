@@ -12,7 +12,7 @@ add_subdirectory(drm)
 set(testWindowPaintData_SRCS test_window_paint_data.cpp)
 add_executable(testWindowPaintData ${testWindowPaintData_SRCS})
 target_link_libraries(testWindowPaintData kwineffects Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::Test )
-add_test(NAME kwin-testWindowPaintData COMMAND testWindowPaintData)
+add_test(NAME deepin-kwin-testWindowPaintData COMMAND testWindowPaintData)
 ecm_mark_as_test(testWindowPaintData)
 
 ########################################################
@@ -25,7 +25,7 @@ set(testVirtualDesktops_SRCS
 add_executable(testVirtualDesktops ${testVirtualDesktops_SRCS})
 
 target_link_libraries(testVirtualDesktops
-    kwin
+    deepin-kwin
 
     Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
@@ -35,7 +35,7 @@ target_link_libraries(testVirtualDesktops
     KF5::I18n
     KF5::WindowSystem
 )
-add_test(NAME kwin-testVirtualDesktops COMMAND testVirtualDesktops)
+add_test(NAME deepin-kwin-testVirtualDesktops COMMAND testVirtualDesktops)
 ecm_mark_as_test(testVirtualDesktops)
 
 ########################################################
@@ -67,7 +67,7 @@ if (QT_MAJOR_VERSION EQUAL "5")
 else()
     target_link_libraries(testClientMachine Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
-add_test(NAME kwin-testClientMachine COMMAND testClientMachine)
+add_test(NAME deepin-kwin-testClientMachine COMMAND testClientMachine)
 ecm_mark_as_test(testClientMachine)
 
 ########################################################
@@ -89,7 +89,7 @@ if (QT_MAJOR_VERSION EQUAL "5")
 else()
     target_link_libraries(testXcbWrapper Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
-add_test(NAME kwin-testXcbWrapper COMMAND testXcbWrapper)
+add_test(NAME deepin-kwin-testXcbWrapper COMMAND testXcbWrapper)
 ecm_mark_as_test(testXcbWrapper)
 
 if (XCB_ICCCM_FOUND)
@@ -110,7 +110,7 @@ if (XCB_ICCCM_FOUND)
     else()
         target_link_libraries(testXcbSizeHints Qt${QT_MAJOR_VERSION}::GuiPrivate)
     endif()
-    add_test(NAME kwin-testXcbSizeHints COMMAND testXcbSizeHints)
+    add_test(NAME deepin-kwin-testXcbSizeHints COMMAND testXcbSizeHints)
     ecm_mark_as_test(testXcbSizeHints)
 endif()
 
@@ -133,7 +133,7 @@ if (QT_MAJOR_VERSION EQUAL "5")
 else()
     target_link_libraries(testXcbWindow Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
-add_test(NAME kwin-testXcbWindow COMMAND testXcbWindow)
+add_test(NAME deepin-kwin-testXcbWindow COMMAND testXcbWindow)
 ecm_mark_as_test(testXcbWindow)
 
 include_directories(${KWin_SOURCE_DIR}/src)
@@ -157,7 +157,7 @@ target_link_libraries(testOnScreenNotification
     KF5::ConfigCore
 )
 
-add_test(NAME kwin-testOnScreenNotification COMMAND testOnScreenNotification)
+add_test(NAME deepin-kwin-testOnScreenNotification COMMAND testOnScreenNotification)
 ecm_mark_as_test(testOnScreenNotification)
 
 ########################################################
@@ -173,7 +173,7 @@ target_link_libraries(testGestures
     Qt${QT_MAJOR_VERSION}::Test
 )
 
-add_test(NAME kwin-testGestures COMMAND testGestures)
+add_test(NAME deepin-kwin-testGestures COMMAND testGestures)
 ecm_mark_as_test(testGestures)
 
 ########################################################
@@ -183,9 +183,9 @@ add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp)
 target_link_libraries(testX11TimestampUpdate
     KF5::CoreAddons
     Qt${QT_MAJOR_VERSION}::Test
-    kwin
+    deepin-kwin
 )
-add_test(NAME kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
+add_test(NAME deepin-kwin-testX11TimestampUpdate COMMAND testX11TimestampUpdate)
 ecm_mark_as_test(testX11TimestampUpdate)
 
 set(testOpenGLContextAttributeBuilder_SRCS
@@ -199,7 +199,7 @@ if (HAVE_EPOXY_GLX)
 endif()
 add_executable(testOpenGLContextAttributeBuilder ${testOpenGLContextAttributeBuilder_SRCS})
 target_link_libraries(testOpenGLContextAttributeBuilder epoxy::epoxy Qt${QT_MAJOR_VERSION}::Test)
-add_test(NAME kwin-testOpenGLContextAttributeBuilder COMMAND testOpenGLContextAttributeBuilder)
+add_test(NAME deepin-kwin-testOpenGLContextAttributeBuilder COMMAND testOpenGLContextAttributeBuilder)
 ecm_mark_as_test(testOpenGLContextAttributeBuilder)
 
 set(testXkb_SRCS
@@ -214,7 +214,7 @@ endif()
 
 add_executable(testXkb ${testXkb_SRCS})
 target_link_libraries(testXkb
-    kwin
+    deepin-kwin
 
     Qt${QT_MAJOR_VERSION}::Gui
     Qt${QT_MAJOR_VERSION}::Test
@@ -233,7 +233,7 @@ if (QT_MAJOR_VERSION EQUAL "5")
 else()
     target_link_libraries(testXkb Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
-add_test(NAME kwin-testXkb COMMAND testXkb)
+add_test(NAME deepin-kwin-testXkb COMMAND testXkb)
 ecm_mark_as_test(testXkb)
 
 ########################################################
@@ -242,9 +242,9 @@ ecm_mark_as_test(testXkb)
 add_executable(testFtrace test_ftrace.cpp)
 target_link_libraries(testFtrace
     Qt${QT_MAJOR_VERSION}::Test
-    kwin
+    deepin-kwin
 )
-add_test(NAME kwin-testFtrace COMMAND testFtrace)
+add_test(NAME deepin-kwin-testFtrace COMMAND testFtrace)
 ecm_mark_as_test(testFtrace)
 
 ########################################################
@@ -253,7 +253,7 @@ ecm_mark_as_test(testFtrace)
 add_executable(testUtils test_utils.cpp)
 target_link_libraries(testUtils
     Qt${QT_MAJOR_VERSION}::Test
-    kwin
+    deepin-kwin
 )
-add_test(NAME kwin-testUtils COMMAND testUtils)
+add_test(NAME deepin-kwin-testUtils COMMAND testUtils)
 ecm_mark_as_test(testUtils)

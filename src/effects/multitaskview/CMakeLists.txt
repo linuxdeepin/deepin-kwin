@@ -26,4 +26,4 @@ foreach(_ts_file ${TS})
     execute_process(COMMAND lrelease ${_ts_file})
 endforeach()
 
-install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/multitaskview)
+install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/effects/multitaskview)

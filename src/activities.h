@@ -24,7 +24,7 @@ namespace KWin
 {
 class Window;
 
-class KWIN_EXPORT Activities : public QObject
+class DEEPIN_KWIN_EXPORT Activities : public QObject
 {
     Q_OBJECT
 

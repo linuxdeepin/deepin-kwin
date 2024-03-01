@@ -29,7 +29,7 @@ class SurfaceInterface;
  *
  * DataControlDeviceV1Interface corresponds to the Wayland interface @c zwlr_data_control_device_v1.
  */
-class KWIN_EXPORT DataControlDeviceV1Interface : public AbstractDataDevice
+class DEEPIN_KWIN_EXPORT DataControlDeviceV1Interface : public AbstractDataDevice
 {
     Q_OBJECT
 public:

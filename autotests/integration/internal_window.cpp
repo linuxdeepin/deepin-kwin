@@ -21,9 +21,9 @@
 #include <QPainter>
 #include <QRasterWindow>
 
-#include <KWayland/Client/keyboard.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/keyboard.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/surface.h>
 #include <KWindowSystem>
 
 #include <linux/input.h>

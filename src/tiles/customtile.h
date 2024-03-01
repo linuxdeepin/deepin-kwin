@@ -11,12 +11,12 @@
 
 #include "tile.h"
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 namespace KWin
 {
 
-class KWIN_EXPORT CustomTile : public Tile
+class DEEPIN_KWIN_EXPORT CustomTile : public Tile
 {
     Q_OBJECT
     Q_PROPERTY(KWin::Tile::LayoutDirection layoutDirection READ layoutDirection WRITE setLayoutDirection NOTIFY layoutDirectionChanged)
@@ -58,6 +58,6 @@ public:
     RootTile(TileManager *tiling);
 };
 
-KWIN_EXPORT QDebug operator<<(QDebug debug, const CustomTile *tile);
+DEEPIN_KWIN_EXPORT QDebug operator<<(QDebug debug, const CustomTile *tile);
 
 } // namespace KWin

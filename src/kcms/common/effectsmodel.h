@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <KSharedConfig>
 
@@ -22,7 +22,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT EffectsModel : public QAbstractItemModel
+class DEEPIN_KWIN_EXPORT EffectsModel : public QAbstractItemModel
 {
     Q_OBJECT
 

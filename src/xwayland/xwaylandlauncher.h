@@ -17,7 +17,7 @@
 #include <QVector>
 #include <memory>
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 class QTimer;
 
@@ -28,7 +28,7 @@ class XwaylandSocket;
 namespace Xwl
 {
 
-class KWIN_EXPORT XwaylandLauncher : public QObject
+class DEEPIN_KWIN_EXPORT XwaylandLauncher : public QObject
 {
     Q_OBJECT
 public:

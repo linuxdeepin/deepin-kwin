@@ -43,7 +43,7 @@ class ClientManagementInterfacePrivate;
  * @see ClientManagementInterface
  * @since 5.5
  */
-class KWIN_EXPORT ClientManagementInterface : public QObject
+class DEEPIN_KWIN_EXPORT ClientManagementInterface : public QObject
 {
     Q_OBJECT
 
@@ -53,7 +53,7 @@ public:
 
     struct WindowState {
         int32_t pid;
-        int32_t windowId;
+        uint32_t windowId;
         char resourceName[256];
         struct Geometry {
             int32_t x;

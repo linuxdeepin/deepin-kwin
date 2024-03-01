@@ -17,9 +17,9 @@
 #include "x11window.h"
 #include <kwineffects.h>
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/plasmawindowmanagement.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/plasmawindowmanagement.h>
+#include <DWayland/Client/surface.h>
 // screenlocker
 #if KWIN_BUILD_SCREENLOCKER
 #include <KScreenLocker/KsldApp>

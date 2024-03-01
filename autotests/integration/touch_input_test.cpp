@@ -16,11 +16,11 @@
 #include "window.h"
 #include "workspace.h"
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/touch.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/touch.h>
 
 #include <QAction>
 

@@ -1,4 +1,4 @@
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     fakeinputbackend.cpp
     fakeinputdevice.cpp
 )

@@ -12,11 +12,11 @@
 #include "wayland/display.h"
 
 // KWayland
-#include "KWayland/Client/connection_thread.h"
-#include "KWayland/Client/datadevicemanager.h"
-#include "KWayland/Client/datasource.h"
-#include "KWayland/Client/event_queue.h"
-#include "KWayland/Client/registry.h"
+#include "DWayland/Client/connection_thread.h"
+#include "DWayland/Client/datadevicemanager.h"
+#include "DWayland/Client/datasource.h"
+#include "DWayland/Client/event_queue.h"
+#include "DWayland/Client/registry.h"
 
 // Wayland
 #include <wayland-client.h>

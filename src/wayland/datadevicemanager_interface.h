@@ -23,7 +23,7 @@ class DataDeviceManagerInterfacePrivate;
  * @brief Represents the Global for wl_data_device_manager interface.
  *
  */
-class KWIN_EXPORT DataDeviceManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT DataDeviceManagerInterface : public QObject
 {
     Q_OBJECT
 

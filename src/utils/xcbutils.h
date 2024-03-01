@@ -32,17 +32,17 @@ namespace Xcb
 
 typedef xcb_window_t WindowId;
 
-uint32_t KWIN_EXPORT toXNative(qreal value);
-QRect KWIN_EXPORT toXNative(const QRectF &value);
-qreal KWIN_EXPORT fromXNative(int value);
-QRectF KWIN_EXPORT fromXNative(const QRect &value);
-QSizeF KWIN_EXPORT fromXNative(const QSize &value);
+uint32_t DEEPIN_KWIN_EXPORT toXNative(qreal value);
+QRect DEEPIN_KWIN_EXPORT toXNative(const QRectF &value);
+qreal DEEPIN_KWIN_EXPORT fromXNative(int value);
+QRectF DEEPIN_KWIN_EXPORT fromXNative(const QRect &value);
+QSizeF DEEPIN_KWIN_EXPORT fromXNative(const QSize &value);
 
 /** Floors a given value to using the scale as a base
  *  Use when flooring to ints from Xwayland
  *  i.e floor(a/scale) * scale
  */
-QRectF KWIN_EXPORT nativeFloor(const QRectF &value);
+QRectF DEEPIN_KWIN_EXPORT nativeFloor(const QRectF &value);
 
 // forward declaration of methods
 static void defineCursor(xcb_window_t window, xcb_cursor_t cursor);
@@ -1464,7 +1464,7 @@ public:
     QVector<QByteArray> errorCodes;
 };
 
-class KWIN_EXPORT Extensions
+class DEEPIN_KWIN_EXPORT Extensions
 {
 public:
     bool isShapeAvailable() const

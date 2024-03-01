@@ -25,7 +25,7 @@
 namespace KWin
 {
 
-static const QString s_socketName = QStringLiteral("wayland_test_kwin_x11_desktop_window-0");
+static const QString s_socketName = QStringLiteral("wayland_test_deepin-kwin_x11_desktop_window-0");
 
 class X11DesktopWindowTest : public QObject
 {

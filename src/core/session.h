@@ -24,7 +24,7 @@ namespace KWin
  * is running and a way to open files that require special privileges, e.g. DRM devices or
  * input devices.
  */
-class KWIN_EXPORT Session : public QObject
+class DEEPIN_KWIN_EXPORT Session : public QObject
 {
     Q_OBJECT
 

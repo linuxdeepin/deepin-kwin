@@ -72,7 +72,7 @@ private:
  *
  * @author Martin Gräßlin <mgraesslin@kde.org>
  */
-class KWIN_EXPORT UserActionsMenu : public QObject
+class DEEPIN_KWIN_EXPORT UserActionsMenu : public QObject
 {
     Q_OBJECT
 public:

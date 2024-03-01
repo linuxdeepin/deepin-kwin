@@ -29,7 +29,7 @@ class SurfaceItem;
  * A WindowItem is made of a surface with client contents and optionally a server-side frame
  * and a drop-shadow.
  */
-class KWIN_EXPORT WindowItem : public Item
+class DEEPIN_KWIN_EXPORT WindowItem : public Item
 {
     Q_OBJECT
 
@@ -87,7 +87,7 @@ private:
  * Note that Xwayland windows and Wayland surfaces are associated asynchronously. This means
  * that the surfaceItem() function can return @c null until the window is fully initialized.
  */
-class KWIN_EXPORT WindowItemX11 : public WindowItem
+class DEEPIN_KWIN_EXPORT WindowItemX11 : public WindowItem
 {
     Q_OBJECT
 
@@ -101,7 +101,7 @@ private Q_SLOTS:
 /**
  * The WindowItemWayland class represents a Wayland window.
  */
-class KWIN_EXPORT WindowItemWayland : public WindowItem
+class DEEPIN_KWIN_EXPORT WindowItemWayland : public WindowItem
 {
     Q_OBJECT
 
@@ -113,7 +113,7 @@ public:
  * The WindowItemInternal class represents a window created by the compositor, for
  * example, the task switcher, etc.
  */
-class KWIN_EXPORT WindowItemInternal : public WindowItem
+class DEEPIN_KWIN_EXPORT WindowItemInternal : public WindowItem
 {
     Q_OBJECT
 

@@ -12,7 +12,7 @@
 #pragma once
 
 // KWin
-#include <kwin_export.h>
+#include "kwin_export.h"
 // Qt
 #include <QExplicitlySharedDataPointer>
 #include <QRegion>
@@ -31,7 +31,7 @@ namespace KWin
 {
 
 /** @internal */
-class KWIN_EXPORT XRenderPictureData
+class DEEPIN_KWIN_EXPORT XRenderPictureData
     : public QSharedData
 {
 public:
@@ -51,7 +51,7 @@ private:
  * convenience constructors and freeing of resources.
  * It should otherwise act exactly like the Picture type.
  */
-class KWIN_EXPORT XRenderPicture
+class DEEPIN_KWIN_EXPORT XRenderPicture
 {
 public:
     explicit XRenderPicture(xcb_render_picture_t pic = XCB_RENDER_PICTURE_NONE);
@@ -64,7 +64,7 @@ private:
     QExplicitlySharedDataPointer< XRenderPictureData > d;
 };
 
-class KWIN_EXPORT XFixesRegion
+class DEEPIN_KWIN_EXPORT XFixesRegion
 {
 public:
     explicit XFixesRegion(const QRegion &region);
@@ -100,26 +100,26 @@ namespace XRenderUtils
 /**
  * @internal
  */
-KWIN_EXPORT void init(xcb_connection_t *connection, xcb_window_t rootWindow);
+DEEPIN_KWIN_EXPORT void init(xcb_connection_t *connection, xcb_window_t rootWindow);
 
 /**
  * Returns the Xrender format that corresponds to the given visual ID.
  */
-KWIN_EXPORT xcb_render_pictformat_t findPictFormat(xcb_visualid_t visual);
+DEEPIN_KWIN_EXPORT xcb_render_pictformat_t findPictFormat(xcb_visualid_t visual);
 
 /**
  * Returns the xcb_render_directformat_t for the given Xrender format.
  */
-KWIN_EXPORT const xcb_render_directformat_t *findPictFormatInfo(xcb_render_pictformat_t format);
+DEEPIN_KWIN_EXPORT const xcb_render_directformat_t *findPictFormatInfo(xcb_render_pictformat_t format);
 
-KWIN_EXPORT XRenderPicture xRenderFill(const xcb_render_color_t &c);
-KWIN_EXPORT XRenderPicture xRenderBlendPicture(double opacity);
-KWIN_EXPORT xcb_render_color_t preMultiply(const QColor &c, float opacity = 1.0);
+DEEPIN_KWIN_EXPORT XRenderPicture xRenderFill(const xcb_render_color_t &c);
+DEEPIN_KWIN_EXPORT XRenderPicture xRenderBlendPicture(double opacity);
+DEEPIN_KWIN_EXPORT xcb_render_color_t preMultiply(const QColor &c, float opacity = 1.0);
 
 /**
  * @internal
  */
-KWIN_EXPORT void cleanup();
+DEEPIN_KWIN_EXPORT void cleanup();
 
 } // namespace XRenderUtils
 

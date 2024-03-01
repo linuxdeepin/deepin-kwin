@@ -18,7 +18,7 @@ namespace KWin
  * The RenderJournal class measures how long it takes to render frames and estimates how
  * long it will take to render the next frame.
  */
-class KWIN_EXPORT RenderJournal
+class DEEPIN_KWIN_EXPORT RenderJournal
 {
 public:
     RenderJournal();

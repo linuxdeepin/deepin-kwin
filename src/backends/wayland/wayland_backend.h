@@ -178,7 +178,7 @@ struct WaylandBackendOptions
  * It creates the connection to the Wayland Compositor, sets up the registry and creates
  * the Wayland output surfaces and its shell mappings.
  */
-class KWIN_EXPORT WaylandBackend : public OutputBackend
+class DEEPIN_KWIN_EXPORT WaylandBackend : public OutputBackend
 {
     Q_OBJECT
 

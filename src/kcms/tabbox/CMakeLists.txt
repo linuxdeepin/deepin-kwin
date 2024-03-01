@@ -43,5 +43,5 @@ install(FILES thumbnails/konqueror.png
               thumbnails/systemsettings.png
               thumbnails/dolphin.png
               thumbnails/desktop.png
-        DESTINATION ${KDE_INSTALL_DATADIR}/kwin/kcm_kwintabbox)
+        DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/kcm_kwintabbox)
 install(FILES kwinswitcher.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})

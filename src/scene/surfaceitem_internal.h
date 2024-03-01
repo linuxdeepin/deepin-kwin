@@ -19,7 +19,7 @@ class InternalWindow;
 /**
  * The SurfaceItemInternal class represents an internal surface in the scene.
  */
-class KWIN_EXPORT SurfaceItemInternal : public SurfaceItem
+class DEEPIN_KWIN_EXPORT SurfaceItemInternal : public SurfaceItem
 {
     Q_OBJECT
 
@@ -41,7 +41,7 @@ private:
     Window *m_window;
 };
 
-class KWIN_EXPORT SurfacePixmapInternal final : public SurfacePixmap
+class DEEPIN_KWIN_EXPORT SurfacePixmapInternal final : public SurfacePixmap
 {
     Q_OBJECT
 

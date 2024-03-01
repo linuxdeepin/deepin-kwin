@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 #include <kwinglobals.h>
 #include <utils/common.h>
 
@@ -22,7 +22,7 @@ namespace KWin
 class TileManager;
 class Window;
 
-class KWIN_EXPORT Tile : public QObject
+class DEEPIN_KWIN_EXPORT Tile : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QRectF relativeGeometry READ relativeGeometry WRITE setRelativeGeometry NOTIFY relativeGeometryChanged)

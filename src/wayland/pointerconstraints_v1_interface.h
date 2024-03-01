@@ -31,7 +31,7 @@ class SurfaceInterface;
  * @see ConfinedPointerV1Interface
  * @see LockedPointerV1Interface
  */
-class KWIN_EXPORT PointerConstraintsV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT PointerConstraintsV1Interface : public QObject
 {
     Q_OBJECT
 
@@ -57,7 +57,7 @@ private:
  * While the lock is active the PointerInterface does no longer Q_EMIT pointer motion
  * events, but still emits relative pointer motion events.
  */
-class KWIN_EXPORT LockedPointerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT LockedPointerV1Interface : public QObject
 {
     Q_OBJECT
 
@@ -173,7 +173,7 @@ private:
  * From compositor side the confinement can be deactivated by setting
  * {@link ConfinedPointerV1Interface::setConfined} to @c false.
  */
-class KWIN_EXPORT ConfinedPointerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT ConfinedPointerV1Interface : public QObject
 {
     Q_OBJECT
 

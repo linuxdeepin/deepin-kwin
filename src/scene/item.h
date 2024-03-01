@@ -24,7 +24,7 @@ class Scene;
 /**
  * The Item class is the base class for items in the scene.
  */
-class KWIN_EXPORT Item : public QObject
+class DEEPIN_KWIN_EXPORT Item : public QObject
 {
     Q_OBJECT
 

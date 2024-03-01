@@ -3016,7 +3016,7 @@ msgstr ""
 
 #, fuzzy
 #~| msgid "kwin: another window manager is running (try using --replace)\n"
-#~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+#~ msgid "deepin-kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr "kwin: басқа терезе менеджері жегілген бе? (--replace деп көріңіз)\n"
 
 #~ msgid "Martin Gräßlin"

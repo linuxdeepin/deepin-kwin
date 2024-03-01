@@ -20,7 +20,7 @@ class SurfaceItem;
 /**
  * The RenderLayerDelegate class represents a render layer's contents.
  */
-class KWIN_EXPORT RenderLayerDelegate
+class DEEPIN_KWIN_EXPORT RenderLayerDelegate
 {
 public:
     virtual ~RenderLayerDelegate() = default;

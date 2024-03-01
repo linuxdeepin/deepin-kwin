@@ -18,7 +18,7 @@ class Window;
 /**
  * The SurfaceItem class represents a surface with some contents.
  */
-class KWIN_EXPORT SurfaceItem : public Item
+class DEEPIN_KWIN_EXPORT SurfaceItem : public Item
 {
     Q_OBJECT
 
@@ -67,7 +67,7 @@ protected:
     bool m_hasScissor = false;
 };
 
-class KWIN_EXPORT SurfaceTexture
+class DEEPIN_KWIN_EXPORT SurfaceTexture
 {
 public:
     virtual ~SurfaceTexture();
@@ -75,7 +75,7 @@ public:
     virtual bool isValid() const = 0;
 };
 
-class KWIN_EXPORT SurfacePixmap : public QObject
+class DEEPIN_KWIN_EXPORT SurfacePixmap : public QObject
 {
     Q_OBJECT
 

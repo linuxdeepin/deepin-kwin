@@ -26,7 +26,7 @@ class AbstractDataSource;
 // Anything related to selections are pure virtual, content relating
 // to drag and drop has a default implementation
 
-class KWIN_EXPORT AbstractDataDevice : public QObject
+class DEEPIN_KWIN_EXPORT AbstractDataDevice : public QObject
 {
     Q_OBJECT
 public:

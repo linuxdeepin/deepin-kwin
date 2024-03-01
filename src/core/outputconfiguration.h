@@ -18,7 +18,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT OutputChangeSet
+class DEEPIN_KWIN_EXPORT OutputChangeSet
 {
 public:
     std::weak_ptr<OutputMode> mode;
@@ -34,7 +34,7 @@ public:
     Output::ColorCurves colorCurves;
 };
 
-class KWIN_EXPORT OutputConfiguration
+class DEEPIN_KWIN_EXPORT OutputConfiguration
 {
 public:
     std::shared_ptr<OutputChangeSet> changeSet(Output *output);

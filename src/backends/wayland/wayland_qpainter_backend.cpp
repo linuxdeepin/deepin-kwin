@@ -13,9 +13,9 @@
 #include "wayland_logging.h"
 #include "wayland_output.h"
 
-#include <KWayland/Client/buffer.h>
-#include <KWayland/Client/shm_pool.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/buffer.h>
+#include <DWayland/Client/shm_pool.h>
+#include <DWayland/Client/surface.h>
 
 #include <cmath>
 

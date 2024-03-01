@@ -16,7 +16,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT Atoms
+class DEEPIN_KWIN_EXPORT Atoms
 {
 public:
     Atoms();
@@ -94,6 +94,6 @@ private:
     bool m_helpersRetrieved;
 };
 
-extern KWIN_EXPORT Atoms *atoms;
+extern DEEPIN_KWIN_EXPORT Atoms *atoms;
 
 } // namespace

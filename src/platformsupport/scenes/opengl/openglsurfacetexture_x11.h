@@ -13,7 +13,7 @@ namespace KWin
 
 class SurfacePixmapX11;
 
-class KWIN_EXPORT OpenGLSurfaceTextureX11 : public OpenGLSurfaceTexture
+class DEEPIN_KWIN_EXPORT OpenGLSurfaceTextureX11 : public OpenGLSurfaceTexture
 {
 public:
     OpenGLSurfaceTextureX11(OpenGLBackend *backend, SurfacePixmapX11 *pixmap);

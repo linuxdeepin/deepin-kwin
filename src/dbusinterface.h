@@ -66,9 +66,9 @@ public Q_SLOTS: // METHODS
     bool xwaylandGrabed();
 
     /**
-     * Instructs kwin_wayland to restart itself.
+     * Instructs deepin-kwin_wayland to restart itself.
      *
-     * This acts as an implementation detail of: kwin_wayland --replace
+     * This acts as an implementation detail of: deepin-kwin_wayland --replace
      */
     Q_NOREPLY void replace();
 

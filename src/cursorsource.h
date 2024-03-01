@@ -25,7 +25,7 @@ namespace KWin
 /**
  * The CursorSource class represents the contents of the Cursor.
  */
-class KWIN_EXPORT CursorSource : public QObject
+class DEEPIN_KWIN_EXPORT CursorSource : public QObject
 {
     Q_OBJECT
 
@@ -48,7 +48,7 @@ protected:
 /**
  * The ImageCursorSource class represents a static raster cursor pixmap.
  */
-class KWIN_EXPORT ImageCursorSource : public CursorSource
+class DEEPIN_KWIN_EXPORT ImageCursorSource : public CursorSource
 {
     Q_OBJECT
 
@@ -62,7 +62,7 @@ public Q_SLOTS:
 /**
  * The ShapeCursorSource class represents the contents of a shape in the cursor theme.
  */
-class KWIN_EXPORT ShapeCursorSource : public CursorSource
+class DEEPIN_KWIN_EXPORT ShapeCursorSource : public CursorSource
 {
     Q_OBJECT
 
@@ -91,7 +91,7 @@ private:
 /**
  * The SurfaceCursorSource class repsents the contents of a cursor backed by a wl_surface.
  */
-class KWIN_EXPORT SurfaceCursorSource : public CursorSource
+class DEEPIN_KWIN_EXPORT SurfaceCursorSource : public CursorSource
 {
     Q_OBJECT
 

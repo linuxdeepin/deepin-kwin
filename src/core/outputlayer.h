@@ -24,7 +24,7 @@ struct OutputLayerBeginFrameInfo
     QRegion repaint;
 };
 
-class KWIN_EXPORT OutputLayer : public QObject
+class DEEPIN_KWIN_EXPORT OutputLayer : public QObject
 {
     Q_OBJECT
 public:

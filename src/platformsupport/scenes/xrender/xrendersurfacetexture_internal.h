@@ -13,7 +13,7 @@ namespace KWin
 
 class SurfacePixmapInternal;
 
-class KWIN_EXPORT XRenderSurfaceTextureInternal : public XRenderSurfaceTexture
+class DEEPIN_KWIN_EXPORT XRenderSurfaceTextureInternal : public XRenderSurfaceTexture
 {
 public:
     XRenderSurfaceTextureInternal(XRenderBackend *backend, SurfacePixmapInternal *pixmap);

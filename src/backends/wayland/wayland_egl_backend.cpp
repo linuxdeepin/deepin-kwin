@@ -26,8 +26,8 @@
 #include <kwinglutils.h>
 
 // KDE
-#include <KWayland/Client/shm_pool.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/shm_pool.h>
+#include <DWayland/Client/surface.h>
 
 // Qt
 #include <QFile>

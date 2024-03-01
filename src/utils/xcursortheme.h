@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QImage>
 #include <QSharedDataPointer>
@@ -23,7 +23,7 @@ class KXcursorThemePrivate;
 /**
  * The KXcursorSprite class represents a single sprite in the Xcursor theme.
  */
-class KWIN_EXPORT KXcursorSprite
+class DEEPIN_KWIN_EXPORT KXcursorSprite
 {
 public:
     /**
@@ -76,7 +76,7 @@ private:
 /**
  * The KXcursorTheme class represents an Xcursor theme.
  */
-class KWIN_EXPORT KXcursorTheme
+class DEEPIN_KWIN_EXPORT KXcursorTheme
 {
 public:
     /**

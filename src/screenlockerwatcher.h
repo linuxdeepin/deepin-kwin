@@ -20,7 +20,7 @@ class QDBusPendingCallWatcher;
 namespace KWin
 {
 
-class KWIN_EXPORT ScreenLockerWatcher : public QObject
+class DEEPIN_KWIN_EXPORT ScreenLockerWatcher : public QObject
 {
     Q_OBJECT
 public:

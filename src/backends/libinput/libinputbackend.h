@@ -20,7 +20,7 @@ namespace LibInput
 class Connection;
 }
 
-class KWIN_EXPORT LibinputBackend : public InputBackend
+class DEEPIN_KWIN_EXPORT LibinputBackend : public InputBackend
 {
     Q_OBJECT
 

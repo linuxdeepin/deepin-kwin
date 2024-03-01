@@ -19,7 +19,7 @@ class Deleted;
 /**
  * The SurfaceItemX11 class represents an X11 surface in the scene.
  */
-class KWIN_EXPORT SurfaceItemX11 : public SurfaceItem
+class DEEPIN_KWIN_EXPORT SurfaceItemX11 : public SurfaceItem
 {
     Q_OBJECT
 
@@ -55,7 +55,7 @@ private:
     bool m_havePendingDamageRegion = false;
 };
 
-class KWIN_EXPORT SurfacePixmapX11 final : public SurfacePixmap
+class DEEPIN_KWIN_EXPORT SurfacePixmapX11 final : public SurfacePixmap
 {
     Q_OBJECT
 

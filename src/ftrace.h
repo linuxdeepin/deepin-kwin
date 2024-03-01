@@ -27,7 +27,7 @@ namespace KWin
  *  Calling on DBus /FTrace org.kde.kwin.FTrace.setEnabled true
  * After having created the ftrace mount
  */
-class KWIN_EXPORT FTraceLogger : public QObject
+class DEEPIN_KWIN_EXPORT FTraceLogger : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.FTrace");
@@ -69,7 +69,7 @@ private:
     KWIN_SINGLETON(FTraceLogger)
 };
 
-class KWIN_EXPORT FTraceDuration
+class DEEPIN_KWIN_EXPORT FTraceDuration
 {
 public:
     template<typename... Args>

@@ -17,7 +17,7 @@ namespace KWin
 /**
  * The DamageJournal class is a helper that tracks last N damage regions.
  */
-class KWIN_EXPORT DamageJournal
+class DEEPIN_KWIN_EXPORT DamageJournal
 {
 public:
     /**

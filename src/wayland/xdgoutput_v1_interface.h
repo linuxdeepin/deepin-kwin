@@ -20,7 +20,7 @@ class XdgOutputManagerV1InterfacePrivate;
 /**
  * Global manager for XdgOutputs
  */
-class KWIN_EXPORT XdgOutputManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT XdgOutputManagerV1Interface : public QObject
 {
     Q_OBJECT
 

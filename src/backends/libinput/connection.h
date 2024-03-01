@@ -42,7 +42,7 @@ class Device;
 class Context;
 class ConnectionAdaptor;
 
-class KWIN_EXPORT Connection : public QObject
+class DEEPIN_KWIN_EXPORT Connection : public QObject
 {
     Q_OBJECT
 

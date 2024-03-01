@@ -18,7 +18,7 @@ namespace KWin
 class DecorationItem;
 class SurfaceItem;
 
-class KWIN_EXPORT ItemRendererQPainter : public ItemRenderer
+class DEEPIN_KWIN_EXPORT ItemRendererQPainter : public ItemRenderer
 {
 public:
     ItemRendererQPainter();

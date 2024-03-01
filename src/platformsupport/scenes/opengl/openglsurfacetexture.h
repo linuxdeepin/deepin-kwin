@@ -14,7 +14,7 @@ namespace KWin
 class GLTexture;
 class OpenGLBackend;
 
-class KWIN_EXPORT OpenGLSurfaceTexture : public SurfaceTexture
+class DEEPIN_KWIN_EXPORT OpenGLSurfaceTexture : public SurfaceTexture
 {
 public:
     explicit OpenGLSurfaceTexture(OpenGLBackend *backend);

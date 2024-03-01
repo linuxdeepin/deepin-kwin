@@ -43,7 +43,7 @@ class Window;
  * @author Martin Gräßlin <mgraesslin@kde.org>
  * @todo React on Window size changes.
  */
-class KWIN_EXPORT Shadow : public QObject
+class DEEPIN_KWIN_EXPORT Shadow : public QObject
 {
     Q_OBJECT
 public:

@@ -21,7 +21,7 @@ class PrimarySelectionDeviceV1Interface;
  * @brief Represents the Global for zwp_primary_selection_manager_v1 interface.
  *
  */
-class KWIN_EXPORT PrimarySelectionDeviceManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT PrimarySelectionDeviceManagerV1Interface : public QObject
 {
     Q_OBJECT
 

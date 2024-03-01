@@ -11,14 +11,14 @@
 
 #include "tile.h"
 #include "utils/common.h"
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <memory>
 
 namespace KWin
 {
 
-class KWIN_EXPORT QuickRootTile : public Tile
+class DEEPIN_KWIN_EXPORT QuickRootTile : public Tile
 {
     Q_OBJECT
 public:

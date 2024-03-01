@@ -22,7 +22,7 @@ namespace KWin
  *
  * The vblank interval can be changed by calling the setRefreshRate() function.
  */
-class KWIN_EXPORT SoftwareVsyncMonitor : public VsyncMonitor
+class DEEPIN_KWIN_EXPORT SoftwareVsyncMonitor : public VsyncMonitor
 {
     Q_OBJECT
 

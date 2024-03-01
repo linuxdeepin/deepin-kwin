@@ -14,7 +14,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT VirtualKeyboardDBus : public QObject
+class DEEPIN_KWIN_EXPORT VirtualKeyboardDBus : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.VirtualKeyboard")

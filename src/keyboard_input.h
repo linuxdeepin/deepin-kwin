@@ -37,7 +37,7 @@ class KeyboardLayout;
 class ModifiersChangedSpy;
 class Xkb;
 
-class KWIN_EXPORT KeyboardInputRedirection : public QObject
+class DEEPIN_KWIN_EXPORT KeyboardInputRedirection : public QObject
 {
     Q_OBJECT
 public:

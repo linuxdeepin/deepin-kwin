@@ -73,7 +73,7 @@ class XdgPopupWindow;
 class XdgSurfaceWindow;
 class XdgToplevelWindow;
 
-class KWIN_EXPORT WaylandServer : public QObject
+class DEEPIN_KWIN_EXPORT WaylandServer : public QObject
 {
     Q_OBJECT
 

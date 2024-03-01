@@ -43,7 +43,7 @@ class DDETouchInterfacePrivate;
  * @see DDESeatInterface
  * @since 5.5
  */
-class KWIN_EXPORT DDESeatInterface : public QObject
+class DEEPIN_KWIN_EXPORT DDESeatInterface : public QObject
 {
     Q_OBJECT
 public:
@@ -107,7 +107,7 @@ private:
  *
  * @since 5.4
  **/
-class KWIN_EXPORT DDEPointerInterface : public QObject
+class DEEPIN_KWIN_EXPORT DDEPointerInterface : public QObject
 {
     Q_OBJECT
 public:
@@ -145,7 +145,7 @@ private:
  *
  * @since 5.4
  **/
-class KWIN_EXPORT DDETouchInterface : public QObject
+class DEEPIN_KWIN_EXPORT DDETouchInterface : public QObject
 {
     Q_OBJECT
 public:

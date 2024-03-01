@@ -34,7 +34,7 @@ class BufferHandlePrivate;
  *     and release its' fd afterwards.
  **/
 
-class KWIN_EXPORT BufferHandle : public QObject
+class DEEPIN_KWIN_EXPORT BufferHandle : public QObject
 {
     Q_OBJECT
 public:
@@ -58,7 +58,7 @@ private:
     QScopedPointer<BufferHandlePrivate> d;
 };
 
-class KWIN_EXPORT RemoteAccessManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT RemoteAccessManagerInterface : public QObject
 {
     Q_OBJECT
 public:

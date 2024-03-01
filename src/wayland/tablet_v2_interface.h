@@ -41,7 +41,7 @@ class TabletPadGroupV2InterfacePrivate;
  * the class that will have all of the information we need.
  */
 
-class KWIN_EXPORT TabletManagerV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT TabletManagerV2Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -54,7 +54,7 @@ private:
     std::unique_ptr<TabletManagerV2InterfacePrivate> d;
 };
 
-class KWIN_EXPORT TabletToolV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT TabletToolV2Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -125,7 +125,7 @@ private:
     std::unique_ptr<TabletToolV2InterfacePrivate> d;
 };
 
-class KWIN_EXPORT TabletCursorV2 : public QObject
+class DEEPIN_KWIN_EXPORT TabletCursorV2 : public QObject
 {
     Q_OBJECT
 public:
@@ -143,7 +143,7 @@ private:
     friend class TabletToolV2InterfacePrivate;
 };
 
-class KWIN_EXPORT TabletPadV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT TabletPadV2Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -173,7 +173,7 @@ private:
     std::unique_ptr<TabletPadV2InterfacePrivate> d;
 };
 
-class KWIN_EXPORT TabletPadRingV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT TabletPadRingV2Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -197,7 +197,7 @@ private:
     std::unique_ptr<TabletPadRingV2InterfacePrivate> d;
 };
 
-class KWIN_EXPORT TabletPadStripV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT TabletPadStripV2Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -220,7 +220,7 @@ private:
     std::unique_ptr<TabletPadStripV2InterfacePrivate> d;
 };
 
-class KWIN_EXPORT TabletPadGroupV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT TabletPadGroupV2Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -236,7 +236,7 @@ private:
     std::unique_ptr<TabletPadGroupV2InterfacePrivate> d;
 };
 
-class KWIN_EXPORT TabletV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT TabletV2Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -258,7 +258,7 @@ private:
     std::unique_ptr<TabletV2InterfacePrivate> d;
 };
 
-class KWIN_EXPORT TabletSeatV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT TabletSeatV2Interface : public QObject
 {
     Q_OBJECT
 public:

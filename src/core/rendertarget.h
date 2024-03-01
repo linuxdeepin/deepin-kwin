@@ -18,7 +18,7 @@ namespace KWin
 
 class GLFramebuffer;
 
-class KWIN_EXPORT RenderTarget
+class DEEPIN_KWIN_EXPORT RenderTarget
 {
 public:
     RenderTarget();

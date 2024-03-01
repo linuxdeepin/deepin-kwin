@@ -19,7 +19,7 @@
 #include "x11window.h"
 #include <kwineffects.h>
 
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 #include <KDecoration2/Decoration>
 

@@ -34,7 +34,7 @@ class DrmGpu;
 class DrmVirtualOutput;
 class DrmRenderBackend;
 
-class KWIN_EXPORT DrmBackend : public OutputBackend
+class DEEPIN_KWIN_EXPORT DrmBackend : public OutputBackend
 {
     Q_OBJECT
 

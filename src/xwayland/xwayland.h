@@ -30,7 +30,7 @@ class XwaylandInputSpy;
 class XwaylandLauncher;
 class DataBridge;
 
-class KWIN_EXPORT Xwayland : public QObject, public XwaylandInterface
+class DEEPIN_KWIN_EXPORT Xwayland : public QObject, public XwaylandInterface
 {
     Q_OBJECT
 

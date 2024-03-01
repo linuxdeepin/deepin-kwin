@@ -13,7 +13,7 @@
 #include "qpainterbackend.h"
 #include "utils/damagejournal.h"
 
-#include <KWayland/Client/buffer.h>
+#include <DWayland/Client/buffer.h>
 
 #include <QImage>
 #include <QObject>

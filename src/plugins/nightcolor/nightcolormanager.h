@@ -73,7 +73,7 @@ enum NightColorMode {
  *
  * With the Constant mode, screen color temperature is always constant.
  */
-class KWIN_EXPORT NightColorManager : public Plugin
+class DEEPIN_KWIN_EXPORT NightColorManager : public Plugin
 {
     Q_OBJECT
 

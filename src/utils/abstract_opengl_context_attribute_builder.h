@@ -8,12 +8,12 @@
 */
 #pragma once
 #include <QDebug>
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 namespace KWin
 {
 
-class KWIN_EXPORT AbstractOpenGLContextAttributeBuilder
+class DEEPIN_KWIN_EXPORT AbstractOpenGLContextAttributeBuilder
 {
 public:
     virtual ~AbstractOpenGLContextAttributeBuilder()

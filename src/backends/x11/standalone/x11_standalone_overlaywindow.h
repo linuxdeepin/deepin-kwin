@@ -14,7 +14,7 @@
 
 namespace KWin
 {
-class KWIN_EXPORT OverlayWindowX11 : public OverlayWindow, public X11EventFilter
+class DEEPIN_KWIN_EXPORT OverlayWindowX11 : public OverlayWindow, public X11EventFilter
 {
 public:
     OverlayWindowX11();

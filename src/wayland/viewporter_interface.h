@@ -24,7 +24,7 @@ class ViewporterInterfacePrivate;
  *
  * ViewporterInterface corresponds to the Wayland interface @c wp_viewporter.
  */
-class KWIN_EXPORT ViewporterInterface : public QObject
+class DEEPIN_KWIN_EXPORT ViewporterInterface : public QObject
 {
     Q_OBJECT
 

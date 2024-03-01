@@ -29,7 +29,7 @@ class TextInputManagerV1InterfacePrivate;
  *
  * To create a TextInputManagerV1Interface use {@link Display::createTextInputManager}
  */
-class KWIN_EXPORT TextInputManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT TextInputManagerV1Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -57,7 +57,7 @@ private:
  * @see TextInputManagerV1Interface
  * @see SeatInterface
  */
-class KWIN_EXPORT TextInputV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT TextInputV1Interface : public QObject
 {
     Q_OBJECT
 public:

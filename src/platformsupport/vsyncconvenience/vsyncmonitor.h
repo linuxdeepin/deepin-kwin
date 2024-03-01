@@ -18,7 +18,7 @@ namespace KWin
 /**
  * The VsyncMonitor class provides a convenient way to monitor vblank events.
  */
-class KWIN_EXPORT VsyncMonitor : public QObject
+class DEEPIN_KWIN_EXPORT VsyncMonitor : public QObject
 {
     Q_OBJECT
 

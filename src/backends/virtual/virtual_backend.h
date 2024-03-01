@@ -10,7 +10,7 @@
 
 #include "core/outputbackend.h"
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QObject>
 #include <QRect>
@@ -20,7 +20,7 @@ namespace KWin
 class VirtualBackend;
 class VirtualOutput;
 
-class KWIN_EXPORT VirtualBackend : public OutputBackend
+class DEEPIN_KWIN_EXPORT VirtualBackend : public OutputBackend
 {
     Q_OBJECT
 

@@ -11,13 +11,13 @@
 #include "wayland/display.h"
 #include "wayland/filtered_display.h"
 
-#include "KWayland/Client/blur.h"
-#include "KWayland/Client/compositor.h"
-#include "KWayland/Client/connection_thread.h"
-#include "KWayland/Client/event_queue.h"
-#include "KWayland/Client/region.h"
-#include "KWayland/Client/registry.h"
-#include "KWayland/Client/surface.h"
+#include "DWayland/Client/blur.h"
+#include "DWayland/Client/compositor.h"
+#include "DWayland/Client/connection_thread.h"
+#include "DWayland/Client/event_queue.h"
+#include "DWayland/Client/region.h"
+#include "DWayland/Client/registry.h"
+#include "DWayland/Client/surface.h"
 
 #include <wayland-server.h>
 

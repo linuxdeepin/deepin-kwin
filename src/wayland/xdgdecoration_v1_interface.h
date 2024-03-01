@@ -27,7 +27,7 @@ class XdgToplevelInterface;
  *
  * XdgDecorationManagerV1Interface corresponds to the interface \c zxdg_decoration_manager_v1.
  */
-class KWIN_EXPORT XdgDecorationManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT XdgDecorationManagerV1Interface : public QObject
 {
     Q_OBJECT
 
@@ -57,7 +57,7 @@ private:
  *
  * XdgToplevelDecorationV1Interface corresponds to the interface \c zxdg_toplevel_decoration_v1.
  */
-class KWIN_EXPORT XdgToplevelDecorationV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT XdgToplevelDecorationV1Interface : public QObject
 {
     Q_OBJECT
 

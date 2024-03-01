@@ -35,7 +35,7 @@ class SurfaceInterface;
 class DDERestrictInterface;
 class DDERestrictInterfacePrivate;
 
-class KWIN_EXPORT DDERestrictInterface : public QObject
+class DEEPIN_KWIN_EXPORT DDERestrictInterface : public QObject
 {
     Q_OBJECT
 public:

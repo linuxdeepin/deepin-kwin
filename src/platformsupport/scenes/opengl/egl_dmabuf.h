@@ -54,7 +54,7 @@ private:
     ImportType m_importType;
 };
 
-class KWIN_EXPORT EglDmabuf : public LinuxDmaBufV1RendererInterface
+class DEEPIN_KWIN_EXPORT EglDmabuf : public LinuxDmaBufV1RendererInterface
 {
 public:
     static EglDmabuf *factory(AbstractEglBackend *backend);

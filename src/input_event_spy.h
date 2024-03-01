@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QtGlobal>
 #include <chrono>
@@ -35,7 +35,7 @@ class TabletPadId;
  * Deleting an instance of InputEventSpy automatically uninstalls it from
  * InputRedirection.
  */
-class KWIN_EXPORT InputEventSpy
+class DEEPIN_KWIN_EXPORT InputEventSpy
 {
 public:
     InputEventSpy();

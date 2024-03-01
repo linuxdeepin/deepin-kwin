@@ -22,7 +22,7 @@ namespace KWin
 /**
  * @brief OpenGL Backend using Egl windowing system over an X overlay window.
  */
-class KWIN_EXPORT EglOnXBackend : public AbstractEglBackend
+class DEEPIN_KWIN_EXPORT EglOnXBackend : public AbstractEglBackend
 {
     Q_OBJECT
 

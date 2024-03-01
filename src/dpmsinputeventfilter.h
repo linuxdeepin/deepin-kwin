@@ -11,14 +11,14 @@
 
 #include <QElapsedTimer>
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 namespace KWin
 {
 
 class DrmBackend;
 
-class KWIN_EXPORT DpmsInputEventFilter : public InputEventFilter
+class DEEPIN_KWIN_EXPORT DpmsInputEventFilter : public InputEventFilter
 {
 public:
     DpmsInputEventFilter();

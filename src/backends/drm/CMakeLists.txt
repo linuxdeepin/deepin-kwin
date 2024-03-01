@@ -1,4 +1,4 @@
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     drm_abstract_output.cpp
     drm_adaptor.cpp
     drm_backend.cpp
@@ -32,4 +32,4 @@ target_sources(kwin PRIVATE
     remoteaccess_manager.cpp
 )
 
-target_link_libraries(kwin Libdrm::Libdrm gbm::gbm PkgConfig::Libxcvt)
+target_link_libraries(deepin-kwin Libdrm::Libdrm gbm::gbm PkgConfig::Libxcvt)

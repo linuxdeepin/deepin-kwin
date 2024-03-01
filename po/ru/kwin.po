@@ -3030,8 +3030,8 @@ msgstr ""
 #~ msgid "Automatic Screen Rotation"
 #~ msgstr "Автоматический поворот экрана"
 
-#~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-#~ msgstr "kwin_wayland: диспетчер окон X11 работает на экране X11.\n"
+#~ msgid "deepin-kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+#~ msgstr "deepin-kwin_wayland: диспетчер окон X11 работает на экране X11.\n"
 
 #~ msgid "Martin Gräßlin"
 #~ msgstr "Martin Gräßlin"
@@ -3104,10 +3104,10 @@ msgstr ""
 #~ msgstr "Свернуть в за&головок"
 
 #~ msgid ""
-#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
+#~ "deepin-kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
 #~ "is set.\n"
 #~ msgstr ""
-#~ "kwin_wayland: не удалось подключиться в серверу Wayland, проверьте "
+#~ "deepin-kwin_wayland: не удалось подключиться в серверу Wayland, проверьте "
 #~ "правильность установки переменной WAYLAND_DISPLAY.\n"
 
 #, fuzzy

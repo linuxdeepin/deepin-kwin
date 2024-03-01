@@ -27,7 +27,7 @@ class ClientBufferPrivate;
  * You can use the isDestroyed() function to check whether the wl_buffer object has been
  * destroyed.
  */
-class KWIN_EXPORT ClientBuffer : public QObject
+class DEEPIN_KWIN_EXPORT ClientBuffer : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(ClientBuffer)

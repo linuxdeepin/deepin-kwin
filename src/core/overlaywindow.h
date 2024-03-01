@@ -13,11 +13,11 @@
 // xcb
 #include <xcb/xcb.h>
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 namespace KWin
 {
-class KWIN_EXPORT OverlayWindow
+class DEEPIN_KWIN_EXPORT OverlayWindow
 {
 public:
     virtual ~OverlayWindow();

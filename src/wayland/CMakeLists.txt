@@ -10,7 +10,7 @@ endif()
 add_library(WaylandProtocols_xml OBJECT)
 set_property(TARGET WaylandProtocols_xml PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(WaylandProtocols_xml Qt${QT_MAJOR_VERSION}::Core Wayland::Server)
-target_link_libraries(kwin WaylandProtocols_xml)
+target_link_libraries(deepin-kwin WaylandProtocols_xml)
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${Wayland_DATADIR}/wayland.xml
@@ -249,7 +249,7 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME outputmanagement
 )
 
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     abstract_data_source.cpp
     abstract_data_device.cpp
     abstract_drop_handler.cpp
@@ -340,9 +340,9 @@ target_sources(kwin PRIVATE
 )
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    target_sources(kwin PRIVATE utils/executable_path_proc.cpp)
+    target_sources(deepin-kwin PRIVATE utils/executable_path_proc.cpp)
 elseif(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
-    target_sources(kwin PRIVATE utils/executable_path_sysctl.cpp)
+    target_sources(deepin-kwin PRIVATE utils/executable_path_sysctl.cpp)
 else()
     message(FATAL_ERROR "Unsupported platform ${CMAKE_SYSTEM_NAME}")
 endif()

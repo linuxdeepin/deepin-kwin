@@ -7,7 +7,7 @@
 #pragma once
 
 #include <config-kwin.h>
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QObject>
 #include <memory>
@@ -22,7 +22,7 @@ namespace KWin
  *
  * Note that a binary extension must be recompiled with every new KWin release.
  */
-class KWIN_EXPORT Plugin : public QObject
+class DEEPIN_KWIN_EXPORT Plugin : public QObject
 {
     Q_OBJECT
 
@@ -33,7 +33,7 @@ public:
 /**
  * The PluginFactory class creates binary compositor extensions.
  */
-class KWIN_EXPORT PluginFactory : public QObject
+class DEEPIN_KWIN_EXPORT PluginFactory : public QObject
 {
     Q_OBJECT
 

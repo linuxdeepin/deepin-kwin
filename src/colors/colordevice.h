@@ -20,7 +20,7 @@ class ColorDevicePrivate;
 /**
  * The ColorDevice class represents a color managed device.
  */
-class KWIN_EXPORT ColorDevice : public QObject
+class DEEPIN_KWIN_EXPORT ColorDevice : public QObject
 {
     Q_OBJECT
 

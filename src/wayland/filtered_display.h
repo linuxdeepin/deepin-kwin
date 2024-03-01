@@ -17,7 +17,7 @@ class FilteredDisplayPrivate;
  *
  * Users of this class must implement the virtual @method allowInterface method.
  */
-class KWIN_EXPORT FilteredDisplay : public Display
+class DEEPIN_KWIN_EXPORT FilteredDisplay : public Display
 {
     Q_OBJECT
 public:

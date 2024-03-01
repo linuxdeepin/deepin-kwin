@@ -31,7 +31,7 @@ class OutputInterfacePrivate;
  * The OutputInterface class represents a screen. This class corresponds to the Wayland
  * interface @c wl_output.
  */
-class KWIN_EXPORT OutputInterface : public QObject
+class DEEPIN_KWIN_EXPORT OutputInterface : public QObject
 {
     Q_OBJECT
 

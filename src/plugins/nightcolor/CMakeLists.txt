@@ -29,8 +29,8 @@ if (CMAKE_SYSTEM_NAME MATCHES "Linux")
     target_sources(KWinNightColorPlugin PRIVATE clockskewnotifierengine_linux.cpp)
 endif()
 
-target_link_libraries(KWinNightColorPlugin kwin)
+target_link_libraries(KWinNightColorPlugin deepin-kwin)
 
 install(FILES nightcolorsettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES org.kde.kwin.ColorCorrect.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
-install(TARGETS KWinNightColorPlugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/kwin/plugins/)
+install(TARGETS KWinNightColorPlugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/deepin-kwin/plugins/)

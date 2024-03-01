@@ -20,7 +20,7 @@ namespace KWaylandServer
 class Display;
 class IdleNotifyV1InterfacePrivate;
 
-class KWIN_EXPORT IdleNotifyV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT IdleNotifyV1Interface : public QObject
 {
     Q_OBJECT
 

@@ -2984,9 +2984,9 @@ msgstr ""
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Pr&eferentias de gerente de fenestra ..."
 
-#~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+#~ msgid "deepin-kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
-#~ "kwin_wayland:  un altere gestor de fenestra  X11 es active sur le schermo "
+#~ "deepin-kwin_wayland:  un altere gestor de fenestra  X11 es active sur le schermo "
 #~ "X11.\n"
 
 #~ msgid "Martin Gräßlin"

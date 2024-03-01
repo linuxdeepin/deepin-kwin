@@ -38,9 +38,9 @@ set(kwin-applywindowdecoration_SRCS
 )
 
 kconfig_add_kcfg_files(kwin-applywindowdecoration_SRCS kwindecorationsettings.kcfgc GENERATE_MOC)
-add_executable(kwin-applywindowdecoration ${kwin-applywindowdecoration_SRCS})
+add_executable(deepin-kwin-applywindowdecoration ${kwin-applywindowdecoration_SRCS})
 
-target_link_libraries(kwin-applywindowdecoration
+target_link_libraries(deepin-kwin-applywindowdecoration
     KDecoration2::KDecoration
     Qt${QT_MAJOR_VERSION}::DBus
     KF5::I18n
@@ -52,6 +52,6 @@ configure_file(window-decorations.knsrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/window
 # This desktop file is installed only for retrocompatibility with sycoca
 install(FILES kwindecorationsettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/window-decorations.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
-install(TARGETS kwin-applywindowdecoration DESTINATION ${KDE_INSTALL_LIBEXECDIR})
+install(TARGETS deepin-kwin-applywindowdecoration DESTINATION ${KDE_INSTALL_LIBEXECDIR})
 
 kpackage_install_package(package kcm_kwindecoration kcms)

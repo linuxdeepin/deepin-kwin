@@ -34,7 +34,7 @@ class IdleInterfacePrivate;
  * interface it is possible to notice that there are input events. A server should consider
  * this to decide whether it wants to provide this feature!
  */
-class KWIN_EXPORT IdleInterface : public QObject
+class DEEPIN_KWIN_EXPORT IdleInterface : public QObject
 {
     Q_OBJECT
 

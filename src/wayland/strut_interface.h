@@ -120,7 +120,7 @@ struct deepinKwinStrut
  * @see xxxx
  * @since 5.5
  **/
-class KWIN_EXPORT StrutInterface : public QObject
+class DEEPIN_KWIN_EXPORT StrutInterface : public QObject
 {
     Q_OBJECT
 public:

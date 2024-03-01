@@ -18,11 +18,11 @@
 #include "wayland/display.h"
 #include "wayland/seat_interface.h"
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/connection_thread.h>
-#include <KWayland/Client/event_queue.h>
-#include <KWayland/Client/registry.h>
-#include <KWayland/Client/seat.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/connection_thread.h>
+#include <DWayland/Client/event_queue.h>
+#include <DWayland/Client/registry.h>
+#include <DWayland/Client/seat.h>
 
 #include "qwayland-wlr-data-control-unstable-v1.h"
 

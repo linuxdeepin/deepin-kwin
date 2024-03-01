@@ -92,7 +92,7 @@ class DecoratedClientImpl;
 class DecorationPalette;
 }
 
-class KWIN_EXPORT Window : public QObject
+class DEEPIN_KWIN_EXPORT Window : public QObject
 {
     Q_OBJECT
 
@@ -2486,9 +2486,9 @@ inline void Window::setPendingMoveResizeMode(MoveResizeMode mode)
     m_pendingMoveResizeMode = MoveResizeMode(uint(m_pendingMoveResizeMode) | uint(mode));
 }
 
-KWIN_EXPORT QDebug operator<<(QDebug debug, const Window *window);
+DEEPIN_KWIN_EXPORT QDebug operator<<(QDebug debug, const Window *window);
 
-class KWIN_EXPORT WindowOffscreenRenderRef
+class DEEPIN_KWIN_EXPORT WindowOffscreenRenderRef
 {
 public:
     WindowOffscreenRenderRef(Window *window);

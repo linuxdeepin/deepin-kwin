@@ -28,7 +28,7 @@ class OverlayWindow;
  * This class is intended as a small abstraction to support multiple compositing backends in the
  * SceneXRender.
  */
-class KWIN_EXPORT XRenderBackend : public RenderBackend
+class DEEPIN_KWIN_EXPORT XRenderBackend : public RenderBackend
 {
     Q_OBJECT
 

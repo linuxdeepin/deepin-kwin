@@ -13,7 +13,7 @@ namespace KWin
 
 class CursorItem;
 
-class KWIN_EXPORT CursorScene : public Scene
+class DEEPIN_KWIN_EXPORT CursorScene : public Scene
 {
     Q_OBJECT
 

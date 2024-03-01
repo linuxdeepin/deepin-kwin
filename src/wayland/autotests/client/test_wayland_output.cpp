@@ -9,10 +9,10 @@
 #include "wayland/display.h"
 #include "wayland/output_interface.h"
 
-#include "KWayland/Client/connection_thread.h"
-#include "KWayland/Client/event_queue.h"
-#include "KWayland/Client/output.h"
-#include "KWayland/Client/registry.h"
+#include "DWayland/Client/connection_thread.h"
+#include "DWayland/Client/event_queue.h"
+#include "DWayland/Client/output.h"
+#include "DWayland/Client/registry.h"
 
 #include "../../tests/fakeoutput.h"
 

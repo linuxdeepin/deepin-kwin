@@ -104,7 +104,7 @@ private:
     Window *m_client;
 };
 
-class KWIN_EXPORT TabBox : public QObject
+class DEEPIN_KWIN_EXPORT TabBox : public QObject
 {
     Q_OBJECT
 public:

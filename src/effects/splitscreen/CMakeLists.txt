@@ -19,5 +19,4 @@ target_link_libraries(kwin4_effect_splitscreen PRIVATE
     KF5::ConfigGui
 )
 
-install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/splitscreen)
-
+install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/effects/splitscreen)

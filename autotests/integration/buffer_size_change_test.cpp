@@ -13,8 +13,8 @@
 #include "wayland_server.h"
 #include "window.h"
 
-#include <KWayland/Client/subsurface.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/subsurface.h>
+#include <DWayland/Client/surface.h>
 
 namespace KWin
 {

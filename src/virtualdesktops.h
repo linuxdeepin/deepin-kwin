@@ -8,7 +8,7 @@
 */
 #pragma once
 // KWin
-#include <kwin_export.h>
+#include "kwin_export.h"
 #include <kwinglobals.h>
 // Qt includes
 #include <QAction>
@@ -36,7 +36,7 @@ class PlasmaVirtualDesktopManagementInterface;
 namespace KWin
 {
 
-class KWIN_EXPORT VirtualDesktop : public QObject
+class DEEPIN_KWIN_EXPORT VirtualDesktop : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
@@ -132,7 +132,7 @@ private:
  * of an adjacent desktop or to switch to an adjacent desktop. Interested parties should make use of
  * these methods and not replicate the logic to switch to the next desktop.
  */
-class KWIN_EXPORT VirtualDesktopManager : public QObject
+class DEEPIN_KWIN_EXPORT VirtualDesktopManager : public QObject
 {
     Q_OBJECT
     /**

@@ -15,17 +15,17 @@
 #include "wayland/surface_interface.h"
 
 // KWayland
-#include "KWayland/Client/compositor.h"
-#include "KWayland/Client/connection_thread.h"
-#include "KWayland/Client/datadevice.h"
-#include "KWayland/Client/datadevicemanager.h"
-#include "KWayland/Client/datasource.h"
-#include "KWayland/Client/event_queue.h"
-#include "KWayland/Client/keyboard.h"
-#include "KWayland/Client/pointer.h"
-#include "KWayland/Client/registry.h"
-#include "KWayland/Client/seat.h"
-#include "KWayland/Client/surface.h"
+#include "DWayland/Client/compositor.h"
+#include "DWayland/Client/connection_thread.h"
+#include "DWayland/Client/datadevice.h"
+#include "DWayland/Client/datadevicemanager.h"
+#include "DWayland/Client/datasource.h"
+#include "DWayland/Client/event_queue.h"
+#include "DWayland/Client/keyboard.h"
+#include "DWayland/Client/pointer.h"
+#include "DWayland/Client/registry.h"
+#include "DWayland/Client/seat.h"
+#include "DWayland/Client/surface.h"
 
 // Wayland
 #include <wayland-client.h>

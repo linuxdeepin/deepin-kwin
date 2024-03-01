@@ -16,7 +16,7 @@ namespace KWaylandServer
 class Display;
 class FractionalScaleManagerV1InterfacePrivate;
 
-class KWIN_EXPORT FractionalScaleManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT FractionalScaleManagerV1Interface : public QObject
 {
     Q_OBJECT
 

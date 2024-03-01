@@ -12,6 +12,7 @@
 #include <QPainter>
 #include <QtMath>
 #include <QScreen>
+#include <QPainterPath>
 
 #define LONG_PRESS_TIME 500
 #define HIDE_DELAY_TIME 300

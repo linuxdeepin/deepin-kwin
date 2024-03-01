@@ -36,7 +36,7 @@ enum class DragEventReply {
 };
 } // namespace Xwl
 
-class KWIN_EXPORT XwaylandInterface
+class DEEPIN_KWIN_EXPORT XwaylandInterface
 {
 public:
     virtual Xwl::DragEventReply dragMoveFilter(Window *target, const QPoint &pos) = 0;

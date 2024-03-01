@@ -41,7 +41,7 @@ namespace KWin
 class Window;
 class QtScriptWorkspaceWrapper;
 
-class KWIN_EXPORT AbstractScript : public QObject
+class DEEPIN_KWIN_EXPORT AbstractScript : public QObject
 {
     Q_OBJECT
 public:
@@ -310,7 +310,7 @@ private:
 /**
  * The heart of KWin::Scripting. Infinite power lies beyond
  */
-class KWIN_EXPORT Scripting : public QObject
+class DEEPIN_KWIN_EXPORT Scripting : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Scripting")

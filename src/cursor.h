@@ -46,7 +46,7 @@ enum Shape {
 /**
  * @brief Wrapper round Qt::CursorShape with extensions enums into a single entity
  */
-class KWIN_EXPORT CursorShape
+class DEEPIN_KWIN_EXPORT CursorShape
 {
 public:
     CursorShape() = default;
@@ -93,7 +93,7 @@ private:
  * fetch the position and warp pointer to set the position. It uses a timer based mouse polling and
  * can provide X11 cursors through the XCursor library.
  */
-class KWIN_EXPORT Cursor : public QObject
+class DEEPIN_KWIN_EXPORT Cursor : public QObject
 {
     Q_OBJECT
 public:
@@ -266,7 +266,7 @@ private:
     int m_themeSize;
 };
 
-class KWIN_EXPORT Cursors : public QObject
+class DEEPIN_KWIN_EXPORT Cursors : public QObject
 {
     Q_OBJECT
 public:

@@ -24,7 +24,7 @@ class DataOfferInterfacePrivate;
  * @brief Represents the Resource for the wl_data_offer interface.
  *
  */
-class KWIN_EXPORT DataOfferInterface : public QObject
+class DEEPIN_KWIN_EXPORT DataOfferInterface : public QObject
 {
     Q_OBJECT
 public:

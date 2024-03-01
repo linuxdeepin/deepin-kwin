@@ -34,7 +34,7 @@ class GLTexture;
  *
  * @author Martin Gräßlin <mgraesslin@kde.org>
  */
-class KWIN_EXPORT OpenGLBackend : public RenderBackend
+class DEEPIN_KWIN_EXPORT OpenGLBackend : public RenderBackend
 {
     Q_OBJECT
 

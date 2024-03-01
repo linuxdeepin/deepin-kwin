@@ -23,7 +23,7 @@ class Deleted;
 /**
  * The SurfaceItemWayland class represents a Wayland surface in the scene.
  */
-class KWIN_EXPORT SurfaceItemWayland : public SurfaceItem
+class DEEPIN_KWIN_EXPORT SurfaceItemWayland : public SurfaceItem
 {
     Q_OBJECT
 
@@ -56,7 +56,7 @@ private:
     QHash<KWaylandServer::SubSurfaceInterface *, SurfaceItemWayland *> m_subsurfaces;
 };
 
-class KWIN_EXPORT SurfacePixmapWayland final : public SurfacePixmap
+class DEEPIN_KWIN_EXPORT SurfacePixmapWayland final : public SurfacePixmap
 {
     Q_OBJECT
 
@@ -82,7 +82,7 @@ private:
 /**
  * The SurfaceItemXwayland class represents an Xwayland surface in the scene.
  */
-class KWIN_EXPORT SurfaceItemXwayland : public SurfaceItemWayland
+class DEEPIN_KWIN_EXPORT SurfaceItemXwayland : public SurfaceItemWayland
 {
     Q_OBJECT
 

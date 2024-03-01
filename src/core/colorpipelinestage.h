@@ -17,7 +17,7 @@ typedef struct _cmsStage_struct cmsStage;
 namespace KWin
 {
 
-class KWIN_EXPORT ColorPipelineStage
+class DEEPIN_KWIN_EXPORT ColorPipelineStage
 {
 public:
     ColorPipelineStage(cmsStage *stage);

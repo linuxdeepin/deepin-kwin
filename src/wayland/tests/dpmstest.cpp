@@ -3,10 +3,10 @@
 
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
-#include "KWayland/Client/dpms.h"
-#include "KWayland/Client/connection_thread.h"
-#include "KWayland/Client/output.h"
-#include "KWayland/Client/registry.h"
+#include "DWayland/Client/dpms.h"
+#include "DWayland/Client/connection_thread.h"
+#include "DWayland/Client/output.h"
+#include "DWayland/Client/registry.h"
 #include <QApplication>
 #include <QDialogButtonBox>
 #include <QFormLayout>

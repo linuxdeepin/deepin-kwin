@@ -30,7 +30,7 @@ class ContrastInterfacePrivate;
  * @see ContrastInterface
  * @see SurfaceInterface
  */
-class KWIN_EXPORT ContrastManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT ContrastManagerInterface : public QObject
 {
     Q_OBJECT
 
@@ -56,7 +56,7 @@ private:
  * @see ContrastManagerInterface
  * @see SurfaceInterface
  */
-class KWIN_EXPORT ContrastInterface : public QObject
+class DEEPIN_KWIN_EXPORT ContrastInterface : public QObject
 {
     Q_OBJECT
 public:

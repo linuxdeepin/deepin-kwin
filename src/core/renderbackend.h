@@ -27,7 +27,7 @@ class SurfaceTexture;
 /**
  * The RenderBackend class is the base class for all rendering backends.
  */
-class KWIN_EXPORT RenderBackend : public QObject
+class DEEPIN_KWIN_EXPORT RenderBackend : public QObject
 {
     Q_OBJECT
 

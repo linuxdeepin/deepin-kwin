@@ -358,7 +358,7 @@ add_feature_info("XCB-ICCCM" XCB_ICCCM_FOUND "Required for building test applica
 
 find_package(X11_XCB)
 set_package_properties(X11_XCB PROPERTIES
-    PURPOSE "Required for building X11 windowed backend of kwin_wayland"
+    PURPOSE "Required for building X11 windowed backend of deepin-kwin_wayland"
     TYPE OPTIONAL
 )
 
@@ -388,14 +388,14 @@ set_package_properties(Xwayland PROPERTIES
     URL "https://x.org"
     DESCRIPTION "Xwayland X server"
     TYPE RUNTIME
-    PURPOSE "Needed for running kwin_wayland"
+    PURPOSE "Needed for running deepin-kwin_wayland"
 )
 set(HAVE_XWAYLAND_LISTENFD ${Xwayland_HAVE_LISTENFD})
 
 find_package(Libcap)
 set_package_properties(Libcap PROPERTIES
     TYPE OPTIONAL
-    PURPOSE "Needed for running kwin_wayland with real-time scheduling policy"
+    PURPOSE "Needed for running deepin-kwin_wayland with real-time scheduling policy"
 )
 set(HAVE_LIBCAP ${Libcap_FOUND})
 
@@ -441,13 +441,13 @@ endif()
 
 set(HAVE_EPOXY_GLX ${epoxy_HAS_GLX})
 
-# for kwin internal things
+# for deepin-kwin internal things
 set(HAVE_X11_XCB ${X11_XCB_FOUND})
 
 check_symbol_exists(SCHED_RESET_ON_FORK "sched.h" HAVE_SCHED_RESET_ON_FORK)
 add_feature_info("SCHED_RESET_ON_FORK"
                  HAVE_SCHED_RESET_ON_FORK
-                 "Required for running kwin_wayland with real-time scheduling")
+                 "Required for running deepin-kwin_wayland with real-time scheduling")
 
 
 pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.15)
@@ -461,7 +461,7 @@ if (KWIN_BUILD_SCREENLOCKER)
     find_package(KScreenLocker CONFIG)
     set_package_properties(KScreenLocker PROPERTIES
         TYPE REQUIRED
-        PURPOSE "For screenlocker integration in kwin_wayland"
+        PURPOSE "For screenlocker integration in deepin-kwin_wayland"
     )
 endif()
 

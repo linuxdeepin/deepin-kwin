@@ -18,7 +18,7 @@ class Window;
 /**
  * The ShadowItem class represents a nine-tile patch server-side drop-shadow.
  */
-class KWIN_EXPORT ShadowItem : public Item
+class DEEPIN_KWIN_EXPORT ShadowItem : public Item
 {
     Q_OBJECT
 

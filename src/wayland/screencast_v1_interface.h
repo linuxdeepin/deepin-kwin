@@ -21,7 +21,7 @@ class ScreencastV1InterfacePrivate;
 class ScreencastStreamV1InterfacePrivate;
 class ScreencastStreamV1Interface;
 
-class KWIN_EXPORT ScreencastStreamV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT ScreencastStreamV1Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -40,7 +40,7 @@ private:
     std::unique_ptr<ScreencastStreamV1InterfacePrivate> d;
 };
 
-class KWIN_EXPORT ScreencastV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT ScreencastV1Interface : public QObject
 {
     Q_OBJECT
 

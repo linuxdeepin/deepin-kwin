@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
-#include <kwin_export.h>
+#include "kwin_export.h"
 #include <memory>
 
 #include <QVector>
@@ -23,7 +23,7 @@ namespace KWin
 {
 class Udev;
 
-class KWIN_EXPORT UdevDevice
+class DEEPIN_KWIN_EXPORT UdevDevice
 {
 public:
     UdevDevice(udev_device *device);
@@ -54,7 +54,7 @@ private:
     udev_device *const m_device;
 };
 
-class KWIN_EXPORT UdevMonitor
+class DEEPIN_KWIN_EXPORT UdevMonitor
 {
 public:
     explicit UdevMonitor(Udev *udev);
@@ -73,7 +73,7 @@ private:
     udev_monitor *m_monitor;
 };
 
-class KWIN_EXPORT Udev
+class DEEPIN_KWIN_EXPORT Udev
 {
 public:
     Udev();

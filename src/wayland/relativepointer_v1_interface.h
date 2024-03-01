@@ -24,7 +24,7 @@ class RelativePointerManagerV1InterfacePrivate;
  * which automatically delegates relative motion events to the created relative pointer
  * interfaces.
  */
-class KWIN_EXPORT RelativePointerManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT RelativePointerManagerV1Interface : public QObject
 {
     Q_OBJECT
 

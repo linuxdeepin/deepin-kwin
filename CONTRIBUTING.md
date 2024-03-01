@@ -96,11 +96,11 @@ cd bin
 
 # for wayland, starts nested session: with console
 
-env QT_PLUGIN_PATH=`pwd` dbus-run-session ./kwin_wayland --xwayland konsole
+env QT_PLUGIN_PATH=`pwd` dbus-run-session ./deepin-kwin_wayland --xwayland konsole
 
 # or for x11, replaces current kwin instance:
 
-env QT_PLUGIN_PATH=`pwd` ./kwin_x11 --replace
+env QT_PLUGIN_PATH=`pwd` ./deepin-kwin_x11 --replace
 
 ```
 
@@ -117,7 +117,7 @@ bash ~/kde/build/plasma-workspace/login-sessions/install-sessions.sh
 ```
 Then you can select the develop session in the sddm login screen.
 
-You can look up the current boot kwin log via `journalctl --user-unit plasma-kwin_wayland --boot 0`.
+You can look up the current boot kwin log via `journalctl --user-unit plasma-deepin-kwin_wayland --boot 0`.
 
 ## Using A Debugger
 

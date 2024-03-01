@@ -301,7 +301,7 @@ private:
 };
 
 #ifndef KCMRULES
-class KWIN_EXPORT RuleBook : public QObject
+class DEEPIN_KWIN_EXPORT RuleBook : public QObject
 {
     Q_OBJECT
 public:

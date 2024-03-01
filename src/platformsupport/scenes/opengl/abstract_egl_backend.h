@@ -33,7 +33,7 @@ struct DmaBufAttributes;
 class EglDmabuf;
 class Output;
 
-class KWIN_EXPORT AbstractEglBackend : public OpenGLBackend
+class DEEPIN_KWIN_EXPORT AbstractEglBackend : public OpenGLBackend
 {
     Q_OBJECT
 public:

@@ -17,7 +17,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT WorkspaceSceneQPainter : public WorkspaceScene
+class DEEPIN_KWIN_EXPORT WorkspaceSceneQPainter : public WorkspaceScene
 {
     Q_OBJECT
 

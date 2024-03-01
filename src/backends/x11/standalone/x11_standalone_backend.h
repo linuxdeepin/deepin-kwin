@@ -12,7 +12,7 @@
 #include <config-kwin.h>
 
 #include "core/outputbackend.h"
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QObject>
 
@@ -37,7 +37,7 @@ class Compositor;
 class WorkspaceScene;
 class Window;
 
-class KWIN_EXPORT X11StandaloneBackend : public OutputBackend
+class DEEPIN_KWIN_EXPORT X11StandaloneBackend : public OutputBackend
 {
     Q_OBJECT
 

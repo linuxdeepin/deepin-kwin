@@ -37,7 +37,7 @@ class DDEKeyboardInterfacePrivate;
  *
  * @since 5.4
  **/
-class KWIN_EXPORT DDEKeyboardInterface : public QObject
+class DEEPIN_KWIN_EXPORT DDEKeyboardInterface : public QObject
 {
     Q_OBJECT
 public:

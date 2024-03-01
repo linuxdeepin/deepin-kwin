@@ -46,4 +46,4 @@ if (KWIN_BUILD_KCMS)
 endif()
 
 
-install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/desktopgrid)
+install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/effects/desktopgrid)

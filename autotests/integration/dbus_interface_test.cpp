@@ -20,7 +20,7 @@
 #include "workspace.h"
 #include "x11window.h"
 
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 #include <QDBusArgument>
 #include <QDBusConnection>

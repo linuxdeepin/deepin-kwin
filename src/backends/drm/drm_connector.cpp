@@ -448,7 +448,7 @@ std::shared_ptr<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, 
         .vsync_end = modeInfo->vsync_end,
         .vtotal = modeInfo->vtotal,
         .vscan = 1,
-        .vrefresh = std::ceil(modeInfo->vrefresh),
+        .vrefresh = static_cast<uint32_t>(std::ceil(modeInfo->vrefresh)),
         .flags = modeInfo->mode_flags,
         .type = DRM_MODE_TYPE_USERDEF,
     };

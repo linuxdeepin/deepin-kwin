@@ -33,13 +33,13 @@
 #include <QSignalSpy>
 #include <QTest>
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/keyboard.h>
-#include <KWayland/Client/output.h>
-#include <KWayland/Client/region.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/textinput.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/keyboard.h>
+#include <DWayland/Client/output.h>
+#include <DWayland/Client/region.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/textinput.h>
 #include <linux/input-event-codes.h>
 
 using namespace KWin;

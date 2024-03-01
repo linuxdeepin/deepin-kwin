@@ -48,7 +48,7 @@ class DpmsManagerInterfacePrivate;
  * @see Display
  * @see OutputInterface
  */
-class KWIN_EXPORT DpmsManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT DpmsManagerInterface : public QObject
 {
     Q_OBJECT
 

@@ -56,7 +56,7 @@ target_link_libraries(
     KF5::CoreAddons
     KF5::ConfigCore
     KF5::WindowSystem
-    kwin
+    deepin-kwin
 )
 
 install(TARGETS ${TARGET_NAME} DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)

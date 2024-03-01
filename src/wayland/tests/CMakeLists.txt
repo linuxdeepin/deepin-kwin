@@ -7,7 +7,7 @@ set(testServer_SRCS
     fakeoutput.cpp
     )
 add_executable(testServer ${testServer_SRCS})
-target_link_libraries(testServer kwin Qt${QT_MAJOR_VERSION}::CorePrivate)
+target_link_libraries(testServer deepin-kwin Qt${QT_MAJOR_VERSION}::CorePrivate)
 ecm_mark_as_test(testServer)
 
 find_package(Qt${QT_MAJOR_VERSION}Widgets ${QT_MIN_VERSION} CONFIG QUIET)
@@ -17,7 +17,7 @@ if (TARGET Qt${QT_MAJOR_VERSION}::Widgets)
         fakeoutput.cpp
         )
     add_executable(testRenderingServer ${testRenderingServer_SRCS})
-    target_link_libraries(testRenderingServer kwin Qt${QT_MAJOR_VERSION}::Concurrent Qt${QT_MAJOR_VERSION}::Widgets)
+    target_link_libraries(testRenderingServer deepin-kwin Qt${QT_MAJOR_VERSION}::Concurrent Qt${QT_MAJOR_VERSION}::Widgets)
     ecm_mark_as_test(testRenderingServer)
 endif()
 
@@ -62,4 +62,3 @@ ecm_mark_as_test(xdgforeign-test)
 add_executable(xdg-test xdgtest.cpp)
 target_link_libraries(xdg-test Qt${QT_MAJOR_VERSION}::Gui KF5::WaylandClient)
 ecm_mark_as_test(xdg-test)
-

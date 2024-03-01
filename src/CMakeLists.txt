@@ -1,4 +1,4 @@
-# for things that are also used by kwin libraries
+# for things that are also used by deepin-kwin libraries
 configure_file(libkwineffects/kwinconfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkwineffects/kwinconfig.h)
 configure_file(config-kwin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kwin.h)
 
@@ -28,8 +28,8 @@ if (KWIN_BUILD_KCMS)
     add_subdirectory(kcms)
 endif()
 
-add_library(kwin SHARED)
-set_target_properties(kwin PROPERTIES
+add_library(deepin-kwin SHARED)
+set_target_properties(deepin-kwin PROPERTIES
    VERSION ${PROJECT_VERSION}
    SOVERSION ${PROJECT_VERSION_MAJOR}
 )
@@ -42,7 +42,7 @@ foreach(_ts_file ${TS})
     execute_process(COMMAND lrelease ${_ts_file})
 endforeach()
 
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     3rdparty/xcursor.c
     activation.cpp
     appmenu.cpp
@@ -212,7 +212,7 @@ target_sources(kwin PRIVATE
     dockrect.cpp
 )
 
-target_link_libraries(kwin
+target_link_libraries(deepin-kwin
     kwineffects
     kwinglutils
 
@@ -267,20 +267,20 @@ target_link_libraries(kwin
     -ldl
 )
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(kwin Qt5::X11Extras Qt5XkbCommonSupport::Qt5XkbCommonSupport)
+    target_link_libraries(deepin-kwin Qt5::X11Extras Qt5XkbCommonSupport::Qt5XkbCommonSupport)
 endif()
 
 if (KWIN_BUILD_NOTIFICATIONS)
-    target_link_libraries(kwin KF5::Notifications)
+    target_link_libraries(deepin-kwin KF5::Notifications)
 endif()
 
-kconfig_add_kcfg_files(kwin
+kconfig_add_kcfg_files(deepin-kwin
     settings.kcfgc
     rulesettings.kcfgc
     rulebooksettingsbase.kcfgc
 )
 
-ki18n_wrap_ui(kwin
+ki18n_wrap_ui(deepin-kwin
     debug_console.ui
     shortcutdialog.ui
 )
@@ -328,7 +328,7 @@ else()
     qt_add_dbus_interface(kwin_dbus_SRCS org.kde.kappmenu.xml appmenu_interface)
 endif()
 
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     ${kwin_dbus_SRCS}
 )
 
@@ -338,17 +338,17 @@ add_subdirectory(wayland)
 add_subdirectory(xwayland)
 
 if (KWIN_BUILD_ACTIVITIES)
-    target_sources(kwin PRIVATE activities.cpp)
-    target_link_libraries(kwin KF5::Activities)
+    target_sources(deepin-kwin PRIVATE activities.cpp)
+    target_link_libraries(deepin-kwin KF5::Activities)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)
-    target_sources(kwin PRIVATE screenlockerwatcher.cpp)
-    target_link_libraries(kwin PW::KScreenLocker)
+    target_sources(deepin-kwin PRIVATE screenlockerwatcher.cpp)
+    target_link_libraries(deepin-kwin PW::KScreenLocker)
 endif()
 
 if (KWIN_BUILD_TABBOX)
-    target_sources(kwin PRIVATE
+    target_sources(deepin-kwin PRIVATE
         tabbox/clientmodel.cpp
         tabbox/desktopchain.cpp
         tabbox/desktopmodel.cpp
@@ -359,7 +359,7 @@ if (KWIN_BUILD_TABBOX)
         tabbox/tabboxhandler.cpp
         tabbox/x11_filter.cpp
     )
-    target_link_libraries(kwin Qt${QT_MAJOR_VERSION}::GuiPrivate)
+    target_link_libraries(deepin-kwin Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
@@ -370,41 +370,41 @@ else()
     qt_generate_dbus_interface(tabletmodemanager.h org.kde.KWin.TabletModeManager.xml OPTIONS -A)
 endif()
 
-generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
+generate_export_header(deepin-kwin EXPORT_FILE_NAME kwin_export.h)
 
-add_executable(kwin_x11 main_x11.cpp)
-target_link_libraries(kwin_x11
+add_executable(deepin-kwin_x11 main_x11.cpp)
+target_link_libraries(deepin-kwin_x11
     KWinX11Platform
-    kwin
+    deepin-kwin
 )
-kcoreaddons_target_static_plugins(kwin_x11 "kwin/effects/plugins")
+kcoreaddons_target_static_plugins(deepin-kwin_x11 "deepin-kwin/effects/plugins")
 
-install(TARGETS kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
-install(TARGETS kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
+install(TARGETS deepin-kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-add_executable(kwin_wayland main_wayland.cpp)
+add_executable(deepin-kwin_wayland main_wayland.cpp)
 
-target_link_libraries(kwin_wayland
-    kwin
+target_link_libraries(deepin-kwin_wayland
+    deepin-kwin
     KWinXwaylandServerModule
 )
-kcoreaddons_target_static_plugins(kwin_wayland "kwin/effects/plugins")
+kcoreaddons_target_static_plugins(deepin-kwin_wayland "deepin-kwin/effects/plugins")
 
-install(TARGETS kwin_wayland ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwin_wayland ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if (HAVE_LIBCAP)
     install(
     CODE "execute_process(
             COMMAND
                 ${SETCAP_EXECUTABLE}
                 CAP_SYS_NICE=+ep
-                \$ENV{DESTDIR}${CMAKE_INSTALL_FULL_BINDIR}/kwin_wayland)"
+                \$ENV{DESTDIR}${CMAKE_INSTALL_FULL_BINDIR}/deepin-kwin_wayland)"
     )
 endif()
 
 add_subdirectory(platformsupport)
 add_subdirectory(plugins)
 
-target_link_libraries(kwin_wayland
+target_link_libraries(deepin-kwin_wayland
     KWinQpaPlugin
     KF5GlobalAccelKWinPlugin
     KF5WindowSystemKWinPlugin
@@ -419,12 +419,12 @@ add_custom_target(
 )
 
 if (PipeWire_FOUND)
-    target_link_libraries(kwin_wayland KWinScreencastPlugin)
+    target_link_libraries(deepin-kwin_wayland KWinScreencastPlugin)
 endif()
 
-install(FILES kwin.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+install(FILES deepin-kwin.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 if (KWIN_BUILD_NOTIFICATIONS)
-    install(FILES kwin.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
+    install(FILES deepin-kwin.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 endif()
 install(
     FILES

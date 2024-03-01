@@ -66,7 +66,7 @@ private:
     xcb_gcontext_t m_gc;
 };
 
-class KWIN_EXPORT X11Window : public Window
+class DEEPIN_KWIN_EXPORT X11Window : public Window
 {
     Q_OBJECT
     /**

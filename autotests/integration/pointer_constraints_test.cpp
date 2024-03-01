@@ -19,14 +19,14 @@
 #include "window.h"
 #include "workspace.h"
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/keyboard.h>
-#include <KWayland/Client/pointer.h>
-#include <KWayland/Client/pointerconstraints.h>
-#include <KWayland/Client/region.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/shm_pool.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/keyboard.h>
+#include <DWayland/Client/pointer.h>
+#include <DWayland/Client/pointerconstraints.h>
+#include <DWayland/Client/region.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/shm_pool.h>
+#include <DWayland/Client/surface.h>
 
 #include <linux/input.h>
 

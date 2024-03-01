@@ -3023,8 +3023,8 @@ msgstr ""
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Postavke &Menadžera prozora..."
 
-#~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-#~ msgstr "kwin_wayland: X11 menadžer prozora koji radi na X11 ekranu.\n"
+#~ msgid "deepin-kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+#~ msgstr "deepin-kwin_wayland: X11 menadžer prozora koji radi na X11 ekranu.\n"
 
 #~ msgid "Martin Gräßlin"
 #~ msgstr "Martin Gräßlin"
@@ -3091,10 +3091,10 @@ msgstr ""
 #~ msgstr "&Namotaj"
 
 #~ msgid ""
-#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
+#~ "deepin-kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
 #~ "is set.\n"
 #~ msgstr ""
-#~ "kwin_wayland: ne mogu se povezati na Wayland Server, osiguraj da je "
+#~ "deepin-kwin_wayland: ne mogu se povezati na Wayland Server, osiguraj da je "
 #~ "WAYLAND_DISPLAY postavljen.\n"
 
 #, fuzzy

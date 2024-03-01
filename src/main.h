@@ -66,7 +66,7 @@ private:
     X11EventFilter *m_filter;
 };
 
-class KWIN_EXPORT Application : public QApplication
+class DEEPIN_KWIN_EXPORT Application : public QApplication
 {
     Q_OBJECT
     Q_PROPERTY(quint32 x11Time READ x11Time WRITE setX11Time)

@@ -15,7 +15,7 @@ namespace KWin
 
 class QPainterBackend;
 
-class KWIN_EXPORT QPainterSurfaceTexture : public SurfaceTexture
+class DEEPIN_KWIN_EXPORT QPainterSurfaceTexture : public SurfaceTexture
 {
 public:
     explicit QPainterSurfaceTexture(QPainterBackend *backend);

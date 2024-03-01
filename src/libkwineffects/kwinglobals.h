@@ -13,8 +13,9 @@
 #include <QImage>
 #include <QPoint>
 #include <QVariant>
+#include <QRect>
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <xcb/xcb.h>
 
@@ -24,7 +25,7 @@
 
 namespace KWin
 {
-KWIN_EXPORT Q_NAMESPACE
+DEEPIN_KWIN_EXPORT Q_NAMESPACE
 
     enum CompositingType {
         NoCompositing = 0,
@@ -174,17 +175,17 @@ enum class Gravity {
     BottomRight,
 };
 
-inline KWIN_EXPORT xcb_connection_t *connection()
+inline DEEPIN_KWIN_EXPORT xcb_connection_t *connection()
 {
     return reinterpret_cast<xcb_connection_t *>(qApp->property("x11Connection").value<void *>());
 }
 
-inline KWIN_EXPORT xcb_window_t rootWindow()
+inline DEEPIN_KWIN_EXPORT xcb_window_t rootWindow()
 {
     return qApp->property("x11RootWindow").value<quint32>();
 }
 
-inline KWIN_EXPORT xcb_timestamp_t xTime()
+inline DEEPIN_KWIN_EXPORT xcb_timestamp_t xTime()
 {
     return qApp->property("x11Time").value<xcb_timestamp_t>();
 }
@@ -229,7 +230,7 @@ private:
 /**
  * Infinite region (i.e. a special region type saying that everything needs to be painted).
  */
-inline KWIN_EXPORT QRect infiniteRegion()
+inline DEEPIN_KWIN_EXPORT QRect infiniteRegion()
 {
     // INT_MIN / 2 because width/height is used (INT_MIN+INT_MAX==-1)
     return QRect(INT_MIN / 2, INT_MIN / 2, INT_MAX, INT_MAX);

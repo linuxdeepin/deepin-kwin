@@ -44,7 +44,7 @@ class TabletEvent;
 class TabletPadId;
 class TabletToolId;
 
-class KWIN_EXPORT EffectsHandlerImpl : public EffectsHandlerEx
+class DEEPIN_KWIN_EXPORT EffectsHandlerImpl : public EffectsHandlerEx
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Effects")
@@ -669,7 +669,7 @@ private:
     QUrl m_image;
 };
 
-class KWIN_EXPORT EffectFrameImpl
+class DEEPIN_KWIN_EXPORT EffectFrameImpl
     : public QObject,
       public EffectFrameEx
 {

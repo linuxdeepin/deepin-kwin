@@ -23,7 +23,7 @@ class PointerGesturesV1InterfacePrivate;
  * Creates and manages pointer swipe and pointer pinch gestures which are
  * reported to the SeatInterface.
  */
-class KWIN_EXPORT PointerGesturesV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT PointerGesturesV1Interface : public QObject
 {
     Q_OBJECT
 

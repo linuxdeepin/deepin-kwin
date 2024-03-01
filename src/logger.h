@@ -15,7 +15,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT Logger : public QObject
+class DEEPIN_KWIN_EXPORT Logger : public QObject
 {
 public:
     static Logger *instance();

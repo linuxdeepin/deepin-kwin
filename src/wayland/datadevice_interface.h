@@ -34,7 +34,7 @@ class DragAndDropIconPrivate;
  * Note that the lifetime of the drag-and-drop icon is bound to the lifetime of the underlying
  * icon surface.
  */
-class KWIN_EXPORT DragAndDropIcon : public QObject
+class DEEPIN_KWIN_EXPORT DragAndDropIcon : public QObject
 {
     Q_OBJECT
 
@@ -71,7 +71,7 @@ private:
  * @see SeatInterface
  * @see DataSourceInterface
  */
-class KWIN_EXPORT DataDeviceInterface : public AbstractDropHandler
+class DEEPIN_KWIN_EXPORT DataDeviceInterface : public AbstractDropHandler
 {
     Q_OBJECT
 public:

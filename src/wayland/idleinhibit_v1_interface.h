@@ -21,7 +21,7 @@ class IdleInhibitManagerV1InterfacePrivate;
  * SurfaceInterface. Whether a SurfaceInterface inhibits idle is exposes through
  * @link{SurfaceInterface::inhibitsIdle}.
  */
-class KWIN_EXPORT IdleInhibitManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT IdleInhibitManagerV1Interface : public QObject
 {
     Q_OBJECT
 

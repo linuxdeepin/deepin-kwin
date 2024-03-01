@@ -43,7 +43,7 @@ class DecoratedClientImpl;
 }
 
 
-class KWIN_EXPORT PointerInputRedirection : public InputDeviceHandler
+class DEEPIN_KWIN_EXPORT PointerInputRedirection : public InputDeviceHandler
 {
     Q_OBJECT
 public:

@@ -1,4 +1,4 @@
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     virtual_backend.cpp
     virtual_egl_backend.cpp
     virtual_logging.cpp

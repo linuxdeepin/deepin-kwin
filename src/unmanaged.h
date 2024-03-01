@@ -16,7 +16,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT Unmanaged : public Window
+class DEEPIN_KWIN_EXPORT Unmanaged : public Window
 {
     Q_OBJECT
     Q_PROPERTY(qulonglong frameId READ frameId CONSTANT)

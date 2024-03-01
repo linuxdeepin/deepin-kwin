@@ -3014,8 +3014,8 @@ msgstr ""
 #~ msgid "Automatic Screen Rotation"
 #~ msgstr "Automatisk skärmrotation"
 
-#~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-#~ msgstr "kwin_wayland: en X11-fönsterhanterare kör på X11-skärmen.\n"
+#~ msgid "deepin-kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+#~ msgstr "deepin-kwin_wayland: en X11-fönsterhanterare kör på X11-skärmen.\n"
 
 #~ msgid "Martin Gräßlin"
 #~ msgstr "Martin Gräßlin"
@@ -3105,10 +3105,10 @@ msgstr ""
 #~ msgstr "&Rulla upp"
 
 #~ msgid ""
-#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
+#~ "deepin-kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
 #~ "is set.\n"
 #~ msgstr ""
-#~ "kwin_wayland: kunde inte ansluta till Wayland-servern, försäkra dig om "
+#~ "deepin-kwin_wayland: kunde inte ansluta till Wayland-servern, försäkra dig om "
 #~ "att WAYLAND_DISPLAY är inställd.\n"
 
 #~ msgid ""

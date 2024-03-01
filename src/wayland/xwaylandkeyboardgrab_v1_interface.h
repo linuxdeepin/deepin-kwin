@@ -24,7 +24,7 @@ class XWaylandKeyboardGrabV1InterfacePrivate;
 class XWaylandKeyboardGrabManagerV1InterfacePrivate;
 class XWaylandKeyboardGrabV1Interface;
 
-class KWIN_EXPORT XWaylandKeyboardGrabManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT XWaylandKeyboardGrabManagerV1Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -41,7 +41,7 @@ private:
     std::unique_ptr<XWaylandKeyboardGrabManagerV1InterfacePrivate> d;
 };
 
-class KWIN_EXPORT XWaylandKeyboardGrabV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT XWaylandKeyboardGrabV1Interface : public QObject
 {
     Q_OBJECT
 public:

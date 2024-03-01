@@ -32,7 +32,7 @@ class Window;
 class X11Window;
 class X11SyncManager;
 
-class KWIN_EXPORT Compositor : public QObject
+class DEEPIN_KWIN_EXPORT Compositor : public QObject
 {
     Q_OBJECT
 public:
@@ -214,7 +214,7 @@ private:
     CompositingType m_selectedCompositor = NoCompositing;
 };
 
-class KWIN_EXPORT WaylandCompositor final : public Compositor
+class DEEPIN_KWIN_EXPORT WaylandCompositor final : public Compositor
 {
     Q_OBJECT
 public:
@@ -230,7 +230,7 @@ private:
     explicit WaylandCompositor(QObject *parent);
 };
 
-class KWIN_EXPORT X11Compositor final : public Compositor
+class DEEPIN_KWIN_EXPORT X11Compositor final : public Compositor
 {
     Q_OBJECT
 public:

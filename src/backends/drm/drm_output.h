@@ -30,7 +30,7 @@ class DrmPipeline;
 class DumbSwapchain;
 class DrmLease;
 
-class KWIN_EXPORT DrmOutput : public DrmAbstractOutput
+class DEEPIN_KWIN_EXPORT DrmOutput : public DrmAbstractOutput
 {
     Q_OBJECT
 public:

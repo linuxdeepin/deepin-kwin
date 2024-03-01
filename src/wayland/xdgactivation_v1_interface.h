@@ -25,7 +25,7 @@ class ClientConnection;
 
 class XdgActivationV1InterfacePrivate;
 
-class KWIN_EXPORT XdgActivationV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT XdgActivationV1Interface : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(XdgActivationV1Interface)

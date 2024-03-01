@@ -13,7 +13,7 @@ namespace KWin
 
 class SurfacePixmapInternal;
 
-class KWIN_EXPORT QPainterSurfaceTextureInternal : public QPainterSurfaceTexture
+class DEEPIN_KWIN_EXPORT QPainterSurfaceTextureInternal : public QPainterSurfaceTexture
 {
 public:
     QPainterSurfaceTextureInternal(QPainterBackend *backend, SurfacePixmapInternal *pixmap);

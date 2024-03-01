@@ -15,7 +15,7 @@
 
 #include <QObject>
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 #include <kwinglobals.h>
 
 #include <QPointer>
@@ -38,7 +38,7 @@ class InputPanelV1Window;
  * This class implements the zwp_input_method_unstable_v1, which is currently used to provide
  * the Virtual Keyboard using supported input method client (maliit-keyboard e.g.)
  **/
-class KWIN_EXPORT InputMethod : public QObject
+class DEEPIN_KWIN_EXPORT InputMethod : public QObject
 {
     Q_OBJECT
 public:

@@ -44,7 +44,7 @@ class DDESecuritySessionInterfacePrivate;
  * @see DDESecurityInterface
  * @since 5.5
  */
-class KWIN_EXPORT DDESecurityInterface : public QObject
+class DEEPIN_KWIN_EXPORT DDESecurityInterface : public QObject
 {
     Q_OBJECT
 public:
@@ -80,7 +80,7 @@ private:
  *
  * @since 5.4
  **/
-class KWIN_EXPORT DDESecuritySessionInterface : public QObject
+class DEEPIN_KWIN_EXPORT DDESecuritySessionInterface : public QObject
 {
     Q_OBJECT
 public:

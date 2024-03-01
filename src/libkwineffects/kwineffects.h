@@ -1490,7 +1490,7 @@ Q_SIGNALS:
      * @since 4.7
      * @deprecated
      */
-    void KWIN_DEPRECATED desktopChanged(int oldDesktop, int newDesktop);
+    void DEEPIN_KWIN_DEPRECATED desktopChanged(int oldDesktop, int newDesktop);
     /**
      * @internal
      */
@@ -2414,7 +2414,7 @@ public:
      * @deprecated
      */
 #ifndef KWIN_NO_DEPRECATED
-    virtual int KWIN_DEPRECATED desktop() const = 0; // prefer isOnXXX()
+    virtual int DEEPIN_KWIN_DEPRECATED desktop() const = 0; // prefer isOnXXX()
 #endif
     /**
      * All the desktops by number that the window is in. On X11 this list will always have
@@ -2435,7 +2435,7 @@ public:
     /**
      * @deprecated Use frameGeometry() instead.
      */
-    virtual QRectF KWIN_DEPRECATED geometry() const = 0;
+    virtual QRectF DEEPIN_KWIN_DEPRECATED geometry() const = 0;
     /**
      * Returns the geometry of the window excluding server-side and client-side
      * drop-shadows.

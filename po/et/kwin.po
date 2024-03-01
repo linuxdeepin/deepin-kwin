@@ -2996,8 +2996,8 @@ msgstr ""
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Akna&halduri seadistused..."
 
-#~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-#~ msgstr "kwin_wayland: X11 aknahaldur töötab X11 kuvas.\n"
+#~ msgid "deepin-kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+#~ msgstr "deepin-kwin_wayland: X11 aknahaldur töötab X11 kuvas.\n"
 
 #~ msgid "Martin Gräßlin"
 #~ msgstr "Martin Gräßlin"

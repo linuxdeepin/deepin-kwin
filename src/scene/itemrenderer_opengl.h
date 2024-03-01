@@ -13,7 +13,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT ItemRendererOpenGL : public ItemRenderer
+class DEEPIN_KWIN_EXPORT ItemRendererOpenGL : public ItemRenderer
 {
 public:
     struct RenderNode

@@ -24,7 +24,7 @@ namespace KWin
 
 class Window;
 
-class KWIN_EXPORT Placement
+class DEEPIN_KWIN_EXPORT Placement
 {
 public:
     explicit Placement();

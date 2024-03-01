@@ -14,7 +14,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT InternalWindow : public Window
+class DEEPIN_KWIN_EXPORT InternalWindow : public Window
 {
     Q_OBJECT
 

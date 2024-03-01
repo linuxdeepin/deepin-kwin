@@ -59,7 +59,7 @@ enum class PresentationHint {
  * @see SlideInterface
  * @see LinuxDmaBufV1Feedback
  */
-class KWIN_EXPORT SurfaceInterface : public QObject
+class DEEPIN_KWIN_EXPORT SurfaceInterface : public QObject
 {
     Q_OBJECT
     /**

@@ -27,7 +27,7 @@ namespace Decoration
 class DecoratedClientImpl;
 }
 
-class KWIN_EXPORT TouchInputRedirection : public InputDeviceHandler
+class DEEPIN_KWIN_EXPORT TouchInputRedirection : public InputDeviceHandler
 {
     Q_OBJECT
 public:

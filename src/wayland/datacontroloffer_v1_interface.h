@@ -25,7 +25,7 @@ class DataControlOfferV1InterfacePrivate;
  *
  * DataControlOfferV1Interface corresponds to the Wayland interface @c zwlr_data_control_offer_v1.
  */
-class KWIN_EXPORT DataControlOfferV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT DataControlOfferV1Interface : public QObject
 {
     Q_OBJECT
 

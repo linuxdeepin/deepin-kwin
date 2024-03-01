@@ -24,7 +24,7 @@ class PlasmaWindowManagementInterfacePrivate;
 class PlasmaWindowInterfacePrivate;
 class SurfaceInterface;
 
-class KWIN_EXPORT PlasmaWindowActivationInterface
+class DEEPIN_KWIN_EXPORT PlasmaWindowActivationInterface
 {
 public:
     ~PlasmaWindowActivationInterface();
@@ -38,7 +38,7 @@ private:
     std::unique_ptr<PlasmaWindowActivationInterfacePrivate> d;
 };
 
-class KWIN_EXPORT PlasmaWindowActivationFeedbackInterface : public QObject
+class DEEPIN_KWIN_EXPORT PlasmaWindowActivationFeedbackInterface : public QObject
 {
     Q_OBJECT
 
@@ -58,7 +58,7 @@ private:
     std::unique_ptr<PlasmaWindowActivationFeedbackInterfacePrivate> d;
 };
 
-class KWIN_EXPORT PlasmaWindowManagementInterface : public QObject
+class DEEPIN_KWIN_EXPORT PlasmaWindowManagementInterface : public QObject
 {
     Q_OBJECT
 
@@ -103,7 +103,7 @@ private:
 /**
  * @todo Add documentation
  */
-class KWIN_EXPORT PlasmaWindowInterface : public QObject
+class DEEPIN_KWIN_EXPORT PlasmaWindowInterface : public QObject
 {
     Q_OBJECT
 public:

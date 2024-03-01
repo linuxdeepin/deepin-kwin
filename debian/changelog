@@ -45,7 +45,7 @@ kwin (4:5.27.2.67-deepin67-1) unstable; urgency=medium
 kwin (4:5.27.2.66-deepin66-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  fix: shadow and scissor refresh 
+  *  fix: shadow and scissor refresh
   *  fix: optimize split menu positon scale
   *  fix: repair window's radius scale
  -- wangboyu <wangboyu@uniontech.com>  Mon, 29 Jan 2024 09:56:01 +0800
@@ -81,16 +81,16 @@ kwin (4:5.27.2.63-deepin63-1) unstable; urgency=medium
 kwin (4:5.27.2.62-deepin62-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  fix: rendering problem of wine app in cloud desktop xrender mode 
+  *  fix: rendering problem of wine app in cloud desktop xrender mode
   *  fix: opacity blend of titlebar menu
-  *  fix: show icon in xrender env 
+  *  fix: show icon in xrender env
 
  -- wangboyu <wangboyu@uniontech.com>  Sat, 14 Jan 2024 00:59:01 +0800
 
 kwin (4:5.27.2.61-deepin61-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  feat: Add alternative for EGL_LINUX_DMA_BUF_EXT 
+  *  feat: Add alternative for EGL_LINUX_DMA_BUF_EXT
 
  -- wangboyu <wangboyu@uniontech.com>  Thu, 11 Jan 2024 20:17:01 +0800
 
@@ -248,10 +248,10 @@ kwin (4:5.27.2.49-deepin49-1) unstable; urgency=medium
 kwin (4:5.27.2.48-deepin48-1) unstable; urgency=medium
 
   * [ wangboyu ]
-    fix: add function setTouchDeviceToScreenId and getTouchDeviceToScreenInfo. 
+    fix: add function setTouchDeviceToScreenId and getTouchDeviceToScreenInfo.
     fix: greeter will be killed when the shortcut of alt+f4 is pressed.
     fix: thirdpart titlebar icon don't change with system zoom
-    fix: remove selectionchanged/selectioncleared of primary selection. 
+    fix: remove selectionchanged/selectioncleared of primary selection.
     fix: prohibit screen active when client change desktop
 
  -- wangboyu <wangboyu@uniontech.com>  Fri, 15 Dec 2023 17:48:05 +0800
@@ -1243,7 +1243,7 @@ kwin (4:5.12.0-2) sid; urgency=medium
 
   * New revision
   * Add libcap as a build depends
-  * Set kwin_wayland capabilities in postinst
+  * Set deepin-kwin_wayland capabilities in postinst
   * Release to sid
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 12 Feb 2018 16:03:42 +0100
@@ -1530,7 +1530,7 @@ kwin (4:5.6.4-1) experimental; urgency=medium
   * Follow upstream soversion bumps
   * Update symbols files
   * debian/control: Update Vcs-Browser and Vcs-Git fields
-  * Add new lintian-override about ldconfig-trigger for libkdeinit5_kwin_x11.so
+  * Add new lintian-override about ldconfig-trigger for libkdeinit5_deepin-kwin_x11.so
   * Update testsuite
 
   [ Debian/Kubuntu Qt/KDE Maintainers ]
@@ -1637,7 +1637,7 @@ kwin (4:5.3.2-3) unstable; urgency=high
 
   [ Scott Kitterman ]
   * Urgency high for RC but fix in testing
-  * Remove obsolete kwin alternative and add new alternative for kwin_x11 so
+  * Remove obsolete kwin alternative and add new alternative for deepin-kwin_x11 so
     kwin will work as x-window-manager (Closes: #792849, #793997)
 
  -- Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Wed, 29 Jul 2015 16:43:28 -0400

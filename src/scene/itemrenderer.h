@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QMatrix4x4>
 
@@ -21,7 +21,7 @@ class RenderTarget;
 class Scene;
 class WindowPaintData;
 
-class KWIN_EXPORT ItemRenderer
+class DEEPIN_KWIN_EXPORT ItemRenderer
 {
 public:
     ItemRenderer();

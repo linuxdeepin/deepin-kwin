@@ -13,7 +13,7 @@ namespace KWin
 
 class GLTexture;
 
-class KWIN_EXPORT ImageItem : public Item
+class DEEPIN_KWIN_EXPORT ImageItem : public Item
 {
     Q_OBJECT
 

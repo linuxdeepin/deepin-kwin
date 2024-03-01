@@ -69,7 +69,7 @@ target_link_libraries(KWinIntegrationTestFramework
         Qt${QT_MAJOR_VERSION}::Test
         KF5::WaylandClient
         Wayland::Client
-        kwin
+        deepin-kwin
 
     PRIVATE
         # Own libraries
@@ -81,7 +81,7 @@ target_link_libraries(KWinIntegrationTestFramework
         KF5WindowSystemKWinPlugin
         KF5IdleTimeKWinPlugin
 )
-kcoreaddons_target_static_plugins(KWinIntegrationTestFramework "kwin/effects/plugins" LINK_OPTION "PRIVATE")
+kcoreaddons_target_static_plugins(KWinIntegrationTestFramework "deepin-kwin/effects/plugins" LINK_OPTION "PRIVATE")
 set_target_properties(KWinIntegrationTestFramework PROPERTIES CXX_VISIBILITY_PRESET default)
 
 function(integrationTest)
@@ -91,12 +91,12 @@ function(integrationTest)
     cmake_parse_arguments(ARGS "${optionArgs}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     add_executable(${ARGS_NAME} ${ARGS_SRCS})
     target_link_libraries(${ARGS_NAME} KWinIntegrationTestFramework Qt${QT_MAJOR_VERSION}::Test ${ARGS_LIBS})
-    add_test(NAME kwin-${ARGS_NAME} COMMAND dbus-run-session ${CMAKE_BINARY_DIR}/bin/${ARGS_NAME})
+    add_test(NAME deepin-kwin-${ARGS_NAME} COMMAND dbus-run-session ${CMAKE_BINARY_DIR}/bin/${ARGS_NAME})
     if (${ARGS_WAYLAND_ONLY})
         add_executable(${ARGS_NAME}_waylandonly ${ARGS_SRCS} )
         set_target_properties(${ARGS_NAME}_waylandonly PROPERTIES COMPILE_DEFINITIONS "NO_XWAYLAND")
         target_link_libraries(${ARGS_NAME}_waylandonly KWinIntegrationTestFramework Qt${QT_MAJOR_VERSION}::Test ${ARGS_LIBS})
-        add_test(NAME kwin-${ARGS_NAME}-waylandonly COMMAND dbus-run-session ${CMAKE_BINARY_DIR}/bin/${ARGS_NAME}_waylandonly)
+        add_test(NAME deepin-kwin-${ARGS_NAME}-waylandonly COMMAND dbus-run-session ${CMAKE_BINARY_DIR}/bin/${ARGS_NAME}_waylandonly)
     endif()
 endfunction()
 

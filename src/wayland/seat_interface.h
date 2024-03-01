@@ -124,7 +124,7 @@ enum class KeyboardKeyState : quint32 {
  * @see TouchInterface
  * @see SurfaceInterface
  */
-class KWIN_EXPORT SeatInterface : public QObject
+class DEEPIN_KWIN_EXPORT SeatInterface : public QObject
 {
     Q_OBJECT
 public:

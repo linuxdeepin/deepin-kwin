@@ -613,10 +613,10 @@ bool WaylandServer::init(InitializationFlags flags)
                 .windowId = wid,
                 .resourceName = {0},
                 .geometry = {
-                    .x = client->frameGeometry().x(),
-                    .y = client->frameGeometry().y(),
-                    .width = client->frameGeometry().width(),
-                    .height = client->frameGeometry().height()
+                    .x = client->frameGeometry().toRect().x(),
+                    .y = client->frameGeometry().toRect().y(),
+                    .width = client->frameGeometry().toRect().width(),
+                    .height = client->frameGeometry().toRect().height()
                 },
                 .isMinimized = client->isMinimized(),
                 .isFullScreen = client->isFullScreen(),

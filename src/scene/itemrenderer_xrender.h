@@ -25,7 +25,7 @@ enum ImageFilterType {
     ImageFilterGood,
 };
 
-class KWIN_EXPORT ItemRendererXRender : public ItemRenderer
+class DEEPIN_KWIN_EXPORT ItemRendererXRender : public ItemRenderer
 {
 public:
     ItemRendererXRender();

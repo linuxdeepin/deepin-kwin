@@ -11,7 +11,7 @@
 #include "input.h"
 #include "input_event_spy.h"
 #include <config-kwin.h>
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QAbstractItemModel>
 #include <QStyledItemDelegate>
@@ -41,7 +41,7 @@ class Unmanaged;
 class DebugConsoleFilter;
 class WaylandWindow;
 
-class KWIN_EXPORT DebugConsoleModel : public QAbstractItemModel
+class DEEPIN_KWIN_EXPORT DebugConsoleModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
@@ -94,7 +94,7 @@ public:
     QString displayText(const QVariant &value, const QLocale &locale) const override;
 };
 
-class KWIN_EXPORT DebugConsole : public QWidget
+class DEEPIN_KWIN_EXPORT DebugConsole : public QWidget
 {
     Q_OBJECT
 public:

@@ -10,10 +10,10 @@
 #ifndef KWINEFFECTSEX_H
 #define KWINEFFECTSEX_H
 
-#include <kwineffects.h>
-#include <kwinconfig.h>
-#include <kwineffects_export.h>
-#include <kwinglobals.h>
+#include "kwineffects.h"
+#include "kwinconfig.h"
+#include "kwineffects_export.h"
+#include "kwinglobals.h"
 
 /**
  * Logging category to be used inside the KWin effects.
@@ -26,12 +26,6 @@ namespace KWin
 
 class EffectWindow;
 class Output;
-
-#define KWIN_EFFECT_API_MAKE_VERSION( major, minor ) (( major ) << 8 | ( minor ))
-#define KWIN_EFFECT_API_VERSION_MAJOR 0
-#define KWIN_EFFECT_API_VERSION_MINOR 227
-#define KWIN_EFFECT_API_VERSION KWIN_EFFECT_API_MAKE_VERSION( \
-        KWIN_EFFECT_API_VERSION_MAJOR, KWIN_EFFECT_API_VERSION_MINOR )
 
 class KWINEFFECTS_EXPORT EffectFrameEx : public EffectFrame
 {
@@ -69,7 +63,7 @@ public:
     virtual bool isTransientWin(KWin::EffectWindow *w) = 0;
     virtual bool isShortcuts(QKeyEvent *event) = 0;
 
-    virtual std::unique_ptr<EffectFrameEx> effectFrameEx(QString url, bool staticSize = true, 
+    virtual std::unique_ptr<EffectFrameEx> effectFrameEx(QString url, bool staticSize = true,
                                                      const QPoint &position = QPoint(-1, -1),
                                                      Qt::Alignment alignment = Qt::AlignCenter) const = 0;
     virtual EffectScreen *findScreen(Output *output) const = 0;

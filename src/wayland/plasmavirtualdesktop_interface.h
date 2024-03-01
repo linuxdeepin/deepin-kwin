@@ -22,7 +22,7 @@ class PlasmaVirtualDesktopManagementInterfacePrivate;
  *
  * This class provides a convenient wrapper for the org_kde_plasma_virtual_desktop_management interface.
  */
-class KWIN_EXPORT PlasmaVirtualDesktopManagementInterface : public QObject
+class DEEPIN_KWIN_EXPORT PlasmaVirtualDesktopManagementInterface : public QObject
 {
     Q_OBJECT
 
@@ -92,7 +92,7 @@ private:
     std::unique_ptr<PlasmaVirtualDesktopManagementInterfacePrivate> d;
 };
 
-class KWIN_EXPORT PlasmaVirtualDesktopInterface : public QObject
+class DEEPIN_KWIN_EXPORT PlasmaVirtualDesktopInterface : public QObject
 {
     Q_OBJECT
 public:

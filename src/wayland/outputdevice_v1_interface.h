@@ -37,7 +37,7 @@ class OutputDeviceInterfacePrivate;
  * @see OutputManagementInterface
  * @since 5.5
  */
-class KWIN_EXPORT OutputDeviceInterface : public QObject
+class DEEPIN_KWIN_EXPORT OutputDeviceInterface : public QObject
 {
     Q_OBJECT
 public:

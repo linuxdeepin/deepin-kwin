@@ -29,7 +29,7 @@ class OutputManagementV2InterfacePrivate;
  * @see OutputConfiguration
  * @see OutputConfigurationInterface
  */
-class KWIN_EXPORT OutputManagementV2Interface : public QObject
+class DEEPIN_KWIN_EXPORT OutputManagementV2Interface : public QObject
 {
     Q_OBJECT
 

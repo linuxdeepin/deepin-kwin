@@ -108,7 +108,7 @@ enum OpenMenuActionType {
     AltSpace
 };
 
-class KWIN_EXPORT Workspace : public QObject
+class DEEPIN_KWIN_EXPORT Workspace : public QObject
 {
     Q_OBJECT
 public:

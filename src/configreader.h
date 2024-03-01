@@ -33,7 +33,7 @@ private:
 };
 
 
-class KWIN_EXPORT ConfigReader : public QObject
+class DEEPIN_KWIN_EXPORT ConfigReader : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVariant m_property READ getProperty WRITE setProperty)

@@ -15,7 +15,7 @@ namespace KWaylandServer
 {
 class SurfaceInterface;
 
-class KWIN_EXPORT AbstractDropHandler : public AbstractDataDevice
+class DEEPIN_KWIN_EXPORT AbstractDropHandler : public AbstractDataDevice
 {
     Q_OBJECT
 public:

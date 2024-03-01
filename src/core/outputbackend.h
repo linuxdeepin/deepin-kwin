@@ -10,7 +10,7 @@
 #pragma once
 
 #include <epoxy/egl.h>
-#include <kwin_export.h>
+#include "kwin_export.h"
 #include <kwinglobals.h>
 
 #include <QObject>
@@ -30,7 +30,7 @@ class XRenderBackend;
 class OutputConfiguration;
 struct DmaBufParams;
 
-class KWIN_EXPORT Outputs : public QVector<Output *>
+class DEEPIN_KWIN_EXPORT Outputs : public QVector<Output *>
 {
 public:
     Outputs(){};
@@ -42,7 +42,7 @@ public:
     }
 };
 
-class KWIN_EXPORT OutputBackend : public QObject
+class DEEPIN_KWIN_EXPORT OutputBackend : public QObject
 {
     Q_OBJECT
 public:

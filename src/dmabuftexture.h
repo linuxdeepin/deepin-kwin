@@ -17,7 +17,7 @@ namespace KWin
 class GLFramebuffer;
 class GLTexture;
 
-class KWIN_EXPORT DmaBufTexture
+class DEEPIN_KWIN_EXPORT DmaBufTexture
 {
 public:
     explicit DmaBufTexture(std::shared_ptr<GLTexture> texture, DmaBufAttributes &&attributes);

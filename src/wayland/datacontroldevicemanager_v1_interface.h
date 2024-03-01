@@ -23,7 +23,7 @@ class DataControlDeviceV1Interface;
  *
  * DataControlDeviceManagerV1Interface corresponds to the Wayland interface @c zwlr_data_control_manager_v1.
  */
-class KWIN_EXPORT DataControlDeviceManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT DataControlDeviceManagerV1Interface : public QObject
 {
     Q_OBJECT
 

@@ -192,7 +192,7 @@ static bool stringIsEmptyOrNull(const char *str)
 
 /**
  * libxkbcommon uses secure_getenv to read the XKB_DEFAULT_* variables.
- * As kwin_wayland may have the CAP_SET_NICE capability, it returns nullptr
+ * As deepin-kwin_wayland may have the CAP_SET_NICE capability, it returns nullptr
  * so we need to do it ourselves (see xkb_context_sanitize_rule_names).
  **/
 void Xkb::applyEnvironmentRules(xkb_rule_names &ruleNames)

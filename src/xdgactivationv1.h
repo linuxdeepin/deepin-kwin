@@ -27,7 +27,7 @@ class PlasmaWindowActivationInterface;
 
 namespace KWin
 {
-class KWIN_EXPORT XdgActivationV1Integration : public QObject
+class DEEPIN_KWIN_EXPORT XdgActivationV1Integration : public QObject
 {
     Q_OBJECT
 public:

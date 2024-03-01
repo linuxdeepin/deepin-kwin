@@ -14,7 +14,7 @@
 #include "window.h"
 #include "workspace.h"
 
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 namespace KWin
 {

@@ -26,7 +26,7 @@ target_link_libraries(KWinQpaPlugin
     Qt${QT_MAJOR_VERSION}::GuiPrivate
     Freetype::Freetype # Must be after Qt5 platform support libs
     Fontconfig::Fontconfig
-    kwin
+    deepin-kwin
 )
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(KWinQpaPlugin

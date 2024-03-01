@@ -25,7 +25,7 @@ class Item;
  * emitted when a previously rendered frame has been presented on the screen. In case
  * you want the compositor to repaint the scene, call the scheduleRepaint() function.
  */
-class KWIN_EXPORT RenderLoop : public QObject
+class DEEPIN_KWIN_EXPORT RenderLoop : public QObject
 {
     Q_OBJECT
 

@@ -48,7 +48,7 @@ enum class SplitType {
  * @see DDEShellInterface
  * @since 5.5
  */
-class KWIN_EXPORT DDEShellInterface : public QObject
+class DEEPIN_KWIN_EXPORT DDEShellInterface : public QObject
 {
     Q_OBJECT
 public:
@@ -62,7 +62,7 @@ private:
     QScopedPointer<DDEShellInterfacePrivate> d;
 };
 
-class KWIN_EXPORT DDEShellSurfaceInterface : public QObject
+class DEEPIN_KWIN_EXPORT DDEShellSurfaceInterface : public QObject
 {
     Q_OBJECT
 public:

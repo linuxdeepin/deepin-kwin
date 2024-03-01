@@ -57,7 +57,7 @@ private:
     TouchCallback::CallbackFunction m_progressCallback;
 };
 
-class KWIN_EXPORT Edge : public QObject
+class DEEPIN_KWIN_EXPORT Edge : public QObject
 {
     Q_OBJECT
 public:
@@ -217,7 +217,7 @@ private:
  *
  * @todo change way how Effects/Scripts can reserve an edge and are notified.
  */
-class KWIN_EXPORT ScreenEdges : public QObject
+class DEEPIN_KWIN_EXPORT ScreenEdges : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool desktopSwitching READ isDesktopSwitching)

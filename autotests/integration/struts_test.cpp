@@ -19,9 +19,9 @@
 #include "x11window.h"
 #include <kwineffects.h>
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/plasmashell.h>
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/plasmashell.h>
+#include <DWayland/Client/surface.h>
 
 #include <KDecoration2/Decoration>
 

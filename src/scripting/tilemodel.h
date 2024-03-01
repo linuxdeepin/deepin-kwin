@@ -13,7 +13,7 @@
 #include "tiles/quicktile.h"
 #include "tiles/tile.h"
 #include "utils/common.h"
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QAbstractItemModel>
 #include <QObject>
@@ -33,7 +33,7 @@ class TileManager;
 /**
  * Custom tiling zones management per output.
  */
-class KWIN_EXPORT TileModel : public QAbstractItemModel
+class DEEPIN_KWIN_EXPORT TileModel : public QAbstractItemModel
 {
     Q_OBJECT
 

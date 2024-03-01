@@ -33,7 +33,7 @@ class PlasmaShellSurfaceInterfacePrivate;
  * A server providing this interface should think about how to restrict access to it as
  * it allows to perform absolute window positioning.
  */
-class KWIN_EXPORT PlasmaShellInterface : public QObject
+class DEEPIN_KWIN_EXPORT PlasmaShellInterface : public QObject
 {
     Q_OBJECT
 
@@ -56,7 +56,7 @@ private:
  *
  * PlasmaShellSurfaceInterface gets created by PlasmaShellInterface.
  */
-class KWIN_EXPORT PlasmaShellSurfaceInterface : public QObject
+class DEEPIN_KWIN_EXPORT PlasmaShellSurfaceInterface : public QObject
 {
     Q_OBJECT
 public:

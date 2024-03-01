@@ -8,21 +8,21 @@
 */
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include "wayland/linuxdmabufv1clientbuffer.h"
 
 namespace KWin
 {
 
-class KWIN_EXPORT LinuxDmaBufV1ClientBuffer : public KWaylandServer::LinuxDmaBufV1ClientBuffer
+class DEEPIN_KWIN_EXPORT LinuxDmaBufV1ClientBuffer : public KWaylandServer::LinuxDmaBufV1ClientBuffer
 {
 public:
     LinuxDmaBufV1ClientBuffer(DmaBufAttributes &&attrs, quint32 flags);
     ~LinuxDmaBufV1ClientBuffer() override;
 };
 
-class KWIN_EXPORT LinuxDmaBufV1RendererInterface : public KWaylandServer::LinuxDmaBufV1ClientBufferIntegration::RendererInterface
+class DEEPIN_KWIN_EXPORT LinuxDmaBufV1RendererInterface : public KWaylandServer::LinuxDmaBufV1ClientBufferIntegration::RendererInterface
 {
 public:
     explicit LinuxDmaBufV1RendererInterface();

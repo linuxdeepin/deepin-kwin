@@ -21,7 +21,7 @@
 #include "x11window.h"
 #include "xkb.h"
 
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 #include <KGlobalAccel>
 

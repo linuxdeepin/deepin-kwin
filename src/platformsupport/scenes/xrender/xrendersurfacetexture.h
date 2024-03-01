@@ -14,7 +14,7 @@ namespace KWin
 
 class XRenderBackend;
 
-class KWIN_EXPORT XRenderSurfaceTexture : public SurfaceTexture
+class DEEPIN_KWIN_EXPORT XRenderSurfaceTexture : public SurfaceTexture
 {
 public:
     explicit XRenderSurfaceTexture(XRenderBackend *backend);

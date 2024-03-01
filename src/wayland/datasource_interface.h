@@ -18,7 +18,7 @@ class DataSourceInterfacePrivate;
 /**
  * @brief Represents the Resource for the wl_data_source interface.
  */
-class KWIN_EXPORT DataSourceInterface : public AbstractDataSource
+class DEEPIN_KWIN_EXPORT DataSourceInterface : public AbstractDataSource
 {
     Q_OBJECT
 public:

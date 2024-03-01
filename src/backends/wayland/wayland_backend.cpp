@@ -18,13 +18,13 @@
 #include "dpmsinputeventfilter.h"
 #include "input.h"
 
-#include <KWayland/Client/keyboard.h>
-#include <KWayland/Client/pointer.h>
-#include <KWayland/Client/pointergestures.h>
-#include <KWayland/Client/relativepointer.h>
-#include <KWayland/Client/seat.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/touch.h>
+#include <DWayland/Client/keyboard.h>
+#include <DWayland/Client/pointer.h>
+#include <DWayland/Client/pointergestures.h>
+#include <DWayland/Client/relativepointer.h>
+#include <DWayland/Client/seat.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/touch.h>
 
 #include <QAbstractEventDispatcher>
 

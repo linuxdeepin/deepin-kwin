@@ -22,7 +22,7 @@ namespace KWin
 
 class ColorPipelineStage;
 
-class KWIN_EXPORT ColorTransformation
+class DEEPIN_KWIN_EXPORT ColorTransformation
 {
 public:
     ColorTransformation(std::vector<std::unique_ptr<ColorPipelineStage>> &&stages);

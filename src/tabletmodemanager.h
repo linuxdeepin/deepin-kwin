@@ -10,13 +10,13 @@
 #include <KConfigWatcher>
 #include <QObject>
 #include <config-kwin.h>
-#include <kwin_export.h>
+#include "kwin_export.h"
 #include <kwinglobals.h>
 
 namespace KWin
 {
 
-class KWIN_EXPORT TabletModeManager : public QObject
+class DEEPIN_KWIN_EXPORT TabletModeManager : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.KWin.TabletModeManager")

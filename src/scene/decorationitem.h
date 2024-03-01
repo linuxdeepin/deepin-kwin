@@ -25,7 +25,7 @@ namespace Decoration
 class DecoratedClientImpl;
 }
 
-class KWIN_EXPORT DecorationRenderer : public QObject
+class DEEPIN_KWIN_EXPORT DecorationRenderer : public QObject
 {
     Q_OBJECT
 
@@ -74,7 +74,7 @@ private:
 /**
  * The DecorationItem class represents a server-side decoration.
  */
-class KWIN_EXPORT DecorationItem : public Item
+class DEEPIN_KWIN_EXPORT DecorationItem : public Item
 {
     Q_OBJECT
 

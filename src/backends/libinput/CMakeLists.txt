@@ -18,7 +18,7 @@ install(
         ${KDE_INSTALL_DBUSINTERFACEDIR}
 )
 
-target_sources(kwin PRIVATE
+target_sources(deepin-kwin PRIVATE
     connection.cpp
     context.cpp
     device.cpp
@@ -26,4 +26,4 @@ target_sources(kwin PRIVATE
     libinput_logging.cpp
     libinputbackend.cpp
 )
-target_link_libraries(kwin Libinput::Libinput)
+target_link_libraries(deepin-kwin Libinput::Libinput)

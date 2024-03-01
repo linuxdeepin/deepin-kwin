@@ -20,7 +20,7 @@ class Display;
 class ShadowManagerInterfacePrivate;
 class ShadowInterfacePrivate;
 
-class KWIN_EXPORT ShadowManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT ShadowManagerInterface : public QObject
 {
     Q_OBJECT
 
@@ -34,7 +34,7 @@ private:
     std::unique_ptr<ShadowManagerInterfacePrivate> d;
 };
 
-class KWIN_EXPORT ShadowInterface : public QObject
+class DEEPIN_KWIN_EXPORT ShadowInterface : public QObject
 {
     Q_OBJECT
 public:

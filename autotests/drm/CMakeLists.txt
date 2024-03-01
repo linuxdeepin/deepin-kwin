@@ -45,7 +45,7 @@ target_link_libraries(LibDrmTest
     XCB::XCB
     PkgConfig::Libxcvt
     gbm::gbm
-    kwin
+    deepin-kwin
 )
 target_include_directories(LibDrmTest
     PUBLIC
@@ -60,5 +60,5 @@ target_include_directories(LibDrmTest
 ########################################################
 add_executable(testDrm drmTest.cpp)
 target_link_libraries(testDrm LibDrmTest Qt${QT_MAJOR_VERSION}::Test)
-add_test(NAME kwin-testDrm COMMAND testDrm)
+add_test(NAME deepin-kwin-testDrm COMMAND testDrm)
 ecm_mark_as_test(testDrm)

@@ -21,7 +21,7 @@ namespace KWaylandServer
 /**
  * Returns an infinite region.
  */
-inline QRegion KWIN_EXPORT infiniteRegion()
+inline QRegion DEEPIN_KWIN_EXPORT infiniteRegion()
 {
     return QRegion(std::numeric_limits<int>::min() / 2, // "/ 2" is to avoid integer overflows
                    std::numeric_limits<int>::min() / 2,

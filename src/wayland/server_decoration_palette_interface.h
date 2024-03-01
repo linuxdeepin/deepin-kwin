@@ -26,7 +26,7 @@ class ServerSideDecorationPaletteInterfacePrivate;
  * This global can be used for clients to bind ServerSideDecorationPaletteInterface instances
  * and notifies when a new one is created
  */
-class KWIN_EXPORT ServerSideDecorationPaletteManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT ServerSideDecorationPaletteManagerInterface : public QObject
 {
     Q_OBJECT
 
@@ -53,7 +53,7 @@ private:
  * Provides the palette
  * This interface is attached to a wl_surface and informs the server of a requested palette
  */
-class KWIN_EXPORT ServerSideDecorationPaletteInterface : public QObject
+class DEEPIN_KWIN_EXPORT ServerSideDecorationPaletteInterface : public QObject
 {
     Q_OBJECT
 public:

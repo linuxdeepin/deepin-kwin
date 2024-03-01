@@ -13,7 +13,7 @@
 #include <QObject>
 #include <QtDBus>
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <KConfigGroup>
 
@@ -41,7 +41,7 @@ class SeatInterface;
 namespace KWin
 {
 
-class KWIN_EXPORT Xkb : public QObject, protected QDBusContext
+class DEEPIN_KWIN_EXPORT Xkb : public QObject, protected QDBusContext
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kwin.Xkb")

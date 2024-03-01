@@ -16,7 +16,7 @@ namespace KWin
 
 class WaylandServer;
 
-class KWIN_EXPORT PlaceholderWindow : public X11EventFilter
+class DEEPIN_KWIN_EXPORT PlaceholderWindow : public X11EventFilter
 {
 public:
     PlaceholderWindow();

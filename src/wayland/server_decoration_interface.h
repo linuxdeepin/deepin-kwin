@@ -23,7 +23,7 @@ class ServerSideDecorationInterfacePrivate;
 /**
  * @brief Manager to create ServerSideDecorationInterface.
  */
-class KWIN_EXPORT ServerSideDecorationManagerInterface : public QObject
+class DEEPIN_KWIN_EXPORT ServerSideDecorationManagerInterface : public QObject
 {
     Q_OBJECT
 
@@ -76,7 +76,7 @@ private:
  *
  * Created by ServerSideDecorationManagerInterface and emitted with decorationCreated signal.
  */
-class KWIN_EXPORT ServerSideDecorationInterface : public QObject
+class DEEPIN_KWIN_EXPORT ServerSideDecorationInterface : public QObject
 {
     Q_OBJECT
 public:

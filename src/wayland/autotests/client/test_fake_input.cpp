@@ -6,10 +6,10 @@
 // Qt
 #include <QtTest>
 // client
-#include "KWayland/Client/connection_thread.h"
-#include "KWayland/Client/event_queue.h"
-#include "KWayland/Client/fakeinput.h"
-#include "KWayland/Client/registry.h"
+#include "DWayland/Client/connection_thread.h"
+#include "DWayland/Client/event_queue.h"
+#include "DWayland/Client/fakeinput.h"
+#include "DWayland/Client/registry.h"
 // server
 #include "wayland/display.h"
 #include "wayland/fakeinput_interface.h"

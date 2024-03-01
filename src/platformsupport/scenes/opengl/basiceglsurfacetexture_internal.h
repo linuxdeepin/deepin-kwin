@@ -11,7 +11,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT BasicEGLSurfaceTextureInternal : public OpenGLSurfaceTextureInternal
+class DEEPIN_KWIN_EXPORT BasicEGLSurfaceTextureInternal : public OpenGLSurfaceTextureInternal
 {
 public:
     BasicEGLSurfaceTextureInternal(OpenGLBackend *backend, SurfacePixmapInternal *pixmap);

@@ -19,7 +19,7 @@ class DataControlSourceV1InterfacePrivate;
  *
  * DataControlSourceV1Interface corresponds to the wayland interface zwlr_data_control_source_v1.
  */
-class KWIN_EXPORT DataControlSourceV1Interface : public AbstractDataSource
+class DEEPIN_KWIN_EXPORT DataControlSourceV1Interface : public AbstractDataSource
 {
     Q_OBJECT
 

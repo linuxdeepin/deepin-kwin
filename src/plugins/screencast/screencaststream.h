@@ -37,7 +37,7 @@ class GLTexture;
 class PipeWireCore;
 class ScreenCastSource;
 
-class KWIN_EXPORT ScreenCastStream : public QObject
+class DEEPIN_KWIN_EXPORT ScreenCastStream : public QObject
 {
     Q_OBJECT
 public:

@@ -3007,7 +3007,7 @@ msgstr ""
 #~ msgid "Automatic Screen Rotation"
 #~ msgstr "Pantailaren biraketa automatikoa"
 
-#~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+#~ msgid "deepin-kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
 #~ "kwin wayland: X11 leiho-kudeatzaile bat martxan dago X11 "
 #~ "bistaratzailean.\n"

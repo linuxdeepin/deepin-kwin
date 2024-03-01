@@ -8,12 +8,12 @@
 */
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 namespace KWin
 {
 
-class KWIN_EXPORT FileDescriptor
+class DEEPIN_KWIN_EXPORT FileDescriptor
 {
 public:
     FileDescriptor() = default;

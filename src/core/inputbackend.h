@@ -17,7 +17,7 @@ namespace KWin
 
 class InputDevice;
 
-class KWIN_EXPORT InputBackend : public QObject
+class DEEPIN_KWIN_EXPORT InputBackend : public QObject
 {
     Q_OBJECT
 

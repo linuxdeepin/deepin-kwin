@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
-#include <kwin_export.h>
+#include "kwin_export.h"
 // KDE
 #include <KPluginMetaData>
 #include <KSharedConfig>
@@ -54,7 +54,7 @@ Q_DECLARE_FLAGS(LoadEffectFlags, LoadEffectFlag)
  * to be queried at the same time. Thus the idea is to have one implementation per type and one
  * implementation which makes use of all of them and combines the loading.
  */
-class KWIN_EXPORT AbstractEffectLoader : public QObject
+class DEEPIN_KWIN_EXPORT AbstractEffectLoader : public QObject
 {
     Q_OBJECT
 public:
@@ -271,7 +271,7 @@ private:
 /**
  * @brief Can load scripted Effects
  */
-class KWIN_EXPORT ScriptedEffectLoader : public AbstractEffectLoader
+class DEEPIN_KWIN_EXPORT ScriptedEffectLoader : public AbstractEffectLoader
 {
     Q_OBJECT
 public:
@@ -321,7 +321,7 @@ private:
     QString m_pluginSubDirectory;
 };
 
-class KWIN_EXPORT EffectLoader : public AbstractEffectLoader
+class DEEPIN_KWIN_EXPORT EffectLoader : public AbstractEffectLoader
 {
     Q_OBJECT
 public:

@@ -48,7 +48,7 @@ class SeatInterfacePrivate : public QtWaylandServer::wl_seat
 {
 public:
     // exported for unit tests
-    KWIN_EXPORT static SeatInterfacePrivate *get(SeatInterface *seat);
+    DEEPIN_KWIN_EXPORT static SeatInterfacePrivate *get(SeatInterface *seat);
     SeatInterfacePrivate(SeatInterface *q, Display *display);
 
     void sendCapabilities();

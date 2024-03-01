@@ -8,7 +8,7 @@
 */
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QMap>
 #include <QObject>
@@ -178,7 +178,7 @@ private:
     qreal m_minimumScaleDelta = DEFAULT_UNIT_SCALE_DELTA;
 };
 
-class KWIN_EXPORT GestureRecognizer : public QObject
+class DEEPIN_KWIN_EXPORT GestureRecognizer : public QObject
 {
     Q_OBJECT
 public:

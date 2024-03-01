@@ -6,14 +6,14 @@
 
 #pragma once
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QTimer>
 
 namespace KWin
 {
 
-class KWIN_EXPORT IdleDetector : public QObject
+class DEEPIN_KWIN_EXPORT IdleDetector : public QObject
 {
     Q_OBJECT
 

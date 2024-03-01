@@ -24,7 +24,7 @@ class PrimarySelectionOfferV1InterfacePrivate;
  * @brief Represents the Resource for the wl_data_offer interface.
  * Lifespan is mapped to the underlying object
  */
-class KWIN_EXPORT PrimarySelectionOfferV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT PrimarySelectionOfferV1Interface : public QObject
 {
     Q_OBJECT
 public:

@@ -41,7 +41,7 @@ class ShadowItem;
 class SurfaceItem;
 class WindowItem;
 
-class KWIN_EXPORT WorkspaceScene : public Scene
+class DEEPIN_KWIN_EXPORT WorkspaceScene : public Scene
 {
     Q_OBJECT
 

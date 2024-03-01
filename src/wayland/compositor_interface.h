@@ -22,7 +22,7 @@ class Display;
  *
  * The CompositorInterface corresponds to the Wayland interface @c wl_compositor.
  */
-class KWIN_EXPORT CompositorInterface : public QObject
+class DEEPIN_KWIN_EXPORT CompositorInterface : public QObject
 {
     Q_OBJECT
 

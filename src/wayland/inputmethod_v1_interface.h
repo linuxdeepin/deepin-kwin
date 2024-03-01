@@ -39,7 +39,7 @@ enum class KeyboardKeyState : quint32;
  *
  * When we activate, an @class InputMethodContextV1Interface becomes available
  */
-class KWIN_EXPORT InputMethodV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT InputMethodV1Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -66,7 +66,7 @@ private:
 /**
  * Implements zwp_input_method_context_v1, allows to describe the client's input state
  */
-class KWIN_EXPORT InputMethodContextV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT InputMethodContextV1Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -106,7 +106,7 @@ private:
 /**
  * Implements zwp_input_panel_v1, tells us about the InputPanelSurfaceV1Interface that we might get
  */
-class KWIN_EXPORT InputPanelV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT InputPanelV1Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -123,7 +123,7 @@ private:
 /**
  * Implements zwp_input_panel_surface_v1, it corresponds to each element shown so it can be placed.
  */
-class KWIN_EXPORT InputPanelSurfaceV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT InputPanelSurfaceV1Interface : public QObject
 {
     Q_OBJECT
 public:
@@ -149,7 +149,7 @@ private:
 /**
  * Implements a wl_keyboard tailored for zwp_input_method_v1 use-cases
  */
-class KWIN_EXPORT InputMethodGrabV1 : public QObject
+class DEEPIN_KWIN_EXPORT InputMethodGrabV1 : public QObject
 {
     Q_OBJECT
 public:

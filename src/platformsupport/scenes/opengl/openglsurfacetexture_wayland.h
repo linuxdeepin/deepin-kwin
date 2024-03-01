@@ -13,7 +13,7 @@ namespace KWin
 
 class SurfacePixmapWayland;
 
-class KWIN_EXPORT OpenGLSurfaceTextureWayland : public OpenGLSurfaceTexture
+class DEEPIN_KWIN_EXPORT OpenGLSurfaceTextureWayland : public OpenGLSurfaceTexture
 {
 public:
     OpenGLSurfaceTextureWayland(OpenGLBackend *backend, SurfacePixmapWayland *pixmap);

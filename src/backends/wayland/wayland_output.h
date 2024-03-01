@@ -10,8 +10,8 @@
 
 #include "core/output.h"
 
-#include <KWayland/Client/buffer.h>
-#include <KWayland/Client/xdgshell.h>
+#include <DWayland/Client/buffer.h>
+#include <DWayland/Client/xdgshell.h>
 
 #include <QObject>
 #include <QTimer>

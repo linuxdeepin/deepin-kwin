@@ -18,7 +18,7 @@ namespace KWin
 class Output;
 class ColordDevice;
 
-class KWIN_EXPORT ColordIntegration : public Plugin
+class DEEPIN_KWIN_EXPORT ColordIntegration : public Plugin
 {
     Q_OBJECT
 

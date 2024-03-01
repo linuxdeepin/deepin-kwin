@@ -93,7 +93,7 @@ KWinWrapper::~KWinWrapper()
 
 void KWinWrapper::run()
 {
-    m_kwinProcess->setProgram("kwin_wayland");
+    m_kwinProcess->setProgram("deepin-kwin_wayland");
 
     QStringList args;
 

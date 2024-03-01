@@ -62,7 +62,7 @@ enum StrutArea {
 };
 Q_DECLARE_FLAGS(StrutAreas, StrutArea)
 
-class KWIN_EXPORT StrutRect : public QRect
+class DEEPIN_KWIN_EXPORT StrutRect : public QRect
 {
 public:
     explicit StrutRect(QRect rect = QRect(), StrutArea area = StrutAreaInvalid);
@@ -119,10 +119,10 @@ enum class QuickTileFlag {
 Q_ENUM_NS(QuickTileFlag);
 Q_DECLARE_FLAGS(QuickTileMode, QuickTileFlag)
 
-void KWIN_EXPORT grabXServer();
-void KWIN_EXPORT ungrabXServer();
-bool KWIN_EXPORT grabXKeyboard(xcb_window_t w = XCB_WINDOW_NONE);
-void KWIN_EXPORT ungrabXKeyboard();
+void DEEPIN_KWIN_EXPORT grabXServer();
+void DEEPIN_KWIN_EXPORT ungrabXServer();
+bool DEEPIN_KWIN_EXPORT grabXKeyboard(xcb_window_t w = XCB_WINDOW_NONE);
+void DEEPIN_KWIN_EXPORT ungrabXKeyboard();
 
 static inline QRegion mapRegion(const QMatrix4x4 &matrix, const QRegion &region)
 {
@@ -153,11 +153,11 @@ public:
 
 // converting between X11 mouse/keyboard state mask and Qt button/keyboard states
 Qt::MouseButton x11ToQtMouseButton(int button);
-Qt::MouseButton KWIN_EXPORT x11ToQtMouseButton(int button);
-Qt::MouseButtons KWIN_EXPORT x11ToQtMouseButtons(int state);
-Qt::KeyboardModifiers KWIN_EXPORT x11ToQtKeyboardModifiers(int state);
+Qt::MouseButton DEEPIN_KWIN_EXPORT x11ToQtMouseButton(int button);
+Qt::MouseButtons DEEPIN_KWIN_EXPORT x11ToQtMouseButtons(int state);
+Qt::KeyboardModifiers DEEPIN_KWIN_EXPORT x11ToQtKeyboardModifiers(int state);
 
-KWIN_EXPORT QPointF popupOffset(const QRectF &anchorRect, const Qt::Edges anchorEdge, const Qt::Edges gravity, const QSizeF popupSize);
+DEEPIN_KWIN_EXPORT QPointF popupOffset(const QRectF &anchorRect, const Qt::Edges anchorEdge, const Qt::Edges gravity, const QSizeF popupSize);
 
 } // namespace
 

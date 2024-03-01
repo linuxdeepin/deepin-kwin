@@ -22,7 +22,7 @@ namespace KWin
 
 class Output;
 
-class KWIN_EXPORT QPainterBackend : public RenderBackend
+class DEEPIN_KWIN_EXPORT QPainterBackend : public RenderBackend
 {
     Q_OBJECT
 

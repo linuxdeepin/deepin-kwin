@@ -12,7 +12,7 @@
 #include "core/inputdevice.h"
 #include "core/outputbackend.h"
 
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QObject>
 #include <QSize>
@@ -89,7 +89,7 @@ struct X11WindowedBackendOptions
     QSize outputSize = QSize(1024, 768);
 };
 
-class KWIN_EXPORT X11WindowedBackend : public OutputBackend
+class DEEPIN_KWIN_EXPORT X11WindowedBackend : public OutputBackend
 {
     Q_OBJECT
 

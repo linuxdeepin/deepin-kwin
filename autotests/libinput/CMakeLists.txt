@@ -10,7 +10,7 @@ target_include_directories(LibInputTestObjects PUBLIC ${CMAKE_SOURCE_DIR}/src)
 ########################################################
 add_executable(testLibinputDevice device_test.cpp)
 target_link_libraries(testLibinputDevice Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Gui KF5::ConfigCore LibInputTestObjects)
-add_test(NAME kwin-testLibinputDevice COMMAND testLibinputDevice)
+add_test(NAME deepin-kwin-testLibinputDevice COMMAND testLibinputDevice)
 ecm_mark_as_test(testLibinputDevice)
 
 ########################################################
@@ -18,7 +18,7 @@ ecm_mark_as_test(testLibinputDevice)
 ########################################################
 add_executable(testLibinputKeyEvent key_event_test.cpp)
 target_link_libraries(testLibinputKeyEvent Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Widgets KF5::ConfigCore LibInputTestObjects)
-add_test(NAME kwin-testLibinputKeyEvent COMMAND testLibinputKeyEvent)
+add_test(NAME deepin-kwin-testLibinputKeyEvent COMMAND testLibinputKeyEvent)
 ecm_mark_as_test(testLibinputKeyEvent)
 
 ########################################################
@@ -26,7 +26,7 @@ ecm_mark_as_test(testLibinputKeyEvent)
 ########################################################
 add_executable(testLibinputPointerEvent pointer_event_test.cpp)
 target_link_libraries(testLibinputPointerEvent Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Widgets KF5::ConfigCore LibInputTestObjects)
-add_test(NAME kwin-testLibinputPointerEvent COMMAND testLibinputPointerEvent)
+add_test(NAME deepin-kwin-testLibinputPointerEvent COMMAND testLibinputPointerEvent)
 ecm_mark_as_test(testLibinputPointerEvent)
 
 ########################################################
@@ -34,7 +34,7 @@ ecm_mark_as_test(testLibinputPointerEvent)
 ########################################################
 add_executable(testLibinputTouchEvent touch_event_test.cpp)
 target_link_libraries(testLibinputTouchEvent Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Widgets KF5::ConfigCore LibInputTestObjects)
-add_test(NAME kwin-testLibinputTouchEvent COMMAND testLibinputTouchEvent)
+add_test(NAME deepin-kwin-testLibinputTouchEvent COMMAND testLibinputTouchEvent)
 ecm_mark_as_test(testLibinputTouchEvent)
 
 ########################################################
@@ -42,7 +42,7 @@ ecm_mark_as_test(testLibinputTouchEvent)
 ########################################################
 add_executable(testLibinputGestureEvent gesture_event_test.cpp)
 target_link_libraries(testLibinputGestureEvent Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Widgets KF5::ConfigCore LibInputTestObjects)
-add_test(NAME kwin-testLibinputGestureEvent COMMAND testLibinputGestureEvent)
+add_test(NAME deepin-kwin-testLibinputGestureEvent COMMAND testLibinputGestureEvent)
 ecm_mark_as_test(testLibinputGestureEvent)
 
 ########################################################
@@ -50,7 +50,7 @@ ecm_mark_as_test(testLibinputGestureEvent)
 ########################################################
 add_executable(testLibinputSwitchEvent switch_event_test.cpp)
 target_link_libraries(testLibinputSwitchEvent Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Widgets KF5::ConfigCore LibInputTestObjects)
-add_test(NAME kwin-testLibinputSwitchEvent COMMAND testLibinputSwitchEvent)
+add_test(NAME deepin-kwin-testLibinputSwitchEvent COMMAND testLibinputSwitchEvent)
 ecm_mark_as_test(testLibinputSwitchEvent)
 
 ########################################################
@@ -58,5 +58,5 @@ ecm_mark_as_test(testLibinputSwitchEvent)
 ########################################################
 add_executable(testInputEvents input_event_test.cpp ../../src/input_event.cpp)
 target_link_libraries(testInputEvents Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Widgets KF5::ConfigCore LibInputTestObjects)
-add_test(NAME kwin-testInputEvents COMMAND testInputEvents)
+add_test(NAME deepin-kwin-testInputEvents COMMAND testInputEvents)
 ecm_mark_as_test(testInputEvents)

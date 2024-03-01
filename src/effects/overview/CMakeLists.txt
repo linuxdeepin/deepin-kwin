@@ -26,4 +26,4 @@ target_link_libraries(kwin4_effect_overview PRIVATE
     Qt${QT_MAJOR_VERSION}::Quick
 )
 
-install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/overview)
+install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/effects/overview)

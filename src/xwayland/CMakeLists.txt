@@ -17,4 +17,4 @@ add_library(KWinXwaylandServerModule OBJECT
     xwaylandlauncher.cpp
 )
 set_property(TARGET KWinXwaylandServerModule PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_link_libraries(KWinXwaylandServerModule PUBLIC kwin KWinXwaylandCommon)
+target_link_libraries(KWinXwaylandServerModule PUBLIC deepin-kwin KWinXwaylandCommon)

@@ -19,12 +19,12 @@
 #include "kwingltexture.h"
 #include "kwinglutils.h"
 
-#include <KWayland/Client/compositor.h>
-#include <KWayland/Client/pointer.h>
-#include <KWayland/Client/pointerconstraints.h>
-#include <KWayland/Client/shm_pool.h>
-#include <KWayland/Client/surface.h>
-#include <KWayland/Client/xdgdecoration.h>
+#include <DWayland/Client/compositor.h>
+#include <DWayland/Client/pointer.h>
+#include <DWayland/Client/pointerconstraints.h>
+#include <DWayland/Client/shm_pool.h>
+#include <DWayland/Client/surface.h>
+#include <DWayland/Client/xdgdecoration.h>
 
 #include "core/renderlayer.h"
 #include "scene/cursorscene.h"

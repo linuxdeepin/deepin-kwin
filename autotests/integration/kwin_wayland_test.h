@@ -16,7 +16,7 @@
 // Qt
 #include <QtTest>
 
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 #include "qwayland-fractional-scale-v1.h"
 #include "qwayland-idle-inhibit-unstable-v1.h"
@@ -521,7 +521,7 @@ public:
     void setEnabled(bool enabled) override;
 
     LEDs leds() const override;
-    void setLeds(LEDs leds) override;
+    void setLeds(LEDs leds, bool force = false) override;
 
     bool isKeyboard() const override;
     bool isAlphaNumericKeyboard() const override;

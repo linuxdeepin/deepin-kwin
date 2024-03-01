@@ -38,7 +38,7 @@ class XdgSurfaceInterface;
  *
  * XdgShellInterface corresponds to the WaylandInterface \c xdg_wm_base.
  */
-class KWIN_EXPORT XdgShellInterface : public QObject
+class DEEPIN_KWIN_EXPORT XdgShellInterface : public QObject
 {
     Q_OBJECT
 
@@ -105,7 +105,7 @@ private:
  *
  * XdgSurfaceInterface corresponds to the Wayland interface \c xdg_surface.
  */
-class KWIN_EXPORT XdgSurfaceInterface : public QObject
+class DEEPIN_KWIN_EXPORT XdgSurfaceInterface : public QObject
 {
     Q_OBJECT
 
@@ -192,7 +192,7 @@ private:
  *
  * XdgToplevelInterface corresponds to the Wayland interface \c xdg_toplevel.
  */
-class KWIN_EXPORT XdgToplevelInterface : public QObject
+class DEEPIN_KWIN_EXPORT XdgToplevelInterface : public QObject
 {
     Q_OBJECT
 
@@ -398,7 +398,7 @@ private:
  *
  * XdgPositioner corresponds to the Wayland interface \c xdg_positioner.
  */
-class KWIN_EXPORT XdgPositioner
+class DEEPIN_KWIN_EXPORT XdgPositioner
 {
 public:
     /**
@@ -504,7 +504,7 @@ private:
  *
  * XdgPopupInterface corresponds to the Wayland interface \c xdg_popup.
  */
-class KWIN_EXPORT XdgPopupInterface : public QObject
+class DEEPIN_KWIN_EXPORT XdgPopupInterface : public QObject
 {
     Q_OBJECT
 

@@ -9,7 +9,7 @@
 #pragma once
 
 #include "input_event_spy.h"
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #include <QObject>
 #include <QSet>
@@ -17,7 +17,7 @@
 namespace KWin
 {
 
-class KWIN_EXPORT ModifierOnlyShortcuts : public QObject, public InputEventSpy
+class DEEPIN_KWIN_EXPORT ModifierOnlyShortcuts : public QObject, public InputEventSpy
 {
     Q_OBJECT
 public:

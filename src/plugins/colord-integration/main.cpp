@@ -11,7 +11,7 @@
 
 using namespace KWin;
 
-class KWIN_EXPORT ColordIntegrationFactory : public PluginFactory
+class DEEPIN_KWIN_EXPORT ColordIntegrationFactory : public PluginFactory
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID PluginFactory_iid FILE "metadata.json")

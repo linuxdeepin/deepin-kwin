@@ -11,7 +11,7 @@
 #pragma once
 
 #include <config-kwin.h>
-#include <kwin_export.h>
+#include "kwin_export.h"
 
 #if HAVE_MEMFD
 #include "filedescriptor.h"
@@ -43,7 +43,7 @@ namespace KWin
  *
  * @sa effectiveFlags()
  */
-class KWIN_EXPORT RamFile
+class DEEPIN_KWIN_EXPORT RamFile
 {
 public:
     /**

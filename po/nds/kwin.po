@@ -3052,7 +3052,7 @@ msgstr ""
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Finsterp&leger-Instellen"
 
-#~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+#~ msgid "deepin-kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr "kwin wayland: En X11-Finsterpleger löppt al op den X11-Schirm.\n"
 
 #~ msgid "Martin Gräßlin"
@@ -3122,10 +3122,10 @@ msgstr ""
 #~ msgstr "&Inrullen"
 
 #~ msgid ""
-#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
+#~ "deepin-kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
 #~ "is set.\n"
 #~ msgstr ""
-#~ "kwin_wayland: keen Verbinnen na Wayland-Server, beseker de Variabel "
+#~ "deepin-kwin_wayland: keen Verbinnen na Wayland-Server, beseker de Variabel "
 #~ "WAYLAND_DISPLAY is sett.\n"
 
 #, fuzzy

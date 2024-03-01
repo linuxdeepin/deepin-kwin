@@ -20,7 +20,7 @@
 #include <KConfigGroup>
 #include <KGlobalAccel>
 
-#include <KWayland/Client/surface.h>
+#include <DWayland/Client/surface.h>
 
 #include <QAction>
 #include <QDBusConnection>

@@ -24,7 +24,7 @@ class KeyboardShortcutsInhibitManagerV1Interface;
 class KeyboardShortcutsInhibitorV1InterfacePrivate;
 class KeyboardShortcutsInhibitManagerV1InterfacePrivate;
 
-class KWIN_EXPORT KeyboardShortcutsInhibitorV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT KeyboardShortcutsInhibitorV1Interface : public QObject
 {
     Q_OBJECT
 
@@ -50,7 +50,7 @@ private:
  *
  * KeyboardShortcutsInhibitManagerV1Interface correponds to the wayland interface zwp_keyboard_shortcuts_inhibit_manager_v1.
  */
-class KWIN_EXPORT KeyboardShortcutsInhibitManagerV1Interface : public QObject
+class DEEPIN_KWIN_EXPORT KeyboardShortcutsInhibitManagerV1Interface : public QObject
 {
     Q_OBJECT
 
