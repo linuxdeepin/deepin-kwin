@@ -54,8 +54,8 @@ if (KWIN_HAVE_XRENDER_COMPOSITING)
     target_link_libraries(deepin-kwineffects PRIVATE XCB::XFIXES)
 endif()
 set_target_properties(deepin-kwineffects PROPERTIES
-    VERSION ${KWINEFFECTS_VERSION}
-    SOVERSION ${KWINEFFECTS_SOVERSION}
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
 install(TARGETS deepin-kwineffects EXPORT DeepinKWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
@@ -74,8 +74,8 @@ add_library(deepin-kwinglutils SHARED ${kwin_GLUTILSLIB_SRCS})
 generate_export_header(deepin-kwinglutils BASE_NAME deepin-kwinglutils EXPORT_FILE_NAME deepin-kwinglutils_export.h)
 target_link_libraries(deepin-kwinglutils PUBLIC XCB::XCB KF5::CoreAddons KF5::ConfigCore KF5::WindowSystem epoxy::epoxy)
 set_target_properties(deepin-kwinglutils PROPERTIES
-    VERSION ${KWINEFFECTS_VERSION}
-    SOVERSION ${KWINEFFECTS_SOVERSION}
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
 install(TARGETS deepin-kwinglutils EXPORT DeepinKWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
