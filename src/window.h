@@ -2003,6 +2003,7 @@ protected:
     static std::unique_ptr<PlaceholderWindow> s_placeholderWindow;
 
     virtual bool isProhibitScreenshotWindow();
+    QRegion decorationInputRegion() const;
 
 private Q_SLOTS:
     void shadeHover();
@@ -2199,6 +2200,11 @@ inline QSizeF Window::clientSize() const
 inline QRectF Window::frameGeometry() const
 {
     return m_frameGeometry;
+}
+
+inline QRegion Window::decorationInputRegion() const
+{
+    return m_decoration.inputRegion;
 }
 
 inline QSizeF Window::size() const

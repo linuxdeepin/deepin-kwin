@@ -74,17 +74,24 @@ void XwaylandWindow::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
 
 bool XwaylandWindow::hitTest(const QPointF &point) const
 {
+    if (isDecorated()) {
+        if (decorationInputRegion().contains(flooredPoint(mapToFrame(point)))) {
+            return true;
+        }
+    }
+    const QPointF relativePoint = point - clientGeometry().topLeft();
+
     bool isInBounding = false, isInInput = false;
     if (shape()) {
         for (const auto& rect: m_shapeBoundingRegion) {
-            if (rect.contains(flooredPoint(mapToFrame(point)))) {
+            if (rect.contains(flooredPoint(relativePoint))) {
                 isInBounding = true;
                 break;
             }
         }
     }
     for (const auto& rect: m_shapeInputRegion) {
-        if (rect.contains(flooredPoint(mapToFrame(point)))) {
+        if (rect.contains(flooredPoint(relativePoint))) {
             isInInput = true;
             break;
         }
