@@ -12,7 +12,7 @@
 #include "colormanager.h"
 #include "nightcolordbusinterface.h"
 #include "nightcolorlogging.h"
-#include "nightcolorsettings.h"
+#include "deepin-nightcolorsettings.h"
 #include "suncalc.h"
 
 #include <core/outputbackend.h>

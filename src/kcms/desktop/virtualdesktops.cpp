@@ -9,7 +9,7 @@
 #include "animationsmodel.h"
 #include "desktopsmodel.h"
 #include "virtualdesktopsdata.h"
-#include "virtualdesktopssettings.h"
+#include "deepin-virtualdesktopssettings.h"
 
 #include <KAboutApplicationDialog>
 #include <KAboutData>

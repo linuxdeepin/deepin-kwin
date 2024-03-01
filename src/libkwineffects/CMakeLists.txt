@@ -90,7 +90,7 @@ install(FILES
     kwinglobals.h
     kwinglplatform.h
     kwingltexture.h
-    deepinkwinglutils.h
+    kwinglutils.h
     kwinglutils_funcs.h
     kwinoffscreeneffect.h
     kwinoffscreenquickview.h

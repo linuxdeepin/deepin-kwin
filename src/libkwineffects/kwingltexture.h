@@ -36,7 +36,7 @@ enum TextureCoordinateType {
     UnnormalizedCoordinates,
 };
 
-class KWINGLUTILS_EXPORT GLTexture
+class DEEPINKWINGLUTILS_EXPORT GLTexture
 {
 public:
     explicit GLTexture(GLenum target);

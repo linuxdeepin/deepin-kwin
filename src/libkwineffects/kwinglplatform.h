@@ -191,7 +191,7 @@ enum ChipClass {
 };
 // clang-format on
 
-class KWINGLUTILS_EXPORT GLPlatform
+class DEEPINKWINGLUTILS_EXPORT GLPlatform
 {
 public:
     ~GLPlatform();

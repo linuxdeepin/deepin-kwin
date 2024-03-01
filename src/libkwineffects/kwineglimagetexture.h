@@ -19,7 +19,7 @@ typedef void *EGLClientBuffer;
 namespace KWin
 {
 
-class KWINGLUTILS_EXPORT EGLImageTexture : public GLTexture
+class DEEPINKWINGLUTILS_EXPORT EGLImageTexture : public GLTexture
 {
 public:
     EGLImageTexture(EGLDisplay display, EGLImageKHR image, int internalFormat, const QSize &size);

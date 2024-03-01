@@ -8,7 +8,7 @@
 
 #include "animationsmodel.h"
 #include "desktopsmodel.h"
-#include "virtualdesktopssettings.h"
+#include "deepin-virtualdesktopssettings.h"
 
 namespace KWin
 {

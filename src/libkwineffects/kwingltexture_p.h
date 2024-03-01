@@ -26,7 +26,7 @@ namespace KWin
 // forward declarations
 class GLVertexBuffer;
 
-class KWINGLUTILS_EXPORT GLTexturePrivate
+class DEEPINKWINGLUTILS_EXPORT GLTexturePrivate
     : public QSharedData
 {
 public:

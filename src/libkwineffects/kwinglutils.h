@@ -41,20 +41,20 @@ class GLVertexBufferPrivate;
 //  well as checking for GL version and extensions
 //  Note that GL context has to be created by the time this function is called
 typedef void (*resolveFuncPtr)();
-void KWINGLUTILS_EXPORT initGL(const std::function<resolveFuncPtr(const char *)> &resolveFunction);
+void DEEPINKWINGLUTILS_EXPORT initGL(const std::function<resolveFuncPtr(const char *)> &resolveFunction);
 // Cleans up all resources hold by the GL Context
-void KWINGLUTILS_EXPORT cleanupGL();
+void DEEPINKWINGLUTILS_EXPORT cleanupGL();
 
-bool KWINGLUTILS_EXPORT hasGLVersion(int major, int minor, int release = 0);
+bool DEEPINKWINGLUTILS_EXPORT hasGLVersion(int major, int minor, int release = 0);
 // use for both OpenGL and GLX extensions
-bool KWINGLUTILS_EXPORT hasGLExtension(const QByteArray &extension);
+bool DEEPINKWINGLUTILS_EXPORT hasGLExtension(const QByteArray &extension);
 
 // detect OpenGL error (add to various places in code to pinpoint the place)
-bool KWINGLUTILS_EXPORT checkGLError(const char *txt);
+bool DEEPINKWINGLUTILS_EXPORT checkGLError(const char *txt);
 
-QList<QByteArray> KWINGLUTILS_EXPORT openGLExtensions();
+QList<QByteArray> DEEPINKWINGLUTILS_EXPORT openGLExtensions();
 
-class KWINGLUTILS_EXPORT GLShader
+class DEEPINKWINGLUTILS_EXPORT GLShader
 {
 public:
     enum Flags {
@@ -191,7 +191,7 @@ Q_DECLARE_FLAGS(ShaderTraits, ShaderTrait)
  * @author Martin Gräßlin <mgraesslin@kde.org>
  * @since 4.7
  */
-class KWINGLUTILS_EXPORT ShaderManager
+class DEEPINKWINGLUTILS_EXPORT ShaderManager
 {
 public:
     ~ShaderManager();
@@ -325,7 +325,7 @@ private:
  *
  * @since 4.10
  */
-class KWINGLUTILS_EXPORT ShaderBinder
+class DEEPINKWINGLUTILS_EXPORT ShaderBinder
 {
 public:
     /**
@@ -384,7 +384,7 @@ inline GLShader *ShaderBinder::shader()
  *
  * @author Rivo Laks <rivolaks@hot.ee>
  */
-class KWINGLUTILS_EXPORT GLFramebuffer
+class DEEPINKWINGLUTILS_EXPORT GLFramebuffer
 {
 public:
     /**
@@ -522,7 +522,7 @@ struct GLVertexAttrib
  * @author Martin Gräßlin <mgraesslin@kde.org>
  * @since 4.6
  */
-class KWINGLUTILS_EXPORT GLVertexBuffer
+class DEEPINKWINGLUTILS_EXPORT GLVertexBuffer
 {
 public:
     /**
