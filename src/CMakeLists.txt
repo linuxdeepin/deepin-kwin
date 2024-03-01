@@ -214,7 +214,7 @@ target_sources(deepin-kwin PRIVATE
 
 target_link_libraries(deepin-kwin
     kwineffects
-    deepinkwinglutils
+    deepin-kwinglutils
 
     Qt${QT_MAJOR_VERSION}::Concurrent
     Qt${QT_MAJOR_VERSION}::DBus
@@ -412,7 +412,7 @@ target_link_libraries(deepin-kwin_wayland
 )
 
 add_custom_target(
-    KWinDBusInterfaces
+    DeepinKWinDBusInterfaces
     ALL
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.kwin.VirtualKeyboard.xml
             ${CMAKE_CURRENT_BINARY_DIR}/org.kde.KWin.TabletModeManager.xml

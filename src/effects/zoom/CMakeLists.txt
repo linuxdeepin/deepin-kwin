@@ -19,7 +19,7 @@ kconfig_add_kcfg_files(zoom_SOURCES
 kwin4_add_effect_module(kwin4_effect_zoom ${zoom_SOURCES})
 target_link_libraries(kwin4_effect_zoom PRIVATE
     kwineffects
-    deepinkwinglutils
+    deepin-kwinglutils
 
     KF5::ConfigGui
     KF5::ConfigWidgets

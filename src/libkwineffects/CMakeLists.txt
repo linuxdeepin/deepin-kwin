@@ -4,7 +4,7 @@ include(ECMSetupQtPluginMacroNames)
 
 ecm_setup_version(${PROJECT_VERSION}
                   VARIABLE_PREFIX KWINEFFECTS
-                  VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kwineffects_version.h"
+                  VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/deepin-kwineffects_version.h"
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KWinEffectsConfigVersion.cmake"
                   SOVERSION 14
 )
@@ -34,9 +34,9 @@ set(kwin_EFFECTSLIB_SRCS
     sharedqmlengine.cpp
 )
 
-add_library(kwineffects SHARED ${kwin_EFFECTSLIB_SRCS})
-generate_export_header(kwineffects EXPORT_FILE_NAME kwineffects_export.h)
-target_link_libraries(kwineffects
+add_library(deepin-kwineffects SHARED ${kwin_EFFECTSLIB_SRCS})
+generate_export_header(deepin-kwineffects EXPORT_FILE_NAME deepin-kwineffects_export.h)
+target_link_libraries(deepin-kwineffects
     PUBLIC
         KF5::ConfigCore
         KF5::CoreAddons
@@ -45,20 +45,20 @@ target_link_libraries(kwineffects
     PRIVATE
         Qt${QT_MAJOR_VERSION}::Quick
         KF5::I18n
-        deepinkwinglutils
+        deepin-kwinglutils
 )
 if (QT_MAJOR_VERSION EQUAL "6")
-    target_link_libraries(kwineffects PRIVATE Qt${QT_MAJOR_VERSION}::GuiPrivate)
+    target_link_libraries(deepin-kwineffects PRIVATE Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
 if (KWIN_HAVE_XRENDER_COMPOSITING)
-    target_link_libraries(kwineffects PRIVATE XCB::XFIXES)
+    target_link_libraries(deepin-kwineffects PRIVATE XCB::XFIXES)
 endif()
-set_target_properties(kwineffects PROPERTIES
+set_target_properties(deepin-kwineffects PROPERTIES
     VERSION ${KWINEFFECTS_VERSION}
     SOVERSION ${KWINEFFECTS_SOVERSION}
 )
 
-install(TARGETS kwineffects EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwineffects EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 # kwingl(es)utils library
 set(kwin_GLUTILSLIB_SRCS
@@ -70,23 +70,23 @@ set(kwin_GLUTILSLIB_SRCS
     logging.cpp
 )
 
-add_library(deepinkwinglutils SHARED ${kwin_GLUTILSLIB_SRCS})
-generate_export_header(deepinkwinglutils BASE_NAME deepinkwinglutils EXPORT_FILE_NAME kwinglutils_export.h)
-target_link_libraries(deepinkwinglutils PUBLIC XCB::XCB KF5::CoreAddons KF5::ConfigCore KF5::WindowSystem epoxy::epoxy)
-set_target_properties(deepinkwinglutils PROPERTIES
+add_library(deepin-kwinglutils SHARED ${kwin_GLUTILSLIB_SRCS})
+generate_export_header(deepin-kwinglutils BASE_NAME deepin-kwinglutils EXPORT_FILE_NAME kwinglutils_export.h)
+target_link_libraries(deepin-kwinglutils PUBLIC XCB::XCB KF5::CoreAddons KF5::ConfigCore KF5::WindowSystem epoxy::epoxy)
+set_target_properties(deepin-kwinglutils PROPERTIES
     VERSION ${KWINEFFECTS_VERSION}
     SOVERSION ${KWINEFFECTS_SOVERSION}
 )
 
-install(TARGETS deepinkwinglutils EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS deepin-kwinglutils EXPORT KWinEffectsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/kwinconfig.h
-    ${CMAKE_CURRENT_BINARY_DIR}/kwineffects_export.h
+    ${CMAKE_CURRENT_BINARY_DIR}/deepin-kwineffects_export.h
     ${CMAKE_CURRENT_BINARY_DIR}/kwinglutils_export.h
     kwinanimationeffect.h
-    kwineffects.h
-    kwineffectsex.h
+    deepin-kwineffects.h
+    deepin-kwineffectsex.h
     kwinglobals.h
     kwinglplatform.h
     kwingltexture.h

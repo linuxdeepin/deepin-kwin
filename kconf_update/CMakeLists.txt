@@ -21,11 +21,11 @@ install(PROGRAMS deepin-kwin-5.23-remove-xrender-backend.py
 install(PROGRAMS deepin-kwin-5.27-replace-cascaded-zerocornered.sh
          DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
 
-install(FILES kwinrules.upd
+install(FILES deepin-kwinrules.upd
         DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwinrules-5.19-placement.pl
+install(PROGRAMS deepin-kwinrules-5.19-placement.pl
         DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
-install(PROGRAMS kwinrules-5.23-virtual-desktop-ids.py
+install(PROGRAMS deepin-kwinrules-5.23-virtual-desktop-ids.py
         DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})
 install(PROGRAMS deepin-kwin-5.25-effect-pluginid-config-group.py
         DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})

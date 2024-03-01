@@ -10,7 +10,7 @@ set(multitaskview_SOURCES
 kwin4_add_effect_module(kwin4_effect_multitaskview ${multitaskview_SOURCES})
 target_link_libraries(kwin4_effect_multitaskview PRIVATE
     kwineffects
-    deepinkwinglutils
+    deepin-kwinglutils
     KF5::GlobalAccel
     Qt5::DBus
     Qt5::X11Extras

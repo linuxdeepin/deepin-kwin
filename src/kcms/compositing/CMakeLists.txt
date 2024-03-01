@@ -23,9 +23,9 @@ endif()
 
 ki18n_wrap_ui(kwincompositing_SRC compositing.ui)
 
-kcoreaddons_add_plugin(kwincompositing SOURCES ${kwincompositing_SRC} INSTALL_NAMESPACE "plasma/kcms/systemsettings_qwidgets")
+kcoreaddons_add_plugin(deepin-kwincompositing SOURCES ${kwincompositing_SRC} INSTALL_NAMESPACE "plasma/kcms/systemsettings_qwidgets")
 
-target_link_libraries(kwincompositing
+target_link_libraries(deepin-kwincompositing
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Widgets
 

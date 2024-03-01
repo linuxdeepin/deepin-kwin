@@ -9,7 +9,7 @@ set(touchpoints_SOURCES
 kwin4_add_effect_module(kwin4_effect_touchpoints ${touchpoints_SOURCES})
 target_link_libraries(kwin4_effect_touchpoints PRIVATE
     kwineffects
-    deepinkwinglutils
+    deepin-kwinglutils
 
     KF5::GlobalAccel
 )

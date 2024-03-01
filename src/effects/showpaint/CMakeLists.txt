@@ -9,7 +9,7 @@ set(showpaint_SOURCES
 kwin4_add_effect_module(kwin4_effect_showpaint ${showpaint_SOURCES})
 target_link_libraries(kwin4_effect_showpaint PRIVATE
     kwineffects
-    deepinkwinglutils
+    deepin-kwinglutils
 
     KF5::GlobalAccel
     KF5::I18n
