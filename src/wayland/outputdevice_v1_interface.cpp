@@ -279,11 +279,6 @@ void OutputDeviceInterfacePrivate::sendCurrentMode(Resource *resource)
     send_mode(resource->handle, m_currentMode->flags(),
               m_currentMode->size().width(), m_currentMode->size().height(),
               m_currentMode->refreshRate(), m_currentMode->modeId());
-    if (m_preMode) {
-        send_mode(resource->handle, m_preMode->flags(),
-                  m_preMode->size().width(), m_preMode->size().height(),
-                  m_preMode->refreshRate(), m_preMode->modeId());
-    }
 }
 
 void OutputDeviceInterfacePrivate::sendGeometry(Resource *resource)
