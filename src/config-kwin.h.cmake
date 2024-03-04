@@ -13,6 +13,11 @@
 #define KWIN_RULES_DIALOG_BIN "${CMAKE_INSTALL_FULL_LIBEXECDIR}/kwin_rules_dialog"
 #cmakedefine01 HAVE_X11_XCB
 #cmakedefine01 HAVE_X11_XINPUT
+
+#cmakedefine01 HAVE_SYS_PRCTL_H
+#cmakedefine01 HAVE_PR_SET_DUMPABLE
+#cmakedefine01 HAVE_SYS_PROCCTL_H
+
 #cmakedefine01 HAVE_GBM_BO_GET_FD_FOR_PLANE
 #cmakedefine01 HAVE_GBM_BO_CREATE_WITH_MODIFIERS2
 #cmakedefine01 HAVE_MEMFD

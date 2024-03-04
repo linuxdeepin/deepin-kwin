@@ -50,6 +50,13 @@
 
 #include <iomanip>
 #include <iostream>
+#if HAVE_SYS_PRCTL_H
+#include <sys/prctl.h>
+#endif
+#if HAVE_SYS_PROCCTL_H
+#include <unistd.h>
+#include <sys/procctl.h>
+#endif
 
 Q_IMPORT_PLUGIN(KWinIntegrationPlugin)
 Q_IMPORT_PLUGIN(KGlobalAccelImpl)
@@ -61,6 +68,20 @@ Q_IMPORT_PLUGIN(ScreencastManagerFactory)
 
 namespace KWin
 {
+
+
+
+
+static void unsetDumpable(int sig)
+{
+#if HAVE_PR_SET_DUMPABLE
+    prctl(PR_SET_DUMPABLE, 1);
+#endif
+    qDebug() << "raise signal" << sig;
+    signal(sig, SIG_IGN);
+    raise(sig);
+    return;
+}
 
 static rlimit originalNofileLimit = {
     .rlim_cur = 0,
@@ -334,6 +355,9 @@ int main(int argc, char *argv[])
     KSignalHandler::self()->watchSignal(SIGHUP);
     QObject::connect(KSignalHandler::self(), &KSignalHandler::signalReceived,
                      &a, &KWin::ApplicationWayland::exitWayland);
+
+    signal(SIGABRT, KWin::unsetDumpable);
+    signal(SIGSEGV, KWin::unsetDumpable);
 
     KWin::Application::createAboutData();
 

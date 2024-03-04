@@ -449,6 +449,13 @@ add_feature_info("SCHED_RESET_ON_FORK"
                  HAVE_SCHED_RESET_ON_FORK
                  "Required for running kwin_wayland with real-time scheduling")
 
+check_include_file("sys/prctl.h" HAVE_SYS_PRCTL_H)
+check_include_file("sys/procctl.h" HAVE_SYS_PROCCTL_H)
+check_symbol_exists(PR_SET_DUMPABLE "sys/prctl.h" HAVE_PR_SET_DUMPABLE)
+check_symbol_exists(PROC_TRACE_CTL "sys/procctl.h" HAVE_PROC_TRACE_CTL)
+if (HAVE_PR_SET_DUMPABLE OR HAVE_PROC_TRACE_CTL)
+    set(CAN_DISABLE_PTRACE TRUE)
+endif()
 
 pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.15)
 add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
