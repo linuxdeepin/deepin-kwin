@@ -7,18 +7,18 @@ import subprocess
 
 # Get the config standard locations
 config_locations = subprocess.check_output(['qtpaths', '--paths', 'ConfigLocation']).decode('utf-8').strip().split(':')
-config_paths = [os.path.join(folder, 'kwinrc') for folder in config_locations]
+config_paths = [os.path.join(folder, 'deepin-kwinrc') for folder in config_locations]
 
-# Get the desktops information from `kwinrc` config file
-kwinrc = configparser.ConfigParser(strict=False, allow_no_value=True)
-kwinrc.read(config_paths)
+# Get the desktops information from `deepin-kwinrc` config file
+deepin-kwinrc = configparser.ConfigParser(strict=False, allow_no_value=True)
+deepin-kwinrc.read(config_paths)
 
-num_desktops = int(kwinrc.get('Desktops', 'Number', fallback=''))
+num_desktops = int(deepin-kwinrc.get('Desktops', 'Number', fallback=''))
 
 # Generete the map from x11ids (ennumeration) to UUIDs
 desktopUUIDs = { -1: "" } # NET::OnAllDesktops -> Empty string
 for i in range(1, num_desktops + 1):
-    uuid = kwinrc.get('Desktops', f'Id_{i}', fallback='')
+    uuid = deepin-kwinrc.get('Desktops', f'Id_{i}', fallback='')
     desktopUUIDs[i] = str(uuid)
 
 # Apply the conversion to `kwinrulesrc`

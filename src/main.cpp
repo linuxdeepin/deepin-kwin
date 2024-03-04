@@ -82,7 +82,7 @@ Application::Application(Application::OperationMode mode, int &argc, char **argv
     : QApplication(argc, argv)
     , m_eventFilter(new XcbEventFilter())
     , m_configLock(false)
-    , m_config(KSharedConfig::openConfig(QStringLiteral("kwinrc")))
+    , m_config(KSharedConfig::openConfig(QStringLiteral("deepin-kwinrc")))
     , m_kxkbConfig()
     , m_operationMode(mode)
 {

@@ -681,7 +681,7 @@ void VirtualDesktopManager::updateLayout()
 
 static bool isSectionExists()
 {
-    std::ifstream file(std::string(getenv("HOME")) + "/.config/kwinrc");
+    std::ifstream file(std::string(getenv("HOME")) + "/.config/deepin-kwinrc");
     std::string line;
     int count = 0;
 

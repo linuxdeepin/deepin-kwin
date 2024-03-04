@@ -132,7 +132,7 @@ bool ScriptedEffectLoader::loadEffect(const KPluginMetaData &effect, LoadEffectF
         }
         if (name == "kwin4_effect_squash" || name == "kwin4_effect_maximize"
                 || name == "kwin4_effect_scale" || name == "kwin4_effect_fadingpopups") {
-            KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
+            KConfigGroup kwinConfig(KSharedConfig::openConfig("deepin-kwinrc"), "Compositing");
             if (kwinConfig.hasKey("window_animation") && kwinConfig.readEntry("window_animation") == "false") {
                 return false;
             }
@@ -220,7 +220,7 @@ void ScriptedEffectLoader::clear()
 
 PluginEffectLoader::PluginEffectLoader(QObject *parent)
     : AbstractEffectLoader(parent)
-    , m_pluginSubDirectory(QStringLiteral("kwin/effects/plugins"))
+    , m_pluginSubDirectory(QStringLiteral("deepin-kwin/effects/plugins"))
 {
 }
 
@@ -313,17 +313,17 @@ bool PluginEffectLoader::loadEffect(const KPluginMetaData &info, LoadEffectFlags
             return false;
         }
         if (name == "magiclamp" || name == "slide") {
-            KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
+            KConfigGroup kwinConfig(KSharedConfig::openConfig("deepin-kwinrc"), "Compositing");
             if (kwinConfig.hasKey("window_animation") && kwinConfig.readEntry("window_animation") == "false") {
                 return false;
             }
         } else if (name == "scissor") {
-            KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Compositing");
+            KConfigGroup kwinConfig(KSharedConfig::openConfig("deepin-kwinrc"), "Compositing");
             if (kwinConfig.hasKey("window_border_effect") && kwinConfig.readEntry("window_border_effect") == "false") {
                 return false;
             }
         } else if (name == "multitaskview") {
-            KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Plugins");
+            KConfigGroup kwinConfig(KSharedConfig::openConfig("deepin-kwinrc"), "Plugins");
             if (kwinConfig.hasKey("com.deepin.multitaskingEnabled") && kwinConfig.readEntry("com.deepin.multitaskingEnabled") == "false") {
                 return false;
             }

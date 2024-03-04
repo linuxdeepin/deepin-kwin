@@ -14,7 +14,7 @@
 
 KWinScriptsData::KWinScriptsData(QObject *parent, const QVariantList &args)
     : KCModuleData(parent, args)
-    , m_kwinConfig(KSharedConfig::openConfig("kwinrc"))
+    , m_kwinConfig(KSharedConfig::openConfig("deepin-kwinrc"))
 {
 }
 

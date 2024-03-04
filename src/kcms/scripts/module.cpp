@@ -43,7 +43,7 @@ Module::Module(QObject *parent, const KPluginMetaData &data, const QVariantList 
     connect(m_model, &KPluginModel::defaulted, this, [this](bool defaulted) {
         setRepresentsDefaults(defaulted);
     });
-    m_model->setConfig(KSharedConfig::openConfig("kwinrc")->group("Plugins"));
+    m_model->setConfig(KSharedConfig::openConfig("deepin-kwinrc")->group("Plugins"));
 }
 
 void Module::onGHNSEntriesChanged()
