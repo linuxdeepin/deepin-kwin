@@ -34,7 +34,7 @@ public:
 private:
     bool isRelevantWithPresentWindows(EffectWindow *w) const;
     void resetWinPos(EffectWindow *w, QuickTileMode mode);
-    int paintWinPos(EffectWindow *w, QuickTileMode mode, bool curtpos = false);
+    int paintWinPos(EffectWindow *w, QuickTileMode mode, int calculationMethod);
 public Q_SLOTS:
     void setActive(bool active);
     void toggleActive() {

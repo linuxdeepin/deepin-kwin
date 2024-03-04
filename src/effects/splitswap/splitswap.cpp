@@ -101,10 +101,10 @@ void SplitSwapEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Win
         int xPos = 0;
         if (w != m_dragEffectWin ) {
             if (effectsEx->getQuickTileMode(w) == QuickTileMode(QuickTileFlag::Left)) {
-                xPos = paintWinPos(w, QuickTileMode(m_leftMode));
+                xPos = paintWinPos(w, QuickTileMode(m_leftMode), 2);
                 data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
             } else if (effectsEx->getQuickTileMode(w) == QuickTileMode(QuickTileFlag::Right)) {
-                xPos = paintWinPos(w, QuickTileMode(m_rightMode));
+                xPos = paintWinPos(w, QuickTileMode(m_rightMode), 2);
                 data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
             }
         }
@@ -113,16 +113,18 @@ void SplitSwapEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Win
         int xPos = 0;
         if (w == m_dragEffectWin) {
             if (effectsEx->getQuickTileMode(w) == QuickTileMode(QuickTileFlag::Left)) {
-                xPos = paintWinPos(w, QuickTileMode(m_leftMode), true);
+                xPos = paintWinPos(w, QuickTileMode(m_leftMode), 0);
                 data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
             } else if (effectsEx->getQuickTileMode(w) == QuickTileMode(QuickTileFlag::Right)) {
-                xPos = paintWinPos(w, QuickTileMode(m_rightMode), true);
+                xPos = paintWinPos(w, QuickTileMode(m_rightMode), 0);
                 data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
             }
         } else if (effectsEx->getQuickTileMode(w) == QuickTileMode(QuickTileFlag::Left)) {
-            resetWinPos(w, QuickTileMode(m_leftMode));
+            xPos = paintWinPos(w, QuickTileMode(m_leftMode), 1);
+            data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
         } else if (effectsEx->getQuickTileMode(w) == QuickTileMode(QuickTileFlag::Right)) {
-            resetWinPos(w, QuickTileMode(m_rightMode));
+            xPos = paintWinPos(w, QuickTileMode(m_rightMode), 1);
+            data += QPoint(xPos - w->x(), m_workarea.y() - w->y());
         }
     }
     effects->paintWindow(w, mask, region, data);
@@ -213,20 +215,34 @@ void SplitSwapEffect::resetWinPos(EffectWindow *w, QuickTileMode mode)
     }
 }
 
-int SplitSwapEffect::paintWinPos(EffectWindow *w, QuickTileMode mode, bool curtpos)
+int SplitSwapEffect::paintWinPos(EffectWindow *w, QuickTileMode mode, int calculationMethod)
 {
     if (nullptr == w) {
         return 0;
     }
     qreal coef = m_animationTime.value();
     int tpos = 0;
+    int epos = 0;
+    int x = 0;
+
+    switch (calculationMethod)
+    {
+    case 0:
+        x = (mode & QuickTileFlag::Left) ? w->x() : x = w->x();
+        epos = m_workarea.x() + m_workarea.width() - w->width() - w->x();
+        break;
+    case 1:
+        coef = 1.0;
+    case 2:
+        x = (mode & QuickTileFlag::Left) ? m_workarea.x() + m_workarea.width() - w->width() : m_workarea.x();
+        epos = m_workarea.width() - w->width();
+        break;
+    }
 
     if (mode & QuickTileFlag::Left) {
-        int x = curtpos ? w->x() : m_workarea.x() + m_workarea.width() - w->width();
         tpos = x - (x - m_workarea.x()) * coef;
     } else {
-        int epos = curtpos ? m_workarea.x() + m_workarea.width() - w->width() - w->x() : m_workarea.width() - w->width();
-        tpos = (curtpos ? w->x() : m_workarea.x()) + epos * coef;
+        tpos = x + epos * coef;
     }
     return  tpos;
 }
