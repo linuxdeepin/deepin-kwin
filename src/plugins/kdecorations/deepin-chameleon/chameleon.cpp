@@ -363,7 +363,7 @@ void Chameleon::updateButtonsGeometry()
         m_leftButtons->setSpacing(0);
 
         // padding
-        const int vPadding = 0;
+        const int vPadding = noTitleBar() ? 0 : (titleBarHeight() - bHeight) / 2;
         const int hPadding = s->smallSpacing();
 
         m_leftButtons->buttons().front()->setGeometry(QRectF(menuIconPos(), QSizeF(menuIconWidth(), menuIconHeight())));
