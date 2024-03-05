@@ -1,3 +1,14 @@
+kwin (4:5.27.2.78-deepin78-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * fix: alt tab blur
+  * fix: Fixed the issue that the rounded corners of the 3-square window were updated in real time
+  * fix: optimized the swap window function
+  * fix: dde-wloutput will show twich mode
+  * fix: add sign for coredump
+
+ -- zhangyu <zhangyud@uniontech.com>  Tues, 05 Mar 2024 17:18:37 +0800
+
 kwin (4:5.27.2.77-deepin77-1) unstable; urgency=medium
 
   [ huangzeming ]
