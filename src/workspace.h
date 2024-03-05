@@ -766,6 +766,7 @@ Q_SIGNALS:
     void touchUpByRecord(unsigned int time);
     void buttonReleaseByRecord();
     void motionByRecord();
+    void osRadiusChanged();
 
 private:
     void init();

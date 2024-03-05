@@ -45,6 +45,7 @@
 #include "window.h"
 #include "composite.h"
 #include "core/renderbackend.h"
+#include "workspace.h"
 
 Q_DECLARE_METATYPE(QPainterPath)
 
@@ -134,6 +135,7 @@ void Chameleon::init()
     connect(m_theme, &ChameleonWindowTheme::windowPixelRatioChanged, this, &Chameleon::updateShadow);
     connect(m_theme, &ChameleonWindowTheme::windowPixelRatioChanged, this, &Chameleon::updateTitleBarArea);
     connect(qGuiApp, &QGuiApplication::fontChanged, this, &Chameleon::updateTitleGeometry);
+    connect(KWin::Workspace::self(), &KWin::Workspace::osRadiusChanged, this, &Chameleon::updateBorderPath);
 
     m_initialized = true;
 
@@ -568,7 +570,8 @@ void Chameleon::updateBorderPath()
     KWin::EffectWindow *effect = this->effect();
 
     if (windowNeedRadius()) {
-        auto window_radius = windowRadius();
+        float r = KWin::Workspace::self()->getWindowRadius();
+        QPointF window_radius(r, r);
         path.addRoundedRect(client_rect, window_radius.x(), window_radius.y());
 
         if (effect) {

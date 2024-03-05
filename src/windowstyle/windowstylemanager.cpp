@@ -56,6 +56,7 @@ void WindowStyleManager::onRadiusChange(QVariant property)
     if (m_osRadius != r)
         m_osRadius = r;
     Q_EMIT sigRadiusChanged(r);
+    Q_EMIT workspace()->osRadiusChanged();
 }
 
 void WindowStyleManager::onWindowMaxiChanged(Window *window, bool h, bool v)
