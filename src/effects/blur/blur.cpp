@@ -244,6 +244,8 @@ void BlurEffect::updateBlurRegion(EffectWindow *w)
             valid = true;
         }
     }
+    if (!valid && w->isSwitcherWin())
+        valid = true;
 
     if (valid) {
         m_windows[w].region = region;

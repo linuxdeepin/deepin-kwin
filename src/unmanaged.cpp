@@ -137,6 +137,7 @@ bool Unmanaged::track(xcb_window_t w)
         m_outline = internalWindow->property("__kwin_outline").toBool();
         m_splitbar = wm_name.isEmpty() ? false : wm_name.contains("splitbar");
         m_splitmenu = wm_name.isEmpty() ? false : wm_name.contains("splitmenu");
+        m_switcherwin = internalWindow->property("__kwin_switcherwin").toBool();
     }
     m_watermark = wm_name.isEmpty() ? false : wm_name.contains("deepin-watermark");
     if (effects) {
@@ -233,6 +234,11 @@ bool Unmanaged::isUnmanaged() const
 bool Unmanaged::isSplitMenu() const
 {
     return m_splitmenu;
+}
+
+bool Unmanaged::isSwitcherWin() const
+{
+    return m_switcherwin;
 }
 
 QWindow *Unmanaged::findInternalWindow() const

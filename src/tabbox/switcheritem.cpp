@@ -32,6 +32,7 @@ SwitcherItem::SwitcherItem(QObject *parent)
     , m_visible(false)
     , m_allDesktops(false)
     , m_currentIndex(0)
+    , m_winRadius(0)
 {
     m_selectedIndexConnection = connect(tabBox, &TabBoxHandler::selectedIndexChanged, this, [this] {
         if (isVisible()) {
@@ -41,6 +42,7 @@ SwitcherItem::SwitcherItem(QObject *parent)
     connect(workspace(), &Workspace::outputsChanged, this, &SwitcherItem::screenGeometryChanged);
     connect(Compositor::self(), &Compositor::compositingToggled, this, &SwitcherItem::compositingChanged);
     connect(Compositor::self(), &Compositor::compositingToggled, this, &SwitcherItem::updateWindowColor);
+    connect(Workspace::self(), &Workspace::osRadiusChanged, this, &SwitcherItem::updateWindowRadius);
     updateWindowColor(true);
 }
 
@@ -161,6 +163,28 @@ void SwitcherItem::updateWindowColor(bool active)
             setWindowColor(QString("transparent"));
         }
     }
+}
+
+int SwitcherItem::windowRadius()
+{
+    if (m_winRadius == 0) {
+        m_winRadius = workspace()->getWindowRadius();
+    }
+    return m_winRadius;
+}
+
+void SwitcherItem::setWindowRadius(int radius)
+{
+    if (radius != m_winRadius) {
+        m_winRadius = radius;
+        Q_EMIT windowRadiusChanged();
+    }
+}
+
+void SwitcherItem::updateWindowRadius()
+{
+    m_winRadius = workspace()->getWindowRadius();
+    Q_EMIT windowRadiusChanged();
 }
 
 }

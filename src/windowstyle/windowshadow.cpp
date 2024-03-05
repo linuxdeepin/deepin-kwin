@@ -44,7 +44,8 @@ void WindowShadow::updateWindowShadow()
         return;
     if (m_window->hasAlpha()
         && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty)
-        && !m_window->isWindowMenu()) {
+        && !m_window->isWindowMenu()
+        && !m_window->isSwitcherWin()) {
         m_key = "";
         return;
     }
@@ -95,6 +96,10 @@ void WindowShadow::getShadow()
         st.borderColor = m_window->windowStyleObj()->borderColor();
     } else {
         st.borderColor = QColor("#10000000");
+    }
+
+    if (m_window->isSwitcherWin()) {
+        st.borderWidth = 0;
     }
 
     int shadow_size = st.shadowRadius + st.windowRadius.x() + st.windowRadius.y();

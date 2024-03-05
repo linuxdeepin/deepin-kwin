@@ -313,6 +313,8 @@ class KWIN_EXPORT Window : public QObject
 
     Q_PROPERTY(bool splitmenu READ isSplitMenu)
 
+    Q_PROPERTY(bool switcherwin READ isSwitcherWin)
+
     /**
      * This property holds a UUID to uniquely identify this Window.
      */
@@ -731,6 +733,7 @@ public:
     virtual bool isWindowMenu() const;
     virtual bool isInternal() const;
     virtual bool isSplitMenu() const;
+    virtual bool isSwitcherWin() const;
 
     /**
      * Returns the virtual desktop within the workspace() the client window
@@ -2383,6 +2386,11 @@ inline bool Window::isWindowMenu() const
 }
 
 inline bool Window::isSplitMenu() const
+{
+    return false;
+}
+
+inline bool Window::isSwitcherWin() const
 {
     return false;
 }

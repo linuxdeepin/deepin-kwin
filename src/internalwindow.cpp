@@ -278,6 +278,14 @@ bool InternalWindow::isSplitMenu() const
     return false;
 }
 
+bool InternalWindow::isSwitcherWin() const
+{
+    if (m_handle) {
+        return m_handle->property("__kwin_switcherwin").toBool();
+    }
+    return false;
+}
+
 bool InternalWindow::isShown() const
 {
     return readyForPainting();

@@ -34,6 +34,7 @@ class SwitcherItem : public QObject
      */
     Q_PROPERTY(QObject *item READ item WRITE setItem NOTIFY itemChanged)
     Q_PROPERTY(QString windowColor READ windowColor WRITE setWindowColor NOTIFY windowColorChanged)
+    Q_PROPERTY(int windowRadius READ windowRadius WRITE setWindowRadius NOTIFY windowRadiusChanged)
 
     Q_CLASSINFO("DefaultProperty", "item")
 public:
@@ -55,6 +56,8 @@ public:
         return m_noModifierGrab;
     }
     bool compositing();
+    int windowRadius();
+    void setWindowRadius(int);
 
     // for usage from outside
     void setModel(QAbstractItemModel *model);
@@ -72,9 +75,11 @@ Q_SIGNALS:
     void noModifierGrabChanged();
     void compositingChanged();
     void windowColorChanged(QString windowColor);
+    void windowRadiusChanged();
 
 private Q_SLOTS:
     void updateWindowColor(bool active);
+    void updateWindowRadius();
 
 private:
     QAbstractItemModel *m_model;
@@ -85,6 +90,7 @@ private:
     QMetaObject::Connection m_selectedIndexConnection;
     bool m_noModifierGrab = false;
     QString m_windowColor;
+    int m_winRadius;
 };
 
 inline QAbstractItemModel *SwitcherItem::model() const

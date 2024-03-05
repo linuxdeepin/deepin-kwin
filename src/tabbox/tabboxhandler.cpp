@@ -358,6 +358,7 @@ void TabBoxHandlerPrivate::show()
         item->setVisible(true);
     }
     if (QWindow *w = window()) {
+        w->setProperty("__kwin_switcherwin", true);
         wheelAngleDelta = 0;
         w->installEventFilter(q);
         // pretend to activate the window to enable accessibility notifications

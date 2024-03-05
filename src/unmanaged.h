@@ -37,6 +37,7 @@ public:
     bool isWaterMark() const override;
     bool isUnmanaged() const override;
     bool isSplitMenu() const override;
+    bool isSwitcherWin() const override;
 
     QString captionNormal() const override { return wm_name; }
     QString captionSuffix() const override { return {}; }
@@ -83,6 +84,7 @@ private:
     bool m_splitbar = false;
     bool m_watermark = false;
     bool m_splitmenu = false;
+    bool m_switcherwin = false;
     bool m_scheduledRelease = false;
     QString wm_name;
 };

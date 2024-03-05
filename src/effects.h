@@ -487,6 +487,7 @@ public:
     bool isSplitBar() const override;
     bool isWaterMark() const override;
     bool isLockScreen() const override;
+    bool isSwitcherWin() const override;
 
     KWaylandServer::SurfaceInterface *surface() const override;
     bool isFullScreen() const override;

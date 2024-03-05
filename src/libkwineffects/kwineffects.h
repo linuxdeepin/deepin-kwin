@@ -2349,6 +2349,8 @@ class KWINEFFECTS_EXPORT EffectWindow : public QObject
 
     Q_PROPERTY(bool watermark READ isWaterMark CONSTANT)
 
+    Q_PROPERTY(bool switcherwin READ isSwitcherWin CONSTANT)
+
     /**
      * The PID of the application this window belongs to.
      *
@@ -2686,6 +2688,8 @@ public:
     virtual bool isSplitBar() const = 0;
 
     virtual bool isWaterMark() const = 0;
+
+    virtual bool isSwitcherWin() const = 0;
 
     /**
      * @since 5.22

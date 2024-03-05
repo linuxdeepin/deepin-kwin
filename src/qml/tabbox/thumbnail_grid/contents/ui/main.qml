@@ -82,7 +82,7 @@ KWin.Switcher {
 
             anchors.margins: 0
             color: "#4cffffff"
-            radius: 6
+            radius: tabBox.windowRadius
             antialiasing: true
             border.width: 1
             border.color: "#19000000"
@@ -174,9 +174,9 @@ KWin.Switcher {
 
             Rectangle {
                 anchors.fill: parent
-                anchors.margins: 1
+                anchors.margins: 0
                 color: tabBox.windowColor
-                radius: 6
+                radius: tabBox.windowRadius
                 antialiasing: true
                 border.width: 1
                 border.color: "#19000000"
