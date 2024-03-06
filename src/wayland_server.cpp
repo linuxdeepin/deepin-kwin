@@ -602,12 +602,20 @@ bool WaylandServer::init(InitializationFlags flags)
             auto client_management = waylandServer()->clientManagement();
             if (!client_management)
                 return;
-            Window *client = workspace()->findWaylandWindow(wid);
+            const Window *client = workspace()->findToplevel(
+                [wid] (const Window *w)->bool {
+                    return w->window() ? w->window() == wid : w->frameId() == wid;
+                }
+            );
             if (!client) {
-                client = workspace()->findClient(Predicate::WindowMatch, wid);
-                if (!client)
-                    return;
+                const WindowState invalid = {
+                    .pid = 0,
+                    .windowId = 0
+                };
+                client_management->sendSpecificWindowState(invalid);
+                return;
             }
+
             const std::string name = client->resourceName().toStdString(),
                     uuid = client->internalId().toString().toStdString();
             WindowState state = {
