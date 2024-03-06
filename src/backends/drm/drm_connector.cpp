@@ -40,6 +40,10 @@ static QSize resolutionForMode(const drmModeModeInfo *info)
 
 static quint64 refreshRateForMode(_drmModeModeInfo *m)
 {
+    static const bool hpRefresh = qEnvironmentVariableIntValue("KWIN_DRM_ENABLE_HP_REFRESH") == 1;
+    if (!hpRefresh) {
+        return m->vrefresh * 1000LL;
+    }
     // Calculate higher precision (mHz) refresh rate
     // logic based on Weston, see compositor-drm.c
     quint64 refreshRate = (m->clock * 1000000LL / m->htotal + m->vtotal / 2) / m->vtotal;
@@ -331,7 +335,12 @@ bool DrmConnector::updateProperties()
         }
         m_modes.clear();
         m_modes.append(m_driverModes);
-        m_modes.append(generateCommonModes());
+        static bool cvtEnvSet = false;
+        static const bool cvtEnv = qEnvironmentVariableIntValue("KWIN_DRM_ENABLE_CVT_MODE", &cvtEnvSet) != 0;
+        bool enableCVT = !cvtEnvSet || (cvtEnvSet && cvtEnv);
+        if (enableCVT) {
+            m_modes.append(generateCommonModes());
+        }
         if (m_pipeline->mode()) {
             if (const auto mode = findMode(*m_pipeline->mode()->nativeMode())) {
                 m_pipeline->setMode(mode);
