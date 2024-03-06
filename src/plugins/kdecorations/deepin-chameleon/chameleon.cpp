@@ -284,7 +284,20 @@ QPointF Chameleon::shadowOffset() const
 
 QPointF Chameleon::windowRadius() const
 {
-    return m_config.radius;
+    if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
+        return m_theme->windowRadius();
+    }
+
+    auto globalWindowRadius = ChameleonConfig::instance()->globalWindowRadius();
+    if (globalWindowRadius != ChameleonConfig::InvalidRadius)
+        return globalWindowRadius;
+
+    auto c = client().toStrongRef();
+    bool active = c->isActive();
+
+    auto config = active ? m_baseConfigGroup->normal : m_baseConfigGroup->inactive;
+
+    return config.radius * getScaleFactor();
 }
 
 QMarginsF Chameleon::mouseInputAreaMargins() const
@@ -642,16 +655,7 @@ void Chameleon::updateShadow()
 {
     // TODO: should use std::options to check m_config valid?
     if (settings()->isAlphaChannelSupported()) {
-        // 优先使用窗口自己设置的属性
-        if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
-            m_config.radius = m_theme->windowRadius();
-        }
-        else {
-            auto globalWindowRadius = ChameleonConfig::instance()->globalWindowRadius();
-            if (globalWindowRadius != ChameleonConfig::InvalidRadius) {
-                m_config.radius = globalWindowRadius * getScaleFactor();
-            }
-        }
+        m_config.radius = windowRadius();
 
         auto w = effect();
         QPointF maxWindowRadius = QPointF(w->width() / 2.0, w->height() / 2.0);
