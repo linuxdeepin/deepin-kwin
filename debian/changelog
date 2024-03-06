@@ -1,3 +1,11 @@
+kwin (4:5.27.2.79-deepin79-1) unstable; urgency=medium
+
+  [ dingzhixuan ]
+  * fix: long touch cannot show menu on titlebar
+  * fix: slowly respond in specificWindowStateRequest
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Wed, 06 Mar 2024 14:21:00 +0800
+
 kwin (4:5.27.2.78-deepin78-1) unstable; urgency=medium
 
   [ zhangyu ]
