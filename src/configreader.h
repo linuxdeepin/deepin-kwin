@@ -7,11 +7,51 @@
 #include <QDBusArgument>
 #include <QThread>
 #include <QDebug>
+#include <QList>
+#include <QHash>
 
 #include "wayland_server.h"
 
 namespace KWin
 {
+class ConfigReader;
+
+class ConfigMonitor : public QObject
+{
+    Q_OBJECT
+public:
+    ConfigMonitor(QString service, QString path);
+    ~ConfigMonitor();
+
+    void addReader(ConfigReader *);
+    void removeReader(ConfigReader *);
+    void inhibit();
+    void uninhibit();
+
+public Q_SLOTS:
+    void slotUpdateProperty(QDBusMessage msg);
+
+private:
+    QList<ConfigReader *> m_readerList;
+    int                   m_inhibitCount = 0;
+};
+
+class ConfigManager : public QObject
+{
+    Q_OBJECT
+public:
+    ConfigManager();
+    ~ConfigManager();
+
+    ConfigMonitor *getMonitor(QString service, QString path);
+
+    static ConfigManager *instance();
+
+private:
+    static std::unique_ptr<ConfigManager> m_configManager;
+    QHash<QString, std::shared_ptr<ConfigMonitor>> m_managerList;
+};
+
 class ConfigReaderThread : public QThread
 {
     Q_OBJECT
@@ -49,17 +89,22 @@ public:
         m_property = property;
     }
 
+    QString getPropertyName() { return m_propertyName; }
+    QString getInterface() { return m_interface; }
+    void updateProperty(QVariant);
+
 Q_SIGNALS:
-    void sigRadiusChanged(QVariant);
+    void sigPropertyChanged(QVariant);
 
 public Q_SLOTS:
-    void slotUpdateProperty(QDBusMessage msg);
     void slotSetProperty(QVariant property);
 
 private:
     QString m_interface;
     QString m_propertyName;
+    QString m_service;
     QVariant m_property;
+    ConfigMonitor *m_monitor = nullptr;
 };
 
 }

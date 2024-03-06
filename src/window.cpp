@@ -140,6 +140,7 @@ Window::Window()
     connect(&m_offscreenFramecallbackTimer, &QTimer::timeout, this, &Window::maybeSendFrameCallback);
 
     connect(Workspace::self()->getWindowStyleMgr(), &WindowStyleManager::sigRadiusChanged, this, &Window::onWindowRadiusChanged);
+    connect(Workspace::self()->getWindowStyleMgr(), &WindowStyleManager::sigThemeChanged, this, &Window::onThemeChange);
 }
 
 Window::~Window()
@@ -4939,6 +4940,11 @@ void Window::createWinStyle()
 void Window::onWindowRadiusChanged(float &p)
 {
     updateWindowRadius();
+}
+
+void Window::onThemeChange(bool &isDark)
+{
+    updateWindowShadow();
 }
 
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)

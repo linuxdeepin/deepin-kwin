@@ -10,6 +10,7 @@
 #define WINDOWSTYLEMANAGER_H
 
 #include <QObject>
+#include <memory>
 
 namespace KWin
 {
@@ -30,9 +31,11 @@ public:
 
 Q_SIGNALS:
     void sigRadiusChanged(float &);
+    void sigThemeChanged(bool &);
 
 public Q_SLOTS:
     void onRadiusChange(QVariant);
+    void onThemeChange(QVariant);
     void onWindowAdded(Window*);
     void onWindowMaxiChanged(Window *, bool, bool);
     void onWindowActiveChanged();
@@ -40,7 +43,8 @@ public Q_SLOTS:
     void onCompositingChanged(bool);
 
 private:
-    ConfigReader *m_configReader = nullptr;
+    std::unique_ptr<ConfigReader> m_radiusConfig;
+    std::unique_ptr<ConfigReader> m_themeConfig;
     float        m_osRadius = -1.0;
     float        m_scale = 1.0;
 };

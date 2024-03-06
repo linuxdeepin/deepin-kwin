@@ -33,6 +33,7 @@ SwitcherItem::SwitcherItem(QObject *parent)
     , m_allDesktops(false)
     , m_currentIndex(0)
     , m_winRadius(0)
+    , m_winHoverRadius(0.0)
 {
     m_selectedIndexConnection = connect(tabBox, &TabBoxHandler::selectedIndexChanged, this, [this] {
         if (isVisible()) {
@@ -43,6 +44,7 @@ SwitcherItem::SwitcherItem(QObject *parent)
     connect(Compositor::self(), &Compositor::compositingToggled, this, &SwitcherItem::compositingChanged);
     connect(Compositor::self(), &Compositor::compositingToggled, this, &SwitcherItem::updateWindowColor);
     connect(Workspace::self(), &Workspace::osRadiusChanged, this, &SwitcherItem::updateWindowRadius);
+    connect(Workspace::self(), &Workspace::osThemeChanged, this, &SwitcherItem::updateOsTheme);
     updateWindowColor(true);
 }
 
@@ -157,23 +159,29 @@ bool SwitcherItem::compositing()
 void SwitcherItem::updateWindowColor(bool active)
 {
     if (active) {
-        if (Compositor::self() && Compositor::self()->backend() && Compositor::self()->backend()->compositingType() == XRenderCompositing) {
+        if (Compositor::self() && Compositor::self()->backend() && Compositor::self()->backend()->compositingType() != OpenGLCompositing) {
             setWindowColor(QString("#ffffffff"));
         } else {
-            setWindowColor(QString("transparent"));
+            if (workspace()->self()->isDarkTheme()) {
+                setWindowColor(QString("#99000000"));
+                setWinHoverColor(QString("#66ffffff"));
+            } else {
+                setWindowColor(QString("transparent"));
+                setWinHoverColor(QString("#99000000"));
+            }
         }
     }
 }
 
-int SwitcherItem::windowRadius()
+float SwitcherItem::windowRadius()
 {
     if (m_winRadius == 0) {
-        m_winRadius = workspace()->getWindowRadius();
+        m_winRadius = workspace()->getWindowRadius() * workspace()->getOsScreenScale();
     }
     return m_winRadius;
 }
 
-void SwitcherItem::setWindowRadius(int radius)
+void SwitcherItem::setWindowRadius(float radius)
 {
     if (radius != m_winRadius) {
         m_winRadius = radius;
@@ -183,8 +191,40 @@ void SwitcherItem::setWindowRadius(int radius)
 
 void SwitcherItem::updateWindowRadius()
 {
-    m_winRadius = workspace()->getWindowRadius();
+    m_winRadius = workspace()->getWindowRadius() * workspace()->getOsScreenScale();
     Q_EMIT windowRadiusChanged();
+}
+
+float SwitcherItem::winHoverRadius()
+{
+    if (m_winHoverRadius == 0.0) {
+        m_winHoverRadius = 8 * workspace()->getOsScreenScale();
+    }
+    return m_winHoverRadius;
+}
+
+void SwitcherItem::setWinHoverRadius(float r)
+{
+    if (r != m_winHoverRadius) {
+        m_winHoverRadius = r;
+        Q_EMIT winHoverRadiusChanged();
+    }
+}
+
+QString SwitcherItem::winHoverColor()
+{
+    return m_winHoverColor;
+}
+
+void SwitcherItem::setWinHoverColor(QString color)
+{
+    m_winHoverColor = color;
+    Q_EMIT winHoverColorChanged();
+}
+
+void SwitcherItem::updateOsTheme()
+{
+    updateWindowColor(true);
 }
 
 }

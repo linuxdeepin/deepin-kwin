@@ -187,8 +187,9 @@ KWin.Switcher {
                         width: itemsView.cellWidth
                         height: itemsView.cellHeight
 
-                        color: "#01bdff"
-                        radius: 4
+                        //color: "#99000000"
+                        color: tabBox.winHoverColor
+                        radius: tabBox.winHoverRadius
 
                         x: itemsView.currentItem ? itemsView.currentItem.x : 0
                         y: itemsView.currentItem ? itemsView.currentItem.y : 0
@@ -248,7 +249,7 @@ KWin.Switcher {
                         }
 
                         // shadow for icon
-                        DropShadow {
+                    /*    DropShadow {
                             anchors.fill: iconItem
                             horizontalOffset: 0
                             verticalOffset: 8
@@ -256,7 +257,7 @@ KWin.Switcher {
                             samples: 17
                             color: "#32000000"
                             source: iconItem
-                        }
+                        }*/
 
                         Accessible.role: Accessible.Graphic
                         Accessible.name: !isCloseable && (modelIndex+1) == itemsView.count ?

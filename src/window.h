@@ -1521,6 +1521,7 @@ public:
 public Q_SLOTS:
     virtual void closeWindow() = 0;
     void onWindowRadiusChanged(float &);
+    void onThemeChange(bool &);
 
 protected Q_SLOTS:
     void setReadyForPainting();

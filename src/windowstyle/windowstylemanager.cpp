@@ -25,19 +25,16 @@ namespace KWin
 {
 WindowStyleManager::WindowStyleManager()
 {
-    m_configReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
-                                      DBUS_APPEARANCE_INTF, "WindowRadius");
-    connect(m_configReader, &ConfigReader::sigRadiusChanged, this, &WindowStyleManager::onRadiusChange);
+    m_radiusConfig = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "WindowRadius");
+    m_themeConfig = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "GtkTheme");
+    connect(m_radiusConfig.get(), &ConfigReader::sigPropertyChanged, this, &WindowStyleManager::onRadiusChange);
+    connect(m_themeConfig.get(), &ConfigReader::sigPropertyChanged, this, &WindowStyleManager::onThemeChange);
     connect(Compositor::self(), &Compositor::compositingToggled, this, &WindowStyleManager::onCompositingChanged);
     m_scale = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
 }
 
 WindowStyleManager::~WindowStyleManager()
 {
-    if (m_configReader) {
-        delete m_configReader;
-        m_configReader = nullptr;
-    }
 }
 
 void WindowStyleManager::onWindowAdded(Window *window)
@@ -57,6 +54,15 @@ void WindowStyleManager::onRadiusChange(QVariant property)
         m_osRadius = r;
     Q_EMIT sigRadiusChanged(r);
     Q_EMIT workspace()->osRadiusChanged();
+}
+
+void WindowStyleManager::onThemeChange(QVariant property)
+{
+    QString str = property.toString();
+    bool isDark = (str == "deepin-dark") ? true : false;
+    workspace()->setDarkTheme(isDark);
+    Q_EMIT sigThemeChanged(isDark);
+    Q_EMIT workspace()->osThemeChanged();
 }
 
 void WindowStyleManager::onWindowMaxiChanged(Window *window, bool h, bool v)
@@ -91,8 +97,8 @@ void WindowStyleManager::onCompositingChanged(bool acitve)
 float WindowStyleManager::getOsRadius()
 {
     if (m_osRadius <= 0.0) {
-        if (m_configReader->getProperty().isValid()) {
-            m_osRadius = m_configReader->getProperty().toFloat();
+        if (m_radiusConfig.get()->getProperty().isValid()) {
+            m_osRadius = m_radiusConfig.get()->getProperty().toFloat();
         } else {
             m_osRadius = _gsettings_deepin_xsetting->get(GsettingsDtkRadius).toInt();
         }

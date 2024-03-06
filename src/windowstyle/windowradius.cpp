@@ -87,7 +87,6 @@ int WindowRadius::updateWindowRadius()
     } else {
         effect->setData(WindowRadiusRole, QVariant());
         effect->setData(WindowClipPathRole, QVariant::fromValue(path));
-        ret = 1;
     }
 
     return ret;

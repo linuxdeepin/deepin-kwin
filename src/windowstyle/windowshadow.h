@@ -40,6 +40,8 @@ public:
 
     void updateWindowShadow();
     QPointF getWindowRadius();
+    QString getDefaultShadowColor();
+    QString getDefaultBorderColor();
 
     static QString buildShadowCacheKey(shadowConfig &config);
     /*static*/ void getShadow();

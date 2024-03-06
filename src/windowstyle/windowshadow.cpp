@@ -9,6 +9,7 @@
 #include "windowshadow.h"
 #include "window.h"
 #include "decorationstyle.h"
+#include "workspace.h"
 #include <QPainter>
 
 namespace KWin
@@ -60,6 +61,24 @@ QPointF WindowShadow::getWindowRadius()
     return radius;
 }
 
+QString WindowShadow::getDefaultShadowColor()
+{
+    QString color;
+    bool isDark = workspace()->self()->isDarkTheme();
+    if (m_window->isActive())
+        color = isDark ? "a9000000" : "#80000000";
+    else
+        color = isDark ? "69000000" : "#40000000";
+    return color;
+}
+
+QString WindowShadow::getDefaultBorderColor()
+{
+    QString color;
+    color = workspace()->self()->isDarkTheme() ? "#1affffff" : "#10000000";
+    return color;
+}
+
 void WindowShadow::getShadow()
 {
     shadowConfig st;
@@ -74,10 +93,7 @@ void WindowShadow::getShadow()
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::ShadowColorProperty)) {
         st.shadowColor = m_window->windowStyleObj()->shadowColor();
     } else {
-        if (m_window->isActive())
-            st.shadowColor = QColor("#80000000");
-        else
-            st.shadowColor = QColor("#40000000");
+        st.shadowColor = QColor(getDefaultShadowColor());
     }
 
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::ShadowRadiusProperty)) {
@@ -95,7 +111,7 @@ void WindowShadow::getShadow()
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::BorderColorProperty)) {
         st.borderColor = m_window->windowStyleObj()->borderColor();
     } else {
-        st.borderColor = QColor("#10000000");
+        st.borderColor = QColor(getDefaultBorderColor());
     }
 
     if (m_window->isSwitcherWin()) {

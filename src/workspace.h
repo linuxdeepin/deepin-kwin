@@ -582,6 +582,7 @@ public:
     bool applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder = {});
 
     float getWindowRadius() const;
+    float getOsScreenScale() const;
 
     double getFontSizeScale() const;
 
@@ -767,6 +768,7 @@ Q_SIGNALS:
     void buttonReleaseByRecord();
     void motionByRecord();
     void osRadiusChanged();
+    void osThemeChanged();
 
 private:
     void init();

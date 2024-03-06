@@ -3703,6 +3703,11 @@ float Workspace::getWindowRadius() const
     return m_windowStyleManager.get()->getOsRadius();
 }
 
+float Workspace::getOsScreenScale() const
+{
+    return m_windowStyleManager.get()->getOsScale();
+}
+
 double Workspace::getFontSizeScale() const {
     return m_fontSizeConfigReader->getProperty().isValid() ? m_fontSizeConfigReader->getProperty().toDouble() / 10.5 : 1.0;
 }
