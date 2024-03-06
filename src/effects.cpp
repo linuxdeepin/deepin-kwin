@@ -2154,6 +2154,11 @@ float EffectsHandlerImpl::getOsRadius()
     return workspace()->getWindowRadius();
 }
 
+float EffectsHandlerImpl::getOsScale()
+{
+    return workspace()->getOsScreenScale();
+}
+
 //****************************************
 // EffectScreenImpl
 //****************************************

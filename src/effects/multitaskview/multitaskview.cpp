@@ -631,11 +631,11 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
     m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_closeWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
-    m_closeWinFrame->setGeometry(QRect(0, 0, 24, 24));
+    m_closeWinFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
 
     m_topWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
     m_topWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    m_topWinFrame->setGeometry(QRect(0, 0, 24, 24));
+    m_topWinFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
 
     m_textWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
 
@@ -651,7 +651,7 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_closeWorkspaceFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
     m_closeWorkspaceFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_closeWorkspaceFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
-    m_closeWorkspaceFrame->setGeometry(QRect(0, 0, 24, 24));
+    m_closeWorkspaceFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
 
     m_dragTipsFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
     m_dragTipsFrame->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
@@ -1424,13 +1424,13 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         }
 
         // button point 微调结果
-        m_closeWinFrame->setPosition(QPoint(rect.x() + rect.width() - 12, rect.y() - 10));
-        m_topWinFrame->setPosition(QPoint(rect.x() - 12, rect.y() - 10));
+        m_closeWinFrame->setPosition(QPoint(rect.x() + rect.width() - 12 * effectsEx->getOsScale(), rect.y() - 10 * effectsEx->getOsScale()));
+        m_topWinFrame->setPosition(QPoint(rect.x() - 12 * effectsEx->getOsScale(), rect.y() - 10 * effectsEx->getOsScale()));
         m_textWinFrame->setPosition(QPoint(rect.x() + rect.width() / 2, rect.y() + rect.height() - 40));
         if (m_winBtnArea.size() < 2)
             m_winBtnArea.resize(2);
-        m_winBtnArea[0] = QRect(QPoint(rect.x() + rect.width() - 25, rect.y() - 17), QSize(48, 48));
-        m_winBtnArea[1] = QRect(QPoint(rect.x() - 22, rect.y() - 17), QSize(48, 48));
+        m_winBtnArea[0] = QRect(QPoint(rect.x() + rect.width() - 25, rect.y() - 17), QSize(48 * effectsEx->getOsScale(), 48 * effectsEx->getOsScale()));
+        m_winBtnArea[1] = QRect(QPoint(rect.x() - 22, rect.y() - 17), QSize(48 * effectsEx->getOsScale(), 48 * effectsEx->getOsScale()));
 
         QRect geoframe = m_textWinFrame->geometry();
         geoframe.adjust(-(width - geoframe.width()) / 2 - (16 * m_scalingFactor),
@@ -1452,7 +1452,7 @@ void MultitaskViewEffect::renderWorkspaceHover(EffectScreen *screen)
     if (wkobj) {
         QRect rect = wkobj->getRect();
         m_workspaceCloseBtnArea = QRect(QPoint(rect.x() + rect.width() - 30, rect.y() - 13), QSize(48, 48));
-        m_closeWorkspaceFrame->setPosition(QPoint(rect.x() + rect.width() - 14, rect.y() - 9));    //point 微调结果
+        m_closeWorkspaceFrame->setPosition(QPoint(rect.x() + rect.width() - 14 * effectsEx->getOsScale(), rect.y() - 9 * effectsEx->getOsScale()));    //point 微调结果
         m_closeWorkspaceFrame->render(infiniteRegion(), 1, 0);
     }
 }

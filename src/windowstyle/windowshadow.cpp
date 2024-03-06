@@ -44,10 +44,8 @@ void WindowShadow::updateWindowShadow()
     if (!m_window || !m_window->windowStyleObj())
         return;
     if (m_window->hasAlpha()
-        && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty)
-        && !m_window->isWindowMenu()
-        && !m_window->isSwitcherWin()) {
-        m_key = "";
+        && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty)) {
+        resetShadowKey();
         return;
     }
     getShadow();
@@ -65,11 +63,26 @@ QString WindowShadow::getDefaultShadowColor()
 {
     QString color;
     bool isDark = workspace()->self()->isDarkTheme();
-    if (m_window->isActive())
-        color = isDark ? "a9000000" : "#80000000";
-    else
-        color = isDark ? "69000000" : "#40000000";
+    if (m_window->isActive()) {
+        color = isDark ? "#a9000000" : "#80000000";
+    } else {
+        if (isDark) {
+            color = isSpecialWindow() ? "#80000000" : "#69000000";
+        } else {
+            color = isSpecialWindow() ? "#33000000" : "#40000000";
+        }
+    }
     return color;
+}
+
+qreal WindowShadow::getDefaultShadowRadius()
+{
+    return isSpecialWindow() ? 12 : 50;
+}
+
+float WindowShadow::getDefaultShadowOffset()
+{
+    return isSpecialWindow() ? 6 : 22;
 }
 
 QString WindowShadow::getDefaultBorderColor()
@@ -87,7 +100,7 @@ void WindowShadow::getShadow()
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::ShadowOffsetProperty)) {
         st.shadowOffset = m_window->windowStyleObj()->shadowOffset();
     } else {
-        st.shadowOffset = QPointF(0, 22);
+        st.shadowOffset = QPointF(0, getDefaultShadowOffset() * workspace()->self()->getOsScreenScale());
     }
 
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::ShadowColorProperty)) {
@@ -99,23 +112,19 @@ void WindowShadow::getShadow()
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::ShadowRadiusProperty)) {
         st.shadowRadius = m_window->windowStyleObj()->shadowRadius();
     } else {
-        st.shadowRadius = 50;
+        st.shadowRadius = getDefaultShadowRadius() * workspace()->self()->getOsScreenScale();
     }
 
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::BorderWidthProperty)) {
         st.borderWidth = m_window->windowStyleObj()->borderWidth();
     } else {
-        st.borderWidth = 1;
+        st.borderWidth = 1 * workspace()->self()->getOsScreenScale();
     }
 
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::BorderColorProperty)) {
         st.borderColor = m_window->windowStyleObj()->borderColor();
     } else {
         st.borderColor = QColor(getDefaultBorderColor());
-    }
-
-    if (m_window->isSwitcherWin()) {
-        st.borderWidth = 0;
     }
 
     int shadow_size = st.shadowRadius + st.windowRadius.x() + st.windowRadius.y();
@@ -239,5 +248,30 @@ void WindowShadow::getShadow()
         WindowShadow::m_cacheShadow[m_key].append(kwin_popup_shadow_top_left);
     }
 }
-    
+
+void WindowShadow::resetShadowKey()
+{
+    m_key = "";
+}
+
+QString WindowShadow::getShadowKey()
+{
+    return m_key;
+}
+
+QMargins WindowShadow::getPadding()
+{
+    return m_padding;
+}
+
+bool WindowShadow::isSpecialWindow()
+{
+    if (m_window->isPopupMenu()
+        || m_window->isMenu()
+        || m_window->isTooltip()
+        || m_window->isDropdownMenu())
+        return true;
+    return false;
+}
+
 }

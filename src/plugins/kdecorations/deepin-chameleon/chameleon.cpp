@@ -570,7 +570,7 @@ void Chameleon::updateBorderPath()
     KWin::EffectWindow *effect = this->effect();
 
     if (windowNeedRadius()) {
-        float r = KWin::Workspace::self()->getWindowRadius();
+        float r = KWin::Workspace::self()->getWindowRadius() * KWin::Workspace::self()->getOsScreenScale();
         QPointF window_radius(r, r);
         path.addRoundedRect(client_rect, window_radius.x(), window_radius.y());
 

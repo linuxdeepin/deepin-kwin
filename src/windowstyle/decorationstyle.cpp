@@ -100,13 +100,20 @@ QPointF X11DecorationStyle::windowRadius()
     return variant2Point(property("windowRadius"));
 }
 
-void X11DecorationStyle::setWindowRadius(const QPointF value) {
-
+void X11DecorationStyle::setWindowRadius(const QPointF value)
+{
+    QString point = QString::number(value.x()) + "," + QString::number(value.y());
+    setProperty("windowRadius", point);
 }
 
 qreal X11DecorationStyle::borderWidth()
 {
     return property("borderWidth").toDouble();
+}
+
+void X11DecorationStyle::setBorderWidth(int width)
+{
+    setProperty("borderWidth", width);
 }
 
 QColor X11DecorationStyle::borderColor()
@@ -161,6 +168,21 @@ bool WaylandDecorationStyle::propertyIsValid(PropertyFlag p)
 QPointF WaylandDecorationStyle::windowRadius()
 {
     return m_radius;
+}
+
+void WaylandDecorationStyle::setWindowRadius(const QPointF value)
+{
+    m_radius = value;
+}
+
+qreal WaylandDecorationStyle::borderWidth()
+{
+    return m_border;
+}
+
+void WaylandDecorationStyle::setBorderWidth(int width)
+{
+    m_border = width;
 }
 
 QColor WaylandDecorationStyle::borderColor()

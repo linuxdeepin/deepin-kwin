@@ -145,6 +145,10 @@ public:
     {
         return m_wasSwitcherWin;
     }
+    bool isWindowMenu() const override
+    {
+        return m_wasWindowMenu;
+    }
 
 private Q_SLOTS:
     void mainWindowClosed(KWin::Window *window);
@@ -186,6 +190,7 @@ private:
     bool m_wasLockScreen;
     bool m_wasSplitMenu;
     bool m_wasSwitcherWin;
+    bool m_wasWindowMenu;
 };
 
 inline void Deleted::refWindow()

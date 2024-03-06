@@ -11,6 +11,7 @@
 #include "unmanaged.h"
 #include "configreader.h"
 #include "composite.h"
+#include "decorationstyle.h"
 #include <QScreen>
 #include <QGSettings/qgsettings.h>
 
@@ -40,6 +41,7 @@ WindowStyleManager::~WindowStyleManager()
 void WindowStyleManager::onWindowAdded(Window *window)
 {
     window->createWinStyle();
+    handleSpecialWindowStyle(window);
     window->updateWindowRadius();
     connect(window, static_cast<void (Window::*)(Window *, bool, bool)>(&Window::clientMaximizedStateChanged), this, &WindowStyleManager::onWindowMaxiChanged);
     connect(window, &Window::activeChanged, this, &WindowStyleManager::onWindowActiveChanged);
@@ -110,6 +112,21 @@ float WindowStyleManager::getOsRadius()
 float WindowStyleManager::getOsScale()
 {
     return m_scale;
+}
+
+void WindowStyleManager::handleSpecialWindowStyle(Window *window)
+{
+    if (window->isSwitcherWin()) {
+        window->windowStyleObj()->setValidProperties(DecorationStyle::WindowRadiusProperty | DecorationStyle::BorderWidthProperty);
+        QPointF r(getOsRadius() * m_scale, getOsRadius() * m_scale);
+        window->windowStyleObj()->setWindowRadius(r);
+        window->windowStyleObj()->setBorderWidth(0);
+    }
+    if (window->isWindowMenu()) {
+        window->windowStyleObj()->setValidProperties(DecorationStyle::WindowRadiusProperty);
+        QPointF r(getOsRadius() * m_scale, getOsRadius() * m_scale);
+        window->windowStyleObj()->setWindowRadius(r);
+    }
 }
 
 }

@@ -9,7 +9,7 @@
             <default>40</default>
         </entry>
         <entry name="addUnmanagedDuration" type="UInt">
-            <default>300</default>
+            <default>260</default>
         </entry>
         <entry name="addUnmanagedCurve" type="UInt">
             <default>10</default>

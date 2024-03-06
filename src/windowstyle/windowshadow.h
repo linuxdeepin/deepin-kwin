@@ -38,15 +38,24 @@ public:
     explicit WindowShadow(Window *window);
     ~WindowShadow();
 
-    void updateWindowShadow();
-    QPointF getWindowRadius();
-    QString getDefaultShadowColor();
-    QString getDefaultBorderColor();
+    void            updateWindowShadow();
+    QPointF         getWindowRadius();
+    QString         getDefaultShadowColor();
+    qreal           getDefaultShadowRadius();
+    QString         getDefaultBorderColor();
+    float           getDefaultShadowOffset();
 
-    static QString buildShadowCacheKey(shadowConfig &config);
-    /*static*/ void getShadow();
+    bool            isSpecialWindow();
+
+    static QString  buildShadowCacheKey(shadowConfig &config);
+    void            getShadow();
+    void            resetShadowKey();
+    QString         getShadowKey();
+    QMargins        getPadding();
 
 public:
+    static QMap<QString, QVector<QImage>> m_cacheShadow;
+private:
     QImage  kwin_popup_shadow_top,
             kwin_popup_shadow_top_right,
             kwin_popup_shadow_right,
@@ -58,10 +67,7 @@ public:
 
     QMargins m_padding;
     QString  m_key;
-    static QMap<QString, QVector<QImage>> m_cacheShadow;
-private:
-    Window *m_window;
-    
+    Window  *m_window;
 };
 }
 #endif

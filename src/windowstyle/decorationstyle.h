@@ -57,6 +57,7 @@ public:
     virtual QPointF windowRadius() = 0;
     virtual void setWindowRadius(const QPointF value) = 0;
     virtual qreal borderWidth() = 0;
+    virtual void setBorderWidth(int width) = 0;
     virtual QColor borderColor() = 0;
     virtual qreal shadowRadius() = 0;
     virtual QPointF shadowOffset() = 0;
@@ -80,7 +81,6 @@ Q_SIGNALS:
 
 
 protected:
-    // Window          *m_window;
     PropertyFlags   m_validProperties;
 };
 
@@ -88,14 +88,10 @@ protected:
 class X11DecorationStyle : public DecorationStyle
 {
     Q_OBJECT
-    
 public:
 
     explicit X11DecorationStyle(Window *window);
     ~X11DecorationStyle();
-
-    // PropertyFlags validProperties();
-    // bool propertyIsValid(PropertyFlag p);
 
     PropertyFlags validProperties() override;
     bool propertyIsValid(PropertyFlag p) override;
@@ -104,26 +100,14 @@ public:
     QPointF windowRadius() override;
     void setWindowRadius(const QPointF value) override;
     qreal borderWidth() override;
+    void setBorderWidth(int width) override;
     QColor borderColor() override;
     qreal shadowRadius() override;
     QPointF shadowOffset() override;
     QColor shadowColor() override;
     QMarginsF mouseInputAreaMargins() override;
-    qreal windowPixelRatio() override;  
+    qreal windowPixelRatio() override;
 
-    // void setValidProperties(qint64 validProperties) override;
-
-Q_SIGNALS:
-    // void validPropertiesChanged(qint64 validProperties);
-    // void themeChanged();
-    // void windowRadiusChanged();
-    // void borderWidthChanged();
-    // void borderColorChanged();
-    // void shadowRadiusChanged();
-    // void shadowOffectChanged();
-    // void shadowColorChanged();
-    // void mouseInputAreaMarginsChanged();
-    // void windowPixelRatioChanged();
 private:
     Window          *m_window;
 };
@@ -140,8 +124,9 @@ public:
 
     QString theme() {return "";};
     QPointF windowRadius();
-    void setWindowRadius(const QPointF value) {};
-    qreal borderWidth() {return 1;};
+    void setWindowRadius(const QPointF value);
+    qreal borderWidth();
+    void setBorderWidth(int width) override;
     QColor borderColor();
     qreal shadowRadius() {return 50;};
     QPointF shadowOffset() {return QPointF(0,0);};
@@ -153,6 +138,7 @@ public Q_SLOT:
 
 private:
     QPointF m_radius = QPointF(-1, 0);
+    qreal   m_border = 1;
     Window  *m_window;
 };
 

@@ -28,6 +28,7 @@ public:
 public:
     float getOsRadius();
     float getOsScale();
+    void handleSpecialWindowStyle(Window *);
 
 Q_SIGNALS:
     void sigRadiusChanged(float &);

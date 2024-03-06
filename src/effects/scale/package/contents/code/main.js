@@ -76,7 +76,7 @@ var scaleEffect = {
             return true;
         }
 
-        return window.normalWindow || window.dialog;
+        return window.normalWindow || window.dialog || window.utility || splash || window.onScreenDisplay;
     },
     setupForcedRoles: function (window) {
         window.setData(Effect.WindowForceBackgroundContrastRole, true);

@@ -292,6 +292,7 @@ public:
     void updateQuickTileMode(KWin::EffectWindow *, int mode) override;
     void updateWindowTile(KWin::EffectScreen *) override;
     float getOsRadius() override;
+    float getOsScale() override;
     void toggleMinimizedAnimation(Window *window);
 
 public Q_SLOTS:

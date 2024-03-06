@@ -17,6 +17,7 @@
 #include "switcheritem.h"
 #include "tabbox_logging.h"
 #include "utils/xcbutils.h"
+#include "wayland_server.h"
 #include <kwinglobals.h>
 // Qt
 #include <QKeyEvent>
@@ -337,6 +338,9 @@ void TabBoxHandlerPrivate::show()
         if (!m_mainItem) {
             return;
         }
+    }
+    if (waylandServer() && window()) {
+        window()->setProperty("__kwin_switcherwin", true);
     }
     if (SwitcherItem *item = switcherItem()) {
         // In case the model isn't yet set (see below), index will be reset and therefore we

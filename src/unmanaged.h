@@ -38,6 +38,7 @@ public:
     bool isUnmanaged() const override;
     bool isSplitMenu() const override;
     bool isSwitcherWin() const override;
+    bool isWindowMenu() const override;
 
     QString captionNormal() const override { return wm_name; }
     QString captionSuffix() const override { return {}; }
@@ -86,6 +87,7 @@ private:
     bool m_splitmenu = false;
     bool m_switcherwin = false;
     bool m_scheduledRelease = false;
+    bool m_windowMenu = false;
     QString wm_name;
 };
 

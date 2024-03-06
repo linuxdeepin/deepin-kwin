@@ -300,7 +300,7 @@ var fadingPopupsEffect = {
                 },
                 {
                     type: Effect.Opacity,
-                    from: 1.0,
+                    from: 0.0,
                     to : 1.0
                 }
                 ]

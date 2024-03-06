@@ -120,6 +120,7 @@ void Deleted::copyToDeleted(Window *window)
     m_wasLockScreen = window->isLockScreen();
     m_wasSplitMenu = window->isSplitMenu();
     m_wasSwitcherWin = window->isSwitcherWin();
+    m_wasWindowMenu = window->isWindowMenu();
 }
 
 void Deleted::unrefWindow()

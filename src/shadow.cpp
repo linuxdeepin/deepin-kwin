@@ -206,7 +206,7 @@ bool Shadow::init()
     if (!m_window->windowShadowObj())
         return true;
 
-    if (!WindowShadow::m_cacheShadow.contains(m_window->windowShadowObj()->m_key)) {
+    if (!WindowShadow::m_cacheShadow.contains(m_window->windowShadowObj()->getShadowKey())) {
         m_offset = QMargins();
         resetTexture();
         Q_EMIT offsetChanged();
@@ -214,16 +214,16 @@ bool Shadow::init()
         return true;
     }
 
-    m_shadowElements[ShadowElementTop] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][0];
-    m_shadowElements[ShadowElementTopRight] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][1];
-    m_shadowElements[ShadowElementRight] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][2];
-    m_shadowElements[ShadowElementBottomRight] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][3];
-    m_shadowElements[ShadowElementBottom] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][4];
-    m_shadowElements[ShadowElementBottomLeft] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][5];
-    m_shadowElements[ShadowElementLeft] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][6];
-    m_shadowElements[ShadowElementTopLeft] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->m_key][7];
+    m_shadowElements[ShadowElementTop] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->getShadowKey()][0];
+    m_shadowElements[ShadowElementTopRight] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->getShadowKey()][1];
+    m_shadowElements[ShadowElementRight] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->getShadowKey()][2];
+    m_shadowElements[ShadowElementBottomRight] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->getShadowKey()][3];
+    m_shadowElements[ShadowElementBottom] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->getShadowKey()][4];
+    m_shadowElements[ShadowElementBottomLeft] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->getShadowKey()][5];
+    m_shadowElements[ShadowElementLeft] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->getShadowKey()][6];
+    m_shadowElements[ShadowElementTopLeft] = WindowShadow::m_cacheShadow[m_window->windowShadowObj()->getShadowKey()][7];
 
-    m_offset = m_window->windowShadowObj()->m_padding;
+    m_offset = m_window->windowShadowObj()->getPadding();
 
     if (m_window->shape()) {
         Item *item = qobject_cast<Item *>(m_window->surfaceItem());

@@ -119,6 +119,8 @@ public:
      */
     Q_SCRIPTABLE QJSValue readConfig(const QString &key, const QJSValue &defaultValue = QJSValue());
 
+    Q_SCRIPTABLE void jsWarningStr(const QString &str) {qCritical() << str;};
+
     Q_SCRIPTABLE int displayWidth() const;
     Q_SCRIPTABLE int displayHeight() const;
     Q_SCRIPTABLE int animationTime(int defaultTime) const;

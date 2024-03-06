@@ -78,6 +78,7 @@ public:
     virtual void updateQuickTileMode(KWin::EffectWindow *, int mode) = 0;
     virtual void updateWindowTile(KWin::EffectScreen *) = 0;
     virtual float getOsRadius() = 0;
+    virtual float getOsScale() = 0;
     virtual EffectType effectType() const = 0;
 
 Q_SIGNALS:

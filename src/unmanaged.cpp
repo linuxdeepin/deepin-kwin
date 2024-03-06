@@ -138,6 +138,7 @@ bool Unmanaged::track(xcb_window_t w)
         m_splitbar = wm_name.isEmpty() ? false : wm_name.contains("splitbar");
         m_splitmenu = wm_name.isEmpty() ? false : wm_name.contains("splitmenu");
         m_switcherwin = internalWindow->property("__kwin_switcherwin").toBool();
+        m_windowMenu = wm_name.isEmpty() ? false : wm_name.contains("ctx-menu");
     }
     m_watermark = wm_name.isEmpty() ? false : wm_name.contains("deepin-watermark");
     if (effects) {
@@ -241,6 +242,11 @@ bool Unmanaged::isSwitcherWin() const
     return m_switcherwin;
 }
 
+bool Unmanaged::isWindowMenu() const
+{
+    return m_windowMenu;
+}
+
 QWindow *Unmanaged::findInternalWindow() const
 {
     const QWindowList windows = kwinApp()->topLevelWindows();
@@ -271,6 +277,5 @@ QString Unmanaged::readName()
     QString str = QString::fromUtf8(info->name());
     return str.mid(0, str.indexOf("—")).simplified();
 }
-
 
 } // namespace

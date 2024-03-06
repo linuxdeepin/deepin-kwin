@@ -214,14 +214,14 @@ bool UserActionsMenu::handleClick(const QPoint &pos)
 void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
 {
     double fontScale = workspace()->getFontSizeScale();
-    QString backgroundColor = workspace()->self()->getBlurStatus() ? "rgba(253,253,254,65%)" : "rgba(253,253,254,100%)";
+    QString backgroundColor = workspace()->self()->getBlurStatus() ? "#cceeeeee" : "rgba(253,253,254,100%)";
     QString fontColor = "black";
     QString disableFontColor = "rgba(0,0,0,40%)";
     qreal scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
     QString fontSize = QString::number(int(fontScale * 14.0 * scalingFactor)) + "px";
     QString rightPadding = QString::number(45 * fontScale * fontScale * scalingFactor) + "px";
     if (workspace()->self()->isDarkTheme()) {
-        backgroundColor = "black";
+        backgroundColor = "#cc141414";
         fontColor = "white";
         disableFontColor = "rgba(255,255,255,40%)";
     }
