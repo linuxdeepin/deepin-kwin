@@ -1818,7 +1818,7 @@ void Window::startDelayedInteractiveMoveResize()
         updateCursor();
         stopDelayedInteractiveMoveResize();
     });
-    m_interactiveMoveResize.delayedTimer->start(QApplication::startDragTime());
+    m_interactiveMoveResize.delayedTimer->start(QApplication::startDragTime() + 1200);
 }
 
 void Window::stopDelayedInteractiveMoveResize()
