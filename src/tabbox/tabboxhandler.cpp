@@ -162,8 +162,16 @@ void TabBoxHandlerPrivate::updateHighlightWindows()
         if (lastRaisedClient)
             q->elevateClient(lastRaisedClient, w, false);
         lastRaisedClient = currentClient;
-        if (currentClient)
-            q->elevateClient(currentClient, w, true);
+        const auto desktop = q->desktopClient();
+        if (currentClient) {
+            if (!desktop || desktop.toStrongRef()->internalId() != currentClient->internalId()) {
+                // don't elevate desktop
+                q->elevateClient(currentClient, w, true);
+            } else {
+                q->raiseClient(currentClient);
+                q->activateCurrentClient();
+            }
+        }
     } else {
         if (lastRaisedClient) {
             q->shadeClient(lastRaisedClient, true);
