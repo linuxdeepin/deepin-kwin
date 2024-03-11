@@ -134,7 +134,6 @@ ZoomEffect::~ZoomEffect()
     showCursor();
     // Save the zoom value.
     ZoomConfig::setInitialZoom(target_zoom);
-    ZoomConfig::self()->save();
 }
 
 bool ZoomEffect::isFocusTrackingEnabled() const
