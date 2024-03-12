@@ -47,6 +47,8 @@ private:
     void setActive(bool);
     void cleanup();
     void relayout();
+    void inhibit();
+    void uninhibit();
 
 public Q_SLOTS:
     void toggle(KWin::EffectWindow *w);
@@ -66,6 +68,7 @@ private:
     std::chrono::milliseconds    lastPresentTime;
     std::unique_ptr<EffectFrameEx>  m_effectFrame;
     QList<EffectWindow *>           m_unPreviewWin;
+    int                          m_inhibitCount = 0;
 };
 }
 #endif

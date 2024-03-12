@@ -371,7 +371,6 @@ bool Window::setupCompositing()
     updateShadow();
     if(!QX11Info::isPlatformX11()) {
         createWinStyle();
-        updateWindowRadius();
     }
     m_windowItem = createItem(scene);
     m_effectWindow->setWindowItem(m_windowItem.get());

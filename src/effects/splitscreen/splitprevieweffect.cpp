@@ -299,10 +299,15 @@ void SplitPreviewEffect::slotWindowGeometryChanged(EffectWindow *window, const Q
 
 void SplitPreviewEffect::relayout()
 {
+    if (m_inhibitCount != 0) {
+        return;
+    }
+    inhibit();
     if (m_motionManagers.size()) {
         WindowMotionManager& wm = m_motionManagers[0];
         calculateWindowTransformations(wm.managedWindows(), wm);
     }
+    uninhibit();
 }
 
 bool SplitPreviewEffect::isRelevantWithPresentWindows(EffectWindow *w) const
@@ -482,6 +487,16 @@ bool SplitPreviewEffect::touchUp(qint32 id, std::chrono::microseconds time)
     }
     setActive(false);
     return true;
+}
+
+void SplitPreviewEffect::inhibit()
+{
+    m_inhibitCount++;
+}
+
+void SplitPreviewEffect::uninhibit()
+{
+    m_inhibitCount--;
 }
 
 }
