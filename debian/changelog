@@ -1,10 +1,18 @@
+kwin (4:5.27.2.81-deepin81-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * fix: fix wayland can't login
+  *  feat: add env to control hpRefresh and cvt mode
+
+ -- zhangyu <zhangyud@uniontech.com>  Tues, 12 Mar 2024 14:00:00 +0800
+
 kwin (4:5.27.2.80-deepin80-1) unstable; urgency=medium
 
   [ zhangyu ]
   * fix: optimize shadow, theme, alt+tab, multitaskview,effects
   * feat: the height of title bar
 
- -- zhangyu <zhangyud@uniontech.com>  Wed, 11 Mar 2024 17:40:00 +0800
+ -- zhangyu <zhangyud@uniontech.com>  Mon, 11 Mar 2024 17:40:00 +0800
 
 kwin (4:5.27.2.79-deepin79-1) unstable; urgency=medium
 
