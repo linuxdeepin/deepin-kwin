@@ -300,8 +300,6 @@ void UserActionsMenu::prepareMenu(const QPointer<AbstractClient> &cl)
             border-radius:0px;\
             }\
             QMenu::item {\
-            font:Sans Serif;\
-            font-size:14px;\
             padding: 6px 45px 6px 30px;\
             color: %3;\
             }\
