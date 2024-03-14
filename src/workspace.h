@@ -818,6 +818,8 @@ private:
     void updateOutputConfiguration();
     void updateOutputs(const QVector<Output *> &outputOrder = {});
 
+    void sendWorkArea(Window *window);
+
     struct Constraint
     {
         Window *below;

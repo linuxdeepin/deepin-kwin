@@ -41,6 +41,7 @@ public:
 private:
     void dde_shell_get_shell_surface(Resource *resource, uint32_t id, struct ::wl_resource *surface) override;
     DDEShellInterface *q;
+    Display *display;
 };
 
 class DDEShellSurfaceInterfacePrivate : public QtWaylandServer::dde_shell_surface
@@ -54,7 +55,9 @@ public:
     void setState(dde_shell_state flag, bool set);
     void sendGeometry(const QRect &geom);
     void sendSplitable(bool splitable);
+    void sendWorkArea(OutputInterface* output, const QRect& geometry);
 
+    ClientConnection *client = nullptr;
 private:
     quint32 m_state = 0;
     QRect m_geometry;
@@ -81,6 +84,7 @@ DDEShellInterface::~DDEShellInterface() = default;
 DDEShellInterfacePrivate::DDEShellInterfacePrivate(DDEShellInterface *_q, Display *display)
     : QtWaylandServer::dde_shell(*display, s_version)
     , q(_q)
+    , display(display)
 {
 }
 
@@ -99,7 +103,7 @@ void DDEShellInterfacePrivate::dde_shell_get_shell_surface(Resource *resource, u
 
     wl_resource *shell_resource = wl_resource_create(resource->client(), &dde_shell_surface_interface, resource->version(), id);
 
-    auto shellSurface = new DDEShellSurfaceInterface(s, shell_resource);
+    auto shellSurface = new DDEShellSurfaceInterface(display, s, shell_resource);
     s_shellSurfaces.append(shellSurface);
 
     QObject::connect(shellSurface, &QObject::destroyed, [shellSurface]() {
@@ -112,10 +116,11 @@ void DDEShellInterfacePrivate::dde_shell_get_shell_surface(Resource *resource, u
 /*********************************
  * DDEShellSurfaceInterface
  *********************************/
-DDEShellSurfaceInterface::DDEShellSurfaceInterface(SurfaceInterface *surface, wl_resource *resource)
+DDEShellSurfaceInterface::DDEShellSurfaceInterface(Display *display, SurfaceInterface *surface, wl_resource *resource)
     : QObject(surface)
     , d(new DDEShellSurfaceInterfacePrivate(this, surface, resource))
 {
+    d->client = display->getConnection(d->resource()->client());
 }
 
 DDEShellSurfaceInterface::~DDEShellSurfaceInterface() = default;
@@ -141,6 +146,14 @@ DDEShellSurfaceInterface *DDEShellSurfaceInterface::get(SurfaceInterface *surfac
         }
     }
     return nullptr;
+}
+
+void DDEShellSurfaceInterfacePrivate::sendWorkArea(OutputInterface* output, const QRect& geometry)
+{
+    auto resources = output->clientResources(client);
+    for (wl_resource *outputResource : resources) {
+        send_workarea(outputResource, geometry.x(), geometry.y(), geometry.width(), geometry.height());
+    }
 }
 
 void DDEShellSurfaceInterfacePrivate::setState(dde_shell_state flag, bool set)
@@ -348,6 +361,11 @@ void DDEShellSurfaceInterface::setAcceptFocus(bool set)
 void DDEShellSurfaceInterface::setModal(bool set)
 {
     d->setState(DDE_SHELL_STATE_MODALITY, set);
+}
+
+void DDEShellSurfaceInterface::sendWorkArea(OutputInterface* output, const QRect& geometry)
+{
+    d->sendWorkArea(output, geometry);
 }
 
 void DDEShellSurfaceInterface::sendGeometry(const QRect &geom)

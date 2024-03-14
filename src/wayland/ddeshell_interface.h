@@ -22,6 +22,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include <QObject>
 
 #include "kwin_export.h"
+#include "output_interface.h"
 
 struct wl_resource;
 class QRect;
@@ -92,6 +93,7 @@ public:
     void setResizable(bool set);
     void setAcceptFocus(bool set);
     void setModal(bool set);
+    void sendWorkArea(OutputInterface* output, const QRect& geometry);
 
 Q_SIGNALS:
     void activationRequested();
@@ -117,7 +119,7 @@ Q_SIGNALS:
     void splitWindowRequested(SplitType splitType);
 private:
     friend class DDEShellInterfacePrivate;
-    explicit DDEShellSurfaceInterface(SurfaceInterface *surface, wl_resource *resource);
+    explicit DDEShellSurfaceInterface(Display *display, SurfaceInterface *surface, wl_resource *resource);
     QScopedPointer<DDEShellSurfaceInterfacePrivate> d;
 };
 

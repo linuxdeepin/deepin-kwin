@@ -1332,7 +1332,7 @@ LEDs VirtualInputDevice::leds() const
     return LEDs();
 }
 
-void VirtualInputDevice::setLeds(LEDs leds)
+void VirtualInputDevice::setLeds(LEDs leds, bool force)
 {
 }
 

@@ -1184,6 +1184,7 @@ void Workspace::addWaylandWindow(Window *window)
 
     updateStackingOrder(true);
     updateClientArea();
+    sendWorkArea(window);
     if (window->wantsInput() && !window->isMinimized()) {
         activateWindow(window);
     }
@@ -2903,10 +2904,22 @@ void Workspace::updateClientArea()
 
         for (auto it = m_allClients.constBegin(); it != m_allClients.constEnd(); ++it) {
             (*it)->checkWorkspacePosition();
+            sendWorkArea(*it);
         }
 
         m_oldRestrictedAreas.clear(); // reset, no longer valid or needed
         m_inUpdateClientArea = false;
+    }
+}
+
+void Workspace::sendWorkArea(Window *window)
+{
+    auto ddeShellSurface = getDDEShellSurface(window);
+    if (!ddeShellSurface) {
+        return;
+    }
+    for (auto output : m_outputs) {
+        ddeShellSurface->sendWorkArea(waylandServer()->findWaylandOutput(output), clientArea(MaximizeArea, window, output).toRect());
     }
 }
 
