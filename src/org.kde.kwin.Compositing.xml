@@ -11,6 +11,9 @@
     <signal name="compositingToggled">
       <arg name="active" type="b" direction="out"/>
     </signal>
+    <signal name="effectsEnabledChanged">
+      <arg name="enabled" type="b" direction="out"/>
+    </signal>
     <method name="suspend">
     </method>
     <method name="resume">

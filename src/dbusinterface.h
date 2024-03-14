@@ -219,6 +219,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void compositingToggled(bool active);
+    void effectsEnabledChanged(bool enabled);
 
 private:
     Compositor *m_compositor;

@@ -592,6 +592,13 @@ void Compositor::startupWithWorkspace()
 
     Q_EMIT compositingToggled(true);
 
+    static int lastCompositingType = -1;
+    int currentCompositingType = m_backend ? m_backend->compositingType() : CompositingType::NoCompositing;
+    if (currentCompositingType != lastCompositingType && lastCompositingType != -1) {
+        Q_EMIT effectsEnabledChanged(currentCompositingType == CompositingType::OpenGLCompositing);
+    }
+    lastCompositingType = currentCompositingType;
+
     if (m_releaseSelectionTimer.isActive()) {
         m_releaseSelectionTimer.stop();
     }

@@ -156,6 +156,7 @@ public:
 
 Q_SIGNALS:
     void compositingToggled(bool active);
+    void effectsEnabledChanged(bool enabled);
     void aboutToDestroy();
     void aboutToToggleCompositing();
     void sceneCreated();
