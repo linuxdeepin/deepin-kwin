@@ -130,7 +130,8 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, WorkspaceScene *s
     , m_effectLoader(new EffectLoader(this))
     , m_trackingCursorChanges(0)
 {
-    qRegisterMetaType<QVector<KWin::EffectWindow *>>();
+    qRegisterMetaType<QList<KWin::EffectWindow *>>();
+    // qRegisterMetaType<QVector<KWin::EffectWindow *>>();
     qRegisterMetaType<KWin::SessionState>();
     connect(m_effectLoader, &AbstractEffectLoader::effectLoaded, this, [this](Effect *effect, const QString &name) {
         effect_order.insert(effect->requestedEffectChainPosition(), EffectPair(name, effect));
@@ -149,6 +150,12 @@ EffectsHandlerImpl::EffectsHandlerImpl(Compositor *compositor, WorkspaceScene *s
     connect(ws, &Workspace::showingDesktopChanged, this, [this](bool showing, bool animated) {
         if (animated) {
             Q_EMIT showingDesktopChanged(showing);
+            QList<Window *> list = workspace()->stackingOrder();
+            for (Window *t : list) {
+                if (EffectWindow *w = t ? t->effectWindow() : nullptr) {
+                    Q_EMIT showingDesktopChangedEx(showing, w);
+                }
+            }
         }
     });
     connect(ws, &Workspace::currentDesktopChanged, this, [this](int old, Window *window) {

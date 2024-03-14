@@ -142,6 +142,7 @@ Workspace::Workspace()
     , m_delayFocusWindow(nullptr)
     , force_restacking(false)
     , showing_desktop(false)
+    , showing_desktop_effect(false)
     , showing_desktop_timestamp(-1U)
     , was_user_interaction(false)
     , block_focus(0)
@@ -1921,7 +1922,7 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
     showing_desktop_timestamp = kwinApp()->x11Time();
 
     Window *topDesk = nullptr;
-
+    if (!showing)
     { // for the blocker RAII
         StackingUpdatesBlocker blocker(this); // updateLayer & lowerWindow would invalidate stacking_order
         for (int i = stacking_order.count() - 1; i > -1; --i) {
@@ -1965,6 +1966,44 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
         message << bool(showing);
         QDBusConnection::sessionBus().send(message);
     }
+}
+
+void Workspace::slotShowingDesktopEffectChanged(bool showing)
+{
+    if (showing == showing_desktop_effect)
+        return;
+    showing_desktop_effect = showing;
+
+    Window *topDesk = nullptr;
+
+    if (showing) {
+        StackingUpdatesBlocker blocker(this); // updateLayer & lowerWindow would invalidate stacking_order
+        for (int i = stacking_order.count() - 1; i > -1; --i) {
+            auto window = stacking_order.at(i);
+            if (window->isClient() && window->isOnCurrentDesktop()) {
+                if (window->isDock()) {
+                    window->updateLayer();
+                } else if (window->isDesktop() && window->isShown()) {
+                    window->updateLayer();
+                    lowerWindow(window);
+                    if (!topDesk) {
+                        topDesk = window;
+                    }
+                    if (auto group = window->group()) {
+                        const auto members = group->members();
+                        for (X11Window *cm : members) {
+                            cm->updateLayer();
+                        }
+                    }
+                } else if (window->keepAbove()) {
+                    window->updateLayer();
+                }
+            }
+        }
+    }
+
+    if (showing && topDesk)
+        requestFocus(topDesk);
 }
 
 void Workspace::setDisableGlobalShortcutsByUser(bool yes)

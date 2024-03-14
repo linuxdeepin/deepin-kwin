@@ -696,6 +696,7 @@ public Q_SLOTS:
     void tileActiveWindow(uint);
     void toggleActiveMaximize();
     void slotDockPositionChanged();
+    void slotShowingDesktopEffectChanged(bool);
 
 private Q_SLOTS:
     void desktopResized();
@@ -871,6 +872,7 @@ private:
     QList<WindowState*> m_windowStates;
     QList<Window *> last_keepAbove_windows;
     bool showing_desktop;
+    bool showing_desktop_effect;
     xcb_timestamp_t showing_desktop_timestamp;
 
     QList<Group *> groups;

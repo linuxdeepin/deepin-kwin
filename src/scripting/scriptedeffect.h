@@ -120,6 +120,9 @@ public:
     Q_SCRIPTABLE QJSValue readConfig(const QString &key, const QJSValue &defaultValue = QJSValue());
 
     Q_SCRIPTABLE void jsWarningStr(const QString &str) {qCritical() << str;};
+    Q_SCRIPTABLE void jsWarningInt(const int &n) {qCritical() << "++++===" << n;};
+
+    Q_SCRIPTABLE void showingDesktopEnd(bool);
 
     Q_SCRIPTABLE int displayWidth() const;
     Q_SCRIPTABLE int displayHeight() const;
@@ -193,6 +196,7 @@ Q_SIGNALS:
     void configChanged();
     void animationEnded(KWin::EffectWindow *w, quint64 animationId);
     void isActiveFullScreenEffectChanged();
+    void showDesktopEffectChanged(bool);
 
 protected:
     ScriptedEffect();

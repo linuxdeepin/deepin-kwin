@@ -207,6 +207,7 @@ ScriptedEffect::ScriptedEffect()
         }
         m_activeFullScreenEffect = fullScreenEffect;
     });
+    connect(this, &ScriptedEffect::showDesktopEffectChanged, workspace(), &Workspace::slotShowingDesktopEffectChanged);
 }
 
 ScriptedEffect::~ScriptedEffect() = default;
@@ -948,6 +949,11 @@ void ScriptedEffect::setUniform(uint shaderId, const QString &name, const QJSVal
         m_engine->throwError(QStringLiteral("Invalid value provided for uniform"));
 #endif
     }
+}
+
+void ScriptedEffect::showingDesktopEnd(bool showing)
+{
+    Q_EMIT showDesktopEffectChanged(showing);
 }
 
 } // namespace

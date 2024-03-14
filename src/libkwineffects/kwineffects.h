@@ -1536,6 +1536,7 @@ Q_SIGNALS:
      * @since 5.3
      */
     void showingDesktopChanged(bool);
+    void showingDesktopChangedEx(bool, KWin::EffectWindow *w);
     /**
      * Signal emitted when a new window has been added to the Workspace.
      * @param w The added window

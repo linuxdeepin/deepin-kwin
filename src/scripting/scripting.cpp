@@ -153,6 +153,7 @@ KWin::Script::Script(int id, QString scriptName, QString pluginName, QObject *pa
     }
 
     qRegisterMetaType<QList<KWin::Window *>>();
+    qRegisterMetaType<EffectWindowList>();
 }
 
 KWin::Script::~Script()
