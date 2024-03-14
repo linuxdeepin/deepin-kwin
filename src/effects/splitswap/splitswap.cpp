@@ -165,6 +165,7 @@ void SplitSwapEffect::onSwapWindow(EffectWindow *w, int index)
         m_isSwap = false;
         m_isFinish = true;
         m_animationTime.setElapsed(std::chrono::milliseconds(1));
+        effects->addRepaintFull();
     } else if (index == 1) {    //swaping
         m_isSwap = true;
         m_isFinish = false;
