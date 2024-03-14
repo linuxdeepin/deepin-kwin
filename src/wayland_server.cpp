@@ -75,6 +75,7 @@
 #include "wayland/ddeseat_interface.h"
 #include <wayland/ddesecurity_interface.h>
 #include <wayland/dderestrict_interface.h>
+#include <wayland/ddekvm_interface.h>
 #include "wayland/strut_interface.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -764,6 +765,7 @@ bool WaylandServer::init(InitializationFlags flags)
     m_seat->addSecurityInterface(m_ddeSecurity);
 
     m_ddeRestrict = new DDERestrictInterface(m_display, m_display);
+    m_ddeKvm = new DDEKvmInterface(m_display, m_display);
 
     return true;
 }

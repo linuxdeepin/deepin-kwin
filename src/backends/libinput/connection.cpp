@@ -11,6 +11,8 @@
 #include "device.h"
 #include "events.h"
 #include "input_adaptor.h"
+#include "wayland/ddekvm_interface.h"
+#include "wayland_server.h"
 
 // TODO: Make it compile also in testing environment
 #ifndef KWIN_BUILD_TESTING
@@ -120,6 +122,13 @@ Connection::Connection(std::unique_ptr<Context> &&input)
     // need to connect to KGlobalSettings as the mouse KCM does not emit a dedicated signal
     QDBusConnection::sessionBus().connect(QString(), QStringLiteral("/KGlobalSettings"), QStringLiteral("org.kde.KGlobalSettings"),
                                           QStringLiteral("notifyChange"), this, SLOT(slotKGlobalSettingsNotifyChange(int, int)));
+    if (waylandServer()) {
+        auto ddeKvm = waylandServer()->ddeKvm();
+        if (ddeKvm) {
+            connect(ddeKvm, &KWaylandServer::DDEKvmInterface::kvmInterfaceEnablePointerRequested, this, &Connection::slotKvmEnablePointerChange);
+            connect(ddeKvm, &KWaylandServer::DDEKvmInterface::kvmInterfaceEnableKeyboardRequested, this, &Connection::slotKvmEnableKeyboardChange);
+        }
+    }
 }
 
 Connection::~Connection() = default;
@@ -316,19 +325,41 @@ void Connection::processEvents()
         }
         case LIBINPUT_EVENT_KEYBOARD_KEY: {
             KeyEvent *ke = static_cast<KeyEvent *>(event.get());
-            Q_EMIT ke->device()->keyChanged(ke->key(), ke->state(), ke->time(), ke->device());
+            if (m_kvmEnableKeyboard) {
+                Q_EMIT ke->device()->keyChanged(ke->key(), ke->state(), ke->time(), ke->device());
+            }
+            if (waylandServer()) {
+                auto ddeKvm = waylandServer()->ddeKvm();
+                if (ddeKvm) {
+                    ddeKvm->setkvmKeyboardTimestamp(static_cast<quint32>(ke->time().count()));
+                    ddeKvm->updateKey(ke->key(), 0, ke->state());
+                }
+            }
             break;
         }
         case LIBINPUT_EVENT_POINTER_AXIS: {
             const PointerEvent *pointerEvent = static_cast<PointerEvent *>(event.get());
             const auto axes = pointerEvent->axis();
             for (const InputRedirection::PointerAxis &axis : axes) {
-                Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
+                if (m_kvmEnablePointer) {
+                    Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
                                                                   pointerEvent->scrollValue(axis),
                                                                   0,
                                                                   InputRedirection::PointerAxisSourceWheel,
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
+                }
+                if (waylandServer()) {
+                    auto ddeKvm = waylandServer()->ddeKvm();
+                    if (ddeKvm) {
+                        ddeKvm->setKvmPointerTimestamp(static_cast<quint32>(pointerEvent->time().count()));
+                        if (axis == InputRedirection::PointerAxis::PointerAxisVertical) {
+                            ddeKvm->pointerAxis(Qt::Orientation::Vertical, qRound(pointerEvent->scrollValue(axis)));
+                        } else {
+                            ddeKvm->pointerAxis(Qt::Orientation::Horizontal, qRound(pointerEvent->scrollValue(axis)));
+                        }
+                    }
+                }
             }
             break;
         }
@@ -336,12 +367,14 @@ void Connection::processEvents()
             const PointerEvent *pointerEvent = static_cast<PointerEvent *>(event.get());
             const auto axes = pointerEvent->axis();
             for (const InputRedirection::PointerAxis &axis : axes) {
-                Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
+                if (m_kvmEnablePointer) {
+                    Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
                                                                   pointerEvent->scrollValue(axis),
                                                                   pointerEvent->scrollValueV120(axis),
                                                                   InputRedirection::PointerAxisSourceWheel,
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
+                }
             }
             break;
         }
@@ -349,12 +382,14 @@ void Connection::processEvents()
             const PointerEvent *pointerEvent = static_cast<PointerEvent *>(event.get());
             const auto axes = pointerEvent->axis();
             for (const InputRedirection::PointerAxis &axis : axes) {
-                Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
+                if (m_kvmEnablePointer) {
+                    Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
                                                                   pointerEvent->scrollValue(axis),
                                                                   0,
                                                                   InputRedirection::PointerAxisSourceFinger,
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
+                }
             }
             break;
         }
@@ -362,18 +397,29 @@ void Connection::processEvents()
             const PointerEvent *pointerEvent = static_cast<PointerEvent *>(event.get());
             const auto axes = pointerEvent->axis();
             for (const InputRedirection::PointerAxis &axis : axes) {
-                Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
+                if (m_kvmEnablePointer) {
+                    Q_EMIT pointerEvent->device()->pointerAxisChanged(axis,
                                                                   pointerEvent->scrollValue(axis),
                                                                   0,
                                                                   InputRedirection::PointerAxisSourceContinuous,
                                                                   pointerEvent->time(),
                                                                   pointerEvent->device());
+                }
             }
             break;
         }
         case LIBINPUT_EVENT_POINTER_BUTTON: {
             PointerEvent *pe = static_cast<PointerEvent *>(event.get());
-            Q_EMIT pe->device()->pointerButtonChanged(pe->button(), pe->buttonState(), pe->time(), pe->device());
+            if (m_kvmEnablePointer) {
+                Q_EMIT pe->device()->pointerButtonChanged(pe->button(), pe->buttonState(), pe->time(), pe->device());
+            }
+            if (waylandServer()) {
+                auto ddeKvm = waylandServer()->ddeKvm();
+                if (ddeKvm) {
+                    ddeKvm->setKvmPointerTimestamp(static_cast<quint32>(pe->time().count()));
+                    ddeKvm->pointerButton(pe->button(), pe->buttonState(), 0, pe->absoluteKvmPos(workspace()->geometry().size()));
+                }
+            }
             break;
         }
         case LIBINPUT_EVENT_POINTER_MOTION: {
@@ -394,6 +440,12 @@ void Connection::processEvents()
                 }
             }
             Q_EMIT pe->device()->pointerMotion(delta, deltaNonAccel, latestTime, pe->device());
+            if (waylandServer()) {
+                auto ddeKvm = waylandServer()->ddeKvm();
+                if (ddeKvm) {
+                    ddeKvm->setKvmPointerTimestamp(static_cast<quint32>(pe->time().count()));
+                }
+            }
             break;
         }
         case LIBINPUT_EVENT_POINTER_MOTION_ABSOLUTE: {
@@ -812,6 +864,24 @@ QStringList Connection::devicesSysNames() const
         sl.append(d->sysName());
     }
     return sl;
+}
+
+void Connection::slotKvmEnablePointerChange(quint32 is_enable)
+{
+    if (is_enable) {
+        m_kvmEnablePointer = true;
+    } else {
+        m_kvmEnablePointer = false;
+    }
+}
+
+void Connection::slotKvmEnableKeyboardChange(quint32 is_enable)
+{
+    if (is_enable) {
+        m_kvmEnableKeyboard = true;
+    } else {
+        m_kvmEnableKeyboard = false;
+    }
 }
 
 }

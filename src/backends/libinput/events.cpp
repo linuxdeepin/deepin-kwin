@@ -152,6 +152,12 @@ QPointF PointerEvent::absolutePos(const QSize &size) const
                    libinput_event_pointer_get_absolute_y_transformed(m_pointerEvent, size.height()));
 }
 
+QPointF PointerEvent::absoluteKvmPos(const QSize &size) const
+{
+    return QPointF(libinput_event_pointer_get_absolute_x_transformed(m_pointerEvent, size.width()),
+                   libinput_event_pointer_get_absolute_y_transformed(m_pointerEvent, size.height()));
+}
+
 QPointF PointerEvent::delta() const
 {
     Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_MOTION);

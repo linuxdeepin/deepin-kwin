@@ -79,6 +79,7 @@ public:
 
     QPointF absolutePos() const;
     QPointF absolutePos(const QSize &size) const;
+    QPointF absoluteKvmPos(const QSize &size) const;
     QPointF delta() const;
     QPointF deltaUnaccelerated() const;
     uint32_t button() const;

@@ -145,6 +145,11 @@ public:
      */
     void processHoldGestureCancelled(std::chrono::microseconds time, KWin::InputDevice *device = nullptr);
 
+public Q_SLOTS:
+    void slotKvmInterfaceEnableCursor(uint32_t is_enable);
+    void slotKvmInterfaceSetCursorPos(double x, double y);
+    void slotKvmEnablePointerChange(quint32 is_enable);
+
 private:
     void processMotionInternal(const QPointF &pos, const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds time, InputDevice *device);
     void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
@@ -175,6 +180,7 @@ private:
     bool m_confined = false;
     bool m_locked = false;
     bool m_enableConstraints = true;
+    bool m_kvmEnablePointer = true;
     friend class PositionUpdateBlocker;
 };
 

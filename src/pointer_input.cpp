@@ -26,6 +26,7 @@
 #include "wayland/seat_interface.h"
 #include "wayland/ddeseat_interface.h"
 #include "wayland/surface_interface.h"
+#include "wayland/ddekvm_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
@@ -71,6 +72,14 @@ PointerInputRedirection::PointerInputRedirection(InputRedirection *parent)
     : InputDeviceHandler(parent)
     , m_cursor(nullptr)
 {
+    if (waylandServer()) {
+        auto ddeKvm = waylandServer()->ddeKvm();
+        if (ddeKvm) {
+            connect(ddeKvm, &KWaylandServer::DDEKvmInterface::kvmInterfaceEnableCursorRequested, this, &PointerInputRedirection::slotKvmInterfaceEnableCursor);
+            connect(ddeKvm, &KWaylandServer::DDEKvmInterface::kvmInterfaceSetCursorPosRequested, this, &PointerInputRedirection::slotKvmInterfaceSetCursorPos);
+            connect(ddeKvm, &KWaylandServer::DDEKvmInterface::kvmInterfaceEnablePointerRequested, this, &PointerInputRedirection::slotKvmEnablePointerChange);
+        }
+    }
 }
 
 PointerInputRedirection::~PointerInputRedirection() = default;
@@ -250,8 +259,21 @@ void PointerInputRedirection::processMotionInternal(const QPointF &pos, const QP
     event.setModifiersRelevantForGlobalShortcuts(input()->modifiersRelevantForGlobalShortcuts());
 
     update();
+
+    if (waylandServer()) {
+        auto ddeKvm = waylandServer()->ddeKvm();
+        if (ddeKvm) {
+            ddeKvm->pointerMotion(m_pos);
+        }
+        if (!m_kvmEnablePointer) {
+            // filter all motion event
+            return;
+        }
+    }
+
     input()->processSpies(std::bind(&InputEventSpy::pointerEvent, std::placeholders::_1, &event));
     input()->processFilters(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event, 0));
+
 }
 
 void PointerInputRedirection::processButton(uint32_t button, InputRedirection::PointerButtonState state, std::chrono::microseconds time, InputDevice *device)
@@ -905,6 +927,29 @@ void PointerInputRedirection::removeWindowSelectionCursor()
     }
     update();
     m_cursor->removeWindowSelectionCursor();
+}
+
+void PointerInputRedirection::slotKvmInterfaceEnableCursor(uint32_t is_enable)
+{
+    if (!is_enable) {
+        Cursors::self()->hideCursor();
+    } else {
+        Cursors::self()->showCursor();
+    }
+}
+
+void PointerInputRedirection::slotKvmInterfaceSetCursorPos(double x, double y)
+{
+    Cursors::self()->mouse()->setPos(x, y);
+}
+
+void PointerInputRedirection::slotKvmEnablePointerChange(quint32 is_enable)
+{
+    if (is_enable) {
+        m_kvmEnablePointer = true;
+    } else {
+        m_kvmEnablePointer = false;
+    }
 }
 
 CursorImage::CursorImage(PointerInputRedirection *parent)

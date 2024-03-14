@@ -75,6 +75,10 @@ Q_SIGNALS:
 private Q_SLOTS:
     void slotKGlobalSettingsNotifyChange(int type, int arg);
 
+public Q_SLOTS:
+    void slotKvmEnablePointerChange(quint32 is_enable);
+    void slotKvmEnableKeyboardChange(quint32 is_enable);
+
 private:
     Connection(std::unique_ptr<Context> &&input);
     void handleEvent();
@@ -90,6 +94,8 @@ private:
     std::unique_ptr<Context> m_input;
     std::unique_ptr<Udev> m_udev;
     QMap<QString, QString> m_touchDeviceToScreenMap;
+    bool m_kvmEnablePointer = true;
+    bool m_kvmEnableKeyboard = true;
 };
 
 }

@@ -58,6 +58,7 @@ class OutputOrderV1Interface;
 class ClientManagementInterface;
 class DDEShellInterface;
 class DDESeatInterface;
+class DDEKvmInterface;
 class DDERestrictInterface;
 class DDESecurityInterface;
 class StrutInterface;
@@ -158,6 +159,9 @@ public:
     }
     KWaylandServer::DDESeatInterface *ddeSeat() const {
         return m_ddeSeat;
+    }
+    KWaylandServer::DDEKvmInterface *ddeKvm() const {
+        return m_ddeKvm;
     }
     KWaylandServer::DDERestrictInterface *ddeRestrict() const {
         return m_ddeRestrict;
@@ -351,6 +355,7 @@ private:
     KWaylandServer::ClientManagementInterface *m_clientManagement = nullptr;
     KWaylandServer::DDEShellInterface *m_ddeShell = nullptr;
     KWaylandServer::DDESeatInterface *m_ddeSeat = nullptr;
+    KWaylandServer::DDEKvmInterface *m_ddeKvm = nullptr;
     KWaylandServer::DDERestrictInterface *m_ddeRestrict = nullptr;
     KWaylandServer::DDESecurityInterface *m_ddeSecurity = nullptr;
     KWaylandServer::StrutInterface *m_strut = nullptr;

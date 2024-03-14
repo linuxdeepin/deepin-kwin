@@ -239,6 +239,11 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dde-kvm.xml
+    BASENAME dde-kvm
+)
+
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dde-security.xml
     BASENAME dde-security
 )
@@ -275,6 +280,7 @@ target_sources(kwin PRIVATE
     dataoffer_interface.cpp
     datasource_interface.cpp
     ddeseat_interface.cpp
+    ddekvm_interface.cpp
     ddekeyboard_interface.cpp
     ddeshell_interface.cpp
     dderestrict_interface.cpp
