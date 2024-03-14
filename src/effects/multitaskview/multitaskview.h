@@ -314,13 +314,22 @@ public:
                 WindowMotionManager wm = m_winManager[screen];
                 for (const auto& w : wm.managedWindows()) {
                     auto geo = wm.transformedGeometry(w);
+                    QSize btnSize(24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale());
+                    QRect closeRect(QPoint(geo.topRight().x() - 12 * effectsEx->getOsScale(), geo.y() - 10 * effectsEx->getOsScale()), btnSize);
+                    QRect topRect(QPoint(geo.x() - 12 * effectsEx->getOsScale(), geo.y() - 10 * effectsEx->getOsScale()), btnSize);
                     geo.adjust(-5, -5, 5, 5);
-                    if (geo.contains(pos)) {
+                    if (geo.contains(pos)
+                        || closeRect.contains(pos)
+                        || topRect.contains(pos)) {
                         return w;
                     } else if (wm.isWindowFill(w) && isHaveWinFill(w)) {
                         auto fillgeo = getWinFill(w)->getRect();
+                        closeRect = QRect(QPoint(fillgeo.topRight().x() - 12 * effectsEx->getOsScale(), fillgeo.y() - 10 * effectsEx->getOsScale()), btnSize);
+                        topRect = QRect(QPoint(fillgeo.x() - 12 * effectsEx->getOsScale(), fillgeo.y() - 10 * effectsEx->getOsScale()), btnSize);
                         fillgeo.adjust(-5, -5, 5, 5);
-                        if (fillgeo.contains(pos)) {
+                        if (fillgeo.contains(pos)
+                            || closeRect.contains(pos)
+                            || topRect.contains(pos)) {
                             return w;
                         }
                     }

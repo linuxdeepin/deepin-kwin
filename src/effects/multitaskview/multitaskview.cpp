@@ -3923,7 +3923,10 @@ bool MultitaskViewEffect::checkHandlerWorkspace(QPoint pos, EffectScreen *screen
     bool isChecked = false;
     QList<MultiViewWorkspace *> list = m_workspaceBackgrounds[screen];
     for (int d = 0; d < list.size(); d++) {
-        if (list[d]->getRect().contains(pos)) {
+        QRect wrect = list[d]->getRect().adjusted(-1, -1, 4, 4);
+        QPoint p(list[d]->getRect().topRight().x() - 14 * effectsEx->getOsScale(), list[d]->getRect().y() - 9 * effectsEx->getOsScale());
+        QRect brect(p, m_closeWorkspaceFrame->geometry().size());
+        if (wrect.contains(pos) || brect.contains(pos)) {
             desktop = d + 1;
             isChecked = true;
             break;
