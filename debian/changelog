@@ -1,8 +1,19 @@
+kwin (4:5.27.2.82-deepin82-1) unstable; urgency=medium
+
+  [ dingzhixuan ]
+  * fix: add effectsEnabledChanged signal
+  * fix: fix swap split window out of position
+  * fix: optimized button hover area in multitaskview
+  * fix: color temperature doesn't take effect after reboot
+  * fix: remove Reading output's configuration from KScreen config.
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Thu, 14 Mar 2024 19:12:09 +0800
+
 kwin (4:5.27.2.81-deepin81-1) unstable; urgency=medium
 
   [ zhangyu ]
   * fix: fix wayland can't login
-  *  feat: add env to control hpRefresh and cvt mode
+  * feat: add env to control hpRefresh and cvt mode
 
  -- zhangyu <zhangyud@uniontech.com>  Tues, 12 Mar 2024 14:00:00 +0800
 
