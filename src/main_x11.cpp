@@ -186,7 +186,6 @@ ApplicationX11::~ApplicationX11()
     setTerminating();
     destroyPlugins();
     destroyCompositor();
-    destroyColorManager();
     destroyWorkspace();
     // If there was no --replace (no new WM)
     if (owner != nullptr && owner->ownerWindow() != XCB_WINDOW_NONE) {
@@ -243,7 +242,6 @@ void ApplicationX11::lostSelection()
     sendPostedEvents();
     destroyPlugins();
     destroyCompositor();
-    destroyColorManager();
     destroyWorkspace();
     // Remove windowmanager privileges
     Xcb::selectInput(kwinApp()->x11RootWindow(), XCB_EVENT_MASK_PROPERTY_CHANGE);
@@ -297,7 +295,6 @@ void ApplicationX11::performStartup()
 
         createInput();
         createWorkspace();
-        createColorManager();
         createPlugins();
 
         Xcb::sync(); // Trigger possible errors, there's still a chance to abort
