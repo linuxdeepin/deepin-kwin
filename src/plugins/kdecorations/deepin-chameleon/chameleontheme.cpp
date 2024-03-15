@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "chameleontheme.h"
+#include "chameleonconfig.h"
 
 #include <QSettings>
 #include <QFile>
@@ -37,8 +38,6 @@ Q_LOGGING_CATEGORY(CHAMELEON, "chameleon", QtWarningMsg)
 
 #define BASE_THEME "deepin"
 #define BASE_THEME_DIR ":/deepin/themes"
-
-qreal ChameleonTheme::m_titlebarHeight = 0;
 
 static QMap<NET::WindowType, UIWindowType> mapNETWindowType2UIWindowType = {
     {NET::WindowType::Normal,        UIWindowType::Normal},
@@ -276,7 +275,6 @@ static void parserWindowDecoration(const UIWindowType& windowType, const QJsonVa
     //unmanaged窗口没有titlebar
     if (status != "unmanaged" && !titlebarObj.isEmpty()) {
         paserSpecialAttribute<qreal>(titlebarObj, "height", status, config->titlebarConfig.height, base ? base->titlebarConfig.height : 50.0);
-        config->titlebarConfig.height = ChameleonTheme::m_titlebarHeight;
         paserSpecialAttribute<Qt::Edge>(titlebarObj, "area", status, config->titlebarConfig.area, base ? base->titlebarConfig.area : Qt::TopEdge);
         paserSpecialAttribute<QColor>(titlebarObj, "bgcolor", status, config->titlebarConfig.backgroundColor, base ? base->titlebarConfig.backgroundColor : QColor());
 
@@ -392,25 +390,6 @@ static bool loadTheme(ChameleonTheme::ConfigGroupMap *configs, const ChameleonTh
 
     if (theme_dir.path() == "/")
         return false;
-
-    {
-        QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
-        QDBusPendingReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin.decoration", "org.kde.kwin.decoration.titlebar", "");
-        reply.waitForFinished();
-        if (!reply.isError()) {
-            QDBusInterface interfaceValue("org.desktopspec.ConfigManager", reply.value().path(), "org.desktopspec.ConfigManager.Manager", QDBusConnection::systemBus());
-            QDBusReply<QVariant> replyValue = interfaceValue.call("value", "titlebarHeight");
-            int nValue = replyValue.value().toInt();
-            if (nValue >= 24 && nValue <= 50) {
-                ChameleonTheme::m_titlebarHeight = nValue;
-            } else {
-                QDBusReply<QVariant> defaultTitlebarHeight = interfaceValue.call("value", "defaultTitlebarHeight");
-                ChameleonTheme::m_titlebarHeight = defaultTitlebarHeight.value().toReal();
-            }
-        } else {
-            qCWarning(CHAMELEON) << "dconfig reply.error: " << reply.error();
-        }
-    }
 
     const QString themeJsonPath = theme_dir.filePath(ChameleonTheme::typeString(themeType) + "/decoration.json");
     QFile f(themeJsonPath);

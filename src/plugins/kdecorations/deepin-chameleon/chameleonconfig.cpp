@@ -51,6 +51,8 @@ using namespace KWin;
 Q_DECLARE_METATYPE(QPainterPath)
 Q_DECLARE_METATYPE(QMargins)
 
+qreal ChameleonConfig::m_titlebarHeight = 0;
+
 ChameleonConfig::ChameleonConfig(QObject *parent)
     : QObject(parent)
 {
@@ -62,6 +64,10 @@ ChameleonConfig::ChameleonConfig(QObject *parent)
     m_atom_net_wm_window_type = KWinUtils::internAtom(_NET_WM_WINDOW_TYPE, false);
 
     QTimer::singleShot(100, this, [this]() { init(); });
+
+    QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, DConfigDecorationReplyPath(), CONFIGMANAGER_MANAGER_INTERFACE,
+                                         "valueChanged", this, SLOT(updateTitlebarHeight(QString)));
+    updateTitlebarHeightPrivate();
 }
 
 ChameleonConfig *ChameleonConfig::instance()
@@ -1471,4 +1477,43 @@ bool ChameleonConfig::setWindowOverrideType(QObject *client, bool enable)
     }
 
     return false;
+}
+
+void ChameleonConfig::updateTitlebarHeight(const QString& type)
+{
+    if (type == "titlebarHeight") {
+        updateTitlebarHeightPrivate();
+        Q_EMIT titlebarHeightChanged();
+    }
+}
+
+QString ChameleonConfig::DConfigDecorationReplyPath()
+{
+    QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
+    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin.decoration", "org.kde.kwin.decoration", "");
+    if (!reply.isValid()) {
+        qCWarning(CHAMELEON) << "Error in DConfig reply:" << reply.error();
+        return "";
+    }
+    return reply.value().path();
+}
+
+void ChameleonConfig::updateTitlebarHeightPrivate()
+{
+    QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
+    QDBusPendingReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin.decoration", "org.kde.kwin.decoration.titlebar", "");
+    reply.waitForFinished();
+    if (!reply.isError()) {
+        QDBusInterface interfaceValue("org.desktopspec.ConfigManager", reply.value().path(), "org.desktopspec.ConfigManager.Manager", QDBusConnection::systemBus());
+        QDBusReply<QVariant> replyValue = interfaceValue.call("value", "titlebarHeight");
+        qreal titlebarHeight = replyValue.value().toReal();
+        if (titlebarHeight >= 24.0f && titlebarHeight <= 50.0f) {
+            ChameleonConfig::m_titlebarHeight = titlebarHeight;
+        } else {
+            QDBusReply<QVariant> defaultTitlebarHeight = interfaceValue.call("value", "defaultTitlebarHeight");
+            ChameleonConfig::m_titlebarHeight = defaultTitlebarHeight.value().toReal() ? defaultTitlebarHeight.value().toReal() : 40.0f;
+        }
+    } else {
+        qCWarning(CHAMELEON) << "dconfig reply.error: " << reply.error();
+    }
 }

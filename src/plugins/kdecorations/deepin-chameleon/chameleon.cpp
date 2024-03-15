@@ -136,6 +136,7 @@ void Chameleon::init()
     connect(m_theme, &ChameleonWindowTheme::windowPixelRatioChanged, this, &Chameleon::updateTitleBarArea);
     connect(qGuiApp, &QGuiApplication::fontChanged, this, &Chameleon::updateTitleGeometry);
     connect(KWin::Workspace::self(), &KWin::Workspace::osRadiusChanged, this, &Chameleon::updateBorderPath);
+    connect(ChameleonConfig::instance(), &ChameleonConfig::titlebarHeightChanged, this, &Chameleon::handleTitlebarHeightChanged);
 
     m_initialized = true;
 
@@ -154,6 +155,11 @@ void Chameleon::updateFont(QString updateType,QString val)
         m_font.setPointSizeF(value);
         updateTitleGeometry();
     }
+}
+
+void Chameleon::handleTitlebarHeightChanged()
+{
+    updateTitleBarArea();
 }
 
 void Chameleon::paint(QPainter *painter, const QRect &repaintArea)
@@ -237,7 +243,7 @@ qreal Chameleon::borderWidth() const
 
 qreal Chameleon::titleBarHeight() const
 {
-    return m_config->titlebarConfig.height * m_theme->windowPixelRatio();
+    return ChameleonConfig::m_titlebarHeight * m_theme->windowPixelRatio();
 }
 
 qreal Chameleon::shadowRadius() const

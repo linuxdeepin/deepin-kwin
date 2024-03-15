@@ -177,9 +177,6 @@ private:
     ThemeType m_type;
     QString m_theme;
     ConfigGroupMapPtr m_configGroupMap;
-
-public:
-    static qreal m_titlebarHeight;
 };
 
 #endif // CHAMELEONTHEME_H

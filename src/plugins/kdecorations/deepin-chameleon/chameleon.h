@@ -81,7 +81,8 @@ public Q_SLOTS:
     void init() override;
 
 private Q_SLOTS:
-    void updateFont(QString updateType,QString val);
+    void updateFont(QString updateType, QString val);
+    void handleTitlebarHeightChanged();
 
 private:
     void initButtons();

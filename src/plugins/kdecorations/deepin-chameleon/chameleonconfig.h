@@ -37,6 +37,10 @@
 // kwin窗口阴影属性，在没有窗口修饰器的窗口上会使用此属性绘制窗口阴影
 #define _KDE_NET_WM_SHADOW "_KDE_NET_WM_SHADOW"
 #define _NET_WM_WINDOW_TYPE "_NET_WM_WINDOW_TYPE"
+// DCONFIG
+#define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
 
 namespace KWin {
 class X11Window;
@@ -91,6 +95,7 @@ Q_SIGNALS:
     void windowForceDecoratePropertyChanged(quint32 windowId);
     void windowScissorWindowPropertyChanged(quint32 windowId);
     void windowTypeChanged(QObject *window);
+    void titlebarHeightChanged();
 
 protected:
     explicit ChameleonConfig(QObject *parent = nullptr);
@@ -120,6 +125,7 @@ private Q_SLOTS:
 
     void onShellClientAdded(KWin::WaylandWindow *client);
     void updateWindowRadius();
+    void updateTitlebarHeight(const QString& type);
 
 private:
     void init();
@@ -136,6 +142,8 @@ private:
     void enforceWindowProperties(QObject *client);
     void enforcePropertiesForWindows(bool enable);
     bool setWindowOverrideType(QObject *client, bool enable);
+    QString DConfigDecorationReplyPath();
+    void updateTitlebarHeightPrivate();
 
     bool m_activated = false;
     QString m_theme;
@@ -149,6 +157,9 @@ private:
 
     QMap<QString, X11Shadow*> m_x11ShadowCache;
     QHash<QObject*, quint32> m_pendingWindows;
+
+public:
+    static qreal m_titlebarHeight;
 };
 
 #endif // CHAMELEONCONFIG_H
