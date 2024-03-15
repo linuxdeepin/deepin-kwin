@@ -36,7 +36,7 @@ QString WindowShadow::buildShadowCacheKey(shadowConfig &config)
     return QString("%1_%2.%3_%4_%5_%6.%7.%8.%9").arg(qRound(config.windowRadius.x())).arg(qRound(config.windowRadius.y()))
                                                 .arg(paddings.left()).arg(paddings.top()).arg(paddings.right()).arg(paddings.bottom())
                                                 .arg(config.shadowColor.name(QColor::HexArgb))
-                                                .arg(config.borderWidth).arg(config.borderColor.name());
+                                                .arg(config.borderWidth).arg(config.borderColor.name(QColor::HexArgb));
 }
 
 void WindowShadow::updateWindowShadow()
