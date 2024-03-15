@@ -30,7 +30,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace KWaylandServer
 {
-static const quint32 s_version = 1;
+static const quint32 s_version = 2;
 static QList<DDEShellSurfaceInterface *> s_shellSurfaces;
 
 class DDEShellInterfacePrivate : public QtWaylandServer::dde_shell
@@ -367,7 +367,9 @@ void DDEShellSurfaceInterface::setModal(bool set)
 
 void DDEShellSurfaceInterface::sendWorkArea(OutputInterface* output, const QRect& geometry)
 {
-    d->sendWorkArea(output, geometry);
+    if (d->resource()->version() >= DDE_SHELL_SURFACE_WORKAREA_SINCE_VERSION) {
+        d->sendWorkArea(output, geometry);
+    }
 }
 
 void DDEShellSurfaceInterface::sendGeometry(const QRect &geom)
