@@ -65,6 +65,11 @@ Dnd::Dnd(xcb_atom_t atom, QObject *parent)
                       dndValues);
     registerXfixes();
 
+    const char *windowName = "Kwin XWL DND";
+    xcb_change_property(xcbConn, XCB_PROP_MODE_REPLACE, window(),
+                        XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 8,
+                        strlen(windowName), windowName);
+
     xcb_change_property(xcbConn,
                         XCB_PROP_MODE_REPLACE,
                         window(),

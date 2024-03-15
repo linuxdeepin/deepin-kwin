@@ -44,6 +44,11 @@ Clipboard::Clipboard(xcb_atom_t atom, QObject *parent)
                       XCB_CW_EVENT_MASK,
                       clipboardValues);
     registerXfixes();
+
+    const char *windowName = "Kwin XWL Clipboard";
+    xcb_change_property(xcbConn, XCB_PROP_MODE_REPLACE, window(),
+                        XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 8,
+                        strlen(windowName), windowName);
     xcb_flush(xcbConn);
 
     connect(waylandServer()->seat(), &KWaylandServer::SeatInterface::selectionChanged,
