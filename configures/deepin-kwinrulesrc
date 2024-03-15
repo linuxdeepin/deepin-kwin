@@ -7,10 +7,10 @@ wmclasscomplete=true
 wmclassmatch=1
 
 [2]
-Description=dde-launcher
+Description=dde-launchpad
 strictgeometry=false
 strictgeometryrule=2
-wmclass=dde-launcher dde-launcher
+wmclass=dde-launchpad dde-launchpad
 wmclasscomplete=true
 wmclassmatch=1
 
