@@ -1,3 +1,9 @@
+kwin (4:5.27.2.83-deepin83-1.1) unstable; urgency=medium
+
+  * add xwl cotrl
+
+ -- liuzheng <liuzheng@uniontech.com>  Mon, 18 Mar 2024 11:51:38 +0800
+
 kwin (4:5.27.2.82-deepin82-1) unstable; urgency=medium
 
   [ dingzhixuan ]
