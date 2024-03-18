@@ -2686,7 +2686,7 @@ private:
     void raiseDragTarget()
     {
         m_raiseTimer.stop();
-        if (m_dragTarget) {
+        if (m_dragTarget && !m_dragTarget->keepAbove()) {
             workspace()->takeActivity(m_dragTarget, Workspace::ActivityFlag::ActivityRaise);
         }
     }
