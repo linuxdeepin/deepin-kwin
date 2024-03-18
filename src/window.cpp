@@ -1616,12 +1616,12 @@ void Window::blockGeometryUpdates(bool block)
     }
 }
 
-void Window::maximize(MaximizeMode mode)
+void Window::maximize(MaximizeMode mode, bool animated)
 {
     qCWarning(KWIN_CORE, "%s doesn't support setting maximized state", metaObject()->className());
 }
 
-void Window::setMaximize(bool vertically, bool horizontally)
+void Window::setMaximize(bool vertically, bool horizontally, bool animated)
 {
     MaximizeMode mode = MaximizeRestore;
     if (vertically) {
@@ -1632,7 +1632,7 @@ void Window::setMaximize(bool vertically, bool horizontally)
     }
     if (vertically && horizontally)
         setTile(nullptr);
-    maximize(mode);
+    maximize(mode, animated);
 }
 
 bool Window::startInteractiveMoveResize()
@@ -2391,7 +2391,7 @@ void Window::setupWindowManagementInterface()
         w->setMinimized(isMinimized());
         Q_EMIT workspace()->windowStateChanged();
     });
-    connect(this, static_cast<void (Window::*)(Window *, MaximizeMode)>(&Window::clientMaximizedStateChanged), w, [w](KWin::Window *c, MaximizeMode mode) {
+    connect(this, static_cast<void (Window::*)(Window *, MaximizeMode, bool)>(&Window::clientMaximizedStateChanged), w, [w](KWin::Window *c, MaximizeMode mode, bool animated) {
         w->setMaximized(mode == KWin::MaximizeFull);
         Q_EMIT workspace()->windowStateChanged();
     });
@@ -4044,7 +4044,7 @@ QRectF Window::quickTileGeometryRestore() const
     }
 }
 
-void Window::setQuickTileMode(QuickTileMode mode, bool keyboard)
+void Window::setQuickTileMode(QuickTileMode mode, bool keyboard, bool animated)
 {
     // Only allow quick tile on a regular window.
     if (!isResizable()) {
@@ -4089,7 +4089,7 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard)
         if (mode != QuickTileMode(QuickTileFlag::None)) {
             m_quickTileMode = int(QuickTileFlag::None); // Temporary, so the maximize code doesn't get all confused
 
-            setMaximize(false, false);
+            setMaximize(false, false, animated);
 
             moveResize(quickTileGeometry(mode, keyboard ? moveResizeGeometry().center() : Cursors::self()->mouse()->pos()));
             // Store the mode change
@@ -4805,7 +4805,7 @@ void Window::maybeSendFrameCallback()
 
 void Window::setQuickTileFromMenu(QuickTileMode mode, bool isShowPreview)
 {
-    setQuickTileMode(mode);
+    setQuickTileMode(mode, false, false);
     if (workspace()->activeWindow() != this)
         workspace()->activateWindow(this, true);
     if (isShowPreview)

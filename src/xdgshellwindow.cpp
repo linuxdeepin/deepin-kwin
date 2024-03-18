@@ -659,8 +659,8 @@ void XdgSurfaceWindow::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
                 Q_EMIT workspace()->windowStateChanged();
                 }
             );
-    connect(this, static_cast<void (Window::*)(Window *, MaximizeMode)>(&Window::clientMaximizedStateChanged), this,
-        [this] (KWin::Window *c, MaximizeMode mode) {
+    connect(this, static_cast<void (Window::*)(Window *, MaximizeMode, bool)>(&Window::clientMaximizedStateChanged), this,
+        [this] (KWin::Window *c, MaximizeMode mode, bool animated) {
             Q_UNUSED(c);
             m_ddeShellSurface->setMaximized(mode == KWin::MaximizeFull);
             Q_EMIT workspace()->windowStateChanged();
@@ -1960,7 +1960,7 @@ void XdgToplevelWindow::setFullScreen(bool set, bool user)
 }
 
 static bool changeMaximizeRecursion = false;
-void XdgToplevelWindow::maximize(MaximizeMode mode)
+void XdgToplevelWindow::maximize(MaximizeMode mode, bool animated)
 {
     if (workspace()->userActionsMenu()->isShown()) {
         return;

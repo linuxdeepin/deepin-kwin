@@ -207,7 +207,7 @@ public:
     void showOnScreenEdge() override;
     void setFullScreen(bool set, bool user) override;
     void closeWindow() override;
-    void maximize(MaximizeMode mode) override;
+    void maximize(MaximizeMode mode, bool animated = true) override;
 
     void installAppMenu(KWaylandServer::AppMenuInterface *appMenu);
     void installServerDecoration(KWaylandServer::ServerSideDecorationInterface *decoration);

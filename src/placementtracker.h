@@ -52,7 +52,7 @@ private:
 
     void saveGeometry(Window *window);
     void saveInteractionCounter(Window *window);
-    void saveMaximize(KWin::Window *window, MaximizeMode mode);
+    void saveMaximize(KWin::Window *window, MaximizeMode mode, bool animated);
     void saveQuickTile();
     void saveFullscreen();
     WindowData dataForWindow(Window *window) const;

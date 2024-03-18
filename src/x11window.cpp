@@ -4336,7 +4336,7 @@ void X11Window::updateServerGeometry()
 }
 
 static bool changeMaximizeRecursion = false;
-void X11Window::maximize(MaximizeMode mode)
+void X11Window::maximize(MaximizeMode mode, bool animated)
 {
     if (changeMaximizeRecursion) {
         return;
@@ -4605,7 +4605,7 @@ void X11Window::maximize(MaximizeMode mode)
 
     if (max_mode != old_mode) {
         setMaximized(max_mode & MaximizeHorizontal && max_mode & MaximizeVertical);
-        Q_EMIT clientMaximizedStateChanged(this, max_mode);
+        Q_EMIT clientMaximizedStateChanged(this, max_mode, animated);
         Q_EMIT clientMaximizedStateChanged(this, max_mode & MaximizeHorizontal, max_mode & MaximizeVertical);
     }
 }

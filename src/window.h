@@ -1071,7 +1071,7 @@ public:
     QRectF geometryRestore() const;
     virtual MaximizeMode maximizeMode() const;
     virtual MaximizeMode requestedMaximizeMode() const;
-    virtual void maximize(MaximizeMode mode);
+    virtual void maximize(MaximizeMode mode, bool animated = true);
     void setMaximized(bool maxi) { m_maximized = maxi; }
     bool isMaximized() const
     {
@@ -1080,7 +1080,7 @@ public:
     /**
      * Sets the maximization according to @p vertically and @p horizontally.
      */
-    Q_INVOKABLE void setMaximize(bool vertically, bool horizontally);
+    Q_INVOKABLE void setMaximize(bool vertically, bool horizontally, bool animated = true);
     virtual bool noBorder() const;
     virtual void setNoBorder(bool set);
     QPalette palette();
@@ -1184,7 +1184,7 @@ public:
      * @param mode The tile mode (left/right) to give this window.
      * @param keyboard Defines whether to take keyboard cursor into account.
      */
-    void setQuickTileMode(QuickTileMode mode, bool keyboard = false);
+    void setQuickTileMode(QuickTileMode mode, bool keyboard = false, bool animated = true);
     QuickTileMode quickTileMode() const
     {
         return QuickTileMode(m_quickTileMode);
@@ -1633,7 +1633,7 @@ Q_SIGNALS:
     void colorSchemeChanged();
     void captionChanged();
     void clientMaximizedStateAboutToChange(KWin::Window *, MaximizeMode);
-    void clientMaximizedStateChanged(KWin::Window *, MaximizeMode);
+    void clientMaximizedStateChanged(KWin::Window *, MaximizeMode, bool animated = true);
     void clientMaximizedStateChanged(KWin::Window *c, bool h, bool v);
     void transientChanged();
     void modalChanged();

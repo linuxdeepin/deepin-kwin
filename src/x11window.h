@@ -160,7 +160,7 @@ public:
     bool isShadeable() const override;
     bool isMaximizable() const override;
     MaximizeMode maximizeMode() const override;
-    void maximize(MaximizeMode mode) override;
+    void maximize(MaximizeMode mode, bool animated = true) override;
 
     bool isMinimizable() const override;
     QRectF iconGeometry() const override;

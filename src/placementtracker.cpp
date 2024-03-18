@@ -39,7 +39,7 @@ void PlacementTracker::add(Window *window)
         return;
     }
     connect(window, &Window::frameGeometryChanged, this, &PlacementTracker::saveGeometry);
-    connect(window, qOverload<Window *, MaximizeMode>(&Window::clientMaximizedStateChanged), this, &PlacementTracker::saveMaximize);
+    connect(window, qOverload<Window *, MaximizeMode, bool>(&Window::clientMaximizedStateChanged), this, &PlacementTracker::saveMaximize);
     connect(window, &Window::quickTileModeChanged, this, &PlacementTracker::saveQuickTile);
     connect(window, &Window::fullScreenChanged, this, &PlacementTracker::saveFullscreen);
     connect(window, &Window::clientFinishUserMovedResized, this, &PlacementTracker::saveInteractionCounter);
@@ -52,7 +52,7 @@ void PlacementTracker::remove(Window *window)
 {
     if (m_savedWindows.contains(window)) {
         disconnect(window, &Window::frameGeometryChanged, this, &PlacementTracker::saveGeometry);
-        disconnect(window, qOverload<Window *, MaximizeMode>(&Window::clientMaximizedStateChanged), this, &PlacementTracker::saveMaximize);
+        disconnect(window, qOverload<Window *, MaximizeMode, bool>(&Window::clientMaximizedStateChanged), this, &PlacementTracker::saveMaximize);
         disconnect(window, &Window::quickTileModeChanged, this, &PlacementTracker::saveQuickTile);
         disconnect(window, &Window::fullScreenChanged, this, &PlacementTracker::saveFullscreen);
         disconnect(window, &Window::clientFinishUserMovedResized, this, &PlacementTracker::saveInteractionCounter);
@@ -157,7 +157,7 @@ void PlacementTracker::saveInteractionCounter(Window *window)
     }
 }
 
-void PlacementTracker::saveMaximize(Window *window, MaximizeMode mode)
+void PlacementTracker::saveMaximize(Window *window, MaximizeMode mode, bool animated)
 {
     if (m_inhibitCount == 0) {
         auto &data = m_data[m_currentKey][window];
