@@ -1,5 +1,18 @@
-kwin (4:5.27.2.83-deepin83-1.1) unstable; urgency=medium
+kwin (4:5.27.2.84-deepin84-1) unstable; urgency=medium
 
+  [ gengzhijie ]
+  * feat: implement dynamic adjustment of titlebar hegiht
+  * fix: reset disabled outputs to off when kwin is reactivating.
+  * fix: display complete split window from maximized state
+  * fix: do not raise 'keepAbove' window while dragging
+  * feat: support alpha channel in border color
+  * feat: change title bar icon
+
+ -- gengzhijie <gengzhijie@uniontech.com>  Tue, 19 Mar 2024 14:34:02 +0800
+
+kwin (4:5.27.2.83-deepin83-1) unstable; urgency=medium
+
+  [ liuzheng ]
   * add xwl cotrl
 
  -- liuzheng <liuzheng@uniontech.com>  Mon, 18 Mar 2024 11:51:38 +0800
