@@ -150,6 +150,8 @@ DDEShellSurfaceInterface *DDEShellSurfaceInterface::get(SurfaceInterface *surfac
 
 void DDEShellSurfaceInterfacePrivate::sendWorkArea(OutputInterface* output, const QRect& geometry)
 {
+    if (!output)
+        return;
     auto resources = output->clientResources(client);
     for (wl_resource *outputResource : resources) {
         send_workarea(outputResource, geometry.x(), geometry.y(), geometry.width(), geometry.height());
