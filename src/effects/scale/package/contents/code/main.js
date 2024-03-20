@@ -16,8 +16,6 @@ const blacklist = [
 
     // KDE Plasma splash screen has to be animated only by the login effect.
     "ksplashqml ksplashqml",
-    "dde-osd dde-osd",
-    "dde-clipboard dde-clipboard",
     "dde-blackwidget dde-blackwidget",
     "dde-desktop dde-desktop",
     "deepin-screen-recorder deepin-screen-recorder",

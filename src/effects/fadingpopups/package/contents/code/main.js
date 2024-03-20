@@ -17,8 +17,7 @@ var blacklist = [
     // The lockscreen isn't a popup window
     "kscreenlocker_greet kscreenlocker_greet",
     // KDE Plasma splash screen has to be animated only by the login effect.
-    "ksplashqml ksplashqml",
-    "dde-osd dde-osd"
+    "ksplashqml ksplashqml"
 ];
 
 var dockPos = 2;
