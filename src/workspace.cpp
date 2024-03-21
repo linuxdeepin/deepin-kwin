@@ -351,8 +351,16 @@ void Workspace::updateWindowStates()
         windowState->isActive           = client->isActive();
         windowState->geometry.x         = client->frameGeometry().x();
         windowState->geometry.y         = client->frameGeometry().y();
-        windowState->geometry.width     = client->frameGeometry().width();
-        windowState->geometry.height    = client->frameGeometry().height();
+
+        if (client->caption() == "Fullscreen Launchpad") {
+            windowState->geometry.width     = client->output()->geometry().width();
+            windowState->geometry.height    = client->output()->geometry().height();
+        }
+        else {
+            windowState->geometry.width     = client->frameGeometry().width();
+            windowState->geometry.height    = client->frameGeometry().height();
+        }
+
         XdgSurfaceClient *xdgClient = qobject_cast<XdgSurfaceClient *>(client);
         if (xdgClient) {
             windowState->splitable = xdgClient->getSplitable();
