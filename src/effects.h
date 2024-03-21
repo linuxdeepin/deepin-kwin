@@ -685,6 +685,7 @@ public:
 
     void free() override;
     void render(const QRegion &region = infiniteRegion(), double opacity = 1.0, double frameOpacity = 1.0) override;
+    void renderPixmap(const QRegion &region = infiniteRegion(), double opacity = 1.0) override;
     Qt::Alignment alignment() const override;
     void setAlignment(Qt::Alignment alignment) override;
     const QFont &font() const override;
@@ -712,12 +713,16 @@ public:
     void setImage(const QUrl &image) override;
     void setImage(const QPixmap &image) override;
     const QUrl &image() const override;
+    void setPixmap(const QPixmap &image) override;
+    const QPixmap &pixmap() const override;
 
 private:
     Q_DISABLE_COPY(EffectFrameImpl) // As we need to use Qt slots we cannot copy this class
 
     EffectFrameQuickScene *m_view;
     QRect m_geometry;
+    QPixmap m_pixmap;
+    std::unique_ptr<GLTexture> m_texture = nullptr;
 };
 
 inline QList<EffectWindow *> EffectsHandlerImpl::elevatedWindows() const

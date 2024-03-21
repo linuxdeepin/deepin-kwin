@@ -3075,6 +3075,43 @@ void EffectFrameImpl::render(const QRegion &region, double opacity, double frame
     effects->renderOffscreenQuickView(m_view);
 }
 
+void EffectFrameImpl::renderPixmap(const QRegion &region, double opacity)
+{
+    if (m_pixmap.isNull())
+        return;
+
+    const ItemRenderer *renderer = Compositor::self()->scene()->renderer();
+    const QRectF rect = scaledRect(m_geometry, renderer->renderTargetScale());
+
+    ShaderTraits traits = ShaderTrait::MapTexture;
+    if (opacity < 1.0) {
+        traits |= ShaderTrait::Modulate;
+    }
+    GLShader *shader = ShaderManager::instance()->pushShader(traits);
+
+    QMatrix4x4 mvp(renderer->renderTargetProjectionMatrix());
+    mvp.translate(rect.x(), rect.y());
+    shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+    if (opacity < 1.0) {
+        const QVector4D constant(opacity, opacity, opacity, opacity);
+        shader->setUniform(GLShader::ModulationConstant, constant);
+    }
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+    if (!m_texture) {
+        m_texture = std::make_unique<GLTexture>(m_pixmap);
+    }
+    m_texture->bind();
+    m_texture->render(region, m_geometry, renderer->renderTargetScale());
+    m_texture->unbind();
+
+    glDisable(GL_BLEND);
+
+    ShaderManager::instance()->popShader();
+}
+
 const QString &EffectFrameImpl::text() const
 {
     return m_view->text();
@@ -3143,6 +3180,19 @@ void EffectFrameImpl::setImage(const QPixmap &image)
 const QUrl &EffectFrameImpl::image() const
 {
     return m_view->image();
+}
+
+void EffectFrameImpl::setPixmap(const QPixmap &pixmap)
+{
+    if (pixmap.cacheKey() == m_pixmap.cacheKey())
+        return;
+    m_pixmap = pixmap;
+    m_texture = nullptr;
+}
+
+const QPixmap &EffectFrameImpl::pixmap() const
+{
+    return m_pixmap;
 }
 
 } // namespace

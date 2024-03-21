@@ -40,6 +40,8 @@ public:
     explicit EffectFrameEx();
     virtual ~EffectFrameEx();
 
+    virtual void renderPixmap(const QRegion &region = infiniteRegion(), double opacity = 1.0) = 0;
+
     virtual void  setColor(const QColor &color) = 0;
     virtual const QColor &color() const = 0;
     virtual void setRadius(int radius) = 0;
@@ -47,6 +49,8 @@ public:
     virtual void setImage(const QUrl &image) = 0;
     virtual void setImage(const QPixmap &image) = 0;
     virtual const QUrl &image() const = 0;
+    virtual void setPixmap(const QPixmap &image) = 0;
+    virtual const QPixmap &pixmap() const = 0;
 
 // Q_SIGNALS:
 

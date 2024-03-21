@@ -178,9 +178,7 @@ public:
     void renderDesktopBackGround(float k);
     void renderWorkspaceBackGround(float t, int desktop = 1);
 
-    void render(bool isDrawBg = false);
     void setImage(const QPixmap &bgPix, const QPixmap &wpPix, const QRect &rect);
-    void setImage(const QString &btf, const QRect &rect);
     void setRect(const QRect rect);
     QRect getRect() {return m_rect;}
     QRect getCurrentRect() {return m_currentRect;}
@@ -208,8 +206,6 @@ private:
     QRect m_clientArea;
     QRect m_fullArea;
     QString m_image;
-
-    bool m_bShader;
 
 public:
     workspaceMoveDirection m_posStatus = mvNone; // 0 restore; 1 left; 2 right;

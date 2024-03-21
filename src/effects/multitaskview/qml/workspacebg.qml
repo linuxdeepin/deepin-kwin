@@ -6,16 +6,16 @@ Rectangle {
 
     property QtObject effectFrame: null
 
-    width: effectFrame.size.width
-    height: effectFrame.size.height
-    radius: effectFrame.radius
+    width: effectFrame ? effectFrame.size.width : 0
+    height: effectFrame ? effectFrame.size.height : 0
+    radius: effectFrame ? effectFrame.radius : 0
     color: "transparent"
 
     Image {
         id: icon
         width: root.width
         height: root.height
-        source: root.effectFrame.image
+        source: effectFrame ? effectFrame.image : ""
 
         layer.enabled: true
         layer.effect: OpacityMask {

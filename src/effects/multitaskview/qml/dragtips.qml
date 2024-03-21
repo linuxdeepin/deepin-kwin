@@ -9,16 +9,16 @@ RowLayout {
 
     Image {
         id: icon
-        Layout.preferredWidth: root.effectFrame.iconSize.width
-        Layout.preferredHeight: root.effectFrame.iconSize.height
-        source: root.effectFrame.image
+        Layout.preferredWidth: effectFrame ? effectFrame.iconSize.width : 0
+        Layout.preferredHeight: effectFrame ? effectFrame.iconSize.height : 0
+        source: effectFrame ? effectFrame.image : ""
     }
 
     Text {
         id: label
-        font.family: root.effectFrame.font.family
-        font.pointSize: root.effectFrame.font.pointSize
-        text: root.effectFrame.text
-        color: root.effectFrame.color
+        font.family: effectFrame ? effectFrame.font.family : ""
+        font.pointSize: effectFrame ? effectFrame.font.pointSize : 10
+        text: effectFrame ? effectFrame.text : ""
+        color: effectFrame ? effectFrame.color : ""
     }
 }

@@ -384,7 +384,7 @@ void MultiViewBackgroundManager::setMonitorInfo(QList<QMap<QString,QVariant>> mo
 
 MultiViewAddButton::MultiViewAddButton()
 {
-    m_button = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/addbutton.qml", true);
+    m_button = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
 }
 
 MultiViewAddButton::~MultiViewAddButton()
@@ -395,13 +395,13 @@ MultiViewAddButton::~MultiViewAddButton()
 void MultiViewAddButton::render()
 {
     m_button->setRadius(m_fullArea.width() * ADDBTN_RADIUS_SCALE);
-    m_button->render(infiniteRegion(), 0.6, 0);
+    m_button->render(infiniteRegion(), 1, 0);
 }
 
 void MultiViewAddButton::setImage(const QString &btf, const QRect &rect)
 {
     m_rect = rect;
-    m_button->setImage(btf);
+    m_button->setImage(QUrl::fromLocalFile(btf));
     m_button->setGeometry(rect);
 }
 
@@ -413,7 +413,7 @@ void MultiViewAddButton::setRect(const QRect &rect)
 
 MultiViewWorkspace::MultiViewWorkspace(bool flag)
     : m_backGroundFrame(nullptr)
-    , m_desktop(0), m_bShader(flag)
+    , m_desktop(0)
 {
     m_backGroundFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
     m_backGroundFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -433,7 +433,7 @@ MultiViewWorkspace::~MultiViewWorkspace()
 void MultiViewWorkspace::renderDesktopBackGround(float k)
 {
     m_backGroundFrame->setPosition(QPoint(m_fullArea.x() + k * m_fullArea.width(), m_fullArea.y()), true);
-    m_backGroundFrame->render(infiniteRegion(), 1, 1);
+    m_backGroundFrame->renderPixmap(infiniteRegion(), 1);
 }
 
 void MultiViewWorkspace::renderWorkspaceBackGround(float t, int desktop)
@@ -453,14 +453,6 @@ void MultiViewWorkspace::renderWorkspaceBackGround(float t, int desktop)
     m_workspaceBgFrame->render(infiniteRegion(), t, 1);
 }
 
-void MultiViewWorkspace::render(bool isDrawBg)
-{
-    if (isDrawBg)
-        m_backGroundFrame->render(infiniteRegion(), 1, 0.8);
-    else
-        m_workspaceBgFrame->render(infiniteRegion(), 1, 0.8);
-}
-
 void MultiViewWorkspace::setPosition(QPoint pos)
 {
     m_workspaceBgFrame->setPosition(pos, true);
@@ -470,24 +462,14 @@ void MultiViewWorkspace::setImage(const QPixmap &bgPix, const QPixmap &wpPix, co
 {
     m_rect = rect;
     m_currentRect = rect;
-    QIcon icon(bgPix);
+
     m_backGroundFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_backGroundFrame->setGeometry(m_fullArea);
     m_backGroundFrame->setPosition(m_fullArea.topLeft());
-    m_backGroundFrame->setImage(bgPix);
+    m_backGroundFrame->setPixmap(bgPix);
 
     m_workspaceBgFrame->setGeometry(rect);
-
-    m_workspaceBgFrame->setImage(bgPix);
-}
-
-void MultiViewWorkspace::setImage(const QString &btf, const QRect &rect)
-{
-    m_rect = rect;
-    m_currentRect = rect;
-    m_workspaceBgFrame->setGeometry(rect);
-
-    m_workspaceBgFrame->setImage(btf);
+    m_workspaceBgFrame->setImage(wpPix);
 }
 
 void MultiViewWorkspace::setRect(const QRect rect)
@@ -628,7 +610,7 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", false);
 
-    m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", false);
+    m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
     m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_closeWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
     m_closeWinFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));

@@ -1,13 +1,17 @@
 import QtQuick 2.0
-import QtQuick.Layouts 1.0
 
-ColumnLayout {
+Rectangle {
     id: root
     property QtObject effectFrame: null
+
+    width: effectFrame ? effectFrame.size.width : 0
+    height: effectFrame ? effectFrame.size.height : 0
+    color: "transparent"
+
     Image {
         id: icon
-        Layout.preferredWidth: root.effectFrame.size.width
-        Layout.preferredHeight: root.effectFrame.size.height
-        source: root.effectFrame.image
+        anchors.fill: parent
+        sourceSize: effectFrame ? effectFrame.size : Qt.size(0, 0)
+        source: effectFrame ? effectFrame.image : ""
     }
 }
