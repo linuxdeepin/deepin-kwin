@@ -37,14 +37,5 @@ wmclass=nutstore
 wmclasscomplete=false
 wmclassmatch=1
 
-[5]
-Description=Auth dialog should should always be above
-above=true
-aboverule=3
-types=1
-wmclass=dde-polkit-agent dde-polkit-agent
-wmclasscomplete=true
-wmclassmatch=1
-
 [General]
-count=5
+count=4
