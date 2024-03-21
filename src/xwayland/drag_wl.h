@@ -46,6 +46,7 @@ public:
 
 private:
     Dnd *const m_dnd;
+    std::unique_ptr<Xvisit> m_visit;
     Q_DISABLE_COPY(WlToXDrag)
 };
 

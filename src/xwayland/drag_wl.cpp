@@ -23,6 +23,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
+#include "unmanaged.h"
 
 #include <QMouseEvent>
 #include <QTimer>
@@ -42,7 +43,33 @@ WlToXDrag::WlToXDrag(Dnd *dnd)
 
 DragEventReply WlToXDrag::moveFilter(Window *target, const QPoint &pos)
 {
-    return DragEventReply::Wayland;
+    auto *seat = waylandServer()->seat();
+    if (m_visit && m_visit->target() == target) {
+        // no target change
+        return DragEventReply::Take;
+    }
+    // leave current target
+    if (m_visit) {
+        seat->setDragTarget(nullptr, nullptr);
+        m_visit->leave();
+        m_visit.reset(nullptr);
+    }
+    if (!qobject_cast<KWin::X11Window *>(target) && !qobject_cast<KWin::Unmanaged *>(target)) {
+        // no target or wayland native target,
+        // handled by input code directly
+        return DragEventReply::Wayland;
+    }
+    // new target
+    // workspace()->activateClient(ac, false);
+    workspace()->requestFocus(target);
+    auto dropTarget = seat->dropHandlerForSurface(target->surface());
+
+    if (!dropTarget || !target->surface()) {
+        return DragEventReply::Ignore;
+    }
+    seat->setDragTarget(dropTarget, target->surface(), pos, target->inputTransformation());
+    m_visit.reset(new Xvisit(target, waylandServer()->seat()->dragSource(), m_dnd, this));
+    return DragEventReply::Take;
 }
 
 bool WlToXDrag::handleClientMessage(xcb_client_message_event_t *event)
