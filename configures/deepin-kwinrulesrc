@@ -1,6 +1,6 @@
 [1]
 Description=dde-dock
-desktop=-1
+desktops=-1
 desktopsrule=2
 wmclass=dde-dock dde-dock
 wmclasscomplete=true
@@ -37,5 +37,13 @@ wmclass=nutstore
 wmclasscomplete=false
 wmclassmatch=1
 
+[5]
+Description=dde-shell
+desktops=-1
+desktopsrule=2
+wmclass=dde-shell org.deepin.dde-shell
+wmclasscomplete=true
+wmclassmatch=1
+
 [General]
-count=4
+count=5
