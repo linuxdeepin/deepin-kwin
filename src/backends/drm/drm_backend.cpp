@@ -341,12 +341,13 @@ void DrmBackend::updateOutputs()
         qCDebug(KWIN_DRM) << " m_outputs is empty, creat Virtual-factoryOutput";
         m_primaryVirtualOutput = createVirtualOutput("factoryOutput", {1920, 1080}, 1);
     } else {
-        if (m_primaryVirtualOutput) {
+        if (m_primaryVirtualOutput && m_outputs.size() > 1) {
             removeVirtualOutput(m_primaryVirtualOutput);
+            m_primaryVirtualOutput = nullptr;
+        } else {
+            Q_EMIT outputsQueried();
         }
     }
-
-    Q_EMIT outputsQueried();
 
     for (auto it = m_gpus.begin(); it != m_gpus.end();) {
         DrmGpu *gpu = it->get();
