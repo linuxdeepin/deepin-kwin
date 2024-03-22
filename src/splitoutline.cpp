@@ -28,6 +28,14 @@ SplitOutline *SplitOutline::instance()
     return m_instance;
 }
 
+void SplitOutline::clearUpInstance()
+{
+    if (m_instance) {
+        delete m_instance;
+        m_instance = nullptr;
+    }
+}
+
  SplitOutline::SplitOutline()
         : QWidget()
 {

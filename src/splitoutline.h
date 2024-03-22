@@ -18,6 +18,7 @@ class SplitOutline : public QWidget
     Q_OBJECT
 public:
     static SplitOutline *instance();
+    static void clearUpInstance();
 
     explicit SplitOutline();
 
