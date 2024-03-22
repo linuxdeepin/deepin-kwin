@@ -1043,10 +1043,8 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         return;
     }
 
-    if (w->windowClass() == screen_recorder || w == m_screenRecorderMenu) {
-        if (!m_screenRecorderMenu || w == m_screenRecorderMenu) {
-            effects->setElevatedWindow(w, true);
-        }
+    if (w->windowClass() == screen_recorder) {
+        effects->setElevatedWindow(w, true);
         effects->paintWindow(w, mask, region, data);
         return;
     }
@@ -1599,7 +1597,7 @@ void MultitaskViewEffect::onWindowClosed(EffectWindow *w)
     if (!m_activated)
         return;
 
-    if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
+    if (w->windowClass() == screen_recorder && !m_isScreenRecording) {
         effects->startMouseInterception(this, Qt::PointingHandCursor);
     }
 }
@@ -1612,13 +1610,11 @@ void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
     if (!QX11Info::isPlatformX11() && w->caption() == "dde-osd") {
         m_isCloseScreenRecorder = false;
         return;
-    } else if (w->windowClass() == screen_recorder && w != m_screenRecorderMenu) {
-        m_isScreenRecorder = false;
-        if (!QX11Info::isPlatformX11())
-            m_isCloseScreenRecorder = true;
-        return;
-    } else if (w == m_screenRecorderMenu) {
-        m_screenRecorderMenu = nullptr;
+    } else if (w->windowClass() == screen_recorder) {
+        m_screenRecorderLastCloseTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        if (!QX11Info::isPlatformX11() && m_isScreenRecording)
+           m_isCloseScreenRecorder = true;
+        m_isScreenRecording = false;
         return;
     } else {
         removeWinAndRelayout(w);
@@ -1633,13 +1629,19 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
 
     if (!QX11Info::isPlatformX11() && w->caption() == "org.deepin.dde.lock") {
         setActive(false);
-    } else if (w->windowClass() == screen_recorder || m_isScreenRecorder) {
-        if ((!QX11Info::isPlatformX11() && w->windowClass() != screen_recorder)
-            || (QX11Info::isPlatformX11() && w->windowClass() == screen_recorder && m_isScreenRecorder)) {
-            m_screenRecorderMenu = w;
+    } else if (w->windowClass() == screen_recorder) {
+        /*
+         * 截图录屏有两个窗口，录屏前的选择区域框和录屏时的提示框
+         * 前者需要抓取鼠标事件，后者不需要
+         * 由于两者无法从窗口属性区分，假设短时间（800毫秒）关闭打开是开始录屏，长时间则是用户打开后取消录屏，然后再次打开
+         */
+        auto timePoint = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        if (timePoint - m_screenRecorderLastCloseTime > 800) { // milliseconds
+            m_isScreenRecording = false;
+            effects->stopMouseInterception(this);
+        } else {
+            m_isScreenRecording = true;
         }
-        effects->stopMouseInterception(this);
-        m_isScreenRecorder = true;
     } else if (!QX11Info::isPlatformX11() && w->caption() != "dde-osd" && m_isCloseScreenRecorder) {
         m_isCloseScreenRecorder = false;
     } else if (isRelevantWithPresentWindows(w)) {
@@ -2201,9 +2203,8 @@ void MultitaskViewEffect::cleanup()
         return;
     }
 
-    m_isScreenRecorder = false;
+    m_isScreenRecording = false;
     m_isCloseScreenRecorder = false;
-    m_screenRecorderMenu = nullptr;
 
     if (m_hasKeyboardGrab)
         effects->ungrabKeyboard();

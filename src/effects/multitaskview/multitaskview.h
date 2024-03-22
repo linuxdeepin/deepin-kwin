@@ -624,9 +624,9 @@ private:
         bool isPress = false;
     } m_touch;
     QTimer *m_timer;
-    bool m_isScreenRecorder = false;
+    quint64 m_screenRecorderLastCloseTime = -1000;
+    bool m_isScreenRecording = false;
     bool m_isCloseScreenRecorder = false;
-    EffectWindow *m_screenRecorderMenu = nullptr;
 
     Qt::MouseButton m_sendDockButton = Qt::NoButton;
     QPoint          m_cursorPos;
