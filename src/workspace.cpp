@@ -3326,16 +3326,7 @@ void Workspace::updateSplitOutlineState(uint oldDesktop, uint newDesktop, bool i
 
 void Workspace::clearSplitOutline()
 {
-//    QMap<int, SplitOutline*>::iterator it;
-//      int key;
-//      for (it = AbstractClient::splitManage.begin(); it!=AbstractClient::splitManage.end();)
-//      {
-//           key = it.key();
-//           it++;
-//           SplitOutline* splitOutline = AbstractClient::splitManage.take(key);
-//           delete splitOutline;
-//           splitOutline = nullptr;
-//      }
+    SplitOutline::clearUpInstance();
 }
 
 void Workspace::setWinSplitState(AbstractClient *client, bool isSplit)
