@@ -4262,7 +4262,7 @@ void Window::sendToOutput(Output *newOutput)
 
 void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *oldDesktop)
 {
-    if (isDock() || isDesktop() || !isPlaceable() || isStandAlone() || isOverride()) {
+    if (isDock() || isDesktop() || isStandAlone() || isOverride()) {
         return;
     }
 
