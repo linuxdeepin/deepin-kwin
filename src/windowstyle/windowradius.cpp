@@ -13,6 +13,7 @@
 #include "windowstylemanager.h"
 #include "decorationstyle.h"
 #include "composite.h"
+#include "utils.h"
 #include <xcb/xcb.h>
 #include <QWindow>
 #include <QX11Info>
@@ -23,30 +24,11 @@ Q_DECLARE_METATYPE(QPainterPath)
 
 namespace KWin
 {
-static xcb_atom_t internAtom(const char *name, bool only_if_exists)
-{
-    if (!name || *name == 0)
-        return XCB_NONE;
-
-    if (!QX11Info::isPlatformX11())
-        return XCB_NONE;
-
-    xcb_intern_atom_cookie_t cookie = xcb_intern_atom(QX11Info::connection(), only_if_exists, strlen(name), name);
-    xcb_intern_atom_reply_t *reply = xcb_intern_atom_reply(QX11Info::connection(), cookie, 0);
-
-    if (!reply)
-        return XCB_NONE;
-
-    xcb_atom_t atom = reply->atom;
-    free(reply);
-
-    return atom;
-}
 
 WindowRadius::WindowRadius(Window *window)
     : m_window(window)
 {
-    m_atom_deepin_scissor_window = internAtom(_DEEPIN_SCISSOR_WINDOW, false);
+    m_atom_deepin_scissor_window = Utils::internAtom(_DEEPIN_SCISSOR_WINDOW, false);
 
     connect(m_window->windowStyleObj(), &DecorationStyle::windowRadiusChanged, this, &WindowRadius::onUpdateWindowRadiusChanged);
 }
@@ -101,6 +83,9 @@ QPointF WindowRadius::getWindowRadius()
         radius.setX(Workspace::self()->getWindowStyleMgr()->getOsRadius() * Workspace::self()->getWindowStyleMgr()->getOsScale());
         radius.setY(Workspace::self()->getWindowStyleMgr()->getOsRadius() * Workspace::self()->getWindowStyleMgr()->getOsScale());
     }
+    if (m_window->windowStyleObj()->isCancelRadius())
+        radius = QPointF(0, 0);
+
     m_radius = radius;
     return radius;
 }

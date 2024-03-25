@@ -2366,6 +2366,8 @@ class KWINEFFECTS_EXPORT EffectWindow : public QObject
      */
     Q_PROPERTY(bool lockScreen READ isLockScreen CONSTANT)
 
+    Q_PROPERTY(int startEffectType READ startEffectType CONSTANT)
+
 public:
     /**  Flags explaining why painting should be disabled  */
     enum {
@@ -2756,6 +2758,8 @@ public:
 
     virtual void refVisibleEx(int) = 0;
     virtual void unrefVisibleEx(int) = 0;
+
+    virtual int startEffectType() = 0;
 
 protected:
     friend EffectWindowVisibleRef;

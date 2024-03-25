@@ -371,6 +371,8 @@ bool Window::setupCompositing()
     updateShadow();
     if(!QX11Info::isPlatformX11()) {
         createWinStyle();
+        connect(this, &Window::waylandWindowEffectChanged, Workspace::self()->getWindowStyleMgr(), &WindowStyleManager::onWaylandWindowCustomEffect);
+        connect(this, &Window::waylandWindowStartUpEffectChanged, Workspace::self()->getWindowStyleMgr(), &WindowStyleManager::onWaylandWindowStartUpEffect);
     }
     m_windowItem = createItem(scene);
     m_effectWindow->setWindowItem(m_windowItem.get());
@@ -4911,8 +4913,8 @@ void Window::updateWindowShadow()
         return;
     }
     if (m_windowShadowObj) {
-        m_windowShadowObj->updateWindowShadow();
-        updateShadow();
+        if (m_windowShadowObj->updateWindowShadow())
+            updateShadow();
     } else {
         m_windowShadowObj = std::make_unique<WindowShadow>(this);
         if (m_windowShadowObj) {

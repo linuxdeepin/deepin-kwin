@@ -2280,6 +2280,11 @@ void EffectWindowImpl::unrefVisibleEx(int reason)
     m_window->windowItem()->unrefVisible(reason);
 }
 
+int EffectWindowImpl::startEffectType()
+{
+    return m_window->startUpEffectType();
+}
+
 void EffectWindowImpl::refVisible(const EffectWindowVisibleRef *holder)
 {
     m_windowItem->refVisible(holder->reason());

@@ -10,6 +10,12 @@
 #include "window.h"
 #include "workspace.h"
 #include "windowstylemanager.h"
+#include "utils.h"
+
+#define _DEEPIN_NET_EFFECT   "_DEEPIN_NET_EFFECT"
+#define _DEEPIN_NET_STARTUP  "_DEEPIN_NET_STARTUP"
+#define _DEEPIN_NET_RADIUS   "_DEEPIN_NET_RADIUS"
+#define _DEEPIN_NET_SHADOW   "_DEEPIN_NET_SHADOW"
 
 namespace KWin
 {
@@ -111,7 +117,7 @@ qreal X11DecorationStyle::borderWidth()
     return property("borderWidth").toDouble();
 }
 
-void X11DecorationStyle::setBorderWidth(int width)
+void X11DecorationStyle::setBorderWidth(qreal width)
 {
     setProperty("borderWidth", width);
 }
@@ -119,6 +125,11 @@ void X11DecorationStyle::setBorderWidth(int width)
 QColor X11DecorationStyle::borderColor()
 {
     return qvariant_cast<QColor>(property("borderColor"));
+}
+
+void X11DecorationStyle::setBorderColor(QColor color)
+{
+    setProperty("borderColor", QVariant::fromValue(color));
 }
 
 qreal X11DecorationStyle::shadowRadius()
@@ -136,6 +147,11 @@ QColor X11DecorationStyle::shadowColor()
     return qvariant_cast<QColor>(property("shadowColor"));
 }
 
+void X11DecorationStyle::setShadowColor(QColor color)
+{
+    setProperty("shadowColor", QVariant::fromValue(color));
+}
+
 QMarginsF X11DecorationStyle::mouseInputAreaMargins()
 {
     return variant2Margins(property("mouseInputAreaMargins"));
@@ -146,6 +162,69 @@ qreal X11DecorationStyle::windowPixelRatio()
     return m_validProperties.testFlag(WindowPixelRatioProperty) ? property("windowPixelRatio").toDouble() : 1.0;
 }
 
+X11DecorationStyle::effectScenes X11DecorationStyle::windowEffect()
+{
+    return effectScene(property("windowEffect").toDouble());
+}
+
+qreal X11DecorationStyle::windowStartUpEffect()
+{
+    return property("windowStartUpEffect").toDouble();
+}
+
+X11DecorationStyle::effectScenes X11DecorationStyle::getWindowEffectScene()
+{
+    effectScenes validSce;
+    if (m_validProperties.testFlag(WindowEffectProperty)) {
+        validSce = windowEffect();
+    } else {
+        auto scenAtom = Utils::internAtom(_DEEPIN_NET_EFFECT);
+        const QByteArray property_data = Utils::readWindowProperty(m_window->window(), scenAtom, XCB_ATOM_CARDINAL);
+        if (!property_data.isEmpty()) {
+            const char *cdata = property_data.constData();
+            validSce = effectScene(*(reinterpret_cast<const quint32 *>(cdata)));
+        }
+    }
+
+    return validSce;
+}
+
+void X11DecorationStyle::parseWinCustomRadius()
+{
+    auto atom = Utils::internAtom(_DEEPIN_NET_RADIUS);
+    const QByteArray data = Utils::readWindowProperty(m_window->window(), atom, XCB_ATOM_STRING);
+    if (!data.isEmpty()) {
+        const char *cdata = data.constData();
+        setValidProperties(validProperties() | DecorationStyle::WindowRadiusProperty);
+        setWindowRadius(variant2Point(cdata));
+    }
+}
+
+void X11DecorationStyle::parseWinCustomShadow()
+{
+    auto atom = Utils::internAtom(_DEEPIN_NET_SHADOW);
+    const QByteArray data = Utils::readWindowProperty(m_window->window(), atom, XCB_ATOM_STRING);
+    if (!data.isEmpty()) {
+        QString cdata = data.constData();
+        setValidProperties(validProperties() | DecorationStyle::ShadowColorProperty);
+        setShadowColor(cdata);
+    }
+}
+
+void X11DecorationStyle::parseWinStartUpEffect()
+{
+    if (m_validProperties.testFlag(WindowStartUpEffectProperty)) {
+        m_window->setStartUpEffectType(windowStartUpEffect());
+    } else {
+        auto atom = Utils::internAtom(_DEEPIN_NET_STARTUP);
+        const QByteArray data = Utils::readWindowProperty(m_window->window(), atom, XCB_ATOM_CARDINAL);
+        if (!data.isEmpty()) {
+            const char *cdata = data.constData();
+            m_window->setStartUpEffectType(*(reinterpret_cast<const quint32 *>(cdata)));
+        }
+    }
+}
+
 /***********************************************************/
 
 WaylandDecorationStyle::WaylandDecorationStyle(Window *window)
@@ -153,6 +232,9 @@ WaylandDecorationStyle::WaylandDecorationStyle(Window *window)
     , m_window(window)
 {
     connect(window, &Window::waylandWindowRadiusChanged, this, &WaylandDecorationStyle::onUpdateWindowRadiusByWayland);
+    connect(window, &Window::waylandShadowColorChanged, this, &WaylandDecorationStyle::onUpdateShadowColorByWayland);
+    connect(window, &Window::waylandBorderWidthChanged, this, &WaylandDecorationStyle::onUpdateBorderWidthByWayland);
+    connect(window, &Window::waylandBorderColorChanged, this, &WaylandDecorationStyle::onUpdateBorderColorByWayland);
 }
 
 WaylandDecorationStyle::PropertyFlags WaylandDecorationStyle::validProperties()
@@ -177,29 +259,61 @@ void WaylandDecorationStyle::setWindowRadius(const QPointF value)
 
 qreal WaylandDecorationStyle::borderWidth()
 {
-    return m_border;
+    return m_borderWidth;
 }
 
-void WaylandDecorationStyle::setBorderWidth(int width)
+void WaylandDecorationStyle::setBorderWidth(qreal width)
 {
-    m_border = width;
+    m_borderWidth = width;
 }
 
 QColor WaylandDecorationStyle::borderColor()
 {
-    return QColor();
+    return m_borderColor;
 }
+
+void WaylandDecorationStyle::setBorderColor(QColor color)
+{
+    m_borderColor = color;
+}
+
 
 QColor WaylandDecorationStyle::shadowColor()
 {
-    return QColor();
+    return m_shadowColor;
+}
+
+void WaylandDecorationStyle::setShadowColor(QColor color)
+{
+    m_shadowColor = color;
 }
 
 void WaylandDecorationStyle::onUpdateWindowRadiusByWayland(QPointF radius)
 {
-    setValidProperties(DecorationStyle::WindowRadiusProperty);
+    setValidProperties(validProperties() | DecorationStyle::WindowRadiusProperty);
     m_radius = radius * Workspace::self()->getWindowStyleMgr()->getOsScale();
     Q_EMIT windowRadiusChanged();
+}
+
+void WaylandDecorationStyle::onUpdateShadowColorByWayland(QString color)
+{
+    setValidProperties(validProperties() | DecorationStyle::ShadowColorProperty);
+    setShadowColor(QColor(color));
+    Q_EMIT shadowColorChanged();
+}
+
+void WaylandDecorationStyle::onUpdateBorderWidthByWayland(qint32 width)
+{
+    setValidProperties(validProperties() | DecorationStyle::BorderWidthProperty);
+    setBorderWidth(width);
+    Q_EMIT borderWidthChanged();
+}
+
+void WaylandDecorationStyle::onUpdateBorderColorByWayland(QString color)
+{
+    setValidProperties(validProperties() | DecorationStyle::BorderColorProperty);
+    setBorderColor(QColor(color));
+    Q_EMIT borderColorChanged();
 }
 
 }

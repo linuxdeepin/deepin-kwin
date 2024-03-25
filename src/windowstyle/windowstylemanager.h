@@ -25,10 +25,19 @@ public:
     explicit WindowStyleManager();
     ~WindowStyleManager();
 
+    enum effectType {
+        effectNone   = 0x0,        // 取消动效
+        effectNormal = 0x01,       // 标准缩放动效
+        effectCursor = 0x02,       // 鼠标位置展开动效
+        effectTop    = 0x04,       // 从上往下展开
+        effectBottom = 0x08,       // 从下往上展开
+    };
+
 public:
     float getOsRadius();
     float getOsScale();
     void handleSpecialWindowStyle(Window *);
+    void parseWinCustomEffect(Window *);
 
 Q_SIGNALS:
     void sigRadiusChanged(float &);
@@ -42,6 +51,8 @@ public Q_SLOTS:
     void onWindowActiveChanged();
     void onGeometryShapeChanged(Window *, QRectF);
     void onCompositingChanged(bool);
+    void onWaylandWindowCustomEffect(uint32_t);
+    void onWaylandWindowStartUpEffect(uint32_t);
 
 private:
     std::unique_ptr<ConfigReader> m_radiusConfig;

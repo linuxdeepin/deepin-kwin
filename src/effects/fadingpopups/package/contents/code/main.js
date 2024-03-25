@@ -256,13 +256,27 @@ var fadingPopupsEffect = {
         if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
             return;
         }
+        if (window.startEffectType == 0) {
+            return;
+        }
         fadingPopupsEffect.setupForcedRoles(window);
         var windowRect = window.geometry;
         fadingPopupsEffect.addUnmanagedSize = effect.readConfig("addUnmanagedSize", 30);
         if (window.popupMenu && (cursorpos.x < windowRect.x - 2 || cursorpos.x > windowRect.x + windowRect.width + 2)) { //二级菜单
             fadingPopupsEffect.addUnmanagedSize = 100;
         }
-        var initialPos = fadingPopupsEffect.calcDiagonalPos(window, cursorpos, windowRect);
+
+        var initialPos;
+        var effectWidth;
+        if (window.startEffectType == 4) {
+            var pos = {x: windowRect.x + windowRect.width / 2, y: windowRect.y};
+            initialPos = fadingPopupsEffect.calcDiagonalPos(window, pos, windowRect);
+            effectWidth = windowRect.width;
+        } else {
+            initialPos = fadingPopupsEffect.calcDiagonalPos(window, cursorpos, windowRect);
+            effectWidth = windowRect.width * fadingPopupsEffect.addUnmanagedSize / 100;
+        }
+
         window.fadeInAnimation;
         if (initialPos.x == windowRect.x + windowRect.width / 2 && initialPos.y == windowRect.y + windowRect.height / 2) {
             window.fadeInAnimation = animate({
@@ -289,7 +303,7 @@ var fadingPopupsEffect = {
                 {
                     type: Effect.Size,
                     from: {
-                        value1: windowRect.width * fadingPopupsEffect.addUnmanagedSize / 100,
+                        value1: effectWidth,
                         value2: windowRect.height * fadingPopupsEffect.addUnmanagedSize / 100
                     },
                     to: {

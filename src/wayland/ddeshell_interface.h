@@ -115,8 +115,15 @@ Q_SIGNALS:
 
     void noTitleBarPropertyRequested(qint32 value);
     void windowRadiusPropertyRequested(QPointF windowRadius);
+    void shadowColorPropertyRequested(QString shadowColor);
+    void borderWidthPropertyRequested(qint32 width);
+    void borderColorPropertyRequested(QString borderColor);
+    void shadowRadiusPropertyRequested(qint32 shadowRadius);
+    void shadowOffsetPropertyRequested(QPointF shadowOffset);
     void nonStandardWindowPropertyRequested(const QMap<QString, QVariant> &mapNonStandardWindowPropertyData);
     void splitWindowRequested(SplitType splitType);
+    void windowEffectRequested(uint32_t type);
+    void windowStartUpEffectRequested(uint32_t type);
 private:
     friend class DDEShellInterfacePrivate;
     explicit DDEShellSurfaceInterface(Display *display, SurfaceInterface *surface, wl_resource *resource);

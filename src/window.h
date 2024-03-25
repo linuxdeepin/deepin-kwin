@@ -1510,6 +1510,9 @@ public:
     DecorationStyle  *windowStyleObj() const;
     void createWinStyle();
 
+    void setStartUpEffectType(int type) { m_startEffectType = type; }
+    int startUpEffectType() { return m_startEffectType; }
+
     struct timeval constructTimeval() const {
         return m_constructTimeval;
     }
@@ -1609,6 +1612,11 @@ Q_SIGNALS:
     void tileChanged(KWin::Tile *tile);
 
     void waylandWindowRadiusChanged(QPointF);
+    void waylandShadowColorChanged(QString);
+    void waylandBorderWidthChanged(qint32);
+    void waylandBorderColorChanged(QString);
+    void waylandWindowEffectChanged(uint32_t);
+    void waylandWindowStartUpEffectChanged(uint32_t);
 
     void fullScreenChanged();
     void skipTaskbarChanged();
@@ -2136,6 +2144,7 @@ private:
     QString m_applicationMenuObjectPath;
 
     bool m_unresponsive = false;
+    int  m_startEffectType = 1;
 
     KWaylandServer::deepinKwinStrut m_strutArea;
 

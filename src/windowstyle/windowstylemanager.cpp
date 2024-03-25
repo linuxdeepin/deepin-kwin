@@ -12,8 +12,12 @@
 #include "configreader.h"
 #include "composite.h"
 #include "decorationstyle.h"
+#include "effects.h"
+#include "utils.h"
 #include <QScreen>
 #include <QGSettings/qgsettings.h>
+#include <QX11Info>
+#include <QDebug>
 
 #define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
 #define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
@@ -41,6 +45,7 @@ WindowStyleManager::~WindowStyleManager()
 void WindowStyleManager::onWindowAdded(Window *window)
 {
     window->createWinStyle();
+    parseWinCustomEffect(window);
     handleSpecialWindowStyle(window);
     window->updateWindowRadius();
     connect(window, static_cast<void (Window::*)(Window *, bool, bool)>(&Window::clientMaximizedStateChanged), this, &WindowStyleManager::onWindowMaxiChanged);
@@ -96,6 +101,19 @@ void WindowStyleManager::onCompositingChanged(bool acitve)
     }
 }
 
+void WindowStyleManager::onWaylandWindowCustomEffect(uint32_t type)
+{
+    Window *window = qobject_cast<Window *>(QObject::sender());
+    window->windowStyleObj()->setWindowEffectScene(type);
+    parseWinCustomEffect(window);
+}
+
+void WindowStyleManager::onWaylandWindowStartUpEffect(uint32_t type)
+{
+    Window *window = qobject_cast<Window *>(QObject::sender());
+    window->setStartUpEffectType(type);
+}
+
 float WindowStyleManager::getOsRadius()
 {
     if (m_osRadius <= 0.0) {
@@ -127,6 +145,40 @@ void WindowStyleManager::handleSpecialWindowStyle(Window *window)
         QPointF r(getOsRadius() * m_scale, getOsRadius() * m_scale);
         window->windowStyleObj()->setWindowRadius(r);
     }
+}
+
+void WindowStyleManager::parseWinCustomEffect(Window *window)
+{
+    DecorationStyle::effectScenes validSce = window->windowStyleObj()->getWindowEffectScene();
+
+    if (validSce.testFlag(DecorationStyle::effectNoRadius)) {
+        window->windowStyleObj()->cancelRadiusByUser(true);
+    } else {
+        window->windowStyleObj()->parseWinCustomRadius();
+    }
+
+    if (validSce.testFlag(DecorationStyle::effectNoShadow)) {
+        window->windowStyleObj()->cancelShadowByUser(true);
+    } else {
+        window->windowStyleObj()->parseWinCustomShadow();
+    }
+
+    if (validSce.testFlag(DecorationStyle::effectNoBorder)) {
+        window->windowStyleObj()->setValidProperties(window->windowStyleObj()->validProperties() | DecorationStyle::BorderWidthProperty);
+        window->windowStyleObj()->setBorderWidth(0);
+    }
+
+    if (validSce.testFlag(DecorationStyle::effectNoStart)) {
+        window->setStartUpEffectType(effectType::effectNone);
+    } else {
+        window->windowStyleObj()->parseWinStartUpEffect();
+    }
+
+    // if (validSce.testFlag(effectScene::effectNoClose))
+
+    // if (validSce.testFlag(effectScene::effectNoMax))
+
+    // if (validSce.testFlag(effectScene::effectNoMin))
 }
 
 }

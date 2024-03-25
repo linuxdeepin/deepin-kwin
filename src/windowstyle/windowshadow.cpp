@@ -19,6 +19,9 @@ QMap<QString, QVector<QImage>> WindowShadow::m_cacheShadow;
 WindowShadow::WindowShadow(Window *window)
     : m_window(window)
 {
+    connect(m_window->windowStyleObj(), &DecorationStyle::borderWidthChanged, this, &WindowShadow::onUpdateBorderWidthChanged);
+    connect(m_window->windowStyleObj(), &DecorationStyle::borderColorChanged, this, &WindowShadow::onUpdateBorderColorChanged);
+    connect(m_window->windowStyleObj(), &DecorationStyle::shadowColorChanged, this, &WindowShadow::onUpdateShadowColorChanged);
 }
 
 WindowShadow::~WindowShadow()
@@ -39,16 +42,20 @@ QString WindowShadow::buildShadowCacheKey(shadowConfig &config)
                                                 .arg(config.borderWidth).arg(config.borderColor.name(QColor::HexArgb));
 }
 
-void WindowShadow::updateWindowShadow()
+bool WindowShadow::updateWindowShadow()
 {
     if (!m_window || !m_window->windowStyleObj())
-        return;
-    if (m_window->hasAlpha()
-        && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty)) {
+        return true;
+    if (m_window->windowStyleObj()->isCancelShadow()
+        || (m_window->hasAlpha()
+        && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty))) {
         resetShadowKey();
-        return;
+        return true;
     }
-    getShadow();
+
+    if (!getShadow())
+        return false;
+    return true;
 }
 
 QPointF WindowShadow::getWindowRadius()
@@ -92,7 +99,7 @@ QString WindowShadow::getDefaultBorderColor()
     return color;
 }
 
-void WindowShadow::getShadow()
+bool WindowShadow::getShadow()
 {
     shadowConfig st;
     st.windowRadius = getWindowRadius();
@@ -135,8 +142,12 @@ void WindowShadow::getShadow()
                                         shadow_size - shadow_overlap.x(),
                                         shadow_size - shadow_overlap.y());
     m_key = buildShadowCacheKey(st);
+    if (m_key == m_lastKey)
+        return false;
+
+    m_lastKey = m_key;
     if (m_cacheShadow.contains(m_key))
-        return;
+        return true;
 
     auto shadow = false;//m_shadowCache.value(key);
     bool no_shadow = st.shadowColor.alpha() == 0 || qIsNull(st.shadowRadius);
@@ -247,6 +258,7 @@ void WindowShadow::getShadow()
         WindowShadow::m_cacheShadow[m_key].append(kwin_popup_shadow_left);
         WindowShadow::m_cacheShadow[m_key].append(kwin_popup_shadow_top_left);
     }
+    return true;
 }
 
 void WindowShadow::resetShadowKey()
@@ -272,6 +284,21 @@ bool WindowShadow::isSpecialWindow()
         || m_window->isDropdownMenu())
         return true;
     return false;
+}
+
+void WindowShadow::onUpdateBorderWidthChanged()
+{
+    m_window->updateWindowShadow();
+}
+
+void WindowShadow::onUpdateBorderColorChanged()
+{
+    m_window->updateWindowShadow();
+}
+
+void WindowShadow::onUpdateShadowColorChanged()
+{
+    m_window->updateWindowShadow();
 }
 
 }

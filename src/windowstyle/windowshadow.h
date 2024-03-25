@@ -38,7 +38,7 @@ public:
     explicit WindowShadow(Window *window);
     ~WindowShadow();
 
-    void            updateWindowShadow();
+    bool            updateWindowShadow();
     QPointF         getWindowRadius();
     QString         getDefaultShadowColor();
     qreal           getDefaultShadowRadius();
@@ -48,10 +48,15 @@ public:
     bool            isSpecialWindow();
 
     static QString  buildShadowCacheKey(shadowConfig &config);
-    void            getShadow();
+    bool            getShadow();
     void            resetShadowKey();
     QString         getShadowKey();
     QMargins        getPadding();
+
+public Q_SLOTS:
+    void onUpdateBorderWidthChanged();
+    void onUpdateBorderColorChanged();
+    void onUpdateShadowColorChanged();
 
 public:
     static QMap<QString, QVector<QImage>> m_cacheShadow;
@@ -67,7 +72,8 @@ private:
 
     QMargins m_padding;
     QString  m_key;
-    Window  *m_window;
+    QString  m_lastKey;
+    Window   *m_window;
 };
 }
 #endif

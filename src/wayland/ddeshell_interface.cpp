@@ -68,6 +68,8 @@ private:
     void dde_shell_surface_set_state(Resource *resource, uint32_t flags, uint32_t state) override;
     void dde_shell_surface_set_property(Resource *resource, uint32_t property, wl_array *dataArr) override;
     void dde_shell_surface_request_split_window(Resource *resource, uint32_t split_type) override;
+    void dde_shell_surface_request_window_effect(Resource *resource, uint32_t type) override;
+    void dde_shell_surface_request_window_startup_effect(Resource *resource, uint32_t type) override;
 };
 
 /*********************************
@@ -268,6 +270,27 @@ void DDEShellSurfaceInterfacePrivate::dde_shell_surface_set_property(Resource *r
         QPointF pnt = QPointF(value[0],value[1]);
         Q_EMIT q->windowRadiusPropertyRequested(pnt);
     }
+    if (property & DDE_SHELL_PROPERTY_SHADOWCOLOR) {
+        char *value = static_cast<char *>(dataArr->data);
+        Q_EMIT q->shadowColorPropertyRequested(value);
+    }
+    if (property & DDE_SHELL_PROPERTY_SHADOWRADIUS) {
+        int *value = static_cast<int *>(dataArr->data);
+        Q_EMIT q->shadowRadiusPropertyRequested(*value);
+    }
+    if (property & DDE_SHELL_PROPERTY_SHADOWOFFSET) {
+        float *value = static_cast<float *>(dataArr->data);
+        QPointF pnt = QPointF(value[0],value[1]);
+        Q_EMIT q->shadowOffsetPropertyRequested(pnt);
+    }
+    if (property & DDE_SHELL_PROPERTY_BORDERWIDTH) {
+        int *value = static_cast<int *>(dataArr->data);
+        Q_EMIT q->borderWidthPropertyRequested(*value);
+    }
+    if (property & DDE_SHELL_PROPERTY_BORDERCOLOR) {
+        char *value = static_cast<char *>(dataArr->data);
+        Q_EMIT q->borderColorPropertyRequested(value);
+    }
 }
 
 void DDEShellSurfaceInterfacePrivate::dde_shell_surface_request_split_window(Resource *resource, uint32_t split_type)
@@ -283,6 +306,18 @@ void DDEShellSurfaceInterfacePrivate::dde_shell_surface_request_split_window(Res
     default:
         break;
     }
+}
+
+void DDEShellSurfaceInterfacePrivate::dde_shell_surface_request_window_effect(Resource *resource, uint32_t type)
+{
+    Q_UNUSED(resource)
+    Q_EMIT q->windowEffectRequested(type);
+}
+
+void DDEShellSurfaceInterfacePrivate::dde_shell_surface_request_window_startup_effect(Resource *resource, uint32_t type)
+{
+    Q_UNUSED(resource)
+    Q_EMIT q->windowStartUpEffectRequested(type);
 }
 
 void DDEShellSurfaceInterfacePrivate::sendSplitable(bool splitable)

@@ -30,11 +30,6 @@ public:
     QPointF windowRadius() { return m_radius;};
     QString theme() const;
 
-Q_SIGNALS:
-    void windowRadiusChanged();
-    void validPropertiesChanged(qint64 validProperties);
-    void themeChanged();
-
 public Q_SLOTS:
     void onUpdateWindowRadiusChanged();
 

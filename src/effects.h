@@ -544,6 +544,8 @@ public:
     void refVisibleEx(int) override;
     void unrefVisibleEx(int) override;
 
+    int startEffectType() override;
+
 private:
     void refVisible(const EffectWindowVisibleRef *holder) override;
     void unrefVisible(const EffectWindowVisibleRef *holder) override;

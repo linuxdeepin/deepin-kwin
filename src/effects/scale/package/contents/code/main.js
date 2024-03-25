@@ -97,6 +97,9 @@ var scaleEffect = {
         if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
             return;
         }
+        if (window.startEffectType != 1) {
+            return;
+        }
         if (window.dock || window.splash || window.toolbar
             || window.notification || window.onScreenDisplay
             || window.criticalNotification

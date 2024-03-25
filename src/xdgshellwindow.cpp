@@ -751,10 +751,35 @@ void XdgSurfaceWindow::installDDEShellSurface(DDEShellSurfaceInterface *shellSur
             Q_EMIT waylandWindowRadiusChanged(windowRadius);
         }
     );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::shadowColorPropertyRequested  , this,
+        [this] (QString shadowColor) {
+            Q_EMIT waylandShadowColorChanged(shadowColor);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::borderWidthPropertyRequested, this,
+        [this] (qint32 width) {
+            Q_EMIT waylandBorderWidthChanged(width);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::borderColorPropertyRequested, this,
+        [this] (QString borderColor) {
+            Q_EMIT waylandBorderColorChanged(borderColor);
+        }
+    );
     connect(m_ddeShellSurface, &DDEShellSurfaceInterface::splitWindowRequested, this,
         [this] (KWaylandServer::SplitType type) {
             Window::setQuickTileFromMenu(QuickTileMode(int(type)));
 
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::windowEffectRequested, this,
+        [this] (uint32_t type) {
+            Q_EMIT waylandWindowEffectChanged(type);
+        }
+    );
+    connect(m_ddeShellSurface, &DDEShellSurfaceInterface::windowStartUpEffectRequested, this,
+        [this] (uint32_t type) {
+            Q_EMIT waylandWindowStartUpEffectChanged(type);
         }
     );
 }
