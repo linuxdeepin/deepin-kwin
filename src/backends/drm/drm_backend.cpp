@@ -149,13 +149,6 @@ void DrmBackend::reactivate()
         return;
     }
     m_active = true;
-    for (const auto &output : std::as_const(m_outputs)) {
-        DrmOutput *o = dynamic_cast<DrmOutput*>(output);
-        if (o && !o->isEnabled()) {
-            o->updateDpmsMode(Output::DpmsMode::Standby);
-            o->updateDpmsMode(Output::DpmsMode::Off);
-        }
-    }
 
     for (const auto &output : std::as_const(m_outputs)) {
         output->renderLoop()->uninhibit();
