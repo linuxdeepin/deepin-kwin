@@ -1,3 +1,11 @@
+kwin (4:5.27.2.86-deepin86-1) unstable; urgency=medium
+
+  [ wangboyu ]
+  * fix: fix some crash point and add fd with O_CLOEXEC.
+  * Revert "fix: reset disabled outputs to off when kwin is reactivating."
+
+ -- wangboyu <wangboyu@uniontech.com>  Tue, 26 Mar 2024 17:20:02 +0800
+
 kwin (4:5.27.2.85-deepin85-1) unstable; urgency=medium
 
   [ wangboyu ]
