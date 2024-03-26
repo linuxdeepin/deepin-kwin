@@ -128,9 +128,9 @@ private:
     WlSource *m_waylandSource = nullptr;
     X11Source *m_xSource = nullptr;
 
-    Display *m_Display;
-    QLibrary* m_uaceExtDll;
-    GetWindowPidPtr fuc_GetWindowPid;
+    Display *m_Display = nullptr;
+    QLibrary* m_uaceExtDll = nullptr;
+    GetWindowPidPtr fuc_GetWindowPid = nullptr;
 
     // active transfers
     QVector<TransferWltoX *> m_wlToXTransfers;

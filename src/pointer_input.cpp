@@ -282,7 +282,7 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
 
     if (!inited()) {
         // only X11 will get in this
-        if (state == InputRedirection::PointerButtonReleased) {
+        if (!waylandServer() && state == InputRedirection::PointerButtonReleased) {
             workspace()->handleReleaseMouseCommand();
         }
         return;
