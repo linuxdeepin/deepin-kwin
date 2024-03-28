@@ -2274,7 +2274,7 @@ void MultitaskViewEffect::setActive(bool active)
 
     effectsEx->setActiveMultitasking(m_activated);
     QTimer::singleShot(400, [&, active](){
-        QDBusInterface wm(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
+        QDBusInterface wm(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF);
         wm.call(QDBus::BlockWithGui, "SetMultiTaskingStatus", active);
     });
 
