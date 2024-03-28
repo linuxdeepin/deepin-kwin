@@ -112,6 +112,11 @@ Xvisit::Xvisit(Window *target, KWaylandServer::AbstractDataSource *dataSource, D
     free(reply);
 
     receiveOffer();
+
+    // The X window crashes during dragging and dragging again causes kwin coredump
+    connect(target, &QObject::destroyed, this, [this] {
+        doFinish();
+    });
 }
 
 bool Xvisit::handleClientMessage(xcb_client_message_event_t *event)
