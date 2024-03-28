@@ -182,6 +182,7 @@ void DataSourceInterface::dndCancelled()
     if (wl_resource_get_version(resource()) < 3) {
         return;
     }
+    d->send_dnd_finished();
     d->send_cancelled();
 }
 
