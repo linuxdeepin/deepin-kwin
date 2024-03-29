@@ -2015,7 +2015,7 @@ protected:
     static std::unique_ptr<PlaceholderWindow> s_placeholderWindow;
 
     virtual bool isProhibitScreenshotWindow();
-    QRegion decorationInputRegion() const;
+    virtual void recordShape(xcb_window_t id, xcb_shape_kind_t kind);
 
 private Q_SLOTS:
     void shadeHover();
@@ -2162,6 +2162,9 @@ private:
 
     struct timeval m_constructTimeval;
     EventTrackingState m_firstComposite = EventTrackingState::Ready;
+
+    QVector<QRectF> m_shapeInputRegion;
+    QVector<QRectF> m_shapeBoundingRegion;
 };
 
 /**
@@ -2213,11 +2216,6 @@ inline QSizeF Window::clientSize() const
 inline QRectF Window::frameGeometry() const
 {
     return m_frameGeometry;
-}
-
-inline QRegion Window::decorationInputRegion() const
-{
-    return m_decoration.inputRegion;
 }
 
 inline QSizeF Window::size() const

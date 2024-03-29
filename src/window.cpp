@@ -693,6 +693,30 @@ bool Window::hitTest(const QPointF &point) const
             return true;
         }
     }
+    if (waylandServer() && (qobject_cast<const X11Window*>(this) || isUnmanaged())) {
+        const QPointF relativePoint = point - clientGeometry().topLeft();
+
+        bool isInBounding = false, isInInput = false;
+        if (shape()) {
+            for (const auto& rect: m_shapeBoundingRegion) {
+                if (rect.contains(flooredPoint(relativePoint))) {
+                    isInBounding = true;
+                    break;
+                }
+            }
+        }
+        for (const auto& rect: m_shapeInputRegion) {
+            if (rect.contains(flooredPoint(relativePoint))) {
+                isInInput = true;
+                break;
+            }
+        }
+        if (shape()) {
+            return isInBounding && isInInput;
+        } else {
+            return isInInput;
+        }
+    }
     if (m_surface && m_surface->isMapped()) {
         return m_surface->inputSurfaceAt(mapToLocal(point));
     }
@@ -5018,6 +5042,40 @@ QVariant Window::createTimespanDBusMessage(struct timeval createTimeval, int tid
     }
     workspace()->pids().insert(pid());
     return QVariant(QString("{\"tid\":%1,\"event\":\"%2\",\"target\":\"%3\",\"message\":{\"timespan\":%4}}").arg(tid).arg(event.c_str()).arg(qtProcessFullPath).arg(timespan));
+}
+
+void Window::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
+{
+    if (!waylandServer() || !(qobject_cast<X11Window*>(this) || isUnmanaged())) {
+        return;
+    }
+    if ((kind == XCB_SHAPE_SK_BOUNDING || kind == 255) && shape()) {
+        auto cookie = xcb_shape_get_rectangles_unchecked(kwinApp()->x11Connection(), id, XCB_SHAPE_SK_BOUNDING);
+        UniqueCPtr<xcb_shape_get_rectangles_reply_t> reply(xcb_shape_get_rectangles_reply(kwinApp()->x11Connection(), cookie, nullptr));
+        if (reply) {
+            m_shapeBoundingRegion.clear();
+            const xcb_rectangle_t *rects = xcb_shape_get_rectangles_rectangles(reply.get());
+            const int rectCount = xcb_shape_get_rectangles_rectangles_length(reply.get());
+            for (int i = 0; i < rectCount; ++i) {
+                QRectF region = Xcb::fromXNative(QRect(rects[i].x, rects[i].y, rects[i].width, rects[i].height)).toAlignedRect();
+                m_shapeBoundingRegion += region;
+            }
+        }
+    }
+
+    if (kind == XCB_SHAPE_SK_INPUT || kind == 255) {
+        auto cookie = xcb_shape_get_rectangles_unchecked(kwinApp()->x11Connection(), id, XCB_SHAPE_SK_INPUT);
+        UniqueCPtr<xcb_shape_get_rectangles_reply_t> reply(xcb_shape_get_rectangles_reply(kwinApp()->x11Connection(), cookie, nullptr));
+        if (reply) {
+            m_shapeInputRegion.clear();
+            const xcb_rectangle_t *rects = xcb_shape_get_rectangles_rectangles(reply.get());
+            const int rectCount = xcb_shape_get_rectangles_rectangles_length(reply.get());
+            for (int i = 0; i < rectCount; ++i) {
+                QRectF region = Xcb::fromXNative(QRect(rects[i].x, rects[i].y, rects[i].width, rects[i].height)).toAlignedRect();
+                m_shapeInputRegion += region;
+            }
+        }
+    }
 }
 
 } // namespace KWin

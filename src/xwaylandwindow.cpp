@@ -41,68 +41,6 @@ void XwaylandWindow::initialize()
     }
 }
 
-void XwaylandWindow::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
-{
-    if ((kind == XCB_SHAPE_SK_BOUNDING || kind == 255) && shape()) {
-        auto cookie = xcb_shape_get_rectangles_unchecked(kwinApp()->x11Connection(), id, XCB_SHAPE_SK_BOUNDING);
-        UniqueCPtr<xcb_shape_get_rectangles_reply_t> reply(xcb_shape_get_rectangles_reply(kwinApp()->x11Connection(), cookie, nullptr));
-        if (reply) {
-            m_shapeBoundingRegion.clear();
-            const xcb_rectangle_t *rects = xcb_shape_get_rectangles_rectangles(reply.get());
-            const int rectCount = xcb_shape_get_rectangles_rectangles_length(reply.get());
-            for (int i = 0; i < rectCount; ++i) {
-                QRectF region = Xcb::fromXNative(QRect(rects[i].x, rects[i].y, rects[i].width, rects[i].height)).toAlignedRect();
-                m_shapeBoundingRegion += region;
-            }
-        }
-    }
-
-    if (kind == XCB_SHAPE_SK_INPUT || kind == 255) {
-        auto cookie = xcb_shape_get_rectangles_unchecked(kwinApp()->x11Connection(), id, XCB_SHAPE_SK_INPUT);
-        UniqueCPtr<xcb_shape_get_rectangles_reply_t> reply(xcb_shape_get_rectangles_reply(kwinApp()->x11Connection(), cookie, nullptr));
-        if (reply) {
-            m_shapeInputRegion.clear();
-            const xcb_rectangle_t *rects = xcb_shape_get_rectangles_rectangles(reply.get());
-            const int rectCount = xcb_shape_get_rectangles_rectangles_length(reply.get());
-            for (int i = 0; i < rectCount; ++i) {
-                QRectF region = Xcb::fromXNative(QRect(rects[i].x, rects[i].y, rects[i].width, rects[i].height)).toAlignedRect();
-                m_shapeInputRegion += region;
-            }
-        }
-    }
-}
-
-bool XwaylandWindow::hitTest(const QPointF &point) const
-{
-    if (isDecorated()) {
-        if (decorationInputRegion().contains(flooredPoint(mapToFrame(point)))) {
-            return true;
-        }
-    }
-    const QPointF relativePoint = point - clientGeometry().topLeft();
-
-    bool isInBounding = false, isInInput = false;
-    if (shape()) {
-        for (const auto& rect: m_shapeBoundingRegion) {
-            if (rect.contains(flooredPoint(relativePoint))) {
-                isInBounding = true;
-                break;
-            }
-        }
-    }
-    for (const auto& rect: m_shapeInputRegion) {
-        if (rect.contains(flooredPoint(relativePoint))) {
-            isInInput = true;
-            break;
-        }
-    }
-    if (shape()) {
-        return isInBounding && isInInput;
-    } else {
-        return isInInput;
-    }
-}
-
 bool XwaylandWindow::wantsSyncCounter() const
 {
     // When the frame window is resized, the attached buffer will be destroyed by
