@@ -387,7 +387,7 @@ protected:
 
     struct State
     {
-        QPoint position = QPoint(-1, -1);
+        QPoint position = QPoint(0, 0);
         qreal scale = 1;
         Transform transform = Transform::Normal;
         QList<std::shared_ptr<OutputMode>> modes;
