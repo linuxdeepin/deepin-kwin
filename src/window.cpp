@@ -5014,10 +5014,12 @@ QVariant Window::createTimespanDBusMessage(struct timeval createTimeval, int tid
 
     if (!initialized) {
         QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
+        interfaceRequire.setTimeout(1000);
         QDBusPendingReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.eventtracking", "");
         reply.waitForFinished();
         if (!reply.isError()) {
             QDBusInterface interfaceValue("org.desktopspec.ConfigManager", reply.value().path(), "org.desktopspec.ConfigManager.Manager", QDBusConnection::systemBus());
+            interfaceValue.setTimeout(1000);
             QDBusMessage replyValue = interfaceValue.call("value", "filterList");
             QDBusVariant dbusVariant = replyValue.arguments().at(0).value<QDBusVariant>();
             QDBusArgument dbusArguments = dbusVariant.variant().value<QDBusArgument>();

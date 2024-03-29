@@ -343,7 +343,7 @@ void Workspace::setProcessSessionPath()
     QDBusMessage message = QDBusMessage::createMethodCall(DBUS_LOGIN_SERVICE, DBUS_MANAGER_PATH,
             DBUS_MANAGER_INTF, "GetSession");
     message.setArguments({sessionId});
-    QDBusMessage reply = QDBusConnection::systemBus().call(message);
+    QDBusMessage reply = QDBusConnection::systemBus().call(message, QDBus::Block, 1000);
     if (reply.type() != QDBusMessage::ErrorMessage) {
         m_sessionPath = reply.arguments().constFirst().value<QDBusObjectPath>().path();
     }

@@ -112,6 +112,7 @@ void ConfigReaderThread::run()
             continue;
         }
         QDBusInterface dbus(m_service, m_path, m_interface);
+        dbus.setTimeout(300);
         if (!dbus.isValid()) {
             sleepfunc();
             continue;

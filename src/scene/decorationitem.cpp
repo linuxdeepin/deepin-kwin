@@ -178,6 +178,7 @@ void DecorationItem::handleOutputChanged()
 {
     if (m_output) {
         disconnect(m_output, &Output::scaleChanged, this, &DecorationItem::handleOutputScaleChanged);
+        m_output.clear();
     }
 
     m_output = m_window->output();
