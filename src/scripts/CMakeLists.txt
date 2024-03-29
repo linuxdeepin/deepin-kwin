@@ -11,5 +11,6 @@ add_kwin_script(synchronizeskipswitcher)
 add_kwin_script(desktopchangeosd)
 add_kwin_script(minimizeall)
 add_kwin_script(ddeshortcuts)
+add_kwin_script(ddelaunchpad)
 
 add_subdirectory(screenedge)
