@@ -153,7 +153,9 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
                         auto c = decoration->client().data();
                         if (c) {
                             uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
-                            KWinUtils::showSplitMenu(geometry().translated(effect->pos()).toRect(), wid);
+                            QRect button_rect(QPoint(geometry().x() + effect->pos().x(), effect->pos().y()),
+                                              QSize(geometry().width(), decoration->titleBarHeight()));
+                            KWinUtils::showSplitMenu(button_rect, wid);
                         }
                     }
                     decoration->requestHideToolTip();
@@ -204,7 +206,9 @@ void ChameleonButton::mousePressEvent(QMouseEvent *event)
                             if (c) {
                                 uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
                                 KWinUtils::setSplitMenuKeepShowing(true);
-                                KWinUtils::showSplitMenu(geometry().translated(effect->pos()).toRect(), wid);
+                                QRect button_rect(QPoint(geometry().x() + effect->pos().x(), effect->pos().y()),
+                                                  QSize(geometry().width(), decoration->titleBarHeight()));
+                                KWinUtils::showSplitMenu(button_rect, wid);
                             }
                         }
                     }

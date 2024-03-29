@@ -38,27 +38,28 @@ private:
     void findClient(uint32_t client_id);
 
     void checkTheme();
-    void checkArea(const QRect &button_rect, const QSize &size);
+    void checkArea(const QRect &button_rect);
+
+    QPixmap getLabelPixmap(const QString &file, const QSize &size);
 
     void stopTime();
 
     bool m_isShow = false;
     bool m_keepShowing = false;
     bool m_isDark = false;
-    bool entered = false;
-    bool upside = false;
+    bool m_entered = false;
+    bool m_upside = false;
     Window *m_client = nullptr;
 
-    QPoint m_pos;
     QColor m_color;
     QHBoxLayout *layout;
     QLabel *llabel;
     QLabel *clabel;
     QLabel *rlabel;
+    QRect m_hump, m_rect;  // relative rectangle
     float   m_scale = 1.0;
 
-    QTimer *show_timer = nullptr;
-    QTimer *hide_timer = nullptr;
+    QTimer show_timer, hide_timer;
 
     QGraphicsDropShadowEffect *shadow = nullptr;
 };

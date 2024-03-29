@@ -12,9 +12,19 @@
 #include <QPainter>
 #include <QtMath>
 #include <QScreen>
+#include <QSvgRenderer>
 
 #define LONG_PRESS_TIME 500
 #define HIDE_DELAY_TIME 300
+
+#define LEFT_HOVER      "left_split_hover.svg"
+#define LEFT_NORMAL     "left_split_normal.svg"
+#define RIGHT_HOVER     "right_split_hover.svg"
+#define RIGHT_NORMAL    "right_split_normal.svg"
+#define MAX_HOVER       "max_split_hover.svg"
+#define MAX_NORMAL      "max_split_normal.svg"
+#define RESTORE_HOVER   "restore_split_hover.svg"
+#define RESTORE_NORMAL  "restore_split_normal.svg"
 
 namespace KWin
 {
@@ -40,8 +50,17 @@ SplitMenu::SplitMenu()
 
     setWindowTitle("splitmenu");
 
+    // shape parameter
+    const int label_spacing = 5 * m_scale;
+    const QSize label_size(QSize(37, 37) * m_scale);
+    const QSize hump_size(QSize(50, 20) * m_scale);
+    // shadow parameter
+    const QPoint shadow_offset(QPoint(0, 6) * m_scale);
+    const QColor shadow_color(0, 0, 0, 0.15 * 255);
+    const qreal shadow_blur_radius = 20 * m_scale;
+
     layout = new QHBoxLayout();
-    layout->setSpacing(5 * m_scale);
+    layout->setSpacing(label_spacing);
     llabel = new QLabel(this);
     clabel = new QLabel(this);
     rlabel = new QLabel(this);
@@ -53,11 +72,23 @@ SplitMenu::SplitMenu()
     clabel->installEventFilter(this);
     rlabel->installEventFilter(this);
 
+    llabel->setFixedSize(label_size);
+    clabel->setFixedSize(label_size);
+    rlabel->setFixedSize(label_size);
+
     shadow = new QGraphicsDropShadowEffect(this);
-    shadow->setOffset(0, 0);
-    shadow->setColor(Qt::gray);
-    shadow->setBlurRadius(10);
+    shadow->setOffset(shadow_offset);
+    shadow->setColor(shadow_color);
+    shadow->setBlurRadius(shadow_blur_radius);
     this->setGraphicsEffect(shadow);
+
+    // size and relative pos.x of hump and rect are fixed
+    m_hump.setSize(hump_size);
+    m_hump.moveLeft(shadow->blurRadius() + 4 * layout->spacing() + 1.5 * llabel->width());
+    m_rect.setSize(QSize(8 * layout->spacing() + 3 * llabel->width(), 4 * layout->spacing() + llabel->height()));
+    m_rect.moveLeft(shadow->blurRadius());
+    // window size is fixed
+    setFixedSize(m_rect.width() + 2 * shadow->blurRadius(), m_rect.height() + m_hump.height() + shadow->blurRadius());
 
     QString qm = QString(":/splitmenu/translations/splitmenu_%1.qm").arg(QLocale::system().name());
     auto tran = new QTranslator(this);
@@ -66,21 +97,34 @@ SplitMenu::SplitMenu()
     } else {
         qCDebug(SPLIT_MENU) << "load " << qm << "failed";
     }
+
+    show_timer.setSingleShot(true);
+    connect(&show_timer, &QTimer::timeout,
+        [this] {
+            m_isShow = true;
+            show();
+        }
+    );
+    hide_timer.setSingleShot(true);
+    connect(&hide_timer, &QTimer::timeout,
+        [this] {
+            m_isShow = false;
+            m_entered = false;
+            m_client = nullptr;
+            hide();
+        }
+    );
 }
 
 SplitMenu::~SplitMenu()
 {
-    if (show_timer)
-        delete show_timer;
-    if (hide_timer)
-        delete hide_timer;
     if (shadow)
         delete shadow;
 }
 
 void SplitMenu::enterEvent(QEvent *event)
 {
-    entered = true;
+    m_entered = true;
     QWidget::enterEvent(event);
     stopTime();
 }
@@ -93,75 +137,65 @@ void SplitMenu::leaveEvent(QEvent *event)
 
 bool SplitMenu::eventFilter(QObject *obj, QEvent *event)
 {
-    QString str = "light";
-    if (m_isDark) {
-        str = "dark";
-    }
-
-    int sign = upside ? -1 : 1;
-
     if (obj == llabel) {
         if (event->type() == QEvent::MouseButtonRelease) {
-            llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str));
             if (m_client) {
                 m_client->setQuickTileFromMenu(QuickTileFlag::Left);
             }
-            llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
+            llabel->setPixmap(getLabelPixmap(LEFT_NORMAL, llabel->size()));
             Hide(false, true);
         } else if (event->type() == QEvent::Enter) {
-            llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str));
-            QPoint pos = m_pos;
-            pos.setX(m_pos.x() - 70);
-            pos.setY(m_pos.y() + sign * 50 * m_scale);
-            QToolTip::showText(pos, tr("Tile window to left of screen"), this);
+            llabel->setPixmap(getLabelPixmap(LEFT_HOVER, llabel->size()));
+            QPoint p(m_rect.left() + 2 * layout->spacing(), m_rect.top() + llabel->height());
+            QToolTip::showText(p + pos(), tr("Tile window to left of screen"), this);
         } else if (event->type() == QEvent::Leave) {
-            llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
+            llabel->setPixmap(getLabelPixmap(LEFT_NORMAL, llabel->size()));
             QToolTip::hideText();
         }
         return false;
     } else if (obj == clabel) {
         if (event->type() == QEvent::MouseButtonRelease) {
-            clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str));
             if (m_client) {
                 m_client->setQuickTileFromMenu(QuickTileFlag::Right);
             }
-            clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
+            clabel->setPixmap(getLabelPixmap(RIGHT_NORMAL, clabel->size()));
             Hide(false, true);
         } else if (event->type() == QEvent::Enter) {
-            clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str));
-            QPoint pos = m_pos;
-            pos.setX(m_pos.x() - 20);
-            pos.setY(m_pos.y() + sign * 50 * m_scale);
-            QToolTip::showText(pos, tr("Tile window to right of screen"), this);
+            clabel->setPixmap(getLabelPixmap(RIGHT_HOVER, clabel->size()));
+            QPoint p(m_rect.left() + 4 * layout->spacing() + llabel->width(), m_rect.top() + clabel->height());
+            QToolTip::showText(p + pos(), tr("Tile window to right of screen"), this);
         } else if (event->type() == QEvent::Leave) {
-            clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
+            clabel->setPixmap(getLabelPixmap(RIGHT_NORMAL, clabel->size()));
             QToolTip::hideText();
         }
         return false;
     } else if (obj == rlabel) {
-        QString icon = "max";
-        if (m_client && m_client->maximizeMode() == MaximizeMode::MaximizeFull) {
-            icon = "restore";
-        }
+        bool maximized = m_client && m_client->maximizeMode() == MaximizeMode::MaximizeFull;
         if (event->type() == QEvent::MouseButtonRelease) {
-            rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
             if (m_client) {
                 m_client->setQuickTileFromMenu(QuickTileFlag::Maximize, false);
             }
-            rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
+            if (maximized) {
+                rlabel->setPixmap(getLabelPixmap(RESTORE_NORMAL, rlabel->size()));
+            } else {
+                rlabel->setPixmap(getLabelPixmap(MAX_NORMAL, rlabel->size()));
+            }
             Hide(false, true);
         } else if (event->type() == QEvent::Enter) {
-            rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_hover.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
-            QPoint pos = m_pos;
-            pos.setX(m_pos.x() + 30);
-            pos.setY(m_pos.y() + sign * 50 * m_scale);
-            if (m_client && m_client->maximizeMode() == MaximizeMode::MaximizeFull) {
-                QToolTip::showText(pos, tr("Unmaximize"), this);
+            QPoint p(m_rect.left() + 6 * layout->spacing() + 2 * llabel->width(), m_rect.top() + clabel->height());
+            if (maximized) {
+                rlabel->setPixmap(getLabelPixmap(RESTORE_HOVER, rlabel->size()));
+                QToolTip::showText(p + pos(), tr("Unmaximize"), this);
             } else {
-                QToolTip::showText(pos, tr("Maximize"), this);
+                rlabel->setPixmap(getLabelPixmap(MAX_HOVER, rlabel->size()));
+                QToolTip::showText(p + pos(), tr("Maximize"), this);
             }
         } else if (event->type() == QEvent::Leave) {
-            rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
+            if (maximized) {
+                rlabel->setPixmap(getLabelPixmap(RESTORE_NORMAL, rlabel->size()));
+            } else {
+                rlabel->setPixmap(getLabelPixmap(MAX_NORMAL, rlabel->size()));
+            }
             QToolTip::hideText();
         }
         return false;
@@ -177,38 +211,33 @@ void SplitMenu::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing, true);
     painter.setPen(Qt::NoPen);
-    QColor col_menu = m_color;
-    painter.setBrush(QBrush(col_menu));
+    painter.setBrush(QBrush(m_color));
 
-    int spot = (width() / 2) + 12;
-    double w = M_PI / 25;
-    int fx = spot - 20;
-
-    int sign, rounded_rect_y, wave_base, wave_offset;
-    if (upside) {
+    // direction of hump depends on m_upside
+    double base, sign;
+    if (m_upside) {
+        base = m_hump.top();
         sign = -1;
-        rounded_rect_y = 10;
-        wave_base = height() - 20;
-        wave_offset = height() - 11;
     } else {
+        base = m_hump.bottom();
         sign = 1;
-        rounded_rect_y = 20;
-        wave_base = 20;
-        wave_offset = 11;
     }
 
-    QPainterPath wave;
-    QPainterPath painterPath;
-    painterPath.addRoundedRect(QRect(5, rounded_rect_y, width() - 10, height() - 30), 14, 14);
-    painter.drawPath(painterPath);
-    wave.moveTo(fx, wave_base);
-    for (int x = 0; x <= 50; x += 1) {
-        double waveY = static_cast<double>(sign * (9 * sin(w * x + fx)) + wave_offset);
-        wave.lineTo(x + fx, waveY);
+    // draw hump
+    QPainterPath hump_path;
+    hump_path.moveTo(m_hump.left(), base);
+    const double step = m_hump.width() / 50.0, f = 2 * M_PI / m_hump.width(), half = m_hump.height() / 2.0;
+    for (double x = step; x < (double)m_hump.width(); x += step) {
+        double y = half * sin(f * x - M_PI / 2) + half;
+        hump_path.lineTo(m_hump.left() + x, base - sign * y);
     }
-    wave.lineTo(spot + 30, wave_base);
-    painter.setBrush(QBrush(col_menu));
-    painter.drawPath(wave);
+    hump_path.lineTo(m_hump.right(), base);
+    painter.drawPath(hump_path);
+
+    // draw rectangle
+    QPainterPath rect_path;
+    rect_path.addRoundedRect(m_rect, 14 * m_scale, 14 * m_scale);
+    painter.drawPath(rect_path);
 }
 
 void SplitMenu::Show(const QRect &button_rect, uint32_t client_id)
@@ -216,49 +245,20 @@ void SplitMenu::Show(const QRect &button_rect, uint32_t client_id)
     if (m_isShow)
         return;
     findClient(client_id);
-    if (!m_client /* || !m_client->checkClientAllowToTile() */) {
-        m_client = nullptr;
+    if (!m_client)
         return;
-    }
     stopTime();
-    if (!show_timer)
-        show_timer = new QTimer();
-    show_timer->setSingleShot(true);
     checkTheme();
-    checkArea(button_rect, QSize(m_scale > 1.0 ? 156 * m_scale : 158, m_scale > 1.0 ? 81 * m_scale : 85));
-    connect(show_timer, &QTimer::timeout,
-        [this] {
-            m_isShow = true;
-            show();
-        }
-    );
-    show_timer->start(LONG_PRESS_TIME);
+    checkArea(button_rect);
+    show_timer.start(LONG_PRESS_TIME);
 }
 
 void SplitMenu::Hide(bool delay, bool internal)
 {
-    if ((entered && !internal) || m_keepShowing)
+    if ((m_entered && !internal) || m_keepShowing)
         return;
     stopTime();
-    if (!delay || !m_isShow) {
-        m_isShow = false;
-        entered = false;
-        m_client = nullptr;
-        hide();
-        return;
-    }
-    if (!hide_timer)
-        hide_timer = new QTimer();
-    hide_timer->setSingleShot(true);
-    connect(hide_timer, &QTimer::timeout,
-        [this] {
-            m_isShow = false;
-            entered = false;
-            m_client = nullptr;
-            hide();
-        }
-    );
-    hide_timer->start(HIDE_DELAY_TIME);
+    hide_timer.start((!delay || !m_isShow) ? 0 : HIDE_DELAY_TIME);
 }
 
 void SplitMenu::findClient(uint32_t client_id)
@@ -273,63 +273,82 @@ void SplitMenu::findClient(uint32_t client_id)
 
 void SplitMenu::checkTheme()
 {
-    // m_isDark = workspace()->isDarkTheme();
-    m_isDark = false;
-    QString str;
+    m_isDark = workspace()->isDarkTheme();
     if (m_isDark) {
-        str = "dark";
         m_color = QColor(0, 0, 0);
     } else {
-        str = "light";
         m_color = QColor(255, 255, 255);
     }
-    llabel->setMaximumSize(37 * m_scale, 37 * m_scale);
-    llabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/left_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
-    clabel->setMaximumSize(37 * m_scale, 37 * m_scale);
-    clabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/right_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str));
-    if (m_client) {
-        QString icon = "max";
-        if (m_client->maximizeMode() == MaximizeMode::MaximizeFull) {
-            icon = "restore";
-        }
-        rlabel->setMaximumSize(37 * m_scale, 37 * m_scale);
-        rlabel->setStyleSheet(QString("QLabel{border-image:url(:/splitmenu/themes/%1/icons/%2_split_normal.svg) 0 0 0 0 stretch stretch}").arg(str).arg(icon));
+
+    llabel->setPixmap(getLabelPixmap(LEFT_NORMAL, llabel->size()));
+    clabel->setPixmap(getLabelPixmap(RIGHT_NORMAL, clabel->size()));
+    if (m_client && m_client->maximizeMode() == MaximizeMode::MaximizeFull) {
+        rlabel->setPixmap(getLabelPixmap(RESTORE_NORMAL, rlabel->size()));
+    } else {
+        rlabel->setPixmap(getLabelPixmap(MAX_NORMAL, rlabel->size()));
     }
 }
 
-void SplitMenu::checkArea(const QRect &button_rect, const QSize &size)
+void SplitMenu::checkArea(const QRect &button_rect)
 {
-    m_pos = button_rect.bottomLeft();
-    QRect area = workspace()->clientArea(MaximizeArea, m_client).toRect();
-    QPoint pos(m_pos.x() - (m_scale > 1.0 ? 69 * m_scale : 67), m_pos.y());
+    QRect area = workspace()->clientArea(MaximizeArea, m_client, button_rect.center()).toRect();
 
-    upside = false;
-    QMargins margin(7, 14, 7, 2);
+    // align hump with button
+    const int hump_left = shadow->blurRadius() + 4 * layout->spacing() + 2 * llabel->width();
+    QPoint pos(button_rect.center().x() - hump_left, button_rect.bottom());
+
+    m_upside = false;
+    QMargins margins(shadow->blurRadius(), m_hump.height(), shadow->blurRadius(), shadow->blurRadius());
+    m_hump.moveTop(0);
+    m_rect.moveTop(m_hump.bottom());
     if (pos.x() < area.left()) {
         pos.setX(area.left());
-    } else if (pos.x() + size.width() > area.right()) {
-        pos.setX(area.right() - size.width());
+    } else if (pos.x() + width() > area.right()) {
+        pos.setX(area.right() - width());
     }
     if (pos.y() < area.top()) {
         pos.setY(area.top());
-    } else if (pos.y() + size.height() > area.bottom()) {
-        upside = true;
-        margin = QMargins(7, 2, 7, 14);
-        m_pos = button_rect.topLeft();
-        pos.setY(m_pos.y() - size.height());
+    } else if (pos.y() + height() > area.bottom()) {
+        // inverse menu
+        m_upside = true;
+        margins = QMargins(shadow->blurRadius(), shadow->blurRadius(), shadow->blurRadius(), m_hump.height());
+        m_rect.moveTop(shadow->blurRadius());
+        m_hump.moveTop(m_rect.bottom());
+        pos.setY(button_rect.top() - height());
     }
 
-    layout->setContentsMargins(margin);
+    layout->setContentsMargins(margins);
     setLayout(layout);
-    setGeometry(QRect(pos, size));
+    move(pos);
+}
+
+QPixmap SplitMenu::getLabelPixmap(const QString &file, const QSize &size)
+{
+    QString theme = "light";
+    if (m_isDark) {
+        theme = "dark";
+    }
+
+    static QMap<QString, QPixmap> cache;
+    const QString key = theme + file + QString("%1%2").arg(size.width()).arg(size.height());
+    if (cache.contains(key))
+        return cache[key];
+
+    QSvgRenderer svg(QString(":/splitmenu/themes/%1/icons/%2").arg(theme).arg(file));
+    QPixmap pixmap(size);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.setRenderHints(QPainter::Antialiasing);
+    svg.render(&painter);
+
+    cache.insert(key, pixmap);
+    return pixmap;
 }
 
 void SplitMenu::stopTime()
 {
-    if (show_timer)
-        show_timer->stop();
-    if (hide_timer)
-        hide_timer->stop();
+    show_timer.stop();
+    hide_timer.stop();
 }
 
 }
