@@ -71,7 +71,9 @@ var maximizeEffect = {
     geometryChange: function (window, oldGeometry) {
         if (window.maximizeAnimation1) {
             if (window.geometry.width != window.oldGeometry.width ||
-                window.geometry.height != window.oldGeometry.height) {
+                window.geometry.height != window.oldGeometry.height ||
+                window.geometry.width != oldGeometry.width ||
+                window.geometry.height != oldGeometry.height) {
                 cancel(window.maximizeAnimation1);
                 delete window.maximizeAnimation1;
                 if (window.maximizeAnimation2) {
