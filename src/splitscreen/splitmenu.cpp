@@ -294,8 +294,7 @@ void SplitMenu::checkArea(const QRect &button_rect)
     QRect area = workspace()->clientArea(MaximizeArea, m_client, button_rect.center()).toRect();
 
     // align hump with button
-    const int hump_left = shadow->blurRadius() + 4 * layout->spacing() + 2 * llabel->width();
-    QPoint pos(button_rect.center().x() - hump_left, button_rect.bottom());
+    QPoint pos(button_rect.center().x() - m_hump.center().x(), button_rect.bottom() + 1);
 
     m_upside = false;
     QMargins margins(shadow->blurRadius(), m_hump.height(), shadow->blurRadius(), shadow->blurRadius());
@@ -314,7 +313,7 @@ void SplitMenu::checkArea(const QRect &button_rect)
         margins = QMargins(shadow->blurRadius(), shadow->blurRadius(), shadow->blurRadius(), m_hump.height());
         m_rect.moveTop(shadow->blurRadius());
         m_hump.moveTop(m_rect.bottom());
-        pos.setY(button_rect.top() - height());
+        pos.setY(button_rect.top() - height() + 1);
     }
 
     layout->setContentsMargins(margins);
