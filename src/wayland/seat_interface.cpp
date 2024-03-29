@@ -36,6 +36,7 @@
 #include <linux/input.h>
 
 #include <functional>
+#include <QTimer>
 
 namespace KWaylandServer
 {
@@ -933,15 +934,22 @@ void SeatInterface::notifyPointerAxisToClient(Qt::Orientation orientation, qint3
 
     const quint32 serial = d->display->nextSerial();
     const QPointF pos = matrix.map(pointerPos());
-    SurfaceInterface * sur = d->pointer->focusedSurface();
+    QPointer<SurfaceInterface> sur = d->pointer->focusedSurface();
     if (sur != surface) {
         d->pointer->sendEnter(surface, pos, serial);
     }
     d->pointer->sendAxis(orientation, delta, 0, PointerAxisSource::Wheel);
     d->pointer->sendFrame();
-    usleep(10000);
-    if (sur != nullptr)
-        d->pointer->sendEnter(sur, pos, serial);
+    static QTimer timer;
+    timer.setSingleShot(true);
+    timer.start(300);
+    static QMetaObject::Connection c;
+    disconnect(c);
+    c = connect(&timer, &QTimer::timeout, this, [this, sur, pos, serial] {
+        if (sur != nullptr && d->pointer != nullptr) {
+            d->pointer->sendEnter(sur, pos, serial);
+        }
+    });
 }
 
 void SeatInterface::notifyPointerButton(Qt::MouseButton button, PointerButtonState state)
