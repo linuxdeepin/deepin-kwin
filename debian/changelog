@@ -1,14 +1,21 @@
+kwin (4:5.27.2.81-deepin89-1) unstable; urgency=medium
+
+  [ dingzhixuan ]
+  * fix: tencent meeting cannot passthrough
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Mon, 01 Apr 2024 10:55:10 +0800
+
 kwin (4:5.27.2.88-deepin88-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  fix: the X window crashes during dragging and dragging again causes kwin coredump
-  *  fix: drag the icon in the taskbar plug-in area to the X11 window without disappearing
-  *  fix: rewrite splitmenu
-  *  fix: refix add workarea in dde-shell
-  *  fix: tencent meeting cannot passthrough 
-  *  fix: cannot long screenshot on xwayland window
-  *  fix: cursor black margin on uos-update window
-  *  fix: dde-control-center is not full display when maximize immediately after start
+  * fix: the X window crashes during dragging and dragging again causes kwin coredump
+  * fix: drag the icon in the taskbar plug-in area to the X11 window without disappearing
+  * fix: rewrite splitmenu
+  * fix: refix add workarea in dde-shell
+  * fix: tencent meeting cannot passthrough 
+  * fix: cannot long screenshot on xwayland window
+  * fix: cursor black margin on uos-update window
+  * fix: dde-control-center is not full display when maximize immediately after start
 
  -- wangboyu <wangboyu@uniontech.com>  Fri, 29 Mar 2024 19:09:02 +0800
 
