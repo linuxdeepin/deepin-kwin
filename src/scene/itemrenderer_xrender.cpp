@@ -184,6 +184,25 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
     QRectF cr = QRectF(win->clientPos(), win->clientSize());
     QRectF dr = surfaceItem->mapToGlobal(cr).toAlignedRect();
 
+    // clipping image by shape bounding
+    QRegion transformed_shape;
+    if (win && !win->noBorder()) {
+        // decorated client
+        transformed_shape = QRegion(0, 0, win->width(), win->height());
+        if (win->shape()) {
+            // "xeyes" + decoration
+            transformed_shape -= cr.toRect();
+            for (QRectF& rect : surfaceItem->shape()) {
+                transformed_shape = transformed_shape.united(rect.toRect());
+            }
+        }
+    } else {
+        for (QRectF& rect : surfaceItem->shape()) {
+            transformed_shape = transformed_shape.united(rect.toRect());
+        }
+    }
+    xcb_xfixes_set_picture_clip_region(connection(), pic, XFixesRegion(transformed_shape), 0, 0);
+
     xcb_render_transform_t xform = {
         DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0),
         DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0),
@@ -198,9 +217,7 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
     xcb_render_picture_t renderTarget = xrenderBufferPicture();
 
     xcb_render_set_picture_transform(connection(), pic, xform);
-    if (filter == ImageFilterGood) {
-        setPictureFilter(pic, ImageFilterGood);
-    }
+    setPictureFilter(pic, filter);
 
     //BEGIN OF STUPID RADEON HACK
     // This is needed to avoid hitting a fallback in the radeon driver.
@@ -223,11 +240,7 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
     if (!(win && win->isShade())) {
         xcb_render_picture_t clientAlpha = XCB_RENDER_PICTURE_NONE;
         if (!opaque) {
-            if (win->hasAlpha() && win->isDialog() && win->caption().isEmpty()) {
-                clientAlpha = XRenderUtils::xRenderBlendPicture(0);
-            } else {
-                clientAlpha = XRenderUtils::xRenderBlendPicture(data.opacity());
-            }
+            clientAlpha = XRenderUtils::xRenderBlendPicture(data.opacity());
         }
         XFixesRegion xregion(region);
         xcb_xfixes_set_picture_clip_region(connection(), renderTarget, xregion, 0, 0);
