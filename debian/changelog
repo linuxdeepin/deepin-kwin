@@ -1,3 +1,17 @@
+kwin (4:5.27.2.90-deepin90-1) unstable; urgency=medium
+
+  [ huangzeming ]
+  * fix: desktop and dde-lock didn't spread over the screen
+  * fix: optimized showing desktop in no compositing
+  * fix: fix some crash point in pgx.
+  * fix: make background in multitaskview darker
+  * fix: wine app render problem
+  * fix: update icons in split menu
+  * feat: optimized timer in showing desktop
+  * fix: optimized font family in menu
+
+ -- huangzeming <huangzeming@uniontech.com>  Tue, 02 Apr 2024 17:39:33 +0800
+
 kwin (4:5.27.2.89-deepin89-1) unstable; urgency=medium
 
   [ dingzhixuan ]
