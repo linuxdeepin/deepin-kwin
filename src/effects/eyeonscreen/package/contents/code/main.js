@@ -11,9 +11,9 @@
 "use strict";
 
 var eyeOnScreenEffect = {
-    duration: animationTime(280),
+    duration: animationTime(140),
     loadConfig: function () {
-        eyeOnScreenEffect.duration = animationTime(280);
+        eyeOnScreenEffect.duration = animationTime(140);
     },
     delevateWindow: function(window) {
         effect.showingDesktopEnd(window.elevatedByEyeOnScreen);
