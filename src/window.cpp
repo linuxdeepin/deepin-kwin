@@ -4292,6 +4292,10 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
         return;
     }
 
+    if (waylandServer() && isOnScreenDisplay()) {
+        return;
+    }
+
     QRectF newGeom = moveResizeGeometry();
 
     if (!oldGeometry.isValid()) {

@@ -1194,7 +1194,7 @@ void Workspace::addWaylandWindow(Window *window)
     updateStackingOrder(true);
     updateClientArea();
     sendWorkArea(window);
-    if (window->wantsInput() && !window->isMinimized()) {
+    if (window->wantsInput() && !window->isMinimized() && !window->isDesktop()) {
         activateWindow(window);
     }
     updateTabbox();
