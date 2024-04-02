@@ -433,7 +433,7 @@ MultiViewWorkspace::~MultiViewWorkspace()
 void MultiViewWorkspace::renderDesktopBackGround(float k)
 {
     m_backGroundFrame->setPosition(QPoint(m_fullArea.x() + k * m_fullArea.width(), m_fullArea.y()), true);
-    m_backGroundFrame->renderPixmap(infiniteRegion(), 1);
+    m_backGroundFrame->renderPixmap(infiniteRegion(), 0.6);
 }
 
 void MultiViewWorkspace::renderWorkspaceBackGround(float t, int desktop)
