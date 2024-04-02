@@ -327,6 +327,8 @@ void Workspace::init()
 
     m_fontSizeConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
                                       DBUS_APPEARANCE_INTF, "FontSize");
+    m_fontFamilyConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "StandardFont");
+
     m_dockInter = new DBusDock();
     if (m_dockInter) {
         slotDockPositionChanged();
@@ -625,6 +627,11 @@ Workspace::~Workspace()
     if (m_fontSizeConfigReader) {
         delete m_fontSizeConfigReader;
         m_fontSizeConfigReader = nullptr;
+    }
+
+    if (m_fontFamilyConfigReader) {
+        delete m_fontFamilyConfigReader;
+        m_fontFamilyConfigReader = nullptr;
     }
 
     _self = nullptr;
@@ -3757,8 +3764,14 @@ float Workspace::getOsScreenScale() const
     return m_windowStyleManager.get()->getOsScale();
 }
 
-double Workspace::getFontSizeScale() const {
+double Workspace::getFontSizeScale() const
+{
     return m_fontSizeConfigReader->getProperty().isValid() ? m_fontSizeConfigReader->getProperty().toDouble() / 10.5 : 1.0;
+}
+
+QString Workspace::getFontFamily() const
+{
+    return m_fontFamilyConfigReader->getProperty().isValid() ? m_fontFamilyConfigReader->getProperty().toString() : "Sans Serif";
 }
 
 bool Workspace::getDraggingWithContentStatus()

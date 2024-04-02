@@ -134,18 +134,8 @@ void MenuSlot::onMenuItemInvoked(const QString &id, bool checked, Window *cl)
         cl->setOnAllDesktops(checked);
     } else if (id == "move-left") {
         cl->setDesktop(cl->desktop()-1);
-        // auto tileMode = cl->quickTileMode();
-        // if (Workspace::self()->compositing() && ((tileMode & int(QuickTileFlag::Left)) || (tileMode & int(QuickTileFlag::Right)))) {
-        //     cl->cancelSplitOutline();
-        //     cl->setGeometry(cl->geometryRestore());
-        // }
     } else if (id == "move-right") {
         cl->setDesktop(cl->desktop()+1);
-        // auto tileMode = cl->quickTileMode();
-        // if (Workspace::self()->compositing() && ((tileMode & int(QuickTileFlag::Left)) || (tileMode & int(QuickTileFlag::Right)))) {
-        //     cl->cancelSplitOutline();
-        //     cl->setGeometry(cl->geometryRestore());
-        // }
     } else if (id == "close") {
         cl->closeWindow();
     }
@@ -214,6 +204,7 @@ bool UserActionsMenu::handleClick(const QPoint &pos)
 void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
 {
     double fontScale = workspace()->getFontSizeScale();
+    QString fontFamily = workspace()->getFontFamily();
     QString backgroundColor = workspace()->self()->getBlurStatus() ? "#cceeeeee" : "rgba(253,253,254,100%)";
     QString fontColor = "black";
     QString disableFontColor = "rgba(0,0,0,40%)";
@@ -238,7 +229,7 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
             border-radius:0px;\
             }\
             QMenu::item {\
-            font:Sans Serif;\
+            font-family:%7;\
             font-size: %5;\
             padding: 6px %6 6px 30px;\
             color: %3;\
@@ -257,7 +248,7 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
             }\
             QMenu::item:selected {\
             background-color: %4;\
-            color: white;}").arg(backgroundColor).arg(fontColor).arg(disableFontColor).arg(workspace()->self()->ActiveColor()).arg(fontSize).arg(rightPadding));
+            color: white;}").arg(backgroundColor).arg(fontColor).arg(disableFontColor).arg(workspace()->self()->ActiveColor()).arg(fontSize).arg(rightPadding).arg(fontFamily));
     m_menu->setContentsMargins(0,8,0,8);
     for (const MenuItem &item : getMenuItemInfos(cl.data())) {
         QAction *action = m_menu->addAction(item.text);

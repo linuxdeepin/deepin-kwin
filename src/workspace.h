@@ -585,6 +585,7 @@ public:
     float getOsScreenScale() const;
 
     double getFontSizeScale() const;
+    QString getFontFamily() const;
 
     bool isDraggingWithContent() const;
 
@@ -954,6 +955,7 @@ private:
     bool m_splitBarState;
 
     ConfigReader *m_fontSizeConfigReader = nullptr;
+    ConfigReader *m_fontFamilyConfigReader = nullptr;
     Window* m_requestMovingClient = nullptr;
     bool m_bIsTouchToMovingClient = false;
 
