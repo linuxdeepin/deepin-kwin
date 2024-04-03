@@ -256,7 +256,7 @@ var fadingPopupsEffect = {
         if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
             return;
         }
-        if (window.startEffectType == 0) {
+        if (window.startEffectType == 0 || window.startEffectType == 1) {
             return;
         }
         fadingPopupsEffect.setupForcedRoles(window);

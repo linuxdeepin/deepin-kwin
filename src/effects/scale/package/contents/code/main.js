@@ -66,9 +66,9 @@ var scaleEffect = {
 
         // Override-redirect windows are usually used for user interface
         // concepts that are not expected to be animated by this effect.
-        if (!window.managed) {
+        /*if (!window.managed) {
             return false;
-        }
+        }*/
 
         if (whitelist.indexOf(window.windowClass) != -1) {
             return true;
