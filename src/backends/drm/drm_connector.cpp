@@ -135,6 +135,17 @@ DrmConnector::DrmConnector(DrmGpu *gpu, uint32_t connectorId)
             }
             m_possibleCrtcs |= enc->possible_crtcs;
         }
+        for (int i = 0; i < m_conn->count_props; ++i) {
+            ScopedDrmPointer<_drmModeProperty, &drmModeFreeProperty> property(drmModeGetProperty(gpu->fd(), m_conn->props[i]));
+            if (!property) {
+                continue;
+            }
+            if (qstrcmp(property->name, "scaling mode") == 0) {
+                qCDebug(KWIN_DRM) << "connector support scaling mode";
+                m_scalingCapable = true;
+                break;
+            }
+        }
     } else {
         qCWarning(KWIN_DRM) << "drmModeGetConnector failed!" << strerror(errno);
     }
@@ -331,7 +342,11 @@ bool DrmConnector::updateProperties()
         }
         m_modes.clear();
         m_modes.append(m_driverModes);
-        m_modes.append(generateCommonModes());
+        // if hardware support upscaling and internal panel only presents one physical mode,
+        // we extend the list with some default modes
+        if (isInternal() && m_modes.size() == 1 && m_scalingCapable) {
+            m_modes.append(generateCommonModes());
+        }
         if (m_pipeline->mode()) {
             if (const auto mode = findMode(*m_pipeline->mode()->nativeMode())) {
                 m_pipeline->setMode(mode);

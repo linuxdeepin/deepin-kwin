@@ -26,6 +26,17 @@ class DrmPipeline;
 class DrmConnector;
 class DrmCrtc;
 
+template <typename Pointer, void (*cleanupFunc)(Pointer*)>
+struct DrmCleanup
+{
+    static inline void cleanup(Pointer *ptr)
+    {
+        cleanupFunc(ptr);
+    }
+};
+template <typename T, void (*cleanupFunc)(T*)> using ScopedDrmPointer = QScopedPointer<T, DrmCleanup<T, cleanupFunc>>;
+
+
 /**
  * The DrmConnectorMode class represents a native mode and the associated blob.
  */
@@ -138,6 +149,7 @@ private:
     QList<std::shared_ptr<DrmConnectorMode>> m_driverModes;
     QList<std::shared_ptr<DrmConnectorMode>> m_modes;
     uint32_t m_possibleCrtcs = 0;
+    bool m_scalingCapable = false;
 
     friend QDebug &operator<<(QDebug &s, const KWin::DrmConnector *obj);
 };
