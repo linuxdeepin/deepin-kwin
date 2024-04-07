@@ -335,8 +335,8 @@ bool DrmConnector::updateProperties()
         }
         m_modes.clear();
         m_modes.append(m_driverModes);
-        static bool cvtEnvSet = true;
-        static const bool cvtEnv = qEnvironmentVariableIntValue("KWIN_DRM_ENABLE_CVT_MODE", 0);
+        static bool cvtEnvSet = false;
+        static const bool cvtEnv = qEnvironmentVariableIntValue("KWIN_DRM_ENABLE_CVT_MODE", &cvtEnvSet) != 0;
         bool enableCVT = !cvtEnvSet || (cvtEnvSet && cvtEnv);
         if (enableCVT) {
             m_modes.append(generateCommonModes());
