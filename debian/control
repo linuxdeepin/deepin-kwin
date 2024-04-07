@@ -126,13 +126,13 @@ Package: deepin-kwin-data
 Architecture: all
 Multi-Arch: foreign
 Depends: ${misc:Depends}, ${python3:Depends}
-Recommends: plasma-framework,
-            qml-module-qtmultimedia,
+Recommends: qml-module-qtmultimedia,
             qml-module-qtquick-controls,
             qml-module-qtquick-layouts,
             qml-module-qtquick-virtualkeyboard,
             qml-module-qtquick-window2,
             qml-module-qtquick2,
+Depends: plasma-framework
 Description: KDE window manager data files
  KWin (pronounced as one syllable "deepin-kwin") is the window
  manager for the KDE Plasma Desktop. It gives you complete
