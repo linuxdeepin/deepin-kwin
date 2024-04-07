@@ -3708,9 +3708,19 @@ QImage Workspace::getProhibitShotImage(QSize size)
     // painter.setFont(font);
 
     QImage prohibitImage(":/resources/themes/prohibited.svg");
+    QImage scaledImage = prohibitImage;
 
-    int nWidth = (size.width() - prohibitImage.width()) / 2;
-    int nHeight = (size.height()  - prohibitImage.height()) / 2;
+    QFontMetrics fm(font);
+    int textHeight = fm.height();
+
+    if (size.width() < prohibitImage.width()) {
+        scaledImage = prohibitImage.scaled(size.width(), size.width());
+    } else if (size.height() < (prohibitImage.height() + textHeight)) {
+        scaledImage = prohibitImage.scaled((size.height() - textHeight) * 0.75, (size.height() - textHeight) * 0.75);
+    }
+
+    int nWidth = (size.width() - scaledImage.width()) / 2;
+    int nHeight = (size.height()  - (scaledImage.height() + textHeight)) / 2;
 
     if (nWidth < 0) {
         nWidth = 0;
@@ -3719,12 +3729,11 @@ QImage Workspace::getProhibitShotImage(QSize size)
     }
 
     QPoint position(nWidth, nHeight);
-
-    painter.drawImage(position, prohibitImage);
+    painter.drawImage(position, scaledImage);
 
     // 将文字写在Image的中心
     QRect rect = m_prohibitShotImage.rect();
-    rect.setTop(prohibitImage.height());
+    rect.setTop(scaledImage.height());
     painter.drawText(rect, Qt::AlignCenter, imageText);
 
     return m_prohibitShotImage;
