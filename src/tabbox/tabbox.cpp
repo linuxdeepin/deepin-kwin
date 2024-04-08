@@ -704,13 +704,6 @@ void TabBox::setCurrentIndex(QModelIndex index, bool notifyEffects)
     if (!index.isValid())
         return;
 
-    //After clicking 'show desktop', switch Windows to show only the selected window.
-    if (Workspace::self()->showingDesktop()) {
-        for (auto *client : currentClientList()) {
-            client->setMinimized(true);
-        }
-    }
-
     m_tabBox->setCurrentIndex(index);
     if (notifyEffects) {
         Q_EMIT tabBoxUpdated();
