@@ -96,8 +96,11 @@ void WindowStyleManager::onCompositingChanged(bool acitve)
     if (acitve) {
         QList<Window*> windows = workspace()->allClientList();
         for (Window *w : windows) {
-            w->updateWindowRadius();
+            w->updateWindowRadius(true);
         }
+        QTimer::singleShot(50, [&] {
+            Compositor::self()->scene()->addRepaintFull();
+        });
     }
 }
 

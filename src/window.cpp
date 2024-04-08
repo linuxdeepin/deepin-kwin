@@ -4913,19 +4913,19 @@ WindowRadius *Window::windowRadiusObj() const
     return m_windowRadiusObj.get();
 }
 
-void Window::updateWindowRadius()
+void Window::updateWindowRadius(bool isForceUpdate)
 {
     if (m_windowRadiusObj) {
         int ret = m_windowRadiusObj->updateWindowRadius();
         if (ret == 0) {
             m_windowRadiusObj.reset();
         } else if (ret == 1) {
-            updateWindowShadow();
+            updateWindowShadow(isForceUpdate);
         }
     } else {
         m_windowRadiusObj = std::make_unique<WindowRadius>(this);
         if (m_windowRadiusObj) {
-            updateWindowRadius();
+            updateWindowRadius(isForceUpdate);
         }
     }
 }
@@ -4935,18 +4935,22 @@ WindowShadow *Window::windowShadowObj() const
     return m_windowShadowObj.get();
 }
 
-void Window::updateWindowShadow()
+void Window::updateWindowShadow(bool isForceUpdate)
 {
-    if (!Compositor::compositing()) {
+    if (!Compositor::compositing() || !Compositor::self()->isOpenGLCompositing()) {
+        if (m_windowShadowObj) {
+            m_windowShadowObj->resetShadowKey();
+            updateShadow();
+        }
         return;
     }
     if (m_windowShadowObj) {
-        if (m_windowShadowObj->updateWindowShadow())
+        if (m_windowShadowObj->updateWindowShadow() || isForceUpdate)
             updateShadow();
     } else {
         m_windowShadowObj = std::make_unique<WindowShadow>(this);
         if (m_windowShadowObj) {
-            updateWindowShadow();
+            updateWindowShadow(isForceUpdate);
         }
     }
 }

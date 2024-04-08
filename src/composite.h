@@ -103,6 +103,9 @@ public:
         return s_compositor != nullptr && s_compositor->isActive();
     }
 
+    bool isOpenGLCompositing();
+    bool isXrenderCompositing();
+
     // for delayed supportproperty management of effects
     void keepSupportProperty(xcb_atom_t atom);
     void removeSupportProperty(xcb_atom_t atom);

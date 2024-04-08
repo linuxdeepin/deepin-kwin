@@ -1504,9 +1504,9 @@ public:
     void broadcastDbusDestroySignal(int pid);
 
     WindowRadius *windowRadiusObj() const;
-    void updateWindowRadius();
+    void updateWindowRadius(bool isForceUpdate = false);
     WindowShadow *windowShadowObj() const;
-    void updateWindowShadow();
+    void updateWindowShadow(bool isForceUpdate = false);
     DecorationStyle  *windowStyleObj() const;
     void createWinStyle();
 

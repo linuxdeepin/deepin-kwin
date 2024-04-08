@@ -989,6 +989,16 @@ void Compositor::createOpenGLSafePoint(OpenGLSafePoint safePoint)
 {
 }
 
+bool Compositor::isOpenGLCompositing()
+{
+    return m_backend->compositingType() == OpenGLCompositing;
+}
+
+bool Compositor::isXrenderCompositing()
+{
+    return m_backend->compositingType() == XRenderCompositing;
+}
+
 WaylandCompositor::WaylandCompositor(QObject *parent)
     : Compositor(parent)
 {
