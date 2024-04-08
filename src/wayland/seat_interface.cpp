@@ -990,6 +990,18 @@ void SeatInterface::notifyPointerButton(quint32 button, PointerButtonState state
     }
 
     QPointF localPosition = focusedPointerSurfaceTransformation().map(d->globalPointer.pos);
+    SurfaceInterface *focusedSurface = focusedPointerSurface();
+    if (!focusedSurface) {
+        return;
+    }
+
+    SurfaceInterface *effectiveFocusedSurface = focusedSurface->inputSurfaceAt(localPosition);
+    if (!effectiveFocusedSurface) {
+        effectiveFocusedSurface = focusedSurface;
+    }
+    if (focusedSurface != effectiveFocusedSurface) {
+        localPosition = focusedSurface->mapToChild(effectiveFocusedSurface, localPosition);
+    }
     d->pointer->sendButton(button, state, serial, localPosition);
 }
 
