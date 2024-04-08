@@ -1,3 +1,15 @@
+kwin (4:5.27.2.91-deepin91-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * fix: support scaling modes.
+  * Revert "feat: add env to control hpRefresh and cvt mode"
+  * fix: optimized unmanaged win effects
+  * fix: pointer penetrates in multitaskview
+  * fix: update window radius\shadow when switch compositor
+  * fix: wl_pointer.wrap send error
+
+ -- zhangyu <zhangyud@uniontech.com>  Mon, 08 Apr 2024 20:31:33 +0800
+
 kwin (4:5.27.2.90-deepin90-1) unstable; urgency=medium
 
   [ huangzeming ]
