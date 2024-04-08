@@ -581,15 +581,6 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_opacityTimeLine.setEasingCurve(QEasingCurve::OutQuint);
     m_opacityTimeLine.setDuration(std::chrono::milliseconds(2*EFFECT_DURATION_DEFAULT));
 
-    KConfigGroup config_group(KSharedConfig::openConfig("kwinrc"), "Compositing");
-    if (effects->waylandDisplay()) {
-        setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true));
-    } else {
-        EffectType effectType = effectsEx->effectType();
-        setMotionEffect(effectType == EffectType::OpenGLComplete && config_group.readEntry("MultitaskViewMotionEffect", true)
-                && config_group.readEntry("window_animation", true));
-    }
-
     QString qm = QString(":/effects/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());
     QTranslator *tran = new QTranslator();
     if (tran->load(qm)) {
@@ -642,6 +633,15 @@ void MultitaskViewEffect::reconfigure(ReconfigureFlags flags)
     m_lastDesktopIndex = m_curDesktopIndex;
 
     m_scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
+
+    KConfigGroup config_group(KSharedConfig::openConfig("kwinrc"), "Compositing");
+    if (effects->waylandDisplay()) {
+        setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true));
+    } else {
+        EffectType effectType = effectsEx->effectType();
+        setMotionEffect(effectType == EffectType::OpenGLComplete && config_group.readEntry("MultitaskViewMotionEffect", true)
+                && config_group.readEntry("window_animation", true));
+    }
 }
 
 void MultitaskViewEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)

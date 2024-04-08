@@ -85,6 +85,8 @@ public:
     virtual float getOsScale() = 0;
     virtual EffectType effectType() const = 0;
 
+    static const QSet<QString> motionEffectList;
+
 Q_SIGNALS:
     void triggerSplitPreview(KWin::EffectWindow *w);
     void swapSplitWin(KWin::EffectWindow *w, int index);

@@ -3,6 +3,11 @@
 namespace KWin
 {
 
+const QSet<QString> EffectsHandlerEx::motionEffectList = {
+    "kwin4_effect_maximize", "kwin4_effect_scale", "kwin4_effect_squash", "kwin4_effect_fadingpopups",
+    "magiclamp", "slide"
+};
+
 EffectsHandlerEx::EffectsHandlerEx(CompositingType type)
     : EffectsHandler (type)
 {

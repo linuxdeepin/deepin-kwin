@@ -304,9 +304,9 @@ public Q_SLOTS:
 
     // slots for D-Bus interface
     Q_SCRIPTABLE void reconfigureEffect(const QString &name);
-    Q_SCRIPTABLE bool loadEffect(const QString &name);
+    Q_SCRIPTABLE bool loadEffect(const QString &name, bool syncToFile = true);
     Q_SCRIPTABLE void toggleEffect(const QString &name);
-    Q_SCRIPTABLE void unloadEffect(const QString &name);
+    Q_SCRIPTABLE void unloadEffect(const QString &name, bool syncToFile = true);
     Q_SCRIPTABLE bool isEffectLoaded(const QString &name) const;
     Q_SCRIPTABLE bool isEffectActived(const QString& name) const;
     Q_SCRIPTABLE bool isEffectSupported(const QString &name);

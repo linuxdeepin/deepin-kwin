@@ -1567,18 +1567,20 @@ void EffectsHandlerImpl::enableEffect(const QString &name, bool enable)
     kwinConfig.sync();
 }
 
-bool EffectsHandlerImpl::loadEffect(const QString &name)
+bool EffectsHandlerImpl::loadEffect(const QString &name, bool syncToFile)
 {
-    enableEffect(name, true);
+    if (syncToFile)
+        enableEffect(name, true);
     makeOpenGLContextCurrent();
     m_compositor->scene()->addRepaintFull();
 
     return m_effectLoader->loadEffect(name);
 }
 
-void EffectsHandlerImpl::unloadEffect(const QString &name)
+void EffectsHandlerImpl::unloadEffect(const QString &name, bool syncToFile)
 {
-    enableEffect(name, false);
+    if (syncToFile)
+        enableEffect(name, false);
     auto it = std::find_if(effect_order.begin(), effect_order.end(),
                            [name](EffectPair &pair) {
                                return pair.first == name;

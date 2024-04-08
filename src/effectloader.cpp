@@ -30,17 +30,6 @@
 namespace KWin
 {
 
-const QMap<EffectType, QSet<QString>> exceptEffectList = {
-    {EffectType::OpenGLNoMotion, {
-        "kwin4_effect_maximize", "kwin4_effect_scale", "kwin4_effect_squash", "kwin4_effect_fadingpopups",
-        "magiclamp", "slide"
-    }},
-    {EffectType::OpenGLNoScissor, {
-        "kwin4_effect_maximize", "kwin4_effect_scale", "kwin4_effect_squash", "kwin4_effect_fadingpopups",
-        "magiclamp", "slide", "scissor"
-    }}
-};
-
 AbstractEffectLoader::AbstractEffectLoader(QObject *parent)
     : QObject(parent)
 {
@@ -126,8 +115,7 @@ bool ScriptedEffectLoader::loadEffect(const KPluginMetaData &effect, LoadEffectF
 {
     const QString name = effect.pluginId();
     if (!effects->waylandDisplay()) {
-        EffectType effectType = effectsEx->effectType();
-        if (exceptEffectList.contains(effectType) && exceptEffectList[effectType].contains(name)) {
+        if (effectsEx->effectType() == EffectType::OpenGLNoMotion && EffectsHandlerEx::motionEffectList.contains(name)) {
             return false;
         }
         if (name == "kwin4_effect_squash" || name == "kwin4_effect_maximize"
@@ -308,8 +296,7 @@ bool PluginEffectLoader::loadEffect(const KPluginMetaData &info, LoadEffectFlags
     }
     const QString name = info.pluginId();
     if (!effects->waylandDisplay()) {
-        EffectType effectType = effectsEx->effectType();
-        if (exceptEffectList.contains(effectType) && exceptEffectList[effectType].contains(name)) {
+        if (effectsEx->effectType() == EffectType::OpenGLNoMotion && EffectsHandlerEx::motionEffectList.contains(name)) {
             return false;
         }
         if (name == "magiclamp" || name == "slide") {

@@ -125,13 +125,18 @@ static void reportCompositeIsAboutToChange(int value)
 
 static QString DConfigCompositingReplyPath()
 {
+    static QString path;
+    if (!path.isEmpty())
+        return path;
+
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
     QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.compositing", "");
     if (!reply.isValid()) {
         qCWarning(KWIN_CORE) << "Error in DConfig reply:" << reply.error();
         return "";
     }
-    return reply.value().path();
+    path = reply.value().path();
+    return path;
 }
 
 static EffectType getDConfigUserEffectType()
@@ -850,6 +855,29 @@ void Compositor::handleDConfigUserTypeChanged(const QString &type)
         if (effectType ==  EffectType::AutoSelect || effectType == m_effectType) {
             return;
         }
+
+        // from opengl to opengl
+        if ((m_effectType == EffectType::OpenGLComplete || m_effectType == EffectType::OpenGLNoMotion) &&
+                (effectType == EffectType::OpenGLComplete || effectType == EffectType::OpenGLNoMotion)) {
+            m_effectType = effectType;
+            EffectsHandlerImpl *e = static_cast<EffectsHandlerImpl *>(effects);
+            if (m_effectType == EffectType::OpenGLComplete) {
+                KConfigGroup config(kwinApp()->config(), "Plugins");
+                for (const QString &name : EffectsHandlerEx::motionEffectList) {
+                    if (!e->isEffectLoaded(name) && config.readEntry(name + "Enabled", true))
+                        e->loadEffect(name, false);
+                }
+            } else {
+                for (const QString &name : EffectsHandlerEx::motionEffectList) {
+                    if (e->isEffectLoaded(name))
+                        e->unloadEffect(name, false);
+                }
+            }
+            if (e->findEffect("multitaskview"))
+                e->reconfigureEffect("multitaskview");
+            return;
+        }
+
         reinitialize();
     }
 }
