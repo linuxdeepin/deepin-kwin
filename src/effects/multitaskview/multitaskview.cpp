@@ -978,7 +978,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
     }
 
     if (m_effectFlyingBack.animating()) {
-        if (w->isWaterMark()) {
+        if (w->isWaterMark() || w->windowClass() == notification_tips) {
             effects->paintWindow(w, mask, region, data);
             return;
         }
@@ -1757,6 +1757,12 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
     switch (mouseEvent->type()) {
     case QEvent::MouseMove:
     {
+        if (!QX11Info::isPlatformX11() && hoverOnNotification(mouseEvent->pos())) {
+            m_hoverWinBtn = nullptr;
+            m_hoverDesktop = -1;
+            return;
+        }
+
         if (!m_dockRect.contains(mouseEvent->pos())) {
             if (target) {   // window hover
                 m_hoverWin = target;
@@ -1834,6 +1840,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
             m_effectFlyingBack.begin();
             effects->addRepaintFull();
             // for pointer could click view button on notification after screen recorder
+            m_cursorPos = mouseEvent->pos();
             m_sendButton = mouseEvent->button();
         } else if (target) {
             bool isPressBtn = false;
