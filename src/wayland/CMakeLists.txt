@@ -121,6 +121,10 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME xdg-shell
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
+    PROTOCOL ${WaylandProtocols_DATADIR}/unstable/xdg-shell/xdg-shell-unstable-v6.xml
+    BASENAME xdg-shell-unstable-v6
+)
+ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     PROTOCOL ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
     BASENAME xdg-decoration-unstable-v1
 )
@@ -335,6 +339,7 @@ target_sources(kwin PRIVATE
     xdgforeign_v2_interface.cpp
     xdgoutput_v1_interface.cpp
     xdgshell_interface.cpp
+    xdgshell_v6_interface.cpp
     xwaylandkeyboardgrab_v1_interface.cpp
     xwaylandshell_v1_interface.cpp
 )

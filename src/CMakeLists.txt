@@ -199,6 +199,8 @@ target_sources(kwin PRIVATE
     xdgactivationv1.cpp
     xdgshellintegration.cpp
     xdgshellwindow.cpp
+    xdgshellv6integration.cpp
+    xdgshellv6window.cpp
     xkb.cpp
     xwaylandwindow.cpp
     splitscreen/splitmanage.cpp

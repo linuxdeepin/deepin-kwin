@@ -81,6 +81,8 @@
 #include "xdgactivationv1.h"
 #include "xdgshellintegration.h"
 #include "xdgshellwindow.h"
+#include "xdgshellv6integration.h"
+#include "xdgshellv6window.h"
 
 // Qt
 #include <QCryptographicHash>
@@ -296,6 +298,40 @@ void WaylandServer::registerXdgToplevelWindow(XdgToplevelWindow *window)
     workspace()->checkIfFirstWindowOfProcess(window);
 }
 
+void WaylandServer::registerXdgToplevelV6Window(XdgToplevelV6Window *window)
+{
+    // TODO: Find a better way and more generic to install extensions.
+
+    SurfaceInterface *surface = window->surface();
+
+    registerWindow(window);
+
+    if (auto shellSurface = PlasmaShellSurfaceInterface::get(surface)) {
+        window->installPlasmaShellSurface(shellSurface);
+    }
+    if (auto decoration = ServerSideDecorationInterface::get(surface)) {
+        window->installServerDecoration(decoration);
+    }
+    // if (auto decoration = XdgToplevelDecorationV1Interface::get(window->shellSurface())) {
+    //     window->installXdgDecoration(decoration);
+    // }
+    if (auto menu = m_appMenuManager->appMenuForSurface(surface)) {
+        window->installAppMenu(menu);
+    }
+    if (auto palette = m_paletteManager->paletteForSurface(surface)) {
+        window->installPalette(palette);
+    }
+    if (auto shellSurface = DDEShellSurfaceInterface::get(surface)) {
+        window->installDDEShellSurface(shellSurface);
+    }
+
+    connect(m_XdgForeign, &XdgForeignV2Interface::transientChanged, window, [this](SurfaceInterface *child) {
+        Q_EMIT foreignTransientChanged(child);
+    });
+
+    workspace()->checkIfFirstWindowOfProcess(window);
+}
+
 void WaylandServer::registerXdgGenericWindow(Window *window)
 {
     if (auto toplevel = qobject_cast<XdgToplevelWindow *>(window)) {
@@ -303,6 +339,25 @@ void WaylandServer::registerXdgGenericWindow(Window *window)
         return;
     }
     if (auto popup = qobject_cast<XdgPopupWindow *>(window)) {
+        registerWindow(popup);
+        if (auto shellSurface = PlasmaShellSurfaceInterface::get(popup->surface())) {
+            popup->installPlasmaShellSurface(shellSurface);
+        }
+        if (auto shellSurface = DDEShellSurfaceInterface::get(window->surface())) {
+            popup->installDDEShellSurface(shellSurface);
+        }
+        return;
+    }
+    qCDebug(KWIN_CORE) << "Received invalid xdg shell window:" << window->surface();
+}
+
+void WaylandServer::registerXdgGenericV6Window(Window *window)
+{
+    if (auto toplevel = qobject_cast<XdgToplevelV6Window *>(window)) {
+        registerXdgToplevelV6Window(toplevel);
+        return;
+    }
+    if (auto popup = qobject_cast<XdgPopupV6Window *>(window)) {
         registerWindow(popup);
         if (auto shellSurface = PlasmaShellSurfaceInterface::get(popup->surface())) {
             popup->installPlasmaShellSurface(shellSurface);
@@ -439,6 +494,10 @@ bool WaylandServer::init(InitializationFlags flags)
     connect(xdgShellIntegration, &XdgShellIntegration::windowCreated,
             this, &WaylandServer::registerXdgGenericWindow);
 
+    auto xdgShellV6Integration = new XdgShellV6Integration(this);
+    connect(xdgShellV6Integration, &XdgShellV6Integration::windowCreated,
+            this, &WaylandServer::registerXdgGenericV6Window);
+
     auto layerShellV1Integration = new LayerShellV1Integration(this);
     connect(layerShellV1Integration, &LayerShellV1Integration::windowCreated,
             this, &WaylandServer::registerWindow);
@@ -475,6 +534,9 @@ bool WaylandServer::init(InitializationFlags flags)
         if (XdgSurfaceWindow *window = findXdgSurfaceWindow(surface->surface())) {
             window->installPlasmaShellSurface(surface);
         }
+        if (XdgSurfaceV6Window *window = findXdgSurfaceV6Window(surface->surface())) {
+            window->installPlasmaShellSurface(surface);
+        }
     });
     m_appMenuManager = new AppMenuManagerInterface(m_display, m_display);
     connect(m_appMenuManager, &AppMenuManagerInterface::appMenuCreated, this, [this](AppMenuInterface *appMenu) {
@@ -485,6 +547,9 @@ bool WaylandServer::init(InitializationFlags flags)
     m_paletteManager = new ServerSideDecorationPaletteManagerInterface(m_display, m_display);
     connect(m_paletteManager, &ServerSideDecorationPaletteManagerInterface::paletteCreated, this, [this](ServerSideDecorationPaletteInterface *palette) {
         if (XdgToplevelWindow *window = findXdgToplevelWindow(palette->surface())) {
+            window->installPalette(palette);
+        }
+        if (XdgToplevelV6Window *window = findXdgToplevelV6Window(palette->surface())) {
             window->installPalette(palette);
         }
     });
@@ -524,6 +589,9 @@ bool WaylandServer::init(InitializationFlags flags)
     m_decorationManager = new ServerSideDecorationManagerInterface(m_display, m_display);
     connect(m_decorationManager, &ServerSideDecorationManagerInterface::decorationCreated, this, [this](ServerSideDecorationInterface *decoration) {
         if (XdgToplevelWindow *window = findXdgToplevelWindow(decoration->surface())) {
+            window->installServerDecoration(decoration);
+        }
+        if (XdgToplevelV6Window *window = findXdgToplevelV6Window(decoration->surface())) {
             window->installServerDecoration(decoration);
         }
     });
@@ -670,6 +738,9 @@ bool WaylandServer::init(InitializationFlags flags)
     connect(m_ddeShell, &DDEShellInterface::shellSurfaceCreated,
         [this] (DDEShellSurfaceInterface *shellSurface) {
             if (XdgSurfaceWindow *client = findXdgSurfaceWindow(shellSurface->surface())) {
+                client->installDDEShellSurface(shellSurface);
+            }
+            if (XdgSurfaceV6Window *client = findXdgSurfaceV6Window(shellSurface->surface())) {
                 client->installDDEShellSurface(shellSurface);
             }
         }
@@ -959,6 +1030,16 @@ XdgToplevelWindow *WaylandServer::findXdgToplevelWindow(SurfaceInterface *surfac
 XdgSurfaceWindow *WaylandServer::findXdgSurfaceWindow(SurfaceInterface *surface) const
 {
     return qobject_cast<XdgSurfaceWindow *>(findWindow(surface));
+}
+
+XdgToplevelV6Window *WaylandServer::findXdgToplevelV6Window(SurfaceInterface *surface) const
+{
+    return qobject_cast<XdgToplevelV6Window *>(findWindow(surface));
+}
+
+XdgSurfaceV6Window *WaylandServer::findXdgSurfaceV6Window(SurfaceInterface *surface) const
+{
+    return qobject_cast<XdgSurfaceV6Window *>(findWindow(surface));
 }
 
 quint32 WaylandServer::createWindowId(SurfaceInterface *surface)

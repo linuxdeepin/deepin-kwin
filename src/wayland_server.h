@@ -72,6 +72,9 @@ class XdgActivationV1Integration;
 class XdgPopupWindow;
 class XdgSurfaceWindow;
 class XdgToplevelWindow;
+class XdgPopupV6Window;
+class XdgSurfaceV6Window;
+class XdgToplevelV6Window;
 
 class KWIN_EXPORT WaylandServer : public QObject
 {
@@ -184,6 +187,8 @@ public:
     Window *findWindow(const KWaylandServer::SurfaceInterface *surface) const;
     XdgToplevelWindow *findXdgToplevelWindow(KWaylandServer::SurfaceInterface *surface) const;
     XdgSurfaceWindow *findXdgSurfaceWindow(KWaylandServer::SurfaceInterface *surface) const;
+    XdgToplevelV6Window *findXdgToplevelV6Window(KWaylandServer::SurfaceInterface *surface) const;
+    XdgSurfaceV6Window *findXdgSurfaceV6Window(KWaylandServer::SurfaceInterface *surface) const;
     Window *findClient(const QByteArray &resource) const;
 
     /**
@@ -293,6 +298,9 @@ private:
     void registerXdgGenericWindow(Window *window);
     void registerXdgToplevelWindow(XdgToplevelWindow *window);
     void registerXdgPopupWindow(XdgPopupWindow *window);
+    void registerXdgGenericV6Window(Window *window);
+    void registerXdgToplevelV6Window(XdgToplevelV6Window *window);
+    void registerXdgPopupV6Window(XdgPopupV6Window *window);
     void registerWindow(Window *window);
     void handleOutputAdded(Output *output);
     void handleOutputRemoved(Output *output);
