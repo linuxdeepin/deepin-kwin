@@ -1,3 +1,12 @@
+kwin (4:5.27.2.92-deepin92-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 235271 fix: add xdg-shell-unstable-v6
+    + 250375 fix: click event wasn't sent to notification tips in multitaskview
+    + 244213 fix: prohibit screen picture display incompleted.
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Tue, 09 Apr 2024 18:26:44 +0800
+
 kwin (4:5.27.2.91-deepin91-1) unstable; urgency=medium
 
   [ zhangyu ]
