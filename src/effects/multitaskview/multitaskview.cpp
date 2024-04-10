@@ -178,7 +178,7 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
     QString strBackgroundPath = QString("%1%2").arg(st.desktop).arg(st.screenName);
 
     QDBusInterface wm(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_PATH, DBUS_APPEARANCE_INTERFACE);
-    QDBusReply<QString> getReply = wm.call(QDBus::BlockWithGui, "GetWorkspaceBackgroundForMonitor", st.desktop, st.screenName);
+    QDBusReply<QString> getReply = wm.call(QDBus::AutoDetect, "GetWorkspaceBackgroundForMonitor", st.desktop, st.screenName);
     QString backgroundUri;
     if(!getReply.value().isEmpty()) {
         backgroundUri = getReply.value();
