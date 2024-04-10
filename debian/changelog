@@ -1,3 +1,10 @@
+kwin (4:5.27.2.93-deepin93-1) unstable; urgency=medium
+
+  * Bug fix:
+    + 250257 fix: find the client error where the event is located
+
+ -- huangzeming <huangzeming@uniontech.com>  Wed, 10 Apr 2024 10:45:56 +0800
+
 kwin (4:5.27.2.92-deepin92-1) unstable; urgency=medium
 
   * Bug fix:
