@@ -2542,7 +2542,15 @@ void Workspace::setSplitMenuKeepShowing(bool keep)
 void Workspace::handleReleaseMouseCommand()
 {
     if (m_clientIDHandlingMouseCommand) {
-        Window *w = input()->findToplevel(Cursors::self()->mouse()->pos());
+        Window *w = nullptr;
+        for (auto it = stacking_order.crbegin(), end = stacking_order.crend(); it != end; ++it) {
+            if ((*it)->isOnCurrentDesktop() && !(*it)->isMinimized()
+                    && (*it)->window() == m_clientIDHandlingMouseCommand
+                    && (*it)->frameGeometry().contains(Cursors::self()->mouse()->pos())) {
+                w = *it;
+                break;
+            }
+        }
         if (w) {
             qCDebug(KWIN_CORE) << "release on:" << w->resourceName();
             Window* tmp = findClient(Predicate::WindowMatch, m_clientIDHandlingMouseCommand);
