@@ -211,12 +211,13 @@ Workspace::Workspace()
     m_decorationBridge->init();
     connect(this, &Workspace::configChanged, m_decorationBridge.get(), &Decoration::DecorationBridge::reconfigure);
 
-    new DBusInterface(this);
     m_outline = std::make_unique<Outline>();
 
     initShortcuts();
 
     init();
+
+    new DBusInterface(this);
 
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "QuickTileWindow", this, SLOT(tileActiveWindow(uint)));
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "WindowMaximize", this, SLOT(toggleActiveMaximize()));
