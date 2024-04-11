@@ -628,6 +628,8 @@ private:
     workspaceDragDirection m_dragWorkspacedirection = dragNone;
     float                  m_radius = 0.0;
 
+    QTimer m_addingDesktopTimer;
+
     struct {
         quint32 id = 0;
         bool active = false;

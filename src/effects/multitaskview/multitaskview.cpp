@@ -609,6 +609,10 @@ MultitaskViewEffect::MultitaskViewEffect()
                                         "ShowWorkspaceChanged", this, SLOT(toggle()));
     QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
 
+    m_addingDesktopTimer.setInterval(200);
+    m_addingDesktopTimer.setSingleShot(true);
+    connect(&m_addingDesktopTimer, &QTimer::timeout, this, &MultitaskViewEffect::addNewDesktop);
+
     m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", false);
 
     m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
@@ -2043,12 +2047,14 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             break;
         case Qt::Key_Equal:
             if (e->modifiers() == Qt::AltModifier) {
-                addNewDesktop();
+                if(!m_addingDesktopTimer.isActive())
+                    m_addingDesktopTimer.start();
             }
             break;
         case Qt::Key_Plus:
             if (e->modifiers() == (Qt::AltModifier|Qt::KeypadModifier)) {
-                addNewDesktop();
+                if(!m_addingDesktopTimer.isActive())
+                    m_addingDesktopTimer.start();
             }
             break;
         case Qt::Key_Minus:
