@@ -66,7 +66,7 @@ private:
     int                          m_backgroundMode;
     float                        m_radius = 10.0;
     std::chrono::milliseconds    lastPresentTime;
-    std::unique_ptr<EffectFrameEx>  m_effectFrame;
+    std::unique_ptr<EffectFrameEx>  m_effectFrame = nullptr;
     QList<EffectWindow *>           m_unPreviewWin;
     int                          m_inhibitCount = 0;
 };

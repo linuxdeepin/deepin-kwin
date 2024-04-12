@@ -25,9 +25,6 @@ SplitPreviewEffect::SplitPreviewEffect()
 {
     connect(effectsEx, &EffectsHandlerEx::triggerSplitPreview, this, &SplitPreviewEffect::toggle);
     connect(effects, &EffectsHandler::windowFrameGeometryChanged, this, &SplitPreviewEffect::slotWindowGeometryChanged);
-    if (!m_effectFrame) {
-        m_effectFrame = effectsEx->effectFrameEx("kwin/effects/splitscreen/qml/main.qml", false);
-    }
 }
 
 SplitPreviewEffect::~SplitPreviewEffect()
@@ -177,6 +174,9 @@ void SplitPreviewEffect::setActive(bool active)
     QDBusConnection::sessionBus().send(message);
 
     if (active) {
+        if (!m_effectFrame) {
+            m_effectFrame = effectsEx->effectFrameEx("kwin/effects/splitscreen/qml/main.qml", false);
+        }
         effects->startMouseInterception(this, Qt::PointingHandCursor);
         m_hasKeyboardGrab = effects->grabKeyboard(this);
         effects->setActiveFullScreenEffect(this);
@@ -211,6 +211,8 @@ void SplitPreviewEffect::cleanup()
         m_motionManagers.removeFirst();
     }
     m_unPreviewWin.clear();
+
+    m_effectFrame = nullptr;
 }
 
 QRect SplitPreviewEffect::getPreviewWindowsGeometry(EffectWindow *w)

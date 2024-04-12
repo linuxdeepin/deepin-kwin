@@ -460,6 +460,7 @@ private:
     void restoreWorkspacePos(int index, int num);
 
     void initWorkspaceBackground();
+    void createEffectFrame();
     void cacheWorkspaceBackground();
     void updateWorkspacePos();
     void updateWorkspacePos(int removedesktop);
@@ -540,8 +541,6 @@ private:
     std::unique_ptr<EffectFrameEx> m_dragTipsFrame = nullptr;
     std::unique_ptr<EffectFrameEx> m_dragTipsFrameShadow = nullptr;
 
-    QString       m_topFrameIcon;
-
     bool m_activated = false;
     bool m_isShieldEvent = false;
     bool m_hasKeyboardGrab = false;
@@ -554,8 +553,6 @@ private:
     bool m_delayDbus = true;
     bool m_longPressTouch = false;
     bool m_closingWindow = false;
-
-    bool m_isOpenGLrender = true;
 
     bool m_motionEffectEnable = true;
 

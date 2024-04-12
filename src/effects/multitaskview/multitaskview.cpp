@@ -600,11 +600,6 @@ MultitaskViewEffect::MultitaskViewEffect()
 
     cacheWorkspaceBackground();
 
-    char *ver = (char *)glGetString(GL_VERSION);
-    char *rel = strstr(ver, "OpenGL ES");
-    if (rel != NULL) {
-        m_isOpenGLrender = false;
-    }
     QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
                                         "ShowWorkspaceChanged", this, SLOT(toggle()));
     QDBusConnection::sessionBus().connect("com.deepin.ScreenRecorder.time", "/com/deepin/ScreenRecorder/time", "com.deepin.ScreenRecorder.time", "start", this, SLOT(screenRecorderStart()));
@@ -612,47 +607,6 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_addingDesktopTimer.setInterval(200);
     m_addingDesktopTimer.setSingleShot(true);
     connect(&m_addingDesktopTimer, &QTimer::timeout, this, &MultitaskViewEffect::addNewDesktop);
-
-    m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", false);
-
-    m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
-    m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    m_closeWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
-    m_closeWinFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
-
-    m_topWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
-    m_topWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    m_topWinFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
-
-    m_textWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
-
-    m_textWinBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
-    m_textWinBgFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    m_textWinBgFrame->setRadius(10);
-    m_textWinBgFrame->setColor("#E0E0E0");
-
-    m_previewFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", true);
-    m_previewFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    m_previewFrame->setRadius(10);
-
-    m_closeWorkspaceFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
-    m_closeWorkspaceFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    m_closeWorkspaceFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
-    m_closeWorkspaceFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
-
-    m_dragTipsFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
-    m_dragTipsFrame->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
-    m_dragTipsFrame->setImage(QUrl::fromLocalFile(delete_workspace_png));
-    m_dragTipsFrame->setIconSize(QSize(21 * m_scalingFactor, 21 * m_scalingFactor));
-    m_dragTipsFrame->setText(tr("Drag upwards to remove"));
-    m_dragTipsFrame->setColor(QColor(Qt::white));
-
-    m_dragTipsFrameShadow = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
-    m_dragTipsFrameShadow->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
-    m_dragTipsFrameShadow->setImage(QUrl::fromLocalFile(delete_workspace_png));
-    m_dragTipsFrameShadow->setIconSize(QSize(22 * m_scalingFactor, 21 * m_scalingFactor));
-    m_dragTipsFrameShadow->setText(tr("Drag upwards to remove"));
-    m_dragTipsFrameShadow->setColor(QColor(Qt::black));
 }
 
 MultitaskViewEffect::~MultitaskViewEffect()
@@ -1402,11 +1356,9 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
             height = metrics.height();
         }
 
-        if (w->keepAbove() && m_topFrameIcon != MULTITASK_TOP_ACTIVE_SVG) {
-            m_topFrameIcon = MULTITASK_TOP_ACTIVE_SVG;
+        if (w->keepAbove()) {
             m_topWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_TOP_ACTIVE_SVG));
-        } else if (!w->keepAbove() && m_topFrameIcon != MULTITASK_TOP_SVG) {
-            m_topFrameIcon = MULTITASK_TOP_SVG;
+        } else {
             m_topWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_TOP_SVG));
         }
 
@@ -2274,6 +2226,17 @@ void MultitaskViewEffect::cleanup()
     m_windowMove = nullptr;
     m_hoverWin = nullptr;
     m_hoverWinBtn = nullptr;
+
+    m_hoverWinFrame = nullptr;
+    m_closeWinFrame = nullptr;
+    m_topWinFrame = nullptr;
+    m_textWinFrame = nullptr;
+    m_textWinBgFrame = nullptr;
+    m_previewFrame = nullptr;
+    m_closeWorkspaceFrame = nullptr;
+    m_dragTipsFrame = nullptr;
+    m_dragTipsFrameShadow = nullptr;
+
     m_motionManagers.clear();
     m_workspaceWinMgr.clear();
     m_addWorkspaceButton.clear();
@@ -2334,6 +2297,7 @@ void MultitaskViewEffect::setActive(bool active)
     cleanup();
     if (active) {
         initWorkspaceBackground();
+        createEffectFrame();
         effects->startMouseInterception(this, Qt::PointingHandCursor);
         m_hasKeyboardGrab = effects->grabKeyboard(this);
         effects->setActiveFullScreenEffect(this);
@@ -2873,6 +2837,68 @@ void MultitaskViewEffect::initWorkspaceBackground()
     }
 
     MultiViewBackgroundManager::instance()->getBackgroundList();
+}
+
+void MultitaskViewEffect::createEffectFrame()
+{
+    if (!m_hoverWinFrame) {
+        m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", false);
+    }
+
+    if (!m_closeWinFrame) {
+        m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+        m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        m_closeWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
+        m_closeWinFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
+    }
+
+    if (!m_topWinFrame) {
+        m_topWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+        m_topWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        m_topWinFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
+    }
+
+    if (!m_textWinFrame) {
+        m_textWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
+    }
+
+    if (!m_textWinBgFrame) {
+        m_textWinBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
+        m_textWinBgFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        m_textWinBgFrame->setRadius(10);
+        m_textWinBgFrame->setColor("#E0E0E0");
+    }
+
+    if (!m_previewFrame) {
+        m_previewFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", true);
+        m_previewFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        m_previewFrame->setRadius(10);
+    }
+
+    if (!m_closeWorkspaceFrame) {
+        m_closeWorkspaceFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+        m_closeWorkspaceFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        m_closeWorkspaceFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
+        m_closeWorkspaceFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
+    }
+
+    if (!m_dragTipsFrame) {
+        m_dragTipsFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
+        m_dragTipsFrame->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
+        m_dragTipsFrame->setImage(QUrl::fromLocalFile(delete_workspace_png));
+        m_dragTipsFrame->setIconSize(QSize(21 * m_scalingFactor, 21 * m_scalingFactor));
+        m_dragTipsFrame->setText(tr("Drag upwards to remove"));
+        m_dragTipsFrame->setColor(QColor(Qt::white));
+    }
+
+    if (!m_dragTipsFrameShadow) {
+        m_dragTipsFrameShadow = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
+        m_dragTipsFrameShadow->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
+        m_dragTipsFrameShadow->setImage(QUrl::fromLocalFile(delete_workspace_png));
+        m_dragTipsFrameShadow->setIconSize(QSize(22 * m_scalingFactor, 21 * m_scalingFactor));
+        m_dragTipsFrameShadow->setText(tr("Drag upwards to remove"));
+        m_dragTipsFrameShadow->setColor(QColor(Qt::black));
+    }
 }
 
 void MultitaskViewEffect::cacheWorkspaceBackground()

@@ -2941,8 +2941,10 @@ const QSize &EffectFrameQuickScene::size()
 
 void EffectFrameQuickScene::setImage(const QUrl &image)
 {
-    m_image = image;
-    Q_EMIT imageChanged();
+    if (m_image != image) {
+        m_image = image;
+        Q_EMIT imageChanged();
+    }
 }
 
 void EffectFrameQuickScene::setImage(const QPixmap &image)
@@ -2951,10 +2953,9 @@ void EffectFrameQuickScene::setImage(const QPixmap &image)
     QBuffer buffer(&array);
     buffer.open(QIODevice::WriteOnly);
     image.save(&buffer, "JPEG");
-    QString url("data:image/jpg;base64,");
-    url.append(QString::fromLatin1(array.toBase64().data()));
-    m_image = QUrl(url);
-    Q_EMIT imageChanged();
+    QString str("data:image/jpg;base64,");
+    str.append(QString::fromLatin1(array.toBase64().data()));
+    setImage(QUrl(str));
 }
 
 const QUrl &EffectFrameQuickScene::image() const
