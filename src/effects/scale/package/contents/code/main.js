@@ -74,7 +74,7 @@ var scaleEffect = {
             return true;
         }
 
-        return window.normalWindow || window.dialog || window.utility || splash || window.onScreenDisplay;
+        return window.normalWindow || window.dialog || window.utility || window.splash || window.onScreenDisplay;
     },
     setupForcedRoles: function (window) {
         window.setData(Effect.WindowForceBackgroundContrastRole, true);
@@ -97,11 +97,12 @@ var scaleEffect = {
         if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
             return;
         }
-        if (window.startEffectType != 1) {
+        if (window.startEffectType != 1
+            && window.startEffectType != 16) {
             return;
         }
         if (window.dock || window.splash || window.toolbar
-            || window.notification || window.onScreenDisplay
+            || window.notification
             || window.criticalNotification
             || window.appletPopup) {
             return ;
@@ -110,7 +111,7 @@ var scaleEffect = {
         var windowRect = window.geometry;
         var scaleSize = scaleEffect.addSize;
         var scaleDuration = scaleEffect.addDuration;
-        if (window.windowClass == "dde-launcher dde-launcher" || window.windowClass == "dde-lock org.deepin.dde.lock") {
+        if (window.windowClass == "dde-launcher dde-launcher" || window.startEffectType == 16) {
             scaleSize = scaleEffect.addLauncherSize;
             scaleDuration = scaleEffect.addLauncherDuration;
         }
