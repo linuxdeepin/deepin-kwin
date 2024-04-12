@@ -76,17 +76,21 @@ int WindowRadius::updateWindowRadius()
 
 QPointF WindowRadius::getWindowRadius()
 {
-    QPointF radius;
+    QPointF radius(0.0, 0.0);
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty)) {
         radius = m_window->windowStyleObj()->windowRadius();
-    } else {
-        radius.setX(Workspace::self()->getWindowStyleMgr()->getOsRadius() * Workspace::self()->getWindowStyleMgr()->getOsScale());
-        radius.setY(Workspace::self()->getWindowStyleMgr()->getOsRadius() * Workspace::self()->getWindowStyleMgr()->getOsScale());
     }
     if (m_window->windowStyleObj()->isCancelRadius())
         radius = QPointF(0, 0);
-
     m_radius = radius;
+    return radius;
+}
+
+QPointF WindowRadius::getOsRadius()
+{
+    QPointF radius;
+    radius.setX(Workspace::self()->getWindowStyleMgr()->getOsRadius() * Workspace::self()->getWindowStyleMgr()->getOsScale());
+    radius.setY(Workspace::self()->getWindowStyleMgr()->getOsRadius() * Workspace::self()->getWindowStyleMgr()->getOsScale());
     return radius;
 }
 

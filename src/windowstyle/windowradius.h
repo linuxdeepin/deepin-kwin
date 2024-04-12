@@ -27,6 +27,7 @@ public:
     int updateWindowRadius();
 
     QPointF getWindowRadius();
+    QPointF getOsRadius();
     QPointF windowRadius() { return m_radius;};
     QString theme() const;
 

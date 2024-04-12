@@ -61,8 +61,15 @@ bool WindowShadow::updateWindowShadow()
 QPointF WindowShadow::getWindowRadius()
 {
     QPointF radius(0.0, 0.0);
-    if (m_window->windowRadiusObj())
-        radius = m_window->windowRadiusObj()->windowRadius();
+    if (m_window->windowRadiusObj()) {
+        QPointF winRadius = m_window->windowRadiusObj()->windowRadius();
+        QPointF osRadius = m_window->windowRadiusObj()->getOsRadius();
+        if (m_window->isDecorated() && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty)) {
+            radius = QPointF(std::max(winRadius.x(), osRadius.x()), std::max(winRadius.y(), osRadius.y()));
+        } else {
+            radius = winRadius;
+        }
+    }
     return radius;
 }
 
