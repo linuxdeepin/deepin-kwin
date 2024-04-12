@@ -1,3 +1,15 @@
+kwin (4:5.27.2.94-deepin94-1) unstable; urgency=medium
+
+  * Task:
+    + 338295 feat: round corner radius optimization
+  * Bug fix:
+    + 244887 fix: optimized blur area when system enable zoom
+    + 250139 fix: unable to render hover frame
+    + 250373 fix: 2 desktops are added when press the shortcut only once
+    + 236971 fix: screen flashes black after user logs in
+
+ -- huangzeming <huangzeming@uniontech.com>  Fri, 12 Apr 2024 16:52:33 +0800
+
 kwin (4:5.27.2.93-deepin93-1) unstable; urgency=medium
 
   * Bug fix:
