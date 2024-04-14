@@ -533,9 +533,9 @@ void BlurEffect::blur(EffectWindow *w, int mask, const QRegion &region, WindowPa
     if (!shouldBlur(w, mask, data)) {
         return;
     }
-
+    QRect screen = effects->virtualScreenGeometry();
     // Compute the effective blur shape. Note that if the window is transformed, so will be the blur shape.
-    QRegion blurShape = region & blurRegion(w).translated(w->pos().toPoint());
+    QRegion blurShape = blurRegion(w).translated(w->pos().toPoint()) & screen;
     if (data.xScale() != 1 || data.yScale() != 1) {
         QPoint pt = blurShape.boundingRect().topLeft();
         QRegion scaledShape;
