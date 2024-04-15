@@ -1601,27 +1601,24 @@ void Workspace::setPreviewClientList(const QList<AbstractClient*> &list)
 
     { // for the blocker RAII
     StackingUpdatesBlocker blocker(this); // updateLayer & lowerClient would invalidate stacking_order
-    for (int i = stacking_order.count() - 1; i > -1; --i) {
-        AbstractClient *c = qobject_cast<AbstractClient*>(stacking_order.at(i));
-        if (c && c->isOnCurrentDesktop()) {
-            if (!c->isDock() && !c->isDesktop()) {
-                if (list.contains(c)) {
-                    if (c->isMinimized()) {
-                        // 记录窗口的最小化状态
-                        c->setProperty("__deepin_kwin_minimized", true);
-                        // 恢复最小化以便预览窗口
-                        c->unminimize(true);
-                    }
-                } else {
-                    if (c->property("__deepin_kwin_minimized").toBool()) {
-                        c->setProperty("__deepin_kwin_minimized", QVariant());
-                        // 恢复窗口被预览之前的状态
-                        c->minimize(true);
-                    }
-                }
-                c->updateLayer();
+    auto updateStackingOrder = stacking_order;
+    for (int i = updateStackingOrder.count() - 1; i > -1; --i) {
+        AbstractClient *c = qobject_cast<AbstractClient*>(updateStackingOrder.at(i));
+
+        if (list.contains(c)) {
+            if (c->isMinimized()) {
+                // 记录窗口的最小化状态
+                previewMinimizedClients.append(c);
+                // 恢复最小化以便预览窗口
+                c->unminimize(true);
+            }
+        } else {
+            if (previewMinimizedClients.contains(c)) {
+                previewMinimizedClients.removeOne(c);
+                c->minimize(true);
             }
         }
+        c->updateLayer();
     }
     } // ~StackingUpdatesBlocker
 

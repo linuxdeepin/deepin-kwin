@@ -287,7 +287,9 @@ void DBusInterface::previewWindows(const QList<uint> wids)
 
     for (AbstractClient *client : workspace()->allClientList()) {
         if (wids.contains(client->window())) {
-            clients << client;
+            if (client->isOnCurrentDesktop() && !client->isDock() && !client->isDesktop()) {
+                clients << client;
+            }
         }
     }
 

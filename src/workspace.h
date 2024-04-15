@@ -731,6 +731,7 @@ private:
     bool showing_desktop;
     xcb_timestamp_t showing_desktop_timestamp;
     QList<AbstractClient*> previewClients;
+    QList<AbstractClient*> previewMinimizedClients; // FIXME: qobject setProperty not working.
 
     QList<Group *> groups;
 
