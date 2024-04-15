@@ -1521,6 +1521,9 @@ public:
     }
     void setFirstComposite(EventTrackingState firstComposite);
     QVariant createTimespanDBusMessage(struct timeval createTimeval, int tid, std::string event);
+
+    GLTexture *getPreviousTexture();
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
     void onWindowRadiusChanged(float &);
@@ -1643,6 +1646,7 @@ Q_SIGNALS:
     void clientMaximizedStateAboutToChange(KWin::Window *, MaximizeMode);
     void clientMaximizedStateChanged(KWin::Window *, MaximizeMode, bool animated = true);
     void clientMaximizedStateChanged(KWin::Window *c, bool h, bool v);
+    void clientMaximizedChanged(KWin::Window *, QRectF, QRectF, MaximizeMode);
     void transientChanged();
     void modalChanged();
     void quickTileModeChanged();

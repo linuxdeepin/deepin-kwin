@@ -94,6 +94,7 @@ add_subdirectory(touchpoints)
 add_subdirectory(zoom)
 add_subdirectory(splitscreen)
 add_subdirectory(splitswap)
+add_subdirectory(maximizeex)
 
 # OpenGL-specific effects
 add_subdirectory(blendchanges)

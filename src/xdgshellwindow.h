@@ -281,6 +281,7 @@ private:
     QPointer<Output> m_fullScreenRequestedOutput;
     std::shared_ptr<KDecoration2::Decoration> m_nextDecoration;
     bool m_isBenchWindow = false;
+    QRectF m_restoreMaxiArea;
 };
 
 class XdgPopupWindow final : public XdgSurfaceWindow

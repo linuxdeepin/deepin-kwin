@@ -306,6 +306,7 @@ void EffectsHandlerImpl::setupWindowConnections(Window *window)
     connect(window, &Window::windowClosed, this, &EffectsHandlerImpl::slotWindowClosed);
     connect(window, static_cast<void (Window::*)(KWin::Window *, MaximizeMode, bool)>(&Window::clientMaximizedStateChanged),
             this, &EffectsHandlerImpl::slotClientMaximized);
+    connect(window, static_cast<void (Window::*)(KWin::Window *, QRectF, QRectF, MaximizeMode)>(&Window::clientMaximizedChanged), this, &EffectsHandlerImpl::slotClientMaximizedChanged);
     connect(window, static_cast<void (Window::*)(KWin::Window *, MaximizeMode)>(&Window::clientMaximizedStateAboutToChange),
             this, [this](KWin::Window *window, MaximizeMode m) {
                 if (EffectWindowImpl *w = window->effectWindow()) {
@@ -508,6 +509,13 @@ void EffectsHandlerImpl::startPaint()
     m_currentDrawWindowIterator = m_activeEffects.constBegin();
     m_currentPaintWindowIterator = m_activeEffects.constBegin();
     m_currentPaintScreenIterator = m_activeEffects.constBegin();
+}
+
+void EffectsHandlerImpl::slotClientMaximizedChanged(KWin::Window *window, QRectF oldRect, QRectF newRect, MaximizeMode maxMode)
+{
+    if (EffectWindowImpl *w = window->effectWindow()) {
+        Q_EMIT windowMaximizedChanged(w, oldRect, newRect, maxMode);
+    }
 }
 
 void EffectsHandlerImpl::slotClientMaximized(Window *window, MaximizeMode maxMode, bool animated)
@@ -2167,6 +2175,15 @@ float EffectsHandlerImpl::getOsRadius()
 float EffectsHandlerImpl::getOsScale()
 {
     return workspace()->getOsScreenScale();
+}
+
+GLTexture* EffectsHandlerImpl::getWinPreviousTexture(KWin::EffectWindow *w)
+{
+    auto window = static_cast<EffectWindowImpl *>(w)->window();
+    if (window->isClient()) {
+        return window->getPreviousTexture();
+    }
+    return nullptr;
 }
 
 //****************************************

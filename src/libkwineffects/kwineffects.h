@@ -1458,6 +1458,8 @@ public:
     virtual KWin::EffectWindow *inputPanel() const = 0;
     virtual bool isInputPanelOverlay() const = 0;
 
+    virtual GLTexture* getWinPreviousTexture(KWin::EffectWindow *) = 0;
+
 Q_SIGNALS:
     /**
      * This signal is emitted whenever a new @a screen is added to the system.
@@ -1624,6 +1626,7 @@ Q_SIGNALS:
      * @since 4.7
      */
     void windowMaximizedStateChanged(KWin::EffectWindow *w, bool horizontal, bool vertical);
+    void windowMaximizedChanged(KWin::EffectWindow *w, QRectF oldRect, QRectF newRect, int mode);
 
     /**
      * Signal emitted when the maximized state of the window @p w is about to change,

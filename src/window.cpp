@@ -48,6 +48,7 @@
 #include "x11window.h"
 #include "windowstyle/windowstylemanager.h"
 #include "windowstyle/decorationstyle.h"
+#include "platformsupport/scenes/opengl/openglsurfacetexture.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -1658,6 +1659,9 @@ void Window::setMaximize(bool vertically, bool horizontally, bool animated)
     }
     if (vertically && horizontally)
         setTile(nullptr);
+    if (auto item = surfaceItem()) {
+        item->discardPixmap();
+    }
     maximize(mode, animated);
 }
 
@@ -4978,6 +4982,17 @@ void Window::onWindowRadiusChanged(float &p)
 void Window::onThemeChange(bool &isDark)
 {
     updateWindowShadow();
+}
+
+GLTexture *Window::getPreviousTexture()
+{
+    if (auto item = surfaceItem()) {
+        SurfacePixmap *surfacePixmap = item->previousPixmap();
+        if (surfacePixmap)
+            return static_cast<OpenGLSurfaceTexture *>(surfacePixmap->texture())->texture();
+    }
+
+    return nullptr;
 }
 
 WindowOffscreenRenderRef::WindowOffscreenRenderRef(Window *window)

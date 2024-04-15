@@ -87,10 +87,10 @@ var maximizeEffect = {
     },
     init: function () {
         maximizeEffect.loadConfig();
-        effect.configChanged.connect(maximizeEffect.loadConfig);
-        effects.windowGeometryShapeChanged.connect(maximizeEffect.geometryChange);
-        effects.windowMaximizedStateChanged.connect(maximizeEffect.maximizeChanged);
-        effect.animationEnded.connect(maximizeEffect.restoreForceBlurState);
+        // effect.configChanged.connect(maximizeEffect.loadConfig);
+        // effects.windowGeometryShapeChanged.connect(maximizeEffect.geometryChange);
+        // effects.windowMaximizedStateChanged.connect(maximizeEffect.maximizeChanged);
+        // effect.animationEnded.connect(maximizeEffect.restoreForceBlurState);
     }
 };
 maximizeEffect.init();
