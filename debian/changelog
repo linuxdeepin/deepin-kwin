@@ -1,3 +1,15 @@
+kwin (4:5.27.2.95-deepin95-1) unstable; urgency=medium
+
+  * Bug fix:
+    + fix: menu of wechat can't show by right click on dock
+    + fix: window show black border on second screen
+    + fix: popup window will show another screen
+    + fix: maxi effect
+    + fix: add null pointer judgment
+    + fix: fix rendering anomalies
+
+ -- huangzeming <huangzeming@uniontech.com>  Mon, 15 Apr 2024 19:08:02 +0800
+
 kwin (4:5.27.2.94-deepin94-1) unstable; urgency=medium
 
   * Task:
