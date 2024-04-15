@@ -2021,6 +2021,9 @@ protected:
     virtual bool isProhibitScreenshotWindow();
     virtual void recordShape(xcb_window_t id, xcb_shape_kind_t kind);
 
+    QVector<QRectF> m_shapeInputRegion;
+    QVector<QRectF> m_shapeBoundingRegion;
+
 private Q_SLOTS:
     void shadeHover();
     void shadeUnhover();
@@ -2166,9 +2169,6 @@ private:
 
     struct timeval m_constructTimeval;
     EventTrackingState m_firstComposite = EventTrackingState::Ready;
-
-    QVector<QRectF> m_shapeInputRegion;
-    QVector<QRectF> m_shapeBoundingRegion;
 };
 
 /**

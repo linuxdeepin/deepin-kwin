@@ -1371,7 +1371,7 @@ bool Unmanaged::windowEvent(xcb_generic_event_t *e)
     default: {
         if (eventType == Xcb::Extensions::self()->shapeNotifyEvent()) {
             detectShape(window());
-            // recordShape(window(), reinterpret_cast<xcb_shape_notify_event_t*>(e)->shape_kind);
+            recordShape(window(), reinterpret_cast<xcb_shape_notify_event_t*>(e)->shape_kind);
             Q_EMIT geometryShapeChanged(this, frameGeometry());
         }
         if (eventType == Xcb::Extensions::self()->damageNotifyEvent()) {

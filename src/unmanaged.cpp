@@ -113,6 +113,8 @@ bool Unmanaged::track(xcb_window_t w)
     m_bufferGeometry = geo.rect();
     m_frameGeometry = geo.rect();
     m_clientGeometry = geo.rect();
+    m_shapeInputRegion += geo.rect();
+    m_shapeBoundingRegion += geo.rect();
     checkOutput();
     m_visual = attr->visual;
     bit_depth = geo->depth;
