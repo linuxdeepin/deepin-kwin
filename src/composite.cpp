@@ -898,6 +898,10 @@ void Compositor::composite(RenderLoop *renderLoop)
             const QRegion bufferDamage = surfaceDamage.united(repaint).intersected(superLayer->rect());
             primaryLayer->aboutToStartPainting(bufferDamage);
 
+            // TODO: fixme
+            if (waylandServer() && workspace()->outputs().size() > 1) {
+                surfaceDamage = bufferDamage;
+            }
             paintPass(superLayer, &renderTarget, bufferDamage);
             primaryLayer->endFrame(bufferDamage, surfaceDamage);
         }
