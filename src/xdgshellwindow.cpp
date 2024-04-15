@@ -2206,6 +2206,12 @@ bool XdgPopupWindow::hasTransientPlacementHint() const
     return true;
 }
 
+QPointF XdgPopupWindow::clientPos() const
+{
+    const XdgPositioner positioner = m_shellSurface->positioner();
+    return positioner.anchorRect().bottomRight();
+}
+
 QRectF XdgPopupWindow::transientPlacement(const QRectF &bounds) const
 {
     const XdgPositioner positioner = m_shellSurface->positioner();

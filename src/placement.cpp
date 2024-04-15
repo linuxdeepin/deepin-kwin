@@ -482,7 +482,9 @@ void Placement::placeOnScreenDisplay(Window *c, const QRect &area)
 void Placement::placeTransient(Window *c)
 {
     const auto parent = c->transientFor();
-    const QRectF screen = Workspace::self()->clientArea(parent->isFullScreen() ? FullScreenArea : PlacementArea, parent);
+
+    const auto output = Workspace::self()->outputAt(parent->pos() + c->clientPos());
+    const QRectF screen = Workspace::self()->clientArea(parent->isFullScreen() ? FullScreenArea : PlacementArea, output, VirtualDesktopManager::self()->currentDesktop());
     c->moveResize(c->transientPlacement(screen));
 
     // Potentially a client could set no constraint adjustments
