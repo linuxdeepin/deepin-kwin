@@ -80,6 +80,7 @@ public:
     QString checkShortcut(QString s, bool init = false) const;
     bool checkDisableGlobalShortcuts(bool disable) const;
     QString checkDesktopFile(QString desktopFile, bool init = false) const;
+    bool checkDisableCorner(bool cancel, bool init = false) const;
 
 private:
     MaximizeMode checkMaximizeVert(MaximizeMode mode, bool init) const;
@@ -191,6 +192,7 @@ public:
     bool applyShortcut(QString &shortcut, bool init) const;
     bool applyDisableGlobalShortcuts(bool &disable) const;
     bool applyDesktopFile(QString &desktopFile, bool init) const;
+    bool applyDisableCorner(bool &cancel, bool init) const;
 
 private:
 #endif
@@ -297,6 +299,8 @@ private:
     ForceRule disableglobalshortcutsrule;
     QString desktopfile;
     SetRule desktopfilerule;
+    bool disablecorner;
+    SetRule disablecornerrule;
     friend QDebug &operator<<(QDebug &stream, const Rules *);
 };
 

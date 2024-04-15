@@ -48,7 +48,8 @@ bool WindowShadow::updateWindowShadow()
         return true;
     if (m_window->windowStyleObj()->isCancelShadow()
         || (m_window->hasAlpha()
-        && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty))) {
+        && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty))
+        || (m_window->rules() && m_window->rules()->checkDisableCorner(false))) {
         resetShadowKey();
         return true;
     }
@@ -61,15 +62,8 @@ bool WindowShadow::updateWindowShadow()
 QPointF WindowShadow::getWindowRadius()
 {
     QPointF radius(0.0, 0.0);
-    if (m_window->windowRadiusObj()) {
-        QPointF winRadius = m_window->windowRadiusObj()->windowRadius();
-        QPointF osRadius = m_window->windowRadiusObj()->getOsRadius();
-        if (m_window->isDecorated() && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty)) {
-            radius = QPointF(std::max(winRadius.x(), osRadius.x()), std::max(winRadius.y(), osRadius.y()));
-        } else {
-            radius = winRadius;
-        }
-    }
+    if (m_window->windowRadiusObj())
+        radius = m_window->windowRadiusObj()->windowRadius();
     return radius;
 }
 

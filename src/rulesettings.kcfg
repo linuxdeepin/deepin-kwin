@@ -442,5 +442,16 @@
       <max code="true">static_cast&lt;Rules::SetRule&gt;(Rules::ForceTemporarily)</max>
       <default code="true">Rules::UnusedSetRule</default>
     </entry>
+
+    <entry name="disablecorner" type="Bool">
+      <label>Disablecorner</label>
+      <default>false</default>
+    </entry>
+    <entry name="disablecornerrule" type="Int">
+      <label>disablecorner rule type</label>
+      <min code="true">Rules::UnusedSetRule</min>
+      <max code="true">static_cast&lt;Rules::SetRule&gt;(Rules::ForceTemporarily)</max>
+      <default code="true">Rules::UnusedSetRule</default>
+    </entry>
   </group>
 </kcfg>

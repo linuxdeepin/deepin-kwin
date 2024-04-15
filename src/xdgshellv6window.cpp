@@ -194,7 +194,7 @@ void XdgSurfaceV6Window::handleCommit()
     m_lastAcknowledgedConfigureSerial.reset();
 
     setReadyForPainting();
-    updateDepth();
+    // updateDepth();
 }
 
 void XdgSurfaceV6Window::handleRolePrecommit()
