@@ -1,3 +1,12 @@
+kwin (4:5.27.2.96-deepin96-1) unstable; urgency=medium
+
+  [ dingzhixuan ]
+    * fix: refix popup window will show another screen
+    * fix: add null pointer judgment
+    * fix: pointer penetrates the menu of wechat
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Tue, 16 Apr 2024 18:34:22 +0800
+
 kwin (4:5.27.2.95-deepin95-1) unstable; urgency=medium
 
   * Bug fix:
