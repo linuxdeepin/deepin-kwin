@@ -2022,7 +2022,9 @@ protected:
     virtual void recordShape(xcb_window_t id, xcb_shape_kind_t kind);
 
     QVector<QRectF> m_shapeInputRegion;
+    bool m_isShapeInputRegionSet = false;
     QVector<QRectF> m_shapeBoundingRegion;
+    bool m_isShapeBoundingRegionSet = false;
 
 private Q_SLOTS:
     void shadeHover();

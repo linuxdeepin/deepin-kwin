@@ -694,23 +694,30 @@ bool Window::hitTest(const QPointF &point) const
             return true;
         }
     }
-    if (waylandServer() && (qobject_cast<const X11Window*>(this) || isUnmanaged())) {
+    if (waylandServer() && (qobject_cast<const X11Window*>(this) || isUnmanaged())
+            && (m_isShapeInputRegionSet || (shape() && m_isShapeBoundingRegionSet))) {
         const QPointF relativePoint = point - clientGeometry().topLeft();
 
         bool isInBounding = false, isInInput = false;
-        if (shape()) {
+        if (shape() && m_isShapeBoundingRegionSet) {
             for (const auto& rect: m_shapeBoundingRegion) {
                 if (rect.contains(flooredPoint(relativePoint))) {
                     isInBounding = true;
                     break;
                 }
             }
+        } else {
+            isInBounding = clientGeometry().contains(flooredPoint(point));
         }
-        for (const auto& rect: m_shapeInputRegion) {
-            if (rect.contains(flooredPoint(relativePoint))) {
-                isInInput = true;
-                break;
+        if (m_isShapeInputRegionSet) {
+            for (const auto& rect: m_shapeInputRegion) {
+                if (rect.contains(flooredPoint(relativePoint))) {
+                    isInInput = true;
+                    break;
+                }
             }
+        } else {
+            isInInput = clientGeometry().contains(flooredPoint(point));
         }
         if (shape()) {
             return isInBounding && isInInput;
@@ -5085,6 +5092,7 @@ void Window::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
                 QRectF region = Xcb::fromXNative(QRect(rects[i].x, rects[i].y, rects[i].width, rects[i].height)).toAlignedRect();
                 m_shapeBoundingRegion += region;
             }
+            m_isShapeBoundingRegionSet = true;
         }
     }
 
@@ -5099,6 +5107,7 @@ void Window::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
                 QRectF region = Xcb::fromXNative(QRect(rects[i].x, rects[i].y, rects[i].width, rects[i].height)).toAlignedRect();
                 m_shapeInputRegion += region;
             }
+            m_isShapeInputRegionSet = true;
         }
     }
 }
