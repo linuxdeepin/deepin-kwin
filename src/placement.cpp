@@ -483,7 +483,7 @@ void Placement::placeTransient(Window *c)
 {
     const auto parent = c->transientFor();
 
-    const auto output = Workspace::self()->outputAt(parent->pos() + c->clientPos());
+    const auto output = Workspace::self()->outputAt(c->pos());
     const QRectF screen = Workspace::self()->clientArea(parent->isFullScreen() ? FullScreenArea : PlacementArea, output, VirtualDesktopManager::self()->currentDesktop());
     c->moveResize(c->transientPlacement(screen));
 
