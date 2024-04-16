@@ -990,7 +990,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
             int bgRectWidth = backgroundRect.width();
             if (lastWinManager) {
                 lastWinManager->getMotion(m_lastDesktopIndex, w->screen(), mgr0);
-                if (mgr0->isManaging(w)) {
+                if (mgr0 && mgr0->isManaging(w)) {
                     auto area = effects->clientArea(ScreenArea, w->screen(), 0).toRect();
                     WindowPaintData d = data;
                     auto geo = mgr0->targetGeometry(w);
