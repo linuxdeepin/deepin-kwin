@@ -1,5 +1,12 @@
+kwin (4:5.27.2.98-deepin98-1) unstable; urgency=medium
+
+  [ gengzhijie ]
+  * fix: update dmi decode's command about identify pgx's machine.
+
+ -- gengzhijie <gengzhijie@uniontech.com>  Wed, 17 Apr 2024 18:10:47 +0800
+
 kwin (4:5.27.2.97-deepin97-1) unstable; urgency=medium
- 
+
   * Task:
     + 338835 fix: window corner
 
