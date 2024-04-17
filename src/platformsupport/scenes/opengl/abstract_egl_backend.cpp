@@ -8,6 +8,7 @@
 */
 #include "abstract_egl_backend.h"
 #include "composite.h"
+#include "dbusinterface.h"
 #include "core/output.h"
 #include "core/outputbackend.h"
 #include "dmabuftexture.h"
@@ -32,6 +33,11 @@
 namespace KWin
 {
 
+
+#define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
+
 static EGLContext s_globalShareContext = EGL_NO_CONTEXT;
 PFNEGLSETDAMAGEREGIONKHRPROC eglSetDamageRegionKHR = nullptr;
 
@@ -48,17 +54,6 @@ AbstractEglBackend::AbstractEglBackend(dev_t deviceId)
 {
     connect(Compositor::self(), &Compositor::aboutToDestroy, this, &AbstractEglBackend::teardown);
 
-    {
-        QStringList strArg;
-        strArg << "-s" << "system-product-name";
-        QProcess proc;
-        proc.setProgram("/usr/sbin/dmidecode");
-        proc.setArguments(strArg);
-        proc.start(QIODevice::ReadWrite);
-        proc.waitForFinished(-1);
-        m_productName = proc.readAllStandardOutput().data();
-        qCDebug(KWIN_OPENGL) << __func__ << "system_product_name " << m_productName;
-    }
 }
 
 AbstractEglBackend::~AbstractEglBackend()
@@ -183,9 +178,21 @@ void AbstractEglBackend::initBufferAge()
         }
     }
 
+    bool partialUpdate = true;
+    QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
+    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.compositing", "");
+    if (reply.isValid()) {
+        QString path = reply.value().path();
+        QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+        QDBusReply<QVariant> replyValue = interfaceValue.call("value", "partialUpdate");
+        partialUpdate = replyValue.value().toBool();
+    } else {
+        qCWarning(KWIN_CORE) << "Error in DConfig reply:" << reply.error();
+    }
+
     if (hasExtension(QByteArrayLiteral("EGL_KHR_partial_update"))) {
         const QByteArray usePartialUpdate = qgetenv("KWIN_USE_PARTIAL_UPDATE");
-        if (usePartialUpdate != "0" && !m_productName.contains("PGUX")) {
+        if (usePartialUpdate != "0" && partialUpdate) {
             setSupportsPartialUpdate(true);
         }
     }

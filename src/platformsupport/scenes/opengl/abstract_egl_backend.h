@@ -61,10 +61,6 @@ public:
     {
         return m_config;
     }
-    QString productName() const
-    {
-        return m_productName;
-    }
 
     std::shared_ptr<GLTexture> textureForOutput(Output *output) const override;
     QHash<uint32_t, QVector<uint64_t>> supportedFormats() const override;
@@ -108,7 +104,6 @@ private:
     EglDmabuf *m_dmaBuf = nullptr;
     QList<QByteArray> m_clientExtensions;
     const dev_t m_deviceId;
-    QString m_productName;
 
     static AbstractEglBackend *s_primaryBackend;
 };
