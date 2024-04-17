@@ -36,7 +36,7 @@ function forceFullScreen(client) {
 }
 
 function setupConnection(client) {
-    if (client.caption == "Fullscreen Launchpad" && client.resourceClass == "dde-launchpad") {
+    if (client.caption == "Fullscreen Launchpad") {
         forceFullScreen(client)
         client.geometryChanged.connect(client, function () {
             forceFullScreen(this);
