@@ -328,7 +328,7 @@ static void parserWindowDecoration(const UIWindowType& windowType, const QJsonVa
     paserSpecialAttribute<qreal>(windowDecObj, "opcaity", status, config->opacity, base ? base->opacity : 20.0);
 
     //mouseInputAreaMargins
-    paserSpecialAttribute<QMarginsF>(windowDecObj, "mouseInputAreaMargins", status, config->mouseInputAreaMargins, base ? base->mouseInputAreaMargins : QMarginsF(5, 5, 5, 5));
+    paserSpecialAttribute<QMarginsF>(windowDecObj, "mouseInputAreaMargins", status, config->mouseInputAreaMargins, base ? base->mouseInputAreaMargins : QMarginsF(10, 10, 10, 10));
 
     //shadow
     const QJsonObject& shadowObj = windowDecObj.value("shadow").toObject();

@@ -1151,6 +1151,8 @@ bool X11Window::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
             if (isDecorated()) {
                 QHoverEvent event(QEvent::HoverMove, QPointF(x, y), QPointF(x, y));
                 QCoreApplication::instance()->sendEvent(decoration(), &event);
+            } else {
+                updateExtendWindowSection(QPointF(x, y));
             }
         }
         Gravity newGravity = modKeyDown(state) ? Gravity::None : mouseGravity();

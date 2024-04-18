@@ -1112,20 +1112,19 @@ void X11Window::updateInputWindow()
     }
 
     QRegion region;
+    const QMargins r = extendResizeBorder();
+    const QRect rect = isDecorated() ? decoration()->rect() : QRect(QPoint(0, 0), size().toSize());
 
-    if (decoration()) {
-        const QMargins &r = decoration()->resizeOnlyBorders();
-        const int left = r.left();
-        const int top = r.top();
-        const int right = r.right();
-        const int bottom = r.bottom();
-        if (left != 0 || top != 0 || right != 0 || bottom != 0) {
-            region = QRegion(-left,
-                             -top,
-                             decoration()->size().width() + left + right,
-                             decoration()->size().height() + top + bottom);
-            region = region.subtracted(decoration()->rect());
-        }
+    const int left = r.left();
+    const int top = r.top();
+    const int right = r.right();
+    const int bottom = r.bottom();
+    if (left != 0 || top != 0 || right != 0 || bottom != 0) {
+        region = QRegion(-left,
+                         -top,
+                         rect.width() + left + right,
+                         rect.height() + top + bottom);
+        region = region.subtracted(rect);
     }
 
     if (region.isEmpty()) {

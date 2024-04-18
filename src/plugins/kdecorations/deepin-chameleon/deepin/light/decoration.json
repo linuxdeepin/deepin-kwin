@@ -6,7 +6,7 @@
     "titlebar": {
       "height": 50,
       "area": 1,
-      "mouseInputAreaMargins": "5,5,5,5",
+      "mouseInputAreaMargins": "10,10,10,10",
       "bgcolor": "white",
       "font-family": "SourceHanSansSC",
       "font-size": 14,

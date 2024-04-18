@@ -3171,27 +3171,26 @@ void Window::dontInteractiveMoveResize()
 
 Gravity Window::mouseGravity() const
 {
-    if (isDecorated()) {
-        switch (decoration()->sectionUnderMouse()) {
-        case Qt::BottomLeftSection:
-            return Gravity::BottomLeft;
-        case Qt::BottomRightSection:
-            return Gravity::BottomRight;
-        case Qt::BottomSection:
-            return Gravity::Bottom;
-        case Qt::LeftSection:
-            return Gravity::Left;
-        case Qt::RightSection:
-            return Gravity::Right;
-        case Qt::TopSection:
-            return Gravity::Top;
-        case Qt::TopLeftSection:
-            return Gravity::TopLeft;
-        case Qt::TopRightSection:
-            return Gravity::TopRight;
-        default:
-            return Gravity::None;
-        }
+    Qt::WindowFrameSection section = isDecorated() ? decoration()->sectionUnderMouse() : m_extendWindowSection;
+    switch (section) {
+    case Qt::BottomLeftSection:
+        return Gravity::BottomLeft;
+    case Qt::BottomRightSection:
+        return Gravity::BottomRight;
+    case Qt::BottomSection:
+        return Gravity::Bottom;
+    case Qt::LeftSection:
+        return Gravity::Left;
+    case Qt::RightSection:
+        return Gravity::Right;
+    case Qt::TopSection:
+        return Gravity::Top;
+    case Qt::TopLeftSection:
+        return Gravity::TopLeft;
+    case Qt::TopRightSection:
+        return Gravity::TopRight;
+    default:
+        break;
     }
     return Gravity::None;
 }
@@ -5110,6 +5109,57 @@ void Window::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
             m_isShapeInputRegionSet = true;
         }
     }
+}
+
+QMargins Window::extendResizeBorder() const
+{
+    return isDecorated() ? decoration()->resizeOnlyBorders() : QMargins(10, 10, 10, 10);
+}
+
+void Window::updateExtendWindowSection(const QPointF &pos)
+{
+    if (isDecorated() || extendResizeBorder().isNull())
+        return;
+
+    const QRectF rect(QRectF(QPointF(0, 0), size()).adjusted(20, 20, -20, -20));
+    if (rect.isEmpty())
+        return;
+
+    const char hint = (pos.x() < rect.left()) << 3 |
+                      (pos.y() < rect.top()) << 2 |
+                      (pos.x() > rect.right()) << 1 |
+                      (pos.y() > rect.bottom());
+
+    switch (hint) {  // left, top, right, bottom
+    case 0b1100:
+        m_extendWindowSection = Qt::TopLeftSection;
+        break;
+    case 0b0100:
+        m_extendWindowSection = Qt::TopSection;
+        break;
+    case 0b0110:
+        m_extendWindowSection = Qt::TopRightSection;
+        break;
+    case 0b0010:
+        m_extendWindowSection = Qt::RightSection;
+        break;
+    case 0b0011:
+        m_extendWindowSection = Qt::BottomRightSection;
+        break;
+    case 0b0001:
+        m_extendWindowSection = Qt::BottomSection;
+        break;
+    case 0b1001:
+        m_extendWindowSection = Qt::BottomLeftSection;
+        break;
+    case 0b1000:
+        m_extendWindowSection = Qt::LeftSection;
+        break;
+    default:
+        m_extendWindowSection = Qt::NoSection;
+    }
+
+    return;
 }
 
 } // namespace KWin

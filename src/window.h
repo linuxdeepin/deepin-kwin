@@ -1524,6 +1524,8 @@ public:
 
     GLTexture *getPreviousTexture();
 
+    QMargins extendResizeBorder() const;
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
     void onWindowRadiusChanged(float &);
@@ -2020,6 +2022,7 @@ protected:
 
     virtual bool isProhibitScreenshotWindow();
     virtual void recordShape(xcb_window_t id, xcb_shape_kind_t kind);
+    void updateExtendWindowSection(const QPointF &pos);
 
     QVector<QRectF> m_shapeInputRegion;
     bool m_isShapeInputRegionSet = false;
@@ -2171,6 +2174,8 @@ private:
 
     struct timeval m_constructTimeval;
     EventTrackingState m_firstComposite = EventTrackingState::Ready;
+
+    Qt::WindowFrameSection m_extendWindowSection = Qt::WindowFrameSection::NoSection;
 };
 
 /**
