@@ -161,6 +161,7 @@ void MaximizeEffect::setActive(bool active)
     m_activated = active;
 
     if (active) {
+        effects->startMouseInterception(this, Qt::ArrowCursor);
         m_hasKeyboardGrab = effects->grabKeyboard(this);
         effects->setActiveFullScreenEffect(this);
     } else {
