@@ -28,6 +28,7 @@ public:
     void storeSplitWindow(Window *);
     void deleteSplitWindow(Window *);
     void getSplitWindow(QVector<Window *> &);
+    int getNumSplitWin() {return m_splitGroup.size();}
 
 private:
     int m_desktop;
@@ -50,6 +51,9 @@ public:
     void inhibit();
     void uninhibit();
     void removeInternal(Window *window);
+
+    void resetNumSplitWin(Window *window);
+    int getNumSplitWin() {return m_numSplitWin;}
 
 Q_SIGNALS:
     void signalSplitWindow(QString &, Window *w);
@@ -94,6 +98,7 @@ private:
     Window                              *m_activeWin = nullptr;
     Layer                               m_topLayer = NormalLayer;
     bool                                m_isCreatePlaceHolder = false;
+    int                                 m_numSplitWin = 0;
 };
 }
 

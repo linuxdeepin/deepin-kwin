@@ -158,7 +158,7 @@
             <default>true</default>
         </entry>
         <entry name="BorderSnapZone" type="Int">
-            <default>10</default>
+            <default>5</default>
         </entry>
         <entry name="WindowSnapZone" type="Int">
             <default>10</default>

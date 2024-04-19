@@ -49,6 +49,7 @@
 #include "windowstyle/windowstylemanager.h"
 #include "windowstyle/decorationstyle.h"
 #include "platformsupport/scenes/opengl/openglsurfacetexture.h"
+#include "splitscreen/splitmanage.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -1738,6 +1739,8 @@ bool Window::startInteractiveMoveResize()
 
     m_initRectForSplit = workspace()->clientArea(MaximizeArea, this);
     m_currentModeForSplit = quickTileMode();
+    if (isSplitWindow())
+        workspace()->getSplitManage()->resetNumSplitWin(this);
 
     updateElectricGeometryRestore();
     Q_EMIT clientStartUserMovedResized(this);
@@ -1869,7 +1872,7 @@ void Window::updateInteractiveMoveResize(const QPointF &currentGlobalCursor)
     handleInteractiveMoveResize(pos(), currentGlobalCursor);
 }
 
-bool Window::isExitSplitMode(QPointF pos)
+bool Window::isExitSplitMode(QPointF pos, QRectF oldGeo, QRectF newGeo)
 {
     if (!Compositor::compositing()) {
         if (m_tile && !m_tile->supportsResizeGravity(interactiveMoveResizeGravity())) {
@@ -1877,9 +1880,19 @@ bool Window::isExitSplitMode(QPointF pos)
         }
         return true;
     }
+    if (!isSplitWindow())
+        return true;
+
     if (m_initPosForSplit.isNull()) {
         m_initPosForSplit = pos;
     }
+
+    int delta = std::abs(pos.y() - m_initPosForSplit.y());
+    if (delta > 50 * workspace()->getOsScreenScale()
+        || (workspace()->getSplitManage()->getNumSplitWin() < 2 && oldGeo != newGeo)) {
+        return true;
+    }
+
     if (m_quickTileMode == int(QuickTileFlag::Left)) {
         return pos.x() < (m_initPosForSplit.x() - 10) || pos.x() > (m_initRectForSplit.width() - width() + m_initPosForSplit.x() + 10);
     } else if (m_quickTileMode == int(QuickTileFlag::Right)) {
@@ -1911,7 +1924,7 @@ void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &gl
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None)
             && (oldGeo != moveResizeGeometry()
                     || (s_placeholderWindow && s_placeholderWindow->takeOver(window()) && oldGeo != s_placeholderWindow->getGeometry()))
-            && isExitSplitMode(global)) {
+            && isExitSplitMode(global, oldGeo, moveResizeGeometry())) {
             GeometryUpdatesBlocker blocker(this);
             setQuickTileMode(QuickTileFlag::None);
             const QRectF &geom_restore = geometryRestore();

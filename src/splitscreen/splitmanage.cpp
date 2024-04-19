@@ -380,6 +380,18 @@ void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w
     w->resizeSplitWindow(pos);
 }
 
+void SplitManage::resetNumSplitWin(Window *window)
+{
+    int desktop = VirtualDesktopManager::self()->current();
+    QString screenName = window->output()->name() + "splitbar";
+    SplitGroup *splitgroup = getGroup(desktop, screenName);
+    if (splitgroup) {
+        m_numSplitWin = splitgroup->getNumSplitWin();
+    } else {
+        m_numSplitWin = 0;
+    }
+}
+
 void SplitManage::inhibit()
 {
     m_inhibitCount++;

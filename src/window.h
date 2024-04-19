@@ -1495,7 +1495,7 @@ public:
     void setQuickTileFromMenu(QuickTileMode mode, bool isShowPreview = true);
     void resizeSplitWindow(QPointF &pos);
     bool isSplitWindow();
-    bool isExitSplitMode(QPointF);
+    bool isExitSplitMode(QPointF, QRectF, QRectF);
     void handleSplitWinSwap();
     void updateQuickTileMode(int mode);
     void createPlaceHolder();
