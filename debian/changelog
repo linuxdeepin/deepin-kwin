@@ -1,3 +1,10 @@
+kwin (4:5.27.2.99-deepin99-1) unstable; urgency=medium
+
+  [ zhangyu ]
+  * fix\feat .
+
+ -- zhangyu <zhangyud@uniontech.com>  Fri, 19 Apr 2024 17:36:47 +0800
+
 kwin (4:5.27.2.98-deepin98-1) unstable; urgency=medium
 
   [ gengzhijie ]
