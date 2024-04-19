@@ -83,7 +83,7 @@ void MaximizeEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Wind
         return;
     }
 
-    auto area = effects->clientArea(FullArea, w);
+    auto area = effects->clientArea(MaximizeFullArea, w);
     QRegion reg(area.toRect());
     WindowPaintData d = data;
     if (m_maxiWin == w) {
