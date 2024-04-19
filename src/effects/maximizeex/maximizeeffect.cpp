@@ -11,7 +11,7 @@
 
 namespace MaxiConsts {
     const QEasingCurve TOGGLE_MODE =  QEasingCurve::OutQuart;// AnimationMode.EASE_OUT_Expo;
-    static const int FADE_DURATION = 500;
+    static const int FADE_DURATION = 350;
     static const qreal REBOUND_COEF = 0.85;
 }
 
