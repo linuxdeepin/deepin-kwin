@@ -23,11 +23,11 @@ class Window;
 
 struct shadowConfig
 {
-    QPointF windowRadius;
-    QPointF shadowOffset;
+    QPoint windowRadius;
+    QPoint shadowOffset;
     QColor  shadowColor;
-    qreal   shadowRadius;
-    qreal   borderWidth;
+    int   shadowRadius;
+    int   borderWidth;
     QColor  borderColor;
 };
 

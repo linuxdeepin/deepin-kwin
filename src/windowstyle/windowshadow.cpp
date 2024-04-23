@@ -30,13 +30,13 @@ WindowShadow::~WindowShadow()
 
 QString WindowShadow::buildShadowCacheKey(shadowConfig &config)
 {
-    const QPointF shadow_overlap(qMax(config.windowRadius.x(), 3.0), qMax(config.windowRadius.y(), 3.0));
+    const QPoint shadow_overlap(qMax(config.windowRadius.x(), 3), qMax(config.windowRadius.y(), 3));
     const QMargins &paddings = QMargins(config.shadowRadius - config.shadowOffset.x() - shadow_overlap.x(),
                                         config.shadowRadius - config.shadowOffset.y() - shadow_overlap.y(),
                                         config.shadowRadius - shadow_overlap.x(),
                                         config.shadowRadius - shadow_overlap.y());
 
-    return QString("%1_%2.%3_%4_%5_%6.%7.%8.%9").arg(qRound(config.windowRadius.x())).arg(qRound(config.windowRadius.y()))
+    return QString("%1_%2.%3_%4_%5_%6.%7.%8.%9").arg(config.windowRadius.x()).arg(config.windowRadius.y())
                                                 .arg(paddings.left()).arg(paddings.top()).arg(paddings.right()).arg(paddings.bottom())
                                                 .arg(config.shadowColor.name(QColor::HexArgb))
                                                 .arg(config.borderWidth).arg(config.borderColor.name(QColor::HexArgb));
@@ -103,12 +103,12 @@ QString WindowShadow::getDefaultBorderColor()
 bool WindowShadow::getShadow()
 {
     shadowConfig st;
-    st.windowRadius = getWindowRadius();
+    st.windowRadius = getWindowRadius().toPoint();
 
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::ShadowOffsetProperty)) {
-        st.shadowOffset = m_window->windowStyleObj()->shadowOffset();
+        st.shadowOffset = m_window->windowStyleObj()->shadowOffset().toPoint();
     } else {
-        st.shadowOffset = QPointF(0, getDefaultShadowOffset() * workspace()->self()->getOsScreenScale());
+        st.shadowOffset = QPoint(0, getDefaultShadowOffset() * workspace()->self()->getOsScreenScale());
     }
 
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::ShadowColorProperty)) {
@@ -137,7 +137,7 @@ bool WindowShadow::getShadow()
 
     int shadow_size = st.shadowRadius + st.windowRadius.x() + st.windowRadius.y();
 
-    const QPointF shadow_overlap(qMax(st.windowRadius.x(), 3.0), qMax(st.windowRadius.y(), 3.0));
+    const QPoint shadow_overlap(qMax(st.windowRadius.x(), 3), qMax(st.windowRadius.y(), 3));
     m_padding = QMargins(shadow_size - st.shadowOffset.x() - shadow_overlap.x(),
                                         shadow_size - st.shadowOffset.y() - shadow_overlap.y(),
                                         shadow_size - shadow_overlap.x(),
@@ -151,7 +151,7 @@ bool WindowShadow::getShadow()
         return true;
 
     auto shadow = false;//m_shadowCache.value(key);
-    bool no_shadow = st.shadowColor.alpha() == 0 || qIsNull(st.shadowRadius);
+    bool no_shadow = st.shadowColor.alpha() == 0 || st.shadowRadius == 0;//qIsNull(st.shadowRadius);
 
     if (!shadow) {
         // create image
@@ -199,10 +199,10 @@ bool WindowShadow::getShadow()
 
         if (st.borderWidth > 0 && st.borderColor.alpha() != 0) {
             painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            painter.setPen(QPen(st.borderColor, st.borderWidth + 1));
+            painter.setPen(QPen(st.borderColor, st.borderWidth + 1 * workspace()->self()->getOsScreenScale()));
             painter.setBrush(Qt::NoBrush);
             if (st.windowRadius.x() > 0 && st.windowRadius.y() > 0) {
-                painter.drawRoundedRect(innerRect, st.windowRadius.x() - 0.5, st.windowRadius.y() - 0.5);
+                painter.drawRoundedRect(innerRect, st.windowRadius.x() - 0.5 * workspace()->self()->getOsScreenScale(), st.windowRadius.y() - 0.5 * workspace()->self()->getOsScreenScale());
             } else {
                 painter.drawRect(innerRect);
             }

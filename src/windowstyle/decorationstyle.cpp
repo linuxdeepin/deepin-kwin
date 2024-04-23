@@ -35,7 +35,7 @@ QPointF DecorationStyle::variant2Point(QVariant value, QPointF defaultV)
         return defaultV;
     }
 
-    QPointF p;
+    QPoint p;
     p.setX(l.first().toDouble());
     p.setY(l.at(1).toDouble());
 
