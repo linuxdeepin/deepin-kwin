@@ -2641,6 +2641,8 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
 
         //store window grids infomation
         m_effectFlyingBack.add(w, targets.value(w));
+        if (m_flyingWinList.contains(w))
+            m_windowEffect.add(w, QRect(), targets.value(w));
     }
 }
 
