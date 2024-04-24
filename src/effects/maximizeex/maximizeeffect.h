@@ -45,7 +45,6 @@ private:
     QRectF                      m_nowGeo, m_lastGeo;
     TimeLine                    m_animationTime;
     int                         m_mode;
-    GLTexture                   *m_texture = nullptr;
 };
 }
 #endif

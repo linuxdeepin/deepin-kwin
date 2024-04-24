@@ -54,7 +54,10 @@ SurfacePixmap *SurfaceItem::pixmap() const
 
 SurfacePixmap *SurfaceItem::previousPixmap() const
 {
-    return m_previousPixmap.get();
+    if (m_previousPixmap && m_previousPixmap->isValid()) {
+        return m_previousPixmap.get();
+    }
+    return nullptr;
 }
 
 void SurfaceItem::referencePreviousPixmap()
