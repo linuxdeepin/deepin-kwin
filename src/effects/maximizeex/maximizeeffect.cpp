@@ -52,7 +52,6 @@ void MaximizeEffect::paintScreen(int mask, const QRegion &region, ScreenPaintDat
 void MaximizeEffect::postPaintScreen()
 {
     if (m_activated && m_animationTime.done()) {
-        m_texture = nullptr;
         setActive(false);
     }
     if (m_activated)
@@ -89,11 +88,10 @@ void MaximizeEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Wind
     if (m_maxiWin == w) {
         float t = m_animationTime.value();
         if (t < (effects->waylandDisplay() ? 0.2 : 0.7) && m_mode == 3) {
-            if (!m_texture) {
-                if (!(m_texture = effects->getWinPreviousTexture(w)))
-                    return;
-                m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
-            }
+            GLTexture *texture = effects->getWinPreviousTexture(w);
+            if (!texture)
+                return;
+            texture->setWrapMode(GL_CLAMP_TO_EDGE);
 
             QPoint p0 = QPoint(w->x(), w->y());
             QPoint p1 = m_oldGeo.toRect().topLeft();
@@ -107,7 +105,7 @@ void MaximizeEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Wind
             float h1 = m_oldGeo.height();
             float ht = (h0 - h1) * t + h1;
 
-            m_texture->bind();
+            texture->bind();
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             auto s = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
@@ -116,9 +114,9 @@ void MaximizeEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Wind
             s->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
             const qreal scale = 1;
             const QRectF rect = QRect(p, QSize(wt, ht));
-            m_texture->render(rect.toRect(), scale);
+            texture->render(rect.toRect(), scale);
             ShaderManager::instance()->popShader();
-            m_texture->unbind();
+            texture->unbind();
             glDisable(GL_BLEND);
 
             return;
