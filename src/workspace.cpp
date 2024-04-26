@@ -1932,7 +1932,8 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
     showing_desktop_timestamp = kwinApp()->x11Time();
 
     Window *topDesk = nullptr;
-    if (!showing || !Compositor::compositing() || !Compositor::self()->isOpenGLCompositing()) { // for the blocker RAII
+    if (!showing || !Compositor::compositing() ||
+        !(effects && static_cast<EffectsHandlerImpl *>(effects)->loadedEffects().contains("kwin4_effect_eyeonscreen"))) { // for the blocker RAII
         StackingUpdatesBlocker blocker(this); // updateLayer & lowerWindow would invalidate stacking_order
         for (int i = stacking_order.count() - 1; i > -1; --i) {
             auto window = stacking_order.at(i);
