@@ -1603,22 +1603,22 @@ void Workspace::setPreviewClientList(const QList<AbstractClient*> &list)
     StackingUpdatesBlocker blocker(this); // updateLayer & lowerClient would invalidate stacking_order
     auto updateStackingOrder = stacking_order;
     for (int i = updateStackingOrder.count() - 1; i > -1; --i) {
-        AbstractClient *c = qobject_cast<AbstractClient*>(updateStackingOrder.at(i));
-
-        if (list.contains(c)) {
-            if (c->isMinimized()) {
-                // 记录窗口的最小化状态
-                previewMinimizedClients.append(c);
-                // 恢复最小化以便预览窗口
-                c->unminimize(true);
+        if (AbstractClient *c = qobject_cast<AbstractClient*>(updateStackingOrder.at(i))) {
+            if (list.contains(c)) {
+                if (c->isMinimized()) {
+                    // 记录窗口的最小化状态
+                    previewMinimizedClients.append(c);
+                    // 恢复最小化以便预览窗口
+                    c->unminimize(true);
+                }
+            } else {
+                if (previewMinimizedClients.contains(c)) {
+                    previewMinimizedClients.removeOne(c);
+                    c->minimize(true);
+                }
             }
-        } else {
-            if (previewMinimizedClients.contains(c)) {
-                previewMinimizedClients.removeOne(c);
-                c->minimize(true);
-            }
+            c->updateLayer();
         }
-        c->updateLayer();
     }
     } // ~StackingUpdatesBlocker
 
