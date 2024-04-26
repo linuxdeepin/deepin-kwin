@@ -280,6 +280,7 @@ target_link_libraries(deepin-kwin_x11
     deepin-kwin
     KF5::Crash
     Qt::X11Extras
+    PkgConfig::Systemd
 )
 
 install(TARGETS deepin-kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)

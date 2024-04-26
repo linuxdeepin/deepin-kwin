@@ -38,6 +38,8 @@
 #include <QtDBus>
 #include <QDBusConnection>
 
+#include <systemd/sd-daemon.h>
+
 // system
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -271,6 +273,10 @@ void ApplicationX11::performStartup()
     if (!cookie.isEmpty()) {
         QDBusInterface("com.deepin.SessionManager", "/com/deepin/SessionManager").call("Register", cookie);
     }
+
+    QTimer::singleShot(100, this, [=] {
+        sd_notify(0, "READY=1");
+    });
 }
 
 bool ApplicationX11::notify(QObject* o, QEvent* e)

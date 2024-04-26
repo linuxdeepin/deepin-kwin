@@ -426,6 +426,9 @@ add_feature_info("SCHED_RESET_ON_FORK"
 pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.29)
 add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
 
+pkg_check_modules(Systemd REQUIRED IMPORTED_TARGET libsystemd)
+add_feature_info(Systemd Systemd_FOUND "Required for deepin-kwin_x11 systemd notify startup")
+
 ########### global ###############
 
 include_directories(BEFORE

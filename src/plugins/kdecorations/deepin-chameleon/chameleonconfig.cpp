@@ -54,7 +54,9 @@ ChameleonConfig::ChameleonConfig(QObject *parent)
     m_atom_kde_net_wm_shadow = KWinUtils::internAtom(_KDE_NET_WM_SHADOW, false);
     m_atom_net_wm_window_type = KWinUtils::internAtom(_NET_WM_WINDOW_TYPE, false);
 
-    QTimer::singleShot(100, this, [this]() { init(); });
+    QTimer::singleShot(100, this, [this]() {
+        QMetaObject::invokeMethod(this, &ChameleonConfig::init, Qt::QueuedConnection);
+    });
 }
 
 ChameleonConfig *ChameleonConfig::instance()
@@ -968,10 +970,16 @@ void ChameleonConfig::init()
         connect(c, SIGNAL(activeChanged()), this, SLOT(updateClientX11Shadow()));
         connect(c, SIGNAL(hasAlphaChanged()), this, SLOT(updateClientX11Shadow()));
         connect(c, SIGNAL(shapedChanged()), this, SLOT(updateClientX11Shadow()));
+
+        QMetaObject::invokeMethod(c, "activeChanged", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(c, "hasAlphaChanged", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(c, "shapedChanged", Qt::QueuedConnection);
     }
 
     for (QObject *c : KWinUtils::instance()->unmanagedList()) {
         connect(c, SIGNAL(shapedChanged()), this, SLOT(updateClientX11Shadow()));
+
+        QMetaObject::invokeMethod(c, "shapedChanged", Qt::QueuedConnection);
     }
 
     // 不要立即触发槽，窗口类型改变时，kwin中还未处理此事件，因此需要在下个事件循环中更新窗口的noBorder属性
