@@ -532,7 +532,7 @@ void X11StandalonePlatform::doUpdateOutputs()
                     // drm platform do this.
                     Xcb::RandR::CrtcGamma gamma(crtcs[i]);
 
-                    output->setCrtc(crtcs[i]);
+                    output->setCrtc(XCB_NONE);
                     output->setGammaRampSize(gamma.isNull() ? 0 : gamma->size);
                     output->setGeometry(geometry);
                     output->setRefreshRate(refreshRate * 1000);
