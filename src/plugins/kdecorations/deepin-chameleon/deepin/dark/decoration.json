@@ -208,7 +208,7 @@
       "width": 1,
       "color": "#33ffffff"
     },
-    "rounded-corner-radius": "18,18",
+    "rounded-corner-radius": "0,0",
     "blur": 10,
     "opcaity": 0,
     "shadow": {

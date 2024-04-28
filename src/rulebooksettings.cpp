@@ -31,7 +31,7 @@ RuleBookSettings::RuleBookSettings(KConfig::OpenFlags flags, QObject *parent)
 }
 
 RuleBookSettings::RuleBookSettings(QObject *parent)
-    : RuleBookSettings(KConfig::FullConfig, parent)
+    : RuleBookSettings(KConfig::IncludeGlobals, parent)
 {
 }
 
