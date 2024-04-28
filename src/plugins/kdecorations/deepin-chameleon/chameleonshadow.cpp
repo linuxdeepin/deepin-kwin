@@ -47,7 +47,7 @@ QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const 
 
     bool no_shadow = config.shadowConfig.shadowColor.alpha() == 0 || qIsNull(config.shadowConfig.shadowRadius);
 
-    auto window_radius = config.radius * scale;
+    auto window_radius = config.radius;
     if (!config.radius.isNull() && !maxWindowRadius.isNull()) {
         const qreal xMin{ std::min(window_radius.x(), maxWindowRadius.x()) };
         const qreal yMin{ std::min(window_radius.y(), maxWindowRadius.y()) };

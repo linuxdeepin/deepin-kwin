@@ -9,6 +9,7 @@
 
 #include "kwinutils.h"
 #include "workspace.h"
+#include "abstract_client.h"
 
 #include <deepin_kwineffects.h>
 
@@ -54,10 +55,7 @@ ChameleonConfig::ChameleonConfig(QObject *parent)
     m_atom_kde_net_wm_shadow = KWinUtils::internAtom(_KDE_NET_WM_SHADOW, false);
     m_atom_net_wm_window_type = KWinUtils::internAtom(_NET_WM_WINDOW_TYPE, false);
 
-    // FIXME: chameleon config instance init before main function.
-    QTimer::singleShot(1000, this, [this]() {
-        QMetaObject::invokeMethod(this, &ChameleonConfig::init, Qt::QueuedConnection);
-    });
+    QMetaObject::invokeMethod(this, &ChameleonConfig::init, Qt::QueuedConnection);
 }
 
 ChameleonConfig *ChameleonConfig::instance()
@@ -156,8 +154,14 @@ void ChameleonConfig::onClientAdded(KWin::AbstractClient *client)
     connect(c, SIGNAL(shapedChanged()), this, SLOT(updateClientX11Shadow()));
     connect(c, SIGNAL(geometryChanged()), this, SLOT(updateWindowSize()));
 
+    QMetaObject::invokeMethod(c, "activeChanged", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(c, "hasAlphaChanged", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(c, "shapedChanged", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(c, "geometryChanged", Qt::QueuedConnection);
+
     enforceWindowProperties(c);
     buildKWinX11Shadow(c);
+
     if (qEnvironmentVariableIsSet(D_KWIN_DEBUG_APP_START_TIME)) {
         debugWindowStartupTime(c);
     }
@@ -172,9 +176,15 @@ void ChameleonConfig::onUnmanagedAdded(KWin::Unmanaged *client)
     connect(c, SIGNAL(shapedChanged()), this, SLOT(updateClientX11Shadow()));
     connect(c, SIGNAL(geometryChanged()), this, SLOT(updateWindowSize()));
 
+    QMetaObject::invokeMethod(c, "shapedChanged", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(c, "geometryChanged", Qt::QueuedConnection);
+
     enforceWindowProperties(c);
     buildKWinX11Shadow(c);
-    debugWindowStartupTime(c);
+
+    if (qEnvironmentVariableIsSet(D_KWIN_DEBUG_APP_START_TIME)) {
+        debugWindowStartupTime(c);
+    }
 }
 
 void ChameleonConfig::onShellClientAdded(KWin::ShellClient *client)
@@ -968,19 +978,11 @@ void ChameleonConfig::init()
 
     // 初始化链接客户端的信号
     for (QObject *c : KWinUtils::instance()->clientList()) {
-        connect(c, SIGNAL(activeChanged()), this, SLOT(updateClientX11Shadow()));
-        connect(c, SIGNAL(hasAlphaChanged()), this, SLOT(updateClientX11Shadow()));
-        connect(c, SIGNAL(shapedChanged()), this, SLOT(updateClientX11Shadow()));
-
-        QMetaObject::invokeMethod(c, "activeChanged", Qt::QueuedConnection);
-        QMetaObject::invokeMethod(c, "hasAlphaChanged", Qt::QueuedConnection);
-        QMetaObject::invokeMethod(c, "shapedChanged", Qt::QueuedConnection);
+        onClientAdded(static_cast<KWin::AbstractClient*>(c));
     }
 
     for (QObject *c : KWinUtils::instance()->unmanagedList()) {
-        connect(c, SIGNAL(shapedChanged()), this, SLOT(updateClientX11Shadow()));
-
-        QMetaObject::invokeMethod(c, "shapedChanged", Qt::QueuedConnection);
+        onClientAdded(static_cast<KWin::AbstractClient*>(c));
     }
 
     // 不要立即触发槽，窗口类型改变时，kwin中还未处理此事件，因此需要在下个事件循环中更新窗口的noBorder属性
@@ -1277,16 +1279,18 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
     qreal scale = window_theme->windowPixelRatio();
     QPointF maxWindowRadius;
 
+    KWin::EffectWindow *effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
+
     if (window_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
         theme_config.radius = window_theme->windowRadius();
-        KWin::EffectWindow *effect = window->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);
         if (effect) {
             auto radiusVariant = effect->data(WindowRadiusRole);
             theme_config.radius = radiusVariant.toPointF();
-            maxWindowRadius = QPointF(effect->width() / 2.0, effect->height() / 2.0);
             scale = 1.0; // 窗口自定义的值不受缩放控制
         }
     }
+
+    maxWindowRadius = QPointF(effect->width() * scale / 2.0, effect->height() * scale / 2.0);
 
     if (window_theme->propertyIsValid(ChameleonWindowTheme::BorderWidthProperty)) {
         theme_config.borderConfig.borderWidth = window_theme->borderWidth();
