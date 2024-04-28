@@ -1,3 +1,8 @@
+deepin-kwin (4:5.25.23-kwin.5.24.3) unstable; urgency=medium
+
+  * fix gamma
+  * fix window border
+
 deepin-kwin (4:5.25.22-kwin.5.24.3) unstable; urgency=medium
 
   * fix launchpad not fullscreen
