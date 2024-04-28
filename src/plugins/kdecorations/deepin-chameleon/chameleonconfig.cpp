@@ -54,7 +54,8 @@ ChameleonConfig::ChameleonConfig(QObject *parent)
     m_atom_kde_net_wm_shadow = KWinUtils::internAtom(_KDE_NET_WM_SHADOW, false);
     m_atom_net_wm_window_type = KWinUtils::internAtom(_NET_WM_WINDOW_TYPE, false);
 
-    QTimer::singleShot(100, this, [this]() {
+    // FIXME: chameleon config instance init before main function.
+    QTimer::singleShot(1000, this, [this]() {
         QMetaObject::invokeMethod(this, &ChameleonConfig::init, Qt::QueuedConnection);
     });
 }
