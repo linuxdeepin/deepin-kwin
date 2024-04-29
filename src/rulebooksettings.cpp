@@ -21,7 +21,7 @@ RuleBookSettings::RuleBookSettings(KSharedConfig::Ptr config, QObject *parent)
 }
 
 RuleBookSettings::RuleBookSettings(const QString &configname, KConfig::OpenFlags flags, QObject *parent)
-    : RuleBookSettings(KSharedConfig::openConfig(configname, flags), parent)
+    : RuleBookSettings(KSharedConfig::openConfig(configname, KConfig::IncludeGlobals), parent)
 {
 }
 

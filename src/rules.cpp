@@ -1026,7 +1026,7 @@ void RuleBook::load()
 {
     deleteAll();
     if (!m_config) {
-        m_config = KSharedConfig::openConfig(QStringLiteral(KWIN_NAME "rulesrc"), KConfig::NoGlobals);
+        m_config = KSharedConfig::openStateConfig(KDE_INSTALL_CONFDIR "/deepin-kwinrulesrc");
     } else {
         m_config->reparseConfiguration();
     }
