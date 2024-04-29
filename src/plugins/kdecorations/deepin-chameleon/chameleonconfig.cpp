@@ -1290,7 +1290,8 @@ void ChameleonConfig::buildKWinX11Shadow(QObject *window)
         }
     }
 
-    maxWindowRadius = QPointF(effect->width() * scale / 2.0, effect->height() * scale / 2.0);
+    if (effect)
+        maxWindowRadius = QPointF(effect->width() * scale / 2.0, effect->height() * scale / 2.0);
 
     if (window_theme->propertyIsValid(ChameleonWindowTheme::BorderWidthProperty)) {
         theme_config.borderConfig.borderWidth = window_theme->borderWidth();
