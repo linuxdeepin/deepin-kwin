@@ -3371,6 +3371,9 @@ void MultitaskViewEffect::removeWinAndRelayout(EffectWindow *w)
         }
     }
 
+    // Don't set deactive when window list is empty, this may be an intermediate state
+
+    /*
     for (int i = 0; i < effects->numberOfDesktops(); i++) {
         MultiViewWinManager *wmobj = getWinManagerObject(i);
         EffectWindowList list;
@@ -3383,6 +3386,7 @@ void MultitaskViewEffect::removeWinAndRelayout(EffectWindow *w)
     }
 
     setActive(false);
+    */
 }
 
 void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop, EffectScreen *toscreen, bool isSwitch)
