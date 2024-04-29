@@ -2564,8 +2564,7 @@ void Workspace::handleReleaseMouseCommand()
     if (m_clientIDHandlingMouseCommand) {
         Window *w = nullptr;
         for (auto it = stacking_order.crbegin(), end = stacking_order.crend(); it != end; ++it) {
-            if ((*it)->isOnCurrentDesktop() && !(*it)->isMinimized()
-                    && (*it)->window() == m_clientIDHandlingMouseCommand
+            if ((*it)->isOnCurrentDesktop() && !(*it)->isMinimized() && (*it)->wantsInput()
                     && (*it)->frameGeometry().contains(Cursors::self()->mouse()->pos())) {
                 w = *it;
                 break;
