@@ -482,7 +482,6 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     if (isDesktop() && bit_depth == 32) {
         // force desktop windows to be opaque. It's a desktop after all, there is no window below
         bit_depth = 24;
-        setOpacity(1.0);
     }
 
     // If it's already mapped, ignore hint
@@ -925,7 +924,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
         if (info->state() & NET::Modal) {
             setModal(true);
         }
-        setOpacity(info->opacityF());
+        setOpacity(isDesktop() ? 1.0 : info->opacityF());
 
         setFullScreen(rules()->checkFullScreen(info->state() & NET::FullScreen, !isMapped), false);
     }
