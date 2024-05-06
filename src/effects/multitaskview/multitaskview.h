@@ -110,6 +110,9 @@ private:
     };
     static CGarbo Garbo;
 
+public:
+    QHash<QString, QVector<QString>> m_allBackgroundList; // monitor name -> background list
+
 private:
     QSet<QString>    m_backgroundAllList;
     QSet<QString>    m_currentBackgroundList;
@@ -123,7 +126,6 @@ private:
     QHash<QString, QPair<QSize, QPixmap>> m_wpCachedPixmaps;
     QHash<QString, QPair<QSize, QPixmap>> m_bgCachedPixmaps;
     QList<QMap<QString,QVariant>> m_monitorInfoList;
-
 };
 
 class MultiViewWorkspace : public QObject
