@@ -2156,6 +2156,7 @@ TOPLEVEL_HELPER(KWaylandServer::SurfaceInterface *, surface, surface)
 TOPLEVEL_HELPER(bool, isPopupWindow, isPopupWindow)
 TOPLEVEL_HELPER(bool, isOutline, isOutline)
 TOPLEVEL_HELPER(bool, isLockScreen, isLockScreen)
+TOPLEVEL_HELPER(bool, isSwitcherWin, isSwitcherWin)
 TOPLEVEL_HELPER(pid_t, pid, pid)
 TOPLEVEL_HELPER(qlonglong, windowId, window)
 

@@ -248,6 +248,14 @@ bool InternalClient::isShown() const
     return readyForPainting();
 }
 
+bool InternalClient::isSwitcherWin() const
+{
+    if (m_internalWindow) {
+        return m_internalWindow->property("__kwin_switcherwin").toBool();
+    }
+    return false;
+}
+
 bool InternalClient::isHiddenInternal() const
 {
     return false;

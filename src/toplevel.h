@@ -130,6 +130,7 @@ class KWIN_EXPORT Toplevel : public QObject
     Q_PROPERTY(QByteArray resourceName READ resourceName NOTIFY windowClassChanged)
     Q_PROPERTY(QByteArray resourceClass READ resourceClass NOTIFY windowClassChanged)
     Q_PROPERTY(QByteArray windowRole READ windowRole NOTIFY windowRoleChanged)
+    Q_PROPERTY(bool switcherwin READ isSwitcherWin)
 
     /**
      * Returns whether the window is a desktop background window (the one with wallpaper).
@@ -394,6 +395,7 @@ public:
     virtual bool isInputMethod() const;
     virtual bool isOutline() const;
     virtual bool isInternal() const;
+    virtual bool isSwitcherWin() const;
 
     /**
      * Returns the virtual desktop within the workspace() the client window
@@ -905,6 +907,12 @@ inline bool Toplevel::isOutline() const
 {
     return false;
 }
+
+inline bool Toplevel::isSwitcherWin() const
+{
+    return false;
+}
+
 
 inline bool Toplevel::isInternal() const
 {

@@ -46,6 +46,7 @@ public:
     bool isLockScreen() const override;
     bool isOutline() const override;
     bool isShown() const override;
+    bool isSwitcherWin() const override;
     bool isHiddenInternal() const override;
     void hideClient() override;
     void showClient() override;

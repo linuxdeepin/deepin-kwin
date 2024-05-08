@@ -249,6 +249,9 @@ public:
     bool isOutline() const override {
         return false;
     }
+    bool isSwitcherWin() const override {
+        return false;
+    }
     bool isLockScreen() const override {
         return false;
     }

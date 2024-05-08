@@ -91,6 +91,11 @@ public:
         return m_wasLockScreen;
     }
 
+    bool isSwitcherWin() const override
+    {
+        return m_wasSwitcherWin;
+    }
+
 private Q_SLOTS:
     void mainClientClosed(KWin::Toplevel *client);
 
@@ -127,6 +132,7 @@ private:
     bool m_wasPopupWindow;
     bool m_wasOutline;
     bool m_wasLockScreen;
+    bool m_wasSwitcherWin;
 };
 
 inline void Deleted::refWindow()

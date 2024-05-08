@@ -502,6 +502,7 @@ public:
     bool isPopupWindow() const override;
     bool isOutline() const override;
     bool isLockScreen() const override;
+    bool isSwitcherWin() const override;
 
     KWaylandServer::SurfaceInterface *surface() const override;
     bool isFullScreen() const override;

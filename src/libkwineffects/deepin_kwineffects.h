@@ -2182,6 +2182,8 @@ class KWINEFFECTS_EXPORT EffectWindow : public QObject
      */
     Q_PROPERTY(bool outline READ isOutline CONSTANT)
 
+    Q_PROPERTY(bool switcherwin READ isSwitcherWin CONSTANT)
+
     /**
      * The PID of the application this window belongs to.
      *
@@ -2509,6 +2511,9 @@ public:
      * @since 5.16
      */
     virtual bool isOutline() const = 0;
+
+
+    virtual bool isSwitcherWin() const = 0;
 
     /**
      * @since 5.22
