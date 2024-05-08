@@ -17,7 +17,7 @@
       },
       "button-group": {
         "menu": {
-          "pos": "12,3",
+          "pos": "4,4",
           "icon": {
             "normal": ":/deepin/themes/deepin/light/icons/menu_normal.svg",
             "hover": ":/deepin/themes/deepin/light/icons/menu_hover.svg",
