@@ -35,6 +35,7 @@ public:
     }
     NET::WindowType windowType(bool direct = false, int supported_types = 0) const override;
     bool isOutline() const override;
+    bool isSwitcherWin() const override;
 
     bool fetchWindowForLockScreen();
 
@@ -53,6 +54,7 @@ private:
     void initialize();
     bool m_outline = false;
     bool m_scheduledRelease = false;
+    bool m_switcherwin = false;
 };
 
 } // namespace

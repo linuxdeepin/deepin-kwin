@@ -36,6 +36,7 @@ Deleted::Deleted()
     , m_wasPopupWindow(false)
     , m_wasOutline(false)
     , m_wasLockScreen(false)
+    , m_wasSwitcherWin(false)
 {
 }
 
@@ -111,6 +112,7 @@ void Deleted::copyToDeleted(Toplevel* c)
     m_wasPopupWindow = c->isPopupWindow();
     m_wasOutline = c->isOutline();
     m_wasLockScreen = c->isLockScreen();
+    m_wasSwitcherWin = c->isSwitcherWin();
 }
 
 void Deleted::unrefWindow()

@@ -315,6 +315,10 @@ void BlurEffect::updateBlurRegion(EffectWindow *w) const
         }
     }
 
+    if (!valid && w->isSwitcherWin()) {
+        valid = true;
+    }
+
     // If the specified blur region is empty, enable blur for the whole window.
     if (region.isEmpty() && valid) {
         // Set the data to a dummy value.
@@ -629,11 +633,16 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
             } else {
                 m_noiseStrength = -2;
                 const QVariant valueRadius = w->data(WindowRadiusRole);
-                if (valueRadius.isValid() &&
+                if ((valueRadius.isValid() &&
                     valueRadius.toPointF().x() > 2 &&
-                    valueRadius.toPointF().y() > 2)
+                    valueRadius.toPointF().y() > 2) || w->isSwitcherWin())
                 {
                     QPointF cornerRadius = w->data(WindowRadiusRole).toPointF();
+
+                    if (w->isSwitcherWin()) {
+                        cornerRadius = QPointF(6, 6);
+                    }
+
                     const qreal xMin{ std::min(cornerRadius.x(),
                                                w->width() / 2.0) };
                     const qreal yMin{ std::min(cornerRadius.y(),
@@ -669,6 +678,7 @@ void BlurEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, Wi
                         w->setProperty("__SHAPE_NEW", shape);
                     }
                 }
+
 
                 if (!shape.isEmpty())
                     doBlur(shape, screen, data.opacity(), data.screenProjectionMatrix(), w->isDock() || transientForIsDock, w->frameGeometry());

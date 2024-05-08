@@ -124,6 +124,7 @@ bool Unmanaged::track(xcb_window_t w)
     setupCompositing();
     if (QWindow *internalWindow = findInternalWindow()) {
         m_outline = internalWindow->property("__kwin_outline").toBool();
+        m_switcherwin = internalWindow->property("__kwin_switcherwin").toBool();
     }
     if (effects)
         static_cast<EffectsHandlerImpl*>(effects)->checkInputWindowStacking();
@@ -216,6 +217,11 @@ bool Unmanaged::isKeepAbove()
 bool Unmanaged::isOutline() const
 {
     return m_outline;
+}
+
+bool Unmanaged::isSwitcherWin() const
+{
+    return m_switcherwin;
 }
 
 QWindow *Unmanaged::findInternalWindow() const
