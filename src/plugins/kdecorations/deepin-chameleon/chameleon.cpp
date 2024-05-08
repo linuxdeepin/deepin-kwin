@@ -402,14 +402,14 @@ void Chameleon::updateButtonsGeometry()
 
         // padding
         const int vPadding = 0;
-        const int hPadding = s->smallSpacing();
+        const int hPadding = 0;
 
         m_leftButtons->buttons().front()->setGeometry(QRectF(menuIconPos(), QSizeF(menuIconWidth(), menuIconHeight())));
         if (c->isMaximizedHorizontally()) {
             // add offsets on the side buttons, to preserve padding, but satisfy Fitts law
             m_leftButtons->setPos(QPointF(menuIconPos().x(), menuIconPos().y() + vPadding));
         } else {
-            m_leftButtons->setPos(QPointF(menuIconPos().x() + hPadding + borderLeft(), menuIconPos().y() + vPadding));
+            m_leftButtons->setPos(QPointF(menuIconPos().x() + hPadding, menuIconPos().y() + vPadding));
         }
     }
 
