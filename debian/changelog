@@ -1,3 +1,12 @@
+kwin (5.27.2.200-deepin200-1) unstable; urgency=medium
+
+  [dingzhixuan]
+  * feat: add kvm interface
+  * fix: showing desktop don't work
+  * fix: adjust the rule of wayland window shadow
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Thu, 09 May 2024 17:41:02 +0800
+
 kwin (4:5.27.2.99-deepin99-1) unstable; urgency=medium
 
   [ zhangyu ]
