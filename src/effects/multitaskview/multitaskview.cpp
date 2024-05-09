@@ -69,6 +69,10 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
 #define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
 
+#define DBUS_IMAGEEFFECT_SERVICE  "com.deepin.daemon.ImageEffect"
+#define DBUS_BLUR_OBJ  "/com/deepin/daemon/ImageBlur"
+#define DBUS_BLUR_INTF "com.deepin.daemon.ImageBlur"
+
 #define MULTITASK_CLOSE_SVG      ":/effects/multitaskview/buttons/multiview_delete.svg"
 #define MULTITASK_TOP_SVG        ":/effects/multitaskview/buttons/multiview_top.svg"
 #define MULTITASK_TOP_ACTIVE_SVG ":/effects/multitaskview/buttons/multiview_top_active.svg"
@@ -209,9 +213,26 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
     } else {
         backgroundUri = QLatin1String(fallback_background_name);
     }
-    m_currentBackgroundList.insert(backgroundUri);
-    backgroundUri = toRealPath(backgroundUri);
 
+    backgroundUri = toRealPath(backgroundUri);
+    if (m_wpCachedPixmaps.contains(backgroundUri + strBackgroundPath)) {
+        auto& p = m_wpCachedPixmaps[backgroundUri + strBackgroundPath];
+        workspaceBg = getCachePix(st.workspaceSize, p);
+    }
+    if (workspaceBg.isNull()) {
+        QPixmap pixmap = cutBackgroundPix(st.workspaceSize, backgroundUri);
+        m_wpCachedPixmaps[backgroundUri + strBackgroundPath] = qMakePair(st.workspaceSize, pixmap);
+        workspaceBg = pixmap;
+    }
+
+
+    QDBusInterface imageBlurInterface(DBUS_IMAGEEFFECT_SERVICE, DBUS_BLUR_OBJ, DBUS_BLUR_INTF, QDBusConnection::systemBus());
+    imageBlurInterface.setTimeout(100);
+    QDBusReply<QString> blurReply = imageBlurInterface.call("Get", backgroundUri);
+    if (!blurReply.value().isEmpty())
+        backgroundUri = toRealPath(QString(blurReply.value()));
+
+    m_currentBackgroundList.insert(backgroundUri);
     if (m_bgCachedPixmaps.contains(backgroundUri + strBackgroundPath)) {
         auto& p = m_bgCachedPixmaps[backgroundUri + strBackgroundPath];
         desktopBg = getCachePix(st.desktopSize, p);
@@ -222,15 +243,6 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
         desktopBg = pixmap;
     }
 
-    if (m_wpCachedPixmaps.contains(backgroundUri + strBackgroundPath)) {
-        auto& p = m_wpCachedPixmaps[backgroundUri + strBackgroundPath];
-        workspaceBg = getCachePix(st.workspaceSize, p);
-    }
-    if (workspaceBg.isNull()) {
-        QPixmap pixmap = cutBackgroundPix(st.workspaceSize, backgroundUri);
-        m_wpCachedPixmaps[backgroundUri + strBackgroundPath] = qMakePair(st.workspaceSize, pixmap);
-        workspaceBg = pixmap;
-    }
 }
 
 void MultiViewBackgroundManager::cacheWorkspaceBg(BgInfo_st &st)
@@ -364,10 +376,17 @@ void MultiViewBackgroundManager::setNewBackground(BgInfo_st &st, QPixmap &deskto
     wm.call( "SetWorkspaceBackgroundForMonitor", st.desktop, st.screenName, file);
 
     file = toRealPath(file);
-    desktopBg = cutBackgroundPix(st.desktopSize, file);
-    m_bgCachedPixmaps[file + strBackgroundPath] = qMakePair(st.desktopSize, desktopBg);
+
     workspaceBg = cutBackgroundPix(st.workspaceSize, file);
     m_wpCachedPixmaps[file + strBackgroundPath] = qMakePair(st.workspaceSize, workspaceBg);
+
+    QDBusInterface imageBlurInterface(DBUS_IMAGEEFFECT_SERVICE, DBUS_BLUR_OBJ, DBUS_BLUR_INTF, QDBusConnection::systemBus());
+    imageBlurInterface.setTimeout(100);
+    QDBusReply<QString> blurReply = imageBlurInterface.call("Get", file);
+    if (!blurReply.value().isEmpty())
+        file = toRealPath(QString(blurReply.value()));
+    desktopBg = cutBackgroundPix(st.desktopSize, file);
+    m_bgCachedPixmaps[file + strBackgroundPath] = qMakePair(st.desktopSize, desktopBg);
 }
 
 void MultiViewBackgroundManager::setMonitorInfo(QList<QMap<QString,QVariant>> monitorInfoList)
