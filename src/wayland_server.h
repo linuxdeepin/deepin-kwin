@@ -86,7 +86,8 @@ public:
         NoOptions = 0x0,
         LockScreen = 0x1,
         NoLockScreenIntegration = 0x2,
-        NoGlobalShortcuts = 0x4
+        NoGlobalShortcuts = 0x4,
+        NoVtSwitch = 0x8
     };
 
     Q_DECLARE_FLAGS(InitializationFlags, InitializationFlag)
@@ -225,6 +226,11 @@ public:
      * @returns whether any kind of global shortcuts are supported.
      */
     bool hasGlobalShortcutSupport() const;
+
+    /**
+     * @returns whether vt switch global shortcuts are supported.
+     **/
+    bool hasVtSwitchSupport() const;
 
      /**
      * @return whether there are clients that prohibits screenshots

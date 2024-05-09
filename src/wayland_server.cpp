@@ -1112,6 +1112,11 @@ bool WaylandServer::hasGlobalShortcutSupport() const
     return !m_initFlags.testFlag(InitializationFlag::NoGlobalShortcuts);
 }
 
+bool WaylandServer::hasVtSwitchSupport() const
+{
+    return !m_initFlags.testFlag(InitializationFlag::NoVtSwitch);
+}
+
 static Window *findClientInList(const QList<Window*> &clients, const QByteArray &resource)
 {
     auto it = std::find_if(clients.begin(), clients.end(),

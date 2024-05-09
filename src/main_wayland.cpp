@@ -456,6 +456,10 @@ int main(int argc, char *argv[])
                                                i18n("Starts the session without global shortcuts support."));
     parser.addOption(noGlobalShortcutsOption);
 
+    QCommandLineOption noVtSwitchOption(QStringLiteral("no-vt-switch"),
+                                               i18n("Disable virtual terminal switch global shortcuts support."));
+    parser.addOption(noVtSwitchOption);
+
 #if KWIN_BUILD_ACTIVITIES
     QCommandLineOption noActivitiesOption(QStringLiteral("no-kactivities"),
                                           i18n("Disable KActivities integration."));
@@ -570,6 +574,10 @@ int main(int argc, char *argv[])
 #endif
     if (parser.isSet(noGlobalShortcutsOption)) {
         flags |= KWin::WaylandServer::InitializationFlag::NoGlobalShortcuts;
+    }
+
+    if (parser.isSet(noVtSwitchOption)) {
+        flags |= KWin::WaylandServer::InitializationFlag::NoVtSwitch;
     }
 
     const QString socketName = parser.value(waylandSocketOption);

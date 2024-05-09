@@ -3100,8 +3100,9 @@ private:
 void InputRedirection::setupInputFilters()
 {
     const bool hasGlobalShortcutSupport = waylandServer()->hasGlobalShortcutSupport();
-    if (kwinApp()->session()->capabilities() & Session::Capability::SwitchTerminal)
-        {
+    const bool hasVtSwitchSupport = waylandServer() && waylandServer()->hasVtSwitchSupport();
+    if ((kwinApp()->session()->capabilities() & Session::Capability::SwitchTerminal) &&
+        hasVtSwitchSupport) {
         installInputEventFilter(new VirtualTerminalFilter);
     }
 
