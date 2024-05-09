@@ -35,6 +35,7 @@ private:
     bool isRelevantWithPresentWindows(EffectWindow *w) const;
     void resetWinPos(EffectWindow *w, QuickTileMode mode);
     int paintWinPos(EffectWindow *w, QuickTileMode mode, int calculationMethod);
+    void initTextureMask();
 public Q_SLOTS:
     void setActive(bool active);
     void toggleActive() {
@@ -55,6 +56,7 @@ private:
     EffectScreen                *m_dragScreen = nullptr;
     QuickTileMode               m_currentMode;
     std::chrono::milliseconds   lastPresentTime;
+    std::map<QString, GLTexture*> m_bgTextures;
 };
 }
 

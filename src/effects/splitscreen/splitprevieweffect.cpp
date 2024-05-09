@@ -8,6 +8,7 @@
 */
 #include "splitprevieweffect.h"
 #include "../utils/common.h"
+#include "workspace.h"
 #include <QWindow>
 #include <QKeyEvent>
 #include <QDBusMessage>
@@ -17,6 +18,10 @@
 #define FIRST_WIN_SCALE     (float)(720.0 / 1080.0)
 #define SPACING_H           (float)(20.0 / 1080.0)
 #define SPACING_W           (float)(20.0 / 1920.0)
+
+#define DBUS_IMAGEEFFECT_SERVICE  "com.deepin.daemon.ImageEffect"
+#define DBUS_BLUR_OBJ  "/com/deepin/daemon/ImageBlur"
+#define DBUS_BLUR_INTF "com.deepin.daemon.ImageBlur"
 
 namespace KWin
 {
@@ -99,8 +104,25 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
         QRegion reg(area.toRect());
         WindowPaintData d = data;
         if (w->isDesktop()) {
-            d.setBrightness(BRIGHTNESS);
-            effects->paintWindow(w, mask, reg, d);
+            auto m_bkBlurShader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
+            const QRectF rect = scaledRect(w->frameGeometry(), effects->renderTargetScale());
+            QMatrix4x4 mvp(data.projectionMatrix());
+            mvp.translate(rect.x(), rect.y());
+            m_bkBlurShader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            QString screenName = w->screen()->name();
+            if (!m_bgTextures[screenName]) {
+                d.setBrightness(BRIGHTNESS);
+                effects->paintWindow(w, mask, reg, d);
+                return ;
+            }
+            m_bgTextures[screenName]->bind();
+            m_bgTextures[screenName]->render(infiniteRegion(), w->frameGeometry().toRect(), effects->renderTargetScale());
+            m_bgTextures[screenName]->unbind();
+            glDisable(GL_BLEND);
+            ShaderManager::instance()->popShader();
         } else if (!w->isDesktop()) {
             auto geo = m_motionManagers[0].transformedGeometry(w);
             d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
@@ -123,6 +145,21 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
 bool SplitPreviewEffect::isActive() const
 {
     return m_activated && !effects->isScreenLocked();
+}
+
+static QString toRealPath(const QString &path)
+{
+    // QString res = path;
+    QString res = QUrl::fromPercentEncoding(path.toUtf8());
+    if (res.startsWith("file:///")) {
+        res.remove("file://");
+    }
+
+    QFileInfo fi(res);
+    if (fi.isSymLink()) {
+        res = fi.symLinkTarget();
+    }
+    return res;
 }
 
 void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
@@ -159,6 +196,40 @@ void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
     }
 }
 
+void SplitPreviewEffect::initTextureMask()
+{
+    for (Output *output : workspace()->outputs()) {
+        EffectScreen *effectScreen = effectsEx->findScreen(output);
+        QString screenName = effectScreen->name();
+        QString backgroundUrl;
+        QDBusInterface wmInterface("com.deepin.wm", "/com/deepin/wm", "com.deepin.wm");
+        QDBusReply<QString> getReply = wmInterface.call("GetCurrentWorkspaceBackgroundForMonitor", screenName);
+        if (!getReply.value().isEmpty()) {
+            backgroundUrl = getReply.value();
+        } else {
+            m_bgTextures[screenName] = nullptr;
+            continue;
+        }
+        backgroundUrl = toRealPath(backgroundUrl);
+
+        QDBusInterface imageBlurInterface(DBUS_IMAGEEFFECT_SERVICE, DBUS_BLUR_OBJ, DBUS_BLUR_INTF, QDBusConnection::systemBus());
+        imageBlurInterface.setTimeout(100);
+        QDBusReply<QString> blurReply = imageBlurInterface.call("Get", backgroundUrl);
+        QString imageUrl;
+        if (!blurReply.value().isEmpty()) {
+            imageUrl = blurReply.value();
+        } else {
+            m_bgTextures[screenName] = nullptr;
+            continue;
+        }
+
+        effects->makeOpenGLContextCurrent();
+        m_bgTextures[screenName] = new GLTexture(imageUrl);
+        m_bgTextures[screenName]->setFilter(GL_LINEAR);
+        m_bgTextures[screenName]->setWrapMode(GL_CLAMP_TO_EDGE);
+    }
+}
+
 void SplitPreviewEffect::setActive(bool active)
 {
     if (effects->activeFullScreenEffect() && effects->activeFullScreenEffect() != this)
@@ -180,6 +251,7 @@ void SplitPreviewEffect::setActive(bool active)
         effects->startMouseInterception(this, Qt::PointingHandCursor);
         m_hasKeyboardGrab = effects->grabKeyboard(this);
         effects->setActiveFullScreenEffect(this);
+        initTextureMask();
     } else {
         cleanup();
     }
@@ -213,6 +285,10 @@ void SplitPreviewEffect::cleanup()
     m_unPreviewWin.clear();
 
     m_effectFrame = nullptr;
+    for (auto itr = m_bgTextures.begin(); itr != m_bgTextures.end(); itr ++) {
+        delete itr->second;
+    }
+    m_bgTextures.clear();
 }
 
 QRect SplitPreviewEffect::getPreviewWindowsGeometry(EffectWindow *w)

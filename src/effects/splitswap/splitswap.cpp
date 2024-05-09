@@ -7,7 +7,11 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "splitswap.h"
+#include "workspace.h"
 
+#define DBUS_IMAGEEFFECT_SERVICE  "com.deepin.daemon.ImageEffect"
+#define DBUS_BLUR_OBJ  "/com/deepin/daemon/ImageBlur"
+#define DBUS_BLUR_INTF "com.deepin.daemon.ImageBlur"
 namespace SplitConsts {
     const QEasingCurve TOGGLE_MODE =  QEasingCurve::OutExpo;// AnimationMode.EASE_OUT_Expo;
     static const int FADE_DURATION = 600;
@@ -95,7 +99,25 @@ void SplitSwapEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Win
     }
 
     if (w->isDesktop()) {
-        data.setBrightness(0.8);
+        auto m_bkBlurShader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
+        const QRectF rect = scaledRect(w->frameGeometry(), effects->renderTargetScale());
+        QMatrix4x4 mvp(data.projectionMatrix());
+        mvp.translate(rect.x(), rect.y());
+        m_bkBlurShader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        QString screenName = w->screen()->name();
+        if (!m_bgTextures[screenName]) {
+            data.setBrightness(0.8);
+            effects->paintWindow(w, mask, region, data);
+            return ;
+        }
+        m_bgTextures[screenName]->bind();
+        m_bgTextures[screenName]->render(infiniteRegion(), w->frameGeometry().toRect(), effects->renderTargetScale());
+        m_bgTextures[screenName]->unbind();
+        glDisable(GL_BLEND);
+        ShaderManager::instance()->popShader();
+        return ;
     }
     if (m_isSwap) {
         int xPos = 0;
@@ -130,6 +152,55 @@ void SplitSwapEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Win
     effects->paintWindow(w, mask, region, data);
 }
 
+static QString toRealPath(const QString &path)
+{
+    // QString res = path;
+    QString res = QUrl::fromPercentEncoding(path.toUtf8());
+    if (res.startsWith("file:///")) {
+        res.remove("file://");
+    }
+
+    QFileInfo fi(res);
+    if (fi.isSymLink()) {
+        res = fi.symLinkTarget();
+    }
+    return res;
+}
+
+void SplitSwapEffect::initTextureMask()
+{
+    for (Output *output : workspace()->outputs()) {
+        EffectScreen *effectScreen = effectsEx->findScreen(output);
+        QString screenName = effectScreen->name();
+        QString backgroundUrl;
+        QDBusInterface wmInterface("com.deepin.wm", "/com/deepin/wm", "com.deepin.wm");
+        QDBusReply<QString> getReply = wmInterface.call("GetCurrentWorkspaceBackgroundForMonitor", screenName);
+        if (!getReply.value().isEmpty()) {
+            backgroundUrl = getReply.value();
+        } else {
+            m_bgTextures[screenName] = nullptr;
+            continue;
+        }
+        backgroundUrl = toRealPath(backgroundUrl);
+
+        QDBusInterface imageBlurInterface(DBUS_IMAGEEFFECT_SERVICE, DBUS_BLUR_OBJ, DBUS_BLUR_INTF, QDBusConnection::systemBus());
+        imageBlurInterface.setTimeout(100);
+        QDBusReply<QString> blurReply = imageBlurInterface.call("Get", backgroundUrl);
+        QString imageUrl;
+        if (!blurReply.value().isEmpty()) {
+            imageUrl = blurReply.value();
+        } else {
+            m_bgTextures[screenName] = nullptr;
+            continue;
+        }
+
+        effects->makeOpenGLContextCurrent();
+        m_bgTextures[screenName] = new GLTexture(imageUrl);
+        m_bgTextures[screenName]->setFilter(GL_LINEAR);
+        m_bgTextures[screenName]->setWrapMode(GL_CLAMP_TO_EDGE);
+    }
+}
+
 bool SplitSwapEffect::isActive() const
 {
     return m_activated;
@@ -142,12 +213,17 @@ void SplitSwapEffect::setActive(bool active)
     m_activated = active;
     if (active) {
         effects->setActiveFullScreenEffect(this);
+        initTextureMask();
     } else {
         m_isSwap = false;
         m_leftMode = int(QuickTileFlag::Left);
         m_rightMode = int(QuickTileFlag::Right);
         m_dragEffectWin = nullptr;
         m_dragScreen = nullptr;
+        for (auto itr = m_bgTextures.begin(); itr != m_bgTextures.end(); itr ++) {
+            delete itr->second;
+        }
+        m_bgTextures.clear();
         effects->setActiveFullScreenEffect(0);
     }
     effects->addRepaintFull();

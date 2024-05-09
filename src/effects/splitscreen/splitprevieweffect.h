@@ -49,6 +49,7 @@ private:
     void relayout();
     void inhibit();
     void uninhibit();
+    void initTextureMask();
 
 public Q_SLOTS:
     void toggle(KWin::EffectWindow *w);
@@ -69,6 +70,7 @@ private:
     std::unique_ptr<EffectFrameEx>  m_effectFrame = nullptr;
     QList<EffectWindow *>           m_unPreviewWin;
     int                          m_inhibitCount = 0;
+    std::map<QString, GLTexture*> m_bgTextures;
 };
 }
 #endif
