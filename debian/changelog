@@ -1,4 +1,11 @@
-kwin (5.27.2.200-deepin200-1) unstable; urgency=medium
+kwin (4:5.27.2.201-deepin201-1) unstable; urgency=medium
+
+  [dingzhixuan]
+  * fix: Prevent multiple hiding cursor.
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Fri, 10 May 2024 15:46:37 +0800
+
+kwin (4:5.27.2.200-deepin200-1) unstable; urgency=medium
 
   [dingzhixuan]
   * feat: add kvm interface
