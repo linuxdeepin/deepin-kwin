@@ -101,9 +101,11 @@ void DDEKvmInterface::pointerMotion(const QPointF &pos)
     if (!d->ddeKvmPointer) {
         return;
     }
-    if (d->globalPos == pos) {
-        return;
-    }
+
+    // TODO maybe need send pos as same
+    // if (d->globalPos == pos) {
+    //     return;
+    // }
     d->globalPos = pos;
     d->ddeKvmPointer->sendMotion(pos);
 }
@@ -159,6 +161,7 @@ void DDEKvmInterface::updateModifiers(quint32 depressed, quint32 latched, quint3
     UPDATE(latched)
     UPDATE(locked)
     UPDATE(group)
+#undef UPDATE
     if (!changed) {
         return;
     }
