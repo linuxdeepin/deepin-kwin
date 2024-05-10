@@ -297,6 +297,8 @@ public:
 
     GLTexture* getWinPreviousTexture(KWin::EffectWindow *) override;
 
+    Output *getCurrentPaintingScreen() override;
+
 public Q_SLOTS:
     void slotCurrentTabAboutToChange(EffectWindow *from, EffectWindow *to);
     void slotTabAdded(EffectWindow *from, EffectWindow *to);

@@ -383,6 +383,7 @@ private:
     QuickTileMode m_lastTilingMode;
     bool m_isDDESessionRegister = false;
     QImage m_prohibitShotImage;
+    Output *m_paintingScreen = nullptr;
 
     //-------------------------------------------------
     // Unsorted
@@ -698,6 +699,15 @@ public Q_SLOTS:
     void toggleActiveMaximize();
     void slotDockPositionChanged();
     void slotShowingDesktopEffectChanged(bool);
+
+    void setCurrentPaintingScreen(Output *output) {
+        m_paintingScreen = output;
+    }
+
+    Output *getCurrentPaintingScreen() {
+        return m_paintingScreen;
+    }
+
 
 private Q_SLOTS:
     void desktopResized();

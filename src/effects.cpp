@@ -1945,6 +1945,11 @@ EffectType EffectsHandlerImpl::effectType() const
     return m_compositor->effectType();
 }
 
+Output *EffectsHandlerImpl::getCurrentPaintingScreen()
+{
+    return Workspace::self()->getCurrentPaintingScreen();
+}
+
 void EffectsHandlerImpl::renderOffscreenQuickView(OffscreenQuickView *w) const
 {
     if (!w->isVisible()) {

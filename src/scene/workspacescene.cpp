@@ -200,6 +200,9 @@ void WorkspaceScene::prePaint(SceneDelegate *delegate)
         m_renderer->setRenderTargetRect(painted_screen->fractionalGeometry());
         m_renderer->setRenderTargetScale(painted_screen->scale());
     }
+    if (workspace()) {
+        workspace()->setCurrentPaintingScreen(painted_screen);
+    }
 
     const RenderLoop *renderLoop = painted_screen->renderLoop();
     const std::chrono::milliseconds presentTime =

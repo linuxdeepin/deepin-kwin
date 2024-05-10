@@ -87,6 +87,9 @@ public:
 
     static const QSet<QString> motionEffectList;
 
+    virtual Output *getCurrentPaintingScreen() = 0;
+
+
 Q_SIGNALS:
     void triggerSplitPreview(KWin::EffectWindow *w);
     void swapSplitWin(KWin::EffectWindow *w, int index);

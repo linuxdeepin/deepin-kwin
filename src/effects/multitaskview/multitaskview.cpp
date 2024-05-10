@@ -746,7 +746,16 @@ void MultitaskViewEffect::paintScreen(int mask, const QRegion &region, ScreenPai
             if (lwkobj && cwkobj) {
                 auto area = lwkobj->getfullArea();
                 if (effects->waylandDisplay()) {
-
+                    EffectScreen *effectscreen = effectsEx->findScreen(effectsEx->getCurrentPaintingScreen());
+                    if (effectscreen && iter.key() != effectscreen) {
+                        if (isExtensionMode()) {
+                            continue;
+                        } else {
+                            if (area.x() > 0) {
+                                continue;
+                            }
+                        }
+                    }
                 } else {
                     glEnable(GL_SCISSOR_TEST);
                     glScissor(area.x(), 0, area.width(), m_allFullArea.height());
