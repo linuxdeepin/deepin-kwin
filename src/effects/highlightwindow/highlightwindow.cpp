@@ -161,6 +161,9 @@ void HighlightWindowEffect::prepareHighlighting()
 {
     const EffectWindowList windows = effects->stackingOrder();
     for (EffectWindow *window : windows) {
+        if (window->isWaterMark()) {
+            effects->setElevatedWindow(window, true);
+        }
         if (!isHighlightWindow(window)) {
             continue;
         }
