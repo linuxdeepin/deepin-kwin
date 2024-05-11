@@ -612,6 +612,8 @@ public:
     int getDockHiddenState();
     int getDockDirection();
     bool getBlurStatus();
+    bool isEffectDuring() { return m_isEffectDuring; }
+    void setEffectDuringState(bool state) { m_isEffectDuring = state; }
 
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
@@ -975,6 +977,7 @@ private:
     QList<Window*> previewClients;
 
     bool m_printKwinFps = false;
+    bool m_isEffectDuring = false;
 
     QRectF m_lastDockPos = QRectF();
     DBusDock *m_dockInter = nullptr;

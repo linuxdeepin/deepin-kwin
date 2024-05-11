@@ -166,6 +166,8 @@ void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
 {
     if (!effectsEx->getQuickTileMode(w))
         return;
+    if (effects->activeFullScreenEffect() && effects->activeFullScreenEffect() != this)
+        return;
     m_window = w;
     EffectWindowList windows = effects->stackingOrder();
     int currentDesktop = effects->currentDesktop();

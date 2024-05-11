@@ -656,6 +656,7 @@ void EffectsHandlerImpl::setActiveFullScreenEffect(Effect *e)
             }
         }
         Q_EMIT hasActiveFullScreenEffectChanged();
+        workspace()->setEffectDuringState(e != nullptr);
         workspace()->screenEdges()->checkBlocking();
     }
 }
