@@ -94,11 +94,11 @@ var scaleEffect = {
         if (!window.visible) {
             return;
         }
-        if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
-            return;
-        }
         if (window.startEffectType != 1
             && window.startEffectType != 16) {
+            return;
+        }
+        if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
             return;
         }
         if (window.dock || window.splash || window.toolbar
@@ -147,6 +147,9 @@ var scaleEffect = {
             return;
         }
         if (!window.visible) {
+            return;
+        }
+        if (window.startEffectType != 1 && window.startEffectType != 16) {
             return;
         }
         if (!effect.grab(window, Effect.WindowClosedGrabRole)) {

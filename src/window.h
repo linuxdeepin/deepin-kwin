@@ -2028,6 +2028,7 @@ protected:
     bool m_isShapeInputRegionSet = false;
     QVector<QRectF> m_shapeBoundingRegion;
     bool m_isShapeBoundingRegionSet = false;
+    int  m_startEffectType = 1;
 
 private Q_SLOTS:
     void shadeHover();
@@ -2156,7 +2157,6 @@ private:
     QString m_applicationMenuObjectPath;
 
     bool m_unresponsive = false;
-    int  m_startEffectType = 1;
 
     KWaylandServer::deepinKwinStrut m_strutArea;
 

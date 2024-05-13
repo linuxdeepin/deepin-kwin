@@ -121,6 +121,7 @@ void Deleted::copyToDeleted(Window *window)
     m_wasSplitMenu = window->isSplitMenu();
     m_wasSwitcherWin = window->isSwitcherWin();
     m_wasWindowMenu = window->isWindowMenu();
+    m_startEffectType = window->startUpEffectType();
 }
 
 void Deleted::unrefWindow()

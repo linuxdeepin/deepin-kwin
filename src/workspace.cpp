@@ -1079,7 +1079,8 @@ Unmanaged *Workspace::createUnmanaged(xcb_window_t windowId)
         return nullptr;
     }
     addUnmanaged(window);
-    window->setStartUpEffectType(2);
+    if (!window->isSwitcherWin())
+        window->setStartUpEffectType(2);
     Q_EMIT unmanagedAdded(window);
     reportTimeToSpanEventTracking(createTimeval, window);
     return window;
