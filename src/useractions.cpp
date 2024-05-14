@@ -1620,14 +1620,18 @@ void Workspace::slotWindowMaximizeVertical()
 
 void Workspace::slotWindowMaximizeByShortcut()
 {
-    m_activeWindow->maximize(MaximizeFull);
-    takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
+    if (USABLE_ACTIVE_WINDOW) {
+        m_activeWindow->maximize(MaximizeFull);
+        takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
+    }
 }
 
 void Workspace::slotWindowUnMaximizeByShortcut()
 {
-    m_activeWindow->maximize(MaximizeRestore);
-    takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
+    if (USABLE_ACTIVE_WINDOW) {
+        m_activeWindow->maximize(MaximizeRestore);
+        takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
+    }
 }
 
 /**
