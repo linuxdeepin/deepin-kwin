@@ -5126,7 +5126,13 @@ void Window::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
 
 QMargins Window::extendResizeBorder() const
 {
-    return isDecorated() ? decoration()->resizeOnlyBorders() : QMargins(10, 10, 10, 10);
+    if (isDecorated()) {
+        return decoration()->resizeOnlyBorders();
+    }
+    if (isSpecialWindow() || !isResizable()) {
+        return QMargins(0, 0, 0, 0);
+    }
+    return QMargins(10, 10, 10, 10);
 }
 
 void Window::updateExtendWindowSection(const QPointF &pos)
