@@ -1360,6 +1360,7 @@ bool XdgToplevelWindow::takeFocus()
             workspace()->setShowingDesktop(false);
         }
     }
+    workspace()->setPreviewClientList({});
     return true;
 }
 
