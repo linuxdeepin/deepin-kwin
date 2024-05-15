@@ -614,7 +614,10 @@ public:
     bool getBlurStatus();
     bool isEffectDuring() { return m_isEffectDuring; }
     void setEffectDuringState(bool state) { m_isEffectDuring = state; }
-
+    bool supportDmabufExt() const
+    {
+        return m_supportDmabufExt;
+    }
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
     // Keybindings
@@ -984,6 +987,8 @@ private:
 
     xcb_window_t m_clientIDHandlingMouseCommand = 0;
     std::set<pid_t> m_pids;
+
+    bool m_supportDmabufExt;
 private:
     friend bool performTransiencyCheck();
     friend Workspace *workspace();

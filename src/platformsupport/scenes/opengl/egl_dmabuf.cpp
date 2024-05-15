@@ -13,6 +13,7 @@
 
 #include "utils/common.h"
 #include "wayland_server.h"
+#include "workspace.h"
 
 #include <drm_fourcc.h>
 #include <unistd.h>
@@ -131,6 +132,29 @@ void EglDmabufBuffer::removeImages()
         eglDestroyImageKHR(m_interfaceImpl->m_backend->eglDisplay(), image);
     }
     m_images.clear();
+}
+
+GLenum EglDmabufBuffer::target() const
+{
+    if (!workspace()->supportDmabufExt()) {
+        return GL_TEXTURE_2D;
+    }
+
+    if (attributes().planeCount > 1) {
+       return GL_TEXTURE_EXTERNAL_OES;
+    }
+
+    switch (attributes().format & ~DRM_FORMAT_BIG_ENDIAN) {
+    case DRM_FORMAT_YUYV:
+    case DRM_FORMAT_YVYU:
+    case DRM_FORMAT_UYVY:
+    case DRM_FORMAT_VYUY:
+    case DRM_FORMAT_AYUV:
+    case DRM_FORMAT_XYUV8888:
+        return GL_TEXTURE_EXTERNAL_OES;
+    default:
+        return GL_TEXTURE_2D;
+    }
 }
 
 KWaylandServer::LinuxDmaBufV1ClientBuffer *EglDmabuf::importBuffer(DmaBufAttributes &&attrs, quint32 flags)

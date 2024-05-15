@@ -89,6 +89,10 @@
 #define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
 #define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
 
+#define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
+
 namespace KWin
 {
 
@@ -149,6 +153,7 @@ Workspace::Workspace()
     , block_focus(0)
     , gesture_disabled_for_client(false)
     , m_splitBarState(false)
+    , m_supportDmabufExt(false)
     , m_userActionsMenu(new UserActionsMenu(this))
     , m_sessionManager(new SessionManager(this))
     , m_focusChain(std::make_unique<FocusChain>())
@@ -337,6 +342,18 @@ void Workspace::init()
         connect(m_dockInter, &DBusDock::FrontendRectChanged, this, &Workspace::slotDockPositionChanged);
     }
     setProcessSessionPath();
+
+    QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
+    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.compositing", "");
+    if (reply.isValid()) {
+        QString path = reply.value().path();
+        QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+        QDBusReply<QVariant> replyValue = interfaceValue.call("value", "supportDmabufExt");
+        m_supportDmabufExt = replyValue.value().toBool();
+    } else {
+        qCWarning(KWIN_CORE) << "Error in DConfig read supportDmabufExt reply:" << reply.error();
+        m_supportDmabufExt = false;
+    }
 }
 
 void Workspace::setProcessSessionPath()

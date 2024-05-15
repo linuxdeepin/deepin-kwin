@@ -560,6 +560,12 @@ GLenum GLTexture::target() const
     return d->m_target;
 }
 
+void GLTexture::setTarget(const GLenum &target)
+{
+    Q_D(GLTexture);
+    d->m_target = target;
+}
+
 GLenum GLTexture::filter() const
 {
     Q_D(const GLTexture);

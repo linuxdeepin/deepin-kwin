@@ -301,6 +301,10 @@ void ItemRendererOpenGL::renderItem(Item *item, int mask, const QRegion &region,
             shaderTraits |= ShaderTrait::Modulate;
         }
 
+        if (renderNode.texture->target() == GL_TEXTURE_EXTERNAL_OES) {
+            shaderTraits |= ShaderTrait::MapExternalTexture;
+        }
+
         renderNode.firstVertex = v;
         renderNode.vertexCount = renderNode.geometry.count();
 

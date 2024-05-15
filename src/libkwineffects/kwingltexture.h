@@ -106,6 +106,7 @@ public:
 
     GLuint texture() const;
     GLenum target() const;
+    void setTarget(const GLuint &target);
     GLenum filter() const;
     GLenum internalFormat() const;
 

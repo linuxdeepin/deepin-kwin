@@ -161,13 +161,13 @@ bool BasicEGLSurfaceTextureWayland::loadDmabufTexture(KWaylandServer::LinuxDmaBu
         return false;
     }
 
-    m_texture.reset(new GLTexture(GL_TEXTURE_2D));
+    m_texture.reset(new GLTexture(dmabuf->target()));
     m_texture->setSize(dmabuf->size());
     m_texture->create();
     m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
     m_texture->setFilter(GL_NEAREST);
     m_texture->bind();
-    glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, static_cast<GLeglImageOES>(dmabuf->images().constFirst()));
+    glEGLImageTargetTexture2DOES(dmabuf->target(), static_cast<GLeglImageOES>(dmabuf->images().constFirst()));
     m_texture->unbind();
     m_texture->setYInverted(dmabuf->origin() == KWaylandServer::ClientBuffer::Origin::TopLeft);
     m_bufferType = BufferType::DmaBuf;
@@ -184,8 +184,14 @@ void BasicEGLSurfaceTextureWayland::updateDmabufTexture(KWaylandServer::LinuxDma
     }
 
     auto dmabuf = static_cast<EglDmabufBuffer *>(buffer);
+
+    if (m_texture->target() != dmabuf->target()) {
+        qCDebug(KWIN_OPENGL) << "Update dmabuf texture target form: " << m_texture->target() << " to: " << dmabuf->target();
+        m_texture->setTarget(dmabuf->target());
+    }
+
     m_texture->bind();
-    glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, static_cast<GLeglImageOES>(dmabuf->images().constFirst()));
+    glEGLImageTargetTexture2DOES(dmabuf->target(), static_cast<GLeglImageOES>(dmabuf->images().constFirst()));
     m_texture->unbind();
     // The origin in a dmabuf-buffer is at the upper-left corner, so the meaning
     // of Y-inverted is the inverse of OpenGL.

@@ -721,6 +721,10 @@ QByteArray ShaderManager::generateFragmentSource(ShaderTraits traits) const
             stream << "#version 300 es\n\n";
         }
 
+        if (traits & ShaderTrait::MapExternalTexture) {
+            stream << "#extension GL_OES_EGL_image_external : require\n";
+        }
+
         // From the GLSL ES specification:
         //
         //     "The fragment language has no default precision qualifier for floating point types."
@@ -731,8 +735,13 @@ QByteArray ShaderManager::generateFragmentSource(ShaderTraits traits) const
         output = glsl_es_300 ? QByteArrayLiteral("fragColor") : QByteArrayLiteral("gl_FragColor");
     }
 
+
+    if (traits & ShaderTrait::MapExternalTexture) {
+        stream << "uniform samplerExternalOES sampler;\n";
+    }
+
     if (traits & ShaderTrait::MapTexture) {
-        stream << "uniform sampler2D sampler;\n";
+        stream << (traits & ShaderTrait::MapExternalTexture ? "" : "uniform sampler2D sampler;\n");
 
         if (traits & ShaderTrait::Modulate) {
             stream << "uniform vec4 modulation;\n";

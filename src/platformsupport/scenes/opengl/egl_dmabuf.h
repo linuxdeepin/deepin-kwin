@@ -48,6 +48,8 @@ public:
         return m_images;
     }
 
+    GLenum target() const;
+
 private:
     QVector<EGLImage> m_images;
     EglDmabuf *m_interfaceImpl;
