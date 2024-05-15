@@ -169,6 +169,11 @@ void SubSurfaceInterfacePrivate::subsurface_set_desync(Resource *)
 
 void SubSurfaceInterfacePrivate::commit()
 {
+    if (mode == SubSurfaceInterface::Mode::Desynchronized && hasPendingPosition) {
+        hasPendingPosition = false;
+        position = pendingPosition;
+        Q_EMIT q->positionChanged(position);
+    }
 }
 
 void SubSurfaceInterfacePrivate::parentCommit()
