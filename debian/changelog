@@ -1,3 +1,22 @@
+kwin (4:5.27.2.202-deepin202-1) unstable; urgency=medium
+
+  [dingzhixuan]
+  * fix: remove dock extend border
+  * fix: crash when maximize by using shortcut
+  * fix: dde-lock won't show when preview windows
+  * fix: repair about window can't minimized
+  * fix: kwin_wayland添加no-vt-switch参数
+  * fix: optimized window param
+  * fix: sliding workspace but overlapped other screens
+  * fix: fix launcher effect
+  * fix: watermark display when alttab switching to desktop
+  * feat: splitpreview and splitswap effect background blur mask
+  * feat: multitaskview background blur optimization
+  * fix: window movement effect when removing workspace
+  * fix: fix dde-lock effect
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Wed, 15 May 2024 15:11:18 +0800
+
 kwin (4:5.27.2.201-deepin201-1) unstable; urgency=medium
 
   [dingzhixuan]
