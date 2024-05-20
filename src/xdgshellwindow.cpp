@@ -280,6 +280,9 @@ void XdgSurfaceWindow::handleNextWindowGeometry()
     if (const XdgSurfaceConfigure *configureEvent = lastAcknowledgedConfigure()) {
         if (configureEvent->flags & XdgSurfaceConfigure::ConfigurePosition) {
             frameGeometry = gravitateGeometry(frameGeometry, configureEvent->bounds, configureEvent->gravity);
+            if (isSplitWindow()) {
+                frameGeometry = keepInArea(frameGeometry, Workspace::self()->clientArea(MaximizeArea, this, frameGeometry.center()));
+            }
         }
     }
 
