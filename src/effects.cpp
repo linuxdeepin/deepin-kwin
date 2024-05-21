@@ -1560,7 +1560,7 @@ QStringList EffectsHandlerImpl::listOfEffects() const
 
 void EffectsHandlerImpl::enableEffect(const QString &name, bool enable)
 {
-    KConfigGroup kwinConfig(KSharedConfig::openConfig("kwinrc"), "Plugins");
+    KConfigGroup kwinConfig(KSharedConfig::openConfig("deepin-kwinrc"), "Plugins");
     QString key = name + QStringLiteral("Enabled");
     QString minimizeall = "minimizeallEnabled";
     kwinConfig.writeEntry(minimizeall, !enable);

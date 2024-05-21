@@ -653,7 +653,7 @@ void MultitaskViewEffect::reconfigure(ReconfigureFlags flags)
 
     m_scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
 
-    KConfigGroup config_group(KSharedConfig::openConfig("kwinrc"), "Compositing");
+    KConfigGroup config_group(KSharedConfig::openConfig("deepin-kwinrc"), "Compositing");
     if (effects->waylandDisplay()) {
         setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true));
     } else {

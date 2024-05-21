@@ -508,7 +508,7 @@ bool Compositor::setupStart()
         if (m_backend->compositingType() == XRenderCompositing) {
             QGSettings(GSETTINGS_DDE_APPEARANCE).set("opacity", 1);
         } else {
-            KConfigGroup config(KSharedConfig::openConfig("kwinrc"), "Compositing");
+            KConfigGroup config(KSharedConfig::openConfig("deepin-kwinrc"), "Compositing");
             float opacity = config.readEntry("OpacityRecord", QVariant(-1.0f)).toFloat();
             if (opacity != -1.0f) {
                 QGSettings(GSETTINGS_DDE_APPEARANCE).set("opacity", opacity);
@@ -714,7 +714,7 @@ void Compositor::stop()
     // Opacity is logged to restore when exit from OpenGL compositing.
     if (!waylandServer() && m_backend && m_backend->compositingType() & OpenGLCompositing
             && QGSettings::isSchemaInstalled(GSETTINGS_DDE_APPEARANCE)) {
-        KConfigGroup config(KSharedConfig::openConfig("kwinrc"), "Compositing");
+        KConfigGroup config(KSharedConfig::openConfig("deepin-kwinrc"), "Compositing");
         float opacity = QGSettings(GSETTINGS_DDE_APPEARANCE).get("opacity").toFloat();
         config.writeEntry("OpacityRecord", opacity);
         config.sync();

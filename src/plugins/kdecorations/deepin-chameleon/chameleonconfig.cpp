@@ -132,7 +132,7 @@ bool ChameleonConfig::setTheme(QString theme)
 
 void ChameleonConfig::onConfigChanged()
 {
-    KConfig config("kwinrc", KConfig::CascadeConfig);
+    KConfig config("deepin-kwinrc", KConfig::CascadeConfig);
     KConfigGroup group_decoration(&config, "org.kde.kdecoration2");
 
     bool active = group_decoration.readEntry("library") == "com.deepin.chameleon";
