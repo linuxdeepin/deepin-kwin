@@ -14,7 +14,7 @@
 #include <QPoint>
 #include <QVariant>
 
-#include <kwin_export.h>
+#include <deepin-kwin_export.h>
 
 #include <xcb/xcb.h>
 

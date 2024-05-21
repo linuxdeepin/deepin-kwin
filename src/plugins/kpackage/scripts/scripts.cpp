@@ -10,7 +10,7 @@
 
 void ScriptsPackage::initPackage(KPackage::Package *package)
 {
-    package->setDefaultPackageRoot(QStringLiteral("kwin/scripts/"));
+    package->setDefaultPackageRoot(QStringLiteral("deepin-kwin/scripts/"));
 
     package->addDirectoryDefinition("config", QStringLiteral("config"), i18n("Configuration Definitions"));
     QStringList mimetypes;

@@ -14,7 +14,7 @@
 #include "scripting/tilemodel.h"
 #include "tile.h"
 #include "utils/common.h"
-#include <kwin_export.h>
+#include <deepin-kwin_export.h>
 
 #include <QAbstractItemModel>
 #include <QObject>

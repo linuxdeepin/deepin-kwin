@@ -13,7 +13,7 @@
 
 #include <QVector>
 
-#include <kwin_export.h>
+#include <deepin-kwin_export.h>
 
 namespace KWin
 {

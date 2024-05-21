@@ -8,7 +8,7 @@
 */
 #pragma once
 // KWin
-#include <kwin_export.h>
+#include <deepin-kwin_export.h>
 #include <kwinglobals.h>
 // Qt includes
 #include <QAction>

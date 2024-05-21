@@ -166,7 +166,7 @@ void KWinTabBoxConfig::initLayoutLists()
         }
         const QString scriptName = offer.value("X-Plasma-MainScript");
         const QString scriptFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                          QLatin1String("kwin/tabbox/") + pluginName + QLatin1String("/contents/")
+                                                          QLatin1String("deepin-kwin/tabbox/") + pluginName + QLatin1String("/contents/")
                                                               + scriptName);
         if (scriptFile.isNull()) {
             continue;

@@ -9,7 +9,7 @@
 #pragma once
 
 #include "input_event_spy.h"
-#include <kwin_export.h>
+#include <deepin-kwin_export.h>
 
 #include <QObject>
 #include <QSet>

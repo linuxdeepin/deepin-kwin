@@ -37,7 +37,7 @@ macro(KWIN4_ADD_EFFECT_MODULE name)
     kcoreaddons_add_plugin(${name} STATIC SOURCES ${ARGN} INSTALL_NAMESPACE "deepin-kwin/effects/plugins")
     set_property(TARGET ${name} PROPERTY POSITION_INDEPENDENT_CODE ON)
     kwin_strip_builtin_effect_metadata(${name} metadata.json)
-    install(FILES metadata.json DESTINATION ${KDE_INSTALL_DATADIR}/kwin/builtin-effects/${name}/)
+    install(FILES metadata.json DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/builtin-effects/${name}/)
 endmacro()
 
 # Install the KWin/Effect service type
@@ -45,7 +45,7 @@ install(FILES deepin-kwineffect.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESD
 
 # scripted effects
 function(install_scripted_effect name)
-    kpackage_install_package(${name}/package kwin4_effect_${name} effects kwin)
+    kpackage_install_package(${name}/package kwin4_effect_${name} effects deepin-kwin)
 
     # necessary so tests are found without installing
     file(COPY ${name}/package/contents ${name}/package/metadata.json DESTINATION ${CMAKE_BINARY_DIR}/bin/deepin-kwin/effects/kwin4_effect_${name})

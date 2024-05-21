@@ -12,5 +12,5 @@ endif()
 add_library(krunnerintegration MODULE ${krunnerintegration_SOURCES})
 target_link_libraries(krunnerintegration kwin KF5::Runner)
 
-install(TARGETS krunnerintegration DESTINATION ${KDE_INSTALL_PLUGINDIR}/kwin/plugins/)
+install(TARGETS krunnerintegration DESTINATION ${KDE_INSTALL_PLUGINDIR}/deepin-kwin/plugins/)
 install(FILES kwin-runner-windows.desktop DESTINATION ${KDE_INSTALL_DATAROOTDIR}/krunner/dbusplugins)

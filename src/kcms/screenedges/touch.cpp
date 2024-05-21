@@ -154,7 +154,7 @@ void KWinScreenEdgesConfig::monitorInit()
         m_effectSettings[effect.pluginId()] = new KWinTouchScreenEdgeEffectSettings(effect.pluginId(), this);
     }
 
-    const QString scriptFolder = QStringLiteral("kwin/scripts/");
+    const QString scriptFolder = QStringLiteral("deepin-kwin/scripts/");
     const auto scripts = KPackage::PackageLoader::self()->listPackages(QStringLiteral("KWin/Script"), scriptFolder);
 
     for (const KPluginMetaData &script : scripts) {

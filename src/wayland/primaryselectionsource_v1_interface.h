@@ -5,7 +5,7 @@
 */
 #pragma once
 
-#include "kwin_export.h"
+#include "deepin-kwin_export.h"
 
 #include "abstract_data_source.h"
 #include "primaryselectiondevicemanager_v1_interface.h"

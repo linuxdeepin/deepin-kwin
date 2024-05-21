@@ -6,7 +6,7 @@
 #ifndef KWAYLAND_SERVER_REMOTE_ACCESS_INTERFACE_H
 #define KWAYLAND_SERVER_REMOTE_ACCESS_INTERFACE_H
 
-#include "kwin_export.h"
+#include "deepin-kwin_export.h"
 
 #include <QObject>
 

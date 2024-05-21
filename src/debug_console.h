@@ -11,7 +11,7 @@
 #include "input.h"
 #include "input_event_spy.h"
 #include <config-kwin.h>
-#include <kwin_export.h>
+#include <deepin-kwin_export.h>
 
 #include <QAbstractItemModel>
 #include <QStyledItemDelegate>

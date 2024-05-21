@@ -11,7 +11,7 @@
 #pragma once
 
 #include <config-kwin.h>
-#include <kwin_export.h>
+#include <deepin-kwin_export.h>
 
 #if HAVE_MEMFD
 #include "filedescriptor.h"

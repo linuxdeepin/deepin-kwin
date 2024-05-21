@@ -1,3 +1,4 @@
+usr/include/deepin-kwin_export.h
 usr/include/deepin-kwin/kwin*.h
 usr/lib/*/cmake/KWinDBusInterface/
 usr/lib/*/cmake/DeepinKWinEffects/

@@ -59,7 +59,7 @@ install(
         qml/MenuButton.qml
         qml/aurorae.qml
     DESTINATION
-        ${KDE_INSTALL_DATADIR}/kwin/aurorae)
+        ${KDE_INSTALL_DATADIR}/deepin-kwin/aurorae)
 set(QMLFILES
     qml/AppMenuButton.qml
     qml/ButtonGroup.qml
@@ -70,4 +70,4 @@ set(QMLFILES
 )
 install(FILES ${QMLFILES} DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwin/decoration)
 file(COPY ${QMLFILES} DESTINATION ${CMAKE_BINARY_DIR}/bin/org/kde/kwin/decoration/)
-install(FILES kwindecoration.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+install(FILES deepin-kwindecoration.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})

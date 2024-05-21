@@ -22,7 +22,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QObject>
 
-#include "kwin_export.h"
+#include "deepin-kwin_export.h"
 
 #include "qwayland-server-dde-security.h"
 

@@ -10,7 +10,7 @@
 
 void SwitcherPackage::initPackage(KPackage::Package *package)
 {
-    package->setDefaultPackageRoot(QStringLiteral("kwin/tabbox/"));
+    package->setDefaultPackageRoot(QStringLiteral("deepin-kwin/tabbox/"));
 
     package->addDirectoryDefinition("config", QStringLiteral("config"), i18n("Configuration Definitions"));
     QStringList mimetypes;

@@ -27,7 +27,7 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 #include <QImage>
 
 #include "surface_interface.h"
-#include "kwin_export.h"
+#include "deepin-kwin_export.h"
 
 struct wl_resource;
 

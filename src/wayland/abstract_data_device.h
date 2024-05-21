@@ -7,7 +7,7 @@
 #ifndef WAYLAND_SERVER_ABSTRACT_DATA_DEVICE_H
 #define WAYLAND_SERVER_ABSTRACT_DATA_DEVICE_H
 
-#include "kwin_export.h"
+#include "deepin-kwin_export.h"
 
 #include <QObject>
 

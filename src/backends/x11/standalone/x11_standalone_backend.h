@@ -12,7 +12,7 @@
 #include <config-kwin.h>
 
 #include "core/outputbackend.h"
-#include <kwin_export.h>
+#include <deepin-kwin_export.h>
 
 #include <QObject>
 

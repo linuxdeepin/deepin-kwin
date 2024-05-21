@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #pragma once
-#include <kwin_export.h>
+#include <deepin-kwin_export.h>
 #include <memory>
 
 #include <QVector>
