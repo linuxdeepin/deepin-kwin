@@ -1962,6 +1962,9 @@ void Workspace::showWindowMenu(const QRect &pos, Window *window, OpenMenuActionT
         return;
     auto adjustPos = pos;
     auto area = clientArea(ScreenArea, window);
+    if (type != OpenMenuActionType::AltSpace) {
+        area = clientArea(ScreenArea, window, pos.topLeft());
+    }
 
     adjustPos.setX(qMax(int(area.x()), adjustPos.x()));
     adjustPos.setY(qMax(int(area.y()), adjustPos.y()));
