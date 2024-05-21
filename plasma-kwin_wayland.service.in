@@ -1,8 +1,0 @@
-[Unit]
-Description=KDE Window Manager
-PartOf=graphical-session.target
-
-[Service]
-ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/deepin-kwin_wayland_wrapper --xwayland
-BusName=org.kde.KWinWrapper
-Slice=session.slice

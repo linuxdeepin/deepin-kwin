@@ -1,2 +1,2 @@
 usr/bin/deepin-kwin_x11
-usr/lib/systemd/user/plasma-kwin_x11.service
+usr/bin/kwin_no_scale

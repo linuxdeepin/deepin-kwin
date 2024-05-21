@@ -16,5 +16,5 @@ if (KWIN_BUILD_KCMS)
         Qt${QT_MAJOR_VERSION}::UiTools
         kwineffects
     )
-    install(TARGETS kcm_kwin4_genericscripted DESTINATION ${KDE_INSTALL_PLUGINDIR}/kwin/effects/configs)
+    install(TARGETS kcm_kwin4_genericscripted DESTINATION ${KDE_INSTALL_PLUGINDIR}/deepin-kwin/effects/configs)
 endif()

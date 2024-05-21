@@ -284,7 +284,7 @@ void EffectsModel::loadJavascriptEffects(const KConfigGroup &kwinConfig)
 {
     const auto plugins = KPackage::PackageLoader::self()->listPackages(
         QStringLiteral("KWin/Effect"),
-        QStringLiteral("kwin/effects"));
+        QStringLiteral("deepin-kwin/effects"));
     for (const KPluginMetaData &plugin : plugins) {
         EffectData effect;
 
@@ -329,7 +329,7 @@ void EffectsModel::loadJavascriptEffects(const KConfigGroup &kwinConfig)
 
 void EffectsModel::loadPluginEffects(const KConfigGroup &kwinConfig)
 {
-    const auto pluginEffects = KPluginMetaData::findPlugins(QStringLiteral("kwin/effects/plugins"));
+    const auto pluginEffects = KPluginMetaData::findPlugins(QStringLiteral("deepin-kwin/effects/plugins"));
     for (const KPluginMetaData &pluginEffect : pluginEffects) {
         if (!pluginEffect.isValid()) {
             continue;
@@ -598,13 +598,13 @@ QModelIndex EffectsModel::findByPluginId(const QString &pluginId) const
 
 static KCModule *loadBinaryConfig(const QString &configModule, QWidget *parent)
 {
-    const KPluginMetaData metaData(QStringLiteral("kwin/effects/configs/") + configModule);
+    const KPluginMetaData metaData(QStringLiteral("deepin-kwin/effects/configs/") + configModule);
     return KCModuleLoader::loadModule(metaData, parent);
 }
 
 static KCModule *findScriptedConfig(const QString &pluginId, QObject *parent)
 {
-    KPluginMetaData metaData(QStringLiteral("kwin/effects/configs/kcm_kwin4_genericscripted"));
+    KPluginMetaData metaData(QStringLiteral("deepin-kwin/effects/configs/kcm_kwin4_genericscripted"));
     return KPluginFactory::instantiatePlugin<KCModule>(metaData, parent, QVariantList{pluginId}).plugin;
 }
 

@@ -1,3 +1,4 @@
+etc/xdg
 usr/share/config.kcfg/kwin*.kcfg
 usr/share/config.kcfg/nightcolorsettings.kcfg
 usr/share/config.kcfg/virtualdesktopssettings.kcfg
@@ -13,6 +14,8 @@ usr/share/kpackage/kcms/kcm_kwin*
 usr/share/kpackage/kcms/kcm_virtualkeyboard/
 usr/share/krunner/dbusplugins/kwin-runner-windows.desktop
 usr/share/kservicetypes5/kwin*.desktop
-usr/share/kwin/
+usr/share/deepin-kwin/
 usr/share/locale/
 usr/share/qlogging-categories5/
+usr/share/dsg/configs/
+usr/share/deepin-log-viewer/deepin-log.conf.d/

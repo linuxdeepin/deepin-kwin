@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-// read additional window rules and add them to kwinrulesrc
+// read additional window rules and add them to deepin-kwinrulesrc
 
 #include <QDebug>
 #include <QStandardPaths>
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     KConfig src_cfg(file);
-    KConfig dest_cfg("kwinrulesrc", KConfig::NoGlobals);
+    KConfig dest_cfg("deepin-kwinrulesrc", KConfig::NoGlobals);
     KConfigGroup scg(&src_cfg, "General");
     KConfigGroup dcg(&dest_cfg, "General");
     int count = scg.readEntry("count", 0);

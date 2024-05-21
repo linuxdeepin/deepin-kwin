@@ -81,7 +81,7 @@ target_link_libraries(KWinIntegrationTestFramework
         KF5WindowSystemKWinPlugin
         KF5IdleTimeKWinPlugin
 )
-kcoreaddons_target_static_plugins(KWinIntegrationTestFramework "kwin/effects/plugins" LINK_OPTION "PRIVATE")
+kcoreaddons_target_static_plugins(KWinIntegrationTestFramework "deepin-kwin/effects/plugins" LINK_OPTION "PRIVATE")
 set_target_properties(KWinIntegrationTestFramework PROPERTIES CXX_VISIBILITY_PRESET default)
 
 function(integrationTest)

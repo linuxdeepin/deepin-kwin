@@ -11,4 +11,4 @@ target_link_libraries(kwin4_effect_outputlocator PRIVATE
     KF5::I18n
 )
 
-install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/outputlocator)
+install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/deepin-kwin/effects/outputlocator)

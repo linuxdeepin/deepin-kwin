@@ -78,7 +78,7 @@ DesktopGridEffect::DesktopGridEffect()
     initConfig<DesktopGridConfig>();
     reconfigure(ReconfigureAll);
 
-    setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kwin/effects/desktopgrid/qml/main.qml"))));
+    setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("deepin-kwin/effects/desktopgrid/qml/main.qml"))));
 }
 
 DesktopGridEffect::~DesktopGridEffect()

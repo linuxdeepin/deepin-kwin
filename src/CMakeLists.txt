@@ -389,7 +389,7 @@ target_link_libraries(kwin_x11
     KWinX11Platform
     kwin
 )
-kcoreaddons_target_static_plugins(kwin_x11 "kwin/effects/plugins")
+kcoreaddons_target_static_plugins(kwin_x11 "deepin-kwin/effects/plugins")
 
 install(TARGETS kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 install(TARGETS kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
@@ -404,7 +404,7 @@ target_link_libraries(kwin_wayland
     kwin
     KWinXwaylandServerModule
 )
-kcoreaddons_target_static_plugins(kwin_wayland "kwin/effects/plugins")
+kcoreaddons_target_static_plugins(kwin_wayland "deepin-kwin/effects/plugins")
 
 install(TARGETS kwin_wayland ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if (HAVE_LIBCAP)

@@ -403,7 +403,7 @@ void MultiViewBackgroundManager::setMonitorInfo(QList<QMap<QString,QVariant>> mo
 
 MultiViewAddButton::MultiViewAddButton()
 {
-    m_button = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+    m_button = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/icon.qml", true);
 }
 
 MultiViewAddButton::~MultiViewAddButton()
@@ -434,13 +434,13 @@ MultiViewWorkspace::MultiViewWorkspace(bool flag)
     : m_backGroundFrame(nullptr)
     , m_desktop(0)
 {
-    m_backGroundFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+    m_backGroundFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/icon.qml", true);
     m_backGroundFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
-    m_workspaceBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", true);
+    m_workspaceBgFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/workspacebg.qml", true);
     m_workspaceBgFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_workspaceBgFrame->setRadius(10);
-    m_hoverFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", true);
+    m_hoverFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/hover.qml", true);
     m_hoverFrame->setRadius(10);
 }
 
@@ -513,7 +513,7 @@ MultiViewWinFill::MultiViewWinFill(EffectScreen *screen, QRect rect, float radiu
     , m_screen(screen)
     , m_maxHeight(maxHeight)
 {
-    m_fillFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
+    m_fillFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/hoverbg.qml", false);
     m_fillFrame->setGeometry(rect);
     m_fillFrame->setColor("#A0A0A0");
     m_fillFrame->setRadius(5);
@@ -2839,11 +2839,11 @@ void MultitaskViewEffect::initWorkspaceBackground()
         m_workspaceBackgrounds[it.value().screen] = list;
 
         {
-            std::unique_ptr<EffectFrameEx> bgframe = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
+            std::unique_ptr<EffectFrameEx> bgframe = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/hoverbg.qml", false);
             bgframe->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
             bgframe->setColor("#E0E0E0");
             bgframe->setRadius(5);
-            std::unique_ptr<EffectFrameEx> frame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
+            std::unique_ptr<EffectFrameEx> frame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/text.qml", false);
             frame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
             QFont font;
             font.setPointSize(12);
@@ -2872,48 +2872,48 @@ void MultitaskViewEffect::initWorkspaceBackground()
 void MultitaskViewEffect::createEffectFrame()
 {
     if (!m_hoverWinFrame) {
-        m_hoverWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hover.qml", false);
+        m_hoverWinFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/hover.qml", false);
     }
 
     if (!m_closeWinFrame) {
-        m_closeWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+        m_closeWinFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/icon.qml", true);
         m_closeWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         m_closeWinFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
         m_closeWinFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
     }
 
     if (!m_topWinFrame) {
-        m_topWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+        m_topWinFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/icon.qml", true);
         m_topWinFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         m_topWinFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
     }
 
     if (!m_textWinFrame) {
-        m_textWinFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
+        m_textWinFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/text.qml", false);
     }
 
     if (!m_textWinBgFrame) {
-        m_textWinBgFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
+        m_textWinBgFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/hoverbg.qml", false);
         m_textWinBgFrame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         m_textWinBgFrame->setRadius(10);
         m_textWinBgFrame->setColor("#E0E0E0");
     }
 
     if (!m_previewFrame) {
-        m_previewFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/workspacebg.qml", true);
+        m_previewFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/workspacebg.qml", true);
         m_previewFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         m_previewFrame->setRadius(10);
     }
 
     if (!m_closeWorkspaceFrame) {
-        m_closeWorkspaceFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/icon.qml", true);
+        m_closeWorkspaceFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/icon.qml", true);
         m_closeWorkspaceFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         m_closeWorkspaceFrame->setImage(QUrl::fromLocalFile(MULTITASK_CLOSE_SVG));
         m_closeWorkspaceFrame->setGeometry(QRect(0, 0, 24 * effectsEx->getOsScale(), 24 * effectsEx->getOsScale()));
     }
 
     if (!m_dragTipsFrame) {
-        m_dragTipsFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
+        m_dragTipsFrame = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/dragtips.qml", false);
         m_dragTipsFrame->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
         m_dragTipsFrame->setImage(QUrl::fromLocalFile(delete_workspace_png));
         m_dragTipsFrame->setIconSize(QSize(21 * m_scalingFactor, 21 * m_scalingFactor));
@@ -2922,7 +2922,7 @@ void MultitaskViewEffect::createEffectFrame()
     }
 
     if (!m_dragTipsFrameShadow) {
-        m_dragTipsFrameShadow = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/dragtips.qml", false);
+        m_dragTipsFrameShadow = effectsEx->effectFrameEx("deepin-kwin/effects/multitaskview/qml/dragtips.qml", false);
         m_dragTipsFrameShadow->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
         m_dragTipsFrameShadow->setImage(QUrl::fromLocalFile(delete_workspace_png));
         m_dragTipsFrameShadow->setIconSize(QSize(22 * m_scalingFactor, 21 * m_scalingFactor));

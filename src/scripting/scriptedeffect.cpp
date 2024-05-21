@@ -162,7 +162,7 @@ ScriptedEffect *ScriptedEffect::create(const KPluginMetaData &effect)
         return nullptr;
     }
     const QString scriptFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                                      QLatin1String("kwin/effects/") + name + QLatin1String("/contents/") + scriptName);
+                                                      QLatin1String("deepin-kwin/effects/") + name + QLatin1String("/contents/") + scriptName);
     if (scriptFile.isNull()) {
         qCDebug(KWIN_SCRIPTING) << "Could not locate the effect script";
         return nullptr;
@@ -226,7 +226,7 @@ bool ScriptedEffect::init(const QString &effectName, const QString &pathToScript
     m_scriptFile = pathToScript;
 
     // does the effect contain an KConfigXT file?
-    const QString kconfigXTFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kwin/effects/") + m_effectName + QLatin1String("/contents/config/main.xml"));
+    const QString kconfigXTFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("deepin-kwin/effects/") + m_effectName + QLatin1String("/contents/config/main.xml"));
     if (!kconfigXTFile.isNull()) {
         KConfigGroup cg = QCoreApplication::instance()->property("config").value<KSharedConfigPtr>()->group(QStringLiteral("Effect-%1").arg(m_effectName));
         QFile xmlFile(kconfigXTFile);
@@ -855,7 +855,7 @@ uint ScriptedEffect::addFragmentShader(ShaderTrait traits, const QString &fragme
 #endif
         return 0;
     }
-    const QString shaderDir{QLatin1String("kwin/effects/") + m_effectName + QLatin1String("/contents/shaders/")};
+    const QString shaderDir{QLatin1String("deepin-kwin/effects/") + m_effectName + QLatin1String("/contents/shaders/")};
     const QString fragment = fragmentShaderFile.isEmpty() ? QString{} : QStandardPaths::locate(QStandardPaths::GenericDataLocation, shaderDir + fragmentShaderFile);
 
     auto shader = ShaderManager::instance()->generateShaderFromFile(static_cast<KWin::ShaderTraits>(int(traits)), {}, fragment);

@@ -53,7 +53,7 @@ static QString outputName(const EffectScreen *screen)
 
 OutputLocatorEffect::OutputLocatorEffect(QObject *parent)
     : Effect(parent)
-    , m_qmlUrl(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kwin/effects/outputlocator/qml/OutputLabel.qml")))
+    , m_qmlUrl(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "deepin-kwin/effects/outputlocator/qml/OutputLabel.qml")))
 {
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/Effect/OutputLocator1"),
                                                  QStringLiteral("org.kde.KWin.Effect.OutputLocator1"),

@@ -1009,7 +1009,7 @@ void RuleBook::load()
 {
     deleteAll();
     if (!m_config) {
-        m_config = KSharedConfig::openConfig(QStringLiteral("/etc/xdg/kwinrulesrc"), KConfig::NoGlobals);
+        m_config = KSharedConfig::openConfig(QStringLiteral("/etc/xdg/deepin-kwinrulesrc"), KConfig::NoGlobals);
     } else {
         m_config->reparseConfiguration();
     }

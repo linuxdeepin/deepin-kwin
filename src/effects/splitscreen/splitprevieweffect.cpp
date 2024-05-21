@@ -248,7 +248,7 @@ void SplitPreviewEffect::setActive(bool active)
 
     if (active) {
         if (!m_effectFrame) {
-            m_effectFrame = effectsEx->effectFrameEx("kwin/effects/splitscreen/qml/main.qml", false);
+            m_effectFrame = effectsEx->effectFrameEx("deepin-kwin/effects/splitscreen/qml/main.qml", false);
         }
         effects->startMouseInterception(this, Qt::PointingHandCursor);
         m_hasKeyboardGrab = effects->grabKeyboard(this);
