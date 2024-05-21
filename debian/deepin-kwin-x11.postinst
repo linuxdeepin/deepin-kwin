@@ -19,8 +19,8 @@ set -e
 
 case "$1" in
     configure)
-        update-alternatives --remove x-window-manager /usr/bin/kwin
-	update-alternatives --install /usr/bin/x-window-manager x-window-manager /usr/bin/kwin_x11 50
+        update-alternatives --remove x-window-manager /usr/bin/deepin-kwin
+	update-alternatives --install /usr/bin/x-window-manager x-window-manager /usr/bin/deepin-kwin_x11 50
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

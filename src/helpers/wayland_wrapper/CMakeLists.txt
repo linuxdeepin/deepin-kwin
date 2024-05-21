@@ -1,4 +1,9 @@
 add_executable(kwin_wayland_wrapper)
+
+set_target_properties(kwin_wayland_wrapper PROPERTIES
+    OUTPUT_NAME deepin-kwin_wayland_wrapper
+)
+
 target_sources(kwin_wayland_wrapper PRIVATE
     kwin_wrapper.cpp
     wl-socket.c

@@ -17,6 +17,7 @@
 #include <xcb/xcb.h>
 #include <QWindow>
 #include <QX11Info>
+#include <QPainterPath>
 
 #define _DEEPIN_SCISSOR_WINDOW "_DEEPIN_SCISSOR_WINDOW"
 

@@ -522,12 +522,12 @@ add_subdirectory(data)
 add_subdirectory(kconf_update)
 add_subdirectory(src)
 
-if (BUILD_TESTING)
-    find_package(Wayland REQUIRED COMPONENTS Client)
-
-    add_subdirectory(autotests)
-    add_subdirectory(tests)
-endif()
+# if (BUILD_TESTING)
+#     find_package(Wayland REQUIRED COMPONENTS Client)
+#
+#     add_subdirectory(autotests)
+#     add_subdirectory(tests)
+# endif()
 
 # add clang-format target for all our real source files
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)

@@ -207,7 +207,7 @@ void PointerInterface::sendButton(quint32 button, PointerButtonState state, quin
         if (d->lastPosition != position) {
             d->lastPosition = position;
             const QPointF localPos = d->focusedSurface->toSurfaceLocal(position);
-            d->send_warp(resource->handle, wl_fixed_from_double(localPos.x()), wl_fixed_from_double(localPos.y()));
+            // d->send_warp(resource->handle, wl_fixed_from_double(localPos.x()), wl_fixed_from_double(localPos.y()));
         }
         d->send_button(resource->handle, serial, d->seat->timestamp().count(), button, quint32(state));
     }

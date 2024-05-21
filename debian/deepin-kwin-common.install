@@ -1,9 +1,9 @@
 usr/lib/*/kconf_update_bin/kwin5_update_default_rules
 usr/lib/*/libexec/kwin*
-usr/lib/*/libkcmkwincommon.so.5
-usr/lib/*/libkcmkwincommon.so.5.*
-usr/lib/*/libkwin.so.5
-usr/lib/*/libkwin.so.5.*
+usr/lib/*/libdeepin-kcmkwincommon.so.5
+usr/lib/*/libdeepin-kcmkwincommon.so.5.*
+usr/lib/*/libdeepin-kwin.so.5
+usr/lib/*/libdeepin-kwin.so.5.*
 usr/lib/*/qt5/plugins/kpackage/packagestructure/
 usr/lib/*/qt5/plugins/kwin/
 usr/lib/*/qt5/plugins/org.kde.kdecoration2/kwin5_aurorae.so

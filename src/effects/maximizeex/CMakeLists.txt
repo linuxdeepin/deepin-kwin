@@ -18,5 +18,3 @@ target_link_libraries(kwin4_effect_maximizeex PRIVATE
     Qt5::X11Extras
     KF5::ConfigGui
 )
-
-

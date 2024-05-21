@@ -24,6 +24,9 @@ qt_add_dbus_interface(kcmkwincommon_SRC
 endif()
 
 add_library(kcmkwincommon SHARED ${kcmkwincommon_SRC})
+set_target_properties(kcmkwincommon PROPERTIES
+    OUTPUT_NAME deepin-kcmkwincommon
+)
 
 target_link_libraries(kcmkwincommon
     Qt${QT_MAJOR_VERSION}::Core

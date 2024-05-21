@@ -32,6 +32,7 @@ add_library(kwin SHARED)
 set_target_properties(kwin PROPERTIES
    VERSION ${PROJECT_VERSION}
    SOVERSION ${PROJECT_VERSION_MAJOR}
+   OUTPUT_NAME deepin-kwin
 )
 
 # translations
@@ -379,6 +380,11 @@ endif()
 generate_export_header(kwin EXPORT_FILE_NAME kwin_export.h)
 
 add_executable(kwin_x11 main_x11.cpp)
+
+set_target_properties(kwin_x11 PROPERTIES
+    OUTPUT_NAME deepin-kwin_x11
+)
+
 target_link_libraries(kwin_x11
     KWinX11Platform
     kwin
@@ -389,6 +395,10 @@ install(TARGETS kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 install(TARGETS kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 add_executable(kwin_wayland main_wayland.cpp)
+
+set_target_properties(kwin_wayland PROPERTIES
+    OUTPUT_NAME deepin-kwin_wayland
+)
 
 target_link_libraries(kwin_wayland
     kwin

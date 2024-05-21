@@ -12,6 +12,7 @@
 #include "workspace.h"
 #include <QtX11Extras/QX11Info>
 #include <X11/extensions/shape.h>
+#include <QPainterPath>
 
 namespace KWin {
 

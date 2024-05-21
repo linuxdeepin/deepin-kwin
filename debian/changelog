@@ -1,4 +1,4 @@
-kwin (4:5.27.2.202-deepin202-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.202-deepin202-1) unstable; urgency=medium
 
   [dingzhixuan]
   * fix: remove dock extend border
@@ -17,14 +17,14 @@ kwin (4:5.27.2.202-deepin202-1) unstable; urgency=medium
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Wed, 15 May 2024 15:11:18 +0800
 
-kwin (4:5.27.2.201-deepin201-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.201-deepin201-1) unstable; urgency=medium
 
   [dingzhixuan]
   * fix: Prevent multiple hiding cursor.
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Fri, 10 May 2024 15:46:37 +0800
 
-kwin (4:5.27.2.200-deepin200-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.200-deepin200-1) unstable; urgency=medium
 
   [dingzhixuan]
   * feat: add kvm interface
@@ -33,28 +33,28 @@ kwin (4:5.27.2.200-deepin200-1) unstable; urgency=medium
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Thu, 09 May 2024 17:41:02 +0800
 
-kwin (4:5.27.2.99-deepin99-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.99-deepin99-1) unstable; urgency=medium
 
   [ zhangyu ]
   * fix\feat .
 
  -- zhangyu <zhangyud@uniontech.com>  Fri, 19 Apr 2024 17:36:47 +0800
 
-kwin (4:5.27.2.98-deepin98-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.98-deepin98-1) unstable; urgency=medium
 
   [ gengzhijie ]
   * fix: update dmi decode's command about identify pgx's machine.
 
  -- gengzhijie <gengzhijie@uniontech.com>  Wed, 17 Apr 2024 18:10:47 +0800
 
-kwin (4:5.27.2.97-deepin97-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.97-deepin97-1) unstable; urgency=medium
 
   * Task:
     + 338835 fix: window corner
 
  -- yangtian <yangtian@uniontech.com>  Wed, 17 Apr 2024 11:26:46 +0800
 
-kwin (4:5.27.2.96-deepin96-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.96-deepin96-1) unstable; urgency=medium
 
   [ dingzhixuan ]
     * fix: refix popup window will show another screen
@@ -63,7 +63,7 @@ kwin (4:5.27.2.96-deepin96-1) unstable; urgency=medium
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Tue, 16 Apr 2024 18:34:22 +0800
 
-kwin (4:5.27.2.95-deepin95-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.95-deepin95-1) unstable; urgency=medium
 
   * Bug fix:
     + fix: menu of wechat can't show by right click on dock
@@ -75,7 +75,7 @@ kwin (4:5.27.2.95-deepin95-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Mon, 15 Apr 2024 19:08:02 +0800
 
-kwin (4:5.27.2.94-deepin94-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.94-deepin94-1) unstable; urgency=medium
 
   * Task:
     + 338295 feat: round corner radius optimization
@@ -87,14 +87,14 @@ kwin (4:5.27.2.94-deepin94-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Fri, 12 Apr 2024 16:52:33 +0800
 
-kwin (4:5.27.2.93-deepin93-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.93-deepin93-1) unstable; urgency=medium
 
   * Bug fix:
     + 250257 fix: find the client error where the event is located
 
  -- huangzeming <huangzeming@uniontech.com>  Wed, 10 Apr 2024 10:45:56 +0800
 
-kwin (4:5.27.2.92-deepin92-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.92-deepin92-1) unstable; urgency=medium
 
   * Bug fix:
     + 235271 fix: add xdg-shell-unstable-v6
@@ -103,7 +103,7 @@ kwin (4:5.27.2.92-deepin92-1) unstable; urgency=medium
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Tue, 09 Apr 2024 18:26:44 +0800
 
-kwin (4:5.27.2.91-deepin91-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.91-deepin91-1) unstable; urgency=medium
 
   [ zhangyu ]
   * fix: support scaling modes.
@@ -115,7 +115,7 @@ kwin (4:5.27.2.91-deepin91-1) unstable; urgency=medium
 
  -- zhangyu <zhangyud@uniontech.com>  Mon, 08 Apr 2024 20:31:33 +0800
 
-kwin (4:5.27.2.90-deepin90-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.90-deepin90-1) unstable; urgency=medium
 
   [ huangzeming ]
   * fix: desktop and dde-lock didn't spread over the screen
@@ -129,35 +129,35 @@ kwin (4:5.27.2.90-deepin90-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Tue, 02 Apr 2024 17:39:33 +0800
 
-kwin (4:5.27.2.89-deepin89-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.89-deepin89-1) unstable; urgency=medium
 
   [ dingzhixuan ]
   * fix: tencent meeting cannot passthrough
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Mon, 01 Apr 2024 10:55:10 +0800
 
-kwin (4:5.27.2.88-deepin88-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.88-deepin88-1) unstable; urgency=medium
 
   [ wangboyu ]
   * fix: the X window crashes during dragging and dragging again causes kwin coredump
   * fix: drag the icon in the taskbar plug-in area to the X11 window without disappearing
   * fix: rewrite splitmenu
   * fix: refix add workarea in dde-shell
-  * fix: tencent meeting cannot passthrough 
+  * fix: tencent meeting cannot passthrough
   * fix: cannot long screenshot on xwayland window
   * fix: cursor black margin on uos-update window
   * fix: dde-control-center is not full display when maximize immediately after start
 
  -- wangboyu <wangboyu@uniontech.com>  Fri, 29 Mar 2024 19:09:02 +0800
 
-kwin (4:5.27.2.87-deepin87-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.87-deepin87-1) unstable; urgency=medium
 
   [ wangboyu ]
   * fix: disable common output modes by default.
 
  -- wangboyu <wangboyu@uniontech.com>  Thu, 28 Mar 2024 14:47:02 +0800
 
-kwin (4:5.27.2.86-deepin86-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.86-deepin86-1) unstable; urgency=medium
 
   [ wangboyu ]
   * fix: fix some crash point and add fd with O_CLOEXEC.
@@ -165,10 +165,10 @@ kwin (4:5.27.2.86-deepin86-1) unstable; urgency=medium
 
  -- wangboyu <wangboyu@uniontech.com>  Tue, 26 Mar 2024 17:20:02 +0800
 
-kwin (4:5.27.2.85-deepin85-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.85-deepin85-1) unstable; urgency=medium
 
   [ wangboyu ]
-  * fix: dde-control-center error when screen is repeatly plugged/unplugged 
+  * fix: dde-control-center error when screen is repeatly plugged/unplugged
   * fix: screen flash when activating multitaskview
   * fix: window disappeared after changing screen position
   * feat: optimize clipboard、uos-ai and osd(notification center) effects
@@ -179,7 +179,7 @@ kwin (4:5.27.2.85-deepin85-1) unstable; urgency=medium
  -- wangboyu <wangboyu@uniontech.com>  Fri, 22 Mar 2024 18:31:02 +0800
 
 
-kwin (4:5.27.2.84-deepin84-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.84-deepin84-1) unstable; urgency=medium
 
   [ gengzhijie ]
   * feat: implement dynamic adjustment of titlebar hegiht
@@ -191,14 +191,14 @@ kwin (4:5.27.2.84-deepin84-1) unstable; urgency=medium
 
  -- gengzhijie <gengzhijie@uniontech.com>  Tue, 19 Mar 2024 14:34:02 +0800
 
-kwin (4:5.27.2.83-deepin83-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.83-deepin83-1) unstable; urgency=medium
 
   [ liuzheng ]
   * add xwl cotrl
 
  -- liuzheng <liuzheng@uniontech.com>  Mon, 18 Mar 2024 11:51:38 +0800
 
-kwin (4:5.27.2.82-deepin82-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.82-deepin82-1) unstable; urgency=medium
 
   [ dingzhixuan ]
   * fix: add effectsEnabledChanged signal
@@ -209,7 +209,7 @@ kwin (4:5.27.2.82-deepin82-1) unstable; urgency=medium
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Thu, 14 Mar 2024 19:12:09 +0800
 
-kwin (4:5.27.2.81-deepin81-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.81-deepin81-1) unstable; urgency=medium
 
   [ zhangyu ]
   * fix: fix wayland can't login
@@ -217,7 +217,7 @@ kwin (4:5.27.2.81-deepin81-1) unstable; urgency=medium
 
  -- zhangyu <zhangyud@uniontech.com>  Tues, 12 Mar 2024 14:00:00 +0800
 
-kwin (4:5.27.2.80-deepin80-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.80-deepin80-1) unstable; urgency=medium
 
   [ zhangyu ]
   * fix: optimize shadow, theme, alt+tab, multitaskview,effects
@@ -225,7 +225,7 @@ kwin (4:5.27.2.80-deepin80-1) unstable; urgency=medium
 
  -- zhangyu <zhangyud@uniontech.com>  Mon, 11 Mar 2024 17:40:00 +0800
 
-kwin (4:5.27.2.79-deepin79-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.79-deepin79-1) unstable; urgency=medium
 
   [ dingzhixuan ]
   * fix: long touch cannot show menu on titlebar
@@ -233,7 +233,7 @@ kwin (4:5.27.2.79-deepin79-1) unstable; urgency=medium
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Wed, 06 Mar 2024 14:21:00 +0800
 
-kwin (4:5.27.2.78-deepin78-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.78-deepin78-1) unstable; urgency=medium
 
   [ zhangyu ]
   * fix: alt tab blur
@@ -244,7 +244,7 @@ kwin (4:5.27.2.78-deepin78-1) unstable; urgency=medium
 
  -- zhangyu <zhangyud@uniontech.com>  Tues, 05 Mar 2024 17:18:37 +0800
 
-kwin (4:5.27.2.77-deepin77-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.77-deepin77-1) unstable; urgency=medium
 
   [ huangzeming ]
   * fix: border color of dialog window in 2d
@@ -254,7 +254,7 @@ kwin (4:5.27.2.77-deepin77-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Fri, 01 Mar 2024 18:18:37 +0800
 
-kwin (4:5.27.2.76-deepin76-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.76-deepin76-1) unstable; urgency=medium
 
   [ huangzeming ]
   * fix: border color of windows in 2d
@@ -262,7 +262,7 @@ kwin (4:5.27.2.76-deepin76-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Fri, 01 Mar 2024 11:22:05 +0800
 
-kwin (4:5.27.2.75-deepin75-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.75-deepin75-1) unstable; urgency=medium
 
   [ gengzhijie ]
   * feat: add fault tolerance for remote buffer.
@@ -272,7 +272,7 @@ kwin (4:5.27.2.75-deepin75-1) unstable; urgency=medium
 
  -- gengzhijie <gengzhijie@uniontech.com>  Fri, 01 Mar 2024 10:22:39 +0800
 
-kwin (4:5.27.2.74-deepin74-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.74-deepin74-1) unstable; urgency=medium
 
   [ gengzhijie ]
   * fix: there are a lot of xcb error BadAtom
@@ -282,7 +282,7 @@ kwin (4:5.27.2.74-deepin74-1) unstable; urgency=medium
 
  -- gengzhijie <gengzhijie@uniontech.com>  Tue, 27 Feb 2024 15:49:02 +0800
 
-kwin (4:5.27.2.73-deepin73-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.73-deepin73-1) unstable; urgency=medium
 
   [ dingzhixuan ]
   * fix: KuGou Music cause xwayland crash
@@ -296,14 +296,14 @@ kwin (4:5.27.2.73-deepin73-1) unstable; urgency=medium
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Tue, 27 Feb 2024 00:06:06 +0800
 
-kwin (4:5.27.2.72-deepin72-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.72-deepin72-1) unstable; urgency=medium
 
   [ zhangyu ]
   * fix: bug fix
 
  -- zhangyu <zhangyud@uniontech.com>  Sun, 25 Feb 2024 20:13:57 +0800
 
-kwin (4:5.27.2.71-deepin71-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.71-deepin71-1) unstable; urgency=medium
 
   [ zhangyu ]
   * feat: add event tracking
@@ -311,7 +311,7 @@ kwin (4:5.27.2.71-deepin71-1) unstable; urgency=medium
 
  -- zhangyu <zhangyud@uniontech.com>  Thu, 22 Feb 2024 20:59:57 +0800
 
-kwin (4:5.27.2.70-deepin70-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.70-deepin70-1) unstable; urgency=medium
 
   [ huangzeming ]
   * fix: cancel osd effect
@@ -323,7 +323,7 @@ kwin (4:5.27.2.70-deepin70-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Tue, 20 Feb 2024 10:59:57 +0800
 
-kwin (4:5.27.2.69-deepin69-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.69-deepin69-1) unstable; urgency=medium
 
   [ wangboyu ]
   * fix: raise window after button released
@@ -332,14 +332,14 @@ kwin (4:5.27.2.69-deepin69-1) unstable; urgency=medium
 
  -- wangboyu <wangboyu@uniontech.com>  Sun 03 Feb 2024 23:21:01 +0800
 
-kwin (4:5.27.2.68-deepin68-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.68-deepin68-1) unstable; urgency=medium
 
   [ dingzhixuan ]
   * fix: unable to open x11 application on wayland
 
  -- dingzhixuan <dingzhixuan@uniontech.com>  Thu, 01 Feb 2024 19:44:01 +0800
 
-kwin (4:5.27.2.67-deepin67-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.67-deepin67-1) unstable; urgency=medium
 
   [ huangzeming ]
   * feat: remove the log of kwin writing to syslog for now.
@@ -355,15 +355,15 @@ kwin (4:5.27.2.67-deepin67-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Wed, 31 Jan 2024 17:08:48 +0800
 
-kwin (4:5.27.2.66-deepin66-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.66-deepin66-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  fix: shadow and scissor refresh 
+  *  fix: shadow and scissor refresh
   *  fix: optimize split menu positon scale
   *  fix: repair window's radius scale
  -- wangboyu <wangboyu@uniontech.com>  Mon, 29 Jan 2024 09:56:01 +0800
 
-kwin (4:5.27.2.65-deepin65-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.65-deepin65-1) unstable; urgency=medium
 
   [ wangboyu ]
   *  fix: the conflict between animation and dde effect
@@ -372,7 +372,7 @@ kwin (4:5.27.2.65-deepin65-1) unstable; urgency=medium
   *  fix: reconstruct window radius
  -- wangboyu <wangboyu@uniontech.com>  Sun, 28 Jan 2024 12:51:01 +0800
 
-kwin (4:5.27.2.64-deepin64-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.64-deepin64-1) unstable; urgency=medium
 
   [ wangboyu ]
   *  fix: when the output Changed once, only send done once.
@@ -380,7 +380,7 @@ kwin (4:5.27.2.64-deepin64-1) unstable; urgency=medium
   *  fix: when the output Changed once, only send done once.
  -- wangboyu <wangboyu@uniontech.com>  Sun, 21 Jan 2024 13:57:01 +0800
 
-kwin (4:5.27.2.63-deepin63-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.63-deepin63-1) unstable; urgency=medium
 
   [ wangboyu ]
   *  fix: tooltip shadow
@@ -391,23 +391,23 @@ kwin (4:5.27.2.63-deepin63-1) unstable; urgency=medium
 
  -- wangboyu <wangboyu@uniontech.com>  Tue, 16 Jan 2024 20:08:01 +0800
 
-kwin (4:5.27.2.62-deepin62-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.62-deepin62-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  fix: rendering problem of wine app in cloud desktop xrender mode 
+  *  fix: rendering problem of wine app in cloud desktop xrender mode
   *  fix: opacity blend of titlebar menu
-  *  fix: show icon in xrender env 
+  *  fix: show icon in xrender env
 
  -- wangboyu <wangboyu@uniontech.com>  Sat, 14 Jan 2024 00:59:01 +0800
 
-kwin (4:5.27.2.61-deepin61-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.61-deepin61-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  feat: Add alternative for EGL_LINUX_DMA_BUF_EXT 
+  *  feat: Add alternative for EGL_LINUX_DMA_BUF_EXT
 
  -- wangboyu <wangboyu@uniontech.com>  Thu, 11 Jan 2024 20:17:01 +0800
 
-kwin (4:5.27.2.60-deepin60-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.60-deepin60-1) unstable; urgency=medium
 
   [ gengzhijie ]
   * fix: zx install error
@@ -422,7 +422,7 @@ kwin (4:5.27.2.60-deepin60-1) unstable; urgency=medium
 
  -- gengzhijie <gengzhijie@uniontech.com>  Thu, 11 Jan 2024 18:17:01 +0800
 
-kwin (4:5.27.2.59-deepin59-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.59-deepin59-1) unstable; urgency=medium
 
   [ yangtian ]
   * fix: window filled background didn't align with window after relayout
@@ -436,7 +436,7 @@ kwin (4:5.27.2.59-deepin59-1) unstable; urgency=medium
 
  -- yangtian <yangtian@uniontech.com>  Tue, 09 Jan 2024 16:39:20 +0800
 
-kwin (4:5.27.2.58-deepin58-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.58-deepin58-1) unstable; urgency=medium
 
   [ huangzeming ]
   * feat: dynamic response to DConfig effect type
@@ -454,7 +454,7 @@ kwin (4:5.27.2.58-deepin58-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Fri, 05 Jan 2024 18:59:19 +0800
 
-kwin (4:5.27.2.57-deepin57-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.57-deepin57-1) unstable; urgency=medium
 
   [ Chaojiang Luo ]
   * feat: disable partial update for pgux
@@ -464,7 +464,7 @@ kwin (4:5.27.2.57-deepin57-1) unstable; urgency=medium
 
  -- jccKevin <luochaojiang@uniontech.com>  Thu, 04 Jan 2024 16:09:43 +0800
 
-kwin (4:5.27.2.56-deepin56-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.56-deepin56-1) unstable; urgency=medium
 
   [ huangzeming ]
   * feat: add effect type configuration
@@ -473,14 +473,14 @@ kwin (4:5.27.2.56-deepin56-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Wed, 03 Jan 2024 17:44:39 +0800
 
-kwin (4:5.27.2.55-deepin55-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.55-deepin55-1) unstable; urgency=medium
 
   [ wangboyu ]
   * fix: remove output primary and order for xwayland
 
  -- wangboyu <wangboyu@uniontech.com>  Web, 03 Jan 2024 11:46:07 +0800
 
-kwin (4:5.27.2.54-deepin54-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.54-deepin54-1) unstable; urgency=medium
 
   [ gengzhijie ]
   * fix: VGA screen become black in XRender compositor
@@ -503,14 +503,14 @@ kwin (4:5.27.2.54-deepin54-1) unstable; urgency=medium
 
  -- gengzhijie <gengzhijie@uniontech.com>  Fri, 29 Dec 2023 15:30:34 +0800
 
-kwin (4:5.27.2.53-deepin53-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.53-deepin53-1) unstable; urgency=medium
 
   [ wangboyu ]
   * Revert "fix: Fix screen flash for damage error"
 
  -- wangboyu <wangboyu@uniontech.com>  Mon, 26 Dec 2023 17:54:07 +0800
 
-kwin (4:5.27.2.52-deepin52-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.52-deepin52-1) unstable; urgency=medium
 
   [ gengzhijie ]
   * fix: right click third-part titlebar can't show menu
@@ -519,7 +519,7 @@ kwin (4:5.27.2.52-deepin52-1) unstable; urgency=medium
 
  -- gengzhijie <gengzhijie@uniontech.com>  Fri, 22 Dec 2023 13:09:07 +0800
 
-kwin (4:5.27.2.51-deepin51-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.51-deepin51-1) unstable; urgency=medium
 
   [ huangzeming ]
   * feat: add support for switching compositing backend
@@ -532,7 +532,7 @@ kwin (4:5.27.2.51-deepin51-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Thu, 21 Dec 2023 19:12:26 +0800
 
-kwin (4:5.27.2.50-deepin50-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.50-deepin50-1) unstable; urgency=medium
 
   [ Chaojiang Luo ]
   *  feat: Add compatibility for v2
@@ -540,7 +540,7 @@ kwin (4:5.27.2.50-deepin50-1) unstable; urgency=medium
 
  -- jccKevin <luochaojiang@uniontech.com>  Tue, 19 Dec 2023 20:06:31 +0800
 
-kwin (4:5.27.2.49-deepin49-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.49-deepin49-1) unstable; urgency=medium
 
   [ huangzeming ]
   * Task
@@ -558,25 +558,25 @@ kwin (4:5.27.2.49-deepin49-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Tue, 19 Dec 2023 16:35:12 +0800
 
-kwin (4:5.27.2.48-deepin48-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.48-deepin48-1) unstable; urgency=medium
 
   * [ wangboyu ]
-    fix: add function setTouchDeviceToScreenId and getTouchDeviceToScreenInfo. 
+    fix: add function setTouchDeviceToScreenId and getTouchDeviceToScreenInfo.
     fix: greeter will be killed when the shortcut of alt+f4 is pressed.
     fix: thirdpart titlebar icon don't change with system zoom
-    fix: remove selectionchanged/selectioncleared of primary selection. 
+    fix: remove selectionchanged/selectioncleared of primary selection.
     fix: prohibit screen active when client change desktop
 
  -- wangboyu <wangboyu@uniontech.com>  Fri, 15 Dec 2023 17:48:05 +0800
 
-kwin (4:5.27.2.47-deepin47-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.47-deepin47-1) unstable; urgency=medium
 
   * [ wangboyu ]
     fix: updateAvailableInputDevices when device is not fakeinput.
 
  -- wangboyu <wangboyu@uniontech.com>  Mon, 11 Dec 2023 21:09:05 +0800
 
-kwin (4:5.27.2.46-deepin46-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.46-deepin46-1) unstable; urgency=medium
 
   * [ Chaojiang Luo ]
     fix: Fixed the issue that the mouse was red during the KLV boot process
@@ -587,7 +587,7 @@ kwin (4:5.27.2.46-deepin46-1) unstable; urgency=medium
 
  -- jccKevin <luochaojiang@uniontech.com>  Sat, 09 Dec 2023 16:58:05 +0800
 
-kwin (4:5.27.2.45-deepin45-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.45-deepin45-1) unstable; urgency=medium
 
   [ wangboyu ]
   * Bug fix
@@ -599,7 +599,7 @@ kwin (4:5.27.2.45-deepin45-1) unstable; urgency=medium
 
  -- wangboyu <wangboyu@uniontech.com>  Thu, 07 Dec 2023 18:29:40 +0800
 
-kwin (4:5.27.2.44-deepin44-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.44-deepin44-1) unstable; urgency=medium
 
   [ wangboyu ]
   * Bug fix
@@ -609,7 +609,7 @@ kwin (4:5.27.2.44-deepin44-1) unstable; urgency=medium
 
  -- wangboyu <wangboyu@uniontech.com>  Fri, 03 Dec 2023 18:00:40 +0800
 
-kwin (4:5.27.2.43-deepin43-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.43-deepin43-1) unstable; urgency=medium
 
   [ wangboyu ]
   * Bug fix
@@ -618,7 +618,7 @@ kwin (4:5.27.2.43-deepin43-1) unstable; urgency=medium
  -- wangboyu <wangboyu@uniontech.com>  Fri, 01 Dec 2023 16:19:40 +0800
 
 
-kwin (4:5.27.2.42-deepin42-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.42-deepin42-1) unstable; urgency=medium
 
   [ huangzeming ]
   * Bug fix
@@ -637,7 +637,7 @@ kwin (4:5.27.2.42-deepin42-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Fri, 01 Dec 2023 15:07:59 +0800
 
-kwin (4:5.27.2.41-deepin41-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.41-deepin41-1) unstable; urgency=medium
 
   [ huangzeming ]
   * Bug fix
@@ -647,7 +647,7 @@ kwin (4:5.27.2.41-deepin41-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Thu, 30 Nov 2023 11:13:04 +0800
 
-kwin (4:5.27.2.40-deepin40-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.40-deepin40-1) unstable; urgency=medium
 
   [ wangboyu ]
   * Bug fix
@@ -655,7 +655,7 @@ kwin (4:5.27.2.40-deepin40-1) unstable; urgency=medium
 
  -- wangboyu <wangboyu@uniontech.com>  Tue, 28 Nov 2023 18:34:40 +0800
 
-kwin (4:5.27.2.39-deepin39-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.39-deepin39-1) unstable; urgency=medium
 
   [ wangboyu ]
   * Bug fix
@@ -663,7 +663,7 @@ kwin (4:5.27.2.39-deepin39-1) unstable; urgency=medium
 
  -- wangboyu <wangboyu@uniontech.com>  Fri, 24 Nov 2023 18:57:40 +0800
 
-kwin (4:5.27.2.38-deepin38-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.38-deepin38-1) unstable; urgency=medium
 
   [ wangboyu ]
   * Bug fix
@@ -678,14 +678,14 @@ kwin (4:5.27.2.38-deepin38-1) unstable; urgency=medium
  -- wangboyu <wangboyu@uniontech.com>  Fri, 24 Nov 2023 14:47:40 +0800
 
 
-kwin (4:5.27.2.37-deepin37-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.37-deepin37-1) unstable; urgency=medium
 
   [ zhangyu ]
   * Bug fix
 
  -- zhangyu <zhangyud@uniontech.com>  Fri, 17 Nov 2023 18:02:40 +0800
 
-kwin (4:5.27.2.36-deepin36-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.36-deepin36-1) unstable; urgency=medium
 
   [ huangzeming ]
   * fix: clipboard-ace worked uncorrectly on wayland
@@ -693,42 +693,42 @@ kwin (4:5.27.2.36-deepin36-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Tue, 14 Nov 2023 19:33:40 +0800
 
-kwin (4:5.27.2.35-deepin35-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.35-deepin35-1) unstable; urgency=medium
 
   [ wangboyu ]
   * fix: Fix nullptr error of m_shm_rp_buffer
 
  -- wangboyu <wangboyu@uniontech.com>  Mon, 13 Nov 2023 23:06:26 +0800
 
-kwin (4:5.27.2.34-deepin34-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.34-deepin34-1) unstable; urgency=medium
 
   [ Chaojiang Luo ]
   * fix: Do not restart wayland compositing when config change
 
  -- jccKevin <luochaojiang@uniontech.com>  Mon, 13 Nov 2023 16:52:26 +0800
 
-kwin (4:5.27.2.33-deepin33-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.33-deepin33-1) unstable; urgency=medium
 
   [ zhangyu ]
   * Bug fix
 
  -- zhangyu <zhangyud@uniontech.com>  Mon, 13 Nov 2023 10:52:20 +0800
 
-kwin (4:5.27.2.32-deepin32-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.32-deepin32-1) unstable; urgency=medium
 
   [ zhangyu ]
   * Bug fix
 
  -- zhangyu <zhangyud@uniontech.com>  Wed, 08 Nov 2023 16:18:20 +0800
 
-kwin (4:5.27.2.31-deepin31-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.31-deepin31-1) unstable; urgency=medium
 
   [ huangzeming ]
   * 225959 fix: close window effects, cold start time is degraded compared to historical baseline
 
  -- huangzeming <huangzeming@uniontech.com>  Fri, 03 Nov 2023 18:05:20 +0800
 
-kwin (4:5.27.2.30-deepin30-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.30-deepin30-1) unstable; urgency=medium
 
   [ huangzeming ]
   * 223809 fix: maximized window didn't overspread while dock in smart-hide mode
@@ -741,14 +741,14 @@ kwin (4:5.27.2.30-deepin30-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Fri, 03 Nov 2023 17:16:08 +0800
 
-kwin (4:5.27.2.29-deepin29-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.29-deepin29-1) unstable; urgency=medium
 
   [ zhangyu ]
   *  fix: optimize about radius acquisition
 
  -- zhangyu <zhangyud@uniontech.com>  Mon, 30 Oct 2023 16:10:13 +0800
 
-kwin (4:5.27.2.28-deepin28-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.28-deepin28-1) unstable; urgency=medium
 
   [ zhangyu ]
   *  fix: 218929\220107\223061\223949
@@ -756,14 +756,14 @@ kwin (4:5.27.2.28-deepin28-1) unstable; urgency=medium
 
  -- zhangyu <zhangyud@uniontech.com>  Sun, 29 Oct 2023 16:25:13 +0800
 
-kwin (4:5.27.2.27-deepin27-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.27-deepin27-1) unstable; urgency=medium
 
   [ wangboyu ]
   *  fix: when touch to move client,kwin must need client send events.
 
  -- wangboyu <wangboyu@uniontech.com>  Mon, 23 Oct 2023 9:30:13 +0800
 
-kwin (4:5.27.2.26-deepin26-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.26-deepin26-1) unstable; urgency=medium
 
   [ wangboyu ]
   * feat: add dbus interface setEnableTouchLongPress and isEnableTouchLongPress.
@@ -790,21 +790,21 @@ kwin (4:5.27.2.26-deepin26-1) unstable; urgency=medium
 
  -- wangboyu <wangboyu@uniontech.com>  Fri, 20 Oct 2023 21:13:13 +0800
 
-kwin (4:5.27.2.25-deepin25-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.25-deepin25-1) unstable; urgency=medium
 
   [ huangzeming ]
   * 219051 fix: Add HuWei partial update support
 
  -- huangzeming <huangzeming@uniontech.com>  Tue, 17 Oct 2023 12:16:13 +0800
 
-kwin (4:5.27.2.24-deepin24-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.24-deepin24-1) unstable; urgency=medium
 
   [ zhangyu ]
   * 220059 fix: active the maximize window frome split menu
 
  -- zhangyu <zhangyud@uniontech.com>  Fri, 13 Oct 2023 18:15:17 +0800
 
-kwin (4:5.27.2.23-deepin23-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.23-deepin23-1) unstable; urgency=medium
 
   [ huangzeming ]
   * 219585 fix: repair the split trigger effect color
@@ -817,35 +817,35 @@ kwin (4:5.27.2.23-deepin23-1) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Fri, 13 Oct 2023 17:36:17 +0800
 
-kwin (4:5.27.2.22-deepin22-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.22-deepin22-1) unstable; urgency=medium
 
   [ zhangyu ]
   * revert: fix: usmserver; mulititask; splitwindow;
 
  -- zhangyu <zhangyud@uniontech.com>  Wed, 11 Oct 2023 18:10:47 +0800
 
-kwin (4:5.27.2.21-deepin21-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.21-deepin21-1) unstable; urgency=medium
 
   [ huangzeming ]
   * revert: fix: tooltips were shown uncorrectly in splitmenu
 
  -- huangzeming <huangzeming@uniontech.com>  Sun, 08 Oct 2023 17:40:47 +0800
 
-kwin (4:5.27.2.20-deepin20-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.20-deepin20-1) unstable; urgency=medium
 
   [ zhangyu ]
   * fix: multitask, splitscreen, patch, bug
 
  -- zhangyu <zhangyud@uniontech.com>  Sun, 8 Otc 2023 16:00:21 +0800
 
-kwin (4:5.27.2.19-deepin19-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.19-deepin19-1) unstable; urgency=medium
 
   [ huangzeming ]
   * fix: multitaskview caused crash when switched 2d to 3d
 
  -- huangzeming <huangzeming@uniontech.com>  Tue, 19 Sep 2023 17:42:21 +0800
 
-kwin (4:5.27.2.18-deepin18-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.18-deepin18-1) unstable; urgency=medium
 
   [ jccKevin ]
   * fix: Add remote access data lost
@@ -854,7 +854,7 @@ kwin (4:5.27.2.18-deepin18-1) unstable; urgency=medium
 
  -- jccKevin <luochaojiang@uniontech.com>  Tue, 19 Sep 2023 16:15:45 +0800
 
-kwin (4:5.27.2.17-deepin17-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.17-deepin17-1) unstable; urgency=medium
 
   [ jccKevin ]
   * Add output device v1 support
@@ -863,14 +863,14 @@ kwin (4:5.27.2.17-deepin17-1) unstable; urgency=medium
 
  -- jccKevin <luochaojiang@uniontech.com>  Tue, 19 Sep 2023 14:15:06 +0800
 
-kwin (4:5.27.2.16-deepin16-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.16-deepin16-1) unstable; urgency=medium
 
   [ jccKevin ]
   * Disable DRM modifiers by default
 
  -- jccKevin <luochaojiang@uniontech.com>  Fri, 15 Sep 2023 15:25:50 +0800
 
-kwin (4:5.27.2.15-deepin15) unstable; urgency=medium
+deepin-kwin (4:5.27.2.15-deepin15) unstable; urgency=medium
 
   [ huangzeming ]
   * 218337 fix: windows and add button were shown uncorrectly at the resolution of 1024*768 in multitaskview
@@ -885,7 +885,7 @@ kwin (4:5.27.2.15-deepin15) unstable; urgency=medium
 
  -- huangzeming <huangzeming@uniontech.com>  Thu, 14 Sep 2023 17:40:23 +0800
 
-kwin (4:5.27.2.14-deepin14) unstable; urgency=medium
+deepin-kwin (4:5.27.2.14-deepin14) unstable; urgency=medium
 
   [ xinbo wang ]
   * Add prohibit screenshot interface
@@ -894,7 +894,7 @@ kwin (4:5.27.2.14-deepin14) unstable; urgency=medium
 
  -- xinbo wang <wangxinbo@uniontech.com>  Mon, 11 Sep 2023 16:27:11 +0800
 
-kwin (4:5.27.2.13-deepin13-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.13-deepin13-1) unstable; urgency=medium
 
   [ zhangyu ]
   * New upstream release (5.27.2).
@@ -902,7 +902,7 @@ kwin (4:5.27.2.13-deepin13-1) unstable; urgency=medium
 
  -- zhangyu <zhangyud@uniontech.com>  Wed, 06 Sep 2023 11:15:26 +0800
 
-kwin (4:5.27.2.12-deepin12-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2.12-deepin12-1) unstable; urgency=medium
 
   [ jccKevin ]
   * New upstream release (5.27.2).
@@ -912,7 +912,7 @@ kwin (4:5.27.2.12-deepin12-1) unstable; urgency=medium
 
  -- jccKevin <luochaojiang@uniontech.com>  Tue, 05 Sep 2023 23:13:26 +0800
 
-kwin (4:5.27.2-1) unstable; urgency=medium
+deepin-kwin (4:5.27.2-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.27.1).
@@ -922,7 +922,7 @@ kwin (4:5.27.2-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Tue, 28 Feb 2023 15:01:10 +0100
 
-kwin (4:5.27.0-1) unstable; urgency=medium
+deepin-kwin (4:5.27.0-1) unstable; urgency=medium
 
   [ Pino Toscano ]
   * Add the xwayland build dependency, setting its required version to
@@ -943,7 +943,7 @@ kwin (4:5.27.0-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Sat, 18 Feb 2023 17:08:46 +0100
 
-kwin (4:5.26.90-1) unstable; urgency=medium
+deepin-kwin (4:5.26.90-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.26.90).
@@ -956,7 +956,7 @@ kwin (4:5.26.90-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Mon, 23 Jan 2023 21:50:58 +0100
 
-kwin (4:5.26.5-1) unstable; urgency=medium
+deepin-kwin (4:5.26.5-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.26.5).
@@ -964,7 +964,7 @@ kwin (4:5.26.5-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Sat, 07 Jan 2023 00:22:19 +0100
 
-kwin (4:5.26.4-1) unstable; urgency=medium
+deepin-kwin (4:5.26.4-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.26.4).
@@ -972,7 +972,7 @@ kwin (4:5.26.4-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Tue, 29 Nov 2022 16:06:54 +0100
 
-kwin (4:5.26.3-1) unstable; urgency=medium
+deepin-kwin (4:5.26.3-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.26.3).
@@ -980,7 +980,7 @@ kwin (4:5.26.3-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Tue, 08 Nov 2022 15:46:53 +0100
 
-kwin (4:5.26.2.1-1) unstable; urgency=medium
+deepin-kwin (4:5.26.2.1-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.26.1).
@@ -994,7 +994,7 @@ kwin (4:5.26.2.1-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Thu, 27 Oct 2022 23:35:50 +0200
 
-kwin (4:5.26.0-1) unstable; urgency=medium
+deepin-kwin (4:5.26.0-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.26.0).
@@ -1003,14 +1003,14 @@ kwin (4:5.26.0-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Tue, 11 Oct 2022 15:44:23 +0200
 
-kwin (4:5.25.90-2) experimental; urgency=medium
+deepin-kwin (4:5.25.90-2) experimental; urgency=medium
 
   [ Aurélien COUDERC ]
   * Tighten cross-plasma components dependencies.
 
  -- Aurélien COUDERC <coucouf@debian.org>  Fri, 07 Oct 2022 11:47:06 +0200
 
-kwin (4:5.25.90-1) experimental; urgency=medium
+deepin-kwin (4:5.25.90-1) experimental; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.25.90).
@@ -1024,7 +1024,7 @@ kwin (4:5.25.90-1) experimental; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Mon, 26 Sep 2022 23:15:21 +0200
 
-kwin (4:5.25.5-1) unstable; urgency=medium
+deepin-kwin (4:5.25.5-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.25.5).
@@ -1032,21 +1032,21 @@ kwin (4:5.25.5-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Fri, 09 Sep 2022 23:22:15 +0200
 
-kwin (4:5.25.4-2) unstable; urgency=medium
+deepin-kwin (4:5.25.4-2) unstable; urgency=medium
 
   [ Patrick Franz ]
   * Tighten inter-Plasma dependencies.
 
  -- Patrick Franz <deltaone@debian.org>  Tue, 02 Aug 2022 20:32:35 +0200
 
-kwin (4:5.25.4-1) unstable; urgency=medium
+deepin-kwin (4:5.25.4-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.25.4).
 
  -- Aurélien COUDERC <coucouf@debian.org>  Tue, 02 Aug 2022 17:34:29 +0200
 
-kwin (4:5.25.3-1) unstable; urgency=medium
+deepin-kwin (4:5.25.3-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.25.2).
@@ -1059,7 +1059,7 @@ kwin (4:5.25.3-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Sun, 17 Jul 2022 15:29:13 +0200
 
-kwin (4:5.25.1-1) experimental; urgency=medium
+deepin-kwin (4:5.25.1-1) experimental; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.25.1).
@@ -1067,7 +1067,7 @@ kwin (4:5.25.1-1) experimental; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Tue, 21 Jun 2022 21:47:26 +0200
 
-kwin (4:5.25.0-1) experimental; urgency=medium
+deepin-kwin (4:5.25.0-1) experimental; urgency=medium
 
   * New upstream release (5.25.0).
   * Tighten cross-plasma components dependencies.
@@ -1076,13 +1076,13 @@ kwin (4:5.25.0-1) experimental; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Tue, 14 Jun 2022 21:26:57 +0200
 
-kwin (4:5.24.90-2) experimental; urgency=medium
+deepin-kwin (4:5.24.90-2) experimental; urgency=medium
 
   * Tighten build dependency to libkdecorations2-dev (>= 4:5.24.90~).
 
  -- Aurélien COUDERC <coucouf@debian.org>  Tue, 31 May 2022 22:25:39 +0200
 
-kwin (4:5.24.90-1) experimental; urgency=medium
+deepin-kwin (4:5.24.90-1) experimental; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.24.90).
@@ -1092,21 +1092,21 @@ kwin (4:5.24.90-1) experimental; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Fri, 20 May 2022 11:47:01 +0200
 
-kwin (4:5.24.5-1) unstable; urgency=medium
+deepin-kwin (4:5.24.5-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.24.5).
 
  -- Aurélien COUDERC <coucouf@debian.org>  Thu, 12 May 2022 21:40:31 +0200
 
-kwin (4:5.24.4-1) unstable; urgency=medium
+deepin-kwin (4:5.24.4-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.24.4).
 
  -- Aurélien COUDERC <coucouf@debian.org>  Wed, 30 Mar 2022 14:06:41 +0200
 
-kwin (4:5.24.3-1) unstable; urgency=medium
+deepin-kwin (4:5.24.3-1) unstable; urgency=medium
 
   [ Aurélien COUDERC ]
   * New upstream release (5.24.3).
@@ -1114,14 +1114,14 @@ kwin (4:5.24.3-1) unstable; urgency=medium
 
  -- Aurélien COUDERC <coucouf@debian.org>  Thu, 10 Mar 2022 08:02:48 +0100
 
-kwin (4:5.24.2-2) unstable; urgency=medium
+deepin-kwin (4:5.24.2-2) unstable; urgency=medium
 
   [ Patrick Franz ]
   * Add missing Breaks for libkwin4-effect-builtins1.
 
  -- Patrick Franz <deltaone@debian.org>  Fri, 04 Mar 2022 18:50:26 +0100
 
-kwin (4:5.24.2-1) unstable; urgency=medium
+deepin-kwin (4:5.24.2-1) unstable; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.24.2).
@@ -1135,7 +1135,7 @@ kwin (4:5.24.2-1) unstable; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Sat, 26 Feb 2022 21:58:55 +0100
 
-kwin (4:5.23.5-1) unstable; urgency=medium
+deepin-kwin (4:5.23.5-1) unstable; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.23.5).
@@ -1143,7 +1143,7 @@ kwin (4:5.23.5-1) unstable; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Fri, 07 Jan 2022 18:01:12 +0100
 
-kwin (4:5.23.4-1) unstable; urgency=medium
+deepin-kwin (4:5.23.4-1) unstable; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.4).
@@ -1153,14 +1153,14 @@ kwin (4:5.23.4-1) unstable; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Thu, 02 Dec 2021 22:25:21 +0100
 
-kwin (4:5.23.3-1) unstable; urgency=medium
+deepin-kwin (4:5.23.3-1) unstable; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.3).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 10 Nov 2021 08:39:33 +0900
 
-kwin (4:5.23.2-1) unstable; urgency=medium
+deepin-kwin (4:5.23.2-1) unstable; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.1).
@@ -1169,7 +1169,7 @@ kwin (4:5.23.2-1) unstable; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Wed, 03 Nov 2021 22:21:02 +0900
 
-kwin (4:5.23.0-2) unstable; urgency=medium
+deepin-kwin (4:5.23.0-2) unstable; urgency=medium
 
   [ Patrick Franz ]
   * Update upstream signing-key.
@@ -1178,7 +1178,7 @@ kwin (4:5.23.0-2) unstable; urgency=medium
 
  -- Patrick Franz <deltaone@debian.org>  Thu, 14 Oct 2021 21:44:41 +0200
 
-kwin (4:5.23.0-1) unstable; urgency=medium
+deepin-kwin (4:5.23.0-1) unstable; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.23.0).
@@ -1189,49 +1189,49 @@ kwin (4:5.23.0-1) unstable; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Thu, 14 Oct 2021 20:13:14 +0900
 
-kwin (4:5.21.5-2) unstable; urgency=medium
+deepin-kwin (4:5.21.5-2) unstable; urgency=medium
 
   [ Patrick Franz ]
   * Release to unstable.
 
  -- Patrick Franz <deltaone@debian.org>  Tue, 17 Aug 2021 03:24:05 +0200
 
-kwin (4:5.21.5-1) experimental; urgency=medium
+deepin-kwin (4:5.21.5-1) experimental; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.21.5).
 
  -- Patrick Franz <patfra71@gmail.com>  Fri, 07 May 2021 18:52:03 +0200
 
-kwin (4:5.21.4-1) experimental; urgency=medium
+deepin-kwin (4:5.21.4-1) experimental; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.21.4).
 
  -- Patrick Franz <patfra71@gmail.com>  Tue, 06 Apr 2021 17:47:06 +0200
 
-kwin (4:5.21.3-1) experimental; urgency=medium
+deepin-kwin (4:5.21.3-1) experimental; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.21.3).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 17 Mar 2021 05:49:41 +0900
 
-kwin (4:5.21.2-1) experimental; urgency=medium
+deepin-kwin (4:5.21.2-1) experimental; urgency=medium
 
   [ Patrick Franz ]
   * New upstream release (5.21.2).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 03 Mar 2021 05:33:49 +0900
 
-kwin (4:5.21.1-1) experimental; urgency=medium
+deepin-kwin (4:5.21.1-1) experimental; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.21.1).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 24 Feb 2021 14:36:39 +0900
 
-kwin (4:5.21.0-1) experimental; urgency=medium
+deepin-kwin (4:5.21.0-1) experimental; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.21.0).
@@ -1252,31 +1252,31 @@ kwin (4:5.21.0-1) experimental; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Wed, 17 Feb 2021 05:42:27 +0900
 
-kwin (4:5.20.5-1) unstable; urgency=medium
+deepin-kwin (4:5.20.5-1) unstable; urgency=medium
 
   * New upstream release (5.20.5).
 
  -- Norbert Preining <norbert@preining.info>  Wed, 06 Jan 2021 23:50:52 +0900
 
-kwin (4:5.20.4-4) unstable; urgency=medium
+deepin-kwin (4:5.20.4-4) unstable; urgency=medium
 
   * Enable pipewire support by adding the respective B-D.
 
  -- Norbert Preining <norbert@preining.info>  Mon, 28 Dec 2020 09:44:54 +0900
 
-kwin (4:5.20.4-3) unstable; urgency=medium
+deepin-kwin (4:5.20.4-3) unstable; urgency=medium
 
   * Release to unstable.
 
  -- Norbert Preining <norbert@preining.info>  Tue, 22 Dec 2020 11:04:37 +0900
 
-kwin (4:5.20.4-2) experimental; urgency=medium
+deepin-kwin (4:5.20.4-2) experimental; urgency=medium
 
   * Rebuild for Qt transition.
 
  -- Norbert Preining <norbert@preining.info>  Sun, 13 Dec 2020 00:38:11 +0900
 
-kwin (4:5.20.4-1) experimental; urgency=medium
+deepin-kwin (4:5.20.4-1) experimental; urgency=medium
 
   [ Norbert Preining ]
   * New upstream release (5.20.4).
@@ -1311,13 +1311,13 @@ kwin (4:5.20.4-1) experimental; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Wed, 09 Dec 2020 14:17:32 +0900
 
-kwin (4:5.19.5-3) unstable; urgency=medium
+deepin-kwin (4:5.19.5-3) unstable; urgency=medium
 
   * Release to unstable.
 
  -- Norbert Preining <norbert@preining.info>  Fri, 06 Nov 2020 08:37:23 +0900
 
-kwin (4:5.19.5-2) experimental; urgency=medium
+deepin-kwin (4:5.19.5-2) experimental; urgency=medium
 
   [ Scarlett Moore ]
   * Fix "FTBFS: egl_dmabuf.cpp:97:9: error: EGL_TEXTURE_Y_XUXV_WL
@@ -1329,14 +1329,14 @@ kwin (4:5.19.5-2) experimental; urgency=medium
 
  -- Norbert Preining <norbert@preining.info>  Mon, 02 Nov 2020 09:39:13 +0900
 
-kwin (4:5.19.5-1) experimental; urgency=medium
+deepin-kwin (4:5.19.5-1) experimental; urgency=medium
 
   * New upstream release (5.19.5).
   * Add Patrick and myself to uploaders.
 
  -- Norbert Preining <norbert@preining.info>  Mon, 19 Oct 2020 13:45:27 +0900
 
-kwin (4:5.19.4-1) experimental; urgency=medium
+deepin-kwin (4:5.19.4-1) experimental; urgency=medium
 
   * Team upload.
 
@@ -1350,7 +1350,7 @@ kwin (4:5.19.4-1) experimental; urgency=medium
 
  -- Jiri Palecek <jpalecek@web.de>  Mon, 15 Jun 2020 03:01:07 +0200
 
-kwin (4:5.17.5-4) unstable; urgency=medium
+deepin-kwin (4:5.17.5-4) unstable; urgency=medium
 
   * Team upload.
 
@@ -1364,7 +1364,7 @@ kwin (4:5.17.5-4) unstable; urgency=medium
 
  -- Lisandro Damián Nicanor Pérez Meyer <lisandro@debian.org>  Fri, 30 Oct 2020 23:23:05 -0300
 
-kwin (4:5.17.5-3) unstable; urgency=medium
+deepin-kwin (4:5.17.5-3) unstable; urgency=medium
 
   * Team upload.
 
@@ -1399,7 +1399,7 @@ kwin (4:5.17.5-3) unstable; urgency=medium
 
  -- Pino Toscano <pino@debian.org>  Fri, 28 Aug 2020 19:04:07 +0200
 
-kwin (4:5.17.5-2) unstable; urgency=medium
+deepin-kwin (4:5.17.5-2) unstable; urgency=medium
 
   * Team upload.
   * Upload to unstable.
@@ -1407,7 +1407,7 @@ kwin (4:5.17.5-2) unstable; urgency=medium
 
  -- Pino Toscano <pino@debian.org>  Fri, 14 Feb 2020 20:53:37 +0100
 
-kwin (4:5.17.5-1) experimental; urgency=medium
+deepin-kwin (4:5.17.5-1) experimental; urgency=medium
 
   * Team upload.
 
@@ -1459,7 +1459,7 @@ kwin (4:5.17.5-1) experimental; urgency=medium
 
  -- Pino Toscano <pino@debian.org>  Mon, 13 Jan 2020 06:45:42 +0100
 
-kwin (4:5.14.5-1) unstable; urgency=medium
+deepin-kwin (4:5.14.5-1) unstable; urgency=medium
 
   * New upstream release (5.14.5).
   * Update install files
@@ -1467,14 +1467,14 @@ kwin (4:5.14.5-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Thu, 24 Jan 2019 09:25:57 -0300
 
-kwin (4:5.14.3-2) unstable; urgency=medium
+deepin-kwin (4:5.14.3-2) unstable; urgency=medium
 
   * Team upload.
   * Update symbols files from logs of buildds.
 
  -- Pino Toscano <pino@debian.org>  Sat, 24 Nov 2018 16:25:34 +0100
 
-kwin (4:5.14.3-1) unstable; urgency=medium
+deepin-kwin (4:5.14.3-1) unstable; urgency=medium
 
   * Update upsteam signing-key
   * New upstream release (5.14.3).
@@ -1486,14 +1486,14 @@ kwin (4:5.14.3-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 23 Nov 2018 08:50:38 -0300
 
-kwin (4:5.13.5-1) unstable; urgency=medium
+deepin-kwin (4:5.13.5-1) unstable; urgency=medium
 
   * New upstream release (5.13.5).
   * Release to unstable
 
  -- Maximiliano Curia <maxy@debian.org>  Thu, 06 Sep 2018 20:40:35 +0200
 
-kwin (4:5.13.4-1) unstable; urgency=medium
+deepin-kwin (4:5.13.4-1) unstable; urgency=medium
 
   * New upstream release (5.13.4).
   * disable MouseMark and TrackMouse effects loading test
@@ -1501,7 +1501,7 @@ kwin (4:5.13.4-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 19 Aug 2018 23:18:06 +0200
 
-kwin (4:5.13.1-1) unstable; urgency=medium
+deepin-kwin (4:5.13.1-1) unstable; urgency=medium
 
   * New upstream release (5.13.1).
   * Update build-deps and deps with the info from cmake
@@ -1513,7 +1513,7 @@ kwin (4:5.13.1-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 26 Jun 2018 13:43:07 +0200
 
-kwin (4:5.12.5-1) unstable; urgency=medium
+deepin-kwin (4:5.12.5-1) unstable; urgency=medium
 
   * Bump Standards-Version to 4.1.4.
   * New upstream release (5.12.5).
@@ -1526,7 +1526,7 @@ kwin (4:5.12.5-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 09 May 2018 13:24:01 +0200
 
-kwin (4:5.12.4-1) unstable; urgency=medium
+deepin-kwin (4:5.12.4-1) unstable; urgency=medium
 
   * New upstream release (5.12.4).
   * Add a misc depends to kde-window-manager
@@ -1535,7 +1535,7 @@ kwin (4:5.12.4-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 28 Mar 2018 18:12:47 +0200
 
-kwin (4:5.12.3-1) sid; urgency=medium
+deepin-kwin (4:5.12.3-1) sid; urgency=medium
 
   * New upstream release (5.12.2).
   * New upstream release (5.12.3).
@@ -1543,7 +1543,7 @@ kwin (4:5.12.3-1) sid; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 07 Mar 2018 19:14:08 +0100
 
-kwin (4:5.12.1-1) sid; urgency=medium
+deepin-kwin (4:5.12.1-1) sid; urgency=medium
 
   * Add qml virtualkeyboard as a recommends
   * Use the salsa canonical urls
@@ -1552,7 +1552,7 @@ kwin (4:5.12.1-1) sid; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 20 Feb 2018 22:08:54 +0100
 
-kwin (4:5.12.0-2) sid; urgency=medium
+deepin-kwin (4:5.12.0-2) sid; urgency=medium
 
   * New revision
   * Add libcap as a build depends
@@ -1561,7 +1561,7 @@ kwin (4:5.12.0-2) sid; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 12 Feb 2018 16:03:42 +0100
 
-kwin (4:5.12.0-1) experimental; urgency=medium
+deepin-kwin (4:5.12.0-1) experimental; urgency=medium
 
   * Bump debhelper build-dep and compat to 11.
   * Build without build_stamp
@@ -1579,7 +1579,7 @@ kwin (4:5.12.0-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Thu, 08 Feb 2018 15:20:50 +0100
 
-kwin (4:5.11.4-1) experimental; urgency=medium
+deepin-kwin (4:5.11.4-1) experimental; urgency=medium
 
   * New upstream release (5.11.4).
   * Bump Standards-Version to 4.1.2.
@@ -1590,7 +1590,7 @@ kwin (4:5.11.4-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 03 Jan 2018 16:49:03 -0300
 
-kwin (4:5.10.5-2) sid; urgency=medium
+deepin-kwin (4:5.10.5-2) sid; urgency=medium
 
   * New revision
   * Bump Standards-Version to 4.1.0.
@@ -1598,7 +1598,7 @@ kwin (4:5.10.5-2) sid; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 03 Sep 2017 09:55:31 +0200
 
-kwin (4:5.10.5-1) experimental; urgency=medium
+deepin-kwin (4:5.10.5-1) experimental; urgency=medium
 
   [ Maximiliano Curia ]
   * New upstream release (5.10.3.1).
@@ -1620,7 +1620,7 @@ kwin (4:5.10.5-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 28 Aug 2017 15:29:21 +0200
 
-kwin (4:5.8.7-2) unstable; urgency=medium
+deepin-kwin (4:5.8.7-2) unstable; urgency=medium
 
   * Team upload.
   * Backport upstream patch to fix build with modularized Qt PlatformSupport.
@@ -1629,7 +1629,7 @@ kwin (4:5.8.7-2) unstable; urgency=medium
 
  -- Dmitry Shachnev <mitya57@debian.org>  Fri, 25 Aug 2017 14:06:50 +0300
 
-kwin (4:5.8.7-1) unstable; urgency=medium
+deepin-kwin (4:5.8.7-1) unstable; urgency=medium
 
   * New upstream release (5.8.7)
       + move the view at the correct index at startup
@@ -1709,13 +1709,13 @@ kwin (4:5.8.7-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 16 Jun 2017 13:43:10 +0200
 
-kwin (4:5.8.6-1) unstable; urgency=medium
+deepin-kwin (4:5.8.6-1) unstable; urgency=medium
 
   * New upstream release (5.8.6) (Closes: 846508)
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 24 Mar 2017 14:38:54 +0100
 
-kwin (4:5.8.5-2) unstable; urgency=medium
+deepin-kwin (4:5.8.5-2) unstable; urgency=medium
 
   * Be more strict about runtime dependencies.
     Thanks to Ben Longbons for reporting (Closes: 848523)
@@ -1726,14 +1726,14 @@ kwin (4:5.8.5-2) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sat, 18 Feb 2017 10:42:33 +0100
 
-kwin (4:5.8.5-1) experimental; urgency=medium
+deepin-kwin (4:5.8.5-1) experimental; urgency=medium
 
   * New upstream release (5.8.5).
   * Update symbols files.
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 30 Dec 2016 18:46:18 +0100
 
-kwin (4:5.8.4-1) unstable; urgency=medium
+deepin-kwin (4:5.8.4-1) unstable; urgency=medium
 
   [ Maximiliano Curia ]
   * New upstream release (5.8.4)
@@ -1747,7 +1747,7 @@ kwin (4:5.8.4-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 23 Nov 2016 18:36:53 +0100
 
-kwin (4:5.8.2-1) unstable; urgency=medium
+deepin-kwin (4:5.8.2-1) unstable; urgency=medium
 
   [ Automatic packaging ]
   * Update build-deps and deps with the info from cmake
@@ -1757,13 +1757,13 @@ kwin (4:5.8.2-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 19 Oct 2016 15:26:03 +0200
 
-kwin (4:5.8.1-1) unstable; urgency=medium
+deepin-kwin (4:5.8.1-1) unstable; urgency=medium
 
   * Update copyright information
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 16 Oct 2016 23:00:42 +0200
 
-kwin (4:5.8.0-1) unstable; urgency=medium
+deepin-kwin (4:5.8.0-1) unstable; urgency=medium
 
   [ Maximiliano Curia ]
   * New upstream release (5.8.0)
@@ -1778,7 +1778,7 @@ kwin (4:5.8.0-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 07 Oct 2016 14:08:55 +0200
 
-kwin (4:5.7.4-1) unstable; urgency=medium
+deepin-kwin (4:5.7.4-1) unstable; urgency=medium
 
   [ Pino Toscano ]
   * autopkgtest: switch from oxygen5-icon-theme back to the canonical
@@ -1792,7 +1792,7 @@ kwin (4:5.7.4-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sat, 27 Aug 2016 00:12:30 +0200
 
-kwin (4:5.7.0-1) unstable; urgency=medium
+deepin-kwin (4:5.7.0-1) unstable; urgency=medium
 
   [ Automatic packaging ]
   * Update build-deps and deps with the info from cmake
@@ -1803,13 +1803,13 @@ kwin (4:5.7.0-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 11 Jul 2016 10:22:59 +0200
 
-kwin (4:5.6.5-1) unstable; urgency=medium
+deepin-kwin (4:5.6.5-1) unstable; urgency=medium
 
   * New upstream release.
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 27 Jun 2016 18:14:24 +0200
 
-kwin (4:5.6.4-3) unstable; urgency=medium
+deepin-kwin (4:5.6.4-3) unstable; urgency=medium
 
   * Add kwayland windowsystem platform plugin dependency
   * Add XInput build dependency
@@ -1817,14 +1817,14 @@ kwin (4:5.6.4-3) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 05 Jun 2016 14:27:18 +0200
 
-kwin (4:5.6.4-2) unstable; urgency=medium
+deepin-kwin (4:5.6.4-2) unstable; urgency=medium
 
   * Update copyright information
   * Release to unstable
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 01 Jun 2016 10:42:19 +0200
 
-kwin (4:5.6.4-1) experimental; urgency=medium
+deepin-kwin (4:5.6.4-1) experimental; urgency=medium
 
   [ Automatic packaging ]
   * Update build-deps and deps with the info from cmake
@@ -1851,13 +1851,13 @@ kwin (4:5.6.4-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sat, 28 May 2016 21:45:59 +0200
 
-kwin (4:5.5.4-2) experimental; urgency=medium
+deepin-kwin (4:5.5.4-2) experimental; urgency=medium
 
   * Rebuild due to typo in symbols file.
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 02 Feb 2016 10:29:43 +0100
 
-kwin (4:5.5.4-1) experimental; urgency=medium
+deepin-kwin (4:5.5.4-1) experimental; urgency=medium
 
   * New upstream release (5.5.0).
   * Update symbols files from buildds logs (4:5.4.3-1.1).
@@ -1870,7 +1870,7 @@ kwin (4:5.5.4-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 27 Jan 2016 16:48:45 +0100
 
-kwin (4:5.4.3-1.1) unstable; urgency=medium
+deepin-kwin (4:5.4.3-1.1) unstable; urgency=medium
 
   * Non-maintainer upload.
   * Add mips64 and mips64el into the arch list of libkwinglutils6.
@@ -1878,14 +1878,14 @@ kwin (4:5.4.3-1.1) unstable; urgency=medium
 
  -- YunQiang Su <syq@debian.org>  Thu, 03 Dec 2015 12:37:32 +0800
 
-kwin (4:5.4.3-1) unstable; urgency=medium
+deepin-kwin (4:5.4.3-1) unstable; urgency=medium
 
   * New upstream release (5.4.3).
   * Update symbols files from buildds logs (4:5.4.2-1).
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 01 Dec 2015 11:45:37 +0100
 
-kwin (4:5.4.2-1) unstable; urgency=medium
+deepin-kwin (4:5.4.2-1) unstable; urgency=medium
 
   [ Luigi Toscano ]
   * Changes to Recommends for kwin-common:
@@ -1903,7 +1903,7 @@ kwin (4:5.4.2-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Tue, 06 Oct 2015 07:51:48 +0200
 
-kwin (4:5.4.1-1) unstable; urgency=medium
+deepin-kwin (4:5.4.1-1) unstable; urgency=medium
 
   * New upstream release (5.4.1).
   * New upstream patch:
@@ -1912,7 +1912,7 @@ kwin (4:5.4.1-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 11 Sep 2015 18:44:56 +0200
 
-kwin (4:5.4.0-2) unstable; urgency=medium
+deepin-kwin (4:5.4.0-2) unstable; urgency=medium
 
   [ Felix Geyer ]
   * Tighten the dependency of kde-window-manager on kwin-x11 to the version
@@ -1920,13 +1920,13 @@ kwin (4:5.4.0-2) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sun, 06 Sep 2015 12:20:03 +0200
 
-kwin (4:5.4.0-1) unstable; urgency=medium
+deepin-kwin (4:5.4.0-1) unstable; urgency=medium
 
   * New upstream release (5.4.0).
 
  -- Maximiliano Curia <maxy@debian.org>  Fri, 04 Sep 2015 11:06:10 +0200
 
-kwin (4:5.3.2-4) unstable; urgency=medium
+deepin-kwin (4:5.3.2-4) unstable; urgency=medium
 
   * Team upload.
 
@@ -1943,7 +1943,7 @@ kwin (4:5.3.2-4) unstable; urgency=medium
 
  -- Felix Geyer <fgeyer@debian.org>  Wed, 26 Aug 2015 01:18:42 +0200
 
-kwin (4:5.3.2-3) unstable; urgency=high
+deepin-kwin (4:5.3.2-3) unstable; urgency=high
 
   [ Maximiliano Curia ]
   * kwin-wayland: Add qtwayland5 dependency, for the wayland qt5 plugin.
@@ -1955,7 +1955,7 @@ kwin (4:5.3.2-3) unstable; urgency=high
 
  -- Debian/Kubuntu Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>  Wed, 29 Jul 2015 16:43:28 -0400
 
-kwin (4:5.3.2-2) unstable; urgency=medium
+deepin-kwin (4:5.3.2-2) unstable; urgency=medium
 
   * Adds missing arches to libkwingl*utils6. (Closes: #792481) Thanks to
     Dejan Latinovic, and Scott Kitterman
@@ -1963,7 +1963,7 @@ kwin (4:5.3.2-2) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Sat, 18 Jul 2015 18:47:45 +0200
 
-kwin (4:5.3.2-1) unstable; urgency=medium
+deepin-kwin (4:5.3.2-1) unstable; urgency=medium
 
   * New upstream release (5.3.0).
   * Update symbols files.
@@ -1974,13 +1974,13 @@ kwin (4:5.3.2-1) unstable; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 01 Jul 2015 12:20:41 +0200
 
-kwin (4:5.3.1-0ubuntu3) wily; urgency=medium
+deepin-kwin (4:5.3.1-0ubuntu3) wily; urgency=medium
 
   * No-change rebuild against Qt 5.4.2.
 
  -- Adam Conrad <adconrad@ubuntu.com>  Tue, 16 Jun 2015 00:27:17 -0600
 
-kwin (4:5.3.1-0ubuntu1) wily; urgency=medium
+deepin-kwin (4:5.3.1-0ubuntu1) wily; urgency=medium
 
   [ Scarlett Clark ]
   * Manual merge kubuntu_stable.
@@ -1997,7 +1997,7 @@ kwin (4:5.3.1-0ubuntu1) wily; urgency=medium
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 05 Jun 2015 02:34:16 +0200
 
-kwin (4:5.2.2a-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.2.2a-0ubuntu1) vivid; urgency=medium
 
   * New upstream release
   * New upstream tar.
@@ -2005,7 +2005,7 @@ kwin (4:5.2.2a-0ubuntu1) vivid; urgency=medium
 
  -- Scarlett Clark <sgclark@kubuntu.org>  Tue, 24 Mar 2015 07:33:08 -0700
 
-kwin (4:5.2.2-1) experimental; urgency=medium
+deepin-kwin (4:5.2.2-1) experimental; urgency=medium
 
   * New upstream release (5.2.1).
   * Split kwin package in common, x11 and wayland.
@@ -2014,14 +2014,14 @@ kwin (4:5.2.2-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Wed, 25 Mar 2015 23:17:20 +0100
 
-kwin (4:5.2.1-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.2.1-0ubuntu1) vivid; urgency=medium
 
   * New upstream release
   * Batchpatch symbols file.
 
  -- Scarlett Clark <sgclark@kubuntu.org>  Mon, 23 Feb 2015 09:42:26 -0800
 
-kwin (4:5.2.0.1-1) experimental; urgency=medium
+deepin-kwin (4:5.2.0.1-1) experimental; urgency=medium
 
   * Prepare initial Debian release.
   * Add myself as Uploader.
@@ -2035,7 +2035,7 @@ kwin (4:5.2.0.1-1) experimental; urgency=medium
 
  -- Maximiliano Curia <maxy@debian.org>  Mon, 09 Feb 2015 09:21:57 +0100
 
-kwin (4:5.2.0.1-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.2.0.1-0ubuntu1) vivid; urgency=medium
 
   * New upstream release
   * Soversion bump properly
@@ -2047,39 +2047,39 @@ kwin (4:5.2.0.1-0ubuntu1) vivid; urgency=medium
 
  -- Harald Sitter <sitter@kde.org>  Tue, 27 Jan 2015 14:54:41 +0100
 
-kwin (4:5.1.95-0ubuntu2) vivid; urgency=medium
+deepin-kwin (4:5.1.95-0ubuntu2) vivid; urgency=medium
 
   * version kwayland build-dep
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 16 Jan 2015 12:30:57 +0100
 
-kwin (4:5.1.95-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.1.95-0ubuntu1) vivid; urgency=medium
 
   * New upstream beta release
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 15 Jan 2015 01:31:59 +0100
 
-kwin (4:5.1.2-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.1.2-0ubuntu1) vivid; urgency=medium
 
   * remove obsolete patch kubuntu_kf5-version.diff
   * New upstream release
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 15 Dec 2014 13:22:19 +0100
 
-kwin (4:5.1.1-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.1.1-0ubuntu1) vivid; urgency=medium
 
   * New upstream release.
   * New package libkwinglesutils5 on armhf
 
  -- Scarlett Clark <sgclark@kubuntu.org>  Mon, 10 Nov 2014 19:47:53 +0100
 
-kwin (4:5.1.0.1-0ubuntu2) vivid; urgency=medium
+deepin-kwin (4:5.1.0.1-0ubuntu2) vivid; urgency=medium
 
   * Add install.armhf files for armhf
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Fri, 07 Nov 2014 17:12:18 +0100
 
-kwin (4:5.1.0.1-0ubuntu1) vivid; urgency=medium
+deepin-kwin (4:5.1.0.1-0ubuntu1) vivid; urgency=medium
 
   [ Jonathan Riddell ]
   * New upstream beta release
@@ -2099,7 +2099,7 @@ kwin (4:5.1.0.1-0ubuntu1) vivid; urgency=medium
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 14 Oct 2014 13:49:05 +0200
 
-kwin (4:5.0.2-0ubuntu1) utopic; urgency=medium
+deepin-kwin (4:5.0.2-0ubuntu1) utopic; urgency=medium
 
   [ Harald Sitter ]
   * switch to new pkg-kde-tools
@@ -2109,7 +2109,7 @@ kwin (4:5.0.2-0ubuntu1) utopic; urgency=medium
 
  -- Scarlett Clark <sgclark@kubuntu.org>  Wed, 17 Sep 2014 18:17:10 -0700
 
-kwin (4:5.0.1-0ubuntu1~ubuntu14.10~ppa2) utopic; urgency=medium
+deepin-kwin (4:5.0.1-0ubuntu1~ubuntu14.10~ppa2) utopic; urgency=medium
 
   [ Jonathan Riddell ]
   * New upstream release
@@ -2122,13 +2122,13 @@ kwin (4:5.0.1-0ubuntu1~ubuntu14.10~ppa2) utopic; urgency=medium
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Sun, 10 Aug 2014 15:43:00 +0200
 
-kwin (4:4.98.0-0ubuntu1) utopic; urgency=medium
+deepin-kwin (4:4.98.0-0ubuntu1) utopic; urgency=medium
 
   * New upstream RC release
 
  -- Jonathan Riddell <jriddell@ubuntu.com>  Mon, 07 Jul 2014 13:20:34 +0200
 
-kwin (4:4.97.0-0ubuntu1) utopic; urgency=medium
+deepin-kwin (4:4.97.0-0ubuntu1) utopic; urgency=medium
 
   [ Scarlett Clark ]
   * Initial release.

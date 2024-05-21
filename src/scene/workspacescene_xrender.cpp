@@ -22,7 +22,7 @@
 #include "core/overlaywindow.h"
 #include "core/outputbackend.h"
 #include "core/renderloop.h"
-#include "output.h"
+#include "core/output.h"
 #include "shadowitem.h"
 #include "surfaceitem_x11.h"
 #include "windowitem.h"

@@ -19,7 +19,7 @@ set -e
 
 case "$1" in
     remove)
-        update-alternatives --remove x-window-manager /usr/bin/kwin_x11
+        update-alternatives --remove x-window-manager /usr/bin/deepin-kwin_x11
     ;;
 
     upgrade|deconfigure)
