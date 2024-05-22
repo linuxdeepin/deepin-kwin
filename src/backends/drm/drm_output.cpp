@@ -326,7 +326,23 @@ DrmPlane::Transformations outputToPlaneTransform(DrmOutput::Transform transform)
 void DrmOutput::updateModes()
 {
     State next = m_state;
-    next.modes = getModes();
+
+    QList<std::shared_ptr<OutputMode>> nModes = getModes();
+    if (nModes.size() != next.modes.size()) {
+        next.modes = nModes;
+    } else {
+        for (int i = 0; i < next.modes.size(); i++) {
+            QSize modeSize = next.modes[i]->size();
+            uint32_t refreshRate = next.modes[i]->refreshRate();
+            auto it = std::find_if(nModes.begin(), nModes.end(), [&modeSize, &refreshRate](const auto &mode) {
+                return mode->size() == modeSize && mode->refreshRate() == refreshRate;
+            });
+            if (it == nModes.end()) {
+                next.modes = nModes;
+                break;
+            }
+        }
+    }
 
     if (m_pipeline->crtc()) {
         const auto currentMode = m_pipeline->connector()->findMode(m_pipeline->crtc()->queryCurrentMode());
@@ -343,7 +359,9 @@ void DrmOutput::updateModes()
         }
     }
 
-    next.currentMode = m_pipeline->mode();
+    if (!next.currentMode) {
+        next.currentMode = m_pipeline->mode();
+    }
     if (!next.currentMode) {
         next.currentMode = next.modes.constFirst();
     }

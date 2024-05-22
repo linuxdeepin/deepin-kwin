@@ -102,6 +102,7 @@ private:
     QPointer<Output> m_output;
     QPointer<KDecoration2::Decoration> m_decoration;
     std::unique_ptr<DecorationRenderer> m_renderer;
+    bool isExisted = true;
 };
 
 } // namespace KWin

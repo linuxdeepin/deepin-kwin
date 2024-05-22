@@ -76,7 +76,14 @@ DrmBackend::DrmBackend(Session *session, QObject *parent)
     , m_session(session)
     , m_explicitGpus(splitPathList(qEnvironmentVariable("KWIN_DRM_DEVICES"), ':'))
     , m_dpmsFilter()
+    , m_updateOutputTimer(new QTimer(this))
 {
+    connect(m_updateOutputTimer, &QTimer::timeout, this, [this]{
+            qCDebug(KWIN_DRM) << "Timeout and updateOutputs";
+            updateOutputs();
+            });
+    m_updateOutputTimer->setSingleShot(true);
+    m_updateOutputTimer->setInterval(2000);
 }
 
 DrmBackend::~DrmBackend() = default;
@@ -262,7 +269,8 @@ void DrmBackend::handleUdevEvent()
             }
             if (gpu) {
                 qCDebug(KWIN_DRM) << "Received change event for monitored drm device" << gpu->devNode();
-                updateOutputs();
+                m_updateOutputTimer->stop();
+                m_updateOutputTimer->start();
             }
         }
     }

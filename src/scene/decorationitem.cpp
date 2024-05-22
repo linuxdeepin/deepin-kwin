@@ -176,6 +176,9 @@ void DecorationItem::preprocess()
 
 void DecorationItem::handleOutputChanged()
 {
+    if (!isExisted) {
+        return;
+    }
     if (m_output) {
         disconnect(m_output, &Output::scaleChanged, this, &DecorationItem::handleOutputScaleChanged);
         m_output.clear();
@@ -205,6 +208,7 @@ void DecorationItem::handleFrameGeometryChanged()
 
 void DecorationItem::handleWindowClosed(Window *original, Deleted *deleted)
 {
+    isExisted = false;
     m_window = deleted;
 
     // If the decoration is about to be destroyed, render the decoration for the last time.

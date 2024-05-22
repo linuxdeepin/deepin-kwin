@@ -272,6 +272,9 @@ void OutputDeviceInterfacePrivate::sendNewMode(Resource *resource, OutputDeviceM
 
 void OutputDeviceInterfacePrivate::sendCurrentMode(Resource *resource)
 {
+    if (!m_currentMode) {
+        return;
+    }
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
             << " current mode " << m_currentMode->modeId()
             << " size " << m_currentMode->size() << " refreshRate "
