@@ -128,6 +128,9 @@ private:
     };
     static CGarbo Garbo;
 
+public:
+    QHash<QString, QVector<QString>> m_allBackgroundList; // monitor name -> background list
+
 private:
     QSet<QString>    m_backgroundAllList;
     QSet<QString>    m_currentBackgroundList;

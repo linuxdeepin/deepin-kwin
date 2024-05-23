@@ -85,9 +85,9 @@
 #define DBUS_DEEPIN_WM_OBJ       "/com/deepin/wm"
 #define DBUS_DEEPIN_WM_INTF      "com.deepin.wm"
 
-#define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
-#define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
-#define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_SERVICE  "org.deepin.daemon.Appearance1"
+#define DBUS_APPEARANCE_OBJ      "/org/deepin/daemon/Appearance1"
+#define DBUS_APPEARANCE_INTF     "org.deepin.daemon.Appearance1"
 
 namespace KWin
 {
