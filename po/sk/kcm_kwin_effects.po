@@ -1,9 +1,9 @@
-# translation of kcm_kwin_effects.po to Slovak
+# translation of deepin-kcm_kwin_effects.po to Slovak
 # Roman Paholík <wizzardsk@gmail.com>, 2019.
 # Matej Mrenica <matejm98mthw@gmail.com>, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwin_effects\n"
+"Project-Id-Version: deepin-kcm_kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2019-11-05 20:21+0100\n"

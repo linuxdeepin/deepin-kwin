@@ -1,4 +1,4 @@
-# translation of kcm_kwintabbox.po to Hebrew
+# translation of deepin-kcm_kwintabbox.po to Hebrew
 # KDE Hebrew Localization Project
 #
 # In addition to the copyright owners of the program
@@ -9,7 +9,7 @@
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwintabbox\n"
+"Project-Id-Version: deepin-kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2017-05-16 06:52-0400\n"

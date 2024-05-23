@@ -604,7 +604,7 @@ static KCModule *loadBinaryConfig(const QString &configModule, QWidget *parent)
 
 static KCModule *findScriptedConfig(const QString &pluginId, QObject *parent)
 {
-    KPluginMetaData metaData(QStringLiteral("deepin-kwin/effects/configs/kcm_kwin4_genericscripted"));
+    KPluginMetaData metaData(QStringLiteral("deepin-kwin/effects/configs/deepin-kcm_kwin4_genericscripted"));
     return KPluginFactory::instantiatePlugin<KCModule>(metaData, parent, QVariantList{pluginId}).plugin;
 }
 

@@ -1,11 +1,11 @@
-# translation of kcm_kwintabbox.po to Gujarati
+# translation of deepin-kcm_kwintabbox.po to Gujarati
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Sweta Kothari <swkothar@redhat.com>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwintabbox\n"
+"Project-Id-Version: deepin-kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2010-06-17 13:22+0530\n"

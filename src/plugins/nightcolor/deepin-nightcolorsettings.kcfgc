@@ -1,4 +1,4 @@
-File=nightcolorsettings.kcfg
+File=deepin-nightcolorsettings.kcfg
 NameSpace=KWin
 ClassName=NightColorSettings
 Singleton=true

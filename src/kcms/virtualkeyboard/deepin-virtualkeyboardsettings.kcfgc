@@ -1,4 +1,4 @@
-File=virtualkeyboardsettings.kcfg
+File=deepin-virtualkeyboardsettings.kcfg
 ClassName=VirtualKeyboardSettings
 Mutators=true
 DefaultValueGetters=true

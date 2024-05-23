@@ -1,4 +1,4 @@
-# Translation of kcm_kwindecoration.po to Brazilian Portuguese
+# Translation of deepin-kcm_kwindecoration.po to Brazilian Portuguese
 # Copyright (C) 2002-2019 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -12,7 +12,7 @@
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2017, 2018, 2019, 2020, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindecoration\n"
+"Project-Id-Version: deepin-kcm_kwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-26 02:32+0000\n"
 "PO-Revision-Date: 2021-09-15 08:34-0300\n"

@@ -1,4 +1,4 @@
-# Translation of kcm_kwintabbox to Norwegian Bokmål
+# Translation of deepin-kcm_kwintabbox to Norwegian Bokmål
 #
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2009, 2010, 2011, 2012.
 msgid ""

@@ -440,11 +440,11 @@ msgstr "Neizmjerne"
 #~ msgstr "Karol Sved"
 
 #~ msgid ""
-#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "<h1>Installation error</h1>The resource<h2>kwin/deepin-kcm_kwindecoration/main."
 #~ "qml</h2>could not be located in any application data path.<h2>Please "
 #~ "contact your distribution</h2>The application will now abort"
 #~ msgstr ""
-#~ "<h1>Greška instalacije</h1>Resurs<h2>kwin/kcm_kwindecoration/main.qml</"
+#~ "<h1>Greška instalacije</h1>Resurs<h2>kwin/deepin-kcm_kwindecoration/main.qml</"
 #~ "h2>se ne može locirati u svakoj stazi aplikacijskih podataka.<h2>Molim "
 #~ "kontaktirajte distribuciju</h2>Aplikacija će sada prekinuti"
 

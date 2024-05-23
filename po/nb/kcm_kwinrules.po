@@ -1,4 +1,4 @@
-# Translation of kcm_kwinrules to Norwegian Bokmål
+# Translation of deepin-kcm_kwinrules to Norwegian Bokmål
 #
 # Torstein Dybdahl <torsted@runbox.no>, 2004.
 # Knut Yrvin <knut.yrvin@gmail.com>, 2005.

@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    KLocalizedString::setApplicationDomain("kcm_kwinrules");
+    KLocalizedString::setApplicationDomain("deepin-kcm_kwinrules");
 
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
     app.setApplicationName("kwin_rules_dialog");
@@ -44,16 +44,16 @@ int main(int argc, char *argv[])
     app.setApplicationDisplayName((whole_app) ? i18nc("Window caption for the application wide rules dialog", "Edit Application-Specific Settings")
                                               : i18n("Edit Window-Specific Settings"));
 
-    QStringList kcm_args;
-    kcm_args << QStringLiteral("uuid=%1").arg(uuid.toString());
+    QStringList deepin-kcm_args;
+    deepin-kcm_args << QStringLiteral("uuid=%1").arg(uuid.toString());
     if (whole_app) {
-        kcm_args << QStringLiteral("whole-app");
+        deepin-kcm_args << QStringLiteral("whole-app");
     }
 
     KPluginMetaData pluginData = KPluginMetaData(QStringLiteral(KCMRULES_PLUGIN));
 
     KCMultiDialog *dialog = new KCMultiDialog;
-    dialog->addModule(pluginData, kcm_args);
+    dialog->addModule(pluginData, deepin-kcm_args);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 

@@ -452,11 +452,11 @@ msgstr "Przewymiarowane"
 #~ msgstr "Karol Szwed"
 
 #~ msgid ""
-#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "<h1>Installation error</h1>The resource<h2>kwin/deepin-kcm_kwindecoration/main."
 #~ "qml</h2>could not be located in any application data path.<h2>Please "
 #~ "contact your distribution</h2>The application will now abort"
 #~ msgstr ""
-#~ "<h1>Błąd instalacji</h1>Zasobu<h2>kwin/kcm_kwindecoration/main.qml</"
+#~ "<h1>Błąd instalacji</h1>Zasobu<h2>kwin/deepin-kcm_kwindecoration/main.qml</"
 #~ "h2>nie można znaleźć w żadnej ze ścieżek danych programu.<h2>Proszę "
 #~ "powiadomić o tym swoją dystrybucję</h2>Program zostanie teraz przerwany"
 

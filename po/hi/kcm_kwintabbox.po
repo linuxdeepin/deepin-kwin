@@ -1,11 +1,11 @@
-# translation of kcm_kwintabbox.po to Hindi
+# translation of deepin-kcm_kwintabbox.po to Hindi
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Rajesh Ranjan <rajesh672@gmail.com>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwintabbox\n"
+"Project-Id-Version: deepin-kcm_kwintabbox\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2010-01-31 20:41+0530\n"

@@ -17,6 +17,6 @@ target_link_libraries(effectsplugin
     Qt${QT_MAJOR_VERSION}::Quick
 )
 
-install(DIRECTORY qml/ DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwin/private/effects)
-install(TARGETS effectsplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwin/private/effects)
-install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwin/private/effects)
+install(DIRECTORY qml/ DESTINATION ${KDE_INSTALL_QMLDIR}/org/deepin/kwin/private/effects)
+install(TARGETS effectsplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/deepin/kwin/private/effects)
+install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/deepin/kwin/private/effects)

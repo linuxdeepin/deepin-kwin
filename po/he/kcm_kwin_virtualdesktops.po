@@ -1,4 +1,4 @@
-# translation of kcm_kwindesktop.po to Hebrew
+# translation of deepin-kcm_kwindesktop.po to Hebrew
 # KDE Hebrew Localization Project
 #
 # In addition to the copyright owners of the program
@@ -8,7 +8,7 @@
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindesktop\n"
+"Project-Id-Version: deepin-kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2017-05-16 11:37-0400\n"

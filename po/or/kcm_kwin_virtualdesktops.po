@@ -1,11 +1,11 @@
-# translation of kcm_kwindesktop.po to Oriya
+# translation of deepin-kcm_kwindesktop.po to Oriya
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Manoj Kumar Giri <mgiri@redhat.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindesktop\n"
+"Project-Id-Version: deepin-kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2009-01-02 11:45+0530\n"

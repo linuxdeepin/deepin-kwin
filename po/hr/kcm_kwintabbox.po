@@ -1,4 +1,4 @@
-# Translation of kcm_kwintabbox to Croatian
+# Translation of deepin-kcm_kwintabbox to Croatian
 #
 # Andrej Dundović <adundovi@gmail.com>, 2009.
 # Andrej Dundovic <adundovi@gmail.com>, 2009, 2010.

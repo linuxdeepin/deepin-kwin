@@ -1,2 +1,2 @@
 #! /usr/bin/env bash
-$XGETTEXT `find . -name "*.cpp" -o -name "*.qml"` -o $podir/kcm_kwindecoration.pot
+$XGETTEXT `find . -name "*.cpp" -o -name "*.qml"` -o $podir/deepin-kcm_kwindecoration.pot

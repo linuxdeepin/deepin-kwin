@@ -456,11 +456,11 @@ msgstr "Aşırı Büyük"
 #~ msgstr "Karol Szwed"
 
 #~ msgid ""
-#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "<h1>Installation error</h1>The resource<h2>kwin/deepin-kcm_kwindecoration/main."
 #~ "qml</h2>could not be located in any application data path.<h2>Please "
 #~ "contact your distribution</h2>The application will now abort"
 #~ msgstr ""
-#~ "<h1>Kurulum hatası</h1><h2>kwin/kcm_kwindecoration/main.qml</h2>kaynağı "
+#~ "<h1>Kurulum hatası</h1><h2>kwin/deepin-kcm_kwindecoration/main.qml</h2>kaynağı "
 #~ "hiçbir uygulama veri yolunda konumlandırılamadı.<h2>Lütfen dağıtımınızla "
 #~ "iletişime geçin</h2>Uygulama şimdi kapatılacak"
 

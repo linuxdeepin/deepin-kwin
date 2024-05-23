@@ -1,9 +1,9 @@
-# Translation of kcm_kwindesktop.po into Serbian.
+# Translation of deepin-kcm_kwindesktop.po into Serbian.
 # Chusslove Illich <caslav.ilic@gmx.net>, 2007, 2008, 2009, 2010, 2013, 2014.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindesktop\n"
+"Project-Id-Version: deepin-kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2020-03-30 03:49+0200\n"
 "PO-Revision-Date: 2014-05-03 22:24+0200\n"

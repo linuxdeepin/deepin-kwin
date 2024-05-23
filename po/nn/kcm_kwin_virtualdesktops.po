@@ -1,4 +1,4 @@
-# Translation of kcm_kwin_virtualdesktops to Norwegian Nynorsk
+# Translation of deepin-kcm_kwin_virtualdesktops to Norwegian Nynorsk
 #
 # Karl Ove Hufthammer <karl@huftis.org>, 2019, 2022, 2023.
 # Øystein Steffensen-Alværvik <oysteins.omsetting@protonmail.com>, 2019.

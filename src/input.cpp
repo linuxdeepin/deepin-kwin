@@ -2772,7 +2772,7 @@ public:
 
 KWIN_SINGLETON_FACTORY(InputRedirection)
 
-static const QString s_touchpadComponent = QStringLiteral("kcm_touchpad");
+static const QString s_touchpadComponent = QStringLiteral("deepin-kcm_touchpad");
 
 InputRedirection::InputRedirection(QObject *parent)
     : QObject(parent)

@@ -1,4 +1,4 @@
-# translation of kcm_kwindesktop.po to Russian
+# translation of deepin-kcm_kwindesktop.po to Russian
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -10,7 +10,7 @@
 # Alexander Yavorsky <kekcuha@gmail.com>, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindesktop\n"
+"Project-Id-Version: deepin-kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2022-12-23 10:32+0300\n"

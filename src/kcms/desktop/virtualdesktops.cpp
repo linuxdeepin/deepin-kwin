@@ -18,7 +18,7 @@
 #include <KPluginFactory>
 
 K_PLUGIN_FACTORY_WITH_JSON(VirtualDesktopsFactory,
-                           "kcm_kwin_virtualdesktops.json",
+                           "deepin-kcm_kwin_virtualdesktops.json",
                            registerPlugin<KWin::VirtualDesktops>();
                            registerPlugin<KWin::VirtualDesktopsData>();)
 
@@ -29,7 +29,7 @@ VirtualDesktops::VirtualDesktops(QObject *parent, const QVariantList &args)
     : KQuickAddons::ManagedConfigModule(parent, args)
     , m_data(new VirtualDesktopsData(this))
 {
-    KAboutData *about = new KAboutData(QStringLiteral("kcm_kwin_virtualdesktops"),
+    KAboutData *about = new KAboutData(QStringLiteral("deepin-kcm_kwin_virtualdesktops"),
                                        i18n("Virtual Desktops"),
                                        QStringLiteral("2.0"), QString(), KAboutLicense::GPL);
     setAboutData(about);

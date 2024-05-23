@@ -1,11 +1,11 @@
-# Translation of kcm_kwindesktop to Croatian
+# Translation of deepin-kcm_kwindesktop to Croatian
 #
 # Zarko Pintar <zarko.pintar@gmail.com>, 2009.
 # Andrej Dundović <adundovi@gmail.com>, 2009.
 # Andrej Dundovic <andrej@dundovic.com.hr>, 2009, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindesktop\n"
+"Project-Id-Version: deepin-kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2010-07-11 15:05+0200\n"

@@ -1,4 +1,4 @@
-File=kwinpluginssettings.kcfg
+File=deepin-kwinpluginssettings.kcfg
 NameSpace=KWin::TabBox
 ClassName=PluginsSettings
 Mutators=true

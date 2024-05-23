@@ -1,4 +1,4 @@
-# translation of kcm_kwindesktop.po to Macedonian
+# translation of deepin-kcm_kwindesktop.po to Macedonian
 #
 # Copyright (C) 2002,2003,2004, 2005, 2006, 2007, 2010 Free Software Foundation, Inc.
 #
@@ -6,7 +6,7 @@
 # Bozidar Proevski <bobibobi@freemail.com.mk>, 2004, 2005, 2006, 2007, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindesktop\n"
+"Project-Id-Version: deepin-kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2010-01-29 22:40+0100\n"

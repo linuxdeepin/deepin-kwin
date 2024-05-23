@@ -1,7 +1,7 @@
 {
     "Categories": "Qt;KDE;",
     "KPlugin": {
-        "BugReportUrl": "https://bugs.kde.org/enter_bug.cgi?product=systemsettings&component=kcm_kwinxwayland",
+        "BugReportUrl": "https://bugs.kde.org/enter_bug.cgi?product=systemsettings&component=deepin-kcm_kwinxwayland",
         "Description": "Select which keys will be globally available to legacy X11 apps",
         "Description[ar]": "حدد أي المفاتيح التي ستكون متوفرة لتطبيقات اكس ١١ القديمة",
         "Description[be]": "Абярыце клавішы, якія будуць глабальна даступныя для састарэлых праграм X11",

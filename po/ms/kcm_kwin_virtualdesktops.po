@@ -1,12 +1,12 @@
-# kcm_kwindesktop Bahasa Melayu (Malay) (ms)
+# deepin-kcm_kwindesktop Bahasa Melayu (Malay) (ms)
 # Copyright (C) 2008 K Desktop Environment
-# This file is distributed under the same license as the kcm_kwindesktop package.
+# This file is distributed under the same license as the deepin-kcm_kwindesktop package.
 #
 # Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>, 2007, 2008, 2009, 2010.
 # Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>, 2010, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindesktop\n"
+"Project-Id-Version: deepin-kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2011-01-04 20:49+0800\n"

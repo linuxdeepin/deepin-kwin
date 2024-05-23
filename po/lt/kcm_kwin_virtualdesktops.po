@@ -1,5 +1,5 @@
-# translation of kcm_kwindesktop.po to Lithuanian
-# This file is distributed under the same license as the kcm_kwindesktop package.
+# translation of deepin-kcm_kwindesktop.po to Lithuanian
+# This file is distributed under the same license as the deepin-kcm_kwindesktop package.
 # Gintautas Miselis <gintautas@miselis.lt>, 2008.
 # Donatas Glodenis <dgvirtual@akl.lt>, 2009.
 # Tomas Straupis <tomasstraupis@gmail.com>, 2010.
@@ -7,7 +7,7 @@
 # liudas@aksioma.lt <liudas@aksioma.lt>, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindesktop\n"
+"Project-Id-Version: deepin-kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2021-08-21 19:38+0300\n"

@@ -467,11 +467,11 @@ msgstr "Veel te groot"
 #~ msgstr "Karol Szwed"
 
 #~ msgid ""
-#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "<h1>Installation error</h1>The resource<h2>kwin/deepin-kcm_kwindecoration/main."
 #~ "qml</h2>could not be located in any application data path.<h2>Please "
 #~ "contact your distribution</h2>The application will now abort"
 #~ msgstr ""
-#~ "<h1>Installatiefout</h1>De hulpbron<h2>kwin/kcm_kwindecoration/main.qml</"
+#~ "<h1>Installatiefout</h1>De hulpbron<h2>kwin/deepin-kcm_kwindecoration/main.qml</"
 #~ "h2>is niet gevonden in een gegevenspad van een toepassing.<h2>Neem "
 #~ "contact op met uw distributie</h2>De toepassing zal afgebroken worden"
 

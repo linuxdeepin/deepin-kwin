@@ -94,7 +94,7 @@ static void writeBufferToPipe(int fileDescriptor, const QByteArray &buffer)
 
 static const QString s_dbusServiceName = QStringLiteral("org.kde.KWin.ScreenShot2");
 static const QString s_dbusInterface = QStringLiteral("org.kde.KWin.ScreenShot2");
-static const QString s_dbusObjectPath = QStringLiteral("/org/kde/KWin/ScreenShot2");
+static const QString s_dbusObjectPath = QStringLiteral("/org/deepin/kwin/ScreenShot2");
 
 static const QString s_errorNotAuthorized = QStringLiteral("org.kde.KWin.ScreenShot2.Error.NoAuthorized");
 static const QString s_errorNotAuthorizedMessage = QStringLiteral("The process is not authorized to take a screenshot");

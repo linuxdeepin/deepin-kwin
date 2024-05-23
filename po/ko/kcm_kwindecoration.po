@@ -438,11 +438,11 @@ msgstr "과다하게 크게"
 #~ msgstr "Karol Szwed"
 
 #~ msgid ""
-#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "<h1>Installation error</h1>The resource<h2>kwin/deepin-kcm_kwindecoration/main."
 #~ "qml</h2>could not be located in any application data path.<h2>Please "
 #~ "contact your distribution</h2>The application will now abort"
 #~ msgstr ""
-#~ "<h1>설치 오류</h1>자원 <h2>kwin/kcm_kwindecoration/main.qml</h2>을 프로그"
+#~ "<h1>설치 오류</h1>자원 <h2>kwin/deepin-kcm_kwindecoration/main.qml</h2>을 프로그"
 #~ "램 데이터 경로에서 찾을 수 없습니다.<h2>배포판 관리자에게 연락하십시오.</"
 #~ "h2> 프로그램을 종료합니다"
 

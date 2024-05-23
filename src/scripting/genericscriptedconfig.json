@@ -1,4 +1,4 @@
 {
     "Type": "Service",
-    "X-KDE-Library": "kcm_kwin4_genericscripted"
+    "X-KDE-Library": "deepin-kcm_kwin4_genericscripted"
 }

@@ -1,4 +1,4 @@
-# Translation of kcm_kwin_effects.po to Brazilian Portuguese
+# Translation of deepin-kcm_kwin_effects.po to Brazilian Portuguese
 # Copyright (C) 2019 This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #

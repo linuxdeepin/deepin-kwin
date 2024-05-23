@@ -438,9 +438,9 @@ if (PipeWire_FOUND)
     target_link_libraries(kwin_wayland KWinScreencastPlugin)
 endif()
 
-install(FILES kwin.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+install(FILES deepin-kwin.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 if (KWIN_BUILD_NOTIFICATIONS)
-    install(FILES kwin.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
+    install(FILES deepin-kwin.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 endif()
 install(
     FILES

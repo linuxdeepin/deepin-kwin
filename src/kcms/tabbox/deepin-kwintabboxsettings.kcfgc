@@ -1,4 +1,4 @@
-File=kwintabboxsettings.kcfg
+File=deepin-kwintabboxsettings.kcfg
 NameSpace=KWin::TabBox
 ClassName=TabBoxSettings
 IncludeFiles=\"tabboxconfig.h\"

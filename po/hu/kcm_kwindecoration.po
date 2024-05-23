@@ -456,11 +456,11 @@ msgstr "Túlméretezett"
 #~ msgstr "Karol Szwed"
 
 #~ msgid ""
-#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "<h1>Installation error</h1>The resource<h2>kwin/deepin-kcm_kwindecoration/main."
 #~ "qml</h2>could not be located in any application data path.<h2>Please "
 #~ "contact your distribution</h2>The application will now abort"
 #~ msgstr ""
-#~ "<h1>Telepítési hiba</h1>A <h2>kwin/kcm_kwindecoration/main.qml</"
+#~ "<h1>Telepítési hiba</h1>A <h2>kwin/deepin-kcm_kwindecoration/main.qml</"
 #~ "h2>erőforrás nem található egyik alkalmazásadat útvonalon sem.<h2>Vegye "
 #~ "fel a kapcsolatot a terjesztőjével</h2>Az alkalmazás most meg fog szakadni"
 

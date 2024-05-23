@@ -1,7 +1,7 @@
 # translation of kcmkwindecoration.po to
 # Translation of kcmkwindecoration.po to Slovenian
 # SLOVENIAN TRANSLATION OF K DESKTOP ENVIRONMENT.
-# $Id: kcm_kwindecoration.po 1643207 2023-01-26 03:01:15Z scripty $
+# $Id: deepin-kcm_kwindecoration.po 1643207 2023-01-26 03:01:15Z scripty $
 # $Source$
 #
 # Copyright (C) 2001, 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
@@ -463,11 +463,11 @@ msgstr "Prevelika"
 #~ msgstr "Karol Szwed"
 
 #~ msgid ""
-#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "<h1>Installation error</h1>The resource<h2>kwin/deepin-kcm_kwindecoration/main."
 #~ "qml</h2>could not be located in any application data path.<h2>Please "
 #~ "contact your distribution</h2>The application will now abort"
 #~ msgstr ""
-#~ "<h1>Napaka namestitve</h1>Vira <h2>kwin/kcm_kwindecoration/main.qml</h2> "
+#~ "<h1>Napaka namestitve</h1>Vira <h2>kwin/deepin-kcm_kwindecoration/main.qml</h2> "
 #~ "ni bilo mogoče najti v poteh programov.<h2>Stopite v stik z upravitelji "
 #~ "vaše distribucije</h2>Program bo sedaj prekinjen"
 

@@ -1,4 +1,4 @@
-# Translation for kcm_kwin_effects.po to Euskara/Basque (eu).
+# Translation for deepin-kcm_kwin_effects.po to Euskara/Basque (eu).
 # Copyright (C) 2019-2022, This file is copyright:
 # This file is distributed under the same license as the kwin package.
 # KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.

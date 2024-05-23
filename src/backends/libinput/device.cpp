@@ -360,7 +360,7 @@ Device::Device(libinput_device *device, QObject *parent)
 
     qDBusRegisterMetaType<QMatrix4x4>();
 
-    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/InputDevice/") + m_sysName,
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/deepin/kwin/InputDevice/") + m_sysName,
                                                  QStringLiteral("org.kde.KWin.InputDevice"),
                                                  this,
                                                  QDBusConnection::ExportAllProperties);
@@ -368,7 +368,7 @@ Device::Device(libinput_device *device, QObject *parent)
 
 Device::~Device()
 {
-    QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/org/kde/KWin/InputDevice/") + m_sysName);
+    QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/org/deepin/kwin/InputDevice/") + m_sysName);
     libinput_device_set_user_data(m_device, nullptr);
     libinput_device_unref(m_device);
 }

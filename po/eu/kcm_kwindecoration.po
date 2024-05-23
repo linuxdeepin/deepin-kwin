@@ -463,11 +463,11 @@ msgstr "Neurriz kanpokoa"
 #~ msgstr "Karol Szwed"
 
 #~ msgid ""
-#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "<h1>Installation error</h1>The resource<h2>kwin/deepin-kcm_kwindecoration/main."
 #~ "qml</h2>could not be located in any application data path.<h2>Please "
 #~ "contact your distribution</h2>The application will now abort"
 #~ msgstr ""
-#~ "<h1>Instalazioko errorea</h1>Ez da aurkitu<h2>kwin/kcm_kwindecoration/"
+#~ "<h1>Instalazioko errorea</h1>Ez da aurkitu<h2>kwin/deepin-kcm_kwindecoration/"
 #~ "main.qml</h2>aplikazioen datu bideetan.<h2>Jarri harremanean zure "
 #~ "banatzailearekin</h2>Aplikazioa abortatu egingo da."
 

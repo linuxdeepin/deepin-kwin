@@ -1,4 +1,4 @@
-File=kwinswitcheffectsettings.kcfg
+File=deepin-kwinswitcheffectsettings.kcfg
 NameSpace=KWin::TabBox
 ClassName=SwitchEffectSettings
 Mutators=true

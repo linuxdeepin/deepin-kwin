@@ -1,4 +1,4 @@
-# Translation of kcm_virtualkeyboard to Norwegian Nynorsk
+# Translation of deepin-kcm_virtualkeyboard to Norwegian Nynorsk
 #
 # Karl Ove Hufthammer <karl@huftis.org>, 2022.
 msgid ""

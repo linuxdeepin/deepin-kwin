@@ -1,4 +1,4 @@
-# Translation of kcm_kwindecoration.po to Ukrainian
+# Translation of deepin-kcm_kwindecoration.po to Ukrainian
 # Copyright (C) 2002-2021 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
@@ -9,7 +9,7 @@
 # Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2018, 2019, 2020, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindecoration\n"
+"Project-Id-Version: deepin-kcm_kwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-26 02:32+0000\n"
 "PO-Revision-Date: 2021-06-10 07:18+0300\n"
@@ -453,11 +453,11 @@ msgstr "Найбільший"
 #~ msgstr "Karol Szwed"
 
 #~ msgid ""
-#~ "<h1>Installation error</h1>The resource<h2>kwin/kcm_kwindecoration/main."
+#~ "<h1>Installation error</h1>The resource<h2>kwin/deepin-kcm_kwindecoration/main."
 #~ "qml</h2>could not be located in any application data path.<h2>Please "
 #~ "contact your distribution</h2>The application will now abort"
 #~ msgstr ""
-#~ "<h1>Помилка</h1> Не вдалося знайти ресурс <h2>kwin/kcm_kwindecoration/"
+#~ "<h1>Помилка</h1> Не вдалося знайти ресурс <h2>kwin/deepin-kcm_kwindecoration/"
 #~ "main.qml</h2> у жодному з каталогів шляхів до програм. <h2>Будь ласка, "
 #~ "повідомте про це авторам вашого дистрибутива.</h2> Зараз роботу програми "
 #~ "буде завершено"

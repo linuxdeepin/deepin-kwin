@@ -15,7 +15,7 @@ ecm_qt_declare_logging_category(KWinNightColorPlugin
     DEFAULT_SEVERITY Critical
 )
 
-kconfig_add_kcfg_files(KWinNightColorPlugin nightcolorsettings.kcfgc)
+kconfig_add_kcfg_files(KWinNightColorPlugin deepin-nightcolorsettings.kcfgc)
 
 set(nightcolor_xml_SOURCES)
 if (QT_MAJOR_VERSION EQUAL "5")
@@ -31,6 +31,6 @@ endif()
 
 target_link_libraries(KWinNightColorPlugin kwin)
 
-install(FILES nightcolorsettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+install(FILES deepin-nightcolorsettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES org.kde.kwin.ColorCorrect.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
 install(TARGETS KWinNightColorPlugin DESTINATION ${KDE_INSTALL_PLUGINDIR}/deepin-kwin/plugins/)

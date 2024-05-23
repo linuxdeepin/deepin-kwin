@@ -3,4 +3,4 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 install(DIRECTORY qml/
-        DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwin.2)
+        DESTINATION ${KDE_INSTALL_QMLDIR}/org/deepin/kwin.2)

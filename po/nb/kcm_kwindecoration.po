@@ -1,4 +1,4 @@
-# Translation of kcm_kwindecoration to Norwegian Bokmål
+# Translation of deepin-kcm_kwindecoration to Norwegian Bokmål
 #
 # Axel Bojer <fri_programvare@bojer.no>, 2003.
 # Knut Yrvin <knut.yrvin@gmail.com>, 2003.

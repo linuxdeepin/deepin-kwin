@@ -1,4 +1,4 @@
-# Spanish translations for kcm_kwin_effects.po package.
+# Spanish translations for deepin-kcm_kwin_effects.po package.
 # Copyright (C) 2019 This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #
@@ -6,7 +6,7 @@
 # Eloy Cuadra <ecuadra@eloihr.net>, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwin_effects\n"
+"Project-Id-Version: deepin-kcm_kwin_effects\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2019-09-30 19:34+0200\n"

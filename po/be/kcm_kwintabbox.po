@@ -18,7 +18,7 @@ msgstr ""
 "X-Crowdin-Project: 86ff119b1606fcaa910d6b44fc14b611\n"
 "X-Crowdin-Project-ID: 127\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /main/be/kwin/kcm_kwintabbox.po\n"
+"X-Crowdin-File: /main/be/kwin/deepin-kcm_kwintabbox.po\n"
 "X-Crowdin-File-ID: 8760\n"
 
 #: kwintabboxconfigform.cpp:80

@@ -1,11 +1,11 @@
-# translation of kcm_kwindesktop.po to
+# translation of deepin-kcm_kwindesktop.po to
 # Copyright (C) 2008 This_file_is_part_of_KDE
-# This file is distributed under the same license as the kcm_kwindesktop package.
+# This file is distributed under the same license as the deepin-kcm_kwindesktop package.
 # ANI PETER|അനി പീറ്റര്‍ <peter.ani@gmail.com>, 2008
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwindesktop\n"
+"Project-Id-Version: deepin-kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2008-07-10 02:43+0530\n"

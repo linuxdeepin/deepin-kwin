@@ -18,7 +18,7 @@ namespace KWin
 BlendChanges::BlendChanges()
     : CrossFadeEffect()
 {
-    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/BlendChanges"),
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/deepin/kwin/BlendChanges"),
                                                  QStringLiteral("org.kde.KWin.BlendChanges"),
                                                  this,
                                                  QDBusConnection::ExportAllSlots);
