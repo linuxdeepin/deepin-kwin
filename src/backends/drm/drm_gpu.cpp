@@ -9,6 +9,7 @@
 #include "drm_gpu.h"
 
 #include <config-kwin.h>
+#include <KSharedConfig>
 
 #include "abstract_egl_backend.h"
 #include "core/renderloop_p.h"
@@ -271,6 +272,29 @@ bool DrmGpu::updateOutputs()
             existing.push_back(it->get());
         }
     }
+
+    KSharedConfigPtr kconfig = KSharedConfig::openConfig(QStringLiteral("outputlayoutrc"));
+    const auto layoutConfigs = kconfig->group("DrmOutputLayoutPresets");
+    int use_preset_layout = layoutConfigs.readEntry<int>(QStringLiteral("use_preset_layout"), 0);
+    if (use_preset_layout != 0) {
+        //只启用指定的 connector
+        QString enabledConnIds = layoutConfigs.readEntry<QString>(QStringLiteral("enabled_list"), "");
+        qCDebug(KWIN_DRM) << "Using preset layout from outputlayoutrc, enabledConnIds:" << enabledConnIds;
+        QVector<DrmConnector*> tmpPendingConnectors;
+        QStringList enabledConnIdList = enabledConnIds.trimmed().split(",");
+        for (auto idStr : enabledConnIdList) {
+            int id = idStr.toInt();
+            for (DrmConnector *con : qAsConst(existing)) {
+                if (con->id() == id) {
+                    qCDebug(KWIN_DRM) << "enable DrmConnector id:" << id;
+                    tmpPendingConnectors.append(con);
+                    break;
+                }
+            }
+        }
+        existing.swap(tmpPendingConnectors);
+    }
+
     for (auto it = m_connectors.begin(); it != m_connectors.end();) {
         DrmConnector *conn = it->get();
         const auto output = findOutput(conn->id());
