@@ -4,6 +4,10 @@ set(kwin_killer_helper_SRCS killer.cpp)
 
 add_executable(kwin_killer_helper ${kwin_killer_helper_SRCS})
 
+set_target_properties(kwin_killer_helper PROPERTIES
+    OUTPUT_NAME deepin-kwin_killer_helper
+)
+
 target_link_libraries(kwin_killer_helper
     KF5::AuthCore
     KF5::I18n

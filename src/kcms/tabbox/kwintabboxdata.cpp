@@ -9,9 +9,9 @@
 
 #include "kwintabboxdata.h"
 
-#include "kwinpluginssettings.h"
-#include "kwinswitcheffectsettings.h"
-#include "kwintabboxsettings.h"
+#include "deepin-kwinpluginssettings.h"
+#include "deepin-kwinswitcheffectsettings.h"
+#include "deepin-kwintabboxsettings.h"
 
 namespace KWin
 {

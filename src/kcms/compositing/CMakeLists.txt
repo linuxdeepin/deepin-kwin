@@ -13,11 +13,11 @@ kconfig_add_kcfg_files(kwincompositing_SRC kwincompositing_setting.kcfgc GENERAT
 
 if (QT_MAJOR_VERSION EQUAL "5")
 qt5_add_dbus_interface(kwincompositing_SRC
-    ${KWin_SOURCE_DIR}/src/org.kde.kwin.Compositing.xml kwin_compositing_interface
+    ${KWin_SOURCE_DIR}/src/org.deepin.kwin.Compositing.xml kwin_compositing_interface
 )
 else()
 qt_add_dbus_interface(kwincompositing_SRC
-    ${KWin_SOURCE_DIR}/src/org.kde.kwin.Compositing.xml kwin_compositing_interface
+    ${KWin_SOURCE_DIR}/src/org.deepin.kwin.Compositing.xml kwin_compositing_interface
 )
 endif()
 

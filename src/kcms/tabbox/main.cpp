@@ -33,14 +33,14 @@
 #include <KPackage/PackageLoader>
 
 // own
-#include "kwinpluginssettings.h"
-#include "kwinswitcheffectsettings.h"
+#include "deepin-kwinpluginssettings.h"
+#include "deepin-kwinswitcheffectsettings.h"
 #include "kwintabboxconfigform.h"
 #include "kwintabboxdata.h"
-#include "kwintabboxsettings.h"
+#include "deepin-kwintabboxsettings.h"
 #include "layoutpreview.h"
 
-K_PLUGIN_FACTORY_WITH_JSON(KWinTabBoxConfigFactory, "deepin-kcm_kwintabbox.json", registerPlugin<KWin::KWinTabBoxConfig>(); registerPlugin<KWin::TabBox::KWinTabboxData>();)
+K_PLUGIN_FACTORY_WITH_JSON(KWinTabBoxConfigFactory, "kcm_kwintabbox.json", registerPlugin<KWin::KWinTabBoxConfig>(); registerPlugin<KWin::TabBox::KWinTabboxData>();)
 
 namespace KWin
 {

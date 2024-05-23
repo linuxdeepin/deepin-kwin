@@ -28,9 +28,9 @@ kconfig_add_kcfg_files(deepin-kcm_kwinoptions_PART_SRCS kwinoptions_settings.kcf
 kconfig_add_kcfg_files(deepin-kcm_kwinoptions_PART_SRCS kwinoptions_kdeglobals_settings.kcfgc GENERATE_MOC)
 
 if (QT_MAJOR_VERSION EQUAL "5")
-    qt5_add_dbus_interface(deepin-kcm_kwinoptions_PART_SRCS ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface)
+    qt5_add_dbus_interface(deepin-kcm_kwinoptions_PART_SRCS ${KWin_SOURCE_DIR}/src/org.deepin.kwin.Effects.xml kwin_effects_interface)
 else()
-    qt_add_dbus_interface(deepin-kcm_kwinoptions_PART_SRCS ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface)
+    qt_add_dbus_interface(deepin-kcm_kwinoptions_PART_SRCS ${KWin_SOURCE_DIR}/src/org.deepin.kwin.Effects.xml kwin_effects_interface)
 endif()
 
 kcoreaddons_add_plugin(deepin-kcm_kwinoptions SOURCES ${deepin-kcm_kwinoptions_PART_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings_qwidgets")

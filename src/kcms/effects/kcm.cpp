@@ -17,7 +17,7 @@
 #include <QWindow>
 
 K_PLUGIN_FACTORY_WITH_JSON(DesktopEffectsKCMFactory,
-                           "deepin-kcm_kwin_effects.json",
+                           "kcm_kwin_effects.json",
                            registerPlugin<KWin::DesktopEffectsKCM>();
                            registerPlugin<KWin::DesktopEffectsData>();)
 

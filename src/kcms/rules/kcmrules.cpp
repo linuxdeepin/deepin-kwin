@@ -489,7 +489,7 @@ void KCMKWinRules::fillSettingsFromProperties(RuleSettings *settings, const QVar
     }
 }
 
-K_PLUGIN_CLASS_WITH_JSON(KCMKWinRules, "deepin-kcm_kwinrules.json");
+K_PLUGIN_CLASS_WITH_JSON(KCMKWinRules, "kcm_kwinrules.json");
 
 } // namespace
 

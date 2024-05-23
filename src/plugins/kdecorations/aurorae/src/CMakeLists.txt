@@ -13,7 +13,10 @@ set(kwin5_aurorae_PART_SRCS
 )
 
 add_library(kwin5_aurorae MODULE ${kwin5_aurorae_PART_SRCS})
-set_target_properties(kwin5_aurorae PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kdecoration2/")
+set_target_properties(kwin5_aurorae PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kdecoration2/"
+    OUTPUT_NAME deepin-kwin5_aurorae
+)
 
 target_link_libraries(kwin5_aurorae
     KDecoration2::KDecoration
@@ -43,11 +46,11 @@ target_link_libraries(decorationplugin
 )
 install(TARGETS decorationplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/deepin/kwin/decoration)
 
-configure_file(aurorae.knsrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/aurorae.knsrc)
+configure_file(deepin-aurorae.knsrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/deepin-aurorae.knsrc)
 
 ########### install files ###############
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/aurorae.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/deepin-aurorae.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
 install(
     FILES
         qml/AppMenuButton.qml

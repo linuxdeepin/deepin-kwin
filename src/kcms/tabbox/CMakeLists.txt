@@ -16,9 +16,9 @@ set(deepin-kcm_kwintabbox_PART_SRCS
 
 ki18n_wrap_ui(deepin-kcm_kwintabbox_PART_SRCS main.ui)
 if (QT_MAJOR_VERSION EQUAL "5")
-    qt5_add_dbus_interface(deepin-kcm_kwintabbox_PART_SRCS ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface)
+    qt5_add_dbus_interface(deepin-kcm_kwintabbox_PART_SRCS ${KWin_SOURCE_DIR}/src/org.deepin.kwin.Effects.xml kwin_effects_interface)
 else()
-    qt_add_dbus_interface(deepin-kcm_kwintabbox_PART_SRCS ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface)
+    qt_add_dbus_interface(deepin-kcm_kwintabbox_PART_SRCS ${KWin_SOURCE_DIR}/src/org.deepin.kwin.Effects.xml kwin_effects_interface)
 endif()
 
 kconfig_add_kcfg_files(deepin-kcm_kwintabbox_PART_SRCS deepin-kwintabboxsettings.kcfgc deepin-kwinswitcheffectsettings.kcfgc deepin-kwinpluginssettings.kcfgc)

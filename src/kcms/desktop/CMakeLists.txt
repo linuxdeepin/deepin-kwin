@@ -11,7 +11,7 @@ set(deepin-kcm_kwin_virtualdesktops_PART_SRCS
     virtualdesktopsdata.cpp
 )
 
-kconfig_add_kcfg_files(deepin-kcm_kwin_virtualdesktops_PART_SRCS virtualdesktopssettings.kcfgc GENERATE_MOC)
+kconfig_add_kcfg_files(deepin-kcm_kwin_virtualdesktops_PART_SRCS deepin-virtualdesktopssettings.kcfgc GENERATE_MOC)
 
 kcoreaddons_add_plugin(deepin-kcm_kwin_virtualdesktops SOURCES ${deepin-kcm_kwin_virtualdesktops_PART_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings")
 
@@ -28,5 +28,5 @@ target_link_libraries(deepin-kcm_kwin_virtualdesktops
 
 ########### install files ###############
 
-install(FILES virtualdesktopssettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+install(FILES deepin-virtualdesktopssettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 kpackage_install_package(package deepin-kcm_kwin_virtualdesktops kcms)

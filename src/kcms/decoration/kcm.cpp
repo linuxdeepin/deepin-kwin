@@ -25,9 +25,9 @@
 #include <QSortFilterProxyModel>
 
 #include "kwindecorationdata.h"
-#include "kwindecorationsettings.h"
+#include "deepin-kwindecorationsettings.h"
 
-K_PLUGIN_FACTORY_WITH_JSON(KCMKWinDecorationFactory, "deepin-kcm_kwindecoration.json", registerPlugin<KCMKWinDecoration>(); registerPlugin<KWinDecorationData>();)
+K_PLUGIN_FACTORY_WITH_JSON(KCMKWinDecorationFactory, "kcm_kwindecoration.json", registerPlugin<KCMKWinDecoration>(); registerPlugin<KWinDecorationData>();)
 
 Q_DECLARE_METATYPE(KDecoration2::BorderSize)
 

@@ -2,7 +2,7 @@
 configure_file(libkwineffects/kwinconfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/libkwineffects/kwinconfig.h)
 configure_file(config-kwin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kwin.h)
 
-set(kwin_effects_dbus_xml ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kwin.Effects.xml)
+set(kwin_effects_dbus_xml ${CMAKE_CURRENT_SOURCE_DIR}/org.deepin.kwin.Effects.xml)
 if (QT_MAJOR_VERSION EQUAL "5")
     qt5_add_dbus_interface(effects_interface_SRCS ${kwin_effects_dbus_xml} kwineffects_interface)
 else()
@@ -295,22 +295,22 @@ ki18n_wrap_ui(kwin
 set(kwin_dbus_SRCS)
 if (QT_MAJOR_VERSION EQUAL "5")
     qt5_add_dbus_adaptor(kwin_dbus_SRCS scripting/org.kde.kwin.Script.xml scripting/scripting.h KWin::AbstractScript)
-    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.xml dbusinterface.h KWin::DBusInterface)
-    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.kwin.Compositing.xml dbusinterface.h KWin::CompositorDBusInterface)
+    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.KWin.xml dbusinterface.h KWin::DBusInterface)
+    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.kwin.Compositing.xml dbusinterface.h KWin::CompositorDBusInterface)
     qt5_add_dbus_adaptor(kwin_dbus_SRCS ${kwin_effects_dbus_xml} effects.h KWin::EffectsHandlerImpl)
-    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
-    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionManager)
-    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
-    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.kde.kwin.Xkb.xml xkb.h KWin::Xkb)
+    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
+    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.KWin.Session.xml sm.h KWin::SessionManager)
+    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
+    qt5_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.kwin.Xkb.xml xkb.h KWin::Xkb)
 else()
     qt_add_dbus_adaptor(kwin_dbus_SRCS scripting/org.kde.kwin.Script.xml scripting/scripting.h KWin::AbstractScript)
-    qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.xml dbusinterface.h KWin::DBusInterface)
-    qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.kwin.Compositing.xml dbusinterface.h KWin::CompositorDBusInterface)
+    qt_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.KWin.xml dbusinterface.h KWin::DBusInterface)
+    qt_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.kwin.Compositing.xml dbusinterface.h KWin::CompositorDBusInterface)
     qt_add_dbus_adaptor(kwin_dbus_SRCS ${kwin_effects_dbus_xml} effects.h KWin::EffectsHandlerImpl)
-    qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
-    qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Session.xml sm.h KWin::SessionManager)
-    qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
-    qt_add_dbus_adaptor(kwin_dbus_SRCS org.kde.kwin.Xkb.xml xkb.h KWin::Xkb)
+    qt_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.KWin.VirtualDesktopManager.xml dbusinterface.h KWin::VirtualDesktopManagerDBusInterface)
+    qt_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.KWin.Session.xml sm.h KWin::SessionManager)
+    qt_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.KWin.Plugins.xml dbusinterface.h KWin::PluginManagerDBusInterface)
+    qt_add_dbus_adaptor(kwin_dbus_SRCS org.deepin.kwin.Xkb.xml xkb.h KWin::Xkb)
 endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
@@ -330,9 +330,9 @@ endif()
 endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
-    qt5_add_dbus_interface(kwin_dbus_SRCS org.kde.kappmenu.xml appmenu_interface)
+    qt5_add_dbus_interface(kwin_dbus_SRCS org.deepin.kappmenu.xml appmenu_interface)
 else()
-    qt_add_dbus_interface(kwin_dbus_SRCS org.kde.kappmenu.xml appmenu_interface)
+    qt_add_dbus_interface(kwin_dbus_SRCS org.deepin.kappmenu.xml appmenu_interface)
 endif()
 
 target_sources(kwin PRIVATE
@@ -370,11 +370,11 @@ if (KWIN_BUILD_TABBOX)
 endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
-    qt5_generate_dbus_interface(virtualkeyboard_dbus.h org.kde.kwin.VirtualKeyboard.xml OPTIONS -A)
-    qt5_generate_dbus_interface(tabletmodemanager.h org.kde.KWin.TabletModeManager.xml OPTIONS -A)
+    qt5_generate_dbus_interface(virtualkeyboard_dbus.h org.deepin.kwin.VirtualKeyboard.xml OPTIONS -A)
+    qt5_generate_dbus_interface(tabletmodemanager.h org.deepin.KWin.TabletModeManager.xml OPTIONS -A)
 else()
-    qt_generate_dbus_interface(virtualkeyboard_dbus.h org.kde.kwin.VirtualKeyboard.xml OPTIONS -A)
-    qt_generate_dbus_interface(tabletmodemanager.h org.kde.KWin.TabletModeManager.xml OPTIONS -A)
+    qt_generate_dbus_interface(virtualkeyboard_dbus.h org.deepin.kwin.VirtualKeyboard.xml OPTIONS -A)
+    qt_generate_dbus_interface(tabletmodemanager.h org.deepin.KWin.TabletModeManager.xml OPTIONS -A)
 endif()
 
 generate_export_header(kwin EXPORT_FILE_NAME deepin-kwin_export.h)
@@ -430,8 +430,8 @@ target_link_libraries(kwin_wayland
 add_custom_target(
     KWinDBusInterfaces
     ALL
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.kwin.VirtualKeyboard.xml
-            ${CMAKE_CURRENT_BINARY_DIR}/org.kde.KWin.TabletModeManager.xml
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.deepin.kwin.VirtualKeyboard.xml
+            ${CMAKE_CURRENT_BINARY_DIR}/org.deepin.KWin.TabletModeManager.xml
 )
 
 if (PipeWire_FOUND)
@@ -444,14 +444,14 @@ if (KWIN_BUILD_NOTIFICATIONS)
 endif()
 install(
     FILES
-        org.kde.KWin.VirtualDesktopManager.xml
-        org.kde.KWin.xml
-        org.kde.kwin.Compositing.xml
-        org.kde.kwin.Effects.xml
-        org.kde.KWin.Plugins.xml
-        org.kde.kwin.Xkb.xml
-        ${CMAKE_CURRENT_BINARY_DIR}/org.kde.kwin.VirtualKeyboard.xml
-        ${CMAKE_CURRENT_BINARY_DIR}/org.kde.KWin.TabletModeManager.xml
+        org.deepin.KWin.VirtualDesktopManager.xml
+        org.deepin.KWin.xml
+        org.deepin.kwin.Compositing.xml
+        org.deepin.kwin.Effects.xml
+        org.deepin.KWin.Plugins.xml
+        org.deepin.kwin.Xkb.xml
+        ${CMAKE_CURRENT_BINARY_DIR}/org.deepin.kwin.VirtualKeyboard.xml
+        ${CMAKE_CURRENT_BINARY_DIR}/org.deepin.KWin.TabletModeManager.xml
     DESTINATION
         ${KDE_INSTALL_DBUSINTERFACEDIR}
 )

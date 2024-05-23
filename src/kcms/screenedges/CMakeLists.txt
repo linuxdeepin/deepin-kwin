@@ -10,9 +10,9 @@ set(deepin-kcm_screenedges_SRCS
 )
 
 if (QT_MAJOR_VERSION EQUAL "5")
-    qt5_add_dbus_interface(deepin-kcm_screenedges_SRCS ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface)
+    qt5_add_dbus_interface(deepin-kcm_screenedges_SRCS ${KWin_SOURCE_DIR}/src/org.deepin.kwin.Effects.xml kwin_effects_interface)
 else()
-    qt_add_dbus_interface(deepin-kcm_screenedges_SRCS ${KWin_SOURCE_DIR}/src/org.kde.kwin.Effects.xml kwin_effects_interface)
+    qt_add_dbus_interface(deepin-kcm_screenedges_SRCS ${KWin_SOURCE_DIR}/src/org.deepin.kwin.Effects.xml kwin_effects_interface)
 endif()
 
 set(deepin-kcm_kwinscreenedges_PART_SRCS main.cpp ${deepin-kcm_screenedges_SRCS})

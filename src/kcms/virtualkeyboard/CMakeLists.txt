@@ -11,7 +11,7 @@ kcmutils_generate_module_data(
     SETTINGS_CLASSES VirtualKeyboardSettings
 )
 
-kconfig_add_kcfg_files(deepin-kcm_virtualkeyboard_PART_SRCS virtualkeyboardsettings.kcfgc GENERATE_MOC)
+kconfig_add_kcfg_files(deepin-kcm_virtualkeyboard_PART_SRCS deepin-virtualkeyboardsettings.kcfgc GENERATE_MOC)
 kcoreaddons_add_plugin(deepin-kcm_virtualkeyboard SOURCES kcmvirtualkeyboard.cpp ${deepin-kcm_virtualkeyboard_PART_SRCS} INSTALL_NAMESPACE plasma/kcms/systemsettings)
 target_include_directories(deepin-kcm_virtualkeyboard PRIVATE ${CMAKE_SOURCE_DIR})
 

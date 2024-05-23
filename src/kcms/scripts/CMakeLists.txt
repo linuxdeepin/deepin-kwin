@@ -21,4 +21,4 @@ target_link_libraries(deepin-kcm_kwin_scripts
 )
 
 kpackage_install_package(package deepin-kcm_kwin_scripts kcms)
-install(FILES kwinscripts.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
+install(FILES deepin-kwinscripts.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})

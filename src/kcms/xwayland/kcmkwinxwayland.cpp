@@ -16,7 +16,7 @@
 
 #include <kwinxwaylanddata.h>
 
-K_PLUGIN_FACTORY_WITH_JSON(KcmXwaylandFactory, "deepin-kcm_kwinxwayland.json", registerPlugin<KcmXwayland>(); registerPlugin<KWinXwaylandData>();)
+K_PLUGIN_FACTORY_WITH_JSON(KcmXwaylandFactory, "kcm_kwinxwayland.json", registerPlugin<KcmXwayland>(); registerPlugin<KWinXwaylandData>();)
 
 KcmXwayland::KcmXwayland(QObject *parent, const QVariantList &args)
     : KQuickAddons::ManagedConfigModule(parent)

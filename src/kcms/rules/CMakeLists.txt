@@ -44,6 +44,9 @@ endif()
 target_link_libraries(KWinRulesObjects ${deepin-kcm_libs} ${kwin_deepin-kcm_rules_XCB_LIBS})
 
 add_executable(kwin_rules_dialog main.cpp)
+set_target_properties(kwin_rules_dialog PROPERTIES
+    OUTPUT_NAME deepin-kwin_rules_dialog
+)
 target_link_libraries(kwin_rules_dialog KWinRulesObjects)
 target_compile_definitions(kwin_rules_dialog PRIVATE KCMRULES_PLUGIN="plasma/kcms/systemsettings/deepin-kcm_kwinrules")
 install(TARGETS kwin_rules_dialog DESTINATION ${KDE_INSTALL_LIBEXECDIR})
