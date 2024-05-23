@@ -305,7 +305,6 @@ public:
     void closeWindow() override;
     bool wantsInput() const override;
     bool takeFocus() override;
-    bool isPlaceable() const override { return false; }
 
 protected:
     bool acceptsFocus() const override;
