@@ -7,7 +7,7 @@ kcmutils_generate_module_data(
     deepin-kcm_virtualkeyboard_PART_SRCS
     MODULE_DATA_HEADER virtualkeyboarddata.h
     MODULE_DATA_CLASS_NAME VirtualKeyboardData
-    SETTINGS_HEADERS virtualkeyboardsettings.h
+    SETTINGS_HEADERS deepin-virtualkeyboardsettings.h
     SETTINGS_CLASSES VirtualKeyboardSettings
 )
 

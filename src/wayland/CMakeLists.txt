@@ -17,51 +17,51 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME wayland
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
     BASENAME kde-output-device-v2
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
     BASENAME kde-output-management-v2
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/plasma-shell.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/plasma-shell.xml
     BASENAME plasma-shell
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/plasma-virtual-desktop.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/plasma-virtual-desktop.xml
     BASENAME org-kde-plasma-virtual-desktop
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/plasma-window-management.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/plasma-window-management.xml
     BASENAME plasma-window-management
 )
 ecm_add_wayland_server_protocol(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/surface-extension.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/surface-extension.xml
     BASENAME qt-surface-extension
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/idle.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/idle.xml
     BASENAME idle
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/fake-input.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/fake-input.xml
     BASENAME fake-input
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/shadow.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/shadow.xml
     BASENAME shadow
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dpms.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/dpms.xml
     BASENAME dpms
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/blur.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/blur.xml
     BASENAME blur
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/contrast.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/contrast.xml
     BASENAME contrast
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
@@ -69,11 +69,11 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME relative-pointer-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/slide.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/slide.xml
     BASENAME slide
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/server-decoration.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/server-decoration.xml
     BASENAME server-decoration
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
@@ -81,7 +81,7 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME text-input-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/text-input-unstable-v2.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/text-input-unstable-v2.xml
     BASENAME text-input-unstable-v2
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
@@ -105,11 +105,11 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME idle-inhibit-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/appmenu.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/appmenu.xml
     BASENAME appmenu
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/server-decoration-palette.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/server-decoration-palette.xml
     BASENAME server-decoration-palette
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
@@ -129,7 +129,7 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME xdg-decoration-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/keystate.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/keystate.xml
     BASENAME keystate
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
@@ -161,11 +161,11 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME wp-primary-selection-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/zkde-screencast-unstable-v1.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/zkde-screencast-unstable-v1.xml
     BASENAME zkde-screencast-unstable-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/client-management.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/client-management.xml
     BASENAME com-deepin-client-management
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
@@ -181,7 +181,7 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME drm-lease-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-lockscreen-overlay-v1.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-lockscreen-overlay-v1.xml
     BASENAME kde-lockscreen-overlay-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
@@ -205,11 +205,11 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
     BASENAME xwayland-shell-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-order-v1.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-output-order-v1.xml
     BASENAME kde-output-order-v1
 )
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/remote-access.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/remote-access.xml
     BASENAME remote-access
 )
 
@@ -219,42 +219,42 @@ ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dde-shell.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/dde-shell.xml
     BASENAME dde-shell
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dde-restrict.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/dde-restrict.xml
     BASENAME dde-restrict
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/strut.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/strut.xml
     BASENAME strut
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dde-seat.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/dde-seat.xml
     BASENAME dde-seat
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dde-kvm.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/dde-kvm.xml
     BASENAME dde-kvm
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/dde-security.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/dde-security.xml
     BASENAME dde-security
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/outputdevice.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/outputdevice.xml
     BASENAME org-kde-kwin-outputdevice
 )
 
 ecm_add_qtwayland_server_protocol_kde(WaylandProtocols_xml
-    PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/output-management.xml
+    PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/output-management.xml
     BASENAME outputmanagement
 )
 

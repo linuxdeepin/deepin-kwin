@@ -53,7 +53,7 @@ if (QT_MAJOR_VERSION EQUAL "5")
     add_executable(lockscreenoverlaytest lockscreenoverlaytest.cpp)
     target_link_libraries(lockscreenoverlaytest Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::WaylandClient Qt${QT_MAJOR_VERSION}::WaylandClientPrivate Wayland::Client KF5::WindowSystem)
     ecm_add_qtwayland_client_protocol(lockscreenoverlaytest
-        PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-lockscreen-overlay-v1.xml
+        PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-lockscreen-overlay-v1.xml
         BASENAME kde-lockscreen-overlay-v1
     )
 endif()

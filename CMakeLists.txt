@@ -205,11 +205,11 @@ set_package_properties(WaylandProtocols PROPERTIES
     URL "https://gitlab.freedesktop.org/wayland/wayland-protocols/"
 )
 
-find_package(PlasmaWaylandProtocols 1.9.0 CONFIG)
-set_package_properties(PlasmaWaylandProtocols PROPERTIES
+find_package(DeepinWaylandProtocols 1.9.0 CONFIG)
+set_package_properties(DeepinWaylandProtocols PROPERTIES
     TYPE REQUIRED
-    PURPOSE "Collection of Plasma-specific Wayland protocols"
-    URL "https://invent.kde.org/libraries/plasma-wayland-protocols/"
+    PURPOSE "Collection of Deepin-specific Wayland protocols"
+    URL "https://github.com/linuxdeepin/deepin-wayland-protocols/"
 )
 
 if (QT_MAJOR_VERSION EQUAL "5")

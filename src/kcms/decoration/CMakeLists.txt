@@ -14,7 +14,7 @@ kcmutils_generate_module_data(
     kcmkwindecoration_SRCS
     MODULE_DATA_HEADER kwindecorationdata.h
     MODULE_DATA_CLASS_NAME KWinDecorationData
-    SETTINGS_HEADERS kwindecorationsettings.h
+    SETTINGS_HEADERS deepin-kwindecorationsettings.h
     SETTINGS_CLASSES KWinDecorationSettings
 )
 

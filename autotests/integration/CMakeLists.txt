@@ -27,11 +27,11 @@ if (QT_MAJOR_VERSION EQUAL "5")
         BASENAME idle-inhibit-unstable-v1
     )
     ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
-        PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
+        PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
         BASENAME kde-output-device-v2
     )
     ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
-        PROTOCOL ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
+        PROTOCOL ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
         BASENAME kde-output-management-v2
     )
     ecm_add_qtwayland_client_protocol(KWinIntegrationTestFramework
@@ -52,8 +52,8 @@ else()
             ${WaylandProtocols_DATADIR}/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml
             ${WaylandProtocols_DATADIR}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml
             ${WaylandProtocols_DATADIR}/staging/fractional-scale/fractional-scale-v1.xml
-            ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
-            ${PLASMA_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
+            ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-output-device-v2.xml
+            ${DEEPIN_WAYLAND_PROTOCOLS_DIR}/kde-output-management-v2.xml
     )
 endif()
 
