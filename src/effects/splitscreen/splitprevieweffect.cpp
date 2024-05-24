@@ -8,6 +8,7 @@
 */
 #include "splitprevieweffect.h"
 #include "../utils/common.h"
+#include <effects.h>
 #include "workspace.h"
 #include <QWindow>
 #include <QKeyEvent>
@@ -139,7 +140,8 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
             }
         }
     } else {
-        effects->paintWindow(w, mask, region, data);
+        if (w->isDock() || isRelevantWithPresentWindows(w))
+            effects->paintWindow(w, mask, region, data);
     }
 }
 
@@ -177,7 +179,8 @@ void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
         if (w->isOnDesktop(currentDesktop) && isRelevantWithPresentWindows(w)) {
             if (w == m_window)
                 continue;
-            if (!effectsEx->isWinAllowSplit(w)) {
+            auto cl = static_cast<EffectWindowImpl *>(w)->window();
+            if (!effectsEx->isWinAllowSplit(w) || (cl && cl->isStandAlone())) {
                 m_unPreviewWin.append(w);
                 continue;
             }
