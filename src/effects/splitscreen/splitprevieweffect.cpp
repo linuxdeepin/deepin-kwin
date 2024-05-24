@@ -30,6 +30,8 @@ SplitPreviewEffect::SplitPreviewEffect()
 {
     connect(effectsEx, &EffectsHandlerEx::triggerSplitPreview, this, &SplitPreviewEffect::toggle);
     connect(effects, &EffectsHandler::windowFrameGeometryChanged, this, &SplitPreviewEffect::slotWindowGeometryChanged);
+    connect(effects, &EffectsHandler::windowClosed, this, &SplitPreviewEffect::slotWindowClosed);
+    connect(effects, &EffectsHandler::windowDeleted, this, &SplitPreviewEffect::slotWindowDeleted);
 }
 
 SplitPreviewEffect::~SplitPreviewEffect()
@@ -320,10 +322,12 @@ void SplitPreviewEffect::windowInputMouseEvent(QEvent* e)
     EffectWindow* target = nullptr;
     WindowMotionManager& wm = m_motionManagers[0];
     for (const auto& w : wm.managedWindows()) {
-        auto geo = wm.transformedGeometry(w);
-        if (geo.contains(me->pos())) {
-            target = w;
-            break;
+        if (w) {
+            auto geo = wm.transformedGeometry(w);
+            if (geo.contains(me->pos())) {
+                target = w;
+                break;
+            }
         }
     }
 
@@ -374,6 +378,27 @@ void SplitPreviewEffect::slotWindowGeometryChanged(EffectWindow *window, const Q
         QRegion r = QRegion(area.toRect()).subtracted(QRegion(window->frameGeometry().toRect()));
         m_backgroundRect = r.boundingRect();
         relayout();
+    }
+}
+
+void SplitPreviewEffect::slotWindowClosed(EffectWindow *w)
+{
+    removeWindowReLayout(w);
+}
+void SplitPreviewEffect::slotWindowDeleted(EffectWindow *w)
+{
+    removeWindowReLayout(w);
+}
+
+void SplitPreviewEffect::removeWindowReLayout(EffectWindow *w)
+{
+    if (m_motionManagers.size() > 0) {
+        WindowMotionManager& wmm = m_motionManagers[0];
+        if (wmm.isManaging(w)) {
+            wmm.unmanage(w);
+            relayout();
+            effects->addRepaintFull();
+        }
     }
 }
 

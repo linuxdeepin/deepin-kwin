@@ -47,6 +47,7 @@ private:
     void setActive(bool);
     void cleanup();
     void relayout();
+    void removeWindowReLayout(EffectWindow *w);
     void inhibit();
     void uninhibit();
     void initTextureMask();
@@ -54,6 +55,8 @@ private:
 public Q_SLOTS:
     void toggle(KWin::EffectWindow *w);
     void slotWindowGeometryChanged(EffectWindow *window, const QRectF &geometry);
+    void slotWindowClosed(EffectWindow *w);
+    void slotWindowDeleted(EffectWindow *w);
 
 private:
     bool                         m_activated = false;
