@@ -4612,8 +4612,10 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         setMaximized(max_mode & MaximizeHorizontal && max_mode & MaximizeVertical);
         Q_EMIT clientMaximizedStateChanged(this, max_mode, animated);
         Q_EMIT clientMaximizedStateChanged(this, max_mode & MaximizeHorizontal, max_mode & MaximizeVertical);
-        if (mode == MaximizeFull || mode == MaximizeRestore)
+        if (animated && (mode == MaximizeFull || mode == MaximizeRestore))
+        {
             Q_EMIT clientMaximizedChanged(this, oldGeometry, newGeometry, mode);
+        }
     }
 }
 
