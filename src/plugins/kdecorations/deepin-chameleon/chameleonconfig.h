@@ -106,17 +106,13 @@ private Q_SLOTS:
     // 针对X11BypassWindowManagerHint类型的窗口需要做一些特殊处理
     void onUnmanagedAdded(KWin::Unmanaged *client);
     void onInternalWindowAdded(KWin::InternalWindow *client);
-    void onCompositingToggled(bool active);
     void onWindowPropertyChanged(quint32 windowId, quint32 atom);
     void onWindowDataChanged(KWin::EffectWindow *window, int role);
-    void onWindowShapeChanged(quint32 windowId);
 
     void updateWindowNoBorderProperty(QObject *window);
     void updateWindowBlurArea(KWin::EffectWindow *window, int role);
     void updateWindowSize();
-    void updateClientX11Shadow();
     void updateClientNoBorder(QObject *client, bool allowReset = true);
-    void updateClientWindowRadius(QObject *client);
     void updateClientClipPath(QObject *client);
 
     // 用于调试窗口启动速度
@@ -131,10 +127,6 @@ private:
     void init();
 
     void setActivated(const bool active);
-    void buildKWinX11Shadow(QObject *client);
-    void buildKWinWaylandShadow(QObject *client, KWin::Window * window);
-    void buildKWinX11ShadowDelay(QObject *client, int delay = 100);
-    void buildKWinX11ShadowForNoBorderWindows();
     void clearKWinX11ShadowForWindows();
     void clearX11ShadowCache();
     // 处理所有额外支持的窗口属性，比如_DEEPIN_SCISSOR_WINDOW、_DEEPIN_FORCE_DECORATE
