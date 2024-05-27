@@ -208,7 +208,7 @@ void Helper::init()
             if (!fileInfo.isFile()) {
                 continue;
             }
-            if (!fileInfo.path().endsWith(QLatin1String("/org/deepin/kwin/decoration"))) {
+            if (!fileInfo.path().endsWith(QLatin1String("/org/kde/KWin/decoration"))) {
                 continue;
             }
             if (fileInfo.fileName() == QLatin1String("libdecorationplugin.so")) {

@@ -35,7 +35,7 @@ HighlightWindowEffect::HighlightWindowEffect()
         m_atom = effects->announceSupportProperty("_KDE_WINDOW_HIGHLIGHT", this);
     });
 
-    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/deepin/kwin/HighlightWindow"),
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/HighlightWindow"),
                                                  QStringLiteral("org.kde.KWin.HighlightWindow"),
                                                  this,
                                                  QDBusConnection::ExportScriptableContents);

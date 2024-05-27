@@ -63,7 +63,7 @@ public:
             Q_EMIT deviceRemoved(inputDevice->sysName());
         });
 
-        QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/deepin/kwin/InputDevice"),
+        QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/InputDevice"),
                                                      QStringLiteral("org.kde.KWin.InputDeviceManager"),
                                                      this,
                                                      QDBusConnection::ExportAllProperties | QDBusConnection::ExportScriptableContents | QDBusConnection::ExportAllSignals);
@@ -71,7 +71,7 @@ public:
 
     ~ConnectionAdaptor() override
     {
-        QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/org/deepin/kwin/InputDeviceManager"));
+        QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/org/kde/KWin/InputDeviceManager"));
     }
 
     QStringList devicesSysNames()

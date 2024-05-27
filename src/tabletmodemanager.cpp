@@ -124,7 +124,7 @@ TabletModeManager::TabletModeManager()
     connect(m_settingsWatcher.data(), &KConfigWatcher::configChanged, this, &KWin::TabletModeManager::refreshSettings);
     refreshSettings();
 
-    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/deepin/kwin"),
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin"),
                                                  QStringLiteral("org.kde.KWin.TabletModeManager"),
                                                  this,
                                                  QDBusConnection::ExportAllProperties | QDBusConnection::ExportAllSignals);
