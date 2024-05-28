@@ -685,8 +685,10 @@ bool WaylandServer::init(InitializationFlags flags)
                 return;
             }
 
-            const std::string name = client->resourceName().toStdString(),
-                    uuid = client->internalId().toString().toStdString();
+            std::string name;
+            if (!client->resourceName().isEmpty() || !client->resourceClass().isEmpty())
+                name = QString(client->resourceName() + " " + client->resourceClass()).toStdString();
+            const std::string uuid = client->internalId().toString().toStdString();
             WindowState state = {
                 .pid = client->pid(),
                 .windowId = wid,
