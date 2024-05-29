@@ -87,7 +87,7 @@ void WindowStyleManager::onGeometryShapeChanged(Window *w, QRectF rectF)
 {
     if (w->cacheShapeGeometry().size() != rectF.size()) {
         w->setCacheShapeGeometry(rectF);
-        w->updateWindowShadow();
+        w->updateWindowRadius();
     }
 }
 
