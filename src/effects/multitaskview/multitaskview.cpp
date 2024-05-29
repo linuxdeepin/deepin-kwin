@@ -1375,12 +1375,15 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         {
             QFont font;
             font.setPointSize(14);
+            font.setFamily(m_fontFamily);
             m_textWinFrame->setFont(font);
             QFontMetrics metrics(m_textWinFrame->font());
-            QString string = metrics.elidedText(w->caption(), Qt::ElideRight, rect.width() * 0.9);
-            if (string != m_textWinFrame->text())
-                m_textWinFrame->setText(string);
-            width = metrics.width(string);
+            QString textWin = metrics.elidedText(w->caption(), Qt::ElideRight, rect.width() * 0.9);
+            m_textWinFrame->setText(QString(textWin));
+            if (textWin == "") {
+                m_textWinFrame->setText(" ");
+            }
+            width = metrics.width(textWin);
             height = metrics.height();
         }
 
@@ -1408,8 +1411,10 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
 
         m_closeWinFrame->render(infiniteRegion(), 1, 0);
         m_topWinFrame->render(infiniteRegion(), 1, 0);
-        m_textWinBgFrame->render(infiniteRegion(), 0.8, 0);
-        m_textWinFrame->render(infiniteRegion(), 1, 0);
+        if (!(m_textWinFrame->text() == " ")) {
+            m_textWinBgFrame->render(infiniteRegion(), 0.8, 0);
+            m_textWinFrame->render(infiniteRegion(), 1, 0);
+        }
     }
 }
 
