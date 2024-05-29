@@ -1,3 +1,20 @@
+kwin (4:5.27.2.203-deepin203-1) unstable; urgency=medium
+
+  [dingzhixuan]
+  * fix: optimized maxi effect pointer
+  * fix: window is raised even it's below after dragging released
+  * fix: cancel the opacity of desktop
+  * fix: update keyboard focus when grabbing popup closed.
+  * fix:  clean up invalid processes
+  * fix:  clean up invalid processes
+  * fix: can't select dde-control-center in screenshot
+  * fix: update special window with clipdata when the window geometrychanged
+  * fix: fix about split preview crash
+  * feat: Support NV12 format dmabuf for direct rendering compositing in kwin
+  * feat: add function for select display output devices by outputlayoutrc file
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Wed, 29 May 2024 18:21:21 +0800
+
 kwin (4:5.27.2.202-deepin202-1) unstable; urgency=medium
 
   [dingzhixuan]
