@@ -79,6 +79,7 @@ Rules::Rules()
     , disableglobalshortcutsrule(UnusedForceRule)
     , desktopfilerule(UnusedSetRule)
     , disablecornerrule(UnusedSetRule)
+    , disablesplitpreviewrule(UnusedSetRule)
 {
 }
 
@@ -184,6 +185,7 @@ void Rules::readFromSettings(const RuleSettings *settings)
     READ_FORCE_RULE(disableglobalshortcuts, );
     READ_SET_RULE(desktopfile);
     READ_SET_RULE(disablecorner);
+    READ_SET_RULE(disablesplitpreview);
     // disable minmize rule for uos
     minimize = false;
     minimizerule = UnusedSetRule;
@@ -267,6 +269,7 @@ void Rules::write(RuleSettings *settings) const
     WRITE_FORCE_RULE(disableglobalshortcuts, Disableglobalshortcuts, );
     WRITE_SET_RULE(desktopfile, Desktopfile, );
     WRITE_SET_RULE(disablecorner, Disablecorner, );
+    WRITE_SET_RULE(disablesplitpreview, Disablesplitpreview, );
 }
 
 #undef WRITE_MATCH_STRING
@@ -313,7 +316,8 @@ bool Rules::isEmpty() const
             && shortcutrule == UnusedSetRule
             && disableglobalshortcutsrule == UnusedForceRule
             && desktopfilerule == UnusedSetRule
-            && disablecornerrule == UnusedSetRule);
+            && disablecornerrule == UnusedSetRule
+            && disablesplitpreviewrule == UnusedSetRule);
 }
 
 Rules::ForceRule Rules::convertForceRule(int v)
@@ -675,6 +679,7 @@ APPLY_RULE(shortcut, Shortcut, QString)
 APPLY_FORCE_RULE(disableglobalshortcuts, DisableGlobalShortcuts, bool)
 APPLY_RULE(desktopfile, DesktopFile, QString)
 APPLY_RULE(disablecorner, DisableCorner, bool)
+APPLY_RULE(disablesplitpreview, DisableSplitpreview, bool)
 
 #undef APPLY_RULE
 #undef APPLY_FORCE_RULE
@@ -752,6 +757,7 @@ bool Rules::discardUsed(bool withdrawn)
     DISCARD_USED_FORCE_RULE(disableglobalshortcuts);
     DISCARD_USED_SET_RULE(desktopfile);
     DISCARD_USED_SET_RULE(disablecorner);
+    DISCARD_USED_SET_RULE(disablesplitpreview);
     return changed;
 }
 #undef DISCARD_USED_SET_RULE
@@ -913,6 +919,7 @@ CHECK_RULE(Shortcut, QString)
 CHECK_FORCE_RULE(DisableGlobalShortcuts, bool)
 CHECK_RULE(DesktopFile, QString)
 CHECK_RULE(DisableCorner, bool)
+CHECK_RULE(DisableSplitpreview, bool)
 
 #undef CHECK_RULE
 #undef CHECK_FORCE_RULE

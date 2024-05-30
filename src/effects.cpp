@@ -2151,6 +2151,9 @@ int EffectsHandlerImpl::windowPId(KWin::EffectWindow *w)
 bool EffectsHandlerImpl::isWinAllowSplit(KWin::EffectWindow *w)
 {
     auto window = static_cast<EffectWindowImpl *>(w)->window();
+    if (window->rules() && window->rules()->checkDisableSplitpreview(false)) {
+        return false;
+    }
     if (window->isClient()) {
         return window->isResizable();
     }

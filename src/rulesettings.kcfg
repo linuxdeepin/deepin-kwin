@@ -453,5 +453,16 @@
       <max code="true">static_cast&lt;Rules::SetRule&gt;(Rules::ForceTemporarily)</max>
       <default code="true">Rules::UnusedSetRule</default>
     </entry>
+
+    <entry name="disablesplitpreview" type="Bool">
+      <label>DisableSplitpreview</label>
+      <default>false</default>
+    </entry>
+    <entry name="disablesplitpreviewrule" type="Int">
+      <label>disablesplitpreview rule type</label>
+      <min code="true">Rules::UnusedSetRule</min>
+      <max code="true">static_cast&lt;Rules::SetRule&gt;(Rules::ForceTemporarily)</max>
+      <default code="true">Rules::UnusedSetRule</default>
+    </entry>
   </group>
 </kcfg>

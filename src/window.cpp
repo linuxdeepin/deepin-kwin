@@ -1945,7 +1945,7 @@ void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &gl
             }
         } else*/
         {
-            if (quickTileMode() == QuickTileMode(QuickTileFlag::None) && isResizable() && !workspace()->isEffectDuring()) {
+            if (quickTileMode() == QuickTileMode(QuickTileFlag::None) && isResizable() && !rules()->checkDisableSplitpreview(false) && !workspace()->isEffectDuring()) {
                 checkQuickTilingMaximizationZones(global.x(), global.y());
             }
             if (!m_electricMaximizing) {
