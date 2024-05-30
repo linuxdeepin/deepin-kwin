@@ -106,9 +106,9 @@ uint32_t DrmFramebuffer::framebufferId() const
     return m_framebufferId;
 }
 
-DrmGpuBuffer *DrmFramebuffer::buffer() const
+std::shared_ptr<DrmGpuBuffer> DrmFramebuffer::buffer() const
 {
-    return m_buffer.get();
+    return m_buffer;
 }
 
 void DrmFramebuffer::releaseBuffer()

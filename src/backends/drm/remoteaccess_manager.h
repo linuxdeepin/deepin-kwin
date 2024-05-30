@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Qt
 #include <QObject>
+#include <memory>
+#include <map>
 
 struct gbm_bo;
 struct gbm_surface;
@@ -50,10 +52,10 @@ public:
     explicit RemoteAccessManager(QObject *parent = nullptr);
     ~RemoteAccessManager() override;
 
-    void passBuffer(Output *output, DrmGpuBuffer *buffer);
-    void passGbmBuffer(Output *output, GbmBuffer *buffer);
-    void passDumBuffer(Output *output, DrmDumbBuffer *buffer);
-    void passProhibitBuffer(Output *output, DrmGpuBuffer *buffer);
+    void passBuffer(Output *output, std::shared_ptr<DrmGpuBuffer> buffer);
+    void passGbmBuffer(Output *output, std::shared_ptr<GbmBuffer> buffer);
+    void passDumBuffer(Output *output, std::shared_ptr<DrmDumbBuffer> buffer);
+    void passProhibitBuffer(Output *output, std::shared_ptr<DrmGpuBuffer> buffer);
     void incrementRenderSequence();
 
 Q_SIGNALS:
@@ -66,6 +68,7 @@ private:
 
     RemoteAccessManagerInterface *m_interface = nullptr;
     Output *m_removedOutput = nullptr;
+    std::map<const BufferHandle*, std::shared_ptr<DrmGpuBuffer>> m_gbmBufferList;
 };
 
 } // KWin namespace

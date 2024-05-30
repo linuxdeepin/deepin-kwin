@@ -245,7 +245,7 @@ void EglGbmBackend::present(Output *output)
             close(m_dmaFd);
             m_dmaFd = 0;
         }
-        if (GbmBuffer *gbmbuf = dynamic_cast<GbmBuffer *>(buffer->buffer())) {
+        if (std::shared_ptr<GbmBuffer> gbmbuf = std::dynamic_pointer_cast<GbmBuffer>(buffer->buffer())) {
             auto bo = gbmbuf->bo();
             m_dmaFd = gbm_bo_get_fd(bo);
         }

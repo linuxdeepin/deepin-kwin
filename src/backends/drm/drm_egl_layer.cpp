@@ -71,7 +71,7 @@ bool EglGbmLayer::checkTestBuffer()
 std::shared_ptr<GLTexture> EglGbmLayer::texture() const
 {
     if (m_scanoutBuffer) {
-        return m_surface.eglBackend()->importBufferObjectAsTexture(static_cast<GbmBuffer *>(m_scanoutBuffer->buffer())->bo());
+        return m_surface.eglBackend()->importBufferObjectAsTexture(static_cast<GbmBuffer *>(m_scanoutBuffer->buffer().get())->bo());
     } else {
         return m_surface.texture();
     }

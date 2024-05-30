@@ -76,10 +76,11 @@ void RemoteAccessManager::releaseBuffer(const BufferHandle *buf)
             qCWarning(KWIN_DRM) << "Couldn't close released GBM fd:" << strerror(errno);
         }
     }
+    m_gbmBufferList.erase(buf);
     delete buf;
 }
 
-void RemoteAccessManager::passBuffer(Output *output, DrmGpuBuffer *buffer)
+void RemoteAccessManager::passBuffer(Output *output, std::shared_ptr<DrmGpuBuffer> buffer)
 {
     auto dde_restrict = waylandServer()->ddeRestrict();
     if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
@@ -97,14 +98,14 @@ void RemoteAccessManager::passBuffer(Output *output, DrmGpuBuffer *buffer)
 
     if (hasProtectedWindow) {
         passProhibitBuffer(output, buffer);
-    } else if (GbmBuffer *gbmbuf = dynamic_cast<GbmBuffer *>(buffer)) {
+    } else if (std::shared_ptr<GbmBuffer> gbmbuf = std::dynamic_pointer_cast<GbmBuffer>(buffer)) {
         passGbmBuffer(output, gbmbuf);
-    } else if (DrmDumbBuffer *dumbuf = dynamic_cast<DrmDumbBuffer *>(buffer)) {
+    } else if (std::shared_ptr<DrmDumbBuffer> dumbuf = std::dynamic_pointer_cast<DrmDumbBuffer>(buffer)) {
         passDumBuffer(output, dumbuf);
     }
 }
 
-void RemoteAccessManager::passGbmBuffer(Output *output, GbmBuffer *gbmbuf)
+void RemoteAccessManager::passGbmBuffer(Output *output, std::shared_ptr<GbmBuffer> gbmbuf)
 {
     auto bo = gbmbuf->bo();
     if (!bo) {
@@ -123,16 +124,16 @@ void RemoteAccessManager::passGbmBuffer(Output *output, GbmBuffer *gbmbuf)
         delete buf;
         return;
     }
+    m_gbmBufferList[buf] = gbmbuf;
 
     m_interface->sendBufferReady(waylandServer()->findWaylandOutput(output), buf);
 }
 
-void RemoteAccessManager::passDumBuffer(Output *output, DrmDumbBuffer *dumbuf)
+void RemoteAccessManager::passDumBuffer(Output *output, std::shared_ptr<DrmDumbBuffer> dumbuf)
 {
     auto buf = new BufferHandle;
     uint32_t stride = dumbuf->strides()[0];
 
-    qCWarning(KWIN_DRM) << __func__ << output << dumbuf;
 
     buf->setSize(dumbuf->size().width(), dumbuf->size().height());
     buf->setFormat(dumbuf->format());
@@ -151,14 +152,12 @@ void RemoteAccessManager::passDumBuffer(Output *output, DrmDumbBuffer *dumbuf)
 
     connect(buf, &QObject::destroyed, this, [this, output, shmbuf]() {
         if (output && output != m_removedOutput) {
-            qCWarning(KWIN_DRM) << __func__ << "destroy shmbuf of dump buffer " << output << shmbuf;
             output->destroyForDumpBuffer(shmbuf);
         }
     });
 
     connect(workspace(), &Workspace::outputRemoved, this, [this, output](Output *o) {
         if (output == o) {
-            qCWarning(KWIN_DRM) << __func__ << "output has been removed " << output;
             m_removedOutput = output;
         }
     });
@@ -166,13 +165,12 @@ void RemoteAccessManager::passDumBuffer(Output *output, DrmDumbBuffer *dumbuf)
     m_interface->sendBufferReady(waylandServer()->findWaylandOutput(output), buf);
 }
 
-void RemoteAccessManager::passProhibitBuffer(Output *output, DrmGpuBuffer *buffer)
+void RemoteAccessManager::passProhibitBuffer(Output *output, std::shared_ptr<DrmGpuBuffer> buffer)
 {
     auto buf = new BufferHandle;
     buf->setSize(buffer->size().width(), buffer->size().height());
     buf->setFormat(buffer->format());
 
-    qCWarning(KWIN_DRM) << __func__ << output << buffer;
 
     if (output->shmRemoteProhibitBufferFd() == -1) {
         output->creatShmRemoteProhibitBuffer();

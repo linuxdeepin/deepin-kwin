@@ -63,7 +63,7 @@ public:
     /**
      * may be nullptr
      */
-    DrmGpuBuffer *buffer() const;
+    std::shared_ptr<DrmGpuBuffer> buffer() const;
 
     void releaseBuffer();
 

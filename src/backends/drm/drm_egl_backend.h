@@ -99,7 +99,7 @@ private:
     DrmBackend *m_backend;
     QHash<uint32_t, GbmFormat> m_formats;
     QHash<uint32_t, EGLConfig> m_configs;
-    QHash<Output *, DrmGpuBuffer*> m_outputToBuffers;
+    QHash<Output *, std::shared_ptr<DrmGpuBuffer>> m_outputToBuffers;
     std::shared_ptr<RemoteAccessManager> m_remoteaccessManager;
     unsigned int m_dmaFd;
 
