@@ -27,6 +27,7 @@
 #include "cursor.h"
 #include "dbusinterface.h"
 #include "deleted.h"
+#include "dockrect.h"
 #include "effects.h"
 #include "focuschain.h"
 #include "group.h"
@@ -3791,8 +3792,18 @@ void Workspace::setWinSplitState(Window *w, bool isSplit)
     }
 }
 
+void Workspace::forceDisableRadius(bool disable)
+{
+    if (m_forceDisableRadius == disable)
+        return;
+    m_forceDisableRadius = disable;
+    Q_EMIT osRadiusChanged();
+}
+
 float Workspace::getWindowRadius() const
 {
+    if (m_forceDisableRadius)
+        return 0;
     return m_windowStyleManager.get()->getOsRadius();
 }
 

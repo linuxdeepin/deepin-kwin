@@ -12,6 +12,7 @@
 
 // own
 #include "clientmodel.h"
+#include "composite.h"
 #include "desktopmodel.h"
 #include "scripting/scripting.h"
 #include "switcheritem.h"
@@ -77,6 +78,7 @@ public:
     ClientModel *m_clientModel;
     DesktopModel *m_desktopModel;
     QModelIndex index;
+    QRect m_viewRect;
     /**
      * Indicates if the tabbox is shown.
      */
@@ -315,6 +317,11 @@ QObject *TabBoxHandlerPrivate::createSwitcherItem(bool desktopMode)
 void TabBoxHandlerPrivate::show()
 {
 #ifndef KWIN_UNIT_TEST
+    if (Compositor::self() && Compositor::self()->isOpenGLCompositing()) {
+        config.setLayoutName("thumbnail_list");
+    } else {
+        config.setLayoutName("thumbnail_grid");
+    }
     if (!m_qmlContext) {
         qmlRegisterType<SwitcherItem>("org.kde.kwin", 2, 0, "Switcher");
         qmlRegisterType<SwitcherItem>("org.kde.kwin", 3, 0, "TabBoxSwitcher");
@@ -358,6 +365,7 @@ void TabBoxHandlerPrivate::show()
         item->setAllDesktops(config.clientDesktopMode() == TabBoxConfig::AllDesktopsClients);
         item->setCurrentIndex(indexRow);
         item->setNoModifierGrab(q->noModifierGrab());
+        item->setViewRect(m_viewRect);
         // everything is prepared, so let's make the whole thing visible
         item->setVisible(true);
     }
@@ -701,6 +709,13 @@ bool TabBoxHandler::eventFilter(QObject *watched, QEvent *e)
     }
     // pass on
     return QObject::eventFilter(watched, e);
+}
+
+void TabBoxHandler::setViewRect(const QRect &rect)
+{
+    if (SwitcherItem *item = d->switcherItem())
+        item->setViewRect(rect);
+    d->m_viewRect = rect;
 }
 
 TabBoxHandler *tabBox = nullptr;

@@ -35,6 +35,9 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, DockRect &rect)
     return arg;
 }
 
+namespace KWin
+{
+
 DBusDock::DBusDock(QObject *parent)
     : QDBusAbstractInterface("com.deepin.dde.daemon.Dock", "/com/deepin/dde/daemon/Dock", staticInterfaceName(), QDBusConnection::sessionBus(), parent)
 {
@@ -46,4 +49,6 @@ DBusDock::DBusDock(QObject *parent)
 DBusDock::~DBusDock()
 {
     QDBusConnection::sessionBus().disconnect(service(), path(), "org.freedesktop.DBus.Properties",  "PropertiesChanged",  "sa{sv}as", this, SLOT(propertyChanged(QDBusMessage)));
+}
+
 }

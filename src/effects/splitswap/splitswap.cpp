@@ -9,6 +9,8 @@
 #include "splitswap.h"
 #include "workspace.h"
 
+#include <QtDBus>
+
 #define DBUS_IMAGEEFFECT_SERVICE  "com.deepin.daemon.ImageEffect"
 #define DBUS_BLUR_OBJ  "/com/deepin/daemon/ImageBlur"
 #define DBUS_BLUR_INTF "com.deepin.daemon.ImageBlur"

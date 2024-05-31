@@ -33,6 +33,9 @@ private:
 
 Q_DECLARE_METATYPE(DockRect)
 
+namespace KWin
+{
+
 class DBusDock: public QDBusAbstractInterface
 {
     Q_OBJECT
@@ -90,5 +93,7 @@ Q_SIGNALS: // SIGNALS
     void HideStateChanged();
     void PositionChanged();
 };
+
+}
 
 #endif // DOCKRECT_H

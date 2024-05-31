@@ -39,6 +39,7 @@
 #include <QX11Info>
 #include <QGuiApplication>
 #include <QTimer>
+#include <QtDBus>
 
 #include <xcb/xcb.h>
 #include <X11/Xlib.h>

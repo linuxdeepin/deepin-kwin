@@ -267,6 +267,9 @@ public:
 
     void saveAllClientIsMinisize();
     QList<bool> getAllClientIsMinisize();
+
+    void setViewRect(const QRect &rect);
+
 public Q_SLOTS:
     /**
      * Notify effects that the tab box is being shown, and only display the

@@ -332,6 +332,8 @@ public:
      */
     virtual bool noModifierGrab() const = 0;
 
+    void setViewRect(const QRect &rect);
+
 Q_SIGNALS:
     /**
      * This signal is fired when the TabBoxConfig changes

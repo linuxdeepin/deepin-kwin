@@ -905,7 +905,7 @@ bool TabBox::handleWheelEvent(QWheelEvent *event)
     if (event->angleDelta().y() == 0) {
         return false;
     }
-    const QModelIndex index = m_tabBox->nextPrev(event->angleDelta().y() > 0  ? TabBoxConfig::Backward : TabBoxConfig::Forward);
+    const QModelIndex index = m_tabBox->nextPrev(event->angleDelta().y() < 0  ? TabBoxConfig::Backward : TabBoxConfig::Forward);
     if (index.isValid()) {
         setCurrentIndex(index);
     }
@@ -1644,5 +1644,12 @@ QList<bool> TabBox::getAllClientIsMinisize()
 {
     return m_allClientMinisize;
 }
+
+void TabBox::setViewRect(const QRect &rect)
+{
+    if (m_tabBox)
+        m_tabBox->setViewRect(rect);
+}
+
 } // namespace TabBox
 } // namespace

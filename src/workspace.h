@@ -17,7 +17,6 @@
 #include "options.h"
 #include "sm.h"
 #include "utils/common.h"
-#include "dockrect.h"
 // Qt
 #include <QStringList>
 #include <QTimer>
@@ -76,6 +75,7 @@ class Output;
 class ColorMapper;
 class Compositor;
 class Deleted;
+class DBusDock;
 class Group;
 class InternalWindow;
 class KillWindow;
@@ -582,6 +582,7 @@ public:
      */
     bool applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder = {});
 
+    void forceDisableRadius(bool disable);
     float getWindowRadius() const;
     float getOsScreenScale() const;
 
@@ -981,6 +982,8 @@ private:
 
     bool m_printKwinFps = false;
     bool m_isEffectDuring = false;
+
+    bool m_forceDisableRadius = false;
 
     QRectF m_lastDockPos = QRectF();
     DBusDock *m_dockInter = nullptr;

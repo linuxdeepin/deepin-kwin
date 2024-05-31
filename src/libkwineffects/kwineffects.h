@@ -1144,6 +1144,7 @@ public:
 
     virtual void setTabBoxWindow(EffectWindow *) = 0;
     virtual void setTabBoxDesktop(int) = 0;
+    virtual void setTabBoxViewRect(const QRect &rect) = 0;
     virtual EffectWindowList currentTabBoxWindowList() const = 0;
     virtual void refTabBox() = 0;
     virtual void unrefTabBox() = 0;
