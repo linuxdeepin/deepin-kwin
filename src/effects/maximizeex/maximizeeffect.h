@@ -39,7 +39,6 @@ public Q_SLOTS:
 
 private:
     bool                        m_activated = false;
-    bool                        m_hasKeyboardGrab = false;
     EffectWindow                *m_maxiWin = nullptr;
     QRectF                      m_oldGeo, m_newGeo;
     QRectF                      m_nowGeo, m_lastGeo;
