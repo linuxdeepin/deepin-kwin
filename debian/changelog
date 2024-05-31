@@ -1,3 +1,10 @@
+kwin (4:5.27.2.204-deepin204-1) unstable; urgency=medium
+
+  [huangzeming]
+  * feat: present thumbnail in tabbox
+
+ -- huangzeming <huangzeming@uniontech.com>  Fri, 31 May 2024 16:57:21 +0800
+
 kwin (4:5.27.2.203-deepin203-1) unstable; urgency=medium
 
   [dingzhixuan]
