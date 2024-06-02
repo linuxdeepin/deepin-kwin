@@ -45,6 +45,10 @@
 #define DBUS_MANAGER_INTF        "org.freedesktop.login1.Manager"
 #define DBUS_SESSION_INTF        "org.freedesktop.login1.Session"
 
+#define DBUS_PROHIBITSCREENSHOT_SERVICE   "com.deepin.prohibitscreenshot"
+#define DBUS_PROHIBITSCREENSHOT_OBJ       "/com/deepin/prohibitscreenshot"
+#define DBUS_PROHIBITSCREENSHOT_INTF      "deepin.prohibitscreenshot.interface"
+
 class KConfig;
 class KConfigGroup;
 class KStartupInfo;
@@ -713,6 +717,8 @@ public Q_SLOTS:
     Output *getCurrentPaintingScreen() {
         return m_paintingScreen;
     }
+
+    void slotProhibitScreenShot(int pid, bool bProhibited);
 
 
 private Q_SLOTS:
