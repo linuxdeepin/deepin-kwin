@@ -237,6 +237,18 @@ static bool canForceSetBorder(const QObject *window)
     return true;
 }
 
+void ChameleonConfig::onCompositingToggled(bool active)
+{
+    if (!isActivated())
+        return;
+
+    if (active) {
+        connect(KWin::effects, &KWin::EffectsHandler::windowDataChanged, this, &ChameleonConfig::onWindowDataChanged, Qt::UniqueConnection);
+    } else if (KWin::effects) {
+        disconnect(KWin::effects, &KWin::EffectsHandler::windowDataChanged, this, &ChameleonConfig::onWindowDataChanged);
+    }
+}
+
 static QObject *findWindow(xcb_window_t xid)
 {
     // 先从普通窗口中查找
@@ -776,6 +788,7 @@ void ChameleonConfig::init()
     connect(Workspace::self(), SIGNAL(windowAdded(KWin::Window*)), this, SLOT(onClientAdded(KWin::Window*)));
     connect(Workspace::self(), SIGNAL(unmanagedAdded(KWin::Unmanaged*)), this, SLOT(onUnmanagedAdded(KWin::Unmanaged*)));
     connect(Workspace::self(), SIGNAL(internalWindowAdded(KWin::InternalWindow*)), this, SLOT(onInternalWindowAdded(KWin::InternalWindow*)));
+    connect(KWinUtils::compositor(), SIGNAL(compositingToggled(bool)), this, SLOT(onCompositingToggled(bool)));
 
     connect(KWinUtils::instance(), &KWinUtils::windowPropertyChanged, this, &ChameleonConfig::onWindowPropertyChanged);
 

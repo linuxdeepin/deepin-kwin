@@ -106,6 +106,7 @@ private Q_SLOTS:
     // 针对X11BypassWindowManagerHint类型的窗口需要做一些特殊处理
     void onUnmanagedAdded(KWin::Unmanaged *client);
     void onInternalWindowAdded(KWin::InternalWindow *client);
+    void onCompositingToggled(bool active);
     void onWindowPropertyChanged(quint32 windowId, quint32 atom);
     void onWindowDataChanged(KWin::EffectWindow *window, int role);
 
