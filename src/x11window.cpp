@@ -1269,7 +1269,7 @@ void X11Window::detectNoBorder()
     // NET::Override is some strange beast without clear definition, usually
     // just meaning "noborder", so let's treat it only as such flag, and ignore it as
     // a window type otherwise (SUPPORTED_WINDOW_TYPES_MASK doesn't include it)
-    if (info->windowType(NET::OverrideMask) == NET::Override) {
+    if (info->windowType(NET::OverrideMask) == NET::Override && (Compositor::compositing() && Compositor::self()->isOpenGLCompositing())) {
         noborder = true;
         app_noborder = true;
     }
