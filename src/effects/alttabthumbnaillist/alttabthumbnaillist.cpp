@@ -412,7 +412,8 @@ void AltTabThumbnailListEffect::updateSelected()
 
 void AltTabThumbnailListEffect::updateViewRect()
 {
-    const QRect screen_geometry = workspace()->activeOutput()->geometry();
+    const QRect screen_geometry = effects->clientArea(
+            clientAreaOption::PlacementArea, effects->activeScreen(), effects->currentDesktop()).toRect();
 
     // top and bottom of view are fixed
     m_viewRect.setBottom(screen_geometry.bottom() - THUMBNAIL_VIEW_BOTTOM_MARGIN);
