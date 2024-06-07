@@ -8,15 +8,16 @@
 #include "scene/windowitem.h"
 #include "workspace.h"
 
-#define THUMBNAIL_HEIGHT        (160 * effectsEx->getOsScale())
+#define THUMBNAIL_HEIGHT        (118 * effectsEx->getOsScale())
 #define THUMBNAIL_HOVER_MARGIN  (7 * effectsEx->getOsScale())
 #define THUMBNAIL_ICON_SIZE     (24 * effectsEx->getOsScale())
 #define THUMBNAIL_RADIUS        (12 * effectsEx->getOsScale())
-#define THUMBNAIL_SPACING       (20 * effectsEx->getOsScale())
-#define THUMBNAIL_TITLE_HEIGHT  (38 * effectsEx->getOsScale())
+#define THUMBNAIL_SPACING       (14 * effectsEx->getOsScale())
+#define THUMBNAIL_SIDE_MARGIN   (20 * effectsEx->getOsScale())
+#define THUMBNAIL_TITLE_HEIGHT  (40 * effectsEx->getOsScale())
 
 #define THUMBNAIL_VIEW_BOTTOM_MARGIN    (100 * effectsEx->getOsScale())
-#define THUMBNAIL_VIEW_HEIGHT           (284 * effectsEx->getOsScale())
+#define THUMBNAIL_VIEW_HEIGHT           (198 * effectsEx->getOsScale())
 #define THUMBNAIL_VIEW_SIDE_MARGIN      (10 * effectsEx->getOsScale())
 
 Q_LOGGING_CATEGORY(KWIN_ALTTABTHUMBNAILLIST, "kwin_effect_alttabthumbnaillist", QtWarningMsg)
@@ -261,7 +262,7 @@ void AltTabThumbnailListEffect::slotTabboxAdded(int)
     }
 
     // init visible rect
-    const int list_width = m_windowList.back().second.right() + THUMBNAIL_SPACING;
+    const int list_width = m_windowList.back().second.right() + THUMBNAIL_SIDE_MARGIN;
     m_visibleRect = QRect(0, 0, m_viewRect.width(), m_viewRect.height());
     if (m_visibleRect.width() < list_width) {
         for (const auto &w : m_windowList) {
@@ -359,14 +360,13 @@ void AltTabThumbnailListEffect::updateWindowList()
         return;
 
     m_windowList.clear();
-    int x = 0;
+    int x = THUMBNAIL_SIDE_MARGIN;
     for (EffectWindow *w : list) {
         if (Q_UNLIKELY(!w))
             continue;
-        x += THUMBNAIL_SPACING;
         QRect r = scaledRect(w->geometry().toRect(), THUMBNAIL_HEIGHT).translated(x, 0);
         m_windowList << QPair<EffectWindow *, QRect>(w, r);
-        x += r.width();
+        x += r.width() + THUMBNAIL_SPACING;
     }
     if (m_windowList.empty()) {
         qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Empty thumbnail window list";
@@ -390,17 +390,18 @@ void AltTabThumbnailListEffect::updateSelected()
         qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to find selected client in list";
     } else {
         const QRect selected_rect = m_windowList.at(i).second;
+        const int spacing = (i == 0 || i == m_windowList.size() - 1 ? THUMBNAIL_SIDE_MARGIN : THUMBNAIL_SPACING);
         // scroll left
-        if (selected_rect.left() - THUMBNAIL_SPACING < m_visibleRect.left()) {
+        if (selected_rect.left() - spacing < m_visibleRect.left()) {
             if (i == 0) {
                 m_visibleRect.moveTo(0, m_visibleRect.top());
             } else {
                 m_visibleRect.moveTo(m_windowList.at(i - 1).second.center().x(), m_visibleRect.top());
             }
         // scroll right
-        } else if (selected_rect.right() + THUMBNAIL_SPACING > m_visibleRect.right()) {
+        } else if (selected_rect.right() + spacing > m_visibleRect.right()) {
             if (i == m_windowList.size() - 1) {
-                m_visibleRect.moveTo(m_windowList.at(i).second.right() + THUMBNAIL_SPACING - m_visibleRect.width(), m_visibleRect.top());
+                m_visibleRect.moveTo(m_windowList.at(i).second.right() + THUMBNAIL_SIDE_MARGIN - m_visibleRect.width(), m_visibleRect.top());
             } else {
                 m_visibleRect.moveTo(m_windowList.at(i + 1).second.center().x() - m_visibleRect.width(), m_visibleRect.top());
             }
@@ -421,7 +422,7 @@ void AltTabThumbnailListEffect::updateViewRect()
 
     if (m_windowList.empty())
         return;
-    const int list_width = m_windowList.last().second.right() + THUMBNAIL_SPACING;
+    const int list_width = m_windowList.last().second.right() + THUMBNAIL_SIDE_MARGIN;
     if (list_width <= screen_geometry.width() - THUMBNAIL_VIEW_SIDE_MARGIN * 2) {
         const int left = screen_geometry.left() + (screen_geometry.width() - list_width) / 2;
         m_viewRect.setLeft(left);

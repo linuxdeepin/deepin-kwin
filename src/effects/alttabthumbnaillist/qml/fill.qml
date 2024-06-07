@@ -37,7 +37,7 @@ Item {
             anchors.top: frame.top
 
             width: parent.width + 2
-            height: 38 * (effectFrame ? effectFrame.scale : 1)
+            height: 40 * (effectFrame ? effectFrame.scale : 1)
             color: "#CCFFFFFF"
         }
 
