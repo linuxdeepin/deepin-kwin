@@ -2030,6 +2030,9 @@ void GLVertexBuffer::draw(GLenum primitiveMode, int first, int count)
 
 void GLVertexBuffer::draw(const QRegion &region, GLenum primitiveMode, int first, int count, bool hardwareClipping)
 {
+    if (count < 1) {
+        return;
+    }
     if (primitiveMode == GL_QUADS) {
         if (!GLVertexBufferPrivate::s_indexBuffer) {
             GLVertexBufferPrivate::s_indexBuffer = std::make_unique<IndexBuffer>();

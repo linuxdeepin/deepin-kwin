@@ -267,7 +267,7 @@ bool AbstractEglBackend::makeCurrent()
 
 void AbstractEglBackend::doneCurrent()
 {
-    eglMakeCurrent(m_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+    eglMakeCurrent(m_display, EGL_NO_SURFACE, EGL_NO_SURFACE, m_context);
 }
 
 bool AbstractEglBackend::isOpenGLES() const
@@ -488,7 +488,10 @@ EGLImageKHR AbstractEglBackend::importDmaBufAsImage(const DmaBufAttributes &dmab
 
     attribs << EGL_NONE;
 
-    return eglCreateImageKHR(m_display, EGL_NO_CONTEXT, EGL_LINUX_DMA_BUF_EXT, nullptr, attribs.data());
+    if (!eglGetCurrentContext()) {
+        eglMakeCurrent(m_display, m_surface, m_surface, m_context);
+    }
+    return eglCreateImageKHR(m_display, s_globalShareContext, EGL_LINUX_DMA_BUF_EXT, nullptr, attribs.data());
 }
 
 std::shared_ptr<GLTexture> AbstractEglBackend::importDmaBufAsTexture(const DmaBufAttributes &attributes) const
