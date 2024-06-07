@@ -532,7 +532,10 @@ void Chameleon::updateConfig()
     m_config = active ? m_baseConfigGroup->normal : m_baseConfigGroup->inactive;
 
     updateMouseInputAreaMargins();
+    QPointer<Chameleon> thisPtr(this);
     updateTitleBarArea();
+    if(thisPtr.isNull())
+        return;
     // 解决关闭应用更新shadow闪屏的问题(bug87758)
     // if ((c == sender()) && !active) {
     //     return;
@@ -562,6 +565,7 @@ void Chameleon::updateTitleBarArea()
     qreal border_width = windowNeedBorder() ? borderWidth() : 0;
     qreal titlebar_height = noTitleBar() ? 0 : titleBarHeight();
 
+    QPointer<Chameleon> thisPtr(this);
     switch (m_config.titlebarConfig.area) {
     case Qt::LeftEdge:
         m_titleBarAreaMargins.setLeft(titlebar_height);
@@ -593,6 +597,8 @@ void Chameleon::updateTitleBarArea()
     default:
         return;
     }
+    if (thisPtr.isNull())
+        return;
 
     updateBorderPath();
     updateButtonsGeometry();
