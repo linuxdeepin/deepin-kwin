@@ -115,7 +115,7 @@ KWin.Switcher {
             function calculateColumnCount() {
                 var count = itemsView.count
                 var item_need_scale = false
-                var spacing = constants.defaultBoxMargin * 2 + 4
+                var spacing = constants.defaultBoxMargin * 2
                 var item_width = constants.minItemBox + constants.columnSpacing
                 var maxWidth = tabBox.screenGeometry.width - constants.popupPadding * 2
 
