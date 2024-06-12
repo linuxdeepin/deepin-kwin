@@ -32,6 +32,7 @@ ChameleonButton::ChameleonButton(KDecoration2::DecorationButtonType type, const 
 
     switch (type) {
     case KDecoration2::DecorationButtonType::Menu:
+        setVisible(false);
         break;
     case KDecoration2::DecorationButtonType::Minimize:
         setVisible(c->isMinimizeable());
