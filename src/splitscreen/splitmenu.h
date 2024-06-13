@@ -52,6 +52,7 @@ private:
     Window *m_client = nullptr;
 
     QColor m_color;
+    QColor m_borderColor;
     QHBoxLayout *layout;
     QLabel *llabel;
     QLabel *clabel;

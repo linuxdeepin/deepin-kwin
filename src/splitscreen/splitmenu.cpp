@@ -210,8 +210,10 @@ void SplitMenu::paintEvent(QPaintEvent *event)
 
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing, true);
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QBrush(m_color));
+    painter.setBrush(Qt::NoBrush); // 关闭填充
+    QPen pen = QPen(m_borderColor);
+    pen.setWidth(1);
+    painter.setPen(pen);
 
     // direction of hump depends on m_upside
     double base, sign;
@@ -219,7 +221,7 @@ void SplitMenu::paintEvent(QPaintEvent *event)
         base = m_hump.top();
         sign = -1;
     } else {
-        base = m_hump.bottom();
+        base = m_hump.y() + m_hump.height();
         sign = 1;
     }
 
@@ -237,6 +239,11 @@ void SplitMenu::paintEvent(QPaintEvent *event)
     // draw rectangle
     QPainterPath rect_path;
     rect_path.addRoundedRect(m_rect, 14 * m_scale, 14 * m_scale);
+    painter.drawPath(rect_path);
+
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QBrush(m_color));
+    painter.drawPath(hump_path);
     painter.drawPath(rect_path);
 }
 
@@ -276,8 +283,10 @@ void SplitMenu::checkTheme()
     m_isDark = workspace()->isDarkTheme();
     if (m_isDark) {
         m_color = QColor(0, 0, 0);
+        m_borderColor = QColor(55, 55, 55, 0.7 * 255);
     } else {
         m_color = QColor(255, 255, 255);
+        m_borderColor = QColor(185, 185, 185, 0.7 * 255);
     }
 
     llabel->setPixmap(getLabelPixmap(LEFT_NORMAL, llabel->size()));
@@ -294,12 +303,12 @@ void SplitMenu::checkArea(const QRect &button_rect)
     QRect area = workspace()->clientArea(MaximizeArea, m_client, button_rect.center()).toRect();
 
     // align hump with button
-    QPoint pos(button_rect.center().x() - m_hump.center().x(), button_rect.bottom() + 1);
+    QPoint pos(button_rect.center().x() - m_hump.center().x(), button_rect.bottom() + 5);
 
     m_upside = false;
     QMargins margins(shadow->blurRadius(), m_hump.height(), shadow->blurRadius(), shadow->blurRadius());
-    m_hump.moveTop(0);
-    m_rect.moveTop(m_hump.bottom());
+    m_hump.moveTop(1);
+    m_rect.moveTop(m_hump.y() + m_hump.height());
     if (pos.x() < area.left()) {
         pos.setX(area.left());
     } else if (pos.x() + width() > area.right()) {
@@ -312,7 +321,7 @@ void SplitMenu::checkArea(const QRect &button_rect)
         m_upside = true;
         margins = QMargins(shadow->blurRadius(), shadow->blurRadius(), shadow->blurRadius(), m_hump.height());
         m_rect.moveTop(shadow->blurRadius());
-        m_hump.moveTop(m_rect.bottom());
+        m_hump.moveTop(m_rect.y() + m_rect.height());
         pos.setY(button_rect.top() - height() + 1);
     }
 
