@@ -110,7 +110,6 @@ void SplitSwapEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Win
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         QString screenName = w->screen()->name();
         if (!m_bgTextures[screenName]) {
-            data.setBrightness(0.8);
             effects->paintWindow(w, mask, region, data);
             return ;
         }
