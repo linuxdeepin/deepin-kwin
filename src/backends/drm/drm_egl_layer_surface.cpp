@@ -99,9 +99,13 @@ std::optional<OutputLayerBeginFrameInfo> EglGbmLayerSurface::startRendering(cons
 
     if (m_shadowBuffer) {
         // the blit after rendering will completely overwrite the back buffer anyways
+        QRegion region{};
+        if (renderOrientation & (DrmPlane::Transformation::Rotate90 | DrmPlane::Transformation::Rotate180 | DrmPlane::Transformation::Rotate270)) {
+            region = infiniteRegion(); // in rotate condition, repaint whole region is necessary.
+        }
         return OutputLayerBeginFrameInfo{
             .renderTarget = RenderTarget(m_shadowBuffer->fbo()),
-            .repaint = {},
+            .repaint = region,
         };
     } else {
         return OutputLayerBeginFrameInfo{
