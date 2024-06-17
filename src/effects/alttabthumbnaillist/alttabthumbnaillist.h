@@ -22,17 +22,18 @@ public:
 
     EffectWindow *window() const { return m_window; }
     QRect frameRect() const { return m_frameRect; }
-    EffectFrameEx *frame() const { return m_frame.get(); }
+    QRect filledRect() const { return m_frameRect.adjusted(-1, -1, 1, 1); }  // considered border
     QRect thumbnailRect() const { return m_thumbnailRect; }
-    GLTexture *texture() const { return m_texture.get(); }
+    GLTexture *windowTexture() const { return m_windowTexture.get(); }
+    GLTexture *filledTexture() const { return m_filledTexture.get(); }
 
 private:
     EffectWindow *m_window = nullptr;
     QRect m_frameRect;
-    std::unique_ptr<EffectFrameEx> m_frame = nullptr;
     QRect m_thumbnailRect;
     std::unique_ptr<GLFramebuffer> m_fbo = nullptr;
-    std::unique_ptr<GLTexture> m_texture = nullptr;
+    std::unique_ptr<GLTexture> m_windowTexture = nullptr;
+    std::unique_ptr<GLTexture> m_filledTexture = nullptr;
 };
 
 class AltTabThumbnailListEffect : public Effect
@@ -64,6 +65,9 @@ private:
     void updateViewRect();
     void updateVisible();
 
+    void renderSelectedFrame(const QRect &rect, ScreenPaintData &data);
+    void renderItemView(ItemView &view, ScreenPaintData &data);
+
     bool windowListInvalid();
 
 private:
@@ -74,9 +78,13 @@ private:
     QVector<QPair<EffectWindow *, QRect>> m_windowList;
 
     EffectWindow *m_selectedWindow = nullptr;
+
+    std::unique_ptr<GLShader> m_clipShader = nullptr;
     std::unique_ptr<GLShader> m_scissorShader = nullptr;
+
     std::unique_ptr<GLTexture> m_scissorMask = nullptr;
-    std::unique_ptr<EffectFrameEx> m_hoverFrame = nullptr;
+    std::unique_ptr<GLTexture> m_selectedFrame = nullptr;
+
     std::unordered_map<EffectWindow *, ItemView> m_itemList;
 };
 

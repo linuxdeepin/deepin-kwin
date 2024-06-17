@@ -12,5 +12,3 @@ target_link_libraries(kwin4_effect_alttabthumbnaillist PRIVATE
     kwineffects
     kwinglutils
 )
-
-install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/alttabthumbnaillist)

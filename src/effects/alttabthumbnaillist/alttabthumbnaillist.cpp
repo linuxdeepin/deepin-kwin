@@ -9,12 +9,15 @@
 #include "workspace.h"
 
 #define THUMBNAIL_HEIGHT        (118 * effectsEx->getOsScale())
+#define THUMBNAIL_HOVER_WIDTH   (4 * effectsEx->getOsScale())
 #define THUMBNAIL_HOVER_MARGIN  (7 * effectsEx->getOsScale())
 #define THUMBNAIL_ICON_SIZE     (24 * effectsEx->getOsScale())
 #define THUMBNAIL_RADIUS        (12 * effectsEx->getOsScale())
 #define THUMBNAIL_SPACING       (14 * effectsEx->getOsScale())
 #define THUMBNAIL_SIDE_MARGIN   (20 * effectsEx->getOsScale())
 #define THUMBNAIL_TITLE_HEIGHT  (40 * effectsEx->getOsScale())
+#define THUMBNAIL_TITLE_MARGIN  (8 * effectsEx->getOsScale())
+#define THUMBNAIL_TEXT_SIZE     (14 * effectsEx->getOsScale())
 
 #define THUMBNAIL_VIEW_BOTTOM_MARGIN    (100 * effectsEx->getOsScale())
 #define THUMBNAIL_VIEW_HEIGHT           (198 * effectsEx->getOsScale())
@@ -27,7 +30,7 @@ static void ensureResources()
     Q_INIT_RESOURCE(alttabthumbnaillist);
 }
 
-static QRect scaledRect(const QRect &r, const int height)
+static QRect heightScaledRect(const QRect &r, const int height)
 {
     if (r.height() < height || r.height() <= 0)
         return QRect(0, 0, r.width(), r.height());
@@ -43,15 +46,6 @@ ItemView::ItemView(EffectWindow *w, const QRect &r)
     : m_window(w)
 {
     setFrameRect(r);
-
-    m_frame = effectsEx->effectFrameEx("kwin/effects/alttabthumbnaillist/qml/fill.qml", false);
-    if (w && m_frame) {
-        m_frame->setIconSize(QSize(THUMBNAIL_ICON_SIZE, THUMBNAIL_ICON_SIZE));
-        m_frame->setImage(w->icon().pixmap(m_frame->iconSize()));
-        m_frame->setText(w->caption());
-    } else {
-        qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to load thumbnail fill frame";
-    }
 }
 
 ItemView::ItemView(ItemView &&info)
@@ -64,10 +58,10 @@ ItemView &ItemView::operator=(ItemView &&info)
     if (this != &info) {
         m_window = info.m_window;
         m_frameRect = info.m_frameRect;
-        m_frame = std::move(info.m_frame);
         m_thumbnailRect = info.m_thumbnailRect;
         m_fbo = std::move(info.m_fbo);
-        m_texture = std::move(info.m_texture);
+        m_windowTexture = std::move(info.m_windowTexture);
+        m_filledTexture = std::move(info.m_filledTexture);
     }
     return *this;
 }
@@ -75,49 +69,101 @@ ItemView &ItemView::operator=(ItemView &&info)
 ItemView::~ItemView()
 {
     effects->makeOpenGLContextCurrent();
-    m_frame.reset();
     m_fbo.reset();
-    m_texture.reset();
+    m_windowTexture.reset();
+    m_filledTexture.reset();
 }
 
 void ItemView::setFrameRect(const QRect &r)
 {
     m_frameRect = r;
-    m_thumbnailRect = scaledRect(m_window->geometry().toRect(), THUMBNAIL_HEIGHT);
+    m_thumbnailRect = heightScaledRect(m_window->geometry().toRect(), THUMBNAIL_HEIGHT);
     m_thumbnailRect.translate(m_frameRect.x(),
                               m_frameRect.y() + THUMBNAIL_TITLE_HEIGHT + (THUMBNAIL_HEIGHT - m_thumbnailRect.height()) / 2);
 }
 
 void ItemView::updateTexture()
 {
-    if (!m_window || m_thumbnailRect.isEmpty())
+    if (!window() || thumbnailRect().isEmpty())
         return;
 
-    if (!m_texture || m_texture->size() != m_thumbnailRect.size()) {
-        m_texture = std::make_unique<GLTexture>(GL_RGBA8, m_thumbnailRect.size());
-        m_texture->setFilter(GL_LINEAR);
-        m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
-        m_texture->setYInverted(true);
-        m_fbo = std::make_unique<GLFramebuffer>(m_texture.get());
+    if (!m_windowTexture || m_windowTexture->size() != thumbnailRect().size()) {
+        m_windowTexture = std::make_unique<GLTexture>(GL_RGBA8, thumbnailRect().size());
+        m_windowTexture->setFilter(GL_LINEAR);
+        m_windowTexture->setWrapMode(GL_CLAMP_TO_EDGE);
+        m_windowTexture->setYInverted(true);
+        m_fbo = std::make_unique<GLFramebuffer>(m_windowTexture.get());
     }
 
-    GLFramebuffer::pushFramebuffer(m_fbo.get());
+    // update window thumbnail
+    if (m_fbo) {
+        GLFramebuffer::pushFramebuffer(m_fbo.get());
 
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.0, 0.0, 0.0, 0.0);
+        glClear(GL_COLOR_BUFFER_BIT);
 
-    ItemRenderer *renderer = static_cast<EffectsHandlerImpl *>(effects)->scene()->renderer();
-    const qreal scale = renderer->renderTargetScale();
-    QMatrix4x4 projectionMatrix;
-    const QRectF geometry = m_window->frameGeometry();
-    projectionMatrix.ortho(geometry.x() * scale, (geometry.x() + geometry.width()) * scale,
-                           geometry.y() * scale, (geometry.y() + geometry.height()) * scale, -1, 1);
-    WindowPaintData data;
-    data.setProjectionMatrix(projectionMatrix);
-    const int mask = Scene::PAINT_WINDOW_TRANSFORMED;
-    renderer->renderItem(static_cast<EffectWindowImpl *>(m_window)->windowItem(), mask, infiniteRegion(), data);
+        ItemRenderer *renderer = static_cast<EffectsHandlerImpl *>(effects)->scene()->renderer();
+        const qreal scale = renderer->renderTargetScale();
+        QMatrix4x4 projectionMatrix;
+        const QRectF geometry = window()->frameGeometry();
+        projectionMatrix.ortho(geometry.x() * scale, (geometry.x() + geometry.width()) * scale,
+                               geometry.y() * scale, (geometry.y() + geometry.height()) * scale, -1, 1);
+        WindowPaintData data;
+        data.setProjectionMatrix(projectionMatrix);
+        const int mask = Scene::PAINT_WINDOW_TRANSFORMED;
+        renderer->renderItem(static_cast<EffectWindowImpl *>(window())->windowItem(), mask, infiniteRegion(), data);
 
-    GLFramebuffer::popFramebuffer();
+        GLFramebuffer::popFramebuffer();
+    }
+
+    // update filled
+    if (!m_filledTexture || m_filledTexture->size() != filledRect().size()) {
+        const QRect filled_rect(QPoint(0, 0), filledRect().size());
+        QPixmap pixmap(filled_rect.size());
+        pixmap.fill(Qt::transparent);
+        QPainter painter(&pixmap);
+        painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+
+        const float radius = THUMBNAIL_RADIUS;
+        // inner rect
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QColor("#CCFFFFFF"));
+        painter.drawRoundedRect(filled_rect.adjusted(1, 1, -1, -1), radius, radius);
+        if (window()->height() >= THUMBNAIL_HEIGHT) {
+            QPainter::CompositionMode mode = painter.compositionMode();
+            painter.setCompositionMode(QPainter::CompositionMode_Source);
+            painter.setBrush(Qt::transparent);
+            painter.drawRect(0, filled_rect.bottom() - radius, filled_rect.width(), radius);
+            painter.setCompositionMode(mode);
+        }
+        // border
+        painter.setPen(QPen(QColor("#19000000"), 1));
+        painter.setBrush(Qt::NoBrush);
+        painter.drawRoundedRect(filled_rect, radius + 1, radius + 1);
+        // split line
+        painter.setPen(QPen(QColor("#0D000000"), 1));
+        painter.drawLine(QPointF(0, THUMBNAIL_TITLE_HEIGHT),
+                         QPointF(filled_rect.width(), THUMBNAIL_TITLE_HEIGHT));
+        // icon
+        const qreal verical_margin = (THUMBNAIL_TITLE_HEIGHT - THUMBNAIL_ICON_SIZE) / 2;
+        const QRectF icon_rect(QPointF(THUMBNAIL_TITLE_MARGIN, verical_margin),
+                               QSizeF(THUMBNAIL_ICON_SIZE, THUMBNAIL_ICON_SIZE));
+        painter.drawPixmap(icon_rect.topLeft(),
+                           window()->icon().pixmap(THUMBNAIL_ICON_SIZE, THUMBNAIL_ICON_SIZE));
+        // title
+        QFont font;
+        font.setPixelSize(THUMBNAIL_TEXT_SIZE);
+        const QFontMetricsF metrics(font);
+        const QRectF text_rect(icon_rect.x() + icon_rect.width() + THUMBNAIL_TITLE_MARGIN, 0,
+                               filled_rect.width() - icon_rect.width() - 3 * THUMBNAIL_TITLE_MARGIN,
+                               THUMBNAIL_TITLE_HEIGHT);
+        const QString elided = metrics.elidedText(window()->caption(), Qt::ElideRight, text_rect.width());
+        painter.setPen(Qt::black);
+        painter.setFont(font);
+        painter.drawText(text_rect, Qt::AlignVCenter | Qt::AlignLeft, elided);
+
+        m_filledTexture = std::make_unique<GLTexture>(pixmap);
+    }
 }
 
 //----------------------------thumbnail list effect-----------------------------
@@ -125,6 +171,12 @@ void ItemView::updateTexture()
 AltTabThumbnailListEffect::AltTabThumbnailListEffect()
 {
     ensureResources();
+
+    m_clipShader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture,
+                                                                     QByteArray(),
+                                                                     ":/effects/alttabthumbnaillist/shaders/clip.frag");
+    if (!m_clipShader)
+        qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to load filled clip shader";
 
     m_scissorShader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture,
                                                                         QByteArray(),
@@ -144,7 +196,9 @@ AltTabThumbnailListEffect::~AltTabThumbnailListEffect()
     setActive(false);
 
     m_scissorShader.reset();
+    m_clipShader.reset();
     m_scissorMask.reset();
+    m_selectedFrame.reset();
 }
 
 bool AltTabThumbnailListEffect::isActive() const
@@ -161,93 +215,14 @@ void AltTabThumbnailListEffect::paintScreen(int mask, const QRegion &region, Scr
     for (auto &item : m_itemList) {
         EffectWindow *w = item.first;
         ItemView &view = item.second;
-        const QRect thumbnail_rect = view.thumbnailRect();
-        const QRect frame_rect = view.frameRect();
-        const QRect trans_visible = m_visibleRect.translated(m_viewRect.left() - m_visibleRect.left(),
-                                                             m_viewRect.top());
 
-        int clip = 0;
-        if (thumbnail_rect.left() < trans_visible.left()) {
-            clip = thumbnail_rect.left() - trans_visible.left();
-        } else if (thumbnail_rect.right() > trans_visible.right()) {
-            clip = thumbnail_rect.right() - trans_visible.right();
-        }
-
-        // render hover frame
-        if (w == m_selectedWindow && m_hoverFrame) {
+        if (w == m_selectedWindow) {
+            const QRect frame_rect = view.frameRect();
             const int margin = THUMBNAIL_HOVER_MARGIN;
-            m_hoverFrame->setGeometry(frame_rect.adjusted(-margin, -margin, margin, margin));
-            m_hoverFrame->render(infiniteRegion(), 1, 0);
+            renderSelectedFrame(frame_rect.adjusted(-margin, -margin, margin, margin), data);
         }
 
-        // render fill frame
-        EffectFrameEx *frame = view.frame();
-        if (frame) {
-            frame->setClipOffset(QPoint(clip, 0));
-            frame->setGeometry(frame_rect.translated(-clip, 0)
-                                         .adjusted(-1, -1, 1, 1)  // adjust border
-                                         .intersected(trans_visible));
-            frame->render(infiniteRegion(), 1, thumbnail_rect.height() < THUMBNAIL_HEIGHT);
-        }
-
-        // build scissor mask
-        if (!m_scissorMask) {
-            QImage img(QSize(THUMBNAIL_RADIUS * 2, THUMBNAIL_RADIUS * 2), QImage::Format_RGBA8888);
-            img.fill(Qt::transparent);
-            QPainter painter(&img);
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QColor(255, 255, 255, 255));
-            painter.setRenderHint(QPainter::Antialiasing);
-            painter.drawEllipse(0, 0, THUMBNAIL_RADIUS * 2, THUMBNAIL_RADIUS * 2);
-            painter.end();
-
-            m_scissorMask = std::make_unique<GLTexture>(img.copy(0, 0, THUMBNAIL_RADIUS, THUMBNAIL_RADIUS));
-            m_scissorMask->setFilter(GL_LINEAR);
-            m_scissorMask->setWrapMode(GL_CLAMP_TO_EDGE);
-        }
-
-        // update texture and render
-        view.updateTexture();
-        GLTexture *texture = view.texture();
-        if (!texture) {
-            qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to load thumbnail texture of " << w->caption();
-        } else {
-            ShaderManager::instance()->pushShader(m_scissorShader.get());
-
-            const float width_factor = float(thumbnail_rect.width()) / w->width();
-            const float height_factor = float(thumbnail_rect.height()) / w->height();
-            const float clip_factor = float(clip) / w->width() / width_factor;
-            const qreal scale = effects->renderTargetScale();
-
-            QMatrix4x4 mvp(data.projectionMatrix());
-            mvp.translate(thumbnail_rect.x() * scale, thumbnail_rect.y() * scale);
-
-            m_scissorShader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
-            m_scissorShader->setUniform("sampler", 0);
-            m_scissorShader->setUniform("msk1", 1);
-            m_scissorShader->setUniform("k",
-                                        QVector2D(w->width() * width_factor / THUMBNAIL_RADIUS,
-                                                  w->height() * height_factor / THUMBNAIL_RADIUS));
-            m_scissorShader->setUniform("clip_left", clip_factor < 0 ? -clip_factor : 0);
-            m_scissorShader->setUniform("clip_right", clip_factor > 0 ? 1 - clip_factor : 1);
-
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
-            glActiveTexture(GL_TEXTURE1);
-            m_scissorMask->bind();
-            glActiveTexture(GL_TEXTURE0);
-            texture->bind();
-            texture->render(thumbnail_rect, scale);
-            glActiveTexture(GL_TEXTURE1);
-            m_scissorMask->unbind();
-            glActiveTexture(GL_TEXTURE0);
-            texture->unbind();
-
-            glDisable(GL_BLEND);
-
-            ShaderManager::instance()->popShader();
-        }
+        renderItemView(view, data);
     }
 
     workspace()->forceDisableRadius(false);
@@ -324,21 +299,9 @@ void AltTabThumbnailListEffect::setActive(bool active)
     // inactive
     if (!active) {
         m_selectedWindow = nullptr;
-        m_hoverFrame.reset();
         m_itemList.clear();
         m_windowList.clear();
         return;
-    }
-
-    // active
-    if (!m_hoverFrame) {
-        m_hoverFrame = effectsEx->effectFrameEx("kwin/effects/alttabthumbnaillist/qml/hover.qml", false);
-        if (m_hoverFrame) {
-            m_hoverFrame->setColor(effectsEx->getActiveColor());
-            m_hoverFrame->setRadius((THUMBNAIL_RADIUS + THUMBNAIL_HOVER_MARGIN));
-        } else {
-            qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to load thumbnail hover frame";
-        }
     }
 }
 
@@ -364,7 +327,7 @@ void AltTabThumbnailListEffect::updateWindowList()
     for (EffectWindow *w : list) {
         if (Q_UNLIKELY(!w))
             continue;
-        QRect r = scaledRect(w->geometry().toRect(), THUMBNAIL_HEIGHT).translated(x, 0);
+        QRect r = heightScaledRect(w->geometry().toRect(), THUMBNAIL_HEIGHT).translated(x, 0);
         m_windowList << QPair<EffectWindow *, QRect>(w, r);
         x += r.width() + THUMBNAIL_SPACING;
     }
@@ -469,6 +432,159 @@ void AltTabThumbnailListEffect::updateVisible()
         } else {
             item->second.setFrameRect(frame_rect);
         }
+    }
+}
+
+void AltTabThumbnailListEffect::renderSelectedFrame(const QRect &rect, ScreenPaintData &data)
+{
+    // update texture
+    if (!m_selectedFrame || m_selectedFrame->size() != rect.size()) {
+        const QRect r(QPoint(0, 0), rect.size());
+        QPixmap pixmap(r.size());
+        pixmap.fill(Qt::transparent);
+        QPainter painter(&pixmap);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setPen(Qt::NoPen);
+
+        const float radius = THUMBNAIL_RADIUS + THUMBNAIL_HOVER_MARGIN;
+        painter.setBrush(QColor(workspace()->ActiveColor()));
+        painter.drawRoundedRect(r, radius, radius);
+
+        painter.setCompositionMode(QPainter::CompositionMode_Source);
+        painter.setBrush(Qt::transparent);
+        const float width = THUMBNAIL_HOVER_WIDTH;
+        painter.drawRoundedRect(r.adjusted(width, width, -width, -width), radius - width, radius - width);
+
+        m_selectedFrame = std::make_unique<GLTexture>(pixmap);
+    }
+
+    const QRectF scaled = scaledRect(rect, effects->renderTargetScale());
+
+    GLShader *shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
+
+    QMatrix4x4 mvp(data.projectionMatrix());
+    mvp.translate(scaled.x(), scaled.y());
+    shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+    m_selectedFrame->bind();
+    m_selectedFrame->render(scaled.toRect(), effects->renderTargetScale());
+    m_selectedFrame->unbind();
+
+    glDisable(GL_BLEND);
+
+    ShaderManager::instance()->popShader();
+}
+
+void AltTabThumbnailListEffect::renderItemView(ItemView &view, ScreenPaintData &data)
+{
+    const QRect trans_visible = m_visibleRect.translated(m_viewRect.left() - m_visibleRect.left(),
+                                                         m_viewRect.top());
+
+    EffectWindow *w = view.window();
+    view.updateTexture();
+
+    // render filled
+    GLTexture *texture = view.filledTexture();
+    if (!texture) {
+        qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to render filled texture of " << w->caption();
+    } else {
+        ShaderManager::instance()->pushShader(m_clipShader.get());
+
+        const QRect filled_rect = view.filledRect();
+        int clip = 0;
+        if (filled_rect.left() < trans_visible.left()) {
+            clip = filled_rect.left() - trans_visible.left();
+        } else if (filled_rect.right() > trans_visible.right()) {
+            clip = filled_rect.right() - trans_visible.right();
+        }
+        const float clip_factor = float(clip) / filled_rect.width();
+
+        QMatrix4x4 mvp(data.projectionMatrix());
+        mvp.translate(filled_rect.x() * effects->renderTargetScale(),
+                      filled_rect.y() * effects->renderTargetScale());
+
+        m_clipShader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+        m_clipShader->setUniform("clip_left", clip_factor < 0 ? -clip_factor : 0);
+        m_clipShader->setUniform("clip_right", clip_factor > 0 ? 1 - clip_factor : 1);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+        texture->bind();
+        texture->render(filled_rect, effects->renderTargetScale());
+        texture->unbind();
+
+        glDisable(GL_BLEND);
+
+        ShaderManager::instance()->popShader();
+    }
+
+    // build scissor mask
+    if (!m_scissorMask) {
+        QImage img(QSize(THUMBNAIL_RADIUS * 2, THUMBNAIL_RADIUS * 2), QImage::Format_RGBA8888);
+        img.fill(Qt::transparent);
+        QPainter painter(&img);
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QColor(255, 255, 255, 255));
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.drawEllipse(0, 0, THUMBNAIL_RADIUS * 2, THUMBNAIL_RADIUS * 2);
+        painter.end();
+
+        m_scissorMask = std::make_unique<GLTexture>(img.copy(0, 0, THUMBNAIL_RADIUS, THUMBNAIL_RADIUS));
+        m_scissorMask->setFilter(GL_LINEAR);
+        m_scissorMask->setWrapMode(GL_CLAMP_TO_EDGE);
+    }
+
+    // render thumbnail
+    texture = view.windowTexture();
+    if (!texture) {
+        qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to load thumbnail texture of " << w->caption();
+    } else {
+        ShaderManager::instance()->pushShader(m_scissorShader.get());
+
+        const QRect thumbnail_rect = view.thumbnailRect();
+        const float width_factor = float(thumbnail_rect.width()) / w->width();
+        const float height_factor = float(thumbnail_rect.height()) / w->height();
+        int clip = 0;
+        if (thumbnail_rect.left() < trans_visible.left()) {
+            clip = thumbnail_rect.left() - trans_visible.left();
+        } else if (thumbnail_rect.right() > trans_visible.right()) {
+            clip = thumbnail_rect.right() - trans_visible.right();
+        }
+        const float clip_factor = float(clip) / thumbnail_rect.width();
+
+        QMatrix4x4 mvp(data.projectionMatrix());
+        mvp.translate(thumbnail_rect.x() * effects->renderTargetScale(),
+                      thumbnail_rect.y() * effects->renderTargetScale());
+
+        m_scissorShader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+        m_scissorShader->setUniform("sampler", 0);
+        m_scissorShader->setUniform("msk1", 1);
+        m_scissorShader->setUniform("k",
+                                    QVector2D(w->width() * width_factor / THUMBNAIL_RADIUS,
+                                              w->height() * height_factor / THUMBNAIL_RADIUS));
+        m_scissorShader->setUniform("clip_left", clip_factor < 0 ? -clip_factor : 0);
+        m_scissorShader->setUniform("clip_right", clip_factor > 0 ? 1 - clip_factor : 1);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+        glActiveTexture(GL_TEXTURE1);
+        m_scissorMask->bind();
+        glActiveTexture(GL_TEXTURE0);
+        texture->bind();
+        texture->render(thumbnail_rect, effects->renderTargetScale());
+        glActiveTexture(GL_TEXTURE1);
+        m_scissorMask->unbind();
+        glActiveTexture(GL_TEXTURE0);
+        texture->unbind();
+
+        glDisable(GL_BLEND);
+
+        ShaderManager::instance()->popShader();
     }
 }
 
