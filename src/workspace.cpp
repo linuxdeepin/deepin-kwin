@@ -3861,6 +3861,18 @@ bool Workspace::getDraggingWithContentStatus()
             status = false;
         }
     }
+    QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
+    interfaceRequire.setTimeout(100);
+    QDBusPendingReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.drag", "");
+    reply.waitForFinished();
+    if (!reply.isError()) {
+        QDBusInterface interfaceValue("org.desktopspec.ConfigManager", reply.value().path(), "org.desktopspec.ConfigManager.Manager", QDBusConnection::systemBus());
+        interfaceValue.setTimeout(100);
+        QDBusReply<QVariant> replyValue = interfaceValue.call("value", "DraggingWithContent");
+        status &= replyValue.value().toBool();
+    } else {
+        qCDebug(KWIN_CORE) << "dconfig reply.error: " << reply.error();
+    }
     return status;
 }
 

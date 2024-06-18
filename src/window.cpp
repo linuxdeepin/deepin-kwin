@@ -12,6 +12,7 @@
 #include "core/output.h"
 #include "tiles/tilemanager.h"
 #include "utils/common.h"
+#include <qlist.h>
 
 #if KWIN_BUILD_ACTIVITIES
 #include "activities.h"
@@ -65,6 +66,7 @@
 #include <QDBusPendingReply>
 #include <QDBusVariant>
 #include <QDBusInterface>
+#include <QFile>
 
 #include <sys/time.h>
 #include <unistd.h>
@@ -5041,11 +5043,17 @@ QVariant Window::createTimespanDBusMessage(struct timeval createTimeval, int tid
     } else {
         timespan = compositeTimeval.tv_usec - createTimeval.tv_usec;
     }
-    sprintf(processRunningPath, "/proc/%d/exe", pid());
-    if (readlink(processRunningPath, cProcessFullPath, 4096) == -1) {
+    QFile file(QString("/proc/%1/cmdline").arg(pid()));
+    if (file.open(QFile::ReadOnly)) {
+        qtProcessFullPath = file.readLine();
+        file.close();
+    } else {
         return QVariant();
     }
-    qtProcessFullPath = QString(cProcessFullPath);
+
+    QStringList processPathList = qtProcessFullPath.split('/');
+    if (!processPathList.isEmpty())
+        qtProcessFullPath = processPathList.last();
 
     if (!initialized) {
         QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());

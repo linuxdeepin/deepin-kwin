@@ -86,6 +86,11 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
 #define SCISSOR_HOFFU 200
 #define SCISSOR_HOFFD 400
 
+// DCONFIG
+#define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
+
 #define GsettingsBackgroundUri "backgroundUris"
 #define DeepinWMConfigName "deepinwmrc"
 #define DeepinWMGeneralGroupName "General"
@@ -678,6 +683,10 @@ MultitaskViewEffect::MultitaskViewEffect()
     connect(m_timer, &QTimer::timeout, this, &MultitaskViewEffect::motionRepeat);
 
     cacheWorkspaceBackground();
+
+    QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, DConfigDecorationReplyPath(), CONFIGMANAGER_MANAGER_INTERFACE,
+                                         "valueChanged", this, SLOT(updateShowWholeStatus(QString)));
+    updateShowWholeStatusPrivate();
 
     QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
                                         "ShowWorkspaceChanged", this, SLOT(toggle()));
@@ -1372,6 +1381,46 @@ void MultitaskViewEffect::renderSlidingWorkspace(MultiViewWorkspace *wkobj, Effe
                 effects->drawWindow(w, PAINT_WINDOW_TRANSFORMED, rect, d);
             }
         }
+    }
+}
+
+QString MultitaskViewEffect::DConfigDecorationReplyPath()
+{
+    QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
+    interfaceRequire.setTimeout(100);
+    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.multitaskview.display", "");
+    if (!reply.isValid()) {
+        qDebug() << "Error in DConfig reply:" << reply.error();
+        return "";
+    }
+    return reply.value().path();
+}
+
+void MultitaskViewEffect::updateShowWholeStatusPrivate()
+{
+    QDBusInterface interfaceRequire("org.desktopspec.ConfigManager", "/", "org.desktopspec.ConfigManager", QDBusConnection::systemBus());
+    interfaceRequire.setTimeout(100);
+    QDBusPendingReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.multitaskview.display", "");
+    reply.waitForFinished();
+
+    if (!reply.isError()) {
+        QDBusInterface interfaceValue("org.desktopspec.ConfigManager", reply.value().path(), "org.desktopspec.ConfigManager.Manager", QDBusConnection::systemBus());
+        QDBusReply<QVariant> replyValue = interfaceValue.call("value", "windowDisplay");
+        QString strValue = replyValue.value().toString();
+        if (strValue == "Enabled" || strValue == "enabled") {
+            m_isShowWhole = true;
+        } else {
+            m_isShowWhole = false;
+        }
+    } else {
+        qDebug()<<"reply.error: "<<reply.error();
+    }
+}
+
+void MultitaskViewEffect::updateShowWholeStatus(const QString& type)
+{
+    if (type == "windowDisplay") {
+        updateShowWholeStatusPrivate();
     }
 }
 
