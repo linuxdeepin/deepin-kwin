@@ -3879,10 +3879,9 @@ void MultitaskViewEffect::showWorkspacePreview(EffectScreen *screen, QRect addBu
 
         QRect rect = m_previewFrame->geometry();
         if (effects->waylandDisplay()) {
-            int screenId = 0;
-            for (; screenId < effects->screens().size(); screenId++) {
-                if (effects->screens()[screenId] == screen)
-                    break;
+            EffectScreen *effectscreen = effectsEx->findScreen(effectsEx->getCurrentPaintingScreen());
+            if (effectscreen && screen != effectscreen) {
+                return;
             }
         } else {
             glEnable(GL_SCISSOR_TEST);
