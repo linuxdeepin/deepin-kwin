@@ -46,7 +46,10 @@ public:
 
     bool isActive() const override;
 
+    void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
+
+    static EffectWindow *dockWindow() { return s_dockWindow; }
 
 public Q_SLOTS:
     void slotTabboxAdded(int);
@@ -56,6 +59,8 @@ public Q_SLOTS:
     void slotMouseChanged(const QPoint &pos, const QPoint &old,
                           Qt::MouseButtons buttons, Qt::MouseButtons oldbuttons,
                           Qt::KeyboardModifiers modifiers, Qt::KeyboardModifiers oldmodifiers);
+
+    void slotWindowRemoved(EffectWindow *w);
 
 private:
     void setActive(bool active);
@@ -86,6 +91,8 @@ private:
     std::unique_ptr<GLTexture> m_selectedFrame = nullptr;
 
     std::unordered_map<EffectWindow *, ItemView> m_itemList;
+
+    static EffectWindow *s_dockWindow;
 };
 
 }

@@ -113,6 +113,12 @@ void ItemView::updateTexture()
         const int mask = Scene::PAINT_WINDOW_TRANSFORMED;
         renderer->renderItem(static_cast<EffectWindowImpl *>(window())->windowItem(), mask, infiniteRegion(), data);
 
+        if (window()->isDesktop()) {
+            EffectWindow *dock = AltTabThumbnailListEffect::dockWindow();
+            if (dock && geometry.contains(dock->frameGeometry()))
+                renderer->renderItem(static_cast<EffectWindowImpl *>(dock)->windowItem(), mask, infiniteRegion(), data);
+        }
+
         GLFramebuffer::popFramebuffer();
     }
 
@@ -168,6 +174,8 @@ void ItemView::updateTexture()
 
 //----------------------------thumbnail list effect-----------------------------
 
+EffectWindow *AltTabThumbnailListEffect::s_dockWindow = nullptr;
+
 AltTabThumbnailListEffect::AltTabThumbnailListEffect()
 {
     ensureResources();
@@ -189,6 +197,9 @@ AltTabThumbnailListEffect::AltTabThumbnailListEffect()
     connect(effects, &EffectsHandler::tabBoxUpdated, this, &AltTabThumbnailListEffect::slotTabboxUpdated);
 
     connect(effects, &EffectsHandler::mouseChanged, this, &AltTabThumbnailListEffect::slotMouseChanged);
+
+    connect(effects, &EffectsHandler::windowClosed, this, &AltTabThumbnailListEffect::slotWindowRemoved);
+    connect(effects, &EffectsHandler::windowDeleted, this, &AltTabThumbnailListEffect::slotWindowRemoved);
 }
 
 AltTabThumbnailListEffect::~AltTabThumbnailListEffect()
@@ -204,6 +215,14 @@ AltTabThumbnailListEffect::~AltTabThumbnailListEffect()
 bool AltTabThumbnailListEffect::isActive() const
 {
     return m_isActive;
+}
+
+void AltTabThumbnailListEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
+{
+    if (w->isDock()) {
+        s_dockWindow = w;
+    }
+    effects->paintWindow(w, mask, region, data);
 }
 
 void AltTabThumbnailListEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
@@ -290,6 +309,12 @@ void AltTabThumbnailListEffect::slotMouseChanged(const QPoint &pos, const QPoint
             return;
         }
     }
+}
+
+void AltTabThumbnailListEffect::slotWindowRemoved(EffectWindow *w)
+{
+    if (s_dockWindow == w)
+        s_dockWindow = nullptr;
 }
 
 void AltTabThumbnailListEffect::setActive(bool active)

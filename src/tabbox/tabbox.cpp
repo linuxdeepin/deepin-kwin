@@ -310,6 +310,10 @@ void TabBoxHandlerImpl::elevateClient(TabBoxClient *c, QWindow *tabbox, bool b) 
 {
     auto cl = static_cast<TabBoxClientImpl *>(c)->client();
     cl->elevate(b);
+    if (cl->isDesktop()) {
+        if (Window *dock = workspace()->findToplevel([] (const Window *w) { return w->isDock(); }))
+            effects->setElevatedWindow(dock->effectWindow(), b);
+    }
     if (Window *w = Workspace::self()->findInternal(tabbox)) {
         w->elevate(b);
     }
@@ -729,7 +733,7 @@ void TabBox::show()
         return;
     }
     saveAllClientIsMinisize();
-    workspace()->setShowingDesktop(false);
+    workspace()->setShowingDesktop(false, false);
     workspace()->setPreviewClientList({});
     reference();
     m_isShown = true;
@@ -1508,7 +1512,7 @@ void TabBox::accept(bool closeTabBox)
         Workspace::self()->activateWindow(c);
         shadeActivate(c);
         if (c->isDesktop() && !Workspace::self()->showingDesktop())
-            Workspace::self()->setShowingDesktop(true);
+            Workspace::self()->setShowingDesktop(true, false);
     }
 }
 
