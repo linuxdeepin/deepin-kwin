@@ -713,10 +713,11 @@ void VirtualDesktopManager::load()
     KConfigGroup group(m_config, QStringLiteral("VirtualDesktops"));
     if (isSectionExists()) {
         KConfigGroup oldGroup(m_config, QStringLiteral("Desktops"));
-        group.writeEntry("Number", oldGroup.readEntry("Number", 1));
+        const int number = oldGroup.keyList().filter("Id_").size();
+        group.writeEntry("Number", oldGroup.readEntry("Number", number));
         group.sync();
     }
-    const int n = group.readEntry("Number", 1);
+    const int n = group.readEntry("Number", 2);
     setCount(n);
 
     for (int i = 1; i <= n; i++) {
