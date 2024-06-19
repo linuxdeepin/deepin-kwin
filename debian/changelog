@@ -1,9 +1,26 @@
+kwin (4:5.27.2.206-deepin206-1) unstable; urgency=medium
+
+  [huangzeming]
+  * fix: fix issue about desktop's brightness when split window swap
+  * fix: Fix split window display exceeding screen issue
+  * fix: number of desktop is 1 after upgrading from 1054 to 1071
+  * fix: incorrect layout in tabbox thumbnail list
+  * fix: use texture instead of qml in thumbnaillist
+  * fix: coredump if xorg exited before kwin
+  * fix: launcher exit effects in multitaskview
+  * fix: add splitmenu border
+  * fix: fix multitaskview calling WM signal
+  * fix: fix crash during frequent screen plugging and unplugging
+  * fix: Set HDMI screen rotation, causing mouse misalignment and screen blur
+
+ -- huangzeming <huangzeming@uniontech.com>  Wed, 19 Jun 2024 13:31:29 +0800
+
 kwin (4:5.27.2.205-deepin205-1) unstable; urgency=medium
 
   [zhangyu]
   * fix: bug fix
 
- -- zhangyu <zhangyud@uniontech.com>  Thur, 13 Jun 2024 13:29:21 +0800
+ -- zhangyu <zhangyud@uniontech.com>  Thu, 13 Jun 2024 13:29:21 +0800
 
 kwin (4:5.27.2.204-deepin204-1) unstable; urgency=medium
 
