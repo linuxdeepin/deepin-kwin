@@ -1548,6 +1548,14 @@ void MultitaskViewEffect::renderWorkspaceHover(EffectScreen *screen)
 
 void MultitaskViewEffect::renderDragWorkspacePrompt(EffectScreen *screen)
 {
+    if (effects->waylandDisplay()) {
+        EffectScreen *effectscreen = effectsEx->findScreen(effectsEx->getCurrentPaintingScreen());
+        if (effectscreen && screen != effectscreen) {
+            if (isExtensionMode()) {
+                return;
+            }
+        }
+    }
     MultiViewWorkspace *wkobj = getWorkspaceObject(screen, m_aciveMoveDesktop - 1);
     if (wkobj) {
         QRect rect = wkobj->getRect();
@@ -1577,15 +1585,15 @@ void MultitaskViewEffect::drawDottedLine(const QRect &geo, EffectScreen *screen)
             QStringLiteral(":/effects/multitaskview/shaders/dottedline.vert"),
             QStringLiteral(":/effects/multitaskview/shaders/dottedline.frag"));
     GLVertexBuffer* vbo = GLVertexBuffer::streamingBuffer();
-    auto area = effects->clientArea(FullArea, screen, 0);
+    auto area = effects->clientArea(effects->waylandDisplay() ? ScreenArea : FullArea, screen, 0);
     vbo->reset();
     vbo->setColor(QColor(255, 255, 255));
     vbo->setUseColor(true);
     QVector<float> verts;
     verts.reserve(44);
-    float x1 = (float)(geo.left()) * 2 / area.width() - 1.0;
-    float x2 = (float)(geo.right()) * 2 / area.width() - 1.0;
-    float y1 = 1.0 - (float)(geo.y() + geo.height()) / 2 * 2 / area.height();
+    float x1 = (float)(geo.left() - (effects->waylandDisplay() ? area.left() : 0)) * 2 / area.width() - 1.0;
+    float x2 = (float)(geo.right()  - (effects->waylandDisplay() ? area.left() : 0)) * 2 / area.width() - 1.0;
+    float y1 = 1.0 - (float)(geo.y() + geo.height() - (effects->waylandDisplay() ? area.top() : 0)) / 2 * 2 / area.height();
 
     for (int i = 0; i < 22; i++) {
         verts << x1 + (x2 - x1) / 21.0f * i << y1;
