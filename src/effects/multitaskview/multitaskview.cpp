@@ -289,6 +289,7 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
     QString backgroundUri = GetWorkspaceBackgroundForMonitor(st.desktop, st.screenName);
     if (backgroundUri.isEmpty())
         backgroundUri = QLatin1String(fallback_background_name);
+    m_currentBackgroundList.insert(backgroundUri);
     backgroundUri = toRealPath(backgroundUri);
     if (m_wpCachedPixmaps.contains(backgroundUri + strBackgroundPath)) {
         auto& p = m_wpCachedPixmaps[backgroundUri + strBackgroundPath];
@@ -307,7 +308,6 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
     if (!blurReply.value().isEmpty())
         backgroundUri = toRealPath(QString(blurReply.value()));
 
-    m_currentBackgroundList.insert(backgroundUri);
     if (m_bgCachedPixmaps.contains(backgroundUri + strBackgroundPath)) {
         auto& p = m_bgCachedPixmaps[backgroundUri + strBackgroundPath];
         desktopBg = getCachePix(st.desktopSize, p);
