@@ -1,3 +1,10 @@
+kwin (4:5.27.2.207-deepin207-1) unstable; urgency=medium
+
+  [huangzeming]
+  * feat: add icbc prohibitscreenshot
+
+ -- huangzeming <huangzeming@uniontech.com>  Thu, 20 Jun 2024 20:58:25 +0800
+
 kwin (4:5.27.2.206-deepin206-1) unstable; urgency=medium
 
   [huangzeming]
