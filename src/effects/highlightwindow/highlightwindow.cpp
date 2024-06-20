@@ -215,7 +215,7 @@ void HighlightWindowEffect::highlightWindows(const QVector<KWin::EffectWindow *>
 quint64 HighlightWindowEffect::startGhostAnimation(EffectWindow *window)
 {
     quint64 &animationId = m_animations[window];
-    m_ghostOpacity = window->isMinimized() ? 0.0f : 0.15f;
+    m_ghostOpacity = window->isMinimized() ? 0.0f : 0.10f;
     if (animationId) {
         retarget(animationId, FPx2(m_ghostOpacity, m_ghostOpacity), m_fadeDuration);
     } else {

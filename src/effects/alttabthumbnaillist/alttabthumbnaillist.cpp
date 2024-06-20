@@ -221,6 +221,8 @@ void AltTabThumbnailListEffect::paintWindow(EffectWindow *w, int mask, QRegion r
 {
     if (w->isDock()) {
         s_dockWindow = w;
+    } else if (w->isDesktop()) {
+        data.setBrightness(0.4);
     }
     effects->paintWindow(w, mask, region, data);
 }
@@ -320,6 +322,8 @@ void AltTabThumbnailListEffect::slotWindowRemoved(EffectWindow *w)
 void AltTabThumbnailListEffect::setActive(bool active)
 {
     m_isActive = active;
+
+    effects->addRepaintFull();
 
     // inactive
     if (!active) {
