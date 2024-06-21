@@ -963,7 +963,7 @@ void ChameleonConfig::updateTitlebarHeight(const QString& type)
 QString ChameleonConfig::DConfigDecorationReplyPath()
 {
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
-    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin.decoration", "org.kde.kwin.decoration", "");
+    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin.decoration", "org.kde.kwin.decoration.titlebar", "");
     if (!reply.isValid()) {
         qCWarning(CHAMELEON) << "Error in DConfig reply:" << reply.error();
         return "";
