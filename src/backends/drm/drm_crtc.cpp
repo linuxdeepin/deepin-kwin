@@ -97,6 +97,8 @@ void DrmCrtc::disable()
 {
     if (m_ctm) {
         drmModeDestroyPropertyBlob(gpu()->fd(), m_ctm);
+        m_ctm = 0;
+        setPending(PropertyIndex::CTM, m_ctm);
     }
     setPending(PropertyIndex::Active, 0);
     setPending(PropertyIndex::ModeId, 0);
