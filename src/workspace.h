@@ -704,6 +704,7 @@ public Q_SLOTS:
     void slotClientMinimizeChanged(KWin::Window *window);
 
     void qtActiveColorChanged();
+    void slotIconThemeChanged(const QString &property, const QString &theme);
 
     void tileActiveWindow(uint);
     void toggleActiveMaximize();

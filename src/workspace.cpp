@@ -359,6 +359,8 @@ void Workspace::init()
 
     QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
                                           "PropertiesChanged", this, SLOT(qtActiveColorChanged()));
+    QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF,
+                                          "Changed", this, SLOT(slotIconThemeChanged(const QString &, const QString &)));
 
     m_placementTracker->init(getPlacementTrackerHash());
 
@@ -2562,6 +2564,12 @@ void Workspace::qtActiveColorChanged()
 {
     QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
     setActiveColor(clr);
+}
+
+void Workspace::slotIconThemeChanged(const QString &property, const QString &theme)
+{
+    if (property == "icon")
+        QIcon::setThemeName(theme);
 }
 
 void Workspace::tileActiveWindow(uint side)

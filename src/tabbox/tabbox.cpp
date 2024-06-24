@@ -397,7 +397,7 @@ QString TabBoxClientImpl::caption() const
 QIcon TabBoxClientImpl::icon() const
 {
     if (m_client->isDesktop()) {
-        return QIcon::fromTheme(QStringLiteral("user-desktop"));
+        return QIcon::fromTheme(QStringLiteral("deepin-toggle-desktop"));
     }
     return m_client->icon();
 }

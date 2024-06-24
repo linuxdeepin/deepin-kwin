@@ -154,8 +154,9 @@ void ItemView::updateTexture()
         const qreal verical_margin = (THUMBNAIL_TITLE_HEIGHT - THUMBNAIL_ICON_SIZE) / 2;
         const QRectF icon_rect(QPointF(THUMBNAIL_TITLE_MARGIN, verical_margin),
                                QSizeF(THUMBNAIL_ICON_SIZE, THUMBNAIL_ICON_SIZE));
-        painter.drawPixmap(icon_rect.topLeft(),
-                           window()->icon().pixmap(THUMBNAIL_ICON_SIZE, THUMBNAIL_ICON_SIZE));
+        const QIcon icon = window()->isDesktop() ? QIcon::fromTheme(QStringLiteral("deepin-toggle-desktop"))
+                                                 : window()->icon();
+        painter.drawPixmap(icon_rect.topLeft(), icon.pixmap(THUMBNAIL_ICON_SIZE, THUMBNAIL_ICON_SIZE));
         // title
         QFont font;
         font.setPixelSize(THUMBNAIL_TEXT_SIZE);
