@@ -103,7 +103,6 @@ const char fallback_background_name[] = "file:///usr/share/wallpapers/deepin/des
 const char previous_default_background_name[] = "file:///usr/share/backgrounds/default_background.jpg";
 const char add_workspace_png[] = ":/effects/multitaskview/buttons/add-light.png";//":/resources/themes/add-light.svg";
 const char delete_workspace_png[] = ":/effects/multitaskview/buttons/workspace_delete.svg";
-const char wallpaper_lock[] = "/var/lib/deepin/permission-manager/wallpaper_locked";
 const char defaultSecondBackgroundUri[] = "francesco-ungaro-1fzbUyzsHV8-unsplash";
 
 static void ensureResources()
@@ -140,13 +139,13 @@ void CustomThread::run()
     MultiViewBackgroundManager::instance()->cacheWorkspaceBg(m_st);
 }
 
-QString getWorkspaceBackgroundForMonitor(const int index, const QString &strMonitorName)
+QString MultiViewBackgroundManager::getWorkspaceBackgroundForMonitor(const int index, const QString &strMonitorName)
 {
     KConfig m_deepinWMConfig("deepinwmrc", KConfig::CascadeConfig);
     return m_deepinWMConfig.group("WorkspaceBackground").readEntry( QString("%1%2%3").arg(index).arg("@" ,strMonitorName)) ;
 }
 
-void setWorkspaceBackgroundForMonitor(const int index, const QString &strMonitorName, const QString &uri)
+void MultiViewBackgroundManager::setWorkspaceBackgroundForMonitor(const int index, const QString &strMonitorName, const QString &uri)
 {
     KConfig m_deepinWMConfig("deepinwmrc", KConfig::CascadeConfig);
     KConfigGroup m_deepinWMWorkspaceBackgroundGroup(m_deepinWMConfig.group("WorkspaceBackground"));
@@ -165,7 +164,7 @@ void setWorkspaceBackgroundForMonitor(const int index, const QString &strMonitor
     _gsettings_dde_appearance->set(GsettingsBackgroundUri, allWallpaper);
 }
 
-QString GetWorkspaceBackgroundForMonitor(const int index,const QString &strMonitorName)
+QString MultiViewBackgroundManager::GetWorkspaceBackgroundForMonitor(const int index,const QString &strMonitorName)
 {
     QString wkstr = getWorkspaceBackgroundForMonitor(index, strMonitorName);
     QUrl uri(wkstr);
@@ -447,7 +446,7 @@ void MultiViewBackgroundManager::setNewBackground(BgInfo_st &st, QPixmap &deskto
             m_backgroundAllList.remove(file);
         m_currentBackgroundList.insert(file);
     }
-    setWorkspaceBackgroundForMonitor(st.desktop, st.screenName, file);
+    wm.call( "SetWorkspaceBackgroundForMonitor", st.desktop, st.screenName, file);
 
     file = toRealPath(file);
 
@@ -3612,30 +3611,43 @@ void MultitaskViewEffect::desktopSwitchPosition(int to, int from)
     for (int i = 0; i < list.size(); i++) {
         QString monitorName = list[i];
 
-        QString strFromUri = GetWorkspaceBackgroundForMonitor(from, monitorName);
-        if (strFromUri.isEmpty())
+        QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", from, monitorName);
+        QString strFromUri;
+        if (!getReply.value().isEmpty()) {
+            strFromUri = getReply.value();
+        } else {
             strFromUri = QLatin1String(fallback_background_name);
+        }
+
         if (from < to) {
             for (int j = from - 1; j < to; j++) {
                 int desktopIndex = j + 1; //desktop index
                 if ( desktopIndex == to) {
-                    setWorkspaceBackgroundForMonitor(desktopIndex, monitorName, strFromUri);
+                    wm.call( "SetWorkspaceBackgroundForMonitor", desktopIndex, monitorName, strFromUri);
                 } else {
-                    QString backgroundUri = GetWorkspaceBackgroundForMonitor(desktopIndex + 1, monitorName);
-                    if (backgroundUri.isEmpty())
+                    QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", desktopIndex + 1, monitorName);
+                    QString backgroundUri;
+                    if (!getReply.value().isEmpty()) {
+                        backgroundUri = getReply.value();
+                    } else {
                         backgroundUri = QLatin1String(fallback_background_name);
-                    setWorkspaceBackgroundForMonitor(desktopIndex, monitorName, backgroundUri);
+                    }
+                    wm.call( "SetWorkspaceBackgroundForMonitor", desktopIndex, monitorName, backgroundUri);
                 }
             }
         } else {
             for (int j = from; j > to - 1; j--) {
                 if (j == to) {
-                    setWorkspaceBackgroundForMonitor(to, monitorName, strFromUri);
+                    QDBusReply<QString> setReply = wm.call( "SetWorkspaceBackgroundForMonitor", to, monitorName, strFromUri);
                 } else {
-                    QString backgroundUri = GetWorkspaceBackgroundForMonitor(j - 1, monitorName);
-                    if (backgroundUri.isEmpty())
+                    QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", j - 1, monitorName);
+                    QString backgroundUri;
+                    if(!getReply.value().isEmpty()) {
+                        backgroundUri = getReply.value();
+                    } else {
                         backgroundUri = QLatin1String(fallback_background_name);
-                    setWorkspaceBackgroundForMonitor(j, monitorName, backgroundUri);
+                    }
+                    QDBusReply<QString> setReply = wm.call( "SetWorkspaceBackgroundForMonitor", j, monitorName, backgroundUri);
                 }
             }
         }
@@ -3649,15 +3661,20 @@ void MultitaskViewEffect::desktopAboutToRemoved(int d, int num)
     QList<QString> list = m_screenInfoList.keys();
     for (int i = 0; i < list.count(); i++) {
         QString monitorName = list.at(i);
-        QString backgroundUri = GetWorkspaceBackgroundForMonitor(d, monitorName);
-
-        if (!backgroundUri.isEmpty())
+        QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", d, monitorName);
+        if (!getReply.value().isEmpty()) {
+            QString backgroundUri = getReply.value();
             MultiViewBackgroundManager::instance()->updateBackgroundList(backgroundUri);
+        }
 
         for (int i = d; i < effects->numberOfDesktops(); i++) {
-            QString backgrounduri = GetWorkspaceBackgroundForMonitor(i + 1, monitorName);
-            if (backgrounduri.isEmpty())
+            QString backgrounduri;
+            QDBusReply<QString> getReply = wm.call( "GetWorkspaceBackgroundForMonitor", i + 1, monitorName);
+            if (!getReply.value().isEmpty()) {
+                backgrounduri = getReply.value();
+            } else {
                 backgrounduri = QLatin1String(fallback_background_name);
+            }
             wm.call( "SetWorkspaceBackgroundForMonitor", i, monitorName, backgrounduri);
         }
     }

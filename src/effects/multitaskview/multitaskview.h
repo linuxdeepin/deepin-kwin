@@ -103,6 +103,9 @@ public:
     }
 
     void getWorkspaceBgPath(BgInfo_st &st, QPixmap &desktopBg, QPixmap &workspaceBg);
+    QString getWorkspaceBackgroundForMonitor(const int index, const QString &strMonitorName);
+    void setWorkspaceBackgroundForMonitor(const int index, const QString &strMonitorName, const QString &uri);
+    QString GetWorkspaceBackgroundForMonitor(const int index,const QString &strMonitorName);
     void cacheWorkspaceBg(BgInfo_st &st);
     void getBackgroundList();
     void updateBackgroundList(const QString &file);
