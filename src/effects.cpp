@@ -673,6 +673,9 @@ bool EffectsHandlerImpl::hasActiveFullScreenEffect() const
 
 bool EffectsHandlerImpl::grabKeyboard(Effect *effect)
 {
+    if (effect && keyboard_grab_effect == effect) {
+        return true;
+    }
     if (keyboard_grab_effect != nullptr) {
         return false;
     }
