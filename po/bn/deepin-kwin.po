@@ -1,4 +1,4 @@
-# translation of kwin.po to Bengali
+# translation of deepin-kwin.po to Bengali
 # Deepayan Sarkar <deepayan@bengalinux.org>, 2004, 2005, 2006.
 # Deepayan Sarkar <deepayan.sarkar@gmail.com>, 2009.
 msgid ""

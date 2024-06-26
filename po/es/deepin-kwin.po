@@ -1,7 +1,7 @@
-# Translation of kwin.po to Spanish
+# Translation of deepin-kwin.po to Spanish
 # Translation of kwin to Spanish
-# traducción de kwin.po a Español
-# translation of kwin.po to Spanish
+# traducción de deepin-kwin.po a Español
+# translation of deepin-kwin.po to Spanish
 # Translation to spanish
 # Copyright (C) 1999-2002.
 #

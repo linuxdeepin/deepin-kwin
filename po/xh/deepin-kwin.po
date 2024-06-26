@@ -1,5 +1,5 @@
-# translation of kwin.po to
-# translation of kwin.po to Xhosa
+# translation of deepin-kwin.po to
+# translation of deepin-kwin.po to Xhosa
 # K Desktop Environment - kwin
 # Copyright (C) 2001 translate.org.za
 # Antoinette Dekeni <antoinette@transalate.org.za>, 2001.

@@ -1,4 +1,4 @@
-# translation of kwin.po to Walloon
+# translation of deepin-kwin.po to Walloon
 # Ratournaedje e walon des messaedjes di KDE.
 #
 # Pablo Saratxaga <pablo@walon.org>, 2007.

@@ -1,4 +1,4 @@
-# translation of kwin.po to Thai
+# translation of deepin-kwin.po to Thai
 # Copyright (C) 2003, 2005, 2008 Free Software Foundation, Inc.
 #
 # Thanomsub Noppaburana <donga_n@yahoo.com>, 2003, 2005.

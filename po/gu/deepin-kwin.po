@@ -1,4 +1,4 @@
-# Gujarati translation of kwin.po.
+# Gujarati translation of deepin-kwin.po.
 # Copyright (C) 2008 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Kartik Mistry <kartik.mistry@gmail.com>

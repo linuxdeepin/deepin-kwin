@@ -1,7 +1,7 @@
-# translation of kwin.po to
+# translation of deepin-kwin.po to
 # Version: $Revision: 1645600 $
-# translation of kwin.po to Polish
-# translation of kwin.po to
+# translation of deepin-kwin.po to Polish
+# translation of deepin-kwin.po to
 # Norbert Popiołek <norbert@kde.com.pl>
 # Michał Rudolf <mrudolf@kdewebdev.org>, 2002.
 # Michal Rudolf <mrudolf@kdewebdev.org>, 2002, 2003.

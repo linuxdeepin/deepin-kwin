@@ -1,4 +1,4 @@
-# Translation of kwin.po to Finnish
+# Translation of deepin-kwin.po to Finnish
 # KDE Finnish translation sprint participants:
 # Author: Artnay
 # Author: Lliehu

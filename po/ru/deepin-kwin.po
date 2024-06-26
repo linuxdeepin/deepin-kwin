@@ -1,9 +1,9 @@
-# translation of kwin.po into Russian
-# translation of kwin.po to
+# translation of deepin-kwin.po into Russian
+# translation of deepin-kwin.po to
 # translation of 1.po to Russian
 #
-# translation of kwin.po to Russian
-# KDE3 - kwin.pot Russian translationю
+# translation of deepin-kwin.po to Russian
+# KDE3 - deepin-kwin.pot Russian translationю
 # Copyright (C) 2000 KDE Team.
 #
 # Alex Miller <asm@som.kiev.ua>, 2000.

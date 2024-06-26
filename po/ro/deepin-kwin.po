@@ -1,4 +1,4 @@
-# Traducerea kwin.po în Română
+# Traducerea deepin-kwin.po în Română
 # Copyright (C) 2008 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kwrite package.
 # Laurenţiu Buzdugan <lbuz@rolix.org>, 2008, 2009".

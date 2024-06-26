@@ -1,4 +1,4 @@
-# translation of kwin.po to Italian
+# translation of deepin-kwin.po to Italian
 # Andrea Rizzi <rizzi@kde.org>, 2003, 2004, 2005.
 # Andrea RIZZI <arizzi@pi.infn.it>, 2004.
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2010, 2011, 2012.

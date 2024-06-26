@@ -1,4 +1,4 @@
-# translation of kwin.po to Persian
+# translation of deepin-kwin.po to Persian
 # Nasim Daniarzadeh <daniarzadeh@itland.ir>, 2006, 2007.
 # Nazanin Kazemi <kazemi@itland.ir>, 2006, 2007.
 # Tahereh Dadkhahfar <dadkhahfar@itland.ir>, 2006.

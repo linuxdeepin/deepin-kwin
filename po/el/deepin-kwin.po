@@ -1,5 +1,5 @@
-# translation of kwin.po to greek
-# translation of kwin.po to
+# translation of deepin-kwin.po to greek
+# translation of deepin-kwin.po to
 # Copyright (C) 2002, 2003, 2005, 2007, 2008 Free Software Foundation, Inc.
 #
 # Dimitris Kamenopoulos <el97146@mail.ntua.gr>, 2001.

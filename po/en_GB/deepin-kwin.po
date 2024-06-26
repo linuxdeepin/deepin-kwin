@@ -1,4 +1,4 @@
-# translation of kwin.po to British English
+# translation of deepin-kwin.po to British English
 # Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
 #
 # Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.

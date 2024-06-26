@@ -1,6 +1,6 @@
-# translation of kwin.po to
-# translation of kwin.po to
-# translation of kwin.po to Tamil
+# translation of deepin-kwin.po to
+# translation of deepin-kwin.po to
+# translation of deepin-kwin.po to Tamil
 # Copyright (C) 2004 Free Software Foundation, Inc.
 #
 # Vasee Vaseeharan <vasee@ieee.org>, 2004.

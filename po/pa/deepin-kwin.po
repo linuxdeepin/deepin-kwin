@@ -1,4 +1,4 @@
-# translation of kwin.po to Punjabi
+# translation of deepin-kwin.po to Punjabi
 # Amanpreet Singh Alam <aalam@redhat.com>, 2004, 2005.
 # Amanpreet Singh Alam <amanpreetalam@yahoo.com>, 2005.
 # Amanpreet Singh Brar <aalam@redhat.com>, 2005.

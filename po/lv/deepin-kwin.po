@@ -1,6 +1,6 @@
-# translation of kwin.po to Latvian
-# translation of kwin.po to
-# kwin.po tulkojums uz Latviešu valodu
+# translation of deepin-kwin.po to Latvian
+# translation of deepin-kwin.po to
+# deepin-kwin.po tulkojums uz Latviešu valodu
 # Copyright (C) 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 #
 # Maris Nartiss <maris.nartiss@gmail.com>, 2005.

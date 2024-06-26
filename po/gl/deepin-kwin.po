@@ -1,4 +1,4 @@
-# translation of kwin.po to galician
+# translation of deepin-kwin.po to galician
 # Galician translation of kwin.
 # Copyright (C) 2000 Jesús Bravo Álvarez.
 # Jesús Bravo Álvarez <jba@pobox.com>, 2000.

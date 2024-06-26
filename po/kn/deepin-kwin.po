@@ -1,5 +1,5 @@
-# translation of kwin.po to Kannada
-# translation of kwin.po to
+# translation of deepin-kwin.po to Kannada
+# translation of deepin-kwin.po to
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #

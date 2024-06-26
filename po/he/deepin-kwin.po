@@ -1,4 +1,4 @@
-# translation of kwin.po to
+# translation of deepin-kwin.po to
 # KDE Hebrew Localization Project
 #
 # In addition to the copyright owners of the program

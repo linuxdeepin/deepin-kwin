@@ -1,4 +1,4 @@
-# translation of kwin.po to Slovak
+# translation of deepin-kwin.po to Slovak
 # Stanislav Visnovsky <stano@ms.mff.cuni.cz>, 2002.
 # Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>, 2002.
 # Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2002.

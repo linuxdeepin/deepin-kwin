@@ -1,5 +1,5 @@
-# translation of kwin.po to Frysk
-# translation of kwin.po to
+# translation of deepin-kwin.po to Frysk
+# translation of deepin-kwin.po to
 #
 # Rinse de Vries <rinsedevries@kde.nl>, 2005, 2006, 2007, 2009.
 # berend ytsma <berendy@bigfoot.com>, 2005.

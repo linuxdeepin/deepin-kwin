@@ -1,5 +1,5 @@
-# translation of kwin.po to Turkish
-# translation of kwin.po to
+# translation of deepin-kwin.po to Turkish
+# translation of deepin-kwin.po to
 # Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
 # Murat Sisman <muratsisman@mailcity.com>, 2000.
 # Ömer Fadıl USTA <omer_fad@hotmail.com>, 2003.

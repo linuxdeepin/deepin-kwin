@@ -1,7 +1,7 @@
-# translation of kwin.po to
-# traduction de kwin.po en français
-# translation of kwin.po to Français
-# traduction de kwin.po en Français
+# translation of deepin-kwin.po to
+# traduction de deepin-kwin.po en français
+# translation of deepin-kwin.po to Français
+# traduction de deepin-kwin.po en Français
 # Traduction de kwin en Français
 # Copyright (C) 2002,2003, 2004, 2005, 2008 Free Software Foundation, Inc.
 # Gérard Delafond <gerard@delafond.org>, 2002, 2003, 2004.
