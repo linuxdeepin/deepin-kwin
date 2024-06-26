@@ -1,0 +1,32 @@
+#: workspace.cpp:2507
+#, kde-format
+
+msgid "Minimize"
+msgstr "ཆུང་སྒྱུར།"
+
+msgid "Unmaximize"
+msgstr "སོར་ཆུད།"
+
+msgid "Maximize"
+msgstr "ཆེ་སྒྱུར།"
+
+msgid "Move"
+msgstr "སྤོ་བ།"
+
+msgid "Resize"
+msgstr "ཆེ་ཆུང་བཟོ་བཅོས་བྱེད་པ།"
+
+msgid "Always on Top"
+msgstr "རྟག་ཏུ་མདུན་གྲལ་དུ་ཡོད་པ།"
+
+msgid "Always on Visible Workspace"
+msgstr "རྟག་ཏུ་མཐོང་ཐུབ་སའི་ལས་ཁུལ་དུ་ཡོད་པ།"
+
+msgid "Move to Workspace Left"
+msgstr "གཡོལ་གྱི་ལས་ཁུལ་དུ་སྤོ་བ།"
+
+msgid "Move to Workspace Right"
+msgstr "གཡས་ཀྱི་ལས་ཁུལ་དུ་སྤོ་བ།"
+
+msgid "Close"
+msgstr "སྒོ་རྒྱོབ།"
