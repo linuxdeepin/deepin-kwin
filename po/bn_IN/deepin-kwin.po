@@ -1,4 +1,4 @@
-# translation of kwin.po to Bengali INDIA
+# translation of deepin-kwin.po to Bengali INDIA
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #

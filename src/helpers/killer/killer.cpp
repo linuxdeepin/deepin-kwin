@@ -24,7 +24,7 @@
 
 int main(int argc, char *argv[])
 {
-    KLocalizedString::setApplicationDomain("kwin");
+    KLocalizedString::setApplicationDomain("deepin-kwin");
     qputenv("QT_QPA_PLATFORM", QByteArrayLiteral("xcb"));
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);

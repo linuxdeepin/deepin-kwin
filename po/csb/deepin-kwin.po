@@ -1,4 +1,4 @@
-# translation of kwin.po to Kashubian
+# translation of deepin-kwin.po to Kashubian
 #
 # Michôł Òstrowsczi <michol@linuxcsb.org>, 2006, 2007, 2009.
 # Mark Kwidzińsczi <mark@linuxcsb.org>, 2008.

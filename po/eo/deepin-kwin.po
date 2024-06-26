@@ -1,4 +1,4 @@
-# translation of kwin.po to esperanto
+# translation of deepin-kwin.po to esperanto
 # e-aj mesaĝoj de kwin
 # Copyright (C) 1999, 2004, 2007, 2008 Free Software Foundation, Inc.
 # Wolfram Diestel <wolfram@steloj.de>, 1999.

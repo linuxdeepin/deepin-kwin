@@ -1,4 +1,4 @@
-# translation of kwin.po to Upper Sorbian
+# translation of deepin-kwin.po to Upper Sorbian
 # Copyright (C) 2003, 2004 Free Software Foundation, Inc.
 #
 # Prof. Dr. Eduard Werner <e.werner@rz.uni-leipzig.de>, 2003, 2004.

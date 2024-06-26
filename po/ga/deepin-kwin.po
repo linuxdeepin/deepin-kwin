@@ -1,4 +1,4 @@
-# translation of kwin.po to Irish
+# translation of deepin-kwin.po to Irish
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Séamus Ó Ciardhuáin <seoc@cnds.ucd.ie>, 2002
 # Kevin Scannell <kscanne@gmail.com>, 2009

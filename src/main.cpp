@@ -250,7 +250,7 @@ void Application::setupMalloc()
 
 void Application::setupLocalizedString()
 {
-    KLocalizedString::setApplicationDomain("kwin");
+    KLocalizedString::setApplicationDomain("deepin-kwin");
 }
 
 void Application::createWorkspace()

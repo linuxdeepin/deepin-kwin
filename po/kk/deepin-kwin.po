@@ -1,4 +1,4 @@
-# translation of kwin.po to Karakh
+# translation of deepin-kwin.po to Karakh
 #
 # Sairan Kikkarin <sairan@computer.org>, 2005, 2006, 2007, 2008, 2009, 2010.
 # Sairan Kikkarin <sairan@computer.org>, 2010, 2011.

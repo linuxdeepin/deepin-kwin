@@ -1,4 +1,4 @@
-# translation of kwin.po to bosanski
+# translation of deepin-kwin.po to bosanski
 # Strahinja Radic <rstraxy@sezampro.yu>, 2000.
 # Tiron Andric <tiron@beotel.yu>, 2003.
 # Toplica Tanaskovic <toptan@kde.org.yu>, 2003.

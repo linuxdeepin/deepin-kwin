@@ -1,4 +1,4 @@
-# translation of kwin.po to Chinese Traditional
+# translation of deepin-kwin.po to Chinese Traditional
 # Copyright (C) 2001, 2002, 2003, 2007, 2008 Free Software Foundation, Inc.
 #
 # Kenduest Lee <kenduest@i18n.linux.org.tw>, 2001.

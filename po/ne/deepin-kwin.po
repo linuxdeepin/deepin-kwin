@@ -1,4 +1,4 @@
-# translation of kwin.po to Nepali
+# translation of deepin-kwin.po to Nepali
 # Nabin Gautam <nabin@mpp.org.np>, 2006, 2007.
 # Kapil Timilsina <lipak21@gmail.com>, 2006.
 # Shyam Krishna Bal <shyam@mpp.org.np>, 2006.

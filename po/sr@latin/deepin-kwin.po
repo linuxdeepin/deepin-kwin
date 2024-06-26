@@ -1,4 +1,4 @@
-# Translation of kwin.po into Serbian.
+# Translation of deepin-kwin.po into Serbian.
 # Strahinja Radic <rstraxy@sezampro.yu>, 2000.
 # Tiron Andric <tiron@beotel.yu>, 2003.
 # Toplica Tanaskovic <toptan@kde.org.yu>, 2003.

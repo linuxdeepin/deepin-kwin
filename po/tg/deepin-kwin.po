@@ -1,4 +1,4 @@
-# translation of kwin.po to Tajik
+# translation of deepin-kwin.po to Tajik
 # Copyright (C) 2002,2004 Free Software Foundation, Inc.
 # Victor Ibragimov <victor.ibragimov@gmail.com>, 2019.
 msgid ""

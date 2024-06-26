@@ -1,5 +1,5 @@
-# translation of kwin.po to Cymraeg
-# Translation of kwin.po to Cymraeg
+# translation of deepin-kwin.po to Cymraeg
+# Translation of deepin-kwin.po to Cymraeg
 # Bwrdd Gwaith yn Gymraeg.
 # Copyright (C) 2003 Free Software Foundation, Inc.
 # www.kyfieithu.co.uk<kyfieithu@dotmon.com>, www.gyfieithu.co.uk<kyfieithu@dotmon.com>, 2003.

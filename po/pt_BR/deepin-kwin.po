@@ -1,4 +1,4 @@
-# Translation of kwin.po to Brazilian Portuguese
+# Translation of deepin-kwin.po to Brazilian Portuguese
 # Copyright (C) 2002-2020 This file is copyright:
 # This file is distributed under the same license as the kwin package.
 #

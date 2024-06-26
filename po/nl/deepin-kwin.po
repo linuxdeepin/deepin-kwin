@@ -1,6 +1,6 @@
-# translation of kwin.po to Dutch
-# translation of kwin.po to
-# translation of kwin.po to
+# translation of deepin-kwin.po to Dutch
+# translation of deepin-kwin.po to
+# translation of deepin-kwin.po to
 # KTranslator Generated File
 # Nederlandse vertaling van kwin
 # Copyright (C) 2000, 2001, 2002 KDE e.v.
