@@ -1,10 +1,12 @@
+// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+// Use qdbusxml2cpp panels/dock/api/old/org.deepin.dde.daemon.Dock1.xml -p dockrect
+
 #ifndef DOCKRECT_H
 #define DOCKRECT_H
 
-#include <QRect>
-#include <QDBusArgument>
-#include <QDebug>
-#include <QDBusMetaType>
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
 #include <QtCore/QList>
@@ -14,81 +16,127 @@
 #include <QtCore/QVariant>
 #include <QtDBus/QtDBus>
 
-struct DockRect
-{
-public:
-    DockRect();
-    operator QRect() const;
-
-    friend QDebug operator<<(QDebug debug, const DockRect &rect);
-    friend const QDBusArgument &operator>>(const QDBusArgument &arg, DockRect &rect);
-    friend QDBusArgument &operator<<(QDBusArgument &arg, const DockRect &rect);
-
-private:
-    qint32 x;
-    qint32 y;
-    quint32 w;
-    quint32 h;
-};
-
-Q_DECLARE_METATYPE(DockRect)
-
-class DBusDock: public QDBusAbstractInterface
+/*
+ * Proxy class for interface org.deepin.dde.daemon.Dock1
+ */
+class OrgDeepinDdeDaemonDock1Interface : public QDBusAbstractInterface
 {
     Q_OBJECT
-
-    Q_SLOT void __propertyChanged__(const QDBusMessage& msg)
-    {
-        QList<QVariant> arguments = msg.arguments();
-        if (3 != arguments.count())
-            return;
-        QString interfaceName = msg.arguments().at(0).toString();
-        if (interfaceName !="com.deepin.dde.daemon.Dock")
-            return;
-        QVariantMap changedProps = qdbus_cast<QVariantMap>(arguments.at(1).value<QDBusArgument>());
-        for(const QString &prop : changedProps.keys()) {
-        const QMetaObject* self = metaObject();
-            for (int i=self->propertyOffset(); i < self->propertyCount(); ++i) {
-                QMetaProperty p = self->property(i);
-                if (p.name() == prop) {
-                    Q_EMIT p.notifySignal().invoke(this);
-                }
-            }
-        }
-   }
 public:
     static inline const char *staticInterfaceName()
     {
-        return "com.deepin.dde.daemon.Dock";
+        return "org.deepin.dde.daemon.Dock1";
     }
 
 public:
-    explicit DBusDock(QObject *parent = 0);
+    OrgDeepinDdeDaemonDock1Interface(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent = nullptr);
 
-    ~DBusDock();
+    ~OrgDeepinDdeDaemonDock1Interface();
 
-    Q_PROPERTY(int Position READ position NOTIFY PositionChanged)
-    inline int position() const
+    Q_PROPERTY(int DisplayMode READ displayMode WRITE setDisplayMode)
+    inline int displayMode() const
     {
-        return int(qvariant_cast< int >(property("Position")));
+        return qvariant_cast<int>(property("DisplayMode"));
+    }
+    inline void setDisplayMode(int value)
+    {
+        setProperty("DisplayMode", QVariant::fromValue(value));
     }
 
-    Q_PROPERTY(int HideState READ hideState NOTIFY HideStateChanged)
+    Q_PROPERTY(QRect FrontendWindowRect READ frontendWindowRect)
+    inline QRect frontendWindowRect() const
+    {
+        return qvariant_cast<QRect>(property("FrontendWindowRect"));
+    }
+
+    Q_PROPERTY(int HideMode READ hideMode WRITE setHideMode)
+    inline int hideMode() const
+    {
+        return qvariant_cast<int>(property("HideMode"));
+    }
+    inline void setHideMode(int value)
+    {
+        setProperty("HideMode", QVariant::fromValue(value));
+    }
+
+    Q_PROPERTY(int HideState READ hideState)
     inline int hideState() const
     {
-        return int(qvariant_cast< int >(property("HideState")));
+        return qvariant_cast<int>(property("HideState"));
     }
 
-    Q_PROPERTY(DockRect FrontendWindowRect READ frontendRect NOTIFY FrontendRectChanged)
-    inline DockRect frontendRect() const
+    Q_PROPERTY(int Position READ position WRITE setPosition)
+    inline int position() const
     {
-        return qvariant_cast< DockRect >(property("FrontendWindowRect"));
+        return qvariant_cast<int>(property("Position"));
+    }
+    inline void setPosition(int value)
+    {
+        setProperty("Position", QVariant::fromValue(value));
+    }
+
+    Q_PROPERTY(uint WindowSizeEfficient READ windowSizeEfficient WRITE setWindowSizeEfficient)
+    inline uint windowSizeEfficient() const
+    {
+        return qvariant_cast<uint>(property("WindowSizeEfficient"));
+    }
+    inline void setWindowSizeEfficient(uint value)
+    {
+        setProperty("WindowSizeEfficient", QVariant::fromValue(value));
+    }
+
+    Q_PROPERTY(uint WindowSizeFashion READ windowSizeFashion WRITE setWindowSizeFashion)
+    inline uint windowSizeFashion() const
+    {
+        return qvariant_cast<uint>(property("WindowSizeFashion"));
+    }
+    inline void setWindowSizeFashion(uint value)
+    {
+        setProperty("WindowSizeFashion", QVariant::fromValue(value));
+    }
+
+public Q_SLOTS: // METHODS
+    inline QDBusPendingReply<bool> IsDocked(const QString &desktopFile)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(desktopFile);
+        return asyncCallWithArgumentList(QStringLiteral("IsDocked"), argumentList);
+    }
+
+    inline QDBusPendingReply<bool> RequestDock(const QString &desktopFile, int index)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(desktopFile) << QVariant::fromValue(index);
+        return asyncCallWithArgumentList(QStringLiteral("RequestDock"), argumentList);
+    }
+
+    inline QDBusPendingReply<bool> RequestUndock(const QString &desktopFile)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(desktopFile);
+        return asyncCallWithArgumentList(QStringLiteral("RequestUndock"), argumentList);
     }
 
 Q_SIGNALS: // SIGNALS
-    void FrontendRectChanged();
-    void HideStateChanged();
-    void PositionChanged();
+    void DisplayModeChanged(int displaymode);
+    void FrontendWindowRectChanged(const QRect &FrontendWindowRect);
+    void HideModeChanged(int hideMode);
+    void PositionChanged(int Position);
+    void WindowSizeEfficientChanged(uint size);
+    void WindowSizeFashionChanged(uint size);
 };
 
-#endif // DOCKRECT_H
+namespace org
+{
+namespace deepin
+{
+namespace dde
+{
+namespace daemon
+{
+typedef ::OrgDeepinDdeDaemonDock1Interface Dock1;
+}
+}
+}
+}
+#endif

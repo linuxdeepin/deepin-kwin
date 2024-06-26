@@ -609,7 +609,6 @@ public:
 
     void setDockLastPosition(QRectF rect);
     QRectF getDockLastPosition();
-    int getDockHiddenState();
     int getDockDirection();
     bool getBlurStatus();
     bool isEffectDuring() { return m_isEffectDuring; }
@@ -699,7 +698,7 @@ public Q_SLOTS:
 
     void tileActiveWindow(uint);
     void toggleActiveMaximize();
-    void slotDockPositionChanged();
+    void slotDockPositionChanged(const QRect &FrontendWindowRect);
     void slotShowingDesktopEffectChanged(bool);
 
     void setCurrentPaintingScreen(Output *output) {
@@ -980,7 +979,7 @@ private:
     bool m_isEffectDuring = false;
 
     QRectF m_lastDockPos = QRectF();
-    DBusDock *m_dockInter = nullptr;
+    org::deepin::dde::daemon::Dock1 *m_dockInter = nullptr;
 
     xcb_window_t m_clientIDHandlingMouseCommand = 0;
     std::set<pid_t> m_pids;

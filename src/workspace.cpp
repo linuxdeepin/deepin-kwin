@@ -331,11 +331,36 @@ void Workspace::init()
                                       DBUS_APPEARANCE_INTF, "FontSize");
     m_fontFamilyConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "StandardFont");
 
-    m_dockInter = new DBusDock();
-    if (m_dockInter) {
-        slotDockPositionChanged();
-        connect(m_dockInter, &DBusDock::FrontendRectChanged, this, &Workspace::slotDockPositionChanged);
+    auto req = QDBusConnection::sessionBus().interface()->isServiceRegistered("org.deepin.dde.daemon.Dock1");
+
+    if (req.value()) {
+        m_dockInter = new org::deepin::dde::daemon::Dock1(
+            "org.deepin.dde.daemon.Dock1",
+            "/org/deepin/dde/daemon/Dock1",
+            QDBusConnection::sessionBus(),
+            this);
+        if (m_dockInter) {
+            setDockLastPosition(m_dockInter->frontendWindowRect());
+            connect(m_dockInter, &org::deepin::dde::daemon::Dock1::FrontendWindowRectChanged, this, &Workspace::slotDockPositionChanged);
+        }
+    } else {
+        QDBusServiceWatcher *watcher = new QDBusServiceWatcher(this);
+        watcher->setConnection(QDBusConnection::sessionBus());
+        watcher->addWatchedService("org.deepin.dde.daemon.Dock1");
+        connect(watcher, &QDBusServiceWatcher::serviceRegistered, [this, watcher] {
+            m_dockInter = new org::deepin::dde::daemon::Dock1(
+                "org.deepin.dde.daemon.Dock1",
+                "/org/deepin/dde/daemon/Dock1",
+                QDBusConnection::sessionBus(),
+                this);
+            if (m_dockInter) {
+                setDockLastPosition(m_dockInter->frontendWindowRect());
+                connect(m_dockInter, &org::deepin::dde::daemon::Dock1::FrontendWindowRectChanged, this, &Workspace::slotDockPositionChanged);
+            }
+            watcher->deleteLater();
+        });
     }
+
     setProcessSessionPath();
 }
 
@@ -3872,14 +3897,9 @@ QRectF Workspace::getDockLastPosition()
     return m_lastDockPos;
 }
 
-void Workspace::slotDockPositionChanged()
+void Workspace::slotDockPositionChanged(const QRect &FrontendWindowRect)
 {
-    if (m_dockInter) {
-        QRect rect = m_dockInter->frontendRect();
-        if (rect != QRect()) {
-            setDockLastPosition(rect);
-        }
-    }
+    setDockLastPosition(FrontendWindowRect);
 }
 
 void Workspace::checkIfFirstWindowOfProcess(Window *client)
