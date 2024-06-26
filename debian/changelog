@@ -1,3 +1,22 @@
+kwin (4:5.27.2.208-deepin208-1) unstable; urgency=medium
+
+  [yangtian]
+  * fix: reduce respond frequency while pressing keys in tabbox
+  * fix: keep icon consistent with control center
+  * fix: reduce the brightness of desktop in tabbox 
+  * fix: show dock in tabbox
+  * fix: right click menu follows mouse 
+  * fix: fix issue about click dock tray no response
+  * fix: repair issue about dottedline when drop workspace in wayland
+  * fix: fix error log
+  * fix: dde-kwin get currently workspace background is not sync when kwin add new workspace 
+  * fix: multitaskview grab status when two screenrecorder window closed 
+  * fix: fix repetitive multitaskview wallpaper
+  * fix: dconfig question 
+  * fix: Mode setting failed when plugging in monitor
+
+ -- yangtian <yangtian@uniontech.com>  Wed, 26 Jun 2024 13:43:05 +0800
+
 kwin (4:5.27.2.207-deepin207-1) unstable; urgency=medium
 
   [huangzeming]
