@@ -2925,6 +2925,7 @@ void InputRedirection::touchMotion()
 
 void InputRedirection::touchEnd()
 {
+    workspace()->handleReleaseMouseCommand();
     Window *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {
         return ;
