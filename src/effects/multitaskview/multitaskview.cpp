@@ -2417,6 +2417,10 @@ void MultitaskViewEffect::setActive(bool active)
     if (m_activated == active)
         return;
 
+    if (active && workspace()->moveResizeWindow()) {
+        return ;
+    }
+
     m_activated = active;
 
     QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "MultitaskStateChanged");
