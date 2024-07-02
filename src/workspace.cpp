@@ -3857,10 +3857,10 @@ void Workspace::setPreviewClientList(const QList<Window*> &list)
             if (!c->isDock() && !c->isDesktop()) {
                 if (list.contains(c)) {
                     if (c->isMinimized()) {
-                        // 记录窗口的最小化状态
-                        c->setProperty("__deepin_kwin_minimized", true);
                         // 恢复最小化以便预览窗口
                         c->unminimize(true);
+                        // 记录窗口的最小化状态
+                        c->setProperty("__deepin_kwin_minimized", true);
                     }
                 } else {
                     if (c->property("__deepin_kwin_minimized").toBool()) {
