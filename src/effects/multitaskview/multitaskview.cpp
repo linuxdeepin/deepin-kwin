@@ -230,14 +230,13 @@ void MultiViewBackgroundManager::getWorkspaceBgPath(BgInfo_st &st, QPixmap &desk
         workspaceBg = pixmap;
     }
 
+    m_allBackgroundList[st.screenName][st.desktop] = backgroundUri; // Use unblured background
 
     QDBusInterface imageBlurInterface(DBUS_IMAGEEFFECT_SERVICE, DBUS_BLUR_OBJ, DBUS_BLUR_INTF, QDBusConnection::systemBus());
     imageBlurInterface.setTimeout(100);
     QDBusReply<QString> blurReply = imageBlurInterface.call("Get", backgroundUri);
     if (!blurReply.value().isEmpty())
         backgroundUri = toRealPath(QString(blurReply.value()));
-
-    m_allBackgroundList[st.screenName][st.desktop] = backgroundUri;
 
     m_currentBackgroundList.insert(backgroundUri);
     if (m_bgCachedPixmaps.contains(backgroundUri + strBackgroundPath)) {
