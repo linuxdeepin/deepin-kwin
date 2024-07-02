@@ -1465,11 +1465,6 @@ void Window::minimize(bool avoid_animation)
 
 void Window::unminimize(bool avoid_animation)
 {
-    // Prevent window from being minimized after ending preview
-    if(!waylandServer()) {
-        setProperty("__deepin_kwin_minimized", QVariant());
-    }
-
     if (!isMinimized()) {
         return;
     }
