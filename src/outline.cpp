@@ -25,9 +25,9 @@
 #include <QStandardPaths>
 #include <qdbusinterface.h>
 
-#define KWinDBusService "com.deepin.daemon.Appearance"
-#define KWinDBusPath    "/com/deepin/daemon/Appearance"
-#define KWinDBusInterface "com.deepin.daemon.Appearance"
+#define KWinDBusService "org.deepin.dde.Appearance1"
+#define KWinDBusPath "/org/deepin/dde/Appearance1"
+#define KWinDBusInterface "org.deepin.dde.Appearance1"
 
 namespace KWin
 {
