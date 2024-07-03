@@ -1,3 +1,17 @@
+kwin (4:5.27.2.209-deepin209-1) unstable; urgency=medium
+
+  [huangzhenyan]
+  * fix: xdg popup position incorrect
+  * fix: update keyboard focus when grabbing popup closed.
+  * fix: tabbox window bottom margin
+  * fix: crash when toggling compositor
+  * fix: delay key '~' in tabbox
+  * fix: minimized windows flicker after tabbox hid
+  * fix: dont active multitaskview effect when user move or resize window
+  * fix: Tibetan translation of kwin menu
+
+ -- huangzhenyan <huangzhenyan@uniontech.com>  Wed, 03 Jul 2024 17:52:59 +0800
+
 kwin (4:5.27.2.208-deepin208-1) unstable; urgency=medium
 
   [yangtian]
