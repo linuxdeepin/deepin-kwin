@@ -36,10 +36,8 @@ var squashEffect = {
         }
 
         if (window.minimizeAnimation) {
-            if (redirect(window.minimizeAnimation, Effect.Forward)) {
-                return;
-            }
             cancel(window.minimizeAnimation);
+            return ;
         }
         pos.x += windowRect.width * squashEffect.miniSize / 100 / 2;
         pos.y += windowRect.height * squashEffect.miniSize / 100 / 2;
