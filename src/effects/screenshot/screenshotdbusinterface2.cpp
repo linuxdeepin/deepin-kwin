@@ -7,6 +7,7 @@
 */
 
 #include "screenshotdbusinterface2.h"
+#include "composite.h"
 #include "screenshot2adaptor.h"
 #include "screenshotlogging.h"
 #include "utils/serviceutils.h"
@@ -176,6 +177,9 @@ ScreenShotSource2::ScreenShotSource2(const QFuture<QImage> &future)
     connect(m_watcher, &QFutureWatcher<QImage>::finished, this, &ScreenShotSource2::completed);
     connect(m_watcher, &QFutureWatcher<QImage>::canceled, this, &ScreenShotSource2::cancelled);
     m_watcher->setFuture(m_future);
+    // takeScreenShot will done in ScreenShotEffect::paintScreen
+    // if all windows are minmize, we must call scheduleRepaint actively
+    Compositor::self()->scheduleRepaint();
 }
 
 bool ScreenShotSource2::isCancelled() const
