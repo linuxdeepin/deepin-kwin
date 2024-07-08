@@ -224,7 +224,14 @@ void AltTabThumbnailListEffect::paintWindow(EffectWindow *w, int mask, QRegion r
         s_dockWindow = w;
     } else if (w->isDesktop()) {
         data.setBrightness(0.4);
+    } else if (w->isWaterMark()) {
+        // paint later
+        if (!m_paintingWaterMark) {
+            m_waterMarkWindow = w;
+            return;
+        }
     }
+
     effects->paintWindow(w, mask, region, data);
 }
 
@@ -248,6 +255,15 @@ void AltTabThumbnailListEffect::paintScreen(int mask, const QRegion &region, Scr
     }
 
     workspace()->forceDisableRadius(false);
+
+    // paint watermark
+    if (m_waterMarkWindow) {
+        m_paintingWaterMark = true;
+        ItemRenderer *renderer = static_cast<EffectsHandlerImpl *>(effects)->scene()->renderer();
+        WindowPaintData window_data(renderer->renderTargetProjectionMatrix());
+        effects->paintWindow(m_waterMarkWindow, 0, region, window_data);
+        m_paintingWaterMark = false;
+    }
 }
 
 void AltTabThumbnailListEffect::slotTabboxAdded(int)
@@ -316,8 +332,15 @@ void AltTabThumbnailListEffect::slotMouseChanged(const QPoint &pos, const QPoint
 
 void AltTabThumbnailListEffect::slotWindowRemoved(EffectWindow *w)
 {
-    if (s_dockWindow == w)
+    if (!isActive())
+        return;
+
+    if (s_dockWindow == w) {
         s_dockWindow = nullptr;
+    } else if (m_waterMarkWindow == w) {
+        m_waterMarkWindow = nullptr;
+        m_paintingWaterMark = false;
+    }
 }
 
 void AltTabThumbnailListEffect::setActive(bool active)
@@ -328,7 +351,12 @@ void AltTabThumbnailListEffect::setActive(bool active)
 
     // inactive
     if (!active) {
+        m_paintingWaterMark = false;
+
         m_selectedWindow = nullptr;
+        m_waterMarkWindow = nullptr;
+        s_dockWindow = nullptr;
+
         m_itemList.clear();
         m_windowList.clear();
         return;

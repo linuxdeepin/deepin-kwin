@@ -77,12 +77,14 @@ private:
 
 private:
     bool m_isActive = false;
+    bool m_paintingWaterMark = false;
 
     QRect m_viewRect;
     QRect m_visibleRect;
     QVector<QPair<EffectWindow *, QRect>> m_windowList;
 
     EffectWindow *m_selectedWindow = nullptr;
+    EffectWindow *m_waterMarkWindow = nullptr;
 
     std::unique_ptr<GLShader> m_clipShader = nullptr;
     std::unique_ptr<GLShader> m_scissorShader = nullptr;
