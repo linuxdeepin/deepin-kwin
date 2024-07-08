@@ -6,7 +6,7 @@
 #cmakedefine01 KWIN_BUILD_SCREENLOCKER
 #cmakedefine01 KWIN_BUILD_TABBOX
 #cmakedefine01 KWIN_BUILD_ACTIVITIES
-#define KWIN_CONFIG "kwinrc"
+#define KWIN_CONFIG "deepin-kwinrc"
 #define KWIN_VERSION_STRING "${PROJECT_VERSION}"
 #define XCB_VERSION_STRING "${XCB_VERSION}"
 #define KWIN_KILLER_BIN "${CMAKE_INSTALL_FULL_LIBEXECDIR}/kwin_killer_helper"

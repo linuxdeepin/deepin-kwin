@@ -7,7 +7,7 @@ import subprocess
 
 # Get the config standard locations
 config_locations = subprocess.check_output(['qtpaths', '--paths', 'ConfigLocation']).decode('utf-8').strip().split(':')
-config_paths = [os.path.join(folder, 'kwinrc') for folder in config_locations]
+config_paths = [os.path.join(folder, 'deepin-kwinrc') for folder in config_locations]
 
 # Get the desktops information from `kwinrc` config file
 kwinrc = configparser.ConfigParser(strict=False, allow_no_value=True)
