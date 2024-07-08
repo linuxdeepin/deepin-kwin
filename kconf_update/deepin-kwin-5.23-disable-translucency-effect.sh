@@ -3,7 +3,7 @@
 HAS_ENABLED_KEY=''
 HAS_CUSTOM_CONFIG=''
 
-kwinrcname=`qtpaths --locate-file GenericConfigLocation kwinrc`
+kwinrcname=`qtpaths --locate-file GenericConfigLocation deepin-kwinrc`
 if [ -f "$kwinrcname" ]; then
     if grep -q "\[Effect-kwin4_effect_translucency\]" "$kwinrcname"; then
         HAS_CUSTOM_CONFIG=1
