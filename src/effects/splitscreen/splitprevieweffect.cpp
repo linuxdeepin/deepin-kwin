@@ -355,7 +355,13 @@ void SplitPreviewEffect::windowInputMouseEvent(QEvent* e)
                 effects->activateWindow(target);
                 effectsEx->setQuickTileWindow(target, m_backgroundMode);
             }
-            setActive(false);
+            if (effects->waylandDisplay()) {
+                QTimer::singleShot(70, [this]{
+                    setActive(false);
+                });
+            } else {
+                setActive(false);
+            }
             break;
         default:
             return;
