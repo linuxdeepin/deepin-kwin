@@ -2028,9 +2028,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         }
 
         m_workspaceStatus = wpNone;
-        m_hoverDesktop = -1;
         m_aciveMoveDesktop = -1;
-        m_screen = nullptr;
         m_wasWorkspaceMove = false;
         m_moveWorkspaceNum = -1;
         m_moveWorkspacedirection = mvNone;
@@ -3277,6 +3275,8 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         m_isShieldEvent = false;
         return;
     }
+    if (m_hoverDesktop == desktop)
+        m_hoverDesktop = -1;
     m_windowEffect.reset();
     m_flyingWinList.clear();
     m_windowInfo.clear();
