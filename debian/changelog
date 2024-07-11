@@ -1,3 +1,15 @@
+kwin (4:5.27.2.210-deepin210-1) unstable; urgency=medium
+
+  [yangtian]
+  * fix: minimized window flickers if click outside the tabbox
+  * fix: workspace close button on touchscreen in multitaskview   
+  * fix: watermark below the thumbnail in tabbox 
+  * fix: the squash effect in quick previewwindow was not cleared 
+  * fix: add timer to exit splitpreview for client damage
+  * fix: multitaskview showWorkspacePreview offset in wayland
+
+ -- yangtian <yangtian@uniontech.com>  Thu, 11 Jul 2024 14:12:55 +0800
+
 kwin (4:5.27.2.209-deepin209-1) unstable; urgency=medium
 
   [huangzhenyan]
