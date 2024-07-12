@@ -2353,11 +2353,21 @@ void X11Window::getIcons()
             }
         }
     }
-    if (icon.isNull()) {
-        // And if nothing else, load icon from classhint or xapp icon
-        icon.addPixmap(KX11Extras::icon(window(), 32, 32, true, KX11Extras::ClassHint | KX11Extras::XApp, info));
+
+    // And if nothing else, load icon from classhint or xapp icon
+    if (!icon.availableSizes().contains({16, 16})) {
         icon.addPixmap(KX11Extras::icon(window(), 16, 16, true, KX11Extras::ClassHint | KX11Extras::XApp, info));
+    }
+    if (!icon.availableSizes().contains({32, 32})) {
+        icon.addPixmap(KX11Extras::icon(window(), 32, 32, true, KX11Extras::ClassHint | KX11Extras::XApp, info));
+    }
+    if (!icon.availableSizes().contains({48, 48})) {
+        icon.addPixmap(KX11Extras::icon(window(), 48, 48, false, KX11Extras::ClassHint | KX11Extras::XApp, info));
+    }
+    if (!icon.availableSizes().contains({64, 64})) {
         icon.addPixmap(KX11Extras::icon(window(), 64, 64, false, KX11Extras::ClassHint | KX11Extras::XApp, info));
+    }
+    if (!icon.availableSizes().contains({128, 128})) {
         icon.addPixmap(KX11Extras::icon(window(), 128, 128, false, KX11Extras::ClassHint | KX11Extras::XApp, info));
     }
     setIcon(icon);
