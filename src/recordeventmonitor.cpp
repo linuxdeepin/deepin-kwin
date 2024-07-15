@@ -70,7 +70,7 @@ void RecordEventMonitor::run()
     if (displayDatalink == nullptr)
         return;
 
-    void *file = dlopen("libX11.so", RTLD_LAZY);
+    void *file = dlopen("libX11.so.6", RTLD_LAZY);
     if (file) {
         void *function = dlsym(file, "XSetErrorHandler");
         if (function) {
