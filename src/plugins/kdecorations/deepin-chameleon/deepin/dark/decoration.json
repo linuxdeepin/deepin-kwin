@@ -7,22 +7,22 @@
       "height": 50,
       "area": 1,
       "mouseInputAreaMargins": "10,10,10,10",
-      "bgcolor": "white",
+      "bgcolor": "#101010",
       "font-family": "SourceHanSansSC",
       "font-size": 14,
       "text-align": "center",
       "text-color": {
-        "active": "#303030",
-        "inactive": "#969696"
+        "active": "#8c8c8c",
+        "inactive": "#656565"
       },
       "button-group": {
         "menu": {
           "pos": "12.77,9",
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/menu_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/menu_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/menu_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/menu_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/menu_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/menu_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/menu_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/menu_disabled.svg"
           },
           "width": 32,
           "height": 32,
@@ -33,10 +33,10 @@
         },
         "minimize": {
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/minimize_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/minimize_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/minimize_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/minimize_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/minimize_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/minimize_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/minimize_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/minimize_disabled.svg"
           },
           "width": 50,
           "height": 50,
@@ -47,10 +47,10 @@
         },
         "maximize": {
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/maximize_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/maximize_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/maximize_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/maximize_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/maximize_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/maximize_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/maximize_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/maximize_disabled.svg"
           },
           "width": 50,
           "height": 50,
@@ -61,10 +61,10 @@
         },
         "unmaximize": {
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/unmaximize_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/unmaximize_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/unmaximize_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/unmaximize_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/unmaximize_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/unmaximize_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/unmaximize_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/unmaximize_disabled.svg"
           },
           "width": 50,
           "height": 50,
@@ -75,10 +75,10 @@
         },
         "close": {
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/close_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/close_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/close_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/close_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/close_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/close_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/close_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/close_disabled.svg"
           },
           "width": 50,
           "height": 50,
@@ -119,10 +119,10 @@
         "menu": {
           "pos": "10,10",
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/menu_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/menu_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/menu_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/menu_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/menu_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/menu_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/menu_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/menu_disabled.svg"
           },
           "width": 32,
           "height": 32,
@@ -133,10 +133,10 @@
         },
         "minimize": {
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/minimize_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/minimize_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/minimize_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/minimize_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/minimize_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/minimize_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/minimize_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/minimize_disabled.svg"
           },
           "width": 50,
           "height": 50,
@@ -147,10 +147,10 @@
         },
         "maximize": {
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/maximize_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/maximize_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/maximize_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/maximize_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/maximize_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/maximize_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/maximize_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/maximize_disabled.svg"
           },
           "width": 50,
           "height": 50,
@@ -161,10 +161,10 @@
         },
         "unmaximize": {
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/unmaximize_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/unmaximize_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/unmaximize_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/unmaximize_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/unmaximize_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/unmaximize_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/unmaximize_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/unmaximize_disabled.svg"
           },
           "width": 50,
           "height": 50,
@@ -175,10 +175,10 @@
         },
         "close": {
           "icon": {
-            "normal": ":/deepin/themes/deepin/light/icons/close_normal.svg",
-            "hover": ":/deepin/themes/deepin/light/icons/close_hover.svg",
-            "press": ":/deepin/themes/deepin/light/icons/close_press.svg",
-            "disabled": ":/deepin/themes/deepin/light/icons/close_disabled.svg"
+            "normal": ":/deepin/themes/deepin/dark/icons/close_normal.svg",
+            "hover": ":/deepin/themes/deepin/dark/icons/close_hover.svg",
+            "press": ":/deepin/themes/deepin/dark/icons/close_press.svg",
+            "disabled": ":/deepin/themes/deepin/dark/icons/close_disabled.svg"
           },
           "width": 50,
           "height": 50,
