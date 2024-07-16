@@ -2570,6 +2570,7 @@ void Workspace::slotIconThemeChanged(const QString &property, const QString &the
 {
     if (property == "icon")
         QIcon::setThemeName(theme);
+    Q_EMIT iconThemeChanged();
 }
 
 void Workspace::tileActiveWindow(uint side)

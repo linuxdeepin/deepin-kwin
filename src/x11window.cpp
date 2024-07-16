@@ -529,6 +529,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     loadGioDesktopFileName();
     getIcons();
     connect(this, &X11Window::desktopFileNameChanged, this, &X11Window::getIcons);
+    connect(workspace(), &Workspace::iconThemeChanged, this, &X11Window::getIcons);
 
     m_geometryHints.read();
     getMotifHints();

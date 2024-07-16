@@ -794,6 +794,7 @@ Q_SIGNALS:
     void motionByRecord();
     void osRadiusChanged();
     void osThemeChanged();
+    void iconThemeChanged();
 
 private:
     void init();
