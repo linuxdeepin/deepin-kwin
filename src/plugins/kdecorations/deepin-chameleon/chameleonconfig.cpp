@@ -137,6 +137,10 @@ void ChameleonConfig::onConfigChanged()
     bool active = group_decoration.readEntry("library") == "com.deepin.chameleon";
 
     setActivated(active);
+
+    KConfigGroup group(&config, "deepin-chameleon");
+    const QString &theme_info = group.readEntry("theme");
+    setTheme(theme_info);
 }
 
 #define D_KWIN_DEBUG_APP_START_TIME "D_KWIN_DEBUG_APP_START_TIME"
