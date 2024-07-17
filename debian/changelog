@@ -1,3 +1,10 @@
+deepin-kwin (4:5.27.2.203-deepin202-1) unstable; urgency=medium
+
+  [dingzhixuan]
+  * fix: not show tabbox
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Wed, 17 Jul 2024 10:11:18 +0800
+
 deepin-kwin (4:5.27.2.202-deepin202-1) unreleased; urgency=medium
 
   [dingzhixuan]
