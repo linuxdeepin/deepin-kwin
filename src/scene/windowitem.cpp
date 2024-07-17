@@ -25,7 +25,7 @@ WindowItem::WindowItem(Window *window, Scene *scene, Item *parent)
     : Item(scene, parent)
     , m_window(window)
 {
-    connect(window, &Window::decorationChanged, this, &WindowItem::updateDecorationItem);
+    m_decorationChangedConnection = connect(window, &Window::decorationChanged, this, &WindowItem::updateDecorationItem);
     updateDecorationItem();
 
     connect(window, &Window::shadowChanged, this, &WindowItem::updateShadowItem);
@@ -54,6 +54,7 @@ WindowItem::WindowItem(Window *window, Scene *scene, Item *parent)
 
 WindowItem::~WindowItem()
 {
+    disconnect(m_decorationChangedConnection);
 }
 
 SurfaceItem *WindowItem::surfaceItem() const

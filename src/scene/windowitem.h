@@ -79,6 +79,7 @@ private:
     int m_forceVisibleByDesktopCount = 0;
     int m_forceVisibleByMinimizeCount = 0;
     int m_forceVisibleByActivityCount = 0;
+    QMetaObject::Connection m_decorationChangedConnection;
 };
 
 /**
