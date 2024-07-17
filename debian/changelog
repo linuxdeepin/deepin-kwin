@@ -1,3 +1,15 @@
+kwin (4:5.27.2.211-deepin211-1) unstable; urgency=medium
+
+  [huangzeming]
+  * fix: disconnect the connection when the WindowItem object is destroyed.
+  * fix: keep color of titlebar consistent with theme
+  * fix: update icon when icon theme changed
+  * fix: wechat window raised when compositor toggled
+  * fix: kwin coredump after logging out
+  * fix: stop setting XCURSOR_SIZE
+
+ -- huangzeming <huangzeming@uniontech.com>  Wed, 17 Jul 2024 15:19:21 +0800
+
 kwin (4:5.27.2.210-deepin210-1) unstable; urgency=medium
 
   [yangtian]
