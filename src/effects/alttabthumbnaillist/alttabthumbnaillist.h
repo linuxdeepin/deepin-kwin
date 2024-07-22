@@ -9,7 +9,7 @@ namespace KWin
 class ItemView
 {
 public:
-    ItemView(EffectWindow *w, const QRect &r);
+    ItemView(EffectWindow *w, int xInList);
     ItemView(ItemView &&info);
     ItemView(const ItemView &info) = delete;
     ~ItemView();
@@ -17,12 +17,11 @@ public:
     ItemView &operator=(ItemView &&info);
     ItemView &operator=(const ItemView &info) = delete;
 
-    void setFrameRect(const QRect &r);
     void updateTexture();
+    void clearTexture();
 
     EffectWindow *window() const { return m_window; }
     QRect frameRect() const { return m_frameRect; }
-    QRect filledRect() const { return m_frameRect.adjusted(-1, -1, 1, 1); }  // considered border
     QRect thumbnailRect() const { return m_thumbnailRect; }
     GLTexture *windowTexture() const { return m_windowTexture.get(); }
     GLTexture *filledTexture() const { return m_filledTexture.get(); }
@@ -45,9 +44,12 @@ public:
     ~AltTabThumbnailListEffect() override;
 
     bool isActive() const override;
+    void reconfigure(ReconfigureFlags flags) override;
 
     void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
+    void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
+    void postPaintScreen() override;
 
     static EffectWindow *dockWindow() { return s_dockWindow; }
 
@@ -65,23 +67,32 @@ public Q_SLOTS:
 private:
     void setActive(bool active);
 
-    void updateWindowList();
+    void updateItemList();
     void updateSelected();
     void updateViewRect();
-    void updateVisible();
+    void updateVisibleRect();
 
-    void renderSelectedFrame(const QRect &rect, ScreenPaintData &data);
-    void renderItemView(ItemView &view, ScreenPaintData &data);
+    void renderSelectedFrame(ScreenPaintData &data);
+    void renderItemView(ItemView &item, ScreenPaintData &data);
 
-    bool windowListInvalid();
+    QRect rectOnScreen(const QRect &rectInList, const QRect &visible) const;
 
 private:
+    struct Animation
+    {
+        bool enable;
+        bool active;
+        TimeLine timeLine;
+    };
+    Animation m_scrollAnimation;
+    Animation m_selectAnimation;
+
     bool m_isActive = false;
     bool m_paintingWaterMark = false;
 
     QRect m_viewRect;
-    QRect m_visibleRect;
-    QVector<QPair<EffectWindow *, QRect>> m_windowList;
+    QRect m_visibleRect, m_prevVisibleRect, m_nextVisibleRect;
+    QRect m_selectedRect, m_prevSelectedRect, m_nextSelectedRect;
 
     EffectWindow *m_selectedWindow = nullptr;
     EffectWindow *m_waterMarkWindow = nullptr;
@@ -92,7 +103,7 @@ private:
     std::unique_ptr<GLTexture> m_scissorMask = nullptr;
     std::unique_ptr<GLTexture> m_selectedFrame = nullptr;
 
-    std::unordered_map<EffectWindow *, ItemView> m_itemList;
+    std::vector<ItemView> m_itemList;
 
     static EffectWindow *s_dockWindow;
 };

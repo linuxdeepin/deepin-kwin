@@ -873,8 +873,9 @@ void Compositor::handleDConfigUserTypeChanged(const QString &type)
                         e->unloadEffect(name, false);
                 }
             }
-            if (e->findEffect("multitaskview"))
-                e->reconfigureEffect("multitaskview");
+
+            e->reconfigureEffect("multitaskview");
+            e->reconfigureEffect("alttabthumbnaillist");
             return;
         }
 
