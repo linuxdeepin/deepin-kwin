@@ -1,3 +1,11 @@
+kwin (4:5.27.2.212-deepin212-1) unstable; urgency=medium
+
+  [yangtian]
+  * feat: add scroll and select animation in tabbox
+  * fix: add restrictions in 'sendWinodwToDesktop'
+
+ -- yangtian <yangtian@uniontech.com>  Mon, 22 Jul 2024 16:33:36 +0800
+
 kwin (4:5.27.2.211-deepin211-1) unstable; urgency=medium
 
   [huangzeming]
