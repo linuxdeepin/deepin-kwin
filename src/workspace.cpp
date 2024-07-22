@@ -1893,6 +1893,9 @@ void Workspace::selectWmInputEventMask()
  */
 void Workspace::sendWindowToDesktop(Window *window, int desk, bool dont_activate)
 {
+    if (!window || window->isOnAllDesktops() || window == workspace()->moveResizeWindow()) {
+        return;
+    }
     if ((desk < 1 && desk != NET::OnAllDesktops) || desk > static_cast<int>(VirtualDesktopManager::self()->count())) {
         return;
     }
