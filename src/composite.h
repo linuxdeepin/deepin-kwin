@@ -227,6 +227,7 @@ private:
     std::unique_ptr<RenderBackend> m_backend;
     QHash<RenderLoop *, RenderLayer *> m_superlayers;
     CompositingType m_selectedCompositor = NoCompositing;
+    bool m_edgeSoftCursor = false;
 };
 
 class KWIN_EXPORT WaylandCompositor final : public Compositor

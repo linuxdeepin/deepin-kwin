@@ -40,6 +40,7 @@
 #include "useractions.h"
 #include "utils/common.h"
 #include "utils/xcbutils.h"
+#include "utils/dconfig_reader.h"
 #include "wayland/surface_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -87,6 +88,7 @@ Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 #define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
 #define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
 #define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
+#define EDGE_SOFTCURSOR_MARGIN 16
 
 namespace KWin
 {
@@ -613,6 +615,8 @@ void Compositor::startupWithWorkspace()
         xcb_composite_redirect_subwindows(connection, kwinApp()->x11RootWindow(),
                                           XCB_COMPOSITE_REDIRECT_MANUAL);
     }
+
+    DconfigRead<bool>("org.kde.kwin.compositing", "edgeSoftCursor", m_edgeSoftCursor);
 }
 
 Output *Compositor::findOutput(RenderLoop *loop) const
@@ -647,7 +651,7 @@ void Compositor::addOutput(Output *output)
     cursorLayer->setParent(workspaceLayer);
     cursorLayer->setSuperlayer(workspaceLayer);
 
-    auto updateCursorLayer = [output, cursorLayer]() {
+    auto updateCursorLayer = [output, cursorLayer, &edgeSoftCursor = m_edgeSoftCursor]() {
         const Cursor *cursor = Cursors::self()->currentCursor();
         const QRect layerRect = output->mapFromGlobal(cursor->geometry());
         bool usesHardwareCursor = false;
@@ -656,14 +660,24 @@ void Compositor::addOutput(Output *output)
         } else {
             usesHardwareCursor = output->setCursor(nullptr);
         }
+        if (edgeSoftCursor &&
+                (layerRect.x() > output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
+                layerRect.y() > output->geometry().height() - EDGE_SOFTCURSOR_MARGIN)) {
+            usesHardwareCursor = false;
+        }
         cursorLayer->setVisible(cursor->isOnOutput(output) && !usesHardwareCursor);
         cursorLayer->setGeometry(layerRect);
         cursorLayer->addRepaintFull();
     };
-    auto moveCursorLayer = [output, cursorLayer]() {
+    auto moveCursorLayer = [output, cursorLayer, &edgeSoftCursor = m_edgeSoftCursor]() {
         const Cursor *cursor = Cursors::self()->currentCursor();
-        const QRect layerRect = output->mapFromGlobal(cursor->geometry());
-        const bool usesHardwareCursor = output->moveCursor(layerRect.topLeft());
+        QRect layerRect = output->mapFromGlobal(cursor->geometry());
+        bool usesHardwareCursor = output->moveCursor(layerRect.topLeft());
+        if (edgeSoftCursor &&
+                (layerRect.x() > output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
+                layerRect.y() > output->geometry().height() - EDGE_SOFTCURSOR_MARGIN)) {
+            usesHardwareCursor = false;
+        }
         cursorLayer->setVisible(cursor->isOnOutput(output) && !usesHardwareCursor);
         cursorLayer->setGeometry(layerRect);
         cursorLayer->addRepaintFull();
