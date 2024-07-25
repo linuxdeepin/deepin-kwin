@@ -365,6 +365,11 @@ void XdgSurfaceWindow::destroyWindow()
         }
     }
 
+    //TODO for screen shot show cursor on wayland
+    if (resourceClass() == "deepin-screen-recorder") {
+        Compositor::self()->handleScreenShotStop();
+    }
+
     Deleted *deleted = Deleted::create(this);
     Q_EMIT windowClosed(this, deleted);
     StackingUpdatesBlocker blocker(workspace());

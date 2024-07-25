@@ -90,6 +90,10 @@ Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 #define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
 #define EDGE_SOFTCURSOR_MARGIN 16
 
+#define SCREENSHOT_SERVICE "com.deepin.ScreenRecorder.time"
+#define SCREENSHOT_OBJECT "/com/deepin/ScreenRecorder/time"
+#define SCREENSHOT_INTERFACE "com.deepin.ScreenRecorder.time"
+
 namespace KWin
 {
 template <typename T> using ScopedCPointer = QScopedPointer<T, QScopedPointerPodDeleter>;
@@ -296,6 +300,17 @@ Compositor::Compositor(QObject *workspace)
         } else {
             qCWarning(KWIN_CORE) << "Fail to connect to DConfig valueChanged";
         }
+    }
+
+    if (waylandServer()) {
+            if (!QDBusConnection::sessionBus().connect(SCREENSHOT_SERVICE, SCREENSHOT_OBJECT, SCREENSHOT_INTERFACE,
+                    "start", this, SLOT(handleScreenShotStart()))) {
+                qCWarning(KWIN_CORE) << "Failed to connect screen shot signal start";
+            }
+            if (!QDBusConnection::sessionBus().connect(SCREENSHOT_SERVICE, SCREENSHOT_OBJECT, SCREENSHOT_INTERFACE,
+                    "stop", this, SLOT(handleScreenShotStop()))) {
+                qCWarning(KWIN_CORE) << "Failed to connect screen shot signal stop";
+            }
     }
 
     // register DBus
@@ -651,7 +666,7 @@ void Compositor::addOutput(Output *output)
     cursorLayer->setParent(workspaceLayer);
     cursorLayer->setSuperlayer(workspaceLayer);
 
-    auto updateCursorLayer = [output, cursorLayer, &edgeSoftCursor = m_edgeSoftCursor]() {
+    auto updateCursorLayer = [output, cursorLayer, this]() {
         const Cursor *cursor = Cursors::self()->currentCursor();
         const QRect layerRect = output->mapFromGlobal(cursor->geometry());
         bool usesHardwareCursor = false;
@@ -660,23 +675,31 @@ void Compositor::addOutput(Output *output)
         } else {
             usesHardwareCursor = output->setCursor(nullptr);
         }
-        if (edgeSoftCursor &&
+        if (m_screenShotRunning || (m_edgeSoftCursor &&
                 (layerRect.x() > output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
-                layerRect.y() > output->geometry().height() - EDGE_SOFTCURSOR_MARGIN)) {
+                layerRect.y() > output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
             usesHardwareCursor = false;
+        }
+        if (m_usesHardwareCursor != usesHardwareCursor) {
+            m_usesHardwareCursor = usesHardwareCursor;
+            qCDebug(KWIN_CORE) << "HardWareCursor changed, now status is" << m_usesHardwareCursor;
         }
         cursorLayer->setVisible(cursor->isOnOutput(output) && !usesHardwareCursor);
         cursorLayer->setGeometry(layerRect);
         cursorLayer->addRepaintFull();
     };
-    auto moveCursorLayer = [output, cursorLayer, &edgeSoftCursor = m_edgeSoftCursor]() {
+    auto moveCursorLayer = [output, cursorLayer, this]() {
         const Cursor *cursor = Cursors::self()->currentCursor();
         QRect layerRect = output->mapFromGlobal(cursor->geometry());
         bool usesHardwareCursor = output->moveCursor(layerRect.topLeft());
-        if (edgeSoftCursor &&
+        if (m_screenShotRunning || (m_edgeSoftCursor &&
                 (layerRect.x() > output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
-                layerRect.y() > output->geometry().height() - EDGE_SOFTCURSOR_MARGIN)) {
+                layerRect.y() > output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
             usesHardwareCursor = false;
+        }
+        if (m_usesHardwareCursor != usesHardwareCursor) {
+            m_usesHardwareCursor = usesHardwareCursor;
+            qCDebug(KWIN_CORE) << "HardWareCursor changed, now status is" << m_usesHardwareCursor;
         }
         cursorLayer->setVisible(cursor->isOnOutput(output) && !usesHardwareCursor);
         cursorLayer->setGeometry(layerRect);

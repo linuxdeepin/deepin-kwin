@@ -196,6 +196,16 @@ protected Q_SLOTS:
 private Q_SLOTS:
     void handleDConfigUserTypeChanged(const QString &type);
     void handleFrameRequested(RenderLoop *renderLoop);
+    //TODO for screen shot show cursor on wayland
+    void handleScreenShotStart() {
+        m_screenShotRunning = true;
+    }
+
+public Q_SLOTS:
+    //TODO for screen shot show cursor on wayland
+    void handleScreenShotStop() {
+        m_screenShotRunning = false;
+    }
 
 private:
     void initializeX11();
@@ -232,6 +242,8 @@ private:
     QHash<RenderLoop *, RenderLayer *> m_superlayers;
     CompositingType m_selectedCompositor = NoCompositing;
     bool m_edgeSoftCursor = false;
+    bool m_screenShotRunning = false;
+    bool m_usesHardwareCursor = false;
 };
 
 class KWIN_EXPORT WaylandCompositor final : public Compositor
