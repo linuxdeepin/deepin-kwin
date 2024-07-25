@@ -1,3 +1,11 @@
+kwin (4:5.27.2.213-deepin213-1) unstable; urgency=medium
+
+  [huangzeming]
+  * fix: tabbox window bottom margin when dock on the top of screen
+  * fix: repair about dock don't display when show unmanaged win
+
+ -- huangzeming <huangzeming@uniontech.com>  Thu, 25 Jul 2024 11:15:41 +0800
+
 kwin (4:5.27.2.212-deepin212-1) unstable; urgency=medium
 
   [yangtian]
