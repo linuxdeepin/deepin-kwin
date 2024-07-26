@@ -466,6 +466,7 @@ public:
      */
     void setShowingDesktop(bool showing, bool animated = true);
     bool showingDesktop() const;
+    Window *updateDesktopLayer(bool showing);
     xcb_timestamp_t showingDesktopTimestamp() const;
 
     Q_SLOT void setPreviewClientList(const QList<Window *> &list);
