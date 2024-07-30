@@ -1,3 +1,11 @@
+deepin-kwin (4:5.27.2.204-deepin204-1) unstable; urgency=medium
+
+  [zhangyu]
+  * fix: repair about dock don't display when show unmanaged win
+  * fix: optimized maxi effect pointer
+
+ -- zhangyu <zhangyud@uniontech.com>  Tue, 30 Jul 2024 17:48:18 +0800
+
 deepin-kwin (4:5.27.2.203-deepin202-1) unstable; urgency=medium
 
   [dingzhixuan]
