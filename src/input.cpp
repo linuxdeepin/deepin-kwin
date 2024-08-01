@@ -31,6 +31,7 @@
 #include "tablet_input.h"
 #include "touch_input.h"
 #include "x11window.h"
+#include "xwaylandwindow.h"
 #if KWIN_BUILD_TABBOX
 #include "tabbox/tabbox.h"
 #endif
@@ -2731,6 +2732,22 @@ public:
         switch (event->type()) {
         case QEvent::MouseMove: {
             ddeSeat->setPointerPos(event->globalPos());
+            // FIXME: just for wemeet cursor show
+            auto conn = kwinApp()->x11Connection();
+            auto top_window = workspace()->stackingOrder().size() > 0 ? workspace()->stackingOrder().last() : nullptr;
+            if(conn && waylandServer() && top_window && top_window->resourceName() == "wemeetapp") {
+                Window *input_window = nullptr;
+                for (int i = workspace()->stackingOrder().count() - 1; i >= 0; i--) {
+                    Window *client = workspace()->stackingOrder().at(i);
+                    if (client && client->hitTest(event->globalPos())){
+                        input_window = client;
+                        if (!qobject_cast<XwaylandWindow*>(input_window)) {
+                            xcb_test_fake_input(conn,XCB_MOTION_NOTIFY,0,XCB_CURRENT_TIME,XCB_NONE,event->globalPos().x(),event->globalPos().y(),0);
+                        }
+                        break;
+                    }
+                }
+            }
             break;
         }
         case QEvent::MouseButtonPress: {

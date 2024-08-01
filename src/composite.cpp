@@ -676,8 +676,8 @@ void Compositor::addOutput(Output *output)
             usesHardwareCursor = output->setCursor(nullptr);
         }
         if (m_screenShotRunning || (m_edgeSoftCursor &&
-                (layerRect.x() > output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
-                layerRect.y() > output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
+                (layerRect.x() >= output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
+                layerRect.y() >= output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
             usesHardwareCursor = false;
         }
         if (m_usesHardwareCursor != usesHardwareCursor) {
@@ -693,8 +693,8 @@ void Compositor::addOutput(Output *output)
         QRect layerRect = output->mapFromGlobal(cursor->geometry());
         bool usesHardwareCursor = output->moveCursor(layerRect.topLeft());
         if (m_screenShotRunning || (m_edgeSoftCursor &&
-                (layerRect.x() > output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
-                layerRect.y() > output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
+                (layerRect.x() >= output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
+                layerRect.y() >= output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
             usesHardwareCursor = false;
         }
         if (m_usesHardwareCursor != usesHardwareCursor) {
