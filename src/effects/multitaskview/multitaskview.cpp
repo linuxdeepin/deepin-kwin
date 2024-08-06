@@ -931,13 +931,13 @@ void MultitaskViewEffect::postPaintScreen()
         QTimer::singleShot(400, [&]() { m_delayDbus = true; });
         if (QX11Info::isPlatformX11() && m_dockRect.contains(m_cursorPos)) {
             relayDockEvent(m_cursorPos, m_buttonType);
-            m_cursorPos.setX(0);
-            m_cursorPos.setY(0);
+            m_cursorPos.setX(-1);
+            m_cursorPos.setY(-1);
             m_buttonType = 0;
         } else if (!QX11Info::isPlatformX11() && m_sendButton != Qt::NoButton) {
             effectsEx->sendPointer(m_cursorPos, m_sendButton);
-            m_cursorPos.setX(0);
-            m_cursorPos.setY(0);
+            m_cursorPos.setX(-1);
+            m_cursorPos.setY(-1);
             m_sendButton = Qt::NoButton;
         }
     }
