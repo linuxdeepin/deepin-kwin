@@ -1964,7 +1964,7 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
 
     if (showing_desktop && topDesk) {
         requestFocus(topDesk);
-    } else if (!showing_desktop && changed) {
+    } else if (!showing && !showing_desktop && changed) {
         const auto window = m_focusChain->getForActivation(VirtualDesktopManager::self()->currentDesktop());
         if (window) {
             activateWindow(window);
