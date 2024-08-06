@@ -80,6 +80,10 @@ public:
         }
     }
 
+    bool isEdgeSoftCursor() {
+        return m_edgeSoftCursor;
+    }
+
     WorkspaceScene *scene() const
     {
         return m_scene.get();

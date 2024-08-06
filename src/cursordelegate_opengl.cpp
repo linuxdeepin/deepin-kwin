@@ -33,6 +33,9 @@ void CursorDelegateOpenGL::paint(RenderTarget *renderTarget, const QRegion &regi
     if (!m_texture || m_texture->size() != bufferSize) {
         m_texture = std::make_unique<GLTexture>(GL_RGBA8, bufferSize);
         m_framebuffer = std::make_unique<GLFramebuffer>(m_texture.get());
+        if (Compositor::self()->isEdgeSoftCursor()) {
+            m_texture->setYInverted(true);
+        }
     }
 
     RenderTarget offscreenRenderTarget(m_framebuffer.get());
@@ -60,11 +63,19 @@ void CursorDelegateOpenGL::paint(RenderTarget *renderTarget, const QRegion &regi
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_texture->bind();
+    if (!Compositor::self()->isEdgeSoftCursor()) {
+        m_texture->bind();
+    } else {
+        glBindTexture(GL_TEXTURE_1D, m_texture->texture());
+    }
     ShaderBinder binder(ShaderTrait::MapTexture);
     binder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
     m_texture->render(region, QRect(0, 0, cursorRect.width(), cursorRect.height()), scale);
-    m_texture->unbind();
+    if (!Compositor::self()->isEdgeSoftCursor()) {
+        m_texture->unbind();
+    } else {
+        glBindTexture(GL_TEXTURE_1D, 0);
+    }
     glDisable(GL_BLEND);
 
     GLFramebuffer::popFramebuffer();
