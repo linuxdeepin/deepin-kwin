@@ -110,7 +110,6 @@ private:
     Session *m_session;
     QVector<DrmAbstractOutput *> m_outputs;
     DrmVirtualOutput *m_placeHolderOutput = nullptr;
-    Output *m_primaryVirtualOutput = nullptr;
 
     bool m_active = false;
     const QStringList m_explicitGpus;
