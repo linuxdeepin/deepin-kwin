@@ -111,7 +111,7 @@ void PlacementTracker::restore(const QString &key)
                     window->setQuickTileMode(newData.quickTile, true);
                     window->setMaximize(newData.maximize & MaximizeMode::MaximizeVertical, newData.maximize & MaximizeMode::MaximizeHorizontal);
                 }
-                if (newData.fullscreen) {
+                if (newData.fullscreen && window->isFullScreenable()) {
                     window->moveResize(newData.fullscreenGeometryRestore);
                     window->setFullScreen(newData.fullscreen);
                 }
