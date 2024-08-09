@@ -2220,9 +2220,9 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
 
             if (!isUnrestrictedInteractiveMoveResize()) {
                 const StrutRects strut = workspace()->restrictedMoveArea(VirtualDesktopManager::self()->currentDesktop());
-                QRegion availableArea;
+                QVector<QRect> availableRegions; // Client's window valid moving area, may be consist of multiple regions
                 for (Output *s : workspace()->outputs()) {
-                    availableArea += workspace()->clientArea(PlacementArea, s, VirtualDesktopManager::self()->currentDesktop()).toRect();
+                    availableRegions += workspace()->clientArea(PlacementArea, s, VirtualDesktopManager::self()->currentDesktop()).toRect();
                 }
                 bool transposed = false;
                 int requiredPixels;
@@ -2266,14 +2266,17 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
                     requiredPixels = DEFAULT_REQUIRED_PIXELS;
                 }
 
+                // This loop aims to find region big enough to place client window.
+                // Once a valid region is found, which means QPoint(x, y) is the next win pos.
+                // Other wise client window have to move back.
                 for (;;) {
                     QRectF currentTry = nextMoveResizeGeom;
                     const QRectF titleRect(bTitleRect.translated(currentTry.topLeft()));
                     int visiblePixels = 0;
-                    for (const QRect &rect : availableArea) {
+                    for (const QRect &rect : availableRegions) {
                         const QRect r = rect & titleRect.toRect();
                         if ((transposed && r.width() == titleRect.width()) || // Only the full size regions...
-                            (!transposed && r.height() == titleRect.height())) { // ...prevents long slim areas
+                            (!transposed && r.height() == titleRect.height())) { // prevents long slim region but have enough pixels
                             visiblePixels += r.width() * r.height();
                         }
                     }
