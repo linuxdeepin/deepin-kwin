@@ -9,6 +9,8 @@
 #include "maximizeeffect.h"
 #include "../utils/common.h"
 
+#include <effects.h>
+
 namespace MaxiConsts {
     const QEasingCurve TOGGLE_MODE =  QEasingCurve::OutQuart;// AnimationMode.EASE_OUT_Expo;
     static const int FADE_DURATION = 350;
@@ -178,6 +180,10 @@ void MaximizeEffect::cleanup()
 
 void MaximizeEffect::slotWindowMaxiChanged(EffectWindow *window, QRectF oldG, QRectF newG, int mode)
 {
+    Window *w = window ? static_cast<EffectWindowImpl *>(window)->window() : nullptr;
+    if (!w || w->isInteractiveMove())
+        return;
+
     m_animationTime.reset();
     m_maxiWin = window;
     m_oldGeo = oldG;
