@@ -138,7 +138,8 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
             }
         }
     } else {
-        effects->paintWindow(w, mask, region, data);
+        if (w->isDock() || isRelevantWithPresentWindows(w))
+            effects->paintWindow(w, mask, region, data);
     }
 }
 

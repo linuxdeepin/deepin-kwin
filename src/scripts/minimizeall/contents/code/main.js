@@ -31,7 +31,7 @@ function minimizeAllWindows() {
     }
 
     // Try to preserve last active window by sorting windows.
-    relevantClients.sort((a, b) => {
+    relevantClients.sort(function(a, b) {
         if (a.active) {
             return 1;
         } else if (b.active) {

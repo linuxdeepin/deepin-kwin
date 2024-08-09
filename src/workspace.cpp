@@ -1947,52 +1947,30 @@ void Workspace::focusToNull()
         m_nullFocus->focus();
     }
 }
-
 void Workspace::setShowingDesktop(bool showing, bool animated)
 {
     const bool changed = showing != showing_desktop;
-    if (rootInfo() && changed) {
-        rootInfo()->setShowingDesktop(showing);
-    }
-    showing_desktop = showing;
-    showing_desktop_timestamp = kwinApp()->x11Time();
 
+    showing_desktop_timestamp = kwinApp()->x11Time();
     Window *topDesk = nullptr;
-    if (!showing || !Compositor::compositing() ||
-        !(effects && static_cast<EffectsHandlerImpl *>(effects)->loadedEffects().contains("kwin4_effect_eyeonscreen"))) { // for the blocker RAII
-        StackingUpdatesBlocker blocker(this); // updateLayer & lowerWindow would invalidate stacking_order
-        for (int i = stacking_order.count() - 1; i > -1; --i) {
-            auto window = stacking_order.at(i);
-            if (window->isClient() && window->isOnCurrentDesktop()) {
-                if (window->isDock()) {
-                    window->updateLayer();
-                } else if (window->isDesktop() && window->isShown()) {
-                    window->updateLayer();
-                    lowerWindow(window);
-                    if (!topDesk) {
-                        topDesk = window;
-                    }
-                    if (auto group = window->group()) {
-                        const auto members = group->members();
-                        for (X11Window *cm : members) {
-                            cm->updateLayer();
-                        }
-                    }
-                } else if (window->keepAbove()) {
-                    window->updateLayer();
-                }
-            }
-        }
-    } // ~StackingUpdatesBlocker
+
+    if (!showing ||
+        !Compositor::compositing() ||
+        !(effects && static_cast<EffectsHandlerImpl *>(effects)->loadedEffects().contains("kwin4_effect_eyeonscreen")  && animated)) {
+        showing_desktop_effect = showing;
+        showing_desktop = showing;
+        topDesk = updateDesktopLayer(showing);
+    }
 
     if (showing_desktop && topDesk) {
         requestFocus(topDesk);
-    } else if (!showing_desktop && changed) {
+    } else if (!showing && !showing_desktop && changed) {
         const auto window = m_focusChain->getForActivation(VirtualDesktopManager::self()->currentDesktop());
         if (window) {
             activateWindow(window);
         }
     }
+
     if (changed) {
         Q_EMIT showingDesktopChanged(showing, animated);
     }
@@ -2006,40 +1984,52 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
 
 void Workspace::slotShowingDesktopEffectChanged(bool showing)
 {
-    if (showing == showing_desktop_effect)
+    if (!showing ||
+        showing == showing_desktop_effect)
         return;
-    showing_desktop_effect = showing;
 
+    showing_desktop_effect = showing;
     Window *topDesk = nullptr;
 
     if (showing) {
-        StackingUpdatesBlocker blocker(this); // updateLayer & lowerWindow would invalidate stacking_order
-        for (int i = stacking_order.count() - 1; i > -1; --i) {
-            auto window = stacking_order.at(i);
-            if (window->isClient() && window->isOnCurrentDesktop()) {
-                if (window->isDock()) {
-                    window->updateLayer();
-                } else if (window->isDesktop() && window->isShown()) {
-                    window->updateLayer();
-                    lowerWindow(window);
-                    if (!topDesk) {
-                        topDesk = window;
-                    }
-                    if (auto group = window->group()) {
-                        const auto members = group->members();
-                        for (X11Window *cm : members) {
-                            cm->updateLayer();
-                        }
-                    }
-                } else if (window->keepAbove()) {
-                    window->updateLayer();
-                }
-            }
-        }
+        showing_desktop = showing;
+        topDesk = updateDesktopLayer(showing);
     }
 
     if (showing && topDesk)
         requestFocus(topDesk);
+}
+
+Window *Workspace::updateDesktopLayer(bool showing)
+{
+    Window *topDesk = nullptr;
+    if (rootInfo()) {
+        rootInfo()->setShowingDesktop(showing);
+    }
+    StackingUpdatesBlocker blocker(this); // updateLayer & lowerWindow would invalidate stacking_order
+    for (int i = stacking_order.count() - 1; i > -1; --i) {
+        auto window = stacking_order.at(i);
+        if (window->isClient() && window->isOnCurrentDesktop()) {
+            if (window->isDock()) {
+                window->updateLayer();
+            } else if (window->isDesktop() && window->isShown()) {
+                window->updateLayer();
+                lowerWindow(window);
+                if (!topDesk) {
+                    topDesk = window;
+                }
+                if (auto group = window->group()) {
+                    const auto members = group->members();
+                    for (X11Window *cm : members) {
+                        cm->updateLayer();
+                    }
+                }
+            } else if (window->keepAbove()) {
+                window->updateLayer();
+            }
+        }
+    }
+    return topDesk;
 }
 
 void Workspace::setDisableGlobalShortcutsByUser(bool yes)

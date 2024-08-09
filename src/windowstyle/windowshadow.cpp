@@ -72,12 +72,12 @@ QString WindowShadow::getDefaultShadowColor()
     QString color;
     bool isDark = workspace()->self()->isDarkTheme();
     if (m_window->isActive()) {
-        color = isDark ? "#a9000000" : "#80000000";
+        color = isDark ? "#60000000" : "#40000000";
     } else {
         if (isDark) {
-            color = isSpecialWindow() ? "#80000000" : "#69000000";
+            color = isSpecialWindow() ? "#80000000" : "#40000000";
         } else {
-            color = isSpecialWindow() ? "#33000000" : "#40000000";
+            color = isSpecialWindow() ? "#33000000" : "#20000000";
         }
     }
     return color;
@@ -126,7 +126,7 @@ bool WindowShadow::getShadow()
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::BorderWidthProperty)) {
         st.borderWidth = m_window->windowStyleObj()->borderWidth();
     } else {
-        st.borderWidth = 1 * workspace()->self()->getOsScreenScale();
+        st.borderWidth = 1;
     }
 
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::BorderColorProperty)) {
@@ -199,7 +199,7 @@ bool WindowShadow::getShadow()
 
         if (st.borderWidth > 0 && st.borderColor.alpha() != 0) {
             painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            painter.setPen(QPen(st.borderColor, st.borderWidth + 1 * workspace()->self()->getOsScreenScale()));
+            painter.setPen(QPen(st.borderColor, st.borderWidth + 1));
             painter.setBrush(Qt::NoBrush);
             if (st.windowRadius.x() > 0 && st.windowRadius.y() > 0) {
                 painter.drawRoundedRect(innerRect, st.windowRadius.x() - 0.5 * workspace()->self()->getOsScreenScale(), st.windowRadius.y() - 0.5 * workspace()->self()->getOsScreenScale());

@@ -48,6 +48,7 @@ void WindowStyleManager::onWindowAdded(Window *window)
     parseWinCustomEffect(window);
     handleSpecialWindowStyle(window);
     window->updateWindowRadius();
+    window->updateWinProperty();
     connect(window, static_cast<void (Window::*)(Window *, bool, bool)>(&Window::clientMaximizedStateChanged), this, &WindowStyleManager::onWindowMaxiChanged);
     connect(window, &Window::activeChanged, this, &WindowStyleManager::onWindowActiveChanged);
     connect(window, &Window::geometryShapeChanged, this, &WindowStyleManager::onGeometryShapeChanged);

@@ -4206,6 +4206,10 @@ bool X11Window::isResizable() const
         return false;
     }
 
+    if (!m_isMouseInputAreaMarginsAvailable) {
+        return false;
+    }
+
     QSizeF min = minSize();
     QSizeF max = maxSize();
     return min.width() < max.width() || min.height() < max.height();
