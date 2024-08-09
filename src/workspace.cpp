@@ -2594,11 +2594,24 @@ void Workspace::setSplitMenuKeepShowing(bool keep)
 
 void Workspace::handleReleaseMouseCommand()
 {
+    auto hitShape = [] (const Window *w, const QPoint &p)->bool {
+        if (!w)
+            return false;
+        const QVector<QRectF> shape = w->shapeRegion();
+        const QPointF rpos = p - w->pos();
+        for (const QRectF &r : shape) {
+            if (r.contains(rpos))
+                return true;
+        }
+        return false;
+    };
+
     if (m_clientIDHandlingMouseCommand) {
         Window *w = nullptr;
         for (auto it = stacking_order.crbegin(), end = stacking_order.crend(); it != end; ++it) {
             if ((*it)->isOnCurrentDesktop() && !(*it)->isMinimized() && (*it)->wantsInput()
-                    && (*it)->frameGeometry().contains(Cursors::self()->mouse()->pos())) {
+                    && (*it)->frameGeometry().contains(Cursors::self()->mouse()->pos())
+                    && hitShape(*it, Cursors::self()->mouse()->pos())) {
                 w = *it;
                 break;
             }
