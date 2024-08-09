@@ -921,7 +921,7 @@ void MultitaskViewEffect::paintScreen(int mask, const QRegion &region, ScreenPai
         }
     }
 
-    if (!m_wasWindowMove && m_isShowPreview && m_screen != nullptr && !m_workspaceSlidingStatus) {
+    if (!m_wasWindowMove && m_isShowPreview && m_screen != nullptr && !m_workspaceSlidingStatus && effects->numberOfDesktops() < MAX_DESKTOP_COUNT) {
         QRect rect = m_addWorkspaceButton[m_screen]->getRect();
         showWorkspacePreview(m_screen, rect);
     } else {
