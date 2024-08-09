@@ -1,3 +1,10 @@
+deepin-kwin (4:5.27.2.206-deepin206-1) unstable; urgency=medium
+
+  [zhangyu]
+  * fix: 10286\10186\10206\10122
+
+ -- zhangyu <zhangyud@uniontech.com>  Fri, 09 Aug 2024 12:04:18 +0800
+
 deepin-kwin (4:5.27.2.205-deepin205-1) unstable; urgency=medium
 
   [zhangyu]
