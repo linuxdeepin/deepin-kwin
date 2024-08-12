@@ -5185,6 +5185,11 @@ void Window::updateExtendWindowSection(const QPointF &pos)
     return;
 }
 
+void Window::updateFrameGeometry(QRectF rect)
+{
+    moveResize(rect);
+}
+
 } // namespace KWin
 
 #include "moc_window.cpp"
