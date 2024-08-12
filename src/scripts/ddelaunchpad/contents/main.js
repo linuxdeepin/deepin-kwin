@@ -27,11 +27,9 @@ function forceFullScreen(client) {
     var screenGeometry = workspace.clientArea(KWin.ScreenArea, screen, 0);
 
     if (!rectContains(screenGeometry, newGeometry)) {
-        newGeometry.x = screenGeometry.x;
-        newGeometry.y = screenGeometry.y;
-	newGeometry.width = screenGeometry.width;   //fix width
-	newGeometry.height = screenGeometry.height;  //fix height
+        newGeometry = screenGeometry;
         client.geometry = newGeometry;
+        workspace.updateWindowGeometry(client, screenGeometry);
     }
 }
 
