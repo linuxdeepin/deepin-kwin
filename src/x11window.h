@@ -317,6 +317,8 @@ public:
 
     static void cleanupX11();
 
+    bool getManageTimeStamp(){ return m_timestamp;}
+
 public Q_SLOTS:
     void closeWindow() override;
     void updateCaption() override;
@@ -544,6 +546,7 @@ private:
     std::unique_ptr<X11DecorationRenderer> m_decorationRenderer;
 
     bool m_isProhibitScreenshotWindow = false;
+    xcb_timestamp_t m_timestamp = XCB_TIME_CURRENT_TIME;
 };
 
 inline xcb_window_t X11Window::wrapperId() const
