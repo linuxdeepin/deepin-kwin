@@ -201,7 +201,9 @@ Breaks: plasma-workspace-wayland (<< 4:5.14),
 
 Package: kwin-x11
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends},
+Depends: libx11-6 (>= 2:1.6.12.9~),
+         ${misc:Depends},
+         ${shlibs:Depends},
 Breaks: kwin-addons (<< 4:5.14),
 Provides: kwin, x-window-manager,
 Description: KDE window manager, X11 version
