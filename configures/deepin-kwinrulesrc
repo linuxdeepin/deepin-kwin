@@ -23,7 +23,7 @@ strictgeometry=false
 strictgeometryrule=2
 hidewindowmenu=true
 hidewindowmenurule=2
-wmclass=dde-shell org.deepin.dde.shell
+wmclass=dde-shell org.deepin.dde-shell
 wmclasscomplete=true
 wmclassmatch=1
 
@@ -80,7 +80,7 @@ wmclassmatch=1
 Description=dde-shell
 desktops=-1
 desktopsrule=2
-wmclass=dde-shell org.deepin.dde.shell
+wmclass=dde-shell org.deepin.dde-shell
 wmclasscomplete=true
 wmclassmatch=1
 
