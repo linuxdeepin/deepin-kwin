@@ -1,3 +1,19 @@
+kwin (4:5.27.2.260-deepin260-1) unstable; urgency=medium
+
+  [dingzhixuan]
+  * fix: remove virtual output
+  * fix: soft cursor will blink on pgx
+  * fix: add judgment of update modes.
+  * fix: add edge software cursor item in pgx
+  * fix: glmark2 will change size when plugin and plugout screen
+  * feat: support hw cursor on pgx
+  * fix: pgx warmboot or coldboot crash
+  * fix: remote access buffer tearing
+  * fix: subsurface window's position can't update immediately
+  * fix: add libx11-6 depends in kwin-x11
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Tue, 13 Aug 2024 16:44:04 +0800
+
 kwin (4:5.27.2.213-deepin213-1) unstable; urgency=medium
 
   [huangzeming]
