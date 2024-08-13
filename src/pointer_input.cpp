@@ -42,7 +42,7 @@
 #include <QHoverEvent>
 #include <QPainter>
 #include <QWindow>
-
+#include <QScreen>
 #include <linux/input.h>
 
 #include <cmath>
@@ -1125,6 +1125,7 @@ WaylandCursorImage::WaylandCursorImage(QObject *parent)
     : QObject(parent)
 {
     Cursor *pointerCursor = Cursors::self()->mouse();
+    m_scale = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
     updateCursorTheme();
 
     connect(pointerCursor, &Cursor::themeChanged, this, &WaylandCursorImage::updateCursorTheme);
@@ -1134,6 +1135,16 @@ WaylandCursorImage::WaylandCursorImage(QObject *parent)
 KXcursorTheme WaylandCursorImage::theme() const
 {
     return m_cursorTheme;
+}
+
+int WaylandCursorImage::calCursorSize(float size)
+{
+    std::vector<float> candidates = {24.0f, 32.0f, 48.0f, 64.0f};
+    auto closest = std::min_element(candidates.begin(), candidates.end(),
+        [size](float a, float b) {
+            return std::fabs(a - size) < std::fabs(b - size);
+        });
+    return *closest;
 }
 
 void WaylandCursorImage::updateCursorTheme()
@@ -1148,9 +1159,9 @@ void WaylandCursorImage::updateCursorTheme()
         }
     }
 
-    m_cursorTheme = KXcursorTheme(pointerCursor->themeName(), pointerCursor->themeSize(), targetDevicePixelRatio);
+    m_cursorTheme = KXcursorTheme(pointerCursor->themeName(), calCursorSize(pointerCursor->themeSize() * m_scale), targetDevicePixelRatio);
     if (m_cursorTheme.isEmpty()) {
-        m_cursorTheme = KXcursorTheme(Cursor::defaultThemeName(), Cursor::defaultThemeSize(), targetDevicePixelRatio);
+        m_cursorTheme = KXcursorTheme(Cursor::defaultThemeName(), calCursorSize(Cursor::defaultThemeSize() * m_scale), targetDevicePixelRatio);
     }
 
     Q_EMIT themeChanged();

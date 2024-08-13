@@ -194,7 +194,7 @@ public:
 
     void loadThemeCursor(const CursorShape &shape, ImageCursorSource *source);
     void loadThemeCursor(const QByteArray &name, ImageCursorSource *source);
-
+    int calCursorSize(float size);
 Q_SIGNALS:
     void themeChanged();
 
@@ -203,6 +203,7 @@ private:
     void updateCursorTheme();
 
     KXcursorTheme m_cursorTheme;
+    float m_scale = 1.0;
 };
 
 class CursorImage : public QObject
