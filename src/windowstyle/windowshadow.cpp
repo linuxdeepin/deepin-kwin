@@ -72,12 +72,12 @@ QString WindowShadow::getDefaultShadowColor()
     QString color;
     bool isDark = workspace()->self()->isDarkTheme();
     if (m_window->isActive()) {
-        color = isDark ? "#60000000" : "#40000000";
+        color = isDark ? "#70000000" : "#60000000";
     } else {
         if (isDark) {
-            color = isSpecialWindow() ? "#80000000" : "#40000000";
+            color = isSpecialWindow() ? "#80000000" : "#45000000";
         } else {
-            color = isSpecialWindow() ? "#33000000" : "#20000000";
+            color = isSpecialWindow() ? "#33000000" : "#40000000";
         }
     }
     return color;
