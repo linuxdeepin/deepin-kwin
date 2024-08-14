@@ -1,3 +1,16 @@
+kwin (4:5.27.2.261-deepin261-1) unstable; urgency=medium
+
+  [yangtian]
+  * fix: wayland cursor size based scale factor
+  * fix: add timestamp for x11window
+  * fix: unable to raise window below shape window 
+  * fix: maximize animation while dragging maximized window
+  * fix: the judgement of workspace preview
+  * fix: RRScreenChangNoitify make desktop and fullscreen type window can't keep old geometry
+  * fix: window title bar have gap between screen edge 
+
+ -- yangtian <yangtian@uniontech.com>  Wed, 14 Aug 2024 15:03:07 +0800
+
 kwin (4:5.27.2.260-deepin260-1) unstable; urgency=medium
 
   [dingzhixuan]
