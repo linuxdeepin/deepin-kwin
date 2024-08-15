@@ -110,11 +110,11 @@
     "titlebar": {
       "height": 50,
       "area": 1,
-      "bgcolor": "white",
+      "bgcolor": "#101010",
       "font-family": "SourceHanSansSC",
       "font-size": 14,
       "text-align": "center",
-      "text-color": "#000000",
+      "text-color": "#8c8c8c",
       "button-group": {
         "menu": {
           "pos": "10,10",
