@@ -66,7 +66,7 @@
         "Description[x-test]": "xxAnimation for a window going to and leaving full screen modexx",
         "Description[zh_CN]": "窗口进入/退出全屏模式时呈现过渡动效",
         "Description[zh_TW]": "視窗進入或離開全螢幕的動畫",
-        "EnabledByDefault": true,
+        "EnabledByDefault": false,
         "Icon": "preferences-system-windows-effect-fullscreen",
         "Id": "kwin4_effect_fullscreen",
         "License": "GPL",

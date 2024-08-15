@@ -1509,6 +1509,7 @@ public:
     void updateWindowShadow(bool isForceUpdate = false);
     DecorationStyle  *windowStyleObj() const;
     void createWinStyle();
+    void updateWinProperty();
 
     void setStartUpEffectType(int type) { m_startEffectType = type; }
     int startUpEffectType() { return m_startEffectType; }
@@ -1523,6 +1524,7 @@ public:
     QVariant createTimespanDBusMessage(struct timeval createTimeval, int tid, std::string event);
 
     GLTexture *getPreviousTexture();
+    void updateFrameGeometry(QRectF rect);
 
     QMargins extendResizeBorder() const;
 
@@ -2029,6 +2031,7 @@ protected:
     QVector<QRectF> m_shapeBoundingRegion;
     bool m_isShapeBoundingRegionSet = false;
     int  m_startEffectType = 1;
+    bool m_isMouseInputAreaMarginsAvailable = true;
 
 private Q_SLOTS:
     void shadeHover();

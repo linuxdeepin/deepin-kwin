@@ -49,6 +49,7 @@
 #include <QProcess>
 #include <QDBusMessage>
 #include <QDBusConnection>
+#include <QX11Info>
 // xcb
 #include <xcb/xcb_icccm.h>
 // system
@@ -449,6 +450,8 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     if (attr.isNull() || windowGeometry.isNull()) {
         return false;
     }
+
+    m_timestamp = QX11Info::getTimestamp();
 
     // From this place on, manage() must not return false
     blockGeometryUpdates();
@@ -2113,8 +2116,10 @@ bool X11Window::takeFocus()
                 }
 
                 // 在进入到显示桌面模式后还有活跃的窗口不要最小化，如进入这个模式后才新建的窗口
-                if (c->userTime() > workspace()->showingDesktopTimestamp()) {
-                    continue;
+                if (auto xc = dynamic_cast<X11Window*>(c)) {
+                    if (xc->getManageTimeStamp() > workspace()->showingDesktopTimestamp()) {
+                        continue;
+                    }
                 }
                 //if 'this' is dialog , it's parent cannot minimize
                 if (this->transientFor() == c)
@@ -4203,6 +4208,10 @@ bool X11Window::isResizable() const
     }
     const Gravity gravity = interactiveMoveResizeGravity();
     if ((gravity == Gravity::Top || gravity == Gravity::TopLeft || gravity == Gravity::TopRight || gravity == Gravity::Left || gravity == Gravity::BottomLeft) && rules()->checkPosition(invalidPoint) != invalidPoint) {
+        return false;
+    }
+
+    if (!m_isMouseInputAreaMarginsAvailable) {
         return false;
     }
 

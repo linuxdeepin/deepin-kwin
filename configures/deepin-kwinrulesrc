@@ -23,7 +23,7 @@ strictgeometry=false
 strictgeometryrule=2
 hidewindowmenu=true
 hidewindowmenurule=2
-wmclass=dde-launcher dde-launcher
+wmclass=dde-shell org.deepin.dde-shell
 wmclasscomplete=true
 wmclassmatch=1
 

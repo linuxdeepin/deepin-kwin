@@ -4988,6 +4988,15 @@ void Window::createWinStyle()
     }
 }
 
+void Window::updateWinProperty()
+{
+    if (m_windowStyle && m_windowStyle->propertyIsValid(DecorationStyle::MouseInputAreaMargins)) {
+        QMargins margin = m_windowStyle->mouseInputAreaMargins().toMargins();
+        if (margin.isNull())
+            m_isMouseInputAreaMarginsAvailable = false;
+    }
+}
+
 void Window::onWindowRadiusChanged(float &p)
 {
     updateWindowRadius();
@@ -5174,6 +5183,11 @@ void Window::updateExtendWindowSection(const QPointF &pos)
     }
 
     return;
+}
+
+void Window::updateFrameGeometry(QRectF rect)
+{
+    moveResize(rect);
 }
 
 } // namespace KWin
