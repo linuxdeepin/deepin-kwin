@@ -13,7 +13,6 @@
 #include "composite.h"
 #include "decorationstyle.h"
 #include "effects.h"
-#include "utils.h"
 #include <QScreen>
 #include <QGSettings/qgsettings.h>
 #include <QX11Info>

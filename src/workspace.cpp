@@ -3825,14 +3825,9 @@ void Workspace::setDarkTheme(bool isDark)
 void Workspace::setWinSplitState(Window *w, bool isSplit)
 {
     int32_t ldata = isSplit ? 1 : 0;
-
     if (w) {
-        xcb_intern_atom_cookie_t cookie_st = xcb_intern_atom( connection(), 0, strlen( "_DEEPIN_NET_SUPPORTED"), "_DEEPIN_NET_SUPPORTED");
-        xcb_intern_atom_reply_t *reply_st = xcb_intern_atom_reply( connection(), cookie_st, NULL);
-        if (reply_st) {
-            xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, w->window(), (*reply_st).atom,
-                                XCB_ATOM_CARDINAL, 32, 1, &ldata);
-            free(reply_st);
+        if (atoms->deepin_net_supported.isValid()) {
+            xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, w->window(), atoms->deepin_net_supported, XCB_ATOM_CARDINAL, 32, 1, &ldata);
         }
     }
 }

@@ -80,7 +80,13 @@ public:
     Xcb::Atom primary;
     Xcb::Atom edid;
     Xcb::Atom deepin_split_window;
+    Xcb::Atom deepin_scissor_window;
     Xcb::Atom deepin_prohibit_screenshot;
+    Xcb::Atom deepin_net_supported;
+    Xcb::Atom deepin_net_effect;
+    Xcb::Atom deepin_net_startup;
+    Xcb::Atom deepin_net_radius;
+    Xcb::Atom deepin_net_shadow;
 
     /**
      * @internal

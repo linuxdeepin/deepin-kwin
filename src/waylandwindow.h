@@ -21,6 +21,7 @@ public:
     QString captionNormal() const override;
     QString captionSuffix() const override;
     pid_t pid() const override;
+    bool isWayland() const override;
     bool isClient() const override;
     bool isLockScreen() const override;
     bool isLocalhost() const override;

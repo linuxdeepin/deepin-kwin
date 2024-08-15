@@ -732,6 +732,8 @@ public:
     virtual bool isWaterMark() const;
     virtual bool isWindowMenu() const;
     virtual bool isInternal() const;
+    virtual bool isWayland() const;
+    virtual bool isX11() const;
     virtual bool isSplitMenu() const;
     virtual bool isSwitcherWin() const;
 
@@ -2415,6 +2417,16 @@ inline bool Window::isSwitcherWin() const
 }
 
 inline bool Window::isInternal() const
+{
+    return false;
+}
+
+inline bool Window::isWayland() const
+{
+    return false;
+}
+
+inline bool Window::isX11() const
 {
     return false;
 }

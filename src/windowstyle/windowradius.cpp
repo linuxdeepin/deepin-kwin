@@ -13,12 +13,10 @@
 #include "windowstylemanager.h"
 #include "decorationstyle.h"
 #include "composite.h"
-#include "utils.h"
 #include <xcb/xcb.h>
 #include <QWindow>
 #include <QX11Info>
-
-#define _DEEPIN_SCISSOR_WINDOW "_DEEPIN_SCISSOR_WINDOW"
+#include "atoms.h"
 
 Q_DECLARE_METATYPE(QPainterPath)
 
@@ -28,8 +26,6 @@ namespace KWin
 WindowRadius::WindowRadius(Window *window)
     : m_window(window)
 {
-    m_atom_deepin_scissor_window = Utils::internAtom(_DEEPIN_SCISSOR_WINDOW, false);
-
     connect(m_window->windowStyleObj(), &DecorationStyle::windowRadiusChanged, this, &WindowRadius::onUpdateWindowRadiusChanged);
 }
 
@@ -52,7 +48,7 @@ int WindowRadius::updateWindowRadius()
 
     int ret = -1;
     QPainterPath path;
-    const QByteArray &clip_data = effect->readProperty(m_atom_deepin_scissor_window, m_atom_deepin_scissor_window, 8);
+    const QByteArray &clip_data = effect->readProperty(atoms->deepin_scissor_window, atoms->deepin_scissor_window, 8);
     if (!clip_data.isEmpty()) {
         QDataStream ds(clip_data);
         ds >> path;
@@ -96,11 +92,6 @@ QPointF WindowRadius::getWindowRadius()
 
     m_radius = radius;
     return radius;
-}
-
-QString WindowRadius::theme() const
-{
-    return property("theme").toString();
 }
 
 void WindowRadius::onUpdateWindowRadiusChanged()

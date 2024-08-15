@@ -211,7 +211,6 @@ target_sources(kwin PRIVATE
     windowstyle/windowstylemanager.cpp
     windowstyle/windowshadow.cpp
     windowstyle/decorationstyle.cpp
-    windowstyle/utils.cpp
     resources.qrc
     configreader.cpp
     dockrect.cpp

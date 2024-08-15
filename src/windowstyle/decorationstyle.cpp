@@ -7,15 +7,12 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "decorationstyle.h"
+#include "main.h"
+#include "utils/xcbutils.h"
 #include "window.h"
 #include "workspace.h"
 #include "windowstylemanager.h"
-#include "utils.h"
-
-#define _DEEPIN_NET_EFFECT   "_DEEPIN_NET_EFFECT"
-#define _DEEPIN_NET_STARTUP  "_DEEPIN_NET_STARTUP"
-#define _DEEPIN_NET_RADIUS   "_DEEPIN_NET_RADIUS"
-#define _DEEPIN_NET_SHADOW   "_DEEPIN_NET_SHADOW"
+#include "atoms.h"
 
 namespace KWin
 {
@@ -24,6 +21,8 @@ DecorationStyle::DecorationStyle(Window *window)
     static QFunctionPointer build_function = qApp->platformFunction("_d_buildNativeSettings");
     if (build_function) {
         reinterpret_cast<bool(*)(QObject*, quint32)>(build_function)(this, window->window());
+    } else {
+        qCWarning(KWIN_CORE) << "Load DPlatformIntegration::buildNativeSettings failed!";
     }
 }
 
@@ -79,6 +78,7 @@ void DecorationStyle::setValidProperties(qint64 validProperties)
 X11DecorationStyle::X11DecorationStyle(Window *window)
     : DecorationStyle(window)
     , m_window(window)
+    , m_isX11Only(kwinApp()->operationMode() == Application::OperationModeX11)
 {
 }
 
@@ -98,78 +98,93 @@ bool X11DecorationStyle::propertyIsValid(PropertyFlag p)
 
 QString X11DecorationStyle::theme()
 {
-    return property("theme").toString();
+    return m_isX11Only ? property("theme").toString() : m_theme;
 }
 
 QPointF X11DecorationStyle::windowRadius()
 {
-    return variant2Point(property("windowRadius"));
+    return m_isX11Only ? variant2Point(property("windowRadius")) : m_windowRadius;
 }
 
 void X11DecorationStyle::setWindowRadius(const QPointF value)
 {
-    QString point = QString::number(value.x()) + "," + QString::number(value.y());
-    setProperty("windowRadius", point);
+    if (m_isX11Only) {
+        QString point = QString::number(value.x()) + "," + QString::number(value.y());
+        setProperty("windowRadius", point);
+    } else {
+        m_windowRadius = value;
+    }
 }
 
 qreal X11DecorationStyle::borderWidth()
 {
-    return property("borderWidth").toDouble();
+    return m_isX11Only ? property("borderWidth").toDouble() : m_borderWidth;
 }
 
 void X11DecorationStyle::setBorderWidth(qreal width)
 {
-    setProperty("borderWidth", width);
+    if (m_isX11Only)
+        setProperty("borderWidth", width);
+    else
+        m_borderWidth = width;
 }
 
 QColor X11DecorationStyle::borderColor()
 {
-    return qvariant_cast<QColor>(property("borderColor"));
+    return m_isX11Only ? qvariant_cast<QColor>(property("borderColor")) : m_borderColor;
 }
 
 void X11DecorationStyle::setBorderColor(QColor color)
 {
-    setProperty("borderColor", QVariant::fromValue(color));
+    if (m_isX11Only)
+        setProperty("borderColor", QVariant::fromValue(color));
+    else
+        m_borderColor = color;
 }
 
 qreal X11DecorationStyle::shadowRadius()
 {
-    return property("shadowRadius").toDouble();
+    return m_isX11Only ? property("shadowRadius").toDouble() : m_shadowRadius;
 }
 
 QPointF X11DecorationStyle::shadowOffset()
 {
-    return variant2Point(property("shadowOffset"));
+    return m_isX11Only ? variant2Point(property("shadowOffset")) : m_shadowOffset;
 }
 
 QColor X11DecorationStyle::shadowColor()
 {
-    return qvariant_cast<QColor>(property("shadowColor"));
+    return m_isX11Only ? qvariant_cast<QColor>(property("shadowColor")) : m_shadowColor;
 }
 
 void X11DecorationStyle::setShadowColor(QColor color)
 {
-    setProperty("shadowColor", QVariant::fromValue(color));
+    if (m_isX11Only)
+        setProperty("shadowColor", QVariant::fromValue(color));
+    else
+        m_shadowColor = color;
 }
 
 QMarginsF X11DecorationStyle::mouseInputAreaMargins()
 {
-    return variant2Margins(property("mouseInputAreaMargins"));
+    return m_isX11Only ? variant2Margins(property("mouseInputAreaMargins")) : m_mouseInputAreaMargins;
 }
 
 qreal X11DecorationStyle::windowPixelRatio()
 {
-    return m_validProperties.testFlag(WindowPixelRatioProperty) ? property("windowPixelRatio").toDouble() : 1.0;
+    qreal ratio = m_isX11Only ? property("windowPixelRatio").toDouble() : m_windowPixelRatio;
+    return m_validProperties.testFlag(WindowPixelRatioProperty) ? ratio : 1.0;
 }
 
 X11DecorationStyle::effectScenes X11DecorationStyle::windowEffect()
 {
-    return effectScene(property("windowEffect").toDouble());
+    qreal effect = m_isX11Only ? property("windowEffect").toDouble() : m_windowEffect;
+    return effectScene(effect);
 }
 
 qreal X11DecorationStyle::windowStartUpEffect()
 {
-    return property("windowStartUpEffect").toDouble();
+    return m_isX11Only ? property("windowStartUpEffect").toDouble() : m_windowStartUpEffect;
 }
 
 X11DecorationStyle::effectScenes X11DecorationStyle::getWindowEffectScene()
@@ -178,36 +193,32 @@ X11DecorationStyle::effectScenes X11DecorationStyle::getWindowEffectScene()
     if (m_validProperties.testFlag(WindowEffectProperty)) {
         validSce = windowEffect();
     } else {
-        auto scenAtom = Utils::internAtom(_DEEPIN_NET_EFFECT);
-        const QByteArray property_data = Utils::readWindowProperty(m_window->window(), scenAtom, XCB_ATOM_CARDINAL);
-        if (!property_data.isEmpty()) {
-            const char *cdata = property_data.constData();
-            validSce = effectScene(*(reinterpret_cast<const quint32 *>(cdata)));
+        Xcb::Property property(false, m_window->window(), atoms->deepin_net_effect, XCB_ATOM_CARDINAL, 0, 256);
+        const QByteArray data = property.toByteArray(32, XCB_ATOM_CARDINAL);
+        if (!data.isEmpty()) {
+            validSce = effectScene(*(reinterpret_cast<const quint32 *>(data.constData())));
         }
     }
-
     return validSce;
 }
 
 void X11DecorationStyle::parseWinCustomRadius()
 {
-    auto atom = Utils::internAtom(_DEEPIN_NET_RADIUS);
-    const QByteArray data = Utils::readWindowProperty(m_window->window(), atom, XCB_ATOM_STRING);
+    Xcb::StringProperty property(m_window->window(), atoms->deepin_net_radius);
+    const QByteArray data = property.toByteArray();
     if (!data.isEmpty()) {
-        const char *cdata = data.constData();
         setValidProperties(validProperties() | DecorationStyle::WindowRadiusProperty);
-        setWindowRadius(variant2Point(cdata));
+        setWindowRadius(variant2Point(data.constData()));
     }
 }
 
 void X11DecorationStyle::parseWinCustomShadow()
 {
-    auto atom = Utils::internAtom(_DEEPIN_NET_SHADOW);
-    const QByteArray data = Utils::readWindowProperty(m_window->window(), atom, XCB_ATOM_STRING);
+    Xcb::StringProperty property(m_window->window(), atoms->deepin_net_shadow);
+    const QByteArray data = property.toByteArray();
     if (!data.isEmpty()) {
-        QString cdata = data.constData();
         setValidProperties(validProperties() | DecorationStyle::ShadowColorProperty);
-        setShadowColor(cdata);
+        setShadowColor(data.constData());
     }
 }
 
@@ -216,11 +227,10 @@ void X11DecorationStyle::parseWinStartUpEffect()
     if (m_validProperties.testFlag(WindowStartUpEffectProperty)) {
         m_window->setStartUpEffectType(windowStartUpEffect());
     } else {
-        auto atom = Utils::internAtom(_DEEPIN_NET_STARTUP);
-        const QByteArray data = Utils::readWindowProperty(m_window->window(), atom, XCB_ATOM_CARDINAL);
+        Xcb::Property property(false, m_window->window(), atoms->deepin_net_startup, XCB_ATOM_CARDINAL, 0, 256);
+        const QByteArray data = property.toByteArray(32, XCB_ATOM_CARDINAL);
         if (!data.isEmpty()) {
-            const char *cdata = data.constData();
-            m_window->setStartUpEffectType(*(reinterpret_cast<const quint32 *>(cdata)));
+            m_window->setStartUpEffectType(*(reinterpret_cast<const quint32 *>(data.constData())));
         }
     }
 }

@@ -117,6 +117,7 @@ public:
     QMatrix4x4 inputTransformation() const override;
 
     bool isTransient() const override;
+    bool isX11() const override;
     bool groupTransient() const override;
     bool wasOriginallyGroupTransient() const;
     QList<Window *> mainWindows() const override; // Call once before loop , is not indirect
@@ -574,6 +575,11 @@ inline bool X11Window::wasOriginallyGroupTransient() const
 inline bool X11Window::isTransient() const
 {
     return m_transientForId != XCB_WINDOW_NONE;
+}
+
+inline bool X11Window::isX11() const
+{
+    return true;
 }
 
 inline const Group *X11Window::group() const

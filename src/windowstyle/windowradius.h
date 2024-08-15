@@ -28,14 +28,12 @@ public:
 
     QPointF getWindowRadius();
     QPointF windowRadius() { return m_radius;};
-    QString theme() const;
 
 public Q_SLOTS:
     void onUpdateWindowRadiusChanged();
 
 public:
     Window *m_window;
-    quint32 m_atom_deepin_scissor_window;
     QPointF m_radius = QPointF(-1, 0);
     bool    m_isMaximized = false;
     float   m_scale = 1.0;

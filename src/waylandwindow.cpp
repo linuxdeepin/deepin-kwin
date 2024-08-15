@@ -91,6 +91,11 @@ quint32 WaylandWindow::createWindowId(KWaylandServer::SurfaceInterface *surface)
     return waylandServer()->createWindowId(surface);
 }
 
+bool WaylandWindow::isWayland() const
+{
+    return true;
+}
+
 bool WaylandWindow::isClient() const
 {
     return true;

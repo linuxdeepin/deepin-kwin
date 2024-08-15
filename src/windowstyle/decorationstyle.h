@@ -147,13 +147,25 @@ public:
     effectScenes windowEffect() override;
     qreal windowStartUpEffect() override;
 
-    void setWindowEffectScene(qint64) {};
+    void setWindowEffectScene(qint64) override {};
     effectScenes getWindowEffectScene() override;
     void parseWinCustomRadius() override;
     void parseWinCustomShadow() override;
     void parseWinStartUpEffect() override;
 private:
-    Window          *m_window;
+    Window      *m_window;
+    bool         m_isX11Only;
+    QString      m_theme;
+    QPointF      m_windowRadius;
+    qreal        m_borderWidth;
+    QColor       m_borderColor;
+    qreal        m_shadowRadius;
+    QPointF      m_shadowOffset;
+    QColor       m_shadowColor;
+    QMarginsF    m_mouseInputAreaMargins;
+    qreal        m_windowPixelRatio;
+    effectScenes m_windowEffect;
+    qreal        m_windowStartUpEffect;
 };
 
 class WaylandDecorationStyle : public DecorationStyle
@@ -166,28 +178,28 @@ public:
     PropertyFlags validProperties() override;
     bool propertyIsValid(PropertyFlag p) override;
 
-    QString theme() {return "";};
-    QPointF windowRadius();
-    void setWindowRadius(const QPointF value);
-    qreal borderWidth();
+    QString theme() override {return QStringLiteral("");};
+    QPointF windowRadius() override;
+    void setWindowRadius(const QPointF value) override;
+    qreal borderWidth() override;
     void setBorderWidth(qreal width) override;
-    QColor borderColor();
+    QColor borderColor() override;
     void setBorderColor(QColor color) override;
-    qreal shadowRadius() {return 50;};
-    QPointF shadowOffset() {return QPointF(0,0);};
-    QColor shadowColor();
+    qreal shadowRadius() override {return 50;};
+    QPointF shadowOffset() override {return QPointF(0,0);};
+    QColor shadowColor() override;
     void setShadowColor(QColor color) override;
-    QMarginsF mouseInputAreaMargins() {return QMarginsF(0,0,0,0);};
-    qreal windowPixelRatio() {return 1;};
-    effectScenes windowEffect() {return 0;};
-    qreal windowStartUpEffect() {return 0;};
+    QMarginsF mouseInputAreaMargins() override {return QMarginsF(0,0,0,0);};
+    qreal windowPixelRatio() override {return 1;};
+    effectScenes windowEffect() override {return 0;};
+    qreal windowStartUpEffect() override {return 0;};
 
 
-    void setWindowEffectScene(qint64 type) {m_effectScene = effectScene(type);};
-    effectScenes getWindowEffectScene() {return m_effectScene;};
-    void parseWinCustomRadius() {};
-    void parseWinCustomShadow() {};
-    void parseWinStartUpEffect() {};
+    void setWindowEffectScene(qint64 type) override {m_effectScene = effectScene(type);};
+    effectScenes getWindowEffectScene() override {return m_effectScene;};
+    void parseWinCustomRadius() override {};
+    void parseWinCustomShadow() override {};
+    void parseWinStartUpEffect() override {};
 public Q_SLOT:
     void onUpdateWindowRadiusByWayland(QPointF);
     void onUpdateShadowColorByWayland(QString);

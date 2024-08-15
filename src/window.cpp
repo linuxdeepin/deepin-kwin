@@ -46,6 +46,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
+#include "waylandwindow.h"
 #include "windowstyle/windowstylemanager.h"
 #include "windowstyle/decorationstyle.h"
 #include "platformsupport/scenes/opengl/openglsurfacetexture.h"
@@ -372,7 +373,7 @@ bool Window::setupCompositing()
 
     m_effectWindow = std::make_unique<EffectWindowImpl>(this);
     updateShadow();
-    if(!QX11Info::isPlatformX11()) {
+    if (isWayland()) {
         createWinStyle();
         connect(this, &Window::waylandWindowEffectChanged, Workspace::self()->getWindowStyleMgr(), &WindowStyleManager::onWaylandWindowCustomEffect);
         connect(this, &Window::waylandWindowStartUpEffectChanged, Workspace::self()->getWindowStyleMgr(), &WindowStyleManager::onWaylandWindowStartUpEffect);
@@ -691,7 +692,7 @@ bool Window::hitTest(const QPointF &point) const
         }
     }
     if (waylandServer() && (qobject_cast<const X11Window*>(this) || isUnmanaged())
-            && (m_isShapeInputRegionSet || (shape() && m_isShapeBoundingRegionSet))) {
+        && (m_isShapeInputRegionSet || (shape() && m_isShapeBoundingRegionSet))) {
         const QPointF relativePoint = point - clientGeometry().topLeft();
 
         bool isInBounding = false, isInInput = false;
@@ -1918,7 +1919,7 @@ void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &gl
     if (!isRequestedFullScreen() && isInteractiveMove()) {
         if (quickTileMode() != QuickTileMode(QuickTileFlag::None)
             && (oldGeo != moveResizeGeometry()
-                    || (s_placeholderWindow && s_placeholderWindow->takeOver(window()) && oldGeo != s_placeholderWindow->getGeometry()))
+                || (s_placeholderWindow && s_placeholderWindow->takeOver(window()) && oldGeo != s_placeholderWindow->getGeometry()))
             && isExitSplitMode(global, oldGeo, moveResizeGeometry())) {
             GeometryUpdatesBlocker blocker(this);
             setQuickTileMode(QuickTileFlag::None);
@@ -2260,7 +2261,7 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
                 }
 
                 requiredPixels = qMin(150 * (transposed ? bTitleRect.width() : bTitleRect.height()),
-                        nextMoveResizeGeom.width() * nextMoveResizeGeom.height());
+                                      nextMoveResizeGeom.width() * nextMoveResizeGeom.height());
 
                 if (!requiredPixels) {
                     requiredPixels = DEFAULT_REQUIRED_PIXELS;
@@ -4493,7 +4494,7 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
         newGeom.setTop(std::max(topMax, screenArea.y()));
     }
 
-    // when dock move to bottom, move the window to the top of the dock 
+    // when dock move to bottom, move the window to the top of the dock
     QRect maxArea = workspace()->clientArea(MaximizeArea, this, newGeom.center()).toRect();
     if ((maxArea.bottom()-borderBottom()) < newGeom.bottom() ) {
         newGeom.moveBottom(maxArea.bottom() - borderBottom());
@@ -4984,10 +4985,11 @@ DecorationStyle *Window::windowStyleObj() const
 void Window::createWinStyle()
 {
     if (!m_windowStyle) {
-        if (QX11Info::isPlatformX11())
-            m_windowStyle = std::make_unique<X11DecorationStyle>(this);
-        else
+        if (isWayland()) {
             m_windowStyle = std::make_unique<WaylandDecorationStyle>(this);
+        } else {
+            m_windowStyle = std::make_unique<X11DecorationStyle>(this);
+        }
     }
 }
 
