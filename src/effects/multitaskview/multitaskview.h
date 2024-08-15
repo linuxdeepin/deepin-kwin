@@ -522,7 +522,7 @@ private:
     void motionRepeat();
 
 private:
-    QPoint m_cursorPos{0, 0};
+    QPoint m_cursorPos{-1, -1};
     int m_buttonType{0};
 
     QAction *m_showActions = nullptr;
