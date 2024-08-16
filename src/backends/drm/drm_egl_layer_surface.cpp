@@ -423,14 +423,22 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithCpu(Surface &surfa
         return nullptr;
     }
     const auto importBuffer = surface.importSwapchain->acquireBuffer();
-    if (sourceBuffer->planeCount() != 1 || sourceBuffer->strides()[0] != importBuffer->strides()[0]) {
+    if (sourceBuffer->planeCount() != 1 || sourceBuffer->strides()[0] < importBuffer->strides()[0]) {
         qCCritical(KWIN_DRM, "stride of gbm_bo (%d) and dumb buffer (%d) with format %s don't match!",
                    sourceBuffer->strides()[0], importBuffer->strides()[0], formatName(sourceBuffer->format()).name);
         return nullptr;
     }
-    if (!memcpy(importBuffer->data(), sourceBuffer->mappedData(), importBuffer->size().height() * importBuffer->strides()[0])) {
-        return nullptr;
+    const auto dstStride = importBuffer->strides()[0];
+    const auto srcStride = sourceBuffer->strides()[0];
+    for (int i = 0; i < importBuffer->size().height(); i++) {
+        void *dst_row = (char *)importBuffer->data() + i * dstStride;
+        void *src_row = (char *)sourceBuffer->mappedData() + i * srcStride;
+        if(!memcpy(dst_row, src_row, dstStride)) {
+            qCCritical(KWIN_DRM, "memcpy gbm_bo to dumb buffer failed!");
+            return nullptr;
+        }
     }
+
     const auto ret = DrmFramebuffer::createFramebuffer(importBuffer);
     if (!ret) {
         qCWarning(KWIN_DRM, "Failed to create %s framebuffer for CPU import: %s", formatName(sourceBuffer->format()).name, strerror(errno));

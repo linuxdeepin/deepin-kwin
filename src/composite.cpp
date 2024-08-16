@@ -670,21 +670,22 @@ void Compositor::addOutput(Output *output)
         const Cursor *cursor = Cursors::self()->currentCursor();
         const QRect layerRect = output->mapFromGlobal(cursor->geometry());
         bool usesHardwareCursor = false;
+        const bool isOnCurrentOutput = cursor->isOnOutput(output);
         if (!Cursors::self()->isCursorHidden()) {
             usesHardwareCursor = output->setCursor(cursor->source()) && output->moveCursor(layerRect.topLeft());
         } else {
             usesHardwareCursor = output->setCursor(nullptr);
         }
-        if (m_screenShotRunning || (m_edgeSoftCursor &&
+        if (m_screenShotRunning || (m_edgeSoftCursor && isOnCurrentOutput &&
                 (layerRect.x() >= output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
                 layerRect.y() >= output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
             usesHardwareCursor = false;
         }
-        if (m_usesHardwareCursor != usesHardwareCursor) {
+        if (isOnCurrentOutput && m_usesHardwareCursor != usesHardwareCursor) {
             m_usesHardwareCursor = usesHardwareCursor;
             qCDebug(KWIN_CORE) << "HardWareCursor changed, now status is" << m_usesHardwareCursor;
         }
-        cursorLayer->setVisible(cursor->isOnOutput(output) && !usesHardwareCursor);
+        cursorLayer->setVisible(isOnCurrentOutput && !usesHardwareCursor);
         cursorLayer->setGeometry(layerRect);
         cursorLayer->addRepaintFull();
     };
@@ -692,16 +693,17 @@ void Compositor::addOutput(Output *output)
         const Cursor *cursor = Cursors::self()->currentCursor();
         QRect layerRect = output->mapFromGlobal(cursor->geometry());
         bool usesHardwareCursor = output->moveCursor(layerRect.topLeft());
-        if (m_screenShotRunning || (m_edgeSoftCursor &&
+        const bool isOnCurrentOutput = cursor->isOnOutput(output);
+        if (m_screenShotRunning || (m_edgeSoftCursor && isOnCurrentOutput &&
                 (layerRect.x() >= output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
                 layerRect.y() >= output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
             usesHardwareCursor = false;
         }
-        if (m_usesHardwareCursor != usesHardwareCursor) {
+        if (isOnCurrentOutput && m_usesHardwareCursor != usesHardwareCursor) {
             m_usesHardwareCursor = usesHardwareCursor;
             qCDebug(KWIN_CORE) << "HardWareCursor changed, now status is" << m_usesHardwareCursor;
         }
-        cursorLayer->setVisible(cursor->isOnOutput(output) && !usesHardwareCursor);
+        cursorLayer->setVisible(isOnCurrentOutput && !usesHardwareCursor);
         cursorLayer->setGeometry(layerRect);
         cursorLayer->addRepaintFull();
     };
