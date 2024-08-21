@@ -357,13 +357,8 @@ std::shared_ptr<GbmSurface> EglGbmLayerSurface::createGbmSurface(const QSize &si
     if ((forceLinear || m_gpu != m_eglBackend->gpu()) && !m_gpu->isDlink() && !m_eglBackend->gpu()->isDlink()) {
         gbmFlags |= GBM_BO_USE_LINEAR;
     }
-    auto ret = GbmSurface::createSurface(m_eglBackend, size, format, gbmFlags, config);
-    auto surface = std::get_if<std::shared_ptr<GbmSurface>>(&ret);
-    if (!surface && forceLinear) {
-        gbmFlags ^= GBM_BO_USE_LINEAR;
-        ret = GbmSurface::createSurface(m_eglBackend, size, format, gbmFlags, config);
-        surface = std::get_if<std::shared_ptr<GbmSurface>>(&ret);
-    }
+    const auto ret = GbmSurface::createSurface(m_eglBackend, size, format, gbmFlags, config);
+    const auto surface = std::get_if<std::shared_ptr<GbmSurface>>(&ret);
     return surface ? *surface : nullptr;
 }
 
