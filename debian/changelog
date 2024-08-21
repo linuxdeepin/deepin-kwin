@@ -1,3 +1,10 @@
+kwin (4:5.27.2.262-deepin262-1) unstable; urgency=medium
+
+  [dingzhixuan]
+  * Revert "feat: support hw cursor on pgx"
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Wed, 21 Aug 2024 21:28:00 +0800
+
 kwin (4:5.27.2.261-deepin261-1) unstable; urgency=medium
 
   [yangtian]
