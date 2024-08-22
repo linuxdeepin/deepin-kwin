@@ -169,7 +169,7 @@ var scaleEffect = {
         var windowRect = window.geometry;
         var scaleSize = scaleEffect.closedSize
         var scaleDuration = scaleEffect.closedDuration;
-        if (window.windowClass == "dde-launcher dde-launcher" || window.windowClass == "dde-lock org.deepin.dde.lock") {
+        if (window.startEffectType == 16) {
             scaleSize = scaleEffect.closedLauncherSize;
             scaleDuration = scaleEffect.closedLauncherDuration;
         }

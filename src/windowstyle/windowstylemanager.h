@@ -31,6 +31,7 @@ public:
         effectCursor = 0x02,       // 鼠标位置展开动效
         effectTop    = 0x04,       // 从上往下展开
         effectBottom = 0x08,       // 从下往上展开
+        effectOut    = 0x10,       // 由外向内
     };
 
 public:
