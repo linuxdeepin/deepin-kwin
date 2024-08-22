@@ -67,6 +67,7 @@
 #include "configreader.h"
 #include "composite.h"
 #include "windowstyle/windowstylemanager.h"
+#include "utils/dconfig_reader.h"
 
 // KDE
 #include <KConfig>
@@ -367,6 +368,8 @@ void Workspace::init()
     m_fontSizeConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
                                       DBUS_APPEARANCE_INTF, "FontSize");
     m_fontFamilyConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "StandardFont");
+
+    DconfigRead<QString>("org.kde.kwin.cursor", "perferredOutput", m_perferredCursorOutput);
 
     m_dockInter = new DBusDock();
     if (m_dockInter) {
@@ -2819,7 +2822,14 @@ void Workspace::desktopResized()
     });
     if (oldCursorOutput != m_oldScreenGeometries.cend()) {
         const Output *cursorOutput = oldCursorOutput.key();
-        if (std::find(m_outputs.cbegin(), m_outputs.cend(), cursorOutput) != m_outputs.cend()) {
+        if (!m_perferredCursorOutput.isEmpty()) {
+            const auto o = std::find_if(m_outputs.cbegin(), m_outputs.cend(), [this](const auto output) {
+                            return output->name().contains(m_perferredCursorOutput);
+                        });
+            if (o != m_outputs.cend()) {
+                Cursors::self()->mouse()->setPos((*o)->geometry().center());
+            }
+        } else if (std::find(m_outputs.cbegin(), m_outputs.cend(), cursorOutput) != m_outputs.cend()) {
             const QRect oldGeometry = oldCursorOutput.value();
             const QRect newGeometry = cursorOutput->geometry();
             const QPoint relativePosition = Cursors::self()->mouse()->pos() - oldGeometry.topLeft();

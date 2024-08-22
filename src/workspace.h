@@ -996,6 +996,7 @@ private:
 
     QRectF m_lastDockPos = QRectF();
     DBusDock *m_dockInter = nullptr;
+    QString m_perferredCursorOutput = "";
 
     xcb_window_t m_clientIDHandlingMouseCommand = 0;
     std::set<pid_t> m_pids;

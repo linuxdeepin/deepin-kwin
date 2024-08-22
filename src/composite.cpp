@@ -616,7 +616,7 @@ void Compositor::startupWithWorkspace()
                                           XCB_COMPOSITE_REDIRECT_MANUAL);
     }
 
-    DconfigRead<bool>("org.kde.kwin.compositing", "edgeSoftCursor", m_edgeSoftCursor);
+    DconfigRead<bool>("org.kde.kwin.cursor", "edgeSoftCursor", m_edgeSoftCursor);
 }
 
 Output *Compositor::findOutput(RenderLoop *loop) const
