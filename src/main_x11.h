@@ -30,6 +30,7 @@ public:
     void startInteractiveWindowSelection(std::function<void(KWin::Window *)> callback, const QByteArray &cursorName = QByteArray()) override;
     void startInteractivePositionSelection(std::function<void(const QPoint &)> callback) override;
     PlatformCursorImage cursorImage() const override;
+    void clearKglobalAccel();
 
 protected:
     void performStartup() override;

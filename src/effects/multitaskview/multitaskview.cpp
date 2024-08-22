@@ -546,6 +546,7 @@ MultitaskViewEffect::MultitaskViewEffect()
     , m_timerCheckWindowClose(new QTimer(this))
 {
     QAction *s = m_showActions;
+    s->setProperty("componentName", QStringLiteral("deepin-kwin"));
     s->setObjectName(QStringLiteral("ShowMultitasking"));
     s->setText("Show Multitasking View");
     KGlobalAccel::self()->setDefaultShortcut(s, QList<QKeySequence>() << Qt::META + Qt::Key_S);

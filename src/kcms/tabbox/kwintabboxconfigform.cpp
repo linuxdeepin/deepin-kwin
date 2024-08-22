@@ -76,7 +76,7 @@ KWinTabBoxConfigForm::KWinTabBoxConfigForm(TabboxType type, QWidget *parent)
     };
 
     // Shortcut config. The shortcut belongs to the component "kwin"!
-    m_actionCollection = new KActionCollection(this, QStringLiteral("kwin"));
+    m_actionCollection = new KActionCollection(this, QStringLiteral("deepin-kwin"));
     m_actionCollection->setComponentDisplayName(i18n("KWin"));
     m_actionCollection->setConfigGroup("Navigation");
     m_actionCollection->setConfigGlobal(true);
@@ -246,7 +246,7 @@ void KWinTabBoxConfigForm::loadShortcuts()
 {
     for (const auto &widget : {ui->scAll, ui->scAllReverse, ui->scCurrent, ui->scCurrentReverse}) {
         const QString actionName = widget->property("shortcutAction").toString();
-        const auto shortcuts = KGlobalAccel::self()->globalShortcut(QStringLiteral("kwin"), actionName);
+        const auto shortcuts = KGlobalAccel::self()->globalShortcut(QStringLiteral("deepin-kwin"), actionName);
         if (!shortcuts.isEmpty()) {
             widget->setKeySequence(shortcuts.first());
         }
@@ -276,7 +276,7 @@ bool KWinTabBoxConfigForm::isShortcutsChanged() const
     for (const auto &widget : {ui->scAll, ui->scAllReverse, ui->scCurrent, ui->scCurrentReverse}) {
         const QString actionName = widget->property("shortcutAction").toString();
         QAction *action = m_actionCollection->action(actionName);
-        const auto shortcuts = KGlobalAccel::self()->globalShortcut(QStringLiteral("kwin"), actionName);
+        const auto shortcuts = KGlobalAccel::self()->globalShortcut(QStringLiteral("deepin-kwin"), actionName);
         const QKeySequence savedShortcut = shortcuts.isEmpty() ? QKeySequence() : shortcuts.first();
 
         if (action->shortcut() != savedShortcut) {

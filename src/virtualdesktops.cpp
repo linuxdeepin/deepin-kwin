@@ -831,8 +831,12 @@ void VirtualDesktopManager::initShortcuts()
 {
     initSwitchToShortcuts();
 
-    addAction(QStringLiteral("Switch to Next Desktop"), i18n("Switch to Next Desktop"), &VirtualDesktopManager::slotNext);
-    addAction(QStringLiteral("Switch to Previous Desktop"), i18n("Switch to Previous Desktop"), &VirtualDesktopManager::slotPrevious);
+    QAction *slotNextAction = addAction(QStringLiteral("Switch to Next Desktop"), i18n("Switch to Next Desktop"), &VirtualDesktopManager::slotNext);
+    KGlobalAccel::self()->setDefaultShortcut(slotNextAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Right);
+    KGlobalAccel::self()->setShortcut(slotNextAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Right, KGlobalAccel::NoAutoloading);
+    QAction *slotPreviousAction = addAction(QStringLiteral("Switch to Previous Desktop"), i18n("Switch to Previous Desktop"), &VirtualDesktopManager::slotPrevious);
+    KGlobalAccel::self()->setDefaultShortcut(slotPreviousAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Left);
+    KGlobalAccel::self()->setShortcut(slotPreviousAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Left, KGlobalAccel::NoAutoloading);
 
     // shortcuts
     QAction *slotRightAction = addAction(QStringLiteral("Switch One Desktop to the Right"), i18n("Switch One Desktop to the Right"), &VirtualDesktopManager::slotRight);
@@ -904,7 +908,7 @@ void VirtualDesktopManager::initSwitchToShortcuts()
 QAction *VirtualDesktopManager::addAction(const QString &name, const KLocalizedString &label, uint value, const QKeySequence &key, void (VirtualDesktopManager::*slot)())
 {
     QAction *a = new QAction(this);
-    a->setProperty("componentName", QStringLiteral("kwin"));
+    a->setProperty("componentName", QStringLiteral("deepin-kwin"));
     a->setObjectName(name.arg(value));
     a->setText(label.subs(value).toString());
     a->setData(value);
@@ -916,7 +920,7 @@ QAction *VirtualDesktopManager::addAction(const QString &name, const KLocalizedS
 QAction *VirtualDesktopManager::addAction(const QString &name, const QString &label, void (VirtualDesktopManager::*slot)())
 {
     QAction *a = new QAction(this);
-    a->setProperty("componentName", QStringLiteral("kwin"));
+    a->setProperty("componentName", QStringLiteral("deepin-kwin"));
     a->setObjectName(name);
     a->setText(label);
     KGlobalAccel::setGlobalShortcut(a, QKeySequence());

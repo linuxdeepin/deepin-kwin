@@ -30,7 +30,7 @@ OverviewEffectConfig::OverviewEffectConfig(QWidget *parent, const QVariantList &
     OverviewConfig::instance(KWIN_CONFIG);
     addConfig(OverviewConfig::self(), this);
 
-    auto actionCollection = new KActionCollection(this, QStringLiteral("kwin"));
+    auto actionCollection = new KActionCollection(this, QStringLiteral("deepin-kwin"));
 
     actionCollection->setComponentDisplayName(i18n("KWin"));
     actionCollection->setConfigGroup(QStringLiteral("Overview"));

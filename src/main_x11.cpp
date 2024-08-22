@@ -294,6 +294,7 @@ void ApplicationX11::performStartup()
             }
         });
 
+        clearKglobalAccel();
         createInput();
         createWorkspace();
         createPlugins();
@@ -369,6 +370,11 @@ void ApplicationX11::crashHandler(int signal)
 
     sleep(1);
     system(cmd);
+}
+
+void ApplicationX11::clearKglobalAccel()
+{
+    KGlobalAccel::cleanComponent("kwin");
 }
 
 } // namespace

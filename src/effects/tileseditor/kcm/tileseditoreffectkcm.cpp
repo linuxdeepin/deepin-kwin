@@ -26,7 +26,7 @@ TilesEditorEffectConfig::TilesEditorEffectConfig(QWidget *parent, const QVariant
 {
     ui.setupUi(this);
 
-    auto actionCollection = new KActionCollection(this, QStringLiteral("kwin"));
+    auto actionCollection = new KActionCollection(this, QStringLiteral("deepin-kwin"));
 
     actionCollection->setComponentDisplayName(i18n("KWin"));
     actionCollection->setConfigGroup(QStringLiteral("tileseditor"));
