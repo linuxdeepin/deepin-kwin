@@ -34,7 +34,8 @@ WindowStyleManager::WindowStyleManager()
     m_themeConfig = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "GtkTheme");
     connect(m_radiusConfig.get(), &ConfigReader::sigPropertyChanged, this, &WindowStyleManager::onRadiusChange);
     connect(m_themeConfig.get(), &ConfigReader::sigPropertyChanged, this, &WindowStyleManager::onThemeChange);
-    connect(Compositor::self(), &Compositor::compositingToggled, this, &WindowStyleManager::onCompositingChanged);
+    connect(Compositor::self(), &Compositor::compositingToggled, this, &WindowStyleManager::onCompositingToggle);
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF, "compositingEnabledChanged", this, SLOT(onCompositingChanged(bool)));
     m_scale = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
 }
 
@@ -92,17 +93,26 @@ void WindowStyleManager::onGeometryShapeChanged(Window *w, QRectF rectF)
     }
 }
 
-void WindowStyleManager::onCompositingChanged(bool acitve)
+void WindowStyleManager::onCompositingChanged(bool active)
 {
-    if (acitve) {
-        QList<Window*> windows = workspace()->allClientList();
-        for (Window *w : windows) {
-            w->updateWindowRadius(true);
-        }
-        QTimer::singleShot(50, [&] {
-            Compositor::self()->scene()->addRepaintFull();
-        });
+    m_compositingEnabled = active;
+    QList<Window*> windows = workspace()->allClientList();
+    for (Window *w : windows) {
+        w->updateWindowRadius(true);
     }
+    QTimer::singleShot(50, [&] {
+        Compositor::self()->scene()->addRepaintFull();
+    });
+
+    Q_EMIT workspace()->osRadiusChanged();
+}
+
+void WindowStyleManager::onCompositingToggle(bool active)
+{
+    if (effects && static_cast<EffectsHandlerImpl *>(effects)->isEffectLoaded("scissor"))
+        m_compositingEnabled = true;
+    else
+        m_compositingEnabled = false;
 }
 
 void WindowStyleManager::onWaylandWindowCustomEffect(uint32_t type)

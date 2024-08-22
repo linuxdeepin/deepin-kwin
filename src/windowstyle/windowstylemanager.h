@@ -38,6 +38,7 @@ public:
     float getOsScale();
     void handleSpecialWindowStyle(Window *);
     void parseWinCustomEffect(Window *);
+    bool compositingEnabled() { return m_compositingEnabled; }
 
 Q_SIGNALS:
     void sigRadiusChanged(float &);
@@ -53,12 +54,14 @@ public Q_SLOTS:
     void onCompositingChanged(bool);
     void onWaylandWindowCustomEffect(uint32_t);
     void onWaylandWindowStartUpEffect(uint32_t);
+    void onCompositingToggle(bool);
 
 private:
     std::unique_ptr<ConfigReader> m_radiusConfig;
     std::unique_ptr<ConfigReader> m_themeConfig;
-    float        m_osRadius = -1.0;
-    float        m_scale = 1.0;
+    float                         m_osRadius = -1.0;
+    float                         m_scale = 1.0;
+    bool                          m_compositingEnabled = true;
 };
 }
 
