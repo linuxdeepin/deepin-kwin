@@ -1,3 +1,23 @@
+kwin (4:5.27.2.263-deepin263-1) unstable; urgency=medium
+
+  [huangzhenyan]
+  * fix: atom read in xwayland get XCB_NONE
+  * fix: keep color of titlebar consistent with theme
+  * fix: ignore grab/ungrab in x11 focus in
+  * fix: don't show menu when quit multitask
+  * fix: fix issue about desktop has radius
+  * fix: avoid capture hanging ref in unref
+  * fix: [drm] donnot use hardware cursor if no cursor plane
+  * fix: Improve Workspace::outputAt()
+  * fix: [splitscreen] preview show under window
+  * fix: restore window will blink other screen
+  * fix: add interface to perferred cursor show output
+  * fix: refix wemeet donnot show cursor when screen record
+  * fix: screenshot donnot show cursor
+  * fix: [drm] pgx displaylink show black screen
+
+ -- huangzhenyan <huangzhenyan@uniontech.com>  Mon, 02 Sep 2024 17:30:00 +0800
+
 kwin (4:5.27.2.262-deepin262-1) unstable; urgency=medium
 
   [dingzhixuan]
