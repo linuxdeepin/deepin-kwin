@@ -2670,11 +2670,11 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         replay = replay || !rules()->checkAcceptFocus(acceptsFocus());
         break;
     case Options::MouseActivateRaiseAndPassClick:
-        if (waylandServer()) {
+        if (waylandServer() || resourceName() != QByteArrayLiteral("dde-file-manager")) {
             workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
         } else {
             workspace()->takeActivity(this, Workspace::ActivityFocus);
-            workspace()->setClientIDHandleMouseCommand(window());
+            workspace()->setClientIDHandleMouseCommand(window(), globalPos);
         }
         workspace()->setActiveOutput(globalPos);
         replay = true;

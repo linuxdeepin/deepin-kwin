@@ -332,8 +332,9 @@ public:
 
     void handleReleaseMouseCommand();
 
-    void setClientIDHandleMouseCommand(xcb_window_t wId) {
+    void setClientIDHandleMouseCommand(xcb_window_t wId, const QPointF &pos = QPointF()) {
         m_clientIDHandlingMouseCommand = wId;
+        m_posHandlingMouseCommand = pos;
     }
 
     xcb_window_t clientIDHandleMouseCommand() const {
@@ -999,6 +1000,7 @@ private:
     QString m_perferredCursorOutput = "";
 
     xcb_window_t m_clientIDHandlingMouseCommand = 0;
+    QPointF m_posHandlingMouseCommand;
     std::set<pid_t> m_pids;
 
     bool m_supportDmabufExt;

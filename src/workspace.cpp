@@ -2596,7 +2596,7 @@ void Workspace::setSplitMenuKeepShowing(bool keep)
 
 void Workspace::handleReleaseMouseCommand()
 {
-    auto hitShape = [] (const Window *w, const QPoint &p)->bool {
+    auto hitShape = [] (const Window *w, const QPointF &p)->bool {
         if (!w)
             return false;
         const QVector<QRectF> shape = w->shapeRegion();
@@ -2608,22 +2608,31 @@ void Workspace::handleReleaseMouseCommand()
         return false;
     };
 
+    const QPointF pos = Cursors::self()->mouse()->pos();
+
     if (m_clientIDHandlingMouseCommand) {
-        Window *w = nullptr;
+        Window *release_on = nullptr;
         for (auto it = stacking_order.crbegin(), end = stacking_order.crend(); it != end; ++it) {
             if ((*it)->isOnCurrentDesktop() && !(*it)->isMinimized() && (*it)->wantsInput()
-                    && (*it)->frameGeometry().contains(Cursors::self()->mouse()->pos())
-                    && hitShape(*it, Cursors::self()->mouse()->pos())) {
-                w = *it;
+                    && (*it)->frameGeometry().contains(pos) && hitShape(*it, pos)) {
+                release_on = *it;
                 break;
             }
         }
-        if (w) {
-            qCDebug(KWIN_CORE) << "release on:" << w->resourceName();
-            Window* tmp = findClient(Predicate::WindowMatch, m_clientIDHandlingMouseCommand);
-            if (tmp && tmp->window() == w->window()) {
-                takeActivity(tmp, Workspace::ActivityFocus | Workspace::ActivityRaise);
-                qCDebug(KWIN_CORE) << "raise at release:" << w->resourceName() << "; id:" << w->window();
+        if (release_on) {
+            qCDebug(KWIN_CORE) << "release on:" << release_on->resourceName();
+            if (Window *press_on = findClient(Predicate::WindowMatch, m_clientIDHandlingMouseCommand)) {
+                Window *target = nullptr;
+                if (press_on->window() == release_on->window()
+                        || (fabs(m_posHandlingMouseCommand.y() - pos.y()) < 10 && fabs(m_posHandlingMouseCommand.x() - pos.x()) < 10)) {
+                    target = press_on;
+                } else {
+                    target = release_on;
+                }
+                if (target) {
+                    takeActivity(target, Workspace::ActivityFocus | Workspace::ActivityRaise);
+                    qCDebug(KWIN_CORE) << "raise at release:" << target->resourceName() << "; id:" << target->window();
+                }
             }
         }
         setClientIDHandleMouseCommand(0);
