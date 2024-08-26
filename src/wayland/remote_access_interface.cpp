@@ -125,8 +125,8 @@ qint32 BufferHandle::frame() const
  */
 struct BufferHolder
 {
-    BufferHandle *buf;
-    quint64 counter;
+    BufferHandle *buf = nullptr;
+    quint64 counter = 0;
     struct timeval lifetime;
 };
 
@@ -186,7 +186,6 @@ private:
      */
     QList<Resource *> clientResources;
 
-    QMutex m_mutex;
 protected:
     void org_kde_kwin_remote_access_manager_bind_resource(Resource *resource) override;
 };
@@ -238,7 +237,6 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
         return;
     }
 
-    QMutexLocker locker(&m_mutex);
     // store buffer locally, clients will ask it later
     sentBuffers[buf->fd()] = holder;
 
@@ -281,14 +279,16 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_bin
 
 bool RemoteAccessManagerInterfacePrivate::unref(BufferHolder &bh)
 {
-    bh.counter--;
-    if (!bh.counter) {
-        // no more clients using this buffer
-        //qCDebug(KWIN_CORE) << "[ut-gfx ]Buffer released, fd" << bh.buf->fd();
-        QMutexLocker locker(&m_mutex);
-        sentBuffers.remove(bh.buf->fd());
-        Q_EMIT q->bufferReleased(bh.buf);
-        return true;
+    if (bh.counter != 0) {
+        bh.counter--;
+        if (bh.counter == 0) {
+            int fd = bh.buf->fd();
+            // no more clients using this buffer
+            Q_EMIT q->bufferReleased(bh.buf);
+            sentBuffers.remove(fd);
+            return true;
+        }
+        return false;
     }
     return false;
 }
@@ -317,14 +317,14 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
 
     auto rbuf = new RemoteBufferInterface(bh.buf, RbiResource);
 
-    QObject::connect(rbuf, &QObject::destroyed, [resource, &bh, this] {
-        if (!clientResources.contains(resource)) {
+    QObject::connect(rbuf, &QObject::destroyed, [resource, internal_buffer_id, this] {
+        if (!clientResources.contains(resource) || !sentBuffers.contains(internal_buffer_id)) {
             // remote buffer destroy confirmed after client is already gone
             // all relevant buffers are already unreferenced
             return;
         }
         //qCDebug(KWIN_CORE) << "Remote buffer returned, client" << wl_resource_get_id(resource->handle) << ", fd" << bh.buf->fd();
-        unref(bh);
+        unref(sentBuffers[internal_buffer_id]);
         gsScreenRecord.setObjectName(SCREEN_RECORDING_FINISHED);
     });
 
