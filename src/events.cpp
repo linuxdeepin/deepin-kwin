@@ -1180,7 +1180,9 @@ void X11Window::focusInEvent(xcb_focus_in_event_t *e)
     if (e->event != window()) {
         return; // only window gets focus
     }
-    if (e->mode == XCB_NOTIFY_MODE_UNGRAB) {
+    // On X11 we get focus in and out events for normal input and when grabs change. 
+    // Kwin's concept of the active window should only follow the normal focus changing.
+    if (e->mode == XCB_NOTIFY_MODE_GRAB || e->mode == XCB_NOTIFY_MODE_UNGRAB) {
         return; // we don't care
     }
     if (e->detail == XCB_NOTIFY_DETAIL_POINTER) {
