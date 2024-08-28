@@ -300,9 +300,15 @@ void SplitPreviewEffect::cleanup()
 QRect SplitPreviewEffect::getPreviewWindowsGeometry(EffectWindow *w)
 {
     int mode = effectsEx->getQuickTileMode(w);
-    QRectF ret = effectsEx->getQuickTileGeometry(w, mode^0b11, effects->cursorPos());
     m_backgroundMode = mode ^ 0b11;
-    return ret.toRect();
+    if (effects->waylandDisplay()) {
+        auto maximizeArea = effects->clientArea(MaximizeArea, w);
+        QRegion ret = QRegion(maximizeArea.toRect()).subtracted(QRegion(w->frameGeometry().toRect()));
+        return ret.boundingRect();
+    } else {
+        QRectF ret = effectsEx->getQuickTileGeometry(w, mode^0b11, effects->cursorPos());
+        return ret.toRect();
+    }
 }
 
 void SplitPreviewEffect::windowInputMouseEvent(QEvent* e)
