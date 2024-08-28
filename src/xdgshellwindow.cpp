@@ -333,6 +333,9 @@ void XdgSurfaceWindow::moveResizeInternal(const QRectF &rect, MoveResizeMode mod
             configureEvent->flags.setFlag(XdgSurfaceConfigure::ConfigurePosition, false);
         }
         m_configureFlags.setFlag(XdgSurfaceConfigure::ConfigurePosition, false);
+        if (size() != rect.size()) {
+            return;
+        }
         updateGeometry(QRectF(rect.topLeft(), size()));
     }
 }
