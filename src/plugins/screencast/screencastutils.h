@@ -56,8 +56,8 @@ static GLenum closestGLType(spa_video_format format)
 static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format format)
 {
     const QSize size = texture->size();
-    bool isGLES = GLPlatform::instance()->isGLES();
-    bool invertNeeded = texture->isYInverted();
+    const bool isGLES = GLPlatform::instance()->isGLES();
+    const bool invertNeeded = isGLES ^ texture->isYInverted();
     const bool invertNeededAndSupported = invertNeeded && GLPlatform::instance()->supports(PackInvert);
     GLboolean prev;
     if (invertNeededAndSupported) {
@@ -79,7 +79,7 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
             map_data = NULL;
         } else {
             texture->bind();
-            if (GLPlatform::instance()->isGLES()) {
+            if (isGLES) {
                 GLFramebuffer fbo(texture);
                 GLFramebuffer::pushFramebuffer(&fbo);
                 glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
@@ -93,7 +93,7 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
 
     } else {
         texture->bind();
-        if (GLPlatform::instance()->isGLES()) {
+        if (isGLES) {
             GLFramebuffer fbo(texture);
             GLFramebuffer::pushFramebuffer(&fbo);
             glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);

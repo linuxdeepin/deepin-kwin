@@ -741,19 +741,28 @@ QImage GLTexture::toImage() const
     if (target() != GL_TEXTURE_2D) {
         return QImage();
     }
-    QImage ret(size(), QImage::Format_RGBA8888_Premultiplied);
 
-    GLint currentTextureBinding;
-    glGetIntegerv(GL_TEXTURE_BINDING_2D, &currentTextureBinding);
+    if (GLPlatform::instance()->isGLES()) {
+        QImage ret(size(), QImage::Format_ARGB32_Premultiplied);
+        GLFramebuffer fbo(const_cast<GLTexture*>(this));
+        GLFramebuffer::pushFramebuffer(&fbo);
+        glReadPixels(0, 0, width(), height(), GL_BGRA_EXT, GL_UNSIGNED_BYTE, ret.bits());
+        GLFramebuffer::popFramebuffer();
+        return ret;
+    } else {
+        QImage ret(size(), QImage::Format_RGBA8888_Premultiplied);
+        GLint currentTextureBinding;
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, &currentTextureBinding);
 
-    if (GLuint(currentTextureBinding) != texture()) {
-        glBindTexture(GL_TEXTURE_2D, texture());
+        if (GLuint(currentTextureBinding) != texture()) {
+            glBindTexture(GL_TEXTURE_2D, texture());
+        }
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, ret.bits());
+        if (GLuint(currentTextureBinding) != texture()) {
+            glBindTexture(GL_TEXTURE_2D, currentTextureBinding);
+        }
+        return ret;
     }
-    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, ret.bits());
-    if (GLuint(currentTextureBinding) != texture()) {
-        glBindTexture(GL_TEXTURE_2D, currentTextureBinding);
-    }
-    return ret;
 }
 
 } // namespace KWin
