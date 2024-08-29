@@ -150,7 +150,7 @@ bool DrmOutput::setCursor(CursorSource *source)
         return false;
     }
     const auto layer = m_pipeline->cursorLayer();
-    if (!m_pipeline->crtc() || !layer) {
+    if (!m_pipeline->crtc() || !m_pipeline->crtc()->cursorPlane() || !layer) {
         return false;
     }
     m_cursor.source = source;
