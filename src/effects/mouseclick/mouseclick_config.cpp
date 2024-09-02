@@ -44,7 +44,7 @@ MouseClickEffectConfig::MouseClickEffectConfig(QWidget *parent, const QVariantLi
     connect(m_ui.editor, &KShortcutsEditor::keyChange, this, &MouseClickEffectConfig::markAsChanged);
 
     // Shortcut config. The shortcut belongs to the component "kwin"!
-    m_actionCollection = new KActionCollection(this, QStringLiteral("kwin"));
+    m_actionCollection = new KActionCollection(this, QStringLiteral("deepin-kwin"));
     m_actionCollection->setComponentDisplayName(i18n("KWin"));
 
     QAction *a = m_actionCollection->addAction(QStringLiteral("ToggleMouseClick"));

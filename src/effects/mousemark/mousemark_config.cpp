@@ -46,7 +46,7 @@ MouseMarkEffectConfig::MouseMarkEffectConfig(QWidget *parent, const QVariantList
     addConfig(MouseMarkConfig::self(), &m_ui);
 
     // Shortcut config. The shortcut belongs to the component "kwin"!
-    m_actionCollection = new KActionCollection(this, QStringLiteral("kwin"));
+    m_actionCollection = new KActionCollection(this, QStringLiteral("deepin-kwin"));
     m_actionCollection->setComponentDisplayName(i18n("KWin"));
 
     QAction *a = m_actionCollection->addAction(QStringLiteral("ClearMouseMarks"));

@@ -31,6 +31,7 @@ public:
         effectCursor = 0x02,       // 鼠标位置展开动效
         effectTop    = 0x04,       // 从上往下展开
         effectBottom = 0x08,       // 从下往上展开
+        effectOut    = 0x10,       // 由外向内
     };
 
 public:
@@ -38,6 +39,7 @@ public:
     float getOsScale();
     void handleSpecialWindowStyle(Window *);
     void parseWinCustomEffect(Window *);
+    bool compositingEnabled() { return m_compositingEnabled; }
 
 Q_SIGNALS:
     void sigRadiusChanged(float &);
@@ -53,12 +55,14 @@ public Q_SLOTS:
     void onCompositingChanged(bool);
     void onWaylandWindowCustomEffect(uint32_t);
     void onWaylandWindowStartUpEffect(uint32_t);
+    void onCompositingToggle(bool);
 
 private:
     std::unique_ptr<ConfigReader> m_radiusConfig;
     std::unique_ptr<ConfigReader> m_themeConfig;
-    float        m_osRadius = -1.0;
-    float        m_scale = 1.0;
+    float                         m_osRadius = -1.0;
+    float                         m_scale = 1.0;
+    bool                          m_compositingEnabled = true;
 };
 }
 

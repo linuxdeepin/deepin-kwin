@@ -7,6 +7,7 @@
 #include "recordeventmonitor.h"
 #include "workspace.h"
 
+#include <dlfcn.h>
 #include <X11/Xlibint.h>
 #include <X11/Xlib.h>
 #include <X11/extensions/record.h>
@@ -20,10 +21,15 @@
 
 static void callback(XPointer trash, XRecordInterceptData *data);
 void handleRecordEvent(XRecordInterceptData *);
+int errorHandler(Display *dpy, XErrorEvent *ev);
+int IOErrorHandler(Display *dpy);
+void IOErrorExitHandler(Display *dpy, void *data);
 XRecordContext m_context;
 Display *m_d0 = nullptr;
 bool m_bFlag = false;
 int m_eventTime = 0;
+
+Q_LOGGING_CATEGORY(KWIN_RECORDEVENTMONITOR, "kwin_record_event_monitor", QtWarningMsg)
 
 RecordEventMonitor::RecordEventMonitor(QObject *parent)
     : QThread(parent)
@@ -63,6 +69,37 @@ void RecordEventMonitor::run()
     Display* displayDatalink = XOpenDisplay(nullptr);
     if (displayDatalink == nullptr)
         return;
+
+    void *file = dlopen("libX11.so", RTLD_LAZY);
+    if (file) {
+        void *function = dlsym(file, "XSetErrorHandler");
+        if (function) {
+            void (*handler)(decltype(errorHandler)) = reinterpret_cast<decltype(handler)>(function);
+            handler(errorHandler);
+        } else {
+            qWarning(KWIN_RECORDEVENTMONITOR) << "Fail to find function 'XSetErrorHandler'";
+        }
+
+        function = dlsym(file, "XSetIOErrorHandler");
+        if (function) {
+            void (*handler)(decltype(IOErrorHandler)) = reinterpret_cast<decltype(handler)>(function);
+            handler(IOErrorHandler);
+        } else {
+            qWarning(KWIN_RECORDEVENTMONITOR) << "Fail to find function 'XSetIOErrorHandler'";
+        }
+
+        function = dlsym(file, "XSetIOErrorExitHandler");
+        if (function) {
+            void (*handler)(Display *, decltype(IOErrorExitHandler), void *) = reinterpret_cast<decltype(handler)>(function);
+            handler(displayDatalink, IOErrorExitHandler, nullptr);
+        } else {
+            qWarning(KWIN_RECORDEVENTMONITOR) << "Fail to find function 'XSetIOErrorExitHandler'";
+        }
+
+        dlclose(file);
+    } else {
+        qWarning(KWIN_RECORDEVENTMONITOR) << "Errors in function dlopen:" << dlerror();
+    }
 
     if (!XRecordEnableContext(displayDatalink, context, callback, (XPointer) this))
         return;
@@ -127,4 +164,21 @@ void RecordEventMonitor::stopRecord()
     XRecordFreeContext(m_d0, m_context);
     XSync(m_d0, True);
     XCloseDisplay(m_d0);
+}
+
+int errorHandler(Display *dpy, XErrorEvent *ev)
+{
+    qCWarning(KWIN_RECORDEVENTMONITOR) << "Error occurred in RecordEventMonitor";
+    return 1;
+}
+
+int IOErrorHandler(Display *dpy)
+{
+    qCWarning(KWIN_RECORDEVENTMONITOR) << "Fatal IO error in RecordEventMonitor";
+    return 1;
+}
+
+void IOErrorExitHandler(Display *dpy, void *data)
+{
+    qCWarning(KWIN_RECORDEVENTMONITOR) << "Exit RecordEventMonitor due to fatal IO error";
 }

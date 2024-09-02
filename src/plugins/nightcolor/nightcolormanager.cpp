@@ -83,13 +83,13 @@ NightColorManager::NightColorManager()
     // TODO Plasma 6: Remove it.
     if (i18n("Toggle Night Color") != QStringLiteral("Toggle Night Color")) {
         QAction toggleActionLegacy;
-        toggleActionLegacy.setProperty("componentName", QStringLiteral("kwin"));
+        toggleActionLegacy.setProperty("componentName", QStringLiteral("deepin-kwin"));
         toggleActionLegacy.setObjectName(i18n("Toggle Night Color"));
         KGlobalAccel::self()->removeAllShortcuts(&toggleActionLegacy);
     }
 
     QAction *toggleAction = new QAction(this);
-    toggleAction->setProperty("componentName", QStringLiteral("kwin"));
+    toggleAction->setProperty("componentName", QStringLiteral("deepin-kwin"));
     toggleAction->setObjectName(QStringLiteral("Toggle Night Color"));
     toggleAction->setText(i18n("Toggle Night Color"));
     KGlobalAccel::setGlobalShortcut(toggleAction, QList<QKeySequence>());

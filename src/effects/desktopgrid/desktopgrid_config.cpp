@@ -44,7 +44,7 @@ DesktopGridEffectConfig::DesktopGridEffectConfig(QWidget *parent, const QVariant
     layout->addWidget(&m_ui);
 
     // Shortcut config. The shortcut belongs to the component "kwin"!
-    m_actionCollection = new KActionCollection(this, QStringLiteral("kwin"));
+    m_actionCollection = new KActionCollection(this, QStringLiteral("deepin-kwin"));
 
     m_actionCollection->setComponentDisplayName(i18n("KWin"));
     m_actionCollection->setConfigGroup(QStringLiteral("DesktopGrid"));
