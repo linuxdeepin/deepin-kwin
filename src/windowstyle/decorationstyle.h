@@ -91,10 +91,11 @@ public:
     virtual void parseWinCustomRadius() = 0;
     virtual void parseWinCustomShadow() = 0;
     virtual void parseWinStartUpEffect() = 0;
-    void cancelShadowByUser(bool cancel) {m_isCancleShadow = cancel;}
-    bool isCancelShadow() {return m_isCancleShadow;}
-    void cancelRadiusByUser(bool cancel) {m_isCancleRadius = cancel;}
-    bool isCancelRadius() {return m_isCancleRadius;}
+    void cancelShadowByUser(bool cancel) { m_isCancleShadow = cancel; }
+    bool isCancelShadow() { return m_isCancleShadow; }
+    void cancelRadiusByUser(bool cancel) { m_isCancleRadius = cancel; }
+    bool isCancelRadius() { return m_isCancleRadius; }
+
  public Q_SLOTS:
     void setValidProperties(qint64 validProperties);
 

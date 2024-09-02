@@ -50,7 +50,7 @@ MagnifierEffectConfig::MagnifierEffectConfig(QWidget *parent, const QVariantList
     connect(m_ui.editor, &KShortcutsEditor::keyChange, this, &MagnifierEffectConfig::markAsChanged);
 
     // Shortcut config. The shortcut belongs to the component "kwin"!
-    m_actionCollection = new KActionCollection(this, QStringLiteral("kwin"));
+    m_actionCollection = new KActionCollection(this, QStringLiteral("deepin-kwin"));
 
     m_actionCollection->setComponentDisplayName(i18n("KWin"));
     m_actionCollection->setConfigGroup(QStringLiteral("Magnifier"));

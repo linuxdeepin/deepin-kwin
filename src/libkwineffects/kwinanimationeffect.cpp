@@ -715,7 +715,10 @@ void AnimationEffect::postPaintScreen()
             invalidateLayerRect = damageDirty = true;
         }
         if (entry->first.isEmpty()) {
-            effects->addRepaint(entry->second);
+            if (entry->second.contains(entry.key()->geometry().toRect()))
+                effects->addRepaint(entry->second);
+            else
+                effects->addRepaintFull();
             entry = d->m_animations.erase(entry);
         } else {
             if (invalidateLayerRect) {

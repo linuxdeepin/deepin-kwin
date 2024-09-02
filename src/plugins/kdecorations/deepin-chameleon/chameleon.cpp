@@ -46,6 +46,7 @@
 #include "composite.h"
 #include "core/renderbackend.h"
 #include "workspace.h"
+#include "windowstyle/windowstylemanager.h"
 
 Q_DECLARE_METATYPE(QPainterPath)
 
@@ -702,8 +703,9 @@ void Chameleon::onNoTitlebarPropertyChanged(quint32 windowId)
 
 bool Chameleon::windowNeedRadius() const
 {
-    if (settings()->isAlphaChannelSupported() &&
-        KWin::Compositor::self()->backend()->compositingType() == KWin::XRenderCompositing ) {
+    if ((settings()->isAlphaChannelSupported() &&
+        KWin::Compositor::self()->backend()->compositingType() == KWin::XRenderCompositing) ||
+        !KWin::Workspace::self()->getWindowStyleMgr()->compositingEnabled()) {
         return false;
     }
 
