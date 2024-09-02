@@ -101,7 +101,9 @@ void WindowStyleManager::onCompositingChanged(bool active)
         w->updateWindowRadius(true);
     }
     QTimer::singleShot(50, [&] {
-        Compositor::self()->scene()->addRepaintFull();
+        if (Compositor::self() && Compositor::self()->scene()) {
+            Compositor::self()->scene()->addRepaintFull();
+        }
     });
 
     Q_EMIT workspace()->osRadiusChanged();

@@ -51,6 +51,8 @@ public:
     virtual const QUrl &image() const = 0;
     virtual void setPixmap(const QPixmap &image) = 0;
     virtual const QPixmap &pixmap() const = 0;
+    virtual const QPoint &clipOffset() const = 0;
+    virtual void setClipOffset(const QPoint &offset) = 0;
 
 // Q_SIGNALS:
 

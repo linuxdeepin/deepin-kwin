@@ -72,7 +72,7 @@ bool X11Filter::buttonPress(xcb_button_press_event_t *event)
     if ((!tab->isShown() && tab->isDisplayed())
         || (!tabBox->containsPos(pos) && (event->detail == XCB_BUTTON_INDEX_1 || event->detail == XCB_BUTTON_INDEX_2 || event->detail == XCB_BUTTON_INDEX_3))) {
         const QModelIndex index = tabBox->first();
-        if (index.isValid()) {
+        if (!tabBox->isKWinCompositing() && index.isValid()) {
             tab->setCurrentIndex(index);
             Window *w = tab->currentClient();
             if (w) {
@@ -87,7 +87,10 @@ bool X11Filter::buttonPress(xcb_button_press_event_t *event)
         const QModelIndex index = tabBox->nextPrev(event->detail == XCB_BUTTON_INDEX_5 ? TabBoxConfig::Backward : TabBoxConfig::Forward);
         if (index.isValid()) {
             tab->setCurrentIndex(index);
-            tab->currentClient()->setMinimized(tab->firstClientIsMinisize());
+            Window *w = tab->currentClient();
+            if (!tabBox->isKWinCompositing() && w) {
+                w->setMinimized(tab->firstClientIsMinisize());
+            }
         }
         return true;
     }

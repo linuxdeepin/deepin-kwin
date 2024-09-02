@@ -13,6 +13,7 @@
 
 #include "tabbox/tabboxhandler.h"
 #include "utils/common.h"
+#include <QDateTime>
 #include <QKeySequence>
 #include <QModelIndex>
 #include <QTimer>
@@ -267,6 +268,9 @@ public:
 
     void saveAllClientIsMinisize();
     QList<bool> getAllClientIsMinisize();
+
+    void setViewRect(const QRect &rect);
+
 public Q_SLOTS:
     /**
      * Notify effects that the tab box is being shown, and only display the
@@ -362,6 +366,7 @@ private:
     std::unique_ptr<X11EventFilter> m_x11EventFilter;
     QList<bool> m_allClientMinisize;
     bool m_isMinisized;
+    QDateTime m_lastKeyPress;
 };
 
 } // namespace TabBox

@@ -130,6 +130,8 @@ void SwitcherItem::setCurrentIndex(int index)
             message << bool(false);
         }
         QDBusConnection::sessionBus().send(message);
+
+        Q_EMIT tabBox->tabBoxUpdated();
     }
 }
 
@@ -225,6 +227,17 @@ void SwitcherItem::setWinHoverColor(QString color)
 void SwitcherItem::updateOsTheme()
 {
     updateWindowColor(true);
+}
+
+QRect SwitcherItem::viewRect() const
+{
+    return m_viewRect;
+}
+
+void SwitcherItem::setViewRect(const QRect &rect)
+{
+    m_viewRect = rect;
+    Q_EMIT viewRectChanged();
 }
 
 }
