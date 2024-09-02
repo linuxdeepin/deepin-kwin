@@ -1293,6 +1293,13 @@ void EffectsHandlerImpl::setTabBoxDesktop(int desktop)
 #endif
 }
 
+void EffectsHandlerImpl::setTabBoxViewRect(const QRect &rect)
+{
+#if KWIN_BUILD_TABBOX
+    workspace()->tabbox()->setViewRect(rect);
+#endif
+}
+
 EffectWindowList EffectsHandlerImpl::currentTabBoxWindowList() const
 {
 #if KWIN_BUILD_TABBOX
@@ -2846,6 +2853,11 @@ void EffectFrameQuickScene::setCrossFadeProgress(qreal progress)
     }
 }
 
+qreal EffectFrameQuickScene::scale() const
+{
+    return effectsEx->getOsScale();
+}
+
 Qt::Alignment EffectFrameQuickScene::alignment() const
 {
     return m_alignment;
@@ -2977,8 +2989,8 @@ void EffectFrameQuickScene::setImage(const QPixmap &image)
     QByteArray array;
     QBuffer buffer(&array);
     buffer.open(QIODevice::WriteOnly);
-    image.save(&buffer, "JPEG");
-    QString str("data:image/jpg;base64,");
+    image.save(&buffer, "PNG");
+    QString str("data:image/png;base64,");
     str.append(QString::fromLatin1(array.toBase64().data()));
     setImage(QUrl(str));
 }
@@ -2986,6 +2998,19 @@ void EffectFrameQuickScene::setImage(const QPixmap &image)
 const QUrl &EffectFrameQuickScene::image() const
 {
     return m_image;
+}
+
+void EffectFrameQuickScene::setClipOffset(const QPoint &offset)
+{
+    if (m_clipOffset == offset)
+        return;
+    m_clipOffset = offset;
+    Q_EMIT clipOffsetChanged();
+}
+
+const QPoint &EffectFrameQuickScene::clipOffset() const
+{
+    return m_clipOffset;
 }
 
 EffectFrameImpl::EffectFrameImpl(EffectFrameStyle style, bool staticSize, QPoint position, Qt::Alignment alignment)
@@ -3231,6 +3256,16 @@ void EffectFrameImpl::setPixmap(const QPixmap &pixmap)
 const QPixmap &EffectFrameImpl::pixmap() const
 {
     return m_pixmap;
+}
+
+const QPoint &EffectFrameImpl::clipOffset() const
+{
+    return m_view->clipOffset();
+}
+
+void EffectFrameImpl::setClipOffset(const QPoint &offset)
+{
+    m_view->setClipOffset(offset);
 }
 
 } // namespace

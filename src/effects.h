@@ -123,6 +123,7 @@ public:
 
     void setTabBoxWindow(EffectWindow *) override;
     void setTabBoxDesktop(int) override;
+    void setTabBoxViewRect(const QRect &rect) override;
     EffectWindowList currentTabBoxWindowList() const override;
     void refTabBox() override;
     void unrefTabBox() override;
@@ -585,11 +586,13 @@ class EffectFrameQuickScene : public OffscreenQuickScene
     Q_PROPERTY(qreal frameOpacity READ frameOpacity NOTIFY frameOpacityChanged)
     Q_PROPERTY(bool crossFadeEnabled READ crossFadeEnabled NOTIFY crossFadeEnabledChanged)
     Q_PROPERTY(qreal crossFadeProgress READ crossFadeProgress NOTIFY crossFadeProgressChanged)
+    Q_PROPERTY(qreal scale READ scale NOTIFY scaleChanged)
 
     Q_PROPERTY(QColor color READ color NOTIFY colorChanged)
     Q_PROPERTY(int radius READ radius NOTIFY radiusChanged)
     Q_PROPERTY(QSize size READ size NOTIFY sizeChanged)
     Q_PROPERTY(QUrl image READ image NOTIFY imageChanged)
+    Q_PROPERTY(QPoint clipOffset READ clipOffset NOTIFY clipOffsetChanged)
 
 public:
     EffectFrameQuickScene(EffectFrameStyle style, bool staticSize, QPoint position,
@@ -630,6 +633,9 @@ public:
     void setCrossFadeProgress(qreal progress);
     Q_SIGNAL void crossFadeProgressChanged(qreal progress);
 
+    qreal scale() const;
+    Q_SIGNAL void scaleChanged();
+
     Qt::Alignment alignment() const;
     void setAlignment(Qt::Alignment alignment);
 
@@ -654,6 +660,10 @@ public:
     const QUrl &image() const;
     Q_SIGNAL void imageChanged();
 
+    void setClipOffset(const QPoint &offset);
+    const QPoint &clipOffset() const;
+    Q_SIGNAL void clipOffsetChanged();
+
 private:
     void reposition();
 
@@ -676,6 +686,7 @@ private:
     int m_radius = 0;
     QSize m_size;
     QUrl m_image;
+    QPoint m_clipOffset;
 };
 
 class KWIN_EXPORT EffectFrameImpl
@@ -722,6 +733,8 @@ public:
     const QUrl &image() const override;
     void setPixmap(const QPixmap &image) override;
     const QPixmap &pixmap() const override;
+    const QPoint &clipOffset() const override;
+    void setClipOffset(const QPoint &offset) override;
 
 private:
     Q_DISABLE_COPY(EffectFrameImpl) // As we need to use Qt slots we cannot copy this class
