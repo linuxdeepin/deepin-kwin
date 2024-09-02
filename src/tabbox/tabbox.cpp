@@ -310,6 +310,11 @@ void TabBoxHandlerImpl::elevateClient(TabBoxClient *c, QWindow *tabbox, bool b) 
 {
     auto cl = static_cast<TabBoxClientImpl *>(c)->client();
     cl->elevate(b);
+    if (cl->isDesktop()) {
+        if (Window *dock = workspace()->findToplevel([] (const Window *w) { return w->isDock(); })) {
+            dock->elevate(b);
+        }
+    }
     if (Window *w = Workspace::self()->findInternal(tabbox)) {
         w->elevate(b);
     }
@@ -393,7 +398,7 @@ QString TabBoxClientImpl::caption() const
 QIcon TabBoxClientImpl::icon() const
 {
     if (m_client->isDesktop()) {
-        return QIcon::fromTheme(QStringLiteral("user-desktop"));
+        return QIcon::fromTheme(QStringLiteral("deepin-toggle-desktop"));
     }
     return m_client->icon();
 }
@@ -729,7 +734,7 @@ void TabBox::show()
         return;
     }
     saveAllClientIsMinisize();
-    workspace()->setShowingDesktop(false);
+    workspace()->setShowingDesktop(false, false);
     workspace()->setPreviewClientList({});
     reference();
     m_isShown = true;
@@ -739,6 +744,8 @@ void TabBox::show()
     if (!currentClientList().isEmpty()) {
         m_isMinisized = currentClientList().first()->isMinimized();
     }
+
+    m_lastKeyPress = QDateTime::currentDateTime();
 }
 
 void TabBox::hide(bool abort)
@@ -905,7 +912,7 @@ bool TabBox::handleWheelEvent(QWheelEvent *event)
     if (event->angleDelta().y() == 0) {
         return false;
     }
-    const QModelIndex index = m_tabBox->nextPrev(event->angleDelta().y() > 0  ? TabBoxConfig::Backward : TabBoxConfig::Forward);
+    const QModelIndex index = m_tabBox->nextPrev(event->angleDelta().y() < 0  ? TabBoxConfig::Backward : TabBoxConfig::Forward);
     if (index.isValid()) {
         setCurrentIndex(index);
     }
@@ -1345,6 +1352,16 @@ void TabBox::oneStepThroughDesktopList(bool forward)
 
 void TabBox::keyPress(int keyQt)
 {
+    Qt::KeyboardModifiers mods = Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier|Qt::MetaModifier|Qt::KeypadModifier|Qt::GroupSwitchModifier;
+    mods &= keyQt;
+    if ((keyQt & ~mods) == Qt::Key_Tab || (keyQt & ~mods) == Qt::Key_Backtab
+            || (keyQt & ~mods) == Qt::Key_Left || (keyQt & ~mods) == Qt::Key_Right
+            || (keyQt & ~mods) == Qt::Key_AsciiTilde || (keyQt & ~mods) == Qt::Key_QuoteLeft) {
+        const QDateTime current = QDateTime::currentDateTime();
+        if (m_lastKeyPress.msecsTo(current) < 200)
+            return;
+        m_lastKeyPress = current;
+    }
     // enum Direction {
     //     Backward = -1,
     //     Steady = 0,
@@ -1363,8 +1380,7 @@ void TabBox::keyPress(int keyQt)
     };
 
     // tests whether a shortcut matches and handles pitfalls on ShiftKey invocation
-    auto directionFor = [keyQt, contains](const QKeySequence &forward, const QKeySequence &backward) -> TabBoxConfig::TabBoxSwitchPosition {
-        Qt::KeyboardModifiers mods = Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier|Qt::MetaModifier|Qt::KeypadModifier|Qt::GroupSwitchModifier;
+    auto directionFor = [keyQt, contains, mods](const QKeySequence &forward, const QKeySequence &backward) -> TabBoxConfig::TabBoxSwitchPosition {
         if (contains(forward, keyQt)) {
             TabBoxConfig::Forward;
         }
@@ -1377,8 +1393,6 @@ void TabBox::keyPress(int keyQt)
 
         // Before testing the unshifted key (Ctrl+A vs. Ctrl+Shift+a etc.), see whether this is +Shift+Tab
         // and check that against +Shift+Backtab (as well)
-
-        mods &= keyQt;
 
         if ((keyQt & ~mods) == Qt::Key_Tab) {
             if (contains(forward, mods | Qt::Key_Backtab))
@@ -1508,7 +1522,7 @@ void TabBox::accept(bool closeTabBox)
         Workspace::self()->activateWindow(c);
         shadeActivate(c);
         if (c->isDesktop() && !Workspace::self()->showingDesktop())
-            Workspace::self()->setShowingDesktop(true);
+            Workspace::self()->setShowingDesktop(true, false);
     }
 }
 
@@ -1644,5 +1658,12 @@ QList<bool> TabBox::getAllClientIsMinisize()
 {
     return m_allClientMinisize;
 }
+
+void TabBox::setViewRect(const QRect &rect)
+{
+    if (m_tabBox)
+        m_tabBox->setViewRect(rect);
+}
+
 } // namespace TabBox
 } // namespace

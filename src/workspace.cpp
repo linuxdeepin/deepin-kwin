@@ -27,6 +27,7 @@
 #include "cursor.h"
 #include "dbusinterface.h"
 #include "deleted.h"
+#include "dockrect.h"
 #include "effects.h"
 #include "focuschain.h"
 #include "group.h"
@@ -324,6 +325,8 @@ void Workspace::init()
 
     QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
                                           "PropertiesChanged", this, SLOT(qtActiveColorChanged()));
+    QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF,
+                                          "Changed", this, SLOT(slotIconThemeChanged(const QString &, const QString &)));
 
     m_placementTracker->init(getPlacementTrackerHash());
 
@@ -1869,6 +1872,9 @@ void Workspace::selectWmInputEventMask()
  */
 void Workspace::sendWindowToDesktop(Window *window, int desk, bool dont_activate)
 {
+    if (!window || window->isOnAllDesktops() || window == workspace()->moveResizeWindow()) {
+        return;
+    }
     if ((desk < 1 && desk != NET::OnAllDesktops) || desk > static_cast<int>(VirtualDesktopManager::self()->count())) {
         return;
     }
@@ -1956,7 +1962,7 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
 
     if (!showing ||
         !Compositor::compositing() ||
-        !(effects && static_cast<EffectsHandlerImpl *>(effects)->loadedEffects().contains("kwin4_effect_eyeonscreen")  && animated)) {
+        !(effects && static_cast<EffectsHandlerImpl *>(effects)->isEffectLoaded("kwin4_effect_eyeonscreen")  && animated)) {
         showing_desktop_effect = showing;
         showing_desktop = showing;
         topDesk = updateDesktopLayer(showing);
@@ -2530,6 +2536,13 @@ void Workspace::qtActiveColorChanged()
 {
     QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
     setActiveColor(clr);
+}
+
+void Workspace::slotIconThemeChanged(const QString &property, const QString &theme)
+{
+    if (property == "icon")
+        QIcon::setThemeName(theme);
+    Q_EMIT iconThemeChanged();
 }
 
 void Workspace::tileActiveWindow(uint side)
@@ -3790,8 +3803,18 @@ void Workspace::setWinSplitState(Window *w, bool isSplit)
     }
 }
 
+void Workspace::forceDisableRadius(bool disable)
+{
+    if (m_forceDisableRadius == disable)
+        return;
+    m_forceDisableRadius = disable;
+    Q_EMIT osRadiusChanged();
+}
+
 float Workspace::getWindowRadius() const
 {
+    if (m_forceDisableRadius)
+        return 0;
     return m_windowStyleManager.get()->getOsRadius();
 }
 

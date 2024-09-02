@@ -37,6 +37,7 @@ class SwitcherItem : public QObject
     Q_PROPERTY(float windowRadius READ windowRadius WRITE setWindowRadius NOTIFY windowRadiusChanged)
     Q_PROPERTY(float winHoverRadius READ winHoverRadius WRITE setWinHoverRadius NOTIFY winHoverRadiusChanged)
     Q_PROPERTY(QString winHoverColor READ winHoverColor WRITE setWinHoverColor NOTIFY winHoverColorChanged)
+    Q_PROPERTY(QRect viewRect READ viewRect NOTIFY viewRectChanged)
 
     Q_CLASSINFO("DefaultProperty", "item")
 public:
@@ -64,6 +65,8 @@ public:
     void setWinHoverRadius(float);
     QString winHoverColor();
     void setWinHoverColor(QString color);
+    QRect viewRect() const;
+    void setViewRect(const QRect &rect);
 
     // for usage from outside
     void setModel(QAbstractItemModel *model);
@@ -84,6 +87,7 @@ Q_SIGNALS:
     void windowRadiusChanged();
     void winHoverRadiusChanged();
     void winHoverColorChanged();
+    void viewRectChanged();
 
 private Q_SLOTS:
     void updateWindowColor(bool active);
@@ -102,6 +106,7 @@ private:
     QString m_winHoverColor;
     float m_winRadius;
     float m_winHoverRadius;
+    QRect m_viewRect;
 };
 
 inline QAbstractItemModel *SwitcherItem::model() const
