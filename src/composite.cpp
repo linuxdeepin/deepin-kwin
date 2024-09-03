@@ -873,8 +873,9 @@ void Compositor::handleDConfigUserTypeChanged(const QString &type)
                         e->unloadEffect(name, false);
                 }
             }
-            if (e->findEffect("multitaskview"))
-                e->reconfigureEffect("multitaskview");
+
+            e->reconfigureEffect("multitaskview");
+            e->reconfigureEffect("alttabthumbnaillist");
             return;
         }
 
@@ -1166,10 +1167,12 @@ void X11Compositor::start()
             reasons << QStringLiteral("Disabled by Script");
         }
         m_effectType = EffectType::NoneCompositor;
+        setDConfigUserEffectType(m_effectType);
         qCInfo(KWIN_CORE) << "Compositing is suspended, reason:" << reasons;
         return;
     } else if (!compositingPossible()) {
         m_effectType = EffectType::NoneCompositor;
+        setDConfigUserEffectType(m_effectType);
         qCWarning(KWIN_CORE) << "Compositing is not possible";
         return;
     }

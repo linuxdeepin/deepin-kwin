@@ -583,6 +583,7 @@ public:
      */
     bool applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder = {});
 
+    void forceDisableRadius(bool disable);
     float getWindowRadius() const;
     float getOsScreenScale() const;
 
@@ -696,6 +697,7 @@ public Q_SLOTS:
     void slotClientMinimizeChanged(KWin::Window *window);
 
     void qtActiveColorChanged();
+    void slotIconThemeChanged(const QString &property, const QString &theme);
 
     void tileActiveWindow(uint);
     void toggleActiveMaximize();
@@ -783,6 +785,7 @@ Q_SIGNALS:
     void motionByRecord();
     void osRadiusChanged();
     void osThemeChanged();
+    void iconThemeChanged();
 
 private:
     void init();
@@ -978,6 +981,8 @@ private:
 
     bool m_printKwinFps = false;
     bool m_isEffectDuring = false;
+
+    bool m_forceDisableRadius = false;
 
     QRectF m_lastDockPos = QRectF();
     org::deepin::dde::daemon::Dock1 *m_dockInter = nullptr;

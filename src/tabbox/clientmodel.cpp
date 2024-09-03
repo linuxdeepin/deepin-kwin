@@ -172,6 +172,7 @@ void ClientModel::createFocusChainClientList(int desktop,
     do {
         QSharedPointer<TabBoxClient> add = tabBox->clientToAddToList(c.data(), desktop);
         if (!add.isNull()) {
+            m_clientList.removeAll(add);
             m_clientList += add;
             if (add.data()->isFirstInTabBox()) {
                 stickyClients << add;

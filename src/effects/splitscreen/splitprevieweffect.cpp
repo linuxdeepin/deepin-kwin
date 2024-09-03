@@ -11,8 +11,7 @@
 #include "workspace.h"
 #include <QWindow>
 #include <QKeyEvent>
-#include <QDBusMessage>
-#include <QDBusConnection>
+#include <QtDBus>
 
 #define BRIGHTNESS          0.4
 #define FIRST_WIN_SCALE     (float)(720.0 / 1080.0)
