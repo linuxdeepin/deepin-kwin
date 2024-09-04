@@ -247,9 +247,16 @@ void ChameleonConfig::onCompositingToggled(bool active)
         return;
 
     if (active) {
-        connect(KWin::effects, &KWin::EffectsHandler::windowDataChanged, this, &ChameleonConfig::onWindowDataChanged, Qt::UniqueConnection);
-    } else if (KWin::effects) {
-        disconnect(KWin::effects, &KWin::EffectsHandler::windowDataChanged, this, &ChameleonConfig::onWindowDataChanged);
+        m_windowDataConnection = connect(KWin::effects, &KWin::EffectsHandler::windowDataChanged,
+                                         this, &ChameleonConfig::onWindowDataChanged, Qt::UniqueConnection);
+    }
+}
+
+void ChameleonConfig::onAboutToToggleCompositing()
+{
+    if (KWin::effects && m_windowDataConnection) {
+        disconnect(m_windowDataConnection);
+        m_windowDataConnection = QMetaObject::Connection();
     }
 }
 
@@ -793,6 +800,7 @@ void ChameleonConfig::init()
     connect(Workspace::self(), SIGNAL(unmanagedAdded(KWin::Unmanaged*)), this, SLOT(onUnmanagedAdded(KWin::Unmanaged*)));
     connect(Workspace::self(), SIGNAL(internalWindowAdded(KWin::InternalWindow*)), this, SLOT(onInternalWindowAdded(KWin::InternalWindow*)));
     connect(KWinUtils::compositor(), SIGNAL(compositingToggled(bool)), this, SLOT(onCompositingToggled(bool)));
+    connect(KWinUtils::compositor(), SIGNAL(aboutToToggleCompositing()), this, SLOT(onAboutToToggleCompositing()));
 
     connect(KWinUtils::instance(), &KWinUtils::windowPropertyChanged, this, &ChameleonConfig::onWindowPropertyChanged);
 

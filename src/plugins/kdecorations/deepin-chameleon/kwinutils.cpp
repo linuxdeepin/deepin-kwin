@@ -417,7 +417,7 @@ void KWinUtils::scriptingRegisterObject(const QString& name, QObject* o)
 
 QObject *KWinUtils::tabBox()
 {
-    return workspace()->tabbox();
+    return workspace() ? workspace()->tabbox() : nullptr;
 }
 
 QObject *KWinUtils::virtualDesktop()
@@ -445,6 +445,8 @@ QObjectList KWinUtils::clientList()
 QObjectList KWinUtils::unmanagedList()
 {
     QObjectList list;
+    if (!workspace())
+        return list;
 
     // 在查找函数中将所有Unmanaged对象保存起来
     auto get_all = [&list] (const KWin::Unmanaged *unmanaged) {
@@ -481,22 +483,25 @@ bool KWinUtils::isShowSplitMenu()
 
 void KWinUtils::showSplitMenu(const QRect &rect, uint32_t client_id)
 {
-    workspace()->showSplitMenu(rect, client_id);
+    if (workspace())
+        workspace()->showSplitMenu(rect, client_id);
 }
 
 void KWinUtils::hideSplitMenu(bool delay)
 {
-    workspace()->hideSplitMenu(delay);
+    if (workspace())
+        workspace()->hideSplitMenu(delay);
 }
 
 void KWinUtils::setSplitMenuKeepShowing(bool keep)
 {
-    workspace()->setSplitMenuKeepShowing(keep);
+    if (workspace())
+        workspace()->setSplitMenuKeepShowing(keep);
 }
 
 QObject *KWinUtils::findUnmanaged(quint32 window)
 {
-    return Workspace::self()->findUnmanaged(window);
+    return workspace() ? workspace()->findUnmanaged(window) : nullptr;
 }
 
 void KWinUtils::clientCheckNoBorder(QObject *client)

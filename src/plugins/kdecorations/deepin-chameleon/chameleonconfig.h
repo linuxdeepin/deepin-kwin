@@ -107,6 +107,7 @@ private Q_SLOTS:
     void onUnmanagedAdded(KWin::Unmanaged *client);
     void onInternalWindowAdded(KWin::InternalWindow *client);
     void onCompositingToggled(bool active);
+    void onAboutToToggleCompositing();
     void onWindowPropertyChanged(quint32 windowId, quint32 atom);
     void onWindowDataChanged(KWin::EffectWindow *window, int role);
 
@@ -150,6 +151,7 @@ private:
 
     QMap<QString, X11Shadow*> m_x11ShadowCache;
     QHash<QObject*, quint32> m_pendingWindows;
+    QMetaObject::Connection m_windowDataConnection;
 
 public:
     static qreal m_titlebarHeight;
