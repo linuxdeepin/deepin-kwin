@@ -709,6 +709,7 @@ void Compositor::addOutput(Output *output)
     };
     updateCursorLayer();
     connect(output, &Output::geometryChanged, cursorLayer, updateCursorLayer);
+    connect(output, &Output::transformChanged, cursorLayer, updateCursorLayer);
     connect(Cursors::self(), &Cursors::currentCursorChanged, cursorLayer, updateCursorLayer);
     connect(Cursors::self(), &Cursors::hiddenChanged, cursorLayer, updateCursorLayer);
     connect(Cursors::self(), &Cursors::positionChanged, cursorLayer, moveCursorLayer);
