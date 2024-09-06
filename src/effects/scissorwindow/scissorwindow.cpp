@@ -5,6 +5,7 @@
 #include "scissorwindow.h"
 #include "effects.h"
 #include "scene/surfaceitem.h"
+#include "workspace.h"
 
 #include <kwineffects.h>
 #include <kwineffectsex.h>
@@ -111,7 +112,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
 }
 
 void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
-    if (w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w) || isMaximized(w)) {
+    if ((w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w) || isMaximized(w)) && !w->isScissorForce()) {
         return effects->drawWindow(w, mask, region, data);
     }
 
@@ -179,6 +180,9 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             const qreal yMin{ std::min(cornerRadius.y(), w->height() / 2.0) };
             const qreal minRadius{ std::min(xMin, yMin) };
             cornerRadius = QPointF(minRadius, minRadius);
+        } else if (w->isScissorForce()) {
+            float r = effectsEx->getOsRadius() * effectsEx->getOsScale();
+            cornerRadius = QPointF(r, r);
         }
         if (cornerRadius.isNull()) {
             effects->drawWindow(w, mask, region, data);

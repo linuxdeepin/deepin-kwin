@@ -137,6 +137,10 @@ void Chameleon::init()
     connect(qGuiApp, &QGuiApplication::fontChanged, this, &Chameleon::updateTitleGeometry);
     connect(KWin::Workspace::self(), &KWin::Workspace::osRadiusChanged, this, &Chameleon::updateBorderPath);
     connect(ChameleonConfig::instance(), &ChameleonConfig::titlebarHeightChanged, this, &Chameleon::handleTitlebarHeightChanged);
+    if (m_client) {
+        KWin::Window* c = dynamic_cast<KWin::Window*>(m_client);
+        connect(c, &KWin::Window::scissorForceChange, this, &Chameleon::updateBorderPath);
+    }
 
     m_initialized = true;
 
@@ -705,6 +709,10 @@ bool Chameleon::windowNeedRadius() const
     if (settings()->isAlphaChannelSupported() &&
         KWin::Compositor::self()->backend()->compositingType() == KWin::XRenderCompositing ) {
         return false;
+    }
+    KWin::EffectWindow *effect = this->effect();
+    if (effect && effect->isScissorForce()) {
+        return true;
     }
 
     auto c = client().data();

@@ -1514,6 +1514,8 @@ public:
 
     void setStartUpEffectType(int type) { m_startEffectType = type; }
     int startUpEffectType() { return m_startEffectType; }
+    void setScissorForce(bool flag) { m_isScissorForce = flag; Q_EMIT scissorForceChange(); }
+    bool isScissorForce() { return m_isScissorForce; }
 
     struct timeval constructTimeval() const {
         return m_constructTimeval;
@@ -1674,6 +1676,7 @@ Q_SIGNALS:
     void triggerSplitPreview(KWin::Window *w);
     void swapSplitWindow(KWin::Window *w, int index);
     void waylandShadowChanged();
+    void scissorForceChange();
 
 protected:
     void setWindowHandles(xcb_window_t client);
@@ -2031,6 +2034,7 @@ protected:
     QVector<QRectF> m_shapeBoundingRegion;
     bool m_isShapeBoundingRegionSet = false;
     int  m_startEffectType = 1;
+    bool m_isScissorForce = false;
 
 private Q_SLOTS:
     void shadeHover();

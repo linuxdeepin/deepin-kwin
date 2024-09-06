@@ -2764,6 +2764,8 @@ public:
     virtual void unrefVisibleEx(int) = 0;
 
     virtual int startEffectType() = 0;
+    virtual void setScissorForce(bool) = 0;
+    virtual bool isScissorForce() = 0;
 
 protected:
     friend EffectWindowVisibleRef;

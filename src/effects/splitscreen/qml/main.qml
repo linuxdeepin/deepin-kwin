@@ -22,6 +22,6 @@ Rectangle {
         border.color: root.effectFrame ? root.effectFrame.color : "";
         border.width: 4;
         color: "transparent";
-        radius: root.effectFrame ? root.effectFrame.radius : 0.0;
+        radius: root.effectFrame ? root.effectFrame.radius + 2 : 0.0;
     }
 }

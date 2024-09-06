@@ -128,12 +128,13 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
         } else if (!w->isDesktop()) {
             auto geo = m_motionManagers[0].transformedGeometry(w);
             d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
-            d.setScale(QVector2D((float)(geo.width() / w->width()), (float)(geo.height() / w->height())));
+            float scale = geo.width() / w->width();
+            d.setScale(QVector2D(scale, (float)(geo.height() / w->height())));
             effects->paintWindow(w, mask, reg, d);
 
             if (m_hoverwin == w) {
                 m_effectFrame->setGeometry(geo.adjusted(-4, -4, 4, 4).toRect());
-                m_effectFrame->setRadius(m_radius);
+                m_effectFrame->setRadius(m_radius * scale + 2);
                 QColor color(effectsEx->getActiveColor());
                 m_effectFrame->setColor(color);
                 m_effectFrame->render(region);
@@ -187,13 +188,14 @@ void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
             if (w->isMinimized()) {
                 w->refVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
             }
+            w->setScissorForce(true);
             wmm.manage(w);
         }
     }
     m_backgroundRect = getPreviewWindowsGeometry(w);
     m_screenRect = effects->clientArea(ScreenArea, w->screen(), currentDesktop);
 
-    m_radius = effectsEx->getOsRadius() ? 10.0 : 0.0;
+    m_radius = effectsEx->getOsRadius() * effectsEx->getOsScale();// ? 10.0 : 0.0;
 
     if (wmm.managedWindows().size() != 0) {
         calculateWindowTransformations(wmm.managedWindows(), wmm);
@@ -283,6 +285,7 @@ void SplitPreviewEffect::cleanup()
                 if (w->isMinimized()) {
                     w->unrefVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE);
                 }
+                w->setScissorForce(false);
             }
         }
         m_motionManagers.first().unmanageAll();

@@ -589,7 +589,7 @@ MultiViewWinFill::MultiViewWinFill(EffectScreen *screen, QRect rect, float radiu
     m_fillFrame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
     m_fillFrame->setGeometry(rect);
     m_fillFrame->setColor("#A0A0A0");
-    m_fillFrame->setRadius(5);
+    m_fillFrame->setRadius(radius);
 }
 
 MultiViewWinFill::~MultiViewWinFill()
@@ -991,6 +991,8 @@ void MultitaskViewEffect::postPaintScreen()
 
     for (auto const& w: effects->stackingOrder()) {
         w->setData(WindowForceBlurRole, QVariant());
+        if (m_effectFlyingBack.animating())
+            w->setScissorForce(false);
     }
     effects->postPaintScreen();
 
@@ -1172,8 +1174,9 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                         // mask |= PAINT_WINDOW_LANCZOS;
                     }
 
+                    float scale = geo.width() / w->width();
                     {
-                        d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
+                        d.setScale(QVector2D(scale, (float)geo.height() / w->height()));
                         float dx = 0.0f, dy = 0.0f;
                         auto gt = wmm->targetGeometry(w);
                         float dx0 = gt.x() - w->x();
@@ -1201,9 +1204,9 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                     if (w == m_hoverWin) {
                         float radius = wmm->getWindowRadius(w);
                         if (wmm->isWindowFill(w) && wmobj->isHaveWinFill(w)) {
-                            renderHover(w, wmobj->getWinFill(w)->getRect(), 0, radius);
+                            renderHover(w, wmobj->getWinFill(w)->getRect(), 0, radius + 1);
                         } else {
-                            renderHover(w, geo.toRect(), 0, radius);
+                            renderHover(w, geo.toRect(), 0, m_radius * scale + 2);
                         }
                     }
 
@@ -1481,7 +1484,7 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
     if (!order) {
         QColor color = effectsEx->getActiveColor();
         QRect geoframe = rect;
-        geoframe.adjust(-5, -5, 5, 5);
+        geoframe.adjust(-4, -4, 4, 4);
         m_hoverWinFrame->setGeometry(geoframe);
         m_hoverWinFrame->setColor(color);
         m_hoverWinFrame->setRadius(radius);
@@ -2453,7 +2456,6 @@ void MultitaskViewEffect::setActive(bool active)
         m_windowEffectState = false;
     }
 
-
     cleanup();
     if (active) {
         initWorkspaceBackground();
@@ -2462,7 +2464,7 @@ void MultitaskViewEffect::setActive(bool active)
         m_hasKeyboardGrab = effects->grabKeyboard(this);
         effects->setActiveFullScreenEffect(this);
 
-        m_radius = effectsEx->getOsRadius();
+        m_radius = effectsEx->getOsRadius() * effectsEx->getOsScale();
 
         EffectWindowList windowsList = effects->stackingOrder();
         int ncurrentDesktop = effects->currentDesktop();
@@ -2505,6 +2507,7 @@ void MultitaskViewEffect::setWinLayout(int desktop, const EffectWindowList &wind
                 wmm.manage(w);
                 workspacewmm.manage(w);
                 winList.push_back(w);
+                w->setScissorForce(true);
             } else if (w->isDock()) {
                 m_dockRect = w->frameGeometry().toRect();
                 m_dock = w;

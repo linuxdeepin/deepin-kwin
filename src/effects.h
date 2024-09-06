@@ -551,6 +551,8 @@ public:
     void unrefVisibleEx(int) override;
 
     int startEffectType() override;
+    void setScissorForce(bool) override;
+    bool isScissorForce() override;
 
 private:
     void refVisible(const EffectWindowVisibleRef *holder) override;

@@ -2675,6 +2675,16 @@ bool EffectWindowImpl::isX11Client() const
     return m_x11Window;
 }
 
+void EffectWindowImpl::setScissorForce(bool flag)
+{
+    m_window->setScissorForce(flag);
+}
+
+bool EffectWindowImpl::isScissorForce()
+{
+    return m_window->isScissorForce();
+}
+
 //****************************************
 // EffectWindowGroupImpl
 //****************************************
