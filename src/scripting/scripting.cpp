@@ -674,7 +674,7 @@ KWin::Scripting::Scripting(QObject *parent)
     , m_workspaceWrapper(new QtScriptWorkspaceWrapper(this))
 {
     init();
-    QDBusConnection::sessionBus().registerObject(QStringLiteral("/Scripting"), this, QDBusConnection::ExportScriptableContents | QDBusConnection::ExportScriptableInvokables);
+    // 由于公司要求，不能有传入路径的dbus接口，发现当前接口并没有用到，暂时去掉了当前的dbus接口注册
     connect(Workspace::self(), &Workspace::configChanged, this, &Scripting::start);
     connect(Workspace::self(), &Workspace::workspaceInitialized, this, &Scripting::start);
 }
