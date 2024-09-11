@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 set(PROJECT_VERSION "5.27.2") # Handled by release scripts
+set(DVERSION "5.27.2" CACHE STRING "define project version")
 project(KWin VERSION ${PROJECT_VERSION})
 
 set(CMAKE_C_STANDARD 99)

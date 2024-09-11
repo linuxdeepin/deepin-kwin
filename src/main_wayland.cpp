@@ -322,7 +322,7 @@ XwaylandInterface *ApplicationWayland::xwayland() const
 int main(int argc, char *argv[])
 {
     QString currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
-    qDebug() << currentDateTime << "start";
+    qDebug() << currentDateTime << "version" << KWIN_DVERSION << "start";
 
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
