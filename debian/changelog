@@ -1,3 +1,16 @@
+kwin (4:5.27.2.264-deepin264-1) unstable; urgency=medium
+
+  [dingzhixuan]
+  * fix: some crash
+  * fix: raise when release only available for dde-file-manager
+  * fix: optimize window radius in multitask and splitpreview
+  * fix: remove dbus's interface of Scripting.
+  * fix: cursor not update after output transform
+  * fix: print version info to log
+  * fix: sunlogin's image has flipped
+
+ -- dingzhixuan <dingzhixuan@uniontech.com>  Wed, 11 Sep 2024 17:35:13 +0800
+
 kwin (4:5.27.2.263-deepin263-1) unstable; urgency=medium
 
   [huangzhenyan]
