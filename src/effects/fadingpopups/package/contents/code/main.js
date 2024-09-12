@@ -17,7 +17,9 @@ var blacklist = [
     // The lockscreen isn't a popup window
     "kscreenlocker_greet kscreenlocker_greet",
     // KDE Plasma splash screen has to be animated only by the login effect.
-    "ksplashqml ksplashqml"
+    "ksplashqml ksplashqml",
+    // Ignore wechat screenshot window
+    "wechat wechat",
 ];
 
 var dockPos = 2;
