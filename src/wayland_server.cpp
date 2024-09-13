@@ -335,6 +335,7 @@ void WaylandServer::registerXdgToplevelV6Window(XdgToplevelV6Window *window)
 
 void WaylandServer::registerXdgGenericWindow(Window *window)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window->surface()->id());
     if (auto toplevel = qobject_cast<XdgToplevelWindow *>(window)) {
         registerXdgToplevelWindow(toplevel);
         return;

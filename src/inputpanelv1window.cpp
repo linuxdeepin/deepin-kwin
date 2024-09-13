@@ -154,6 +154,7 @@ void KWin::InputPanelV1Window::reposition()
 
 void InputPanelV1Window::destroyWindow()
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     markAsZombie();
 
     Deleted *deleted = Deleted::create(this);

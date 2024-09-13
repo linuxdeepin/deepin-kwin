@@ -683,6 +683,7 @@ bool EffectsHandlerImpl::grabKeyboard(Effect *effect)
         return false;
     }
     keyboard_grab_effect = effect;
+    qCDebug(KWIN_CORE) << "Effects grabKeyboard";
     return true;
 }
 
@@ -696,6 +697,7 @@ void EffectsHandlerImpl::ungrabKeyboard()
     Q_ASSERT(keyboard_grab_effect != nullptr);
     doUngrabKeyboard();
     keyboard_grab_effect = nullptr;
+    qCDebug(KWIN_CORE) << "Effects ungrabKeyboard";
 }
 
 void EffectsHandlerImpl::doUngrabKeyboard()
@@ -716,8 +718,10 @@ void EffectsHandlerImpl::startMouseInterception(Effect *effect, Qt::CursorShape 
     }
     m_grabbedMouseEffects.append(effect);
     if (m_grabbedMouseEffects.size() != 1) {
+        qCCritical(KWIN_CORE) << "Effects grab mouse had append, but list is 0";
         return;
     }
+    qCDebug(KWIN_CORE) << "Effects grab mouse";
     doStartMouseInterception(shape);
 }
 
@@ -743,6 +747,7 @@ void EffectsHandlerImpl::stopMouseInterception(Effect *effect)
     if (!m_grabbedMouseEffects.contains(effect)) {
         return;
     }
+    qCDebug(KWIN_CORE) << "Effects ungrab mouse";
     m_grabbedMouseEffects.removeAll(effect);
     if (m_grabbedMouseEffects.isEmpty()) {
         doStopMouseInterception();

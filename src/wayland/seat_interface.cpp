@@ -163,7 +163,7 @@ void SeatInterfacePrivate::registerDataDevice(DataDeviceInterface *dataDevice)
                      [this](AbstractDataSource *source, SurfaceInterface *origin, quint32 serial, DragAndDropIcon *dragIcon) {
                          q->startDrag(source, origin, serial, dragIcon);
                      });
-    qCWarning(KWIN_CORE) << "new dataDevice " << dataDevice << "@" << dataDevice->processId();
+    // qCWarning(KWIN_CORE) << "new dataDevice " << dataDevice << "@" << dataDevice->processId();
     // is the new DataDevice for the current keyoard focus?
     if (globalKeyboard.focus.surface) {
         // same client?
@@ -250,8 +250,8 @@ void SeatInterfacePrivate::registerPrimarySelectionDevice(PrimarySelectionDevice
     QObject::connect(primarySelectionDevice, &PrimarySelectionDeviceV1Interface::selectionChanged, q, [this, primarySelectionDevice] {
         updatePrimarySelection(primarySelectionDevice);
     });
-    qCWarning(KWIN_CORE) << "new primarySelectionDevice "
-        << primarySelectionDevice << "@" << primarySelectionDevice->processId();
+    // qCWarning(KWIN_CORE) << "new primarySelectionDevice "
+    //     << primarySelectionDevice << "@" << primarySelectionDevice->processId();
     // is the new DataDevice for the current keyoard focus?
     if (globalKeyboard.focus.surface) {
         // same client?

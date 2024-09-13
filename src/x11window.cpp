@@ -327,6 +327,7 @@ std::unique_ptr<WindowItem> X11Window::createItem(Scene *scene)
 // Use destroyWindow() or releaseWindow(), Client instances cannot be deleted directly
 void X11Window::deleteClient(X11Window *c)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, c->window());
     delete c;
 }
 
@@ -407,6 +408,7 @@ void X11Window::releaseWindow(bool on_shutdown)
  */
 void X11Window::destroyWindow()
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     if (SurfaceItemX11 *item = qobject_cast<SurfaceItemX11 *>(surfaceItem())) {
         item->forgetDamage();
     }
@@ -452,6 +454,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     Xcb::WindowAttributes attr(w);
     Xcb::WindowGeometry windowGeometry(w);
     if (attr.isNull() || windowGeometry.isNull()) {
+        qCDebug(KWIN_CORE) << __PRETTY_FUNCTION__ << "winId:" << w << "faild. attr:" << attr.isNull() << "winGeometry:" << windowGeometry.isNull();
         return false;
     }
 
@@ -1895,6 +1898,7 @@ bool X11Window::isCloseable() const
  */
 void X11Window::closeWindow()
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     if (!isCloseable()) {
         return;
     }
@@ -4623,6 +4627,7 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         {
             Q_EMIT clientMaximizedChanged(this, oldGeometry, newGeometry, mode);
         }
+        qCDebug(KWIN_CORE) << "set window max mode: " << max_mode << window();
     }
 }
 

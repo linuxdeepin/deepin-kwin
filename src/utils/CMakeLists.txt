@@ -10,4 +10,5 @@ target_sources(kwin PRIVATE
     udev.cpp
     xcbutils.cpp
     xcursortheme.cpp
+    logutils.cpp
 )

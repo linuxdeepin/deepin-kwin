@@ -349,6 +349,7 @@ QRectF XdgSurfaceWindow::frameRectToBufferRect(const QRectF &rect) const
 
 void XdgSurfaceWindow::destroyWindow()
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     markAsZombie();
     if (isInteractiveMoveResize()) {
         leaveInteractiveMoveResize();
@@ -1460,6 +1461,7 @@ void XdgToplevelWindow::handleMoveRequested(SeatInterface *seat, quint32 serial)
     if (!seat->hasImplicitPointerGrab(serial) && !seat->hasImplicitTouchGrab(serial)) {
         return;
     }
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     if (isMovable()) {
         QPointF cursorPos;
         if (seat->hasImplicitPointerGrab(serial)) {
@@ -2117,6 +2119,7 @@ void XdgToplevelWindow::maximize(MaximizeMode mode, bool animated)
         updateQuickTileMode(QuickTileFlag::None);
     }
 
+    qCDebug(KWIN_CORE) << "set window max mode: " << m_requestedMaximizeMode << window();
     moveResize(geometry);
 
     if (oldQuickTileMode != quickTileMode()) {

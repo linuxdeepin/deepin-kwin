@@ -952,6 +952,7 @@ static bool modKeyDown(int state)
 // return value matters only when filtering events before decoration gets them
 bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root, xcb_timestamp_t time)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     if (waylandServer()) {
         return true;
     }
@@ -1081,6 +1082,7 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
 // return value matters only when filtering events before decoration gets them
 bool X11Window::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     if (waylandServer()) {
         return true;
     }
@@ -1260,6 +1262,7 @@ void X11Window::focusOutEvent(xcb_focus_out_event_t *e)
 // performs _NET_WM_MOVERESIZE
 void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction direction)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     if (direction == NET::Move) {
         workspace()->setRequestToMovingClient(this);
         // move cursor to the provided position to prevent the window jumping there on first movement

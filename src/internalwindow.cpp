@@ -398,6 +398,7 @@ void InternalWindow::invalidateDecoration()
 
 void InternalWindow::destroyWindow()
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     markAsZombie();
     if (isInteractiveMoveResize()) {
         leaveInteractiveMoveResize();

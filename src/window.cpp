@@ -1444,7 +1444,7 @@ void Window::minimize(bool avoid_animation)
     if (!isMinimizable() || isMinimized()) {
         return;
     }
-
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     m_minimized = true;
     doMinimize();
 
@@ -1473,7 +1473,7 @@ void Window::unminimize(bool avoid_animation)
     if (rules()->checkMinimize(false)) {
         return;
     }
-
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     m_minimized = false;
     doMinimize();
 
@@ -1671,17 +1671,20 @@ void Window::setMaximize(bool vertically, bool horizontally, bool animated)
 
 bool Window::startInteractiveMoveResize()
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     Q_ASSERT(!isInteractiveMoveResize());
     Q_ASSERT(QWidget::keyboardGrabber() == nullptr);
     Q_ASSERT(QWidget::mouseGrabber() == nullptr);
     stopDelayedInteractiveMoveResize();
     if (QApplication::activePopupWidget() != nullptr) {
+        qCDebug(KWIN_CORE) << "popups have grab...";
         return false; // popups have grab
     }
     if (isRequestedFullScreen() && (workspace()->outputs().count() < 2 || !isMovableAcrossScreens())) {
         return false;
     }
     if (!doStartInteractiveMoveResize()) {
+        qCDebug(KWIN_CORE) << "doStartInteractiveMoveResize faild..";
         return false;
     }
 
@@ -1753,6 +1756,7 @@ bool Window::startInteractiveMoveResize()
 
 void Window::finishInteractiveMoveResize(bool cancel)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     const bool wasMove = isInteractiveMove();
     GeometryUpdatesBlocker blocker(this);
     leaveInteractiveMoveResize();

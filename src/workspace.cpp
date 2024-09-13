@@ -462,6 +462,7 @@ void Workspace::slotClientMinimizeChanged(KWin::Window *window)
 void Workspace::initializeX11()
 {
     if (!kwinApp()->x11Connection()) {
+        qCritical() << "the X11 xcb connection is NULL";
         return;
     }
 
@@ -1091,6 +1092,7 @@ void Workspace::removeFromStack(Window *window)
 
 X11Window *Workspace::createX11Window(xcb_window_t windowId, bool is_mapped)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, windowId);
     StackingUpdatesBlocker blocker(this);
     struct timeval createTimeval;
     gettimeofday(&createTimeval, nullptr);
@@ -1106,6 +1108,7 @@ X11Window *Workspace::createX11Window(xcb_window_t windowId, bool is_mapped)
     }
     if (!window->manage(windowId, is_mapped)) {
         X11Window::deleteClient(window);
+        qCDebug(KWIN_CORE) << "Create x11 win faild, winId: " << windowId;
         return nullptr;
     }
     addX11Window(window);
@@ -1118,6 +1121,7 @@ X11Window *Workspace::createX11Window(xcb_window_t windowId, bool is_mapped)
 
 Unmanaged *Workspace::createUnmanaged(xcb_window_t windowId)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, windowId);
     if (X11Compositor *compositor = X11Compositor::self()) {
         if (compositor->checkForOverlayWindow(windowId)) {
             return nullptr;
@@ -1128,6 +1132,7 @@ Unmanaged *Workspace::createUnmanaged(xcb_window_t windowId)
     Unmanaged *window = new Unmanaged();
     if (!window->track(windowId)) {
         Unmanaged::deleteUnmanaged(window);
+        qCDebug(KWIN_CORE) << "Create unmanaged win faild, winId: " << windowId;
         return nullptr;
     }
     addUnmanaged(window);
@@ -1171,6 +1176,7 @@ void Workspace::addX11Window(X11Window *window)
         updateToolWindows(true);
     }
     updateTabbox();
+    qCDebug(KWIN_CORE) << "Create a new win:" << window->resourceName() << "layer=" << window->layer() << "type=" << window->windowType();
 }
 
 void Workspace::addUnmanaged(Unmanaged *window)
@@ -1225,6 +1231,7 @@ void Workspace::removeDeleted(Deleted *c)
 
 void Workspace::addWaylandWindow(Window *window)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window->window());
     setupWindowConnections(window);
     window->updateLayer();
     if (window->isPlaceable()) {
@@ -2620,7 +2627,7 @@ void Workspace::handleReleaseMouseCommand()
             }
         }
         if (release_on) {
-            qCDebug(KWIN_CORE) << "release on:" << release_on->resourceName();
+            qCDebug(KWIN_CORE) << "Workspace::handleReleaseMouseCommand:" << "release on:" << release_on->resourceName();
             if (Window *press_on = findClient(Predicate::WindowMatch, m_clientIDHandlingMouseCommand)) {
                 Window *target = nullptr;
                 if (press_on->window() == release_on->window()
@@ -2631,7 +2638,7 @@ void Workspace::handleReleaseMouseCommand()
                 }
                 if (target) {
                     takeActivity(target, Workspace::ActivityFocus | Workspace::ActivityRaise);
-                    qCDebug(KWIN_CORE) << "raise at release:" << target->resourceName() << "; id:" << target->window();
+                    qCDebug(KWIN_CORE) << "Raise window at release:" << target->resourceName() << "; id:" << target->window();
                 }
             }
         }
@@ -2650,6 +2657,7 @@ void Workspace::updateTabbox()
 
 void Workspace::addInternalWindow(InternalWindow *window)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window->window());
     m_internalWindows.append(window);
     addToStack(window);
 

@@ -149,6 +149,7 @@ bool Unmanaged::track(xcb_window_t w)
 
 void Unmanaged::release(ReleaseReason releaseReason)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     if (SurfaceItemX11 *item = qobject_cast<SurfaceItemX11 *>(surfaceItem())) {
         if (releaseReason == ReleaseReason::Destroyed) {
             item->forgetDamage();
@@ -180,6 +181,7 @@ void Unmanaged::release(ReleaseReason releaseReason)
 
 void Unmanaged::deleteUnmanaged(Unmanaged *c)
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, c->window());
     delete c;
 }
 

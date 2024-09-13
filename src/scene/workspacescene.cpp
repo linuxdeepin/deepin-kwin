@@ -471,7 +471,7 @@ void WorkspaceScene::paintWindow(WindowItem *item, int mask, const QRegion &regi
     }
 
     if (item->window() && !item->window()->isDeleted() && item->window()->firstComposite() == EventTrackingState::Ready) {
-        qCDebug(KWIN_CORE) << "beginDrawWindow" << item->window()->resourceName();
+        qCDebug(KWIN_CORE) << "beginDrawWindow" << item->window()->resourceName() << item->window()->window();
         item->window()->setFirstComposite(EventTrackingState::SendAddRepaintFull);
         QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "timeToDisplay");
         QVariant timespanDBusMessage = item->window()->createTimespanDBusMessage(item->window()->constructTimeval(), 1000300007, "begin-paint");
@@ -494,7 +494,7 @@ void WorkspaceScene::finalPaintWindow(EffectWindowImpl *w, int mask, const QRegi
 void WorkspaceScene::finalDrawWindow(EffectWindowImpl *w, int mask, const QRegion &region, WindowPaintData &data)
 {
     if (w->window() && !w->window()->isDeleted() && w->window()->firstComposite() == EventTrackingState::SendAddRepaintFull) {
-        qCDebug(KWIN_CORE) << "finalDrawWindow" << w->window()->resourceName();
+        qCDebug(KWIN_CORE) << "finalDrawWindow" << w->window()->resourceName() << w->window()->window();
         w->window()->setFirstComposite(EventTrackingState::SendFinalDrawWindow);
         QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "timeToDisplay");
         QVariant timespanDBusMessage = w->window()->createTimespanDBusMessage(w->window()->constructTimeval(), 1000300008, "perform-paint");

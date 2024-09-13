@@ -174,6 +174,7 @@ bool LayerShellV1Window::hasStrut() const
 
 void LayerShellV1Window::destroyWindow()
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     markAsZombie();
     cleanTabBox();
     Deleted *deleted = Deleted::create(this);

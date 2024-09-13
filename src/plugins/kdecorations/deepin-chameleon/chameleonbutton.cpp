@@ -38,7 +38,7 @@ ChameleonButton::ChameleonButton(KDecoration2::DecorationButtonType type, const 
     : KDecoration2::DecorationButton(type, decoration, parent)
 {
     auto c = decoration->client().data();
-    qDebug()<<__FUNCTION__<<__LINE__<<"windowId: "<<c->windowId();
+    // qDebug()<<__FUNCTION__<<__LINE__<<"windowId: "<<c->windowId();
 
     m_type = type;
 

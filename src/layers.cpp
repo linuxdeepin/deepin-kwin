@@ -298,7 +298,7 @@ void Workspace::lowerWindow(Window *window, bool nogroup)
     if (!window) {
         return;
     }
-
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window->window());
     window->cancelAutoRaise();
 
     StackingUpdatesBlocker blocker(this);
@@ -354,7 +354,7 @@ void Workspace::raiseWindow(Window *window, bool nogroup)
     if (!window) {
         return;
     }
-
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window->window());
     window->cancelAutoRaise();
 
     StackingUpdatesBlocker blocker(this);

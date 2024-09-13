@@ -399,18 +399,18 @@ bool Workspace::takeActivity(Window *window, ActivityFlags flags)
         flags &= ~ActivityFocus;
     }
     if (!window->isShown()) { // shouldn't happen, call activateWindow() if needed
-        qCWarning(KWIN_CORE) << "takeActivity: not shown";
+        qCWarning(KWIN_CORE) << "takeActivity: not shown" << window->resourceName();
         return false;
     }
 
     bool ret = true;
 
     if (flags & ActivityFocus) {
-        qCDebug(KWIN_CORE) << "takeActivity: flags & ActivityFocus";
+        qCDebug(KWIN_CORE) << "Workspace::takeActivity: flags & ActivityFocus"  << window->resourceName();
         ret &= window->takeFocus();
     }
     if (flags & ActivityRaise) {
-        qCDebug(KWIN_CORE) << "takeActivity: flags & ActivityRaise";
+        qCDebug(KWIN_CORE) << "Workspace::takeActivity: flags & ActivityRaise"  << window->resourceName();
         workspace()->raiseWindow(window);
     }
 

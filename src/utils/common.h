@@ -15,6 +15,7 @@
 #include <kwinconfig.h>
 // kwin
 #include <kwinglobals.h>
+#include "logutils.h"
 // Qt
 #include <QList>
 #include <QLoggingCategory>
@@ -23,10 +24,12 @@
 #include <QRect>
 // system
 #include <climits>
+
 Q_DECLARE_LOGGING_CATEGORY(KWIN_CORE)
 Q_DECLARE_LOGGING_CATEGORY(KWIN_OPENGL)
 Q_DECLARE_LOGGING_CATEGORY(KWIN_QPAINTER)
 Q_DECLARE_LOGGING_CATEGORY(KWIN_VIRTUALKEYBOARD)
+Q_DECLARE_LOGGING_CATEGORY(KWIN_FUNC)
 namespace KWin
 {
 Q_NAMESPACE

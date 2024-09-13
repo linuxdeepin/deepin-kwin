@@ -446,6 +446,8 @@ int main(int argc, char *argv[])
     a.setOutputBackend(std::make_unique<KWin::X11StandaloneBackend>());
     a.start();
 
+    qCDebug(KWIN_CORE) << "KWin current pid==" << getpid();
+
     return a.exec();
 }
 

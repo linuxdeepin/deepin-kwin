@@ -343,6 +343,7 @@ QRectF XdgSurfaceV6Window::frameRectToBufferRect(const QRectF &rect) const
 
 void XdgSurfaceV6Window::destroyWindow()
 {
+    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     markAsZombie();
     if (isInteractiveMoveResize()) {
         leaveInteractiveMoveResize();
