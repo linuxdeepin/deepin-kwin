@@ -36,6 +36,7 @@ public:
     std::chrono::nanoseconds lastPresentationTimestamp = std::chrono::nanoseconds::zero();
     std::chrono::nanoseconds nextPresentationTimestamp = std::chrono::nanoseconds::zero();
     QTimer compositeTimer;
+    QTimer benchmarkTimer;
     RenderJournal renderJournal;
     int refreshRate = 60000;
     int pendingFrameCount = 0;

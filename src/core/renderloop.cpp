@@ -10,6 +10,7 @@
 #include "scene/surfaceitem_wayland.h"
 #include "utils/common.h"
 #include "wayland/surface_interface.h"
+#include "composite.h"
 
 namespace KWin
 {
@@ -30,6 +31,10 @@ RenderLoopPrivate::RenderLoopPrivate(RenderLoop *q)
 {
     compositeTimer.setSingleShot(true);
     QObject::connect(&compositeTimer, &QTimer::timeout, q, [this]() {
+        dispatch();
+    });
+    benchmarkTimer.setSingleShot(true);
+    QObject::connect(&benchmarkTimer, &QTimer::timeout, q, [this]() {
         dispatch();
     });
 }
@@ -87,7 +92,7 @@ void RenderLoopPrivate::scheduleRepaint()
         renderTime = std::max(renderTime, renderJournal.average());
         break;
     }
-
+    
     std::chrono::nanoseconds nextRenderTimestamp = nextPresentationTimestamp - renderTime - safetyMargin;
 
     // If we can't render the frame before the deadline, start compositing immediately.
@@ -95,6 +100,9 @@ void RenderLoopPrivate::scheduleRepaint()
         nextRenderTimestamp = currentTime;
     }
 
+    if (Compositor::self()->inBenchmark()) {
+        benchmarkTimer.start(0);
+    }
     if (presentMode == SyncMode::Async || presentMode == SyncMode::AdaptiveAsync) {
         compositeTimer.start(0);
     } else {
@@ -154,7 +162,7 @@ void RenderLoopPrivate::dispatch()
     // the Compositor starts repainting.
     pendingRepaint = true;
 
-    Q_EMIT q->frameRequested(q);
+    Q_EMIT q->frameRequested(q, q->sender() == qobject_cast<QObject*>(&benchmarkTimer));
 
     // The Compositor may decide to not repaint when the frameRequested() signal is
     // emitted, in which case the pending repaint flag has to be reset manually.
@@ -166,6 +174,7 @@ void RenderLoopPrivate::invalidate()
     pendingReschedule = false;
     pendingFrameCount = 0;
     compositeTimer.stop();
+    benchmarkTimer.stop();
 }
 
 RenderLoop::RenderLoop()
@@ -183,6 +192,7 @@ void RenderLoop::inhibit()
 
     if (d->inhibitCount == 1) {
         d->compositeTimer.stop();
+        d->benchmarkTimer.stop();
     }
 }
 

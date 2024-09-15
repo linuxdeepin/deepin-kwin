@@ -582,14 +582,14 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
 
     if (bufferRef != current.buffer) {
         if (bufferRef) {
-            if (isSkipBuffer) {
-                bufferRef->sendRelease();
-            }
             bufferRef->unref();
         }
         bufferRef = current.buffer;
         if (bufferRef) {
             bufferRef->ref();
+            if (isSkipBuffer) {
+                bufferRef->sendRelease();
+            }
         }
     }
 
@@ -1132,7 +1132,7 @@ void SurfaceInterface::setPreferredScale(qreal scale)
 
 void SurfaceInterface::skipBuffer()
 {
-    d->isSkipBuffer = 1;
+    d->isSkipBuffer = true;
 }
 
 } // namespace KWaylandServer

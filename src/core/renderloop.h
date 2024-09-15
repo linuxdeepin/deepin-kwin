@@ -142,7 +142,7 @@ Q_SIGNALS:
      *
      * The Compositor should make a connection to this signal using Qt::DirectConnection.
      */
-    void frameRequested(RenderLoop *loop);
+    void frameRequested(RenderLoop *loop, bool skip);
 
 private:
     std::unique_ptr<RenderLoopPrivate> d;

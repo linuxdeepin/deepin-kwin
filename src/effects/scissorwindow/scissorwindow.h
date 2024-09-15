@@ -47,7 +47,7 @@ public:
 
     void reconfigure(ReconfigureFlags flags) override;
 
-    void buildTextureMask(const QString& key, const QPointF& radius);
+    void buildTextureMask(const QString& key, const QPoint& radius);
 
     void prePaintWindow(EffectWindow* w, WindowPrePaintData& data, std::chrono::milliseconds time) override;
 
@@ -59,6 +59,8 @@ protected Q_SLOTS:
 
 private:
     enum { TopLeft = 0, TopRight, BottomRight, BottomLeft, NCorners };
+    static const QColor s_contentColor;
+    static const QPen s_outlinePen;
 
     std::unique_ptr<GLShader> m_maskShader;
     std::unique_ptr<GLShader> m_filletOptimizeShader;

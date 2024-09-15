@@ -64,8 +64,9 @@ void ClientBuffer::unref()
     if (!isReferenced()) {
         if (isDestroyed()) {
             delete this;
-        } else if (d->sendFlag == 0) {
+        } else if (!d->isReleased) {
             wl_buffer_send_release(d->resource);
+            wl_client_flush(wl_resource_get_client(d->resource));
         }
     }
 }
@@ -75,7 +76,8 @@ void ClientBuffer::sendRelease()
     Q_D(ClientBuffer);
     if (d->resource) {
         wl_buffer_send_release(d->resource);
-        d->sendFlag = 1;
+        wl_client_flush(wl_resource_get_client(d->resource));
+        d->isReleased = true;
     }
 }
 

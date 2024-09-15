@@ -878,11 +878,11 @@ void Compositor::reinitialize()
     }
 }
 
-void Compositor::handleFrameRequested(RenderLoop *renderLoop)
+void Compositor::handleFrameRequested(RenderLoop *renderLoop, bool skip)
 {
     static quint32 frame = 0;
-    frame++;
-    if (m_benchWindowNum > 0 && frame % 2 == 0) {
+    if (skip || (inBenchmark() && (frame++ & 1))) {
+        m_scene->postPaint();
         return;
     }
     composite(renderLoop);
@@ -1041,6 +1041,16 @@ void Compositor::paintPass(RenderLayer *layer, RenderTarget *target, const QRegi
 bool Compositor::isActive()
 {
     return m_state == State::On;
+}
+
+void Compositor::incrementBenchWindow() {
+        m_benchWindowNum++;
+    }
+
+void Compositor::decrementBenchWindow() {
+    if (m_benchWindowNum > 0) {
+        m_benchWindowNum--;
+    }
 }
 
 bool Compositor::compositingPossible() const

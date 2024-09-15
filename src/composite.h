@@ -70,15 +70,9 @@ public:
      */
     bool isActive();
 
-    void incrementBenchWindow() {
-        m_benchWindowNum++;
-    }
+    void incrementBenchWindow();
 
-    void decrementBenchWindow() {
-        if (m_benchWindowNum > 0) {
-            m_benchWindowNum--;
-        }
-    }
+    void decrementBenchWindow();
 
     bool isEdgeSoftCursor() {
         return m_edgeSoftCursor;
@@ -95,6 +89,10 @@ public:
     RenderBackend *backend() const
     {
         return m_backend.get();
+    }
+    bool inBenchmark() const
+    {
+        return m_benchWindowNum > 0;
     }
 
     /**
@@ -195,7 +193,7 @@ protected Q_SLOTS:
 
 private Q_SLOTS:
     void handleDConfigUserTypeChanged(const QString &type);
-    void handleFrameRequested(RenderLoop *renderLoop);
+    void handleFrameRequested(RenderLoop *renderLoop, bool skip);
     //TODO for screen shot show cursor on wayland
     void handleScreenShotStart() {
         m_screenShotRunning = true;

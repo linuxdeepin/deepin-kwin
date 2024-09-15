@@ -20,7 +20,7 @@ public:
     int refCount = 0;
     wl_resource *resource = nullptr;
     bool isDestroyed = false;
-    int sendFlag = 0;
+    bool isReleased = false;
 };
 
 } // namespace KWaylandServer

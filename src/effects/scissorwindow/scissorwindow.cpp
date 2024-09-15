@@ -31,6 +31,9 @@ static void ensureResources()
 
 namespace KWin {
 
+const QColor ScissorWindow::s_contentColor = QColor(255, 255, 255, 255);
+const QPen ScissorWindow::s_outlinePen = QPen(QColor(80, 80, 80, 60), 2);
+
 ScissorWindow::ScissorWindow() : Effect() {
     ensureResources();
 
@@ -67,14 +70,14 @@ void ScissorWindow::reconfigure(ReconfigureFlags flags) {
     Q_UNUSED(flags)
 }
 
-void ScissorWindow::buildTextureMask(const QString& key, const QPointF& radius) {
-    QImage img(QSize(radius.x() * 2, radius.y() * 2), QImage::Format_RGBA8888);
+void ScissorWindow::buildTextureMask(const QString& key, const QPoint& radius) {
+    QImage img(QSize(radius.x() << 1, radius.y() << 1), QImage::Format_RGBA8888);
     img.fill(Qt::transparent);
     QPainter painter(&img);
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor(255, 255, 255, 255));
+    painter.setBrush(s_contentColor);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.drawEllipse(0, 0, radius.x() * 2, radius.y() * 2);
+    painter.drawEllipse(0, 0, radius.x() << 1, radius.y() << 1);
     painter.end();
 
     m_texMaskMap[key] = new GLTexture(img.copy(0, 0, radius.x(), radius.y()));
@@ -105,8 +108,9 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
         QRect corner2(w->frameGeometry().topRight().x()- radiusX, w->frameGeometry().topRight().y(), radiusX, radiusY);
         QRect corner3(w->frameGeometry().bottomLeft().x() , w->frameGeometry().bottomLeft().y() - radiusY, radiusX, radiusY);
         QRect corner4(w->frameGeometry().bottomRight().x() - radiusX, w->frameGeometry().bottomRight().y()- radiusY, radiusX, radiusY);
-        data.paint = data.paint | corner1 | corner2 | corner3 | corner4;
-        data.opaque = data.opaque - corner1 - corner2 -corner3 - corner4;
+        const QRect corners = corner1 | corner2 | corner3 | corner4;
+        data.paint |= corners;
+        data.opaque -= corners;
     }
     effects->prePaintWindow(w, data, time);
 }
@@ -126,8 +130,8 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             QPainter pa(&maskImage);
             pa.setRenderHint(QPainter::Antialiasing);
             pa.scale(2, 2);
-            pa.fillPath(path, QColor(255, 255, 255, 255));
-            pa.strokePath(path, QPen(QColor(80, 80, 80, 60), 2));
+            pa.fillPath(path, s_contentColor);
+            pa.strokePath(path, s_outlinePen);
             pa.end();
 
             m_clipMaskMap[w] = WindowMaskCache {
@@ -156,7 +160,8 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             data.shader = m_maskShader.get();
 
             std::shared_ptr<GLTexture> maskTexture = cache.maskTexture;
-            glActiveTexture(GL_TEXTURE2); maskTexture->bind();
+            glActiveTexture(GL_TEXTURE2);
+            maskTexture->bind();
 
             glActiveTexture(GL_TEXTURE0);
             effects->drawWindow(w, mask, region, data);
@@ -191,10 +196,10 @@ void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region,
             SurfaceItem *surfaceItem = static_cast<SurfaceItem *>(window->surfaceItem());
             if (surfaceItem)
                 surfaceItem->setScissorAlpha(true);
-            const QString& key = QString("%1+%2").arg(cornerRadius.toPoint().x()).arg(cornerRadius.toPoint().y()
-            );
+            const QPoint cornerRadius_ = cornerRadius.toPoint();
+            const QString& key = QString("%1+%2").arg(cornerRadius_.x()).arg(cornerRadius_.y());
             if (!m_texMaskMap.count(key)) {
-                buildTextureMask(key, cornerRadius);
+                buildTextureMask(key, cornerRadius_);
             }
 
             ShaderManager::instance()->pushShader(m_filletOptimizeShader.get());
