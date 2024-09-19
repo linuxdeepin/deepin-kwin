@@ -1,3 +1,13 @@
+kwin (4:5.27.2.265-deepin265-1) unstable; urgency=medium
+
+  [huangzhenyan]
+  * feat: add log
+  * feat: improve glmark2 score
+  * fix: cascade placement
+  * fix: wechat screenshot blink
+
+ -- huangzhenyan <huangzhenyan@uniontech.com>  Thu, 19 Sep 2024 16:05:00 +0800
+
 kwin (4:5.27.2.264-deepin264-1) unstable; urgency=medium
 
   [dingzhixuan]
