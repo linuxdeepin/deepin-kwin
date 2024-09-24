@@ -221,7 +221,7 @@ Workspace::Workspace()
     new DBusInterface(this);
 
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "QuickTileWindow", this, SLOT(tileActiveWindow(uint)));
-    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "WindowMaximize", this, SLOT(toggleActiveMaximize()));
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "ToggleActiveWindowMaximizeChanged", this, SLOT(toggleActiveMaximize()));
 }
 
 void Workspace::init()
