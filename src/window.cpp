@@ -1790,7 +1790,7 @@ void Window::finishInteractiveMoveResize(bool cancel)
     Q_EMIT clientFinishUserMovedResized(this);
     if (needTrigger && isSplitWindow()) {
         Q_EMIT triggerSplitPreview(this);
-    } else if (wasMove && isSplitWindow()) {
+    } else if (wasMove && isSplitWindow() && !m_initPosForSplit.isNull()) {
         Q_EMIT swapSplitWindow(this, 2);
     }
     m_initPosForSplit = QPointF();
