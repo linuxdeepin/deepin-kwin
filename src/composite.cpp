@@ -1205,6 +1205,15 @@ void X11Compositor::resume(X11Compositor::SuspendReason reason)
 
 void X11Compositor::start()
 {
+    auto startScope = qScopeGuard([this] () {
+        if (!backend()) {
+            m_effectType = EffectType::NoneCompositor;
+        } else if (backend()->compositingType() == XRenderCompositing) {
+            m_effectType = EffectType::XRenderComplete;
+        }
+        setDConfigUserEffectType(m_effectType);
+    });
+
     if (m_suspended) {
         QStringList reasons;
         if (m_suspended & UserSuspend) {
@@ -1216,13 +1225,9 @@ void X11Compositor::start()
         if (m_suspended & ScriptSuspend) {
             reasons << QStringLiteral("Disabled by Script");
         }
-        m_effectType = EffectType::NoneCompositor;
-        setDConfigUserEffectType(m_effectType);
         qCInfo(KWIN_CORE) << "Compositing is suspended, reason:" << reasons;
         return;
     } else if (!compositingPossible()) {
-        m_effectType = EffectType::NoneCompositor;
-        setDConfigUserEffectType(m_effectType);
         qCWarning(KWIN_CORE) << "Compositing is not possible";
         return;
     }
@@ -1230,7 +1235,6 @@ void X11Compositor::start()
     KConfigGroup config(kwinApp()->config(), "Compositing");
     if (config.hasKey("Enabled")) {
         m_effectType = config.readEntry("Enabled", true) ? EffectType::OpenGLComplete : EffectType::XRenderComplete;
-        setDConfigUserEffectType(m_effectType);
         config.deleteEntry("Enabled");
         config.sync();
     } else {
@@ -1246,7 +1250,6 @@ void X11Compositor::start()
         } else {
             m_effectType = EffectType::XRenderComplete;
         }
-        setDConfigUserEffectType(m_effectType);
         qCDebug(KWIN_CORE) << "Effect type is automatically set to" << m_effectType;
     }
 
