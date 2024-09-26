@@ -103,7 +103,8 @@ void Output::unref()
     Q_ASSERT(m_refCount > 0);
     m_refCount--;
     if (m_refCount == 0) {
-        deleteLater();
+        // Must be destroy immediately, other wise it's member will stomp memory.
+        delete this;
     }
 }
 

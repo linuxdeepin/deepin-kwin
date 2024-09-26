@@ -43,13 +43,6 @@ DrmPipeline::DrmPipeline(DrmConnector *conn)
     }
 }
 
-DrmPipeline::~DrmPipeline()
-{
-    if (m_pageflipPending && m_current.crtc) {
-        pageFlipped({});
-    }
-}
-
 bool DrmPipeline::testScanout()
 {
     // TODO make the modeset check only be tested at most once per scanout cycle
@@ -150,7 +143,7 @@ DrmPipeline::Error DrmPipeline::commitPipelinesAtomic(const QVector<DrmPipeline 
     case CommitMode::TestAllowModeset: {
         bool withModeset = drmModeAtomicCommit(gpu->fd(), req.get(), DRM_MODE_ATOMIC_ALLOW_MODESET | DRM_MODE_ATOMIC_TEST_ONLY, nullptr) == 0;
         if (!withModeset) {
-            qCDebug(KWIN_DRM) << "Atomic modeset test failed!" << strerror(errno);
+            qCDebug(KWIN_DRM, "Atomic modeset test on GPU %s failed! %s", qPrintable(gpu->devNode()), strerror(errno));
             failed();
             return errnoToError();
         }
@@ -169,7 +162,7 @@ DrmPipeline::Error DrmPipeline::commitPipelinesAtomic(const QVector<DrmPipeline 
         // fashion without page flip events and directly call the pageFlipped method afterwards
         bool commit = drmModeAtomicCommit(gpu->fd(), req.get(), DRM_MODE_ATOMIC_ALLOW_MODESET, nullptr) == 0;
         if (!commit) {
-            qCCritical(KWIN_DRM) << "Atomic modeset commit failed!" << strerror(errno);
+            qCCritical(KWIN_DRM, "Atomic modeset commit on GPU %s failed! %s", qPrintable(gpu->devNode()), strerror(errno));
             failed();
             return errnoToError();
         }
@@ -188,7 +181,7 @@ DrmPipeline::Error DrmPipeline::commitPipelinesAtomic(const QVector<DrmPipeline 
     case CommitMode::Test: {
         bool test = drmModeAtomicCommit(pipelines[0]->gpu()->fd(), req.get(), DRM_MODE_ATOMIC_TEST_ONLY, nullptr) == 0;
         if (!test) {
-            qCDebug(KWIN_DRM) << "Atomic test failed!" << strerror(errno);
+            qCDebug(KWIN_DRM, "Atomic test on GPU %s failed! %s", qPrintable(pipelines[0]->gpu()->devNode()), strerror(errno));
             failed();
             return errnoToError();
         }
@@ -199,7 +192,7 @@ DrmPipeline::Error DrmPipeline::commitPipelinesAtomic(const QVector<DrmPipeline 
     case CommitMode::Commit: {
         bool commit = drmModeAtomicCommit(pipelines[0]->gpu()->fd(), req.get(), DRM_MODE_ATOMIC_NONBLOCK | DRM_MODE_PAGE_FLIP_EVENT, gpu) == 0;
         if (!commit) {
-            qCCritical(KWIN_DRM) << "Atomic commit failed!" << strerror(errno);
+            qCCritical(KWIN_DRM, "Atomic commit on GPU %s failed! %s", qPrintable(pipelines[0]->gpu()->devNode()), strerror(errno));
             failed();
             return errnoToError();
         }

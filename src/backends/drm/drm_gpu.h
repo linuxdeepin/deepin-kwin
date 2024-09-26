@@ -107,6 +107,7 @@ public:
 
     FileDescriptor createNonMasterFd() const;
     std::unique_ptr<DrmLease> leaseOutputs(const QVector<DrmOutput *> &outputs);
+    void waitIdle();
 
 Q_SIGNALS:
     void outputAdded(DrmAbstractOutput *output);
@@ -117,7 +118,6 @@ private:
     DrmOutput *findOutput(quint32 connector);
     void removeOutput(DrmOutput *output);
     void initDrmResources();
-    void waitIdle();
 
     DrmPipeline::Error checkCrtcAssignment(QVector<DrmConnector *> connectors, const QVector<DrmCrtc *> &crtcs);
     DrmPipeline::Error testPipelines();

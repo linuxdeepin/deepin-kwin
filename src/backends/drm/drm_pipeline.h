@@ -53,7 +53,7 @@ class DrmPipeline
 {
 public:
     DrmPipeline(DrmConnector *conn);
-    ~DrmPipeline();
+    ~DrmPipeline() = default;
 
     enum class Error {
         None,

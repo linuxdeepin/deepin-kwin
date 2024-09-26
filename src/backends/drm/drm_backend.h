@@ -15,7 +15,6 @@
 #include <QSize>
 #include <QSocketNotifier>
 #include <QVector>
-#include <QTimer>
 
 #include <memory>
 

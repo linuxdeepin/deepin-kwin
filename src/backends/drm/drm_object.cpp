@@ -66,6 +66,10 @@ bool DrmObject::atomicPopulate(drmModeAtomicReq *req) const
 {
     for (const auto &property : std::as_const(m_props)) {
         if (property && !property->isImmutable() && !property->isLegacy() && property->needsCommit()) {
+            // if (property->name() == QStringLiteral("DPMS")) {
+            //     qCWarning(KWIN_DRM) << "Property DPMS cannot be set through in atomic fashion";
+            //     continue;
+            // }
             if (drmModeAtomicAddProperty(req, m_id, property->propId(), property->pending()) <= 0) {
                 qCWarning(KWIN_DRM) << "Adding property" << property->name() << "->" << property->pending()
                                     << "to atomic commit failed for object" << this << "with error" << strerror(errno);

@@ -71,12 +71,12 @@ static QStringList splitPathList(const QString &input, const QChar delimiter)
 
 DrmBackend::DrmBackend(Session *session, QObject *parent)
     : OutputBackend(parent)
+    , m_updateOutputTimer(new QTimer(this))
     , m_udev(std::make_unique<Udev>())
     , m_udevMonitor(m_udev->monitor())
     , m_session(session)
     , m_explicitGpus(splitPathList(qEnvironmentVariable("KWIN_DRM_DEVICES"), ':'))
     , m_dpmsFilter()
-    , m_updateOutputTimer(new QTimer(this))
 {
     connect(m_updateOutputTimer, &QTimer::timeout, this, [this]{
             qCDebug(KWIN_DRM) << "Timeout and updateOutputs";
@@ -247,10 +247,12 @@ void DrmBackend::handleUdevEvent()
         }
 
         if (device->action() == QStringLiteral("add")) {
+            qCDebug(KWIN_DRM) << "Received add event for monitored drm device: " << device->devNode();
             if (addGpu(device->devNode())) {
                 updateOutputs();
             }
         } else if (device->action() == QStringLiteral("remove")) {
+            qCDebug(KWIN_DRM) << "Received remove event for monitored drm device: " << device->devNode();
             DrmGpu *gpu = findGpu(device->devNum());
             if (gpu) {
                 if (primaryGpu() == gpu) {
@@ -263,13 +265,12 @@ void DrmBackend::handleUdevEvent()
                 }
             }
         } else if (device->action() == QStringLiteral("change")) {
+            qCDebug(KWIN_DRM) << "Received change event for monitored drm device: " << device->devNode();
             DrmGpu *gpu = findGpu(device->devNum());
             if (!gpu) {
                 gpu = addGpu(device->devNode());
             }
             if (gpu) {
-                qCDebug(KWIN_DRM) << "Received change event for monitored drm device" << gpu->devNode();
-                m_updateOutputTimer->stop();
                 m_updateOutputTimer->start();
             }
         }
