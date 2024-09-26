@@ -86,7 +86,14 @@ void ChameleonButton::paint(QPainter *painter, const QRect &repaintRegion)
     if (!decoration)
         return;
 
-    const QRect &rect = geometry().toRect();
+    const int length = std::max(geometry().width(), geometry().height());
+    QRect rect(0, 0, length, length);
+    {
+        // move to center
+        QRectF rf(rect);
+        rf.moveCenter(geometry().center());
+        rect = rf.toRect();
+    }
 
     painter->save();
 

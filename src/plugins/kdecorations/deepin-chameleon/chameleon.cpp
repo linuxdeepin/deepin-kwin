@@ -358,7 +358,7 @@ void Chameleon::updateButtonsGeometry()
     auto c = client().data();
 
     // adjust button position
-    const int bHeight = noTitleBar() ? 0 : 50 * m_theme->windowPixelRatio();
+    const int bHeight = noTitleBar() ? 0 : titleBarHeight();
     KWinUtils::Window::setTitleBarHeight(m_client, bHeight);
 
     const int bWidth = 50 * m_theme->windowPixelRatio();
