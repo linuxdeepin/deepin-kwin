@@ -128,8 +128,12 @@ void EglDmabufBuffer::setImages(const QVector<EGLImage> &images)
 
 void EglDmabufBuffer::removeImages()
 {
+    AbstractEglBackend *backend = m_interfaceImpl->m_backend;
+    if (!eglGetCurrentContext()) {
+        eglMakeCurrent(backend->eglDisplay(), backend->surface(), backend->surface(), backend->context());
+    }
     for (auto image : std::as_const(m_images)) {
-        eglDestroyImageKHR(m_interfaceImpl->m_backend->eglDisplay(), image);
+        eglDestroyImageKHR(backend->eglDisplay(), image);
     }
     m_images.clear();
 }
