@@ -129,7 +129,7 @@ void WindowItem::handleWindowClosed(Window *original, Deleted *deleted)
 
 bool WindowItem::computeVisibility() const
 {
-    if (!m_window->readyForPainting()) {
+    if (!m_window || !m_window->readyForPainting()) {
         return false;
     }
     if (waylandServer() && waylandServer()->isScreenLocked()) {
@@ -170,11 +170,16 @@ void WindowItem::updateVisibility()
 
 void WindowItem::updatePosition()
 {
+    if (!m_window)
+        return;
     setPosition(m_window->pos());
 }
 
 void WindowItem::updateSurfaceItem(SurfaceItem *surfaceItem)
 {
+    if (!m_window)
+        return;
+
     m_surfaceItem.reset(surfaceItem);
 
     if (m_surfaceItem) {
@@ -199,6 +204,9 @@ void WindowItem::updateSurfaceItem(SurfaceItem *surfaceItem)
 
 void WindowItem::updateSurfacePosition()
 {
+    if (!m_window)
+        return;
+
     const QRectF bufferGeometry = m_window->bufferGeometry();
     const QRectF frameGeometry = m_window->frameGeometry();
 
@@ -207,11 +215,16 @@ void WindowItem::updateSurfacePosition()
 
 void WindowItem::updateSurfaceVisibility()
 {
+    if (!m_window)
+        return;
     m_surfaceItem->setVisible(!m_window->isShade());
 }
 
 void WindowItem::updateShadowItem()
 {
+    if (!m_window)
+        return;
+
     Shadow *shadow = m_window->shadow();
     if (shadow) {
         if (!m_shadowItem || m_shadowItem->shadow() != shadow) {
@@ -230,7 +243,7 @@ void WindowItem::updateShadowItem()
 
 void WindowItem::updateDecorationItem()
 {
-    if (m_window->isDeleted() || m_window->isZombie()) {
+    if (!m_window || m_window->isDeleted() || m_window->isZombie()) {
         return;
     }
     if (m_window->decoration()) {
@@ -249,11 +262,15 @@ void WindowItem::updateDecorationItem()
 
 void WindowItem::updateOpacity()
 {
+    if (!m_window)
+        return;
     setOpacity(m_window->opacity());
 }
 
 void WindowItem::markDamaged()
 {
+    if (!m_window)
+        return;
     Q_EMIT m_window->damaged(m_window);
 }
 
