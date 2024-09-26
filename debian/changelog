@@ -1,3 +1,14 @@
+kwin (4:5.27.2.266-deepin266-1) unstable; urgency=medium
+
+  [yangtian]
+  * fix: decoration button lost hoverLeave event
+  * fix: avoid null pointer in windowItem
+  * fix: coredump in eglDestroyImageKHR
+  * fix: set dconfig user type base on backend 
+  * fix: memory stomping when unplugging output 
+
+ -- yangtian <yangtian@uniontech.com>  Thu, 26 Sep 2024 17:59:57 +0800
+
 kwin (4:5.27.2.265-deepin265-1) unstable; urgency=medium
 
   [huangzhenyan]
