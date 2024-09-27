@@ -152,7 +152,7 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
             if (effect && !effect->isUserMove()) {
                 KDecoration2::DecorationButton::hoverEnterEvent(event);
 
-                if (!contains(event->posF())) {
+                if (!contains(event->posF()) || !isVisible() || !isEnabled()) {
                     return;
                 }
                 if (m_type == KDecoration2::DecorationButtonType::Maximize) {
