@@ -335,6 +335,9 @@ void X11Window::deleteClient(X11Window *c)
  */
 void X11Window::releaseWindow(bool on_shutdown)
 {
+    if (SurfaceItemX11 *item = qobject_cast<SurfaceItemX11 *>(surfaceItem())) {
+        item->destroyDamage();
+    }
     markAsZombie();
     cleanTabBox();
     Deleted *del = nullptr;
@@ -346,7 +349,6 @@ void X11Window::releaseWindow(bool on_shutdown)
     }
     Q_EMIT windowClosed(this, del);
     broadcastDbusDestroySignal(window());
-    finishCompositing();
     workspace()->rulebook()->discardUsed(this, true); // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
     if (isInteractiveMoveResize()) {
@@ -405,6 +407,9 @@ void X11Window::releaseWindow(bool on_shutdown)
  */
 void X11Window::destroyWindow()
 {
+    if (SurfaceItemX11 *item = qobject_cast<SurfaceItemX11 *>(surfaceItem())) {
+        item->forgetDamage();
+    }
     markAsZombie();
     cleanTabBox();
     Deleted *del = Deleted::create(this);
@@ -413,7 +418,6 @@ void X11Window::destroyWindow()
     }
     Q_EMIT windowClosed(this, del);
     broadcastDbusDestroySignal(window());
-    finishCompositing(ReleaseReason::Destroyed);
     workspace()->rulebook()->discardUsed(this, true); // Remove ForceTemporarily rules
     StackingUpdatesBlocker blocker(workspace());
     if (isInteractiveMoveResize()) {
@@ -1498,9 +1502,9 @@ bool X11Window::setupCompositing()
     return true;
 }
 
-void X11Window::finishCompositing(ReleaseReason releaseReason)
+void X11Window::finishCompositing()
 {
-    Window::finishCompositing(releaseReason);
+    Window::finishCompositing();
     updateVisibility();
     // If compositing is off, render the decoration in the X11 frame window.
     maybeCreateX11DecorationRenderer();

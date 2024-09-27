@@ -950,6 +950,9 @@ bool GlxPixmapTexturePrivate::create(SurfacePixmapX11 *texture)
         0};
 
     m_glxPixmap = glXCreatePixmap(m_backend->display(), info.fbconfig, texture->pixmap(), attrs);
+    if (m_glxPixmap <= 0) {
+        qCCritical(KWIN_X11STANDALONE) << "glXCreatePixmap failed, pixmap" << texture->pixmap();
+    }
     m_size = texture->size();
     m_yInverted = info.y_inverted ? true : false;
     m_canUseMipmaps = false;

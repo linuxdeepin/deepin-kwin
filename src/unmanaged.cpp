@@ -149,6 +149,13 @@ bool Unmanaged::track(xcb_window_t w)
 
 void Unmanaged::release(ReleaseReason releaseReason)
 {
+    if (SurfaceItemX11 *item = qobject_cast<SurfaceItemX11 *>(surfaceItem())) {
+        if (releaseReason == ReleaseReason::Destroyed) {
+            item->forgetDamage();
+        } else {
+            item->destroyDamage();
+        }
+    }
     Deleted *del = nullptr;
     if (releaseReason != ReleaseReason::KWinShutsDown) {
         del = Deleted::create(this);
@@ -157,7 +164,6 @@ void Unmanaged::release(ReleaseReason releaseReason)
         Q_EMIT workspace()->preRemoveInternalWindow(this);
     }
     Q_EMIT windowClosed(this, del);
-    finishCompositing(releaseReason);
     if (!QWidget::find(window()) && releaseReason != ReleaseReason::Destroyed) { // don't affect our own windows
         if (Xcb::Extensions::self()->isShapeAvailable()) {
             xcb_shape_select_input(kwinApp()->x11Connection(), window(), false);
