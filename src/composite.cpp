@@ -45,6 +45,7 @@
 #include "workspace.h"
 #include "x11syncmanager.h"
 #include "x11window.h"
+#include "debugpixmap.h"
 
 #include <kwinglplatform.h>
 #include <kwingltexture.h>
@@ -938,6 +939,11 @@ void Compositor::composite(RenderLoop *renderLoop)
 
     postPaintPass(superLayer);
     renderLoop->endFrame();
+
+    if (workspace()->getDebugPixmapState() & 0x01) {
+        workspace()->setDebugPixmaState(workspace()->getDebugPixmapState() ^ 0x01);
+        workspace()->getDebugPixmapPtr()->saveCompositePixmap();
+    }
 
     m_backend->present(output);
 
