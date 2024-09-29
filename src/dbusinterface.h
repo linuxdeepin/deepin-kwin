@@ -63,6 +63,7 @@ public Q_SLOTS: // METHODS
     QString activeOutputName();
     Q_NOREPLY void unclutterDesktop();
     Q_NOREPLY void showDebugConsole();
+    Q_NOREPLY void saveDebugPixmap(uint64_t id);
     bool xwaylandGrabed();
 
     /**

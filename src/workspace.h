@@ -107,6 +107,7 @@ class TileManager;
 class SplitManage;
 class ConfigReader;
 class WindowStyleManager;
+class DebugPixmap;
 
 typedef KWaylandServer::ClientManagementInterface::WindowState WindowState;
 
@@ -579,6 +580,7 @@ public:
     KWaylandServer::DDEShellSurfaceInterface* getDDEShellSurface(KWin::Window* c);
     SplitManage *getSplitManage() const;
     WindowStyleManager *getWindowStyleMgr() const;
+    DebugPixmap *getDebugPixmapPtr() const;
 
     void updateWinTile(Output *output);
 
@@ -621,10 +623,12 @@ public:
     bool getBlurStatus();
     bool isEffectDuring() { return m_isEffectDuring; }
     void setEffectDuringState(bool state) { m_isEffectDuring = state; }
-    bool supportDmabufExt() const
-    {
-        return m_supportDmabufExt;
-    }
+    bool supportDmabufExt() const { return m_supportDmabufExt; }
+
+    void saveDebugPixmap(xcb_window_t winid);
+    void setDebugPixmaState(int state) { m_debugPixmapState = state; }
+    int getDebugPixmapState() { return m_debugPixmapState; }
+
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
     // Keybindings
@@ -975,6 +979,7 @@ private:
     std::map<Output *, std::unique_ptr<TileManager>> m_tileManagers;
     std::unique_ptr<SplitManage> m_splitManage;
     std::unique_ptr<WindowStyleManager> m_windowStyleManager;
+    std::unique_ptr<DebugPixmap> m_debugPixmapManager;
 
     QString m_activeColor;
     QString m_sessionPath;
@@ -992,6 +997,7 @@ private:
 
     bool m_printKwinFps = false;
     bool m_isEffectDuring = false;
+    int m_debugPixmapState = 0xff;
 
     bool m_forceDisableRadius = false;
 

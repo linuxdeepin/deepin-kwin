@@ -68,6 +68,7 @@
 #include "composite.h"
 #include "windowstyle/windowstylemanager.h"
 #include "utils/dconfig_reader.h"
+#include "debugpixmap.h"
 
 // KDE
 #include <KConfig>
@@ -214,6 +215,7 @@ Workspace::Workspace()
         X11Compositor::create(this);
     }
     m_windowStyleManager = std::make_unique<WindowStyleManager>();
+    m_debugPixmapManager = std::make_unique<DebugPixmap>();
     m_decorationBridge = std::make_unique<Decoration::DecorationBridge>();
     m_decorationBridge->init();
     connect(this, &Workspace::configChanged, m_decorationBridge.get(), &Decoration::DecorationBridge::reconfigure);
@@ -3778,6 +3780,11 @@ WindowStyleManager *Workspace::getWindowStyleMgr() const
     return m_windowStyleManager.get();
 }
 
+DebugPixmap *Workspace::getDebugPixmapPtr() const
+{
+    return m_debugPixmapManager.get();
+}
+
 QImage Workspace::getProhibitShotImage(QSize size)
 {
     if(size.isEmpty()) {
@@ -4026,6 +4033,35 @@ void Workspace::slotProhibitScreenShot(int pid, bool bProhibited)
     QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "ProhibitScreenShotChanged");
     message << int(pid) << bool(bProhibited);
     QDBusConnection::sessionBus().send(message);
+}
+
+void Workspace::saveDebugPixmap(xcb_window_t winid)
+{
+    Window *window = nullptr;
+    if (X11Window *w = findClient(Predicate::WindowMatch, winid)) {
+        window = w;
+    }
+    if (Unmanaged *u = findUnmanaged(winid)) {
+        window = u;
+    }
+    // wayland
+    if (!window) {
+        QList<Window *> list = stackingOrder();
+        for (Window *t : list) {
+            if (t->frameId() == winid) {
+                window = t;
+            }
+        }
+    } else {
+        m_debugPixmapManager.get()->saveImageFromXorg(winid);
+    }
+
+    if (window) {
+        m_debugPixmapManager.get()->saveImageFromTexture(winid, window);
+        m_debugPixmapManager.get()->saveImageFromPixmap(winid, window);
+    }
+
+    setDebugPixmaState(0xff);
 }
 
 } // namespace

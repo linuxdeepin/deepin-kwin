@@ -47,6 +47,7 @@
 #include "workspace.h"
 #include "x11window.h"
 #include "waylandwindow.h"
+#include "unmanaged.h"
 #include "windowstyle/windowstylemanager.h"
 #include "windowstyle/decorationstyle.h"
 #include "platformsupport/scenes/opengl/openglsurfacetexture.h"

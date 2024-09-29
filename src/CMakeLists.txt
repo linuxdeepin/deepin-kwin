@@ -214,6 +214,7 @@ target_sources(kwin PRIVATE
     resources.qrc
     configreader.cpp
     dockrect.cpp
+    debugpixmap.cpp
 )
 
 target_link_libraries(kwin
