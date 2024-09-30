@@ -181,7 +181,7 @@ void DDEShellSurfaceInterfacePrivate::sendGeometry(const QRect &geometry)
         return;
     }
     m_geometry = geometry;
-    if (!m_geometry.isValid()) {
+    if (!m_geometry.isValid() || (m_geometry.x() == -1 || m_geometry.y() == -1)) {
         return;
     }
     send_geometry(m_geometry.x(), m_geometry.y(), m_geometry.width(), m_geometry.height());

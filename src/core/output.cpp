@@ -298,6 +298,10 @@ void Output::setState(const State &state)
     m_state = state;
 
     bool isChanged = false;
+    if (oldGeometry != geometry()) {
+        isChanged = true;
+        Q_EMIT geometryChanged();
+    }
     if (oldState.scale != state.scale) {
         isChanged = true;
         Q_EMIT scaleChanged();
@@ -341,10 +345,6 @@ void Output::setState(const State &state)
     if (oldState.colorCurves != state.colorCurves) {
         isChanged = true;
         Q_EMIT colorCurvesChanged();
-    }
-    if (oldGeometry != geometry()) {
-        isChanged = true;
-        Q_EMIT geometryChanged();
     }
     if (isChanged) {
         Q_EMIT doneChanged();
