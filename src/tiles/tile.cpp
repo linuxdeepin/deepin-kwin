@@ -285,7 +285,17 @@ void Tile::resizeByPixels(qreal delta, Qt::Edge edge)
 void Tile::addWindow(Window *window)
 {
     if (!m_windows.contains(window)) {
-        window->moveResize(windowGeometry());
+        QRectF geom = windowGeometry();
+        if (waylandServer()) {
+            if (geom.width() < window->minSize().width()) {
+                if (m_relativeGeometry.x() != 0) {
+                    const QRectF sgeom = m_tiling->output()->fractionalGeometry();
+                    geom.setX(sgeom.x() + sgeom.width() - window->minSize().width());
+                }
+                geom.setWidth(window->minSize().width());
+            }
+        }
+        window->moveResize(geom);
         m_windows.append(window);
         window->setTile(this);
         Q_EMIT windowAdded(window);
