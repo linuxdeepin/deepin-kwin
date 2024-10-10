@@ -88,5 +88,8 @@
       <arg name="rate" type="i" direction="in"/>
       <arg name="delay" type="i" direction="in"/>
     </method>
+    <method name="saveDebugPixmap">
+      <arg type="u" direction="in"/>
+    </method>
   </interface>
 </node>

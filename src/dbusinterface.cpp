@@ -336,6 +336,11 @@ bool DBusInterface::xwaylandGrabed()
     return waylandServer()->XWaylandKeyboardGrabClientV1() != nullptr;
 }
 
+void DBusInterface::saveDebugPixmap(uint64_t id)
+{
+    workspace()->saveDebugPixmap(id);
+}
+
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)
     : QObject(parent)
     , m_compositor(parent)
