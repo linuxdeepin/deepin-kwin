@@ -40,6 +40,7 @@ public:
     void handleSpecialWindowStyle(Window *);
     void parseWinCustomEffect(Window *);
     bool compositingEnabled() { return m_compositingEnabled; }
+    void refreshWindowStyle();
 
 Q_SIGNALS:
     void sigRadiusChanged(float &);
