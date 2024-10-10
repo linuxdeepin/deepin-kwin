@@ -96,15 +96,7 @@ void WindowStyleManager::onGeometryShapeChanged(Window *w, QRectF rectF)
 void WindowStyleManager::onCompositingChanged(bool active)
 {
     m_compositingEnabled = active;
-    QList<Window*> windows = workspace()->allClientList();
-    for (Window *w : windows) {
-        w->updateWindowRadius(true);
-    }
-    QTimer::singleShot(50, [&] {
-        if (Compositor::self() && Compositor::self()->scene()) {
-            Compositor::self()->scene()->addRepaintFull();
-        }
-    });
+    refreshWindowStyle();
 
     Q_EMIT workspace()->osRadiusChanged();
 }
@@ -115,6 +107,10 @@ void WindowStyleManager::onCompositingToggle(bool active)
         m_compositingEnabled = true;
     else
         m_compositingEnabled = false;
+
+    if (active) {
+        refreshWindowStyle();
+    }
 }
 
 void WindowStyleManager::onWaylandWindowCustomEffect(uint32_t type)
@@ -128,6 +124,19 @@ void WindowStyleManager::onWaylandWindowStartUpEffect(uint32_t type)
 {
     Window *window = qobject_cast<Window *>(QObject::sender());
     window->setStartUpEffectType(type);
+}
+
+void WindowStyleManager::refreshWindowStyle()
+{
+    QList<Window*> windows = workspace()->allClientList();
+    for (Window *w : windows) {
+        w->updateWindowRadius(true);
+    }
+    QTimer::singleShot(50, [&] {
+        if (Compositor::self() && Compositor::self()->scene()) {
+            Compositor::self()->scene()->addRepaintFull();
+        }
+    });
 }
 
 float WindowStyleManager::getOsRadius()
