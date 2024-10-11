@@ -222,7 +222,7 @@ Workspace::Workspace()
 
     new DBusInterface(this);
 
-    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "QuickTileWindow", this, SLOT(tileActiveWindow(uint)));
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "TileActiveWindowChanged", this, SLOT(tileActiveWindow(int)));
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "ToggleActiveWindowMaximizeChanged", this, SLOT(toggleActiveMaximize()));
 }
 
@@ -2547,7 +2547,7 @@ void Workspace::slotIconThemeChanged(const QString &property, const QString &the
     Q_EMIT iconThemeChanged();
 }
 
-void Workspace::tileActiveWindow(uint side)
+void Workspace::tileActiveWindow(int side)
 {
     quickTileWindow((QuickTileMode)side);
 }

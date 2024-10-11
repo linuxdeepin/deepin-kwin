@@ -705,7 +705,7 @@ public Q_SLOTS:
     void qtActiveColorChanged();
     void slotIconThemeChanged(const QString &property, const QString &theme);
 
-    void tileActiveWindow(uint);
+    void tileActiveWindow(int);
     void toggleActiveMaximize();
     void slotDockPositionChanged(const QRect &FrontendWindowRect);
     void slotShowingDesktopEffectChanged(bool);
