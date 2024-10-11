@@ -37,10 +37,6 @@
 // kwin窗口阴影属性，在没有窗口修饰器的窗口上会使用此属性绘制窗口阴影
 #define _KDE_NET_WM_SHADOW "_KDE_NET_WM_SHADOW"
 #define _NET_WM_WINDOW_TYPE "_NET_WM_WINDOW_TYPE"
-// DCONFIG
-#define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
-#define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
-#define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
 
 namespace KWin {
 class X11Window;

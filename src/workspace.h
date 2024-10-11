@@ -46,6 +46,10 @@
 #define DBUS_MANAGER_INTF        "org.freedesktop.login1.Manager"
 #define DBUS_SESSION_INTF        "org.freedesktop.login1.Session"
 
+#define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
+#define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
+
 class KConfig;
 class KConfigGroup;
 class KStartupInfo;
