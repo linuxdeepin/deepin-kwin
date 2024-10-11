@@ -470,6 +470,10 @@ void WorkspaceScene::paintWindow(WindowItem *item, int mask, const QRegion &regi
         return;
     }
 
+    if (Compositor::self()->isLocked() && item->window() && item->window()->layer() < OnScreenDisplayLayer) {
+        return;
+    }
+
     if (item->window() && !item->window()->isDeleted() && item->window()->firstComposite() == EventTrackingState::Ready) {
         qCDebug(KWIN_CORE) << "beginDrawWindow" << item->window()->resourceName() << item->window()->window();
         item->window()->setFirstComposite(EventTrackingState::SendAddRepaintFull);
