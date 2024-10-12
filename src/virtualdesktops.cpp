@@ -833,10 +833,10 @@ void VirtualDesktopManager::initShortcuts()
 
     QAction *slotNextAction = addAction(QStringLiteral("Switch to Next Desktop"), i18n("Switch to Next Desktop"), &VirtualDesktopManager::slotNext);
     KGlobalAccel::self()->setDefaultShortcut(slotNextAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Right);
-    KGlobalAccel::self()->setShortcut(slotNextAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Right, KGlobalAccel::EmptyNoAutoload);
+    KGlobalAccel::self()->setShortcut(slotNextAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Right);
     QAction *slotPreviousAction = addAction(QStringLiteral("Switch to Previous Desktop"), i18n("Switch to Previous Desktop"), &VirtualDesktopManager::slotPrevious);
     KGlobalAccel::self()->setDefaultShortcut(slotPreviousAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Left);
-    KGlobalAccel::self()->setShortcut(slotPreviousAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Left, KGlobalAccel::EmptyNoAutoload);
+    KGlobalAccel::self()->setShortcut(slotPreviousAction, QList<QKeySequence>() << Qt::CTRL + Qt::ALT + Qt::Key_Left);
 
     // shortcuts
     QAction *slotRightAction = addAction(QStringLiteral("Switch One Desktop to the Right"), i18n("Switch One Desktop to the Right"), &VirtualDesktopManager::slotRight);
@@ -923,7 +923,7 @@ QAction *VirtualDesktopManager::addAction(const QString &name, const QString &la
     a->setProperty("componentName", QStringLiteral("deepin-kwin"));
     a->setObjectName(name);
     a->setText(label);
-    KGlobalAccel::setGlobalShortcut(a, QKeySequence());
+    // KGlobalAccel::setGlobalShortcut(a, QKeySequence());
     connect(a, &QAction::triggered, this, slot);
     return a;
 }

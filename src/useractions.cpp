@@ -1111,20 +1111,20 @@ void Workspace::closeActivePopup()
 }
 
 template<typename Slot>
-void Workspace::initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, Slot slot, bool force)
+void Workspace::initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, Slot slot)
 {
-    initShortcut(actionName, description, shortcut, this, slot, force);
+    initShortcut(actionName, description, shortcut, this, slot);
 }
 
 template<typename T, typename Slot>
-void Workspace::initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, T *receiver, Slot slot, bool force)
+void Workspace::initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, T *receiver, Slot slot)
 {
     QAction *a = new QAction(this);
     a->setProperty("componentName", QStringLiteral("deepin-kwin"));
     a->setObjectName(actionName);
     a->setText(description);
     KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << shortcut);
-    KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << shortcut, force ? KGlobalAccel::EmptyNoAutoload : KGlobalAccel::Autoloading);
+    KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << shortcut);
     connect(a, &QAction::triggered, receiver, slot);
 }
 
@@ -1155,13 +1155,13 @@ void Workspace::initShortcuts()
     initShortcut("Window Maximize Horizontal", i18n("Maximize Window Horizontally"),
                  0, &Workspace::slotWindowMaximizeHorizontal);
     initShortcut("Window Minimize", i18n("Minimize Window"),
-                 Qt::META | Qt::Key_N, &Workspace::slotWindowMinimize, true);
+                 Qt::META | Qt::Key_N, &Workspace::slotWindowMinimize);
     initShortcut("Window Shade", i18n("Shade Window"),
                  0, &Workspace::slotWindowShade);
     initShortcut("Window Move", i18n("Move Window"),
-                 Qt::ALT | Qt::Key_F7, &Workspace::slotWindowMove, true);
+                 Qt::ALT | Qt::Key_F7, &Workspace::slotWindowMove);
     initShortcut("Window Resize", i18n("Resize Window"),
-                 Qt::ALT | Qt::Key_F8, &Workspace::slotWindowResize, true);
+                 Qt::ALT | Qt::Key_F8, &Workspace::slotWindowResize);
     initShortcut("Window Raise", i18n("Raise Window"),
                  0, &Workspace::slotWindowRaise);
     initShortcut("Window Lower", i18n("Lower Window"),
@@ -1240,8 +1240,8 @@ void Workspace::initShortcuts()
         };
         initShortcut(QStringLiteral("Window to Desktop %1").arg(i + 1), i18n("Window to Desktop %1", i + 1), 0, handler);
     }
-    initShortcut("Window to Next Desktop", i18n("Window to Next Desktop"), Qt::CTRL | Qt::ALT | Qt::SHIFT | Qt::Key_Right, &Workspace::slotWindowToNextDesktop, true);
-    initShortcut("Window to Previous Desktop", i18n("Window to Previous Desktop"), Qt::CTRL | Qt::ALT | Qt::SHIFT | Qt::Key_Left, &Workspace::slotWindowToPreviousDesktop, true);
+    initShortcut("Window to Next Desktop", i18n("Window to Next Desktop"), Qt::CTRL | Qt::ALT | Qt::SHIFT | Qt::Key_Right, &Workspace::slotWindowToNextDesktop);
+    initShortcut("Window to Previous Desktop", i18n("Window to Previous Desktop"), Qt::CTRL | Qt::ALT | Qt::SHIFT | Qt::Key_Left, &Workspace::slotWindowToPreviousDesktop);
     initShortcut("Window One Desktop to the Right", i18n("Window One Desktop to the Right"),
                  Qt::META | Qt::CTRL | Qt::SHIFT | Qt::Key_Right, &Workspace::slotWindowToDesktopRight);
     initShortcut("Window One Desktop to the Left", i18n("Window One Desktop to the Left"),

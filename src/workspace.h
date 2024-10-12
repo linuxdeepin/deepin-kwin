@@ -803,9 +803,9 @@ private:
     void cleanupX11();
     void initShortcuts();
     template<typename Slot>
-    void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, Slot slot, bool force = false);
+    void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, Slot slot);
     template<typename T, typename Slot>
-    void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, T *receiver, Slot slot, bool force = false);
+    void initShortcut(const QString &actionName, const QString &description, const QKeySequence &shortcut, T *receiver, Slot slot);
     void setupWindowShortcut(Window *window);
     bool switchWindow(Window *window, Direction direction, QPoint curPos, VirtualDesktop *desktop);
     void setProcessSessionPath();
