@@ -1,3 +1,17 @@
+kwin (4:5.27.2.267-deepin267-1) unstable; urgency=medium
+
+  [huangzeming]
+  * fix: add judgment of dataSource.
+  * fix: Invisible buttons do not display split screen menu
+  * fix: remove upstream Meta shortcus in X11.
+  * fix: [composite] lock cannot cover desktop
+  * fix: screen blink when plugin in extend mode
+  * feat: add interface to save debug pixmap of window
+  * fix: Improve language support
+  * fix: fix issue of failure to change the position of splitscreen windows
+
+ -- huangzeming <huangzeming@uniontech.com>  Sat, 12 Oct 2024 16:25:11 +0800
+
 kwin (4:5.27.2.266-deepin266-1) unstable; urgency=medium
 
   [yangtian]
