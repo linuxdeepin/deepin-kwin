@@ -31,6 +31,7 @@
 #include "wayland/surface_interface.h"
 #include "workspace.h"
 #include "x11eventfilter.h"
+#include "core/renderbackend.h"
 
 #if KWIN_BUILD_SCREENLOCKER
 #include "screenlockerwatcher.h"
@@ -359,7 +360,7 @@ void Application::createPlatformCursor(QObject *parent)
 
 std::unique_ptr<OutlineVisual> Application::createOutline(Outline *outline)
 {
-    if (Compositor::compositing()) {
+    if (Compositor::compositing() && Compositor::self()->backend() && Compositor::self()->backend()->compositingType() != XRenderCompositing) {
         return std::make_unique<CompositedOutlineVisual>(outline);
     }
     return nullptr;
