@@ -13,6 +13,14 @@ set(KF5_MIN_VERSION "5.54.0")
 set(KF5_CURRENT_VERSION "5.102.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.54")
 
+if(MEMCHECK)
+    set(CMAKE_BUILD_TYPE Debug)
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O1 -fno-omit-frame-pointer -Wall -Wextra -fsanitize=address")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O1 -fno-omit-frame-pointer -Wall -Wextra -fsanitize=address")
+    set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fsanitize=address")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address")
+endif()
+
 find_package(ECM "${KF5_CURRENT_VERSION}" REQUIRED NO_MODULE)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
