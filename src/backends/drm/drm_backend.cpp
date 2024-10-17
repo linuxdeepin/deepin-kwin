@@ -432,11 +432,13 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
             if (output->isNonDesktop()) {
                 continue;
             }
-            output->queueChanges(config);
-            if (config.constChangeSet(output)->enabled) {
-                toBeEnabled << output;
-            } else {
-                toBeDisabled << output;
+            if (const auto changeset = config.constChangeSet(output)) {
+                output->queueChanges(changeset);
+                if (changeset->enabled) {
+                    toBeEnabled << output;
+                } else {
+                    toBeDisabled << output;
+                }
             }
         }
         if (gpu->testPendingConfiguration() != DrmPipeline::Error::None) {
@@ -452,10 +454,14 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
     // first, apply changes to drm outputs.
     // This may remove the placeholder output and thus change m_outputs!
     for (const auto &output : std::as_const(toBeEnabled)) {
-        output->applyQueuedChanges(config);
+        if (const auto changeset = config.constChangeSet(output)) {
+            output->applyQueuedChanges(changeset);
+        }
     }
     for (const auto &output : std::as_const(toBeDisabled)) {
-        output->applyQueuedChanges(config);
+        if (const auto changeset = config.constChangeSet(output)) {
+            output->applyQueuedChanges(changeset);
+        }
     }
     // only then apply changes to the virtual outputs
     for (const auto &gpu : std::as_const(m_gpus)) {

@@ -59,4 +59,8 @@ std::shared_ptr<ColorTransformation> ColorLUT::transformation() const
     return m_transformation;
 }
 
+Output::ColorCurves ColorLUT::colorCurves() const
+{
+    return m_colorCurves;
+}
 }

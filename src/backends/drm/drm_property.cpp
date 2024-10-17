@@ -139,6 +139,11 @@ bool DrmProperty::isImmutable() const
     return m_immutable;
 }
 
+bool DrmProperty::isBlob() const
+{
+    return m_isBlob;
+}
+
 bool DrmProperty::isBitmask() const
 {
     return m_isBitmask;

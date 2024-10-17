@@ -40,9 +40,10 @@ public:
     virtual bool init() = 0;
 
     /**
-     * Set the properties in such a way that this resource won't be used anymore
+     * @brief Set the properties in such a way that this resource won't be used anymore
+     * @note Sub-class must call this in their overrided version
      */
-    virtual void disable() = 0;
+    virtual void disable();
 
     uint32_t id() const;
     DrmGpu *gpu() const;
