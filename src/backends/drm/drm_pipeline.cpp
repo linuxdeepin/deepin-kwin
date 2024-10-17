@@ -36,11 +36,6 @@ static const QMap<uint32_t, QVector<uint64_t>> legacyCursorFormats = {{DRM_FORMA
 DrmPipeline::DrmPipeline(DrmConnector *conn)
     : m_connector(conn)
 {
-    if (conn->gpu()->isHisi()) {
-        m_ctmEnabled = true;
-    } else {
-        m_ctmEnabled = qEnvironmentVariableIntValue("KWIN_CTM_ENABLED") == 1;  //非华为机器默认关闭，遗留后续解决。初步推断是驱动问题导致
-    }
 }
 
 bool DrmPipeline::testScanout()
@@ -236,9 +231,7 @@ void DrmPipeline::prepareAtomicPresentation()
     }
 
     m_pending.crtc->setPending(DrmCrtc::PropertyIndex::VrrEnabled, m_pending.syncMode == RenderLoopPrivate::SyncMode::Adaptive || m_pending.syncMode == RenderLoopPrivate::SyncMode::AdaptiveAsync);
-    if (m_pending.gamma) {
-        m_pending.crtc->setPending(DrmCrtc::PropertyIndex::Gamma_LUT, m_pending.gamma->blobId());
-    }
+
     const auto fb = m_pending.layer->currentBuffer().get();
     m_pending.crtc->primaryPlane()->set(QPoint(0, 0), fb->buffer()->size(), centerBuffer(orientateSize(fb->buffer()->size(), m_pending.bufferOrientation), m_pending.mode->size()));
     m_pending.crtc->primaryPlane()->setBuffer(fb);
@@ -292,7 +285,7 @@ void DrmPipeline::prepareAtomicModeset()
     }
 
     m_pending.crtc->setPending(DrmCrtc::PropertyIndex::Active, 1);
-    m_pending.crtc->setPending(DrmCrtc::PropertyIndex::ModeId, m_pending.mode->blobId());
+    m_pending.crtc->setPending(DrmCrtc::PropertyIndex::ModeId, m_pending.mode->blob()->blobId());
 
     m_pending.crtc->primaryPlane()->setPending(DrmPlane::PropertyIndex::CrtcId, m_pending.crtc->id());
     if (const auto rotation = m_pending.crtc->primaryPlane()->getProp(DrmPlane::PropertyIndex::Rotation)) {
@@ -303,11 +296,19 @@ void DrmPipeline::prepareAtomicModeset()
             rotation->setEnum(DrmPlane::Transformation::Rotate0);
         }
     }
+
     if (needUpdateBrightness()) {
-        m_connector->setPending(DrmConnector::PropertyIndex::BrightnessId,  m_pending.brightness);
+        m_connector->setPending(DrmConnector::PropertyIndex::BrightnessId, m_pending.brightness);
     }
-    if (needCTM()) {
-        m_pending.crtc->setCTM(m_pending.ctmValue.r, m_pending.ctmValue.g, m_pending.ctmValue.b);
+    if (const auto gammaProp = m_pending.crtc->getProp(DrmCrtc::PropertyIndex::Gamma_LUT)) {
+        if (m_pending.gamma) {
+            gammaProp->setPending(m_pending.gamma->blob()->blobId());
+        }
+    }
+    if (const auto ctmProp = m_pending.crtc->getProp(DrmCrtc::PropertyIndex::CTM)) {
+        if (needUpdateCTM()) {
+            ctmProp->setPending(m_pending.ctm->blob()->blobId());
+        }
     }
 }
 
@@ -560,18 +561,16 @@ bool DrmPipeline::needUpdateBrightness()
     return m_pending.brightness != m_current.brightness;
 }
 
-bool DrmPipeline::needCTM()
+bool DrmPipeline::needUpdateCTM()
 {
-    if (!m_ctmEnabled) {
+    if (!m_pending.ctm) {
         return false;
     }
-    if (!m_pending.crtc) {
-        return false;
+    if (m_current.ctm) {
+        return m_pending.ctm->ctmValue() != m_current.ctm->ctmValue();
+    } else {
+        return m_pending.ctm->ctmValue();
     }
-    if (!m_pending.crtc->hasCTM()) {
-        return false;
-    }
-    return m_pending.ctmValue != Output::CtmValue{0, 0, 0};
 }
 
 bool DrmPipeline::activePending() const
@@ -605,54 +604,62 @@ DrmCrtc *DrmPipeline::currentCrtc() const
 }
 
 DrmGammaRamp::DrmGammaRamp(DrmCrtc *crtc, const std::shared_ptr<ColorTransformation> &transformation)
-    : m_gpu(crtc->gpu())
-    , m_lut(transformation, crtc->gammaRampSize())
+    : m_lut(transformation, crtc->gammaRampSize())
 {
-    if (crtc->gpu()->atomicModeSetting()) {
-        QVector<drm_color_lut> atomicLut(m_lut.size());
-        for (uint32_t i = 0; i < m_lut.size(); i++) {
-            atomicLut[i].red = m_lut.red()[i];
-            atomicLut[i].green = m_lut.green()[i];
-            atomicLut[i].blue = m_lut.blue()[i];
-        }
-        if (drmModeCreatePropertyBlob(crtc->gpu()->fd(), atomicLut.data(), sizeof(drm_color_lut) * m_lut.size(), &m_blobId) != 0) {
-            qCWarning(KWIN_DRM) << "Failed to create gamma blob!" << strerror(errno);
-        }
-    }
+    init(crtc);
 }
 
-DrmGammaRamp::DrmGammaRamp(DrmCrtc *crtc, const Output::ColorCurves colorCurves)
-    : m_gpu(crtc->gpu())
-    , m_lut(colorCurves, crtc->gammaRampSize())
+DrmGammaRamp::DrmGammaRamp(DrmCrtc *crtc, const Output::ColorCurves &colorCurves)
+    : m_lut(colorCurves, crtc->gammaRampSize())
 {
-    if (crtc->gpu()->atomicModeSetting()) {
-        QVector<drm_color_lut> atomicLut(m_lut.size());
-        for (uint32_t i = 0; i < m_lut.size(); i++) {
-            atomicLut[i].red = m_lut.red()[i];
-            atomicLut[i].green = m_lut.green()[i];
-            atomicLut[i].blue = m_lut.blue()[i];
-        }
-        if (drmModeCreatePropertyBlob(crtc->gpu()->fd(), atomicLut.data(), sizeof(drm_color_lut) * m_lut.size(), &m_blobId) != 0) {
-            qCWarning(KWIN_DRM) << "Failed to create gamma blob!" << strerror(errno);
-        }
-    }
+    init(crtc);
 }
 
-DrmGammaRamp::~DrmGammaRamp()
+void DrmGammaRamp::init(DrmCrtc *crtc)
 {
-    if (m_blobId != 0) {
-        drmModeDestroyPropertyBlob(m_gpu->fd(), m_blobId);
+    Q_ASSERT(crtc->gpu()->atomicModeSetting());
+    QVector<struct drm_color_lut> atomicLut(m_lut.size());
+    for (uint32_t i = 0; i < m_lut.size(); i++) {
+        atomicLut[i].red = m_lut.red()[i];
+        atomicLut[i].green = m_lut.green()[i];
+        atomicLut[i].blue = m_lut.blue()[i];
     }
-}
-
-uint32_t DrmGammaRamp::blobId() const
-{
-    return m_blobId;
+    if (!(m_blob = DrmBlob::create(crtc->gpu(), atomicLut.data(), sizeof(drm_color_lut) * atomicLut.size()))) {
+        qCWarning(KWIN_DRM) << "Failed to create gamma blob!" << strerror(errno);
+    }
 }
 
 const ColorLUT &DrmGammaRamp::lut() const
 {
     return m_lut;
+}
+
+std::shared_ptr<DrmBlob> DrmGammaRamp::blob() const
+{
+    return m_blob;
+}
+
+DrmCTM::DrmCTM(DrmCrtc *crtc, const Output::CtmValue &ctmValue)
+    : m_ctmValue(ctmValue)
+{
+    Q_ASSERT(crtc->gpu()->atomicModeSetting());
+    struct drm_color_ctm blob = {.matrix = {
+                                     ctmValue.r, 0, 0,
+                                     0, ctmValue.g, 0,
+                                     0, 0, ctmValue.b}};
+    if (!(m_blob = DrmBlob::create(crtc->gpu(), &blob, sizeof(drm_color_ctm)))) {
+        qCWarning(KWIN_DRM) << "Failed to create ctm blob!" << strerror(errno);
+    }
+}
+
+const Output::CtmValue &DrmCTM::ctmValue() const
+{
+    return m_ctmValue;
+}
+
+std::shared_ptr<DrmBlob> DrmCTM::blob() const
+{
+    return m_blob;
 }
 
 void DrmPipeline::printFlags(uint32_t flags)
@@ -750,13 +757,6 @@ DrmConnector::DrmContentType DrmPipeline::contentType() const
 
 void DrmPipeline::setCrtc(DrmCrtc *crtc)
 {
-    if (crtc && m_pending.crtc && crtc->gammaRampSize() > 0 && crtc->gammaRampSize() != m_pending.crtc->gammaRampSize()) {
-        if (m_pending.colorTransformation) {
-            m_pending.gamma = std::make_shared<DrmGammaRamp>(crtc, m_pending.colorTransformation);
-        } else if (m_pending.colorCurves != Output::ColorCurves{{0}, {0}, {0}}) {
-            m_pending.gamma = std::make_shared<DrmGammaRamp>(crtc, m_pending.colorCurves);
-        }
-    }
     m_pending.crtc = crtc;
     if (crtc) {
         m_pending.formats = crtc->primaryPlane() ? crtc->primaryPlane()->formats() : legacyFormats;
@@ -813,7 +813,6 @@ void DrmPipeline::setRgbRange(Output::RgbRange range)
 
 void DrmPipeline::setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation)
 {
-    m_pending.colorTransformation = transformation;
     if (m_pending.crtc && m_pending.crtc->gammaRampSize() > 0) {
         m_pending.gamma = std::make_shared<DrmGammaRamp>(m_pending.crtc, transformation);
     }
@@ -836,25 +835,26 @@ int32_t DrmPipeline::brightness() const
 
 void DrmPipeline::setCTM(Output::CtmValue ctmValue)
 {
-    m_pending.ctmValue = ctmValue;
+    if (m_pending.crtc && m_pending.crtc->hasCTM()) {
+        m_pending.ctm = std::make_shared<DrmCTM>(m_pending.crtc, ctmValue);
+    }
 }
 
 Output::CtmValue DrmPipeline::ctmValue() const
 {
-    return m_pending.ctmValue;
+    return m_pending.ctm ? m_pending.ctm->ctmValue() : Output::CtmValue{};
 }
 
 void DrmPipeline::setColorCurves(Output::ColorCurves colorCurves)
 {
-    m_pending.colorCurves = colorCurves;
-    if (m_pending.crtc && m_pending.crtc->gammaRampSize() > 0 && !m_pending.gamma) {
+    if (m_pending.crtc && m_pending.crtc->gammaRampSize() > 0) {
         m_pending.gamma = std::make_shared<DrmGammaRamp>(m_pending.crtc, colorCurves);
     }
 }
 
 Output::ColorCurves DrmPipeline::colorCurves() const
 {
-    return m_pending.colorCurves;
+    return m_pending.gamma ? m_pending.gamma->lut().colorCurves() : Output::ColorCurves{{0}, {0}, {0}};
 }
 
 }

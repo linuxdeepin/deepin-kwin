@@ -19,6 +19,7 @@
 #include "core/colorlut.h"
 #include "core/output.h"
 #include "core/renderloop_p.h"
+#include "drm_blob.h"
 #include "drm_connector.h"
 #include "drm_plane.h"
 
@@ -28,7 +29,6 @@ namespace KWin
 class DrmGpu;
 class DrmConnector;
 class DrmCrtc;
-class GammaRamp;
 class DrmConnectorMode;
 class DrmPipelineLayer;
 class DrmOverlayLayer;
@@ -37,16 +37,29 @@ class DrmGammaRamp
 {
 public:
     DrmGammaRamp(DrmCrtc *crtc, const std::shared_ptr<ColorTransformation> &transformation);
-    DrmGammaRamp(DrmCrtc *crtc, const Output::ColorCurves colorCurves);
-    ~DrmGammaRamp();
+    DrmGammaRamp(DrmCrtc *crtc, const Output::ColorCurves &colorCurves);
 
     const ColorLUT &lut() const;
-    uint32_t blobId() const;
+    std::shared_ptr<DrmBlob> blob() const;
 
 private:
-    DrmGpu *m_gpu;
+    void init(DrmCrtc *crtc);
+
     const ColorLUT m_lut;
-    uint32_t m_blobId = 0;
+    std::shared_ptr<DrmBlob> m_blob;
+};
+
+class DrmCTM
+{
+public:
+    DrmCTM(DrmCrtc *crtc, const Output::CtmValue &ctmValue);
+
+    const Output::CtmValue &ctmValue() const;
+    std::shared_ptr<DrmBlob> blob() const;
+
+private:
+    const Output::CtmValue m_ctmValue;
+    std::shared_ptr<DrmBlob> m_blob;
 };
 
 class DrmPipeline
@@ -78,7 +91,7 @@ public:
     void applyPendingChanges();
     void revertPendingChanges();
     bool needUpdateBrightness();
-    bool needCTM();
+    bool needUpdateCTM();
 
     bool setCursor(const QPoint &hotspot = QPoint());
     bool moveCursor();
@@ -184,8 +197,6 @@ private:
     bool m_pageflipPending = false;
     bool m_modesetPresentPending = false;
 
-    bool m_ctmEnabled = false;
-
     struct State
     {
         DrmCrtc *crtc = nullptr;
@@ -197,12 +208,10 @@ private:
         uint32_t overscan = 0;
         Output::RgbRange rgbRange = Output::RgbRange::Automatic;
         RenderLoopPrivate::SyncMode syncMode = RenderLoopPrivate::SyncMode::Fixed;
-        std::shared_ptr<ColorTransformation> colorTransformation;
         std::shared_ptr<DrmGammaRamp> gamma;
+        std::shared_ptr<DrmCTM> ctm;
         DrmConnector::DrmContentType contentType = DrmConnector::DrmContentType::Graphics;
         int32_t brightness = -1;
-        Output::CtmValue ctmValue;
-        Output::ColorCurves colorCurves;
 
         std::shared_ptr<DrmPipelineLayer> layer;
         std::shared_ptr<DrmOverlayLayer> cursorLayer;

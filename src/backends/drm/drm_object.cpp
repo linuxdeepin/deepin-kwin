@@ -62,6 +62,15 @@ bool DrmObject::initProps()
     return true;
 }
 
+void DrmObject::disable()
+{
+    for (const auto &prop : std::as_const(m_props)) {
+        if (prop && prop->isBlob()) {
+            prop->setPending(0);
+        }
+    }
+}
+
 bool DrmObject::atomicPopulate(drmModeAtomicReq *req) const
 {
     for (const auto &property : std::as_const(m_props)) {

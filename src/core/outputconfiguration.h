@@ -18,26 +18,33 @@
 namespace KWin
 {
 
-class KWIN_EXPORT OutputChangeSet
+struct KWIN_EXPORT OutputChangeSet
 {
-public:
-    std::weak_ptr<OutputMode> mode;
-    bool enabled;
-    QPoint pos;
-    float scale;
-    Output::Transform transform;
-    uint32_t overscan;
-    Output::RgbRange rgbRange;
-    RenderLoop::VrrPolicy vrrPolicy;
-    int32_t brightness;
-    Output::CtmValue ctmValue;
-    Output::ColorCurves colorCurves;
+    std::optional<std::weak_ptr<OutputMode>> mode;
+    std::optional<bool> enabled;
+    std::optional<QPoint> pos;
+    std::optional<float> scale;
+    std::optional<Output::Transform> transform;
+    std::optional<uint32_t> overscan;
+    std::optional<Output::RgbRange> rgbRange;
+    std::optional<RenderLoop::VrrPolicy> vrrPolicy;
+    std::optional<int32_t> brightness;
+    std::optional<Output::CtmValue> ctmValue;
+    std::optional<Output::ColorCurves> colorCurves;
 };
 
 class KWIN_EXPORT OutputConfiguration
 {
 public:
+    /**
+    * @brief Fetch a writable changeset to record output's configuration
+    * @return if no output was found, create a "no value" record in need
+    */
     std::shared_ptr<OutputChangeSet> changeSet(Output *output);
+    /**
+     * @brief Fetch a read-only changeset to retrieve output's configuration
+     * @return return nullptr if no output was found
+     */
     std::shared_ptr<OutputChangeSet> constChangeSet(Output *output) const;
     void reset();
 

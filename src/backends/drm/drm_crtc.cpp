@@ -25,6 +25,12 @@ DrmCrtc::DrmCrtc(DrmGpu *gpu, uint32_t crtcId, int pipeIndex, DrmPlane *primaryP
     , m_primaryPlane(primaryPlane)
     , m_cursorPlane(cursorPlane)
 {
+    if (gpu->isHisi()) {
+        m_ctmEnabled = (qEnvironmentVariableIntValue("KWIN_CTM_DISABLED") == 1) ? false : true;
+    } else {
+        //非华为机器默认关闭，遗留后续解决。初步推断是驱动问题导致
+        m_ctmEnabled = qEnvironmentVariableIntValue("KWIN_CTM_ENABLED") == 1;
+    }
 }
 
 bool DrmCrtc::init()
@@ -95,11 +101,7 @@ DrmPlane *DrmCrtc::cursorPlane() const
 
 void DrmCrtc::disable()
 {
-    if (m_ctm) {
-        drmModeDestroyPropertyBlob(gpu()->fd(), m_ctm);
-        m_ctm = 0;
-        setPending(PropertyIndex::CTM, m_ctm);
-    }
+    DrmObject::disable();
     setPending(PropertyIndex::Active, 0);
     setPending(PropertyIndex::ModeId, 0);
 }
@@ -116,22 +118,9 @@ void DrmCrtc::releaseBuffers()
 
 bool DrmCrtc::hasCTM() const
 {
-    return getProp(PropertyIndex::CTM);
-}
-
-void DrmCrtc::setCTM(uint16_t r, uint16_t g, uint16_t b) {
-    if (gpu()->atomicModeSetting()) {
-        drm_color_ctm blob = {
-            .matrix = {
-                r, 0, 0,
-                0, g, 0,
-                0, 0, b}};
-        auto tmp = m_ctm;
-        if (drmModeCreatePropertyBlob(gpu()->fd(), &blob, sizeof(blob), &m_ctm) == 0) {
-            setPending(DrmCrtc::PropertyIndex::CTM, m_ctm);
-            if (tmp)
-                drmModeDestroyPropertyBlob(gpu()->fd(), tmp);
-        }
+    if (!m_ctmEnabled) {
+        return false;
     }
+    return getProp(PropertyIndex::CTM);
 }
 }

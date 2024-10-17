@@ -889,18 +889,25 @@ void Workspace::updateOutputConfiguration()
             } else {
                 outputOrder.push_back(std::make_pair(0, output));
             }
-            const QJsonObject pos = outputInfo["pos"].toObject();
-            props->pos = QPoint(pos["x"].toInt(), pos["y"].toInt());
-            qCDebug(KWIN_CORE) << "Reading output configuration for " << output << " pos " << props->pos << " current pos " << output->geometry().topLeft();
+            if (const QJsonObject pos = outputInfo["pos"].toObject(); !pos.isEmpty()) {
+                props->pos = QPoint(pos["x"].toInt(), pos["y"].toInt());
+            }
+            qCDebug(KWIN_CORE) << "Reading output configuration for " << output << " pos " << *props->pos << " current pos " << output->geometry().topLeft();
             if (const QJsonValue scale = outputInfo["scale"]; !scale.isUndefined()) {
                 props->scale = scale.toDouble(1.);
             }
-            props->transform = KWinKScreenIntegration::toDrmTransform(outputInfo["rotation"].toInt());
-
-            props->overscan = static_cast<uint32_t>(outputInfo["overscan"].toInt(props->overscan));
-            props->vrrPolicy = static_cast<RenderLoop::VrrPolicy>(outputInfo["vrrpolicy"].toInt(static_cast<uint32_t>(props->vrrPolicy)));
-            props->rgbRange = static_cast<Output::RgbRange>(outputInfo["rgbrange"].toInt(static_cast<uint32_t>(props->rgbRange)));
-            props->brightness = static_cast<int32_t>(outputInfo["brightness"].toInt(static_cast<int32_t>(props->brightness)));
+            if (const QJsonValue rotation = outputInfo["rotation"]; !rotation.isUndefined()) {
+                props->transform = KWinKScreenIntegration::toDrmTransform(rotation.toInt());
+            }
+            if (const QJsonValue overscan = outputInfo["overscan"]; !overscan.isUndefined()) {
+                props->overscan = outputInfo["overscan"].toInt();
+            }
+            if (const QJsonValue vrrpolicy = outputInfo["vrrpolicy"]; !vrrpolicy.isUndefined()) {
+                props->vrrPolicy = static_cast<RenderLoop::VrrPolicy>(vrrpolicy.toInt());
+            }
+            if (const QJsonValue rgbrange = outputInfo["rgbrange"]; !rgbrange.isUndefined()) {
+                props->rgbRange = static_cast<Output::RgbRange>(rgbrange.toInt());
+            }
 
             if (const QJsonObject modeInfo = outputInfo["mode"].toObject(); !modeInfo.isEmpty()) {
                 if (auto mode = KWinKScreenIntegration::parseMode(output, modeInfo)) {
@@ -917,22 +924,26 @@ void Workspace::updateOutputConfiguration()
                 props->pos = pos;
                 props->transform = output->panelOrientation();
             }
-            qCDebug(KWIN_CORE) << "Reading none configuration for " << output << " pos " << props->pos << " current pos " << output->geometry().topLeft();
+            qCDebug(KWIN_CORE) << "Reading none configuration for " << output << " pos " << *props->pos << " current pos " << output->geometry().topLeft();
             outputOrder.push_back(std::make_pair(0, output));
         }
         pos.setX(pos.x() + output->geometry().width());
     }
-    bool allDisabled = std::all_of(outputs.begin(), outputs.end(), [&cfg](const auto &output) {
-        return !cfg.changeSet(output)->enabled;
+    const bool allDisabled = !std::any_of(outputs.begin(), outputs.end(), [&cfg](const auto &output) {
+        const auto changeset = cfg.constChangeSet(output);
+        if (changeset && changeset->enabled.has_value()) {
+            return *changeset->enabled;
+        } else {
+            return output->isEnabled();
+        }
     });
     if (allDisabled) {
         qCWarning(KWIN_CORE) << "KScreen config would disable all outputs!";
         setFallbackOutputOrder();
         return;
     }
-    std::vector<std::pair<uint32_t, Output *>>::iterator it;
-    for (it = outputOrder.begin(); it != outputOrder.end();) {
-        if (!cfg.constChangeSet(it->second)->enabled) {
+    for (auto it = outputOrder.begin(); it != outputOrder.end();) {
+        if (!cfg.constChangeSet(it->second)->enabled.value_or(it->second->isEnabled())) {
             it = outputOrder.erase(it);
         } else {
             ++it;

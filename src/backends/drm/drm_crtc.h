@@ -9,6 +9,7 @@
 #pragma once
 
 #include "drm_object.h"
+#include "core/output.h"
 
 #include <QPoint>
 #include <memory>
@@ -19,7 +20,6 @@ namespace KWin
 class DrmBackend;
 class DrmFramebuffer;
 class DrmDumbBuffer;
-class GammaRamp;
 class DrmGpu;
 class DrmPlane;
 
@@ -55,7 +55,6 @@ public:
     void releaseBuffers();
 
     bool hasCTM() const;
-    void setCTM(uint16_t r, uint16_t g, uint16_t b);
 
 private:
     DrmUniquePtr<drmModeCrtc> m_crtc;
@@ -64,7 +63,7 @@ private:
     int m_pipeIndex;
     DrmPlane *m_primaryPlane;
     DrmPlane *m_cursorPlane;
-    uint32_t m_ctm = 0;
+    bool m_ctmEnabled = false;
 };
 
 }
