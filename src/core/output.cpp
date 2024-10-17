@@ -47,8 +47,14 @@ bool Output::CtmValue::operator==(const CtmValue &cc) const
     return r == cc.r && g == cc.g && b == cc.b;
 }
 
-bool Output::CtmValue::operator!=(const CtmValue &cc) const {
+bool Output::CtmValue::operator!=(const CtmValue &cc) const
+{
     return !operator==(cc);
+}
+
+Output::CtmValue::operator bool() const
+{
+    return operator!=(Output::CtmValue{0,0,0});
 }
 
 bool Output::ColorCurves::operator==(const ColorCurves &cc) const
@@ -59,6 +65,11 @@ bool Output::ColorCurves::operator==(const ColorCurves &cc) const
 bool Output::ColorCurves::operator!=(const ColorCurves &cc) const
 {
     return !operator==(cc);
+}
+
+Output::ColorCurves::operator bool() const
+{
+    return operator!=(Output::ColorCurves{{0},{0},{0}});
 }
 
 OutputMode::OutputMode(const QSize &size, uint32_t refreshRate, Flags flags)
@@ -252,19 +263,23 @@ Output::ChangedFlags Output::changedFlags() const
 void Output::applyChanges(const OutputConfiguration &config)
 {
     auto props = config.constChangeSet(this);
+    if (!props) {
+        return;
+    }
     Q_EMIT aboutToChange();
 
     State next = m_state;
-    next.enabled = props->enabled;
-    next.transform = props->transform;
-    next.position = props->pos;
-    next.scale = props->scale;
-    next.rgbRange = props->rgbRange;
-    next.brightness = props->brightness;
-    next.ctmValue = props->ctmValue;
+    next.enabled = props->enabled.value_or(m_state.enabled);
+    next.transform = props->transform.value_or(m_state.transform);
+    next.position = props->pos.value_or(m_state.position);
+    next.scale = props->scale.value_or(m_state.scale);
+    next.rgbRange = props->rgbRange.value_or(m_state.rgbRange);
+    next.brightness = props->brightness.value_or(m_state.brightness);
+    next.ctmValue = props->ctmValue.value_or(m_state.ctmValue);
+    next.colorCurves = props->colorCurves.value_or(m_state.colorCurves);
 
     setState(next);
-    setVrrPolicy(props->vrrPolicy);
+    setVrrPolicy(props->vrrPolicy.value_or(vrrPolicy()));
 
     Q_EMIT changed();
 }
