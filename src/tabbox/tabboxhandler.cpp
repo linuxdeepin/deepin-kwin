@@ -31,11 +31,18 @@
 #include <QTimer>
 #include <QUuid>
 #include <qpa/qwindowsysteminterface.h>
+#include <QOpenGLContext>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <private/qtx11extras_p.h>
+#else
+#include <QX11Info>
+#endif
 // KDE
 #include <KLocalizedString>
 #include <KPackage/Package>
 #include <KPackage/PackageLoader>
 #include <KProcess>
+#include <QtPlatformHeaders/QGLXNativeContext>
 
 namespace KWin
 {
@@ -449,6 +456,19 @@ void TabBoxHandler::hide(bool abort)
     }
 #endif
     if (QQuickWindow *w = d->window()) {
+        // 获取上下文
+        QOpenGLContext *context = w->openglContext();
+        if (context) {
+
+            QVariant nativehande = context->nativeHandle();
+
+            QGLXNativeContext handle = nativehande.value<QGLXNativeContext>();
+            GLXContext glcontext = handle.context();
+            if (glcontext && QX11Info::display()) {
+                glXMakeContextCurrent(QX11Info::display(), 0,0, glcontext);
+                context->doneCurrent();
+            }
+        }
         w->hide();
         w->destroy();
     }
