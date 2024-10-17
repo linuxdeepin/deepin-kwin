@@ -334,7 +334,9 @@ void XdgSurfaceWindow::moveResizeInternal(const QRectF &rect, MoveResizeMode mod
         }
         m_configureFlags.setFlag(XdgSurfaceConfigure::ConfigurePosition, false);
         if (size() != rect.size()) {
-            return;
+            if (auto toplevelwindow = qobject_cast<const XdgToplevelWindow *>(this)) {
+                return ;
+            }
         }
         updateGeometry(QRectF(rect.topLeft(), size()));
     }
@@ -2226,6 +2228,9 @@ QRectF XdgPopupWindow::transientPlacement(const QRectF &bounds) const
     const XdgPositioner positioner = m_shellSurface->positioner();
 
     const QSize desiredSize = positioner.size();
+    if (m_plasmaShellSurface && m_plasmaShellSurface->isPositionSet()) {
+        return QRectF(m_plasmaShellSurface->position(), desiredSize);
+    }
 
     const QPointF parentPosition = transientFor()->framePosToClientPos(transientFor()->pos());
 
