@@ -105,6 +105,7 @@ public:
         uint16_t b = 0;
         bool operator==(const CtmValue &cv) const;
         bool operator!=(const CtmValue &cv) const;
+        operator bool() const;
     };
 
     struct ColorCurves {
@@ -113,6 +114,7 @@ public:
         QVector<quint16> blue;
         bool operator==(const ColorCurves &cc) const;
         bool operator!=(const ColorCurves &cc) const;
+        operator bool() const;
     };
 
     struct shm_rp_buffer {
