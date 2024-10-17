@@ -618,7 +618,7 @@ void PlasmaWindowInterfacePrivate::setGeometry(const QRect &geo)
         return;
     }
     geometry = geo;
-    if (!geometry.isValid() || (geometry.x() == -1 || geometry.y() == -1)) {
+    if (!geometry.isValid()) {
         return;
     }
 

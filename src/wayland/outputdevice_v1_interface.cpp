@@ -88,7 +88,7 @@ public:
     KWin::Output *m_handle;
 
     QSize m_physicalSize;
-    QPoint m_globalPosition = QPoint(-1, -1);
+    QPoint m_globalPosition;
     QString m_manufacturer = QStringLiteral("org.kde.kwin");
     QString m_model = QStringLiteral("none");
     qreal m_scale = 1.0;
@@ -286,11 +286,6 @@ void OutputDeviceInterfacePrivate::sendCurrentMode(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendGeometry(Resource *resource)
 {
-    // The output's geometry changed won't be detected early enough, lead to blink wen plugin new screen
-    // Thus we just ignore the special uninitialized value
-    if (m_globalPosition != QPoint(-1, -1)) {
-        return;
-    }
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
             << " m_manufacturer " << m_manufacturer << " m_model " << m_model
             << " position " << m_globalPosition << " psize " << m_physicalSize;
