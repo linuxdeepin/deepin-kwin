@@ -18,7 +18,7 @@ namespace KWaylandServer
 class RemoteAccessManagerInterfacePrivate;
 class Display;
 class OutputInterface;
-class BufferHandlePrivate;
+struct BufferHandlePrivate;
 
 /**
  * The structure server should fill to use this interface.
@@ -40,11 +40,11 @@ class KWIN_EXPORT BufferHandle : public QObject
 public:
     explicit BufferHandle();
     virtual ~BufferHandle();
-    void setFd(qint32 fd);
-    void setSize(quint32 width, quint32 height);
-    void setStride(quint32 stride);
-    void setFormat(quint32 format);
-    void setFrame(qint32 frame);
+    BufferHandle &setFd(qint32 fd);
+    BufferHandle &setSize(quint32 width, quint32 height);
+    BufferHandle &setStride(quint32 stride);
+    BufferHandle &setFormat(quint32 format);
+    BufferHandle &setFrame(qint32 frame);
 
     qint32 fd() const;
     quint32 height() const;

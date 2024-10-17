@@ -67,14 +67,8 @@ RemoteAccessManager::~RemoteAccessManager()
 void RemoteAccessManager::releaseBuffer(const BufferHandle *buf)
 {
     if (!buf) {
-        qCWarning(KWIN_DRM) << "buf is already released.";
+        qCWarning(KWIN_CORE) << "buf is already released.";
         return;
-    }
-    if (buf->fd() != -1) {
-        int ret = close(buf->fd());
-        if (Q_UNLIKELY(ret)) {
-            qCWarning(KWIN_DRM) << "Couldn't close released GBM fd:" << strerror(errno);
-        }
     }
     m_gbmBufferList.erase(buf);
     delete buf;
@@ -111,8 +105,6 @@ void RemoteAccessManager::passGbmBuffer(Output *output, std::shared_ptr<GbmBuffe
     if (!bo) {
         return;
     }
-
-    //qCWarning(KWIN_DRM) << __func__ << output << gbmbuf;
 
     auto buf = new BufferHandle;
     buf->setSize(gbm_bo_get_width(bo), gbm_bo_get_height(bo));

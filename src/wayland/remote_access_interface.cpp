@@ -22,20 +22,28 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-#define MAX_BUFFERS_SIZE 100
-#define REMOVE_BUFFERS_SIZE 10
-#define REMOVE_BUFFERS_SECOND 5
-
 namespace KWaylandServer
 {
+
+using namespace std::chrono;
+using namespace std::chrono_literals;
 
 static const QString SCREEN_RECORDING_START = QStringLiteral("screenRecordingStart");
 static const QString SCREEN_RECORDING_FINISHED = QStringLiteral("screenRecordingStop");
 static QObject gsScreenRecord;
 
-class BufferHandlePrivate // @see gbm_import_fd_data
+static constexpr int MAX_BUFFERS_SIZE = 100;
+static constexpr auto KEEP_ALIVE_SECOND = 5s;
+
+struct BufferHandlePrivate // @see gbm_import_fd_data
 {
-public:
+    ~BufferHandlePrivate() {
+        if (fd != -1) {
+            if (Q_UNLIKELY(close(fd))) {
+                qCWarning(KWIN_CORE) << "Couldn't close released fd:" << strerror(errno);
+            }
+        }
+    }
     // Note that on client side received fd number will be different
     // and meaningful only for client process!
     // Thus we can use server-side fd as an implicit unique id
@@ -57,12 +65,13 @@ BufferHandle::~BufferHandle()
 {
 }
 
-void BufferHandle::setFd(qint32 fd)
+BufferHandle &BufferHandle::setFd(qint32 fd)
 {
     if (d == nullptr || d.isNull()) {
-        return;
+        return *this;
     }
     d->fd = fd;
+    return *this;
 }
 
 qint32 BufferHandle::fd() const
@@ -73,10 +82,11 @@ qint32 BufferHandle::fd() const
     return d->fd;
 }
 
-void BufferHandle::setSize(quint32 width, quint32 height)
+BufferHandle &BufferHandle::setSize(quint32 width, quint32 height)
 {
     d->width = width;
     d->height = height;
+    return *this;
 }
 
 quint32 BufferHandle::width() const
@@ -89,9 +99,10 @@ quint32 BufferHandle::height() const
     return d->height;
 }
 
-void BufferHandle::setStride(quint32 stride)
+BufferHandle &BufferHandle::setStride(quint32 stride)
 {
     d->stride = stride;
+    return *this;
 }
 
 quint32 BufferHandle::stride() const
@@ -99,9 +110,10 @@ quint32 BufferHandle::stride() const
     return d->stride;
 }
 
-void BufferHandle::setFormat(quint32 format)
+BufferHandle &BufferHandle::setFormat(quint32 format)
 {
     d->format = format;
+    return *this;
 }
 
 quint32 BufferHandle::format() const
@@ -109,9 +121,10 @@ quint32 BufferHandle::format() const
     return d->format;
 }
 
-void BufferHandle::setFrame(qint32 frame)
+BufferHandle &BufferHandle::setFrame(qint32 frame)
 {
     d->frame = frame;
+    return *this;
 }
 
 qint32 BufferHandle::frame() const
@@ -122,12 +135,13 @@ qint32 BufferHandle::frame() const
 /**
  * @brief helper struct for manual reference counting.
  * automatic counting via QSharedPointer is no-go here as we hold strong reference in sentBuffers.
+ * @note must be copyable
  */
 struct BufferHolder
 {
-    BufferHandle *buf = nullptr;
+    BufferHandle *buf = nullptr; ///< this pointer use to string reference the allocated buf in heap. should only be destroy by org_kde_kwin_remote_access_manager_release request.
     quint64 counter = 0;
-    struct timeval lifetime;
+    seconds lifetime = 0s;
 };
 
 class RemoteAccessManagerInterfacePrivate : public QtWaylandServer::org_kde_kwin_remote_access_manager
@@ -161,10 +175,15 @@ private:
 
     /**
      * @brief Unreferences counter and frees buffer when it reaches zero
-     * @param buf holder to decrease reference counter on
+     * @param bh holder to decrease reference counter on
      * @return true if buffer was released, false otherwise
      */
-    bool unref(BufferHolder &buf);
+    bool unref(BufferHolder &bh);
+    /**
+     * @brief Clear sent buffers, regardless of whether its refence count is 0 or not
+     * @param bh holder to be destroy
+     */
+    void remove(const BufferHolder &bh);
 
     static const quint32 s_version;
 
@@ -201,10 +220,8 @@ RemoteAccessManagerInterfacePrivate::RemoteAccessManagerInterfacePrivate(RemoteA
 
 void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface *output, BufferHandle *buf)
 {
-    BufferHolder holder{buf, 0};
-    gettimeofday(&holder.lifetime, NULL);
+    BufferHolder holder{buf, 0, duration_cast<seconds>(steady_clock::now().time_since_epoch())};
     // notify clients
-    //qCDebug(KWIN_CORE) << "Server buffer sent: fd" << buf->fd();
     for (auto res : resourceMap()) {
         auto client = wl_resource_get_client(res->handle);
         auto boundScreens = output->clientResources(display->getConnection(client));
@@ -240,28 +257,17 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
     // store buffer locally, clients will ask it later
     sentBuffers[buf->fd()] = holder;
 
-    int size = sentBuffers.size();
-    if (size > MAX_BUFFERS_SIZE)
-    {
-        QList<qint32> keys = sentBuffers.keys();
-        for (int i = 0; i < keys.size(); i++) {
-            int fd = keys[i];
-            if (!sentBuffers.contains(fd)) {
-                continue;
-            }
-            if (holder.lifetime.tv_sec - sentBuffers[fd].lifetime.tv_sec > REMOVE_BUFFERS_SECOND) {
-                if (size <= REMOVE_BUFFERS_SIZE) {
-                    break;
-                }
-                sentBuffers[fd].counter = 0;
-                if (sentBuffers[fd].buf)
-                    Q_EMIT q->bufferReleased(sentBuffers[fd].buf);
-                sentBuffers.remove(fd);
-                close(fd);
-                size--;
+    // NOTE: for applications which consume buffers too slow, simply close too old buffers to ensure kwin not quit.
+    //       In this circumstances, applications should handle the potential exception: fd has been closed by compositor.
+    if (Q_UNLIKELY(sentBuffers.size() > MAX_BUFFERS_SIZE)) {
+        const auto &fds = sentBuffers.keys();
+        for (qint32 fd : fds) {
+            // Remove buffers which are so old that they are unlikely to used by clients forcely.
+            if (holder.lifetime - sentBuffers[fd].lifetime > KEEP_ALIVE_SECOND) {
+                remove(sentBuffers[fd]);
             }
         }
-        qCDebug(KWIN_CORE) << "buffers over " << MAX_BUFFERS_SIZE << ",released.now size of buffers is " << size;
+        qCDebug(KWIN_CORE) << "Current buffer size over" << MAX_BUFFERS_SIZE <<", released forcely. Now buffer size is" << sentBuffers.size();
     }
 }
 
@@ -282,15 +288,20 @@ bool RemoteAccessManagerInterfacePrivate::unref(BufferHolder &bh)
     if (bh.counter != 0) {
         bh.counter--;
         if (bh.counter == 0) {
-            int fd = bh.buf->fd();
             // no more clients using this buffer
-            Q_EMIT q->bufferReleased(bh.buf);
-            sentBuffers.remove(fd);
+            remove(bh);
             return true;
         }
         return false;
     }
     return false;
+}
+
+void RemoteAccessManagerInterfacePrivate::remove(const BufferHolder &bh)
+{
+    int fd = bh.buf->fd();
+    Q_EMIT q->bufferReleased(bh.buf);
+    sentBuffers.remove(fd);
 }
 
 void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get_buffer(Resource *resource, uint32_t buffer, int32_t internal_buffer_id)
@@ -309,7 +320,7 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
     }
     wl_resource *RbiResource = wl_resource_create(resource->client(), &org_kde_kwin_remote_buffer_interface, resource->version(), buffer);
 
-    if (!RbiResource) {
+    if (Q_UNLIKELY(!RbiResource)) {
         qCDebug(KWIN_CORE) << resource->client() << buffer << internal_buffer_id;
         wl_client_post_no_memory(resource->client());
         return;
@@ -323,7 +334,6 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
             // all relevant buffers are already unreferenced
             return;
         }
-        //qCDebug(KWIN_CORE) << "Remote buffer returned, client" << wl_resource_get_id(resource->handle) << ", fd" << bh.buf->fd();
         unref(sentBuffers[internal_buffer_id]);
         gsScreenRecord.setObjectName(SCREEN_RECORDING_FINISHED);
     });
@@ -342,6 +352,8 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_rel
     lastFrames.remove(resource->handle);
     clientResources.removeAll(resource);
 
+    // erese all fds which are no longer used by clients and close them
+    std::for_each(sentBuffers.begin(), sentBuffers.end(), [this](BufferHolder& bh) { remove(bh); });
 
     wl_resource_destroy(resource->handle);
 }
