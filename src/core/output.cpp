@@ -244,6 +244,11 @@ Output::SubPixel Output::subPixel() const
     return m_information.subPixel;
 }
 
+Output::ChangedFlags Output::changedFlags() const
+{
+    return m_changedFlags;
+}
+
 void Output::applyChanges(const OutputConfiguration &config)
 {
     auto props = config.constChangeSet(this);
@@ -297,57 +302,57 @@ void Output::setState(const State &state)
 
     m_state = state;
 
-    bool isChanged = false;
     if (oldState.scale != state.scale) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::Scale;
         Q_EMIT scaleChanged();
     }
     if (oldState.modes != state.modes) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::Modes;
         Q_EMIT modesChanged();
     }
     if (oldState.currentMode != state.currentMode) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::CurrentMode;
         Q_EMIT currentModeChanged();
     }
     if (oldState.transform != state.transform) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::Transform;
         Q_EMIT transformChanged();
     }
     if (oldState.overscan != state.overscan) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::Overscan;
         Q_EMIT overscanChanged();
     }
     if (oldState.dpmsMode != state.dpmsMode) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::DpmsMode;
         Q_EMIT dpmsModeChanged();
     }
     if (oldState.rgbRange != state.rgbRange) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::RgbRange;
         Q_EMIT rgbRangeChanged();
     }
     if (oldState.enabled != state.enabled) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::Enable;
         Q_EMIT enabledChanged();
     }
     if (oldState.brightness != state.brightness) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::Brightness;
         Q_EMIT brightnessChanged();
     }
     if (oldState.ctmValue != state.ctmValue) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::Ctm;
         Q_EMIT ctmValueChanged();
     }
     if (oldState.colorCurves != state.colorCurves) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::ColorCurves;
         Q_EMIT colorCurvesChanged();
     }
     if (oldGeometry != geometry()) {
-        isChanged = true;
+        m_changedFlags |= ChangedFlag::Geometry;
         Q_EMIT geometryChanged();
     }
-    if (isChanged) {
+    if (m_changedFlags) {
         Q_EMIT doneChanged();
+        m_changedFlags = ChangedFlags();
     }
 }
 

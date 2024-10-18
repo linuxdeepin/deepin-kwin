@@ -112,6 +112,8 @@ public:
     void keepSupportProperty(xcb_atom_t atom);
     void removeSupportProperty(xcb_atom_t atom);
 
+    void freezeCompositing(int msec, bool check = true);
+
     /**
      * Whether Compositing is possible in the Platform.
      * Returning @c false in this method makes only sense if requiresCompositing returns @c false.
@@ -245,6 +247,7 @@ private:
     std::unique_ptr<RenderBackend> m_backend;
     QHash<RenderLoop *, RenderLayer *> m_superlayers;
     CompositingType m_selectedCompositor = NoCompositing;
+    QTimer m_freezeTimer;
     bool m_edgeSoftCursor = false;
     bool m_screenShotRunning = false;
     bool m_usesHardwareCursor = false;

@@ -254,6 +254,23 @@ public:
     Q_ENUM(Transform)
     Transform transform() const;
 
+    enum class ChangedFlag {
+        Scale = (1 << 0),
+        Modes = (1 << 1),
+        CurrentMode = (1 << 2),
+        Transform = (1 << 3),
+        Overscan = (1 << 4),
+        DpmsMode = (1 << 5),
+        RgbRange = (1 << 6),
+        Enable = (1 << 7),
+        Brightness = (1 << 8),
+        Ctm = (1 << 9),
+        ColorCurves = (1 << 10),
+        Geometry = (1 << 11)
+    };
+    Q_DECLARE_FLAGS(ChangedFlags, Output::ChangedFlag)
+
+    ChangedFlags changedFlags() const;
     void applyChanges(const OutputConfiguration &config);
 
     SubPixel subPixel() const;
@@ -410,6 +427,7 @@ protected:
     EffectScreenImpl *m_effectScreen = nullptr;
     State m_state;
     Information m_information;
+    ChangedFlags m_changedFlags = ChangedFlags();
     QUuid m_uuid;
     int m_directScanoutCount = 0;
     int m_refCount = 1;
