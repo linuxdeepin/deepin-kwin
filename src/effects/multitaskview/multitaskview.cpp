@@ -3856,6 +3856,9 @@ void MultitaskViewEffect::changeCurrentDesktop(int desktop)
     m_hoverWin = nullptr;
     m_flyingWinList.clear();
 
+    if (effects->numberOfDesktops() == 1)
+        return;
+
     //sliding
     m_bgSlidingStatus = true;
     m_bgSlidingTimeLine.reset();
