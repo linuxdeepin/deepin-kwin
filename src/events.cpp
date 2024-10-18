@@ -293,7 +293,7 @@ bool Workspace::workspaceEvent(xcb_generic_event_t *e)
     }
     case XCB_MAP_NOTIFY: {
         const auto *event = reinterpret_cast<xcb_map_notify_event_t *>(e);
-        if (event->override_redirect) {
+        if (event->override_redirect && event->event == kwinApp()->x11RootWindow()) {
             Unmanaged *window = findUnmanaged(event->window);
             if (window == nullptr) {
                 window = createUnmanaged(event->window);
