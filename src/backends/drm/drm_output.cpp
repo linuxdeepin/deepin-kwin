@@ -363,9 +363,7 @@ void DrmOutput::updateModes()
         }
     }
 
-    if (!next.currentMode) {
-        next.currentMode = m_pipeline->mode();
-    }
+    next.currentMode = m_pipeline->mode();
     if (!next.currentMode) {
         next.currentMode = next.modes.constFirst();
     }
