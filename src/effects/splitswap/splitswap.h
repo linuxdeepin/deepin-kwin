@@ -13,6 +13,7 @@
 #include <kwineffectsex.h>
 #include "../utils/common.h"
 
+class QDBusInterface;
 namespace KWin
 {
 class SplitSwapEffect : public Effect
@@ -35,6 +36,7 @@ private:
     bool isRelevantWithPresentWindows(EffectWindow *w) const;
     void resetWinPos(EffectWindow *w, QuickTileMode mode);
     int paintWinPos(EffectWindow *w, QuickTileMode mode, int calculationMethod);
+    void initDBusInterfaces();
     void initTextureMask();
 public Q_SLOTS:
     void setActive(bool active);
@@ -57,6 +59,8 @@ private:
     QuickTileMode               m_currentMode;
     std::chrono::milliseconds   lastPresentTime;
     std::map<QString, GLTexture*> m_bgTextures;
+    QDBusInterface              *m_wmInterface = nullptr;
+    QDBusInterface              *m_imageBlurInterface = nullptr;
 };
 }
 

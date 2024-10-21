@@ -12,13 +12,11 @@
 #include <kwineffects.h>
 #include <kwineffectsex.h>
 #include "kwinoffscreenquickview.h"
-#include <QQuickView>
 
 class QQuickView;
-
+class QDBusInterface;
 namespace KWin
 {
-
 class SplitPreviewEffect : public Effect
 {
     Q_OBJECT
@@ -50,6 +48,7 @@ private:
     void removeWindowReLayout(EffectWindow *w);
     void inhibit();
     void uninhibit();
+    void initDBusInterfaces();
     void initTextureMask();
 
 public Q_SLOTS:
@@ -74,6 +73,8 @@ private:
     QList<EffectWindow *>           m_unPreviewWin;
     int                          m_inhibitCount = 0;
     std::map<QString, GLTexture*> m_bgTextures;
+    QDBusInterface               *m_wmInterface = nullptr;
+    QDBusInterface               *m_imageBlurInterface = nullptr;
 };
 }
 #endif

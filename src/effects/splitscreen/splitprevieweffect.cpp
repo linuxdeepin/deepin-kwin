@@ -11,8 +11,12 @@
 #include <effects.h>
 #include "workspace.h"
 #include <QWindow>
+#include <QQuickView>
 #include <QKeyEvent>
-#include <QtDBus>
+#include <QDBusReply>
+#include <QDBusInterface>
+#include <QUrl>
+#include <QFileInfo>
 
 #define BRIGHTNESS          0.4
 #define FIRST_WIN_SCALE     (float)(720.0 / 1080.0)
@@ -26,7 +30,8 @@
 namespace KWin
 {
 SplitPreviewEffect::SplitPreviewEffect()
-    : lastPresentTime(std::chrono::milliseconds::zero())
+    : Effect()
+    , lastPresentTime(std::chrono::milliseconds::zero())
 {
     connect(effectsEx, &EffectsHandlerEx::triggerSplitPreview, this, &SplitPreviewEffect::toggle);
     connect(effects, &EffectsHandler::windowFrameGeometryChanged, this, &SplitPreviewEffect::slotWindowGeometryChanged);
@@ -204,14 +209,26 @@ void SplitPreviewEffect::toggle(KWin::EffectWindow *w)
     }
 }
 
+void SplitPreviewEffect::initDBusInterfaces()
+{
+    if (!m_wmInterface || !m_wmInterface->isValid()) {
+        m_wmInterface = new QDBusInterface("com.deepin.wm", "/com/deepin/wm", "com.deepin.wm", QDBusConnection::sessionBus(), this);
+        m_wmInterface->setTimeout(100);
+    }
+    if (!m_imageBlurInterface || !m_imageBlurInterface->isValid()) {
+        m_imageBlurInterface = new QDBusInterface(DBUS_IMAGEEFFECT_SERVICE, DBUS_BLUR_OBJ, DBUS_BLUR_INTF, QDBusConnection::systemBus(), this);
+        m_imageBlurInterface->setTimeout(100);
+    }
+}
+
 void SplitPreviewEffect::initTextureMask()
 {
+    initDBusInterfaces();
     for (Output *output : workspace()->outputs()) {
         EffectScreen *effectScreen = effectsEx->findScreen(output);
         QString screenName = effectScreen->name();
         QString backgroundUrl;
-        QDBusInterface wmInterface("com.deepin.wm", "/com/deepin/wm", "com.deepin.wm");
-        QDBusReply<QString> getReply = wmInterface.call("GetCurrentWorkspaceBackgroundForMonitor", screenName);
+        QDBusReply<QString> getReply = m_wmInterface->call("GetCurrentWorkspaceBackgroundForMonitor", screenName);
         if (!getReply.value().isEmpty()) {
             backgroundUrl = getReply.value();
         } else {
@@ -220,9 +237,7 @@ void SplitPreviewEffect::initTextureMask()
         }
         backgroundUrl = toRealPath(backgroundUrl);
 
-        QDBusInterface imageBlurInterface(DBUS_IMAGEEFFECT_SERVICE, DBUS_BLUR_OBJ, DBUS_BLUR_INTF, QDBusConnection::systemBus());
-        imageBlurInterface.setTimeout(100);
-        QDBusReply<QString> blurReply = imageBlurInterface.call("Get", backgroundUrl);
+        QDBusReply<QString> blurReply = m_imageBlurInterface->call("Get", backgroundUrl);
         QString imageUrl;
         if (!blurReply.value().isEmpty()) {
             imageUrl = blurReply.value();
