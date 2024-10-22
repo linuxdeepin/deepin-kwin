@@ -629,6 +629,8 @@ public:
     void setDebugPixmaState(int state) { m_debugPixmapState = state; }
     int getDebugPixmapState() { return m_debugPixmapState; }
 
+    void resetInteractiveMoveResize();
+
 public Q_SLOTS:
     void performWindowOperation(KWin::Window *window, Options::WindowOperation op);
     // Keybindings
