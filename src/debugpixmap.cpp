@@ -113,6 +113,7 @@ void DebugPixmap::saveImageFromXorg(xcb_window_t winid)
     }
     img.save(QString("/tmp/%1-fromXorg.png").arg(winid), "PNG", 100);
     free(m_gi_reply);
+    xcb_disconnect(connection);
 }
 
 void DebugPixmap::saveCompositePixmap()

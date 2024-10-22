@@ -1483,6 +1483,7 @@ void Workspace::slotActivateAttentionWindow()
 void Workspace::slotWindowToDesktop(VirtualDesktop *desktop)
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         sendWindowToDesktop(m_activeWindow, desktop->x11DesktopNumber(), true);
     }
 }
@@ -1552,6 +1553,7 @@ void Workspace::slotSwitchToNextScreen()
 void Workspace::slotWindowToScreen(Output *output)
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         sendWindowToOutput(m_activeWindow, output);
     }
 }
@@ -1559,6 +1561,7 @@ void Workspace::slotWindowToScreen(Output *output)
 void Workspace::slotWindowToLeftScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionWest, true));
     }
 }
@@ -1566,6 +1569,7 @@ void Workspace::slotWindowToLeftScreen()
 void Workspace::slotWindowToRightScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionEast, true));
     }
 }
@@ -1573,6 +1577,7 @@ void Workspace::slotWindowToRightScreen()
 void Workspace::slotWindowToAboveScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionNorth, true));
     }
 }
@@ -1580,6 +1585,7 @@ void Workspace::slotWindowToAboveScreen()
 void Workspace::slotWindowToBelowScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionSouth, true));
     }
 }
@@ -1587,6 +1593,7 @@ void Workspace::slotWindowToBelowScreen()
 void Workspace::slotWindowToPrevScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionPrev, true));
     }
 }
@@ -1594,6 +1601,7 @@ void Workspace::slotWindowToPrevScreen()
 void Workspace::slotWindowToNextScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         sendWindowToOutput(m_activeWindow, findOutput(m_activeWindow->output(), Direction::DirectionNext, true));
     }
 }
@@ -1604,6 +1612,7 @@ void Workspace::slotWindowToNextScreen()
 void Workspace::slotWindowMaximize()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::MaximizeOp);
     }
 }
@@ -1614,6 +1623,7 @@ void Workspace::slotWindowMaximize()
 void Workspace::slotWindowMaximizeVertical()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::VMaximizeOp);
     }
 }
@@ -1621,6 +1631,7 @@ void Workspace::slotWindowMaximizeVertical()
 void Workspace::slotWindowMaximizeByShortcut()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         m_activeWindow->maximize(MaximizeFull);
         takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
     }
@@ -1629,6 +1640,7 @@ void Workspace::slotWindowMaximizeByShortcut()
 void Workspace::slotWindowUnMaximizeByShortcut()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         m_activeWindow->maximize(MaximizeRestore);
         takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
     }
@@ -1640,6 +1652,7 @@ void Workspace::slotWindowUnMaximizeByShortcut()
 void Workspace::slotWindowMaximizeHorizontal()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::HMaximizeOp);
     }
 }
@@ -1650,6 +1663,7 @@ void Workspace::slotWindowMaximizeHorizontal()
 void Workspace::slotWindowMinimize()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::MinimizeOp);
     }
 }
@@ -1660,6 +1674,7 @@ void Workspace::slotWindowMinimize()
 void Workspace::slotWindowShade()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::ShadeOp);
     }
 }
@@ -1670,6 +1685,7 @@ void Workspace::slotWindowShade()
 void Workspace::slotWindowRaise()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         raiseWindow(m_activeWindow);
     }
 }
@@ -1680,6 +1696,7 @@ void Workspace::slotWindowRaise()
 void Workspace::slotWindowLower()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         lowerWindow(m_activeWindow);
         // As this most likely makes the window no longer visible change the
         // keyboard focus to the next available window.
@@ -1703,6 +1720,7 @@ void Workspace::slotWindowLower()
 void Workspace::slotWindowRaiseOrLower()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         raiseOrLowerWindow(m_activeWindow);
     }
 }
@@ -1710,6 +1728,7 @@ void Workspace::slotWindowRaiseOrLower()
 void Workspace::slotWindowOnAllDesktops()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         m_activeWindow->setOnAllDesktops(!m_activeWindow->isOnAllDesktops());
     }
 }
@@ -1717,6 +1736,7 @@ void Workspace::slotWindowOnAllDesktops()
 void Workspace::slotWindowFullScreen()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::FullScreenOp);
     }
 }
@@ -1724,6 +1744,7 @@ void Workspace::slotWindowFullScreen()
 void Workspace::slotWindowNoBorder()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::NoBorderOp);
     }
 }
@@ -1731,6 +1752,7 @@ void Workspace::slotWindowNoBorder()
 void Workspace::slotWindowAbove()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::KeepAboveOp);
     }
 }
@@ -1738,12 +1760,14 @@ void Workspace::slotWindowAbove()
 void Workspace::slotWindowBelow()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::KeepBelowOp);
     }
 }
 void Workspace::slotSetupWindowShortcut()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::SetupWindowShortcutOp);
     }
 }
@@ -1758,12 +1782,18 @@ void Workspace::slotToggleShowDesktop()
 
 void windowToDesktop(Window *window, VirtualDesktopManager::Direction direction)
 {
+    if (window->isDesktop() || window->isDock()) {
+        return;
+    }
     VirtualDesktopManager *vds = VirtualDesktopManager::self();
     Workspace *ws = Workspace::self();
     // TODO: why is options->isRollOverDesktops() not honored?
     const auto desktop = vds->inDirection(nullptr, direction, true);
-    if (window && !window->isDesktop()
-        && !window->isDock()) {
+    if (ws->moveResizeWindow()) {
+        if (ws->moveResizeWindow() == window) {
+            vds->setCurrent(desktop);
+        }
+    } else {
         ws->setMoveResizeWindow(window);
         vds->setCurrent(desktop);
         ws->setMoveResizeWindow(nullptr);
@@ -1776,6 +1806,7 @@ void windowToDesktop(Window *window, VirtualDesktopManager::Direction direction)
 void Workspace::slotWindowToNextDesktop()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         windowToNextDesktop(m_activeWindow);
     }
 }
@@ -1791,6 +1822,7 @@ void Workspace::windowToNextDesktop(Window *window)
 void Workspace::slotWindowToPreviousDesktop()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         windowToPreviousDesktop(m_activeWindow);
     }
 }
@@ -1817,6 +1849,7 @@ void activeWindowToDesktop(VirtualDesktopManager::Direction direction)
 void Workspace::slotWindowToDesktopRight()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         activeWindowToDesktop(VirtualDesktopManager::Direction::Right);
     }
 }
@@ -1824,6 +1857,7 @@ void Workspace::slotWindowToDesktopRight()
 void Workspace::slotWindowToDesktopLeft()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         activeWindowToDesktop(VirtualDesktopManager::Direction::Left);
     }
 }
@@ -1831,6 +1865,7 @@ void Workspace::slotWindowToDesktopLeft()
 void Workspace::slotWindowToDesktopUp()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         activeWindowToDesktop(VirtualDesktopManager::Direction::Up);
     }
 }
@@ -1838,6 +1873,7 @@ void Workspace::slotWindowToDesktopUp()
 void Workspace::slotWindowToDesktopDown()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         activeWindowToDesktop(VirtualDesktopManager::Direction::Down);
     }
 }
@@ -1986,6 +2022,7 @@ void Workspace::slotWindowClose()
     //     if ( tab_box->isVisible())
     //         return;
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::CloseOp);
     }
 }
@@ -1996,6 +2033,7 @@ void Workspace::slotWindowClose()
 void Workspace::slotWindowMove()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::UnrestrictedMoveOp);
     }
 }
@@ -2006,7 +2044,15 @@ void Workspace::slotWindowMove()
 void Workspace::slotWindowResize()
 {
     if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::UnrestrictedResizeOp);
+    }
+}
+
+void Workspace::resetInteractiveMoveResize()
+{
+    if (m_activeWindow && (m_activeWindow->isInteractiveResize() || m_activeWindow->isInteractiveMove())) {
+        m_activeWindow->endInteractiveMoveResize();
     }
 }
 
