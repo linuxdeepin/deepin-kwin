@@ -997,7 +997,7 @@ private:
 
     bool m_printKwinFps = false;
     bool m_isEffectDuring = false;
-    int m_debugPixmapState = 0xff;
+    int m_debugPixmapState = 0x0;
 
     bool m_forceDisableRadius = false;
 

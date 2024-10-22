@@ -15,6 +15,8 @@
 #include "platformsupport/scenes/opengl/openglsurfacetexture.h"
 #include "workspace.h"
 
+#include <QX11Info>
+
 namespace KWin
 {
 
@@ -31,7 +33,7 @@ void DebugPixmap::saveImageFromTexture(xcb_window_t winid, Window *w)
 
 void DebugPixmap::saveImageFromPixmap(xcb_window_t winid, Window *w)
 {
-    if ((qobject_cast<KWin::X11Window *>(w) == nullptr) && (qobject_cast<KWin::Unmanaged *>(w) == nullptr)) {
+    if (!QX11Info::isPlatformX11()) {
         return;
     }
     if (auto item = w->surfaceItem()) {
@@ -113,6 +115,7 @@ void DebugPixmap::saveImageFromXorg(xcb_window_t winid)
     }
     img.save(QString("/tmp/%1-fromXorg.png").arg(winid), "PNG", 100);
     free(m_gi_reply);
+    xcb_disconnect(connection);
 }
 
 void DebugPixmap::saveCompositePixmap()
