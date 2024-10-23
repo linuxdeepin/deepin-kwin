@@ -406,6 +406,10 @@ void Xkb::updateKey(uint32_t key, InputRedirection::KeyboardKeyState state)
         } else {
             m_keysym = sym;
         }
+
+        if (key == KEY_SCROLLLOCK) {
+            m_scrollLockPressed = true;
+        }
     }
     updateModifiers();
     updateConsumedModifiers(key);
@@ -440,8 +444,10 @@ void Xkb::updateModifiers()
     if (xkb_state_led_index_is_active(m_state, m_capsLock) == 1) {
         leds = leds | LED::CapsLock;
     }
-    if (xkb_state_led_index_is_active(m_state, m_scrollLock) == 1) {
-        leds = leds | LED::ScrollLock;
+    leds |= m_leds & LED::ScrollLock;
+    if (m_scrollLockPressed) {
+        leds ^= LED::ScrollLock;
+        m_scrollLockPressed = false;
     }
     if (m_leds != leds) {
         m_leds = leds;

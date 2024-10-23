@@ -168,6 +168,8 @@ private:
 
     QPointer<KWaylandServer::SeatInterface> m_seat;
     const bool m_followLocale1;
+
+    bool m_scrollLockPressed = false;
 };
 
 inline Qt::KeyboardModifiers Xkb::modifiers() const
