@@ -365,7 +365,7 @@ if (KWIN_BUILD_TABBOX)
         tabbox/tabboxhandler.cpp
         tabbox/x11_filter.cpp
     )
-    target_link_libraries(kwin Qt${QT_MAJOR_VERSION}::GuiPrivate -lGL -lX11)
+    target_link_libraries(kwin Qt${QT_MAJOR_VERSION}::GuiPrivate)
 endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
