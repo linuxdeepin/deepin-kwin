@@ -108,9 +108,9 @@ public:
     };
 
     struct ColorCurves {
-        QVector<quint16> red = {0};
-        QVector<quint16> green = {0};
-        QVector<quint16> blue = {0};
+        QVector<quint16> red;
+        QVector<quint16> green;
+        QVector<quint16> blue;
         bool operator==(const ColorCurves &cc) const;
         bool operator!=(const ColorCurves &cc) const;
     };
