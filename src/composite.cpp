@@ -935,7 +935,10 @@ void Compositor::reinitialize()
 void Compositor::handleFrameRequested(RenderLoop *renderLoop, bool skip)
 {
     static quint32 frame = 0;
-    if (skip || (inBenchmark() && (frame++ & 1)) || m_freezeTimer.isActive()) {
+    if (skip || (inBenchmark() && (frame++ & 1))) {
+        return;
+    }
+    if (m_freezeTimer.isActive()) {
         RenderLayer *superLayer = m_superlayers[renderLoop];
         prePaintPass(superLayer);
         postPaintPass(superLayer);
