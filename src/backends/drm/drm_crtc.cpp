@@ -123,4 +123,10 @@ bool DrmCrtc::hasCTM() const
     }
     return getProp(PropertyIndex::CTM);
 }
+
+bool DrmCrtc::hasColorMode() const
+{
+    // FlemingX机器通过GAMMA_LUT传递色彩模式标签，华为drm内核驱动规定GAMMA_LUT_SIZE == 1
+    return gammaRampSize() == 1 && getProp(PropertyIndex::Gamma_LUT);
+}
 }

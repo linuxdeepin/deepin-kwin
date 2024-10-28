@@ -117,6 +117,15 @@ public:
         operator bool() const;
     };
 
+    enum class ColorMode : uint32_t {
+        Native = 0, // 不使用3D Lut，非FLX机器，可作为ColorMode的无效值
+        Photo,      // 使用3D Lut，FLX开机默认
+        Adobe,      // 使用3D Lut
+        Web,        // 使用3D Lut
+        EBook,      // 使用3D Lut
+    };
+    Q_ENUM(ColorMode);
+
     struct shm_rp_buffer {
         int64_t fd = -1;        /**< optional fd for data */
         uint32_t mapOffset;     /**< offset to map fd at */
@@ -268,7 +277,8 @@ public:
         Brightness = (1 << 8),
         Ctm = (1 << 9),
         ColorCurves = (1 << 10),
-        Geometry = (1 << 11)
+        ColorMode = (1 << 11),
+        Geometry = (1 << 12)
     };
     Q_DECLARE_FLAGS(ChangedFlags, Output::ChangedFlag)
 
@@ -297,6 +307,7 @@ public:
     int32_t brightness() const;
     CtmValue ctmValue() const;
     ColorCurves colorCurves() const;
+    ColorMode colorModeValue() const;
 
     ContentType contentType() const;
     void setContentType(ContentType contentType);
@@ -382,6 +393,7 @@ Q_SIGNALS:
     void brightnessChanged();
     void ctmValueChanged();
     void colorCurvesChanged();
+    void colorModeChanged();
 
 private:
     shm_rp_buffer* m_shm_rp_buffer = nullptr;
@@ -419,6 +431,7 @@ protected:
         int32_t brightness = -1;
         CtmValue ctmValue;
         ColorCurves colorCurves;
+        ColorMode colorModeValue = ColorMode::Photo;
     };
 
     void setInformation(const Information &information);

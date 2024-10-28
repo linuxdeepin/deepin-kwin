@@ -277,6 +277,7 @@ void Output::applyChanges(const OutputConfiguration &config)
     next.brightness = props->brightness.value_or(m_state.brightness);
     next.ctmValue = props->ctmValue.value_or(m_state.ctmValue);
     next.colorCurves = props->colorCurves.value_or(m_state.colorCurves);
+    next.colorModeValue = props->colorModeValue.value_or(m_state.colorModeValue);
 
     setState(next);
     setVrrPolicy(props->vrrPolicy.value_or(vrrPolicy()));
@@ -360,6 +361,10 @@ void Output::setState(const State &state)
     if (oldState.colorCurves != state.colorCurves) {
         m_changedFlags |= ChangedFlag::ColorCurves;
         Q_EMIT colorCurvesChanged();
+    }
+    if (oldState.colorModeValue != state.colorModeValue) {
+        m_changedFlags |= ChangedFlag::ColorMode;
+        Q_EMIT colorModeChanged();
     }
     if (oldGeometry != geometry()) {
         m_changedFlags |= ChangedFlag::Geometry;
@@ -482,6 +487,11 @@ Output::CtmValue Output::ctmValue() const
 Output::ColorCurves Output::colorCurves() const
 {
     return m_state.colorCurves;
+}
+
+Output::ColorMode Output::colorModeValue() const
+{
+    return m_state.colorModeValue;
 }
 
 void Output::setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation)

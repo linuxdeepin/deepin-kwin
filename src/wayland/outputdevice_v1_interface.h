@@ -80,6 +80,8 @@ private:
     void updateCurvesChanged();
 
     void scheduleDone();
+    void updateColorMode();
+    void done();
 
     std::unique_ptr<OutputDeviceInterfacePrivate> d;
 };
