@@ -24,7 +24,7 @@ using namespace KWin;
 namespace KWaylandServer
 {
 
-static const quint32 s_version = 4;
+static const quint32 s_version = 5;
 
 static QtWaylandServer::org_kde_kwin_outputdevice::transform kwinTransformToOutputDeviceTransform(Output::Transform transform)
 {
@@ -82,6 +82,7 @@ public:
     void sendColorCurves(Resource *resource);
     void sendBrightness(Resource *resource);
     void sendCtmValue(Resource *resource);
+    void sendColorMode(Resource *resource);
 
     OutputDeviceInterface *q;
     QPointer<Display> m_display;
@@ -111,6 +112,7 @@ public:
     int m_brightness = 120;
     Output::ColorCurves m_colorCurves;
     Output::CtmValue m_ctmValue;
+    Output::ColorMode m_colorModeValue = Output::ColorMode::Native;
 
     bool m_invalid = false;
     QTimer m_doneTimer;
@@ -188,6 +190,10 @@ OutputDeviceInterface::OutputDeviceInterface(Display *display, KWin::Output *han
             this, &OutputDeviceInterface::updateCtmValue);
     connect(handle, &Output::colorCurvesChanged,
             this, &OutputDeviceInterface::updateCurvesChanged);
+    connect(handle, &Output::colorModeChanged,
+            this, &OutputDeviceInterface::updateColorMode);
+    connect(handle, &Output::doneChanged,
+            this, &OutputDeviceInterface::done);
 
     connect(handle, &QObject::destroyed, this, [this, handle]() {
         qCDebug(KWIN_CORE) << "outputv1:" << this << " rejectdestroy output " << handle;
@@ -242,6 +248,12 @@ bool OutputDeviceInterface::invalid() const
     return d->m_invalid;
 }
 
+void OutputDeviceInterface::done() {
+    for (auto resource : d->resourceMap()) {
+        d->sendDone(resource);
+    }
+}
+
 void OutputDeviceInterfacePrivate::org_kde_kwin_outputdevice_destroy_global()
 {
     qCDebug(KWIN_CORE) << "outputv1:" << q << " destroy device ";
@@ -270,6 +282,7 @@ void OutputDeviceInterfacePrivate::org_kde_kwin_outputdevice_bind_resource(Resou
     sendColorCurves(resource);
     sendBrightness(resource);
     sendCtmValue(resource);
+    sendColorMode(resource);
     sendDone(resource);
 }
 
@@ -339,7 +352,9 @@ void OutputDeviceInterfacePrivate::sendEisaId(Resource *resource)
 void OutputDeviceInterfacePrivate::sendName(Resource *resource)
 {
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_name " << m_name;
-    send_name(resource->handle, m_name);
+    if (wl_resource_get_version(resource->handle) >= ORG_KDE_KWIN_OUTPUTDEVICE_NAME_SINCE_VERSION) {
+        send_name(resource->handle, m_name);
+    }
 }
 
 void OutputDeviceInterfacePrivate::sendDone(Resource *resource)
@@ -369,18 +384,27 @@ void OutputDeviceInterfacePrivate::sendUuid(Resource *resource)
 void OutputDeviceInterfacePrivate::sendCapabilities(Resource *resource)
 {
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_capabilities " << m_capabilities;
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_CAPABILITIES_SINCE_VERSION) {
+        return;
+    }
     send_capabilities(resource->handle, m_capabilities);
 }
 
 void OutputDeviceInterfacePrivate::sendOverscan(Resource *resource)
 {
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_overscan " << m_overscan;
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_OVERSCAN_SINCE_VERSION) {
+        return;
+    }
     send_overscan(resource->handle, m_overscan);
 }
 
 void OutputDeviceInterfacePrivate::sendVrrPolicy(Resource *resource)
 {
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_vrrPolicy " << m_vrrPolicy;
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_VRR_POLICY_SINCE_VERSION) {
+        return;
+    }
     send_vrr_policy(resource->handle, m_vrrPolicy);
 }
 
@@ -392,12 +416,16 @@ void OutputDeviceInterfacePrivate::sendRgbRange(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendColorCurves(Resource *resource)
 {
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_COLORCURVES_SINCE_VERSION) {
+        return;
+    }
+
     qCDebug(KWIN_CORE) << "outputv1:" << q << " sendColorCurves resource " << resource
             << " m_colorCurves " << m_colorCurves.red << m_colorCurves.green << m_colorCurves.blue;
 
     wl_array wlRed, wlGreen, wlBlue;
 
-    auto fillArray = [](const QVector<quint16> &origin, wl_array *dest) {
+    static auto fillArray = [](const QVector<quint16> &origin, wl_array *dest) {
         wl_array_init(dest);
         const size_t memLength = sizeof(uint16_t) * origin.size();
         void *s = wl_array_add(dest, memLength);
@@ -417,6 +445,9 @@ void OutputDeviceInterfacePrivate::sendColorCurves(Resource *resource)
 void OutputDeviceInterfacePrivate::sendBrightness(Resource *resource)
 {
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_brightness " << m_brightness;
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_BRIGHTNESS_SINCE_VERSION) {
+        return;
+    }
     send_brightness(resource->handle, m_brightness);
 }
 
@@ -424,7 +455,20 @@ void OutputDeviceInterfacePrivate::sendCtmValue(Resource *resource)
 {
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
             << " m_ctmValue " << m_ctmValue.r << m_ctmValue.g << m_ctmValue.b;
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_CTM_SINCE_VERSION) {
+        return;
+    }
     send_ctm(resource->handle, m_ctmValue.r, m_ctmValue.g, m_ctmValue.b);
+}
+
+void OutputDeviceInterfacePrivate::sendColorMode(Resource *resource)
+{
+    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
+            << " m_colorMode " << m_colorModeValue;
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_COLOR_MODE_SINCE_VERSION) {
+        return;
+    }
+    send_color_mode(resource->handle, static_cast<uint32_t>(m_colorModeValue));
 }
 
 void OutputDeviceInterface::updateGeometry()
@@ -702,7 +746,7 @@ void OutputDeviceInterface::updateCtmValue()
 void OutputDeviceInterface::updateCurvesChanged()
 {
     Output::ColorCurves colorCurves = d->m_handle->colorCurves();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " ctm " << colorCurves.red << colorCurves.green << colorCurves.blue;
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " colorcurves " << colorCurves.red << colorCurves.green << colorCurves.blue;
     if (d->m_colorCurves != colorCurves) {
         d->m_colorCurves = colorCurves;
         const auto clientResources = d->resourceMap();
@@ -710,6 +754,19 @@ void OutputDeviceInterface::updateCurvesChanged()
             d->sendColorCurves(resource);
         }
         scheduleDone();
+    }
+}
+
+void OutputDeviceInterface::updateColorMode()
+{
+    Output::ColorMode colorMode = d->m_handle->colorModeValue();
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " colorMode " << colorMode;
+    if (d->m_colorModeValue != colorMode) {
+        d->m_colorModeValue = colorMode;
+        const auto clientResources = d->resourceMap();
+        for (const auto &resource : clientResources) {
+            d->sendColorMode(resource);
+        }
     }
 }
 

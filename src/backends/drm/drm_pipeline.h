@@ -62,6 +62,19 @@ private:
     std::shared_ptr<DrmBlob> m_blob;
 };
 
+class DrmColorMode
+{
+public:
+    DrmColorMode(DrmCrtc *crtc, const Output::ColorMode &colorMode);
+
+    const Output::ColorMode &colorModeValue() const;
+    std::shared_ptr<DrmBlob> blob() const;
+
+private:
+    const Output::ColorMode m_colorModeValue;
+    std::shared_ptr<DrmBlob> m_blob;
+};
+
 class DrmPipeline
 {
 public:
@@ -92,6 +105,7 @@ public:
     void revertPendingChanges();
     bool needUpdateBrightness();
     bool needUpdateCTM();
+    bool needUpdateColorMode();
 
     bool setCursor(const QPoint &hotspot = QPoint());
     bool moveCursor();
@@ -133,6 +147,7 @@ public:
     int32_t brightness() const;
     Output::CtmValue ctmValue() const;
     Output::ColorCurves colorCurves() const;
+    Output::ColorMode colorMode() const;
 
     void setCrtc(DrmCrtc *crtc);
     void setMode(const std::shared_ptr<DrmConnectorMode> &mode);
@@ -147,8 +162,9 @@ public:
     void setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation);
     void setContentType(DrmConnector::DrmContentType type);
     void setBrightness(int32_t brightness);
-    void setCTM(Output::CtmValue ctmValue);
-    void setColorCurves(Output::ColorCurves colorCurves);
+    void setCTM(const Output::CtmValue &ctmValue);
+    void setColorCurves(const Output::ColorCurves &colorCurves);
+    void setColorMode(const Output::ColorMode &colorMode);
 
     enum class CommitMode {
         Test,
@@ -210,6 +226,7 @@ private:
         RenderLoopPrivate::SyncMode syncMode = RenderLoopPrivate::SyncMode::Fixed;
         std::shared_ptr<DrmGammaRamp> gamma;
         std::shared_ptr<DrmCTM> ctm;
+        std::shared_ptr<DrmColorMode> colorMode;
         DrmConnector::DrmContentType contentType = DrmConnector::DrmContentType::Graphics;
         int32_t brightness = -1;
 
