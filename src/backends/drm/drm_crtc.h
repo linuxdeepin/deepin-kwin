@@ -55,6 +55,7 @@ public:
     void releaseBuffers();
 
     bool hasCTM() const;
+    bool hasColorMode() const;
 
 private:
     DrmUniquePtr<drmModeCrtc> m_crtc;
