@@ -26,6 +26,7 @@
 
 #include "kwinutils.h"
 #include "workspace.h"
+#include "composite.h"
 
 #include <kwineffects.h>
 
@@ -482,7 +483,13 @@ void ChameleonConfig::updateClientNoBorder(QObject *client, bool allowReset)
 {
     const QByteArray &force_decorate = KWinUtils::instance()->readWindowProperty(client, m_atom_deepin_force_decorate, XCB_ATOM_CARDINAL);
     bool set_border = canForceSetBorder(client);
-
+    if (Compositor::compositing() && Compositor::self()->isXrenderCompositing()) {
+        if (!force_decorate.isEmpty() && force_decorate.at(0)) {
+            client->setProperty("m_isForceDecorated", true);
+        } else {
+            client->setProperty("m_isForceDecorated", false);
+        }
+    }
     if (!force_decorate.isEmpty() && force_decorate.at(0)) {
         // 对于不可设置noBorder属性的窗口，必处于noBorder状态
         if (set_border) {

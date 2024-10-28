@@ -463,6 +463,8 @@ private:
     void updateDecoration(bool check_workspace_pos, bool force = false);
     void createDecoration(const QRectF &oldgeom);
     void destroyDecoration();
+    void getForceDecorate();
+    bool m_isForceDecorated = false;
 
     Xcb::Window m_client;
     Xcb::Window m_wrapper;

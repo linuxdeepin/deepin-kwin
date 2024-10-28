@@ -516,6 +516,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
         xcb_shape_select_input(kwinApp()->x11Connection(), window(), true);
     }
     detectShape(window());
+    getForceDecorate();
     detectNoBorder();
     fetchIconicName();
     setClientFrameExtents(info->gtkFrameExtents());
@@ -1276,9 +1277,13 @@ void X11Window::detectNoBorder()
     // NET::Override is some strange beast without clear definition, usually
     // just meaning "noborder", so let's treat it only as such flag, and ignore it as
     // a window type otherwise (SUPPORTED_WINDOW_TYPES_MASK doesn't include it)
-    if (info->windowType(NET::OverrideMask) == NET::Override && (Compositor::compositing() && Compositor::self()->isOpenGLCompositing())) {
-        noborder = true;
-        app_noborder = true;
+    if (info->windowType(NET::OverrideMask) == NET::Override) {
+        if (Compositor::compositing() && Compositor::self()->isXrenderCompositing() && m_isForceDecorated) {
+            return ;
+        } else {
+            noborder = true;
+            app_noborder = true;
+        }
     }
 }
 
@@ -4981,6 +4986,46 @@ bool X11Window::isProhibitScreenshotWindow()
         return Window::isProhibitScreenshotWindow();
     }
     return m_isProhibitScreenshotWindow;
+}
+
+void X11Window::getForceDecorate()
+{
+    if (!(Compositor::compositing() && Compositor::self()->isXrenderCompositing())) {
+        m_isForceDecorated = false;
+        return ;
+    }
+    qulonglong WId = this->property("windowId").toLongLong();
+    if (WId == XCB_WINDOW_NONE) {
+        m_isForceDecorated = false;
+        return ;
+    }
+
+    xcb_intern_atom_cookie_t atom_cookie = xcb_intern_atom(QX11Info::connection(), false, strlen("_DEEPIN_FORCE_DECORATE"), "_DEEPIN_FORCE_DECORATE");
+    xcb_intern_atom_reply_t *atom_reply = xcb_intern_atom_reply(QX11Info::connection(), atom_cookie, 0);
+
+    if (!atom_reply) {
+        m_isForceDecorated = false;
+        return ;
+    }
+    xcb_atom_t propAtom = atom_reply->atom;
+    free(atom_reply);
+
+    QByteArray data;
+
+    xcb_get_property_cookie_t prop_cookie = xcb_get_property(QX11Info::connection(), false, WId,
+                                                            propAtom, XCB_ATOM_CARDINAL, 0, 1024);
+    xcb_get_property_reply_t *prop_reply = xcb_get_property_reply(QX11Info::connection(), prop_cookie, NULL);
+    if (prop_reply) {
+        int len = xcb_get_property_value_length(prop_reply);
+        char *datas = (char *)xcb_get_property_value(prop_reply);
+        data.append(datas, len);
+        free(prop_reply);
+    }
+    if (!data.isEmpty() && data.at(0)) {
+        m_isForceDecorated = true;
+        return ;
+    }
+    m_isForceDecorated = false;
 }
 
 } // namespace
