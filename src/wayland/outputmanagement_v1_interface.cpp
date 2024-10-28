@@ -23,7 +23,7 @@ using namespace KWin;
 namespace KWaylandServer
 {
 
-static const quint32 s_version = 4;
+static const quint32 s_version = 5;
 
 class OutputManagementInterfacePrivate : public QtWaylandServer::org_kde_kwin_outputmanagement
 {
@@ -61,6 +61,7 @@ protected:
     void org_kde_kwin_outputconfiguration_set_vrr_policy(Resource *resource, wl_resource *outputdevice, uint32_t policy) override;
     void org_kde_kwin_outputconfiguration_brightness(Resource *resource, wl_resource *outputdevice, int32_t brightness) override;
     void org_kde_kwin_outputconfiguration_ctm(Resource *resource, wl_resource *outputdevice, int32_t red, int32_t green, int32_t blue) override;
+    void org_kde_kwin_outputconfiguration_set_color_mode(Resource *resource, wl_resource *outputdevice, uint32_t color_mode) override;
 };
 
 OutputManagementInterfacePrivate::OutputManagementInterfacePrivate(Display *display)
@@ -213,6 +214,10 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_scale(Resour
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_scalef(Resource *resource, wl_resource *outputdevice, wl_fixed_t scale)
 {
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTCONFIGURATION_SCALEF_SINCE_VERSION) {
+        return;
+    }
+
     OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
     if (!output || output->invalid()) {
         invalid = true;
@@ -238,6 +243,10 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_scalef(Resou
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_overscan(Resource *resource, wl_resource *outputdevice, uint32_t overscan)
 {
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTCONFIGURATION_OVERSCAN_SINCE_VERSION) {
+        return;
+    }
+
     OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
     if (!output || output->invalid()) {
         invalid = true;
@@ -255,6 +264,10 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_overscan(Res
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_set_vrr_policy(Resource *resource, wl_resource *outputdevice, uint32_t policy)
 {
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTCONFIGURATION_SET_VRR_POLICY_SINCE_VERSION) {
+        return;
+    }
+
     OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
     if (!output || output->invalid()) {
         invalid = true;
@@ -272,6 +285,10 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_set_vrr_poli
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_colorcurves(Resource *resource, wl_resource *outputdevice, wl_array *red, wl_array *green, wl_array *blue)
 {
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTCONFIGURATION_COLORCURVES_SINCE_VERSION) {
+        return;
+    }
+
     OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
     if (!output || output->invalid()) {
         invalid = true;
@@ -282,7 +299,7 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_colorcurves(
 
     Output::ColorCurves oldCc = output->handle()->colorCurves();
 
-    auto checkArg = [](const wl_array *newColor, const QVector<quint16> &oldColor) {
+    static auto checkArg = [](const wl_array *newColor, const QVector<quint16> &oldColor) {
         return (newColor->size % sizeof(uint16_t) == 0) && (newColor->size / sizeof(uint16_t) == static_cast<size_t>(oldColor.size()));
     };
     if (!checkArg(red, oldCc.red) || !checkArg(green, oldCc.green) || !checkArg(blue, oldCc.blue)) {
@@ -292,7 +309,7 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_colorcurves(
 
     Output::ColorCurves cc;
 
-    auto fillVector = [](const wl_array *array, QVector<quint16> *v) {
+    static auto fillVector = [](const wl_array *array, QVector<quint16> *v) {
         const uint16_t *pos = (uint16_t *)array->data;
 
         while ((char *)pos < (char *)array->data + array->size) {
@@ -309,6 +326,10 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_colorcurves(
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_brightness(Resource *resource, wl_resource *outputdevice, int32_t brightness)
 {
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTCONFIGURATION_BRIGHTNESS_SINCE_VERSION) {
+        return;
+    }
+
     OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
     if (!output || output->invalid()) {
         invalid = true;
@@ -322,6 +343,10 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_brightness(R
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_ctm(Resource *resource, wl_resource *outputdevice, int32_t r, int32_t g, int32_t b)
 {
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTCONFIGURATION_CTM_SINCE_VERSION) {
+        return;
+    }
+
     OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
     if (!output || output->invalid()) {
         invalid = true;
@@ -331,6 +356,24 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_ctm(Resource
     qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " r " << r << " g " << g << " b " << b;
 
     config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};
+}
+
+void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_set_color_mode(Resource *resource, wl_resource *outputdevice, uint32_t color_mode)
+{
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTCONFIGURATION_SET_COLOR_MODE_SINCE_VERSION) {
+        return;
+    }
+
+    OutputDeviceInterface *output = OutputDeviceInterface::get(outputdevice);
+    if (!output || output->invalid()) {
+        invalid = true;
+        return;
+    }
+
+    const auto mode = static_cast<Output::ColorMode>(color_mode);
+    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " color_mode " << mode;
+
+    config.changeSet(output->handle())->colorModeValue = mode;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_destroy(Resource *resource)

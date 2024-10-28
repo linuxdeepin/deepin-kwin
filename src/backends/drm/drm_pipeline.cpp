@@ -301,8 +301,10 @@ void DrmPipeline::prepareAtomicModeset()
         m_connector->setPending(DrmConnector::PropertyIndex::BrightnessId, m_pending.brightness);
     }
     if (const auto gammaProp = m_pending.crtc->getProp(DrmCrtc::PropertyIndex::Gamma_LUT)) {
-        if (m_pending.gamma) {
+        if (m_pending.gamma && !m_pending.crtc->hasColorMode()) {
             gammaProp->setPending(m_pending.gamma->blob()->blobId());
+        } else if (needUpdateColorMode()) {
+            gammaProp->setPending(m_pending.colorMode->blob()->blobId());
         }
     }
     if (const auto ctmProp = m_pending.crtc->getProp(DrmCrtc::PropertyIndex::CTM)) {
@@ -573,6 +575,18 @@ bool DrmPipeline::needUpdateCTM()
     }
 }
 
+bool DrmPipeline::needUpdateColorMode()
+{
+    if (!m_pending.colorMode) {
+        return false;
+    }
+    if (m_current.colorMode) {
+        return m_pending.colorMode->colorModeValue() != m_current.colorMode->colorModeValue();
+    } else {
+        return m_pending.colorMode->colorModeValue() != Output::ColorMode::Native;
+    }
+}
+
 bool DrmPipeline::activePending() const
 {
     return m_pending.crtc && m_pending.mode && m_pending.active;
@@ -658,6 +672,30 @@ const Output::CtmValue &DrmCTM::ctmValue() const
 }
 
 std::shared_ptr<DrmBlob> DrmCTM::blob() const
+{
+    return m_blob;
+}
+
+DrmColorMode::DrmColorMode(DrmCrtc *crtc, const Output::ColorMode &colorMode)
+    : m_colorModeValue(colorMode)
+{
+    Q_ASSERT(crtc->gpu()->atomicModeSetting());
+    struct drm_color_lut blob = {
+        .red = 0,
+        .green = 0,
+        .blue = 0,
+        .reserved = static_cast<uint16_t>(colorMode)};
+    if (!(m_blob = DrmBlob::create(crtc->gpu(), &blob, sizeof(drm_color_lut)))) {
+        qCWarning(KWIN_DRM) << "Failed to create colormode blob (drm_color_lut[1])!" << strerror(errno);
+    }
+}
+
+const Output::ColorMode &DrmColorMode::colorModeValue() const
+{
+    return m_colorModeValue;
+}
+
+std::shared_ptr<DrmBlob> DrmColorMode::blob() const
 {
     return m_blob;
 }
@@ -833,7 +871,7 @@ int32_t DrmPipeline::brightness() const
     return m_pending.brightness;
 }
 
-void DrmPipeline::setCTM(Output::CtmValue ctmValue)
+void DrmPipeline::setCTM(const Output::CtmValue &ctmValue)
 {
     if (m_pending.crtc && m_pending.crtc->hasCTM()) {
         m_pending.ctm = std::make_shared<DrmCTM>(m_pending.crtc, ctmValue);
@@ -845,7 +883,7 @@ Output::CtmValue DrmPipeline::ctmValue() const
     return m_pending.ctm ? m_pending.ctm->ctmValue() : Output::CtmValue{};
 }
 
-void DrmPipeline::setColorCurves(Output::ColorCurves colorCurves)
+void DrmPipeline::setColorCurves(const Output::ColorCurves &colorCurves)
 {
     if (m_pending.crtc && m_pending.crtc->gammaRampSize() > 0) {
         m_pending.gamma = std::make_shared<DrmGammaRamp>(m_pending.crtc, colorCurves);
@@ -857,4 +895,15 @@ Output::ColorCurves DrmPipeline::colorCurves() const
     return m_pending.gamma ? m_pending.gamma->lut().colorCurves() : Output::ColorCurves{{0}, {0}, {0}};
 }
 
+void DrmPipeline::setColorMode(const Output::ColorMode &colorModeValue)
+{
+    if (m_pending.crtc && m_pending.crtc->hasColorMode()) {
+        m_pending.colorMode = std::make_shared<DrmColorMode>(m_pending.crtc, colorModeValue);
+    }
+}
+
+Output::ColorMode DrmPipeline::colorMode() const
+{
+    return m_pending.colorMode ? m_pending.colorMode->colorModeValue() : Output::ColorMode::Native;
+}
 }

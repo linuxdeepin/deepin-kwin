@@ -31,6 +31,7 @@ struct KWIN_EXPORT OutputChangeSet
     std::optional<int32_t> brightness;
     std::optional<Output::CtmValue> ctmValue;
     std::optional<Output::ColorCurves> colorCurves;
+    std::optional<Output::ColorMode> colorModeValue;
 };
 
 class KWIN_EXPORT OutputConfiguration
