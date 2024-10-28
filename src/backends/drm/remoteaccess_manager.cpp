@@ -64,7 +64,7 @@ RemoteAccessManager::~RemoteAccessManager()
     }
 }
 
-void RemoteAccessManager::releaseBuffer(const BufferHandle *buf)
+void RemoteAccessManager::releaseBuffer(QPointer<BufferHandle> buf)
 {
     if (!buf) {
         qCWarning(KWIN_CORE) << "buf is already released.";

@@ -34,7 +34,7 @@ public:
     int sendGbmHandle();
 
 private:
-    explicit RemoteBufferInterface(const BufferHandle *buf, wl_resource *resource);
+    explicit RemoteBufferInterface(QPointer<BufferHandle> buf, wl_resource *resource);
     friend class RemoteAccessManagerInterfacePrivate;
 
     QScopedPointer<RemoteBufferInterfacePrivate> d;

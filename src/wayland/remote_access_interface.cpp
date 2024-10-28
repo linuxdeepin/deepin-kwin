@@ -15,7 +15,7 @@
 #include <QDebug>
 #include <QHash>
 #include <QMutableHashIterator>
-#include <QMutex>
+#include <QPointer>
 
 #include <fcntl.h>
 #include <functional>
@@ -67,7 +67,7 @@ BufferHandle::~BufferHandle()
 
 BufferHandle &BufferHandle::setFd(qint32 fd)
 {
-    if (d == nullptr || d.isNull()) {
+    if (d == nullptr) {
         return *this;
     }
     d->fd = fd;
@@ -139,7 +139,7 @@ qint32 BufferHandle::frame() const
  */
 struct BufferHolder
 {
-    BufferHandle *buf = nullptr; ///< this pointer use to string reference the allocated buf in heap. should only be destroy by org_kde_kwin_remote_access_manager_release request.
+    QPointer<BufferHandle> buf = nullptr; ///< this pointer use to strong reference the allocated buf in heap. should only be destroy by org_kde_kwin_remote_access_manager_release request.
     quint64 counter = 0;
     seconds lifetime = 0s;
 };
@@ -155,7 +155,7 @@ public:
      * @param output wl_output interface to determine which screen sent this buf
      * @param buf buffer containing GBM-related params
      */
-    void sendBufferReady(const OutputInterface *output, BufferHandle *buf);
+    void sendBufferReady(const OutputInterface *output, QPointer<BufferHandle> buf);
     /**
      * @brief Release all bound buffers associated with this resource
      * @param resource one of bound clients
@@ -180,7 +180,7 @@ private:
      */
     bool unref(BufferHolder &bh);
     /**
-     * @brief Clear sent buffers, regardless of whether its refence count is 0 or not
+     * @brief Clear sent buffer, regardless of whether its refence count is 0 or not
      * @param bh holder to be destroy
      */
     void remove(const BufferHolder &bh);
@@ -218,7 +218,7 @@ RemoteAccessManagerInterfacePrivate::RemoteAccessManagerInterfacePrivate(RemoteA
 {
 }
 
-void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface *output, BufferHandle *buf)
+void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface *output, QPointer<BufferHandle> buf)
 {
     BufferHolder holder{buf, 0, duration_cast<seconds>(steady_clock::now().time_since_epoch())};
     // notify clients
@@ -261,10 +261,16 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
     //       In this circumstances, applications should handle the potential exception: fd has been closed by compositor.
     if (Q_UNLIKELY(sentBuffers.size() > MAX_BUFFERS_SIZE)) {
         const auto &fds = sentBuffers.keys();
+        int fdNums = fds.size();
         for (qint32 fd : fds) {
+            if (fdNums <= MAX_BUFFERS_SIZE) {
+                break;
+            }
             // Remove buffers which are so old that they are unlikely to used by clients forcely.
+            // Clients still have buffer and will send buffer_release request in the future.
             if (holder.lifetime - sentBuffers[fd].lifetime > KEEP_ALIVE_SECOND) {
                 remove(sentBuffers[fd]);
+                fdNums--;
             }
         }
         qCDebug(KWIN_CORE) << "Current buffer size over" << MAX_BUFFERS_SIZE <<", released forcely. Now buffer size is" << sentBuffers.size();
@@ -299,6 +305,9 @@ bool RemoteAccessManagerInterfacePrivate::unref(BufferHolder &bh)
 
 void RemoteAccessManagerInterfacePrivate::remove(const BufferHolder &bh)
 {
+    if (!bh.buf) {
+        return;
+    }
     int fd = bh.buf->fd();
     Q_EMIT q->bufferReleased(bh.buf);
     sentBuffers.remove(fd);
@@ -353,7 +362,7 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_rel
     clientResources.removeAll(resource);
 
     // erese all fds which are no longer used by clients and close them
-    std::for_each(sentBuffers.begin(), sentBuffers.end(), [this](BufferHolder& bh) { remove(bh); });
+    // std::for_each(sentBuffers.begin(), sentBuffers.end(), [this](BufferHolder& bh) { remove(bh); }); // client is responsable for deletion
 
     wl_resource_destroy(resource->handle);
 }
@@ -386,7 +395,7 @@ RemoteAccessManagerInterface::~RemoteAccessManagerInterface()
 {
 }
 
-void RemoteAccessManagerInterface::sendBufferReady(const OutputInterface *output, BufferHandle *buf)
+void RemoteAccessManagerInterface::sendBufferReady(const OutputInterface *output, QPointer<BufferHandle> buf)
 {
     d->sendBufferReady(output, buf);
 }
@@ -404,7 +413,7 @@ bool RemoteAccessManagerInterface::isBound() const
 class RemoteBufferInterfacePrivate : public QtWaylandServer::org_kde_kwin_remote_buffer
 {
 public:
-    RemoteBufferInterfacePrivate(RemoteBufferInterface *q, const BufferHandle *buf, wl_resource *resource);
+    RemoteBufferInterfacePrivate(RemoteBufferInterface *q, QPointer<BufferHandle> buf, wl_resource *resource);
     ~RemoteBufferInterfacePrivate() override;
 
     int sendGbmHandle();
@@ -414,10 +423,10 @@ public:
 
 private:
     RemoteBufferInterface *q;
-    const BufferHandle *wrapped;
+    QPointer<BufferHandle> wrapped;
 };
 
-RemoteBufferInterfacePrivate::RemoteBufferInterfacePrivate(RemoteBufferInterface *q, const BufferHandle *buf, wl_resource *resource)
+RemoteBufferInterfacePrivate::RemoteBufferInterfacePrivate(RemoteBufferInterface *q, QPointer<BufferHandle> buf, wl_resource *resource)
     : QtWaylandServer::org_kde_kwin_remote_buffer(resource)
     , q(q)
     , wrapped(buf)
@@ -450,7 +459,7 @@ void RemoteBufferInterfacePrivate::org_kde_kwin_remote_buffer_destroy_resource(R
     delete q;
 }
 
-RemoteBufferInterface::RemoteBufferInterface(const BufferHandle *buf, wl_resource *resource)
+RemoteBufferInterface::RemoteBufferInterface(QPointer<BufferHandle> buf, wl_resource *resource)
     : QObject()
     , d(new RemoteBufferInterfacePrivate(this, buf, resource))
 {

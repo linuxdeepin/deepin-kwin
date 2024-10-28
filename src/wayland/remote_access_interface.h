@@ -68,7 +68,7 @@ public:
     /**
      * Store buffer in sent list and notify client that we have a buffer for it
      **/
-    void sendBufferReady(const OutputInterface *output, BufferHandle *buf);
+    void sendBufferReady(const OutputInterface *output, QPointer<BufferHandle> buf);
 
     /**
      * Increase the rendering sequence
@@ -82,7 +82,7 @@ Q_SIGNALS:
     /**
      * Previously sent buffer has been released by client
      */
-    void bufferReleased(const BufferHandle *buf);
+    void bufferReleased(QPointer<BufferHandle> buf);
     void screenRecordStatusChanged(bool isScreenRecording);
     void startRecord(int count);
     void addedClient();

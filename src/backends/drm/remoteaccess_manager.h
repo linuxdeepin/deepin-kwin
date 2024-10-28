@@ -64,7 +64,7 @@ Q_SIGNALS:
     void addedClient();
 
 private:
-    void releaseBuffer(const BufferHandle *buf);
+    void releaseBuffer(QPointer<BufferHandle> buf);
 
     RemoteAccessManagerInterface *m_interface = nullptr;
     Output *m_removedOutput = nullptr;
