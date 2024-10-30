@@ -12,6 +12,7 @@
 
 #include <config-kwin.h>
 
+#include "utils/dconfig_reader.h"
 #include "xwayland_logging.h"
 #include "xwaylandsocket.h"
 
@@ -172,6 +173,12 @@ bool XwaylandLauncher::startInternal()
     env.insert("WAYLAND_SOCKET", QByteArray::number(wlfd));
     if (qEnvironmentVariableIsSet("KWIN_XWAYLAND_DEBUG")) {
         env.insert("WAYLAND_DEBUG", QByteArrayLiteral("1"));
+    }
+    bool forceGlamorSupport = false;
+    if (DconfigRead(QStringLiteral("org.kde.kwin.xwayland"), QStringLiteral("forceGlamorSupport"), forceGlamorSupport) == DconfigReaderRetCode::DCONF_SUCCESS) {
+        if (forceGlamorSupport) {
+            env.insert("XWAYLAND_FORCE_SUPPORT_GLAMOR", QByteArrayLiteral("1"));
+        }
     }
     m_xwaylandProcess->setProcessEnvironment(env);
     m_xwaylandProcess->setArguments(arguments);

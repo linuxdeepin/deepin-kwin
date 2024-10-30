@@ -15,7 +15,7 @@ namespace KWin
 
 #define DBUS_TIMEOUT 100
 
-enum DconfigReaderRetCode {
+enum class DconfigReaderRetCode {
     DCONF_SUCCESS = 0,
     DCONF_NOT_FOUNT,
     DCONF_NOT_REPLY,
@@ -42,14 +42,14 @@ inline DconfigReaderRetCode DconfigRead(const QString& dconfItem, const QString&
         } else if constexpr (std::is_same_v<T, QString>) {
             dconfValue = replyValue.value().toString();
         } else {
-            return DCONF_TYPE_NOT_SUPPORT;
+            return DconfigReaderRetCode::DCONF_TYPE_NOT_SUPPORT;
         }
-        return DCONF_SUCCESS;
+        return DconfigReaderRetCode::DCONF_SUCCESS;
     } else {
-        qCWarning(KWIN_CORE) << "Error in DConfig reply:" << reply.error();
-        return DCONF_NOT_REPLY;
+        qWarning() << "Error in DConfig reply:" << reply.error();
+        return DconfigReaderRetCode::DCONF_NOT_REPLY;
     }
-    return DCONF_NOT_FOUNT;
+    return DconfigReaderRetCode::DCONF_NOT_FOUNT;
 }
 
 } // namespace KWin
