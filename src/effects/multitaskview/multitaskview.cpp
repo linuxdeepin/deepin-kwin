@@ -1450,9 +1450,9 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(EffectScreen *screen)
         int width = m_dragTipsFrameShadow->iconSize().width() + metrics.horizontalAdvance(tr("Drag upwards to remove")) + 13;
 
         m_dragTipsFrameShadow->setFont(font);
-        m_dragTipsFrameShadow->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, 28));
+        m_dragTipsFrameShadow->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, 28 * effectsEx->getOsScale()));
         m_dragTipsFrame->setFont(font);
-        m_dragTipsFrame->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, 28));
+        m_dragTipsFrame->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, 28 * effectsEx->getOsScale()));
 
         m_dragTipsFrameShadow->render(infiniteRegion(), 1, 0);
         m_dragTipsFrame->render(infiniteRegion(), 1, 0);
