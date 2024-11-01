@@ -2690,6 +2690,11 @@ bool EffectWindowImpl::isScissorForce()
     return m_window->isScissorForce();
 }
 
+bool EffectWindowImpl::borderRedrawable()
+{
+    return m_window->borderRedrawable();
+}
+
 //****************************************
 // EffectWindowGroupImpl
 //****************************************

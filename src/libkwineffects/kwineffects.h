@@ -2372,6 +2372,8 @@ class KWINEFFECTS_EXPORT EffectWindow : public QObject
 
     Q_PROPERTY(int startEffectType READ startEffectType CONSTANT)
 
+    Q_PROPERTY(bool borderRedrawable READ borderRedrawable CONSTANT)
+
 public:
     /**  Flags explaining why painting should be disabled  */
     enum {
@@ -2766,6 +2768,8 @@ public:
     virtual int startEffectType() = 0;
     virtual void setScissorForce(bool) = 0;
     virtual bool isScissorForce() = 0;
+
+    virtual bool borderRedrawable() = 0;
 
 protected:
     friend EffectWindowVisibleRef;

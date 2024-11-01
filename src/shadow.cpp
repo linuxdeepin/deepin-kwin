@@ -225,25 +225,6 @@ bool Shadow::init()
 
     m_offset = m_window->windowShadowObj()->getPadding();
 
-    if (m_window->shape()) {
-        Item *item = qobject_cast<Item *>(m_window->surfaceItem());
-        if (item) {
-            QVector<uint32_t> data;
-            data << m_offset.top()
-                 << m_offset.right()
-                 << m_offset.bottom()
-                 << m_offset.left();
-            QRect shape_rect = item->opaque().boundingRect();
-            QRect window_rect(QPoint(0, 0), m_window->frameGeometry().toRect().size());
-            data[0] -= shape_rect.top();
-            data[1] -= window_rect.right() - shape_rect.right();
-            data[2] -= window_rect.bottom() - shape_rect.bottom();
-            data[3] -= shape_rect.left();
-
-            m_offset = QMargins(data[3], data[0], data[1], data[2]);
-        }
-    }
-
     Q_EMIT offsetChanged();
     if (!prepareBackend()) {
         return true;

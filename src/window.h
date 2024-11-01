@@ -1530,6 +1530,8 @@ public:
 
     QMargins extendResizeBorder() const;
 
+    bool borderRedrawable() const;
+
 public Q_SLOTS:
     virtual void closeWindow() = 0;
     void onWindowRadiusChanged(float &);

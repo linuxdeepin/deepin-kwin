@@ -80,6 +80,7 @@ Rules::Rules()
     , desktopfilerule(UnusedSetRule)
     , disablecornerrule(UnusedSetRule)
     , disablesplitpreviewrule(UnusedSetRule)
+    , enablewindowshadowrule(UnusedSetRule)
 {
 }
 
@@ -186,6 +187,7 @@ void Rules::readFromSettings(const RuleSettings *settings)
     READ_SET_RULE(desktopfile);
     READ_SET_RULE(disablecorner);
     READ_SET_RULE(disablesplitpreview);
+    READ_SET_RULE(enablewindowshadow);
     // disable minmize rule for uos
     minimize = false;
     minimizerule = UnusedSetRule;
@@ -270,6 +272,7 @@ void Rules::write(RuleSettings *settings) const
     WRITE_SET_RULE(desktopfile, Desktopfile, );
     WRITE_SET_RULE(disablecorner, Disablecorner, );
     WRITE_SET_RULE(disablesplitpreview, Disablesplitpreview, );
+    WRITE_SET_RULE(enablewindowshadow, Enablewindowshadow, );
 }
 
 #undef WRITE_MATCH_STRING
@@ -317,7 +320,8 @@ bool Rules::isEmpty() const
             && disableglobalshortcutsrule == UnusedForceRule
             && desktopfilerule == UnusedSetRule
             && disablecornerrule == UnusedSetRule
-            && disablesplitpreviewrule == UnusedSetRule);
+            && disablesplitpreviewrule == UnusedSetRule
+            && enablewindowshadowrule == UnusedSetRule);
 }
 
 Rules::ForceRule Rules::convertForceRule(int v)
@@ -680,6 +684,7 @@ APPLY_FORCE_RULE(disableglobalshortcuts, DisableGlobalShortcuts, bool)
 APPLY_RULE(desktopfile, DesktopFile, QString)
 APPLY_RULE(disablecorner, DisableCorner, bool)
 APPLY_RULE(disablesplitpreview, DisableSplitpreview, bool)
+APPLY_RULE(enablewindowshadow, EnableWindowShadow, bool)
 
 #undef APPLY_RULE
 #undef APPLY_FORCE_RULE
@@ -758,6 +763,7 @@ bool Rules::discardUsed(bool withdrawn)
     DISCARD_USED_SET_RULE(desktopfile);
     DISCARD_USED_SET_RULE(disablecorner);
     DISCARD_USED_SET_RULE(disablesplitpreview);
+    DISCARD_USED_SET_RULE(enablewindowshadow);
     return changed;
 }
 #undef DISCARD_USED_SET_RULE
@@ -920,6 +926,7 @@ CHECK_FORCE_RULE(DisableGlobalShortcuts, bool)
 CHECK_RULE(DesktopFile, QString)
 CHECK_RULE(DisableCorner, bool)
 CHECK_RULE(DisableSplitpreview, bool)
+CHECK_RULE(EnableWindowShadow, bool)
 
 #undef CHECK_RULE
 #undef CHECK_FORCE_RULE

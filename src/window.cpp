@@ -5192,6 +5192,15 @@ void Window::updateExtendWindowSection(const QPointF &pos)
     return;
 }
 
+bool Window::borderRedrawable() const
+{
+    if (isUnmanaged() /* || shape() */)  // window with shape should return false technically
+        return false;
+    if (isX11())
+        return isDecorated() || frameGeometry() == clientGeometry();
+    return isDecorated();
+}
+
 } // namespace KWin
 
 #include "moc_window.cpp"

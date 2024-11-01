@@ -80,7 +80,7 @@ QPointF WindowRadius::getWindowRadius()
     if (m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty)) {
         radius = m_window->windowStyleObj()->windowRadius().toPoint();
     } else {
-        if (!m_window->isUnmanaged()) {
+        if (m_window->borderRedrawable()) {
             radius.setX(Workspace::self()->getWindowStyleMgr()->getOsRadius() * Workspace::self()->getWindowStyleMgr()->getOsScale());
             radius.setY(Workspace::self()->getWindowStyleMgr()->getOsRadius() * Workspace::self()->getWindowStyleMgr()->getOsScale());
         } else {

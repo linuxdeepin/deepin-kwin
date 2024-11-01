@@ -87,8 +87,7 @@ void ScissorWindow::buildTextureMask(const QString& key, const QPoint& radius) {
 
 void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
                                    std::chrono::milliseconds time) {
-    if (effects->hasActiveFullScreenEffect() ||
-        w->isDesktop() || w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w) || isMaximized(w)) {
+    if (effects->hasActiveFullScreenEffect() || !shouldScissor(w)) {
         return effects->prePaintWindow(w, data, time);
     }
 
@@ -105,18 +104,17 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
         int radiusX = qRound(cornerRadius.x());
         int radiusY = qRound(cornerRadius.y());
         QRect corner1(w->frameGeometry().topLeft().toPoint(), QSize(radiusX, radiusY));
-        QRect corner2(w->frameGeometry().topRight().x()- radiusX, w->frameGeometry().topRight().y(), radiusX, radiusY);
+        QRect corner2(w->frameGeometry().topRight().x() - radiusX, w->frameGeometry().topRight().y(), radiusX, radiusY);
         QRect corner3(w->frameGeometry().bottomLeft().x() , w->frameGeometry().bottomLeft().y() - radiusY, radiusX, radiusY);
         QRect corner4(w->frameGeometry().bottomRight().x() - radiusX, w->frameGeometry().bottomRight().y()- radiusY, radiusX, radiusY);
         const QRect corners = corner1 | corner2 | corner3 | corner4;
-        data.paint |= corners;
         data.opaque -= corners;
     }
     effects->prePaintWindow(w, data, time);
 }
 
 void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
-    if ((w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w) || isMaximized(w)) && !w->isScissorForce()) {
+    if (!shouldScissor(w)) {
         return effects->drawWindow(w, mask, region, data);
     }
 
@@ -256,6 +254,13 @@ bool ScissorWindow::isMaximized(EffectWindow *w, const PaintData& data)
     auto geom = effects->findScreen(w->screen()->name())->geometry();
     return (w->x() + data.xTranslation() == geom.x() && w->width() * data.xScale() == geom.width()) ||
             (w->y() + data.yTranslation() == geom.y() && w->height() * data.yScale() == geom.height());
+}
+
+bool ScissorWindow::shouldScissor(EffectWindow *w) const
+{
+    if (w->data(WindowRadiusRole).isValid() || w->data(WindowClipPathRole).isValid())
+        return true;
+    return w->isScissorForce() || (!w->isDesktop() && !w->isOutline() && !w->isSplitBar() && !effectsEx->isSplitWin(w) && !isMaximized(w) && w->borderRedrawable());
 }
 
 }  // namespace KWin
