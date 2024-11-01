@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # postinst script for kwin
 #
 # see: dh_installdeb(1)
@@ -38,6 +38,30 @@ esac
 
 #DEBHELPER#
 
+declare -a needDeleteKey=(
+    "ShowMultitaskingA"
+    "ShowMultitaskingW"
+)
+
+function deleteKeyConfigfile() {
+    for del in ${needDeleteKey[@]}; do
+        sed -i "/^$del/d" $userKglobalFile
+    done
+}
+
+user_dirs=$(ls -d /home/*)
+for dir in $user_dirs; do
+    user=$(basename $dir)
+
+    if [ -z $user ];then
+        continue
+    fi
+
+    userKglobalFile="/home/$user/.config/kglobalshortcutsrc"
+    if [ ! -e "$userKglobalFile" ];then
+        continue
+    fi
+    deleteKeyConfigfile "$userKglobalFile"
+done
+
 exit 0
-
-
