@@ -49,6 +49,14 @@ function deleteKeyConfigfile() {
     done
 }
 
+if [ ! -d /home/ ]; then
+    exit 0
+fi
+
+if [ ! "$(ls -A "/home/")" ]; then
+    exit 0
+fi
+
 user_dirs=$(ls -d /home/*)
 for dir in $user_dirs; do
     user=$(basename $dir)
