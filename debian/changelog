@@ -1,3 +1,10 @@
+deepin-kwin (4:5.27.2.213-deepin213-1) unstable; urgency=medium
+
+  [zhangyu]
+  * fix: kwin 212 version iso build fail
+
+ -- zhangyu <zhangyud@uniontech.com>  Wed, 06 Nov 2024 11:48:18 +0800
+
 deepin-kwin (4:5.27.2.212-deepin212-1) unstable; urgency=medium
 
   [zhangyu]
