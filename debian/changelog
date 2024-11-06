@@ -1,3 +1,13 @@
+kwin (4:5.27.2.272-deepin272-1) unstable; urgency=medium
+
+  [huangzeming]
+  * fix: dont set noborder property for _DEEPIN_FORCE_DECORATE in xrender
+  * backends/x11: fix colormap leak
+  * fix: deepin-screen-recorder recording GIF, kwin_wayland crashes
+  * fix: adjust window shadow rules
+
+ -- huangzeming <huangzeming@uniontech.com>  Wed, 06 Nov 2024 14:21:44 +0800
+
 kwin (4:5.27.2.271-deepin271-1) unstable; urgency=medium
   
   [yangtian]
