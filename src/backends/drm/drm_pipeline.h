@@ -16,10 +16,8 @@
 #include <chrono>
 #include <xf86drmMode.h>
 
-#include "core/colorlut.h"
 #include "core/output.h"
 #include "core/renderloop_p.h"
-#include "drm_blob.h"
 #include "drm_connector.h"
 #include "drm_plane.h"
 
@@ -32,48 +30,9 @@ class DrmCrtc;
 class DrmConnectorMode;
 class DrmPipelineLayer;
 class DrmOverlayLayer;
-
-class DrmGammaRamp
-{
-public:
-    DrmGammaRamp(DrmCrtc *crtc, const std::shared_ptr<ColorTransformation> &transformation);
-    DrmGammaRamp(DrmCrtc *crtc, const Output::ColorCurves &colorCurves);
-
-    const ColorLUT &lut() const;
-    std::shared_ptr<DrmBlob> blob() const;
-
-private:
-    void init(DrmCrtc *crtc);
-
-    const ColorLUT m_lut;
-    std::shared_ptr<DrmBlob> m_blob;
-};
-
-class DrmCTM
-{
-public:
-    DrmCTM(DrmCrtc *crtc, const Output::CtmValue &ctmValue);
-
-    const Output::CtmValue &ctmValue() const;
-    std::shared_ptr<DrmBlob> blob() const;
-
-private:
-    const Output::CtmValue m_ctmValue;
-    std::shared_ptr<DrmBlob> m_blob;
-};
-
-class DrmColorMode
-{
-public:
-    DrmColorMode(DrmCrtc *crtc, const Output::ColorMode &colorMode);
-
-    const Output::ColorMode &colorModeValue() const;
-    std::shared_ptr<DrmBlob> blob() const;
-
-private:
-    const Output::ColorMode m_colorModeValue;
-    std::shared_ptr<DrmBlob> m_blob;
-};
+class DrmGammaRamp;
+class DrmCTM;
+class DrmColorMode;
 
 class DrmPipeline
 {
