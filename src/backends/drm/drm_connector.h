@@ -47,14 +47,14 @@ public:
     DrmConnectorMode(DrmConnector *connector, drmModeModeInfo nativeMode);
 
     drmModeModeInfo *nativeMode();
-    std::shared_ptr<DrmBlob> blob();
+    std::shared_ptr<DrmBlobFactory> blob();
 
     bool operator==(const DrmConnectorMode &otherMode) const;
 
 private:
     DrmConnector *m_connector;
     drmModeModeInfo m_nativeMode;
-    std::shared_ptr<DrmBlob> m_blob;
+    std::shared_ptr<DrmBlobFactory> m_blob;
 };
 
 class DrmConnector : public DrmObject
