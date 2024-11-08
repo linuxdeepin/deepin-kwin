@@ -41,9 +41,8 @@ public:
 
     /**
      * @brief Set the properties in such a way that this resource won't be used anymore
-     * @note Sub-class must call this in their overrided version
      */
-    virtual void disable();
+    virtual void disable() = 0;
 
     uint32_t id() const;
     DrmGpu *gpu() const;

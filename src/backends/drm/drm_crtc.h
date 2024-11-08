@@ -8,8 +8,10 @@
 */
 #pragma once
 
-#include "drm_object.h"
+#include "core/colorlut.h"
 #include "core/output.h"
+#include "drm_object.h"
+#include "drm_blob.h"
 
 #include <QPoint>
 #include <memory>
@@ -65,6 +67,42 @@ private:
     DrmPlane *m_primaryPlane;
     DrmPlane *m_cursorPlane;
     bool m_ctmEnabled = false;
+};
+
+class DrmGammaRamp : public DrmBlob<DrmCrtc, DrmCrtc::PropertyIndex::Gamma_LUT>
+{
+public:
+    DrmGammaRamp(DrmCrtc *crtc, const std::shared_ptr<ColorTransformation> &transformation);
+    DrmGammaRamp(DrmCrtc *crtc, const Output::ColorCurves &colorCurves);
+
+    const ColorLUT &lut() const;
+
+private:
+    void init(DrmCrtc *crtc);
+
+    const ColorLUT m_lut;
+};
+
+class DrmCTM : public DrmBlob<DrmCrtc, DrmCrtc::PropertyIndex::CTM>
+{
+public:
+    DrmCTM(DrmCrtc *crtc, const Output::CtmValue &ctmValue);
+
+    const Output::CtmValue &ctmValue() const;
+
+private:
+    const Output::CtmValue m_ctmValue;
+};
+
+class DrmColorMode : public DrmBlob<DrmCrtc, DrmCrtc::PropertyIndex::Gamma_LUT>
+{
+public:
+    DrmColorMode(DrmCrtc *crtc, const Output::ColorMode &colorMode);
+
+    const Output::ColorMode &colorModeValue() const;
+
+private:
+    const Output::ColorMode m_colorModeValue;
 };
 
 }

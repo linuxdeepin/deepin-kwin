@@ -12,13 +12,13 @@
 namespace KWin
 {
 
-DrmBlob::DrmBlob(DrmGpu *gpu, uint32_t blobId)
+DrmBlobFactory::DrmBlobFactory(DrmGpu *gpu, uint32_t blobId)
     : m_gpu(gpu)
     , m_blobId(blobId)
 {
 }
 
-DrmBlob::~DrmBlob()
+DrmBlobFactory::~DrmBlobFactory()
 {
     if (m_blobId) {
         drmModeDestroyPropertyBlob(m_gpu->fd(), m_blobId);
@@ -26,16 +26,16 @@ DrmBlob::~DrmBlob()
     }
 }
 
-uint32_t DrmBlob::blobId() const
+uint32_t DrmBlobFactory::blobId() const
 {
     return m_blobId;
 }
 
-std::shared_ptr<DrmBlob> DrmBlob::create(DrmGpu *gpu, const void *data, size_t dataSize)
+std::shared_ptr<DrmBlobFactory> DrmBlobFactory::create(DrmGpu *gpu, const void *data, size_t dataSize)
 {
     uint32_t id = 0;
     if (drmModeCreatePropertyBlob(gpu->fd(), data, dataSize, &id) == 0) {
-        return std::make_shared<DrmBlob>(gpu, id);
+        return std::make_shared<DrmBlobFactory>(gpu, id);
     } else {
         return nullptr;
     }
