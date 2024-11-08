@@ -71,10 +71,10 @@ DrmConnectorMode::DrmConnectorMode(DrmConnector *connector, drmModeModeInfo nati
 {
 }
 
-std::shared_ptr<DrmBlob> DrmConnectorMode::blob()
+std::shared_ptr<DrmBlobFactory> DrmConnectorMode::blob()
 {
     if (!m_blob) {
-        m_blob = DrmBlob::create(m_connector->gpu(), &m_nativeMode, sizeof(m_nativeMode));
+        m_blob = DrmBlobFactory::create(m_connector->gpu(), &m_nativeMode, sizeof(m_nativeMode));
     }
     return m_blob;
 }
@@ -378,7 +378,6 @@ DrmPipeline *DrmConnector::pipeline() const
 
 void DrmConnector::disable()
 {
-    DrmObject::disable();
     setPending(PropertyIndex::CrtcId, 0);
 }
 

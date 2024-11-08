@@ -170,7 +170,6 @@ DrmPlane::Transformations DrmPlane::supportedTransformations() const
 
 void DrmPlane::disable()
 {
-    DrmObject::disable();
     setPending(PropertyIndex::CrtcId, 0);
     setPending(PropertyIndex::FbId, 0);
     m_next = nullptr;
