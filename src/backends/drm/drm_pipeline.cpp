@@ -568,11 +568,8 @@ bool DrmPipeline::needUpdateCTM()
     if (!m_pending.ctm) {
         return false;
     }
-    if (m_current.ctm) {
-        return m_pending.ctm->ctmValue() != m_current.ctm->ctmValue();
-    } else {
-        return m_pending.ctm->ctmValue();
-    }
+    // update unconditionally
+    return true;
 }
 
 bool DrmPipeline::needUpdateColorMode()
@@ -580,11 +577,8 @@ bool DrmPipeline::needUpdateColorMode()
     if (!m_pending.colorMode) {
         return false;
     }
-    if (m_current.colorMode) {
-        return m_pending.colorMode->colorModeValue() != m_current.colorMode->colorModeValue();
-    } else {
-        return m_pending.colorMode->colorModeValue() != Output::ColorMode::Native;
-    }
+    // update unconditionally
+    return true;
 }
 
 bool DrmPipeline::activePending() const

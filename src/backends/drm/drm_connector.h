@@ -65,7 +65,7 @@ public:
     enum class PropertyIndex : uint32_t {
         CrtcId = 0,
         NonDesktop = 1,
-        Dpms = 2,
+        Dpms = 2, // In Atomic mode, KWin will set Crtc::ACTIVE instead
         Edid = 3,
         Overscan = 4,
         VrrCapable = 5,
