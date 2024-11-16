@@ -43,20 +43,11 @@ template<typename Object, typename Object::PropertyIndex Index>
 class DrmBlob
 {
     static_assert(std::is_base_of_v<KWin::DrmObject, Object>,
-        "Type must derive from KWin::DrmObject");
+        "Object must derive from KWin::DrmObject");
 public:
     explicit DrmBlob(Object *obj)
         : m_object(obj)
     {
-    }
-    /**
-     * Disable Object's blob properities.
-     */
-    virtual ~DrmBlob()
-    {
-        if (m_object) {
-            m_object->setPending(Index, 0);
-        }
     }
 
     std::shared_ptr<DrmBlobFactory> blob() const

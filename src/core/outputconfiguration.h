@@ -12,9 +12,6 @@
 
 #include "output.h"
 
-#include <QPoint>
-#include <QSize>
-
 namespace KWin
 {
 
