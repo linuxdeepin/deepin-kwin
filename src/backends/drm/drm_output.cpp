@@ -428,7 +428,7 @@ bool DrmOutput::queueChanges(const std::shared_ptr<OutputChangeSet> &props)
 {
     static bool valid;
     static int envOnlySoftwareRotations = qEnvironmentVariableIntValue("KWIN_DRM_SW_ROTATIONS_ONLY", &valid) == 1 || !valid;
-
+    // There is no need to distinguish these items whether is changed or not. DrmProperty::needCommits() will do the job.
     const auto mode = props->mode.value_or(currentMode()).lock();
     if (!mode) {
         return false;
