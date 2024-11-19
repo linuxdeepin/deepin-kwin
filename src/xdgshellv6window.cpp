@@ -35,7 +35,6 @@
 #include "workspace.h"
 #include "useractions.h"
 #include "wayland/dderestrict_interface.h"
-#include "scene/surfaceitem.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -1783,9 +1782,6 @@ void XdgToplevelV6Window::updateMaximizeMode(MaximizeMode maximizeMode)
     setMaximized(maximizeMode & MaximizeHorizontal && maximizeMode & MaximizeVertical);
     Q_EMIT clientMaximizedStateChanged(this, maximizeMode);
     Q_EMIT clientMaximizedStateChanged(this, maximizeMode & MaximizeHorizontal, maximizeMode & MaximizeVertical);
-    if (maximizeMode == MaximizeFull || maximizeMode == MaximizeRestore)
-        Q_EMIT clientMaximizedChanged(this, m_restoreMaxiArea, frameGeometry(), maximizeMode);
-
 }
 
 void XdgToplevelV6Window::updateFullScreenMode(bool set)
@@ -2025,10 +2021,6 @@ void XdgToplevelV6Window::maximize(MaximizeMode mode, bool animated)
     if (m_requestedMaximizeMode == mode) {
         return;
     }
-    if (auto item = surfaceItem()) {
-        item->discardPixmap();
-    }
-    m_restoreMaxiArea = frameGeometry();
     Q_EMIT clientMaximizedStateAboutToChange(this, mode);
     m_requestedMaximizeMode = mode;
 
