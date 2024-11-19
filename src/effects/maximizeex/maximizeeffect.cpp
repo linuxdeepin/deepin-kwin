@@ -9,19 +9,21 @@
 #include "maximizeeffect.h"
 #include "../utils/common.h"
 
-#include <effects.h>
+#include "effects.h"
+#include "scene/itemrenderer.h"
+#include "scene/windowitem.h"
 
 namespace MaxiConsts {
     const QEasingCurve TOGGLE_MODE =  QEasingCurve::OutQuart;// AnimationMode.EASE_OUT_Expo;
     static const int FADE_DURATION = 350;
-    static const qreal REBOUND_COEF = 0.85;
 }
 
 namespace KWin
 {
 MaximizeEffect::MaximizeEffect()
 {
-    connect(effects, &EffectsHandler::windowMaximizedChanged, this, &MaximizeEffect::slotWindowMaxiChanged);
+    connect(effects, &EffectsHandler::windowMaximizedStateChanged, this, &MaximizeEffect::slotWindowMaximizedStateChanged);
+    connect(effects, &EffectsHandler::windowMaximizedStateAboutToChange, this, &MaximizeEffect::slotWindowMaximizedStateAboutToChange);
 
     m_animationTime.setDuration(std::chrono::milliseconds(static_cast<int>(animationTime(MaxiConsts::FADE_DURATION))));
     m_animationTime.setDirection(TimeLine::Forward);
@@ -86,43 +88,8 @@ void MaximizeEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Wind
 
     auto area = effects->clientArea(MaximizeFullArea, w);
     QRegion reg(area.toRect());
-    WindowPaintData d = data;
     if (m_maxiWin == w) {
         float t = m_animationTime.value();
-        if (t < (effects->waylandDisplay() ? 0.2 : 0.7) && m_mode == 3) {
-            GLTexture *texture = effects->getWinPreviousTexture(w);
-            if (!texture)
-                return;
-            texture->setWrapMode(GL_CLAMP_TO_EDGE);
-
-            QPoint p0 = QPoint(w->x(), w->y());
-            QPoint p1 = m_oldGeo.toRect().topLeft();
-            QPoint p = p1 - (p1-p0) * t;
-
-            float w0 = w->width();
-            float w1 = m_oldGeo.width();
-            float wt = (w0-w1) * t + w1;
-
-            float h0 = w->height();
-            float h1 = m_oldGeo.height();
-            float ht = (h0 - h1) * t + h1;
-
-            texture->bind();
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            auto s = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
-            QMatrix4x4 mvp = data.projectionMatrix();
-            mvp.translate(p.x(), p.y());
-            s->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
-            const qreal scale = 1;
-            const QRectF rect = QRect(p, QSize(wt, ht));
-            texture->render(rect.toRect(), scale);
-            ShaderManager::instance()->popShader();
-            texture->unbind();
-            glDisable(GL_BLEND);
-
-            return;
-        }
         QRect r = m_newGeo.toRect();
         QRect r1 = m_oldGeo.toRect();
         QPoint p0 = r.topLeft();
@@ -139,10 +106,45 @@ void MaximizeEffect::paintWindow(EffectWindow *w, int mask, QRegion region, Wind
         float k1 = ht/h0;
 
         QPoint p = (p1-p0) * (1-t) + p0;
-        d.setScale(QVector2D(k,k1));
-        d += QPoint(qRound(p.x() - w->x()), qRound(p.y() - w->y()));
+        data.setScale(QVector2D(k,k1));
+        data += QPoint(qRound(p.x() - w->x()), qRound(p.y() - w->y()));
     }
-    effects->paintWindow(w, mask, reg, d);
+    effects->paintWindow(w, mask, reg, data);
+}
+
+void MaximizeEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data)
+{
+    effects->drawWindow(w, mask, region, data);
+
+    float t = m_animationTime.value();
+    if (m_maxiWin != w || !m_texture || m_texture->isNull() || t > (effects->waylandDisplay() ? 0.2 : 0.7) || !m_isMaximized)
+        return;
+
+    QPoint p0 = QPoint(w->x(), w->y());
+    QPoint p1 = m_oldGeo.toRect().topLeft();
+    QPoint p = p1 - (p1-p0) * t;
+
+    float w0 = w->width();
+    float w1 = m_oldGeo.width();
+    float wt = (w0-w1) * t + w1;
+
+    float h0 = w->height();
+    float h1 = m_oldGeo.height();
+    float ht = (h0 - h1) * t + h1;
+
+    m_texture->bind();
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    auto s = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
+    QMatrix4x4 mvp = data.projectionMatrix();
+    mvp.translate(p.x(), p.y());
+    s->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+    const qreal scale = 1;
+    const QRectF rect = QRect(p, QSize(wt, ht));
+    m_texture->render(rect.toRect(), scale);
+    ShaderManager::instance()->popShader();
+    m_texture->unbind();
+    glDisable(GL_BLEND);
 }
 
 bool MaximizeEffect::isActive() const
@@ -153,9 +155,6 @@ bool MaximizeEffect::isActive() const
 void MaximizeEffect::setActive(bool active)
 {
     if (effects->activeFullScreenEffect() && effects->activeFullScreenEffect() != this)
-        return;
-
-    if (m_activated == active)
         return;
 
     m_activated = active;
@@ -174,22 +173,66 @@ void MaximizeEffect::cleanup()
     if (m_activated)
         return;
 
+    m_maxiWin = nullptr;
+    m_texture.reset();
+    m_fbo.reset();
     effects->setActiveFullScreenEffect(nullptr);
-
 }
 
-void MaximizeEffect::slotWindowMaxiChanged(EffectWindow *window, QRectF oldG, QRectF newG, int mode)
+void MaximizeEffect::slotWindowMaximizedStateChanged(EffectWindow *window, bool horizontal, bool vertical)
+{
+    if (window != m_maxiWin || m_oldGeo == window->frameGeometry() || horizontal != vertical) {
+        setActive(false);
+        return;
+    }
+
+    m_newGeo = window->frameGeometry();
+    m_animationTime.reset();
+    m_isMaximized = horizontal && vertical;
+    setActive(true);
+}
+
+void MaximizeEffect::slotWindowMaximizedStateAboutToChange(EffectWindow *window, bool horizontal, bool vertical)
 {
     Window *w = window ? static_cast<EffectWindowImpl *>(window)->window() : nullptr;
-    if (!w || w->isInteractiveMove())
+    if (!w || w->isInteractiveMove() || horizontal != vertical) {
+        setActive(false);
         return;
+    }
 
-    m_animationTime.reset();
+    m_oldGeo = window->frameGeometry();
     m_maxiWin = window;
-    m_oldGeo = oldG;
-    m_newGeo = newG;
-    m_mode = mode;
-    setActive(true);
+
+    effects->makeOpenGLContextCurrent();
+
+    m_texture = std::make_unique<GLTexture>(GL_RGBA8, w->size().toSize());
+    m_texture->setFilter(GL_LINEAR);
+    m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
+    m_texture->setYInverted(true);
+
+    if (m_fbo = std::make_unique<GLFramebuffer>(m_texture.get())) {
+        GLFramebuffer::pushFramebuffer(m_fbo.get());
+
+        glClearColor(0.0, 0.0, 0.0, 0.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        ItemRenderer *renderer = static_cast<EffectsHandlerImpl *>(effects)->scene()->renderer();
+        const qreal scale = renderer->renderTargetScale();
+        QMatrix4x4 projectionMatrix;
+        const QRectF geometry = w->frameGeometry();
+        projectionMatrix.ortho(geometry.x() * scale, (geometry.x() + geometry.width()) * scale,
+                               geometry.y() * scale, (geometry.y() + geometry.height()) * scale, -1, 1);
+        WindowPaintData data;
+        data.setProjectionMatrix(projectionMatrix);
+        const int mask = Scene::PAINT_WINDOW_TRANSFORMED;
+        renderer->renderItem(w->windowItem(), mask, infiniteRegion(), data);
+
+        GLFramebuffer::popFramebuffer();
+    } else {
+        setActive(false);
+    }
+
+    effects->doneOpenGLContextCurrent();
 }
 
 }
