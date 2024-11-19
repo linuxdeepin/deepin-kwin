@@ -1627,7 +1627,6 @@ Q_SIGNALS:
      * @since 4.7
      */
     void windowMaximizedStateChanged(KWin::EffectWindow *w, bool horizontal, bool vertical);
-    void windowMaximizedChanged(KWin::EffectWindow *w, QRectF oldRect, QRectF newRect, int mode);
 
     /**
      * Signal emitted when the maximized state of the window @p w is about to change,

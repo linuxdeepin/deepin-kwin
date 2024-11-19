@@ -1670,9 +1670,6 @@ void Window::setMaximize(bool vertically, bool horizontally, bool animated)
     }
     if (vertically && horizontally)
         setTile(nullptr);
-    if (auto item = surfaceItem()) {
-        item->discardPixmap();
-    }
     maximize(mode, animated);
 }
 

@@ -27,6 +27,7 @@ public:
     void postPaintScreen() override;
     void prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::chrono::milliseconds presentTime) override;
     void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
+    void drawWindow(EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data) override;
 
     bool isActive() const override;
 
@@ -35,7 +36,8 @@ private:
     void cleanup();
 
 public Q_SLOTS:
-    void slotWindowMaxiChanged(EffectWindow *window, QRectF oldG, QRectF newG, int mode);
+    void slotWindowMaximizedStateChanged(EffectWindow *window, bool horizontal, bool vertical);
+    void slotWindowMaximizedStateAboutToChange(EffectWindow *window, bool horizontal, bool vertical);
 
 private:
     bool                        m_activated = false;
@@ -43,7 +45,10 @@ private:
     QRectF                      m_oldGeo, m_newGeo;
     QRectF                      m_nowGeo, m_lastGeo;
     TimeLine                    m_animationTime;
-    int                         m_mode;
+    bool                        m_isMaximized = false;
+
+    std::unique_ptr<GLFramebuffer> m_fbo;
+    std::unique_ptr<GLTexture> m_texture;
 };
 }
 #endif

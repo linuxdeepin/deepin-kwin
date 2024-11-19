@@ -1656,7 +1656,6 @@ Q_SIGNALS:
     void clientMaximizedStateAboutToChange(KWin::Window *, MaximizeMode);
     void clientMaximizedStateChanged(KWin::Window *, MaximizeMode, bool animated = true);
     void clientMaximizedStateChanged(KWin::Window *c, bool h, bool v);
-    void clientMaximizedChanged(KWin::Window *, QRectF, QRectF, MaximizeMode);
     void transientChanged();
     void modalChanged();
     void quickTileModeChanged();

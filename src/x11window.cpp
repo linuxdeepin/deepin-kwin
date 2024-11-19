@@ -4410,8 +4410,7 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
     if (max_mode == mode) {
         return;
     }
-    QRectF oldGeometry = frameGeometry();
-    QRectF newGeometry;
+
     blockGeometryUpdates(true);
 
     // maximing one way and unmaximizing the other way shouldn't happen,
@@ -4562,7 +4561,6 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         }
         info->setState(NET::States(), NET::Max);
         updateQuickTileMode(QuickTileFlag::None);
-        newGeometry = restore;
         break;
     }
 
@@ -4619,7 +4617,6 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         } else {
             updateQuickTileMode(QuickTileFlag::None);
         }
-        newGeometry = r;
         info->setState(NET::Max, NET::Max);
         break;
     }
@@ -4636,10 +4633,6 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         setMaximized(max_mode & MaximizeHorizontal && max_mode & MaximizeVertical);
         Q_EMIT clientMaximizedStateChanged(this, max_mode, animated);
         Q_EMIT clientMaximizedStateChanged(this, max_mode & MaximizeHorizontal, max_mode & MaximizeVertical);
-        if (animated && (mode == MaximizeFull || mode == MaximizeRestore))
-        {
-            Q_EMIT clientMaximizedChanged(this, oldGeometry, newGeometry, mode);
-        }
         qCDebug(KWIN_CORE) << "set window max mode: " << max_mode << window();
     }
 }
