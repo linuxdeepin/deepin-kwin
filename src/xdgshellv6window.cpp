@@ -1754,7 +1754,7 @@ void XdgToplevelV6Window::initialize()
         m_isSendT = true;
     }
 
-    if (caption().contains("glmark2")) {
+    if (resourceName().contains("glmark2")) {
         Compositor::self()->incrementBenchWindow();
         surface()->skipBuffer();
         m_isBenchWindow = true;
