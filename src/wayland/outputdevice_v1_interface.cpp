@@ -255,11 +255,9 @@ void OutputDeviceInterfacePrivate::org_kde_kwin_outputdevice_bind_resource(Resou
     sendEisaId(resource);
     sendName(resource);
     sendSerialNumber(resource);
-
     for (OutputDeviceModeInterface *mode : std::as_const(m_modes)) {
         sendNewMode(resource, mode);
     }
-    sendCurrentMode(resource);
     sendUuid(resource);
     sendEdid(resource);
     sendEnabled(resource);
@@ -542,10 +540,6 @@ void OutputDeviceInterface::updateModes()
         for (auto resource : clientResources) {
             d->sendNewMode(resource, deviceMode);
         }
-    }
-
-    for (auto resource : clientResources) {
-        d->sendCurrentMode(resource);
     }
 
     qDeleteAll(oldModes.crbegin(), oldModes.crend());
