@@ -232,32 +232,29 @@ Workspace::Workspace()
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "WindowMaximize", this, SLOT(toggleActiveMaximize()));
 
     QTimer::singleShot(3000, [this] {
-        QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
-        interfaceRequire.setTimeout(100);
-        QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.icbc", "");
-        if (reply.isValid()) {
-            QString path = reply.value().path();
-            QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
-            interfaceValue.setTimeout(100);
-            QDBusReply<QVariant> replyValue = interfaceValue.call("value", "ICBCProhibitEnabled");
-            if (replyValue.value().toBool()) {
-                //here,in icbc prohibit screen shot must auto start
-                //to check special client status.
-                QDBusInterface remoteApp(DBUS_PROHIBITSCREENSHOT_SERVICE, DBUS_PROHIBITSCREENSHOT_OBJ, DBUS_PROHIBITSCREENSHOT_INTF);
-                QDBusPendingReply<bool> async = remoteApp.asyncCall("prohibited");
-                QDBusPendingCallWatcher *callWatcher = new QDBusPendingCallWatcher(async, this);
-                connect(callWatcher, &QDBusPendingCallWatcher::finished, this,
-                    [this](QDBusPendingCallWatcher *self) {
-                        QDBusPendingReply<bool> reply = *self;
-                        self->deleteLater();
-                        if (!reply.isValid()) {
-                            return;
-                        }
+        struct ProhibitThread : public QThread
+        {
+            void run() override
+            {
+                QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
+                interfaceRequire.setTimeout(100);
+                QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.icbc", "");
+                if (reply.isValid()) {
+                    QString path = reply.value().path();
+                    QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+                    interfaceValue.setTimeout(100);
+                    QDBusReply<QVariant> replyValue = interfaceValue.call("value", "ICBCProhibitEnabled");
+                    if (replyValue.isValid() && replyValue.value().toBool()) {
+                        //here,in icbc prohibit screen shot must auto start
+                        //to check special client status.
+                        QDBusInterface remoteApp(DBUS_PROHIBITSCREENSHOT_SERVICE, DBUS_PROHIBITSCREENSHOT_OBJ, DBUS_PROHIBITSCREENSHOT_INTF);
+                        remoteApp.asyncCall("prohibited");
                     }
-                );
-                QDBusConnection::systemBus().connect(QString(),QString(),"deepin.prohibitscreenshot.interface","callSession",this,SLOT(slotProhibitScreenShot(int,bool)));
+                }
             }
-        }
+        } *prohibitThread = new ProhibitThread();
+        connect(prohibitThread, &ProhibitThread::finished, prohibitThread, &ProhibitThread::deleteLater);
+        prohibitThread->start();
     });
 }
 
