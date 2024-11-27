@@ -1,3 +1,11 @@
+kwin (4:5.27.2.273-deepin273-1) unstable; urgency=medium
+
+  [huangzeming]
+  * fix: window caption contains "glmark2" will increase latency
+  * fix: start prohibit screenshot dbus in subthread
+
+ -- huangzeming <huangzeming@uniontech.com>  Wed, 27 Nov 2024 14:02:46 +0800
+
 kwin (4:5.27.2.272-deepin272-1) unstable; urgency=medium
 
   [huangzeming]
