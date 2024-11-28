@@ -7,9 +7,30 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "outputconfiguration.h"
+#include <QLoggingCategory>
+#include "utils/common.h"
+
+Q_DECLARE_LOGGING_CATEGORY(KWIN_DRM)
 
 namespace KWin
 {
+
+void OutputChangeSet::dump() const
+{
+    qCDebug(KWIN_DRM) << "OutputChangeSet:"
+                        << "\n\t mode:" << mode
+                        << "\n\t enabled:" << enabled
+                        << "\n\t pos:" << pos
+                        << "\n\t scale:" << scale
+                        << "\n\t transform:" << transform
+                        << "\n\t overscan:" << overscan
+                        << "\n\t rgbRange:" << rgbRange
+                        << "\n\t vrrPolicy:" << vrrPolicy
+                        << "\n\t brightness:" << brightness
+                        << "\n\t ctm:" << ctmValue
+                        << "\n\t colorCurves:" << colorCurves
+                        << "\n\t colorMode:" << colorModeValue;
+}
 
 std::shared_ptr<OutputChangeSet> OutputConfiguration::changeSet(Output *output)
 {
