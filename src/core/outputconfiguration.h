@@ -29,6 +29,7 @@ struct KWIN_EXPORT OutputChangeSet
     std::optional<Output::CtmValue> ctmValue;
     std::optional<Output::ColorCurves> colorCurves;
     std::optional<Output::ColorMode> colorModeValue;
+    void dump() const;
 };
 
 class KWIN_EXPORT OutputConfiguration

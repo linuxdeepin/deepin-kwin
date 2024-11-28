@@ -21,6 +21,7 @@
 #include "drm_dumb_swapchain.h"
 #include "drm_egl_backend.h"
 #include "drm_layer.h"
+#include "drm_restorer.h"
 #include "drm_logging.h"
 #include "kwinglutils.h"
 // Qt
@@ -46,10 +47,13 @@ DrmOutput::DrmOutput(const std::shared_ptr<DrmConnector> &conn)
     : DrmAbstractOutput(conn->gpu())
     , m_pipeline(conn->pipeline())
     , m_connector(conn)
+    , m_restorer(std::make_unique<DrmRestorer>(this))
 {
     RenderLoopPrivate::get(m_renderLoop.get())->canDoTearing = gpu()->asyncPageflipSupported();
     m_pipeline->setOutput(this);
     m_renderLoop->setRefreshRate(m_pipeline->mode()->refreshRate());
+
+    m_restorer->updateFilterRules(DrmRestorer::FilterFlag::ctmValue | DrmRestorer::FilterFlag::colorModeValue);
 
     Capabilities capabilities = Capability::Dpms;
     State initialState = m_state;
@@ -445,6 +449,8 @@ bool DrmOutput::queueChanges(const std::shared_ptr<OutputChangeSet> &props)
         m_pipeline->setBufferOrientation(m_pipeline->renderOrientation());
     }
     m_pipeline->setEnable(props->enabled.value_or(m_pipeline->enabled()));
+
+    m_restorer->accumulate(props);
     return true;
 }
 
