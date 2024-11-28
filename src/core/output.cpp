@@ -94,6 +94,12 @@ OutputMode::Flags OutputMode::flags() const
     return m_flags;
 }
 
+QDebug operator<<(QDebug dbg, const OutputMode &mode)
+{
+    dbg.nospace() << "OutputMode(" << mode.size() << ", " << mode.refreshRate() << ", " << mode.flags() << ")";
+    return dbg;
+}
+
 Output::Output(QObject *parent)
     : QObject(parent)
 {

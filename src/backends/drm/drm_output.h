@@ -28,6 +28,7 @@ class DrmConnector;
 class DrmPipeline;
 class DrmLease;
 class OutputChangeSet;
+class DrmRestorer;
 
 class KWIN_EXPORT DrmOutput : public DrmAbstractOutput
 {
@@ -76,6 +77,8 @@ private:
         QPointer<CursorSource> source;
         QPoint position;
     } m_cursor;
+
+    std::unique_ptr<DrmRestorer> m_restorer;
 };
 
 }

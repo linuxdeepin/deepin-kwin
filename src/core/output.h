@@ -38,6 +38,7 @@ enum class ContentType {
 
 class KWIN_EXPORT OutputMode
 {
+friend QDebug operator<<(QDebug dbg, const OutputMode &mode);
 public:
     enum class Flag : uint {
         Preferred = 0x1,
