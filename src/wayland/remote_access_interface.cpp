@@ -32,7 +32,7 @@ static const QString SCREEN_RECORDING_START = QStringLiteral("screenRecordingSta
 static const QString SCREEN_RECORDING_FINISHED = QStringLiteral("screenRecordingStop");
 static QObject gsScreenRecord;
 
-static constexpr int MAX_BUFFERS_SIZE = 100;
+static constexpr int MAX_BUFFERS_SIZE = 5;
 static constexpr auto KEEP_ALIVE_SECOND = 5s;
 
 struct BufferHandlePrivate // @see gbm_import_fd_data
@@ -139,7 +139,7 @@ qint32 BufferHandle::frame() const
  */
 struct BufferHolder
 {
-    QPointer<BufferHandle> buf = nullptr; ///< this pointer use to strong reference the allocated buf in heap. should only be destroy by org_kde_kwin_remote_access_manager_release request.
+    QPointer<BufferHandle> buf = nullptr; ///< this pointer use to strong reference the allocated buf in heap. should only be destroy by org_kde_kwin_remote_buffer_release request.
     quint64 counter = 0;
     seconds lifetime = 0s;
 };
@@ -156,11 +156,6 @@ public:
      * @param buf buffer containing GBM-related params
      */
     void sendBufferReady(const OutputInterface *output, QPointer<BufferHandle> buf);
-    /**
-     * @brief Release all bound buffers associated with this resource
-     * @param resource one of bound clients
-     */
-    void release(wl_resource *resource);
 
     void incrementRenderSequence();
 
@@ -180,8 +175,10 @@ private:
      */
     bool unref(BufferHolder &bh);
     /**
-     * @brief Clear sent buffer, regardless of whether its refence count is 0 or not
+     * @brief Clear sent buffer, close fd and destroy gbm_bo
+     * regardless of whether its refence count is 0 or not
      * @param bh holder to be destroy
+     * @note Should only used for cleanup and mustn't used for releaseing
      */
     void remove(const BufferHolder &bh);
 
@@ -196,7 +193,6 @@ private:
     QHash<qint32, BufferHolder> sentBuffers;
     QHash<wl_resource *, qint32> requestFrames;
     QHash<wl_resource*, qint32> lastFrames;
-
 
     /**
      * Clients of this interface.
@@ -258,20 +254,13 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
     sentBuffers[buf->fd()] = holder;
 
     // NOTE: for applications which consume buffers too slow, simply close too old buffers to ensure kwin not quit.
-    //       In this circumstances, applications should handle the potential exception: fd has been closed by compositor.
+    //       In this circumstances, applications should handle the potential exception: buffer has been destroyed by compositor.
     if (Q_UNLIKELY(sentBuffers.size() > MAX_BUFFERS_SIZE)) {
         const auto &fds = sentBuffers.keys();
-        int fdNums = fds.size();
-        for (qint32 fd : fds) {
-            if (fdNums <= MAX_BUFFERS_SIZE) {
-                break;
-            }
-            // Remove buffers which are so old that they are unlikely to used by clients forcely.
-            // Clients still have buffer and will send buffer_release request in the future.
-            if (holder.lifetime - sentBuffers[fd].lifetime > KEEP_ALIVE_SECOND) {
-                remove(sentBuffers[fd]);
-                fdNums--;
-            }
+        // Remove buffers which are so old that they are unlikely to used by clients forcely.
+        // Clients still have buffer and will send buffer_release request in the future.
+        for (const qint32 fd : fds) {
+            remove(sentBuffers[fd]);
         }
         qCDebug(KWIN_CORE) << "Current buffer size over" << MAX_BUFFERS_SIZE <<", released forcely. Now buffer size is" << sentBuffers.size();
     }
@@ -315,13 +304,12 @@ void RemoteAccessManagerInterfacePrivate::remove(const BufferHolder &bh)
 
 void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get_buffer(Resource *resource, uint32_t buffer, int32_t internal_buffer_id)
 {
-    // client asks for buffer we earlier announced, we must have it
-    if (Q_UNLIKELY(!this->sentBuffers.contains(internal_buffer_id))) { // no such buffer (?)
-        wl_resource_post_no_memory(resource->handle);
+    if (Q_UNLIKELY(!this->sentBuffers.contains(internal_buffer_id))) { // no such buffer
+        qCWarning(KWIN_CORE) << "Client" << resource->client() << "request for a invalid buffer" << buffer << internal_buffer_id;
         return;
     }
 
-    BufferHolder &bh = sentBuffers[internal_buffer_id];
+    const BufferHolder &bh = sentBuffers[internal_buffer_id];
     if (requestFrames.contains(resource->handle)) {
         if (lastFrames[resource->handle] == bh.buf->fd()) {
             bh.buf->setFrame(0);
