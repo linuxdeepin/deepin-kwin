@@ -610,6 +610,20 @@ bool WaylandServer::init(InitializationFlags flags)
         [this] (XWaylandKeyboardGrabV1Interface *grab) {
             m_grabClient = grab;
             qDebug() << "grab successfully";
+            if (grab->surface()) {
+                Window *window = workspace()->findToplevel(
+                    [grab](const Window *w)->bool {
+                        if (!w->surface())
+                            return false;
+                        return grab->surface()->id() == w->surface()->id();
+                    }
+                );
+                if (window) {
+                    qWarning() << "found grab client, id:" << window->window() << "name:" << window->resourceName()
+                               << "class:" << window->resourceClass() << "captioin:" << window->caption()
+                               << "pid:" << window->pid();
+                }
+            }
         }
     );
     connect(m_xWaylandKeyboardGrabManager, &XWaylandKeyboardGrabManagerV1Interface::XWaylandKeyboardGrabV1Destroyed,
