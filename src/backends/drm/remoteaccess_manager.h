@@ -68,6 +68,7 @@ private:
 
     RemoteAccessManagerInterface *m_interface = nullptr;
     Output *m_removedOutput = nullptr;
+    // Record buffer_handle's strong reference to keep then valid
     std::map<const BufferHandle*, std::shared_ptr<DrmGpuBuffer>> m_gbmBufferList;
 };
 
