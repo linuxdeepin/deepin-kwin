@@ -1545,6 +1545,7 @@ QPainter *EffectsHandlerImpl::scenePainter()
 
 void EffectsHandlerImpl::toggleEffect(const QString &name)
 {
+    qCDebug(KWIN_CORE) << "EffectsHandler::toggleEffect from dbus : " << name;
     if (isEffectLoaded(name)) {
         unloadEffect(name);
     } else {
@@ -1703,6 +1704,7 @@ void EffectsHandlerImpl::reloadEffect(Effect *effect)
         }
     }
     if (!effectName.isNull()) {
+        qCDebug(KWIN_CORE) << "EffectsHandler::reloadEffect : " << effectName;
         unloadEffect(effectName);
         m_effectLoader->loadEffect(effectName);
     }
