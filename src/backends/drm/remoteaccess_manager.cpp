@@ -76,6 +76,11 @@ void RemoteAccessManager::releaseBuffer(QPointer<BufferHandle> buf)
 
 void RemoteAccessManager::passBuffer(Output *output, std::shared_ptr<DrmGpuBuffer> buffer)
 {
+    if (!buffer) {
+        qWarning(KWIN_CORE) << "Original buffer has been destroyed!";
+        return;
+    }
+
     auto dde_restrict = waylandServer()->ddeRestrict();
     if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
         return;
