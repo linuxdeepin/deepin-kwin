@@ -57,7 +57,7 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
 {
     const QSize size = texture->size();
     const bool isGLES = GLPlatform::instance()->isGLES();
-    const bool invertNeeded = isGLES ^ texture->isYInverted();
+    const bool invertNeeded = texture->isYInverted();
     const bool invertNeededAndSupported = invertNeeded && GLPlatform::instance()->supports(PackInvert);
     GLboolean prev;
     if (invertNeededAndSupported) {

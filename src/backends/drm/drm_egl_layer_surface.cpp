@@ -203,6 +203,7 @@ std::shared_ptr<GLTexture> EglGbmLayerSurface::texture() const
     QImage image((uchar *)sourceBuffer->mappedData(),
                 sourceBuffer->size().width(),sourceBuffer->size().height(), QImage::Format_RGB32);
     GLTexture tex(image.mirrored(false, true));
+    tex.setYInverted(false);
     texture = std::make_shared<GLTexture>(tex);
 
     return texture;
