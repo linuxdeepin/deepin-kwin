@@ -344,6 +344,8 @@ void LogindSession::handlePrepareForSleep(bool sleep)
 {
     if (!sleep) {
         Q_EMIT awoke();
+    } else {
+        Q_EMIT suspend();
     }
 }
 
