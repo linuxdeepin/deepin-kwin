@@ -79,6 +79,7 @@ public:
 
 public Q_SLOTS:
     void turnOutputsOn();
+    void turnOutputsOff();
     void sceneInitialized() override;
 
 Q_SIGNALS:
