@@ -111,9 +111,21 @@ void DrmBackend::createDpmsFilter()
 void DrmBackend::turnOutputsOn()
 {
     m_dpmsFilter.reset();
+    qCWarning(KWIN_DRM) << "turn outputs on";
     for (Output *output : std::as_const(m_outputs)) {
         if (output->isEnabled()) {
             output->setDpmsMode(Output::DpmsMode::On);
+        }
+    }
+}
+
+void DrmBackend::turnOutputsOff()
+{
+    qCWarning(KWIN_DRM) << "turn outputs off";
+    for (Output *output : std::as_const(m_outputs)) {
+        auto drmOutput = qobject_cast<DrmOutput*>(output);
+        if (drmOutput && drmOutput->isEnabled()) {
+            drmOutput->setDrmDpmsMode(Output::DpmsMode::Off);
         }
     }
 }
@@ -147,6 +159,7 @@ bool DrmBackend::initialize()
         }
     });
     connect(m_session, &Session::awoke, this, &DrmBackend::turnOutputsOn);
+    connect(m_session, &Session::suspend, this, &DrmBackend::turnOutputsOff);
 
     if (!m_explicitGpus.isEmpty()) {
         for (const QString &fileName : m_explicitGpus) {

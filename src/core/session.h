@@ -94,6 +94,10 @@ Q_SIGNALS:
      */
     void awoke();
     /**
+     * This signal is emitted when the session is suspend.
+     */
+    void suspend();
+    /**
      * This signal is emitted when the active state of the session has changed.
      */
     void activeChanged(bool active);
