@@ -32,7 +32,7 @@ static const QString SCREEN_RECORDING_START = QStringLiteral("screenRecordingSta
 static const QString SCREEN_RECORDING_FINISHED = QStringLiteral("screenRecordingStop");
 static QObject gsScreenRecord;
 
-static constexpr int MAX_BUFFERS_SIZE = 5;
+static constexpr int MAX_BUFFERS_SIZE = 5; // 暂时写死
 static constexpr auto KEEP_ALIVE_SECOND = 5s;
 
 struct BufferHandlePrivate // @see gbm_import_fd_data
@@ -134,18 +134,24 @@ qint32 BufferHandle::frame() const
 
 /**
  * @brief helper struct for manual reference counting.
- * automatic counting via QSharedPointer is no-go here as we hold strong reference in sentBuffers.
+ * automatic counting via QSharedPointer is no-go here as we hold strong reference in bufferPool.
  * @note must be copyable
  */
 struct BufferHolder
 {
     QPointer<BufferHandle> buf = nullptr; ///< this pointer use to strong reference the allocated buf in heap. should only be destroy by org_kde_kwin_remote_buffer_release request.
-    quint64 counter = 0;
+    quint64 refcount = 0;
     seconds lifetime = 0s;
 };
 
 class RemoteAccessManagerInterfacePrivate : public QtWaylandServer::org_kde_kwin_remote_access_manager
 {
+    struct BufferStatus
+    {
+        qint32 fd = -1; // serverside-index for buffer lives in bufferPool
+        bool inUse = false; // whether buffer's gbm_handle has been sent to clients
+    };
+    using ClientBufferQueue = std::array<BufferStatus, MAX_BUFFERS_SIZE>;
 public:
     RemoteAccessManagerInterfacePrivate(RemoteAccessManagerInterface *q, Display *display);
     ~RemoteAccessManagerInterfacePrivate() override;
@@ -187,10 +193,10 @@ private:
     RemoteAccessManagerInterface *q;
 
     /**
-     * Buffers that were sent but still not acked by server
+     * Buffers retrieved from RemoteAccessManager during compositing
      * Keys are fd numbers as they are unique
      **/
-    QHash<qint32, BufferHolder> sentBuffers;
+    QHash<qint32, BufferHolder> bufferPool; // 需要通过fd来索引一个remotebuffer，因为fd是协议中通信使用的，我们只有这个信息来索引fd
     QHash<wl_resource *, qint32> requestFrames;
     QHash<wl_resource*, qint32> lastFrames;
 
@@ -199,7 +205,7 @@ private:
      * This may be screenshot app, video capture app,
      * remote control app etc.
      */
-    QList<Resource *> clientResources;
+    QHash<Resource *, ClientBufferQueue> clientResources;
 
 protected:
     void org_kde_kwin_remote_access_manager_bind_resource(Resource *resource) override;
@@ -217,9 +223,9 @@ RemoteAccessManagerInterfacePrivate::RemoteAccessManagerInterfacePrivate(RemoteA
 void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface *output, QPointer<BufferHandle> buf)
 {
     BufferHolder holder{buf, 0, duration_cast<seconds>(steady_clock::now().time_since_epoch())};
-    // notify clients
+    // notify clients we have a newly prepared buffer
     for (auto res : resourceMap()) {
-        auto client = wl_resource_get_client(res->handle);
+        auto client = res->client();
         auto boundScreens = output->clientResources(display->getConnection(client));
 
         // clients don't necessarily bind outputs
@@ -233,9 +239,21 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
         }
 
         if (frame) {
-            // no reason for client to bind wl_output multiple times, send only to first one
-            send_buffer_ready(res->handle, buf->fd(), boundScreens[0]);
-            holder.counter++;
+            auto &clientQueue = clientResources[res];
+            size_t inUsed = 0;
+            for (auto it = clientQueue.begin(); it != clientQueue.end(); ++it) {
+                if (it->inUse) {
+                    inUsed++;
+                    continue;
+                }
+                *it = {buf->fd(), false};
+                break;
+            }
+            if (inUsed < clientQueue.size()) {
+                holder.refcount++;
+                // no reason for client to bind wl_output multiple times, send only to first one
+                send_buffer_ready(res->handle, buf->fd(), boundScreens[0]);
+            }
             if (frame == 1) {
                 lastFrames[res->handle] = buf->fd();
             }
@@ -244,26 +262,26 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
             requestFrames[res->handle] = frame - 1;
         }
     }
-    if (holder.counter == 0) {
+    if (holder.refcount == 0) {
         // buffer was not requested by any client
         Q_EMIT q->bufferReleased(buf);
         return;
     }
 
     // store buffer locally, clients will ask it later
-    sentBuffers[buf->fd()] = holder;
+    bufferPool[buf->fd()] = holder;
 
-    // NOTE: for applications which consume buffers too slow, simply close too old buffers to ensure kwin not quit.
-    //       In this circumstances, applications should handle the potential exception: buffer has been destroyed by compositor.
-    if (Q_UNLIKELY(sentBuffers.size() > MAX_BUFFERS_SIZE)) {
-        const auto &fds = sentBuffers.keys();
-        // Remove buffers which are so old that they are unlikely to used by clients forcely.
-        // Clients still have buffer and will send buffer_release request in the future.
-        for (const qint32 fd : fds) {
-            remove(sentBuffers[fd]);
-        }
-        qCDebug(KWIN_CORE) << "Current buffer size over" << MAX_BUFFERS_SIZE <<", released forcely. Now buffer size is" << sentBuffers.size();
-    }
+    // // NOTE: for applications which consume buffers too slow, simply close too old buffers to ensure kwin not quit.
+    // //       In this circumstances, applications should handle the potential exception: buffer has been destroyed by compositor.
+    // if (Q_UNLIKELY(sentBuffers.size() > MAX_BUFFERS_SIZE)) {
+    //     const auto &fds = sentBuffers.keys();
+    //     // Remove buffers which are so old that they are unlikely to used by clients forcely.
+    //     // Clients still have buffer and will send buffer_release request in the future.
+    //     for (const qint32 fd : fds) {
+    //         remove(sentBuffers[fd]);
+    //     }
+    //     qCDebug(KWIN_CORE) << "Current buffer size over" << MAX_BUFFERS_SIZE <<", released forcely. Now buffer size is" << sentBuffers.size();
+    // }
 }
 
 void RemoteAccessManagerInterfacePrivate::incrementRenderSequence()
@@ -274,15 +292,15 @@ void RemoteAccessManagerInterfacePrivate::incrementRenderSequence()
 void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_bind_resource(Resource *resource)
 {
     // add newly created client resource to the list
-    clientResources << resource;
+    clientResources[resource] = ClientBufferQueue();
     Q_EMIT q->addedClient();
 }
 
 bool RemoteAccessManagerInterfacePrivate::unref(BufferHolder &bh)
 {
-    if (bh.counter != 0) {
-        bh.counter--;
-        if (bh.counter == 0) {
+    if (bh.refcount != 0) {
+        bh.refcount--;
+        if (bh.refcount == 0) {
             // no more clients using this buffer
             remove(bh);
             return true;
@@ -299,17 +317,22 @@ void RemoteAccessManagerInterfacePrivate::remove(const BufferHolder &bh)
     }
     int fd = bh.buf->fd();
     Q_EMIT q->bufferReleased(bh.buf);
-    sentBuffers.remove(fd);
+    bufferPool.remove(fd);
 }
 
 void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get_buffer(Resource *resource, uint32_t buffer, int32_t internal_buffer_id)
 {
-    if (Q_UNLIKELY(!this->sentBuffers.contains(internal_buffer_id))) { // no such buffer
+    if (Q_UNLIKELY(!clientResources.contains(resource))) {
+        qCWarning(KWIN_CORE) << "Client" << resource->client() << "is not recorded";
+        return;
+    }
+
+    if (Q_UNLIKELY(!bufferPool.contains(internal_buffer_id))) { // no such buffer
         qCWarning(KWIN_CORE) << "Client" << resource->client() << "request for a invalid buffer" << buffer << internal_buffer_id;
         return;
     }
 
-    const BufferHolder &bh = sentBuffers[internal_buffer_id];
+    BufferHolder &bh = bufferPool[internal_buffer_id];
     if (requestFrames.contains(resource->handle)) {
         if (lastFrames[resource->handle] == bh.buf->fd()) {
             bh.buf->setFrame(0);
@@ -326,18 +349,35 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
     auto rbuf = new RemoteBufferInterface(bh.buf, RbiResource);
 
     QObject::connect(rbuf, &QObject::destroyed, [resource, internal_buffer_id, this] {
-        if (!clientResources.contains(resource) || !sentBuffers.contains(internal_buffer_id)) {
+        if (!clientResources.contains(resource) || !bufferPool.contains(internal_buffer_id)) {
             // remote buffer destroy confirmed after client is already gone
             // all relevant buffers are already unreferenced
             return;
         }
-        unref(sentBuffers[internal_buffer_id]);
+        auto &clientQueue = clientResources[resource];
+        for (auto it = clientQueue.begin(); it != clientQueue.end(); ++it) {
+            if (it->fd == internal_buffer_id) {
+                it->fd = -1;
+                it->inUse = false;
+                break;
+            }
+        }
+        unref(bufferPool[internal_buffer_id]);
         gsScreenRecord.setObjectName(SCREEN_RECORDING_FINISHED);
     });
 
     // unref resource when fd return -1
     if (rbuf->sendGbmHandle() == -1) {
         delete rbuf;
+        return;
+    }
+    // 标记为used
+    auto &clientQueue = clientResources[resource];
+    for (auto it = clientQueue.begin(); it != clientQueue.end(); ++it) {
+        if (it->fd == internal_buffer_id) {
+            it->inUse = true;
+            break;
+        }
     }
 
     gsScreenRecord.setObjectName(SCREEN_RECORDING_START);
@@ -347,7 +387,7 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_rel
 {
     requestFrames.remove(resource->handle);
     lastFrames.remove(resource->handle);
-    clientResources.removeAll(resource);
+    clientResources.remove(resource);
 
     // erese all fds which are no longer used by clients and close them
     // std::for_each(sentBuffers.begin(), sentBuffers.end(), [this](BufferHolder& bh) { remove(bh); }); // client is responsable for deletion
