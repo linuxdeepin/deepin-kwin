@@ -8,10 +8,6 @@
 */
 #include "splitswap.h"
 #include "workspace.h"
-
-#define DBUS_IMAGEEFFECT_SERVICE "org.deepin.dde.ImageBlur1"
-#define DBUS_BLUR_OBJ "/org/deepin/dde/ImageBlur1"
-#define DBUS_BLUR_INTF "org.deepin.dde.ImageBlur1"
 namespace SplitConsts {
     const QEasingCurve TOGGLE_MODE =  QEasingCurve::OutExpo;// AnimationMode.EASE_OUT_Expo;
     static const int FADE_DURATION = 600;
