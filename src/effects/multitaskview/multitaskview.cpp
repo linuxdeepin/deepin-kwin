@@ -3048,6 +3048,8 @@ void MultitaskViewEffect::addNewDesktop()
     int count = effects->numberOfDesktops();
     if (count >= MAX_DESKTOP_COUNT)
         return;
+    if (count == MAX_DESKTOP_COUNT - 1)
+        m_isShowPreview = false;
 
     m_isShieldEvent = true;
     effects->setNumberOfDesktops(count + 1);
