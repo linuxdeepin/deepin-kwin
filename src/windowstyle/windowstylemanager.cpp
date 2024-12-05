@@ -19,9 +19,6 @@
 #include <QX11Info>
 #include <QDebug>
 
-#define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
-#define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
-#define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_deepin_xsetting, ("com.deepin.xsettings"))
 #define GsettingsDtkRadius     "dtk-window-radius"

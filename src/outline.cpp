@@ -14,6 +14,7 @@
 #include "main.h"
 #include "scripting/scripting.h"
 #include "utils/common.h"
+#include "workspace.h"
 // Frameworks
 #include <KConfigGroup>
 // Qt
@@ -137,9 +138,7 @@ bool Outline::isActive() const
 
 QString Outline::ActiveColor()
 {
-    if (m_activeColor.isEmpty())
-        m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
-    return m_activeColor;
+    return workspace()->ActiveColor();
 }
 
 void Outline::setActiveColor(QString color)

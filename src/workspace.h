@@ -36,9 +36,10 @@
 #define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
 #define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
 #define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
-#define KWinDBusService "org.deepin.dde.Appearance1"
-#define KWinDBusPath "/org/deepin/dde/Appearance1"
-#define KWinDBusInterface "org.deepin.dde.Appearance1"
+
+#define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
+#define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
 #define DBUS_LOGIN_SERVICE       "org.freedesktop.login1"
@@ -708,8 +709,8 @@ public Q_SLOTS:
     void updateWindowStates();
     void slotClientMinimizeChanged(KWin::Window *window);
 
-    void qtActiveColorChanged();
-    void slotIconThemeChanged(const QString &property, const QString &theme);
+    void slotActiveColorChanged(QVariant property);
+    void slotIconThemeChanged(QVariant property);
 
     void tileActiveWindow(int);
     void toggleActiveMaximize();
@@ -982,8 +983,11 @@ private:
     QString m_sessionPath;
     bool m_splitBarState;
 
-    ConfigReader *m_fontSizeConfigReader = nullptr;
-    ConfigReader *m_fontFamilyConfigReader = nullptr;
+    std::unique_ptr<ConfigReader> m_colorConfigReader;
+    std::unique_ptr<ConfigReader> m_iconConfigReader;
+    std::unique_ptr<ConfigReader> m_fontSizeConfigReader;
+    std::unique_ptr<ConfigReader> m_fontFamilyConfigReader;
+
     Window* m_requestMovingClient = nullptr;
     bool m_bIsTouchToMovingClient = false;
 
