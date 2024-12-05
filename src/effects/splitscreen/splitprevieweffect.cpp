@@ -18,10 +18,6 @@
 #define SPACING_H           (float)(20.0 / 1080.0)
 #define SPACING_W           (float)(20.0 / 1920.0)
 
-#define DBUS_IMAGEEFFECT_SERVICE "org.deepin.dde.ImageBlur1"
-#define DBUS_BLUR_OBJ "/org/deepin/dde/ImageBlur1"
-#define DBUS_BLUR_INTF "org.deepin.dde.ImageBlur1"
-
 namespace KWin
 {
 SplitPreviewEffect::SplitPreviewEffect()
