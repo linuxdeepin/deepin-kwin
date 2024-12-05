@@ -41,6 +41,10 @@
 #define KWinDBusInterface "org.deepin.dde.Appearance1"
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
+#define DBUS_IMAGEEFFECT_SERVICE "org.deepin.dde.ImageEffect1"
+#define DBUS_BLUR_OBJ "/org/deepin/dde/ImageBlur1"
+#define DBUS_BLUR_INTF "org.deepin.dde.ImageBlur1"
+
 #define DBUS_LOGIN_SERVICE       "org.freedesktop.login1"
 #define DBUS_MANAGER_PATH        "/org/freedesktop/login1"
 #define DBUS_MANAGER_INTF        "org.freedesktop.login1.Manager"
