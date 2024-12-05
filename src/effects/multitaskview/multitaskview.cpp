@@ -65,10 +65,6 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock
 #define ADDBTN_SIZE_SCALE   (float)(64.0 / 1920.0)
 #define ADDBTN_RADIUS_SCALE (float)(18.0 / 1920.0)
 
-#define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
-#define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
-#define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
-
 #define DBUS_IMAGEEFFECT_SERVICE "org.deepin.dde.ImageBlur1"
 #define DBUS_BLUR_OBJ "/org/deepin/dde/ImageBlur1"
 #define DBUS_BLUR_INTF "org.deepin.dde.ImageBlur1"
