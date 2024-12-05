@@ -569,7 +569,7 @@ bool DrmPipeline::needUpdateCTM()
         return false;
     }
     // update unconditionally
-    return true;
+    return m_pending.ctm->ctmValue();
 }
 
 bool DrmPipeline::needUpdateColorMode()
