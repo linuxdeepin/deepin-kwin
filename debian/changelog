@@ -1,3 +1,12 @@
+kwin (4:5.27.2.274-deepin274-1) unstable; urgency=medium
+
+  [yangtian]
+  * fix: setYInverted when GLTexture is already interted of Y. 
+  * feat: add XWAYLAND_FORCE_SUPPORT_GLAMOR env 
+  * fix: delay done event after all changes are emitted
+
+ -- yangtian <yangtian@uniontech.com>  Wed, 11 Dec 2024 14:52:55 +0800
+
 kwin (4:5.27.2.273-deepin273-1) unstable; urgency=medium
 
   [huangzeming]
