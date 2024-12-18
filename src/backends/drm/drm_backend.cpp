@@ -447,7 +447,7 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
             }
             if (const auto changeset = config.constChangeSet(output)) {
                 output->queueChanges(changeset);
-                if (changeset->enabled) {
+                if (changeset->enabled.value_or(output->isEnabled())) {
                     toBeEnabled << output;
                 } else {
                     toBeDisabled << output;
