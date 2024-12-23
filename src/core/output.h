@@ -336,6 +336,8 @@ public:
 
     QSize shmRemoteProhibitBufferSize();
 
+    void setPosition(QPoint pos);
+
 Q_SIGNALS:
     /**
      * This signal is emitted when the geometry of this output has changed.
