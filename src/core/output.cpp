@@ -630,4 +630,14 @@ QSize Output::shmRemoteProhibitBufferSize()
     return m_shm_rp_buffer->outputSize;
 }
 
+void Output::setPosition(QPoint pos)
+{
+    if (pos == m_state.position) {
+        return;
+    }
+
+    m_state.position = pos;
+    Q_EMIT geometryChanged();
+}
+
 } // namespace KWin
