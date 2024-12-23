@@ -603,7 +603,10 @@ void Compositor::startupWithWorkspace()
         });
         addSuperLayer(workspaceLayer);
     } else {
+        QPoint pos(0, 0);
         for (Output *output : outputs) {
+            output->setPosition(pos);
+            pos.setX(pos.x() + output->geometry().width());
             addOutput(output);
         }
         connect(workspace(), &Workspace::outputAdded, this, &Compositor::addOutput);
