@@ -5194,11 +5194,12 @@ void Window::updateExtendWindowSection(const QPointF &pos)
 
 bool Window::borderRedrawable() const
 {
-    if (isUnmanaged() /* || shape() */)  // window with shape should return false technically
+    if (isUnmanaged())
         return false;
-    if (isX11())
-        return isDecorated() || frameGeometry() == clientGeometry();
-    return isDecorated();
+    if (rules()->checkEnableWindowShadow(false) || isDecorated())
+        return true;
+    // also draw border for x11 window without alpha and `_GTK_FRAME_EXTENTS` atom
+    return isX11() && !hasAlpha() && frameGeometry() == clientGeometry();
 }
 
 } // namespace KWin
