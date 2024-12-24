@@ -1,3 +1,10 @@
+kwin (4:5.27.2.275-deepin275-1) unstable; urgency=medium
+
+  [huangzeming]
+  * fix: cancel shadow for window with alpha channel
+
+ -- huangzeming <huangzeming@uniontech.com>  Tue, 24 Dec 2024 11:40:25 +0800
+
 kwin (4:5.27.2.274-deepin274-1) unstable; urgency=medium
 
   [yangtian]
