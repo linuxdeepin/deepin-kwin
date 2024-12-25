@@ -22,6 +22,8 @@ var squashEffect = {
             return;
         }
 
+        window.setData(Effect.WindowForceBlurRole, true);
+
         // If the window doesn't have an icon in the task manager,
         // don't animate it.
         var iconRect = window.iconGeometry;
