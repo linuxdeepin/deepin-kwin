@@ -1277,7 +1277,7 @@ void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction directi
             Gravity::Bottom,
             Gravity::BottomLeft,
             Gravity::Left};
-        if (!isResizable() || isShade()) {
+        if ((!isDock() && !isResizable()) || isShade()) {
             return;
         }
         if (isInteractiveMoveResize()) {
@@ -1286,7 +1286,7 @@ void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction directi
         setInteractiveMoveResizePointerButtonDown(true);
         setInteractiveMoveOffset(QPointF(x_root - x(), y_root - y())); // map from global
         setInvertedInteractiveMoveOffset(rect().bottomRight() - interactiveMoveOffset());
-        setUnrestrictedInteractiveMoveResize(false);
+        setUnrestrictedInteractiveMoveResize(isDock());
         setInteractiveMoveResizeGravity(convert[direction]);
         if (!startInteractiveMoveResize()) {
             setInteractiveMoveResizePointerButtonDown(false);

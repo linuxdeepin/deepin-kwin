@@ -1961,7 +1961,7 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
 
     const Gravity gravity = interactiveMoveResizeGravity();
     if ((gravity == Gravity::None && !isMovableAcrossScreens())
-        || (gravity != Gravity::None && (isShade() || !isResizable()))) {
+        || (gravity != Gravity::None && (isShade() || (!isDock() && !isResizable())))) {
         return;
     }
 
@@ -2959,7 +2959,7 @@ int Window::borderTop() const
 void Window::updateCursor()
 {
     Gravity gravity = interactiveMoveResizeGravity();
-    if (!isResizable() || isShade()) {
+    if ((!isDock() && !isResizable()) || isShade()) {
         gravity = Gravity::None;
     }
     CursorShape c = Qt::ArrowCursor;
