@@ -1630,7 +1630,7 @@ void Workspace::slotWindowMaximizeVertical()
 
 void Workspace::slotWindowMaximizeByShortcut()
 {
-    if (USABLE_ACTIVE_WINDOW) {
+    if (USABLE_ACTIVE_WINDOW && m_activeWindow->isMaximizable()) {
         resetInteractiveMoveResize();
         m_activeWindow->maximize(MaximizeFull);
         takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
