@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <QGraphicsDropShadowEffect>
 #include <QSharedPointer>
+#include <QPointer>
 
 namespace KWin
 {
@@ -49,7 +50,7 @@ private:
     bool m_isDark = false;
     bool m_entered = false;
     bool m_upside = false;
-    Window *m_client = nullptr;
+    QPointer<Window> m_client = nullptr;
 
     QColor m_color;
     QColor m_borderColor;
