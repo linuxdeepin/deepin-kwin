@@ -326,12 +326,6 @@ Compositor::Compositor(QObject *workspace)
     // register DBus
     new CompositorDBusInterface(this);
     FTraceLogger::create();
-
-    m_freezeTimer.setSingleShot(true);
-    m_freezeTimer.callOnTimeout([this] () {
-        qCWarning(KWIN_CORE) << "Compositing continue...";
-        scheduleRepaint();
-    });
 }
 
 void Compositor::handlePropertiesChanged(const QString &interfaceName, const QVariantMap &properties)
@@ -614,9 +608,6 @@ void Compositor::startupWithWorkspace()
         }
         connect(workspace(), &Workspace::outputAdded, this, &Compositor::addOutput);
         connect(workspace(), &Workspace::outputRemoved, this, &Compositor::removeOutput);
-
-        connect(workspace(), &Workspace::outputAdded, std::bind(std::mem_fn(&Compositor::freezeCompositing), Compositor::self(), 1000, true));
-        connect(workspace(), &Workspace::outputRemoved, std::bind(std::mem_fn(&Compositor::freezeCompositing), Compositor::self(), 1000, false));
     }
 
     m_state = State::On;
@@ -742,22 +733,6 @@ void Compositor::addOutput(Output *output)
     connect(Cursors::self(), &Cursors::currentCursorChanged, cursorLayer, updateCursorLayer);
     connect(Cursors::self(), &Cursors::hiddenChanged, cursorLayer, updateCursorLayer);
     connect(Cursors::self(), &Cursors::positionChanged, cursorLayer, moveCursorLayer);
-
-    connect(output, &Output::doneChanged, this, [this, output] () {
-        static auto shouldFreeze = [] (const Output *output) {
-            const auto flags = output->changedFlags();
-            if (!(flags & Output::ChangedFlag::Transform) && (flags & Output::ChangedFlag::Geometry)) {
-                return true;
-            }
-            if (flags & Output::ChangedFlag::CurrentMode) {
-                return true;
-            }
-            return false;
-        };
-        if (shouldFreeze(output)) {
-            freezeCompositing(1000);
-        }
-    });
 
     addSuperLayer(workspaceLayer);
 }
@@ -893,15 +868,6 @@ void Compositor::removeSupportProperty(xcb_atom_t atom)
     m_unusedSupportPropertyTimer.start();
 }
 
-void Compositor::freezeCompositing(int msec, bool check)
-{
-    if (check && workspace()->outputs().size() <= 1) {
-        return;
-    }
-    m_freezeTimer.start(msec);
-    qCWarning(KWIN_CORE) << "Compositing freeze for" << msec << "ms";
-}
-
 void Compositor::deleteUnusedSupportProperties()
 {
     if (m_state == State::Starting || m_state == State::Stopping) {
@@ -936,12 +902,7 @@ void Compositor::handleFrameRequested(RenderLoop *renderLoop, bool skip)
 {
     static quint32 frame = 0;
     if (skip || (inBenchmark() && (frame++ & 1))) {
-        return;
-    }
-    if (m_freezeTimer.isActive()) {
-        RenderLayer *superLayer = m_superlayers[renderLoop];
-        prePaintPass(superLayer);
-        postPaintPass(superLayer);
+        m_scene->postPaint();
         return;
     }
     composite(renderLoop);
