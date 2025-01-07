@@ -359,7 +359,9 @@ void OutputDeviceInterfacePrivate::sendName(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendDone(Resource *resource)
 {
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << q << " done resource " << resource;
+#endif
     send_done(resource->handle);
 }
 
@@ -444,7 +446,9 @@ void OutputDeviceInterfacePrivate::sendColorCurves(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendBrightness(Resource *resource)
 {
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_brightness " << m_brightness;
+#endif
     if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_BRIGHTNESS_SINCE_VERSION) {
         return;
     }
@@ -453,8 +457,10 @@ void OutputDeviceInterfacePrivate::sendBrightness(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendCtmValue(Resource *resource)
 {
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
             << " m_ctmValue " << m_ctmValue.r << m_ctmValue.g << m_ctmValue.b;
+#endif
     if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_CTM_SINCE_VERSION) {
         return;
     }
@@ -718,7 +724,9 @@ void OutputDeviceInterface::updateRgbRange()
 void OutputDeviceInterface::updateBrightness()
 {
     int brightness = d->m_handle->brightness();
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << this << " m_brightness " << d->m_brightness << " brightness " << brightness;
+#endif
     if (d->m_brightness != brightness) {
         d->m_brightness = brightness;
         const auto clientResources = d->resourceMap();
@@ -732,7 +740,9 @@ void OutputDeviceInterface::updateBrightness()
 void OutputDeviceInterface::updateCtmValue()
 {
     Output::CtmValue ctm = d->m_handle->ctmValue();
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << this << " ctm " << ctm.r << ctm.g << ctm.b;
+#endif
     if (d->m_ctmValue != ctm) {
         d->m_ctmValue = ctm;
         const auto clientResources = d->resourceMap();
@@ -746,7 +756,9 @@ void OutputDeviceInterface::updateCtmValue()
 void OutputDeviceInterface::updateCurvesChanged()
 {
     Output::ColorCurves colorCurves = d->m_handle->colorCurves();
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << this << " colorcurves " << colorCurves.red << colorCurves.green << colorCurves.blue;
+#endif
     if (d->m_colorCurves != colorCurves) {
         d->m_colorCurves = colorCurves;
         const auto clientResources = d->resourceMap();
