@@ -294,9 +294,10 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_colorcurves(
         invalid = true;
         return;
     }
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output
             << " invalid " << invalid << " red " << red << " green " << green << " blue " << blue;
-
+#endif
     Output::ColorCurves oldCc = output->handle()->colorCurves();
 
     static auto checkArg = [](const wl_array *newColor, const QVector<quint16> &oldColor) {
@@ -335,9 +336,9 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_brightness(R
         invalid = true;
         return;
     }
-
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " brightness " << brightness;
-
+#endif
     config.changeSet(output->handle())->brightness = brightness;
 }
 
@@ -352,9 +353,9 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_ctm(Resource
         invalid = true;
         return;
     }
-
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " r " << r << " g " << g << " b " << b;
-
+#endif
     config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};
 }
 
@@ -371,8 +372,9 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_set_color_mo
     }
 
     const auto mode = static_cast<Output::ColorMode>(color_mode);
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " color_mode " << mode;
-
+#endif
     config.changeSet(output->handle())->colorModeValue = mode;
 }
 
@@ -390,7 +392,9 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_destroy_reso
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resource *resource)
 {
+#ifdef QT_DEBUG
     qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " invalid " << invalid;
+#endif
     if (applied) {
         qCWarning(KWIN_CORE) << "Rejecting because an output configuration can be applied only once";
         return;
@@ -462,7 +466,9 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resour
         });
     }
     if (workspace()->applyOutputConfiguration(config, sortedOrder)) {
+#ifdef QT_DEBUG
         qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " send_applied";
+#endif
         applied = false;
         send_applied();
     } else {

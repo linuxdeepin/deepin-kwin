@@ -111,7 +111,9 @@ void DrmBackend::createDpmsFilter()
 void DrmBackend::turnOutputsOn()
 {
     m_dpmsFilter.reset();
+#ifdef QT_DEBUG
     qCWarning(KWIN_DRM) << "turn outputs on";
+#endif
     for (Output *output : std::as_const(m_outputs)) {
         if (output->isEnabled()) {
             output->setDpmsMode(Output::DpmsMode::On);
