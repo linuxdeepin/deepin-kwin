@@ -51,7 +51,7 @@ bool WindowShadow::updateWindowShadow()
         return getShadow();
 
     if (m_window->windowStyleObj()->isCancelShadow()
-        || (!m_window->borderRedrawable() && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty))
+        || (m_window->hasAlpha() && !m_window->borderRedrawable() && !m_window->windowStyleObj()->propertyIsValid(DecorationStyle::WindowRadiusProperty))
         || (m_window->rules() && m_window->rules()->checkDisableCorner(false))) {
         resetShadowKey();
         return true;
