@@ -1,3 +1,12 @@
+kwin (4:5.27.2.277-deepin277-1) unstable; urgency=medium
+
+  [WenHao Peng]
+  * fix: remote access gbm memory leak
+  * fix: missing window alpha check
+  * fix: crash in splitmenu event filter
+
+ -- WenHao Peng <pengwenhao@uniontech.com>  Fri, 10 Jan 2025 13:54:22 +0800
+
 kwin (4:5.27.2.276-deepin276-1) unstable; urgency=medium
 
   [YaoBing Xiao]
@@ -15,8 +24,8 @@ kwin (4:5.27.2.275-deepin275-1) unstable; urgency=medium
 kwin (4:5.27.2.274-deepin274-1) unstable; urgency=medium
 
   [yangtian]
-  * fix: setYInverted when GLTexture is already interted of Y. 
-  * feat: add XWAYLAND_FORCE_SUPPORT_GLAMOR env 
+  * fix: setYInverted when GLTexture is already interted of Y.
+  * feat: add XWAYLAND_FORCE_SUPPORT_GLAMOR env
   * fix: delay done event after all changes are emitted
 
  -- yangtian <yangtian@uniontech.com>  Wed, 11 Dec 2024 14:52:55 +0800
@@ -40,7 +49,7 @@ kwin (4:5.27.2.272-deepin272-1) unstable; urgency=medium
  -- huangzeming <huangzeming@uniontech.com>  Wed, 06 Nov 2024 14:21:44 +0800
 
 kwin (4:5.27.2.271-deepin271-1) unstable; urgency=medium
-  
+
   [yangtian]
   * fix: when active window changed, we finish moveresize window.
   * fix: change split trigger effect in Xrender.
@@ -100,8 +109,8 @@ kwin (4:5.27.2.266-deepin266-1) unstable; urgency=medium
   * fix: decoration button lost hoverLeave event
   * fix: avoid null pointer in windowItem
   * fix: coredump in eglDestroyImageKHR
-  * fix: set dconfig user type base on backend 
-  * fix: memory stomping when unplugging output 
+  * fix: set dconfig user type base on backend
+  * fix: memory stomping when unplugging output
 
  -- yangtian <yangtian@uniontech.com>  Thu, 26 Sep 2024 17:59:57 +0800
 
@@ -160,11 +169,11 @@ kwin (4:5.27.2.261-deepin261-1) unstable; urgency=medium
   [yangtian]
   * fix: wayland cursor size based scale factor
   * fix: add timestamp for x11window
-  * fix: unable to raise window below shape window 
+  * fix: unable to raise window below shape window
   * fix: maximize animation while dragging maximized window
   * fix: the judgement of workspace preview
   * fix: RRScreenChangNoitify make desktop and fullscreen type window can't keep old geometry
-  * fix: window title bar have gap between screen edge 
+  * fix: window title bar have gap between screen edge
 
  -- yangtian <yangtian@uniontech.com>  Wed, 14 Aug 2024 15:03:07 +0800
 
@@ -216,9 +225,9 @@ kwin (4:5.27.2.210-deepin210-1) unstable; urgency=medium
 
   [yangtian]
   * fix: minimized window flickers if click outside the tabbox
-  * fix: workspace close button on touchscreen in multitaskview   
-  * fix: watermark below the thumbnail in tabbox 
-  * fix: the squash effect in quick previewwindow was not cleared 
+  * fix: workspace close button on touchscreen in multitaskview
+  * fix: watermark below the thumbnail in tabbox
+  * fix: the squash effect in quick previewwindow was not cleared
   * fix: add timer to exit splitpreview for client damage
   * fix: multitaskview showWorkspacePreview offset in wayland
 
@@ -243,16 +252,16 @@ kwin (4:5.27.2.208-deepin208-1) unstable; urgency=medium
   [yangtian]
   * fix: reduce respond frequency while pressing keys in tabbox
   * fix: keep icon consistent with control center
-  * fix: reduce the brightness of desktop in tabbox 
+  * fix: reduce the brightness of desktop in tabbox
   * fix: show dock in tabbox
-  * fix: right click menu follows mouse 
+  * fix: right click menu follows mouse
   * fix: fix issue about click dock tray no response
   * fix: repair issue about dottedline when drop workspace in wayland
   * fix: fix error log
-  * fix: dde-kwin get currently workspace background is not sync when kwin add new workspace 
-  * fix: multitaskview grab status when two screenrecorder window closed 
+  * fix: dde-kwin get currently workspace background is not sync when kwin add new workspace
+  * fix: multitaskview grab status when two screenrecorder window closed
   * fix: fix repetitive multitaskview wallpaper
-  * fix: dconfig question 
+  * fix: dconfig question
   * fix: Mode setting failed when plugging in monitor
 
  -- yangtian <yangtian@uniontech.com>  Wed, 26 Jun 2024 13:43:05 +0800
@@ -457,7 +466,7 @@ kwin (4:5.27.2.88-deepin88-1) unstable; urgency=medium
   * fix: drag the icon in the taskbar plug-in area to the X11 window without disappearing
   * fix: rewrite splitmenu
   * fix: refix add workarea in dde-shell
-  * fix: tencent meeting cannot passthrough 
+  * fix: tencent meeting cannot passthrough
   * fix: cannot long screenshot on xwayland window
   * fix: cursor black margin on uos-update window
   * fix: dde-control-center is not full display when maximize immediately after start
@@ -482,7 +491,7 @@ kwin (4:5.27.2.86-deepin86-1) unstable; urgency=medium
 kwin (4:5.27.2.85-deepin85-1) unstable; urgency=medium
 
   [ wangboyu ]
-  * fix: dde-control-center error when screen is repeatly plugged/unplugged 
+  * fix: dde-control-center error when screen is repeatly plugged/unplugged
   * fix: screen flash when activating multitaskview
   * fix: window disappeared after changing screen position
   * feat: optimize clipboard、uos-ai and osd(notification center) effects
@@ -672,7 +681,7 @@ kwin (4:5.27.2.67-deepin67-1) unstable; urgency=medium
 kwin (4:5.27.2.66-deepin66-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  fix: shadow and scissor refresh 
+  *  fix: shadow and scissor refresh
   *  fix: optimize split menu positon scale
   *  fix: repair window's radius scale
  -- wangboyu <wangboyu@uniontech.com>  Mon, 29 Jan 2024 09:56:01 +0800
@@ -708,16 +717,16 @@ kwin (4:5.27.2.63-deepin63-1) unstable; urgency=medium
 kwin (4:5.27.2.62-deepin62-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  fix: rendering problem of wine app in cloud desktop xrender mode 
+  *  fix: rendering problem of wine app in cloud desktop xrender mode
   *  fix: opacity blend of titlebar menu
-  *  fix: show icon in xrender env 
+  *  fix: show icon in xrender env
 
  -- wangboyu <wangboyu@uniontech.com>  Sat, 14 Jan 2024 00:59:01 +0800
 
 kwin (4:5.27.2.61-deepin61-1) unstable; urgency=medium
 
   [ wangboyu ]
-  *  feat: Add alternative for EGL_LINUX_DMA_BUF_EXT 
+  *  feat: Add alternative for EGL_LINUX_DMA_BUF_EXT
 
  -- wangboyu <wangboyu@uniontech.com>  Thu, 11 Jan 2024 20:17:01 +0800
 
@@ -875,10 +884,10 @@ kwin (4:5.27.2.49-deepin49-1) unstable; urgency=medium
 kwin (4:5.27.2.48-deepin48-1) unstable; urgency=medium
 
   * [ wangboyu ]
-    fix: add function setTouchDeviceToScreenId and getTouchDeviceToScreenInfo. 
+    fix: add function setTouchDeviceToScreenId and getTouchDeviceToScreenInfo.
     fix: greeter will be killed when the shortcut of alt+f4 is pressed.
     fix: thirdpart titlebar icon don't change with system zoom
-    fix: remove selectionchanged/selectioncleared of primary selection. 
+    fix: remove selectionchanged/selectioncleared of primary selection.
     fix: prohibit screen active when client change desktop
 
  -- wangboyu <wangboyu@uniontech.com>  Fri, 15 Dec 2023 17:48:05 +0800
