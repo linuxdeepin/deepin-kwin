@@ -43,7 +43,6 @@ class EglGbmLayer;
 class DrmOutputLayer;
 class DrmPipeline;
 class RemoteAccessManager;
-class DrmGpuBuffer;
 
 struct GbmFormat
 {
@@ -95,11 +94,11 @@ private:
     bool initBufferConfigs();
     bool initRenderingContext();
     void initRemotePresent();
+    void passRemotePresent(Output *output);
 
     DrmBackend *m_backend;
     QHash<uint32_t, GbmFormat> m_formats;
     QHash<uint32_t, EGLConfig> m_configs;
-    QHash<Output *, std::shared_ptr<DrmGpuBuffer>> m_outputToBuffers;
     std::shared_ptr<RemoteAccessManager> m_remoteaccessManager;
     unsigned int m_dmaFd;
 

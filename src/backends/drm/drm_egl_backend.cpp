@@ -116,10 +116,8 @@ void EglGbmBackend::initRemotePresent()
             const auto outputs = kwinApp()->outputBackend()->outputs();
             for (int i = 0; i < outputs.count(); ++i) {
                 const auto o = outputs[i];
-                if (o->isEnabled() && m_outputToBuffers.contains(o)) {
-                    if (m_remoteaccessManager) {
-                        m_remoteaccessManager->passBuffer(o, m_outputToBuffers[o]);
-                    }
+                if (o->isEnabled()) {
+                    passRemotePresent(o);
                 }
             }
         });
@@ -236,7 +234,7 @@ std::unique_ptr<SurfaceTexture> EglGbmBackend::createSurfaceTextureWayland(Surfa
     return std::make_unique<BasicEGLSurfaceTextureWayland>(this, pixmap);
 }
 
-void EglGbmBackend::present(Output *output)
+void EglGbmBackend::passRemotePresent(Output *output)
 {
     EglGbmLayer* gbmLayer = dynamic_cast<EglGbmLayer *>(primaryLayer(output));
     if (gbmLayer) {
@@ -250,11 +248,14 @@ void EglGbmBackend::present(Output *output)
             m_dmaFd = gbm_bo_get_fd(bo);
         }
         if (m_remoteaccessManager) {
-            m_outputToBuffers[output] = buffer->buffer();
             m_remoteaccessManager->passBuffer(output, buffer->buffer());
         }
     }
+}
 
+void EglGbmBackend::present(Output *output)
+{
+    passRemotePresent(output);
     static_cast<DrmAbstractOutput *>(output)->present();
 }
 
