@@ -1,3 +1,11 @@
+kwin (4:5.27.2.278-deepin278-1) unstable; urgency=medium
+
+  [Yixue Wang]
+  * fix: missing libgbm.so.1 check
+  * Revert "fix: mode id confilt"
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Sat, 11 Jan 2025 14:34:41 +0800
+
 kwin (4:5.27.2.277-deepin277-1) unstable; urgency=medium
 
   [WenHao Peng]
