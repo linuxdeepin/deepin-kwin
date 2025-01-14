@@ -239,8 +239,10 @@ QList<std::shared_ptr<OutputMode>> DrmOutput::getModes() const
 
     QList<std::shared_ptr<OutputMode>> ret;
     ret.reserve(drmModes.count());
+    qCDebug(KWIN_DRM) << "output getModes, name: " << name() << "model: " << model();
     for (const auto &drmMode : drmModes) {
         ret.append(drmMode);
+        qCDebug(KWIN_DRM) << "drmoutput resolution:" << drmMode->size() << ", refreshRate:" << drmMode->refreshRate();
     }
     return ret;
 }
