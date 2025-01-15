@@ -1,3 +1,10 @@
+kwin (4:5.27.2.279-deepin279-1) unstable; urgency=medium
+
+  [Guo Yao]
+  * fix: force blur in squash effect
+
+ -- Guo Yao <guoyao@uniontech.com>  Wed, 15 Jan 2025 14:53:53 +0800
+
 kwin (4:5.27.2.278-deepin278-1) unstable; urgency=medium
 
   [Yixue Wang]
