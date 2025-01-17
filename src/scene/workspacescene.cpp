@@ -470,8 +470,16 @@ void WorkspaceScene::paintWindow(WindowItem *item, int mask, const QRegion &regi
         return;
     }
 
-    if (Compositor::self()->isLocked() && item->window() && item->window()->layer() < OnScreenDisplayLayer) {
-        return;
+    auto window = item->window();
+    if (Compositor::self()->isLocked() && window) {
+        bool overOnScreenDisplayLayer = (window->layer() >= OnScreenDisplayLayer);
+        auto transients = window->transientFor();
+        if(transients) {
+            overOnScreenDisplayLayer = (transients->layer() >= OnScreenDisplayLayer);
+        }
+
+        if (!overOnScreenDisplayLayer)
+            return;
     }
 
     if (item->window() && !item->window()->isDeleted() && item->window()->firstComposite() == EventTrackingState::Ready) {
