@@ -1,3 +1,11 @@
+kwin (4:5.27.2.280-deepin280-1) unstable; urgency=medium
+
+  [Yixue Wang]
+  * fix: Lag during composition after mode modification
+  * fix: The error password prompt window cannot be displayed
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Tue, 21 Jan 2025 21:12:16 +0800
+
 kwin (4:5.27.2.279-deepin279-1) unstable; urgency=medium
 
   [Guo Yao]
