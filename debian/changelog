@@ -1,3 +1,10 @@
+kwin (4:5.27.2.281-deepin281-1) unstable; urgency=medium
+
+  [Dingyuan Zhang]
+  * fix: Lag during composition after mode modification
+
+ -- Dingyuan Zhang <zhangdingyuan@uniontech.com>  Wed, 22 Jan 2025 14:55:16 +0800
+
 kwin (4:5.27.2.280-deepin280-1) unstable; urgency=medium
 
   [Yixue Wang]
