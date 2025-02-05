@@ -791,6 +791,11 @@ void WindowRules::discardTemporary()
     rules.erase(it2, rules.end());
 }
 
+void WindowRules::clear()
+{
+    rules.clear();
+}
+
 void WindowRules::update(Window *c, int selection)
 {
     bool updated = false;
@@ -969,6 +974,8 @@ void RuleBook::deleteAll()
 {
     qDeleteAll(m_rules);
     m_rules.clear();
+
+    Q_EMIT allRulesDeleted();
 }
 
 WindowRules RuleBook::find(const Window *c, bool ignore_temporary)

@@ -1680,6 +1680,9 @@ Q_SIGNALS:
     void waylandShadowChanged();
     void scissorForceChange();
 
+private Q_SLOTS:
+    void clearRules();
+
 protected:
     void setWindowHandles(xcb_window_t client);
     void detectShape(xcb_window_t id);

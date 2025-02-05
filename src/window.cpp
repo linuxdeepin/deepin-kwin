@@ -424,6 +424,11 @@ void Window::setReadyForPainting()
     }
 }
 
+void Window::clearRules()
+{
+    m_rules.clear();
+}
+
 int Window::screen() const
 {
     return workspace()->outputs().indexOf(m_output);
@@ -4728,8 +4733,10 @@ void Window::cleanTabBox()
 
 void Window::setupWindowRules(bool ignore_temporary)
 {
+    disconnect(workspace()->rulebook(), &RuleBook::allRulesDeleted, this, &Window::clearRules);
     disconnect(this, &Window::captionChanged, this, &Window::evaluateWindowRules);
     m_rules = workspace()->rulebook()->find(this, ignore_temporary);
+    connect(workspace()->rulebook(), &RuleBook::allRulesDeleted, this, &Window::clearRules);
     // check only after getting the rules, because there may be a rule forcing window type
 }
 

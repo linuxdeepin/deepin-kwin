@@ -31,6 +31,7 @@ class VirtualDesktop;
 
 #ifndef KCMRULES // only for kwin core
 
+// After the Rules object is destructed, be sure to clean up the rules promptly.
 class WindowRules
 {
 public:
@@ -38,6 +39,7 @@ public:
     WindowRules();
     void update(Window *, int selection);
     void discardTemporary();
+    void clear();
     bool contains(const Rules *rule) const;
     void remove(Rules *rule);
     PlacementPolicy checkPlacement(PlacementPolicy placement) const;
@@ -331,6 +333,9 @@ public:
     {
         m_config = config;
     }
+
+Q_SIGNALS:
+    void allRulesDeleted();
 
 private Q_SLOTS:
     void temporaryRulesMessage(const QString &);
