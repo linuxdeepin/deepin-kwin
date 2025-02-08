@@ -71,19 +71,12 @@ static QStringList splitPathList(const QString &input, const QChar delimiter)
 
 DrmBackend::DrmBackend(Session *session, QObject *parent)
     : OutputBackend(parent)
-    , m_updateOutputTimer(new QTimer(this))
     , m_udev(std::make_unique<Udev>())
     , m_udevMonitor(m_udev->monitor())
     , m_session(session)
     , m_explicitGpus(splitPathList(qEnvironmentVariable("KWIN_DRM_DEVICES"), ':'))
     , m_dpmsFilter()
 {
-    connect(m_updateOutputTimer, &QTimer::timeout, this, [this]{
-            qCDebug(KWIN_DRM) << "Timeout and updateOutputs";
-            updateOutputs();
-            });
-    m_updateOutputTimer->setSingleShot(true);
-    m_updateOutputTimer->setInterval(2000);
 }
 
 DrmBackend::~DrmBackend() = default;
@@ -234,7 +227,7 @@ void DrmBackend::handleUdevEvent()
             }
             if (gpu && gpu->isActive()) {
                 qCDebug(KWIN_DRM) << "Received change event for monitored drm device:" << device->devNode();
-                m_updateOutputTimer->start();
+                updateOutputs();
             }
         }
     }
