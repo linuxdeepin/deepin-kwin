@@ -31,7 +31,7 @@
 #include <cmath>
 #include <deque>
 
-#define DEBUG_GLFRAMEBUFFER 0
+#define DEBUG_GLFRAMEBUFFER 1
 
 #ifdef __GNUC__
 #define likely(x) __builtin_expect(!!(x), 1)
