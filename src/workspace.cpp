@@ -1844,6 +1844,10 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
     desktopResized();
 
     for (Output *output : removed) {
+        if (m_outputOrder.removeAll(output) > 0) {
+            Q_EMIT outputOrderChanged();
+        }
+
         output->unref();
     }
 
