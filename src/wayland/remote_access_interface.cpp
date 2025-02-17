@@ -246,6 +246,7 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
                     inUsed++;
                     continue;
                 }
+                // TODO: need unref fd from bufferPool
                 *it = {buf->fd(), false};
                 break;
             }
@@ -273,15 +274,15 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
 
     // // NOTE: for applications which consume buffers too slow, simply close too old buffers to ensure kwin not quit.
     // //       In this circumstances, applications should handle the potential exception: buffer has been destroyed by compositor.
-    // if (Q_UNLIKELY(sentBuffers.size() > MAX_BUFFERS_SIZE)) {
-    //     const auto &fds = sentBuffers.keys();
-    //     // Remove buffers which are so old that they are unlikely to used by clients forcely.
-    //     // Clients still have buffer and will send buffer_release request in the future.
-    //     for (const qint32 fd : fds) {
-    //         remove(sentBuffers[fd]);
-    //     }
-    //     qCDebug(KWIN_CORE) << "Current buffer size over" << MAX_BUFFERS_SIZE <<", released forcely. Now buffer size is" << sentBuffers.size();
-    // }
+    if (Q_UNLIKELY(bufferPool.size() > MAX_BUFFERS_SIZE * 2)) {
+         const auto &fds = bufferPool.keys();
+         // Remove buffers which are so old that they are unlikely to used by clients forcely.
+         // Clients still have buffer and will send buffer_release request in the future.
+         for (const qint32 fd : fds) {
+             remove(bufferPool[fd]);
+         }
+         qCDebug(KWIN_CORE) << "Current buffer size over" << MAX_BUFFERS_SIZE <<", released forcely. Now buffer size is" << bufferPool.size();
+    }
 }
 
 void RemoteAccessManagerInterfacePrivate::incrementRenderSequence()
@@ -390,7 +391,7 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_rel
     clientResources.remove(resource);
 
     // erese all fds which are no longer used by clients and close them
-    // std::for_each(sentBuffers.begin(), sentBuffers.end(), [this](BufferHolder& bh) { remove(bh); }); // client is responsable for deletion
+    std::for_each(bufferPool.begin(), bufferPool.end(), [this](BufferHolder& bh) { remove(bh); }); // client is responsable for deletion
 
     wl_resource_destroy(resource->handle);
 }
