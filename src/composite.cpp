@@ -554,7 +554,6 @@ bool Compositor::setupStart()
     }
 
     Q_EMIT sceneCreated();
-    reportCompositeIsAboutToChange(1);
 
     return true;
 }
@@ -580,6 +579,7 @@ void Compositor::initializeX11()
         xcb_composite_redirect_subwindows(connection, kwinApp()->x11RootWindow(),
                                           XCB_COMPOSITE_REDIRECT_MANUAL);
     }
+    reportCompositeIsAboutToChange(1);
 }
 
 void Compositor::cleanupX11()
