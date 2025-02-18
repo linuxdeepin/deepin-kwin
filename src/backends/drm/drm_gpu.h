@@ -109,9 +109,13 @@ public:
     std::unique_ptr<DrmLease> leaseOutputs(const QVector<DrmOutput *> &outputs);
     void waitIdle();
 
+    void setActive(bool active);
+    bool isActive() const;
+
 Q_SIGNALS:
     void outputAdded(DrmAbstractOutput *output);
     void outputRemoved(DrmAbstractOutput *output);
+    void activeChanged(bool active);
 
 private:
     void dispatchEvents();
@@ -152,6 +156,8 @@ private:
 
     std::unique_ptr<QSocketNotifier> m_socketNotifier;
     QSize m_cursorSize;
+
+    bool m_isActive = true;
 };
 
 }

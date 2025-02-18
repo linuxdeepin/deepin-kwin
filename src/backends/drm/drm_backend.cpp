@@ -93,11 +93,6 @@ Session *DrmBackend::session() const
     return m_session;
 }
 
-bool DrmBackend::isActive() const
-{
-    return m_active;
-}
-
 Outputs DrmBackend::outputs() const
 {
     return m_outputs;
@@ -139,60 +134,16 @@ void DrmBackend::checkOutputsAreOn()
     m_dpmsFilter.reset();
 }
 
-void DrmBackend::activate(bool active)
-{
-    if (active) {
-        qCDebug(KWIN_DRM) << "Activating session.";
-        reactivate();
-    } else {
-        qCDebug(KWIN_DRM) << "Deactivating session.";
-        deactivate();
-    }
-}
-
-void DrmBackend::reactivate()
-{
-    if (m_active) {
-        return;
-    }
-    m_active = true;
-
-    for (const auto &output : std::as_const(m_outputs)) {
-        output->renderLoop()->uninhibit();
-        output->renderLoop()->scheduleRepaint();
-    }
-
-    // While the session had been inactive, an output could have been added or
-    // removed, we need to re-scan outputs.
-    updateOutputs();
-    Q_EMIT activeChanged();
-}
-
-void DrmBackend::deactivate()
-{
-    if (!m_active) {
-        return;
-    }
-
-    for (const auto &output : std::as_const(m_outputs)) {
-        output->renderLoop()->inhibit();
-    }
-
-    m_active = false;
-    Q_EMIT activeChanged();
-}
-
 bool DrmBackend::initialize()
 {
-    // TODO: Pause/Resume individual GPU devices instead.
     connect(m_session, &Session::devicePaused, this, [this](dev_t deviceId) {
-        if (primaryGpu()->deviceId() == deviceId) {
-            deactivate();
+        if (auto gpu = findGpu(deviceId)) {
+            gpu->setActive(false);
         }
     });
     connect(m_session, &Session::deviceResumed, this, [this](dev_t deviceId) {
-        if (primaryGpu()->deviceId() == deviceId) {
-            reactivate();
+        if (auto gpu = findGpu(deviceId)) {
+            gpu->setActive(true);
         }
     });
     connect(m_session, &Session::awoke, this, &DrmBackend::turnOutputsOn);
@@ -231,9 +182,6 @@ bool DrmBackend::initialize()
 void DrmBackend::handleUdevEvent()
 {
     while (auto device = m_udevMonitor->getDevice()) {
-        if (!m_active) {
-            continue;
-        }
 
         // Ignore the device seat if the KWIN_DRM_DEVICES envvar is set.
         if (!m_explicitGpus.isEmpty()) {
@@ -265,12 +213,12 @@ void DrmBackend::handleUdevEvent()
                 }
             }
         } else if (device->action() == QStringLiteral("change")) {
-            qCDebug(KWIN_DRM) << "Received change event for monitored drm device: " << device->devNode();
             DrmGpu *gpu = findGpu(device->devNum());
             if (!gpu) {
                 gpu = addGpu(device->devNode());
             }
-            if (gpu) {
+            if (gpu && gpu->isActive()) {
+                qCDebug(KWIN_DRM) << "Received change event for monitored drm device:" << device->devNode();
                 m_updateOutputTimer->start();
             }
         }
@@ -304,7 +252,6 @@ DrmGpu *DrmBackend::addGpu(const QString &fileName)
     qCDebug(KWIN_DRM, "adding GPU %s", qPrintable(fileName));
     m_gpus.push_back(std::make_unique<DrmGpu>(this, fileName, fd, buf.st_rdev));
     auto gpu = m_gpus.back().get();
-    m_active = true;
     connect(gpu, &DrmGpu::outputAdded, this, &DrmBackend::addOutput);
     connect(gpu, &DrmGpu::outputRemoved, this, &DrmBackend::removeOutput);
     Q_EMIT gpuAdded(gpu);
@@ -392,7 +339,6 @@ QString DrmBackend::supportInformation() const
     s.nospace();
     s << "Name: "
       << "DRM\n";
-    s << "Active: " << m_active << "\n";
     for (size_t g = 0; g < m_gpus.size(); g++) {
         s << "Atomic Mode Setting on GPU " << g << ": " << m_gpus.at(g)->atomicModeSetting() << "\n";
     }
