@@ -902,7 +902,6 @@ void Compositor::handleFrameRequested(RenderLoop *renderLoop, bool skip)
 {
     static quint32 frame = 0;
     if (skip || (inBenchmark() && (frame++ & 1))) {
-        m_scene->postPaint();
         return;
     }
     composite(renderLoop);
