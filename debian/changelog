@@ -1,3 +1,19 @@
+kwin (4:5.27.2.282-deepin282-1) unstable; urgency=medium
+
+  [Dingyuan Zhang]
+  * fix: crash when output added and removed [b62b6efbddb1af92b5644753b387ed809f0d999d]
+
+  [Yaobing Xiao]
+  * fix: asan heap-use-after-free [2a7c524fbd206e2a366c62a7413d8421362f40f4]
+
+  [Wenhao Peng]
+  * fix: root window _NET_KDE_COMPOSITE_TOGGLING was not set success [4ccaaff927e3f0b63dd44db235bc99c0447d2184]
+
+  [Yaning Luo]
+  * fix: Check GPU active state before handling change events [d7193c643a4cba4edefeb78045c28af7ab3263a8]
+
+ -- Dingyuan Zhang <zhangdingyuan@uniontech.com>  Wed, 19 Feb 2025 16:27:48 +0800
+
 kwin (4:5.27.2.281-deepin281-1) unstable; urgency=medium
 
   [Dingyuan Zhang]
