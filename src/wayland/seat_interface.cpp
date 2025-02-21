@@ -364,6 +364,10 @@ bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, Abstr
     for (auto control : std::as_const(dataControlDevices)) {
         allDataControlDevices.append(control->processId());
     }
+
+    for (auto device : std::as_const(dataDevices)) {
+        allDataControlDevices.append(device->processId());
+    }
     if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl) {
         if (allDataControlDevices.contains(dataDevice->processId())) {
             if (dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
@@ -454,6 +458,11 @@ void SeatInterfacePrivate::handleCopySecurityVerified(uint32_t serial, uint32_t 
         for (auto control : std::as_const(dataControlDevices)) {
             allDataControlDevices.append(control->processId());
         }
+
+        for (auto device : std::as_const(dataDevices)) {
+            allDataControlDevices.append(device->processId());
+        }
+
         switch (state->deviceType) {
         case AbstractDataDevice::DeviceType::DeviceType_Data:
             if (state->dataDevice->processId() == state->dataSource->pid 
