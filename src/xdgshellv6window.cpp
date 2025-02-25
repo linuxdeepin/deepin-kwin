@@ -1754,10 +1754,21 @@ void XdgToplevelV6Window::initialize()
         m_isSendT = true;
     }
 
-    if (resourceName().contains("glmark2")) {
-        Compositor::self()->incrementBenchWindow();
-        surface()->skipBuffer();
-        m_isBenchWindow = true;
+    if (!qEnvironmentVariableIsSet("KWIN_DISABLE_SKIP_BUFFER")) {
+        static const QStringList benchApps = [] {
+            const QString envApps = qEnvironmentVariable("KWIN_SKIP_BUFFER_APPS");
+            return envApps.isEmpty() ? QStringList{"glmark2"} : envApps.split(',', QString::SkipEmptyParts);
+        }();
+
+        const QString &resName = resourceName();
+        for (const QString &benchApp : benchApps) {
+            if (resName.contains(benchApp)) {
+                Compositor::self()->incrementBenchWindow();
+                surface()->skipBuffer();
+                m_isBenchWindow = true;
+                break;
+            }
+        }
     }
 }
 
