@@ -1,3 +1,10 @@
+kwin (4:5.27.2.283-deepin283-1) unstable; urgency=medium
+
+  [Guoyao]
+  * fix: use env to skip buffer
+
+ -- GuoYao <guoyao@uniontech.com>  Tue, 25 Feb 2025 15:56:04 +0800
+
 kwin (4:5.27.2.282-deepin282-1) unstable; urgency=medium
 
   [Dingyuan Zhang]
