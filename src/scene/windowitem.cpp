@@ -246,17 +246,27 @@ void WindowItem::updateDecorationItem()
     if (!m_window || m_window->isDeleted() || m_window->isZombie()) {
         return;
     }
-    if (m_window->decoration()) {
-        m_decorationItem.reset(new DecorationItem(m_window->decoration(), m_window, scene(), this));
-        if (m_shadowItem) {
-            m_decorationItem->stackAfter(m_shadowItem.get());
-        } else if (m_surfaceItem) {
-            m_decorationItem->stackBefore(m_surfaceItem.get());
+
+    if (m_decorationItem) {
+        if (auto oldDeco = m_window->decoration()) {
+            disconnect(oldDeco, &KDecoration2::Decoration::damaged, this, &WindowItem::markDamaged);
         }
-        connect(m_window->decoration(), &KDecoration2::Decoration::damaged, this, &WindowItem::markDamaged);
-        markDamaged();
-    } else {
         m_decorationItem.reset();
+    }
+
+    if (const auto decoration = m_window->decoration()) {
+        m_decorationItem.reset(new DecorationItem(decoration, m_window, scene(), this));
+        if (m_decorationItem) {
+            if (m_shadowItem) {
+                m_decorationItem->stackAfter(m_shadowItem.get());
+            } else if (m_surfaceItem) {
+                m_decorationItem->stackBefore(m_surfaceItem.get());
+            }
+            connect(decoration, &KDecoration2::Decoration::damaged,
+                    this, &WindowItem::markDamaged,
+                    Qt::QueuedConnection);
+            markDamaged();
+        }
     }
 }
 
