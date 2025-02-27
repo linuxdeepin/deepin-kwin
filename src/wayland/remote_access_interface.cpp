@@ -388,11 +388,18 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_rel
 {
     requestFrames.remove(resource->handle);
     lastFrames.remove(resource->handle);
-    clientResources.remove(resource);
 
     // erese all fds which are no longer used by clients and close them
-    std::for_each(bufferPool.begin(), bufferPool.end(), [this](BufferHolder& bh) { remove(bh); }); // client is responsable for deletion
+    auto &clientQueue = clientResources[resource];
+    for (auto it = clientQueue.begin(); it != clientQueue.end(); ++it) {
+        if (it->fd > 0)
+            unref(bufferPool[it->fd]);
 
+        it->fd = -1;
+        it->inUse = false;
+    }
+
+    clientResources.remove(resource);
     wl_resource_destroy(resource->handle);
 }
 
