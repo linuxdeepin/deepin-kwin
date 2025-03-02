@@ -39,7 +39,7 @@ public:
     PlasmaWindowManagementInterface::ShowingDesktopState state = PlasmaWindowManagementInterface::ShowingDesktopState::Disabled;
     QList<PlasmaWindowInterface *> windows;
     QPointer<PlasmaVirtualDesktopManagementInterface> plasmaVirtualDesktopManagementInterface = nullptr;
-    quint32 windowIdCounter = 0;
+    quint32 internalIdCounter = 0;
     QVector<quint32> stackingOrder;
     QVector<QString> stackingOrderUuids;
     PlasmaWindowManagementInterface *q;
@@ -73,6 +73,7 @@ public:
     wl_resource *resourceForParent(PlasmaWindowInterface *parent, Resource *child) const;
 
     quint32 windowId = 0;
+    quint32 internalId = 0;
     QHash<SurfaceInterface *, QRect> minimizedGeometries;
     PlasmaWindowManagementInterface *wm;
 
@@ -192,9 +193,9 @@ void PlasmaWindowManagementInterfacePrivate::org_kde_plasma_window_management_bi
 {
     for (const auto window : std::as_const(windows)) {
         if (resource->version() >= ORG_KDE_PLASMA_WINDOW_MANAGEMENT_WINDOW_WITH_UUID_SINCE_VERSION) {
-            send_window_with_uuid(resource->handle, window->d->windowId, window->d->uuid);
+            send_window_with_uuid(resource->handle, window->d->internalId, window->d->uuid);
         } else {
-            send_window(resource->handle, window->d->windowId);
+            send_window(resource->handle, window->d->internalId);
         }
     }
     sendStackingOrderChanged(resource->handle);
@@ -268,14 +269,14 @@ PlasmaWindowInterface *PlasmaWindowManagementInterface::createWindow(QObject *pa
     PlasmaWindowInterface *window = new PlasmaWindowInterface(this, parent);
 
     window->d->uuid = uuid.toString();
-    window->d->windowId = ++d->windowIdCounter; // NOTE the window id is deprecated
+    window->d->internalId = ++d->internalIdCounter; // NOTE the window id is deprecated
 
     const auto clientResources = d->resourceMap();
     for (auto resource : clientResources) {
         if (resource->version() >= ORG_KDE_PLASMA_WINDOW_MANAGEMENT_WINDOW_WITH_UUID_SINCE_VERSION) {
-            d->send_window_with_uuid(resource->handle, window->d->windowId, window->d->uuid);
+            d->send_window_with_uuid(resource->handle, window->d->internalId, window->d->uuid);
         } else {
-            d->send_window(resource->handle, window->d->windowId);
+            d->send_window(resource->handle, window->d->internalId);
         }
     }
     d->windows << window;
@@ -1042,7 +1043,7 @@ void PlasmaWindowInterface::setVirtualDesktop(quint32 desktop)
 
 quint32 PlasmaWindowInterface::internalId() const
 {
-    return d->windowId;
+    return d->internalId;
 }
 
 void PlasmaWindowInterface::setWindowId(quint32 winid)
