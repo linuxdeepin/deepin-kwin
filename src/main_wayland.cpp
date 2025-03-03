@@ -49,6 +49,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <wayland-server-core.h>
 #if HAVE_SYS_PRCTL_H
 #include <sys/prctl.h>
 #endif
@@ -64,6 +65,21 @@ Q_IMPORT_PLUGIN(KWinIdleTimePoller)
 #if PipeWire_FOUND
 Q_IMPORT_PLUGIN(ScreencastManagerFactory)
 #endif
+
+Q_LOGGING_CATEGORY(KWIN_LWL, "kwin_lwl", QtWarningMsg);
+
+// Remove the timestamp from the libwayland debug log message
+#define TIME_STR_LENGTH 22
+
+void waylandLogHandler(const char *fmt, va_list args)
+{
+    qCInfo(KWIN_LWL).noquote() << "[libwayland]" << QString::vasprintf(fmt, args).trimmed().mid(TIME_STR_LENGTH);
+}
+
+void waylandDebugHandler(const char *fmt, va_list args)
+{
+    qCDebug(KWIN_LWL).noquote() << "[libwayland]" << QString::vasprintf(fmt, args).trimmed().mid(TIME_STR_LENGTH);
+}
 
 namespace KWin
 {
@@ -297,12 +313,6 @@ void ApplicationWayland::startSession()
         currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
         qDebug() << currentDateTime << "start application finished";
     }
-    //TODO 这里暂时去掉了kwin日志写入到syslog的功能，原因如下：
-    /* kwin的日志改成写入到syslog之后，其实是qt输出的日志现在改到写入到syslog中了，其实kwin启动的时候，
-        会带着启动xwayland、startdde等，这些应用的日志和wayland协议的日志是通过fprintf打印的，它们只
-        会输出到重定向的文件里边，所以最终导致一部分日志会在syslog里边，一部分会在.kwin.log里边，应用的
-        日志和wayland协议的日志有些是没有时间戳的，这样导致日志执行的时间就无法确定，导致问题反而更难分析
-    */
 }
 
 XwaylandInterface *ApplicationWayland::xwayland() const
@@ -314,6 +324,13 @@ XwaylandInterface *ApplicationWayland::xwayland() const
 
 int main(int argc, char *argv[])
 {
+    // libwayland debug information needs to be captured by kwin,
+    // and kwin uses logging rules to decide whether to enable libwayland debug information.
+    setenv("WAYLAND_DEBUG", "1", true);
+    KWin::Logger::instance()->installMessageHandler();
+    wl_log_set_handler_server(waylandLogHandler);
+    wl_debug_set_handler_server(waylandDebugHandler);
+
     QString currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
     qDebug() << currentDateTime << "version" << KWIN_DVERSION << "start";
 
@@ -331,6 +348,9 @@ int main(int argc, char *argv[])
     }
 
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+
+    // unset WAYLAND_DEBUG for session apps
+    environment.remove("WAYLAND_DEBUG");
 
     // enforce our internal qpa plugin, unfortunately command line switch has precedence
     setenv("QT_QPA_PLATFORM", "wayland-org.kde.kwin.qpa", true);

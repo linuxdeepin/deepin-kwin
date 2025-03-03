@@ -35,6 +35,7 @@
 #include "utils/qscopeguard.h"
 #endif
 #include <QTimer>
+#include <QtConcurrent>
 
 // system
 #include <cerrno>
@@ -165,11 +166,13 @@ bool XwaylandLauncher::startInternal()
     arguments << QStringLiteral("-displayfd") << QString::number(pipeFds[1]);
     arguments << QStringLiteral("-rootless");
     arguments << QStringLiteral("-wm") << QString::number(fd);
+    arguments << QStringLiteral("-verbose") << QString::number(4);
 
     m_xwaylandProcess = new QProcess(this);
-    m_xwaylandProcess->setProcessChannelMode(QProcess::ForwardedErrorChannel);
     m_xwaylandProcess->setProgram(QStringLiteral("Xwayland"));
+    m_xwaylandProcess->setProcessChannelMode(QProcess::MergedChannels);
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.remove(QStringLiteral("WAYLAND_DEBUG"));
     env.insert("WAYLAND_SOCKET", QByteArray::number(wlfd));
     if (qEnvironmentVariableIsSet("KWIN_XWAYLAND_DEBUG")) {
         env.insert("WAYLAND_DEBUG", QByteArrayLiteral("1"));
@@ -185,6 +188,11 @@ bool XwaylandLauncher::startInternal()
     connect(m_xwaylandProcess, &QProcess::errorOccurred, this, &XwaylandLauncher::handleXwaylandError);
     connect(m_xwaylandProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, &XwaylandLauncher::handleXwaylandFinished);
+    connect(m_xwaylandProcess, &QProcess::readyReadStandardOutput, this, [this] {
+        QByteArray buffer;
+        buffer.append(m_xwaylandProcess->readAllStandardOutput());
+        QtConcurrent::run(this, &XwaylandLauncher::processXwaylandOutput, buffer);
+    });
 
     // When Xwayland starts writing the display name to displayfd, it is ready. Alternatively,
     // the Xwayland can send us the SIGUSR1 signal, but it's already reserved for VT hand-off.
@@ -321,5 +329,24 @@ void XwaylandLauncher::handleXwaylandError(QProcess::ProcessError error)
     Q_EMIT errorOccurred();
 }
 
+void XwaylandLauncher::processXwaylandOutput(QByteArray buffer)
+{
+    while (true) {
+
+        // Find the position of the newline character
+        int newlinePos = buffer.indexOf('\n');
+        if (newlinePos == -1) {
+            break;
+        }
+
+        // Extract a line of data
+        QByteArray line = buffer.left(newlinePos);
+        // Remove the processed data (including the newline character) from the buffer
+        buffer.remove(0, newlinePos + 1);
+
+        // Process and log the output
+        qCInfo(KWIN_XWL).noquote() << "[xwayland]" << line.trimmed();
+    }
+}
 }
 }
