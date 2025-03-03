@@ -32,12 +32,16 @@
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <KDecoration2/Decoration>
-#include <KDecoration2/DecoratedClient>
+#include <KDecoration3/DecoratedWindow>
+#include <KDecoration3/Decoration>
 
 #include <QPainter>
 #include <QDebug>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 #include <QGuiApplication>
 #include <QTimer>
 #include <QtDBus>
@@ -134,7 +138,7 @@ bool ChameleonConfig::setTheme(QString theme)
 void ChameleonConfig::onConfigChanged()
 {
     KConfig config("kwinrc", KConfig::CascadeConfig);
-    KConfigGroup group_decoration(&config, "org.kde.kdecoration2");
+    KConfigGroup group_decoration(&config, "org.kde.KDecoration3");
 
     bool active = group_decoration.readEntry("library") == "com.deepin.chameleon";
 
@@ -201,7 +205,7 @@ void ChameleonConfig::updateWindowRadius()
         return;
     }
 
-    const QVariant client_radius = window->property("windowRadius");
+    const QVariant client_radius = window->property("_windowRadius");
     if (!client_radius.isValid()) {
         return;
     }
@@ -565,8 +569,13 @@ static QString readPidEnviron(quint32 pid, const QByteArray &env_key) {
 
     const QByteArray &env_data = env_file.readAll();
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     int start_pos = env_data.startsWith(env_key) ? 0 : env_data.indexOf("\0" + env_key);
-
+#else
+    int index = env_data.indexOf(env_key);
+    int indexAfterNull = env_data.indexOf('\0') + 1;
+    int start_pos = index == 0 ? 0 : env_data.indexOf(env_key, indexAfterNull);
+#endif
     if (start_pos < 0) {
         return {};
     }

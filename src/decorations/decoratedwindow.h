@@ -9,7 +9,7 @@
 #pragma once
 #include "options.h"
 
-#include <KDecoration2/Private/DecoratedClientPrivate>
+#include <KDecoration3/Private/DecoratedWindowPrivate>
 
 #include <QDeadlineTimer>
 #include <QObject>
@@ -23,15 +23,18 @@ class Window;
 namespace Decoration
 {
 
-class DecoratedClientImpl : public QObject, public KDecoration2::ApplicationMenuEnabledDecoratedClientPrivate
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+class DecoratedWindowImpl : public QObject, public KDecoration3::DecoratedWindowPrivate
+#else
+class DecoratedWindowImpl : public QObject, public KDecoration3::DecoratedWindowPrivateV2
+#endif
 {
     Q_OBJECT
 public:
-    explicit DecoratedClientImpl(Window *window, KDecoration2::DecoratedClient *decoratedClient, KDecoration2::Decoration *decoration);
-    ~DecoratedClientImpl() override;
+    explicit DecoratedWindowImpl(Window *window, KDecoration3::DecoratedWindow *decoratedClient, KDecoration3::Decoration *decoration);
+    ~DecoratedWindowImpl() override;
     QString caption() const override;
-    WId decorationId() const override;
-    int height() const override;
+    qreal height() const override;
     QIcon icon() const override;
     bool isActive() const override;
     bool isCloseable() const override;
@@ -49,13 +52,17 @@ public:
     bool isShadeable() const override;
     bool isShaded() const override;
     QPalette palette() const override;
-    QColor color(KDecoration2::ColorGroup group, KDecoration2::ColorRole role) const override;
+    QColor color(KDecoration3::ColorGroup group, KDecoration3::ColorRole role) const override;
     bool providesContextHelp() const override;
-    QSize size() const override;
-    int width() const override;
+    QSizeF size() const override;
+    qreal width() const override;
     QString windowClass() const override;
-    WId windowId() const override;
-
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    qreal scale() const override;
+    qreal nextScale() const override;
+    QString applicationMenuServiceName() const override;
+    QString applicationMenuObjectPath() const override;
+#endif
     Qt::Edges adjacentScreenEdges() const override;
 
     bool hasApplicationMenu() const override;
@@ -80,9 +87,9 @@ public:
     {
         return m_window;
     }
-    KDecoration2::DecoratedClient *decoratedClient()
+    KDecoration3::DecoratedWindow *decoratedWindow()
     {
-        return KDecoration2::DecoratedClientPrivate::client();
+        return KDecoration3::DecoratedWindowPrivate::window();
     }
 
     void signalShadeChange();
@@ -92,7 +99,7 @@ private Q_SLOTS:
 
 private:
     Window *m_window;
-    QSize m_clientSize;
+    QSizeF m_clientSize;
 
     QString m_toolTipText;
     QTimer m_toolTipWakeUp;

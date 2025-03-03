@@ -46,7 +46,11 @@ static QStringList fetchProcessServiceField(const QString &executablePath, const
         return {};
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const auto fieldValues = servicesFound.first()->property(fieldName).toStringList();
+#else
+    const auto fieldValues = servicesFound.first()->property<QStringList>(fieldName);
+#endif
     if (KWIN_UTILS().isDebugEnabled()) {
         qCDebug(KWIN_UTILS) << "Interfaces found for" << executablePath << fieldName << ":" << fieldValues;
     }

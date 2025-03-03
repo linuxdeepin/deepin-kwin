@@ -191,7 +191,10 @@ public:
     void setShadowColor(QColor color) override;
     QMarginsF mouseInputAreaMargins() override {return QMarginsF(0,0,0,0);};
     qreal windowPixelRatio() override {return 1;};
-    effectScenes windowEffect() override {return 0;};
+    effectScenes windowEffect() override
+    {
+        return effectScenes::fromInt(0);
+    };
     qreal windowStartUpEffect() override {return 0;};
 
 

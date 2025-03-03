@@ -23,22 +23,23 @@
 
 #include "chameleontheme.h"
 
-#include <KDecoration2/Decoration>
-#include <KDecoration2/DecorationButtonGroup>
+#include <KDecoration3/Decoration>
+#include <KDecoration3/DecorationButtonGroup>
 
 #include <kwineffects.h>
 
-#include <QVariant>
-#include <QDir>
-#include <QSettings>
-#include <QScreen>
-#include <QPainterPath>
-#include <QFont>
 #include "wayland/ddeshell_interface.h"
+#include <QDir>
+#include <QFont>
+#include <QPainterPath>
+#include <QPointer>
+#include <QScreen>
+#include <QSettings>
+#include <QVariant>
 
 class Settings;
 class ChameleonWindowTheme;
-class Chameleon : public KDecoration2::Decoration
+class Chameleon : public KDecoration3::Decoration
 {
     Q_OBJECT
 
@@ -46,8 +47,11 @@ public:
     explicit Chameleon(QObject *parent = nullptr, const QVariantList &args = QVariantList());
     ~Chameleon();
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     void paint(QPainter *painter, const QRect &repaintArea) override;
-
+#else
+    void paint(QPainter *painter, const QRectF &repaintArea) override;
+#endif
     const ChameleonTheme::ThemeConfig *themeConfig() const;
     KWin::EffectWindow *effect() const;
     bool noTitleBar() const;
@@ -78,7 +82,11 @@ Q_SIGNALS:
     void effectInitialized(KWin::EffectWindow *effect);
 
 public Q_SLOTS:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     void init() override;
+#else
+    bool init() override;
+#endif
 
 private Q_SLOTS:
     void updateFont(QString updateType, QString val);
@@ -125,8 +133,8 @@ private:
     QString m_title;
     QRect m_titleArea;
 
-    KDecoration2::DecorationButtonGroup *m_leftButtons = nullptr;
-    KDecoration2::DecorationButtonGroup *m_rightButtons = nullptr;
+    KDecoration3::DecorationButtonGroup *m_leftButtons = nullptr;
+    KDecoration3::DecorationButtonGroup *m_rightButtons = nullptr;
 
     QPointer<KWin::EffectWindow> m_effect;
     QFont m_font;

@@ -22,7 +22,7 @@ class TabletToolId;
 
 namespace Decoration
 {
-class DecoratedClientImpl;
+class DecoratedWindowImpl;
 }
 
 namespace LibInput
@@ -62,8 +62,8 @@ public:
     }
 
 private:
-    void cleanupDecoration(Decoration::DecoratedClientImpl *old,
-                           Decoration::DecoratedClientImpl *now) override;
+    void cleanupDecoration(Decoration::DecoratedWindowImpl *old,
+                           Decoration::DecoratedWindowImpl *now) override;
     void focusUpdate(Window *focusOld, Window *focusNow) override;
 
     bool m_tipDown = false;

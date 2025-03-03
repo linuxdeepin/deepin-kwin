@@ -11,7 +11,7 @@
 
 #include <QFontDatabase>
 
-namespace KDecoration2
+namespace KDecoration3
 {
 
 namespace Preview
@@ -231,7 +231,7 @@ void Settings::createSettings()
     if (m_bridge.isNull()) {
         m_settings.reset();
     } else {
-        m_settings = QSharedPointer<KDecoration2::DecorationSettings>::create(m_bridge.data());
+        m_settings = QSharedPointer<KDecoration3::DecorationSettings>::create(m_bridge.data());
         m_previewSettings = m_bridge->lastCreatedSettings();
         m_previewSettings->setBorderSizesIndex(m_borderSize);
         connect(this, &Settings::borderSizesIndexChanged, m_previewSettings, &PreviewSettings::setBorderSizesIndex);

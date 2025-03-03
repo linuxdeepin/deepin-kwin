@@ -7,16 +7,21 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "windowradius.h"
-#include "window.h"
-#include "effects.h"
-#include "workspace.h"
-#include "windowstylemanager.h"
-#include "decorationstyle.h"
 #include "composite.h"
-#include <xcb/xcb.h>
-#include <QWindow>
+#include "decorationstyle.h"
+#include "effects.h"
+#include "window.h"
+#include "windowstylemanager.h"
+#include "workspace.h"
 #include <QPainterPath>
+#include <QWindow>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
+
 #include "atoms.h"
 
 Q_DECLARE_METATYPE(QPainterPath)
@@ -49,11 +54,15 @@ int WindowRadius::updateWindowRadius()
 
     int ret = -1;
     QPainterPath path;
-    const QByteArray &clip_data = effect->readProperty(atoms->deepin_scissor_window, atoms->deepin_scissor_window, 8);
-    if (!clip_data.isEmpty()) {
-        QDataStream ds(clip_data);
-        ds >> path;
+
+    if (kwinApp()->x11Connection()) {
+        const QByteArray &clip_data = effect->readProperty(atoms->deepin_scissor_window, atoms->deepin_scissor_window, 8);
+        if (!clip_data.isEmpty()) {
+            QDataStream ds(clip_data);
+            ds >> path;
+        }
     }
+
     if (path.isEmpty()) {
         effect->setData(WindowClipPathRole, QVariant());
         QPointF radius = getWindowRadius();

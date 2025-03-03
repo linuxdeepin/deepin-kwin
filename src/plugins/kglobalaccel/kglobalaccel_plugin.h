@@ -8,11 +8,20 @@
 */
 #pragma once
 
+#include <QObject>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <kglobalaccel_interface.h>
+#else
 #include <KGlobalAccel/private/kglobalaccel_interface.h>
+#endif
 
 #include <QObject>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 class KGlobalAccelImpl : public KGlobalAccelInterfaceV2
+#else
+class KGlobalAccelImpl : public KGlobalAccelInterface
+#endif
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID KGlobalAccelInterface_iid FILE "kwin.json")
@@ -28,6 +37,10 @@ public:
 public Q_SLOTS:
     bool checkKeyPressed(int keyQt);
     bool checkKeyReleased(int keyQt);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    bool checkPointerPressed(Qt::MouseButtons buttons);
+    bool checkAxisTriggered(int axis);
+#endif
 
 private:
     bool m_shuttingDown = false;

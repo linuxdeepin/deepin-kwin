@@ -16,9 +16,9 @@ kcoreaddons_add_plugin(kcm_kwinxwayland SOURCES kcmkwinxwayland.cpp ${kcm_kwinxw
 target_include_directories(kcm_kwinxwayland PRIVATE ${CMAKE_SOURCE_DIR})
 
 target_link_libraries(kcm_kwinxwayland
-    KF5::I18n
-    KF5::KCMUtils
-    KF5::QuickAddons
+    KF6::I18n
+    KF6::KCMUtils
+    # KF6::QuickAddons
     Wayland::Client
 )
 kpackage_install_package(package kcm_kwinxwayland kcms)

@@ -13,22 +13,22 @@
 #include "utils/common.h"
 #include "xrenderbackend.h"
 
-#include "window.h"
-#include "x11window.h"
 #include "composite.h"
+#include "core/output.h"
+#include "core/outputbackend.h"
+#include "core/overlaywindow.h"
+#include "core/renderloop.h"
+#include "decorations/decoratedwindow.h"
 #include "deleted.h"
 #include "effects.h"
+#include "itemrenderer_xrender.h"
 #include "main.h"
-#include "core/overlaywindow.h"
-#include "core/outputbackend.h"
-#include "core/renderloop.h"
-#include "core/output.h"
 #include "shadowitem.h"
 #include "surfaceitem_x11.h"
-#include "windowitem.h"
 #include "utils/xcbutils.h"
-#include "decorations/decoratedclient.h"
-#include "itemrenderer_xrender.h"
+#include "window.h"
+#include "windowitem.h"
+#include "x11window.h"
 
 #include <kwineffects.h>
 #include "../backends/x11/common/kwinxrenderutils.h"
@@ -66,7 +66,7 @@ std::unique_ptr<Shadow> WorkspaceSceneXRender::createShadow(Window *window)
     return std::make_unique<SceneXRenderShadow>(window);
 }
 
-DecorationRenderer *WorkspaceSceneXRender::createDecorationRenderer(Decoration::DecoratedClientImpl *impl)
+DecorationRenderer *WorkspaceSceneXRender::createDecorationRenderer(Decoration::DecoratedWindowImpl *impl)
 {
     return new SceneXRenderDecorationRenderer(impl);
 }
@@ -102,7 +102,7 @@ void SceneXRenderShadow::resetTexture()
 //****************************************
 // XRenderDecorationRenderer
 //****************************************
-SceneXRenderDecorationRenderer::SceneXRenderDecorationRenderer(Decoration::DecoratedClientImpl *client)
+SceneXRenderDecorationRenderer::SceneXRenderDecorationRenderer(Decoration::DecoratedWindowImpl *client)
     : DecorationRenderer(client)
     , m_gc(XCB_NONE)
 {

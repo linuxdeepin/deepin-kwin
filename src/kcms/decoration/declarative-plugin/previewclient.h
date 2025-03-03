@@ -7,20 +7,20 @@
 
 #include "../../../decorations/decorationpalette.h"
 
-#include <KDecoration2/Private/DecoratedClientPrivate>
+#include <KDecoration3/Private/DecoratedWindowPrivate>
 #include <QObject>
 #include <QPalette>
 
 class QAbstractItemModel;
 
-namespace KDecoration2
+namespace KDecoration3
 {
 namespace Preview
 {
-class PreviewClient : public QObject, public ApplicationMenuEnabledDecoratedClientPrivate
+class PreviewClient : public QObject, public ApplicationMenuEnabledDecoratedWindowPrivate
 {
     Q_OBJECT
-    Q_PROPERTY(KDecoration2::Decoration *decoration READ decoration CONSTANT)
+    Q_PROPERTY(KDecoration3::Decoration *decoration READ decoration CONSTANT)
     Q_PROPERTY(QString caption READ caption WRITE setCaption NOTIFY captionChanged)
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon NOTIFY iconChanged)
     Q_PROPERTY(QString iconName READ iconName WRITE setIconName NOTIFY iconNameChanged)
@@ -48,7 +48,7 @@ class PreviewClient : public QObject, public ApplicationMenuEnabledDecoratedClie
     Q_PROPERTY(bool bordersRightEdge READ bordersRightEdge WRITE setBordersRightEdge NOTIFY bordersRightEdgeChanged)
     Q_PROPERTY(bool bordersBottomEdge READ bordersBottomEdge WRITE setBordersBottomEdge NOTIFY bordersBottomEdgeChanged)
 public:
-    explicit PreviewClient(DecoratedClient *client, Decoration *decoration);
+    explicit PreviewClient(DecoratedWindow *client, Decoration *decoration);
     ~PreviewClient() override;
 
     QString caption() const override;
@@ -196,4 +196,4 @@ private:
 };
 
 } // namespace Preview
-} // namespace KDecoration2
+} // namespace KDecoration3

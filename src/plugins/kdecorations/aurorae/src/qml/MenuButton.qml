@@ -3,17 +3,20 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-import QtQuick 2.0
-import org.kde.kwin.decoration 0.1
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import org.kde.kwin.decoration
+import org.kde.kirigami 2.20 as Kirigami
 
-DecorationButton {
-    property bool closeOnDoubleClick: decorationSettings.closeOnDoubleClickOnMenu
+Item {
     id: menuButton
-    buttonType: DecorationOptions.DecorationButtonMenu
-    PlasmaCore.IconItem {
+    property int buttonType: DecorationOptions.DecorationButtonMenu
+    property bool hovered: false
+    property bool pressed: false
+    property bool toggled: false
+    property bool closeOnDoubleClick: decorationSettings.closeOnDoubleClickOnMenu
+
+    Kirigami.Icon {
         anchors.fill: parent
-        usesPlasmaTheme: false
         source: decoration.client.icon
     }
     DecorationOptions {
@@ -54,7 +57,7 @@ DecorationButton {
             }
             parent.pressed = false;
         }
-        onClicked: {
+        onClicked: (mouse) => {
             // for right clicks we show the menu instantly
             // and if the option is disabled we always show menu directly
             if (!menuButton.closeOnDoubleClick || mouse.button == Qt.RightButton) {

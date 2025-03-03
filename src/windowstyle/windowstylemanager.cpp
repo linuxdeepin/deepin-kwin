@@ -7,15 +7,19 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "windowstylemanager.h"
-#include "workspace.h"
-#include "unmanaged.h"
-#include "configreader.h"
 #include "composite.h"
+#include "configreader.h"
 #include "decorationstyle.h"
 #include "effects.h"
+#include "unmanaged.h"
+#include "workspace.h"
+#include <QGSettings>
 #include <QScreen>
-#include <QGSettings/qgsettings.h>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 #include <QDebug>
 
 #ifdef BUILD_ON_V25

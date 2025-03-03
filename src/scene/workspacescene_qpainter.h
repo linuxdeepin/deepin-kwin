@@ -26,7 +26,7 @@ public:
     ~WorkspaceSceneQPainter() override;
 
     std::unique_ptr<Shadow> createShadow(Window *window) override;
-    DecorationRenderer *createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
+    DecorationRenderer *createDecorationRenderer(Decoration::DecoratedWindowImpl *impl) override;
 
     bool animationsSupported() const override
     {
@@ -64,7 +64,7 @@ public:
         Bottom,
         Count
     };
-    explicit SceneQPainterDecorationRenderer(Decoration::DecoratedClientImpl *client);
+    explicit SceneQPainterDecorationRenderer(Decoration::DecoratedWindowImpl *client);
 
     void render(const QRegion &region) override;
 

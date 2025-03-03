@@ -57,10 +57,10 @@
 #include "xkb.h"
 #include "xwayland/xwayland_interface.h"
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 #include <KGlobalAccel>
 #include <KLocalizedString>
-#include <decorations/decoratedclient.h>
+#include <decorations/decoratedwindow.h>
 
 // screenlocker
 #if KWIN_BUILD_SCREENLOCKER
@@ -1185,7 +1185,11 @@ std::pair<bool, bool> performWindowWheelAction(QWheelEvent *event, Window *windo
         }
     }
     if (wasAction) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         return std::make_pair(wasAction, !window->performMouseCommand(command, event->globalPosF()));
+#else
+        return std::make_pair(wasAction, !window->performMouseCommand(command, event->globalPosition()));
+#endif
     }
     return std::make_pair(wasAction, false);
 }
@@ -1213,8 +1217,11 @@ class InternalWindowEventFilter : public InputEventFilter
             return false;
         }
         QWindow *internal = static_cast<InternalWindow *>(input()->pointer()->focus())->handle();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const QPointF localPos = event->globalPosF() - internal->position();
-        QWheelEvent wheelEvent(localPos, event->globalPosF(), QPoint(),
+        QWheelEvent wheelEvent(localPos,
+                               event->globalPosF(),
+                               QPoint(),
                                event->angleDelta() * -1,
                                event->delta(),
                                event->orientation(),
@@ -1223,6 +1230,22 @@ class InternalWindowEventFilter : public InputEventFilter
                                Qt::NoScrollPhase,
                                event->source(),
                                false);
+#else
+        const QPointF localPos = event->globalPosition() - internal->position();
+        // rewine
+        QWheelEvent wheelEvent(localPos,
+                               event->globalPosition(),
+                               QPoint(),
+                               // event->angleDelta() * -1,
+                               // event->delta(),
+                               (event->orientation() == Qt::Horizontal) ? QPoint(event->delta(), 0) : QPoint(0, event->delta()),
+                               event->buttons(),
+                               event->modifiers(),
+                               Qt::NoScrollPhase,
+                               false,
+                               event->source());
+#endif
+
         QCoreApplication::sendEvent(internal, &wheelEvent);
         return wheelEvent.isAccepted();
     }
@@ -1255,7 +1278,11 @@ class InternalWindowEventFilter : public InputEventFilter
             }
         }
         if (QGuiApplication::focusWindow() != found) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             QWindowSystemInterface::handleWindowActivated(found);
+#else
+            QWindowSystemInterface::handleFocusWindowChanged(found);
+#endif
         }
         if (!found) {
             return false;
@@ -1442,9 +1469,16 @@ public:
                 return actionResult.second;
             }
         }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const QPointF localPos = event->globalPosF() - decoration->window()->pos();
+#else
+        const QPointF localPos = event->globalPosition() - decoration->window()->pos();
+#endif
         const Qt::Orientation orientation = (event->angleDelta().x() != 0) ? Qt::Horizontal : Qt::Vertical;
-        QWheelEvent e(localPos, event->globalPosF(), QPoint(),
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QWheelEvent e(localPos,
+                      event->globalPosF(),
+                      QPoint(),
                       event->angleDelta(),
                       event->delta(),
                       event->orientation(),
@@ -1453,6 +1487,20 @@ public:
                       Qt::NoScrollPhase,
                       event->source(),
                       false);
+#else
+        QWheelEvent e(localPos,
+                      event->globalPosition(),
+                      QPoint(),
+                      // event->angleDelta() * -1,
+                      // event->delta(),
+                      (event->orientation() == Qt::Horizontal) ? QPoint(event->delta(), 0) : QPoint(0, event->delta()),
+                      event->buttons(),
+                      event->modifiers(),
+                      Qt::NoScrollPhase,
+                      false,
+                      event->source());
+        // rewine
+#endif
         e.setAccepted(false);
         QCoreApplication::sendEvent(decoration, &e);
         if (e.isAccepted()) {
@@ -1460,8 +1508,13 @@ public:
         }
         if ((orientation == Qt::Vertical) && decoration->window()->titlebarPositionUnderMouse()) {
             if (float delta = m_accumulator.accumulate(event)) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 decoration->window()->performMouseCommand(options->operationTitlebarMouseWheel(delta * -1),
                                                           event->globalPosF());
+#else
+                decoration->window()->performMouseCommand(options->operationTitlebarMouseWheel(delta * -1),
+                                                          event->globalPosition());
+#endif
             }
         }
         return true;
@@ -3652,7 +3705,7 @@ void InputDeviceHandler::setFocus(Window *window)
     }
 }
 
-void InputDeviceHandler::setDecoration(Decoration::DecoratedClientImpl *decoration)
+void InputDeviceHandler::setDecoration(Decoration::DecoratedWindowImpl *decoration)
 {
     if (m_focus.decoration != decoration) {
         auto oldDeco = m_focus.decoration;
@@ -3683,12 +3736,12 @@ void InputDeviceHandler::updateFocus()
 
 void InputDeviceHandler::updateDecoration()
 {
-    Decoration::DecoratedClientImpl *decoration = nullptr;
+    Decoration::DecoratedWindowImpl *decoration = nullptr;
     auto hover = m_hover.window.data();
-    if (hover && hover->decoratedClient()) {
+    if (hover && hover->decoratedWindow()) {
         if (!hover->clientGeometry().toRect().contains(flooredPoint(position()))) {
             // input device above decoration
-            decoration = hover->decoratedClient();
+            decoration = hover->decoratedWindow();
         }
     }
 
@@ -3729,7 +3782,7 @@ Window *InputDeviceHandler::focus() const
     return m_focus.window.data();
 }
 
-Decoration::DecoratedClientImpl *InputDeviceHandler::decoration() const
+Decoration::DecoratedWindowImpl *InputDeviceHandler::decoration() const
 {
     return m_focus.decoration;
 }

@@ -67,7 +67,7 @@ target_sources(KWinIntegrationTestFramework PRIVATE
 target_link_libraries(KWinIntegrationTestFramework
     PUBLIC
         Qt${QT_MAJOR_VERSION}::Test
-        KF5::WaylandClient
+        KF6::WaylandClient
         Wayland::Client
         kwin
 
@@ -77,11 +77,11 @@ target_link_libraries(KWinIntegrationTestFramework
 
         # Static plugins
         KWinQpaPlugin
-        KF5GlobalAccelKWinPlugin
-        KF5WindowSystemKWinPlugin
-        KF5IdleTimeKWinPlugin
+        KF6GlobalAccelKWinPlugin
+        KF6WindowSystemKWinPlugin
+        KF6IdleTimeKWinPlugin
 )
-kcoreaddons_target_static_plugins(KWinIntegrationTestFramework "kwin/effects/plugins" LINK_OPTION "PRIVATE")
+kcoreaddons_target_static_plugins(KWinIntegrationTestFramework NAMESPACE "kwin/effects/plugins" LINK_OPTION "PRIVATE")
 set_target_properties(KWinIntegrationTestFramework PROPERTIES CXX_VISIBILITY_PRESET default)
 
 function(integrationTest)

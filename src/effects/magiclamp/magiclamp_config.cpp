@@ -25,12 +25,15 @@ K_PLUGIN_CLASS(KWin::MagicLampEffectConfig)
 namespace KWin
 {
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 MagicLampEffectConfigForm::MagicLampEffectConfigForm(QWidget *parent)
     : QWidget(parent)
 {
     setupUi(this);
 }
+#endif
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 MagicLampEffectConfig::MagicLampEffectConfig(QWidget *parent, const QVariantList &args)
     : KCModule(parent, args)
     , m_ui(this)
@@ -41,6 +44,16 @@ MagicLampEffectConfig::MagicLampEffectConfig(QWidget *parent, const QVariantList
     MagicLampConfig::instance(KWIN_CONFIG);
     addConfig(MagicLampConfig::self(), &m_ui);
 }
+#else
+MagicLampEffectConfig::MagicLampEffectConfig(QObject *parent, const KPluginMetaData &data)
+    : KCModule(parent, data)
+{
+    m_ui.setupUi(widget());
+
+    MagicLampConfig::instance(KWIN_CONFIG);
+    addConfig(MagicLampConfig::self(), widget());
+}
+#endif
 
 void MagicLampEffectConfig::save()
 {

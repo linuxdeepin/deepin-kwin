@@ -165,11 +165,19 @@ RemoteMatches WindowsRunner::Match(const QString &searchTerm)
         }
         const QString appName = window->resourceClass();
         const QString name = window->caption();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        if (name.startsWith(term, Qt::CaseInsensitive) || appName.startsWith(term, Qt::CaseInsensitive)) {
+            matches << windowsMatch(window, action, 0.8, HighestCategoryRelevance);
+        } else if ((name.contains(term, Qt::CaseInsensitive) || appName.contains(term, Qt::CaseInsensitive)) && actionSupported(window, action)) {
+            matches << windowsMatch(window, action, 0.7, LowCategoryRelevance);
+        }
+#else
         if (name.startsWith(term, Qt::CaseInsensitive) || appName.startsWith(term, Qt::CaseInsensitive)) {
             matches << windowsMatch(window, action, 0.8, Plasma::QueryMatch::ExactMatch);
         } else if ((name.contains(term, Qt::CaseInsensitive) || appName.contains(term, Qt::CaseInsensitive)) && actionSupported(window, action)) {
             matches << windowsMatch(window, action, 0.7, Plasma::QueryMatch::PossibleMatch);
         }
+#endif
     }
 
     for (auto *desktop : VirtualDesktopManager::self()->desktops()) {
@@ -183,7 +191,11 @@ RemoteMatches WindowsRunner::Match(const QString &searchTerm)
                     continue;
                 }
                 if ((window->desktops().contains(desktop) || window->isOnAllDesktops()) && actionSupported(window, action)) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                    matches << windowsMatch(window, action, 0.5, LowCategoryRelevance);
+#else
                     matches << windowsMatch(window, action, 0.5, Plasma::QueryMatch::PossibleMatch);
+#endif
                 }
             }
         }
@@ -245,7 +257,11 @@ RemoteMatch WindowsRunner::desktopMatch(const VirtualDesktop *desktop, const Win
 {
     RemoteMatch match;
     match.id = QString::number(action) + QLatin1Char('_') + desktop->id();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    match.categoryRelevance = HighestCategoryRelevance;
+#else
     match.type = Plasma::QueryMatch::ExactMatch;
+#endif
     match.iconName = QStringLiteral("user-desktop");
     match.text = desktop->name();
     match.relevance = relevance;
@@ -256,15 +272,22 @@ RemoteMatch WindowsRunner::desktopMatch(const VirtualDesktop *desktop, const Win
     match.properties = properties;
     return match;
 }
-
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+RemoteMatch WindowsRunner::windowsMatch(const Window *window, const WindowsRunnerAction action, qreal relevance, qreal categoryRelevance) const
+#else
 RemoteMatch WindowsRunner::windowsMatch(const Window *window, const WindowsRunnerAction action, qreal relevance, Plasma::QueryMatch::Type type) const
+#endif
 {
     RemoteMatch match;
     match.id = QString::number((int)action) + QLatin1Char('_') + window->internalId().toString();
     match.text = window->caption();
     match.iconName = window->icon().name();
     match.relevance = relevance;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    match.categoryRelevance = categoryRelevance;
+#else
     match.type = type;
+#endif
     QVariantMap properties;
 
     const QVector<VirtualDesktop *> desktops = window->desktops();

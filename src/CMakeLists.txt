@@ -14,7 +14,7 @@ set_property(TARGET KWinEffectsInterface PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(KWinEffectsInterface Qt${QT_MAJOR_VERSION}::DBus)
 
 if (ECM_GLOBAL_FIND_VERSION VERSION_LESS ${KDE_COMPILERSETTINGS_LEVEL})
-    set(ECM_GLOBAL_FIND_VERSION ${KF5_CURRENT_VERSION})
+    set(ECM_GLOBAL_FIND_VERSION ${KF6_CURRENT_VERSION})
 endif()
 add_subdirectory(effects)
 add_subdirectory(scripts)
@@ -78,7 +78,7 @@ target_sources(kwin PRIVATE
     cursorsource.cpp
     dbusinterface.cpp
     debug_console.cpp
-    decorations/decoratedclient.cpp
+    decorations/decoratedwindow.cpp
     decorations/decorationbridge.cpp
     decorations/decorationpalette.cpp
     decorations/decorations_logging.cpp
@@ -217,6 +217,9 @@ target_sources(kwin PRIVATE
     debugpixmap.cpp
 )
 
+find_package(KGlobalAccelD REQUIRED)
+pkg_check_modules(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt6)
+
 target_link_libraries(kwin
     kwineffects
     kwinglutils
@@ -224,22 +227,27 @@ target_link_libraries(kwin
     Qt${QT_MAJOR_VERSION}::Concurrent
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Quick
+    Qt${QT_MAJOR_VERSION}::Qml
     Qt${QT_MAJOR_VERSION}::Svg
-    Qt${QT_MAJOR_VERSION}::X11Extras
+    Qt${QT_MAJOR_VERSION}::Gui
 
-    KF5::ConfigCore
-    KF5::ConfigWidgets
-    KF5::CoreAddons
-    KF5::Crash
-    KF5::GlobalAccel
-    KF5::GlobalAccelPrivate
-    KF5::I18n
-    KF5::Package
-    KF5::Service
-    KF5::WindowSystem
+    #Qt${QT_MAJOR_VERSION}::X11Extras
 
-    KDecoration2::KDecoration
-    KDecoration2::KDecoration2Private
+    KF6::ConfigCore
+    KF6::ConfigWidgets
+    KF6::CoreAddons
+    KF6::Crash
+    KF6::GlobalAccel
+    #KF6::GlobalAccelPrivate
+    KF6::I18n
+    KF6::Package
+    KF6::Service
+    KF6::WindowSystem
+    Plasma::KWaylandClient
+    K::KGlobalAccelD
+
+    KDecoration3::KDecoration
+    KDecoration3::KDecoration3Private
 
     XCB::COMPOSITE
     XCB::CURSOR
@@ -262,7 +270,7 @@ target_link_libraries(kwin
     EGL::EGL
     epoxy::epoxy
 
-    gsettings-qt
+    PkgConfig::QGSETTINGS
     systemd
     Threads::Threads
     Wayland::Server
@@ -273,11 +281,11 @@ target_link_libraries(kwin
     -ldl
 )
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(kwin Qt5::X11Extras Qt5XkbCommonSupport::Qt5XkbCommonSupport)
+    target_link_libraries(kwin Qt${QT_MAJOR_VERSION}::X11Extras Qt5XkbCommonSupport::Qt5XkbCommonSupport)
 endif()
 
 if (KWIN_BUILD_NOTIFICATIONS)
-    target_link_libraries(kwin KF5::Notifications)
+    target_link_libraries(kwin KF6::Notifications)
 endif()
 
 kconfig_add_kcfg_files(kwin
@@ -345,7 +353,7 @@ add_subdirectory(xwayland)
 
 if (KWIN_BUILD_ACTIVITIES)
     target_sources(kwin PRIVATE activities.cpp)
-    target_link_libraries(kwin KF5::Activities)
+    target_link_libraries(kwin KF6::Activities)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)
@@ -383,7 +391,7 @@ target_link_libraries(kwin_x11
     KWinX11Platform
     kwin
 )
-kcoreaddons_target_static_plugins(kwin_x11 "kwin/effects/plugins")
+kcoreaddons_target_static_plugins(kwin_x11 NAMESPACE "kwin/effects/plugins")
 
 install(TARGETS kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 install(TARGETS kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
@@ -394,7 +402,7 @@ target_link_libraries(kwin_wayland
     kwin
     KWinXwaylandServerModule
 )
-kcoreaddons_target_static_plugins(kwin_wayland "kwin/effects/plugins")
+kcoreaddons_target_static_plugins(kwin_wayland NAMESPACE "kwin/effects/plugins")
 
 install(TARGETS kwin_wayland ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if (HAVE_LIBCAP)
@@ -412,9 +420,9 @@ add_subdirectory(plugins)
 
 target_link_libraries(kwin_wayland
     KWinQpaPlugin
-    KF5GlobalAccelKWinPlugin
-    KF5WindowSystemKWinPlugin
-    KF5IdleTimeKWinPlugin
+    KF6GlobalAccelKWinPlugin
+    KF6WindowSystemKWinPlugin
+    KF6IdleTimeKWinPlugin
 )
 
 add_custom_target(
@@ -448,4 +456,4 @@ install(
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kwin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
 # Install the KWin/Script service type
-install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+## install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})

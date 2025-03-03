@@ -116,7 +116,9 @@ Connection::Connection(std::unique_ptr<Context> &&input)
     : m_notifier(nullptr)
     , m_connectionAdaptor(std::make_unique<ConnectionAdaptor>(this))
     , m_input(std::move(input))
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     , m_mutex(QMutex::Recursive)
+#endif
 {
     Q_ASSERT(m_input);
     // need to connect to KGlobalSettings as the mouse KCM does not emit a dedicated signal
@@ -670,7 +672,11 @@ void Connection::setTouchDeviceToScreenId(const QString &touchDeviceSysName, con
         if (!output->isEnabled()) {
             continue;
         }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (output->uuid() == screenUuid) {
+#else
+        if (output->uuid().toString() == screenUuid) {
+#endif
             isExist = true;
             break;
         }
@@ -715,7 +721,11 @@ QString Connection::getTouchDeviceToScreenInfo(){
         bool isExist = false;
         QMap<QString, QString>::iterator iter = allTouchDeviceToScreens.begin();
         while (iter != allTouchDeviceToScreens.end()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             if (output->uuid() == iter.value()) {
+#else
+            if (output->uuid().toString() == iter.value()) {
+#endif
                 isExist = true;
                 break;
             }
@@ -749,7 +759,11 @@ void Connection::applyScreenToDevice(Device *device)
             if (!output->isEnabled()) {
                 continue;
             }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             if (output->uuid() == uuid) {
+#else
+            if (output->uuid().toString() == uuid) {
+#endif
                 deviceOutput = output;
                 break;
             }

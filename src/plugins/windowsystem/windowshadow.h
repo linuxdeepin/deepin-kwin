@@ -6,7 +6,12 @@
 
 #pragma once
 
+#include <QObject>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KWindowSystem/private/kwindowshadow_p.h>
+#else
+#include <private/kwindowshadow_p.h>
+#endif
 
 namespace KWin
 {

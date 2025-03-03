@@ -23,7 +23,11 @@
 #include <QLibrary>
 #include <QGuiApplication>
 #include <QDebug>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 #include <QMargins>
 #include <QDateTime>
 #include <QQmlEngine>
@@ -267,7 +271,12 @@ public:
         updateWMSupported();
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     bool nativeEventFilter(const QByteArray &eventType, void *message, long *result) override {
+#else
+    bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override
+    {
+#endif
         Q_UNUSED(eventType)
         Q_UNUSED(result)
 

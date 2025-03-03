@@ -56,7 +56,11 @@ private:
     };
 
     RemoteMatch desktopMatch(const VirtualDesktop *desktop, const WindowsRunnerAction action = ActivateDesktopAction, qreal relevance = 1.0) const;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    RemoteMatch windowsMatch(const Window *window, const WindowsRunnerAction action = ActivateAction, qreal relevance = 1.0, qreal categoryRelevance = HighestCategoryRelevance) const;
+#else
     RemoteMatch windowsMatch(const Window *window, const WindowsRunnerAction action = ActivateAction, qreal relevance = 1.0, Plasma::QueryMatch::Type type = Plasma::QueryMatch::ExactMatch) const;
+#endif
     bool actionSupported(const Window *window, const WindowsRunnerAction action) const;
 };
 }

@@ -22,6 +22,10 @@
 #include <QDBusContext>
 #include <QDBusMessage>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QRecursiveMutex>
+#endif
+
 #include <memory>
 
 class QQmlComponent;
@@ -321,7 +325,11 @@ private:
     /**
      * Lock to protect the scripts member variable.
      */
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     std::unique_ptr<QMutex> m_scriptsLock;
+#else
+    std::unique_ptr<QRecursiveMutex> m_scriptsLock;
+#endif
 
     // Preferably call ONLY at load time
     void runScripts();

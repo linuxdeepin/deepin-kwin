@@ -23,7 +23,7 @@
 #include <KWayland/Client/plasmashell.h>
 #include <KWayland/Client/surface.h>
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 
 #include <netwm.h>
 #include <xcb/xcb_icccm.h>

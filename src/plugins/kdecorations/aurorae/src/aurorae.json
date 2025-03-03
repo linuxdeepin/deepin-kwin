@@ -4,7 +4,7 @@
     }, 
     "X-KDE-PluginInfo-EnabledByDefault": true, 
     "X-KDE-PluginInfo-Name": "org.kde.kwin.aurorae", 
-    "org.kde.kdecoration2": {
+    "org.kde.KDecoration3": {
         "KNewStuff": "aurorae.knsrc", 
         "defaultTheme": "kwin4_decoration_qml_plastik", 
         "themeListKeyword": "themes", 

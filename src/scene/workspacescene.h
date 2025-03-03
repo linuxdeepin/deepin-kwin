@@ -25,7 +25,7 @@ namespace KWin
 
 namespace Decoration
 {
-class DecoratedClientImpl;
+class DecoratedWindowImpl;
 }
 
 class DecorationRenderer;
@@ -71,7 +71,7 @@ public:
     virtual void doneOpenGLContextCurrent();
     virtual bool supportsNativeFence() const;
 
-    virtual DecorationRenderer *createDecorationRenderer(Decoration::DecoratedClientImpl *) = 0;
+    virtual DecorationRenderer *createDecorationRenderer(Decoration::DecoratedWindowImpl *) = 0;
 
     /**
      * Whether the Scene is able to drive animations.

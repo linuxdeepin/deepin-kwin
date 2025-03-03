@@ -12,7 +12,7 @@
 #include <QObject>
 #include <kwineffects.h>
 
-namespace KDecoration2
+namespace KDecoration3
 {
 class Decoration;
 class DecorationShadow;
@@ -86,10 +86,17 @@ public:
     }
     QImage decorationShadowImage() const;
 
-    QWeakPointer<KDecoration2::DecorationShadow> decorationShadow() const
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QWeakPointer<KDecoration3::DecorationShadow> decorationShadow() const
     {
         return m_decorationShadow.toWeakRef();
     }
+#else
+    std::weak_ptr<KDecoration3::DecorationShadow> decorationShadow() const
+    {
+        return std::weak_ptr<KDecoration3::DecorationShadow>(m_decorationShadow);
+    }
+#endif
 
     enum ShadowElements {
         ShadowElementTop,
@@ -106,13 +113,21 @@ public:
         ShadowBottomOffse = ShadowTopOffse + 2,
         ShadowLeftOffse = ShadowTopOffse + 3
     };
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QSize elementSize(ShadowElements element) const;
+#else
+    QSizeF elementSize(ShadowElements element) const;
+#endif
 
     QRectF rect() const
     {
         return QRectF(QPoint(0, 0), m_cachedSize);
     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMargins offset() const
+#else
+    QMarginsF offset() const
+#endif
     {
         return m_offset;
     }
@@ -145,18 +160,26 @@ private:
     static QVector<uint32_t> readX11ShadowProperty(xcb_window_t id);
     bool init();
     bool init(const QVector<uint32_t> &shadowData);
-    bool init(KDecoration2::Decoration *decoration);
+    bool init(KDecoration3::Decoration *decoration);
     bool init(const QPointer<KWaylandServer::ShadowInterface> &shadow);
     bool init(const QWindow *window);
     Window *m_window;
     // shadow elements
     QImage m_shadowElements[ShadowElementsCount];
     // shadow offsets
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMargins m_offset;
+#else
+    QMarginsF m_offset;
+#endif
     // caches
     QSizeF m_cachedSize;
     // Decoration based shadows
-    QSharedPointer<KDecoration2::DecorationShadow> m_decorationShadow;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QSharedPointer<KDecoration3::DecorationShadow> m_decorationShadow;
+#else
+    std::shared_ptr<KDecoration3::DecorationShadow> m_decorationShadow;
+#endif
 };
 
 }

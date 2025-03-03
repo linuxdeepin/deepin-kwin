@@ -34,4 +34,4 @@ else()
 endif()
 
 kcoreaddons_add_plugin(kcm_kwinoptions SOURCES ${kcm_kwinoptions_PART_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings_qwidgets")
-target_link_libraries(kcm_kwinoptions kwin Qt${QT_MAJOR_VERSION}::DBus KF5::KCMUtils KF5::I18n KF5::ConfigWidgets KF5::Service KF5::WindowSystem)
+target_link_libraries(kcm_kwinoptions kwin Qt${QT_MAJOR_VERSION}::DBus KF6::KCMUtils KF6::I18n KF6::ConfigWidgets KF6::Service KF6::WindowSystem)

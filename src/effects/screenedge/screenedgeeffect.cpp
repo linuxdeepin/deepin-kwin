@@ -11,7 +11,11 @@
 #include <kwingltexture.h>
 #include <kwinglutils.h>
 // KDE
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <Plasma/Svg>
+#else
+#include <KSvg/Svg>
+#endif
 // Qt
 #include <QPainter>
 #include <QTimer>
@@ -43,7 +47,11 @@ ScreenEdgeEffect::~ScreenEdgeEffect()
 void ScreenEdgeEffect::ensureGlowSvg()
 {
     if (!m_glow) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_glow = new Plasma::Svg(this);
+#else
+        m_glow = new KSvg::Svg(this);
+#endif
         m_glow->setImagePath(QStringLiteral("widgets/glowbar"));
     }
 }
@@ -219,7 +227,7 @@ T *ScreenEdgeEffect::createCornerGlow(ElectricBorder border)
 QSize ScreenEdgeEffect::cornerGlowSize(ElectricBorder border)
 {
     ensureGlowSvg();
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     switch (border) {
     case ElectricTopLeft:
         return m_glow->elementSize(QStringLiteral("bottomright"));
@@ -232,6 +240,20 @@ QSize ScreenEdgeEffect::cornerGlowSize(ElectricBorder border)
     default:
         return QSize();
     }
+#else
+    switch (border) {
+    case ElectricTopLeft:
+        return m_glow->elementSize(QStringLiteral("bottomright")).toSize();
+    case ElectricTopRight:
+        return m_glow->elementSize(QStringLiteral("bottomleft")).toSize();
+    case ElectricBottomRight:
+        return m_glow->elementSize(QStringLiteral("topleft")).toSize();
+    case ElectricBottomLeft:
+        return m_glow->elementSize(QStringLiteral("topright")).toSize();
+    default:
+        return QSize();
+    }
+#endif
 }
 
 template<typename T>

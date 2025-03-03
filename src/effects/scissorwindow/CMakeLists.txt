@@ -13,4 +13,5 @@ target_link_libraries(kwin4_effect_scissorwindow PRIVATE
     kwinglutils
 
     Qt${QT_MAJOR_VERSION}::Core
+    Qt${QT_MAJOR_VERSION}::QuickWidgets
 )

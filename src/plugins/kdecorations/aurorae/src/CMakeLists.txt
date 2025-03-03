@@ -13,20 +13,21 @@ set(kwin5_aurorae_PART_SRCS
 )
 
 add_library(kwin5_aurorae MODULE ${kwin5_aurorae_PART_SRCS})
-set_target_properties(kwin5_aurorae PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kdecoration2/")
+set_target_properties(kwin5_aurorae PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.KDecoration3/")
 
 target_link_libraries(kwin5_aurorae
-    KDecoration2::KDecoration
     kwineffects
-    KF5::ConfigWidgets
-    KF5::I18n
-    KF5::Package
-    KF5::WindowSystem
+    KF6::ConfigWidgets
+    KF6::I18n
+    KF6::Package
+    KF6::WindowSystem
+    KF6::KCMUtils
+    KDecoration3::KDecoration
     Qt${QT_MAJOR_VERSION}::Quick
     Qt${QT_MAJOR_VERSION}::UiTools
 )
 
-install(TARGETS kwin5_aurorae DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
+install(TARGETS kwin5_aurorae DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.KDecoration3)
 
 set(decoration_plugin_SRCS
     colorhelper.cpp
@@ -37,8 +38,8 @@ set(decoration_plugin_SRCS
 add_library(decorationplugin SHARED ${decoration_plugin_SRCS})
 set_target_properties(decorationplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org/kde/kwin/decoration/")
 target_link_libraries(decorationplugin
-    KDecoration2::KDecoration
-    KF5::ConfigWidgets
+    KDecoration3::KDecoration
+    KF6::ConfigWidgets
     Qt${QT_MAJOR_VERSION}::Quick
 )
 install(TARGETS decorationplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwin/decoration)
@@ -70,4 +71,4 @@ set(QMLFILES
 )
 install(FILES ${QMLFILES} DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwin/decoration)
 file(COPY ${QMLFILES} DESTINATION ${CMAKE_BINARY_DIR}/bin/org/kde/kwin/decoration/)
-install(FILES kwindecoration.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+## install(FILES kwindecoration.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})

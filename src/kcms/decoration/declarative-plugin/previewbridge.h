@@ -5,8 +5,8 @@
 */
 #pragma once
 
-#include <KDecoration2/DecorationButton>
-#include <KDecoration2/Private/DecorationBridge>
+#include <KDecoration3/DecorationButton>
+#include <KDecoration3/Private/DecorationBridge>
 
 #include <QList>
 #include <QPointer>
@@ -15,7 +15,7 @@ class QQuickItem;
 
 class KPluginFactory;
 
-namespace KDecoration2
+namespace KDecoration3
 {
 namespace Preview
 {
@@ -33,7 +33,7 @@ class PreviewBridge : public DecorationBridge
 public:
     explicit PreviewBridge(QObject *parent = nullptr);
     ~PreviewBridge() override;
-    std::unique_ptr<DecoratedClientPrivate> createClient(DecoratedClient *client, Decoration *decoration) override;
+    std::unique_ptr<DecoratedWindowPrivate> createClient(DecoratedWindow *client, Decoration *decoration) override;
     std::unique_ptr<DecorationSettingsPrivate> settings(DecorationSettings *parent) override;
 
     PreviewClient *lastCreatedClient()
@@ -54,8 +54,8 @@ public:
     QString theme() const;
     bool isValid() const;
 
-    KDecoration2::Decoration *createDecoration(QObject *parent = nullptr);
-    KDecoration2::DecorationButton *createButton(KDecoration2::Decoration *decoration, KDecoration2::DecorationButtonType type, QObject *parent = nullptr);
+    KDecoration3::Decoration *createDecoration(QObject *parent = nullptr);
+    KDecoration3::DecorationButton *createButton(KDecoration3::Decoration *decoration, KDecoration3::DecorationButtonType type, QObject *parent = nullptr);
 
 public Q_SLOTS:
     void configure(QQuickItem *ctx);
@@ -83,7 +83,7 @@ class BridgeItem : public QObject
     Q_PROPERTY(QString plugin READ plugin WRITE setPlugin NOTIFY pluginChanged)
     Q_PROPERTY(QString theme READ theme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
-    Q_PROPERTY(KDecoration2::Preview::PreviewBridge *bridge READ bridge CONSTANT)
+    Q_PROPERTY(KDecoration3::Preview::PreviewBridge *bridge READ bridge CONSTANT)
 
 public:
     explicit BridgeItem(QObject *parent = nullptr);
@@ -127,4 +127,4 @@ private:
 }
 }
 
-Q_DECLARE_METATYPE(KDecoration2::Preview::PreviewBridge *)
+Q_DECLARE_METATYPE(KDecoration3::Preview::PreviewBridge *)

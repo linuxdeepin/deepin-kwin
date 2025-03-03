@@ -25,7 +25,11 @@
 
 #include <QDebug>
 #include <QGuiApplication>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 
 ChameleonWindowTheme::ChameleonWindowTheme(QObject *window, QObject *parent)
     : QObject(parent)
@@ -67,7 +71,7 @@ QPointF ChameleonWindowTheme::windowRadius() const
     if(!QX11Info::isPlatformX11()) {
         return m_windowRadius;
     }
-    return ChameleonTheme::takePos(property("windowRadius"), QPointF(0.0, 0.0));
+    return ChameleonTheme::takePos(property("_windowRadius"), QPointF(0.0, 0.0));
 }
 
 void ChameleonWindowTheme::setWindowRadius(const QPointF value) {

@@ -2,18 +2,16 @@ set(TARGET_NAME "deepin_chameleon")
 
 add_definitions(-DTARGET_NAME=\\"${TARGET_NAME}\\")
 
-find_package(Qt5 CONFIG REQUIRED COMPONENTS Core)
-find_package(Qt5X11Extras REQUIRED)
-find_package(KF5CoreAddons REQUIRED)
-find_package(Qt5DBus REQUIRED)
-find_package(Qt5Qml REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core DBus LinguistTools)
+
+#find_package(Qt5X11Extras REQUIRED)
+find_package(KF6CoreAddons REQUIRED)
 find_package(X11 REQUIRED)
-find_package(KF5Config REQUIRED)
-find_package(KF5WindowSystem REQUIRED)
-find_package(KDecoration2 REQUIRED)
-find_package(Qt5LinguistTools REQUIRED)
-include_directories(${Qt5Core_PRIVATE_INCLUDE_DIRS})
-include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+find_package(KF6Config REQUIRED)
+find_package(KF6WindowSystem REQUIRED)
+find_package(KDecoration3 REQUIRED)
+#include_directories(${Qt5Core_PRIVATE_INCLUDE_DIRS})
+#include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed
@@ -40,23 +38,24 @@ add_library(
     kwinutils.cpp
     themes.qrc
 )
-set_target_properties(${TARGET_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kdecoration2/")
+set_target_properties(${TARGET_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.KDecoration3/")
 
 target_link_libraries(
     ${TARGET_NAME}
     PUBLIC
-    Qt5::Core
-    Qt5::DBus
-    Qt5::X11Extras
-    Qt5::Qml
+    Qt${QT_MAJOR_VERSION}::Core
+    Qt${QT_MAJOR_VERSION}::DBus
+    #Qt${QT_MAJOR_VERSION}::X11Extras
+    #Qt${QT_MAJOR_VERSION}::Quick
+    Qt${QT_MAJOR_VERSION}::GuiPrivate
     X11
     XCB::XCB
     kwineffects
-    KDecoration2::KDecoration
-    KF5::CoreAddons
-    KF5::ConfigCore
-    KF5::WindowSystem
+    KDecoration3::KDecoration
+    KF6::CoreAddons
+    KF6::ConfigCore
+    KF6::WindowSystem
     kwin
 )
 
-install(TARGETS ${TARGET_NAME} DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)
+install(TARGETS ${TARGET_NAME} DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.KDecoration3)

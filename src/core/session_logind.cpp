@@ -357,7 +357,7 @@ void LogindSession::updateDisplay(QString displayNumber)
                                                           m_sessionPath,
                                                           s_sessionInterface,
                                                           QStringLiteral("UpdateDisplay"));
-    message.setArguments(QVariantList{QVariant(displayNumber.constData())});
+    message.setArguments(QVariantList{QVariant(displayNumber)});
     QDBusConnection::systemBus().call(message);
 }
 

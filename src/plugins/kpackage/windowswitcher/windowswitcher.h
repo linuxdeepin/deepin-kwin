@@ -15,5 +15,7 @@ public:
     {
     }
     void initPackage(KPackage::Package *package) override;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     void pathChanged(KPackage::Package *package) override;
+#endif
 };

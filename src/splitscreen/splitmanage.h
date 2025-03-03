@@ -92,7 +92,11 @@ private:
     QHash<QString, SplitBar *>          m_splitBarManage;
     QHash<QString, Window *>            m_splitBarWindows;
     QHash<Window *, WindowData>         m_data;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMutex                              m_mutex;
+#else
+    QRecursiveMutex m_mutex;
+#endif
     Window                              *m_lastWin = nullptr;
     Window                              *m_topWin = nullptr;
     Window                              *m_activeWin = nullptr;

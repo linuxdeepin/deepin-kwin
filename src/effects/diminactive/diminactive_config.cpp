@@ -22,7 +22,7 @@ K_PLUGIN_CLASS(KWin::DimInactiveEffectConfig)
 
 namespace KWin
 {
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 DimInactiveEffectConfig::DimInactiveEffectConfig(QWidget *parent, const QVariantList &args)
     : KCModule(parent, args)
 {
@@ -30,6 +30,15 @@ DimInactiveEffectConfig::DimInactiveEffectConfig(QWidget *parent, const QVariant
     DimInactiveConfig::instance(KWIN_CONFIG);
     addConfig(DimInactiveConfig::self(), this);
 }
+#else
+DimInactiveEffectConfig::DimInactiveEffectConfig(QObject *parent, const KPluginMetaData &data)
+    : KCModule(parent, data)
+{
+    m_ui.setupUi(widget());
+    DimInactiveConfig::instance(KWIN_CONFIG);
+    addConfig(DimInactiveConfig::self(), widget());
+}
+#endif
 
 DimInactiveEffectConfig::~DimInactiveEffectConfig()
 {

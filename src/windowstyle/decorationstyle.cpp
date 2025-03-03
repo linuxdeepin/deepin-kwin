@@ -103,14 +103,14 @@ QString X11DecorationStyle::theme()
 
 QPointF X11DecorationStyle::windowRadius()
 {
-    return m_isX11Only ? variant2Point(property("windowRadius")) : m_windowRadius;
+    return m_isX11Only ? variant2Point(property("_windowRadius")) : m_windowRadius;
 }
 
 void X11DecorationStyle::setWindowRadius(const QPointF value)
 {
     if (m_isX11Only) {
         QString point = QString::number(value.x()) + "," + QString::number(value.y());
-        setProperty("windowRadius", point);
+        setProperty("_windowRadius", point);
     } else {
         m_windowRadius = value;
     }
