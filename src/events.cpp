@@ -35,7 +35,7 @@
 #include "wayland_server.h"
 #include "wayland/dderestrict_interface.h"
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 
 #include <QApplication>
 #include <QDBusInterface>
@@ -1046,6 +1046,7 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
                               || (button == 6 || button == 7));
 
             const QPoint angle = hor ? QPoint(delta, 0) : QPoint(0, delta);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             QWheelEvent event(QPointF(x, y),
                               QPointF(x_root, y_root),
                               QPoint(),
@@ -1057,6 +1058,18 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
                               Qt::NoScrollPhase,
                               Qt::MouseEventNotSynthesized,
                               false);
+
+#else
+            QWheelEvent event(QPointF(x, y),
+                              QPointF(x_root, y_root),
+                              QPoint(),
+                              angle,
+                              x11ToQtMouseButtons(state),
+                              modifiers,
+                              Qt::NoScrollPhase,
+                              false,
+                              Qt::MouseEventNotSynthesized);
+#endif
             event.setAccepted(false);
             QCoreApplication::sendEvent(decoration(), &event);
             if (!event.isAccepted() && !hor) {

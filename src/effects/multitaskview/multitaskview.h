@@ -138,7 +138,11 @@ private:
     QList<QString>   m_screenNamelist;
     QString          m_previewFile = "";
     EffectScreen    *m_previewScreen = nullptr;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMutex          m_bgmutex;
+#else
+    QRecursiveMutex m_bgmutex;
+#endif
     QSettings *m_deepinwmrcIni = nullptr;
 
     QHash<QString, QPair<QSize, QPixmap>> m_wpCachedPixmaps;
@@ -602,7 +606,11 @@ private:
 
     int             paintingDesktop = 0;
     workspaceStatus m_workspaceStatus = wpNone;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMutex          m_mutex;
+#else
+    QRecursiveMutex m_mutex;
+#endif
 
     TimeLine     m_bgSlidingTimeLine;
     bool         m_bgSlidingStatus;

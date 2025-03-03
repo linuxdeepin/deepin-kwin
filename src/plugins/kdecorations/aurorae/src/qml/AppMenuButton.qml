@@ -3,17 +3,27 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-import QtQuick 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.kwin.decoration 0.1
+import QtQuick
+import org.kde.kirigami 2.20 as Kirigami
+import org.kde.kwin.decoration
 
-DecorationButton {
+Item {
     id: appMenuButton
-    buttonType: DecorationOptions.DecorationButtonApplicationMenu
     visible: decoration.client.hasApplicationMenu
-    PlasmaCore.IconItem {
-        usesPlasmaTheme: false
-        source: decoration.client.icon
+    AuroraeButton {
+        id: primary
         anchors.fill: parent
+        buttonType: DecorationOptions.DecorationButtonApplicationMenu
+        visible: auroraeTheme.appMenuButtonPath
+    }
+    DecorationButton {
+        id: fallback
+        anchors.fill: parent
+        buttonType: DecorationOptions.DecorationButtonApplicationMenu
+        visible: !auroraeTheme.appMenuButtonPath
+        Kirigami.Icon {
+            anchors.fill: parent
+            source: decoration.client.icon
+        }
     }
 }

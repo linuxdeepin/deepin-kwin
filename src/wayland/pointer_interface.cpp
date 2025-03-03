@@ -212,232 +212,228 @@ void PointerInterface::sendButton(quint32 button, PointerButtonState state, quin
             d->send_warp(resource->handle, wl_fixed_from_double(localPos.x()), wl_fixed_from_double(localPos.y()));
         }
 #endif
-
-        d->send_button(resource->handle, serial, d->seat->timestamp().count(), button, quint32(state));
     }
-}
-
-static bool shouldResetAccumulator(int accumulator, int delta)
-{
-    // Reset the accumulator if the delta has opposite sign.
-    return accumulator && (accumulator < 0 != delta < 0);
-}
-
-static void updateAccumulators(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerInterfacePrivate *d, qint32 &valueAxisLowRes, qint32 &valueDiscrete)
-{
-    qint32 *accumulatorV120;
-    qreal *accumulatorAxis;
-
-    if (orientation == Qt::Horizontal) {
-        accumulatorV120 = &d->accumulatorV120.rx();
-        accumulatorAxis = &d->accumulatorAxis.rx();
-    } else {
-        accumulatorV120 = &d->accumulatorV120.ry();
-        accumulatorAxis = &d->accumulatorAxis.ry();
+    static bool shouldResetAccumulator(int accumulator, int delta)
+    {
+        // Reset the accumulator if the delta has opposite sign.
+        return accumulator && (accumulator < 0 != delta < 0);
     }
 
-    if (shouldResetAccumulator(*accumulatorV120, deltaV120)) {
-        *accumulatorV120 = 0;
-        *accumulatorAxis = 0;
-    }
+    static void updateAccumulators(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerInterfacePrivate * d, qint32 & valueAxisLowRes, qint32 & valueDiscrete)
+    {
+        qint32 *accumulatorV120;
+        qreal *accumulatorAxis;
 
-    *accumulatorAxis += delta;
-    *accumulatorV120 += deltaV120;
-
-    // ±120 is a "wheel click"
-    valueDiscrete = *accumulatorV120 / 120;
-    *accumulatorV120 -= valueDiscrete * 120;
-
-    if (valueDiscrete) {
-        // Accumulate the axis values to send to low-res clients
-        valueAxisLowRes = *accumulatorAxis;
-        *accumulatorAxis = 0;
-    }
-}
-
-void PointerInterface::sendAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source)
-{
-    if (!d->focusedSurface) {
-        return;
-    }
-
-    qint32 valueAxisLowRes = 0;
-    qint32 valueDiscrete = 0;
-
-    if (deltaV120) {
-        updateAccumulators(orientation, delta, deltaV120, d.get(),
-                           valueAxisLowRes, valueDiscrete);
-    } else {
-        valueAxisLowRes = delta;
-    }
-
-    const auto pointerResources = d->pointersForClient(d->focusedSurface->client());
-    for (PointerInterfacePrivate::Resource *resource : pointerResources) {
-        const quint32 version = resource->version();
-
-        // Don't send anything if the client doesn't support high-res scrolling and
-        // we haven't accumulated a wheel click's worth of events.
-        if (version < WL_POINTER_AXIS_VALUE120_SINCE_VERSION && deltaV120 && !valueDiscrete) {
-            continue;
+        if (orientation == Qt::Horizontal) {
+            accumulatorV120 = &d->accumulatorV120.rx();
+            accumulatorAxis = &d->accumulatorAxis.rx();
+        } else {
+            accumulatorV120 = &d->accumulatorV120.ry();
+            accumulatorAxis = &d->accumulatorAxis.ry();
         }
 
-        if (source != PointerAxisSource::Unknown && version >= WL_POINTER_AXIS_SOURCE_SINCE_VERSION) {
-            PointerInterfacePrivate::axis_source wlSource;
-            switch (source) {
-            case PointerAxisSource::Wheel:
-                wlSource = PointerInterfacePrivate::axis_source_wheel;
-                break;
-            case PointerAxisSource::Finger:
-                wlSource = PointerInterfacePrivate::axis_source_finger;
-                break;
-            case PointerAxisSource::Continuous:
-                wlSource = PointerInterfacePrivate::axis_source_continuous;
-                break;
-            case PointerAxisSource::WheelTilt:
-                wlSource = PointerInterfacePrivate::axis_source_wheel_tilt;
-                break;
-            default:
-                Q_UNREACHABLE();
-                break;
+        if (shouldResetAccumulator(*accumulatorV120, deltaV120)) {
+            *accumulatorV120 = 0;
+            *accumulatorAxis = 0;
+        }
+
+        *accumulatorAxis += delta;
+        *accumulatorV120 += deltaV120;
+
+        // ±120 is a "wheel click"
+        valueDiscrete = *accumulatorV120 / 120;
+        *accumulatorV120 -= valueDiscrete * 120;
+
+        if (valueDiscrete) {
+            // Accumulate the axis values to send to low-res clients
+            valueAxisLowRes = *accumulatorAxis;
+            *accumulatorAxis = 0;
+        }
+    }
+
+    void PointerInterface::sendAxis(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerAxisSource source)
+    {
+        if (!d->focusedSurface) {
+            return;
+        }
+
+        qint32 valueAxisLowRes = 0;
+        qint32 valueDiscrete = 0;
+
+        if (deltaV120) {
+            updateAccumulators(orientation, delta, deltaV120, d.get(),
+                               valueAxisLowRes, valueDiscrete);
+        } else {
+            valueAxisLowRes = delta;
+        }
+
+        const auto pointerResources = d->pointersForClient(d->focusedSurface->client());
+        for (PointerInterfacePrivate::Resource *resource : pointerResources) {
+            const quint32 version = resource->version();
+
+            // Don't send anything if the client doesn't support high-res scrolling and
+            // we haven't accumulated a wheel click's worth of events.
+            if (version < WL_POINTER_AXIS_VALUE120_SINCE_VERSION && deltaV120 && !valueDiscrete) {
+                continue;
             }
-            d->send_axis_source(resource->handle, wlSource);
-        }
 
-        const auto wlOrientation =
-            (orientation == Qt::Vertical) ? PointerInterfacePrivate::axis_vertical_scroll : PointerInterfacePrivate::axis_horizontal_scroll;
+            if (source != PointerAxisSource::Unknown && version >= WL_POINTER_AXIS_SOURCE_SINCE_VERSION) {
+                PointerInterfacePrivate::axis_source wlSource;
+                switch (source) {
+                case PointerAxisSource::Wheel:
+                    wlSource = PointerInterfacePrivate::axis_source_wheel;
+                    break;
+                case PointerAxisSource::Finger:
+                    wlSource = PointerInterfacePrivate::axis_source_finger;
+                    break;
+                case PointerAxisSource::Continuous:
+                    wlSource = PointerInterfacePrivate::axis_source_continuous;
+                    break;
+                case PointerAxisSource::WheelTilt:
+                    wlSource = PointerInterfacePrivate::axis_source_wheel_tilt;
+                    break;
+                default:
+                    Q_UNREACHABLE();
+                    break;
+                }
+                d->send_axis_source(resource->handle, wlSource);
+            }
 
-        if (delta) {
-            if (deltaV120) {
-                if (version >= WL_POINTER_AXIS_VALUE120_SINCE_VERSION) {
-                    // Send high resolution scroll events if client supports them
-                    d->send_axis_value120(resource->handle, wlOrientation, deltaV120);
+            const auto wlOrientation =
+                (orientation == Qt::Vertical) ? PointerInterfacePrivate::axis_vertical_scroll : PointerInterfacePrivate::axis_horizontal_scroll;
+
+            if (delta) {
+                if (deltaV120) {
+                    if (version >= WL_POINTER_AXIS_VALUE120_SINCE_VERSION) {
+                        // Send high resolution scroll events if client supports them
+                        d->send_axis_value120(resource->handle, wlOrientation, deltaV120);
+                        d->send_axis(resource->handle, d->seat->timestamp().count(), wlOrientation,
+                                     wl_fixed_from_double(delta));
+                    } else {
+                        if (version >= WL_POINTER_AXIS_DISCRETE_SINCE_VERSION && valueDiscrete) {
+                            // Send discrete scroll events if client supports them.
+                            d->send_axis_discrete(resource->handle, wlOrientation,
+                                                  valueDiscrete);
+                        }
+                        // Send accumulated axis values
+                        d->send_axis(resource->handle, d->seat->timestamp().count(), wlOrientation,
+                                     wl_fixed_from_double(valueAxisLowRes));
+                    }
+                } else {
+                    // Finger or continuous scroll
                     d->send_axis(resource->handle, d->seat->timestamp().count(), wlOrientation,
                                  wl_fixed_from_double(delta));
-                } else {
-                    if (version >= WL_POINTER_AXIS_DISCRETE_SINCE_VERSION && valueDiscrete) {
-                        // Send discrete scroll events if client supports them.
-                        d->send_axis_discrete(resource->handle, wlOrientation,
-                                              valueDiscrete);
-                    }
-                    // Send accumulated axis values
-                    d->send_axis(resource->handle, d->seat->timestamp().count(), wlOrientation,
-                                 wl_fixed_from_double(valueAxisLowRes));
                 }
-            } else {
-                // Finger or continuous scroll
-                d->send_axis(resource->handle, d->seat->timestamp().count(), wlOrientation,
-                             wl_fixed_from_double(delta));
+            } else if (version >= WL_POINTER_AXIS_STOP_SINCE_VERSION) {
+                d->send_axis_stop(resource->handle, d->seat->timestamp().count(), wlOrientation);
             }
-        } else if (version >= WL_POINTER_AXIS_STOP_SINCE_VERSION) {
-            d->send_axis_stop(resource->handle, d->seat->timestamp().count(), wlOrientation);
         }
     }
-}
 
-void PointerInterface::sendMotion(const QPointF &position)
-{
-    d->lastPosition = position;
+    void PointerInterface::sendMotion(const QPointF &position)
+    {
+        d->lastPosition = position;
 
-    if (!d->focusedSurface) {
-        return;
-    }
-
-    const QPointF localPos = d->focusedSurface->toSurfaceLocal(position);
-
-    const auto pointerResources = d->pointersForClient(d->focusedSurface->client());
-    for (PointerInterfacePrivate::Resource *resource : pointerResources) {
-        d->send_motion(resource->handle, d->seat->timestamp().count(), wl_fixed_from_double(localPos.x()), wl_fixed_from_double(localPos.y()));
-    }
-}
-
-void PointerInterface::sendFrame()
-{
-    if (d->focusedSurface) {
-        d->sendFrame();
-    }
-}
-
-Cursor *PointerInterface::cursor() const
-{
-    return d->cursor;
-}
-
-SeatInterface *PointerInterface::seat() const
-{
-    return d->seat;
-}
-
-PointerInterface *PointerInterface::get(wl_resource *native)
-{
-    if (PointerInterfacePrivate *pointerPrivate = resource_cast<PointerInterfacePrivate *>(native)) {
-        return pointerPrivate->q;
-    }
-    return nullptr;
-}
-
-CursorPrivate::CursorPrivate(Cursor *q, PointerInterface *pointer)
-    : q(q)
-    , pointer(pointer)
-{
-}
-
-void CursorPrivate::update(SurfaceInterface *s, quint32 serial, const QPoint &p)
-{
-    bool emitChanged = false;
-    if (enteredSerial != serial) {
-        enteredSerial = serial;
-        emitChanged = true;
-        Q_EMIT q->enteredSerialChanged();
-    }
-    if (hotspot != p) {
-        hotspot = p;
-        emitChanged = true;
-        Q_EMIT q->hotspotChanged();
-    }
-    if (surface != s) {
-        if (!surface.isNull()) {
-            QObject::disconnect(surface.data(), &SurfaceInterface::committed, q, &Cursor::changed);
+        if (!d->focusedSurface) {
+            return;
         }
-        surface = s;
-        if (!surface.isNull()) {
-            QObject::connect(surface.data(), &SurfaceInterface::committed, q, &Cursor::changed);
+
+        const QPointF localPos = d->focusedSurface->toSurfaceLocal(position);
+
+        const auto pointerResources = d->pointersForClient(d->focusedSurface->client());
+        for (PointerInterfacePrivate::Resource *resource : pointerResources) {
+            d->send_motion(resource->handle, d->seat->timestamp().count(), wl_fixed_from_double(localPos.x()), wl_fixed_from_double(localPos.y()));
         }
-        emitChanged = true;
-        Q_EMIT q->surfaceChanged();
     }
-    if (emitChanged) {
-        Q_EMIT q->changed();
+
+    void PointerInterface::sendFrame()
+    {
+        if (d->focusedSurface) {
+            d->sendFrame();
+        }
     }
-}
 
-Cursor::Cursor(PointerInterface *parent)
-    : QObject(parent)
-    , d(new CursorPrivate(this, parent))
-{
-}
+    Cursor *PointerInterface::cursor() const
+    {
+        return d->cursor;
+    }
 
-Cursor::~Cursor()
-{
-}
+    SeatInterface *PointerInterface::seat() const
+    {
+        return d->seat;
+    }
 
-quint32 Cursor::enteredSerial() const
-{
-    return d->enteredSerial;
-}
+    PointerInterface *PointerInterface::get(wl_resource * native)
+    {
+        if (PointerInterfacePrivate *pointerPrivate = resource_cast<PointerInterfacePrivate *>(native)) {
+            return pointerPrivate->q;
+        }
+        return nullptr;
+    }
 
-QPoint Cursor::hotspot() const
-{
-    return d->hotspot;
-}
+    CursorPrivate::CursorPrivate(Cursor * q, PointerInterface * pointer)
+        : q(q)
+        , pointer(pointer)
+    {
+    }
 
-PointerInterface *Cursor::pointer() const
-{
-    return d->pointer;
-}
+    void CursorPrivate::update(SurfaceInterface * s, quint32 serial, const QPoint &p)
+    {
+        bool emitChanged = false;
+        if (enteredSerial != serial) {
+            enteredSerial = serial;
+            emitChanged = true;
+            Q_EMIT q->enteredSerialChanged();
+        }
+        if (hotspot != p) {
+            hotspot = p;
+            emitChanged = true;
+            Q_EMIT q->hotspotChanged();
+        }
+        if (surface != s) {
+            if (!surface.isNull()) {
+                QObject::disconnect(surface.data(), &SurfaceInterface::committed, q, &Cursor::changed);
+            }
+            surface = s;
+            if (!surface.isNull()) {
+                QObject::connect(surface.data(), &SurfaceInterface::committed, q, &Cursor::changed);
+            }
+            emitChanged = true;
+            Q_EMIT q->surfaceChanged();
+        }
+        if (emitChanged) {
+            Q_EMIT q->changed();
+        }
+    }
 
-SurfaceInterface *Cursor::surface() const
-{
-    return d->surface;
-}
+    Cursor::Cursor(PointerInterface * parent)
+        : QObject(parent)
+        , d(new CursorPrivate(this, parent))
+    {
+    }
+
+    Cursor::~Cursor()
+    {
+    }
+
+    quint32 Cursor::enteredSerial() const
+    {
+        return d->enteredSerial;
+    }
+
+    QPoint Cursor::hotspot() const
+    {
+        return d->hotspot;
+    }
+
+    PointerInterface *Cursor::pointer() const
+    {
+        return d->pointer;
+    }
+
+    SurfaceInterface *Cursor::surface() const
+    {
+        return d->surface;
+    }
 
 } // namespace KWaylandServer

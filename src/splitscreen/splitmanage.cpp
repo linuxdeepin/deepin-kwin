@@ -49,7 +49,9 @@ void SplitGroup::getSplitWindow(QVector<Window *> &vec)
 // split manage
 /*********************************************/
 SplitManage::SplitManage()
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     : m_mutex(QMutex::Recursive)
+#endif
 {
 }
 

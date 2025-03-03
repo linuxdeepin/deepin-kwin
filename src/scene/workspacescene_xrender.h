@@ -34,7 +34,7 @@ public:
 
 
     std::unique_ptr<Shadow> createShadow(Window *window) override;
-    DecorationRenderer *createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
+    DecorationRenderer *createDecorationRenderer(Decoration::DecoratedWindowImpl *impl) override;
 
     xcb_render_picture_t xrenderBufferPicture() const override;
 
@@ -101,7 +101,7 @@ public:
         Bottom,
         Count
     };
-    explicit SceneXRenderDecorationRenderer(Decoration::DecoratedClientImpl *client);
+    explicit SceneXRenderDecorationRenderer(Decoration::DecoratedWindowImpl *client);
     ~SceneXRenderDecorationRenderer() override;
 
     void render(const QRegion &region) override;

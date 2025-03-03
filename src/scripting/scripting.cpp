@@ -668,7 +668,11 @@ KWin::Scripting *KWin::Scripting::create(QObject *parent)
 
 KWin::Scripting::Scripting(QObject *parent)
     : QObject(parent)
-    , m_scriptsLock(new QMutex(QMutex::Recursive))
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    , m_scriptsLock(new QMutex(QMutex::Recursive)
+#else
+    , m_scriptsLock(new QRecursiveMutex())
+#endif
     , m_qmlEngine(new QQmlEngine(this))
     , m_declarativeScriptSharedContext(new QQmlContext(m_qmlEngine, this))
     , m_workspaceWrapper(new QtScriptWorkspaceWrapper(this))

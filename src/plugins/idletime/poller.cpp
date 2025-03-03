@@ -14,7 +14,11 @@ namespace KWin
 {
 
 KWinIdleTimePoller::KWinIdleTimePoller(QObject *parent)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     : AbstractSystemPoller(parent)
+#else
+    : KAbstractIdleTimePoller(parent)
+#endif
 {
 }
 

@@ -21,7 +21,7 @@
 #include "atoms.h"
 #include "client_machine.h"
 #include "composite.h"
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "decorations/decorationbridge.h"
 #include "decorations/decorationpalette.h"
 #include "effects.h"
@@ -53,8 +53,8 @@
 #include "platformsupport/scenes/opengl/openglsurfacetexture.h"
 #include "splitscreen/splitmanage.h"
 
-#include <KDecoration2/DecoratedClient>
-#include <KDecoration2/Decoration>
+#include <KDecoration3/DecoratedWindow>
+#include <KDecoration3/Decoration>
 
 #include <KDesktopFile>
 
@@ -64,7 +64,12 @@
 #include <QStyleHints>
 #include <QDBusMessage>
 #include <QDBusConnection>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
+
 #include <QDBusPendingReply>
 #include <QDBusVariant>
 #include <QDBusInterface>
@@ -2549,10 +2554,14 @@ void Window::setupWindowManagementInterface()
     }
 
     connect(this, &Window::activitiesChanged, w, [w, this] {
-        const auto newActivities = QSet<QString>(m_activityList.toSet());
         const auto oldActivitiesList = w->plasmaActivities();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        const auto newActivities = QSet<QString>(m_activityList.toSet());
         const auto oldActivities = QSet<QString>(oldActivitiesList.toSet());
-
+#else
+        const QSet<QString> newActivities(m_activityList.begin(), m_activityList.end());
+        const QSet<QString> oldActivities(oldActivitiesList.begin(), oldActivitiesList.end());
+#endif
         const auto activitiesToAdd = newActivities - oldActivities;
         for (const auto &activity : activitiesToAdd) {
             w->addPlasmaActivity(activity);
@@ -3228,19 +3237,19 @@ void Window::endInteractiveMoveResize()
     updateCursor();
 }
 
-void Window::setDecoration(std::shared_ptr<KDecoration2::Decoration> decoration)
+void Window::setDecoration(std::shared_ptr<KDecoration3::Decoration> decoration)
 {
     if (m_decoration.decoration == decoration) {
         return;
     }
     if (decoration) {
-        QMetaObject::invokeMethod(decoration.get(), QOverload<>::of(&KDecoration2::Decoration::update), Qt::QueuedConnection);
-        connect(decoration.get(), &KDecoration2::Decoration::shadowChanged, this, &Window::updateShadow);
-        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged,
+        QMetaObject::invokeMethod(decoration.get(), QOverload<>::of(&KDecoration3::Decoration::update), Qt::QueuedConnection);
+        connect(decoration.get(), &KDecoration3::Decoration::shadowChanged, this, &Window::updateShadow);
+        connect(decoration.get(), &KDecoration3::Decoration::bordersChanged,
                 this, &Window::updateDecorationInputShape);
-        connect(decoration.get(), &KDecoration2::Decoration::resizeOnlyBordersChanged,
+        connect(decoration.get(), &KDecoration3::Decoration::resizeOnlyBordersChanged,
                 this, &Window::updateDecorationInputShape);
-        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged, this, [this]() {
+        connect(decoration.get(), &KDecoration3::Decoration::bordersChanged, this, [this]() {
             GeometryUpdatesBlocker blocker(this);
             const QRectF oldGeometry = moveResizeGeometry();
             if (!isShade()) {
@@ -3248,7 +3257,7 @@ void Window::setDecoration(std::shared_ptr<KDecoration2::Decoration> decoration)
             }
             Q_EMIT geometryShapeChanged(this, oldGeometry);
         });
-        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged,
+        connect(decoratedWindow()->decoratedWindow(), &KDecoration3::DecoratedWindow::sizeChanged,
                 this, &Window::updateDecorationInputShape);
     }
     m_decoration.decoration = decoration;
@@ -3263,10 +3272,10 @@ void Window::updateDecorationInputShape()
         return;
     }
 
-    const QMargins borders = decoration()->borders();
-    const QMargins resizeBorders = decoration()->resizeOnlyBorders();
+    const auto borders = decoration()->borders();
+    const auto resizeBorders = decoration()->resizeOnlyBorders();
 
-    const QRectF innerRect = QRectF(QPointF(borderLeft(), borderTop()), decoratedClient()->size());
+    const QRectF innerRect = QRectF(QPointF(borderLeft(), borderTop()), decoratedWindow()->size());
     const QRectF outerRect = innerRect + borders + resizeBorders;
 
     m_decoration.inputRegion = QRegion(outerRect.toAlignedRect()) - innerRect.toAlignedRect();
@@ -3409,12 +3418,12 @@ void Window::showContextHelp()
 {
 }
 
-QPointer<Decoration::DecoratedClientImpl> Window::decoratedClient() const
+QPointer<Decoration::DecoratedWindowImpl> Window::decoratedWindow() const
 {
     return m_decoration.client;
 }
 
-void Window::setDecoratedClient(QPointer<Decoration::DecoratedClientImpl> client)
+void Window::setDecoratedWindow(QPointer<Decoration::DecoratedWindowImpl> client)
 {
     m_decoration.client = client;
 }
@@ -5145,7 +5154,11 @@ void Window::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
 QMargins Window::extendResizeBorder() const
 {
     if (isDecorated()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         return decoration()->resizeOnlyBorders();
+#else
+        return decoration()->resizeOnlyBorders().toMargins();
+#endif
     }
     if (isSpecialWindow() || !isResizable()) {
         return QMargins(0, 0, 0, 0);

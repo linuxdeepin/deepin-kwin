@@ -7,7 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "tablet_input.h"
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "input_event.h"
 #include "input_event_spy.h"
 #include "pointer_input.h"
@@ -17,7 +17,7 @@
 #include "window.h"
 #include "workspace.h"
 // KDecoration
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 // Qt
 #include <QHoverEvent>
 #include <QWindow>
@@ -146,8 +146,8 @@ bool TabletInputRedirection::focusUpdatesBlocked()
     return input()->isSelectingWindow();
 }
 
-void TabletInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl *old,
-                                               Decoration::DecoratedClientImpl *now)
+void TabletInputRedirection::cleanupDecoration(Decoration::DecoratedWindowImpl *old,
+                                               Decoration::DecoratedWindowImpl *now)
 {
     disconnect(m_decorationGeometryConnection);
     m_decorationGeometryConnection = QMetaObject::Connection();

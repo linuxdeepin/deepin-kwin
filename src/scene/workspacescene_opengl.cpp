@@ -17,7 +17,7 @@
 
 #include "composite.h"
 #include "core/output.h"
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "scene/itemrenderer_opengl.h"
 #include "window.h"
 
@@ -74,7 +74,7 @@ std::unique_ptr<Shadow> WorkspaceSceneOpenGL::createShadow(Window *window)
     return std::make_unique<SceneOpenGLShadow>(window);
 }
 
-DecorationRenderer *WorkspaceSceneOpenGL::createDecorationRenderer(Decoration::DecoratedClientImpl *impl)
+DecorationRenderer *WorkspaceSceneOpenGL::createDecorationRenderer(Decoration::DecoratedWindowImpl *impl)
 {
     return new SceneOpenGLDecorationRenderer(impl);
 }
@@ -109,7 +109,7 @@ private:
         std::shared_ptr<GLTexture> texture;
         QVector<SceneOpenGLShadow *> shadows;
     };
-    QHash<KDecoration2::DecorationShadow *, Data> m_cache;
+    QHash<KDecoration3::DecorationShadow *, Data> m_cache;
 };
 
 DecorationShadowTextureCache &DecorationShadowTextureCache::instance()
@@ -150,9 +150,14 @@ std::shared_ptr<GLTexture> DecorationShadowTextureCache::getTexture(SceneOpenGLS
 {
     Q_ASSERT(shadow->hasDecorationShadow());
     unregister(shadow);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const auto &decoShadow = shadow->decorationShadow().toStrongRef();
     Q_ASSERT(!decoShadow.isNull());
-    auto it = m_cache.find(decoShadow.data());
+#else
+    const auto &decoShadow = shadow->decorationShadow().lock();
+    Q_ASSERT(decoShadow);
+#endif
+    auto it = m_cache.find(decoShadow.get());
     if (it != m_cache.end()) {
         Q_ASSERT(!it.value().shadows.contains(shadow));
         it.value().shadows << shadow;
@@ -161,7 +166,7 @@ std::shared_ptr<GLTexture> DecorationShadowTextureCache::getTexture(SceneOpenGLS
     Data d;
     d.shadows << shadow;
     d.texture = std::make_shared<GLTexture>(shadow->decorationShadowImage());
-    m_cache.insert(decoShadow.data(), d);
+    m_cache.insert(decoShadow.get(), d);
     return d.texture;
 }
 
@@ -261,7 +266,7 @@ bool SceneOpenGLShadow::prepareBackend()
     return true;
 }
 
-SceneOpenGLDecorationRenderer::SceneOpenGLDecorationRenderer(Decoration::DecoratedClientImpl *client)
+SceneOpenGLDecorationRenderer::SceneOpenGLDecorationRenderer(Decoration::DecoratedWindowImpl *client)
     : DecorationRenderer(client)
     , m_texture()
 {

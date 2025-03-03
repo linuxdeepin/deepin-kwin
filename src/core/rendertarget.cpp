@@ -7,7 +7,9 @@
 #include "rendertarget.h"
 #include "kwinglutils.h"
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QDesktopWidget>
+#endif
 
 namespace KWin
 {
@@ -38,11 +40,15 @@ QSize RenderTarget::size() const
         return (*fbo)->size();
     } else if (auto image = std::get_if<QImage *>(&m_nativeHandle)) {
         return (*image)->size();
-    }  else if (auto renderPicture = std::get_if<xcb_render_picture_t *>(&m_nativeHandle)) {
+    }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    else if (auto renderPicture = std::get_if<xcb_render_picture_t *>(&m_nativeHandle)) {
         QDesktopWidget desktopWidget;
         QRect screenRect = desktopWidget.screenGeometry();
         return QSize(screenRect.width(), screenRect.height());
-    }  else {
+    }
+#endif
+    else {
         Q_UNREACHABLE();
     }
 }

@@ -141,7 +141,11 @@ static QStringList searchPaths()
     static QStringList paths;
     if (paths.isEmpty()) {
         if (const QString env = qEnvironmentVariable("XCURSOR_PATH"); !env.isEmpty()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             paths.append(env.split(':', QString::SkipEmptyParts));
+#else
+            paths.append(env.split(':', Qt::SkipEmptyParts));
+#endif
         } else {
             const QString home = QDir::homePath();
             if (!home.isEmpty()) {

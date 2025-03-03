@@ -25,26 +25,31 @@
 #include <QtMath>
 #include <QAction>
 #include <QScreen>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
-#include <QTranslator>
-#include <QGSettings/qgsettings.h>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 #include <QDBusConnection>
+#include <QFontMetrics>
+#include <QTranslator>
 
+#include "workspace.h"
+#include <QGSettings>
+#include <QImageReader>
+#include <QtConcurrent>
 #include <effects.h>
 #include <kglobalaccel.h>
 #include <qdbusconnection.h>
 #include <qdbusinterface.h>
 #include <qdbusreply.h>
-#include <QtConcurrent>
-#include <QGSettings/qgsettings.h>
-#include <QImageReader>
-#include "workspace.h"
 
 //#include "multitouchgesture.h"       //to do
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock, ("com.deepin.dde.dock"))
 //Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_dock_primary, ("com.deepin.dde.dock.mainwindow"))
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dde.appearance"))
+
 #define GsettingsDockPosition   "position"
 //#define GsettingsDockBottom     "bottom"
 //#define GsettingsDockPrimary    "only-show-primary"
@@ -163,6 +168,7 @@ void MultiViewBackgroundManager::setWorkspaceBackgroundForMonitor(const int inde
     KConfigGroup m_deepinWMWorkspaceBackgroundGroup(m_deepinWMConfig.group("WorkspaceBackground"));
     m_deepinWMWorkspaceBackgroundGroup.writeEntry(QString("%1%2%3").arg(index).arg("@" ,strMonitorName), uri);
     m_deepinWMConfig.sync();
+
     QStringList allWallpaper = _gsettings_dde_appearance->get(GsettingsBackgroundUri).toStringList();
     if (index > allWallpaper.size()) {
         allWallpaper.reserve(index);
@@ -223,7 +229,9 @@ MultiViewBackgroundManager *MultiViewBackgroundManager::instance()
 
 MultiViewBackgroundManager::MultiViewBackgroundManager()
     : QObject()
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     , m_bgmutex(QMutex::Recursive)
+#endif
 {
     QStringList lst = QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation);
     if (lst.size() > 0) {
@@ -404,8 +412,14 @@ QString MultiViewBackgroundManager::getRandBackground()
     while (index > 0) {
         int backgroundIndex = m_backgroundAllList.count();
         if (backgroundIndex - 1 != 0) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             qsrand((uint)QTime::currentTime().msec());
             backgroundIndex = qrand() % (backgroundIndex - 1);
+#else
+            QRandomGenerator::global()->seed(QDateTime::currentMSecsSinceEpoch());
+            backgroundIndex = QRandomGenerator::global()->bounded(backgroundIndex - 1);
+#endif
+
         } else {
             backgroundIndex -= 1;
         }
@@ -414,9 +428,15 @@ QString MultiViewBackgroundManager::getRandBackground()
             index --;
             continue;
         }
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         auto b_set = m_backgroundAllList.begin();
         file = *(b_set + backgroundIndex);
+#else
+        auto b_set = m_backgroundAllList.begin();
+        for (int i = 0; i < backgroundIndex; i++)
+            b_set++;
+        file = *b_set;
+#endif
         if (m_currentBackgroundList.contains(file)) {
             m_backgroundAllList.remove(file);
             index --;
@@ -473,7 +493,7 @@ void MultiViewBackgroundManager::setNewBackground(BgInfo_st &st, QPixmap &deskto
     desktopBg = cutBackgroundPix(st.desktopSize, file);
     m_bgCachedPixmaps[file + strBackgroundPath] = qMakePair(st.desktopSize, desktopBg);
 }
-
+#include <QSet>
 void MultiViewBackgroundManager::setMonitorInfo(QList<QMap<QString,QVariant>> monitorInfoList)
 {
     m_monitorInfoList = monitorInfoList;
@@ -483,7 +503,12 @@ void MultiViewBackgroundManager::setMonitorInfo(QList<QMap<QString,QVariant>> mo
         QMap<QString,QVariant> monitorInfo = m_monitorInfoList.at(i);
         monitorNameList.append(monitorInfo.keys());
     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_screenNamelist = monitorNameList.toSet().toList();
+#else
+    QSet<QString> tmpSet(monitorNameList.begin(), monitorNameList.end());
+    m_screenNamelist = QList<QString>(tmpSet.begin(), tmpSet.end());
+#endif
 }
 
 MultiViewAddButton::MultiViewAddButton()
@@ -618,7 +643,9 @@ MultitaskViewEffect::MultitaskViewEffect()
     : m_showActions(new QAction(this))
     , m_showActionw(new QAction(this))
     , m_showActiona(new QAction(this))
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     , m_mutex(QMutex::Recursive)
+#endif
     , m_timer(new QTimer(this))
     , m_timerCheckWindowClose(new QTimer(this))
 {
@@ -892,7 +919,12 @@ void MultitaskViewEffect::paintScreen(int mask, const QRegion &region, ScreenPai
                 std::unique_ptr<EffectFrameEx> &tframe = m_tipFrames[iter.key()][1];
                 QRect bgrect = tframe->geometry();
                 QFontMetrics metrics(tframe->font());
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 int width = metrics.width(tframe->text());
+#else
+                int width = metrics.horizontalAdvance(tframe->text());
+#endif
+
                 int height = metrics.height();
                 bgrect.adjust(-(width - bgrect.width()) / 2 - (20 * m_scalingFactor),
                               -(height - bgrect.height()) / 2 - (10 * m_scalingFactor),
@@ -1515,7 +1547,11 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
             if (textWin == "") {
                 m_textWinFrame->setText(" ");
             }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             width = metrics.width(textWin);
+#else
+            width = metrics.horizontalAdvance(textWin);
+#endif
             height = metrics.height();
         }
 
@@ -2065,12 +2101,19 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
     }
 
     if (e->type() == QEvent::KeyPress) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (shortcut.contains(e->key() + e->modifiers()) ||
             shortcuta.contains(e->key() + e->modifiers()) ||
             shortcutw.contains(e->key() + e->modifiers())) {
             toggle();
             return;
         }
+#else
+        if (shortcut.contains(QKeySequence(e->key() | e->modifiers())) || shortcuta.contains(QKeySequence(e->key() | e->modifiers())) || shortcutw.contains(QKeySequence(e->key() | e->modifiers()))) {
+            toggle();
+            return;
+        }
+#endif
         switch (e->key()) {
         case Qt::Key_Escape:
             m_effectFlyingBack.begin();

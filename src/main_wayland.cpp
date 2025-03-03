@@ -44,6 +44,9 @@
 #include <QProcess>
 #include <QWindow>
 #include <qplatformdefs.h>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtPlugin>
+#endif
 
 #include <sched.h>
 #include <sys/resource.h>

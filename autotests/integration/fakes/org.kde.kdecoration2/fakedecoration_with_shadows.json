@@ -5,7 +5,7 @@
         "Id": "org.kde.test.fakedecowithshadows",
         "Name": "Fake Decoration With Shadows"
     },
-    "org.kde.kdecoration2": {
+    "org.kde.KDecoration3": {
         "blur": false,
         "kcmodule": false
     }

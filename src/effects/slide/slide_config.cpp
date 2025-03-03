@@ -21,7 +21,7 @@ K_PLUGIN_CLASS(KWin::SlideEffectConfig)
 
 namespace KWin
 {
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 SlideEffectConfig::SlideEffectConfig(QWidget *parent, const QVariantList &args)
     : KCModule(parent, args)
 {
@@ -29,6 +29,15 @@ SlideEffectConfig::SlideEffectConfig(QWidget *parent, const QVariantList &args)
     SlideConfig::instance(KWIN_CONFIG);
     addConfig(SlideConfig::self(), this);
 }
+#else
+SlideEffectConfig::SlideEffectConfig(QObject *parent, const KPluginMetaData &data)
+    : KCModule(parent, data)
+{
+    m_ui.setupUi(widget());
+    SlideConfig::instance(KWIN_CONFIG);
+    addConfig(SlideConfig::self(), widget());
+}
+#endif
 
 SlideEffectConfig::~SlideEffectConfig()
 {

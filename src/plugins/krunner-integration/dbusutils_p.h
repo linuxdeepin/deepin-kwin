@@ -16,13 +16,22 @@
 #include <QString>
 #include <QVariantMap>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+const qreal HighestCategoryRelevance = 100; // KRunner::QueryMatch::CategoryRelevance::Highest
+const qreal LowCategoryRelevance = 30;
+#endif
+
 struct RemoteMatch
 {
     // sssuda{sv}
     QString id;
     QString text;
     QString iconName;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    int categoryRelevance = HighestCategoryRelevance;
+#else
     Plasma::QueryMatch::Type type = Plasma::QueryMatch::NoMatch;
+#endif
     qreal relevance = 0;
     QVariantMap properties;
 };
@@ -56,7 +65,11 @@ inline QDBusArgument &operator<<(QDBusArgument &argument, const RemoteMatch &mat
     argument << match.id;
     argument << match.text;
     argument << match.iconName;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    argument << match.categoryRelevance;
+#else
     argument << match.type;
+#endif
     argument << match.relevance;
     argument << match.properties;
     argument.endStructure();
@@ -69,9 +82,13 @@ inline const QDBusArgument &operator>>(const QDBusArgument &argument, RemoteMatc
     argument >> match.id;
     argument >> match.text;
     argument >> match.iconName;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    argument >> match.categoryRelevance;
+#else
     uint type;
     argument >> type;
     match.type = (Plasma::QueryMatch::Type)type;
+#endif
     argument >> match.relevance;
     argument >> match.properties;
     argument.endStructure();

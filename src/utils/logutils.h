@@ -9,6 +9,7 @@
 #pragma once
 
 #include <QDebug>
+#include <QObject>
 
 namespace KWin
 {

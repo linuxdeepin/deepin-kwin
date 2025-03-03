@@ -9,10 +9,10 @@
 
 #include <QPainter>
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 #include <KPluginFactory>
 
-class FakeDecoWithShadows : public KDecoration2::Decoration
+class FakeDecoWithShadows : public KDecoration3::Decoration
 {
     Q_OBJECT
 
@@ -46,7 +46,7 @@ public Q_SLOTS:
             shadowSize + offsetLeft,
             shadowSize + offsetTop);
 
-        auto decoShadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
+        auto decoShadow = QSharedPointer<KDecoration3::DecorationShadow>::create();
         decoShadow->setPadding(padding);
         decoShadow->setInnerShadowRect(QRect(shadowRect.center(), QSize(1, 1)));
         decoShadow->setShadow(shadowTexture);

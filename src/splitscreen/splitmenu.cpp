@@ -4,16 +4,15 @@
 #include "workspace.h"
 #include "wayland_server.h"
 
-#include <QLoggingCategory>
-#include <QTranslator>
 #include <QCoreApplication>
-#include <QToolTip>
 #include <QEvent>
+#include <QLoggingCategory>
 #include <QPainter>
-#include <QtMath>
+#include <QPainterPath>
 #include <QScreen>
 #include <QSvgRenderer>
-#include <QPainterPath>
+#include <QToolTip>
+#include <QTranslator>
 
 #define LONG_PRESS_TIME 500
 #define HIDE_DELAY_TIME 300
@@ -123,7 +122,11 @@ SplitMenu::~SplitMenu()
         delete shadow;
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void SplitMenu::enterEvent(QEvent *event)
+#else
+void SplitMenu::enterEvent(QEnterEvent *event)
+#endif
 {
     m_entered = true;
     QWidget::enterEvent(event);

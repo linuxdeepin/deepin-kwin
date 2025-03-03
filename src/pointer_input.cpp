@@ -14,24 +14,24 @@
 
 #include "core/output.h"
 #include "cursorsource.h"
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "effects.h"
 #include "input_event.h"
 #include "input_event_spy.h"
 #include "mousebuttons.h"
 #include "osd.h"
+#include "wayland/ddekvm_interface.h"
+#include "wayland/ddeseat_interface.h"
 #include "wayland/display.h"
 #include "wayland/pointer_interface.h"
 #include "wayland/pointerconstraints_v1_interface.h"
 #include "wayland/seat_interface.h"
-#include "wayland/ddeseat_interface.h"
 #include "wayland/surface_interface.h"
-#include "wayland/ddekvm_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
 // KDecoration
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 // screenlocker
 #if KWIN_BUILD_SCREENLOCKER
 #include <KScreenLocker/KsldApp>
@@ -518,7 +518,7 @@ bool PointerInputRedirection::focusUpdatesBlocked()
     return false;
 }
 
-void PointerInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now)
+void PointerInputRedirection::cleanupDecoration(Decoration::DecoratedWindowImpl *old, Decoration::DecoratedWindowImpl *now)
 {
     disconnect(m_decorationGeometryConnection);
     m_decorationGeometryConnection = QMetaObject::Connection();

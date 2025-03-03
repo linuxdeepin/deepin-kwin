@@ -18,7 +18,7 @@
 #include "x11window.h"
 #include <kwineffects.h>
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 
 #include <QQuickItem>
 
@@ -47,7 +47,7 @@ void DontCrashAuroraeDestroyDecoTest::initTestCase()
     QMetaObject::invokeMethod(kwinApp()->outputBackend(), "setVirtualOutputs", Qt::DirectConnection, Q_ARG(QVector<QRect>, QVector<QRect>() << QRect(0, 0, 1280, 1024) << QRect(1280, 0, 1280, 1024)));
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
-    config->group("org.kde.kdecoration2").writeEntry("library", "org.kde.kwin.aurorae");
+    config->group("org.kde.KDecoration3").writeEntry("library", "org.kde.kwin.aurorae");
     config->sync();
     kwinApp()->setConfig(config);
 

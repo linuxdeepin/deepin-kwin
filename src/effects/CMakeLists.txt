@@ -30,8 +30,8 @@ function (kwin_strip_builtin_effect_metadata target metadata)
     set_property(TARGET ${target} APPEND PROPERTY AUTOGEN_TARGET_DEPENDS ${stripped_metadata})
 endfunction()
 
-pkg_search_module(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt)
-find_package(Qt5LinguistTools REQUIRED)
+pkg_search_module(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt6)
+find_package(Qt6LinguistTools REQUIRED)
 
 macro(KWIN4_ADD_EFFECT_MODULE name)
     kcoreaddons_add_plugin(${name} STATIC SOURCES ${ARGN} INSTALL_NAMESPACE "kwin/effects/plugins")
@@ -41,7 +41,7 @@ macro(KWIN4_ADD_EFFECT_MODULE name)
 endmacro()
 
 # Install the KWin/Effect service type
-install(FILES kwineffect.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+#install(FILES kwineffect.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
 
 # scripted effects
 function(install_scripted_effect name)
@@ -68,6 +68,10 @@ install_scripted_effect(translucency)
 install_scripted_effect(windowaperture)
 install_scripted_effect(sessionquit)
 
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+   QuickWidgets
+)
+
 ###############################################################################
 # Built-in effects go here
 
@@ -91,7 +95,7 @@ add_subdirectory(slidingpopups)
 add_subdirectory(thumbnailaside)
 add_subdirectory(tileseditor)
 add_subdirectory(touchpoints)
-add_subdirectory(zoom)
+###  add_subdirectory(zoom)
 add_subdirectory(splitscreen)
 add_subdirectory(splitswap)
 add_subdirectory(maximizeex)

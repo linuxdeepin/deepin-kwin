@@ -5,10 +5,10 @@
 */
 #pragma once
 
-#include <KDecoration2/DecorationButton>
+#include <KDecoration3/DecorationButton>
 #include <QAbstractListModel>
 
-namespace KDecoration2
+namespace KDecoration3
 {
 
 namespace Preview

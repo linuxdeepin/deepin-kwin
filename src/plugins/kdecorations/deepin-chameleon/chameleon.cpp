@@ -26,12 +26,17 @@
 #include "chameleonwindowtheme.h"
 #include "kwinutils.h"
 
-#include <KDecoration2/DecoratedClient>
-#include <KDecoration2/DecorationSettings>
-#include <KDecoration2/DecorationButtonGroup>
+#include <KDecoration3/DecoratedWindow>
+#include <KDecoration3/DecorationButtonGroup>
+#include <KDecoration3/DecorationSettings>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KConfigCore/KConfig>
 #include <KConfigCore/KConfigGroup>
+#else
+#include <KConfig>
+#include <KConfigGroup>
+#endif
 
 #include <QObject>
 #include <QPainter>
@@ -39,7 +44,11 @@
 #include <QScreen>
 #include <QGuiApplication>
 #include <QtDBus>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 #include <QMap>
 
 #include "window.h"
@@ -50,7 +59,7 @@
 Q_DECLARE_METATYPE(QPainterPath)
 
 Chameleon::Chameleon(QObject *parent, const QVariantList &args)
-    : KDecoration2::Decoration(parent, args)
+    : KDecoration3::Decoration(parent, args)
     , m_client(parent)
 {
 }
@@ -59,16 +68,28 @@ Chameleon::~Chameleon()
 {
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void Chameleon::init()
+#else
+bool Chameleon::init()
+#endif
 {
     if (m_initialized)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         return;
+#else
+        return false;
+#endif
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto c = client().data();
-
-    if (!m_client)
-        m_client = KWinUtils::findClient(KWinUtils::Predicate::WindowMatch, c->windowId());
-    else
+#else
+    auto c = window();
+#endif
+    if (!m_client) {
+        // FIXME
+        // m_client = KWinUtils::findClient(KWinUtils::Predicate::WindowMatch, c->windowId());
+    } else
         KWinUtils::insertChameleon(c, m_client);
 
     initButtons();
@@ -96,7 +117,7 @@ void Chameleon::init()
                     m_theme->setValidProperties(ChameleonWindowTheme::WindowRadiusProperty);
                     if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
                         if (windowRadius != m_theme->windowRadius()) {
-                            m_theme->setProperty("windowRadius",windowRadius);
+                            m_theme->setProperty("_windowRadius", windowRadius);
                             updateBorderPath();
                             updateShadow();
                         }
@@ -108,20 +129,20 @@ void Chameleon::init()
 
     connect(global_config, &ChameleonConfig::themeChanged, this, &Chameleon::updateTheme);
     connect(global_config, &ChameleonConfig::windowNoTitlebarPropertyChanged, this, &Chameleon::onNoTitlebarPropertyChanged);
-    connect(settings().data(), &KDecoration2::DecorationSettings::alphaChannelSupportedChanged, this, &Chameleon::updateConfig);
-    connect(c, &KDecoration2::DecoratedClient::activeChanged, this, &Chameleon::updateConfig);
-    connect(c, &KDecoration2::DecoratedClient::widthChanged, this, &Chameleon::onClientWidthChanged);
-    connect(c, &KDecoration2::DecoratedClient::heightChanged, this, &Chameleon::onClientHeightChanged);
+    connect(settings().get(), &KDecoration3::DecorationSettings::alphaChannelSupportedChanged, this, &Chameleon::updateConfig);
+    connect(c, &KDecoration3::DecoratedWindow::activeChanged, this, &Chameleon::updateConfig);
+    connect(c, &KDecoration3::DecoratedWindow::widthChanged, this, &Chameleon::onClientWidthChanged);
+    connect(c, &KDecoration3::DecoratedWindow::heightChanged, this, &Chameleon::onClientHeightChanged);
     if (QX11Info::isPlatformX11()) {
-        connect(c, &KDecoration2::DecoratedClient::maximizedChanged, this, &Chameleon::updateTitleBarArea);
+        connect(c, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Chameleon::updateTitleBarArea);
     } else {
-        connect(c, &KDecoration2::DecoratedClient::maximizedChanged, this, &Chameleon::updateTitleBarArea, Qt::QueuedConnection);
+        connect(c, &KDecoration3::DecoratedWindow::maximizedChanged, this, &Chameleon::updateTitleBarArea, Qt::QueuedConnection);
     }
-    connect(c, &KDecoration2::DecoratedClient::adjacentScreenEdgesChanged, this, &Chameleon::updateBorderPath);
-    connect(c, &KDecoration2::DecoratedClient::maximizedHorizontallyChanged, this, &Chameleon::updateBorderPath);
-    connect(c, &KDecoration2::DecoratedClient::maximizedVerticallyChanged, this, &Chameleon::updateBorderPath);
-    connect(c, &KDecoration2::DecoratedClient::captionChanged, this, &Chameleon::updateTitleGeometry);
-    connect(c, &KDecoration2::DecoratedClient::maximizeableChanged, this, &Chameleon::updateTitleBarArea);
+    connect(c, &KDecoration3::DecoratedWindow::adjacentScreenEdgesChanged, this, &Chameleon::updateBorderPath);
+    connect(c, &KDecoration3::DecoratedWindow::maximizedHorizontallyChanged, this, &Chameleon::updateBorderPath);
+    connect(c, &KDecoration3::DecoratedWindow::maximizedVerticallyChanged, this, &Chameleon::updateBorderPath);
+    connect(c, &KDecoration3::DecoratedWindow::captionChanged, this, &Chameleon::updateTitleGeometry);
+    connect(c, &KDecoration3::DecoratedWindow::maximizeableChanged, this, &Chameleon::updateTitleBarArea);
     connect(this, &Chameleon::noTitleBarChanged, this, &Chameleon::updateTitleBarArea, Qt::QueuedConnection);
     connect(m_theme, &ChameleonWindowTheme::themeChanged, this, &Chameleon::updateTheme);
     connect(m_theme, &ChameleonWindowTheme::windowRadiusChanged, this, &Chameleon::updateBorderPath);
@@ -145,6 +166,9 @@ void Chameleon::init()
     m_initialized = true;
 
     KWinUtils::instance()->setInitialized();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return true;
+#endif
 }
 
 void Chameleon::updateFont(QString updateType,QString val)
@@ -166,9 +190,13 @@ void Chameleon::handleTitlebarHeightChanged()
     updateTitleBarArea();
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void Chameleon::paint(QPainter *painter, const QRect &repaintArea)
+#else
+void Chameleon::paint(QPainter *painter, const QRectF &repaintArea)
+#endif
 {
-    auto s = settings().data();
+    auto s = settings().get();
 
     painter->setClipPath(m_borderPath);
 
@@ -220,9 +248,16 @@ bool Chameleon::noTitleBar() const
 {
     if (m_noTitleBar < 0) {
         // 需要初始化
-        const QByteArray &data = KWinUtils::instance()->readWindowProperty(client().data()->windowId(),
-                                                                           ChameleonConfig::instance()->atomDeepinNoTitlebar(),
-                                                                           XCB_ATOM_CARDINAL);
+
+        const QByteArray &data = KWinUtils::instance()->readWindowProperty(
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+            client().data()->windowId(),
+#else
+            // window()->windowId(),
+            0u, // FIXME
+#endif
+            ChameleonConfig::instance()->atomDeepinNoTitlebar(),
+            XCB_ATOM_CARDINAL);
 
         qint8 no_titlebar = !data.isEmpty() && data.at(0);
 
@@ -346,24 +381,27 @@ qint32 Chameleon::menuIconHeight() const
 
 void Chameleon::initButtons()
 {
-    m_leftButtons = new KDecoration2::DecorationButtonGroup(KDecoration2::DecorationButtonGroup::Position::Left, this, &ChameleonButton::create);
-    m_rightButtons = new KDecoration2::DecorationButtonGroup(KDecoration2::DecorationButtonGroup::Position::Right, this, &ChameleonButton::create);
-    connect(m_rightButtons, &KDecoration2::DecorationButtonGroup::geometryChanged,
+    m_leftButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Left, this, &ChameleonButton::create);
+    m_rightButtons = new KDecoration3::DecorationButtonGroup(KDecoration3::DecorationButtonGroup::Position::Right, this, &ChameleonButton::create);
+    connect(m_rightButtons, &KDecoration3::DecorationButtonGroup::geometryChanged,
             this, &Chameleon::updateTitleBarArea, Qt::QueuedConnection);
 }
 
 void Chameleon::updateButtonsGeometry()
 {
     auto s = settings();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto c = client().data();
-
+#else
+    auto c = window();
+#endif
     // adjust button position
     const int bHeight = noTitleBar() ? 0 : titleBarHeight();
     KWinUtils::Window::setTitleBarHeight(m_client, bHeight);
 
     const int bWidth = 50 * m_theme->windowPixelRatio();
 
-    for (const QPointer<KDecoration2::DecorationButton> &button : m_leftButtons->buttons() + m_rightButtons->buttons()) {
+    for (const QPointer<KDecoration3::DecorationButton> &button : m_leftButtons->buttons() + m_rightButtons->buttons()) {
         button.data()->setGeometry(QRectF(QPoint(0, 0), QSizeF(bWidth, bHeight)));
     }
 
@@ -409,13 +447,20 @@ void Chameleon::updateTitleGeometry()
 {
     auto s = settings();
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_titleArea = titleBar();
-
     m_title = client().data()->caption();
+#else
+    m_titleArea = titleBar().toRect();
+    m_title = window()->caption();
+#endif
     // 使用系统字体，不要使用 settings() 中的字体
     const QFontMetricsF fontMetrics(m_font);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     int full_width = fontMetrics.width(m_title) * m_theme->windowPixelRatio();
-
+#else
+    int full_width = fontMetrics.horizontalAdvance(m_title) * m_theme->windowPixelRatio();
+#endif
     if (m_config->titlebarConfig.area == Qt::TopEdge || m_config->titlebarConfig.area == Qt::BottomEdge) {
         int buttons_width = m_leftButtons->geometry().width()
             + m_rightButtons->geometry().width() + 2 * s->smallSpacing();
@@ -425,7 +470,11 @@ void Chameleon::updateTitleGeometry()
 
         if (full_width < (m_titleArea.right() - titleBar().center().x()) * 2) {
             m_titleArea.setWidth(full_width);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             m_titleArea.moveCenter(titleBar().center());
+#else
+            m_titleArea.moveCenter(titleBar().center().toPoint());
+#endif
 
         } else if (full_width > m_titleArea.width()) {
             m_title = fontMetrics.elidedText(m_title,
@@ -446,7 +495,11 @@ void Chameleon::updateTitleGeometry()
 
         if (full_width < (m_titleArea.bottom() - titleBar().center().y()) * 2) {
             m_titleArea.setHeight(full_width);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             m_titleArea.moveCenter(titleBar().center());
+#else
+            m_titleArea.moveCenter(titleBar().center().toPoint());
+#endif
 
         } else if (full_width > m_titleArea.height()) {
             m_title = fontMetrics.elidedText(m_title,
@@ -495,8 +548,11 @@ void Chameleon::updateTheme()
 
 void Chameleon::updateConfig()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto c = client().data();
-
+#else
+    auto c = window();
+#endif
     bool active = c->isActive();
     bool hasAlpha = settings()->isAlphaChannelSupported();
 
@@ -523,8 +579,11 @@ void Chameleon::updateConfig()
 
 void Chameleon::updateTitleBarArea()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto c = client().data();
-
+#else
+    auto c = window();
+#endif
     m_titleBarAreaMargins.setLeft(0);
     m_titleBarAreaMargins.setTop(0);
     m_titleBarAreaMargins.setRight(0);
@@ -571,7 +630,12 @@ void Chameleon::updateTitleBarArea()
 
 void Chameleon::updateBorderPath()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto c = client().data();
+#else
+    auto c = window();
+#endif
+
     QRectF client_rect(0, 0, c->width(), c->height());
         client_rect += borders();
         client_rect.moveTopLeft(QPointF(0, 0));
@@ -697,7 +761,13 @@ void Chameleon::onClientHeightChanged()
 
 void Chameleon::onNoTitlebarPropertyChanged(quint32 windowId)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (client().data()->windowId() != windowId)
+#else
+    // FIXME
+    // if (window()->windowId() != windowId)
+    if (true)
+#endif
         return;
 
     // 标记为未初始化状态
@@ -715,13 +785,21 @@ bool Chameleon::windowNeedRadius() const
         return true;
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto c = client().data();
+#else
+    auto c = window();
+#endif
     return KWinUtils::instance()->isCompositing() && c->adjacentScreenEdges() == Qt::Edges();
 }
 
 bool Chameleon::windowNeedBorder() const
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (client().data()->isMaximized()) {
+#else
+    if (window()->isMaximized()) {
+#endif
         return false;
     }
 
@@ -739,9 +817,12 @@ QColor Chameleon::getTextColor() const
     if (m_config->titlebarConfig.font.textColor.isValid())
         return m_config->titlebarConfig.font.textColor;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto c = client().data();
-
-    return  c->color(c->isActive() ? KDecoration2::ColorGroup::Active : KDecoration2::ColorGroup::Inactive, KDecoration2::ColorRole::Foreground);
+#else
+    auto c = window();
+#endif
+    return c->color(c->isActive() ? KDecoration3::ColorGroup::Active : KDecoration3::ColorGroup::Inactive, KDecoration3::ColorRole::Foreground);
 }
 
 QColor Chameleon::getBackgroundColor() const
@@ -749,7 +830,10 @@ QColor Chameleon::getBackgroundColor() const
     if (m_config->titlebarConfig.backgroundColor.isValid())
         return m_config->titlebarConfig.backgroundColor;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto c = client().data();
-
-    return c->color(c->isActive() ? KDecoration2::ColorGroup::Active : KDecoration2::ColorGroup::Inactive, KDecoration2::ColorRole::TitleBar);
+#else
+    auto c = window();
+#endif
+    return c->color(c->isActive() ? KDecoration3::ColorGroup::Active : KDecoration3::ColorGroup::Inactive, KDecoration3::ColorRole::TitleBar);
 }

@@ -1795,9 +1795,13 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
                             m_outputOrder.end());
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const QSet<Output *> oldOutputsSet(oldOutputs.toSet());
     const QSet<Output *> outputsSet(m_outputs.toSet());
-
+#else
+    const QSet<Output *> oldOutputsSet(oldOutputs.begin(), oldOutputs.end());
+    const QSet<Output *> outputsSet(m_outputs.begin(), m_outputs.end());
+#endif
     const auto added = outputsSet - oldOutputsSet;
     for (Output *output : added) {
         output->ref();

@@ -8,8 +8,8 @@
 #include "previewitem.h"
 #include "previewsettings.h"
 
-#include <KDecoration2/DecoratedClient>
-#include <KDecoration2/Decoration>
+#include <KDecoration3/DecoratedWindow>
+#include <KDecoration3/Decoration>
 
 #include <KCModule>
 #include <KPluginFactory>
@@ -27,12 +27,12 @@
 #include <QVBoxLayout>
 #include <QWindow>
 
-namespace KDecoration2
+namespace KDecoration3
 {
 namespace Preview
 {
 
-static const QString s_pluginName = QStringLiteral("org.kde.kdecoration2");
+static const QString s_pluginName = QStringLiteral("org.kde.KDecoration3");
 
 PreviewBridge::PreviewBridge(QObject *parent)
     : DecorationBridge(parent)
@@ -45,7 +45,7 @@ PreviewBridge::PreviewBridge(QObject *parent)
 
 PreviewBridge::~PreviewBridge() = default;
 
-std::unique_ptr<DecoratedClientPrivate> PreviewBridge::createClient(DecoratedClient *client, Decoration *decoration)
+std::unique_ptr<DecoratedWindowPrivate> PreviewBridge::createClient(DecoratedWindow *client, Decoration *decoration)
 {
     auto ptr = std::unique_ptr<PreviewClient>(new PreviewClient(client, decoration));
     m_lastCreatedClient = ptr.get();
@@ -141,15 +141,15 @@ Decoration *PreviewBridge::createDecoration(QObject *parent)
     if (!m_theme.isNull()) {
         args.insert(QStringLiteral("theme"), m_theme);
     }
-    return m_factory->create<KDecoration2::Decoration>(parent, QVariantList({args}));
+    return m_factory->create<KDecoration3::Decoration>(parent, QVariantList({args}));
 }
 
-DecorationButton *PreviewBridge::createButton(KDecoration2::Decoration *decoration, KDecoration2::DecorationButtonType type, QObject *parent)
+DecorationButton *PreviewBridge::createButton(KDecoration3::Decoration *decoration, KDecoration3::DecorationButtonType type, QObject *parent)
 {
     if (!m_valid) {
         return nullptr;
     }
-    return m_factory->create<KDecoration2::DecorationButton>(parent, QVariantList({QVariant::fromValue(type), QVariant::fromValue(decoration)}));
+    return m_factory->create<KDecoration3::DecorationButton>(parent, QVariantList({QVariant::fromValue(type), QVariant::fromValue(decoration)}));
 }
 
 void PreviewBridge::configure(QQuickItem *ctx)

@@ -8,7 +8,7 @@
 
 #include "scene/item.h"
 
-namespace KDecoration2
+namespace KDecoration3
 {
 class Decoration;
 }
@@ -22,7 +22,7 @@ class Output;
 
 namespace Decoration
 {
-class DecoratedClientImpl;
+class DecoratedWindowImpl;
 }
 
 class KWIN_EXPORT DecorationRenderer : public QObject
@@ -49,9 +49,9 @@ Q_SIGNALS:
     void damaged(const QRegion &region);
 
 protected:
-    explicit DecorationRenderer(Decoration::DecoratedClientImpl *client);
+    explicit DecorationRenderer(Decoration::DecoratedWindowImpl *client);
 
-    Decoration::DecoratedClientImpl *client() const;
+    Decoration::DecoratedWindowImpl *client() const;
 
     bool areImageSizesDirty() const
     {
@@ -65,7 +65,7 @@ protected:
     void renderToPainter(QPainter *painter, const QRect &rect);
 
 private:
-    QPointer<Decoration::DecoratedClientImpl> m_client;
+    QPointer<Decoration::DecoratedWindowImpl> m_client;
     QRegion m_damage;
     qreal m_devicePixelRatio = 1;
     bool m_imageSizesDirty;
@@ -79,7 +79,7 @@ class KWIN_EXPORT DecorationItem : public Item
     Q_OBJECT
 
 public:
-    explicit DecorationItem(KDecoration2::Decoration *decoration, Window *window, Scene *scene, Item *parent = nullptr);
+    explicit DecorationItem(KDecoration3::Decoration *decoration, Window *window, Scene *scene, Item *parent = nullptr);
 
     DecorationRenderer *renderer() const;
     Window *window() const;
@@ -100,7 +100,7 @@ protected:
 private:
     Window *m_window;
     QPointer<Output> m_output;
-    QPointer<KDecoration2::Decoration> m_decoration;
+    QPointer<KDecoration3::Decoration> m_decoration;
     std::unique_ptr<DecorationRenderer> m_renderer;
     bool isExisted = true;
 };

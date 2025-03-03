@@ -11,18 +11,18 @@
 
 #include <config-kwin.h>
 
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "input_event_spy.h"
+#include "mousebuttons.h"
 #include "pointer_input.h"
-#include "wayland/seat_interface.h"
+#include "useractions.h"
 #include "wayland/ddeseat_interface.h"
+#include "wayland/seat_interface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
-#include "useractions.h"
-#include "mousebuttons.h"
 // KDecoration
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 // screenlocker
 #if KWIN_BUILD_SCREENLOCKER
 #include <KScreenLocker/KsldApp>
@@ -153,7 +153,7 @@ void TouchInputRedirection::focusUpdate(Window *focusOld, Window *focusNow)
     });
 }
 
-void TouchInputRedirection::cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now)
+void TouchInputRedirection::cleanupDecoration(Decoration::DecoratedWindowImpl *old, Decoration::DecoratedWindowImpl *now)
 {
     // nothing to do
 }

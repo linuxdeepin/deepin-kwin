@@ -152,7 +152,7 @@ private:
 class XdgToplevelConfigure final : public XdgSurfaceConfigure
 {
 public:
-    std::shared_ptr<KDecoration2::Decoration> decoration;
+    std::shared_ptr<KDecoration3::Decoration> decoration;
     KWaylandServer::XdgToplevelInterface::States states;
 };
 
@@ -279,7 +279,7 @@ private:
     bool m_isTransient = false;
     bool m_isSendT = false;
     QPointer<Output> m_fullScreenRequestedOutput;
-    std::shared_ptr<KDecoration2::Decoration> m_nextDecoration;
+    std::shared_ptr<KDecoration3::Decoration> m_nextDecoration;
     bool m_isBenchWindow = false;
     QRectF m_restoreMaxiArea;
 };

@@ -56,7 +56,7 @@ class QTabletEvent;
  */
 Q_DECLARE_LOGGING_CATEGORY(KWINEFFECTS)
 
-namespace KDecoration2
+namespace KDecoration3
 {
 class Decoration;
 }
@@ -2498,7 +2498,7 @@ public:
      * Returns the decoration
      * @since 5.25
      */
-    virtual KDecoration2::Decoration *decoration() const = 0;
+    virtual KDecoration3::Decoration *decoration() const = 0;
     virtual QByteArray readProperty(long atom, long type, int format) const = 0;
     virtual void deleteProperty(long atom) const = 0;
 

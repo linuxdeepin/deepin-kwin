@@ -7,10 +7,10 @@
 
 #include "utils.h"
 
-#include <KDecoration2/DecorationThemeProvider>
+#include <KDecoration3/DecorationThemeProvider>
 #include <QAbstractListModel>
 
-namespace KDecoration2
+namespace KDecoration3
 {
 
 namespace Configuration
@@ -46,7 +46,7 @@ public Q_SLOTS:
     void init();
 
 private:
-    std::vector<KDecoration2::DecorationThemeMetaData> m_plugins;
+    std::vector<KDecoration3::DecorationThemeMetaData> m_plugins;
     QStringList m_knsProviders;
 };
 

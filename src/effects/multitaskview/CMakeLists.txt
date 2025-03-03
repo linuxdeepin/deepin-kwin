@@ -11,10 +11,11 @@ kwin4_add_effect_module(kwin4_effect_multitaskview ${multitaskview_SOURCES})
 target_link_libraries(kwin4_effect_multitaskview PRIVATE
     kwineffects
     kwinglutils
-    KF5::GlobalAccel
-    Qt5::DBus
-    Qt5::X11Extras
-    Qt5::Concurrent
+    KF6::GlobalAccel
+    Qt6::DBus
+    #Qt6::X11Extras
+    Qt6::Concurrent
+    Qt6::GuiPrivate
     PkgConfig::QGSETTINGS
 )
 

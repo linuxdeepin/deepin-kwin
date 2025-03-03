@@ -16,7 +16,7 @@
 #include "x11window.h"
 #include <kwineffects.h>
 
-#include <KDecoration2/Decoration>
+#include <KDecoration3/Decoration>
 
 #include <netwm.h>
 #include <xcb/xcb_icccm.h>

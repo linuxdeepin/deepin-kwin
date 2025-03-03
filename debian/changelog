@@ -2459,7 +2459,7 @@ kwin (4:5.1.0.1-0ubuntu1) vivid; urgency=medium
 
   [ Jonathan Riddell ]
   * New upstream beta release
-  * Add kubuntu_kf5-version.diff to build with KF5 5.2
+  * Add kubuntu_kf5-version.diff to build with KF6 5.2
   * Build-dep on libkf5windowsystem-dev (>= 5.3.0~)
   * Add build-dep on kwayland-dev
 

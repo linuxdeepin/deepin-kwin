@@ -21,18 +21,18 @@
 #ifndef CHAMELEONBUTTON_H
 #define CHAMELEONBUTTON_H
 
-#include <KDecoration2/DecorationButton>
-#include <QTimer>
 #include "kwineffects.h"
+#include <KDecoration3/DecorationButton>
+#include <QTimer>
 
-class ChameleonButton : KDecoration2::DecorationButton
+class ChameleonButton : KDecoration3::DecorationButton
 {
     Q_OBJECT
 public:
-    explicit ChameleonButton(KDecoration2::DecorationButtonType type, const QPointer<KDecoration2::Decoration> &decoration, QObject *parent = nullptr);
+    explicit ChameleonButton(KDecoration3::DecorationButtonType type, const QPointer<KDecoration3::Decoration> &decoration, QObject *parent = nullptr);
     virtual ~ChameleonButton();
 
-    static DecorationButton *create(KDecoration2::DecorationButtonType type, KDecoration2::Decoration *decoration, QObject *parent);
+    static DecorationButton *create(KDecoration3::DecorationButtonType type, KDecoration3::Decoration *decoration, QObject *parent);
 
     virtual void hoverEnterEvent(QHoverEvent *event) override;
     virtual void hoverLeaveEvent(QHoverEvent *event) override;
@@ -43,8 +43,12 @@ protected Q_SLOTS:
     void onCompositorChanged(bool);
 
 protected:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     void paint(QPainter *painter, const QRect &repaintRegion) override;
-    KDecoration2::DecorationButtonType m_type;
+#else
+    void paint(QPainter *painter, const QRectF &repaintRegion) override;
+#endif
+    KDecoration3::DecorationButtonType m_type;
 
     QTimer *max_hover_timer = nullptr;
     int m_mousePosX;

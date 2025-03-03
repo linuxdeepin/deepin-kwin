@@ -18,7 +18,7 @@
 #include "client_machine.h"
 #include "composite.h"
 #include "cursor.h"
-#include "decorations/decoratedclient.h"
+#include "decorations/decoratedwindow.h"
 #include "decorations/decorationbridge.h"
 #include "deleted.h"
 #include "effects.h"
@@ -33,8 +33,8 @@
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "workspace.h"
-#include <KDecoration2/DecoratedClient>
-#include <KDecoration2/Decoration>
+#include <KDecoration3/DecoratedWindow>
+#include <KDecoration3/Decoration>
 // KDE
 #include <KLocalizedString>
 #include <KStartupInfo>
@@ -49,7 +49,11 @@
 #include <QProcess>
 #include <QDBusMessage>
 #include <QDBusConnection>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 // xcb
 #include <xcb/xcb_icccm.h>
 // system
@@ -146,7 +150,7 @@ const NET::WindowTypes SUPPORTED_MANAGED_WINDOW_TYPES_MASK = NET::NormalMask
     | NET::CriticalNotificationMask
     | NET::AppletPopupMask;
 
-X11DecorationRenderer::X11DecorationRenderer(Decoration::DecoratedClientImpl *client)
+X11DecorationRenderer::X11DecorationRenderer(Decoration::DecoratedWindowImpl *client)
     : DecorationRenderer(client)
     , m_scheduleTimer(new QTimer(this))
     , m_gc(XCB_NONE)
@@ -1124,7 +1128,11 @@ void X11Window::updateInputWindow()
 
     QRegion region;
     const QMargins r = extendResizeBorder();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const QRect rect = isDecorated() ? decoration()->rect() : QRect(QPoint(0, 0), size().toSize());
+#else
+    const QRect rect = isDecorated() ? decoration()->rect().toRect() : QRect(QPoint(0, 0), size().toSize());
+#endif
 
     const int left = r.left();
     const int top = r.top();
@@ -1200,11 +1208,11 @@ void X11Window::invalidateDecoration()
 
 void X11Window::createDecoration(const QRectF &oldgeom)
 {
-    std::shared_ptr<KDecoration2::Decoration> decoration(Workspace::self()->decorationBridge()->createDecoration(this));
+    std::shared_ptr<KDecoration3::Decoration> decoration(Workspace::self()->decorationBridge()->createDecoration(this));
     if (decoration) {
-        connect(decoration.get(), &KDecoration2::Decoration::resizeOnlyBordersChanged, this, &X11Window::updateInputWindow);
-        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged, this, &X11Window::updateFrameExtents);
-        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged, this, &X11Window::updateInputWindow);
+        connect(decoration.get(), &KDecoration3::Decoration::resizeOnlyBordersChanged, this, &X11Window::updateInputWindow);
+        connect(decoration.get(), &KDecoration3::Decoration::bordersChanged, this, &X11Window::updateFrameExtents);
+        connect(decoratedWindow()->decoratedWindow(), &KDecoration3::DecoratedWindow::sizeChanged, this, &X11Window::updateInputWindow);
     }
     setDecoration(decoration);
 
@@ -1233,8 +1241,8 @@ void X11Window::maybeCreateX11DecorationRenderer()
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
         return;
     }
-    if (!Compositor::compositing() && decoratedClient()) {
-        m_decorationRenderer.reset(new X11DecorationRenderer(decoratedClient()));
+    if (!Compositor::compositing() && decoratedWindow()) {
+        m_decorationRenderer.reset(new X11DecorationRenderer(decoratedWindow()));
         decoration()->update();
     }
 }
@@ -1636,8 +1644,8 @@ void X11Window::doSetShade(ShadeMode previousShadeMode)
         }
     } else {
         shade_geometry_change = true;
-        if (decoratedClient()) {
-            decoratedClient()->signalShadeChange();
+        if (decoratedWindow()) {
+            decoratedWindow()->signalShadeChange();
         }
         QSizeF s(implicitSize());
         shade_geometry_change = false;
@@ -4438,9 +4446,15 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
     }
 
     // call into decoration update borders
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (isDecorated() && decoration()->client() && !(options->borderlessMaximizedWindows() && max_mode == KWin::MaximizeFull)) {
         changeMaximizeRecursion = true;
         const auto c = decoration()->client().toStrongRef();
+#else
+    if (isDecorated() && decoration()->window() && !(options->borderlessMaximizedWindows() && max_mode == KWin::MaximizeFull)) {
+        changeMaximizeRecursion = true;
+        const auto c = decoration()->window();
+#endif
         if ((max_mode & MaximizeVertical) != (old_mode & MaximizeVertical)) {
             Q_EMIT c->maximizedVerticallyChanged(max_mode & MaximizeVertical);
         }

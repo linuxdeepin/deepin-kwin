@@ -37,8 +37,8 @@
 #include "wayland/dderestrict_interface.h"
 #include "scene/surfaceitem.h"
 
-#include <KDecoration2/DecoratedClient>
-#include <KDecoration2/Decoration>
+#include <KDecoration3/DecoratedWindow>
+#include <KDecoration3/Decoration>
 
 using namespace KWaylandServer;
 
@@ -1757,7 +1757,11 @@ void XdgToplevelV6Window::initialize()
     if (!qEnvironmentVariableIsSet("KWIN_DISABLE_SKIP_BUFFER")) {
         static const QStringList benchApps = [] {
             const QString envApps = qEnvironmentVariable("KWIN_SKIP_BUFFER_APPS");
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             return envApps.isEmpty() ? QStringList{"glmark2"} : envApps.split(',', QString::SkipEmptyParts);
+#else
+            return envApps.isEmpty() ? QStringList{"glmark2"} : envApps.split(',', Qt::SkipEmptyParts);
+#endif
         }();
 
         const QString &resName = resourceName();
@@ -2034,7 +2038,11 @@ void XdgToplevelV6Window::maximize(MaximizeMode mode, bool animated)
     // call into decoration update borders
     if (m_nextDecoration && !(options->borderlessMaximizedWindows() && m_requestedMaximizeMode == KWin::MaximizeFull)) {
         changeMaximizeRecursion = true;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const auto c = m_nextDecoration->client().toStrongRef();
+#else
+        const auto c = m_nextDecoration->window();
+#endif
         if ((m_requestedMaximizeMode & MaximizeVertical) != (oldMode & MaximizeVertical)) {
             Q_EMIT c->maximizedVerticallyChanged(m_requestedMaximizeMode & MaximizeVertical);
         }

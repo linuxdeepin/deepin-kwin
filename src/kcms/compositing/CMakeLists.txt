@@ -29,9 +29,10 @@ target_link_libraries(kwincompositing
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Widgets
 
-    KF5::ConfigCore
-    KF5::CoreAddons
-    KF5::I18n
-    KF5::KCMUtils
-    KF5::WindowSystem
+    KF6::ConfigCore
+    KF6::CoreAddons
+    KF6::I18n
+    KF6::KCMUtils
+    KF6::WindowSystem
+    KF6::Service
 )
