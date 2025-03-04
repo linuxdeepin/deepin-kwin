@@ -383,6 +383,10 @@ void DrmPipeline::atomicCommitFailed()
         if (m_pending.crtc->cursorPlane()) {
             m_pending.crtc->cursorPlane()->rollbackPending();
         }
+        // FIXME(Xiao YaoBing): I don't want this, but the freezing issue is overwhelming.
+        if (const auto ctmProp = m_pending.crtc->getProp(DrmCrtc::PropertyIndex::CTM)) {
+            ctmProp->setPending(0);
+        }
     }
 }
 
