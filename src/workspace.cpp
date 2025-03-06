@@ -1788,6 +1788,7 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
                                 return !output->isEnabled();
                             }),
                             m_outputOrder.end());
+        Q_EMIT outputOrderChanged();
     }
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
