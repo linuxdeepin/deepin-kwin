@@ -1787,6 +1787,7 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
                                 return !output->isEnabled();
                             }),
                             m_outputOrder.end());
+        Q_EMIT outputOrderChanged();
     }
 
     const QSet<Output *> oldOutputsSet(oldOutputs.toSet());
