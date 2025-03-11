@@ -18,7 +18,7 @@
 #include "x11window.h"
 #include <kwineffects.h>
 
-#include <KDecoration3/Decoration>
+#include <KDecoration2/Decoration>
 
 #include <linux/input.h>
 

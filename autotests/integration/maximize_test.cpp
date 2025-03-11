@@ -22,9 +22,9 @@
 #include <KWayland/Client/shm_pool.h>
 #include <KWayland/Client/surface.h>
 
-#include <KDecoration3/DecoratedWindow>
-#include <KDecoration3/Decoration>
-#include <KDecoration3/DecorationSettings>
+#include <KDecoration2/DecoratedClient>
+#include <KDecoration2/Decoration>
+#include <KDecoration2/DecorationSettings>
 
 using namespace KWin;
 
@@ -110,11 +110,11 @@ void TestMaximized::testMaximizedPassedToDeco()
 
     // When there are no borders, there is no change to them when maximizing.
     // TODO: we should test both cases with fixed fake decoration for autotests.
-    const bool hasBorders = Workspace::self()->decorationBridge()->settings()->borderSize() != KDecoration3::BorderSize::None;
+    const bool hasBorders = Workspace::self()->decorationBridge()->settings()->borderSize() != KDecoration2::BorderSize::None;
 
     // now maximize
-    QSignalSpy bordersChangedSpy(decoration, &KDecoration3::Decoration::bordersChanged);
-    QSignalSpy maximizedChangedSpy(decoration->client().toStrongRef().get(), &KDecoration3::DecoratedWindow::maximizedChanged);
+    QSignalSpy bordersChangedSpy(decoration, &KDecoration2::Decoration::bordersChanged);
+    QSignalSpy maximizedChangedSpy(decoration->client().toStrongRef().get(), &KDecoration2::DecoratedClient::maximizedChanged);
     QSignalSpy frameGeometryChangedSpy(window, &Window::frameGeometryChanged);
 
     workspace()->slotWindowMaximize();

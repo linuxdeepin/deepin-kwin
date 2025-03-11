@@ -19,7 +19,7 @@ target_link_libraries(kwin4_effect_blur PRIVATE
 
     KF6::ConfigGui
 
-    KDecoration3::KDecoration
+    KDecoration2::KDecoration
 )
 
 #######################################

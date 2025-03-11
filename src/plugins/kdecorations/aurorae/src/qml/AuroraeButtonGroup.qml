@@ -3,8 +3,9 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-import QtQuick
-import org.kde.kwin.decoration
+import QtQuick 2.0
+import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.kwin.decoration 0.1
 
 Item {
     function createButtons() {
@@ -43,6 +44,6 @@ Item {
     }
     anchors {
         top: root.top
-        topMargin: (decoration.client.maximized ? auroraeTheme.titleEdgeTopMaximized + auroraeTheme.buttonMarginTopMaximized : auroraeTheme.titleEdgeTop + root.padding.top + auroraeTheme.buttonMarginTop)
+        topMargin: (decoration.client.maximized ? auroraeTheme.titleEdgeTopMaximized : auroraeTheme.titleEdgeTop + root.padding.top) + auroraeTheme.buttonMarginTop
     }
 }

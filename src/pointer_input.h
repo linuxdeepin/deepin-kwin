@@ -39,7 +39,7 @@ class SurfaceCursorSource;
 
 namespace Decoration
 {
-class DecoratedWindowImpl;
+class DecoratedClientImpl;
 }
 
 
@@ -152,7 +152,7 @@ public Q_SLOTS:
 
 private:
     void processMotionInternal(const QPointF &pos, const QPointF &delta, const QPointF &deltaNonAccelerated, std::chrono::microseconds time, InputDevice *device);
-    void cleanupDecoration(Decoration::DecoratedWindowImpl *old, Decoration::DecoratedWindowImpl *now) override;
+    void cleanupDecoration(Decoration::DecoratedClientImpl *old, Decoration::DecoratedClientImpl *now) override;
 
     void focusUpdate(Window *focusOld, Window *focusNow) override;
 

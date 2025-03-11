@@ -3,9 +3,9 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-import QtQuick
-import org.kde.kwin.decoration
-import org.kde.ksvg 1.0 as KSvg
+import QtQuick 2.0
+import org.kde.kwin.decoration 0.1
+import org.kde.plasma.core 2.0 as PlasmaCore
 
 Decoration {
     id: root
@@ -41,7 +41,7 @@ Decoration {
             decoration.installTitleItem(titleRect);
         }
     }
-    KSvg.FrameSvg {
+    PlasmaCore.FrameSvg {
         property bool supportsInactive: hasElementPrefix("decoration-inactive")
         property bool supportsMask: hasElementPrefix("mask")
         property bool supportsMaximized: hasElementPrefix("decoration-maximized")
@@ -51,14 +51,14 @@ Decoration {
         id: backgroundSvg
         imagePath: auroraeTheme.decorationPath
     }
-    KSvg.FrameSvgItem {
+    PlasmaCore.FrameSvgItem {
         id: decorationActive
         property bool shown: (!decoration.client.maximized || !backgroundSvg.supportsMaximized) && (decoration.client.active || !backgroundSvg.supportsInactive)
         anchors.fill: parent
         imagePath: backgroundSvg.imagePath
         prefix: "decoration"
         opacity: shown ? 1 : 0
-        enabledBorders: decoration.client.maximized ? KSvg.FrameSvg.NoBorder : KSvg.FrameSvg.TopBorder | KSvg.FrameSvg.BottomBorder | KSvg.FrameSvg.LeftBorder | KSvg.FrameSvg.RightBorder
+        enabledBorders: decoration.client.maximized ? PlasmaCore.FrameSvg.NoBorder : PlasmaCore.FrameSvg.TopBorder | PlasmaCore.FrameSvg.BottomBorder | PlasmaCore.FrameSvg.LeftBorder | PlasmaCore.FrameSvg.RightBorder
         Behavior on opacity {
             enabled: root.animate
             NumberAnimation {
@@ -66,13 +66,13 @@ Decoration {
             }
         }
     }
-    KSvg.FrameSvgItem {
+    PlasmaCore.FrameSvgItem {
         id: decorationInactive
         anchors.fill: parent
         imagePath: backgroundSvg.imagePath
         prefix: "decoration-inactive"
         opacity: (!decoration.client.active && backgroundSvg.supportsInactive) ? 1 : 0
-        enabledBorders: decoration.client.maximized ? KSvg.FrameSvg.NoBorder : KSvg.FrameSvg.TopBorder | KSvg.FrameSvg.BottomBorder | KSvg.FrameSvg.LeftBorder | KSvg.FrameSvg.RightBorder
+        enabledBorders: decoration.client.maximized ? PlasmaCore.FrameSvg.NoBorder : PlasmaCore.FrameSvg.TopBorder | PlasmaCore.FrameSvg.BottomBorder | PlasmaCore.FrameSvg.LeftBorder | PlasmaCore.FrameSvg.RightBorder
         Behavior on opacity {
             enabled: root.animate
             NumberAnimation {
@@ -80,7 +80,7 @@ Decoration {
             }
         }
     }
-    KSvg.FrameSvgItem {
+    PlasmaCore.FrameSvgItem {
         id: decorationMaximized
         property bool shown: decoration.client.maximized && backgroundSvg.supportsMaximized && (decoration.client.active || !backgroundSvg.supportsMaximizedInactive)
         anchors {
@@ -95,7 +95,7 @@ Decoration {
         prefix: "decoration-maximized"
         height: parent.maximizedBorders.top
         opacity: shown ? 1 : 0
-        enabledBorders: KSvg.FrameSvg.NoBorder
+        enabledBorders: PlasmaCore.FrameSvg.NoBorder
         Behavior on opacity {
             enabled: root.animate
             NumberAnimation {
@@ -103,7 +103,7 @@ Decoration {
             }
         }
     }
-    KSvg.FrameSvgItem {
+    PlasmaCore.FrameSvgItem {
         id: decorationMaximizedInactive
         anchors {
             left: parent.left
@@ -117,7 +117,7 @@ Decoration {
         prefix: "decoration-maximized-inactive"
         height: parent.maximizedBorders.top
         opacity: (!decoration.client.active && decoration.client.maximized && backgroundSvg.supportsMaximizedInactive) ? 1 : 0
-        enabledBorders: KSvg.FrameSvg.NoBorder
+        enabledBorders: PlasmaCore.FrameSvg.NoBorder
         Behavior on opacity {
             enabled: root.animate
             NumberAnimation {
@@ -171,7 +171,7 @@ Decoration {
             }
         }
     }
-    KSvg.FrameSvgItem {
+    PlasmaCore.FrameSvgItem {
         id: innerBorder
         anchors {
             fill: parent
@@ -195,7 +195,7 @@ Decoration {
             }
         }
     }
-    KSvg.FrameSvgItem {
+    PlasmaCore.FrameSvgItem {
         id: innerBorderInactive
         anchors {
             fill: parent
@@ -220,7 +220,7 @@ Decoration {
             }
         }
     }
-    KSvg.FrameSvgItem {
+    PlasmaCore.FrameSvgItem {
         id: maskItem
         anchors.fill: parent
         // This makes the mask slightly smaller than the frame. Since the svg will have antialiasing and the mask not,
@@ -228,6 +228,6 @@ Decoration {
         anchors.margins: 1
         imagePath: backgroundSvg.imagePath
         opacity: 0
-        enabledBorders: KSvg.FrameSvg.TopBorder | KSvg.FrameSvg.BottomBorder | KSvg.FrameSvg.LeftBorder | KSvg.FrameSvg.RightBorder
+        enabledBorders: PlasmaCore.FrameSvg.TopBorder | PlasmaCore.FrameSvg.BottomBorder | PlasmaCore.FrameSvg.LeftBorder | PlasmaCore.FrameSvg.RightBorder
     }
 }

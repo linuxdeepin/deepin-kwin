@@ -23,7 +23,7 @@ kconfig_add_kcfg_files(kcmkwindecoration_SRCS kwindecorationsettings.kcfgc GENER
 kcoreaddons_add_plugin(kcm_kwindecoration SOURCES ${kcmkwindecoration_SRCS} INSTALL_NAMESPACE "plasma/kcms/systemsettings")
 
 target_link_libraries(kcm_kwindecoration
-    KDecoration3::KDecoration
+    KDecoration2::KDecoration
     KF6::I18n
     KF6::KCMUtils
     # KF6::NewStuff
@@ -41,7 +41,7 @@ kconfig_add_kcfg_files(kwin-applywindowdecoration_SRCS kwindecorationsettings.kc
 add_executable(kwin-applywindowdecoration ${kwin-applywindowdecoration_SRCS})
 
 target_link_libraries(kwin-applywindowdecoration
-    KDecoration3::KDecoration
+    KDecoration2::KDecoration
     Qt${QT_MAJOR_VERSION}::DBus
     KF6::I18n
     KF6::KCMUtils

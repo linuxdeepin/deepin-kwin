@@ -5,7 +5,7 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <include>config-kwin.h</include>
   <kcfgfile name="kwinrc" />
-  <group name="org.kde.KDecoration3">
+  <group name="org.kde.kdecoration2">
     <entry name="pluginName" key="library" type="String">
       <label>Plugin name</label>
       <code>#if HAVE_BREEZE_DECO

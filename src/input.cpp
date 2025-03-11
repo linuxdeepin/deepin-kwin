@@ -57,10 +57,10 @@
 #include "xkb.h"
 #include "xwayland/xwayland_interface.h"
 
-#include <KDecoration3/Decoration>
+#include <KDecoration2/Decoration>
 #include <KGlobalAccel>
 #include <KLocalizedString>
-#include <decorations/decoratedwindow.h>
+#include <decorations/decoratedclient.h>
 
 // screenlocker
 #if KWIN_BUILD_SCREENLOCKER
@@ -3705,7 +3705,7 @@ void InputDeviceHandler::setFocus(Window *window)
     }
 }
 
-void InputDeviceHandler::setDecoration(Decoration::DecoratedWindowImpl *decoration)
+void InputDeviceHandler::setDecoration(Decoration::DecoratedClientImpl *decoration)
 {
     if (m_focus.decoration != decoration) {
         auto oldDeco = m_focus.decoration;
@@ -3736,12 +3736,12 @@ void InputDeviceHandler::updateFocus()
 
 void InputDeviceHandler::updateDecoration()
 {
-    Decoration::DecoratedWindowImpl *decoration = nullptr;
+    Decoration::DecoratedClientImpl *decoration = nullptr;
     auto hover = m_hover.window.data();
-    if (hover && hover->decoratedWindow()) {
+    if (hover && hover->decoratedClient()) {
         if (!hover->clientGeometry().toRect().contains(flooredPoint(position()))) {
             // input device above decoration
-            decoration = hover->decoratedWindow();
+            decoration = hover->decoratedClient();
         }
     }
 
@@ -3782,7 +3782,7 @@ Window *InputDeviceHandler::focus() const
     return m_focus.window.data();
 }
 
-Decoration::DecoratedWindowImpl *InputDeviceHandler::decoration() const
+Decoration::DecoratedClientImpl *InputDeviceHandler::decoration() const
 {
     return m_focus.decoration;
 }

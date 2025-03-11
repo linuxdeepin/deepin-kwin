@@ -19,7 +19,7 @@
 #include "workspace.h"
 #include "x11window.h"
 
-#include <KDecoration3/Decoration>
+#include <KDecoration2/Decoration>
 
 #include <KWayland/Client/compositor.h>
 #include <KWayland/Client/connection_thread.h>

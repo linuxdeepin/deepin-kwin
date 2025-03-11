@@ -53,7 +53,7 @@ class X11DecorationRenderer : public DecorationRenderer
     Q_OBJECT
 
 public:
-    explicit X11DecorationRenderer(Decoration::DecoratedWindowImpl *client);
+    explicit X11DecorationRenderer(Decoration::DecoratedClientImpl *client);
     ~X11DecorationRenderer() override;
 
 protected:

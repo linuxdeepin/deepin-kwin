@@ -8,7 +8,7 @@
 #include "scene/decorationitem.h"
 #include "composite.h"
 #include "core/output.h"
-#include "decorations/decoratedwindow.h"
+#include "decorations/decoratedclient.h"
 #include "deleted.h"
 #include "scene/workspacescene.h"
 #include "utils/common.h"
@@ -16,30 +16,30 @@
 
 #include <cmath>
 
-#include <KDecoration3/DecoratedWindow>
-#include <KDecoration3/Decoration>
+#include <KDecoration2/DecoratedClient>
+#include <KDecoration2/Decoration>
 
 #include <QPainter>
 
 namespace KWin
 {
 
-DecorationRenderer::DecorationRenderer(Decoration::DecoratedWindowImpl *client)
+DecorationRenderer::DecorationRenderer(Decoration::DecoratedClientImpl *client)
     : m_client(client)
     , m_imageSizesDirty(true)
 {
-    connect(client->decoration(), &KDecoration3::Decoration::damaged,
+    connect(client->decoration(), &KDecoration2::Decoration::damaged,
             this, &DecorationRenderer::addDamage);
 
-    connect(client->decoration(), &KDecoration3::Decoration::bordersChanged,
+    connect(client->decoration(), &KDecoration2::Decoration::bordersChanged,
             this, &DecorationRenderer::invalidate);
-    connect(client->decoratedWindow(), &KDecoration3::DecoratedWindow::sizeChanged,
+    connect(client->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged,
             this, &DecorationRenderer::invalidate);
 
     invalidate();
 }
 
-Decoration::DecoratedWindowImpl *DecorationRenderer::client() const
+Decoration::DecoratedClientImpl *DecorationRenderer::client() const
 {
     return m_client;
 }
@@ -124,11 +124,11 @@ void DecorationRenderer::renderToPainter(QPainter *painter, const QRect &rect)
     client()->decoration()->paint(painter, rect);
 }
 
-DecorationItem::DecorationItem(KDecoration3::Decoration *decoration, Window *window, Scene *scene, Item *parent)
+DecorationItem::DecorationItem(KDecoration2::Decoration *decoration, Window *window, Scene *scene, Item *parent)
     : Item(scene, parent)
     , m_window(window)
 {
-    m_renderer.reset(Compositor::self()->scene()->createDecorationRenderer(window->decoratedWindow()));
+    m_renderer.reset(Compositor::self()->scene()->createDecorationRenderer(window->decoratedClient()));
 
     connect(window, &Window::frameGeometryChanged,
             this, &DecorationItem::handleFrameGeometryChanged);
@@ -137,13 +137,13 @@ DecorationItem::DecorationItem(KDecoration3::Decoration *decoration, Window *win
     connect(window, &Window::screenChanged,
             this, &DecorationItem::handleOutputChanged);
 
-    connect(decoration, &KDecoration3::Decoration::bordersChanged,
+    connect(decoration, &KDecoration2::Decoration::bordersChanged,
             this, &DecorationItem::discardQuads);
 
     connect(renderer(), &DecorationRenderer::damaged,
             this, qOverload<const QRegion &>(&Item::scheduleRepaint));
 
-    // this toSize is to match that DecoratedWindow also rounds
+    // this toSize is to match that DecoratedClient also rounds
     setSize(window->size().toSize());
     handleOutputChanged();
 }

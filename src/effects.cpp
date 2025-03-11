@@ -53,8 +53,8 @@
 #include "workspace.h"
 #include "wayland/dderestrict_interface.h"
 
-#include <KDecoration3/Decoration>
-#include <KDecoration3/DecorationSettings>
+#include <KDecoration2/Decoration>
+#include <KDecoration2/DecorationSettings>
 
 #include <QDebug>
 #include <QMouseEvent>
@@ -1772,7 +1772,7 @@ QVariant EffectsHandlerImpl::kwinOption(KWinOption kwopt)
     case CloseButtonCorner: {
         // TODO: this could become per window and be derived from the actual position in the deco
         const auto settings = Workspace::self()->decorationBridge()->settings();
-        return settings && settings->decorationButtonsLeft().contains(KDecoration3::DecorationButtonType::Close) ? Qt::TopLeftCorner : Qt::TopRightCorner;
+        return settings && settings->decorationButtonsLeft().contains(KDecoration2::DecorationButtonType::Close) ? Qt::TopLeftCorner : Qt::TopRightCorner;
     }
     case SwitchDesktopOnScreenEdge:
         return workspace()->screenEdges()->isDesktopSwitching();
@@ -2539,7 +2539,7 @@ QRectF EffectWindowImpl::decorationInnerRect() const
     return m_window->rect() - m_window->frameMargins();
 }
 
-KDecoration3::Decoration *EffectWindowImpl::decoration() const
+KDecoration2::Decoration *EffectWindowImpl::decoration() const
 {
     return m_window->decoration();
 }
