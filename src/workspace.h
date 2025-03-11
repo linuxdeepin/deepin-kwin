@@ -244,6 +244,12 @@ public:
         ActivityRaise = 1 << 2 // raise the window
     };
     Q_DECLARE_FLAGS(ActivityFlags, ActivityFlag)
+    enum DelayedRaisingClientMode {
+        DRCM_None,
+        DRCM_XInputDriven,
+        DRCM_XRecordDriven
+    };
+    Q_ENUM(DelayedRaisingClientMode)
     bool takeActivity(Window *window, ActivityFlags flags);
     bool restoreFocus();
     void gotFocusIn(const Window *window);
@@ -331,6 +337,8 @@ public:
     void hideSplitMenu(bool delay);
     void setSplitMenuKeepShowing(bool keep);
 
+    static DelayedRaisingClientMode delayedRaisingClientMode();
+    static bool setDelayedRaisingClientMode(const DelayedRaisingClientMode &mode);
     void handleReleaseMouseCommand();
 
     void setClientIDHandleMouseCommand(xcb_window_t wId, const QPointF &pos = QPointF()) {
@@ -935,6 +943,7 @@ private:
     QTimer updateToolWindowsTimer;
 
     static Workspace *_self;
+    static DelayedRaisingClientMode _delayedRaisingClientMode;
 
     std::unique_ptr<KStartupInfo> m_startup;
     std::unique_ptr<ColorMapper> m_colorMapper;
