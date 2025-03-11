@@ -5,12 +5,12 @@
 */
 #pragma once
 
-#include <KDecoration3/DecorationButton>
+#include <KDecoration2/DecorationButton>
 #include <QColor>
 #include <QPointer>
 #include <QQuickPaintedItem>
 
-namespace KDecoration3
+namespace KDecoration2
 {
 class Decoration;
 
@@ -22,8 +22,8 @@ class Settings;
 class PreviewButtonItem : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(KDecoration3::Preview::PreviewBridge *bridge READ bridge WRITE setBridge NOTIFY bridgeChanged)
-    Q_PROPERTY(KDecoration3::Preview::Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged)
+    Q_PROPERTY(KDecoration2::Preview::PreviewBridge *bridge READ bridge WRITE setBridge NOTIFY bridgeChanged)
+    Q_PROPERTY(KDecoration2::Preview::Settings *settings READ settings WRITE setSettings NOTIFY settingsChanged)
     Q_PROPERTY(int type READ typeAsInt WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor)
 
@@ -38,9 +38,9 @@ public:
     Settings *settings() const;
     void setSettings(Settings *settings);
 
-    KDecoration3::DecorationButtonType type() const;
+    KDecoration2::DecorationButtonType type() const;
     int typeAsInt() const;
-    void setType(KDecoration3::DecorationButtonType type);
+    void setType(KDecoration2::DecorationButtonType type);
     void setType(int type);
 
     const QColor &color() const
@@ -61,12 +61,12 @@ private:
     void createButton();
     void syncGeometry();
     QColor m_color;
-    QPointer<KDecoration3::Preview::PreviewBridge> m_bridge;
-    QPointer<KDecoration3::Preview::Settings> m_settings;
-    KDecoration3::Decoration *m_decoration = nullptr;
-    KDecoration3::DecorationButton *m_button = nullptr;
-    KDecoration3::DecorationButtonType m_type = KDecoration3::DecorationButtonType::Custom;
+    QPointer<KDecoration2::Preview::PreviewBridge> m_bridge;
+    QPointer<KDecoration2::Preview::Settings> m_settings;
+    KDecoration2::Decoration *m_decoration = nullptr;
+    KDecoration2::DecorationButton *m_button = nullptr;
+    KDecoration2::DecorationButtonType m_type = KDecoration2::DecorationButtonType::Custom;
 };
 
 } // Preview
-} // KDecoration3
+} // KDecoration2

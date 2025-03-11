@@ -7,10 +7,10 @@
         "Name": "Chameleon",
         "Name[zh_CN]": "变色龙",
         "ServiceTypes": [
-            "org.kde.KDecoration3"
+            "org.kde.kdecoration2"
         ]
     },
-    "org.kde.KDecoration3": {
+    "org.kde.kdecoration2": {
         "blur": false,
         "kcmodule": false
     }

@@ -8,12 +8,20 @@
 */
 #pragma once
 
-#include "kwin_export.h"
-#include <KDecoration3/Private/DecorationBridge>
+#include <kwinglobals.h>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <KDecoration2/Private/DecorationBridge>
+#else
+#include "private/decorationbridge.h"
+#endif
+
 #include <QObject>
+#include <QSharedPointer>
 
 class KPluginFactory;
-namespace KDecoration3
+
+namespace KDecoration2
 {
 class DecorationSettings;
 }
@@ -26,7 +34,7 @@ class Window;
 namespace Decoration
 {
 
-class KWIN_EXPORT DecorationBridge : public KDecoration3::DecorationBridge
+class KWIN_EXPORT DecorationBridge : public KDecoration2::DecorationBridge
 {
     Q_OBJECT
 public:
@@ -35,10 +43,10 @@ public:
     static bool hasPlugin();
 
     void init();
-    KDecoration3::Decoration *createDecoration(Window *window);
+    KDecoration2::Decoration *createDecoration(Window *window);
 
-    std::unique_ptr<KDecoration3::DecoratedWindowPrivate> createClient(KDecoration3::DecoratedWindow *client, KDecoration3::Decoration *decoration) override;
-    std::unique_ptr<KDecoration3::DecorationSettingsPrivate> settings(KDecoration3::DecorationSettings *parent) override;
+    std::unique_ptr<KDecoration2::DecoratedClientPrivate> createClient(KDecoration2::DecoratedClient *client, KDecoration2::Decoration *decoration) override;
+    std::unique_ptr<KDecoration2::DecorationSettingsPrivate> settings(KDecoration2::DecorationSettings *parent) override;
 
     QString recommendedBorderSize() const
     {
@@ -52,7 +60,7 @@ public:
 
     void reconfigure();
 
-    const std::shared_ptr<KDecoration3::DecorationSettings> &settings() const
+    const QSharedPointer<KDecoration2::DecorationSettings> &settings() const
     {
         return m_settings;
     }
@@ -75,7 +83,7 @@ private:
     QString m_plugin;
     QString m_defaultTheme;
     QString m_theme;
-    std::shared_ptr<KDecoration3::DecorationSettings> m_settings;
+    QSharedPointer<KDecoration2::DecorationSettings> m_settings;
     bool m_noPlugin;
 };
 } // Decoration

@@ -37,8 +37,8 @@
 #include "wayland/dderestrict_interface.h"
 #include "scene/surfaceitem.h"
 
-#include <KDecoration3/DecoratedWindow>
-#include <KDecoration3/Decoration>
+#include <KDecoration2/DecoratedClient>
+#include <KDecoration2/Decoration>
 
 using namespace KWaylandServer;
 
@@ -2038,11 +2038,7 @@ void XdgToplevelV6Window::maximize(MaximizeMode mode, bool animated)
     // call into decoration update borders
     if (m_nextDecoration && !(options->borderlessMaximizedWindows() && m_requestedMaximizeMode == KWin::MaximizeFull)) {
         changeMaximizeRecursion = true;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const auto c = m_nextDecoration->client().toStrongRef();
-#else
-        const auto c = m_nextDecoration->window();
-#endif
         if ((m_requestedMaximizeMode & MaximizeVertical) != (oldMode & MaximizeVertical)) {
             Q_EMIT c->maximizedVerticallyChanged(m_requestedMaximizeMode & MaximizeVertical);
         }

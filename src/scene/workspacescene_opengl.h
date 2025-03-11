@@ -34,7 +34,7 @@ public:
     bool makeOpenGLContextCurrent() override;
     void doneOpenGLContextCurrent() override;
     bool supportsNativeFence() const override;
-    DecorationRenderer *createDecorationRenderer(Decoration::DecoratedWindowImpl *impl) override;
+    DecorationRenderer *createDecorationRenderer(Decoration::DecoratedClientImpl *impl) override;
     bool animationsSupported() const override;
 
     OpenGLBackend *backend() const
@@ -86,7 +86,7 @@ public:
         Bottom,
         Count
     };
-    explicit SceneOpenGLDecorationRenderer(Decoration::DecoratedWindowImpl *client);
+    explicit SceneOpenGLDecorationRenderer(Decoration::DecoratedClientImpl *client);
     ~SceneOpenGLDecorationRenderer() override;
 
     void render(const QRegion &region) override;

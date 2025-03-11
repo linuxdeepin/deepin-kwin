@@ -35,7 +35,7 @@
 #include "wayland_server.h"
 #include "wayland/dderestrict_interface.h"
 
-#include <KDecoration3/Decoration>
+#include <KDecoration2/Decoration>
 
 #include <QApplication>
 #include <QDBusInterface>

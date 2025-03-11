@@ -14,7 +14,7 @@
 #include "scene/windowitem.h"
 #include "workspace.h"
 
-#include <KDecoration3/Decoration>
+#include <KDecoration2/Decoration>
 
 #include <QMouseEvent>
 #include <QOpenGLFramebufferObject>
@@ -352,7 +352,7 @@ void InternalWindow::setNoBorder(bool set)
 
 void InternalWindow::createDecoration(const QRectF &oldGeometry)
 {
-    setDecoration(std::shared_ptr<KDecoration3::Decoration>(Workspace::self()->decorationBridge()->createDecoration(this)));
+    setDecoration(std::shared_ptr<KDecoration2::Decoration>(Workspace::self()->decorationBridge()->createDecoration(this)));
     moveResize(QRectF(oldGeometry.topLeft(), clientSizeToFrameSize(clientSize())));
 
     Q_EMIT geometryShapeChanged(this, oldGeometry);

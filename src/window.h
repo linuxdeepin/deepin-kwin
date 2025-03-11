@@ -44,7 +44,7 @@ class SurfaceInterface;
 struct deepinKwinStrut;
 }
 
-namespace KDecoration3
+namespace KDecoration2
 {
 class Decoration;
 }
@@ -100,7 +100,7 @@ class TabBoxClientImpl;
 
 namespace Decoration
 {
-class DecoratedWindowImpl;
+class DecoratedClientImpl;
 class DecorationPalette;
 }
 
@@ -1315,11 +1315,11 @@ public:
     Options::MouseCommand getWheelCommand(Qt::Orientation orientation, bool *handled) const;
 
     // decoration related
-    KDecoration3::Decoration *decoration()
+    KDecoration2::Decoration *decoration()
     {
         return m_decoration.decoration.get();
     }
-    const KDecoration3::Decoration *decoration() const
+    const KDecoration2::Decoration *decoration() const
     {
         return m_decoration.decoration.get();
     }
@@ -1327,8 +1327,8 @@ public:
     {
         return m_decoration.decoration != nullptr;
     }
-    QPointer<Decoration::DecoratedWindowImpl> decoratedWindow() const;
-    void setDecoratedWindow(QPointer<Decoration::DecoratedWindowImpl> client);
+    QPointer<Decoration::DecoratedClientImpl> decoratedClient() const;
+    void setDecoratedClient(QPointer<Decoration::DecoratedClientImpl> client);
     bool decorationHasAlpha() const;
     void triggerDecorationRepaint();
     virtual void layoutDecorationRects(QRectF &left, QRectF &top, QRectF &right, QRectF &bottom) const;
@@ -1982,7 +1982,7 @@ protected:
      */
     Gravity mouseGravity() const;
 
-    void setDecoration(std::shared_ptr<KDecoration3::Decoration> decoration);
+    void setDecoration(std::shared_ptr<KDecoration2::Decoration> decoration);
     void startDecorationDoubleClickTimer();
     void invalidateDecorationDoubleClickTimer();
     void updateDecorationInputShape();
@@ -2153,8 +2153,8 @@ private:
 
     struct
     {
-        std::shared_ptr<KDecoration3::Decoration> decoration;
-        QPointer<Decoration::DecoratedWindowImpl> client;
+        std::shared_ptr<KDecoration2::Decoration> decoration;
+        QPointer<Decoration::DecoratedClientImpl> client;
         QElapsedTimer doubleClickTimer;
         QRegion inputRegion;
     } m_decoration;

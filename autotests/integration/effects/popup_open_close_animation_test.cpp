@@ -19,7 +19,7 @@
 #include "window.h"
 #include "workspace.h"
 
-#include "decorations/decoratedwindow.h"
+#include "decorations/decoratedclient.h"
 
 #include <KWayland/Client/surface.h>
 
@@ -233,7 +233,7 @@ void PopupOpenCloseAnimationTest::testAnimateDecorationTooltips()
 
     // Show a decoration tooltip.
     QSignalSpy tooltipAddedSpy(workspace(), &Workspace::internalWindowAdded);
-    window->decoratedWindow()->requestShowToolTip(QStringLiteral("KWin rocks!"));
+    window->decoratedClient()->requestShowToolTip(QStringLiteral("KWin rocks!"));
     QVERIFY(tooltipAddedSpy.wait());
     InternalWindow *tooltip = tooltipAddedSpy.first().first().value<InternalWindow *>();
     QVERIFY(tooltip->isInternal());
@@ -246,7 +246,7 @@ void PopupOpenCloseAnimationTest::testAnimateDecorationTooltips()
 
     // Hide the decoration tooltip.
     QSignalSpy tooltipClosedSpy(tooltip, &InternalWindow::windowClosed);
-    window->decoratedWindow()->requestHideToolTip();
+    window->decoratedClient()->requestHideToolTip();
     QVERIFY(tooltipClosedSpy.wait());
     QVERIFY(effect->isActive());
 

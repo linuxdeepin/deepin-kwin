@@ -6,8 +6,8 @@ usr/lib/*/libkwin.so.5
 usr/lib/*/libkwin.so.5.*
 usr/lib/*/qt5/plugins/kpackage/packagestructure/
 usr/lib/*/qt5/plugins/kwin/
-usr/lib/*/qt5/plugins/org.kde.KDecoration3/kwin5_aurorae.so
-usr/lib/*/qt5/plugins/org.kde.KDecoration3/deepin_chameleon.so
+usr/lib/*/qt5/plugins/org.kde.kdecoration2/kwin5_aurorae.so
+usr/lib/*/qt5/plugins/org.kde.kdecoration2/deepin_chameleon.so
 usr/lib/*/qt5/plugins/plasma/kcms/systemsettings/kcm_kwin*.so
 usr/lib/*/qt5/plugins/plasma/kcms/systemsettings/kcm_virtualkeyboard.so
 usr/lib/*/qt5/plugins/plasma/kcms/systemsettings_qwidgets/kcm_kwin*.so

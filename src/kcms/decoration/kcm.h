@@ -15,7 +15,7 @@ class QAbstractItemModel;
 class QSortFilterProxyModel;
 class QQuickItem;
 
-namespace KDecoration3
+namespace KDecoration2
 {
 enum class BorderSize;
 
@@ -62,7 +62,7 @@ public:
 
     void setBorderIndex(int index);
     void setBorderSize(int index);
-    void setBorderSize(KDecoration3::BorderSize size);
+    void setBorderSize(KDecoration2::BorderSize size);
     void setTheme(int index);
 
 Q_SIGNALS:
@@ -86,12 +86,12 @@ private:
     int borderSizeIndexFromString(const QString &size) const;
     QString borderSizeIndexToString(int index) const;
 
-    KDecoration3::Configuration::DecorationsModel *m_themesModel;
+    KDecoration2::Configuration::DecorationsModel *m_themesModel;
     QSortFilterProxyModel *m_proxyThemesModel;
 
-    KDecoration3::Preview::ButtonsModel *m_leftButtonsModel;
-    KDecoration3::Preview::ButtonsModel *m_rightButtonsModel;
-    KDecoration3::Preview::ButtonsModel *m_availableButtonsModel;
+    KDecoration2::Preview::ButtonsModel *m_leftButtonsModel;
+    KDecoration2::Preview::ButtonsModel *m_rightButtonsModel;
+    KDecoration2::Preview::ButtonsModel *m_availableButtonsModel;
 
     int m_borderSizeIndex = -1;
     KWinDecorationData *m_data;

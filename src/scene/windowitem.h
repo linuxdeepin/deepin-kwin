@@ -8,7 +8,7 @@
 
 #include "scene/item.h"
 
-namespace KDecoration3
+namespace KDecoration2
 {
 class Decoration;
 }

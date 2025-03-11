@@ -71,7 +71,7 @@ QPointF ChameleonWindowTheme::windowRadius() const
     if(!QX11Info::isPlatformX11()) {
         return m_windowRadius;
     }
-    return ChameleonTheme::takePos(property("_windowRadius"), QPointF(0.0, 0.0));
+    return ChameleonTheme::takePos(property("windowRadius"), QPointF(0.0, 0.0));
 }
 
 void ChameleonWindowTheme::setWindowRadius(const QPointF value) {

@@ -518,7 +518,7 @@ public:
     QUuid internalId() const override;
 
     QRectF decorationInnerRect() const override;
-    KDecoration3::Decoration *decoration() const override;
+    KDecoration2::Decoration *decoration() const override;
     QByteArray readProperty(long atom, long type, int format) const override;
     void deleteProperty(long atom) const override;
 

@@ -18,7 +18,7 @@
 #include "core/outputbackend.h"
 #include "core/overlaywindow.h"
 #include "core/renderloop.h"
-#include "decorations/decoratedwindow.h"
+#include "decorations/decoratedclient.h"
 #include "deleted.h"
 #include "effects.h"
 #include "itemrenderer_xrender.h"
@@ -66,7 +66,7 @@ std::unique_ptr<Shadow> WorkspaceSceneXRender::createShadow(Window *window)
     return std::make_unique<SceneXRenderShadow>(window);
 }
 
-DecorationRenderer *WorkspaceSceneXRender::createDecorationRenderer(Decoration::DecoratedWindowImpl *impl)
+DecorationRenderer *WorkspaceSceneXRender::createDecorationRenderer(Decoration::DecoratedClientImpl *impl)
 {
     return new SceneXRenderDecorationRenderer(impl);
 }
@@ -102,7 +102,7 @@ void SceneXRenderShadow::resetTexture()
 //****************************************
 // XRenderDecorationRenderer
 //****************************************
-SceneXRenderDecorationRenderer::SceneXRenderDecorationRenderer(Decoration::DecoratedWindowImpl *client)
+SceneXRenderDecorationRenderer::SceneXRenderDecorationRenderer(Decoration::DecoratedClientImpl *client)
     : DecorationRenderer(client)
     , m_gc(XCB_NONE)
 {

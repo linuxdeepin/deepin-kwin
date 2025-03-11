@@ -78,7 +78,7 @@ target_sources(kwin PRIVATE
     cursorsource.cpp
     dbusinterface.cpp
     debug_console.cpp
-    decorations/decoratedwindow.cpp
+    decorations/decoratedclient.cpp
     decorations/decorationbridge.cpp
     decorations/decorationpalette.cpp
     decorations/decorations_logging.cpp
@@ -220,6 +220,11 @@ target_sources(kwin PRIVATE
 find_package(KGlobalAccelD REQUIRED)
 pkg_check_modules(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt6)
 
+target_include_directories(kwin PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/kdecoration/src>
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/kdecoration/src/private>
+)
+
 target_link_libraries(kwin
     kwineffects
     kwinglutils
@@ -246,8 +251,9 @@ target_link_libraries(kwin
     Plasma::KWaylandClient
     K::KGlobalAccelD
 
-    KDecoration3::KDecoration
-    KDecoration3::KDecoration3Private
+    KDecoration2::KDecoration
+    #KDecoration2::KDecoration2Private
+    kdecorations2private
 
     XCB::COMPOSITE
     XCB::CURSOR

@@ -2,16 +2,14 @@ set(TARGET_NAME "deepin_chameleon")
 
 add_definitions(-DTARGET_NAME=\\"${TARGET_NAME}\\")
 
-find_package(Qt6 REQUIRED COMPONENTS Core DBus LinguistTools)
-
-#find_package(Qt5X11Extras REQUIRED)
+find_package(Qt${QT_MAJOR_VERSION} CONFIG REQUIRED COMPONENTS Core)
 find_package(KF6CoreAddons REQUIRED)
+find_package(Qt${QT_MAJOR_VERSION}DBus REQUIRED)
+find_package(Qt${QT_MAJOR_VERSION}Qml REQUIRED)
 find_package(X11 REQUIRED)
-find_package(KF6Config REQUIRED)
-find_package(KF6WindowSystem REQUIRED)
-find_package(KDecoration3 REQUIRED)
-#include_directories(${Qt5Core_PRIVATE_INCLUDE_DIRS})
-#include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+find_package(KF${KF_MAJOR_VERSION}Config REQUIRED)
+find_package(KF${KF_MAJOR_VERSION}WindowSystem REQUIRED)
+find_package(Qt${QT_MAJOR_VERSION}LinguistTools REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed
@@ -38,24 +36,33 @@ add_library(
     kwinutils.cpp
     themes.qrc
 )
-set_target_properties(${TARGET_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.KDecoration3/")
+set_target_properties(${TARGET_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kdecoration2/")
 
 target_link_libraries(
     ${TARGET_NAME}
     PUBLIC
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::DBus
-    #Qt${QT_MAJOR_VERSION}::X11Extras
-    #Qt${QT_MAJOR_VERSION}::Quick
-    Qt${QT_MAJOR_VERSION}::GuiPrivate
+    Qt${QT_MAJOR_VERSION}::Qml
     X11
     XCB::XCB
     kwineffects
-    KDecoration3::KDecoration
-    KF6::CoreAddons
-    KF6::ConfigCore
-    KF6::WindowSystem
+    KDecoration2::KDecoration
+    KF${KF_MAJOR_VERSION}::CoreAddons
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::WindowSystem
     kwin
 )
 
-install(TARGETS ${TARGET_NAME} DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.KDecoration3)
+if (QT_MAJOR_VERSION EQUAL "5")
+    find_package(Qt5X11Extras REQUIRED)
+    include_directories(${Qt5Core_PRIVATE_INCLUDE_DIRS})
+    include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+    target_link_libraries(
+        ${TARGET_NAME}
+        PUBLIC
+        Qt5::X11Extras
+    )
+endif()
+
+install(TARGETS ${TARGET_NAME} DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration2)

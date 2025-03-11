@@ -5,8 +5,8 @@
 */
 #include "decorationoptions.h"
 #include <KConfigGroup>
-#include <KDecoration3/DecoratedWindow>
-#include <KDecoration3/DecorationSettings>
+#include <KDecoration2/DecoratedClient>
+#include <KDecoration2/DecorationSettings>
 #include <KSharedConfig>
 #include <QGuiApplication>
 #include <QStyleHints>
@@ -93,28 +93,28 @@ QFont DecorationOptions::titleFont() const
     return m_decoration ? m_decoration->settings()->font() : QFont();
 }
 
-static int decorationButton(KDecoration3::DecorationButtonType type)
+static int decorationButton(KDecoration2::DecorationButtonType type)
 {
     switch (type) {
-    case KDecoration3::DecorationButtonType::Menu:
+    case KDecoration2::DecorationButtonType::Menu:
         return DecorationOptions::DecorationButtonMenu;
-    case KDecoration3::DecorationButtonType::ApplicationMenu:
+    case KDecoration2::DecorationButtonType::ApplicationMenu:
         return DecorationOptions::DecorationButtonApplicationMenu;
-    case KDecoration3::DecorationButtonType::OnAllDesktops:
+    case KDecoration2::DecorationButtonType::OnAllDesktops:
         return DecorationOptions::DecorationButtonOnAllDesktops;
-    case KDecoration3::DecorationButtonType::Minimize:
+    case KDecoration2::DecorationButtonType::Minimize:
         return DecorationOptions::DecorationButtonMinimize;
-    case KDecoration3::DecorationButtonType::Maximize:
+    case KDecoration2::DecorationButtonType::Maximize:
         return DecorationOptions::DecorationButtonMaximizeRestore;
-    case KDecoration3::DecorationButtonType::Close:
+    case KDecoration2::DecorationButtonType::Close:
         return DecorationOptions::DecorationButtonClose;
-    case KDecoration3::DecorationButtonType::ContextHelp:
+    case KDecoration2::DecorationButtonType::ContextHelp:
         return DecorationOptions::DecorationButtonQuickHelp;
-    case KDecoration3::DecorationButtonType::Shade:
+    case KDecoration2::DecorationButtonType::Shade:
         return DecorationOptions::DecorationButtonShade;
-    case KDecoration3::DecorationButtonType::KeepBelow:
+    case KDecoration2::DecorationButtonType::KeepBelow:
         return DecorationOptions::DecorationButtonKeepBelow;
-    case KDecoration3::DecorationButtonType::KeepAbove:
+    case KDecoration2::DecorationButtonType::KeepAbove:
         return DecorationOptions::DecorationButtonKeepAbove;
     default:
         return DecorationOptions::DecorationButtonNone;
@@ -143,47 +143,35 @@ QList<int> DecorationOptions::titleButtonsRight() const
     return ret;
 }
 
-KDecoration3::Decoration *DecorationOptions::decoration() const
+KDecoration2::Decoration *DecorationOptions::decoration() const
 {
     return m_decoration;
 }
 
-void DecorationOptions::setDecoration(KDecoration3::Decoration *decoration)
+void DecorationOptions::setDecoration(KDecoration2::Decoration *decoration)
 {
     if (m_decoration == decoration) {
         return;
     }
     if (m_decoration) {
         // disconnect from existing decoration
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        disconnect(m_decoration->client().toStrongRef().data(), &KDecoration3::DecoratedWindow::activeChanged, this, &DecorationOptions::slotActiveChanged);
-#else
-        disconnect(m_decoration->window(), &KDecoration3::DecoratedWindow::activeChanged, this, &DecorationOptions::slotActiveChanged);
-#endif
+        disconnect(m_decoration->client().toStrongRef().data(), &KDecoration2::DecoratedClient::activeChanged, this, &DecorationOptions::slotActiveChanged);
         auto s = m_decoration->settings();
-        disconnect(s.get(), &KDecoration3::DecorationSettings::fontChanged, this, &DecorationOptions::fontChanged);
-        disconnect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsLeftChanged, this, &DecorationOptions::titleButtonsChanged);
-        disconnect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsRightChanged, this, &DecorationOptions::titleButtonsChanged);
+        disconnect(s.data(), &KDecoration2::DecorationSettings::fontChanged, this, &DecorationOptions::fontChanged);
+        disconnect(s.data(), &KDecoration2::DecorationSettings::decorationButtonsLeftChanged, this, &DecorationOptions::titleButtonsChanged);
+        disconnect(s.data(), &KDecoration2::DecorationSettings::decorationButtonsRightChanged, this, &DecorationOptions::titleButtonsChanged);
         disconnect(m_paletteConnection);
     }
     m_decoration = decoration;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    connect(m_decoration->client().toStrongRef().data(), &KDecoration3::DecoratedWindow::activeChanged, this, &DecorationOptions::slotActiveChanged);
-    m_paletteConnection = connect(m_decoration->client().toStrongRef().data(), &KDecoration3::DecoratedWindow::paletteChanged, this, [this](const QPalette &pal) {
+    connect(m_decoration->client().toStrongRef().data(), &KDecoration2::DecoratedClient::activeChanged, this, &DecorationOptions::slotActiveChanged);
+    m_paletteConnection = connect(m_decoration->client().toStrongRef().data(), &KDecoration2::DecoratedClient::paletteChanged, this, [this](const QPalette &pal) {
         m_colors.update(pal);
         Q_EMIT colorsChanged();
     });
-#else
-    connect(m_decoration->window(), &KDecoration3::DecoratedWindow::activeChanged, this, &DecorationOptions::slotActiveChanged);
-    m_paletteConnection = connect(m_decoration->window(), &KDecoration3::DecoratedWindow::paletteChanged, this, [this](const QPalette &pal) {
-        m_colors.update(pal);
-        Q_EMIT colorsChanged();
-    });
-#endif
     auto s = m_decoration->settings();
-    connect(s.get(), &KDecoration3::DecorationSettings::fontChanged, this, &DecorationOptions::fontChanged);
-    connect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsLeftChanged, this, &DecorationOptions::titleButtonsChanged);
-    connect(s.get(), &KDecoration3::DecorationSettings::decorationButtonsRightChanged, this, &DecorationOptions::titleButtonsChanged);
+    connect(s.data(), &KDecoration2::DecorationSettings::fontChanged, this, &DecorationOptions::fontChanged);
+    connect(s.data(), &KDecoration2::DecorationSettings::decorationButtonsLeftChanged, this, &DecorationOptions::titleButtonsChanged);
+    connect(s.data(), &KDecoration2::DecorationSettings::decorationButtonsRightChanged, this, &DecorationOptions::titleButtonsChanged);
     Q_EMIT decorationChanged();
 }
 
@@ -192,17 +180,10 @@ void DecorationOptions::slotActiveChanged()
     if (!m_decoration) {
         return;
     }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (m_active == m_decoration->client().toStrongRef().data()->isActive()) {
         return;
     }
     m_active = m_decoration->client().toStrongRef().data()->isActive();
-#else
-    if (m_active == m_decoration->window()->isActive()) {
-        return;
-    }
-    m_active = m_decoration->window()->isActive();
-#endif
     Q_EMIT colorsChanged();
     Q_EMIT fontChanged();
 }

@@ -55,11 +55,7 @@ QString ChameleonShadow::buildShadowCacheKey(const ChameleonTheme::ThemeConfig *
                                                 .arg(border_width).arg(border_color.name());
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-QSharedPointer<KDecoration3::DecorationShadow> ChameleonShadow::getShadow(const ChameleonTheme::ThemeConfig *config, qreal scale)
-#else
-std::shared_ptr<KDecoration3::DecorationShadow> ChameleonShadow::getShadow(const ChameleonTheme::ThemeConfig *config, qreal scale)
-#endif
+QSharedPointer<KDecoration2::DecorationShadow> ChameleonShadow::getShadow(const ChameleonTheme::ThemeConfig *config, qreal scale)
 {
     return m_emptyShadow;
     if ((config->shadowConfig.shadowColor.alpha() == 0 || qIsNull(config->shadowConfig.shadowRadius))
@@ -151,11 +147,8 @@ std::shared_ptr<KDecoration3::DecorationShadow> ChameleonShadow::getShadow(const
                 painter.drawRect(innerRect);
             }
         }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        shadow = QSharedPointer<KDecoration3::DecorationShadow>::create();
-#else
-        shadow = std::shared_ptr<KDecoration3::DecorationShadow>(new KDecoration3::DecorationShadow);
-#endif
+
+        shadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
         shadow->setPadding(paddings);
         shadow->setInnerShadowRect(QRect(shadow_size, shadow_size, 1, 1));
         shadow->setShadow(image);
@@ -173,9 +166,5 @@ void ChameleonShadow::clearCache()
 
 ChameleonShadow::ChameleonShadow()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_emptyShadow = QSharedPointer<KDecoration3::DecorationShadow>::create();
-#else
-    m_emptyShadow = std::shared_ptr<KDecoration3::DecorationShadow>(new KDecoration3::DecorationShadow);
-#endif
+    m_emptyShadow = QSharedPointer<KDecoration2::DecorationShadow>::create();
 }

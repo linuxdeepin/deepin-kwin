@@ -21,7 +21,7 @@
 #include "atoms.h"
 #include "client_machine.h"
 #include "composite.h"
-#include "decorations/decoratedwindow.h"
+#include "decorations/decoratedclient.h"
 #include "decorations/decorationbridge.h"
 #include "decorations/decorationpalette.h"
 #include "effects.h"
@@ -53,8 +53,8 @@
 #include "platformsupport/scenes/opengl/openglsurfacetexture.h"
 #include "splitscreen/splitmanage.h"
 
-#include <KDecoration3/DecoratedWindow>
-#include <KDecoration3/Decoration>
+#include <KDecoration2/DecoratedClient>
+#include <KDecoration2/Decoration>
 
 #include <KDesktopFile>
 
@@ -3237,19 +3237,19 @@ void Window::endInteractiveMoveResize()
     updateCursor();
 }
 
-void Window::setDecoration(std::shared_ptr<KDecoration3::Decoration> decoration)
+void Window::setDecoration(std::shared_ptr<KDecoration2::Decoration> decoration)
 {
     if (m_decoration.decoration == decoration) {
         return;
     }
     if (decoration) {
-        QMetaObject::invokeMethod(decoration.get(), QOverload<>::of(&KDecoration3::Decoration::update), Qt::QueuedConnection);
-        connect(decoration.get(), &KDecoration3::Decoration::shadowChanged, this, &Window::updateShadow);
-        connect(decoration.get(), &KDecoration3::Decoration::bordersChanged,
+        QMetaObject::invokeMethod(decoration.get(), QOverload<>::of(&KDecoration2::Decoration::update), Qt::QueuedConnection);
+        connect(decoration.get(), &KDecoration2::Decoration::shadowChanged, this, &Window::updateShadow);
+        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged,
                 this, &Window::updateDecorationInputShape);
-        connect(decoration.get(), &KDecoration3::Decoration::resizeOnlyBordersChanged,
+        connect(decoration.get(), &KDecoration2::Decoration::resizeOnlyBordersChanged,
                 this, &Window::updateDecorationInputShape);
-        connect(decoration.get(), &KDecoration3::Decoration::bordersChanged, this, [this]() {
+        connect(decoration.get(), &KDecoration2::Decoration::bordersChanged, this, [this]() {
             GeometryUpdatesBlocker blocker(this);
             const QRectF oldGeometry = moveResizeGeometry();
             if (!isShade()) {
@@ -3257,7 +3257,7 @@ void Window::setDecoration(std::shared_ptr<KDecoration3::Decoration> decoration)
             }
             Q_EMIT geometryShapeChanged(this, oldGeometry);
         });
-        connect(decoratedWindow()->decoratedWindow(), &KDecoration3::DecoratedWindow::sizeChanged,
+        connect(decoratedClient()->decoratedClient(), &KDecoration2::DecoratedClient::sizeChanged,
                 this, &Window::updateDecorationInputShape);
     }
     m_decoration.decoration = decoration;
@@ -3275,7 +3275,7 @@ void Window::updateDecorationInputShape()
     const auto borders = decoration()->borders();
     const auto resizeBorders = decoration()->resizeOnlyBorders();
 
-    const QRectF innerRect = QRectF(QPointF(borderLeft(), borderTop()), decoratedWindow()->size());
+    const QRectF innerRect = QRectF(QPointF(borderLeft(), borderTop()), decoratedClient()->size());
     const QRectF outerRect = innerRect + borders + resizeBorders;
 
     m_decoration.inputRegion = QRegion(outerRect.toAlignedRect()) - innerRect.toAlignedRect();
@@ -3418,12 +3418,12 @@ void Window::showContextHelp()
 {
 }
 
-QPointer<Decoration::DecoratedWindowImpl> Window::decoratedWindow() const
+QPointer<Decoration::DecoratedClientImpl> Window::decoratedClient() const
 {
     return m_decoration.client;
 }
 
-void Window::setDecoratedWindow(QPointer<Decoration::DecoratedWindowImpl> client)
+void Window::setDecoratedClient(QPointer<Decoration::DecoratedClientImpl> client)
 {
     m_decoration.client = client;
 }
@@ -5154,11 +5154,7 @@ void Window::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
 QMargins Window::extendResizeBorder() const
 {
     if (isDecorated()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         return decoration()->resizeOnlyBorders();
-#else
-        return decoration()->resizeOnlyBorders().toMargins();
-#endif
     }
     if (isSpecialWindow() || !isResizable()) {
         return QMargins(0, 0, 0, 0);
