@@ -125,7 +125,7 @@ void PrimarySelectionDeviceV1Interface::sendSelection(AbstractDataSource *other)
 
 wl_client *PrimarySelectionDeviceV1Interface::client() const
 {
-    return d->resource()->client();
+    return d->resource() ? d->resource()->client() : nullptr;
 }
 
 }
