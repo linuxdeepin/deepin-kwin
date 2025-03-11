@@ -2684,7 +2684,8 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         replay = replay || !rules()->checkAcceptFocus(acceptsFocus());
         break;
     case Options::MouseActivateRaiseAndPassClick:
-        if (waylandServer() || resourceName() != QByteArrayLiteral("dde-file-manager")) {
+        if (waylandServer() || resourceName() != QByteArrayLiteral("dde-file-manager")
+            || Workspace::delayedRaisingClientMode() == Workspace::DRCM_None) {
             workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
         } else {
             workspace()->takeActivity(this, Workspace::ActivityFocus);

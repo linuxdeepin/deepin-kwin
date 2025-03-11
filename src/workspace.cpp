@@ -138,6 +138,7 @@ void ColorMapper::update()
 }
 
 Workspace *Workspace::_self = nullptr;
+Workspace::DelayedRaisingClientMode Workspace::_delayedRaisingClientMode = Workspace::DRCM_None;
 
 Workspace::Workspace()
     : QObject(nullptr)
@@ -2629,6 +2630,23 @@ void Workspace::hideSplitMenu(bool delay)
 void Workspace::setSplitMenuKeepShowing(bool keep)
 {
     SplitMenu::instance()->setKeepShowing(keep);
+}
+
+Workspace::DelayedRaisingClientMode Workspace::delayedRaisingClientMode()
+{
+    return _delayedRaisingClientMode;
+}
+
+bool Workspace::setDelayedRaisingClientMode(const Workspace::DelayedRaisingClientMode &mode)
+{
+    // XInputDrive > XRecordDrive > None
+    // Initial mode is None, do not support setting to None now
+    // cause DelayRaise function is enabled default when XInput
+    // or XRecord is available.(We can't unload extension now anyway)
+    if (mode == _delayedRaisingClientMode || _delayedRaisingClientMode == DRCM_XInputDriven || mode == DRCM_None)
+        return false;
+    _delayedRaisingClientMode = mode;
+    return true;
 }
 
 void Workspace::handleReleaseMouseCommand()
