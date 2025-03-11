@@ -103,6 +103,7 @@ void RecordEventMonitor::run()
 
     if (!XRecordEnableContext(displayDatalink, context, callback, (XPointer) this))
         return;
+    KWin::Workspace::setDelayedRaisingClientMode(KWin::Workspace::DRCM_XRecordDriven);
 }
 
 void callback(XPointer ptr, XRecordInterceptData *data)
@@ -116,6 +117,9 @@ void handleRecordEvent(XRecordInterceptData* data)
         xEvent * event = reinterpret_cast<xEvent *>(data->data);
         switch (event->u.u.type) {
         case ButtonRelease:
+            if (KWin::Workspace::delayedRaisingClientMode() == KWin::Workspace::DRCM_XRecordDriven) {
+                KWin::Workspace::self()->handleReleaseMouseCommand();
+            }
             if (m_bFlag) {
                 Q_EMIT KWin::Workspace::self()->buttonReleaseByRecord();
             }

@@ -237,6 +237,7 @@ void XInputIntegration::init()
         }
     }
     m_hasXInput = true;
+    KWin::Workspace::setDelayedRaisingClientMode(KWin::Workspace::DRCM_XInputDriven);
     m_xiOpcode = xi_opcode;
     m_majorVersion = major;
     m_minorVersion = minor;
