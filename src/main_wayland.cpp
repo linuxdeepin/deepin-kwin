@@ -34,7 +34,6 @@
 #include <KDesktopFile>
 #include <KLocalizedString>
 #include <KShell>
-#include <KSignalHandler>
 
 // Qt
 #include <QCommandLineParser>
@@ -80,7 +79,6 @@ static void unsetDumpable(int sig)
 #if HAVE_PR_SET_DUMPABLE
     prctl(PR_SET_DUMPABLE, 1);
 #endif
-    qDebug() << "raise signal" << sig;
     signal(sig, SIG_IGN);
     raise(sig);
     return;
@@ -310,11 +308,6 @@ void ApplicationWayland::startSession()
     */
 }
 
-void ApplicationWayland::exitWayland()
-{
-    _exit(0);
-}
-
 XwaylandInterface *ApplicationWayland::xwayland() const
 {
     return m_xwayland.get();
@@ -352,12 +345,6 @@ int main(int argc, char *argv[])
     a.setupTranslator();
     // reset QT_QPA_PLATFORM so we don't propagate it to our children (e.g. apps launched from the overview effect)
     qunsetenv("QT_QPA_PLATFORM");
-
-    KSignalHandler::self()->watchSignal(SIGTERM);
-    KSignalHandler::self()->watchSignal(SIGINT);
-    KSignalHandler::self()->watchSignal(SIGHUP);
-    QObject::connect(KSignalHandler::self(), &KSignalHandler::signalReceived,
-                     &a, &KWin::ApplicationWayland::exitWayland);
 
     signal(SIGABRT, KWin::unsetDumpable);
     signal(SIGSEGV, KWin::unsetDumpable);
