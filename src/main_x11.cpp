@@ -51,6 +51,9 @@
 // system
 #include <iostream>
 #include <unistd.h>
+#ifdef BUILD_ON_V25
+#include <systemd/sd-daemon.h>
+#endif
 
 Q_LOGGING_CATEGORY(KWIN_CORE, "kwin_core", QtWarningMsg)
 
@@ -301,6 +304,13 @@ void ApplicationX11::performStartup()
 
         notifyKSplash();
         notifyStarted();
+
+#ifdef BUILD_ON_V25
+        // Fix "Authorization required, but no authorization protocol specified" in x11
+	    QTimer::singleShot(100, this, [=] {
+            sd_notify(0, "READY=1");
+        });
+#endif
     });
     // we need to do an XSync here, otherwise the QPA might crash us later on
     Xcb::sync();
