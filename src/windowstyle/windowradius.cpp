@@ -15,6 +15,7 @@
 #include "composite.h"
 #include <xcb/xcb.h>
 #include <QWindow>
+#include <QPainterPath>
 #include <QX11Info>
 #include "atoms.h"
 

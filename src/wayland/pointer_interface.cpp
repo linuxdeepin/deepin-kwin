@@ -204,11 +204,15 @@ void PointerInterface::sendButton(quint32 button, PointerButtonState state, quin
 
     const auto pointerResources = d->pointersForClient(d->focusedSurface->client());
     for (PointerInterfacePrivate::Resource *resource : pointerResources) {
+
+#ifndef BUILD_ON_V25
         if (d->lastPosition != position) {
             d->lastPosition = position;
             const QPointF localPos = d->focusedSurface->toSurfaceLocal(position);
             d->send_warp(resource->handle, wl_fixed_from_double(localPos.x()), wl_fixed_from_double(localPos.y()));
         }
+#endif
+
         d->send_button(resource->handle, serial, d->seat->timestamp().count(), button, quint32(state));
     }
 }
