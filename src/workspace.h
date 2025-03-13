@@ -35,9 +35,17 @@
 #define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
 #define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
 #define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
-#define KWinDBusService "com.deepin.daemon.Appearance"
-#define KWinDBusPath    "/com/deepin/daemon/Appearance"
-#define KWinDBusInterface "com.deepin.daemon.Appearance"
+
+#ifdef BUILD_ON_V25
+    #define KWinDBusService "org.deepin.dde.Appearance1"
+    #define KWinDBusPath "/org/deepin/dde/Appearance1"
+    #define KWinDBusInterface "org.deepin.dde.Appearance1"
+#else
+    #define KWinDBusService "com.deepin.daemon.Appearance"
+    #define KWinDBusPath    "/com/deepin/daemon/Appearance"
+    #define KWinDBusInterface "com.deepin.daemon.Appearance"
+#endif
+
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
 #define DBUS_LOGIN_SERVICE       "org.freedesktop.login1"

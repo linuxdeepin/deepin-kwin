@@ -69,13 +69,25 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
 #define ADDBTN_SIZE_SCALE   (float)(64.0 / 1920.0)
 #define ADDBTN_RADIUS_SCALE (float)(18.0 / 1920.0)
 
-#define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
-#define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
-#define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
+#ifdef BUILD_ON_V25
+    #define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
+    #define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
+    #define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
 
-#define DBUS_IMAGEEFFECT_SERVICE  "com.deepin.daemon.ImageEffect"
-#define DBUS_BLUR_OBJ  "/com/deepin/daemon/ImageBlur"
-#define DBUS_BLUR_INTF "com.deepin.daemon.ImageBlur"
+    #define DBUS_IMAGEEFFECT_SERVICE "org.deepin.dde.ImageBlur1"
+    #define DBUS_BLUR_OBJ "/org/deepin/dde/ImageBlur1"
+    #define DBUS_BLUR_INTF "org.deepin.dde.ImageBlur1"
+#else
+    #define DBUS_APPEARANCE_SERVICE "com.deepin.daemon.Appearance"
+    #define DBUS_APPEARANCE_OBJ    "/com/deepin/daemon/Appearance"
+    #define DBUS_APPEARANCE_INTF "com.deepin.daemon.Appearance"
+
+    #define DBUS_IMAGEEFFECT_SERVICE  "com.deepin.daemon.ImageEffect"
+    #define DBUS_BLUR_OBJ  "/com/deepin/daemon/ImageBlur"
+    #define DBUS_BLUR_INTF "com.deepin.daemon.ImageBlur"
+#endif
+
+
 
 #define MULTITASK_CLOSE_SVG      ":/effects/multitaskview/buttons/multiview_delete.svg"
 #define MULTITASK_TOP_SVG        ":/effects/multitaskview/buttons/multiview_top.svg"

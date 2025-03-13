@@ -23,9 +23,15 @@
 #define SPACING_H           (float)(20.0 / 1080.0)
 #define SPACING_W           (float)(20.0 / 1920.0)
 
-#define DBUS_IMAGEEFFECT_SERVICE  "com.deepin.daemon.ImageEffect"
-#define DBUS_BLUR_OBJ  "/com/deepin/daemon/ImageBlur"
-#define DBUS_BLUR_INTF "com.deepin.daemon.ImageBlur"
+#ifdef BUILD_ON_V25
+    #define DBUS_IMAGEEFFECT_SERVICE "org.deepin.dde.ImageBlur1"
+    #define DBUS_BLUR_OBJ "/org/deepin/dde/ImageBlur1"
+    #define DBUS_BLUR_INTF "org.deepin.dde.ImageBlur1"
+#else
+    #define DBUS_IMAGEEFFECT_SERVICE  "com.deepin.daemon.ImageEffect"
+    #define DBUS_BLUR_OBJ  "/com/deepin/daemon/ImageBlur"
+    #define DBUS_BLUR_INTF "com.deepin.daemon.ImageBlur"
+#endif
 
 namespace KWin
 {
