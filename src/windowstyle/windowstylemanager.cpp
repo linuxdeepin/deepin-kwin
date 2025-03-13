@@ -18,9 +18,15 @@
 #include <QX11Info>
 #include <QDebug>
 
-#define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
-#define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
-#define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
+#ifdef BUILD_ON_V25
+    #define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
+    #define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
+    #define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
+#else
+    #define DBUS_APPEARANCE_SERVICE "com.deepin.daemon.Appearance"
+    #define DBUS_APPEARANCE_OBJ    "/com/deepin/daemon/Appearance"
+    #define DBUS_APPEARANCE_INTF "com.deepin.daemon.Appearance"
+#endif
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_deepin_xsetting, ("com.deepin.xsettings"))
 #define GsettingsDtkRadius     "dtk-window-radius"
