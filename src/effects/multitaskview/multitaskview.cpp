@@ -373,7 +373,7 @@ void MultiViewBackgroundManager::setNewBackground(BgInfo_st &st, QPixmap &deskto
 
     MultiViewBackgroundManager::instance()->m_allBackgroundList[st.screenName].append(file);
 
-    wm.call("SetWorkspaceBackgroundForMonitor", st.desktop, st.screenName, file);
+    wm.asyncCall("SetWorkspaceBackgroundForMonitor", st.desktop, st.screenName, file);
 
     file = toRealPath(file);
 
