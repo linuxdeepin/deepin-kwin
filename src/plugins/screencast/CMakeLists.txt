@@ -11,6 +11,10 @@ target_sources(KWinScreencastPlugin PRIVATE
     windowscreencastsource.cpp
 )
 
+set_target_properties(KWinScreencastPlugin PROPERTIES
+    LIBRARY_OUTPUT_NAME "kwin5_plugin_screencast"
+)
+
 ecm_qt_declare_logging_category(KWinScreencastPlugin
     HEADER kwinscreencast_logging.h
     IDENTIFIER KWIN_SCREENCAST

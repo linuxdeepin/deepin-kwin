@@ -10,6 +10,11 @@ else()
 endif()
 
 add_library(krunnerintegration MODULE ${krunnerintegration_SOURCES})
+
+set_target_properties(krunnerintegration PROPERTIES
+    LIBRARY_OUTPUT_NAME "kwin5_plugin_krunner"
+)
+
 target_link_libraries(krunnerintegration kwin KF6::Runner)
 
 install(TARGETS krunnerintegration DESTINATION ${KDE_INSTALL_PLUGINDIR}/kwin/plugins/)

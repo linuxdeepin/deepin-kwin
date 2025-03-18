@@ -1,4 +1,5 @@
 add_library(KWinNightColorPlugin SHARED)
+
 target_sources(KWinNightColorPlugin PRIVATE
     clockskewnotifier.cpp
     clockskewnotifierengine.cpp
@@ -6,6 +7,11 @@ target_sources(KWinNightColorPlugin PRIVATE
     nightcolormanager.cpp
     main.cpp
     suncalc.cpp
+)
+
+set_target_properties(KWinNightColorPlugin PROPERTIES
+    LIBRARY_OUTPUT_NAME "kwin5_plugin_nightcolor"
+    PREFIX ""
 )
 
 ecm_qt_declare_logging_category(KWinNightColorPlugin

@@ -36,7 +36,10 @@ add_library(
     kwinutils.cpp
     themes.qrc
 )
-set_target_properties(${TARGET_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kdecoration2/")
+set_target_properties(${TARGET_NAME} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/org.kde.kdecoration2/"
+    LIBRARY_OUTPUT_NAME "com.deepin.chameleon"
+)
 
 target_link_libraries(
     ${TARGET_NAME}
