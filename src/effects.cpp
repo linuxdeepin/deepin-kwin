@@ -557,12 +557,16 @@ void EffectsHandlerImpl::slotOpacityChanged(Window *window, qreal oldOpacity)
 
 void EffectsHandlerImpl::toggleMinimizedAnimation(Window *window)
 {
+#ifdef BUILD_ON_V25
+    Q_EMIT windowMinimizedAnimation(window->effectWindow(), window->iconGeometry().center());
+#else
     QRectF dockLastPosition = Workspace::self()->getDockLastPosition();
     if (window->iconGeometry() != QRectF() && dockLastPosition.contains(window->iconGeometry())) {
         Q_EMIT windowMinimizedAnimation(window->effectWindow(), window->iconGeometry().center());
     } else {
         Q_EMIT windowMinimizedAnimation(window->effectWindow(), dockLastPosition.center());
     }
+#endif
 }
 
 void EffectsHandlerImpl::slotWindowShown(Window *window)

@@ -625,10 +625,12 @@ public:
         return m_pids;
     }
 
+#ifndef BUILD_ON_V25
     void setDockLastPosition(QRectF rect);
     QRectF getDockLastPosition();
-    int getDockHiddenState();
+#endif
     int getDockDirection();
+
     bool getBlurStatus();
     bool isEffectDuring() { return m_isEffectDuring; }
     void setEffectDuringState(bool state) { m_isEffectDuring = state; }
@@ -725,7 +727,9 @@ public Q_SLOTS:
 
     void tileActiveWindow(uint);
     void toggleActiveMaximize();
+#ifndef BUILD_ON_V25
     void slotDockPositionChanged();
+#endif
     void slotShowingDesktopEffectChanged(bool);
 
     void setCurrentPaintingScreen(Output *output) {
@@ -1012,8 +1016,10 @@ private:
 
     bool m_forceDisableRadius = false;
 
+#ifndef BUILD_ON_V25
     QRectF m_lastDockPos = QRectF();
     DBusDock *m_dockInter = nullptr;
+#endif
     QString m_perferredCursorOutput = "";
 
     xcb_window_t m_clientIDHandlingMouseCommand = 0;
