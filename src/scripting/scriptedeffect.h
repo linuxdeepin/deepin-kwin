@@ -171,7 +171,6 @@ public:
     Q_SCRIPTABLE uint addFragmentShader(ShaderTrait traits, const QString &fragmentShaderFile = {});
 
     Q_SCRIPTABLE void setUniform(uint shaderId, const QString &name, const QJSValue &value);
-
     Q_SCRIPTABLE int onDockChanged();
     QHash<int, QJSValueList> &screenEdgeCallbacks()
     {
