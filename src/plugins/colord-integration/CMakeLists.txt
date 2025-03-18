@@ -1,4 +1,9 @@
 add_library(colordintegration MODULE)
+
+set_target_properties(colordintegration PROPERTIES
+    LIBRARY_OUTPUT_NAME "kwin5_plugin_colord"
+)
+
 target_sources(colordintegration PRIVATE
     colorddevice.cpp
     colordintegration.cpp
