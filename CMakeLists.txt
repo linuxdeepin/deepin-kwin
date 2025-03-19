@@ -54,11 +54,6 @@ include(ECMOptionalAddSubdirectory)
 include(ECMConfiguredInstall)
 include(ECMQtDeclareLoggingCategory)
 
-if (BUILD_ON_V25)
-    add_definitions(-DBUILD_ON_V25)
-    add_subdirectory(kdecoration)
-endif()
-
 set(QT_MAJOR_VERSION "6")
 find_package(Qt6 REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS
@@ -118,6 +113,11 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     XmlGui
     ItemViews
 )
+
+if (BUILD_ON_V25)
+    add_definitions(-DBUILD_ON_V25)
+    add_subdirectory(kdecoration)
+endif()
 
 find_package(Threads)
 set_package_properties(Threads PROPERTIES

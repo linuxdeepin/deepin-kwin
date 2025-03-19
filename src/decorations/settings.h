@@ -8,11 +8,7 @@
 */
 #pragma once
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KDecoration2/Private/DecorationSettingsPrivate>
-#else
-#include <private/decorationsettingsprivate.h>
-#endif
 #include <QObject>
 
 class KConfigGroup;

@@ -20,15 +20,9 @@
 #include "workspace.h"
 
 // KDecoration
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
 #include <KDecoration2/DecorationSettings>
-#else
-#include "decoratedclient.h"
-#include "decoration.h"
-#include "decorationsettings.h"
-#endif
 
 // Frameworks
 #include <KPluginFactory>

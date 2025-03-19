@@ -16,11 +16,7 @@
 #include "workspace.h"
 
 #include <KConfigGroup>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KDecoration2/DecorationSettings>
-#else
-#include "decorationsettings.h"
-#endif
 #include <QFontDatabase>
 
 namespace KWin

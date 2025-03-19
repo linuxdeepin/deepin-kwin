@@ -9,6 +9,11 @@ set(libkdecoration2Private_SRCS
 
 add_library(kdecorations2private SHARED ${libkdecoration2Private_SRCS})
 
+# Rename to avoid conflict
+set_target_properties(kdecorations2private PROPERTIES
+    LIBRARY_OUTPUT_NAME "kwindecorations2private"
+)
+
 generate_export_header(
     kdecorations2private
 BASE_NAME
