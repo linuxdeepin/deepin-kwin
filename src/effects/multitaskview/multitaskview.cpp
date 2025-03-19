@@ -79,9 +79,9 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
     #define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
     #define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
 
-    #define DBUS_IMAGEEFFECT_SERVICE "org.deepin.dde.ImageBlur1"
-    #define DBUS_BLUR_OBJ "/org/deepin/dde/ImageBlur1"
-    #define DBUS_BLUR_INTF "org.deepin.dde.ImageBlur1"
+#define DBUS_IMAGEEFFECT_SERVICE "org.deepin.dde.ImageEffect1"
+#define DBUS_BLUR_OBJ "/org/deepin/dde/ImageBlur1"
+#define DBUS_BLUR_INTF "org.deepin.dde.ImageBlur1"
 #else
     #define DBUS_APPEARANCE_SERVICE "com.deepin.daemon.Appearance"
     #define DBUS_APPEARANCE_OBJ    "/com/deepin/daemon/Appearance"
@@ -109,10 +109,6 @@ Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_dde_appearance, ("com.deepin.dd
 #define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
 
 #define GsettingsBackgroundUri "backgroundUris"
-#define DeepinWMConfigName "deepinwmrc"
-#define DeepinWMGeneralGroupName "General"
-#define DeepinWMWorkspaceBackgroundGroupName "WorkspaceBackground"
-
 const char notification_tips[] = "dde-osd dde-osd";
 const char screen_recorder[] = "deepin-screen-recorder deepin-screen-recorder";
 const char split_outline[] = "kwin_x11 kwin";
