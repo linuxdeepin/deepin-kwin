@@ -12,6 +12,6 @@ kwin4_add_effect_module(kwin4_effect_sheet ${sheet_SOURCES})
 target_link_libraries(kwin4_effect_sheet PRIVATE
     kwineffects
 
-    KF6::ConfigGui
-    Qt6::QuickWidgets
+    KF${KF_MAJOR_VERSION}::ConfigGui
+    Qt${Qt_MAJOR_VERSION}::QuickWidgets
 )

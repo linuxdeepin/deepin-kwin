@@ -15,9 +15,15 @@ target_link_libraries(kwin4_effect_splitscreen PRIVATE
     kwineffects
     Qt${QT_MAJOR_VERSION}::QuickWidgets
     Qt${QT_MAJOR_VERSION}::DBus
-    #Qt${QT_MAJOR_VERSION}::X11Extras
-    KF6::ConfigGui
+    KF${KF_MAJOR_VERSION}::ConfigGui
 )
+
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(kwin4_effect_splitscreen PRIVATE Qt5::X11Extras)
+else()
+    target_link_libraries(kwin4_effect_splitscreen PRIVATE Qt6::GuiPrivate)
+endif()
+
 
 install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/splitscreen)
 

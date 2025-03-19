@@ -1,21 +1,29 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(PROJECT_VERSION "5.27.2") # Handled by release scripts
 set(DVERSION "5.27.2" CACHE STRING "define project version")
-project(KWin VERSION ${PROJECT_VERSION})
+project(KWin VERSION ${DVERSION})
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(QT_MIN_VERSION "6.0.0")
-set(KF6_MIN_VERSION "6.0.0")
-set(KF6_CURRENT_VERSION "6.0.0")
-set(KDE_COMPILERSETTINGS_LEVEL "5.54")
 set(BUILD_ON_V25 ON)
 
-set(QT_MAJOR_VERSION "6")
-set(KF_MAJOR_VERSION "6")
+if (BUILD_ON_V25)
+  set(QT_MAJOR_VERSION "6")
+  set(KF_MAJOR_VERSION "6")
+  set(QT_MIN_VERSION "6.0.0")
+  set(KF_MIN_VERSION "6.0.0")
+  set(KF_CURRENT_VERSION "6.0.0")
+else()
+  set(QT_MAJOR_VERSION "5")
+  set(KF_MAJOR_VERSION "5")
+  set(QT_MIN_VERSION "5.11.3")
+  set(KF_MIN_VERSION "5.54.0")
+  set(KF_CURRENT_VERSION "5.102.0")
+endif()
+
+set(KDE_COMPILERSETTINGS_LEVEL "5.54")
 
 if(MEMCHECK)
     set(CMAKE_BUILD_TYPE Debug)
@@ -25,7 +33,7 @@ if(MEMCHECK)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address")
 endif()
 
-find_package(ECM "${KF6_CURRENT_VERSION}" REQUIRED NO_MODULE)
+find_package(ECM "${KF_CURRENT_VERSION}" REQUIRED NO_MODULE)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${ECM_MODULE_PATH})
@@ -39,7 +47,6 @@ include(CheckCXXCompilerFlag)
 include(CheckIncludeFile)
 include(CheckIncludeFiles)
 include(CheckSymbolExists)
-find_package(Qt6 COMPONENTS Quick QuickControls2 REQUIRED)
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
@@ -54,9 +61,7 @@ include(ECMOptionalAddSubdirectory)
 include(ECMConfiguredInstall)
 include(ECMQtDeclareLoggingCategory)
 
-set(QT_MAJOR_VERSION "6")
-find_package(Qt6 REQUIRED COMPONENTS Core)
-find_package(Qt6 REQUIRED COMPONENTS
+find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     Concurrent
     Core
     DBus
@@ -64,6 +69,7 @@ find_package(Qt6 REQUIRED COMPONENTS
     UiTools
     Widgets
 )
+find_package(Qt${QT_MAJOR_VERSION} COMPONENTS Quick QuickControls2 REQUIRED)
 
 if (QT_MAJOR_VERSION EQUAL "5")
     find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)
@@ -86,7 +92,7 @@ if (NOT Qt${QT_MAJOR_VERSION}Test_FOUND)
 endif()
 
 # required frameworks by Core
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Auth
     Config
     ConfigWidgets
@@ -97,15 +103,16 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     I18n
     IdleTime
     Package
-    # Plasma
     WidgetsAddons
     WindowSystem
-
-    NewStuff
-    #QuickAddons
 )
+
+if (KF_MAJOR_VERSION EQUAL "5")
+  find_package(KF5 REQUIRED COMPONENTS Plasma)
+endif()
+
 # required frameworks by config modules
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Declarative
     KCMUtils
     NewStuff
@@ -114,60 +121,60 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     ItemViews
 )
 
-if (BUILD_ON_V25)
-    add_definitions(-DBUILD_ON_V25)
-    add_subdirectory(kdecoration)
-endif()
-
 find_package(Threads)
 set_package_properties(Threads PROPERTIES
     PURPOSE "Needed for VirtualTerminal support in KWin Wayland"
     TYPE REQUIRED
 )
 
-find_package(KWayland ${KF6_MIN_VERSION} CONFIG)
+find_package(KWayland ${KF_MIN_VERSION} CONFIG)
 set_package_properties(KWayland PROPERTIES
     PURPOSE "Required to build wayland platform plugin and tests"
     TYPE REQUIRED
 )
 
 # optional frameworks
-find_package(KF6Activities ${KF6_MIN_VERSION} CONFIG)
-set_package_properties(KF6Activities PROPERTIES
+find_package(KF${KF_MAJOR_VERSION}Activities ${KF_MIN_VERSION} CONFIG)
+set_package_properties(KF${KF_MAJOR_VERSION}Activities PROPERTIES
     PURPOSE "Enable building of KWin with kactivities support"
     TYPE OPTIONAL
 )
-add_feature_info("KF6Activities" KF6Activities_FOUND "Enable building of KWin with kactivities support")
+add_feature_info("KF${KF_MAJOR_VERSION}Activities" KF${KF_MAJOR_VERSION}Activities_FOUND "Enable building of KWin with kactivities support")
 
-find_package(KF6DocTools ${KF6_MIN_VERSION} CONFIG)
-set_package_properties(KF6DocTools PROPERTIES
+find_package(KF${KF_MAJOR_VERSION}DocTools ${KF_MIN_VERSION} CONFIG)
+set_package_properties(KF${KF_MAJOR_VERSION}DocTools PROPERTIES
     PURPOSE "Enable building documentation"
     TYPE OPTIONAL
 )
-add_feature_info("KF6DocTools" KF6DocTools_FOUND "Enable building documentation")
+add_feature_info("KF${KF_MAJOR_VERSION}DocTools" KF${KF_MAJOR_VERSION}DocTools_FOUND "Enable building documentation")
 
-find_package(KF6Runner ${KF6_MIN_VERSION} CONFIG)
-set_package_properties(KF6Runner PROPERTIES
+find_package(KF${KF_MAJOR_VERSION}Runner ${KF_MIN_VERSION} CONFIG)
+set_package_properties(KF${KF_MAJOR_VERSION}Runner PROPERTIES
     PURPOSE "Enable building of KWin with krunner support"
     TYPE OPTIONAL
     )
-add_feature_info("KF6Runner" KF6Runner_FOUND "Enable building of KWin with krunner support")
+add_feature_info("KF${KF_MAJOR_VERSION}Runner" KF${KF_MAJOR_VERSION}Runner_FOUND "Enable building of KWin with krunner support")
 
-find_package(KF6Kirigami2 ${KF6_MIN_VERSION} CONFIG)
-set_package_properties(KF6Kirigami2 PROPERTIES
+find_package(KF${KF_MAJOR_VERSION}Kirigami2 ${KF_MIN_VERSION} CONFIG)
+set_package_properties(KF${KF_MAJOR_VERSION}Kirigami2 PROPERTIES
     DESCRIPTION "A QtQuick based components set"
     PURPOSE "Required at runtime for Virtual desktop KCM"
     TYPE RUNTIME
 )
 
-# find_package(KDecoration2 ${PROJECT_VERSION} CONFIG)
-# set_package_properties(KDecoration2 PROPERTIES
-#     TYPE REQUIRED
-#     PURPOSE "Required for server side decoration support"
-# )
+if (BUILD_ON_V25)
+    add_definitions(-DBUILD_ON_V25)
+    add_subdirectory(kdecoration)
+else()
+  find_package(KDecoration2 ${PROJECT_VERSION} CONFIG)
+  set_package_properties(KDecoration2 PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Required for server side decoration support"
+  )
+endif()
 
-find_package(KF6KCMUtils ${PROJECT_VERSION} CONFIG)
-find_package(KF6Service ${PROJECT_VERSION} CONFIG)
+find_package(KF${KF_MAJOR_VERSION}KCMUtils ${PROJECT_VERSION} CONFIG)
+find_package(KF${KF_MAJOR_VERSION}Service ${PROJECT_VERSION} CONFIG)
 
 
 # find_package(Breeze 6.0.0 CONFIG)
@@ -185,7 +192,6 @@ find_package(KF6Service ${PROJECT_VERSION} CONFIG)
 #     set(HAVE_BREEZE_DECO FALSE)
 # endif()
 # add_feature_info("Breeze-Decoration" HAVE_BREEZE_DECO "Default decoration plugin Breeze")
-
 set(HAVE_BREEZE_DECO FALSE)
 
 find_package(EGL)
@@ -473,8 +479,8 @@ option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications sup
 option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" ON)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
 option(KWIN_BUILD_XRENDER_COMPOSITING "Enable building of KWin with XRender Compositing support" ON)
-cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KF6Activities_FOUND" OFF)
-cmake_dependent_option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON "KF6Runner_FOUND" OFF)
+cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KF${KF_MAJOR_VERSION}Activities_FOUND" OFF)
+cmake_dependent_option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON "KF${KF_MAJOR_VERSION}Runner_FOUND" OFF)
 
 # KWIN_HAVE_XRENDER_COMPOSITING - whether XRender-based compositing support is available: may be disabled
 if (KWIN_BUILD_XRENDER_COMPOSITING)
@@ -503,7 +509,7 @@ pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.15)
 add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
 
 if (KWIN_BUILD_NOTIFICATIONS)
-    find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Notifications)
+    find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS Notifications)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)
@@ -554,7 +560,7 @@ add_definitions(
     -DEGL_NO_PLATFORM_SPECIFIC_TYPES
 )
 
-if (KF6DocTools_FOUND)
+if (KF${KF_MAJOR_VERSION}DocTools_FOUND)
     add_subdirectory(doc)
     kdoctools_install(po)
 endif()

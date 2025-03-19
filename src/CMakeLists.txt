@@ -14,7 +14,7 @@ set_property(TARGET KWinEffectsInterface PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(KWinEffectsInterface Qt${QT_MAJOR_VERSION}::DBus)
 
 if (ECM_GLOBAL_FIND_VERSION VERSION_LESS ${KDE_COMPILERSETTINGS_LEVEL})
-    set(ECM_GLOBAL_FIND_VERSION ${KF6_CURRENT_VERSION})
+    set(ECM_GLOBAL_FIND_VERSION ${KF${KF_MAJOR_VERSION}_CURRENT_VERSION})
 endif()
 add_subdirectory(effects)
 add_subdirectory(scripts)
@@ -218,12 +218,12 @@ target_sources(kwin PRIVATE
 )
 
 find_package(KGlobalAccelD REQUIRED)
-pkg_check_modules(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt6)
 
-
-target_include_directories(kwin PRIVATE
-    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/kdecoration/src/private>
-)
+if (QT_MAJOR_VERSION EQUAL "5")
+    pkg_check_modules(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt)
+else()
+    pkg_check_modules(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt6)
+endif()
 
 target_link_libraries(kwin
     kwineffects
@@ -236,24 +236,16 @@ target_link_libraries(kwin
     Qt${QT_MAJOR_VERSION}::Svg
     Qt${QT_MAJOR_VERSION}::Gui
 
-    #Qt${QT_MAJOR_VERSION}::X11Extras
 
-    KF6::ConfigCore
-    KF6::ConfigWidgets
-    KF6::CoreAddons
-    KF6::Crash
-    KF6::GlobalAccel
-    #KF6::GlobalAccelPrivate
-    KF6::I18n
-    KF6::Package
-    KF6::Service
-    KF6::WindowSystem
-    Plasma::KWaylandClient
-    K::KGlobalAccelD
-
-    KDecoration2::KDecoration
-    #KDecoration2::KDecoration2Private
-    kdecorations2private
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::ConfigWidgets
+    KF${KF_MAJOR_VERSION}::CoreAddons
+    KF${KF_MAJOR_VERSION}::Crash
+    KF${KF_MAJOR_VERSION}::GlobalAccel
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::Package
+    KF${KF_MAJOR_VERSION}::Service
+    KF${KF_MAJOR_VERSION}::WindowSystem
 
     XCB::COMPOSITE
     XCB::CURSOR
@@ -287,11 +279,27 @@ target_link_libraries(kwin
     -ldl
 )
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(kwin Qt${QT_MAJOR_VERSION}::X11Extras Qt5XkbCommonSupport::Qt5XkbCommonSupport)
+    target_link_libraries(kwin
+        Qt5::X11Extras
+        Qt5XkbCommonSupport::Qt5XkbCommonSupport
+        KF5::GlobalAccelPrivate
+        KDecoration2::KDecoration
+        KDecoration2::KDecoration2Private
+    )
+else()
+    target_link_libraries(kwin
+        Plasma::KWaylandClient
+        K::KGlobalAccelD
+        kdecorations2
+        kdecorations2private
+    )
+    target_include_directories(kwin PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/kdecoration/src/private>
+    )
 endif()
 
 if (KWIN_BUILD_NOTIFICATIONS)
-    target_link_libraries(kwin KF6::Notifications)
+    target_link_libraries(kwin KF${KF_MAJOR_VERSION}::Notifications)
 endif()
 
 kconfig_add_kcfg_files(kwin
@@ -359,7 +367,7 @@ add_subdirectory(xwayland)
 
 if (KWIN_BUILD_ACTIVITIES)
     target_sources(kwin PRIVATE activities.cpp)
-    target_link_libraries(kwin KF6::Activities)
+    target_link_libraries(kwin KF${KF_MAJOR_VERSION}::Activities)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)
@@ -426,9 +434,9 @@ add_subdirectory(plugins)
 
 target_link_libraries(kwin_wayland
     KWinQpaPlugin
-    KF6GlobalAccelKWinPlugin
-    KF6WindowSystemKWinPlugin
-    KF6IdleTimeKWinPlugin
+    KF${KF_MAJOR_VERSION}GlobalAccelKWinPlugin
+    KF${KF_MAJOR_VERSION}WindowSystemKWinPlugin
+    KF${KF_MAJOR_VERSION}IdleTimeKWinPlugin
 )
 
 add_custom_target(
@@ -462,4 +470,6 @@ install(
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kwin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
 # Install the KWin/Script service type
-## install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+if (KF_MAJOR_VERSION EQUAL "5")
+    install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+endif()

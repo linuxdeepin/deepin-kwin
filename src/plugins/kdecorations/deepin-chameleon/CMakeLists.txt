@@ -3,7 +3,7 @@ set(TARGET_NAME "deepin_chameleon")
 add_definitions(-DTARGET_NAME=\\"${TARGET_NAME}\\")
 
 find_package(Qt${QT_MAJOR_VERSION} CONFIG REQUIRED COMPONENTS Core)
-find_package(KF6CoreAddons REQUIRED)
+find_package(KF${KF_MAJOR_VERSION}CoreAddons REQUIRED)
 find_package(Qt${QT_MAJOR_VERSION}DBus REQUIRED)
 find_package(Qt${QT_MAJOR_VERSION}Qml REQUIRED)
 find_package(X11 REQUIRED)

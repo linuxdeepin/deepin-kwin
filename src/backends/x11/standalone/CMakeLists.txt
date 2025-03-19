@@ -19,7 +19,7 @@ set(X11PLATFORM_SOURCES
 )
 
 add_library(KWinX11Platform OBJECT ${X11PLATFORM_SOURCES})
-target_link_libraries(KWinX11Platform kwin KF6::Crash X11 XCB::XKB PkgConfig::XKBX11)
+target_link_libraries(KWinX11Platform kwin KF${KF_MAJOR_VERSION}::Crash X11 XCB::XKB PkgConfig::XKBX11)
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(KWinX11Platform Qt${QT_MAJOR_VERSION}::X11Extras)
 endif()

@@ -35,7 +35,7 @@ find_package(Qt${QT_MAJOR_VERSION} CONFIG REQUIRED COMPONENTS
     Test
 )
 
-find_package(KF6 REQUIRED COMPONENTS
+find_package(KF${KF_MAJOR_VERSION} REQUIRED COMPONENTS
     CoreAddons
     I18n
 )

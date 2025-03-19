@@ -16,5 +16,5 @@ target_link_libraries(kwin4_effect_slidingpopups PRIVATE
     kwin
     kwineffects
 
-    KF6::ConfigGui
+    KF${KF_MAJOR_VERSION}::ConfigGui
 )

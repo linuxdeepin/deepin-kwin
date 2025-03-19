@@ -19,9 +19,9 @@ kwin4_add_effect_module(kwin4_effect_overview ${overview_SOURCES})
 target_link_libraries(kwin4_effect_overview PRIVATE
     kwineffects
 
-    KF6::ConfigGui
-    KF6::GlobalAccel
-    KF6::I18n
+    KF${KF_MAJOR_VERSION}::ConfigGui
+    KF${KF_MAJOR_VERSION}::GlobalAccel
+    KF${KF_MAJOR_VERSION}::I18n
 
     Qt${QT_MAJOR_VERSION}::Quick
 )
