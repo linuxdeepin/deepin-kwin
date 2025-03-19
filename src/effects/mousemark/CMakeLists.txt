@@ -15,9 +15,9 @@ target_link_libraries(kwin4_effect_mousemark PRIVATE
     kwineffects
     kwinglutils
 
-    KF6::ConfigGui
-    KF6::GlobalAccel
-    KF6::I18n
+    KF${KF_MAJOR_VERSION}::ConfigGui
+    KF${KF_MAJOR_VERSION}::GlobalAccel
+    KF${KF_MAJOR_VERSION}::I18n
 )
 
 #######################################
@@ -30,11 +30,11 @@ if (KWIN_BUILD_KCMS)
     kwin_add_effect_config(kwin_mousemark_config ${kwin_mousemark_config_SRCS})
 
     target_link_libraries(kwin_mousemark_config
-        KF6::ConfigWidgets
-        KF6::CoreAddons
-        KF6::GlobalAccel
-        KF6::I18n
-        KF6::XmlGui
+        KF${KF_MAJOR_VERSION}::ConfigWidgets
+        KF${KF_MAJOR_VERSION}::CoreAddons
+        KF${KF_MAJOR_VERSION}::GlobalAccel
+        KF${KF_MAJOR_VERSION}::I18n
+        KF${KF_MAJOR_VERSION}::XmlGui
         KWinEffectsInterface
     )
 endif()

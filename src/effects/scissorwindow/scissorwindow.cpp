@@ -56,7 +56,7 @@ ScissorWindow::ScissorWindow() : Effect() {
                 windowAdded(win);
         }
 #endif
-        // FIXME(rewine): can't use KWindowSystem::windows in KF6
+        // FIXME(rewine): can't use KWindowSystem::windows in KF${KF_MAJOR_VERSION}
 
         connect(effects, &EffectsHandler::windowAdded, this, &ScissorWindow::windowAdded);
         connect(effects, &EffectsHandler::windowDeleted, this, &ScissorWindow::windowDeleted);

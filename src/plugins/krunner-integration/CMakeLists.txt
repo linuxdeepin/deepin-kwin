@@ -15,7 +15,7 @@ set_target_properties(krunnerintegration PROPERTIES
     LIBRARY_OUTPUT_NAME "kwin5_plugin_krunner"
 )
 
-target_link_libraries(krunnerintegration kwin KF6::Runner)
+target_link_libraries(krunnerintegration kwin KF${KF_MAJOR_VERSION}::Runner)
 
 install(TARGETS krunnerintegration DESTINATION ${KDE_INSTALL_PLUGINDIR}/kwin/plugins/)
 install(FILES kwin-runner-windows.desktop DESTINATION ${KDE_INSTALL_DATAROOTDIR}/krunner/dbusplugins)

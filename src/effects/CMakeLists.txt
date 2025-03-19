@@ -30,8 +30,12 @@ function (kwin_strip_builtin_effect_metadata target metadata)
     set_property(TARGET ${target} APPEND PROPERTY AUTOGEN_TARGET_DEPENDS ${stripped_metadata})
 endfunction()
 
-pkg_search_module(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt6)
-find_package(Qt6LinguistTools REQUIRED)
+if (QT_MAJOR_VERSION EQUAL "5")
+    pkg_search_module(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt)
+else()
+    pkg_search_module(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt6)
+endif()
+find_package(Qt${QT_MAJOR_VERSION}LinguistTools REQUIRED)
 
 macro(KWIN4_ADD_EFFECT_MODULE name)
     kcoreaddons_add_plugin(${name} STATIC SOURCES ${ARGN} INSTALL_NAMESPACE "kwin/effects/plugins")
@@ -41,7 +45,9 @@ macro(KWIN4_ADD_EFFECT_MODULE name)
 endmacro()
 
 # Install the KWin/Effect service type
-#install(FILES kwineffect.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+if (KF_MAJOR_VERSION EQUAL "5")
+    install(FILES kwineffect.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+endif()
 
 # scripted effects
 function(install_scripted_effect name)
@@ -68,7 +74,7 @@ install_scripted_effect(translucency)
 install_scripted_effect(windowaperture)
 install_scripted_effect(sessionquit)
 
-find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
    QuickWidgets
 )
 

@@ -11,13 +11,17 @@ kwin4_add_effect_module(kwin4_effect_multitaskview ${multitaskview_SOURCES})
 target_link_libraries(kwin4_effect_multitaskview PRIVATE
     kwineffects
     kwinglutils
-    KF6::GlobalAccel
-    Qt6::DBus
-    #Qt6::X11Extras
-    Qt6::Concurrent
-    Qt6::GuiPrivate
+    KF${KF_MAJOR_VERSION}::GlobalAccel
+    Qt${Qt_MAJOR_VERSION}::DBus
+    Qt${Qt_MAJOR_VERSION}::Concurrent
     PkgConfig::QGSETTINGS
 )
+
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(kwin4_effect_multitaskview PRIVATE Qt5::X11Extras)
+else()
+    target_link_libraries(kwin4_effect_multitaskview PRIVATE Qt6::GuiPrivate)
+endif()
 
 # translations
 file(GLOB TS LIST_DIRECTORIES false translations/multitasking*.ts)

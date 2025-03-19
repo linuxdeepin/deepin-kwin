@@ -7,12 +7,12 @@ set(screenedge_SOURCES
     screenedgeeffect.cpp
 )
 
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Svg)
+find_package(KF${KF_MAJOR_VERSION} ${KF${KF_MAJOR_VERSION}_MIN_VERSION} REQUIRED COMPONENTS Svg)
 
 kwin4_add_effect_module(kwin4_effect_screenedge ${screenedge_SOURCES})
 target_link_libraries(kwin4_effect_screenedge PRIVATE
     kwineffects
     kwinglutils
 
-    KF6::Svg
+    KF${KF_MAJOR_VERSION}::Svg
 )

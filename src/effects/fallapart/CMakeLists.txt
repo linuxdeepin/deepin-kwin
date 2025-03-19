@@ -15,5 +15,5 @@ kwin4_add_effect_module(kwin4_effect_fallapart ${fallapart_SOURCES})
 target_link_libraries(kwin4_effect_fallapart PRIVATE
     kwineffects
 
-    KF6::ConfigGui
+    KF${KF_MAJOR_VERSION}::ConfigGui
 )
