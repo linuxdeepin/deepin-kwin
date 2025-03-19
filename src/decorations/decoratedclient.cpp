@@ -13,13 +13,8 @@
 #include "window.h"
 #include "workspace.h"
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
-#else
-#include "../../kdecoration/src/decoratedclient.h"
-#include "../../kdecoration/src/decoration.h"
-#endif
 
 #include <QDebug>
 #include <QStyle>

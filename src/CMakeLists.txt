@@ -220,8 +220,8 @@ target_sources(kwin PRIVATE
 find_package(KGlobalAccelD REQUIRED)
 pkg_check_modules(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt6)
 
+
 target_include_directories(kwin PRIVATE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/kdecoration/src>
     $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/kdecoration/src/private>
 )
 

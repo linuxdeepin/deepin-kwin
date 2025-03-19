@@ -10,11 +10,7 @@
 
 #include <kwinglobals.h>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KDecoration2/Private/DecorationBridge>
-#else
-#include "private/decorationbridge.h"
-#endif
 
 #include <QObject>
 #include <QSharedPointer>

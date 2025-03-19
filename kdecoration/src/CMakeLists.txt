@@ -35,6 +35,11 @@ ecm_generate_export_header(kdecorations2
 
 add_library(KDecoration2::KDecoration ALIAS kdecorations2)
 
+# Rename to avoid conflict
+set_target_properties(kdecorations2 PROPERTIES
+    LIBRARY_OUTPUT_NAME "kwindecorations2"
+)
+
 target_link_libraries(kdecorations2
     PUBLIC
         Qt::Core

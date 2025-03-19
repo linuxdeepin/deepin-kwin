@@ -9,11 +9,7 @@
 #pragma once
 #include "options.h"
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KDecoration2/Private/DecoratedClientPrivate>
-#else
-#include "decoratedclientprivate.h"
-#endif
 
 #include <QDeadlineTimer>
 #include <QObject>
