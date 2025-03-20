@@ -722,8 +722,13 @@ public Q_SLOTS:
     void updateWindowStates();
     void slotClientMinimizeChanged(KWin::Window *window);
 
+#ifdef BUILD_ON_V25
+    void slotActiveColorChanged(QVariant property);
+    void slotIconThemeChanged(QVariant property);
+#else
     void qtActiveColorChanged();
     void slotIconThemeChanged(const QString &property, const QString &theme);
+#endif
 
     void tileActiveWindow(uint);
     void toggleActiveMaximize();
@@ -1000,8 +1005,10 @@ private:
     QString m_sessionPath;
     bool m_splitBarState;
 
-    ConfigReader *m_fontSizeConfigReader = nullptr;
-    ConfigReader *m_fontFamilyConfigReader = nullptr;
+    std::unique_ptr<ConfigReader> m_colorConfigReader;
+    std::unique_ptr<ConfigReader> m_iconConfigReader;
+    std::unique_ptr<ConfigReader> m_fontSizeConfigReader;
+    std::unique_ptr<ConfigReader> m_fontFamilyConfigReader;
     Window* m_requestMovingClient = nullptr;
     bool m_bIsTouchToMovingClient = false;
 

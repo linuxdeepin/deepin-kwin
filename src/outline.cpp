@@ -9,6 +9,7 @@
 */
 // own
 #include "outline.h"
+#include "workspace.h"
 // KWin
 #include "composite.h"
 #include "main.h"
@@ -143,9 +144,13 @@ bool Outline::isActive() const
 
 QString Outline::ActiveColor()
 {
+#ifdef BUILD_ON_V25
+    return workspace()->ActiveColor();
+#else
     if (m_activeColor.isEmpty())
         m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
     return m_activeColor;
+#endif
 }
 
 void Outline::setActiveColor(QString color)
