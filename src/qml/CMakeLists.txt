@@ -1,4 +1,9 @@
-install(DIRECTORY outline/plasma DESTINATION ${KDE_INSTALL_DATADIR}/kwin/outline)
+if (QT_MAJOR_VERSION EQUAL "5")
+    install(DIRECTORY outline/plasma/ DESTINATION ${KDE_INSTALL_DATADIR}/kwin/outline/plasma)
+else()
+    install(DIRECTORY outline/plasma6/ DESTINATION ${KDE_INSTALL_DATADIR}/kwin/outline/plasma)
+endif()
+
 install(DIRECTORY onscreennotification/plasma DESTINATION ${KDE_INSTALL_DATADIR}/kwin/onscreennotification)
 install(DIRECTORY frames/plasma DESTINATION ${KDE_INSTALL_DATADIR}/kwin/frames)
 install(DIRECTORY tabbox/thumbnail_grid DESTINATION ${CMAKE_INSTALL_PREFIX}/share/kwin/tabbox)
