@@ -39,7 +39,7 @@ if (KWIN_BUILD_KCMS)
         KF${KF_MAJOR_VERSION}::GlobalAccel
         KF${KF_MAJOR_VERSION}::I18n
         KF${KF_MAJOR_VERSION}::XmlGui
-        #Qt${QT_MAJOR_VERSION}::Quick
+        Qt${QT_MAJOR_VERSION}::Quick
         kwineffects
         KWinEffectsInterface
     )

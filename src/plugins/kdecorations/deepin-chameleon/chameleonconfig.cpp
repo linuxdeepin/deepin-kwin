@@ -41,7 +41,8 @@
 #include <QX11Info>
 #else
 #include <private/qtx11extras_p.h>
-#endif #include < QGuiApplication>
+#endif
+#include <QGuiApplication>
 #include <QTimer>
 #include <QtDBus>
 
@@ -571,9 +572,8 @@ static QString readPidEnviron(quint32 pid, const QByteArray &env_key) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     int start_pos = env_data.startsWith(env_key) ? 0 : env_data.indexOf("\0" + env_key);
 #else
-    int index = env_data.indexOf(env_key);
-    int indexAfterNull = env_data.indexOf('\0') + 1;
-    int start_pos = index == 0 ? 0 : env_data.indexOf(env_key, indexAfterNull);
+    const QByteArray env_key_tmp = "\0" + env_key;
+    int start_pos = env_data.startsWith(env_key) ? 0 : env_data.indexOf(env_key_tmp);
 #endif
 
     if (start_pos < 0) {

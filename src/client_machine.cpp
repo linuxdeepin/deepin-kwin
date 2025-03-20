@@ -10,7 +10,7 @@
 #include "client_machine.h"
 #include "main.h"
 #include "utils/common.h"
-// KF${KF_MAJOR_VERSION}
+// KF
 #include <NETWM>
 // Qt
 #include <QFutureWatcher>

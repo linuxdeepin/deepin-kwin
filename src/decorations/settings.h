@@ -9,6 +9,7 @@
 #pragma once
 
 #include <KDecoration2/Private/DecorationSettingsPrivate>
+
 #include <QObject>
 
 class KConfigGroup;

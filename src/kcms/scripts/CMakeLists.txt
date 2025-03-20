@@ -11,13 +11,13 @@ target_sources(kcm_kwin_scripts PRIVATE
 target_link_libraries(kcm_kwin_scripts
     Qt${QT_MAJOR_VERSION}::DBus
 
-    KF6::I18n
-    KF6::KCMUtilsCore
-    KF6::KCMUtils
-    KF6::NewStuffWidgets
-    KF6::Package
-    # KF6::QuickAddons
-    KF6::ItemViews
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KCMUtilsCore
+    KF${KF_MAJOR_VERSION}::KCMUtils
+    KF${KF_MAJOR_VERSION}::NewStuffWidgets
+    KF${KF_MAJOR_VERSION}::Package
+    # KF${KF_MAJOR_VERSION}::QuickAddons
+    KF${KF_MAJOR_VERSION}::ItemViews
 )
 
 kpackage_install_package(package kcm_kwin_scripts kcms)

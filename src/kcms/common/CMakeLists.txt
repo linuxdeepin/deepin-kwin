@@ -28,11 +28,11 @@ add_library(kcmkwincommon SHARED ${kcmkwincommon_SRC})
 target_link_libraries(kcmkwincommon
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::DBus
-    KF6::CoreAddons
-    KF6::ConfigCore
-    KF6::I18n
-    KF6::Package
-    KF6::KCMUtils
+    KF${KF_MAJOR_VERSION}::CoreAddons
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::Package
+    KF${KF_MAJOR_VERSION}::KCMUtils
 )
 
 set_target_properties(kcmkwincommon PROPERTIES

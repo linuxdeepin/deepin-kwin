@@ -32,6 +32,7 @@
 #endif
 #include <QDBusConnection>
 #include <QFontMetrics>
+#include <QSet>
 #include <QTranslator>
 
 #include "workspace.h"
@@ -488,7 +489,7 @@ void MultiViewBackgroundManager::setNewBackground(BgInfo_st &st, QPixmap &deskto
     desktopBg = cutBackgroundPix(st.desktopSize, file);
     m_bgCachedPixmaps[file + strBackgroundPath] = qMakePair(st.desktopSize, desktopBg);
 }
-#include <QSet>
+
 void MultiViewBackgroundManager::setMonitorInfo(QList<QMap<QString,QVariant>> monitorInfoList)
 {
     m_monitorInfoList = monitorInfoList;
@@ -2104,7 +2105,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             return;
         }
 #else
-        if (shortcut.contains(QKeySequence(e->key() | e->modifiers())) || shortcuta.contains(QKeySequence(e->key() | e->modifiers())) || shortcutw.contains(QKeySequence(e->key() | e->modifiers()))) {
+        if (shortcut.contains(e->key() | e->modifiers()) || shortcuta.contains(e->key() | e->modifiers()) || shortcutw.contains(e->key() | e->modifiers())) {
             toggle();
             return;
         }

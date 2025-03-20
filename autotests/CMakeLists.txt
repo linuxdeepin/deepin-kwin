@@ -30,10 +30,10 @@ target_link_libraries(testVirtualDesktops
     Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
 
-    KF6::ConfigCore
-    KF6::GlobalAccel
-    KF6::I18n
-    KF6::WindowSystem
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::GlobalAccel
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::WindowSystem
 )
 add_test(NAME kwin-testVirtualDesktops COMMAND testVirtualDesktops)
 ecm_mark_as_test(testVirtualDesktops)
@@ -54,8 +54,8 @@ target_link_libraries(testClientMachine
     Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
 
-    KF6::ConfigCore
-    KF6::WindowSystem
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::WindowSystem
 
     XCB::XCB
     XCB::XFIXES
@@ -79,8 +79,8 @@ target_link_libraries(testXcbWrapper
     Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
 
-    KF6::ConfigCore
-    KF6::WindowSystem
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::WindowSystem
 
     XCB::XCB
 )
@@ -99,8 +99,8 @@ if (XCB_ICCCM_FOUND)
         Qt${QT_MAJOR_VERSION}::Test
         Qt${QT_MAJOR_VERSION}::Widgets
 
-        KF6::ConfigCore
-        KF6::WindowSystem
+        KF${KF_MAJOR_VERSION}::ConfigCore
+        KF${KF_MAJOR_VERSION}::WindowSystem
 
         XCB::ICCCM
         XCB::XCB
@@ -123,8 +123,8 @@ target_link_libraries(testXcbWindow
     Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets
 
-    KF6::ConfigCore
-    KF6::WindowSystem
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::WindowSystem
 
     XCB::XCB
 )
@@ -154,7 +154,7 @@ target_link_libraries(testOnScreenNotification
     Qt${QT_MAJOR_VERSION}::Test
     Qt${QT_MAJOR_VERSION}::Widgets # QAction include
 
-    KF6::ConfigCore
+    KF${KF_MAJOR_VERSION}::ConfigCore
 )
 
 add_test(NAME kwin-testOnScreenNotification COMMAND testOnScreenNotification)
@@ -181,7 +181,7 @@ ecm_mark_as_test(testGestures)
 ########################################################
 add_executable(testX11TimestampUpdate test_x11_timestamp_update.cpp)
 target_link_libraries(testX11TimestampUpdate
-    KF6::CoreAddons
+    KF${KF_MAJOR_VERSION}::CoreAddons
     Qt${QT_MAJOR_VERSION}::Test
     kwin
 )
@@ -221,8 +221,8 @@ target_link_libraries(testXkb
     Qt${QT_MAJOR_VERSION}::Widgets
     Qt${QT_MAJOR_VERSION}::DBus
 
-    KF6::ConfigCore
-    KF6::WindowSystem
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::WindowSystem
 
     kwineffects
 
