@@ -33,7 +33,6 @@ WheelEvent::WheelEvent(const QPointF &pos, qreal delta, qint32 deltaV120, Qt::Or
 #else
     QWheelEvent(pos, pos, QPoint(), (orientation == Qt::Horizontal) ? QPoint(delta, 0) : QPoint(0, delta),
                 buttons, modifiers, Qt::NoScrollPhase, false, Qt::MouseEventNotSynthesized)
-// TODO(rewine): deltaV120
 #endif
     , m_device(device)
     , m_orientation(orientation)
