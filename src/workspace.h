@@ -181,7 +181,6 @@ public:
     X11Window *findClient(Predicate predicate, xcb_window_t w) const;
     Window* findWaylandWindow(quint32 window) const;
     void forEachClient(std::function<void(X11Window *)> func);
-    void forEachWindow(std::function<void(Window *)> func);
     void forEachAbstractClient(std::function<void(Window *)> func);
     Unmanaged *findUnmanaged(std::function<bool(const Unmanaged *)> func) const;
     /**
@@ -1152,11 +1151,6 @@ inline QPointF Workspace::focusMousePosition() const
 inline void Workspace::forEachClient(std::function<void(X11Window *)> func)
 {
     std::for_each(m_x11Clients.constBegin(), m_x11Clients.constEnd(), func);
-}
-
-inline void Workspace::forEachWindow(std::function<void(Window *)> func)
-{
-    std::for_each(m_allClients.constBegin(), m_allClients.constEnd(), func);
 }
 
 inline void Workspace::forEachUnmanaged(std::function<void(Unmanaged *)> func)

@@ -53,7 +53,6 @@ include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEClangFormat)
 include(KDEGitCommitHooks)
-# why can't found Quick
 
 include(ECMFindQmlModule)
 include(ECMInstallIcons)
@@ -65,11 +64,11 @@ find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     Concurrent
     Core
     DBus
+    Quick
     Svg
     UiTools
     Widgets
 )
-find_package(Qt${QT_MAJOR_VERSION} COMPONENTS Quick QuickControls2 REQUIRED)
 
 if (QT_MAJOR_VERSION EQUAL "5")
     find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)
@@ -454,14 +453,25 @@ set_package_properties(hwdata PROPERTIES
     URL "https://github.com/vcrhonek/hwdata"
 )
 
-find_package(QAccessibilityClient CONFIG)
-set_package_properties(QAccessibilityClient PROPERTIES
-    URL "https://www.kde.org"
-    DESCRIPTION "KDE client-side accessibility library"
-    TYPE OPTIONAL
-    PURPOSE "Required to enable accessibility features"
-)
-set(HAVE_ACCESSIBILITY ${QAccessibilityClient_FOUND})
+if (QT_MAJOR_VERSION EQUAL "5")
+  find_package(QAccessibilityClient CONFIG)
+  set_package_properties(QAccessibilityClient PROPERTIES
+      URL "https://www.kde.org"
+      DESCRIPTION "KDE client-side accessibility library"
+      TYPE OPTIONAL
+      PURPOSE "Required to enable accessibility features"
+  )
+  set(HAVE_ACCESSIBILITY ${QAccessibilityClient_FOUND})
+else()
+  find_package(QAccessibilityClient6 CONFIG)
+  set_package_properties(QAccessibilityClient6 PROPERTIES
+      URL "https://www.kde.org"
+      DESCRIPTION "KDE client-side accessibility library"
+      TYPE OPTIONAL
+      PURPOSE "Required to enable accessibility features"
+  )
+  set(HAVE_ACCESSIBILITY ${QAccessibilityClient6_FOUND})
+endif()
 
 ecm_find_qmlmodule(QtQuick 2.3)
 ecm_find_qmlmodule(QtQuick.Controls 2.15)
@@ -479,8 +489,8 @@ option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications sup
 option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" ON)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
 option(KWIN_BUILD_XRENDER_COMPOSITING "Enable building of KWin with XRender Compositing support" ON)
-cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KF${KF_MAJOR_VERSION}Activities_FOUND" OFF)
-cmake_dependent_option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON "KF${KF_MAJOR_VERSION}Runner_FOUND" OFF)
+cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KFActivities_FOUND" OFF)
+cmake_dependent_option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON "KFRunner_FOUND" OFF)
 
 # KWIN_HAVE_XRENDER_COMPOSITING - whether XRender-based compositing support is available: may be disabled
 if (KWIN_BUILD_XRENDER_COMPOSITING)

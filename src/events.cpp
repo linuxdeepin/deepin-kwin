@@ -1067,8 +1067,7 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
                               x11ToQtMouseButtons(state),
                               modifiers,
                               Qt::NoScrollPhase,
-                              false,
-                              Qt::MouseEventNotSynthesized);
+                              false);
 #endif
             event.setAccepted(false);
             QCoreApplication::sendEvent(decoration(), &event);

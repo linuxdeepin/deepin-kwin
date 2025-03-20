@@ -2,7 +2,7 @@ include_directories(${Libinput_INCLUDE_DIRS})
 
 add_definitions(-DKWIN_BUILD_TESTING)
 add_library(LibInputTestObjects STATIC ../../src/backends/libinput/device.cpp ../../src/backends/libinput/events.cpp ../../src/core/inputdevice.cpp ../../src/mousebuttons.cpp mock_libinput.cpp)
-target_link_libraries(LibInputTestObjects Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Gui KF6::ConfigCore Libinput::Libinput)
+target_link_libraries(LibInputTestObjects Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::DBus Qt${QT_MAJOR_VERSION}::Gui KF${KF_MAJOR_VERSION}::ConfigCore Libinput::Libinput)
 target_include_directories(LibInputTestObjects PUBLIC ${CMAKE_SOURCE_DIR}/src)
 
 ########################################################

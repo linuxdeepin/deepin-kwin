@@ -23,7 +23,7 @@ HighlightWindowEffect::HighlightWindowEffect()
     , m_fadeDuration(animationTime(150))
     , m_monitorWindow(nullptr)
 {
-    // TODO KF${KF_MAJOR_VERSION} remove atom support
+    // TODO KF6 remove atom support
     m_atom = effects->announceSupportProperty("_KDE_WINDOW_HIGHLIGHT", this);
     connect(effects, &EffectsHandler::windowAdded, this, &HighlightWindowEffect::slotWindowAdded);
     connect(effects, &EffectsHandler::windowClosed, this, &HighlightWindowEffect::slotWindowClosed);

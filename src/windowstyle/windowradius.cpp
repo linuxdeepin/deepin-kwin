@@ -54,13 +54,10 @@ int WindowRadius::updateWindowRadius()
 
     int ret = -1;
     QPainterPath path;
-
-    if (kwinApp()->x11Connection()) {
-        const QByteArray &clip_data = effect->readProperty(atoms->deepin_scissor_window, atoms->deepin_scissor_window, 8);
-        if (!clip_data.isEmpty()) {
-            QDataStream ds(clip_data);
-            ds >> path;
-        }
+    const QByteArray &clip_data = effect->readProperty(atoms->deepin_scissor_window, atoms->deepin_scissor_window, 8);
+    if (!clip_data.isEmpty()) {
+        QDataStream ds(clip_data);
+        ds >> path;
     }
 
     if (path.isEmpty()) {

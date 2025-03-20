@@ -17,6 +17,7 @@
 
 #include <KConfigGroup>
 #include <KDecoration2/DecorationSettings>
+
 #include <QFontDatabase>
 
 namespace KWin

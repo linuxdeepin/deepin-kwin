@@ -217,8 +217,6 @@ target_sources(kwin PRIVATE
     debugpixmap.cpp
 )
 
-find_package(KGlobalAccelD REQUIRED)
-
 if (QT_MAJOR_VERSION EQUAL "5")
     pkg_check_modules(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt)
 else()
@@ -287,6 +285,7 @@ if (QT_MAJOR_VERSION EQUAL "5")
         KDecoration2::KDecoration2Private
     )
 else()
+    find_package(KGlobalAccelD REQUIRED)
     target_link_libraries(kwin
         Plasma::KWaylandClient
         K::KGlobalAccelD

@@ -270,6 +270,7 @@ void ChameleonButton::mouseReleaseEvent(QMouseEvent *event)
 #endif
     m_isMaxAvailble = true;
 }
+
 void ChameleonButton::onCompositorChanged(bool active)
 {
     if (!active) {

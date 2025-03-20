@@ -306,8 +306,8 @@ void ApplicationX11::performStartup()
         notifyStarted();
 
 #ifdef BUILD_ON_V25
-        // Fix "Authorization required, but no authorization protocol specified" in x11
-	    QTimer::singleShot(100, this, [=] {
+        // systemd support
+        QTimer::singleShot(100, this, [=] {
             sd_notify(0, "READY=1");
         });
 #endif

@@ -215,6 +215,7 @@ void PointerInterface::sendButton(quint32 button, PointerButtonState state, quin
         d->send_button(resource->handle, serial, d->seat->timestamp().count(), button, quint32(state));
     }
 }
+
 static bool shouldResetAccumulator(int accumulator, int delta)
 {
     // Reset the accumulator if the delta has opposite sign.
