@@ -412,7 +412,6 @@ QString MultiViewBackgroundManager::getRandBackground()
             qsrand((uint)QTime::currentTime().msec());
             backgroundIndex = qrand() % (backgroundIndex - 1);
 #else
-            QRandomGenerator::global()->seed(QDateTime::currentMSecsSinceEpoch());
             backgroundIndex = QRandomGenerator::global()->bounded(backgroundIndex - 1);
 #endif
 
