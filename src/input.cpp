@@ -1232,13 +1232,10 @@ class InternalWindowEventFilter : public InputEventFilter
                                false);
 #else
         const QPointF localPos = event->globalPosition() - internal->position();
-        // rewine
         QWheelEvent wheelEvent(localPos,
                                event->globalPosition(),
                                QPoint(),
-                               // event->angleDelta() * -1,
-                               // event->delta(),
-                               (event->orientation() == Qt::Horizontal) ? QPoint(event->delta(), 0) : QPoint(0, event->delta()),
+                               event->angleDelta() * -1,
                                event->buttons(),
                                event->modifiers(),
                                Qt::NoScrollPhase,
@@ -1491,15 +1488,12 @@ public:
         QWheelEvent e(localPos,
                       event->globalPosition(),
                       QPoint(),
-                      // event->angleDelta() * -1,
-                      // event->delta(),
-                      (event->orientation() == Qt::Horizontal) ? QPoint(event->delta(), 0) : QPoint(0, event->delta()),
+                      event->angleDelta(),
                       event->buttons(),
                       event->modifiers(),
                       Qt::NoScrollPhase,
                       false,
                       event->source());
-        // rewine
 #endif
         e.setAccepted(false);
         QCoreApplication::sendEvent(decoration, &e);
