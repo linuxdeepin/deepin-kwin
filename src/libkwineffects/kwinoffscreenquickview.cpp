@@ -316,7 +316,12 @@ void OffscreenQuickView::update()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         d->m_image = d->m_renderControl->grab();
 #else
-        d->m_image = d->m_view->grabWindow();
+        if (usingGl) {
+            d->m_image = d->m_fbo->toImage();
+            d->m_image.setDevicePixelRatio(d->m_view->devicePixelRatio());
+        } else {
+            d->m_image = d->m_view->grabWindow();
+        }
 #endif
     }
 
