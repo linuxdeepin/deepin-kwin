@@ -114,7 +114,11 @@ protected:
             Q_EMIT available();
 
             m_mutex.lock();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             while (!m_reading.load() && !m_quitting) {
+#else
+            while (!m_reading.loadRelaxed() && !m_quitting) {
+#endif
                 m_cond.wait(&m_mutex);
             }
             m_mutex.unlock();

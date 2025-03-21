@@ -59,6 +59,7 @@ bool WindowEffects::isEffectAvailable(KWindowEffects::Effect effect)
     }
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void WindowEffects::slideWindow(WId id, KWindowEffects::SlideFromLocation location, int offset)
 {
     auto w = findWindow(id);
@@ -68,32 +69,34 @@ void WindowEffects::slideWindow(WId id, KWindowEffects::SlideFromLocation locati
     w->setProperty("kwin_slide", QVariant::fromValue(location));
     w->setProperty("kwin_slide_offset", offset);
 }
+#endif
 
-#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 81)
+#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 81) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 QList<QSize> WindowEffects::windowSizes(const QList<WId> &ids)
 {
     return {};
 }
 #endif
 
-#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 82)
+#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 82) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void WindowEffects::presentWindows(WId controller, const QList<WId> &ids)
 {
 }
 #endif
 
-#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 82)
+#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 82) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void WindowEffects::presentWindows(WId controller, int desktop)
 {
 }
 #endif
 
-#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 82)
+#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 82) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void WindowEffects::highlightWindows(WId controller, const QList<WId> &ids)
 {
 }
 #endif
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void WindowEffects::enableBlurBehind(WId window, bool enable, const QRegion &region)
 {
     auto w = findWindow(window);
@@ -125,8 +128,41 @@ void WindowEffects::enableBackgroundContrast(WId window, bool enable, qreal cont
         w->setProperty("kwin_background_saturation", {});
     }
 }
+#endif
 
-#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 67)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void WindowEffects::slideWindow(QWindow *window, KWindowEffects::SlideFromLocation location, int offset)
+{
+    window->setProperty("kwin_slide", QVariant::fromValue(location));
+    window->setProperty("kwin_slide_offset", offset);
+}
+
+void WindowEffects::enableBlurBehind(QWindow *window, bool enable, const QRegion &region)
+{
+    if (enable) {
+        window->setProperty("kwin_blur", region);
+    } else {
+        window->setProperty("kwin_blur", {});
+    }
+}
+
+void WindowEffects::enableBackgroundContrast(QWindow *window, bool enable, qreal contrast, qreal intensity, qreal saturation, const QRegion &region)
+{
+    if (enable) {
+        window->setProperty("kwin_background_region", region);
+        window->setProperty("kwin_background_contrast", contrast);
+        window->setProperty("kwin_background_intensity", intensity);
+        window->setProperty("kwin_background_saturation", saturation);
+    } else {
+        window->setProperty("kwin_background_region", {});
+        window->setProperty("kwin_background_contrast", {});
+        window->setProperty("kwin_background_intensity", {});
+        window->setProperty("kwin_background_saturation", {});
+    }
+}
+#endif
+
+#if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 67) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void WindowEffects::markAsDashboard(WId window)
 {
 }

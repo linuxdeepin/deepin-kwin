@@ -86,7 +86,11 @@ private:
     void applyScreenToDevice(Device *device);
     void doSetup();
     std::unique_ptr<QSocketNotifier> m_notifier;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMutex m_mutex;
+#else
+    QRecursiveMutex m_mutex;
+#endif
     std::deque<std::unique_ptr<Event>> m_eventQueue;
     QVector<Device *> m_devices;
     KSharedConfigPtr m_config;

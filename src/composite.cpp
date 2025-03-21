@@ -19,6 +19,7 @@
 #include "cursordelegate_opengl.h"
 #include "cursordelegate_qpainter.h"
 #include "dbusinterface.h"
+#include "debugpixmap.h"
 #include "decorations/decoratedclient.h"
 #include "deleted.h"
 #include "effects.h"
@@ -26,7 +27,6 @@
 #include "internalwindow.h"
 #include "openglbackend.h"
 #include "qpainterbackend.h"
-#include "xrenderbackend.h"
 #include "scene/cursorscene.h"
 #include "scene/itemrenderer_opengl.h"
 #include "scene/itemrenderer_qpainter.h"
@@ -39,14 +39,14 @@
 #include "unmanaged.h"
 #include "useractions.h"
 #include "utils/common.h"
-#include "utils/xcbutils.h"
 #include "utils/dconfig_reader.h"
+#include "utils/xcbutils.h"
 #include "wayland/surface_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11syncmanager.h"
 #include "x11window.h"
-#include "debugpixmap.h"
+#include "xrenderbackend.h"
 
 #include <kwinglplatform.h>
 #include <kwingltexture.h>
@@ -67,7 +67,7 @@
 
 #include <QDateTime>
 #include <QFutureWatcher>
-#include <QGSettings/QGSettings>
+#include <QGSettings>
 #include <QMenu>
 #include <QOpenGLContext>
 #include <QQuickWindow>

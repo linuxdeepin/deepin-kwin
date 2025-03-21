@@ -27,7 +27,11 @@
 #include <QTemporaryFile>
 
 #include <KSignalHandler>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <UpdateLaunchEnvironmentJob>
+#else
+#include <KUpdateLaunchEnvironmentJob>
+#endif
 
 #include <signal.h>
 
@@ -148,11 +152,19 @@ void KWinWrapper::run()
         }
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto envSyncJob = new UpdateLaunchEnvironmentJob(env);
     connect(envSyncJob, &UpdateLaunchEnvironmentJob::finished, this, []() {
         // The service name is merely there to indicate to the world that we're up and ready with all envs exported
         QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.KWinWrapper"));
     });
+#else
+    auto envSyncJob = new KUpdateLaunchEnvironmentJob(env);
+    connect(envSyncJob, &KUpdateLaunchEnvironmentJob::finished, this, []() {
+        // The service name is merely there to indicate to the world that we're up and ready with all envs exported
+        QDBusConnection::sessionBus().registerService(QStringLiteral("org.kde.KWinWrapper"));
+    });
+#endif
 }
 
 int main(int argc, char **argv)

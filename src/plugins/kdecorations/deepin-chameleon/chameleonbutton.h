@@ -21,9 +21,9 @@
 #ifndef CHAMELEONBUTTON_H
 #define CHAMELEONBUTTON_H
 
+#include "kwineffects.h"
 #include <KDecoration2/DecorationButton>
 #include <QTimer>
-#include "kwineffects.h"
 
 class ChameleonButton : KDecoration2::DecorationButton
 {

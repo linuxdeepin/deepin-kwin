@@ -820,7 +820,6 @@ void ConfigurationModule::initQml()
     QEvent le(QEvent::LanguageChange);
     QCoreApplication::sendEvent(customConfigForm, &le);
 }
-
 }
 
 #include "aurorae.moc"

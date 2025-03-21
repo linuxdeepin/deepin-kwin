@@ -32,13 +32,13 @@ kcoreaddons_add_plugin(kcm_kwinscreenedges SOURCES ${kcm_kwinscreenedges_PART_SR
 set(kcm_screenedges_LIBS
     Qt${QT_MAJOR_VERSION}::DBus
 
-    KF5::ConfigCore
-    KF5::ConfigWidgets
-    KF5::KCMUtils
-    KF5::I18n
-    KF5::Package
-    KF5::Plasma
-    KF5::Service
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::ConfigWidgets
+    KF${KF_MAJOR_VERSION}::KCMUtils
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::Package
+    # KF${KF_MAJOR_VERSION}::Plasma
+    KF${KF_MAJOR_VERSION}::Service
 )
 target_link_libraries(kcm_kwinscreenedges ${X11_LIBRARIES} ${kcm_screenedges_LIBS})
 

@@ -50,7 +50,11 @@ QVariant DecorationsModel::data(const QModelIndex &index, int role) const
     case ThemeNameRole:
         return d.themeName();
     case ConfigurationRole:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         return d.hasConfiguration();
+#else
+        return !d.configurationName().isEmpty();
+#endif
     case RecommendedBorderSizeRole:
         return Utils::borderSizeToString(d.borderSize());
     }
@@ -76,14 +80,17 @@ static bool isThemeEngine(const QVariantMap &decoSettingsMap)
     return it.value().toBool();
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 static bool isConfigureable(const QVariantMap &decoSettingsMap)
 {
     auto it = decoSettingsMap.find(QStringLiteral("kcmodule"));
+    // WARNING: The use of 'kcmodule' is deprecated in KF6
     if (it == decoSettingsMap.end()) {
         return false;
     }
     return it.value().toBool();
 }
+#endif
 
 static KDecoration2::BorderSize recommendedBorderSize(const QVariantMap &decoSettingsMap)
 {
@@ -142,7 +149,12 @@ void DecorationsModel::init()
                 continue;
             }
         }
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         data.setHasConfiguration(isConfigureable(decoSettingsMap));
+#else
+        data.setConfigurationName(info.value("X-KDE-ConfigModule"));
+#endif
         data.setBorderSize(recommendedBorderSize(decoSettingsMap));
         data.setVisibleName(info.name().isEmpty() ? info.pluginId() : info.name());
         data.setPluginId(info.pluginId());

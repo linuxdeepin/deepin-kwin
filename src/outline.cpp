@@ -9,6 +9,7 @@
 */
 // own
 #include "outline.h"
+#include "workspace.h"
 // KWin
 #include "composite.h"
 #include "main.h"
@@ -25,9 +26,15 @@
 #include <QStandardPaths>
 #include <qdbusinterface.h>
 
-#define KWinDBusService "com.deepin.daemon.Appearance"
-#define KWinDBusPath    "/com/deepin/daemon/Appearance"
-#define KWinDBusInterface "com.deepin.daemon.Appearance"
+#ifdef BUILD_ON_V25
+    #define KWinDBusService "org.deepin.dde.Appearance1"
+    #define KWinDBusPath "/org/deepin/dde/Appearance1"
+    #define KWinDBusInterface "org.deepin.dde.Appearance1"
+#else
+    #define KWinDBusService "com.deepin.daemon.Appearance"
+    #define KWinDBusPath    "/com/deepin/daemon/Appearance"
+    #define KWinDBusInterface "com.deepin.daemon.Appearance"
+#endif
 
 namespace KWin
 {
@@ -137,9 +144,13 @@ bool Outline::isActive() const
 
 QString Outline::ActiveColor()
 {
+#ifdef BUILD_ON_V25
+    return workspace()->ActiveColor();
+#else
     if (m_activeColor.isEmpty())
         m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
     return m_activeColor;
+#endif
 }
 
 void Outline::setActiveColor(QString color)

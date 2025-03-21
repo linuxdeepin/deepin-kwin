@@ -35,9 +35,17 @@
 #define DBUS_DEEPIN_WM_SERVICE "com.deepin.wm"
 #define DBUS_DEEPIN_WM_OBJ "/com/deepin/wm"
 #define DBUS_DEEPIN_WM_INTF "com.deepin.wm"
-#define KWinDBusService "com.deepin.daemon.Appearance"
-#define KWinDBusPath    "/com/deepin/daemon/Appearance"
-#define KWinDBusInterface "com.deepin.daemon.Appearance"
+
+#ifdef BUILD_ON_V25
+    #define KWinDBusService "org.deepin.dde.Appearance1"
+    #define KWinDBusPath "/org/deepin/dde/Appearance1"
+    #define KWinDBusInterface "org.deepin.dde.Appearance1"
+#else
+    #define KWinDBusService "com.deepin.daemon.Appearance"
+    #define KWinDBusPath    "/com/deepin/daemon/Appearance"
+    #define KWinDBusInterface "com.deepin.daemon.Appearance"
+#endif
+
 #define KWinDBusPropertyInterface "org.freedesktop.DBus.Properties"
 
 #define DBUS_LOGIN_SERVICE       "org.freedesktop.login1"
@@ -616,10 +624,12 @@ public:
         return m_pids;
     }
 
+#ifndef BUILD_ON_V25
     void setDockLastPosition(QRectF rect);
     QRectF getDockLastPosition();
-    int getDockHiddenState();
+#endif
     int getDockDirection();
+
     bool getBlurStatus();
     bool isEffectDuring() { return m_isEffectDuring; }
     void setEffectDuringState(bool state) { m_isEffectDuring = state; }
@@ -711,12 +721,19 @@ public Q_SLOTS:
     void updateWindowStates();
     void slotClientMinimizeChanged(KWin::Window *window);
 
+#ifdef BUILD_ON_V25
+    void slotActiveColorChanged(QVariant property);
+    void slotIconThemeChanged(QVariant property);
+#else
     void qtActiveColorChanged();
     void slotIconThemeChanged(const QString &property, const QString &theme);
+#endif
 
     void tileActiveWindow(uint);
     void toggleActiveMaximize();
+#ifndef BUILD_ON_V25
     void slotDockPositionChanged();
+#endif
     void slotShowingDesktopEffectChanged(bool);
 
     void setCurrentPaintingScreen(Output *output) {
@@ -987,8 +1004,10 @@ private:
     QString m_sessionPath;
     bool m_splitBarState;
 
-    ConfigReader *m_fontSizeConfigReader = nullptr;
-    ConfigReader *m_fontFamilyConfigReader = nullptr;
+    std::unique_ptr<ConfigReader> m_colorConfigReader;
+    std::unique_ptr<ConfigReader> m_iconConfigReader;
+    std::unique_ptr<ConfigReader> m_fontSizeConfigReader;
+    std::unique_ptr<ConfigReader> m_fontFamilyConfigReader;
     Window* m_requestMovingClient = nullptr;
     bool m_bIsTouchToMovingClient = false;
 
@@ -1003,8 +1022,10 @@ private:
 
     bool m_forceDisableRadius = false;
 
+#ifndef BUILD_ON_V25
     QRectF m_lastDockPos = QRectF();
     DBusDock *m_dockInter = nullptr;
+#endif
     QString m_perferredCursorOutput = "";
 
     xcb_window_t m_clientIDHandlingMouseCommand = 0;

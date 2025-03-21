@@ -10,10 +10,17 @@
 #include <kwineffects.h>
 
 class QTimer;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 namespace Plasma
 {
 class Svg;
 }
+#else
+namespace KSvg
+{
+class Svg;
+}
+#endif
 
 namespace KWin
 {
@@ -47,7 +54,11 @@ private:
     template<typename T>
     T *createEdgeGlow(ElectricBorder border, const QSize &size);
     QSize cornerGlowSize(ElectricBorder border);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     Plasma::Svg *m_glow = nullptr;
+#else
+    KSvg::Svg *m_glow = nullptr;
+#endif
     std::map<ElectricBorder, std::unique_ptr<Glow>> m_borders;
     QTimer *m_cleanupTimer;
 };

@@ -27,12 +27,12 @@ kcoreaddons_add_plugin(kcm_kwintabbox SOURCES ${kcm_kwintabbox_PART_SRCS} INSTAL
 target_link_libraries(kcm_kwintabbox
     Qt${QT_MAJOR_VERSION}::Quick
 
-    KF5::GlobalAccel
-    KF5::I18n
-    KF5::KCMUtils
-    KF5::NewStuffWidgets
-    KF5::Package
-    KF5::Service
+    KF${KF_MAJOR_VERSION}::GlobalAccel
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KCMUtils
+    KF${KF_MAJOR_VERSION}::NewStuffWidgets
+    KF${KF_MAJOR_VERSION}::Package
+    KF${KF_MAJOR_VERSION}::Service
 
     XCB::XCB
 )

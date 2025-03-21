@@ -28,13 +28,13 @@
 
 #include <kwineffects.h>
 
-#include <QVariant>
-#include <QDir>
-#include <QSettings>
-#include <QScreen>
-#include <QPainterPath>
-#include <QFont>
 #include "wayland/ddeshell_interface.h"
+#include <QDir>
+#include <QFont>
+#include <QPainterPath>
+#include <QScreen>
+#include <QSettings>
+#include <QVariant>
 
 class Settings;
 class ChameleonWindowTheme;

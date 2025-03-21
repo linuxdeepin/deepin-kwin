@@ -237,20 +237,20 @@ bool Shadow::init(KDecoration2::Decoration *decoration)
 {
     if (m_decorationShadow) {
         // disconnect previous connections
-        disconnect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::innerShadowRectChanged, m_window, &Window::updateShadow);
-        disconnect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::shadowChanged, m_window, &Window::updateShadow);
-        disconnect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::paddingChanged, m_window, &Window::updateShadow);
+        disconnect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::innerShadowRectChanged, m_window, &Window::updateShadow);
+        disconnect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::shadowChanged, m_window, &Window::updateShadow);
+        disconnect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::paddingChanged, m_window, &Window::updateShadow);
     }
     m_decorationShadow = decoration->shadow();
     if (!m_decorationShadow) {
         return false;
     }
     // setup connections - all just mapped to recreate
-    connect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::innerShadowRectChanged, m_window, &Window::updateShadow);
-    connect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::shadowChanged, m_window, &Window::updateShadow);
-    connect(m_decorationShadow.data(), &KDecoration2::DecorationShadow::paddingChanged, m_window, &Window::updateShadow);
-
+    connect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::innerShadowRectChanged, m_window, &Window::updateShadow);
+    connect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::shadowChanged, m_window, &Window::updateShadow);
+    connect(m_decorationShadow.get(), &KDecoration2::DecorationShadow::paddingChanged, m_window, &Window::updateShadow);
     m_offset = m_decorationShadow->padding();
+
     Q_EMIT offsetChanged();
     if (!prepareBackend()) {
         return false;
@@ -395,7 +395,11 @@ QImage Shadow::decorationShadowImage() const
     return m_decorationShadow->shadow();
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 QSize Shadow::elementSize(Shadow::ShadowElements element) const
+#else
+QSizeF Shadow::elementSize(Shadow::ShadowElements element) const
+#endif
 {
     if (m_decorationShadow) {
         switch (element) {

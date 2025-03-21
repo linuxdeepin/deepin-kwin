@@ -14,7 +14,7 @@ kwin4_add_effect_module(kwin4_effect_magiclamp ${magiclamp_SOURCES})
 target_link_libraries(kwin4_effect_magiclamp PRIVATE
     kwineffects
 
-    KF5::ConfigGui
+    KF${KF_MAJOR_VERSION}::ConfigGui
 )
 
 #######################################
@@ -27,9 +27,11 @@ if (KWIN_BUILD_KCMS)
     kwin_add_effect_config(kwin_magiclamp_config ${kwin_magiclamp_config_SRCS})
 
     target_link_libraries(kwin_magiclamp_config
-        KF5::ConfigWidgets
-        KF5::CoreAddons
-        KF5::I18n
+        KF${KF_MAJOR_VERSION}::ConfigWidgets
+        KF${KF_MAJOR_VERSION}::CoreAddons
+        KF${KF_MAJOR_VERSION}::I18n
+        KF${KF_MAJOR_VERSION}::KCMUtils
+
         Qt${QT_MAJOR_VERSION}::DBus
         KWinEffectsInterface
     )

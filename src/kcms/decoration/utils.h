@@ -24,5 +24,4 @@ KDecoration2::BorderSize stringToBorderSize(const QString &name);
 QString borderSizeToString(KDecoration2::BorderSize size);
 
 const QMap<KDecoration2::BorderSize, QString> &getBorderSizeNames();
-
 }

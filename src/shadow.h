@@ -106,13 +106,21 @@ public:
         ShadowBottomOffse = ShadowTopOffse + 2,
         ShadowLeftOffse = ShadowTopOffse + 3
     };
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QSize elementSize(ShadowElements element) const;
+#else
+    QSizeF elementSize(ShadowElements element) const;
+#endif
 
     QRectF rect() const
     {
         return QRectF(QPoint(0, 0), m_cachedSize);
     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMargins offset() const
+#else
+    QMarginsF offset() const
+#endif
     {
         return m_offset;
     }
@@ -152,7 +160,11 @@ private:
     // shadow elements
     QImage m_shadowElements[ShadowElementsCount];
     // shadow offsets
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMargins m_offset;
+#else
+    QMarginsF m_offset;
+#endif
     // caches
     QSizeF m_cachedSize;
     // Decoration based shadows

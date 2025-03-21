@@ -9,9 +9,9 @@ if (KWIN_BUILD_KCMS)
     endif()
     add_library(kcm_kwin4_genericscripted MODULE ${kcm_kwin4_genericscripted_SRCS})
     target_link_libraries(kcm_kwin4_genericscripted
-        KF5::ConfigWidgets #KCModule
-        KF5::I18n
-        KF5::Service
+        KF${KF_MAJOR_VERSION}::ConfigWidgets #KCModule
+        KF${KF_MAJOR_VERSION}::I18n
+        KF${KF_MAJOR_VERSION}::Service
         Qt${QT_MAJOR_VERSION}::DBus
         Qt${QT_MAJOR_VERSION}::UiTools
         kwineffects

@@ -50,10 +50,14 @@ ScissorWindow::ScissorWindow() : Effect() {
                                                                                ":/effects/scissor/fillet.frag");
 
     {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         for (int i = 0; i < KWindowSystem::windows().count(); ++i) {
             if (EffectWindow *win = effects->findWindow(KWindowSystem::windows().at(i)))
                 windowAdded(win);
         }
+#endif
+        // FIXME(rewine): can't use KWindowSystem::windows in KF6
+
         connect(effects, &EffectsHandler::windowAdded, this, &ScissorWindow::windowAdded);
         connect(effects, &EffectsHandler::windowDeleted, this, &ScissorWindow::windowDeleted);
     }

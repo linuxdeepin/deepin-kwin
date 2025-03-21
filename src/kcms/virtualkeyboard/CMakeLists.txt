@@ -16,9 +16,9 @@ kcoreaddons_add_plugin(kcm_virtualkeyboard SOURCES kcmvirtualkeyboard.cpp ${kcm_
 target_include_directories(kcm_virtualkeyboard PRIVATE ${CMAKE_SOURCE_DIR})
 
 target_link_libraries(kcm_virtualkeyboard
-    KF5::I18n
-    KF5::KCMUtils
-    KF5::QuickAddons
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KCMUtils
+    # KF${KF_MAJOR_VERSION}::QuickAddons
 )
 
 kpackage_install_package(package kcm_virtualkeyboard kcms)

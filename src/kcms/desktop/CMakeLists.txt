@@ -18,10 +18,10 @@ kcoreaddons_add_plugin(kcm_kwin_virtualdesktops SOURCES ${kcm_kwin_virtualdeskto
 target_link_libraries(kcm_kwin_virtualdesktops
     Qt${QT_MAJOR_VERSION}::DBus
 
-    KF5::I18n
-    KF5::KCMUtils
-    KF5::QuickAddons
-    KF5::XmlGui
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KCMUtils
+    # KF${KF_MAJOR_VERSION}::QuickAddons
+    KF${KF_MAJOR_VERSION}::XmlGui
 
     kcmkwincommon
 )

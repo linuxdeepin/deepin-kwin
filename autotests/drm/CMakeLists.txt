@@ -38,10 +38,10 @@ add_library(LibDrmTest STATIC ${mockDRM_SRCS})
 target_link_libraries(LibDrmTest
     Qt${QT_MAJOR_VERSION}::Gui
     Qt${QT_MAJOR_VERSION}::Widgets
-    KF5::ConfigCore
-    KF5::WindowSystem
-    KF5::CoreAddons
-    KF5::I18n
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::WindowSystem
+    KF${KF_MAJOR_VERSION}::CoreAddons
+    KF${KF_MAJOR_VERSION}::I18n
     XCB::XCB
     PkgConfig::Libxcvt
     gbm::gbm

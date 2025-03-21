@@ -1,16 +1,28 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(PROJECT_VERSION "5.27.2") # Handled by release scripts
 set(DVERSION "5.27.2" CACHE STRING "define project version")
-project(KWin VERSION ${PROJECT_VERSION})
+project(KWin VERSION ${DVERSION})
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(QT_MIN_VERSION "5.11.3")
-set(KF5_MIN_VERSION "5.54.0")
-set(KF5_CURRENT_VERSION "5.102.0")
+set(BUILD_ON_V25 ON)
+
+if (BUILD_ON_V25)
+  set(QT_MAJOR_VERSION "6")
+  set(KF_MAJOR_VERSION "6")
+  set(QT_MIN_VERSION "6.0.0")
+  set(KF_MIN_VERSION "6.0.0")
+  set(KF_CURRENT_VERSION "6.0.0")
+else()
+  set(QT_MAJOR_VERSION "5")
+  set(KF_MAJOR_VERSION "5")
+  set(QT_MIN_VERSION "5.11.3")
+  set(KF_MIN_VERSION "5.54.0")
+  set(KF_CURRENT_VERSION "5.102.0")
+endif()
+
 set(KDE_COMPILERSETTINGS_LEVEL "5.54")
 
 if(MEMCHECK)
@@ -21,7 +33,7 @@ if(MEMCHECK)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address")
 endif()
 
-find_package(ECM "${KF5_CURRENT_VERSION}" REQUIRED NO_MODULE)
+find_package(ECM "${KF_CURRENT_VERSION}" REQUIRED NO_MODULE)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${ECM_MODULE_PATH})
@@ -48,7 +60,7 @@ include(ECMOptionalAddSubdirectory)
 include(ECMConfiguredInstall)
 include(ECMQtDeclareLoggingCategory)
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     Concurrent
     Core
     DBus
@@ -57,6 +69,7 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     UiTools
     Widgets
 )
+
 if (QT_MAJOR_VERSION EQUAL "5")
     find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)
     find_package(Qt5XkbCommonSupport REQUIRED)
@@ -78,7 +91,7 @@ if (NOT Qt${QT_MAJOR_VERSION}Test_FOUND)
 endif()
 
 # required frameworks by Core
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Auth
     Config
     ConfigWidgets
@@ -89,12 +102,16 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     I18n
     IdleTime
     Package
-    Plasma
     WidgetsAddons
     WindowSystem
 )
+
+if (KF_MAJOR_VERSION EQUAL "5")
+  find_package(KF5 REQUIRED COMPONENTS Plasma)
+endif()
+
 # required frameworks by config modules
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Declarative
     KCMUtils
     NewStuff
@@ -109,62 +126,72 @@ set_package_properties(Threads PROPERTIES
     TYPE REQUIRED
 )
 
-find_package(KF5Wayland ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5Wayland PROPERTIES
+find_package(KWayland ${KF_MIN_VERSION} CONFIG)
+set_package_properties(KWayland PROPERTIES
     PURPOSE "Required to build wayland platform plugin and tests"
     TYPE REQUIRED
 )
 
 # optional frameworks
-find_package(KF5Activities ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5Activities PROPERTIES
+find_package(KF${KF_MAJOR_VERSION}Activities ${KF_MIN_VERSION} CONFIG)
+set_package_properties(KF${KF_MAJOR_VERSION}Activities PROPERTIES
     PURPOSE "Enable building of KWin with kactivities support"
     TYPE OPTIONAL
 )
-add_feature_info("KF5Activities" KF5Activities_FOUND "Enable building of KWin with kactivities support")
+add_feature_info("KF${KF_MAJOR_VERSION}Activities" KF${KF_MAJOR_VERSION}Activities_FOUND "Enable building of KWin with kactivities support")
 
-find_package(KF5DocTools ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5DocTools PROPERTIES
+find_package(KF${KF_MAJOR_VERSION}DocTools ${KF_MIN_VERSION} CONFIG)
+set_package_properties(KF${KF_MAJOR_VERSION}DocTools PROPERTIES
     PURPOSE "Enable building documentation"
     TYPE OPTIONAL
 )
-add_feature_info("KF5DocTools" KF5DocTools_FOUND "Enable building documentation")
+add_feature_info("KF${KF_MAJOR_VERSION}DocTools" KF${KF_MAJOR_VERSION}DocTools_FOUND "Enable building documentation")
 
-find_package(KF5Runner ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5Runner PROPERTIES
+find_package(KF${KF_MAJOR_VERSION}Runner ${KF_MIN_VERSION} CONFIG)
+set_package_properties(KF${KF_MAJOR_VERSION}Runner PROPERTIES
     PURPOSE "Enable building of KWin with krunner support"
     TYPE OPTIONAL
     )
-add_feature_info("KF5Runner" KF5Runner_FOUND "Enable building of KWin with krunner support")
+add_feature_info("KF${KF_MAJOR_VERSION}Runner" KF${KF_MAJOR_VERSION}Runner_FOUND "Enable building of KWin with krunner support")
 
-find_package(KF5Kirigami2 ${KF5_MIN_VERSION} CONFIG)
-set_package_properties(KF5Kirigami2 PROPERTIES
+find_package(KF${KF_MAJOR_VERSION}Kirigami2 ${KF_MIN_VERSION} CONFIG)
+set_package_properties(KF${KF_MAJOR_VERSION}Kirigami2 PROPERTIES
     DESCRIPTION "A QtQuick based components set"
     PURPOSE "Required at runtime for Virtual desktop KCM"
     TYPE RUNTIME
 )
 
-find_package(KDecoration2 ${PROJECT_VERSION} CONFIG)
-set_package_properties(KDecoration2 PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Required for server side decoration support"
-)
-
-find_package(Breeze 5.9.0 CONFIG)
-set_package_properties(Breeze PROPERTIES
-    TYPE OPTIONAL
-    PURPOSE "For setting the default window decoration plugin"
-)
-if (${Breeze_FOUND})
-    if (${BREEZE_WITH_KDECORATION})
-        set(HAVE_BREEZE_DECO true)
-    else()
-        set(HAVE_BREEZE_DECO FALSE)
-    endif()
+if (BUILD_ON_V25)
+    add_definitions(-DBUILD_ON_V25)
+    add_subdirectory(kdecoration)
 else()
-    set(HAVE_BREEZE_DECO FALSE)
+  find_package(KDecoration2 ${PROJECT_VERSION} CONFIG)
+  set_package_properties(KDecoration2 PROPERTIES
+      TYPE REQUIRED
+      PURPOSE "Required for server side decoration support"
+  )
 endif()
-add_feature_info("Breeze-Decoration" HAVE_BREEZE_DECO "Default decoration plugin Breeze")
+
+find_package(KF${KF_MAJOR_VERSION}KCMUtils ${PROJECT_VERSION} CONFIG)
+find_package(KF${KF_MAJOR_VERSION}Service ${PROJECT_VERSION} CONFIG)
+
+
+# find_package(Breeze 6.0.0 CONFIG)
+# set_package_properties(Breeze PROPERTIES
+#     TYPE OPTIONAL
+#     PURPOSE "For setting the default window decoration plugin"
+# )
+# if (${Breeze_FOUND})
+#     if (${BREEZE_WITH_KDECORATION})
+#         set(HAVE_BREEZE_DECO true)
+#     else()
+#         set(HAVE_BREEZE_DECO FALSE)
+#     endif()
+# else()
+#     set(HAVE_BREEZE_DECO FALSE)
+# endif()
+# add_feature_info("Breeze-Decoration" HAVE_BREEZE_DECO "Default decoration plugin Breeze")
+set(HAVE_BREEZE_DECO FALSE)
 
 find_package(EGL)
 set_package_properties(EGL PROPERTIES
@@ -214,12 +241,22 @@ set_package_properties(WaylandProtocols PROPERTIES
     URL "https://gitlab.freedesktop.org/wayland/wayland-protocols/"
 )
 
-find_package(PlasmaWaylandProtocols 1.9.0 CONFIG)
-set_package_properties(PlasmaWaylandProtocols PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Collection of Plasma-specific Wayland protocols"
-    URL "https://invent.kde.org/libraries/plasma-wayland-protocols/"
-)
+if(BUILD_ON_V25)
+    find_package(DeepinWaylandProtocols 1.9.0 CONFIG)
+    set_package_properties(DeepinWaylandProtocols PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Collection of Deepin-specific Wayland protocols"
+        URL "https://github.com/linuxdeepin/deepin-wayland-protocols/"
+    )
+    set(PLASMA_WAYLAND_PROTOCOLS_DIR ${DEEPIN_WAYLAND_PROTOCOLS_DIR})
+else()
+    find_package(PlasmaWaylandProtocols 1.9.0 CONFIG)
+    set_package_properties(PlasmaWaylandProtocols PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Collection of Plasma-specific Wayland protocols"
+        URL "https://invent.kde.org/libraries/plasma-wayland-protocols/"
+    )
+endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
     find_package(QtWaylandScanner)
@@ -416,14 +453,25 @@ set_package_properties(hwdata PROPERTIES
     URL "https://github.com/vcrhonek/hwdata"
 )
 
-find_package(QAccessibilityClient CONFIG)
-set_package_properties(QAccessibilityClient PROPERTIES
-    URL "https://www.kde.org"
-    DESCRIPTION "KDE client-side accessibility library"
-    TYPE OPTIONAL
-    PURPOSE "Required to enable accessibility features"
-)
-set(HAVE_ACCESSIBILITY ${QAccessibilityClient_FOUND})
+if (QT_MAJOR_VERSION EQUAL "5")
+  find_package(QAccessibilityClient CONFIG)
+  set_package_properties(QAccessibilityClient PROPERTIES
+      URL "https://www.kde.org"
+      DESCRIPTION "KDE client-side accessibility library"
+      TYPE OPTIONAL
+      PURPOSE "Required to enable accessibility features"
+  )
+  set(HAVE_ACCESSIBILITY ${QAccessibilityClient_FOUND})
+else()
+  find_package(QAccessibilityClient6 CONFIG)
+  set_package_properties(QAccessibilityClient6 PROPERTIES
+      URL "https://www.kde.org"
+      DESCRIPTION "KDE client-side accessibility library"
+      TYPE OPTIONAL
+      PURPOSE "Required to enable accessibility features"
+  )
+  set(HAVE_ACCESSIBILITY ${QAccessibilityClient6_FOUND})
+endif()
 
 ecm_find_qmlmodule(QtQuick 2.3)
 ecm_find_qmlmodule(QtQuick.Controls 2.15)
@@ -441,8 +489,8 @@ option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications sup
 option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" ON)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
 option(KWIN_BUILD_XRENDER_COMPOSITING "Enable building of KWin with XRender Compositing support" ON)
-cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KF5Activities_FOUND" OFF)
-cmake_dependent_option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON "KF5Runner_FOUND" OFF)
+cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KFActivities_FOUND" OFF)
+cmake_dependent_option(KWIN_BUILD_RUNNERS "Enable building of KWin with krunner support" ON "KFRunner_FOUND" OFF)
 
 # KWIN_HAVE_XRENDER_COMPOSITING - whether XRender-based compositing support is available: may be disabled
 if (KWIN_BUILD_XRENDER_COMPOSITING)
@@ -471,7 +519,7 @@ pkg_check_modules(PipeWire IMPORTED_TARGET libpipewire-0.3>=0.3.15)
 add_feature_info(PipeWire PipeWire_FOUND "Required for Wayland screencasting")
 
 if (KWIN_BUILD_NOTIFICATIONS)
-    find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Notifications)
+    find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS Notifications)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)
@@ -522,7 +570,7 @@ add_definitions(
     -DEGL_NO_PLATFORM_SPECIFIC_TYPES
 )
 
-if (KF5DocTools_FOUND)
+if (KF${KF_MAJOR_VERSION}DocTools_FOUND)
     add_subdirectory(doc)
     kdoctools_install(po)
 endif()

@@ -204,7 +204,11 @@ void RootInfo::closeWindow(xcb_window_t w)
     }
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void RootInfo::moveResize(xcb_window_t w, int x_root, int y_root, unsigned long direction, xcb_button_t button, RequestSource source)
+#else
 void RootInfo::moveResize(xcb_window_t w, int x_root, int y_root, unsigned long direction)
+#endif
 {
     X11Window *c = Workspace::self()->findClient(Predicate::WindowMatch, w);
     if (c) {

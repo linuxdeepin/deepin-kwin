@@ -8,21 +8,35 @@
 */
 #pragma once
 
-#include <KIdleTime/private/abstractsystempoller.h>
 #include <QHash>
 #include <QTimer>
 #include <QtPlugin>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <KIdleTime/private/abstractsystempoller.h>
+#else
+#include <private/kabstractidletimepoller_p.h>
+#endif
 
 namespace KWin
 {
 
 class IdleDetector;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 class KWinIdleTimePoller : public AbstractSystemPoller
+#else
+class KWinIdleTimePoller : public KAbstractIdleTimePoller
+#endif
 {
     Q_OBJECT
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     Q_PLUGIN_METADATA(IID "org.kde.kidletime.AbstractSystemPoller" FILE "kwin.json")
     Q_INTERFACES(AbstractSystemPoller)
+#else
+    Q_PLUGIN_METADATA(IID KAbstractIdleTimePoller_iid FILE "kwin.json")
+    Q_INTERFACES(KAbstractIdleTimePoller)
+#endif
 
 public:
     KWinIdleTimePoller(QObject *parent = nullptr);

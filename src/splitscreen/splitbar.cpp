@@ -10,7 +10,13 @@
 #include "splitmanage.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtX11Extras/QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
+#include <QPainterPath>
+
 #include <X11/extensions/shape.h>
 
 namespace KWin {

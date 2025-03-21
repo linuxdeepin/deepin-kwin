@@ -13,14 +13,14 @@
 
 #include "decorations/decoratedclient.h"
 #include "input_event_spy.h"
+#include "mousebuttons.h"
 #include "pointer_input.h"
-#include "wayland/seat_interface.h"
+#include "useractions.h"
 #include "wayland/ddeseat_interface.h"
+#include "wayland/seat_interface.h"
 #include "wayland_server.h"
 #include "window.h"
 #include "workspace.h"
-#include "useractions.h"
-#include "mousebuttons.h"
 // KDecoration
 #include <KDecoration2/Decoration>
 // screenlocker

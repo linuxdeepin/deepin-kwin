@@ -24,10 +24,10 @@ kcoreaddons_add_plugin(kcm_kwindecoration SOURCES ${kcmkwindecoration_SRCS} INST
 
 target_link_libraries(kcm_kwindecoration
     KDecoration2::KDecoration
-    KF5::I18n
-    KF5::KCMUtils
-    KF5::NewStuff
-    KF5::QuickAddons
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KCMUtils
+    # KF${KF_MAJOR_VERSION}::NewStuff
+    # KF${KF_MAJOR_VERSION}::QuickAddons
     Qt${QT_MAJOR_VERSION}::Quick
 )
 
@@ -43,8 +43,8 @@ add_executable(kwin-applywindowdecoration ${kwin-applywindowdecoration_SRCS})
 target_link_libraries(kwin-applywindowdecoration
     KDecoration2::KDecoration
     Qt${QT_MAJOR_VERSION}::DBus
-    KF5::I18n
-    KF5::KCMUtils
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KCMUtils
 )
 
 configure_file(window-decorations.knsrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/window-decorations.knsrc)

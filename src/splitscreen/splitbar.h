@@ -15,6 +15,7 @@
 #include <QPainter>
 #include "window.h"
 #include <QGraphicsOpacityEffect>
+#include <QPainterPath>
 
 namespace KWin {
 

@@ -16,9 +16,7 @@ target_link_libraries(kwin4_effect_blur PRIVATE
     kwin
     kwineffects
     kwinglutils
-
-    KF5::ConfigGui
-
+    KF${KF_MAJOR_VERSION}::ConfigGui
     KDecoration2::KDecoration
 )
 
@@ -32,9 +30,11 @@ if (KWIN_BUILD_KCMS)
     kwin_add_effect_config(kwin_blur_config ${kwin_blur_config_SRCS})
 
     target_link_libraries(kwin_blur_config
-        KF5::ConfigWidgets
-        KF5::CoreAddons
-        KF5::I18n
+        KF${KF_MAJOR_VERSION}::ConfigWidgets
+        KF${KF_MAJOR_VERSION}::CoreAddons
+        KF${KF_MAJOR_VERSION}::I18n
+        KF${KF_MAJOR_VERSION}::KCMUtils
+
         Qt${QT_MAJOR_VERSION}::DBus
         KWinEffectsInterface
     )

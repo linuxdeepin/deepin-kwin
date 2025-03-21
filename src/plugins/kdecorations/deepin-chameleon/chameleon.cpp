@@ -27,11 +27,11 @@
 #include "kwinutils.h"
 
 #include <KDecoration2/DecoratedClient>
-#include <KDecoration2/DecorationSettings>
 #include <KDecoration2/DecorationButtonGroup>
+#include <KDecoration2/DecorationSettings>
 
-#include <KConfigCore/KConfig>
-#include <KConfigCore/KConfigGroup>
+#include <KConfig>
+#include <KConfigGroup>
 
 #include <QObject>
 #include <QPainter>
@@ -39,7 +39,11 @@
 #include <QScreen>
 #include <QGuiApplication>
 #include <QtDBus>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 #include <QMap>
 
 #include "window.h"
@@ -64,7 +68,7 @@ void Chameleon::init()
     if (m_initialized)
         return;
 
-    auto c = client().data();
+    auto c = client().toStrongRef().data();
 
     if (!m_client)
         m_client = KWinUtils::findClient(KWinUtils::Predicate::WindowMatch, c->windowId());
@@ -96,7 +100,7 @@ void Chameleon::init()
                     m_theme->setValidProperties(ChameleonWindowTheme::WindowRadiusProperty);
                     if (m_theme->propertyIsValid(ChameleonWindowTheme::WindowRadiusProperty)) {
                         if (windowRadius != m_theme->windowRadius()) {
-                            m_theme->setProperty("windowRadius",windowRadius);
+                            m_theme->setProperty("windowRadius", windowRadius);
                             updateBorderPath();
                             updateShadow();
                         }
@@ -220,7 +224,7 @@ bool Chameleon::noTitleBar() const
 {
     if (m_noTitleBar < 0) {
         // 需要初始化
-        const QByteArray &data = KWinUtils::instance()->readWindowProperty(client().data()->windowId(),
+        const QByteArray &data = KWinUtils::instance()->readWindowProperty(client().toStrongRef().data()->windowId(),
                                                                            ChameleonConfig::instance()->atomDeepinNoTitlebar(),
                                                                            XCB_ATOM_CARDINAL);
 
@@ -355,7 +359,7 @@ void Chameleon::initButtons()
 void Chameleon::updateButtonsGeometry()
 {
     auto s = settings();
-    auto c = client().data();
+    auto c = client().toStrongRef().data();
 
     // adjust button position
     const int bHeight = noTitleBar() ? 0 : titleBarHeight();
@@ -411,10 +415,14 @@ void Chameleon::updateTitleGeometry()
 
     m_titleArea = titleBar();
 
-    m_title = client().data()->caption();
+    m_title = client().toStrongRef().data()->caption();
     // 使用系统字体，不要使用 settings() 中的字体
     const QFontMetricsF fontMetrics(m_font);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     int full_width = fontMetrics.width(m_title) * m_theme->windowPixelRatio();
+#else
+    int full_width = fontMetrics.horizontalAdvance(m_title) * m_theme->windowPixelRatio();
+#endif
 
     if (m_config->titlebarConfig.area == Qt::TopEdge || m_config->titlebarConfig.area == Qt::BottomEdge) {
         int buttons_width = m_leftButtons->geometry().width()
@@ -495,7 +503,7 @@ void Chameleon::updateTheme()
 
 void Chameleon::updateConfig()
 {
-    auto c = client().data();
+    auto c = client().toStrongRef().data();
 
     bool active = c->isActive();
     bool hasAlpha = settings()->isAlphaChannelSupported();
@@ -523,7 +531,7 @@ void Chameleon::updateConfig()
 
 void Chameleon::updateTitleBarArea()
 {
-    auto c = client().data();
+    auto c = client().toStrongRef().data();
 
     m_titleBarAreaMargins.setLeft(0);
     m_titleBarAreaMargins.setTop(0);
@@ -571,7 +579,7 @@ void Chameleon::updateTitleBarArea()
 
 void Chameleon::updateBorderPath()
 {
-    auto c = client().data();
+    auto c = client().toStrongRef().data();
     QRectF client_rect(0, 0, c->width(), c->height());
         client_rect += borders();
         client_rect.moveTopLeft(QPointF(0, 0));
@@ -697,7 +705,7 @@ void Chameleon::onClientHeightChanged()
 
 void Chameleon::onNoTitlebarPropertyChanged(quint32 windowId)
 {
-    if (client().data()->windowId() != windowId)
+    if (client().toStrongRef().data()->windowId() != windowId)
         return;
 
     // 标记为未初始化状态
@@ -715,13 +723,13 @@ bool Chameleon::windowNeedRadius() const
         return true;
     }
 
-    auto c = client().data();
+    auto c = client().toStrongRef().data();
     return KWinUtils::instance()->isCompositing() && c->adjacentScreenEdges() == Qt::Edges();
 }
 
 bool Chameleon::windowNeedBorder() const
 {
-    if (client().data()->isMaximized()) {
+    if (client().toStrongRef().data()->isMaximized()) {
         return false;
     }
 
@@ -739,9 +747,9 @@ QColor Chameleon::getTextColor() const
     if (m_config->titlebarConfig.font.textColor.isValid())
         return m_config->titlebarConfig.font.textColor;
 
-    auto c = client().data();
+    auto c = client().toStrongRef().data();
 
-    return  c->color(c->isActive() ? KDecoration2::ColorGroup::Active : KDecoration2::ColorGroup::Inactive, KDecoration2::ColorRole::Foreground);
+    return c->color(c->isActive() ? KDecoration2::ColorGroup::Active : KDecoration2::ColorGroup::Inactive, KDecoration2::ColorRole::Foreground);
 }
 
 QColor Chameleon::getBackgroundColor() const
@@ -749,7 +757,7 @@ QColor Chameleon::getBackgroundColor() const
     if (m_config->titlebarConfig.backgroundColor.isValid())
         return m_config->titlebarConfig.backgroundColor;
 
-    auto c = client().data();
+    auto c = client().toStrongRef().data();
 
     return c->color(c->isActive() ? KDecoration2::ColorGroup::Active : KDecoration2::ColorGroup::Inactive, KDecoration2::ColorRole::TitleBar);
 }
