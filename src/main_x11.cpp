@@ -392,7 +392,14 @@ int main(int argc, char *argv[])
 
     qunsetenv("QT_DEVICE_PIXEL_RATIO");
     qunsetenv("QT_SCALE_FACTOR");
+    qunsetenv("QT_SCREEN_SCALE_FACTORS");
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    setenv("QT_ENABLE_HIGHDPI_SCALING", "0", true);
+#else
     QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+#endif
+
     // KSMServer talks to us directly on DBus.
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     QCoreApplication::setAttribute(Qt::AA_DisableSessionManager);
