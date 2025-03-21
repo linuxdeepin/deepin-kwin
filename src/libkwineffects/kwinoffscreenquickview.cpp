@@ -150,7 +150,7 @@ OffscreenQuickView::OffscreenQuickView(QObject *parent, QWindow *renderWindow, E
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         d->m_renderControl->initialize(nullptr);
 #else
-        d->m_renderControl->initialize();
+        // explicilty do not call QQuickRenderControl::initialize, see Qt docs
 #endif
     } else {
         QSurfaceFormat format;
@@ -292,12 +292,16 @@ void OffscreenQuickView::update()
 
     d->m_renderControl->polishItems();
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    d->m_renderControl->beginFrame();
+    if (usingGl) {
+        d->m_renderControl->beginFrame();
+    }
 #endif
     d->m_renderControl->sync();
     d->m_renderControl->render();
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    d->m_renderControl->endFrame();
+    if (usingGl) {
+        d->m_renderControl->endFrame();
+    }
 #endif
 
     if (usingGl) {
