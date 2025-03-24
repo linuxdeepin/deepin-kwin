@@ -148,6 +148,7 @@ integrationTest(WAYLAND_ONLY NAME testScreenEdges SRCS screenedges_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testOutputChanges SRCS outputchanges_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testTiles SRCS tiles_test.cpp)
 integrationTest(WAYLAND_ONLY NAME testFractionalScaling SRCS fractional_scaling_test.cpp)
+integrationTest(WAYLAND_ONLY NAME testWorkspace SRCS workspace_test.cpp)
 
 if (QT_MAJOR_VERSION EQUAL "5")
     qt5_add_dbus_interfaces(DBUS_SRCS ${CMAKE_BINARY_DIR}/src/org.kde.kwin.VirtualKeyboard.xml)
