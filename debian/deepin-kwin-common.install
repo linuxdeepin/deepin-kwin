@@ -1,0 +1,13 @@
+usr/lib/*/kconf_update_bin/kwin5_update_default_rules
+usr/lib/*/libexec/kwin*
+usr/lib/*/libkwin.so.6
+usr/lib/*/libkwin.so.6.*
+usr/lib/*/libkwindecorations2.so
+usr/lib/*/libkwindecorations2.so.*
+usr/lib/*/libkwindecorations2private.so
+usr/lib/*/libkwindecorations2private.so.*
+usr/lib/*/qt6/plugins/kpackage/packagestructure/
+usr/lib/*/qt6/plugins/kwin/
+usr/lib/*/qt6/plugins/org.kde.kdecoration2/com.deepin.chameleon.so
+usr/lib/*/qt6/qml/org/kde/kwin/
+usr/lib/*/qt6/qml/org/kde/kwin.2/
