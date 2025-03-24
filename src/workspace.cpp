@@ -2855,6 +2855,15 @@ void Workspace::desktopResized()
         }
     }
 
+    if (waylandServer()) {
+        // TODO: Track uninitialized windows in the Workspace too.
+        const auto windows = waylandServer()->windows();
+        for (Window *window : windows) {
+            window->setMoveResizeOutput(outputAt(window->moveResizeGeometry().center()));
+            window->setOutput(outputAt(window->frameGeometry().center()));
+        }
+    }
+
     // restore cursor position
     const auto oldCursorOutput = std::find_if(m_oldScreenGeometries.cbegin(), m_oldScreenGeometries.cend(), [](const auto &geometry) {
         return geometry.contains(Cursors::self()->mouse()->pos());
