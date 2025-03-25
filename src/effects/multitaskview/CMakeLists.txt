@@ -28,7 +28,7 @@ file(GLOB TS LIST_DIRECTORIES false translations/multitasking*.ts)
 foreach(_ts_file ${TS})
     execute_process(
         COMMAND ${LUPDATE_EXECUTABLE} -recursive ${CMAKE_SOURCE_DIR}/translations -ts ${_ts_file})
-    execute_process(COMMAND lrelease ${_ts_file})
+    execute_process(COMMAND ${LRELEASE_EXECUTABLE} ${_ts_file})
 endforeach()
 
 if (QT_MAJOR_VERSION EQUAL "5")
