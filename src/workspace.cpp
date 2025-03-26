@@ -89,13 +89,13 @@
 #define DBUS_DEEPIN_WM_INTF      "com.deepin.wm"
 
 #ifdef BUILD_ON_V25
-    #define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
-    #define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
-    #define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
+#define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
 #else
-    #define DBUS_APPEARANCE_SERVICE "com.deepin.daemon.Appearance"
-    #define DBUS_APPEARANCE_OBJ    "/com/deepin/daemon/Appearance"
-    #define DBUS_APPEARANCE_INTF "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_SERVICE "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_OBJ "/com/deepin/daemon/Appearance"
+#define DBUS_APPEARANCE_INTF "com.deepin.daemon.Appearance"
 #endif
 
 #define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
