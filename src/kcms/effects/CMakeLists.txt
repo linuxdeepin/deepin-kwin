@@ -17,8 +17,8 @@ target_link_libraries(kcm_kwin_effects
     KF${KF_MAJOR_VERSION}::KCMUtils
     KF${KF_MAJOR_VERSION}::I18n
     KF${KF_MAJOR_VERSION}::KCMUtils
-    # KF${KF_MAJOR_VERSION}::NewStuff
-    # KF${KF_MAJOR_VERSION}::QuickAddons
+    KF${KF_MAJOR_VERSION}::NewStuff
+    KF${KF_MAJOR_VERSION}::QuickAddons
     KF${KF_MAJOR_VERSION}::XmlGui
 
     kcmkwincommon

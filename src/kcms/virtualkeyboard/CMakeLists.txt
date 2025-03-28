@@ -18,7 +18,7 @@ target_include_directories(kcm_virtualkeyboard PRIVATE ${CMAKE_SOURCE_DIR})
 target_link_libraries(kcm_virtualkeyboard
     KF${KF_MAJOR_VERSION}::I18n
     KF${KF_MAJOR_VERSION}::KCMUtils
-    # KF${KF_MAJOR_VERSION}::QuickAddons
+    KF${KF_MAJOR_VERSION}::QuickAddons
 )
 
 kpackage_install_package(package kcm_virtualkeyboard kcms)

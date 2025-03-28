@@ -12,8 +12,8 @@ target_link_libraries(kwin4_effect_multitaskview PRIVATE
     kwineffects
     kwinglutils
     KF${KF_MAJOR_VERSION}::GlobalAccel
-    Qt${Qt_MAJOR_VERSION}::DBus
-    Qt${Qt_MAJOR_VERSION}::Concurrent
+    Qt${QT_MAJOR_VERSION}::DBus
+    Qt${QT_MAJOR_VERSION}::Concurrent
     PkgConfig::QGSETTINGS
 )
 
