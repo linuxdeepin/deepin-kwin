@@ -32,12 +32,16 @@
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <KDecoration2/Decoration>
 #include <KDecoration2/DecoratedClient>
+#include <KDecoration2/Decoration>
 
 #include <QPainter>
 #include <QDebug>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 #include <QGuiApplication>
 #include <QTimer>
 #include <QtDBus>
@@ -565,7 +569,12 @@ static QString readPidEnviron(quint32 pid, const QByteArray &env_key) {
 
     const QByteArray &env_data = env_file.readAll();
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     int start_pos = env_data.startsWith(env_key) ? 0 : env_data.indexOf("\0" + env_key);
+#else
+    const QByteArray env_key_tmp = "\0" + env_key;
+    int start_pos = env_data.startsWith(env_key) ? 0 : env_data.indexOf(env_key_tmp);
+#endif
 
     if (start_pos < 0) {
         return {};

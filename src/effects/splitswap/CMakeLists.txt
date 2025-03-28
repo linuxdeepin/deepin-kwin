@@ -6,17 +6,20 @@ set(splitswap_SOURCES
     splitswap.cpp
 )
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     QuickWidgets
 )
 
 kwin4_add_effect_module(kwin4_effect_splitswap ${splitswap_SOURCES})
 target_link_libraries(kwin4_effect_splitswap PRIVATE
     kwineffects
-    Qt5::QuickWidgets
-    Qt5::DBus
-    Qt5::X11Extras
-    KF5::ConfigGui
+    Qt${QT_MAJOR_VERSION}::QuickWidgets
+    Qt${QT_MAJOR_VERSION}::DBus
+    KF${KF_MAJOR_VERSION}::ConfigGui
 )
 
-
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(kwin4_effect_splitswap PRIVATE Qt5::X11Extras)
+else()
+    target_link_libraries(kwin4_effect_splitswap PRIVATE Qt6::GuiPrivate)
+endif()

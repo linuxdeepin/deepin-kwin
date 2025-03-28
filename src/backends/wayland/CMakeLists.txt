@@ -7,4 +7,13 @@ target_sources(kwin PRIVATE
     wayland_qpainter_backend.cpp
 )
 
-target_link_libraries(kwin KF5::WaylandClient Wayland::Client gbm::gbm)
+target_link_libraries(kwin 
+    Wayland::Client
+    gbm::gbm
+)
+
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(kwin KF5::WaylandClient)
+else()
+    target_link_libraries(kwin Plasma::KWaylandClient)
+endif()

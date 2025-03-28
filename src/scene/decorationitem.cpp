@@ -143,7 +143,7 @@ DecorationItem::DecorationItem(KDecoration2::Decoration *decoration, Window *win
     connect(renderer(), &DecorationRenderer::damaged,
             this, qOverload<const QRegion &>(&Item::scheduleRepaint));
 
-    // this toSize is to match that DecoratedWindow also rounds
+    // this toSize is to match that DecoratedClient also rounds
     setSize(window->size().toSize());
     handleOutputChanged();
 }

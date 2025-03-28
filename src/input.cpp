@@ -1185,7 +1185,11 @@ std::pair<bool, bool> performWindowWheelAction(QWheelEvent *event, Window *windo
         }
     }
     if (wasAction) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         return std::make_pair(wasAction, !window->performMouseCommand(command, event->globalPosF()));
+#else
+        return std::make_pair(wasAction, !window->performMouseCommand(command, event->globalPosition()));
+#endif
     }
     return std::make_pair(wasAction, false);
 }
@@ -1213,8 +1217,11 @@ class InternalWindowEventFilter : public InputEventFilter
             return false;
         }
         QWindow *internal = static_cast<InternalWindow *>(input()->pointer()->focus())->handle();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const QPointF localPos = event->globalPosF() - internal->position();
-        QWheelEvent wheelEvent(localPos, event->globalPosF(), QPoint(),
+        QWheelEvent wheelEvent(localPos,
+                               event->globalPosF(),
+                               QPoint(),
                                event->angleDelta() * -1,
                                event->delta(),
                                event->orientation(),
@@ -1223,6 +1230,19 @@ class InternalWindowEventFilter : public InputEventFilter
                                Qt::NoScrollPhase,
                                event->source(),
                                false);
+#else
+        const QPointF localPos = event->globalPosition() - internal->position();
+        QWheelEvent wheelEvent(localPos,
+                               event->globalPosition(),
+                               QPoint(),
+                               event->angleDelta() * -1,
+                               event->buttons(),
+                               event->modifiers(),
+                               Qt::NoScrollPhase,
+                               false,
+                               event->source());
+#endif
+
         QCoreApplication::sendEvent(internal, &wheelEvent);
         return wheelEvent.isAccepted();
     }
@@ -1255,7 +1275,11 @@ class InternalWindowEventFilter : public InputEventFilter
             }
         }
         if (QGuiApplication::focusWindow() != found) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             QWindowSystemInterface::handleWindowActivated(found);
+#else
+            QWindowSystemInterface::handleFocusWindowChanged(found);
+#endif
         }
         if (!found) {
             return false;
@@ -1442,9 +1466,16 @@ public:
                 return actionResult.second;
             }
         }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const QPointF localPos = event->globalPosF() - decoration->window()->pos();
+#else
+        const QPointF localPos = event->globalPosition() - decoration->window()->pos();
+#endif
         const Qt::Orientation orientation = (event->angleDelta().x() != 0) ? Qt::Horizontal : Qt::Vertical;
-        QWheelEvent e(localPos, event->globalPosF(), QPoint(),
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QWheelEvent e(localPos,
+                      event->globalPosF(),
+                      QPoint(),
                       event->angleDelta(),
                       event->delta(),
                       event->orientation(),
@@ -1453,6 +1484,17 @@ public:
                       Qt::NoScrollPhase,
                       event->source(),
                       false);
+#else
+        QWheelEvent e(localPos,
+                      event->globalPosition(),
+                      QPoint(),
+                      event->angleDelta(),
+                      event->buttons(),
+                      event->modifiers(),
+                      Qt::NoScrollPhase,
+                      false,
+                      event->source());
+#endif
         e.setAccepted(false);
         QCoreApplication::sendEvent(decoration, &e);
         if (e.isAccepted()) {
@@ -1460,8 +1502,13 @@ public:
         }
         if ((orientation == Qt::Vertical) && decoration->window()->titlebarPositionUnderMouse()) {
             if (float delta = m_accumulator.accumulate(event)) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 decoration->window()->performMouseCommand(options->operationTitlebarMouseWheel(delta * -1),
                                                           event->globalPosF());
+#else
+                decoration->window()->performMouseCommand(options->operationTitlebarMouseWheel(delta * -1),
+                                                          event->globalPosition());
+#endif
             }
         }
         return true;

@@ -14,5 +14,10 @@ target_sources(MouseButtonToKeyPlugin PRIVATE
     main.cpp
     buttonrebindsfilter.cpp
 )
-target_link_libraries(MouseButtonToKeyPlugin PRIVATE kwin KF5::WindowSystem)
+
+set_target_properties(MouseButtonToKeyPlugin PROPERTIES
+    LIBRARY_OUTPUT_NAME "kwin5_plugin_buttonrebinds"
+)
+
+target_link_libraries(MouseButtonToKeyPlugin PRIVATE kwin KF${KF_MAJOR_VERSION}::WindowSystem)
 

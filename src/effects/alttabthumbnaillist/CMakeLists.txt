@@ -11,4 +11,5 @@ kwin4_add_effect_module(kwin4_effect_alttabthumbnaillist ${alttabthumbnaillist_S
 target_link_libraries(kwin4_effect_alttabthumbnaillist PRIVATE
     kwineffects
     kwinglutils
+    Qt${QT_MAJOR_VERSION}::QuickWidgets
 )

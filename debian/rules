@@ -2,11 +2,12 @@
 # -*- makefile -*-
 
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
-export QT_SELECT=5
+export QT_SELECT=6
 
 libpkgs_gen_strict_local_shlibs = $(libpkgs_all_packages) kwin-common
 include /usr/share/pkg-kde-tools/qt-kde-team/2/library-packages.mk
 include /usr/share/dpkg/pkg-info.mk
+
 
 %:
 	dh $@
@@ -16,8 +17,8 @@ override_dh_python3:
 
 
 override_dh_auto_configure:
-	dh_auto_configure -Skf5 -- -DDVERSION="$(DEB_VERSION)" -DBUILD_TESTING=OFF \
-		-DQTWAYLANDSCANNER_KDE_EXECUTABLE=/usr/lib/qt5/bin/qtwaylandscanner
+	dh_auto_configure -Skf6 -- -DDVERSION="6.0.0" -DBUILD_TESTING=OFF \
+		-DKWIN_BUILD_KCMS=OFF
 
 override_dh_auto_test:
 	# Disable auto tests at build time

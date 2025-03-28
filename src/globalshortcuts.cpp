@@ -16,8 +16,13 @@
 #include "main.h"
 #include "utils/common.h"
 // KDE
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <KGlobalAccelD/kglobalaccel_interface.h>
+#include <KGlobalAccelD/kglobalacceld.h>
+#else
 #include <KGlobalAccel/private/kglobalaccel_interface.h>
 #include <KGlobalAccel/private/kglobalacceld.h>
+#endif
 // Qt
 #include <QAction>
 // system

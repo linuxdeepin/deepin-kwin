@@ -64,7 +64,12 @@
 #include <QStyleHints>
 #include <QDBusMessage>
 #include <QDBusConnection>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
+
 #include <QDBusPendingReply>
 #include <QDBusVariant>
 #include <QDBusInterface>
@@ -2549,10 +2554,14 @@ void Window::setupWindowManagementInterface()
     }
 
     connect(this, &Window::activitiesChanged, w, [w, this] {
-        const auto newActivities = QSet<QString>(m_activityList.toSet());
         const auto oldActivitiesList = w->plasmaActivities();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        const auto newActivities = QSet<QString>(m_activityList.toSet());
         const auto oldActivities = QSet<QString>(oldActivitiesList.toSet());
-
+#else
+        const QSet<QString> newActivities(m_activityList.begin(), m_activityList.end());
+        const QSet<QString> oldActivities(oldActivitiesList.begin(), oldActivitiesList.end());
+#endif
         const auto activitiesToAdd = newActivities - oldActivities;
         for (const auto &activity : activitiesToAdd) {
             w->addPlasmaActivity(activity);
@@ -3263,8 +3272,8 @@ void Window::updateDecorationInputShape()
         return;
     }
 
-    const QMargins borders = decoration()->borders();
-    const QMargins resizeBorders = decoration()->resizeOnlyBorders();
+    const auto borders = decoration()->borders();
+    const auto resizeBorders = decoration()->resizeOnlyBorders();
 
     const QRectF innerRect = QRectF(QPointF(borderLeft(), borderTop()), decoratedClient()->size());
     const QRectF outerRect = innerRect + borders + resizeBorders;

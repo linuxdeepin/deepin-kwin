@@ -86,16 +86,17 @@ void PlaceholderWindow::setShape()
     if (m_shapeXRects)
         delete[] m_shapeXRects;
 
-    QVector<QRect> rects = borderRect.rects();
-    m_shapeXRectsCount = rects.count();
+    auto rects = borderRect.rects();
+
+    m_shapeXRectsCount = rects.size();
     m_shapeXRects = new xcb_rectangle_t[m_shapeXRectsCount];
-    for (int i = 0; i < rects.count(); ++i) {
+    for (int i = 0; i < rects.size(); ++i) {
         m_shapeXRects[i].x = rects[i].x();
         m_shapeXRects[i].y = rects[i].y();
         m_shapeXRects[i].width = rects[i].width();
         m_shapeXRects[i].height = rects[i].height();
     }
-    xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, XCB_CLIP_ORDERING_UNSORTED,m_window, 0, 0, rects.count(), m_shapeXRects);
+    xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_BOUNDING, XCB_CLIP_ORDERING_UNSORTED, m_window, 0, 0, rects.size(), m_shapeXRects);
     //delete[] m_shapeXRects;
     xcb_shape_rectangles(connection(), XCB_SHAPE_SO_SET, XCB_SHAPE_SK_INPUT, XCB_CLIP_ORDERING_UNSORTED, m_window, 0, 0, 0, NULL);
 }

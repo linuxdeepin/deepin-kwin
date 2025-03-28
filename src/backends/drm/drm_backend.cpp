@@ -27,7 +27,7 @@
 #include "drm_virtual_output.h"
 #include "gbm_dmabuf.h"
 #include "utils/udev.h"
-// KF5
+// KF
 #include <KCoreAddons>
 #include <KLocalizedString>
 // Qt

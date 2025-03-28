@@ -1,0 +1,12 @@
+usr/share/config.kcfg/kwin*.kcfg
+usr/share/config.kcfg/nightcolorsettings.kcfg
+usr/share/doc/*/*/kcontrol/
+usr/share/icons/*/*/apps/kwin.*
+usr/share/kconf_update/kwin*.pl
+usr/share/kconf_update/kwin*.py
+usr/share/kconf_update/kwin*.sh
+usr/share/kconf_update/kwin*.upd
+usr/share/knotifications6/kwin.notifyrc
+usr/share/kwin/
+usr/share/locale/
+usr/share/qlogging-categories6/

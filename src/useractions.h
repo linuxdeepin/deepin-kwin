@@ -120,7 +120,7 @@ public:
 
     bool handleClick(const QPoint &pos);
 
-    void prepareMenu(const QWeakPointer<Window> &cl);
+    void prepareMenu(Window *cl);
 
 public Q_SLOTS:
     /**

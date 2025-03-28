@@ -201,7 +201,7 @@ bool UserActionsMenu::handleClick(const QPoint &pos)
     return false;
 }
 
-void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
+void UserActionsMenu::prepareMenu(Window *cl)
 {
     double fontScale = workspace()->getFontSizeScale();
     QString fontFamily = workspace()->getFontFamily();
@@ -250,7 +250,7 @@ void UserActionsMenu::prepareMenu(const QWeakPointer<Window> &cl)
             background-color: %4;\
             color: white;}").arg(backgroundColor).arg(fontColor).arg(disableFontColor).arg(workspace()->self()->ActiveColor()).arg(fontSize).arg(rightPadding).arg(fontFamily));
     m_menu->setContentsMargins(0,8,0,8);
-    for (const MenuItem &item : getMenuItemInfos(cl.data())) {
+    for (const MenuItem &item : getMenuItemInfos(cl)) {
         QAction *action = m_menu->addAction(item.text);
 
         action->setProperty("id", item.id);

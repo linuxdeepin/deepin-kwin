@@ -18,6 +18,7 @@ K_PLUGIN_CLASS(KWin::BlurEffectConfig)
 namespace KWin
 {
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 BlurEffectConfig::BlurEffectConfig(QWidget *parent, const QVariantList &args)
     : KCModule(parent, args)
 {
@@ -25,6 +26,15 @@ BlurEffectConfig::BlurEffectConfig(QWidget *parent, const QVariantList &args)
     BlurConfig::instance(KWIN_CONFIG);
     addConfig(BlurConfig::self(), this);
 }
+#else
+BlurEffectConfig::BlurEffectConfig(QObject *parent, const KPluginMetaData &data)
+    : KCModule(parent, data)
+{
+    ui.setupUi(widget());
+    BlurConfig::instance(KWIN_CONFIG);
+    addConfig(BlurConfig::self(), widget());
+}
+#endif
 
 BlurEffectConfig::~BlurEffectConfig()
 {

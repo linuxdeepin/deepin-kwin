@@ -23,11 +23,15 @@
 #include "kwinutils.h"
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
-#include <QTimer>
+#include <QDebug>
 #include <QHoverEvent>
 #include <QPainter>
-#include <QDebug>
+#include <QTimer>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 
 #include "workspace.h"
 
@@ -37,7 +41,7 @@
 ChameleonButton::ChameleonButton(KDecoration2::DecorationButtonType type, const QPointer<KDecoration2::Decoration> &decoration, QObject *parent)
     : KDecoration2::DecorationButton(type, decoration, parent)
 {
-    auto c = decoration->client().data();
+    auto c = decoration->client().toStrongRef().data();
     // qDebug()<<__FUNCTION__<<__LINE__<<"windowId: "<<c->windowId();
 
     m_type = type;
@@ -97,7 +101,7 @@ void ChameleonButton::paint(QPainter *painter, const QRect &repaintRegion)
 
     painter->save();
 
-    auto c = decoration->client().data();
+    auto c = decoration->client().toStrongRef().data();
 
     QIcon::Mode state = QIcon::Normal;
 
@@ -157,7 +161,7 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
                 }
                 if (m_type == KDecoration2::DecorationButtonType::Maximize) {
                     if (KWinUtils::instance()->isCompositing()) {
-                        auto c = decoration->client().data();
+                        auto c = decoration->client().toStrongRef().data();
                         if (c) {
                             uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
                             QRect button_rect(QPoint(geometry().x() + effect->pos().x(), effect->pos().y()),
@@ -209,7 +213,7 @@ void ChameleonButton::mousePressEvent(QMouseEvent *event)
                     if (decoration) {
                         effect = decoration->effect();
                         if (effect) {
-                            auto c = decoration->client().data();
+                            auto c = decoration->client().toStrongRef().data();
                             if (c) {
                                 uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
                                 KWinUtils::setSplitMenuKeepShowing(true);
@@ -238,13 +242,32 @@ void ChameleonButton::mouseReleaseEvent(QMouseEvent *event)
         }
         if (!geometry().contains(event->localPos()))
             KWinUtils::setSplitMenuKeepShowing(false);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (!m_isMaxAvailble) {
             event->setLocalPos(QPointF(event->localPos().x() - OUT_RELEASE_EVENT, event->localPos().y()));
         }
+#endif
         KWinUtils::hideSplitMenu(false);
         KWinUtils::setSplitMenuKeepShowing(false);
     }
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     KDecoration2::DecorationButton::mouseReleaseEvent(event);
+#else
+    if (!m_isMaxAvailble) {
+        QMouseEvent newEvent(
+            event->type(),
+            QPointF(event->position().x() - OUT_RELEASE_EVENT, event->position().y()), // 新的局部位置
+            event->scenePosition(),
+            event->globalPosition(),
+            event->button(),
+            event->buttons(),
+            event->modifiers());
+        KDecoration2::DecorationButton::mouseReleaseEvent(&newEvent);
+    } else {
+        KDecoration2::DecorationButton::mouseReleaseEvent(event);
+    }
+#endif
     m_isMaxAvailble = true;
 }
 

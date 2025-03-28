@@ -39,11 +39,7 @@ namespace Decoration
 
 static const QString s_aurorae = QStringLiteral("org.kde.kwin.aurorae");
 static const QString s_pluginName = QStringLiteral("org.kde.kdecoration2");
-#if HAVE_BREEZE_DECO
-static const QString s_defaultPlugin = QStringLiteral(BREEZE_KDECORATION_PLUGIN_ID);
-#else
-static const QString s_defaultPlugin = s_aurorae;
-#endif
+static const QString s_defaultPlugin = QStringLiteral("org.deepin.chameleon");
 
 DecorationBridge::DecorationBridge()
     : m_factory(nullptr)
@@ -243,6 +239,10 @@ KDecoration2::Decoration *DecorationBridge::createDecoration(Window *window)
         args.insert(QStringLiteral("theme"), m_theme);
     }
     auto deco = m_factory->create<KDecoration2::Decoration>(window, QVariantList({args}));
+    if (!deco) {
+        qCritical(KWIN_DECORATIONS) << "Can't create decoration!";
+        return nullptr;
+    }
     deco->setSettings(m_settings);
     deco->init();
     return deco;

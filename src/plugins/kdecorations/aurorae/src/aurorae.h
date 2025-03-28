@@ -118,5 +118,4 @@ private:
     KConfigLoader *m_skeleton = nullptr;
     int m_buttonSize;
 };
-
 }

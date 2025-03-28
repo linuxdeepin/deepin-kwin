@@ -14,7 +14,7 @@ set_property(TARGET KWinEffectsInterface PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(KWinEffectsInterface Qt${QT_MAJOR_VERSION}::DBus)
 
 if (ECM_GLOBAL_FIND_VERSION VERSION_LESS ${KDE_COMPILERSETTINGS_LEVEL})
-    set(ECM_GLOBAL_FIND_VERSION ${KF5_CURRENT_VERSION})
+    set(ECM_GLOBAL_FIND_VERSION ${KF${KF_MAJOR_VERSION}_CURRENT_VERSION})
 endif()
 add_subdirectory(effects)
 add_subdirectory(scripts)
@@ -39,7 +39,7 @@ file(GLOB TS LIST_DIRECTORIES false splitscreen/translations/splitmenu*.ts)
 foreach(_ts_file ${TS})
     execute_process(
         COMMAND ${LUPDATE_EXECUTABLE} -recursive ${CMAKE_SOURCE_DIR}/translations -ts ${_ts_file})
-    execute_process(COMMAND lrelease ${_ts_file})
+    execute_process(COMMAND ${LRELEASE_EXECUTABLE} ${_ts_file})
 endforeach()
 
 target_sources(kwin PRIVATE
@@ -217,6 +217,12 @@ target_sources(kwin PRIVATE
     debugpixmap.cpp
 )
 
+if (QT_MAJOR_VERSION EQUAL "5")
+    pkg_check_modules(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt)
+else()
+    pkg_check_modules(QGSETTINGS REQUIRED IMPORTED_TARGET gsettings-qt6)
+endif()
+
 target_link_libraries(kwin
     kwineffects
     kwinglutils
@@ -224,22 +230,20 @@ target_link_libraries(kwin
     Qt${QT_MAJOR_VERSION}::Concurrent
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Quick
+    Qt${QT_MAJOR_VERSION}::Qml
     Qt${QT_MAJOR_VERSION}::Svg
-    Qt${QT_MAJOR_VERSION}::X11Extras
+    Qt${QT_MAJOR_VERSION}::Gui
 
-    KF5::ConfigCore
-    KF5::ConfigWidgets
-    KF5::CoreAddons
-    KF5::Crash
-    KF5::GlobalAccel
-    KF5::GlobalAccelPrivate
-    KF5::I18n
-    KF5::Package
-    KF5::Service
-    KF5::WindowSystem
 
-    KDecoration2::KDecoration
-    KDecoration2::KDecoration2Private
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::ConfigWidgets
+    KF${KF_MAJOR_VERSION}::CoreAddons
+    KF${KF_MAJOR_VERSION}::Crash
+    KF${KF_MAJOR_VERSION}::GlobalAccel
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::Package
+    KF${KF_MAJOR_VERSION}::Service
+    KF${KF_MAJOR_VERSION}::WindowSystem
 
     XCB::COMPOSITE
     XCB::CURSOR
@@ -262,7 +266,7 @@ target_link_libraries(kwin
     EGL::EGL
     epoxy::epoxy
 
-    gsettings-qt
+    PkgConfig::QGSETTINGS
     systemd
     Threads::Threads
     Wayland::Server
@@ -273,11 +277,28 @@ target_link_libraries(kwin
     -ldl
 )
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(kwin Qt5::X11Extras Qt5XkbCommonSupport::Qt5XkbCommonSupport)
+    target_link_libraries(kwin
+        Qt5::X11Extras
+        Qt5XkbCommonSupport::Qt5XkbCommonSupport
+        KF5::GlobalAccelPrivate
+        KDecoration2::KDecoration
+        KDecoration2::KDecoration2Private
+    )
+else()
+    find_package(KGlobalAccelD REQUIRED)
+    target_link_libraries(kwin
+        Plasma::KWaylandClient
+        K::KGlobalAccelD
+        kdecorations2
+        kdecorations2private
+    )
+    target_include_directories(kwin PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/kdecoration/src/private>
+    )
 endif()
 
 if (KWIN_BUILD_NOTIFICATIONS)
-    target_link_libraries(kwin KF5::Notifications)
+    target_link_libraries(kwin KF${KF_MAJOR_VERSION}::Notifications)
 endif()
 
 kconfig_add_kcfg_files(kwin
@@ -323,7 +344,7 @@ if (QT_MAJOR_VERSION EQUAL "5")
     qt5_add_dbus_interface(kwin_dbus_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf5_org.freedesktop.ScreenSaver.xml screenlocker_interface)
     qt5_add_dbus_interface(kwin_dbus_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/org.kde.screensaver.xml kscreenlocker_interface)
 else()
-    qt_add_dbus_interface(kwin_dbus_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf5_org.freedesktop.ScreenSaver.xml screenlocker_interface)
+    qt_add_dbus_interface(kwin_dbus_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/kf6_org.freedesktop.ScreenSaver.xml screenlocker_interface)
     qt_add_dbus_interface(kwin_dbus_SRCS ${KSCREENLOCKER_DBUS_INTERFACES_DIR}/org.kde.screensaver.xml kscreenlocker_interface)
 endif()
 endif()
@@ -345,7 +366,7 @@ add_subdirectory(xwayland)
 
 if (KWIN_BUILD_ACTIVITIES)
     target_sources(kwin PRIVATE activities.cpp)
-    target_link_libraries(kwin KF5::Activities)
+    target_link_libraries(kwin KF${KF_MAJOR_VERSION}::Activities)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)
@@ -383,7 +404,7 @@ target_link_libraries(kwin_x11
     KWinX11Platform
     kwin
 )
-kcoreaddons_target_static_plugins(kwin_x11 "kwin/effects/plugins")
+kcoreaddons_target_static_plugins(kwin_x11 NAMESPACE "kwin/effects/plugins")
 
 install(TARGETS kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 install(TARGETS kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
@@ -394,7 +415,7 @@ target_link_libraries(kwin_wayland
     kwin
     KWinXwaylandServerModule
 )
-kcoreaddons_target_static_plugins(kwin_wayland "kwin/effects/plugins")
+kcoreaddons_target_static_plugins(kwin_wayland NAMESPACE "kwin/effects/plugins")
 
 install(TARGETS kwin_wayland ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if (HAVE_LIBCAP)
@@ -412,9 +433,9 @@ add_subdirectory(plugins)
 
 target_link_libraries(kwin_wayland
     KWinQpaPlugin
-    KF5GlobalAccelKWinPlugin
-    KF5WindowSystemKWinPlugin
-    KF5IdleTimeKWinPlugin
+    KF${KF_MAJOR_VERSION}GlobalAccelKWinPlugin
+    KF${KF_MAJOR_VERSION}WindowSystemKWinPlugin
+    KF${KF_MAJOR_VERSION}IdleTimeKWinPlugin
 )
 
 add_custom_target(
@@ -448,4 +469,6 @@ install(
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kwin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
 # Install the KWin/Script service type
-install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+if (KF_MAJOR_VERSION EQUAL "5")
+    install(FILES scripting/kwinscript.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
+endif()

@@ -7,20 +7,30 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "windowstylemanager.h"
-#include "workspace.h"
-#include "unmanaged.h"
-#include "configreader.h"
 #include "composite.h"
+#include "configreader.h"
 #include "decorationstyle.h"
 #include "effects.h"
+#include "unmanaged.h"
+#include "workspace.h"
+#include <QGSettings>
 #include <QScreen>
-#include <QGSettings/qgsettings.h>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+#else
+#include <private/qtx11extras_p.h>
+#endif
 #include <QDebug>
 
-#define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
-#define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
-#define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
+#ifdef BUILD_ON_V25
+#define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
+#define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
+#else
+#define DBUS_APPEARANCE_SERVICE "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_OBJ "/com/deepin/daemon/Appearance"
+#define DBUS_APPEARANCE_INTF "com.deepin.daemon.Appearance"
+#endif
 
 Q_GLOBAL_STATIC_WITH_ARGS(QGSettings, _gsettings_deepin_xsetting, ("com.deepin.xsettings"))
 #define GsettingsDtkRadius     "dtk-window-radius"

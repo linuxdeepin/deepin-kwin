@@ -150,7 +150,7 @@ OffscreenQuickView::OffscreenQuickView(QObject *parent, QWindow *renderWindow, E
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         d->m_renderControl->initialize(nullptr);
 #else
-        d->m_renderControl->initialize();
+        // explicilty do not call QQuickRenderControl::initialize, see Qt docs
 #endif
     } else {
         QSurfaceFormat format;
@@ -291,9 +291,19 @@ void OffscreenQuickView::update()
     }
 
     d->m_renderControl->polishItems();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    if (usingGl) {
+        d->m_renderControl->beginFrame();
+    }
+#endif
     d->m_renderControl->sync();
-
     d->m_renderControl->render();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    if (usingGl) {
+        d->m_renderControl->endFrame();
+    }
+#endif
+
     if (usingGl) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         d->m_view->resetOpenGLState();
@@ -306,7 +316,12 @@ void OffscreenQuickView::update()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         d->m_image = d->m_renderControl->grab();
 #else
-        d->m_image = d->m_view->grabWindow();
+        if (usingGl) {
+            d->m_image = d->m_fbo->toImage();
+            d->m_image.setDevicePixelRatio(d->m_view->devicePixelRatio());
+        } else {
+            d->m_image = d->m_view->grabWindow();
+        }
 #endif
     }
 
@@ -359,10 +374,17 @@ void OffscreenQuickView::forwardMouseEvent(QEvent *e)
     }
     case QEvent::Wheel: {
         QWheelEvent *we = static_cast<QWheelEvent *>(e);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const QPointF widgetPos = d->m_view->mapFromGlobal(we->posF().toPoint());
         QWheelEvent cloneEvent(widgetPos, we->globalPos(), we->pixelDelta(), we->angleDelta(),
                                we->delta(), we->orientation(), we->buttons(),
                                we->modifiers(), we->phase(), we->source(), we->inverted());
+#else
+        const QPointF widgetPos = d->m_view->mapFromGlobal(we->position().toPoint());
+        QWheelEvent cloneEvent(widgetPos, we->globalPosition(), we->pixelDelta(), we->angleDelta(),
+                               we->buttons(), we->modifiers(), we->phase(), we->inverted(), we->source());
+#endif
+
         QCoreApplication::sendEvent(d->m_view.get(), &cloneEvent);
         e->setAccepted(cloneEvent.isAccepted());
         return;

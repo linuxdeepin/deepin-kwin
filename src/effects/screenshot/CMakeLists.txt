@@ -20,16 +20,22 @@ target_link_libraries(kwin4_effect_screenshot PRIVATE
     kwineffects
     kwinglutils
 
-    KF5::Service
-    KF5::I18n
+    KF${KF_MAJOR_VERSION}::Service
+    KF${KF_MAJOR_VERSION}::I18n
 
     Qt${QT_MAJOR_VERSION}::Concurrent
     Qt${QT_MAJOR_VERSION}::DBus
-    Qt${QT_MAJOR_VERSION}::X11Extras
+    Qt${QT_MAJOR_VERSION}::QuickWidgets
 )
 
+if (QT_MAJOR_VERSION EQUAL "5")
+    target_link_libraries(kwin4_effect_screenshot PRIVATE Qt5::X11Extras)
+else()
+    target_link_libraries(kwin4_effect_screenshot PRIVATE Qt6::GuiPrivate)
+endif()
+
 if (KWIN_BUILD_NOTIFICATIONS)
-    target_link_libraries(kwin4_effect_screenshot PRIVATE KF5::Notifications)
+    target_link_libraries(kwin4_effect_screenshot PRIVATE KF${KF_MAJOR_VERSION}::Notifications)
 endif()
 
 ecm_qt_declare_logging_category(kwin4_effect_screenshot

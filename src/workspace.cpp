@@ -88,9 +88,15 @@
 #define DBUS_DEEPIN_WM_OBJ       "/com/deepin/wm"
 #define DBUS_DEEPIN_WM_INTF      "com.deepin.wm"
 
-#define DBUS_APPEARANCE_SERVICE  "com.deepin.daemon.Appearance"
-#define DBUS_APPEARANCE_OBJ      "/com/deepin/daemon/Appearance"
-#define DBUS_APPEARANCE_INTF     "com.deepin.daemon.Appearance"
+#ifdef BUILD_ON_V25
+#define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
+#define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
+#define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
+#else
+#define DBUS_APPEARANCE_SERVICE "com.deepin.daemon.Appearance"
+#define DBUS_APPEARANCE_OBJ "/com/deepin/daemon/Appearance"
+#define DBUS_APPEARANCE_INTF "com.deepin.daemon.Appearance"
+#endif
 
 #define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
 #define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
@@ -356,25 +362,30 @@ void Workspace::init()
     connect(this, &Workspace::unmanagedAdded, m_splitManage.get(), &SplitManage::add);
     connect(this, &Workspace::internalWindowAdded, m_splitManage.get(), &SplitManage::add);
     connect(this, &Workspace::preRemoveInternalWindow, m_splitManage.get(), &SplitManage::removeInternal);
-
+#ifdef BUILD_ON_V25
+    m_colorConfigReader = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "QtActiveColor");
+    connect(m_colorConfigReader.get(), &ConfigReader::sigPropertyChanged, this, &Workspace::slotActiveColorChanged);
+    m_iconConfigReader = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "IconTheme");
+    connect(m_iconConfigReader.get(), &ConfigReader::sigPropertyChanged, this, &Workspace::slotIconThemeChanged);
+#else
     QDBusConnection::sessionBus().connect(KWinDBusService, KWinDBusPath, KWinDBusPropertyInterface,
                                           "PropertiesChanged", this, SLOT(qtActiveColorChanged()));
     QDBusConnection::sessionBus().connect(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF,
                                           "Changed", this, SLOT(slotIconThemeChanged(const QString &, const QString &)));
-
+#endif
     m_placementTracker->init(getPlacementTrackerHash());
 
-    m_fontSizeConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ,
-                                      DBUS_APPEARANCE_INTF, "FontSize");
-    m_fontFamilyConfigReader = new ConfigReader(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "StandardFont");
+    m_fontSizeConfigReader = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "FontSize");
+    m_fontFamilyConfigReader = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "StandardFont");
 
     DconfigRead<QString>("org.kde.kwin.cursor", "perferredOutput", m_perferredCursorOutput);
-
+#ifndef BUILD_ON_V25
     m_dockInter = new DBusDock();
     if (m_dockInter) {
         slotDockPositionChanged();
         connect(m_dockInter, &DBusDock::FrontendRectChanged, this, &Workspace::slotDockPositionChanged);
     }
+#endif
     setProcessSessionPath();
 
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
@@ -676,16 +687,6 @@ Workspace::~Workspace()
 
     for (Output *output : std::as_const(m_outputs)) {
         output->unref();
-    }
-
-    if (m_fontSizeConfigReader) {
-        delete m_fontSizeConfigReader;
-        m_fontSizeConfigReader = nullptr;
-    }
-
-    if (m_fontFamilyConfigReader) {
-        delete m_fontFamilyConfigReader;
-        m_fontFamilyConfigReader = nullptr;
     }
 
     _self = nullptr;
@@ -1789,9 +1790,13 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
                             m_outputOrder.end());
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const QSet<Output *> oldOutputsSet(oldOutputs.toSet());
     const QSet<Output *> outputsSet(m_outputs.toSet());
-
+#else
+    const QSet<Output *> oldOutputsSet(oldOutputs.begin(), oldOutputs.end());
+    const QSet<Output *> outputsSet(m_outputs.begin(), m_outputs.end());
+#endif
     const auto added = outputsSet - oldOutputsSet;
     for (Output *output : added) {
         output->ref();
@@ -2554,7 +2559,11 @@ void Workspace::setWasUserInteraction()
 QString Workspace::ActiveColor()
 {
     if (m_activeColor.isEmpty()) {
+#ifdef BUILD_ON_V25
+        m_activeColor = m_colorConfigReader.get()->getProperty().isValid() ? m_colorConfigReader.get()->getProperty().toString() : "";
+#else
         m_activeColor = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
+#endif
         outline()->setActiveColor(m_activeColor);
     }
     return m_activeColor;
@@ -2566,19 +2575,31 @@ void Workspace::setActiveColor(QString color)
     outline()->setActiveColor(m_activeColor);
 }
 
+#ifdef BUILD_ON_V25
+void Workspace::slotActiveColorChanged(QVariant property)
+{
+    setActiveColor(property.toString());
+}
+
+void Workspace::slotIconThemeChanged(QVariant property)
+{
+    QIcon::setThemeName(property.toString());
+
+    Q_EMIT iconThemeChanged();
+}
+#else
 void Workspace::qtActiveColorChanged()
 {
     QString clr = QDBusInterface(KWinDBusService, KWinDBusPath, KWinDBusInterface).property("QtActiveColor").toString();
     setActiveColor(clr);
 }
-
 void Workspace::slotIconThemeChanged(const QString &property, const QString &theme)
 {
     if (property == "icon")
         QIcon::setThemeName(theme);
     Q_EMIT iconThemeChanged();
 }
-
+#endif
 void Workspace::tileActiveWindow(uint side)
 {
     quickTileWindow((QuickTileMode)side);
@@ -3888,12 +3909,12 @@ float Workspace::getOsScreenScale() const
 
 double Workspace::getFontSizeScale() const
 {
-    return m_fontSizeConfigReader->getProperty().isValid() ? m_fontSizeConfigReader->getProperty().toDouble() / 10.5 : 1.0;
+    return m_fontSizeConfigReader.get()->getProperty().isValid() ? m_fontSizeConfigReader.get()->getProperty().toDouble() / 10.5 : 1.0;
 }
 
 QString Workspace::getFontFamily() const
 {
-    return m_fontFamilyConfigReader->getProperty().isValid() ? m_fontFamilyConfigReader->getProperty().toString() : "Sans Serif";
+    return m_fontFamilyConfigReader.get()->getProperty().isValid() ? m_fontFamilyConfigReader.get()->getProperty().toString() : "Sans Serif";
 }
 
 bool Workspace::getDraggingWithContentStatus()
@@ -3975,6 +3996,7 @@ bool Workspace::previewingClient(const Window *c) const
     return previewClients.contains(const_cast<Window*>(c));
 }
 
+#ifndef BUILD_ON_V25
 void Workspace::setDockLastPosition(QRectF rect)
 {
     m_lastDockPos = rect;
@@ -3994,6 +4016,7 @@ void Workspace::slotDockPositionChanged()
         }
     }
 }
+#endif
 
 void Workspace::checkIfFirstWindowOfProcess(Window *client)
 {
@@ -4017,8 +4040,10 @@ void Workspace::reportTimeToSpanEventTracking(struct timeval createTimeval, Wind
 
 int Workspace::getDockDirection()
 {
+#ifndef BUILD_ON_V25
     if (m_dockInter)
         return m_dockInter->position();
+#endif
     return 2;
 }
 

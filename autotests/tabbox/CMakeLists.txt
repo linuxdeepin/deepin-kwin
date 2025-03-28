@@ -24,10 +24,10 @@ target_link_libraries(testTabBoxClientModel
     Qt${QT_MAJOR_VERSION}::Widgets
     Qt${QT_MAJOR_VERSION}::GuiPrivate
 
-    KF5::ConfigCore
-    KF5::I18n
-    KF5::Package
-    KF5::WindowSystem
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::Package
+    KF${KF_MAJOR_VERSION}::WindowSystem
 
     XCB::XCB
 )
@@ -61,10 +61,10 @@ target_link_libraries(testTabBoxHandler
     Qt${QT_MAJOR_VERSION}::Widgets
     Qt${QT_MAJOR_VERSION}::GuiPrivate
 
-    KF5::ConfigCore
-    KF5::I18n
-    KF5::Package
-    KF5::WindowSystem
+    KF${KF_MAJOR_VERSION}::ConfigCore
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::Package
+    KF${KF_MAJOR_VERSION}::WindowSystem
 
     XCB::XCB
 )

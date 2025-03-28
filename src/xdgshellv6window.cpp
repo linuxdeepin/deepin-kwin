@@ -1757,7 +1757,11 @@ void XdgToplevelV6Window::initialize()
     if (!qEnvironmentVariableIsSet("KWIN_DISABLE_SKIP_BUFFER")) {
         static const QStringList benchApps = [] {
             const QString envApps = qEnvironmentVariable("KWIN_SKIP_BUFFER_APPS");
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             return envApps.isEmpty() ? QStringList{"glmark2"} : envApps.split(',', QString::SkipEmptyParts);
+#else
+            return envApps.isEmpty() ? QStringList{"glmark2"} : envApps.split(',', Qt::SkipEmptyParts);
+#endif
         }();
 
         const QString &resName = resourceName();

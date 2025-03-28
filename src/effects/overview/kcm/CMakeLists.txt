@@ -8,10 +8,11 @@ kconfig_add_kcfg_files(kwin_overview_config_SOURCES ../overviewconfig.kcfgc)
 
 kwin_add_effect_config(kwin_overview_config ${kwin_overview_config_SOURCES})
 target_link_libraries(kwin_overview_config
-    KF5::ConfigWidgets
-    KF5::CoreAddons
-    KF5::GlobalAccel
-    KF5::I18n
-    KF5::XmlGui
+    KF${KF_MAJOR_VERSION}::ConfigWidgets
+    KF${KF_MAJOR_VERSION}::CoreAddons
+    KF${KF_MAJOR_VERSION}::GlobalAccel
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::XmlGui
+    KF${KF_MAJOR_VERSION}::KCMUtils
     KWinEffectsInterface
 )

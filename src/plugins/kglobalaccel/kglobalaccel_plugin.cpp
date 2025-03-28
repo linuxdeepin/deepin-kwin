@@ -13,7 +13,11 @@
 #include <QDebug>
 
 KGlobalAccelImpl::KGlobalAccelImpl(QObject *parent)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     : KGlobalAccelInterfaceV2(parent)
+#else
+    : KGlobalAccelInterface(parent)
+#endif
 {
 }
 
@@ -51,3 +55,15 @@ bool KGlobalAccelImpl::checkKeyReleased(int keyQt)
 {
     return keyReleased(keyQt);
 }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+bool KGlobalAccelImpl::checkPointerPressed(Qt::MouseButtons buttons)
+{
+    return pointerPressed(buttons);
+}
+
+bool KGlobalAccelImpl::checkAxisTriggered(int axis)
+{
+    return axisTriggered(axis);
+}
+#endif
