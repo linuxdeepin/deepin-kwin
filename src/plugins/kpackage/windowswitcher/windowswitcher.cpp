@@ -47,10 +47,6 @@ void SwitcherPackage::pathChanged(KPackage::Package *package)
     if (!mainScript.isEmpty()) {
         package->addFileDefinition("mainscript", mainScript, i18n("Main Script File"));
     }
-    QString mainScript = package->metadata().value("X-Plasma-MainScript");
-    if (!mainScript.isEmpty()) {
-        package->addFileDefinition("mainscript", mainScript);
-    }
 }
 #endif
 

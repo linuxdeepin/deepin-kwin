@@ -69,6 +69,12 @@ void WindowEffects::slideWindow(WId id, KWindowEffects::SlideFromLocation locati
     w->setProperty("kwin_slide", QVariant::fromValue(location));
     w->setProperty("kwin_slide_offset", offset);
 }
+#else
+void WindowEffects::slideWindow(QWindow *window, KWindowEffects::SlideFromLocation location, int offset)
+{
+    window->setProperty("kwin_slide", QVariant::fromValue(location));
+    window->setProperty("kwin_slide_offset", offset);
+}
 #endif
 
 #if KWINDOWSYSTEM_BUILD_DEPRECATED_SINCE(5, 81) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -95,6 +101,7 @@ void WindowEffects::highlightWindows(WId controller, const QList<WId> &ids)
 {
 }
 #endif
+
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void WindowEffects::enableBlurBehind(WId window, bool enable, const QRegion &region)
@@ -128,15 +135,7 @@ void WindowEffects::enableBackgroundContrast(WId window, bool enable, qreal cont
         w->setProperty("kwin_background_saturation", {});
     }
 }
-#endif
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-void WindowEffects::slideWindow(QWindow *window, KWindowEffects::SlideFromLocation location, int offset)
-{
-    window->setProperty("kwin_slide", QVariant::fromValue(location));
-    window->setProperty("kwin_slide_offset", offset);
-}
-
+#else
 void WindowEffects::enableBlurBehind(QWindow *window, bool enable, const QRegion &region)
 {
     if (enable) {

@@ -26,8 +26,8 @@ target_link_libraries(kcm_kwindecoration
     KDecoration2::KDecoration
     KF${KF_MAJOR_VERSION}::I18n
     KF${KF_MAJOR_VERSION}::KCMUtils
-    # KF${KF_MAJOR_VERSION}::NewStuff
-    # KF${KF_MAJOR_VERSION}::QuickAddons
+    KF${KF_MAJOR_VERSION}::NewStuff
+    KF${KF_MAJOR_VERSION}::QuickAddons
     Qt${QT_MAJOR_VERSION}::Quick
 )
 

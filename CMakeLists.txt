@@ -7,7 +7,7 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(BUILD_ON_V25 ON)
+set(BUILD_ON_V25 OFF)
 
 if (BUILD_ON_V25)
   set(QT_MAJOR_VERSION "6")
@@ -131,11 +131,19 @@ set_package_properties(Threads PROPERTIES
     TYPE REQUIRED
 )
 
-find_package(KWayland ${KF_MIN_VERSION} CONFIG)
-set_package_properties(KWayland PROPERTIES
-    PURPOSE "Required to build wayland platform plugin and tests"
-    TYPE REQUIRED
-)
+if (KF_MAJOR_VERSION EQUAL "5")
+    find_package(KF5Wayland ${KF5_MIN_VERSION} CONFIG)
+    set_package_properties(KF5Wayland PROPERTIES
+        PURPOSE "Required to build wayland platform plugin and tests"
+        TYPE REQUIRED
+    )
+else()
+    find_package(KWayland ${KF_MIN_VERSION} CONFIG)
+    set_package_properties(KWayland PROPERTIES
+        PURPOSE "Required to build wayland platform plugin and tests"
+        TYPE REQUIRED
+    )
+endif()
 
 # optional frameworks
 find_package(KF${KF_MAJOR_VERSION}Activities ${KF_MIN_VERSION} CONFIG)
@@ -489,7 +497,7 @@ ecm_find_qmlmodule(org.kde.plasma.components 2.0)
 
 ########### configure tests ###############
 option(KWIN_BUILD_DECORATIONS "Enable building of KWin decorations." ON)
-option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." ON)
+option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." OFF)
 option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications support" ON)
 option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" ON)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)

@@ -13,5 +13,5 @@ target_link_libraries(kwin4_effect_sheet PRIVATE
     kwineffects
 
     KF${KF_MAJOR_VERSION}::ConfigGui
-    Qt${Qt_MAJOR_VERSION}::QuickWidgets
+    Qt${QT_MAJOR_VERSION}::QuickWidgets
 )

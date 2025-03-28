@@ -37,7 +37,7 @@ set(kcm_screenedges_LIBS
     KF${KF_MAJOR_VERSION}::KCMUtils
     KF${KF_MAJOR_VERSION}::I18n
     KF${KF_MAJOR_VERSION}::Package
-    # KF${KF_MAJOR_VERSION}::Plasma
+    KF${KF_MAJOR_VERSION}::Plasma
     KF${KF_MAJOR_VERSION}::Service
 )
 target_link_libraries(kcm_kwinscreenedges ${X11_LIBRARIES} ${kcm_screenedges_LIBS})
