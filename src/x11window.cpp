@@ -2125,7 +2125,7 @@ bool X11Window::takeFocus()
         if (workspace()->showingDesktop()) {
             // 最小化其它所有窗口
             for (Window *c : workspace()->allClientList()) {
-                if (this == c || c->isDock() || c->isDesktop() || skipTaskbar() || (c->isUtility() && c->keepAbove())) {
+                if (this == c || c->isDock() || c->isDesktop() || c->skipTaskbar() || (c->isUtility() && c->keepAbove())) {
                     continue;
                 }
 
