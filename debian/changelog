@@ -1,3 +1,9 @@
+kwin (4:5.27.2.284-deepin284-1) unstable; urgency=medium
+
+  * fix: correct skipTaskbar() call in window focus handling
+
+ -- Dingyuan Zhang <zhangdingyuan@uniontech.com>  Tue, 1 Apr 2025 13:27:00 +0800
+
 kwin (4:5.27.2.283-deepin283-1) unstable; urgency=medium
 
   [Guoyao]
