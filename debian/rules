@@ -17,7 +17,9 @@ override_dh_python3:
 
 
 override_dh_auto_configure:
-	dh_auto_configure -Skf6 -- -DDVERSION="6.0.0" -DBUILD_TESTING=OFF \
+	dh_auto_configure -Skf6 -- -DDVERSION="6.0.0" \
+		-DBUILD_ON_V25=ON \
+		-DBUILD_TESTING=OFF \
 		-DKWIN_BUILD_KCMS=OFF
 
 override_dh_auto_test:

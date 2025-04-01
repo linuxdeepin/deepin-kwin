@@ -7,7 +7,7 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(BUILD_ON_V25 OFF)
+option(BUILD_ON_V25 "Use deepin/uos v25 compatible interfaces" OFF)
 
 if (BUILD_ON_V25)
   set(QT_MAJOR_VERSION "6")
