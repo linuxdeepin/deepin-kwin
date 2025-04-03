@@ -1,3 +1,9 @@
+deepin-kwin (4:6.0.1) unstable; urgency=medium
+
+  * fix: add kglobalacceld as depends
+
+ -- rewine <luhongxu@deepin.org>  Thu, 03 Apr 2025 10:59:54 +0800
+
 deepin-kwin (4:6.0.0) unstable; urgency=medium
 
   * Port to qt6 
