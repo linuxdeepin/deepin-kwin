@@ -105,6 +105,7 @@ Package: deepin-kwin-common
 Architecture: any
 Depends: hwdata,
          deepin-kwin-data (= ${source:Version}),
+         kglobalacceld,
          qml6-module-org-kde-kquickcontrolsaddons,
          qml6-module-qtmultimedia,
 	 qml6-module-qt5compat-graphicaleffects,
