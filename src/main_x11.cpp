@@ -388,7 +388,7 @@ int main(int argc, char *argv[])
     signal(SIGPIPE, SIG_IGN);
 
     // enforce xcb plugin, unfortunately command line switch has precedence
-    setenv("QT_QPA_PLATFORM", "xcb", true);
+    setenv("QT_QPA_PLATFORM", "dxcb;xcb", true);
 
     qunsetenv("QT_DEVICE_PIXEL_RATIO");
     qunsetenv("QT_SCALE_FACTOR");
