@@ -1135,4 +1135,9 @@ void SurfaceInterface::skipBuffer()
     d->isSkipBuffer = true;
 }
 
+ViewportInterface *SurfaceInterface::viewportExtension() const
+{
+    return d->viewportExtension;
+}
+
 } // namespace KWaylandServer

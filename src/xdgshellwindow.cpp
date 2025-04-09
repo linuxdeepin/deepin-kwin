@@ -257,8 +257,6 @@ static QRectF gravitateGeometry(const QRectF &rect, const QRectF &bounds, Gravit
 
 void XdgSurfaceWindow::handleNextWindowGeometry()
 {
-    const QRectF boundingGeometry = surface()->boundingRect();
-
     // The effective window geometry is defined as the intersection of the window geometry
     // and the rectangle that bounds the main surface and all of its sub-surfaces. If the
     // client hasn't specified the window geometry, we must fallback to the bounding geometry.
@@ -266,10 +264,13 @@ void XdgSurfaceWindow::handleNextWindowGeometry()
     // window geometry.
 
     m_windowGeometry = m_shellSurface->windowGeometry();
-    if (m_windowGeometry.isValid()) {
-        m_windowGeometry &= boundingGeometry;
-    } else {
-        m_windowGeometry = boundingGeometry;
+    if (surface()->viewportExtension()) {
+        const QRectF boundingGeometry = surface()->boundingRect();
+        if (m_windowGeometry.isValid()) {
+            m_windowGeometry &= boundingGeometry;
+        } else {
+            m_windowGeometry = boundingGeometry;
+        }
     }
 
     if (m_windowGeometry.isEmpty()) {

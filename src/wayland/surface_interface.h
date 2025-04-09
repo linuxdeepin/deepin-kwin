@@ -8,6 +8,7 @@
 
 #include "core/output.h"
 #include "output_interface.h"
+#include "viewporter_interface_p.h"
 
 #include <QMatrix4x4>
 #include <QObject>
@@ -353,6 +354,8 @@ public:
     void setPreferredScale(qreal scale);
 
     void skipBuffer();
+
+    ViewportInterface *viewportExtension() const;
 
 Q_SIGNALS:
     /**
