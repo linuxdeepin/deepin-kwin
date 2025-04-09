@@ -91,7 +91,7 @@ void ScissorWindow::buildTextureMask(const QString& key, const QPoint& radius) {
 
 void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
                                    std::chrono::milliseconds time) {
-    if (effects->hasActiveFullScreenEffect() || !shouldScissor(w)) {
+    if (!shouldScissor(w)) {
         return effects->prePaintWindow(w, data, time);
     }
 
@@ -262,9 +262,12 @@ bool ScissorWindow::isMaximized(EffectWindow *w, const PaintData& data)
 
 bool ScissorWindow::shouldScissor(EffectWindow *w) const
 {
-    if (w->data(WindowRadiusRole).isValid() || w->data(WindowClipPathRole).isValid())
+    if (w->isScissorForce())
         return true;
-    return w->isScissorForce() || (!w->isDesktop() && !w->isOutline() && !w->isSplitBar() && !effectsEx->isSplitWin(w) && !isMaximized(w) && w->borderRedrawable());
+    if (w->isDesktop() || w->isOutline() || w->isSplitBar() || effectsEx->isSplitWin(w) || isMaximized(w) || effects->hasActiveFullScreenEffect() || w->isFullScreen()) {
+        return false;
+    }
+    return w->data(WindowRadiusRole).isValid() || w->data(WindowClipPathRole).isValid();
 }
 
 }  // namespace KWin
