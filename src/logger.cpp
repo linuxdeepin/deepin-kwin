@@ -89,23 +89,53 @@ void Logger::setLoggingRules(const QString &rules)
 
 void Logger::appendRules(const QString &rules)
 {
-    QString tmpRules = rules;
-    tmpRules.replace(";", "\n");
-    QStringList tmplist = tmpRules.split('\n');
-    for (int i = 0; i < tmplist.count(); ++i) {
-        if (m_rules.contains(tmplist.at(i))) {
-            tmplist.removeAt(i);
-            --i;
+    // Convert rules string to QMap for processing
+    QMap<QString, QString> rulesMap;
+
+    // Process existing rules
+    if (!m_rules.isEmpty()) {
+        const QStringList currentRules = m_rules.split('\n', QString::SkipEmptyParts);
+        for (const QString &rule : currentRules) {
+            const int equalPos = rule.indexOf('=');
+            if (equalPos > 0) {
+                QString key = rule.left(equalPos).trimmed();
+                QString value = rule.mid(equalPos + 1).trimmed();
+                rulesMap[key] = value;
+            }
         }
     }
-    if (tmplist.isEmpty())
-        return;
 
-    if (m_rules.isEmpty()) {
-        m_rules = tmplist.join("\n");
-    } else {
-        m_rules += "\n" + tmplist.join("\n");
+    // Process new rules
+    QString tmpRules = rules;
+    tmpRules.replace(";", "\n");
+    const QStringList newRules = tmpRules.split('\n', QString::SkipEmptyParts);
+    bool hasNewRules = false;
+
+    for (const QString &rule : newRules) {
+        const int equalPos = rule.indexOf('=');
+        if (equalPos > 0) {
+            QString key = rule.left(equalPos).trimmed();
+            QString value = rule.mid(equalPos + 1).trimmed();
+
+            // Update if it's a new rule or the value has changed
+            if (!rulesMap.contains(key) || rulesMap[key] != value) {
+                rulesMap[key] = value;
+                hasNewRules = true;
+            }
+        }
     }
+
+    if (!hasNewRules) {
+        return;
+    }
+
+    // Convert QMap back to rules string
+    QStringList resultRules;
+    for (auto it = rulesMap.constBegin(); it != rulesMap.constEnd(); ++it) {
+        resultRules.append(QString("%1=%2").arg(it.key(), it.value()));
+    }
+
+    m_rules = resultRules.join("\n");
 }
 
 void Logger::initDBus()
