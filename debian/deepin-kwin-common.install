@@ -11,3 +11,4 @@ usr/lib/*/qt6/plugins/kwin/
 usr/lib/*/qt6/plugins/org.kde.kdecoration2/com.deepin.chameleon.so
 usr/lib/*/qt6/qml/org/kde/kwin/
 usr/lib/*/qt6/qml/org/kde/kwin.2/
+etc/xdg/autostart/deepin-kglobalacceld.desktop
