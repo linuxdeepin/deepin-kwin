@@ -52,6 +52,7 @@
 #include "windowstyle/decorationstyle.h"
 #include "platformsupport/scenes/opengl/openglsurfacetexture.h"
 #include "splitscreen/splitmanage.h"
+#include "composite.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -5145,6 +5146,7 @@ void Window::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
                 m_shapeBoundingRegion += region;
             }
             m_isShapeBoundingRegionSet = true;
+            Compositor::self()->scene()->addRepaint(frameGeometry().toRect());
         }
     }
 
