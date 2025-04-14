@@ -1,6 +1,10 @@
 add_definitions(-DTRANSLATION_DOMAIN=\"kwin_package_windowswitcher\")
 
-kcoreaddons_add_plugin(kwin_packagestructure_windowswitcher SOURCES windowswitcher.cpp INSTALL_NAMESPACE "kpackage/packagestructure")
+if (KF_MAJOR_VERSION EQUAL "5")
+   kcoreaddons_add_plugin(kwin_packagestructure_windowswitcher SOURCES windowswitcher.cpp INSTALL_NAMESPACE "kf6/packagestructure")
+else()
+   kcoreaddons_add_plugin(kwin_packagestructure_windowswitcher SOURCES windowswitcher.cpp INSTALL_NAMESPACE "kpackage/packagestructure")
+endif()
 
 target_link_libraries(kwin_packagestructure_windowswitcher
    KF${KF_MAJOR_VERSION}::I18n
