@@ -1,0 +1,17 @@
+{
+    "KPackageStructure": "KWin/WindowSwitcher",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "zrenfire@gmail.com",
+                "Name": "Chris Holland"
+            }
+        ],
+        "Description": "A window switcher layout using a small list of thumbnails",
+        "Icon": "preferences-system-windows-switcher-big-icons",
+        "Id": "thumbnail_grid",
+        "License": "GPL",
+        "Name": "Thumbnail List"
+    },
+    "X-Plasma-API": "declarativeappletscript"
+}
