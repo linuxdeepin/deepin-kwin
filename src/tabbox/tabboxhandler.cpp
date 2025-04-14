@@ -253,6 +253,7 @@ QObject *TabBoxHandlerPrivate::createSwitcherItem(bool desktopMode)
             .arg(config.layoutName(),
                  desktopMode ? QStringLiteral("desktopswitcher/DesktopSwitcher.qml") : QStringLiteral("windowswitcher/WindowSwitcher.qml")));
     if (file.isNull()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const QString folderName = desktopMode ? QLatin1String("kwin/desktoptabbox/") : QLatin1String("kwin/tabbox/");
         auto findSwitcher = [this, desktopMode, folderName] {
             const QString type = desktopMode ? QStringLiteral("KWin/DesktopSwitcher") : QStringLiteral("KWin/WindowSwitcher");
@@ -287,14 +288,30 @@ QObject *TabBoxHandlerPrivate::createSwitcherItem(bool desktopMode)
             return QStandardPaths::locate(QStandardPaths::GenericDataLocation, folderName + pluginName + QLatin1String("/contents/") + scriptName);
         };
         file = findScriptFile();
+#else
+        QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kwin-wayland/tabbox/") + config.layoutName(), QStandardPaths::LocateDirectory);
+        if (path.isEmpty()) {
+            path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kwin/tabbox/") + config.layoutName(), QStandardPaths::LocateDirectory);
+        }
+        if (path.isEmpty()) {
+            // load default
+            qCWarning(KWIN_TABBOX) << "Could not load window switcher package" << config.layoutName() << ". Falling back to default";
+            path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kwin-wayland/tabbox/") + TabBoxConfig::defaultLayoutName(), QStandardPaths::LocateDirectory);
+        }
+
+        KPackage::Package pkg = KPackage::PackageLoader::self()->loadPackage(QStringLiteral("KWin/WindowSwitcher"));
+        pkg.setPath(path);
+        file = pkg.filePath("mainscript");
+#endif
     }
+
     if (file.isNull()) {
-        qCDebug(KWIN_TABBOX) << "Could not find QML file for window switcher";
+        qCWarning(KWIN_TABBOX) << "Could not find QML file for window switcher";
         return nullptr;
     }
     m_qmlComponent->loadUrl(QUrl::fromLocalFile(file));
     if (m_qmlComponent->isError()) {
-        qCDebug(KWIN_TABBOX) << "Component failed to load: " << m_qmlComponent->errors();
+        qCWarning(KWIN_TABBOX) << "Component failed to load: " << m_qmlComponent->errors();
         QStringList args;
         args << QStringLiteral("--passivepopup") << i18n("The Window Switcher installation is broken, resources are missing.\n"
                                                          "Contact your distribution about this.")
