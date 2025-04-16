@@ -5091,7 +5091,10 @@ QVariant Window::createTimespanDBusMessage(struct timeval createTimeval, int tid
             dbusArguments.beginArray();
             while (!dbusArguments.atEnd()) {
                 dbusArguments >> tempFilteredProcessList;
-                filteredProcessList.append(tempFilteredProcessList[0]);
+                if (!tempFilteredProcessList.empty())
+                    filteredProcessList.append(tempFilteredProcessList[0]);
+                else
+                    qCDebug(KWIN_CORE) << "Get an empty filteredProcessList from dbus!";
             }
             dbusArguments.endArray();
             initialized = true;
