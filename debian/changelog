@@ -1,3 +1,16 @@
+deepin-kwin (4:6.0.3) unstable; urgency=medium
+
+  * fix: access illegal memory in createTimespanDBusMessage
+  * fix: com.deepin.wm dbus has changed in v25
+  * fix(splitbar): can't show when use qt6
+  * fix: hoverleave dde-dock preview,window show error
+  * fix: adapt tabbox qml to qt6
+  * chore(tabbox): Simplify loading switcher from kf6 KPackage
+  * fix: kpackage install namespace in kf6
+  * fix: schedule repaint after call takeScreenShot
+
+ -- rewine <luhongxu@deepin.org>  Wed, 16 Apr 2025 18:07:48 +0800
+
 deepin-kwin (4:6.0.2) unstable; urgency=medium
 
   * fix: dxcb may not loaded in qt6
