@@ -34,6 +34,7 @@ SplitBar::SplitBar(QString screenName)
 
     setGeometry(0, 0, 1, 1);
     setWindowOpacity(0);
+    setCursor(Qt::SizeHorCursor);
     show();
     setProperty("__kwin_splitbar", true);
 }
@@ -56,10 +57,13 @@ void SplitBar::mouseReleaseEvent(QMouseEvent* e)
     Q_EMIT splitbarPosChanged(m_screenName, QPointF(), m_window, true);
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void SplitBar::enterEvent(QEvent *)
+#else
+void SplitBar::enterEvent(QEnterEvent *)
+#endif
 {
     setWindowOpacity(1);
-    setCursor(Qt::SizeHorCursor);
     workspace()->setSplitBarStatus(1);
     Q_EMIT workspace()->splitBarCursorChanged();
 }
@@ -68,7 +72,6 @@ void SplitBar::leaveEvent(QEvent *)
 {
     workspace()->setSplitBarStatus(0);
     setWindowOpacity(0);
-    setCursor(Qt::ArrowCursor);
 }
 
 void SplitBar::paintEvent(QPaintEvent *event)

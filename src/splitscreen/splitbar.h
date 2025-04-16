@@ -27,12 +27,16 @@ public:
     SplitBar(QString);
     ~SplitBar();
 
-    void mousePressEvent(QMouseEvent* e);
-    void mouseMoveEvent(QMouseEvent*e);
-    void mouseReleaseEvent(QMouseEvent* e);
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-    void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    void enterEvent(QEvent *) override;
+#else
+    void enterEvent(QEnterEvent *) override;
+#endif
+    void leaveEvent(QEvent *) override;
+    void paintEvent(QPaintEvent *event) override;
 
 Q_SIGNALS:
     void splitbarPosChanged(QString, QPointF, Window *, bool);
