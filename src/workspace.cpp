@@ -84,10 +84,6 @@
 // xcb
 #include <xcb/xinerama.h>
 
-#define DBUS_DEEPIN_WM_SERVICE   "com.deepin.wm"
-#define DBUS_DEEPIN_WM_OBJ       "/com/deepin/wm"
-#define DBUS_DEEPIN_WM_INTF      "com.deepin.wm"
-
 #ifdef BUILD_ON_V25
 #define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
 #define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
@@ -233,9 +229,13 @@ Workspace::Workspace()
     init();
 
     new DBusInterface(this);
-
+#ifdef BUILD_ON_V25
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "TileActiveWindowChanged", this, SLOT(tileActiveWindow(int)));
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "ToggleActiveWindowMaximizeChanged", this, SLOT(toggleActiveMaximize()));
+#else
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "QuickTileWindow", this, SLOT(tileActiveWindow(uint)));
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "WindowMaximize", this, SLOT(toggleActiveMaximize()));
+#endif
 
     QTimer::singleShot(3000, [this] {
         struct ProhibitThread : public QThread
@@ -2600,7 +2600,12 @@ void Workspace::slotIconThemeChanged(const QString &property, const QString &the
     Q_EMIT iconThemeChanged();
 }
 #endif
+
+#ifdef BUILD_ON_V25
+void Workspace::tileActiveWindow(int side)
+#else
 void Workspace::tileActiveWindow(uint side)
+#endif
 {
     quickTileWindow((QuickTileMode)side);
 }

@@ -729,8 +729,13 @@ public Q_SLOTS:
     void slotIconThemeChanged(const QString &property, const QString &theme);
 #endif
 
+#ifdef BUILD_ON_V25
+    void tileActiveWindow(int);
+#else
     void tileActiveWindow(uint);
+#endif
     void toggleActiveMaximize();
+
 #ifndef BUILD_ON_V25
     void slotDockPositionChanged();
 #endif
