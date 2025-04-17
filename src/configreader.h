@@ -1,3 +1,6 @@
+// Copyright (C) 2025 UnionTech Software Technology Co., Ltd.
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #ifndef KWIN_CONFIGREADER_H
 #define KWIN_CONFIGREADER_H
 
