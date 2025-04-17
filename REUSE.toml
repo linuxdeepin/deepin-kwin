@@ -1,0 +1,88 @@
+version = 1
+SPDX-PackageName = "deepin-kwin"
+SPDX-PackageSupplier = "UnionTech Software Technology Co., Ltd. <>"
+SPDX-PackageDownloadLocation = "https://github.com/linuxdeepin/deepin-kwin"
+
+[[annotations]]
+path = [".github/**", ".gitlab-ci.yml", ".obs/workflows.yml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = [".clang-format", "**.kcfg", "**.kcfgc", "**.frag", "**.ui", "**.vert", "**/qmldir", "data/org_kde_kwin.categories", "configures/kdeglobals", "configures/klaunchrc", "configures/deepin-kwinrulesrc", "configures/deepin-kdeglobals", "configures/kglobalshortcutsrc", "configures/deepin-klaunchrc", "configures/deepin-kwinrc"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["debian/**", "rpm/**", "archlinux/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["doc/**", "**.knsrc"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["translations/**", "po/**", "**/**.qm", "**/**.ts"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "UnionTech Software Technology Co., Ltd."
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = ["**/**.svg", "**/**.png", "**/**.dci", "**/**.gif", "logo.png", "**.svgz"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "UnionTech Software Technology Co., Ltd."
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["**/**.json", "**/**.service", "**/**.txt", "**/**.sh", "**/**.html", "**/conf", ".gitignore", "**/**.desktop", "**/**.css", "**/**.ttf", "**.conf", "**/**.xml", ".release.json", "**/**.in", "src/kcmkwin/kwinscripts/deepin-kwinscripts.knsrc", "src/kcmkwin/kwintabbox/deepin-kwinswitcher.knsrc", "src/kcmkwin/kwineffects/deepin-kwineffect.knsrc", "kconf_update/**.upd", "kconf_update/**.pl", "kconf_update/**.py", "src/kcmkwin/kwinoptions/AUTHORS", "**/po", "**.yaml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["src/backends/drm/remoteaccess_manager.cpp", "src/backends/drm/remoteaccess_manager.h", "src/effects/multitaskview/multitask_effect.h", "src/effects/multitaskview/multitaskview.cpp", "src/effects/multitaskview/multitaskview.h", "src/plugins/kdecorations/deepin-chameleon/chameleon.cpp", "src/plugins/kdecorations/deepin-chameleon/chameleon.h", "src/plugins/kdecorations/deepin-chameleon/chameleonbutton.cpp", "src/plugins/kdecorations/deepin-chameleon/chameleonbutton.h", "src/plugins/kdecorations/deepin-chameleon/chameleonconfig.cpp", "src/plugins/kdecorations/deepin-chameleon/chameleonconfig.h", "src/plugins/kdecorations/deepin-chameleon/chameleonshadow.cpp", "src/plugins/kdecorations/deepin-chameleon/chameleonshadow.h", "src/plugins/kdecorations/deepin-chameleon/chameleontheme.cpp", "src/plugins/kdecorations/deepin-chameleon/chameleontheme.h", "src/plugins/kdecorations/deepin-chameleon/chameleonwindowtheme.cpp", "src/plugins/kdecorations/deepin-chameleon/chameleonwindowtheme.h", "src/plugins/kdecorations/deepin-chameleon/kwinutils.cpp", "src/plugins/kdecorations/deepin-chameleon/kwinutils.h", "src/plugins/kdecorations/deepin-chameleon/main.cpp", "src/utils/qscopeguard.h", "src/wayland/clientmanagement_interface.cpp", "src/wayland/clientmanagement_interface.h", "src/wayland/ddekeyboard_interface.cpp", "src/wayland/ddekeyboard_interface.h", "src/wayland/ddekeyboard_interface_p.h", "src/wayland/ddekvm_interface.cpp", "src/wayland/ddekvm_interface.h", "src/wayland/dderestrict_interface.cpp", "src/wayland/dderestrict_interface.h", "src/wayland/ddeseat_interface.cpp", "src/wayland/ddeseat_interface.h", "src/wayland/ddesecurity_interface.cpp", "src/wayland/ddesecurity_interface.h", "src/wayland/ddeshell_interface.cpp", "src/wayland/ddeshell_interface.h", "src/wayland/strut_interface.cpp", "src/wayland/strut_interface.h", "src/wayland/tools/qtwaylandscanner.cpp", "src/utils/filedescriptor.cpp", "src/utils/filedescriptor.h", "src/backends/drm/gbm_adaptor.cpp", "src/deepin-kwin.notifyrc", "src/dockrect.cpp", "src/dockrect.h", "src/kcms/effects/deepin-kwineffect.knsrc", "src/kcms/options/AUTHORS", "src/kcms/options/ChangeLog", "src/kcms/scripts/deepin-kwinscripts.knsrc", "src/kcms/tabbox/deepin-kwinswitcher.knsrc", "src/libkwineffects/kwineffectsex.cpp", "src/logger.cpp", "src/logger.h", "src/scene/itemrenderer_xrender.cpp", "src/scene/itemrenderer_xrender.h", "src/splitscreen/splitmenu.cpp", "src/splitscreen/splitmenu.h", "src/wayland/tools/.clang-format", "tests/drm_iterator_test.cc", "tests/drm_test.cc", "tests/gbm_test.cc", "tests/libinput_test.cc", "src/effects/multitaskview/*/*.qml", "src/qml/tabbox/*/contents/ui/main.qml", "src/qml/onscreennotification/plasma/dummydata/osd.qml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "UnionTech Software Technology Co., Ltd."
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["**/**.md", "README.md", "README.zh_CN.md", "CONTRIBUTING.md", "src/kcmkwin/kwinoptions/ChangeLog"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "UnionTech Software Technology Co., Ltd."
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["**/**.cmake", "**/CMakeLists.txt", "**.in", "**.qrc", "CMakeLists.txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "autotests/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["src/3rdparty/xcursor.h", "src/3rdparty/xcursor.c"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Keith Packard"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "src/platformsupport/scenes/opengl/drm_fourcc.h"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2011 Intel Corporation"
+SPDX-License-Identifier = "MIT-CMU"
+
+[[annotations]]
+path = ["src/kwin.notifyrc", "**/.directory", "src/plugins/kdecorations/aurorae/**", "**.dox", "data/org_kde_deepin-kwin.categories"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
