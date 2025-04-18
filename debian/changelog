@@ -1,3 +1,13 @@
+kwin (4:5.27.2.285-deepin285-1) unstable; urgency=medium
+
+  * fix: kwin no usage x11 WM_HINTS
+  * fix: error next window geometry under qt opengl
+  * fix: add repaint call in recordShape to ensure proper rendering
+  * fix: crash when hotplugging screens by updating window outputs
+  * fix: client not raised without xinput
+
+ -- WenHao Peng <pengwenhao@uniontech.com>  Tue, 18 Apr 2025 11:02:04 +0800
+
 kwin (4:5.27.2.284-deepin284-1) unstable; urgency=medium
 
   * fix: correct skipTaskbar() call in window focus handling
