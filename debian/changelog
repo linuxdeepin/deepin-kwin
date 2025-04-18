@@ -1,3 +1,9 @@
+deepin-kwin (4:6.0.5) unstable; urgency=medium
+
+  * fix: INSTALL_NAMESPACE error for windowswitche
+
+ -- rewine <luhongxu@deepin.org>  Fri, 18 Apr 2025 15:46:50 +0800
+
 deepin-kwin (4:6.0.4) unstable; urgency=medium
 
   * fix(debain): kpackage has moved to kf6
