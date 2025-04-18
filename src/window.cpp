@@ -1781,6 +1781,9 @@ void Window::finishInteractiveMoveResize(bool cancel)
         }
     } else if (moveResizeOutput() != interactiveMoveResizeStartOutput()) {
         workspace()->sendWindowToOutput(this, moveResizeOutput()); // checks rule validity
+        const QRectF oldScreenArea = workspace()->clientArea(MaximizeArea, this, interactiveMoveResizeStartOutput());
+        const QRectF screenArea = workspace()->clientArea(MaximizeArea, this, moveResizeOutput());
+        m_electricGeometryRestore = moveToArea(m_electricGeometryRestore, oldScreenArea, screenArea);
         if (isRequestedFullScreen() || requestedMaximizeMode() != MaximizeRestore) {
             checkWorkspacePosition();
         }
