@@ -6,7 +6,7 @@ usr/lib/*/libkwindecorations2.so
 usr/lib/*/libkwindecorations2.so.*
 usr/lib/*/libkwindecorations2private.so
 usr/lib/*/libkwindecorations2private.so.*
-usr/lib/*/qt6/plugins/kpackage/packagestructure/
+usr/lib/*/qt6/plugins/kf6/packagestructure/
 usr/lib/*/qt6/plugins/kwin/
 usr/lib/*/qt6/plugins/org.kde.kdecoration2/com.deepin.chameleon.so
 usr/lib/*/qt6/qml/org/kde/kwin/
