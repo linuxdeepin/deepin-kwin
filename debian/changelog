@@ -1,3 +1,9 @@
+kwin (4:5.27.2.287-deepin287-1) unstable; urgency=medium
+
+  * fix: Window disappears after un-maximizing in mirror mode
+
+ -- Lu YaNing <luyaning@uniontech.com>  Mon, 21 Apr 2025 17:48:00 +0800
+
 kwin (4:5.27.2.286-deepin286-1) unstable; urgency=medium
 
   * 289091: chore: hide viewporter dependency from surface_interface public header | https://gerrit.uniontech.com/c/deepin-kde/kwin/+/289091
