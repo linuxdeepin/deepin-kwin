@@ -5206,6 +5206,11 @@ void Window::updateExtendWindowSection(const QPointF &pos)
     return;
 }
 
+void Window::updateFrameGeometry(QRectF rect)
+{
+    moveResize(rect);
+}
+
 bool Window::borderRedrawable() const
 {
     if (isUnmanaged())

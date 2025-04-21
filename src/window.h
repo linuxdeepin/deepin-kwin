@@ -1527,6 +1527,7 @@ public:
     QVariant createTimespanDBusMessage(struct timeval createTimeval, int tid, std::string event);
 
     GLTexture *getPreviousTexture();
+    void updateFrameGeometry(QRectF rect);
 
     QMargins extendResizeBorder() const;
 
