@@ -8,7 +8,6 @@
 
 #include "core/output.h"
 #include "output_interface.h"
-#include "viewporter_interface_p.h"
 
 #include <QMatrix4x4>
 #include <QObject>
@@ -28,6 +27,7 @@ class SlideInterface;
 class SubSurfaceInterface;
 class SurfaceInterfacePrivate;
 class LinuxDmaBufV1Feedback;
+class ViewportInterface;
 
 enum class PresentationHint {
     VSync,
