@@ -489,6 +489,11 @@ KWin::TileManager *WorkspaceWrapper::tilingForScreen(int screen) const
     return nullptr;
 }
 
+void WorkspaceWrapper::updateWindowGeometry(KWin::Window *client, QRectF rect)
+{
+    client->updateFrameGeometry(rect);
+}
+
 QtScriptWorkspaceWrapper::QtScriptWorkspaceWrapper(QObject *parent)
     : WorkspaceWrapper(parent)
 {

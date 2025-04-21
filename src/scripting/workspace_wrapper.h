@@ -305,6 +305,8 @@ public:
      */
     Q_SCRIPTABLE KWin::X11Window *getClient(qulonglong windowId);
 
+    Q_SCRIPTABLE void updateWindowGeometry(KWin::Window *client, QRectF rect);
+
 public Q_SLOTS:
     // all the available key bindings
     void slotSwitchDesktopNext();
