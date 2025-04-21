@@ -1,3 +1,9 @@
+kwin (4:5.27.2.286-deepin286-1) unstable; urgency=medium
+
+  * 289091: chore: hide viewporter dependency from surface_interface public header | https://gerrit.uniontech.com/c/deepin-kde/kwin/+/289091
+
+ -- Dingyuan Zhang <zhangdingyuan@uniontech.com>  Mon, 21 Apr 2025 14:25:00 +0800
+
 kwin (4:5.27.2.285-deepin285-1) unstable; urgency=medium
 
   * fix: kwin no usage x11 WM_HINTS
