@@ -13,3 +13,6 @@ target_link_libraries(kwin4_effect_snaphelper PRIVATE
     kwinglutils
     Qt${QT_MAJOR_VERSION}::QuickWidgets
 )
+set_target_properties(kwin4_effect_snaphelper PROPERTIES
+    LIBRARY_OUTPUT_NAME "snaphelper"
+)

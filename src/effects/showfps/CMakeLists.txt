@@ -11,10 +11,12 @@ kwin4_add_effect_module(kwin4_effect_showfps ${showfps_SOURCES})
 
 target_link_libraries(kwin4_effect_showfps PRIVATE
     kwineffects
-
     KF${KF_MAJOR_VERSION}::I18n
-
     Qt${QT_MAJOR_VERSION}::Quick
-    )
+)
+ 
+set_target_properties(kwin4_effect_showfps PROPERTIES
+    LIBRARY_OUTPUT_NAME "showfps"
+)
 
 install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/showfps)

@@ -21,6 +21,9 @@ target_link_libraries(kwin4_effect_tileseditor PRIVATE
     KF${KF_MAJOR_VERSION}::I18n
 
     Qt${QT_MAJOR_VERSION}::Quick
-    )
+)
+set_target_properties(kwin4_effect_tileseditor PROPERTIES
+    LIBRARY_OUTPUT_NAME "tileseditor"
+)
 
 install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/tileseditor)

@@ -17,6 +17,9 @@ target_link_libraries(kwin4_effect_splitscreen PRIVATE
     Qt${QT_MAJOR_VERSION}::DBus
     KF${KF_MAJOR_VERSION}::ConfigGui
 )
+set_target_properties(kwin4_effect_splitscreen PROPERTIES
+    LIBRARY_OUTPUT_NAME "splitscreen"
+)
 
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(kwin4_effect_splitscreen PRIVATE Qt5::X11Extras)

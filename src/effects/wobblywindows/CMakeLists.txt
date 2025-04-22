@@ -16,6 +16,9 @@ target_link_libraries(kwin4_effect_wobblywindows PRIVATE
 
     KF${KF_MAJOR_VERSION}::ConfigGui
 )
+set_target_properties(kwin4_effect_wobblywindows PROPERTIES
+    LIBRARY_OUTPUT_NAME "wobblywindows"
+)
 
 #######################################
 # Config

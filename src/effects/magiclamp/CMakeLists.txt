@@ -17,6 +17,10 @@ target_link_libraries(kwin4_effect_magiclamp PRIVATE
     KF${KF_MAJOR_VERSION}::ConfigGui
 )
 
+set_target_properties(kwin4_effect_magiclamp PROPERTIES
+    LIBRARY_OUTPUT_NAME "magiclamp"
+)
+
 #######################################
 # Config
 if (KWIN_BUILD_KCMS)

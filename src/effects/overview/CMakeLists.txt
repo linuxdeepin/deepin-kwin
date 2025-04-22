@@ -25,5 +25,9 @@ target_link_libraries(kwin4_effect_overview PRIVATE
 
     Qt${QT_MAJOR_VERSION}::Quick
 )
+set_target_properties(kwin4_effect_overview PROPERTIES
+    LIBRARY_OUTPUT_NAME "overview"
+)
+
 
 install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/overview)

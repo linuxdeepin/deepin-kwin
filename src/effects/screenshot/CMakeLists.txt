@@ -27,6 +27,9 @@ target_link_libraries(kwin4_effect_screenshot PRIVATE
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::QuickWidgets
 )
+set_target_properties(kwin4_effect_screenshot PROPERTIES
+    LIBRARY_OUTPUT_NAME "screenshot"
+)
 
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(kwin4_effect_screenshot PRIVATE Qt5::X11Extras)

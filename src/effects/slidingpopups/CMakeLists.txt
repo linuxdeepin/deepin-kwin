@@ -18,3 +18,7 @@ target_link_libraries(kwin4_effect_slidingpopups PRIVATE
 
     KF${KF_MAJOR_VERSION}::ConfigGui
 )
+
+set_target_properties(kwin4_effect_slidingpopups PROPERTIES
+    LIBRARY_OUTPUT_NAME "slidingpopups"
+)

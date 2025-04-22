@@ -10,5 +10,8 @@ target_link_libraries(kwin4_effect_outputlocator PRIVATE
     Qt${QT_MAJOR_VERSION}::Quick
     KF${KF_MAJOR_VERSION}::I18n
 )
+set_target_properties(kwin4_effect_outputlocator PROPERTIES
+    LIBRARY_OUTPUT_NAME "outputlocator"
+)
 
 install(DIRECTORY qml DESTINATION ${KDE_INSTALL_DATADIR}/kwin/effects/outputlocator)

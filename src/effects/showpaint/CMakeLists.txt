@@ -14,6 +14,9 @@ target_link_libraries(kwin4_effect_showpaint PRIVATE
     KF${KF_MAJOR_VERSION}::GlobalAccel
     KF${KF_MAJOR_VERSION}::I18n
 )
+set_target_properties(kwin4_effect_showpaint PROPERTIES
+    LIBRARY_OUTPUT_NAME "showpaint"
+)
 
 #######################################
 # Config

@@ -17,6 +17,9 @@ target_link_libraries(kwin4_effect_slide PRIVATE
 
     KF${KF_MAJOR_VERSION}::ConfigGui
 )
+set_target_properties(kwin4_effect_slide PROPERTIES
+    LIBRARY_OUTPUT_NAME "slide"
+)
 
 #######################################
 # Config

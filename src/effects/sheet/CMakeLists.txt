@@ -15,3 +15,6 @@ target_link_libraries(kwin4_effect_sheet PRIVATE
     KF${KF_MAJOR_VERSION}::ConfigGui
     Qt${QT_MAJOR_VERSION}::QuickWidgets
 )
+set_target_properties(kwin4_effect_sheet PROPERTIES
+    LIBRARY_OUTPUT_NAME "sheet"
+)

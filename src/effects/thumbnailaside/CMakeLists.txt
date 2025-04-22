@@ -19,6 +19,9 @@ target_link_libraries(kwin4_effect_thumbnailaside PRIVATE
     KF${KF_MAJOR_VERSION}::GlobalAccel
     KF${KF_MAJOR_VERSION}::I18n
 )
+set_target_properties(kwin4_effect_thumbnailaside PROPERTIES
+    LIBRARY_OUTPUT_NAME "thumbnailaside"
+)
 
 #######################################
 # Config

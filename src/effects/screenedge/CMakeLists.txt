@@ -12,6 +12,9 @@ target_link_libraries(kwin4_effect_screenedge PRIVATE
     kwineffects
     kwinglutils
 )
+set_target_properties(kwin4_effect_screenedge PROPERTIES
+    LIBRARY_OUTPUT_NAME "screenedge"
+)
 
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(kwin4_effect_screenedge PRIVATE KF5::Plasma)

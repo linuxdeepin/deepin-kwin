@@ -17,6 +17,9 @@ target_link_libraries(kwin4_effect_splitswap PRIVATE
     Qt${QT_MAJOR_VERSION}::DBus
     KF${KF_MAJOR_VERSION}::ConfigGui
 )
+set_target_properties(kwin4_effect_splitswap PROPERTIES
+    LIBRARY_OUTPUT_NAME "splitswap"
+)
 
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(kwin4_effect_splitswap PRIVATE Qt5::X11Extras)

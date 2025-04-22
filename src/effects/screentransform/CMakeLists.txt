@@ -12,3 +12,6 @@ target_link_libraries(kwin4_effect_screentransform PRIVATE
     kwineffects
     kwinglutils
 )
+set_target_properties(kwin4_effect_screentransform PROPERTIES
+    LIBRARY_OUTPUT_NAME "screentransform"
+)

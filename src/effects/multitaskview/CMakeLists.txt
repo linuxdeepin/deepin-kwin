@@ -16,6 +16,9 @@ target_link_libraries(kwin4_effect_multitaskview PRIVATE
     Qt${QT_MAJOR_VERSION}::Concurrent
     PkgConfig::QGSETTINGS
 )
+set_target_properties(kwin4_effect_multitaskview PROPERTIES
+    LIBRARY_OUTPUT_NAME "multitaskview"
+)
 
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(kwin4_effect_multitaskview PRIVATE Qt5::X11Extras)

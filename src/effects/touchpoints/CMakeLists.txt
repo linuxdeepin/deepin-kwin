@@ -13,3 +13,6 @@ target_link_libraries(kwin4_effect_touchpoints PRIVATE
 
     KF${KF_MAJOR_VERSION}::GlobalAccel
 )
+set_target_properties(kwin4_effect_touchpoints PROPERTIES
+    LIBRARY_OUTPUT_NAME "touchpoints"
+)

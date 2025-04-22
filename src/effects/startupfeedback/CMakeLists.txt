@@ -16,3 +16,6 @@ target_link_libraries(kwin4_effect_startupfeedback PRIVATE
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Widgets
 )
+set_target_properties(kwin4_effect_startupfeedback PROPERTIES
+    LIBRARY_OUTPUT_NAME "startupfeedback"
+)
