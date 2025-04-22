@@ -208,7 +208,11 @@ void UserActionsMenu::prepareMenu(Window *cl)
     QString backgroundColor = workspace()->self()->getBlurStatus() ? "#cceeeeee" : "rgba(253,253,254,100%)";
     QString fontColor = "black";
     QString disableFontColor = "rgba(0,0,0,40%)";
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     qreal scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
+#else
+    qreal scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->devicePixelRatio());
+#endif
     QString fontSize = QString::number(int(fontScale * 14.0 * scalingFactor)) + "px";
     QString rightPadding = QString::number(45 * fontScale * fontScale * scalingFactor) + "px";
     if (workspace()->self()->isDarkTheme()) {

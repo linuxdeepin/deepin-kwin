@@ -164,7 +164,11 @@ void ChameleonWindowTheme::updateScreen()
 
 void ChameleonWindowTheme::updateScreenScale()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     qreal scale = m_screen->logicalDotsPerInch() / 96.0f;
+#else
+    qreal scale = m_screen->devicePixelRatio();
+#endif
 
     if (qFuzzyCompare(scale, m_windowPixelRatio))
         return;

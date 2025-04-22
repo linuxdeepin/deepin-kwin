@@ -777,8 +777,11 @@ void MultitaskViewEffect::reconfigure(ReconfigureFlags flags)
     m_curDesktopIndex = effects->currentDesktop();
     m_lastDesktopIndex = m_curDesktopIndex;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
-
+#else
+    m_scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->devicePixelRatio());
+#endif
     KConfigGroup config_group(KSharedConfig::openConfig("kwinrc"), "Compositing");
     if (effects->waylandDisplay()) {
         setMotionEffect(config_group.readEntry("MultitaskViewMotionEffect", true));

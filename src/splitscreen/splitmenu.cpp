@@ -46,7 +46,11 @@ SplitMenu::SplitMenu()
     }
     setAttribute(Qt::WA_TranslucentBackground);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_scale = QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96;
+#else
+    m_scale = QGuiApplication::primaryScreen()->devicePixelRatio();
+#endif
 
     setWindowTitle("splitmenu");
 

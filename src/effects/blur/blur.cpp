@@ -491,7 +491,12 @@ GLTexture *BlurEffect::ensureNoiseTexture()
         return nullptr;
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const qreal scale = std::max(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
+#else
+    const qreal scale = std::max(1.0, QGuiApplication::primaryScreen()->devicePixelRatio());
+#endif
+
     if (!m_noisePass.noiseTexture || m_noisePass.noiseTextureScale != scale || m_noisePass.noiseTextureStength != m_noiseStrength) {
         // Init randomness based on time
         std::srand((uint)QTime::currentTime().msec());

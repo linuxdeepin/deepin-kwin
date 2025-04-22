@@ -1125,7 +1125,11 @@ WaylandCursorImage::WaylandCursorImage(QObject *parent)
     : QObject(parent)
 {
     Cursor *pointerCursor = Cursors::self()->mouse();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_scale = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
+#else
+    m_scale = qMax(1.0, QGuiApplication::primaryScreen()->devicePixelRatio());
+#endif
     updateCursorTheme();
 
     connect(pointerCursor, &Cursor::themeChanged, this, &WaylandCursorImage::updateCursorTheme);

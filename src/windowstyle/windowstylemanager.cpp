@@ -44,7 +44,11 @@ WindowStyleManager::WindowStyleManager()
     connect(m_radiusConfig.get(), &ConfigReader::sigPropertyChanged, this, &WindowStyleManager::onRadiusChange);
     connect(m_themeConfig.get(), &ConfigReader::sigPropertyChanged, this, &WindowStyleManager::onThemeChange);
     connect(Compositor::self(), &Compositor::compositingToggled, this, &WindowStyleManager::onCompositingChanged);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_scale = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
+#else
+    m_scale = qMax(1.0, QGuiApplication::primaryScreen()->devicePixelRatio());
+#endif
 }
 
 WindowStyleManager::~WindowStyleManager()
