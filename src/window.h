@@ -1511,6 +1511,7 @@ public:
     void updateWindowShadow(bool isForceUpdate = false);
     DecorationStyle  *windowStyleObj() const;
     void createWinStyle();
+    void updateWinProperty();
 
     void setStartUpEffectType(int type) { m_startEffectType = type; }
     int startUpEffectType() { return m_startEffectType; }
@@ -2041,6 +2042,7 @@ protected:
     bool m_isShapeBoundingRegionSet = false;
     int  m_startEffectType = 1;
     bool m_isScissorForce = false;
+    bool m_isMouseInputAreaMarginsAvailable = true;
 
 private Q_SLOTS:
     void shadeHover();
