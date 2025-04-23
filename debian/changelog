@@ -1,3 +1,13 @@
+deepin-kwin (4:6.0.6) unstable; urgency=medium
+
+  * chore(effects): rename kwin4_effect_magiclamp to magiclamp
+  * fix: add judge about mouseInputAreaMargin from dtk win in isResizable
+  * fix: add listener for scale change
+  * fix: force launcher size to be set to screen size
+  * chore(splitscreen): remove unsed PlasmaCore
+
+ -- rewine <luhongxu@deepin.org>  Wed, 23 Apr 2025 15:04:11 +0800
+
 deepin-kwin (4:6.0.5) unstable; urgency=medium
 
   * fix: INSTALL_NAMESPACE error for windowswitche
