@@ -418,7 +418,9 @@ int main(int argc, char *argv[])
     a.setupTranslator();
     // reset QT_QPA_PLATFORM so we don't propagate it to our children (e.g. apps launched from the overview effect)
     qunsetenv("QT_QPA_PLATFORM");
-
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    qunsetenv("QT_ENABLE_HIGHDPI_SCALING");
+#endif
     KSignalHandler::self()->watchSignal(SIGTERM);
     KSignalHandler::self()->watchSignal(SIGINT);
     KSignalHandler::self()->watchSignal(SIGHUP);

@@ -44,7 +44,13 @@ WindowStyleManager::WindowStyleManager()
     connect(m_radiusConfig.get(), &ConfigReader::sigPropertyChanged, this, &WindowStyleManager::onRadiusChange);
     connect(m_themeConfig.get(), &ConfigReader::sigPropertyChanged, this, &WindowStyleManager::onThemeChange);
     connect(Compositor::self(), &Compositor::compositingToggled, this, &WindowStyleManager::onCompositingChanged);
-    m_scale = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
+    auto screen = QGuiApplication::primaryScreen();
+    m_scale = qMax(1.0, screen->logicalDotsPerInch() / 96.0);
+    // NOTE: xsettings daemon not setup in time, may not get correct `Xft.dpi`, add listener to it
+    connect(screen, &QScreen::logicalDotsPerInchChanged, this, [this]() {
+        m_scale = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
+        Q_EMIT sigScaleChanged();
+    });
 }
 
 WindowStyleManager::~WindowStyleManager()

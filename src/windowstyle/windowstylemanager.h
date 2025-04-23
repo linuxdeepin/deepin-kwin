@@ -42,6 +42,7 @@ public:
 Q_SIGNALS:
     void sigRadiusChanged(float &);
     void sigThemeChanged(bool &);
+    void sigScaleChanged();
 
 public Q_SLOTS:
     void onRadiusChange(QVariant);
