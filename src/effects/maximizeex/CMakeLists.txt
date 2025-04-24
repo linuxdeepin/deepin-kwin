@@ -10,8 +10,8 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
    QuickWidgets
 )
 
-kwin4_add_effect_module(kwin4_effect_maximizeex ${maximize_SOURCES})
-target_link_libraries(kwin4_effect_maximizeex PRIVATE
+kwin4_add_effect_module(maximizeex ${maximize_SOURCES})
+target_link_libraries(maximizeex PRIVATE
     kwineffects
     Qt${QT_MAJOR_VERSION}::QuickWidgets
     Qt${QT_MAJOR_VERSION}::DBus
@@ -19,5 +19,5 @@ target_link_libraries(kwin4_effect_maximizeex PRIVATE
 )
 
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(kwin4_effect_maximizeex PRIVATE Qt5::X11Extras)
+    target_link_libraries(maximizeex PRIVATE Qt5::X11Extras)
 endif()

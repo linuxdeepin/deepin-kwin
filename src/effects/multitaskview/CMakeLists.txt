@@ -7,8 +7,8 @@ set(multitaskview_SOURCES
     multitaskview.qrc
     main.cpp
 )
-kwin4_add_effect_module(kwin4_effect_multitaskview ${multitaskview_SOURCES})
-target_link_libraries(kwin4_effect_multitaskview PRIVATE
+kwin4_add_effect_module(multitaskview ${multitaskview_SOURCES})
+target_link_libraries(multitaskview PRIVATE
     kwineffects
     kwinglutils
     KF${KF_MAJOR_VERSION}::GlobalAccel
@@ -18,9 +18,9 @@ target_link_libraries(kwin4_effect_multitaskview PRIVATE
 )
 
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(kwin4_effect_multitaskview PRIVATE Qt5::X11Extras)
+    target_link_libraries(multitaskview PRIVATE Qt5::X11Extras)
 else()
-    target_link_libraries(kwin4_effect_multitaskview PRIVATE Qt6::GuiPrivate)
+    target_link_libraries(multitaskview PRIVATE Qt6::GuiPrivate)
 endif()
 
 # translations

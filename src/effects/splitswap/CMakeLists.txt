@@ -10,8 +10,8 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     QuickWidgets
 )
 
-kwin4_add_effect_module(kwin4_effect_splitswap ${splitswap_SOURCES})
-target_link_libraries(kwin4_effect_splitswap PRIVATE
+kwin4_add_effect_module(splitswap ${splitswap_SOURCES})
+target_link_libraries(splitswap PRIVATE
     kwineffects
     Qt${QT_MAJOR_VERSION}::QuickWidgets
     Qt${QT_MAJOR_VERSION}::DBus
@@ -19,7 +19,7 @@ target_link_libraries(kwin4_effect_splitswap PRIVATE
 )
 
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(kwin4_effect_splitswap PRIVATE Qt5::X11Extras)
+    target_link_libraries(splitswap PRIVATE Qt5::X11Extras)
 else()
-    target_link_libraries(kwin4_effect_splitswap PRIVATE Qt6::GuiPrivate)
+    target_link_libraries(splitswap PRIVATE Qt6::GuiPrivate)
 endif()

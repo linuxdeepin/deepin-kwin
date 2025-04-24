@@ -7,8 +7,8 @@ set(scissorwindow_SOURCES
     scissor.qrc
 )
 
-kwin4_add_effect_module(kwin4_effect_scissorwindow ${scissorwindow_SOURCES})
-target_link_libraries(kwin4_effect_scissorwindow PRIVATE
+kwin4_add_effect_module(scissor ${scissorwindow_SOURCES})
+target_link_libraries(scissor PRIVATE
     kwineffects
     kwinglutils
 

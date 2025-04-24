@@ -15,8 +15,8 @@ else()
     qt_add_dbus_adaptor(screenshot_SOURCES org.kde.KWin.ScreenShot2.xml screenshotdbusinterface2.h KWin::ScreenShotDBusInterface2)
 endif()
 
-kwin4_add_effect_module(kwin4_effect_screenshot ${screenshot_SOURCES})
-target_link_libraries(kwin4_effect_screenshot PRIVATE
+kwin4_add_effect_module(screenshot ${screenshot_SOURCES})
+target_link_libraries(screenshot PRIVATE
     kwineffects
     kwinglutils
 
@@ -29,16 +29,16 @@ target_link_libraries(kwin4_effect_screenshot PRIVATE
 )
 
 if (QT_MAJOR_VERSION EQUAL "5")
-    target_link_libraries(kwin4_effect_screenshot PRIVATE Qt5::X11Extras)
+    target_link_libraries(screenshot PRIVATE Qt5::X11Extras)
 else()
-    target_link_libraries(kwin4_effect_screenshot PRIVATE Qt6::GuiPrivate)
+    target_link_libraries(screenshot PRIVATE Qt6::GuiPrivate)
 endif()
 
 if (KWIN_BUILD_NOTIFICATIONS)
-    target_link_libraries(kwin4_effect_screenshot PRIVATE KF${KF_MAJOR_VERSION}::Notifications)
+    target_link_libraries(screenshot PRIVATE KF${KF_MAJOR_VERSION}::Notifications)
 endif()
 
-ecm_qt_declare_logging_category(kwin4_effect_screenshot
+ecm_qt_declare_logging_category(screenshot
     HEADER screenshotlogging.h
     IDENTIFIER KWIN_SCREENSHOT
     CATEGORY_NAME kwin_effect_screenshot
