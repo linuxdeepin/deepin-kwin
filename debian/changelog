@@ -1,3 +1,9 @@
+kwin (4:5.27.2.291-deepin291-1) unstable; urgency=medium
+
+  * merge release/flm
+
+ -- Dingyuan Zhang <zhangdingyuan@uniontech.com>  Fri, 25 Apr 2025 14:30:00 +0800
+
 kwin (4:5.27.2.287-deepin287-1) unstable; urgency=medium
 
   * fix: Window disappears after un-maximizing in mirror mode
