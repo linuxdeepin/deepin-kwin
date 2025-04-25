@@ -44,7 +44,8 @@ int WindowRadius::updateWindowRadius()
     }
 
     KWin::EffectWindowImpl *effect = m_window->effectWindow();
-    if (m_window->isMaximized() || m_window->isDesktop()) {
+    if (m_window->isMaximized() || m_window->isDesktop()
+            || m_window->isFullScreen()) {
         effect->setData(WindowClipPathRole, QVariant());
         effect->setData(WindowRadiusRole, QVariant());
         m_radius = QPointF(0.0, 0.0);

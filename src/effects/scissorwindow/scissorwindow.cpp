@@ -258,9 +258,15 @@ bool ScissorWindow::isMaximized(EffectWindow *w, const PaintData& data)
 
 bool ScissorWindow::shouldScissor(EffectWindow *w) const
 {
+    if (w->isDesktop() || w->isOutline() || w->isSplitBar()
+            || effectsEx->isSplitWin(w) || isMaximized(w) || w->isFullScreen()) {
+        return false;
+    }
+
     if (w->data(WindowRadiusRole).isValid() || w->data(WindowClipPathRole).isValid())
         return true;
-    return w->isScissorForce() || (!w->isDesktop() && !w->isOutline() && !w->isSplitBar() && !effectsEx->isSplitWin(w) && !isMaximized(w) && w->borderRedrawable());
+
+    return w->isScissorForce() || w->borderRedrawable();
 }
 
 }  // namespace KWin
