@@ -542,7 +542,11 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     if (desktopFileName.isEmpty()) {
         // Fallback to StartupWMClass for legacy apps
         const auto service = KApplicationTrader::query([this](const KService::Ptr &service) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             return service->property("StartupWMClass").toString().compare(resourceName(), Qt::CaseInsensitive) == 0;
+#else
+            return service->property<QString>("StartupWMClass").compare(resourceName(), Qt::CaseInsensitive) == 0;
+#endif
         });
 
         if (!service.isEmpty()) {

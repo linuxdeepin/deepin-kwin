@@ -94,7 +94,11 @@ void Logger::appendRules(const QString &rules)
 
     // Process existing rules
     if (!m_rules.isEmpty()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         const QStringList currentRules = m_rules.split('\n', QString::SkipEmptyParts);
+#else
+        const QStringList currentRules = m_rules.split('\n', Qt::SkipEmptyParts);
+#endif
         for (const QString &rule : currentRules) {
             const int equalPos = rule.indexOf('=');
             if (equalPos > 0) {
@@ -108,7 +112,11 @@ void Logger::appendRules(const QString &rules)
     // Process new rules
     QString tmpRules = rules;
     tmpRules.replace(";", "\n");
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const QStringList newRules = tmpRules.split('\n', QString::SkipEmptyParts);
+#else
+    const QStringList newRules = tmpRules.split('\n', Qt::SkipEmptyParts);
+#endif
     bool hasNewRules = false;
 
     for (const QString &rule : newRules) {
