@@ -180,6 +180,7 @@ set_package_properties(KF${KF_MAJOR_VERSION}Kirigami2 PROPERTIES
 
 if (BUILD_ON_V25)
     add_definitions(-DBUILD_ON_V25)
+    add_definitions(-DBUILD_WITHOUT_V20_PATCH)
     add_subdirectory(kdecoration)
 else()
   find_package(KDecoration2 ${PROJECT_VERSION} CONFIG)

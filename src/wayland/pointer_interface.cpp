@@ -205,7 +205,7 @@ void PointerInterface::sendButton(quint32 button, PointerButtonState state, quin
     const auto pointerResources = d->pointersForClient(d->focusedSurface->client());
     for (PointerInterfacePrivate::Resource *resource : pointerResources) {
 
-#ifndef BUILD_ON_V25
+#ifndef BUILD_WITHOUT_V20_PATCH
         if (d->lastPosition != position) {
             d->lastPosition = position;
             const QPointF localPos = d->focusedSurface->toSurfaceLocal(position);
