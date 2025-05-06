@@ -362,7 +362,7 @@ void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w
         for (auto it = list.constBegin(); it != list.constEnd(); ++it) {
             if ((*it) && !(*it)->isClient())
                 continue;
-            if ((*it)->isSplitWindow() && (*it)->desktop() == w->desktop() && (*it)->screen() == w->screen()) {
+            if ((*it)->isSplitWindow() && (*it)->desktop() == w->desktop() && (*it)->screen() == w->screen() && !(*it)->isMinimized()) {
                 m_topLayer = (*it)->layer();
                 m_topWin = (*it);
                 m_activeWin = (*it);

@@ -25,10 +25,10 @@ namespace KWin
 {
 
 class DrmConnector;
-class DrmGpu;
 class DrmPipeline;
-class DumbSwapchain;
 class DrmLease;
+class OutputChangeSet;
+class DrmRestorer;
 
 class KWIN_EXPORT DrmOutput : public DrmAbstractOutput
 {
@@ -43,8 +43,8 @@ public:
     bool present() override;
     DrmOutputLayer *primaryLayer() const override;
 
-    bool queueChanges(const OutputConfiguration &config);
-    void applyQueuedChanges(const OutputConfiguration &config);
+    bool queueChanges(const std::shared_ptr<OutputChangeSet> &props);
+    void applyQueuedChanges(const std::shared_ptr<OutputChangeSet> &props);
     void revertQueuedChanges();
     void updateModes();
     void updateDpmsMode(DpmsMode dpmsMode);
@@ -77,6 +77,8 @@ private:
         QPointer<CursorSource> source;
         QPoint position;
     } m_cursor;
+
+    std::unique_ptr<DrmRestorer> m_restorer;
 };
 
 }

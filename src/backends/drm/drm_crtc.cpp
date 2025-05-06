@@ -25,6 +25,12 @@ DrmCrtc::DrmCrtc(DrmGpu *gpu, uint32_t crtcId, int pipeIndex, DrmPlane *primaryP
     , m_primaryPlane(primaryPlane)
     , m_cursorPlane(cursorPlane)
 {
+    if (gpu->isHisi()) {
+        m_ctmEnabled = (qEnvironmentVariableIntValue("KWIN_CTM_DISABLED") == 1) ? false : true;
+    } else {
+        //非华为机器默认关闭，遗留后续解决。初步推断是驱动问题导致
+        m_ctmEnabled = qEnvironmentVariableIntValue("KWIN_CTM_ENABLED") == 1;
+    }
 }
 
 bool DrmCrtc::init()
@@ -95,11 +101,6 @@ DrmPlane *DrmCrtc::cursorPlane() const
 
 void DrmCrtc::disable()
 {
-    if (m_ctm) {
-        drmModeDestroyPropertyBlob(gpu()->fd(), m_ctm);
-        m_ctm = 0;
-        setPending(PropertyIndex::CTM, m_ctm);
-    }
     setPending(PropertyIndex::Active, 0);
     setPending(PropertyIndex::ModeId, 0);
 }
@@ -116,22 +117,91 @@ void DrmCrtc::releaseBuffers()
 
 bool DrmCrtc::hasCTM() const
 {
+    if (!m_ctmEnabled) {
+        return false;
+    }
     return getProp(PropertyIndex::CTM);
 }
 
-void DrmCrtc::setCTM(uint16_t r, uint16_t g, uint16_t b) {
-    if (gpu()->atomicModeSetting()) {
-        drm_color_ctm blob = {
-            .matrix = {
-                r, 0, 0,
-                0, g, 0,
-                0, 0, b}};
-        auto tmp = m_ctm;
-        if (drmModeCreatePropertyBlob(gpu()->fd(), &blob, sizeof(blob), &m_ctm) == 0) {
-            setPending(DrmCrtc::PropertyIndex::CTM, m_ctm);
-            if (tmp)
-                drmModeDestroyPropertyBlob(gpu()->fd(), tmp);
+bool DrmCrtc::hasColorMode() const
+{
+    // FlemingX机器通过GAMMA_LUT传递色彩模式标签，华为drm内核驱动规定GAMMA_LUT_SIZE == 1
+    return gammaRampSize() == 1 && getProp(PropertyIndex::Gamma_LUT);
+}
+
+DrmGammaRamp::DrmGammaRamp(DrmCrtc *crtc, const std::shared_ptr<ColorTransformation> &transformation)
+    : DrmBlob<DrmCrtc, DrmCrtc::PropertyIndex::Gamma_LUT>(crtc)
+    , m_lut(transformation, crtc->gammaRampSize())
+{
+    init(crtc);
+}
+
+DrmGammaRamp::DrmGammaRamp(DrmCrtc *crtc, const Output::ColorCurves &colorCurves)
+    : DrmBlob<DrmCrtc, DrmCrtc::PropertyIndex::Gamma_LUT>(crtc)
+    , m_lut(colorCurves, crtc->gammaRampSize())
+{
+    init(crtc);
+}
+
+void DrmGammaRamp::init(DrmCrtc *crtc)
+{
+    if (crtc->gpu()->atomicModeSetting()) {
+        QVector<struct drm_color_lut> atomicLut(m_lut.size());
+        for (uint32_t i = 0; i < m_lut.size(); i++) {
+            atomicLut[i].red = m_lut.red()[i];
+            atomicLut[i].green = m_lut.green()[i];
+            atomicLut[i].blue = m_lut.blue()[i];
+        }
+        if (!(m_blob = DrmBlobFactory::create(crtc->gpu(), atomicLut.data(), sizeof(drm_color_lut) * atomicLut.size()))) {
+            qCWarning(KWIN_DRM) << "Failed to create gamma blob!" << strerror(errno);
         }
     }
 }
+
+const ColorLUT &DrmGammaRamp::lut() const
+{
+    return m_lut;
+}
+
+DrmCTM::DrmCTM(DrmCrtc *crtc, const Output::CtmValue &ctmValue)
+    : DrmBlob<DrmCrtc, DrmCrtc::PropertyIndex::CTM>(crtc)
+    , m_ctmValue(ctmValue)
+{
+    if (crtc->gpu()->atomicModeSetting()) {
+        struct drm_color_ctm blob = {.matrix = {
+                                        ctmValue.r, 0, 0,
+                                        0, ctmValue.g, 0,
+                                        0, 0, ctmValue.b}};
+        if (!(m_blob = DrmBlobFactory::create(crtc->gpu(), &blob, sizeof(drm_color_ctm)))) {
+            qCWarning(KWIN_DRM) << "Failed to create ctm blob!" << strerror(errno);
+        }
+    }
+}
+
+const Output::CtmValue &DrmCTM::ctmValue() const
+{
+    return m_ctmValue;
+}
+
+DrmColorMode::DrmColorMode(DrmCrtc *crtc, const Output::ColorMode &colorMode)
+    : DrmBlob<DrmCrtc, DrmCrtc::PropertyIndex::Gamma_LUT>(crtc)
+    , m_colorModeValue(colorMode)
+{
+    if (crtc->gpu()->atomicModeSetting()) {
+        struct drm_color_lut blob = {
+            .red = 0,
+            .green = 0,
+            .blue = 0,
+            .reserved = static_cast<uint16_t>(colorMode)};
+        if (!(m_blob = DrmBlobFactory::create(crtc->gpu(), &blob, sizeof(drm_color_lut)))) {
+            qCWarning(KWIN_DRM) << "Failed to create colormode blob (drm_color_lut[1])!" << strerror(errno);
+        }
+    }
+}
+
+const Output::ColorMode &DrmColorMode::colorModeValue() const
+{
+    return m_colorModeValue;
+}
+
 }

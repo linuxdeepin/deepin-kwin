@@ -306,7 +306,6 @@ void EffectsHandlerImpl::setupWindowConnections(Window *window)
     connect(window, &Window::windowClosed, this, &EffectsHandlerImpl::slotWindowClosed);
     connect(window, static_cast<void (Window::*)(KWin::Window *, MaximizeMode, bool)>(&Window::clientMaximizedStateChanged),
             this, &EffectsHandlerImpl::slotClientMaximized);
-    connect(window, static_cast<void (Window::*)(KWin::Window *, QRectF, QRectF, MaximizeMode)>(&Window::clientMaximizedChanged), this, &EffectsHandlerImpl::slotClientMaximizedChanged);
     connect(window, static_cast<void (Window::*)(KWin::Window *, MaximizeMode)>(&Window::clientMaximizedStateAboutToChange),
             this, [this](KWin::Window *window, MaximizeMode m) {
                 if (EffectWindowImpl *w = window->effectWindow()) {
@@ -509,13 +508,6 @@ void EffectsHandlerImpl::startPaint()
     m_currentDrawWindowIterator = m_activeEffects.constBegin();
     m_currentPaintWindowIterator = m_activeEffects.constBegin();
     m_currentPaintScreenIterator = m_activeEffects.constBegin();
-}
-
-void EffectsHandlerImpl::slotClientMaximizedChanged(KWin::Window *window, QRectF oldRect, QRectF newRect, MaximizeMode maxMode)
-{
-    if (EffectWindowImpl *w = window->effectWindow()) {
-        Q_EMIT windowMaximizedChanged(w, oldRect, newRect, maxMode);
-    }
 }
 
 void EffectsHandlerImpl::slotClientMaximized(Window *window, MaximizeMode maxMode, bool animated)
@@ -1549,6 +1541,7 @@ QPainter *EffectsHandlerImpl::scenePainter()
 
 void EffectsHandlerImpl::toggleEffect(const QString &name)
 {
+    qCDebug(KWIN_CORE) << "EffectsHandler::toggleEffect from dbus : " << name;
     if (isEffectLoaded(name)) {
         unloadEffect(name);
     } else {
@@ -1707,6 +1700,7 @@ void EffectsHandlerImpl::reloadEffect(Effect *effect)
         }
     }
     if (!effectName.isNull()) {
+        qCDebug(KWIN_CORE) << "EffectsHandler::reloadEffect : " << effectName;
         unloadEffect(effectName);
         m_effectLoader->loadEffect(effectName);
     }

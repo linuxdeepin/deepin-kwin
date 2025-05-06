@@ -71,12 +71,12 @@ DrmConnectorMode::DrmConnectorMode(DrmConnector *connector, drmModeModeInfo nati
 {
 }
 
-DrmConnectorMode::~DrmConnectorMode()
+std::shared_ptr<DrmBlobFactory> DrmConnectorMode::blob()
 {
-    if (m_blobId) {
-        drmModeDestroyPropertyBlob(m_connector->gpu()->fd(), m_blobId);
-        m_blobId = 0;
+    if (!m_blob) {
+        m_blob = DrmBlobFactory::create(m_connector->gpu(), &m_nativeMode, sizeof(m_nativeMode));
     }
+    return m_blob;
 }
 
 drmModeModeInfo *DrmConnectorMode::nativeMode()
@@ -84,17 +84,7 @@ drmModeModeInfo *DrmConnectorMode::nativeMode()
     return &m_nativeMode;
 }
 
-uint32_t DrmConnectorMode::blobId()
-{
-    if (!m_blobId) {
-        if (drmModeCreatePropertyBlob(m_connector->gpu()->fd(), &m_nativeMode, sizeof(m_nativeMode), &m_blobId) != 0) {
-            qCWarning(KWIN_DRM) << "Failed to create connector mode blob:" << strerror(errno);
-        }
-    }
-    return m_blobId;
-}
-
-bool DrmConnectorMode::operator==(const DrmConnectorMode &otherMode)
+bool DrmConnectorMode::operator==(const DrmConnectorMode &otherMode) const
 {
     return checkIfEqual(&m_nativeMode, &otherMode.m_nativeMode);
 }
@@ -463,7 +453,7 @@ std::shared_ptr<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, 
         .vsync_end = modeInfo->vsync_end,
         .vtotal = modeInfo->vtotal,
         .vscan = 1,
-        .vrefresh = std::ceil(modeInfo->vrefresh),
+        .vrefresh = static_cast<uint32_t>(std::ceil(modeInfo->vrefresh)),
         .flags = modeInfo->mode_flags,
         .type = DRM_MODE_TYPE_USERDEF,
     };

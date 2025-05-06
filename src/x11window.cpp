@@ -39,6 +39,8 @@
 #include <KLocalizedString>
 #include <KStartupInfo>
 #include <KX11Extras>
+#include <KApplicationTrader>
+#include <KService>
 // Qt
 #include <QApplication>
 #include <QDebug>
@@ -532,6 +534,18 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     if (desktopFileName.isEmpty()) {
         desktopFileName = QString::fromUtf8(info->gtkApplicationId());
     }
+
+    if (desktopFileName.isEmpty()) {
+        // Fallback to StartupWMClass for legacy apps
+        const auto service = KApplicationTrader::query([this](const KService::Ptr &service) {
+            return service->property("StartupWMClass").toString().compare(resourceName(), Qt::CaseInsensitive) == 0;
+        });
+
+        if (!service.isEmpty()) {
+            desktopFileName = service.constFirst()->desktopEntryName();
+        }
+    }
+
     setDesktopFileName(rules()->checkDesktopFile(desktopFileName, true));
     loadGioDesktopFileName();
     getIcons();
@@ -2125,7 +2139,7 @@ bool X11Window::takeFocus()
         if (workspace()->showingDesktop()) {
             // 最小化其它所有窗口
             for (Window *c : workspace()->allClientList()) {
-                if (this == c || c->isDock() || c->isDesktop() || skipTaskbar() || (c->isUtility() && c->keepAbove())) {
+                if (this == c || c->isDock() || c->isDesktop() || c->skipTaskbar() || (c->isUtility() && c->keepAbove())) {
                     continue;
                 }
 
@@ -4402,8 +4416,7 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
     if (max_mode == mode) {
         return;
     }
-    QRectF oldGeometry = frameGeometry();
-    QRectF newGeometry;
+
     blockGeometryUpdates(true);
 
     // maximing one way and unmaximizing the other way shouldn't happen,
@@ -4554,7 +4567,6 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         }
         info->setState(NET::States(), NET::Max);
         updateQuickTileMode(QuickTileFlag::None);
-        newGeometry = restore;
         break;
     }
 
@@ -4611,7 +4623,6 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         } else {
             updateQuickTileMode(QuickTileFlag::None);
         }
-        newGeometry = r;
         info->setState(NET::Max, NET::Max);
         break;
     }
@@ -4628,10 +4639,6 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         setMaximized(max_mode & MaximizeHorizontal && max_mode & MaximizeVertical);
         Q_EMIT clientMaximizedStateChanged(this, max_mode, animated);
         Q_EMIT clientMaximizedStateChanged(this, max_mode & MaximizeHorizontal, max_mode & MaximizeVertical);
-        if (animated && (mode == MaximizeFull || mode == MaximizeRestore))
-        {
-            Q_EMIT clientMaximizedChanged(this, oldGeometry, newGeometry, mode);
-        }
         qCDebug(KWIN_CORE) << "set window max mode: " << max_mode << window();
     }
 }

@@ -15,6 +15,7 @@
 #include <QSize>
 
 #include "core/output.h"
+#include "drm_blob.h"
 #include "drm_object.h"
 #include "drm_pointer.h"
 #include "utils/edid.h"
@@ -44,17 +45,16 @@ class DrmConnectorMode : public OutputMode
 {
 public:
     DrmConnectorMode(DrmConnector *connector, drmModeModeInfo nativeMode);
-    ~DrmConnectorMode() override;
 
-    uint32_t blobId();
     drmModeModeInfo *nativeMode();
+    std::shared_ptr<DrmBlobFactory> blob();
 
-    bool operator==(const DrmConnectorMode &otherMode);
+    bool operator==(const DrmConnectorMode &otherMode) const;
 
 private:
     DrmConnector *m_connector;
     drmModeModeInfo m_nativeMode;
-    uint32_t m_blobId = 0;
+    std::shared_ptr<DrmBlobFactory> m_blob;
 };
 
 class DrmConnector : public DrmObject
@@ -65,7 +65,7 @@ public:
     enum class PropertyIndex : uint32_t {
         CrtcId = 0,
         NonDesktop = 1,
-        Dpms = 2,
+        Dpms = 2, // In Atomic mode, KWin will set Crtc::ACTIVE instead
         Edid = 3,
         Overscan = 4,
         VrrCapable = 5,
