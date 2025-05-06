@@ -191,7 +191,11 @@ bool XwaylandLauncher::startInternal()
     connect(m_xwaylandProcess, &QProcess::readyReadStandardOutput, this, [this] {
         QByteArray buffer;
         buffer.append(m_xwaylandProcess->readAllStandardOutput());
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QtConcurrent::run(this, &XwaylandLauncher::processXwaylandOutput, buffer);
+#else
+        QtConcurrent::run(&XwaylandLauncher::processXwaylandOutput, this, buffer);
+#endif
     });
 
     // When Xwayland starts writing the display name to displayfd, it is ready. Alternatively,
