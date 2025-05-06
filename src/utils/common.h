@@ -201,6 +201,10 @@ struct is_smart_ptr final : std::integral_constant<bool,
                                              > {};
 }
 
+// support for QDebugging std::optional<T> has been added natively in Qt 6.7
+// this definition clashes with Qt's so disable it.
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
+
 template<typename T>
 QDebug operator<<(QDebug out, const std::optional<T> &val)
 {
@@ -235,6 +239,27 @@ QDebug operator<<(QDebug out, const std::optional<T> &val)
     out << ')';
     return out;
 }
+
+#else
+
+template<typename T>
+QDebug operator<<(QDebug debug, const std::weak_ptr<T> &ptr)
+{
+    QDebugStateSaver saver(debug); // 保存 QDebug 的格式状态
+    debug.nospace(); // 禁用自动空格
+
+    if (auto shared = ptr.lock()) {
+        // 对象有效，输出值和地址
+        debug << "weak_ptr(valid, value: " << *shared
+              << ", address: " << shared.get() << ")";
+    } else {
+        // 对象已销毁
+        debug << "weak_ptr(expired)";
+    }
+    return debug;
+}
+
+#endif
 
 } // namespace
 
