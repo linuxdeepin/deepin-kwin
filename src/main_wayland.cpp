@@ -332,8 +332,9 @@ int main(int argc, char *argv[])
     setenv("WAYLAND_DEBUG", "1", true);
     KWin::Logger::instance()->installMessageHandler();
     wl_log_set_handler_server(waylandLogHandler);
+#ifndef BUILD_WITHOUT_V20_PATCH
     wl_debug_set_handler_server(waylandDebugHandler);
-
+#endif
     QString currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
     qDebug() << currentDateTime << "version" << KWIN_DVERSION << "start";
 
