@@ -138,6 +138,7 @@ void ColorMapper::update()
 }
 
 Workspace *Workspace::_self = nullptr;
+Workspace::DelayedRaisingClientMode Workspace::_delayedRaisingClientMode = Workspace::DRCM_None;
 
 Workspace::Workspace()
     : QObject(nullptr)
@@ -888,18 +889,25 @@ void Workspace::updateOutputConfiguration()
             } else {
                 outputOrder.push_back(std::make_pair(0, output));
             }
-            const QJsonObject pos = outputInfo["pos"].toObject();
-            props->pos = QPoint(pos["x"].toInt(), pos["y"].toInt());
-            qCDebug(KWIN_CORE) << "Reading output configuration for " << output << " pos " << props->pos << " current pos " << output->geometry().topLeft();
+            if (const QJsonObject pos = outputInfo["pos"].toObject(); !pos.isEmpty()) {
+                props->pos = QPoint(pos["x"].toInt(), pos["y"].toInt());
+            }
+            qCDebug(KWIN_CORE) << "Reading output configuration for " << output << " pos " << *props->pos << " current pos " << output->geometry().topLeft();
             if (const QJsonValue scale = outputInfo["scale"]; !scale.isUndefined()) {
                 props->scale = scale.toDouble(1.);
             }
-            props->transform = KWinKScreenIntegration::toDrmTransform(outputInfo["rotation"].toInt());
-
-            props->overscan = static_cast<uint32_t>(outputInfo["overscan"].toInt(props->overscan));
-            props->vrrPolicy = static_cast<RenderLoop::VrrPolicy>(outputInfo["vrrpolicy"].toInt(static_cast<uint32_t>(props->vrrPolicy)));
-            props->rgbRange = static_cast<Output::RgbRange>(outputInfo["rgbrange"].toInt(static_cast<uint32_t>(props->rgbRange)));
-            props->brightness = static_cast<int32_t>(outputInfo["brightness"].toInt(static_cast<int32_t>(props->brightness)));
+            if (const QJsonValue rotation = outputInfo["rotation"]; !rotation.isUndefined()) {
+                props->transform = KWinKScreenIntegration::toDrmTransform(rotation.toInt());
+            }
+            if (const QJsonValue overscan = outputInfo["overscan"]; !overscan.isUndefined()) {
+                props->overscan = outputInfo["overscan"].toInt();
+            }
+            if (const QJsonValue vrrpolicy = outputInfo["vrrpolicy"]; !vrrpolicy.isUndefined()) {
+                props->vrrPolicy = static_cast<RenderLoop::VrrPolicy>(vrrpolicy.toInt());
+            }
+            if (const QJsonValue rgbrange = outputInfo["rgbrange"]; !rgbrange.isUndefined()) {
+                props->rgbRange = static_cast<Output::RgbRange>(rgbrange.toInt());
+            }
 
             if (const QJsonObject modeInfo = outputInfo["mode"].toObject(); !modeInfo.isEmpty()) {
                 if (auto mode = KWinKScreenIntegration::parseMode(output, modeInfo)) {
@@ -916,22 +924,26 @@ void Workspace::updateOutputConfiguration()
                 props->pos = pos;
                 props->transform = output->panelOrientation();
             }
-            qCDebug(KWIN_CORE) << "Reading none configuration for " << output << " pos " << props->pos << " current pos " << output->geometry().topLeft();
+            qCDebug(KWIN_CORE) << "Reading none configuration for " << output << " pos " << *props->pos << " current pos " << output->geometry().topLeft();
             outputOrder.push_back(std::make_pair(0, output));
         }
         pos.setX(pos.x() + output->geometry().width());
     }
-    bool allDisabled = std::all_of(outputs.begin(), outputs.end(), [&cfg](const auto &output) {
-        return !cfg.changeSet(output)->enabled;
+    const bool allDisabled = !std::any_of(outputs.begin(), outputs.end(), [&cfg](const auto &output) {
+        const auto changeset = cfg.constChangeSet(output);
+        if (changeset && changeset->enabled.has_value()) {
+            return *changeset->enabled;
+        } else {
+            return output->isEnabled();
+        }
     });
     if (allDisabled) {
         qCWarning(KWIN_CORE) << "KScreen config would disable all outputs!";
         setFallbackOutputOrder();
         return;
     }
-    std::vector<std::pair<uint32_t, Output *>>::iterator it;
-    for (it = outputOrder.begin(); it != outputOrder.end();) {
-        if (!cfg.constChangeSet(it->second)->enabled) {
+    for (auto it = outputOrder.begin(); it != outputOrder.end();) {
+        if (!cfg.constChangeSet(it->second)->enabled.value_or(it->second->isEnabled())) {
             it = outputOrder.erase(it);
         } else {
             ++it;
@@ -1788,6 +1800,7 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
                                 return !output->isEnabled();
                             }),
                             m_outputOrder.end());
+        Q_EMIT outputOrderChanged();
     }
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -2630,6 +2643,23 @@ void Workspace::setSplitMenuKeepShowing(bool keep)
     SplitMenu::instance()->setKeepShowing(keep);
 }
 
+Workspace::DelayedRaisingClientMode Workspace::delayedRaisingClientMode()
+{
+    return _delayedRaisingClientMode;
+}
+
+bool Workspace::setDelayedRaisingClientMode(const Workspace::DelayedRaisingClientMode &mode)
+{
+    // XInputDrive > XRecordDrive > None
+    // Initial mode is None, do not support setting to None now
+    // cause DelayRaise function is enabled default when XInput
+    // or XRecord is available.(We can't unload extension now anyway)
+    if (mode == _delayedRaisingClientMode || _delayedRaisingClientMode == DRCM_XInputDriven || mode == DRCM_None)
+        return false;
+    _delayedRaisingClientMode = mode;
+    return true;
+}
+
 void Workspace::handleReleaseMouseCommand()
 {
     auto hitShape = [] (const Window *w, const QPointF &p)->bool {
@@ -2857,6 +2887,15 @@ void Workspace::desktopResized()
     const auto stack = stackingOrder();
     for (Window *window : stack) {
         if (window && !window->isSplitBar()) {
+            window->setMoveResizeOutput(outputAt(window->moveResizeGeometry().center()));
+            window->setOutput(outputAt(window->frameGeometry().center()));
+        }
+    }
+
+    if (waylandServer()) {
+        // TODO: Track uninitialized windows in the Workspace too.
+        const auto windows = waylandServer()->windows();
+        for (Window *window : windows) {
             window->setMoveResizeOutput(outputAt(window->moveResizeGeometry().center()));
             window->setOutput(outputAt(window->frameGeometry().center()));
         }

@@ -60,9 +60,6 @@ public:
 
     XwaylandInterface *xwayland() const override;
 
-public Q_SLOTS:
-    void exitWayland();
-
 protected:
     void performStartup() override;
 

@@ -21,6 +21,7 @@
 #include "drm_dumb_swapchain.h"
 #include "drm_egl_backend.h"
 #include "drm_layer.h"
+#include "drm_restorer.h"
 #include "drm_logging.h"
 #include "kwinglutils.h"
 // Qt
@@ -46,13 +47,16 @@ DrmOutput::DrmOutput(const std::shared_ptr<DrmConnector> &conn)
     : DrmAbstractOutput(conn->gpu())
     , m_pipeline(conn->pipeline())
     , m_connector(conn)
+    , m_restorer(std::make_unique<DrmRestorer>(this))
 {
     RenderLoopPrivate::get(m_renderLoop.get())->canDoTearing = gpu()->asyncPageflipSupported();
     m_pipeline->setOutput(this);
     m_renderLoop->setRefreshRate(m_pipeline->mode()->refreshRate());
 
+    m_restorer->updateFilterRules(DrmRestorer::FilterFlag::ctmValue | DrmRestorer::FilterFlag::colorModeValue);
+
     Capabilities capabilities = Capability::Dpms;
-    State initialState;
+    State initialState = m_state;
 
     if (conn->hasOverscan()) {
         capabilities |= Capability::Overscan;
@@ -260,9 +264,11 @@ void DrmOutput::setDpmsMode(DpmsMode mode)
     } else {
         m_gpu->platform()->checkOutputsAreOn();
         if (m_turnOffTimer.isActive() || (mode != dpmsMode() && setDrmDpmsMode(mode))) {
+            m_turnOffTimer.stop();
             Q_EMIT wakeUp();
         }
-        m_turnOffTimer.stop();
+        if (m_turnOffTimer.isActive())
+            m_turnOffTimer.stop();
     }
 }
 
@@ -424,31 +430,33 @@ DrmPipeline *DrmOutput::pipeline() const
     return m_pipeline;
 }
 
-bool DrmOutput::queueChanges(const OutputConfiguration &config)
+bool DrmOutput::queueChanges(const std::shared_ptr<OutputChangeSet> &props)
 {
     static bool valid;
     static int envOnlySoftwareRotations = qEnvironmentVariableIntValue("KWIN_DRM_SW_ROTATIONS_ONLY", &valid) == 1 || !valid;
-
-    const auto props = config.constChangeSet(this);
-    const auto mode = props->mode.lock();
+    // There is no need to distinguish these items whether is changed or not. DrmProperty::needCommits() will do the job.
+    const auto mode = props->mode.value_or(currentMode()).lock();
     if (!mode) {
         return false;
     }
     m_pipeline->setMode(std::static_pointer_cast<DrmConnectorMode>(mode));
-    m_pipeline->setOverscan(props->overscan);
-    m_pipeline->setRgbRange(props->rgbRange);
-    m_pipeline->setBrightness(props->brightness);
-    m_pipeline->setRenderOrientation(outputToPlaneTransform(props->transform));
-    m_pipeline->setCTM(props->ctmValue);
-    m_pipeline->setColorCurves(props->colorCurves);
+    m_pipeline->setOverscan(props->overscan.value_or(m_pipeline->overscan()));
+    m_pipeline->setRgbRange(props->rgbRange.value_or(m_pipeline->rgbRange()));
+    m_pipeline->setRenderOrientation(outputToPlaneTransform(props->transform.value_or(transform())));
+    m_pipeline->setBrightness(props->brightness.value_or(m_pipeline->brightness()));
+    m_pipeline->setCTM(props->ctmValue.value_or(m_pipeline->ctmValue()));
+    m_pipeline->setColorCurves(props->colorCurves.value_or(m_pipeline->colorCurves()));
+    m_pipeline->setColorMode(props->colorModeValue.value_or(m_pipeline->colorMode()));
     if (!envOnlySoftwareRotations && m_gpu->atomicModeSetting()) {
         m_pipeline->setBufferOrientation(m_pipeline->renderOrientation());
     }
-    m_pipeline->setEnable(props->enabled);
+    m_pipeline->setEnable(props->enabled.value_or(m_pipeline->enabled()));
+
+    m_restorer->accumulate(props);
     return true;
 }
 
-void DrmOutput::applyQueuedChanges(const OutputConfiguration &config)
+void DrmOutput::applyQueuedChanges(const std::shared_ptr<OutputChangeSet> &props)
 {
     if (!m_connector->isConnected()) {
         return;
@@ -456,22 +464,21 @@ void DrmOutput::applyQueuedChanges(const OutputConfiguration &config)
     Q_EMIT aboutToChange();
     m_pipeline->applyPendingChanges();
 
-    auto props = config.constChangeSet(this);
-
     State next = m_state;
-    next.enabled = props->enabled && m_pipeline->crtc();
-    next.position = props->pos;
-    next.scale = props->scale;
-    next.transform = props->transform;
+    next.enabled = props->enabled.value_or(m_state.enabled) && m_pipeline->crtc();
+    next.position = props->pos.value_or(m_state.position);
+    next.scale = props->scale.value_or(m_state.scale);
+    next.transform = props->transform.value_or(m_state.transform);
     next.currentMode = m_pipeline->mode();
     next.overscan = m_pipeline->overscan();
     next.rgbRange = m_pipeline->rgbRange();
-    next.brightness = m_pipeline->brightness();
-    next.ctmValue = m_pipeline->ctmValue();
-    next.colorCurves = m_pipeline->colorCurves();
+    next.brightness = props->brightness.value_or(m_state.brightness);
+    next.ctmValue = props->ctmValue.value_or(m_state.ctmValue);
+    next.colorCurves = props->colorCurves.value_or(m_state.colorCurves);
+    next.colorModeValue = props->colorModeValue.value_or(m_state.colorModeValue);
 
     setState(next);
-    setVrrPolicy(props->vrrPolicy);
+    setVrrPolicy(props->vrrPolicy.value_or(vrrPolicy()));
 
     if (!isEnabled() && m_pipeline->needsModeset()) {
         m_gpu->maybeModeset();

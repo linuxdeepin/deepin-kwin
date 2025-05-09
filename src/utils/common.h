@@ -24,6 +24,8 @@
 #include <QRect>
 // system
 #include <climits>
+// cpp
+#include <memory>
 
 Q_DECLARE_LOGGING_CATEGORY(KWIN_CORE)
 Q_DECLARE_LOGGING_CATEGORY(KWIN_OPENGL)
@@ -161,6 +163,103 @@ Qt::MouseButtons KWIN_EXPORT x11ToQtMouseButtons(int state);
 Qt::KeyboardModifiers KWIN_EXPORT x11ToQtKeyboardModifiers(int state);
 
 KWIN_EXPORT QPointF popupOffset(const QRectF &anchorRect, const Qt::Edges anchorEdge, const Qt::Edges gravity, const QSizeF popupSize);
+
+namespace Internal
+{
+template<typename T>
+struct is_shared_ptr final: std::false_type {};
+
+template<typename T>
+struct is_shared_ptr<std::shared_ptr<T>> final: std::true_type {};
+
+template<typename T>
+struct is_shared_ptr<QSharedPointer<T>> final : std::true_type {};
+
+template<typename T>
+struct is_unique_ptr final: std::false_type {};
+
+template<typename T>
+struct is_unique_ptr<std::unique_ptr<T>> final: std::true_type {};
+
+template<typename T>
+struct is_unique_ptr<QScopedPointer<T>> final : std::true_type {};
+
+template<typename T>
+struct is_weak_ptr final : std::false_type {};
+
+template<typename T>
+struct is_weak_ptr<std::weak_ptr<T>> final : std::true_type {};
+
+template<typename T>
+struct is_weak_ptr<QWeakPointer<T>> final : std::true_type {};
+
+template<typename T>
+struct is_smart_ptr final : std::integral_constant<bool,
+                                             is_shared_ptr<T>::value ||
+                                             is_unique_ptr<T>::value ||
+                                             is_weak_ptr<T>::value
+                                             > {};
+}
+
+// support for QDebugging std::optional<T> has been added natively in Qt 6.7
+// this definition clashes with Qt's so disable it.
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
+
+template<typename T>
+QDebug operator<<(QDebug out, const std::optional<T> &val)
+{
+    using namespace Internal;
+    out.nospace() << "std::optional(";
+    if (val.has_value()) {
+        if constexpr (is_smart_ptr<T>::value) {
+            if constexpr (is_weak_ptr<T>::value) {
+                auto locked = val->lock();
+                if (locked) {
+                    out << *locked;
+                } else {
+                    out << "expired";
+                }
+            } else {
+                out << *(*val);
+            }
+        } else {
+            if constexpr (std::is_pointer_v<T>) {
+                if (*val == nullptr) {
+                    out << "nullptr";
+                } else {
+                    out << *(*val);
+                }
+            } else {
+                out << *val;
+            }
+        }
+    } else {
+        out << "nullopt";
+    }
+    out << ')';
+    return out;
+}
+
+#else
+
+template<typename T>
+QDebug operator<<(QDebug debug, const std::weak_ptr<T> &ptr)
+{
+    QDebugStateSaver saver(debug); // 保存 QDebug 的格式状态
+    debug.nospace(); // 禁用自动空格
+
+    if (auto shared = ptr.lock()) {
+        // 对象有效，输出值和地址
+        debug << "weak_ptr(valid, value: " << *shared
+              << ", address: " << shared.get() << ")";
+    } else {
+        // 对象已销毁
+        debug << "weak_ptr(expired)";
+    }
+    return debug;
+}
+
+#endif
 
 } // namespace
 

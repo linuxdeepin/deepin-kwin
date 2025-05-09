@@ -27,6 +27,7 @@ class SlideInterface;
 class SubSurfaceInterface;
 class SurfaceInterfacePrivate;
 class LinuxDmaBufV1Feedback;
+class ViewportInterface;
 
 enum class PresentationHint {
     VSync,
@@ -353,6 +354,8 @@ public:
     void setPreferredScale(qreal scale);
 
     void skipBuffer();
+
+    ViewportInterface *viewportExtension() const;
 
 Q_SIGNALS:
     /**
