@@ -1,3 +1,10 @@
+deepin-kwin (4:6.0.7) unstable; urgency=medium
+
+  * chore(effects): rename all effects same with uos 20
+  * fix: get an empty filteredProcessList from dbus
+
+ -- rewine <luhongxu@deepin.org>  Fri, 09 May 2025 10:57:23 +0800
+
 deepin-kwin (4:6.0.6) unstable; urgency=medium
 
   * chore(effects): rename kwin4_effect_magiclamp to magiclamp
