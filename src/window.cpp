@@ -5096,16 +5096,21 @@ QVariant Window::createTimespanDBusMessage(struct timeval createTimeval, int tid
             QDBusMessage replyValue = interfaceValue.call("value", "filterList");
             QDBusVariant dbusVariant = replyValue.arguments().at(0).value<QDBusVariant>();
             QDBusArgument dbusArguments = dbusVariant.variant().value<QDBusArgument>();
-            QList<QString> tempFilteredProcessList;
-            dbusArguments.beginArray();
-            while (!dbusArguments.atEnd()) {
-                dbusArguments >> tempFilteredProcessList;
-                if (!tempFilteredProcessList.empty())
-                    filteredProcessList.append(tempFilteredProcessList[0]);
-                else
-                    qCDebug(KWIN_CORE) << "Get an empty filteredProcessList from dbus!";
+
+            QVariantList tempFilteredProcessList;
+            dbusArguments >> tempFilteredProcessList;
+
+            filteredProcessList.clear();
+            for (int i = 0; i < tempFilteredProcessList.size(); i++) {
+                QString name = tempFilteredProcessList[i].toString();
+                if (name.size())
+                    filteredProcessList.append(name);
             }
-            dbusArguments.endArray();
+            if (!filteredProcessList.size()) {
+                qCDebug(KWIN_CORE) << "Get an empty filteredProcessList from dbus!";
+                return QVariant();
+            }
+
             initialized = true;
         } else {
             qCDebug(KWIN_CORE) << "dconfig reply.error: " << reply.error();
