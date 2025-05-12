@@ -15,9 +15,11 @@
 #include <QRect>
 #include <QRegion>
 #include <QVector>
+#include <QScopedPointer>
 
 #include <xcb/composite.h>
 #include <xcb/randr.h>
+#include <xcb/res.h>
 #include <xcb/xcb.h>
 
 #include <xcb/shm.h>
@@ -1965,6 +1967,23 @@ static inline void restackWindowsWithRaise(const QVector<xcb_window_t> &windows)
     const uint32_t values[] = {XCB_STACK_MODE_ABOVE};
     xcb_configure_window(connection(), windows.first(), XCB_CONFIG_WINDOW_STACK_MODE, values);
     restackWindows(windows);
+}
+
+static inline pid_t getWindowPidByXRes(const xcb_window_t &window)
+{
+    xcb_res_client_id_spec_t spec = { window, XCB_RES_CLIENT_ID_MASK_LOCAL_CLIENT_PID };
+    xcb_res_query_client_ids_cookie_t cookie = xcb_res_query_client_ids_unchecked(connection(), 1, &spec);
+    QScopedPointer<xcb_res_query_client_ids_reply_t, QScopedPointerPodDeleter> reply(xcb_res_query_client_ids_reply(connection(), cookie, NULL));
+
+    if (reply) {
+        xcb_res_client_id_value_iterator_t iter = xcb_res_query_client_ids_ids_iterator(reply.get());
+        for (; iter.rem; xcb_res_client_id_value_next(&iter)) {
+            if (iter.data->spec.mask == XCB_RES_CLIENT_ID_MASK_LOCAL_CLIENT_PID && xcb_res_client_id_value_value_length(iter.data) == 1) {
+                return xcb_res_client_id_value_value(iter.data)[0];
+            }
+        }
+    }
+    return 0;
 }
 
 static xcb_screen_t *defaultScreen()
