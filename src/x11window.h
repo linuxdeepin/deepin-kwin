@@ -117,6 +117,7 @@ public:
     QMatrix4x4 inputTransformation() const override;
 
     bool isTransient() const override;
+    pid_t pid() const override;
     bool isX11() const override;
     bool groupTransient() const override;
     bool wasOriginallyGroupTransient() const;
@@ -550,6 +551,7 @@ private:
 
     bool m_isProhibitScreenshotWindow = false;
     xcb_timestamp_t m_timestamp = XCB_TIME_CURRENT_TIME;
+    mutable pid_t m_pid = 0;
 };
 
 inline xcb_window_t X11Window::wrapperId() const

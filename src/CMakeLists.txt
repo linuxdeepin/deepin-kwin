@@ -260,6 +260,7 @@ target_link_libraries(kwin
     XCB::XFIXES
     XCB::XINERAMA
     XCB::XTEST
+    PkgConfig::XRES
 
     UDev::UDev
     XKB::XKB

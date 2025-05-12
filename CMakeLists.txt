@@ -296,6 +296,7 @@ else()
 endif()
 
 pkg_check_modules(XKBX11 IMPORTED_TARGET xkbcommon-x11 REQUIRED)
+pkg_check_modules(XRES REQUIRED IMPORTED_TARGET xcb-res)
 add_feature_info(XKBX11 XKBX11_FOUND "Required for handling keyboard events in X11 backend")
 
 find_package(Libinput 1.12)

@@ -2014,7 +2014,7 @@ void X11Window::killProcess(bool ask, xcb_timestamp_t timestamp)
         return;
     }
     Q_ASSERT(!ask || timestamp != XCB_TIME_CURRENT_TIME);
-    pid_t pid = info->pid();
+    pid_t pid = this->pid();
     if (pid <= 0 || clientMachine()->hostName().isEmpty()) { // Needed properties missing
         return;
     }
@@ -2805,6 +2805,15 @@ QMatrix4x4 X11Window::inputTransformation() const
     QMatrix4x4 matrix;
     matrix.translate(-m_bufferGeometry.x(), -m_bufferGeometry.y());
     return matrix;
+}
+
+pid_t X11Window::pid() const
+{
+    if (m_pid == 0) {
+        m_pid = getWindowPidByXRes(m_client);
+    }
+
+    return m_pid;
 }
 
 Xcb::Property X11Window::fetchShowOnScreenEdge() const
