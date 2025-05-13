@@ -4955,9 +4955,6 @@ WindowRadius *Window::windowRadiusObj() const
 
 void Window::updateWindowRadius(bool isForceUpdate)
 {
-    if (isX11() && noBorder())
-        return;
-
     if (m_windowRadiusObj) {
         int ret = m_windowRadiusObj->updateWindowRadius();
         if (ret == 0) {
@@ -4980,9 +4977,6 @@ WindowShadow *Window::windowShadowObj() const
 
 void Window::updateWindowShadow(bool isForceUpdate)
 {
-    if (isX11() && noBorder())
-        return;
-
     if (!Compositor::compositing() || !Compositor::self()->isOpenGLCompositing()) {
         if (m_windowShadowObj) {
             m_windowShadowObj->resetShadowKey();
