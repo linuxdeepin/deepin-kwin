@@ -121,15 +121,8 @@ var scaleEffect = {
             duration: animationTime(scaleDuration),
             animations: [
                 {
-                    type: Effect.Size,
-                    from: {
-                        value1: windowRect.width * scaleSize / 100,
-                        value2: windowRect.height * scaleSize / 100
-                    },
-                    to: {
-                        value1: windowRect.width,
-                        value2: windowRect.height
-                    }
+                    type: Effect.Scale,
+                    from: scaleSize / 100
                 },
                 {
                     type: Effect.Opacity,
@@ -179,15 +172,8 @@ var scaleEffect = {
             duration: animationTime(scaleDuration),
             animations: [
                 {
-                    type: Effect.Size,
-                    to: {
-                        value1: windowRect.width * scaleSize / 100,
-                        value2: windowRect.height * scaleSize / 100
-                    },
-                    from: {
-                        value1: windowRect.width,
-                        value2: windowRect.height
-                    }
+                    type: Effect.Scale,
+                    to: scaleSize / 100
                 },
                 {
                     type: Effect.Opacity,
