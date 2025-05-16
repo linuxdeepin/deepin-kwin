@@ -51,33 +51,81 @@ namespace Xwl
 XwaylandLauncher::XwaylandLauncher(QObject *parent)
     : QObject(parent)
 {
-    m_resetCrashCountTimer = new QTimer(this);
+    m_launcherThread = new QThread();
+    // Important: Move object to thread before connecting its own slots
+    // or creating child QObjects like timers that should live in this thread.
+    this->moveToThread(m_launcherThread);
+    m_launcherThread->start();
+
+    m_resetCrashCountTimer = new QTimer(this); // Parented, so will move to m_launcherThread
     m_resetCrashCountTimer->setSingleShot(true);
     connect(m_resetCrashCountTimer, &QTimer::timeout, this, &XwaylandLauncher::resetCrashCount);
+
+    // Connections for signal/slot based public API
 }
 
 XwaylandLauncher::~XwaylandLauncher()
 {
+    // Stop and cleanup the launcher's own thread first
+    if (m_launcherThread) {
+        // If stop() was not called explicitly, ensure resources are cleaned up.
+        // This needs to be invoked on the launcher's thread.
+        // QMetaObject::invokeMethod is used for safety if destructor is called from another thread.
+        QMetaObject::invokeMethod(this, "onStopRequested", Qt::BlockingQueuedConnection);
+        m_launcherThread->quit();
+        m_launcherThread->wait(); // Wait for the launcher thread to finish
+        m_launcherThread->deleteLater();
+    }
 }
+
+// Public methods use QMetaObject::invokeMethod to call slots on the launcher thread
 
 void XwaylandLauncher::setListenFDs(const QVector<int> &listenFds)
 {
-    m_listenFds = listenFds;
+    QMetaObject::invokeMethod(this, "onSetListenFDsRequested", Qt::QueuedConnection, Q_ARG(QVector<int>, listenFds));
 }
 
 void XwaylandLauncher::setDisplayName(const QString &displayName)
 {
-    m_displayName = displayName;
+    QMetaObject::invokeMethod(this, "onSetDisplayNameRequested", Qt::QueuedConnection, Q_ARG(QString, displayName));
 }
 
 void XwaylandLauncher::setXauthority(const QString &xauthority)
 {
-    m_xAuthority = xauthority;
+    QMetaObject::invokeMethod(this, "onSetXauthorityRequested", Qt::QueuedConnection, Q_ARG(QString, xauthority));
 }
 
 void XwaylandLauncher::start()
 {
+    QMetaObject::invokeMethod(this, "onStartRequested", Qt::QueuedConnection);
+}
+
+void XwaylandLauncher::stop()
+{
+    QMetaObject::invokeMethod(this, "onStopRequested", Qt::QueuedConnection);
+}
+
+// Slots that implement the actual logic, executed in XwaylandLauncher's thread
+
+void XwaylandLauncher::onSetListenFDsRequested(const QVector<int> &listenFds)
+{
+    m_listenFds = listenFds;
+}
+
+void XwaylandLauncher::onSetDisplayNameRequested(const QString &displayName)
+{
+    m_displayName = displayName;
+}
+
+void XwaylandLauncher::onSetXauthorityRequested(const QString &xauthority)
+{
+    m_xAuthority = xauthority;
+}
+
+void XwaylandLauncher::onStartRequested()
+{
     if (m_xwaylandProcess) {
+        qCDebug(KWIN_XWL) << "Xwayland already running or start requested.";
         return;
     }
 
@@ -86,18 +134,35 @@ void XwaylandLauncher::start()
     } else {
         m_socket.reset(new XwaylandSocket(XwaylandSocket::OperationMode::CloseFdsOnExec));
         if (!m_socket->isValid()) {
-            qFatal("Failed to establish X11 socket");
+            // qFatal terminates, which is harsh. Emit error and return.
+            qCWarning(KWIN_XWL, "Failed to establish X11 socket for Xwayland.");
+            Q_EMIT errorOccurred(); // Ensure this signal is emitted from the correct thread
+            return;
         }
         m_displayName = m_socket->name();
         m_listenFds = m_socket->fileDescriptors();
     }
 
-    startInternal();
+    if (!startInternal()) {
+        // errorOccurred should have been emitted by startInternal
+        qCWarning(KWIN_XWL, "Xwayland startInternal failed.");
+    }
 }
+
+void XwaylandLauncher::onStopRequested()
+{
+    if (!m_xwaylandProcess) {
+        qCDebug(KWIN_XWL) << "Xwayland not running or stop already requested.";
+        return;
+    }
+    stopInternal();
+}
+
+// Internal methods (called by slots, so they run in m_launcherThread)
 
 bool XwaylandLauncher::startInternal()
 {
-    Q_ASSERT(!m_xwaylandProcess);
+    Q_ASSERT(!m_xwaylandProcess); // Should be true due to check in onStartRequested
 
     QVector<int> fdsToClose;
     auto cleanup = qScopeGuard([&fdsToClose] {
@@ -168,7 +233,7 @@ bool XwaylandLauncher::startInternal()
     arguments << QStringLiteral("-wm") << QString::number(fd);
     arguments << QStringLiteral("-verbose") << QString::number(4);
 
-    m_xwaylandProcess = new QProcess(this);
+    m_xwaylandProcess = new QProcess(this); // Parented, so will move to m_launcherThread
     m_xwaylandProcess->setProgram(QStringLiteral("Xwayland"));
     m_xwaylandProcess->setProcessChannelMode(QProcess::MergedChannels);
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -202,42 +267,14 @@ bool XwaylandLauncher::startInternal()
     // the Xwayland can send us the SIGUSR1 signal, but it's already reserved for VT hand-off.
     m_readyNotifier = new QSocketNotifier(pipeFds[0], QSocketNotifier::Read, this);
     connect(m_readyNotifier, &QSocketNotifier::activated, this, [this]() {
+        // This lambda will execute in m_launcherThread
         maybeDestroyReadyNotifier();
-        Q_EMIT started();
+        Q_EMIT started(m_displayName, m_xAuthority, m_xcbConnectionFd);
     });
 
     m_xwaylandProcess->start();
 
     return true;
-}
-
-void XwaylandLauncher::stop()
-{
-    if (!m_xwaylandProcess) {
-        return;
-    }
-
-    stopInternal();
-}
-
-QString XwaylandLauncher::displayName() const
-{
-    return m_displayName;
-}
-
-QString XwaylandLauncher::xauthority() const
-{
-    return m_xAuthority;
-}
-
-int XwaylandLauncher::xcbConnectionFd() const
-{
-    return m_xcbConnectionFd;
-}
-
-QProcess *XwaylandLauncher::process() const
-{
-    return m_xwaylandProcess;
 }
 
 void XwaylandLauncher::stopInternal()
