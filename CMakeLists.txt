@@ -7,7 +7,21 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-option(BUILD_ON_V25 "Use deepin/uos v25 compatible interfaces" OFF)
+if (NOT DEFINED BUILD_ON_V25)
+    find_package(QT NAMES Qt6 QUIET)
+    if(NOT QT_FOUND)
+        message(STATUS "Not found qt6, will build with v20 interface")
+        set(BUILD_ON_V25 OFF)
+        find_package(QT NAMES Qt5 REQUIRED)
+    else()
+        message(STATUS "Has found qt6, will build with v25 interface")
+        set(BUILD_ON_V25 ON)
+    endif()
+else()
+    message(STATUS "Build On v25: \"${BUILD_ON_V25}\"")
+endif()
+
+option(BUILD_TESTING "Build the testing tree" OFF)
 
 if (BUILD_ON_V25)
   set(QT_MAJOR_VERSION "6")
@@ -83,16 +97,6 @@ else()
     endif()
     get_target_property(LRELEASE_EXECUTABLE Qt6::lrelease IMPORTED_LOCATION)
     get_target_property(LUPDATE_EXECUTABLE Qt6::lupdate IMPORTED_LOCATION)
-endif()
-
-find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG QUIET)
-set_package_properties(Qt${QT_MAJOR_VERSION}Test PROPERTIES
-    PURPOSE "Required for tests"
-    TYPE OPTIONAL
-)
-add_feature_info("Qt${QT_MAJOR_VERSION}Test" Qt${QT_MAJOR_VERSION}Test_FOUND "Required for building tests")
-if (NOT Qt${QT_MAJOR_VERSION}Test_FOUND)
-    set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
 endif()
 
 # required frameworks by Core
@@ -593,6 +597,7 @@ add_subdirectory(kconf_update)
 add_subdirectory(src)
 
 if (BUILD_TESTING)
+    find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG REQUIRED)
     find_package(Wayland REQUIRED COMPONENTS Client)
 
     add_subdirectory(autotests)
