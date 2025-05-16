@@ -1,33 +1,27 @@
-# KWin
+# Deepin KWin
 
-KWin is an easy to use, but flexible, composited Window Manager for Xorg windowing systems (Wayland, X11) on Linux. Its primary usage is in conjunction with a Desktop Shell (e.g. KDE Plasma Desktop). KWin is designed to go out of the way; users should not notice that they use a window manager at all. Nevertheless KWin provides a steep learning curve for advanced features, which are available, if they do not conflict with the primary mission. KWin does not have a dedicated targeted user group, but follows the targeted user group of the Desktop Shell using KWin as it's window manager.
+deepin-kwin is deepin desktop environment's core window manager, customized based on KWin 5.27 with Qt6/KF6 support. KWin is an easy to use, but flexible, composited Window Manager for Xorg windowing systems (Wayland, X11) on Linux. Its primary usage is in conjunction with a Desktop Shell (e.g. KDE Plasma Desktop). KWin is designed to go out of the way; users should not notice that they use a window manager at all. Nevertheless KWin provides a steep learning curve for advanced features, which are available, if they do not conflict with the primary mission. KWin does not have a dedicated targeted user group, but follows the targeted user group of the Desktop Shell using KWin as it's window manager.
 
-## KWin is not...
+## Build Requirements
 
- * a standalone window manager (c.f. openbox, i3) and does not provide any functionality belonging to a Desktop Shell.
- * a replacement for window managers designed for use with a specific Desktop Shell (e.g. GNOME Shell)
- * a minimalistic window manager
- * designed for use without compositing or for X11 network transparency, though both are possible.
+- Qt 6.7+
+- KDE Frameworks 6.0+
+- XCB related development libraries
 
-# Contributing to KWin
+## Compilation & Installation
 
-Please refer to the [contributing document](CONTRIBUTING.md) for everything you need to know to get started contributing to KWin.
+```
+git clone https://github.com/linuxdeepin/deepin-kwin.git
+cd deepin-kwin
+cmake -B build -DCMAKE_INSTALL_PREFIX=/usr
+cmake --build build
+cmake --install build
+```
 
-# Contacting KWin development team
+## Getting Involved
 
- * mailing list: [kwin@kde.org](https://mail.kde.org/mailman/listinfo/kwin)
- * IRC: #kde-kwin on irc.libera.chat
-
-# Support
-## Application Developer
-If you are an application developer having questions regarding windowing systems (either X11 or Wayland) please do not hesitate to contact us. Preferable through our mailing list. Ideally subscribe to the mailing list, so that your mail doesn't get stuck in the moderation queue.
-
-## End user
-Please contact the support channels of your Linux distribution for user support. The KWin development team does not provide end user support.
-
-# Reporting bugs
-
-Please use [KDE's bugtracker](https://bugs.kde.org) and report for [product KWin](https://bugs.kde.org/enter_bug.cgi?product=kwin).
+- [Code contribution via GitHub](https://github.com/linuxdeepin/deepin-kwin/)
+- [Submit bug or suggestions to GitHub Issues or GitHub Discussions](https://github.com/linuxdeepin/developer-center/issues/new/choose)
 
 ## Guidelines for new features
 
@@ -47,3 +41,7 @@ A new Feature can only be added to KWin if:
 All new added features are under probation, that is if any of the non-functional requirements as listed above do not hold true in the next two feature releases, the added feature will be removed again.
 
 The same non functional requirements hold true for any kind of plugins (effects, scripts, etc.). It is suggested to use scripted plugins and distribute them separately.
+
+## License
+
+**deepin-kwin** is licensed under GPL-2.0-or-later.
