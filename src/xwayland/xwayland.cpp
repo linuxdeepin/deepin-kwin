@@ -200,9 +200,9 @@ public:
 
 Xwayland::Xwayland(Application *app)
     : m_app(app)
-    , m_launcher(new XwaylandLauncher(this))
+    , m_launcher(new XwaylandLauncher)
 {
-    connect(m_launcher, &XwaylandLauncher::started, this, &Xwayland::handleXwaylandReady);
+    connect(m_launcher, &XwaylandLauncher::started, this, &Xwayland::handleXwaylandReady, Qt::QueuedConnection);
     connect(m_launcher, &XwaylandLauncher::finished, this, &Xwayland::handleXwaylandFinished);
     connect(m_launcher, &XwaylandLauncher::errorOccurred, this, &Xwayland::errorOccurred);
 }
@@ -210,6 +210,7 @@ Xwayland::Xwayland(Application *app)
 Xwayland::~Xwayland()
 {
     m_launcher->stop();
+    m_launcher->deleteLater();
 }
 
 void Xwayland::start()
@@ -298,14 +299,14 @@ void Xwayland::handleXwaylandFinished()
     destroyX11Connection();
 }
 
-void Xwayland::handleXwaylandReady()
+void Xwayland::handleXwaylandReady(const QString &displayName, const QString &xauthority, int xcbConnectionFd)
 {
-    if (!createX11Connection()) {
+    if (!createX11Connection(xcbConnectionFd)) {
         Q_EMIT errorOccurred();
         return;
     }
 
-    qCInfo(KWIN_XWL) << "Xwayland server started on display" << m_launcher->displayName();
+    qCInfo(KWIN_XWL) << "Xwayland server started on display" << displayName;
 
     // create selection owner for WM_S0 - magic X display number expected by XWayland
     m_selectionOwner.reset(new KSelectionOwner("WM_S0", kwinApp()->x11Connection(), kwinApp()->x11RootWindow()));
@@ -325,13 +326,13 @@ void Xwayland::handleXwaylandReady()
     m_dataBridge = std::make_unique<DataBridge>();
 
     auto env = m_app->processStartupEnvironment();
-    env.insert(QStringLiteral("DISPLAY"), m_launcher->displayName());
-    env.insert(QStringLiteral("XAUTHORITY"), m_launcher->xauthority());
-    qputenv("DISPLAY", m_launcher->displayName().toLatin1());
-    qputenv("XAUTHORITY", m_launcher->xauthority().toLatin1());
+    env.insert(QStringLiteral("DISPLAY"), displayName);
+    env.insert(QStringLiteral("XAUTHORITY"), xauthority);
+    qputenv("DISPLAY", displayName.toLatin1());
+    qputenv("XAUTHORITY", xauthority.toLatin1());
     m_app->setProcessStartupEnvironment(env);
 
-    kwinApp()->session()->updateDisplay(m_launcher->displayName());
+    kwinApp()->session()->updateDisplay(displayName);
 
     connect(workspace(), &Workspace::outputOrderChanged, this, &Xwayland::updatePrimary);
     updatePrimary();
@@ -414,9 +415,9 @@ void Xwayland::handleSelectionClaimedOwnership()
     Q_EMIT started();
 }
 
-bool Xwayland::createX11Connection()
+bool Xwayland::createX11Connection(int xcbConnectionFd)
 {
-    xcb_connection_t *connection = xcb_connect_to_fd(m_launcher->xcbConnectionFd(), nullptr);
+    xcb_connection_t *connection = xcb_connect_to_fd(xcbConnectionFd, nullptr);
 
     const int errorCode = xcb_connection_has_error(connection);
     if (errorCode) {

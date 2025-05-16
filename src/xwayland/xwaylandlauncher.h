@@ -20,6 +20,7 @@
 #include <kwin_export.h>
 
 class QTimer;
+class QThread;
 
 namespace KWin
 {
@@ -32,8 +33,8 @@ class KWIN_EXPORT XwaylandLauncher : public QObject
 {
     Q_OBJECT
 public:
-    explicit XwaylandLauncher(QObject *parent);
-    ~XwaylandLauncher();
+    explicit XwaylandLauncher(QObject *parent = nullptr);
+    ~XwaylandLauncher() override;
 
     /**
      * Set file descriptors that xwayland should use for listening
@@ -59,31 +60,33 @@ public:
     void start();
     void stop();
 
-    QString displayName() const;
-    QString xauthority() const;
-    int xcbConnectionFd() const;
-
-    /**
-     * @internal
-     */
-    QProcess *process() const;
 Q_SIGNALS:
     /**
      * This signal is emitted when the Xwayland server has been started successfully and it is
      * ready to accept and manage X11 clients.
      * For restarts it may be emitted multiple times
+     * @param displayName The display name used by XWayland.
+     * @param xauthority The xauthority file used by XWayland.
+     * @param xcbConnectionFd The file descriptor for the XCB connection.
      */
-    void started();
+    void started(const QString &displayName, const QString &xauthority, int xcbConnectionFd); // Emitted from XwaylandLauncher's thread
     /**
      * This signal is emitted when the Xwayland server quits or crashes
      */
-    void finished();
+    void finished(); // Emitted from XwaylandLauncher's thread
     /**
      * This signal is emitted when an error occurs with the Xwayland server.
      */
-    void errorOccurred();
+    void errorOccurred(); // Emitted from XwaylandLauncher's thread
 
 private Q_SLOTS:
+    // Slots that implement the actual logic, executed in XwaylandLauncher's thread
+    void onSetListenFDsRequested(const QVector<int> &listenFds);
+    void onSetDisplayNameRequested(const QString &displayName);
+    void onSetXauthorityRequested(const QString &xauthority);
+    void onStartRequested();
+    void onStopRequested();
+
     void resetCrashCount();
     void handleXwaylandFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void handleXwaylandError(QProcess::ProcessError error);
@@ -96,6 +99,7 @@ private:
     void restartInternal();
     void processXwaylandOutput(QByteArray buffer);
 
+    QThread *m_launcherThread = nullptr;
     QProcess *m_xwaylandProcess = nullptr;
     QSocketNotifier *m_readyNotifier = nullptr;
     QTimer *m_resetCrashCountTimer = nullptr;

@@ -56,7 +56,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void handleXwaylandFinished();
-    void handleXwaylandReady();
+    void handleXwaylandReady(const QString &displayName, const QString &xauthority, int xcbConnectionFd);
 
     void handleSelectionLostOwnership();
     void handleSelectionFailedToClaimOwnership();
@@ -76,7 +76,7 @@ private:
     void updatePrimary();
     void refreshEavesdropping();
 
-    bool createX11Connection();
+    bool createX11Connection(int xcbConnectionFd);
     void destroyX11Connection();
 
     DragEventReply dragMoveFilter(Window *target, const QPoint &pos) override;
