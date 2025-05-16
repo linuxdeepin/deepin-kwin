@@ -52,6 +52,7 @@
 #include "windowstyle/decorationstyle.h"
 #include "platformsupport/scenes/opengl/openglsurfacetexture.h"
 #include "splitscreen/splitmanage.h"
+#include "composite.h"
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -1669,9 +1670,6 @@ void Window::setMaximize(bool vertically, bool horizontally, bool animated)
     }
     if (vertically && horizontally)
         setTile(nullptr);
-    if (auto item = surfaceItem()) {
-        item->discardPixmap();
-    }
     maximize(mode, animated);
 }
 
@@ -1780,6 +1778,9 @@ void Window::finishInteractiveMoveResize(bool cancel)
         }
     } else if (moveResizeOutput() != interactiveMoveResizeStartOutput()) {
         workspace()->sendWindowToOutput(this, moveResizeOutput()); // checks rule validity
+        const QRectF oldScreenArea = workspace()->clientArea(MaximizeArea, this, interactiveMoveResizeStartOutput());
+        const QRectF screenArea = workspace()->clientArea(MaximizeArea, this, moveResizeOutput());
+        m_electricGeometryRestore = moveToArea(m_electricGeometryRestore, oldScreenArea, screenArea);
         if (isRequestedFullScreen() || requestedMaximizeMode() != MaximizeRestore) {
             checkWorkspacePosition();
         }
@@ -2684,7 +2685,8 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         replay = replay || !rules()->checkAcceptFocus(acceptsFocus());
         break;
     case Options::MouseActivateRaiseAndPassClick:
-        if (waylandServer() || resourceName() != QByteArrayLiteral("dde-file-manager")) {
+        if (waylandServer() || resourceName() != QByteArrayLiteral("dde-file-manager")
+            || Workspace::delayedRaisingClientMode() == Workspace::DRCM_None) {
             workspace()->takeActivity(this, Workspace::ActivityFocus | Workspace::ActivityRaise);
         } else {
             workspace()->takeActivity(this, Workspace::ActivityFocus);
@@ -4953,6 +4955,9 @@ WindowRadius *Window::windowRadiusObj() const
 
 void Window::updateWindowRadius(bool isForceUpdate)
 {
+    if (isX11() && noBorder())
+        return;
+
     if (m_windowRadiusObj) {
         int ret = m_windowRadiusObj->updateWindowRadius();
         if (ret == 0) {
@@ -4975,6 +4980,9 @@ WindowShadow *Window::windowShadowObj() const
 
 void Window::updateWindowShadow(bool isForceUpdate)
 {
+    if (isX11() && noBorder())
+        return;
+
     if (!Compositor::compositing() || !Compositor::self()->isOpenGLCompositing()) {
         if (m_windowShadowObj) {
             m_windowShadowObj->resetShadowKey();
@@ -5144,6 +5152,7 @@ void Window::recordShape(xcb_window_t id, xcb_shape_kind_t kind)
                 m_shapeBoundingRegion += region;
             }
             m_isShapeBoundingRegionSet = true;
+            Compositor::self()->scene()->addRepaint(frameGeometry().toRect());
         }
     }
 

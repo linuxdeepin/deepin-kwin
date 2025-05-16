@@ -71,19 +71,12 @@ static QStringList splitPathList(const QString &input, const QChar delimiter)
 
 DrmBackend::DrmBackend(Session *session, QObject *parent)
     : OutputBackend(parent)
-    , m_updateOutputTimer(new QTimer(this))
     , m_udev(std::make_unique<Udev>())
     , m_udevMonitor(m_udev->monitor())
     , m_session(session)
     , m_explicitGpus(splitPathList(qEnvironmentVariable("KWIN_DRM_DEVICES"), ':'))
     , m_dpmsFilter()
 {
-    connect(m_updateOutputTimer, &QTimer::timeout, this, [this]{
-            qCDebug(KWIN_DRM) << "Timeout and updateOutputs";
-            updateOutputs();
-            });
-    m_updateOutputTimer->setSingleShot(true);
-    m_updateOutputTimer->setInterval(2000);
 }
 
 DrmBackend::~DrmBackend() = default;
@@ -111,9 +104,23 @@ void DrmBackend::createDpmsFilter()
 void DrmBackend::turnOutputsOn()
 {
     m_dpmsFilter.reset();
+#ifdef QT_DEBUG
+    qCWarning(KWIN_DRM) << "turn outputs on";
+#endif
     for (Output *output : std::as_const(m_outputs)) {
         if (output->isEnabled()) {
             output->setDpmsMode(Output::DpmsMode::On);
+        }
+    }
+}
+
+void DrmBackend::turnOutputsOff()
+{
+    qCWarning(KWIN_DRM) << "turn outputs off";
+    for (Output *output : std::as_const(m_outputs)) {
+        auto drmOutput = qobject_cast<DrmOutput*>(output);
+        if (drmOutput && drmOutput->isEnabled()) {
+            drmOutput->setDrmDpmsMode(Output::DpmsMode::Off);
         }
     }
 }
@@ -147,6 +154,7 @@ bool DrmBackend::initialize()
         }
     });
     connect(m_session, &Session::awoke, this, &DrmBackend::turnOutputsOn);
+    connect(m_session, &Session::suspend, this, &DrmBackend::turnOutputsOff);
 
     if (!m_explicitGpus.isEmpty()) {
         for (const QString &fileName : m_explicitGpus) {
@@ -219,7 +227,7 @@ void DrmBackend::handleUdevEvent()
             }
             if (gpu && gpu->isActive()) {
                 qCDebug(KWIN_DRM) << "Received change event for monitored drm device:" << device->devNode();
-                m_updateOutputTimer->start();
+                updateOutputs();
             }
         }
     }
@@ -432,11 +440,13 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
             if (output->isNonDesktop()) {
                 continue;
             }
-            output->queueChanges(config);
-            if (config.constChangeSet(output)->enabled) {
-                toBeEnabled << output;
-            } else {
-                toBeDisabled << output;
+            if (const auto changeset = config.constChangeSet(output)) {
+                output->queueChanges(changeset);
+                if (changeset->enabled.value_or(output->isEnabled())) {
+                    toBeEnabled << output;
+                } else {
+                    toBeDisabled << output;
+                }
             }
         }
         if (gpu->testPendingConfiguration() != DrmPipeline::Error::None) {
@@ -452,10 +462,14 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
     // first, apply changes to drm outputs.
     // This may remove the placeholder output and thus change m_outputs!
     for (const auto &output : std::as_const(toBeEnabled)) {
-        output->applyQueuedChanges(config);
+        if (const auto changeset = config.constChangeSet(output)) {
+            output->applyQueuedChanges(changeset);
+        }
     }
     for (const auto &output : std::as_const(toBeDisabled)) {
-        output->applyQueuedChanges(config);
+        if (const auto changeset = config.constChangeSet(output)) {
+            output->applyQueuedChanges(changeset);
+        }
     }
     // only then apply changes to the virtual outputs
     for (const auto &gpu : std::as_const(m_gpus)) {

@@ -304,7 +304,8 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
 
     if (!inited()) {
         // only X11 will get in this
-        if (!waylandServer() && state == InputRedirection::PointerButtonReleased) {
+        if (!waylandServer() && state == InputRedirection::PointerButtonReleased
+            && Workspace::delayedRaisingClientMode() == Workspace::DRCM_XInputDriven) {
             workspace()->handleReleaseMouseCommand();
         }
         return;

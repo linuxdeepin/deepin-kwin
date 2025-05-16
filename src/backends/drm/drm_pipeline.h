@@ -16,7 +16,6 @@
 #include <chrono>
 #include <xf86drmMode.h>
 
-#include "core/colorlut.h"
 #include "core/output.h"
 #include "core/renderloop_p.h"
 #include "drm_connector.h"
@@ -28,26 +27,12 @@ namespace KWin
 class DrmGpu;
 class DrmConnector;
 class DrmCrtc;
-class GammaRamp;
 class DrmConnectorMode;
 class DrmPipelineLayer;
 class DrmOverlayLayer;
-
-class DrmGammaRamp
-{
-public:
-    DrmGammaRamp(DrmCrtc *crtc, const std::shared_ptr<ColorTransformation> &transformation);
-    DrmGammaRamp(DrmCrtc *crtc, const Output::ColorCurves colorCurves);
-    ~DrmGammaRamp();
-
-    const ColorLUT &lut() const;
-    uint32_t blobId() const;
-
-private:
-    DrmGpu *m_gpu;
-    const ColorLUT m_lut;
-    uint32_t m_blobId = 0;
-};
+class DrmGammaRamp;
+class DrmCTM;
+class DrmColorMode;
 
 class DrmPipeline
 {
@@ -78,7 +63,8 @@ public:
     void applyPendingChanges();
     void revertPendingChanges();
     bool needUpdateBrightness();
-    bool needCTM();
+    bool needUpdateCTM();
+    bool needUpdateColorMode();
 
     bool setCursor(const QPoint &hotspot = QPoint());
     bool moveCursor();
@@ -120,6 +106,7 @@ public:
     int32_t brightness() const;
     Output::CtmValue ctmValue() const;
     Output::ColorCurves colorCurves() const;
+    Output::ColorMode colorMode() const;
 
     void setCrtc(DrmCrtc *crtc);
     void setMode(const std::shared_ptr<DrmConnectorMode> &mode);
@@ -134,8 +121,9 @@ public:
     void setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation);
     void setContentType(DrmConnector::DrmContentType type);
     void setBrightness(int32_t brightness);
-    void setCTM(Output::CtmValue ctmValue);
-    void setColorCurves(Output::ColorCurves colorCurves);
+    void setCTM(const Output::CtmValue &ctmValue);
+    void setColorCurves(const Output::ColorCurves &colorCurves);
+    void setColorMode(const Output::ColorMode &colorMode);
 
     enum class CommitMode {
         Test,
@@ -184,8 +172,6 @@ private:
     bool m_pageflipPending = false;
     bool m_modesetPresentPending = false;
 
-    bool m_ctmEnabled = false;
-
     struct State
     {
         DrmCrtc *crtc = nullptr;
@@ -197,12 +183,11 @@ private:
         uint32_t overscan = 0;
         Output::RgbRange rgbRange = Output::RgbRange::Automatic;
         RenderLoopPrivate::SyncMode syncMode = RenderLoopPrivate::SyncMode::Fixed;
-        std::shared_ptr<ColorTransformation> colorTransformation;
         std::shared_ptr<DrmGammaRamp> gamma;
+        std::shared_ptr<DrmCTM> ctm;
+        std::shared_ptr<DrmColorMode> colorMode;
         DrmConnector::DrmContentType contentType = DrmConnector::DrmContentType::Graphics;
         int32_t brightness = -1;
-        Output::CtmValue ctmValue;
-        Output::ColorCurves colorCurves;
 
         std::shared_ptr<DrmPipelineLayer> layer;
         std::shared_ptr<DrmOverlayLayer> cursorLayer;

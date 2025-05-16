@@ -40,7 +40,7 @@ public:
     virtual bool init() = 0;
 
     /**
-     * Set the properties in such a way that this resource won't be used anymore
+     * @brief Set the properties in such a way that this resource won't be used anymore
      */
     virtual void disable() = 0;
 

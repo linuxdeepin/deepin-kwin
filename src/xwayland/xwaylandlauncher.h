@@ -94,6 +94,7 @@ private:
     bool startInternal();
     void stopInternal();
     void restartInternal();
+    void processXwaylandOutput(QByteArray buffer);
 
     QProcess *m_xwaylandProcess = nullptr;
     QSocketNotifier *m_readyNotifier = nullptr;
