@@ -44,6 +44,11 @@ int WindowRadius::updateWindowRadius()
     if (!m_window || !m_window->effectWindow() || !m_window->windowStyleObj())
         return 0;
 
+    if (!atoms) {
+        qCWarning(KWIN_CORE) << "Atoms not initialized";
+        return 0;
+    }
+
     KWin::EffectWindowImpl *effect = m_window->effectWindow();
     if (m_window->isMaximized() || m_window->isDesktop()) {
         effect->setData(WindowClipPathRole, QVariant());

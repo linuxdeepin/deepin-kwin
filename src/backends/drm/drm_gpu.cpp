@@ -297,6 +297,8 @@ bool DrmGpu::updateOutputs()
 
     for (auto it = m_connectors.begin(); it != m_connectors.end();) {
         DrmConnector *conn = it->get();
+        qCDebug(KWIN_DRM) << "on GPU" << m_devNode << "DrmConnector modelName:" << conn->modelName()
+                          << "connectorName:" << conn->connectorName() << "Connection:" << conn->isConnected();
         const auto output = findOutput(conn->id());
         const bool stillExists = existing.contains(conn);
         if (!stillExists || !conn->isConnected()) {
@@ -306,10 +308,10 @@ bool DrmGpu::updateOutputs()
             }
             conn->disable();
         } else if (!output) {
-            qCDebug(KWIN_DRM, "New %soutput on GPU %s: %s", conn->isNonDesktop() ? "non-desktop " : "", qPrintable(m_devNode), qPrintable(conn->modelName()));
             const auto pipeline = conn->pipeline();
             m_pipelines << pipeline;
             auto output = new DrmOutput(*it);
+            qCDebug(KWIN_DRM) << "New " << (conn->isNonDesktop() ? "non-desktop " : "") << "output on GPU" << m_devNode << output;
             m_drmOutputs << output;
             addedOutputs << output;
             Q_EMIT outputAdded(output);

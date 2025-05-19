@@ -79,6 +79,7 @@ public:
 
 public Q_SLOTS:
     void turnOutputsOn();
+    void turnOutputsOff();
     void sceneInitialized() override;
 
 Q_SIGNALS:
@@ -95,8 +96,6 @@ private:
     void handleUdevEvent();
     DrmGpu *addGpu(const QString &fileName);
 
-    QTimer *m_updateOutputTimer;
-    int m_changeCount = 0;
     std::unique_ptr<Udev> m_udev;
     std::unique_ptr<UdevMonitor> m_udevMonitor;
     std::unique_ptr<QSocketNotifier> m_socketNotifier;

@@ -31,6 +31,7 @@ public:
     uint16_t *blue() const;
     size_t size() const;
     std::shared_ptr<ColorTransformation> transformation() const;
+    Output::ColorCurves colorCurves() const;
 
 private:
     QVector<uint16_t> m_data;

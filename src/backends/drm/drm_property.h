@@ -70,6 +70,7 @@ public:
     uint32_t propId() const;
     const QByteArray &name() const;
     bool isImmutable() const;
+    bool isBlob() const;
     bool isBitmask() const;
     bool isLegacy() const;
     /**

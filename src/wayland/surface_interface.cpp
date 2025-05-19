@@ -20,6 +20,7 @@
 #include "surface_interface_p.h"
 #include "surfacerole_p.h"
 #include "utils.h"
+#include "viewporter_interface_p.h"
 
 #include <wayland-server.h>
 // std
@@ -1133,6 +1134,11 @@ void SurfaceInterface::setPreferredScale(qreal scale)
 void SurfaceInterface::skipBuffer()
 {
     d->isSkipBuffer = true;
+}
+
+ViewportInterface *SurfaceInterface::viewportExtension() const
+{
+    return d->viewportExtension;
 }
 
 } // namespace KWaylandServer
