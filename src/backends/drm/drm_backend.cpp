@@ -441,6 +441,8 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
                 continue;
             }
             if (const auto changeset = config.constChangeSet(output)) {
+                qCDebug(KWIN_DRM) << "output info, name: " << output->name() << "model: " << output->model();
+                changeset->dump();
                 output->queueChanges(changeset);
                 if (changeset->enabled.value_or(output->isEnabled())) {
                     toBeEnabled << output;

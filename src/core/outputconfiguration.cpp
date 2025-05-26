@@ -10,14 +10,12 @@
 #include <QLoggingCategory>
 #include "utils/common.h"
 
-Q_DECLARE_LOGGING_CATEGORY(KWIN_DRM)
-
 namespace KWin
 {
 
 void OutputChangeSet::dump() const
 {
-    qCDebug(KWIN_DRM) << "OutputChangeSet:"
+    qCDebug(KWIN_CORE) << "OutputChangeSet:"
                         << "\n\t mode:" << mode
                         << "\n\t enabled:" << enabled
                         << "\n\t pos:" << pos
