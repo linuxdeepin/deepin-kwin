@@ -1382,7 +1382,7 @@ void TabBox::keyPress(int keyQt)
     // tests whether a shortcut matches and handles pitfalls on ShiftKey invocation
     auto directionFor = [keyQt, contains, mods](const QKeySequence &forward, const QKeySequence &backward) -> TabBoxConfig::TabBoxSwitchPosition {
         if (contains(forward, keyQt)) {
-            TabBoxConfig::Forward;
+            return TabBoxConfig::Forward;
         }
         if (contains(backward, keyQt)) {
             return TabBoxConfig::Backward;
