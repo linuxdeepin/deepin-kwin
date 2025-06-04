@@ -417,8 +417,8 @@ void QuickTilingTest::testQuickTilingPointerMove()
     Test::pointerButtonReleased(BTN_LEFT, timestamp++);
     QCOMPARE(quickTileChangedSpy.count(), 1);
     QTEST(window->quickTileMode(), "expectedMode");
-    const QPoint tileOutputPositon = workspace()->outputAt(pointerPos)->geometry().topLeft();
-    QCOMPARE(window->geometryRestore(), QRect(tileOutputPositon, QSize(100, 50)));
+    const QPoint tileOutputPosition = workspace()->outputAt(pointerPos)->geometry().topLeft();
+    QCOMPARE(window->geometryRestore(), QRect(tileOutputPosition, QSize(100, 50)));
     QVERIFY(surfaceConfigureRequestedSpy.wait());
     QCOMPARE(surfaceConfigureRequestedSpy.count(), 2);
     QCOMPARE(toplevelConfigureRequestedSpy.last().at(0).toSize(), tileSize);
