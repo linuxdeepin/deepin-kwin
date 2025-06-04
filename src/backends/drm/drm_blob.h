@@ -24,7 +24,7 @@ public:
     /**
      * @brief Create a new blob object
      * @details This factory function helps to implement composition instead of inheritance,
-     * witch can allocate actual blob on demand, not on construction time.
+     * which can allocate actual blob on demand, not on construction time.
      * @note don't abuse this function in DrmBlob's subclass, otherwise will cause blob leaks.
      */
     static std::shared_ptr<DrmBlobFactory> create(DrmGpu *gpu, const void *data, size_t dataSize);
