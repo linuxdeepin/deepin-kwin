@@ -285,7 +285,11 @@ void DrmPipeline::prepareAtomicModeset()
     }
 
     m_pending.crtc->setPending(DrmCrtc::PropertyIndex::Active, 1);
-    m_pending.crtc->setPending(DrmCrtc::PropertyIndex::ModeId, m_pending.mode->blob()->blobId());
+    if (m_pending.mode && m_pending.mode->blob()) {
+        m_pending.crtc->setPending(DrmCrtc::PropertyIndex::ModeId, m_pending.mode->blob()->blobId());
+    } else {
+        qCWarning(KWIN_DRM) << "Failed to set ModeId: m_pending.mode or m_pending.mode->blob() is null";
+    }
 
     m_pending.crtc->primaryPlane()->setPending(DrmPlane::PropertyIndex::CrtcId, m_pending.crtc->id());
     if (const auto rotation = m_pending.crtc->primaryPlane()->getProp(DrmPlane::PropertyIndex::Rotation)) {
