@@ -445,7 +445,8 @@ bool DrmOutput::queueChanges(const std::shared_ptr<OutputChangeSet> &props)
     m_pipeline->setRenderOrientation(outputToPlaneTransform(props->transform.value_or(transform())));
     m_pipeline->setBrightness(props->brightness.value_or(m_pipeline->brightness()));
     m_pipeline->setCTM(props->ctmValue.value_or(m_pipeline->ctmValue()));
-    m_pipeline->setColorCurves(props->colorCurves.value_or(m_pipeline->colorCurves()));
+    if (m_pipeline->crtc()->gpu()->isHisi() && props->colorCurves.has_value())
+        m_pipeline->setColorCurves(props->colorCurves.value());
     m_pipeline->setColorMode(props->colorModeValue.value_or(m_pipeline->colorMode()));
     if (!envOnlySoftwareRotations && m_gpu->atomicModeSetting()) {
         m_pipeline->setBufferOrientation(m_pipeline->renderOrientation());
