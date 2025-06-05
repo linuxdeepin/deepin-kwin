@@ -1,3 +1,9 @@
+deepin-kwin (4:6.0.8) unstable; urgency=medium
+
+  * merge uos 20 kwin from 5.27.2.283 to 5.27.2.292
+
+ -- rewine <luhongxu@deepin.org>  Thu, 05 Jun 2025 10:11:43 +0800
+
 deepin-kwin (4:6.0.7) unstable; urgency=medium
 
   * chore(effects): rename all effects same with uos 20
