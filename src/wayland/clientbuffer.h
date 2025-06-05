@@ -75,4 +75,86 @@ protected:
     std::unique_ptr<ClientBufferPrivate> d_ptr;
 };
 
+class ClientBufferRef
+{
+public:
+    ClientBufferRef()
+        : m_buffer(nullptr)
+    {
+    }
+    ClientBufferRef(ClientBuffer *buffer)
+        : m_buffer(buffer)
+    {
+        Q_ASSERT(m_buffer);
+        m_buffer->ref();
+    }
+    ~ClientBufferRef()
+    {
+        if (m_buffer) {
+            m_buffer->unref();
+        }
+    }
+    ClientBufferRef(const ClientBufferRef &other)
+        : m_buffer(other.m_buffer)
+    {
+        if (m_buffer) {
+            m_buffer->ref();
+        }
+    }
+    ClientBufferRef(ClientBufferRef &&other)
+        : m_buffer(std::exchange(other.m_buffer, nullptr))
+    {
+    }
+    ClientBufferRef &operator=(ClientBufferRef &&other)
+    {
+        if (m_buffer) {
+            m_buffer->unref();
+        }
+        m_buffer = std::exchange(other.m_buffer, nullptr);
+        return *this;
+    }
+    ClientBufferRef &operator=(const ClientBufferRef &other)
+    {
+        if (other.m_buffer) {
+            other.m_buffer->ref();
+        }
+        if (m_buffer) {
+            m_buffer->unref();
+        }
+        m_buffer = other.m_buffer;
+        return *this;
+    }
+    ClientBuffer *operator->() const
+    {
+        return m_buffer;
+    }
+    ClientBuffer *operator*() const
+    {
+        return m_buffer;
+    }
+    ClientBuffer *buffer() const
+    {
+        return m_buffer;
+    }
+    inline operator bool() const
+    {
+        return m_buffer != nullptr;
+    }
+    ClientBufferRef &operator=(ClientBuffer *buffer)
+    {
+        if (m_buffer != buffer) {
+            if (m_buffer) {
+                m_buffer->unref();
+            }
+            if (buffer) {
+                buffer->ref();
+            }
+            m_buffer = buffer;
+        }
+        return *this;
+    }
+
+private:
+    ClientBuffer *m_buffer;
+};
 } // namespace KWaylandServer

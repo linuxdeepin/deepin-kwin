@@ -11,6 +11,7 @@
 #pragma once
 
 #include "drm_buffer.h"
+#include "wayland/clientbuffer.h"
 
 #include <epoxy/egl.h>
 #include <gbm.h>
@@ -52,7 +53,7 @@ private:
 
     gbm_bo *const m_bo;
     const std::shared_ptr<GbmSurface> m_surface;
-    KWaylandServer::ClientBuffer *const m_clientBuffer = nullptr;
+    KWaylandServer::ClientBufferRef m_clientBuffer;
     const uint32_t m_flags;
     void *m_data = nullptr;
     void *m_mapping = nullptr;
