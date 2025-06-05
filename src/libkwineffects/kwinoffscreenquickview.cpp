@@ -288,6 +288,11 @@ void OffscreenQuickView::update()
 #else
         d->m_view->setRenderTarget(QQuickRenderTarget::fromOpenGLTexture(d->m_fbo->texture(), d->m_fbo->size()));
 #endif
+        auto *rhi = d->m_renderControl->rhi();
+        if (!rhi) {
+           qCCritical(LIBKWINEFFECTS) << "Skipping render: QRhi is invalid";
+           return;
+        }
     }
 
     d->m_renderControl->polishItems();
