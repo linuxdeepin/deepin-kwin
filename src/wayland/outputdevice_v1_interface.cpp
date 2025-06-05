@@ -816,5 +816,3 @@ OutputDeviceModeInterface::OutputDeviceModeInterface(std::shared_ptr<KWin::Outpu
 OutputDeviceModeInterface::~OutputDeviceModeInterface() = default;
 
 }
-
-#include "outputdevice_v1_interface.moc"

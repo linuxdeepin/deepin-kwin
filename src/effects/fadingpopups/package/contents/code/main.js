@@ -67,15 +67,6 @@ function calDockPos(windowRect) {
         return point;
 }
 
-function calcVerticalPos(cpos, windowRect) {
-    var point = {x: windowRect.x + windowRect.width / 2, y: windowRect.y};
-    if ((cpos.y - windowRect.y) * (cpos.y - windowRect.y) <  (windowRect.y + windowRect.height - cpos.y) * (windowRect.y + windowRect.height - cpos.y)) {
-        point.y = windowRect.y;
-    } else {
-        point.y = windowRect.y + windowRect.height;
-    }
-    return point;
-}
 
 function isPopupWindow(window) {
     // If the window is blacklisted, don't animate it.
