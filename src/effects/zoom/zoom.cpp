@@ -195,7 +195,7 @@ void ZoomEffect::hideCursor()
     }
 }
 
-void ZoomEffect::reconfigure(ReconfigureFlags)
+void ZoomEffect::reconfigure(ReconfigureFlags [[maybe_unused]] flags)
 {
     ZoomConfig::self()->read();
     // On zoom-in and zoom-out change the zoom by the defined zoom-factor.
@@ -455,7 +455,7 @@ void ZoomEffect::actualSize()
     effects->addRepaintFull();
 }
 
-void ZoomEffect::timelineFrameChanged(int /* frame */)
+void ZoomEffect::timelineFrameChanged(int [[maybe_unused]] frame)
 {
     const QSize screenSize = effects->virtualScreenSize();
     prevPoint.setX(std::max(0, std::min(screenSize.width(), prevPoint.x() + xMove)));

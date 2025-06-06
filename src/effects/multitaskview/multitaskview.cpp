@@ -273,11 +273,7 @@ static QString toRealPath(const QString &path)
     return res;
 }
 
-static QString convertPath(const QString &path)
-{
-    QString res = QUrl::fromPercentEncoding(path.toUtf8());
-    return res;
-}
+
 
 QPixmap MultiViewBackgroundManager::cutBackgroundPix(const QSize &size, const QString &file)
 {
