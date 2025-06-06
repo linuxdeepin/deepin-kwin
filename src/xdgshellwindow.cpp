@@ -263,13 +263,13 @@ void XdgSurfaceWindow::handleNextWindowGeometry()
     // window geometry.
 
     m_windowGeometry = m_shellSurface->windowGeometry();
-    if (surface()->viewportExtension()) {
-        const QRectF boundingGeometry = surface()->boundingRect();
-        if (m_windowGeometry.isValid()) {
+    const QRectF boundingGeometry = surface()->boundingRect();
+    if (m_windowGeometry.isValid()) {
+        if (surface()->viewportExtension()) {
             m_windowGeometry &= boundingGeometry;
-        } else {
-            m_windowGeometry = boundingGeometry;
         }
+    } else {
+        m_windowGeometry = boundingGeometry;
     }
 
     if (m_windowGeometry.isEmpty()) {
