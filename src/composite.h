@@ -62,7 +62,7 @@ public:
      * Re-initializes the Compositor completely.
      * Connected to the D-Bus signal org.kde.KWin /KWin reinitCompositing
      */
-    virtual void reinitialize();
+    Q_INVOKABLE virtual void reinitialize();
 
     /**
      * Whether the Compositor is active. That is a Scene is present and the Compositor is
@@ -189,6 +189,11 @@ protected:
 
     void destroyCompositorSelection();
 
+    QList<EffectType> effectTypeRange() const
+    {
+        return m_effectTypeRange;
+    }
+
     static Compositor *s_compositor;
 
     EffectType m_effectType = EffectType::AutoSelect;
@@ -249,6 +254,14 @@ private:
     bool m_screenShotRunning = false;
     bool m_usesHardwareCursor = false;
     bool m_isLocked = false;
+
+    QList<EffectType> m_effectTypeRange = {
+        OpenGLComplete,
+        OpenGLNoMotion,
+        OpenGLNoScissor,
+        XRenderComplete,
+        NoneCompositor
+    };
 };
 
 class KWIN_EXPORT WaylandCompositor final : public Compositor

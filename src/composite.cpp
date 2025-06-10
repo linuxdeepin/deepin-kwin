@@ -146,24 +146,6 @@ static QString DConfigCompositingReplyPath()
     return path;
 }
 
-static EffectType getDConfigUserEffectType()
-{
-    QString path = DConfigCompositingReplyPath();
-    if (path.isEmpty()) {
-        qWarning(KWIN_CORE) << "Fail to get DConfig user type";
-        return EffectType::AutoSelect;
-    }
-
-    QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
-    QDBusReply<QVariant> replyValue = interfaceValue.call("value", "user_type");
-    int type = replyValue.value().toInt();
-    if (type < EffectType::AutoSelect || type > EffectType::NoneCompositor) {
-        qCWarning(KWIN_CORE) << "Unknown effect type:" << type;
-        return EffectType::AutoSelect;
-    }
-    return static_cast<EffectType>(type);
-}
-
 static void setDConfigUserEffectType(EffectType type)
 {
     QString path = DConfigCompositingReplyPath();
@@ -298,6 +280,7 @@ Compositor::Compositor(QObject *workspace)
         if (!path.isEmpty()) {
             QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE,
                     "valueChanged", this, SLOT(handleDConfigUserTypeChanged(QString)));
+            handleDConfigUserTypeChanged("user_type_range");
         } else {
             qCWarning(KWIN_CORE) << "Fail to connect to DConfig valueChanged";
         }
@@ -907,13 +890,57 @@ void Compositor::handleFrameRequested(RenderLoop *renderLoop, bool skip)
 
 void Compositor::handleDConfigUserTypeChanged(const QString &type)
 {
+    QString path = DConfigCompositingReplyPath();
+    if (path.isEmpty()) {
+        qWarning(KWIN_CORE) << "Fail to get DConfig user type";
+        return;
+    }
+
+    QDBusInterface interfaceValue(CONFIGMANAGER_SERVICE, path, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+    interfaceValue.setTimeout(5000);
+
     if (type == "user_type") {
-        EffectType effectType = getDConfigUserEffectType();
-        if (effectType ==  EffectType::AutoSelect || effectType == m_effectType) {
+        QDBusReply<QVariant> replyValue = interfaceValue.call("value", type);
+        bool ok = false;
+        EffectType effectType = static_cast<EffectType>(replyValue.value().toInt(&ok));
+
+        if (!ok) {
+            qCWarning(KWIN_CORE) << "Fail to convert DConfig user_type value to int: " << replyValue.value();
             return;
         }
 
-        // from opengl to opengl
+        if (effectType == EffectType::AutoSelect) {
+            qCInfo(KWIN_CORE) << "effectType" << effectType << "is AutoSelect, reinitialize";
+            m_effectType = effectType;
+            QMetaObject::invokeMethod(this, "reinitialize", Qt::QueuedConnection);
+            return;
+        }
+
+        if (!m_effectTypeRange.contains(effectType)) {
+            if (effectType < m_effectTypeRange.first()) {
+                qCWarning(KWIN_CORE) << "effectType" << effectType << "is not in the range of supported effect types, using the first one";
+                effectType = m_effectTypeRange.first();
+            } else if (effectType > m_effectTypeRange.last()) {
+                qCWarning(KWIN_CORE) << "effectType" << effectType << "is not in the range of supported effect types, using the last one";
+                effectType = m_effectTypeRange.last();
+            } else {
+                qCWarning(KWIN_CORE) << "Uhhuh, effectType" << effectType << "is in the range of supported effect types, but not in the range of supported effect types";
+                effectType = m_effectTypeRange.first();
+            }
+        }
+
+        if (m_effectType == EffectType::AutoSelect && effectType != EffectType::AutoSelect) {
+            qCInfo(KWIN_CORE) << "default effectType is AutoSelect, change to" << effectType;
+            m_effectType = effectType;
+            QMetaObject::invokeMethod(this, "reinitialize", Qt::QueuedConnection);
+            return;
+        }
+
+        if (m_effectType == effectType) {
+            qCWarning(KWIN_CORE) << "effectType" << effectType << "is the same as the current effect type, continue";
+            return;
+        }
+
         if ((m_effectType == EffectType::OpenGLComplete || m_effectType == EffectType::OpenGLNoMotion) &&
                 (effectType == EffectType::OpenGLComplete || effectType == EffectType::OpenGLNoMotion)) {
             m_effectType = effectType;
@@ -936,7 +963,53 @@ void Compositor::handleDConfigUserTypeChanged(const QString &type)
             return;
         }
 
-        reinitialize();
+        m_effectType = effectType;
+
+        QMetaObject::invokeMethod(this, "reinitialize", Qt::QueuedConnection);
+    }
+    else if (type == "user_type_range") {
+        QDBusReply<QVariant> reply = interfaceValue.call("value", type);
+        if (!reply.isValid()) {
+            qCWarning(KWIN_CORE) << "Fail to get DConfig user_type_range";
+            return;
+        }
+        QVariantList resultList;
+        QDBusArgument dbusArg = reply.value().value<QDBusArgument>();
+
+        dbusArg.beginArray();
+        while (!dbusArg.atEnd()) {
+            QVariant value;
+            dbusArg >> value;
+            resultList.append(value);
+        }
+        dbusArg.endArray();
+
+        QList<EffectType> result;
+        for (auto i : resultList) {
+            bool ok = true;
+            int r = i.toInt(&ok);
+            if (!ok) {
+                qCWarning(KWIN_CORE) << "Fail to convert DConfig user_type_range value to int: " << i;
+                continue;
+            }
+            if (r < EffectType::OpenGLComplete || r > EffectType::NoneCompositor) {
+                qCWarning(KWIN_CORE) << "Unknown effect type from DConfig user_type_range: " << r;
+                continue;
+            }
+            result.append(static_cast<EffectType>(r));
+        }
+
+        std::sort(result.begin(), result.end(), [](EffectType a, EffectType b) {
+            return a < b;
+        });
+
+        if (result.isEmpty()) {
+            qCWarning(KWIN_CORE) << "No valid effect type from DConfig user_type_range";
+            return;
+        }
+
+        m_effectTypeRange = result;
+        handleDConfigUserTypeChanged("user_type");
     }
 }
 
@@ -1227,13 +1300,18 @@ void X11Compositor::resume(X11Compositor::SuspendReason reason)
 
 void X11Compositor::start()
 {
-    auto startScope = qScopeGuard([this] () {
+    EffectType type = m_effectType;
+
+    auto startScope = qScopeGuard([this, &type] () {
         if (!backend()) {
-            m_effectType = EffectType::NoneCompositor;
+            type = EffectType::NoneCompositor;
         } else if (backend()->compositingType() == XRenderCompositing) {
-            m_effectType = EffectType::XRenderComplete;
+            type = EffectType::XRenderComplete;
         }
-        setDConfigUserEffectType(m_effectType);
+
+        if (type != m_effectType) {
+            setDConfigUserEffectType(type);
+        }
     });
 
     if (m_suspended) {
@@ -1255,29 +1333,27 @@ void X11Compositor::start()
     }
 
     KConfigGroup config(kwinApp()->config(), "Compositing");
-    if (config.hasKey("Enabled")) {
-        m_effectType = config.readEntry("Enabled", true) ? EffectType::OpenGLComplete : EffectType::XRenderComplete;
+    if (config.hasKey("Enabled") && m_effectType == EffectType::AutoSelect) {
+        type = config.readEntry("Enabled", true) ? EffectType::OpenGLComplete : EffectType::XRenderComplete;
         config.deleteEntry("Enabled");
         config.sync();
-    } else {
-        m_effectType = getDConfigUserEffectType();
     }
 
-    if (m_effectType == EffectType::AutoSelect) {
+    if (type == EffectType::AutoSelect) {
         int level = devicePerformanceLevel();
         if (level == 1) {
-            m_effectType = EffectType::OpenGLComplete;
+            type = EffectType::OpenGLComplete;
         } else if (level == 2) {
-            m_effectType = EffectType::OpenGLNoMotion;
+            type = EffectType::OpenGLNoMotion;
         } else {
-            m_effectType = EffectType::XRenderComplete;
+            type = EffectType::XRenderComplete;
         }
         qCDebug(KWIN_CORE) << "Effect type is automatically set to" << m_effectType;
     }
 
-    qCDebug(KWIN_CORE) << "Current effect type:" << m_effectType;
+    qCDebug(KWIN_CORE) << "Current effect type:" << type;
 
-    if (m_effectType == EffectType::NoneCompositor) {
+    if (type == EffectType::NoneCompositor) {
         qCDebug(KWIN_CORE) << "Compositing is disabled by DConfig";
         return;
     }
