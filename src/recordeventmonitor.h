@@ -27,7 +27,7 @@ Q_SIGNALS:
 public Q_SLOTS:
 
 protected:
-    void run();
+    void run() override;
 };
 
 #endif // RECORDEVENTMONITOR_H

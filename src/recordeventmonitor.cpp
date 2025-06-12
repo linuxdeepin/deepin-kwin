@@ -27,7 +27,7 @@ void IOErrorExitHandler(Display *dpy, void *data);
 XRecordContext m_context;
 Display *m_d0 = nullptr;
 bool m_bFlag = false;
-int m_eventTime = 0;
+Time m_eventTime = 0;
 
 Q_LOGGING_CATEGORY(KWIN_RECORDEVENTMONITOR, "kwin_record_event_monitor", QtWarningMsg)
 

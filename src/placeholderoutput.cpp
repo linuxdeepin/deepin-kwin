@@ -22,10 +22,19 @@ PlaceholderOutput::PlaceholderOutput(const QSize &size, qreal scale)
         .modes = {mode},
         .currentMode = mode,
         .enabled = true,
+        .ctmValue = CtmValue(),
+        .colorCurves = ColorCurves()
     });
 
     setInformation(Information{
         .name = QStringLiteral("Placeholder-1"),
+        .manufacturer = QStringLiteral(),
+        .model = QStringLiteral(),
+        .serialNumber = QStringLiteral(),
+        .eisaId = QStringLiteral(),
+        .physicalSize = QSize(),
+        .edid = QByteArray(),
+        .capabilities = Capabilities(),
         .placeholder = true,
     });
 }

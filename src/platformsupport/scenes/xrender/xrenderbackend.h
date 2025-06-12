@@ -49,7 +49,7 @@ public:
      *
      * @return :OverlayWindow*
      */
-    virtual OverlayWindow *overlayWindow() const;
+    virtual OverlayWindow *overlayWindow() const override;
     /**
      * @brief Shows the Overlay Window
      *
