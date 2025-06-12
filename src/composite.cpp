@@ -106,11 +106,6 @@ template <typename T> using ScopedCPointer = QScopedPointer<T, QScopedPointerPod
 static QByteArray PROP_COMPOSITE_TOGGLING("_NET_KDE_COMPOSITE_TOGGLING");
 static xcb_atom_t ATOM_COMPOSITE_TOGGLING = 0;
 
-static void reportCompositeChangeFinished()
-{
-    xcb_delete_property(kwinApp()->x11Connection(), kwinApp()->x11RootWindow(), ATOM_COMPOSITE_TOGGLING);
-}
-
 static void reportCompositeIsAboutToChange(int value)
 {
     auto c = kwinApp()->x11Connection();

@@ -1821,13 +1821,12 @@ void Window::checkUnrestrictedInteractiveMoveResize()
     }
     const QRectF &moveResizeGeom = moveResizeGeometry();
     QRectF desktopArea = workspace()->clientArea(WorkArea, this, moveResizeGeom.center());
-    int left_marge, right_marge, top_marge, bottom_marge, titlebar_marge;
+    int left_marge, right_marge, top_marge, bottom_marge;
     // restricted move/resize - keep at least part of the titlebar always visible
     // how much must remain visible when moved away in that direction
     left_marge = std::min(100. + borderRight(), moveResizeGeom.width());
     right_marge = std::min(100. + borderLeft(), moveResizeGeom.width());
     // width/height change with opaque resizing, use the initial ones
-    titlebar_marge = initialInteractiveMoveResizeGeometry().height();
     top_marge = borderBottom();
     bottom_marge = borderTop();
     if (isInteractiveResize()) {
@@ -2096,7 +2095,6 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
             for (Output *s : workspace()->outputs()) {
                 availableArea += workspace()->clientArea(PlacementArea, s, VirtualDesktopManager::self()->currentDesktop()).toRect();
             }
-            bool transposed = false;
             int requiredPixels;
             QRectF lastTry = nextMoveResizeGeom;
             bool titleFailed = false;
@@ -2188,7 +2186,6 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
                     if (bottomright.y() > strutRect.top())
                         bottomright.setY(strutRect.top());
                 } else if (strutRect.area() == StrutAreaLeft){
-                    int w = strutRect.width();
                     if (topleft.x() < strutRect.right())
                         topleft.setX(strutRect.right());
                 }
@@ -3619,7 +3616,6 @@ void Window::loadGioDesktopFileName()
 
     int launch_info = 0;
     QString deskop_file;
-    bool pid_match = true;
 
     QTextStream ts(&f);
     auto data = ts.readAll();
@@ -3639,7 +3635,6 @@ void Window::loadGioDesktopFileName()
             auto gio_pid = kv[1].toInt();
             if (gio_pid == pid) {
                 launch_info++;
-                pid_match = true;
             }
         }
     }

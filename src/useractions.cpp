@@ -92,7 +92,7 @@ static QList<MenuItem> getMenuItemInfos(Window *cl)
         {"move-left", i18n("Move to Workspace Left"),
          cl->desktop() > 1, false, false},
         {"move-right", i18n("Move to Workspace Right"),
-         cl->desktop() < VirtualDesktopManager::self()->count(), false, false},
+         cl->desktop() < static_cast<int>(VirtualDesktopManager::self()->count()), false, false},
         {"close", i18n("Close"),
          cl->isCloseable(), false, false}
     };
