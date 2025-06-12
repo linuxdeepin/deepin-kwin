@@ -27,6 +27,13 @@ VirtualOutput::VirtualOutput(VirtualBackend *parent)
     m_identifier = ++identifier;
     setInformation(Information{
         .name = QStringLiteral("Virtual-%1").arg(identifier),
+        .manufacturer = QString(),
+        .model = QString(),
+        .serialNumber = QString(),
+        .eisaId = QString(),
+        .physicalSize = QSize(),
+        .edid = QByteArray(),
+        .capabilities = Capabilities(),
     });
 }
 
@@ -57,6 +64,8 @@ void VirtualOutput::init(const QPoint &logicalPosition, const QSize &pixelSize, 
         .scale = scale,
         .modes = {mode},
         .currentMode = mode,
+        .ctmValue = CtmValue(),
+        .colorCurves = ColorCurves(),
     });
 }
 

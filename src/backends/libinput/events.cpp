@@ -25,6 +25,15 @@ std::unique_ptr<Event> Event::create(libinput_event *event)
     const auto t = libinput_event_get_type(event);
     // TODO: add touch events
     // TODO: add device notify events
+#ifdef __GNUC__
+#ifndef __clang__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wswitch"
+#endif
+#endif
     switch (t) {
     case LIBINPUT_EVENT_KEYBOARD_KEY:
         return std::make_unique<KeyEvent>(event);
@@ -70,6 +79,13 @@ std::unique_ptr<Event> Event::create(libinput_event *event)
     default:
         return std::unique_ptr<Event>{new Event(event, t)};
     }
+#ifdef __GNUC__
+#ifndef __clang__
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
+#endif
 }
 
 Event::Event(libinput_event *event, libinput_event_type type)

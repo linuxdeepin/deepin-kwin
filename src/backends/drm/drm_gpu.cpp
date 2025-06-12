@@ -283,7 +283,7 @@ bool DrmGpu::updateOutputs()
         QVector<DrmConnector*> tmpPendingConnectors;
         QStringList enabledConnIdList = enabledConnIds.trimmed().split(",");
         for (auto idStr : enabledConnIdList) {
-            int id = idStr.toInt();
+            uint32_t id = idStr.toUInt();
             for (DrmConnector *con : qAsConst(existing)) {
                 if (con->id() == id) {
                     qCDebug(KWIN_DRM) << "enable DrmConnector id:" << id;

@@ -49,7 +49,7 @@ static QString getEglErrorString(EGLint errorCode)
     }
 }
 
-static QString getEglErrorString()
+[[maybe_unused]] static QString getEglErrorString()
 {
     return getEglErrorString(eglGetError());
 }

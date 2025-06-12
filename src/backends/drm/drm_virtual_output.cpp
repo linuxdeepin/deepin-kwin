@@ -31,13 +31,21 @@ DrmVirtualOutput::DrmVirtualOutput(const QString &name, DrmGpu *gpu, const QSize
 
     setInformation(Information{
         .name = QStringLiteral("Virtual-") + name,
+        .manufacturer = QString(),
+        .model = QString(),
+        .serialNumber = QString(),
+        .eisaId = QString(),
         .physicalSize = size,
+        .edid = QByteArray(),
+        .capabilities = Capabilities(),
     });
 
     setState(State{
         .scale = scale,
         .modes = {mode},
         .currentMode = mode,
+        .ctmValue = CtmValue(),
+        .colorCurves = ColorCurves(),
     });
 
     recreateSurface();
