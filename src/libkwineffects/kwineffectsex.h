@@ -27,11 +27,13 @@ namespace KWin
 class EffectWindow;
 class Output;
 
+#ifndef KWIN_EFFECT_API_MAKE_VERSION
 #define KWIN_EFFECT_API_MAKE_VERSION( major, minor ) (( major ) << 8 | ( minor ))
 #define KWIN_EFFECT_API_VERSION_MAJOR 0
 #define KWIN_EFFECT_API_VERSION_MINOR 227
 #define KWIN_EFFECT_API_VERSION KWIN_EFFECT_API_MAKE_VERSION( \
         KWIN_EFFECT_API_VERSION_MAJOR, KWIN_EFFECT_API_VERSION_MINOR )
+#endif
 
 class KWINEFFECTS_EXPORT EffectFrameEx : public EffectFrame
 {
