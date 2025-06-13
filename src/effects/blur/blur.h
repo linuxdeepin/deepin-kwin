@@ -120,7 +120,7 @@ private:
     QRegion m_currentBlur; // keeps track of the currently blured area of the windows(from bottom to top)
     EffectScreen *m_currentScreen = nullptr;
 
-    size_t m_iterationCount; // number of times the texture will be downsized to half size
+    int m_iterationCount; // number of times the texture will be downsized to half size
     int m_offset;
     int m_expandSize;
     int m_noiseStrength;

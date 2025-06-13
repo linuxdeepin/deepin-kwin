@@ -197,7 +197,7 @@ void BlurEffect::initBlurStrengthValues()
     }
 }
 
-void BlurEffect::reconfigure(ReconfigureFlags flags)
+void BlurEffect::reconfigure([[maybe_unused]] ReconfigureFlags flags)
 {
     BlurConfig::self()->read();
 
@@ -574,11 +574,14 @@ void BlurEffect::blur(EffectWindow *w, int mask, const QRegion &region, WindowPa
     const QRect backgroundRect = blurShape.boundingRect();
     const QRect deviceBackgroundRect = scaledRect(backgroundRect, effects->renderTargetScale()).toRect();
 
-    if (renderInfo.framebuffers.size() != (m_iterationCount + 1) || renderInfo.textures[0]->size() != backgroundRect.size() || renderInfo.textures[0]->internalFormat() != textureFormat) {
+    if (renderInfo.framebuffers.size() != static_cast<std::vector<std::unique_ptr<GLFramebuffer>>::size_type>(m_iterationCount + 1)
+     || renderInfo.textures[0]->size() != backgroundRect.size()
+     || renderInfo.textures[0]->internalFormat() != textureFormat)
+    {
         renderInfo.framebuffers.clear();
         renderInfo.textures.clear();
 
-        for (size_t i = 0; i <= m_iterationCount; ++i) {
+        for (size_t i = 0; i <= static_cast<size_t>(m_iterationCount); ++i) {
             auto texture = std::make_unique<GLTexture>(textureFormat, backgroundRect.size() / (1 << i));
             if (!texture) {
                 qCWarning(KWIN_BLUR) << "Failed to allocate an offscreen texture";

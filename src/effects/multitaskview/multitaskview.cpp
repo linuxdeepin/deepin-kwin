@@ -577,7 +577,7 @@ void MultiViewWorkspace::renderDesktopBackGround(float k)
 
 void MultiViewWorkspace::renderWorkspaceBackGround(float t, int desktop)
 {
-    int ncurrentDesktop = effects->currentDesktop();
+    int ncurrentDesktop = static_cast<int>(effects->currentDesktop());
     QRect rect = m_workspaceBgFrame->geometry();
 
     if (ncurrentDesktop == desktop) {
@@ -662,22 +662,22 @@ MultitaskViewEffect::MultitaskViewEffect()
     QAction *s = m_showActions;
     s->setObjectName(QStringLiteral("ShowMultitasking"));
     s->setText("Show Multitasking View");
-    KGlobalAccel::self()->setDefaultShortcut(s, QList<QKeySequence>() << Qt::META + Qt::Key_S);
-    KGlobalAccel::self()->setShortcut(s, QList<QKeySequence>() << Qt::META + Qt::Key_S);
+    KGlobalAccel::self()->setDefaultShortcut(s, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_S));
+    KGlobalAccel::self()->setShortcut(s, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_S));
     shortcut = KGlobalAccel::self()->shortcut(s);
 
     QAction *w = m_showActionw;
     w->setObjectName(QStringLiteral("ShowMultitaskingW"));
     w->setText("Show Multitasking View");
-    KGlobalAccel::self()->setDefaultShortcut(w, QList<QKeySequence>() << Qt::META + Qt::Key_W);
-    KGlobalAccel::self()->setShortcut(w, QList<QKeySequence>() << Qt::META + Qt::Key_W);
+    KGlobalAccel::self()->setDefaultShortcut(w, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_W));
+    KGlobalAccel::self()->setShortcut(w, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_W));
     shortcutw = KGlobalAccel::self()->shortcut(w);
 
     QAction *a = m_showActiona;
     a->setObjectName(QStringLiteral("ShowMultitaskingA"));
     a->setText("Show Multitasking View");
-    KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_A);
-    KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_A);
+    KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_A));
+    KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_A));
     shortcuta = KGlobalAccel::self()->shortcut(a);
 
     connect(s, SIGNAL(triggered(bool)), this, SLOT(toggle()));
@@ -761,9 +761,8 @@ MultitaskViewEffect::~MultitaskViewEffect()
     }
 }
 
-void MultitaskViewEffect::reconfigure(ReconfigureFlags flags)
+void MultitaskViewEffect::reconfigure([[maybe_unused]] ReconfigureFlags flags)
 {
-    Q_UNUSED(flags)
 
     m_bgSlidingStatus = false;
     m_bgSlidingTimeLine.reset();
@@ -936,11 +935,10 @@ void MultitaskViewEffect::paintScreen(int mask, const QRegion &region, ScreenPai
 #endif
 
                 int height = metrics.height();
-                bgrect.adjust(-(width - bgrect.width()) / 2 - (20 * m_scalingFactor),
-                              -(height - bgrect.height()) / 2 - (10 * m_scalingFactor),
-                              (width - bgrect.width()) / 2 + (20 * m_scalingFactor),
-                              (height - bgrect.height()) / 2 + (11 * m_scalingFactor));
-
+                bgrect.adjust(-qRound(((width - bgrect.width()) / 2.0)) - (20 * m_scalingFactor),
+                              -qRound(((height - bgrect.height()) / 2.0)) - (10 * m_scalingFactor),
+                               qRound(((width - bgrect.width()) / 2.0)) + (20 * m_scalingFactor),
+                               qRound(((height - bgrect.height()) / 2.0)) + (11 * m_scalingFactor));
                 bgframe->setGeometry(bgrect);
                 bgframe->render(infiniteRegion(), 0.8, 0);
                 tframe->render(infiniteRegion(), 1, 0);
@@ -1185,7 +1183,6 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
                 if (mgr1->isManaging(w) && !(m_windowEffectState && m_flyingWinList.contains(w))) {
                     auto area = effects->clientArea(ScreenArea, w->screen(), 0).toRect();
                     WindowPaintData d = data;
-                    auto geo0 = mgr1->transformedGeometry(w);
                     auto geo = mgr1->targetGeometry(w);
                     d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
 
@@ -1581,10 +1578,10 @@ void MultitaskViewEffect::renderHover(const EffectWindow *w, const QRect &rect, 
         m_winBtnArea[1] = QRect(QPoint(rect.x() - 22, rect.y() - 17), QSize(48 * effectsEx->getOsScale(), 48 * effectsEx->getOsScale()));
 
         QRect geoframe = m_textWinFrame->geometry();
-        geoframe.adjust(-(width - geoframe.width()) / 2 - (16 * m_scalingFactor),
-                        -(height - geoframe.height()) / 2 - ((48 * m_scalingFactor - height) / 2),
-                        (width - geoframe.width()) / 2 + (16 * m_scalingFactor),
-                        (height - geoframe.height()) / 2 + (48 * m_scalingFactor - height) / 2);
+        geoframe.adjust(-qRound((width - geoframe.width()) / 2.0) - (16 * m_scalingFactor),
+                        -qRound((height - geoframe.height()) / 2.0) - qRound((48 * m_scalingFactor - height) / 2.0),
+                         qRound((width - geoframe.width()) / 2.0) + (16 * m_scalingFactor),
+                         qRound((height - geoframe.height()) / 2.0) + qRound((48 * m_scalingFactor - height) / 2.0));
         m_textWinBgFrame->setGeometry(geoframe);
 
         m_closeWinFrame->render(infiniteRegion(), 1, 0);
@@ -1925,7 +1922,7 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
 
     auto hoverOnNotification = [this] (const QPoint pos)->bool {
         for (EffectWindow *notification : m_notificationList) {
-            if (notification->geometry().contains(pos))
+            if (notification->frameGeometry().contains(pos))
                 return true;
         }
         return false;
@@ -2929,7 +2926,7 @@ bool MultitaskViewEffect::calculateSwitchPos(QPoint diffPoint)
             int anum = afterdiff / (m_scale[m_screen].workspaceWidth + m_scale[m_screen].workspacingWidth);
             if (m_moveWorkspacedirection == mvLeft && anum > m_aciveMoveDesktop - 1) {
                 anum = m_aciveMoveDesktop - 1;
-            } else if (m_moveWorkspacedirection == mvRight && anum > (effects->numberOfDesktops() - m_aciveMoveDesktop)) {
+            } else if (m_moveWorkspacedirection == mvRight && m_aciveMoveDesktop < effects->numberOfDesktops() && anum > (effects->numberOfDesktops() - m_aciveMoveDesktop)) {
                 anum = effects->numberOfDesktops() - m_aciveMoveDesktop;
             }
 
@@ -3398,7 +3395,7 @@ void MultitaskViewEffect::removeDesktop(int desktop)
 
         auto dl = ew->desktops();
         int ntmp = desktop == 1 ? 2 : desktop - 1;
-        if (dl[0] == ntmp) {
+        if (static_cast<int>(dl[0]) == ntmp) {
             if (winManager.contains(ew->screen())) {
                 winManager[ew->screen()].push_back(ew);
             } else {
@@ -3410,8 +3407,8 @@ void MultitaskViewEffect::removeDesktop(int desktop)
             continue;
         }
 
-        if (dl[0] == desktop) {
-            newd = dl[0] == 1 ? 1 : dl[0] - 1;
+        if (static_cast<int>(dl[0]) == desktop) {
+            newd = static_cast<int>(dl[0]) == 1 ? 1 : static_cast<int>(dl[0]) - 1;
             MultiViewWinManager *wmobj = getWinManagerObject(newd - 1);
             MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(newd - 1);
             if (wmobj && wkmobj) {
@@ -3435,7 +3432,7 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         }
 
         auto dl = ew->desktops();
-        if (dl.size() == 0 || dl[0] < desktop) {
+        if (dl.isEmpty() || static_cast<int>(dl[0]) < desktop) {
             continue;
         }
 
@@ -3674,10 +3671,10 @@ void MultitaskViewEffect::switchDesktop()
             continue;
 
         auto dl = ew->desktops();
-        if (dl[0] == m_aciveMoveDesktop && !ew->isModal()) {
-            QVector<uint> desks {(uint)(m_aciveMoveDesktop - dir - m_moveWorkspaceNum * dir)};
+        if (static_cast<int>(dl[0]) == m_aciveMoveDesktop && !ew->isModal()) {
+            QVector<uint> desks {static_cast<uint>(m_aciveMoveDesktop - dir - m_moveWorkspaceNum * dir)};
             effects->windowToDesktops(ew, desks);
-        } else if (dl[0] >= (m_aciveMoveDesktop - dir - (dir > 0 ? m_moveWorkspaceNum : 0)) && dl[0] <= (m_aciveMoveDesktop - dir + (dir > 0 ? 0 : m_moveWorkspaceNum)) && !ew->isModal()) {
+        } else if (static_cast<int>(dl[0]) >= (m_aciveMoveDesktop - dir - (dir > 0 ? m_moveWorkspaceNum : 0)) && static_cast<int>(dl[0]) <= (m_aciveMoveDesktop - dir + (dir > 0 ? 0 : m_moveWorkspaceNum)) && !ew->isModal()) {
             int newd = dl[0] + dir;
             QVector<uint> desks {(uint)newd};
             effects->windowToDesktops(ew, desks);
@@ -3735,7 +3732,7 @@ void MultitaskViewEffect::desktopAboutToRemoved(int d, int num)
 void MultitaskViewEffect::removeWinAndRelayout(EffectWindow *w)
 {
     QMutexLocker locker(&m_mutex);
-    if (w->desktop() == -1) {
+    if (w->desktops().isEmpty()) {
         for (int wi = 0; wi < m_workspaceWinMgr.size(); wi++) {
             m_workspaceWinMgr[wi]->removeWin(w->screen(), w);
         }
@@ -3786,7 +3783,7 @@ void MultitaskViewEffect::moveWindowChangeDesktop(EffectWindow *w, int todesktop
         return;
     }
 
-    int fromdesktop = w->desktop();
+    int fromdesktop = w->desktops().first();
     QMutexLocker locker(&m_mutex);
     EffectScreen *screen = w->screen();
     effects->windowToScreen(w, toscreen);
@@ -3888,7 +3885,7 @@ void MultitaskViewEffect::setWinKeepAbove(EffectWindow *w)
 
 void MultitaskViewEffect::changeCurrentDesktop(int desktop)
 {
-    m_curDesktopIndex = effects->currentDesktop();
+    m_curDesktopIndex = static_cast<int>(effects->currentDesktop());
     effects->setCurrentDesktop(desktop);
     m_hoverWin = nullptr;
     m_flyingWinList.clear();
