@@ -213,17 +213,6 @@ void ChameleonConfig::updateWindowRadius()
     if (window_radius.isNull()) {
         return;
     }
-
-    const QVariant &effect_window_radius = effect->data(ChameleonConfig::WindowRadiusRole);
-    bool need_update = true;
-
-    if (effect_window_radius.isValid()) {
-        auto old_window_radius = effect_window_radius.toPointF();
-
-        if (old_window_radius == window_radius) {
-            need_update = false;
-        }
-    }
 }
 
 static bool canForceSetBorder(const QObject *window)
@@ -945,7 +934,7 @@ bool ChameleonConfig::setWindowOverrideType(QObject *client, bool enable)
     QVector<xcb_atom_t> atom_list;
     const xcb_atom_t *atoms = reinterpret_cast<const xcb_atom_t*>(data.constData());
 
-    for (int i = 0; i < data.size() / sizeof(xcb_atom_t) * sizeof(char); ++i) {
+    for (unsigned int i = 0; i < data.size() / sizeof(xcb_atom_t) * sizeof(char); ++i) {
         atom_list.append(atoms[i]);
     }
 

@@ -88,13 +88,12 @@ void Chameleon::init()
         m_ddeShellSurface = KWinUtils::getDDEShellSurface(m_client);
         if (m_ddeShellSurface) {
             connect(m_ddeShellSurface, &KWaylandServer::DDEShellSurfaceInterface::noTitleBarPropertyRequested, this,
-                [this, c] (qint32 value) {
-                    if (value != m_noTitleBar) {
-                        m_noTitleBar = value;
-                        updateTitleBarArea();
-                    }
-                }
-            );
+                    [this](qint32 value) {
+                        if (value != m_noTitleBar) {
+                            m_noTitleBar = value;
+                            updateTitleBarArea();
+                        }
+                    });
             connect(m_ddeShellSurface, &KWaylandServer::DDEShellSurfaceInterface::windowRadiusPropertyRequested, this,
                 [this] (QPointF windowRadius) {
                     m_theme->setValidProperties(ChameleonWindowTheme::WindowRadiusProperty);
@@ -172,8 +171,6 @@ void Chameleon::handleTitlebarHeightChanged()
 
 void Chameleon::paint(QPainter *painter, const QRect &repaintArea)
 {
-    auto s = settings().data();
-
     painter->setClipPath(m_borderPath);
 
     if (windowNeedBorder()) {
@@ -506,7 +503,6 @@ void Chameleon::updateConfig()
     auto c = client().toStrongRef().data();
 
     bool active = c->isActive();
-    bool hasAlpha = settings()->isAlphaChannelSupported();
 
     m_config = active ? &m_configGroup->normal : &m_configGroup->inactive;
 
@@ -584,29 +580,15 @@ void Chameleon::updateBorderPath()
         client_rect += borders();
         client_rect.moveTopLeft(QPointF(0, 0));
 
-    QPainterPath path;
-    KWin::EffectWindow *effect = this->effect();
+        QPainterPath path;
 
-    if (windowNeedRadius()) {
-        float r = KWin::Workspace::self()->getWindowRadius() * KWin::Workspace::self()->getOsScreenScale();
-        QPointF window_radius(r, r);
-        path.addRoundedRect(client_rect, window_radius.x(), window_radius.y());
-
-        if (effect) {
-            const QVariant &effect_window_radius = effect->data(ChameleonConfig::WindowRadiusRole);
-            bool need_update = true;
-
-            if (effect_window_radius.isValid()) {
-                auto old_window_radius = effect_window_radius.toPointF();
-
-                if (old_window_radius == window_radius) {
-                    need_update = false;
-                }
-            }
+        if (windowNeedRadius()) {
+            float r = KWin::Workspace::self()->getWindowRadius() * KWin::Workspace::self()->getOsScreenScale();
+            QPointF window_radius(r, r);
+            path.addRoundedRect(client_rect, window_radius.x(), window_radius.y());
+        } else {
+            path.addRect(client_rect);
         }
-    } else {
-        path.addRect(client_rect);
-    }
 
     m_borderPath = path;
 
