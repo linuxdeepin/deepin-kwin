@@ -5108,12 +5108,12 @@ QVariant Window::createTimespanDBusMessage(struct timeval createTimeval, int tid
                 if (name.size())
                     filteredProcessList.append(name);
             }
+
+            initialized = true;
             if (!filteredProcessList.size()) {
                 qCDebug(KWIN_CORE) << "Get an empty filteredProcessList from dbus!";
                 return QVariant();
             }
-
-            initialized = true;
         } else {
             qCDebug(KWIN_CORE) << "dconfig reply.error: " << reply.error();
             return QVariant();
