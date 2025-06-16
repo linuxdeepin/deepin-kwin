@@ -1,10 +1,12 @@
 add_definitions(-DKWIN_UNIT_TEST)
 remove_definitions(-DQT_USE_QSTRINGBUILDER)
 add_subdirectory(libkwineffects)
-add_subdirectory(integration)
 add_subdirectory(libinput)
+if (QT_MAJOR_VERSION LESS 6)
+add_subdirectory(integration)
 add_subdirectory(tabbox)
 add_subdirectory(drm)
+endif()
 
 ########################################################
 # Test WindowPaintData

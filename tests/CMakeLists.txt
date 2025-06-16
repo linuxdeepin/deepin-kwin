@@ -11,7 +11,7 @@ endif()
 # next target
 set(screenedgeshowtest_SRCS screenedgeshowtest.cpp)
 add_executable(screenedgeshowtest ${screenedgeshowtest_SRCS})
-target_link_libraries(screenedgeshowtest Qt${QT_MAJOR_VERSION}::Widgets KF${KF_MAJOR_VERSION}::ConfigCore KF${KF_MAJOR_VERSION}::WindowSystem KF${KF_MAJOR_VERSION}::WaylandClient ${XCB_XCB_LIBRARY})
+target_link_libraries(screenedgeshowtest Qt${QT_MAJOR_VERSION}::Widgets KF${KF_MAJOR_VERSION}::ConfigCore KF${KF_MAJOR_VERSION}::WindowSystem KFWaylandClient ${XCB_XCB_LIBRARY})
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(screenedgeshowtest Qt${QT_MAJOR_VERSION}::X11Extras)
 else()
@@ -30,11 +30,11 @@ target_include_directories(x11shadowreader PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
 add_executable(pointerconstraints pointerconstraintstest.cpp)
 add_definitions(-DDIR="${CMAKE_CURRENT_SOURCE_DIR}")
-target_link_libraries(pointerconstraints XCB::XCB Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Quick KF${KF_MAJOR_VERSION}::WaylandClient)
+target_link_libraries(pointerconstraints XCB::XCB Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Quick KFWaylandClient)
 
 add_executable(pointergestures pointergesturestest.cpp)
 add_definitions(-DDIR="${CMAKE_CURRENT_SOURCE_DIR}")
-target_link_libraries(pointergestures Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Quick KF${KF_MAJOR_VERSION}::WaylandClient)
+target_link_libraries(pointergestures Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Quick KFWaylandClient)
 
 add_executable(cursorhotspottest cursorhotspottest.cpp)
 target_link_libraries(cursorhotspottest Qt${QT_MAJOR_VERSION}::Widgets)

@@ -133,9 +133,13 @@ void InputEventsTest::testInitWheelEvent()
     WheelEvent event(QPointF(100, 200), delta, deltaV120, orientation, Qt::LeftButton | Qt::RightButton,
                      Qt::ShiftModifier | Qt::ControlModifier, InputRedirection::PointerAxisSourceWheel, 300ms, &d);
     // compare QWheelEvent contract
-    QCOMPARE(event.type(), QEvent::Wheel);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QCOMPARE(event.position(), QPointF(100, 200));
+    QCOMPARE(event.globalPosition(), QPointF(100, 200));
+#else
     QCOMPARE(event.pos(), QPointF(100, 200));
     QCOMPARE(event.globalPos(), QPointF(100, 200));
+#endif
     QCOMPARE(event.buttons(), Qt::LeftButton | Qt::RightButton);
     QCOMPARE(event.modifiers(), Qt::ShiftModifier | Qt::ControlModifier);
     QCOMPARE(event.timestamp(), 300ms);

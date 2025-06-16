@@ -85,20 +85,6 @@ find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     LinguistTools
 )
 
-if (QT_MAJOR_VERSION EQUAL "5")
-    find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)
-    find_package(Qt5XkbCommonSupport REQUIRED)
-    set(LUPDATE_EXECUTABLE "lupdate")
-    set(LRELEASE_EXECUTABLE "lrelease")
-else()
-    find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient ShaderTools)
-    if (Qt6WaylandClient_VERSION VERSION_LESS "6.4.1") # TODO Plasma 6: Drop once minimum Qt version is 6.4.1+
-        include(Qt6WaylandClientMacrosKde)
-    endif()
-    get_target_property(LRELEASE_EXECUTABLE Qt6::lrelease IMPORTED_LOCATION)
-    get_target_property(LUPDATE_EXECUTABLE Qt6::lupdate IMPORTED_LOCATION)
-endif()
-
 # required frameworks by Core
 find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Auth
@@ -128,6 +114,28 @@ find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     XmlGui
     ItemViews
 )
+
+if (BUILD_TESTING)
+    find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG REQUIRED)
+    find_package(Wayland REQUIRED COMPONENTS Client)
+endif()
+
+if (QT_MAJOR_VERSION EQUAL "5")
+    find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)
+    find_package(Qt5XkbCommonSupport REQUIRED)
+    set(LUPDATE_EXECUTABLE "lupdate")
+    set(LRELEASE_EXECUTABLE "lrelease")
+    add_library(KFWaylandClient ALIAS KF5::WaylandClient)
+else()
+    find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient ShaderTools)
+    find_package(KWayland REQUIRED)
+    if (Qt6WaylandClient_VERSION VERSION_LESS "6.4.1") # TODO Plasma 6: Drop once minimum Qt version is 6.4.1+
+        include(Qt6WaylandClientMacrosKde)
+    endif()
+    get_target_property(LRELEASE_EXECUTABLE Qt6::lrelease IMPORTED_LOCATION)
+    get_target_property(LUPDATE_EXECUTABLE Qt6::lupdate IMPORTED_LOCATION)
+    add_library(KFWaylandClient ALIAS Plasma::KWaylandClient)
+endif()
 
 find_package(Threads)
 set_package_properties(Threads PROPERTIES
@@ -599,9 +607,6 @@ add_subdirectory(kconf_update)
 add_subdirectory(src)
 
 if (BUILD_TESTING)
-    find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG REQUIRED)
-    find_package(Wayland REQUIRED COMPONENTS Client)
-
     add_subdirectory(autotests)
     add_subdirectory(tests)
 endif()
