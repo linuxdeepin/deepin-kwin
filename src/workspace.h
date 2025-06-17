@@ -901,7 +901,7 @@ private:
     Window *m_activePopupWindow;
 
     int m_initialDesktop;
-    void updateXStackingOrder();
+    bool updateXStackingOrder();
     void updateTabbox();
 
     QList<Output *> m_outputs;

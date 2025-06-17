@@ -1195,6 +1195,9 @@ void Workspace::addUnmanaged(Unmanaged *window)
 {
     m_unmanaged.append(window);
     addToStack(window);
+    if (updateXStackingOrder()) {
+        updateStackingOrder(true);
+    }
 }
 
 /**

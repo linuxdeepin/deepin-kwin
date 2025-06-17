@@ -663,29 +663,26 @@ QList<Window *> Workspace::unconstrainedStackingOrder() const
     return unconstrained_stacking_order;
 }
 
-void Workspace::updateXStackingOrder()
+bool Workspace::updateXStackingOrder()
 {
     // we use our stacking order for managed windows, but X's for override-redirect windows
     Xcb::Tree tree(kwinApp()->x11RootWindow());
+    if (tree.isNull()) {
+        return false;
+    }
     xcb_window_t *windows = tree.children();
 
     const auto count = tree.data()->children_len;
-    int remainingCount = m_unmanaged.count();
+    bool changed = false;
     for (unsigned int i = 0; i < count; ++i) {
         auto window = findUnmanaged(windows[i]);
         if (window) {
             unconstrained_stacking_order.removeAll(window);
             unconstrained_stacking_order.append(window);
-            remainingCount--;
-        }
-        if (remainingCount == 0) {
-            break;
+            changed = true;
         }
     }
-
-    if (!m_unmanaged.isEmpty()) {
-        updateStackingOrder();
-    }
+    return changed;
 }
 
 //*******************************
