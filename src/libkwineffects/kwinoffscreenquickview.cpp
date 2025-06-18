@@ -158,6 +158,10 @@ OffscreenQuickView::OffscreenQuickView(QObject *parent, QWindow *renderWindow, E
         format.setDepthBufferSize(16);
         format.setStencilBufferSize(8);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        d->m_view->setFormat(format);
+#endif
+
         auto shareContext = QOpenGLContext::globalShareContext();
         d->m_glcontext.reset(new QOpenGLContext);
         d->m_glcontext->setShareContext(shareContext);
