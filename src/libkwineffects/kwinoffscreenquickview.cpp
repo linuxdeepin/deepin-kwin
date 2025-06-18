@@ -207,7 +207,7 @@ OffscreenQuickView::OffscreenQuickView(QObject *parent, QWindow *renderWindow, E
     d->touchDevice->setType(QTouchDevice::TouchScreen);
     d->touchDevice->setMaximumTouchPoints(10);
 #else
-    d->touchDevice = new QPointingDevice({}, {}, QInputDevice::DeviceType::TouchScreen, {}, QInputDevice::Capability::Position, 10, {});
+    d->touchDevice = new QPointingDevice(QStringLiteral("ForwardingTouchDevice"), {}, QInputDevice::DeviceType::TouchScreen, QPointingDevice::PointerType::Finger, QInputDevice::Capability::Position, 10, {});
 #endif
 }
 
