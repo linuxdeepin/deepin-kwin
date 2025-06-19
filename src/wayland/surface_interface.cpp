@@ -432,17 +432,17 @@ QMatrix4x4 SurfaceInterfacePrivate::buildSurfaceToBufferMatrix()
         break;
     case KWin::Output::Transform::Rotated90:
     case KWin::Output::Transform::Flipped90:
-        surfaceToBufferMatrix.translate(0, bufferSize.height() / current.bufferScale);
+        surfaceToBufferMatrix.translate(0, qreal(bufferSize.height()) / current.bufferScale);
         surfaceToBufferMatrix.rotate(-90, 0, 0, 1);
         break;
     case KWin::Output::Transform::Rotated180:
     case KWin::Output::Transform::Flipped180:
-        surfaceToBufferMatrix.translate(bufferSize.width() / current.bufferScale, bufferSize.height() / current.bufferScale);
+        surfaceToBufferMatrix.translate(qreal(bufferSize.width()) / current.bufferScale, qreal(bufferSize.height()) / current.bufferScale);
         surfaceToBufferMatrix.rotate(-180, 0, 0, 1);
         break;
     case KWin::Output::Transform::Rotated270:
     case KWin::Output::Transform::Flipped270:
-        surfaceToBufferMatrix.translate(bufferSize.width() / current.bufferScale, 0);
+        surfaceToBufferMatrix.translate(qreal(bufferSize.width()) / current.bufferScale, 0);
         surfaceToBufferMatrix.rotate(-270, 0, 0, 1);
         break;
     }
@@ -450,12 +450,12 @@ QMatrix4x4 SurfaceInterfacePrivate::buildSurfaceToBufferMatrix()
     switch (current.bufferTransform) {
     case KWin::Output::Transform::Flipped:
     case KWin::Output::Transform::Flipped180:
-        surfaceToBufferMatrix.translate(bufferSize.width() / current.bufferScale, 0);
+        surfaceToBufferMatrix.translate(qreal(bufferSize.width()) / current.bufferScale, 0);
         surfaceToBufferMatrix.scale(-1, 1);
         break;
     case KWin::Output::Transform::Flipped90:
     case KWin::Output::Transform::Flipped270:
-        surfaceToBufferMatrix.translate(bufferSize.height() / current.bufferScale, 0);
+        surfaceToBufferMatrix.translate(qreal(bufferSize.height()) / current.bufferScale, 0);
         surfaceToBufferMatrix.scale(-1, 1);
         break;
     default:
