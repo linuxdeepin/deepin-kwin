@@ -5059,8 +5059,6 @@ QVariant Window::createTimespanDBusMessage(struct timeval createTimeval, int tid
     static bool initialized = false;
     static QList<QString> filteredProcessList;
     struct timeval compositeTimeval;
-    char processRunningPath[18] = { 0 };
-    char cProcessFullPath[4096] = { 0 };
     QString qtProcessFullPath;
     uint timespan = 0;
 

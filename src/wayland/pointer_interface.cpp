@@ -219,7 +219,7 @@ void PointerInterface::sendButton(quint32 button, PointerButtonState state, quin
 static bool shouldResetAccumulator(int accumulator, int delta)
 {
     // Reset the accumulator if the delta has opposite sign.
-    return accumulator && (accumulator < 0 != delta < 0);
+    return accumulator && ((accumulator < 0) != (delta < 0));
 }
 
 static void updateAccumulators(Qt::Orientation orientation, qreal delta, qint32 deltaV120, PointerInterfacePrivate *d, qint32 &valueAxisLowRes, qint32 &valueDiscrete)

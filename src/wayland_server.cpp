@@ -706,13 +706,13 @@ bool WaylandServer::init(InitializationFlags flags)
             const std::string uuid = client->internalId().toString().toStdString();
             WindowState state = {
                 .pid = client->pid(),
-                .windowId = wid,
+                .windowId = static_cast<int32_t>(wid),
                 .resourceName = {0},
                 .geometry = {
-                    .x = client->frameGeometry().x(),
-                    .y = client->frameGeometry().y(),
-                    .width = client->frameGeometry().width(),
-                    .height = client->frameGeometry().height()
+                    .x = static_cast<int32_t>(client->frameGeometry().x()),
+                    .y = static_cast<int32_t>(client->frameGeometry().y()),
+                    .width = static_cast<int32_t>(client->frameGeometry().width()),
+                    .height = static_cast<int32_t>(client->frameGeometry().height())
                 },
                 .isMinimized = client->isMinimized(),
                 .isFullScreen = client->isFullScreen(),
