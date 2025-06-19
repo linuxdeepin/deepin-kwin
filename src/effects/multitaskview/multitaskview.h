@@ -643,7 +643,7 @@ private:
     QTimer m_addingDesktopTimer;
 
     struct {
-        quint32 id = 0;
+        qint32 id = 0;
         bool active = false;
         bool isMotion = false;
         QPointF pos;

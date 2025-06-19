@@ -2795,7 +2795,7 @@ void MultitaskViewEffect::calculateWindowTransformationsClosest(EffectWindowList
                 totalw += m_scale[screen].spacingWidth;
             }
         }
-        xpos = ((clientRect.width() - totalw) / 2) + m_scale[screen].spacingWidth + clientRect.x();
+        xpos = ((clientRect.width() - totalw) / 2.0) + m_scale[screen].spacingWidth + clientRect.x();
         centerList.push_back(xpos);
 
         if (totalw > clientRect.width()) {
@@ -3403,7 +3403,7 @@ void MultitaskViewEffect::removeDesktop(int desktop)
                 winManager[ew->screen()] = list;
             }
         }
-        if (dl.size() == 0 || dl[0] < desktop) {
+        if (dl.size() == 0 || dl[0] < static_cast<uint>(desktop)) {
             continue;
         }
 
@@ -3928,7 +3928,6 @@ void MultitaskViewEffect::showWorkspacePreview(EffectScreen *screen, QRect addBu
             glScissor(rect.x(), m_allFullArea.height() - rect.y() - rect.height(), rect.width() / 2 + 20, rect.height());
         }
 
-        float scale = m_scale[m_screen].fullArea.width() / 1920.0;
         m_previewFrame->render(infiniteRegion(), 1, 0.8);
 
         if (nullptr == effects->waylandDisplay()) {
@@ -4051,7 +4050,6 @@ EffectWindow *MultitaskViewEffect::getNextSameTypeWindow(EffectWindow *w)
     }
 
     EffectWindowList sameList;
-    int index = 0;
     for (int i = list.size() - 1; i >= 0; i--) {
         if (w->windowClass() == list[i]->windowClass()) {
             sameList.push_back(list[i]);
@@ -4087,7 +4085,6 @@ EffectWindow *MultitaskViewEffect::getPreSameTypeWindow(EffectWindow *w)
     }
 
     EffectWindowList sameList;
-    int index = 0;
     for (int i = list.size() - 1; i >= 0; i--) {
         if (w->windowClass() == list[i]->windowClass()) {
             sameList.push_back(list[i]);
