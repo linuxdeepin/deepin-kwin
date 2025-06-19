@@ -114,11 +114,11 @@ std::unique_ptr<Connection> Connection::create(Session *session)
 
 Connection::Connection(std::unique_ptr<Context> &&input)
     : m_notifier(nullptr)
-    , m_connectionAdaptor(std::make_unique<ConnectionAdaptor>(this))
     , m_input(std::move(input))
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     , m_mutex(QMutex::Recursive)
 #endif
+    , m_connectionAdaptor(std::make_unique<ConnectionAdaptor>(this))
 {
     Q_ASSERT(m_input);
     // need to connect to KGlobalSettings as the mouse KCM does not emit a dedicated signal
@@ -225,6 +225,15 @@ KWin::TabletToolId createTabletId(libinput_tablet_tool *tool, Device *dev)
     auto toolId = libinput_tablet_tool_get_tool_id(tool);
     auto type = libinput_tablet_tool_get_type(tool);
     InputRedirection::TabletToolType toolType;
+#ifdef __GNUC__
+#ifndef __clang__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wswitch"
+#endif
+#endif
     switch (type) {
     case LIBINPUT_TABLET_TOOL_TYPE_PEN:
         toolType = InputRedirection::Pen;
@@ -250,7 +259,17 @@ KWin::TabletToolId createTabletId(libinput_tablet_tool *tool, Device *dev)
     case LIBINPUT_TABLET_TOOL_TYPE_TOTEM:
         toolType = InputRedirection::Totem;
         break;
+    default:
+        toolType = InputRedirection::Pen; // 默认使用笔类型
+        break;
     }
+#ifdef __GNUC__
+#ifndef __clang__
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
+#endif
     QVector<InputRedirection::Capability> capabilities;
     if (libinput_tablet_tool_has_pressure(tool)) {
         capabilities << InputRedirection::Pressure;
@@ -291,6 +310,15 @@ void Connection::processEvents()
     while (m_eventQueue.size() != 0) {
         std::unique_ptr<Event> event = std::move(m_eventQueue.front());
         m_eventQueue.pop_front();
+#ifdef __GNUC__
+#ifndef __clang__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch"
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wswitch"
+#endif
+#endif
         switch (event->type()) {
         case LIBINPUT_EVENT_DEVICE_ADDED: {
             auto device = new Device(event->nativeDevice());
@@ -641,6 +669,13 @@ void Connection::processEvents()
             // nothing
             break;
         }
+#ifdef __GNUC__
+#ifndef __clang__
+#pragma GCC diagnostic pop
+#else
+#pragma clang diagnostic pop
+#endif
+#endif
     }
 }
 

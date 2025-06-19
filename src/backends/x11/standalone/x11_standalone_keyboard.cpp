@@ -78,12 +78,11 @@ X11Keyboard::X11Keyboard()
              | XCB_XKB_STATE_PART_GROUP_LOCK),
     };
 
-    static const xcb_xkb_select_events_details_t details = {
-        .affectNewKeyboard = requiredNknDetails,
-        .newKeyboardDetails = requiredNknDetails,
-        .affectState = requiredStateDetails,
-        .stateDetails = requiredStateDetails,
-    };
+    xcb_xkb_select_events_details_t details = {};
+    details.affectNewKeyboard = requiredNknDetails;
+    details.newKeyboardDetails = requiredNknDetails;
+    details.affectState = requiredStateDetails;
+    details.stateDetails = requiredStateDetails;
 
     xcb_void_cookie_t cookie =
         xcb_xkb_select_events_aux_checked(kwinApp()->x11Connection(),

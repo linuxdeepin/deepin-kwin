@@ -124,11 +124,11 @@ WaylandOutput::WaylandOutput(const QString &name, WaylandBackend *backend)
         m_xdgDecoration->setMode(KWayland::Client::XdgDecoration::Mode::ServerSide);
     }
 
-    setInformation(Information{
-        .name = name,
-        .model = name,
-        .capabilities = Capability::Dpms,
-    });
+    Information info;
+    info.name = name;
+    info.model = name;
+    info.capabilities = Capability::Dpms;
+    setInformation(info);
 
     m_turnOffTimer.setSingleShot(true);
     m_turnOffTimer.setInterval(dimAnimationTime());

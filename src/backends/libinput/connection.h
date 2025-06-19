@@ -86,6 +86,7 @@ private:
     void applyScreenToDevice(Device *device);
     void doSetup();
     std::unique_ptr<QSocketNotifier> m_notifier;
+    std::unique_ptr<Context> m_input;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMutex m_mutex;
 #else
@@ -95,7 +96,6 @@ private:
     QVector<Device *> m_devices;
     KSharedConfigPtr m_config;
     std::unique_ptr<ConnectionAdaptor> m_connectionAdaptor;
-    std::unique_ptr<Context> m_input;
     std::unique_ptr<Udev> m_udev;
     QMap<QString, QString> m_touchDeviceToScreenMap;
     bool m_kvmEnablePointer = true;

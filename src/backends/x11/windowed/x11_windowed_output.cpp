@@ -98,9 +98,9 @@ X11WindowedOutput::X11WindowedOutput(X11WindowedBackend *backend)
 
     static int identifier = -1;
     identifier++;
-    setInformation(Information{
-        .name = QStringLiteral("X11-%1").arg(identifier),
-    });
+    Information info;
+    info.name = QStringLiteral("X11-%1").arg(identifier);
+    setInformation(info);
 }
 
 X11WindowedOutput::~X11WindowedOutput()
