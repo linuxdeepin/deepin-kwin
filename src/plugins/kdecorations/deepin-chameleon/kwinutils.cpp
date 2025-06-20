@@ -57,7 +57,6 @@
 #include <functional>
 
 #include "workspace.h"
-#include "core/output.h"
 
 using namespace KWin;
 
@@ -354,15 +353,6 @@ KWinUtils::KWinUtils(QObject *parent)
     : QObject(parent)
     , d(new KWinUtilsPrivate(this))
 {
-    if (QObject *ws = workspace()) {
-        // 无法从workspace对象获取事件时，则从时间过滤器中取
-
-        /*if (!connect(ws, SIGNAL(propertyNotify(long)), this, SLOT(_d_onPropertyChanged(long)))) {
-            d->monitorRootWindowProperty = true;
-
-            // qDebug() << "KWinUtils: Ignore the 'propertyNotify' signal connect warning";
-        }*/
-    }
 }
 
 void KWinUtils::setInitialized()
@@ -864,21 +854,6 @@ void KWinUtils::ShowAllWindowsView()
 void KWinUtils::ShowWindowsView()
 {
 
-}
-
-void KWinUtils::Window::setQuikTileMode(QObject *window, int mode, int m, bool isShowReview)
-{
-    KWin::Window *c = dynamic_cast<KWin::Window*>(window);
-}
-
-bool KWinUtils::Window::checkSupportFourSplit(QObject *window)
-{
-    return false;
-}
-
-void KWinUtils::Window::setTitleBarHeight(QObject *window, int titleBarHeight)
-{
-    KWin::Window *c = dynamic_cast<KWin::Window*>(window);
 }
 
 KWaylandServer::DDEShellSurfaceInterface *KWinUtils::getDDEShellSurface(QObject * shellClient)

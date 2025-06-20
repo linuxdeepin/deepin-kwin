@@ -96,12 +96,6 @@ public:
 
     static bool compositorIsActive();
 
-    struct Window {
-        static void setQuikTileMode(QObject* window, int mode, int m, bool isShowReview = false);
-        static bool checkSupportFourSplit(QObject *window);
-        static void setTitleBarHeight(QObject *window, int titleBarHeight);
-    };
-
     static quint32 internAtom(const QByteArray &name, bool only_if_exists);
     static bool isShowSplitMenu();
 

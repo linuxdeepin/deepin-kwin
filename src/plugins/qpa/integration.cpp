@@ -46,7 +46,8 @@ namespace QPA
 {
 class DDEWaylandTheme: public QGenericUnixTheme {
 public:
-    QVariant themeHint(ThemeHint hint) const {
+    QVariant themeHint(ThemeHint hint) const override
+    {
         if (hint == QPlatformTheme::SystemIconThemeName) {
             return "bloom";
         }

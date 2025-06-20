@@ -19,9 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "chameleonconfig.h"
-#include "chameleontheme.h"
 #include "chameleonshadow.h"
-#include "chameleon.h"
+#include "chameleontheme.h"
 #include "chameleonwindowtheme.h"
 
 #include "kwinutils.h"
