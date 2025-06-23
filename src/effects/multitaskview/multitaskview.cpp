@@ -896,12 +896,18 @@ void MultitaskViewEffect::paintScreen(int mask, const QRegion &region, ScreenPai
                     } else if (m_lastDesktopIndex < m_curDesktopIndex) {
                         lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
                         cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
+                    } else if (m_lastDesktopIndex == m_curDesktopIndex && m_lastDesktopIndex == 1){
+                        lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
+                        cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
                     } else {
                         lwkobj->renderDesktopBackGround(m_bgSlidingTimeLine.value());
                         cwkobj->renderDesktopBackGround(-1 + m_bgSlidingTimeLine.value());
                     }
                 } else {
                     if (m_lastDesktopIndex < m_curDesktopIndex) {
+                        lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
+                        cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
+                    } else if (m_lastDesktopIndex == m_curDesktopIndex && m_lastDesktopIndex == 1){
                         lwkobj->renderDesktopBackGround(-m_bgSlidingTimeLine.value());
                         cwkobj->renderDesktopBackGround(1 - m_bgSlidingTimeLine.value());
                     } else {
@@ -948,27 +954,29 @@ void MultitaskViewEffect::paintScreen(int mask, const QRegion &region, ScreenPai
 
     //draw workspace background
     for (auto iter = m_workspaceBackgrounds.begin(); iter != m_workspaceBackgrounds.end(); iter++) {
-        for (int j = 0; j < effects->numberOfDesktops(); j++) {
+        int actualDesktopIndex = 1;
+        for (int j = 0; j < iter.value().size(); j++) {
             if (m_deleteWorkspaceDesktop - 1 == j)
                 continue;
             MultiViewWorkspace *wkobj = getWorkspaceObject(iter.key(), j);
             if (wkobj) {
                 if (m_popStatus) {  //startup
-                    wkobj->renderWorkspaceBackGround(m_popTimeLine.value(), j + 1);
+                    wkobj->renderWorkspaceBackGround(m_popTimeLine.value(), actualDesktopIndex);
                 } else if (m_opacityStatus) {  //new workspace
-                    if (j == effects->numberOfDesktops() - 1)
-                        wkobj->renderWorkspaceBackGround(m_opacityTimeLine.value(), j + 1);
+                    if (actualDesktopIndex == effects->numberOfDesktops())
+                        wkobj->renderWorkspaceBackGround(m_opacityTimeLine.value(), actualDesktopIndex);
                     else
-                        wkobj->renderWorkspaceBackGround(1, j + 1);
+                        wkobj->renderWorkspaceBackGround(1, actualDesktopIndex);
                 } else if (m_wasWorkspaceMove) {  //move workspace
-                    if (m_aciveMoveDesktop - 1 != j) {
-                        wkobj->renderWorkspaceBackGround(1, j + 1);
+                    if (m_aciveMoveDesktop != actualDesktopIndex) {
+                        wkobj->renderWorkspaceBackGround(1, actualDesktopIndex);
                     }
                 } else if (m_workspaceSlidingStatus) {
-                    renderSlidingWorkspace(wkobj, iter.key(), j, data);
+                    renderSlidingWorkspace(wkobj, iter.key(), actualDesktopIndex - 1, data);
                 } else {
-                    wkobj->renderWorkspaceBackGround(1, j + 1);
+                    wkobj->renderWorkspaceBackGround(1, actualDesktopIndex);
                 }
+                actualDesktopIndex++;
             }
         }
     }
@@ -3465,7 +3473,7 @@ void MultitaskViewEffect::removeDesktop(int desktop)
         m_bgSlidingTimeLine.reset();
         m_curDesktopIndex = nrelyout;
         if (desktop == 1)
-            m_curDesktopIndex = desktop + 1;
+            m_curDesktopIndex = desktop;
         m_lastDesktopIndex = desktop;
         m_isRemoveWorkspace = true;
         startremoveDesktopEffect(desktop);
