@@ -1,21 +1,24 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-#
-# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2021.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2021.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-01 00:48+0000\n"
-"PO-Revision-Date: 2021-04-27 08:11+0200\n"
-"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
-"Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
-"Language: sv\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Swedish (https://app.transifex.com/linuxdeepin/teams/3617/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.08.1\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -30,24 +33,24 @@ msgstr "stefan.asserhall@bredband.net"
 #: kcmvirtualkeyboard.cpp:29
 #, kde-format
 msgid "Virtual Keyboard"
-msgstr "Virtuellt tangentbord"
+msgstr ""
 
 #: kcmvirtualkeyboard.cpp:31
 #, kde-format
 msgid "Choose Virtual Keyboard"
-msgstr "Välj virtuellt tangentbord"
+msgstr ""
 
 #: kcmvirtualkeyboard.cpp:68
 #, kde-format
 msgid "None"
-msgstr "Inget"
+msgstr "Ingen"
 
 #: kcmvirtualkeyboard.cpp:72
 #, kde-format
 msgid "Do not use any virtual keyboard"
-msgstr "Använd inte något virtuellt tangentbord"
+msgstr ""
 
 #: package/contents/ui/main.qml:16
 #, kde-format
 msgid "This module lets you choose the virtual keyboard to use."
-msgstr "Modulen låter dig välja det virtuella tangentbordet som ska användas."
+msgstr ""
