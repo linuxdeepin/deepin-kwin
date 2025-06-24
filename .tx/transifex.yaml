@@ -1,0 +1,147 @@
+# SPDX-FileCopyrightText: 2025 UnionTech Software Technology Co., Ltd.
+#
+# SPDX-License-Identifier: CC0-1.0
+
+filters:
+  # KDecoration .po files
+  - filter_type: file
+    source_file: kdecoration/po/en_GB/kdecoration.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: kdecoration/po/<lang>/kdecoration.po
+
+  # KWin main .po files - effects
+  - filter_type: file
+    source_file: po/en_GB/kcm_kwin_effects.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcm_kwin_effects.po
+
+  # KWin main .po files - scripts
+  - filter_type: file
+    source_file: po/en_GB/kcm_kwin_scripts.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcm_kwin_scripts.po
+
+  # KWin main .po files - virtual desktops
+  - filter_type: file
+    source_file: po/en_GB/kcm_kwin_virtualdesktops.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcm_kwin_virtualdesktops.po
+
+  # KWin main .po files - decoration
+  - filter_type: file
+    source_file: po/en_GB/kcm_kwindecoration.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcm_kwindecoration.po
+
+  # KWin main .po files - rules
+  - filter_type: file
+    source_file: po/en_GB/kcm_kwinrules.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcm_kwinrules.po
+
+  # KWin main .po files - tabbox
+  - filter_type: file
+    source_file: po/en_GB/kcm_kwintabbox.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcm_kwintabbox.po
+
+  # KWin main .po files - xwayland
+  - filter_type: file
+    source_file: po/en_GB/kcm_kwinxwayland.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcm_kwinxwayland.po
+
+  # KWin main .po files - virtual keyboard
+  - filter_type: file
+    source_file: po/en_GB/kcm_virtualkeyboard.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcm_virtualkeyboard.po
+
+  # KWin common
+  - filter_type: file
+    source_file: po/en_GB/kcmkwincommon.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcmkwincommon.po
+
+  # KWin compositing
+  - filter_type: file
+    source_file: po/en_GB/kcmkwincompositing.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcmkwincompositing.po
+
+  # KWin screen edges
+  - filter_type: file
+    source_file: po/en_GB/kcmkwinscreenedges.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcmkwinscreenedges.po
+
+  # KWin window manager
+  - filter_type: file
+    source_file: po/en_GB/kcmkwm.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kcmkwm.po
+
+  # KWin core
+  - filter_type: file
+    source_file: po/en_GB/kwin.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin.po
+
+  # KWin clients
+  - filter_type: file
+    source_file: po/en_GB/kwin_clients.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin_clients.po
+
+  # KWin effects
+  - filter_type: file
+    source_file: po/en_GB/kwin_effects.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin_effects.po
+
+  # KWin scripting
+  - filter_type: file
+    source_file: po/en_GB/kwin_scripting.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin_scripting.po
+
+  # KWin scripts
+  - filter_type: file
+    source_file: po/en_GB/kwin_scripts.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin_scripts.po
+
+  # Multitask view effect .ts files
+  - filter_type: file
+    source_file: src/effects/multitaskview/translations/multitasking.ts
+    file_format: QT
+    source_language: en
+    translation_files_expression: src/effects/multitaskview/translations/multitasking_<lang>.ts
+
+  # Split screen menu .ts files
+  - filter_type: file
+    source_file: src/splitscreen/translations/splitmenu.ts
+    file_format: QT
+    source_language: en
+    translation_files_expression: src/splitscreen/translations/splitmenu_<lang>.ts
+
+settings:
+  pr_branch_name: transifex_update_<br_unique_id>
