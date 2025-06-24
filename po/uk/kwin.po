@@ -1,28 +1,27 @@
-# Translation of kwin.po to Ukrainian
-# Copyright (C) 2002-2021 This_file_is_part_of_KDE
-# This file is distributed under the license LGPL version 2.1 or
-# version 3 or later versions approved by the membership of KDE e.V.
-#
-# Dmytro Kovalov <kov@tokyo.email.ne.jp>, 2002.
-# Eugene Onischenko <oneugene@ukr.net>, 2002, 2004, 2005.
-# Andriy Rysin <rysin@kde.org>, 2002, 2003, 2004.
-# Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007, 2008.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# translation of kwin.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Yuri Chornoivan <yurchor@ukr.net>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
-"PO-Revision-Date: 2023-01-10 21:37+0200\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
-"Language: uk\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>, 2025\n"
+"Language-Team: Ukrainian (https://app.transifex.com/linuxdeepin/teams/3617/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -53,13 +52,14 @@ msgstr ""
 #: composite.cpp:1064
 #, kde-format
 msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></p>"
+"<b>OpenGL compositing (the default) has crashed KWin in the "
+"past.</b><br>This was most likely due to a driver bug.<p>If you think that "
+"you have meanwhile upgraded to a stable driver,<br>you can reset this "
+"protection but <b>be aware that this might result in an immediate "
+"crash!</b></p>"
 msgstr ""
-"<b>Композитний показ за допомогою OpenGL (типовий режим) призводив до аварій "
-"KWin.</b><br>Найімовірнішою причиною аварій є вада у драйвері.<p>Якщо ви "
+"<b>Композитний показ за допомогою OpenGL (типовий режим) призводив до аварій"
+" KWin.</b><br>Найімовірнішою причиною аварій є вада у драйвері.<p>Якщо ви "
 "вважаєте, що у вашому драйвері немає цієї вади,<br>ви можете скасувати цей "
 "захист, але <b>зважайте на те, що це може призвести до негайного аварійного "
 "завершення роботи!</b></p>"
@@ -88,19 +88,19 @@ msgstr "Часова позначка (мкс)"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Left"
-msgstr "Ліва"
+msgstr "Ліворуч"
 
 #: debug_console.cpp:103
 #, kde-format
 msgctxt "A mouse button"
 msgid "Right"
-msgstr "Права"
+msgstr "Праворуч"
 
 #: debug_console.cpp:105
 #, kde-format
 msgctxt "A mouse button"
 msgid "Middle"
-msgstr "Середня"
+msgstr "Посередині"
 
 #: debug_console.cpp:107
 #, kde-format
@@ -255,7 +255,7 @@ msgstr "Пристрій введення"
 #, kde-format
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr "невідомий"
+msgstr "Невідомо"
 
 #: debug_console.cpp:199
 #, kde-format
@@ -1130,9 +1130,8 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3) but the application is not responding.</para>"
 msgstr ""
-"<para>Ви намагалися закрити вікно «%1», що належить програмі "
-"«%2» (ідентифікатор процесу: %3), але програма не відповідає на запити.</"
-"para>"
+"<para>Ви намагалися закрити вікно «%1», що належить програмі «%2» "
+"(ідентифікатор процесу: %3), але програма не відповідає на запити.</para>"
 
 #: helpers/killer/killer.cpp:88
 #, kde-kuit-format
@@ -1141,22 +1140,22 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3), running on host \"%4\", but the application is not responding.</para>"
 msgstr ""
-"<para>Ви намагалися закрити вікно «%1», що належить програмі "
-"«%2» (ідентифікатор процесу: %3), запущеній на вузлі «%4», але програма не "
+"<para>Ви намагалися закрити вікно «%1», що належить програмі «%2» "
+"(ідентифікатор процесу: %3), запущеній на вузлі «%4», але програма не "
 "відповідає на запити.</para>"
 
 #: helpers/killer/killer.cpp:91
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Do you want to terminate this application?</"
-"para><para><warning>Terminating the application will close all of its child "
-"windows. Any unsaved data will be lost.</warning></para>"
+"<para>Do you want to terminate this "
+"application?</para><para><warning>Terminating the application will close all"
+" of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
-"<para>Хочете перервати роботу цієї програми?</"
-"para><para><warning>Переривання роботи програми призведе до закриття всіх її "
-"дочірніх вікон. Всі дані, які не було збережено, буде втрачено.</warning></"
-"para>"
+"<para>Хочете перервати роботу цієї "
+"програми?</para><para><warning>Переривання роботи програми призведе до "
+"закриття всіх її дочірніх вікон. Всі дані, які не було збережено, буде "
+"втрачено.</warning></para>"
 
 #: helpers/killer/killer.cpp:94
 #, kde-format
@@ -1199,8 +1198,7 @@ msgid ""
 "Select window to force close with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"Виберіть вікно для примусового закриття клацанням лівої кнопки миші або "
-"натисканням Enter.\n"
+"Виберіть вікно для примусового закриття клацанням лівої кнопки миші або натисканням Enter.\n"
 "Натисніть Esc або клацніть правою кнопкою, щоб скасувати."
 
 #: main.cpp:179
@@ -1275,11 +1273,10 @@ msgstr "Запустити сервер Xwayland без root."
 
 #: main_wayland.cpp:316
 #, kde-format
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
-"Назва сокета Wayland, на якому слід очікувати на події. Якщо не встановлено, "
-"буде використано «wayland-0»."
+"Назва сокета Wayland, на якому слід очікувати на події. Якщо не встановлено,"
+" буде використано «wayland-0»."
 
 #: main_wayland.cpp:319
 #, kde-format
@@ -1290,7 +1287,8 @@ msgstr "Дисплей X11, яким слід користуватися у ре
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
-"Дисплей Wayland, яким слід користуватися у режимі вікна на платформі Wayland."
+"Дисплей Wayland, яким слід користуватися у режимі вікна на платформі "
+"Wayland."
 
 #: main_wayland.cpp:324
 #, kde-format
@@ -1315,16 +1313,17 @@ msgstr "Масштаб для режиму вікна. Типовим значе
 #: main_wayland.cpp:340
 #, kde-format
 msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
+"The number of windows to open as outputs in windowed mode. Default value is "
+"1"
 msgstr ""
-"Кількість вікон для виведення зображень у віконному режимі. Типова кількість "
-"— 1."
+"Кількість вікон для виведення зображень у віконному режимі. Типова кількість"
+" — 1."
 
 #: main_wayland.cpp:345
 #, kde-format
 msgid ""
-"Wayland socket to use for incoming connections. This can be combined with --"
-"socket to name the socket"
+"Wayland socket to use for incoming connections. This can be combined with "
+"--socket to name the socket"
 msgstr ""
 "Сокет Wayland, який слід використовувати для вхідних з'єднань. Можна "
 "поєднувати із параметром --socket для визначення назви сокета"
@@ -1416,8 +1415,8 @@ msgstr ""
 #: main_x11.cpp:259
 #, kde-format
 msgid ""
-"kwin: unable to claim manager selection, another wm running? (try using --"
-"replace)\n"
+"kwin: unable to claim manager selection, another wm running? (try using "
+"--replace)\n"
 msgstr ""
 "kwin: неможливо отримати вибір менеджера, можливо запущено інший менеджер "
 "вікон? (спробуйте параметр --replace)\n"
@@ -1426,8 +1425,8 @@ msgstr ""
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
-"kwin: працює інша програма для керування вікнами (спробуйте параметр --"
-"replace)\n"
+"kwin: працює інша програма для керування вікнами (спробуйте параметр "
+"--replace)\n"
 
 #: main_x11.cpp:411
 #, kde-format
@@ -1616,7 +1615,8 @@ msgstr "Упорядкований список груп правил"
 msgid "Rule description"
 msgstr "Опис правила"
 
-#. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (descriptionLegacy), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
@@ -1640,7 +1640,8 @@ msgstr "Клас вікна (програма)"
 msgid "Window class string match type"
 msgstr "Тип відповідності рядка класу вікон"
 
-#. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (wmclasscomplete), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
@@ -1652,7 +1653,8 @@ msgstr "Відповідність усьому класу вікон"
 msgid "Window role"
 msgstr "Роль вікна"
 
-#. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (windowrolematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
@@ -1670,13 +1672,15 @@ msgstr "Заголовок вікна"
 msgid "Window title string match type"
 msgstr "Тип відповідності рядка заголовка вікна"
 
-#. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachine), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Комп'ютер (назва вузла)"
 
-#. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachinematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
@@ -1694,7 +1698,8 @@ msgstr "Типи вікон, які є відповідними"
 msgid "Initial placement"
 msgstr "Початкове розташування"
 
-#. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (placementrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
 #, kde-format
 msgid "Initial placement rule type"
@@ -1748,37 +1753,43 @@ msgstr "Максимальний розмір вікна"
 msgid "Window maximum size rule type"
 msgstr "Тип правила максимального розміру вікна"
 
-#. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
 msgstr "Непрозорість активного"
 
-#. i18n: ectx: label, entry (opacityactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
 msgstr "Тип правила непрозорості активного вікна"
 
-#. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
 msgstr "Непрозорість неактивного"
 
-#. i18n: ectx: label, entry (opacityinactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
 msgstr "Тип правила непрозорості неактивного вікна"
 
-#. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr "Ігнорувати запитану позицію"
 
-#. i18n: ectx: label, entry (ignoregeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
@@ -1838,19 +1849,22 @@ msgstr "Тип правила встановлення типу вікна"
 msgid "Maximized vertically"
 msgstr "Максимізація вертикально"
 
-#. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizevertrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
 msgstr "Тип правила вертикальної максимізації"
 
-#. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehoriz), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
 #, kde-format
 msgid "Maximized horizontally"
 msgstr "Максимізація горизонтально"
 
-#. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehorizrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
@@ -1886,7 +1900,8 @@ msgstr "Тип правила згортання"
 msgid "Skip taskbar"
 msgstr "Пропустити панель задач"
 
-#. i18n: ectx: label, entry (skiptaskbarrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skiptaskbarrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
@@ -1898,7 +1913,8 @@ msgstr "Тип правила пропускання панелі задач"
 msgid "Skip pager"
 msgstr "Пропустити пейджер"
 
-#. i18n: ectx: label, entry (skippagerrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skippagerrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
@@ -1910,7 +1926,8 @@ msgstr "Тип правила пропускання пейджера"
 msgid "Skip switcher"
 msgstr "Пропустити перемикач"
 
-#. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skipswitcherrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
@@ -1946,7 +1963,8 @@ msgstr "Тип правила утримання під іншими вікна�
 msgid "Fullscreen"
 msgstr "На весь екран"
 
-#. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (fullscreenrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
 #, kde-format
 msgid "Fullscreen rule type"
@@ -1970,19 +1988,22 @@ msgstr "Тип правила вимикання смужки заголовка
 msgid "Titlebar color and scheme"
 msgstr "Схема кольорів смужки заголовка"
 
-#. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (decocolorrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
 msgstr "Тип правила кольору смужки заголовка"
 
-#. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositing), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
 msgstr "Блокування композитного режиму"
 
-#. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositingrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
@@ -2018,7 +2039,8 @@ msgstr "Тип правила захисту фокусування"
 msgid "Accept Focus"
 msgstr "Допускає фокус"
 
-#. i18n: ectx: label, entry (acceptfocusrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (acceptfocusrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
@@ -2030,7 +2052,8 @@ msgstr "Тип правила прийняття фокусування"
 msgid "Closeable"
 msgstr "Можна закрити"
 
-#. i18n: ectx: label, entry (closeablerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (closeablerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
@@ -2042,7 +2065,8 @@ msgstr "Тип правила можливості закриття"
 msgid "Autogroup with identical"
 msgstr "Автоматично групувати з тотожними"
 
-#. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogrouprule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
@@ -2054,7 +2078,8 @@ msgstr "Тип правила автоматичного групування з
 msgid "Autogroup in foreground"
 msgstr "Автоматичне групування на передньому плані"
 
-#. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupfgrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
@@ -2066,19 +2091,22 @@ msgstr "Тип правила автоматичного групування н
 msgid "Autogroup by ID"
 msgstr "Автоматично групувати за ідентифікатором"
 
-#. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupidrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
 msgstr "Тип правила автоматичного групування за ідентифікатором"
 
-#. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Зважати на обмеження розмірів"
 
-#. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
@@ -2096,13 +2124,15 @@ msgstr "Скорочення"
 msgid "Shortcut rule type"
 msgstr "Тип правила скорочення"
 
-#. i18n: ectx: label, entry (disableglobalshortcuts), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcuts), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Ігнорувати загальні скорочення"
 
-#. i18n: ectx: label, entry (disableglobalshortcutsrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcutsrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
@@ -2114,7 +2144,8 @@ msgstr "Тип правила ігнорування загальних скор
 msgid "Desktop file name"
 msgstr "Назва стільничного файла"
 
-#. i18n: ectx: label, entry (desktopfilerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopfilerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
@@ -2211,35 +2242,26 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
-"Засіб перемикання вікон встановлено з помилками, якісь частини не було "
-"встановлено.\n"
+"Засіб перемикання вікон встановлено з помилками, якісь частини не було встановлено.\n"
 "Повідомте про це авторів вашого дистрибутива."
 
 #: useractions.cpp:161
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
-"Without the border, you will not be able to enable the border again using "
-"the mouse: use the window operations menu instead, activated using the %1 "
-"keyboard shortcut."
+"Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Ви вибрали відображення вікна без рамки.\n"
-"Коли рамка не відображається, неможливо ввімкнути її за допомогою мишки. "
-"Натомість використовуйте меню дій над вікнами, яке активується скороченням "
-"клавіатури %1."
+"Коли рамка не відображається, неможливо ввімкнути її за допомогою мишки. Натомість використовуйте меню дій над вікнами, яке активується скороченням клавіатури %1."
 
 #: useractions.cpp:168
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
-"If the application itself does not have an option to turn the fullscreen "
-"mode off you will not be able to disable it again using the mouse: use the "
-"window operations menu instead, activated using the %1 keyboard shortcut."
+"If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Ви вибрали повноекранний режим для вікна.\n"
-"Якщо програма не має можливості вимкнути повноекранний режим, буде неможливо "
-"перейти в звичайний режим за допомогою мишки. Натомість використовуйте меню "
-"дій над вікнами, яке активується скороченням клавіатури %1."
+"Якщо програма не має можливості вимкнути повноекранний режим, буде неможливо перейти в звичайний режим за допомогою мишки. Натомість використовуйте меню дій над вікнами, яке активується скороченням клавіатури %1."
 
 #: useractions.cpp:238
 #, kde-format
@@ -2465,12 +2487,12 @@ msgstr "Опустити вікно"
 #: useractions.cpp:1005
 #, kde-format
 msgid "Toggle Window Raise/Lower"
-msgstr "Перемикач підняти/опустити вікно"
+msgstr "Перемкнути підняття/опускання вікна"
 
 #: useractions.cpp:1007
 #, kde-format
 msgid "Make Window Fullscreen"
-msgstr "Помістити вікно на весь екран"
+msgstr "Розгорнути вікно на весь екран"
 
 #: useractions.cpp:1009
 #, kde-format
@@ -2490,7 +2512,7 @@ msgstr "Утримувати вікно під іншими"
 #: useractions.cpp:1015
 #, kde-format
 msgid "Activate Window Demanding Attention"
-msgstr "Активізувати вікно, що потребує уваги"
+msgstr "Задіяти вікно, що потребує уваги"
 
 #: useractions.cpp:1017
 #, kde-format
@@ -2740,17 +2762,15 @@ msgstr "Призупинити композитний режим"
 #: useractions.cpp:1195
 #, kde-format
 msgid "Activate Window (%1)"
-msgstr "Активувати вікно (%1)"
+msgstr "Задіяти вікно (%1)"
 
 #: useractions.cpp:1332
 #, kde-format
 msgid ""
-"The window manager is configured to consider the screen with the mouse on it "
-"as active one.\n"
+"The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
-"Засіб керування вікнами не налаштовано так, щоб він використовував екран, на "
-"якому показано вказівник миші як активний.\n"
+"Засіб керування вікнами не налаштовано так, щоб він використовував екран, на якому показано вказівник миші як активний.\n"
 "Тому перемикання на певний екран явним чином неможливе."
 
 #: virtualdesktops.cpp:693 virtualdesktops.cpp:764
@@ -2804,310 +2824,739 @@ msgstr "(Не відповідає)"
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
 "what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 "Дані щодо KWin:\n"
-"Наведеними нижче даними слід скористатися, якщо ви просите про допомогу, "
-"наприклад, на https://forum.kde.org.\n"
-"Серед цих даних характеристики запущеного екземпляра програми, список "
-"використаних параметрів,\n"
+"Наведеними нижче даними слід скористатися, якщо ви просите про допомогу, наприклад, на https://forum.kde.org.\n"
+"Серед цих даних характеристики запущеного екземпляра програми, список використаних параметрів,\n"
 "назва драйвера OpenGL та список задіяних ефектів.\n"
-"Будь ласка, додайте до вашого запиту наведені під цим вступним текстом з "
-"використанням служби зберігання\n"
-"текстових фрагментів, подібної до https://paste.kde.org, замість додавання "
-"безпосередньо до тексту повідомлення.\n"
+"Будь ласка, додайте до вашого запиту наведені під цим вступним текстом з використанням служби зберігання\n"
+"текстових фрагментів, подібної до https://paste.kde.org, замість додавання безпосередньо до тексту повідомлення.\n"
 
 #~ msgid "&No Border"
-#~ msgstr "&Без рамок"
+#~ msgstr ""
 
 #~ msgid "Toggle Window Border"
-#~ msgstr "Увімкнути або вимкнути рамку вікна"
+#~ msgstr ""
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"
-#~ msgstr "Додатком не надано файла налаштувань у очікуваному місці"
+#~ msgstr ""
 
 #~ msgid "Invert Screen Colors"
 #~ msgstr "Інвертувати кольори екрана"
 
 #~ msgid "List all available backends and quit."
-#~ msgstr "Вивести список усіх основних модулів обробки і завершити роботу."
+#~ msgstr ""
 
 #~ msgid "Show Desktop"
 #~ msgstr "Показати стільницю"
 
 #~ msgid "X11 Client Windows"
-#~ msgstr "Клієнтські вікна X11"
+#~ msgstr ""
 
 #~ msgid "unknown"
-#~ msgstr "невідомий"
+#~ msgstr ""
 
 #~ msgid "Render to framebuffer."
-#~ msgstr "Обробляти до буфера кадрів."
+#~ msgstr ""
 
 #~ msgid "The framebuffer device to render to."
-#~ msgstr "Пристрій буфера кадрів, до якого слід виконувати обробку."
+#~ msgstr ""
 
 #~ msgid ""
 #~ "Enable libinput support for input events processing. Note: never use in a "
 #~ "nested session.\t(deprecated)"
 #~ msgstr ""
-#~ "Увімкнути підтримку libinput для обробки подій із введення даних. "
-#~ "Зауваження: ніколи не використовуйте у вкладеному сеансі.\t(застаріле)"
 
 #~ msgid "Pack Window to the Right"
-#~ msgstr "Пакувати вікно праворуч"
+#~ msgstr ""
 
 #~ msgid "Pack Window to the Left"
-#~ msgstr "Пакувати вікно ліворуч"
+#~ msgstr ""
 
 #~ msgid "Pack Window Up"
-#~ msgstr "Пакувати вікно вгору"
+#~ msgstr ""
 
 #~ msgid "Pack Window Down"
-#~ msgstr "Пакувати вікно вниз"
+#~ msgstr ""
 
 #~ msgid "Pack Grow Window Horizontally"
-#~ msgstr "Пакувати вікно зі збільшенням горизонтально"
+#~ msgstr ""
 
 #~ msgid "Pack Grow Window Vertically"
-#~ msgstr "Пакувати вікно зі збільшенням вертикально"
+#~ msgstr ""
 
 #~ msgid "Desktop number"
-#~ msgstr "Номер стільниці"
+#~ msgstr ""
 
 #~ msgid "Configure virtual keyboards..."
-#~ msgstr "Налаштувати віртуальні клавіатури…"
+#~ msgstr ""
 
 #~ msgid "Virtual Keyboard"
-#~ msgstr "Віртуальна клавіатура"
+#~ msgstr ""
 
 #~ msgid "Whether to show the virtual keyboard on demand."
-#~ msgstr "Визначає, чи слід показувати віртуальну клавіатуру на вимогу."
+#~ msgstr ""
 
 #~ msgid "Virtual Keyboard: enabled"
-#~ msgstr "Віртуальна клавіатура: увімкнено"
+#~ msgstr ""
 
 #~ msgid "Virtual Keyboard: disabled"
-#~ msgstr "Віртуальна клавіатура: вимкнено"
-
-#~ msgid "No Virtual Keyboard configured"
-#~ msgstr "Не налаштовано жодної віртуальної клавіатури"
+#~ msgstr ""
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
-#~ msgstr "Помилка під час перевірки: %1 не є нульовим"
+#~ msgstr ""
 
 #~ msgctxt "Assertion failed in KWin script"
 #~ msgid "Assertion failed: argument is null"
-#~ msgstr "Помилка під час перевірки: аргумент є нульовим"
+#~ msgstr ""
 
 #~ msgctxt "Error in KWin Script"
 #~ msgid ""
 #~ "Invalid number of arguments. At least service, path, interface and method "
 #~ "need to be provided"
 #~ msgstr ""
-#~ "Некоректна кількість аргументів. Мало бути вказано службу, шлях, "
-#~ "інтерфейс та метод."
 
 #~ msgctxt "Error in KWin Script"
 #~ msgid ""
 #~ "Invalid type. Service, path, interface and method need to be string values"
 #~ msgstr ""
-#~ "Некоректний тип. Значення аргументів служби, шляху, інтерфейсу та методу "
-#~ "мають бути рядками."
 
 #~ msgctxt "syntax error in KWin script"
 #~ msgid "Invalid number of arguments"
-#~ msgstr "Некоректна кількість аргументів"
+#~ msgstr ""
 
 #~ msgctxt ""
 #~ "KWin Scripting function received incorrect value for an expected type"
 #~ msgid "%1 is not a variant type"
-#~ msgstr "%1 не є типом варіанта"
+#~ msgstr ""
 
 #~ msgid "Pressed Buttons"
 #~ msgstr "Натиснуті кнопки"
 
 #~ msgid "Use libhybris hwcomposer"
-#~ msgstr "Використовувати апаратний композитор libhybris"
+#~ msgstr ""
 
 #~ msgid "Allow Rotation"
-#~ msgstr "Дозволити обертання"
+#~ msgstr ""
 
 #~ msgid "Automatic screen rotation is enabled"
-#~ msgstr "Увімкнено автоматичне обертання екрана"
+#~ msgstr ""
 
 #~ msgid "Undefined"
-#~ msgstr "Не визначено"
+#~ msgstr ""
 
 #~ msgctxt "Portrait oriented display"
 #~ msgid "Vertical"
-#~ msgstr "Вертикальний"
+#~ msgstr "Вертикально"
 
 #~ msgctxt "Landscape oriented display"
 #~ msgid "Horizontal"
-#~ msgstr "Горизонтальний"
+#~ msgstr "Горизонтально"
 
 #~ msgid "Automatic screen rotation is disabled"
-#~ msgstr "Вимкнено автоматичне обертання екрана"
+#~ msgstr ""
 
 #~ msgid "Walk Through Window Tabs"
-#~ msgstr "Пройтися вкладками вікон"
+#~ msgstr ""
 
 #~ msgid "Walk Through Window Tabs (Reverse)"
-#~ msgstr "Пройтись вкладками вікон (назад)"
+#~ msgstr ""
 
 #~ msgid "Remove Window From Group"
-#~ msgstr "Вилучити вікно з групи"
+#~ msgstr ""
 
 #~ msgid "&Untab"
-#~ msgstr "Від’&єднати"
+#~ msgstr ""
 
 #~ msgid "Close Entire &Group"
-#~ msgstr "Закрити всю &групу"
+#~ msgstr ""
 
 #~ msgctxt "Switch to tab -> Previous"
 #~ msgid "Previous"
-#~ msgstr "Попередня"
+#~ msgstr ""
 
 #~ msgctxt "Switch to tab -> Next"
 #~ msgid "Next"
-#~ msgstr "Наступна"
+#~ msgstr ""
 
 #~ msgctxt "There's no window available to be attached as tab to this one"
 #~ msgid "None available"
-#~ msgstr "Немає доступних"
+#~ msgstr ""
 
 #~ msgid "Switch to Tab"
-#~ msgstr "Перемкнутися на вкладку"
+#~ msgstr ""
 
 #~ msgid "&Attach as tab to"
-#~ msgstr "До&лучити як вкладку до"
+#~ msgstr ""
 
 #~ msgctxt ""
-#~ "Entry in context menu of window decoration to open the configuration "
-#~ "module of KWin"
+#~ "Entry in context menu of window decoration to open the configuration module "
+#~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
-#~ msgstr "Параметри &керування вікнами…"
+#~ msgstr ""
 
 #~ msgid "Automatic Screen Rotation"
-#~ msgstr "Автоматичне обертання екрана"
+#~ msgstr ""
 
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-#~ msgstr "kwin_wayland: на дисплеї X11 працює засіб керування вікнами X11.\n"
+#~ msgstr ""
 
 #~ msgid "Martin Gräßlin"
-#~ msgstr "Martin Gräßlin"
+#~ msgstr ""
 
 #~ msgid "Maintainer"
-#~ msgstr "Супровід"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
 #~ "OpenGL Desktop Effects at the current resolution<br><br>You can try to "
-#~ "select the XRender backend, but it might be very slow for this resolution "
-#~ "as well.<br>Alternatively, lower the combined resolution of all screens "
-#~ "to %1x%2 "
+#~ "select the XRender backend, but it might be very slow for this resolution as"
+#~ " well.<br>Alternatively, lower the combined resolution of all screens to "
+#~ "%1x%2 "
 #~ msgstr ""
-#~ "<h1>Використання стільничних ефектів OpenGL неможливе</h1>Використання "
-#~ "стільничних ефектів OpenGL за поточної роздільної здатності екрана "
-#~ "неможливе.<br><br>Ви можете вибрати модуль обробки XRender, але за цієї "
-#~ "роздільної здатності його робота також може бути дуже повільною.<br>Ви "
-#~ "також можете знизити роздільну здатність на всіх екранах до %1⨯%2 "
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of "
-#~ "your GPU and is therefore not compatible with the OpenGL compositor."
-#~ "<br>XRender does not know such limitation, but the performance will "
-#~ "usually be impacted by the hardware limitations that restrict the OpenGL "
-#~ "viewport size."
+#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+#~ "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+#~ "does not know such limitation, but the performance will usually be impacted "
+#~ "by the hardware limitations that restrict the OpenGL viewport size."
 #~ msgstr ""
-#~ "Вказана вами роздільна здатність перевищує обмеження GL_MAX_VIEWPORT_DIMS "
-#~ "графічного процесора вашої системи і несумісна з системою композитного "
-#~ "відтворення OpenGL.<br>У XRender такого обмеження немає, але швидкодія "
-#~ "цього модуля зазвичай обмежена можливостями обладнання зокрема можливими "
-#~ "розмірами області пам’яті OpenGL."
 
 #~ msgid ""
-#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects "
-#~ "at the current resolution are supported but might be exceptionally slow."
-#~ "<br>Also large windows will turn entirely black.<br><br>Consider to "
-#~ "suspend compositing, switch to the XRender backend or lower the "
-#~ "resolution to %1x%1."
+#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+#~ "the current resolution are supported but might be exceptionally "
+#~ "slow.<br>Also large windows will turn entirely black.<br><br>Consider to "
+#~ "suspend compositing, switch to the XRender backend or lower the resolution "
+#~ "to %1x%1."
 #~ msgstr ""
-#~ "<h1>Використання стільничних ефектів OpenGL може обмежити працездатність "
-#~ "системи</h1>За поточної роздільної здатності екрана використання "
-#~ "стільничних ефектів OpenGL можливе, але може призвести до надзвичайно "
-#~ "повільної роботи системи.<br>Великі вікна можуть стати повністю чорними."
-#~ "<br><br>Вам варто вимкнути композитне відтворення, перемкнутися на "
-#~ "використання модуля XRender або зменшити роздільну здатність екрана до %1⨯"
-#~ "%1."
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of "
-#~ "your GPU, thus windows of that size cannot be assigned to textures and "
-#~ "will be entirely black.<br>Also this limit will often be a performance "
-#~ "level barrier despite below GL_MAX_VIEWPORT_DIMS, because the driver "
-#~ "might fall back to software rendering in this case."
+#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+#~ "GPU, thus windows of that size cannot be assigned to textures and will be "
+#~ "entirely black.<br>Also this limit will often be a performance level barrier"
+#~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+#~ "software rendering in this case."
 #~ msgstr ""
-#~ "Вказане вами значення роздільної здатності екрана перевищує обмеження "
-#~ "GL_MAX_TEXTURE_SIZE вашого графічного процесора, тому вікна відповідного "
-#~ "розміру не зможуть отримувати пам’ять під текстури, їх буде показано "
-#~ "повністю чорними.<br>Крім того, використання цієї роздільної здатності "
-#~ "може бути обмежено швидкодією системи навіть за прийнятних значень "
-#~ "GL_MAX_VIEWPORT_DIMS, оскільки драйвер може перейти до резервного "
-#~ "використання програмного режиму обробки зображення."
-
-#~ msgid "Form"
-#~ msgstr "Форма"
 
 #~ msgid "Use a nested compositor in windowed mode."
-#~ msgstr "Використовувати вкладений засіб композиції у режимі вікна."
+#~ msgstr ""
 
 #~ msgctxt "notification about mouse pointer confined"
 #~ msgid ""
 #~ "Pointer motion confined to the current window.\n"
 #~ "To release pointer hold Escape for 3 seconds."
 #~ msgstr ""
-#~ "Рух вказівника обмежено поточним вікном.\n"
-#~ "Щоб скасувати обмеження, утримуйте натиснутою клавішу Esc протягом 3 "
-#~ "секунд."
 
 #~ msgctxt "notification about mouse pointer locked"
 #~ msgid ""
 #~ "Pointer locked to current position.\n"
 #~ "To end pointer lock hold Escape for 3 seconds."
 #~ msgstr ""
-#~ "Вказівник заблоковано у поточній позиції.\n"
-#~ "Щоб скасувати обмеження, утримуйте натиснутою клавішу Esc протягом 3 "
-#~ "секунд."
 
 #~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
-#~ msgstr "GLX/OpenGL є недоступним, зібрано з підтримкою лише OpenGL."
+#~ msgstr ""
 
 #~ msgid "Sh&ade"
-#~ msgstr "З&горнути"
+#~ msgstr ""
 
 #~ msgid ""
-#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
-#~ "is set.\n"
+#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
+#~ " set.\n"
 #~ msgstr ""
-#~ "kwin_wayland: не вдалося встановити зв’язок із сервером Wayland, "
-#~ "переконайтеся, що змінну WAYLAND_DISPLAY встановлено належним чином.\n"
 
 #~ msgid ""
 #~ "The X11 Display to connect to. If not set next free number will be picked."
 #~ msgstr ""
-#~ "Дисплей X11, з яким слід встановити з’єднання. Якщо не вказано, буде "
-#~ "вибрано наступний же вільний номер."
 
 #~ msgid "KWin: "
-#~ msgstr "KWin: "
+#~ msgstr ""
+
+#~ msgid "System"
+#~ msgstr ""
+
+#~ msgid "Navigation"
+#~ msgstr ""
+
+#~ msgid "Window & Desktop"
+#~ msgstr ""
+
+#~ msgid "Miscellaneous"
+#~ msgstr ""
+
+#~ msgid "Desktop Switching"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "kwin: it looks like there's already a window manager running. kwin not "
+#~ "started.\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
+#~ " <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish to terminate "
+#~ "the application process <em>including <b>all</b> of its child "
+#~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
+#~ msgstr ""
+
+#~ msgid "Window '%1' demands attention."
+#~ msgstr ""
+
+#~ msgid "Layout changed to %1"
+#~ msgstr ""
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr ""
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr ""
+
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr ""
+
+#~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
+#~ msgid "&Float Window"
+#~ msgstr ""
+
+#~ msgid "Ad&vanced"
+#~ msgstr ""
+
+#~ msgid "*** No Windows ***"
+#~ msgstr ""
+
+#~ msgid "Load the script testing dialog"
+#~ msgstr ""
+
+#~ msgid "Remove &From Group"
+#~ msgstr ""
+
+#~ msgid "To the Left"
+#~ msgstr ""
+
+#~ msgid "To the Right"
+#~ msgstr ""
+
+#~ msgid "&Opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "XRender/XFixes extensions are not available and only XRender support is "
+#~ "compiled."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Compositing was disabled at compile time.\n"
+#~ "It is likely Xorg development headers were not installed."
+#~ msgstr ""
+
+#~ msgid "Tiling"
+#~ msgstr ""
+
+#~ msgid "Enable/Disable Tiling"
+#~ msgstr ""
+
+#~ msgid "Toggle Floating"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Left"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Right"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Up"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Down"
+#~ msgstr ""
+
+#~ msgid "Tiling Disabled"
+#~ msgstr ""
+
+#~ msgid "Tiling Enabled"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "KWin will now exit..."
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 2"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 3"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 4"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 5"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 6"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 7"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 8"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 9"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 10"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 11"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 12"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 13"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 14"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 15"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 16"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 17"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 18"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 19"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 20"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 3"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 4"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 5"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 6"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 7"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 3"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 4"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 5"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 6"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 7"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 8"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 9"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 10"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 11"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 12"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 13"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 14"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 15"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 16"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 17"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 18"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 19"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 20"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 2"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 3"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 4"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 5"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 6"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 7"
+#~ msgstr ""
+
+#~ msgid "<center><b>%1</b></center>"
+#~ msgstr ""
+
+#~ msgid "Menu"
+#~ msgstr ""
+
+#~ msgid "Not on all desktops"
+#~ msgstr ""
+
+#~ msgid "On all desktops"
+#~ msgstr ""
+
+#~ msgid "Help"
+#~ msgstr ""
+
+#~ msgid "Restore"
+#~ msgstr ""
+
+#~ msgid "Do not keep above others"
+#~ msgstr ""
+
+#~ msgid "Do not keep below others"
+#~ msgstr ""
+
+#~ msgid "No window decoration plugin library was found."
+#~ msgstr ""
+
+#~ msgid "The default decoration plugin is corrupt and could not be loaded."
+#~ msgstr ""
+
+#~ msgid "The library %1 is not a KWin plugin."
+#~ msgstr ""
+
+#~ msgid "Window Screenshot to Clipboard"
+#~ msgstr ""
+
+#~ msgid "Desktop Screenshot to Clipboard"
+#~ msgstr ""
+
+#~ msgid "Toggle Tiling"
+#~ msgstr ""
+
+#~ msgid "Increase Ratio"
+#~ msgstr ""
+
+#~ msgid "Decrease Ratio"
+#~ msgstr ""
+
+#~ msgid "Move Left"
+#~ msgstr "Пересунути ліворуч"
+
+#~ msgid "Move Right"
+#~ msgstr "Пересунути праворуч"
+
+#~ msgid "Move Up"
+#~ msgstr "Пересунути вище"
+
+#~ msgid "Move Down"
+#~ msgstr "Пересунути нижче"
+
+#~ msgid "Test Dump tiles"
+#~ msgstr ""
+
+#~ msgid "Test Below Cursor"
+#~ msgstr ""
+
+#~ msgid "Walk Through Grouped Windows"
+#~ msgstr ""
+
+#~ msgid "Walk Through Grouped Windows (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Switch to group window"
+#~ msgstr ""
+
+#~ msgid "kwin: failure during initialization; aborting"
+#~ msgstr ""
+
+#~ msgid "Terminate"
+#~ msgstr ""
+
+#~ msgid "Keep Running"
+#~ msgstr ""
+
+#~ msgid "Top"
+#~ msgstr "Вгорі"
+
+#~ msgid "Bottom"
+#~ msgstr "Внизу"
+
+#~ msgid "Toggle Invert Effect"
+#~ msgstr "Перемкнути ефект інвертування"
+
+#~ msgid "Clear All Mouse Marks"
+#~ msgstr "Очистити всі позначки мишки"
+
+#~ msgid "Clear Last Mouse Mark"
+#~ msgstr "Очистити останню позначку мишки"
+
+#~ msgid "Clear Mouse Marks"
+#~ msgstr "Очистити позначки мишки"
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+
+#~ msgid "Snow"
+#~ msgstr ""
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr ""
+
+#~ msgid "Toggle Thumbnail for Current Window"
+#~ msgstr "Перемкнути мініатюри для поточного вікна"
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+
+#~ msgid "Path to save video:"
+#~ msgstr ""
+
+#~ msgid "None"
+#~ msgstr "Жодного"
+
+#~ msgid "X offset:"
+#~ msgstr ""
+
+#~ msgid "Y offset:"
+#~ msgstr ""
+
+#~ msgid "Shadow opacity:"
+#~ msgstr ""
+
+#~ msgid "Shadow fuzziness:"
+#~ msgstr ""
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr ""
+
+#~ msgid "Shadow color:"
+#~ msgstr ""
+
+#~ msgid "Active window has stronger shadow"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr ""
+
+#~ msgid "Draw window caption on top of window"
+#~ msgstr ""
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr ""
+
+#~ msgid "for windows on all desktops: "
+#~ msgstr ""
+
+#~ msgid "Animate desktop changes"
+#~ msgstr ""
+
+#~ msgid "Reset opacity to default value"
+#~ msgstr ""
+
+#~ msgid "Slide this to set the window's opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
+#~ " in a $PATH directory."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager crashed twice within a minute and is therefore "
+#~ "disabled for this session."
+#~ msgstr ""
+
+#~ msgid "Composite Manager Failure"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
+#~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
+#~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
+#~ "www.freedesktop.org.<br></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
+#~ "6.8 for translucency and shadows to work.<br>Additionally, you need to add a"
+#~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
+#~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr "Не можна показувати конфіденційний файл"
