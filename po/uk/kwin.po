@@ -2838,7 +2838,7 @@ msgstr ""
 "текстових фрагментів, подібної до https://paste.kde.org, замість додавання безпосередньо до тексту повідомлення.\n"
 
 #~ msgid "&No Border"
-#~ msgstr ""
+#~ msgstr "&Без рамок"
 
 #~ msgid "Toggle Window Border"
 #~ msgstr ""
@@ -2874,22 +2874,22 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Pack Window to the Right"
-#~ msgstr ""
+#~ msgstr "Пакувати вікно праворуч"
 
 #~ msgid "Pack Window to the Left"
-#~ msgstr ""
+#~ msgstr "Пакувати вікно ліворуч"
 
 #~ msgid "Pack Window Up"
-#~ msgstr ""
+#~ msgstr "Пакувати вікно вгору"
 
 #~ msgid "Pack Window Down"
-#~ msgstr ""
+#~ msgstr "Пакувати вікно вниз"
 
 #~ msgid "Pack Grow Window Horizontally"
-#~ msgstr ""
+#~ msgstr "Пакувати вікно зі збільшенням горизонтально"
 
 #~ msgid "Pack Grow Window Vertically"
-#~ msgstr ""
+#~ msgstr "Пакувати вікно зі збільшенням вертикально"
 
 #~ msgid "Desktop number"
 #~ msgstr ""
@@ -3012,7 +3012,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Maintainer"
-#~ msgstr ""
+#~ msgstr "Супровідник"
 
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -3064,7 +3064,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Sh&ade"
-#~ msgstr ""
+#~ msgstr "&Тінь"
 
 #~ msgid ""
 #~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
@@ -3076,10 +3076,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "KWin: "
-#~ msgstr ""
+#~ msgstr "KWin: "
 
 #~ msgid "System"
-#~ msgstr ""
+#~ msgstr "Система"
 
 #~ msgid "Navigation"
 #~ msgstr ""
@@ -3088,10 +3088,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Miscellaneous"
-#~ msgstr ""
+#~ msgstr "Різне"
 
 #~ msgid "Desktop Switching"
-#~ msgstr ""
+#~ msgstr "Перемикання стільниць"
 
 #~ msgid ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
@@ -3131,7 +3131,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "*** No Windows ***"
-#~ msgstr ""
+#~ msgstr "*** Немає вікон ***"
 
 #~ msgid "Load the script testing dialog"
 #~ msgstr ""
@@ -3202,148 +3202,148 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Window to Desktop 2"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 2"
 
 #~ msgid "Window to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 3"
 
 #~ msgid "Window to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 4"
 
 #~ msgid "Window to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 5"
 
 #~ msgid "Window to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 6"
 
 #~ msgid "Window to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 7"
 
 #~ msgid "Window to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 8"
 
 #~ msgid "Window to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 9"
 
 #~ msgid "Window to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 10"
 
 #~ msgid "Window to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 11"
 
 #~ msgid "Window to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 12"
 
 #~ msgid "Window to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 13"
 
 #~ msgid "Window to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 14"
 
 #~ msgid "Window to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 15"
 
 #~ msgid "Window to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 16"
 
 #~ msgid "Window to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 17"
 
 #~ msgid "Window to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 18"
 
 #~ msgid "Window to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 19"
 
 #~ msgid "Window to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Вікно на стільницю 20"
 
 #~ msgid "Window to Screen 3"
-#~ msgstr ""
+#~ msgstr "Вікно на екран 3"
 
 #~ msgid "Window to Screen 4"
-#~ msgstr ""
+#~ msgstr "Вікно на екран 4"
 
 #~ msgid "Window to Screen 5"
-#~ msgstr ""
+#~ msgstr "Вікно на екран 5"
 
 #~ msgid "Window to Screen 6"
-#~ msgstr ""
+#~ msgstr "Вікно на екран 6"
 
 #~ msgid "Window to Screen 7"
-#~ msgstr ""
+#~ msgstr "Вікно на екран 7"
 
 #~ msgid "Switch to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 3"
 
 #~ msgid "Switch to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 4"
 
 #~ msgid "Switch to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 5"
 
 #~ msgid "Switch to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 6"
 
 #~ msgid "Switch to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 7"
 
 #~ msgid "Switch to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 8"
 
 #~ msgid "Switch to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 9"
 
 #~ msgid "Switch to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 10"
 
 #~ msgid "Switch to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 11"
 
 #~ msgid "Switch to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 12"
 
 #~ msgid "Switch to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 13"
 
 #~ msgid "Switch to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 14"
 
 #~ msgid "Switch to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 15"
 
 #~ msgid "Switch to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 16"
 
 #~ msgid "Switch to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 17"
 
 #~ msgid "Switch to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 18"
 
 #~ msgid "Switch to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 19"
 
 #~ msgid "Switch to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Перемкнутися на стільницю 20"
 
 #~ msgid "Switch to Screen 2"
-#~ msgstr ""
+#~ msgstr "Перемкнути на екран 2"
 
 #~ msgid "Switch to Screen 3"
-#~ msgstr ""
+#~ msgstr "Перемкнути на екран 3"
 
 #~ msgid "Switch to Screen 4"
-#~ msgstr ""
+#~ msgstr "Перемкнути на екран 4"
 
 #~ msgid "Switch to Screen 5"
-#~ msgstr ""
+#~ msgstr "Перемкнути на екран 5"
 
 #~ msgid "Switch to Screen 6"
-#~ msgstr ""
+#~ msgstr "Перемкнути на екран 6"
 
 #~ msgid "Switch to Screen 7"
-#~ msgstr ""
+#~ msgstr "Перемкнути на екран 7"
 
 #~ msgid "<center><b>%1</b></center>"
 #~ msgstr ""
@@ -3355,13 +3355,13 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "On all desktops"
-#~ msgstr ""
+#~ msgstr "На всіх стільницях"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Довідка"
 
 #~ msgid "Restore"
-#~ msgstr ""
+#~ msgstr "Відновити"
 
 #~ msgid "Do not keep above others"
 #~ msgstr ""
@@ -3424,7 +3424,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Terminate"
-#~ msgstr ""
+#~ msgstr "Перервати"
 
 #~ msgid "Keep Running"
 #~ msgstr ""
@@ -3451,9 +3451,11 @@ msgstr ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Фільтр:\n"
+#~ "%1"
 
 #~ msgid "Snow"
-#~ msgstr ""
+#~ msgstr "Сніг"
 
 #~ msgid "Toggle Snow on Desktop"
 #~ msgstr ""
