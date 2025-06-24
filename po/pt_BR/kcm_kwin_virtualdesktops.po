@@ -149,48 +149,50 @@ msgid "Virtual Desktops"
 msgstr "Áreas de trabalho virtuais"
 
 #~ msgid "New Desktop"
-#~ msgstr ""
+#~ msgstr "Nova área de trabalho"
 
 #~ msgid "Rows:"
-#~ msgstr ""
+#~ msgstr "Linhas:"
 
 #~ msgid "Configure Virtual Desktops"
-#~ msgstr ""
+#~ msgstr "Configurar áreas de trabalhos virtuais"
 
 #~ msgid "Desktop %1:"
 #~ msgstr ""
 
 #~ msgid "Here you can enter the name for desktop %1"
-#~ msgstr ""
+#~ msgstr "Aqui você pode inserir o nome da área de trabalho %1"
 
 #~ msgid ""
 #~ "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual"
 #~ " desktops you want and how these should be labeled."
 #~ msgstr ""
+#~ "<h1>Várias áreas de trabalho</h1>Neste módulo, você pode configurar quantas "
+#~ "áreas de trabalho virtuais desejar e definir como elas devem ser chamadas."
 
 #~ msgid "KWin"
 #~ msgstr "KWin"
 
 #~ msgid "Switch to Next Desktop"
-#~ msgstr ""
+#~ msgstr "Mudar para a próxima área de trabalho"
 
 #~ msgid "Switch to Previous Desktop"
-#~ msgstr ""
+#~ msgstr "Alternar para a área de trabalho anterior"
 
 #~ msgid "Switch One Desktop to the Right"
-#~ msgstr ""
+#~ msgstr "Mudar uma área de trabalho para a direita"
 
 #~ msgid "Switch One Desktop to the Left"
-#~ msgstr ""
+#~ msgstr "Mudar uma área de trabalho para a esquerda"
 
 #~ msgid "Switch One Desktop Up"
-#~ msgstr ""
+#~ msgstr "Mudar uma área de trabalho para cima"
 
 #~ msgid "Switch One Desktop Down"
-#~ msgstr ""
+#~ msgstr "Mudar uma área de trabalho para baixo"
 
 #~ msgid "Walk Through Desktops"
-#~ msgstr ""
+#~ msgstr "Alternar entre as áreas de trabalho"
 
 #~ msgid "Walk Through Desktops (Reverse)"
 #~ msgstr ""
