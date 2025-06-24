@@ -65,7 +65,7 @@ msgstr ""
 #: main.cpp:139 touch.cpp:133
 #, kde-format
 msgid "Present Windows"
-msgstr ""
+msgstr "Показ вікон"
 
 #: main.cpp:140 touch.cpp:134
 #, kde-format
@@ -245,7 +245,7 @@ msgstr ""
 #~ msgstr "Показати стільницю"
 
 #~ msgid "Desktop Grid"
-#~ msgstr ""
+#~ msgstr "Таблиця стільниць"
 
 #~ msgid "Toggle Overview"
 #~ msgstr "Увімкнути/Вимкнути огляд"
