@@ -1,21 +1,25 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Martin Schlander <mschlander@opensuse.org>, 2009, 2010, 2011, 2012, 2019.
+# 
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
-"PO-Revision-Date: 2019-05-07 13:22+0100\n"
-"Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
-"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
-"Language: da\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Danish (https://app.transifex.com/linuxdeepin/teams/3617/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 22.04.3\n"
 
 #: kwintabboxconfigform.cpp:80
 #, kde-format
@@ -23,11 +27,9 @@ msgid "KWin"
 msgstr "KWin"
 
 #: layoutpreview.cpp:133
-#, fuzzy, kde-format
-#| msgctxt "An example Desktop Name"
-#| msgid "Desktop 1"
+#, kde-format
 msgid "Show Desktop"
-msgstr "Skrivebord 1"
+msgstr ""
 
 #: layoutpreview.cpp:163
 #, kde-format
@@ -240,18 +242,11 @@ msgstr ""
 msgid "Show selected window"
 msgstr "Vis det valgte vindue"
 
-#~ msgid "Tabbox layout preview"
-#~ msgstr "Forhåndsvisning af skifteboksens layout"
-
-#~ msgid "Outline selected window"
-#~ msgstr "Fremhæv det valgte vindue"
-
 #~ msgid ""
-#~ "These settings are used by the \"Walk Through Windows Alternative\" "
-#~ "actions."
+#~ "These settings are used by the \"Walk Through Windows Alternative\" actions."
 #~ msgstr ""
-#~ "Disse indstillinger bruges af \"Gå gennem vinduer, alternativ\"-"
-#~ "handlingerne."
+#~ "Disse indstillinger bruges af \"Gå gennem vinduer, "
+#~ "alternativ\"-handlingerne."
 
 #~ msgid "Walk Through Windows"
 #~ msgstr "Gå gennem vinduer"
@@ -264,32 +259,6 @@ msgstr "Vis det valgte vindue"
 
 #~ msgid "Walk Through Windows Alternative (Reverse)"
 #~ msgstr "Gå gennem vinduer, alternativ (baglæns)"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative"
-#~ msgid "Walk Through Windows of Current Application"
-#~ msgstr "Gå gennem vinduer, alternativ"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgid "Walk Through Windows of Current Application (Reverse)"
-#~ msgstr "Gå gennem vinduer, alternativ (baglæns)"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative"
-#~ msgid "Walk Through Windows of Current Application Alternative"
-#~ msgstr "Gå gennem vinduer, alternativ"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-#~ msgstr "Gå gennem vinduer, alternativ (baglæns)"
-
-#~ msgctxt ""
-#~ "ComboBox item for window switcher based on layouts instead of a desktop "
-#~ "effect"
-#~ msgid "Layout based switcher"
-#~ msgstr "Layoutbaseret skifter"
 
 #~ msgid "Configure Layout"
 #~ msgstr "Indstil layout"
@@ -305,21 +274,6 @@ msgstr "Vis det valgte vindue"
 #~ msgid "These settings are used by the \"Walk Through Windows\" actions."
 #~ msgstr "Disse indstillinger bruges af \"Gå gennem vinduer\"-handlingerne."
 
-#, fuzzy
-#~| msgid "All Desktops Grouped by Applications"
-#~ msgid "All windows from all applications"
-#~ msgstr "Alle skriveborde grupperet efter programmer"
-
-#, fuzzy
-#~| msgid "Adds an entry to minimize all windows."
-#~ msgid "Exclude minimized windows"
-#~ msgstr "Tilføjer en indgang til at minimere alle vinduer."
-
-#, fuzzy
-#~| msgid "Adds an entry to minimize all windows."
-#~ msgid "Show desktop to minimize all windows"
-#~ msgstr "Tilføjer en indgang til at minimere alle vinduer."
-
 #~ msgid "Highlight selected window"
 #~ msgstr "Fremhæv aktivt vindue"
 
@@ -328,30 +282,6 @@ msgstr "Vis det valgte vindue"
 
 #~ msgid "Display list while switching"
 #~ msgstr "Vis liste ved skift"
-
-#~ msgctxt "Name for a window switcher layout showing live window thumbnails"
-#~ msgid "Thumbnails"
-#~ msgstr "Miniaturer"
-
-#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
-#~ msgid "Informative"
-#~ msgstr "Informativt"
-
-#~ msgctxt "Name for a window switcher layout showing only icon and name"
-#~ msgid "Compact"
-#~ msgstr "Kompakt"
-
-#~ msgctxt "Name for a window switcher layout showing only the name"
-#~ msgid "Text"
-#~ msgstr "Tekst"
-
-#~ msgctxt "Name for a window switcher layout showing large icons"
-#~ msgid "Large Icons"
-#~ msgstr "Store ikoner"
-
-#~ msgctxt "Name for a window switcher layout showing small icons"
-#~ msgid "Small Icons"
-#~ msgstr "Små ikoner"
 
 #~ msgid "No Effect"
 #~ msgstr "Ingen effekt"

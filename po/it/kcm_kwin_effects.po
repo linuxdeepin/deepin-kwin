@@ -1,41 +1,44 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-# Paolo Zamponi <zapaolo@email.it>, 2019.
-#
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2019.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
-"PO-Revision-Date: 2019-10-07 15:16+0200\n"
-"Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
-"Language-Team: Italian <kde-i18n-it@kde.org>\n"
-"Language: it\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Italian (https://app.transifex.com/linuxdeepin/teams/3617/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 19.08.1\n"
+"Language: it\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"X-Generator: Lokalize 19.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Paolo Zamponi"
+msgstr "Vincenzo Reale,Nicola Ruggero"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "zapaolo@email.it"
+msgstr "smart2128vr@gmail.com,"
 
 #: kcm.cpp:35
 #, kde-format
 msgid "Desktop Effects"
-msgstr "Effetti del desktop"
+msgstr ""
 
 #: kcm.cpp:39
 #, kde-format
 msgid "Vlad Zahorodnii"
-msgstr "Vlad Zahorodnii"
+msgstr ""
 
 #: package/contents/ui/Effect.qml:92
 #, kde-format
@@ -43,25 +46,23 @@ msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
-"Autore: %1\n"
-"Licenza: %2"
 
 #: package/contents/ui/Effect.qml:121
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show/Hide Video"
-msgstr "Mostra/Nascondi video"
+msgstr ""
 
 #: package/contents/ui/Effect.qml:128
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Configure..."
-msgstr "Configura..."
+msgstr ""
 
 #: package/contents/ui/main.qml:20
 #, kde-format
 msgid "This module lets you configure desktop effects."
-msgstr "Questo modulo ti permette di configurare gli effetti del desktop."
+msgstr ""
 
 #: package/contents/ui/main.qml:27
 #, kde-format
@@ -69,34 +70,32 @@ msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
 msgstr ""
-"Suggerimento: per scoprire come configurare e attivare un effetto, esamina "
-"le sue impostazioni."
 
 #: package/contents/ui/main.qml:47
 #, kde-format
 msgid "Configure Filter"
-msgstr "Configura il filtro"
+msgstr ""
 
 #: package/contents/ui/main.qml:59
 #, kde-format
 msgid "Exclude unsupported effects"
-msgstr "Escludi gli effetti non supportati"
+msgstr ""
 
 #: package/contents/ui/main.qml:67
 #, kde-format
 msgid "Exclude internal effects"
-msgstr "Escludi gli effetti interni"
+msgstr ""
 
 #: package/contents/ui/main.qml:125
 #, kde-format
 msgid "Get New Desktop Effects..."
-msgstr "Ottieni nuovi effetti del desktop..."
+msgstr ""
 
 #~ msgid "Download New Desktop Effects"
-#~ msgstr "Scarica nuovi effetti del desktop"
+#~ msgstr ""
 
 #~ msgid "Exclude Desktop Effects not supported by the Compositor"
-#~ msgstr "Escludi gli effetti del desktop non supportati dal compositore"
+#~ msgstr ""
 
 #~ msgid "Search..."
-#~ msgstr "Cerca..."
+#~ msgstr ""

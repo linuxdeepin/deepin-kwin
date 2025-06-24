@@ -1,44 +1,44 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-#
-# Alexander Yavorsky <kekcuha@gmail.com>, 2022.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2022-12-23 10:26+0300\n"
-"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
-"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
-"Language: ru\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Russian (https://app.transifex.com/linuxdeepin/teams/3617/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 21.08.3\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Александр Яворский"
+msgstr "Светлана Коляда"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "kekcuha@gmail.com"
+msgstr "kolyadas89@gmail.com"
 
 #: kcmkwinxwayland.cpp:30
 #, kde-format
 msgid "Legacy X11 App Support"
-msgstr "Поддержка устаревших приложений X11"
+msgstr ""
 
 #: kcmkwinxwayland.cpp:32
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
 msgstr ""
-"Поддержка передачи событий нажатия клавиш на клавиатуре в устаревшие "
-"приложения X11 из других приложений"
 
 #: package/contents/ui/main.qml:19
 #, kde-format
@@ -46,9 +46,6 @@ msgid ""
 "This module lets configure which keyboard events are forwarded to X11 apps "
 "regardless of their focus."
 msgstr ""
-"Этот модуль позволяет настроить пересылку событий о нажатиях клавиш на "
-"клавиатуре в приложения, поддерживающих работу только с графическим севером "
-"X11, вне зависимости от получения ими фокуса."
 
 #: package/contents/ui/main.qml:49
 #, kde-format
@@ -58,39 +55,31 @@ msgid ""
 "disabled by default for security reasons. If you need to use such apps, you "
 "can choose your preferred balance of security and functionality here."
 msgstr ""
-"Устаревшим приложениям, поддерживающими только графический сервер X11, для "
-"поддержки системных комбинаций клавиш необходимо иметь возможность получать "
-"информацию о нажатии клавиш на клавиатуре из других приложений. Передача  "
-"набираемого текста и информации о нажатий клавиш отключена по умолчанию из "
-"соображений безопасности. Данный модуль позволяет настроить баланс между "
-"безопасностью и функциональностью для таких приложений."
 
 #: package/contents/ui/main.qml:66
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
-"Разрешить передачу следующих событий ввода с клавиатуры для всех устаревших "
-"приложений X11:"
 
 #: package/contents/ui/main.qml:67
 #, kde-format
 msgid "Never"
-msgstr "Ничего"
+msgstr ""
 
 #: package/contents/ui/main.qml:70
 #, kde-format
 msgid "Only Meta, Control, Alt, and Shift keys"
-msgstr "Только нажатия клавиш Meta, Control, Alt и Shift"
+msgstr ""
 
 #: package/contents/ui/main.qml:73
 #, kde-format
 msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
-msgstr "Нажатия всех клавиш, но только в сочетании с Meta, Ctrl, Alt или Shift"
+msgstr ""
 
 #: package/contents/ui/main.qml:77
 #, kde-format
 msgid "Always"
-msgstr "Нажатия всех клавиш без ограничений"
+msgstr ""
 
 #: package/contents/ui/main.qml:84
 #, kde-format
@@ -99,7 +88,3 @@ msgid ""
 "session by permitting malicious software to steal passwords and spy on the "
 "text that you type. Make sure you understand and accept this risk."
 msgstr ""
-"Примите к сведению, что включение этого параметра снижает безопасность "
-"системы до уровня сеанса X11, позволяя вредоносным программам красть пароли "
-"и отслеживать вводимый вами текст. Убедитесь, что вы понимаете и принимаете "
-"этот риск."

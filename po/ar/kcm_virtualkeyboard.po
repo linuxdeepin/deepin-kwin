@@ -1,22 +1,24 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-#
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2021.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-01 00:48+0000\n"
-"PO-Revision-Date: 2021-06-28 21:56+0400\n"
-"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
-"Language-Team: ar\n"
-"Language: ar\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Arabic (https://app.transifex.com/linuxdeepin/teams/3617/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 21.07.70\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Lokalize 21.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31,24 +33,24 @@ msgstr "zayed.alsaidi@gmail.com"
 #: kcmvirtualkeyboard.cpp:29
 #, kde-format
 msgid "Virtual Keyboard"
-msgstr "لوحة المفاتيح الوهميّة"
+msgstr ""
 
 #: kcmvirtualkeyboard.cpp:31
 #, kde-format
 msgid "Choose Virtual Keyboard"
-msgstr "اختر لوحة المفاتيح الوهمية"
+msgstr ""
 
 #: kcmvirtualkeyboard.cpp:68
 #, kde-format
 msgid "None"
-msgstr "بلا"
+msgstr "بدون"
 
 #: kcmvirtualkeyboard.cpp:72
 #, kde-format
 msgid "Do not use any virtual keyboard"
-msgstr "لا تستعمل أي لوحة مفاتيح وهمية"
+msgstr ""
 
 #: package/contents/ui/main.qml:16
 #, kde-format
 msgid "This module lets you choose the virtual keyboard to use."
-msgstr "هذه الوحدة تجعلك تختار لوحة مفاتيح وهمية."
+msgstr ""

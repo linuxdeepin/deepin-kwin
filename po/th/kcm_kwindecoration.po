@@ -1,23 +1,26 @@
-# translation of kcmkwindecoration.po to Thai
-# Copyright (C) 2003, 2005, 2007, 2008 Free Software Foundation, Inc.
-#
-# Thanomsub Noppaburana <donga_n@yahoo.com>, 2003, 2005.
-# Sahachart Anukulkitch <drrider@gmail.com>, 2007.
-# Thanomsub Noppaburana <donga.nb@gmail.com>, 2008, 2010.
+# translation of kcmkwindecoration.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2018, 2019, 2020, 2021.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-26 02:32+0000\n"
-"PO-Revision-Date: 2010-07-07 14:59+0700\n"
-"Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
-"Language-Team: Thai <thai-l10n@googlegroups.com>\n"
-"Language: th\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Thai (https://app.transifex.com/linuxdeepin/teams/3617/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.1\n"
+"Language: th\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 21.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -40,10 +43,9 @@ msgid "Application menu"
 msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:57
-#, fuzzy, kde-format
-#| msgid "On All Desktops"
+#, kde-format
 msgid "On all desktops"
-msgstr "บนพื้นที่ทำงานทั้งหมด"
+msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
@@ -81,10 +83,9 @@ msgid "Keep above other windows"
 msgstr ""
 
 #: kcm.cpp:49
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
+#, kde-format
 msgid "Window Decorations"
-msgstr "หาชุดตกแต่งใหม่ ๆ ..."
+msgstr ""
 
 #: kcm.cpp:53
 #, kde-format
@@ -140,13 +141,13 @@ msgstr ""
 
 #: kwin-applywindowdecoration.cpp:77
 #, kde-format
-msgid ""
-"The requested theme \"%1\" is already set as the window decoration theme."
+msgid "The requested theme \"%1\" is already set as the window decoration theme."
 msgstr ""
 
 #: kwin-applywindowdecoration.cpp:99
 #, kde-format
-msgid "Successfully applied the cursor theme %1 to your current Plasma session"
+msgid ""
+"Successfully applied the cursor theme %1 to your current Plasma session"
 msgstr ""
 
 #: kwin-applywindowdecoration.cpp:103
@@ -195,25 +196,22 @@ msgid "Theme"
 msgstr ""
 
 #: package/contents/ui/main.qml:56
-#, fuzzy, kde-format
-#| msgid "Buttons"
+#, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
-msgstr "ปุ่มต่าง ๆ"
+msgstr ""
 
 #: package/contents/ui/main.qml:92
-#, fuzzy, kde-format
-#| msgid "Border size:"
+#, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
-msgstr "ขนาดของกรอบ:"
+msgstr ""
 
 #: package/contents/ui/main.qml:110
-#, fuzzy, kde-format
-#| msgid "Get New Decorations..."
+#, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
-msgstr "หาชุดตกแต่งใหม่ ๆ ..."
+msgstr ""
 
 #: package/contents/ui/main.qml:139
 #, kde-format
@@ -228,11 +226,10 @@ msgid "Click and hold on the menu button to show the menu."
 msgstr ""
 
 #: package/contents/ui/main.qml:163
-#, fuzzy, kde-format
-#| msgid "&Show window button tooltips"
+#, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
-msgstr "แ&สดงทูลทิปของปุ่มบนหน้าต่าง"
+msgstr ""
 
 #: package/contents/ui/Themes.qml:90
 #, kde-format
@@ -240,103 +237,89 @@ msgid "Edit %1 Theme"
 msgstr ""
 
 #: utils.cpp:25
-#, fuzzy, kde-format
-#| msgid "Border size:"
+#, kde-format
 msgid "No Borders"
-msgstr "ขนาดของกรอบ:"
+msgstr ""
 
 #: utils.cpp:26
-#, fuzzy, kde-format
-#| msgid "Border size:"
+#, kde-format
 msgid "No Side Borders"
-msgstr "ขนาดของกรอบ:"
+msgstr ""
 
 #: utils.cpp:27
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
+#, kde-format
 msgid "Tiny"
 msgstr "กะทัดรัด"
 
 #: utils.cpp:28
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Normal"
+#, kde-format
 msgid "Normal"
 msgstr "ปกติ"
 
 #: utils.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Large"
+#, kde-format
 msgid "Large"
 msgstr "ใหญ่"
 
 #: utils.cpp:30
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Large"
+#, kde-format
 msgid "Very Large"
 msgstr "ใหญ่มาก"
 
 #: utils.cpp:31
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Huge"
+#, kde-format
 msgid "Huge"
 msgstr "ใหญ่มหึมา"
 
 #: utils.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Huge"
+#, kde-format
 msgid "Very Huge"
 msgstr "ใหญ่มหึมามาก"
 
 #: utils.cpp:33
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Oversized"
+#, kde-format
 msgid "Oversized"
 msgstr "ใหญ่โตสุดสุด"
+
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr ""
 
 #~ msgid "Menu"
 #~ msgstr "เมนู"
 
-#, fuzzy
-#~| msgid "Keep Below Others"
 #~ msgid "Keep below"
-#~ msgstr "อยู่ใต้หน้าต่างอื่น"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Keep Above Others"
 #~ msgid "Keep above"
-#~ msgstr "อยู่เหนือหน้าต่างอื่น"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Get New Decorations..."
 #~ msgid "Download New Window Decorations"
-#~ msgstr "หาชุดตกแต่งใหม่ ๆ ..."
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Search"
-#~ msgid "Search..."
-#~ msgstr "ค้นหา"
+#~ msgctxt "checkbox label"
+#~ msgid "Use theme's default window border size"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Border size:"
+#~ msgid "Close windows by double clicking &the menu button"
+#~ msgstr ""
+
 #~ msgid "Border si&ze:"
-#~ msgstr "ขนาดของกรอบ:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Configure Buttons..."
+#~ msgid "Buttons"
+#~ msgstr ""
+
 #~ msgid "Configure %1..."
-#~ msgstr "ปรับแต่งปุ่มต่าง ๆ ..."
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Normal"
+#~ msgid "Drag to re-position buttons"
+#~ msgstr ""
+
 #~ msgid "Form"
-#~ msgstr "ปกติ"
+#~ msgstr ""
 
 #~ msgid "Button size:"
 #~ msgstr "ขนาดของปุ่ม:"
@@ -377,11 +360,11 @@ msgstr "ใหญ่โตสุดสุด"
 
 #~ msgid ""
 #~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
-#~ "available item list and the titlebar preview. Similarly, drag items "
-#~ "within the titlebar preview to re-position them."
+#~ "available item list and the titlebar preview. Similarly, drag items within "
+#~ "the titlebar preview to re-position them."
 #~ msgstr ""
-#~ "เพื่อเพิ่ม หรือลบ ปุ่มบนหัวเรื่องหน้าต่าง ทำได้ง่าย ๆ โดยใช้การ <i>ลาก</i> จากที่มีในรายการ "
-#~ "และที่อยู่บนหัวเรื่องหน้าต่างตัวอย่าง"
+#~ "เพื่อเพิ่ม หรือลบ ปุ่มบนหัวเรื่องหน้าต่าง ทำได้ง่าย ๆ โดยใช้การ <i>ลาก</i> "
+#~ "จากที่มีในรายการ และที่อยู่บนหัวเรื่องหน้าต่างตัวอย่าง"
 
 #~ msgid "Resize"
 #~ msgstr "ปรับขนาด"
@@ -389,12 +372,16 @@ msgstr "ใหญ่โตสุดสุด"
 #~ msgid "Help"
 #~ msgstr "ช่วยเหลือ"
 
+#~ msgctxt "Button showing window actions menu"
+#~ msgid "Window Menu"
+#~ msgstr ""
+
 #~ msgid "--- spacer ---"
 #~ msgstr "--- พื้นที่ว่าง ---"
 
 #~ msgid ""
-#~ "Enabling this checkbox will show window button tooltips. If this checkbox "
-#~ "is off, no window button tooltips will be shown."
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox is"
+#~ " off, no window button tooltips will be shown."
 #~ msgstr ""
 #~ "เปิดใช้ตัวเลือกนี้ เพื่อให้แสดงทูลทิปของปุ่มบนหน้าต่าง หากไม่เปิดใช้ "
 #~ "จะไม่แสดงทูลทิปของปุ่มบนหน้าต่าง"
@@ -411,13 +398,23 @@ msgstr "ใหญ่โตสุดสุด"
 #~ msgid "Use this combobox to change the border size of the decoration."
 #~ msgstr "ใช้กล่องคอมโบเพื่อเปลี่ยนขนาดกรอบหน้าต่างสำหรับการตกแต่งหน้าต่าง"
 
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Side Border"
+#~ msgstr ""
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Border"
+#~ msgstr ""
+
 #~ msgid "Decoration Options"
 #~ msgstr "ตัวเลือกการตกแต่งหน้าต่าง"
 
 #~ msgid ""
-#~ "Select the window decoration. This is the look and feel of both the "
-#~ "window borders and the window handle."
-#~ msgstr "เลือกรูปแบบตกแต่งหน้าต่าง เพื่อให้แสดงกับทั้งกรอบหน้าต่าง และส่วนที่เป็นหน้าต่าง"
+#~ "Select the window decoration. This is the look and feel of both the window "
+#~ "borders and the window handle."
+#~ msgstr ""
+#~ "เลือกรูปแบบตกแต่งหน้าต่าง เพื่อให้แสดงกับทั้งกรอบหน้าต่าง "
+#~ "และส่วนที่เป็นหน้าต่าง"
 
 #~ msgid "Configure Decoration..."
 #~ msgstr "ปรับแต่งการตกแต่งหน้าต่าง..."
@@ -431,27 +428,39 @@ msgstr "ใหญ่โตสุดสุด"
 #~ msgid "Karol Szwed"
 #~ msgstr "Karol Szwed"
 
+#~ msgid ""
+#~ "<h1>Installation error</h1>The "
+#~ "resource<h2>kwin/kcm_kwindecoration/main.qml</h2>could not be located in any"
+#~ " application data path.<h2>Please contact your distribution</h2>The "
+#~ "application will now abort"
+#~ msgstr ""
+
+#~ msgid "Installation Error"
+#~ msgstr ""
+
 #~ msgid "Oxygen"
 #~ msgstr "รูปแบบ Oxygen"
 
 #~ msgid ""
 #~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
-#~ "window border decorations, as well as titlebar button positions and "
-#~ "custom decoration options.</p>To choose a theme for your window "
-#~ "decoration click on its name and apply your choice by clicking the \"Apply"
-#~ "\" button below. If you do not want to apply your choice you can click "
-#~ "the \"Reset\" button to discard your changes.<p>You can configure each "
-#~ "theme. There are different options specific for each theme.</p><p>On the "
-#~ "\"Buttons\" tab check the \"Use custom titlebar button positions\" box "
-#~ "and you can change the positions of the buttons to your liking.</p>"
+#~ "window border decorations, as well as titlebar button positions and custom "
+#~ "decoration options.</p>To choose a theme for your window decoration click on"
+#~ " its name and apply your choice by clicking the \"Apply\" button below. If "
+#~ "you do not want to apply your choice you can click the \"Reset\" button to "
+#~ "discard your changes.<p>You can configure each theme. There are different "
+#~ "options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+#~ "\"Use custom titlebar button positions\" box and you can change the "
+#~ "positions of the buttons to your liking.</p>"
 #~ msgstr ""
-#~ "<h1>ตกแต่งตัวจัดการหน้าต่าง</h1><p>มอดูลนี้อนุญาตให้คุณได้เลือกการตกแต่งกรอบหน้าต่าง, "
-#~ "การจัดตำแหน่งปุ่มบนหัวหน้าต่าง และตัวเลือกการตกแต่งที่กำหนดเองต่าง ๆ ได้</"
-#~ "p>หากต้องการเลือกชุดตกแต่งหน้าต่าง ให้คลิกที่ชื่อของมันและปรับใช้ชุดตกแต่ง โดยคลิกที่ปุ่ม "
-#~ "\"ปรับใช้\" ทางด้านล่างนี้ แต่ถ้าหากคุณไม่อยากจะปรับใช้มัน ให้คลิกที่ปุ่ม \"ตั้งค่าใหม่\" "
-#~ "เพื่อยกเลิกการเปลี่ยนแปลงทั้งหมดที่ทำไป<p>คุณสามารถปรับแต่งชุดตกแต่งแต่ละตัวได้</"
-#~ "p><p>หากคุณต้องการจะปรับเปลี่ยนปุ่มบนหัวหน้าต่าง ให้คุณเปิดแท็บ \"ปุ่มต่าง ๆ\" "
-#~ "และเปิดใช้ตัวเลือก \"ใช้ตำแหน่งปุ่มหัวเรื่องหน้าต่างที่กำหนดเอง\" "
+#~ "<h1>ตกแต่งตัวจัดการหน้าต่าง</h1><p>มอดูลนี้อนุญาตให้คุณได้เลือกการตกแต่งกรอบหน้าต่าง,"
+#~ " การจัดตำแหน่งปุ่มบนหัวหน้าต่าง และตัวเลือกการตกแต่งที่กำหนดเองต่าง ๆ "
+#~ "ได้</p>หากต้องการเลือกชุดตกแต่งหน้าต่าง "
+#~ "ให้คลิกที่ชื่อของมันและปรับใช้ชุดตกแต่ง โดยคลิกที่ปุ่ม \"ปรับใช้\" "
+#~ "ทางด้านล่างนี้ แต่ถ้าหากคุณไม่อยากจะปรับใช้มัน ให้คลิกที่ปุ่ม "
+#~ "\"ตั้งค่าใหม่\" "
+#~ "เพื่อยกเลิกการเปลี่ยนแปลงทั้งหมดที่ทำไป<p>คุณสามารถปรับแต่งชุดตกแต่งแต่ละตัวได้</p><p>หากคุณต้องการจะปรับเปลี่ยนปุ่มบนหัวหน้าต่าง"
+#~ " ให้คุณเปิดแท็บ \"ปุ่มต่าง ๆ\" และเปิดใช้ตัวเลือก "
+#~ "\"ใช้ตำแหน่งปุ่มหัวเรื่องหน้าต่างที่กำหนดเอง\" "
 #~ "จากนั้นใช้เมาส์ปรับเปลี่ยนตำแหน่งปุ่มได้ตามต้องการ</p>"
 
 #~ msgid "Active Window"
@@ -481,3 +490,6 @@ msgstr "ใหญ่โตสุดสุด"
 
 #~ msgid "Ozone"
 #~ msgstr "โอโซน"
+
+#~ msgid "KDE 2"
+#~ msgstr ""
