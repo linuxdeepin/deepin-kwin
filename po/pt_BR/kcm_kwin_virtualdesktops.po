@@ -195,13 +195,13 @@ msgstr "Áreas de trabalho virtuais"
 #~ msgstr "Alternar entre as áreas de trabalho"
 
 #~ msgid "Walk Through Desktops (Reverse)"
-#~ msgstr ""
+#~ msgstr "Alternar entre as áreas de trabalho (reverso)"
 
 #~ msgid "Walk Through Desktop List"
-#~ msgstr ""
+#~ msgstr "Alternar por meio da lista da área de trabalho"
 
 #~ msgid "Walk Through Desktop List (Reverse)"
-#~ msgstr ""
+#~ msgstr "Alternar por meio da lista da área de trabalho (reverso)"
 
 #~ msgid "Desktop Switching"
 #~ msgstr ""
@@ -210,10 +210,10 @@ msgstr "Áreas de trabalho virtuais"
 #~ msgstr ""
 
 #~ msgid "No Animation"
-#~ msgstr ""
+#~ msgstr "Sem animação"
 
 #~ msgid "No suitable Shortcut for Desktop %1 found"
-#~ msgstr ""
+#~ msgstr "Nenhum atalho adequado para a área de trabalho %1 encontrado"
 
 #~ msgid "Assigned global Shortcut \"%1\" to Desktop %2"
 #~ msgstr ""
@@ -238,22 +238,25 @@ msgstr "Áreas de trabalho virtuais"
 #~ msgstr ""
 
 #~ msgid "Desktop Names"
-#~ msgstr ""
+#~ msgstr "Nomes de área de trabalho"
 
 #~ msgid "Switching"
-#~ msgstr ""
+#~ msgstr "Trocando"
 
 #~ msgid ""
 #~ "Enable this option if you want keyboard or active desktop border navigation "
 #~ "beyond the edge of a desktop to take you to the opposite edge of the new "
 #~ "desktop."
 #~ msgstr ""
+#~ "Habilite esta opção se desejar que a navegação pelo teclado ou pela borda "
+#~ "ativa da área de trabalho além da borda de uma área de trabalho o leve para "
+#~ "a borda oposta da nova área de trabalho."
 
 #~ msgid "Desktop Effect Animation"
-#~ msgstr ""
+#~ msgstr "Efeito de animação da área de trabalho"
 
 #~ msgid "Animation:"
-#~ msgstr ""
+#~ msgstr "Animação:"
 
 #~ msgid "Desktop Switch On-Screen Display"
 #~ msgstr ""
