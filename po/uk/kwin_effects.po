@@ -1207,16 +1207,16 @@ msgstr "Стеження за вказівником:"
 #~ msgstr "Ніде"
 
 #~ msgid "Top Left"
-#~ msgstr ""
+#~ msgstr "Вгорі ліворуч"
 
 #~ msgid "Top Right"
-#~ msgstr ""
+#~ msgstr "Вгорі праворуч"
 
 #~ msgid "Bottom Left"
-#~ msgstr ""
+#~ msgstr "Внизу ліворуч"
 
 #~ msgid "Bottom Right"
-#~ msgstr ""
+#~ msgstr "Внизу праворуч"
 
 #~ msgid "Text font:"
 #~ msgstr "Шрифт тексту:"
@@ -1781,10 +1781,10 @@ msgstr "Стеження за вказівником:"
 #~ msgstr "Викривлення полюсів сфери"
 
 #~ msgid "Sphere"
-#~ msgstr ""
+#~ msgstr "Куля"
 
 #~ msgid "Plane"
-#~ msgstr ""
+#~ msgstr "Площина"
 
 #~ msgid "Do not animate windows on all desktops"
 #~ msgstr "Не анімувати вікна на всіх стільницях"
@@ -1848,7 +1848,7 @@ msgstr "Стеження за вказівником:"
 #~ msgstr "Кут:"
 
 #~ msgid " °"
-#~ msgstr ""
+#~ msgstr " °"
 
 #~ msgid "Horizontal position of front:"
 #~ msgstr "Передня частина по горизонталі:"
@@ -2579,6 +2579,8 @@ msgstr "Стеження за вказівником:"
 #~ "\n"
 #~ "KWin will now exit..."
 #~ msgstr ""
+#~ "\n"
+#~ "Тепер KWin завершить роботу..."
 
 #~ msgid "*** No Windows ***"
 #~ msgstr "*** Немає вікон ***"
@@ -2614,7 +2616,7 @@ msgstr "Стеження за вказівником:"
 #~ msgstr "&Тінь"
 
 #~ msgid "Configur&e Window Behavior..."
-#~ msgstr ""
+#~ msgstr "Нала&штувати поведінку вікон..."
 
 #~ msgid "&All Desktops"
 #~ msgstr "&Всі стільниці"
@@ -2664,13 +2666,13 @@ msgstr "Стеження за вказівником:"
 #~ msgstr "Перервати"
 
 #~ msgid "Keep Running"
-#~ msgstr ""
+#~ msgstr "Продовжити роботу"
 
 #~ msgid "<center><b>%1 preview</b></center>"
-#~ msgstr ""
+#~ msgstr "<center><b>Попередній перегляд %1</b></center>"
 
 #~ msgid "Not on all desktops"
-#~ msgstr ""
+#~ msgstr "Не на усіх стільницях"
 
 #~ msgid "On all desktops"
 #~ msgstr "На всіх стільницях"
@@ -2688,10 +2690,10 @@ msgstr "Стеження за вказівником:"
 #~ msgstr "Максимізувати"
 
 #~ msgid "Do not keep above others"
-#~ msgstr ""
+#~ msgstr "Не тримати над іншими"
 
 #~ msgid "Do not keep below others"
-#~ msgstr ""
+#~ msgstr "Не утримувати під іншими"
 
 #~ msgid "Keep below others"
 #~ msgstr "Утримувати під іншими"
