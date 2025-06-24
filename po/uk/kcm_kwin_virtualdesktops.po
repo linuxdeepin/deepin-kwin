@@ -206,7 +206,7 @@ msgstr "Віртуальні стільниці"
 #~ msgstr "Пройтись списком стільниць (назад)"
 
 #~ msgid "Desktop Switching"
-#~ msgstr ""
+#~ msgstr "Перемикання стільниць"
 
 #~ msgid "Switch to Desktop %1"
 #~ msgstr "Перемкнутися до стільниці %1"
