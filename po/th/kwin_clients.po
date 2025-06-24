@@ -1,34 +1,33 @@
-# translation of kwin_clients.po to Thai
-#
-# Thanomsub Noppaburana <donga_n@yahoo.com>, 2005.
-# Thanomsub Noppaburana <donga.nb@gmail.com>, 2008, 2010.
+# translation of kwin_clients.po to British English
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010, 2011.
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2005, 2008.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-22 02:35+0000\n"
-"PO-Revision-Date: 2010-07-07 15:12+0700\n"
-"Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
-"Language-Team: Thai <thai-l10n@googlegroups.com>\n"
-"Language: th\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Thai (https://app.transifex.com/linuxdeepin/teams/3617/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.1\n"
+"Language: th\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: aurorae/src/aurorae.cpp:737
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "กะทัดรัด"
 
 #: aurorae/src/aurorae.cpp:738
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Button size:"
-#| msgid "Normal"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "ปกติ"
@@ -40,40 +39,31 @@ msgid "Large"
 msgstr "ใหญ่"
 
 #: aurorae/src/aurorae.cpp:740
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Button size:"
-#| msgid "Very Large"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "ใหญ่มาก"
 
 #: aurorae/src/aurorae.cpp:741
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Button size:"
-#| msgid "Huge"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
 msgstr "ใหญ่มหึมา"
 
 #: aurorae/src/aurorae.cpp:742
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Very Huge"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
 msgstr "ใหญ่มหึมามาก"
 
 #: aurorae/src/aurorae.cpp:743
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Oversized"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
 msgstr "ใหญ่โตสุดสุด"
 
 #: aurorae/src/aurorae.cpp:746
-#, fuzzy, kde-format
-#| msgid "Button size:"
+#, kde-format
 msgid "Button size:"
 msgstr "ขนาดของปุ่ม:"
 
@@ -81,31 +71,31 @@ msgstr "ขนาดของปุ่ม:"
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
 #, kde-format
 msgid "Config Dialog"
-msgstr "กล่องปรับแต่ง"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
 #, kde-format
 msgid "Title &Alignment"
-msgstr "การจัดตำแหน่งหัวเ&รื่อง"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
 #, kde-format
 msgid "Left"
-msgstr "ด้านซ้าย"
+msgstr "อยู่ด้านซ้าย"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignCenter)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:36
 #, kde-format
 msgid "Center"
-msgstr "จัดกึ่งกลาง"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignRight)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:43
 #, kde-format
 msgid "Right"
-msgstr "ด้านขวา"
+msgstr "อยู่ด้านขวา"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:53
@@ -114,14 +104,12 @@ msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
 msgstr ""
-"เปิดใช้ตัวเลือกนี้ หากต้องการให้วาดกรอบหน้าต่าง\n"
-"โดยใช้สีเดียวกันกับสีของแถบหัวเรื่องหน้าต่าง"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
 #, kde-format
 msgid "Colored window border"
-msgstr "เติมสีให้กรอบหน้าต่างด้วย"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:66
@@ -130,90 +118,44 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"เปิดใช้ตัวเลือกนี้ หากต้องการให้ปุ่มมีการปรับความเลือน/ชัด\n"
-"เมื่อมีการเลื่อนตัวชี้ของเมาส์มาอยู่เหนือปุ่มเหล่านั้น"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:69
 #, kde-format
 msgid "Animate buttons"
-msgstr "แสดงปุ่มแบบเคลื่อนไหว"
+msgstr ""
 
 #~ msgid ""
 #~ "Check this option if you want the titlebar text to have a 3D look with a "
 #~ "shadow behind it."
-#~ msgstr "เปิดใช้ตัวเลือกนี้ หากต้องการให้ข้อความในแถบหัวเรื่องหน้าต่างมีเงาด้วย"
+#~ msgstr ""
 
 #~ msgid "Use shadowed &text"
-#~ msgstr "แสดง&ข้อความแบบมีเงา"
-
-#, fuzzy
-#~| msgid "Enable animations"
-#~ msgid "Title transitions"
-#~ msgstr "เปิดใช้การแสดงส่วนต่าง ๆ แบบเคลื่อนไหว"
-
-#, fuzzy
-#~| msgid "Decoration Options"
-#~ msgid "Hide Advanced Configuration Options"
-#~ msgstr "ตัวเลือกการตกแต่งหน้าต่าง"
-
-#, fuzzy
-#~| msgid "Decoration Options"
-#~ msgid "Show Advanced Configuration Options"
-#~ msgstr "ตัวเลือกการตกแต่งหน้าต่าง"
-
-#, fuzzy
-#~| msgid "Animate buttons"
-#~ msgid "Animations"
-#~ msgstr "แสดงปุ่มแบบเคลื่อนไหว"
-
-#, fuzzy
-#~| msgid "Actions Settings"
-#~ msgid "Question - Oxygen Settings"
-#~ msgstr "ตั้งค่าการกระทำ"
+#~ msgstr ""
 
 #~ msgid "Remove selected exception?"
-#~ msgstr "ลบเงื่อนไขที่เลือกไว้ ?"
+#~ msgstr ""
 
 #~ msgid "Regular Expression syntax is incorrect"
-#~ msgstr "ไวยากรณ์ของเงื่อนไขการค้นหาไม่ถูกต้อง"
+#~ msgstr ""
 
 #~ msgid "Exception Type"
-#~ msgstr "ส่วนที่ใช้ตรวจเงื่อนไข"
+#~ msgstr ""
 
 #~ msgid "Regular Expression"
-#~ msgstr "เงื่อนไขการเข้าคู่"
+#~ msgstr ""
 
 #~ msgid "Window Title"
-#~ msgstr "หัวเรื่องของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Window Class Name"
-#~ msgstr "ชื่อคลาสของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Enable/disable this exception"
-#~ msgstr "เปิด/ปิดการใช้เงื่อนไขนี้"
+#~ msgstr ""
 
 #~ msgid "General"
 #~ msgstr "ค่าทั่วไป"
-
-#, fuzzy
-#~| msgid "Border size:"
-#~ msgid "Border si&ze:"
-#~ msgstr "ขนาดกรอบ:"
-
-#, fuzzy
-#~| msgctxt "@item:inlistbox Border size:"
-#~| msgid "No Border"
-#~ msgctxt "@item:inlistbox Border size:"
-#~ msgid "No Border"
-#~ msgstr "ไม่มีกรอบ"
-
-#, fuzzy
-#~| msgctxt "@item:inlistbox Border size:"
-#~| msgid "No Side Border"
-#~ msgctxt "@item:inlistbox Border size:"
-#~ msgid "No Side Borders"
-#~ msgstr "ไม่มีกรอบด้านข้าง"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "Normal"
@@ -231,76 +173,78 @@ msgstr "แสดงปุ่มแบบเคลื่อนไหว"
 #~ msgid "Huge"
 #~ msgstr "ใหญ่มหึมา"
 
-#, fuzzy
-#~| msgid "Title alignment:"
-#~ msgid "Tit&le alignment:"
-#~ msgstr "การจัดตำแหน่งหัวเรื่อง:"
+#~ msgid "Center (Full Width)"
+#~ msgstr ""
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Small"
-#~ msgstr "เล็ก"
+#~ msgstr ""
 
 #~ msgid "Enable animations"
-#~ msgstr "เปิดใช้การแสดงส่วนต่าง ๆ แบบเคลื่อนไหว"
+#~ msgstr ""
 
 #~ msgid "Fine Tuning"
-#~ msgstr "ปรับอย่างละเอียด"
+#~ msgstr ""
 
 #~ msgid "Close windows by double clicking the menu button"
-#~ msgstr "ปิดหน้าต่างเมื่อมีการคลิกซ้อน (ดับเบิลคลิก) บนปุ่มเมนูของหน้าต่าง"
+#~ msgstr ""
+
+#~ msgid "Never Draw Separator"
+#~ msgstr ""
+
+#~ msgid "Draw Separator When Window is Active"
+#~ msgstr ""
+
+#~ msgid "Always Draw Separator"
+#~ msgstr ""
 
 #~ msgid "Outline active window title"
-#~ msgstr "ทำกรอบรอบหัวเรื่องของหน้าต่างที่ทำงานอยู่"
+#~ msgstr ""
 
 #~ msgid "Use narrow space between decoration buttons"
-#~ msgstr "ให้ช่องว่างระหว่างปุ่มต่าง ๆ บนส่วนตกแต่งหน้าต่างแคบลง"
+#~ msgstr ""
 
 #~ msgid "Shadows"
-#~ msgstr "เงาต่าง ๆ"
+#~ msgstr ""
 
 #~ msgid "Window Drop-Down Shadow"
-#~ msgstr "เงาเบื้องหลังหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Active Window Glow"
-#~ msgstr "วาดเพื่อแบ่งแยกหน้าต่างที่ทำงานอยู่"
+#~ msgstr ""
 
 #~ msgid "Window-Specific Overrides"
-#~ msgstr "ควบคุมโดยเจาะจงหน้าต่าง"
-
-#, fuzzy
-#~| msgid "Config Dialog"
-#~ msgid "Dialog"
-#~ msgstr "กล่องปรับแต่ง"
+#~ msgstr ""
 
 #~ msgid "Information about Selected Window"
-#~ msgstr "ข้อมูลรายละเอียดเกี่ยวกับหน้าต่างที่เลือกไว้"
+#~ msgstr ""
 
 #~ msgid "Class: "
-#~ msgstr "คลาส: "
+#~ msgstr ""
 
 #~ msgid "Title: "
-#~ msgstr "หัวเรื่อง: "
+#~ msgstr ""
 
 #~ msgid "Window Property Selection"
-#~ msgstr "การเลือกคุณสมบัติของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Use window class (whole application)"
-#~ msgstr "ใช้คลาสของหน้าต่าง (กับโปรแกรมทั้งหมด)"
+#~ msgstr ""
 
 #~ msgid "Use window title"
-#~ msgstr "ใช้หัวเรื่องของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Window Identification"
-#~ msgstr "การแสดงตัวของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Matching window property: "
-#~ msgstr "เข้าคู่กับคุณสมบัติของหน้าต่าง: "
+#~ msgstr ""
 
 #~ msgid "Regular expression to match: "
-#~ msgstr "เงื่อนไขที่จะใช้: "
+#~ msgstr ""
 
 #~ msgid "Detect Window Properties"
-#~ msgstr "ตรวจสอบคุณสมบัติของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Decoration Options"
 #~ msgstr "ตัวเลือกการตกแต่งหน้าต่าง"
@@ -311,78 +255,55 @@ msgstr "แสดงปุ่มแบบเคลื่อนไหว"
 
 #~ msgctxt "outline window title"
 #~ msgid "Enabled"
-#~ msgstr "เปิดใช้งาน"
+#~ msgstr ""
 
 #~ msgid "Border size:"
-#~ msgstr "ขนาดกรอบ:"
+#~ msgstr ""
 
 #~ msgid "Outline active window title:"
-#~ msgstr "ทำกรอบรอบหัวเรื่องของหน้าต่าง:"
+#~ msgstr ""
+
+#~ msgid "Separator display:"
+#~ msgstr ""
 
 #~ msgid "Hide window title bar"
-#~ msgstr "ซ่อนแถบหัวเรื่องของหน้าต่าง"
-
-#, fuzzy
-#~| msgid "Disabled"
-#~ msgctxt "Add handle to resize windows with no border"
-#~ msgid "Disabled"
-#~ msgstr "ถูกปิดการใช้งาน"
-
-#, fuzzy
-#~| msgctxt "outline window title"
-#~| msgid "Enabled"
-#~ msgctxt "Add handle to resize windows with no border"
-#~ msgid "Enabled"
-#~ msgstr "เปิดใช้งาน"
+#~ msgstr ""
 
 #~ msgid "Move Up"
-#~ msgstr "ย้ายขึ้น"
+#~ msgstr ""
 
 #~ msgid "Move Down"
-#~ msgstr "ย้ายลง"
+#~ msgstr ""
 
 #~ msgid "Add"
-#~ msgstr "เพิ่ม"
+#~ msgstr ""
 
 #~ msgid "Remove"
-#~ msgstr "ลบออก"
+#~ msgstr ""
 
 #~ msgid "Edit"
-#~ msgstr "แก้ไข"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Use Oxygen Shadows"
 #~ msgid "Oxygen Shadow Demo"
-#~ msgstr "ใช้เงาต่าง ๆ ของ Oxygen"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Enable window grouping"
 #~ msgid "Draw window background"
-#~ msgstr "เปิดใช้การจัดกลุ่มของหน้าต่าง"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Inactive Window"
 #~ msgid "Inactive Windows"
-#~ msgstr "หน้าต่างที่ไม่ได้ทำงาน"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Active Window"
 #~ msgid "Active Windows"
-#~ msgstr "หน้าต่างที่ทำงานอยู่"
+#~ msgstr ""
 
 #~ msgid "Oxygen"
-#~ msgstr "ออกซิเจน"
-
-#, fuzzy
-#~| msgid "Window Identification"
-#~ msgid "Window Actions Menu"
-#~ msgstr "การแสดงตัวของหน้าต่าง"
+#~ msgstr "รูปแบบ Oxygen"
 
 #~ msgid "Help"
 #~ msgstr "ช่วยเหลือ"
 
 #~ msgid "Minimize"
-#~ msgstr "ย่อเล็กสุด"
+#~ msgstr "ย่อหาย"
 
 #~ msgid "Maximize"
 #~ msgstr "ขยายใหญ่สุด"
@@ -391,28 +312,28 @@ msgstr "แสดงปุ่มแบบเคลื่อนไหว"
 #~ msgstr "ปิด"
 
 #~ msgid "Keep Above Others"
-#~ msgstr "อยู่เหนือหน้าต่างอื่น ๆ"
+#~ msgstr ""
 
 #~ msgid "Keep Below Others"
-#~ msgstr "อยู่ใต้หน้าต่างอื่น ๆ"
+#~ msgstr ""
 
 #~ msgid "On All Desktops"
-#~ msgstr "บนพื้นที่ทำงานทั้งหมด"
+#~ msgstr ""
 
 #~ msgid "Shade Button"
-#~ msgstr "ปุ่มพับเก็บ"
+#~ msgstr ""
 
 #~ msgid "Menu"
-#~ msgstr "ปุ่มเมนูหน้าต่าง"
+#~ msgstr "เมนู"
 
 #~ msgid "Not on all desktops"
-#~ msgstr "ไม่ให้อยู่บนพื้นที่ทำงานทั้งหมด"
+#~ msgstr ""
 
 #~ msgid "On all desktops"
-#~ msgstr "อยู่บนพื้นที่ทำงานทั้งหมด"
+#~ msgstr ""
 
 #~ msgid "Unshade"
-#~ msgstr "เลิกพับเก็บ"
+#~ msgstr ""
 
 #~ msgid "Shade"
 #~ msgstr "พับเก็บ"
@@ -421,86 +342,76 @@ msgstr "แสดงปุ่มแบบเคลื่อนไหว"
 #~ msgstr "ปรับขนาด"
 
 #~ msgid "<b><center>B II preview</center></b>"
-#~ msgstr "<b><center>ภาพตัวอย่างชุด B II</center></b>"
+#~ msgstr ""
 
 #~ msgid "Restore"
-#~ msgstr "เรียกคืน"
+#~ msgstr ""
 
 #~ msgctxt "Help button label, one character"
 #~ msgid "?"
-#~ msgstr "?"
+#~ msgstr ""
 
 #~ msgid "Draw window frames using &titlebar colors"
-#~ msgstr "วาดกรอบหน้าต่างโดยใช้สีเดียวกันกับสีของแถบหั&วเรื่อง"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "When selected, the window borders are drawn using the titlebar colors; "
 #~ "otherwise, they are drawn using normal border colors."
 #~ msgstr ""
-#~ "หากเลือกใช้ตัวเลือกนี้ จะมีการวาดกรอบหน้าต่างโดยใช้สีเดียวกันกับสีของแถบหัวเรื่องหน้าต่าง "
-#~ "หากไม่เลือกจะใช้สีปกติในการวาดกรอบหน้าต่าง"
 
 #~ msgid "Draw &resize handle"
-#~ msgstr "วาดตัวจับการ&ปรับขนาด"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "When selected, decorations are drawn with a \"grab handle\" in the bottom "
 #~ "right corner of the windows; otherwise, no grab handle is drawn."
 #~ msgstr ""
-#~ "หากเลือกใช้ตัวเลือกนี้ จะมีการวาด \"ตัวจับการปรับขนาด\" ทางด้านมุมล่างขวาของหน้าต่าง "
-#~ "หากไม่เลือกใช้จะไม่มีการวาดตัวจับการปรับขนาด"
 
 #~ msgid "Auto-move titlebar"
-#~ msgstr "ย้ายแถบหัวเรื่องโดยอัตโนมัติ"
+#~ msgstr ""
 
 #~ msgid ""
-#~ "When selected, titlebars are automatically relocated to visible "
-#~ "positions; otherwise, they are only moved manually using shift+drag."
+#~ "When selected, titlebars are automatically relocated to visible positions; "
+#~ "otherwise, they are only moved manually using shift+drag."
 #~ msgstr ""
-#~ "หากเปิดใช้งาน แถบหัวเรื่องหน้าต่างจะถูกจัดตำแหน่งมายังตำแหน่งที่เห็นได้ "
-#~ "ไม่เช่นนั้นจะต้องทำการย้ายด้วยตนเอง โดยการใช้ปุ่มพิมพ์ Shift+ลาก"
 
 #~ msgid "Actions Settings"
-#~ msgstr "ตั้งค่าการกระทำ"
+#~ msgstr ""
 
 #~ msgid "Double click on menu button:"
-#~ msgstr "ดับเบิลคลิกบนปุ่มเมนูหน้าต่าง:"
+#~ msgstr ""
 
 #~ msgid "Do Nothing"
-#~ msgstr "ไม่ต้องทำอะไร"
+#~ msgstr ""
 
 #~ msgid "Minimize Window"
-#~ msgstr "ย่อหน้าต่างหาย"
+#~ msgstr ""
 
 #~ msgid "Shade Window"
-#~ msgstr "พับเก็บหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Close Window"
-#~ msgstr "ปิดหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid ""
-#~ "An action can be associated to a double click of the menu button. Leave "
-#~ "it to none if in doubt."
+#~ "An action can be associated to a double click of the menu button. Leave it "
+#~ "to none if in doubt."
 #~ msgstr ""
-#~ "การกระทำที่จะให้กระทำเมื่อมีการคลิกเมาส์ซ้อน (ดับเบิลคลิก) บนปุ่มเมนูของหน้าต่าง "
-#~ "ให้ปล่อยไว้หากไม่ต้องการให้ทำอะไร"
 
 #~ msgid "Laptop"
-#~ msgstr "แล็ปท็อป"
-
-#, fuzzy
-#~| msgid "Background style: "
-#~ msgid "Bac&kground style: "
-#~ msgstr "รูปแบบพื้นหลัง: "
+#~ msgstr ""
 
 #~ msgid "Solid Color"
-#~ msgstr "สีทึบ"
+#~ msgstr ""
 
 #~ msgid "Radial Gradient"
-#~ msgstr "ไล่ระดับสีตามแนวรัศมี"
+#~ msgstr ""
+
+#~ msgid "Follow Style Hint"
+#~ msgstr ""
 
 #~ msgid "Background style:"
-#~ msgstr "รูปแบบของพื้นหลัง:"
+#~ msgstr ""
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
@@ -510,238 +421,238 @@ msgstr "แสดงปุ่มแบบเคลื่อนไหว"
 #~ msgid "Your emails"
 #~ msgstr "donga.nb@gmail.com"
 
-#, fuzzy
-#~| msgid "Shade"
+#~ msgid "Oxygen decoration shadows demonstration"
+#~ msgstr ""
+
+#~ msgid "(c) 2011, Hugo Pereira Da Costa"
+#~ msgstr ""
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr ""
+
 #~ msgid "Save"
-#~ msgstr "พับเก็บ"
+#~ msgstr ""
+
+#~ msgid "Save shadows as pixmaps in provided directory"
+#~ msgstr ""
 
 #~ msgid "Large"
 #~ msgstr "ใหญ่"
 
 #~ msgid "Small"
-#~ msgstr "เล็ก"
+#~ msgstr ""
 
 #~ msgid "Extra size grip display: "
-#~ msgstr "แสดงกริปขนาดพิเศษ: "
+#~ msgstr ""
 
 #~ msgid "Extra size grip display:"
-#~ msgstr "แสดงกริปขนาดพิเศษ:"
+#~ msgstr ""
 
 #~ msgid "Inner Color:"
-#~ msgstr "สีภายใน:"
+#~ msgstr ""
 
 #~ msgid "Outer Color:"
-#~ msgstr "สีภายนอก:"
+#~ msgstr ""
 
 #~ msgid "Vertical Offset:"
-#~ msgstr "เพิ่มระยะห่างทางแนวตั้ง:"
+#~ msgstr ""
 
 #~ msgid "Size: "
-#~ msgstr "ขนาด: "
+#~ msgstr ""
 
 #~ msgid "Always Hide Extra Size Grip"
-#~ msgstr "ซ่อนกริปขนาดพิเศษเสมอ"
+#~ msgstr ""
 
 #~ msgid "Show Extra Size Grip When Needed"
-#~ msgstr "แสดงกริปขนาดพิเศษเมื่อมีความต้องการ"
+#~ msgstr ""
 
 #~ msgid ""
-#~ "Check this option if you want windows to be closed when you double click "
-#~ "the menu button, similar to Microsoft Windows."
+#~ "Check this option if you want windows to be closed when you double click the"
+#~ " menu button, similar to Microsoft Windows."
 #~ msgstr ""
-#~ "เปิดใช้งานตัวเลือกนี้ หากต้องการให้มีการปิดหน้าต่างเมื่อมีการคลิกซ้อน (ดับเบิลคลิก) "
-#~ "บนปุ่มเมนูของหน้าต่าง ซึ่งพฤติกรรมนี้จะเป็นแบบเดียวกันกับระบบวินโดว์ส"
 
 #~ msgid "Plastik"
-#~ msgstr "พลาสติก"
+#~ msgstr ""
 
 #~ msgid "All Desktops"
-#~ msgstr "พื้นที่ทำงานทั้งหมด"
+#~ msgstr ""
 
 #~ msgid "Above"
-#~ msgstr "อยู่ด้านบน"
+#~ msgstr ""
 
 #~ msgid "Below"
-#~ msgstr "อยู่ด้านล่าง"
+#~ msgstr ""
 
 #~ msgid "Close Item"
-#~ msgstr "ปิดรายการ"
+#~ msgstr ""
 
 #~ msgid "Tabstrip"
-#~ msgstr "รูปแบบ Tabstrip"
+#~ msgstr ""
 
 #~ msgid "&Left"
-#~ msgstr "ชิดด้านซ้า&ย"
+#~ msgstr ""
 
 #~ msgid "&Center"
-#~ msgstr "จัด&กึ่งกลาง"
+#~ msgstr ""
 
 #~ msgid "&Right"
-#~ msgstr "ชิดด้าน&ขวา"
+#~ msgstr ""
 
 #~ msgid "Display window icons"
-#~ msgstr "แสดงไอคอนของหน้าต่าง"
-
-#, fuzzy
-#~| msgid "Outer Color:"
-#~ msgid "O&utline Color:"
-#~ msgstr "สีภายนอก:"
+#~ msgstr ""
 
 #~ msgid "Do not keep above others"
-#~ msgstr "ไม่ให้อยู่เหนือหน้าต่างอื่น"
+#~ msgstr ""
 
 #~ msgid "Keep above others"
-#~ msgstr "อยู่เหนือตัวอื่น"
+#~ msgstr ""
 
 #~ msgid "Do not keep below others"
-#~ msgstr "ไม่ให้อยู่ใต้หน้าต่างอื่น"
+#~ msgstr ""
 
 #~ msgid "Keep below others"
-#~ msgstr "อยู่ใต้ตัวอื่น"
+#~ msgstr ""
 
 #~ msgid "Enable title transition animations"
-#~ msgstr "เปิดใช้การแสดงการเปลี่ยนหัวหน้าต่างแบบเคลื่อนไหว"
+#~ msgstr ""
 
 #~ msgid "Variable"
-#~ msgstr "ผันแปร"
+#~ msgstr ""
 
 #~ msgid "Maximum"
-#~ msgstr "ใหญ่สุด"
+#~ msgstr ""
 
 #~ msgid "Enable window grouping"
-#~ msgstr "เปิดใช้การจัดกลุ่มของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Shadow caching:"
-#~ msgstr "การทำแคชกับเงา:"
+#~ msgstr ""
 
 #~ msgid "TextLabel"
-#~ msgstr "ป้ายข้อความ"
+#~ msgstr ""
 
 #~ msgid "Use Oxygen Shadows"
-#~ msgstr "ใช้เงาต่าง ๆ ของ Oxygen"
+#~ msgstr ""
 
 #~ msgid "Use Desktop Effects Shadows"
-#~ msgstr "ใช้ลูกเล่นเงาต่าว ๆ ของพื้นที่ทำงาน"
+#~ msgstr ""
 
 #~ msgid "Do Not Draw Shadows"
-#~ msgstr "ไม่ต้องวาดเงาต่าง ๆ"
+#~ msgstr ""
 
 #~ msgid "Shadow style:"
-#~ msgstr "รูปแบบเงา:"
+#~ msgstr ""
 
 #~ msgctxt "draw separator"
 #~ msgid "Enabled"
-#~ msgstr "เปิดใช้งาน"
+#~ msgstr ""
 
 #~ msgctxt "draw separator"
 #~ msgid "Disabled"
 #~ msgstr "ปิดการใช้งาน"
 
 #~ msgid "Draw separator between title bar and window contents: "
-#~ msgstr "วาดตัวแบ่งระหว่างแถบหัวเรื่องกับส่วนเนื้อหาของหน้าต่าง: "
+#~ msgstr ""
 
 #~ msgid "Draw Separator between title bar and active window contents "
-#~ msgstr "วาดตัวแบ่งระหว่างแถบหัวเรื่องและเนื้อหาของหน้าต่างที่ทำงานอยู่ "
+#~ msgstr ""
 
 #~ msgid "Installs a KWM theme"
-#~ msgstr "ติดตั้งชุดตกแต่งหน้าต่างของ KWM"
+#~ msgstr ""
 
 #~ msgid "Path to a theme config file"
-#~ msgstr "พาธที่ชี้ไปยังแฟ้มปรับแต่งของชุดตกแต่ง"
+#~ msgstr ""
 
 #~ msgid "<center><b>KWMTheme</b></center>"
-#~ msgstr "<center><b>KWMTheme : ชุดตกแต่งหน้าต่าง</b></center>"
+#~ msgstr ""
 
 #~ msgid "Sticky"
-#~ msgstr "ปักหมุด"
+#~ msgstr ""
 
 #~ msgid "Unsticky"
-#~ msgstr "ถอนหมุด"
+#~ msgstr ""
 
 #~ msgid "<center><b>Keramik preview</b></center>"
-#~ msgstr "<center><b>ภาพตัวอย่างชุดเครามิก</b></center>"
+#~ msgstr ""
 
 #~ msgid "Draw titlebar &stipple effect"
-#~ msgstr "วาดลูกเล่นแ&ถบจุดบนแถบหัวเรื่องหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "When selected, active titlebars are drawn with a stipple (dotted) effect; "
 #~ "otherwise, they are drawn without the stipple."
-#~ msgstr "หากเปิดใช้งาน จะวาดลักษณะแถบจุดบนแถบหัวเรื่องหน้าต่างที่ทำงานอยู่"
+#~ msgstr ""
 
 #~ msgid "Draw g&rab bar below windows"
-#~ msgstr "วาดส่วนแถบจั&บทางด้านล่างหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "When selected, decorations are drawn with a \"grab bar\" below windows; "
 #~ "otherwise, no grab bar is drawn."
-#~ msgstr "หากเปิดใช้งาน จะมีการวาดส่วน \"แถบจับ\" ทางด้านล่างของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Draw &gradients"
-#~ msgstr "วาดโดยการไ&ล่สี"
+#~ msgstr ""
 
 #~ msgid ""
-#~ "When selected, decorations are drawn with gradients for high-color "
-#~ "displays; otherwise, no gradients are drawn."
-#~ msgstr "หากเปิดใช้งาน จะมีการใช้การไล่สีสำหรับการแสดงผลความละเอียดสีสูง"
+#~ "When selected, decorations are drawn with gradients for high-color displays;"
+#~ " otherwise, no gradients are drawn."
+#~ msgstr ""
 
 #~ msgid "KDE 2"
-#~ msgstr "แบบ KDE 2"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "When selected, the window decoration borders are drawn using the titlebar "
 #~ "colors; otherwise, they are drawn using normal border colors instead."
 #~ msgstr ""
-#~ "เปิดใช้ตัวเลือกนี้ หากต้องการให้วาดกรอบหน้าต่างโดยใช้สีเดียวกันกับสีของแถบหัวเรื่องหน้าต่าง"
 
 #~ msgid "Quartz &extra slim"
-#~ msgstr "ควอทซ์แบบบาง&พิเศษ"
+#~ msgstr ""
 
 #~ msgid "Quartz window decorations with extra-small title bar."
-#~ msgstr "ชุดตกแต่งหน้าต่างรูปแบบควอทซ์ โดยมีแถบหัวเรื่องหน้าต่างแบบเล็กบางพิเศษ"
+#~ msgstr ""
 
 #~ msgid "Quartz"
-#~ msgstr "ควอทซ์"
+#~ msgstr ""
 
 #~ msgid "Redmond"
-#~ msgstr "เรดมอนด์ (รูปแบบไมโครซอฟต์)"
+#~ msgstr ""
 
 #~ msgid "&Show window resize handle"
-#~ msgstr "แ&สดงส่วนจับสำหรับปรับขนาดหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid ""
-#~ "When selected, all windows are drawn with a resize handle at the lower "
-#~ "right corner. This makes window resizing easier, especially for "
-#~ "trackballs and other mouse replacements on laptops."
+#~ "When selected, all windows are drawn with a resize handle at the lower right"
+#~ " corner. This makes window resizing easier, especially for trackballs and "
+#~ "other mouse replacements on laptops."
 #~ msgstr ""
-#~ "หากเปิดใช้งานตัวเลือกนี้ จะมีการวาดส่วนจับสำหรับปรับขนาดหน้าต่างไว้ทางมุมล่างขวาของหน้าต่าง "
-#~ "เพื่อช่วยให้ใช้ในการปรับขนาดหน้าต่างได้ง่ายขึ้น"
 
 #~ msgid "Here you can change the size of the resize handle."
-#~ msgstr "คุณสามารถปรับแต่งขนาดของตัวจับปรับขนาดหน้าต่างได้ที่นี่"
+#~ msgstr ""
 
 #~ msgid "Medium"
-#~ msgstr "ปานกลาง"
+#~ msgstr ""
 
 #~ msgid "Modern System"
-#~ msgstr "ระบบทันสมัย"
+#~ msgstr ""
 
 #~ msgid "Web"
-#~ msgstr "เว็บ"
+#~ msgstr ""
 
 #~ msgid "Keramik"
-#~ msgstr "เครามิก"
+#~ msgstr ""
 
 #~ msgid "Display the window &icon in the caption bubble"
-#~ msgstr "แสดงภาพไ&อคอนของหน้าต่างในส่วนป่องของหัวหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid ""
-#~ "Check this option if you want the window icon to be displayed in the "
-#~ "caption bubble next to the titlebar text."
-#~ msgstr "เปิดใช้ตัวเลือกนี้หากต้องการให้มีการแสดงภาพไอคอนของหน้าต่างในส่วนป่องของหัวหน้าต่างก่อนข้อความหัวเรื่อง"
+#~ "Check this option if you want the window icon to be displayed in the caption"
+#~ " bubble next to the titlebar text."
+#~ msgstr ""
 
 #~ msgid "Draw &small caption bubbles on active windows"
-#~ msgstr "วาดส่วนป่องของหัวหน้าต่างที่ทำงานอยู่ให้มีขนาดเ&ล็ก"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "Check this option if you want the caption bubble to have the same size on "
@@ -749,119 +660,113 @@ msgstr "แสดงปุ่มแบบเคลื่อนไหว"
 #~ "laptops or low resolution displays where you want maximize the amount of "
 #~ "space available to the window contents."
 #~ msgstr ""
-#~ "เปิดใช้ตัวเลือกนี้หากต้องการให้วาดส่วนป่องของหัวหน้าต่างที่ทำงานอยู่ให้มีขนาดเล็กเท่ากันกับแถบหัวเรื่องที่ไม่ได้ทำงานอยู่ "
-#~ "ซึ่งตัวเลือกนี้เหมาะสำหรับใช้กับเครื่องแบบแลปทอบ (หรือเครื่องโน้ตบุ้ค) "
-#~ "หรือเครื่องที่มีความละเอียดในการแสดงผลต่ำ เพื่อเพิ่มพื้นที่ใช้งานให้มากขึ้น"
 
 #~ msgid "Draw g&rab bars below windows"
-#~ msgstr "วาดส่วนแถบ&จับทางด้านล่างของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "Check this option if you want a grab bar to be drawn below windows. When "
 #~ "this option is not selected only a thin border will be drawn in its place."
-#~ msgstr "หากเปิดใช้งาน จะมีการวาดส่วน \"แถบจับ\" ทางด้านล่างของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Aurorae Theme Engine"
-#~ msgstr "กลไกชุดตกแต่ง Aurorae"
+#~ msgstr ""
 
 #~ msgid "Drag or Type Theme URL"
-#~ msgstr "ให้ลากหรือพิมพ์ที่อยู่ URL ของชุดตกแต่ง"
+#~ msgstr ""
 
 #~ msgid "Unable to find the theme archive %1."
-#~ msgstr "ไม่สามารถค้นพบแฟ้มจัดเก็บ %1 ของชุดตกแต่งได้"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "Unable to download theme archive;\n"
 #~ "please check that address %1 is correct."
 #~ msgstr ""
-#~ "ไม่สามารถทำการดาวน์โหลดแฟ้มจัดเก็บของชุดตกแต่งได้\n"
-#~ "โปรดตรวจสอบว่าที่อยู่ %1 นี้ถูกต้องแล้วหรือยัง"
 
 #~ msgid "Theme:"
-#~ msgstr "ชุดตกแต่ง:"
+#~ msgstr ""
 
 #~ msgid "Get New Themes..."
-#~ msgstr "หาชุดตกแต่งใหม่ ๆ ..."
+#~ msgstr ""
 
 #~ msgid "Install New Theme..."
-#~ msgstr "ติดตั้งชุดตกแต่งใหม่..."
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Minimize Window"
 #~ msgid "Glow active window"
-#~ msgstr "ย่อหน้าต่างหาย"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Blend title bar colors with window contents"
+#~ msgid "Form"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Select here the window property used to identify windows \n"
+#~ "to which the specific decoration options apply."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Type here the regular expression used to identify windows \n"
+#~ "to which the specific decoration options apply."
+#~ msgstr ""
+
+#~ msgid "If checked, specified frame border is used in place of default value."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If checked, specified blending color is used in title bar in place of "
+#~ "default value."
+#~ msgstr ""
+
 #~ msgid "Draw separator between title bar and active window contents:"
-#~ msgstr "ผสมสีของแถบหัวเรื่องเข้ากับสีเนื้อหาของหน้าต่าง"
-
-#, fuzzy
-#~| msgid ""
-#~| "When enabled, this option increases the visibility of the window "
-#~| "titlebar by showing stripes"
-#~ msgid ""
-#~ "When enabled, this option makes an horizontal separator appear between "
-#~ "the window title bar and the window contents."
 #~ msgstr ""
-#~ "หากเปิดใช้ตัวเลือกนี้ จะมีการเพิ่มความชัดเจนของหัวหน้าต่างมากขึ้น "
-#~ "โดยแสดงเส้นคู่ขนานบนหัวหน้าต่างด้วย"
 
-#, fuzzy
-#~| msgid "Oxygen"
-#~ msgid "Oxygen team"
-#~ msgstr "ออกซิเจน"
+#~ msgid "Additional window decoration configuration options"
+#~ msgstr ""
 
 #~ msgid ""
-#~ "When enabled, this option increases the visibility of the window titlebar "
-#~ "by showing stripes"
+#~ "The extra size grip is a small triangle, shown in the bottom-right corner of a window,\n"
+#~ "which allows the window to be resized. This option controls in which cases the size grip \n"
+#~ "is shown."
 #~ msgstr ""
-#~ "หากเปิดใช้ตัวเลือกนี้ จะมีการเพิ่มความชัดเจนของหัวหน้าต่างมากขึ้น "
-#~ "โดยแสดงเส้นคู่ขนานบนหัวหน้าต่างด้วย"
+
+#~ msgid ""
+#~ "When enabled, an additional frame is shown around the active window as well "
+#~ "as its title."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When enabled, this option makes an horizontal separator appear between the "
+#~ "window title bar and the window contents."
+#~ msgstr ""
+
+#~ msgid "Configure shadow colors for active and inactive windows"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When this option is enabled, the oxygen signature blue glow is used for the "
+#~ "active window shadow."
+#~ msgstr ""
+
+#~ msgid "Configure window decoration option overrides for specific windows"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When enabled, this option increases the visibility of the window titlebar by"
+#~ " showing stripes"
+#~ msgstr ""
 
 #~ msgid "Show stripes next to the title"
-#~ msgstr "แสดงเส้นคู่ขนานถัดจากข้อความหัวหน้าต่าง"
-
-#, fuzzy
-#~| msgid ""
-#~| "When enabled, this option increases the visibility of the window "
-#~| "titlebar by showing stripes"
-#~ msgid ""
-#~ "When enabled, this option increases the visibility of the window titlebar "
-#~ "by adding an horizontal bar between the title bar and the window contents"
 #~ msgstr ""
-#~ "หากเปิดใช้ตัวเลือกนี้ จะมีการเพิ่มความชัดเจนของหัวหน้าต่างมากขึ้น "
-#~ "โดยแสดงเส้นคู่ขนานบนหัวหน้าต่างด้วย"
-
-#, fuzzy
-#~| msgid "Blend title bar colors with window contents"
-#~ msgid "Draw separator between title bar and window contents"
-#~ msgstr "ผสมสีของแถบหัวเรื่องเข้ากับสีเนื้อหาของหน้าต่าง"
-
-#, fuzzy
-#~| msgid "Show stripes next to the title"
-#~ msgid "Show stripes next to the title:"
-#~ msgstr "แสดงเส้นคู่ขนานถัดจากข้อความหัวหน้าต่าง"
-
-#, fuzzy
-#~| msgid "Blend title bar colors with window contents"
-#~ msgid "Blend title bar colors with window content:"
-#~ msgstr "ผสมสีของแถบหัวเรื่องเข้ากับสีเนื้อหาของหน้าต่าง"
 
 #~ msgid "Blend title bar colors with window contents"
-#~ msgstr "ผสมสีของแถบหัวเรื่องเข้ากับสีเนื้อหาของหน้าต่าง"
+#~ msgstr ""
 
 #~ msgid "Ozone"
 #~ msgstr "โอโซน"
 
-#, fuzzy
-#~| msgid "Draw window frames using &titlebar colors"
-#~ msgid "Overwrite default title bar colors:"
-#~ msgstr "วาดกรอบหน้าต่างโดยใช้สีเดียวกันกับสีของแถบหั&วเรื่อง"
-
 #~ msgid ""
-#~ "When enabled, this option makes the window title bar use the same colors "
-#~ "as the window contents, instead of using the system title bar colors."
+#~ "When enabled, this option makes the window title bar use the same colors as "
+#~ "the window contents, instead of using the system title bar colors."
 #~ msgstr ""
-#~ "หากเปิดใช้งาน ตัวเลือกนี้จะทำให้แถบหัวเรื่องหน้าต่างมีสีเดียวกันกับส่วนเนื้อหาของหน้าต่าง "
-#~ "แทนการใช้สีแถบหัวเรื่องของระบบ"
+
+#~ msgid "Use thin borders"
+#~ msgstr ""
