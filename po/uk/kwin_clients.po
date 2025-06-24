@@ -1,33 +1,31 @@
-# Translation of kwin_clients.po to Ukrainian
-# Copyright (C) 2004-2015 This_file_is_part_of_KDE
-# This file is distributed under the license LGPL version 2.1 or
-# version 3 or later versions approved by the membership of KDE e.V.
-#
-# Eugene Onischenko <oneugene@ukr.net>, 2004, 2005.
-# Andriy Rysin <rysin@kde.org>, 2004, 2006.
-# Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007, 2008.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2015.
+# translation of kwin_clients.po to British English
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010, 2011.
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2005, 2008.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Yuri Chornoivan <yurchor@ukr.net>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-22 02:35+0000\n"
-"PO-Revision-Date: 2015-01-15 12:53+0200\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
-"Language: uk\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>, 2025\n"
+"Language-Team: Ukrainian (https://app.transifex.com/linuxdeepin/teams/3617/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 "X-Generator: Lokalize 1.5\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: aurorae/src/aurorae.cpp:737
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
-msgstr "Крихітний"
+msgstr ""
 
 #: aurorae/src/aurorae.cpp:738
 #, kde-format
@@ -39,48 +37,48 @@ msgstr "Звичайний"
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
-msgstr "Великий"
+msgstr ""
 
 #: aurorae/src/aurorae.cpp:740
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr "Дуже великий"
+msgstr ""
 
 #: aurorae/src/aurorae.cpp:741
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
-msgstr "Величезний"
+msgstr ""
 
 #: aurorae/src/aurorae.cpp:742
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
-msgstr "Гігантський"
+msgstr ""
 
 #: aurorae/src/aurorae.cpp:743
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
-msgstr "Найбільший"
+msgstr ""
 
 #: aurorae/src/aurorae.cpp:746
 #, kde-format
 msgid "Button size:"
-msgstr "Розмір кнопки:"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
 #, kde-format
 msgid "Config Dialog"
-msgstr "Вікно налаштування"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
 #, kde-format
 msgid "Title &Alignment"
-msgstr "Ви&рівнювання заголовка"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
@@ -92,7 +90,7 @@ msgstr "Ліворуч"
 #: aurorae/themes/plastik/package/contents/ui/config.ui:36
 #, kde-format
 msgid "Center"
-msgstr "По центру"
+msgstr "За центром"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignRight)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:43
@@ -107,14 +105,12 @@ msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
 msgstr ""
-"Якщо вибрано, обрамлення вікон будуть малюватися з використанням кольорів "
-"смужки заголовку. Інакше, будуть вжиті кольори звичайних меж вікна."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
 #, kde-format
 msgid "Colored window border"
-msgstr "Кольорове обрамлення вікна"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:66
@@ -123,21 +119,655 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
-"Позначте цей пункт, якщо ви хочете, щоб при наведенні курсора мишки кнопки "
-"підсвічувались, а при відведенні — згасали."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:69
 #, kde-format
 msgid "Animate buttons"
-msgstr "Анімація кнопок"
+msgstr ""
 
 #~ msgid ""
 #~ "Check this option if you want the titlebar text to have a 3D look with a "
 #~ "shadow behind it."
 #~ msgstr ""
-#~ "Ввімкніть, якщо ви бажаєте, щоб текст в заголовку вікна мав тривимірний "
-#~ "вигляд у наслідок тіні, що малюється позаду тексту."
 
 #~ msgid "Use shadowed &text"
-#~ msgstr "Використовувати тінь для текст&у"
+#~ msgstr ""
+
+#~ msgid "Remove selected exception?"
+#~ msgstr ""
+
+#~ msgid "Regular Expression syntax is incorrect"
+#~ msgstr ""
+
+#~ msgid "Exception Type"
+#~ msgstr ""
+
+#~ msgid "Regular Expression"
+#~ msgstr "Формальний вираз"
+
+#~ msgid "Window Title"
+#~ msgstr ""
+
+#~ msgid "Window Class Name"
+#~ msgstr ""
+
+#~ msgid "Enable/disable this exception"
+#~ msgstr ""
+
+#~ msgid "General"
+#~ msgstr ""
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Normal"
+#~ msgstr "Звичайний"
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Large"
+#~ msgstr ""
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Very Large"
+#~ msgstr ""
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "Huge"
+#~ msgstr ""
+
+#~ msgid "Center (Full Width)"
+#~ msgstr ""
+
+#~ msgctxt "@item:inlistbox Button size:"
+#~ msgid "Small"
+#~ msgstr ""
+
+#~ msgid "Enable animations"
+#~ msgstr ""
+
+#~ msgid "Fine Tuning"
+#~ msgstr ""
+
+#~ msgid "Close windows by double clicking the menu button"
+#~ msgstr ""
+
+#~ msgid "Never Draw Separator"
+#~ msgstr ""
+
+#~ msgid "Draw Separator When Window is Active"
+#~ msgstr ""
+
+#~ msgid "Always Draw Separator"
+#~ msgstr ""
+
+#~ msgid "Outline active window title"
+#~ msgstr ""
+
+#~ msgid "Use narrow space between decoration buttons"
+#~ msgstr ""
+
+#~ msgid "Shadows"
+#~ msgstr ""
+
+#~ msgid "Window Drop-Down Shadow"
+#~ msgstr ""
+
+#~ msgid "Active Window Glow"
+#~ msgstr ""
+
+#~ msgid "Window-Specific Overrides"
+#~ msgstr ""
+
+#~ msgid "Information about Selected Window"
+#~ msgstr ""
+
+#~ msgid "Class: "
+#~ msgstr ""
+
+#~ msgid "Title: "
+#~ msgstr ""
+
+#~ msgid "Window Property Selection"
+#~ msgstr ""
+
+#~ msgid "Use window class (whole application)"
+#~ msgstr ""
+
+#~ msgid "Use window title"
+#~ msgstr ""
+
+#~ msgid "Window Identification"
+#~ msgstr ""
+
+#~ msgid "Matching window property: "
+#~ msgstr ""
+
+#~ msgid "Regular expression to match: "
+#~ msgstr ""
+
+#~ msgid "Detect Window Properties"
+#~ msgstr "Визначити властивості вікна"
+
+#~ msgid "Decoration Options"
+#~ msgstr ""
+
+#~ msgctxt "outline window title"
+#~ msgid "Disabled"
+#~ msgstr "Вимкнено"
+
+#~ msgctxt "outline window title"
+#~ msgid "Enabled"
+#~ msgstr ""
+
+#~ msgid "Border size:"
+#~ msgstr ""
+
+#~ msgid "Outline active window title:"
+#~ msgstr ""
+
+#~ msgid "Separator display:"
+#~ msgstr ""
+
+#~ msgid "Hide window title bar"
+#~ msgstr ""
+
+#~ msgid "Move Up"
+#~ msgstr "Пересунути вище"
+
+#~ msgid "Move Down"
+#~ msgstr "Пересунути нижче"
+
+#~ msgid "Add"
+#~ msgstr "Додати"
+
+#~ msgid "Remove"
+#~ msgstr "Вилучити"
+
+#~ msgid "Edit"
+#~ msgstr "Змінити"
+
+#~ msgid "Oxygen Shadow Demo"
+#~ msgstr ""
+
+#~ msgid "Draw window background"
+#~ msgstr ""
+
+#~ msgid "Inactive Windows"
+#~ msgstr ""
+
+#~ msgid "Active Windows"
+#~ msgstr ""
+
+#~ msgid "Oxygen"
+#~ msgstr ""
+
+#~ msgid "Help"
+#~ msgstr ""
+
+#~ msgid "Minimize"
+#~ msgstr "Мінімізувати"
+
+#~ msgid "Maximize"
+#~ msgstr "Максимізувати"
+
+#~ msgid "Close"
+#~ msgstr "Закрити"
+
+#~ msgid "Keep Above Others"
+#~ msgstr ""
+
+#~ msgid "Keep Below Others"
+#~ msgstr ""
+
+#~ msgid "On All Desktops"
+#~ msgstr ""
+
+#~ msgid "Shade Button"
+#~ msgstr ""
+
+#~ msgid "Menu"
+#~ msgstr ""
+
+#~ msgid "Not on all desktops"
+#~ msgstr ""
+
+#~ msgid "On all desktops"
+#~ msgstr ""
+
+#~ msgid "Unshade"
+#~ msgstr ""
+
+#~ msgid "Shade"
+#~ msgstr "Згорнути"
+
+#~ msgid "Resize"
+#~ msgstr "Змінити розміри"
+
+#~ msgid "<b><center>B II preview</center></b>"
+#~ msgstr ""
+
+#~ msgid "Restore"
+#~ msgstr ""
+
+#~ msgctxt "Help button label, one character"
+#~ msgid "?"
+#~ msgstr ""
+
+#~ msgid "Draw window frames using &titlebar colors"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When selected, the window borders are drawn using the titlebar colors; "
+#~ "otherwise, they are drawn using normal border colors."
+#~ msgstr ""
+
+#~ msgid "Draw &resize handle"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When selected, decorations are drawn with a \"grab handle\" in the bottom "
+#~ "right corner of the windows; otherwise, no grab handle is drawn."
+#~ msgstr ""
+
+#~ msgid "Auto-move titlebar"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When selected, titlebars are automatically relocated to visible positions; "
+#~ "otherwise, they are only moved manually using shift+drag."
+#~ msgstr ""
+
+#~ msgid "Actions Settings"
+#~ msgstr ""
+
+#~ msgid "Double click on menu button:"
+#~ msgstr ""
+
+#~ msgid "Do Nothing"
+#~ msgstr ""
+
+#~ msgid "Minimize Window"
+#~ msgstr "Мінімізувати вікно"
+
+#~ msgid "Shade Window"
+#~ msgstr "Згорнути вікно"
+
+#~ msgid "Close Window"
+#~ msgstr "Закрити вікно"
+
+#~ msgid ""
+#~ "An action can be associated to a double click of the menu button. Leave it "
+#~ "to none if in doubt."
+#~ msgstr ""
+
+#~ msgid "Laptop"
+#~ msgstr ""
+
+#~ msgid "Solid Color"
+#~ msgstr ""
+
+#~ msgid "Radial Gradient"
+#~ msgstr ""
+
+#~ msgid "Follow Style Hint"
+#~ msgstr ""
+
+#~ msgid "Background style:"
+#~ msgstr ""
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr ""
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr ""
+
+#~ msgid "Oxygen decoration shadows demonstration"
+#~ msgstr ""
+
+#~ msgid "(c) 2011, Hugo Pereira Da Costa"
+#~ msgstr ""
+
+#~ msgid "Hugo Pereira Da Costa"
+#~ msgstr ""
+
+#~ msgid "Save"
+#~ msgstr ""
+
+#~ msgid "Save shadows as pixmaps in provided directory"
+#~ msgstr ""
+
+#~ msgid "Large"
+#~ msgstr ""
+
+#~ msgid "Small"
+#~ msgstr ""
+
+#~ msgid "Extra size grip display: "
+#~ msgstr ""
+
+#~ msgid "Extra size grip display:"
+#~ msgstr ""
+
+#~ msgid "Inner Color:"
+#~ msgstr ""
+
+#~ msgid "Outer Color:"
+#~ msgstr ""
+
+#~ msgid "Vertical Offset:"
+#~ msgstr ""
+
+#~ msgid "Size: "
+#~ msgstr ""
+
+#~ msgid "Always Hide Extra Size Grip"
+#~ msgstr ""
+
+#~ msgid "Show Extra Size Grip When Needed"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Check this option if you want windows to be closed when you double click the"
+#~ " menu button, similar to Microsoft Windows."
+#~ msgstr ""
+
+#~ msgid "Plastik"
+#~ msgstr ""
+
+#~ msgid "All Desktops"
+#~ msgstr "Всі стільниці"
+
+#~ msgid "Above"
+#~ msgstr ""
+
+#~ msgid "Below"
+#~ msgstr ""
+
+#~ msgid "Close Item"
+#~ msgstr ""
+
+#~ msgid "Tabstrip"
+#~ msgstr ""
+
+#~ msgid "&Left"
+#~ msgstr ""
+
+#~ msgid "&Center"
+#~ msgstr ""
+
+#~ msgid "&Right"
+#~ msgstr ""
+
+#~ msgid "Display window icons"
+#~ msgstr ""
+
+#~ msgid "Do not keep above others"
+#~ msgstr ""
+
+#~ msgid "Keep above others"
+#~ msgstr ""
+
+#~ msgid "Do not keep below others"
+#~ msgstr ""
+
+#~ msgid "Keep below others"
+#~ msgstr ""
+
+#~ msgid "Enable title transition animations"
+#~ msgstr ""
+
+#~ msgid "Variable"
+#~ msgstr ""
+
+#~ msgid "Maximum"
+#~ msgstr ""
+
+#~ msgid "Enable window grouping"
+#~ msgstr ""
+
+#~ msgid "Shadow caching:"
+#~ msgstr ""
+
+#~ msgid "TextLabel"
+#~ msgstr ""
+
+#~ msgid "Use Oxygen Shadows"
+#~ msgstr ""
+
+#~ msgid "Use Desktop Effects Shadows"
+#~ msgstr ""
+
+#~ msgid "Do Not Draw Shadows"
+#~ msgstr ""
+
+#~ msgid "Shadow style:"
+#~ msgstr ""
+
+#~ msgctxt "draw separator"
+#~ msgid "Enabled"
+#~ msgstr ""
+
+#~ msgctxt "draw separator"
+#~ msgid "Disabled"
+#~ msgstr "Вимкнено"
+
+#~ msgid "Draw separator between title bar and window contents: "
+#~ msgstr ""
+
+#~ msgid "Draw Separator between title bar and active window contents "
+#~ msgstr ""
+
+#~ msgid "Installs a KWM theme"
+#~ msgstr ""
+
+#~ msgid "Path to a theme config file"
+#~ msgstr ""
+
+#~ msgid "<center><b>KWMTheme</b></center>"
+#~ msgstr ""
+
+#~ msgid "Sticky"
+#~ msgstr ""
+
+#~ msgid "Unsticky"
+#~ msgstr ""
+
+#~ msgid "<center><b>Keramik preview</b></center>"
+#~ msgstr ""
+
+#~ msgid "Draw titlebar &stipple effect"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When selected, active titlebars are drawn with a stipple (dotted) effect; "
+#~ "otherwise, they are drawn without the stipple."
+#~ msgstr ""
+
+#~ msgid "Draw g&rab bar below windows"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When selected, decorations are drawn with a \"grab bar\" below windows; "
+#~ "otherwise, no grab bar is drawn."
+#~ msgstr ""
+
+#~ msgid "Draw &gradients"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When selected, decorations are drawn with gradients for high-color displays;"
+#~ " otherwise, no gradients are drawn."
+#~ msgstr ""
+
+#~ msgid "KDE 2"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When selected, the window decoration borders are drawn using the titlebar "
+#~ "colors; otherwise, they are drawn using normal border colors instead."
+#~ msgstr ""
+
+#~ msgid "Quartz &extra slim"
+#~ msgstr ""
+
+#~ msgid "Quartz window decorations with extra-small title bar."
+#~ msgstr ""
+
+#~ msgid "Quartz"
+#~ msgstr ""
+
+#~ msgid "Redmond"
+#~ msgstr ""
+
+#~ msgid "&Show window resize handle"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When selected, all windows are drawn with a resize handle at the lower right"
+#~ " corner. This makes window resizing easier, especially for trackballs and "
+#~ "other mouse replacements on laptops."
+#~ msgstr ""
+
+#~ msgid "Here you can change the size of the resize handle."
+#~ msgstr ""
+
+#~ msgid "Medium"
+#~ msgstr "Середній"
+
+#~ msgid "Modern System"
+#~ msgstr ""
+
+#~ msgid "Web"
+#~ msgstr ""
+
+#~ msgid "Keramik"
+#~ msgstr ""
+
+#~ msgid "Display the window &icon in the caption bubble"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Check this option if you want the window icon to be displayed in the caption"
+#~ " bubble next to the titlebar text."
+#~ msgstr ""
+
+#~ msgid "Draw &small caption bubbles on active windows"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Check this option if you want the caption bubble to have the same size on "
+#~ "active windows that it has on inactive ones. This option is useful for "
+#~ "laptops or low resolution displays where you want maximize the amount of "
+#~ "space available to the window contents."
+#~ msgstr ""
+
+#~ msgid "Draw g&rab bars below windows"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Check this option if you want a grab bar to be drawn below windows. When "
+#~ "this option is not selected only a thin border will be drawn in its place."
+#~ msgstr ""
+
+#~ msgid "Aurorae Theme Engine"
+#~ msgstr ""
+
+#~ msgid "Drag or Type Theme URL"
+#~ msgstr ""
+
+#~ msgid "Unable to find the theme archive %1."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Unable to download theme archive;\n"
+#~ "please check that address %1 is correct."
+#~ msgstr ""
+
+#~ msgid "Theme:"
+#~ msgstr ""
+
+#~ msgid "Get New Themes..."
+#~ msgstr ""
+
+#~ msgid "Install New Theme..."
+#~ msgstr ""
+
+#~ msgid "Glow active window"
+#~ msgstr ""
+
+#~ msgid "Form"
+#~ msgstr "Форма"
+
+#~ msgid ""
+#~ "Select here the window property used to identify windows \n"
+#~ "to which the specific decoration options apply."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Type here the regular expression used to identify windows \n"
+#~ "to which the specific decoration options apply."
+#~ msgstr ""
+
+#~ msgid "If checked, specified frame border is used in place of default value."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If checked, specified blending color is used in title bar in place of "
+#~ "default value."
+#~ msgstr ""
+
+#~ msgid "Draw separator between title bar and active window contents:"
+#~ msgstr ""
+
+#~ msgid "Additional window decoration configuration options"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The extra size grip is a small triangle, shown in the bottom-right corner of a window,\n"
+#~ "which allows the window to be resized. This option controls in which cases the size grip \n"
+#~ "is shown."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When enabled, an additional frame is shown around the active window as well "
+#~ "as its title."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When enabled, this option makes an horizontal separator appear between the "
+#~ "window title bar and the window contents."
+#~ msgstr ""
+
+#~ msgid "Configure shadow colors for active and inactive windows"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When this option is enabled, the oxygen signature blue glow is used for the "
+#~ "active window shadow."
+#~ msgstr ""
+
+#~ msgid "Configure window decoration option overrides for specific windows"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When enabled, this option increases the visibility of the window titlebar by"
+#~ " showing stripes"
+#~ msgstr ""
+
+#~ msgid "Show stripes next to the title"
+#~ msgstr ""
+
+#~ msgid "Blend title bar colors with window contents"
+#~ msgstr ""
+
+#~ msgid "Ozone"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When enabled, this option makes the window title bar use the same colors as "
+#~ "the window contents, instead of using the system title bar colors."
+#~ msgstr ""
+
+#~ msgid "Use thin borders"
+#~ msgstr ""
