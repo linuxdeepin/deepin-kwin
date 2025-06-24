@@ -1,21 +1,27 @@
-# Copyright (C) YEAR This file is copyright:
-# This file is distributed under the same license as the kwin package.
-# Shinjo Park <kde@peremen.name>, 2019, 2020, 2021.
-#
+# translation of kcm_kwindesktop.po to British English
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2019, 2021, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: kwin\n"
+"Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
-"PO-Revision-Date: 2021-05-28 02:11+0200\n"
-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
-"Language-Team: Korean <kde-kr@kde.org>\n"
-"Language: ko\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Korean (https://app.transifex.com/linuxdeepin/teams/3617/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 20.12.3\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -28,12 +34,11 @@ msgid "Your emails"
 msgstr "kde@peremen.name"
 
 #: desktopsmodel.cpp:191
-#, fuzzy, kde-format
-#| msgid "Desktop %1"
+#, kde-format
 msgctxt "A numbered name for virtual desktops"
 msgid "Desktop %1"
 msgid_plural "Desktop %1"
-msgstr[0] "데스크톱 %1"
+msgstr[0] ""
 
 #: desktopsmodel.cpp:479
 #, kde-format
@@ -78,11 +83,9 @@ msgstr "삭제"
 #: package/contents/ui/main.qml:137
 #, kde-format
 msgid ""
-"Virtual desktops have been changed outside this settings application. Saving "
-"now will overwrite the changes."
-msgstr ""
-"가상 바탕 화면 설정이 이 프로그램 외부에서 변경되었습니다. 설정을 저장하면 해"
-"당 변경 사항을 덮어씁니다."
+"Virtual desktops have been changed outside this settings application. Saving"
+" now will overwrite the changes."
+msgstr "가상 바탕 화면 설정이 이 프로그램 외부에서 변경되었습니다. 설정을 저장하면 해당 변경 사항을 덮어씁니다."
 
 #: package/contents/ui/main.qml:153
 #, kde-format
@@ -152,11 +155,12 @@ msgstr "가상 바탕 화면"
 #~ msgstr "데스크톱 %1의 이름을 입력하십시오"
 
 #~ msgid ""
-#~ "<h1>Multiple Desktops</h1>In this module, you can configure how many "
-#~ "virtual desktops you want and how these should be labeled."
-#~ msgstr ""
-#~ "<h1>다중 데스크톱</h1> 이 모듈에서는 데스크톱 개수와 이름을 설정할 수 있습"
-#~ "니다."
+#~ "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual"
+#~ " desktops you want and how these should be labeled."
+#~ msgstr "<h1>다중 데스크톱</h1> 이 모듈에서는 데스크톱 개수와 이름을 설정할 수 있습니다."
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
 
 #~ msgid "Switch to Next Desktop"
 #~ msgstr "다음 데스크톱으로 전환"
@@ -229,12 +233,11 @@ msgstr "가상 바탕 화면"
 #~ msgstr "전환"
 
 #~ msgid ""
-#~ "Enable this option if you want keyboard or active desktop border "
-#~ "navigation beyond the edge of a desktop to take you to the opposite edge "
-#~ "of the new desktop."
+#~ "Enable this option if you want keyboard or active desktop border navigation "
+#~ "beyond the edge of a desktop to take you to the opposite edge of the new "
+#~ "desktop."
 #~ msgstr ""
-#~ "이 옵션을 사용하면 키보드나 경계선으로 데스크톱을 탐색할 때 데스크톱 경계"
-#~ "선을 넘어서 탐색하면 새 데스크톱의 반대편 경계선으로 갑니다."
+#~ "이 옵션을 사용하면 키보드나 경계선으로 데스크톱을 탐색할 때 데스크톱 경계선을 넘어서 탐색하면 새 데스크톱의 반대편 경계선으로 갑니다."
 
 #~ msgid "Desktop Effect Animation"
 #~ msgstr "데스크톱 전환 애니메이션"
@@ -254,9 +257,7 @@ msgstr "가상 바탕 화면"
 #~ msgid ""
 #~ "Enabling this option will show a small preview of the desktop layout "
 #~ "indicating the selected desktop."
-#~ msgstr ""
-#~ "이 옵션을 사용하면 선택한 데스크톱을 포함한 데스크톱 레이아웃을 미리 보여 "
-#~ "줍니다."
+#~ msgstr "이 옵션을 사용하면 선택한 데스크톱을 포함한 데스크톱 레이아웃을 미리 보여 줍니다."
 
 #~ msgid "Shortcuts"
 #~ msgstr "단축키"
@@ -266,3 +267,6 @@ msgstr "가상 바탕 화면"
 
 #~ msgid "Different widgets for each desktop"
 #~ msgstr "데스크톱별로 다른 위젯 할당하기"
+
+#~ msgid "Mouse wheel over desktop background switches desktop"
+#~ msgstr ""
