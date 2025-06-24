@@ -25,7 +25,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
-msgstr ""
+msgstr "Крихітний"
 
 #: aurorae/src/aurorae.cpp:738
 #, kde-format
@@ -37,48 +37,48 @@ msgstr "Звичайний"
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
-msgstr ""
+msgstr "Великий"
 
 #: aurorae/src/aurorae.cpp:740
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr ""
+msgstr "Дуже великий"
 
 #: aurorae/src/aurorae.cpp:741
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Huge"
-msgstr ""
+msgstr "Величезний"
 
 #: aurorae/src/aurorae.cpp:742
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Huge"
-msgstr ""
+msgstr "Гігантський"
 
 #: aurorae/src/aurorae.cpp:743
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Oversized"
-msgstr ""
+msgstr "Найбільший"
 
 #: aurorae/src/aurorae.cpp:746
 #, kde-format
 msgid "Button size:"
-msgstr ""
+msgstr "Розмір кнопок:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlastikConfigDialog)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
 #, kde-format
 msgid "Config Dialog"
-msgstr ""
+msgstr "Вікно налаштувань"
 
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
 #, kde-format
 msgid "Title &Alignment"
-msgstr ""
+msgstr "Ви&рівнювання заголовка"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
@@ -105,12 +105,14 @@ msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
 msgstr ""
+"Якщо вибрано, обрамлення вікон будуть малюватися з використанням кольорів "
+"смужки заголовка. Інакше, будуть вжиті кольори звичайних меж вікна."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
 #, kde-format
 msgid "Colored window border"
-msgstr ""
+msgstr "Кольорове обрамлення вікна"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:66
@@ -119,12 +121,14 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
+"Позначте цей пункт, якщо ви хочете, щоб при наведенні курсора мишки кнопки "
+"підсвічувались, а при відведенні — згасали."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:69
 #, kde-format
 msgid "Animate buttons"
-msgstr ""
+msgstr "Анімація кнопок"
 
 #~ msgid ""
 #~ "Check this option if you want the titlebar text to have a 3D look with a "
@@ -164,15 +168,15 @@ msgstr ""
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "Large"
-#~ msgstr ""
+#~ msgstr "Великий"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "Very Large"
-#~ msgstr ""
+#~ msgstr "Дуже великий"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "Huge"
-#~ msgstr ""
+#~ msgstr "Величезний"
 
 #~ msgid "Center (Full Width)"
 #~ msgstr ""
@@ -438,7 +442,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Large"
-#~ msgstr ""
+#~ msgstr "Великий"
 
 #~ msgid "Small"
 #~ msgstr ""
