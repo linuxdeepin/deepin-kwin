@@ -449,17 +449,17 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Active Window"
-#~ msgstr ""
+#~ msgstr "Janela Ativa"
 
 #~ msgid "Inactive Window"
-#~ msgstr ""
+#~ msgstr "Janela inativa"
 
 #~ msgid "kcmkwindecoration"
-#~ msgstr ""
+#~ msgstr "kcmkwindecoração"
 
 #~ msgctxt "Caption to decoration preview, %1 author name"
 #~ msgid "by %1"
-#~ msgstr ""
+#~ msgstr "by %1"
 
 #~ msgid ""
 #~ "No preview available.\n"
@@ -471,7 +471,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Ozone"
-#~ msgstr ""
+#~ msgstr "Ozônio"
 
 #~ msgid "KDE 2"
-#~ msgstr ""
+#~ msgstr "KDE 2"
