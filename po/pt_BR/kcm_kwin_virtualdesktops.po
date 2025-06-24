@@ -204,10 +204,10 @@ msgstr "Áreas de trabalho virtuais"
 #~ msgstr "Alternar por meio da lista da área de trabalho (reverso)"
 
 #~ msgid "Desktop Switching"
-#~ msgstr ""
+#~ msgstr "Trocar área de trabalho"
 
 #~ msgid "Switch to Desktop %1"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho %1"
 
 #~ msgid "No Animation"
 #~ msgstr "Sem animação"
