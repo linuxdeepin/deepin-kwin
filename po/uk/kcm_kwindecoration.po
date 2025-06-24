@@ -250,7 +250,7 @@ msgstr ""
 #: utils.cpp:27
 #, kde-format
 msgid "Tiny"
-msgstr ""
+msgstr "Крихітний"
 
 #: utils.cpp:28
 #, kde-format
@@ -260,27 +260,27 @@ msgstr "Звичайний"
 #: utils.cpp:29
 #, kde-format
 msgid "Large"
-msgstr ""
+msgstr "Великий"
 
 #: utils.cpp:30
 #, kde-format
 msgid "Very Large"
-msgstr ""
+msgstr "Дуже великий"
 
 #: utils.cpp:31
 #, kde-format
 msgid "Huge"
-msgstr ""
+msgstr "Величезний"
 
 #: utils.cpp:32
 #, kde-format
 msgid "Very Huge"
-msgstr ""
+msgstr "Гігантський"
 
 #: utils.cpp:33
 #, kde-format
 msgid "Oversized"
-msgstr ""
+msgstr "Найбільший"
 
 #~ msgctxt "popup tip"
 #~ msgid ""
@@ -323,11 +323,11 @@ msgstr ""
 #~ msgstr "Форма"
 
 #~ msgid "Button size:"
-#~ msgstr ""
+#~ msgstr "Розмір кнопок:"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Tiny"
-#~ msgstr ""
+#~ msgstr "Крихітний"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Normal"
@@ -335,23 +335,23 @@ msgstr ""
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Large"
-#~ msgstr ""
+#~ msgstr "Великий"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Very Large"
-#~ msgstr ""
+#~ msgstr "Дуже великий"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Huge"
-#~ msgstr ""
+#~ msgstr "Величезний"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Very Huge"
-#~ msgstr ""
+#~ msgstr "Гігантський"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Oversized"
-#~ msgstr ""
+#~ msgstr "Найбільший"
 
 #~ msgid "KDE"
 #~ msgstr ""
