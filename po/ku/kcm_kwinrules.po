@@ -1,22 +1,26 @@
-# translation of kcmkwinrules.po to Kurdish
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
-# Erdal Ronahi <erdal.ronahi@nospam.gmail.com>, 2007, 2008.
+# translation of kcmkwinrules.po to British English
+# Copyright (C) 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2005, 2008.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwinrules\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-11 00:48+0000\n"
-"PO-Revision-Date: 2008-06-22 22:53+0200\n"
-"Last-Translator: Erdal Ronahi <erdal.ronahi@nospam.gmail.com>\n"
-"Language-Team: Kurdish <ku@li.org>\n"
-"Language: ku\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Kurdish (https://app.transifex.com/linuxdeepin/teams/3617/ku/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: ku\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -29,10 +33,9 @@ msgid "Your emails"
 msgstr "erdal.ronahi@nospam.gmail.com"
 
 #: kcmrules.cpp:28
-#, fuzzy, kde-format
-#| msgid "Window t&itle:"
+#, kde-format
 msgid "Window Rules"
-msgstr "Sernivîsa P&aceyê:"
+msgstr ""
 
 #: kcmrules.cpp:32
 #, kde-format
@@ -128,8 +131,7 @@ msgstr ""
 #: optionsmodel.cpp:206
 #, kde-format
 msgid ""
-"The window property will be only set to the given value after the window is "
-"created.\n"
+"The window property will be only set to the given value after the window is created.\n"
 "No further changes will be affected."
 msgstr ""
 
@@ -141,8 +143,7 @@ msgstr ""
 #: optionsmodel.cpp:210
 #, kde-format
 msgid ""
-"The window property will be set to the given value immediately and will not "
-"be affected later\n"
+"The window property will be set to the given value immediately and will not be affected later\n"
 "(this action will be deleted afterwards)."
 msgstr ""
 
@@ -166,8 +167,7 @@ msgstr ""
 #: optionsmodel.cpp:218
 #, kde-format
 msgid ""
-"The window property will not be affected and therefore the default handling "
-"for it will be used.\n"
+"The window property will not be affected and therefore the default handling for it will be used.\n"
 "Specifying this will block more generic window settings from taking effect."
 msgstr ""
 
@@ -235,10 +235,9 @@ msgid "Save Rules"
 msgstr ""
 
 #: package/contents/ui/main.qml:97
-#, fuzzy, kde-format
-#| msgid "&New..."
+#, kde-format
 msgid "Add New..."
-msgstr "&Nû..."
+msgstr ""
 
 #: package/contents/ui/main.qml:108
 #, kde-format
@@ -251,10 +250,9 @@ msgid "Cancel Export"
 msgstr ""
 
 #: package/contents/ui/main.qml:116
-#, fuzzy, kde-format
-#| msgid "Edit..."
+#, kde-format
 msgid "Export..."
-msgstr "Sererastkirin..."
+msgstr ""
 
 #: package/contents/ui/main.qml:206
 #, kde-format
@@ -312,16 +310,14 @@ msgid ""
 msgstr ""
 
 #: package/contents/ui/RulesEditor.qml:85
-#, fuzzy, kde-format
-#| msgid "&Closeable"
+#, kde-format
 msgid "Close"
-msgstr "&Girtinbar"
+msgstr "Girtin"
 
 #: package/contents/ui/RulesEditor.qml:85
-#, fuzzy, kde-format
-#| msgid "&New..."
+#, kde-format
 msgid "Add Property..."
-msgstr "&Nû..."
+msgstr ""
 
 #: package/contents/ui/RulesEditor.qml:98
 #, kde-format
@@ -355,10 +351,9 @@ msgstr ""
 
 #: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgid "No"
-msgstr "Ne yek jî"
+msgstr ""
 
 #: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
@@ -399,15 +394,10 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have specified the window class as unimportant.\n"
-"This means the settings will possibly apply to windows from all "
-"applications. If you really want to create a generic setting, it is "
-"recommended you at least limit the window types to avoid special window "
-"types."
+"This means the settings will possibly apply to windows from all applications. If you really want to create a generic setting, it is recommended you at least limit the window types to avoid special window types."
 msgstr ""
 "Te pola paceyê wekî ne pêwist mîheng kiriye.\n"
-" Ev yek tê wê wateyê ku danişîn  dikare hemu cureyê paceyan bikar bîne. Heke "
-"tu bi rastî dixwazî danişîna giştî biafirînî, hewcedariya te bi cureyên "
-"paceyê  taybet heye. "
+" Ev yek tê wê wateyê ku danişîn  dikare hemu cureyê paceyan bikar bîne. Heke tu bi rastî dixwazî danişîna giştî biafirînî, hewcedariya te bi cureyên paceyê  taybet heye. "
 
 #: rulesmodel.cpp:244
 #, kde-format
@@ -418,17 +408,15 @@ msgid ""
 msgstr ""
 
 #: rulesmodel.cpp:359
-#, fuzzy, kde-format
-#| msgid "De&scription:"
+#, kde-format
 msgid "Description"
-msgstr "Şîro&ve"
+msgstr ""
 
 #: rulesmodel.cpp:359 rulesmodel.cpp:367 rulesmodel.cpp:375 rulesmodel.cpp:382
 #: rulesmodel.cpp:388 rulesmodel.cpp:396 rulesmodel.cpp:401 rulesmodel.cpp:407
-#, fuzzy, kde-format
-#| msgid "&Window"
+#, kde-format
 msgid "Window matching"
-msgstr "&Pace"
+msgstr ""
 
 #: rulesmodel.cpp:367
 #, kde-format
@@ -441,28 +429,24 @@ msgid "Match whole window class"
 msgstr ""
 
 #: rulesmodel.cpp:382
-#, fuzzy, kde-format
-#| msgid "Window t&itle:"
+#, kde-format
 msgid "Whole window class"
-msgstr "Sernivîsa P&aceyê:"
+msgstr ""
 
 #: rulesmodel.cpp:388
-#, fuzzy, kde-format
-#| msgid "Window &types:"
+#, kde-format
 msgid "Window types"
-msgstr "Cureyên &Paceyê:"
+msgstr ""
 
 #: rulesmodel.cpp:396
-#, fuzzy, kde-format
-#| msgid "Window t&itle:"
+#, kde-format
 msgid "Window role"
-msgstr "Sernivîsa P&aceyê:"
+msgstr ""
 
 #: rulesmodel.cpp:401
-#, fuzzy, kde-format
-#| msgid "Window t&itle:"
+#, kde-format
 msgid "Window title"
-msgstr "Sernivîsa P&aceyê:"
+msgstr ""
 
 #: rulesmodel.cpp:407
 #, kde-format
@@ -470,25 +454,22 @@ msgid "Machine (hostname)"
 msgstr ""
 
 #: rulesmodel.cpp:413
-#, fuzzy, kde-format
-#| msgid "&Position"
+#, kde-format
 msgid "Position"
-msgstr "&Rewş"
+msgstr ""
 
 #: rulesmodel.cpp:413 rulesmodel.cpp:419 rulesmodel.cpp:425 rulesmodel.cpp:430
 #: rulesmodel.cpp:438 rulesmodel.cpp:444 rulesmodel.cpp:463 rulesmodel.cpp:479
 #: rulesmodel.cpp:484 rulesmodel.cpp:489 rulesmodel.cpp:494 rulesmodel.cpp:499
 #: rulesmodel.cpp:506 rulesmodel.cpp:516 rulesmodel.cpp:521 rulesmodel.cpp:526
-#, fuzzy, kde-format
-#| msgid "&Position"
+#, kde-format
 msgid "Size & Position"
-msgstr "&Rewş"
+msgstr ""
 
 #: rulesmodel.cpp:419
-#, fuzzy, kde-format
-#| msgid "&Size"
+#, kde-format
 msgid "Size"
-msgstr "M&eznahî"
+msgstr ""
 
 #: rulesmodel.cpp:425
 #, kde-format
@@ -496,46 +477,39 @@ msgid "Maximized horizontally"
 msgstr ""
 
 #: rulesmodel.cpp:430
-#, fuzzy, kde-format
-#| msgid "M&aximum size"
+#, kde-format
 msgid "Maximized vertically"
-msgstr "M&ezintirîn meznahî"
+msgstr ""
 
 #: rulesmodel.cpp:438
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Virtual Desktop"
-msgstr "Hemû Sermase"
+msgstr ""
 
 #: rulesmodel.cpp:444
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Virtual Desktops"
-msgstr "Hemû Sermase"
+msgstr ""
 
 #: rulesmodel.cpp:463
-#, fuzzy, kde-format
-#| msgid "A&ctive opacity in %"
+#, kde-format
 msgid "Activities"
-msgstr "Ta&rîtiyê çalak bike di % de"
+msgstr ""
 
 #: rulesmodel.cpp:479
-#, fuzzy, kde-format
-#| msgid "Splash Screen"
+#, kde-format
 msgid "Screen"
-msgstr "Ekrana Pekandinê"
+msgstr ""
 
 #: rulesmodel.cpp:484
-#, fuzzy, kde-format
-#| msgid "Splash Screen"
+#, kde-format
 msgid "Fullscreen"
-msgstr "Ekrana Pekandinê"
+msgstr ""
 
 #: rulesmodel.cpp:489
-#, fuzzy, kde-format
-#| msgid "M&aximum size"
+#, kde-format
 msgid "Minimized"
-msgstr "M&ezintirîn meznahî"
+msgstr ""
 
 #: rulesmodel.cpp:494
 #, kde-format
@@ -543,10 +517,9 @@ msgid "Shaded"
 msgstr ""
 
 #: rulesmodel.cpp:499
-#, fuzzy, kde-format
-#| msgid "P&lacement"
+#, kde-format
 msgid "Initial placement"
-msgstr "Bi&cihkirin"
+msgstr ""
 
 #: rulesmodel.cpp:506
 #, kde-format
@@ -563,16 +536,14 @@ msgid ""
 msgstr ""
 
 #: rulesmodel.cpp:516
-#, fuzzy, kde-format
-#| msgid "M&inimum size"
+#, kde-format
 msgid "Minimum Size"
-msgstr "Kê&mtirîn meznahî"
+msgstr ""
 
 #: rulesmodel.cpp:521
-#, fuzzy, kde-format
-#| msgid "M&aximum size"
+#, kde-format
 msgid "Maximum Size"
-msgstr "M&ezintirîn meznahî"
+msgstr ""
 
 #: rulesmodel.cpp:526
 #, kde-format
@@ -606,10 +577,9 @@ msgid "Keep below other windows"
 msgstr ""
 
 #: rulesmodel.cpp:547
-#, fuzzy, kde-format
-#| msgid "Skip pa&ger"
+#, kde-format
 msgid "Skip taskbar"
-msgstr "Qevastina pe&lan"
+msgstr ""
 
 #: rulesmodel.cpp:549
 #, kde-format
@@ -617,10 +587,9 @@ msgid "Window shall (not) appear in the taskbar."
 msgstr ""
 
 #: rulesmodel.cpp:553
-#, fuzzy, kde-format
-#| msgid "Skip pa&ger"
+#, kde-format
 msgid "Skip pager"
-msgstr "Qevastina pe&lan"
+msgstr ""
 
 #: rulesmodel.cpp:555
 #, kde-format
@@ -628,10 +597,9 @@ msgid "Window shall (not) appear in the manager for virtual desktops"
 msgstr ""
 
 #: rulesmodel.cpp:559
-#, fuzzy, kde-format
-#| msgid "Skip pa&ger"
+#, kde-format
 msgid "Skip switcher"
-msgstr "Qevastina pe&lan"
+msgstr ""
 
 #: rulesmodel.cpp:561
 #, kde-format
@@ -661,16 +629,14 @@ msgid "Titlebar color scheme"
 msgstr ""
 
 #: rulesmodel.cpp:582
-#, fuzzy, kde-format
-#| msgid "A&ctive opacity in %"
+#, kde-format
 msgid "Active opacity"
-msgstr "Ta&rîtiyê çalak bike di % de"
+msgstr ""
 
 #: rulesmodel.cpp:587
-#, fuzzy, kde-format
-#| msgid "I&nactive opacity in %"
+#, kde-format
 msgid "Inactive opacity"
-msgstr "Ta&rîtiyê çalak neke di % de"
+msgstr ""
 
 #: rulesmodel.cpp:592
 #, kde-format
@@ -734,16 +700,14 @@ msgid ""
 msgstr ""
 
 #: rulesmodel.cpp:635
-#, fuzzy, kde-format
-#| msgid "&Closeable"
+#, kde-format
 msgid "Closeable"
-msgstr "&Girtinbar"
+msgstr ""
 
 #: rulesmodel.cpp:640
-#, fuzzy, kde-format
-#| msgid "Window &type"
+#, kde-format
 msgid "Set window type"
-msgstr "Pace &Cure"
+msgstr ""
 
 #: rulesmodel.cpp:646
 #, kde-format
@@ -764,17 +728,17 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"This application is not providing a class for the window, so KWin cannot use "
-"it to match and apply any rules. If you still want to apply some rules to "
-"it, try to match other properties like the window title instead.<nl/><nl/"
-">Please consider reporting this bug to the application's developers."
+"This application is not providing a class for the window, so KWin cannot use"
+" it to match and apply any rules. If you still want to apply some rules to "
+"it, try to match other properties like the window title "
+"instead.<nl/><nl/>Please consider reporting this bug to the application's "
+"developers."
 msgstr ""
 
 #: rulesmodel.cpp:738
-#, fuzzy, kde-format
-#| msgid "Window &types:"
+#, kde-format
 msgid "All Window Types"
-msgstr "Cureyên &Paceyê:"
+msgstr ""
 
 #: rulesmodel.cpp:739
 #, kde-format
@@ -865,10 +829,9 @@ msgid "Minimal Overlapping"
 msgstr ""
 
 #: rulesmodel.cpp:806
-#, fuzzy, kde-format
-#| msgid "M&aximum size"
+#, kde-format
 msgid "Maximized"
-msgstr "M&ezintirîn meznahî"
+msgstr ""
 
 #: rulesmodel.cpp:807
 #, kde-format
@@ -881,10 +844,9 @@ msgid "Random"
 msgstr "Çawa lê hat"
 
 #: rulesmodel.cpp:809
-#, fuzzy, kde-format
-#| msgid "Top-Left Corner"
+#, kde-format
 msgid "In Top-Left Corner"
-msgstr "Qiraxa çep-a jor"
+msgstr ""
 
 #: rulesmodel.cpp:810
 #, kde-format
@@ -897,10 +859,9 @@ msgid "On Main Window"
 msgstr "Di Paceya Sereke de"
 
 #: rulesmodel.cpp:818
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgid "None"
-msgstr "Ne yek jî"
+msgstr ""
 
 #: rulesmodel.cpp:819
 #, kde-format
@@ -923,30 +884,38 @@ msgid "Extreme"
 msgstr "Bêhtir"
 
 #: rulesmodel.cpp:865
-#, fuzzy, kde-format
-#| msgid "On Main Window"
+#, kde-format
 msgid "Unmanaged window"
-msgstr "Di Paceya Sereke de"
+msgstr ""
 
 #: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
 
-#, fuzzy
-#~| msgid "Cascade"
+#~ msgid "Error"
+#~ msgstr ""
+
 #~ msgid "Cascaded"
-#~ msgstr "Li pey hev"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Keep &above"
 #~ msgid "Keep above"
-#~ msgstr "Li jor &bihêle"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Keep &below"
 #~ msgid "Keep below"
-#~ msgstr "Li jêr &bihêle"
+#~ msgstr ""
+
+#~ msgid "KWin"
+#~ msgstr ""
+
+#~ msgid "KWin helper utility"
+#~ msgstr ""
+
+#~ msgid "Activity"
+#~ msgstr ""
+
+#~ msgid "Select properties"
+#~ msgstr ""
 
 #~ msgid "Override Type"
 #~ msgstr "Paceya Redkirinê"
@@ -972,6 +941,31 @@ msgstr ""
 #~ msgid "Machine:"
 #~ msgstr "Mekîne:"
 
+#~ msgid "Match by primary class name and"
+#~ msgstr ""
+
+#~ msgid "Secondary class name  (resulting in term in brackets)"
+#~ msgstr ""
+
+#~ msgid "Window role (can be used to select windows by function)"
+#~ msgstr ""
+
+#~ msgid "Window type (eg. all dialogs, but not the main windows)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Window title (very specific, can fail due to content changes or translation)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "A single shortcut can be easily assigned or cleared using the two buttons. Only shortcuts with modifiers can be used.<p>\n"
+#~ "It is possible to have several possible shortcuts, and the first available shortcut will be used. The shortcuts are specified using shortcut sets separated by \" - \". One set is specified as <i>base</i>+(<i>list</i>), where base are modifiers and list is a list of keys.<br>\n"
+#~ "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try <b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
+#~ msgstr ""
+
+#~ msgid "&Single Shortcut"
+#~ msgstr ""
+
 #~ msgid "C&lear"
 #~ msgstr "Jê&bike"
 
@@ -984,6 +978,15 @@ msgstr ""
 #~ msgid "Lubos Lunak"
 #~ msgstr "Lubos Lunak"
 
+#~ msgid "Remember settings separately for every window"
+#~ msgstr ""
+
+#~ msgid "Show internal settings for remembering"
+#~ msgstr ""
+
+#~ msgid "Internal setting for remembering"
+#~ msgstr ""
+
 #~ msgid "&Modify..."
 #~ msgstr "&Guhertin..."
 
@@ -993,14 +996,91 @@ msgstr ""
 #~ msgid "Move &Down"
 #~ msgstr "Biçe &Jêr"
 
+#~ msgid ""
+#~ "Enable this checkbox to alter this window property for the specified "
+#~ "window(s)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Apply "
+#~ "Initially:</em> The window property will be only set to the given value "
+#~ "after the window is created. No further changes will be "
+#~ "affected.</li><li><em>Remember:</em> The value of the window property will "
+#~ "be remembered and every time the window is created, the last remembered "
+#~ "value will be applied.</li><li><em>Force:</em> The window property will be "
+#~ "always forced to the given value.</li><li><em>Apply Now:</em> The window "
+#~ "property will be set to the given value immediately and will not be affected"
+#~ " later (this action will be deleted afterwards).</li><li><em>Force "
+#~ "temporarily:</em> The window property will be forced to the given value "
+#~ "until it is hidden (this action will be deleted after the window is "
+#~ "hidden).</li></ul>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Specify how the window property should be affected:<ul><li><em>Do Not "
+#~ "Affect:</em> The window property will not be affected and therefore the "
+#~ "default handling for it will be used. Specifying this will block more "
+#~ "generic window settings from taking effect.</li><li><em>Force:</em> The "
+#~ "window property will be always forced to the given value.</li><li><em>Force "
+#~ "temporarily:</em> The window property will be forced to the given value "
+#~ "until it is hidden (this action will be deleted after the window is "
+#~ "hidden).</li></ul>"
+#~ msgstr ""
+
 #~ msgid "Unnamed entry"
 #~ msgstr "Têketina bê nav"
+
+#~ msgid ""
+#~ "This configuration dialog allows altering settings only for the selected "
+#~ "window or application. Find the setting you want to affect, enable the "
+#~ "setting using the checkbox, select in what way the setting should be "
+#~ "affected and to which value."
+#~ msgstr ""
+
+#~ msgid "Consult the documentation for more details."
+#~ msgstr ""
 
 #~ msgid "Edit Shortcut"
 #~ msgstr "Kurtenivîsan Sererast bike"
 
+#~ msgid "s delay"
+#~ msgstr ""
+
+#~ msgid "x,y"
+#~ msgstr ""
+
 #~ msgid "0123456789-+,xX:"
 #~ msgstr "0123456789-+,xX:"
+
+#~ msgid "width,height"
+#~ msgstr ""
+
+#~ msgid "&Desktop"
+#~ msgstr ""
+
+#~ msgid "Edit..."
+#~ msgstr ""
+
+#~ msgid "Autog&roup in foreground"
+#~ msgstr ""
+
+#~ msgid "Autogroup by I&D"
+#~ msgstr ""
+
+#~ msgid "Autogroup with &identical"
+#~ msgstr ""
+
+#~ msgid "%"
+#~ msgstr ""
+
+#~ msgid "org.kde.kwin"
+#~ msgstr ""
+
+#~ msgid "Smart"
+#~ msgstr ""
 
 #~ msgid "kcmkwinrules"
 #~ msgstr "kcmkwinrules"
@@ -1014,10 +1094,53 @@ msgstr ""
 #~ msgid "&Moving/resizing"
 #~ msgstr "&Jêbirin/bilindkirin"
 
-#, fuzzy
-#~| msgid "Title:"
+#~ msgid "T&iling"
+#~ msgstr ""
+
 #~ msgid "Tiled"
-#~ msgstr "Sernav:"
+#~ msgstr ""
+
+#~ msgid "Floating"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For selecting all windows belonging to a specific application, selecting "
+#~ "only window class should usually work."
+#~ msgstr ""
+
+#~ msgid "Use window &class (whole application)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For selecting a specific window in an application, both window class and "
+#~ "window role should be selected. Window class will determine the application,"
+#~ " and window role the specific window in the application; many applications "
+#~ "do not provide useful window roles though."
+#~ msgstr ""
+
+#~ msgid "Use window class and window &role (specific window)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "With some (non-KDE) applications whole window class can be sufficient for "
+#~ "selecting a specific window in an application, as they set whole window "
+#~ "class to contain both application and window role."
+#~ msgstr ""
+
+#~ msgid "Use &whole window class (specific window)"
+#~ msgstr ""
+
+#~ msgid "Match also window &title"
+#~ msgstr ""
+
+#~ msgid "Extra role:"
+#~ msgstr ""
+
+#~ msgid "Window &Extra"
+#~ msgstr ""
+
+#~ msgid "&Geometry"
+#~ msgstr ""
 
 #~ msgid "&Preferences"
 #~ msgstr "&Bijarte"
@@ -1027,3 +1150,12 @@ msgstr ""
 
 #~ msgid "0123456789"
 #~ msgstr "0123456789"
+
+#~ msgid "W&orkarounds"
+#~ msgstr ""
+
+#~ msgid "Strictly obey geometry"
+#~ msgstr ""
+
+#~ msgid "&Detect"
+#~ msgstr ""
