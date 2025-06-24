@@ -1,23 +1,27 @@
-# Albanian translation for kdebase-workspace
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
-# This file is distributed under the same license as the kdebase-workspace package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
-#
+# translation of kcm_kwindesktop.po to British English
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2019, 2021, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: kdebase-workspace\n"
+"Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
-"PO-Revision-Date: 2010-04-06 13:55+0000\n"
-"Last-Translator: Vilson Gjeci <vilsongjeci@gmail.com>\n"
-"Language-Team: Albanian <sq@li.org>\n"
-"Language: sq\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Albanian (https://app.transifex.com/linuxdeepin/teams/3617/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-06 02:11+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: sq\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -30,13 +34,12 @@ msgid "Your emails"
 msgstr "kde-shqip@yahoogroups.com,vilsongjeci@gmail.com"
 
 #: desktopsmodel.cpp:191
-#, fuzzy, kde-format
-#| msgid "Desktop %1"
+#, kde-format
 msgctxt "A numbered name for virtual desktops"
 msgid "Desktop %1"
 msgid_plural "Desktop %1"
-msgstr[0] "Desktopi %1"
-msgstr[1] "Desktopi %1"
+msgstr[0] ""
+msgstr[1] ""
 
 #: desktopsmodel.cpp:479
 #, kde-format
@@ -81,8 +84,8 @@ msgstr ""
 #: package/contents/ui/main.qml:137
 #, kde-format
 msgid ""
-"Virtual desktops have been changed outside this settings application. Saving "
-"now will overwrite the changes."
+"Virtual desktops have been changed outside this settings application. Saving"
+" now will overwrite the changes."
 msgstr ""
 
 #: package/contents/ui/main.qml:153
@@ -134,40 +137,117 @@ msgid "Show desktop layout indicators"
 msgstr ""
 
 #: virtualdesktops.cpp:33
-#, fuzzy, kde-format
-#| msgid "Desktops"
+#, kde-format
 msgid "Virtual Desktops"
-msgstr "Desktopët"
+msgstr ""
 
-#, fuzzy
-#~| msgid "Desktops"
 #~ msgid "New Desktop"
-#~ msgstr "Desktopët"
+#~ msgstr ""
+
+#~ msgid "Rows:"
+#~ msgstr ""
+
+#~ msgid "Configure Virtual Desktops"
+#~ msgstr ""
 
 #~ msgid "Desktop %1:"
 #~ msgstr "Desktop %1:"
 
+#~ msgid "Here you can enter the name for desktop %1"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual"
+#~ " desktops you want and how these should be labeled."
+#~ msgstr ""
+
+#~ msgid "KWin"
+#~ msgstr ""
+
 #~ msgid "Switch to Next Desktop"
 #~ msgstr "Ndrysho në Desktopin Tjetër"
+
+#~ msgid "Switch to Previous Desktop"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop to the Right"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop to the Left"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop Up"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop Down"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktops"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktops (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktop List"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktop List (Reverse)"
+#~ msgstr ""
 
 #~ msgid "Desktop Switching"
 #~ msgstr "Ndryshimi i Desktopit"
 
+#~ msgid "Switch to Desktop %1"
+#~ msgstr ""
+
+#~ msgid "No Animation"
+#~ msgstr ""
+
+#~ msgid "No suitable Shortcut for Desktop %1 found"
+#~ msgstr ""
+
+#~ msgid "Assigned global Shortcut \"%1\" to Desktop %2"
+#~ msgstr ""
+
+#~ msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
+#~ msgstr ""
+
+#~ msgid "KWin development team"
+#~ msgstr ""
+
 #~ msgid "Layout"
 #~ msgstr "Planimetria"
 
-#, fuzzy
-#~| msgid "Number of rows:"
-#~ msgid "&Number of desktops:"
-#~ msgstr "Numri i rreshtave:"
+#~ msgid ""
+#~ "Here you can set how many virtual desktops you want on your KDE desktop."
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Number of rows:"
+#~ msgid "&Number of desktops:"
+#~ msgstr ""
+
 #~ msgid "N&umber of rows:"
-#~ msgstr "Numri i rreshtave:"
+#~ msgstr ""
+
+#~ msgid "Desktop Names"
+#~ msgstr ""
+
+#~ msgid "Switching"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enable this option if you want keyboard or active desktop border navigation "
+#~ "beyond the edge of a desktop to take you to the opposite edge of the new "
+#~ "desktop."
+#~ msgstr ""
+
+#~ msgid "Desktop Effect Animation"
+#~ msgstr ""
 
 #~ msgid "Animation:"
 #~ msgstr "Animacioni:"
+
+#~ msgid "Desktop Switch On-Screen Display"
+#~ msgstr ""
 
 #~ msgid "Duration:"
 #~ msgstr "Kohëzgjatja:"
@@ -175,5 +255,19 @@ msgstr "Desktopët"
 #~ msgid " msec"
 #~ msgstr " msec"
 
+#~ msgid ""
+#~ "Enabling this option will show a small preview of the desktop layout "
+#~ "indicating the selected desktop."
+#~ msgstr ""
+
 #~ msgid "Shortcuts"
 #~ msgstr "Shkurtore"
+
+#~ msgid "Show shortcuts for all possible desktops"
+#~ msgstr ""
+
+#~ msgid "Different widgets for each desktop"
+#~ msgstr ""
+
+#~ msgid "Mouse wheel over desktop background switches desktop"
+#~ msgstr ""
