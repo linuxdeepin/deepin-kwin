@@ -1,21 +1,25 @@
-# Uyghur translation for kcm_kwintabbox.
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# Sahran <sahran.ug@gmail.com>, 2011.
-#
+# 
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwintabbox\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
-"PO-Revision-Date: 2013-09-08 07:05+0900\n"
-"Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
-"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
-"Language: ug\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Uyghur (https://app.transifex.com/linuxdeepin/teams/3617/ug/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ug\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 22.04.3\n"
 
 #: kwintabboxconfigform.cpp:80
 #, kde-format
@@ -23,10 +27,9 @@ msgid "KWin"
 msgstr ""
 
 #: layoutpreview.cpp:133
-#, fuzzy, kde-format
-#| msgid "Desktop:"
+#, kde-format
 msgid "Show Desktop"
-msgstr "بارلىق ئۈستەلئۈستىلىرى"
+msgstr ""
 
 #: layoutpreview.cpp:163
 #, kde-format
@@ -233,9 +236,9 @@ msgstr ""
 msgid "Show selected window"
 msgstr ""
 
-#~| msgid "Highlight selected window"
-#~ msgid "Outline selected window"
-#~ msgstr "تاللانغان كۆزنەكنى يورۇت"
+#~ msgid ""
+#~ "These settings are used by the \"Walk Through Windows Alternative\" actions."
+#~ msgstr ""
 
 #~ msgid "Walk Through Windows"
 #~ msgstr "كۆزنەكتىن كۆزنەككە ئۆتۈش"
@@ -249,22 +252,6 @@ msgstr ""
 #~ msgid "Walk Through Windows Alternative (Reverse)"
 #~ msgstr "باشقىچە كۆزنەكتىن كۆزنەككە ئۆتۈش(تەتۈرى)"
 
-#~| msgid "Walk Through Windows Alternative"
-#~ msgid "Walk Through Windows of Current Application"
-#~ msgstr "باشقىچە كۆزنەكتىن كۆزنەككە ئۆتۈش"
-
-#~| msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgid "Walk Through Windows of Current Application (Reverse)"
-#~ msgstr "باشقىچە كۆزنەكتىن كۆزنەككە ئۆتۈش(تەتۈرى)"
-
-#~| msgid "Walk Through Windows Alternative"
-#~ msgid "Walk Through Windows of Current Application Alternative"
-#~ msgstr "باشقىچە كۆزنەكتىن كۆزنەككە ئۆتۈش"
-
-#~| msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-#~ msgstr "باشقىچە كۆزنەكتىن كۆزنەككە ئۆتۈش(تەتۈرى)"
-
 #~ msgid "Configure Layout"
 #~ msgstr "جايلاشتۇرۇلۇشنى سەپلە"
 
@@ -276,42 +263,29 @@ msgstr ""
 #~ msgid "Your emails"
 #~ msgstr "sahran.ug@gmail.com,  gheyret@gmail.com"
 
-#~| msgid "All Desktops Grouped by Applications"
-#~ msgid "All windows from all applications"
-#~ msgstr "پروگراممىلار ئارقىلىق گۇرۇپپىلانغان بارلىق ئۈستەلئۈستى"
+#~ msgid "These settings are used by the \"Walk Through Windows\" actions."
+#~ msgstr ""
+
+#~ msgid "Highlight selected window"
+#~ msgstr ""
 
 #~ msgid "Effect:"
 #~ msgstr "ئۈنۈم:"
 
-#~ msgctxt "Name for a window switcher layout showing live window thumbnails"
-#~ msgid "Thumbnails"
-#~ msgstr "كىچىك سۈرەت"
-
-#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
-#~ msgid "Informative"
-#~ msgstr "مول ئۇچۇرلۇق"
-
-#~ msgctxt "Name for a window switcher layout showing only icon and name"
-#~ msgid "Compact"
-#~ msgstr "ئىخچام"
-
-#~ msgctxt "Name for a window switcher layout showing only the name"
-#~ msgid "Text"
-#~ msgstr "تېكىست"
-
-#~ msgctxt "Name for a window switcher layout showing large icons"
-#~ msgid "Large Icons"
-#~ msgstr "چوڭ سىنبەلگە"
-
-#~ msgctxt "Name for a window switcher layout showing small icons"
-#~ msgid "Small Icons"
-#~ msgstr "كىچىك سىنبەلگە"
+#~ msgid "Display list while switching"
+#~ msgstr ""
 
 #~ msgid "No Effect"
 #~ msgstr "ئۈنۈم يوق"
 
 #~ msgid "Configure Layout..."
 #~ msgstr "ئورۇنلاشتۇرۇلۇشنى سەپلە…"
+
+#~ msgid "Item Layout"
+#~ msgstr ""
+
+#~ msgid "Item layout:"
+#~ msgstr ""
 
 #~ msgid "Layout:"
 #~ msgstr "جايلاشتۇرۇش:"
@@ -328,14 +302,23 @@ msgstr ""
 #~ msgid "Width:"
 #~ msgstr "كەڭلىك:"
 
+#~ msgid "Minimum width, as a percentage of screen width."
+#~ msgstr ""
+
 #~ msgid " %"
 #~ msgstr " %"
 
 #~ msgid "Height:"
 #~ msgstr "ئېگىزلىك:"
 
+#~ msgid "Minimum height, as a percentage of screen height."
+#~ msgstr ""
+
 #~ msgid "Show Selected Item"
 #~ msgstr "تاللانغان تۈرنى  كۆرسەت"
+
+#~ msgid "Selected item view:"
+#~ msgstr ""
 
 #~ msgid "Top"
 #~ msgstr "ئۈستى"
@@ -348,3 +331,9 @@ msgstr ""
 
 #~ msgid "Right"
 #~ msgstr "ئوڭ"
+
+#~ msgid "Selected item layout:"
+#~ msgstr ""
+
+#~ msgid "General"
+#~ msgstr ""
