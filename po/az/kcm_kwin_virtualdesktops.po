@@ -1,21 +1,27 @@
-# Copyright (C) YEAR This file is copyright:
-# This file is distributed under the same license as the kwin package.
-#
-# Xəyyam Qocayev <xxmn77@gmail.com>, 2020, 2021, 2022.
+# translation of kcm_kwindesktop.po to British English
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2019, 2021, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: kwin\n"
+"Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
-"PO-Revision-Date: 2022-07-03 13:56+0400\n"
-"Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
-"Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
-"Language: az\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Azerbaijani (https://app.transifex.com/linuxdeepin/teams/3617/az/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: az\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.04.2\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -28,13 +34,12 @@ msgid "Your emails"
 msgstr "xxmn77@gmail.com"
 
 #: desktopsmodel.cpp:191
-#, fuzzy, kde-format
-#| msgid "New Desktop"
+#, kde-format
 msgctxt "A numbered name for virtual desktops"
 msgid "Desktop %1"
 msgid_plural "Desktop %1"
-msgstr[0] "Yeni İş masası"
-msgstr[1] "Yeni İş masası"
+msgstr[0] ""
+msgstr[1] ""
 
 #: desktopsmodel.cpp:479
 #, kde-format
@@ -57,8 +62,8 @@ msgid ""
 "This module lets you configure the navigation, number and layout of virtual "
 "desktops."
 msgstr ""
-"Bu modul Virtual İş masasının nömrəsi, qatı və istiqamətinin tənzimlənməsinə "
-"imkan verir."
+"Bu modul Virtual İş masasının nömrəsi, qatı və istiqamətinin tənzimlənməsinə"
+" imkan verir."
 
 #: package/contents/ui/main.qml:91
 #, kde-format
@@ -81,8 +86,8 @@ msgstr "Silmək"
 #: package/contents/ui/main.qml:137
 #, kde-format
 msgid ""
-"Virtual desktops have been changed outside this settings application. Saving "
-"now will overwrite the changes."
+"Virtual desktops have been changed outside this settings application. Saving"
+" now will overwrite the changes."
 msgstr ""
 "Virtual İş Masaları başqa tətbiq tərəfindən dəyişdirildi. Bu pəncərədə "
 "ayarların saxlanılması kənar dəyişikləri inkar edəcək."
@@ -139,3 +144,134 @@ msgstr "Bütün İş Masalarının sxematik görünüşü"
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "Virtual İş Masaları"
+
+#~ msgid "New Desktop"
+#~ msgstr ""
+
+#~ msgid "Rows:"
+#~ msgstr ""
+
+#~ msgid "Configure Virtual Desktops"
+#~ msgstr ""
+
+#~ msgid "Desktop %1:"
+#~ msgstr ""
+
+#~ msgid "Here you can enter the name for desktop %1"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual"
+#~ " desktops you want and how these should be labeled."
+#~ msgstr ""
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
+
+#~ msgid "Switch to Next Desktop"
+#~ msgstr ""
+
+#~ msgid "Switch to Previous Desktop"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop to the Right"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop to the Left"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop Up"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop Down"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktops"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktops (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktop List"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktop List (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Desktop Switching"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop %1"
+#~ msgstr ""
+
+#~ msgid "No Animation"
+#~ msgstr ""
+
+#~ msgid "No suitable Shortcut for Desktop %1 found"
+#~ msgstr ""
+
+#~ msgid "Assigned global Shortcut \"%1\" to Desktop %2"
+#~ msgstr ""
+
+#~ msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
+#~ msgstr ""
+
+#~ msgid "KWin development team"
+#~ msgstr ""
+
+#~ msgid "Layout"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Here you can set how many virtual desktops you want on your KDE desktop."
+#~ msgstr ""
+
+#~ msgid "&Number of desktops:"
+#~ msgstr ""
+
+#~ msgid "N&umber of rows:"
+#~ msgstr ""
+
+#~ msgid "Desktop Names"
+#~ msgstr ""
+
+#~ msgid "Switching"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enable this option if you want keyboard or active desktop border navigation "
+#~ "beyond the edge of a desktop to take you to the opposite edge of the new "
+#~ "desktop."
+#~ msgstr ""
+
+#~ msgid "Desktop Effect Animation"
+#~ msgstr ""
+
+#~ msgid "Animation:"
+#~ msgstr ""
+
+#~ msgid "Desktop Switch On-Screen Display"
+#~ msgstr ""
+
+#~ msgid "Duration:"
+#~ msgstr ""
+
+#~ msgid " msec"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enabling this option will show a small preview of the desktop layout "
+#~ "indicating the selected desktop."
+#~ msgstr ""
+
+#~ msgid "Shortcuts"
+#~ msgstr "Qısayollar"
+
+#~ msgid "Show shortcuts for all possible desktops"
+#~ msgstr ""
+
+#~ msgid "Different widgets for each desktop"
+#~ msgstr ""
+
+#~ msgid "Mouse wheel over desktop background switches desktop"
+#~ msgstr ""
