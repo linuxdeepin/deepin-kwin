@@ -1,21 +1,25 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Thanomsub Noppaburana <donga.nb@gmail.com>, 2010.
+# 
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2016, 2017, 2019, 2021, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-07-15 00:48+0000\n"
-"PO-Revision-Date: 2010-03-25 11:46+0700\n"
-"Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
-"Language-Team: Thai <thai-l10n@googlegroups.com>\n"
-"Language: th\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Thai (https://app.transifex.com/linuxdeepin/teams/3617/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"Language: th\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 22.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -63,16 +67,14 @@ msgid "Present Windows"
 msgstr ""
 
 #: main.cpp:140 touch.cpp:134
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "%1 - All Desktops"
-msgstr "พื้นที่ทำงานทั้งหมด"
+msgstr ""
 
 #: main.cpp:141 touch.cpp:135
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#, kde-format
 msgid "%1 - Current Desktop"
-msgstr "พื้นที่ทำงานปัจจุบัน"
+msgstr ""
 
 #: main.cpp:142 touch.cpp:136
 #, kde-format
@@ -91,16 +93,11 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: main.ui:23
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action push your mouse cursor against the edge of the "
-#| "screen in the action's direction."
+#, kde-format
 msgid ""
 "You can trigger an action by pushing the mouse cursor against the "
 "corresponding screen edge or corner."
 msgstr ""
-"เพื่อกระตุ้นการทำงานของการกระทำ ให้คุณเคลื่อนเคอร์เซอร์เมาส์ไปจนถึงขอบของหน้าจอ "
-"ตามทิศทางต่าง ๆ ของการกระทำ"
 
 #. i18n: ectx: property (text), widget (QLabel, quickMaximizeLabel)
 #: main.ui:67
@@ -108,7 +105,8 @@ msgstr ""
 msgid "&Maximize:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderMaximize)
+#. i18n: ectx: property (text), widget (QCheckBox,
+#. kcfg_ElectricBorderMaximize)
 #: main.ui:77
 #, kde-format
 msgid "Windows dragged to top edge"
@@ -122,10 +120,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderTiling)
 #: main.ui:94
-#, fuzzy, kde-format
-#| msgid "Tile windows by dragging them to the side of the screen"
+#, kde-format
 msgid "Windows dragged to left or right edge"
-msgstr "ปูหน้าต่างด้วยการลากพวกมันไปยังด้านข้างของหน้าจอ"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
@@ -139,19 +136,22 @@ msgstr ""
 msgid "Remain active when windows are fullscreen"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, electricBorderCornerRatioLabel)
+#. i18n: ectx: property (text), widget (QLabel,
+#. electricBorderCornerRatioLabel)
 #: main.ui:115
 #, kde-format
 msgid "Trigger &quarter tiling in:"
 msgstr ""
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatioSpin)
+#. i18n: ectx: property (suffix), widget (QSpinBox,
+#. electricBorderCornerRatioSpin)
 #: main.ui:130
 #, no-c-format, kde-format
 msgid "%"
 msgstr ""
 
-#. i18n: ectx: property (prefix), widget (QSpinBox, electricBorderCornerRatioSpin)
+#. i18n: ectx: property (prefix), widget (QSpinBox,
+#. electricBorderCornerRatioSpin)
 #: main.ui:133
 #, kde-format
 msgid "Outer "
@@ -167,7 +167,8 @@ msgstr ""
 #: main.ui:174
 #, kde-format
 msgid ""
-"Change desktop when the mouse cursor is pushed against the edge of the screen"
+"Change desktop when the mouse cursor is pushed against the edge of the "
+"screen"
 msgstr "เปลี่ยนพื้นที่ทำงานเมื่อเคลื่อนเคอร์เซอร์เมาส์มาจนถึงขอบของหน้าจอ"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
@@ -210,7 +211,8 @@ msgid "Activation &delay:"
 msgstr "&หน่วงเวลาก่อนการเรียกใช้งาน:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderDelay)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderCooldown)
+#. i18n: ectx: property (suffix), widget (QSpinBox,
+#. kcfg_ElectricBorderCooldown)
 #: main.ui:219 main.ui:254
 #, kde-format
 msgid " ms"
@@ -222,7 +224,8 @@ msgstr " มิลลิวินาที"
 msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
-msgstr "ช่วงเวลารอนับตั้งแต่เริ่มการกระทำหลังสุดไปแล้ว ก่อนจะเริ่มการกระทำถัดไป"
+msgstr ""
+"ช่วงเวลารอนับตั้งแต่เริ่มการกระทำหลังสุดไปแล้ว ก่อนจะเริ่มการกระทำถัดไป"
 
 #. i18n: ectx: property (text), widget (QLabel, triggerCooldownLabel)
 #: main.ui:241
@@ -232,53 +235,57 @@ msgstr "หน่วงเวลา&ก่อนการเรียกใช�
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: touch.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "To trigger an action push your mouse cursor against the edge of the "
-#| "screen in the action's direction."
+#, kde-format
 msgid ""
-"You can trigger an action by swiping from the screen edge towards the center "
-"of the screen."
+"You can trigger an action by swiping from the screen edge towards the center"
+" of the screen."
 msgstr ""
-"เพื่อกระตุ้นการทำงานของการกระทำ ให้คุณเคลื่อนเคอร์เซอร์เมาส์ไปจนถึงขอบของหน้าจอ "
-"ตามทิศทางต่าง ๆ ของการกระทำ"
 
 #~ msgid "Show Desktop"
 #~ msgstr "แสดงพื้นที่ทำงาน"
 
-#, fuzzy
-#~| msgid "Cube"
+#~ msgid "Desktop Grid"
+#~ msgstr ""
+
+#~ msgid "Toggle Overview"
+#~ msgstr ""
+
 #~ msgid "%1 - Cube"
-#~ msgstr "พื้นที่ทำงานทรงลูกบาศก์"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Cylinder"
 #~ msgid "%1 - Cylinder"
-#~ msgstr "พื้นที่ทำงานทรงกระบอก"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Sphere"
 #~ msgid "%1 - Sphere"
-#~ msgstr "พื้นที่ทำงานแบบห้วงอวกาศ"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Active Screen Edge Actions"
 #~ msgid "Active Screen Corners and Edges"
-#~ msgstr "เปิดใช้งานการกระทำกับขอบหน้าจอ"
+#~ msgstr ""
 
 #~ msgid "Window Management"
 #~ msgstr "การจัดการหน้าต่าง"
 
-#, fuzzy
-#~| msgid "Maximize windows by dragging them to the top of the screen"
 #~ msgid "Maximize windows by dragging them to the top edge of the screen"
-#~ msgstr "ขยายหน้าต่างใหญ่สุดเมื่อพวกมันถูกลากมาจนแนบกับขอบหน้าจอด้านบน"
+#~ msgstr ""
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr ""
 
 #~ msgid "Other Settings"
 #~ msgstr "การตั้งค่าอื่น ๆ"
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr ""
 
 #~ msgid "Show Dashboard"
 #~ msgstr "แสดงแดชบอร์ด"
 
 #~ msgid "Prevent Screen Locking"
 #~ msgstr "ป้องกันด้วยการล็อคหน้าจอ"
+
+#~ msgid "Trigger &cooldown:"
+#~ msgstr ""
+
+#~ msgid "Action Groups"
+#~ msgstr ""
