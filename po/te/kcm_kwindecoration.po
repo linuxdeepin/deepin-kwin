@@ -1,22 +1,26 @@
-# translation of kcmkwindecoration.po to Telugu
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-#
-# Krishna Babu K <kkrothap@redhat.com>, 2009.
+# translation of kcmkwindecoration.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2018, 2019, 2020, 2021.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwindecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-26 02:32+0000\n"
-"PO-Revision-Date: 2009-01-16 22:16+0530\n"
-"Last-Translator: Krishna Babu K <kkrothap@redhat.com>\n"
-"Language-Team: Telugu <en@li.org>\n"
-"Language: te\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Telugu (https://app.transifex.com/linuxdeepin/teams/3617/te/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: te\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -39,10 +43,9 @@ msgid "Application menu"
 msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:57
-#, fuzzy, kde-format
-#| msgid "On All Desktops"
+#, kde-format
 msgid "On all desktops"
-msgstr "అన్ని రంగస్థలముల పైనా"
+msgstr ""
 
 #: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
@@ -80,10 +83,9 @@ msgid "Keep above other windows"
 msgstr ""
 
 #: kcm.cpp:49
-#, fuzzy, kde-format
-#| msgid "&Window Decoration"
+#, kde-format
 msgid "Window Decorations"
-msgstr "(&W) విండో అలంకరణ"
+msgstr ""
 
 #: kcm.cpp:53
 #, kde-format
@@ -139,13 +141,13 @@ msgstr ""
 
 #: kwin-applywindowdecoration.cpp:77
 #, kde-format
-msgid ""
-"The requested theme \"%1\" is already set as the window decoration theme."
+msgid "The requested theme \"%1\" is already set as the window decoration theme."
 msgstr ""
 
 #: kwin-applywindowdecoration.cpp:99
 #, kde-format
-msgid "Successfully applied the cursor theme %1 to your current Plasma session"
+msgid ""
+"Successfully applied the cursor theme %1 to your current Plasma session"
 msgstr ""
 
 #: kwin-applywindowdecoration.cpp:103
@@ -194,25 +196,22 @@ msgid "Theme"
 msgstr ""
 
 #: package/contents/ui/main.qml:56
-#, fuzzy, kde-format
-#| msgid "Buttons"
+#, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
-msgstr "బటన్లు"
+msgstr ""
 
 #: package/contents/ui/main.qml:92
-#, fuzzy, kde-format
-#| msgid "B&order size:"
+#, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
-msgstr "(&o) హద్దు పరిమాణము:"
+msgstr ""
 
 #: package/contents/ui/main.qml:110
-#, fuzzy, kde-format
-#| msgid "&Window Decoration"
+#, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
-msgstr "(&W) విండో అలంకరణ"
+msgstr ""
 
 #: package/contents/ui/main.qml:139
 #, kde-format
@@ -227,11 +226,10 @@ msgid "Click and hold on the menu button to show the menu."
 msgstr ""
 
 #: package/contents/ui/main.qml:163
-#, fuzzy, kde-format
-#| msgid "&Show window button tooltips"
+#, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
-msgstr "(&S) విండో బటన్ పనిముట్టుచిట్కాలను చూపుము"
+msgstr ""
 
 #: package/contents/ui/Themes.qml:90
 #, kde-format
@@ -239,128 +237,120 @@ msgid "Edit %1 Theme"
 msgstr ""
 
 #: utils.cpp:25
-#, fuzzy, kde-format
-#| msgid "B&order size:"
+#, kde-format
 msgid "No Borders"
-msgstr "(&o) హద్దు పరిమాణము:"
+msgstr ""
 
 #: utils.cpp:26
-#, fuzzy, kde-format
-#| msgid "B&order size:"
+#, kde-format
 msgid "No Side Borders"
-msgstr "(&o) హద్దు పరిమాణము:"
+msgstr ""
 
 #: utils.cpp:27
-#, fuzzy, kde-format
-#| msgid "Tiny"
+#, kde-format
 msgid "Tiny"
-msgstr "టినీ"
+msgstr ""
 
 #: utils.cpp:28
-#, fuzzy, kde-format
-#| msgid "Normal"
+#, kde-format
 msgid "Normal"
 msgstr "సాదారణముగా"
 
 #: utils.cpp:29
-#, fuzzy, kde-format
-#| msgid "Large"
+#, kde-format
 msgid "Large"
-msgstr "పెద్ద"
+msgstr ""
 
 #: utils.cpp:30
-#, fuzzy, kde-format
-#| msgid "Very Large"
+#, kde-format
 msgid "Very Large"
-msgstr "చాలా పెద్ద"
+msgstr ""
 
 #: utils.cpp:31
-#, fuzzy, kde-format
-#| msgid "Huge"
+#, kde-format
 msgid "Huge"
-msgstr "హ్యూజ్"
+msgstr ""
 
 #: utils.cpp:32
-#, fuzzy, kde-format
-#| msgid "Very Huge"
+#, kde-format
 msgid "Very Huge"
-msgstr "అత్యంత భారీ"
+msgstr ""
 
 #: utils.cpp:33
-#, fuzzy, kde-format
-#| msgid "Oversized"
+#, kde-format
 msgid "Oversized"
-msgstr "మించినపరిమాణము"
+msgstr ""
+
+#~ msgctxt "popup tip"
+#~ msgid ""
+#~ "Close by double clicking: Keep the window's Menu button pressed until it "
+#~ "appears."
+#~ msgstr ""
 
 #~ msgid "Menu"
 #~ msgstr "మెనూ"
 
-#, fuzzy
-#~| msgid "&Window Decoration"
+#~ msgid "Keep below"
+#~ msgstr ""
+
+#~ msgid "Keep above"
+#~ msgstr ""
+
 #~ msgid "Download New Window Decorations"
-#~ msgstr "(&W) విండో అలంకరణ"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "B&order size:"
+#~ msgctxt "checkbox label"
+#~ msgid "Use theme's default window border size"
+#~ msgstr ""
+
+#~ msgid "Close windows by double clicking &the menu button"
+#~ msgstr ""
+
 #~ msgid "Border si&ze:"
-#~ msgstr "(&o) హద్దు పరిమాణము:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "&Window Decoration"
+#~ msgid "Buttons"
+#~ msgstr ""
+
 #~ msgid "Configure %1..."
-#~ msgstr "(&W) విండో అలంకరణ"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Normal"
+#~ msgid "Drag to re-position buttons"
+#~ msgstr ""
+
 #~ msgid "Form"
-#~ msgstr "సాదారణముగా"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Buttons"
 #~ msgid "Button size:"
-#~ msgstr "బటన్లు"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Tiny"
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Tiny"
-#~ msgstr "టినీ"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Normal"
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Normal"
 #~ msgstr "సాదారణముగా"
 
-#, fuzzy
-#~| msgid "Large"
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Large"
-#~ msgstr "పెద్ద"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Very Large"
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Very Large"
-#~ msgstr "చాలా పెద్ద"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Huge"
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Huge"
-#~ msgstr "హ్యూజ్"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Very Huge"
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Very Huge"
-#~ msgstr "అత్యంత భారీ"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Oversized"
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Oversized"
-#~ msgstr "మించినపరిమాణము"
+#~ msgstr ""
 
 #~ msgid "KDE"
 #~ msgstr "KDE"
@@ -368,11 +358,32 @@ msgstr "మించినపరిమాణము"
 #~ msgid "%1 (unavailable)"
 #~ msgstr "%1 (అందుబాటులోలేని)"
 
+#~ msgid ""
+#~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
+#~ "available item list and the titlebar preview. Similarly, drag items within "
+#~ "the titlebar preview to re-position them."
+#~ msgstr ""
+
 #~ msgid "Resize"
 #~ msgstr "పునఃపరిమాణము"
 
 #~ msgid "Help"
 #~ msgstr "సహాయం"
+
+#~ msgctxt "Button showing window actions menu"
+#~ msgid "Window Menu"
+#~ msgstr ""
+
+#~ msgid "--- spacer ---"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enabling this checkbox will show window button tooltips. If this checkbox is"
+#~ " off, no window button tooltips will be shown."
+#~ msgstr ""
+
+#~ msgid "Please note that this option is not available on all styles yet."
+#~ msgstr ""
 
 #~ msgid "Use custom titlebar button &positions"
 #~ msgstr "(&p) మలచుకొనిని శీర్షకపట్టీ బటన్ స్థానములను వుపయోగించుము"
@@ -381,10 +392,27 @@ msgstr "మించినపరిమాణము"
 #~ msgstr "(&o) హద్దు పరిమాణము:"
 
 #~ msgid "Use this combobox to change the border size of the decoration."
-#~ msgstr "అలంకరణ యొక్క హద్దు పరిమాణమును మార్చుటకు ఈ కాంబోబాక్స్‌ను వుపయోగించుము."
+#~ msgstr ""
+#~ "అలంకరణ యొక్క హద్దు పరిమాణమును మార్చుటకు ఈ కాంబోబాక్స్‌ను వుపయోగించుము."
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Side Border"
+#~ msgstr ""
+
+#~ msgctxt "@item:inlistbox Border size:"
+#~ msgid "No Border"
+#~ msgstr ""
 
 #~ msgid "Decoration Options"
 #~ msgstr "అలంకరణ ఐచ్చికములు"
+
+#~ msgid ""
+#~ "Select the window decoration. This is the look and feel of both the window "
+#~ "borders and the window handle."
+#~ msgstr ""
+
+#~ msgid "Configure Decoration..."
+#~ msgstr ""
 
 #~ msgid "Window Decoration Control Module"
 #~ msgstr "విండో అలంకరణ నియంత్రణ మాడ్యూల్"
@@ -395,6 +423,31 @@ msgstr "మించినపరిమాణము"
 #~ msgid "Karol Szwed"
 #~ msgstr "కారల్ స్జ్వెడ్"
 
+#~ msgid ""
+#~ "<h1>Installation error</h1>The "
+#~ "resource<h2>kwin/kcm_kwindecoration/main.qml</h2>could not be located in any"
+#~ " application data path.<h2>Please contact your distribution</h2>The "
+#~ "application will now abort"
+#~ msgstr ""
+
+#~ msgid "Installation Error"
+#~ msgstr ""
+
+#~ msgid "Oxygen"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
+#~ "window border decorations, as well as titlebar button positions and custom "
+#~ "decoration options.</p>To choose a theme for your window decoration click on"
+#~ " its name and apply your choice by clicking the \"Apply\" button below. If "
+#~ "you do not want to apply your choice you can click the \"Reset\" button to "
+#~ "discard your changes.<p>You can configure each theme. There are different "
+#~ "options specific for each theme.</p><p>On the \"Buttons\" tab check the "
+#~ "\"Use custom titlebar button positions\" box and you can change the "
+#~ "positions of the buttons to your liking.</p>"
+#~ msgstr ""
+
 #~ msgid "Active Window"
 #~ msgstr "క్రియాశీల విండో"
 
@@ -404,8 +457,21 @@ msgstr "మించినపరిమాణము"
 #~ msgid "kcmkwindecoration"
 #~ msgstr "kcmkwindecoration"
 
+#~ msgctxt "Caption to decoration preview, %1 author name"
+#~ msgid "by %1"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "No preview available.\n"
+#~ "Most probably there\n"
+#~ "was a problem loading the plugin."
+#~ msgstr ""
+
 #~ msgid "&Buttons"
 #~ msgstr "(&B) బటన్స్"
 
 #~ msgid "Ozone"
 #~ msgstr "ఓజోన్"
+
+#~ msgid "KDE 2"
+#~ msgstr ""
