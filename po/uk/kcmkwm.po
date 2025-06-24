@@ -1642,10 +1642,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Left button:"
-#~ msgstr ""
+#~ msgstr "Ліва кнопка:"
 
 #~ msgid "Middle button:"
-#~ msgstr ""
+#~ msgstr "Середня кнопка:"
 
 #~ msgid ""
 #~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
@@ -1653,7 +1653,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Right button:"
-#~ msgstr ""
+#~ msgstr "Права кнопка:"
 
 #~ msgid ""
 #~ "Behavior on <em>right</em> click into the titlebar or frame of an "
@@ -1962,7 +1962,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Opacity"
-#~ msgstr ""
+#~ msgstr "Непрозорість"
 
 #~ msgid "Use shadows"
 #~ msgstr ""
