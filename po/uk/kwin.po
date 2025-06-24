@@ -3200,6 +3200,8 @@ msgstr ""
 #~ "\n"
 #~ "KWin will now exit..."
 #~ msgstr ""
+#~ "\n"
+#~ "Тепер KWin завершить роботу..."
 
 #~ msgid "Window to Desktop 2"
 #~ msgstr "Вікно на стільницю 2"
@@ -3352,7 +3354,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Not on all desktops"
-#~ msgstr ""
+#~ msgstr "Не на усіх стільницях"
 
 #~ msgid "On all desktops"
 #~ msgstr "На всіх стільницях"
@@ -3364,10 +3366,10 @@ msgstr ""
 #~ msgstr "Відновити"
 
 #~ msgid "Do not keep above others"
-#~ msgstr ""
+#~ msgstr "Не тримати над іншими"
 
 #~ msgid "Do not keep below others"
-#~ msgstr ""
+#~ msgstr "Не утримувати під іншими"
 
 #~ msgid "No window decoration plugin library was found."
 #~ msgstr ""
@@ -3427,7 +3429,7 @@ msgstr ""
 #~ msgstr "Перервати"
 
 #~ msgid "Keep Running"
-#~ msgstr ""
+#~ msgstr "Продовжити роботу"
 
 #~ msgid "Top"
 #~ msgstr "Вгорі"
