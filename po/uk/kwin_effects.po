@@ -1282,7 +1282,7 @@ msgstr "Стеження за вказівником:"
 #~ msgstr ""
 
 #~ msgid "Left button:"
-#~ msgstr ""
+#~ msgstr "Ліва кнопка:"
 
 #~ msgid "No action"
 #~ msgstr ""
@@ -1303,10 +1303,10 @@ msgstr "Стеження за вказівником:"
 #~ msgstr ""
 
 #~ msgid "Middle button:"
-#~ msgstr ""
+#~ msgstr "Середня кнопка:"
 
 #~ msgid "Right button:"
-#~ msgstr ""
+#~ msgstr "Права кнопка:"
 
 #~ msgctxt "@title:group actions when clicking on desktop"
 #~ msgid "Desktop"
@@ -1335,11 +1335,11 @@ msgstr "Стеження за вказівником:"
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
-#~ msgstr ""
+#~ msgstr "Юрій Чорноіван"
 
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
-#~ msgstr ""
+#~ msgstr "yurchor@ukr.net"
 
 #~ msgid "Scale window"
 #~ msgstr ""
@@ -1721,7 +1721,7 @@ msgstr "Стеження за вказівником:"
 #~ msgstr ""
 
 #~ msgid "Opacity"
-#~ msgstr ""
+#~ msgstr "Непрозорість"
 
 #~ msgid "Do not change opacity of windows"
 #~ msgstr ""
