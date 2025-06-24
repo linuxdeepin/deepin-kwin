@@ -1,21 +1,25 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Thanomsub Noppaburana <donga.nb@gmail.com>, 2010.
+# 
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
-"PO-Revision-Date: 2010-03-27 23:18+0700\n"
-"Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
-"Language-Team: Thai <thai-l10n@googlegroups.com>\n"
-"Language: th\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Thai (https://app.transifex.com/linuxdeepin/teams/3617/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"Language: th\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 22.04.3\n"
 
 #: kwintabboxconfigform.cpp:80
 #, kde-format
@@ -23,17 +27,15 @@ msgid "KWin"
 msgstr ""
 
 #: layoutpreview.cpp:133
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Show Desktop"
-msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานทั้งหมด"
+msgstr "แสดงพื้นที่ทำงาน"
 
 #: layoutpreview.cpp:163
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
-msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานทั้งหมด"
+msgstr ""
 
 #: main.cpp:58
 #, kde-format
@@ -55,7 +57,8 @@ msgstr ""
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
 msgstr ""
-"การตั้งค่าต่าง ๆ ของนโยบายการได้รับโฟกัส จะจำกัดความสามารถของการท่องผ่านแต่ละหน้าต่าง"
+"การตั้งค่าต่าง ๆ ของนโยบายการได้รับโฟกัส "
+"จะจำกัดความสามารถของการท่องผ่านแต่ละหน้าต่าง"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -65,10 +68,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
-#, fuzzy, kde-format
-#| msgid "Include desktop"
+#, kde-format
 msgid "Include \"Show Desktop\" icon"
-msgstr "รวมพื้นที่ทำงานด้วย"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
@@ -102,31 +104,27 @@ msgstr "การเรียงลำดับของหน้าต่าง
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: main.ui:114
-#, fuzzy, kde-format
-#| msgid "List windows:"
+#, kde-format
 msgid "Filter windows by"
-msgstr "รายการของหน้าต่างต่าง ๆ:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:123
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Virtual desktops"
-msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานทั้งหมด"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:167
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#, kde-format
 msgid "Current desktop"
-msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานปัจจุบัน"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:174
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "All other desktops"
-msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานทั้งหมด"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterActivities)
 #: main.ui:184
@@ -154,10 +152,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:289
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#, kde-format
 msgid "Current screen"
-msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานปัจจุบัน"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherScreens)
 #: main.ui:296
@@ -167,30 +164,27 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:306
-#, fuzzy, kde-format
-#| msgid "Minimum Size"
+#, kde-format
 msgid "Minimization"
-msgstr "ขนาดเล็กสุด"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:350
-#, fuzzy, kde-format
-#| msgid "List windows:"
+#, kde-format
 msgid "Visible windows"
-msgstr "รายการของหน้าต่างต่าง ๆ:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, hiddenWindows)
 #: main.ui:357
-#, fuzzy, kde-format
-#| msgid "List windows:"
+#, kde-format
 msgid "Hidden windows"
-msgstr "รายการของหน้าต่างต่าง ๆ:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: main.ui:396
 #, kde-format
 msgid "Shortcuts"
-msgstr ""
+msgstr "ปุ่มพิมพ์ลัด"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -201,10 +195,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:428
-#, fuzzy, kde-format
-#| msgid "List windows:"
+#, kde-format
 msgid "All windows"
-msgstr "รายการของหน้าต่างต่าง ๆ:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -215,23 +208,22 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: main.ui:480
-#, fuzzy, kde-format
-#| msgid "Current Desktop Grouped by Applications"
+#, kde-format
 msgid "Current application"
-msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานปัจจุบัน โดยจัดกลุ่มตามโปรแกรม"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:499
-#, fuzzy, kde-format
-#| msgid "Navigation"
+#, kde-format
 msgid "Visualization"
-msgstr "การนำทาง"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
 #: main.ui:529
 #, kde-format
 msgid "The effect to replace the list window when desktop effects are active."
-msgstr "ลูกเล่นที่จะใช้แทนที่รายการหน้าต่างเมื่อมีการเปิดใช้งานลูกเล่นของพื้นที่ทำงาน"
+msgstr ""
+"ลูกเล่นที่จะใช้แทนที่รายการหน้าต่างเมื่อมีการเปิดใช้งานลูกเล่นของพื้นที่ทำงาน"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:559
@@ -240,25 +232,20 @@ msgid ""
 "The currently selected window will be highlighted by fading out all other "
 "windows. This option requires desktop effects to be active."
 msgstr ""
-"หน้าต่างที่เลือกไว้ในปัจจุบันจะถูกเน้นด้วยการค่อย ๆ จางหายไปจากหน้าต่างอื่น ๆ "
-"ตัวเลือกนี้ต้องการการเปิดใช้งานลูกเล่นของพื้นที่ทำงานด้วย"
+"หน้าต่างที่เลือกไว้ในปัจจุบันจะถูกเน้นด้วยการค่อย ๆ จางหายไปจากหน้าต่างอื่น "
+"ๆ ตัวเลือกนี้ต้องการการเปิดใช้งานลูกเล่นของพื้นที่ทำงานด้วย"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:562
-#, fuzzy, kde-format
-#| msgid "Show outline of selected window"
+#, kde-format
 msgid "Show selected window"
-msgstr "แสดงเส้นโดยรอบของหน้าต่างที่ถูกเลือก"
-
-#, fuzzy
-#~| msgid "Show outline of selected window"
-#~ msgid "Outline selected window"
-#~ msgstr "แสดงเส้นโดยรอบของหน้าต่างที่ถูกเลือก"
+msgstr ""
 
 #~ msgid ""
-#~ "These settings are used by the \"Walk Through Windows Alternative\" "
-#~ "actions."
-#~ msgstr "การตั้งค่าต่าง ๆ เหล่านี้ จะถูกใช้โดยการกระทำ \"ทางเลือกอื่นของการวนสลับหน้าต่าง\""
+#~ "These settings are used by the \"Walk Through Windows Alternative\" actions."
+#~ msgstr ""
+#~ "การตั้งค่าต่าง ๆ เหล่านี้ จะถูกใช้โดยการกระทำ "
+#~ "\"ทางเลือกอื่นของการวนสลับหน้าต่าง\""
 
 #~ msgid "Walk Through Windows"
 #~ msgstr "วนสลับหน้าต่าง"
@@ -270,26 +257,6 @@ msgstr "แสดงเส้นโดยรอบของหน้าต่า
 #~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
 
 #~ msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative"
-#~ msgid "Walk Through Windows of Current Application"
-#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgid "Walk Through Windows of Current Application (Reverse)"
-#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative"
-#~ msgid "Walk Through Windows of Current Application Alternative"
-#~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
-
-#, fuzzy
-#~| msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 #~ msgstr "ทางเลือกอื่นของการวนสลับหน้าต่าง (ย้อนกลับ)"
 
 #~ msgid "Configure Layout"
@@ -306,21 +273,6 @@ msgstr "แสดงเส้นโดยรอบของหน้าต่า
 #~ msgid "These settings are used by the \"Walk Through Windows\" actions."
 #~ msgstr "การตั้งค่าต่าง ๆ เหล่านี้ จะถูกใช้โดยการกระทำ \"วนสลับหน้าต่าง\""
 
-#, fuzzy
-#~| msgid "All Desktops Grouped by Applications"
-#~ msgid "All windows from all applications"
-#~ msgstr "หน้าต่างที่อยู่บนพื้นที่ทำงานทั้งหมด โดยจัดกลุ่มตามโปรแกรม"
-
-#, fuzzy
-#~| msgid "Adds an entry to minimize all windows."
-#~ msgid "Exclude minimized windows"
-#~ msgstr "เพิ่มรายการเพื่อย่อหน้าต่างทั้งหมด"
-
-#, fuzzy
-#~| msgid "Adds an entry to minimize all windows."
-#~ msgid "Show desktop to minimize all windows"
-#~ msgstr "เพิ่มรายการเพื่อย่อหน้าต่างทั้งหมด"
-
 #~ msgid "Highlight selected window"
 #~ msgstr "เน้นหน้าต่างที่เลือกไว้"
 
@@ -329,36 +281,6 @@ msgstr "แสดงเส้นโดยรอบของหน้าต่า
 
 #~ msgid "Display list while switching"
 #~ msgstr "แสดงรายการในระหว่างการสลับ"
-
-#, fuzzy
-#~| msgid "Informative"
-#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
-#~ msgid "Informative"
-#~ msgstr "แสดงรายละเอียด"
-
-#, fuzzy
-#~| msgid "Compact"
-#~ msgctxt "Name for a window switcher layout showing only icon and name"
-#~ msgid "Compact"
-#~ msgstr "รูปแบบกะทัดรัด"
-
-#, fuzzy
-#~| msgid "Text Only"
-#~ msgctxt "Name for a window switcher layout showing only the name"
-#~ msgid "Text"
-#~ msgstr "แสดงข้อความเท่านั้น"
-
-#, fuzzy
-#~| msgid "Large Icons"
-#~ msgctxt "Name for a window switcher layout showing large icons"
-#~ msgid "Large Icons"
-#~ msgstr "แสดงไอคอนขนาดใหญ่"
-
-#, fuzzy
-#~| msgid "Small Icons"
-#~ msgctxt "Name for a window switcher layout showing small icons"
-#~ msgid "Small Icons"
-#~ msgstr "แสดงไอคอนขนาดเล็ก"
 
 #~ msgid "No Effect"
 #~ msgstr "ไม่มีลูกเล่น"

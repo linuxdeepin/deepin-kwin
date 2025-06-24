@@ -1,21 +1,23 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-#
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2022.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2022-12-22 13:26+0400\n"
-"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
-"Language-Team: ar\n"
-"Language: ar\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Arabic (https://app.transifex.com/linuxdeepin/teams/3617/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 "X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
@@ -57,8 +59,8 @@ msgid ""
 "can choose your preferred balance of security and functionality here."
 msgstr ""
 "تتطلب تطبيقات اكس١١ القديمة القدرة على قراءة ضغطات المفاتيح التي تكتب في "
-"تطبيقات أخرى للميزات التي تنشط باستخدام اختصارات لوحة المفاتيح العالمية. هذا "
-"الخيار معطل افتراضيًا لأسباب أمنية. إذا كنت بحاجة إلى استخدام مثل هذه "
+"تطبيقات أخرى للميزات التي تنشط باستخدام اختصارات لوحة المفاتيح العالمية. هذا"
+" الخيار معطل افتراضيًا لأسباب أمنية. إذا كنت بحاجة إلى استخدام مثل هذه "
 "التطبيقات، فيمكنك اختيار توازن الأمان والوظائف المفضل لديك هنا."
 
 #: package/contents/ui/main.qml:66

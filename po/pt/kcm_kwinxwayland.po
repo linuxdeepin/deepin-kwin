@@ -1,22 +1,24 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2022-12-24 07:21+0000\n"
-"Last-Translator: José Nuno Coelho Pires <zepires@gmail.com>\n"
-"Language-Team: Portuguese <kde-i18n-pt@kde.org>\n"
-"Language: pt\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Portuguese (https://app.transifex.com/linuxdeepin/teams/3617/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-POFile-SpellExtra: Control\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: pt\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -61,8 +63,8 @@ msgstr ""
 "As aplicações antigas em X11 necessitam da capacidade de ler as sequências "
 "de teclas aplicadas noutras aplicações para algumas das funcionalidades que "
 "são activadas através dos atalhos de teclado globais. Isto está desactivado "
-"por omissão por questões de segurança. Se precisar de usar essas aplicações, "
-"poderá escolher aí o seu ponto de equilíbrio entre segurança e "
+"por omissão por questões de segurança. Se precisar de usar essas aplicações,"
+" poderá escolher aí o seu ponto de equilíbrio entre segurança e "
 "funcionalidade."
 
 #: package/contents/ui/main.qml:66
@@ -101,7 +103,7 @@ msgid ""
 "session by permitting malicious software to steal passwords and spy on the "
 "text that you type. Make sure you understand and accept this risk."
 msgstr ""
-"Lembre-se que, ao usar esta opção, irá reduzir a segurança do sistema apenas "
-"à da sessão de X11, permitindo que algumas aplicações maliciosas roubem as "
+"Lembre-se que, ao usar esta opção, irá reduzir a segurança do sistema apenas"
+" à da sessão de X11, permitindo que algumas aplicações maliciosas roubem as "
 "senhas e olhem para o texto que escreve. Certifique-se que compreende e "
 "aceita esse risco."

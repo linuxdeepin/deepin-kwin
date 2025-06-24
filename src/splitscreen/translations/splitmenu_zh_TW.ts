@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>Unmaximize</source>
-        <translation>取消最小化</translation>
+        <translation>還原</translation>
     </message>
 </context>
 </TS>

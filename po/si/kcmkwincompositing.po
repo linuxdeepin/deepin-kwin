@@ -1,21 +1,27 @@
+# translation of kcmkwincompositing.po to British English
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Danishka Navin <danishka@gmail.com>, 2009, 2011.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2016, 2017, 2018, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
-"PO-Revision-Date: 2011-08-03 15:35+0530\n"
-"Last-Translator: Danishka Navin <danishka@gmail.com>\n"
-"Language-Team: Sinhala <danishka@gmail.com>\n"
-"Language: si\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Sinhala (https://app.transifex.com/linuxdeepin/teams/3617/si/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.1\n"
+"Language: si\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:31
@@ -24,34 +30,33 @@ msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
 "If you think that you have meanwhile upgraded to a stable driver,\n"
-"you can reset this protection but be aware that this might result in an "
-"immediate crash!"
+"you can reset this protection but be aware that this might result in an immediate crash!"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
+#. i18n: ectx: property (text), widget (KMessageWidget,
+#. windowThumbnailWarning)
 #: compositing.ui:44
 #, kde-format
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
-"windows. This can result in windows not suspending their work when minimized."
+"windows. This can result in windows not suspending their work when "
+"minimized."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, compositingLabel)
 #: compositing.ui:56
-#, fuzzy, kde-format
-#| msgid "Compositing type:"
+#, kde-format
 msgid "Compositing:"
-msgstr "සංයුති වර්ගය:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Enabled)
 #: compositing.ui:63
-#, fuzzy, kde-format
-#| msgctxt "@option:check"
-#| msgid "Enable desktop effects at startup"
+#, kde-format
 msgid "Enable on startup"
-msgstr "ආරම්භයේදී වැඩතල සැරසිලි සක්‍රීය කරන්න"
+msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_WindowsBlockCompositing)
+#. i18n: ectx: property (toolTip), widget (QCheckBox,
+#. kcfg_WindowsBlockCompositing)
 #: compositing.ui:72
 #, kde-format
 msgid ""
@@ -60,7 +65,8 @@ msgid ""
 " The setting can be overruled by window-specific rules."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowsBlockCompositing)
+#. i18n: ectx: property (text), widget (QCheckBox,
+#. kcfg_WindowsBlockCompositing)
 #: compositing.ui:75
 #, kde-format
 msgid "Allow applications to block compositing"
@@ -68,17 +74,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, animationSpeedLabel)
 #: compositing.ui:82
-#, fuzzy, kde-format
-#| msgid "Animation speed:"
+#, kde-format
 msgid "Animation speed:"
-msgstr "සජීවීකරණ වේගය:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: compositing.ui:119
-#, fuzzy, kde-format
-#| msgid "Very Slow"
+#, kde-format
 msgid "Very slow"
-msgstr "ඉතා සෙමින්"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:139
@@ -88,30 +92,21 @@ msgstr "ක්‍ෂණික"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HiddenPreviews)
 #: compositing.ui:151
-#, fuzzy, kde-format
-#| msgid "Keep window thumbnails:"
+#, kde-format
 msgid "Keep window thumbnails:"
-msgstr "කවුළු කුඩාරූ තබාගන්න:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:159
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Windows are unmapped as they are requested. This can lead to not having "
-#| "updated thumbnials for windows on other desktops."
-#| msgid "Never"
+#, kde-format
 msgid "Never"
-msgstr "කිසිදා නැත"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:164
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Windows are not unmapped if the window is somewhere visible on any of the "
-#| "virtual desktops."
-#| msgid "Only for Shown Windows"
+#, kde-format
 msgid "Only for Shown Windows"
-msgstr "පෙන්වන කවුළු සඳහා පමණක්"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:169
@@ -151,10 +146,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:205
-#, fuzzy, kde-format
-#| msgid "Various animations"
+#, kde-format
 msgid "Force smoothest animations"
-msgstr "විවිධ සජීවීකරණ"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowTearing)
 #: compositing.ui:213
@@ -168,10 +162,19 @@ msgstr ""
 msgid "Re-enable OpenGL detection"
 msgstr "OpenGL හඳුනාගැනීම නැවත-සක්‍රීයකරන්න"
 
-#, fuzzy
-#~| msgid "Scale method:"
+#~ msgid "Allows applications to cause screen tearing in fullscreen."
+#~ msgstr ""
+
+#~ msgid "Allow tearing in fullscreen"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Scale method \"Accurate\" is not supported by all hardware and can cause "
+#~ "performance regressions and rendering artifacts."
+#~ msgstr ""
+
 #~ msgid "Scale method:"
-#~ msgstr "ප්‍රමාණකරන ක්‍රමය:"
+#~ msgstr ""
 
 #~ msgid "Smooth"
 #~ msgstr "මෘදු"
@@ -179,15 +182,42 @@ msgstr "OpenGL හඳුනාගැනීම නැවත-සක්‍රීය
 #~ msgid "Accurate"
 #~ msgstr "නිරවද්‍ය"
 
-#, fuzzy
-#~| msgid "OpenGL"
-#~ msgid "OpenGL 3.1"
-#~ msgstr "OpenGL"
+#~ msgid "Tearing prevention (\"vsync\"):"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "OpenGL"
+#~ msgid "Automatic"
+#~ msgstr ""
+
+#~ msgid "Only when cheap"
+#~ msgstr ""
+
+#~ msgid "Full screen repaints"
+#~ msgstr ""
+
+#~ msgid "Re-use screen content"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\"Only when cheap\" only prevents tearing for full screen changes like a "
+#~ "video."
+#~ msgstr ""
+
+#~ msgid "\"Full screen repaints\" can cause performance problems."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\"Re-use screen content\" causes severe performance problems on MESA "
+#~ "drivers."
+#~ msgstr ""
+
+#~ msgid "Rendering backend:"
+#~ msgstr ""
+
+#~ msgid "OpenGL 3.1"
+#~ msgstr ""
+
 #~ msgid "OpenGL 2.0"
-#~ msgstr "OpenGL"
+#~ msgstr ""
 
 #~ msgid "Crisp"
 #~ msgstr "ක්‍රිස්පි"
@@ -198,15 +228,37 @@ msgstr "OpenGL හඳුනාගැනීම නැවත-සක්‍රීය
 #~ msgid "XRender"
 #~ msgstr "XRender"
 
+#~ msgctxt "OpenGL Platform Interface"
+#~ msgid "EGL"
+#~ msgstr ""
+
+#~ msgctxt "OpenGL Platform Interface"
+#~ msgid "GLX"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Author: %1\n"
+#~ "License: %2"
+#~ msgstr ""
+
 #~ msgid ""
 #~ "Hint: To find out or configure how to activate an effect, look at the "
 #~ "effect's settings."
-#~ msgstr "ඉඟිය: සැරසිල්ලක් සක්‍රීය කිරීම හෝ සැකසීම ගැන සෙවීම සඳහා එම සැරසිල්ලේ සැකසුම් බලන්න."
+#~ msgstr ""
+#~ "ඉඟිය: සැරසිල්ලක් සක්‍රීය කිරීම හෝ සැකසීම ගැන සෙවීම සඳහා එම සැරසිල්ලේ සැකසුම්"
+#~ " බලන්න."
 
-#, fuzzy
-#~| msgid "No Effect"
+#~ msgid "Configure filter"
+#~ msgstr ""
+
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr ""
+
+#~ msgid "Exclude internal Desktop Effects"
+#~ msgstr ""
+
 #~ msgid "Get New Desktop Effects..."
-#~ msgstr "සැරසිලි නොමැත"
+#~ msgstr ""
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
@@ -216,70 +268,90 @@ msgstr "OpenGL හඳුනාගැනීම නැවත-සක්‍රීය
 #~ msgid "Your emails"
 #~ msgstr "danishka@gmail.com"
 
-#, fuzzy
-#~| msgid "Accessibility"
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Accessibility"
-#~ msgstr "පිවිසීමේ හැකියාව"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Appearance"
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Appearance"
-#~ msgstr "පෙනුම"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Candy"
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Candy"
-#~ msgstr "කැන්ඩි"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Focus"
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Focus"
-#~ msgstr "නාඹිගතවීම"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Tools"
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Show Desktop Animation"
+#~ msgstr ""
+
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Tools"
-#~ msgstr "ආයුධ"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Window Management"
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Virtual Desktop Switching Animation"
+#~ msgstr ""
+
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Management"
-#~ msgstr "කවුළු පරිපාලනය"
+#~ msgstr "කවුළු පාලනය"
 
-#, fuzzy
-#~| msgid "Suspend desktop effects for fullscreen windows"
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Window Open/Close Animation"
+#~ msgstr ""
+
+#~ msgid "KWin development team"
+#~ msgstr ""
+
+#~ msgid "Experimental:"
+#~ msgstr ""
+
+#~ msgid "Enable color correction"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Having full screen windows bypass the compositor is not supported on every "
+#~ "hardware."
+#~ msgstr ""
+
+#~ msgid "Expert:"
+#~ msgstr ""
+
 #~ msgid "Suspend compositor for full screen windows"
-#~ msgstr "පුළුල්තිර කවුළු සඳහා වැඩතල සැරසිලි නවතන්න"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Animation speed:"
+#~ msgid "OpenGL interface:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
+#~ "will be disabled."
+#~ msgstr ""
+
 #~ msgid "Animation Speed:"
-#~ msgstr "සජීවීකරණ වේගය:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Scale method:"
 #~ msgid "Scale Method:"
-#~ msgstr "ප්‍රමාණකරන ක්‍රමය:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Keep window thumbnails:"
+#~ msgid "Tearing Prevention (VSync):"
+#~ msgstr ""
+
 #~ msgid "Keep Window Thumbnails:"
-#~ msgstr "කවුළු කුඩාරූ තබාගන්න:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgctxt ""
-#~| "A window thumbnail requires to have the corresponding window mapped. To "
-#~| "have thumbnails at all time, windows are not unmapped. This can break "
-#~| "window minimization as it is modelled as unmapping of windows."
-#~| msgid "Always (Breaks minimization)"
 #~ msgid "Always (Breaks Animations)"
-#~ msgstr "සැමවිටම (කුඩාකිරීම බිඳදමයි)"
+#~ msgstr ""
+
+#~ msgid "OpenGL Platform Interface:"
+#~ msgstr ""
+
+#~ msgid "Form"
+#~ msgstr ""
 
 #~ msgid "1 second remaining:"
 #~ msgid_plural "%1 seconds remaining:"
@@ -319,23 +391,14 @@ msgstr "OpenGL හඳුනාගැනීම නැවත-සක්‍රීය
 #~ msgid "Rivo Laks"
 #~ msgstr "Rivo Laks"
 
-#, fuzzy
-#~| msgid "No Effect"
-#~ msgid "No effect"
-#~ msgstr "සැරසිලි නොමැත"
-
 #~ msgid ""
-#~ "Failed to activate desktop effects using the given configuration options. "
-#~ "Settings will be reverted to their previous values.\n"
+#~ "Failed to activate desktop effects using the given configuration options. Settings will be reverted to their previous values.\n"
 #~ "\n"
-#~ "Check your X configuration. You may also consider changing advanced "
-#~ "options, especially changing the compositing type."
+#~ "Check your X configuration. You may also consider changing advanced options, especially changing the compositing type."
 #~ msgstr ""
-#~ "දෙනලද සැකසුම් අභිප්‍රේත මගින් වැඩතල සැරසිලි සක්‍රීය කිරීම අසාර්ථකයි. සැකසුම් නැවත ඒවායෙ පෙර "
-#~ "අගයන් වෙත පත්වේ \n"
+#~ "දෙනලද සැකසුම් අභිප්‍රේත මගින් වැඩතල සැරසිලි සක්‍රීය කිරීම අසාර්ථකයි. සැකසුම් නැවත ඒවායෙ පෙර අගයන් වෙත පත්වේ \n"
 #~ "\n"
-#~ "ඔබේ X සැකසුම් පිරික්සන්න. තවද ඔබට උසස් අභිප්‍රේත විශේෂයෙන්ම සංයුක්ත වර්ගය වෙනස්කිරීම සැලකිය "
-#~ "හැක."
+#~ "ඔබේ X සැකසුම් පිරික්සන්න. තවද ඔබට උසස් අභිප්‍රේත විශේෂයෙන්ම සංයුක්ත වර්ගය වෙනස්කිරීම සැලකිය හැක."
 
 #~ msgid "Demos"
 #~ msgstr "ඩිමෝ"
@@ -349,53 +412,19 @@ msgstr "OpenGL හඳුනාගැනීම නැවත-සක්‍රීය
 #~ msgstr "පහත තාක්‍ෂණික ගැටළු නිසා වැඩතල සැකසුම් මෙම පද්ධතිය මත නොපවතී:"
 
 #~ msgid ""
-#~ "Your settings have been saved but as KDE is currently running in failsafe "
-#~ "mode desktop effects cannot be enabled at this time.\n"
+#~ "Your settings have been saved but as KDE is currently running in failsafe mode desktop effects cannot be enabled at this time.\n"
 #~ "\n"
 #~ "Please exit failsafe mode to enable desktop effects."
 #~ msgstr ""
-#~ "ඔබේ සැකසුම් සුරැකුනු නමුත් KDE බිඳවැටුම් ආරක්ෂා ප්‍රකාරයේ පවතින බැවින් වැඩතල සැරසිලි මේ "
-#~ "මොහොතේ සක්‍රීය කල නොහැක.\n"
+#~ "ඔබේ සැකසුම් සුරැකුනු නමුත් KDE බිඳවැටුම් ආරක්ෂා ප්‍රකාරයේ පවතින බැවින් වැඩතල සැරසිලි මේ මොහොතේ සක්‍රීය කල නොහැක.\n"
 #~ "\n"
 #~ "කරුණාකර වැඩතල සැරසිලි සක්‍රීය කිරීම සඳහා බිඳවැටුම් ආරක්ෂා ප්‍රකාරයෙන් පිටවෙන්න."
-
-#, fuzzy
-#~| msgid "The following desktop effects could not be activated:"
-#~ msgctxt "Error Message shown when a desktop effect could not be loaded"
-#~ msgid "One desktop effect could not be loaded."
-#~ msgid_plural "%1 desktop effects could not be loaded."
-#~ msgstr[0] "පහත වැඩතල සැරසිලි සක්‍රීය කල නොහැක:"
-#~ msgstr[1] "පහත වැඩතල සැරසිලි සක්‍රීය කල නොහැක:"
-
-#, fuzzy
-#~| msgid "The following desktop effects could not be activated:"
-#~ msgctxt "Window title"
-#~ msgid "List of effects which could not be loaded"
-#~ msgstr "පහත වැඩතල සැරසිලි සක්‍රීය කල නොහැක:"
 
 #~ msgid "<h1>Desktop Effects</h1>"
 #~ msgstr "<h1>වැඩතල සැරසිලි</h1>"
 
 #~ msgid "General"
 #~ msgstr "සාමාන්‍ය"
-
-#~ msgid "Pressing this button can crash the desktop."
-#~ msgstr "මෙම බොත්තම එබීම වැඩතලය කඩාවැටීමට සැලැස්විය හැක."
-
-#~ msgid "I have saved my data."
-#~ msgstr "මගේ දත්ත මවිසින් සුරකින ලදී."
-
-#~ msgid "Activation"
-#~ msgstr "සක්‍රීයකිරීම"
-
-#~ msgid "Desktop effects can be toggled anytime using this shortcut:"
-#~ msgstr "මෙම කෙටිමඟ භාවිතයෙන් වැඩතල සැරසිලි ඕනෑම මොහොතක මාරු කල හැක:"
-
-#, fuzzy
-#~| msgid "Simple effect setup"
-#~ msgctxt "@title:group a few general options to set up desktop effects"
-#~ msgid "Simple effect setup"
-#~ msgstr "සරල සැරසිලි ස්ථාපනය"
 
 #~ msgid "Improved window management"
 #~ msgstr "වැඩිදියුණු කල කවුළු පරිපාලනය"
@@ -419,10 +448,11 @@ msgstr "OpenGL හඳුනාගැනීම නැවත-සක්‍රීය
 #~ msgstr "ඉතාමත් සෙමින්"
 
 #~ msgid ""
-#~ "You can find more effects, as well as effect-specific settings, in the "
-#~ "\"All Effects\" tab above."
+#~ "You can find more effects, as well as effect-specific settings, in the \"All"
+#~ " Effects\" tab above."
 #~ msgstr ""
-#~ "ඉහත \"සියළු සැරසිලි\" ටැබයේදී ඔබට තවත් සැරසිලි හා සැරසිලි වලට අදාල සැකසුම් දැකිය හැක."
+#~ "ඉහත \"සියළු සැරසිලි\" ටැබයේදී ඔබට තවත් සැරසිලි හා සැරසිලි වලට අදාල සැකසුම් "
+#~ "දැකිය හැක."
 
 #~ msgid "All Effects"
 #~ msgstr "සියළු සැරසිලි"
@@ -437,287 +467,27 @@ msgstr "OpenGL හඳුනාගැනීම නැවත-සක්‍රීය
 #~ msgstr "සාමාන්‍ය අභිප්‍රේත"
 
 #~ msgid ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 #~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-"
-#~ "weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">Crisp:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">XRenderSetPictureFilter(\"fast\")</span> -  Pretty fast "
-#~ "on all GPUs but looks bricky</p>\n"
-#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">Smooth:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">XRenderSetPictureFilter(\"good\") </span>- linear "
-#~ "blending.</p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Fast enough on newer "
-#~ "nvidia GPUs and maybe others but also can be <span style=\" text-"
-#~ "decoration: underline;\">very</span> slow, you will have to try it.</p></"
-#~ "body></html>"
+#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Crisp:</span></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">XRenderSetPictureFilter(\"fast\")</span> -  Pretty fast on all GPUs but looks bricky</p>\n"
+#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Smooth:</span></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">XRenderSetPictureFilter(\"good\") </span>- linear blending.</p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Fast enough on newer nvidia GPUs and maybe others but also can be <span style=\" text-decoration: underline;\">very</span> slow, you will have to try it.</p></body></html>"
 #~ msgstr ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 #~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-"
-#~ "weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">ක්‍රිස්පි:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">XRenderSetPictureFilter(\"fast\")</span> -  සියළු GPU මත "
-#~ "වේගවත්ව පෙන්වයි, නමුත් රළුයි</p>\n"
-#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">මෘදු:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">XRenderSetPictureFilter(\"good\") </span>- රේඛීය නැවීම.</"
-#~ "p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">නව nvidia GPU වල හා  "
-#~ "ඇතැම්විට අනෙක්වායේද  වේගවත් විය හැක <span style=\" text-decoration: underline;"
-#~ "\">ඉතා</span> වේගය අඩුයි, ඔබට එය පිරික්සීමට සිදුවේ.</p></body></html>"
-
-#, fuzzy
-#~| msgid ""
-#~| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/"
-#~| "TR/REC-html40/strict.dtd\">\n"
-#~| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~| "css\">\n"
-#~| "p, li { white-space: pre-wrap; }\n"
-#~| "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-"
-#~| "weight:400; font-style:normal;\">\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~| "weight:600;\">Crisp:</span></p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~| "style:italic;\">GL_NEAREST</span> -  (very) fast on all GPUs but looks "
-#~| "bricky</p>\n"
-#~| "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~| "\"></p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~| "weight:600;\">Smooth:</span></p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~| "style:italic;\">GL_LINEAR</span> - fast on most GPUs but a little "
-#~| "blurry</p>\n"
-#~| "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~| "\"></p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~| "weight:600;\">Accurate:</span></p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\">Lanczos filter, "
-#~| "requires shader support (glsl or arb).</p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\">Might be slow on "
-#~| "weaker GPUs and even cause various troubles with broken drivers (from "
-#~| "overbrightening to segfaults.)</p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\">Fall back to \"Smooth"
-#~| "\" if you have problems.</p></body></html>"
-#~ msgid ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
-#~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-"
-#~ "weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">Crisp:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">GL_NEAREST</span> -  (very) fast on all GPUs but looks "
-#~ "bricky</p>\n"
-#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">Smooth:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">GL_LINEAR</span> - fast on most GPUs but a little blurry</"
-#~ "p>\n"
-#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">Accurate:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Lanczos filter, "
-#~ "requires glsl shader support.</p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Might be slow on weaker "
-#~ "GPUs and even cause various troubles with broken drivers (from "
-#~ "overbrightening to segfaults).</p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Fall back to \"Smooth\" "
-#~ "if you have problems.</p></body></html>"
-#~ msgstr ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
-#~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-"
-#~ "weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">ක්‍රිස්පි:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">GL_NEAREST</span> -  සියළු GPU මත (ඉතා) වේගවත් වේ</p>\n"
-#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">මෘදු:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">GL_LINEAR</span> - බොහෝ GPU මත වේගවත් නමුත් මදක් අපහැදිලියි</p>\n"
-#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">නිවැරදි:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Lanczos පෙරහණ, සෙවණැලි "
-#~ "සහාය ඇවැසියි (glsl හෝ arb).</p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">දුර්වල GPU සමඟ වේගය අඩු විය "
-#~ "හැකි අතර බිඳුනු ධාවක බොහෝ ගැටළු ඇතිකල හැක (අතිශය දීප්තිමත්වීම හෝ කොටස් ගැටළු දක්වා.)</"
-#~ "p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">ඔබට ගැටළු පැනනගී නම් \"මෘදු"
-#~ "\" තෝරන්න.</p></body></html>"
-
-#, fuzzy
-#~| msgid "OpenGL"
-#~ msgid "OpenGL 1.2"
-#~ msgstr "OpenGL"
-
-#, fuzzy
-#~| msgid ""
-#~| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/"
-#~| "TR/REC-html40/strict.dtd\">\n"
-#~| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~| "css\">\n"
-#~| "p, li { white-space: pre-wrap; }\n"
-#~| "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-"
-#~| "weight:400; font-style:normal;\">\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~| "weight:600;\">Crisp:</span></p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~| "style:italic;\">XRenderSetPictureFilter(\"fast\")</span> -  Pretty fast "
-#~| "on all GPUs but looks bricky</p>\n"
-#~| "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~| "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~| "\"></p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~| "weight:600;\">Smooth:</span></p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~| "style:italic;\">XRenderSetPictureFilter(\"good\") </span>- linear "
-#~| "blending.</p>\n"
-#~| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~| "right:0px; -qt-block-indent:0; text-indent:0px;\">Fast enough on newer "
-#~| "nvidia GPUs and maybe others but also can be <span style=\" text-"
-#~| "decoration: underline;\">very</span> slow, you will have to try it.</p></"
-#~| "body></html>"
-#~ msgid ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
-#~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-"
-#~ "weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">It is <span style=\" "
-#~ "font-weight:600;\">strongly recommended</span> to use the <span style=\" "
-#~ "font-weight:600;\">native</span> system when using the <span style=\" "
-#~ "font-weight:600;\">XRender</span> backend.</p>\n"
-#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">On the other hand, many "
-#~ "decorations perform better with the <span style=\" font-weight:600;"
-#~ "\">raster</span> system on the <span style=\" font-weight:600;\">default "
-#~ "and generally preferred OpenGL</span> backend (though some don't - also "
-#~ "the impact here can be anything between \"slight\" and \"incredible\" "
-#~ "depending on the GPU and driver)</p></body></html>"
-#~ msgstr ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
-#~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-"
-#~ "weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">ක්‍රිස්පි:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">XRenderSetPictureFilter(\"fast\")</span> -  සියළු GPU මත "
-#~ "වේගවත්ව පෙන්වයි, නමුත් රළුයි</p>\n"
-#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "weight:600;\">මෘදු:</span></p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#~ "style:italic;\">XRenderSetPictureFilter(\"good\") </span>- රේඛීය නැවීම.</"
-#~ "p>\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">නව nvidia GPU වල හා  "
-#~ "ඇතැම්විට අනෙක්වායේද  වේගවත් විය හැක <span style=\" text-decoration: underline;"
-#~ "\">ඉතා</span> වේගය අඩුයි, ඔබට එය පිරික්සීමට සිදුවේ.</p></body></html>"
-
-#~ msgid ""
-#~ "If enabled all rendering will be performed with Shaders written in the "
-#~ "OpenGL Shading Language.\n"
-#~ "On legacy hardware disabling Shaders can improve the performance."
-#~ msgstr ""
-#~ "සක්‍රීය නම් සියළු සම්පාදනයන් OpenGL සෙවණැළි භාශාවෙන් ලියන ලද සෙවණැලි තුළින් ඉටුවේ.\n"
-#~ "පැරනි දෘඩාංගමත සෙවණැලි අක්‍රීය කිරීමෙන් වඩා හොඳ ක්‍රියාකාරීත්වයක් ලැබිය හැක."
-
-#~ msgid "Use OpenGL 2 Shaders"
-#~ msgstr "OpenGL 2 සෙවණැලිකාරක භාවිත කරන්න"
+#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">ක්‍රිස්පි:</span></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">XRenderSetPictureFilter(\"fast\")</span> -  සියළු GPU මත වේගවත්ව පෙන්වයි, නමුත් රළුයි</p>\n"
+#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">මෘදු:</span></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">XRenderSetPictureFilter(\"good\") </span>- රේඛීය නැවීම.</p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">නව nvidia GPU වල හා  ඇතැම්විට අනෙක්වායේද  වේගවත් විය හැක <span style=\" text-decoration: underline;\">ඉතා</span> වේගය අඩුයි, ඔබට එය පිරික්සීමට සිදුවේ.</p></body></html>"
 
 #~ msgid "Use VSync"
 #~ msgstr "VSync භාවිත කරන්න"
@@ -727,3 +497,113 @@ msgstr "OpenGL හඳුනාගැනීම නැවත-සක්‍රීය
 
 #~ msgid "Enable direct rendering"
 #~ msgstr "සෘජු සම්පාදනය සක්‍රීය කරන්න"
+
+#~ msgid "Disable functionality checks"
+#~ msgstr ""
+
+#~ msgid "Desktop effects are temporarily disabled"
+#~ msgstr ""
+
+#~ msgid "Resume Desktop Effects"
+#~ msgstr ""
+
+#~ msgid "Desktop effects are disabled"
+#~ msgstr ""
+
+#~ msgid "Common Settings"
+#~ msgstr ""
+
+#~ msgid "Compositing State"
+#~ msgstr ""
+
+#~ msgid "Shadows"
+#~ msgstr ""
+
+#~ msgid "OpenGL mode:"
+#~ msgstr ""
+
+#~ msgid "Texture From Pixmap"
+#~ msgstr ""
+
+#~ msgid "Shared Memory"
+#~ msgstr ""
+
+#~ msgid "Fallback"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enabling this option allows compositing to be activated even if some of the "
+#~ "internal checks fail. Doing so may make the whole desktop unusable and its "
+#~ "use is not recommened. Use only if KWin refuses to activate compositing on a"
+#~ " system that should be capable of compositing.\n"
+#~ msgstr ""
+
+#~ msgid "Nearest (fastest)"
+#~ msgstr ""
+
+#~ msgid "Bilinear"
+#~ msgstr ""
+
+#~ msgid "Trilinear (best quality)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Improves performance of fullscreen applications like games and video "
+#~ "players. This option can cause flickering when another window is opened "
+#~ "above the fullscreen window."
+#~ msgstr ""
+
+#~ msgid "Compositing is not supported on your system."
+#~ msgstr ""
+
+#~ msgid "Compositing is active"
+#~ msgstr ""
+
+#~ msgid "Suspend Compositing"
+#~ msgstr ""
+
+#~ msgid "Resume Compositing"
+#~ msgstr ""
+
+#~ msgid "Compositing is disabled"
+#~ msgstr ""
+
+#~ msgid "All Desktops"
+#~ msgstr ""
+
+#~ msgid "Current Desktop"
+#~ msgstr ""
+
+#~ msgid "Cube"
+#~ msgstr ""
+
+#~ msgid "Cylinder"
+#~ msgstr ""
+
+#~ msgid "Sphere"
+#~ msgstr ""
+
+#~ msgid "Screen Edges"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Active screen edges allow you to activate effects by pushing your mouse "
+#~ "cursor against the edge of the screen. Here you can configure which effect "
+#~ "will get activated on each edge and corner of the screen."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you are looking for the setting to enable switching of desktops by "
+#~ "pushing your mouse cursor against the edge of the screen you can find it in "
+#~ "the \"Window Behavior\" advanced tab under the name of \"Active Desktop "
+#~ "Borders\"."
+#~ msgstr ""
+
+#~ msgid "Advanced Compositing Options"
+#~ msgstr ""
+
+#~ msgid "Misc"
+#~ msgstr ""
+
+#~ msgid "Keep thumbnails of hidden windows up to date"
+#~ msgstr ""

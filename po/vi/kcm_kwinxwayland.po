@@ -1,21 +1,24 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-#
-# Phu Hung Nguyen <phu.nguyen@kdemail.net>, 2023.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2023-01-08 18:14+0100\n"
-"Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
-"Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
-"Language: vi\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Vietnamese (https://app.transifex.com/linuxdeepin/teams/3617/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -58,8 +61,8 @@ msgstr ""
 "Các ứng dụng X11 đời cũ đòi hỏi khả năng đọc các phím gõ trong các ứng dụng "
 "khác để dùng cho các tính năng được kích hoạt bằng các phím tắt toàn cục. "
 "Việc này mặc định là bị tắt vì các lí do an ninh. Nếu bạn cần dùng các ứng "
-"dụng như thế, bạn có thể chọn sự cân đối giữa an ninh và chức năng cho riêng "
-"mình tại đây."
+"dụng như thế, bạn có thể chọn sự cân đối giữa an ninh và chức năng cho riêng"
+" mình tại đây."
 
 #: package/contents/ui/main.qml:66
 #, kde-format

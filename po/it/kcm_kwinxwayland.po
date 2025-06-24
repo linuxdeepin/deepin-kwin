@@ -1,43 +1,44 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-# Vincenzo Reale <smart2128vr@gmail.com>, 2022.
-#
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2022-12-17 14:36+0100\n"
-"Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
-"Language-Team: Italian <kde-i18n-it@kde.org>\n"
-"Language: it\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Italian (https://app.transifex.com/linuxdeepin/teams/3617/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.0\n"
+"Language: it\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Vincenzo Reale"
+msgstr "Vincenzo Reale,Nicola Ruggero"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "smart2128vr@gmail.com"
+msgstr "smart2128vr@gmail.com,"
 
 #: kcmkwinxwayland.cpp:30
 #, kde-format
 msgid "Legacy X11 App Support"
-msgstr "Supporto per le applicazioni X11 originali"
+msgstr ""
 
 #: kcmkwinxwayland.cpp:32
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
 msgstr ""
-"Consenti alle applicazioni X11 originali di leggere i tasti digitati in "
-"altre applicazioni"
 
 #: package/contents/ui/main.qml:19
 #, kde-format
@@ -45,8 +46,6 @@ msgid ""
 "This module lets configure which keyboard events are forwarded to X11 apps "
 "regardless of their focus."
 msgstr ""
-"Questo modulo consente di configurare quali eventi della tastiera sono "
-"inoltrati alle applicazioni X11 indipendentemente dal loro focus."
 
 #: package/contents/ui/main.qml:49
 #, kde-format
@@ -56,40 +55,31 @@ msgid ""
 "disabled by default for security reasons. If you need to use such apps, you "
 "can choose your preferred balance of security and functionality here."
 msgstr ""
-"Le applicazioni X11 originali richiedono la capacità di leggere i tasti "
-"digitati in altre applicazioni per le funzionalità che vengono attivate "
-"utilizzando le scorciatoie da tastiera globali. Questo è disabilitato in "
-"modo predefinito per motivi di sicurezza. Se hai bisogno di utilizzare tali "
-"applicazioni, puoi scegliere qui il tuo equilibrio preferito tra sicurezza e "
-"funzionalità."
 
 #: package/contents/ui/main.qml:66
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
-"Consenti alle applicazioni X11 originali di leggere i tasti digitati in "
-"tutte le applicazioni:"
 
 #: package/contents/ui/main.qml:67
 #, kde-format
 msgid "Never"
-msgstr "Mai"
+msgstr ""
 
 #: package/contents/ui/main.qml:70
 #, kde-format
 msgid "Only Meta, Control, Alt, and Shift keys"
-msgstr "Solo i tasti Meta, Control, Alt e Maiusc"
+msgstr ""
 
 #: package/contents/ui/main.qml:73
 #, kde-format
 msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
 msgstr ""
-"Tutti i tasti, ma solo mentre sono premuti i tasti Meta, Ctrl, Alt o Maiusc"
 
 #: package/contents/ui/main.qml:77
 #, kde-format
 msgid "Always"
-msgstr "Sempre"
+msgstr ""
 
 #: package/contents/ui/main.qml:84
 #, kde-format
@@ -98,7 +88,3 @@ msgid ""
 "session by permitting malicious software to steal passwords and spy on the "
 "text that you type. Make sure you understand and accept this risk."
 msgstr ""
-"Tieni presente che l'utilizzo di questa impostazione ridurrà la sicurezza "
-"del sistema a quella della sessione X11 consentendo a software dannoso di "
-"rubare le password e spiare il testo digitato. Assicurati di comprendere e "
-"accettare questo rischio."

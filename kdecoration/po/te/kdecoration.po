@@ -1,0 +1,105 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2018, 2021.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-10-26 00:47+0000\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Telugu (https://app.transifex.com/linuxdeepin/teams/3617/te/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: te\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.04.1\n"
+
+#: decorationbutton.cpp:301
+#, kde-format
+msgid "More actions for this window"
+msgstr ""
+
+#: decorationbutton.cpp:303
+#, kde-format
+msgid "Application menu"
+msgstr ""
+
+#: decorationbutton.cpp:306
+#, kde-format
+msgid "On one desktop"
+msgstr ""
+
+#: decorationbutton.cpp:308
+#, kde-format
+msgid "On all desktops"
+msgstr ""
+
+#: decorationbutton.cpp:310
+#, kde-format
+msgid "Minimize"
+msgstr "చిన్నదిచేయి"
+
+#: decorationbutton.cpp:313
+#, kde-format
+msgid "Restore"
+msgstr ""
+
+#: decorationbutton.cpp:315
+#, kde-format
+msgid "Maximize"
+msgstr "పెద్దదిచేయి"
+
+#: decorationbutton.cpp:317
+#, kde-format
+msgid "Close"
+msgstr "మూయి"
+
+#: decorationbutton.cpp:319
+#, kde-format
+msgid "Context help"
+msgstr ""
+
+#: decorationbutton.cpp:322
+#, kde-format
+msgid "Unshade"
+msgstr ""
+
+#: decorationbutton.cpp:324
+#, kde-format
+msgid "Shade"
+msgstr "ఛాయ(షేడ్)"
+
+#: decorationbutton.cpp:327
+#, kde-format
+msgid "Don't keep below other windows"
+msgstr ""
+
+#: decorationbutton.cpp:329
+#, kde-format
+msgid "Keep below other windows"
+msgstr ""
+
+#: decorationbutton.cpp:332
+#, kde-format
+msgid "Don't keep above other windows"
+msgstr ""
+
+#: decorationbutton.cpp:334
+#, kde-format
+msgid "Keep above other windows"
+msgstr ""
+
+#~ msgid "Menu"
+#~ msgstr "మెనూ"
+
+#~ msgid "Keep below"
+#~ msgstr ""
+
+#~ msgid "Keep above"
+#~ msgstr ""

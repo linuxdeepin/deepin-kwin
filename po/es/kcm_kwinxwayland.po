@@ -1,23 +1,24 @@
-# Spanish translations for kcm_kwinxwayland.po package.
-# Copyright (C) 2022 This file is copyright:
+# Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kwin package.
-#
-# Automatically generated, 2022.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2022.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwinxwayland\n"
+"Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 00:51+0000\n"
-"PO-Revision-Date: 2022-12-17 18:52+0100\n"
-"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
-"Language-Team: Spanish <kde-l10n-es@kde.org>\n"
-"Language: es\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Spanish (https://app.transifex.com/linuxdeepin/teams/3617/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.0\n"
+"Language: es\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -61,8 +62,8 @@ msgstr ""
 "Las aplicaciones X11 heredadas necesitan la capacidad de leer las "
 "pulsaciones de teclas escritas en otras aplicaciones para las funciones que "
 "se activan mediante atajos de teclado globales. Esto está desactivado de "
-"forma predeterminada por motivos de seguridad. Si necesita usar este tipo de "
-"aplicaciones, aquí puede escoger su equilibrio preferido de seguridad y "
+"forma predeterminada por motivos de seguridad. Si necesita usar este tipo de"
+" aplicaciones, aquí puede escoger su equilibrio preferido de seguridad y "
 "funcionalidad."
 
 #: package/contents/ui/main.qml:66

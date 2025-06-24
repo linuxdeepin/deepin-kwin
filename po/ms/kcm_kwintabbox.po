@@ -1,23 +1,25 @@
-# kcm_kwintabbox Bahasa Melayu (Malay) (ms)
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>, 2009, 2010.
-# Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>, 2010, 2011.
+# 
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: kcm_kwintabbox\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
-"PO-Revision-Date: 2011-01-17 23:42+0800\n"
-"Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>\n"
-"Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
-"Language: ms\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Malay (https://app.transifex.com/linuxdeepin/teams/3617/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=1;\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: ms\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 22.04.3\n"
 
 #: kwintabboxconfigform.cpp:80
 #, kde-format
@@ -25,17 +27,15 @@ msgid "KWin"
 msgstr ""
 
 #: layoutpreview.cpp:133
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Show Desktop"
-msgstr "Semua Desktop"
+msgstr "Papar Desktop"
 
 #: layoutpreview.cpp:163
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgctxt "An example Desktop Name"
 msgid "Desktop 1"
-msgstr "Semua Desktop"
+msgstr ""
 
 #: main.cpp:58
 #, kde-format
@@ -53,10 +53,10 @@ msgid "Get New Task Switchers..."
 msgstr ""
 
 #: main.cpp:75
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Focus policy settings limit the functionality of navigating through windows."
-msgstr "Fokus tatacara dasar menyekat fungsi navigasi melalui tetingkap."
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: main.ui:32
@@ -66,10 +66,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDesktop)
 #: main.ui:41
-#, fuzzy, kde-format
-#| msgid "Include desktop"
+#, kde-format
 msgid "Include \"Show Desktop\" icon"
-msgstr "Sertakan desktop"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, switchingModeCombo)
 #: main.ui:55
@@ -109,24 +108,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterDesktops)
 #: main.ui:123
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "Virtual desktops"
-msgstr "Semua Desktop"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentDesktop)
 #: main.ui:167
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#, kde-format
 msgid "Current desktop"
-msgstr "Desktop Semasa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherDesktops)
 #: main.ui:174
-#, fuzzy, kde-format
-#| msgid "All Desktops"
+#, kde-format
 msgid "All other desktops"
-msgstr "Semua Desktop"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterActivities)
 #: main.ui:184
@@ -154,10 +150,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, currentScreen)
 #: main.ui:289
-#, fuzzy, kde-format
-#| msgid "Current Desktop"
+#, kde-format
 msgid "Current screen"
-msgstr "Desktop Semasa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, otherScreens)
 #: main.ui:296
@@ -167,10 +162,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, filterMinimization)
 #: main.ui:306
-#, fuzzy, kde-format
-#| msgid "Minimum Size"
+#, kde-format
 msgid "Minimization"
-msgstr "Saiz Minimum"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, visibleWindows)
 #: main.ui:350
@@ -218,10 +212,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: main.ui:499
-#, fuzzy, kde-format
-#| msgid "Navigation"
+#, kde-format
 msgid "Visualization"
-msgstr "Navigasi"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, effectCombo)
 #: main.ui:529
@@ -239,17 +232,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HighlightWindows)
 #: main.ui:562
-#, fuzzy, kde-format
-#| msgid "Show Selected Item"
+#, kde-format
 msgid "Show selected window"
-msgstr "Papar Item Dipilih"
+msgstr ""
 
 #~ msgid ""
-#~ "These settings are used by the \"Walk Through Windows Alternative\" "
-#~ "actions."
+#~ "These settings are used by the \"Walk Through Windows Alternative\" actions."
 #~ msgstr ""
-#~ "Tetapan ini digunakan oleh tindakan \"Gerak Menerusi Tetingkap Alternatif"
-#~ "\"."
+#~ "Tetapan ini digunakan oleh tindakan \"Gerak Menerusi Tetingkap Alternatif\"."
 
 #~ msgid "Walk Through Windows"
 #~ msgstr "Lalu Ikut Tetingkap"
@@ -257,29 +247,11 @@ msgstr "Papar Item Dipilih"
 #~ msgid "Walk Through Windows (Reverse)"
 #~ msgstr "Lalu Ikut Tetingkap (Songsang)"
 
-#, fuzzy
 #~ msgid "Walk Through Windows Alternative"
-#~ msgstr "Walk Melalui Windows Alternatif"
+#~ msgstr ""
 
-#, fuzzy
 #~ msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgstr "Walk Melalui Alternatif Windows (Reverse)"
-
-#, fuzzy
-#~ msgid "Walk Through Windows of Current Application"
-#~ msgstr "Walk Melalui Windows Alternatif"
-
-#, fuzzy
-#~ msgid "Walk Through Windows of Current Application (Reverse)"
-#~ msgstr "Walk Melalui Alternatif Windows (Reverse)"
-
-#, fuzzy
-#~ msgid "Walk Through Windows of Current Application Alternative"
-#~ msgstr "Walk Melalui Windows Alternatif"
-
-#, fuzzy
-#~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-#~ msgstr "Walk Melalui Alternatif Windows (Reverse)"
+#~ msgstr ""
 
 #~ msgid "Configure Layout"
 #~ msgstr "Tetapkan Susunatur"
@@ -292,41 +264,23 @@ msgstr "Papar Item Dipilih"
 #~ msgid "Your emails"
 #~ msgstr "sharuzzaman@myrealbox.com"
 
+#~ msgid "These settings are used by the \"Walk Through Windows\" actions."
+#~ msgstr ""
+
+#~ msgid "Highlight selected window"
+#~ msgstr ""
+
 #~ msgid "Effect:"
 #~ msgstr "Kesan:"
 
-#, fuzzy
-#~| msgid "Informative"
-#~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
-#~ msgid "Informative"
-#~ msgstr "Bermaklumat"
-
-#, fuzzy
-#~| msgid "Compact"
-#~ msgctxt "Name for a window switcher layout showing only icon and name"
-#~ msgid "Compact"
-#~ msgstr "Padat"
-
-#, fuzzy
-#~| msgid "Text Only"
-#~ msgctxt "Name for a window switcher layout showing only the name"
-#~ msgid "Text"
-#~ msgstr "Teks Sahaja"
-
-#, fuzzy
-#~| msgid "Large Icons"
-#~ msgctxt "Name for a window switcher layout showing large icons"
-#~ msgid "Large Icons"
-#~ msgstr "Ikon Besar"
-
-#, fuzzy
-#~| msgid "Small Icons"
-#~ msgctxt "Name for a window switcher layout showing small icons"
-#~ msgid "Small Icons"
-#~ msgstr "Ikon Kecil"
+#~ msgid "Display list while switching"
+#~ msgstr ""
 
 #~ msgid "No Effect"
 #~ msgstr "Tiada Kesan"
+
+#~ msgid "Configure Layout..."
+#~ msgstr ""
 
 #~ msgid "Item Layout"
 #~ msgstr "Susunatur Item"
@@ -343,9 +297,8 @@ msgstr "Papar Item Dipilih"
 #~ msgid "Horizontal"
 #~ msgstr "Mengufuk"
 
-#, fuzzy
 #~ msgid "Tabular"
-#~ msgstr "Datar"
+#~ msgstr ""
 
 #~ msgid "Width:"
 #~ msgstr "Lebar:"
@@ -362,6 +315,12 @@ msgstr "Papar Item Dipilih"
 #~ msgid "Minimum height, as a percentage of screen height."
 #~ msgstr "Tinggi minimum, sebagai peratusan dari tinggi skrin."
 
+#~ msgid "Show Selected Item"
+#~ msgstr ""
+
+#~ msgid "Selected item view:"
+#~ msgstr ""
+
 #~ msgid "Top"
 #~ msgstr "Atas"
 
@@ -373,3 +332,9 @@ msgstr "Papar Item Dipilih"
 
 #~ msgid "Right"
 #~ msgstr "Kanan"
+
+#~ msgid "Selected item layout:"
+#~ msgstr ""
+
+#~ msgid "General"
+#~ msgstr ""

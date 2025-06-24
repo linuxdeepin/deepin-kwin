@@ -1,23 +1,27 @@
-# translation of kcmkwincompositing.po to தமிழ்
+# translation of kcmkwincompositing.po to British English
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
-# ஆமாச்சு <amachu@ubuntu.com>, 2008.
-# Kishore G <kishore96@gmail.com>, 2022.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2016, 2017, 2018, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
-"PO-Revision-Date: 2022-12-06 19:57+0530\n"
-"Last-Translator: Kishore G <kishore96@gmail.com>\n"
-"Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
-"Language: ta\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Tamil (https://app.transifex.com/linuxdeepin/teams/3617/ta/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.3\n"
+"Language: ta\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:31
@@ -26,24 +30,24 @@ msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
 "If you think that you have meanwhile upgraded to a stable driver,\n"
-"you can reset this protection but be aware that this might result in an "
-"immediate crash!"
+"you can reset this protection but be aware that this might result in an immediate crash!"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
+#. i18n: ectx: property (text), widget (KMessageWidget,
+#. windowThumbnailWarning)
 #: compositing.ui:44
 #, kde-format
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
-"windows. This can result in windows not suspending their work when minimized."
+"windows. This can result in windows not suspending their work when "
+"minimized."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, compositingLabel)
 #: compositing.ui:56
-#, fuzzy, kde-format
-#| msgid "Compositing type:"
+#, kde-format
 msgid "Compositing:"
-msgstr "கம்பொஸிட்டிங் வகை:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Enabled)
 #: compositing.ui:63
@@ -51,7 +55,8 @@ msgstr "கம்பொஸிட்டிங் வகை:"
 msgid "Enable on startup"
 msgstr "துவங்கும்போது இயக்கு"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_WindowsBlockCompositing)
+#. i18n: ectx: property (toolTip), widget (QCheckBox,
+#. kcfg_WindowsBlockCompositing)
 #: compositing.ui:72
 #, kde-format
 msgid ""
@@ -60,7 +65,8 @@ msgid ""
 " The setting can be overruled by window-specific rules."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowsBlockCompositing)
+#. i18n: ectx: property (text), widget (QCheckBox,
+#. kcfg_WindowsBlockCompositing)
 #: compositing.ui:75
 #, kde-format
 msgid "Allow applications to block compositing"
@@ -140,10 +146,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:205
-#, fuzzy, kde-format
-#| msgid "Various animations"
+#, kde-format
 msgid "Force smoothest animations"
-msgstr "பல்வேறு அசைவூட்டங்கள்"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowTearing)
 #: compositing.ui:213
@@ -157,55 +162,101 @@ msgstr ""
 msgid "Re-enable OpenGL detection"
 msgstr "OpenGL-ஐக் கண்டறிவதை மறுபடியும் இயக்கு"
 
+#~ msgid "Allows applications to cause screen tearing in fullscreen."
+#~ msgstr ""
+
+#~ msgid "Allow tearing in fullscreen"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Scale method \"Accurate\" is not supported by all hardware and can cause "
+#~ "performance regressions and rendering artifacts."
+#~ msgstr ""
+
 #~ msgid "Scale method:"
 #~ msgstr "அளவுமாற்றும் முறை:"
+
+#~ msgid "Smooth"
+#~ msgstr ""
+
+#~ msgid "Accurate"
+#~ msgstr ""
+
+#~ msgid "Tearing prevention (\"vsync\"):"
+#~ msgstr ""
 
 #~ msgid "Automatic"
 #~ msgstr "தானாக"
 
-#, fuzzy
-#~| msgid "OpenGL"
+#~ msgid "Only when cheap"
+#~ msgstr ""
+
+#~ msgid "Full screen repaints"
+#~ msgstr ""
+
+#~ msgid "Re-use screen content"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\"Only when cheap\" only prevents tearing for full screen changes like a "
+#~ "video."
+#~ msgstr ""
+
+#~ msgid "\"Full screen repaints\" can cause performance problems."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\"Re-use screen content\" causes severe performance problems on MESA "
+#~ "drivers."
+#~ msgstr ""
+
+#~ msgid "Rendering backend:"
+#~ msgstr ""
+
 #~ msgid "OpenGL 3.1"
-#~ msgstr "ஓபன்ஜிஎல்"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "OpenGL"
 #~ msgid "OpenGL 2.0"
-#~ msgstr "ஓபன்ஜிஎல்"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Smooth scaling (slower)"
+#~ msgid "Crisp"
+#~ msgstr ""
+
 #~ msgid "Smooth (slower)"
-#~ msgstr "மிருதுவாக அளவாக்கம் (மெதுவாக)"
+#~ msgstr ""
 
 #~ msgid "XRender"
 #~ msgstr "எக்ஸ்ரென்டர்"
 
-#, fuzzy
-#~| msgid ""
-#~| "Hint: to find out or configure how to activate an effect, look at "
-#~| "effect's settings"
+#~ msgctxt "OpenGL Platform Interface"
+#~ msgid "EGL"
+#~ msgstr ""
+
+#~ msgctxt "OpenGL Platform Interface"
+#~ msgid "GLX"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Author: %1\n"
+#~ "License: %2"
+#~ msgstr ""
+
 #~ msgid ""
 #~ "Hint: To find out or configure how to activate an effect, look at the "
 #~ "effect's settings."
 #~ msgstr ""
-#~ "துப்பு: பண்பொன்றை எவ்வாறு செயற்படுத்த வேண்டும் எனபதை வடிவமைக்க அ தேட, பண்புகளின் "
-#~ "அமைப்பினைக் காண்க"
 
-#, fuzzy
-#~| msgid "Texture filter:"
 #~ msgid "Configure filter"
-#~ msgstr "சாய வழிகட்டி:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Enable desktop effects"
+#~ msgid "Exclude Desktop Effects not supported by the Compositor"
+#~ msgstr ""
+
 #~ msgid "Exclude internal Desktop Effects"
-#~ msgstr "திரைப்பண்புகளை செயற்படுத்துக"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "All Effects"
 #~ msgid "Get New Desktop Effects..."
-#~ msgstr "அனைத்துப் பண்புகள்"
+#~ msgstr ""
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
@@ -215,33 +266,90 @@ msgstr "OpenGL-ஐக் கண்டறிவதை மறுபடியும
 #~ msgid "Your emails"
 #~ msgstr "ubuntu-l10n-tam@lists.ubuntu.com"
 
-#, fuzzy
-#~| msgid "Accessibility"
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Accessibility"
-#~ msgstr "அணுகுத்தன்மை"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Appearance"
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Appearance"
-#~ msgstr "தோற்றம்"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Window Management"
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Candy"
+#~ msgstr ""
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Focus"
+#~ msgstr ""
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Show Desktop Animation"
+#~ msgstr ""
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Tools"
+#~ msgstr ""
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Virtual Desktop Switching Animation"
+#~ msgstr ""
+
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Management"
-#~ msgstr "சாளர நிர்வாகம்"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Enable desktop effects"
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Window Open/Close Animation"
+#~ msgstr ""
+
+#~ msgid "KWin development team"
+#~ msgstr ""
+
+#~ msgid "Experimental:"
+#~ msgstr ""
+
+#~ msgid "Enable color correction"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Having full screen windows bypass the compositor is not supported on every "
+#~ "hardware."
+#~ msgstr ""
+
+#~ msgid "Expert:"
+#~ msgstr ""
+
 #~ msgid "Suspend compositor for full screen windows"
-#~ msgstr "திரைப்பண்புகளை செயற்படுத்துக"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "OpenGL mode:"
 #~ msgid "OpenGL interface:"
-#~ msgstr "ஓபன்ஜிஎல் முறை:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
+#~ "will be disabled."
+#~ msgstr ""
+
+#~ msgid "Animation Speed:"
+#~ msgstr ""
+
+#~ msgid "Scale Method:"
+#~ msgstr ""
+
+#~ msgid "Tearing Prevention (VSync):"
+#~ msgstr ""
+
+#~ msgid "Keep Window Thumbnails:"
+#~ msgstr ""
+
+#~ msgid "Always (Breaks Animations)"
+#~ msgstr ""
+
+#~ msgid "OpenGL Platform Interface:"
+#~ msgstr ""
+
+#~ msgid "Form"
+#~ msgstr ""
 
 #~ msgid "1 second remaining:"
 #~ msgid_plural "%1 seconds remaining:"
@@ -266,6 +374,9 @@ msgstr "OpenGL-ஐக் கண்டறிவதை மறுபடியும
 #~ "புதிய அமைப்பினை வைத்திருக்க விரும்புகிறீர்களா?\n"
 #~ "10 நொடிகளில் அவையனைத்தும் மீட்டமைக்கப்படும்."
 
+#~ msgid "Use GLSL shaders"
+#~ msgstr ""
+
 #~ msgid "kcmkwincompositing"
 #~ msgstr "kcmkwincompositing"
 
@@ -278,10 +389,11 @@ msgstr "OpenGL-ஐக் கண்டறிவதை மறுபடியும
 #~ msgid "Rivo Laks"
 #~ msgstr "ரிவ லக்ஸ்"
 
-#, fuzzy
-#~| msgid "All Effects"
-#~ msgid "No effect"
-#~ msgstr "அனைத்துப் பண்புகள்"
+#~ msgid ""
+#~ "Failed to activate desktop effects using the given configuration options. Settings will be reverted to their previous values.\n"
+#~ "\n"
+#~ "Check your X configuration. You may also consider changing advanced options, especially changing the compositing type."
+#~ msgstr ""
 
 #~ msgid "Demos"
 #~ msgstr "செய்கை"
@@ -289,77 +401,106 @@ msgstr "OpenGL-ஐக் கண்டறிவதை மறுபடியும
 #~ msgid "Tests"
 #~ msgstr "சோதனைகள்"
 
-#, fuzzy
-#~| msgid "Confirm Desktop Effects Change"
-#~ msgctxt ""
-#~ "Error Message shown when compositing is not active after tried activation"
-#~ msgid "Desktop effect system is not running."
-#~ msgstr "திரைப்பண்புகள் மாற்றத்தை உறுதிசெய்க"
+#~ msgid ""
+#~ "Desktop effects are not available on this system due to the following "
+#~ "technical issues:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your settings have been saved but as KDE is currently running in failsafe mode desktop effects cannot be enabled at this time.\n"
+#~ "\n"
+#~ "Please exit failsafe mode to enable desktop effects."
+#~ msgstr ""
 
 #~ msgid "<h1>Desktop Effects</h1>"
 #~ msgstr "<h1>திரைப் பண்புகள்</h1>"
 
-#, fuzzy
-#~| msgid "General"
 #~ msgid "General"
-#~ msgstr "பொது"
+#~ msgstr ""
 
 #~ msgid "Improved window management"
 #~ msgstr "மேம்படுத்தப்பட்ட சாளர நிர்வாகம்"
 
-#, fuzzy
-#~| msgid "You can find more effects in the 'All Effects' tab"
+#~ msgid "Effect for desktop switching:"
+#~ msgstr ""
+
+#~ msgid "Very Fast"
+#~ msgstr ""
+
+#~ msgid "Fast"
+#~ msgstr ""
+
+#~ msgid "Normal"
+#~ msgstr ""
+
+#~ msgid "Slow"
+#~ msgstr ""
+
+#~ msgid "Extremely Slow"
+#~ msgstr ""
+
 #~ msgid ""
-#~ "You can find more effects, as well as effect-specific settings, in the "
-#~ "\"All Effects\" tab above."
-#~ msgstr "பண்புகள் குறித்து மேலுமறிய 'அனைத்துப் பண்புகள்' தத்தினைக் காண்க"
+#~ "You can find more effects, as well as effect-specific settings, in the \"All"
+#~ " Effects\" tab above."
+#~ msgstr ""
 
 #~ msgid "All Effects"
 #~ msgstr "அனைத்துப் பண்புகள்"
 
-#, fuzzy
-#~| msgid "Advanced Options"
 #~ msgid "Advanced"
-#~ msgstr "மேம்படுத்தப்பட்ட தேர்வுகள்"
+#~ msgstr ""
 
 #~ msgid "OpenGL Options"
 #~ msgstr "ஓபன்ஜிஎல் தேர்வுகள்"
 
-#, fuzzy
-#~| msgid "XRender Options"
 #~ msgid "General Options"
-#~ msgstr "எக்ஸ்ரென்டர் தேர்வுகள்"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "OpenGL"
-#~ msgid "OpenGL 1.2"
-#~ msgstr "ஓபன்ஜிஎல்"
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Crisp:</span></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">XRenderSetPictureFilter(\"fast\")</span> -  Pretty fast on all GPUs but looks bricky</p>\n"
+#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Smooth:</span></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">XRenderSetPictureFilter(\"good\") </span>- linear blending.</p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Fast enough on newer nvidia GPUs and maybe others but also can be <span style=\" text-decoration: underline;\">very</span> slow, you will have to try it.</p></body></html>"
+#~ msgstr ""
 
 #~ msgid "Use VSync"
 #~ msgstr "விசின்க் பயன்படுத்துக"
 
-#, fuzzy
-#~| msgid "Direct rendering"
+#~ msgid "Effect for window switching:"
+#~ msgstr ""
+
 #~ msgid "Enable direct rendering"
-#~ msgstr "நேரடி ரென்டரிங்"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Enable desktop effects"
+#~ msgid "Disable functionality checks"
+#~ msgstr ""
+
+#~ msgid "Desktop effects are temporarily disabled"
+#~ msgstr ""
+
 #~ msgid "Resume Desktop Effects"
-#~ msgstr "திரைப்பண்புகளை செயற்படுத்துக"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Common Effects"
+#~ msgid "Desktop effects are disabled"
+#~ msgstr ""
+
 #~ msgid "Common Settings"
-#~ msgstr "பொதுவான பண்புகள்"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Compositing type:"
 #~ msgid "Compositing State"
-#~ msgstr "கம்பொஸிட்டிங் வகை:"
+#~ msgstr ""
 
 #~ msgid "Shadows"
 #~ msgstr "நிழல்கள்"
+
+#~ msgid "OpenGL mode:"
+#~ msgstr ""
 
 #~ msgid "Texture From Pixmap"
 #~ msgstr "பிக்ஸ்மேப்பிலிருந்து சாயம்"
@@ -370,6 +511,13 @@ msgstr "OpenGL-ஐக் கண்டறிவதை மறுபடியும
 #~ msgid "Fallback"
 #~ msgstr "மாற்று"
 
+#~ msgid ""
+#~ "Enabling this option allows compositing to be activated even if some of the "
+#~ "internal checks fail. Doing so may make the whole desktop unusable and its "
+#~ "use is not recommened. Use only if KWin refuses to activate compositing on a"
+#~ " system that should be capable of compositing.\n"
+#~ msgstr ""
+
 #~ msgid "Nearest (fastest)"
 #~ msgstr "கிட்டம் (அதிவேக)"
 
@@ -379,38 +527,57 @@ msgstr "OpenGL-ஐக் கண்டறிவதை மறுபடியும
 #~ msgid "Trilinear (best quality)"
 #~ msgstr "முந்நேரி (நல்ல தரம்)"
 
+#~ msgid ""
+#~ "Improves performance of fullscreen applications like games and video "
+#~ "players. This option can cause flickering when another window is opened "
+#~ "above the fullscreen window."
+#~ msgstr ""
+
 #~ msgid "Compositing is not supported on your system."
 #~ msgstr "கம்போஸிட்டிங் தங்கள் கணினியில் ஆதரிக்கப்படவில்லை"
 
-#, fuzzy
-#~| msgid "Compositing type:"
 #~ msgid "Compositing is active"
-#~ msgstr "கம்பொஸிட்டிங் வகை:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Compositing type:"
 #~ msgid "Suspend Compositing"
-#~ msgstr "கம்பொஸிட்டிங் வகை:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Compositing type:"
 #~ msgid "Resume Compositing"
-#~ msgstr "கம்பொஸிட்டிங் வகை:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Compositing type:"
 #~ msgid "Compositing is disabled"
-#~ msgstr "கம்பொஸிட்டிங் வகை:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "All Effects"
 #~ msgid "All Desktops"
-#~ msgstr "அனைத்துப் பண்புகள்"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Bilinear"
+#~ msgid "Current Desktop"
+#~ msgstr ""
+
+#~ msgid "Cube"
+#~ msgstr ""
+
 #~ msgid "Cylinder"
-#~ msgstr "இருநேரி"
+#~ msgstr ""
+
+#~ msgid "Sphere"
+#~ msgstr ""
+
+#~ msgid "Screen Edges"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Active screen edges allow you to activate effects by pushing your mouse "
+#~ "cursor against the edge of the screen. Here you can configure which effect "
+#~ "will get activated on each edge and corner of the screen."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you are looking for the setting to enable switching of desktops by "
+#~ "pushing your mouse cursor against the edge of the screen you can find it in "
+#~ "the \"Window Behavior\" advanced tab under the name of \"Active Desktop "
+#~ "Borders\"."
+#~ msgstr ""
 
 #~ msgid "Advanced Compositing Options"
 #~ msgstr "மேம்பட்ட கம்போஸிட்டிங் தேர்வுகள்"

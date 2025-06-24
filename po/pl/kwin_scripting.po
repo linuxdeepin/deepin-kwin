@@ -1,22 +1,24 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2013, 2014, 2017, 2022.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2017, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-01 00:48+0000\n"
-"PO-Revision-Date: 2022-12-03 09:36+0100\n"
-"Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
-"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
-"Language: pl\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Polish (https://app.transifex.com/linuxdeepin/teams/3617/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 22.08.3\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -32,78 +34,73 @@ msgstr "lukasz.wojnilowicz@gmail.com"
 #, kde-format
 msgctxt "Error message"
 msgid "Could not locate package metadata"
-msgstr "Nie można było znaleźć metadanych pakietu"
+msgstr ""
 
 #: genericscriptedconfig.cpp:84
 #, kde-format
 msgctxt "Required file does not exist"
 msgid "%1 does not contain a valid metadata.json file"
-msgstr "%1 nie zawiera prawidłowego pliku metadata.json"
+msgstr ""
 
 #: genericscriptedconfig.cpp:90 genericscriptedconfig.cpp:96
 #, kde-format
 msgctxt "Required file does not exist"
 msgid "%1 does not exist"
-msgstr "%1 nie istnieje"
+msgstr ""
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"
-#~ msgstr "Wtyczka nie dostarcza pliku konfiguracyjnego w oczekiwanym miejscu"
+#~ msgstr ""
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
-#~ msgstr "Nieudana asercja: %1 nie jest zerem"
+#~ msgstr ""
 
 #~ msgctxt "Assertion failed in KWin script"
 #~ msgid "Assertion failed: argument is null"
-#~ msgstr "Nieudana asercja: argument jest zerem"
+#~ msgstr ""
 
 #~ msgctxt "Error in KWin Script"
 #~ msgid ""
 #~ "Invalid number of arguments. At least service, path, interface and method "
 #~ "need to be provided"
 #~ msgstr ""
-#~ "Nieprawidłowa liczba argumentów. Muszą być podane co najmniej: usługa, "
-#~ "ścieżka, interfejs i metoda"
 
 #~ msgctxt "Error in KWin Script"
 #~ msgid ""
 #~ "Invalid type. Service, path, interface and method need to be string values"
 #~ msgstr ""
-#~ "Nieprawidłowy typ. Usługa, ścieżka, interfejs i metoda muszą być ciągami "
-#~ "znaków"
 
 #~ msgctxt "syntax error in KWin script"
 #~ msgid "Invalid number of arguments"
-#~ msgstr "Nieprawidłowa liczba argumentów"
+#~ msgstr ""
 
 #~ msgctxt ""
 #~ "KWin Scripting function received incorrect value for an expected type"
 #~ msgid "%1 is not a variant type"
-#~ msgstr "%1 nie jest typem variant"
+#~ msgstr ""
 
 #~ msgctxt ""
 #~ "KWin Scripting function received incorrect value for an expected type"
 #~ msgid "%1 is not of required type"
-#~ msgstr "%1 nie jest wymaganym typem"
+#~ msgstr ""
 
 #~ msgctxt "KWin Scripting error thrown due to incorrect argument"
 #~ msgid "Second argument to registerScreenEdge needs to be a callback"
-#~ msgstr "Drugi argument do registerScreenEdge musi być oddzwanianiem"
+#~ msgstr ""
 
 #~ msgctxt "KWin Scripting error thrown due to incorrect argument"
 #~ msgid "Second argument to registerTouchScreenEdge needs to be a callback"
-#~ msgstr "Drugi argument do registerTouchScreenEdge musi być oddzwanianiem"
+#~ msgstr ""
 
 #~ msgctxt "KWin Scripting error thrown due to incorrect argument"
 #~ msgid "Argument for registerUserActionsMenu needs to be a callback"
-#~ msgstr "Argument do registerUserActionsMenu musi być oddzwanianiem"
+#~ msgstr ""
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1"
-#~ msgstr "Nieudana asercja: %1"
+#~ msgstr ""
 
-#~ msgctxt ""
-#~ "Assertion failed in KWin script with expected value and actual value"
+#~ msgctxt "Assertion failed in KWin script with expected value and actual value"
 #~ msgid "Assertion failed: Expected %1, got %2"
-#~ msgstr "Nieudana asercja: Oczekiwano %1, otrzymano %2"
+#~ msgstr ""
