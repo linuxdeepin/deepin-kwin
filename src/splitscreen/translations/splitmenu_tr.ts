@@ -7,7 +7,7 @@
     </message>
     <message>
         <source>Tile window to right of screen</source>
-        <translation>Pencereyi ekranın sağına döşeyin</translation>
+        <translation>Pencereyi ekranın sağına döşe</translation>
     </message>
     <message>
         <source>Maximize</source>
