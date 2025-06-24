@@ -305,7 +305,7 @@ msgstr "Анімація кнопок"
 #~ msgstr ""
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Довідка"
 
 #~ msgid "Minimize"
 #~ msgstr "Мінімізувати"
@@ -335,10 +335,10 @@ msgstr "Анімація кнопок"
 #~ msgstr ""
 
 #~ msgid "On all desktops"
-#~ msgstr ""
+#~ msgstr "На всіх стільницях"
 
 #~ msgid "Unshade"
-#~ msgstr ""
+#~ msgstr "Розгорнути"
 
 #~ msgid "Shade"
 #~ msgstr "Згорнути"
@@ -350,7 +350,7 @@ msgstr "Анімація кнопок"
 #~ msgstr ""
 
 #~ msgid "Restore"
-#~ msgstr ""
+#~ msgstr "Відновити"
 
 #~ msgctxt "Help button label, one character"
 #~ msgid "?"
@@ -516,7 +516,7 @@ msgstr "Анімація кнопок"
 #~ msgstr ""
 
 #~ msgid "Keep below others"
-#~ msgstr ""
+#~ msgstr "Утримувати під іншими"
 
 #~ msgid "Enable title transition animations"
 #~ msgstr ""
