@@ -1,26 +1,27 @@
-# Translation of kcm_kwin_virtualdesktops.po to Catalan
-# Copyright (C) 2007-2022 This_file_is_part_of_KDE
-# This file is distributed under the license LGPL version 2.1 or
-# version 3 or later versions approved by the membership of KDE e.V.
-#
-# Josep M. Ferrer <txemaq@gmail.com>, 2007, 2009, 2010, 2013, 2014, 2018, 2019, 2021, 2022.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2015, 2016, 2019, 2020.
-# Alfredo Vicente <alviboi@gmail.com>, 2019.
+# translation of kcm_kwindesktop.po to British English
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2019, 2021, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: kwin\n"
+"Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
-"PO-Revision-Date: 2022-12-15 14:13+0100\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
-"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
-"Language: ca\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Catalan (https://app.transifex.com/linuxdeepin/teams/3617/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Accelerator-Marker: &\n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -85,8 +86,8 @@ msgstr "Elimina"
 #: package/contents/ui/main.qml:137
 #, kde-format
 msgid ""
-"Virtual desktops have been changed outside this settings application. Saving "
-"now will overwrite the changes."
+"Virtual desktops have been changed outside this settings application. Saving"
+" now will overwrite the changes."
 msgstr ""
 "S'han canviat els escriptoris virtuals fora d'aquesta aplicació de "
 "configuració. Ara, el desament sobreescriurà els canvis."
@@ -143,3 +144,134 @@ msgstr "Mostra els indicadors per a la disposició de l'escriptori"
 #, kde-format
 msgid "Virtual Desktops"
 msgstr "Escriptoris virtuals"
+
+#~ msgid "New Desktop"
+#~ msgstr ""
+
+#~ msgid "Rows:"
+#~ msgstr ""
+
+#~ msgid "Configure Virtual Desktops"
+#~ msgstr ""
+
+#~ msgid "Desktop %1:"
+#~ msgstr ""
+
+#~ msgid "Here you can enter the name for desktop %1"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual"
+#~ " desktops you want and how these should be labeled."
+#~ msgstr ""
+
+#~ msgid "KWin"
+#~ msgstr "KWin"
+
+#~ msgid "Switch to Next Desktop"
+#~ msgstr ""
+
+#~ msgid "Switch to Previous Desktop"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop to the Right"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop to the Left"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop Up"
+#~ msgstr ""
+
+#~ msgid "Switch One Desktop Down"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktops"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktops (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktop List"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktop List (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Desktop Switching"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop %1"
+#~ msgstr ""
+
+#~ msgid "No Animation"
+#~ msgstr ""
+
+#~ msgid "No suitable Shortcut for Desktop %1 found"
+#~ msgstr ""
+
+#~ msgid "Assigned global Shortcut \"%1\" to Desktop %2"
+#~ msgstr ""
+
+#~ msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
+#~ msgstr ""
+
+#~ msgid "KWin development team"
+#~ msgstr ""
+
+#~ msgid "Layout"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Here you can set how many virtual desktops you want on your KDE desktop."
+#~ msgstr ""
+
+#~ msgid "&Number of desktops:"
+#~ msgstr ""
+
+#~ msgid "N&umber of rows:"
+#~ msgstr ""
+
+#~ msgid "Desktop Names"
+#~ msgstr ""
+
+#~ msgid "Switching"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enable this option if you want keyboard or active desktop border navigation "
+#~ "beyond the edge of a desktop to take you to the opposite edge of the new "
+#~ "desktop."
+#~ msgstr ""
+
+#~ msgid "Desktop Effect Animation"
+#~ msgstr ""
+
+#~ msgid "Animation:"
+#~ msgstr ""
+
+#~ msgid "Desktop Switch On-Screen Display"
+#~ msgstr ""
+
+#~ msgid "Duration:"
+#~ msgstr ""
+
+#~ msgid " msec"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enabling this option will show a small preview of the desktop layout "
+#~ "indicating the selected desktop."
+#~ msgstr ""
+
+#~ msgid "Shortcuts"
+#~ msgstr "Dreceres"
+
+#~ msgid "Show shortcuts for all possible desktops"
+#~ msgstr ""
+
+#~ msgid "Different widgets for each desktop"
+#~ msgstr ""
+
+#~ msgid "Mouse wheel over desktop background switches desktop"
+#~ msgstr ""
