@@ -1,26 +1,27 @@
-# Translation of kcm_kwindesktop to Croatian
-#
-# Zarko Pintar <zarko.pintar@gmail.com>, 2009.
-# Andrej Dundović <adundovi@gmail.com>, 2009.
-# Andrej Dundovic <andrej@dundovic.com.hr>, 2009, 2010.
+# translation of kcm_kwindesktop.po to British English
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2019, 2021, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kcm_kwindesktop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
-"PO-Revision-Date: 2010-07-11 15:05+0200\n"
-"Last-Translator: Andrej Dundovic <andrej@dundovic.com.hr>\n"
-"Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
-"Language: hr\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Language-Team: Croatian (https://app.transifex.com/linuxdeepin/teams/3617/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Environment: kde\n"
-"X-Accelerator-Marker: &\n"
-"X-Text-Markup: kde4\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -33,14 +34,13 @@ msgid "Your emails"
 msgstr "zarko.pintar@gmail.com, adundovi@gmail.com"
 
 #: desktopsmodel.cpp:191
-#, fuzzy, kde-format
-#| msgid "Desktop %1"
+#, kde-format
 msgctxt "A numbered name for virtual desktops"
 msgid "Desktop %1"
 msgid_plural "Desktop %1"
-msgstr[0] "Radna površina %1"
-msgstr[1] "Radna površina %1"
-msgstr[2] "Radna površina %1"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: desktopsmodel.cpp:479
 #, kde-format
@@ -85,8 +85,8 @@ msgstr ""
 #: package/contents/ui/main.qml:137
 #, kde-format
 msgid ""
-"Virtual desktops have been changed outside this settings application. Saving "
-"now will overwrite the changes."
+"Virtual desktops have been changed outside this settings application. Saving"
+" now will overwrite the changes."
 msgstr ""
 
 #: package/contents/ui/main.qml:153
@@ -114,10 +114,9 @@ msgid "Options:"
 msgstr ""
 
 #: package/contents/ui/main.qml:202
-#, fuzzy, kde-format
-#| msgid "Desktop navigation wraps around"
+#, kde-format
 msgid "Navigation wraps around"
-msgstr "Navigacija radne površine se omata"
+msgstr ""
 
 #: package/contents/ui/main.qml:220
 #, kde-format
@@ -140,15 +139,18 @@ msgid "Show desktop layout indicators"
 msgstr "Prikaži indikatore rasporeda radne površine"
 
 #: virtualdesktops.cpp:33
-#, fuzzy, kde-format
-#| msgid "Desktops"
+#, kde-format
 msgid "Virtual Desktops"
-msgstr "Radne površine"
+msgstr ""
 
-#, fuzzy
-#~| msgid "Desktops"
 #~ msgid "New Desktop"
-#~ msgstr "Radne površine"
+#~ msgstr ""
+
+#~ msgid "Rows:"
+#~ msgstr ""
+
+#~ msgid "Configure Virtual Desktops"
+#~ msgstr ""
 
 #~ msgid "Desktop %1:"
 #~ msgstr "Radna površina %1:"
@@ -157,11 +159,14 @@ msgstr "Radne površine"
 #~ msgstr "Ovdje možete unjeti naziv za radnu površinu %1"
 
 #~ msgid ""
-#~ "<h1>Multiple Desktops</h1>In this module, you can configure how many "
-#~ "virtual desktops you want and how these should be labeled."
+#~ "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual"
+#~ " desktops you want and how these should be labeled."
 #~ msgstr ""
 #~ "<h1>Višestruke radne površine</h1>U ovom modulu možete podesiti koliko "
 #~ "želite virtualnih radnih površina i kako će one biti označene."
+
+#~ msgid "KWin"
+#~ msgstr ""
 
 #~ msgid "Switch to Next Desktop"
 #~ msgstr "Prebaci na slijedeću radnu površinu"
@@ -181,6 +186,18 @@ msgstr "Radne površine"
 #~ msgid "Switch One Desktop Down"
 #~ msgstr "Prebaci za jednu radnu površinu nadolje"
 
+#~ msgid "Walk Through Desktops"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktops (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktop List"
+#~ msgstr ""
+
+#~ msgid "Walk Through Desktop List (Reverse)"
+#~ msgstr ""
+
 #~ msgid "Desktop Switching"
 #~ msgstr "Prebacivanje radnih površina"
 
@@ -199,6 +216,9 @@ msgstr "Radne površine"
 #~ msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 #~ msgstr "Sukob prečaca: Ne mogu postaviti prečac %1 na radnu površinu %2"
 
+#~ msgid "KWin development team"
+#~ msgstr ""
+
 #~ msgid "Layout"
 #~ msgstr "Prikaz"
 
@@ -208,15 +228,11 @@ msgstr "Radne površine"
 #~ "Ovdje možete postaviti koliko mnogo virtualnih radnih površina želite na "
 #~ "vašoj KDE-ovoj radnoj površini."
 
-#, fuzzy
-#~| msgid "Number of desktops:"
 #~ msgid "&Number of desktops:"
-#~ msgstr "Broj radnih površina:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Number of rows:"
 #~ msgid "N&umber of rows:"
-#~ msgstr "Broj redaka:"
+#~ msgstr ""
 
 #~ msgid "Desktop Names"
 #~ msgstr "Nazivi radnih površina"
@@ -225,13 +241,13 @@ msgstr "Radne površine"
 #~ msgstr "Prebacivanje"
 
 #~ msgid ""
-#~ "Enable this option if you want keyboard or active desktop border "
-#~ "navigation beyond the edge of a desktop to take you to the opposite edge "
-#~ "of the new desktop."
+#~ "Enable this option if you want keyboard or active desktop border navigation "
+#~ "beyond the edge of a desktop to take you to the opposite edge of the new "
+#~ "desktop."
 #~ msgstr ""
-#~ "Omogućite ovu opciju ako želite da vas tipkovnica ili aktivna granica "
-#~ "radne površine navigira preko ruba radne površine i odvede na suprotni "
-#~ "rub nove radne površine."
+#~ "Omogućite ovu opciju ako želite da vas tipkovnica ili aktivna granica radne "
+#~ "površine navigira preko ruba radne površine i odvede na suprotni rub nove "
+#~ "radne površine."
 
 #~ msgid "Desktop Effect Animation"
 #~ msgstr "Efekt animacije radne površine "
@@ -263,3 +279,6 @@ msgstr "Radne površine"
 
 #~ msgid "Different widgets for each desktop"
 #~ msgstr "Različiti widgeti za svaku radnu površinu"
+
+#~ msgid "Mouse wheel over desktop background switches desktop"
+#~ msgstr ""
