@@ -332,7 +332,7 @@ msgstr "Анімація кнопок"
 #~ msgstr ""
 
 #~ msgid "Not on all desktops"
-#~ msgstr ""
+#~ msgstr "Не на усіх стільницях"
 
 #~ msgid "On all desktops"
 #~ msgstr "На всіх стільницях"
@@ -507,13 +507,13 @@ msgstr "Анімація кнопок"
 #~ msgstr ""
 
 #~ msgid "Do not keep above others"
-#~ msgstr ""
+#~ msgstr "Не тримати над іншими"
 
 #~ msgid "Keep above others"
 #~ msgstr ""
 
 #~ msgid "Do not keep below others"
-#~ msgstr ""
+#~ msgstr "Не утримувати під іншими"
 
 #~ msgid "Keep below others"
 #~ msgstr "Утримувати під іншими"
