@@ -3032,7 +3032,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Navigation"
-#~ msgstr ""
+#~ msgstr "Navegação"
 
 #~ msgid "Window & Desktop"
 #~ msgstr ""
