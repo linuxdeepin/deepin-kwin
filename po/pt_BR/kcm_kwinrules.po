@@ -839,27 +839,27 @@ msgstr ""
 #: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
-msgstr ""
+msgstr "Sobreposição mínima"
 
 #: rulesmodel.cpp:806
 #, kde-format
 msgid "Maximized"
-msgstr ""
+msgstr "Maximizado"
 
 #: rulesmodel.cpp:807
 #, kde-format
 msgid "Centered"
-msgstr ""
+msgstr "Centralizada"
 
 #: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
-msgstr ""
+msgstr "Aleatório"
 
 #: rulesmodel.cpp:809
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr ""
+msgstr "No canto superior esquerdo"
 
 #: rulesmodel.cpp:810
 #, kde-format
@@ -879,7 +879,7 @@ msgstr "Nenhum"
 #: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
-msgstr ""
+msgstr "Baixo"
 
 #: rulesmodel.cpp:820
 #, kde-format
@@ -889,12 +889,12 @@ msgstr "Normal"
 #: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
-msgstr ""
+msgstr "Alto"
 
 #: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
-msgstr ""
+msgstr "Extremo"
 
 #: rulesmodel.cpp:865
 #, kde-format
