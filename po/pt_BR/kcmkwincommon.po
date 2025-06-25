@@ -71,7 +71,7 @@ msgstr ""
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
-msgstr ""
+msgstr "Gerenciamento de janelas"
 
 #: effectsmodel.cpp:59
 #, kde-format
