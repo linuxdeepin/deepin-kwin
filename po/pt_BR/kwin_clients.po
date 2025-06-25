@@ -237,36 +237,36 @@ msgstr "Animação dos botões"
 #~ msgstr "Seleção de propriedades da janela"
 
 #~ msgid "Use window class (whole application)"
-#~ msgstr ""
+#~ msgstr "Usar classe de janela (aplicativo inteiro)"
 
 #~ msgid "Use window title"
-#~ msgstr ""
+#~ msgstr "Usar título da janela"
 
 #~ msgid "Window Identification"
-#~ msgstr ""
+#~ msgstr "Identificação da janela"
 
 #~ msgid "Matching window property: "
-#~ msgstr ""
+#~ msgstr "Propriedade de janela correspondente:"
 
 #~ msgid "Regular expression to match: "
-#~ msgstr ""
+#~ msgstr "Expressão regular para correspondência:"
 
 #~ msgid "Detect Window Properties"
-#~ msgstr ""
+#~ msgstr "Detectar propriedades da janela"
 
 #~ msgid "Decoration Options"
 #~ msgstr "Opções de decoração"
 
 #~ msgctxt "outline window title"
 #~ msgid "Disabled"
-#~ msgstr ""
+#~ msgstr "Desabilitado"
 
 #~ msgctxt "outline window title"
 #~ msgid "Enabled"
-#~ msgstr ""
+#~ msgstr "Habilitado"
 
 #~ msgid "Border size:"
-#~ msgstr ""
+#~ msgstr "Tamanho da borda:"
 
 #~ msgid "Outline active window title:"
 #~ msgstr ""
@@ -553,11 +553,11 @@ msgstr "Animação dos botões"
 
 #~ msgctxt "draw separator"
 #~ msgid "Enabled"
-#~ msgstr ""
+#~ msgstr "Habilitado"
 
 #~ msgctxt "draw separator"
 #~ msgid "Disabled"
-#~ msgstr ""
+#~ msgstr "Desabilitado"
 
 #~ msgid "Draw separator between title bar and window contents: "
 #~ msgstr ""
