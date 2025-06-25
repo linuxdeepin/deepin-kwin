@@ -1743,53 +1743,55 @@ msgstr ""
 #~ msgstr "Exibir imagem em tampas"
 
 #~ msgid "Define how far away the object should appear"
-#~ msgstr ""
+#~ msgstr "Defina a que distância o objeto deve aparecer"
 
 #~ msgid "Additional Options"
-#~ msgstr ""
+#~ msgstr "Opções adicionais"
 
 #~ msgid ""
 #~ "If enabled the effect will be deactivated after rotating the cube with the mouse,\n"
 #~ "otherwise it will remain active"
 #~ msgstr ""
+#~ "Se ativado, o efeito será desativado após girar o cubo com o mouse,\n"
+#~ "caso contrário, permanecerá ativo"
 
 #~ msgid "Close after mouse dragging"
-#~ msgstr ""
+#~ msgstr "Fechar após arrastar o mouse"
 
 #~ msgid "Use this effect for walking through the desktops"
-#~ msgstr ""
+#~ msgstr "Use este efeito para percorrer as áreas de trabalho"
 
 #~ msgid "Invert mouse"
-#~ msgstr ""
+#~ msgstr "Inverter mouse"
 
 #~ msgid "Sphere Cap Deformation"
-#~ msgstr ""
+#~ msgstr "Deformação da tampa da esfera"
 
 #~ msgid "Sphere"
 #~ msgstr "Esfera"
 
 #~ msgid "Plane"
-#~ msgstr ""
+#~ msgstr "Avião"
 
 #~ msgid "Do not animate windows on all desktops"
-#~ msgstr ""
+#~ msgstr "Não anime janelas em todas as áreas de trabalho"
 
 #~ msgid "Do not animate panels"
-#~ msgstr ""
+#~ msgstr "Não animar os painéis"
 
 #~ msgid "Use pager layout for animation"
-#~ msgstr ""
+#~ msgstr "Use o layout do pager para animação"
 
 #~ msgid "Start animation when moving windows towards screen edges"
-#~ msgstr ""
+#~ msgstr "Iniciar animação ao mover janelas em direção às bordas da tela"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Cover Switch"
-#~ msgstr ""
+#~ msgstr "Interruptor de tampa"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
-#~ msgstr ""
+#~ msgstr "Exibir um efeito Cover Flow para o alternador de janelas alt+tab"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Cube"
@@ -1797,19 +1799,19 @@ msgstr ""
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display each virtual desktop on a side of a cube"
-#~ msgstr ""
+#~ msgstr "Exibir cada área de trabalho virtual em um lado de um cubo"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Cube Animation"
-#~ msgstr ""
+#~ msgstr "Animação de cubo na área de trabalho"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Animate desktop switching with a cube"
-#~ msgstr ""
+#~ msgstr "Animar a troca de área de trabalho com um cubo"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Flip Switch"
-#~ msgstr ""
+#~ msgstr "Interruptor flip"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid ""
@@ -1825,7 +1827,7 @@ msgstr ""
 #~ msgstr "Interruptor de alternância (todas as áreas de trabalho)"
 
 #~ msgid "Flip animation duration:"
-#~ msgstr ""
+#~ msgstr "Duração da animação de inversão:"
 
 #~ msgctxt "Duration of flip animation"
 #~ msgid "Default"
