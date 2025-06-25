@@ -210,31 +210,31 @@ msgstr "Animação dos botões"
 #~ msgstr "Título da janela do esboço ativa "
 
 #~ msgid "Use narrow space between decoration buttons"
-#~ msgstr ""
+#~ msgstr "Usar espaço estreito entre os botões de decoração"
 
 #~ msgid "Shadows"
-#~ msgstr ""
+#~ msgstr "Sombras"
 
 #~ msgid "Window Drop-Down Shadow"
-#~ msgstr ""
+#~ msgstr "Sombra suspensa da janela"
 
 #~ msgid "Active Window Glow"
-#~ msgstr ""
+#~ msgstr "Ativar brilho das janelas"
 
 #~ msgid "Window-Specific Overrides"
-#~ msgstr ""
+#~ msgstr "Substituições específicas de janela"
 
 #~ msgid "Information about Selected Window"
-#~ msgstr ""
+#~ msgstr "Informações sobre a janela selecionada"
 
 #~ msgid "Class: "
-#~ msgstr ""
+#~ msgstr "Categoria:"
 
 #~ msgid "Title: "
-#~ msgstr ""
+#~ msgstr "Titulo:"
 
 #~ msgid "Window Property Selection"
-#~ msgstr ""
+#~ msgstr "Seleção de propriedades da janela"
 
 #~ msgid "Use window class (whole application)"
 #~ msgstr ""
