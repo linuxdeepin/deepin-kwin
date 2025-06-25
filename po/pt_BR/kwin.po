@@ -3411,19 +3411,19 @@ msgstr ""
 #~ "%1"
 
 #~ msgid "Snow"
-#~ msgstr ""
+#~ msgstr "Neve"
 
 #~ msgid "Toggle Snow on Desktop"
-#~ msgstr ""
+#~ msgstr "Alternar neve na área de trabalho"
 
 #~ msgid "Toggle Thumbnail for Current Window"
 #~ msgstr ""
 
 #~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
-#~ msgstr ""
+#~ msgstr "Pressione as teclas Ctrl+Meta para ver onde está o cursor do mouse."
 
 #~ msgid "Path to save video:"
-#~ msgstr ""
+#~ msgstr "Caminho para salvar o vídeo:"
 
 #~ msgid "None"
 #~ msgstr "Nenhum"
