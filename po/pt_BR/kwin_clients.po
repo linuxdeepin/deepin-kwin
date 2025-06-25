@@ -72,13 +72,13 @@ msgstr "Tamanho do botão:"
 #: aurorae/themes/plastik/package/contents/ui/config.ui:14
 #, kde-format
 msgid "Config Dialog"
-msgstr ""
+msgstr "Configuração de diálogo"
 
 #. i18n: ectx: property (title), widget (KButtonGroup, titleAlign)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:23
 #, kde-format
 msgid "Title &Alignment"
-msgstr ""
+msgstr "Título e Alinhamento"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignLeft)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
@@ -90,7 +90,7 @@ msgstr "Esquerda"
 #: aurorae/themes/plastik/package/contents/ui/config.ui:36
 #, kde-format
 msgid "Center"
-msgstr ""
+msgstr "Centralizado"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignRight)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:43
@@ -105,12 +105,14 @@ msgid ""
 "Check this option if the window border should be painted in the titlebar "
 "color. Otherwise it will be painted in the background color."
 msgstr ""
+"Marque esta opção se a borda da janela deve ser pintada na cor da barra de "
+"título. Caso contrário, ela será pintada na cor de fundo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:56
 #, kde-format
 msgid "Colored window border"
-msgstr ""
+msgstr "Borda da janela colorida"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:66
@@ -119,44 +121,49 @@ msgid ""
 "Check this option if you want the buttons to fade in when the mouse pointer "
 "hovers over them and fade out again when it moves away."
 msgstr ""
+"Marque esta opção se quiser que os botões apareçam gradualmente quando o "
+"ponteiro do mouse passar sobre eles e desapareçam novamente quando ele se "
+"afastar."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_animateButtons)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:69
 #, kde-format
 msgid "Animate buttons"
-msgstr ""
+msgstr "Animação dos botões"
 
 #~ msgid ""
 #~ "Check this option if you want the titlebar text to have a 3D look with a "
 #~ "shadow behind it."
 #~ msgstr ""
+#~ "Marque esta opção se quiser que o texto da barra de título tenha uma "
+#~ "aparência 3D com uma sombra atrás dele."
 
 #~ msgid "Use shadowed &text"
-#~ msgstr ""
+#~ msgstr "Usar texto sombreado"
 
 #~ msgid "Remove selected exception?"
-#~ msgstr ""
+#~ msgstr "Remover exceção selecionada?"
 
 #~ msgid "Regular Expression syntax is incorrect"
-#~ msgstr ""
+#~ msgstr "A sintaxe da expressão regular está incorreta"
 
 #~ msgid "Exception Type"
-#~ msgstr ""
+#~ msgstr "Tipo de exceção"
 
 #~ msgid "Regular Expression"
-#~ msgstr ""
+#~ msgstr "Expressão regular"
 
 #~ msgid "Window Title"
-#~ msgstr ""
+#~ msgstr "Título da janela"
 
 #~ msgid "Window Class Name"
-#~ msgstr ""
+#~ msgstr "Nome da classe da janela"
 
 #~ msgid "Enable/disable this exception"
-#~ msgstr ""
+#~ msgstr "Habilitar/desabilitar esta exceção"
 
 #~ msgid "General"
-#~ msgstr ""
+#~ msgstr "Geral"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "Normal"
@@ -175,17 +182,17 @@ msgstr ""
 #~ msgstr "Enorme"
 
 #~ msgid "Center (Full Width)"
-#~ msgstr ""
+#~ msgstr "Centro (largura total)"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Small"
-#~ msgstr ""
+#~ msgstr "Pequeno"
 
 #~ msgid "Enable animations"
-#~ msgstr ""
+#~ msgstr "Habilitar animações"
 
 #~ msgid "Fine Tuning"
-#~ msgstr ""
+#~ msgstr "Afinação"
 
 #~ msgid "Close windows by double clicking the menu button"
 #~ msgstr "Feche as janelas clicando duas vezes no botão de menu"
@@ -441,7 +448,7 @@ msgstr ""
 #~ msgstr "Grande"
 
 #~ msgid "Small"
-#~ msgstr ""
+#~ msgstr "Pequeno"
 
 #~ msgid "Extra size grip display: "
 #~ msgstr ""
@@ -749,17 +756,21 @@ msgstr ""
 
 #~ msgid "Configure window decoration option overrides for specific windows"
 #~ msgstr ""
+#~ "Configurar substituições de opções de decoração de janelas para janelas "
+#~ "específicas"
 
 #~ msgid ""
 #~ "When enabled, this option increases the visibility of the window titlebar by"
 #~ " showing stripes"
 #~ msgstr ""
+#~ "Quando ativada, esta opção aumenta a visibilidade da barra de título da "
+#~ "janela, mostrando listras"
 
 #~ msgid "Show stripes next to the title"
-#~ msgstr ""
+#~ msgstr "Mostrar listras ao lado do título"
 
 #~ msgid "Blend title bar colors with window contents"
-#~ msgstr ""
+#~ msgstr "Misture as cores da barra de título com o conteúdo da janela"
 
 #~ msgid "Ozone"
 #~ msgstr "Ozônio"
@@ -768,6 +779,9 @@ msgstr ""
 #~ "When enabled, this option makes the window title bar use the same colors as "
 #~ "the window contents, instead of using the system title bar colors."
 #~ msgstr ""
+#~ "Quando ativada, esta opção faz com que a barra de título da janela use as "
+#~ "mesmas cores do conteúdo da janela, em vez de usar as cores da barra de "
+#~ "título do sistema."
 
 #~ msgid "Use thin borders"
 #~ msgstr ""
