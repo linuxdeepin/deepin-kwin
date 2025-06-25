@@ -251,10 +251,10 @@ msgstr "Mostrar a janela selecionada"
 #~ "entre as janelas\"."
 
 #~ msgid "Walk Through Windows"
-#~ msgstr "Navegue pelas janelas"
+#~ msgstr "Navegar pelas janelas"
 
 #~ msgid "Walk Through Windows (Reverse)"
-#~ msgstr ""
+#~ msgstr "Navegar pelas janelas (reverso)"
 
 #~ msgid "Walk Through Windows Alternative"
 #~ msgstr ""
@@ -263,48 +263,48 @@ msgstr "Mostrar a janela selecionada"
 #~ msgstr ""
 
 #~ msgid "Configure Layout"
-#~ msgstr ""
+#~ msgstr "Configurar layout"
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
-#~ msgstr ""
+#~ msgstr "Andrew Coles"
 
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
-#~ msgstr ""
+#~ msgstr "andrew_coles@yahoo.co.uk"
 
 #~ msgid "These settings are used by the \"Walk Through Windows\" actions."
-#~ msgstr ""
+#~ msgstr "Essas configurações são usadas pelas ações \"Navegar pelas janelas\"."
 
 #~ msgid "Highlight selected window"
-#~ msgstr ""
+#~ msgstr "Destacar janela selecionada"
 
 #~ msgid "Effect:"
-#~ msgstr ""
+#~ msgstr "Efeito:"
 
 #~ msgid "Display list while switching"
-#~ msgstr ""
+#~ msgstr "Exibir lista durante a troca"
 
 #~ msgid "No Effect"
-#~ msgstr ""
+#~ msgstr "Sem efeito"
 
 #~ msgid "Configure Layout..."
-#~ msgstr ""
+#~ msgstr "Configurar layout..."
 
 #~ msgid "Item Layout"
-#~ msgstr ""
+#~ msgstr "Layout do item"
 
 #~ msgid "Item layout:"
-#~ msgstr ""
+#~ msgstr "Layout do item:"
 
 #~ msgid "Layout:"
-#~ msgstr ""
+#~ msgstr "Layout:"
 
 #~ msgid "Vertical"
-#~ msgstr ""
+#~ msgstr "Vertical"
 
 #~ msgid "Horizontal"
-#~ msgstr ""
+#~ msgstr "Horizontal"
 
 #~ msgid "Tabular"
 #~ msgstr "Tabular"
