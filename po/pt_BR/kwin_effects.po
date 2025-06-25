@@ -1811,7 +1811,7 @@ msgstr ""
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Flip Switch"
-#~ msgstr "Interruptor flip"
+#~ msgstr "Inversão do interruptor"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid ""
@@ -1834,38 +1834,40 @@ msgstr ""
 #~ msgstr "Padrão"
 
 #~ msgid "Angle:"
-#~ msgstr ""
+#~ msgstr "Ângulo:"
 
 #~ msgid " °"
-#~ msgstr ""
+#~ msgstr " °"
 
 #~ msgid "Horizontal position of front:"
-#~ msgstr ""
+#~ msgstr "Posição horizontal da frente:"
 
 #~ msgid "Vertical position of front:"
-#~ msgstr ""
+#~ msgstr "Posição vertical da frente:"
 
 #~ msgid ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Filtro:\n"
+#~ "%1"
 
 #~ msgid "Use Present Windows effect to layout the windows"
-#~ msgstr ""
+#~ msgstr "Usar o efeito apresentar janelas para dispor as janelas"
 
 #~ msgid "When the focus changes, move the zoom area to the focused location."
-#~ msgstr ""
+#~ msgstr "Quando o foco mudar, mova a área de zoom para o local focado."
 
 #~ msgid "Follow Focus"
-#~ msgstr ""
+#~ msgstr "Siga o foco"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Dim Screen for Administrator Mode"
-#~ msgstr ""
+#~ msgstr "Escurecer a tela para o modo de administrador"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Darkens the entire screen when requesting root privileges"
-#~ msgstr ""
+#~ msgstr "Escurece a tela inteira ao solicitar privilégios de root"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Scale"
@@ -1879,33 +1881,33 @@ msgstr ""
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Minimize Animation"
-#~ msgstr ""
+#~ msgstr "Minimizar animação"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Animate the minimizing of windows"
-#~ msgstr ""
+#~ msgstr "Animar a minimização de janelas"
 
 #~ msgid "Trigger on"
-#~ msgstr ""
+#~ msgstr "Acionar"
 
 #~ msgid "Shortcut"
-#~ msgstr ""
+#~ msgstr "Atalho"
 
 #~ msgid "Apply effect to &panels"
-#~ msgstr ""
+#~ msgstr "Aplicar efeito aos painéis"
 
 #~ msgid "Apply effect to the desk&top"
-#~ msgstr ""
+#~ msgstr "Aplicar efeito na área de trabalho e no topo"
 
 #~ msgid "Apply effect to &keep-above windows"
-#~ msgstr ""
+#~ msgstr "Aplicar efeito em janelas e manter acima delas"
 
 #~ msgid "Apply effect to &groups"
-#~ msgstr ""
+#~ msgstr "Aplicar efeito a grupos"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Windows Glide Effect as they are open and closed"
-#~ msgstr ""
+#~ msgstr "Efeito de deslizamento da janela ao abrir e fechar"
 
 #~ msgid "Glide Effect:"
 #~ msgstr ""
