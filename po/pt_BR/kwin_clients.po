@@ -198,7 +198,7 @@ msgstr "Animação dos botões"
 #~ msgstr "Feche as janelas clicando duas vezes no botão de menu"
 
 #~ msgid "Never Draw Separator"
-#~ msgstr ""
+#~ msgstr "Nunca desenhar um separador"
 
 #~ msgid "Draw Separator When Window is Active"
 #~ msgstr "Desenhar separador quando a janela estiver ativa"
@@ -269,19 +269,19 @@ msgstr "Animação dos botões"
 #~ msgstr "Tamanho da borda:"
 
 #~ msgid "Outline active window title:"
-#~ msgstr ""
+#~ msgstr "Titulo da janela do esboço ativa"
 
 #~ msgid "Separator display:"
-#~ msgstr ""
+#~ msgstr "Exibição do separador:"
 
 #~ msgid "Hide window title bar"
-#~ msgstr ""
+#~ msgstr "Ocultar barra de título da janela"
 
 #~ msgid "Move Up"
-#~ msgstr ""
+#~ msgstr "Mover para cima"
 
 #~ msgid "Move Down"
-#~ msgstr ""
+#~ msgstr "Mover para baixo"
 
 #~ msgid "Add"
 #~ msgstr "Adicionar"
@@ -290,19 +290,19 @@ msgstr "Animação dos botões"
 #~ msgstr "Remover"
 
 #~ msgid "Edit"
-#~ msgstr ""
+#~ msgstr "Editar"
 
 #~ msgid "Oxygen Shadow Demo"
-#~ msgstr ""
+#~ msgstr "Demonstração da sombra Oxygen"
 
 #~ msgid "Draw window background"
-#~ msgstr ""
+#~ msgstr "Desenhar fundo da janela"
 
 #~ msgid "Inactive Windows"
-#~ msgstr ""
+#~ msgstr "Janelas inativas"
 
 #~ msgid "Active Windows"
-#~ msgstr ""
+#~ msgstr "Janelas ativas"
 
 #~ msgid "Oxygen"
 #~ msgstr "Oxigênio"
@@ -320,16 +320,16 @@ msgstr "Animação dos botões"
 #~ msgstr "Fechar"
 
 #~ msgid "Keep Above Others"
-#~ msgstr ""
+#~ msgstr "Mantenha-se acima dos outros"
 
 #~ msgid "Keep Below Others"
-#~ msgstr ""
+#~ msgstr "Mantenha-se abaixo dos outros"
 
 #~ msgid "On All Desktops"
-#~ msgstr ""
+#~ msgstr "Em todas as áreas de trabalho"
 
 #~ msgid "Shade Button"
-#~ msgstr ""
+#~ msgstr "Sombra do botão"
 
 #~ msgid "Menu"
 #~ msgstr "Menu"
@@ -718,6 +718,8 @@ msgstr "Animação dos botões"
 
 #~ msgid "If checked, specified frame border is used in place of default value."
 #~ msgstr ""
+#~ "Se marcada, a borda do quadro especificada será usada no lugar do valor "
+#~ "padrão."
 
 #~ msgid ""
 #~ "If checked, specified blending color is used in title bar in place of "
