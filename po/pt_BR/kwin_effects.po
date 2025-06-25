@@ -802,7 +802,7 @@ msgstr ""
 #: trackmouse/trackmouse_config.ui:43
 #, kde-format
 msgid "Modifier keys:"
-msgstr ""
+msgstr "Teclas modificadoras:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Alt)
 #: trackmouse/trackmouse_config.ui:65
@@ -814,13 +814,13 @@ msgstr "Alt"
 #: trackmouse/trackmouse_config.ui:72
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Shift)
 #: trackmouse/trackmouse_config.ui:79
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Meta)
 #: trackmouse/trackmouse_config.ui:86
@@ -833,19 +833,19 @@ msgstr "Meta"
 #: translucency/package/contents/ui/config.ui:14
 #, kde-format
 msgid "Translucency"
-msgstr ""
+msgstr "Translucidez"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_opacityGroupBox)
 #: translucency/package/contents/ui/config.ui:20
 #, kde-format
 msgid "General Translucency Settings"
-msgstr ""
+msgstr "Configurações gerais de translucidez"
 
 #. i18n: ectx: property (text), widget (QLabel, comboboxpopup_label)
 #: translucency/package/contents/ui/config.ui:64
 #, kde-format
 msgid "Combobox popups:"
-msgstr ""
+msgstr "Pop-ups de caixa de combinação:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -853,13 +853,13 @@ msgstr ""
 #: translucency/package/contents/ui/config.ui:431
 #, kde-format
 msgid "Opaque"
-msgstr ""
+msgstr "Opaca"
 
 #. i18n: ectx: property (text), widget (QLabel, dialogs_label)
 #: translucency/package/contents/ui/config.ui:137
 #, kde-format
 msgid "Dialogs:"
-msgstr ""
+msgstr "Diálogos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -867,37 +867,37 @@ msgstr ""
 #: translucency/package/contents/ui/config.ui:418
 #, kde-format
 msgid "Transparent"
-msgstr ""
+msgstr "Transparente"
 
 #. i18n: ectx: property (text), widget (QLabel, menus_label)
 #: translucency/package/contents/ui/config.ui:188
 #, kde-format
 msgid "Menus:"
-msgstr ""
+msgstr "Menus:"
 
 #. i18n: ectx: property (text), widget (QLabel, moveresize_label)
 #: translucency/package/contents/ui/config.ui:207
 #, kde-format
 msgid "Moving windows:"
-msgstr ""
+msgstr "Movimento das janelas"
 
 #. i18n: ectx: property (text), widget (QLabel, inactive_label)
 #: translucency/package/contents/ui/config.ui:226
 #, kde-format
 msgid "Inactive windows:"
-msgstr ""
+msgstr "Janelas inativas:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_IndividualMenuConfig)
 #: translucency/package/contents/ui/config.ui:267
 #, kde-format
 msgid "Set menu translucency independently"
-msgstr ""
+msgstr "Defina a translucidez do menu de forma independente"
 
 #. i18n: ectx: property (text), widget (QLabel, dropdownmenus_label)
 #: translucency/package/contents/ui/config.ui:285
 #, kde-format
 msgid "Dropdown menus:"
-msgstr ""
+msgstr "Menus suspensos:"
 
 #. i18n: ectx: property (text), widget (QLabel, popupmenus_label)
 #: translucency/package/contents/ui/config.ui:329
@@ -1338,28 +1338,28 @@ msgstr ""
 #~ msgstr "Mostrar esboço"
 
 #~ msgid "Toggle window geometry display (effect only)"
-#~ msgstr ""
+#~ msgstr "Alternar exibição da geometria da janela (somente efeito)"
 
 #~ msgid "Toggle KWin composited geometry display"
-#~ msgstr ""
+#~ msgstr "Alternar exibição de geometria composta do KWin"
 
 #~ msgid "Display for moving windows"
-#~ msgstr ""
+#~ msgstr "Exibição para janelas móveis"
 
 #~ msgid "Display for resizing windows"
-#~ msgstr ""
+#~ msgstr "Exibição para redimensionar janelas"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Blur"
-#~ msgstr ""
+#~ msgstr "Desfoque"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Blurs the background behind semi-transparent windows"
-#~ msgstr ""
+#~ msgstr "Desfoca o fundo atrás de janelas semitransparentes"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Color Picker"
-#~ msgstr ""
+#~ msgstr "Seletor de cores"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Supports picking a color"
