@@ -2598,68 +2598,75 @@ msgstr ""
 #~ msgstr "Janela e atalho..."
 
 #~ msgid "&Special Window Settings..."
-#~ msgstr ""
+#~ msgstr "Configurações especiais de janela..."
 
 #~ msgid "&Special Application Settings..."
-#~ msgstr ""
+#~ msgstr "Configurações especiais do aplicativo..."
 
 #~ msgid "Re&size"
-#~ msgstr ""
+#~ msgstr "Redimensionar"
 
 #~ msgid "Mi&nimize"
-#~ msgstr ""
+#~ msgstr "Minimizar"
 
 #~ msgid "Ma&ximize"
-#~ msgstr ""
+#~ msgstr "Maximizar"
 
 #~ msgid "Sh&ade"
-#~ msgstr ""
+#~ msgstr "Sombra"
 
 #~ msgid "Configur&e Window Behavior..."
-#~ msgstr ""
+#~ msgstr "Configurar comportamento da janela..."
 
 #~ msgid "&All Desktops"
-#~ msgstr ""
+#~ msgstr "Todas as áreas de trabalhos"
 
 #~ msgid ""
 #~ "You have selected to show a window without its border.\n"
 #~ "Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 #~ msgstr ""
+#~ "Você selecionou mostrar uma janela sem borda\n"
+#~ "Sem a borda, você não poderá habilitá-la novamente usando o mouse: use o menu de operações da janela, ativado usando o atalho de teclado %1."
 
 #~ msgid ""
 #~ "You have selected to show a window in fullscreen mode.\n"
 #~ "If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 #~ msgstr ""
+#~ "Você selecionou mostrar uma janela em modo de tela cheia.\n"
+#~ "Se o próprio aplicativo não tiver uma opção para desativar o modo de tela cheia, você não poderá desativá-lo novamente usando o mouse: use o menu de operações da janela, ativado usando o atalho de teclado %1."
 
 #~ msgid "KWin helper utility"
-#~ msgstr ""
+#~ msgstr "Utilitário auxiliar KWin"
 
 #~ msgid "PID of the application to terminate."
-#~ msgstr ""
+#~ msgstr "PID do aplicativo a ser encerrado."
 
 #~ msgid "Hostname on which the application is running."
-#~ msgstr ""
+#~ msgstr "Nome do host no qual o aplicativo está sendo executado."
 
 #~ msgid "Caption of the window to be terminated."
-#~ msgstr ""
+#~ msgstr "Legenda da janela a ser encerrada."
 
 #~ msgid "Name of the application to be terminated."
-#~ msgstr ""
+#~ msgstr "Nome do aplicativo a ser encerrado."
 
 #~ msgid "ID of resource belonging to the application."
-#~ msgstr ""
+#~ msgstr "ID do recurso pertencente ao aplicativo."
 
 #~ msgid "This helper utility is not supposed to be called directly."
-#~ msgstr ""
+#~ msgstr "Este utilitário auxiliar não deve ser chamado diretamente."
 
 #~ msgid ""
 #~ "<p>Window with title \"<b>%2</b>\" is not responding. This window belongs to"
 #~ " application <b>%1</b> (PID=%3, hostname=%4).</p><p>Do you wish to terminate"
 #~ " this application? (All unsaved data in this application will be lost.)</p>"
 #~ msgstr ""
+#~ "<p>Janela com título<b>%2</b>\" não está respondendo. Esta janela pertence "
+#~ "ao aplicativo <b>%1</b> (PID=%3, hostname=%4).</p><p>Deseja encerrar este "
+#~ "aplicativo? (Todos os dados não salvos neste aplicativo serão perdidos.)</p>"
 
 #~ msgid "Terminate"
-#~ msgstr ""
+#~ msgstr "Terminar"
 
 #~ msgid "Keep Running"
 #~ msgstr ""
