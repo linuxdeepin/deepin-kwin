@@ -1741,7 +1741,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Only &when moving windows"
-#~ msgstr ""
+#~ msgstr "Somente ao mover janelas"
 
 #~ msgid "A&lways enabled"
 #~ msgstr ""
@@ -1786,53 +1786,59 @@ msgstr ""
 #~ msgstr "Foco"
 
 #~ msgid "Auto &raise"
-#~ msgstr ""
+#~ msgstr "Aumento automático"
 
 #~ msgid "Navigation"
-#~ msgstr ""
+#~ msgstr "Navegação"
 
 #~ msgid "Active &mouse screen"
-#~ msgstr ""
+#~ msgstr "Tela ativa do mouse"
 
 #~ msgid "Anima&te"
-#~ msgstr ""
+#~ msgstr "Animação"
 
 #~ msgid ""
 #~ "Animate the action of reducing the window to its titlebar (shading) as well "
 #~ "as the expansion of a shaded window"
 #~ msgstr ""
+#~ "Animar a ação de reduzir a janela à sua barra de título (sombreamento), bem "
+#~ "como a expansão de uma janela sombreada"
 
 #~ msgid "Animate minimi&ze and restore"
-#~ msgstr ""
+#~ msgstr "Animar minimizar e restaurar"
 
 #~ msgid "Slow"
-#~ msgstr ""
+#~ msgstr "Lento"
 
 #~ msgid "Fast"
-#~ msgstr ""
+#~ msgstr "Rápido"
 
 #~ msgid ""
 #~ "Here you can set the speed of the animation shown when windows are minimized"
 #~ " and restored. "
 #~ msgstr ""
+#~ "Aqui você pode definir a velocidade da animação exibida quando as janelas "
+#~ "são minimizadas e restauradas."
 
 #~ msgid "&Translucency"
-#~ msgstr ""
+#~ msgstr "Translucidez"
 
 #~ msgid "Apply translucency only to decoration"
-#~ msgstr ""
+#~ msgstr "Aplique translucidez somente na decoração"
 
 #~ msgid "Dock windows:"
-#~ msgstr ""
+#~ msgstr "Encaixe da janela"
 
 #~ msgid "Treat 'keep above' windows as active ones"
-#~ msgstr ""
+#~ msgstr "Tratar as janelas 'manter acima' como ativas"
 
 #~ msgid "Disable ARGB windows (ignores window alpha maps, fixes gtk1 apps)"
 #~ msgstr ""
+#~ "Desabilita janelas ARGB (ignora mapas alfa de janelas, corrige aplicativos "
+#~ "gtk1)"
 
 #~ msgid "Opacity"
-#~ msgstr ""
+#~ msgstr "Opacidade"
 
 #~ msgid "Use shadows"
 #~ msgstr ""
@@ -1862,16 +1868,16 @@ msgstr ""
 #~ msgstr "Sombras"
 
 #~ msgid "Fade-in windows (including popups)"
-#~ msgstr ""
+#~ msgstr "Desvanecer janelas (incluindo pop-ups)"
 
 #~ msgid "Fade between opacity changes"
-#~ msgstr ""
+#~ msgstr "Desvanecimento entre mudanças de opacidade"
 
 #~ msgid "Effects"
-#~ msgstr ""
+#~ msgstr "Efeitos"
 
 #~ msgid "Use translucency/shadows"
-#~ msgstr ""
+#~ msgstr "Use translucidez/sombras"
 
 #~ msgid ""
 #~ "<qt>Translucency support is new and may cause problems<br> including crashes"
