@@ -4,6 +4,7 @@
 # Steve Allewell <steve.allewell@gmail.com>, 2022.
 # Translators:
 # Gary Wang <wzc782970009@gmail.com>, 2025
+# Wislley Marçal, 2025
 # 
 msgid ""
 msgstr ""
@@ -11,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 00:51+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Last-Translator: Wislley Marçal, 2025\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/linuxdeepin/teams/3617/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,12 +34,14 @@ msgstr "alvarenga@kde.org"
 #: kcmkwinxwayland.cpp:30
 #, kde-format
 msgid "Legacy X11 App Support"
-msgstr ""
+msgstr "Suporte aos aplicativos Legados X11"
 
 #: kcmkwinxwayland.cpp:32
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
 msgstr ""
+"Permitir que aplicativos X11 legados leiam as teclas digitadas em outros "
+"aplicativos"
 
 #: package/contents/ui/main.qml:19
 #, kde-format
@@ -46,6 +49,8 @@ msgid ""
 "This module lets configure which keyboard events are forwarded to X11 apps "
 "regardless of their focus."
 msgstr ""
+"Este módulo permite configurar quais eventos de teclado são encaminhados "
+"para aplicativos X11, independentemente do seu foco."
 
 #: package/contents/ui/main.qml:49
 #, kde-format
@@ -55,11 +60,18 @@ msgid ""
 "disabled by default for security reasons. If you need to use such apps, you "
 "can choose your preferred balance of security and functionality here."
 msgstr ""
+"Aplicativos legados do X11 exigem a capacidade de ler as teclas digitadas em"
+" outros aplicativos para recursos ativados por meio de atalhos de teclado "
+"globais. Isso é desabilitado por padrão por motivos de segurança. Se "
+"precisar usar esses aplicativos, você pode escolher o equilíbrio ideal entre"
+" segurança e funcionalidade aqui."
 
 #: package/contents/ui/main.qml:66
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
+"Permitir que aplicativos X11 legados leiam as teclas digitadas em todos os "
+"aplicativos:"
 
 #: package/contents/ui/main.qml:67
 #, kde-format
@@ -69,12 +81,14 @@ msgstr "Nunca"
 #: package/contents/ui/main.qml:70
 #, kde-format
 msgid "Only Meta, Control, Alt, and Shift keys"
-msgstr ""
+msgstr "Somente as teclas Meta, Control, Alt e Shift"
 
 #: package/contents/ui/main.qml:73
 #, kde-format
 msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
 msgstr ""
+"Todas as teclas, mas apenas enquanto as teclas Meta, Ctrl, Alt ou Shift "
+"estiverem pressionadas"
 
 #: package/contents/ui/main.qml:77
 #, kde-format
@@ -88,3 +102,6 @@ msgid ""
 "session by permitting malicious software to steal passwords and spy on the "
 "text that you type. Make sure you understand and accept this risk."
 msgstr ""
+"Observe que o uso desta configuração reduzirá a segurança do sistema à da "
+"sessão X11, permitindo que softwares maliciosos roubem senhas e espionem o "
+"texto que você digita. Certifique-se de compreender e aceitar esse risco."
