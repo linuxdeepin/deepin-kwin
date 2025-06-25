@@ -3229,58 +3229,58 @@ msgstr ""
 #~ msgstr "Janela para Tela 7"
 
 #~ msgid "Switch to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 3"
 
 #~ msgid "Switch to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 4"
 
 #~ msgid "Switch to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 5"
 
 #~ msgid "Switch to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 6"
 
 #~ msgid "Switch to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 7"
 
 #~ msgid "Switch to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 8"
 
 #~ msgid "Switch to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 9"
 
 #~ msgid "Switch to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 10"
 
 #~ msgid "Switch to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 11"
 
 #~ msgid "Switch to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 12"
 
 #~ msgid "Switch to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 13"
 
 #~ msgid "Switch to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 14"
 
 #~ msgid "Switch to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 15"
 
 #~ msgid "Switch to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 16"
 
 #~ msgid "Switch to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 17"
 
 #~ msgid "Switch to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 18"
 
 #~ msgid "Switch to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 19"
 
 #~ msgid "Switch to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Mudar para a área de trabalho 20"
 
 #~ msgid "Switch to Screen 2"
 #~ msgstr "Mudar para a tela 2"
@@ -3480,6 +3480,8 @@ msgstr ""
 #~ "The Composite Manager crashed twice within a minute and is therefore "
 #~ "disabled for this session."
 #~ msgstr ""
+#~ "O Composite Manager travou duas vezes em um minuto e, portanto, está "
+#~ "desabilitado para esta sessão."
 
 #~ msgid "Composite Manager Failure"
 #~ msgstr ""
