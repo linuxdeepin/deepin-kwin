@@ -1687,60 +1687,60 @@ msgstr ""
 #~ msgstr "Cor da frente"
 
 #~ msgid "Desktop Cube"
-#~ msgstr ""
+#~ msgstr "Cubo da área de trabalho"
 
 #~ msgid "Desktop Cylinder"
-#~ msgstr ""
+#~ msgstr "Cilindro da área de trabalho"
 
 #~ msgid "Desktop Sphere"
-#~ msgstr ""
+#~ msgstr "Esfera da área de trabalho"
 
 #~ msgctxt "@title:tab Basic Settings"
 #~ msgid "Basic"
-#~ msgstr ""
+#~ msgstr "Básico"
 
 #~ msgctxt "@title:tab Advanced Settings"
 #~ msgid "Advanced"
 #~ msgstr "Avançado"
 
 #~ msgid "Tab 1"
-#~ msgstr ""
+#~ msgstr "Guia 1"
 
 #~ msgid "Background color:"
-#~ msgstr ""
+#~ msgstr "Cor de fundo:"
 
 #~ msgid "Wallpaper:"
-#~ msgstr ""
+#~ msgstr "Papel de parede:"
 
 #~ msgid "Display desktop name"
-#~ msgstr ""
+#~ msgstr "Exibir nome da área de trabalho"
 
 #~ msgid "Reflection"
-#~ msgstr ""
+#~ msgstr "Reflexão"
 
 #~ msgid "Rotation duration:"
-#~ msgstr ""
+#~ msgstr "Duração da rotação:"
 
 #~ msgid "Windows hover above cube"
-#~ msgstr ""
+#~ msgstr "Janelas pairando sobre o cubo"
 
 #~ msgid "Opacity"
 #~ msgstr "Opacidade"
 
 #~ msgid "Do not change opacity of windows"
-#~ msgstr ""
+#~ msgstr "Não altere a opacidade das janelas"
 
 #~ msgid "Tab 2"
-#~ msgstr ""
+#~ msgstr "Guia 2"
 
 #~ msgid "Caps"
-#~ msgstr ""
+#~ msgstr "Tampa"
 
 #~ msgid "Cap color:"
-#~ msgstr ""
+#~ msgstr "Cor da tampa:"
 
 #~ msgid "Display image on caps"
-#~ msgstr ""
+#~ msgstr "Exibir imagem em tampas"
 
 #~ msgid "Define how far away the object should appear"
 #~ msgstr ""
@@ -1793,7 +1793,7 @@ msgstr ""
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Cube"
-#~ msgstr ""
+#~ msgstr "Cubo da área de trabalho"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display each virtual desktop on a side of a cube"
