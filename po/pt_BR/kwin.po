@@ -1210,12 +1210,12 @@ msgstr "Cristian Tibirna"
 #: main.cpp:187
 #, kde-format
 msgid "Daniel M. Duley"
-msgstr ""
+msgstr "Daniel M. Duley"
 
 #: main.cpp:188
 #, kde-format
 msgid "Luboš Luňák"
-msgstr ""
+msgstr "Luboš Luňák"
 
 #: main.cpp:189
 #, kde-format
@@ -1240,7 +1240,7 @@ msgstr "Vlad Zahorodnii"
 #: main.cpp:201
 #, kde-format
 msgid "Disable configuration options"
-msgstr ""
+msgstr "Desativar opções de configuração"
 
 #: main.cpp:202
 #, kde-format
@@ -1376,6 +1376,9 @@ msgid ""
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
+"O KWin é instável\n"
+"Parece ter travado várias vezes seguidas.\n"
+"Você pode selecionar outro gerenciador de janelas para executar:"
 
 #: main_x11.cpp:259
 #, kde-format
@@ -1383,6 +1386,8 @@ msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using "
 "--replace)\n"
 msgstr ""
+"kwin: não é possível reivindicar a seleção do gerente, outro wm em execução?"
+" (tente usar --replace)\n"
 
 #: main_x11.cpp:280
 #, kde-format
@@ -2211,6 +2216,8 @@ msgid ""
 "You have selected to show a window without its border.\n"
 "Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
+"Você selecionou mostrar uma janela sem borda\n"
+"Sem a borda, você não poderá habilitá-la novamente usando o mouse: use o menu de operações da janela, ativado usando o atalho de teclado %1."
 
 #: useractions.cpp:168
 #, kde-format
@@ -2218,6 +2225,8 @@ msgid ""
 "You have selected to show a window in fullscreen mode.\n"
 "If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
+"Você selecionou mostrar uma janela em modo de tela cheia.\n"
+"Se o próprio aplicativo não tiver uma opção para desativar o modo de tela cheia, você não poderá desativá-lo novamente usando o mouse: use o menu de operações da janela, ativado usando o atalho de teclado %1."
 
 #: useractions.cpp:238
 #, kde-format
@@ -2237,7 +2246,7 @@ msgstr "Manter acima dos outros"
 #: useractions.cpp:254
 #, kde-format
 msgid "Keep &Below Others"
-msgstr ""
+msgstr "Manter abaixo dos outros"
 
 #: useractions.cpp:260
 #, kde-format
@@ -2280,12 +2289,12 @@ msgstr ""
 #: useractions.cpp:325
 #, kde-format
 msgid "Ma&ximize"
-msgstr ""
+msgstr "Maximizar"
 
 #: useractions.cpp:331
 #, kde-format
 msgid "Mi&nimize"
-msgstr ""
+msgstr "Minimizar"
 
 #: useractions.cpp:337
 #, kde-format
@@ -2330,7 +2339,7 @@ msgstr ""
 #: useractions.cpp:535 useractions.cpp:602
 #, kde-format
 msgid "&All Desktops"
-msgstr ""
+msgstr "Todas as áreas de trabalhos"
 
 #: useractions.cpp:575
 #, kde-format
@@ -2786,7 +2795,7 @@ msgid ""
 msgstr ""
 
 #~ msgid "&No Border"
-#~ msgstr ""
+#~ msgstr "Sem borda"
 
 #~ msgid "Toggle Window Border"
 #~ msgstr ""
@@ -2964,7 +2973,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Maintainer"
-#~ msgstr ""
+#~ msgstr "Mantenedor"
 
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -3017,7 +3026,7 @@ msgstr ""
 #~ "GLX/OpenGL não estão disponíveis e somente o suporte ao OpenGL é compilado."
 
 #~ msgid "Sh&ade"
-#~ msgstr ""
+#~ msgstr "Sombra"
 
 #~ msgid ""
 #~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
@@ -3086,7 +3095,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "*** No Windows ***"
-#~ msgstr ""
+#~ msgstr "*** Sem janelas ***"
 
 #~ msgid "Load the script testing dialog"
 #~ msgstr ""
