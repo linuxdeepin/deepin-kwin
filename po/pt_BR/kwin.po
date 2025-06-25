@@ -349,7 +349,7 @@ msgstr ""
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: debug_console.cpp:281
 #, kde-format
@@ -3516,6 +3516,9 @@ msgstr ""
 #~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
 #~ "www.freedesktop.org.<br></qt>"
 #~ msgstr ""
+#~ "<qt><b>kompmgr não consegue encontrar a extensão Xrender</b><br>Você está "
+#~ "usando uma versão desatualizada ou inválida do XOrg.<br>Obtenha XOrg &ge; "
+#~ "6.8 em www.freedesktop.org.<br></qt>"
 
 #~ msgid ""
 #~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
