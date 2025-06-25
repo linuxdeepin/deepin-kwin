@@ -1910,28 +1910,28 @@ msgstr ""
 #~ msgstr "Efeito de deslizamento da janela ao abrir e fechar"
 
 #~ msgid "Glide Effect:"
-#~ msgstr ""
+#~ msgstr "Efeito de deslizamento:"
 
 #~ msgid "In"
-#~ msgstr ""
+#~ msgstr "Dentro"
 
 #~ msgid "Out"
-#~ msgstr ""
+#~ msgstr "Fora"
 
 #~ msgid "Glide Angle:"
-#~ msgstr ""
+#~ msgstr "Ângulo de deslizamento:"
 
 #~ msgid "-90"
-#~ msgstr ""
+#~ msgstr "-90"
 
 #~ msgid "90"
-#~ msgstr ""
+#~ msgstr "90"
 
 #~ msgid "Strength of the effect:"
-#~ msgstr ""
+#~ msgstr "Força do efeito:"
 
 #~ msgid "Save intermediate rendering results."
-#~ msgstr ""
+#~ msgstr "Salvar resultados de renderização intermediários."
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Logout"
@@ -1939,70 +1939,72 @@ msgstr ""
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Desaturate the desktop when displaying the logout dialog"
-#~ msgstr ""
+#~ msgstr "Desaturar a área de trabalho ao exibir a caixa de diálogo de logout"
 
 #~ msgid "Brightness of the background:"
-#~ msgstr ""
+#~ msgstr "Brilho de fundo:"
 
 #~ msgctxt "Less brightness"
 #~ msgid "Darker"
-#~ msgstr ""
+#~ msgstr "Mais escuro"
 
 #~ msgctxt "More brightness"
 #~ msgid "Lighter"
-#~ msgstr ""
+#~ msgstr "Isqueiro"
 
 #~ msgid "Saturation of the background:"
-#~ msgstr ""
+#~ msgstr "Saturação do fundo:"
 
 #~ msgctxt "No saturation"
 #~ msgid "Gray"
-#~ msgstr ""
+#~ msgstr "Cinza"
 
 #~ msgid "Duration of the fade:"
-#~ msgstr ""
+#~ msgstr "Duração do fade:"
 
 #~ msgid "ms"
-#~ msgstr ""
+#~ msgstr "ms"
 
 #~ msgid "The blur effect must be enabled before it can be used."
-#~ msgstr ""
+#~ msgstr "O efeito de desfoque deve ser ativado antes de poder ser usado."
 
 #~ msgid "Apply blur effect to background"
-#~ msgstr ""
+#~ msgstr "Aplicar efeito de desfoque ao fundo"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Dashboard"
-#~ msgstr ""
+#~ msgstr "Painel"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Desaturate the desktop when displaying the Plasma dashboard"
-#~ msgstr ""
+#~ msgstr "Desaturar a área de trabalho ao exibir o painel do Plasma"
 
 #~ msgid "Decorations:"
-#~ msgstr ""
+#~ msgstr "Decorações:"
 
 #~ msgid "Background window &opacity:"
-#~ msgstr ""
+#~ msgstr "Janela de fundo e opacidade:"
 
 #~ msgid "&Elevate selected window"
-#~ msgstr ""
+#~ msgstr "Elevar a janela selecionada"
 
 #~ msgid "&Animate walk through windows"
-#~ msgstr ""
+#~ msgstr "Transições animadas entre janelas"
 
 #~ msgid "Use additional thumbnail bar"
-#~ msgstr ""
+#~ msgstr "Usar barra de miniaturas adicional"
 
 #~ msgid ""
 #~ "Only show thumbnail bar if there are at least specified number of windows"
 #~ msgstr ""
+#~ "Mostrar a barra de miniaturas somente se houver pelo menos um número "
+#~ "especificado de janelas"
 
 #~ msgid "Dynamic mode"
-#~ msgstr ""
+#~ msgstr "Modo dinâmico"
 
 #~ msgid "Number of windows:"
-#~ msgstr ""
+#~ msgstr "Número de janelas:"
 
 #~ msgid " row"
 #~ msgid_plural " rows"
