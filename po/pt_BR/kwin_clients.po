@@ -357,10 +357,10 @@ msgstr "Animação dos botões"
 
 #~ msgctxt "Help button label, one character"
 #~ msgid "?"
-#~ msgstr ""
+#~ msgstr "?"
 
 #~ msgid "Draw window frames using &titlebar colors"
-#~ msgstr ""
+#~ msgstr "Desenhar  as molduras das janelas usando as cores da barra de título"
 
 #~ msgid ""
 #~ "When selected, the window borders are drawn using the titlebar colors; "
@@ -420,16 +420,16 @@ msgstr "Animação dos botões"
 #~ msgstr ""
 
 #~ msgid "Solid Color"
-#~ msgstr ""
+#~ msgstr "Cor sólida"
 
 #~ msgid "Radial Gradient"
-#~ msgstr ""
+#~ msgstr "Gradiente radial"
 
 #~ msgid "Follow Style Hint"
-#~ msgstr ""
+#~ msgstr "Siga a dica de estilo"
 
 #~ msgid "Background style:"
-#~ msgstr ""
+#~ msgstr "Estilo de fundo:"
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
@@ -440,19 +440,19 @@ msgstr "Animação dos botões"
 #~ msgstr "andrew_coles@yahoo.co.uk"
 
 #~ msgid "Oxygen decoration shadows demonstration"
-#~ msgstr ""
+#~ msgstr "Demonstração das sombras de decoração do oxigênio"
 
 #~ msgid "(c) 2011, Hugo Pereira Da Costa"
-#~ msgstr ""
+#~ msgstr "(c) 2011, Hugo Pereira Da Costa"
 
 #~ msgid "Hugo Pereira Da Costa"
-#~ msgstr ""
+#~ msgstr "Hugo Pereira Da Costa"
 
 #~ msgid "Save"
-#~ msgstr ""
+#~ msgstr "Salvar"
 
 #~ msgid "Save shadows as pixmaps in provided directory"
-#~ msgstr ""
+#~ msgstr "Salvar sombras como pixmaps no diretório fornecido"
 
 #~ msgid "Large"
 #~ msgstr "Grande"
@@ -467,13 +467,13 @@ msgstr "Animação dos botões"
 #~ msgstr ""
 
 #~ msgid "Inner Color:"
-#~ msgstr ""
+#~ msgstr "Cor interna:"
 
 #~ msgid "Outer Color:"
-#~ msgstr ""
+#~ msgstr "Cor externa:"
 
 #~ msgid "Vertical Offset:"
-#~ msgstr ""
+#~ msgstr "Deslocamento vertical:"
 
 #~ msgid "Size: "
 #~ msgstr ""
@@ -488,24 +488,26 @@ msgstr "Animação dos botões"
 #~ "Check this option if you want windows to be closed when you double click the"
 #~ " menu button, similar to Microsoft Windows."
 #~ msgstr ""
+#~ "Marque esta opção se quiser que as janelas sejam fechadas quando você clicar"
+#~ " duas vezes no botão de menu, semelhante ao Microsoft Windows."
 
 #~ msgid "Plastik"
-#~ msgstr ""
+#~ msgstr "Plástico"
 
 #~ msgid "All Desktops"
-#~ msgstr ""
+#~ msgstr "Todas as áreas de trabalho"
 
 #~ msgid "Above"
-#~ msgstr ""
+#~ msgstr "Acima"
 
 #~ msgid "Below"
-#~ msgstr ""
+#~ msgstr "Abaixo"
 
 #~ msgid "Close Item"
-#~ msgstr ""
+#~ msgstr "Fechar item"
 
 #~ msgid "Tabstrip"
-#~ msgstr ""
+#~ msgstr "Tira de abas"
 
 #~ msgid "&Left"
 #~ msgstr ""
@@ -570,10 +572,11 @@ msgstr "Animação dos botões"
 #~ msgstr "Desabilitado"
 
 #~ msgid "Draw separator between title bar and window contents: "
-#~ msgstr "Desenhe um separador entre a barra de título e o conteúdo da janela:"
+#~ msgstr "Desenhar um separador entre a barra de título e o conteúdo da janela:"
 
 #~ msgid "Draw Separator between title bar and active window contents "
 #~ msgstr ""
+#~ "Desenhar separador entre a barra de título e o conteúdo da janela ativa"
 
 #~ msgid "Installs a KWM theme"
 #~ msgstr ""
