@@ -2401,12 +2401,12 @@ msgstr ""
 #: useractions.cpp:989
 #, kde-format
 msgid "Maximize Window Vertically"
-msgstr ""
+msgstr "Maximizar janela verticalmente"
 
 #: useractions.cpp:991
 #, kde-format
 msgid "Maximize Window Horizontally"
-msgstr ""
+msgstr "Maximizar janela horizontalmente"
 
 #: useractions.cpp:993
 #, kde-format
@@ -2431,22 +2431,22 @@ msgstr ""
 #: useractions.cpp:1001
 #, kde-format
 msgid "Raise Window"
-msgstr ""
+msgstr "Levantar janela"
 
 #: useractions.cpp:1003
 #, kde-format
 msgid "Lower Window"
-msgstr ""
+msgstr "Janela Inferior"
 
 #: useractions.cpp:1005
 #, kde-format
 msgid "Toggle Window Raise/Lower"
-msgstr ""
+msgstr "Alternar janela para cima/baixo"
 
 #: useractions.cpp:1007
 #, kde-format
 msgid "Make Window Fullscreen"
-msgstr ""
+msgstr "Tornar a janela em tela cheia"
 
 #: useractions.cpp:1009
 #, kde-format
@@ -2456,12 +2456,12 @@ msgstr ""
 #: useractions.cpp:1011
 #, kde-format
 msgid "Keep Window Above Others"
-msgstr ""
+msgstr "Manter a janela acima dos outros"
 
 #: useractions.cpp:1013
 #, kde-format
 msgid "Keep Window Below Others"
-msgstr ""
+msgstr "Mater janelas abaixo das outras"
 
 #: useractions.cpp:1015
 #, kde-format
@@ -2671,7 +2671,7 @@ msgstr ""
 #: useractions.cpp:1119
 #, kde-format
 msgid "Switch to Next Screen"
-msgstr ""
+msgstr "Mudar para a próxima tela"
 
 #: useractions.cpp:1120
 #, kde-format
@@ -3038,7 +3038,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Miscellaneous"
-#~ msgstr ""
+#~ msgstr "Diversos"
 
 #~ msgid "Desktop Switching"
 #~ msgstr "Trocar área de trabalho"
@@ -3278,22 +3278,22 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Switch to Screen 2"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 2"
 
 #~ msgid "Switch to Screen 3"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 3"
 
 #~ msgid "Switch to Screen 4"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 4"
 
 #~ msgid "Switch to Screen 5"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 5"
 
 #~ msgid "Switch to Screen 6"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 6"
 
 #~ msgid "Switch to Screen 7"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 7"
 
 #~ msgid "<center><b>%1</b></center>"
 #~ msgstr ""
@@ -3329,10 +3329,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Window Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Captura de tela da janela para a área de transferência"
 
 #~ msgid "Desktop Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Captura de tela da área de trabalho para a área de transferência"
 
 #~ msgid "Toggle Tiling"
 #~ msgstr ""
