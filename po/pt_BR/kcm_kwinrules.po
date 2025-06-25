@@ -37,12 +37,12 @@ msgstr "andrew_coles@yahoo.co.uk, steve.allewell@gmail.com"
 #: kcmrules.cpp:28
 #, kde-format
 msgid "Window Rules"
-msgstr ""
+msgstr "Regras da janela"
 
 #: kcmrules.cpp:32
 #, kde-format
 msgid "Ismael Asensio"
-msgstr ""
+msgstr "Ismael Asensio"
 
 #: kcmrules.cpp:33
 #, kde-format
@@ -471,22 +471,22 @@ msgstr ""
 #: rulesmodel.cpp:419
 #, kde-format
 msgid "Size"
-msgstr ""
+msgstr "Tamanho"
 
 #: rulesmodel.cpp:425
 #, kde-format
 msgid "Maximized horizontally"
-msgstr ""
+msgstr "Maximizado horizontalmente"
 
 #: rulesmodel.cpp:430
 #, kde-format
 msgid "Maximized vertically"
-msgstr ""
+msgstr "Maximizado verticalmente"
 
 #: rulesmodel.cpp:438
 #, kde-format
 msgid "Virtual Desktop"
-msgstr ""
+msgstr "Área de trabalho virtual"
 
 #: rulesmodel.cpp:444
 #, kde-format
@@ -501,32 +501,32 @@ msgstr "Atividades"
 #: rulesmodel.cpp:479
 #, kde-format
 msgid "Screen"
-msgstr ""
+msgstr "Tela"
 
 #: rulesmodel.cpp:484
 #, kde-format
 msgid "Fullscreen"
-msgstr ""
+msgstr "Tela cheia"
 
 #: rulesmodel.cpp:489
 #, kde-format
 msgid "Minimized"
-msgstr ""
+msgstr "Minimizada"
 
 #: rulesmodel.cpp:494
 #, kde-format
 msgid "Shaded"
-msgstr ""
+msgstr "Sombreada"
 
 #: rulesmodel.cpp:499
 #, kde-format
 msgid "Initial placement"
-msgstr ""
+msgstr "Colocação inicial"
 
 #: rulesmodel.cpp:506
 #, kde-format
 msgid "Ignore requested geometry"
-msgstr ""
+msgstr "Ignorar geometria solicitada"
 
 #: rulesmodel.cpp:508
 #, kde-format
@@ -536,7 +536,7 @@ msgid ""
 "what might be nasty if the client abuses the feature\n"
 "to unconditionally popup in the middle of your screen."
 msgstr ""
-"As janelas podem pedir para aparecer em uma determinada posição..\n"
+"As janelas podem pedir para aparecer em uma determinada posição.\n"
 "Por padrão, isso substitui a estratégia de posicionamento\n"
 "o que pode ser desagradável se o cliente abusar do recurso\n"
 "para aparecer incondicionalmente no meio da tela."
@@ -544,17 +544,17 @@ msgstr ""
 #: rulesmodel.cpp:516
 #, kde-format
 msgid "Minimum Size"
-msgstr ""
+msgstr "Tamanho mínimo"
 
 #: rulesmodel.cpp:521
 #, kde-format
 msgid "Maximum Size"
-msgstr ""
+msgstr "Tamanho máximo"
 
 #: rulesmodel.cpp:526
 #, kde-format
 msgid "Obey geometry restrictions"
-msgstr ""
+msgstr "Obedecer às restrições de geometria"
 
 #: rulesmodel.cpp:528
 #, kde-format
@@ -575,7 +575,7 @@ msgstr "Manter acima de outras janelas"
 #: rulesmodel.cpp:559 rulesmodel.cpp:565
 #, kde-format
 msgid "Arrangement & Access"
-msgstr ""
+msgstr "Arranjo e acesso"
 
 #: rulesmodel.cpp:542
 #, kde-format
@@ -585,27 +585,28 @@ msgstr "Manter abaixo de outras janelas"
 #: rulesmodel.cpp:547
 #, kde-format
 msgid "Skip taskbar"
-msgstr ""
+msgstr "Pular barra de tarefas"
 
 #: rulesmodel.cpp:549
 #, kde-format
 msgid "Window shall (not) appear in the taskbar."
-msgstr ""
+msgstr "A janela (não) deve aparecer na barra de tarefas."
 
 #: rulesmodel.cpp:553
 #, kde-format
 msgid "Skip pager"
-msgstr ""
+msgstr "Pular página"
 
 #: rulesmodel.cpp:555
 #, kde-format
 msgid "Window shall (not) appear in the manager for virtual desktops"
 msgstr ""
+"A janela (não) deve aparecer no gerenciador das áreas de trabalho virtuais"
 
 #: rulesmodel.cpp:559
 #, kde-format
 msgid "Skip switcher"
-msgstr ""
+msgstr "Alternador de salto"
 
 #: rulesmodel.cpp:561
 #, kde-format
