@@ -323,24 +323,24 @@ msgstr ""
 #: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
 msgid "Toggle Invert Effect on Window"
-msgstr ""
+msgstr "Alternar efeito de inversão na janela"
 
 #: invert/invert.cpp:56
 #, kde-format
 msgid "Invert Screen Colors"
-msgstr ""
+msgstr "Inverter cores da tela"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadeToBlack)
 #: login/package/contents/ui/config.ui:17
 #, kde-format
 msgid "Fade to black (fullscreen splash screens only)"
-msgstr ""
+msgstr "Desvanecer para preto (somente telas iniciais em tela cheia)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: magiclamp/magiclamp_config.ui:17
 #, kde-format
 msgid "Animation duration:"
-msgstr ""
+msgstr "Duração da animação:"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox,
 #. kcfg_AnimationDuration)
@@ -545,13 +545,13 @@ msgstr ""
 #: mousemark/mousemark_config.ui:82
 #, kde-format
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
-msgstr ""
+msgstr "Desenhe com o mouse segurando as teclas Shift+Meta e movendo o mouse."
 
 #: outputlocator/outputlocator.cpp:48
 #, kde-format
 msgctxt "@label"
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: overview/kcm/overvieweffectkcm.cpp:41 overview/overvieweffect.cpp:31
 #, kde-format
@@ -563,7 +563,7 @@ msgstr "Alternar visão geral"
 #: windowview/kcm/windowvieweffectkcm.ui:22
 #, kde-format
 msgid "Layout mode:"
-msgstr ""
+msgstr "Modo de layout:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_BlurBackground)
 #: overview/kcm/overvieweffectkcm.ui:56
@@ -580,40 +580,40 @@ msgstr "Ignorar janelas minimizadas:"
 #: overview/qml/DesktopBar.qml:187
 #, kde-format
 msgid "Delete Virtual Desktop"
-msgstr ""
+msgstr "Excluir Área de Trabalho Virtual"
 
 #: overview/qml/DesktopBar.qml:283
 #, kde-format
 msgid "Add Virtual Desktop"
-msgstr ""
+msgstr "Adicionar Área de Trabalho Virtual"
 
 #: overview/qml/ScreenView.qml:226
 #, kde-format
 msgid "No matching windows"
-msgstr ""
+msgstr "Nenhuma janela correspondente"
 
 #: private/qml/WindowHeapDelegate.qml:151
 #, kde-format
 msgid "Drag Down To Close"
-msgstr ""
+msgstr "Arraste para baixo para fechar"
 
 #: private/qml/WindowHeapDelegate.qml:461
 #, kde-format
 msgctxt "@info:tooltip as in: 'close this window'"
 msgid "Close window"
-msgstr ""
+msgstr "Fechar janela"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InScale)
 #: scale/package/contents/ui/config.ui:46
 #, kde-format
 msgid "Window open scale:"
-msgstr ""
+msgstr "Escala ao abrir janela:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_OutScale)
 #: scale/package/contents/ui/config.ui:53
 #, kde-format
 msgid "Window close scale:"
-msgstr "Escala de fechamento de janela:"
+msgstr "Escala ao fechar janela:"
 
 #: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
@@ -653,30 +653,30 @@ msgstr "Duração da pintura"
 #, kde-format
 msgctxt "@label"
 msgid "Paint Amount"
-msgstr ""
+msgstr "Quantidade de tinta"
 
 #: showfps/qml/main.qml:175
 #, kde-format
 msgctxt "@label"
 msgid "Current FPS"
-msgstr ""
+msgstr "FPS atual"
 
 #: showfps/qml/main.qml:184
 #, kde-format
 msgctxt "@label"
 msgid "Maximum FPS"
-msgstr ""
+msgstr "FPS máximo"
 
 #: showfps/qml/main.qml:192
 #, kde-format
 msgctxt "@label"
 msgid "This effect is not a benchmark"
-msgstr ""
+msgstr "Este efeito não é uma referência"
 
 #: showpaint/showpaint.cpp:38 showpaint/showpaint_config.cpp:38
 #, kde-format
 msgid "Toggle Show Paint"
-msgstr ""
+msgstr "Alternar Mostrar Pintura"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_Gaps)
 #: slide/slide_config.ui:17
