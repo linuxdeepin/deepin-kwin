@@ -2607,27 +2607,27 @@ msgstr ""
 #: useractions.cpp:1080
 #, kde-format
 msgid "Window to Previous Desktop"
-msgstr ""
+msgstr "Janela para a área de trabalho anterior"
 
 #: useractions.cpp:1081
 #, kde-format
 msgid "Window One Desktop to the Right"
-msgstr ""
+msgstr "Janela um Área de Trabalho à Direita"
 
 #: useractions.cpp:1083
 #, kde-format
 msgid "Window One Desktop to the Left"
-msgstr ""
+msgstr "Janela um Área de Trabalho à Esquerda"
 
 #: useractions.cpp:1085
 #, kde-format
 msgid "Window One Desktop Up"
-msgstr ""
+msgstr "Janela um Área de Trabalho para Cima"
 
 #: useractions.cpp:1087
 #, kde-format
 msgid "Window One Desktop Down"
-msgstr ""
+msgstr "Janela Um Área de trabalho Abaixo"
 
 #: useractions.cpp:1091
 #, kde-format
@@ -3205,28 +3205,28 @@ msgstr ""
 #~ msgstr "Janela para a área de trabalho 17"
 
 #~ msgid "Window to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 18"
 
 #~ msgid "Window to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 19"
 
 #~ msgid "Window to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 20"
 
 #~ msgid "Window to Screen 3"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 3"
 
 #~ msgid "Window to Screen 4"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 4"
 
 #~ msgid "Window to Screen 5"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 5"
 
 #~ msgid "Window to Screen 6"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 6"
 
 #~ msgid "Window to Screen 7"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 7"
 
 #~ msgid "Switch to Desktop 3"
 #~ msgstr ""
