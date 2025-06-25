@@ -2321,46 +2321,46 @@ msgstr ""
 #~ msgstr "Janela para a área de trabalho 19"
 
 #~ msgid "Window to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 20"
 
 #~ msgid "Window to Previous Desktop"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho anterior"
 
 #~ msgid "Window One Desktop to the Right"
-#~ msgstr ""
+#~ msgstr "Janela um Área de Trabalho à Direita"
 
 #~ msgid "Window One Desktop to the Left"
-#~ msgstr ""
+#~ msgstr "Janela um Área de Trabalho à Esquerda"
 
 #~ msgid "Window One Desktop Up"
-#~ msgstr ""
+#~ msgstr "Janela um Área de Trabalho para Cima"
 
 #~ msgid "Window One Desktop Down"
-#~ msgstr ""
+#~ msgstr "Janela Um Área de trabalho Abaixo"
 
 #~ msgid "Window to Screen 0"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 0"
 
 #~ msgid "Window to Screen 1"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 1"
 
 #~ msgid "Window to Screen 2"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 2"
 
 #~ msgid "Window to Screen 3"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 3"
 
 #~ msgid "Window to Screen 4"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 4"
 
 #~ msgid "Window to Screen 5"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 5"
 
 #~ msgid "Window to Screen 6"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 6"
 
 #~ msgid "Window to Screen 7"
-#~ msgstr ""
+#~ msgstr "Janela para Tela 7"
 
 #~ msgid "Desktop Switching"
 #~ msgstr "Trocar área de trabalho"
