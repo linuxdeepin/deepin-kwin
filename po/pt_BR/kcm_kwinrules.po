@@ -1103,10 +1103,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Opaque"
-#~ msgstr ""
+#~ msgstr "Opaca"
 
 #~ msgid "Transparent"
-#~ msgstr ""
+#~ msgstr "Transparente"
 
 #~ msgid "&Moving/resizing"
 #~ msgstr ""
