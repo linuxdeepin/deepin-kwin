@@ -236,54 +236,54 @@ msgstr "Obtenha novas decorações para as janelas..."
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
-msgstr ""
+msgstr "Feche as janelas clicando duas vezes no botão menu"
 
 #: package/contents/ui/main.qml:156
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
-msgstr ""
+msgstr "Clique e segure o botão menu para mostrar o menu."
 
 #: package/contents/ui/main.qml:163
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
-msgstr ""
+msgstr "Mostrar dicas de ferramentas dos botões da barra de título"
 
 #: package/contents/ui/Themes.qml:90
 #, kde-format
 msgid "Edit %1 Theme"
-msgstr ""
+msgstr "Editar tema %1"
 
 #: utils.cpp:25
 #, kde-format
 msgid "No Borders"
-msgstr ""
+msgstr "Sem bordas"
 
 #: utils.cpp:26
 #, kde-format
 msgid "No Side Borders"
-msgstr ""
+msgstr "Sem bordas laterais"
 
 #: utils.cpp:27
 #, kde-format
 msgid "Tiny"
-msgstr ""
+msgstr "Pequena"
 
 #: utils.cpp:28
 #, kde-format
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: utils.cpp:29
 #, kde-format
 msgid "Large"
-msgstr ""
+msgstr "Grande"
 
 #: utils.cpp:30
 #, kde-format
 msgid "Very Large"
-msgstr ""
+msgstr "Muito grande"
 
 #: utils.cpp:31
 #, kde-format
@@ -345,19 +345,19 @@ msgstr ""
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Tiny"
-#~ msgstr ""
+#~ msgstr "Pequeno"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Normal"
-#~ msgstr ""
+#~ msgstr "Normal"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Large"
-#~ msgstr ""
+#~ msgstr "Grande"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Very Large"
-#~ msgstr ""
+#~ msgstr "Muito grande"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Huge"
