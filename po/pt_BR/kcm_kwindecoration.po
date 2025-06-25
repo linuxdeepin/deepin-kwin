@@ -377,62 +377,72 @@ msgstr "Superdimensionada"
 #~ msgstr "KDE"
 
 #~ msgid "%1 (unavailable)"
-#~ msgstr ""
+#~ msgstr "%1 (indisponível)"
 
 #~ msgid ""
 #~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
 #~ "available item list and the titlebar preview. Similarly, drag items within "
 #~ "the titlebar preview to re-position them."
 #~ msgstr ""
+#~ "Para adicionar ou remover botões da barra de título, basta <i>arrastar</i> "
+#~ "os itens entre a lista de itens disponíveis e a visualização da barra de "
+#~ "título. Da mesma forma, arraste os itens dentro da visualização da barra de "
+#~ "título para reposicioná-los."
 
 #~ msgid "Resize"
 #~ msgstr "Redimensionar"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Ajuda"
 
 #~ msgctxt "Button showing window actions menu"
 #~ msgid "Window Menu"
-#~ msgstr ""
+#~ msgstr "Menu da janela"
 
 #~ msgid "--- spacer ---"
-#~ msgstr ""
+#~ msgstr "espaçador"
 
 #~ msgid ""
 #~ "Enabling this checkbox will show window button tooltips. If this checkbox is"
 #~ " off, no window button tooltips will be shown."
 #~ msgstr ""
+#~ "Habilitar esta caixa de seleção exibirá dicas de ferramentas para os botões "
+#~ "das janelas. Se esta caixa de seleção estiver desmarcada, nenhuma dica de "
+#~ "ferramenta para os botões das janela será exibida."
 
 #~ msgid "Please note that this option is not available on all styles yet."
-#~ msgstr ""
+#~ msgstr "Observe que esta opção ainda não está disponível em todos os estilos."
 
 #~ msgid "Use custom titlebar button &positions"
-#~ msgstr ""
+#~ msgstr "Usar botões e posições da barra de título personalizados"
 
 #~ msgid "B&order size:"
-#~ msgstr ""
+#~ msgstr "Tamanho da borda:"
 
 #~ msgid "Use this combobox to change the border size of the decoration."
 #~ msgstr ""
+#~ "Use esta caixa de combinação para alterar o tamanho da borda da decoração."
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "No Side Border"
-#~ msgstr ""
+#~ msgstr "Sem borda lateral"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "No Border"
-#~ msgstr ""
+#~ msgstr "Sem borda"
 
 #~ msgid "Decoration Options"
-#~ msgstr ""
+#~ msgstr "Opções de decoração"
 
 #~ msgid ""
 #~ "Select the window decoration. This is the look and feel of both the window "
 #~ "borders and the window handle."
 #~ msgstr ""
+#~ "Selecione a decoração da janela. Esta é a aparência das bordas e da maçaneta"
+#~ " da janela."
 
 #~ msgid "Configure Decoration..."
-#~ msgstr ""
+#~ msgstr "Configurar decoração..."
 
 #~ msgid "Window Decoration Control Module"
 #~ msgstr ""
