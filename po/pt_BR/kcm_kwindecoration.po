@@ -288,23 +288,25 @@ msgstr "Muito grande"
 #: utils.cpp:31
 #, kde-format
 msgid "Huge"
-msgstr ""
+msgstr "Enorme"
 
 #: utils.cpp:32
 #, kde-format
 msgid "Very Huge"
-msgstr ""
+msgstr "Muito grande"
 
 #: utils.cpp:33
 #, kde-format
 msgid "Oversized"
-msgstr ""
+msgstr "Superdimensionada"
 
 #~ msgctxt "popup tip"
 #~ msgid ""
 #~ "Close by double clicking: Keep the window's Menu button pressed until it "
 #~ "appears."
 #~ msgstr ""
+#~ "Fechar clicando duas vezes: Mantenha o botão Menu da janela pressionado até "
+#~ "que ele apareça."
 
 #~ msgid "Menu"
 #~ msgstr "Menu"
@@ -316,32 +318,32 @@ msgstr ""
 #~ msgstr "Manter acima"
 
 #~ msgid "Download New Window Decorations"
-#~ msgstr ""
+#~ msgstr "Baixe Novas Decorações de Janela"
 
 #~ msgctxt "checkbox label"
 #~ msgid "Use theme's default window border size"
-#~ msgstr ""
+#~ msgstr "Usar o tamanho padrão da borda da janela com o tema"
 
 #~ msgid "Close windows by double clicking &the menu button"
-#~ msgstr ""
+#~ msgstr "Feche as janelas clicando duas vezes no botão de menu"
 
 #~ msgid "Border si&ze:"
-#~ msgstr ""
+#~ msgstr "Tamanho da borda:"
 
 #~ msgid "Buttons"
-#~ msgstr ""
+#~ msgstr "Botões"
 
 #~ msgid "Configure %1..."
-#~ msgstr ""
+#~ msgstr "Configurar %1..."
 
 #~ msgid "Drag to re-position buttons"
-#~ msgstr ""
+#~ msgstr "Arraste para reposicionar os botões"
 
 #~ msgid "Form"
-#~ msgstr ""
+#~ msgstr "Forma"
 
 #~ msgid "Button size:"
-#~ msgstr ""
+#~ msgstr "Tamanho do botão:"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Tiny"
@@ -361,18 +363,18 @@ msgstr ""
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Huge"
-#~ msgstr ""
+#~ msgstr "Enorme"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Very Huge"
-#~ msgstr ""
+#~ msgstr "Muito grande"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Oversized"
-#~ msgstr ""
+#~ msgstr "Superdimensionada"
 
 #~ msgid "KDE"
-#~ msgstr ""
+#~ msgstr "KDE"
 
 #~ msgid "%1 (unavailable)"
 #~ msgstr ""
