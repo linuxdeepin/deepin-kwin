@@ -87,25 +87,25 @@ msgstr "Permitir que aplicativos bloqueiem a composição"
 #: compositing.ui:82
 #, kde-format
 msgid "Animation speed:"
-msgstr ""
+msgstr "Velocidade de animação:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: compositing.ui:119
 #, kde-format
 msgid "Very slow"
-msgstr ""
+msgstr "Muito lento"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:139
 #, kde-format
 msgid "Instant"
-msgstr ""
+msgstr "instantâneo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HiddenPreviews)
 #: compositing.ui:151
 #, kde-format
 msgid "Keep window thumbnails:"
-msgstr ""
+msgstr "Manter miniaturas de janelas:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:159
@@ -117,7 +117,7 @@ msgstr "Nunca"
 #: compositing.ui:164
 #, kde-format
 msgid "Only for Shown Windows"
-msgstr ""
+msgstr "Somente para janelas mostradas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:169
@@ -129,7 +129,7 @@ msgstr "Sempre"
 #: compositing.ui:177
 #, kde-format
 msgid "Latency:"
-msgstr ""
+msgstr "Latência:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:185
@@ -239,17 +239,17 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr "OpenGL 2.0"
 
 #~ msgid "Crisp"
-#~ msgstr ""
+#~ msgstr "Nítido"
 
 #~ msgid "Smooth (slower)"
-#~ msgstr ""
+#~ msgstr "Suave (mais lento)"
 
 #~ msgid "XRender"
-#~ msgstr ""
+#~ msgstr "XRender"
 
 #~ msgctxt "OpenGL Platform Interface"
 #~ msgid "EGL"
-#~ msgstr ""
+#~ msgstr "EGL"
 
 #~ msgctxt "OpenGL Platform Interface"
 #~ msgid "GLX"
@@ -345,27 +345,29 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr ""
 
 #~ msgid "Suspend compositor for full screen windows"
-#~ msgstr ""
+#~ msgstr "Suspender compositor para janelas em tela cheia"
 
 #~ msgid "OpenGL interface:"
-#~ msgstr ""
+#~ msgstr "Interface OpenGL:"
 
 #~ msgid ""
 #~ "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
 #~ "will be disabled."
 #~ msgstr ""
+#~ "EGL não é suportado por todos os drivers OpenGL. Caso contrário, o "
+#~ "Compositor será desativado."
 
 #~ msgid "Animation Speed:"
-#~ msgstr ""
+#~ msgstr "Velocidade da animação:"
 
 #~ msgid "Scale Method:"
-#~ msgstr ""
+#~ msgstr "Método de Escala:"
 
 #~ msgid "Tearing Prevention (VSync):"
-#~ msgstr ""
+#~ msgstr "Prevenção de ruptura (VSync):"
 
 #~ msgid "Keep Window Thumbnails:"
-#~ msgstr ""
+#~ msgstr "Manter miniaturas de janelas:"
 
 #~ msgid "Always (Breaks Animations)"
 #~ msgstr ""
@@ -447,10 +449,10 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr "Gerenciamento de janelas aprimorado"
 
 #~ msgid "Effect for desktop switching:"
-#~ msgstr ""
+#~ msgstr "Efeito para troca da área de trabalho:"
 
 #~ msgid "Very Fast"
-#~ msgstr ""
+#~ msgstr "Muito rápido"
 
 #~ msgid "Fast"
 #~ msgstr "v"
@@ -462,7 +464,7 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr "Lento"
 
 #~ msgid "Extremely Slow"
-#~ msgstr ""
+#~ msgstr "Extremamente lento"
 
 #~ msgid ""
 #~ "You can find more effects, as well as effect-specific settings, in the \"All"
