@@ -109,7 +109,7 @@ msgstr "Ativar e aumentar"
 #: actions.ui:66 mouse.ui:200
 #, kde-format
 msgid "&Middle click:"
-msgstr ""
+msgstr "Clique com o botão do meio:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindow2)
 #: actions.ui:79
@@ -127,7 +127,7 @@ msgstr ""
 #: actions.ui:106 mouse.ui:213
 #, kde-format
 msgid "&Right click:"
-msgstr ""
+msgstr "Clique com o botão direito:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindow3)
 #: actions.ui:119
@@ -189,7 +189,7 @@ msgstr "Ações de janela interna, barra de título e quadro"
 #: actions.ui:195
 #, kde-format
 msgid "Mo&difier key:"
-msgstr ""
+msgstr "Tecla modificadora:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAllKey)
 #: actions.ui:205
@@ -205,7 +205,7 @@ msgstr ""
 #: actions.ui:209
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllKey)
 #: actions.ui:214
@@ -250,7 +250,7 @@ msgstr "Mover"
 #: actions.ui:270 actions.ui:340 actions.ui:410
 #, kde-format
 msgid "Activate, raise and move"
-msgstr ""
+msgstr "Ative, levante e mova"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -271,7 +271,7 @@ msgstr ""
 #: mouse.ui:361 mouse.ui:423 mouse.ui:476 mouse.ui:538
 #, kde-format
 msgid "Toggle raise and lower"
-msgstr ""
+msgstr "Alternar entre subir e descer"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -300,7 +300,7 @@ msgstr "Redimensionar"
 #: mouse.ui:351 mouse.ui:413 mouse.ui:466 mouse.ui:528
 #, kde-format
 msgid "Raise"
-msgstr ""
+msgstr "Elevação"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
@@ -324,7 +324,7 @@ msgstr ""
 #: mouse.ui:303 mouse.ui:356 mouse.ui:418 mouse.ui:471 mouse.ui:533
 #, kde-format
 msgid "Lower"
-msgstr ""
+msgstr "Mais baixo"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
@@ -356,7 +356,7 @@ msgstr "Minimizar"
 #: actions.ui:300 actions.ui:370 actions.ui:440
 #, kde-format
 msgid "Decrease opacity"
-msgstr ""
+msgstr "Diminuir a opacidade"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -364,7 +364,7 @@ msgstr ""
 #: actions.ui:305 actions.ui:375 actions.ui:445
 #, kde-format
 msgid "Increase opacity"
-msgstr ""
+msgstr "Aumentar a opacidade"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
@@ -392,7 +392,7 @@ msgstr ""
 #: mouse.ui:501 mouse.ui:563
 #, kde-format
 msgid "Do nothing"
-msgstr ""
+msgstr "Não faça nada"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:318
@@ -481,7 +481,7 @@ msgstr ""
 #: actions.ui:495 mouse.ui:122
 #, kde-format
 msgid "Move to previous/next desktop"
-msgstr ""
+msgstr "Mover para a área de trabalho anterior/seguinte"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -489,13 +489,13 @@ msgstr ""
 #: actions.ui:500 mouse.ui:127
 #, kde-format
 msgid "Change opacity"
-msgstr ""
+msgstr "Alterar opacidade"
 
 #. i18n: ectx: property (text), widget (QLabel, shadeHoverLabel)
 #: advanced.ui:20
 #, kde-format
 msgid "Window &unshading:"
-msgstr ""
+msgstr "Janela e desombreamento:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:32
@@ -686,45 +686,46 @@ msgstr ""
 #: advanced.ui:164
 #, kde-format
 msgid "Switch to that Virtual Desktop"
-msgstr ""
+msgstr "Mude para a área de trabalho virtual"
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_ActivationDesktopPolicy)
 #: advanced.ui:169
 #, kde-format
 msgid "Bring window to current Virtual Desktop"
-msgstr ""
+msgstr "Trazer janela para a Área de Trabalho Virtual atual"
 
 #. i18n: ectx: property (text), widget (QLabel, windowFocusPolicyLabel)
 #: focus.ui:22
 #, kde-format
 msgid "Window &activation policy:"
-msgstr ""
+msgstr "Política de janela e ativação:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, windowFocusPolicy)
 #: focus.ui:32
 #, kde-format
 msgid "With this option you can specify how and when windows will be focused."
 msgstr ""
+"Com esta opção você pode especificar como e quando as janelas serão focadas."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:36
 #, kde-format
 msgctxt "sassa asas"
 msgid "Click to focus"
-msgstr ""
+msgstr "Clique para focar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:41
 #, kde-format
 msgid "Click to focus (mouse precedence)"
-msgstr ""
+msgstr "Clique para focar (precedência do mouse)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:46
 #, kde-format
 msgid "Focus follows mouse"
-msgstr ""
+msgstr "O foco segue o mouse"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:51
@@ -1514,7 +1515,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "&Enable hover"
-#~ msgstr ""
+#~ msgstr "Habilitar foco"
 
 #~ msgid "Activating windows"
 #~ msgstr "Ativando janelas"
