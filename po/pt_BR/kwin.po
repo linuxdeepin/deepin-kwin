@@ -246,7 +246,7 @@ msgstr ""
 #, kde-format
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: debug_console.cpp:199
 #, kde-format
@@ -2795,7 +2795,7 @@ msgstr ""
 #~ msgstr "O plugin não fornece o arquivo de configuração no local esperado"
 
 #~ msgid "Invert Screen Colors"
-#~ msgstr ""
+#~ msgstr "Inverter cores da tela"
 
 #~ msgid "List all available backends and quit."
 #~ msgstr ""
@@ -3392,7 +3392,7 @@ msgstr ""
 #~ msgstr "Fundo"
 
 #~ msgid "Toggle Invert Effect"
-#~ msgstr ""
+#~ msgstr "Alternar efeito de inversão"
 
 #~ msgid "Clear All Mouse Marks"
 #~ msgstr ""
