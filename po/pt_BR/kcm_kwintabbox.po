@@ -5,6 +5,7 @@
 # Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2022.
 # Translators:
 # Gary Wang <wzc782970009@gmail.com>, 2025
+# Wislley Marçal, 2025
 # 
 msgid ""
 msgstr ""
@@ -12,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Last-Translator: Wislley Marçal, 2025\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/linuxdeepin/teams/3617/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,9 +247,11 @@ msgstr "Mostrar a janela selecionada"
 #~ msgid ""
 #~ "These settings are used by the \"Walk Through Windows Alternative\" actions."
 #~ msgstr ""
+#~ "Essas configurações são usadas pelas ações \"Alternativa para percorrer "
+#~ "entre as janelas\"."
 
 #~ msgid "Walk Through Windows"
-#~ msgstr ""
+#~ msgstr "Navegue pelas janelas"
 
 #~ msgid "Walk Through Windows (Reverse)"
 #~ msgstr ""
@@ -304,40 +307,40 @@ msgstr "Mostrar a janela selecionada"
 #~ msgstr ""
 
 #~ msgid "Tabular"
-#~ msgstr ""
+#~ msgstr "Tabular"
 
 #~ msgid "Width:"
-#~ msgstr ""
+#~ msgstr "Largura:"
 
 #~ msgid "Minimum width, as a percentage of screen width."
-#~ msgstr ""
+#~ msgstr "Largura mínima, como uma porcentagem da largura da tela."
 
 #~ msgid " %"
-#~ msgstr ""
+#~ msgstr " %"
 
 #~ msgid "Height:"
-#~ msgstr ""
+#~ msgstr "Altura:"
 
 #~ msgid "Minimum height, as a percentage of screen height."
-#~ msgstr ""
+#~ msgstr "Altura mínima, como uma porcentagem da altura da tela."
 
 #~ msgid "Show Selected Item"
-#~ msgstr ""
+#~ msgstr "Mostrar item selecionado"
 
 #~ msgid "Selected item view:"
-#~ msgstr ""
+#~ msgstr "Visualização do item selecionado:"
 
 #~ msgid "Top"
-#~ msgstr ""
+#~ msgstr "Em cima"
 
 #~ msgid "Bottom"
-#~ msgstr ""
+#~ msgstr "Fundo"
 
 #~ msgid "Left"
-#~ msgstr ""
+#~ msgstr "Esquerda"
 
 #~ msgid "Right"
-#~ msgstr ""
+#~ msgstr "Direita"
 
 #~ msgid "Selected item layout:"
 #~ msgstr ""
