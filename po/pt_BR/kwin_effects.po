@@ -2288,16 +2288,16 @@ msgstr ""
 #~ msgstr "Pacote de janelas para baixo"
 
 #~ msgid "Pack Grow Window Horizontally"
-#~ msgstr ""
+#~ msgstr "Pacote de janela de cultivo horizontalmente"
 
 #~ msgid "Pack Grow Window Vertically"
-#~ msgstr ""
+#~ msgstr "Embalar a janela de cultivo verticalmente"
 
 #~ msgid "Pack Shrink Window Horizontally"
-#~ msgstr ""
+#~ msgstr "Embalar janela retrátil horizontalmente"
 
 #~ msgid "Pack Shrink Window Vertically"
-#~ msgstr ""
+#~ msgstr "Embalar janela retrátil verticalmente"
 
 #~ msgid "Window & Desktop"
 #~ msgstr "Janela e área de trabalho"
@@ -2533,11 +2533,16 @@ msgstr ""
 #~ "It seems to have crashed several times in a row.\n"
 #~ "You can select another window manager to run:"
 #~ msgstr ""
+#~ "O KWin é instável\n"
+#~ "Parece ter travado várias vezes seguidas.\n"
+#~ "Você pode selecionar outro gerenciador de janelas para executar:"
 
 #~ msgid ""
 #~ "kwin: unable to claim manager selection, another wm running? (try using "
 #~ "--replace)\n"
 #~ msgstr ""
+#~ "kwin: não é possível reivindicar a seleção do gerente, outro wm em execução?"
+#~ " (tente usar --replace)\n"
 
 #~ msgid "(c) 1999-2005, The KDE Developers"
 #~ msgstr "(c) 1999-2005, Os desenvolvedores do KDE"
@@ -2549,16 +2554,16 @@ msgstr ""
 #~ msgstr "Cristian Tibirna"
 
 #~ msgid "Daniel M. Duley"
-#~ msgstr ""
+#~ msgstr "Daniel M. Duley"
 
 #~ msgid "Luboš Luňák"
-#~ msgstr ""
+#~ msgstr "Luboš Luňák"
 
 #~ msgid "Maintainer"
-#~ msgstr ""
+#~ msgstr "Mantenedor"
 
 #~ msgid "Disable configuration options"
-#~ msgstr ""
+#~ msgstr "Desativar opções de configuração"
 
 #~ msgid "Replace already-running ICCCM2.0-compliant window manager"
 #~ msgstr ""
@@ -2578,19 +2583,19 @@ msgstr ""
 #~ "O KWin está sendo encerrado agora..."
 
 #~ msgid "*** No Windows ***"
-#~ msgstr ""
+#~ msgstr "*** Sem janelas ***"
 
 #~ msgid "Keep &Above Others"
 #~ msgstr "Manter acima dos outros"
 
 #~ msgid "Keep &Below Others"
-#~ msgstr ""
+#~ msgstr "Manter abaixo dos outros"
 
 #~ msgid "&No Border"
-#~ msgstr ""
+#~ msgstr "Sem borda"
 
 #~ msgid "Window &Shortcut..."
-#~ msgstr ""
+#~ msgstr "Janela e atalho..."
 
 #~ msgid "&Special Window Settings..."
 #~ msgstr ""
