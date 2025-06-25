@@ -1097,7 +1097,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Smart"
-#~ msgstr ""
+#~ msgstr "Inteligente"
 
 #~ msgid "kcmkwinrules"
 #~ msgstr ""
