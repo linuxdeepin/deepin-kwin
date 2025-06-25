@@ -829,7 +829,7 @@ msgstr ""
 #: rulesmodel.cpp:803
 #, kde-format
 msgid "Default"
-msgstr ""
+msgstr "Padrão"
 
 #: rulesmodel.cpp:804
 #, kde-format
