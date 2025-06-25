@@ -257,10 +257,10 @@ msgstr "Mostrar a janela selecionada"
 #~ msgstr "Navegar pelas janelas (reverso)"
 
 #~ msgid "Walk Through Windows Alternative"
-#~ msgstr ""
+#~ msgstr "Alternativa para navegar entre as janelas"
 
 #~ msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgstr ""
+#~ msgstr "Alternativa para navegar pelas janelas (reverso)"
 
 #~ msgid "Configure Layout"
 #~ msgstr "Configurar layout"
