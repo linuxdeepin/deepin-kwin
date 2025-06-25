@@ -445,13 +445,13 @@ msgstr "Superdimensionada"
 #~ msgstr "Configurar decoração..."
 
 #~ msgid "Window Decoration Control Module"
-#~ msgstr ""
+#~ msgstr "Módulo de controle de decoração das janelas"
 
 #~ msgid "(c) 2001 Karol Szwed"
-#~ msgstr ""
+#~ msgstr "(c) 2001 Karol Szwed"
 
 #~ msgid "Karol Szwed"
-#~ msgstr ""
+#~ msgstr "Karol Szwed"
 
 #~ msgid ""
 #~ "<h1>Installation error</h1>The "
@@ -459,12 +459,16 @@ msgstr "Superdimensionada"
 #~ " application data path.<h2>Please contact your distribution</h2>The "
 #~ "application will now abort"
 #~ msgstr ""
+#~ "<h1>Erro de instalação</h1>O "
+#~ "recurso<h2>kwin/kcm_kwindecoration/main.qml</h2>não pôde ser localizado em "
+#~ "nenhum caminho de dados do aplicativo.<h2>Entre em contato com seu "
+#~ "distribuidor</h2>O aplicativo será encerrado agora"
 
 #~ msgid "Installation Error"
-#~ msgstr ""
+#~ msgstr "Erro de instalação"
 
 #~ msgid "Oxygen"
-#~ msgstr ""
+#~ msgstr "Oxigênio"
 
 #~ msgid ""
 #~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
