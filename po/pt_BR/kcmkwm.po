@@ -510,7 +510,7 @@ msgstr ""
 #: advanced.ui:35
 #, kde-format
 msgid "On titlebar hover after:"
-msgstr ""
+msgstr "Na barra de título, passe o mouse após:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox,
 #. kcfg_ShadeHoverInterval)
@@ -520,6 +520,8 @@ msgid ""
 "Sets the time in milliseconds before the window unshades when the mouse "
 "pointer goes over the shaded window."
 msgstr ""
+"Define o tempo em milissegundos antes que a janela fique sombreada quando o "
+"ponteiro do mouse passa sobre a janela sombreada."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_DelayFocusInterval)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AutoRaiseInterval)
@@ -533,7 +535,7 @@ msgstr " ms"
 #: advanced.ui:66
 #, kde-format
 msgid "Window &placement:"
-msgstr ""
+msgstr "Janela e posicionamento:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_Placement)
 #: advanced.ui:76
@@ -569,31 +571,31 @@ msgstr ""
 #: advanced.ui:80
 #, kde-format
 msgid "Minimal Overlapping"
-msgstr ""
+msgstr "Sobreposição mínima"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:85
 #, kde-format
 msgid "Maximized"
-msgstr ""
+msgstr "Maximizado"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:90
 #, kde-format
 msgid "Random"
-msgstr ""
+msgstr "Aleatório"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:95
 #, kde-format
 msgid "Centered"
-msgstr ""
+msgstr "Centralizada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:100
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr ""
+msgstr "No canto superior esquerdo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:105
@@ -629,7 +631,7 @@ msgstr ""
 #: advanced.ui:123
 #, kde-format
 msgid "&Special windows:"
-msgstr ""
+msgstr "Janelas especiais:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox,
 #. kcfg_HideUtilityWindowsForInactive)
@@ -652,20 +654,20 @@ msgstr ""
 #: advanced.ui:136
 #, kde-format
 msgid "Hide utility windows for inactive applications"
-msgstr ""
+msgstr "Ocultar janelas de utilitários para aplicativos inativos"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDesktopPolicyLabel)
 #: advanced.ui:143
 #, kde-format
 msgid "Virtual Desktop behavior:"
-msgstr ""
+msgstr "Comportamento da área de trabalho virtual:"
 
 #. i18n: ectx: property (text), widget (QLabel,
 #. activationDesktopPolicyDescriptionLabel)
 #: advanced.ui:153
 #, kde-format
 msgid "When activating a window on a different Virtual Desktop:"
-msgstr ""
+msgstr "Ao ativar uma janela em uma Área de Trabalho Virtual diferente:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_ActivationDesktopPolicy)
@@ -731,19 +733,19 @@ msgstr "O foco segue o mouse"
 #: focus.ui:51
 #, kde-format
 msgid "Focus follows mouse (mouse precedence)"
-msgstr ""
+msgstr "O foco segue o mouse (precedência do mouse)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:56
 #, kde-format
 msgid "Focus under mouse"
-msgstr ""
+msgstr "Foco sob o mouse"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, windowFocusPolicy)
 #: focus.ui:61
 #, kde-format
 msgid "Focus strictly under mouse"
-msgstr ""
+msgstr "Foco estritamente sob o mouse"
 
 #. i18n: ectx: property (text), widget (QLabel, delayFocusOnLabel)
 #: focus.ui:69
@@ -826,7 +828,7 @@ msgstr "Nenhum"
 #: focus.ui:123
 #, kde-format
 msgid "Low"
-msgstr ""
+msgstr "Baixo"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -842,7 +844,7 @@ msgstr "Médio"
 #: focus.ui:133
 #, kde-format
 msgid "High"
-msgstr ""
+msgstr "Alto"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -850,7 +852,7 @@ msgstr ""
 #: focus.ui:138
 #, kde-format
 msgid "Extreme"
-msgstr ""
+msgstr "Extremo"
 
 #. i18n: ectx: property (text), widget (QLabel, raisingWindowsLabel)
 #: focus.ui:146
@@ -874,7 +876,7 @@ msgstr ""
 #: focus.ui:156
 #, kde-format
 msgid "&Click raises active window"
-msgstr ""
+msgstr "Clicar levanta a janela ativa"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:165
