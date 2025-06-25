@@ -1244,7 +1244,7 @@ msgstr ""
 #: main.cpp:202
 #, kde-format
 msgid "Indicate that KWin has recently crashed n times"
-msgstr ""
+msgstr "Indica que o KWin travou recentemente n vezes"
 
 #: main_wayland.cpp:314
 #, kde-format
@@ -1392,6 +1392,7 @@ msgstr ""
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
 msgstr ""
+"Substituir o gerenciador de janelas compatível com ICCCM2.0 já em execução"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:49
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:51
@@ -2230,7 +2231,7 @@ msgstr ""
 #: useractions.cpp:248
 #, kde-format
 msgid "Keep &Above Others"
-msgstr ""
+msgstr "Manter acima dos outros"
 
 #: useractions.cpp:254
 #, kde-format
@@ -2466,7 +2467,7 @@ msgstr "Mater janelas abaixo das outras"
 #: useractions.cpp:1015
 #, kde-format
 msgid "Activate Window Demanding Attention"
-msgstr ""
+msgstr "Ativar janela exigindo atenção"
 
 #: useractions.cpp:1017
 #, kde-format
@@ -3026,7 +3027,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "KWin: "
-#~ msgstr ""
+#~ msgstr "KWin: "
 
 #~ msgid "System"
 #~ msgstr ""
@@ -3047,6 +3048,8 @@ msgstr ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
 #~ "started.\n"
 #~ msgstr ""
+#~ "kwin: parece que já existe um gerenciador de janelas em execução. kwin não "
+#~ "iniciou.\n"
 
 #~ msgid ""
 #~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
@@ -3150,6 +3153,8 @@ msgstr ""
 #~ "\n"
 #~ "KWin will now exit..."
 #~ msgstr ""
+#~ "\n"
+#~ "O KWin está sendo encerrado agora..."
 
 #~ msgid "Window to Desktop 2"
 #~ msgstr ""
@@ -3320,10 +3325,11 @@ msgstr ""
 #~ msgstr "Não ficar abaixo dos outros"
 
 #~ msgid "No window decoration plugin library was found."
-#~ msgstr ""
+#~ msgstr "Nenhuma biblioteca de plugins de decoração de janela foi encontrada."
 
 #~ msgid "The default decoration plugin is corrupt and could not be loaded."
 #~ msgstr ""
+#~ "O plugin de decoração padrão está corrompido e não pôde ser carregado."
 
 #~ msgid "The library %1 is not a KWin plugin."
 #~ msgstr ""
@@ -3371,7 +3377,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "kwin: failure during initialization; aborting"
-#~ msgstr ""
+#~ msgstr "kwin: falha durante a inicialização; abortando"
 
 #~ msgid "Terminate"
 #~ msgstr ""
