@@ -92,7 +92,7 @@ msgstr ""
 #: main.cpp:40
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr ""
+msgstr "Este utilitário auxiliar não deve ser chamado diretamente."
 
 #: main.cpp:44
 #, kde-format
@@ -922,7 +922,7 @@ msgstr ""
 #~ msgstr "KWin"
 
 #~ msgid "KWin helper utility"
-#~ msgstr ""
+#~ msgstr "Utilitário auxiliar KWin"
 
 #~ msgid "Activity"
 #~ msgstr ""
