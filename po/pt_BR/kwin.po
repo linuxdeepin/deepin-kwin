@@ -886,7 +886,7 @@ msgstr ""
 #: debug_console.ui:45
 #, kde-format
 msgid "Windows"
-msgstr ""
+msgstr "Janelas"
 
 #. i18n: ectx: attribute (title), widget (QWidget, surfaces)
 #: debug_console.ui:59
