@@ -1384,46 +1384,57 @@ msgstr ""
 #~ "is being moved or resized. The window position relative to the top-left "
 #~ "corner of the screen is displayed together with its size."
 #~ msgstr ""
+#~ "Habilite esta opção se desejar que a geometria de uma janela seja exibida "
+#~ "enquanto ela estiver sendo movida ou redimensionada. A posição da janela em "
+#~ "relação ao canto superior esquerdo da tela é exibida juntamente com seu "
+#~ "tamanho."
 
 #~ msgid "Display when moving or resizing"
-#~ msgstr ""
+#~ msgstr "Exibir ao mover ou redimensionar"
 
 #~ msgid "Maximize (vertical only)"
-#~ msgstr ""
+#~ msgstr "Maximizar (somente vertical)"
 
 #~ msgid "Maximize (horizontal only)"
-#~ msgstr ""
+#~ msgstr "Maximizar (somente horizontal)"
 
 #~ msgid "Smart"
-#~ msgstr ""
+#~ msgstr "Inteligente"
 
 #~ msgid "Maximizing"
-#~ msgstr ""
+#~ msgstr "Maximizando"
 
 #~ msgid ""
 #~ "When turned on immediately switch to any new window tabs that were "
 #~ "automatically added to the current group."
 #~ msgstr ""
+#~ "Quando ativado, alterna imediatamente para quaisquer novas guias de janela "
+#~ "que foram adicionadas automaticamente ao grupo atual."
 
 #~ msgid "When turned on hide all tabs that are not active from the taskbar."
 #~ msgstr ""
+#~ "Quando ativado, oculta todas as guias que não estão ativas da barra de "
+#~ "tarefas."
 
 #~ msgid ""
 #~ "When turned on attempt to automatically detect when a newly opened window is"
 #~ " related to an existing one and place them in the same window group."
 #~ msgstr ""
+#~ "Quando ativado, tenta detectar automaticamente quando uma janela recém-"
+#~ "aberta está relacionada a uma existente e colocá-las no mesmo grupo de "
+#~ "janelas."
 
 #~ msgid "Ri&ght button:"
-#~ msgstr ""
+#~ msgstr "Botão direito:"
 
 #~ msgid "&Wheel"
-#~ msgstr ""
+#~ msgstr "Roda"
 
 #~ msgid "&Left button:"
-#~ msgstr ""
+#~ msgstr "Botão esquerdo:"
 
 #~ msgid "&Right button:"
-#~ msgstr ""
+#~ msgstr "Botão direito:"
 
 #~ msgid "M&iddle button:"
 #~ msgstr ""
@@ -1447,7 +1458,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Shading"
-#~ msgstr ""
+#~ msgstr "Sombreamento"
 
 #~ msgid "Dela&y:"
 #~ msgstr ""
@@ -1471,10 +1482,10 @@ msgstr ""
 #~ msgstr "Movendo"
 
 #~ msgid "Wheel event:"
-#~ msgstr ""
+#~ msgstr "Evento da roda:"
 
 #~ msgid "Handle mouse wheel events"
-#~ msgstr ""
+#~ msgstr "Lidar com eventos da roda do mouse"
 
 #~ msgid ""
 #~ "In this column you can customize mouse clicks into the titlebar or the frame"
@@ -1494,7 +1505,7 @@ msgstr ""
 #~ msgstr "Botão esquerdo:"
 
 #~ msgid "Middle button:"
-#~ msgstr ""
+#~ msgstr "Botão do meio:"
 
 #~ msgid ""
 #~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
@@ -1502,7 +1513,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Right button:"
-#~ msgstr ""
+#~ msgstr "Botão direito:"
 
 #~ msgid ""
 #~ "Behavior on <em>right</em> click into the titlebar or frame of an "
@@ -1516,25 +1527,25 @@ msgstr ""
 #~ msgstr "Barra de título"
 
 #~ msgid "no center snap zone"
-#~ msgstr ""
+#~ msgstr "nenhuma zona de encaixe central"
 
 #~ msgid "no window snap zone"
-#~ msgstr ""
+#~ msgstr "nenhuma zona de encaixe de janela"
 
 #~ msgid "no border snap zone"
-#~ msgstr ""
+#~ msgstr "nenhuma zona de ajuste de borda"
 
 #~ msgid "Windows"
-#~ msgstr ""
+#~ msgstr "Janelas"
 
 #~ msgid "Snap Zones"
-#~ msgstr ""
+#~ msgstr "Zonas de encaixe"
 
 #~ msgid "kcmkwinoptions"
-#~ msgstr ""
+#~ msgstr "kcmkwinoptions"
 
 #~ msgid "&Raise, with the following delay:"
-#~ msgstr ""
+#~ msgstr "Aumentar, com o seguinte atraso:"
 
 #~ msgid ""
 #~ "When enabled, this feature activates the border of maximized windows and "
@@ -1544,7 +1555,7 @@ msgstr ""
 #~ " que você as mova ou redimensione, assim como nas janelas normais"
 
 #~ msgid "Display borders on &maximized windows"
-#~ msgstr ""
+#~ msgstr "Exibir bordas em janelas maximizadas"
 
 #~ msgctxt "@item:inlistbox behavior on double click"
 #~ msgid "Minimize"
@@ -1558,6 +1569,8 @@ msgstr ""
 #~ "Here you can customize mouse click behavior when clicking on the titlebar or"
 #~ " the frame of a window."
 #~ msgstr ""
+#~ "Aqui você pode personalizar o comportamento do clique do mouse ao clicar na "
+#~ "barra de título ou na moldura de uma janela."
 
 #~ msgid ""
 #~ "Behavior on <em>right</em> click into the titlebar or frame of an "
