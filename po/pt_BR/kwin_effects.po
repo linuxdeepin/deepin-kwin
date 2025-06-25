@@ -1213,88 +1213,90 @@ msgstr "Rastreamento do mouse:"
 #~ msgstr "Canto inferior direito"
 
 #~ msgid "Text font:"
-#~ msgstr ""
+#~ msgstr "Fonte do texto:"
 
 #~ msgid "Text color:"
-#~ msgstr ""
+#~ msgstr "Cor do texto:"
 
 #~ msgid "Text alpha:"
-#~ msgstr ""
+#~ msgstr "Texto alfa:"
 
 #~ msgid "Show graph:"
-#~ msgstr ""
+#~ msgstr "Mostrar gráfico:"
 
 #~ msgid "Show on active screen"
-#~ msgstr ""
+#~ msgstr "Mostrar na tela ativa"
 
 #~ msgid "Show Message:"
-#~ msgstr ""
+#~ msgstr "Mostrar mensagem:"
 
 #~ msgid "Show \"not a benchmark\" message"
-#~ msgstr ""
+#~ msgstr "Mostrar mensagem \"não é um benchmark\""
 
 #~ msgid "Colorize Text:"
-#~ msgstr ""
+#~ msgstr "Colorir texto:"
 
 #~ msgid "Color text by value (green > yellow > red)"
-#~ msgstr ""
+#~ msgstr "Colorir texto por valor (verde > amarelo > vermelho)"
 
 #~ msgid "Zoom &duration:"
-#~ msgstr ""
+#~ msgstr "Zoom e duração:"
 
 #~ msgctxt "Duration of zoom"
 #~ msgid "Default"
 #~ msgstr "Padrão"
 
 #~ msgid "Border wid&th:"
-#~ msgstr ""
+#~ msgstr "Largura da borda:"
 
 #~ msgid "Click behavior:"
-#~ msgstr ""
+#~ msgstr "Comportamento do clique:"
 
 #~ msgid ""
 #~ "If the Present Windows effect is enabled, it will be automatically "
 #~ "triggered."
 #~ msgstr ""
+#~ "Se o efeito apresentar janelas estiver ativado, ele será acionado "
+#~ "automaticamente."
 
 #~ msgid "Switch desktop and activate window"
-#~ msgstr ""
+#~ msgstr "Alternar área de trabalho e ativar janela"
 
 #~ msgid "Switch desktop only"
-#~ msgstr ""
+#~ msgstr "Alternar somente para área de trabalho"
 
 #~ msgid "Natural Layout Settings"
-#~ msgstr ""
+#~ msgstr "Configurações de layout natural"
 
 #~ msgid "Fill &gaps"
-#~ msgstr ""
+#~ msgstr "Preencher e lacunas"
 
 #~ msgid "Faster"
-#~ msgstr ""
+#~ msgstr "Mais rápido"
 
 #~ msgid "Nicer"
-#~ msgstr ""
+#~ msgstr "Mais legal"
 
 #~ msgid "Left button:"
 #~ msgstr "Botão esquerdo:"
 
 #~ msgid "No action"
-#~ msgstr ""
+#~ msgstr "Nenhuma ação"
 
 #~ msgid "Activate window"
-#~ msgstr ""
+#~ msgstr "Ativar janela"
 
 #~ msgid "End effect"
-#~ msgstr ""
+#~ msgstr "Efeito final"
 
 #~ msgid "Bring window to current desktop"
-#~ msgstr ""
+#~ msgstr "Trazer janela para a área de trabalho atual"
 
 #~ msgid "Send window to all desktops"
-#~ msgstr ""
+#~ msgstr "Enviar janela para todas as áreas de trabalho"
 
 #~ msgid "(Un-)Minimize window"
-#~ msgstr ""
+#~ msgstr "(Des)minimizar janela"
 
 #~ msgid "Middle button:"
 #~ msgstr "Botão do meio:"
