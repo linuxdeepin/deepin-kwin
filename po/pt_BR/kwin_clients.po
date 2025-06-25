@@ -84,7 +84,7 @@ msgstr ""
 #: aurorae/themes/plastik/package/contents/ui/config.ui:29
 #, kde-format
 msgid "Left"
-msgstr ""
+msgstr "Esquerda"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_titleAlignCenter)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:36
@@ -96,7 +96,7 @@ msgstr ""
 #: aurorae/themes/plastik/package/contents/ui/config.ui:43
 #, kde-format
 msgid "Right"
-msgstr ""
+msgstr "Direita"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_coloredBorder)
 #: aurorae/themes/plastik/package/contents/ui/config.ui:53
@@ -416,11 +416,11 @@ msgstr ""
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
-#~ msgstr ""
+#~ msgstr "Andrew Coles"
 
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
-#~ msgstr ""
+#~ msgstr "andrew_coles@yahoo.co.uk"
 
 #~ msgid "Oxygen decoration shadows demonstration"
 #~ msgstr ""
