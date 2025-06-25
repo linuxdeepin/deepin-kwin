@@ -61,7 +61,7 @@ msgstr "Composição:"
 #: compositing.ui:63
 #, kde-format
 msgid "Enable on startup"
-msgstr ""
+msgstr "Habilitar na inicialização"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox,
 #. kcfg_WindowsBlockCompositing)
@@ -72,13 +72,16 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
+"Os aplicativos podem definir uma dica para bloquear a composição quando a janela estiver aberta.\n"
+"Isso traz melhorias de desempenho para jogos, por exemplo.\n"
+"A configuração pode ser anulada por regras específicas da janela."
 
 #. i18n: ectx: property (text), widget (QCheckBox,
 #. kcfg_WindowsBlockCompositing)
 #: compositing.ui:75
 #, kde-format
 msgid "Allow applications to block compositing"
-msgstr ""
+msgstr "Permitir que aplicativos bloqueiem a composição"
 
 #. i18n: ectx: property (text), widget (QLabel, animationSpeedLabel)
 #: compositing.ui:82
@@ -335,6 +338,8 @@ msgstr "Reativar a detecção do OpenGL"
 #~ "Having full screen windows bypass the compositor is not supported on every "
 #~ "hardware."
 #~ msgstr ""
+#~ "Ter janelas em tela cheia ignora o compositor e não é suportado em todos os "
+#~ "hardwares."
 
 #~ msgid "Expert:"
 #~ msgstr ""
@@ -423,6 +428,8 @@ msgstr "Reativar a detecção do OpenGL"
 #~ "Desktop effects are not available on this system due to the following "
 #~ "technical issues:"
 #~ msgstr ""
+#~ "Os efeitos da área de trabalho não estão disponíveis neste sistema devido "
+#~ "aos seguintes problemas técnicos:"
 
 #~ msgid ""
 #~ "Your settings have been saved but as KDE is currently running in failsafe mode desktop effects cannot be enabled at this time.\n"
@@ -437,7 +444,7 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr "Geral"
 
 #~ msgid "Improved window management"
-#~ msgstr ""
+#~ msgstr "Gerenciamento de janelas aprimorado"
 
 #~ msgid "Effect for desktop switching:"
 #~ msgstr ""
@@ -461,18 +468,20 @@ msgstr "Reativar a detecção do OpenGL"
 #~ "You can find more effects, as well as effect-specific settings, in the \"All"
 #~ " Effects\" tab above."
 #~ msgstr ""
+#~ "Você pode encontrar mais efeitos, bem como configurações específicas de "
+#~ "efeitos, na aba \"Todos os efeitos\" acima."
 
 #~ msgid "All Effects"
-#~ msgstr ""
+#~ msgstr "Todos os efeitos"
 
 #~ msgid "Advanced"
-#~ msgstr ""
+#~ msgstr "Avançado"
 
 #~ msgid "OpenGL Options"
-#~ msgstr ""
+#~ msgstr "Opções OpenGL"
 
 #~ msgid "General Options"
-#~ msgstr ""
+#~ msgstr "Opções gerais"
 
 #~ msgid ""
 #~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -527,7 +536,7 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr "Memória Compartilhada"
 
 #~ msgid "Fallback"
-#~ msgstr ""
+#~ msgstr "Cair pra trás"
 
 #~ msgid ""
 #~ "Enabling this option allows compositing to be activated even if some of the "
@@ -535,6 +544,10 @@ msgstr "Reativar a detecção do OpenGL"
 #~ "use is not recommened. Use only if KWin refuses to activate compositing on a"
 #~ " system that should be capable of compositing.\n"
 #~ msgstr ""
+#~ "Habilitar esta opção permite que a composição seja ativada mesmo que algumas"
+#~ " verificações internas falhem. Isso pode tornar toda a área de trabalho "
+#~ "inutilizável e seu uso não é recomendado. Use somente se o KWin se recusar a"
+#~ " ativar a composição em um sistema que deveria ser capaz de compor.\n"
 
 #~ msgid "Nearest (fastest)"
 #~ msgstr "Mais próximo (mais rápido)"
