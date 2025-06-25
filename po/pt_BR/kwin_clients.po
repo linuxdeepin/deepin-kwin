@@ -298,7 +298,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Oxygen"
-#~ msgstr ""
+#~ msgstr "Oxigênio"
 
 #~ msgid "Help"
 #~ msgstr "Ajuda"
