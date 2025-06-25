@@ -65,7 +65,7 @@ msgstr "Ferramentas"
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "Animação de troca da área de trabalho virtual"
 
 #: effectsmodel.cpp:58
 #, kde-format
@@ -77,7 +77,7 @@ msgstr "Gerenciamento de janelas"
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
-msgstr ""
+msgstr "Animação de abertura/fechamento de janela"
 
 #: effectsmodel.cpp:241
 #, kde-format
