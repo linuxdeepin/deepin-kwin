@@ -33,6 +33,10 @@ msgid ""
 "If you think that you have meanwhile upgraded to a stable driver,\n"
 "you can reset this protection but be aware that this might result in an immediate crash!"
 msgstr ""
+"A composição OpenGL (o padrão) travou o KWin no passado..\n"
+"Isso provavelmente ocorreu devido a um bug no driver.\n"
+"Se você acha que já atualizou para um driver estável,\n"
+"você pode redefinir essa proteção, mas esteja ciente de que isso pode resultar em uma falha imediata!"
 
 #. i18n: ectx: property (text), widget (KMessageWidget,
 #. windowThumbnailWarning)
@@ -43,12 +47,15 @@ msgid ""
 "windows. This can result in windows not suspending their work when "
 "minimized."
 msgstr ""
+"Manter a miniatura da janela sempre interfere no estado minimizado das "
+"janelas. Isso pode fazer com que as janelas não suspendam seu funcionamento "
+"quando minimizadas."
 
 #. i18n: ectx: property (text), widget (QLabel, compositingLabel)
 #: compositing.ui:56
 #, kde-format
 msgid "Compositing:"
-msgstr ""
+msgstr "Composição:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Enabled)
 #: compositing.ui:63
@@ -125,31 +132,31 @@ msgstr ""
 #: compositing.ui:185
 #, kde-format
 msgid "Force lowest latency (may cause dropped frames)"
-msgstr ""
+msgstr "Forçar a menor latência (pode causar perda de quadros)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:190
 #, kde-format
 msgid "Prefer lower latency"
-msgstr ""
+msgstr "Prefere a menor latência"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:195
 #, kde-format
 msgid "Balance of latency and smoothness"
-msgstr ""
+msgstr "Equilíbrio entre latência e suavidade"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:200
 #, kde-format
 msgid "Prefer smoother animations"
-msgstr ""
+msgstr "Prefira animações mais suaves"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:205
 #, kde-format
 msgid "Force smoothest animations"
-msgstr ""
+msgstr "Forçar animações mais suaves"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowTearing)
 #: compositing.ui:213
@@ -157,40 +164,44 @@ msgstr ""
 msgid ""
 "Reduce latency by allowing screen tearing artifacts in fullscreen windows"
 msgstr ""
+"Reduza a latência permitindo artefatos de tela rasgada em janelas de tela "
+"cheia"
 
 #: main.cpp:79
 #, kde-format
 msgid "Re-enable OpenGL detection"
-msgstr ""
+msgstr "Reativar a detecção do OpenGL"
 
 #~ msgid "Allows applications to cause screen tearing in fullscreen."
-#~ msgstr ""
+#~ msgstr "Permite que aplicativos causem tela rasgada em tela cheia."
 
 #~ msgid "Allow tearing in fullscreen"
-#~ msgstr ""
+#~ msgstr "Permitir rasgar em tela cheia"
 
 #~ msgid ""
 #~ "Scale method \"Accurate\" is not supported by all hardware and can cause "
 #~ "performance regressions and rendering artifacts."
 #~ msgstr ""
+#~ "O método de escala \"Preciso\" não é suportado por todos os hardwares e pode"
+#~ " causar regressões de desempenho e artefatos de renderização."
 
 #~ msgid "Scale method:"
-#~ msgstr ""
+#~ msgstr "Método de escala:"
 
 #~ msgid "Smooth"
-#~ msgstr ""
+#~ msgstr "Suave"
 
 #~ msgid "Accurate"
-#~ msgstr ""
+#~ msgstr "Preciso"
 
 #~ msgid "Tearing prevention (\"vsync\"):"
-#~ msgstr ""
+#~ msgstr "Prevenção de tearing (\"vsync\"):"
 
 #~ msgid "Automatic"
-#~ msgstr ""
+#~ msgstr "Automático"
 
 #~ msgid "Only when cheap"
-#~ msgstr ""
+#~ msgstr "Somente quando barato"
 
 #~ msgid "Full screen repaints"
 #~ msgstr ""
@@ -202,23 +213,27 @@ msgstr ""
 #~ "\"Only when cheap\" only prevents tearing for full screen changes like a "
 #~ "video."
 #~ msgstr ""
+#~ "\"Somente quando barato\" só evita distorções em alterações em tela cheia, "
+#~ "como em um vídeo."
 
 #~ msgid "\"Full screen repaints\" can cause performance problems."
-#~ msgstr ""
+#~ msgstr "\"Repinturas em tela cheia\" podem causar problemas de desempenho."
 
 #~ msgid ""
 #~ "\"Re-use screen content\" causes severe performance problems on MESA "
 #~ "drivers."
 #~ msgstr ""
+#~ "A \"reutilização do conteúdo da tela\" causa sérios problemas de desempenho "
+#~ "em drivers MESA."
 
 #~ msgid "Rendering backend:"
-#~ msgstr ""
+#~ msgstr "Renderização de backend:"
 
 #~ msgid "OpenGL 3.1"
-#~ msgstr ""
+#~ msgstr "OpenGL 3.1"
 
 #~ msgid "OpenGL 2.0"
-#~ msgstr ""
+#~ msgstr "OpenGL 2.0"
 
 #~ msgid "Crisp"
 #~ msgstr ""
