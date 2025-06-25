@@ -622,7 +622,7 @@ msgstr ""
 #: rulesmodel.cpp:565
 #, kde-format
 msgid "Shortcut"
-msgstr ""
+msgstr "Atalho"
 
 #: rulesmodel.cpp:571
 #, kde-format
