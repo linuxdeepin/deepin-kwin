@@ -274,7 +274,7 @@ msgstr "Duração:"
 #: glide/glide_config.ui:32 scale/package/contents/ui/config.ui:30
 #, kde-format
 msgid "Default"
-msgstr ""
+msgstr "Padrão"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Duration)
 #: glide/glide_config.ui:35 scale/package/contents/ui/config.ui:33
@@ -300,25 +300,25 @@ msgstr "Borda de rotação:"
 #: glide/glide_config.ui:93 glide/glide_config.ui:191
 #, kde-format
 msgid "Rotation angle:"
-msgstr ""
+msgstr "Ângulo de rotação:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InDistance)
 #. i18n: ectx: property (text), widget (QLabel, label_OutDistance)
 #: glide/glide_config.ui:119 glide/glide_config.ui:198
 #, kde-format
 msgid "Distance:"
-msgstr ""
+msgstr "Distância:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_OutAnimation)
 #: glide/glide_config.ui:148
 #, kde-format
 msgid "Window Close Animation"
-msgstr ""
+msgstr "Animação de fechamento de janela"
 
 #: invert/invert.cpp:42 invert/invert_config.cpp:38
 #, kde-format
 msgid "Toggle Invert Effect"
-msgstr ""
+msgstr "Alternar efeito de inversão"
 
 #: invert/invert.cpp:49 invert/invert_config.cpp:44
 #, kde-format
@@ -348,13 +348,13 @@ msgstr "Duração da animação:"
 #, kde-format
 msgctxt "Duration of rotation"
 msgid "Default"
-msgstr ""
+msgstr "Padrão"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_AnimationDuration)
 #: magiclamp/magiclamp_config.ui:39
 #, kde-format
 msgid "milliseconds"
-msgstr ""
+msgstr "milissegundos"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupSize)
 #: magnifier/magnifier_config.ui:17
@@ -1126,7 +1126,7 @@ msgstr ""
 #: zoom/zoom_config.ui:103
 #, kde-format
 msgid "Scale"
-msgstr ""
+msgstr "Escala"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MousePointer)
 #: zoom/zoom_config.ui:108
@@ -1238,7 +1238,7 @@ msgstr ""
 
 #~ msgctxt "Duration of zoom"
 #~ msgid "Default"
-#~ msgstr ""
+#~ msgstr "Padrão"
 
 #~ msgid "Border wid&th:"
 #~ msgstr ""
@@ -1801,9 +1801,11 @@ msgstr ""
 #~ msgid ""
 #~ "Flip through windows that are in a stack for the alt+tab window switcher"
 #~ msgstr ""
+#~ "Percorrer janelas que estão em uma pilha para o alternador de janelas "
+#~ "alt+tab"
 
 #~ msgid "Toggle Flip Switch (Current desktop)"
-#~ msgstr ""
+#~ msgstr "Interruptor de alternância (área de trabalho atual)"
 
 #~ msgid "Toggle Flip Switch (All desktops)"
 #~ msgstr ""
@@ -1813,7 +1815,7 @@ msgstr ""
 
 #~ msgctxt "Duration of flip animation"
 #~ msgid "Default"
-#~ msgstr ""
+#~ msgstr "Padrão"
 
 #~ msgid "Angle:"
 #~ msgstr ""
@@ -1851,11 +1853,13 @@ msgstr ""
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Scale"
-#~ msgstr ""
+#~ msgstr "Escala"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
 #~ msgstr ""
+#~ "Faça com que as janelas aumentem e diminuam suavemente quando forem "
+#~ "mostradas ou ocultadas"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Minimize Animation"
@@ -1990,7 +1994,7 @@ msgstr ""
 
 #~ msgctxt "Duration of fading"
 #~ msgid "Default"
-#~ msgstr ""
+#~ msgstr "Padrão"
 
 #~ msgid "Toggle Video Recording"
 #~ msgstr ""
@@ -2085,7 +2089,7 @@ msgstr ""
 
 #~ msgctxt "Duration of rearrangement"
 #~ msgid "Default"
-#~ msgstr ""
+#~ msgstr "Padrão"
 
 #~ msgid "Animate &flip"
 #~ msgstr ""
