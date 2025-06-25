@@ -26,12 +26,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Malcolm Hunter, Steve Allewell"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "malcolm.hunter@gmx.co.uk, steve.allewell@gmail.com"
 
 #: declarative-plugin/buttonsmodel.cpp:53
 #, kde-format
