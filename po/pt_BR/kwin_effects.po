@@ -2231,7 +2231,7 @@ msgstr ""
 #~ msgstr "Mater janelas abaixo das outras"
 
 #~ msgid "Activate Window Demanding Attention"
-#~ msgstr ""
+#~ msgstr "Ativar janela exigindo atenção"
 
 #~ msgid "Setup Window Shortcut"
 #~ msgstr ""
@@ -2483,9 +2483,11 @@ msgstr ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
 #~ "started.\n"
 #~ msgstr ""
+#~ "kwin: parece que já existe um gerenciador de janelas em execução. kwin não "
+#~ "iniciou.\n"
 
 #~ msgid "kwin: failure during initialization; aborting"
-#~ msgstr ""
+#~ msgstr "kwin: falha durante a inicialização; abortando"
 
 #~ msgid ""
 #~ "KWin is unstable.\n"
@@ -2499,7 +2501,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "(c) 1999-2005, The KDE Developers"
-#~ msgstr ""
+#~ msgstr "(c) 1999-2005, Os desenvolvedores do KDE"
 
 #~ msgid "Matthias Ettrich"
 #~ msgstr "Matthias Ettrich"
@@ -2521,23 +2523,26 @@ msgstr ""
 
 #~ msgid "Replace already-running ICCCM2.0-compliant window manager"
 #~ msgstr ""
+#~ "Substituir o gerenciador de janelas compatível com ICCCM2.0 já em execução"
 
 #~ msgid "Indicate that KWin has recently crashed n times"
-#~ msgstr ""
+#~ msgstr "Indica que o KWin travou recentemente n vezes"
 
 #~ msgid "KWin: "
-#~ msgstr ""
+#~ msgstr "KWin: "
 
 #~ msgid ""
 #~ "\n"
 #~ "KWin will now exit..."
 #~ msgstr ""
+#~ "\n"
+#~ "O KWin está sendo encerrado agora..."
 
 #~ msgid "*** No Windows ***"
 #~ msgstr ""
 
 #~ msgid "Keep &Above Others"
-#~ msgstr ""
+#~ msgstr "Manter acima dos outros"
 
 #~ msgid "Keep &Below Others"
 #~ msgstr ""
@@ -2649,10 +2654,11 @@ msgstr ""
 #~ msgstr "Desobstrução"
 
 #~ msgid "No window decoration plugin library was found."
-#~ msgstr ""
+#~ msgstr "Nenhuma biblioteca de plugins de decoração de janela foi encontrada."
 
 #~ msgid "The default decoration plugin is corrupt and could not be loaded."
 #~ msgstr ""
+#~ "O plugin de decoração padrão está corrompido e não pôde ser carregado."
 
 #~ msgid "The library %1 is not a KWin plugin."
 #~ msgstr ""
