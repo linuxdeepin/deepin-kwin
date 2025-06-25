@@ -70,27 +70,27 @@ msgstr "Janelas presentes"
 #: main.cpp:140 touch.cpp:134
 #, kde-format
 msgid "%1 - All Desktops"
-msgstr ""
+msgstr "%1 - Todas as áreas de trabalho"
 
 #: main.cpp:141 touch.cpp:135
 #, kde-format
 msgid "%1 - Current Desktop"
-msgstr ""
+msgstr "%1 - Área de trabalho atual"
 
 #: main.cpp:142 touch.cpp:136
 #, kde-format
 msgid "%1 - Current Application"
-msgstr ""
+msgstr "%1 - Aplicativo atual"
 
 #: main.cpp:144 touch.cpp:138
 #, kde-format
 msgid "Toggle window switching"
-msgstr ""
+msgstr "Alternar a troca de janelas"
 
 #: main.cpp:145 touch.cpp:139
 #, kde-format
 msgid "Toggle alternative window switching"
-msgstr ""
+msgstr "Alternar alternância de janelas alternativas"
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: main.ui:23
@@ -99,70 +99,72 @@ msgid ""
 "You can trigger an action by pushing the mouse cursor against the "
 "corresponding screen edge or corner."
 msgstr ""
+"Você pode acionar uma ação empurrando o cursor do mouse contra a borda ou "
+"canto correspondente da tela."
 
 #. i18n: ectx: property (text), widget (QLabel, quickMaximizeLabel)
 #: main.ui:67
 #, kde-format
 msgid "&Maximize:"
-msgstr ""
+msgstr "Maximizar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox,
 #. kcfg_ElectricBorderMaximize)
 #: main.ui:77
 #, kde-format
 msgid "Windows dragged to top edge"
-msgstr ""
+msgstr "Arrastar janelas para a borda superior"
 
 #. i18n: ectx: property (text), widget (QLabel, quickTileLabel)
 #: main.ui:84
 #, kde-format
 msgid "&Tile:"
-msgstr ""
+msgstr "Telha:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderTiling)
 #: main.ui:94
 #, kde-format
 msgid "Windows dragged to left or right edge"
-msgstr ""
+msgstr "Arrastar janelas para a borda esquerda ou direita"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
 #, kde-format
 msgid "Behavior:"
-msgstr ""
+msgstr "Comportamento:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, remainActiveOnFullscreen)
 #: main.ui:108
 #, kde-format
 msgid "Remain active when windows are fullscreen"
-msgstr ""
+msgstr "Permanecer ativo quando as janelas estiverem em tela cheia"
 
 #. i18n: ectx: property (text), widget (QLabel,
 #. electricBorderCornerRatioLabel)
 #: main.ui:115
 #, kde-format
 msgid "Trigger &quarter tiling in:"
-msgstr ""
+msgstr "Acionar o ladrilho de um quarto em:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox,
 #. electricBorderCornerRatioSpin)
 #: main.ui:130
 #, no-c-format, kde-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox,
 #. electricBorderCornerRatioSpin)
 #: main.ui:133
 #, kde-format
 msgid "Outer "
-msgstr ""
+msgstr "Exterior"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: main.ui:149
 #, kde-format
 msgid "of the screen"
-msgstr ""
+msgstr "da tela"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:174
@@ -171,12 +173,14 @@ msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the "
 "screen"
 msgstr ""
+"Alterar a área de trabalho quando o cursor do mouse for pressionado contra a"
+" borda da tela"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:177
 #, kde-format
 msgid "&Switch desktop on edge:"
-msgstr ""
+msgstr "Alternar área de trabalho na borda:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:188
