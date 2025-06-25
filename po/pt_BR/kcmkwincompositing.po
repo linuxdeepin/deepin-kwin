@@ -253,7 +253,7 @@ msgstr "Reativar a detecção do OpenGL"
 
 #~ msgctxt "OpenGL Platform Interface"
 #~ msgid "GLX"
-#~ msgstr ""
+#~ msgstr "GLX"
 
 #~ msgid ""
 #~ "Author: %1\n"
@@ -270,36 +270,36 @@ msgstr "Reativar a detecção do OpenGL"
 #~ "configurações do efeito."
 
 #~ msgid "Configure filter"
-#~ msgstr ""
+#~ msgstr "Configurar filtro"
 
 #~ msgid "Exclude Desktop Effects not supported by the Compositor"
 #~ msgstr "Excluir efeitos da área de trabalho não suportados pelo Compositor"
 
 #~ msgid "Exclude internal Desktop Effects"
-#~ msgstr ""
+#~ msgstr "Excluir efeitos internos da área de trabalho"
 
 #~ msgid "Get New Desktop Effects..."
 #~ msgstr "Obtenha novos efeitos para a área de trabalho..."
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
-#~ msgstr ""
+#~ msgstr "Malcolm Hunter"
 
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
-#~ msgstr ""
+#~ msgstr "malcolm.hunter@gmx.co.uk"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Accessibility"
-#~ msgstr ""
+#~ msgstr "Acessibilidade"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Appearance"
-#~ msgstr ""
+#~ msgstr "Aparência"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Candy"
-#~ msgstr ""
+#~ msgstr "Doce"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Focus"
@@ -307,11 +307,11 @@ msgstr "Reativar a detecção do OpenGL"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Show Desktop Animation"
-#~ msgstr ""
+#~ msgstr "Mostrar animação da área de trabalho"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Tools"
-#~ msgstr ""
+#~ msgstr "Ferramentas"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Virtual Desktop Switching Animation"
