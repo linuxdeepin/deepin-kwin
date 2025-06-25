@@ -1102,12 +1102,12 @@ msgstr ""
 #: helpers/killer/killer.cpp:50
 #, kde-format
 msgid "KWin helper utility"
-msgstr ""
+msgstr "Utilitário auxiliar KWin"
 
 #: helpers/killer/killer.cpp:74
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr ""
+msgstr "Este utilitário auxiliar não deve ser chamado diretamente."
 
 #: helpers/killer/killer.cpp:84
 #, kde-format
@@ -3345,7 +3345,7 @@ msgstr ""
 #~ "O plugin de decoração padrão está corrompido e não pôde ser carregado."
 
 #~ msgid "The library %1 is not a KWin plugin."
-#~ msgstr ""
+#~ msgstr "A biblioteca %1 não é um plugin do KWin."
 
 #~ msgid "Window Screenshot to Clipboard"
 #~ msgstr "Captura de tela da janela para a área de transferência"
@@ -3393,10 +3393,10 @@ msgstr ""
 #~ msgstr "kwin: falha durante a inicialização; abortando"
 
 #~ msgid "Terminate"
-#~ msgstr ""
+#~ msgstr "Terminar"
 
 #~ msgid "Keep Running"
-#~ msgstr ""
+#~ msgstr "Continuar executando"
 
 #~ msgid "Top"
 #~ msgstr "Em cima"
@@ -3482,7 +3482,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Reset opacity to default value"
-#~ msgstr ""
+#~ msgstr "Redefinir a opacidade para o valor padrão"
 
 #~ msgid "Slide this to set the window's opacity"
 #~ msgstr ""
@@ -3491,6 +3491,8 @@ msgstr ""
 #~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
 #~ " in a $PATH directory."
 #~ msgstr ""
+#~ "O Composite Manager não pôde ser iniciado.\\nCertifique-se de ter "
+#~ "\"kompmgr\" em um diretório $PATH."
 
 #~ msgid ""
 #~ "The Composite Manager crashed twice within a minute and is therefore "
@@ -3500,12 +3502,14 @@ msgstr ""
 #~ "desabilitado para esta sessão."
 
 #~ msgid "Composite Manager Failure"
-#~ msgstr ""
+#~ msgstr "Falha do Composite Manager"
 
 #~ msgid ""
 #~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
 #~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
 #~ msgstr ""
+#~ "<qt><b>kompmgr falhou ao abrir a tela</b><br>Provavelmente há uma entrada de"
+#~ " exibição inválida em seu ~/.xcompmgrrc.</qt>"
 
 #~ msgid ""
 #~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
