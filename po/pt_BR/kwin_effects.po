@@ -2474,10 +2474,10 @@ msgstr ""
 #~ msgstr "Captura de tela da janela para a área de transferência"
 
 #~ msgid "Desktop Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Captura de tela da área de trabalho para a área de transferência"
 
 #~ msgid "Block Global Shortcuts"
-#~ msgstr ""
+#~ msgstr "Bloquear atalhos globais"
 
 #~ msgid ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
