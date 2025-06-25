@@ -1588,103 +1588,103 @@ msgstr ""
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Help you locate the center of the screen when moving a window"
-#~ msgstr ""
+#~ msgstr "Ajuda você a localizar o centro da tela ao mover uma janela"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Startup Feedback"
-#~ msgstr ""
+#~ msgstr "Feedback de inicialização"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Helper effect for startup feedback"
-#~ msgstr ""
+#~ msgstr "Efeito auxiliar para feedback de inicialização"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Thumbnail Aside"
-#~ msgstr ""
+#~ msgstr "Miniatura à parte"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display window thumbnails on the edge of the screen"
-#~ msgstr ""
+#~ msgstr "Exibir miniaturas de janelas na borda da tela"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Touch Points"
-#~ msgstr ""
+#~ msgstr "Pontos de contato"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Visualize touch points"
-#~ msgstr ""
+#~ msgstr "Visualize pontos de contato"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Track Mouse"
-#~ msgstr ""
+#~ msgstr "Rastreamento do mouse"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display a mouse cursor locating effect when activated"
-#~ msgstr ""
+#~ msgstr "Exibir um efeito de localização do cursor do mouse quando ativado"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Window Geometry"
-#~ msgstr ""
+#~ msgstr "Geometria da janela"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display window geometries on move/resize"
-#~ msgstr ""
+#~ msgstr "Exibir geometrias de janelas ao mover/redimensionar"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Wobbly Windows"
-#~ msgstr ""
+#~ msgstr "Janelas instáveis"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Deform windows while they are moving"
-#~ msgstr ""
+#~ msgstr "Deformar janelas enquanto elas estão em movimento"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Zoom"
-#~ msgstr ""
+#~ msgstr "Zoom"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Magnify the entire desktop"
-#~ msgstr ""
+#~ msgstr "Ampliar toda a área de trabalho"
 
 #~ msgid "Kompose"
-#~ msgstr ""
+#~ msgstr "Compor"
 
 #~ msgctxt "Special entry in alt+tab list for minimizing all windows"
 #~ msgid "Show Desktop"
 #~ msgstr "Mostrar área de trabalho"
 
 #~ msgid "Zoom"
-#~ msgstr ""
+#~ msgstr "Zoom"
 
 #~ msgid "Define how far away the windows should appear"
-#~ msgstr ""
+#~ msgstr "Defina a que distância as janelas devem aparecer"
 
 #~ msgid "Near"
-#~ msgstr ""
+#~ msgstr "Perto"
 
 #~ msgid "Far"
-#~ msgstr ""
+#~ msgstr "Distante"
 
 #~ msgid "Animation"
-#~ msgstr ""
+#~ msgstr "Animação"
 
 #~ msgid "Animate switch"
-#~ msgstr ""
+#~ msgstr "Interruptor de animação"
 
 #~ msgid "Animation on tab box open"
-#~ msgstr ""
+#~ msgstr "Animação na caixa de abas aberta"
 
 #~ msgid "Animation on tab box close"
-#~ msgstr ""
+#~ msgstr "Animação ao fechar a caixa de guias"
 
 #~ msgid "Reflections"
-#~ msgstr ""
+#~ msgstr "Reflexões"
 
 #~ msgid "Rear color"
-#~ msgstr ""
+#~ msgstr "Cor traseira"
 
 #~ msgid "Front color"
-#~ msgstr ""
+#~ msgstr "Cor da frente"
 
 #~ msgid "Desktop Cube"
 #~ msgstr ""
