@@ -476,7 +476,7 @@ msgstr "Animação dos botões"
 #~ msgstr "Deslocamento vertical:"
 
 #~ msgid "Size: "
-#~ msgstr ""
+#~ msgstr "Tamanho:"
 
 #~ msgid "Always Hide Extra Size Grip"
 #~ msgstr ""
@@ -519,49 +519,49 @@ msgstr "Animação dos botões"
 #~ msgstr ""
 
 #~ msgid "Display window icons"
-#~ msgstr ""
+#~ msgstr "Ícones da janela de exibição"
 
 #~ msgid "Do not keep above others"
-#~ msgstr ""
+#~ msgstr "Não se manter acima dos outros"
 
 #~ msgid "Keep above others"
-#~ msgstr ""
+#~ msgstr "Manter acima dos outros"
 
 #~ msgid "Do not keep below others"
-#~ msgstr ""
+#~ msgstr "Não ficar abaixo dos outros"
 
 #~ msgid "Keep below others"
-#~ msgstr ""
+#~ msgstr "Manter abaixo dos outros"
 
 #~ msgid "Enable title transition animations"
-#~ msgstr ""
+#~ msgstr "Habilitar as animações de transição dos títulos"
 
 #~ msgid "Variable"
-#~ msgstr ""
+#~ msgstr "Variável"
 
 #~ msgid "Maximum"
-#~ msgstr ""
+#~ msgstr "Máximo"
 
 #~ msgid "Enable window grouping"
-#~ msgstr ""
+#~ msgstr "Habilitar agrupamento de janelas"
 
 #~ msgid "Shadow caching:"
-#~ msgstr ""
+#~ msgstr "Cache de sombra:"
 
 #~ msgid "TextLabel"
-#~ msgstr ""
+#~ msgstr "Rótulo do texto"
 
 #~ msgid "Use Oxygen Shadows"
-#~ msgstr ""
+#~ msgstr "Use sombras do oxigênio"
 
 #~ msgid "Use Desktop Effects Shadows"
-#~ msgstr ""
+#~ msgstr "Usar efeitos de sombras na área de trabalho"
 
 #~ msgid "Do Not Draw Shadows"
-#~ msgstr ""
+#~ msgstr "Não desenhar sombras"
 
 #~ msgid "Shadow style:"
-#~ msgstr ""
+#~ msgstr "Estilo da sombra:"
 
 #~ msgctxt "draw separator"
 #~ msgid "Enabled"
@@ -579,30 +579,32 @@ msgstr "Animação dos botões"
 #~ "Desenhar separador entre a barra de título e o conteúdo da janela ativa"
 
 #~ msgid "Installs a KWM theme"
-#~ msgstr ""
+#~ msgstr "Instala um tema KWM"
 
 #~ msgid "Path to a theme config file"
-#~ msgstr ""
+#~ msgstr "Caminho para um arquivo de configuração de tema"
 
 #~ msgid "<center><b>KWMTheme</b></center>"
-#~ msgstr ""
+#~ msgstr "<center><b>Tema KWM</b></center>"
 
 #~ msgid "Sticky"
-#~ msgstr ""
+#~ msgstr "Pegajoso"
 
 #~ msgid "Unsticky"
-#~ msgstr ""
+#~ msgstr "Antiaderente"
 
 #~ msgid "<center><b>Keramik preview</b></center>"
 #~ msgstr ""
 
 #~ msgid "Draw titlebar &stipple effect"
-#~ msgstr ""
+#~ msgstr "Desenhar barra de título e efeito pontilhado"
 
 #~ msgid ""
 #~ "When selected, active titlebars are drawn with a stipple (dotted) effect; "
 #~ "otherwise, they are drawn without the stipple."
 #~ msgstr ""
+#~ "Quando selecionadas, as barras de título ativas são desenhadas com um efeito"
+#~ " pontilhado; caso contrário, elas são desenhadas sem o pontilhado."
 
 #~ msgid "Draw g&rab bar below windows"
 #~ msgstr ""
