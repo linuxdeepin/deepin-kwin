@@ -791,7 +791,7 @@ msgstr ""
 #: rulesmodel.cpp:746
 #, kde-format
 msgid "Desktop"
-msgstr ""
+msgstr "Área de trabalho"
 
 #. i18n("Unmanaged Window")},  deprecated
 #: rulesmodel.cpp:748
