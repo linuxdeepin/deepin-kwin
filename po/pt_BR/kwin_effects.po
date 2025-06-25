@@ -280,20 +280,20 @@ msgstr ""
 #: glide/glide_config.ui:35 scale/package/contents/ui/config.ui:33
 #, kde-format
 msgid " milliseconds"
-msgstr ""
+msgstr "milissegundos"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_InAnimation)
 #: glide/glide_config.ui:50
 #, kde-format
 msgid "Window Open Animation"
-msgstr ""
+msgstr "Animação da janela aberta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InRotationEdge)
 #. i18n: ectx: property (text), widget (QLabel, label_OutRotationEdge)
 #: glide/glide_config.ui:56 glide/glide_config.ui:154
 #, kde-format
 msgid "Rotation edge:"
-msgstr ""
+msgstr "Borda de rotação:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_InRotationAngle)
 #. i18n: ectx: property (text), widget (QLabel, label_OutRotationAngle)
@@ -569,13 +569,13 @@ msgstr ""
 #: overview/kcm/overvieweffectkcm.ui:56
 #, kde-format
 msgid "Blur background:"
-msgstr ""
+msgstr " Desfocar fundo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: overview/kcm/overvieweffectkcm.ui:73
 #, kde-format
 msgid "Ignore minimized windows:"
-msgstr ""
+msgstr "Ignorar janelas minimizadas:"
 
 #: overview/qml/DesktopBar.qml:187
 #, kde-format
@@ -613,19 +613,19 @@ msgstr ""
 #: scale/package/contents/ui/config.ui:53
 #, kde-format
 msgid "Window close scale:"
-msgstr ""
+msgstr "Escala de fechamento de janela:"
 
 #: screenshot/screenshotdbusinterface1.cpp:478
 #, kde-format
 msgctxt "Notification caption that a screenshot got saved to file"
 msgid "Screenshot"
-msgstr ""
+msgstr "Captura de tela"
 
 #: screenshot/screenshotdbusinterface1.cpp:479
 #, kde-format
 msgctxt "Notification with path to screenshot file"
 msgid "Screenshot saved to %1"
-msgstr ""
+msgstr "Captura de tela salva em %1"
 
 #: screenshot/screenshotdbusinterface1.cpp:800
 #: screenshot/screenshotdbusinterface2.cpp:477
@@ -647,7 +647,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Paint Duration"
-msgstr ""
+msgstr "Duração da pintura"
 
 #: showfps/qml/main.qml:162
 #, kde-format
@@ -1503,7 +1503,7 @@ msgstr ""
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Screenshot"
-#~ msgstr ""
+#~ msgstr "Captura de tela"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Helper effect for screenshot tools"
@@ -1530,23 +1530,23 @@ msgstr ""
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Show FPS"
-#~ msgstr ""
+#~ msgstr "Mostrar FPS"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display KWin's performance in the corner of the screen"
-#~ msgstr ""
+#~ msgstr "Exibir o desempenho do KWin no canto da tela"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Show Paint"
-#~ msgstr ""
+#~ msgstr "Mostrar tinta"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Highlight areas of the desktop that have been recently updated"
-#~ msgstr ""
+#~ msgstr "Destacar áreas da área de trabalho que foram atualizadas recentemente"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Slide"
-#~ msgstr ""
+#~ msgstr "Deslizar"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Slide desktops when switching virtual desktops"
