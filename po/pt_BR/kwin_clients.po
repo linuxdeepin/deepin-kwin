@@ -335,7 +335,7 @@ msgstr "Animação dos botões"
 #~ msgstr "Menu"
 
 #~ msgid "Not on all desktops"
-#~ msgstr ""
+#~ msgstr "Apenas em algumas áreas de trabalho"
 
 #~ msgid "On all desktops"
 #~ msgstr "Em todas as áreas de trabalho"
@@ -350,7 +350,7 @@ msgstr "Animação dos botões"
 #~ msgstr "Redimensionar"
 
 #~ msgid "<b><center>B II preview</center></b>"
-#~ msgstr ""
+#~ msgstr "<b><center>Prévia do B II</center></b>"
 
 #~ msgid "Restore"
 #~ msgstr "Restaurar"
@@ -417,7 +417,7 @@ msgstr "Animação dos botões"
 #~ "\"nenhum\" em caso de dúvida."
 
 #~ msgid "Laptop"
-#~ msgstr ""
+#~ msgstr "Computador portátil"
 
 #~ msgid "Solid Color"
 #~ msgstr "Cor sólida"
@@ -479,10 +479,10 @@ msgstr "Animação dos botões"
 #~ msgstr "Tamanho:"
 
 #~ msgid "Always Hide Extra Size Grip"
-#~ msgstr ""
+#~ msgstr "Sempre esconder a aderência extra"
 
 #~ msgid "Show Extra Size Grip When Needed"
-#~ msgstr ""
+#~ msgstr "Mostre aderência extra quando necessário"
 
 #~ msgid ""
 #~ "Check this option if you want windows to be closed when you double click the"
@@ -516,7 +516,7 @@ msgstr "Animação dos botões"
 #~ msgstr "Centralizado"
 
 #~ msgid "&Right"
-#~ msgstr ""
+#~ msgstr "Direita"
 
 #~ msgid "Display window icons"
 #~ msgstr "Ícones da janela de exibição"
