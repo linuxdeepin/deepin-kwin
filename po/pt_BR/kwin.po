@@ -3109,7 +3109,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Tiling"
-#~ msgstr ""
+#~ msgstr "Azulejos"
 
 #~ msgid "Enable/Disable Tiling"
 #~ msgstr ""
@@ -3436,7 +3436,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Shadow color:"
-#~ msgstr ""
+#~ msgstr "Cor da sombra:"
 
 #~ msgid "Active window has stronger shadow"
 #~ msgstr ""
