@@ -244,25 +244,25 @@ msgstr "Docks e painéis"
 #: diminactive/diminactive_config.ui:54
 #, kde-format
 msgid "Desktop"
-msgstr ""
+msgstr "Área de trabalho"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimKeepAbove)
 #: diminactive/diminactive_config.ui:61
 #, kde-format
 msgid "Keep above windows"
-msgstr ""
+msgstr "Manter acima das janelas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimByGroup)
 #: diminactive/diminactive_config.ui:68
 #, kde-format
 msgid "By window group"
-msgstr ""
+msgstr "Por grupo de janelas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DimFullScreen)
 #: diminactive/diminactive_config.ui:75
 #, kde-format
 msgid "Fullscreen windows"
-msgstr ""
+msgstr "Janelas em tela cheia"
 
 #. i18n: ectx: property (text), widget (QLabel, label_Duration)
 #: glide/glide_config.ui:19 scale/package/contents/ui/config.ui:17
@@ -1298,7 +1298,7 @@ msgstr ""
 
 #~ msgctxt "@title:group actions when clicking on desktop"
 #~ msgid "Desktop"
-#~ msgstr ""
+#~ msgstr "Área de trabalho"
 
 #~ msgid "Show desktop"
 #~ msgstr ""
@@ -2201,34 +2201,34 @@ msgstr ""
 #~ msgstr "Alternar por meio da lista da área de trabalho (reverso)"
 
 #~ msgid "Maximize Window Vertically"
-#~ msgstr ""
+#~ msgstr "Maximizar janela verticalmente"
 
 #~ msgid "Maximize Window Horizontally"
-#~ msgstr ""
+#~ msgstr "Maximizar janela horizontalmente"
 
 #~ msgid "Shade Window"
 #~ msgstr "Sombra da janela"
 
 #~ msgid "Raise Window"
-#~ msgstr ""
+#~ msgstr "Levantar janela"
 
 #~ msgid "Lower Window"
-#~ msgstr ""
+#~ msgstr "Janela Inferior"
 
 #~ msgid "Toggle Window Raise/Lower"
-#~ msgstr ""
+#~ msgstr "Alternar janela para cima/baixo"
 
 #~ msgid "Make Window Fullscreen"
-#~ msgstr ""
+#~ msgstr "Tornar a janela em tela cheia"
 
 #~ msgid "Hide Window Border"
-#~ msgstr ""
+#~ msgstr "Ocultar borda da janela"
 
 #~ msgid "Keep Window Above Others"
-#~ msgstr ""
+#~ msgstr "Manter a janela acima das outras"
 
 #~ msgid "Keep Window Below Others"
-#~ msgstr ""
+#~ msgstr "Mater janelas abaixo das outras"
 
 #~ msgid "Activate Window Demanding Attention"
 #~ msgstr ""
@@ -2441,37 +2441,37 @@ msgstr ""
 #~ msgstr "Mudar uma área de trabalho para cima"
 
 #~ msgid "Switch to Screen 0"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 0"
 
 #~ msgid "Switch to Screen 1"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 1"
 
 #~ msgid "Switch to Screen 2"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 2"
 
 #~ msgid "Switch to Screen 3"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 3"
 
 #~ msgid "Switch to Screen 4"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 4"
 
 #~ msgid "Switch to Screen 5"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 5"
 
 #~ msgid "Switch to Screen 6"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 6"
 
 #~ msgid "Switch to Screen 7"
-#~ msgstr ""
+#~ msgstr "Mudar para a tela 7"
 
 #~ msgid "Switch to Next Screen"
-#~ msgstr ""
+#~ msgstr "Mudar para a próxima tela"
 
 #~ msgid "Miscellaneous"
-#~ msgstr ""
+#~ msgstr "Diversos"
 
 #~ msgid "Window Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Captura de tela da janela para a área de transferência"
 
 #~ msgid "Desktop Screenshot to Clipboard"
 #~ msgstr ""
