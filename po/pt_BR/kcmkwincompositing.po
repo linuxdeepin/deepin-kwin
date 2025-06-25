@@ -315,7 +315,7 @@ msgstr "Reativar a detecção do OpenGL"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Virtual Desktop Switching Animation"
-#~ msgstr ""
+#~ msgstr "Animação de troca da área de trabalho virtual"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Management"
@@ -323,16 +323,16 @@ msgstr "Reativar a detecção do OpenGL"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Open/Close Animation"
-#~ msgstr ""
+#~ msgstr "Animação de abertura/fechamento de janela"
 
 #~ msgid "KWin development team"
 #~ msgstr "Equipe de desenvolvimento do KWin"
 
 #~ msgid "Experimental:"
-#~ msgstr ""
+#~ msgstr "Experimental:"
 
 #~ msgid "Enable color correction"
-#~ msgstr ""
+#~ msgstr "Habilitar correção de cores"
 
 #~ msgid ""
 #~ "Having full screen windows bypass the compositor is not supported on every "
@@ -342,7 +342,7 @@ msgstr "Reativar a detecção do OpenGL"
 #~ "hardwares."
 
 #~ msgid "Expert:"
-#~ msgstr ""
+#~ msgstr "Especialista:"
 
 #~ msgid "Suspend compositor for full screen windows"
 #~ msgstr "Suspender compositor para janelas em tela cheia"
@@ -370,10 +370,10 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr "Manter miniaturas de janelas:"
 
 #~ msgid "Always (Breaks Animations)"
-#~ msgstr ""
+#~ msgstr "Sempre (Quebra Animações)"
 
 #~ msgid "OpenGL Platform Interface:"
-#~ msgstr ""
+#~ msgstr "Interface da plataforma OpenGL:"
 
 #~ msgid "Form"
 #~ msgstr "Forma"
@@ -385,34 +385,37 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr[2] ""
 
 #~ msgid "Confirm Desktop Effects Change"
-#~ msgstr ""
+#~ msgstr "Confirmar alteração dos efeitos da área de trabalho"
 
 #~ msgid "&Accept Configuration"
-#~ msgstr ""
+#~ msgstr "Aceitar configuração"
 
 #~ msgid "&Return to Previous Configuration"
-#~ msgstr ""
+#~ msgstr "Retornar à configuração anterior"
 
 #~ msgid ""
 #~ "Desktop effects settings have changed.\n"
 #~ "Do you want to keep the new settings?\n"
 #~ "They will be automatically reverted in 10 seconds."
 #~ msgstr ""
+#~ "As configurações de efeitos da área de trabalho foram alteradas.\n"
+#~ "Você deseja manter as novas configurações?\n"
+#~ "Elas serão revertidas automaticamente em 10 segundos."
 
 #~ msgid "Use GLSL shaders"
-#~ msgstr ""
+#~ msgstr "Usar sombras GLSL"
 
 #~ msgid "kcmkwincompositing"
-#~ msgstr ""
+#~ msgstr "kcmkwincompositing"
 
 #~ msgid "KWin Desktop Effects Configuration Module"
-#~ msgstr ""
+#~ msgstr "Módulo de configuração de efeitos de desktop KWin"
 
 #~ msgid "(c) 2007 Rivo Laks"
-#~ msgstr ""
+#~ msgstr "(c) 2007 Rivo Laks"
 
 #~ msgid "Rivo Laks"
-#~ msgstr ""
+#~ msgstr "Rivo Laks"
 
 #~ msgid ""
 #~ "Failed to activate desktop effects using the given configuration options. Settings will be reverted to their previous values.\n"
