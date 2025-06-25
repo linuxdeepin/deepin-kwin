@@ -2711,7 +2711,7 @@ msgstr ""
 #: useractions.cpp:1134
 #, kde-format
 msgid "Suspend Compositing"
-msgstr ""
+msgstr "Suspender a composição"
 
 #: useractions.cpp:1195
 #, kde-format
