@@ -2130,95 +2130,102 @@ msgstr ""
 #~ msgstr "Sombras de decoração"
 
 #~ msgid "&Decorated windows"
-#~ msgstr ""
+#~ msgstr "Janelas decoradas"
 
 #~ msgid "Force default shadows for:"
-#~ msgstr ""
+#~ msgstr "Forçar sombras padrão para:"
 
 #~ msgid "&Undecorated normal windows"
-#~ msgstr ""
+#~ msgstr "Janelas normais sem decoração"
 
 #~ msgid ""
 #~ "If enabled span the cube across all screens on a multiscreen setup, otherwise\n"
 #~ "the cube will only be displayed on a single screen"
 #~ msgstr ""
+#~ "Se habilitado, estenda o cubo por todas as telas em uma configuração de várias telas; caso contrário\n"
+#~ "o cubo só será exibido em uma única tela"
 
 #~ msgid "Span cube on all screens in multi screen setup"
-#~ msgstr ""
+#~ msgstr "Aplicar cubo em todas as telas na configuração de várias telas"
 
 #~ msgid "Shadow size (relative to window):"
-#~ msgstr ""
+#~ msgstr "Tamanho da sombra (em relação à janela):"
 
 #~ msgid "Advanced opacity settings for menus:"
-#~ msgstr ""
+#~ msgstr "Configurações avançadas de opacidade para menus:"
 
 #~ msgid "Set individual opacity for different menu types"
-#~ msgstr ""
+#~ msgstr "Defina a opacidade individual para diferentes tipos de menu"
 
 #~ msgid "Mean With Mean"
-#~ msgstr ""
+#~ msgstr "Média com Média"
 
 #~ msgid "Mean With Median"
-#~ msgstr ""
+#~ msgstr "Média com mediana"
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
 #~ msgstr ""
+#~ "Ative quando o cursor estiver em uma borda ou canto específico da tela:"
 
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
-#~ msgstr ""
+#~ msgstr "Alternar efeito de exposição (incluindo outras áreas de trabalho)"
 
 #~ msgid "Grid Parameters"
-#~ msgstr ""
+#~ msgstr "Parâmetros da grade"
 
 #~ msgid "Grid Minimal Tesselation"
-#~ msgstr ""
+#~ msgstr "Tesselação Mínima de Grade"
 
 #~ msgid "Grid Filter"
-#~ msgstr ""
+#~ msgstr "Filtro de grade"
 
 #~ msgid "Velocity"
-#~ msgstr ""
+#~ msgstr "Velocidade"
 
 #~ msgid "Ring Mean (4 ways)"
-#~ msgstr ""
+#~ msgstr "Média do Anel (4 vias)"
 
 #~ msgid "Ring Mean (8 ways)"
-#~ msgstr ""
+#~ msgstr "Média do Anel (8 vias)"
 
 #~ msgid "Thresholds"
-#~ msgstr ""
+#~ msgstr "Limiares"
 
 #~ msgid "Min Velocity"
-#~ msgstr ""
+#~ msgstr "Velocidade mínima"
 
 #~ msgid "Max Velocity"
-#~ msgstr ""
+#~ msgstr "Velocidade Máxima"
 
 #~ msgid "Min Acceleration"
-#~ msgstr ""
+#~ msgstr "Aceleração mínima"
 
 #~ msgid "Max Acceleration"
-#~ msgstr ""
+#~ msgstr "Aceleração Máxima"
 
 #~ msgid "Window '%1' demands attention."
-#~ msgstr ""
+#~ msgstr "A janela '%1' exige atenção."
 
 #~ msgid "Required X extensions (XComposite and XDamage) are not available."
 #~ msgstr ""
+#~ "As extensões X necessárias (XComposite e XDamage) não estão disponíveis."
 
 #~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 #~ msgstr ""
+#~ "GLX/OpenGL não estão disponíveis e somente o suporte ao OpenGL é compilado."
 
 #~ msgid ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
 #~ "compiled."
 #~ msgstr ""
+#~ "Extensões XRender/XFixes não estão disponíveis e somente o suporte ao "
+#~ "XRender é compilado."
 
 #~ msgid "GLX/OpenGL and XRender/XFixes are not available."
-#~ msgstr ""
+#~ msgstr "GLX/OpenGL e XRender/XFixes não estão disponíveis."
 
 #~ msgid "System"
-#~ msgstr ""
+#~ msgstr "Sistema"
 
 #~ msgid "Walk Through Windows (Reverse)"
 #~ msgstr "Navegar pelas janelas (reverso)"
