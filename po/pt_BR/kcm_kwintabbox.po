@@ -346,4 +346,4 @@ msgstr "Mostrar a janela selecionada"
 #~ msgstr ""
 
 #~ msgid "General"
-#~ msgstr ""
+#~ msgstr "Geral"
