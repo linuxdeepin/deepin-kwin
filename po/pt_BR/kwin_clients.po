@@ -461,10 +461,10 @@ msgstr "Animação dos botões"
 #~ msgstr "Pequeno"
 
 #~ msgid "Extra size grip display: "
-#~ msgstr ""
+#~ msgstr "Exibir aderência extra grande"
 
 #~ msgid "Extra size grip display:"
-#~ msgstr ""
+#~ msgstr "Exibir aderência extra grande:"
 
 #~ msgid "Inner Color:"
 #~ msgstr "Cor interna:"
