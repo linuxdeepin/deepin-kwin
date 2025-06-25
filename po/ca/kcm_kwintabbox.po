@@ -5,6 +5,7 @@
 # Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2022.
 # Translators:
 # Gary Wang <wzc782970009@gmail.com>, 2025
+# Davidmp <medipas@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
@@ -12,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Last-Translator: Davidmp <medipas@gmail.com>, 2025\n"
 "Language-Team: Catalan (https://app.transifex.com/linuxdeepin/teams/3617/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -247,83 +248,87 @@ msgstr "Mostra la finestra seleccionada"
 #~ msgid ""
 #~ "These settings are used by the \"Walk Through Windows Alternative\" actions."
 #~ msgstr ""
+#~ "Aquestes opcions de configuració les usen les accions del Passeig per "
+#~ "Windows alternatiu."
 
 #~ msgid "Walk Through Windows"
-#~ msgstr ""
+#~ msgstr "Passeig per Windows"
 
 #~ msgid "Walk Through Windows (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig per Windows (invers)"
 
 #~ msgid "Walk Through Windows Alternative"
-#~ msgstr ""
+#~ msgstr "Passeig per Windows alternatiu"
 
 #~ msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig per Windows alternatiu (invers)"
 
 #~ msgid "Configure Layout"
-#~ msgstr ""
+#~ msgstr "Configura la disposició"
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
-#~ msgstr ""
+#~ msgstr "Andrew Coles"
 
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
-#~ msgstr ""
+#~ msgstr "andrew_coles@yahoo.co.uk"
 
 #~ msgid "These settings are used by the \"Walk Through Windows\" actions."
 #~ msgstr ""
+#~ "Aquestes opcions de configuració les usen les accions del Passeig per "
+#~ "Windows."
 
 #~ msgid "Highlight selected window"
-#~ msgstr ""
+#~ msgstr "Ressalta la finestra seleccionada"
 
 #~ msgid "Effect:"
-#~ msgstr ""
+#~ msgstr "Efecte:"
 
 #~ msgid "Display list while switching"
-#~ msgstr ""
+#~ msgstr "Mostra la llista mentre es canvia"
 
 #~ msgid "No Effect"
-#~ msgstr ""
+#~ msgstr "Sense efecte"
 
 #~ msgid "Configure Layout..."
-#~ msgstr ""
+#~ msgstr "Configura la disposició..."
 
 #~ msgid "Item Layout"
-#~ msgstr ""
+#~ msgstr "Disposició de l'element"
 
 #~ msgid "Item layout:"
-#~ msgstr ""
+#~ msgstr "Disposició de l'element:"
 
 #~ msgid "Layout:"
-#~ msgstr ""
+#~ msgstr "Disposició:"
 
 #~ msgid "Vertical"
-#~ msgstr ""
+#~ msgstr "Vertical"
 
 #~ msgid "Horizontal"
-#~ msgstr ""
+#~ msgstr "Horitzontal"
 
 #~ msgid "Tabular"
-#~ msgstr ""
+#~ msgstr "Tabular"
 
 #~ msgid "Width:"
-#~ msgstr ""
+#~ msgstr "Amplada:"
 
 #~ msgid "Minimum width, as a percentage of screen width."
-#~ msgstr ""
+#~ msgstr "Amplada mínima, com a percentatge de l'amplada de la pantalla."
 
 #~ msgid " %"
-#~ msgstr ""
+#~ msgstr " %"
 
 #~ msgid "Height:"
-#~ msgstr ""
+#~ msgstr "Alçada:"
 
 #~ msgid "Minimum height, as a percentage of screen height."
-#~ msgstr ""
+#~ msgstr "Alçada mínima, com a percentatge de l'alçada de la pantalla."
 
 #~ msgid "Show Selected Item"
-#~ msgstr ""
+#~ msgstr "Mostra l'element seleccionat"
 
 #~ msgid "Selected item view:"
 #~ msgstr ""
