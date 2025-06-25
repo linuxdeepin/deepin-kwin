@@ -488,43 +488,43 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr ""
 
 #~ msgid "Use VSync"
-#~ msgstr ""
+#~ msgstr "Usar VSync"
 
 #~ msgid "Effect for window switching:"
-#~ msgstr ""
+#~ msgstr "Efeito para troca de janelas:"
 
 #~ msgid "Enable direct rendering"
-#~ msgstr ""
+#~ msgstr "Habilitar renderização direta"
 
 #~ msgid "Disable functionality checks"
-#~ msgstr ""
+#~ msgstr "Desabilitar verificações de funcionalidade"
 
 #~ msgid "Desktop effects are temporarily disabled"
-#~ msgstr ""
+#~ msgstr "Os efeitos da área de trabalho estão temporariamente desativados"
 
 #~ msgid "Resume Desktop Effects"
-#~ msgstr ""
+#~ msgstr "Efeitos de resumo na área de trabalho"
 
 #~ msgid "Desktop effects are disabled"
-#~ msgstr ""
+#~ msgstr "Os efeitos da área de trabalho estão desabilitados"
 
 #~ msgid "Common Settings"
-#~ msgstr ""
+#~ msgstr "Configurações comuns"
 
 #~ msgid "Compositing State"
-#~ msgstr ""
+#~ msgstr "Estado de composição"
 
 #~ msgid "Shadows"
 #~ msgstr "Sombras"
 
 #~ msgid "OpenGL mode:"
-#~ msgstr ""
+#~ msgstr "Modo OpenGL:"
 
 #~ msgid "Texture From Pixmap"
-#~ msgstr ""
+#~ msgstr "Textura do Pixmap"
 
 #~ msgid "Shared Memory"
-#~ msgstr ""
+#~ msgstr "Memória Compartilhada"
 
 #~ msgid "Fallback"
 #~ msgstr ""
@@ -537,13 +537,13 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr ""
 
 #~ msgid "Nearest (fastest)"
-#~ msgstr ""
+#~ msgstr "Mais próximo (mais rápido)"
 
 #~ msgid "Bilinear"
-#~ msgstr ""
+#~ msgstr "Bilinear"
 
 #~ msgid "Trilinear (best quality)"
-#~ msgstr ""
+#~ msgstr "Trilinear (melhor qualidade)"
 
 #~ msgid ""
 #~ "Improves performance of fullscreen applications like games and video "
@@ -558,34 +558,34 @@ msgstr "Reativar a detecção do OpenGL"
 #~ msgstr "A composição não é suportada no seu sistema."
 
 #~ msgid "Compositing is active"
-#~ msgstr ""
+#~ msgstr "A composição está ativa"
 
 #~ msgid "Suspend Compositing"
-#~ msgstr ""
+#~ msgstr "Suspender a composição"
 
 #~ msgid "Resume Compositing"
-#~ msgstr ""
+#~ msgstr "Composição de resumo"
 
 #~ msgid "Compositing is disabled"
-#~ msgstr ""
+#~ msgstr "A composição está desabilitada"
 
 #~ msgid "All Desktops"
 #~ msgstr "Todas as áreas de trabalho"
 
 #~ msgid "Current Desktop"
-#~ msgstr ""
+#~ msgstr "Área de trabalho atual"
 
 #~ msgid "Cube"
-#~ msgstr ""
+#~ msgstr "Cubo"
 
 #~ msgid "Cylinder"
-#~ msgstr ""
+#~ msgstr "Cilindro"
 
 #~ msgid "Sphere"
-#~ msgstr ""
+#~ msgstr "Esfera"
 
 #~ msgid "Screen Edges"
-#~ msgstr ""
+#~ msgstr "Bordas da tela"
 
 #~ msgid ""
 #~ "Active screen edges allow you to activate effects by pushing your mouse "
