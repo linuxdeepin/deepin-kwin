@@ -2472,7 +2472,7 @@ msgstr "Ativar janela exigindo atenção"
 #: useractions.cpp:1017
 #, kde-format
 msgid "Setup Window Shortcut"
-msgstr ""
+msgstr "Atalho da janela de configuração"
 
 #: useractions.cpp:1019
 #, kde-format
@@ -2821,16 +2821,16 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Pack Window to the Right"
-#~ msgstr ""
+#~ msgstr "Pacote de janelas para a direita"
 
 #~ msgid "Pack Window to the Left"
-#~ msgstr ""
+#~ msgstr "Pacote de janelas para a esqueda"
 
 #~ msgid "Pack Window Up"
-#~ msgstr ""
+#~ msgstr "Pacote de janelas para cima"
 
 #~ msgid "Pack Window Down"
-#~ msgstr ""
+#~ msgstr "Pacote de janelas para baixo"
 
 #~ msgid "Pack Grow Window Horizontally"
 #~ msgstr ""
@@ -3036,7 +3036,7 @@ msgstr ""
 #~ msgstr "Navegação"
 
 #~ msgid "Window & Desktop"
-#~ msgstr ""
+#~ msgstr "Janela e área de trabalho"
 
 #~ msgid "Miscellaneous"
 #~ msgstr "Diversos"
@@ -3157,52 +3157,52 @@ msgstr ""
 #~ "O KWin está sendo encerrado agora..."
 
 #~ msgid "Window to Desktop 2"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 2"
 
 #~ msgid "Window to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 3"
 
 #~ msgid "Window to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 4"
 
 #~ msgid "Window to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 5"
 
 #~ msgid "Window to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 6"
 
 #~ msgid "Window to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 7"
 
 #~ msgid "Window to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 8"
 
 #~ msgid "Window to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 9"
 
 #~ msgid "Window to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 10"
 
 #~ msgid "Window to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 11"
 
 #~ msgid "Window to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 12"
 
 #~ msgid "Window to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 13"
 
 #~ msgid "Window to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 14"
 
 #~ msgid "Window to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 15"
 
 #~ msgid "Window to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 16"
 
 #~ msgid "Window to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Janela para a área de trabalho 17"
 
 #~ msgid "Window to Desktop 18"
 #~ msgstr ""
