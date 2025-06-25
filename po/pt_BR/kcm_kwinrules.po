@@ -136,6 +136,8 @@ msgid ""
 "The window property will be only set to the given value after the window is created.\n"
 "No further changes will be affected."
 msgstr ""
+"A propriedade da janela só será definida para o valor fornecido após a janela ser criada.\n"
+"Nenhuma outra alteração será afetada."
 
 #: optionsmodel.cpp:209
 #, kde-format
@@ -148,11 +150,13 @@ msgid ""
 "The window property will be set to the given value immediately and will not be affected later\n"
 "(this action will be deleted afterwards)."
 msgstr ""
+"A propriedade da janela será definida para o valor fornecido imediatamente e não será afetada posteriormente\n"
+"(esta ação será excluída posteriormente)."
 
 #: optionsmodel.cpp:213
 #, kde-format
 msgid "Remember"
-msgstr ""
+msgstr "Lembrar"
 
 #: optionsmodel.cpp:214
 #, kde-format
@@ -160,11 +164,13 @@ msgid ""
 "The value of the window property will be remembered and, every time the "
 "window is created, the last remembered value will be applied."
 msgstr ""
+"O valor da propriedade janela será lembrado e, toda vez que a janela for "
+"criada, o último valor lembrado será aplicado."
 
 #: optionsmodel.cpp:217
 #, kde-format
 msgid "Do Not Affect"
-msgstr ""
+msgstr "Não afetar"
 
 #: optionsmodel.cpp:218
 #, kde-format
@@ -264,12 +270,12 @@ msgstr "Editar"
 #: package/contents/ui/main.qml:215
 #, kde-format
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplicada"
 
 #: package/contents/ui/main.qml:224
 #, kde-format
 msgid "Delete"
-msgstr ""
+msgstr "Deletar"
 
 #: package/contents/ui/main.qml:237
 #, kde-format
@@ -931,22 +937,22 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Information About Selected Window"
-#~ msgstr ""
+#~ msgstr "Informações sobre a janela selecionada"
 
 #~ msgid "Class:"
-#~ msgstr ""
+#~ msgstr "Classe:"
 
 #~ msgid "Role:"
-#~ msgstr ""
+#~ msgstr "Papel:"
 
 #~ msgid "Type:"
-#~ msgstr ""
+#~ msgstr "Tipo:"
 
 #~ msgid "Title:"
-#~ msgstr ""
+#~ msgstr "Titulo:"
 
 #~ msgid "Machine:"
-#~ msgstr ""
+#~ msgstr "Computador:"
 
 #~ msgid "Match by primary class name and"
 #~ msgstr "Correspondência por nome de classe primária e"
