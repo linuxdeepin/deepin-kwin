@@ -903,7 +903,7 @@ msgstr "Menus suspensos:"
 #: translucency/package/contents/ui/config.ui:329
 #, kde-format
 msgid "Popup menus:"
-msgstr ""
+msgstr "Menus pop-up:"
 
 #. i18n: ectx: property (text), widget (QLabel, tornoffmenus_label)
 #: translucency/package/contents/ui/config.ui:367
@@ -915,13 +915,13 @@ msgstr ""
 #: windowview/windowvieweffect.cpp:45
 #, kde-format
 msgid "Toggle Present Windows (Current desktop)"
-msgstr ""
+msgstr "Alternar janelas atuais (área de trabalho atual)"
 
 #: windowview/kcm/windowvieweffectkcm.cpp:49
 #: windowview/windowvieweffect.cpp:54
 #, kde-format
 msgid "Toggle Present Windows (All desktops)"
-msgstr ""
+msgstr "Alternar janelas presentes (todas as áreas de trabalho)"
 
 #: windowview/kcm/windowvieweffectkcm.cpp:56
 #: windowview/windowvieweffect.cpp:63
@@ -934,27 +934,28 @@ msgstr ""
 #, kde-format
 msgid "Toggle Present Windows (Window class on current desktop)"
 msgstr ""
+"Alternar janelas presentes (classe de janela na área de trabalho atual)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_IgnoreMinimized)
 #: windowview/kcm/windowvieweffectkcm.ui:56
 #, kde-format
 msgid "Ignore &minimized windows"
-msgstr ""
+msgstr "Ignorar janelas minimizadas"
 
 #: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Matches"
-msgstr ""
+msgstr "Nenhuma correspondência"
 
 #: windowview/qml/main.qml:108
 #, kde-format
 msgid "No Windows"
-msgstr ""
+msgstr "Sem janelas"
 
 #: windowview/qml/main.qml:123
 #, kde-format
 msgid "Filter windows…"
-msgstr ""
+msgstr "Filtro de janelas..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, advancedGroup)
 #: wobblywindows/wobblywindows_config.ui:20
@@ -966,55 +967,55 @@ msgstr "Avançado"
 #: wobblywindows/wobblywindows_config.ui:26
 #, kde-format
 msgid "&Stiffness:"
-msgstr ""
+msgstr "Rigidez:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: wobblywindows/wobblywindows_config.ui:68
 #, kde-format
 msgid "Dra&g:"
-msgstr ""
+msgstr "Arrastar:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: wobblywindows/wobblywindows_config.ui:81
 #, kde-format
 msgid "&Move factor:"
-msgstr ""
+msgstr "Fator de movimento:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MoveWobble)
 #: wobblywindows/wobblywindows_config.ui:155
 #, kde-format
 msgid "Wo&bble when moving"
-msgstr ""
+msgstr "Balança ao se mover"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResizeWobble)
 #: wobblywindows/wobblywindows_config.ui:162
 #, kde-format
 msgid "Wobble when &resizing"
-msgstr ""
+msgstr "Oscilação ao redimensionar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdvancedMode)
 #: wobblywindows/wobblywindows_config.ui:182
 #, kde-format
 msgid "Enable &advanced mode"
-msgstr ""
+msgstr "Habilitar modo avançado"
 
 #. i18n: ectx: property (title), widget (QGroupBox, basicGroup)
 #: wobblywindows/wobblywindows_config.ui:192
 #, kde-format
 msgid "&Wobbliness"
-msgstr ""
+msgstr "Oscilação"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: wobblywindows/wobblywindows_config.ui:201
 #, kde-format
 msgid "Less"
-msgstr ""
+msgstr "Menos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: wobblywindows/wobblywindows_config.ui:224
 #, kde-format
 msgid "More"
-msgstr ""
+msgstr "Mais"
 
 #: zoom/zoom.cpp:65
 #, kde-format
