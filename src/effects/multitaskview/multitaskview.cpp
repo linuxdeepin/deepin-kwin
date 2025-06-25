@@ -662,22 +662,22 @@ MultitaskViewEffect::MultitaskViewEffect()
     QAction *s = m_showActions;
     s->setObjectName(QStringLiteral("ShowMultitasking"));
     s->setText("Show Multitasking View");
-    KGlobalAccel::self()->setDefaultShortcut(s, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_S));
-    KGlobalAccel::self()->setShortcut(s, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_S));
+    KGlobalAccel::self()->setDefaultShortcut(s, QList<QKeySequence>() << Qt::META + Qt::Key_S);
+    KGlobalAccel::self()->setShortcut(s, QList<QKeySequence>() << Qt::META + Qt::Key_S);
     shortcut = KGlobalAccel::self()->shortcut(s);
 
     QAction *w = m_showActionw;
     w->setObjectName(QStringLiteral("ShowMultitaskingW"));
     w->setText("Show Multitasking View");
-    KGlobalAccel::self()->setDefaultShortcut(w, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_W));
-    KGlobalAccel::self()->setShortcut(w, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_W));
+    KGlobalAccel::self()->setDefaultShortcut(w, QList<QKeySequence>() << Qt::META + Qt::Key_W);
+    KGlobalAccel::self()->setShortcut(w, QList<QKeySequence>() << Qt::META + Qt::Key_W);
     shortcutw = KGlobalAccel::self()->shortcut(w);
 
     QAction *a = m_showActiona;
     a->setObjectName(QStringLiteral("ShowMultitaskingA"));
     a->setText("Show Multitasking View");
-    KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_A));
-    KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << QKeySequence(Qt::META, Qt::Key_A));
+    KGlobalAccel::self()->setDefaultShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_A);
+    KGlobalAccel::self()->setShortcut(a, QList<QKeySequence>() << Qt::META + Qt::Key_A);
     shortcuta = KGlobalAccel::self()->shortcut(a);
 
     connect(s, SIGNAL(triggered(bool)), this, SLOT(toggle()));
