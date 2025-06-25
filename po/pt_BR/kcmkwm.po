@@ -27,25 +27,25 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Malcolm Hunter, Steve Allewell"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "malcolm.hunter@gmx.co.uk, steve.allewell@gmail.com"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: actions.ui:17
 #, kde-format
 msgid "Inactive Inner Window Actions"
-msgstr ""
+msgstr "Ações de janela interna inativas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: actions.ui:26 mouse.ui:177
 #, kde-format
 msgid "&Left click:"
-msgstr ""
+msgstr "Clique com o botão esquerdo:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandWindow1)
 #: actions.ui:39
@@ -54,6 +54,9 @@ msgid ""
 "In this row you can customize left click behavior when clicking into an "
 "inactive inner window ('inner' means: not titlebar, not frame)."
 msgstr ""
+"Nesta linha, você pode personalizar o comportamento do clique esquerdo ao "
+"clicar em uma janela interna inativa ('interna' significa: não barra de "
+"título, não quadro)."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
@@ -61,7 +64,7 @@ msgstr ""
 #: actions.ui:43 actions.ui:83 actions.ui:123
 #, kde-format
 msgid "Activate, raise and pass click"
-msgstr ""
+msgstr "Ative, levante e passe o clique"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
@@ -69,7 +72,7 @@ msgstr ""
 #: actions.ui:48 actions.ui:88 actions.ui:128
 #, kde-format
 msgid "Activate and pass click"
-msgstr ""
+msgstr "Ativar e passar clique"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
@@ -84,7 +87,7 @@ msgstr ""
 #: mouse.ui:523
 #, kde-format
 msgid "Activate"
-msgstr ""
+msgstr "Ativar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandWindow2)
@@ -99,7 +102,7 @@ msgstr ""
 #: mouse.ui:513
 #, kde-format
 msgid "Activate and raise"
-msgstr ""
+msgstr "Ativar e aumentar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -195,6 +198,8 @@ msgid ""
 "Here you select whether holding the Meta key or Alt key will allow you to "
 "perform the following actions."
 msgstr ""
+"Aqui você seleciona se segurar a tecla Meta ou a tecla Alt permitirá que "
+"você execute as seguintes ações."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllKey)
 #: actions.ui:209
@@ -206,20 +211,20 @@ msgstr ""
 #: actions.ui:214
 #, kde-format
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: actions.ui:236
 #, kde-format
 msgid "  + "
-msgstr ""
+msgstr "  + "
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: actions.ui:248 mouse.ui:601
 #, kde-format
 msgid "L&eft click:"
-msgstr ""
+msgstr "Clique com o botão esquerdo:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll1)
 #: actions.ui:261
@@ -228,6 +233,8 @@ msgid ""
 "In this row you can customize left click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
+"Nesta linha, você pode personalizar o comportamento do clique esquerdo ao "
+"clicar na barra de título ou no quadro."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll1)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAll2)
@@ -400,6 +407,8 @@ msgid ""
 "In this row you can customize middle click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
+"Nesta linha, você pode personalizar o comportamento do clique do meio ao "
+"clicar na barra de título ou no quadro."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
@@ -415,6 +424,8 @@ msgid ""
 "In this row you can customize right click behavior when clicking into the "
 "titlebar or the frame."
 msgstr ""
+"Nesta linha, você pode personalizar o comportamento do clique direito ao "
+"clicar na barra de título ou no quadro."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: actions.ui:458
@@ -429,6 +440,8 @@ msgid ""
 "Here you can customize KDE's behavior when scrolling with the mouse wheel in"
 " a window while pressing the modifier key."
 msgstr ""
+"Aqui você pode personalizar o comportamento do KDE ao rolar com a roda do "
+"mouse em uma janela enquanto pressiona a tecla modificadora."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -852,6 +865,9 @@ msgid ""
 "when you click somewhere into the window contents. To change it for inactive"
 " windows, you need to change the settings in the Actions tab."
 msgstr ""
+"Quando esta opção estiver habilitada, a janela ativa será exibida ao clicar "
+"em algum lugar no conteúdo da janela. Para alterar isso para janelas "
+"inativas, você precisa alterar as configurações na aba Ações."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:156
@@ -866,6 +882,9 @@ msgid ""
 "When this option is enabled, a window in the background will automatically "
 "come to the front when the mouse pointer has been over it for some time."
 msgstr ""
+"Quando esta opção estiver ativada, uma janela em segundo plano aparecerá "
+"automaticamente na frente quando o ponteiro do mouse permanecer sobre ela "
+"por algum tempo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoRaise)
 #: focus.ui:168
@@ -880,6 +899,8 @@ msgid ""
 "This is the delay after which the window that the mouse pointer is over will"
 " automatically come to the front."
 msgstr ""
+"Este é o atraso após o qual a janela sobre a qual o ponteiro do mouse está "
+"irá automaticamente para a frente."
 
 #. i18n: ectx: property (text), widget (QLabel, multiscreenBehaviorLabel)
 #: focus.ui:196
@@ -896,6 +917,9 @@ msgid ""
 "for example) is the screen containing the mouse pointer. When disabled, the "
 "active screen is the screen containing the focused window."
 msgstr ""
+"Quando esta opção está habilitada, a tela ativa (onde novas janelas "
+"aparecem, por exemplo) é a tela que contém o ponteiro do mouse. Quando "
+"desabilitada, a tela ativa é a tela que contém a janela em foco."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ActiveMouseScreen)
 #: focus.ui:206
@@ -911,6 +935,8 @@ msgid ""
 "When this option is enabled, focus operations are limited only to the active"
 " screen"
 msgstr ""
+"Quando esta opção está ativada, as operações de foco são limitadas apenas à "
+"tela ativa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SeparateScreenFocus)
 #: focus.ui:216
@@ -923,7 +949,7 @@ msgstr ""
 #: focus.ui:229
 #, kde-format
 msgid "Window activation policy description"
-msgstr ""
+msgstr "Descrição da política de ativação da janela"
 
 #: main.cpp:73
 #, kde-format
