@@ -1551,6 +1551,8 @@ msgstr ""
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Slide desktops when switching virtual desktops"
 #~ msgstr ""
+#~ "Deslize entre as áreas de trabalho ao alternar entre áreas de trabalho "
+#~ "virtuais"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Slide Back"
@@ -1558,15 +1560,15 @@ msgstr ""
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Slide back windows when another window is raised"
-#~ msgstr ""
+#~ msgstr "Deslize as janelas para trás quando outra janela for levantada"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Sliding popups"
-#~ msgstr ""
+#~ msgstr "Pop-ups deslizantes"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Sliding animation for Plasma popups"
-#~ msgstr ""
+#~ msgstr "Animação deslizante para pop-ups do Plasma"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Snap Helper"
@@ -1808,7 +1810,7 @@ msgstr ""
 #~ msgstr "Interruptor de alternância (área de trabalho atual)"
 
 #~ msgid "Toggle Flip Switch (All desktops)"
-#~ msgstr ""
+#~ msgstr "Interruptor de alternância (todas as áreas de trabalho)"
 
 #~ msgid "Flip animation duration:"
 #~ msgstr ""
