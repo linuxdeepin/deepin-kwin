@@ -1425,61 +1425,65 @@ msgstr ""
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Kscreen"
-#~ msgstr ""
+#~ msgstr "Kscreen"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Helper Effect for KScreen"
-#~ msgstr ""
+#~ msgstr "Efeito auxiliar para KScreen"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Looking Glass"
-#~ msgstr ""
+#~ msgstr "Espelho"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "A screen magnifier that looks like a fisheye lens"
-#~ msgstr ""
+#~ msgstr "Uma lupa de tela que parece uma lente olho de peixe"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Magic Lamp"
-#~ msgstr ""
+#~ msgstr "Lâmpada mágica"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Simulate a magic lamp when minimizing windows"
-#~ msgstr ""
+#~ msgstr "Simule uma lâmpada mágica ao minimizar janelas"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Magnifier"
-#~ msgstr ""
+#~ msgstr "Ampliar"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Magnify the section of the screen that is near the mouse cursor"
-#~ msgstr ""
+#~ msgstr "Ampliar a parte da tela que está próxima ao cursor do mouse"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Mouse Click Animation"
-#~ msgstr ""
+#~ msgstr "Animação de clique do mouse"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid ""
 #~ "Creates an animation whenever a mouse button is clicked. This is useful for "
 #~ "screenrecordings/presentations"
 #~ msgstr ""
+#~ "Cria uma animação sempre que um botão do mouse é clicado. Isso é útil para "
+#~ "gravações de tela/apresentações."
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Mouse Mark"
-#~ msgstr ""
+#~ msgstr "Marca do mouse"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Allows you to draw lines on the desktop"
-#~ msgstr ""
+#~ msgstr "Permite desenhar linhas na área de trabalho"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Overview"
-#~ msgstr ""
+#~ msgstr "Visão geral"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Allows you to overview virtual desktops and windows"
 #~ msgstr ""
+#~ "Permite que você tenha uma visão geral das áreas de trabalho e janelas "
+#~ "virtuais"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Present Windows"
