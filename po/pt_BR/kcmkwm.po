@@ -1456,19 +1456,19 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Activating windows"
-#~ msgstr ""
+#~ msgstr "Ativando janelas"
 
 #~ msgid "Policy"
-#~ msgstr ""
+#~ msgstr "Política"
 
 #~ msgid "Click"
-#~ msgstr ""
+#~ msgstr "Clique"
 
 #~ msgid "Hover"
-#~ msgstr ""
+#~ msgstr "Passe o mouse"
 
 #~ msgid "&Moving"
-#~ msgstr ""
+#~ msgstr "Movendo"
 
 #~ msgid "Wheel event:"
 #~ msgstr ""
@@ -1480,14 +1480,18 @@ msgstr ""
 #~ "In this column you can customize mouse clicks into the titlebar or the frame"
 #~ " of an active window."
 #~ msgstr ""
+#~ "Nesta coluna, você pode personalizar os cliques do mouse na barra de título "
+#~ "ou no quadro de uma janela ativa."
 
 #~ msgid ""
 #~ "In this column you can customize mouse clicks into the titlebar or the frame"
 #~ " of an inactive window."
 #~ msgstr ""
+#~ "Nesta coluna, você pode personalizar os cliques do mouse na barra de título "
+#~ "ou no quadro de uma janela inativa."
 
 #~ msgid "Left button:"
-#~ msgstr ""
+#~ msgstr "Botão esquerdo:"
 
 #~ msgid "Middle button:"
 #~ msgstr ""
@@ -1536,6 +1540,8 @@ msgstr ""
 #~ "When enabled, this feature activates the border of maximized windows and "
 #~ "allows you to move or resize them, just like for normal windows"
 #~ msgstr ""
+#~ "Quando ativado, esse recurso ativa a borda das janelas maximizadas e permite"
+#~ " que você as mova ou redimensione, assim como nas janelas normais"
 
 #~ msgid "Display borders on &maximized windows"
 #~ msgstr ""
@@ -1565,42 +1571,50 @@ msgstr ""
 
 #~ msgid "Here you can customize behavior when clicking on the maximize button."
 #~ msgstr ""
+#~ "Aqui você pode personalizar o comportamento ao clicar no botão maximizar."
 
 #~ msgid ""
 #~ "Here you can customize mouse click behavior when clicking on an inactive "
 #~ "inner window ('inner' means: not titlebar, not frame)."
 #~ msgstr ""
+#~ "Aqui você pode personalizar o comportamento do clique do mouse ao clicar em "
+#~ "uma janela interna inativa ('interna' significa: não barra de título, não "
+#~ "quadro)."
 
 #~ msgid ""
 #~ "Here you can customize KDE's behavior when clicking somewhere into a window "
 #~ "while pressing a modifier key."
 #~ msgstr ""
+#~ "Aqui você pode personalizar o comportamento do KDE ao clicar em algum lugar "
+#~ "em uma janela enquanto pressiona uma tecla modificadora."
 
 #~ msgctxt "no border snap zone"
 #~ msgid "none"
-#~ msgstr ""
+#~ msgstr "nenhum"
 
 #~ msgctxt "no window snap zone"
 #~ msgid "none"
-#~ msgstr ""
+#~ msgstr "nenhum"
 
 #~ msgctxt "no center snap zone"
 #~ msgid "none"
-#~ msgstr ""
+#~ msgstr "nenhum"
 
 #~ msgid "Tiling"
-#~ msgstr ""
+#~ msgstr "Azulejos"
 
 #~ msgid "Enable Tiling"
-#~ msgstr ""
+#~ msgstr "Habilitar mosaico"
 
 #~ msgid ""
 #~ "A tiling window manager lays out all the windows in a non-overlapping "
 #~ "manner. This way all windows are always visible."
 #~ msgstr ""
+#~ "Um gerenciador de janelas em mosaico organiza todas as janelas sem "
+#~ "sobreposição. Dessa forma, todas as janelas ficam sempre visíveis."
 
 #~ msgid "Default Tiling &Layout"
-#~ msgstr ""
+#~ msgstr "Mosaico e layout padrão"
 
 #~ msgctxt "Spiral tiling layout"
 #~ msgid "Spiral"
@@ -1690,7 +1704,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "&Traverse windows on all desktops"
-#~ msgstr ""
+#~ msgstr "Percorrer janelas em todas as áreas de trabalho"
 
 #~ msgid ""
 #~ "Leave this option disabled if you want to limit walking through windows to "
@@ -1738,13 +1752,13 @@ msgstr ""
 #~ "arrastar janelas de uma área de trabalho para outra."
 
 #~ msgid "D&isabled"
-#~ msgstr ""
+#~ msgstr "Desabilitado"
 
 #~ msgid "Only &when moving windows"
 #~ msgstr "Somente ao mover janelas"
 
 #~ msgid "A&lways enabled"
-#~ msgstr ""
+#~ msgstr "Sempre habilitado"
 
 #~ msgid ""
 #~ "Here you can set a delay for switching desktops using the active borders "
@@ -1841,28 +1855,28 @@ msgstr ""
 #~ msgstr "Opacidade"
 
 #~ msgid "Use shadows"
-#~ msgstr ""
+#~ msgstr "Usar sombras"
 
 #~ msgid "Active window size:"
-#~ msgstr ""
+#~ msgstr "Tamanho da janela ativa:"
 
 #~ msgid "Inactive window size:"
-#~ msgstr ""
+#~ msgstr "Tamanho da janela inativa:"
 
 #~ msgid "Dock window size:"
-#~ msgstr ""
+#~ msgstr "Tamanho da janela do dock:"
 
 #~ msgid "Vertical offset:"
-#~ msgstr ""
+#~ msgstr "Deslocamento vertical:"
 
 #~ msgid "Shadow color:"
-#~ msgstr ""
+#~ msgstr "Cor da sombra:"
 
 #~ msgid "Remove shadows on move"
-#~ msgstr ""
+#~ msgstr "Remover sombras ao mover"
 
 #~ msgid "Remove shadows on resize"
-#~ msgstr ""
+#~ msgstr "Remover sombras ao redimensionar"
 
 #~ msgid "Shadows"
 #~ msgstr "Sombras"
@@ -1885,7 +1899,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Fade-in speed:"
-#~ msgstr ""
+#~ msgstr "Velocidade do desvanecimento:"
 
 #~ msgid "Fade-out speed:"
 #~ msgstr ""
