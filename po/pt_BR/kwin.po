@@ -2427,7 +2427,7 @@ msgstr ""
 #: useractions.cpp:999
 #, kde-format
 msgid "Resize Window"
-msgstr ""
+msgstr "Redimensionar janela"
 
 #: useractions.cpp:1001
 #, kde-format
