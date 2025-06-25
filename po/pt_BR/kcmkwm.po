@@ -586,7 +586,7 @@ msgstr ""
 #: advanced.ui:105
 #, kde-format
 msgid "Under mouse"
-msgstr ""
+msgstr "Sob o mouse"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox,
 #. kcfg_AllowKDEAppsToRememberWindowPositions)
@@ -597,6 +597,9 @@ msgid ""
 "windows are allowed to do so. This will override the window placement mode "
 "defined above."
 msgstr ""
+"Quando ativado, os aplicativos que conseguem lembrar a posição de suas "
+"janelas têm permissão para fazê-lo. Isso substituirá o modo de "
+"posicionamento de janelas definido acima."
 
 #. i18n: ectx: property (text), widget (QCheckBox,
 #. kcfg_AllowKDEAppsToRememberWindowPositions)
@@ -606,6 +609,8 @@ msgid ""
 "Allow apps to remember the positions of their own windows, if they support "
 "it"
 msgstr ""
+"Permitir que os aplicativos se lembrem das posições de suas próprias "
+"janelas, se eles suportarem isso"
 
 #. i18n: ectx: property (text), widget (QLabel, specialWindowsLabel)
 #: advanced.ui:123
@@ -623,6 +628,11 @@ msgid ""
 "application becomes active. Note that applications have to mark the windows "
 "with the proper window type for this feature to work."
 msgstr ""
+"Quando ativadas, as janelas de utilitários (janelas de ferramentas, menus "
+"destacados, etc.) de aplicativos inativos ficarão ocultas e serão exibidas "
+"somente quando o aplicativo for ativado. Observe que os aplicativos precisam"
+" marcar as janelas com o tipo de janela apropriado para que este recurso "
+"funcione."
 
 #. i18n: ectx: property (text), widget (QCheckBox,
 #. kcfg_HideUtilityWindowsForInactive)
@@ -735,12 +745,14 @@ msgid ""
 "This is the delay after which the window the mouse pointer is over will "
 "automatically receive focus."
 msgstr ""
+"Este é o atraso após o qual a janela sobre a qual o ponteiro do mouse está "
+"receberá o foco automaticamente."
 
 #. i18n: ectx: property (text), widget (QLabel, focusStealingLabel)
 #: focus.ui:101
 #, kde-format
 msgid "Focus &stealing prevention:"
-msgstr ""
+msgstr "Foco e prevenção de roubo:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_FocusStealingPreventionLevel)
@@ -830,7 +842,7 @@ msgstr ""
 #: focus.ui:146
 #, kde-format
 msgid "Raising windows:"
-msgstr ""
+msgstr "Levantando janelas:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ClickRaise)
 #: focus.ui:153
@@ -941,57 +953,57 @@ msgstr ""
 #: main.cpp:101
 #, kde-format
 msgid "Window Behavior Configuration Module"
-msgstr ""
+msgstr "Módulo de configuração de comportamento da janela"
 
 #: main.cpp:103
 #, kde-format
 msgid "(c) 1997 - 2002 KWin and KControl Authors"
-msgstr ""
+msgstr "(c) 1997 - 2002 Autores do KWin e do KControl"
 
 #: main.cpp:105
 #, kde-format
 msgid "Matthias Ettrich"
-msgstr ""
+msgstr "Matthias Ettrich"
 
 #: main.cpp:106
 #, kde-format
 msgid "Waldo Bastian"
-msgstr ""
+msgstr "Waldo Bastian"
 
 #: main.cpp:107
 #, kde-format
 msgid "Cristian Tibirna"
-msgstr ""
+msgstr "Cristian Tibirna"
 
 #: main.cpp:108
 #, kde-format
 msgid "Matthias Kalle Dalheimer"
-msgstr ""
+msgstr "Matthias Kalle Dalheimer"
 
 #: main.cpp:109
 #, kde-format
 msgid "Daniel Molkentin"
-msgstr ""
+msgstr "Daniel Molkentin"
 
 #: main.cpp:110
 #, kde-format
 msgid "Wynn Wilkes"
-msgstr ""
+msgstr "Wynn Wilkes"
 
 #: main.cpp:111
 #, kde-format
 msgid "Pat Dowler"
-msgstr ""
+msgstr "Pat Dowler"
 
 #: main.cpp:112
 #, kde-format
 msgid "Bernd Wuebben"
-msgstr ""
+msgstr "Bernd Wuebben"
 
 #: main.cpp:113
 #, kde-format
 msgid "Matthias Hoelzer-Kluepfel"
-msgstr ""
+msgstr "Matthias Hoelzer-Kluepfel"
 
 #: main.cpp:161
 #, kde-format
@@ -1255,6 +1267,9 @@ msgid ""
 "magnetic field which will make windows snap to the border when moved near "
 "it."
 msgstr ""
+"Aqui você pode definir a zona de ajuste para as bordas da tela, ou seja, a "
+"\"força\" do campo magnético que fará com que as janelas se ajustem à borda "
+"quando movidas perto dela."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_BorderSnapZone)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_WindowSnapZone)
@@ -1278,6 +1293,9 @@ msgid ""
 "magnetic field which will make windows snap to each other when they are "
 "moved near another window."
 msgstr ""
+"Aqui você pode definir a zona de encaixe para janelas, ou seja, a \"força\" "
+"do campo magnético que fará com que as janelas se encaixem umas nas outras "
+"quando forem movidas para perto de outra janela."
 
 #. i18n: ectx: property (text), widget (QLabel, centerSnaplabel)
 #: moving.ui:84
@@ -1293,6 +1311,9 @@ msgid ""
 " the magnetic field which will make windows snap to the center of the screen"
 " when moved near it."
 msgstr ""
+"Aqui você pode definir a zona de ajuste para o centro da tela, ou seja, a "
+"\"força\" do campo magnético que fará com que as janelas se ajustem ao "
+"centro da tela quando movidas para perto dela."
 
 #. i18n: ectx: property (text), widget (QLabel, OverlapSnapLabel)
 #: moving.ui:113
@@ -1309,13 +1330,16 @@ msgid ""
 "them, i.e. they will not be snapped if the windows comes only near another "
 "window or border."
 msgstr ""
+"Aqui você pode definir que as janelas serão encaixadas somente se você "
+"tentar sobrepô-las, ou seja, elas não serão encaixadas caso a janela chegue "
+"perto de outra janela ou borda."
 
 #. i18n: ectx: property (text), widget (QCheckBox,
 #. kcfg_SnapOnlyWhenOverlapping)
 #: moving.ui:126
 #, kde-format
 msgid "Only when overlapping"
-msgstr ""
+msgstr "Somente quando sobreposto"
 
 #: windows.cpp:97
 #, kde-format
@@ -1437,13 +1461,13 @@ msgstr ""
 #~ msgstr "Botão direito:"
 
 #~ msgid "M&iddle button:"
-#~ msgstr ""
+#~ msgstr "Botão do meio"
 
 #~ msgid "Left &button"
-#~ msgstr ""
+#~ msgstr "Botão esquerdo"
 
 #~ msgid "Automatically group similar windows"
-#~ msgstr ""
+#~ msgstr "Agrupar janelas semelhantes automaticamente"
 
 #~ msgid ""
 #~ "The placement policy determines where a new window will appear on the desktop.<br><ul>\n"
