@@ -59,6 +59,7 @@ msgstr ""
 #, kde-format
 msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr ""
+"As extensões X necessárias (XComposite e XDamage) não estão disponíveis."
 
 #: composite.cpp:1074
 #, kde-format
@@ -2833,10 +2834,10 @@ msgstr ""
 #~ msgstr "Pacote de janelas para baixo"
 
 #~ msgid "Pack Grow Window Horizontally"
-#~ msgstr ""
+#~ msgstr "Pacote de janela de cultivo horizontalmente"
 
 #~ msgid "Pack Grow Window Vertically"
-#~ msgstr ""
+#~ msgstr "Embale a janela de cultivo verticalmente"
 
 #~ msgid "Desktop number"
 #~ msgstr ""
@@ -3013,6 +3014,7 @@ msgstr ""
 
 #~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 #~ msgstr ""
+#~ "GLX/OpenGL não estão disponíveis e somente o suporte ao OpenGL é compilado."
 
 #~ msgid "Sh&ade"
 #~ msgstr ""
@@ -3030,7 +3032,7 @@ msgstr ""
 #~ msgstr "KWin: "
 
 #~ msgid "System"
-#~ msgstr ""
+#~ msgstr "Sistema"
 
 #~ msgid "Navigation"
 #~ msgstr "Navegação"
@@ -3059,7 +3061,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Window '%1' demands attention."
-#~ msgstr ""
+#~ msgstr "A janela '%1' exige atenção."
 
 #~ msgid "Layout changed to %1"
 #~ msgstr ""
@@ -3105,6 +3107,8 @@ msgstr ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
 #~ "compiled."
 #~ msgstr ""
+#~ "Extensões XRender/XFixes não estão disponíveis e somente o suporte ao "
+#~ "XRender é compilado."
 
 #~ msgid ""
 #~ "Compositing was disabled at compile time.\n"
@@ -3441,7 +3445,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Shadow size (relative to window):"
-#~ msgstr ""
+#~ msgstr "Tamanho da sombra (em relação à janela):"
 
 #~ msgid "Shadow color:"
 #~ msgstr "Cor da sombra:"
@@ -3453,13 +3457,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
-#~ msgstr ""
+#~ msgstr "Alternar efeito de exposição (incluindo outras áreas de trabalho)"
 
 #~ msgid "Draw window caption on top of window"
 #~ msgstr ""
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
 #~ msgstr ""
+#~ "Ative quando o cursor estiver em uma borda ou canto específico da tela:"
 
 #~ msgid "for windows on all desktops: "
 #~ msgstr ""
