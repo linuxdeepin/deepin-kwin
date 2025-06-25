@@ -1199,12 +1199,12 @@ msgstr ""
 #: main.cpp:185
 #, kde-format
 msgid "Matthias Ettrich"
-msgstr ""
+msgstr "Matthias Ettrich"
 
 #: main.cpp:186
 #, kde-format
 msgid "Cristian Tibirna"
-msgstr ""
+msgstr "Cristian Tibirna"
 
 #: main.cpp:187
 #, kde-format
