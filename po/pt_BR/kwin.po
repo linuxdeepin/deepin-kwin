@@ -2077,7 +2077,7 @@ msgstr ""
 #: rulesettings.kcfg:407
 #, kde-format
 msgid "Shortcut"
-msgstr ""
+msgstr "Atalho"
 
 #. i18n: ectx: label, entry (shortcutrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:410
@@ -3407,6 +3407,8 @@ msgstr ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Filtro:\n"
+#~ "%1"
 
 #~ msgid "Snow"
 #~ msgstr ""
