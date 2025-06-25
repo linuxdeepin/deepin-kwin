@@ -341,7 +341,7 @@ msgstr "Animação dos botões"
 #~ msgstr "Em todas as áreas de trabalho"
 
 #~ msgid "Unshade"
-#~ msgstr "Desobstrução"
+#~ msgstr "Sem sombra"
 
 #~ msgid "Shade"
 #~ msgstr "Sombra"
@@ -366,45 +366,55 @@ msgstr "Animação dos botões"
 #~ "When selected, the window borders are drawn using the titlebar colors; "
 #~ "otherwise, they are drawn using normal border colors."
 #~ msgstr ""
+#~ "Quando selecionadas, as bordas da janela são desenhadas usando as cores da "
+#~ "barra de título; caso contrário, elas são desenhadas usando as cores normais"
+#~ " das bordas."
 
 #~ msgid "Draw &resize handle"
-#~ msgstr ""
+#~ msgstr "Desenhar e redimensionar alça"
 
 #~ msgid ""
 #~ "When selected, decorations are drawn with a \"grab handle\" in the bottom "
 #~ "right corner of the windows; otherwise, no grab handle is drawn."
 #~ msgstr ""
+#~ "Quando selecionadas, as decorações são desenhadas com uma \"alça\" no canto "
+#~ "inferior direito das janelas; caso contrário, nenhuma alça é desenhada."
 
 #~ msgid "Auto-move titlebar"
-#~ msgstr ""
+#~ msgstr "Mover barra de título automaticamente"
 
 #~ msgid ""
 #~ "When selected, titlebars are automatically relocated to visible positions; "
 #~ "otherwise, they are only moved manually using shift+drag."
 #~ msgstr ""
+#~ "Quando selecionadas, as barras de título são automaticamente realocadas para"
+#~ " posições visíveis; caso contrário, elas só são movidas manualmente usando "
+#~ "shift+arrastar."
 
 #~ msgid "Actions Settings"
-#~ msgstr ""
+#~ msgstr "Configurações das ações"
 
 #~ msgid "Double click on menu button:"
-#~ msgstr ""
+#~ msgstr "Clique duas vezes no botão de menu:"
 
 #~ msgid "Do Nothing"
-#~ msgstr ""
+#~ msgstr "Não fazer nada"
 
 #~ msgid "Minimize Window"
-#~ msgstr ""
+#~ msgstr "Minimizar janela"
 
 #~ msgid "Shade Window"
-#~ msgstr ""
+#~ msgstr "Sombra da janela"
 
 #~ msgid "Close Window"
-#~ msgstr ""
+#~ msgstr "Fechar janela"
 
 #~ msgid ""
 #~ "An action can be associated to a double click of the menu button. Leave it "
 #~ "to none if in doubt."
 #~ msgstr ""
+#~ "Uma ação pode ser associada a um clique duplo no botão de menu. Deixe como "
+#~ "\"nenhum\" em caso de dúvida."
 
 #~ msgid "Laptop"
 #~ msgstr ""
@@ -692,16 +702,16 @@ msgstr "Animação dos botões"
 #~ msgstr ""
 
 #~ msgid "Theme:"
-#~ msgstr ""
+#~ msgstr "Tema:"
 
 #~ msgid "Get New Themes..."
-#~ msgstr ""
+#~ msgstr "Obtenha novos temas..."
 
 #~ msgid "Install New Theme..."
-#~ msgstr ""
+#~ msgstr "Instalar novo tema..."
 
 #~ msgid "Glow active window"
-#~ msgstr ""
+#~ msgstr "Janela brilhante ativa"
 
 #~ msgid "Form"
 #~ msgstr "Forma"
@@ -725,9 +735,12 @@ msgstr "Animação dos botões"
 #~ "If checked, specified blending color is used in title bar in place of "
 #~ "default value."
 #~ msgstr ""
+#~ "Se marcada, a cor de mesclagem especificada será usada na barra de título no"
+#~ " lugar do valor padrão."
 
 #~ msgid "Draw separator between title bar and active window contents:"
 #~ msgstr ""
+#~ "Desenhe um separador entre a barra de título e o conteúdo da janela ativa:"
 
 #~ msgid "Additional window decoration configuration options"
 #~ msgstr "Opções adicionais da configuração de decoração das janelas"
