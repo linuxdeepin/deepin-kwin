@@ -468,7 +468,7 @@ msgstr ""
 #, kde-format
 msgctxt "Current scale in pinch gesture"
 msgid "Scale"
-msgstr ""
+msgstr "Escala"
 
 #: debug_console.cpp:383
 #, kde-format
