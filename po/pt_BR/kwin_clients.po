@@ -248,7 +248,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Decoration Options"
-#~ msgstr ""
+#~ msgstr "Opções de decoração"
 
 #~ msgctxt "outline window title"
 #~ msgid "Disabled"
@@ -301,7 +301,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Ajuda"
 
 #~ msgid "Minimize"
 #~ msgstr "Minimizar"
