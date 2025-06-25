@@ -248,20 +248,20 @@ msgstr "Mostra la finestra seleccionada"
 #~ msgid ""
 #~ "These settings are used by the \"Walk Through Windows Alternative\" actions."
 #~ msgstr ""
-#~ "Aquestes opcions de configuració les usen les accions del Passeig per "
-#~ "Windows alternatiu."
+#~ "Aquestes opcions de configuració les usen les accions del Passeig per les "
+#~ "finestres alternatiu."
 
 #~ msgid "Walk Through Windows"
-#~ msgstr "Passeig per Windows"
+#~ msgstr "Passeig per les finestres"
 
 #~ msgid "Walk Through Windows (Reverse)"
-#~ msgstr "Passeig per Windows (invers)"
+#~ msgstr "Passeig per les finestres (invers)"
 
 #~ msgid "Walk Through Windows Alternative"
-#~ msgstr "Passeig per Windows alternatiu"
+#~ msgstr "Passeig per les finestres alternatiu"
 
 #~ msgid "Walk Through Windows Alternative (Reverse)"
-#~ msgstr "Passeig per Windows alternatiu (invers)"
+#~ msgstr "Passeig per les finestres alternatiu (invers)"
 
 #~ msgid "Configure Layout"
 #~ msgstr "Configura la disposició"
@@ -276,8 +276,8 @@ msgstr "Mostra la finestra seleccionada"
 
 #~ msgid "These settings are used by the \"Walk Through Windows\" actions."
 #~ msgstr ""
-#~ "Aquestes opcions de configuració les usen les accions del Passeig per "
-#~ "Windows."
+#~ "Aquestes opcions de configuració les usen les accions del Passeig per les "
+#~ "finestres."
 
 #~ msgid "Highlight selected window"
 #~ msgstr "Ressalta la finestra seleccionada"
