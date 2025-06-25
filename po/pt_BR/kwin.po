@@ -3363,10 +3363,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Move Left"
-#~ msgstr ""
+#~ msgstr "Mover para a esquerda"
 
 #~ msgid "Move Right"
-#~ msgstr ""
+#~ msgstr "Mover para a direita"
 
 #~ msgid "Move Up"
 #~ msgstr "Mover para cima"
