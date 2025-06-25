@@ -35,13 +35,13 @@ msgstr "alvarenga@kde.org"
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
-msgstr ""
+msgstr "Acessibilidade"
 
 #: effectsmodel.cpp:53
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
-msgstr ""
+msgstr "Aparência"
 
 #: effectsmodel.cpp:54
 #, kde-format
@@ -59,7 +59,7 @@ msgstr ""
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
-msgstr ""
+msgstr "Ferramentas"
 
 #: effectsmodel.cpp:57
 #, kde-format
@@ -86,4 +86,4 @@ msgstr "Equipe de desenvolvimento do KWin"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Candy"
-#~ msgstr ""
+#~ msgstr "Doce"
