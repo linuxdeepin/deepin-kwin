@@ -331,22 +331,22 @@ msgstr "Mostra la finestra seleccionada"
 #~ msgstr "Mostra l'element seleccionat"
 
 #~ msgid "Selected item view:"
-#~ msgstr ""
+#~ msgstr "Visualització de l'element seleccionat:"
 
 #~ msgid "Top"
-#~ msgstr ""
+#~ msgstr "A dalt"
 
 #~ msgid "Bottom"
-#~ msgstr ""
+#~ msgstr "A baix"
 
 #~ msgid "Left"
-#~ msgstr ""
+#~ msgstr "A l'esquerra"
 
 #~ msgid "Right"
-#~ msgstr ""
+#~ msgstr "A la dreta"
 
 #~ msgid "Selected item layout:"
-#~ msgstr ""
+#~ msgstr "Disseny de l'element seleccionat:"
 
 #~ msgid "General"
-#~ msgstr ""
+#~ msgstr "General"
