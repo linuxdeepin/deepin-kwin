@@ -709,6 +709,14 @@ msgid ""
 "to current Virtual Desktop</span> will cause the window to jump to the "
 "active Virtual Desktop. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Esta configuração controla o que acontece quando uma "
+"janela aberta localizada em uma Área de Trabalho Virtual diferente da atual "
+"é ativada. </p><p><span style=\" font-style:italic;\">Mude para a área de "
+"trabalho virtual</span> mudará para a área de trabalho virtual onde a janela"
+" está localizada atualmente. </p><p><span style=\" font-"
+"style:italic;\">Trazer janela para a Área de Trabalho Virtual atual</span> "
+"fará com que a janela salte para a Área de Trabalho Virtual ativa. "
+"</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_ActivationDesktopPolicy)
@@ -778,7 +786,7 @@ msgstr "Foco estritamente sob o mouse"
 #: focus.ui:69
 #, kde-format
 msgid "&Delay focus by:"
-msgstr ""
+msgstr "Atrasar o foco por:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox,
 #. kcfg_DelayFocusInterval)
@@ -1743,11 +1751,19 @@ msgstr ""
 #~ "the current window.</li> <li><em>Floating windows on top</em> will always "
 #~ "keep floating windows on top, even when a tiled window is activated.</ul>"
 #~ msgstr ""
+#~ "A política de elevação de janelas determina como as janelas flutuantes são "
+#~ "empilhadas <ul> <li><em>Aumentar/Diminuir tudo</em>irá levantar todas as "
+#~ "janelas flutuantes quando uma janela flutuante for ativada.</li> "
+#~ "<li><em>Aumentar/diminuir a corrente</em> irá levantar apenas a janela "
+#~ "atual.</li> <li><em>Janelas flutuantes no topo</em> sempre manterá janelas "
+#~ "flutuantes no topo, mesmo quando uma janela em mosaico estiver ativada.</ul>"
 
 #~ msgid ""
 #~ "When this option is enabled, there will be a delay after which the window "
 #~ "the mouse pointer is over will become active (receive focus)."
 #~ msgstr ""
+#~ "Quando esta opção estiver habilitada, haverá um atraso após o qual a janela "
+#~ "sobre a qual o ponteiro do mouse estiver ficará ativa (receberá o foco)."
 
 #~ msgid "Di&splay content in moving windows"
 #~ msgstr "Exibição de conteúdo em janelas móveis"
@@ -1795,6 +1811,11 @@ msgstr ""
 #~ "\n"
 #~ "Otherwise, the focus is passed to a new window each time Tab is pressed, with no popup widget.  In addition, the previously activated window will be sent to the back in this mode."
 #~ msgstr ""
+#~ "Mantenha pressionada a tecla Alt e pressione a tecla Tab repetidamente para percorrer as janelas na área de trabalho atual (a combinação Alt+Tab pode ser reconfigurada).\n"
+#~ "\n"
+#~ "Se esta caixa de seleção estiver marcada, um widget pop-up será exibido, exibindo os ícones de todas as janelas para percorrer e o título da janela selecionada no momento..\n"
+#~ "\n"
+#~ "Caso contrário, o foco é passado para uma nova janela sempre que a tecla Tab for pressionada, sem widget pop-up. Além disso, a janela ativada anteriormente será enviada para o fundo neste modo."
 
 #~ msgid "&Traverse windows on all desktops"
 #~ msgstr "Percorrer janelas em todas as áreas de trabalho"
@@ -1864,7 +1885,7 @@ msgstr ""
 #~ "especificado de milissegundos."
 
 #~ msgid "Desktop &switch delay:"
-#~ msgstr ""
+#~ msgstr "Atraso na troca da área de trabalho:"
 
 #~ msgid ""
 #~ "Here you can customize KDE's behavior when middle clicking into a window "
@@ -1990,9 +2011,12 @@ msgstr ""
 #~ "<qt>Translucency support is new and may cause problems<br> including crashes"
 #~ " (sometimes the translucency engine, seldom even X).</qt>"
 #~ msgstr ""
+#~ "<qt>O suporte à translucidez é novo e pode causar problemas<br> incluindo "
+#~ "travamentos (às vezes o mecanismo de translucidez, raramente até mesmo o "
+#~ "X).</qt>"
 
 #~ msgid "Fade-in speed:"
 #~ msgstr "Velocidade do desvanecimento:"
 
 #~ msgid "Fade-out speed:"
-#~ msgstr ""
+#~ msgstr "Velocidade do desvanecer:"
