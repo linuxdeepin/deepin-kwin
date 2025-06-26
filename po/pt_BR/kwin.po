@@ -598,7 +598,7 @@ msgstr ""
 #: debug_console.cpp:510 debug_console.cpp:555 debug_console.cpp:569
 #, kde-format
 msgid "Position"
-msgstr ""
+msgstr "Posição"
 
 #: debug_console.cpp:512
 #, kde-format
@@ -1599,7 +1599,7 @@ msgstr ""
 #: rulesettings.kcfg:20
 #, kde-format
 msgid "Window class (application)"
-msgstr ""
+msgstr "Classe de janela (aplicativo)"
 
 #. i18n: ectx: label, entry (wmclassmatch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:23
@@ -1612,13 +1612,13 @@ msgstr ""
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
-msgstr ""
+msgstr "Combinar classe de janela inteira"
 
 #. i18n: ectx: label, entry (windowrole), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:34
 #, kde-format
 msgid "Window role"
-msgstr ""
+msgstr "Função de janela"
 
 #. i18n: ectx: label, entry (windowrolematch), group
 #. ($(ruleDescriptionOrNumber))
@@ -1631,7 +1631,7 @@ msgstr ""
 #: rulesettings.kcfg:44
 #, kde-format
 msgid "Window title"
-msgstr ""
+msgstr "Título da janela"
 
 #. i18n: ectx: label, entry (titlematch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:47
@@ -1644,7 +1644,7 @@ msgstr ""
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
-msgstr ""
+msgstr "Máquina (nome do host)"
 
 #. i18n: ectx: label, entry (clientmachinematch), group
 #. ($(ruleDescriptionOrNumber))
@@ -1725,7 +1725,7 @@ msgstr ""
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
-msgstr ""
+msgstr "Opacidade ativa"
 
 #. i18n: ectx: label, entry (opacityactiverule), group
 #. ($(ruleDescriptionOrNumber))
@@ -1739,7 +1739,7 @@ msgstr ""
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
-msgstr ""
+msgstr "Opacidade inativa"
 
 #. i18n: ectx: label, entry (opacityinactiverule), group
 #. ($(ruleDescriptionOrNumber))
@@ -1941,7 +1941,7 @@ msgstr ""
 #: rulesettings.kcfg:304
 #, kde-format
 msgid "No titlebar and frame"
-msgstr ""
+msgstr "Sem barra de título e moldura"
 
 #. i18n: ectx: label, entry (noborderrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:308
@@ -1980,7 +1980,7 @@ msgstr ""
 #: rulesettings.kcfg:332
 #, kde-format
 msgid "Focus stealing prevention"
-msgstr ""
+msgstr "Prevenção de roubo de foco"
 
 #. i18n: ectx: label, entry (fsplevelrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:338
