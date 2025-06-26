@@ -1018,39 +1018,42 @@ msgstr ""
 #~ "It is possible to have several possible shortcuts, and the first available shortcut will be used. The shortcuts are specified using shortcut sets separated by \" - \". One set is specified as <i>base</i>+(<i>list</i>), where base are modifiers and list is a list of keys.<br>\n"
 #~ "For example \"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" will first try <b>Shift+Alt+1</b>, then others with <b>Shift+Ctrl+C</b> as the last one."
 #~ msgstr ""
+#~ "Um único atalho pode ser facilmente atribuído ou apagado usando os dois botões. Somente atalhos com modificadores podem ser usados.<p>\n"
+#~ "É possível ter vários atalhos possíveis, e o primeiro disponível será usado. Os atalhos são especificados usando conjuntos de atalhos separados por \"-\". Um conjunto é especificado como <i>base</i>+(<i>lista</i>), onde base são modificadores e lista é uma lista de chaves.<br>\n"
+#~ "Por exemplo\"<b>Shift+Alt+(123) Shift+Ctrl+(ABC)</b>\" vou tentar primeiro <b>Shift+Alt+1</b>, então outros com <b>Shift+Ctrl+C</b>como o último."
 
 #~ msgid "&Single Shortcut"
-#~ msgstr ""
+#~ msgstr "Atalho Único"
 
 #~ msgid "C&lear"
-#~ msgstr ""
+#~ msgstr "Limpar"
 
 #~ msgid "Window-Specific Settings Configuration Module"
-#~ msgstr ""
+#~ msgstr "Módulo de configuração de configurações específicas da janela"
 
 #~ msgid "(c) 2004 KWin and KControl Authors"
-#~ msgstr ""
+#~ msgstr "(c) 2004 KWin e autores do KControl"
 
 #~ msgid "Lubos Lunak"
-#~ msgstr ""
+#~ msgstr "Lubos Lunak"
 
 #~ msgid "Remember settings separately for every window"
-#~ msgstr ""
+#~ msgstr "Lembre-se das configurações separadamente para cada janela"
 
 #~ msgid "Show internal settings for remembering"
-#~ msgstr ""
+#~ msgstr "Mostrar configurações internas para lembrar"
 
 #~ msgid "Internal setting for remembering"
-#~ msgstr ""
+#~ msgstr "Lembrar das configurações internas"
 
 #~ msgid "&Modify..."
-#~ msgstr ""
+#~ msgstr "Modificar..."
 
 #~ msgid "Move &Up"
-#~ msgstr ""
+#~ msgstr "Mover para cima"
 
 #~ msgid "Move &Down"
-#~ msgstr ""
+#~ msgstr "Mover para baixo"
 
 #~ msgid ""
 #~ "Enable this checkbox to alter this window property for the specified "
@@ -1132,28 +1135,28 @@ msgstr ""
 #~ msgstr "Editar atalho"
 
 #~ msgid "s delay"
-#~ msgstr ""
+#~ msgstr "atraso"
 
 #~ msgid "x,y"
-#~ msgstr ""
+#~ msgstr "x,y"
 
 #~ msgid "0123456789-+,xX:"
-#~ msgstr ""
+#~ msgstr "0123456789-+,xX:"
 
 #~ msgid "width,height"
-#~ msgstr ""
+#~ msgstr "largura, altura"
 
 #~ msgid "&Desktop"
-#~ msgstr ""
+#~ msgstr "Área de trabalho"
 
 #~ msgid "Edit..."
-#~ msgstr ""
+#~ msgstr "Editar"
 
 #~ msgid "Autog&roup in foreground"
-#~ msgstr ""
+#~ msgstr "Autoagrupamento em primeiro plano"
 
 #~ msgid "Autogroup by I&D"
-#~ msgstr ""
+#~ msgstr "Agrupar automaticamente por ID"
 
 #~ msgid "Autogroup with &identical"
 #~ msgstr ""
@@ -1168,7 +1171,7 @@ msgstr ""
 #~ msgstr "Inteligente"
 
 #~ msgid "kcmkwinrules"
-#~ msgstr ""
+#~ msgstr "regras do kcmkwin"
 
 #~ msgid "Opaque"
 #~ msgstr "Opaca"
@@ -1177,10 +1180,10 @@ msgstr ""
 #~ msgstr "Transparente"
 
 #~ msgid "&Moving/resizing"
-#~ msgstr ""
+#~ msgstr "Mover/redimensionar"
 
 #~ msgid "T&iling"
-#~ msgstr ""
+#~ msgstr "Azulejos"
 
 #~ msgid "Tiled"
 #~ msgstr "Azulejado"
@@ -1254,4 +1257,4 @@ msgstr ""
 #~ msgstr "Obedeça rigorosamente à geometria"
 
 #~ msgid "&Detect"
-#~ msgstr ""
+#~ msgstr "Detectar"
