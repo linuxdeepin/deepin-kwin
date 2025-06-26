@@ -424,53 +424,53 @@ msgstr ""
 #: rulesmodel.cpp:359
 #, kde-format
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #: rulesmodel.cpp:359 rulesmodel.cpp:367 rulesmodel.cpp:375 rulesmodel.cpp:382
 #: rulesmodel.cpp:388 rulesmodel.cpp:396 rulesmodel.cpp:401 rulesmodel.cpp:407
 #, kde-format
 msgid "Window matching"
-msgstr ""
+msgstr "Correspondência de janelas"
 
 #: rulesmodel.cpp:367
 #, kde-format
 msgid "Window class (application)"
-msgstr ""
+msgstr "Classe de janela (aplicativo)"
 
 #: rulesmodel.cpp:375
 #, kde-format
 msgid "Match whole window class"
-msgstr ""
+msgstr "Combinar classe de janela inteira"
 
 #: rulesmodel.cpp:382
 #, kde-format
 msgid "Whole window class"
-msgstr ""
+msgstr "Classe de janela inteira"
 
 #: rulesmodel.cpp:388
 #, kde-format
 msgid "Window types"
-msgstr ""
+msgstr "Tipos de janelas"
 
 #: rulesmodel.cpp:396
 #, kde-format
 msgid "Window role"
-msgstr ""
+msgstr "Função de janela"
 
 #: rulesmodel.cpp:401
 #, kde-format
 msgid "Window title"
-msgstr ""
+msgstr "Título da janela"
 
 #: rulesmodel.cpp:407
 #, kde-format
 msgid "Machine (hostname)"
-msgstr ""
+msgstr "Máquina (nome do host)"
 
 #: rulesmodel.cpp:413
 #, kde-format
 msgid "Position"
-msgstr ""
+msgstr "Posição"
 
 #: rulesmodel.cpp:413 rulesmodel.cpp:419 rulesmodel.cpp:425 rulesmodel.cpp:430
 #: rulesmodel.cpp:438 rulesmodel.cpp:444 rulesmodel.cpp:463 rulesmodel.cpp:479
@@ -478,7 +478,7 @@ msgstr ""
 #: rulesmodel.cpp:506 rulesmodel.cpp:516 rulesmodel.cpp:521 rulesmodel.cpp:526
 #, kde-format
 msgid "Size & Position"
-msgstr ""
+msgstr "Tamanho e posição"
 
 #: rulesmodel.cpp:419
 #, kde-format
@@ -577,6 +577,11 @@ msgid ""
 "This may be pointless and the restriction prevents arbitrary dimensions\n"
 "like your complete screen area."
 msgstr ""
+"Por exemplo, terminais ou reprodutores de vídeo podem solicitar a manutenção de uma determinada proporção de aspecto\n"
+"ou crescer apenas em valores maiores que um\n"
+"(por exemplo, pelas dimensões de um caractere).\n"
+"Isso pode ser inútil e a restrição impede dimensões arbitrárias\n"
+"como sua área de tela completa."
 
 #: rulesmodel.cpp:537
 #, kde-format
@@ -671,11 +676,16 @@ msgid ""
 "\"None\" will unconditionally allow this window to get the focus while\n"
 "\"Extreme\" will completely prevent it from taking the focus."
 msgstr ""
+"O KWin tenta evitar que as janelas tomem o foco\n"
+"(\"ativar\") enquanto você estiver trabalhando em outra janela,\n"
+"mas isso às vezes pode falhar ou sobrepor.\n"
+"\"Nenhum\" permitirá incondicionalmente que esta janela receba o foco enquanto\n"
+"\"\"Extremo\" impedirá completamente que ele tome o foco."
 
 #: rulesmodel.cpp:603
 #, kde-format
 msgid "Focus protection"
-msgstr ""
+msgstr "Proteção de foco"
 
 #: rulesmodel.cpp:605
 #, kde-format
