@@ -623,7 +623,7 @@ msgstr "Alternador de salto"
 #: rulesmodel.cpp:561
 #, kde-format
 msgid "Window shall (not) appear in the Alt+Tab list"
-msgstr ""
+msgstr "A janela (não) deve aparecer na lista Alt+Tab"
 
 #: rulesmodel.cpp:565
 #, kde-format
@@ -633,34 +633,34 @@ msgstr "Atalho"
 #: rulesmodel.cpp:571
 #, kde-format
 msgid "No titlebar and frame"
-msgstr ""
+msgstr "Sem barra de título e moldura"
 
 #: rulesmodel.cpp:571 rulesmodel.cpp:576 rulesmodel.cpp:582 rulesmodel.cpp:587
 #: rulesmodel.cpp:592 rulesmodel.cpp:603 rulesmodel.cpp:614 rulesmodel.cpp:622
 #: rulesmodel.cpp:635 rulesmodel.cpp:640 rulesmodel.cpp:646 rulesmodel.cpp:651
 #, kde-format
 msgid "Appearance & Fixes"
-msgstr ""
+msgstr "Aparência e correções"
 
 #: rulesmodel.cpp:576
 #, kde-format
 msgid "Titlebar color scheme"
-msgstr ""
+msgstr "Esquema de cores da barra de título"
 
 #: rulesmodel.cpp:582
 #, kde-format
 msgid "Active opacity"
-msgstr ""
+msgstr "Opacidade ativa"
 
 #: rulesmodel.cpp:587
 #, kde-format
 msgid "Inactive opacity"
-msgstr ""
+msgstr "Opacidade inativa"
 
 #: rulesmodel.cpp:592
 #, kde-format
 msgid "Focus stealing prevention"
-msgstr ""
+msgstr "Prevenção de roubo de foco"
 
 #: rulesmodel.cpp:594
 #, kde-format
