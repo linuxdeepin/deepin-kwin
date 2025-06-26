@@ -3408,13 +3408,13 @@ msgstr ""
 #~ msgstr "Alternar efeito de inversão"
 
 #~ msgid "Clear All Mouse Marks"
-#~ msgstr ""
+#~ msgstr "Limpar todas as marcas do mouse"
 
 #~ msgid "Clear Last Mouse Mark"
-#~ msgstr ""
+#~ msgstr "Limpar a última marca do mouse"
 
 #~ msgid "Clear Mouse Marks"
-#~ msgstr ""
+#~ msgstr "Limpar marcas do mouse"
 
 #~ msgid ""
 #~ "Filter:\n"
@@ -3430,7 +3430,7 @@ msgstr ""
 #~ msgstr "Alternar neve na área de trabalho"
 
 #~ msgid "Toggle Thumbnail for Current Window"
-#~ msgstr ""
+#~ msgstr "Alternar miniatura para janela atual"
 
 #~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
 #~ msgstr "Pressione as teclas Ctrl+Meta para ver onde está o cursor do mouse."
