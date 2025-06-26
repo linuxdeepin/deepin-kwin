@@ -1992,7 +1992,7 @@ msgstr ""
 #: rulesettings.kcfg:343
 #, kde-format
 msgid "Focus protection"
-msgstr ""
+msgstr "Proteção de foco"
 
 #. i18n: ectx: label, entry (fpplevelrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:349
@@ -2096,7 +2096,7 @@ msgstr ""
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
-msgstr ""
+msgstr "Ignorar atalhos globais"
 
 #. i18n: ectx: label, entry (disableglobalshortcutsrule), group
 #. ($(ruleDescriptionOrNumber))
