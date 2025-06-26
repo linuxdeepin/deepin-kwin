@@ -202,44 +202,47 @@ msgstr "Escriptoris virtuals"
 #~ msgstr "Passeig per la llista d'escriptoris (invers)"
 
 #~ msgid "Desktop Switching"
-#~ msgstr ""
+#~ msgstr "Canvi d'escriptori"
 
 #~ msgid "Switch to Desktop %1"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori %1"
 
 #~ msgid "No Animation"
-#~ msgstr ""
+#~ msgstr "Sense animació"
 
 #~ msgid "No suitable Shortcut for Desktop %1 found"
-#~ msgstr ""
+#~ msgstr "No s'ha trobat cap drecera adequada per a l'escriptori %1"
 
 #~ msgid "Assigned global Shortcut \"%1\" to Desktop %2"
-#~ msgstr ""
+#~ msgstr "Drecera global %1 assignada a l'escriptori %2"
 
 #~ msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 #~ msgstr ""
+#~ "Conflicte de dreceres: no s'ha pogut definir la drecera %1 per a "
+#~ "l'escriptori %2"
 
 #~ msgid "KWin development team"
-#~ msgstr ""
+#~ msgstr "Equip de desenvolupament del KWin"
 
 #~ msgid "Layout"
-#~ msgstr ""
+#~ msgstr "Disposició"
 
 #~ msgid ""
 #~ "Here you can set how many virtual desktops you want on your KDE desktop."
 #~ msgstr ""
+#~ "Aquí podeu definir quants escriptoris virtuals voleu a l'escriptori de KDE."
 
 #~ msgid "&Number of desktops:"
-#~ msgstr ""
+#~ msgstr "&Nombre d'escriptoris:"
 
 #~ msgid "N&umber of rows:"
-#~ msgstr ""
+#~ msgstr "N&ombre de files:"
 
 #~ msgid "Desktop Names"
-#~ msgstr ""
+#~ msgstr "Noms dels escriptoris"
 
 #~ msgid "Switching"
-#~ msgstr ""
+#~ msgstr "Canvi"
 
 #~ msgid ""
 #~ "Enable this option if you want keyboard or active desktop border navigation "
