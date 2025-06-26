@@ -1502,6 +1502,11 @@ msgid ""
 "not work. You very likely want to use <em>Focus follows mouse (mouse "
 "precedence)</em> instead!"
 msgstr ""
+"<em>Foco sob o mouse:</em> O foco sempre permanece na janela sob o "
+"mouse.<br/><strong>Aviso:</strong> <em>Prevenção de roubo de foco</em> e "
+"a<em>caixa de guias ('Alt+Tab')</em> contradiz a política de ativação e não "
+"funcionará. Você provavelmente deseja usar <em>O foco segue o mouse "
+"(precedência do mouse)</em> em vez de!"
 
 #: windows.cpp:119
 #, kde-format
