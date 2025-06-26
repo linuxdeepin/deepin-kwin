@@ -1428,7 +1428,7 @@ msgstr ""
 #: moving.ui:113
 #, kde-format
 msgid "&Snap windows:"
-msgstr ""
+msgstr "Janelas instantâneas:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox,
 #. kcfg_SnapOnlyWhenOverlapping)
@@ -1456,6 +1456,9 @@ msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
+"<em>Clique para focar:</em> Uma janela se torna ativa quando você clicar "
+"nela. Esse comportamento é comum em outros sistemas operacionais e "
+"provavelmente é o que você deseja."
 
 #: windows.cpp:101
 #, kde-format
@@ -1466,6 +1469,11 @@ msgid ""
 "preferred candidate. Unusual, but possible variant of <em>Click to "
 "focus</em>."
 msgstr ""
+"<em>Clique para focar (precedência do mouse):</em> Quase o mesmo que "
+"<em>Clique para focar</em>. Se uma janela ativa tiver que ser escolhida pelo"
+" sistema (por exemplo, porque a janela atualmente ativa foi fechada), a "
+"janela sob o mouse é a candidata preferencial. Variante incomum, mas "
+"possível do <em>clique para focar</em>."
 
 #: windows.cpp:106
 #, kde-format
