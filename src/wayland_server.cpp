@@ -635,7 +635,7 @@ bool WaylandServer::init(InitializationFlags flags)
 
     m_clientManagement = new ClientManagementInterface(m_display, m_display);
     connect(m_clientManagement, &ClientManagementInterface::windowStatesRequest, this,
-        [this] () {
+        [] () {
             if (!workspace()) {
                 qWarning () << "windowStatesRequest before workspace initilized";
                 return;
@@ -644,7 +644,7 @@ bool WaylandServer::init(InitializationFlags flags)
         }
     );
     connect(m_clientManagement, &ClientManagementInterface::windowFromPointRequest, this,
-        [this] () {
+        [] () {
             if (!waylandServer())
                 return;
             auto client_management = waylandServer()->clientManagement();
@@ -656,17 +656,17 @@ bool WaylandServer::init(InitializationFlags flags)
         }
     );
     connect(m_clientManagement, &ClientManagementInterface::showSplitMenuRequest, this,
-        [this] (const QRect &botton_rect, uint32_t wid) {
+        [] (const QRect &botton_rect, uint32_t wid) {
             workspace()->showSplitMenu(botton_rect, wid);
         }
     );
     connect(m_clientManagement, &ClientManagementInterface::hideSplitMenuRequest, this,
-        [this] (bool delay) {
+        [] (bool delay) {
             workspace()->hideSplitMenu(delay);
         }
     );
     connect(m_clientManagement, &ClientManagementInterface::allWindowIdRequest, this,
-        [this] () {
+        [] () {
             if (!waylandServer())
                 return;
             auto client_management = waylandServer()->clientManagement();
@@ -680,7 +680,7 @@ bool WaylandServer::init(InitializationFlags flags)
         }
     );
     connect(m_clientManagement, &ClientManagementInterface::specificWindowStateRequest, this,
-        [this] (uint32_t wid) {
+        [] (uint32_t wid) {
             if (!waylandServer())
                 return;
             auto client_management = waylandServer()->clientManagement();
