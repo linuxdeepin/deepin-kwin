@@ -329,6 +329,8 @@ msgid ""
 "Click the <interface>Add Property...</interface> button below to add some "
 "window properties that will be affected by the rule"
 msgstr ""
+"Clique em <interface>Adicionar propriedade...</interface>botão abaixo para "
+"adicionar algumas propriedades da janela que serão afetadas pela regra"
 
 #: package/contents/ui/RulesEditor.qml:85
 #, kde-format
@@ -338,7 +340,7 @@ msgstr "Fechar"
 #: package/contents/ui/RulesEditor.qml:85
 #, kde-format
 msgid "Add Property..."
-msgstr ""
+msgstr "Adicionar propriedade..."
 
 #: package/contents/ui/RulesEditor.qml:98
 #, kde-format
@@ -349,7 +351,7 @@ msgstr "Detectar propriedades da janela"
 #: package/contents/ui/RulesEditor.qml:121
 #, kde-format
 msgid "Instantly"
-msgstr ""
+msgstr "Imediatamente"
 
 #: package/contents/ui/RulesEditor.qml:115
 #: package/contents/ui/RulesEditor.qml:126
@@ -363,54 +365,54 @@ msgstr[2] ""
 #: package/contents/ui/RulesEditor.qml:175
 #, kde-format
 msgid "Add property to the rule"
-msgstr ""
+msgstr "Adicionar propriedade à regra"
 
 #: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:54
 #, kde-format
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: package/contents/ui/RulesEditor.qml:273
 #: package/contents/ui/ValueEditor.qml:60
 #, kde-format
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #: package/contents/ui/RulesEditor.qml:275
 #: package/contents/ui/ValueEditor.qml:171
 #: package/contents/ui/ValueEditor.qml:178
 #, kde-format
 msgid "%1 %"
-msgstr ""
+msgstr "%1 %"
 
 #: package/contents/ui/RulesEditor.qml:277
 #, kde-format
 msgctxt "Coordinates (x, y)"
 msgid "(%1, %2)"
-msgstr ""
+msgstr "(%1, %2)"
 
 #: package/contents/ui/RulesEditor.qml:279
 #, kde-format
 msgctxt "Size (width, height)"
 msgid "(%1, %2)"
-msgstr ""
+msgstr "(%1, %2)"
 
 #: package/contents/ui/ValueEditor.qml:206
 #, kde-format
 msgctxt "(x, y) coordinates separator in size/position"
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: rulesmodel.cpp:218
 #, kde-format
 msgid "Settings for %1"
-msgstr ""
+msgstr "Configurações para %1"
 
 #: rulesmodel.cpp:221
 #, kde-format
 msgid "New window settings"
-msgstr ""
+msgstr "Novas configurações de janela"
 
 #: rulesmodel.cpp:237
 #, kde-format
