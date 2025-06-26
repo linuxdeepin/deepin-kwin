@@ -1127,19 +1127,19 @@ msgstr "Ações da barra de título"
 #: main.cpp:208
 #, kde-format
 msgid "Window Actio&ns"
-msgstr ""
+msgstr "Ações da janela"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: mouse.ui:17
 #, kde-format
 msgid "Titlebar Actions"
-msgstr ""
+msgstr "Ações da barra de título"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: mouse.ui:26
 #, kde-format
 msgid "&Double-click:"
-msgstr ""
+msgstr "Clique duas vezes:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_TitlebarDoubleClickCommand)
@@ -1174,7 +1174,7 @@ msgstr "Maximizar"
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
 msgid "Vertically maximize"
-msgstr ""
+msgstr "Maximizar verticalmente"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -1188,7 +1188,7 @@ msgstr ""
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
 msgid "Horizontally maximize"
-msgstr ""
+msgstr "Maximizar horizontalmente"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -1238,7 +1238,7 @@ msgstr "Fechar"
 #: mouse.ui:75
 #, kde-format
 msgid "Show on all desktops"
-msgstr ""
+msgstr " Mostrar em todas as áreas de tarabalhos"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_CommandTitlebarWheel)
@@ -1324,13 +1324,13 @@ msgstr ""
 #: mouse.ui:288 mouse.ui:403 mouse.ui:518
 #, kde-format
 msgid "Activate and lower"
-msgstr ""
+msgstr "Ativar e abaixar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: mouse.ui:589
 #, kde-format
 msgid "Maximize Button Actions"
-msgstr ""
+msgstr "Maximizar ações dos botões"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
@@ -1338,7 +1338,7 @@ msgstr ""
 #: mouse.ui:598 mouse.ui:611
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
-msgstr ""
+msgstr "Comportamento na <em>esquerda</em>clique no botão maximizar."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
