@@ -315,7 +315,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "KWin development team"
-#~ msgstr ""
+#~ msgstr "Equip de desenvolupament del KWin"
 
 #~ msgid "Experimental:"
 #~ msgstr ""
