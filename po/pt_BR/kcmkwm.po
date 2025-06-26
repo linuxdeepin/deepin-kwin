@@ -398,7 +398,7 @@ msgstr "Não faça nada"
 #: actions.ui:318
 #, kde-format
 msgid "Middle &click:"
-msgstr ""
+msgstr "Clique do meio:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll2)
 #: actions.ui:331
@@ -415,7 +415,7 @@ msgstr ""
 #: actions.ui:388 mouse.ui:671
 #, kde-format
 msgid "Right clic&k:"
-msgstr ""
+msgstr "Clique com o botão direito:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll3)
 #: actions.ui:401
@@ -431,7 +431,7 @@ msgstr ""
 #: actions.ui:458
 #, kde-format
 msgid "Mo&use wheel:"
-msgstr ""
+msgstr "Roda do mouse:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAllWheel)
 #: actions.ui:471
@@ -449,7 +449,7 @@ msgstr ""
 #: actions.ui:475 mouse.ui:102
 #, kde-format
 msgid "Raise/lower"
-msgstr ""
+msgstr "Aumentar/diminuir"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -457,7 +457,7 @@ msgstr ""
 #: actions.ui:480 mouse.ui:107
 #, kde-format
 msgid "Shade/unshade"
-msgstr ""
+msgstr "Sombra/dessombreamento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -465,7 +465,7 @@ msgstr ""
 #: actions.ui:485 mouse.ui:112
 #, kde-format
 msgid "Maximize/restore"
-msgstr ""
+msgstr "Maximizar/restaurar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -473,7 +473,7 @@ msgstr ""
 #: actions.ui:490 mouse.ui:117
 #, kde-format
 msgid "Keep above/below"
-msgstr ""
+msgstr "Manter acima/abaixo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -505,6 +505,9 @@ msgid ""
 "unshade automatically when the mouse pointer has been over the titlebar for "
 "some time.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Se esta opção estiver ativada, uma janela sombreada "
+"ficará sombreada automaticamente quando o ponteiro do mouse estiver sobre a "
+"barra de título por algum tempo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:35
@@ -566,6 +569,30 @@ msgid ""
 "font-style:italic;\">Under mouse</span> will place the window under the "
 "pointer</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>A política de posicionamento determina onde uma nova "
+"janela aparecerá na área de trabalho.</p><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: "
+"1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-style:italic;\">Inteligente</span> tentará obter uma sobreposição "
+"mínima de janelas</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Maximizando</span> tentará"
+" maximizar cada janela para preencher a tela inteira. Pode ser útil afetar "
+"seletivamente o posicionamento de algumas janelas usando as configurações "
+"específicas de cada janela.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Aleatória</span>usará uma "
+"posição aleatória</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Centralizado</span> "
+"colocará a janela centralizada</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Sem cantos</span> colocará"
+" a janela no canto superior esquerdo</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Sob o mouse</span> "
+"colocará a janela sob o ponteiro</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
