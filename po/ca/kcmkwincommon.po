@@ -35,49 +35,49 @@ msgstr "txemaq@gmail.com"
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
-msgstr ""
+msgstr "Accessibilitat"
 
 #: effectsmodel.cpp:53
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
-msgstr ""
+msgstr "Aparença"
 
 #: effectsmodel.cpp:54
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
-msgstr ""
+msgstr "Focus"
 
 #: effectsmodel.cpp:55
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Peek at Desktop Animation"
-msgstr ""
+msgstr "Doneu un cop d'ull a l'animació d'escriptori"
 
 #: effectsmodel.cpp:56
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
-msgstr ""
+msgstr "Eines"
 
 #: effectsmodel.cpp:57
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "Animació de canvi d'escriptori virtual"
 
 #: effectsmodel.cpp:58
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
-msgstr ""
+msgstr "Gestió de finestres"
 
 #: effectsmodel.cpp:59
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
-msgstr ""
+msgstr "Animació d'obrir / tancar la finestra"
 
 #: effectsmodel.cpp:241
 #, kde-format
@@ -86,4 +86,4 @@ msgstr "Equip de desenvolupament del KWin"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Candy"
-#~ msgstr ""
+#~ msgstr "Caramels"
