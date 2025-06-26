@@ -649,9 +649,9 @@ QString ScreenShotDBusInterface1::screenshotForWindowExtend(qulonglong winid, un
     }
 
      QDBusReply<uint> reply = connection().interface()->servicePid(message().service());
-     uint pid = reply.value();
+     pid_t pid = reply.value();
 
-     int nDockPid = 0;
+     pid_t nDockPid = 0;
      EffectWindowList windowsList = effects->stackingOrder();
      for (int i = 0; i < windowsList.count(); i++) {
          EffectWindow *pWindow = windowsList.at(i);

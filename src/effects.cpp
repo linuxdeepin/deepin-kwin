@@ -2146,7 +2146,7 @@ QRectF EffectsHandlerImpl::getQuickTileGeometry(KWin::EffectWindow *w, int mode,
     return QRectF();
 }
 
-int EffectsHandlerImpl::windowPId(KWin::EffectWindow *w)
+pid_t EffectsHandlerImpl::windowPId(KWin::EffectWindow *w)
 {
     if (auto client = qobject_cast<Window *>(static_cast<EffectWindowImpl *>(w)->window())) {
         return client->pid();

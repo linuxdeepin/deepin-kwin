@@ -49,7 +49,7 @@ ItemView::ItemView(EffectWindow *w, int xInList)
     : m_window(w)
 {
     if (window()) {
-        const QRect scaled = heightScaledRect(window()->geometry().toRect(), THUMBNAIL_HEIGHT);
+        const QRect scaled = heightScaledRect(window()->frameGeometry().toRect(), THUMBNAIL_HEIGHT);
         m_frameRect = QRect(xInList, 0, scaled.width(), THUMBNAIL_TITLE_HEIGHT + THUMBNAIL_HEIGHT);
         m_thumbnailRect = scaled.translated(xInList,
                 THUMBNAIL_TITLE_HEIGHT + (THUMBNAIL_HEIGHT - scaled.height()) / 2);

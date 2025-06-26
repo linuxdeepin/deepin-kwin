@@ -27,7 +27,6 @@
 namespace SplitConsts {
     const QEasingCurve TOGGLE_MODE =  QEasingCurve::OutExpo;// AnimationMode.EASE_OUT_Expo;
     static const int FADE_DURATION = 600;
-    static const qreal REBOUND_COEF = 0.85;
 }
 
 namespace KWin
@@ -331,6 +330,7 @@ int SplitSwapEffect::paintWinPos(EffectWindow *w, QuickTileMode mode, int calcul
         break;
     case 1:
         coef = 1.0;
+        break;
     case 2:
         x = (mode & QuickTileFlag::Left) ? m_workarea.x() + m_workarea.width() - w->width() : m_workarea.x();
         epos = m_workarea.width() - w->width();

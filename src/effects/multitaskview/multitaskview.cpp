@@ -1880,10 +1880,12 @@ void MultitaskViewEffect::windowInputMouseEvent(QEvent* e)
         if(m_touch.active && m_touch.isPress) {
             return;
         }
+        break;
     case QEvent::MouseButtonRelease:
         if(m_touch.active && m_touch.isPress) {
             return;
         }
+        break;
     case QEvent::Wheel:
         break;
     default:

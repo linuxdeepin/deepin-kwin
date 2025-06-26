@@ -110,7 +110,6 @@ void SplitPreviewEffect::paintWindow(EffectWindow *w, int mask, QRegion region, 
     if (m_unPreviewWin.contains(w))
         return;
 
-    int desktop = effects->currentDesktop();
     WindowMotionManager& wmm = m_motionManagers[0];
     if (wmm.isManaging(w) || w->isDesktop()) {
         auto area = effects->clientArea(FullArea, w);
@@ -569,7 +568,6 @@ void SplitPreviewEffect::calculateWindowTransformationsClosest(EffectWindowList 
 
         QRect *target = &targets[w];
         float width = 0.0, height = 0.0;
-        bool isFill = false;
         if (target->height() > scaleHeight) {
             float scale = (float)(scaleHeight / target->height());
             width = target->width() * scale;
@@ -577,7 +575,6 @@ void SplitPreviewEffect::calculateWindowTransformationsClosest(EffectWindowList 
         } else {
             width = target->width();
             height = target->height();
-            isFill = true;
         }
         totalw += width;
         totalw += minSpacingW;

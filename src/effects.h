@@ -287,7 +287,7 @@ public:
 
     QRectF getQuickTileGeometry(KWin::EffectWindow *w, int mode, QPointF pos) override;
 
-    int windowPId(KWin::EffectWindow *w) override;
+    pid_t windowPId(KWin::EffectWindow *w) override;
     bool isWinAllowSplit(KWin::EffectWindow *) override;
     bool isSplitWin(KWin::EffectWindow *) override;
     void updateQuickTileMode(KWin::EffectWindow *, int mode) override;
