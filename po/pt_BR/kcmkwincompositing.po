@@ -1,26 +1,28 @@
-# Translation of kcmkwincompositing.po to Brazilian Portuguese
-# Copyright (C) 2007-2019 This_file_is_part_of_KDE
+# translation of kcmkwincompositing.po to British English
+# Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Diniz Bortolotto <diniz.bortolotto@gmail.com>, 2007, 2008.
-# André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2019.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2009, 2012, 2017, 2018, 2021.
-# Marcus Vinícius de Andrade Gama <marcus.gama@gmail.com>, 2010.
-# Aracele Torres <araceletorres@gmail.com>, 2011, 2017.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2016, 2017, 2018, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Wislley Marçal, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kcmkwincompositing\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:58+0000\n"
-"PO-Revision-Date: 2021-11-18 12:01-0300\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Wislley Marçal, 2025\n"
+"Language-Team: Portuguese (Brazil) (https://app.transifex.com/linuxdeepin/teams/3617/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.04.2\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, glCrashedWarning)
 #: compositing.ui:31
@@ -29,25 +31,25 @@ msgid ""
 "OpenGL compositing (the default) has crashed KWin in the past.\n"
 "This was most likely due to a driver bug.\n"
 "If you think that you have meanwhile upgraded to a stable driver,\n"
-"you can reset this protection but be aware that this might result in an "
-"immediate crash!"
+"you can reset this protection but be aware that this might result in an immediate crash!"
 msgstr ""
-"A composição OpenGL (a padrão) fez o KWin falhar no passado.\n"
-"Isso provavelmente ocorreu por um erro no driver.\n"
-"Se você acha que atualizou para um driver mais estável,\n"
-"poderá redefinir esta proteção, mas tome cuidado que isto poderá resultar em "
-"uma falha imediata!"
+"A composição OpenGL (o padrão) travou o KWin no passado..\n"
+"Isso provavelmente ocorreu devido a um bug no driver.\n"
+"Se você acha que já atualizou para um driver estável,\n"
+"você pode redefinir essa proteção, mas esteja ciente de que isso pode resultar em uma falha imediata!"
 
-#. i18n: ectx: property (text), widget (KMessageWidget, windowThumbnailWarning)
+#. i18n: ectx: property (text), widget (KMessageWidget,
+#. windowThumbnailWarning)
 #: compositing.ui:44
 #, kde-format
 msgid ""
 "Keeping the window thumbnail always interferes with the minimized state of "
-"windows. This can result in windows not suspending their work when minimized."
+"windows. This can result in windows not suspending their work when "
+"minimized."
 msgstr ""
-"Manter a miniatura da janela interfere sempre com o estado minimizado das "
-"janelas. Isso poderá fazer com que as janelas não suspendam o seu trabalho "
-"se estiverem minimizadas."
+"Manter a miniatura da janela sempre interfere no estado minimizado das "
+"janelas. Isso pode fazer com que as janelas não suspendam seu funcionamento "
+"quando minimizadas."
 
 #. i18n: ectx: property (text), widget (QLabel, compositingLabel)
 #: compositing.ui:56
@@ -61,7 +63,8 @@ msgstr "Composição:"
 msgid "Enable on startup"
 msgstr "Habilitar na inicialização"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_WindowsBlockCompositing)
+#. i18n: ectx: property (toolTip), widget (QCheckBox,
+#. kcfg_WindowsBlockCompositing)
 #: compositing.ui:72
 #, kde-format
 msgid ""
@@ -69,40 +72,40 @@ msgid ""
 " This brings performance improvements for e.g. games.\n"
 " The setting can be overruled by window-specific rules."
 msgstr ""
-"Os aplicativos podem definir uma dica para bloquear a composição quando a "
-"janela estiver aberta. \n"
-"  Isto proporciona melhorias de desempenho, por ex. jogos. \n"
-"  A configuração pode ser anulada por regras específicas da janela."
+"Os aplicativos podem definir uma dica para bloquear a composição quando a janela estiver aberta.\n"
+"Isso traz melhorias de desempenho para jogos, por exemplo.\n"
+"A configuração pode ser anulada por regras específicas da janela."
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_WindowsBlockCompositing)
+#. i18n: ectx: property (text), widget (QCheckBox,
+#. kcfg_WindowsBlockCompositing)
 #: compositing.ui:75
 #, kde-format
 msgid "Allow applications to block compositing"
-msgstr "Permitir que os aplicativos bloqueiem a composição"
+msgstr "Permitir que aplicativos bloqueiem a composição"
 
 #. i18n: ectx: property (text), widget (QLabel, animationSpeedLabel)
 #: compositing.ui:82
 #, kde-format
 msgid "Animation speed:"
-msgstr "Velocidade da animação:"
+msgstr "Velocidade de animação:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: compositing.ui:119
 #, kde-format
 msgid "Very slow"
-msgstr "Muito lenta"
+msgstr "Muito lento"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: compositing.ui:139
 #, kde-format
 msgid "Instant"
-msgstr "Instantâneo"
+msgstr "instantâneo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HiddenPreviews)
 #: compositing.ui:151
 #, kde-format
 msgid "Keep window thumbnails:"
-msgstr "Manter as miniaturas da janela:"
+msgstr "Manter miniaturas de janelas:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:159
@@ -114,7 +117,7 @@ msgstr "Nunca"
 #: compositing.ui:164
 #, kde-format
 msgid "Only for Shown Windows"
-msgstr "Apenas para as janelas visíveis"
+msgstr "Somente para janelas mostradas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_HiddenPreviews)
 #: compositing.ui:169
@@ -132,25 +135,25 @@ msgstr "Latência:"
 #: compositing.ui:185
 #, kde-format
 msgid "Force lowest latency (may cause dropped frames)"
-msgstr "Forçar a latência mais baixa (pode ocasionar perda de quadros)"
+msgstr "Forçar a menor latência (pode causar perda de quadros)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:190
 #, kde-format
 msgid "Prefer lower latency"
-msgstr "Preferir latência mais baixa"
+msgstr "Prefere a menor latência"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:195
 #, kde-format
 msgid "Balance of latency and smoothness"
-msgstr "Balanço de latência e suavidade"
+msgstr "Equilíbrio entre latência e suavidade"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:200
 #, kde-format
 msgid "Prefer smoother animations"
-msgstr "Preferir animações mais suaves"
+msgstr "Prefira animações mais suaves"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LatencyPolicy)
 #: compositing.ui:205
@@ -164,18 +167,26 @@ msgstr "Forçar animações mais suaves"
 msgid ""
 "Reduce latency by allowing screen tearing artifacts in fullscreen windows"
 msgstr ""
+"Reduza a latência permitindo artefatos de tela rasgada em janelas de tela "
+"cheia"
 
 #: main.cpp:79
 #, kde-format
 msgid "Re-enable OpenGL detection"
-msgstr "Reabilitar a detecção do OpenGL"
+msgstr "Reativar a detecção do OpenGL"
+
+#~ msgid "Allows applications to cause screen tearing in fullscreen."
+#~ msgstr "Permite que aplicativos causem tela rasgada em tela cheia."
+
+#~ msgid "Allow tearing in fullscreen"
+#~ msgstr "Permitir rasgar em tela cheia"
 
 #~ msgid ""
 #~ "Scale method \"Accurate\" is not supported by all hardware and can cause "
 #~ "performance regressions and rendering artifacts."
 #~ msgstr ""
-#~ "O método de escala \"Preciso\" não é suportado por todo o hardware e "
-#~ "poderá provocar problemas de desempenho e defeitos na renderização."
+#~ "O método de escala \"Preciso\" não é suportado por todos os hardwares e pode"
+#~ " causar regressões de desempenho e artefatos de renderização."
 
 #~ msgid "Scale method:"
 #~ msgstr "Método de escala:"
@@ -187,40 +198,39 @@ msgstr "Reabilitar a detecção do OpenGL"
 #~ msgstr "Preciso"
 
 #~ msgid "Tearing prevention (\"vsync\"):"
-#~ msgstr "Prevenção de deslizamento (\"vsync\"):"
+#~ msgstr "Prevenção de tearing (\"vsync\"):"
 
 #~ msgid "Automatic"
 #~ msgstr "Automático"
 
 #~ msgid "Only when cheap"
-#~ msgstr "Apenas quando for econômico"
+#~ msgstr "Somente quando barato"
 
 #~ msgid "Full screen repaints"
-#~ msgstr "Atualizações da tela inteira"
+#~ msgstr "Repinturas em tela cheia"
 
 #~ msgid "Re-use screen content"
-#~ msgstr "Reutilizar o conteúdo da tela"
+#~ msgstr "Reutilizar conteúdo da tela"
 
 #~ msgid ""
 #~ "\"Only when cheap\" only prevents tearing for full screen changes like a "
 #~ "video."
 #~ msgstr ""
-#~ "\"Apenas quando for econômico\" somente evita as intermitências nas "
-#~ "mudanças para tela inteira, como em um vídeo."
+#~ "\"Somente quando barato\" só evita distorções em alterações em tela cheia, "
+#~ "como em um vídeo."
 
 #~ msgid "\"Full screen repaints\" can cause performance problems."
-#~ msgstr ""
-#~ "\"Atualizações da tela inteira\" pode causar problemas de desempenho."
+#~ msgstr "\"Repinturas em tela cheia\" podem causar problemas de desempenho."
 
 #~ msgid ""
 #~ "\"Re-use screen content\" causes severe performance problems on MESA "
 #~ "drivers."
 #~ msgstr ""
-#~ "\"Reutilizar o conteúdo da tela\" causa sérios problemas de desempenho "
-#~ "nos drivers MESA."
+#~ "A \"reutilização do conteúdo da tela\" causa sérios problemas de desempenho "
+#~ "em drivers MESA."
 
 #~ msgid "Rendering backend:"
-#~ msgstr "Infraestrutura de renderização:"
+#~ msgstr "Renderização de backend:"
 
 #~ msgid "OpenGL 3.1"
 #~ msgstr "OpenGL 3.1"
@@ -229,7 +239,7 @@ msgstr "Reabilitar a detecção do OpenGL"
 #~ msgstr "OpenGL 2.0"
 
 #~ msgid "Crisp"
-#~ msgstr "Rígido"
+#~ msgstr "Nítido"
 
 #~ msgid "Smooth (slower)"
 #~ msgstr "Suave (mais lento)"
@@ -256,21 +266,376 @@ msgstr "Reabilitar a detecção do OpenGL"
 #~ "Hint: To find out or configure how to activate an effect, look at the "
 #~ "effect's settings."
 #~ msgstr ""
-#~ "Dica: Para localizar ou configurar a ativação de um efeito, verifique as "
+#~ "Dica: Para descobrir ou configurar como ativar um efeito, consulte as "
 #~ "configurações do efeito."
 
-#~ msgid "Search..."
-#~ msgstr "Procurar..."
-
 #~ msgid "Configure filter"
-#~ msgstr "Configurar o filtro"
+#~ msgstr "Configurar filtro"
 
 #~ msgid "Exclude Desktop Effects not supported by the Compositor"
-#~ msgstr ""
-#~ "Excluir os efeitos da área de trabalho não suportados pelo Compositor"
+#~ msgstr "Excluir efeitos da área de trabalho não suportados pelo Compositor"
 
 #~ msgid "Exclude internal Desktop Effects"
-#~ msgstr "Excluir os efeitos internos da área de trabalho"
+#~ msgstr "Excluir efeitos internos da área de trabalho"
 
 #~ msgid "Get New Desktop Effects..."
-#~ msgstr "Baixar novos efeitos da área de trabalho..."
+#~ msgstr "Obtenha novos efeitos para a área de trabalho..."
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "Malcolm Hunter"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "malcolm.hunter@gmx.co.uk"
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Accessibility"
+#~ msgstr "Acessibilidade"
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Appearance"
+#~ msgstr "Aparência"
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Candy"
+#~ msgstr "Doce"
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Focus"
+#~ msgstr "Foco"
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Show Desktop Animation"
+#~ msgstr "Mostrar animação da área de trabalho"
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Tools"
+#~ msgstr "Ferramentas"
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Virtual Desktop Switching Animation"
+#~ msgstr "Animação de troca da área de trabalho virtual"
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Window Management"
+#~ msgstr "Gerenciamento de janelas"
+
+#~ msgctxt "Category of Desktop Effects, used as section header"
+#~ msgid "Window Open/Close Animation"
+#~ msgstr "Animação de abertura/fechamento de janela"
+
+#~ msgid "KWin development team"
+#~ msgstr "Equipe de desenvolvimento do KWin"
+
+#~ msgid "Experimental:"
+#~ msgstr "Experimental:"
+
+#~ msgid "Enable color correction"
+#~ msgstr "Habilitar correção de cores"
+
+#~ msgid ""
+#~ "Having full screen windows bypass the compositor is not supported on every "
+#~ "hardware."
+#~ msgstr ""
+#~ "Ter janelas em tela cheia ignora o compositor e não é suportado em todos os "
+#~ "hardwares."
+
+#~ msgid "Expert:"
+#~ msgstr "Especialista:"
+
+#~ msgid "Suspend compositor for full screen windows"
+#~ msgstr "Suspender compositor para janelas em tela cheia"
+
+#~ msgid "OpenGL interface:"
+#~ msgstr "Interface OpenGL:"
+
+#~ msgid ""
+#~ "EGL is not supported by all OpenGL drivers. If not supported the Compositor "
+#~ "will be disabled."
+#~ msgstr ""
+#~ "EGL não é suportado por todos os drivers OpenGL. Caso contrário, o "
+#~ "Compositor será desativado."
+
+#~ msgid "Animation Speed:"
+#~ msgstr "Velocidade da animação:"
+
+#~ msgid "Scale Method:"
+#~ msgstr "Método de Escala:"
+
+#~ msgid "Tearing Prevention (VSync):"
+#~ msgstr "Prevenção de ruptura (VSync):"
+
+#~ msgid "Keep Window Thumbnails:"
+#~ msgstr "Manter miniaturas de janelas:"
+
+#~ msgid "Always (Breaks Animations)"
+#~ msgstr "Sempre (Quebra Animações)"
+
+#~ msgid "OpenGL Platform Interface:"
+#~ msgstr "Interface da plataforma OpenGL:"
+
+#~ msgid "Form"
+#~ msgstr "Forma"
+
+#~ msgid "1 second remaining:"
+#~ msgid_plural "%1 seconds remaining:"
+#~ msgstr[0] ""
+#~ msgstr[1] ""
+#~ msgstr[2] ""
+
+#~ msgid "Confirm Desktop Effects Change"
+#~ msgstr "Confirmar alteração dos efeitos da área de trabalho"
+
+#~ msgid "&Accept Configuration"
+#~ msgstr "Aceitar configuração"
+
+#~ msgid "&Return to Previous Configuration"
+#~ msgstr "Retornar à configuração anterior"
+
+#~ msgid ""
+#~ "Desktop effects settings have changed.\n"
+#~ "Do you want to keep the new settings?\n"
+#~ "They will be automatically reverted in 10 seconds."
+#~ msgstr ""
+#~ "As configurações de efeitos da área de trabalho foram alteradas.\n"
+#~ "Você deseja manter as novas configurações?\n"
+#~ "Elas serão revertidas automaticamente em 10 segundos."
+
+#~ msgid "Use GLSL shaders"
+#~ msgstr "Usar sombras GLSL"
+
+#~ msgid "kcmkwincompositing"
+#~ msgstr "kcmkwincompositing"
+
+#~ msgid "KWin Desktop Effects Configuration Module"
+#~ msgstr "Módulo de configuração de efeitos de desktop KWin"
+
+#~ msgid "(c) 2007 Rivo Laks"
+#~ msgstr "(c) 2007 Rivo Laks"
+
+#~ msgid "Rivo Laks"
+#~ msgstr "Rivo Laks"
+
+#~ msgid ""
+#~ "Failed to activate desktop effects using the given configuration options. Settings will be reverted to their previous values.\n"
+#~ "\n"
+#~ "Check your X configuration. You may also consider changing advanced options, especially changing the compositing type."
+#~ msgstr ""
+#~ "Falha ao ativar os efeitos da área de trabalho usando as opções de configuração fornecidas. As configurações serão revertidas para os valores anteriores..\n"
+#~ "\n"
+#~ "Verifique sua configuração do X. Você também pode considerar alterar opções avançadas, especialmente alterando o tipo de composição."
+
+#~ msgid "Demos"
+#~ msgstr "Demonstrações"
+
+#~ msgid "Tests"
+#~ msgstr "Testes"
+
+#~ msgid ""
+#~ "Desktop effects are not available on this system due to the following "
+#~ "technical issues:"
+#~ msgstr ""
+#~ "Os efeitos da área de trabalho não estão disponíveis neste sistema devido "
+#~ "aos seguintes problemas técnicos:"
+
+#~ msgid ""
+#~ "Your settings have been saved but as KDE is currently running in failsafe mode desktop effects cannot be enabled at this time.\n"
+#~ "\n"
+#~ "Please exit failsafe mode to enable desktop effects."
+#~ msgstr ""
+#~ "Suas configurações foram salvas, mas como o KDE está sendo executado no modo de segurança, os efeitos da área de trabalho não podem ser ativados neste momento.\n"
+#~ "\n"
+#~ "Saia do modo de segurança para habilitar os efeitos da área de trabalho."
+
+#~ msgid "<h1>Desktop Effects</h1>"
+#~ msgstr "<h1>Efeitos da área de trabalho</h1>"
+
+#~ msgid "General"
+#~ msgstr "Geral"
+
+#~ msgid "Improved window management"
+#~ msgstr "Gerenciamento de janelas aprimorado"
+
+#~ msgid "Effect for desktop switching:"
+#~ msgstr "Efeito para troca da área de trabalho:"
+
+#~ msgid "Very Fast"
+#~ msgstr "Muito rápido"
+
+#~ msgid "Fast"
+#~ msgstr "v"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgid "Slow"
+#~ msgstr "Lento"
+
+#~ msgid "Extremely Slow"
+#~ msgstr "Extremamente lento"
+
+#~ msgid ""
+#~ "You can find more effects, as well as effect-specific settings, in the \"All"
+#~ " Effects\" tab above."
+#~ msgstr ""
+#~ "Você pode encontrar mais efeitos, bem como configurações específicas de "
+#~ "efeitos, na aba \"Todos os efeitos\" acima."
+
+#~ msgid "All Effects"
+#~ msgstr "Todos os efeitos"
+
+#~ msgid "Advanced"
+#~ msgstr "Avançado"
+
+#~ msgid "OpenGL Options"
+#~ msgstr "Opções OpenGL"
+
+#~ msgid "General Options"
+#~ msgstr "Opções gerais"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Segoe'; font-size:8pt; font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Crisp:</span></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">XRenderSetPictureFilter(\"fast\")</span> -  Pretty fast on all GPUs but looks bricky</p>\n"
+#~ "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Smooth:</span></p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-style:italic;\">XRenderSetPictureFilter(\"good\") </span>- linear blending.</p>\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Fast enough on newer nvidia GPUs and maybe others but also can be <span style=\" text-decoration: underline;\">very</span> slow, you will have to try it.</p></body></html>"
+#~ msgstr ""
+
+#~ msgid "Use VSync"
+#~ msgstr "Usar VSync"
+
+#~ msgid "Effect for window switching:"
+#~ msgstr "Efeito para troca de janelas:"
+
+#~ msgid "Enable direct rendering"
+#~ msgstr "Habilitar renderização direta"
+
+#~ msgid "Disable functionality checks"
+#~ msgstr "Desabilitar verificações de funcionalidade"
+
+#~ msgid "Desktop effects are temporarily disabled"
+#~ msgstr "Os efeitos da área de trabalho estão temporariamente desativados"
+
+#~ msgid "Resume Desktop Effects"
+#~ msgstr "Efeitos de resumo na área de trabalho"
+
+#~ msgid "Desktop effects are disabled"
+#~ msgstr "Os efeitos da área de trabalho estão desabilitados"
+
+#~ msgid "Common Settings"
+#~ msgstr "Configurações comuns"
+
+#~ msgid "Compositing State"
+#~ msgstr "Estado de composição"
+
+#~ msgid "Shadows"
+#~ msgstr "Sombras"
+
+#~ msgid "OpenGL mode:"
+#~ msgstr "Modo OpenGL:"
+
+#~ msgid "Texture From Pixmap"
+#~ msgstr "Textura do Pixmap"
+
+#~ msgid "Shared Memory"
+#~ msgstr "Memória Compartilhada"
+
+#~ msgid "Fallback"
+#~ msgstr "Cair pra trás"
+
+#~ msgid ""
+#~ "Enabling this option allows compositing to be activated even if some of the "
+#~ "internal checks fail. Doing so may make the whole desktop unusable and its "
+#~ "use is not recommened. Use only if KWin refuses to activate compositing on a"
+#~ " system that should be capable of compositing.\n"
+#~ msgstr ""
+#~ "Habilitar esta opção permite que a composição seja ativada mesmo que algumas"
+#~ " verificações internas falhem. Isso pode tornar toda a área de trabalho "
+#~ "inutilizável e seu uso não é recomendado. Use somente se o KWin se recusar a"
+#~ " ativar a composição em um sistema que deveria ser capaz de compor.\n"
+
+#~ msgid "Nearest (fastest)"
+#~ msgstr "Mais próximo (mais rápido)"
+
+#~ msgid "Bilinear"
+#~ msgstr "Bilinear"
+
+#~ msgid "Trilinear (best quality)"
+#~ msgstr "Trilinear (melhor qualidade)"
+
+#~ msgid ""
+#~ "Improves performance of fullscreen applications like games and video "
+#~ "players. This option can cause flickering when another window is opened "
+#~ "above the fullscreen window."
+#~ msgstr ""
+#~ "Melhora o desempenho de aplicativos em tela cheia, como jogos e reprodutores"
+#~ " de vídeo. Esta opção pode causar oscilação quando outra janela é aberta "
+#~ "acima da janela em tela cheia."
+
+#~ msgid "Compositing is not supported on your system."
+#~ msgstr "A composição não é suportada no seu sistema."
+
+#~ msgid "Compositing is active"
+#~ msgstr "A composição está ativa"
+
+#~ msgid "Suspend Compositing"
+#~ msgstr "Suspender a composição"
+
+#~ msgid "Resume Compositing"
+#~ msgstr "Composição de resumo"
+
+#~ msgid "Compositing is disabled"
+#~ msgstr "A composição está desabilitada"
+
+#~ msgid "All Desktops"
+#~ msgstr "Todas as áreas de trabalho"
+
+#~ msgid "Current Desktop"
+#~ msgstr "Área de trabalho atual"
+
+#~ msgid "Cube"
+#~ msgstr "Cubo"
+
+#~ msgid "Cylinder"
+#~ msgstr "Cilindro"
+
+#~ msgid "Sphere"
+#~ msgstr "Esfera"
+
+#~ msgid "Screen Edges"
+#~ msgstr "Bordas da tela"
+
+#~ msgid ""
+#~ "Active screen edges allow you to activate effects by pushing your mouse "
+#~ "cursor against the edge of the screen. Here you can configure which effect "
+#~ "will get activated on each edge and corner of the screen."
+#~ msgstr ""
+#~ "As bordas ativas da tela permitem ativar efeitos pressionando o cursor do "
+#~ "mouse contra a borda da tela. Aqui você pode configurar qual efeito será "
+#~ "ativado em cada borda e canto da tela."
+
+#~ msgid ""
+#~ "If you are looking for the setting to enable switching of desktops by "
+#~ "pushing your mouse cursor against the edge of the screen you can find it in "
+#~ "the \"Window Behavior\" advanced tab under the name of \"Active Desktop "
+#~ "Borders\"."
+#~ msgstr ""
+#~ "Se você estiver procurando a configuração para habilitar a alternância de "
+#~ "áreas de trabalho ao empurrar o cursor do mouse contra a borda da tela, você"
+#~ " pode encontrá-la na aba avançada \"Comportamento da janela\", sob o nome "
+#~ "\"Bordas ativas da área de trabalho\"."
+
+#~ msgid "Advanced Compositing Options"
+#~ msgstr "Opções avançadas de composição"
+
+#~ msgid "Misc"
+#~ msgstr ""
+
+#~ msgid "Keep thumbnails of hidden windows up to date"
+#~ msgstr ""

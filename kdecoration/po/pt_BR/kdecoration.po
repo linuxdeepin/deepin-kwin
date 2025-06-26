@@ -1,21 +1,25 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018, 2021.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2018, 2021.
+# Translators:
+# 380125ae2590f93d3e1eff2258abdf75_6979c31, 2025
+# Wislley Marçal, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-26 00:47+0000\n"
-"PO-Revision-Date: 2021-05-06 14:05-0300\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Wislley Marçal, 2025\n"
+"Language-Team: Portuguese (Brazil) (https://app.transifex.com/linuxdeepin/teams/3617/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.04.2\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"X-Generator: Lokalize 21.04.1\n"
 
 #: decorationbutton.cpp:301
 #, kde-format
@@ -65,12 +69,12 @@ msgstr "Ajuda de contexto"
 #: decorationbutton.cpp:322
 #, kde-format
 msgid "Unshade"
-msgstr "Sem sombras"
+msgstr "Desobstrução"
 
 #: decorationbutton.cpp:324
 #, kde-format
 msgid "Shade"
-msgstr "Sombrear"
+msgstr "Sombra"
 
 #: decorationbutton.cpp:327
 #, kde-format

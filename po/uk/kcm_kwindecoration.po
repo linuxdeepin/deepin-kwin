@@ -46,7 +46,7 @@ msgstr ""
 #: declarative-plugin/buttonsmodel.cpp:57
 #, kde-format
 msgid "On all desktops"
-msgstr ""
+msgstr "На всіх стільницях"
 
 #: declarative-plugin/buttonsmodel.cpp:59
 #, kde-format
@@ -369,7 +369,7 @@ msgstr "Найбільший"
 #~ msgstr "Змінити розміри"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Довідка"
 
 #~ msgctxt "Button showing window actions menu"
 #~ msgid "Window Menu"

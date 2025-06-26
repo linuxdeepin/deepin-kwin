@@ -7,6 +7,7 @@
 # Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2019, 2021, 2022.
 # Translators:
 # Gary Wang <wzc782970009@gmail.com>, 2025
+# Davidmp <medipas@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
@@ -14,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Last-Translator: Davidmp <medipas@gmail.com>, 2025\n"
 "Language-Team: Catalan (https://app.transifex.com/linuxdeepin/teams/3617/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,12 +27,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Josep M. Ferrer"
+msgstr "Davidmp"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "txemaq@gmail.com"
+msgstr "opensusecatala@gmail.com"
 
 #: desktopsmodel.cpp:191
 #, kde-format
@@ -69,7 +70,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Rename"
-msgstr "Reanomena"
+msgstr "Canvia'n el nom"
 
 #: package/contents/ui/main.qml:102
 #, kde-format
@@ -146,132 +147,142 @@ msgid "Virtual Desktops"
 msgstr "Escriptoris virtuals"
 
 #~ msgid "New Desktop"
-#~ msgstr ""
+#~ msgstr "Escriptori nou"
 
 #~ msgid "Rows:"
-#~ msgstr ""
+#~ msgstr "Files:"
 
 #~ msgid "Configure Virtual Desktops"
-#~ msgstr ""
+#~ msgstr "Configureu escriptoris virtuals"
 
 #~ msgid "Desktop %1:"
-#~ msgstr ""
+#~ msgstr "Escriptori %1:"
 
 #~ msgid "Here you can enter the name for desktop %1"
-#~ msgstr ""
+#~ msgstr "Aquí podeu introduir el nom per a l'escriptori %1"
 
 #~ msgid ""
 #~ "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual"
 #~ " desktops you want and how these should be labeled."
 #~ msgstr ""
+#~ "<h1>Escriptoris múltiples</h1> En aquest mòdul, podeu configurar quants "
+#~ "escriptoris virtuals voleu i com s'han d'etiquetar."
 
 #~ msgid "KWin"
 #~ msgstr "KWin"
 
 #~ msgid "Switch to Next Desktop"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori següent"
 
 #~ msgid "Switch to Previous Desktop"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori anterior"
 
 #~ msgid "Switch One Desktop to the Right"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori de la dreta"
 
 #~ msgid "Switch One Desktop to the Left"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori de l'esquerra"
 
 #~ msgid "Switch One Desktop Up"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori de dalt"
 
 #~ msgid "Switch One Desktop Down"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori de baix"
 
 #~ msgid "Walk Through Desktops"
-#~ msgstr ""
+#~ msgstr "Passeig pels escriptoris"
 
 #~ msgid "Walk Through Desktops (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig pels escriptoris (invers)"
 
 #~ msgid "Walk Through Desktop List"
-#~ msgstr ""
+#~ msgstr "Passeig per la llista d'escriptoris"
 
 #~ msgid "Walk Through Desktop List (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig per la llista d'escriptoris (invers)"
 
 #~ msgid "Desktop Switching"
-#~ msgstr ""
+#~ msgstr "Canvi d'escriptori"
 
 #~ msgid "Switch to Desktop %1"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori %1"
 
 #~ msgid "No Animation"
-#~ msgstr ""
+#~ msgstr "Sense animació"
 
 #~ msgid "No suitable Shortcut for Desktop %1 found"
-#~ msgstr ""
+#~ msgstr "No s'ha trobat cap drecera adequada per a l'escriptori %1"
 
 #~ msgid "Assigned global Shortcut \"%1\" to Desktop %2"
-#~ msgstr ""
+#~ msgstr "Drecera global %1 assignada a l'escriptori %2"
 
 #~ msgid "Shortcut conflict: Could not set Shortcut %1 for Desktop %2"
 #~ msgstr ""
+#~ "Conflicte de dreceres: no s'ha pogut definir la drecera %1 per a "
+#~ "l'escriptori %2"
 
 #~ msgid "KWin development team"
-#~ msgstr ""
+#~ msgstr "Equip de desenvolupament del KWin"
 
 #~ msgid "Layout"
-#~ msgstr ""
+#~ msgstr "Disposició"
 
 #~ msgid ""
 #~ "Here you can set how many virtual desktops you want on your KDE desktop."
 #~ msgstr ""
+#~ "Aquí podeu definir quants escriptoris virtuals voleu a l'escriptori de KDE."
 
 #~ msgid "&Number of desktops:"
-#~ msgstr ""
+#~ msgstr "&Nombre d'escriptoris:"
 
 #~ msgid "N&umber of rows:"
-#~ msgstr ""
+#~ msgstr "N&ombre de files:"
 
 #~ msgid "Desktop Names"
-#~ msgstr ""
+#~ msgstr "Noms dels escriptoris"
 
 #~ msgid "Switching"
-#~ msgstr ""
+#~ msgstr "Canvi"
 
 #~ msgid ""
 #~ "Enable this option if you want keyboard or active desktop border navigation "
 #~ "beyond the edge of a desktop to take you to the opposite edge of the new "
 #~ "desktop."
 #~ msgstr ""
+#~ "Activeu aquesta opció si voleu que la navegació amb teclat o la vora activa "
+#~ "de l'escriptori més enllà de la vora d'un escriptori us porti a la vora "
+#~ "oposada de l'escriptori nou."
 
 #~ msgid "Desktop Effect Animation"
-#~ msgstr ""
+#~ msgstr "Animació d'efectes d'escriptori"
 
 #~ msgid "Animation:"
-#~ msgstr ""
+#~ msgstr "Animació:"
 
 #~ msgid "Desktop Switch On-Screen Display"
-#~ msgstr ""
+#~ msgstr "Visualització en pantalla del canvi d'escriptori"
 
 #~ msgid "Duration:"
-#~ msgstr ""
+#~ msgstr "Durada:"
 
 #~ msgid " msec"
-#~ msgstr ""
+#~ msgstr " ms"
 
 #~ msgid ""
 #~ "Enabling this option will show a small preview of the desktop layout "
 #~ "indicating the selected desktop."
 #~ msgstr ""
+#~ "Si activeu aquesta opció, es mostrarà una petita vista prèvia de la "
+#~ "disposició de l'escriptori que indicarà l'escriptori seleccionat."
 
 #~ msgid "Shortcuts"
 #~ msgstr "Dreceres"
 
 #~ msgid "Show shortcuts for all possible desktops"
-#~ msgstr ""
+#~ msgstr "Mostra les dreceres per a tots els escriptoris possibles"
 
 #~ msgid "Different widgets for each desktop"
-#~ msgstr ""
+#~ msgstr "Ginys diferents per a cada escriptori"
 
 #~ msgid "Mouse wheel over desktop background switches desktop"
-#~ msgstr ""
+#~ msgstr "La roda del ratolí sobre el fons de l'escriptori canvia l'escriptori"
