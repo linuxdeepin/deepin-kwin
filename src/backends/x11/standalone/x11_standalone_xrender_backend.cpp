@@ -162,7 +162,7 @@ void X11XRenderBackend::present(Output *output /* int mask, const QRegion &damag
     m_vsyncMonitor->arm();
 
     const auto displaySize = workspace()->geometry().size();
-    if (Scene::PAINT_SCREEN_REGION) {
+    if (Scene::PAINT_SCREEN_REGION != 0) {
         // Use the damage region as the clip region for the root window
         QRegion region(workspace()->geometry(), QRegion::Rectangle);
         XFixesRegion frontRegion(region);

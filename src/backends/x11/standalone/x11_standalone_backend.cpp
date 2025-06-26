@@ -363,10 +363,9 @@ void X11StandaloneBackend::doUpdateOutputs()
                         break;
                     }
 
-                    X11Output::Information information{
-                        .name = outputInfo.name(),
-                        .physicalSize = physicalSize,
-                    };
+                    X11Output::Information information;
+                    information.name = outputInfo.name();
+                    information.physicalSize = physicalSize;
 
                     auto edidProperty = Xcb::RandR::OutputProperty(xcbOutput, atoms->edid, XCB_ATOM_INTEGER, 0, 100, false, false);
                     bool ok;
