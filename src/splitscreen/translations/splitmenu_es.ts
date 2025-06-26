@@ -3,11 +3,11 @@
     <name>KWin::SplitMenu</name>
     <message>
         <source>Tile window to left of screen</source>
-        <translation>Ventana de mosaico a la izquierda de la pantalla</translation>
+        <translation>Mosaico de ventana a la izquierda de la pantalla</translation>
     </message>
     <message>
         <source>Tile window to right of screen</source>
-        <translation>Ventana de mosaico a la derecha de la pantalla</translation>
+        <translation>Mosaico de ventana a la derecha de la pantalla</translation>
     </message>
     <message>
         <source>Maximize</source>

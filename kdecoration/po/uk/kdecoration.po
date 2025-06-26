@@ -38,7 +38,7 @@ msgstr ""
 #: decorationbutton.cpp:308
 #, kde-format
 msgid "On all desktops"
-msgstr ""
+msgstr "На всіх стільницях"
 
 #: decorationbutton.cpp:310
 #, kde-format
@@ -48,7 +48,7 @@ msgstr "Мінімізувати"
 #: decorationbutton.cpp:313
 #, kde-format
 msgid "Restore"
-msgstr ""
+msgstr "Відновити"
 
 #: decorationbutton.cpp:315
 #, kde-format
@@ -68,7 +68,7 @@ msgstr ""
 #: decorationbutton.cpp:322
 #, kde-format
 msgid "Unshade"
-msgstr ""
+msgstr "Розгорнути"
 
 #: decorationbutton.cpp:324
 #, kde-format

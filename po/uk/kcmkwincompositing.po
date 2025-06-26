@@ -593,7 +593,7 @@ msgstr "Увімкнути виявлення OpenGL"
 #~ msgstr ""
 
 #~ msgid "Sphere"
-#~ msgstr ""
+#~ msgstr "Куля"
 
 #~ msgid "Screen Edges"
 #~ msgstr ""
