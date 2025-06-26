@@ -559,7 +559,7 @@ Qt::KeyboardModifiers Xkb::modifiersRelevantForGlobalShortcuts(uint32_t scanCode
 
     // if keypad shortcut with ShiftModifier, add ShiftModifier to pair kglobalaccel
     if (mods & Qt::KeypadModifier && mods & Qt::ShiftModifier ) {
-        return (mods & ~consumedMods | Qt::ShiftModifier);
+        return ((mods & ~consumedMods) | Qt::ShiftModifier);
     }
 
     return mods & ~consumedMods;

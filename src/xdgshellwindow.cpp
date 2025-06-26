@@ -334,8 +334,8 @@ void XdgSurfaceWindow::moveResizeInternal(const QRectF &rect, MoveResizeMode mod
         }
         m_configureFlags.setFlag(XdgSurfaceConfigure::ConfigurePosition, false);
         if (size() != rect.size()) {
-            if (auto toplevelwindow = qobject_cast<const XdgToplevelWindow *>(this)) {
-                return ;
+            if (qobject_cast<const XdgToplevelWindow *>(this)) {
+                return;
             }
         }
         updateGeometry(QRectF(rect.topLeft(), size()));
