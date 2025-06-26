@@ -165,6 +165,8 @@ msgstr "Escriptoris virtuals"
 #~ "<h1>Multiple Desktops</h1>In this module, you can configure how many virtual"
 #~ " desktops you want and how these should be labeled."
 #~ msgstr ""
+#~ "<h1>Escriptoris múltiples</h1> En aquest mòdul, podeu configurar quants "
+#~ "escriptoris virtuals voleu i com s'han d'etiquetar."
 
 #~ msgid "KWin"
 #~ msgstr "KWin"
@@ -176,7 +178,7 @@ msgstr "Escriptoris virtuals"
 #~ msgstr "Canvia a l'escriptori anterior"
 
 #~ msgid "Switch One Desktop to the Right"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori de la dreta"
 
 #~ msgid "Switch One Desktop to the Left"
 #~ msgstr "Canvia a l'escriptori de l'esquerra"
@@ -188,16 +190,16 @@ msgstr "Escriptoris virtuals"
 #~ msgstr "Canvia a l'escriptori de baix"
 
 #~ msgid "Walk Through Desktops"
-#~ msgstr ""
+#~ msgstr "Passeig pels escriptoris"
 
 #~ msgid "Walk Through Desktops (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig pels escriptoris (invers)"
 
 #~ msgid "Walk Through Desktop List"
-#~ msgstr ""
+#~ msgstr "Passeig per la llista d'escriptoris"
 
 #~ msgid "Walk Through Desktop List (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig per la llista d'escriptoris (invers)"
 
 #~ msgid "Desktop Switching"
 #~ msgstr ""
