@@ -1259,13 +1259,13 @@ msgstr "Ações da barra de título e do quadro"
 #: mouse.ui:167
 #, kde-format
 msgid "Active"
-msgstr ""
+msgstr "Ativa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: mouse.ui:190
 #, kde-format
 msgid "Inactive"
-msgstr ""
+msgstr "Inativa"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_CommandActiveTitlebar1)
@@ -1279,6 +1279,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>active</em> window."
 msgstr ""
+"Comportamento na <em>esquerda</em> clique na barra de título ou no quadro de"
+" uma <em>janela</em> ativa."
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_CommandActiveTitlebar1)
@@ -1296,7 +1298,7 @@ msgstr ""
 #: mouse.ui:558
 #, kde-format
 msgid "Show actions menu"
-msgstr ""
+msgstr "Mostrar menu de ações"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_CommandInactiveTitlebar1)
@@ -1310,6 +1312,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
 msgstr ""
+"Comportamento na<em>esquerda</em> clique na barra de título ou no quadro de "
+"uma<em>janela</em> inativa."
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_CommandInactiveTitlebar1)
