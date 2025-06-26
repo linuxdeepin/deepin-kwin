@@ -249,35 +249,40 @@ msgstr "Escriptoris virtuals"
 #~ "beyond the edge of a desktop to take you to the opposite edge of the new "
 #~ "desktop."
 #~ msgstr ""
+#~ "Activeu aquesta opció si voleu que la navegació amb teclat o la vora activa "
+#~ "de l'escriptori més enllà de la vora d'un escriptori us porti a la vora "
+#~ "oposada de l'escriptori nou."
 
 #~ msgid "Desktop Effect Animation"
-#~ msgstr ""
+#~ msgstr "Animació d'efectes d'escriptori"
 
 #~ msgid "Animation:"
-#~ msgstr ""
+#~ msgstr "Animació:"
 
 #~ msgid "Desktop Switch On-Screen Display"
-#~ msgstr ""
+#~ msgstr "Visualització en pantalla del canvi d'escriptori"
 
 #~ msgid "Duration:"
-#~ msgstr ""
+#~ msgstr "Durada:"
 
 #~ msgid " msec"
-#~ msgstr ""
+#~ msgstr " ms"
 
 #~ msgid ""
 #~ "Enabling this option will show a small preview of the desktop layout "
 #~ "indicating the selected desktop."
 #~ msgstr ""
+#~ "Si activeu aquesta opció, es mostrarà una petita vista prèvia de la "
+#~ "disposició de l'escriptori que indicarà l'escriptori seleccionat."
 
 #~ msgid "Shortcuts"
 #~ msgstr "Dreceres"
 
 #~ msgid "Show shortcuts for all possible desktops"
-#~ msgstr ""
+#~ msgstr "Mostra les dreceres per a tots els escriptoris possibles"
 
 #~ msgid "Different widgets for each desktop"
-#~ msgstr ""
+#~ msgstr "Ginys diferents per a cada escriptori"
 
 #~ msgid "Mouse wheel over desktop background switches desktop"
-#~ msgstr ""
+#~ msgstr "La roda del ratolí sobre el fons de l'escriptori canvia l'escriptori"
