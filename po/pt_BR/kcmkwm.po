@@ -1111,11 +1111,18 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
+"<p><h1>Comportamento da janela</h1> Aqui você pode personalizar o "
+"comportamento das janelas ao movê-las, redimensioná-las ou clicar nelas. "
+"Você também pode especificar uma política de foco, bem como uma política de "
+"posicionamento para novas janelas.</p> <p>Observe que esta configuração não "
+"terá efeito se você não usar o KWin como gerenciador de janelas. Se você "
+"usar um gerenciador de janelas diferente, consulte a documentação para saber"
+" como personalizar o comportamento das janelas.</p>"
 
 #: main.cpp:202
 #, kde-format
 msgid "&Titlebar Actions"
-msgstr ""
+msgstr "Ações da barra de título"
 
 #: main.cpp:208
 #, kde-format
@@ -1239,12 +1246,14 @@ msgstr ""
 #, kde-format
 msgid "Behavior on <em>mouse wheel</em> scroll over the titlebar."
 msgstr ""
+"Comportamento da <em>roda do mouse</em> ao passar o mouse sobre a barra de "
+"título."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: mouse.ui:143
 #, kde-format
 msgid "Titlebar and Frame Actions"
-msgstr ""
+msgstr "Ações da barra de título e do quadro"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: mouse.ui:167
@@ -1492,6 +1501,13 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+"<em>Foco estritamente sob o mouse:</em> O foco está sempre na janela sob o "
+"mouse (sem dúvida em nenhum lugar), muito parecido com o comportamento do "
+"foco em um ambiente X11 legado não gerenciado.<br/><strong>Aviso:</strong> "
+"<em>Prevenção de roubo de foco</em> e a <em>caixa de guias "
+"('Alt+Tab')</em>contradiz a política de ativação e não funcionará. Você "
+"provavelmente deseja usar<em>O foco segue o mouse (precedência do "
+"mouse)</em>em vez de!"
 
 #~ msgid "Cascaded"
 #~ msgstr "Em cascata"
