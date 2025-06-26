@@ -493,19 +493,19 @@ msgstr ""
 #: mouseclick/mouseclick_config.ui:210
 #, kde-format
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #: mouseclick/mouseclick_config.ui:216
 #, kde-format
 msgid "Font:"
-msgstr ""
+msgstr "Fonte:"
 
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, kde-format
 msgid "Show Text:"
-msgstr ""
+msgstr "Mostrar texto:"
 
 #: mousemark/mousemark.cpp:39
 #, kde-format
@@ -708,19 +708,19 @@ msgstr ""
 #: thumbnailaside/thumbnailaside_config.cpp:59
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
-msgstr ""
+msgstr "Alternar miniatura para janela atual"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: thumbnailaside/thumbnailaside_config.ui:23
 #, kde-format
 msgid "Maximum &width:"
-msgstr ""
+msgstr "Largura máxima:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: thumbnailaside/thumbnailaside_config.ui:36
 #, kde-format
 msgid "&Spacing:"
-msgstr ""
+msgstr "Espaçamento:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Spacing)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_MaxWidth)
@@ -728,13 +728,13 @@ msgstr ""
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, kde-format
 msgid " pixels"
-msgstr ""
+msgstr " pixels"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: thumbnailaside/thumbnailaside_config.ui:68
 #, kde-format
 msgid "&Opacity:"
-msgstr ""
+msgstr "Opacidade:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
 #: thumbnailaside/thumbnailaside_config.ui:87
@@ -746,17 +746,17 @@ msgstr " %"
 #: tileseditor/tileseditoreffect.cpp:29
 #, kde-format
 msgid "Toggle Tiles Editor"
-msgstr ""
+msgstr "Alternar editor de blocos"
 
 #: tileseditor/qml/main.qml:145
 #, kde-format
 msgid "Padding:"
-msgstr ""
+msgstr "Preenchimento:"
 
 #: tileseditor/qml/main.qml:155
 #, kde-format
 msgid "Load Layout..."
-msgstr ""
+msgstr "Carregar layout..."
 
 #: tileseditor/qml/main.qml:269
 #, kde-format
@@ -766,17 +766,17 @@ msgstr "Fechar"
 #: tileseditor/qml/TileDelegate.qml:167
 #, kde-format
 msgid "Split Horizontally"
-msgstr ""
+msgstr "Dividir horizontalmente"
 
 #: tileseditor/qml/TileDelegate.qml:174
 #, kde-format
 msgid "Split Vertically"
-msgstr ""
+msgstr "Dividir verticalmente"
 
 #: tileseditor/qml/TileDelegate.qml:182 tileseditor/qml/TileDelegate.qml:211
 #, kde-format
 msgid "Add Floating Tile"
-msgstr ""
+msgstr "Adicionar bloco flutuante"
 
 #: tileseditor/qml/TileDelegate.qml:191
 #, kde-format
@@ -786,19 +786,19 @@ msgstr "Deletar"
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
 msgid "Track mouse"
-msgstr ""
+msgstr "Rastrear mouse"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: trackmouse/trackmouse_config.ui:26
 #, kde-format
 msgid "Trigger effect with:"
-msgstr ""
+msgstr "Efeito de gatilho com:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_KeyboardShortcut)
 #: trackmouse/trackmouse_config.ui:33
 #, kde-format
 msgid "Keyboard shortcut:"
-msgstr ""
+msgstr "Atalho do teclado:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_ModifierKeys)
 #: trackmouse/trackmouse_config.ui:43
@@ -929,7 +929,7 @@ msgstr "Alternar janelas presentes (todas as áreas de trabalho)"
 #: windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
-msgstr ""
+msgstr "Alternar janelas presentes (classe de janela)"
 
 #: windowview/kcm/windowvieweffectkcm.cpp:62
 #: windowview/windowvieweffect.cpp:72
@@ -1311,25 +1311,25 @@ msgstr "Rastreamento do mouse:"
 #~ msgstr "Área de trabalho"
 
 #~ msgid "Show desktop"
-#~ msgstr ""
+#~ msgstr "Mostrar área de trabalho"
 
 #~ msgid "Display window &titles"
-#~ msgstr ""
+#~ msgstr "Títulos da janela de exibição"
 
 #~ msgid "Display window &icons"
-#~ msgstr ""
+#~ msgstr "Ícones da janela de exibição"
 
 #~ msgid "Show &panels"
-#~ msgstr ""
+#~ msgstr "Mostrar painéis"
 
 #~ msgid "Regular Grid"
-#~ msgstr ""
+#~ msgstr "Grade regular"
 
 #~ msgid "Flexible Grid"
-#~ msgstr ""
+#~ msgstr "Grade Flexível"
 
 #~ msgid "Provide buttons to close the windows"
-#~ msgstr ""
+#~ msgstr "Fornecer botões para fechar as janelas"
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
