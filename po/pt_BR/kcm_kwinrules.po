@@ -696,11 +696,16 @@ msgid ""
 "Otherwise it's interleaved with the stealing prevention\n"
 "assigned to the window that wants the focus."
 msgstr ""
+"Isso controla a proteção do foco da janela atualmente ativa.\n"
+"Ninguém sempre vai desviar o foco,\n"
+"O extremo vai mantê-lo.\n"
+"Caso contrário, é intercalado com a prevenção de roubo\n"
+"atribuído à janela que deseja o foco."
 
 #: rulesmodel.cpp:614
 #, kde-format
 msgid "Accept focus"
-msgstr ""
+msgstr "Aceite o foco"
 
 #: rulesmodel.cpp:616
 #, kde-format
@@ -709,11 +714,14 @@ msgid ""
 "On the other hand you might wish to prevent a window\n"
 "from getting focused on a mouse click."
 msgstr ""
+"As janelas podem impedir que o foco seja obtido (ativado) ao serem clicadas.\n"
+"Por outro lado, você pode querer evitar uma janela\n"
+"de se concentrar em um clique do mouse."
 
 #: rulesmodel.cpp:622
 #, kde-format
 msgid "Ignore global shortcuts"
-msgstr ""
+msgstr "Ignorar atalhos globais"
 
 #: rulesmodel.cpp:624
 #, kde-format
