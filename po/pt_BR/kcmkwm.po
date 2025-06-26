@@ -842,6 +842,38 @@ msgid ""
 "taskbar entry will be highlighted. This can be changed in the Notifications "
 "control module.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Esta opção especifica quanto KWin tentará evitar o "
+"roubo de foco indesejado causado pela ativação inesperada de novas janelas. "
+"(Observação: este recurso não funciona com o<span style=\" font-"
+"style:italic;\">Foco sob o mouse</span> ou <span style=\" font-"
+"style:italic;\">Foco estritamente sob o mouse</span> políticas de foco.) "
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Nenhuma:</span> A "
+"prevenção é desativada e novas janelas sempre são ativadas.</li><li style=\""
+" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-"
+"style:italic;\">Baixo:</span> A prevenção está habilitada; quando alguma "
+"janela não tiver suporte para o mecanismo subjacente e o KWin não puder "
+"decidir com segurança se deve ou não ativar a janela, ela será ativada. Essa"
+" configuração pode ter resultados piores e melhores do que o nível médio, "
+"dependendo dos aplicativos.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Médio:</span> A prevenção "
+"está habilitada.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-style:italic;\">Alto:</span> Novas janelas são ativadas "
+"somente se nenhuma janela estiver ativa no momento ou se pertencerem ao "
+"aplicativo ativo no momento. Esta configuração provavelmente não é muito "
+"útil quando a política de foco do mouse não está sendo usada.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"style:italic;\">Extremo:</span> Todas as janelas devem ser ativadas "
+"explicitamente pelo usuário.</li></ul><p>As janelas que são impedidas de "
+"roubar o foco são marcadas como exigindo atenção, o que, por padrão, "
+"significa que a entrada na barra de tarefas será destacada. Isso pode ser "
+"alterado no módulo de controle de Notificações.</p></body></html>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (specialValueText), widget (QSpinBox,
@@ -928,7 +960,7 @@ msgstr ""
 #: focus.ui:168
 #, kde-format
 msgid "&Raise on hover, delayed by:"
-msgstr ""
+msgstr "Levantar ao pairar, atrasado por:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_AutoRaiseInterval)
 #: focus.ui:175
@@ -944,7 +976,7 @@ msgstr ""
 #: focus.ui:196
 #, kde-format
 msgid "Multiscreen behavior:"
-msgstr ""
+msgstr "Comportamento multitelas:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox,
 #. kcfg_ActiveMouseScreen)
@@ -963,7 +995,7 @@ msgstr ""
 #: focus.ui:206
 #, kde-format
 msgid "Active screen follows &mouse"
-msgstr ""
+msgstr "A tela ativa segue o mouse"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox,
 #. kcfg_SeparateScreenFocus)
@@ -980,7 +1012,7 @@ msgstr ""
 #: focus.ui:216
 #, kde-format
 msgid "&Separate screen focus"
-msgstr ""
+msgstr "Foco de tela separado"
 
 #. i18n: ectx: property (text), widget (QLabel,
 #. windowFocusPolicyDescriptionLabel)
@@ -992,27 +1024,27 @@ msgstr "Descrição da política de ativação da janela"
 #: main.cpp:73
 #, kde-format
 msgid "&Focus"
-msgstr ""
+msgstr "Foco"
 
 #: main.cpp:79
 #, kde-format
 msgid "Titlebar A&ctions"
-msgstr ""
+msgstr "Ações da barra de título"
 
 #: main.cpp:85
 #, kde-format
 msgid "W&indow Actions"
-msgstr ""
+msgstr "Ações da janela"
 
 #: main.cpp:91
 #, kde-format
 msgid "Mo&vement"
-msgstr ""
+msgstr "Movimento"
 
 #: main.cpp:97
 #, kde-format
 msgid "Adva&nced"
-msgstr ""
+msgstr "Avançado"
 
 #: main.cpp:101
 #, kde-format
@@ -1669,6 +1701,8 @@ msgstr ""
 #~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
 #~ "<em>inactive</em> window."
 #~ msgstr ""
+#~ "Comportamento em <em>meio</em> clique na barra de título ou no quadro de uma"
+#~ " <em>janela</em> inativa."
 
 #~ msgid "Here you can customize behavior when clicking on the maximize button."
 #~ msgstr ""
