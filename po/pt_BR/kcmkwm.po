@@ -1306,7 +1306,7 @@ msgstr ""
 #: moving.ui:36 moving.ui:68 moving.ui:100
 #, kde-format
 msgid " px"
-msgstr ""
+msgstr " px"
 
 #. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
 #: moving.ui:52
