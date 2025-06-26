@@ -10,17 +10,46 @@
   <file>shaders/dottedline_core.frag</file>
   <file>shaders/dottedline.vert</file>
   <file>shaders/dottedline_core.vert</file>
+  <file>translations/multitasking.qm</file>
+  <file>translations/multitasking_am_ET.qm</file>
+  <file>translations/multitasking_ar.qm</file>
+  <file>translations/multitasking_ast.qm</file>
+  <file>translations/multitasking_az.qm</file>
+  <file>translations/multitasking_bg.qm</file>
   <file>translations/multitasking_bo.qm</file>
+  <file>translations/multitasking_bqi.qm</file>
   <file>translations/multitasking_ca.qm</file>
+  <file>translations/multitasking_cs.qm</file>
+  <file>translations/multitasking_da.qm</file>
+  <file>translations/multitasking_de.qm</file>
+  <file>translations/multitasking_el.qm</file>
+  <file>translations/multitasking_es.qm</file>
+  <file>translations/multitasking_fi.qm</file>
+  <file>translations/multitasking_fr.qm</file>
+  <file>translations/multitasking_gl_ES.qm</file>
+  <file>translations/multitasking_hi_IN.qm</file>
+  <file>translations/multitasking_hr.qm</file>
   <file>translations/multitasking_hu.qm</file>
+  <file>translations/multitasking_id.qm</file>
+  <file>translations/multitasking_it.qm</file>
+  <file>translations/multitasking_ja.qm</file>
+  <file>translations/multitasking_ka.qm</file>
+  <file>translations/multitasking_ms.qm</file>
   <file>translations/multitasking_nl.qm</file>
   <file>translations/multitasking_pl.qm</file>
+  <file>translations/multitasking_pt.qm</file>
+  <file>translations/multitasking_pt_BR.qm</file>
+  <file>translations/multitasking_ro.qm</file>
+  <file>translations/multitasking_ru.qm</file>
+  <file>translations/multitasking_sk.qm</file>
+  <file>translations/multitasking_sl.qm</file>
   <file>translations/multitasking_sq.qm</file>
+  <file>translations/multitasking_sr.qm</file>
   <file>translations/multitasking_tr.qm</file>
   <file>translations/multitasking_ug.qm</file>
+  <file>translations/multitasking_uk.qm</file>
   <file>translations/multitasking_zh_CN.qm</file>
   <file>translations/multitasking_zh_HK.qm</file>
   <file>translations/multitasking_zh_TW.qm</file>
-  <file>translations/multitasking.qm</file>
 </qresource>
 </RCC>

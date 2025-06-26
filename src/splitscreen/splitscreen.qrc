@@ -16,17 +16,59 @@
         <file>themes/light/icons/restore_split_normal.svg</file>
         <file>themes/light/icons/right_split_hover.svg</file>
         <file>themes/light/icons/right_split_normal.svg</file>
+        <file>translations/splitmenu.qm</file>
+        <file>translations/splitmenu_am_ET.qm</file>
+        <file>translations/splitmenu_ar.qm</file>
+        <file>translations/splitmenu_ast.qm</file>
+        <file>translations/splitmenu_az.qm</file>
+        <file>translations/splitmenu_bg.qm</file>
+        <file>translations/splitmenu_bn.qm</file>
         <file>translations/splitmenu_bo.qm</file>
+        <file>translations/splitmenu_bqi.qm</file>
+        <file>translations/splitmenu_br.qm</file>
         <file>translations/splitmenu_ca.qm</file>
+        <file>translations/splitmenu_cs.qm</file>
+        <file>translations/splitmenu_da.qm</file>
+        <file>translations/splitmenu_de.qm</file>
+        <file>translations/splitmenu_el.qm</file>
+        <file>translations/splitmenu_es.qm</file>
+        <file>translations/splitmenu_fa.qm</file>
+        <file>translations/splitmenu_fi.qm</file>
+        <file>translations/splitmenu_fr.qm</file>
+        <file>translations/splitmenu_gl_ES.qm</file>
+        <file>translations/splitmenu_he.qm</file>
+        <file>translations/splitmenu_hi_IN.qm</file>
+        <file>translations/splitmenu_hr.qm</file>
         <file>translations/splitmenu_hu.qm</file>
+        <file>translations/splitmenu_id.qm</file>
+        <file>translations/splitmenu_it.qm</file>
+        <file>translations/splitmenu_ja.qm</file>
+        <file>translations/splitmenu_ka.qm</file>
+        <file>translations/splitmenu_kab.qm</file>
+        <file>translations/splitmenu_km_KH.qm</file>
+        <file>translations/splitmenu_ko.qm</file>
+        <file>translations/splitmenu_lt.qm</file>
+        <file>translations/splitmenu_ms.qm</file>
+        <file>translations/splitmenu_ne.qm</file>
         <file>translations/splitmenu_nl.qm</file>
         <file>translations/splitmenu_pl.qm</file>
+        <file>translations/splitmenu_pt.qm</file>
+        <file>translations/splitmenu_pt_BR.qm</file>
+        <file>translations/splitmenu_ro.qm</file>
+        <file>translations/splitmenu_ru.qm</file>
+        <file>translations/splitmenu_sk.qm</file>
+        <file>translations/splitmenu_sl.qm</file>
         <file>translations/splitmenu_sq.qm</file>
+        <file>translations/splitmenu_sr.qm</file>
+        <file>translations/splitmenu_sv.qm</file>
+        <file>translations/splitmenu_ta.qm</file>
         <file>translations/splitmenu_tr.qm</file>
+        <file>translations/splitmenu_tzm.qm</file>
         <file>translations/splitmenu_ug.qm</file>
+        <file>translations/splitmenu_uk.qm</file>
+        <file>translations/splitmenu_vi.qm</file>
         <file>translations/splitmenu_zh_CN.qm</file>
         <file>translations/splitmenu_zh_HK.qm</file>
         <file>translations/splitmenu_zh_TW.qm</file>
-        <file>translations/splitmenu.qm</file>
     </qresource>
 </RCC>
