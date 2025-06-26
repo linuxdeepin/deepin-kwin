@@ -247,32 +247,32 @@ msgstr "Desmarcar tudo"
 #: package/contents/ui/main.qml:72
 #, kde-format
 msgid "Select All"
-msgstr ""
+msgstr "Selecionar tudo"
 
 #: package/contents/ui/main.qml:86
 #, kde-format
 msgid "Save Rules"
-msgstr ""
+msgstr "Salvar regras"
 
 #: package/contents/ui/main.qml:97
 #, kde-format
 msgid "Add New..."
-msgstr ""
+msgstr "Adicionar novo..."
 
 #: package/contents/ui/main.qml:108
 #, kde-format
 msgid "Import..."
-msgstr ""
+msgstr "Importar..."
 
 #: package/contents/ui/main.qml:116
 #, kde-format
 msgid "Cancel Export"
-msgstr ""
+msgstr "Cancelar exportação"
 
 #: package/contents/ui/main.qml:116
 #, kde-format
 msgid "Export..."
-msgstr ""
+msgstr "Exportar..."
 
 #: package/contents/ui/main.qml:206
 #, kde-format
@@ -292,22 +292,22 @@ msgstr "Deletar"
 #: package/contents/ui/main.qml:237
 #, kde-format
 msgid "Import Rules"
-msgstr ""
+msgstr "Regras de importação"
 
 #: package/contents/ui/main.qml:249
 #, kde-format
 msgid "Export Rules"
-msgstr ""
+msgstr "Regras de Exportação"
 
 #: package/contents/ui/OptionsComboBox.qml:35
 #, kde-format
 msgid "None selected"
-msgstr ""
+msgstr "Nenhum selecionado"
 
 #: package/contents/ui/OptionsComboBox.qml:41
 #, kde-format
 msgid "All selected"
-msgstr ""
+msgstr "Todos selecionados"
 
 #: package/contents/ui/OptionsComboBox.qml:43
 #, kde-format
@@ -320,7 +320,7 @@ msgstr[2] ""
 #: package/contents/ui/RulesEditor.qml:63
 #, kde-format
 msgid "No window properties changed"
-msgstr ""
+msgstr "Nenhuma propriedade de janela foi alterada"
 
 #: package/contents/ui/RulesEditor.qml:64
 #, kde-kuit-format
