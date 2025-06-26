@@ -1790,7 +1790,7 @@ msgstr ""
 #: rulesettings.kcfg:173
 #, kde-format
 msgid "Activity"
-msgstr ""
+msgstr "Atividade"
 
 #. i18n: ectx: label, entry (activityrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:176
@@ -2017,7 +2017,7 @@ msgstr ""
 #: rulesettings.kcfg:363
 #, kde-format
 msgid "Closeable"
-msgstr ""
+msgstr "Fechável"
 
 #. i18n: ectx: label, entry (closeablerule), group
 #. ($(ruleDescriptionOrNumber))
@@ -2109,7 +2109,7 @@ msgstr ""
 #: rulesettings.kcfg:426
 #, kde-format
 msgid "Desktop file name"
-msgstr ""
+msgstr "Nome do arquivo da área de trabalho"
 
 #. i18n: ectx: label, entry (desktopfilerule), group
 #. ($(ruleDescriptionOrNumber))
