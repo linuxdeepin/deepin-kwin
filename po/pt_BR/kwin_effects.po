@@ -475,19 +475,19 @@ msgstr "milésimo de segundos"
 #: mouseclick/mouseclick_config.ui:145
 #, kde-format
 msgid "Ring Duration:"
-msgstr "Duração do toque:"
+msgstr "Duração do anel:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 #, kde-format
 msgid "Ring Radius:"
-msgstr "Raio do toque:"
+msgstr "Raio do anel:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_count_label)
 #: mouseclick/mouseclick_config.ui:184
 #, kde-format
 msgid "Ring Count:"
-msgstr ""
+msgstr "Contagem de anéis:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, font)
 #: mouseclick/mouseclick_config.ui:210
@@ -510,17 +510,17 @@ msgstr "Mostrar texto:"
 #: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
-msgstr ""
+msgstr "Limpar todas as marcas do mouse"
 
 #: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
-msgstr ""
+msgstr "Limpar a última marca do mouse"
 
 #: mousemark/mousemark_config.cpp:53
 #, kde-format
 msgid "Clear Mouse Marks"
-msgstr ""
+msgstr "Limpar marcas do mouse"
 
 #: mousemark/mousemark_config.cpp:100
 #, kde-format
@@ -535,13 +535,13 @@ msgstr[2] ""
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr ""
+msgstr "Largura:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36
 #, kde-format
 msgid "&Color:"
-msgstr ""
+msgstr "Cor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: mousemark/mousemark_config.ui:82
@@ -636,6 +636,8 @@ msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Selecione a janela para fazer a captura de tela com o botão esquerdo ou Enter.\n"
+"Escape ou clique com o botão direito para cancelar."
 
 #: screenshot/screenshotdbusinterface1.cpp:803
 #: screenshot/screenshotdbusinterface2.cpp:495
@@ -644,6 +646,8 @@ msgid ""
 "Create screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Crie uma captura de tela com clique esquerdo ou enter\n"
+"Escape ou clique com o botão direito para cancelar."
 
 #: showfps/qml/main.qml:110
 #, kde-format
@@ -684,25 +688,25 @@ msgstr "Alternar Mostrar Pintura"
 #: slide/slide_config.ui:17
 #, kde-format
 msgid "Gap between desktops"
-msgstr ""
+msgstr "Lacuna entre áreas de trabalho"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
 #: slide/slide_config.ui:23
 #, kde-format
 msgid "Horizontal:"
-msgstr ""
+msgstr "Horizontal:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
 #: slide/slide_config.ui:46
 #, kde-format
 msgid "Vertical:"
-msgstr ""
+msgstr "Vertical:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
 #: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
-msgstr ""
+msgstr " Plano de fundo da área de trabalho deslizante"
 
 #: thumbnailaside/thumbnailaside.cpp:29
 #: thumbnailaside/thumbnailaside_config.cpp:59
