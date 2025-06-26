@@ -92,7 +92,7 @@ msgstr "Direita"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Middle"
-msgstr ""
+msgstr "Meio"
 
 #: debug_console.cpp:107
 #, kde-format
