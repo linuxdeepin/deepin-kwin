@@ -1146,7 +1146,7 @@ msgstr "Clique duas vezes:"
 #: mouse.ui:36
 #, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
-msgstr ""
+msgstr "Comportamento ao <em>clicar</em> duas vezes na barra de titulo."
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -1279,8 +1279,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>active</em> window."
 msgstr ""
-"Comportamento na <em>esquerda</em> clique na barra de título ou no quadro de"
-" uma <em>janela</em> ativa."
+"Comportamento na <em>esquerda</em> ao clicar na barra de título ou no quadro"
+" de uma <em>janela</em> ativa."
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_CommandActiveTitlebar1)
@@ -1312,8 +1312,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
 msgstr ""
-"Comportamento na<em>esquerda</em> clique na barra de título ou no quadro de "
-"uma<em>janela</em> inativa."
+"Comportamento na<em>esquerda</em>  ao clicar na barra de título ou no quadro"
+" de uma<em>janela</em> inativa."
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_CommandInactiveTitlebar1)
@@ -1338,7 +1338,7 @@ msgstr "Maximizar ações dos botões"
 #: mouse.ui:598 mouse.ui:611
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
-msgstr "Comportamento na <em>esquerda</em>clique no botão maximizar."
+msgstr "Comportamento na <em>esquerda</em> ao clicar no botão maximizar."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
@@ -1346,13 +1346,13 @@ msgstr "Comportamento na <em>esquerda</em>clique no botão maximizar."
 #: mouse.ui:633 mouse.ui:646
 #, kde-format
 msgid "Behavior on <em>middle</em> click onto the maximize button."
-msgstr ""
+msgstr "Comportamento no <em>meio</em> ao clicar no botão maximizar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:636
 #, kde-format
 msgid "Middle c&lick:"
-msgstr ""
+msgstr "Clique do meio:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
@@ -1360,13 +1360,13 @@ msgstr ""
 #: mouse.ui:668 mouse.ui:681
 #, kde-format
 msgid "Behavior on <em>right</em> click onto the maximize button."
-msgstr ""
+msgstr "Comportamento na <em>direita</em> ao clicar no botão maximizar."
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:20
 #, kde-format
 msgid "Screen &edge snap zone:"
-msgstr ""
+msgstr "Zona de ajuste da borda da tela:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
 #: moving.ui:30
@@ -1392,7 +1392,7 @@ msgstr " px"
 #: moving.ui:52
 #, kde-format
 msgid "&Window snap zone:"
-msgstr ""
+msgstr "Zona de encaixe da janela:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
 #: moving.ui:62
@@ -1410,7 +1410,7 @@ msgstr ""
 #: moving.ui:84
 #, kde-format
 msgid "&Center snap zone:"
-msgstr ""
+msgstr "Zona de encaixe central:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:94
