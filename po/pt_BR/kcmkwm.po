@@ -1483,6 +1483,10 @@ msgid ""
 "<em>Focus stealing prevention</em> takes place as usual. Think as <em>Click "
 "to focus</em> just without having to actually click."
 msgstr ""
+"<em>O foco segue o mouse:</em> Mover o mouse sobre uma janela irá ativá-la. "
+"Por exemplo, janelas que aparecem aleatoriamente sob o mouse não receberão o"
+" foco. <em>Prevenção de roubo de foco</em> acontece como de costume. Pense "
+"como<em>Clique para focar</em> juapenas sem precisar clicar."
 
 #: windows.cpp:110
 #, kde-format
@@ -1492,6 +1496,10 @@ msgid ""
 "closed) the window under the mouse is the preferred candidate. Choose this, "
 "if you want a hover controlled focus."
 msgstr ""
+"Isso é basicamente o mesmo que <em>O foco segue o mouse</em>. Se uma janela "
+"ativa tiver que ser escolhida pelo sistema (por exemplo, porque a janela "
+"ativa no momento foi fechada), a janela sob o mouse é a candidata "
+"preferencial. Escolha esta opção se desejar um foco controlado por foco."
 
 #: windows.cpp:115
 #, kde-format
@@ -1530,7 +1538,7 @@ msgstr ""
 #~ msgstr "Em cascata"
 
 #~ msgid "Window &geometry:"
-#~ msgstr ""
+#~ msgstr "Geometria da janela:"
 
 #~ msgid ""
 #~ "Enable this option if you want a window's geometry to be displayed while it "
@@ -1609,12 +1617,21 @@ msgstr ""
 #~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
 #~ "</ul>"
 #~ msgstr ""
+#~ "A política de posicionamento determina onde uma nova janela aparecerá na área de trabalho.<br><ul>\n"
+#~ "<li><em>Inteligente</em> tentará obter uma sobreposição mínima de janelas</li>\n"
+#~ "<li><em>Maximizando</em> tentará maximizar cada janela para preencher a tela inteira. Pode ser útil afetar seletivamente o posicionamento de algumas janelas usando as configurações específicas de cada janela.</li>\n"
+#~ "<li><em>Cascata</em> irá cascatear as janelas</li>\n"
+#~ "<li><em>Aleatório</em> usará uma posição aleatória</li>\n"
+#~ "<li><em>Centralizado</em> colocará a janela centralizada</li>\n"
+#~ "<li><em>Sem bordas</em> colocará a janela no canto superior esquerdo</li>\n"
+#~ "<li><em>Sob o mouse</em> colocará a janela sob o ponteiro</li>\n"
+#~ "</ul>"
 
 #~ msgid "Shading"
 #~ msgstr "Sombreamento"
 
 #~ msgid "Dela&y:"
-#~ msgstr ""
+#~ msgstr "Atraso:"
 
 #~ msgid "&Enable hover"
 #~ msgstr "Habilitar foco"
