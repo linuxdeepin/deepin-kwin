@@ -57,6 +57,8 @@ msgid ""
 "Select a position for color picking with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Selecione uma posição para seleção de cores com o botão esquerdo ou Enter.\n"
+"Pressione Escape ou clique com o botão direito para cancelar."
 
 #: desktopgrid/desktopgrid_config.cpp:49 invert/invert_config.cpp:35
 #: magnifier/magnifier_config.cpp:55 mouseclick/mouseclick_config.cpp:48
@@ -73,7 +75,7 @@ msgstr "KWin"
 #: desktopgrid/desktopgrid_config.cpp:54 desktopgrid/desktopgrideffect.cpp:35
 #, kde-format
 msgid "Show Desktop Grid"
-msgstr ""
+msgstr "Mostrar grade da área de trabalho"
 
 #: desktopgrid/desktopgrid_config.cpp:61
 #, kde-format
@@ -92,7 +94,7 @@ msgstr "Em cima"
 #: desktopgrid/desktopgrid_config.cpp:63
 #, kde-format
 msgid "Top-Right"
-msgstr ""
+msgstr "Canto superior direito"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
@@ -105,7 +107,7 @@ msgstr "Direita"
 #: desktopgrid/desktopgrid_config.cpp:65
 #, kde-format
 msgid "Bottom-Right"
-msgstr ""
+msgstr "Canto inferior direito"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
@@ -118,7 +120,7 @@ msgstr "Fundo"
 #: desktopgrid/desktopgrid_config.cpp:67
 #, kde-format
 msgid "Bottom-Left"
-msgstr ""
+msgstr "Inferior esquerdo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
@@ -131,7 +133,7 @@ msgstr "Esquerda"
 #: desktopgrid/desktopgrid_config.cpp:69
 #, kde-format
 msgid "Top-Left"
-msgstr ""
+msgstr "Canto superior esquerdo"
 
 #: desktopgrid/desktopgrid_config.cpp:70
 #, kde-format
@@ -150,7 +152,7 @@ msgstr "Aparência"
 #: desktopgrid/desktopgrid_config.ui:30
 #, kde-format
 msgid "Pager"
-msgstr ""
+msgstr "Pager"
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_DesktopLayoutMode)
@@ -164,7 +166,7 @@ msgstr "Automático"
 #: desktopgrid/desktopgrid_config.ui:40
 #, kde-format
 msgid "Custom"
-msgstr ""
+msgstr "Personalizado"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:48
@@ -176,7 +178,7 @@ msgstr "Número de linhas:"
 #: desktopgrid/desktopgrid_config.ui:103
 #, kde-format
 msgid "Desktop &name alignment:"
-msgstr ""
+msgstr "Alinhamento do nome na área de trabalho:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
 #: desktopgrid/desktopgrid_config.ui:116
@@ -188,7 +190,7 @@ msgstr "Mostrar botões para alterar a contagem de áreas de trabalhos virtuais"
 #: desktopgrid/desktopgrid_config.ui:123
 #, kde-format
 msgid "&Grid layout mode:"
-msgstr ""
+msgstr "Modo de layout de grade:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -366,25 +368,25 @@ msgstr "Tamanho"
 #: magnifier/magnifier_config.ui:23
 #, kde-format
 msgid "&Width:"
-msgstr ""
+msgstr "Largura:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Width)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Height)
 #: magnifier/magnifier_config.ui:42 magnifier/magnifier_config.ui:74
 #, kde-format
 msgid " px"
-msgstr ""
+msgstr " px"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: magnifier/magnifier_config.ui:55
 #, kde-format
 msgid "&Height:"
-msgstr ""
+msgstr "Altura:"
 
 #: mouseclick/mouseclick.cpp:34 mouseclick/mouseclick_config.cpp:51
 #, kde-format
 msgid "Toggle Mouse Click Effect"
-msgstr ""
+msgstr "Alternar efeito de clique do mouse"
 
 #: mouseclick/mouseclick.cpp:41
 #, kde-format
@@ -396,7 +398,7 @@ msgstr "Esquerda"
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
-msgstr ""
+msgstr "Meio"
 
 #: mouseclick/mouseclick.cpp:43
 #, kde-format
@@ -407,61 +409,61 @@ msgstr "Direita"
 #: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
-msgstr ""
+msgstr "↓"
 
 #: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
-msgstr ""
+msgstr "↑"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
 msgid "Basic Settings"
-msgstr ""
+msgstr "Configurações básicas"
 
 #. i18n: ectx: property (text), widget (QLabel, button1_label)
 #: mouseclick/mouseclick_config.ui:37
 #, kde-format
 msgid "Left Mouse Button Color:"
-msgstr ""
+msgstr "Cor do botão esquerdo do mouse:"
 
 #. i18n: ectx: property (text), widget (QLabel, button2_label)
 #: mouseclick/mouseclick_config.ui:50
 #, kde-format
 msgid "Middle Mouse Button Color:"
-msgstr ""
+msgstr "Cor do botão do meio do mouse:"
 
 #. i18n: ectx: property (text), widget (QLabel, button3_label)
 #: mouseclick/mouseclick_config.ui:70
 #, kde-format
 msgid "Right Mouse Button Color:"
-msgstr ""
+msgstr "Cor do botão direito do mouse:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 #, kde-format
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Configurações avançadas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, rings)
 #: mouseclick/mouseclick_config.ui:97
 #, kde-format
 msgid "Rings"
-msgstr ""
+msgstr "Toques"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, kde-format
 msgid "Line Width:"
-msgstr ""
+msgstr "Largura da linha:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #, kde-format
 msgid " pixel"
-msgstr ""
+msgstr " pixel"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
 #: mouseclick/mouseclick_config.ui:132
@@ -473,13 +475,13 @@ msgstr "milésimo de segundos"
 #: mouseclick/mouseclick_config.ui:145
 #, kde-format
 msgid "Ring Duration:"
-msgstr ""
+msgstr "Duração do toque:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 #, kde-format
 msgid "Ring Radius:"
-msgstr ""
+msgstr "Raio do toque:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_count_label)
 #: mouseclick/mouseclick_config.ui:184
