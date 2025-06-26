@@ -67,6 +67,8 @@ public:
     explicit EffectsHandlerEx(CompositingType type);
     virtual ~EffectsHandlerEx();
 
+    using EffectsHandler::findScreen;
+
     virtual void setQuickTileWindow(KWin::EffectWindow *w, int mode) = 0;
     virtual int getQuickTileMode(KWin::EffectWindow *w) = 0;
     virtual QRectF getQuickTileGeometry(KWin::EffectWindow *w, int mode, QPointF pos) = 0;
