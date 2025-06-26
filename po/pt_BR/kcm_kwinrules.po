@@ -735,31 +735,39 @@ msgid ""
 "nor use any other global shortcut (such as Alt+F2 to show KRunner)\n"
 "while it's active!"
 msgstr ""
+"Quando usada, uma janela receberá\n"
+"todas as entradas do teclado enquanto estiver ativo, incluindo Alt+Tab etc.\n"
+"Isto é especialmente interessante para emuladores ou máquinas virtuais.\n"
+"\n"
+"Esteja avisado:\n"
+"você não poderá pressionar Alt+Tab para sair da janela\n"
+"ou usar qualquer outro atalho global (como Alt+F2 para mostrar o KRunner)\n"
+"enquanto estiver ativo!"
 
 #: rulesmodel.cpp:635
 #, kde-format
 msgid "Closeable"
-msgstr ""
+msgstr "Fechável"
 
 #: rulesmodel.cpp:640
 #, kde-format
 msgid "Set window type"
-msgstr ""
+msgstr "Definir tipo de janela"
 
 #: rulesmodel.cpp:646
 #, kde-format
 msgid "Desktop file name"
-msgstr ""
+msgstr "Nome do arquivo da área de trabalho"
 
 #: rulesmodel.cpp:651
 #, kde-format
 msgid "Block compositing"
-msgstr ""
+msgstr "Composição de blocos"
 
 #: rulesmodel.cpp:703
 #, kde-format
 msgid "Window class not available"
-msgstr ""
+msgstr "Classe de janela não disponível"
 
 #: rulesmodel.cpp:704
 #, kde-kuit-format
@@ -771,6 +779,11 @@ msgid ""
 "instead.<nl/><nl/>Please consider reporting this bug to the application's "
 "developers."
 msgstr ""
+"Este aplicativo não fornece uma classe para a janela, portanto, o KWin não "
+"pode usá-la para corresponder e aplicar quaisquer regras. Se você ainda "
+"quiser aplicar algumas regras a ela, tente corresponder outras propriedades,"
+" como o título da janela.<nl/><nl/>Por favor, considere relatar esse bug aos"
+" desenvolvedores do aplicativo."
 
 #: rulesmodel.cpp:738
 #, kde-format
@@ -810,7 +823,7 @@ msgstr ""
 #: rulesmodel.cpp:745
 #, kde-format
 msgid "Splash Screen"
-msgstr ""
+msgstr "Tela inicial"
 
 #: rulesmodel.cpp:746
 #, kde-format
@@ -821,12 +834,12 @@ msgstr "Área de trabalho"
 #: rulesmodel.cpp:748
 #, kde-format
 msgid "Standalone Menubar"
-msgstr ""
+msgstr "Barra de menu autônoma"
 
 #: rulesmodel.cpp:749
 #, kde-format
 msgid "On Screen Display"
-msgstr ""
+msgstr "Exibir na tela"
 
 #: rulesmodel.cpp:759
 #, kde-format
@@ -837,18 +850,18 @@ msgstr "Todas as áreas de trabalho"
 #, kde-format
 msgctxt "@info:tooltip in the virtual desktop list"
 msgid "Make the window available on all desktops"
-msgstr ""
+msgstr "Tornar a janela disponível em todas as áreas de trabalhos"
 
 #: rulesmodel.cpp:780
 #, kde-format
 msgid "All Activities"
-msgstr ""
+msgstr "Todas as atividades"
 
 #: rulesmodel.cpp:782
 #, kde-format
 msgctxt "@info:tooltip in the activity list"
 msgid "Make the window available on all activities"
-msgstr ""
+msgstr "Disponibilize a janela para todas as atividades"
 
 #: rulesmodel.cpp:803
 #, kde-format
@@ -858,7 +871,7 @@ msgstr "Padrão"
 #: rulesmodel.cpp:804
 #, kde-format
 msgid "No Placement"
-msgstr ""
+msgstr "Sem colocação"
 
 #: rulesmodel.cpp:805
 #, kde-format
@@ -888,12 +901,12 @@ msgstr "No canto superior esquerdo"
 #: rulesmodel.cpp:810
 #, kde-format
 msgid "Under Mouse"
-msgstr ""
+msgstr "Sob o mouse"
 
 #: rulesmodel.cpp:811
 #, kde-format
 msgid "On Main Window"
-msgstr ""
+msgstr "Na janela principal"
 
 #: rulesmodel.cpp:818
 #, kde-format
@@ -923,18 +936,20 @@ msgstr "Extremo"
 #: rulesmodel.cpp:865
 #, kde-format
 msgid "Unmanaged window"
-msgstr ""
+msgstr "Janela não gerenciada"
 
 #: rulesmodel.cpp:866
 #, kde-format
 msgid "Could not detect window properties. The window is not managed by KWin."
 msgstr ""
+"Não foi possível detectar as propriedades da janela. A janela não é "
+"gerenciada pelo KWin."
 
 #~ msgid "Error"
-#~ msgstr ""
+#~ msgstr "Erro"
 
 #~ msgid "Cascaded"
-#~ msgstr ""
+#~ msgstr "Em cascata"
 
 #~ msgid "Keep above"
 #~ msgstr "Manter acima"
@@ -949,16 +964,16 @@ msgstr ""
 #~ msgstr "Utilitário auxiliar KWin"
 
 #~ msgid "Activity"
-#~ msgstr ""
+#~ msgstr "Atividade"
 
 #~ msgid "Select properties"
-#~ msgstr ""
+#~ msgstr "Selecionar propriedades"
 
 #~ msgid "Override Type"
-#~ msgstr ""
+#~ msgstr "Tipo de substituição"
 
 #~ msgid "Unknown - will be treated as Normal Window"
-#~ msgstr ""
+#~ msgstr "Desconhecido - será tratado como Janela Normal"
 
 #~ msgid "Information About Selected Window"
 #~ msgstr "Informações sobre a janela selecionada"
@@ -1072,7 +1087,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Unnamed entry"
-#~ msgstr ""
+#~ msgstr "Entrada sem nome"
 
 #~ msgid ""
 #~ "This configuration dialog allows altering settings only for the selected "
@@ -1080,9 +1095,13 @@ msgstr ""
 #~ "setting using the checkbox, select in what way the setting should be "
 #~ "affected and to which value."
 #~ msgstr ""
+#~ "Esta caixa de diálogo de configuração permite alterar as configurações "
+#~ "apenas para a janela ou aplicativo selecionado. Encontre a configuração que "
+#~ "deseja alterar, ative-a usando a caixa de seleção, selecione de que forma a "
+#~ "configuração deve ser afetada e qual valor."
 
 #~ msgid "Consult the documentation for more details."
-#~ msgstr ""
+#~ msgstr "Consulte a documentação para mais detalhes."
 
 #~ msgid "Edit Shortcut"
 #~ msgstr ""
