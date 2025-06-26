@@ -1,3 +1,17 @@
+deepin-kwin (4:6.0.9) unstable; urgency=medium
+
+  * chore: update translation file references
+  * Updates for project deepin kwin (#369)
+  * docs: fix plural forms header in Icelandic translation (#368)
+  * i18n：Updates for project kwin (#367)
+  * chore: configure transifex translation files
+  * libkwineffects: Set format on the main OffscreenQuickView
+  * Fix touch on PointerHandlers
+  * chore: reduce unnecessary dbus calls
+  * fix: support build testing on qt6
+
+ -- rewine <luhongxu@uniontech.com>  Thu, 26 Jun 2025 20:29:25 +0800
+
 deepin-kwin (4:6.0.8) unstable; urgency=medium
 
   * merge uos 20 kwin from 5.27.2.283 to 5.27.2.292
