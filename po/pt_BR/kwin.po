@@ -747,153 +747,153 @@ msgstr "extra 4"
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 5"
-msgstr ""
+msgstr "extra 5"
 
 #: debug_console.cpp:831
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 6"
-msgstr ""
+msgstr "extra 6"
 
 #: debug_console.cpp:834
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 7"
-msgstr ""
+msgstr "extra 7"
 
 #: debug_console.cpp:837
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 8"
-msgstr ""
+msgstr "extra 8"
 
 #: debug_console.cpp:840
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 9"
-msgstr ""
+msgstr "extra 9"
 
 #: debug_console.cpp:843
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 10"
-msgstr ""
+msgstr "extra 10"
 
 #: debug_console.cpp:846
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 11"
-msgstr ""
+msgstr "extra 11"
 
 #: debug_console.cpp:849
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 12"
-msgstr ""
+msgstr "extra 12"
 
 #: debug_console.cpp:852
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 13"
-msgstr ""
+msgstr "extra 13"
 
 #: debug_console.cpp:855
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 14"
-msgstr ""
+msgstr "extra 14"
 
 #: debug_console.cpp:858
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 15"
-msgstr ""
+msgstr "extra 15"
 
 #: debug_console.cpp:861
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 16"
-msgstr ""
+msgstr "extra 16"
 
 #: debug_console.cpp:864
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 17"
-msgstr ""
+msgstr "extra 17"
 
 #: debug_console.cpp:867
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 18"
-msgstr ""
+msgstr "extra 18"
 
 #: debug_console.cpp:870
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 19"
-msgstr ""
+msgstr "extra 19"
 
 #: debug_console.cpp:873
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 20"
-msgstr ""
+msgstr "extra 20"
 
 #: debug_console.cpp:876
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 21"
-msgstr ""
+msgstr "extra 21"
 
 #: debug_console.cpp:879
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 22"
-msgstr ""
+msgstr "extra 22"
 
 #: debug_console.cpp:882
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 23"
-msgstr ""
+msgstr "extra 23"
 
 #: debug_console.cpp:885
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 24"
-msgstr ""
+msgstr "extra 24"
 
 #: debug_console.cpp:888
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
-msgstr ""
+msgstr "tarefa"
 
 #: debug_console.cpp:1222
 #, kde-format
 msgid "X11 Windows"
-msgstr ""
+msgstr "X11 Windows"
 
 #: debug_console.cpp:1224
 #, kde-format
 msgid "X11 Unmanaged Windows"
-msgstr ""
+msgstr "X11 Windows não gerenciado"
 
 #: debug_console.cpp:1226
 #, kde-format
 msgid "Wayland Windows"
-msgstr ""
+msgstr "Wayland Windows"
 
 #: debug_console.cpp:1228
 #, kde-format
 msgid "Internal Windows"
-msgstr ""
+msgstr "Janelas internas"
 
 #. i18n: ectx: property (text), widget (QPushButton, quitButton)
 #: debug_console.ui:32
 #, kde-format
 msgid "Quit Debug Console"
-msgstr ""
+msgstr "Sair do console de depuração"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
 #: debug_console.ui:45
@@ -905,133 +905,133 @@ msgstr "Janelas"
 #: debug_console.ui:59
 #, kde-format
 msgid "Surfaces"
-msgstr ""
+msgstr "Superfícies"
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
 #: debug_console.ui:69
 #, kde-format
 msgid "Input Events"
-msgstr ""
+msgstr "Eventos de entrada"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
 #: debug_console.ui:86
 #, kde-format
 msgid "Input Devices"
-msgstr ""
+msgstr "Dispositivos de entrada"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: debug_console.ui:96
 #, kde-format
 msgid "OpenGL"
-msgstr ""
+msgstr "OpenGL"
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
 #: debug_console.ui:102
 #, kde-format
 msgid "No OpenGL compositor running"
-msgstr ""
+msgstr "Nenhum compositor OpenGL em execução"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
 #: debug_console.ui:130
 #, kde-format
 msgid "OpenGL (ES) driver information"
-msgstr ""
+msgstr "Informações do driver OpenGL (ES)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:136
 #, kde-format
 msgid "Vendor:"
-msgstr ""
+msgstr "Fornecedor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: debug_console.ui:143
 #, kde-format
 msgid "Renderer:"
-msgstr ""
+msgstr "Renderizador:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: debug_console.ui:150
 #, kde-format
 msgid "Version:"
-msgstr ""
+msgstr "Versão:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: debug_console.ui:157
 #, kde-format
 msgid "Shading Language Version:"
-msgstr ""
+msgstr "Versão da linguagem de sombreamento:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: debug_console.ui:164
 #, kde-format
 msgid "Driver:"
-msgstr ""
+msgstr "Driver:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: debug_console.ui:171
 #, kde-format
 msgid "GPU class:"
-msgstr ""
+msgstr "Classe da GPU:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: debug_console.ui:178
 #, kde-format
 msgid "OpenGL Version:"
-msgstr ""
+msgstr "Versão OpenGL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: debug_console.ui:185
 #, kde-format
 msgid "GLSL Version:"
-msgstr ""
+msgstr "Versão GLSL:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
 #: debug_console.ui:251
 #, kde-format
 msgid "Platform Extensions"
-msgstr ""
+msgstr "Extensões da plataforma"
 
 #. i18n: ectx: property (title), widget (QGroupBox, glExtensionsBox)
 #: debug_console.ui:267
 #, kde-format
 msgid "OpenGL (ES) Extensions"
-msgstr ""
+msgstr "Extensões OpenGL (ES)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, keyboard)
 #: debug_console.ui:288
 #, kde-format
 msgid "Keyboard"
-msgstr ""
+msgstr "Teclado"
 
 #. i18n: ectx: property (title), widget (QGroupBox, layoutBox)
 #: debug_console.ui:315
 #, kde-format
 msgid "Keymap Layouts"
-msgstr ""
+msgstr "Layouts de mapeamento das teclas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: debug_console.ui:337
 #, kde-format
 msgid "Current Layout:"
-msgstr ""
+msgstr "Layout atual:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
 #: debug_console.ui:372
 #, kde-format
 msgid "Active Modifiers"
-msgstr ""
+msgstr "Modificadores Ativos"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ledsBox)
 #: debug_console.ui:388
 #, kde-format
 msgid "LEDs"
-msgstr ""
+msgstr "LEDs"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
 #: debug_console.ui:404
 #, kde-format
 msgid "Active LEDs"
-msgstr ""
+msgstr "LEDs ativos"
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (QLabel, label)
