@@ -445,31 +445,31 @@ msgstr "Identificador de ponto"
 #, kde-format
 msgctxt "The global position of the touch point"
 msgid "Global position"
-msgstr ""
+msgstr "Posição global"
 
 #: debug_console.cpp:339
 #, kde-format
 msgctxt "A touch motion event"
 msgid "Touch Motion"
-msgstr ""
+msgstr "Movimento de toque"
 
 #: debug_console.cpp:354
 #, kde-format
 msgctxt "A touch up event"
 msgid "Touch Up"
-msgstr ""
+msgstr "Tocar em cima"
 
 #: debug_console.cpp:367
 #, kde-format
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
-msgstr ""
+msgstr "Início rápido"
 
 #: debug_console.cpp:369
 #, kde-format
 msgctxt "Number of fingers in this pinch gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Contador de dedos"
 
 #: debug_console.cpp:380
 #, kde-format
@@ -487,19 +487,19 @@ msgstr "Escala"
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
-msgstr ""
+msgstr "Ângulo delta"
 
 #: debug_console.cpp:384
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
 #: debug_console.cpp:385
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
 #: debug_console.cpp:396
 #, kde-format
@@ -523,7 +523,7 @@ msgstr ""
 #, kde-format
 msgctxt "Number of fingers in this swipe gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Contador de dedos"
 
 #: debug_console.cpp:433
 #, kde-format
@@ -535,13 +535,13 @@ msgstr ""
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
 #: debug_console.cpp:436
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
 #: debug_console.cpp:447
 #, kde-format
