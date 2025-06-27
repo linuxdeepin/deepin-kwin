@@ -2280,12 +2280,12 @@ msgstr ""
 #: useractions.cpp:325
 #, kde-format
 msgid "Ma&ximize"
-msgstr ""
+msgstr "&Maximieren"
 
 #: useractions.cpp:331
 #, kde-format
 msgid "Mi&nimize"
-msgstr ""
+msgstr "m&inimieren"
 
 #: useractions.cpp:337
 #, kde-format
@@ -2295,7 +2295,7 @@ msgstr ""
 #: useractions.cpp:340
 #, kde-format
 msgid "&Close"
-msgstr "& Schließen"
+msgstr "&Schließen"
 
 #: useractions.cpp:410
 #, kde-format
@@ -2305,7 +2305,7 @@ msgstr ""
 #: useractions.cpp:461
 #, kde-format
 msgid "&Desktops"
-msgstr ""
+msgstr "&Schreibtische"
 
 #: useractions.cpp:475
 #, kde-format
@@ -2330,13 +2330,13 @@ msgstr "Verschiebe &Zum aktuellen Schreibtisch"
 #: useractions.cpp:535 useractions.cpp:602
 #, kde-format
 msgid "&All Desktops"
-msgstr ""
+msgstr "&Alle Schreibtische"
 
 #: useractions.cpp:575
 #, kde-format
 msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
-msgstr ""
+msgstr "&Neuer Schreibtisch"
 
 #: useractions.cpp:646
 #, kde-format
