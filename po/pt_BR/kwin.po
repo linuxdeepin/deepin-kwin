@@ -1038,78 +1038,78 @@ msgstr "LEDs ativos"
 #: debug_console.ui:425 debug_console.ui:445
 #, kde-format
 msgid "Clipboard"
-msgstr ""
+msgstr "Área de transferência"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:491
 #, kde-format
 msgid "Primary Selection"
-msgstr ""
+msgstr "Seleção Primária"
 
 #: helpers/killer/killer.cpp:34
 #, kde-format
 msgid "Window Manager"
-msgstr ""
+msgstr "Gerenciador de janelas"
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
 msgid "PID of the application to terminate"
-msgstr ""
+msgstr "PID do pedido de encerramento"
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
 msgid "pid"
-msgstr ""
+msgstr "PID"
 
 #: helpers/killer/killer.cpp:40
 #, kde-format
 msgid "Hostname on which the application is running"
-msgstr ""
+msgstr "Nome do host no qual o aplicativo está sendo executado"
 
 #: helpers/killer/killer.cpp:40
 #, kde-format
 msgid "hostname"
-msgstr ""
+msgstr "nome do host"
 
 #: helpers/killer/killer.cpp:42
 #, kde-format
 msgid "Caption of the window to be terminated"
-msgstr ""
+msgstr "Legenda da janela a ser encerrada"
 
 #: helpers/killer/killer.cpp:42
 #, kde-format
 msgid "caption"
-msgstr ""
+msgstr "Legenda"
 
 #: helpers/killer/killer.cpp:44
 #, kde-format
 msgid "Name of the application to be terminated"
-msgstr ""
+msgstr "Nome do aplicativo a ser encerrado"
 
 #: helpers/killer/killer.cpp:44
 #, kde-format
 msgid "name"
-msgstr ""
+msgstr "Nome"
 
 #: helpers/killer/killer.cpp:46
 #, kde-format
 msgid "ID of resource belonging to the application"
-msgstr ""
+msgstr "ID do recurso pertencente ao aplicativo"
 
 #: helpers/killer/killer.cpp:46
 #, kde-format
 msgid "id"
-msgstr ""
+msgstr "ID"
 
 #: helpers/killer/killer.cpp:48
 #, kde-format
 msgid "Time of user action causing termination"
-msgstr ""
+msgstr "Hora da ação do usuário que causou o encerramento"
 
 #: helpers/killer/killer.cpp:48
 #, kde-format
 msgid "time"
-msgstr ""
+msgstr "Hora"
 
 #: helpers/killer/killer.cpp:50
 #, kde-format
@@ -1125,7 +1125,7 @@ msgstr "Este utilitário auxiliar não deve ser chamado diretamente."
 #, kde-format
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
-msgstr ""
+msgstr "<b>O aplicativo \"%1\" não está respondendo</b>"
 
 #: helpers/killer/killer.cpp:86
 #, kde-kuit-format
@@ -1134,6 +1134,8 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3) but the application is not responding.</para>"
 msgstr ""
+"<para>Você tentou fechar a janela \"%1\" do aplicativo \"%2\" (ID do "
+"processo: %3), mas o aplicativo não está respondendo.</para>"
 
 #: helpers/killer/killer.cpp:88
 #, kde-kuit-format
@@ -1142,6 +1144,9 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3), running on host \"%4\", but the application is not responding.</para>"
 msgstr ""
+"<para>Você tentou fechar a janela \"%1\" do aplicativo \"%2\" (ID do "
+"processo: %3), em execução no host \"%4\", mas o aplicativo não está "
+"respondendo.</para>"
 
 #: helpers/killer/killer.cpp:91
 #, kde-kuit-format
@@ -1151,6 +1156,9 @@ msgid ""
 "application?</para><para><warning>Terminating the application will close all"
 " of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
+"<para>Você deseja encerrar este aplicativo?</para><para><warning>Ao encerrar"
+" o aplicativo, todas as janelas filhas serão fechadas. Todos os dados não "
+"salvos serão perdidos.</warning></para>"
 
 #: helpers/killer/killer.cpp:94
 #, kde-format
@@ -1492,7 +1500,7 @@ msgstr ""
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "name"
-msgstr ""
+msgstr "Nome"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:95
 #, kde-format
