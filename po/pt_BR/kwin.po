@@ -3182,24 +3182,29 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Switch Focus Down"
-#~ msgstr ""
+#~ msgstr "Mudar o foco para baixo"
 
 #~ msgid "Tiling Disabled"
-#~ msgstr ""
+#~ msgstr "Mosaico desabilitado"
 
 #~ msgid "Tiling Enabled"
-#~ msgstr ""
+#~ msgstr "Mosaico habilitado"
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
 #~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
+#~ "Os efeitos da área de trabalho estavam muito lentos e foram suspensos.\n"
+#~ "Você pode desabilitar as verificações de funcionalidade nas Configurações do Sistema (na aba Avançado em Efeitos da Área de Trabalho)."
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
 #~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
 #~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
+#~ "Os efeitos da área de trabalho eram muito lentos e foram suspensos.\n"
+#~ "Se este for apenas um problema temporário, você pode continuar usando o atalho '%1'.\n"
+#~ "você pode desabilitar as verificações de funcionalidade nas Configurações do Sistema (na aba Avançado em Efeitos da Área de Trabalho)."
 
 #~ msgid ""
 #~ "\n"
@@ -3353,7 +3358,7 @@ msgstr ""
 #~ msgstr "Mudar para a tela 7"
 
 #~ msgid "<center><b>%1</b></center>"
-#~ msgstr ""
+#~ msgstr "<center><b>%1</b></center>"
 
 #~ msgid "Menu"
 #~ msgstr "Menu"
@@ -3393,13 +3398,13 @@ msgstr ""
 #~ msgstr "Captura de tela da área de trabalho para a área de transferência"
 
 #~ msgid "Toggle Tiling"
-#~ msgstr ""
+#~ msgstr "Alternar mosaico"
 
 #~ msgid "Increase Ratio"
-#~ msgstr ""
+#~ msgstr "Aumento da taxa"
 
 #~ msgid "Decrease Ratio"
-#~ msgstr ""
+#~ msgstr "Redução da taxa"
 
 #~ msgid "Move Left"
 #~ msgstr "Mover para a esquerda"
@@ -3414,19 +3419,19 @@ msgstr ""
 #~ msgstr "Mover para baixo"
 
 #~ msgid "Test Dump tiles"
-#~ msgstr ""
+#~ msgstr "Blocos de teste de despejo"
 
 #~ msgid "Test Below Cursor"
-#~ msgstr ""
+#~ msgstr "Teste abaixo do cursor"
 
 #~ msgid "Walk Through Grouped Windows"
-#~ msgstr ""
+#~ msgstr "Percorrer janelas agrupadas"
 
 #~ msgid "Walk Through Grouped Windows (Reverse)"
-#~ msgstr ""
+#~ msgstr "Percorrer janelas agrupadas (reverso)"
 
 #~ msgid "Switch to group window"
-#~ msgstr ""
+#~ msgstr "Alternar para janela de grupo"
 
 #~ msgid "kwin: failure during initialization; aborting"
 #~ msgstr "kwin: falha durante a inicialização; abortando"
@@ -3481,16 +3486,16 @@ msgstr ""
 #~ msgstr "Nenhum"
 
 #~ msgid "X offset:"
-#~ msgstr ""
+#~ msgstr "Deslocamento X:"
 
 #~ msgid "Y offset:"
-#~ msgstr ""
+#~ msgstr "Deslocamento Y:"
 
 #~ msgid "Shadow opacity:"
-#~ msgstr ""
+#~ msgstr "Opacidade da sombra:"
 
 #~ msgid "Shadow fuzziness:"
-#~ msgstr ""
+#~ msgstr "Indefinição de sombra:"
 
 #~ msgid "Shadow size (relative to window):"
 #~ msgstr "Tamanho da sombra (em relação à janela):"
@@ -3499,16 +3504,16 @@ msgstr ""
 #~ msgstr "Cor da sombra:"
 
 #~ msgid "Active window has stronger shadow"
-#~ msgstr ""
+#~ msgstr "A janela ativa terá uma sombra mais forte"
 
 #~ msgid "Toggle Expose Effect"
-#~ msgstr ""
+#~ msgstr "Alternar efeito de exposição"
 
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
 #~ msgstr "Alternar efeito de exposição (incluindo outras áreas de trabalho)"
 
 #~ msgid "Draw window caption on top of window"
-#~ msgstr ""
+#~ msgstr "Desenhar legenda da janela em cima da janela"
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
 #~ msgstr ""
