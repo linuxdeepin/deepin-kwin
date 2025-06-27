@@ -505,19 +505,19 @@ msgstr "Delta y"
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
-msgstr ""
+msgstr "Apertar com o dedo"
 
 #: debug_console.cpp:408
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr ""
+msgstr "Pincelar cancelado"
 
 #: debug_console.cpp:420
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr ""
+msgstr "Deslizar para iniciar"
 
 #: debug_console.cpp:422
 #, kde-format
@@ -529,7 +529,7 @@ msgstr "Contador de dedos"
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr ""
+msgstr "Atualização de deslizar"
 
 #: debug_console.cpp:435
 #, kde-format
@@ -547,43 +547,43 @@ msgstr "Delta y"
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr ""
+msgstr "Deslizar para o final"
 
 #: debug_console.cpp:459
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr ""
+msgstr "Deslize cancelado"
 
 #: debug_console.cpp:471
 #, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr ""
+msgstr "Interruptor alternado"
 
 #: debug_console.cpp:477
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "Tampa do notebook"
 
 #: debug_console.cpp:479
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "Modo Tablet"
 
 #: debug_console.cpp:481
 #, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr ""
+msgstr "Alternar"
 
 #: debug_console.cpp:485
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr ""
+msgstr "Desativado"
 
 #: debug_console.cpp:488
 #, kde-format
