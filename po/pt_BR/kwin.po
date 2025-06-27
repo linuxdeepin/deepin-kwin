@@ -1811,19 +1811,19 @@ msgstr "Lista de IDs da área de trabalho"
 #: rulesettings.kcfg:155
 #, kde-format
 msgid "Desktop Ids rule type"
-msgstr ""
+msgstr "Tipo de regra dos IDs da área de trabalho"
 
 #. i18n: ectx: label, entry (screen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:162
 #, kde-format
 msgid "Screen number"
-msgstr ""
+msgstr "Número da tela"
 
 #. i18n: ectx: label, entry (screenrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:166
 #, kde-format
 msgid "Screen number rule type"
-msgstr ""
+msgstr "Tipo de regra do número da tela"
 
 #. i18n: ectx: label, entry (activity), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:173
@@ -1835,19 +1835,19 @@ msgstr "Atividade"
 #: rulesettings.kcfg:176
 #, kde-format
 msgid "Activity rule type"
-msgstr ""
+msgstr "Tipo de regra da atividade"
 
 #. i18n: ectx: label, entry (type), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:183
 #, kde-format
 msgid "Set window type to"
-msgstr ""
+msgstr "Definir tipo de janela para"
 
 #. i18n: ectx: label, entry (typerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:189
 #, kde-format
 msgid "Set window type rule type"
-msgstr ""
+msgstr "Definir tipo de regra do tipo de janela"
 
 #. i18n: ectx: label, entry (maximizevert), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:194
@@ -1860,7 +1860,7 @@ msgstr "Maximizado verticalmente"
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
-msgstr ""
+msgstr "Tipo de regra vertical maximizada"
 
 #. i18n: ectx: label, entry (maximizehoriz), group
 #. ($(ruleDescriptionOrNumber))
@@ -1911,7 +1911,7 @@ msgstr "Pular barra de tarefas"
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
-msgstr ""
+msgstr "Tipo de regra de pular barra de tarefas"
 
 #. i18n: ectx: label, entry (skippager), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:249
@@ -1924,7 +1924,7 @@ msgstr "Pular página"
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
-msgstr ""
+msgstr "Tipo de regra de pular pager"
 
 #. i18n: ectx: label, entry (skipswitcher), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:260
@@ -1937,7 +1937,7 @@ msgstr "Alternador de salto"
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
-msgstr ""
+msgstr "Tipo de regra de alternar para a próxima"
 
 #. i18n: ectx: label, entry (above), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:271
@@ -1949,7 +1949,7 @@ msgstr "Manter acima"
 #: rulesettings.kcfg:275
 #, kde-format
 msgid "Keep above rule type"
-msgstr ""
+msgstr "Manter acima do tipo de regra"
 
 #. i18n: ectx: label, entry (below), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:282
@@ -1961,7 +1961,7 @@ msgstr "Manter abaixo"
 #: rulesettings.kcfg:286
 #, kde-format
 msgid "Keep below rule type"
-msgstr ""
+msgstr "Manter abaixo do tipo de regra"
 
 #. i18n: ectx: label, entry (fullscreen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:293
@@ -1974,7 +1974,7 @@ msgstr "Tela cheia"
 #: rulesettings.kcfg:297
 #, kde-format
 msgid "Fullscreen rule type"
-msgstr ""
+msgstr "Tipo de regra de tela cheia"
 
 #. i18n: ectx: label, entry (noborder), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:304
@@ -1999,21 +1999,21 @@ msgstr ""
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
-msgstr ""
+msgstr "Tipo de regra da cor da barra de título"
 
 #. i18n: ectx: label, entry (blockcompositing), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
-msgstr ""
+msgstr "Composição de blocos"
 
 #. i18n: ectx: label, entry (blockcompositingrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
-msgstr ""
+msgstr "Tipo de regra de composição de bloco"
 
 #. i18n: ectx: label, entry (fsplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:332
@@ -2025,7 +2025,7 @@ msgstr "Prevenção de roubo de foco"
 #: rulesettings.kcfg:338
 #, kde-format
 msgid "Focus stealing prevention rule type"
-msgstr ""
+msgstr "Tipo de regra de prevenção de roubo de foco"
 
 #. i18n: ectx: label, entry (fpplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:343
@@ -2037,7 +2037,7 @@ msgstr "Proteção de foco"
 #: rulesettings.kcfg:349
 #, kde-format
 msgid "Focus protection rule type"
-msgstr ""
+msgstr "Tipo de regra de proteção de foco"
 
 #. i18n: ectx: label, entry (acceptfocus), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:354
@@ -2128,7 +2128,7 @@ msgstr "Atalho"
 #: rulesettings.kcfg:410
 #, kde-format
 msgid "Shortcut rule type"
-msgstr ""
+msgstr "Tipo de regra de atalho"
 
 #. i18n: ectx: label, entry (disableglobalshortcuts), group
 #. ($(ruleDescriptionOrNumber))
@@ -2142,7 +2142,7 @@ msgstr "Ignorar atalhos globais"
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
-msgstr ""
+msgstr "Ignorar tipo de regra de atalhos globais"
 
 #. i18n: ectx: label, entry (desktopfile), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:426
@@ -2155,7 +2155,7 @@ msgstr "Nome do arquivo da área de trabalho"
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
-msgstr ""
+msgstr "Tipo de regra do nome do arquivo da área de trabalho"
 
 #: scripting/genericscriptedconfig.cpp:70
 #, kde-format
@@ -2180,13 +2180,13 @@ msgstr "%1 não existe"
 #: shortcutdialog.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr ""
+msgstr "Diálogo"
 
 #. i18n: ectx: property (text), widget (QToolButton, clearButton)
 #: shortcutdialog.ui:25
 #, kde-format
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tabbox/tabbox.cpp:381
 #, kde-format
