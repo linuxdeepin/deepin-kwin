@@ -1353,27 +1353,31 @@ msgstr "Nome do arquivo xauthority"
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr ""
+"Sai desta instância para que ela possa ser reiniciada pelo "
+"kwin_wayland_wrapper."
 
 #: main_wayland.cpp:363
 #, kde-format
 msgid "Render through drm node."
-msgstr ""
+msgstr "Renderizar através do nó drm."
 
 #: main_wayland.cpp:364
 #, kde-format
 msgid ""
 "Extract locale information from locale1 rather than the user's configuration"
 msgstr ""
+"Extraia informações de localidade do locale1 em vez da configuração do "
+"usuário"
 
 #: main_wayland.cpp:386
 #, kde-format
 msgid "Input method that KWin starts."
-msgstr ""
+msgstr "Método de entrada que o KWin inicia."
 
 #: main_wayland.cpp:392
 #, kde-format
 msgid "Starts the session in locked mode."
-msgstr ""
+msgstr "Inicia a sessão no modo bloqueado."
 
 #: main_wayland.cpp:396
 #, kde-format
@@ -1611,20 +1615,20 @@ msgstr "Lista ordenada de grupos de regras"
 #: rulesettings.kcfg:10
 #, kde-format
 msgid "Rule description"
-msgstr ""
+msgstr "Descrição da regra"
 
 #. i18n: ectx: label, entry (descriptionLegacy), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
-msgstr ""
+msgstr "Descrição da regra (legado)"
 
 #. i18n: ectx: label, entry (DeleteRule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:16
 #, kde-format
 msgid "Delete this rule (for use in imports)"
-msgstr ""
+msgstr "Excluir esta regra (para uso em importações)"
 
 #. i18n: ectx: label, entry (wmclass), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:20
@@ -1636,7 +1640,7 @@ msgstr "Classe de janela (aplicativo)"
 #: rulesettings.kcfg:23
 #, kde-format
 msgid "Window class string match type"
-msgstr ""
+msgstr "Tipo de correspondência de string de classe de janela"
 
 #. i18n: ectx: label, entry (wmclasscomplete), group
 #. ($(ruleDescriptionOrNumber))
@@ -1656,7 +1660,7 @@ msgstr "Função de janela"
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
-msgstr ""
+msgstr "Tipo de correspondência de string de função de janela"
 
 #. i18n: ectx: label, entry (title), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:44
@@ -1669,6 +1673,7 @@ msgstr "Título da janela"
 #, kde-format
 msgid "Window title string match type"
 msgstr ""
+"Tipo de correspondência de sequência de caracteres do título da janela"
 
 #. i18n: ectx: label, entry (clientmachine), group
 #. ($(ruleDescriptionOrNumber))
@@ -1682,13 +1687,13 @@ msgstr "Máquina (nome do host)"
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
-msgstr ""
+msgstr "Tipo de correspondência de string de máquina"
 
 #. i18n: ectx: label, entry (types), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:64
 #, kde-format
 msgid "Window types that match"
-msgstr ""
+msgstr "Tipos de janelas que combinam"
 
 #. i18n: ectx: label, entry (placement), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:69
@@ -1701,55 +1706,55 @@ msgstr "Colocação inicial"
 #: rulesettings.kcfg:74
 #, kde-format
 msgid "Initial placement rule type"
-msgstr ""
+msgstr "Tipo de regra de posicionamento inicial"
 
 #. i18n: ectx: label, entry (position), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:79
 #, kde-format
 msgid "Window position"
-msgstr ""
+msgstr "Posição da janela"
 
 #. i18n: ectx: label, entry (positionrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:83
 #, kde-format
 msgid "Window position rule type"
-msgstr ""
+msgstr "Tipo de regra da posição da janela"
 
 #. i18n: ectx: label, entry (size), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:90
 #, kde-format
 msgid "Window size"
-msgstr ""
+msgstr "Tamanho da janela"
 
 #. i18n: ectx: label, entry (sizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:93
 #, kde-format
 msgid "Window size rule type"
-msgstr ""
+msgstr "Tipo de regra do tamanho da janela"
 
 #. i18n: ectx: label, entry (minsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:100
 #, kde-format
 msgid "Window minimum size"
-msgstr ""
+msgstr "Tamanho mínimo da janela"
 
 #. i18n: ectx: label, entry (minsizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:104
 #, kde-format
 msgid "Window minimum size rule type"
-msgstr ""
+msgstr "Tipo de regra do tamanho mínimo da janela"
 
 #. i18n: ectx: label, entry (maxsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:109
 #, kde-format
 msgid "Window maximum size"
-msgstr ""
+msgstr "Tamanho máximo da janela"
 
 #. i18n: ectx: label, entry (maxsizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:113
 #, kde-format
 msgid "Window maximum size rule type"
-msgstr ""
+msgstr "Tipo de regra de tamanho máximo da janela"
 
 #. i18n: ectx: label, entry (opacityactive), group
 #. ($(ruleDescriptionOrNumber))
@@ -1763,7 +1768,7 @@ msgstr "Opacidade ativa"
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
-msgstr ""
+msgstr "Tipo de regra de opacidade ativa"
 
 #. i18n: ectx: label, entry (opacityinactive), group
 #. ($(ruleDescriptionOrNumber))
