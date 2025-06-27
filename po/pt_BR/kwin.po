@@ -1284,7 +1284,7 @@ msgstr ""
 #: main_wayland.cpp:319
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr "O X11 Exibe para o uso em modo de janela na plataforma X11."
+msgstr "O X11 Display pode ser usado em modo de janela na plataforma X11."
 
 #: main_wayland.cpp:322
 #, kde-format
@@ -1295,22 +1295,22 @@ msgstr ""
 #: main_wayland.cpp:324
 #, kde-format
 msgid "Render to a virtual framebuffer."
-msgstr ""
+msgstr "Renderizar para um framebuffer virtual."
 
 #: main_wayland.cpp:326
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
-msgstr ""
+msgstr "Largura do modo janela. A largura padrão é 1024."
 
 #: main_wayland.cpp:330
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
-msgstr ""
+msgstr "Altura para o modo janela. A altura padrão é 768."
 
 #: main_wayland.cpp:335
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
-msgstr ""
+msgstr "A escala para o modo janela. O valor padrão é 1."
 
 #: main_wayland.cpp:340
 #, kde-format
@@ -1318,6 +1318,8 @@ msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is "
 "1"
 msgstr ""
+"O número de janelas a serem abertas como saídas no modo de janela. O valor "
+"padrão é 1."
 
 #: main_wayland.cpp:345
 #, kde-format
@@ -1325,6 +1327,8 @@ msgid ""
 "Wayland socket to use for incoming connections. This can be combined with "
 "--socket to name the socket"
 msgstr ""
+"Soquete Wayland para usar em conexões de entrada. Isso pode ser combinado "
+"com --socket para nomear o soquete"
 
 #: main_wayland.cpp:349
 #, kde-format
@@ -1332,16 +1336,18 @@ msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr ""
+"Soquete XWayland para usar nas conexões de entrada do Xwayland. Isso pode "
+"ser definido várias vezes"
 
 #: main_wayland.cpp:353
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
-msgstr ""
+msgstr "Nome do display xwayland que foi pré-configurado"
 
 #: main_wayland.cpp:357
 #, kde-format
 msgid "Name of the xauthority file "
-msgstr ""
+msgstr "Nome do arquivo xauthority"
 
 #: main_wayland.cpp:361
 #, kde-format
@@ -1511,95 +1517,95 @@ msgstr "Nome"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "appname"
-msgstr ""
+msgstr "nome do aplicativo"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:97
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:150
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "desktop"
-msgstr ""
+msgstr "área de trabalho"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:255
 #, kde-format
 msgid "Switch to desktop %1"
-msgstr ""
+msgstr "Mudar para a área de trabalho %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:296
 #, kde-format
 msgid "Close running window on %1"
-msgstr ""
+msgstr "Fechar janela em execução em %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:299
 #, kde-format
 msgid "(Un)minimize running window on %1"
-msgstr ""
+msgstr "(Des)minimizar a janela de execução em %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:302
 #, kde-format
 msgid "Maximize/restore running window on %1"
-msgstr ""
+msgstr "Maximizar/restaurar janela de execução em %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:305
 #, kde-format
 msgid "Toggle fullscreen for running window on %1"
-msgstr ""
+msgstr "Alternar tela cheia para janela em execução em %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:308
 #, kde-format
 msgid "(Un)shade running window on %1"
-msgstr ""
+msgstr "(Des)sombrear janela em execução em %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:311
 #, kde-format
 msgid "Toggle keep above for running window on %1"
-msgstr ""
+msgstr "Alternar manter acima para executar a janela em %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:314
 #, kde-format
 msgid "Toggle keep below running window on %1"
-msgstr ""
+msgstr "Alternar manter abaixo da janela em execução em %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:318
 #, kde-format
 msgid "Activate running window on %1"
-msgstr ""
+msgstr "Ativar janela em execução em %1"
 
 #: plugins/nightcolor/nightcolormanager.cpp:63
 #, kde-format
 msgctxt "Night Color was disabled"
 msgid "Night Color Off"
-msgstr ""
+msgstr "Cor noturna desligada"
 
 #: plugins/nightcolor/nightcolormanager.cpp:64
 #, kde-format
 msgctxt "Night Color was enabled"
 msgid "Night Color On"
-msgstr ""
+msgstr "Cor noturna ligada"
 
 #: plugins/nightcolor/nightcolormanager.cpp:84
 #: plugins/nightcolor/nightcolormanager.cpp:87
 #: plugins/nightcolor/nightcolormanager.cpp:94
 #, kde-format
 msgid "Toggle Night Color"
-msgstr ""
+msgstr "Alternar cor noturna"
 
 #: plugins/nightcolor/nightcolormanager.cpp:471
 #, kde-format
 msgid "Color Temperature Preview"
-msgstr ""
+msgstr "Visualização da temperatura da cor"
 
 #. i18n: ectx: label, entry (count), group (General)
 #: rulebooksettingsbase.kcfg:9
 #, kde-format
 msgid "Total rules count (legacy)"
-msgstr ""
+msgstr "Contagem total de regras (legado)"
 
 #. i18n: ectx: label, entry (ruleGroupList), group (General)
 #: rulebooksettingsbase.kcfg:13
 #, kde-format
 msgid "Ordered list of rules groups"
-msgstr ""
+msgstr "Lista ordenada de grupos de regras"
 
 #. i18n: ectx: label, entry (description), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:10
