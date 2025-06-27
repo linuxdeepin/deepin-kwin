@@ -3656,3 +3656,33 @@ msgstr ""
 #, kde-format
 msgid "The confidential file cannot be displayed"
 msgstr "The confidential file cannot be displayed"
+
+msgid "Minimize"
+msgstr "Minimize"
+
+msgid "Unmaximize"
+msgstr "Unmaximize"
+
+msgid "Maximize"
+msgstr "Maximize"
+
+msgid "Move"
+msgstr "Move"
+
+msgid "Resize"
+msgstr "Resize"
+
+msgid "Always on Top"
+msgstr "Always on Top"
+
+msgid "Always on Visible Workspace"
+msgstr "Always on Visible Workspace"
+
+msgid "Move to Workspace Left"
+msgstr "Move to Workspace Left"
+
+msgid "Move to Workspace Right"
+msgstr "Move to Workspace Right"
+
+msgid "Close"
+msgstr "Close"
