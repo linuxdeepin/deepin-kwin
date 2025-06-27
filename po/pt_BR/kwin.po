@@ -2536,57 +2536,57 @@ msgstr "Mover janela para a direita"
 #: useractions.cpp:1023
 #, kde-format
 msgid "Move Window Left"
-msgstr ""
+msgstr "Mover janela para a esquerda"
 
 #: useractions.cpp:1025
 #, kde-format
 msgid "Move Window Up"
-msgstr ""
+msgstr "Mover janela para cima"
 
 #: useractions.cpp:1027
 #, kde-format
 msgid "Move Window Down"
-msgstr ""
+msgstr "Mover janela para baixo"
 
 #: useractions.cpp:1029
 #, kde-format
 msgid "Expand Window Horizontally"
-msgstr ""
+msgstr "Expandir janela horizontalmente"
 
 #: useractions.cpp:1031
 #, kde-format
 msgid "Expand Window Vertically"
-msgstr ""
+msgstr "Expandir janela verticalmente"
 
 #: useractions.cpp:1033
 #, kde-format
 msgid "Shrink Window Horizontally"
-msgstr ""
+msgstr "Reduzir janela horizontalmente"
 
 #: useractions.cpp:1035
 #, kde-format
 msgid "Shrink Window Vertically"
-msgstr ""
+msgstr "Reduzir janela verticalmente"
 
 #: useractions.cpp:1037
 #, kde-format
 msgid "Quick Tile Window to the Left"
-msgstr ""
+msgstr "Janela de mosaico rápido à esquerda"
 
 #: useractions.cpp:1039
 #, kde-format
 msgid "Quick Tile Window to the Right"
-msgstr ""
+msgstr "Janela de mosaico rápido à direita"
 
 #: useractions.cpp:1041
 #, kde-format
 msgid "Quick Tile Window to the Top"
-msgstr ""
+msgstr "Janela de mosaico rápido para o topo"
 
 #: useractions.cpp:1043
 #, kde-format
 msgid "Quick Tile Window to the Bottom"
-msgstr ""
+msgstr "Janela de mosaico rápido para a parte inferior"
 
 #: useractions.cpp:1045
 #, kde-format
@@ -2606,17 +2606,17 @@ msgstr ""
 #: useractions.cpp:1051
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
-msgstr ""
+msgstr "Janela de mosaico rápido no canto inferior direito"
 
 #: useractions.cpp:1053
 #, kde-format
 msgid "Switch to Window Above"
-msgstr ""
+msgstr "Mudar para a janela acima"
 
 #: useractions.cpp:1055
 #, kde-format
 msgid "Switch to Window Below"
-msgstr ""
+msgstr "Mudar para a janela abaixo"
 
 #: useractions.cpp:1057
 #, kde-format
