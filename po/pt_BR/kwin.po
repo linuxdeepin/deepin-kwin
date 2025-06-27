@@ -1163,37 +1163,37 @@ msgstr ""
 #: helpers/killer/killer.cpp:94
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr ""
+msgstr "Encerrar aplicativo %1"
 
 #: helpers/killer/killer.cpp:95
 #, kde-format
 msgid "Wait Longer"
-msgstr ""
+msgstr "Espere mais"
 
 #: input.cpp:2009
 #, kde-format
 msgid "Move the tablet to the next output"
-msgstr ""
+msgstr "Mova o tablet para a próxima saída"
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablet moved to %1"
-msgstr ""
+msgstr "Tablet movido para %1"
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablets switched outputs"
-msgstr ""
+msgstr "Saídas comutadas de tablets"
 
 #: input.cpp:3065
 #, kde-format
 msgid "Touchpad"
-msgstr ""
+msgstr "Toque na tela"
 
 #: keyboard_layout.cpp:45
 #, kde-format
 msgid "Keyboard Layout Switcher"
-msgstr ""
+msgstr "Alternador de layout do teclado"
 
 #: killwindow.cpp:32
 #, kde-format
@@ -1201,6 +1201,8 @@ msgid ""
 "Select window to force close with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Selecione a janela para forçar o fechamento com o botão esquerdo ou Enter.\n"
+"Pressione Escape ou clique com o botão direito para cancelar."
 
 #: main.cpp:179
 #, kde-format
@@ -1210,12 +1212,12 @@ msgstr "KWin"
 #: main.cpp:181 main.cpp:204
 #, kde-format
 msgid "KDE window manager"
-msgstr ""
+msgstr "Gerenciador de janelas do KDE"
 
 #: main.cpp:183
 #, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
-msgstr ""
+msgstr "(c) 1999-2019, Os desenvolvedores do KDE"
 
 #: main.cpp:185
 #, kde-format
@@ -1240,17 +1242,17 @@ msgstr "Luboš Luňák"
 #: main.cpp:189
 #, kde-format
 msgid "Martin Flöser"
-msgstr ""
+msgstr "Martin Flöser"
 
 #: main.cpp:190
 #, kde-format
 msgid "David Edmundson"
-msgstr ""
+msgstr "David Edmundson"
 
 #: main.cpp:191
 #, kde-format
 msgid "Roman Gilg"
-msgstr ""
+msgstr "Roman Gilg"
 
 #: main.cpp:192
 #, kde-format
@@ -1270,22 +1272,25 @@ msgstr "Indica que o KWin travou recentemente n vezes"
 #: main_wayland.cpp:314
 #, kde-format
 msgid "Start a rootless Xwayland server."
-msgstr ""
+msgstr "Inicie um servidor Xwayland sem root."
 
 #: main_wayland.cpp:316
 #, kde-format
 msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
+"Nome do socket Wayland para escuta. Se não for definido, \"wayland-0\" será "
+"usado."
 
 #: main_wayland.cpp:319
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr ""
+msgstr "O X11 Exibe para o uso em modo de janela na plataforma X11."
 
 #: main_wayland.cpp:322
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
+"O Wayland Display pode ser usado no modo janela na plataforma Wayland."
 
 #: main_wayland.cpp:324
 #, kde-format
