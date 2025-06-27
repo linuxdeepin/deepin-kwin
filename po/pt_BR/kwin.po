@@ -2531,7 +2531,7 @@ msgstr ""
 #: useractions.cpp:1021
 #, kde-format
 msgid "Move Window Right"
-msgstr ""
+msgstr "Mover janela para a direita"
 
 #: useractions.cpp:1023
 #, kde-format
@@ -2891,19 +2891,19 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Configure virtual keyboards..."
-#~ msgstr ""
+#~ msgstr "Configurar teclados virtuais..."
 
 #~ msgid "Virtual Keyboard"
-#~ msgstr ""
+#~ msgstr "Teclado Virtual"
 
 #~ msgid "Whether to show the virtual keyboard on demand."
-#~ msgstr ""
+#~ msgstr "Se o teclado virtual deve ser exibido sob demanda."
 
 #~ msgid "Virtual Keyboard: enabled"
-#~ msgstr ""
+#~ msgstr "Teclado virtual: ativado"
 
 #~ msgid "Virtual Keyboard: disabled"
-#~ msgstr ""
+#~ msgstr "Teclado Virtual: desativado"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
@@ -2941,16 +2941,16 @@ msgstr ""
 #~ msgstr "Botões pressionados"
 
 #~ msgid "Use libhybris hwcomposer"
-#~ msgstr ""
+#~ msgstr "Usar o libhybris hwcomposer"
 
 #~ msgid "Allow Rotation"
-#~ msgstr ""
+#~ msgstr "Permitir rotação"
 
 #~ msgid "Automatic screen rotation is enabled"
-#~ msgstr ""
+#~ msgstr "A rotação automática da tela está ativada"
 
 #~ msgid "Undefined"
-#~ msgstr ""
+#~ msgstr "Indefinido"
 
 #~ msgctxt "Portrait oriented display"
 #~ msgid "Vertical"
@@ -2961,7 +2961,7 @@ msgstr ""
 #~ msgstr "Horizontal"
 
 #~ msgid "Automatic screen rotation is disabled"
-#~ msgstr ""
+#~ msgstr "A rotação automática da tela está desativada"
 
 #~ msgid "Walk Through Window Tabs"
 #~ msgstr ""
@@ -3112,7 +3112,7 @@ msgstr ""
 #~ msgstr "A janela '%1' exige atenção."
 
 #~ msgid "Layout changed to %1"
-#~ msgstr ""
+#~ msgstr "Layout alterado para %1"
 
 #~ msgctxt "Spiral tiling layout"
 #~ msgid "Spiral"
@@ -3128,28 +3128,28 @@ msgstr ""
 
 #~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
 #~ msgid "&Float Window"
-#~ msgstr ""
+#~ msgstr "Janela flutuante"
 
 #~ msgid "Ad&vanced"
-#~ msgstr ""
+#~ msgstr "Avançado"
 
 #~ msgid "*** No Windows ***"
 #~ msgstr "*** Sem janelas ***"
 
 #~ msgid "Load the script testing dialog"
-#~ msgstr ""
+#~ msgstr "Carregue o diálogo de teste do script"
 
 #~ msgid "Remove &From Group"
-#~ msgstr ""
+#~ msgstr "Remover do grupo"
 
 #~ msgid "To the Left"
-#~ msgstr ""
+#~ msgstr "Para a esquerda"
 
 #~ msgid "To the Right"
-#~ msgstr ""
+#~ msgstr "Para a direita"
 
 #~ msgid "&Opacity"
-#~ msgstr ""
+#~ msgstr "Opacidade"
 
 #~ msgid ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
@@ -3162,24 +3162,26 @@ msgstr ""
 #~ "Compositing was disabled at compile time.\n"
 #~ "It is likely Xorg development headers were not installed."
 #~ msgstr ""
+#~ "A composição foi desabilitada no momento da compilação.\n"
+#~ "É provável que os cabeçalhos de desenvolvimento do Xorg não tenham sido instalados."
 
 #~ msgid "Tiling"
 #~ msgstr "Azulejos"
 
 #~ msgid "Enable/Disable Tiling"
-#~ msgstr ""
+#~ msgstr "Habilitar/Desabilitar Mosaico"
 
 #~ msgid "Toggle Floating"
-#~ msgstr ""
+#~ msgstr "Alternador flutuante"
 
 #~ msgid "Switch Focus Left"
-#~ msgstr ""
+#~ msgstr "Mudar o foco para a esquerda"
 
 #~ msgid "Switch Focus Right"
-#~ msgstr ""
+#~ msgstr "Mudar o foco para a direita"
 
 #~ msgid "Switch Focus Up"
-#~ msgstr ""
+#~ msgstr "Mudar o foco para cima"
 
 #~ msgid "Switch Focus Down"
 #~ msgstr "Mudar o foco para baixo"
