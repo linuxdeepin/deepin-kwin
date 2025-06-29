@@ -1431,6 +1431,7 @@ msgstr ""
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
+"kwin: outro gerenciador de janelas está em execução (tente usar --replace)\n"
 
 #: main_x11.cpp:411
 #, kde-format
@@ -1799,7 +1800,7 @@ msgstr "Ignorar geometria solicitada"
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
-msgstr ""
+msgstr "Ignorar tipo de regra de geometria solicitada"
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
@@ -2248,6 +2249,8 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
+"A instalação do alternador de janelas está com problemas e faltam recursos. "
+"Entre em contato com sua distribuição."
 
 #: useractions.cpp:161
 #, kde-format
@@ -2501,7 +2504,7 @@ msgstr "Tornar a janela em tela cheia"
 #: useractions.cpp:1009
 #, kde-format
 msgid "Toggle Window Titlebar and Frame"
-msgstr ""
+msgstr "Alternar barra de título e moldura da janela"
 
 #: useractions.cpp:1011
 #, kde-format
@@ -2526,7 +2529,7 @@ msgstr "Atalho da janela de configuração"
 #: useractions.cpp:1019
 #, kde-format
 msgid "Move Window to the Center"
-msgstr ""
+msgstr "Mover a janela para o meio"
 
 #: useractions.cpp:1021
 #, kde-format
