@@ -2071,27 +2071,27 @@ msgstr ""
 #: rulesettings.kcfg:372
 #, kde-format
 msgid "Autogroup with identical"
-msgstr ""
+msgstr "Autoagrupar com idênticos"
 
 #. i18n: ectx: label, entry (autogrouprule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
-msgstr ""
+msgstr "Agrupamento automático com tipo de regra idêntico"
 
 #. i18n: ectx: label, entry (autogroupfg), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:381
 #, kde-format
 msgid "Autogroup in foreground"
-msgstr ""
+msgstr "Autoagrupamento em primeiro plano"
 
 #. i18n: ectx: label, entry (autogroupfgrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
-msgstr ""
+msgstr "Agrupamento automático no tipo de regra de primeiro plano"
 
 #. i18n: ectx: label, entry (autogroupid), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:390
@@ -2605,7 +2605,7 @@ msgstr "Bloco rápido da janela no canto inferior esquerdo"
 #: useractions.cpp:1049
 #, kde-format
 msgid "Quick Tile Window to the Top Right"
-msgstr ""
+msgstr "Bloco rápido da janela no canto superior direito"
 
 #: useractions.cpp:1051
 #, kde-format
@@ -2700,22 +2700,22 @@ msgstr "Janela para a tela anterior"
 #: useractions.cpp:1102
 #, kde-format
 msgid "Window One Screen to the Right"
-msgstr ""
+msgstr "Janela uma tela à direita"
 
 #: useractions.cpp:1104
 #, kde-format
 msgid "Window One Screen to the Left"
-msgstr ""
+msgstr "Janela uma tela à esquerda"
 
 #: useractions.cpp:1106
 #, kde-format
 msgid "Window One Screen Up"
-msgstr ""
+msgstr "Janela uma tela a cima"
 
 #: useractions.cpp:1108
 #, kde-format
 msgid "Window One Screen Down"
-msgstr ""
+msgstr "Janela uma tela abaixo"
 
 #: useractions.cpp:1112
 #, kde-format
