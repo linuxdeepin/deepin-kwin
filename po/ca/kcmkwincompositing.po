@@ -198,7 +198,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Automatic"
-#~ msgstr ""
+#~ msgstr "Automàtica"
 
 #~ msgid "Only when cheap"
 #~ msgstr ""
@@ -461,7 +461,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Advanced"
-#~ msgstr ""
+#~ msgstr "Avançat"
 
 #~ msgid "OpenGL Options"
 #~ msgstr ""
@@ -553,7 +553,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Suspend Compositing"
-#~ msgstr ""
+#~ msgstr "Suspèn la composició"
 
 #~ msgid "Resume Compositing"
 #~ msgstr ""
