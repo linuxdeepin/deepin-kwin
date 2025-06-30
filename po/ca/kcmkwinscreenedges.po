@@ -277,25 +277,26 @@ msgstr ""
 
 #~ msgid "Maximize windows by dragging them to the top edge of the screen"
 #~ msgstr ""
+#~ "Maximitza les finestres arrossegant-les a la vora superior de la pantalla"
 
 #~ msgid "Quarter tiling triggered in the outer"
-#~ msgstr ""
+#~ msgstr "Mosaic de quarts activada a l'exterior"
 
 #~ msgid "Other Settings"
-#~ msgstr ""
+#~ msgstr "Altres configuracions"
 
 #~ msgctxt "Open krunner"
 #~ msgid "Run Command"
-#~ msgstr ""
+#~ msgstr "Executa l'ordre"
 
 #~ msgid "Show Dashboard"
-#~ msgstr ""
+#~ msgstr "Mostra el tauler"
 
 #~ msgid "Prevent Screen Locking"
-#~ msgstr ""
+#~ msgstr "Evita el blocatge de la pantalla"
 
 #~ msgid "Trigger &cooldown:"
-#~ msgstr ""
+#~ msgstr "Activació del temps de refredament:"
 
 #~ msgid "Action Groups"
-#~ msgstr ""
+#~ msgstr "Grups d'acció"
