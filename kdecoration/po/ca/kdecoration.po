@@ -100,7 +100,7 @@ msgstr "Mantingues-ho per sobre d'altres finestres"
 #~ msgstr "Menú"
 
 #~ msgid "Keep below"
-#~ msgstr ""
+#~ msgstr "Mantingues-ho a baix"
 
 #~ msgid "Keep above"
-#~ msgstr ""
+#~ msgstr "Mantingues-ho a dalt"
