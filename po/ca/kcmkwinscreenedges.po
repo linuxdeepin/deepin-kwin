@@ -144,27 +144,27 @@ msgstr "Roman actiu quan les finestres estan en pantalla completa"
 #: main.ui:115
 #, kde-format
 msgid "Trigger &quarter tiling in:"
-msgstr "Activa el mosaic d'un &quart a:"
+msgstr "Activació del mosaic d'un &quart:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox,
 #. electricBorderCornerRatioSpin)
 #: main.ui:130
 #, no-c-format, kde-format
 msgid "%"
-msgstr ""
+msgstr " %"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox,
 #. electricBorderCornerRatioSpin)
 #: main.ui:133
 #, kde-format
 msgid "Outer "
-msgstr ""
+msgstr "Exterior"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: main.ui:149
 #, kde-format
 msgid "of the screen"
-msgstr ""
+msgstr "de la pantalla"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:174
@@ -173,31 +173,33 @@ msgid ""
 "Change desktop when the mouse cursor is pushed against the edge of the "
 "screen"
 msgstr ""
+"Canvia l'escriptori quan el cursor del ratolí es pressiona contra la vora de"
+" la pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:177
 #, kde-format
 msgid "&Switch desktop on edge:"
-msgstr ""
+msgstr "&Canvia l'escriptori a la vora:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:188
 #, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
-msgstr ""
+msgstr "Inhabilitat"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:193
 #, kde-format
 msgid "Only When Moving Windows"
-msgstr ""
+msgstr "Només en moure finestres"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:198
 #, kde-format
 msgid "Always Enabled"
-msgstr ""
+msgstr "Sempre activat"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, activationDelayLabel)
 #: main.ui:206
@@ -206,12 +208,14 @@ msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
 msgstr ""
+"Temps que cal perquè el cursor del ratolí es mogui contra la vora de la "
+"pantalla abans que s'activi l'acció."
 
 #. i18n: ectx: property (text), widget (QLabel, activationDelayLabel)
 #: main.ui:209
 #, kde-format
 msgid "Activation &delay:"
-msgstr ""
+msgstr "&Retard d'activació:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderDelay)
 #. i18n: ectx: property (suffix), widget (QSpinBox,
@@ -219,7 +223,7 @@ msgstr ""
 #: main.ui:219 main.ui:254
 #, kde-format
 msgid " ms"
-msgstr ""
+msgstr "  ms"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, triggerCooldownLabel)
 #: main.ui:238
@@ -228,12 +232,14 @@ msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
 msgstr ""
+"Temps que es triga després d'activar una acció fins que es pugui produir "
+"l'activació següent"
 
 #. i18n: ectx: property (text), widget (QLabel, triggerCooldownLabel)
 #: main.ui:241
 #, kde-format
 msgid "&Reactivation delay:"
-msgstr ""
+msgstr "&Retard de reactivació:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: touch.ui:17
@@ -242,27 +248,29 @@ msgid ""
 "You can trigger an action by swiping from the screen edge towards the center"
 " of the screen."
 msgstr ""
+"Es pot activar una acció lliscant des de la vora de la pantalla cap al "
+"centre."
 
 #~ msgid "Show Desktop"
 #~ msgstr "Mostra l'escriptori"
 
 #~ msgid "Desktop Grid"
-#~ msgstr ""
+#~ msgstr "Quadrícula d'escriptori"
 
 #~ msgid "Toggle Overview"
-#~ msgstr ""
+#~ msgstr "Commuta la visió general"
 
 #~ msgid "%1 - Cube"
-#~ msgstr ""
+#~ msgstr "%1 - Cub"
 
 #~ msgid "%1 - Cylinder"
-#~ msgstr ""
+#~ msgstr "%1 - Cilindre"
 
 #~ msgid "%1 - Sphere"
-#~ msgstr ""
+#~ msgstr "%1 - Esfera"
 
 #~ msgid "Active Screen Corners and Edges"
-#~ msgstr ""
+#~ msgstr "Cantons i vores de la pantalla actius"
 
 #~ msgid "Window Management"
 #~ msgstr "Gestió de finestres"
