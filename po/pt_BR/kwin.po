@@ -2595,12 +2595,12 @@ msgstr "Janela de mosaico rápido para a parte inferior"
 #: useractions.cpp:1045
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
-msgstr "Mosaico rápido da janela no canto superior esquerdo"
+msgstr "Bloco rápido da janela no canto superior esquerdo"
 
 #: useractions.cpp:1047
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
-msgstr ""
+msgstr "Bloco rápido da janela no canto inferior esquerdo"
 
 #: useractions.cpp:1049
 #, kde-format
