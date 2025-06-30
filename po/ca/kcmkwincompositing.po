@@ -280,19 +280,19 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Accessibility"
-#~ msgstr ""
+#~ msgstr "Accessibilitat"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Appearance"
-#~ msgstr ""
+#~ msgstr "Aparença"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Candy"
-#~ msgstr ""
+#~ msgstr "Caramels"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Focus"
-#~ msgstr ""
+#~ msgstr "Focus"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Show Desktop Animation"
@@ -300,19 +300,19 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Tools"
-#~ msgstr ""
+#~ msgstr "Eines"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Virtual Desktop Switching Animation"
-#~ msgstr ""
+#~ msgstr "Animació de canvi d'escriptori virtual"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Management"
-#~ msgstr ""
+#~ msgstr "Gestió de finestres"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Open/Close Animation"
-#~ msgstr ""
+#~ msgstr "Animació d'obrir / tancar la finestra"
 
 #~ msgid "KWin development team"
 #~ msgstr "Equip de desenvolupament del KWin"
