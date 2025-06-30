@@ -2851,27 +2851,29 @@ msgstr ""
 #~ msgstr "Inverter cores da tela"
 
 #~ msgid "List all available backends and quit."
-#~ msgstr ""
+#~ msgstr "Liste todos os backends disponíveis e saia."
 
 #~ msgid "Show Desktop"
 #~ msgstr "Mostrar área de trabalho"
 
 #~ msgid "X11 Client Windows"
-#~ msgstr ""
+#~ msgstr "Janela do cliente X11"
 
 #~ msgid "unknown"
 #~ msgstr "Desconhecido"
 
 #~ msgid "Render to framebuffer."
-#~ msgstr ""
+#~ msgstr "Renderizar para framebuffer."
 
 #~ msgid "The framebuffer device to render to."
-#~ msgstr ""
+#~ msgstr "O dispositivo de framebuffer a ser renderizado."
 
 #~ msgid ""
 #~ "Enable libinput support for input events processing. Note: never use in a "
 #~ "nested session.\t(deprecated)"
 #~ msgstr ""
+#~ "Habilite o suporte a libinput para processamento de eventos de entrada. "
+#~ "Observação: nunca use em uma sessão aninhada.\t(obsoleto)"
 
 #~ msgid "Pack Window to the Right"
 #~ msgstr "Pacote de janelas para a direita"
@@ -2974,13 +2976,13 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Remove Window From Group"
-#~ msgstr ""
+#~ msgstr "Remover janela do grupo"
 
 #~ msgid "&Untab"
-#~ msgstr ""
+#~ msgstr "Desmarcar"
 
 #~ msgid "Close Entire &Group"
-#~ msgstr ""
+#~ msgstr "Fechar Grupo Inteiro"
 
 #~ msgctxt "Switch to tab -> Previous"
 #~ msgid "Previous"
@@ -2992,28 +2994,30 @@ msgstr ""
 
 #~ msgctxt "There's no window available to be attached as tab to this one"
 #~ msgid "None available"
-#~ msgstr ""
+#~ msgstr "Nenhum disponível"
 
 #~ msgid "Switch to Tab"
-#~ msgstr ""
+#~ msgstr "Mudar para guia"
 
 #~ msgid "&Attach as tab to"
-#~ msgstr ""
+#~ msgstr "Anexar como guia para"
 
 #~ msgctxt ""
 #~ "Entry in context menu of window decoration to open the configuration module "
 #~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
-#~ msgstr ""
+#~ msgstr "Configurações do Gerenciador de Janelas..."
 
 #~ msgid "Automatic Screen Rotation"
-#~ msgstr ""
+#~ msgstr "Rotação automática da tela"
 
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
+#~ "kwin_wayland: um gerenciador de janelas X11 está sendo executado no X11 "
+#~ "Display.\n"
 
 #~ msgid "Martin Gräßlin"
-#~ msgstr ""
+#~ msgstr "Martin Gräßlin"
 
 #~ msgid "Maintainer"
 #~ msgstr "Mantenedor"
@@ -3025,6 +3029,11 @@ msgstr ""
 #~ " well.<br>Alternatively, lower the combined resolution of all screens to "
 #~ "%1x%2 "
 #~ msgstr ""
+#~ "<h1>Efeitos da área de trabalho no OpenGL não são possíveis</h1>Seu sistema "
+#~ "não pode executar efeitos da área de trabalho do OpenGL na resolução "
+#~ "atual<br><br>Você pode tentar selecionar o backend XRender, mas ele pode ser"
+#~ " muito lento para essa resolução também. Alternativamente, reduzirá a "
+#~ "resolução combinada de todas as telas para %1x%2 "
 
 #~ msgid ""
 #~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
@@ -3071,7 +3080,7 @@ msgstr ""
 #~ "Pointer motion confined to the current window.\n"
 #~ "To release pointer hold Escape for 3 seconds."
 #~ msgstr ""
-#~ "Movimento do ponteiro confinado à janela atual..\n"
+#~ "Movimento do ponteiro confinado à janela atual.\n"
 #~ "Para liberar o ponteiro, segure Escape por 3 segundos."
 
 #~ msgctxt "notification about mouse pointer locked"
