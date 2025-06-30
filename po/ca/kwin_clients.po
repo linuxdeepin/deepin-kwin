@@ -634,7 +634,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Medium"
-#~ msgstr ""
+#~ msgstr "Mitjana"
 
 #~ msgid "Modern System"
 #~ msgstr ""
