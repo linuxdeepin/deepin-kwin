@@ -2782,7 +2782,7 @@ msgstr ""
 #: virtualdesktops.cpp:693 virtualdesktops.cpp:764
 #, kde-format
 msgid "Desktop %1"
-msgstr ""
+msgstr "Área de trabalho %1"
 
 #: virtualdesktops.cpp:800
 #, kde-format
@@ -2836,6 +2836,12 @@ msgid ""
 "Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
+"Informações de suporte do KWin:\n"
+"As seguintes informações devem ser usadas ao solicitar suporte em e.g. https://forum.kde.org.\n"
+"Ele fornece informações sobre a instância em execução no momento, quais opções são usadas,\n"
+"qual driver OpenGL e quais efeitos estão sendo executados.\n"
+"Por favor, publique as informações fornecidas abaixo deste texto introdutório em um serviço de colagem.\n"
+"like https://paste.kde.org em vez de colar em tópicos de suporte.\n"
 
 #~ msgid "&No Border"
 #~ msgstr "Sem borda"
