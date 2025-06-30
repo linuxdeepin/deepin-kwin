@@ -826,12 +826,12 @@ msgstr ""
 #: rulesmodel.cpp:805
 #, kde-format
 msgid "Minimal Overlapping"
-msgstr ""
+msgstr "Superposició mínima"
 
 #: rulesmodel.cpp:806
 #, kde-format
 msgid "Maximized"
-msgstr ""
+msgstr "Maximitzat"
 
 #: rulesmodel.cpp:807
 #, kde-format
@@ -841,12 +841,12 @@ msgstr "Centrat"
 #: rulesmodel.cpp:808
 #, kde-format
 msgid "Random"
-msgstr ""
+msgstr "Aleatori"
 
 #: rulesmodel.cpp:809
 #, kde-format
 msgid "In Top-Left Corner"
-msgstr ""
+msgstr "A la cantonada superior esquerra"
 
 #: rulesmodel.cpp:810
 #, kde-format
@@ -866,7 +866,7 @@ msgstr "Cap"
 #: rulesmodel.cpp:819
 #, kde-format
 msgid "Low"
-msgstr ""
+msgstr "Baixa"
 
 #: rulesmodel.cpp:820
 #, kde-format
@@ -876,12 +876,12 @@ msgstr ""
 #: rulesmodel.cpp:821
 #, kde-format
 msgid "High"
-msgstr ""
+msgstr "Alta"
 
 #: rulesmodel.cpp:822
 #, kde-format
 msgid "Extreme"
-msgstr ""
+msgstr "Extrem"
 
 #: rulesmodel.cpp:865
 #, kde-format
