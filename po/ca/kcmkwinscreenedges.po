@@ -1,36 +1,36 @@
-# Translation of kcmkwinscreenedges.po to Catalan
-# Copyright (C) 2009-2022 This_file_is_part_of_KDE
-# This file is distributed under the license LGPL version 2.1 or
-# version 3 or later versions approved by the membership of KDE e.V.
-#
-# Josep M. Ferrer <txemaq@gmail.com>, 2009, 2010, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2021, 2022.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2015, 2016, 2019, 2020, 2022.
-# Empar Montoro Martín <montoro_mde@gva.es>, 2019.
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2016, 2017, 2019, 2021, 2022.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Davidmp <medipas@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: kwin\n"
+"Project-Id-Version: kcmkwinscreenedges\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-07-15 00:48+0000\n"
-"PO-Revision-Date: 2022-12-31 18:57+0100\n"
-"Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
-"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
-"Language: ca\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Davidmp <medipas@gmail.com>, 2025\n"
+"Language-Team: Catalan (https://app.transifex.com/linuxdeepin/teams/3617/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Kate 22.08.3\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Accelerator-Marker: &\n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 22.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Josep M. Ferrer"
+msgstr "Davidmp"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "txemaq@gmail.com"
+msgstr "opensusecatala@gmail.com"
 
 #: main.cpp:130 touch.cpp:124
 #, kde-format
@@ -40,12 +40,12 @@ msgstr "Cap acció"
 #: main.cpp:131 touch.cpp:125
 #, kde-format
 msgid "Peek at Desktop"
-msgstr "Ullada a l'escriptori"
+msgstr "Doneu un cop d'ull a l'escriptori"
 
 #: main.cpp:132 touch.cpp:126
 #, kde-format
 msgid "Lock Screen"
-msgstr "Bloqueig de la pantalla"
+msgstr "Pantalla de bloqueig"
 
 #: main.cpp:133 touch.cpp:127
 #, kde-format
@@ -65,7 +65,7 @@ msgstr "Llançador d'aplicacions"
 #: main.cpp:139 touch.cpp:133
 #, kde-format
 msgid "Present Windows"
-msgstr "Presenta les finestres"
+msgstr "Presenta finestres"
 
 #: main.cpp:140 touch.cpp:134
 #, kde-format
@@ -85,12 +85,12 @@ msgstr "%1 - Aplicació actual"
 #: main.cpp:144 touch.cpp:138
 #, kde-format
 msgid "Toggle window switching"
-msgstr "Commuta al canvi de finestres"
+msgstr "Commuta el canvi de finestra"
 
 #: main.cpp:145 touch.cpp:139
 #, kde-format
 msgid "Toggle alternative window switching"
-msgstr "Commuta a un canvi de finestres alternatiu"
+msgstr "Commuta el canvi de finestra alternatiu"
 
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
 #: main.ui:23
@@ -99,8 +99,8 @@ msgid ""
 "You can trigger an action by pushing the mouse cursor against the "
 "corresponding screen edge or corner."
 msgstr ""
-"Podeu activar una acció empenyent el cursor del ratolí contra la vora o "
-"cantonada corresponent de la pantalla."
+"Podeu activar una acció prement el cursor del ratolí contra la vora o el "
+"cantó de la pantalla corresponent."
 
 #. i18n: ectx: property (text), widget (QLabel, quickMaximizeLabel)
 #: main.ui:67
@@ -108,7 +108,8 @@ msgstr ""
 msgid "&Maximize:"
 msgstr "&Maximitza:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ElectricBorderMaximize)
+#. i18n: ectx: property (text), widget (QCheckBox,
+#. kcfg_ElectricBorderMaximize)
 #: main.ui:77
 #, kde-format
 msgid "Windows dragged to top edge"
@@ -124,7 +125,7 @@ msgstr "&Mosaic:"
 #: main.ui:94
 #, kde-format
 msgid "Windows dragged to left or right edge"
-msgstr "Finestres arrossegades a la vora dreta o esquerra"
+msgstr "Finestres arrossegades a la vora esquerra o dreta"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: main.ui:101
@@ -136,65 +137,67 @@ msgstr "Comportament:"
 #: main.ui:108
 #, kde-format
 msgid "Remain active when windows are fullscreen"
-msgstr "Continua actiu quan les finestres són a pantalla completa"
+msgstr "Roman actiu quan les finestres estan en pantalla completa"
 
-#. i18n: ectx: property (text), widget (QLabel, electricBorderCornerRatioLabel)
+#. i18n: ectx: property (text), widget (QLabel,
+#. electricBorderCornerRatioLabel)
 #: main.ui:115
 #, kde-format
 msgid "Trigger &quarter tiling in:"
-msgstr "Activador de mosaic en &quarts:"
+msgstr "Activa el mosaic d'un &quart a:"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, electricBorderCornerRatioSpin)
+#. i18n: ectx: property (suffix), widget (QSpinBox,
+#. electricBorderCornerRatioSpin)
 #: main.ui:130
 #, no-c-format, kde-format
 msgid "%"
-msgstr "%"
+msgstr ""
 
-#. i18n: ectx: property (prefix), widget (QSpinBox, electricBorderCornerRatioSpin)
+#. i18n: ectx: property (prefix), widget (QSpinBox,
+#. electricBorderCornerRatioSpin)
 #: main.ui:133
 #, kde-format
 msgid "Outer "
-msgstr "Exterior "
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: main.ui:149
 #, kde-format
 msgid "of the screen"
-msgstr "exterior de la pantalla"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, desktopSwitchLabel)
 #: main.ui:174
 #, kde-format
 msgid ""
-"Change desktop when the mouse cursor is pushed against the edge of the screen"
+"Change desktop when the mouse cursor is pushed against the edge of the "
+"screen"
 msgstr ""
-"Canvia l'escriptori quan s'empenyi el cursor del ratolí contra la vora de la "
-"pantalla"
 
 #. i18n: ectx: property (text), widget (QLabel, desktopSwitchLabel)
 #: main.ui:177
 #, kde-format
 msgid "&Switch desktop on edge:"
-msgstr "&Canvia d'escriptori a la vora:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:188
 #, kde-format
 msgctxt "Switch desktop on edge"
 msgid "Disabled"
-msgstr "Desactivat"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:193
 #, kde-format
 msgid "Only When Moving Windows"
-msgstr "Només en moure finestres"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_ElectricBorders)
 #: main.ui:198
 #, kde-format
 msgid "Always Enabled"
-msgstr "Sempre activat"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, activationDelayLabel)
 #: main.ui:206
@@ -203,21 +206,20 @@ msgid ""
 "Amount of time required for the mouse cursor to be pushed against the edge "
 "of the screen before the action is triggered"
 msgstr ""
-"Interval de temps requerit quan s'empeny el cursor del ratolí contra la vora "
-"de la pantalla abans d'activar l'acció"
 
 #. i18n: ectx: property (text), widget (QLabel, activationDelayLabel)
 #: main.ui:209
 #, kde-format
 msgid "Activation &delay:"
-msgstr "Retar&d de l'activació:"
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderDelay)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_ElectricBorderCooldown)
+#. i18n: ectx: property (suffix), widget (QSpinBox,
+#. kcfg_ElectricBorderCooldown)
 #: main.ui:219 main.ui:254
 #, kde-format
 msgid " ms"
-msgstr " ms"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, triggerCooldownLabel)
 #: main.ui:238
@@ -226,21 +228,66 @@ msgid ""
 "Amount of time required after triggering an action until the next trigger "
 "can occur"
 msgstr ""
-"Interval de temps requerit després d'activar l'acció fins que pugui ocórrer "
-"la següent activació"
 
 #. i18n: ectx: property (text), widget (QLabel, triggerCooldownLabel)
 #: main.ui:241
 #, kde-format
 msgid "&Reactivation delay:"
-msgstr "Retard de la &reactivació:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: touch.ui:17
 #, kde-format
 msgid ""
-"You can trigger an action by swiping from the screen edge towards the center "
-"of the screen."
+"You can trigger an action by swiping from the screen edge towards the center"
+" of the screen."
 msgstr ""
-"Podeu activar una acció lliscant el dit des de la vora de la pantalla cap al "
-"centre de la pantalla."
+
+#~ msgid "Show Desktop"
+#~ msgstr "Mostra l'escriptori"
+
+#~ msgid "Desktop Grid"
+#~ msgstr ""
+
+#~ msgid "Toggle Overview"
+#~ msgstr ""
+
+#~ msgid "%1 - Cube"
+#~ msgstr ""
+
+#~ msgid "%1 - Cylinder"
+#~ msgstr ""
+
+#~ msgid "%1 - Sphere"
+#~ msgstr ""
+
+#~ msgid "Active Screen Corners and Edges"
+#~ msgstr ""
+
+#~ msgid "Window Management"
+#~ msgstr "Gestió de finestres"
+
+#~ msgid "Maximize windows by dragging them to the top edge of the screen"
+#~ msgstr ""
+
+#~ msgid "Quarter tiling triggered in the outer"
+#~ msgstr ""
+
+#~ msgid "Other Settings"
+#~ msgstr ""
+
+#~ msgctxt "Open krunner"
+#~ msgid "Run Command"
+#~ msgstr ""
+
+#~ msgid "Show Dashboard"
+#~ msgstr ""
+
+#~ msgid "Prevent Screen Locking"
+#~ msgstr ""
+
+#~ msgid "Trigger &cooldown:"
+#~ msgstr ""
+
+#~ msgid "Action Groups"
+#~ msgstr ""
