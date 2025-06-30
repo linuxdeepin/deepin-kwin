@@ -2841,7 +2841,7 @@ msgstr ""
 #~ msgstr "Sem borda"
 
 #~ msgid "Toggle Window Border"
-#~ msgstr ""
+#~ msgstr "Alternar borda da janela"
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"
@@ -2894,7 +2894,7 @@ msgstr ""
 #~ msgstr "Embale a janela de cultivo verticalmente"
 
 #~ msgid "Desktop number"
-#~ msgstr ""
+#~ msgstr "Número da área de trabalho"
 
 #~ msgid "Configure virtual keyboards..."
 #~ msgstr "Configurar teclados virtuais..."
@@ -2970,10 +2970,10 @@ msgstr ""
 #~ msgstr "A rotação automática da tela está desativada"
 
 #~ msgid "Walk Through Window Tabs"
-#~ msgstr ""
+#~ msgstr "Guias de navegação pela janela"
 
 #~ msgid "Walk Through Window Tabs (Reverse)"
-#~ msgstr ""
+#~ msgstr "Guias de navegação pela janela (reverso)"
 
 #~ msgid "Remove Window From Group"
 #~ msgstr "Remover janela do grupo"
