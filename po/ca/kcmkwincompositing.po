@@ -252,23 +252,27 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ "Author: %1\n"
 #~ "License: %2"
 #~ msgstr ""
+#~ "Autor: %1\n"
+#~ "Llicència: %2"
 
 #~ msgid ""
 #~ "Hint: To find out or configure how to activate an effect, look at the "
 #~ "effect's settings."
 #~ msgstr ""
+#~ "Consell: per saber o configurar com activar un efecte, mireu la configuració"
+#~ " de l'efecte."
 
 #~ msgid "Configure filter"
 #~ msgstr ""
 
 #~ msgid "Exclude Desktop Effects not supported by the Compositor"
-#~ msgstr ""
+#~ msgstr "Exclou els efectes d'escriptori no compatibles amb el compositor"
 
 #~ msgid "Exclude internal Desktop Effects"
 #~ msgstr ""
 
 #~ msgid "Get New Desktop Effects..."
-#~ msgstr ""
+#~ msgstr "Obtén efectes d'escriptori nous..."
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
