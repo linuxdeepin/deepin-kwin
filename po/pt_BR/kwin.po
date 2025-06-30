@@ -1876,7 +1876,7 @@ msgstr "Maximizado horizontalmente"
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
-msgstr ""
+msgstr "Tipo de regra horizontal maximizada"
 
 #. i18n: ectx: label, entry (minimize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:216
@@ -1888,7 +1888,7 @@ msgstr "Minimizada"
 #: rulesettings.kcfg:220
 #, kde-format
 msgid "Minimized rule type"
-msgstr ""
+msgstr "Tipo de regra minimizada"
 
 #. i18n: ectx: label, entry (shade), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:227
@@ -1900,7 +1900,7 @@ msgstr "Sombreada"
 #: rulesettings.kcfg:231
 #, kde-format
 msgid "Shaded rule type"
-msgstr ""
+msgstr "Tipo de regra sombreada"
 
 #. i18n: ectx: label, entry (skiptaskbar), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:238
@@ -2045,14 +2045,14 @@ msgstr "Tipo de regra de proteção de foco"
 #: rulesettings.kcfg:354
 #, kde-format
 msgid "Accept Focus"
-msgstr ""
+msgstr "Aceite o foco"
 
 #. i18n: ectx: label, entry (acceptfocusrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
-msgstr ""
+msgstr "Aceitar tipo de regra de foco"
 
 #. i18n: ectx: label, entry (closeable), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:363
@@ -2065,46 +2065,46 @@ msgstr "Fechável"
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
-msgstr ""
+msgstr "Tipo de regra fechável"
 
 #. i18n: ectx: label, entry (autogroup), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:372
 #, kde-format
 msgid "Autogroup with identical"
-msgstr "Autoagrupar com idênticos"
+msgstr "Agrupar automaticamente com idênticos"
 
 #. i18n: ectx: label, entry (autogrouprule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
-msgstr "Agrupamento automático com tipo de regra idêntico"
+msgstr "Agrupar automaticamente com tipo de regra idêntico"
 
 #. i18n: ectx: label, entry (autogroupfg), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:381
 #, kde-format
 msgid "Autogroup in foreground"
-msgstr "Autoagrupamento em primeiro plano"
+msgstr "Agrupar automaticamente em primeiro plano"
 
 #. i18n: ectx: label, entry (autogroupfgrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
-msgstr "Agrupamento automático no tipo de regra de primeiro plano"
+msgstr "Agrupar automaticamente no tipo de regra de primeiro plano"
 
 #. i18n: ectx: label, entry (autogroupid), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:390
 #, kde-format
 msgid "Autogroup by ID"
-msgstr ""
+msgstr "Agrupar automaticamente por ID"
 
 #. i18n: ectx: label, entry (autogroupidrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
-msgstr ""
+msgstr "Regra de agrupamento automático por tipo de ID"
 
 #. i18n: ectx: label, entry (strictgeometry), group
 #. ($(ruleDescriptionOrNumber))
@@ -2118,7 +2118,7 @@ msgstr "Obedecer às restrições de geometria"
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
-msgstr ""
+msgstr "Tipo de regra de obediência às restrições de geometria"
 
 #. i18n: ectx: label, entry (shortcut), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:407
@@ -2214,11 +2214,11 @@ msgstr "Alternativa para navegar pelas janelas (reverso)"
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Windows of Current Application"
-msgstr ""
+msgstr "Percorrer as janelas do aplicativo atual"
 
 #: tabbox/tabbox.cpp:526
 msgid "Walk Through Windows of Current Application (Reverse)"
-msgstr ""
+msgstr "Percorrer as janelas do aplicativo atual (reverso)"
 
 #: tabbox/tabbox.cpp:527
 msgid "Walk Through Windows of Current Application Alternative"
@@ -2226,7 +2226,7 @@ msgstr ""
 
 #: tabbox/tabbox.cpp:528
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-msgstr ""
+msgstr "Alternativa para navegar pelas janelas do aplicativo atual (reverso)"
 
 #: tabbox/tabbox.cpp:529
 msgid "Walk Through Desktops"
@@ -2372,12 +2372,12 @@ msgstr "Mover para a tela"
 #: useractions.cpp:508
 #, kde-format
 msgid "Show in &Activities"
-msgstr ""
+msgstr "Mostrar em Atividades"
 
 #: useractions.cpp:525
 #, kde-format
 msgid "Move &To Current Desktop"
-msgstr ""
+msgstr "Mover para a área de trabalho atual"
 
 #: useractions.cpp:535 useractions.cpp:602
 #, kde-format
@@ -2388,7 +2388,7 @@ msgstr "Todas as áreas de trabalhos"
 #, kde-format
 msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
-msgstr ""
+msgstr "Nova área de trabalho"
 
 #: useractions.cpp:646
 #, kde-format
