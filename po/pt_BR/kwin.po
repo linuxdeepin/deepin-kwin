@@ -7,8 +7,8 @@
 # Translators:
 # Gary Wang <wzc782970009@gmail.com>, 2025
 # 380125ae2590f93d3e1eff2258abdf75_6979c31, 2025
-# Wislley Marçal, 2025
 # Alex, 2025
+# Wislley Marçal, 2025
 # 
 msgid ""
 msgstr ""
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Alex, 2025\n"
+"Last-Translator: Wislley Marçal, 2025\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/linuxdeepin/teams/3617/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3063,6 +3063,8 @@ msgstr ""
 #~ "Pointer locked to current position.\n"
 #~ "To end pointer lock hold Escape for 3 seconds."
 #~ msgstr ""
+#~ "Ponteiro travado na posição atual.\n"
+#~ "Para encerrar o bloqueio do ponteiro, segure Escape por 3 segundos."
 
 #~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 #~ msgstr ""
@@ -3075,10 +3077,14 @@ msgstr ""
 #~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
 #~ " set.\n"
 #~ msgstr ""
+#~ "kwin_wayland: não foi possível conectar ao servidor Wayland, certifique-se "
+#~ "de que WAYLAND_DISPLAY esteja definido.\n"
 
 #~ msgid ""
 #~ "The X11 Display to connect to. If not set next free number will be picked."
 #~ msgstr ""
+#~ "O monitor X11 para ser conectado. Se não for definido, o próximo número "
+#~ "livre será escolhido."
 
 #~ msgid "KWin: "
 #~ msgstr "KWin: "
@@ -3111,6 +3117,10 @@ msgstr ""
 #~ "the application process <em>including <b>all</b> of its child "
 #~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
 #~ msgstr ""
+#~ "<p>A janela \"<b>%2</b>\"não está respondendo. Pertence ao aplicativo "
+#~ "<b>%1</b> (ID do processo = %3, nome do host = %4).</p><p>Deseja encerrar o "
+#~ "processo do aplicativo? <em>incluindo <b>todas</b> as janelas "
+#~ "filhas</em>?<br /><b>Todos os dados não salvos serão perdidos.</b></p>"
 
 #~ msgid "Window '%1' demands attention."
 #~ msgstr "A janela '%1' exige atenção."
