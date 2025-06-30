@@ -2440,7 +2440,7 @@ msgstr ""
 #: useractions.cpp:983
 #, kde-format
 msgid "Window Operations Menu"
-msgstr ""
+msgstr "Menu de operações da janela"
 
 #: useractions.cpp:985
 #, kde-format
@@ -2450,7 +2450,7 @@ msgstr "Fechar janela"
 #: useractions.cpp:987
 #, kde-format
 msgid "Maximize Window"
-msgstr ""
+msgstr "Maximizar janela"
 
 #: useractions.cpp:989
 #, kde-format
@@ -2475,7 +2475,7 @@ msgstr "Sombra da janela"
 #: useractions.cpp:997
 #, kde-format
 msgid "Move Window"
-msgstr ""
+msgstr "Mover janela"
 
 #: useractions.cpp:999
 #, kde-format
@@ -2595,7 +2595,7 @@ msgstr "Janela de mosaico rápido para a parte inferior"
 #: useractions.cpp:1045
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
-msgstr ""
+msgstr "Mosaico rápido da janela no canto superior esquerdo"
 
 #: useractions.cpp:1047
 #, kde-format
@@ -2720,7 +2720,7 @@ msgstr ""
 #: useractions.cpp:1112
 #, kde-format
 msgid "Switch to Screen %1"
-msgstr ""
+msgstr "Mudar para a tela %1"
 
 #: useractions.cpp:1119
 #, kde-format
@@ -2730,27 +2730,27 @@ msgstr "Mudar para a próxima tela"
 #: useractions.cpp:1120
 #, kde-format
 msgid "Switch to Previous Screen"
-msgstr ""
+msgstr "Mudar para a tela anterior"
 
 #: useractions.cpp:1121
 #, kde-format
 msgid "Switch to Screen to the Right"
-msgstr ""
+msgstr "Mudar para a tela à direita"
 
 #: useractions.cpp:1123
 #, kde-format
 msgid "Switch to Screen to the Left"
-msgstr ""
+msgstr "Mudar para a tela à esquerda"
 
 #: useractions.cpp:1125
 #, kde-format
 msgid "Switch to Screen Above"
-msgstr ""
+msgstr "Mudar para a tela acima"
 
 #: useractions.cpp:1127
 #, kde-format
 msgid "Switch to Screen Below"
-msgstr ""
+msgstr "Mudar para a tela abaixo"
 
 #: useractions.cpp:1130
 #, kde-format
@@ -2760,7 +2760,7 @@ msgstr "Dê uma olhada na área de trabalho"
 #: useractions.cpp:1133
 #, kde-format
 msgid "Kill Window"
-msgstr ""
+msgstr "Encerrar janela"
 
 #: useractions.cpp:1134
 #, kde-format
@@ -2770,7 +2770,7 @@ msgstr "Suspender a composição"
 #: useractions.cpp:1195
 #, kde-format
 msgid "Activate Window (%1)"
-msgstr ""
+msgstr "Ativar janela (%1)"
 
 #: useractions.cpp:1332
 #, kde-format
@@ -2778,6 +2778,8 @@ msgid ""
 "The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
+"O gerenciador de janelas é configurado para considerar a tela com o mouse sobre ela como ativa.\n"
+"Portanto, não é possível alternar para uma tela explicitamente."
 
 #: virtualdesktops.cpp:693 virtualdesktops.cpp:764
 #, kde-format
