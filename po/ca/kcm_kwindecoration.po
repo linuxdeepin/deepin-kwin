@@ -250,37 +250,37 @@ msgstr ""
 #: utils.cpp:27
 #, kde-format
 msgid "Tiny"
-msgstr ""
+msgstr "Tiny"
 
 #: utils.cpp:28
 #, kde-format
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: utils.cpp:29
 #, kde-format
 msgid "Large"
-msgstr ""
+msgstr "Gran"
 
 #: utils.cpp:30
 #, kde-format
 msgid "Very Large"
-msgstr ""
+msgstr "Molt gran"
 
 #: utils.cpp:31
 #, kde-format
 msgid "Huge"
-msgstr ""
+msgstr "Àmbit"
 
 #: utils.cpp:32
 #, kde-format
 msgid "Very Huge"
-msgstr ""
+msgstr "Molt gran"
 
 #: utils.cpp:33
 #, kde-format
 msgid "Oversized"
-msgstr ""
+msgstr "Sobredimensionat"
 
 #~ msgctxt "popup tip"
 #~ msgid ""
@@ -323,35 +323,35 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Button size:"
-#~ msgstr ""
+#~ msgstr "Mida del botó:"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Tiny"
-#~ msgstr ""
+#~ msgstr "Tiny"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Normal"
-#~ msgstr ""
+#~ msgstr "Normal"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Large"
-#~ msgstr ""
+#~ msgstr "Gran"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Very Large"
-#~ msgstr ""
+#~ msgstr "Molt gran"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Huge"
-#~ msgstr ""
+#~ msgstr "Àmbit"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Very Huge"
-#~ msgstr ""
+#~ msgstr "Molt gran"
 
 #~ msgctxt "@item:inlistbox Button size:"
 #~ msgid "Oversized"
-#~ msgstr ""
+#~ msgstr "Sobredimensionat"
 
 #~ msgid "KDE"
 #~ msgstr ""
