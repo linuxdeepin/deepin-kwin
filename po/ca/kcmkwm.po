@@ -1874,7 +1874,7 @@ msgstr ""
 
 #~ msgctxt "Focus Stealing Prevention Level"
 #~ msgid "Normal"
-#~ msgstr ""
+#~ msgstr "Normal"
 
 #~ msgid "Active Desktop Borders"
 #~ msgstr ""
