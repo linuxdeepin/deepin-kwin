@@ -871,7 +871,7 @@ msgstr "Baixa"
 #: rulesmodel.cpp:820
 #, kde-format
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: rulesmodel.cpp:821
 #, kde-format
