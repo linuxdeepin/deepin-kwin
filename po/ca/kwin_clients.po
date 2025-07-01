@@ -165,19 +165,19 @@ msgstr "Botons d'animació"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "Normal"
-#~ msgstr ""
+#~ msgstr "Normal"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "Large"
-#~ msgstr ""
+#~ msgstr "Gran"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "Very Large"
-#~ msgstr ""
+#~ msgstr "Molt gran"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "Huge"
-#~ msgstr ""
+#~ msgstr "Àmbit"
 
 #~ msgid "Center (Full Width)"
 #~ msgstr ""
@@ -443,7 +443,7 @@ msgstr "Botons d'animació"
 #~ msgstr ""
 
 #~ msgid "Large"
-#~ msgstr ""
+#~ msgstr "Gran"
 
 #~ msgid "Small"
 #~ msgstr ""
