@@ -186,7 +186,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Scale method:"
-#~ msgstr ""
+#~ msgstr "Mètode d'escala:"
 
 #~ msgid "Smooth"
 #~ msgstr ""
