@@ -2349,6 +2349,7 @@ void MultitaskViewEffect::grabbedKeyboardEvent(QKeyEvent* e)
             if (e->modifiers() == (Qt::AltModifier)) {
                 break;
             }
+            [[fallthrough]];
         default:
             if (!QX11Info::isPlatformX11() && effectsEx->isShortcuts(e)) {
                 QTimer::singleShot(20, [&, this]() {

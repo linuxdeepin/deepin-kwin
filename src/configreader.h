@@ -103,9 +103,9 @@ public Q_SLOTS:
     void slotSetProperty(QVariant property);
 
 private:
+    QString m_service;
     QString m_interface;
     QString m_propertyName;
-    QString m_service;
     QVariant m_property;
     ConfigMonitor *m_monitor = nullptr;
 };

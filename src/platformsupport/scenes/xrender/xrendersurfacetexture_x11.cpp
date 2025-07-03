@@ -14,7 +14,8 @@ namespace KWin
 {
 
 XRenderSurfaceTextureX11::XRenderSurfaceTextureX11(XRenderBackend *backend, SurfacePixmapX11 *pixmap)
-    : m_backend(backend), m_pixmap(pixmap)
+    : m_pixmap(pixmap)
+    , m_backend(backend)
 {
 }
 

@@ -55,8 +55,9 @@ bool SlideEffect::supported()
     return effects->animationsSupported();
 }
 
-void SlideEffect::reconfigure(ReconfigureFlags)
+void SlideEffect::reconfigure(ReconfigureFlags flags)
 {
+    Q_UNUSED(flags);
     SlideConfig::self()->read();
 
     const qreal springConstant = 300.0 / effects->animationTimeFactor();

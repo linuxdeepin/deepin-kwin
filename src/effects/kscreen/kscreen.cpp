@@ -44,7 +44,7 @@ namespace KWin
 
 KscreenEffect::KscreenEffect()
     : Effect()
-    , m_atom(effects->waylandDisplay() ? XCB_ATOM_NONE : effects->announceSupportProperty("_KDE_KWIN_KSCREEN_SUPPORT", this))
+    , m_atom(effects->waylandDisplay() ? xcb_atom_t(XCB_ATOM_NONE) : effects->announceSupportProperty("_KDE_KWIN_KSCREEN_SUPPORT", this))
 {
     initConfig<KscreenConfig>();
     if (!effects->waylandDisplay()) {

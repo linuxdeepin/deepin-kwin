@@ -346,13 +346,11 @@ static void parserWindowDecoration(const UIWindowType& windowType, const QJsonVa
 
 static void writeConfig(const UIWindowType& windowType, const QJsonValue& windowDecoration, ChameleonTheme::ConfigGroupMap *configs, const ChameleonTheme::ConfigGroupMap *base)
 {
-    const ChameleonTheme::ThemeConfig* base_active = nullptr;
-    const ChameleonTheme::ThemeConfig* base_inactive = nullptr;
+    const ChameleonTheme::ThemeConfig *base_active = nullptr;
     if (base) {
         if (base->managedConfigGroupMap.contains(windowType)) {
             const auto& it = base->managedConfigGroupMap.find(windowType);
             base_active = &(it->normal);
-            base_inactive = &(it->inactive);
         }
         if (base->unmanagedConfigMap.contains(windowType)) {
             const auto& it = base->unmanagedConfigMap.find(windowType);

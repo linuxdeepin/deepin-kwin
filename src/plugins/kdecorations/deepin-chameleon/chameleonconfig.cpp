@@ -514,21 +514,6 @@ void ChameleonConfig::updateClientNoBorder(QObject *client, bool allowReset)
     }
 }
 
-static ChameleonWindowTheme *buildWindowTheme(QObject *window)
-{
-    for (QObject *child : window->children()) {
-        // 对于ChameleonWindowTheme类型的对象，由于其调用了buildNativeSettings，因此会导致其QMetaObject对象被更改
-        // 无法使用QMetaObject::cast，因此不能使用QObject::findChild等接口查找子类，也不能使用qobject_cast转换对象指针类型
-        // 此处只能根据类名判断来查找ChameleonWindowTheme对象
-        if (strcmp(child->metaObject()->className(), ChameleonWindowTheme::staticMetaObject.className()) == 0) {
-            return static_cast<ChameleonWindowTheme*>(child);
-        }
-    }
-
-    // 构建窗口主题设置对象
-    return new ChameleonWindowTheme(window, window);
-}
-
 void ChameleonConfig::updateClientClipPath(QObject *client)
 {
     KWin::EffectWindow *effect = client->findChild<KWin::EffectWindow*>(QString(), Qt::FindDirectChildrenOnly);

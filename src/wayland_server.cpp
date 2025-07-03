@@ -694,8 +694,14 @@ bool WaylandServer::init(InitializationFlags flags)
             if (!client) {
                 const WindowState invalid = {
                     .pid = 0,
-                    .windowId = 0
-                };
+                    .windowId = 0,
+                    .resourceName = {0},
+                    .geometry = {0, 0, 0, 0},
+                    .isMinimized = false,
+                    .isFullScreen = false,
+                    .isActive = false,
+                    .splitable = 0,
+                    .uuid = {0}};
                 client_management->sendSpecificWindowState(invalid);
                 return;
             }

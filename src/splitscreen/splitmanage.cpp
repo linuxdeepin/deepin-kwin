@@ -232,7 +232,7 @@ void SplitManage::updateSplitWindowsGroup()
 void SplitManage::addQuickTile(int desktop, QString screenName, Window *window)
 {
     if (desktop == -1) {
-        for (int i = 1; i <= VirtualDesktopManager::self()->count(); ++i) {
+        for (int i = 1; i <= static_cast<int>(VirtualDesktopManager::self()->count()); ++i) {
             createGroup(i, screenName)->storeSplitWindow(window);
         }
     } else {
@@ -247,7 +247,7 @@ void SplitManage::addQuickTile(int desktop, QString screenName, Window *window)
 void SplitManage::removeQuickTile(Window *window)
 {
     if (m_data[window].desktop == -1) {
-        for (int i = 1; i <= VirtualDesktopManager::self()->count(); ++i) {
+        for (int i = 1; i <= static_cast<int>(VirtualDesktopManager::self()->count()); ++i) {
             SplitGroup *splitgroup = getGroup(i, m_data[window].screenName);
             if (splitgroup)
                 splitgroup->deleteSplitWindow(window);

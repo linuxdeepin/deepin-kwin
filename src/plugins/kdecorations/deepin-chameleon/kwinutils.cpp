@@ -88,29 +88,6 @@ static xcb_atom_t internAtom(const char *name, bool only_if_exists)
     return atom;
 }
 
-static QByteArray atomName(xcb_atom_t atom)
-{
-    if (!atom)
-        return QByteArray();
-
-    if (!isPlatformX11())
-        return QByteArray();
-
-    xcb_generic_error_t *error = 0;
-    xcb_get_atom_name_cookie_t cookie = xcb_get_atom_name(QX11Info::connection(), atom);
-    xcb_get_atom_name_reply_t *reply = xcb_get_atom_name_reply(QX11Info::connection(), cookie, &error);
-    if (error) {
-        // qWarning() << "atomName: bad Atom" << atom;
-        free(error);
-    }
-    if (reply) {
-        QByteArray result(xcb_get_atom_name_name(reply), xcb_get_atom_name_name_length(reply));
-        free(reply);
-        return result;
-    }
-    return QByteArray();
-}
-
 static QByteArray windowProperty(xcb_window_t WId, xcb_atom_t propAtom, xcb_atom_t typeAtom)
 {
     if (!isPlatformX11())

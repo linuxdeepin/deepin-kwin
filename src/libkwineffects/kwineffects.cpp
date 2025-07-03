@@ -1022,7 +1022,7 @@ WindowQuadList WindowQuadList::makeRegularGrid(int xSubdivisions, int ySubdivisi
 
 void RenderGeometry::copy(GLVertex2D *destination, std::size_t number)
 {
-    Q_ASSERT(number >= size());
+    Q_ASSERT(number >= static_cast<std::size_t>(size()));
     for (std::size_t i = 0; i < number; ++i) {
         destination[i] = at(i);
     }

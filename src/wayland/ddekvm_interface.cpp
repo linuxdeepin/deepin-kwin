@@ -250,7 +250,6 @@ DDEKvmInterface *DDEKvmPointerInterface::ddeKvm() const
 
 void DDEKvmPointerInterface::sendButton(quint32 button, quint32 state, quint32 serial, const QPointF &position)
 {
-    const QPointF globalPos = d->ddeKvm->pointerPos();
     const auto kvmPointerResources = d->resourceMap();
     for (DDEKvmPointerInterfacePrivate::Resource *resource : kvmPointerResources) {
         d->send_button(resource->handle, serial, d->ddeKvm->kvmPointerTimestamp(), state);

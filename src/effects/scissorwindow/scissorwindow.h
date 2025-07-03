@@ -54,7 +54,6 @@ public:
     void drawWindow(EffectWindow* w, int mask, const QRegion& region, WindowPaintData& data) override;
 
 protected Q_SLOTS:
-    void windowAdded(EffectWindow *window);
     void windowDeleted(EffectWindow *window);
 
 private:
