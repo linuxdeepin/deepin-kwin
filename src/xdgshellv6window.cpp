@@ -2025,7 +2025,6 @@ void XdgToplevelV6Window::maximize(MaximizeMode mode, bool animated)
     if (m_requestedMaximizeMode == mode) {
         return;
     }
-    Q_EMIT clientMaximizedStateAboutToChange(this, mode);
     m_requestedMaximizeMode = mode;
 
     // call into decoration update borders
@@ -2116,6 +2115,7 @@ void XdgToplevelV6Window::maximize(MaximizeMode mode, bool animated)
     }
 
     moveResize(geometry);
+    Q_EMIT clientMaximizedStateAboutToChange(this, mode);
 
     if (oldQuickTileMode != quickTileMode()) {
         doSetQuickTileMode();

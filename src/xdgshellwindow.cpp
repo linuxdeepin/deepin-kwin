@@ -2040,7 +2040,6 @@ void XdgToplevelWindow::maximize(MaximizeMode mode, bool animated)
     if (m_requestedMaximizeMode == mode) {
         return;
     }
-    Q_EMIT clientMaximizedStateAboutToChange(this, mode);
     m_requestedMaximizeMode = mode;
 
     // call into decoration update borders
@@ -2132,6 +2131,7 @@ void XdgToplevelWindow::maximize(MaximizeMode mode, bool animated)
 
     qCDebug(KWIN_CORE) << "set window max mode: " << m_requestedMaximizeMode << window();
     moveResize(geometry);
+    Q_EMIT clientMaximizedStateAboutToChange(this, mode);
 
     if (oldQuickTileMode != quickTileMode()) {
         doSetQuickTileMode();
