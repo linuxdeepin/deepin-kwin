@@ -53,6 +53,7 @@ EglGbmBackend::EglGbmBackend(DrmBackend *drmBackend)
     : AbstractEglBackend(drmBackend->primaryGpu()->deviceId())
     , m_backend(drmBackend)
     , m_dmaFd(0)
+    , m_dmaActualStride(0)
 {
     drmBackend->setRenderBackend(this);
     setIsDirectRendering(true);
@@ -246,6 +247,7 @@ void EglGbmBackend::passRemotePresent(Output *output)
         if (std::shared_ptr<GbmBuffer> gbmbuf = std::dynamic_pointer_cast<GbmBuffer>(buffer->buffer())) {
             auto bo = gbmbuf->bo();
             m_dmaFd = gbm_bo_get_fd(bo);
+            m_dmaActualStride = gbm_bo_get_stride(bo);
         }
         if (m_remoteaccessManager) {
             m_remoteaccessManager->passBuffer(output, buffer->buffer());

@@ -69,13 +69,18 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
     spa->chunk->size = spa->maxsize;
     EglGbmBackend * eglGbmBackend = static_cast<EglGbmBackend *>(Compositor::self()->backend());
     spa->fd = eglGbmBackend ? eglGbmBackend->getFrameFd() : 0;
+    const uint actualStride = eglGbmBackend ? eglGbmBackend->dmaActualStride() : stride;
 
     if (spa->fd) {
-        unsigned char *map_data = static_cast<unsigned char *>((mmap(NULL, stride * size.height(), PROT_READ, MAP_SHARED, spa->fd, 0)));
-
+        uint8_t *map_data = static_cast<uint8_t *>((mmap(NULL, actualStride * size.height(), PROT_READ, MAP_SHARED, spa->fd, 0)));
         if (map_data != MAP_FAILED) {
-            memcpy(spa->data, map_data, stride * size.height());
-            munmap(map_data, stride * size.height());
+            if (actualStride > stride) {
+                for (int y = 0; y < size.height(); ++y)
+                    memcpy((uint8_t*)spa->data + y * stride, map_data + y * actualStride, stride);
+            } else {
+                memcpy(spa->data, map_data, actualStride * size.height());
+            }
+            munmap(map_data, actualStride * size.height());
             map_data = NULL;
         } else {
             texture->bind();
