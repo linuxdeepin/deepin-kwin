@@ -4,6 +4,7 @@
 # Steve Allewell <steve.allewell@gmail.com>, 2022.
 # Translators:
 # Gary Wang <wzc782970009@gmail.com>, 2025
+# Davidmp <medipas@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
@@ -11,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 00:51+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Last-Translator: Davidmp <medipas@gmail.com>, 2025\n"
 "Language-Team: Catalan (https://app.transifex.com/linuxdeepin/teams/3617/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Josep M. Ferrer"
+msgstr "Davidmp"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -33,12 +34,14 @@ msgstr "txemaq@gmail.com"
 #: kcmkwinxwayland.cpp:30
 #, kde-format
 msgid "Legacy X11 App Support"
-msgstr ""
+msgstr "Suport de llegat d'aplicacions d'X11"
 
 #: kcmkwinxwayland.cpp:32
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in other apps"
 msgstr ""
+"Permet que les aplicacions d'X11 de llegat llegeixin les pulsacions de "
+"tecles escrites en altres aplicacions"
 
 #: package/contents/ui/main.qml:19
 #, kde-format
@@ -46,6 +49,8 @@ msgid ""
 "This module lets configure which keyboard events are forwarded to X11 apps "
 "regardless of their focus."
 msgstr ""
+"Aquest mòdul permet configurar quins esdeveniments de teclat es reenvien a "
+"les aplicacions d'X11 independentment del seu focus."
 
 #: package/contents/ui/main.qml:49
 #, kde-format
@@ -55,11 +60,18 @@ msgid ""
 "disabled by default for security reasons. If you need to use such apps, you "
 "can choose your preferred balance of security and functionality here."
 msgstr ""
+"Les aplicacions d'X11 de llegat requereixen la capacitat de llegir les "
+"pulsacions de tecles escrites en altres aplicacions per a les funcions que "
+"s'activen mitjançant tecles de drecera globals. Això està desactivat per "
+"defecte per motius de seguretat. Si necessiteu usar aquestes aplicacions, "
+"podeu triar l'equilibri preferit de seguretat i funcionalitat aquí."
 
 #: package/contents/ui/main.qml:66
 #, kde-format
 msgid "Allow legacy X11 apps to read keystrokes typed in all apps:"
 msgstr ""
+"Permet que les aplicacions d'X11 de llegat llegeixin les pulsacions de "
+"tecles escrites a totes les aplicacions:"
 
 #: package/contents/ui/main.qml:67
 #, kde-format
@@ -69,12 +81,14 @@ msgstr "Mai"
 #: package/contents/ui/main.qml:70
 #, kde-format
 msgid "Only Meta, Control, Alt, and Shift keys"
-msgstr ""
+msgstr "Només les tecles Meta, Control, Alt i Maj"
 
 #: package/contents/ui/main.qml:73
 #, kde-format
 msgid "All keys, but only while Meta, Ctrl, Alt, or Shift keys are pressed"
 msgstr ""
+"Totes les tecles, però només mentre es premen les tecles Meta, Ctrl, Alt o "
+"Maj"
 
 #: package/contents/ui/main.qml:77
 #, kde-format
@@ -88,3 +102,7 @@ msgid ""
 "session by permitting malicious software to steal passwords and spy on the "
 "text that you type. Make sure you understand and accept this risk."
 msgstr ""
+"Tingueu en compte que l'ús d'aquesta configuració reduirà la seguretat del "
+"sistema a la de la sessió d'X11, ja que permetrà que el programari maliciós "
+"robi contrasenyes i espiï el text que escriviu. Assegureu-vos d'entendre i "
+"acceptar aquest risc."

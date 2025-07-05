@@ -6,6 +6,7 @@
 # Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Translators:
 # Gary Wang <wzc782970009@gmail.com>, 2025
+# Emruz Hossain <hossainemruz@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Last-Translator: Emruz Hossain <hossainemruz@gmail.com>, 2025\n"
 "Language-Team: Bengali (https://app.transifex.com/linuxdeepin/teams/3617/bn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3515,3 +3516,33 @@ msgstr ""
 #, kde-format
 msgid "The confidential file cannot be displayed"
 msgstr ""
+
+msgid "Minimize"
+msgstr "ছোটও করুন"
+
+msgid "Unmaximize"
+msgstr "সর্বাধিক বড় নয়"
+
+msgid "Maximize"
+msgstr "সর্বাধিক বড় করুন"
+
+msgid "Move"
+msgstr "সরান"
+
+msgid "Resize"
+msgstr "আকার পরিবর্তন করুন"
+
+msgid "Always on Top"
+msgstr "সবসময় উপড়ে দেখাবে"
+
+msgid "Always on Visible Workspace"
+msgstr "কর্মস্থানে সবসময় দেখাবে "
+
+msgid "Move to Workspace Left"
+msgstr "বাম কর্মস্থানে সরান"
+
+msgid "Move to Workspace Right"
+msgstr "ডান কর্মস্থানে সরান"
+
+msgid "Close"
+msgstr "বন্ধ করুন"

@@ -186,7 +186,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Scale method:"
-#~ msgstr ""
+#~ msgstr "Mètode d'escala:"
 
 #~ msgid "Smooth"
 #~ msgstr ""
@@ -198,7 +198,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Automatic"
-#~ msgstr ""
+#~ msgstr "Automàtica"
 
 #~ msgid "Only when cheap"
 #~ msgstr ""
@@ -252,23 +252,27 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ "Author: %1\n"
 #~ "License: %2"
 #~ msgstr ""
+#~ "Autor: %1\n"
+#~ "Llicència: %2"
 
 #~ msgid ""
 #~ "Hint: To find out or configure how to activate an effect, look at the "
 #~ "effect's settings."
 #~ msgstr ""
+#~ "Consell: per saber o configurar com activar un efecte, mireu la configuració"
+#~ " de l'efecte."
 
 #~ msgid "Configure filter"
 #~ msgstr ""
 
 #~ msgid "Exclude Desktop Effects not supported by the Compositor"
-#~ msgstr ""
+#~ msgstr "Exclou els efectes d'escriptori no compatibles amb el compositor"
 
 #~ msgid "Exclude internal Desktop Effects"
 #~ msgstr ""
 
 #~ msgid "Get New Desktop Effects..."
-#~ msgstr ""
+#~ msgstr "Obtén efectes d'escriptori nous..."
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
@@ -280,19 +284,19 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Accessibility"
-#~ msgstr ""
+#~ msgstr "Accessibilitat"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Appearance"
-#~ msgstr ""
+#~ msgstr "Aparença"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Candy"
-#~ msgstr ""
+#~ msgstr "Caramels"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Focus"
-#~ msgstr ""
+#~ msgstr "Focus"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Show Desktop Animation"
@@ -300,19 +304,19 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Tools"
-#~ msgstr ""
+#~ msgstr "Eines"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Virtual Desktop Switching Animation"
-#~ msgstr ""
+#~ msgstr "Animació de canvi d'escriptori virtual"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Management"
-#~ msgstr ""
+#~ msgstr "Gestió de finestres"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Open/Close Animation"
-#~ msgstr ""
+#~ msgstr "Animació d'obrir / tancar la finestra"
 
 #~ msgid "KWin development team"
 #~ msgstr "Equip de desenvolupament del KWin"
@@ -440,7 +444,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Normal"
-#~ msgstr ""
+#~ msgstr "Normal"
 
 #~ msgid "Slow"
 #~ msgstr ""
@@ -457,7 +461,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Advanced"
-#~ msgstr ""
+#~ msgstr "Avançat"
 
 #~ msgid "OpenGL Options"
 #~ msgstr ""
@@ -549,7 +553,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Suspend Compositing"
-#~ msgstr ""
+#~ msgstr "Suspèn la composició"
 
 #~ msgid "Resume Compositing"
 #~ msgstr ""

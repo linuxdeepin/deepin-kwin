@@ -7,6 +7,7 @@
 # Steve Allewell <steve.allewell@gmail.com>, 2014, 2018, 2019, 2021, 2022.
 # Translators:
 # Gary Wang <wzc782970009@gmail.com>, 2025
+# Kimmo Kujansuu <mrkujansuu@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
@@ -14,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:49+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>, 2025\n"
 "Language-Team: Finnish (https://app.transifex.com/linuxdeepin/teams/3617/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,8 +39,8 @@ msgstr "translator@legisign.org"
 msgctxt "A numbered name for virtual desktops"
 msgid "Desktop %1"
 msgid_plural "Desktop %1"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Työpöytä %1"
+msgstr[1] "Työpöytä %1"
 
 #: desktopsmodel.cpp:479
 #, kde-format
