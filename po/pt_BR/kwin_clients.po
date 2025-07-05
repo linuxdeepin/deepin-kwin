@@ -5,6 +5,7 @@
 # Translators:
 # 380125ae2590f93d3e1eff2258abdf75_6979c31, 2025
 # Wislley Marçal, 2025
+# Alex, 2025
 # 
 msgid ""
 msgstr ""
@@ -12,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-22 02:35+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Wislley Marçal, 2025\n"
+"Last-Translator: Alex, 2025\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/linuxdeepin/teams/3617/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -638,7 +639,7 @@ msgstr "Animação dos botões"
 #~ "cores normais das bordas."
 
 #~ msgid "Quartz &extra slim"
-#~ msgstr ""
+#~ msgstr "Quartz extra fino"
 
 #~ msgid "Quartz window decorations with extra-small title bar."
 #~ msgstr "Decorações de janela de quartzo com barra de título extrapequena."
@@ -839,4 +840,4 @@ msgstr "Animação dos botões"
 #~ "título do sistema."
 
 #~ msgid "Use thin borders"
-#~ msgstr ""
+#~ msgstr "Usar bordas finas"
