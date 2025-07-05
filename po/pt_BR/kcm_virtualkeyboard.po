@@ -55,4 +55,4 @@ msgstr "Não usar teclado virtual"
 #: package/contents/ui/main.qml:16
 #, kde-format
 msgid "This module lets you choose the virtual keyboard to use."
-msgstr ""
+msgstr "Este módulo permite escolher qual teclado virtual usar."
