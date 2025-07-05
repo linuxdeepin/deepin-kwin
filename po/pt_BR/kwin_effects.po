@@ -2081,9 +2081,9 @@ msgstr "Rastreamento do mouse:"
 
 #~ msgid " pixel/frame"
 #~ msgid_plural " pixels/frame"
-#~ msgstr[0] ""
-#~ msgstr[1] ""
-#~ msgstr[2] ""
+#~ msgstr[0] "pixel por quadro"
+#~ msgstr[1] "pixels por quadro"
+#~ msgstr[2] "pixels por quadro"
 
 #~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
 #~ msgid "Toggle Sharpen Effect"
