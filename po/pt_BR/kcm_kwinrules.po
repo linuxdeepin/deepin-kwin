@@ -832,7 +832,7 @@ msgstr "Barra de ferramentas"
 #: rulesmodel.cpp:744
 #, kde-format
 msgid "Torn-Off Menu"
-msgstr ""
+msgstr "Menu destacado"
 
 #: rulesmodel.cpp:745
 #, kde-format
