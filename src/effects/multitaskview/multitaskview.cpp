@@ -1625,12 +1625,15 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(EffectScreen *screen)
         font.setFamily(m_fontFamily);
         font.setPointSize(13);
         QFontMetrics metrics(font);
-        int width = m_dragTipsFrameShadow->iconSize().width() + metrics.horizontalAdvance(tr("Drag upwards to remove")) + 13;
+        auto metricsRect = metrics.boundingRect(tr("Drag upwards to remove"));
+        const int spacing = 13;
+        int width = m_dragTipsFrameShadow->iconSize().width() + metricsRect.width() + spacing;
+        int height = qMax(qMax(m_dragTipsFrameShadow->iconSize().height(), metricsRect.height()), 28);
 
         m_dragTipsFrameShadow->setFont(font);
-        m_dragTipsFrameShadow->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, 28));
+        m_dragTipsFrameShadow->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, height));
         m_dragTipsFrame->setFont(font);
-        m_dragTipsFrame->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, 28));
+        m_dragTipsFrame->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, height));
 
         m_dragTipsFrameShadow->render(infiniteRegion(), 1, 0);
         m_dragTipsFrame->render(infiniteRegion(), 1, 0);
