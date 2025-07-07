@@ -320,10 +320,10 @@ void XdgSurfaceWindow::moveResizeInternal(const QRectF &rect, MoveResizeMode mod
     Q_EMIT frameGeometryAboutToChange(this);
 
     if (mode != MoveResizeMode::Move) {
-        // Force update geometry to ensure that the frame geometry is correct.
-        updateGeometry(rect);
         const QSizeF requestedClientSize = frameSizeToClientSize(rect.size());
-        if (requestedClientSize != clientSize()) {
+        if (requestedClientSize == clientSize()) {
+            updateGeometry(rect);
+        } else {
             m_configureFlags |= XdgSurfaceConfigure::ConfigurePosition;
             scheduleConfigure();
         }
