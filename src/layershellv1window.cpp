@@ -216,7 +216,7 @@ bool LayerShellV1Window::acceptsFocus() const
     return m_shellSurface->acceptsFocus();
 }
 
-void LayerShellV1Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
+void LayerShellV1Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool immediateResize)
 {
     if (areGeometryUpdatesBlocked()) {
         setPendingMoveResizeMode(mode);
@@ -225,6 +225,9 @@ void LayerShellV1Window::moveResizeInternal(const QRectF &rect, MoveResizeMode m
 
     const QSizeF requestedClientSize = frameSizeToClientSize(rect.size());
     if (requestedClientSize != clientSize()) {
+        if (immediateResize) {
+            updateGeometry(rect);
+        }
         m_shellSurface->sendConfigure(rect.size().toSize());
     } else {
         updateGeometry(rect);

@@ -101,7 +101,7 @@ public:
     }
 
 protected:
-    void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
+    void moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool immediateResize = false) override;
 
     virtual XdgSurfaceConfigure *sendRoleConfigure() const = 0;
     virtual void handleRoleCommit();

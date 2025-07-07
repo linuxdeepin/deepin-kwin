@@ -307,7 +307,7 @@ void XdgSurfaceV6Window::resetHaveNextWindowGeometry()
     m_haveNextWindowGeometry = false;
 }
 
-void XdgSurfaceV6Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
+void XdgSurfaceV6Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool immediateResize)
 {
     if (areGeometryUpdatesBlocked()) {
         setPendingMoveResizeMode(mode);
@@ -321,6 +321,9 @@ void XdgSurfaceV6Window::moveResizeInternal(const QRectF &rect, MoveResizeMode m
         if (requestedClientSize == clientSize()) {
             updateGeometry(rect);
         } else {
+            if (immediateResize) {
+                updateGeometry(rect);
+            }
             m_configureFlags |= XdgSurfaceV6Configure::ConfigurePosition;
             scheduleConfigure();
         }

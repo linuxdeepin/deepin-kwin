@@ -4006,14 +4006,14 @@ void Window::resize(const QSizeF &size)
     moveResizeInternal(rect, MoveResizeMode::Resize);
 }
 
-void Window::moveResize(const QRectF &rect)
+void Window::moveResize(const QRectF &rect, bool immediateResize)
 {
     setMoveResizeGeometry(rect);
     if (s_placeholderWindow && s_placeholderWindow->takeOver(window())) {
         s_placeholderWindow->setGeometry(rect.toRect());
         return;
     }
-    moveResizeInternal(rect, MoveResizeMode::MoveResize);
+    moveResizeInternal(rect, MoveResizeMode::MoveResize, immediateResize);
 }
 
 void Window::moveResizeGeometry(const QRectF &rect)
@@ -4364,7 +4364,7 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
     }
 
     if (isRequestedFullScreen() || requestedMaximizeMode() != MaximizeRestore || quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
-        moveResize(ensureSpecialStateGeometry(newGeom));
+        moveResize(ensureSpecialStateGeometry(newGeom), true);
         m_fullscreenGeometryRestore = moveToArea(m_fullscreenGeometryRestore, oldScreenArea, screenArea);
         m_maximizeGeometryRestore = moveToArea(m_maximizeGeometryRestore, oldScreenArea, screenArea);
         return;
@@ -4520,7 +4520,7 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
         newGeom.setSize(constrainFrameSize(newGeom.size()));
     }
 
-    moveResize(newGeom);
+    moveResize(newGeom, true);
 }
 
 void Window::checkOffscreenPosition(QRectF *geom, const QRectF &screenArea)

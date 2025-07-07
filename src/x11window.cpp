@@ -4274,7 +4274,7 @@ bool X11Window::isMaximizable() const
 /**
  * Reimplemented to inform the client about the new window position.
  */
-void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
+void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool immediateResize)
 {
     // Ok, the shading geometry stuff. Generally, code doesn't care about shaded geometry,
     // simply because there are too many places dealing with geometry. Those places
@@ -4286,6 +4286,7 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
     // setGeometry( geometry()) - geometry() will return the shaded frame geometry.
     // Such code is wrong and should be changed to handle the case when the window is shaded,
     // for example using X11Window::clientSize()
+    Q_UNUSED(immediateResize);
 
     QRectF frameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
 

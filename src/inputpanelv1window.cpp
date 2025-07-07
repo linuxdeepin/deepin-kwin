@@ -176,8 +176,9 @@ QRectF InputPanelV1Window::inputGeometry() const
     return readyForPainting() ? QRectF(surface()->input().boundingRect()).translated(pos()) : QRectF();
 }
 
-void InputPanelV1Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode)
+void InputPanelV1Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool immediateResize)
 {
+    Q_UNUSED(immediateResize);
     updateGeometry(rect);
 }
 

@@ -1198,7 +1198,7 @@ public:
 
     void move(const QPointF &point);
     void resize(const QSizeF &size);
-    void moveResize(const QRectF &rect);
+    void moveResize(const QRectF &rect, bool immediateResize = false);
     void moveResizeGeometry(const QRectF &rect);
 
     virtual QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &s) = 0;
@@ -1856,7 +1856,7 @@ protected:
     };
     MoveResizeMode pendingMoveResizeMode() const;
     void setPendingMoveResizeMode(MoveResizeMode mode);
-    virtual void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) = 0;
+    virtual void moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool immediateResize = false) = 0;
 
     /**
      * @returns whether the Window is currently in move resize mode

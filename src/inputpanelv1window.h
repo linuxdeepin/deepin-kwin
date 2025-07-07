@@ -82,7 +82,7 @@ public:
     void hide();
 
 protected:
-    void moveResizeInternal(const QRectF &rect, MoveResizeMode mode) override;
+    void moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool immediateResize = false) override;
 
 private:
     void showTopLevel(KWaylandServer::OutputInterface *output, KWaylandServer::InputPanelSurfaceV1Interface::Position position);
