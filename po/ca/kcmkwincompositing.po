@@ -176,23 +176,27 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 
 #~ msgid "Allows applications to cause screen tearing in fullscreen."
 #~ msgstr ""
+#~ "Permet que les aplicacions provoquin esquinçament de pantalla en pantalla "
+#~ "completa."
 
 #~ msgid "Allow tearing in fullscreen"
-#~ msgstr ""
+#~ msgstr "Permet l'esquinçament en pantalla completa"
 
 #~ msgid ""
 #~ "Scale method \"Accurate\" is not supported by all hardware and can cause "
 #~ "performance regressions and rendering artifacts."
 #~ msgstr ""
+#~ "El mètode d'escala precís no és compatible amb tot el maquinari i pot causar"
+#~ " regressions de rendiment i artefactes de renderització."
 
 #~ msgid "Scale method:"
 #~ msgstr "Mètode d'escala:"
 
 #~ msgid "Smooth"
-#~ msgstr ""
+#~ msgstr "Suau"
 
 #~ msgid "Accurate"
-#~ msgstr ""
+#~ msgstr "Precís"
 
 #~ msgid "Tearing prevention (\"vsync\"):"
 #~ msgstr ""
