@@ -241,21 +241,21 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr "OpenGL 2.0"
 
 #~ msgid "Crisp"
-#~ msgstr ""
+#~ msgstr "Cruixent"
 
 #~ msgid "Smooth (slower)"
-#~ msgstr ""
+#~ msgstr "Suau (més lent)"
 
 #~ msgid "XRender"
-#~ msgstr ""
+#~ msgstr "XRender"
 
 #~ msgctxt "OpenGL Platform Interface"
 #~ msgid "EGL"
-#~ msgstr ""
+#~ msgstr "EGL"
 
 #~ msgctxt "OpenGL Platform Interface"
 #~ msgid "GLX"
-#~ msgstr ""
+#~ msgstr "GLX"
 
 #~ msgid ""
 #~ "Author: %1\n"
