@@ -245,9 +245,34 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
         XFixesRegion xregion(region);
         xcb_xfixes_set_picture_clip_region(connection(), renderTarget, xregion, 0, 0);
 
-        xcb_render_composite(connection(), clientRenderOp, pic, clientAlpha, renderTarget,
-                                cr.x(), cr.y(), 0, 0, dr.x(), dr.y(), dr.width(), dr.height());
+        // For shaped windows, we need to render each shape rectangle separately
+        // to ensure correct clipping behavior
+        const QVector<QRectF> shapeRects = surfaceItem->shape();
+        if (shapeRects.size() > 1 || (shapeRects.size() == 1 && shapeRects[0] != QRectF(0, 0, cr.width(), cr.height()))) {
+            // Window has a custom shape, render each shape part separately
+            for (const QRectF &shapeRect : shapeRects) {
+                QRectF sourceRect = shapeRect;
+                QRectF targetRect = surfaceItem->mapToGlobal(shapeRect);
+
+                // Only render if the shape part intersects with the render region
+                if (region.intersects(targetRect.toRect())) {
+                    xcb_render_composite(connection(), clientRenderOp, pic, clientAlpha, renderTarget,
+                                         sourceRect.x(), sourceRect.y(), 0, 0, 
+                                         targetRect.x(), targetRect.y(), targetRect.width(), targetRect.height());
+                }
+            }
+        } else {
+            // Regular window without custom shape
+            xcb_render_composite(connection(), clientRenderOp, pic, clientAlpha, renderTarget,
+                                    cr.x(), cr.y(), 0, 0, dr.x(), dr.y(), dr.width(), dr.height());
+        }
+
+        // Reset target picture clipping
+        xcb_xfixes_set_picture_clip_region(connection(), renderTarget, XCB_NONE, 0, 0);
     }
+
+    // Reset source picture clipping
+    xcb_xfixes_set_picture_clip_region(connection(), pic, XCB_NONE, 0, 0);
 }
 
 void ItemRendererXRender::renderDecorationItem(DecorationItem *decorationItem, int mask, const QRegion &region, const WindowPaintData &data) const
