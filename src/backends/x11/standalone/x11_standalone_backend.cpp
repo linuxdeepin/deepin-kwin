@@ -325,7 +325,7 @@ void X11StandaloneBackend::doUpdateOutputs()
                 for (int k = 0; k < info->num_outputs; ++k) {
                     auto xcbOutput = info.outputs()[k];
                     Xcb::RandR::OutputInfo outputInfo(xcbOutput, resources->config_timestamp);
-                    if (outputInfo->crtc != crtc) {
+                    if (outputInfo->crtc != crtc || outputInfo->connection != XCB_RANDR_CONNECTION_CONNECTED) {
                         continue;
                     }
 
