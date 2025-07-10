@@ -199,24 +199,26 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr "Precís"
 
 #~ msgid "Tearing prevention (\"vsync\"):"
-#~ msgstr ""
+#~ msgstr "Prevenció de l'esquinçament (\"vsync\"):"
 
 #~ msgid "Automatic"
 #~ msgstr "Automàtica"
 
 #~ msgid "Only when cheap"
-#~ msgstr ""
+#~ msgstr "Només quan sigui barat"
 
 #~ msgid "Full screen repaints"
-#~ msgstr ""
+#~ msgstr "Repintats de pantalla completa"
 
 #~ msgid "Re-use screen content"
-#~ msgstr ""
+#~ msgstr "Reutilitza el contingut de la pantalla"
 
 #~ msgid ""
 #~ "\"Only when cheap\" only prevents tearing for full screen changes like a "
 #~ "video."
 #~ msgstr ""
+#~ "\"Només quan sigui barat\" només evita l'esquinçament per a canvis a "
+#~ "pantalla completa com un vídeo."
 
 #~ msgid "\"Full screen repaints\" can cause performance problems."
 #~ msgstr ""
