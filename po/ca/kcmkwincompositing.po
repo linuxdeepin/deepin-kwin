@@ -222,20 +222,23 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 
 #~ msgid "\"Full screen repaints\" can cause performance problems."
 #~ msgstr ""
+#~ "Els \"repintats a pantalla completa\" poden causar problemes de rendiment."
 
 #~ msgid ""
 #~ "\"Re-use screen content\" causes severe performance problems on MESA "
 #~ "drivers."
 #~ msgstr ""
+#~ "\"Reutilitza el contingut de la pantalla\" causa problemes greus de "
+#~ "rendiment als controladors MESA."
 
 #~ msgid "Rendering backend:"
-#~ msgstr ""
+#~ msgstr "Rerefons de renderització:"
 
 #~ msgid "OpenGL 3.1"
-#~ msgstr ""
+#~ msgstr "OpenGL 3.1"
 
 #~ msgid "OpenGL 2.0"
-#~ msgstr ""
+#~ msgstr "OpenGL 2.0"
 
 #~ msgid "Crisp"
 #~ msgstr ""
