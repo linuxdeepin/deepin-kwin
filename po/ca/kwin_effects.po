@@ -1575,7 +1575,7 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Slide"
-#~ msgstr "Presentació de diapositives"
+#~ msgstr "Presentació"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Slide desktops when switching virtual desktops"
@@ -1583,19 +1583,19 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Slide Back"
-#~ msgstr ""
+#~ msgstr "Presentació enrere"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Slide back windows when another window is raised"
-#~ msgstr ""
+#~ msgstr "Fa lliscar les finestres cap enrere quan se n'obre una altra"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Sliding popups"
-#~ msgstr ""
+#~ msgstr "Finestres emergents lliscants"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Sliding animation for Plasma popups"
-#~ msgstr ""
+#~ msgstr "Animació lliscant per a les finestres emergents del Plasma"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Snap Helper"
