@@ -47,7 +47,7 @@ msgstr ""
 #: kcmrules.cpp:33
 #, kde-format
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: kcmrules.cpp:37
 #, kde-format
