@@ -1599,47 +1599,47 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Snap Helper"
-#~ msgstr ""
+#~ msgstr "Assistent d'encaix"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Help you locate the center of the screen when moving a window"
-#~ msgstr ""
+#~ msgstr "Ajuda a trobar el centre de la pantalla quan es mou una finestra"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Startup Feedback"
-#~ msgstr ""
+#~ msgstr "Comentaris d'inici"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Helper effect for startup feedback"
-#~ msgstr ""
+#~ msgstr "Efecte auxiliar per a la retroalimentació de l'inici"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Thumbnail Aside"
-#~ msgstr ""
+#~ msgstr "Miniatura a part"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display window thumbnails on the edge of the screen"
-#~ msgstr ""
+#~ msgstr "Mostra miniatures de finestres a la vora de la pantalla"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Touch Points"
-#~ msgstr ""
+#~ msgstr "Punts de contacte"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Visualize touch points"
-#~ msgstr ""
+#~ msgstr "Mostra els punts de contacte"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Track Mouse"
-#~ msgstr ""
+#~ msgstr "Rastreig del ratolí"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display a mouse cursor locating effect when activated"
-#~ msgstr ""
+#~ msgstr "Mostra un efecte de localització del cursor del ratolí quan s'activa"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Window Geometry"
-#~ msgstr ""
+#~ msgstr "Geometria de la finestra"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display window geometries on move/resize"
