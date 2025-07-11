@@ -1837,23 +1837,23 @@ msgstr "Seguiment del ratolí:"
 #~ "Navega per les finestres en una pila per al commutador de finestres alt+tab"
 
 #~ msgid "Toggle Flip Switch (Current desktop)"
-#~ msgstr ""
+#~ msgstr "Commuta el canvi giratori (escriptori actual)"
 
 #~ msgid "Toggle Flip Switch (All desktops)"
-#~ msgstr ""
+#~ msgstr "Commuta el canvi giratori (tots els escriptoris)"
 
 #~ msgid "Flip animation duration:"
-#~ msgstr ""
+#~ msgstr "Durada de l'animació del gir:"
 
 #~ msgctxt "Duration of flip animation"
 #~ msgid "Default"
 #~ msgstr "Per defecte"
 
 #~ msgid "Angle:"
-#~ msgstr ""
+#~ msgstr "Angle:"
 
 #~ msgid " °"
-#~ msgstr ""
+#~ msgstr " °"
 
 #~ msgid "Horizontal position of front:"
 #~ msgstr ""
