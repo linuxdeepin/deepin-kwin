@@ -253,7 +253,7 @@ msgstr "Botons d'animació"
 #~ msgstr ""
 
 #~ msgid "Decoration Options"
-#~ msgstr ""
+#~ msgstr "Opcions de la decoració"
 
 #~ msgctxt "outline window title"
 #~ msgid "Disabled"
@@ -303,10 +303,10 @@ msgstr "Botons d'animació"
 #~ msgstr ""
 
 #~ msgid "Oxygen"
-#~ msgstr ""
+#~ msgstr "Oxygen"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Ajuda"
 
 #~ msgid "Minimize"
 #~ msgstr "Minimitza"
