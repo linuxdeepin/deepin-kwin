@@ -3,7 +3,7 @@
 # 
 # Steve Allewell <steve.allewell@gmail.com>, 2019.
 # Translators:
-# Gary Wang <wzc782970009@gmail.com>, 2025
+# Davidmp <medipas@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-03-26 00:45+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Gary Wang <wzc782970009@gmail.com>, 2025\n"
+"Last-Translator: Davidmp <medipas@gmail.com>, 2025\n"
 "Language-Team: Catalan (https://app.transifex.com/linuxdeepin/teams/3617/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,22 +23,22 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Josep M. Ferrer"
+msgstr "Davidmp"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "txemaq@gmail.com"
+msgstr "opensusecatala@gmail.com"
 
 #: kcm.cpp:35
 #, kde-format
 msgid "Desktop Effects"
-msgstr ""
+msgstr "Efectes de l'escriptori"
 
 #: kcm.cpp:39
 #, kde-format
 msgid "Vlad Zahorodnii"
-msgstr ""
+msgstr "Vlad Zahorodnii"
 
 #: package/contents/ui/Effect.qml:92
 #, kde-format
@@ -46,23 +46,25 @@ msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
+"Autor: %1\n"
+"Llicència: %2"
 
 #: package/contents/ui/Effect.qml:121
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show/Hide Video"
-msgstr ""
+msgstr "Mostra / amaga el vídeo"
 
 #: package/contents/ui/Effect.qml:128
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Configure..."
-msgstr ""
+msgstr "Configura..."
 
 #: package/contents/ui/main.qml:20
 #, kde-format
 msgid "This module lets you configure desktop effects."
-msgstr ""
+msgstr "Aquest mòdul us permet configurar els efectes de l'escriptori."
 
 #: package/contents/ui/main.qml:27
 #, kde-format
@@ -70,32 +72,34 @@ msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
 msgstr ""
+"Consell: per saber o configurar com activar un efecte, mireu la configuració"
+" de l'efecte."
 
 #: package/contents/ui/main.qml:47
 #, kde-format
 msgid "Configure Filter"
-msgstr ""
+msgstr "Configura el filtre"
 
 #: package/contents/ui/main.qml:59
 #, kde-format
 msgid "Exclude unsupported effects"
-msgstr ""
+msgstr "Exclou els efectes no compatibles"
 
 #: package/contents/ui/main.qml:67
 #, kde-format
 msgid "Exclude internal effects"
-msgstr ""
+msgstr "Exclou efectes interns"
 
 #: package/contents/ui/main.qml:125
 #, kde-format
 msgid "Get New Desktop Effects..."
-msgstr ""
+msgstr "Obtén efectes d'escriptori nous..."
 
 #~ msgid "Download New Desktop Effects"
-#~ msgstr ""
+#~ msgstr "Baixa efectes d'escriptori nous"
 
 #~ msgid "Exclude Desktop Effects not supported by the Compositor"
-#~ msgstr ""
+#~ msgstr "Exclou els efectes d'escriptori no compatibles amb el compositor"
 
 #~ msgid "Search..."
-#~ msgstr ""
+#~ msgstr "Cerca..."

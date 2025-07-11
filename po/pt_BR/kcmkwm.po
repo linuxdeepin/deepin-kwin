@@ -398,7 +398,7 @@ msgstr "Não faça nada"
 #: actions.ui:318
 #, kde-format
 msgid "Middle &click:"
-msgstr ""
+msgstr "Clique do meio:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll2)
 #: actions.ui:331
@@ -415,7 +415,7 @@ msgstr ""
 #: actions.ui:388 mouse.ui:671
 #, kde-format
 msgid "Right clic&k:"
-msgstr ""
+msgstr "Clique com o botão direito:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAll3)
 #: actions.ui:401
@@ -431,7 +431,7 @@ msgstr ""
 #: actions.ui:458
 #, kde-format
 msgid "Mo&use wheel:"
-msgstr ""
+msgstr "Roda do mouse:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_CommandAllWheel)
 #: actions.ui:471
@@ -449,7 +449,7 @@ msgstr ""
 #: actions.ui:475 mouse.ui:102
 #, kde-format
 msgid "Raise/lower"
-msgstr ""
+msgstr "Aumentar/diminuir"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -457,7 +457,7 @@ msgstr ""
 #: actions.ui:480 mouse.ui:107
 #, kde-format
 msgid "Shade/unshade"
-msgstr ""
+msgstr "Sombra/dessombreamento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -465,7 +465,7 @@ msgstr ""
 #: actions.ui:485 mouse.ui:112
 #, kde-format
 msgid "Maximize/restore"
-msgstr ""
+msgstr "Maximizar/restaurar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -473,7 +473,7 @@ msgstr ""
 #: actions.ui:490 mouse.ui:117
 #, kde-format
 msgid "Keep above/below"
-msgstr ""
+msgstr "Manter acima/abaixo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_CommandAllWheel)
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -505,6 +505,9 @@ msgid ""
 "unshade automatically when the mouse pointer has been over the titlebar for "
 "some time.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Se esta opção estiver ativada, uma janela sombreada "
+"ficará sombreada automaticamente quando o ponteiro do mouse estiver sobre a "
+"barra de título por algum tempo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShadeHover)
 #: advanced.ui:35
@@ -566,6 +569,30 @@ msgid ""
 "font-style:italic;\">Under mouse</span> will place the window under the "
 "pointer</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>A política de posicionamento determina onde uma nova "
+"janela aparecerá na área de trabalho.</p><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: "
+"1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+"font-style:italic;\">Inteligente</span> tentará obter uma sobreposição "
+"mínima de janelas</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Maximizando</span> tentará"
+" maximizar cada janela para preencher a tela inteira. Pode ser útil afetar "
+"seletivamente o posicionamento de algumas janelas usando as configurações "
+"específicas de cada janela.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Aleatória</span>usará uma "
+"posição aleatória</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Centralizado</span> "
+"colocará a janela centralizada</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Sem cantos</span> colocará"
+" a janela no canto superior esquerdo</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Sob o mouse</span> "
+"colocará a janela sob o ponteiro</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_Placement)
 #: advanced.ui:80
@@ -682,6 +709,14 @@ msgid ""
 "to current Virtual Desktop</span> will cause the window to jump to the "
 "active Virtual Desktop. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Esta configuração controla o que acontece quando uma "
+"janela aberta localizada em uma Área de Trabalho Virtual diferente da atual "
+"é ativada. </p><p><span style=\" font-style:italic;\">Mude para a área de "
+"trabalho virtual</span> mudará para a área de trabalho virtual onde a janela"
+" está localizada atualmente. </p><p><span style=\" font-"
+"style:italic;\">Trazer janela para a Área de Trabalho Virtual atual</span> "
+"fará com que a janela salte para a Área de Trabalho Virtual ativa. "
+"</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_ActivationDesktopPolicy)
@@ -751,7 +786,7 @@ msgstr "Foco estritamente sob o mouse"
 #: focus.ui:69
 #, kde-format
 msgid "&Delay focus by:"
-msgstr ""
+msgstr "Atrasar o foco por:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox,
 #. kcfg_DelayFocusInterval)
@@ -807,6 +842,38 @@ msgid ""
 "taskbar entry will be highlighted. This can be changed in the Notifications "
 "control module.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Esta opção especifica quanto KWin tentará evitar o "
+"roubo de foco indesejado causado pela ativação inesperada de novas janelas. "
+"(Observação: este recurso não funciona com o<span style=\" font-"
+"style:italic;\">Foco sob o mouse</span> ou <span style=\" font-"
+"style:italic;\">Foco estritamente sob o mouse</span> políticas de foco.) "
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-style:italic;\">Nenhuma:</span> A "
+"prevenção é desativada e novas janelas sempre são ativadas.</li><li style=\""
+" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-"
+"style:italic;\">Baixo:</span> A prevenção está habilitada; quando alguma "
+"janela não tiver suporte para o mecanismo subjacente e o KWin não puder "
+"decidir com segurança se deve ou não ativar a janela, ela será ativada. Essa"
+" configuração pode ter resultados piores e melhores do que o nível médio, "
+"dependendo dos aplicativos.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-style:italic;\">Médio:</span> A prevenção "
+"está habilitada.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-style:italic;\">Alto:</span> Novas janelas são ativadas "
+"somente se nenhuma janela estiver ativa no momento ou se pertencerem ao "
+"aplicativo ativo no momento. Esta configuração provavelmente não é muito "
+"útil quando a política de foco do mouse não está sendo usada.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"style:italic;\">Extremo:</span> Todas as janelas devem ser ativadas "
+"explicitamente pelo usuário.</li></ul><p>As janelas que são impedidas de "
+"roubar o foco são marcadas como exigindo atenção, o que, por padrão, "
+"significa que a entrada na barra de tarefas será destacada. Isso pode ser "
+"alterado no módulo de controle de Notificações.</p></body></html>"
 
 #. i18n: Focus Stealing Prevention Level
 #. i18n: ectx: property (specialValueText), widget (QSpinBox,
@@ -893,7 +960,7 @@ msgstr ""
 #: focus.ui:168
 #, kde-format
 msgid "&Raise on hover, delayed by:"
-msgstr ""
+msgstr "Levantar ao pairar, atrasado por:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_AutoRaiseInterval)
 #: focus.ui:175
@@ -909,7 +976,7 @@ msgstr ""
 #: focus.ui:196
 #, kde-format
 msgid "Multiscreen behavior:"
-msgstr ""
+msgstr "Comportamento multitelas:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox,
 #. kcfg_ActiveMouseScreen)
@@ -928,7 +995,7 @@ msgstr ""
 #: focus.ui:206
 #, kde-format
 msgid "Active screen follows &mouse"
-msgstr ""
+msgstr "A tela ativa segue o mouse"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox,
 #. kcfg_SeparateScreenFocus)
@@ -945,7 +1012,7 @@ msgstr ""
 #: focus.ui:216
 #, kde-format
 msgid "&Separate screen focus"
-msgstr ""
+msgstr "Foco de tela separado"
 
 #. i18n: ectx: property (text), widget (QLabel,
 #. windowFocusPolicyDescriptionLabel)
@@ -957,27 +1024,27 @@ msgstr "Descrição da política de ativação da janela"
 #: main.cpp:73
 #, kde-format
 msgid "&Focus"
-msgstr ""
+msgstr "Foco"
 
 #: main.cpp:79
 #, kde-format
 msgid "Titlebar A&ctions"
-msgstr ""
+msgstr "Ações da barra de título"
 
 #: main.cpp:85
 #, kde-format
 msgid "W&indow Actions"
-msgstr ""
+msgstr "Ações da janela"
 
 #: main.cpp:91
 #, kde-format
 msgid "Mo&vement"
-msgstr ""
+msgstr "Movimento"
 
 #: main.cpp:97
 #, kde-format
 msgid "Adva&nced"
-msgstr ""
+msgstr "Avançado"
 
 #: main.cpp:101
 #, kde-format
@@ -1044,35 +1111,42 @@ msgid ""
 "manager. If you do use a different window manager, please refer to its "
 "documentation for how to customize window behavior.</p>"
 msgstr ""
+"<p><h1>Comportamento da janela</h1> Aqui você pode personalizar o "
+"comportamento das janelas ao movê-las, redimensioná-las ou clicar nelas. "
+"Você também pode especificar uma política de foco, bem como uma política de "
+"posicionamento para novas janelas.</p> <p>Observe que esta configuração não "
+"terá efeito se você não usar o KWin como gerenciador de janelas. Se você "
+"usar um gerenciador de janelas diferente, consulte a documentação para saber"
+" como personalizar o comportamento das janelas.</p>"
 
 #: main.cpp:202
 #, kde-format
 msgid "&Titlebar Actions"
-msgstr ""
+msgstr "Ações da barra de título"
 
 #: main.cpp:208
 #, kde-format
 msgid "Window Actio&ns"
-msgstr ""
+msgstr "Ações da janela"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: mouse.ui:17
 #, kde-format
 msgid "Titlebar Actions"
-msgstr ""
+msgstr "Ações da barra de título"
 
 #. i18n: ectx: property (text), widget (QLabel, label_1)
 #: mouse.ui:26
 #, kde-format
 msgid "&Double-click:"
-msgstr ""
+msgstr "Clique duas vezes:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_TitlebarDoubleClickCommand)
 #: mouse.ui:36
 #, kde-format
 msgid "Behavior on <em>double</em> click into the titlebar."
-msgstr ""
+msgstr "Comportamento ao <em>clicar</em> duas vezes na barra de titulo."
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -1100,7 +1174,7 @@ msgstr "Maximizar"
 #: mouse.ui:45 mouse.ui:620 mouse.ui:655 mouse.ui:690
 #, kde-format
 msgid "Vertically maximize"
-msgstr ""
+msgstr "Maximizar verticalmente"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -1114,7 +1188,7 @@ msgstr ""
 #: mouse.ui:50 mouse.ui:625 mouse.ui:660 mouse.ui:695
 #, kde-format
 msgid "Horizontally maximize"
-msgstr ""
+msgstr "Maximizar horizontalmente"
 
 #. i18n: @item:inlistbox behavior on double click
 #. i18n: ectx: property (text), item, widget (QComboBox,
@@ -1164,7 +1238,7 @@ msgstr "Fechar"
 #: mouse.ui:75
 #, kde-format
 msgid "Show on all desktops"
-msgstr ""
+msgstr " Mostrar em todas as áreas de tarabalhos"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_CommandTitlebarWheel)
@@ -1172,24 +1246,26 @@ msgstr ""
 #, kde-format
 msgid "Behavior on <em>mouse wheel</em> scroll over the titlebar."
 msgstr ""
+"Comportamento da <em>roda do mouse</em> ao passar o mouse sobre a barra de "
+"título."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: mouse.ui:143
 #, kde-format
 msgid "Titlebar and Frame Actions"
-msgstr ""
+msgstr "Ações da barra de título e do quadro"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: mouse.ui:167
 #, kde-format
 msgid "Active"
-msgstr ""
+msgstr "Ativa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: mouse.ui:190
 #, kde-format
 msgid "Inactive"
-msgstr ""
+msgstr "Inativa"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_CommandActiveTitlebar1)
@@ -1203,6 +1279,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>active</em> window."
 msgstr ""
+"Comportamento na <em>esquerda</em> ao clicar na barra de título ou no quadro"
+" de uma <em>janela</em> ativa."
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_CommandActiveTitlebar1)
@@ -1220,7 +1298,7 @@ msgstr ""
 #: mouse.ui:558
 #, kde-format
 msgid "Show actions menu"
-msgstr ""
+msgstr "Mostrar menu de ações"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
 #. kcfg_CommandInactiveTitlebar1)
@@ -1234,6 +1312,8 @@ msgid ""
 "Behavior on <em>left</em> click into the titlebar or frame of an "
 "<em>inactive</em> window."
 msgstr ""
+"Comportamento na<em>esquerda</em>  ao clicar na barra de título ou no quadro"
+" de uma<em>janela</em> inativa."
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_CommandInactiveTitlebar1)
@@ -1244,13 +1324,13 @@ msgstr ""
 #: mouse.ui:288 mouse.ui:403 mouse.ui:518
 #, kde-format
 msgid "Activate and lower"
-msgstr ""
+msgstr "Ativar e abaixar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: mouse.ui:589
 #, kde-format
 msgid "Maximize Button Actions"
-msgstr ""
+msgstr "Maximizar ações dos botões"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_8)
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
@@ -1258,7 +1338,7 @@ msgstr ""
 #: mouse.ui:598 mouse.ui:611
 #, kde-format
 msgid "Behavior on <em>left</em> click onto the maximize button."
-msgstr ""
+msgstr "Comportamento na <em>esquerda</em> ao clicar no botão maximizar."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_9)
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
@@ -1266,13 +1346,13 @@ msgstr ""
 #: mouse.ui:633 mouse.ui:646
 #, kde-format
 msgid "Behavior on <em>middle</em> click onto the maximize button."
-msgstr ""
+msgstr "Comportamento no <em>meio</em> ao clicar no botão maximizar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: mouse.ui:636
 #, kde-format
 msgid "Middle c&lick:"
-msgstr ""
+msgstr "Clique do meio:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_10)
 #. i18n: ectx: property (whatsThis), widget (QComboBox,
@@ -1280,13 +1360,13 @@ msgstr ""
 #: mouse.ui:668 mouse.ui:681
 #, kde-format
 msgid "Behavior on <em>right</em> click onto the maximize button."
-msgstr ""
+msgstr "Comportamento na <em>direita</em> ao clicar no botão maximizar."
 
 #. i18n: ectx: property (text), widget (QLabel, borderSnapLabel)
 #: moving.ui:20
 #, kde-format
 msgid "Screen &edge snap zone:"
-msgstr ""
+msgstr "Zona de ajuste da borda da tela:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_BorderSnapZone)
 #: moving.ui:30
@@ -1306,13 +1386,13 @@ msgstr ""
 #: moving.ui:36 moving.ui:68 moving.ui:100
 #, kde-format
 msgid " px"
-msgstr ""
+msgstr " px"
 
 #. i18n: ectx: property (text), widget (QLabel, windowSnapLabel)
 #: moving.ui:52
 #, kde-format
 msgid "&Window snap zone:"
-msgstr ""
+msgstr "Zona de encaixe da janela:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_WindowSnapZone)
 #: moving.ui:62
@@ -1330,7 +1410,7 @@ msgstr ""
 #: moving.ui:84
 #, kde-format
 msgid "&Center snap zone:"
-msgstr ""
+msgstr "Zona de encaixe central:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_CenterSnapZone)
 #: moving.ui:94
@@ -1348,7 +1428,7 @@ msgstr ""
 #: moving.ui:113
 #, kde-format
 msgid "&Snap windows:"
-msgstr ""
+msgstr "Janelas instantâneas:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox,
 #. kcfg_SnapOnlyWhenOverlapping)
@@ -1376,6 +1456,9 @@ msgid ""
 "<em>Click to focus:</em> A window becomes active when you click into it. "
 "This behavior is common on other operating systems and likely what you want."
 msgstr ""
+"<em>Clique para focar:</em> Uma janela se torna ativa quando você clicar "
+"nela. Esse comportamento é comum em outros sistemas operacionais e "
+"provavelmente é o que você deseja."
 
 #: windows.cpp:101
 #, kde-format
@@ -1386,6 +1469,11 @@ msgid ""
 "preferred candidate. Unusual, but possible variant of <em>Click to "
 "focus</em>."
 msgstr ""
+"<em>Clique para focar (precedência do mouse):</em> Quase o mesmo que "
+"<em>Clique para focar</em>. Se uma janela ativa tiver que ser escolhida pelo"
+" sistema (por exemplo, porque a janela atualmente ativa foi fechada), a "
+"janela sob o mouse é a candidata preferencial. Variante incomum, mas "
+"possível do <em>clique para focar</em>."
 
 #: windows.cpp:106
 #, kde-format
@@ -1395,6 +1483,10 @@ msgid ""
 "<em>Focus stealing prevention</em> takes place as usual. Think as <em>Click "
 "to focus</em> just without having to actually click."
 msgstr ""
+"<em>O foco segue o mouse:</em> Mover o mouse sobre uma janela irá ativá-la. "
+"Por exemplo, janelas que aparecem aleatoriamente sob o mouse não receberão o"
+" foco. <em>Prevenção de roubo de foco</em> acontece como de costume. Pense "
+"como<em>Clique para focar</em> juapenas sem precisar clicar."
 
 #: windows.cpp:110
 #, kde-format
@@ -1404,6 +1496,10 @@ msgid ""
 "closed) the window under the mouse is the preferred candidate. Choose this, "
 "if you want a hover controlled focus."
 msgstr ""
+"Isso é basicamente o mesmo que <em>O foco segue o mouse</em>. Se uma janela "
+"ativa tiver que ser escolhida pelo sistema (por exemplo, porque a janela "
+"ativa no momento foi fechada), a janela sob o mouse é a candidata "
+"preferencial. Escolha esta opção se desejar um foco controlado por foco."
 
 #: windows.cpp:115
 #, kde-format
@@ -1414,6 +1510,11 @@ msgid ""
 "not work. You very likely want to use <em>Focus follows mouse (mouse "
 "precedence)</em> instead!"
 msgstr ""
+"<em>Foco sob o mouse:</em> O foco sempre permanece na janela sob o "
+"mouse.<br/><strong>Aviso:</strong> <em>Prevenção de roubo de foco</em> e "
+"a<em>caixa de guias ('Alt+Tab')</em> contradiz a política de ativação e não "
+"funcionará. Você provavelmente deseja usar <em>O foco segue o mouse "
+"(precedência do mouse)</em> em vez de!"
 
 #: windows.cpp:119
 #, kde-format
@@ -1425,12 +1526,19 @@ msgid ""
 "activation policy and will not work. You very likely want to use <em>Focus "
 "follows mouse (mouse precedence)</em> instead!"
 msgstr ""
+"<em>Foco estritamente sob o mouse:</em> O foco está sempre na janela sob o "
+"mouse (sem dúvida em nenhum lugar), muito parecido com o comportamento do "
+"foco em um ambiente X11 legado não gerenciado.<br/><strong>Aviso:</strong> "
+"<em>Prevenção de roubo de foco</em> e a <em>caixa de guias "
+"('Alt+Tab')</em>contradiz a política de ativação e não funcionará. Você "
+"provavelmente deseja usar<em>O foco segue o mouse (precedência do "
+"mouse)</em>em vez de!"
 
 #~ msgid "Cascaded"
-#~ msgstr ""
+#~ msgstr "Em cascata"
 
 #~ msgid "Window &geometry:"
-#~ msgstr ""
+#~ msgstr "Geometria da janela:"
 
 #~ msgid ""
 #~ "Enable this option if you want a window's geometry to be displayed while it "
@@ -1509,12 +1617,21 @@ msgstr ""
 #~ "<li><em>Under Mouse</em> will place the window under the pointer</li>\n"
 #~ "</ul>"
 #~ msgstr ""
+#~ "A política de posicionamento determina onde uma nova janela aparecerá na área de trabalho.<br><ul>\n"
+#~ "<li><em>Inteligente</em> tentará obter uma sobreposição mínima de janelas</li>\n"
+#~ "<li><em>Maximizando</em> tentará maximizar cada janela para preencher a tela inteira. Pode ser útil afetar seletivamente o posicionamento de algumas janelas usando as configurações específicas de cada janela.</li>\n"
+#~ "<li><em>Cascata</em> irá cascatear as janelas</li>\n"
+#~ "<li><em>Aleatório</em> usará uma posição aleatória</li>\n"
+#~ "<li><em>Centralizado</em> colocará a janela centralizada</li>\n"
+#~ "<li><em>Sem bordas</em> colocará a janela no canto superior esquerdo</li>\n"
+#~ "<li><em>Sob o mouse</em> colocará a janela sob o ponteiro</li>\n"
+#~ "</ul>"
 
 #~ msgid "Shading"
 #~ msgstr "Sombreamento"
 
 #~ msgid "Dela&y:"
-#~ msgstr ""
+#~ msgstr "Atraso:"
 
 #~ msgid "&Enable hover"
 #~ msgstr "Habilitar foco"
@@ -1564,6 +1681,8 @@ msgstr ""
 #~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
 #~ "<em>active</em> window."
 #~ msgstr ""
+#~ "Comportamento do <em>meio</em> ao clicar na barra de título ou no quadro de "
+#~ "uma<em>janela</em> ativa."
 
 #~ msgid "Right button:"
 #~ msgstr "Botão direito:"
@@ -1572,9 +1691,11 @@ msgstr ""
 #~ "Behavior on <em>right</em> click into the titlebar or frame of an "
 #~ "<em>active</em> window."
 #~ msgstr ""
+#~ "Comportamento da <em>direita</em> ao clicar na barra de título ou no quadro "
+#~ "de uma<em>janela</em> ativa."
 
 #~ msgid "Titlebar & Frame"
-#~ msgstr ""
+#~ msgstr "Quadro da barra de título"
 
 #~ msgid "Titlebar"
 #~ msgstr "Barra de título"
@@ -1629,11 +1750,15 @@ msgstr ""
 #~ "Behavior on <em>right</em> click into the titlebar or frame of an "
 #~ "<em>inactive</em> window."
 #~ msgstr ""
+#~ "Comportamento na <em>direita</em> ao clicar na barra de título ou no quadro "
+#~ "de uma <em>janela</em> inativa."
 
 #~ msgid ""
 #~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
 #~ "<em>inactive</em> window."
 #~ msgstr ""
+#~ "Comportamento no<em>meio</em> ao clicar na barra de título ou no quadro de "
+#~ "uma <em>janela</em> inativa."
 
 #~ msgid "Here you can customize behavior when clicking on the maximize button."
 #~ msgstr ""
@@ -1716,11 +1841,19 @@ msgstr ""
 #~ "the current window.</li> <li><em>Floating windows on top</em> will always "
 #~ "keep floating windows on top, even when a tiled window is activated.</ul>"
 #~ msgstr ""
+#~ "A política de elevação de janelas determina como as janelas flutuantes são "
+#~ "empilhadas <ul> <li><em>Aumentar/Diminuir tudo</em>irá levantar todas as "
+#~ "janelas flutuantes quando uma janela flutuante for ativada.</li> "
+#~ "<li><em>Aumentar/diminuir a corrente</em> irá levantar apenas a janela "
+#~ "atual.</li> <li><em>Janelas flutuantes no topo</em> sempre manterá janelas "
+#~ "flutuantes no topo, mesmo quando uma janela em mosaico estiver ativada.</ul>"
 
 #~ msgid ""
 #~ "When this option is enabled, there will be a delay after which the window "
 #~ "the mouse pointer is over will become active (receive focus)."
 #~ msgstr ""
+#~ "Quando esta opção estiver habilitada, haverá um atraso após o qual a janela "
+#~ "sobre a qual o ponteiro do mouse estiver ficará ativa (receberá o foco)."
 
 #~ msgid "Di&splay content in moving windows"
 #~ msgstr "Exibição de conteúdo em janelas móveis"
@@ -1768,6 +1901,11 @@ msgstr ""
 #~ "\n"
 #~ "Otherwise, the focus is passed to a new window each time Tab is pressed, with no popup widget.  In addition, the previously activated window will be sent to the back in this mode."
 #~ msgstr ""
+#~ "Mantenha pressionada a tecla Alt e pressione a tecla Tab repetidamente para percorrer as janelas na área de trabalho atual (a combinação Alt+Tab pode ser reconfigurada).\n"
+#~ "\n"
+#~ "Se esta caixa de seleção estiver marcada, um widget pop-up será exibido, exibindo os ícones de todas as janelas para percorrer e o título da janela selecionada no momento..\n"
+#~ "\n"
+#~ "Caso contrário, o foco é passado para uma nova janela sempre que a tecla Tab for pressionada, sem widget pop-up. Além disso, a janela ativada anteriormente será enviada para o fundo neste modo."
 
 #~ msgid "&Traverse windows on all desktops"
 #~ msgstr "Percorrer janelas em todas as áreas de trabalho"
@@ -1837,7 +1975,7 @@ msgstr ""
 #~ "especificado de milissegundos."
 
 #~ msgid "Desktop &switch delay:"
-#~ msgstr ""
+#~ msgstr "Atraso na troca da área de trabalho:"
 
 #~ msgid ""
 #~ "Here you can customize KDE's behavior when middle clicking into a window "
@@ -1963,9 +2101,12 @@ msgstr ""
 #~ "<qt>Translucency support is new and may cause problems<br> including crashes"
 #~ " (sometimes the translucency engine, seldom even X).</qt>"
 #~ msgstr ""
+#~ "<qt>O suporte à translucidez é novo e pode causar problemas<br> incluindo "
+#~ "travamentos (às vezes o mecanismo de translucidez, raramente até mesmo o "
+#~ "X).</qt>"
 
 #~ msgid "Fade-in speed:"
 #~ msgstr "Velocidade do desvanecimento:"
 
 #~ msgid "Fade-out speed:"
-#~ msgstr ""
+#~ msgstr "Velocidade do desvanecer:"
