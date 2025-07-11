@@ -1353,39 +1353,41 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgid "Toggle window geometry display (effect only)"
 #~ msgstr ""
+#~ "Commuta la visualització de la geometria de la finestra (només l'efecte)"
 
 #~ msgid "Toggle KWin composited geometry display"
-#~ msgstr ""
+#~ msgstr "Commuta la visualització de la geometria composta del KWin"
 
 #~ msgid "Display for moving windows"
-#~ msgstr ""
+#~ msgstr "Pantalla per moure finestres"
 
 #~ msgid "Display for resizing windows"
-#~ msgstr ""
+#~ msgstr "Pantalla per canviar la mida de les finestres"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Blur"
-#~ msgstr ""
+#~ msgstr "Desenfoca"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Blurs the background behind semi-transparent windows"
-#~ msgstr ""
+#~ msgstr "Desenfoca el fons darrere de les finestres semitransparents"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Color Picker"
-#~ msgstr ""
+#~ msgstr "Selector del color"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Supports picking a color"
-#~ msgstr ""
+#~ msgstr "Admet triar un color"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Background contrast"
-#~ msgstr ""
+#~ msgstr "Contrast del fons"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Improve contrast and readability behind semi-transparent windows"
 #~ msgstr ""
+#~ "Millora el contrast i la llegibilitat darrere de finestres semitransparents"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Grid"
@@ -1394,30 +1396,32 @@ msgstr "Seguiment del ratolí:"
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 #~ msgstr ""
+#~ "Allunya la imatge perquè tots els escriptoris es mostrin un al costat de "
+#~ "l'altre en una quadrícula"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Dim Inactive"
-#~ msgstr ""
+#~ msgstr "Atenuació inactiva"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Darken inactive windows"
-#~ msgstr ""
+#~ msgstr "Enfosqueix les finestres inactives"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Fall Apart"
-#~ msgstr ""
+#~ msgstr "Caiguda framgentada"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Closed windows fall into pieces"
-#~ msgstr ""
+#~ msgstr "Les finestres tancades cauen a trossos"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Glide"
-#~ msgstr ""
+#~ msgstr "Plana"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Glide windows as they appear or disappear"
-#~ msgstr ""
+#~ msgstr "Fa lliscar les finestres a mesura que apareixen o desapareixen"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Highlight Window"
