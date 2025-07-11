@@ -1425,77 +1425,82 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Highlight Window"
-#~ msgstr ""
+#~ msgstr "Ressalta la finestra"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Highlight the appropriate window when hovering over taskbar entries"
 #~ msgstr ""
+#~ "Ressalteu la finestra adequada quan passeu el cursor per sobre de les "
+#~ "entrades de la barra de tasques"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Invert"
-#~ msgstr ""
+#~ msgstr "Inverteix"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Inverts the color of the desktop and windows"
-#~ msgstr ""
+#~ msgstr "Inverteix el color de l'escriptori i de les finestres"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Kscreen"
-#~ msgstr ""
+#~ msgstr "Kscreen"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Helper Effect for KScreen"
-#~ msgstr ""
+#~ msgstr "Efecte auxiliar per al KScreen"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Looking Glass"
-#~ msgstr ""
+#~ msgstr "Mirall"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "A screen magnifier that looks like a fisheye lens"
-#~ msgstr ""
+#~ msgstr "Una lupa de pantalla que sembla una lent d'ull de peix"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Magic Lamp"
-#~ msgstr ""
+#~ msgstr "Làmpada màgica"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Simulate a magic lamp when minimizing windows"
-#~ msgstr ""
+#~ msgstr "Simula una làmpada màgica en minimitzar les finestres"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Magnifier"
-#~ msgstr ""
+#~ msgstr "Lupa"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Magnify the section of the screen that is near the mouse cursor"
 #~ msgstr ""
+#~ "Amplia la secció de la pantalla que es troba a prop del cursor del ratolí"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Mouse Click Animation"
-#~ msgstr ""
+#~ msgstr "Animació del clic del ratolí"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid ""
 #~ "Creates an animation whenever a mouse button is clicked. This is useful for "
 #~ "screenrecordings/presentations"
 #~ msgstr ""
+#~ "Crea una animació cada vegada que es fa clic amb un botó del ratolí. Això és"
+#~ " útil per a gravacions de pantalla o presentacions."
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Mouse Mark"
-#~ msgstr ""
+#~ msgstr "Marca del ratolí"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Allows you to draw lines on the desktop"
-#~ msgstr ""
+#~ msgstr "Permet dibuixar línies a l'escriptori"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Overview"
-#~ msgstr ""
+#~ msgstr "Visió general"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Allows you to overview virtual desktops and windows"
-#~ msgstr ""
+#~ msgstr "Permet una visió general dels escriptoris i les finestres virtuals"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Present Windows"
