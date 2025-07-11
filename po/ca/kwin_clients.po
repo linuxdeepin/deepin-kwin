@@ -193,7 +193,7 @@ msgstr "Botons d'animació"
 #~ msgstr ""
 
 #~ msgid "Close windows by double clicking the menu button"
-#~ msgstr ""
+#~ msgstr "Tanca les finestres fent doble clic al botó del menú."
 
 #~ msgid "Never Draw Separator"
 #~ msgstr ""
@@ -702,7 +702,7 @@ msgstr "Botons d'animació"
 #~ msgstr ""
 
 #~ msgid "Form"
-#~ msgstr ""
+#~ msgstr "Formulari"
 
 #~ msgid ""
 #~ "Select here the window property used to identify windows \n"
