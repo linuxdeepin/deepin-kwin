@@ -139,6 +139,8 @@ msgid ""
 "Resolved %1 to the KWin Aurorae theme \"%2\", and will attempt to set that "
 "as your current theme."
 msgstr ""
+"S'ha resolt %1 com a tema %2 del KWin Aurorae i intentarà establir-lo com a "
+"tema actual."
 
 #: kwin-applywindowdecoration.cpp:71
 #, kde-format
@@ -146,17 +148,23 @@ msgid ""
 "You attempted to pass a file path, but this could not be resolved to a "
 "theme, and we will have to abort, due to having no theme to set"
 msgstr ""
+"Heu intentat passar un camí de fitxer, però no s'ha pogut resoldre cap tema "
+"i caldrà avortar-ho perquè no hi ha cap tema per definir."
 
 #: kwin-applywindowdecoration.cpp:77
 #, kde-format
 msgid "The requested theme \"%1\" is already set as the window decoration theme."
 msgstr ""
+"El tema sol·licitat %1 ja està definit com a tema de decoració de la "
+"finestra."
 
 #: kwin-applywindowdecoration.cpp:99
 #, kde-format
 msgid ""
 "Successfully applied the cursor theme %1 to your current Plasma session"
 msgstr ""
+"S'ha aplicat correctament el tema del cursor %1 a la sessió actual del "
+"Plasma."
 
 #: kwin-applywindowdecoration.cpp:103
 #, kde-format
@@ -164,6 +172,9 @@ msgid ""
 "Failed to save your theme settings - the reason is unknown, but this is an "
 "unrecoverable error. You may find that simply trying again will work."
 msgstr ""
+"No s'ha pogut desar la configuració del tema. Se'n desconeix el motiu, però "
+"es tracta d'un error irrecuperable. És possible que només calgui tornar-ho a"
+" intentar i que funcioni."
 
 #: kwin-applywindowdecoration.cpp:107
 #, kde-format
@@ -171,43 +182,47 @@ msgid ""
 "Could not find theme \"%1\". The theme should be one of the following "
 "options: %2"
 msgstr ""
+"No s'ha pogut trobar el tema %1. El tema hauria de ser una de les opcions "
+"següents: %2"
 
 #: kwin-applywindowdecoration.cpp:112
 #, kde-format
 msgid "You have the following KWin window decoration themes on your system:"
 msgstr ""
+"Teniu els següents temes de decoració de finestres de KWin al vostre "
+"sistema:"
 
 #: package/contents/ui/Buttons.qml:85
 #, kde-format
 msgid "Titlebar"
-msgstr ""
+msgstr "Barra de títol"
 
 #: package/contents/ui/Buttons.qml:245
 #, kde-format
 msgid "Drop button here to remove it"
-msgstr ""
+msgstr "Deixeu anar el botó aquí per eliminar-lo."
 
 #: package/contents/ui/Buttons.qml:261
 #, kde-format
 msgid "Drag buttons between here and the titlebar"
-msgstr ""
+msgstr "Arrossegueu els botons entre aquí i la barra de títol."
 
 #: package/contents/ui/main.qml:18
 #, kde-format
 msgid "This module lets you configure the window decorations."
-msgstr ""
+msgstr "Aquest mòdul us permet configurar la decoració de les finestres."
 
 #: package/contents/ui/main.qml:52
 #, kde-format
 msgctxt "tab label"
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: package/contents/ui/main.qml:56
 #, kde-format
 msgctxt "tab label"
 msgid "Titlebar Buttons"
-msgstr ""
+msgstr "Botons de la barra de títol"
 
 #: package/contents/ui/main.qml:92
 #, kde-format
