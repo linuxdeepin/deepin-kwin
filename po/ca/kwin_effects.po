@@ -1743,54 +1743,56 @@ msgstr "Seguiment del ratolí:"
 #~ msgstr "Opacitat"
 
 #~ msgid "Do not change opacity of windows"
-#~ msgstr ""
+#~ msgstr "No es canvia l'opacitat de les finestres"
 
 #~ msgid "Tab 2"
-#~ msgstr ""
+#~ msgstr "Pestanya 2"
 
 #~ msgid "Caps"
-#~ msgstr ""
+#~ msgstr "Capçaleres"
 
 #~ msgid "Cap color:"
-#~ msgstr ""
+#~ msgstr "Color de les capçaleres:"
 
 #~ msgid "Display image on caps"
-#~ msgstr ""
+#~ msgstr "Mostra imatges a les capçaleres"
 
 #~ msgid "Define how far away the object should appear"
-#~ msgstr ""
+#~ msgstr "Defineix a quina distància ha d'aparèixer l'objecte"
 
 #~ msgid "Additional Options"
-#~ msgstr ""
+#~ msgstr "Opcions addicionals"
 
 #~ msgid ""
 #~ "If enabled the effect will be deactivated after rotating the cube with the mouse,\n"
 #~ "otherwise it will remain active"
 #~ msgstr ""
+#~ "Si està habilitat, l'efecte es desactivarà després de girar el cub amb el "
+#~ "ratolí; altrament, romandrà actiu."
 
 #~ msgid "Close after mouse dragging"
-#~ msgstr ""
+#~ msgstr "Tanca després d'arrossegar el ratolí"
 
 #~ msgid "Use this effect for walking through the desktops"
-#~ msgstr ""
+#~ msgstr "Usa aquest efecte per passar pels escriptoris"
 
 #~ msgid "Invert mouse"
-#~ msgstr ""
+#~ msgstr "Ratolí invers"
 
 #~ msgid "Sphere Cap Deformation"
-#~ msgstr ""
+#~ msgstr "Deformació de la capçalera esfèrica"
 
 #~ msgid "Sphere"
-#~ msgstr ""
+#~ msgstr "Esfera"
 
 #~ msgid "Plane"
-#~ msgstr ""
+#~ msgstr "Plana"
 
 #~ msgid "Do not animate windows on all desktops"
-#~ msgstr ""
+#~ msgstr "No s'animen les finestres a tots els escriptoris"
 
 #~ msgid "Do not animate panels"
-#~ msgstr ""
+#~ msgstr "No s'animen els plafons"
 
 #~ msgid "Use pager layout for animation"
 #~ msgstr ""
