@@ -1671,7 +1671,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Titlebar"
-#~ msgstr ""
+#~ msgstr "Barra de títol"
 
 #~ msgid "no center snap zone"
 #~ msgstr ""
