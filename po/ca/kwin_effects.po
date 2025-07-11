@@ -1643,104 +1643,104 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display window geometries on move/resize"
-#~ msgstr ""
+#~ msgstr "Mostra la geometria de la finestra en moure / redimensionar"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Wobbly Windows"
-#~ msgstr ""
+#~ msgstr "Finestres tremoloses"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Deform windows while they are moving"
-#~ msgstr ""
+#~ msgstr "Deforma les finestres mentre es mouen"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Zoom"
-#~ msgstr ""
+#~ msgstr "Zoom"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Magnify the entire desktop"
-#~ msgstr ""
+#~ msgstr "Amplia tot l'escriptori"
 
 #~ msgid "Kompose"
-#~ msgstr ""
+#~ msgstr "Kompose"
 
 #~ msgctxt "Special entry in alt+tab list for minimizing all windows"
 #~ msgid "Show Desktop"
 #~ msgstr "Mostra l'escriptori"
 
 #~ msgid "Zoom"
-#~ msgstr ""
+#~ msgstr "Zoom"
 
 #~ msgid "Define how far away the windows should appear"
-#~ msgstr ""
+#~ msgstr "Defineix a quina distància han d'aparèixer les finestres"
 
 #~ msgid "Near"
-#~ msgstr ""
+#~ msgstr "Prop"
 
 #~ msgid "Far"
-#~ msgstr ""
+#~ msgstr "Lluny"
 
 #~ msgid "Animation"
-#~ msgstr ""
+#~ msgstr "Animació"
 
 #~ msgid "Animate switch"
-#~ msgstr ""
+#~ msgstr "Interruptor de l'animació"
 
 #~ msgid "Animation on tab box open"
-#~ msgstr ""
+#~ msgstr "Animació en obrir una pestanya"
 
 #~ msgid "Animation on tab box close"
-#~ msgstr ""
+#~ msgstr "Animació en tancar una pestanya"
 
 #~ msgid "Reflections"
-#~ msgstr ""
+#~ msgstr "Reflexos"
 
 #~ msgid "Rear color"
-#~ msgstr ""
+#~ msgstr "Color posterior"
 
 #~ msgid "Front color"
-#~ msgstr ""
+#~ msgstr "Color frontal"
 
 #~ msgid "Desktop Cube"
-#~ msgstr ""
+#~ msgstr "Escriptori cúbic"
 
 #~ msgid "Desktop Cylinder"
-#~ msgstr ""
+#~ msgstr "Escriptori cilíndric"
 
 #~ msgid "Desktop Sphere"
-#~ msgstr ""
+#~ msgstr "Escriptori esfèric"
 
 #~ msgctxt "@title:tab Basic Settings"
 #~ msgid "Basic"
-#~ msgstr ""
+#~ msgstr "Bàsic"
 
 #~ msgctxt "@title:tab Advanced Settings"
 #~ msgid "Advanced"
 #~ msgstr "Avançat"
 
 #~ msgid "Tab 1"
-#~ msgstr ""
+#~ msgstr "Pestanya 1"
 
 #~ msgid "Background color:"
-#~ msgstr ""
+#~ msgstr "Color de fons:"
 
 #~ msgid "Wallpaper:"
-#~ msgstr ""
+#~ msgstr "Fons de pantalla:"
 
 #~ msgid "Display desktop name"
-#~ msgstr ""
+#~ msgstr "Mostra el nom de l'escriptori"
 
 #~ msgid "Reflection"
-#~ msgstr ""
+#~ msgstr "Reflex"
 
 #~ msgid "Rotation duration:"
-#~ msgstr ""
+#~ msgstr "Durada de la rotació:"
 
 #~ msgid "Windows hover above cube"
-#~ msgstr ""
+#~ msgstr "Les finestres suren per sobre del cub"
 
 #~ msgid "Opacity"
-#~ msgstr ""
+#~ msgstr "Opacitat"
 
 #~ msgid "Do not change opacity of windows"
 #~ msgstr ""
@@ -1808,7 +1808,7 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Cube"
-#~ msgstr ""
+#~ msgstr "Cub d'escriptori"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display each virtual desktop on a side of a cube"
