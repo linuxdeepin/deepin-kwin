@@ -1244,61 +1244,62 @@ msgstr "Seguiment del ratolí:"
 #~ msgstr "Text acolorit:"
 
 #~ msgid "Color text by value (green > yellow > red)"
-#~ msgstr ""
+#~ msgstr "Color del text per valor (verd > groc > vermell)"
 
 #~ msgid "Zoom &duration:"
-#~ msgstr ""
+#~ msgstr "&Durada del zoom:"
 
 #~ msgctxt "Duration of zoom"
 #~ msgid "Default"
 #~ msgstr "Per defecte"
 
 #~ msgid "Border wid&th:"
-#~ msgstr ""
+#~ msgstr "Am&plada de la vora:"
 
 #~ msgid "Click behavior:"
-#~ msgstr ""
+#~ msgstr "Comportament del clic:"
 
 #~ msgid ""
 #~ "If the Present Windows effect is enabled, it will be automatically "
 #~ "triggered."
 #~ msgstr ""
+#~ "Si l'efecte de finestres actuals està habilitat, s'activarà automàticament."
 
 #~ msgid "Switch desktop and activate window"
-#~ msgstr ""
+#~ msgstr "Canvia l'escriptori i activa la finestra"
 
 #~ msgid "Switch desktop only"
-#~ msgstr ""
+#~ msgstr "Canvia només d'escriptori"
 
 #~ msgid "Natural Layout Settings"
-#~ msgstr ""
+#~ msgstr "Configuració de la disposició natural"
 
 #~ msgid "Fill &gaps"
-#~ msgstr ""
+#~ msgstr "Omple &buits"
 
 #~ msgid "Faster"
-#~ msgstr ""
+#~ msgstr "Més ràpid"
 
 #~ msgid "Nicer"
-#~ msgstr ""
+#~ msgstr "Més agradable"
 
 #~ msgid "Left button:"
-#~ msgstr ""
+#~ msgstr "Botó esquerre:"
 
 #~ msgid "No action"
-#~ msgstr ""
+#~ msgstr "Sense acció"
 
 #~ msgid "Activate window"
-#~ msgstr ""
+#~ msgstr "Activa la finestra"
 
 #~ msgid "End effect"
-#~ msgstr ""
+#~ msgstr "Acaba l'efecte"
 
 #~ msgid "Bring window to current desktop"
-#~ msgstr ""
+#~ msgstr "Porta la finestra a l'escriptori actual"
 
 #~ msgid "Send window to all desktops"
-#~ msgstr ""
+#~ msgstr "Envia la finestra a tots els escriptoris"
 
 #~ msgid "(Un-)Minimize window"
 #~ msgstr ""
