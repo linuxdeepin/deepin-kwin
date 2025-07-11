@@ -1302,52 +1302,54 @@ msgstr "Seguiment del ratolí:"
 #~ msgstr "Envia la finestra a tots els escriptoris"
 
 #~ msgid "(Un-)Minimize window"
-#~ msgstr ""
+#~ msgstr "(Des)minimitza la finestra"
 
 #~ msgid "Middle button:"
-#~ msgstr ""
+#~ msgstr "Botó del mig:"
 
 #~ msgid "Right button:"
-#~ msgstr ""
+#~ msgstr "Botó dret:"
 
 #~ msgctxt "@title:group actions when clicking on desktop"
 #~ msgid "Desktop"
 #~ msgstr "Escriptori"
 
 #~ msgid "Show desktop"
-#~ msgstr ""
+#~ msgstr "Mostra l'escriptori"
 
 #~ msgid "Display window &titles"
-#~ msgstr ""
+#~ msgstr "Mostra els &títols de les finestres"
 
 #~ msgid "Display window &icons"
-#~ msgstr ""
+#~ msgstr "Mostra les &icones de les finestres"
 
 #~ msgid "Show &panels"
-#~ msgstr ""
+#~ msgstr "Mostra els &plafons"
 
 #~ msgid "Regular Grid"
-#~ msgstr ""
+#~ msgstr "Graella regular"
 
 #~ msgid "Flexible Grid"
-#~ msgstr ""
+#~ msgstr "Graella flexible"
 
 #~ msgid "Provide buttons to close the windows"
-#~ msgstr ""
+#~ msgstr "Proporciona botons per tancar finestres"
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
-#~ msgstr ""
+#~ msgstr "Ken Knight, Dwayne Bailey, Steve Allewell"
 
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
 #~ msgstr ""
+#~ "anarchist_tomato@herzeleid.net, dwayne@translate.org.za, "
+#~ "steve.allewell@gmail.com"
 
 #~ msgid "Scale window"
-#~ msgstr ""
+#~ msgstr "Escala de la finestra"
 
 #~ msgid "Show outline"
-#~ msgstr ""
+#~ msgstr "Mostra el contorn"
 
 #~ msgid "Toggle window geometry display (effect only)"
 #~ msgstr ""
