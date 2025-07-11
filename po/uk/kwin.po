@@ -3564,3 +3564,33 @@ msgstr ""
 #, kde-format
 msgid "The confidential file cannot be displayed"
 msgstr "Не можна показувати конфіденційний файл"
+
+msgid "Minimize"
+msgstr "Мінімізувати"
+
+msgid "Unmaximize"
+msgstr "Розмаксимізувати"
+
+msgid "Maximize"
+msgstr "Максимізувати"
+
+msgid "Move"
+msgstr "Пересунути"
+
+msgid "Resize"
+msgstr "Змінити розміри"
+
+msgid "Always on Top"
+msgstr "Утримувати над іншими"
+
+msgid "Always on Visible Workspace"
+msgstr "Завжди на видимому робочому просторі"
+
+msgid "Move to Workspace Left"
+msgstr "Пересунути на робочий простір ліворуч"
+
+msgid "Move to Workspace Right"
+msgstr "Пересунути на робочий простір праворуч"
+
+msgid "Close"
+msgstr "Закрити"

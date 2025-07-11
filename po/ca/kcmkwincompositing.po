@@ -176,99 +176,112 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 
 #~ msgid "Allows applications to cause screen tearing in fullscreen."
 #~ msgstr ""
+#~ "Permet que les aplicacions provoquin esquinçament de pantalla en pantalla "
+#~ "completa."
 
 #~ msgid "Allow tearing in fullscreen"
-#~ msgstr ""
+#~ msgstr "Permet l'esquinçament en pantalla completa"
 
 #~ msgid ""
 #~ "Scale method \"Accurate\" is not supported by all hardware and can cause "
 #~ "performance regressions and rendering artifacts."
 #~ msgstr ""
+#~ "El mètode d'escala precís no és compatible amb tot el maquinari i pot causar"
+#~ " regressions de rendiment i artefactes de renderització."
 
 #~ msgid "Scale method:"
-#~ msgstr ""
+#~ msgstr "Mètode d'escala:"
 
 #~ msgid "Smooth"
-#~ msgstr ""
+#~ msgstr "Suau"
 
 #~ msgid "Accurate"
-#~ msgstr ""
+#~ msgstr "Precís"
 
 #~ msgid "Tearing prevention (\"vsync\"):"
-#~ msgstr ""
+#~ msgstr "Prevenció de l'esquinçament (\"vsync\"):"
 
 #~ msgid "Automatic"
-#~ msgstr ""
+#~ msgstr "Automàtica"
 
 #~ msgid "Only when cheap"
-#~ msgstr ""
+#~ msgstr "Només quan sigui barat"
 
 #~ msgid "Full screen repaints"
-#~ msgstr ""
+#~ msgstr "Repintats de pantalla completa"
 
 #~ msgid "Re-use screen content"
-#~ msgstr ""
+#~ msgstr "Reutilitza el contingut de la pantalla"
 
 #~ msgid ""
 #~ "\"Only when cheap\" only prevents tearing for full screen changes like a "
 #~ "video."
 #~ msgstr ""
+#~ "\"Només quan sigui barat\" només evita l'esquinçament per a canvis a "
+#~ "pantalla completa com un vídeo."
 
 #~ msgid "\"Full screen repaints\" can cause performance problems."
 #~ msgstr ""
+#~ "Els \"repintats a pantalla completa\" poden causar problemes de rendiment."
 
 #~ msgid ""
 #~ "\"Re-use screen content\" causes severe performance problems on MESA "
 #~ "drivers."
 #~ msgstr ""
+#~ "\"Reutilitza el contingut de la pantalla\" causa problemes greus de "
+#~ "rendiment als controladors MESA."
 
 #~ msgid "Rendering backend:"
-#~ msgstr ""
+#~ msgstr "Rerefons de renderització:"
 
 #~ msgid "OpenGL 3.1"
-#~ msgstr ""
+#~ msgstr "OpenGL 3.1"
 
 #~ msgid "OpenGL 2.0"
-#~ msgstr ""
+#~ msgstr "OpenGL 2.0"
 
 #~ msgid "Crisp"
-#~ msgstr ""
+#~ msgstr "Cruixent"
 
 #~ msgid "Smooth (slower)"
-#~ msgstr ""
+#~ msgstr "Suau (més lent)"
 
 #~ msgid "XRender"
-#~ msgstr ""
+#~ msgstr "XRender"
 
 #~ msgctxt "OpenGL Platform Interface"
 #~ msgid "EGL"
-#~ msgstr ""
+#~ msgstr "EGL"
 
 #~ msgctxt "OpenGL Platform Interface"
 #~ msgid "GLX"
-#~ msgstr ""
+#~ msgstr "GLX"
 
 #~ msgid ""
 #~ "Author: %1\n"
 #~ "License: %2"
 #~ msgstr ""
+#~ "Autor: %1\n"
+#~ "Llicència: %2"
 
 #~ msgid ""
 #~ "Hint: To find out or configure how to activate an effect, look at the "
 #~ "effect's settings."
 #~ msgstr ""
+#~ "Consell: per saber o configurar com activar un efecte, mireu la configuració"
+#~ " de l'efecte."
 
 #~ msgid "Configure filter"
 #~ msgstr ""
 
 #~ msgid "Exclude Desktop Effects not supported by the Compositor"
-#~ msgstr ""
+#~ msgstr "Exclou els efectes d'escriptori no compatibles amb el compositor"
 
 #~ msgid "Exclude internal Desktop Effects"
 #~ msgstr ""
 
 #~ msgid "Get New Desktop Effects..."
-#~ msgstr ""
+#~ msgstr "Obtén efectes d'escriptori nous..."
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
@@ -280,19 +293,19 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Accessibility"
-#~ msgstr ""
+#~ msgstr "Accessibilitat"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Appearance"
-#~ msgstr ""
+#~ msgstr "Aparença"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Candy"
-#~ msgstr ""
+#~ msgstr "Caramels"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Focus"
-#~ msgstr ""
+#~ msgstr "Focus"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Show Desktop Animation"
@@ -300,19 +313,19 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Tools"
-#~ msgstr ""
+#~ msgstr "Eines"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Virtual Desktop Switching Animation"
-#~ msgstr ""
+#~ msgstr "Animació de canvi d'escriptori virtual"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Management"
-#~ msgstr ""
+#~ msgstr "Gestió de finestres"
 
 #~ msgctxt "Category of Desktop Effects, used as section header"
 #~ msgid "Window Open/Close Animation"
-#~ msgstr ""
+#~ msgstr "Animació d'obrir / tancar la finestra"
 
 #~ msgid "KWin development team"
 #~ msgstr "Equip de desenvolupament del KWin"
@@ -440,7 +453,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Normal"
-#~ msgstr ""
+#~ msgstr "Normal"
 
 #~ msgid "Slow"
 #~ msgstr ""
@@ -457,7 +470,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Advanced"
-#~ msgstr ""
+#~ msgstr "Avançat"
 
 #~ msgid "OpenGL Options"
 #~ msgstr ""
@@ -549,7 +562,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Suspend Compositing"
-#~ msgstr ""
+#~ msgstr "Suspèn la composició"
 
 #~ msgid "Resume Compositing"
 #~ msgstr ""

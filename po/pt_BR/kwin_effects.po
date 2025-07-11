@@ -9,6 +9,7 @@
 # 380125ae2590f93d3e1eff2258abdf75_6979c31, 2025
 # Gary Wang <wzc782970009@gmail.com>, 2025
 # Wislley Marçal, 2025
+# Alex, 2025
 # 
 msgid ""
 msgstr ""
@@ -16,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-03 03:02+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Wislley Marçal, 2025\n"
+"Last-Translator: Alex, 2025\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/linuxdeepin/teams/3617/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,6 +58,8 @@ msgid ""
 "Select a position for color picking with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Selecione uma posição para seleção de cores com o botão esquerdo ou Enter.\n"
+"Pressione Escape ou clique com o botão direito para cancelar."
 
 #: desktopgrid/desktopgrid_config.cpp:49 invert/invert_config.cpp:35
 #: magnifier/magnifier_config.cpp:55 mouseclick/mouseclick_config.cpp:48
@@ -73,7 +76,7 @@ msgstr "KWin"
 #: desktopgrid/desktopgrid_config.cpp:54 desktopgrid/desktopgrideffect.cpp:35
 #, kde-format
 msgid "Show Desktop Grid"
-msgstr ""
+msgstr "Mostrar grade da área de trabalho"
 
 #: desktopgrid/desktopgrid_config.cpp:61
 #, kde-format
@@ -92,7 +95,7 @@ msgstr "Em cima"
 #: desktopgrid/desktopgrid_config.cpp:63
 #, kde-format
 msgid "Top-Right"
-msgstr ""
+msgstr "Canto superior direito"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
@@ -105,7 +108,7 @@ msgstr "Direita"
 #: desktopgrid/desktopgrid_config.cpp:65
 #, kde-format
 msgid "Bottom-Right"
-msgstr ""
+msgstr "Canto inferior direito"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
@@ -118,7 +121,7 @@ msgstr "Fundo"
 #: desktopgrid/desktopgrid_config.cpp:67
 #, kde-format
 msgid "Bottom-Left"
-msgstr ""
+msgstr "Inferior esquerdo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_InRotationEdge)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_OutRotationEdge)
@@ -131,7 +134,7 @@ msgstr "Esquerda"
 #: desktopgrid/desktopgrid_config.cpp:69
 #, kde-format
 msgid "Top-Left"
-msgstr ""
+msgstr "Canto superior esquerdo"
 
 #: desktopgrid/desktopgrid_config.cpp:70
 #, kde-format
@@ -150,7 +153,7 @@ msgstr "Aparência"
 #: desktopgrid/desktopgrid_config.ui:30
 #, kde-format
 msgid "Pager"
-msgstr ""
+msgstr "Pager"
 
 #. i18n: ectx: property (text), item, widget (QComboBox,
 #. kcfg_DesktopLayoutMode)
@@ -164,7 +167,7 @@ msgstr "Automático"
 #: desktopgrid/desktopgrid_config.ui:40
 #, kde-format
 msgid "Custom"
-msgstr ""
+msgstr "Personalizado"
 
 #. i18n: ectx: property (text), widget (QLabel, layoutRowsLabel)
 #: desktopgrid/desktopgrid_config.ui:48
@@ -176,7 +179,7 @@ msgstr "Número de linhas:"
 #: desktopgrid/desktopgrid_config.ui:103
 #, kde-format
 msgid "Desktop &name alignment:"
-msgstr ""
+msgstr "Alinhamento do nome na área de trabalho:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAddRemove)
 #: desktopgrid/desktopgrid_config.ui:116
@@ -188,7 +191,7 @@ msgstr "Mostrar botões para alterar a contagem de áreas de trabalhos virtuais"
 #: desktopgrid/desktopgrid_config.ui:123
 #, kde-format
 msgid "&Grid layout mode:"
-msgstr ""
+msgstr "Modo de layout de grade:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LayoutMode)
 #: desktopgrid/desktopgrid_config.ui:137 overview/kcm/overvieweffectkcm.ui:30
@@ -366,25 +369,25 @@ msgstr "Tamanho"
 #: magnifier/magnifier_config.ui:23
 #, kde-format
 msgid "&Width:"
-msgstr ""
+msgstr "Largura:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Width)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Height)
 #: magnifier/magnifier_config.ui:42 magnifier/magnifier_config.ui:74
 #, kde-format
 msgid " px"
-msgstr ""
+msgstr " px"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: magnifier/magnifier_config.ui:55
 #, kde-format
 msgid "&Height:"
-msgstr ""
+msgstr "Altura:"
 
 #: mouseclick/mouseclick.cpp:34 mouseclick/mouseclick_config.cpp:51
 #, kde-format
 msgid "Toggle Mouse Click Effect"
-msgstr ""
+msgstr "Alternar efeito de clique do mouse"
 
 #: mouseclick/mouseclick.cpp:41
 #, kde-format
@@ -396,7 +399,7 @@ msgstr "Esquerda"
 #, kde-format
 msgctxt "Middle mouse button"
 msgid "Middle"
-msgstr ""
+msgstr "Meio"
 
 #: mouseclick/mouseclick.cpp:43
 #, kde-format
@@ -407,61 +410,61 @@ msgstr "Direita"
 #: mouseclick/mouseclick.h:60
 #, kde-format
 msgid "↓"
-msgstr ""
+msgstr "↓"
 
 #: mouseclick/mouseclick.h:61
 #, kde-format
 msgid "↑"
-msgstr ""
+msgstr "↑"
 
 #. i18n: ectx: attribute (title), widget (QWidget, basic_tab)
 #: mouseclick/mouseclick_config.ui:21
 #, kde-format
 msgid "Basic Settings"
-msgstr ""
+msgstr "Configurações básicas"
 
 #. i18n: ectx: property (text), widget (QLabel, button1_label)
 #: mouseclick/mouseclick_config.ui:37
 #, kde-format
 msgid "Left Mouse Button Color:"
-msgstr ""
+msgstr "Cor do botão esquerdo do mouse:"
 
 #. i18n: ectx: property (text), widget (QLabel, button2_label)
 #: mouseclick/mouseclick_config.ui:50
 #, kde-format
 msgid "Middle Mouse Button Color:"
-msgstr ""
+msgstr "Cor do botão do meio do mouse:"
 
 #. i18n: ectx: property (text), widget (QLabel, button3_label)
 #: mouseclick/mouseclick_config.ui:70
 #, kde-format
 msgid "Right Mouse Button Color:"
-msgstr ""
+msgstr "Cor do botão direito do mouse:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, advanced_tab)
 #: mouseclick/mouseclick_config.ui:91
 #, kde-format
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Configurações avançadas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, rings)
 #: mouseclick/mouseclick_config.ui:97
 #, kde-format
 msgid "Rings"
-msgstr ""
+msgstr "Toques"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_line_width_label)
 #: mouseclick/mouseclick_config.ui:103
 #, kde-format
 msgid "Line Width:"
-msgstr ""
+msgstr "Largura da linha:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_LineWidth)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingSize)
 #: mouseclick/mouseclick_config.ui:119 mouseclick/mouseclick_config.ui:171
 #, kde-format
 msgid " pixel"
-msgstr ""
+msgstr " pixel"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_RingLife)
 #: mouseclick/mouseclick_config.ui:132
@@ -473,73 +476,73 @@ msgstr "milésimo de segundos"
 #: mouseclick/mouseclick_config.ui:145
 #, kde-format
 msgid "Ring Duration:"
-msgstr ""
+msgstr "Duração do anel:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_radius_label)
 #: mouseclick/mouseclick_config.ui:155
 #, kde-format
 msgid "Ring Radius:"
-msgstr ""
+msgstr "Raio do anel:"
 
 #. i18n: ectx: property (text), widget (QLabel, ring_count_label)
 #: mouseclick/mouseclick_config.ui:184
 #, kde-format
 msgid "Ring Count:"
-msgstr ""
+msgstr "Contagem de anéis:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, font)
 #: mouseclick/mouseclick_config.ui:210
 #, kde-format
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #: mouseclick/mouseclick_config.ui:216
 #, kde-format
 msgid "Font:"
-msgstr ""
+msgstr "Fonte:"
 
 #. i18n: ectx: property (text), widget (QLabel, showtext_label)
 #: mouseclick/mouseclick_config.ui:233
 #, kde-format
 msgid "Show Text:"
-msgstr ""
+msgstr "Mostrar texto:"
 
 #: mousemark/mousemark.cpp:39
 #, kde-format
 msgid "Clear All Mouse Marks"
-msgstr ""
+msgstr "Limpar todas as marcas do mouse"
 
 #: mousemark/mousemark.cpp:45 mousemark/mousemark_config.cpp:59
 #, kde-format
 msgid "Clear Last Mouse Mark"
-msgstr ""
+msgstr "Limpar a última marca do mouse"
 
 #: mousemark/mousemark_config.cpp:53
 #, kde-format
 msgid "Clear Mouse Marks"
-msgstr ""
+msgstr "Limpar marcas do mouse"
 
 #: mousemark/mousemark_config.cpp:100
 #, kde-format
 msgctxt "Suffix"
 msgid " pixel"
 msgid_plural " pixels"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "pixel"
+msgstr[1] "pixels"
+msgstr[2] "pixels"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: mousemark/mousemark_config.ui:23
 #, kde-format
 msgid "Wid&th:"
-msgstr ""
+msgstr "Largura:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: mousemark/mousemark_config.ui:36
 #, kde-format
 msgid "&Color:"
-msgstr ""
+msgstr "Cor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: mousemark/mousemark_config.ui:82
@@ -634,6 +637,8 @@ msgid ""
 "Select window to screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Selecione a janela para fazer a captura de tela com o botão esquerdo ou Enter.\n"
+"Escape ou clique com o botão direito para cancelar."
 
 #: screenshot/screenshotdbusinterface1.cpp:803
 #: screenshot/screenshotdbusinterface2.cpp:495
@@ -642,6 +647,8 @@ msgid ""
 "Create screen shot with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Crie uma captura de tela com clique esquerdo ou enter\n"
+"Escape ou clique com o botão direito para cancelar."
 
 #: showfps/qml/main.qml:110
 #, kde-format
@@ -682,43 +689,43 @@ msgstr "Alternar Mostrar Pintura"
 #: slide/slide_config.ui:17
 #, kde-format
 msgid "Gap between desktops"
-msgstr ""
+msgstr "Lacuna entre áreas de trabalho"
 
 #. i18n: ectx: property (text), widget (QLabel, label_HorizontalGap)
 #: slide/slide_config.ui:23
 #, kde-format
 msgid "Horizontal:"
-msgstr ""
+msgstr "Horizontal:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_VerticalGap)
 #: slide/slide_config.ui:46
 #, kde-format
 msgid "Vertical:"
-msgstr ""
+msgstr "Vertical:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SlideBackground)
 #: slide/slide_config.ui:72
 #, kde-format
 msgid "Slide desktop background"
-msgstr ""
+msgstr " Plano de fundo da área de trabalho deslizante"
 
 #: thumbnailaside/thumbnailaside.cpp:29
 #: thumbnailaside/thumbnailaside_config.cpp:59
 #, kde-format
 msgid "Toggle Thumbnail for Current Window"
-msgstr ""
+msgstr "Alternar miniatura para janela atual"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: thumbnailaside/thumbnailaside_config.ui:23
 #, kde-format
 msgid "Maximum &width:"
-msgstr ""
+msgstr "Largura máxima:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: thumbnailaside/thumbnailaside_config.ui:36
 #, kde-format
 msgid "&Spacing:"
-msgstr ""
+msgstr "Espaçamento:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Spacing)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_MaxWidth)
@@ -726,13 +733,13 @@ msgstr ""
 #: thumbnailaside/thumbnailaside_config.ui:106
 #, kde-format
 msgid " pixels"
-msgstr ""
+msgstr " pixels"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: thumbnailaside/thumbnailaside_config.ui:68
 #, kde-format
 msgid "&Opacity:"
-msgstr ""
+msgstr "Opacidade:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_Opacity)
 #: thumbnailaside/thumbnailaside_config.ui:87
@@ -744,17 +751,17 @@ msgstr " %"
 #: tileseditor/tileseditoreffect.cpp:29
 #, kde-format
 msgid "Toggle Tiles Editor"
-msgstr ""
+msgstr "Alternar editor de blocos"
 
 #: tileseditor/qml/main.qml:145
 #, kde-format
 msgid "Padding:"
-msgstr ""
+msgstr "Preenchimento:"
 
 #: tileseditor/qml/main.qml:155
 #, kde-format
 msgid "Load Layout..."
-msgstr ""
+msgstr "Carregar layout..."
 
 #: tileseditor/qml/main.qml:269
 #, kde-format
@@ -764,17 +771,17 @@ msgstr "Fechar"
 #: tileseditor/qml/TileDelegate.qml:167
 #, kde-format
 msgid "Split Horizontally"
-msgstr ""
+msgstr "Dividir horizontalmente"
 
 #: tileseditor/qml/TileDelegate.qml:174
 #, kde-format
 msgid "Split Vertically"
-msgstr ""
+msgstr "Dividir verticalmente"
 
 #: tileseditor/qml/TileDelegate.qml:182 tileseditor/qml/TileDelegate.qml:211
 #, kde-format
 msgid "Add Floating Tile"
-msgstr ""
+msgstr "Adicionar bloco flutuante"
 
 #: tileseditor/qml/TileDelegate.qml:191
 #, kde-format
@@ -784,19 +791,19 @@ msgstr "Deletar"
 #: trackmouse/trackmouse.cpp:44 trackmouse/trackmouse_config.cpp:57
 #, kde-format
 msgid "Track mouse"
-msgstr ""
+msgstr "Rastrear mouse"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: trackmouse/trackmouse_config.ui:26
 #, kde-format
 msgid "Trigger effect with:"
-msgstr ""
+msgstr "Efeito de gatilho com:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_KeyboardShortcut)
 #: trackmouse/trackmouse_config.ui:33
 #, kde-format
 msgid "Keyboard shortcut:"
-msgstr ""
+msgstr "Atalho do teclado:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_ModifierKeys)
 #: trackmouse/trackmouse_config.ui:43
@@ -909,7 +916,7 @@ msgstr "Menus pop-up:"
 #: translucency/package/contents/ui/config.ui:367
 #, kde-format
 msgid "Torn-off menus:"
-msgstr ""
+msgstr "Menu arrancado:"
 
 #: windowview/kcm/windowvieweffectkcm.cpp:42
 #: windowview/windowvieweffect.cpp:45
@@ -927,7 +934,7 @@ msgstr "Alternar janelas presentes (todas as áreas de trabalho)"
 #: windowview/windowvieweffect.cpp:63
 #, kde-format
 msgid "Toggle Present Windows (Window class)"
-msgstr ""
+msgstr "Alternar janelas presentes (classe de janela)"
 
 #: windowview/kcm/windowvieweffectkcm.cpp:62
 #: windowview/windowvieweffect.cpp:72
@@ -1309,25 +1316,25 @@ msgstr "Rastreamento do mouse:"
 #~ msgstr "Área de trabalho"
 
 #~ msgid "Show desktop"
-#~ msgstr ""
+#~ msgstr "Mostrar área de trabalho"
 
 #~ msgid "Display window &titles"
-#~ msgstr ""
+#~ msgstr "Títulos da janela de exibição"
 
 #~ msgid "Display window &icons"
-#~ msgstr ""
+#~ msgstr "Ícones da janela de exibição"
 
 #~ msgid "Show &panels"
-#~ msgstr ""
+#~ msgstr "Mostrar painéis"
 
 #~ msgid "Regular Grid"
-#~ msgstr ""
+#~ msgstr "Grade regular"
 
 #~ msgid "Flexible Grid"
-#~ msgstr ""
+#~ msgstr "Grade Flexível"
 
 #~ msgid "Provide buttons to close the windows"
-#~ msgstr ""
+#~ msgstr "Fornecer botões para fechar as janelas"
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
@@ -2019,9 +2026,9 @@ msgstr "Rastreamento do mouse:"
 
 #~ msgid " row"
 #~ msgid_plural " rows"
-#~ msgstr[0] ""
-#~ msgstr[1] ""
-#~ msgstr[2] ""
+#~ msgstr[0] "linha"
+#~ msgstr[1] "linhas"
+#~ msgstr[2] "linhas"
 
 #~ msgctxt "Duration of fading"
 #~ msgid "Default"
@@ -2074,9 +2081,9 @@ msgstr "Rastreamento do mouse:"
 
 #~ msgid " pixel/frame"
 #~ msgid_plural " pixels/frame"
-#~ msgstr[0] ""
-#~ msgstr[1] ""
-#~ msgstr[2] ""
+#~ msgstr[0] "pixel por quadro"
+#~ msgstr[1] "pixels por quadro"
+#~ msgstr[2] "pixels por quadro"
 
 #~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
 #~ msgid "Toggle Sharpen Effect"
@@ -2767,13 +2774,22 @@ msgstr "Rastreamento do mouse:"
 #~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
 #~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
 #~ msgstr ""
+#~ "<qt><b>Extensão composta não encontrada</b><br>Você <i>deve</i> usar XOrg "
+#~ "&ge; 6.8 para que a translucidez e as sombras funcionem.<br>Além disso, você"
+#~ " precisa adicionar uma nova seção ao seu arquivo de configuração "
+#~ "X:<br><i>Seção \"Extensões\"<br>Opção \"Composto\" \"Habilitar\"<br>Fim da "
+#~ "Seção</i></qt>"
 
 #~ msgid ""
 #~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
 #~ "for translucency and shadows to work.</qt>"
 #~ msgstr ""
+#~ "<qt><b>Extensão de dano não encontrada</b><br>Você <i>deve</i> usar XOrg "
+#~ "&ge; 6.8 para que a translucidez e as sombras funcionem.</qt>"
 
 #~ msgid ""
 #~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
 #~ "for translucency and shadows to work.</qt>"
 #~ msgstr ""
+#~ "<qt><b>Extensão XFixes não encontrada</b><br>Você <i>deve</i> usar XOrg &ge;"
+#~ " 6.8 para que a translucidez e as sombras funcionem.</qt>"

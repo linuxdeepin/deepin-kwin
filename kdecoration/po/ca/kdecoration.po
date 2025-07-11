@@ -1,26 +1,25 @@
-# Translation of kdecoration.po to Catalan
-# Copyright (C) 2018-2021 This_file_is_part_of_KDE
-# This file is distributed under the license LGPL version 2.1 or
-# version 3 or later versions approved by the membership of KDE e.V.
-#
-# Josep M. Ferrer <txemaq@gmail.com>, 2018.
-# Empar Montoro Martín <montoro_mde@gva.es>, 2019.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2021.
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Steve Allewell <steve.allewell@gmail.com>, 2018, 2021.
+# Translators:
+# Jaime Muñoz Martín <jmmartin_5@outlook.com>, 2025
+# Davidmp <medipas@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: kdecoration\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-26 00:47+0000\n"
-"PO-Revision-Date: 2021-05-05 16:55+0200\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
-"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
-"Language: ca\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Davidmp <medipas@gmail.com>, 2025\n"
+"Language-Team: Catalan (https://app.transifex.com/linuxdeepin/teams/3617/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.12.3\n"
-"X-Accelerator-Marker: &\n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.04.1\n"
 
 #: decorationbutton.cpp:301
 #, kde-format
@@ -35,7 +34,7 @@ msgstr "Menú d'aplicacions"
 #: decorationbutton.cpp:306
 #, kde-format
 msgid "On one desktop"
-msgstr "A un escriptori"
+msgstr "En un escriptori"
 
 #: decorationbutton.cpp:308
 #, kde-format
@@ -65,34 +64,43 @@ msgstr "Tanca"
 #: decorationbutton.cpp:319
 #, kde-format
 msgid "Context help"
-msgstr "Ajuda contextual"
+msgstr "Ajuda de context"
 
 #: decorationbutton.cpp:322
 #, kde-format
 msgid "Unshade"
-msgstr "Desplega"
+msgstr "Elimina l'ombra"
 
 #: decorationbutton.cpp:324
 #, kde-format
 msgid "Shade"
-msgstr "Plega"
+msgstr "Ombreja"
 
 #: decorationbutton.cpp:327
 #, kde-format
 msgid "Don't keep below other windows"
-msgstr "No mantinguis per sota de les altres finestres"
+msgstr "No ho mantinguis sota altres finestres"
 
 #: decorationbutton.cpp:329
 #, kde-format
 msgid "Keep below other windows"
-msgstr "Mantén per sota de les altres finestres"
+msgstr "Mantingues-ho per sota d'altres finestres"
 
 #: decorationbutton.cpp:332
 #, kde-format
 msgid "Don't keep above other windows"
-msgstr "No mantinguis al damunt de les altres finestres"
+msgstr "No ho mantinguis a sobre d'altres finestres"
 
 #: decorationbutton.cpp:334
 #, kde-format
 msgid "Keep above other windows"
-msgstr "Mantén al damunt de les altres finestres"
+msgstr "Mantingues-ho per sobre d'altres finestres"
+
+#~ msgid "Menu"
+#~ msgstr "Menú"
+
+#~ msgid "Keep below"
+#~ msgstr "Mantingues-ho a baix"
+
+#~ msgid "Keep above"
+#~ msgstr "Mantingues-ho a dalt"
