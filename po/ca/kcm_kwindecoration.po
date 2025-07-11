@@ -86,23 +86,23 @@ msgstr "Mantingues-ho per sobre d'altres finestres"
 #: kcm.cpp:49
 #, kde-format
 msgid "Window Decorations"
-msgstr ""
+msgstr "Decoracions de les finestres"
 
 #: kcm.cpp:53
 #, kde-format
 msgid "Valerio Pilo"
-msgstr ""
+msgstr "Valerio Pilo"
 
 #: kcm.cpp:54
 #, kde-format
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: kcm.cpp:183
 #, kde-format
 msgctxt "%1 is the name of a border size"
 msgid "Theme's default (%1)"
-msgstr ""
+msgstr "Valor per defecte del tema (%1)"
 
 #: kwin-applywindowdecoration.cpp:32
 #, kde-format
@@ -111,6 +111,9 @@ msgid ""
 "active session, without accidentally setting it to one that is either not "
 "available, or which is already set."
 msgstr ""
+"Aquesta eina us permet definir el tema de decoració de la finestra per a la "
+"sessió activa, sense definir-lo accidentalment com ara amb un que no estigui"
+" disponible o que ja estigui definit."
 
 #: kwin-applywindowdecoration.cpp:33
 #, kde-format
@@ -119,12 +122,16 @@ msgid ""
 "full path will attempt to find a theme in that directory, and then apply "
 "that if one can be deduced."
 msgstr ""
+"El nom del tema de la decoració de finestres que voleu definir per al KWin. "
+"Si hi passeu un camí complet, s'intentarà trobar un tema en aquest directori"
+" i, si es pot deduir, s'aplicarà."
 
 #: kwin-applywindowdecoration.cpp:34
 #, kde-format
 msgid ""
 "Show all the themes available on the system (and which is the current theme)"
 msgstr ""
+"Mostra tots els temes disponibles al sistema (i quin és el tema actual)"
 
 #: kwin-applywindowdecoration.cpp:65
 #, kde-format
