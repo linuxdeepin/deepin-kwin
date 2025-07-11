@@ -1892,10 +1892,12 @@ msgstr "Seguiment del ratolí:"
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
 #~ msgstr ""
+#~ "Fa que les finestres s’escalin endins i enfora suaument quan es mostren o "
+#~ "s’amaguen"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Minimize Animation"
-#~ msgstr ""
+#~ msgstr "Animació de minimització"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Animate the minimizing of windows"
