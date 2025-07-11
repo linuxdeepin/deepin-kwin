@@ -3456,6 +3456,8 @@ msgstr ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Filtre:\n"
+#~ "%1"
 
 #~ msgid "Snow"
 #~ msgstr ""
