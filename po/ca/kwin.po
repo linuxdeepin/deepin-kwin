@@ -3363,7 +3363,7 @@ msgstr ""
 #~ msgstr "A tots els escriptoris"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Ajuda"
 
 #~ msgid "Restore"
 #~ msgstr "Restaura"
