@@ -1,3 +1,13 @@
+deepin-kwin (4:6.0.10) unstable; urgency=medium
+
+  * Updates for project Kwin (#371)
+  * chore: update translation file with window control strings
+  * fix: m_dragTips should not use fixed height
+  * fix: applying scissor and radius to fullscreen windows
+  * Revert "fix: should not show radius when fullscreen or splited"
+
+ -- rewine <luhongxu@uniontech.com>  Fri, 11 Jul 2025 12:18:31 +0800
+
 deepin-kwin (4:6.0.9) unstable; urgency=medium
 
   * chore: update translation file references
