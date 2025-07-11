@@ -1190,58 +1190,58 @@ msgid "Mouse Tracking:"
 msgstr "Seguiment del ratolí:"
 
 #~ msgid "Slide docks"
-#~ msgstr ""
+#~ msgstr "Diapositives dels acobladors"
 
 #~ msgid "Search..."
 #~ msgstr "Cerca..."
 
 #~ msgid "&Radius:"
-#~ msgstr ""
+#~ msgstr "&Radi:"
 
 #~ msgid "Text position:"
-#~ msgstr ""
+#~ msgstr "Posició del text:"
 
 #~ msgid "Inside Graph"
 #~ msgstr ""
 
 #~ msgid "Nowhere"
-#~ msgstr ""
+#~ msgstr "Enlloc"
 
 #~ msgid "Top Left"
-#~ msgstr ""
+#~ msgstr "A dalt a l'esquerra"
 
 #~ msgid "Top Right"
-#~ msgstr ""
+#~ msgstr "A dalt a la dreta"
 
 #~ msgid "Bottom Left"
-#~ msgstr ""
+#~ msgstr "A baix a l'esquerra"
 
 #~ msgid "Bottom Right"
-#~ msgstr ""
+#~ msgstr "A baix a la dreta"
 
 #~ msgid "Text font:"
-#~ msgstr ""
+#~ msgstr "Lletra del text:"
 
 #~ msgid "Text color:"
-#~ msgstr ""
+#~ msgstr "Color del text:"
 
 #~ msgid "Text alpha:"
-#~ msgstr ""
+#~ msgstr "Alfa del text:"
 
 #~ msgid "Show graph:"
-#~ msgstr ""
+#~ msgstr "Mostra el gràfic:"
 
 #~ msgid "Show on active screen"
-#~ msgstr ""
+#~ msgstr "Mostra-ho a la pantalla activa"
 
 #~ msgid "Show Message:"
-#~ msgstr ""
+#~ msgstr "Mostra el missatge:"
 
 #~ msgid "Show \"not a benchmark\" message"
-#~ msgstr ""
+#~ msgstr "Mostra el missatge \"no és un punt de referència\"."
 
 #~ msgid "Colorize Text:"
-#~ msgstr ""
+#~ msgstr "Text acolorit:"
 
 #~ msgid "Color text by value (green > yellow > red)"
 #~ msgstr ""
