@@ -1803,7 +1803,7 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Cover Switch"
-#~ msgstr "Interruptor de coberta"
+#~ msgstr "Canvi de coberta"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
@@ -1816,24 +1816,25 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display each virtual desktop on a side of a cube"
-#~ msgstr ""
+#~ msgstr "Mostra cada escriptori virtual en un costat d'un cub"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Cube Animation"
-#~ msgstr ""
+#~ msgstr "Animació del cub d'escriptori"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Animate desktop switching with a cube"
-#~ msgstr ""
+#~ msgstr "Anima el canvi d'escriptori amb un cub"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Flip Switch"
-#~ msgstr ""
+#~ msgstr "Canvi giratori"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid ""
 #~ "Flip through windows that are in a stack for the alt+tab window switcher"
 #~ msgstr ""
+#~ "Navega per les finestres en una pila per al commutador de finestres alt+tab"
 
 #~ msgid "Toggle Flip Switch (Current desktop)"
 #~ msgstr ""
