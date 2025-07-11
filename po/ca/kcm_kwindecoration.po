@@ -228,46 +228,46 @@ msgstr "Botons de la barra de títol"
 #, kde-format
 msgctxt "Selector label"
 msgid "Window border size:"
-msgstr ""
+msgstr "Mida de la vora de la finestra:"
 
 #: package/contents/ui/main.qml:110
 #, kde-format
 msgctxt "button text"
 msgid "Get New Window Decorations..."
-msgstr ""
+msgstr "Aconseguiu decoracions noves per a les finestres..."
 
 #: package/contents/ui/main.qml:139
 #, kde-format
 msgctxt "checkbox label"
 msgid "Close windows by double clicking the menu button"
-msgstr ""
+msgstr "Tanca les finestres fent doble clic al botó del menú."
 
 #: package/contents/ui/main.qml:156
 #, kde-format
 msgctxt "popup tip"
 msgid "Click and hold on the menu button to show the menu."
-msgstr ""
+msgstr "Feu clic i mantingueu premut el botó del menú per mostrar-lo."
 
 #: package/contents/ui/main.qml:163
 #, kde-format
 msgctxt "checkbox label"
 msgid "Show titlebar button tooltips"
-msgstr ""
+msgstr "Mostra la informació emergent dels botons de la barra de títol."
 
 #: package/contents/ui/Themes.qml:90
 #, kde-format
 msgid "Edit %1 Theme"
-msgstr ""
+msgstr "Edita el tema %1"
 
 #: utils.cpp:25
 #, kde-format
 msgid "No Borders"
-msgstr ""
+msgstr "Sense vores"
 
 #: utils.cpp:26
 #, kde-format
 msgid "No Side Borders"
-msgstr ""
+msgstr "Sense vores laterals"
 
 #: utils.cpp:27
 #, kde-format
@@ -309,6 +309,8 @@ msgstr "Sobredimensionat"
 #~ "Close by double clicking: Keep the window's Menu button pressed until it "
 #~ "appears."
 #~ msgstr ""
+#~ "Tancar amb doble clic: mantingueu premut el botó del menú de la finestra "
+#~ "fins que aparegui."
 
 #~ msgid "Menu"
 #~ msgstr "Menú"
@@ -320,29 +322,29 @@ msgstr "Sobredimensionat"
 #~ msgstr "Mantingues-ho a dalt"
 
 #~ msgid "Download New Window Decorations"
-#~ msgstr ""
+#~ msgstr "Baixeu decoracions noves per a les finestres"
 
 #~ msgctxt "checkbox label"
 #~ msgid "Use theme's default window border size"
-#~ msgstr ""
+#~ msgstr "Usa la mida de la vora de la finestra per defecte del tema."
 
 #~ msgid "Close windows by double clicking &the menu button"
-#~ msgstr ""
+#~ msgstr "Tanca les finestres fent doble clic al botó del menú."
 
 #~ msgid "Border si&ze:"
-#~ msgstr ""
+#~ msgstr "Mida de la &vora:"
 
 #~ msgid "Buttons"
 #~ msgstr "Botons"
 
 #~ msgid "Configure %1..."
-#~ msgstr ""
+#~ msgstr "Configura %1..."
 
 #~ msgid "Drag to re-position buttons"
-#~ msgstr ""
+#~ msgstr "Arrossegueu per reposicionar els botons."
 
 #~ msgid "Form"
-#~ msgstr ""
+#~ msgstr "Formulari"
 
 #~ msgid "Button size:"
 #~ msgstr "Mida del botó:"
@@ -376,7 +378,7 @@ msgstr "Sobredimensionat"
 #~ msgstr "Sobredimensionat"
 
 #~ msgid "KDE"
-#~ msgstr ""
+#~ msgstr "KDE"
 
 #~ msgid "%1 (unavailable)"
 #~ msgstr ""
