@@ -1856,32 +1856,34 @@ msgstr "Seguiment del ratolí:"
 #~ msgstr " °"
 
 #~ msgid "Horizontal position of front:"
-#~ msgstr ""
+#~ msgstr "Posició horitzontal del frontal:"
 
 #~ msgid "Vertical position of front:"
-#~ msgstr ""
+#~ msgstr "Posició vertical del frontal:"
 
 #~ msgid ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Filtre:\n"
+#~ "%1"
 
 #~ msgid "Use Present Windows effect to layout the windows"
-#~ msgstr ""
+#~ msgstr "Usa l'efecte Finestres actuals per dissenyar les finestres"
 
 #~ msgid "When the focus changes, move the zoom area to the focused location."
-#~ msgstr ""
+#~ msgstr "Quan el focus canviï, mou l'àrea de zoom a la ubicació enfocada."
 
 #~ msgid "Follow Focus"
-#~ msgstr ""
+#~ msgstr "Segueix el focus"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Dim Screen for Administrator Mode"
-#~ msgstr ""
+#~ msgstr "Pantalla atenuada per al mode d'administrador"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Darkens the entire screen when requesting root privileges"
-#~ msgstr ""
+#~ msgstr "Enfosqueix tota la pantalla quan es sol·liciten privilegis d'arrel"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Scale"
