@@ -1202,7 +1202,7 @@ msgstr "Seguiment del ratolí:"
 #~ msgstr "Posició del text:"
 
 #~ msgid "Inside Graph"
-#~ msgstr ""
+#~ msgstr "Dins del gràfic"
 
 #~ msgid "Nowhere"
 #~ msgstr "Enlloc"
@@ -1795,18 +1795,20 @@ msgstr "Seguiment del ratolí:"
 #~ msgstr "No s'animen els plafons"
 
 #~ msgid "Use pager layout for animation"
-#~ msgstr ""
+#~ msgstr "Usa el disseny de paginació per a l'animació"
 
 #~ msgid "Start animation when moving windows towards screen edges"
 #~ msgstr ""
+#~ "Inicia l'animació en moure les finestres cap a les vores de la pantalla"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Cover Switch"
-#~ msgstr ""
+#~ msgstr "Interruptor de coberta"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
 #~ msgstr ""
+#~ "Mostra un efecte de Flux de coberta per al commutador de finestres alt+tab"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Cube"
