@@ -381,71 +381,83 @@ msgstr "Sobredimensionat"
 #~ msgstr "KDE"
 
 #~ msgid "%1 (unavailable)"
-#~ msgstr ""
+#~ msgstr "%1 (no disponible)"
 
 #~ msgid ""
 #~ "To add or remove titlebar buttons, simply <i>drag</i> items between the "
 #~ "available item list and the titlebar preview. Similarly, drag items within "
 #~ "the titlebar preview to re-position them."
 #~ msgstr ""
+#~ "Per afegir o suprimir botons de la barra de títol, simplement "
+#~ "<i>arrossegueu</i> elements entre la llista d'elements disponibles i la "
+#~ "vista prèvia de la barra de títol. De la mateixa manera, arrossegueu "
+#~ "elements dins de la vista prèvia de la barra de títol per reposicionar-los."
 
 #~ msgid "Resize"
 #~ msgstr "Canvia'n la mida"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Ajuda"
 
 #~ msgctxt "Button showing window actions menu"
 #~ msgid "Window Menu"
-#~ msgstr ""
+#~ msgstr "Menú de la finestra"
 
 #~ msgid "--- spacer ---"
-#~ msgstr ""
+#~ msgstr "--- espaiador ---"
 
 #~ msgid ""
 #~ "Enabling this checkbox will show window button tooltips. If this checkbox is"
 #~ " off, no window button tooltips will be shown."
 #~ msgstr ""
+#~ "Si activeu aquesta casella de selecció, es mostrarà informació emergent dels"
+#~ " botons de la finestra. Si aquesta casella de selecció està desactivada, no "
+#~ "es mostrarà."
 
 #~ msgid "Please note that this option is not available on all styles yet."
 #~ msgstr ""
+#~ "Tingueu en compte que aquesta opció encara no està disponible en tots els "
+#~ "estils."
 
 #~ msgid "Use custom titlebar button &positions"
-#~ msgstr ""
+#~ msgstr "Usa posicions personalitzades dels botons de la barra de títol."
 
 #~ msgid "B&order size:"
-#~ msgstr ""
+#~ msgstr "Mida de la v&ora:"
 
 #~ msgid "Use this combobox to change the border size of the decoration."
 #~ msgstr ""
+#~ "Useu aquest quadre combinat per canviar la mida de la vora de la decoració."
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "No Side Border"
-#~ msgstr ""
+#~ msgstr "Sense vora lateral"
 
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "No Border"
-#~ msgstr ""
+#~ msgstr "Sense vora"
 
 #~ msgid "Decoration Options"
-#~ msgstr ""
+#~ msgstr "Opcions de la decoració"
 
 #~ msgid ""
 #~ "Select the window decoration. This is the look and feel of both the window "
 #~ "borders and the window handle."
 #~ msgstr ""
+#~ "Seleccioneu la decoració de la finestra. Aquest és l'aspecte i la sensació "
+#~ "tant de les vores de la finestra com del mànec de la finestra."
 
 #~ msgid "Configure Decoration..."
-#~ msgstr ""
+#~ msgstr "Configura la decoració..."
 
 #~ msgid "Window Decoration Control Module"
-#~ msgstr ""
+#~ msgstr "Mòdul de control de la decoració de finestres"
 
 #~ msgid "(c) 2001 Karol Szwed"
-#~ msgstr ""
+#~ msgstr "(c) 2001 Karol Szwed"
 
 #~ msgid "Karol Szwed"
-#~ msgstr ""
+#~ msgstr "Karol Szwed"
 
 #~ msgid ""
 #~ "<h1>Installation error</h1>The "
@@ -455,10 +467,10 @@ msgstr "Sobredimensionat"
 #~ msgstr ""
 
 #~ msgid "Installation Error"
-#~ msgstr ""
+#~ msgstr "Error d'instal·lació"
 
 #~ msgid "Oxygen"
-#~ msgstr ""
+#~ msgstr "Oxygen"
 
 #~ msgid ""
 #~ "<h1>Window Manager Decoration</h1><p>This module allows you to choose the "
