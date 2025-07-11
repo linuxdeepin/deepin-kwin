@@ -1972,7 +1972,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Opacity"
-#~ msgstr ""
+#~ msgstr "Opacitat"
 
 #~ msgid "Use shadows"
 #~ msgstr ""
