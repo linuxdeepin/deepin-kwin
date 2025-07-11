@@ -2646,7 +2646,7 @@ msgstr "Seguiment del ratolí:"
 #~ msgstr "A tots els escriptoris"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Ajuda"
 
 #~ msgid "Minimize"
 #~ msgstr "Minimitza"
