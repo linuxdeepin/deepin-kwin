@@ -606,7 +606,7 @@ msgstr "Botons d'animació"
 #~ msgstr ""
 
 #~ msgid "KDE 2"
-#~ msgstr ""
+#~ msgstr "KDE 2"
 
 #~ msgid ""
 #~ "When selected, the window decoration borders are drawn using the titlebar "
@@ -767,7 +767,7 @@ msgstr "Botons d'animació"
 #~ msgstr ""
 
 #~ msgid "Ozone"
-#~ msgstr ""
+#~ msgstr "Ozone"
 
 #~ msgid ""
 #~ "When enabled, this option makes the window title bar use the same colors as "
