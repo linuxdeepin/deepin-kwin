@@ -583,7 +583,7 @@ msgstr "Torna a activar la detecció de l'OpenGL"
 #~ msgstr ""
 
 #~ msgid "Sphere"
-#~ msgstr ""
+#~ msgstr "Esfera"
 
 #~ msgid "Screen Edges"
 #~ msgstr ""
