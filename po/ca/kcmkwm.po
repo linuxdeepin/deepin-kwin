@@ -1649,10 +1649,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Left button:"
-#~ msgstr ""
+#~ msgstr "Botó esquerre:"
 
 #~ msgid "Middle button:"
-#~ msgstr ""
+#~ msgstr "Botó del mig:"
 
 #~ msgid ""
 #~ "Behavior on <em>middle</em> click into the titlebar or frame of an "
@@ -1660,7 +1660,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Right button:"
-#~ msgstr ""
+#~ msgstr "Botó dret:"
 
 #~ msgid ""
 #~ "Behavior on <em>right</em> click into the titlebar or frame of an "
