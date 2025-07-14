@@ -2826,30 +2826,6 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(не отвечает)"
 
-# BUGME: please proofread this translation, it's full of worms --aspotashev
-#: workspace.cpp:1846
-#, kde-format
-msgctxt "Introductory text shown in the support information."
-msgid ""
-"KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
-"what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
-"like https://paste.kde.org instead of pasting into support threads.\n"
-msgstr ""
-"Информационная поддержка KWin:\n"
-"Следующая информация должна быть предоставлена при запросе поддержки,"
-"например, на https://forum.kde.org.\n"
-"Она предоставляет сведения о текущем запущенном экземпляре программы, о том, "
-"какие параметры используются,\n"
-"какой OpenGL драйвер и эффекты запущены.\n"
-"Пожалуйста, размещайте информацию, приведённую ниже, в сервис Pastebin,\n"
-"например, на https://paste.kde.org вместо вставки напрямую в темы форума.\n"
-
 #~ msgid "&No Border"
 #~ msgstr "Без &рамки"
 
