@@ -70,12 +70,12 @@ msgstr ""
 #: debug_console.cpp:79 debug_console.cpp:84
 #, kde-format
 msgid "Timestamp"
-msgstr ""
+msgstr "Zeitstempel"
 
 #: debug_console.cpp:89 debug_console.cpp:94
 #, kde-format
 msgid "Timestamp (µsec)"
-msgstr ""
+msgstr "Zeitstempel (µsec)"
 
 #: debug_console.cpp:101
 #, kde-format
@@ -93,13 +93,13 @@ msgstr "Rechts"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Middle"
-msgstr ""
+msgstr "Mitte"
 
 #: debug_console.cpp:107
 #, kde-format
 msgctxt "A mouse button"
 msgid "Back"
-msgstr ""
+msgstr "Zurück"
 
 #: debug_console.cpp:109
 #, kde-format
@@ -111,7 +111,7 @@ msgstr "Vorwärts"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Task"
-msgstr ""
+msgstr "Aufgabe"
 
 #: debug_console.cpp:113
 #, kde-format
@@ -242,37 +242,37 @@ msgstr ""
 #: debug_console.cpp:162 debug_console.cpp:164
 #, kde-format
 msgid "Input Device"
-msgstr ""
+msgstr "Eingabegerät"
 
 #: debug_console.cpp:162
 #, kde-format
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr ""
+msgstr "Unbekannt"
 
 #: debug_console.cpp:199
 #, kde-format
 msgctxt "A mouse pointer motion event"
 msgid "Pointer Motion"
-msgstr ""
+msgstr "Zeigerbewegung"
 
 #: debug_console.cpp:204
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: debug_console.cpp:208
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta (not accelerated)"
-msgstr ""
+msgstr "Delta (nicht beschleunigt)"
 
 #: debug_console.cpp:211
 #, kde-format
 msgctxt "The global mouse pointer position"
 msgid "Global Position"
-msgstr ""
+msgstr "Globale Position"
 
 #: debug_console.cpp:215
 #, kde-format
@@ -308,13 +308,13 @@ msgstr ""
 #, kde-format
 msgctxt "A mouse pointer axis (wheel) event"
 msgid "Pointer Axis"
-msgstr ""
+msgstr "Zeigerachse"
 
 #: debug_console.cpp:247
 #, kde-format
 msgctxt "The orientation of a pointer axis event"
 msgid "Orientation"
-msgstr ""
+msgstr "Ausrichtung"
 
 #: debug_console.cpp:248
 #, kde-format
@@ -332,13 +332,13 @@ msgstr "Senkrecht"
 #, kde-format
 msgctxt "The angle delta of a pointer axis event"
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: debug_console.cpp:265
 #, kde-format
 msgctxt "A key press event"
 msgid "Key Press"
-msgstr ""
+msgstr "Tastendruck"
 
 #: debug_console.cpp:268
 #, kde-format
