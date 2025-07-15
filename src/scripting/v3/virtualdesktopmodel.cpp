@@ -30,7 +30,7 @@ void VirtualDesktopModel::create(uint position, const QString &name)
 
 void VirtualDesktopModel::remove(uint position)
 {
-    if (static_cast<int>(position) < m_virtualDesktops.count()) {
+    if (position < m_virtualDesktops.count()) {
         VirtualDesktopManager::self()->removeVirtualDesktop(m_virtualDesktops[position]);
     }
 }

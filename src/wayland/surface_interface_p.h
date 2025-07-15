@@ -6,7 +6,6 @@
 */
 #pragma once
 
-#include "clientbuffer.h"
 #include "surface_interface.h"
 #include "utils.h"
 // Qt
@@ -126,7 +125,7 @@ public:
 
     QRegion inputRegion;
     QRegion opaqueRegion;
-    ClientBufferRef bufferRef;
+    ClientBuffer *bufferRef = nullptr;
     bool mapped = false;
     bool hasCacheState = false;
     qreal scaleOverride = 1.;

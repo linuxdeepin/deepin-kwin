@@ -42,18 +42,17 @@ public:
     QList<QByteArray> m_clientWhitelists;
     QList<int32_t> m_protectedWindowIdLists;
 
-protected:
+private:
     // void bind(wl_client *client, uint32_t version, uint32_t id) override;
-    void dde_restrict_switch_screencast(Resource *resource, uint32_t switch_flag) override;
-    void dde_restrict_client_whitelist(Resource *resource, const QString &whitelists) override;
-    void dde_restrict_set_protected_window(Resource *resource, int32_t window) override;
-    void dde_restrict_remove_protected_window(Resource *resource, int32_t window) override;
+    void dde_restrict_switch_screencast(Resource *resource, uint32_t switch_flag);
+    void dde_restrict_client_whitelist(Resource *resource, const char *white_str);
+    void dde_restrict_set_protected_window(Resource *resource, int32_t window);
+    void dde_restrict_remove_protected_window(Resource *resource, int32_t window);
     // void unbind(wl_resource *resource);
     // Private *cast(wl_resource *r) {
     //     return reinterpret_cast<Private*>(wl_resource_get_user_data(r));
     // }
 
-private:
     DDERestrictInterface *q;
     static const struct dde_restrict_interface s_interface;
     static const quint32 s_version;
@@ -89,14 +88,14 @@ DDERestrictInterfacePrivate::DDERestrictInterfacePrivate(DDERestrictInterface *q
 //     return reinterpret_cast<Private*>(d.data());
 // }
 
-void DDERestrictInterfacePrivate::dde_restrict_client_whitelist(Resource *resource, const QString &whitelists)
+void DDERestrictInterfacePrivate::dde_restrict_client_whitelist(Resource *resource, const char *white_str)
 {
     Q_UNUSED(resource);
 
-    if (whitelists.isNull())
+    if (white_str == nullptr)
         return;
 
-    QByteArray byte = whitelists.toUtf8();
+    QByteArray byte(white_str);
     QList<QByteArray> white_lists;
 
     if (byte.contains(","))

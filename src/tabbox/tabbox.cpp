@@ -551,10 +551,10 @@ static constexpr const auto s_desktopListRev = kli18n("Walk Through Desktop List
 
 void TabBox::initShortcuts()
 {
-    key(s_windows, &TabBox::slotWalkThroughWindows, QKeySequence(Qt::ALT, Qt::Key_Tab));
-    key(s_windowsRev, &TabBox::slotWalkBackThroughWindows, QKeySequence(Qt::ALT, Qt::SHIFT, Qt::Key_Backtab));
-    key(s_app, &TabBox::slotWalkThroughCurrentAppWindows, QKeySequence(Qt::ALT, Qt::Key_QuoteLeft));
-    key(s_appRev, &TabBox::slotWalkBackThroughCurrentAppWindows, QKeySequence(Qt::ALT, Qt::Key_AsciiTilde));
+    key(s_windows, &TabBox::slotWalkThroughWindows, Qt::ALT | Qt::Key_Tab);
+    key(s_windowsRev, &TabBox::slotWalkBackThroughWindows, Qt::ALT | Qt::SHIFT | Qt::Key_Backtab);
+    key(s_app, &TabBox::slotWalkThroughCurrentAppWindows, Qt::ALT | Qt::Key_QuoteLeft);
+    key(s_appRev, &TabBox::slotWalkBackThroughCurrentAppWindows, Qt::ALT | Qt::Key_AsciiTilde);
     key(s_windowsAlt, &TabBox::slotWalkThroughWindowsAlternative);
     key(s_windowsAltRev, &TabBox::slotWalkBackThroughWindowsAlternative);
     key(s_appAlt, &TabBox::slotWalkThroughCurrentAppWindowsAlternative);
@@ -1382,7 +1382,7 @@ void TabBox::keyPress(int keyQt)
     // tests whether a shortcut matches and handles pitfalls on ShiftKey invocation
     auto directionFor = [keyQt, contains, mods](const QKeySequence &forward, const QKeySequence &backward) -> TabBoxConfig::TabBoxSwitchPosition {
         if (contains(forward, keyQt)) {
-            return TabBoxConfig::Forward;
+            TabBoxConfig::Forward;
         }
         if (contains(backward, keyQt)) {
             return TabBoxConfig::Backward;

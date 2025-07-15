@@ -254,9 +254,6 @@ void ItemRendererOpenGL::renderItem(Item *item, int mask, const QRegion &region,
     }
 
     RenderContext renderContext{
-        .renderNodes = {},
-        .transformStack = {},
-        .opacityStack = {},
         .clip = region,
         .hardwareClipping = region != infiniteRegion() && ((mask & Scene::PAINT_WINDOW_TRANSFORMED) || (mask & Scene::PAINT_SCREEN_TRANSFORMED)),
         .renderTargetScale = data.renderTargetScale().value_or(renderTargetScale()),

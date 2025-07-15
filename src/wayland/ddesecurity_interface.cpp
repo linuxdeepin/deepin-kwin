@@ -197,7 +197,7 @@ bool DDESecuritySessionInterfacePrivate::sendVerifySecurity(uint32_t types, uint
     if (!resource()) {
         return false;
     }
-    if ((types & support_types) != types) {
+    if (types & support_types != types) {
         return false;
         qDebug() << "The session cat not support this types " << ((types ^ support_types) & types);
     }
@@ -226,3 +226,5 @@ bool DDESecuritySessionInterface::sendVerifySecurity(uint32_t types, uint32_t cl
 }
 
 }
+
+#include "ddesecurity_interface.moc"

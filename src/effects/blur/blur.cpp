@@ -197,31 +197,14 @@ void BlurEffect::initBlurStrengthValues()
     }
 }
 
-void BlurEffect::reconfigure(ReconfigureFlags [[maybe_unused]] flags)
+void BlurEffect::reconfigure(ReconfigureFlags flags)
 {
     BlurConfig::self()->read();
 
     int blurStrength = BlurConfig::blurStrength() - 1;
-    // Add bounds checking to prevent array out-of-bounds access
-    if (blurStrength < 0 || blurStrength >= blurStrengthValues.size()) {
-        qCWarning(KWIN_BLUR) << "Invalid blur strength value:" << (blurStrength + 1) << "using default";
-        blurStrength = std::max(0, std::min(blurStrengthValues.size() - 1, 0));
-    }
-
     m_iterationCount = blurStrengthValues[blurStrength].iteration;
     m_offset = blurStrengthValues[blurStrength].offset;
-
-    // Add bounds checking for blurOffsets access
-    if (m_iterationCount > 0 && m_iterationCount <= blurOffsets.size()) {
-        m_expandSize = blurOffsets[m_iterationCount - 1].expandSize;
-    } else {
-        qCWarning(KWIN_BLUR) << "Invalid iteration count:" << m_iterationCount << "using default expand size";
-        // Use 10 as fallback - this is the smallest expandSize value from blurOffsets array
-        // (corresponds to the lightest blur setting: Down sample size / 2)
-        // This ensures blur effect remains functional even with invalid configuration
-        m_expandSize = 10;
-    }
-
+    m_expandSize = blurOffsets[m_iterationCount - 1].expandSize;
     m_noiseStrength = BlurConfig::noiseStrength();
 
     // Update all windows for the blur to take effect
@@ -240,9 +223,9 @@ void BlurEffect::updateBlurRegion(EffectWindow *w)
             for (unsigned int i = 0; i < value.size() / sizeof(uint32_t);) {
                 int x = cardinals[i++];
                 int y = cardinals[i++];
-                int width = cardinals[i++];
-                int height = cardinals[i++];
-                region += Xcb::fromXNative(QRect(x, y, width, height)).toRect();
+                int w = cardinals[i++];
+                int h = cardinals[i++];
+                region += Xcb::fromXNative(QRect(x, y, w, h)).toRect();
             }
         }
         valid = !value.isNull();
@@ -511,7 +494,7 @@ GLTexture *BlurEffect::ensureNoiseTexture()
     const qreal scale = std::max(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
     if (!m_noisePass.noiseTexture || m_noisePass.noiseTextureScale != scale || m_noisePass.noiseTextureStength != m_noiseStrength) {
         // Init randomness based on time
-        std::srand(static_cast<unsigned int>(QTime::currentTime().msec()));
+        std::srand((uint)QTime::currentTime().msec());
 
         QImage noiseImage(QSize(256, 256), QImage::Format_Grayscale8);
 

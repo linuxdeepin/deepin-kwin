@@ -55,7 +55,7 @@ bool SlideEffect::supported()
     return effects->animationsSupported();
 }
 
-void SlideEffect::reconfigure(ReconfigureFlags [[maybe_unused]] flags)
+void SlideEffect::reconfigure(ReconfigureFlags)
 {
     SlideConfig::self()->read();
 

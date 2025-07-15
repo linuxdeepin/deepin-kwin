@@ -39,6 +39,7 @@ namespace KWin
 #define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
 
 static EGLContext s_globalShareContext = EGL_NO_CONTEXT;
+PFNEGLSETDAMAGEREGIONKHRPROC eglSetDamageRegionKHR = nullptr;
 
 static bool isOpenGLES_helper()
 {
@@ -194,6 +195,20 @@ void AbstractEglBackend::initBufferAge()
         if (usePartialUpdate != "0" && partialUpdate) {
             setSupportsPartialUpdate(true);
         }
+    }
+
+    setSupportsHUAWEIPartialUpdate(hasExtension(QByteArrayLiteral("EGL_HUAWEI_partial_update")));
+    setSupportsSwapBuffersWithDamage(hasExtension(QByteArrayLiteral("EGL_KHR_swap_buffers_with_damage")));
+
+    if (supportsHUAWEIPartialUpdate()) {
+        eglSetDamageRegionKHR = (PFNEGLSETDAMAGEREGIONKHRPROC)eglGetProcAddress("eglSetDamageRegionHUAWEI");
+    } else if (supportsPartialUpdate()) {
+        eglSetDamageRegionKHR = (PFNEGLSETDAMAGEREGIONKHRPROC)eglGetProcAddress("eglSetDamageRegionKHR");
+    }
+    if (eglSetDamageRegionKHR == nullptr) {
+        setSupportsSwapBuffersWithDamage(hasExtension(QByteArrayLiteral("EGL_EXT_swap_buffers_with_damage")));
+        qWarning() << "Failed to get eglSetDamageRegionKHR address.";
+        return;
     }
 }
 

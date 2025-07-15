@@ -61,6 +61,10 @@ SurfaceInterfacePrivate::~SurfaceInterfacePrivate()
     wl_resource_for_each_safe (resource, tmp, &cached.frameCallbacks) {
         wl_resource_destroy(resource);
     }
+
+    if (current.buffer) {
+        current.buffer->unref();
+    }
 }
 
 void SurfaceInterfacePrivate::addChild(SubSurfaceInterface *child)
@@ -577,7 +581,18 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
         confinedPointerPrivate->commit();
     }
 
-    bufferRef = current.buffer;
+    if (bufferRef != current.buffer) {
+        if (bufferRef) {
+            bufferRef->unref();
+        }
+        bufferRef = current.buffer;
+        if (bufferRef) {
+            bufferRef->ref();
+            if (isSkipBuffer) {
+                bufferRef->sendRelease();
+            }
+        }
+    }
 
     // TODO: Refactor the state management code because it gets more clumsy.
     if (current.buffer) {
@@ -799,7 +814,7 @@ KWin::Output::Transform SurfaceInterface::bufferTransform() const
 
 ClientBuffer *SurfaceInterface::buffer() const
 {
-    return d->bufferRef.buffer();
+    return d->bufferRef;
 }
 
 QPoint SurfaceInterface::offset() const

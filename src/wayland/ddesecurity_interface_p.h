@@ -38,7 +38,7 @@ public:
     DDESecurityInterface *q;
     Display *display;
 
-protected:
+private:
     // interfaces
     void dde_security_get_session(Resource *resource, uint32_t id, uint32_t types) override;
     void dde_security_get_ace_clients(Resource *resource, uint32_t pid) override;
@@ -59,12 +59,11 @@ public:
 
     QMetaObject::Connection destroyConnection;
 
-protected:
-    void security_session_destroy(Resource *resource) override;
-    void security_session_report_security(Resource *resource, uint32_t types, uint32_t permission, uint32_t serial) override;
-
 private:
     void reportSecurity(wl_client *client, wl_resource *resource, uint32_t types, uint32_t permission, uint32_t serial);
+
+    void security_session_destroy(Resource *resource);
+    void security_session_report_security(Resource *resource, uint32_t types, uint32_t permission, uint32_t serial);
 
     static const struct security_session_interface s_interface;
     uint32_t support_types;

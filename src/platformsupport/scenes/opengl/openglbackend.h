@@ -79,9 +79,19 @@ public:
         return m_haveBufferAge || m_havePartialUpdate;
     }
 
+    bool supportsHUAWEIPartialUpdate() const
+    {
+        return m_haveHUAWEIPartialUpdate;
+    }
+
     bool supportsPartialUpdate() const
     {
         return m_havePartialUpdate;
+    }
+
+    bool supportsSwapBuffersWithDamage() const
+    {
+        return m_haveSwapBuffersWithDamage;
     }
 
     bool supportsNativeFence() const
@@ -143,9 +153,19 @@ protected:
         m_haveBufferAge = value;
     }
 
+    void setSupportsHUAWEIPartialUpdate(bool value)
+    {
+        m_haveHUAWEIPartialUpdate = value;
+    }
+
     void setSupportsPartialUpdate(bool value)
     {
         m_havePartialUpdate = value;
+    }
+
+    void setSupportsSwapBuffersWithDamage(bool value)
+    {
+        m_haveSwapBuffersWithDamage = value;
     }
 
     void setSupportsNativeFence(bool value)
@@ -175,7 +195,9 @@ private:
     /**
      * @brief Whether the backend supports EGL_KHR_partial_update
      */
+    bool m_haveHUAWEIPartialUpdate = false;
     bool m_havePartialUpdate = false;
+    bool m_haveSwapBuffersWithDamage = false;
     /**
      * @brief Whether the backend supports EGL_ANDROID_native_fence_sync.
      */

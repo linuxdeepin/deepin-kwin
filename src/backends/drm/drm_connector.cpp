@@ -448,7 +448,6 @@ std::shared_ptr<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, 
         .hsync_start = modeInfo->hsync_start,
         .hsync_end = modeInfo->hsync_end,
         .htotal = modeInfo->htotal,
-        .hskew = 0,
         .vdisplay = uint16_t(modeInfo->vdisplay),
         .vsync_start = modeInfo->vsync_start,
         .vsync_end = modeInfo->vsync_end,
@@ -457,7 +456,6 @@ std::shared_ptr<DrmConnectorMode> DrmConnector::generateMode(const QSize &size, 
         .vrefresh = static_cast<uint32_t>(std::ceil(modeInfo->vrefresh)),
         .flags = modeInfo->mode_flags,
         .type = DRM_MODE_TYPE_USERDEF,
-        .name = {},
     };
 
     sprintf(mode.name, "%dx%d@%d", size.width(), size.height(), mode.vrefresh);
