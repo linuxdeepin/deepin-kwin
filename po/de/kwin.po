@@ -912,7 +912,7 @@ msgstr "Eingabegeräte"
 #: debug_console.ui:96
 #, kde-format
 msgid "OpenGL"
-msgstr ""
+msgstr "OpenGL"
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
 #: debug_console.ui:102
