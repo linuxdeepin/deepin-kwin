@@ -386,13 +386,13 @@ msgstr ""
 #, kde-format
 msgctxt "Whether the event is an automatic key repeat"
 msgid "Repeat"
-msgstr ""
+msgstr "Wiederholen"
 
 #: debug_console.cpp:307
 #, kde-format
 msgctxt "The code as read from the input device"
 msgid "Scan code"
-msgstr ""
+msgstr "Code Scannen"
 
 #: debug_console.cpp:308
 #, kde-format
@@ -604,17 +604,17 @@ msgstr ""
 #: debug_console.cpp:512
 #, kde-format
 msgid "Tilt"
-msgstr ""
+msgstr "Kippen"
 
 #: debug_console.cpp:514
 #, kde-format
 msgid "Rotation"
-msgstr ""
+msgstr "Drehung"
 
 #: debug_console.cpp:515
 #, kde-format
 msgid "Pressure"
-msgstr ""
+msgstr "ruck"
 
 #: debug_console.cpp:516
 #, kde-format
@@ -682,31 +682,31 @@ msgstr ""
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
-msgstr ""
+msgstr "links"
 
 #: debug_console.cpp:804
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
-msgstr ""
+msgstr "rechts"
 
 #: debug_console.cpp:807
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
-msgstr ""
+msgstr "mittel"
 
 #: debug_console.cpp:810
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
-msgstr ""
+msgstr "zurück"
 
 #: debug_console.cpp:813
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
-msgstr ""
+msgstr "vor"
 
 #: debug_console.cpp:816
 #, kde-format
@@ -856,7 +856,7 @@ msgstr ""
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
-msgstr ""
+msgstr "Aufgabe"
 
 #: debug_console.cpp:1222
 #, kde-format
@@ -871,42 +871,42 @@ msgstr ""
 #: debug_console.cpp:1226
 #, kde-format
 msgid "Wayland Windows"
-msgstr ""
+msgstr "Wayland-Fenter"
 
 #: debug_console.cpp:1228
 #, kde-format
 msgid "Internal Windows"
-msgstr ""
+msgstr "Interne Fesnter"
 
 #. i18n: ectx: property (text), widget (QPushButton, quitButton)
 #: debug_console.ui:32
 #, kde-format
 msgid "Quit Debug Console"
-msgstr ""
+msgstr "Fehler-Konsole schliessen"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
 #: debug_console.ui:45
 #, kde-format
 msgid "Windows"
-msgstr ""
+msgstr "Fenster"
 
 #. i18n: ectx: attribute (title), widget (QWidget, surfaces)
 #: debug_console.ui:59
 #, kde-format
 msgid "Surfaces"
-msgstr ""
+msgstr "Oberflächen"
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
 #: debug_console.ui:69
 #, kde-format
 msgid "Input Events"
-msgstr ""
+msgstr "Eingabe-Ereignisse"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
 #: debug_console.ui:86
 #, kde-format
 msgid "Input Devices"
-msgstr ""
+msgstr "Eingabegeräte"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: debug_console.ui:96
