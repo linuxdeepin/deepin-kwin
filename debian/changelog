@@ -1,3 +1,13 @@
+deepin-kwin (4:6.0.11) unstable; urgency=medium
+
+  * chore: update translation file references
+  * Updates for project deepin kwin (#369)
+  * docs: fix plural forms header in Icelandic translation (#368)
+  * i18n：Updates for project kwin (#367)
+  * chore: configure transifex translation files
+
+ -- rewine <luhongxu@uniontech.com>  Tue, 15 Jul 2025 10:44:48 +0800
+
 deepin-kwin (4:6.0.10) unstable; urgency=medium
 
   * Updates for project Kwin (#371)
