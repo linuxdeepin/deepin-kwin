@@ -1360,31 +1360,32 @@ msgstr "Renderuj przez tryb drm."
 msgid ""
 "Extract locale information from locale1 rather than the user's configuration"
 msgstr ""
+"Wydobądź informacje językowe z locale1 zamiast konfiguracji użytkownika."
 
 #: main_wayland.cpp:386
 #, kde-format
 msgid "Input method that KWin starts."
-msgstr ""
+msgstr "Metoda wprowadzania uruchamiana przez KWin."
 
 #: main_wayland.cpp:392
 #, kde-format
 msgid "Starts the session in locked mode."
-msgstr ""
+msgstr "Uruchamia sesję w trybie zablokowanym."
 
 #: main_wayland.cpp:396
 #, kde-format
 msgid "Starts the session without lock screen support."
-msgstr ""
+msgstr "Uruchamia sesję bez wsparcia ekranu blokady."
 
 #: main_wayland.cpp:401
 #, kde-format
 msgid "Starts the session without global shortcuts support."
-msgstr ""
+msgstr "Uruchamia sesję bez wsparcia globalnych skrótów klawiszowych."
 
 #: main_wayland.cpp:406 main_x11.cpp:418
 #, kde-format
 msgid "Disable KActivities integration."
-msgstr ""
+msgstr "Wyłącz integrację KActivities."
 
 #: main_wayland.cpp:411
 #, kde-format
