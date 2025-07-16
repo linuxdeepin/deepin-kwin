@@ -1421,12 +1421,12 @@ msgstr ""
 #: main_x11.cpp:280
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
-msgstr ""
+msgstr "kwin: inny menedżer okien jest w użyciu (spróbuj z --replace)\n"
 
 #: main_x11.cpp:411
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
-msgstr ""
+msgstr "Zastąp już włączony ICCCM2.0-compliant menedżer okien"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:49
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:51
@@ -1489,14 +1489,14 @@ msgstr "cień"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep above"
-msgstr ""
+msgstr "zachowaj na górze"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:76
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:78
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep below"
-msgstr ""
+msgstr "zachowaj na dole"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:83
 #, kde-format
@@ -1526,108 +1526,108 @@ msgstr "pulpit"
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:255
 #, kde-format
 msgid "Switch to desktop %1"
-msgstr ""
+msgstr "Przełącz na pulpit %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:296
 #, kde-format
 msgid "Close running window on %1"
-msgstr ""
+msgstr "Zamknij działające okno na %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:299
 #, kde-format
 msgid "(Un)minimize running window on %1"
-msgstr ""
+msgstr "(Od)minimalizuj działające okno na %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:302
 #, kde-format
 msgid "Maximize/restore running window on %1"
-msgstr ""
+msgstr "Maksymalizuj/przywróć działające okno na %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:305
 #, kde-format
 msgid "Toggle fullscreen for running window on %1"
-msgstr ""
+msgstr "Przełącz pełny ekran dla działającego okna na %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:308
 #, kde-format
 msgid "(Un)shade running window on %1"
-msgstr ""
+msgstr "(Od)zaciemnij działające okno na %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:311
 #, kde-format
 msgid "Toggle keep above for running window on %1"
-msgstr ""
+msgstr "Przełącz zachowaj na górze działające okno na %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:314
 #, kde-format
 msgid "Toggle keep below running window on %1"
-msgstr ""
+msgstr "Przełącz zachowaj na dole działające okno na %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:318
 #, kde-format
 msgid "Activate running window on %1"
-msgstr ""
+msgstr "Aktywuj działające okno na %1"
 
 #: plugins/nightcolor/nightcolormanager.cpp:63
 #, kde-format
 msgctxt "Night Color was disabled"
 msgid "Night Color Off"
-msgstr ""
+msgstr "Nocne kolory wyłączone"
 
 #: plugins/nightcolor/nightcolormanager.cpp:64
 #, kde-format
 msgctxt "Night Color was enabled"
 msgid "Night Color On"
-msgstr ""
+msgstr "Nocne kolory włączone"
 
 #: plugins/nightcolor/nightcolormanager.cpp:84
 #: plugins/nightcolor/nightcolormanager.cpp:87
 #: plugins/nightcolor/nightcolormanager.cpp:94
 #, kde-format
 msgid "Toggle Night Color"
-msgstr ""
+msgstr "Przełącz Nocne kolory"
 
 #: plugins/nightcolor/nightcolormanager.cpp:471
 #, kde-format
 msgid "Color Temperature Preview"
-msgstr ""
+msgstr "Podgląd temperatury koloru"
 
 #. i18n: ectx: label, entry (count), group (General)
 #: rulebooksettingsbase.kcfg:9
 #, kde-format
 msgid "Total rules count (legacy)"
-msgstr ""
+msgstr "Całkowity licznik reguł (przestarzałe)"
 
 #. i18n: ectx: label, entry (ruleGroupList), group (General)
 #: rulebooksettingsbase.kcfg:13
 #, kde-format
 msgid "Ordered list of rules groups"
-msgstr ""
+msgstr "Uporządkowana lista grup reguł"
 
 #. i18n: ectx: label, entry (description), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:10
 #, kde-format
 msgid "Rule description"
-msgstr ""
+msgstr "Opis reguły"
 
 #. i18n: ectx: label, entry (descriptionLegacy), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
-msgstr ""
+msgstr "Opis reguły (przestarzałe)"
 
 #. i18n: ectx: label, entry (DeleteRule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:16
 #, kde-format
 msgid "Delete this rule (for use in imports)"
-msgstr ""
+msgstr "Usuń tę regułę (podczas importowania)"
 
 #. i18n: ectx: label, entry (wmclass), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:20
 #, kde-format
 msgid "Window class (application)"
-msgstr ""
+msgstr "Klasa okna (aplikacja)"
 
 #. i18n: ectx: label, entry (wmclassmatch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:23
