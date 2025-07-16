@@ -1279,32 +1279,33 @@ msgstr ""
 #: main_wayland.cpp:319
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr ""
+msgstr "Wyświetlacz X11 do użycia w trybie okienkowym na platformie X11."
 
 #: main_wayland.cpp:322
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
+"Wyświetlacz Wayland do użycia w trybie okienkowym na platformie Wayland."
 
 #: main_wayland.cpp:324
 #, kde-format
 msgid "Render to a virtual framebuffer."
-msgstr ""
+msgstr "Renderuj do wirtualnego framebuffera."
 
 #: main_wayland.cpp:326
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
-msgstr ""
+msgstr "Szerokość trybu okienkowego. Domyślna szerokość to 1024."
 
 #: main_wayland.cpp:330
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
-msgstr ""
+msgstr "Wysokość trybu okienkowego. Domyślna wysokość to 768."
 
 #: main_wayland.cpp:335
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
-msgstr ""
+msgstr "Skala trybu okienkowego. Domyślna wartość to 1."
 
 #: main_wayland.cpp:340
 #, kde-format
@@ -1312,6 +1313,8 @@ msgid ""
 "The number of windows to open as outputs in windowed mode. Default value is "
 "1"
 msgstr ""
+"Liczba okien, które mają zostać otwarte jako wyjścia w trybie okienkowym. "
+"Wartość domyślna to 1."
 
 #: main_wayland.cpp:345
 #, kde-format
@@ -1319,6 +1322,8 @@ msgid ""
 "Wayland socket to use for incoming connections. This can be combined with "
 "--socket to name the socket"
 msgstr ""
+"Gniazdo Wayland dla połączeń przychodzących. Można to połączyć z opcją "
+"--socket, aby nadać nazwę gniazdu."
 
 #: main_wayland.cpp:349
 #, kde-format
@@ -1326,26 +1331,29 @@ msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr ""
+"Gniazdo XWayland używane do połączeń przychodzących Xwayland. Można je "
+"ustawić wielokrotnie."
 
 #: main_wayland.cpp:353
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
-msgstr ""
+msgstr "Nazwa wyświetlacza Xwayland, które zostało wstępnie ustawione"
 
 #: main_wayland.cpp:357
 #, kde-format
 msgid "Name of the xauthority file "
-msgstr ""
+msgstr "Nazwa pliku xauthority "
 
 #: main_wayland.cpp:361
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr ""
+"Zamyka instancje, aby móc ją uruchomić ponownie przez kwin_wayland_wrapper."
 
 #: main_wayland.cpp:363
 #, kde-format
 msgid "Render through drm node."
-msgstr ""
+msgstr "Renderuj przez tryb drm."
 
 #: main_wayland.cpp:364
 #, kde-format
