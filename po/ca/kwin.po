@@ -3171,38 +3171,42 @@ msgstr ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
 #~ "compiled."
 #~ msgstr ""
+#~ "Les extensions XRender / XFixes no estan disponibles i només s'ha compilat "
+#~ "la compatibilitat amb XRender."
 
 #~ msgid ""
 #~ "Compositing was disabled at compile time.\n"
 #~ "It is likely Xorg development headers were not installed."
 #~ msgstr ""
+#~ "La composició s'ha desactivat al moment de la compilació.\n"
+#~ "És probable que les capçaleres de desenvolupament de Xorg no estiguessin instal·lades."
 
 #~ msgid "Tiling"
-#~ msgstr ""
+#~ msgstr "Mosaic"
 
 #~ msgid "Enable/Disable Tiling"
-#~ msgstr ""
+#~ msgstr "Activa / desactiva el mosaic"
 
 #~ msgid "Toggle Floating"
-#~ msgstr ""
+#~ msgstr "Commuta la flotació"
 
 #~ msgid "Switch Focus Left"
-#~ msgstr ""
+#~ msgstr "Canvia el focus a l'esquerra"
 
 #~ msgid "Switch Focus Right"
-#~ msgstr ""
+#~ msgstr "Canvia el focus a la dreta"
 
 #~ msgid "Switch Focus Up"
-#~ msgstr ""
+#~ msgstr "Canvia el focus amunt"
 
 #~ msgid "Switch Focus Down"
-#~ msgstr ""
+#~ msgstr "Canvia el focus avall"
 
 #~ msgid "Tiling Disabled"
-#~ msgstr ""
+#~ msgstr "Mosaic inhabilitat"
 
 #~ msgid "Tiling Enabled"
-#~ msgstr ""
+#~ msgstr "Mosaic habilitat"
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
