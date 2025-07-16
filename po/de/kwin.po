@@ -39,6 +39,8 @@ msgstr ""
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
+"Schreibtischeffekte wurden neu gestartet aufgrund einer Grafik-"
+"Zurückstellung"
 
 #: composite.cpp:875
 #, kde-format
@@ -46,6 +48,8 @@ msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr ""
+"Schreibtischeffekte wurden durch ein anderes Programm abgeschalten. Sie "
+"können fortfahren mit dem '%1'-Tastenkürzel"
 
 #: composite.cpp:1064
 #, kde-format
@@ -61,11 +65,12 @@ msgstr ""
 #, kde-format
 msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr ""
+"Benötigte X-Erweiterungen (XComposite und XDamage) sind nicht verfügbar."
 
 #: composite.cpp:1074
 #, kde-format
 msgid "GLX/OpenGL is not available."
-msgstr ""
+msgstr "GLX/OpenGL ist nicht verfügbar."
 
 #: debug_console.cpp:79 debug_console.cpp:84
 #, kde-format
@@ -458,7 +463,7 @@ msgstr ""
 #, kde-format
 msgctxt "Number of fingers in this pinch gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Fingerzahl"
 
 #: debug_console.cpp:380
 #, kde-format
@@ -476,7 +481,7 @@ msgstr ""
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
-msgstr ""
+msgstr "Winkel-Delta"
 
 #: debug_console.cpp:384
 #, kde-format
@@ -512,7 +517,7 @@ msgstr ""
 #, kde-format
 msgctxt "Number of fingers in this swipe gesture"
 msgid "Finger count"
-msgstr ""
+msgstr "Fingerzahl"
 
 #: debug_console.cpp:433
 #, kde-format
