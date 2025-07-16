@@ -1197,6 +1197,8 @@ msgid ""
 "Select window to force close with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
+"Wybierz okno do wymuszenia zakończenia enterem lub lewym myszki \n"
+"Escape lub prawy myszki, aby anulować."
 
 #: main.cpp:179
 #, kde-format
@@ -1206,72 +1208,73 @@ msgstr "KWin"
 #: main.cpp:181 main.cpp:204
 #, kde-format
 msgid "KDE window manager"
-msgstr ""
+msgstr "KDE window manager"
 
 #: main.cpp:183
 #, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
-msgstr ""
+msgstr "(c) 1999-2019, The KDE Developers"
 
 #: main.cpp:185
 #, kde-format
 msgid "Matthias Ettrich"
-msgstr ""
+msgstr "Matthias Ettrich"
 
 #: main.cpp:186
 #, kde-format
 msgid "Cristian Tibirna"
-msgstr ""
+msgstr "Cristian Tibirna"
 
 #: main.cpp:187
 #, kde-format
 msgid "Daniel M. Duley"
-msgstr ""
+msgstr "Daniel M. Duley"
 
 #: main.cpp:188
 #, kde-format
 msgid "Luboš Luňák"
-msgstr ""
+msgstr "Luboš Luňák"
 
 #: main.cpp:189
 #, kde-format
 msgid "Martin Flöser"
-msgstr ""
+msgstr "Martin Flöser"
 
 #: main.cpp:190
 #, kde-format
 msgid "David Edmundson"
-msgstr ""
+msgstr "David Edmundson"
 
 #: main.cpp:191
 #, kde-format
 msgid "Roman Gilg"
-msgstr ""
+msgstr "Roman Gilg"
 
 #: main.cpp:192
 #, kde-format
 msgid "Vlad Zahorodnii"
-msgstr ""
+msgstr "Vlad Zahorodnii"
 
 #: main.cpp:201
 #, kde-format
 msgid "Disable configuration options"
-msgstr ""
+msgstr "Wyłącz opcje konfiguracyjne"
 
 #: main.cpp:202
 #, kde-format
 msgid "Indicate that KWin has recently crashed n times"
-msgstr ""
+msgstr "Wskaż, że Kwin uległ awarii n razy"
 
 #: main_wayland.cpp:314
 #, kde-format
 msgid "Start a rootless Xwayland server."
-msgstr ""
+msgstr "Uruchom rootless serwer Xwayland."
 
 #: main_wayland.cpp:316
 #, kde-format
 msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
+"Nazwa gniazda Wayland, które ma być nasłuchiwane. Domyślnie \"wayland-0\"."
 
 #: main_wayland.cpp:319
 #, kde-format
