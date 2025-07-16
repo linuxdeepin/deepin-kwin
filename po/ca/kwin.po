@@ -3389,34 +3389,36 @@ msgstr ""
 #~ msgstr "Restaura"
 
 #~ msgid "Do not keep above others"
-#~ msgstr "No ho mantinguis per sobre d'altres"
+#~ msgstr "No ho mantinguis per damunt d'altres"
 
 #~ msgid "Do not keep below others"
-#~ msgstr ""
+#~ msgstr "No ho mantinguis per sota d'altres"
 
 #~ msgid "No window decoration plugin library was found."
 #~ msgstr ""
+#~ "No s'ha trobat cap biblioteca de complements de decoració de finestres."
 
 #~ msgid "The default decoration plugin is corrupt and could not be loaded."
 #~ msgstr ""
+#~ "El connector de decoració per defecte està malmès i no s'ha pogut carregar."
 
 #~ msgid "The library %1 is not a KWin plugin."
-#~ msgstr ""
+#~ msgstr "La biblioteca %1 no és un complement del KWin."
 
 #~ msgid "Window Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Captura de pantalla de la finestra al porta-retalls"
 
 #~ msgid "Desktop Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Captura de pantalla de l'escriptori al porta-retalls"
 
 #~ msgid "Toggle Tiling"
-#~ msgstr ""
+#~ msgstr "Commuta el mosaic"
 
 #~ msgid "Increase Ratio"
-#~ msgstr ""
+#~ msgstr "Augmenta la ràtio"
 
 #~ msgid "Decrease Ratio"
-#~ msgstr ""
+#~ msgstr "Redueix la ràtio"
 
 #~ msgid "Move Left"
 #~ msgstr "Mou a l'esquerra"
@@ -3431,25 +3433,25 @@ msgstr ""
 #~ msgstr "Mou avall"
 
 #~ msgid "Test Dump tiles"
-#~ msgstr ""
+#~ msgstr "Mosaic de prova"
 
 #~ msgid "Test Below Cursor"
-#~ msgstr ""
+#~ msgstr "Prova sota el cursor"
 
 #~ msgid "Walk Through Grouped Windows"
-#~ msgstr ""
+#~ msgstr "Passeig per finestres agrupades"
 
 #~ msgid "Walk Through Grouped Windows (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig per finestres agrupades (invers)"
 
 #~ msgid "Switch to group window"
-#~ msgstr ""
+#~ msgstr "Canvia a la finestra del grup"
 
 #~ msgid "kwin: failure during initialization; aborting"
-#~ msgstr ""
+#~ msgstr "kwiv: error durant l'inici; s'avorta"
 
 #~ msgid "Terminate"
-#~ msgstr ""
+#~ msgstr "Acaba"
 
 #~ msgid "Keep Running"
 #~ msgstr ""
