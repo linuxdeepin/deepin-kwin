@@ -3454,7 +3454,7 @@ msgstr ""
 #~ msgstr "Acaba"
 
 #~ msgid "Keep Running"
-#~ msgstr ""
+#~ msgstr "Mantén l'execució"
 
 #~ msgid "Top"
 #~ msgstr "A dalt"
@@ -3482,52 +3482,54 @@ msgstr ""
 #~ "%1"
 
 #~ msgid "Snow"
-#~ msgstr ""
+#~ msgstr "Neu"
 
 #~ msgid "Toggle Snow on Desktop"
-#~ msgstr ""
+#~ msgstr "Commuta la neu a l'escriptori"
 
 #~ msgid "Toggle Thumbnail for Current Window"
 #~ msgstr "Commuta la miniatura per a la finestra actual"
 
 #~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
 #~ msgstr ""
+#~ "Mantingueu premudes les tecles Ctrl+Meta per veure on és el cursor del "
+#~ "ratolí."
 
 #~ msgid "Path to save video:"
-#~ msgstr ""
+#~ msgstr "Camí per desar-hi el vídeo:"
 
 #~ msgid "None"
 #~ msgstr "Cap"
 
 #~ msgid "X offset:"
-#~ msgstr ""
+#~ msgstr "Desplaçament X:"
 
 #~ msgid "Y offset:"
-#~ msgstr ""
+#~ msgstr "Desplaçament Y:"
 
 #~ msgid "Shadow opacity:"
-#~ msgstr ""
+#~ msgstr "Opacitat de l'ombra:"
 
 #~ msgid "Shadow fuzziness:"
-#~ msgstr ""
+#~ msgstr "Borrositat de l'ombra:"
 
 #~ msgid "Shadow size (relative to window):"
-#~ msgstr ""
+#~ msgstr "Mida de l'ombra (relativa a la finestra):"
 
 #~ msgid "Shadow color:"
-#~ msgstr ""
+#~ msgstr "Color de l'ombra:"
 
 #~ msgid "Active window has stronger shadow"
-#~ msgstr ""
+#~ msgstr "La finestra activa té una ombra més forta."
 
 #~ msgid "Toggle Expose Effect"
-#~ msgstr ""
+#~ msgstr "Commuta l'efecte d'exposició"
 
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
-#~ msgstr ""
+#~ msgstr "Commuta l'efecte d'exposició (inclosos altres escriptoris)"
 
 #~ msgid "Draw window caption on top of window"
-#~ msgstr ""
+#~ msgstr "Dibuixa el títol de la finestra a la part superior de la finestra"
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
 #~ msgstr ""
