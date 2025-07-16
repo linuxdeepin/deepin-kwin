@@ -3105,7 +3105,7 @@ msgstr ""
 #~ msgstr "Finestres i escriptori"
 
 #~ msgid "Miscellaneous"
-#~ msgstr ""
+#~ msgstr "Diversos"
 
 #~ msgid "Desktop Switching"
 #~ msgstr "Canvi d'escriptori"
@@ -3114,6 +3114,8 @@ msgstr ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
 #~ "started.\n"
 #~ msgstr ""
+#~ "kwiv: sembla que ja hi ha un gestor de finestres en execució. No s'ha "
+#~ "iniciat kwiv.\n"
 
 #~ msgid ""
 #~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
@@ -3123,47 +3125,47 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Window '%1' demands attention."
-#~ msgstr ""
+#~ msgstr "La finestra %1 requereix atenció."
 
 #~ msgid "Layout changed to %1"
-#~ msgstr ""
+#~ msgstr "La disposició ha canviat a %1"
 
 #~ msgctxt "Spiral tiling layout"
 #~ msgid "Spiral"
-#~ msgstr ""
+#~ msgstr "Espiral"
 
 #~ msgctxt "Two-column horizontal tiling layout"
 #~ msgid "Columns"
-#~ msgstr ""
+#~ msgstr "Columnes"
 
 #~ msgctxt "Floating layout, windows aren't tiled at all"
 #~ msgid "Floating"
-#~ msgstr ""
+#~ msgstr "Flotar"
 
 #~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
 #~ msgid "&Float Window"
-#~ msgstr ""
+#~ msgstr "Finestra &flotant"
 
 #~ msgid "Ad&vanced"
-#~ msgstr ""
+#~ msgstr "A&vançat"
 
 #~ msgid "*** No Windows ***"
-#~ msgstr ""
+#~ msgstr "*** Sense finestres ***"
 
 #~ msgid "Load the script testing dialog"
-#~ msgstr ""
+#~ msgstr "Carrega el diàleg de prova de script"
 
 #~ msgid "Remove &From Group"
-#~ msgstr ""
+#~ msgstr "Elimina del &grup"
 
 #~ msgid "To the Left"
-#~ msgstr ""
+#~ msgstr "A l'esquerra"
 
 #~ msgid "To the Right"
-#~ msgstr ""
+#~ msgstr "A la dreta"
 
 #~ msgid "&Opacity"
-#~ msgstr ""
+#~ msgstr "&Opacitat"
 
 #~ msgid ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
