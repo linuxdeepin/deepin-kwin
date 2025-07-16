@@ -3014,12 +3014,13 @@ msgstr ""
 
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
+#~ "kwiver_wayland: s'executa un gestor de finestres X11 a la pantalla X11.\n"
 
 #~ msgid "Martin Gräßlin"
-#~ msgstr ""
+#~ msgstr "Martin Gräßlin"
 
 #~ msgid "Maintainer"
-#~ msgstr ""
+#~ msgstr "Mantenidor"
 
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -3053,46 +3054,55 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Use a nested compositor in windowed mode."
-#~ msgstr ""
+#~ msgstr "Usa un compositor imbricat en mode de finestres."
 
 #~ msgctxt "notification about mouse pointer confined"
 #~ msgid ""
 #~ "Pointer motion confined to the current window.\n"
 #~ "To release pointer hold Escape for 3 seconds."
 #~ msgstr ""
+#~ "Moviment del punter limitat a la finestra actual.\n"
+#~ "Per deixar anar el punter, manteniu premuda la tecla Esc durant 3 segons."
 
 #~ msgctxt "notification about mouse pointer locked"
 #~ msgid ""
 #~ "Pointer locked to current position.\n"
 #~ "To end pointer lock hold Escape for 3 seconds."
 #~ msgstr ""
+#~ "Punter blocat a la posició actual.\n"
+#~ "Per eliminar el blocatge del punter, manteniu premuda la tecla Esc durant 3 segons."
 
 #~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 #~ msgstr ""
+#~ "GLX / OpenGL no estan disponibles i només es compila el suport per a OpenGL."
 
 #~ msgid "Sh&ade"
-#~ msgstr ""
+#~ msgstr "&Ombreja"
 
 #~ msgid ""
 #~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
 #~ " set.\n"
 #~ msgstr ""
+#~ "kwit_wayland: no s'ha pogut connectar amb el servidor Wayland, assegureu-vos"
+#~ " que WAYLAND_DISPLAY estigui definit.\n"
 
 #~ msgid ""
 #~ "The X11 Display to connect to. If not set next free number will be picked."
 #~ msgstr ""
+#~ "La pantalla X11 a la qual connectar-se. Si no es defineix, es triarà el "
+#~ "número lliure següent."
 
 #~ msgid "KWin: "
-#~ msgstr ""
+#~ msgstr "KWin: "
 
 #~ msgid "System"
-#~ msgstr ""
+#~ msgstr "Sistema"
 
 #~ msgid "Navigation"
-#~ msgstr ""
+#~ msgstr "Navegació"
 
 #~ msgid "Window & Desktop"
-#~ msgstr ""
+#~ msgstr "Finestres i escriptori"
 
 #~ msgid "Miscellaneous"
 #~ msgstr ""
