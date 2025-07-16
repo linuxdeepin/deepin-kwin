@@ -1417,7 +1417,7 @@ msgstr "zamknij"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "min"
-msgstr "min"
+msgstr "min."
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:58
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:60
@@ -1438,21 +1438,21 @@ msgstr "maks."
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "maximize"
-msgstr ""
+msgstr "maksymalizuj"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:67
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:69
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "fullscreen"
-msgstr ""
+msgstr "pełny ekran"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:70
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:72
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "shade"
-msgstr ""
+msgstr "cień"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:73
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:75
@@ -1472,7 +1472,7 @@ msgstr ""
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "window"
-msgstr ""
+msgstr "okno"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:93
 #, kde-format
@@ -1484,14 +1484,14 @@ msgstr "nazwa"
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "appname"
-msgstr ""
+msgstr "nazwa aplikacji"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:97
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:150
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "desktop"
-msgstr ""
+msgstr "pulpit"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:255
 #, kde-format
@@ -1788,7 +1788,7 @@ msgstr ""
 #: rulesettings.kcfg:173
 #, kde-format
 msgid "Activity"
-msgstr ""
+msgstr "Aktywność"
 
 #. i18n: ectx: label, entry (activityrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:176
@@ -1839,7 +1839,7 @@ msgstr ""
 #: rulesettings.kcfg:216
 #, kde-format
 msgid "Minimized"
-msgstr ""
+msgstr "Zminimalizowany"
 
 #. i18n: ectx: label, entry (minimizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:220
@@ -1851,7 +1851,7 @@ msgstr ""
 #: rulesettings.kcfg:227
 #, kde-format
 msgid "Shaded"
-msgstr ""
+msgstr "Posiadający cień"
 
 #. i18n: ectx: label, entry (shaderule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:231
@@ -1926,7 +1926,7 @@ msgstr ""
 #: rulesettings.kcfg:293
 #, kde-format
 msgid "Fullscreen"
-msgstr ""
+msgstr "Pełny ekran"
 
 #. i18n: ectx: label, entry (fullscreenrule), group
 #. ($(ruleDescriptionOrNumber))
@@ -2081,7 +2081,7 @@ msgstr ""
 #: rulesettings.kcfg:407
 #, kde-format
 msgid "Shortcut"
-msgstr ""
+msgstr "Skrót"
 
 #. i18n: ectx: label, entry (shortcutrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:410
@@ -2139,13 +2139,13 @@ msgstr ""
 #: shortcutdialog.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogue"
 
 #. i18n: ectx: property (text), widget (QToolButton, clearButton)
 #: shortcutdialog.ui:25
 #, kde-format
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tabbox/tabbox.cpp:381
 #, kde-format
