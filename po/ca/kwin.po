@@ -2980,37 +2980,37 @@ msgstr ""
 #~ msgstr "Elimina la finestra del grup"
 
 #~ msgid "&Untab"
-#~ msgstr ""
+#~ msgstr "Se&nse pestanya"
 
 #~ msgid "Close Entire &Group"
-#~ msgstr ""
+#~ msgstr "Tanca tot el &grup"
 
 #~ msgctxt "Switch to tab -> Previous"
 #~ msgid "Previous"
-#~ msgstr ""
+#~ msgstr "Anterior"
 
 #~ msgctxt "Switch to tab -> Next"
 #~ msgid "Next"
-#~ msgstr ""
+#~ msgstr "Següent"
 
 #~ msgctxt "There's no window available to be attached as tab to this one"
 #~ msgid "None available"
-#~ msgstr ""
+#~ msgstr "Sense disponibilitat"
 
 #~ msgid "Switch to Tab"
-#~ msgstr ""
+#~ msgstr "Canvia a pestanya"
 
 #~ msgid "&Attach as tab to"
-#~ msgstr ""
+#~ msgstr "&Adjunta com a pestanya a"
 
 #~ msgctxt ""
 #~ "Entry in context menu of window decoration to open the configuration module "
 #~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
-#~ msgstr ""
+#~ msgstr "Paràmetres del &gestor de finestres..."
 
 #~ msgid "Automatic Screen Rotation"
-#~ msgstr ""
+#~ msgstr "Rotació automàtica de la pantalla"
 
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
