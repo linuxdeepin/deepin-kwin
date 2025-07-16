@@ -2889,28 +2889,28 @@ msgstr ""
 #~ msgstr "Paquet de finestres a baix"
 
 #~ msgid "Pack Grow Window Horizontally"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres de creixement horitzontal"
 
 #~ msgid "Pack Grow Window Vertically"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres de creixement vertical"
 
 #~ msgid "Desktop number"
-#~ msgstr ""
+#~ msgstr "Número d'escriptori"
 
 #~ msgid "Configure virtual keyboards..."
-#~ msgstr ""
+#~ msgstr "Configureu teclats virtuals..."
 
 #~ msgid "Virtual Keyboard"
 #~ msgstr "Teclat virtual"
 
 #~ msgid "Whether to show the virtual keyboard on demand."
-#~ msgstr ""
+#~ msgstr "Si s'ha de mostrar el teclat virtual segons es demani."
 
 #~ msgid "Virtual Keyboard: enabled"
-#~ msgstr ""
+#~ msgstr "Teclat virtual: habilitat"
 
 #~ msgid "Virtual Keyboard: disabled"
-#~ msgstr ""
+#~ msgstr "Teclat virtual: inhabilitat"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
@@ -2948,16 +2948,16 @@ msgstr ""
 #~ msgstr "Botons premuts"
 
 #~ msgid "Use libhybris hwcomposer"
-#~ msgstr ""
+#~ msgstr "Usa l'hwcomposer libhybris "
 
 #~ msgid "Allow Rotation"
-#~ msgstr ""
+#~ msgstr "Permet la rotació"
 
 #~ msgid "Automatic screen rotation is enabled"
-#~ msgstr ""
+#~ msgstr "La rotació automàtica de la pantalla està habilitada."
 
 #~ msgid "Undefined"
-#~ msgstr ""
+#~ msgstr "Sense definir"
 
 #~ msgctxt "Portrait oriented display"
 #~ msgid "Vertical"
@@ -2968,16 +2968,16 @@ msgstr ""
 #~ msgstr "Horitzontal"
 
 #~ msgid "Automatic screen rotation is disabled"
-#~ msgstr ""
+#~ msgstr "La rotació automàtica de la pantalla està inhabilitada."
 
 #~ msgid "Walk Through Window Tabs"
-#~ msgstr ""
+#~ msgstr "Passeig per les pestanyes de les finestres"
 
 #~ msgid "Walk Through Window Tabs (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig per les pestanyes de les finestres (invers)"
 
 #~ msgid "Remove Window From Group"
-#~ msgstr ""
+#~ msgstr "Elimina la finestra del grup"
 
 #~ msgid "&Untab"
 #~ msgstr ""
