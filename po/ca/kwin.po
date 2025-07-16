@@ -3533,18 +3533,19 @@ msgstr ""
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
 #~ msgstr ""
+#~ "Activa quan el cursor és en una vora o cantó específic de la pantalla:"
 
 #~ msgid "for windows on all desktops: "
-#~ msgstr ""
+#~ msgstr "per a les finestres a tots els escriptoris:"
 
 #~ msgid "Animate desktop changes"
-#~ msgstr ""
+#~ msgstr "Anima els canvis de l'escriptori"
 
 #~ msgid "Reset opacity to default value"
-#~ msgstr ""
+#~ msgstr "Restableix l'opacitat al valor predeterminat."
 
 #~ msgid "Slide this to set the window's opacity"
-#~ msgstr ""
+#~ msgstr "Feu lliscar això per definir l'opacitat de la finestra."
 
 #~ msgid ""
 #~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
@@ -3557,7 +3558,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Composite Manager Failure"
-#~ msgstr ""
+#~ msgstr "Fallada del gestor composició"
 
 #~ msgid ""
 #~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
