@@ -1152,31 +1152,34 @@ msgid ""
 "application?</para><para><warning>Terminating the application will close all"
 " of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
+"<para>Czy zakończyć działanie tej aplikacji?</para><para><warning>Zostaną "
+"zamknięte wszystkie jej okna. Wszystkie niezapisane dane zostaną "
+"utracone.</warning></para>"
 
 #: helpers/killer/killer.cpp:94
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr ""
+msgstr "&Zakończ aplikacje %1"
 
 #: helpers/killer/killer.cpp:95
 #, kde-format
 msgid "Wait Longer"
-msgstr ""
+msgstr "Poczekaj dłużej"
 
 #: input.cpp:2009
 #, kde-format
 msgid "Move the tablet to the next output"
-msgstr ""
+msgstr "Przenieś tablet do następnego wyjścia"
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablet moved to %1"
-msgstr ""
+msgstr "Przeniesiono tablet do %1"
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablets switched outputs"
-msgstr ""
+msgstr "Przełączono wyjście tabletów"
 
 #: input.cpp:3065
 #, kde-format
@@ -1186,7 +1189,7 @@ msgstr "Panel dotykowy"
 #: keyboard_layout.cpp:45
 #, kde-format
 msgid "Keyboard Layout Switcher"
-msgstr ""
+msgstr "Przełączanie układu klawiatury"
 
 #: killwindow.cpp:32
 #, kde-format
