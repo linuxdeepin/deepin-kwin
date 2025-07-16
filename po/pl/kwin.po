@@ -1391,11 +1391,12 @@ msgstr "Wyłącz integrację KActivities."
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
 msgstr ""
+"Zakończ po zamknięciu sesji aplikacji, która została uruchomiona przez KWin."
 
 #: main_wayland.cpp:416
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
-msgstr ""
+msgstr "Aplikacje do włączenia po serwerze Wayland i Xwayland."
 
 #: main_x11.cpp:67
 #, kde-format
@@ -1404,6 +1405,9 @@ msgid ""
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
+"KWin jest niestabilny.\n"
+"Wygląda na to, że uległ awarii kilka razy z rzędu.\n"
+"Wybierz inny menedżer okien do włączenia:"
 
 #: main_x11.cpp:259
 #, kde-format
@@ -1411,6 +1415,8 @@ msgid ""
 "kwin: unable to claim manager selection, another wm running? (try using "
 "--replace)\n"
 msgstr ""
+"kwin: nie można przejąć miejsca menedżera, inny WM w użyciu? (spróbuj z "
+"--replace)\n"
 
 #: main_x11.cpp:280
 #, kde-format
