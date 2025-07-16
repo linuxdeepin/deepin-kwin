@@ -2837,10 +2837,10 @@ msgstr ""
 "com https://paste.kde.org en lloc d'enganxar-se en fils de suport.\n"
 
 #~ msgid "&No Border"
-#~ msgstr ""
+#~ msgstr "Se&nse vora"
 
 #~ msgid "Toggle Window Border"
-#~ msgstr ""
+#~ msgstr "Commuta la vora de la finestra"
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"
@@ -2852,39 +2852,41 @@ msgstr ""
 #~ msgstr "Inverteix els colors de la pantalla"
 
 #~ msgid "List all available backends and quit."
-#~ msgstr ""
+#~ msgstr "Llista tots els rerefons disponibles i surt."
 
 #~ msgid "Show Desktop"
 #~ msgstr "Mostra l'escriptori"
 
 #~ msgid "X11 Client Windows"
-#~ msgstr ""
+#~ msgstr "Finestres del client X11"
 
 #~ msgid "unknown"
-#~ msgstr ""
+#~ msgstr "desconegut"
 
 #~ msgid "Render to framebuffer."
-#~ msgstr ""
+#~ msgstr "Renderitza al marc de la memòria intermèdia."
 
 #~ msgid "The framebuffer device to render to."
-#~ msgstr ""
+#~ msgstr "El dispositiu de marc de memòria intermèdia on es renderitzarà."
 
 #~ msgid ""
 #~ "Enable libinput support for input events processing. Note: never use in a "
 #~ "nested session.\t(deprecated)"
 #~ msgstr ""
+#~ "Habilita la compatibilitat amb libinput per al processament d'esdeveniments "
+#~ "d'entrada. Nota: no s'ha d'usar mai en una sessió imbricada.\t(obsolet)"
 
 #~ msgid "Pack Window to the Right"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres a la dreta"
 
 #~ msgid "Pack Window to the Left"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres a l'esquerra"
 
 #~ msgid "Pack Window Up"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres a dalt"
 
 #~ msgid "Pack Window Down"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres a baix"
 
 #~ msgid "Pack Grow Window Horizontally"
 #~ msgstr ""
