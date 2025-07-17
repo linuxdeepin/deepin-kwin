@@ -3322,7 +3322,7 @@ msgstr ""
 #~ msgstr "Nicht über andere halten"
 
 #~ msgid "Do not keep below others"
-#~ msgstr ""
+#~ msgstr "Nicht unter anderen halten"
 
 #~ msgid "No window decoration plugin library was found."
 #~ msgstr ""
@@ -3343,10 +3343,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Increase Ratio"
-#~ msgstr ""
+#~ msgstr "Stärke abschwächen"
 
 #~ msgid "Decrease Ratio"
-#~ msgstr ""
+#~ msgstr "Stärke erhöhen"
 
 #~ msgid "Move Left"
 #~ msgstr "Verschiebe nach links"
@@ -3406,9 +3406,11 @@ msgstr ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Filter:\n"
+#~ "%1"
 
 #~ msgid "Snow"
-#~ msgstr ""
+#~ msgstr "Schnee"
 
 #~ msgid "Toggle Snow on Desktop"
 #~ msgstr ""
