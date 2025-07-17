@@ -3214,112 +3214,112 @@ msgstr ""
 #~ msgstr "Fenster zur Arbeitsfläche 20"
 
 #~ msgid "Window to Screen 3"
-#~ msgstr ""
+#~ msgstr "Fenster zum Bildschirm 3"
 
 #~ msgid "Window to Screen 4"
-#~ msgstr ""
+#~ msgstr "Fenster zum Bildschirm 4"
 
 #~ msgid "Window to Screen 5"
-#~ msgstr ""
+#~ msgstr "Fenster zum Bildschirm 5"
 
 #~ msgid "Window to Screen 6"
-#~ msgstr ""
+#~ msgstr "Fenster zum Bildschirm 6"
 
 #~ msgid "Window to Screen 7"
-#~ msgstr ""
+#~ msgstr "Fenster zum Bildschirm 7"
 
 #~ msgid "Switch to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 3"
 
 #~ msgid "Switch to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 4"
 
 #~ msgid "Switch to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 5"
 
 #~ msgid "Switch to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 6"
 
 #~ msgid "Switch to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 7"
 
 #~ msgid "Switch to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 8"
 
 #~ msgid "Switch to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 9"
 
 #~ msgid "Switch to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 10"
 
 #~ msgid "Switch to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 11"
 
 #~ msgid "Switch to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 12"
 
 #~ msgid "Switch to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 13"
 
 #~ msgid "Switch to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 14"
 
 #~ msgid "Switch to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 15"
 
 #~ msgid "Switch to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 16"
 
 #~ msgid "Switch to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 17"
 
 #~ msgid "Switch to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 18"
 
 #~ msgid "Switch to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 19"
 
 #~ msgid "Switch to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Wechsle zur Arbeitsfläche 20"
 
 #~ msgid "Switch to Screen 2"
-#~ msgstr ""
+#~ msgstr "Wechsle zum Bildschirm 2"
 
 #~ msgid "Switch to Screen 3"
-#~ msgstr ""
+#~ msgstr "Wechsle zum Bildschirm 3"
 
 #~ msgid "Switch to Screen 4"
-#~ msgstr ""
+#~ msgstr "Wechsle zum Bildschirm 4"
 
 #~ msgid "Switch to Screen 5"
-#~ msgstr ""
+#~ msgstr "Wechsle zum Bildschirm 5"
 
 #~ msgid "Switch to Screen 6"
-#~ msgstr ""
+#~ msgstr "Wechsle zum Bildschirm 6"
 
 #~ msgid "Switch to Screen 7"
-#~ msgstr ""
+#~ msgstr "Wechsle zum Bildschirm 7"
 
 #~ msgid "<center><b>%1</b></center>"
-#~ msgstr ""
+#~ msgstr "<center><b>%1</b></center>"
 
 #~ msgid "Menu"
-#~ msgstr ""
+#~ msgstr "Menü"
 
 #~ msgid "Not on all desktops"
-#~ msgstr ""
+#~ msgstr "Nicht auf allen Arbeitsflächen"
 
 #~ msgid "On all desktops"
-#~ msgstr ""
+#~ msgstr "Auf allen Arbeitsflächen"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Hilfe"
 
 #~ msgid "Restore"
-#~ msgstr ""
+#~ msgstr "Wiederherstellen"
 
 #~ msgid "Do not keep above others"
-#~ msgstr ""
+#~ msgstr "Nicht über andere halten"
 
 #~ msgid "Do not keep below others"
 #~ msgstr ""
