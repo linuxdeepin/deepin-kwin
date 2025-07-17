@@ -27,7 +27,7 @@
         "Description[x-test]": "xxEditor for the tiling areasxx",
         "Description[zh_CN]": "瓷贴区域的编辑器",
         "Description[zh_TW]": "平鋪方塊區域的編輯器",
-        "EnabledByDefault": true,
+        "EnabledByDefault": false,
         "Id": "tileseditor",
         "License": "GPL",
         "Name": "Tiling Editor",
