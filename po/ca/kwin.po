@@ -1052,7 +1052,7 @@ msgstr "Gestor de finestres"
 #: helpers/killer/killer.cpp:38
 #, kde-format
 msgid "PID of the application to terminate"
-msgstr "PID de l'aplicació a finalitzar"
+msgstr "PID de l'aplicació per acabar"
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
@@ -1072,7 +1072,7 @@ msgstr "nom de l'amfitrió"
 #: helpers/killer/killer.cpp:42
 #, kde-format
 msgid "Caption of the window to be terminated"
-msgstr "Llegenda de la finestra a finalitzar"
+msgstr "Llegenda de la finestra per acabar"
 
 #: helpers/killer/killer.cpp:42
 #, kde-format
@@ -1154,14 +1154,14 @@ msgid ""
 "application?</para><para><warning>Terminating the application will close all"
 " of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
-"<para>Voleu finalitzar aquesta aplicació?</para><para><warning>La terminació"
-" de l'aplicació tancarà totes les seves finestres filles. Es perdran totes "
-"les dades sense desar.</warning></para>"
+"<para>Voleu acabar aquesta aplicació?</para><para><warning>La terminació de "
+"l'aplicació tancarà totes les seves finestres filles. Es perdran totes les "
+"dades sense desar.</warning></para>"
 
 #: helpers/killer/killer.cpp:94
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr "Finalitza l'aplicació %1"
+msgstr "Aca&ba l'aplicació %1"
 
 #: helpers/killer/killer.cpp:95
 #, kde-format
@@ -3616,16 +3616,24 @@ msgstr ""
 #~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
 #~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
 #~ msgstr ""
+#~ "<qt><b>No s'ha trobat l'extensió del compostor</b><br><i>Heu</i> de fer "
+#~ "servir XOrg > 6.8 perquè la translucidesa i les ombres funcionin.<br>A més, "
+#~ "heu d'afegir una secció nova al fitxer de configuració d'X:<br></i>Secció "
+#~ "\"Extensions\"<br>Opció \"Composte\" \"Enable\"<br>EndSection</i></qt>"
 
 #~ msgid ""
 #~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
 #~ "for translucency and shadows to work.</qt>"
 #~ msgstr ""
+#~ "<qt><b>No s'ha trobat l'extensió de danys</b><br><i>Heu</i> de fer servir "
+#~ "XOrg > 6.8 perquè la translucidesa i les ombres funcionin.</qt>"
 
 #~ msgid ""
 #~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
 #~ "for translucency and shadows to work.</qt>"
 #~ msgstr ""
+#~ "<qt><b>No s'ha trobat l'extensió XFixes</b><br><i>Heu</i> de fer servir XOrg"
+#~ " > 6.8 perquè la translucidesa i les ombres funcionin.</qt>"
 
 #: workspace.cpp:2507
 #, kde-format
