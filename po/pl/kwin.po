@@ -2522,132 +2522,132 @@ msgstr "Przenieś okno do środka"
 #: useractions.cpp:1021
 #, kde-format
 msgid "Move Window Right"
-msgstr "Przenieś okno w prawo"
+msgstr "Przenieś okno na prawo"
 
 #: useractions.cpp:1023
 #, kde-format
 msgid "Move Window Left"
-msgstr "Przenieś okno w lewo"
+msgstr "Przenieś okno na lewo"
 
 #: useractions.cpp:1025
 #, kde-format
 msgid "Move Window Up"
-msgstr "Przenieś okno w górę"
+msgstr "Przenieś okno na górę"
 
 #: useractions.cpp:1027
 #, kde-format
 msgid "Move Window Down"
-msgstr ""
+msgstr "Przenieś okno na dół"
 
 #: useractions.cpp:1029
 #, kde-format
 msgid "Expand Window Horizontally"
-msgstr ""
+msgstr "Poszerz okno w pionie"
 
 #: useractions.cpp:1031
 #, kde-format
 msgid "Expand Window Vertically"
-msgstr ""
+msgstr "Poszerz okno w poziomie"
 
 #: useractions.cpp:1033
 #, kde-format
 msgid "Shrink Window Horizontally"
-msgstr ""
+msgstr "Zmniejsz okno w pionie"
 
 #: useractions.cpp:1035
 #, kde-format
 msgid "Shrink Window Vertically"
-msgstr ""
+msgstr "Zmniejsz okno w poziomie"
 
 #: useractions.cpp:1037
 #, kde-format
 msgid "Quick Tile Window to the Left"
-msgstr ""
+msgstr "Kafelkuj okno do lewej"
 
 #: useractions.cpp:1039
 #, kde-format
 msgid "Quick Tile Window to the Right"
-msgstr ""
+msgstr "Kafelkuj okno do prawej"
 
 #: useractions.cpp:1041
 #, kde-format
 msgid "Quick Tile Window to the Top"
-msgstr ""
+msgstr "Kafelkuj okno do góry"
 
 #: useractions.cpp:1043
 #, kde-format
 msgid "Quick Tile Window to the Bottom"
-msgstr ""
+msgstr "Kafelkuj okno do dołu"
 
 #: useractions.cpp:1045
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
-msgstr ""
+msgstr "Kafelkuj okno na górze po lewej"
 
 #: useractions.cpp:1047
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
-msgstr ""
+msgstr "Kafelkuj okno na dole po lewej"
 
 #: useractions.cpp:1049
 #, kde-format
 msgid "Quick Tile Window to the Top Right"
-msgstr ""
+msgstr "Kafelkuj okno na górze po prawej"
 
 #: useractions.cpp:1051
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
-msgstr ""
+msgstr "Kafelkuj okno na dole po prawej"
 
 #: useractions.cpp:1053
 #, kde-format
 msgid "Switch to Window Above"
-msgstr ""
+msgstr "Przełącz na okno powyżej"
 
 #: useractions.cpp:1055
 #, kde-format
 msgid "Switch to Window Below"
-msgstr ""
+msgstr "Przełącz na okno poniżej"
 
 #: useractions.cpp:1057
 #, kde-format
 msgid "Switch to Window to the Right"
-msgstr ""
+msgstr "Przełącz na okno po prawej"
 
 #: useractions.cpp:1059
 #, kde-format
 msgid "Switch to Window to the Left"
-msgstr ""
+msgstr "Przełącz na okno po lewej"
 
 #: useractions.cpp:1061
 #, kde-format
 msgid "Increase Opacity of Active Window by 5%"
-msgstr ""
+msgstr "Zwiększ nieprzezroczystość aktywnego okna o 5%"
 
 #: useractions.cpp:1063
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5%"
-msgstr ""
+msgstr "Zmniejsz nieprzezroczystość aktywnego okna o 5%"
 
 #: useractions.cpp:1066
 #, kde-format
 msgid "Keep Window on All Desktops"
-msgstr ""
+msgstr "Zachowaj okno na wszystkich pulpitach"
 
 #: useractions.cpp:1077
 #, kde-format
 msgid "Window to Desktop %1"
-msgstr ""
+msgstr "Okno na pulpit %1"
 
 #: useractions.cpp:1079
 #, kde-format
 msgid "Window to Next Desktop"
-msgstr ""
+msgstr "Okno na następny pulpit"
 
 #: useractions.cpp:1080
 #, kde-format
 msgid "Window to Previous Desktop"
-msgstr ""
+msgstr "Okno na poprzedni pulpit"
 
 #: useractions.cpp:1081
 #, kde-format
