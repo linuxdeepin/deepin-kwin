@@ -2091,21 +2091,21 @@ msgstr "Grupuj automatycznie po ID"
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
-msgstr ""
+msgstr "Typ reguły grupowania automatycznego po ID"
 
 #. i18n: ectx: label, entry (strictgeometry), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
-msgstr ""
+msgstr "Zachowaj ograniczenia geometrii"
 
 #. i18n: ectx: label, entry (strictgeometryrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
-msgstr ""
+msgstr "Typ reguły zachowania ograniczeń geometrii"
 
 #. i18n: ectx: label, entry (shortcut), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:407
@@ -2117,53 +2117,53 @@ msgstr "Skrót"
 #: rulesettings.kcfg:410
 #, kde-format
 msgid "Shortcut rule type"
-msgstr ""
+msgstr "Typ reguły skrótu"
 
 #. i18n: ectx: label, entry (disableglobalshortcuts), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
-msgstr ""
+msgstr "Ignoruj skróty globalne"
 
 #. i18n: ectx: label, entry (disableglobalshortcutsrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
-msgstr ""
+msgstr "Typ reguły ignorowania skrótów globalnych"
 
 #. i18n: ectx: label, entry (desktopfile), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:426
 #, kde-format
 msgid "Desktop file name"
-msgstr ""
+msgstr "Nazwa pliku Desktop"
 
 #. i18n: ectx: label, entry (desktopfilerule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
-msgstr ""
+msgstr "Typ reguły nazywania pliku Desktop"
 
 #: scripting/genericscriptedconfig.cpp:70
 #, kde-format
 msgctxt "Error message"
 msgid "Could not locate package metadata"
-msgstr ""
+msgstr "Nie można znaleźć metadanych pakietu"
 
 #: scripting/genericscriptedconfig.cpp:84
 #, kde-format
 msgctxt "Required file does not exist"
 msgid "%1 does not contain a valid metadata.json file"
-msgstr ""
+msgstr "%1 nie zawiera prawidłowego pliku metadata.json"
 
 #: scripting/genericscriptedconfig.cpp:90
 #: scripting/genericscriptedconfig.cpp:96
 #, kde-format
 msgctxt "Required file does not exist"
 msgid "%1 does not exist"
-msgstr ""
+msgstr "%1 nie istnieje"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ShortcutDialog)
 #: shortcutdialog.ui:14
@@ -2201,35 +2201,35 @@ msgstr "Alternatywne przechodzenie między oknami (odwrotne)"
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Windows of Current Application"
-msgstr ""
+msgstr "Przełączaj między oknami bieżącej aplikacji"
 
 #: tabbox/tabbox.cpp:526
 msgid "Walk Through Windows of Current Application (Reverse)"
-msgstr ""
+msgstr "Przełączaj między oknami bieżącej aplikacji (Odwrotnie)"
 
 #: tabbox/tabbox.cpp:527
 msgid "Walk Through Windows of Current Application Alternative"
-msgstr ""
+msgstr "Przełączaj między oknami bieżącej aplikacji Alternatywnie"
 
 #: tabbox/tabbox.cpp:528
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-msgstr ""
+msgstr "Przełączaj między oknami bieżącej aplikacji Alternatywnie (Odwrotnie)"
 
 #: tabbox/tabbox.cpp:529
 msgid "Walk Through Desktops"
-msgstr ""
+msgstr "Przełączaj między pulpitami"
 
 #: tabbox/tabbox.cpp:530
 msgid "Walk Through Desktops (Reverse)"
-msgstr ""
+msgstr "Przełączaj między pulpitami (Odwrotnie)"
 
 #: tabbox/tabbox.cpp:531
 msgid "Walk Through Desktop List"
-msgstr ""
+msgstr "Przełączaj przez listę pulpitów"
 
 #: tabbox/tabbox.cpp:532
 msgid "Walk Through Desktop List (Reverse)"
-msgstr ""
+msgstr "Przełączaj przez listę pulpitów (Odwrotnie)"
 
 #: tabbox/tabboxhandler.cpp:290
 #, kde-format
@@ -2237,6 +2237,8 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
+"Instalacja przełączania okien jest uszkodzona, nie można znaleźć zasobów.\n"
+"Poinformuj o tym swoją dystrybucję."
 
 #: useractions.cpp:161
 #, kde-format
