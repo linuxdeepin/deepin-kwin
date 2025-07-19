@@ -2844,10 +2844,10 @@ msgstr ""
 #~ msgstr "Pokaż pulpit"
 
 #~ msgid "X11 Client Windows"
-#~ msgstr ""
+#~ msgstr "Okna klienta X11"
 
 #~ msgid "unknown"
-#~ msgstr ""
+#~ msgstr "nieznane"
 
 #~ msgid "Render to framebuffer."
 #~ msgstr ""
