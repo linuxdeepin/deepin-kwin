@@ -3121,7 +3121,7 @@ msgstr ""
 #~ msgstr "Okno & Pulpit"
 
 #~ msgid "Miscellaneous"
-#~ msgstr ""
+#~ msgstr "Różne"
 
 #~ msgid "Desktop Switching"
 #~ msgstr "Przełączanie pulpitu"
@@ -3475,7 +3475,7 @@ msgstr ""
 #~ msgstr "kwin: błąd podczas inicjalizacji; zatrzymuję"
 
 #~ msgid "Terminate"
-#~ msgstr ""
+#~ msgstr "Zakończ"
 
 #~ msgid "Keep Running"
 #~ msgstr "Utrzymaj działanie"
@@ -3506,7 +3506,7 @@ msgstr ""
 #~ "%1"
 
 #~ msgid "Snow"
-#~ msgstr ""
+#~ msgstr "Śnieg"
 
 #~ msgid "Toggle Snow on Desktop"
 #~ msgstr "Przełącz pokaż na pulpicie"
