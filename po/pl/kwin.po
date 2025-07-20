@@ -3093,7 +3093,7 @@ msgstr ""
 #~ "GLX/OpenGL nie są dostępne, a tylko wsparcie OpenGL jest skompilowane."
 
 #~ msgid "Sh&ade"
-#~ msgstr ""
+#~ msgstr "Ci&eń"
 
 #~ msgid ""
 #~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
@@ -3109,13 +3109,13 @@ msgstr ""
 #~ "wybrany pierwszy dostępny."
 
 #~ msgid "KWin: "
-#~ msgstr ""
+#~ msgstr "KWin: "
 
 #~ msgid "System"
-#~ msgstr ""
+#~ msgstr "System"
 
 #~ msgid "Navigation"
-#~ msgstr ""
+#~ msgstr "Nawigacja"
 
 #~ msgid "Window & Desktop"
 #~ msgstr "Okno & Pulpit"
@@ -3124,7 +3124,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Desktop Switching"
-#~ msgstr ""
+#~ msgstr "Przełączanie pulpitu"
 
 #~ msgid ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
@@ -3152,22 +3152,22 @@ msgstr ""
 
 #~ msgctxt "Spiral tiling layout"
 #~ msgid "Spiral"
-#~ msgstr ""
+#~ msgstr "Spirala"
 
 #~ msgctxt "Two-column horizontal tiling layout"
 #~ msgid "Columns"
-#~ msgstr ""
+#~ msgstr "Kolumny"
 
 #~ msgctxt "Floating layout, windows aren't tiled at all"
 #~ msgid "Floating"
-#~ msgstr ""
+#~ msgstr "Unoszenie"
 
 #~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
 #~ msgid "&Float Window"
-#~ msgstr ""
+#~ msgstr "&Unoszące się okno"
 
 #~ msgid "Ad&vanced"
-#~ msgstr ""
+#~ msgstr "Zaa&wansowane"
 
 #~ msgid "*** No Windows ***"
 #~ msgstr "*** Brak okien ***"
@@ -3182,10 +3182,10 @@ msgstr ""
 #~ msgstr "Do lewej"
 
 #~ msgid "To the Right"
-#~ msgstr ""
+#~ msgstr "Do prawej"
 
 #~ msgid "&Opacity"
-#~ msgstr ""
+#~ msgstr "&Nieprzezroczystość"
 
 #~ msgid ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
@@ -3202,31 +3202,31 @@ msgstr ""
 #~ "Najprawdopodobniej wymagane pakiety dewelopera Xorg nie zostały zainstalowane."
 
 #~ msgid "Tiling"
-#~ msgstr ""
+#~ msgstr "Kafelkowanie"
 
 #~ msgid "Enable/Disable Tiling"
-#~ msgstr ""
+#~ msgstr "Włącz/Wyłącz kafelkowanie"
 
 #~ msgid "Toggle Floating"
-#~ msgstr ""
+#~ msgstr "Przełącz unoszenie"
 
 #~ msgid "Switch Focus Left"
-#~ msgstr ""
+#~ msgstr "Zmień zaznaczenie w lewo"
 
 #~ msgid "Switch Focus Right"
-#~ msgstr ""
+#~ msgstr "Zmień zaznaczenie w prawo"
 
 #~ msgid "Switch Focus Up"
-#~ msgstr ""
+#~ msgstr "Zmień zaznaczenie w górę"
 
 #~ msgid "Switch Focus Down"
-#~ msgstr ""
+#~ msgstr "Zmień zaznaczenie w dół"
 
 #~ msgid "Tiling Disabled"
-#~ msgstr ""
+#~ msgstr "Kafelkowanie wyłączone"
 
 #~ msgid "Tiling Enabled"
-#~ msgstr ""
+#~ msgstr "Kafelkowanie włączone"
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
@@ -3396,22 +3396,22 @@ msgstr ""
 #~ msgstr "Przełącz na ekran 7"
 
 #~ msgid "<center><b>%1</b></center>"
-#~ msgstr ""
+#~ msgstr "<center><b>%1</b></center>"
 
 #~ msgid "Menu"
-#~ msgstr ""
+#~ msgstr "Menu"
 
 #~ msgid "Not on all desktops"
 #~ msgstr "Nie na wszystkich pulpitach"
 
 #~ msgid "On all desktops"
-#~ msgstr ""
+#~ msgstr "Na wszystkich pulpitach"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Pomoc"
 
 #~ msgid "Restore"
-#~ msgstr ""
+#~ msgstr "Przywróć"
 
 #~ msgid "Do not keep above others"
 #~ msgstr "Nie zachowuj nad wszystkimi"
@@ -3436,31 +3436,31 @@ msgstr ""
 #~ msgstr "Zrzut ekranu pulpitu do schowka"
 
 #~ msgid "Toggle Tiling"
-#~ msgstr ""
+#~ msgstr "Przełącz kafelkowanie"
 
 #~ msgid "Increase Ratio"
-#~ msgstr ""
+#~ msgstr "Zwiększ stosunek"
 
 #~ msgid "Decrease Ratio"
-#~ msgstr ""
+#~ msgstr "Zmniejsz stosunek"
 
 #~ msgid "Move Left"
-#~ msgstr ""
+#~ msgstr "Przenieś w lewo"
 
 #~ msgid "Move Right"
-#~ msgstr ""
+#~ msgstr "Przenieś w prawo"
 
 #~ msgid "Move Up"
-#~ msgstr ""
+#~ msgstr "Przenieś w górę"
 
 #~ msgid "Move Down"
-#~ msgstr ""
+#~ msgstr "Przenieś w dół"
 
 #~ msgid "Test Dump tiles"
-#~ msgstr ""
+#~ msgstr "Testowe kafelki do wyrzucenia"
 
 #~ msgid "Test Below Cursor"
-#~ msgstr ""
+#~ msgstr "Przetestuj kursor poniżej"
 
 #~ msgid "Walk Through Grouped Windows"
 #~ msgstr "Przechodzenie między pogrupowanymi oknami"
@@ -3478,7 +3478,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Keep Running"
-#~ msgstr ""
+#~ msgstr "Utrzymaj działanie"
 
 #~ msgid "Top"
 #~ msgstr "Góra"
@@ -3487,7 +3487,7 @@ msgstr ""
 #~ msgstr "Dół"
 
 #~ msgid "Toggle Invert Effect"
-#~ msgstr ""
+#~ msgstr "Przełącz efekt odwrócenia"
 
 #~ msgid "Clear All Mouse Marks"
 #~ msgstr "Wyczyść wszystkie oznaczenia myszy"
@@ -3496,12 +3496,14 @@ msgstr ""
 #~ msgstr "Wyczyść ostatnie oznaczenie myszy"
 
 #~ msgid "Clear Mouse Marks"
-#~ msgstr ""
+#~ msgstr "Wyczyść oznaczenia myszy"
 
 #~ msgid ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Filtr:\n"
+#~ "%1"
 
 #~ msgid "Snow"
 #~ msgstr ""
@@ -3523,28 +3525,28 @@ msgstr ""
 #~ msgstr "Brak"
 
 #~ msgid "X offset:"
-#~ msgstr ""
+#~ msgstr "X offset:"
 
 #~ msgid "Y offset:"
-#~ msgstr ""
+#~ msgstr "Y offset:"
 
 #~ msgid "Shadow opacity:"
-#~ msgstr ""
+#~ msgstr "Nieprzezroczystość cienia:"
 
 #~ msgid "Shadow fuzziness:"
-#~ msgstr ""
+#~ msgstr "Rozmycie cienia:"
 
 #~ msgid "Shadow size (relative to window):"
 #~ msgstr "Rozmiar cienia (względny dla okna):"
 
 #~ msgid "Shadow color:"
-#~ msgstr ""
+#~ msgstr "Kolor cienia:"
 
 #~ msgid "Active window has stronger shadow"
 #~ msgstr "Aktywne okno ma mocniejszy cień"
 
 #~ msgid "Toggle Expose Effect"
-#~ msgstr ""
+#~ msgstr "Przełącz efekt ekspozycji"
 
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
 #~ msgstr "Przełącz efekty ekspozycji (wł. inne pulpity)"
@@ -3560,7 +3562,7 @@ msgstr ""
 #~ msgstr "dla okien na wszystkich pulpitach: "
 
 #~ msgid "Animate desktop changes"
-#~ msgstr ""
+#~ msgstr "Animuj zmiany pulpitu"
 
 #~ msgid "Reset opacity to default value"
 #~ msgstr "Zresetuj nieprzezroczystość do wartości domyślnej"
@@ -3583,7 +3585,7 @@ msgstr ""
 #~ "zostanie wyłączony w trakcie tej sesji."
 
 #~ msgid "Composite Manager Failure"
-#~ msgstr ""
+#~ msgstr "Błąd menedżera kompozytowania"
 
 #~ msgid ""
 #~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
