@@ -2776,43 +2776,43 @@ msgstr "Pulpit %1"
 #: virtualdesktops.cpp:800
 #, kde-format
 msgid "Switch to Next Desktop"
-msgstr ""
+msgstr "Przełącz na następny pulpit"
 
 #: virtualdesktops.cpp:801
 #, kde-format
 msgid "Switch to Previous Desktop"
-msgstr ""
+msgstr "Przełącz na poprzedni pulpit"
 
 #: virtualdesktops.cpp:804
 #, kde-format
 msgid "Switch One Desktop to the Right"
-msgstr ""
+msgstr "Przełącz jeden pulpit w prawo"
 
 #: virtualdesktops.cpp:806
 #, kde-format
 msgid "Switch One Desktop to the Left"
-msgstr ""
+msgstr "Przełącz jeden pulpit w lewo"
 
 #: virtualdesktops.cpp:808
 #, kde-format
 msgid "Switch One Desktop Up"
-msgstr ""
+msgstr "Przełącz jeden pulpit w górę"
 
 #: virtualdesktops.cpp:810
 #, kde-format
 msgid "Switch One Desktop Down"
-msgstr ""
+msgstr "Przełącz jeden pulpit w dół"
 
 #: virtualdesktops.cpp:899
 #, kde-format
 msgid "Switch to Desktop %1"
-msgstr ""
+msgstr "Przełącz na pulpit %1"
 
 #: window.cpp:3470
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
-msgstr ""
+msgstr "(Nie odpowiada)"
 
 #: workspace.cpp:1846
 #, kde-format
@@ -2825,16 +2825,22 @@ msgid ""
 "Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
+"Informacje wsparcia KWin:\n"
+"Poniższe informacje można wykorzystać szukając wsparcia np. na stronie https://forum.kde.org.\n"
+"Zawierają one informacje o aktualnie uruchomionej instancji, używanych opcjach,\n"
+", sterowniku OpenGL i uruchomionych efektach.\n"
+"Prosimy o umieszczanie informacji zawartych poniżej w serwisie pastebin\n"
+"takim jak https://paste.kde.org zamiast wklejania ich bezpośrednio w postach wsparcia.\n"
 
 #~ msgid "&No Border"
-#~ msgstr ""
+#~ msgstr "&Brak obramówki"
 
 #~ msgid "Toggle Window Border"
-#~ msgstr ""
+#~ msgstr "Przełącz obramówkę okna"
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"
-#~ msgstr ""
+#~ msgstr "Wtyczka nie zawiera pliku konfiguracyjnego w oczekiwanym miejscu"
 
 #~ msgid "Invert Screen Colors"
 #~ msgstr ""
