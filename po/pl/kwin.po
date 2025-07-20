@@ -2843,10 +2843,10 @@ msgstr ""
 #~ msgstr "Wtyczka nie zawiera pliku konfiguracyjnego w oczekiwanym miejscu"
 
 #~ msgid "Invert Screen Colors"
-#~ msgstr ""
+#~ msgstr "Odwróć kolory ekranu"
 
 #~ msgid "List all available backends and quit."
-#~ msgstr ""
+#~ msgstr "Wyświetl listę dostępnych backendów i wyjdź"
 
 #~ msgid "Show Desktop"
 #~ msgstr "Pokaż pulpit"
@@ -2858,36 +2858,38 @@ msgstr ""
 #~ msgstr "nieznane"
 
 #~ msgid "Render to framebuffer."
-#~ msgstr ""
+#~ msgstr "Renderuj do framebuffera."
 
 #~ msgid "The framebuffer device to render to."
-#~ msgstr ""
+#~ msgstr "Urządzenia framebuffera do którego renderować."
 
 #~ msgid ""
 #~ "Enable libinput support for input events processing. Note: never use in a "
 #~ "nested session.\t(deprecated)"
 #~ msgstr ""
+#~ "Włącz obsługę libinput dla przetwarzania zdarzeń wejściowych. Uwaga: nigdy "
+#~ "nie używaj w sesji zagnieżdżonej.\t(przestarzałe)"
 
 #~ msgid "Pack Window to the Right"
-#~ msgstr ""
+#~ msgstr "Spakuj okno po prawej stronie"
 
 #~ msgid "Pack Window to the Left"
-#~ msgstr ""
+#~ msgstr "Spakuj okno po lewej stronie"
 
 #~ msgid "Pack Window Up"
-#~ msgstr ""
+#~ msgstr "Spakuj okno na górze"
 
 #~ msgid "Pack Window Down"
-#~ msgstr ""
+#~ msgstr "Spakuj okno na dole"
 
 #~ msgid "Pack Grow Window Horizontally"
-#~ msgstr ""
+#~ msgstr "Spakuj okno w pionie"
 
 #~ msgid "Pack Grow Window Vertically"
-#~ msgstr ""
+#~ msgstr "Spakuj okno w poziomie"
 
 #~ msgid "Desktop number"
-#~ msgstr ""
+#~ msgstr "Numer pulpitu"
 
 #~ msgid "Configure virtual keyboards..."
 #~ msgstr ""
