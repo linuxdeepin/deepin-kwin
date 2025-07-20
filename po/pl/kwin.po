@@ -3118,7 +3118,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Window & Desktop"
-#~ msgstr ""
+#~ msgstr "Okno & Pulpit"
 
 #~ msgid "Miscellaneous"
 #~ msgstr ""
@@ -3148,7 +3148,7 @@ msgstr ""
 #~ msgstr "Okno '%1' wymaga uwagi."
 
 #~ msgid "Layout changed to %1"
-#~ msgstr ""
+#~ msgstr "Układ zmieniony na %1"
 
 #~ msgctxt "Spiral tiling layout"
 #~ msgid "Spiral"
@@ -3170,16 +3170,16 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "*** No Windows ***"
-#~ msgstr ""
+#~ msgstr "*** Brak okien ***"
 
 #~ msgid "Load the script testing dialog"
 #~ msgstr "Załaduj dialog do testowania skryptów"
 
 #~ msgid "Remove &From Group"
-#~ msgstr ""
+#~ msgstr "Usuń &z grupy"
 
 #~ msgid "To the Left"
-#~ msgstr ""
+#~ msgstr "Do lewej"
 
 #~ msgid "To the Right"
 #~ msgstr ""
@@ -3248,150 +3248,152 @@ msgstr ""
 #~ "\n"
 #~ "KWin will now exit..."
 #~ msgstr ""
+#~ "\n"
+#~ "Nastąpi wyjście z KWin..."
 
 #~ msgid "Window to Desktop 2"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 2"
 
 #~ msgid "Window to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 3"
 
 #~ msgid "Window to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 4"
 
 #~ msgid "Window to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 5"
 
 #~ msgid "Window to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 6"
 
 #~ msgid "Window to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 7"
 
 #~ msgid "Window to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 8"
 
 #~ msgid "Window to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 9"
 
 #~ msgid "Window to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 10"
 
 #~ msgid "Window to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 11"
 
 #~ msgid "Window to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 12"
 
 #~ msgid "Window to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 13"
 
 #~ msgid "Window to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 14"
 
 #~ msgid "Window to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 15"
 
 #~ msgid "Window to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 16"
 
 #~ msgid "Window to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 17"
 
 #~ msgid "Window to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 18"
 
 #~ msgid "Window to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 19"
 
 #~ msgid "Window to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Okno na pulpit 20"
 
 #~ msgid "Window to Screen 3"
-#~ msgstr ""
+#~ msgstr "Okno na ekran 3"
 
 #~ msgid "Window to Screen 4"
-#~ msgstr ""
+#~ msgstr "Okno na ekran 4"
 
 #~ msgid "Window to Screen 5"
-#~ msgstr ""
+#~ msgstr "Okno na ekran 5"
 
 #~ msgid "Window to Screen 6"
-#~ msgstr ""
+#~ msgstr "Okno na ekran 6"
 
 #~ msgid "Window to Screen 7"
-#~ msgstr ""
+#~ msgstr "Okno na ekran 7"
 
 #~ msgid "Switch to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 3"
 
 #~ msgid "Switch to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 4"
 
 #~ msgid "Switch to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 5"
 
 #~ msgid "Switch to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 6"
 
 #~ msgid "Switch to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 7"
 
 #~ msgid "Switch to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 8"
 
 #~ msgid "Switch to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 9"
 
 #~ msgid "Switch to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 10"
 
 #~ msgid "Switch to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 11"
 
 #~ msgid "Switch to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 12"
 
 #~ msgid "Switch to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 13"
 
 #~ msgid "Switch to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 14"
 
 #~ msgid "Switch to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 15"
 
 #~ msgid "Switch to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 16"
 
 #~ msgid "Switch to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 17"
 
 #~ msgid "Switch to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 18"
 
 #~ msgid "Switch to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 19"
 
 #~ msgid "Switch to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Przełącz na pulpit 20"
 
 #~ msgid "Switch to Screen 2"
-#~ msgstr ""
+#~ msgstr "Przełącz na ekran 2"
 
 #~ msgid "Switch to Screen 3"
-#~ msgstr ""
+#~ msgstr "Przełącz na ekran 3"
 
 #~ msgid "Switch to Screen 4"
-#~ msgstr ""
+#~ msgstr "Przełącz na ekran 4"
 
 #~ msgid "Switch to Screen 5"
-#~ msgstr ""
+#~ msgstr "Przełącz na ekran 5"
 
 #~ msgid "Switch to Screen 6"
-#~ msgstr ""
+#~ msgstr "Przełącz na ekran 6"
 
 #~ msgid "Switch to Screen 7"
-#~ msgstr ""
+#~ msgstr "Przełącz na ekran 7"
 
 #~ msgid "<center><b>%1</b></center>"
 #~ msgstr ""
@@ -3400,7 +3402,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Not on all desktops"
-#~ msgstr ""
+#~ msgstr "Nie na wszystkich pulpitach"
 
 #~ msgid "On all desktops"
 #~ msgstr ""
@@ -3428,10 +3430,10 @@ msgstr ""
 #~ msgstr "Biblioteka %1 nie jest wtyczką KWin."
 
 #~ msgid "Window Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Zrzut ekranu okna do schowka"
 
 #~ msgid "Desktop Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Zrzut ekranu pulpitu do schowka"
 
 #~ msgid "Toggle Tiling"
 #~ msgstr ""
@@ -3461,13 +3463,13 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Walk Through Grouped Windows"
-#~ msgstr ""
+#~ msgstr "Przechodzenie między pogrupowanymi oknami"
 
 #~ msgid "Walk Through Grouped Windows (Reverse)"
 #~ msgstr "Przechodzenie między pogrupowanymi oknami (Odwrotnie)"
 
 #~ msgid "Switch to group window"
-#~ msgstr ""
+#~ msgstr "Przełącz do grupy okien"
 
 #~ msgid "kwin: failure during initialization; aborting"
 #~ msgstr "kwin: błąd podczas inicjalizacji; zatrzymuję"
@@ -3488,10 +3490,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Clear All Mouse Marks"
-#~ msgstr ""
+#~ msgstr "Wyczyść wszystkie oznaczenia myszy"
 
 #~ msgid "Clear Last Mouse Mark"
-#~ msgstr ""
+#~ msgstr "Wyczyść ostatnie oznaczenie myszy"
 
 #~ msgid "Clear Mouse Marks"
 #~ msgstr ""
@@ -3505,7 +3507,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Toggle Snow on Desktop"
-#~ msgstr ""
+#~ msgstr "Przełącz pokaż na pulpicie"
 
 #~ msgid "Toggle Thumbnail for Current Window"
 #~ msgstr "Przełącz miniaturę dla bieżącego okna"
@@ -3515,7 +3517,7 @@ msgstr ""
 #~ "Przytrzymaj klawisze Ctrl+Meta, aby zobaczyć gdzie znajduje się kursor."
 
 #~ msgid "Path to save video:"
-#~ msgstr ""
+#~ msgstr "Ścieżka do zapisania wideo:"
 
 #~ msgid "None"
 #~ msgstr "Brak"
