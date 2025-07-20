@@ -2892,27 +2892,27 @@ msgstr ""
 #~ msgstr "Numer pulpitu"
 
 #~ msgid "Configure virtual keyboards..."
-#~ msgstr ""
+#~ msgstr "Konfiguruj klawiatury wirtualne..."
 
 #~ msgid "Virtual Keyboard"
 #~ msgstr "Klawiatura wirtualna"
 
 #~ msgid "Whether to show the virtual keyboard on demand."
-#~ msgstr ""
+#~ msgstr "Czy pokazywać klawiaturę wirtualną na żądanie?"
 
 #~ msgid "Virtual Keyboard: enabled"
-#~ msgstr ""
+#~ msgstr "Klawiatura wirtualna: włączona"
 
 #~ msgid "Virtual Keyboard: disabled"
-#~ msgstr ""
+#~ msgstr "Klawiatura wirtualna: wyłączona"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
-#~ msgstr ""
+#~ msgstr "Nieudana asercja: %1 nie jest zerem"
 
 #~ msgctxt "Assertion failed in KWin script"
 #~ msgid "Assertion failed: argument is null"
-#~ msgstr ""
+#~ msgstr "Nieudana asercja: argument jest zerem"
 
 #~ msgctxt "Error in KWin Script"
 #~ msgid ""
