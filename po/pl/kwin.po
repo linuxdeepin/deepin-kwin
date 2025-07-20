@@ -3070,7 +3070,7 @@ msgstr ""
 #~ "wyświetlania programowego."
 
 #~ msgid "Use a nested compositor in windowed mode."
-#~ msgstr ""
+#~ msgstr "Użyj zagnieżdżonego kompozytora w trybie okienkowym."
 
 #~ msgctxt "notification about mouse pointer confined"
 #~ msgid ""
@@ -3090,6 +3090,7 @@ msgstr ""
 
 #~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 #~ msgstr ""
+#~ "GLX/OpenGL nie są dostępne, a tylko wsparcie OpenGL jest skompilowane."
 
 #~ msgid "Sh&ade"
 #~ msgstr ""
@@ -3098,6 +3099,8 @@ msgstr ""
 #~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
 #~ " set.\n"
 #~ msgstr ""
+#~ "kwin_wayland: nie można połączyć się z serwerem Wayland, upewnij się, ze "
+#~ "WAYLAND_DISPLAY został ustawiony.\n"
 
 #~ msgid ""
 #~ "The X11 Display to connect to. If not set next free number will be picked."
@@ -3127,6 +3130,8 @@ msgstr ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
 #~ "started.\n"
 #~ msgstr ""
+#~ "kwin: wygląda na to, że działa już inny menedżer okien. Kwin nie włączy "
+#~ "się.\n"
 
 #~ msgid ""
 #~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
@@ -3186,6 +3191,8 @@ msgstr ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
 #~ "compiled."
 #~ msgstr ""
+#~ "Rozszerzenia XRender/XFixes nie są dostępne, a tylko wsparcie XRender jest "
+#~ "skompilowane."
 
 #~ msgid ""
 #~ "Compositing was disabled at compile time.\n"
@@ -3411,13 +3418,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "No window decoration plugin library was found."
-#~ msgstr ""
+#~ msgstr "Nie znaleziono biblioteki wtyczki dekoracyjnej."
 
 #~ msgid "The default decoration plugin is corrupt and could not be loaded."
 #~ msgstr ""
+#~ "Bieżąca wtyczka dekoracyjna jest uszkodzona i nie można jej załadować."
 
 #~ msgid "The library %1 is not a KWin plugin."
-#~ msgstr ""
+#~ msgstr "Biblioteka %1 nie jest wtyczką KWin."
 
 #~ msgid "Window Screenshot to Clipboard"
 #~ msgstr ""
@@ -3504,6 +3512,7 @@ msgstr ""
 
 #~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
 #~ msgstr ""
+#~ "Przytrzymaj klawisze Ctrl+Meta, aby zobaczyć gdzie znajduje się kursor."
 
 #~ msgid "Path to save video:"
 #~ msgstr ""
@@ -3539,10 +3548,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Draw window caption on top of window"
-#~ msgstr ""
+#~ msgstr "Rysuj tytuł okna na górze okna"
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
 #~ msgstr ""
+#~ "Aktywuj, gdy kursor znajduje się w konkretnym miejscu lub rogu ekranu:"
 
 #~ msgid "for windows on all desktops: "
 #~ msgstr ""
