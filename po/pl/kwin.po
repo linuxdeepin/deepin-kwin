@@ -2919,35 +2919,39 @@ msgstr ""
 #~ "Invalid number of arguments. At least service, path, interface and method "
 #~ "need to be provided"
 #~ msgstr ""
+#~ "Nieprawidłowa liczba argumentów. Muszą być podane co najmniej: usługa, "
+#~ "ścieżka, interfejs i metoda"
 
 #~ msgctxt "Error in KWin Script"
 #~ msgid ""
 #~ "Invalid type. Service, path, interface and method need to be string values"
 #~ msgstr ""
+#~ "Nieprawidłowy typ. Usługa, ścieżka, interfejs i metoda muszą być ciągami "
+#~ "znaków"
 
 #~ msgctxt "syntax error in KWin script"
 #~ msgid "Invalid number of arguments"
-#~ msgstr ""
+#~ msgstr "Nieprawidłowa liczba argumentów"
 
 #~ msgctxt ""
 #~ "KWin Scripting function received incorrect value for an expected type"
 #~ msgid "%1 is not a variant type"
-#~ msgstr ""
+#~ msgstr "%1 nie jest typem variant"
 
 #~ msgid "Pressed Buttons"
 #~ msgstr "Naciśnięte przyciski"
 
 #~ msgid "Use libhybris hwcomposer"
-#~ msgstr ""
+#~ msgstr "Użyj libhybris hwcomposer"
 
 #~ msgid "Allow Rotation"
-#~ msgstr ""
+#~ msgstr "Zezwól na obrót"
 
 #~ msgid "Automatic screen rotation is enabled"
-#~ msgstr ""
+#~ msgstr "Samoobracanie ekranu jest wyłączone"
 
 #~ msgid "Undefined"
-#~ msgstr ""
+#~ msgstr "Nieokreślony"
 
 #~ msgctxt "Portrait oriented display"
 #~ msgid "Vertical"
@@ -2958,58 +2962,60 @@ msgstr ""
 #~ msgstr "Poziomy"
 
 #~ msgid "Automatic screen rotation is disabled"
-#~ msgstr ""
+#~ msgstr "Samoobracanie ekranu jest wyłączone"
 
 #~ msgid "Walk Through Window Tabs"
-#~ msgstr ""
+#~ msgstr "Przełącz kartę okna"
 
 #~ msgid "Walk Through Window Tabs (Reverse)"
-#~ msgstr ""
+#~ msgstr "Przełącz kartę okna (odwrotnie)"
 
 #~ msgid "Remove Window From Group"
-#~ msgstr ""
+#~ msgstr "Usuń okno z grupy"
 
 #~ msgid "&Untab"
-#~ msgstr ""
+#~ msgstr "&Usuń z kart"
 
 #~ msgid "Close Entire &Group"
-#~ msgstr ""
+#~ msgstr "Zamknij całą &grupę"
 
 #~ msgctxt "Switch to tab -> Previous"
 #~ msgid "Previous"
-#~ msgstr ""
+#~ msgstr "Poprzednia"
 
 #~ msgctxt "Switch to tab -> Next"
 #~ msgid "Next"
-#~ msgstr ""
+#~ msgstr "Następna"
 
 #~ msgctxt "There's no window available to be attached as tab to this one"
 #~ msgid "None available"
-#~ msgstr ""
+#~ msgstr "Żadne niedostępne"
 
 #~ msgid "Switch to Tab"
-#~ msgstr ""
+#~ msgstr "Przełącz na kartę"
 
 #~ msgid "&Attach as tab to"
-#~ msgstr ""
+#~ msgstr "Przytwierdź jako k&arta do"
 
 #~ msgctxt ""
 #~ "Entry in context menu of window decoration to open the configuration module "
 #~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
-#~ msgstr ""
+#~ msgstr "Ustawi&enia zarządzania oknami..."
 
 #~ msgid "Automatic Screen Rotation"
-#~ msgstr ""
+#~ msgstr "Samoobracanie ekranu"
 
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
+#~ "kwin_wayland: uruchomiono program X11 do zarządzania oknami na wyświetlaczu "
+#~ "X11.\n"
 
 #~ msgid "Martin Gräßlin"
-#~ msgstr ""
+#~ msgstr "Martin Gräßlin"
 
 #~ msgid "Maintainer"
-#~ msgstr ""
+#~ msgstr "Opiekun"
 
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
