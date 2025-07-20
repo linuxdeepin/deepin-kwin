@@ -2189,7 +2189,7 @@ msgstr "Przechodzenie między oknami"
 
 #: tabbox/tabbox.cpp:522
 msgid "Walk Through Windows (Reverse)"
-msgstr "Przechodzenie między oknami (odwrotne)"
+msgstr "Przechodzenie między oknami (Odwrotnie)"
 
 #: tabbox/tabbox.cpp:523
 msgid "Walk Through Windows Alternative"
@@ -2197,7 +2197,7 @@ msgstr "Alternatywne przechodzenie między oknami"
 
 #: tabbox/tabbox.cpp:524
 msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "Alternatywne przechodzenie między oknami (odwrotne)"
+msgstr "Alternatywne przechodzenie między oknami (Odwrotnie)"
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Windows of Current Application"
@@ -3145,7 +3145,7 @@ msgstr ""
 #~ " niezapisane dane zostaną utracone.</b></p>"
 
 #~ msgid "Window '%1' demands attention."
-#~ msgstr ""
+#~ msgstr "Okno '%1' wymaga uwagi."
 
 #~ msgid "Layout changed to %1"
 #~ msgstr ""
@@ -3173,7 +3173,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Load the script testing dialog"
-#~ msgstr ""
+#~ msgstr "Załaduj dialog do testowania skryptów"
 
 #~ msgid "Remove &From Group"
 #~ msgstr ""
@@ -3412,10 +3412,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Do not keep above others"
-#~ msgstr ""
+#~ msgstr "Nie zachowuj nad wszystkimi"
 
 #~ msgid "Do not keep below others"
-#~ msgstr ""
+#~ msgstr "Nie zachowuj pod wszystkimi"
 
 #~ msgid "No window decoration plugin library was found."
 #~ msgstr "Nie znaleziono biblioteki wtyczki dekoracyjnej."
@@ -3464,13 +3464,13 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Walk Through Grouped Windows (Reverse)"
-#~ msgstr ""
+#~ msgstr "Przechodzenie między pogrupowanymi oknami (Odwrotnie)"
 
 #~ msgid "Switch to group window"
 #~ msgstr ""
 
 #~ msgid "kwin: failure during initialization; aborting"
-#~ msgstr ""
+#~ msgstr "kwin: błąd podczas inicjalizacji; zatrzymuję"
 
 #~ msgid "Terminate"
 #~ msgstr ""
@@ -3508,7 +3508,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Toggle Thumbnail for Current Window"
-#~ msgstr ""
+#~ msgstr "Przełącz miniaturę dla bieżącego okna"
 
 #~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
 #~ msgstr ""
@@ -3533,38 +3533,38 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Shadow size (relative to window):"
-#~ msgstr ""
+#~ msgstr "Rozmiar cienia (względny dla okna):"
 
 #~ msgid "Shadow color:"
 #~ msgstr ""
 
 #~ msgid "Active window has stronger shadow"
-#~ msgstr ""
+#~ msgstr "Aktywne okno ma mocniejszy cień"
 
 #~ msgid "Toggle Expose Effect"
 #~ msgstr ""
 
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
-#~ msgstr ""
+#~ msgstr "Przełącz efekty ekspozycji (wł. inne pulpity)"
 
 #~ msgid "Draw window caption on top of window"
-#~ msgstr "Rysuj tytuł okna na górze okna"
+#~ msgstr "Rysuj tytuł na górze okna"
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
 #~ msgstr ""
 #~ "Aktywuj, gdy kursor znajduje się w konkretnym miejscu lub rogu ekranu:"
 
 #~ msgid "for windows on all desktops: "
-#~ msgstr ""
+#~ msgstr "dla okien na wszystkich pulpitach: "
 
 #~ msgid "Animate desktop changes"
 #~ msgstr ""
 
 #~ msgid "Reset opacity to default value"
-#~ msgstr ""
+#~ msgstr "Zresetuj nieprzezroczystość do wartości domyślnej"
 
 #~ msgid "Slide this to set the window's opacity"
-#~ msgstr ""
+#~ msgstr "Przesuwaj, aby ustawić nieprzezroczystość okna"
 
 #~ msgid ""
 #~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
@@ -3627,7 +3627,7 @@ msgstr ""
 #: workspace.cpp:2507
 #, kde-format
 msgid "The confidential file cannot be displayed"
-msgstr ""
+msgstr "Nie można wyświetlić poufnego pliku"
 
 msgid "Minimize"
 msgstr "Minimalizuj"
