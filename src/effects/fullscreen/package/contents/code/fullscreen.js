@@ -8,23 +8,24 @@
 
 "use strict";
 
-class FullScreenEffect {
-    constructor() {
-        effect.configChanged.connect(this.loadConfig.bind(this));
+var fullscreenEffect = {
+    duration: animationTime(250),
+    init: function () {
+        effect.configChanged.connect(fullscreenEffect.loadConfig);
         effects.windowFrameGeometryChanged.connect(
-                this.onWindowFrameGeometryChanged.bind(this));
+            fullscreenEffect.onWindowFrameGeometryChanged);
         effects.windowFullScreenChanged.connect(
-                this.onWindowFullScreenChanged.bind(this));
-        effect.animationEnded.connect(this.restoreForceBlurState.bind(this));
+            fullscreenEffect.onWindowFullScreenChanged);
+        effect.animationEnded.connect(fullscreenEffect.restoreForceBlurState);
 
-        this.loadConfig();
-    }
+        fullscreenEffect.loadConfig();
+    },
 
-    loadConfig() {
-        this.duration = animationTime(250);
-    }
+    loadConfig: function () {
+        fullscreenEffect.duration = animationTime(250);
+    },
 
-    onWindowFullScreenChanged(window) {
+    onWindowFullScreenChanged: function (window) {
         if (!window.visible || !window.oldGeometry) {
             return;
         }
@@ -37,7 +38,7 @@ class FullScreenEffect {
         window.oldGeometry = Object.assign({}, newGeometry);
         window.fullScreenAnimation1 = animate({
             window: window,
-            duration: this.duration,
+            duration: fullscreenEffect.duration,
             animations: [{
                 type: Effect.Size,
                 to: {
@@ -63,9 +64,9 @@ class FullScreenEffect {
             }]
         });
         if (!window.resize) {
-            window.fullScreenAnimation2 =animate({
+            window.fullScreenAnimation2 = animate({
                 window: window,
-                duration: this.duration,
+                duration: fullscreenEffect.duration,
                 animations: [{
                     type: Effect.CrossFadePrevious,
                     to: 1.0,
@@ -74,13 +75,13 @@ class FullScreenEffect {
                 }]
             });
         }
-    }
+    },
 
-    restoreForceBlurState(window) {
+    restoreForceBlurState: function (window) {
         window.setData(Effect.WindowForceBlurRole, null);
-    }
+    },
 
-    onWindowFrameGeometryChanged(window, oldGeometry) {
+    onWindowFrameGeometryChanged: function (window, oldGeometry) {
         if (window.fullScreenAnimation1) {
             if (window.geometry.width != window.oldGeometry.width ||
                 window.geometry.height != window.oldGeometry.height) {
@@ -95,6 +96,6 @@ class FullScreenEffect {
         window.oldGeometry = Object.assign({}, window.geometry);
         window.olderGeometry = Object.assign({}, oldGeometry);
     }
-}
+};
 
-new FullScreenEffect();
+fullscreenEffect.init();
