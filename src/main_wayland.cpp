@@ -329,7 +329,6 @@ int main(int argc, char *argv[])
 {
     // libwayland debug information needs to be captured by kwin,
     // and kwin uses logging rules to decide whether to enable libwayland debug information.
-    setenv("WAYLAND_DEBUG", "1", true);
     KWin::Logger::instance()->installMessageHandler();
     wl_log_set_handler_server(waylandLogHandler);
 #ifndef BUILD_WITHOUT_V20_PATCH
