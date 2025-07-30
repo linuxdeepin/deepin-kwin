@@ -336,85 +336,85 @@ msgstr ""
 #, kde-format
 msgctxt "A key press event"
 msgid "Key Press"
-msgstr ""
+msgstr "Näppäimen painallus"
 
 #: debug_console.cpp:268
 #, kde-format
 msgctxt "A key release event"
 msgid "Key Release"
-msgstr ""
+msgstr "Näppäimen vapautus"
 
 #: debug_console.cpp:277
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: debug_console.cpp:281
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Control"
-msgstr ""
+msgstr "Control"
 
 #: debug_console.cpp:285
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: debug_console.cpp:289
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: debug_console.cpp:293
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Keypad"
-msgstr ""
+msgstr "Numeronäppäimet"
 
 #: debug_console.cpp:297
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Group-switch"
-msgstr ""
+msgstr "Ryhmän vaihto"
 
 #: debug_console.cpp:303
 #, kde-format
 msgctxt "Whether the event is an automatic key repeat"
 msgid "Repeat"
-msgstr ""
+msgstr "Uudelleen"
 
 #: debug_console.cpp:307
 #, kde-format
 msgctxt "The code as read from the input device"
 msgid "Scan code"
-msgstr ""
+msgstr "Lue koodi"
 
 #: debug_console.cpp:308
 #, kde-format
 msgctxt "Key according to Qt"
 msgid "Qt::Key code"
-msgstr ""
+msgstr "Qt::Key-koodi"
 
 #: debug_console.cpp:310
 #, kde-format
 msgctxt "The translated code to an Xkb symbol"
 msgid "Xkb symbol"
-msgstr ""
+msgstr "Xkb symboli"
 
 #: debug_console.cpp:311
 #, kde-format
 msgctxt "The translated code interpreted as text"
 msgid "Utf8"
-msgstr ""
+msgstr "Utf8"
 
 #: debug_console.cpp:312
 #, kde-format
 msgctxt "The currently active modifiers"
 msgid "Modifiers"
-msgstr ""
+msgstr "Muokkaimet"
 
 #: debug_console.cpp:324
 #, kde-format
@@ -623,7 +623,7 @@ msgstr ""
 #: debug_console.cpp:517 debug_console.ui:356
 #, kde-format
 msgid "Modifiers"
-msgstr ""
+msgstr "Muokkaimet"
 
 #: debug_console.cpp:526
 #, kde-format
