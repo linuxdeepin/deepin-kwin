@@ -498,13 +498,13 @@ msgstr "Nipistyksen loppu"
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr ""
+msgstr "Nipistys peruutettu"
 
 #: debug_console.cpp:420
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr ""
+msgstr "Pyyhkäisyn alku"
 
 #: debug_console.cpp:422
 #, kde-format
@@ -516,7 +516,7 @@ msgstr "Sormien määrä"
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr ""
+msgstr "Pyyhkäisyn päivitys"
 
 #: debug_console.cpp:435
 #, kde-format
@@ -534,13 +534,13 @@ msgstr ""
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr ""
+msgstr "Pyyhkäisyn loppu"
 
 #: debug_console.cpp:459
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr ""
+msgstr "Pyyhkäisy peruutettu"
 
 #: debug_console.cpp:471
 #, kde-format
@@ -552,57 +552,57 @@ msgstr ""
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr ""
+msgstr "Kannettavan kansi"
 
 #: debug_console.cpp:479
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr ""
+msgstr "Tablettitila"
 
 #: debug_console.cpp:481
 #, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr ""
+msgstr "Vaihto"
 
 #: debug_console.cpp:485
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr ""
+msgstr "Pois"
 
 #: debug_console.cpp:488
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
-msgstr ""
+msgstr "On"
 
 #: debug_console.cpp:493
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
-msgstr ""
+msgstr "Tila"
 
 #: debug_console.cpp:508
 #, kde-format
 msgid "Tablet Tool"
-msgstr ""
+msgstr "Tablettityökalu"
 
 #: debug_console.cpp:509
 #, kde-format
 msgid "EventType"
-msgstr ""
+msgstr "Tapahtumatyyppi"
 
 #: debug_console.cpp:510 debug_console.cpp:555 debug_console.cpp:569
 #, kde-format
 msgid "Position"
-msgstr ""
+msgstr "Paikka"
 
 #: debug_console.cpp:512
 #, kde-format
 msgid "Tilt"
-msgstr ""
+msgstr "Kallistus"
 
 #: debug_console.cpp:514
 #, kde-format
