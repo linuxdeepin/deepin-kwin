@@ -607,17 +607,17 @@ msgstr "Kallistus"
 #: debug_console.cpp:514
 #, kde-format
 msgid "Rotation"
-msgstr ""
+msgstr "Pyöritys"
 
 #: debug_console.cpp:515
 #, kde-format
 msgid "Pressure"
-msgstr ""
+msgstr "Paine"
 
 #: debug_console.cpp:516
 #, kde-format
 msgid "Buttons"
-msgstr ""
+msgstr "Painikkeet"
 
 #. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
 #: debug_console.cpp:517 debug_console.ui:356
@@ -628,7 +628,7 @@ msgstr "Muokkaimet"
 #: debug_console.cpp:526
 #, kde-format
 msgid "Tablet Tool Button"
-msgstr ""
+msgstr "Tabletin työkalupainike"
 
 #: debug_console.cpp:527 debug_console.cpp:541
 #, kde-format
@@ -638,18 +638,18 @@ msgstr "Painike"
 #: debug_console.cpp:528 debug_console.cpp:542
 #, kde-format
 msgid "Pressed"
-msgstr ""
+msgstr "Painettu"
 
 #: debug_console.cpp:529 debug_console.cpp:543 debug_console.cpp:557
 #: debug_console.cpp:571
 #, kde-format
 msgid "Tablet"
-msgstr ""
+msgstr "Tabletti"
 
 #: debug_console.cpp:540
 #, kde-format
 msgid "Tablet Pad Button"
-msgstr ""
+msgstr "Tablet painike"
 
 #: debug_console.cpp:553
 #, kde-format
@@ -659,7 +659,7 @@ msgstr ""
 #: debug_console.cpp:554 debug_console.cpp:568
 #, kde-format
 msgid "Number"
-msgstr ""
+msgstr "Numero"
 
 #: debug_console.cpp:556 debug_console.cpp:570
 #, kde-format
@@ -680,25 +680,25 @@ msgstr ""
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
-msgstr ""
+msgstr "vasen"
 
 #: debug_console.cpp:804
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
-msgstr ""
+msgstr "oikea"
 
 #: debug_console.cpp:807
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
-msgstr ""
+msgstr "keskellä"
 
 #: debug_console.cpp:810
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
-msgstr ""
+msgstr "takaisin"
 
 #: debug_console.cpp:813
 #, kde-format
