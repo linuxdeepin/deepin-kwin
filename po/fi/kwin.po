@@ -704,7 +704,7 @@ msgstr "takaisin"
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
-msgstr ""
+msgstr "eteenpäin"
 
 #: debug_console.cpp:816
 #, kde-format
@@ -854,7 +854,7 @@ msgstr ""
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
-msgstr ""
+msgstr "tehtävä"
 
 #: debug_console.cpp:1222
 #, kde-format
@@ -880,7 +880,7 @@ msgstr ""
 #: debug_console.ui:32
 #, kde-format
 msgid "Quit Debug Console"
-msgstr ""
+msgstr "Sulje virhekonsoli"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
 #: debug_console.ui:45
@@ -898,49 +898,49 @@ msgstr ""
 #: debug_console.ui:69
 #, kde-format
 msgid "Input Events"
-msgstr ""
+msgstr "Sisääntulon tapahtumat"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
 #: debug_console.ui:86
 #, kde-format
 msgid "Input Devices"
-msgstr ""
+msgstr "Sisääntulot"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: debug_console.ui:96
 #, kde-format
 msgid "OpenGL"
-msgstr ""
+msgstr "OpenGL"
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
 #: debug_console.ui:102
 #, kde-format
 msgid "No OpenGL compositor running"
-msgstr ""
+msgstr "OpenGL ei ole käynnissä"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
 #: debug_console.ui:130
 #, kde-format
 msgid "OpenGL (ES) driver information"
-msgstr ""
+msgstr "OpenGL (ES) ajurin tiedot"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:136
 #, kde-format
 msgid "Vendor:"
-msgstr ""
+msgstr "Toimittaja:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: debug_console.ui:143
 #, kde-format
 msgid "Renderer:"
-msgstr ""
+msgstr "Renderöinti:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: debug_console.ui:150
 #, kde-format
 msgid "Version:"
-msgstr ""
+msgstr "Versio:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: debug_console.ui:157
