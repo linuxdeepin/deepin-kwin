@@ -154,6 +154,7 @@ SurfaceInterface *PointerInterface::focusedSurface() const
 
 void PointerInterface::sendEnter(SurfaceInterface *surface, const QPointF &position, quint32 serial)
 {
+    seat()->stopPendingFocusedSurfaceRecovery();
     if (d->focusedSurface == surface) {
         return;
     }

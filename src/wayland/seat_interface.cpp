@@ -946,17 +946,34 @@ void SeatInterface::notifyPointerAxisToClient(Qt::Orientation orientation, qint3
     QPointer<SurfaceInterface> sur = d->pointer->focusedSurface();
     if (sur != surface) {
         d->pointer->sendEnter(surface, pos, serial);
+    } else {
+        stopPendingFocusedSurfaceRecovery();
     }
-    d->pointer->sendAxis(orientation, delta, 0, PointerAxisSource::Wheel);
-    d->pointer->sendFrame();
-    static QTimer timer;
-    timer.setSingleShot(true);
-    timer.start(300);
-    static QMetaObject::Connection c;
-    disconnect(c);
-    c = connect(&timer, &QTimer::timeout, this, [this, sur, pos, serial] {
-        if (sur != nullptr && d->pointer != nullptr) {
-            d->pointer->sendEnter(sur, pos, serial);
+    bool ok = false;
+    int delay = qEnvironmentVariableIntValue("KWIN_SEAT_NOTIFY_AXIS_DELAY", &ok);
+    delay = ok && delay > 0 ? delay : 150; // default 150ms
+    QTimer::singleShot(delay, this, [this, sur, pos, serial, surface, orientation, delta, delay] {
+        stopPendingFocusedSurfaceRecovery();
+        if (surface != d->pointer->focusedSurface()) {
+            qCWarning(KWIN_CORE) << "Surface changed during axis notification.";
+            return;
+        }
+        d->pointer->sendAxis(orientation, delta, 0, PointerAxisSource::Wheel);
+        d->pointer->sendFrame();
+        d->notifyTimer.setSingleShot(true);
+        d->notifyTimer.setInterval(delay);
+        Q_ASSERT(!d->notifyTimeoutConn);
+        d->notifyTimeoutConn = connect(&d->notifyTimer, &QTimer::timeout, this, [this, sur, pos, serial, surface] {
+            stopPendingFocusedSurfaceRecovery();
+            Q_ASSERT(surface == d->pointer->focusedSurface());
+            if (sur != nullptr && d->pointer != nullptr) {
+                d->pointer->sendEnter(sur, pos, serial);
+            }
+        });
+        if (d->notifyTimeoutConn) {
+            d->notifyTimer.start();
+        } else {
+            qCWarning(KWIN_CORE) << "Failed to post recovering focused surface" << sur << "due to connection error.";
         }
     });
 }
@@ -1694,6 +1711,14 @@ DragAndDropIcon *SeatInterface::dragIcon() const
 void SeatInterface::addSecurityInterface(DDESecurityInterface* security)
 {
     d->addSecurityInterface(security);
+}
+
+void SeatInterface::stopPendingFocusedSurfaceRecovery()
+{
+    if (d->notifyTimer.isActive())
+        d->notifyTimer.stop();
+    if (d->notifyTimeoutConn)
+        disconnect(d->notifyTimeoutConn);
 }
 
 uint32_t SeatInterface::verifySelectionForX11(AbstractDataSource *source, int target)

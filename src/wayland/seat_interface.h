@@ -655,6 +655,7 @@ public:
     static SeatInterface *get(wl_resource *native);
 
     void addSecurityInterface(DDESecurityInterface* security);
+    void stopPendingFocusedSurfaceRecovery();
 
 Q_SIGNALS:
     void nameChanged(const QString &);

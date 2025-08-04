@@ -13,6 +13,7 @@
 #include <QHash>
 #include <QMap>
 #include <QPointer>
+#include <QTimer>
 #include <QVector>
 
 #include <optional>
@@ -175,6 +176,8 @@ public:
         QMetaObject::Connection dragSourceDestroyConnection;
     };
     Drag drag;
+    QTimer notifyTimer;
+    QMetaObject::Connection notifyTimeoutConn;
 
 protected:
     void seat_bind_resource(Resource *resource) override;
