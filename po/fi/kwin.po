@@ -36,7 +36,7 @@ msgstr ""
 #: composite.cpp:646
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
-msgstr ""
+msgstr "Tehosteet käynnistettiin uudelleen grafiikan nollauksen vuoksi"
 
 #: composite.cpp:875
 #, kde-format
@@ -44,6 +44,8 @@ msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr ""
+"Toinen sovellus on keskeyttänyt tehosteet. <br/>Voit palauttaa ne painamalla"
+" \"%1\" kuvaketta."
 
 #: composite.cpp:1064
 #, kde-format
