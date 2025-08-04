@@ -1195,7 +1195,7 @@ msgstr "KWin"
 #: main.cpp:181 main.cpp:204
 #, kde-format
 msgid "KDE window manager"
-msgstr ""
+msgstr "KDE ikkunanhallinta"
 
 #: main.cpp:183
 #, kde-format
@@ -1396,11 +1396,13 @@ msgstr ""
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
+"kwin: toinen ikkunanhallinta on käynnissä (kokeile käyttää --replace-"
+"valitsinta)\n"
 
 #: main_x11.cpp:411
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
-msgstr ""
+msgstr "Korvaa jo käynnissä oleva ICCCM2.0 ikkunanhallinta"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:49
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:51
@@ -2733,6 +2735,8 @@ msgid ""
 "The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
+"Ikkunanhallinta on määritetty pitämään näyttöä, jossa on hiiri, aktiivisena.\n"
+"Siksi näyttöön ei voi vaihtaa erikseen."
 
 #: virtualdesktops.cpp:693 virtualdesktops.cpp:764
 #, kde-format
