@@ -2965,7 +2965,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
-#~ msgstr ""
+#~ msgstr "kwin_wayland: X11-ikkunanhallinta on käynnissä X11-näytössä.\n"
 
 #~ msgid "Martin Gräßlin"
 #~ msgstr ""
@@ -3056,6 +3056,8 @@ msgstr ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
 #~ "started.\n"
 #~ msgstr ""
+#~ "kwin: näyttää siltä, että ikkunanhallinta on jo käynnissä. kwiniä ei ole "
+#~ "käynnistetty.\n"
 
 #~ msgid ""
 #~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
