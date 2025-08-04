@@ -865,22 +865,22 @@ msgstr "tehtävä"
 #: debug_console.cpp:1222
 #, kde-format
 msgid "X11 Windows"
-msgstr ""
+msgstr "X11 Windows"
 
 #: debug_console.cpp:1224
 #, kde-format
 msgid "X11 Unmanaged Windows"
-msgstr ""
+msgstr "X11 Windows, hallitsematon"
 
 #: debug_console.cpp:1226
 #, kde-format
 msgid "Wayland Windows"
-msgstr ""
+msgstr "Wayland Windows"
 
 #: debug_console.cpp:1228
 #, kde-format
 msgid "Internal Windows"
-msgstr ""
+msgstr "Windows, sisäinen"
 
 #. i18n: ectx: property (text), widget (QPushButton, quitButton)
 #: debug_console.ui:32
@@ -892,13 +892,13 @@ msgstr "Sulje virhekonsoli"
 #: debug_console.ui:45
 #, kde-format
 msgid "Windows"
-msgstr ""
+msgstr "Windows"
 
 #. i18n: ectx: attribute (title), widget (QWidget, surfaces)
 #: debug_console.ui:59
 #, kde-format
 msgid "Surfaces"
-msgstr ""
+msgstr "Surfaces"
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
 #: debug_console.ui:69
@@ -1006,7 +1006,7 @@ msgstr "Näppäimistökartta"
 #: debug_console.ui:337
 #, kde-format
 msgid "Current Layout:"
-msgstr ""
+msgstr "Nykyinen asettelu:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
 #: debug_console.ui:372
