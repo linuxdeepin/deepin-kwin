@@ -56,16 +56,20 @@ msgid ""
 "protection but <b>be aware that this might result in an immediate "
 "crash!</b></p>"
 msgstr ""
+"<b>OpenGL-käsittely (oletus) on kaatanut KWinin aikaisemmin. </b><br>Tämä "
+"todennäköisesti johtui ajurivirheestä. <p>Jos uskot, että olet tällä välin "
+"päivittänyt vakaaseen ajuriin, <br>voit nollata tämän suojauksen.<b> Huomaa,"
+" että tämä voi johtaa välittömään kaatumiseen!</b></p>"
 
 #: composite.cpp:1071
 #, kde-format
 msgid "Required X extensions (XComposite and XDamage) are not available."
-msgstr ""
+msgstr "Vaadittuja X-laajennuksia (XComposite ja XDamage) ei ole saatavilla."
 
 #: composite.cpp:1074
 #, kde-format
 msgid "GLX/OpenGL is not available."
-msgstr ""
+msgstr "GLX/OpenGL ei ole saatavilla."
 
 #: debug_console.cpp:79 debug_console.cpp:84
 #, kde-format
@@ -260,7 +264,7 @@ msgstr "Osoittimen liike"
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: debug_console.cpp:208
 #, kde-format
@@ -332,7 +336,7 @@ msgstr "Pystysuora"
 #, kde-format
 msgctxt "The angle delta of a pointer axis event"
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: debug_console.cpp:265
 #, kde-format
@@ -476,19 +480,19 @@ msgstr "Skaalaus"
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
-msgstr ""
+msgstr "Kulma-delta"
 
 #: debug_console.cpp:384
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
 #: debug_console.cpp:385
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
 #: debug_console.cpp:396
 #, kde-format
@@ -524,13 +528,13 @@ msgstr "Pyyhkäisyn päivitys"
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta x"
-msgstr ""
+msgstr "Delta x"
 
 #: debug_console.cpp:436
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta y"
-msgstr ""
+msgstr "Delta y"
 
 #: debug_console.cpp:447
 #, kde-format
@@ -548,7 +552,7 @@ msgstr "Pyyhkäisy peruutettu"
 #, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr ""
+msgstr "Kytkin päällä"
 
 #: debug_console.cpp:477
 #, kde-format
@@ -676,7 +680,7 @@ msgstr ""
 #: debug_console.cpp:797
 #, kde-format
 msgid "No Mouse Buttons"
-msgstr ""
+msgstr "Ei hiiren painikkeita"
 
 #: debug_console.cpp:801
 #, kde-format
