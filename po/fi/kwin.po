@@ -1012,37 +1012,37 @@ msgstr "Nykyinen asettelu:"
 #: debug_console.ui:372
 #, kde-format
 msgid "Active Modifiers"
-msgstr ""
+msgstr "Aktiiviset muokkaimet"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ledsBox)
 #: debug_console.ui:388
 #, kde-format
 msgid "LEDs"
-msgstr ""
+msgstr "Ledit"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
 #: debug_console.ui:404
 #, kde-format
 msgid "Active LEDs"
-msgstr ""
+msgstr "Aktiiviset ledit"
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:425 debug_console.ui:445
 #, kde-format
 msgid "Clipboard"
-msgstr ""
+msgstr "Leikepöytä"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:491
 #, kde-format
 msgid "Primary Selection"
-msgstr ""
+msgstr "Ensisijainen valinta"
 
 #: helpers/killer/killer.cpp:34
 #, kde-format
 msgid "Window Manager"
-msgstr ""
+msgstr "Ikkunanhallinta"
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
@@ -1381,6 +1381,9 @@ msgid ""
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
+"KWin on epävakaa.\n"
+"Se on kaatunut useita kertoja peräkkäin.\n"
+"Voit valita suoritettavaksi toisen ikkunanhallinnan:"
 
 #: main_x11.cpp:259
 #, kde-format
