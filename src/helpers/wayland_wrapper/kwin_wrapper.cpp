@@ -55,7 +55,7 @@ private:
     QProcess *m_kwinProcess = nullptr;
 
     std::unique_ptr<KWin::XwaylandSocket> m_xwlSocket;
-    QTemporaryFile m_xauthorityFile;
+    QFile m_xauthorityFile;
 };
 
 KWinWrapper::KWinWrapper(QObject *parent)
@@ -110,7 +110,7 @@ void KWinWrapper::run()
             args << "--xwayland-fd" << QString::number(fileDescriptor);
         }
         args << "--xwayland-display" << m_xwlSocket->name();
-        if (m_xauthorityFile.open()) {
+        if (m_xauthorityFile.open(QFile::ReadOnly)) {
             args << "--xwayland-xauthority" << m_xauthorityFile.fileName();
         }
     }
@@ -147,7 +147,7 @@ void KWinWrapper::run()
     env.insert("WAYLAND_DISPLAY", QString::fromUtf8(wl_socket_get_display_name(m_socket)));
     if (m_xwlSocket) {
         env.insert("DISPLAY", m_xwlSocket->name());
-        if (m_xauthorityFile.open()) {
+        if (m_xauthorityFile.open(QFile::ReadOnly)) {
             env.insert("XAUTHORITY", m_xauthorityFile.fileName());
         }
     }

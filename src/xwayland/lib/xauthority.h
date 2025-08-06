@@ -9,6 +9,6 @@
 
 #pragma once
 
-class QTemporaryFile;
+class QFile;
 
-bool generateXauthorityFile(int display, QTemporaryFile *authorityFile);
+bool generateXauthorityFile(int display, QFile *authorityFile);

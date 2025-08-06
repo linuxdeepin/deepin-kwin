@@ -14,7 +14,7 @@
 #include <QHostInfo>
 #include <QRandomGenerator>
 #include <QStandardPaths>
-#include <QTemporaryFile>
+#include <QFile>
 
 static void writeXauthorityEntry(QDataStream &stream, quint16 family,
                                  const QByteArray &address, const QByteArray &display,
@@ -45,12 +45,12 @@ static QByteArray generateXauthorityCookie()
     return cookie;
 }
 
-bool generateXauthorityFile(int display, QTemporaryFile *authorityFile)
+bool generateXauthorityFile(int display, QFile *authorityFile)
 {
-    const QString runtimeDirectory = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation);
+    const QString homeDirectory = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
 
-    authorityFile->setFileTemplate(runtimeDirectory + QStringLiteral("/xauth_XXXXXX"));
-    if (!authorityFile->open()) {
+    authorityFile->setFileName(homeDirectory + QStringLiteral("/.Xauthority"));
+    if (!authorityFile->open(QFile::WriteOnly)) {
         return false;
     }
 
