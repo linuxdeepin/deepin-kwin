@@ -2240,9 +2240,6 @@ QRectF XdgPopupWindow::transientPlacement(const QRectF &bounds) const
     const XdgPositioner positioner = m_shellSurface->positioner();
 
     const QSize desiredSize = positioner.size();
-    if (m_plasmaShellSurface && m_plasmaShellSurface->isPositionSet()) {
-        return QRectF(m_plasmaShellSurface->position(), desiredSize);
-    }
 
     const QPointF parentPosition = transientFor()->framePosToClientPos(transientFor()->pos());
 
