@@ -2320,12 +2320,16 @@ void Window::handleInteractiveMoveResize(int x, int y, int x_root, int y_root)
                         }
                     }
 
-                    int dx = sign(currentMoveResizeGeom.x() - currentTry.x()),
-                        dy = sign(currentMoveResizeGeom.y() - currentTry.y());
-                    if (visiblePixels && dx) { // means there's no full width cap -> favor horizontally
-                        dy = 0;
-                    } else if (dy) {
-                        dx = 0;
+                    qreal xRawDelta = currentMoveResizeGeom.x() - currentTry.x(),
+                          yRawDelta = currentMoveResizeGeom.y() - currentTry.y();
+                    qreal xSign = sign(xRawDelta),
+                          ySign = sign(yRawDelta);
+                    qreal dx = xSign * qMin(qAbs(xRawDelta), 1.0),
+                          dy = ySign * qMin(qAbs(yRawDelta), 1.0);
+                    if (visiblePixels && !qFuzzyIsNull(dx)) { // means there's no full width cap -> favor horizontally
+                        dy = 0.0;
+                    } else if (!qFuzzyIsNull(dy)) {
+                        dx = 0.0;
                     }
 
                     // Move it back
