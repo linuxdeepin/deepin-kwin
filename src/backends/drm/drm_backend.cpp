@@ -105,7 +105,7 @@ void DrmBackend::createDpmsFilter()
         return;
     }
     m_dpmsFilter = std::make_unique<DpmsInputEventFilter>();
-    //input()->prependInputEventFilter(m_dpmsFilter.get());
+    input()->prependInputEventFilter(m_dpmsFilter.get());
 }
 
 void DrmBackend::turnOutputsOn()
