@@ -279,7 +279,7 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
          // Remove buffers which are so old that they are unlikely to used by clients forcely.
          // Clients still have buffer and will send buffer_release request in the future.
          for (const qint32 fd : fds) {
-             remove(bufferPool[fd]);
+             unref(bufferPool[fd]);
          }
          qCDebug(KWIN_CORE) << "Current buffer size over" << MAX_BUFFERS_SIZE <<", released forcely. Now buffer size is" << bufferPool.size();
     }
