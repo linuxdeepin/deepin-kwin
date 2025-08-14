@@ -171,7 +171,11 @@ QDebug operator<<(QDebug debug, const Window *window)
     if (window) {
         debug << window->metaObject()->className() << '(' << static_cast<const void *>(window);
         if (window->window()) {
-            debug << ", windowId=0x" << std::hex << window->window() << std::dec;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+            debug << ", windowId=0x" << Qt::hex << window->window() << Qt::dec;
+#else
+            debug << ", windowId=0x" << hex << window->window() << dec;
+#endif
         }
         if (const KWaylandServer::SurfaceInterface *surface = window->surface()) {
             debug << ", surface=" << surface;
