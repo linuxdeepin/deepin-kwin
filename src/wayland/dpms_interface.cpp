@@ -128,6 +128,10 @@ void DpmsInterface::org_kde_kwin_dpms_set(Resource *resource, uint32_t mode)
         return;
     }
 
+    if (m_output->display()) {
+        auto connection = m_output->display()->getConnection(resource->client());
+        qCDebug(KWIN_CORE) << "kwin Dpms Interface protocol set:" << connection->executablePath() << mode;
+    }
     m_output->handle()->setDpmsMode(dpmsMode);
 }
 

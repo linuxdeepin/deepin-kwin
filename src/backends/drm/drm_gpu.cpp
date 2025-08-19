@@ -297,10 +297,10 @@ bool DrmGpu::updateOutputs()
 
     for (auto it = m_connectors.begin(); it != m_connectors.end();) {
         DrmConnector *conn = it->get();
-        qCDebug(KWIN_DRM) << "on GPU" << m_devNode << "DrmConnector modelName:" << conn->modelName()
-                          << "connectorName:" << conn->connectorName() << "Connection:" << conn->isConnected();
         const auto output = findOutput(conn->id());
         const bool stillExists = existing.contains(conn);
+        qCDebug(KWIN_DRM) << "on GPU" << m_devNode << "DrmConnector modelName:" << conn->modelName()
+                          << "connectorName:" << conn->connectorName() << "Connection:" << conn->isConnected() << "StillExists:" << stillExists;
         if (!stillExists || !conn->isConnected()) {
             if (output) {
                 output->setDrmDpmsMode(Output::DpmsMode::Off);
