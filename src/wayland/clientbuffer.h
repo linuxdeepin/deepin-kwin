@@ -45,11 +45,12 @@ public:
     };
 
     bool isReferenced() const;
-    void sendRelease();
+    void skipRelease();
     bool isDestroyed() const;
 
     void ref();
     void unref();
+    void resetSkipReleasedState();
 
     /**
      * Returns the wl_resource for this ClientBuffer. If the buffer is destroyed, @c null

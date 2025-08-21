@@ -64,20 +64,27 @@ void ClientBuffer::unref()
     if (!isReferenced()) {
         if (isDestroyed()) {
             delete this;
-        } else if (!d->isReleased) {
+        } else if (!d->skipReleased) {
             wl_buffer_send_release(d->resource);
             wl_client_flush(wl_resource_get_client(d->resource));
         }
     }
 }
 
-void ClientBuffer::sendRelease()
+void ClientBuffer::resetSkipReleasedState()
 {
     Q_D(ClientBuffer);
+    d->skipReleased = false;
+}
+
+void ClientBuffer::skipRelease()
+{
+    Q_D(ClientBuffer);
+    Q_ASSERT(!d->skipReleased);
     if (d->resource) {
         wl_buffer_send_release(d->resource);
         wl_client_flush(wl_resource_get_client(d->resource));
-        d->isReleased = true;
+        d->skipReleased = true;
     }
 }
 

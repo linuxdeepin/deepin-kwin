@@ -272,6 +272,14 @@ void SurfaceInterfacePrivate::surface_attach(Resource *resource, struct ::wl_res
         return;
     }
     pending.buffer = compositor->display()->clientBufferForResource(buffer);
+    if (pending.buffer) {
+        // Client might reuse a skipped buffer that has been released.
+        // Attaching released buffer means it may need a release again
+        // (If it's committed, thus referenced.), so we should clear
+        // its released state to emit a new buffer release when its
+        // reference count reaches 0.
+        pending.buffer->resetSkipReleasedState();
+    }
 }
 
 void SurfaceInterfacePrivate::surface_damage(Resource *, int32_t x, int32_t y, int32_t width, int32_t height)
@@ -589,7 +597,7 @@ void SurfaceInterfacePrivate::applyState(SurfaceState *next)
         if (bufferRef) {
             bufferRef->ref();
             if (isSkipBuffer) {
-                bufferRef->sendRelease();
+                bufferRef->skipRelease();
             }
         }
     }
