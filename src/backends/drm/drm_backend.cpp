@@ -111,10 +111,9 @@ void DrmBackend::createDpmsFilter()
 void DrmBackend::turnOutputsOn()
 {
     m_dpmsFilter.reset();
-#ifdef QT_DEBUG
-    qCWarning(KWIN_DRM) << "turn outputs on";
-#endif
+    qCInfo(KWIN_DRM) << "turn outputs on:";
     for (Output *output : std::as_const(m_outputs)) {
+        qCDebug(KWIN_DRM) << "  output:" << output->name() << "enabled:" << output->isEnabled() << "dpms:" << output->dpmsMode();
         if (output->isEnabled()) {
             output->setDpmsMode(Output::DpmsMode::On);
         }
@@ -123,11 +122,11 @@ void DrmBackend::turnOutputsOn()
 
 void DrmBackend::turnOutputsOff()
 {
-    qCWarning(KWIN_DRM) << "turn outputs off";
+    qCInfo(KWIN_DRM) << "turn outputs off:";
     for (Output *output : std::as_const(m_outputs)) {
-        auto drmOutput = qobject_cast<DrmOutput*>(output);
-        if (drmOutput && drmOutput->isEnabled()) {
-            drmOutput->setDrmDpmsMode(Output::DpmsMode::Off);
+        qCDebug(KWIN_DRM) << "  output:" << output->name() << "enabled:" << output->isEnabled() << "dpms:" << output->dpmsMode();
+        if (output->isEnabled()) {
+            output->setDpmsMode(Output::DpmsMode::Off);
         }
     }
 }
