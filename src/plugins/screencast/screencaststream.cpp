@@ -680,9 +680,9 @@ spa_pod *ScreenCastStream::buildFormat(struct spa_pod_builder *b, enum spa_video
     spa_pod_builder_add(b, SPA_FORMAT_VIDEO_framerate, SPA_POD_Fraction(defaultFramerate), 0);
     spa_pod_builder_add(b, SPA_FORMAT_VIDEO_maxFramerate,
                         SPA_POD_CHOICE_RANGE_Fraction(
-                            SPA_POD_Fraction(maxFramerate),
-                            SPA_POD_Fraction(minFramerate),
-                            SPA_POD_Fraction(maxFramerate)),
+                            maxFramerate,
+                            minFramerate,
+                            maxFramerate),
                         0);
     if (format == SPA_VIDEO_FORMAT_BGRA) {
         /* announce equivalent format without alpha */

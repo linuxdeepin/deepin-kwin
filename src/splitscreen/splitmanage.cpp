@@ -151,7 +151,7 @@ void SplitManage::windowFrameSizeChange()
     }
     if (waylandServer() && isSplitWindow(window)) {
         Window *w = nullptr;
-        if (m_topLayer > NormalLayer && m_topWin && m_topWin->desktop() == VirtualDesktopManager::self()->current() && m_topWin->screen() == window->screen()) {
+        if (m_topLayer > NormalLayer && m_topWin && m_topWin->desktop() == static_cast<int>(VirtualDesktopManager::self()->current()) && m_topWin->screen() == window->screen()) {
             w = m_topWin;
         } else if (workspace()->activeWindow() == window) {
             w = window;

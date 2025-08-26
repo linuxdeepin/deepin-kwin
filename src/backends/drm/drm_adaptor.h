@@ -62,13 +62,6 @@ extern "C" {
  */
 #define DRM_FORMAT_MOD_INVALID fourcc_mod_code(NONE, DRM_FORMAT_RESERVED)
 
-typedef struct _drmModeFormatModifierIterator
-{
-    uint32_t fmt_idx, mod_idx;
-    uint32_t fmt;
-    uint64_t mod;
-} drmModeFormatModifierIterator;
-
 bool drmModeFormatModifierBlobIterNext(const drmModePropertyBlobRes *blob,
                                        drmModeFormatModifierIterator *iter);
 

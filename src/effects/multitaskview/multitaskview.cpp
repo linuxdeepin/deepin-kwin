@@ -1293,7 +1293,7 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
         MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(paintingDesktop - 1);
         if (wkmobj && wkmobj->getMotion(paintingDesktop, w->screen(), wmm)) {
             if (wmm->isManaging(w) && !w->isMinimized()) {
-                if (workspace()->showingDesktop() && w->desktop() == m_curDesktopIndex)
+                if (workspace()->showingDesktop() && w->desktops().contains(m_curDesktopIndex))
                     return;
 
                 WindowPaintData d = data;
@@ -1399,7 +1399,7 @@ void MultitaskViewEffect::renderWorkspaceMove(KWin::ScreenPaintData &data)
 
         for (EffectWindow *w : list) {
             if (w->screen() == m_screen && wmm->isManaging(w) && !w->isMinimized()) {
-                if (workspace()->showingDesktop() && w->desktop() == m_curDesktopIndex)
+                if (workspace()->showingDesktop() && w->desktops().contains(m_curDesktopIndex))
                     return;
 
                 WindowPaintData d(data.projectionMatrix());
@@ -3756,7 +3756,7 @@ void MultitaskViewEffect::removeWinAndRelayout(EffectWindow *w)
         }
 
     } else {
-        int desktop = w->desktop();
+        int desktop = effects->currentDesktop();
         MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
         MultiViewWinManager *wkmobj = getWorkspaceWinManagerObject(desktop - 1);
         if (wmobj && wkmobj) {

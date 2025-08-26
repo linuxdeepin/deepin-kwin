@@ -325,7 +325,7 @@ int SplitSwapEffect::paintWinPos(EffectWindow *w, QuickTileMode mode, int calcul
     switch (calculationMethod)
     {
     case 0:
-        x = (mode & QuickTileFlag::Left) ? w->x() : x = w->x();
+        x = w->x();
         epos = m_workarea.x() + m_workarea.width() - w->width() - w->x();
         break;
     case 1:
