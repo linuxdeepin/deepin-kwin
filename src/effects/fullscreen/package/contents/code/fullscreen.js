@@ -34,8 +34,8 @@ var fullscreenEffect = {
         const newGeometry = window.geometry;
         if (oldGeometry.width == newGeometry.width && oldGeometry.height == newGeometry.height)
             oldGeometry = window.olderGeometry;
-        window.olderGeometry = Object.assign({}, window.oldGeometry);
-        window.oldGeometry = Object.assign({}, newGeometry);
+        window.olderGeometry = window.oldGeometry;
+        window.oldGeometry = newGeometry;
         window.fullScreenAnimation1 = animate({
             window: window,
             duration: fullscreenEffect.duration,
@@ -93,8 +93,8 @@ var fullscreenEffect = {
                 }
             }
         }
-        window.oldGeometry = Object.assign({}, window.geometry);
-        window.olderGeometry = Object.assign({}, oldGeometry);
+        window.oldGeometry = window.geometry;
+        window.olderGeometry = oldGeometry;
     }
 };
 
