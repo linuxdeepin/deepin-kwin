@@ -47,6 +47,17 @@ if(MEMCHECK)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address")
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    option(ENABLE_WERROR "Force treat warnings as erros" ON)
+else()
+    option(ENABLE_WERROR "Force treat warnings as erros" OFF)
+endif()
+
+if(ENABLE_WERROR)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+endif()
+
 find_package(ECM "${KF_CURRENT_VERSION}" REQUIRED NO_MODULE)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
