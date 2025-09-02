@@ -1032,7 +1032,7 @@ msgstr ""
 #: debug_console.ui:425 debug_console.ui:445
 #, kde-format
 msgid "Clipboard"
-msgstr ""
+msgstr "Zwischenablage"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:491
@@ -3334,10 +3334,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Window Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Aufnahme des Fensters zur Zwischenablage"
 
 #~ msgid "Desktop Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Aufnahme des Schreibtisches zur Zwischenablage"
 
 #~ msgid "Toggle Tiling"
 #~ msgstr ""
