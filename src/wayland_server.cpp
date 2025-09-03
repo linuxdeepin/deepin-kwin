@@ -122,7 +122,7 @@ public:
     {
         QString enableBlackList = QString::fromUtf8(qgetenv("KWIN_ENABLE_INTERFACES_BLACKLIST"));
         if (enableBlackList.isEmpty() || enableBlackList.toLower() == "false") {
-            qCDebug(KWIN_CORE) << "Interfaces blacklist is not enabled";
+            qCInfo(KWIN_CORE) << "Interfaces blacklist is not enabled";
             m_enableBlackList = false;
         }
     }

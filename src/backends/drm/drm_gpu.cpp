@@ -75,7 +75,7 @@ DrmGpu::DrmGpu(DrmBackend *backend, const QString &devNode, int fd, dev_t device
 
     // find out what driver this kms device is using
     DrmUniquePtr<drmVersion> version(drmGetVersion(fd));
-    qCDebug(KWIN_DRM) << __func__ << "find gpu " << version->name;
+    qCInfo(KWIN_DRM) << "Find gpu:" << version->name;
     m_isHisi = strstr(version->name, "hisi") || strstr(version->name, "huanglong");
     m_isDisplayLink = strstr(version->name, "udl");
     m_isNVidia = strstr(version->name, "nvidia-drm");
@@ -299,8 +299,8 @@ bool DrmGpu::updateOutputs()
         DrmConnector *conn = it->get();
         const auto output = findOutput(conn->id());
         const bool stillExists = existing.contains(conn);
-        qCDebug(KWIN_DRM) << "on GPU" << m_devNode << "DrmConnector modelName:" << conn->modelName()
-                          << "connectorName:" << conn->connectorName() << "Connection:" << conn->isConnected() << "StillExists:" << stillExists;
+        qCInfo(KWIN_DRM) << "Update outputs: on GPU" << m_devNode << " model:" << conn->modelName()
+                         << "\nname:" << conn->connectorName() << " Connection:" << conn->isConnected() << " StillExists:" << stillExists;
         if (!stillExists || !conn->isConnected()) {
             if (output) {
                 output->setDrmDpmsMode(Output::DpmsMode::Off);
@@ -311,7 +311,8 @@ bool DrmGpu::updateOutputs()
             const auto pipeline = conn->pipeline();
             m_pipelines << pipeline;
             auto output = new DrmOutput(*it);
-            qCDebug(KWIN_DRM) << "New " << (conn->isNonDesktop() ? "non-desktop " : "") << "output on GPU" << m_devNode << output;
+            qCInfo(KWIN_DRM) << "New" << (conn->isNonDesktop() ? "non-desktop " : "")
+                             << "output on GPU:" << m_devNode << " name:" << output->name();
             m_drmOutputs << output;
             addedOutputs << output;
             Q_EMIT outputAdded(output);

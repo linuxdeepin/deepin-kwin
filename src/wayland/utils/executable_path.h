@@ -9,3 +9,4 @@
 #include <QString>
 
 QString executablePathFromPid(pid_t);
+QString executableCommFromPid(pid_t);

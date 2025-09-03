@@ -93,6 +93,8 @@ public:
      */
     QString executablePath() const;
 
+    QString executableComm() const;
+
     /**
      * Cast operator the native wl_client this ClientConnection represents.
      */

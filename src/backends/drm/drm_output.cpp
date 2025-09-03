@@ -243,10 +243,15 @@ QList<std::shared_ptr<OutputMode>> DrmOutput::getModes() const
 
     QList<std::shared_ptr<OutputMode>> ret;
     ret.reserve(drmModes.count());
-    qCDebug(KWIN_DRM) << "output getModes, name: " << name() << "model: " << model();
+    qCInfo(KWIN_DRM) << "Output get modes, name:" << name() << "modes count: " << drmModes.count();
+    qCDebug(KWIN_DRM) << "DrmOutput resolution:    refreshRate:";
     for (const auto &drmMode : drmModes) {
         ret.append(drmMode);
-        qCDebug(KWIN_DRM) << "drmoutput resolution:" << drmMode->size() << ", refreshRate:" << drmMode->refreshRate();
+        const auto width = drmMode->size().width();
+        const auto height = drmMode->size().height();
+        qCDebug(KWIN_DRM).noquote() << QString("\t %1 \t %2")
+                                           .arg(QStringLiteral("%1x%2").arg(width).arg(height), -10) // 占10位，左对齐
+                                           .arg(drmMode->refreshRate(), -6); // 占6位，左对齐
     }
     return ret;
 }
@@ -290,7 +295,7 @@ bool DrmOutput::setDrmDpmsMode(DpmsMode mode)
     m_pipeline->setActive(active);
     if (DrmPipeline::commitPipelines({m_pipeline}, active ? DrmPipeline::CommitMode::TestAllowModeset : DrmPipeline::CommitMode::CommitModeset) == DrmPipeline::Error::None) {
         m_pipeline->applyPendingChanges();
-        qCDebug(KWIN_DRM) << "on GPU drm commit pipelines success: " << mode;
+        qCDebug(KWIN_DRM) << "On GPU drm commit pipelines success: " << mode;
         updateDpmsMode(mode);
         if (active) {
             m_gpu->platform()->checkOutputsAreOn();
@@ -494,6 +499,7 @@ void DrmOutput::applyQueuedChanges(const std::shared_ptr<OutputChangeSet> &props
     Q_EMIT changed();
 
     if (isEnabled() && dpmsMode() == DpmsMode::On) {
+        qCDebug(KWIN_DRM) << "Turning outputs on, because output got enabled";
         m_gpu->platform()->turnOutputsOn();
     }
 }

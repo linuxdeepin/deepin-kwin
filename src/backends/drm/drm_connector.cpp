@@ -131,7 +131,7 @@ DrmConnector::DrmConnector(DrmGpu *gpu, uint32_t connectorId)
                 continue;
             }
             if (qstrcmp(property->name, "scaling mode") == 0) {
-                qCDebug(KWIN_DRM) << "connector support scaling mode";
+                qCDebug(KWIN_DRM) << "Connector support scaling mode";
                 m_scalingCapable = true;
                 break;
             }

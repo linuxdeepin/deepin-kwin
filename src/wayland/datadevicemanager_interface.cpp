@@ -8,6 +8,7 @@
 #include "datasource_interface.h"
 #include "display.h"
 #include "seat_interface_p.h"
+#include "utils/common.h"
 // Wayland
 #include <qwayland-server-wayland.h>
 
@@ -67,6 +68,8 @@ void DataDeviceManagerInterfacePrivate::data_device_manager_get_data_device(Reso
     }
     DataDeviceInterface *dataDevice = new DataDeviceInterface(s, data_device_resource);
     dataDevice->pid = m_display->getConnection(resource->client())->processId();
+    const auto comm = m_display->getConnection(resource->client())->executableComm();
+    qCInfo(KWIN_CORE) << "New data control device, command:" << comm << " pid:" << dataDevice->processId();
     Q_EMIT q->dataDeviceCreated(dataDevice);
 }
 

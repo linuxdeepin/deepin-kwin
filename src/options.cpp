@@ -854,30 +854,30 @@ bool Options::loadCompositingConfig(bool force)
     if (const char *c = getenv("KWIN_COMPOSE")) {
         switch (c[0]) {
         case 'O':
-            qCDebug(KWIN_CORE) << "Compositing forced to OpenGL mode by environment variable";
+            qCInfo(KWIN_CORE) << "Compositing forced to OpenGL mode by environment variable";
             compositingMode = OpenGLCompositing;
             useCompositing = true;
             break;
         case 'X':
-            qCDebug(KWIN_CORE) << "Compositing forced to XRender mode by environment variable";
+            qCInfo(KWIN_CORE) << "Compositing forced to XRender mode by environment variable";
             compositingMode = XRenderCompositing;
             useCompositing = true;
             break;
         case 'Q':
-            qCDebug(KWIN_CORE) << "Compositing forced to QPainter mode by environment variable";
+            qCInfo(KWIN_CORE) << "Compositing forced to QPainter mode by environment variable";
             compositingMode = QPainterCompositing;
             useCompositing = true;
             break;
         case 'N':
             if (getenv("KDE_FAILSAFE")) {
-                qCDebug(KWIN_CORE) << "Compositing disabled forcefully by KDE failsafe mode";
+                qCInfo(KWIN_CORE) << "Compositing disabled forcefully by KDE failsafe mode";
             } else {
-                qCDebug(KWIN_CORE) << "Compositing disabled forcefully by environment variable";
+                qCInfo(KWIN_CORE) << "Compositing disabled forcefully by environment variable";
             }
             compositingMode = NoCompositing;
             break;
         default:
-            qCDebug(KWIN_CORE) << "Unknown KWIN_COMPOSE mode set, ignoring";
+            qCWarning(KWIN_CORE) << "Unknown KWIN_COMPOSE mode set, ignoring";
             break;
         }
     }

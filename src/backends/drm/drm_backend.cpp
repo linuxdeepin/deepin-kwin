@@ -111,9 +111,9 @@ void DrmBackend::createDpmsFilter()
 void DrmBackend::turnOutputsOn()
 {
     m_dpmsFilter.reset();
-    qCInfo(KWIN_DRM) << "turn outputs on:";
+    qCInfo(KWIN_DRM) << "Turn outputs on";
     for (Output *output : std::as_const(m_outputs)) {
-        qCDebug(KWIN_DRM) << "  output:" << output->name() << "enabled:" << output->isEnabled() << "dpms:" << output->dpmsMode();
+        qCDebug(KWIN_DRM) << "Current output info:" << output->name() << " enabled:" << output->isEnabled() << " dpms:" << output->dpmsMode();
         if (output->isEnabled()) {
             output->setDpmsMode(Output::DpmsMode::On);
         }
@@ -122,9 +122,9 @@ void DrmBackend::turnOutputsOn()
 
 void DrmBackend::turnOutputsOff()
 {
-    qCInfo(KWIN_DRM) << "turn outputs off:";
+    qCInfo(KWIN_DRM) << "Turn outputs off";
     for (Output *output : std::as_const(m_outputs)) {
-        qCDebug(KWIN_DRM) << "  output:" << output->name() << "enabled:" << output->isEnabled() << "dpms:" << output->dpmsMode();
+        qCDebug(KWIN_DRM) << " Current output info:" << output->name() << " enabled:" << output->isEnabled() << " dpms:" << output->dpmsMode();
         if (output->isEnabled()) {
             output->setDpmsMode(Output::DpmsMode::Off);
         }
@@ -263,7 +263,7 @@ DrmGpu *DrmBackend::addGpu(const QString &fileName)
         return nullptr;
     }
 
-    qCDebug(KWIN_DRM, "adding GPU %s", qPrintable(fileName));
+    qCDebug(KWIN_DRM, "Adding GPU %s", qPrintable(fileName));
     m_gpus.push_back(std::make_unique<DrmGpu>(this, fileName, fd, buf.st_rdev));
     auto gpu = m_gpus.back().get();
     connect(gpu, &DrmGpu::outputAdded, this, &DrmBackend::addOutput);
@@ -447,7 +447,7 @@ bool DrmBackend::applyOutputChanges(const OutputConfiguration &config)
                 continue;
             }
             if (const auto changeset = config.constChangeSet(output)) {
-                qCDebug(KWIN_DRM) << "output info, name: " << output->name() << "model: " << output->model();
+                qCDebug(KWIN_DRM) << "Dump output info, name:" << output->name() << " model:" << output->model();
                 changeset->dump();
                 output->queueChanges(changeset);
                 if (changeset->enabled.value_or(output->isEnabled())) {

@@ -13,7 +13,6 @@
 #include "main.h"
 #include "workspace.h"
 
-#include "qwayland-server-org-kde-kwin-outputdevice.h"
 #include "qwayland-server-outputmanagement.h"
 
 #include <optional>
@@ -32,19 +31,17 @@ public:
 
 protected:
     void org_kde_kwin_outputmanagement_create_configuration(Resource *resource, uint32_t id) override;
+
+private:
+    Display *const m_display;
 };
 
 class OutputConfigurationInterface : public QObject, QtWaylandServer::org_kde_kwin_outputconfiguration
 {
     Q_OBJECT
 public:
-    explicit OutputConfigurationInterface(wl_resource *resource);
+    explicit OutputConfigurationInterface(wl_resource *resource, Display *display = nullptr);
     virtual ~OutputConfigurationInterface();
-
-    bool applied = false;
-    bool invalid = false;
-    OutputConfiguration config;
-    QVector<std::pair<uint32_t, OutputDeviceInterface *>> outputOrder;
 
 protected:
     void org_kde_kwin_outputconfiguration_enable(Resource *resource, wl_resource *outputdevice, int32_t enable) override;
@@ -62,46 +59,52 @@ protected:
     void org_kde_kwin_outputconfiguration_brightness(Resource *resource, wl_resource *outputdevice, int32_t brightness) override;
     void org_kde_kwin_outputconfiguration_ctm(Resource *resource, wl_resource *outputdevice, int32_t red, int32_t green, int32_t blue) override;
     void org_kde_kwin_outputconfiguration_set_color_mode(Resource *resource, wl_resource *outputdevice, uint32_t color_mode) override;
+
+private:
+    bool applied = false;
+    bool invalid = false;
+    OutputConfiguration config;
+    QVector<std::pair<uint32_t, OutputDeviceInterface *>> outputOrder;
+    Display *const m_display = nullptr;
 };
 
 OutputManagementInterfacePrivate::OutputManagementInterfacePrivate(Display *display)
     : QtWaylandServer::org_kde_kwin_outputmanagement(*display, s_version)
+    , m_display(display)
 {
 }
 
 void OutputManagementInterfacePrivate::org_kde_kwin_outputmanagement_create_configuration(Resource *resource, uint32_t id)
 {
-    qCDebug(KWIN_CORE) << "outputv1:resource " << resource << " id " << id;
     wl_resource *config_resource = wl_resource_create(resource->client(), &org_kde_kwin_outputconfiguration_interface, resource->version(), id);
     if (!config_resource) {
-        qCDebug(KWIN_CORE) << "outputv1:resource " << resource << " wl_client_post_no_memory";
+        qCWarning(KWIN_CORE) << "Outputv1->create configuration failed!";
         wl_client_post_no_memory(resource->client());
         return;
     }
-    new OutputConfigurationInterface(config_resource);
+    new OutputConfigurationInterface(config_resource, m_display);
 }
 
 OutputManagementInterface::OutputManagementInterface(Display *display, QObject *parent)
     : QObject(parent)
     , d(new OutputManagementInterfacePrivate(display))
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " construct configurationM ";
+    qCDebug(KWIN_CORE) << "Outputv1->construct menagement interface";
 }
 
 OutputManagementInterface::~OutputManagementInterface()
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " destruct configurationM ";
 }
 
-OutputConfigurationInterface::OutputConfigurationInterface(wl_resource *resource)
+OutputConfigurationInterface::OutputConfigurationInterface(wl_resource *resource, Display *display)
     : QtWaylandServer::org_kde_kwin_outputconfiguration(resource)
+    , m_display(display)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " construct configuration ";
+    qCDebug(KWIN_CORE) << "Outputv1->construct configuration interface";
 }
 
 OutputConfigurationInterface::~OutputConfigurationInterface()
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " destruct configuration ";
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_enable(Resource *resource, wl_resource *outputdevice, int32_t enable)
@@ -111,8 +114,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_enable(Resou
         invalid = true;
         return;
     }
-
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " enable " << enable;
 
     config.changeSet(output->handle())->enabled = enable;
 }
@@ -125,14 +126,8 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_mode(Resourc
         return;
     }
 
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " mode_id " << mode_id;
-
     OutputDeviceModeInterface *mode = output->getMode(mode_id);
     if (output && mode) {
-        qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output
-                << " invalid " << invalid << " mode_id " << mode_id
-                << " size " << mode->size() << " refreshRate "
-                << mode->refreshRate() << " mode " << mode->flags();
         config.changeSet(output->handle())->mode = mode->m_handle.lock();
     } else {
         invalid = true;
@@ -146,8 +141,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_transform(Re
         invalid = true;
         return;
     }
-
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " transform " << transform;
 
     auto toTransform = [transform]() {
         switch (transform) {
@@ -182,8 +175,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_position(Res
         return;
     }
 
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " x " << x << " y " << y;
-
     config.changeSet(output->handle())->pos = QPoint(x, y);
 }
 
@@ -194,8 +185,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_scale(Resour
         invalid = true;
         return;
     }
-
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " scale " << scale;
 
     qreal doubleScale = wl_fixed_to_double(scale);
 
@@ -224,8 +213,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_scalef(Resou
         return;
     }
 
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " scale " << scale;
-
     qreal doubleScale = wl_fixed_to_double(scale);
 
     // the fractional scaling protocol only speaks in unit of 120ths
@@ -253,8 +240,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_overscan(Res
         return;
     }
 
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " overscan " << overscan;
-
     if (overscan > 100) {
         qCWarning(KWIN_CORE) << "Invalid overscan requested:" << overscan;
         return;
@@ -274,8 +259,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_set_vrr_poli
         return;
     }
 
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " policy " << policy;
-
     if (policy > static_cast<uint32_t>(RenderLoop::VrrPolicy::Automatic)) {
         qCWarning(KWIN_CORE) << "Invalid Vrr Policy requested:" << policy;
         return;
@@ -294,10 +277,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_colorcurves(
         invalid = true;
         return;
     }
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output
-            << " invalid " << invalid << " red " << red << " green " << green << " blue " << blue;
-#endif
     Output::ColorCurves oldCc = output->handle()->colorCurves();
 
     static auto checkArg = [](const wl_array *newColor, const QVector<quint16> &oldColor) {
@@ -336,9 +315,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_brightness(R
         invalid = true;
         return;
     }
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " brightness " << brightness;
-#endif
     config.changeSet(output->handle())->brightness = brightness;
 }
 
@@ -353,9 +329,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_ctm(Resource
         invalid = true;
         return;
     }
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " r " << r << " g " << g << " b " << b;
-#endif
     config.changeSet(output->handle())->ctmValue = Output::CtmValue{(uint16_t)r, (uint16_t)g, (uint16_t)b};
 }
 
@@ -372,31 +345,27 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_set_color_mo
     }
 
     const auto mode = static_cast<Output::ColorMode>(color_mode);
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " outputdevice " << output << " invalid " << invalid << " color_mode " << mode;
-#endif
     config.changeSet(output->handle())->colorModeValue = mode;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_destroy(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " invalid " << invalid;
+    const auto connection = m_display->getConnection(resource->client());
+    qCDebug(KWIN_CORE) << "Outputv1->destroy configuration:" << connection->executableComm() << " pid:" << connection->processId();
     wl_resource_destroy(resource->handle);
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_destroy_resource(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " invalid " << invalid;
+    const auto connection = m_display->getConnection(resource->client());
+    qCDebug(KWIN_CORE) << "Outputv1->destroy resource:" << connection->executableComm() << " pid:" << connection->processId();
     delete this;
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resource *resource)
 {
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " invalid " << invalid;
-#endif
     if (applied) {
-        qCWarning(KWIN_CORE) << "Rejecting because an output configuration can be applied only once";
+        qCWarning(KWIN_CORE) << "Rejecting configuration change because an output configuration can be applied only once";
         return;
     }
 
@@ -427,7 +396,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resour
     QVector<Output *> sortedOrder;
     if (!outputOrder.empty()) {
         const int desktopOutputs = std::count_if(allOutputs.begin(), allOutputs.end(), [](Output *output) {
-            qCDebug(KWIN_CORE) << "outputv1:resource " << " isNonDesktop ";
             return !output->isNonDesktop();
         });
         if (outputOrder.size() != desktopOutputs) {
@@ -446,7 +414,7 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resour
                           }),
                           outputOrder.end());
         std::sort(outputOrder.begin(), outputOrder.end(), [](const auto &pair1, const auto &pair2) {
-            qCDebug(KWIN_CORE) << "outputv1:resource " << " pair2 ";
+            qCDebug(KWIN_CORE) << "Outputv1->pair output order: pair1:" << pair1.first << " pair2:" << pair2.first;
             return pair1.first < pair2.first;
         });
         uint32_t i = 1;
@@ -461,14 +429,12 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resour
         }
         sortedOrder.reserve(outputOrder.size());
         std::transform(outputOrder.begin(), outputOrder.end(), std::back_inserter(sortedOrder), [](const auto &pair) {
-            qCDebug(KWIN_CORE) << "outputv1:resource " << " second handle";
             return pair.second->handle();
         });
     }
     if (workspace()->applyOutputConfiguration(config, sortedOrder)) {
-#ifdef QT_DEBUG
-        qCDebug(KWIN_CORE) << "outputv1:" << this << " resource " << resource << " send_applied";
-#endif
+        const auto connection = m_display->getConnection(resource->client());
+        qCDebug(KWIN_CORE) << "Outputv1->send applied: command:" << connection->executableComm() << " pid:" << connection->processId();
         applied = false;
         send_applied();
     } else {
@@ -478,7 +444,6 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_apply(Resour
     }
     config.reset();
 }
-
 }
 
 #include "outputmanagement_v1_interface.moc"

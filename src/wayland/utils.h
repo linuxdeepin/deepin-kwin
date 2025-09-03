@@ -8,7 +8,9 @@
 
 #include "kwin_export.h"
 
+#include <QFile>
 #include <QRegion>
+#include <QTextStream>
 
 #include <limits>
 #include <type_traits>

@@ -50,7 +50,6 @@
 #include <sched.h>
 #include <sys/resource.h>
 
-#include <iomanip>
 #include <iostream>
 #include <wayland-server-core.h>
 #if HAVE_SYS_PRCTL_H
@@ -198,8 +197,7 @@ void ApplicationWayland::performStartup()
 
 void ApplicationWayland::continueStartupWithScene()
 {
-    QString currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
-    qDebug() << currentDateTime << "startscene";
+    qInfo() << "Start scene";
     disconnect(Compositor::self(), &Compositor::sceneCreated, this, &ApplicationWayland::continueStartupWithScene);
 
     // Note that we start accepting client connections after creating the Workspace.
@@ -249,8 +247,7 @@ void ApplicationWayland::refreshSettings(const KConfigGroup &group, const QByteA
 
 void ApplicationWayland::startSession()
 {
-    QString currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
-    qDebug() << currentDateTime << "startSession";
+    qDebug() << "Start session";
     KSharedConfig::Ptr kwinSettings = kwinApp()->config();
     m_settingsWatcher = KConfigWatcher::create(kwinSettings);
     connect(m_settingsWatcher.data(), &KConfigWatcher::configChanged, this, &ApplicationWayland::refreshSettings);
@@ -301,8 +298,7 @@ void ApplicationWayland::startSession()
                 continue;
             }
             QString program = arguments.takeFirst();
-            currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
-            qDebug() << currentDateTime << "start application" << program;
+            qDebug() << "Start application" << program;
             // note: this will kill the started process when we exit
             // this is going to happen anyway as we are the wayland and X server the app connects to
             QProcess *p = new QProcess(this);
@@ -313,8 +309,7 @@ void ApplicationWayland::startSession()
             p->startDetached();
             p->deleteLater();
         }
-        currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
-        qDebug() << currentDateTime << "start application finished";
+        qDebug() << "Start application finished";
     }
 }
 
@@ -333,9 +328,8 @@ int main(int argc, char *argv[])
     wl_log_set_handler_server(waylandLogHandler);
 #ifndef BUILD_WITHOUT_V20_PATCH
     wl_debug_set_handler_server(waylandDebugHandler);
-#endif
-    QString currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
-    qDebug() << currentDateTime << "version" << KWIN_DVERSION << "start";
+
+    qDebug() << "version" << KWIN_DVERSION << "start";
 
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();

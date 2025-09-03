@@ -10,6 +10,7 @@
 #include "composite.h"
 #include "core/renderloop_p.h"
 #include "cursorsource.h"
+#include "utils/common.h"
 #include "wayland_backend.h"
 #include "wayland_display.h"
 #include "wayland_egl_backend.h"
@@ -311,6 +312,7 @@ void WaylandOutput::setDpmsMode(DpmsMode mode)
 void WaylandOutput::updateDpmsMode(DpmsMode dpmsMode)
 {
     State next = m_state;
+    qCDebug(KWIN_CORE) << "Setting DPMS mode of" << name() << "to" << dpmsMode;
     next.dpmsMode = dpmsMode;
     setState(next);
 }

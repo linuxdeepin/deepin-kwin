@@ -144,7 +144,7 @@ OutputDeviceInterface::OutputDeviceInterface(Display *display, KWin::Output *han
     : QObject(parent)
     , d(new OutputDeviceInterfacePrivate(this, display, handle))
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " construct device " << handle;
+    qCDebug(KWIN_CORE) << "Outputv1->construct device interface:" << (handle ? handle->name() : QString());
     updateEnabled();
     updateManufacturer();
     updateEdid();
@@ -195,8 +195,8 @@ OutputDeviceInterface::OutputDeviceInterface(Display *display, KWin::Output *han
     connect(handle, &Output::doneChanged,
             this, &OutputDeviceInterface::done);
 
-    connect(handle, &QObject::destroyed, this, [this, handle]() {
-        qCDebug(KWIN_CORE) << "outputv1:" << this << " rejectdestroy output " << handle;
+    connect(handle, &QObject::destroyed, this, [this]() {
+        qCDebug(KWIN_CORE) << "Outputv1->handle destroyed:" << d->m_name << "set invalid";
         d->m_invalid = true;
     });
 
@@ -213,7 +213,7 @@ OutputDeviceInterface::OutputDeviceInterface(Display *display, KWin::Output *han
 
 OutputDeviceInterface::~OutputDeviceInterface()
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " destruct device ";
+    qCDebug(KWIN_CORE) << "Outputv1->destruct device interface:" << d->m_name;
     d->globalRemove();
 }
 
@@ -256,12 +256,15 @@ void OutputDeviceInterface::done() {
 
 void OutputDeviceInterfacePrivate::org_kde_kwin_outputdevice_destroy_global()
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " destroy device ";
+    qCDebug(KWIN_CORE) << "Outputv1->destroy global:" << m_name;
     delete q;
 }
 
 void OutputDeviceInterfacePrivate::org_kde_kwin_outputdevice_bind_resource(Resource *resource)
 {
+    const auto connection = m_display->getConnection(resource->client());
+    qCInfo(KWIN_CORE) << "Outputv1->bind output device resource, version:" << resource->version() << " handle name:" << m_name
+                      << "\ncommand:" << connection->executableComm() << " pid:" << connection->processId();
     sendGeometry(resource);
     sendScale(resource);
     sendEisaId(resource);
@@ -288,7 +291,6 @@ void OutputDeviceInterfacePrivate::org_kde_kwin_outputdevice_bind_resource(Resou
 
 void OutputDeviceInterfacePrivate::sendNewMode(Resource *resource, OutputDeviceModeInterface *mode)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " mode " << mode->modeId();
     send_mode(resource->handle, mode->flags(),
               mode->size().width(), mode->size().height(), mode->refreshRate(), mode->modeId());
 }
@@ -296,12 +298,9 @@ void OutputDeviceInterfacePrivate::sendNewMode(Resource *resource, OutputDeviceM
 void OutputDeviceInterfacePrivate::sendCurrentMode(Resource *resource)
 {
     if (!m_currentMode) {
+        qCDebug(KWIN_CORE) << "Outputv1->send current mode: no current mode, nothing to send";
         return;
     }
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
-            << " current mode " << m_currentMode->modeId()
-            << " size " << m_currentMode->size() << " refreshRate "
-            << m_currentMode->refreshRate() << " mode " << m_currentMode->flags();
     send_mode(resource->handle, m_currentMode->flags(),
               m_currentMode->size().width(), m_currentMode->size().height(),
               m_currentMode->refreshRate(), m_currentMode->modeId());
@@ -309,9 +308,6 @@ void OutputDeviceInterfacePrivate::sendCurrentMode(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendGeometry(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
-            << " m_manufacturer " << m_manufacturer << " m_model " << m_model
-            << " position " << m_globalPosition << " psize " << m_physicalSize;
     send_geometry(resource->handle,
                   m_globalPosition.x(),
                   m_globalPosition.y(),
@@ -325,7 +321,6 @@ void OutputDeviceInterfacePrivate::sendGeometry(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendScale(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_scale " << m_scale;
     if (wl_resource_get_version(resource->handle) < ORG_KDE_KWIN_OUTPUTDEVICE_SCALEF_SINCE_VERSION) {
         send_scale(resource->handle, qRound(m_scale));
     } else {
@@ -335,58 +330,55 @@ void OutputDeviceInterfacePrivate::sendScale(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendSerialNumber(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_serialNumber " << m_serialNumber;
-    if (wl_resource_get_version(resource->handle) >= ORG_KDE_KWIN_OUTPUTDEVICE_SERIAL_NUMBER_SINCE_VERSION) {
-        send_serial_number(resource->handle, m_serialNumber);
+    if (wl_resource_get_version(resource->handle) < ORG_KDE_KWIN_OUTPUTDEVICE_SERIAL_NUMBER_SINCE_VERSION) {
+        qCDebug(KWIN_CORE) << "Outputv1->send serialNumber: client version too low, skip";
+        return;
     }
+    send_serial_number(resource->handle, m_serialNumber);
 }
 
 void OutputDeviceInterfacePrivate::sendEisaId(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_eisaId " << m_eisaId;
-    if (wl_resource_get_version(resource->handle) >= ORG_KDE_KWIN_OUTPUTDEVICE_EISA_ID_SINCE_VERSION) {
-        send_eisa_id(resource->handle, m_eisaId);
+    if (wl_resource_get_version(resource->handle) < ORG_KDE_KWIN_OUTPUTDEVICE_EISA_ID_SINCE_VERSION) {
+        qCDebug(KWIN_CORE) << "Outputv1->send eisaId: client version too low, skip";
+        return;
     }
+    send_eisa_id(resource->handle, m_eisaId);
 }
 
 void OutputDeviceInterfacePrivate::sendName(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_name " << m_name;
-    if (wl_resource_get_version(resource->handle) >= ORG_KDE_KWIN_OUTPUTDEVICE_NAME_SINCE_VERSION) {
-        send_name(resource->handle, m_name);
+    if (wl_resource_get_version(resource->handle) < ORG_KDE_KWIN_OUTPUTDEVICE_NAME_SINCE_VERSION) {
+        qCDebug(KWIN_CORE) << "Outputv1->send name: client version too low, skip";
+        return;
     }
+    send_name(resource->handle, m_name);
 }
 
 void OutputDeviceInterfacePrivate::sendDone(Resource *resource)
 {
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " done resource " << resource;
-#endif
     send_done(resource->handle);
 }
 
 void OutputDeviceInterfacePrivate::sendEdid(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_edid " << QString::fromStdString(m_edid.toBase64().toStdString());
     send_edid(resource->handle, QString::fromStdString(m_edid.toBase64().toStdString()));
 }
 
 void OutputDeviceInterfacePrivate::sendEnabled(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_enabled " << m_enabled;
     send_enabled(resource->handle, m_enabled);
 }
 
 void OutputDeviceInterfacePrivate::sendUuid(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_uuid " << m_uuid.toString(QUuid::WithoutBraces);
     send_uuid(resource->handle, m_uuid.toString(QUuid::WithoutBraces));
 }
 
 void OutputDeviceInterfacePrivate::sendCapabilities(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_capabilities " << m_capabilities;
     if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_CAPABILITIES_SINCE_VERSION) {
+        qCDebug(KWIN_CORE) << "Outputv1->send capabilities: client version too low, skip";
         return;
     }
     send_capabilities(resource->handle, m_capabilities);
@@ -394,8 +386,8 @@ void OutputDeviceInterfacePrivate::sendCapabilities(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendOverscan(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_overscan " << m_overscan;
     if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_OVERSCAN_SINCE_VERSION) {
+        qCDebug(KWIN_CORE) << "Outputv1->send overscan: client version too low, skip";
         return;
     }
     send_overscan(resource->handle, m_overscan);
@@ -403,7 +395,6 @@ void OutputDeviceInterfacePrivate::sendOverscan(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendVrrPolicy(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_vrrPolicy " << m_vrrPolicy;
     if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_VRR_POLICY_SINCE_VERSION) {
         return;
     }
@@ -412,7 +403,6 @@ void OutputDeviceInterfacePrivate::sendVrrPolicy(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendRgbRange(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_rgbRange " << m_rgbRange;
     send_rgb_range(resource->handle, kwinRgbRangeToOutputDeviceRgbRange(m_rgbRange));
 }
 
@@ -421,9 +411,6 @@ void OutputDeviceInterfacePrivate::sendColorCurves(Resource *resource)
     if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_COLORCURVES_SINCE_VERSION) {
         return;
     }
-
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " sendColorCurves resource " << resource
-            << " m_colorCurves " << m_colorCurves.red << m_colorCurves.green << m_colorCurves.blue;
 
     wl_array wlRed, wlGreen, wlBlue;
 
@@ -446,9 +433,6 @@ void OutputDeviceInterfacePrivate::sendColorCurves(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendBrightness(Resource *resource)
 {
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource << " m_brightness " << m_brightness;
-#endif
     if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_BRIGHTNESS_SINCE_VERSION) {
         return;
     }
@@ -457,10 +441,6 @@ void OutputDeviceInterfacePrivate::sendBrightness(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendCtmValue(Resource *resource)
 {
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
-            << " m_ctmValue " << m_ctmValue.r << m_ctmValue.g << m_ctmValue.b;
-#endif
     if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_CTM_SINCE_VERSION) {
         return;
     }
@@ -469,8 +449,6 @@ void OutputDeviceInterfacePrivate::sendCtmValue(Resource *resource)
 
 void OutputDeviceInterfacePrivate::sendColorMode(Resource *resource)
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << q << " resource " << resource
-            << " m_colorMode " << m_colorModeValue;
     if (resource->version() < ORG_KDE_KWIN_OUTPUTDEVICE_COLOR_MODE_SINCE_VERSION) {
         return;
     }
@@ -479,23 +457,29 @@ void OutputDeviceInterfacePrivate::sendColorMode(Resource *resource)
 
 void OutputDeviceInterface::updateGeometry()
 {
+    const auto oldPosition = d->m_globalPosition;
+    const auto oldPhysicalSize = d->m_physicalSize;
     const auto clientResources = d->resourceMap();
     for (const auto &resource : clientResources) {
         d->sendGeometry(resource);
     }
+    qCDebug(KWIN_CORE) << "Outputv1->update geometry: \nold position:" << oldPosition << " new position:" << d->m_globalPosition
+                       << " \nold physicalSize:" << oldPhysicalSize << " new physicalSize:" << d->m_physicalSize;
     scheduleDone();
 }
 
 void OutputDeviceInterface::updatePhysicalSize()
 {
+    const auto oldPhysicalSize = d->m_physicalSize;
     d->m_physicalSize = d->m_handle->physicalSize();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_physicalSize " << d->m_physicalSize;
+    qCDebug(KWIN_CORE) << "Outputv1->update physicalSize: \nold:" << oldPhysicalSize << " new:" << d->m_physicalSize;
 }
 
 void OutputDeviceInterface::updateGlobalPosition()
 {
     const QPoint arg = d->m_handle->geometry().topLeft();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_globalPosition " << d->m_subPixel << " arg " << arg;
+    const auto oldPosition = d->m_globalPosition;
+    qCDebug(KWIN_CORE) << "Outputv1->update globalPosition: \nold:" << oldPosition << " new:" << arg;
     if (d->m_globalPosition == arg) {
         return;
     }
@@ -505,38 +489,44 @@ void OutputDeviceInterface::updateGlobalPosition()
 
 void OutputDeviceInterface::updateManufacturer()
 {
+    const auto oldManufacturer = d->m_manufacturer;
     d->m_manufacturer = d->m_handle->manufacturer();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_manufacturer " << d->m_manufacturer;
+    qCDebug(KWIN_CORE) << "Outputv1->update manufacturer: \nold:" << oldManufacturer << " new:" << d->m_manufacturer;
 }
 
 void OutputDeviceInterface::updateModel()
 {
+    const auto oldModel = d->m_model;
     d->m_model = d->m_handle->model();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_model " << d->m_model;
+    qCDebug(KWIN_CORE) << "Outputv1->update model: \nold:" << oldModel << " new:" << d->m_model;
 }
 
 void OutputDeviceInterface::updateSerialNumber()
 {
+    const auto oldSerialNumber = d->m_serialNumber;
     d->m_serialNumber = d->m_handle->serialNumber();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_serialNumber " << d->m_serialNumber;
+    qCDebug(KWIN_CORE) << "Outputv1->update serialNumber: \nold:" << oldSerialNumber << " new:" << d->m_serialNumber;
 }
 
 void OutputDeviceInterface::updateEisaId()
 {
+    const auto oldEisaId = d->m_eisaId;
     d->m_eisaId = d->m_handle->eisaId();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_eisaId " << d->m_eisaId;
+    qCDebug(KWIN_CORE) << "Outputv1->update eisaId: \nold:" << oldEisaId << " new:" << d->m_eisaId;
 }
 
 void OutputDeviceInterface::updateName()
 {
+    const auto oldName = d->m_name;
     d->m_name = d->m_handle->name();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_name " << d->m_name;
+    qCDebug(KWIN_CORE) << "Outputv1->update name: \nold:" << oldName << " new:" << d->m_name;
 }
 
 void OutputDeviceInterface::updateSubPixel()
 {
+    const auto oldSubPixel = d->m_subPixel;
     const auto arg = kwinSubPixelToOutputDeviceSubPixel(d->m_handle->subPixel());
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_subPixel " << d->m_subPixel << " arg " << arg;
+    qCDebug(KWIN_CORE) << "Outputv1->update subPixel: \nold:" << oldSubPixel << " new:" << arg;
     if (d->m_subPixel != arg) {
         d->m_subPixel = arg;
         updateGeometry();
@@ -545,8 +535,9 @@ void OutputDeviceInterface::updateSubPixel()
 
 void OutputDeviceInterface::updateTransform()
 {
+    const auto oldTransform = d->m_transform;
     const auto arg = kwinTransformToOutputDeviceTransform(d->m_handle->transform());
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_transform " << d->m_transform << " arg " << arg;
+    qCDebug(KWIN_CORE) << "Outputv1->update transform: \nold:" << oldTransform << " new:" << arg;
     if (d->m_transform != arg) {
         d->m_transform = arg;
         updateGeometry();
@@ -555,8 +546,9 @@ void OutputDeviceInterface::updateTransform()
 
 void OutputDeviceInterface::updateScale()
 {
+    const qreal oldScale = d->m_scale;
     const qreal scale = d->m_handle->scale();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_scale " << d->m_scale << " scale " << scale;
+    qCDebug(KWIN_CORE) << "Outputv1->update scale: \nold:" << oldScale << " new:" << scale;
     if (qFuzzyCompare(d->m_scale, scale)) {
         return;
     }
@@ -570,14 +562,15 @@ void OutputDeviceInterface::updateScale()
 
 void OutputDeviceInterface::updateModes()
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " updateModes ";
-    const auto oldModes = d->m_modes;
     d->m_modes.clear();
     d->m_currentMode = nullptr;
     d->m_preMode = nullptr;
 
     const auto clientResources = d->resourceMap();
     const auto nativeModes = d->m_handle->modes();
+
+    qCDebug(KWIN_CORE) << "Outputv1->update modes:" << " mode count:" << nativeModes.count();
+    const auto oldModes = d->m_modes;
 
     int id = 1;
     for (const std::shared_ptr<OutputMode> &mode : nativeModes) {
@@ -605,7 +598,7 @@ void OutputDeviceInterface::updateModes()
 
 void OutputDeviceInterface::updateCurrentMode()
 {
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_currentMode ";
+    qCDebug(KWIN_CORE) << "Outputv1->update current mode";
     for (OutputDeviceModeInterface *mode : std::as_const(d->m_modes)) {
         if (mode->m_handle.lock() == d->m_handle->currentMode()) {
             if (d->m_currentMode != mode) {
@@ -628,8 +621,9 @@ void OutputDeviceInterface::updateCurrentMode()
 
 void OutputDeviceInterface::updateEdid()
 {
+    const auto oldEdid = d->m_edid;
     d->m_edid = d->m_handle->edid();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_edid " << d->m_edid;
+    qCDebug(KWIN_CORE) << "Outputv1->update edid: \nold:" << oldEdid.toBase64() << " new:" << d->m_edid.toBase64();
     const auto clientResources = d->resourceMap();
     for (const auto &resource : clientResources) {
         d->sendEdid(resource);
@@ -640,7 +634,7 @@ void OutputDeviceInterface::updateEdid()
 void OutputDeviceInterface::updateEnabled()
 {
     bool enabled = d->m_handle->isEnabled();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_enabled " << d->m_enabled << " enabled " << enabled;
+    qCDebug(KWIN_CORE) << "Outputv1->update enabled: \nold:" << d->m_enabled << " new:" << enabled;
     if (d->m_enabled != enabled) {
         d->m_enabled = enabled;
         const auto clientResources = d->resourceMap();
@@ -653,8 +647,9 @@ void OutputDeviceInterface::updateEnabled()
 
 void OutputDeviceInterface::updateUuid()
 {
+    const QUuid oldUuid = d->m_uuid;
     const QUuid uuid = d->m_handle->uuid();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_uuid " << d->m_uuid.toString(QUuid::WithoutBraces) << " uuid " << uuid.toString(QUuid::WithoutBraces);
+    qCDebug(KWIN_CORE) << "Outputv1->update uuid: \nold:" << oldUuid.toString(QUuid::WithoutBraces) << " new:" << uuid.toString(QUuid::WithoutBraces);
     if (d->m_uuid != uuid) {
         d->m_uuid = uuid;
         const auto clientResources = d->resourceMap();
@@ -667,8 +662,9 @@ void OutputDeviceInterface::updateUuid()
 
 void OutputDeviceInterface::updateCapabilities()
 {
+    const uint32_t oldCap = d->m_capabilities;
     const uint32_t cap = kwinCapabilitiesToOutputDeviceCapabilities(d->m_handle->capabilities());
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_capabilities " << d->m_capabilities << " cap " << cap;
+    qCDebug(KWIN_CORE) << "Outputv1->update capabilities: \nold:" << oldCap << " new:" << cap;
     if (d->m_capabilities != cap) {
         d->m_capabilities = cap;
         const auto clientResources = d->resourceMap();
@@ -681,8 +677,9 @@ void OutputDeviceInterface::updateCapabilities()
 
 void OutputDeviceInterface::updateOverscan()
 {
+    const uint32_t oldOverscan = d->m_overscan;
     const uint32_t overscan = d->m_handle->overscan();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_overscan " << d->m_overscan << " overscan " << overscan;
+    qCDebug(KWIN_CORE) << "Outputv1->update overscan: \nold:" << oldOverscan << " new:" << overscan;
     if (d->m_overscan != overscan) {
         d->m_overscan = overscan;
         const auto clientResources = d->resourceMap();
@@ -695,8 +692,9 @@ void OutputDeviceInterface::updateOverscan()
 
 void OutputDeviceInterface::updateVrrPolicy()
 {
+    const auto oldPolicy = d->m_vrrPolicy;
     const auto policy = kwinVrrPolicyToOutputDeviceVrrPolicy(d->m_handle->vrrPolicy());
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_vrrPolicy " << d->m_vrrPolicy << " policy " << policy;
+    qCDebug(KWIN_CORE) << "Outputv1->update vrrPolicy: \nold:" << oldPolicy << " new:" << policy;
     if (d->m_vrrPolicy != policy) {
         d->m_vrrPolicy = policy;
         const auto clientResources = d->resourceMap();
@@ -709,8 +707,9 @@ void OutputDeviceInterface::updateVrrPolicy()
 
 void OutputDeviceInterface::updateRgbRange()
 {
+    const auto oldRgbRange = d->m_rgbRange;
     const auto rgbRange = d->m_handle->rgbRange();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_rgbRange " << d->m_rgbRange << " rgbRange " << rgbRange;
+    qCDebug(KWIN_CORE) << "Outputv1->update rgbRange: \nold:" << oldRgbRange << " new:" << rgbRange;
     if (d->m_rgbRange != rgbRange) {
         d->m_rgbRange = rgbRange;
         const auto clientResources = d->resourceMap();
@@ -723,10 +722,9 @@ void OutputDeviceInterface::updateRgbRange()
 
 void OutputDeviceInterface::updateBrightness()
 {
+    int oldBrightness = d->m_brightness;
     int brightness = d->m_handle->brightness();
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " m_brightness " << d->m_brightness << " brightness " << brightness;
-#endif
+    qCDebug(KWIN_CORE) << "Outputv1->update brightness: \nold:" << oldBrightness << " new:" << brightness;
     if (d->m_brightness != brightness) {
         d->m_brightness = brightness;
         const auto clientResources = d->resourceMap();
@@ -739,10 +737,10 @@ void OutputDeviceInterface::updateBrightness()
 
 void OutputDeviceInterface::updateCtmValue()
 {
+    Output::CtmValue oldCtm = d->m_ctmValue;
     Output::CtmValue ctm = d->m_handle->ctmValue();
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " ctm " << ctm.r << ctm.g << ctm.b;
-#endif
+    qCDebug(KWIN_CORE) << "Outputv1->update ctmValue: \nold:" << oldCtm.r << oldCtm.g << oldCtm.b
+                       << " \nnew:" << ctm.r << ctm.g << ctm.b;
     if (d->m_ctmValue != ctm) {
         d->m_ctmValue = ctm;
         const auto clientResources = d->resourceMap();
@@ -755,10 +753,10 @@ void OutputDeviceInterface::updateCtmValue()
 
 void OutputDeviceInterface::updateCurvesChanged()
 {
+    Output::ColorCurves oldCurves = d->m_colorCurves;
     Output::ColorCurves colorCurves = d->m_handle->colorCurves();
-#ifdef QT_DEBUG
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " colorcurves " << colorCurves.red << colorCurves.green << colorCurves.blue;
-#endif
+    qCDebug(KWIN_CORE) << "Outputv1->update colorCurves: \nold:" << oldCurves.red << oldCurves.green << oldCurves.blue
+                       << " \nnew:" << colorCurves.red << colorCurves.green << colorCurves.blue;
     if (d->m_colorCurves != colorCurves) {
         d->m_colorCurves = colorCurves;
         const auto clientResources = d->resourceMap();
@@ -771,8 +769,9 @@ void OutputDeviceInterface::updateCurvesChanged()
 
 void OutputDeviceInterface::updateColorMode()
 {
+    Output::ColorMode oldColorMode = d->m_colorModeValue;
     Output::ColorMode colorMode = d->m_handle->colorModeValue();
-    qCDebug(KWIN_CORE) << "outputv1:" << this << " colorMode " << colorMode;
+    qCDebug(KWIN_CORE) << "Outputv1->update colorMode: \nold:" << oldColorMode << " new:" << colorMode;
     if (d->m_colorModeValue != colorMode) {
         d->m_colorModeValue = colorMode;
         const auto clientResources = d->resourceMap();

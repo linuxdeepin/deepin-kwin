@@ -26,6 +26,7 @@ public:
     uid_t user = 0;
     gid_t group = 0;
     QString executablePath;
+    QString executableComm;
 
     qreal scaleOverride = 1.0;
 
@@ -48,6 +49,7 @@ ClientConnectionPrivate::ClientConnectionPrivate(wl_client *c, Display *display,
     wl_client_add_destroy_listener(c, &listener);
     wl_client_get_credentials(client, &pid, &user, &group);
     executablePath = executablePathFromPid(pid);
+    executableComm = executableCommFromPid(pid);
 }
 
 ClientConnectionPrivate::~ClientConnectionPrivate()
@@ -144,6 +146,11 @@ uid_t ClientConnection::userId() const
 QString ClientConnection::executablePath() const
 {
     return d->executablePath;
+}
+
+QString ClientConnection::executableComm() const
+{
+    return d->executableComm;
 }
 
 void ClientConnection::setScaleOverride(qreal scaleOveride)

@@ -228,7 +228,6 @@ void SeatInterfacePrivate::registerDataControlDevice(DataControlDeviceV1Interfac
         }
         q->setPrimarySelection(dataDevice->primarySelection());
     });
-    qCWarning(KWIN_CORE) << "new dataDevice " << dataDevice << "@" << dataDevice->processId();
     if (currentSelection) {
         verifySelection(dataDevice, currentSelection);
     }
@@ -465,7 +464,7 @@ void SeatInterfacePrivate::handleCopySecurityVerified(uint32_t serial, uint32_t 
 
         switch (state->deviceType) {
         case AbstractDataDevice::DeviceType::DeviceType_Data:
-            if (state->dataDevice->processId() == state->dataSource->pid 
+            if (state->dataDevice->processId() == state->dataSource->pid
                 || allDataControlDevices.contains(state->dataDevice->processId()) || allDataControlDevices.contains(state->dataSource->pid)) {
                 state->dataDevice->sendSelection(state->dataSource);
             }
