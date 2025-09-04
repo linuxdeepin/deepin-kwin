@@ -97,7 +97,6 @@ private:
     bool startInternal();
     void stopInternal();
     void restartInternal();
-    void processXwaylandOutput(QByteArray buffer);
 
     QThread *m_launcherThread = nullptr;
     QProcess *m_xwaylandProcess = nullptr;

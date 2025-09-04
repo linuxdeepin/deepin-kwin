@@ -119,6 +119,8 @@ void KWinWrapper::run()
     // the first entry is dropped as it will be our program name
     args << qApp->arguments().mid(1);
 
+    args << "2>&1 | systemd-cat -t kwin_wayland";
+
     m_kwinProcess->setProcessChannelMode(QProcess::ForwardedChannels);
     m_kwinProcess->setArguments(args);
 
