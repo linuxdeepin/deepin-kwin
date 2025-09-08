@@ -511,7 +511,9 @@ bool Workspace::activateNextWindow(Window *window)
         }
     }
 
-    if (!focusCandidate) { // no suitable window under the mouse -> find sth. else
+    // no suitable window under the mouse -> find sth. else
+    bool noFocusFallbackToParent = (qEnvironmentVariableIntValue("KWIN_NO_FOCUS_FALLBACK_TO_PARENT") == 1);
+    if (!focusCandidate && !noFocusFallbackToParent) {
         // first try to pass the focus to the (former) active clients leader
         if (window && window->isTransient()) {
             auto leaders = window->mainWindows();
@@ -520,10 +522,11 @@ bool Workspace::activateNextWindow(Window *window)
                 raiseWindow(focusCandidate); // also raise - we don't know where it came from
             }
         }
-        if (!focusCandidate) {
-            // nope, ask the focus chain for the next candidate
-            focusCandidate = m_focusChain->nextForDesktop(window, desktop);
-        }
+    }
+
+    if (!focusCandidate) {
+        // nope, ask the focus chain for the next candidate
+        focusCandidate = m_focusChain->nextForDesktop(window, desktop);
     }
 
     if (focusCandidate == nullptr) { // last chance: focus the desktop
