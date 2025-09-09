@@ -73,5 +73,6 @@ bool generateXauthorityFile(int display, QFile *authorityFile)
         return false;
     }
 
+    authorityFile->close();
     return true;
 }

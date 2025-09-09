@@ -111,7 +111,9 @@ void KWinWrapper::run()
         }
         args << "--xwayland-display" << m_xwlSocket->name();
         if (m_xauthorityFile.open(QFile::ReadOnly)) {
+            qCDebug(KWIN_WRAPPER) << "Using Xauthority file" << m_xauthorityFile.fileName();
             args << "--xwayland-xauthority" << m_xauthorityFile.fileName();
+            m_xauthorityFile.close();
         }
     }
 
@@ -150,7 +152,9 @@ void KWinWrapper::run()
     if (m_xwlSocket) {
         env.insert("DISPLAY", m_xwlSocket->name());
         if (m_xauthorityFile.open(QFile::ReadOnly)) {
+            qCDebug(KWIN_WRAPPER) << "Setting XAUTHORITY to" << m_xauthorityFile.fileName();
             env.insert("XAUTHORITY", m_xauthorityFile.fileName());
+            m_xauthorityFile.close();
         }
     }
 
