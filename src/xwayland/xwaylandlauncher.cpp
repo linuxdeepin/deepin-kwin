@@ -51,12 +51,6 @@ namespace Xwl
 XwaylandLauncher::XwaylandLauncher(QObject *parent)
     : QObject(parent)
 {
-    m_launcherThread = new QThread();
-    // Important: Move object to thread before connecting its own slots
-    // or creating child QObjects like timers that should live in this thread.
-    this->moveToThread(m_launcherThread);
-    m_launcherThread->start();
-
     m_resetCrashCountTimer = new QTimer(this); // Parented, so will move to m_launcherThread
     m_resetCrashCountTimer->setSingleShot(true);
     connect(m_resetCrashCountTimer, &QTimer::timeout, this, &XwaylandLauncher::resetCrashCount);
@@ -66,16 +60,7 @@ XwaylandLauncher::XwaylandLauncher(QObject *parent)
 
 XwaylandLauncher::~XwaylandLauncher()
 {
-    // Stop and cleanup the launcher's own thread first
-    if (m_launcherThread) {
-        // If stop() was not called explicitly, ensure resources are cleaned up.
-        // This needs to be invoked on the launcher's thread.
-        // QMetaObject::invokeMethod is used for safety if destructor is called from another thread.
-        QMetaObject::invokeMethod(this, "onStopRequested", Qt::BlockingQueuedConnection);
-        m_launcherThread->quit();
-        m_launcherThread->wait(); // Wait for the launcher thread to finish
-        m_launcherThread->deleteLater();
-    }
+    stop();
 }
 
 // Public methods use QMetaObject::invokeMethod to call slots on the launcher thread

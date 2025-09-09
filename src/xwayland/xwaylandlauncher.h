@@ -98,7 +98,6 @@ private:
     void stopInternal();
     void restartInternal();
 
-    QThread *m_launcherThread = nullptr;
     QProcess *m_xwaylandProcess = nullptr;
     QSocketNotifier *m_readyNotifier = nullptr;
     QTimer *m_resetCrashCountTimer = nullptr;
