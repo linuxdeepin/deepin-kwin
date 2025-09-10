@@ -197,7 +197,7 @@ void BlurEffect::initBlurStrengthValues()
     }
 }
 
-void BlurEffect::reconfigure([[maybe_unused]] ReconfigureFlags flags)
+void BlurEffect::reconfigure(ReconfigureFlags flags)
 {
     BlurConfig::self()->read();
 
