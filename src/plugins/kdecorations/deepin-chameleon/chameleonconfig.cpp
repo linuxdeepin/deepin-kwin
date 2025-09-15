@@ -35,6 +35,7 @@
 #include <KDecoration2/Decoration>
 
 #include <QPainter>
+#include <QPainterPath>
 #include <QDebug>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>

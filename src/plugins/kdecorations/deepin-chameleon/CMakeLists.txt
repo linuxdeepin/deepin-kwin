@@ -1,6 +1,6 @@
 set(TARGET_NAME "deepin_chameleon")
 
-add_definitions(-DTARGET_NAME=\\"${TARGET_NAME}\\")
+add_definitions(-DTARGET_NAME="${TARGET_NAME}")
 
 find_package(Qt${QT_MAJOR_VERSION} CONFIG REQUIRED COMPONENTS Core)
 find_package(KF${KF_MAJOR_VERSION}CoreAddons REQUIRED)

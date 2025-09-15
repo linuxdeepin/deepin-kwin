@@ -328,7 +328,7 @@ int main(int argc, char *argv[])
     wl_log_set_handler_server(waylandLogHandler);
 #ifndef BUILD_WITHOUT_V20_PATCH
     wl_debug_set_handler_server(waylandDebugHandler);
-
+#endif
     qDebug() << "version" << KWIN_DVERSION << "start";
 
     KWin::Application::setupMalloc();
