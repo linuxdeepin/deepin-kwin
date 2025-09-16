@@ -195,7 +195,7 @@ public:
         }
 
         if (client->executablePath().isEmpty()) {
-            qCDebug(KWIN_CORE) << "Could not identify process with pid" << client->processId();
+            qCWarning(KWIN_CORE) << "Client executable path is empty, pid:" << client->processId();
             return false;
         }
 
@@ -229,7 +229,7 @@ public:
                 return false;
             }
         }
-        qCDebug(KWIN_CORE) << "authorized" << client->executablePath() << interfaceName;
+        qCDebug(KWIN_CORE) << "Interface authorized, client:" << client->executablePath() << " interface:" << interfaceName;
         return true;
     }
 };
@@ -257,10 +257,13 @@ KWaylandServer::ClientConnection *WaylandServer::inputMethodConnection() const
 
 void WaylandServer::registerWindow(Window *window)
 {
+    qCInfo(KWIN_CORE) << "Registering window, window name:" << window->resourceName() << ", window id:" << window->window();
     if (window->readyForPainting()) {
         Q_EMIT windowAdded(window);
+        qCInfo(KWIN_CORE) << "Window ready for painting, added. Window id:" << window->window();
     } else {
         connect(window, &Window::windowShown, this, &WaylandServer::windowShown);
+        qCInfo(KWIN_CORE) << "Window not ready for painting, waiting for windowShown signal. Window id:" << window->window();
     }
     m_windows << window;
 }
@@ -335,7 +338,6 @@ void WaylandServer::registerXdgToplevelV6Window(XdgToplevelV6Window *window)
 
 void WaylandServer::registerXdgGenericWindow(Window *window)
 {
-    FUNC_DEBUG_LOG(Q_FUNC_INFO, window->surface()->id());
     if (auto toplevel = qobject_cast<XdgToplevelWindow *>(window)) {
         registerXdgToplevelWindow(toplevel);
         return;
@@ -790,6 +792,7 @@ bool WaylandServer::init(InitializationFlags flags)
     m_ddeRestrict = new DDERestrictInterface(m_display, m_display);
     m_ddeKvm = new DDEKvmInterface(m_display, m_display);
 
+    qCInfo(KWIN_CORE) << "Init wayland server finished, socket:" << socketName() << ", flags:" << flags;
     return true;
 }
 
@@ -948,6 +951,7 @@ int WaylandServer::createScreenLockerConnection()
     connect(m_screenLockerClientConnection, &KWaylandServer::ClientConnection::disconnected, this, [this]() {
         m_screenLockerClientConnection = nullptr;
     });
+    qCInfo(KWIN_CORE) << "ScreenLocker connection created, fd:" << socket.fd;
     return socket.fd;
 }
 
@@ -955,6 +959,7 @@ int WaylandServer::createXWaylandConnection()
 {
     const auto socket = createConnection();
     if (!socket.connection) {
+        qCWarning(KWIN_CORE) << "Failed to create XWayland connection.";
         return -1;
     }
     m_xwaylandConnection = socket.connection;
@@ -964,42 +969,51 @@ int WaylandServer::createXWaylandConnection()
         m_xwaylandConnection->setScaleOverride(kwinApp()->xwaylandScale());
     });
 
+    qCInfo(KWIN_CORE) << "XWayland connection created, fd:" << socket.fd;
     return socket.fd;
 }
 
 void WaylandServer::destroyXWaylandConnection()
 {
     if (!m_xwaylandConnection) {
+        qCWarning(KWIN_CORE) << "Destroy XWayland connection called but connection does not exist.";
         return;
     }
     m_xwaylandConnection->destroy();
     m_xwaylandConnection = nullptr;
+    qCInfo(KWIN_CORE) << "XWayland connection destroyed.";
 }
 
 int WaylandServer::createInputMethodConnection()
 {
     const auto socket = createConnection();
     if (!socket.connection) {
+        qCWarning(KWIN_CORE) << "Failed to create InputMethod connection.";
         return -1;
     }
     m_inputMethodServerConnection = socket.connection;
+    qCInfo(KWIN_CORE) << "InputMethod connection created, fd:" << socket.fd;
     return socket.fd;
 }
 
 void WaylandServer::destroyInputMethodConnection()
 {
     if (!m_inputMethodServerConnection) {
+        qCWarning(KWIN_CORE) << "Destroy InputMethod connection called but connection does not exist.";
         return;
     }
     m_inputMethodServerConnection->destroy();
     m_inputMethodServerConnection = nullptr;
+    qCInfo(KWIN_CORE) << "InputMethod connection destroyed.";
 }
 
 void WaylandServer::removeWindow(Window *c)
 {
+    qCInfo(KWIN_CORE) << "Removing window, window name:" << c->resourceName() << "window id:" << c->window() << "uuid:" << c->internalId().toByteArray();
     m_windows.removeAll(c);
     if (c->readyForPainting()) {
         Q_EMIT windowRemoved(c);
+        qCInfo(KWIN_CORE) << "Window ready for painting, removed. Window id:" << c->window();
     }
 }
 

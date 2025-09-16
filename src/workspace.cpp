@@ -238,7 +238,7 @@ Workspace::Workspace()
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "WindowMaximize", this, SLOT(toggleActiveMaximize()));
 #endif
 
-    QTimer::singleShot(3000, [this] {
+    QTimer::singleShot(3000, [] {
         struct ProhibitThread : public QThread
         {
             void run() override
@@ -397,7 +397,7 @@ void Workspace::init()
         QDBusReply<QVariant> replyValue = interfaceValue.call("value", "supportDmabufExt");
         m_supportDmabufExt = replyValue.value().toBool();
     } else {
-        qCWarning(KWIN_CORE) << "Error in DConfig read supportDmabufExt reply:" << reply.error();
+        qCWarning(KWIN_CORE) << "[Workspace]Error in DConfig read supportDmabufExt reply: " << reply.error();
         m_supportDmabufExt = false;
     }
 }
@@ -731,14 +731,14 @@ QMap<Output *, QJsonObject> outputsConfig(const QVector<Output *> &outputs, cons
 
     QFile f(kscreenJsonPath);
     if (!f.open(QIODevice::ReadOnly)) {
-        qCWarning(KWIN_CORE) << "Could not open file" << kscreenJsonPath;
+        qCWarning(KWIN_CORE) << "[Workspace]Could not open file: " << kscreenJsonPath;
         return {};
     }
 
     QJsonParseError error;
     const auto doc = QJsonDocument::fromJson(f.readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
-        qCWarning(KWIN_CORE) << "Failed to parse" << kscreenJsonPath << error.errorString();
+        qCWarning(KWIN_CORE) << "[Workspace]Failed to parse: " << kscreenJsonPath << " " << error.errorString();
         return {};
     }
 
@@ -823,7 +823,9 @@ std::shared_ptr<OutputMode> parseMode(Output *output, const QJsonObject &modeInf
 
 bool Workspace::applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder)
 {
+    qCDebug(KWIN_CORE) << "[Workspace]Applying output configuration: outputOrder size: " << outputOrder.size();
     if (!kwinApp()->outputBackend()->applyOutputChanges(config)) {
+        qCWarning(KWIN_CORE) << "[Workspace]Apply output changes failed!";
         return false;
     }
     updateOutputs(outputOrder);
@@ -833,13 +835,15 @@ bool Workspace::applyOutputConfiguration(const OutputConfiguration &config, cons
 void Workspace::updateOutputConfiguration()
 {
     // There's conflict between this code and setVirtualOutputs(), need to adjust the tests.
+    qCDebug(KWIN_CORE) << "[Workspace]Updating output configuration.";
     if (QStandardPaths::isTestModeEnabled()) {
+        qCDebug(KWIN_CORE) << "[Workspace]Test mode enabled, skipping.";
         return;
     }
 
     const auto outputs = kwinApp()->outputBackend()->outputs();
     if (outputs.empty()) {
-        // nothing to do
+        qCDebug(KWIN_CORE) << "[Workspace]No outputs, nothing to do.";
         return;
     }
     const QString hash = KWinKScreenIntegration::connectedOutputsHash(outputs);
@@ -869,20 +873,20 @@ void Workspace::updateOutputConfiguration()
         }
         auto props = cfg.changeSet(output);
         const QJsonObject outputInfo = outputsInfo[output];
-        qCDebug(KWIN_CORE) << "Reading output configuration for " << output;
+        qCDebug(KWIN_CORE) << "[Workspace]Reading output configuration for " << output;
         if (!outputInfo.isEmpty()) {
             props->enabled = outputInfo["enabled"].toBool(true);
             if (outputInfo["primary"].toBool()) {
                 outputOrder.push_back(std::make_pair(1, output));
                 if (!props->enabled) {
-                    qCWarning(KWIN_CORE) << "KScreen config would disable the primary output!";
+                    qCWarning(KWIN_CORE) << "[Workspace]KScreen config would disable the primary output!";
                     setFallbackOutputOrder();
                     return;
                 }
             } else if (int prio = outputInfo["priority"].toInt(); prio > 0) {
                 outputOrder.push_back(std::make_pair(prio, output));
                 if (!props->enabled) {
-                    qCWarning(KWIN_CORE) << "KScreen config would disable an output with priority!";
+                    qCWarning(KWIN_CORE) << "[Workspace]KScreen config would disable an output with priority!";
                     setFallbackOutputOrder();
                     return;
                 }
@@ -892,7 +896,7 @@ void Workspace::updateOutputConfiguration()
             if (const QJsonObject pos = outputInfo["pos"].toObject(); !pos.isEmpty()) {
                 props->pos = QPoint(pos["x"].toInt(), pos["y"].toInt());
             }
-            qCDebug(KWIN_CORE) << "Reading output configuration for " << output << " pos " << *props->pos << " current pos " << output->geometry().topLeft();
+            qCDebug(KWIN_CORE) << "[Workspace]Reading output configuration for " << output << " pos " << *props->pos << " current pos " << output->geometry().topLeft();
             if (const QJsonValue scale = outputInfo["scale"]; !scale.isUndefined()) {
                 props->scale = scale.toDouble(1.);
             }
@@ -924,7 +928,7 @@ void Workspace::updateOutputConfiguration()
                 props->pos = pos;
                 props->transform = output->panelOrientation();
             }
-            qCDebug(KWIN_CORE) << "Reading none configuration for " << output << " pos " << *props->pos << " current pos " << output->geometry().topLeft();
+            qCDebug(KWIN_CORE) << "[Workspace]Reading none configuration for " << output << " pos " << *props->pos << " current pos " << output->geometry().topLeft();
             outputOrder.push_back(std::make_pair(0, output));
         }
         pos.setX(pos.x() + output->geometry().width());
@@ -938,7 +942,7 @@ void Workspace::updateOutputConfiguration()
         }
     });
     if (allDisabled) {
-        qCWarning(KWIN_CORE) << "KScreen config would disable all outputs!";
+        qCWarning(KWIN_CORE) << "[Workspace]KScreen config would disable all outputs!";
         setFallbackOutputOrder();
         return;
     }
@@ -960,7 +964,7 @@ void Workspace::updateOutputConfiguration()
         }
     });
     if (!kwinApp()->outputBackend()->applyOutputChanges(cfg)) {
-        qCWarning(KWIN_CORE) << "Applying KScreen config failed!";
+        qCWarning(KWIN_CORE) << "[Workspace]Applying KScreen config failed!";
         setFallbackOutputOrder();
         return;
     }
@@ -1120,7 +1124,7 @@ X11Window *Workspace::createX11Window(xcb_window_t windowId, bool is_mapped)
     }
     if (!window->manage(windowId, is_mapped)) {
         X11Window::deleteClient(window);
-        qCDebug(KWIN_CORE) << "Create x11 win faild, winId: " << windowId;
+        qCDebug(KWIN_CORE) << "[Workspace]Create x11 win faild, winId: " << windowId;
         return nullptr;
     }
     addX11Window(window);
@@ -1144,7 +1148,7 @@ Unmanaged *Workspace::createUnmanaged(xcb_window_t windowId)
     Unmanaged *window = new Unmanaged();
     if (!window->track(windowId)) {
         Unmanaged::deleteUnmanaged(window);
-        qCDebug(KWIN_CORE) << "Create unmanaged win faild, winId: " << windowId;
+        qCDebug(KWIN_CORE) << "[Workspace]Create unmanaged win faild, winId: " << windowId;
         return nullptr;
     }
     addUnmanaged(window);
@@ -1188,7 +1192,7 @@ void Workspace::addX11Window(X11Window *window)
         updateToolWindows(true);
     }
     updateTabbox();
-    qCDebug(KWIN_CORE) << "Create a new win:" << window->resourceName() << "layer=" << window->layer() << "type=" << window->windowType();
+    qCDebug(KWIN_CORE) << "[Workspace]Create a new win: " << window->resourceName() << " layer=" << window->layer() << " type=" << window->windowType();
 }
 
 void Workspace::addUnmanaged(Unmanaged *window)
@@ -1213,6 +1217,7 @@ void Workspace::removeX11Window(X11Window *window)
         group->lostLeader();
     }
     removeWindow(window);
+    qCDebug(KWIN_CORE) << "[Workspace]Removed x11 window:" << window->window() << " " << window->resourceName();
 }
 
 void Workspace::removeUnmanaged(Unmanaged *window)
@@ -1246,7 +1251,6 @@ void Workspace::removeDeleted(Deleted *c)
 
 void Workspace::addWaylandWindow(Window *window)
 {
-    FUNC_DEBUG_LOG(Q_FUNC_INFO, window->window());
     setupWindowConnections(window);
     window->updateLayer();
     if (window->isPlaceable()) {
@@ -1276,12 +1280,14 @@ void Workspace::addWaylandWindow(Window *window)
     }
     updateTabbox();
     Q_EMIT windowAdded(window);
+    qCDebug(KWIN_CORE) << "[Workspace]Added wayland window:" << window->window();
 }
 
 void Workspace::removeWaylandWindow(Window *window)
 {
     windowHidden(window);
     removeWindow(window);
+    qCDebug(KWIN_CORE) << "[Workspace]Removed wayland window:" << window->window();
 }
 
 void Workspace::removeWindow(Window *window)
@@ -1420,6 +1426,7 @@ void Workspace::slotUpdateToolWindows()
 
 void Workspace::slotReloadConfig()
 {
+    qCDebug(KWIN_CORE) << "[Workspace]Reload config requested";
     reconfigure();
 }
 
@@ -1434,7 +1441,7 @@ void Workspace::reconfigure()
 
 void Workspace::slotReconfigure()
 {
-    qCDebug(KWIN_CORE) << "Workspace::slotReconfigure()";
+    qCDebug(KWIN_CORE) << "[Workspace]Reconfigure requested";
     reconfigureTimer.stop();
 
     bool borderlessMaximizedWindows = options->borderlessMaximizedWindows();
@@ -1757,6 +1764,7 @@ void Workspace::slotOutputBackendOutputsQueried()
 
 void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
 {
+    qCDebug(KWIN_CORE) << "[Workspace]Update outputs: outputOrder size: " << outputOrder.size();
     const auto availableOutputs = kwinApp()->outputBackend()->outputs();
     const auto oldOutputs = m_outputs;
 
@@ -1815,6 +1823,7 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
 #endif
     const auto added = outputsSet - oldOutputsSet;
     for (Output *output : added) {
+        qCDebug(KWIN_CORE) << "[Workspace]Output added: " << output->name();
         output->ref();
         m_tileManagers[output] = std::make_unique<TileManager>(output);
         Q_EMIT outputAdded(output);
@@ -1822,6 +1831,7 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
 
     const auto removed = oldOutputsSet - outputsSet;
     for (Output *output : removed) {
+        qCDebug(KWIN_CORE) << "[Workspace]Output removed: " << output->name();
         Q_EMIT outputRemoved(output);
         auto tileManager = std::move(m_tileManagers[output]);
         m_tileManagers.erase(output);
@@ -1877,6 +1887,7 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
 
 void Workspace::slotDesktopAdded(VirtualDesktop *desktop)
 {
+    qCDebug(KWIN_CORE) << "[Workspace]Desktop added:" << desktop->x11DesktopNumber();
     m_focusChain->addDesktop(desktop);
     m_placement->reinitCascading(0);
     updateClientArea();
@@ -1884,6 +1895,7 @@ void Workspace::slotDesktopAdded(VirtualDesktop *desktop)
 
 void Workspace::slotDesktopRemoved(VirtualDesktop *desktop)
 {
+    qCDebug(KWIN_CORE) << "[Workspace]Desktop removed:" << desktop->x11DesktopNumber();
     for (auto it = m_allClients.constBegin(); it != m_allClients.constEnd(); ++it) {
         if (!(*it)->desktops().contains(desktop)) {
             continue;
@@ -2681,7 +2693,7 @@ void Workspace::handleReleaseMouseCommand()
             }
         }
         if (release_on) {
-            qCDebug(KWIN_CORE) << "Workspace::handleReleaseMouseCommand:" << "release on:" << release_on->resourceName();
+            qCDebug(KWIN_CORE) << "[Workspace]Mouse release on:" << release_on->resourceName();
             if (Window *press_on = findClient(Predicate::WindowMatch, m_clientIDHandlingMouseCommand)) {
                 Window *target = nullptr;
                 if (press_on->window() == release_on->window()
@@ -2692,7 +2704,7 @@ void Workspace::handleReleaseMouseCommand()
                 }
                 if (target) {
                     takeActivity(target, Workspace::ActivityFocus | Workspace::ActivityRaise);
-                    qCDebug(KWIN_CORE) << "Raise window at release:" << target->resourceName() << "; id:" << target->window();
+                    qCDebug(KWIN_CORE) << "[Workspace]Raise window at release:" << target->resourceName() << "; id:" << target->window();
                 }
             }
         }
@@ -3055,7 +3067,7 @@ void Workspace::updateClientArea()
         // this is a violation to EWMH, as KWin just ignores the strut
         for (const Output *output : std::as_const(m_outputs)) {
             if (!r.intersects(output->geometry())) {
-                qCDebug(KWIN_CORE) << "Adjusted client area would exclude a complete screen, ignore";
+                qCDebug(KWIN_CORE) << "[Workspace]Adjusted client area would exclude a complete screen, ignore";
                 r = m_geometry;
                 break;
             }
@@ -3976,7 +3988,7 @@ bool Workspace::getDraggingWithContentStatus()
         QDBusReply<QVariant> replyValue = interfaceValue.call("value", "DraggingWithContent");
         status &= replyValue.value().toBool();
     } else {
-        qCDebug(KWIN_CORE) << "dconfig reply.error: " << reply.error();
+        qCDebug(KWIN_CORE) << "[Workspace]dconfig reply.error: " << reply.error();
     }
     return status;
 }

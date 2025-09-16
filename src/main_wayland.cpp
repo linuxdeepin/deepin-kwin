@@ -86,9 +86,6 @@ void waylandDebugHandler(const char *fmt, va_list args)
 namespace KWin
 {
 
-
-
-
 static void unsetDumpable(int sig)
 {
 #if HAVE_PR_SET_DUMPABLE
@@ -206,7 +203,7 @@ void ApplicationWayland::continueStartupWithScene()
     createPlugins();
 
     if (!waylandServer()->start()) {
-        qFatal("Failed to initialze the Wayland server, exiting now");
+        qFatal("Failed to start the Wayland server, exiting now");
     }
 
     if (operationMode() == OperationModeWaylandOnly) {
@@ -298,7 +295,7 @@ void ApplicationWayland::startSession()
                 continue;
             }
             QString program = arguments.takeFirst();
-            qDebug() << "Start application" << program;
+            qInfo() << "Start application" << program;
             // note: this will kill the started process when we exit
             // this is going to happen anyway as we are the wayland and X server the app connects to
             QProcess *p = new QProcess(this);
@@ -328,9 +325,13 @@ int main(int argc, char *argv[])
     wl_log_set_handler_server(waylandLogHandler);
 #ifndef BUILD_WITHOUT_V20_PATCH
     wl_debug_set_handler_server(waylandDebugHandler);
-#endif
-    qDebug() << "version" << KWIN_DVERSION << "start";
 
+    // Log: program entry
+    QStringList args;
+    for (int i = 0; i < argc; ++i) {
+        args << QString::fromLocal8Bit(argv[i]);
+    }
+    qInfo() << "kwin_wayland started, version:" << KWIN_DVERSION << ", args:" << args;
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
     KWin::gainRealTime();
@@ -359,6 +360,7 @@ int main(int argc, char *argv[])
     a.setupTranslator();
     // reset QT_QPA_PLATFORM so we don't propagate it to our children (e.g. apps launched from the overview effect)
     qunsetenv("QT_QPA_PLATFORM");
+    qInfo() << "QT_QPA_PLATFORM environment variable reset";
 
     signal(SIGABRT, KWin::unsetDumpable);
     signal(SIGSEGV, KWin::unsetDumpable);
@@ -461,7 +463,7 @@ int main(int argc, char *argv[])
     parser.addOption(noGlobalShortcutsOption);
 
     QCommandLineOption noVtSwitchOption(QStringLiteral("no-vt-switch"),
-                                               i18n("Disable virtual terminal switch global shortcuts support."));
+                                        i18n("Disable virtual terminal switch global shortcuts support."));
     parser.addOption(noVtSwitchOption);
 
 #if KWIN_BUILD_ACTIVITIES
@@ -489,6 +491,7 @@ int main(int argc, char *argv[])
 #endif
 
     if (parser.isSet(replaceOption)) {
+        qInfo() << "Set replaceOption, exiting for wrapper restart";
         QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.kde.KWin"), QStringLiteral("/KWin"),
                                                           QStringLiteral("org.kde.KWin"), QStringLiteral("replace"));
         QDBusConnection::sessionBus().call(msg, QDBus::NoBlock);
@@ -496,8 +499,10 @@ int main(int argc, char *argv[])
     }
 
     a.setDisableMultiScreens(parser.isSet(disableMultiScreens));
+    qInfo() << "Set disableMultiScreens:" << parser.isSet(disableMultiScreens);
 
     if (parser.isSet(exitWithSessionOption)) {
+        qInfo() << "Set exitWithSessionOption, session argument:" << parser.value(exitWithSessionOption);
         a.setSessionArgument(parser.value(exitWithSessionOption));
     }
 
@@ -543,17 +548,17 @@ int main(int argc, char *argv[])
     bool ok = false;
     const int width = parser.value(widthOption).toInt(&ok);
     if (!ok) {
-        std::cerr << "FATAL ERROR incorrect value for width" << std::endl;
+        qCritical() << "FATAL ERROR: incorrect value for width";
         return 1;
     }
     const int height = parser.value(heightOption).toInt(&ok);
     if (!ok) {
-        std::cerr << "FATAL ERROR incorrect value for height" << std::endl;
+        qCritical() << "FATAL ERROR: incorrect value for height";
         return 1;
     }
     const qreal scale = parser.value(scaleOption).toDouble(&ok);
     if (!ok || scale <= 0) {
-        std::cerr << "FATAL ERROR incorrect value for scale" << std::endl;
+        qCritical() << "FATAL ERROR: incorrect value for scale";
         return 1;
     }
 
@@ -563,6 +568,7 @@ int main(int argc, char *argv[])
     const int count = parser.value(outputCountOption).toInt(&ok);
     if (ok) {
         outputCount = std::max(1, count);
+        qInfo() << "Output count set to:" << outputCount;
     }
 
     // TODO: create backend without having the server running
@@ -586,6 +592,7 @@ int main(int argc, char *argv[])
 
     const QString socketName = parser.value(waylandSocketOption);
     if (parser.isSet(waylandSocketFdOption)) {
+        qInfo() << "Using wayland-fd option, socketName:" << socketName;
         bool ok;
         int fd = parser.value(waylandSocketFdOption).toInt(&ok);
         if (ok) {
@@ -593,32 +600,34 @@ int main(int argc, char *argv[])
             fcntl(fd, F_SETFD, FD_CLOEXEC);
             server->display()->addSocketFileDescriptor(fd, socketName);
         } else {
-            std::cerr << "FATAL ERROR: could not parse socket FD" << std::endl;
+            qCritical() << "FATAL ERROR: could not parse socket FD";
             return 1;
         }
     } else {
         // socketName empty is fine here, addSocketName will automatically pick one
         if (!server->display()->addSocketName(socketName)) {
-            std::cerr << "FATAL ERROR: could not add wayland socket " << qPrintable(socketName) << std::endl;
+            qCritical() << "FATAL ERROR: could not add wayland socket" << socketName;
             return 1;
         }
     }
 
     if (!server->init(flags)) {
-        std::cerr << "FATAL ERROR: could not create Wayland server" << std::endl;
+        qCritical() << "FATAL ERROR: could not create Wayland server";
         return 1;
     }
 
     switch (backendType) {
     case BackendType::Kms:
+        qInfo() << "Initializing DRM backend";
         a.setSession(KWin::Session::create());
         if (!a.session()) {
-            std::cerr << "FATAl ERROR: could not acquire a session" << std::endl;
+            qCritical() << "FATAL ERROR: could not acquire a session";
             return 1;
         }
         a.setOutputBackend(std::make_unique<KWin::DrmBackend>(a.session()));
         break;
     case BackendType::Virtual: {
+        qInfo() << "Initializing Virtual backend";
         auto outputBackend = std::make_unique<KWin::VirtualBackend>();
         for (int i = 0; i < outputCount; ++i) {
             outputBackend->addOutput(initialWindowSize, outputScale);
@@ -628,6 +637,7 @@ int main(int argc, char *argv[])
         break;
     }
     case BackendType::X11: {
+        qInfo() << "Initializing X11 backend";
         QString display = parser.value(x11DisplayOption);
         if (display.isEmpty()) {
             display = qgetenv("DISPLAY");
@@ -642,6 +652,7 @@ int main(int argc, char *argv[])
         break;
     }
     case BackendType::Wayland: {
+        qInfo() << "Initializing Wayland backend";
         QString socketName = parser.value(waylandDisplayOption);
         if (socketName.isEmpty()) {
             socketName = qgetenv("WAYLAND_DISPLAY");
@@ -665,6 +676,7 @@ int main(int argc, char *argv[])
     a.setProcessStartupEnvironment(environment);
 
     if (parser.isSet(xwaylandOption)) {
+        qInfo() << "Set xwaylandOption, preparing to start Xwayland";
         a.setStartXwayland(true);
 
         if (parser.isSet(xwaylandListenFdOption)) {
@@ -692,6 +704,7 @@ int main(int argc, char *argv[])
 
     a.setApplicationsToStart(parser.positionalArguments());
     a.setInputMethodServerToStart(parser.value(inputMethodOption));
+    qInfo() << "Starting main loop";
     a.start();
 
     return a.exec();

@@ -216,9 +216,9 @@ namespace KWin
 void Workspace::setActiveWindow(Window *window)
 {
     if (window) {
-        qCDebug(KWIN_CORE) <<"Workspace::setActiveWindow:"<< window->resourceName();
+        qCDebug(KWIN_CORE) << "[Workspace]Set active window:" << window->resourceName();
     } else {
-        qCDebug(KWIN_CORE) <<"Workspace::setActiveWindow: get 0 window";
+        qCDebug(KWIN_CORE) << "[Workspace]Set active window, but window is NULL";
     }
 
     if (m_activeWindow == window) {
@@ -410,18 +410,18 @@ bool Workspace::takeActivity(Window *window, ActivityFlags flags)
         flags &= ~ActivityFocus;
     }
     if (!window->isShown()) { // shouldn't happen, call activateWindow() if needed
-        qCWarning(KWIN_CORE) << "takeActivity: not shown" << window->resourceName();
+        qCWarning(KWIN_CORE) << "[Workspace]Take activity: not shown" << window->resourceName();
         return false;
     }
 
     bool ret = true;
 
     if (flags & ActivityFocus) {
-        qCDebug(KWIN_CORE) << "Workspace::takeActivity: flags & ActivityFocus"  << window->resourceName();
+        qCDebug(KWIN_CORE) << "[Workspace]Take activity: flags & ActivityFocus" << window->resourceName();
         ret &= window->takeFocus();
     }
     if (flags & ActivityRaise) {
-        qCDebug(KWIN_CORE) << "Workspace::takeActivity: flags & ActivityRaise"  << window->resourceName();
+        qCDebug(KWIN_CORE) << "[Workspace]Take activity: flags & ActivityRaise" << window->resourceName();
         workspace()->raiseWindow(window);
     }
 
