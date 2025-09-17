@@ -21,7 +21,7 @@ Rectangle {
             Layout.fillWidth: true
 
             Text {
-                text: "Current FPS: " + root.effect.fps
+                text: root.effect ? "Current FPS: " + root.effect.fps : "Current FPS: N/A"
                 font.bold: true
                 font.pointSize: 20
             }
@@ -31,7 +31,7 @@ Rectangle {
             Layout.fillWidth: true
 
             Text {
-                text: "Maximum FPS: " + root.effect.maximumFps
+                text: root.effect ? "Maximum FPS: " + root.effect.maximumFps : "Maximum FPS: N/A"
                 font.bold: true
                 font.pointSize: 20
             }
