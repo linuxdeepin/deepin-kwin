@@ -712,7 +712,7 @@ msgstr "сзади"
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
-msgstr ""
+msgstr "спереди"
 
 #: debug_console.cpp:816
 #, kde-format
@@ -867,7 +867,7 @@ msgstr ""
 #: debug_console.cpp:1222
 #, kde-format
 msgid "X11 Windows"
-msgstr ""
+msgstr "Окна X11"
 
 #: debug_console.cpp:1224
 #, kde-format
@@ -877,7 +877,7 @@ msgstr ""
 #: debug_console.cpp:1226
 #, kde-format
 msgid "Wayland Windows"
-msgstr ""
+msgstr "Окна Wayland"
 
 #: debug_console.cpp:1228
 #, kde-format
@@ -888,13 +888,13 @@ msgstr ""
 #: debug_console.ui:32
 #, kde-format
 msgid "Quit Debug Console"
-msgstr ""
+msgstr "Выйти из консоли отладки"
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
 #: debug_console.ui:45
 #, kde-format
 msgid "Windows"
-msgstr ""
+msgstr "Окна"
 
 #. i18n: ectx: attribute (title), widget (QWidget, surfaces)
 #: debug_console.ui:59
@@ -906,31 +906,31 @@ msgstr ""
 #: debug_console.ui:69
 #, kde-format
 msgid "Input Events"
-msgstr ""
+msgstr "События ввода"
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
 #: debug_console.ui:86
 #, kde-format
 msgid "Input Devices"
-msgstr ""
+msgstr "Устройства ввода"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: debug_console.ui:96
 #, kde-format
 msgid "OpenGL"
-msgstr ""
+msgstr "OpenGL"
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
 #: debug_console.ui:102
 #, kde-format
 msgid "No OpenGL compositor running"
-msgstr ""
+msgstr "Нет запущенного композитора OpenGL"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
 #: debug_console.ui:130
 #, kde-format
 msgid "OpenGL (ES) driver information"
-msgstr ""
+msgstr "Информация драйвера OpenGL (ES)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:136
@@ -948,7 +948,7 @@ msgstr ""
 #: debug_console.ui:150
 #, kde-format
 msgid "Version:"
-msgstr ""
+msgstr "Версия:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: debug_console.ui:157
@@ -960,25 +960,25 @@ msgstr ""
 #: debug_console.ui:164
 #, kde-format
 msgid "Driver:"
-msgstr ""
+msgstr "Драйвер:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: debug_console.ui:171
 #, kde-format
 msgid "GPU class:"
-msgstr ""
+msgstr "Тип GPU:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: debug_console.ui:178
 #, kde-format
 msgid "OpenGL Version:"
-msgstr ""
+msgstr "Версия OpenGL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: debug_console.ui:185
 #, kde-format
 msgid "GLSL Version:"
-msgstr ""
+msgstr "Версия GLSL:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
 #: debug_console.ui:251
@@ -996,7 +996,7 @@ msgstr ""
 #: debug_console.ui:288
 #, kde-format
 msgid "Keyboard"
-msgstr ""
+msgstr "Клавиатура"
 
 #. i18n: ectx: property (title), widget (QGroupBox, layoutBox)
 #: debug_console.ui:315
@@ -1020,20 +1020,20 @@ msgstr ""
 #: debug_console.ui:388
 #, kde-format
 msgid "LEDs"
-msgstr ""
+msgstr "Светодиоды"
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
 #: debug_console.ui:404
 #, kde-format
 msgid "Active LEDs"
-msgstr ""
+msgstr "Активные светодиоды"
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:425 debug_console.ui:445
 #, kde-format
 msgid "Clipboard"
-msgstr ""
+msgstr "Буфер обмена"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:491
@@ -1044,17 +1044,17 @@ msgstr ""
 #: helpers/killer/killer.cpp:34
 #, kde-format
 msgid "Window Manager"
-msgstr ""
+msgstr "Оконный менеджер"
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
 msgid "PID of the application to terminate"
-msgstr ""
+msgstr "PID приложения для завершения"
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
 msgid "pid"
-msgstr ""
+msgstr "PID"
 
 #: helpers/killer/killer.cpp:40
 #, kde-format
