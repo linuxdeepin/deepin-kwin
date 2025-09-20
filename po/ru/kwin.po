@@ -1084,7 +1084,7 @@ msgstr ""
 #: helpers/killer/killer.cpp:44
 #, kde-format
 msgid "name"
-msgstr ""
+msgstr "имя"
 
 #: helpers/killer/killer.cpp:46
 #, kde-format
@@ -1094,7 +1094,7 @@ msgstr ""
 #: helpers/killer/killer.cpp:46
 #, kde-format
 msgid "id"
-msgstr ""
+msgstr "ID"
 
 #: helpers/killer/killer.cpp:48
 #, kde-format
@@ -1104,7 +1104,7 @@ msgstr ""
 #: helpers/killer/killer.cpp:48
 #, kde-format
 msgid "time"
-msgstr ""
+msgstr "время"
 
 #: helpers/killer/killer.cpp:50
 #, kde-format
@@ -1120,7 +1120,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
-msgstr ""
+msgstr "<b>Приложение \"%1\" не отвечает</b>"
 
 #: helpers/killer/killer.cpp:86
 #, kde-kuit-format
@@ -1155,7 +1155,7 @@ msgstr ""
 #: helpers/killer/killer.cpp:95
 #, kde-format
 msgid "Wait Longer"
-msgstr ""
+msgstr "Подождать еще"
 
 #: input.cpp:2009
 #, kde-format
@@ -1175,7 +1175,7 @@ msgstr ""
 #: input.cpp:3065
 #, kde-format
 msgid "Touchpad"
-msgstr ""
+msgstr "Тачпад"
 
 #: keyboard_layout.cpp:45
 #, kde-format
@@ -1481,7 +1481,7 @@ msgstr ""
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "name"
-msgstr ""
+msgstr "имя"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:95
 #, kde-format
