@@ -54,8 +54,7 @@ else()
 endif()
 
 if(ENABLE_WERROR)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+    add_compile_options($<$<COMPILE_LANGUAGE:C,CXX>:-Werror>)
 endif()
 
 find_package(ECM "${KF_CURRENT_VERSION}" REQUIRED NO_MODULE)
