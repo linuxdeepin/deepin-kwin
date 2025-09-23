@@ -180,7 +180,7 @@ KWaylandServer::LinuxDmaBufV1ClientBuffer *EglDmabuf::importBuffer(DmaBufAttribu
 
 KWaylandServer::LinuxDmaBufV1ClientBuffer *EglDmabuf::yuvImport(DmaBufAttributes &&attrs, quint32 flags)
 {
-    YuvFormat yuvFormat;
+    YuvFormat yuvFormat {};
     for (YuvFormat f : yuvFormats) {
         if (f.format == attrs.format) {
             yuvFormat = f;
