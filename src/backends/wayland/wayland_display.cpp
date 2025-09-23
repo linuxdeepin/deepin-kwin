@@ -91,7 +91,8 @@ public:
     void stop()
     {
         if (m_quitPipe[1] != -1) {
-            write(m_quitPipe[1], "\0", 1);
+            auto size = write(m_quitPipe[1], "\0", 1);
+            Q_UNUSED(size);
         }
 
         m_mutex.lock();

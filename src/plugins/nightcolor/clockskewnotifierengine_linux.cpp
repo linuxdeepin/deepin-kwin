@@ -48,7 +48,8 @@ LinuxClockSkewNotifierEngine::LinuxClockSkewNotifierEngine(FileDescriptor &&fd, 
 void LinuxClockSkewNotifierEngine::handleTimerCancelled()
 {
     uint64_t expirationCount;
-    read(m_fd.get(), &expirationCount, sizeof(expirationCount));
+    auto size = read(m_fd.get(), &expirationCount, sizeof(expirationCount));
+    Q_UNUSED(size);
 
     Q_EMIT clockSkewed();
 }

@@ -345,7 +345,8 @@ bool SeatInterfacePrivate::skipVerify(pid_t pid)
     sprintf(proc_pid_path, "/proc/%d/status", pid);
     FILE *fp = fopen(proc_pid_path, "r");
     if (NULL != fp) {
-        fgets(buf, BUF_SIZE-1, fp);
+        char* fbuffer = fgets(buf, BUF_SIZE-1, fp);
+        Q_UNUSED(fbuffer);
         fclose(fp);
         sscanf(buf, "%*s %s", task_name);
     }

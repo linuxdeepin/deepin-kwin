@@ -81,7 +81,7 @@ void DebugPixmap::saveImageFromXorg(xcb_window_t winid)
     QImage img;
     // request redirection of window
     xcb_composite_redirect_window(connection, req_win_id, XCB_COMPOSITE_REDIRECT_AUTOMATIC);
-    int win_h, win_w;
+    int win_h = 0, win_w = 0;
     xcb_get_geometry_cookie_t gg_cookie = xcb_get_geometry(connection, req_win_id);
     xcb_get_geometry_reply_t *gg_reply = xcb_get_geometry_reply(connection, gg_cookie, &err);
     if (gg_reply) {

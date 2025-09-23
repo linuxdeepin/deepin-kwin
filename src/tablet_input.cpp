@@ -56,7 +56,7 @@ void TabletInputRedirection::tabletToolEvent(KWin::InputRedirection::TabletEvent
     input()->setLastInputHandler(this);
     m_lastPosition = pos;
 
-    QEvent::Type t;
+    QEvent::Type t = QEvent::None;
     switch (type) {
     case InputRedirection::Axis:
         t = QEvent::TabletMove;

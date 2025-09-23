@@ -345,7 +345,8 @@ void ApplicationX11::crashChecking()
         qCDebug(KWIN_CORE) << "Starting" << cmd << "and exiting";
         char buf[1024];
         sprintf(buf, "%s &", cmd.toLatin1().data());
-        system(buf);
+        auto ret = system(buf);
+        Q_UNUSED(ret);
         ::exit(1);
     }
     // Reset crashes count if we stay up for more that 15 seconds
@@ -373,7 +374,8 @@ void ApplicationX11::crashHandler(int signal)
             QFile::encodeName(QCoreApplication::applicationFilePath()).constData(), crashes);
 
     sleep(1);
-    system(cmd);
+    auto ret = system(cmd);
+    Q_UNUSED(ret);
 }
 
 } // namespace

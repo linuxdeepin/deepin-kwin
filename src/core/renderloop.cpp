@@ -62,7 +62,7 @@ void RenderLoopPrivate::scheduleRepaint()
     // Estimate when it's a good time to perform the next compositing cycle.
     const std::chrono::nanoseconds safetyMargin = std::chrono::milliseconds(3);
 
-    std::chrono::nanoseconds renderTime;
+    std::chrono::nanoseconds renderTime = std::chrono::nanoseconds(long(vblankInterval.count() * 0.5));
     switch (q->latencyPolicy()) {
     case LatencyExtremelyLow:
         renderTime = std::chrono::nanoseconds(long(vblankInterval.count() * 0.1));
