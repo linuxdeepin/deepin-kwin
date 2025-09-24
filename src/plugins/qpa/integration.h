@@ -14,8 +14,10 @@
 #include <QObject>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtServiceSupport/private/qgenericunixservices_p.h>
-#else
+#elif QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
 #include <QtGui/private/qgenericunixservices_p.h>
+#else
+#include <QtGui/private/qdesktopunixservices_p.h>
 #endif
 #include <qpa/qplatformintegration.h>
 
@@ -63,7 +65,11 @@ private:
     std::unique_ptr<QPlatformNativeInterface> m_nativeInterface;
     QPlatformScreen *m_dummyScreen = nullptr;
     QHash<Output *, Screen *> m_screens;
+#if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
     std::unique_ptr<QGenericUnixServices> m_services;
+#else
+    std::unique_ptr<QDesktopUnixServices> m_services;
+#endif
 };
 
 }
