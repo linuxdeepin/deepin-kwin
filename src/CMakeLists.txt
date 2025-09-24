@@ -14,7 +14,7 @@ set_property(TARGET KWinEffectsInterface PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(KWinEffectsInterface Qt${QT_MAJOR_VERSION}::DBus)
 
 if (ECM_GLOBAL_FIND_VERSION VERSION_LESS ${KDE_COMPILERSETTINGS_LEVEL})
-    set(ECM_GLOBAL_FIND_VERSION ${KF${KF_MAJOR_VERSION}_CURRENT_VERSION})
+    set(ECM_GLOBAL_FIND_VERSION ${KF_CURRENT_VERSION})
 endif()
 add_subdirectory(effects)
 add_subdirectory(scripts)
@@ -405,7 +405,12 @@ target_link_libraries(kwin_x11
     KWinX11Platform
     kwin
 )
-kcoreaddons_target_static_plugins(kwin_x11 NAMESPACE "kwin/effects/plugins")
+if (KF_MAJOR_VERSION EQUAL "6")
+    kcoreaddons_target_static_plugins(kwin_x11 NAMESPACE "kwin/effects/plugins")
+else()
+    kcoreaddons_target_static_plugins(kwin_x11 "kwin/effects/plugins")
+endif()
+
 
 install(TARGETS kwin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 install(TARGETS kwin_x11 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
@@ -416,7 +421,11 @@ target_link_libraries(kwin_wayland
     kwin
     KWinXwaylandServerModule
 )
-kcoreaddons_target_static_plugins(kwin_wayland NAMESPACE "kwin/effects/plugins")
+if (KF_MAJOR_VERSION EQUAL "6")
+    kcoreaddons_target_static_plugins(kwin_wayland NAMESPACE "kwin/effects/plugins")
+else()
+    kcoreaddons_target_static_plugins(kwin_wayland "kwin/effects/plugins")
+endif()
 
 install(TARGETS kwin_wayland ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if (HAVE_LIBCAP)

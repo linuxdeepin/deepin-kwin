@@ -81,7 +81,13 @@ target_link_libraries(KWinIntegrationTestFramework
         KF${KF_MAJOR_VERSION}WindowSystemKWinPlugin
         KF${KF_MAJOR_VERSION}IdleTimeKWinPlugin
 )
+
+if (KF_MAJOR_VERSION EQUAL "6")
 kcoreaddons_target_static_plugins(KWinIntegrationTestFramework NAMESPACE "kwin/effects/plugins" LINK_OPTION "PRIVATE")
+else ()
+kcoreaddons_target_static_plugins(KWinIntegrationTestFramework "kwin/effects/plugins" LINK_OPTION "PRIVATE")
+endif()
+
 set_target_properties(KWinIntegrationTestFramework PROPERTIES CXX_VISIBILITY_PRESET default)
 
 function(integrationTest)
