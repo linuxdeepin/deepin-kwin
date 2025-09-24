@@ -50,7 +50,7 @@ UnixSocketAddress::UnixSocketAddress(const QString &socketPath, Type type)
     int byteCount = offsetof(sockaddr_un, sun_path) + encodedSocketPath.size() + 1;
     m_buffer.resize(byteCount);
 
-    sockaddr_un *address = reinterpret_cast<sockaddr_un *>(m_buffer.data());
+    sockaddr_un *address = reinterpret_cast<sockaddr_un *>(static_cast<void *>(m_buffer.data()));
     address->sun_family = AF_UNIX;
 
     if (type == Type::Unix) {
@@ -65,7 +65,7 @@ UnixSocketAddress::UnixSocketAddress(const QString &socketPath, Type type)
 
 const sockaddr *UnixSocketAddress::data() const
 {
-    return reinterpret_cast<const sockaddr *>(m_buffer.data());
+    return reinterpret_cast<const sockaddr *>(static_cast<const void *>(m_buffer.data()));
 }
 
 int UnixSocketAddress::size() const

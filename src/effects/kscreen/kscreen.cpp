@@ -173,7 +173,7 @@ void KscreenEffect::setState(ScreenState &state, FadeOutState newState)
 
 void KscreenEffect::propertyNotify(EffectWindow *window, long int atom)
 {
-    if (window || atom != m_atom || m_atom == XCB_ATOM_NONE) {
+    if (window || static_cast<xcb_atom_t>(atom) != m_atom || m_atom == XCB_ATOM_NONE) {
         return;
     }
 
