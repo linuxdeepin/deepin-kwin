@@ -84,7 +84,7 @@
 namespace KWin
 {
 
-static inline int sign(int v)
+static inline qreal sign(qreal v)
 {
     return (v > 0) - (v < 0);
 }
