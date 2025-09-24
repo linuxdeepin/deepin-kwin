@@ -120,6 +120,20 @@ if (BUILD_TESTING)
     find_package(Wayland REQUIRED COMPONENTS Client)
 endif()
 
+if (KF_MAJOR_VERSION EQUAL "5")
+    find_package(KF5Wayland ${KF_MIN_VERSION} CONFIG REQUIRED)
+    set_package_properties(KF5Wayland PROPERTIES
+        PURPOSE "Required to build wayland platform plugin and tests"
+        TYPE REQUIRED
+    )
+else()
+    find_package(KWayland ${KF_MIN_VERSION} CONFIG REQUIRED)
+    set_package_properties(KWayland PROPERTIES
+        PURPOSE "Required to build wayland platform plugin and tests"
+        TYPE REQUIRED
+    )
+endif()
+
 if (QT_MAJOR_VERSION EQUAL "5")
     find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)
     find_package(Qt5XkbCommonSupport REQUIRED)
@@ -142,20 +156,6 @@ set_package_properties(Threads PROPERTIES
     PURPOSE "Needed for VirtualTerminal support in KWin Wayland"
     TYPE REQUIRED
 )
-
-if (KF_MAJOR_VERSION EQUAL "5")
-    find_package(KF5Wayland ${KF5_MIN_VERSION} CONFIG)
-    set_package_properties(KF5Wayland PROPERTIES
-        PURPOSE "Required to build wayland platform plugin and tests"
-        TYPE REQUIRED
-    )
-else()
-    find_package(KWayland ${KF_MIN_VERSION} CONFIG)
-    set_package_properties(KWayland PROPERTIES
-        PURPOSE "Required to build wayland platform plugin and tests"
-        TYPE REQUIRED
-    )
-endif()
 
 # optional frameworks
 find_package(KF${KF_MAJOR_VERSION}Activities ${KF_MIN_VERSION} CONFIG)
