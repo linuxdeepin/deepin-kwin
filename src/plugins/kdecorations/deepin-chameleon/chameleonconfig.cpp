@@ -588,7 +588,7 @@ static quint32 readPPid(quint32 pid) {
 
 static quint32 getPidByTopLevel(QObject* toplevel) {
     const QByteArray &pid_data = KWinUtils::readWindowProperty(toplevel, KWinUtils::internAtom("_NET_WM_PID", false), XCB_ATOM_CARDINAL);
-    return *reinterpret_cast<const quint32*>(pid_data.data());
+    return *reinterpret_cast<const quint32 *>(static_cast<const void *>(pid_data.data()));
 }
 
 static qint64 appStartTime(QObject *toplevel)
@@ -642,7 +642,7 @@ static qint64 appStartTime(QObject *toplevel)
                                                                                 KWinUtils::internAtom(D_KWIN_DEBUG_APP_START_TIME, false),
                                                                                 XCB_ATOM_CARDINAL);
         if (!time_data.isEmpty()) {
-            quint64 start_time = *reinterpret_cast<const quint64*>(time_data.constData());
+            quint64 start_time = *reinterpret_cast<const quint64 *>(static_cast<const void *>(time_data.constData()));
             appStartTimeMap[toplevel] = start_time;
             return start_time;
         }
@@ -917,7 +917,7 @@ bool ChameleonConfig::setWindowOverrideType(QObject *client, bool enable)
     }
 
     QVector<xcb_atom_t> atom_list;
-    const xcb_atom_t *atoms = reinterpret_cast<const xcb_atom_t*>(data.constData());
+    const xcb_atom_t *atoms = reinterpret_cast<const xcb_atom_t *>(static_cast<const void *>(data.constData()));
 
     for (unsigned int i = 0; i < data.size() / sizeof(xcb_atom_t) * sizeof(char); ++i) {
         atom_list.append(atoms[i]);

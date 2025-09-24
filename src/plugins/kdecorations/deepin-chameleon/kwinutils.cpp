@@ -627,7 +627,7 @@ bool KWinUtils::isSupportedAtom(quint32 atom) const
     }
 
     const QByteArray &datas = windowProperty(QX11Info::appRootWindow(), _NET_SUPPORTED, XCB_ATOM_ATOM);
-    const xcb_atom_t *atoms = reinterpret_cast<const xcb_atom_t*>(datas.constData());
+    const xcb_atom_t *atoms = reinterpret_cast<const xcb_atom_t *>(static_cast<const void *>(datas.constData()));
 
     for (int i = 0; i < datas.size() / (int)sizeof(xcb_atom_t); ++i ) {
         if (atoms[i] == atom) {
@@ -662,7 +662,7 @@ QVariant KWinUtils::getGtkFrame(const QObject *window) const
     if (data.size() != 4 * 4)
         return QVariant();
 
-    const int32_t *datas = reinterpret_cast<const int32_t*>(data.constData()); // left right top bottom
+    const int32_t *datas = reinterpret_cast<const int32_t *>(static_cast<const void *>(data.constData())); // left right top bottom
     QVariantMap frame_margins {
         {"left", datas[0]},
         {"right", datas[1]},
@@ -701,7 +701,7 @@ bool KWinUtils::isDeepinOverride(const QObject *window) const
     if (data.size() != 4)
         goto out;
 
-    return *reinterpret_cast<const int32_t*>(data.constData()) == 1;
+    return *reinterpret_cast<const int32_t *>(static_cast<const void *>(data.constData())) == 1;
 
 out:
     return false;

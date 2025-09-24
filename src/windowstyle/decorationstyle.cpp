@@ -196,7 +196,7 @@ X11DecorationStyle::effectScenes X11DecorationStyle::getWindowEffectScene()
         Xcb::Property property(false, m_window->window(), atoms->deepin_net_effect, XCB_ATOM_CARDINAL, 0, 256);
         const QByteArray data = property.toByteArray(32, XCB_ATOM_CARDINAL);
         if (!data.isEmpty()) {
-            validSce = effectScene(*(reinterpret_cast<const quint32 *>(data.constData())));
+            validSce = effectScene(*(reinterpret_cast<const quint32 *>(static_cast<const void *>(data.constData()))));
         }
     }
     return validSce;
@@ -230,7 +230,7 @@ void X11DecorationStyle::parseWinStartUpEffect()
         Xcb::Property property(false, m_window->window(), atoms->deepin_net_startup, XCB_ATOM_CARDINAL, 0, 256);
         const QByteArray data = property.toByteArray(32, XCB_ATOM_CARDINAL);
         if (!data.isEmpty()) {
-            m_window->setStartUpEffectType(*(reinterpret_cast<const quint32 *>(data.constData())));
+            m_window->setStartUpEffectType(*(reinterpret_cast<const quint32 *>(static_cast<const void *>(data.constData()))));
         }
     }
 }

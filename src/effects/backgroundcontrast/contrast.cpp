@@ -106,8 +106,8 @@ void ContrastEffect::updateContrastRegion(EffectWindow *w)
         const QByteArray value = w->readProperty(m_net_wm_contrast_region, m_net_wm_contrast_region, 32);
 
         if (value.size() > 0 && !((value.size() - (16 * sizeof(uint32_t))) % ((4 * sizeof(uint32_t))))) {
-            const uint32_t *cardinals = reinterpret_cast<const uint32_t *>(value.constData());
-            const float *floatCardinals = reinterpret_cast<const float *>(value.constData());
+            const uint32_t *cardinals = reinterpret_cast<const uint32_t *>(static_cast<const void *>(value.constData()));
+            const float *floatCardinals = reinterpret_cast<const float *>(static_cast<const void *>(value.constData()));
             unsigned int i = 0;
             for (; i < ((value.size() - (16 * sizeof(uint32_t)))) / sizeof(uint32_t);) {
                 int x = cardinals[i++];

@@ -178,7 +178,7 @@ void KscreenEffect::propertyNotify(EffectWindow *window, long int atom)
     }
 
     const QByteArray byteData = effects->readRootProperty(m_atom, XCB_ATOM_CARDINAL, 32);
-    const uint32_t *data = byteData.isEmpty() ? nullptr : reinterpret_cast<const uint32_t *>(byteData.data());
+    const uint32_t *data = byteData.isEmpty() ? nullptr : reinterpret_cast<const uint32_t *>(static_cast<const void *>(byteData.data()));
     if (!data || data[0] >= LastState) { // Property was deleted
         if (data) {
             qCDebug(KWIN_KSCREEN) << "Incorrect Property state, immediate stop: " << data[0];

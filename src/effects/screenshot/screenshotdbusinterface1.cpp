@@ -428,7 +428,7 @@ static QSize pickWindowSize(const QImage &image)
     const uint32_t bytesPerPixel = image.depth() >> 3;
     const uint32_t bytesPerLine = image.bytesPerLine();
 
-    if (image.sizeInBytes() <= maximumDataSize) {
+    if (image.sizeInBytes() <= static_cast<qsizetype>(maximumDataSize)) {
         return image.size();
     }
 

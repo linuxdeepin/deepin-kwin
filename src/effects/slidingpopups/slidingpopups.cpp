@@ -268,7 +268,7 @@ void SlidingPopupsEffect::slotPropertyNotify(EffectWindow *w, long atom)
         return;
     }
 
-    const auto *atomData = reinterpret_cast<const uint32_t *>(rawAtomData.data());
+    const auto *atomData = reinterpret_cast<const uint32_t *>(static_cast<const void *>(rawAtomData.data()));
     AnimationData &animData = m_animationsData[w];
     animData.offset = atomData[0];
 

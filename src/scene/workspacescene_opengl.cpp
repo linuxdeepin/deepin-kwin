@@ -236,7 +236,7 @@ bool SceneOpenGLShadow::prepareBackend()
         bool alphaOnly = true;
 
         for (ptrdiff_t y = 0; alphaOnly && y < image.height(); y++) {
-            const uint32_t *const src = reinterpret_cast<const uint32_t *>(image.scanLine(y));
+            const uint32_t *const src = reinterpret_cast<const uint32_t *>(static_cast<const void *>(image.scanLine(y)));
             uint8_t *const dst = reinterpret_cast<uint8_t *>(alphaImage.scanLine(y));
 
             for (ptrdiff_t x = 0; x < image.width(); x++) {
@@ -310,21 +310,21 @@ static void clamp(QImage &image, const QRect &viewport)
     const int width = rect.width() - left - right;
     const int height = rect.height() - top - bottom;
 
-    const uint32_t *firstRow = reinterpret_cast<uint32_t *>(image.scanLine(top));
-    const uint32_t *lastRow = reinterpret_cast<uint32_t *>(image.scanLine(top + height - 1));
+    const uint32_t *firstRow = reinterpret_cast<uint32_t *>(static_cast<void *>(image.scanLine(top)));
+    const uint32_t *lastRow = reinterpret_cast<uint32_t *>(static_cast<void *>(image.scanLine(top + height - 1)));
 
     for (int i = 0; i < top; ++i) {
-        uint32_t *dest = reinterpret_cast<uint32_t *>(image.scanLine(i));
+        uint32_t *dest = reinterpret_cast<uint32_t *>(static_cast<void *>(image.scanLine(i)));
         clamp_row(left, width, right, firstRow + left, dest);
     }
 
     for (int i = 0; i < height; ++i) {
-        uint32_t *dest = reinterpret_cast<uint32_t *>(image.scanLine(top + i));
+        uint32_t *dest = reinterpret_cast<uint32_t *>(static_cast<void *>(image.scanLine(top + i)));
         clamp_sides(left, width, right, dest + left, dest);
     }
 
     for (int i = 0; i < bottom; ++i) {
-        uint32_t *dest = reinterpret_cast<uint32_t *>(image.scanLine(top + height + i));
+        uint32_t *dest = reinterpret_cast<uint32_t *>(static_cast<void *>(image.scanLine(top + height + i)));
         clamp_row(left, width, right, lastRow + left, dest);
     }
 }

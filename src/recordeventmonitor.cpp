@@ -114,7 +114,7 @@ void callback(XPointer ptr, XRecordInterceptData *data)
 void handleRecordEvent(XRecordInterceptData* data)
 {
     if (data->category == XRecordFromServer) {
-        xEvent * event = reinterpret_cast<xEvent *>(data->data);
+        xEvent *event = reinterpret_cast<xEvent *>(static_cast<void *>(data->data));
         switch (event->u.u.type) {
         case ButtonRelease:
             if (KWin::Workspace::delayedRaisingClientMode() == KWin::Workspace::DRCM_XRecordDriven) {
