@@ -270,7 +270,7 @@ public:
             }
 
             if (Q_LIKELY(monitorRootWindowProperty)) {
-                static long root = QX11Info::appRootWindow();
+                static xcb_window_t root = static_cast<xcb_window_t>(QX11Info::appRootWindow());
 
                 if (Q_UNLIKELY(ev->window == root)) {
                     _d_onPropertyChanged(ev->atom);
