@@ -230,7 +230,8 @@ public:
         }
     }
 
-    void _d_onPropertyChanged(long atom) {
+    void _d_onPropertyChanged(xcb_atom_t atom)
+    {
         if (atom != _NET_SUPPORTED)
             return;
 

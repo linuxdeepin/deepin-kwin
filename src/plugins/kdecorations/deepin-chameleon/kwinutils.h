@@ -150,7 +150,7 @@ private:
 
     friend class Mischievous;
     static QHash<QObject *, QObject *> waylandChameleonClients;
-    Q_PRIVATE_SLOT(d, void _d_onPropertyChanged(long))
+    Q_PRIVATE_SLOT(d, void _d_onPropertyChanged(xcb_atom_t))
 };
 
 #endif // KWINUTILS_H
