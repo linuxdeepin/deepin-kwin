@@ -1190,199 +1190,204 @@ msgid "Mouse Tracking:"
 msgstr "Seguiment del ratolí:"
 
 #~ msgid "Slide docks"
-#~ msgstr ""
+#~ msgstr "Diapositives dels acobladors"
 
 #~ msgid "Search..."
 #~ msgstr "Cerca..."
 
 #~ msgid "&Radius:"
-#~ msgstr ""
+#~ msgstr "&Radi:"
 
 #~ msgid "Text position:"
-#~ msgstr ""
+#~ msgstr "Posició del text:"
 
 #~ msgid "Inside Graph"
-#~ msgstr ""
+#~ msgstr "Dins del gràfic"
 
 #~ msgid "Nowhere"
-#~ msgstr ""
+#~ msgstr "Enlloc"
 
 #~ msgid "Top Left"
-#~ msgstr ""
+#~ msgstr "A dalt a l'esquerra"
 
 #~ msgid "Top Right"
-#~ msgstr ""
+#~ msgstr "A dalt a la dreta"
 
 #~ msgid "Bottom Left"
-#~ msgstr ""
+#~ msgstr "A baix a l'esquerra"
 
 #~ msgid "Bottom Right"
-#~ msgstr ""
+#~ msgstr "A baix a la dreta"
 
 #~ msgid "Text font:"
-#~ msgstr ""
+#~ msgstr "Lletra del text:"
 
 #~ msgid "Text color:"
-#~ msgstr ""
+#~ msgstr "Color del text:"
 
 #~ msgid "Text alpha:"
-#~ msgstr ""
+#~ msgstr "Alfa del text:"
 
 #~ msgid "Show graph:"
-#~ msgstr ""
+#~ msgstr "Mostra el gràfic:"
 
 #~ msgid "Show on active screen"
-#~ msgstr ""
+#~ msgstr "Mostra-ho a la pantalla activa"
 
 #~ msgid "Show Message:"
-#~ msgstr ""
+#~ msgstr "Mostra el missatge:"
 
 #~ msgid "Show \"not a benchmark\" message"
-#~ msgstr ""
+#~ msgstr "Mostra el missatge \"no és un punt de referència\"."
 
 #~ msgid "Colorize Text:"
-#~ msgstr ""
+#~ msgstr "Text acolorit:"
 
 #~ msgid "Color text by value (green > yellow > red)"
-#~ msgstr ""
+#~ msgstr "Color del text per valor (verd > groc > vermell)"
 
 #~ msgid "Zoom &duration:"
-#~ msgstr ""
+#~ msgstr "&Durada del zoom:"
 
 #~ msgctxt "Duration of zoom"
 #~ msgid "Default"
 #~ msgstr "Per defecte"
 
 #~ msgid "Border wid&th:"
-#~ msgstr ""
+#~ msgstr "Am&plada de la vora:"
 
 #~ msgid "Click behavior:"
-#~ msgstr ""
+#~ msgstr "Comportament del clic:"
 
 #~ msgid ""
 #~ "If the Present Windows effect is enabled, it will be automatically "
 #~ "triggered."
 #~ msgstr ""
+#~ "Si l'efecte de finestres actuals està habilitat, s'activarà automàticament."
 
 #~ msgid "Switch desktop and activate window"
-#~ msgstr ""
+#~ msgstr "Canvia l'escriptori i activa la finestra"
 
 #~ msgid "Switch desktop only"
-#~ msgstr ""
+#~ msgstr "Canvia només d'escriptori"
 
 #~ msgid "Natural Layout Settings"
-#~ msgstr ""
+#~ msgstr "Configuració de la disposició natural"
 
 #~ msgid "Fill &gaps"
-#~ msgstr ""
+#~ msgstr "Omple &buits"
 
 #~ msgid "Faster"
-#~ msgstr ""
+#~ msgstr "Més ràpid"
 
 #~ msgid "Nicer"
-#~ msgstr ""
+#~ msgstr "Més agradable"
 
 #~ msgid "Left button:"
-#~ msgstr ""
+#~ msgstr "Botó esquerre:"
 
 #~ msgid "No action"
-#~ msgstr ""
+#~ msgstr "Sense acció"
 
 #~ msgid "Activate window"
-#~ msgstr ""
+#~ msgstr "Activa la finestra"
 
 #~ msgid "End effect"
-#~ msgstr ""
+#~ msgstr "Acaba l'efecte"
 
 #~ msgid "Bring window to current desktop"
-#~ msgstr ""
+#~ msgstr "Porta la finestra a l'escriptori actual"
 
 #~ msgid "Send window to all desktops"
-#~ msgstr ""
+#~ msgstr "Envia la finestra a tots els escriptoris"
 
 #~ msgid "(Un-)Minimize window"
-#~ msgstr ""
+#~ msgstr "(Des)minimitza la finestra"
 
 #~ msgid "Middle button:"
-#~ msgstr ""
+#~ msgstr "Botó del mig:"
 
 #~ msgid "Right button:"
-#~ msgstr ""
+#~ msgstr "Botó dret:"
 
 #~ msgctxt "@title:group actions when clicking on desktop"
 #~ msgid "Desktop"
 #~ msgstr "Escriptori"
 
 #~ msgid "Show desktop"
-#~ msgstr ""
+#~ msgstr "Mostra l'escriptori"
 
 #~ msgid "Display window &titles"
-#~ msgstr ""
+#~ msgstr "Mostra els &títols de les finestres"
 
 #~ msgid "Display window &icons"
-#~ msgstr ""
+#~ msgstr "Mostra les &icones de les finestres"
 
 #~ msgid "Show &panels"
-#~ msgstr ""
+#~ msgstr "Mostra els &plafons"
 
 #~ msgid "Regular Grid"
-#~ msgstr ""
+#~ msgstr "Graella regular"
 
 #~ msgid "Flexible Grid"
-#~ msgstr ""
+#~ msgstr "Graella flexible"
 
 #~ msgid "Provide buttons to close the windows"
-#~ msgstr ""
+#~ msgstr "Proporciona botons per tancar finestres"
 
 #~ msgctxt "NAME OF TRANSLATORS"
 #~ msgid "Your names"
-#~ msgstr ""
+#~ msgstr "Ken Knight, Dwayne Bailey, Steve Allewell"
 
 #~ msgctxt "EMAIL OF TRANSLATORS"
 #~ msgid "Your emails"
 #~ msgstr ""
+#~ "anarchist_tomato@herzeleid.net, dwayne@translate.org.za, "
+#~ "steve.allewell@gmail.com"
 
 #~ msgid "Scale window"
-#~ msgstr ""
+#~ msgstr "Escala de la finestra"
 
 #~ msgid "Show outline"
-#~ msgstr ""
+#~ msgstr "Mostra el contorn"
 
 #~ msgid "Toggle window geometry display (effect only)"
 #~ msgstr ""
+#~ "Commuta la visualització de la geometria de la finestra (només l'efecte)"
 
 #~ msgid "Toggle KWin composited geometry display"
-#~ msgstr ""
+#~ msgstr "Commuta la visualització de la geometria composta del KWin"
 
 #~ msgid "Display for moving windows"
-#~ msgstr ""
+#~ msgstr "Pantalla per moure finestres"
 
 #~ msgid "Display for resizing windows"
-#~ msgstr ""
+#~ msgstr "Pantalla per canviar la mida de les finestres"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Blur"
-#~ msgstr ""
+#~ msgstr "Desenfoca"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Blurs the background behind semi-transparent windows"
-#~ msgstr ""
+#~ msgstr "Desenfoca el fons darrere de les finestres semitransparents"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Color Picker"
-#~ msgstr ""
+#~ msgstr "Selector del color"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Supports picking a color"
-#~ msgstr ""
+#~ msgstr "Admet triar un color"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Background contrast"
-#~ msgstr ""
+#~ msgstr "Contrast del fons"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Improve contrast and readability behind semi-transparent windows"
 #~ msgstr ""
+#~ "Millora el contrast i la llegibilitat darrere de finestres semitransparents"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Grid"
@@ -1391,104 +1396,111 @@ msgstr "Seguiment del ratolí:"
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Zoom out so all desktops are displayed side-by-side in a grid"
 #~ msgstr ""
+#~ "Allunya la imatge perquè tots els escriptoris es mostrin un al costat de "
+#~ "l'altre en una quadrícula"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Dim Inactive"
-#~ msgstr ""
+#~ msgstr "Atenuació inactiva"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Darken inactive windows"
-#~ msgstr ""
+#~ msgstr "Enfosqueix les finestres inactives"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Fall Apart"
-#~ msgstr ""
+#~ msgstr "Caiguda framgentada"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Closed windows fall into pieces"
-#~ msgstr ""
+#~ msgstr "Les finestres tancades cauen a trossos"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Glide"
-#~ msgstr ""
+#~ msgstr "Plana"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Glide windows as they appear or disappear"
-#~ msgstr ""
+#~ msgstr "Fa lliscar les finestres a mesura que apareixen o desapareixen"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Highlight Window"
-#~ msgstr ""
+#~ msgstr "Ressalta la finestra"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Highlight the appropriate window when hovering over taskbar entries"
 #~ msgstr ""
+#~ "Ressalteu la finestra adequada quan passeu el cursor per sobre de les "
+#~ "entrades de la barra de tasques"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Invert"
-#~ msgstr ""
+#~ msgstr "Inverteix"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Inverts the color of the desktop and windows"
-#~ msgstr ""
+#~ msgstr "Inverteix el color de l'escriptori i de les finestres"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Kscreen"
-#~ msgstr ""
+#~ msgstr "Kscreen"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Helper Effect for KScreen"
-#~ msgstr ""
+#~ msgstr "Efecte auxiliar per al KScreen"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Looking Glass"
-#~ msgstr ""
+#~ msgstr "Mirall"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "A screen magnifier that looks like a fisheye lens"
-#~ msgstr ""
+#~ msgstr "Una lupa de pantalla que sembla una lent d'ull de peix"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Magic Lamp"
-#~ msgstr ""
+#~ msgstr "Làmpada màgica"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Simulate a magic lamp when minimizing windows"
-#~ msgstr ""
+#~ msgstr "Simula una làmpada màgica en minimitzar les finestres"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Magnifier"
-#~ msgstr ""
+#~ msgstr "Lupa"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Magnify the section of the screen that is near the mouse cursor"
 #~ msgstr ""
+#~ "Amplia la secció de la pantalla que es troba a prop del cursor del ratolí"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Mouse Click Animation"
-#~ msgstr ""
+#~ msgstr "Animació del clic del ratolí"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid ""
 #~ "Creates an animation whenever a mouse button is clicked. This is useful for "
 #~ "screenrecordings/presentations"
 #~ msgstr ""
+#~ "Crea una animació cada vegada que es fa clic amb un botó del ratolí. Això és"
+#~ " útil per a gravacions de pantalla o presentacions."
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Mouse Mark"
-#~ msgstr ""
+#~ msgstr "Marca del ratolí"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Allows you to draw lines on the desktop"
-#~ msgstr ""
+#~ msgstr "Permet dibuixar línies a l'escriptori"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Overview"
-#~ msgstr ""
+#~ msgstr "Visió general"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Allows you to overview virtual desktops and windows"
-#~ msgstr ""
+#~ msgstr "Permet una visió general dels escriptoris i les finestres virtuals"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Present Windows"
@@ -1497,6 +1509,8 @@ msgstr "Seguiment del ratolí:"
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Zoom out until all opened windows can be displayed side-by-side"
 #~ msgstr ""
+#~ "Allunya fins que totes les finestres obertes es puguin mostrar una al costat"
+#~ " de l'altra"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Resize Window"
@@ -1505,14 +1519,16 @@ msgstr "Seguiment del ratolí:"
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Resizes windows with a fast texture scale instead of updating contents"
 #~ msgstr ""
+#~ "Redimensiona les finestres amb una escala de textura ràpida en comptes "
+#~ "d'actualitzar-ne el contingut"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Screen Edge"
-#~ msgstr ""
+#~ msgstr "Vora de la pantalla"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Highlights a screen edge when approaching"
-#~ msgstr ""
+#~ msgstr "Destaca una vora de la pantalla en acostar-s'hi"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Screenshot"
@@ -1520,345 +1536,354 @@ msgstr "Seguiment del ratolí:"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Helper effect for screenshot tools"
-#~ msgstr ""
+#~ msgstr "Efecte auxiliar per a les eines de captura de pantalla"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Transform"
-#~ msgstr ""
+#~ msgstr "Transforma"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Animates display transformations"
-#~ msgstr ""
+#~ msgstr "Anima les transformacions de visualització"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Sheet"
-#~ msgstr ""
+#~ msgstr "Full"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid ""
 #~ "Make modal dialogs smoothly fly in and out when they are shown or hidden"
 #~ msgstr ""
+#~ "Fa que els diàlegs modals apareguin i surtin suaument quan es mostrin o "
+#~ "s'ocultin"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Show FPS"
-#~ msgstr ""
+#~ msgstr "Mostra FPS"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display KWin's performance in the corner of the screen"
-#~ msgstr ""
+#~ msgstr "Mostra el rendiment del KWin al cantó de la pantalla"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Show Paint"
-#~ msgstr ""
+#~ msgstr "Mostra la pintura"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Highlight areas of the desktop that have been recently updated"
-#~ msgstr ""
+#~ msgstr "Ressalta les àrees de l'escriptori que s'han actualitzat recentment"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Slide"
-#~ msgstr ""
+#~ msgstr "Presentació"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Slide desktops when switching virtual desktops"
-#~ msgstr ""
+#~ msgstr "Fa lliscar els escriptoris en canviar d'escriptori virtual"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Slide Back"
-#~ msgstr ""
+#~ msgstr "Presentació enrere"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Slide back windows when another window is raised"
-#~ msgstr ""
+#~ msgstr "Fa lliscar les finestres cap enrere quan se n'obre una altra"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Sliding popups"
-#~ msgstr ""
+#~ msgstr "Finestres emergents lliscants"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Sliding animation for Plasma popups"
-#~ msgstr ""
+#~ msgstr "Animació lliscant per a les finestres emergents del Plasma"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Snap Helper"
-#~ msgstr ""
+#~ msgstr "Assistent d'encaix"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Help you locate the center of the screen when moving a window"
-#~ msgstr ""
+#~ msgstr "Ajuda a trobar el centre de la pantalla quan es mou una finestra"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Startup Feedback"
-#~ msgstr ""
+#~ msgstr "Comentaris d'inici"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Helper effect for startup feedback"
-#~ msgstr ""
+#~ msgstr "Efecte auxiliar per a la retroalimentació de l'inici"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Thumbnail Aside"
-#~ msgstr ""
+#~ msgstr "Miniatura a part"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display window thumbnails on the edge of the screen"
-#~ msgstr ""
+#~ msgstr "Mostra miniatures de finestres a la vora de la pantalla"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Touch Points"
-#~ msgstr ""
+#~ msgstr "Punts de contacte"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Visualize touch points"
-#~ msgstr ""
+#~ msgstr "Mostra els punts de contacte"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Track Mouse"
-#~ msgstr ""
+#~ msgstr "Rastreig del ratolí"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display a mouse cursor locating effect when activated"
-#~ msgstr ""
+#~ msgstr "Mostra un efecte de localització del cursor del ratolí quan s'activa"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Window Geometry"
-#~ msgstr ""
+#~ msgstr "Geometria de la finestra"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display window geometries on move/resize"
-#~ msgstr ""
+#~ msgstr "Mostra la geometria de la finestra en moure / redimensionar"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Wobbly Windows"
-#~ msgstr ""
+#~ msgstr "Finestres tremoloses"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Deform windows while they are moving"
-#~ msgstr ""
+#~ msgstr "Deforma les finestres mentre es mouen"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Zoom"
-#~ msgstr ""
+#~ msgstr "Zoom"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Magnify the entire desktop"
-#~ msgstr ""
+#~ msgstr "Amplia tot l'escriptori"
 
 #~ msgid "Kompose"
-#~ msgstr ""
+#~ msgstr "Kompose"
 
 #~ msgctxt "Special entry in alt+tab list for minimizing all windows"
 #~ msgid "Show Desktop"
 #~ msgstr "Mostra l'escriptori"
 
 #~ msgid "Zoom"
-#~ msgstr ""
+#~ msgstr "Zoom"
 
 #~ msgid "Define how far away the windows should appear"
-#~ msgstr ""
+#~ msgstr "Defineix a quina distància han d'aparèixer les finestres"
 
 #~ msgid "Near"
-#~ msgstr ""
+#~ msgstr "Prop"
 
 #~ msgid "Far"
-#~ msgstr ""
+#~ msgstr "Lluny"
 
 #~ msgid "Animation"
-#~ msgstr ""
+#~ msgstr "Animació"
 
 #~ msgid "Animate switch"
-#~ msgstr ""
+#~ msgstr "Interruptor de l'animació"
 
 #~ msgid "Animation on tab box open"
-#~ msgstr ""
+#~ msgstr "Animació en obrir una pestanya"
 
 #~ msgid "Animation on tab box close"
-#~ msgstr ""
+#~ msgstr "Animació en tancar una pestanya"
 
 #~ msgid "Reflections"
-#~ msgstr ""
+#~ msgstr "Reflexos"
 
 #~ msgid "Rear color"
-#~ msgstr ""
+#~ msgstr "Color posterior"
 
 #~ msgid "Front color"
-#~ msgstr ""
+#~ msgstr "Color frontal"
 
 #~ msgid "Desktop Cube"
-#~ msgstr ""
+#~ msgstr "Escriptori cúbic"
 
 #~ msgid "Desktop Cylinder"
-#~ msgstr ""
+#~ msgstr "Escriptori cilíndric"
 
 #~ msgid "Desktop Sphere"
-#~ msgstr ""
+#~ msgstr "Escriptori esfèric"
 
 #~ msgctxt "@title:tab Basic Settings"
 #~ msgid "Basic"
-#~ msgstr ""
+#~ msgstr "Bàsic"
 
 #~ msgctxt "@title:tab Advanced Settings"
 #~ msgid "Advanced"
 #~ msgstr "Avançat"
 
 #~ msgid "Tab 1"
-#~ msgstr ""
+#~ msgstr "Pestanya 1"
 
 #~ msgid "Background color:"
-#~ msgstr ""
+#~ msgstr "Color de fons:"
 
 #~ msgid "Wallpaper:"
-#~ msgstr ""
+#~ msgstr "Fons de pantalla:"
 
 #~ msgid "Display desktop name"
-#~ msgstr ""
+#~ msgstr "Mostra el nom de l'escriptori"
 
 #~ msgid "Reflection"
-#~ msgstr ""
+#~ msgstr "Reflex"
 
 #~ msgid "Rotation duration:"
-#~ msgstr ""
+#~ msgstr "Durada de la rotació:"
 
 #~ msgid "Windows hover above cube"
-#~ msgstr ""
+#~ msgstr "Les finestres suren per sobre del cub"
 
 #~ msgid "Opacity"
-#~ msgstr ""
+#~ msgstr "Opacitat"
 
 #~ msgid "Do not change opacity of windows"
-#~ msgstr ""
+#~ msgstr "No es canvia l'opacitat de les finestres"
 
 #~ msgid "Tab 2"
-#~ msgstr ""
+#~ msgstr "Pestanya 2"
 
 #~ msgid "Caps"
-#~ msgstr ""
+#~ msgstr "Capçaleres"
 
 #~ msgid "Cap color:"
-#~ msgstr ""
+#~ msgstr "Color de les capçaleres:"
 
 #~ msgid "Display image on caps"
-#~ msgstr ""
+#~ msgstr "Mostra imatges a les capçaleres"
 
 #~ msgid "Define how far away the object should appear"
-#~ msgstr ""
+#~ msgstr "Defineix a quina distància ha d'aparèixer l'objecte"
 
 #~ msgid "Additional Options"
-#~ msgstr ""
+#~ msgstr "Opcions addicionals"
 
 #~ msgid ""
 #~ "If enabled the effect will be deactivated after rotating the cube with the mouse,\n"
 #~ "otherwise it will remain active"
 #~ msgstr ""
+#~ "Si està habilitat, l'efecte es desactivarà després de girar el cub amb el "
+#~ "ratolí; altrament, romandrà actiu."
 
 #~ msgid "Close after mouse dragging"
-#~ msgstr ""
+#~ msgstr "Tanca després d'arrossegar el ratolí"
 
 #~ msgid "Use this effect for walking through the desktops"
-#~ msgstr ""
+#~ msgstr "Usa aquest efecte per passar pels escriptoris"
 
 #~ msgid "Invert mouse"
-#~ msgstr ""
+#~ msgstr "Ratolí invers"
 
 #~ msgid "Sphere Cap Deformation"
-#~ msgstr ""
+#~ msgstr "Deformació de la capçalera esfèrica"
 
 #~ msgid "Sphere"
-#~ msgstr ""
+#~ msgstr "Esfera"
 
 #~ msgid "Plane"
-#~ msgstr ""
+#~ msgstr "Plana"
 
 #~ msgid "Do not animate windows on all desktops"
-#~ msgstr ""
+#~ msgstr "No s'animen les finestres a tots els escriptoris"
 
 #~ msgid "Do not animate panels"
-#~ msgstr ""
+#~ msgstr "No s'animen els plafons"
 
 #~ msgid "Use pager layout for animation"
-#~ msgstr ""
+#~ msgstr "Usa el disseny de paginació per a l'animació"
 
 #~ msgid "Start animation when moving windows towards screen edges"
 #~ msgstr ""
+#~ "Inicia l'animació en moure les finestres cap a les vores de la pantalla"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Cover Switch"
-#~ msgstr ""
+#~ msgstr "Canvi de coberta"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display a Cover Flow effect for the alt+tab window switcher"
 #~ msgstr ""
+#~ "Mostra un efecte de Flux de coberta per al commutador de finestres alt+tab"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Cube"
-#~ msgstr ""
+#~ msgstr "Cub d'escriptori"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Display each virtual desktop on a side of a cube"
-#~ msgstr ""
+#~ msgstr "Mostra cada escriptori virtual en un costat d'un cub"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Desktop Cube Animation"
-#~ msgstr ""
+#~ msgstr "Animació del cub d'escriptori"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Animate desktop switching with a cube"
-#~ msgstr ""
+#~ msgstr "Anima el canvi d'escriptori amb un cub"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Flip Switch"
-#~ msgstr ""
+#~ msgstr "Canvi giratori"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid ""
 #~ "Flip through windows that are in a stack for the alt+tab window switcher"
 #~ msgstr ""
+#~ "Navega per les finestres en una pila per al commutador de finestres alt+tab"
 
 #~ msgid "Toggle Flip Switch (Current desktop)"
-#~ msgstr ""
+#~ msgstr "Commuta el canvi giratori (escriptori actual)"
 
 #~ msgid "Toggle Flip Switch (All desktops)"
-#~ msgstr ""
+#~ msgstr "Commuta el canvi giratori (tots els escriptoris)"
 
 #~ msgid "Flip animation duration:"
-#~ msgstr ""
+#~ msgstr "Durada de l'animació del gir:"
 
 #~ msgctxt "Duration of flip animation"
 #~ msgid "Default"
 #~ msgstr "Per defecte"
 
 #~ msgid "Angle:"
-#~ msgstr ""
+#~ msgstr "Angle:"
 
 #~ msgid " °"
-#~ msgstr ""
+#~ msgstr " °"
 
 #~ msgid "Horizontal position of front:"
-#~ msgstr ""
+#~ msgstr "Posició horitzontal del frontal:"
 
 #~ msgid "Vertical position of front:"
-#~ msgstr ""
+#~ msgstr "Posició vertical del frontal:"
 
 #~ msgid ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Filtre:\n"
+#~ "%1"
 
 #~ msgid "Use Present Windows effect to layout the windows"
-#~ msgstr ""
+#~ msgstr "Usa l'efecte Finestres actuals per dissenyar les finestres"
 
 #~ msgid "When the focus changes, move the zoom area to the focused location."
-#~ msgstr ""
+#~ msgstr "Quan el focus canviï, mou l'àrea de zoom a la ubicació enfocada."
 
 #~ msgid "Follow Focus"
-#~ msgstr ""
+#~ msgstr "Segueix el focus"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Dim Screen for Administrator Mode"
-#~ msgstr ""
+#~ msgstr "Pantalla atenuada per al mode d'administrador"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Darkens the entire screen when requesting root privileges"
-#~ msgstr ""
+#~ msgstr "Enfosqueix tota la pantalla quan es sol·liciten privilegis d'arrel"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Scale"
@@ -1867,10 +1892,12 @@ msgstr "Seguiment del ratolí:"
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Make windows smoothly scale in and out when they are shown or hidden"
 #~ msgstr ""
+#~ "Fa que les finestres s’escalin endins i enfora suaument quan es mostren o "
+#~ "s’amaguen"
 
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Minimize Animation"
-#~ msgstr ""
+#~ msgstr "Animació de minimització"
 
 #~ msgctxt "Comment describing the KWin Effect"
 #~ msgid "Animate the minimizing of windows"
@@ -2646,7 +2673,7 @@ msgstr "Seguiment del ratolí:"
 #~ msgstr "A tots els escriptoris"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Ajuda"
 
 #~ msgid "Minimize"
 #~ msgstr "Minimitza"
