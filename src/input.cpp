@@ -54,6 +54,7 @@
 #include "wayland/xwaylandkeyboardgrab_v1_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "useractions.h"
 #include "xkb.h"
 #include "xwayland/xwayland_interface.h"
 
@@ -2744,6 +2745,70 @@ private:
     QTimer m_raiseTimer;
 };
 
+class LongPressFilter : public QObject, public InputEventFilter
+{
+    Q_OBJECT
+public:
+    LongPressFilter()
+    {
+        m_longPressTimer.setSingleShot(true);
+        m_longPressTimer.setInterval(1200);
+        connect(&m_longPressTimer, &QTimer::timeout, this, &LongPressFilter::handleLongPress);
+    }
+
+    bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override
+    {
+        if (!input())
+            return false;
+
+        m_lastPosition = pos;
+        if (input()->touch()->touchPointCount() == 1) {
+            m_longPressTimer.start();
+        }
+
+        if (workspace()->userActionsMenu()->isShown()) {
+            const_cast<UserActionsMenu*>(workspace()->userActionsMenu())->handleClick(m_lastPosition.toPoint());
+        }
+        return false;
+    }
+
+     bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time) override
+     {
+         if (abs(m_lastPosition.x() - pos.x()) < 5 || abs(m_lastPosition.y() - pos.y()) < 5) {
+             return false;
+         }
+         m_longPressTimer.stop();
+         return false;
+     }
+
+    bool touchUp(qint32 id, std::chrono::microseconds time) override
+    {
+        m_longPressTimer.stop();
+        return false;
+    }
+
+private:
+    void handleLongPress()
+    {
+        m_longPressTimer.stop();
+        if (!input())
+            return;
+
+        if (!input()->touch()->isEnableLongPress()) {
+            return;
+        }
+
+        //send right mouse event
+        input()->pointer()->processMotionAbsolute(m_lastPosition, std::chrono::milliseconds(0));
+        input()->pointer()->processButton(KWin::qtMouseButtonToButton(Qt::RightButton), InputRedirection::PointerButtonPressed, std::chrono::milliseconds(0));
+        input()->pointer()->processButton(KWin::qtMouseButtonToButton(Qt::RightButton), InputRedirection::PointerButtonReleased, std::chrono::milliseconds(0));
+        input()->simulateUserActivity();
+    }
+
+    QTimer m_longPressTimer;
+    QPointF m_lastPosition;
+};
+
 class GlobalEventSpy : public InputEventSpy
 {
 public:
@@ -3177,6 +3242,7 @@ void InputRedirection::setupInputFilters()
     installInputEventSpy(new GlobalEventSpy);
     installInputEventSpy(new UserActivitySpy);
     installInputEventSpy(new WindowInteractedSpy);
+    installInputEventFilter(new LongPressFilter);
     if (hasGlobalShortcutSupport) {
         installInputEventFilter(new TerminateServerFilter);
     }

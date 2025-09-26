@@ -92,7 +92,6 @@ private:
     QMetaObject::Connection m_focusGeometryConnection;
     bool m_windowUpdatedInCycle = false;
     QPointF m_lastPosition;
-    QTimer *m_timer;
 };
 
 }
