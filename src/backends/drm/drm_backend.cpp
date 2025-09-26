@@ -159,8 +159,6 @@ bool DrmBackend::initialize()
             gpu->setActive(true);
         }
     });
-    connect(m_session, &Session::awoke, this, &DrmBackend::turnOutputsOn);
-    connect(m_session, &Session::suspend, this, &DrmBackend::turnOutputsOff);
 
     if (!m_explicitGpus.isEmpty()) {
         for (const QString &fileName : m_explicitGpus) {
