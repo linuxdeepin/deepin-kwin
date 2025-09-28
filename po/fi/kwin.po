@@ -3370,25 +3370,25 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Test Below Cursor"
-#~ msgstr ""
+#~ msgstr "Testaa kohdistimen alapuolella"
 
 #~ msgid "Walk Through Grouped Windows"
-#~ msgstr ""
+#~ msgstr "Kulje ryhmitettyjen ikkunoiden läpi"
 
 #~ msgid "Walk Through Grouped Windows (Reverse)"
-#~ msgstr ""
+#~ msgstr "Kulje ryhmitettyjen ikkunoiden läpi (käänteinen)"
 
 #~ msgid "Switch to group window"
-#~ msgstr ""
+#~ msgstr "Vaihda ryhmäikkunaan"
 
 #~ msgid "kwin: failure during initialization; aborting"
-#~ msgstr ""
+#~ msgstr "kwin: virhe alustuksen aikana; keskeytetään"
 
 #~ msgid "Terminate"
-#~ msgstr ""
+#~ msgstr "Lopeta"
 
 #~ msgid "Keep Running"
-#~ msgstr ""
+#~ msgstr "Pidä käynnissä"
 
 #~ msgid "Top"
 #~ msgstr "Ylinnä"
