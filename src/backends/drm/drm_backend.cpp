@@ -125,8 +125,9 @@ void DrmBackend::turnOutputsOff()
     qCInfo(KWIN_DRM) << "Turn outputs off";
     for (Output *output : std::as_const(m_outputs)) {
         qCDebug(KWIN_DRM) << " Current output info:" << output->name() << " enabled:" << output->isEnabled() << " dpms:" << output->dpmsMode();
-        if (output->isEnabled()) {
-            output->setDpmsMode(Output::DpmsMode::Off);
+        auto drmOutput = qobject_cast<DrmOutput *>(output);
+        if (drmOutput && drmOutput->isEnabled()) {
+            drmOutput->setDrmDpmsMode(Output::DpmsMode::Off);
         }
     }
 }
