@@ -3120,10 +3120,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Tiling"
-#~ msgstr ""
+#~ msgstr "Laatoitus"
 
 #~ msgid "Enable/Disable Tiling"
-#~ msgstr ""
+#~ msgstr "Laatoitus käyttöön tai pois"
 
 #~ msgid "Toggle Floating"
 #~ msgstr ""
@@ -3346,7 +3346,7 @@ msgstr ""
 #~ msgstr "Työpöydän kaappaus leikepöydälle"
 
 #~ msgid "Toggle Tiling"
-#~ msgstr ""
+#~ msgstr "Vaihda laatoitus"
 
 #~ msgid "Increase Ratio"
 #~ msgstr "Lisää suhdetta"
