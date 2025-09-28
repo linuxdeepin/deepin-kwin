@@ -3319,10 +3319,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Apua"
 
 #~ msgid "Restore"
-#~ msgstr ""
+#~ msgstr "Palauta"
 
 #~ msgid "Do not keep above others"
 #~ msgstr ""
@@ -3337,34 +3337,34 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "The library %1 is not a KWin plugin."
-#~ msgstr ""
+#~ msgstr "Kirjasto %1 ei ole KWin-laajennus."
 
 #~ msgid "Window Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Ikkunan kaappaus leikepöydälle"
 
 #~ msgid "Desktop Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Työpöydän kaappaus leikepöydälle"
 
 #~ msgid "Toggle Tiling"
 #~ msgstr ""
 
 #~ msgid "Increase Ratio"
-#~ msgstr ""
+#~ msgstr "Lisää suhdetta"
 
 #~ msgid "Decrease Ratio"
-#~ msgstr ""
+#~ msgstr "Laske suhdetta"
 
 #~ msgid "Move Left"
-#~ msgstr ""
+#~ msgstr "Siirrä vasemmalle"
 
 #~ msgid "Move Right"
-#~ msgstr ""
+#~ msgstr "Siirrä oikealle"
 
 #~ msgid "Move Up"
-#~ msgstr ""
+#~ msgstr "Siirrä ylös"
 
 #~ msgid "Move Down"
-#~ msgstr ""
+#~ msgstr "Siirrä alas"
 
 #~ msgid "Test Dump tiles"
 #~ msgstr ""
