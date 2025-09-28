@@ -3141,10 +3141,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Tiling Disabled"
-#~ msgstr ""
+#~ msgstr "Laatoitus pois käytöstä"
 
 #~ msgid "Tiling Enabled"
-#~ msgstr ""
+#~ msgstr "Laatoitus käytössä"
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
@@ -3307,16 +3307,16 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "<center><b>%1</b></center>"
-#~ msgstr ""
+#~ msgstr "<center><b>%1</b></center>"
 
 #~ msgid "Menu"
-#~ msgstr ""
+#~ msgstr "Valikko"
 
 #~ msgid "Not on all desktops"
-#~ msgstr ""
+#~ msgstr "Ei kaikilla työpöydillä"
 
 #~ msgid "On all desktops"
-#~ msgstr ""
+#~ msgstr "Kaikilla työpöydillä"
 
 #~ msgid "Help"
 #~ msgstr "Apua"
@@ -3325,16 +3325,16 @@ msgstr ""
 #~ msgstr "Palauta"
 
 #~ msgid "Do not keep above others"
-#~ msgstr ""
+#~ msgstr "Älä pidä muiden päällä"
 
 #~ msgid "Do not keep below others"
-#~ msgstr ""
+#~ msgstr "Älä pidä muiden alla"
 
 #~ msgid "No window decoration plugin library was found."
-#~ msgstr ""
+#~ msgstr "Ikkunan koristeluun tarkoitettuja laajennusta ei löytynyt."
 
 #~ msgid "The default decoration plugin is corrupt and could not be loaded."
-#~ msgstr ""
+#~ msgstr "Koristelun oletus-laajennus on viallinen, eikä sitä voitu ladata."
 
 #~ msgid "The library %1 is not a KWin plugin."
 #~ msgstr "Kirjasto %1 ei ole KWin-laajennus."
