@@ -1,0 +1,337 @@
+{
+    "project": {
+        "name": "kwin-project",
+        "directory": ".",
+        "build_directory": "./build"
+    },
+    "scan": {
+        "directories": [
+            "src/"
+        ],
+        "file_extensions": [
+            ".h",
+            ".cpp"
+        ],
+        "include_patterns": [
+            "src/activation.cpp",
+            "src/atoms.cpp",
+            "src/atoms.h",
+            "src/backends/drm/drm_backend.cpp",
+            "src/backends/drm/drm_backend.h",
+            "src/backends/drm/drm_buffer_gbm.cpp",
+            "src/backends/drm/drm_connector.cpp",
+            "src/backends/drm/drm_connector.h",
+            "src/backends/drm/drm_crtc.cpp",
+            "src/backends/drm/drm_crtc.h",
+            "src/backends/drm/drm_egl_backend.cpp",
+            "src/backends/drm/drm_egl_backend.h",
+            "src/backends/drm/drm_egl_layer_surface.cpp",
+            "src/backends/drm/drm_gpu.cpp",
+            "src/backends/drm/drm_output.cpp",
+            "src/backends/drm/drm_pipeline.cpp",
+            "src/backends/drm/drm_pipeline.h",
+            "src/backends/drm/drm_plane.cpp",
+            "src/backends/drm/remoteaccess_manager.cpp",
+            "src/backends/drm/remoteaccess_manager.h",
+            "src/backends/libinput/connection.cpp",
+            "src/backends/libinput/connection.h",
+            "src/backends/x11/standalone/x11_standalone_glx_backend.cpp",
+            "src/composite.cpp",
+            "src/composite.h",
+            "src/core/outputconfiguration.cpp",
+            "src/core/outputconfiguration.h",
+            "src/core/output.cpp",
+            "src/core/output.h",
+            "src/dbusinterface.cpp",
+            "src/dbusinterface.h",
+            "src/deleted.cpp",
+            "src/deleted.h",
+            "src/effectloader.cpp",
+            "src/effects/alttabthumbnaillist/alttabthumbnaillist.cpp",
+            "src/effects/blur/blur.cpp",
+            "src/effects.cpp",
+            "src/effects.h",
+            "src/effects/highlightwindow/highlightwindow.cpp",
+            "src/effects/maximizeex/maximizeeffect.cpp",
+            "src/effects/multitaskview/multitaskview.cpp",
+            "src/effects/multitaskview/multitaskview.h",
+            "src/effects/scissorwindow/scissorwindow.cpp",
+            "src/effects/scissorwindow/scissorwindow.h",
+            "src/effects/screenshot/screenshot.cpp",
+            "src/effects/screenshot/screenshotdbusinterface1.cpp",
+            "src/effects/splitscreen/splitprevieweffect.cpp",
+            "src/effects/splitscreen/splitprevieweffect.h",
+            "src/effects/splitswap/splitswap.cpp",
+            "src/events.cpp",
+            "src/input.cpp",
+            "src/input.h",
+            "src/internalwindow.cpp",
+            "src/internalwindow.h",
+            "src/layers.cpp",
+            "src/libkwineffects/kwineffects.cpp",
+            "src/libkwineffects/kwineffectsex.h",
+            "src/libkwineffects/kwineffects.h",
+            "src/main_wayland.cpp",
+            "src/main_x11.cpp",
+            "src/options.cpp",
+            "src/platformsupport/scenes/opengl/abstract_egl_backend.cpp",
+            "src/plugins/kdecorations/deepin-chameleon/chameleonbutton.cpp",
+            "src/plugins/kdecorations/deepin-chameleon/chameleonconfig.cpp",
+            "src/plugins/kdecorations/deepin-chameleon/chameleonconfig.h",
+            "src/plugins/kdecorations/deepin-chameleon/chameleon.cpp",
+            "src/plugins/kdecorations/deepin-chameleon/chameleontheme.cpp",
+            "src/plugins/kdecorations/deepin-chameleon/kwinutils.cpp",
+            "src/plugins/screencast/screencaststream.cpp",
+            "src/plugins/screencast/screencastutils.h",
+            "src/pointer_input.cpp",
+            "src/pointer_input.h",
+            "src/recordeventmonitor.cpp",
+            "src/rules.cpp",
+            "src/rules.h",
+            "src/scene/itemrenderer_opengl.cpp",
+            "src/scene/itemrenderer_xrender.cpp",
+            "src/scene/workspacescene.cpp",
+            "src/scripting/scriptedeffect.cpp",
+            "src/scripting/scripting.cpp",
+            "src/shadow.cpp",
+            "src/splitscreen/splitbar.cpp",
+            "src/splitscreen/splitmanage.cpp",
+            "src/splitscreen/splitmanage.h",
+            "src/splitscreen/splitmenu.cpp",
+            "src/splitscreen/splitmenu.h",
+            "src/tabbox/switcheritem.cpp",
+            "src/tabbox/tabbox.cpp",
+            "src/tabbox/tabbox.h",
+            "src/tabbox/tabboxhandler.cpp",
+            "src/tabbox/x11_filter.cpp",
+            "src/tiles/tile.cpp",
+            "src/touch_input.cpp",
+            "src/unmanaged.cpp",
+            "src/unmanaged.h",
+            "src/useractions.cpp",
+            "src/wayland/clientmanagement_interface.h",
+            "src/wayland/ddeshell_interface.cpp",
+            "src/wayland/ddeshell_interface.h",
+            "src/wayland/outputdevice_v1_interface.cpp",
+            "src/wayland/outputdevice_v1_interface.h",
+            "src/wayland/outputmanagement_v1_interface.cpp",
+            "src/wayland/outputmanagement_v2_interface.cpp",
+            "src/wayland/plasmawindowmanagement_interface.cpp",
+            "src/wayland/remote_access_interface.cpp",
+            "src/wayland/remote_access_interface.h",
+            "src/wayland/seat_interface.cpp",
+            "src/wayland/seat_interface.h",
+            "src/wayland_server.cpp",
+            "src/wayland_server.h",
+            "src/wayland/surface_interface.cpp",
+            "src/wayland/surface_interface_p.h",
+            "src/waylandwindow.cpp",
+            "src/waylandwindow.h",
+            "src/window.cpp",
+            "src/window.h",
+            "src/windowstyle/decorationstyle.cpp",
+            "src/windowstyle/decorationstyle.h",
+            "src/windowstyle/windowradius.cpp",
+            "src/windowstyle/windowradius.h",
+            "src/windowstyle/windowshadow.cpp",
+            "src/windowstyle/windowshadow.h",
+            "src/windowstyle/windowstylemanager.cpp",
+            "src/windowstyle/windowstylemanager.h",
+            "src/workspace.cpp",
+            "src/workspace.h",
+            "src/x11window.cpp",
+            "src/x11window.h",
+            "src/xdgshellv6window.cpp",
+            "src/xdgshellwindow.cpp",
+            "src/xdgshellwindow.h",
+            "src/xkb.cpp",
+            "src/xwayland/clipboard.cpp",
+            "src/xwayland/xwayland.cpp",
+            "src/xwayland/xwaylandlauncher.cpp",
+            "src/xwayland/xwaylandlauncher.h"
+        ],
+        "exclude_patterns": [
+            "*build*"
+        ]
+    },
+    "compile_commands": {
+        "path": "./build/compile_commands.json",
+        "auto_generate": true,
+        "cmake_args": [
+            "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DBUILD_TESTING=OFF -GNinja"
+        ]
+    },
+    "analysis": {
+        "mode": "cpp_only",
+        "auto_detection": {
+            "enabled": true,
+            "sample_size": 10,
+            "cpp_threshold": 0.6,
+            "go_threshold": 0.3
+        },
+        "function_coverage": true,
+        "branch_coverage": true,
+        "exception_coverage": true,
+        "key_path_coverage": true
+    },
+    "output": {
+        "report_file": "dlogcover_report.txt",
+        "log_file": "dlogcover.log",
+        "log_level": "INFO",
+        "show_uncovered_paths_details": false
+    },
+    "log_functions": {
+        "qt": {
+            "enabled": true,
+            "functions": [
+                "qDebug",
+                "qInfo",
+                "qWarning",
+                "qCritical",
+                "qFatal"
+            ],
+            "category_functions": [
+                "qCDebug",
+                "qCInfo",
+                "qCWarning",
+                "qCCritical"
+            ]
+        },
+        "custom": {
+            "enabled": true,
+            "functions": {
+                "debug": [
+                    "logDebug",
+                    "LOG_DEBUG",
+                    "LOG_DEBUG_FMT"
+                ],
+                "info": [
+                    "logInfo",
+                    "LOG_INFO",
+                    "LOG_INFO_FMT"
+                ],
+                "warning": [
+                    "logWarning",
+                    "LOG_WARNING",
+                    "LOG_WARNING_FMT"
+                ],
+                "error": [
+                    "logError",
+                    "LOG_ERROR",
+                    "LOG_ERROR_FMT"
+                ],
+                "fatal": [
+                    "logFatal",
+                    "LOG_FATAL",
+                    "LOG_FATAL_FMT"
+                ]
+            }
+        }
+    },
+    "performance": {
+        "enable_parallel_analysis": true,
+        "max_threads": 0,
+        "enable_ast_cache": true,
+        "max_cache_size": 100,
+        "enable_io_optimization": true,
+        "file_buffer_size": 65536,
+        "enable_file_preloading": true
+    },
+    "go": {
+        "standard_log": {
+            "enabled": true,
+            "functions": [
+                "Print",
+                "Printf",
+                "Println",
+                "Fatal",
+                "Fatalf",
+                "Fatalln",
+                "Panic",
+                "Panicf",
+                "Panicln"
+            ]
+        },
+        "logrus": {
+            "enabled": true,
+            "functions": [
+                "Trace",
+                "Debug",
+                "Info",
+                "Warn",
+                "Warning",
+                "Error",
+                "Fatal",
+                "Panic"
+            ],
+            "formatted_functions": [
+                "Tracef",
+                "Debugf",
+                "Infof",
+                "Warnf",
+                "Errorf",
+                "Fatalf",
+                "Panicf"
+            ],
+            "line_functions": [
+                "Traceln",
+                "Debugln",
+                "Infoln",
+                "Warnln",
+                "Errorln",
+                "Fatalln",
+                "Panicln"
+            ]
+        },
+        "zap": {
+            "enabled": true,
+            "logger_functions": [
+                "Debug",
+                "Info",
+                "Warn",
+                "Error",
+                "DPanic",
+                "Panic",
+                "Fatal"
+            ],
+            "sugared_functions": [
+                "Debugf",
+                "Debugln",
+                "Debugw",
+                "Infof",
+                "Infoln",
+                "Infow",
+                "Warnf",
+                "Warnln",
+                "Warnw",
+                "Errorf",
+                "Errorln",
+                "Errorw",
+                "DPanicf",
+                "DPanicln",
+                "DPanicw",
+                "Panicf",
+                "Panicln",
+                "Panicw",
+                "Fatalf",
+                "Fatalln",
+                "Fatalw"
+            ]
+        },
+        "golib": {
+            "enabled": true,
+            "functions": [
+                "Info",
+                "Error",
+                "Debug",
+                "Warn"
+            ],
+            "formatted_functions": [
+                "Infof",
+                "Errorf",
+                "Debugf",
+                "Warnf"
+            ]
+        }
+    }
+}
