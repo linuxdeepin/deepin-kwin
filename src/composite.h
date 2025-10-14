@@ -159,11 +159,6 @@ public:
         return m_effectType;
     }
 
-    bool isLocked() const
-    {
-        return m_isLocked;
-    }
-
 Q_SIGNALS:
     void compositingToggled(bool active);
     void effectsEnabledChanged(bool enabled);
@@ -208,7 +203,6 @@ private Q_SLOTS:
     void handleScreenShotStart() {
         m_screenShotRunning = true;
     }
-    void handlePropertiesChanged(const QString &interfaceName, const QVariantMap &properties);
 
 public Q_SLOTS:
     //TODO for screen shot show cursor on wayland
@@ -253,7 +247,6 @@ private:
     bool m_edgeSoftCursor = false;
     bool m_screenShotRunning = false;
     bool m_usesHardwareCursor = false;
-    bool m_isLocked = false;
 
     QList<EffectType> m_effectTypeRange = {
         OpenGLComplete,

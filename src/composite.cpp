@@ -95,11 +95,6 @@ Q_DECLARE_METATYPE(KWin::X11Compositor::SuspendReason)
 #define SCREENSHOT_OBJECT "/com/deepin/ScreenRecorder/time"
 #define SCREENSHOT_INTERFACE "com.deepin.ScreenRecorder.time"
 
-#define DEEPIN_SESSION_MANAGER_SERVICE "com.deepin.SessionManager"
-#define DEEPIN_SESSION_MANAGER_OBJECT "/com/deepin/SessionManager"
-#define DEEPIN_SESSION_MANAGER_INTERFACE "com.deepin.SessionManager"
-#define PROPERTIES_INTERFACE "org.freedesktop.DBus.Properties"
-
 namespace KWin
 {
 template <typename T> using ScopedCPointer = QScopedPointer<T, QScopedPointerPodDeleter>;
@@ -295,25 +290,11 @@ Compositor::Compositor(QObject *workspace)
                 "stop", this, SLOT(handleScreenShotStop()))) {
             qCWarning(KWIN_CORE) << "Failed to connect screen shot signal stop";
         }
-        QDBusConnection::sessionBus().connect(DEEPIN_SESSION_MANAGER_SERVICE, DEEPIN_SESSION_MANAGER_OBJECT, PROPERTIES_INTERFACE,
-            QStringLiteral("PropertiesChanged"),
-            this,
-            SLOT(handlePropertiesChanged(QString, QVariantMap)));
     }
 
     // register DBus
     new CompositorDBusInterface(this);
     FTraceLogger::create();
-}
-
-void Compositor::handlePropertiesChanged(const QString &interfaceName, const QVariantMap &properties)
-{
-    if (interfaceName == DEEPIN_SESSION_MANAGER_INTERFACE) {
-        const QVariant locked = properties.value(QStringLiteral("Locked"));
-        if (locked.isValid()) {
-            m_isLocked = locked.toBool();
-        }
-    }
 }
 
 Compositor::~Compositor()
