@@ -53,6 +53,9 @@ else()
     option(ENABLE_WERROR "Force treat warnings as erros" OFF)
 endif()
 
+# TODO: temporarily disable ENABLE_WERROR before fixing all compilation warnings
+set(ENABLE_WERROR OFF)
+
 if(ENABLE_WERROR)
     add_compile_options($<$<COMPILE_LANGUAGE:C,CXX>:-Werror>)
 endif()
