@@ -84,6 +84,9 @@ find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     Widgets
     LinguistTools
 )
+if(Qt${QT_MAJOR_VERSION}_VERSION VERSION_GREATER_EQUAL 6.10)
+  find_package(Qt${QT_MAJOR_VERSION} COMPONENTS CorePrivate GuiPrivate REQUIRED)
+endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
     find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)

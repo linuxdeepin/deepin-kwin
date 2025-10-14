@@ -35,7 +35,11 @@
 #else
 #include <QtGui/private/qgenericunixeventdispatcher_p.h>
 #include <QtGui/private/qgenericunixfontdatabase_p.h>
+#if QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
 #include <QtGui/private/qgenericunixthemes_p.h>
+#else
+#include <QtGui/private/qgenericunixtheme_p.h>
+#endif
 #include <QtGui/private/qunixeventdispatcher_qpa_p.h>
 #endif
 
