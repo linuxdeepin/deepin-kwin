@@ -1003,7 +1003,7 @@ GLFramebuffer::GLFramebuffer(GLTexture *colorAttachment)
     , m_colorAttachment(colorAttachment)
 {
     // Make sure FBO is supported
-    if (sSupported && !colorAttachment->isNull()) {
+    if (sSupported && !colorAttachment->isNull() && !mSize.isNull()) {
         initFBO(colorAttachment);
     } else {
         qCCritical(LIBKWINGLUTILS) << "Framebuffer objects aren't supported!";
