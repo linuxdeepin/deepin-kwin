@@ -62,6 +62,7 @@ DrmGpu::DrmGpu(DrmBackend *backend, const QString &devNode, int fd, dev_t device
     } else {
         m_cursorSize.setHeight(64);
     }
+    m_gpuCursorSize = m_cursorSize;
 
     int ret = drmGetCap(fd, DRM_CAP_TIMESTAMP_MONOTONIC, &capability);
     if (ret == 0 && capability == 1) {
@@ -383,6 +384,16 @@ void DrmGpu::removeOutputs()
     for (const auto &output : virtualOutputs) {
         removeVirtualOutput(output);
     }
+}
+
+void DrmGpu::updateCursorSize(const QSize &size)
+{
+    m_cursorSize = m_gpuCursorSize;
+    if (size.width() < m_gpuCursorSize.width())
+        m_cursorSize.setWidth(size.width());
+
+    if (size.height() < m_gpuCursorSize.height())
+        m_cursorSize.setHeight(size.height());
 }
 
 DrmPipeline::Error DrmGpu::checkCrtcAssignment(QVector<DrmConnector *> connectors, const QVector<DrmCrtc *> &crtcs)

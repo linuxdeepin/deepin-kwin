@@ -169,21 +169,19 @@ bool DrmOutput::setCursor(CursorSource *source)
     const QMatrix4x4 monitorMatrix = logicalToNativeMatrix(rect(), scale(), transform());
     const QSize cursorSize = m_cursor.source->size();
     const QRect cursorRect = QRect(m_cursor.position, cursorSize);
-    const QRect nativeCursorRect = monitorMatrix.mapRect(cursorRect);
-    if (nativeCursorRect.width() <= m_gpu->cursorSize().width() && nativeCursorRect.height() <= m_gpu->cursorSize().height()) {
-        if (auto beginInfo = layer->beginFrame()) {
-            RenderTarget *renderTarget = &beginInfo->renderTarget;
-            renderTarget->setDevicePixelRatio(scale());
+    m_gpu->updateCursorSize(cursorSize);
+    if (auto beginInfo = layer->beginFrame()) {
+        RenderTarget *renderTarget = &beginInfo->renderTarget;
+        renderTarget->setDevicePixelRatio(scale());
 
-            RenderLayer renderLayer(m_renderLoop.get());
-            renderLayer.setDelegate(std::make_unique<SceneDelegate>(Compositor::self()->cursorScene()));
+        RenderLayer renderLayer(m_renderLoop.get());
+        renderLayer.setDelegate(std::make_unique<SceneDelegate>(Compositor::self()->cursorScene()));
 
-            renderLayer.delegate()->prePaint();
-            renderLayer.delegate()->paint(renderTarget, infiniteRegion());
-            renderLayer.delegate()->postPaint();
+        renderLayer.delegate()->prePaint();
+        renderLayer.delegate()->paint(renderTarget, infiniteRegion());
+        renderLayer.delegate()->postPaint();
 
-            rendered = layer->endFrame(infiniteRegion(), infiniteRegion());
-        }
+        rendered = layer->endFrame(infiniteRegion(), infiniteRegion());
     }
     if (!rendered) {
         if (layer->isVisible()) {

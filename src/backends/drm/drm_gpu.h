@@ -94,6 +94,7 @@ public:
 
     bool updateOutputs();
     void removeOutputs();
+    void updateCursorSize(const QSize &size);
 
     DrmVirtualOutput *createVirtualOutput(const QString &name, const QSize &size, double scale);
     void removeVirtualOutput(DrmVirtualOutput *output);
@@ -156,6 +157,7 @@ private:
 
     std::unique_ptr<QSocketNotifier> m_socketNotifier;
     QSize m_cursorSize;
+    QSize m_gpuCursorSize;
 
     bool m_isActive = true;
 };
