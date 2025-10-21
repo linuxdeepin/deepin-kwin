@@ -1937,7 +1937,28 @@ void Window::handleInteractiveMoveResize(const QPointF &local, const QPointF &gl
             && isExitSplitMode(global, oldGeo, moveResizeGeometry())) {
             GeometryUpdatesBlocker blocker(this);
             setQuickTileMode(QuickTileFlag::None);
-            const QRectF &geom_restore = geometryRestore();
+            QRectF geom_restore = geometryRestore();
+            if (!geom_restore.isValid()) {
+                // When the window has been mapped maximized, the geometryRestore is not valid.
+                // Although configure(0,0) will be sent to the client and the client will set a
+                // reasonable geometry in the next state when the window has an invalid move resize geometry,
+                // Update moveResizeGeometry according to the committed state is not allowed in interactive move/resize.
+                // MoveResizeGeometry will keep invalid in interactiveMoveResize, which will influence most
+                // of the calculations in handleInteractiveMoveResize. E.g. the calculation of the exposed pixels
+                // will always be zero, causing move failure.
+                // We must set a reasonable and valid moveResizeGeometry in every frame of interactiveMoveResize.
+                // Here we generate a reasonable geometryRestore for such case.
+                // TODO: Firstly unmaximize the window before interactiveMoveResize to avoid such problem.
+                QRectF clientArea;
+                if (isElectricBorderMaximizing()) {
+                    clientArea = workspace()->clientArea(MaximizeArea, this, Cursors::self()->mouse()->pos());
+                } else {
+                    clientArea = workspace()->clientArea(MaximizeArea, this, moveResizeOutput());
+                }
+                geom_restore.moveTo(clientArea.topLeft());
+                geom_restore.setSize(constrainFrameSize(QSize(width() * 2 / 3, height() * 2 / 3), SizeModeMax));
+                setGeometryRestore(geom_restore);
+            }
             setInteractiveMoveOffset(QPointF(double(interactiveMoveOffset().x()) / double(oldGeo.width()) * double(geom_restore.width()),
                                              double(interactiveMoveOffset().y()) / double(oldGeo.height()) * double(geom_restore.height())));
             if (rules()->checkMaximize(MaximizeRestore) == MaximizeRestore) {
