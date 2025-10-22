@@ -2774,7 +2774,7 @@ public:
 
      bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time) override
      {
-         if (abs(m_lastPosition.x() - pos.x()) < 5 || abs(m_lastPosition.y() - pos.y()) < 5) {
+         if (abs(m_lastPosition.x() - pos.x()) < 5 && abs(m_lastPosition.y() - pos.y()) < 5) {
              return false;
          }
          m_longPressTimer.stop();
