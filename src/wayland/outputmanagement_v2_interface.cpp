@@ -296,7 +296,7 @@ void OutputConfigurationV2Interface::kde_output_configuration_v2_apply(Resource 
             return output->isEnabled();
         }
     });
-    if (allDisabled) {
+    if (allDisabled && !qEnvironmentVariableIsSet("KWIN_ALLOW_DISABLE_ALL_OUTPUTS")) {
         qCWarning(KWIN_CORE) << "Disabling all outputs through configuration changes is not allowed";
         applied = false;
         send_failed();
