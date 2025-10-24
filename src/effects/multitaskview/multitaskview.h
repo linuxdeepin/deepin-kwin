@@ -434,6 +434,7 @@ public:
     bool isActive() const override;
     void setActive(bool active);
     bool isReceiveEvent();
+    QPoint pointerPos();
 
     bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;
     bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;

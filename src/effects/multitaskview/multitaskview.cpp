@@ -1317,7 +1317,7 @@ void MultitaskViewEffect::handlerAfterTimeLine()
 
 void MultitaskViewEffect::renderWindowMove(KWin::ScreenPaintData &data)
 {
-    QPoint diff = cursorPos() - m_windowMoveStartPos;
+    QPoint diff = pointerPos() - m_windowMoveStartPos;
     QRect geo = m_windowMoveGeometry.translated(diff);
     WindowPaintData d(data.projectionMatrix());
 
@@ -1325,9 +1325,9 @@ void MultitaskViewEffect::renderWindowMove(KWin::ScreenPaintData &data)
     QRect rect1 = wmobj ? wmobj->getWindowGeometry(m_windowMove, m_windowMove->screen()) : QRect();
     float K1 = (qreal)rect1.width() / (qreal)m_windowMove->width();
     d += QPoint(-m_windowMove->x(), -m_windowMove->y());
-    if (cursorPos().y() < m_windowMoveStartPos.y()) {
+    if (pointerPos().y() < m_windowMoveStartPos.y()) {
         int Y0 = m_scale[m_windowMove->screen()].workspaceMgrRect.bottom();
-        float k = (cursorPos().y() - m_windowMoveStartPos.y()) / float(Y0 - m_windowMoveStartPos.y());
+        float k = (pointerPos().y() - m_windowMoveStartPos.y()) / float(Y0 - m_windowMoveStartPos.y());
         float K0 = (qreal)geo.width() / (qreal)m_windowMove->width();
         k = K1 - k * (K1 - K0);
         if (k < K0) k = K0;
@@ -1335,8 +1335,8 @@ void MultitaskViewEffect::renderWindowMove(KWin::ScreenPaintData &data)
 
         float sx = (m_windowMoveStartPos.x() - rect1.x()) / float(rect1.width());
         float sy = (m_windowMoveStartPos.y() - rect1.y()) / float(rect1.height());
-        float cx = cursorPos().x();
-        float cy = cursorPos().y();
+        float cx = pointerPos().x();
+        float cy = pointerPos().y();
         float cw = k * m_windowMove->width();
         float ch = k * m_windowMove->height();
         float x0 = cx - cw * sx;
@@ -1354,7 +1354,7 @@ void MultitaskViewEffect::renderWorkspaceMove(KWin::ScreenPaintData &data)
 {
     MultiViewWorkspace *target = getWorkspaceObject(m_screen, m_aciveMoveDesktop - 1);
     if (target) {
-        QPoint cursorpos = cursorPos();
+        QPoint cursorpos = pointerPos();
         QPoint diff = cursorpos - m_workspaceMoveStartPos;
         if (diff.y() > 1) {
             diff.setY(0);
@@ -4222,6 +4222,14 @@ bool MultitaskViewEffect::touchUp(qint32 id, std::chrono::microseconds time)
         windowInputMouseEvent(&event);
     }
     return true;
+}
+
+QPoint MultitaskViewEffect::pointerPos()
+{
+    if (m_touch.active) {
+        return m_touch.pos.toPoint();
+    }
+    return Effect::cursorPos();
 }
 
 void MultitaskViewEffect::motionRepeat()
