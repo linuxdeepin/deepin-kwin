@@ -1820,7 +1820,7 @@ msgstr "Toiminta"
 #: rulesettings.kcfg:176
 #, kde-format
 msgid "Activity rule type"
-msgstr "Toimintasäännön tyyppi"
+msgstr "Toiminta säännön tyyppi"
 
 #. i18n: ectx: label, entry (type), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:183
@@ -1832,7 +1832,7 @@ msgstr "Aseta ikkunan tyypiksi"
 #: rulesettings.kcfg:189
 #, kde-format
 msgid "Set window type rule type"
-msgstr "Aseta ikkunatyypin sääntötyyppi"
+msgstr "Aseta ikkunatyypin säännön tyyppi"
 
 #. i18n: ectx: label, entry (maximizevert), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:194
@@ -1845,7 +1845,7 @@ msgstr "Maksimoitu pystysuunnassa"
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
-msgstr ""
+msgstr "Maksimoitu pystysuuntaan säännön tyyppi"
 
 #. i18n: ectx: label, entry (maximizehoriz), group
 #. ($(ruleDescriptionOrNumber))
@@ -1859,31 +1859,31 @@ msgstr "Maksimoitu vaakasuunnassa"
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
-msgstr ""
+msgstr "Maksimoitu vaakasuuntaan säännön tyyppi"
 
 #. i18n: ectx: label, entry (minimize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:216
 #, kde-format
 msgid "Minimized"
-msgstr ""
+msgstr "Minimoitu"
 
 #. i18n: ectx: label, entry (minimizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:220
 #, kde-format
 msgid "Minimized rule type"
-msgstr ""
+msgstr "Minimoitu säännön tyyppi"
 
 #. i18n: ectx: label, entry (shade), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:227
 #, kde-format
 msgid "Shaded"
-msgstr ""
+msgstr "Varjostettu"
 
 #. i18n: ectx: label, entry (shaderule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:231
 #, kde-format
 msgid "Shaded rule type"
-msgstr ""
+msgstr "Varjostettu säännön tyyppi"
 
 #. i18n: ectx: label, entry (skiptaskbar), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:238
