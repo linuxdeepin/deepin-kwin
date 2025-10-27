@@ -1057,12 +1057,12 @@ msgstr "PID"
 #: helpers/killer/killer.cpp:40
 #, kde-format
 msgid "Hostname on which the application is running"
-msgstr "Nimi, jolla sovellus toimii"
+msgstr "Isäntä, jolla sovellus toimii"
 
 #: helpers/killer/killer.cpp:40
 #, kde-format
 msgid "hostname"
-msgstr "konenimi"
+msgstr "isäntä"
 
 #: helpers/killer/killer.cpp:42
 #, kde-format
@@ -1112,13 +1112,13 @@ msgstr "KWin-apuohjelma"
 #: helpers/killer/killer.cpp:74
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr ""
+msgstr "Tätä apuohjelmaa ei ole tarkoitus kutsua suoraan."
 
 #: helpers/killer/killer.cpp:84
 #, kde-format
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
-msgstr ""
+msgstr "<b>Sovellus \"%1\" ei vastaa</b>"
 
 #: helpers/killer/killer.cpp:86
 #, kde-kuit-format
@@ -1127,6 +1127,8 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3) but the application is not responding.</para>"
 msgstr ""
+"<para>Yritit sulkea ikkunan \"%1\" sovelluksesta \"%2\" (prosessi-id: %3), "
+"mutta sovellus ei vastaa.</para>"
 
 #: helpers/killer/killer.cpp:88
 #, kde-kuit-format
@@ -1135,6 +1137,8 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3), running on host \"%4\", but the application is not responding.</para>"
 msgstr ""
+"<para>Yritit sulkea ikkunan \"%1\" sovelluksesta \"%2\" (prosessi-id: %3), "
+"joka toimii isännässä \"%4\", mutta sovellus ei vastaa.</para>"
 
 #: helpers/killer/killer.cpp:91
 #, kde-kuit-format
