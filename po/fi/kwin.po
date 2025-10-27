@@ -2165,13 +2165,13 @@ msgstr "%1 ei ole olemassa"
 #: shortcutdialog.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogi"
 
 #. i18n: ectx: property (text), widget (QToolButton, clearButton)
 #: shortcutdialog.ui:25
 #, kde-format
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: tabbox/tabbox.cpp:381
 #, kde-format
@@ -2189,19 +2189,19 @@ msgstr "Selaa ikkunoita (käänteisesti)"
 
 #: tabbox/tabbox.cpp:523
 msgid "Walk Through Windows Alternative"
-msgstr "Selaa ikkunoita (vaihtoehtoinen)"
+msgstr "Vaihtoehtoisesti selaa ikkunoiden läpi"
 
 #: tabbox/tabbox.cpp:524
 msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "Selaa ikkunoita (käänteisesti, vaihtoehtoinen)"
+msgstr "Vaihtoehtoisesti selaa ikkunoiden läpi (käänteinen)"
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Windows of Current Application"
-msgstr ""
+msgstr "Selaa läpi sovelluksien ikkunoita"
 
 #: tabbox/tabbox.cpp:526
 msgid "Walk Through Windows of Current Application (Reverse)"
-msgstr ""
+msgstr "Selaa läpi sovelluksien ikkunoita (käänteinen)"
 
 #: tabbox/tabbox.cpp:527
 msgid "Walk Through Windows of Current Application Alternative"
