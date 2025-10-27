@@ -1928,63 +1928,63 @@ msgstr "Ohita vaihtaja säännön tyyppi"
 #: rulesettings.kcfg:271
 #, kde-format
 msgid "Keep above"
-msgstr ""
+msgstr "Pidä yllä"
 
 #. i18n: ectx: label, entry (aboverule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:275
 #, kde-format
 msgid "Keep above rule type"
-msgstr ""
+msgstr "Pidä päälimmäisenä sääntö tyyppi"
 
 #. i18n: ectx: label, entry (below), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:282
 #, kde-format
 msgid "Keep below"
-msgstr ""
+msgstr "Pidä alla"
 
 #. i18n: ectx: label, entry (belowrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:286
 #, kde-format
 msgid "Keep below rule type"
-msgstr ""
+msgstr "Pidä allmaisena sääntö tyyppi"
 
 #. i18n: ectx: label, entry (fullscreen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:293
 #, kde-format
 msgid "Fullscreen"
-msgstr ""
+msgstr "Koko näyttö"
 
 #. i18n: ectx: label, entry (fullscreenrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
 #, kde-format
 msgid "Fullscreen rule type"
-msgstr ""
+msgstr "Koko näytössä sääntö tyyppi"
 
 #. i18n: ectx: label, entry (noborder), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:304
 #, kde-format
 msgid "No titlebar and frame"
-msgstr ""
+msgstr "Ei otsikkoa ja kehystä"
 
 #. i18n: ectx: label, entry (noborderrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:308
 #, kde-format
 msgid "No titlebar rule type"
-msgstr ""
+msgstr "Ei otsikkoa ja kehystä sääntö tyyppi"
 
 #. i18n: ectx: label, entry (decocolor), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:315
 #, kde-format
 msgid "Titlebar color and scheme"
-msgstr ""
+msgstr "Otsikkopalkin väri ja teema"
 
 #. i18n: ectx: label, entry (decocolorrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
-msgstr ""
+msgstr "Otsikkopalkin väri ja teema sääntö tyyppi"
 
 #. i18n: ectx: label, entry (blockcompositing), group
 #. ($(ruleDescriptionOrNumber))
