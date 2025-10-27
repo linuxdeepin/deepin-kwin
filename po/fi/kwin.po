@@ -2133,14 +2133,14 @@ msgstr "Ohita pikanäppäimet sääntö"
 #: rulesettings.kcfg:426
 #, kde-format
 msgid "Desktop file name"
-msgstr ""
+msgstr "Työpöydän tiedostonimi"
 
 #. i18n: ectx: label, entry (desktopfilerule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
-msgstr ""
+msgstr "Työpöydän tiedostonimen sääntö"
 
 #: scripting/genericscriptedconfig.cpp:70
 #, kde-format
