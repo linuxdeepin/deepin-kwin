@@ -1148,36 +1148,39 @@ msgid ""
 "application?</para><para><warning>Terminating the application will close all"
 " of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
+"<para>Haluatko sulkea tämän sovelluksen?</para> <para><warning>Sulkeminen "
+"sulkee kaikki sen ali-ikkunat. Kaikki tallentamattomat tiedot "
+"menetetään.</warning></para>"
 
 #: helpers/killer/killer.cpp:94
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr ""
+msgstr "&Sulje sovellus %1"
 
 #: helpers/killer/killer.cpp:95
 #, kde-format
 msgid "Wait Longer"
-msgstr ""
+msgstr "Odota pidempään"
 
 #: input.cpp:2009
 #, kde-format
 msgid "Move the tablet to the next output"
-msgstr ""
+msgstr "Siirrä tabletti seuraavaan liitäntään"
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablet moved to %1"
-msgstr ""
+msgstr "Tabletti siirretty %1"
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablets switched outputs"
-msgstr ""
+msgstr "Tabletin liitännät"
 
 #: input.cpp:3065
 #, kde-format
 msgid "Touchpad"
-msgstr ""
+msgstr "Kosketuslevy"
 
 #: keyboard_layout.cpp:45
 #, kde-format
