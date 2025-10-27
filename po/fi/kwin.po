@@ -1694,7 +1694,7 @@ msgstr "Alkuperäinen sijoittelu"
 #: rulesettings.kcfg:74
 #, kde-format
 msgid "Initial placement rule type"
-msgstr "Alkuperäinen sijoittelun säännön tyyppi"
+msgstr "Alkuperäinen sijoittelu säännön tyyppi"
 
 #. i18n: ectx: label, entry (position), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:79
@@ -1706,7 +1706,7 @@ msgstr "Ikkunan sijainti"
 #: rulesettings.kcfg:83
 #, kde-format
 msgid "Window position rule type"
-msgstr "Ikkunan sijaintisäännön tyyppi"
+msgstr "Ikkunan sijainti säännön tyyppi"
 
 #. i18n: ectx: label, entry (size), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:90
@@ -1718,7 +1718,7 @@ msgstr "Ikkunan koko"
 #: rulesettings.kcfg:93
 #, kde-format
 msgid "Window size rule type"
-msgstr "Ikkunan kokosäännön tyyppi"
+msgstr "Ikkunan koko säännön tyyppi"
 
 #. i18n: ectx: label, entry (minsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:100
@@ -1730,7 +1730,7 @@ msgstr "Ikkunan minimikoko"
 #: rulesettings.kcfg:104
 #, kde-format
 msgid "Window minimum size rule type"
-msgstr "Ikkunan minimikoonsäännön tyyppi"
+msgstr "Ikkunan minimikoko säännön tyyppi"
 
 #. i18n: ectx: label, entry (maxsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:109
@@ -1742,7 +1742,7 @@ msgstr "Ikkunan maksimikoko"
 #: rulesettings.kcfg:113
 #, kde-format
 msgid "Window maximum size rule type"
-msgstr "Ikkunan maksimikoonsäännön tyyppi"
+msgstr "Ikkunan maksimikoko säännön tyyppi"
 
 #. i18n: ectx: label, entry (opacityactive), group
 #. ($(ruleDescriptionOrNumber))
@@ -1756,7 +1756,7 @@ msgstr "Aktiivinen läpinäkyvyys"
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
-msgstr "Aktiivisen läpinäkyvyyssäännön tyyppi"
+msgstr "Aktiivinen läpinäkyvyys säännön tyyppi"
 
 #. i18n: ectx: label, entry (opacityinactive), group
 #. ($(ruleDescriptionOrNumber))
@@ -1770,7 +1770,7 @@ msgstr "Passiivinen läpinäkyvyys"
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
-msgstr "Passiivisen läpinäkyvyyssäännön tyyppi"
+msgstr "Passiivinen läpinäkyvyys säännön tyyppi"
 
 #. i18n: ectx: label, entry (ignoregeometry), group
 #. ($(ruleDescriptionOrNumber))
@@ -1784,7 +1784,7 @@ msgstr "Ohita pyydetty geometria"
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
-msgstr "Ohita pyydetty geometriasäännön tyyppi"
+msgstr "Ohita pyydetty geometria säännön tyyppi"
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
@@ -1889,40 +1889,40 @@ msgstr "Varjostettu säännön tyyppi"
 #: rulesettings.kcfg:238
 #, kde-format
 msgid "Skip taskbar"
-msgstr ""
+msgstr "Ohita tehtäväpalkki"
 
 #. i18n: ectx: label, entry (skiptaskbarrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
-msgstr ""
+msgstr "Ohita tehtäväpalkki sääntö tyyppi"
 
 #. i18n: ectx: label, entry (skippager), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:249
 #, kde-format
 msgid "Skip pager"
-msgstr ""
+msgstr "Ohita sivutus"
 
 #. i18n: ectx: label, entry (skippagerrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
-msgstr ""
+msgstr "Ohita sivutus sääntö tyyppi"
 
 #. i18n: ectx: label, entry (skipswitcher), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:260
 #, kde-format
 msgid "Skip switcher"
-msgstr ""
+msgstr "Ohita vaihtaja"
 
 #. i18n: ectx: label, entry (skipswitcherrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
-msgstr ""
+msgstr "Ohita vaihtaja säännön tyyppi"
 
 #. i18n: ectx: label, entry (above), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:271
