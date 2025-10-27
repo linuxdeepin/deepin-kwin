@@ -2449,32 +2449,32 @@ msgstr "Minimoi ikkuna"
 #: useractions.cpp:995
 #, kde-format
 msgid "Shade Window"
-msgstr ""
+msgstr "Ikkunan varjo"
 
 #: useractions.cpp:997
 #, kde-format
 msgid "Move Window"
-msgstr ""
+msgstr "Siirrä ikkuna"
 
 #: useractions.cpp:999
 #, kde-format
 msgid "Resize Window"
-msgstr ""
+msgstr "Ikkunan koko"
 
 #: useractions.cpp:1001
 #, kde-format
 msgid "Raise Window"
-msgstr ""
+msgstr "Nosta ikkunaa"
 
 #: useractions.cpp:1003
 #, kde-format
 msgid "Lower Window"
-msgstr ""
+msgstr "Alempi ikkuna"
 
 #: useractions.cpp:1005
 #, kde-format
 msgid "Toggle Window Raise/Lower"
-msgstr ""
+msgstr "Vaihda Ikkunan nosto/lasku"
 
 #: useractions.cpp:1007
 #, kde-format
