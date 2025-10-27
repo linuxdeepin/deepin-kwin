@@ -1694,7 +1694,7 @@ msgstr "Alkuperäinen sijoittelu"
 #: rulesettings.kcfg:74
 #, kde-format
 msgid "Initial placement rule type"
-msgstr "Alkuperäinen sijoittelu säännön tyyppi"
+msgstr "Alkuperäinen sijoittelun sääntö"
 
 #. i18n: ectx: label, entry (position), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:79
@@ -1706,7 +1706,7 @@ msgstr "Ikkunan sijainti"
 #: rulesettings.kcfg:83
 #, kde-format
 msgid "Window position rule type"
-msgstr "Ikkunan sijainti säännön tyyppi"
+msgstr "Ikkunan sijainnin sääntö"
 
 #. i18n: ectx: label, entry (size), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:90
@@ -1718,7 +1718,7 @@ msgstr "Ikkunan koko"
 #: rulesettings.kcfg:93
 #, kde-format
 msgid "Window size rule type"
-msgstr "Ikkunan koko säännön tyyppi"
+msgstr "Ikkunan koon sääntö"
 
 #. i18n: ectx: label, entry (minsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:100
@@ -1730,7 +1730,7 @@ msgstr "Ikkunan minimikoko"
 #: rulesettings.kcfg:104
 #, kde-format
 msgid "Window minimum size rule type"
-msgstr "Ikkunan minimikoko säännön tyyppi"
+msgstr "Ikkunan minimikoon sääntö"
 
 #. i18n: ectx: label, entry (maxsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:109
@@ -1742,7 +1742,7 @@ msgstr "Ikkunan maksimikoko"
 #: rulesettings.kcfg:113
 #, kde-format
 msgid "Window maximum size rule type"
-msgstr "Ikkunan maksimikoko säännön tyyppi"
+msgstr "Ikkunan maksimikoon sääntö"
 
 #. i18n: ectx: label, entry (opacityactive), group
 #. ($(ruleDescriptionOrNumber))
@@ -1756,7 +1756,7 @@ msgstr "Aktiivinen läpinäkyvyys"
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
-msgstr "Aktiivinen läpinäkyvyys säännön tyyppi"
+msgstr "Aktiivisen läpinäkyvyyden sääntö"
 
 #. i18n: ectx: label, entry (opacityinactive), group
 #. ($(ruleDescriptionOrNumber))
@@ -1770,7 +1770,7 @@ msgstr "Passiivinen läpinäkyvyys"
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
-msgstr "Passiivinen läpinäkyvyys säännön tyyppi"
+msgstr "Passiivisen läpinäkyvyyden sääntö"
 
 #. i18n: ectx: label, entry (ignoregeometry), group
 #. ($(ruleDescriptionOrNumber))
@@ -1784,7 +1784,7 @@ msgstr "Ohita pyydetty geometria"
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
-msgstr "Ohita pyydetty geometria säännön tyyppi"
+msgstr "Ohita pyydetyn geometrian sääntö"
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
@@ -1796,7 +1796,7 @@ msgstr "Lista työpöytien id-luettelosta"
 #: rulesettings.kcfg:155
 #, kde-format
 msgid "Desktop Ids rule type"
-msgstr "Työpöytien id-säännön tyyppi"
+msgstr "Työpöytien id:t sääntö"
 
 #. i18n: ectx: label, entry (screen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:162
@@ -1808,7 +1808,7 @@ msgstr "Näyttönumero"
 #: rulesettings.kcfg:166
 #, kde-format
 msgid "Screen number rule type"
-msgstr "Näyttönumeron säännön tyyppi"
+msgstr "Näyttönumeroiden sääntö"
 
 #. i18n: ectx: label, entry (activity), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:173
@@ -2004,13 +2004,13 @@ msgstr ""
 #: rulesettings.kcfg:332
 #, kde-format
 msgid "Focus stealing prevention"
-msgstr ""
+msgstr "Tarkennuksen katoamisen estäminen"
 
 #. i18n: ectx: label, entry (fsplevelrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:338
 #, kde-format
 msgid "Focus stealing prevention rule type"
-msgstr ""
+msgstr "Tarkennuksen katoamisen estämisen sääntö"
 
 #. i18n: ectx: label, entry (fpplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:343
