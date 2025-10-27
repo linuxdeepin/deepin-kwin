@@ -1790,55 +1790,55 @@ msgstr "Ohita pyydetty geometriasäännön tyyppi"
 #: rulesettings.kcfg:151
 #, kde-format
 msgid "List of Desktop Ids"
-msgstr ""
+msgstr "Lista työpöytien id-luettelosta"
 
 #. i18n: ectx: label, entry (desktopsrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:155
 #, kde-format
 msgid "Desktop Ids rule type"
-msgstr ""
+msgstr "Työpöytien id-säännön tyyppi"
 
 #. i18n: ectx: label, entry (screen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:162
 #, kde-format
 msgid "Screen number"
-msgstr ""
+msgstr "Näyttönumero"
 
 #. i18n: ectx: label, entry (screenrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:166
 #, kde-format
 msgid "Screen number rule type"
-msgstr ""
+msgstr "Näyttönumeron säännön tyyppi"
 
 #. i18n: ectx: label, entry (activity), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:173
 #, kde-format
 msgid "Activity"
-msgstr ""
+msgstr "Toiminta"
 
 #. i18n: ectx: label, entry (activityrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:176
 #, kde-format
 msgid "Activity rule type"
-msgstr ""
+msgstr "Toimintasäännön tyyppi"
 
 #. i18n: ectx: label, entry (type), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:183
 #, kde-format
 msgid "Set window type to"
-msgstr ""
+msgstr "Aseta ikkunan tyypiksi"
 
 #. i18n: ectx: label, entry (typerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:189
 #, kde-format
 msgid "Set window type rule type"
-msgstr ""
+msgstr "Aseta ikkunatyypin sääntötyyppi"
 
 #. i18n: ectx: label, entry (maximizevert), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:194
 #, kde-format
 msgid "Maximized vertically"
-msgstr ""
+msgstr "Maksimoitu pystysuunnassa"
 
 #. i18n: ectx: label, entry (maximizevertrule), group
 #. ($(ruleDescriptionOrNumber))
@@ -1852,7 +1852,7 @@ msgstr ""
 #: rulesettings.kcfg:205
 #, kde-format
 msgid "Maximized horizontally"
-msgstr ""
+msgstr "Maksimoitu vaakasuunnassa"
 
 #. i18n: ectx: label, entry (maximizehorizrule), group
 #. ($(ruleDescriptionOrNumber))
