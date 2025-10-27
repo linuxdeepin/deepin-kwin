@@ -1270,21 +1270,23 @@ msgstr "Käynnistä rootless Xwayland palvelin."
 #, kde-format
 msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
+"Kuunteltavan Wayland-socketin nimi. Jos sitä ei ole asetettu, käytetään "
+"arvoa \"wayland-0\"."
 
 #: main_wayland.cpp:319
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr ""
+msgstr "X11-näyttötila käytettäväksi ikkunatilassa X11-alustalla."
 
 #: main_wayland.cpp:322
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
-msgstr ""
+msgstr "Wayland-näyttötila käytettäväksi ikkunatilassa Wayland-alustalla."
 
 #: main_wayland.cpp:324
 #, kde-format
 msgid "Render to a virtual framebuffer."
-msgstr ""
+msgstr "Renderöi kuvaa virtuaaliseen puskuriin."
 
 #: main_wayland.cpp:326
 #, kde-format
