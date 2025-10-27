@@ -2189,27 +2189,27 @@ msgstr "Selaa ikkunoita (käänteisesti)"
 
 #: tabbox/tabbox.cpp:523
 msgid "Walk Through Windows Alternative"
-msgstr "Vaihtoehtoisesti selaa ikkunoiden läpi"
+msgstr "Selaa ikkunoita vaihtoehtoisesti"
 
 #: tabbox/tabbox.cpp:524
 msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "Vaihtoehtoisesti selaa ikkunoiden läpi (käänteinen)"
+msgstr "Selaa ikkunoita vaihtoehtoisesti (käänteinen)"
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Windows of Current Application"
-msgstr "Selaa läpi sovelluksien ikkunoita"
+msgstr "Selaa sovelluksen ikkunoita"
 
 #: tabbox/tabbox.cpp:526
 msgid "Walk Through Windows of Current Application (Reverse)"
-msgstr "Selaa läpi sovelluksien ikkunoita (käänteinen)"
+msgstr "Selaa sovelluksen ikkunoita (käänteinen)"
 
 #: tabbox/tabbox.cpp:527
 msgid "Walk Through Windows of Current Application Alternative"
-msgstr "Vaihtoehtoisesti selaa nykyisen sovelluksen ikkunoita"
+msgstr "Selaa nykyisen sovelluksen ikkunoita vaihtoehtoisesti"
 
 #: tabbox/tabbox.cpp:528
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-msgstr "Vaihtoehtoisesti selaa nykyisen sovelluksen ikkunoita (käänteinen)"
+msgstr "Selaa nykyisen sovelluksen ikkunoita vaihtoehtoisesti (käänteinen)"
 
 #: tabbox/tabbox.cpp:529
 msgid "Walk Through Desktops"
@@ -2217,7 +2217,7 @@ msgstr "Selaa työpöytiä"
 
 #: tabbox/tabbox.cpp:530
 msgid "Walk Through Desktops (Reverse)"
-msgstr "Selaa työpöytiä taaksepäin"
+msgstr "Selaa työpöytiä (käänteinen)"
 
 #: tabbox/tabbox.cpp:531
 msgid "Walk Through Desktop List"
@@ -2225,7 +2225,7 @@ msgstr "Selaa työpöytäluetteloa"
 
 #: tabbox/tabbox.cpp:532
 msgid "Walk Through Desktop List (Reverse)"
-msgstr "Selaa työpöytäluetteloa taaksepäin"
+msgstr "Selaa työpöytäluetteloa (käänteinen)"
 
 #: tabbox/tabboxhandler.cpp:290
 #, kde-format
