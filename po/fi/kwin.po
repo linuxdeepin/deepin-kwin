@@ -2384,7 +2384,7 @@ msgstr "Lisää &uudelle työpöydälle"
 #, kde-format
 msgctxt "Create a new desktop and move the window to that desktop"
 msgid "Move to New Desktop"
-msgstr ""
+msgstr "Siirrä uudelle työpöydälle"
 
 #: useractions.cpp:702
 #, kde-format
@@ -2392,59 +2392,59 @@ msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
 "number, second the output identifier. E.g. Screen 1 (HDMI1)"
 msgid "Screen &%1 (%2)"
-msgstr ""
+msgstr "Näyttö &%1 (%2)"
 
 #: useractions.cpp:728
 #, kde-format
 msgid "&All Activities"
-msgstr ""
+msgstr "&Kaikki aktiviteetit"
 
 #: useractions.cpp:776
 #, kde-format
 msgid "Move to %1"
-msgstr ""
+msgstr "Siirrä %1"
 
 #: useractions.cpp:901
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
-msgstr ""
+msgstr "<b>%1</b> on käytössä"
 
 #: useractions.cpp:903
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
-msgstr ""
+msgstr "<b>%1</b> on käytössä %2 - %3"
 
 #: useractions.cpp:983
 #, kde-format
 msgid "Window Operations Menu"
-msgstr ""
+msgstr "Ikkunan toimintovalikko"
 
 #: useractions.cpp:985
 #, kde-format
 msgid "Close Window"
-msgstr ""
+msgstr "Sulje ikkuna"
 
 #: useractions.cpp:987
 #, kde-format
 msgid "Maximize Window"
-msgstr ""
+msgstr "Minimoi ikkuna"
 
 #: useractions.cpp:989
 #, kde-format
 msgid "Maximize Window Vertically"
-msgstr ""
+msgstr "Maksimoi ikkuna pystysuuntaan"
 
 #: useractions.cpp:991
 #, kde-format
 msgid "Maximize Window Horizontally"
-msgstr ""
+msgstr "Maksimoi ikkuna vaakasuuntaan"
 
 #: useractions.cpp:993
 #, kde-format
 msgid "Minimize Window"
-msgstr ""
+msgstr "Minimoi ikkuna"
 
 #: useractions.cpp:995
 #, kde-format
