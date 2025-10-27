@@ -2253,7 +2253,7 @@ msgstr ""
 #: useractions.cpp:238
 #, kde-format
 msgid "&Move"
-msgstr "&Siirrä"
+msgstr "Sii&rrä"
 
 #: useractions.cpp:243
 #, kde-format
@@ -2321,32 +2321,32 @@ msgstr "Mi&nimoi"
 #: useractions.cpp:337
 #, kde-format
 msgid "&More Actions"
-msgstr ""
+msgstr "Lisää &toimintoja"
 
 #: useractions.cpp:340
 #, kde-format
 msgid "&Close"
-msgstr ""
+msgstr "&Sulje"
 
 #: useractions.cpp:410
 #, kde-format
 msgid "&Extensions"
-msgstr ""
+msgstr "&Laajennukset"
 
 #: useractions.cpp:461
 #, kde-format
 msgid "&Desktops"
-msgstr ""
+msgstr "Työpöy&dät"
 
 #: useractions.cpp:475
 #, kde-format
 msgid "Move to &Desktop"
-msgstr ""
+msgstr "Siirrä pö&ydälle"
 
 #: useractions.cpp:492
 #, kde-format
 msgid "Move to &Screen"
-msgstr ""
+msgstr "Siirrä n&äytölle"
 
 #: useractions.cpp:508
 #, kde-format
