@@ -2233,6 +2233,8 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
+"Resursseja puuttuu, Window Switcher asennus on rikki,\n"
+"Ota yhteyttä sinun jakelun toimittajaan."
 
 #: useractions.cpp:161
 #, kde-format
@@ -2251,42 +2253,42 @@ msgstr ""
 #: useractions.cpp:238
 #, kde-format
 msgid "&Move"
-msgstr ""
+msgstr "&Siirrä"
 
 #: useractions.cpp:243
 #, kde-format
 msgid "&Resize"
-msgstr ""
+msgstr "&Muuta kokoa"
 
 #: useractions.cpp:248
 #, kde-format
 msgid "Keep &Above Others"
-msgstr ""
+msgstr "Pidä muiden &päällä"
 
 #: useractions.cpp:254
 #, kde-format
 msgid "Keep &Below Others"
-msgstr ""
+msgstr "Pidä muiden &alla"
 
 #: useractions.cpp:260
 #, kde-format
 msgid "&Fullscreen"
-msgstr ""
+msgstr "&Koko näyttö"
 
 #: useractions.cpp:266
 #, kde-format
 msgid "&Shade"
-msgstr ""
+msgstr "&Varjo"
 
 #: useractions.cpp:272
 #, kde-format
 msgid "&No Titlebar and Frame"
-msgstr ""
+msgstr "&Ei otsikkoa ja kehystä"
 
 #: useractions.cpp:280
 #, kde-format
 msgid "Set Window Short&cut..."
-msgstr ""
+msgstr "Aseta ikkunan p&ikakuvake..."
 
 #: useractions.cpp:286
 #, kde-format
