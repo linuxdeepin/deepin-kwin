@@ -1730,61 +1730,61 @@ msgstr "Ikkunan minimikoko"
 #: rulesettings.kcfg:104
 #, kde-format
 msgid "Window minimum size rule type"
-msgstr ""
+msgstr "Ikkunan minimikoonsäännön tyyppi"
 
 #. i18n: ectx: label, entry (maxsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:109
 #, kde-format
 msgid "Window maximum size"
-msgstr ""
+msgstr "Ikkunan maksimikoko"
 
 #. i18n: ectx: label, entry (maxsizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:113
 #, kde-format
 msgid "Window maximum size rule type"
-msgstr ""
+msgstr "Ikkunan maksimikoonsäännön tyyppi"
 
 #. i18n: ectx: label, entry (opacityactive), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
-msgstr ""
+msgstr "Aktiivinen läpinäkyvyys"
 
 #. i18n: ectx: label, entry (opacityactiverule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
-msgstr ""
+msgstr "Aktiivisen läpinäkyvyyssäännön tyyppi"
 
 #. i18n: ectx: label, entry (opacityinactive), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
-msgstr ""
+msgstr "Passiivinen läpinäkyvyys"
 
 #. i18n: ectx: label, entry (opacityinactiverule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
-msgstr ""
+msgstr "Passiivisen läpinäkyvyyssäännön tyyppi"
 
 #. i18n: ectx: label, entry (ignoregeometry), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
-msgstr ""
+msgstr "Ohita pyydetty geometria"
 
 #. i18n: ectx: label, entry (ignoregeometryrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
-msgstr ""
+msgstr "Ohita pyydetty geometriasäännön tyyppi"
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
