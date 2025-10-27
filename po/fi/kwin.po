@@ -1820,7 +1820,7 @@ msgstr "Toiminta"
 #: rulesettings.kcfg:176
 #, kde-format
 msgid "Activity rule type"
-msgstr "Toiminta säännön tyyppi"
+msgstr "Toiminnan sääntö"
 
 #. i18n: ectx: label, entry (type), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:183
@@ -1832,7 +1832,7 @@ msgstr "Aseta ikkunan tyypiksi"
 #: rulesettings.kcfg:189
 #, kde-format
 msgid "Set window type rule type"
-msgstr "Aseta ikkunatyypin säännön tyyppi"
+msgstr "Aseta ikkunatyyppi sääntö"
 
 #. i18n: ectx: label, entry (maximizevert), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:194
@@ -1845,7 +1845,7 @@ msgstr "Maksimoitu pystysuunnassa"
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
-msgstr "Maksimoitu pystysuuntaan säännön tyyppi"
+msgstr "Maksimoitu pystysuuntaan sääntö"
 
 #. i18n: ectx: label, entry (maximizehoriz), group
 #. ($(ruleDescriptionOrNumber))
@@ -1859,7 +1859,7 @@ msgstr "Maksimoitu vaakasuunnassa"
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
-msgstr "Maksimoitu vaakasuuntaan säännön tyyppi"
+msgstr "Maksimoitu vaakasuuntaan sääntö"
 
 #. i18n: ectx: label, entry (minimize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:216
@@ -1871,7 +1871,7 @@ msgstr "Minimoitu"
 #: rulesettings.kcfg:220
 #, kde-format
 msgid "Minimized rule type"
-msgstr "Minimoitu säännön tyyppi"
+msgstr "Minimoidun sääntö"
 
 #. i18n: ectx: label, entry (shade), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:227
@@ -1883,7 +1883,7 @@ msgstr "Varjostettu"
 #: rulesettings.kcfg:231
 #, kde-format
 msgid "Shaded rule type"
-msgstr "Varjostettu säännön tyyppi"
+msgstr "Varjostuksen sääntö"
 
 #. i18n: ectx: label, entry (skiptaskbar), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:238
@@ -1896,7 +1896,7 @@ msgstr "Ohita tehtäväpalkki"
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
-msgstr "Ohita tehtäväpalkki sääntö tyyppi"
+msgstr "Ohita tehtäväpalkki sääntö"
 
 #. i18n: ectx: label, entry (skippager), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:249
@@ -1909,7 +1909,7 @@ msgstr "Ohita sivutus"
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
-msgstr "Ohita sivutus sääntö tyyppi"
+msgstr "Ohita sivutus sääntö"
 
 #. i18n: ectx: label, entry (skipswitcher), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:260
@@ -1922,7 +1922,7 @@ msgstr "Ohita vaihtaja"
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
-msgstr "Ohita vaihtaja säännön tyyppi"
+msgstr "Ohita vaihtaja sääntö"
 
 #. i18n: ectx: label, entry (above), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:271
@@ -1934,7 +1934,7 @@ msgstr "Pidä yllä"
 #: rulesettings.kcfg:275
 #, kde-format
 msgid "Keep above rule type"
-msgstr "Pidä päälimmäisenä sääntö tyyppi"
+msgstr "Pidä päälimmäisenä sääntö"
 
 #. i18n: ectx: label, entry (below), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:282
@@ -1946,7 +1946,7 @@ msgstr "Pidä alla"
 #: rulesettings.kcfg:286
 #, kde-format
 msgid "Keep below rule type"
-msgstr "Pidä allmaisena sääntö tyyppi"
+msgstr "Pidä allmaisena sääntö"
 
 #. i18n: ectx: label, entry (fullscreen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:293
@@ -1959,7 +1959,7 @@ msgstr "Koko näyttö"
 #: rulesettings.kcfg:297
 #, kde-format
 msgid "Fullscreen rule type"
-msgstr "Koko näytössä sääntö tyyppi"
+msgstr "Koko näytössä sääntö"
 
 #. i18n: ectx: label, entry (noborder), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:304
@@ -1971,7 +1971,7 @@ msgstr "Ei otsikkoa ja kehystä"
 #: rulesettings.kcfg:308
 #, kde-format
 msgid "No titlebar rule type"
-msgstr "Ei otsikkoa ja kehystä sääntö tyyppi"
+msgstr "Ei otsikkoa ja kehystä sääntö"
 
 #. i18n: ectx: label, entry (decocolor), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:315
@@ -1984,21 +1984,21 @@ msgstr "Otsikkopalkin väri ja teema"
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
-msgstr "Otsikkopalkin väri ja teema sääntö tyyppi"
+msgstr "Otsikkopalkin väri ja teema sääntö"
 
 #. i18n: ectx: label, entry (blockcompositing), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
-msgstr ""
+msgstr "Estä koostaminen"
 
 #. i18n: ectx: label, entry (blockcompositingrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
-msgstr ""
+msgstr "Estä koostaminen sääntö"
 
 #. i18n: ectx: label, entry (fsplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:332
