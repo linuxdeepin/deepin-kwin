@@ -2464,12 +2464,12 @@ msgstr "Ikkunan koko"
 #: useractions.cpp:1001
 #, kde-format
 msgid "Raise Window"
-msgstr "Nosta ikkunaa"
+msgstr "Ikkunan nosto"
 
 #: useractions.cpp:1003
 #, kde-format
 msgid "Lower Window"
-msgstr "Alempi ikkuna"
+msgstr "Ikkunan lasku"
 
 #: useractions.cpp:1005
 #, kde-format
@@ -2479,7 +2479,7 @@ msgstr "Vaihda Ikkunan nosto/lasku"
 #: useractions.cpp:1007
 #, kde-format
 msgid "Make Window Fullscreen"
-msgstr ""
+msgstr "Ikkuna koko näyttöön"
 
 #: useractions.cpp:1009
 #, kde-format
