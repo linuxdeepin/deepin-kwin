@@ -2205,11 +2205,11 @@ msgstr "Selaa läpi sovelluksien ikkunoita (käänteinen)"
 
 #: tabbox/tabbox.cpp:527
 msgid "Walk Through Windows of Current Application Alternative"
-msgstr ""
+msgstr "Vaihtoehtoisesti selaa nykyisen sovelluksen ikkunoita"
 
 #: tabbox/tabbox.cpp:528
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-msgstr ""
+msgstr "Vaihtoehtoisesti selaa nykyisen sovelluksen ikkunoita (käänteinen)"
 
 #: tabbox/tabbox.cpp:529
 msgid "Walk Through Desktops"
