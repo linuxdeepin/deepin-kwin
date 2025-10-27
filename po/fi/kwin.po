@@ -1552,66 +1552,66 @@ msgstr "(poista) käynnissä oleva ikkunan varjostus %1"
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:311
 #, kde-format
 msgid "Toggle keep above for running window on %1"
-msgstr ""
+msgstr "Vaihda pidä päälimmäisenä, kun ikkuna on käynnissä %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:314
 #, kde-format
 msgid "Toggle keep below running window on %1"
-msgstr ""
+msgstr "Vaihda pidä alinmaisena, kun ikkuna on käynnissä %1"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:318
 #, kde-format
 msgid "Activate running window on %1"
-msgstr ""
+msgstr "Aktivoi käynnissä oleva ikkuna %1"
 
 #: plugins/nightcolor/nightcolormanager.cpp:63
 #, kde-format
 msgctxt "Night Color was disabled"
 msgid "Night Color Off"
-msgstr ""
+msgstr "Yöväri pois"
 
 #: plugins/nightcolor/nightcolormanager.cpp:64
 #, kde-format
 msgctxt "Night Color was enabled"
 msgid "Night Color On"
-msgstr ""
+msgstr "Yöväri päällä"
 
 #: plugins/nightcolor/nightcolormanager.cpp:84
 #: plugins/nightcolor/nightcolormanager.cpp:87
 #: plugins/nightcolor/nightcolormanager.cpp:94
 #, kde-format
 msgid "Toggle Night Color"
-msgstr ""
+msgstr "Vaihda yöväriä"
 
 #: plugins/nightcolor/nightcolormanager.cpp:471
 #, kde-format
 msgid "Color Temperature Preview"
-msgstr ""
+msgstr "Värilämpötilan esikatselu"
 
 #. i18n: ectx: label, entry (count), group (General)
 #: rulebooksettingsbase.kcfg:9
 #, kde-format
 msgid "Total rules count (legacy)"
-msgstr ""
+msgstr "Sääntöjen määrä (vanhat)"
 
 #. i18n: ectx: label, entry (ruleGroupList), group (General)
 #: rulebooksettingsbase.kcfg:13
 #, kde-format
 msgid "Ordered list of rules groups"
-msgstr ""
+msgstr "Luettelo sääntöryhmistä"
 
 #. i18n: ectx: label, entry (description), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:10
 #, kde-format
 msgid "Rule description"
-msgstr ""
+msgstr "Säännön kuvaus"
 
 #. i18n: ectx: label, entry (descriptionLegacy), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
-msgstr ""
+msgstr "Säännön kuvaus (vanha)"
 
 #. i18n: ectx: label, entry (DeleteRule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:16
