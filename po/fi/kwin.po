@@ -1617,51 +1617,51 @@ msgstr "Säännön kuvaus (vanha)"
 #: rulesettings.kcfg:16
 #, kde-format
 msgid "Delete this rule (for use in imports)"
-msgstr ""
+msgstr "Poista tämä sääntö (tuontiin)"
 
 #. i18n: ectx: label, entry (wmclass), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:20
 #, kde-format
 msgid "Window class (application)"
-msgstr ""
+msgstr "Ikkunaluokka (sovellus)"
 
 #. i18n: ectx: label, entry (wmclassmatch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:23
 #, kde-format
 msgid "Window class string match type"
-msgstr ""
+msgstr "Ikkunaluokan merkistön vastaavuustyyppi"
 
 #. i18n: ectx: label, entry (wmclasscomplete), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
-msgstr ""
+msgstr "Vastaa koko ikkunaluokkaan"
 
 #. i18n: ectx: label, entry (windowrole), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:34
 #, kde-format
 msgid "Window role"
-msgstr ""
+msgstr "Ikkunan rooli"
 
 #. i18n: ectx: label, entry (windowrolematch), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
-msgstr ""
+msgstr "Ikkunan roolimerkistön vastaavuustyyppi"
 
 #. i18n: ectx: label, entry (title), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:44
 #, kde-format
 msgid "Window title"
-msgstr ""
+msgstr "Ikkunan otsikko"
 
 #. i18n: ectx: label, entry (titlematch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:47
 #, kde-format
 msgid "Window title string match type"
-msgstr ""
+msgstr "Ikkunan otsikon merkistön vastaavuustyyppi"
 
 #. i18n: ectx: label, entry (clientmachine), group
 #. ($(ruleDescriptionOrNumber))
