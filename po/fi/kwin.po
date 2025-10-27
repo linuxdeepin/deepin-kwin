@@ -1316,6 +1316,8 @@ msgid ""
 "Wayland socket to use for incoming connections. This can be combined with "
 "--socket to name the socket"
 msgstr ""
+"Wayland-socket saapuville yhteyksille. Tämä voidaan yhdistää --socket "
+"valitsimen kanssa soketin nimeämiseksi."
 
 #: main_wayland.cpp:349
 #, kde-format
@@ -1323,26 +1325,30 @@ msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr ""
+"XWayland-socket Xwaylandin saapuville yhteyksille. Tämä voidaan asettaa "
+"useita kertoja"
 
 #: main_wayland.cpp:353
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
-msgstr ""
+msgstr "Esiasetetun xwayland näyttönimi"
 
 #: main_wayland.cpp:357
 #, kde-format
 msgid "Name of the xauthority file "
-msgstr ""
+msgstr "Nimi xauthority-tiedostolle"
 
 #: main_wayland.cpp:361
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
 msgstr ""
+"Poistuu tästä instanssista, jotta kwin_wayland_wrapper voi käynnistää sen "
+"uudelleen."
 
 #: main_wayland.cpp:363
 #, kde-format
 msgid "Render through drm node."
-msgstr ""
+msgstr "Renderöi DRM-solmun kautta."
 
 #: main_wayland.cpp:364
 #, kde-format
