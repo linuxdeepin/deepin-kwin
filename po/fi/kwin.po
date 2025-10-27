@@ -2067,67 +2067,67 @@ msgstr "Identtinen ryhmittely autom. sääntö"
 #: rulesettings.kcfg:381
 #, kde-format
 msgid "Autogroup in foreground"
-msgstr ""
+msgstr "Ryhmittely eteen autom."
 
 #. i18n: ectx: label, entry (autogroupfgrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
-msgstr ""
+msgstr "Ryhmittely eteen autom. sääntö"
 
 #. i18n: ectx: label, entry (autogroupid), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:390
 #, kde-format
 msgid "Autogroup by ID"
-msgstr ""
+msgstr "Autom. ryhmittely id:n mukaan"
 
 #. i18n: ectx: label, entry (autogroupidrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
-msgstr ""
+msgstr "Autom. ryhmittely id:n mukaan sääntö"
 
 #. i18n: ectx: label, entry (strictgeometry), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
-msgstr ""
+msgstr "Noudata geometrian rajoituksia"
 
 #. i18n: ectx: label, entry (strictgeometryrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
-msgstr ""
+msgstr "Geometrian rajoitusten noudattamisen sääntö"
 
 #. i18n: ectx: label, entry (shortcut), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:407
 #, kde-format
 msgid "Shortcut"
-msgstr ""
+msgstr "Pikanäppäin"
 
 #. i18n: ectx: label, entry (shortcutrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:410
 #, kde-format
 msgid "Shortcut rule type"
-msgstr ""
+msgstr "Pikanäppäimen sääntö"
 
 #. i18n: ectx: label, entry (disableglobalshortcuts), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
-msgstr ""
+msgstr "Ohita pikanäppäimet"
 
 #. i18n: ectx: label, entry (disableglobalshortcutsrule), group
 #. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
-msgstr ""
+msgstr "Ohita pikanäppäimet sääntö"
 
 #. i18n: ectx: label, entry (desktopfile), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:426
