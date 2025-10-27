@@ -2288,17 +2288,17 @@ msgstr "&Ei otsikkoa ja kehystä"
 #: useractions.cpp:280
 #, kde-format
 msgid "Set Window Short&cut..."
-msgstr "Aseta ikkunan p&ikakuvake..."
+msgstr "Aseta ikkunan pikaku&vake..."
 
 #: useractions.cpp:286
 #, kde-format
 msgid "Configure Special &Window Settings..."
-msgstr ""
+msgstr "Määritä &ikkunan lisäasetukset..."
 
 #: useractions.cpp:291
 #, kde-format
 msgid "Configure S&pecial Application Settings..."
-msgstr ""
+msgstr "Määritä &sovelluksen lisäasetukset..."
 
 #: useractions.cpp:298
 #, kde-format
@@ -2306,17 +2306,17 @@ msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Configure W&indow Manager..."
-msgstr ""
+msgstr "Määritä &ikkunanhallinta..."
 
 #: useractions.cpp:325
 #, kde-format
 msgid "Ma&ximize"
-msgstr ""
+msgstr "Maksi&moi"
 
 #: useractions.cpp:331
 #, kde-format
 msgid "Mi&nimize"
-msgstr ""
+msgstr "Mi&nimoi"
 
 #: useractions.cpp:337
 #, kde-format
