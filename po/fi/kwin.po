@@ -2822,26 +2822,26 @@ msgstr ""
 #~ msgstr "&Ei reunaa"
 
 #~ msgid "Toggle Window Border"
-#~ msgstr ""
+#~ msgstr "Vaihda Ikkunan reuna"
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"
-#~ msgstr ""
+#~ msgstr "Lisäosa ei tarjoa määritystä odotetussa paikassa"
 
 #~ msgid "Invert Screen Colors"
-#~ msgstr ""
+#~ msgstr "Käännä näytön värit"
 
 #~ msgid "List all available backends and quit."
-#~ msgstr ""
+#~ msgstr "Listaa kaikki saatavilla olevat taustapalvelut ja lopeta."
 
 #~ msgid "Show Desktop"
 #~ msgstr "Näytä työpöytä"
 
 #~ msgid "X11 Client Windows"
-#~ msgstr ""
+#~ msgstr "X11-ikkunat"
 
 #~ msgid "unknown"
-#~ msgstr ""
+#~ msgstr "tuntematon"
 
 #~ msgid "Render to framebuffer."
 #~ msgstr ""
