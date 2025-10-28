@@ -2714,42 +2714,42 @@ msgstr "Vaihda edelliseen näyttöön"
 #: useractions.cpp:1121
 #, kde-format
 msgid "Switch to Screen to the Right"
-msgstr ""
+msgstr "Vaihda näyttöön oikealla"
 
 #: useractions.cpp:1123
 #, kde-format
 msgid "Switch to Screen to the Left"
-msgstr ""
+msgstr "Vaihda näyttöön vasemmalla"
 
 #: useractions.cpp:1125
 #, kde-format
 msgid "Switch to Screen Above"
-msgstr ""
+msgstr "Vaihda näyttöön yllä"
 
 #: useractions.cpp:1127
 #, kde-format
 msgid "Switch to Screen Below"
-msgstr ""
+msgstr "Vaihda näyttöön alla"
 
 #: useractions.cpp:1130
 #, kde-format
 msgid "Peek at Desktop"
-msgstr ""
+msgstr "Kurkista työpöydälle"
 
 #: useractions.cpp:1133
 #, kde-format
 msgid "Kill Window"
-msgstr ""
+msgstr "Sulje ikkuna"
 
 #: useractions.cpp:1134
 #, kde-format
 msgid "Suspend Compositing"
-msgstr ""
+msgstr "Keskeytä koostaminen"
 
 #: useractions.cpp:1195
 #, kde-format
 msgid "Activate Window (%1)"
-msgstr ""
+msgstr "Aktivoi ikkuna (%1)"
 
 #: useractions.cpp:1332
 #, kde-format
@@ -2804,7 +2804,7 @@ msgstr "Vaihda työpöydälle %1"
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
-msgstr ""
+msgstr "(ei vastaa)"
 
 #: workspace.cpp:1846
 #, kde-format
@@ -2819,7 +2819,7 @@ msgid ""
 msgstr ""
 
 #~ msgid "&No Border"
-#~ msgstr ""
+#~ msgstr "&Ei reunaa"
 
 #~ msgid "Toggle Window Border"
 #~ msgstr ""
