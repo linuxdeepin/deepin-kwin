@@ -3289,49 +3289,49 @@ msgstr ""
 #~ msgstr "Ikkuna työpöydälle 6"
 
 #~ msgid "Switch to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 7"
 
 #~ msgid "Switch to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 8"
 
 #~ msgid "Switch to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 9"
 
 #~ msgid "Switch to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 10"
 
 #~ msgid "Switch to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 11"
 
 #~ msgid "Switch to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 12"
 
 #~ msgid "Switch to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 13"
 
 #~ msgid "Switch to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 14"
 
 #~ msgid "Switch to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 15"
 
 #~ msgid "Switch to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 16"
 
 #~ msgid "Switch to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 17"
 
 #~ msgid "Switch to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 18"
 
 #~ msgid "Switch to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 19"
 
 #~ msgid "Switch to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 20"
 
 #~ msgid "Switch to Screen 2"
-#~ msgstr ""
+#~ msgstr "Vaihda Ikkunaan 2"
 
 #~ msgid "Switch to Screen 3"
 #~ msgstr ""
