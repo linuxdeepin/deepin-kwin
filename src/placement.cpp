@@ -582,6 +582,8 @@ void Placement::placeMaximizing(Window *c, const QRect &area, PlacementPolicy ne
  */
 void Placement::cascadeIfCovering(Window *window, const QRectF &area)
 {
+    if (window->isSplash())
+        return;
     const QPoint offset = workspace()->cascadeOffset(window);
 
     VirtualDesktop *const desktop = window->isOnCurrentDesktop() ? VirtualDesktopManager::self()->currentDesktop() : window->desktops().front();
