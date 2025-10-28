@@ -2253,6 +2253,8 @@ msgid ""
 "You have selected to show a window in fullscreen mode.\n"
 "If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
+"Olet valinnut ikkunan näyttämisen koko näytössä.\n"
+"Et voi ottaa kokonäyttöä pois hiirellä: käytä sen sijaan ikkunoiden toiminta valikkoa, joka aktivoidaan %1 pikanäppäimellä."
 
 #: useractions.cpp:238
 #, kde-format
