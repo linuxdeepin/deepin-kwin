@@ -3442,45 +3442,47 @@ msgstr ""
 #~ msgstr "Vaihda käänteinen tehoste"
 
 #~ msgid "Clear All Mouse Marks"
-#~ msgstr "Poista kaikki hiiren merkit"
+#~ msgstr "Poista kaikki hiiren jäljet"
 
 #~ msgid "Clear Last Mouse Mark"
 #~ msgstr "Poista viimeisin hiiren jälki"
 
 #~ msgid "Clear Mouse Marks"
-#~ msgstr "Poista hiiren merkit"
+#~ msgstr "Poista hiiren jälki"
 
 #~ msgid ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Suodatin:\n"
+#~ "%1"
 
 #~ msgid "Snow"
-#~ msgstr ""
+#~ msgstr "Lunta"
 
 #~ msgid "Toggle Snow on Desktop"
-#~ msgstr ""
+#~ msgstr "Lunta työpöydälle"
 
 #~ msgid "Toggle Thumbnail for Current Window"
-#~ msgstr ""
+#~ msgstr "Pikkukuva nykyiselle ikkunalle"
 
 #~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
-#~ msgstr ""
+#~ msgstr "Pidä Ctrl+Meta pohjassa ja näet hiiren kursorin sijainnin."
 
 #~ msgid "Path to save video:"
-#~ msgstr ""
+#~ msgstr "Videon tallennuspolku:"
 
 #~ msgid "None"
 #~ msgstr "Ei mitään"
 
 #~ msgid "X offset:"
-#~ msgstr ""
+#~ msgstr "X-siirtymä:"
 
 #~ msgid "Y offset:"
-#~ msgstr ""
+#~ msgstr "Y-siirtymä:"
 
 #~ msgid "Shadow opacity:"
-#~ msgstr ""
+#~ msgstr "Varjon peittävyys:"
 
 #~ msgid "Shadow fuzziness:"
 #~ msgstr ""
