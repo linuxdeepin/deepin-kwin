@@ -2857,40 +2857,40 @@ msgstr ""
 #~ "sisäkkäisessä istunnossa. \t(vanhentunut)"
 
 #~ msgid "Pack Window to the Right"
-#~ msgstr ""
+#~ msgstr "Pakkaa ikkuna oikealle"
 
 #~ msgid "Pack Window to the Left"
-#~ msgstr ""
+#~ msgstr "Pakkaa ikkuna vasemmalle"
 
 #~ msgid "Pack Window Up"
-#~ msgstr ""
+#~ msgstr "Pakkaa ikkuna ylös"
 
 #~ msgid "Pack Window Down"
-#~ msgstr ""
+#~ msgstr "Pakkaa ikkuna alas"
 
 #~ msgid "Pack Grow Window Horizontally"
-#~ msgstr ""
+#~ msgstr "Pakkaa ikkunaa vaakasuuntaan"
 
 #~ msgid "Pack Grow Window Vertically"
-#~ msgstr ""
+#~ msgstr "Pakkaa ikkunaa pystysuuntaan"
 
 #~ msgid "Desktop number"
-#~ msgstr ""
+#~ msgstr "Työpöydän numero"
 
 #~ msgid "Configure virtual keyboards..."
-#~ msgstr ""
+#~ msgstr "Määritä virtuaalinäppäimistö..."
 
 #~ msgid "Virtual Keyboard"
 #~ msgstr "Virtuaalinäppäimistö"
 
 #~ msgid "Whether to show the virtual keyboard on demand."
-#~ msgstr ""
+#~ msgstr "Näytetäänkö virtuaalinäppäimistö pyynnöstä."
 
 #~ msgid "Virtual Keyboard: enabled"
-#~ msgstr ""
+#~ msgstr "Virtuaalinäppäimistö: käytössä"
 
 #~ msgid "Virtual Keyboard: disabled"
-#~ msgstr ""
+#~ msgstr "Virtuaalinäppäimistö: ei käytössä"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
