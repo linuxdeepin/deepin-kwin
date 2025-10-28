@@ -672,16 +672,13 @@ bool Workspace::updateXStackingOrder()
     xcb_window_t *windows = tree.children();
 
     const auto count = tree.data()->children_len;
-    bool changed = false;
     for (unsigned int i = 0; i < count; ++i) {
         auto window = findUnmanaged(windows[i]);
         if (window) {
-            unconstrained_stacking_order.removeAll(window);
-            unconstrained_stacking_order.append(window);
-            changed = true;
+            return true;
         }
     }
-    return changed;
+    return false;
 }
 
 //*******************************
