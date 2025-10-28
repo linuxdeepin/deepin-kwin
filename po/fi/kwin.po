@@ -26,12 +26,14 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Ken Knight, Dwayne Bailey, Steve Allewell"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
+"anarchist_tomato@herzeleid.net, dwayne@translate.org.za, "
+"steve.allewell@gmail.com"
 
 #: composite.cpp:646
 #, kde-format
