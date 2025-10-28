@@ -2244,6 +2244,8 @@ msgid ""
 "You have selected to show a window without its border.\n"
 "Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
+"Olet valinnut ikkunan näyttämisen ilman reunaa.\n"
+"Et voi ottaa reunaa uudelleen käyttöön hiirellä: käytä sen sijaan ikkunoiden toiminta valikkoa, joka aktivoidaan %1 pikanäppäimellä."
 
 #: useractions.cpp:168
 #, kde-format
