@@ -2971,35 +2971,35 @@ msgstr ""
 
 #~ msgctxt "Switch to tab -> Next"
 #~ msgid "Next"
-#~ msgstr ""
+#~ msgstr "Seuraava"
 
 #~ msgctxt "There's no window available to be attached as tab to this one"
 #~ msgid "None available"
-#~ msgstr ""
+#~ msgstr "Ei saatavilla"
 
 #~ msgid "Switch to Tab"
-#~ msgstr ""
+#~ msgstr "Vaihda välilehteen"
 
 #~ msgid "&Attach as tab to"
-#~ msgstr ""
+#~ msgstr "&Liitä välilehdeksi kohteeseen"
 
 #~ msgctxt ""
 #~ "Entry in context menu of window decoration to open the configuration module "
 #~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
-#~ msgstr ""
+#~ msgstr "Ikkunoiden hallinta as&etukset..."
 
 #~ msgid "Automatic Screen Rotation"
-#~ msgstr ""
+#~ msgstr "Autom. näytön pyöritys"
 
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr "kwin_wayland: X11-ikkunanhallinta on käynnissä X11-näytössä.\n"
 
 #~ msgid "Martin Gräßlin"
-#~ msgstr ""
+#~ msgstr "Martin Gräßlin"
 
 #~ msgid "Maintainer"
-#~ msgstr ""
+#~ msgstr "Kehittäjä"
 
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -3063,7 +3063,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "KWin: "
-#~ msgstr ""
+#~ msgstr "KWin: "
 
 #~ msgid "System"
 #~ msgstr ""
