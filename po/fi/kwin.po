@@ -3057,25 +3057,29 @@ msgstr ""
 #~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
 #~ " set.\n"
 #~ msgstr ""
+#~ "kwin_wayland: Waylandiin ei saatu yhteyttä, varmista, että WAYLAND_DISPLAY "
+#~ "on asetettu.\n"
 
 #~ msgid ""
 #~ "The X11 Display to connect to. If not set next free number will be picked."
 #~ msgstr ""
+#~ "Yhdistettävä X11-näyttö. Jos sitä ei ole määritetty, valitaan seuraava vapaa"
+#~ " numero."
 
 #~ msgid "KWin: "
 #~ msgstr "KWin: "
 
 #~ msgid "System"
-#~ msgstr ""
+#~ msgstr "Järjestelmä"
 
 #~ msgid "Navigation"
-#~ msgstr ""
+#~ msgstr "Selaaminen"
 
 #~ msgid "Window & Desktop"
-#~ msgstr ""
+#~ msgstr "Ikkuna ja työpöytä"
 
 #~ msgid "Miscellaneous"
-#~ msgstr ""
+#~ msgstr "Sekalaiset"
 
 #~ msgid "Desktop Switching"
 #~ msgstr "Työpöydän vaihto"
@@ -3095,26 +3099,26 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Window '%1' demands attention."
-#~ msgstr ""
+#~ msgstr "Ikkuna \"%1\" vaatii huomiota."
 
 #~ msgid "Layout changed to %1"
-#~ msgstr ""
+#~ msgstr "Asettelu vaihdettu %1"
 
 #~ msgctxt "Spiral tiling layout"
 #~ msgid "Spiral"
-#~ msgstr ""
+#~ msgstr "Spiraali"
 
 #~ msgctxt "Two-column horizontal tiling layout"
 #~ msgid "Columns"
-#~ msgstr ""
+#~ msgstr "Sarakkeet"
 
 #~ msgctxt "Floating layout, windows aren't tiled at all"
 #~ msgid "Floating"
-#~ msgstr ""
+#~ msgstr "Kelluva"
 
 #~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
 #~ msgid "&Float Window"
-#~ msgstr ""
+#~ msgstr "&Kelluva ikkuna"
 
 #~ msgid "Ad&vanced"
 #~ msgstr ""
