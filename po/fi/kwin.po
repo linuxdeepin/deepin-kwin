@@ -3518,20 +3518,24 @@ msgstr ""
 #~ msgstr "Palauta peittävyys oletukseen"
 
 #~ msgid "Slide this to set the window's opacity"
-#~ msgstr ""
+#~ msgstr "Liu'uta ja aseta ikkunan peittävyys"
 
 #~ msgid ""
 #~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
 #~ " in a $PATH directory."
 #~ msgstr ""
+#~ "Koostamista ei voitu käynnistää.\\nVarmista, että \"kompmgr\" on $PATH-"
+#~ "hakemistossa."
 
 #~ msgid ""
 #~ "The Composite Manager crashed twice within a minute and is therefore "
 #~ "disabled for this session."
 #~ msgstr ""
+#~ "Koostaminen kaatui kahdesti minuutin sisällä ja on poistettu käytöstä tämän "
+#~ "istunnon ajaksi."
 
 #~ msgid "Composite Manager Failure"
-#~ msgstr ""
+#~ msgstr "Koostamisen virhe"
 
 #~ msgid ""
 #~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
