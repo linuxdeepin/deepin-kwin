@@ -2594,52 +2594,52 @@ msgstr "Ikkuna oikeaan alakulmaan"
 #: useractions.cpp:1053
 #, kde-format
 msgid "Switch to Window Above"
-msgstr ""
+msgstr "Vaihda ikkunaan yllä"
 
 #: useractions.cpp:1055
 #, kde-format
 msgid "Switch to Window Below"
-msgstr ""
+msgstr "Vaihda ikkunaan alla"
 
 #: useractions.cpp:1057
 #, kde-format
 msgid "Switch to Window to the Right"
-msgstr ""
+msgstr "Vaihda ikkunaan oikealla"
 
 #: useractions.cpp:1059
 #, kde-format
 msgid "Switch to Window to the Left"
-msgstr ""
+msgstr "Vaihda ikkunaan vasemmalla"
 
 #: useractions.cpp:1061
 #, kde-format
 msgid "Increase Opacity of Active Window by 5%"
-msgstr ""
+msgstr "Lisää aktiivisen ikkunan läpinäkyvyyttä 5%"
 
 #: useractions.cpp:1063
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5%"
-msgstr ""
+msgstr "Vähennä aktiivisen ikkunan läpinäkyvyyttä 5%"
 
 #: useractions.cpp:1066
 #, kde-format
 msgid "Keep Window on All Desktops"
-msgstr ""
+msgstr "Pidä ikkuna kaikilla työpöydillä"
 
 #: useractions.cpp:1077
 #, kde-format
 msgid "Window to Desktop %1"
-msgstr ""
+msgstr "Ikkuna työpöydälle %1"
 
 #: useractions.cpp:1079
 #, kde-format
 msgid "Window to Next Desktop"
-msgstr ""
+msgstr "Ikkuna seuraavalle työpöydälle"
 
 #: useractions.cpp:1080
 #, kde-format
 msgid "Window to Previous Desktop"
-msgstr ""
+msgstr "Ikkuna edelliseen työpöytään"
 
 #: useractions.cpp:1081
 #, kde-format
