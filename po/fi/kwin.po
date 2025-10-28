@@ -2544,52 +2544,52 @@ msgstr "Laajenna ikkunaa pystysuuntaan"
 #: useractions.cpp:1033
 #, kde-format
 msgid "Shrink Window Horizontally"
-msgstr "Kutista ikkuna vaakasuuntaan"
+msgstr "Kutista ikkunaa vaakasuuntaan"
 
 #: useractions.cpp:1035
 #, kde-format
 msgid "Shrink Window Vertically"
-msgstr "Kutista ikkuna pystysuuntaan"
+msgstr "Kutista ikkunaa pystysuuntaan"
 
 #: useractions.cpp:1037
 #, kde-format
 msgid "Quick Tile Window to the Left"
-msgstr "Aseta ikkuna vierekkäin vasemmalle"
+msgstr "Ikkuna vierekkäin vasemmalle"
 
 #: useractions.cpp:1039
 #, kde-format
 msgid "Quick Tile Window to the Right"
-msgstr "Aseta ikkuna vierekkäin oikealle"
+msgstr "Ikkuna vierekkäin oikealle"
 
 #: useractions.cpp:1041
 #, kde-format
 msgid "Quick Tile Window to the Top"
-msgstr "Aseta ikkuna vierekkäin ylös"
+msgstr "Ikkuna vierekkäin ylös"
 
 #: useractions.cpp:1043
 #, kde-format
 msgid "Quick Tile Window to the Bottom"
-msgstr "Aseta ikkuna vierekkäin alas"
+msgstr "Ikkuna vierekkäin alas"
 
 #: useractions.cpp:1045
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
-msgstr ""
+msgstr "Ikkuna vasenpaan yläkulmaan"
 
 #: useractions.cpp:1047
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
-msgstr ""
+msgstr "Ikkuna vasempaan alakulmaan"
 
 #: useractions.cpp:1049
 #, kde-format
 msgid "Quick Tile Window to the Top Right"
-msgstr ""
+msgstr "Ikkuna oikeaan yläkulmaan"
 
 #: useractions.cpp:1051
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
-msgstr ""
+msgstr "Ikkuna oikeaan alakulmaan"
 
 #: useractions.cpp:1053
 #, kde-format
