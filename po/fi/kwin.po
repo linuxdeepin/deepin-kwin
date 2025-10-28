@@ -3334,19 +3334,19 @@ msgstr ""
 #~ msgstr "Vaihda Ikkunaan 2"
 
 #~ msgid "Switch to Screen 3"
-#~ msgstr ""
+#~ msgstr "Vaihda Ikkunaan 3"
 
 #~ msgid "Switch to Screen 4"
-#~ msgstr ""
+#~ msgstr "Vaihda Ikkunaan 4"
 
 #~ msgid "Switch to Screen 5"
-#~ msgstr ""
+#~ msgstr "Vaihda Ikkunaan 5"
 
 #~ msgid "Switch to Screen 6"
-#~ msgstr ""
+#~ msgstr "Vaihda Ikkunaan 6"
 
 #~ msgid "Switch to Screen 7"
-#~ msgstr ""
+#~ msgstr "Vaihda Ikkunaan 7"
 
 #~ msgid "<center><b>%1</b></center>"
 #~ msgstr "<center><b>%1</b></center>"
