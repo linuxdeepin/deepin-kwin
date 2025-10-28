@@ -3121,25 +3121,25 @@ msgstr ""
 #~ msgstr "&Kelluva ikkuna"
 
 #~ msgid "Ad&vanced"
-#~ msgstr ""
+#~ msgstr "L&isäasetukset"
 
 #~ msgid "*** No Windows ***"
-#~ msgstr ""
+#~ msgstr "*** Ei ikkunoita ***"
 
 #~ msgid "Load the script testing dialog"
-#~ msgstr ""
+#~ msgstr "Lataa skriptin testausikkuna"
 
 #~ msgid "Remove &From Group"
-#~ msgstr ""
+#~ msgstr "Poista &ryhmästä"
 
 #~ msgid "To the Left"
-#~ msgstr ""
+#~ msgstr "Vasemmalle"
 
 #~ msgid "To the Right"
-#~ msgstr ""
+#~ msgstr "Oikealle"
 
 #~ msgid "&Opacity"
-#~ msgstr ""
+#~ msgstr "&Peittävyys"
 
 #~ msgid ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
