@@ -3409,7 +3409,7 @@ msgstr ""
 #~ msgstr "Siirrä alas"
 
 #~ msgid "Test Dump tiles"
-#~ msgstr ""
+#~ msgstr "Testaa laatat"
 
 #~ msgid "Test Below Cursor"
 #~ msgstr "Testaa kohdistimen alapuolella"
@@ -3439,16 +3439,16 @@ msgstr ""
 #~ msgstr "Alinna"
 
 #~ msgid "Toggle Invert Effect"
-#~ msgstr ""
+#~ msgstr "Vaihda käänteinen tehoste"
 
 #~ msgid "Clear All Mouse Marks"
-#~ msgstr ""
+#~ msgstr "Poista kaikki hiiren merkit"
 
 #~ msgid "Clear Last Mouse Mark"
-#~ msgstr ""
+#~ msgstr "Poista viimeisin hiiren jälki"
 
 #~ msgid "Clear Mouse Marks"
-#~ msgstr ""
+#~ msgstr "Poista hiiren merkit"
 
 #~ msgid ""
 #~ "Filter:\n"
