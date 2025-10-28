@@ -3558,21 +3558,32 @@ msgstr ""
 #~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
 #~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
 #~ msgstr ""
+#~ "<qt><b>Composite-laajennusta ei löytynyt.</b><br> Sinun on <i>käytettävä</i>"
+#~ " XOrg-versiota tai uudempaa versiota 6.8, jotta läpinäkyvyys ja varjot "
+#~ "toimivat. <br>Lisäksi sinun on lisättävä uusi osa X config "
+#~ "-tiedostoon:<br><i> Section \"Extensions\"<br> Option \"Composite\" "
+#~ "\"Enable\"<br> EndSection</i></qt>"
 
 #~ msgid ""
 #~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
 #~ "for translucency and shadows to work.</qt>"
 #~ msgstr ""
+#~ "<qt><b>Damage-laajennusta ei löytynyt.</b><br> Sinun on <i>käytettävä</i> "
+#~ "XOrg-versiota tai versiota 6.8, jotta läpikuulttavuus ja varjot "
+#~ "toimivat.</qt>"
 
 #~ msgid ""
 #~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
 #~ "for translucency and shadows to work.</qt>"
 #~ msgstr ""
+#~ "<qt><b>XFixes-laajennusta ei löytynyt.</b><br> Sinun on <i>käytettävä</i> "
+#~ "XOrg-versiota tai uudempaa versiota 6.8, jotta läpikuulttavuus ja varjot "
+#~ "toimivat.</qt>"
 
 #: workspace.cpp:2507
 #, kde-format
 msgid "The confidential file cannot be displayed"
-msgstr ""
+msgstr "Luottamuksellista tiedostoa ei voi näyttää"
 
 msgid "Minimize"
 msgstr "Pienennä"
