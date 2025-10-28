@@ -3145,11 +3145,14 @@ msgstr ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
 #~ "compiled."
 #~ msgstr ""
+#~ "XRender/XFixes-laajennuksia ei ole saatavilla ja vain XRender käännetään."
 
 #~ msgid ""
 #~ "Compositing was disabled at compile time.\n"
 #~ "It is likely Xorg development headers were not installed."
 #~ msgstr ""
+#~ "Koostaminen poistettiin käytöstä kääntämisen saikana.\n"
+#~ "Todennäköistä, että ei ole \"Xorg development headers\" asennettuna."
 
 #~ msgid "Tiling"
 #~ msgstr "Laatoitus"
@@ -3158,19 +3161,19 @@ msgstr ""
 #~ msgstr "Laatoitus käyttöön tai pois"
 
 #~ msgid "Toggle Floating"
-#~ msgstr ""
+#~ msgstr "Vaihda kelluva"
 
 #~ msgid "Switch Focus Left"
-#~ msgstr ""
+#~ msgstr "Vaihda tarkennus vasemmalle"
 
 #~ msgid "Switch Focus Right"
-#~ msgstr ""
+#~ msgstr "Vaihda tarkennus oikealle"
 
 #~ msgid "Switch Focus Up"
-#~ msgstr ""
+#~ msgstr "Vaihda tarkennus ylös"
 
 #~ msgid "Switch Focus Down"
-#~ msgstr ""
+#~ msgstr "Vaihda tarkennus alas"
 
 #~ msgid "Tiling Disabled"
 #~ msgstr "Laatoitus pois käytöstä"
