@@ -2934,40 +2934,40 @@ msgstr ""
 #~ msgstr "Salli pyöritys"
 
 #~ msgid "Automatic screen rotation is enabled"
-#~ msgstr ""
+#~ msgstr "Autom. näytön pyöritys on käytössä"
 
 #~ msgid "Undefined"
-#~ msgstr ""
+#~ msgstr "Määrittämätön"
 
 #~ msgctxt "Portrait oriented display"
 #~ msgid "Vertical"
-#~ msgstr "Pystysuora"
+#~ msgstr "Pystysuunta"
 
 #~ msgctxt "Landscape oriented display"
 #~ msgid "Horizontal"
-#~ msgstr "Vaakasuora"
+#~ msgstr "Vaakasuunta"
 
 #~ msgid "Automatic screen rotation is disabled"
-#~ msgstr ""
+#~ msgstr "Autom. näytön pyöritys on poistettu käytöstä"
 
 #~ msgid "Walk Through Window Tabs"
-#~ msgstr ""
+#~ msgstr "Selaa ikkunan välilehtien läpi"
 
 #~ msgid "Walk Through Window Tabs (Reverse)"
-#~ msgstr ""
+#~ msgstr "Selaa ikkunan välilehtien läpi (käänteinen)"
 
 #~ msgid "Remove Window From Group"
-#~ msgstr ""
+#~ msgstr "Poista ikkuna ryhmästä"
 
 #~ msgid "&Untab"
-#~ msgstr ""
+#~ msgstr "&Poista välilehti"
 
 #~ msgid "Close Entire &Group"
-#~ msgstr ""
+#~ msgstr "Sulje koko &ryhmä"
 
 #~ msgctxt "Switch to tab -> Previous"
 #~ msgid "Previous"
-#~ msgstr ""
+#~ msgstr "Edellinen"
 
 #~ msgctxt "Switch to tab -> Next"
 #~ msgid "Next"
