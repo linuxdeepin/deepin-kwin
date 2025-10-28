@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "windowstylemanager.h"
+#include "window.h"
 #include "composite.h"
 #include "configreader.h"
 #include "decorationstyle.h"
@@ -65,6 +66,7 @@ void WindowStyleManager::onWindowAdded(Window *window)
     window->updateWindowRadius();
     window->updateWinProperty();
     connect(window, static_cast<void (Window::*)(Window *, bool, bool)>(&Window::clientMaximizedStateChanged), this, &WindowStyleManager::onWindowMaxiChanged);
+    connect(window, &Window::fullScreenChanged, this, &WindowStyleManager::onWindowFullScreenChanged);
     connect(window, &Window::activeChanged, this, &WindowStyleManager::onWindowActiveChanged);
     connect(window, &Window::geometryShapeChanged, this, &WindowStyleManager::onGeometryShapeChanged);
     connect(window, &Window::hasAlphaChanged, this, &WindowStyleManager::onWindowActiveChanged);
@@ -90,6 +92,12 @@ void WindowStyleManager::onThemeChange(QVariant property)
 
 void WindowStyleManager::onWindowMaxiChanged(Window *window, bool h, bool v)
 {
+    window->updateWindowRadius();
+}
+
+void WindowStyleManager::onWindowFullScreenChanged()
+{
+    Window *window = qobject_cast<Window *>(QObject::sender());
     window->updateWindowRadius();
 }
 

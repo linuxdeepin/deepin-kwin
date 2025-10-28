@@ -49,6 +49,7 @@ public Q_SLOTS:
     void onThemeChange(QVariant);
     void onWindowAdded(Window*);
     void onWindowMaxiChanged(Window *, bool, bool);
+    void onWindowFullScreenChanged();
     void onWindowActiveChanged();
     void onGeometryShapeChanged(Window *, QRectF);
     void onCompositingChanged(bool);
