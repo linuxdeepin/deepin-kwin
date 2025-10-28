@@ -2484,57 +2484,57 @@ msgstr "Ikkuna koko näyttöön"
 #: useractions.cpp:1009
 #, kde-format
 msgid "Toggle Window Titlebar and Frame"
-msgstr ""
+msgstr "Ikkunan otsikon ja kehyksen näyttäminen/piilottaminen"
 
 #: useractions.cpp:1011
 #, kde-format
 msgid "Keep Window Above Others"
-msgstr ""
+msgstr "Pidä ikkuna muiden päällä"
 
 #: useractions.cpp:1013
 #, kde-format
 msgid "Keep Window Below Others"
-msgstr ""
+msgstr "Pidä ikkuna muiden alla"
 
 #: useractions.cpp:1015
 #, kde-format
 msgid "Activate Window Demanding Attention"
-msgstr ""
+msgstr "Aktivoi huomiota vaativa ikkuna"
 
 #: useractions.cpp:1017
 #, kde-format
 msgid "Setup Window Shortcut"
-msgstr ""
+msgstr "Asennusikkunan kuvake"
 
 #: useractions.cpp:1019
 #, kde-format
 msgid "Move Window to the Center"
-msgstr ""
+msgstr "Siirrä ikkuna keskelle"
 
 #: useractions.cpp:1021
 #, kde-format
 msgid "Move Window Right"
-msgstr ""
+msgstr "Siirrä ikkuna oikealle"
 
 #: useractions.cpp:1023
 #, kde-format
 msgid "Move Window Left"
-msgstr ""
+msgstr "Siirrä ikkuna vasemmalle"
 
 #: useractions.cpp:1025
 #, kde-format
 msgid "Move Window Up"
-msgstr ""
+msgstr "Siirrä ikkuna ylös"
 
 #: useractions.cpp:1027
 #, kde-format
 msgid "Move Window Down"
-msgstr ""
+msgstr "Siirrä ikkuna alas"
 
 #: useractions.cpp:1029
 #, kde-format
 msgid "Expand Window Horizontally"
-msgstr ""
+msgstr "Laajenna ikkunaa vaakasuuntaan"
 
 #: useractions.cpp:1031
 #, kde-format
