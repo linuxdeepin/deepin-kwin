@@ -3485,37 +3485,37 @@ msgstr ""
 #~ msgstr "Varjon peittävyys:"
 
 #~ msgid "Shadow fuzziness:"
-#~ msgstr ""
+#~ msgstr "Varjon sumeus:"
 
 #~ msgid "Shadow size (relative to window):"
-#~ msgstr ""
+#~ msgstr "Varjon koko (suhteessa ikkunaan):"
 
 #~ msgid "Shadow color:"
-#~ msgstr ""
+#~ msgstr "Varjon väri:"
 
 #~ msgid "Active window has stronger shadow"
-#~ msgstr ""
+#~ msgstr "Aktiivisella ikkunalla on voimakkaampi varjo"
 
 #~ msgid "Toggle Expose Effect"
-#~ msgstr ""
+#~ msgstr "Näytä tehoste"
 
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
-#~ msgstr ""
+#~ msgstr "Näytä tehoste (myös muut työpöydät)"
 
 #~ msgid "Draw window caption on top of window"
-#~ msgstr ""
+#~ msgstr "Piirrä otsikko ikkunan yläreunaan"
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
-#~ msgstr ""
+#~ msgstr "Aktivoi, kun kursori on näytön tietyssä reunassa tai kulmassa:"
 
 #~ msgid "for windows on all desktops: "
-#~ msgstr ""
+#~ msgstr "kaikkien työpöytien ikkunoille:"
 
 #~ msgid "Animate desktop changes"
-#~ msgstr ""
+#~ msgstr "Animoi työpöydän muutokset"
 
 #~ msgid "Reset opacity to default value"
-#~ msgstr ""
+#~ msgstr "Palauta peittävyys oletukseen"
 
 #~ msgid "Slide this to set the window's opacity"
 #~ msgstr ""
