@@ -2844,15 +2844,17 @@ msgstr ""
 #~ msgstr "tuntematon"
 
 #~ msgid "Render to framebuffer."
-#~ msgstr ""
+#~ msgstr "Renderöi kuvapuskuriin."
 
 #~ msgid "The framebuffer device to render to."
-#~ msgstr ""
+#~ msgstr "Kuvapuskuri, johon renderöidään"
 
 #~ msgid ""
 #~ "Enable libinput support for input events processing. Note: never use in a "
 #~ "nested session.\t(deprecated)"
 #~ msgstr ""
+#~ "Ota käyttöön libinput-tuki syötteen käsittelylle. Huomaa: älä koskaan käytä "
+#~ "sisäkkäisessä istunnossa. \t(vanhentunut)"
 
 #~ msgid "Pack Window to the Right"
 #~ msgstr ""
