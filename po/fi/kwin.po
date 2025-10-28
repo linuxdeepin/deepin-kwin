@@ -3185,35 +3185,42 @@ msgstr ""
 #~ "Desktop effects were too slow and have been suspended.\n"
 #~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
+#~ "Tehosteet olivat liian hitaita ja ne keskeytettiin.\n"
+#~ "Voit poistaa toiminnallisuuden tarkistukset käytöstä Järjestelmän asetukset (Työpöydän tehosteet ja Lisäasetukset-välilehdeltä)."
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
 #~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
 #~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
+#~ "Tehosteet olivat liian hitaita ja ne keskeytettiin.\n"
+#~ "Jos kyseessä oli vain väliaikainen ongelma, voit jatkaa painamalla \"%1\".\n"
+#~ "Voit poistaa toiminnallisuuden tarkistukset käytöstä Järjestelmän asetukset (Työpöydän tehosteet ja Lisäasetukset-välilehdeltä)."
 
 #~ msgid ""
 #~ "\n"
 #~ "KWin will now exit..."
 #~ msgstr ""
+#~ "\n"
+#~ "KWin sulkeutuu..."
 
 #~ msgid "Window to Desktop 2"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 2"
 
 #~ msgid "Window to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 3"
 
 #~ msgid "Window to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 4"
 
 #~ msgid "Window to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 5"
 
 #~ msgid "Window to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 6"
 
 #~ msgid "Window to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Ikkuna työpöydälle 7"
 
 #~ msgid "Window to Desktop 8"
 #~ msgstr ""
