@@ -2894,40 +2894,44 @@ msgstr ""
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
-#~ msgstr ""
+#~ msgstr "Väite epäonnistui: %1 ei ole nolla"
 
 #~ msgctxt "Assertion failed in KWin script"
 #~ msgid "Assertion failed: argument is null"
-#~ msgstr ""
+#~ msgstr "Väite epäonnistui: argumentti on nolla"
 
 #~ msgctxt "Error in KWin Script"
 #~ msgid ""
 #~ "Invalid number of arguments. At least service, path, interface and method "
 #~ "need to be provided"
 #~ msgstr ""
+#~ "Virheellinen määrä argumentteja. Vähintään palvelu, polku, rajapinta ja "
+#~ "metodi on annettava."
 
 #~ msgctxt "Error in KWin Script"
 #~ msgid ""
 #~ "Invalid type. Service, path, interface and method need to be string values"
 #~ msgstr ""
+#~ "Virheellinen tyyppi. Palvelun, polun, rajapinnan ja metodin on oltava "
+#~ "merkkijono."
 
 #~ msgctxt "syntax error in KWin script"
 #~ msgid "Invalid number of arguments"
-#~ msgstr ""
+#~ msgstr "Virheellinen määrä argumentteja"
 
 #~ msgctxt ""
 #~ "KWin Scripting function received incorrect value for an expected type"
 #~ msgid "%1 is not a variant type"
-#~ msgstr ""
+#~ msgstr "%1 ei ole variantti"
 
 #~ msgid "Pressed Buttons"
 #~ msgstr "Painetut painikkeet"
 
 #~ msgid "Use libhybris hwcomposer"
-#~ msgstr ""
+#~ msgstr "Käytä libhybris hwcomposer"
 
 #~ msgid "Allow Rotation"
-#~ msgstr ""
+#~ msgstr "Salli pyöritys"
 
 #~ msgid "Automatic screen rotation is enabled"
 #~ msgstr ""
