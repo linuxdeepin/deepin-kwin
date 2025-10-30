@@ -164,8 +164,6 @@ public:
     static PlasmaShellSurfaceInterface *get(wl_resource *native);
     static PlasmaShellSurfaceInterface *get(SurfaceInterface *surface);
 
-    void resetPositionSet();
-
 Q_SIGNALS:
     /**
      * A change of global position has been requested.

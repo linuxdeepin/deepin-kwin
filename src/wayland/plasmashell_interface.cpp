@@ -137,12 +137,8 @@ void PlasmaShellSurfaceInterfacePrivate::org_kde_plasma_surface_set_output(Resou
 
 void PlasmaShellSurfaceInterfacePrivate::org_kde_plasma_surface_set_position(Resource *resource, int32_t x, int32_t y)
 {
-    QPoint globalPos(x, y);
-    if (m_globalPos == globalPos && m_positionSet) {
-        return;
-    }
     m_positionSet = true;
-    m_globalPos = globalPos;
+    m_globalPos = QPoint(x, y);
     Q_EMIT q->positionChanged();
 }
 
@@ -333,10 +329,4 @@ PlasmaShellSurfaceInterface *PlasmaShellSurfaceInterface::get(SurfaceInterface *
     }
     return nullptr;
 }
-
-void PlasmaShellSurfaceInterface::resetPositionSet()
-{
-    d->m_positionSet = false;
-}
-
 }

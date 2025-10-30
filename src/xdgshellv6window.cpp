@@ -161,9 +161,6 @@ void XdgSurfaceV6Window::handleConfigureAcknowledged(quint32 serial)
 void XdgSurfaceV6Window::leaveInteractiveMoveResize()
 {
     Window::leaveInteractiveMoveResize();
-    if (m_plasmaShellSurface) {
-        m_plasmaShellSurface->resetPositionSet();
-    }
 }
 
 void XdgSurfaceV6Window::handleCommit()
@@ -377,9 +374,6 @@ void XdgSurfaceV6Window::destroyWindow()
 void XdgSurfaceV6Window::updateClientArea()
 {
     if (hasStrut()) {
-        if (isMaximized() && m_plasmaShellSurface) {
-            m_plasmaShellSurface->resetPositionSet();
-        }
         workspace()->updateClientArea();
     }
 }
@@ -512,6 +506,9 @@ void XdgSurfaceV6Window::installPlasmaShellSurface(PlasmaShellSurfaceInterface *
     m_plasmaShellSurface = shellSurface;
 
     auto updatePosition = [this, shellSurface] {
+        if (pos() == QPointF(shellSurface->position())) {
+            return;
+        }
         move(shellSurface->position());
     };
     auto moveUnderCursor = [this] {
@@ -2108,10 +2105,6 @@ void XdgToplevelV6Window::maximize(MaximizeMode mode, bool animated)
             updateQuickTileMode(QuickTileFlag::Maximize);
         } else {
             updateQuickTileMode(QuickTileFlag::None);
-        }
-        // When maximizing the window, it is necessary to reset the positionset.
-        if (m_plasmaShellSurface) {
-            m_plasmaShellSurface->resetPositionSet();
         }
     } else {
         updateQuickTileMode(QuickTileFlag::None);
