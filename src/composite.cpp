@@ -659,7 +659,9 @@ void Compositor::addOutput(Output *output)
             usesHardwareCursor = output->setCursor(nullptr);
         }
         if (m_screenShotRunning || (m_edgeSoftCursor && isOnCurrentOutput &&
-                (layerRect.x() >= output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
+                (layerRect.x() <= EDGE_SOFTCURSOR_MARGIN ||
+                layerRect.y() <= EDGE_SOFTCURSOR_MARGIN ||
+                layerRect.x() >= output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
                 layerRect.y() >= output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
             usesHardwareCursor = false;
         }
@@ -677,7 +679,9 @@ void Compositor::addOutput(Output *output)
         bool usesHardwareCursor = output->moveCursor(layerRect.topLeft());
         const bool isOnCurrentOutput = cursor->isOnOutput(output);
         if (m_screenShotRunning || (m_edgeSoftCursor && isOnCurrentOutput &&
-                (layerRect.x() >= output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
+                (layerRect.x() <= EDGE_SOFTCURSOR_MARGIN ||
+                layerRect.y() <= EDGE_SOFTCURSOR_MARGIN ||
+                layerRect.x() >= output->geometry().width() - EDGE_SOFTCURSOR_MARGIN ||
                 layerRect.y() >= output->geometry().height() - EDGE_SOFTCURSOR_MARGIN))) {
             usesHardwareCursor = false;
         }
@@ -688,6 +692,16 @@ void Compositor::addOutput(Output *output)
         cursorLayer->setVisible(isOnCurrentOutput && !usesHardwareCursor);
         cursorLayer->setGeometry(layerRect);
         cursorLayer->addRepaintFull();
+
+        //TODO: pangyu avoid hide the edge of the hardware cursor
+        if (m_edgeSoftCursor) {
+            if (cursorLayer->isVisible() ) {
+                 output->setCursor(nullptr);
+            } else {
+                if (!Cursors::self()->isCursorHidden())
+                    output->setCursor(cursor->source()) && output->moveCursor(layerRect.topLeft());
+            }
+        }
     };
     updateCursorLayer();
     connect(output, &Output::geometryChanged, cursorLayer, updateCursorLayer);
