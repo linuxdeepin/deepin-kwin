@@ -1,7 +1,6 @@
 usr/lib/*/kconf_update_bin/kwin5_update_default_rules
 usr/lib/*/libexec/kwin*
-usr/lib/*/libkwin.so.6
-usr/lib/*/libkwin.so.6.*
+usr/lib/*/libkwin.so.*
 usr/lib/*/libkwindecorations2.so
 usr/lib/*/libkwindecorations2.so.*
 usr/lib/*/libkwindecorations2private.so
