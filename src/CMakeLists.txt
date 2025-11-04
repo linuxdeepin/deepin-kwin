@@ -276,6 +276,7 @@ target_link_libraries(kwin
     -lXext
     -lXtst
     -ldl
+    -lpthread
 )
 if (QT_MAJOR_VERSION EQUAL "5")
     target_link_libraries(kwin
