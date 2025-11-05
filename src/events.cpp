@@ -687,19 +687,31 @@ void X11Window::clientMessageEvent(xcb_client_message_event_t *e)
  */
 void X11Window::configureRequestEvent(xcb_configure_request_event_t *e)
 {
+    qCDebug(KWIN_CORE) << "[X11Window::configureRequestEvent] Requested, caption:" << caption()
+             << "- x:" << e->x
+             << "y:" << e->y
+             << "width:" << e->width
+             << "height:" << e->height
+             << "border_width:" << e->border_width
+             << "value_mask: 0x" << QString::number(e->value_mask, 16);
+
     if (e->window != window()) {
+        qCDebug(KWIN_CORE) << "Ignoring - not client window, but frame/wrapper window";
         return; // ignore frame/wrapper
     }
     if (isInteractiveResize() || isInteractiveMove()) {
+        qCDebug(KWIN_CORE) << "Ignoring - interactive resize/move in progress";
         return; // we have better things to do right now
     }
 
     if (m_fullscreenMode == FullScreenNormal) { // refuse resizing of fullscreen windows
         // but allow resizing fullscreen hacks in order to let them cancel fullscreen mode
+        qCDebug(KWIN_CORE) << "Window is fullscreen, sending configure notify and refusing resize";
         sendSyntheticConfigureNotify();
         return;
     }
     if (isSplash()) { // no manipulations with splashscreens either
+        qCDebug(KWIN_CORE) << "Window is splash screen, sending configure notify";
         sendSyntheticConfigureNotify();
         return;
     }
@@ -710,8 +722,15 @@ void X11Window::configureRequestEvent(xcb_configure_request_event_t *e)
     }
 
     if (e->value_mask & (XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y | XCB_CONFIG_WINDOW_HEIGHT | XCB_CONFIG_WINDOW_WIDTH)) {
-        configureRequest(e->value_mask, Xcb::fromXNative(e->x),
-                         Xcb::fromXNative(e->y), Xcb::fromXNative(e->width), Xcb::fromXNative(e->height), 0, false);
+        const int x = Xcb::fromXNative(e->x);
+        const int y = Xcb::fromXNative(e->y);
+        const int width = Xcb::fromXNative(e->width);
+        const int height = Xcb::fromXNative(e->height);
+
+        qCDebug(KWIN_CORE) << "Frame Geometry Before configureRequest:" << frameGeometry() << "size:" << frameGeometry().size();
+        qCDebug(KWIN_CORE) << "Client Geometry Before configureRequest:" << clientGeometry() << "size:" << clientGeometry().size();
+
+        configureRequest(e->value_mask, x, y, width, height, 0, false);
     }
     if (e->value_mask & XCB_CONFIG_WINDOW_STACK_MODE) {
         restackWindow(e->sibling, e->stack_mode, NET::FromApplication, userTime(), false);
@@ -722,6 +741,7 @@ void X11Window::configureRequestEvent(xcb_configure_request_event_t *e)
     // the window later'. The window should not cause that many configure request,
     // so this should not have any significant impact. With user moving/resizing
     // the it should be optimized though (see also X11Window::setGeometry()/resize()/move()).
+    qCDebug(KWIN_CORE) << "Sending synthetic configure notify after handling configure request";
     sendSyntheticConfigureNotify();
 
     // SELI TODO accept configure requests for isDesktop windows (because kdesktop
@@ -1198,7 +1218,7 @@ void X11Window::focusInEvent(xcb_focus_in_event_t *e)
     if (e->event != window()) {
         return; // only window gets focus
     }
-    // On X11 we get focus in and out events for normal input and when grabs change. 
+    // On X11 we get focus in and out events for normal input and when grabs change.
     // Kwin's concept of the active window should only follow the normal focus changing.
     if (e->mode == XCB_NOTIFY_MODE_GRAB || e->mode == XCB_NOTIFY_MODE_UNGRAB) {
         return; // we don't care

@@ -3820,6 +3820,17 @@ void X11Window::getWmNormalHints()
     m_geometryHints.fetch();
     m_geometryHints.read();
 
+    qCDebug(KWIN_CORE) << "[getWmNormalHints]: Fetched geometry hints from X11 server";
+    qCDebug(KWIN_CORE) << "[getWmNormalHints]: hasMinSize:" << m_geometryHints.hasMinSize()
+                       << "hasMaxSize:" << m_geometryHints.hasMaxSize()
+                       << "hasResizeIncrements:" << m_geometryHints.hasResizeIncrements()
+                       << "hasAspect:" << m_geometryHints.hasAspect()
+                       << "hasBaseSize:" << m_geometryHints.hasBaseSize()
+                       << "minSize:" << m_geometryHints.minSize()
+                       << "maxSize:" << m_geometryHints.maxSize()
+                       << "resizeIncrements:" << m_geometryHints.resizeIncrements()
+                       << "baseSize:" << m_geometryHints.baseSize();
+
     if (!hadFixedAspect && m_geometryHints.hasAspect()) {
         // align to eventual new constraints
         maximize(max_mode);
@@ -4076,7 +4087,10 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
 
         const QSizeF requestedClientSize = constrainClientSize(QSizeF(nw, nh));
         QSizeF requestedFrameSize = clientSizeToFrameSize(requestedClientSize);
+        qCDebug(KWIN_CORE) << "[X11Window::configureRequest]: After clientSizeToFrameSize - requestedFrameSize:" << requestedFrameSize;
+        qCDebug(KWIN_CORE) << "[X11Window::configureRequest]: Original requested client size:" << QSizeF(nw, nh);
         requestedFrameSize = rules()->checkSize(requestedFrameSize);
+        qCDebug(KWIN_CORE) << "[X11Window::configureRequest]: After rules check - requestedFrameSize:" << requestedFrameSize;
 
         if (requestedFrameSize != size()) { // don't restore if some app sets its own size again
             QRectF origClientGeometry = m_clientGeometry;
@@ -4301,24 +4315,35 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool
     } else {
         m_clientGeometry = frameRectToClientRect(frameGeometry);
     }
+
     m_frameGeometry = frameGeometry;
     m_bufferGeometry = frameRectToBufferRect(frameGeometry);
 
     if (pendingMoveResizeMode() == MoveResizeMode::None && m_lastBufferGeometry == m_bufferGeometry && m_lastFrameGeometry == m_frameGeometry && m_lastClientGeometry == m_clientGeometry) {
+        qCDebug(KWIN_CORE) << "Geometry unchanged, skipping update";
         return;
     }
 
     m_output = workspace()->outputAt(frameGeometry.center());
     if (areGeometryUpdatesBlocked()) {
+        qCDebug(KWIN_CORE) << "Geometry updates blocked, setting pending mode";
+
         setPendingMoveResizeMode(mode);
         return;
     }
+
+    qCDebug(KWIN_CORE) << "Final client geometry:" << m_clientGeometry;
+    qCDebug(KWIN_CORE) << "Final frame geometry:" << frameGeometry;
 
     Q_EMIT frameGeometryAboutToChange(this);
     const QRectF oldBufferGeometry = m_lastBufferGeometry;
     const QRectF oldFrameGeometry = m_lastFrameGeometry;
     const QRectF oldClientGeometry = m_lastClientGeometry;
     const Output *oldOutput = m_lastOutput;
+
+    qCDebug(KWIN_CORE) << "Geometry changed, proceeding with update";
+    qCDebug(KWIN_CORE) << "Old frame geometry:" << oldFrameGeometry;
+    qCDebug(KWIN_CORE) << "New frame geometry:" << m_frameGeometry;
 
     updateServerGeometry();
     updateWindowRules(Rules::Position | Rules::Size);
