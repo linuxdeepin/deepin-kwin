@@ -388,12 +388,11 @@ void DrmGpu::removeOutputs()
 
 void DrmGpu::updateCursorSize(const QSize &size)
 {
-    m_cursorSize = m_gpuCursorSize;
-    if (size.width() < m_gpuCursorSize.width())
-        m_cursorSize.setWidth(size.width());
-
-    if (size.height() < m_gpuCursorSize.height())
-        m_cursorSize.setHeight(size.height());
+    // FlemingZ gpu hardware wouldn't display plane smaller than 18x18
+    // clamp cursor to square, minimum 18x18, not exceeding GPU capability
+    int side = std::max(size.width(), size.height());
+    side = std::clamp(side, 18, std::min(m_gpuCursorSize.width(), m_gpuCursorSize.height()));
+    m_cursorSize = QSize(side, side);
 }
 
 DrmPipeline::Error DrmGpu::checkCrtcAssignment(QVector<DrmConnector *> connectors, const QVector<DrmCrtc *> &crtcs)
