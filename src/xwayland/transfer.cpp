@@ -19,6 +19,7 @@
 #include "window.h"
 #include "workspace.h"
 
+#include <xcb/xcb.h>
 #include <xcb/xcb_event.h>
 #include <xcb/xfixes.h>
 
@@ -280,7 +281,7 @@ TransferXtoWl::TransferXtoWl(xcb_atom_t selection, xcb_atom_t target, qint32 fd,
                           selection,
                           target,
                           atoms->wl_selection,
-                          timestamp);
+                          XCB_CURRENT_TIME);
     xcb_flush(xcbConn);
 }
 
