@@ -215,6 +215,15 @@ void DataDeviceInterface::drop()
 
 static DataDeviceManagerInterface::DnDAction chooseDndAction(AbstractDataSource *source, DataOfferInterface *offer)
 {
+    // first the compositor picks an action forced by the data source
+    if (const auto exclusiveAction = source->exclusiveAction()) {
+        if (source->supportedDragAndDropActions().testFlag(*exclusiveAction) && offer->supportedDragAndDropActions().has_value() && offer->supportedDragAndDropActions()->testFlag(*exclusiveAction)) {
+            return *exclusiveAction;
+        } else {
+            return DataDeviceManagerInterface::DnDAction::None;
+        }
+    }
+
     if (offer->preferredDragAndDropAction().has_value()) {
         if (source->supportedDragAndDropActions().testFlag(*offer->preferredDragAndDropAction())) {
             return *offer->preferredDragAndDropAction();
@@ -256,6 +265,10 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
         if (d->drag.targetActionConnection) {
             disconnect(d->drag.targetActionConnection);
             d->drag.targetActionConnection = QMetaObject::Connection();
+        }
+        if (d->drag.exclusiveActionConnection) {
+            disconnect(d->drag.exclusiveActionConnection);
+            d->drag.exclusiveActionConnection = QMetaObject::Connection();
         }
         // don't update serial, we need it
     }
@@ -319,6 +332,7 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
         };
         d->drag.targetActionConnection = connect(offer, &DataOfferInterface::dragAndDropActionsChanged, dragSource, matchOffers);
         d->drag.sourceActionConnection = connect(dragSource, &AbstractDataSource::supportedDragAndDropActionsChanged, dragSource, matchOffers);
+        d->drag.exclusiveActionConnection = connect(dragSource, &AbstractDataSource::exclusiveActionChanged, dragSource, matchOffers);
     }
 }
 

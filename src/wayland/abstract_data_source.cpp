@@ -12,3 +12,16 @@ AbstractDataSource::AbstractDataSource(QObject *parent)
     : QObject(parent)
 {
 }
+
+void AbstractDataSource::setExclusiveAction(DataDeviceManagerInterface::DnDAction action)
+{
+    if (m_exclusiveAction != action) {
+        m_exclusiveAction = action;
+        Q_EMIT exclusiveActionChanged();
+    }
+}
+
+std::optional<DataDeviceManagerInterface::DnDAction> AbstractDataSource::exclusiveAction() const
+{
+    return m_exclusiveAction;
+}

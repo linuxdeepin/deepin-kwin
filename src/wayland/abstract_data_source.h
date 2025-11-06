@@ -117,14 +117,25 @@ public:
     pid_t pid = 0;
     pid_t origin_pid = -1;
 
+    /**
+     * Action forced by the data source. Its primary purpose is to support XDND where supported
+     * source actions are unknown until some specific action arrives with an XdndPosition message.
+     */
+    void setExclusiveAction(DataDeviceManagerInterface::DnDAction action);
+    std::optional<DataDeviceManagerInterface::DnDAction> exclusiveAction() const;
+
 Q_SIGNALS:
     void aboutToBeDestroyed();
 
     void mimeTypeOffered(const QString &);
     void supportedDragAndDropActionsChanged();
+    void exclusiveActionChanged();
 
 protected:
     explicit AbstractDataSource(QObject *parent = nullptr);
+
+private:
+    std::optional<DataDeviceManagerInterface::DnDAction> m_exclusiveAction;
 };
 
 }

@@ -60,6 +60,13 @@ XToWlDrag::XToWlDrag(X11Source *source, Dnd *dnd)
     : m_dnd(dnd)
     , m_source(source)
 {
+
+    // Supported source actions are not known for sure, so we set all actions. When an XdndPosition
+    // message arrives, the user action in it will be forced. If the target surface doesn't support
+    // the user action, "none" action will be chosen instead.
+    m_selectionSource.setSupportedDndActions(DnDAction::Copy | DnDAction::Move | DnDAction::Ask);
+    m_selectionSource.setExclusiveAction(DnDAction::None);
+
     connect(m_dnd, &Dnd::transferFinished, this, [this](xcb_timestamp_t eventTime) {
         // we use this mechanism, because the finished call is not
         // reliable done by Wayland clients
