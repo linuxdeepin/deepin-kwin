@@ -107,6 +107,7 @@ private:
     void grabPointerImage(QImage &snapshot, int xOffset, int yOffset) const;
     QImage blitScreenshot(const QRect &geometry, qreal devicePixelRatio = 1.0) const;
     bool isProhibitScreenshot(qulonglong winid = 0);
+    QImage getProhibitShotImage();
 
     QVector<ScreenShotWindowData> m_windowScreenShots;
     QVector<ScreenShotAreaData> m_areaScreenShots;

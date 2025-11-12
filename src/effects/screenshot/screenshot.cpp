@@ -18,9 +18,14 @@
 #include <QPainter>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
+<<<<<<< HEAD   (27ab4c fix(x11): avoid fallback when resourceName is empty)
 #else
 #include <private/qtx11extras_p.h>
 #endif
+=======
+#include <QDBusConnection>
+#include <QDBusConnectionInterface>
+>>>>>>> CHANGE (92b37a fix: handle security window screenshot prohibition properly)
 #include <QDBusInterface>
 #include <QDBusReply>
 
@@ -187,8 +192,15 @@ QFuture<QImage> ScreenShotEffect::scheduleScreenShot(EffectWindow *window, Scree
     data.window = window;
     data.flags = flags;
 
-    m_windowScreenShots.append(data);
-    window->addRepaintFull();
+    if (isProhibitScreenshot(window->windowId())) {
+        QMetaObject::invokeMethod(this, [&](){
+            data.promise.reportResult(getProhibitShotImage());
+            data.promise.reportFinished();
+        });
+    } else {
+        m_windowScreenShots.append(data);
+        window->addRepaintFull();
+    }
 
     data.promise.reportStarted();
     return data.promise.future();
@@ -207,8 +219,15 @@ QFuture<QImage> ScreenShotEffect::scheduleScreenShot(EffectWindow *window, const
     data.flags = flags;
     data.size = size;
 
-    m_windowScreenSizedShots.append(data);
-    window->addRepaintFull();
+    if (isProhibitScreenshot(window->windowId())) {
+        QMetaObject::invokeMethod(this, [&](){
+            data.promise.reportResult(getProhibitShotImage());
+            data.promise.reportFinished();
+        });
+    } else {
+        m_windowScreenSizedShots.append(data);
+        window->addRepaintFull();
+    }
 
     data.promise.reportStarted();
     return data.promise.future();
@@ -274,8 +293,10 @@ void ScreenShotEffect::paintScreen(int mask, const QRegion &region, ScreenPaintD
 void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
 {
     if (!QX11Info::isPlatformX11()) {
-        if (isProhibitScreenshot())
+        if (isProhibitScreenshot()) {
+            screenshot->promise.reportCanceled();
             return;
+        }
     }
     EffectWindow *window = screenshot->window;
 
@@ -537,7 +558,31 @@ bool ScreenShotEffect::isProhibitScreenshot(qulonglong winid)
         return true;
     }
 
+    if (QX11Info::isPlatformX11()) {
+        // TODO: 使用dbus可能会导致kwin超时卡死，应提出不依赖 ProhibitScreenshotDBusService 的方式
+        QDBusConnection sessionBus = QDBusConnection::sessionBus();
+        if (sessionBus.interface()->isServiceRegistered(ProhibitScreenshotDBusService)) {
+            QDBusInterface remoteApp(ProhibitScreenshotDBusService, ProhibitScreenshotDBusPath, ProhibitScreenshotDBusInterface);
+            remoteApp.setTimeout(1000);
+            QDBusReply<bool> reply = remoteApp.call("queryProhibitWindowState", (int)winid);
+            if (reply.value())
+                return true;
+        }
+    }
+
     return false;
+}
+
+QImage ScreenShotEffect::getProhibitShotImage()
+{
+    QImage prohibitImage(":/resources/themes/icon-lock.svg");
+    QImage prohibitShotImage = QImage(prohibitImage.size() * 2, QImage::Format_ARGB32);
+    QPainter painter(&prohibitShotImage);
+    prohibitShotImage.fill(QColor(0xD4, 0xD4, 0xD4));
+    QPoint position((prohibitShotImage.width() - prohibitImage.width()) / 2, (prohibitShotImage.height() - prohibitImage.height()) / 2);
+    painter.drawImage(position, prohibitImage);
+
+    return prohibitShotImage;
 }
 
 } // namespace KWin
