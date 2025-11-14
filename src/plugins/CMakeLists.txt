@@ -13,5 +13,6 @@ if (PipeWire_FOUND)
     add_subdirectory(screencast)
 endif()
 if (KWIN_BUILD_RUNNERS)
-    add_subdirectory(krunner-integration)
+# TODO: Disable krunner loading. Note that KFRunner_FOUNDand KF${KF_MAJOR_VERSION}Runnercurrently do not match when enabling.
+#    add_subdirectory(krunner-integration)
 endif()
