@@ -18,14 +18,12 @@
 #include <QPainter>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QX11Info>
-<<<<<<< HEAD   (27ab4c fix(x11): avoid fallback when resourceName is empty)
 #else
 #include <private/qtx11extras_p.h>
 #endif
-=======
+
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
->>>>>>> CHANGE (92b37a fix: handle security window screenshot prohibition properly)
 #include <QDBusInterface>
 #include <QDBusReply>
 

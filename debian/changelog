@@ -1,3 +1,13 @@
+deepin-kwin (4:6.0.14) unstable; urgency=medium
+
+  * chore(x11): add debug logging for window configuration events
+  * fix(x11): avoid fallback when resourceName is empty
+  * xwayland: Make drag-and-drop from X to Wayland robust
+  * fix: handle security window screenshot prohibition properly
+  * fix: use XCB_CURRENT_TIME for drag data timestamp
+
+ -- liuheng <liuhenga@uniontech.com>  Fri, 14 Nov 2025 10:04:04 +0800
+
 deepin-kwin (4:6.0.13) unstable; urgency=medium
 
   * Merge new commits from the V20 branch
