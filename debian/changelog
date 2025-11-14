@@ -12,13 +12,13 @@ deepin-kwin (4:6.0.13) unstable; urgency=medium
 
   * Merge new commits from the V20 branch
 
- -- rewine <shining@uniontech.com>  Mon, 03 Nov 2025 15:27:59 +0800
+ -- shining <shining@uniontech.com>  Mon, 03 Nov 2025 15:27:59 +0800
 
 deepin-kwin (4:6.0.12) unstable; urgency=medium
 
   * ​​Merge KWin's V20 and V25 branches​
 
- -- rewine <shining@uniontech.com>  Wed, 15 Oct 2025 14:35:55 +0800
+ -- shining <shining@uniontech.com>  Wed, 15 Oct 2025 14:35:55 +0800
 
 deepin-kwin (4:6.0.11) unstable; urgency=medium
 
