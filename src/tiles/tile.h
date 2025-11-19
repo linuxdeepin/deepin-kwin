@@ -105,7 +105,7 @@ public:
      */
     void visitDescendants(std::function<void(const Tile *child)> callback) const;
 
-    void resizeFromGravity(Gravity gravity, int x_root, int y_root);
+    void resizeFromGravity(Gravity gravity, qreal x_root, qreal y_root);
 
     Q_INVOKABLE void resizeByPixels(qreal delta, Qt::Edge edge);
 

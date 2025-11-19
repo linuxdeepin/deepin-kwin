@@ -205,7 +205,7 @@ void Tile::setQuickTileMode(QuickTileMode mode)
     m_quickTileMode = mode;
 }
 
-void Tile::resizeFromGravity(Gravity gravity, int x_root, int y_root)
+void Tile::resizeFromGravity(Gravity gravity, qreal x_root, qreal y_root)
 {
     if (!m_parentTile) {
         return;
