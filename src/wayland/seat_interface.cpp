@@ -360,16 +360,8 @@ bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, Abstr
         return false;
     }
 
-    QVector<pid_t> allDataControlDevices;
-    for (auto control : std::as_const(dataControlDevices)) {
-        allDataControlDevices.append(control->processId());
-    }
-
-    for (auto device : std::as_const(dataDevices)) {
-        allDataControlDevices.append(device->processId());
-    }
     if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl) {
-        if (allDataControlDevices.contains(dataDevice->processId())) {
+        if (skipVerify(dataDevice->processId())) {
             if (dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
                 dataDevice->sendPrimarySelection(dataSource);
             } else {
@@ -396,13 +388,7 @@ bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, Abstr
             dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
         dataDevice->sendPrimarySelection(dataSource);
     } else {
-        // The client is updated only after the signal sent by itself or dataControlDevices
-        if (dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
-                dataDevice->sendPrimarySelection(dataSource);
-            } else if (dataDevice->processId() == dataSource->pid
-            || allDataControlDevices.contains(dataDevice->processId()) || allDataControlDevices.contains(dataSource->pid)) {
-            dataDevice->sendSelection(dataSource);
-        }
+        dataDevice->sendSelection(dataSource);
     }
     return false;
 }
@@ -454,19 +440,11 @@ void SeatInterfacePrivate::handleCopySecurityVerified(uint32_t serial, uint32_t 
             verifyingState.remove(serial);
             return;
         }
-        QVector<pid_t> allDataControlDevices;
-        for (auto control : std::as_const(dataControlDevices)) {
-            allDataControlDevices.append(control->processId());
-        }
-
-        for (auto device : std::as_const(dataDevices)) {
-            allDataControlDevices.append(device->processId());
-        }
 
         switch (state->deviceType) {
         case AbstractDataDevice::DeviceType::DeviceType_Data:
-            if (state->dataDevice->processId() == state->dataSource->pid
-                || allDataControlDevices.contains(state->dataDevice->processId()) || allDataControlDevices.contains(state->dataSource->pid)) {
+            if (globalKeyboard.focus.selections.contains(static_cast<DataDeviceInterface*>(state->dataDevice)) ||
+                state->dataDevice->processId() == state->dataSource->pid) {
                 state->dataDevice->sendSelection(state->dataSource);
             }
             break;
@@ -499,9 +477,7 @@ void SeatInterfacePrivate::handleCopySecurityVerified(uint32_t serial, uint32_t 
                 Q_EMIT q->primarySelectionChanged(state->dataSource);
             } else {
                 currentSelection = currentVerifySelection;
-                if (allDataControlDevices.contains(state->dataSource->pid)){
-                    Q_EMIT q->selectionChanged(state->dataSource);
-                }
+                Q_EMIT q->selectionChanged(state->dataSource);
             }
         }
     }
@@ -1609,17 +1585,7 @@ void SeatInterface::setSelection(AbstractDataSource *selection, bool sendControl
 
     if (!doVerify) {
         d->currentSelection = selection;
-        // xwayland client is updated only when dataControlDevices signal or selection is empty
-        if (!selection) {
-            Q_EMIT selectionChanged(selection);
-        } else {
-            for (auto control : std::as_const(d->dataControlDevices)) {
-                if (control->processId() == selection->pid){
-                    Q_EMIT selectionChanged(selection);
-                    break;
-                }
-            }
-        }
+        Q_EMIT selectionChanged(selection);
     }
 }
 
