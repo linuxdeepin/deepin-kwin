@@ -731,11 +731,11 @@ void SeatInterface::setDragTarget(AbstractDropHandler *dropTarget,
 
 void SeatInterface::setDragTarget(AbstractDropHandler *target, SurfaceInterface *surface, const QMatrix4x4 &inputTransformation)
 {
-    AbstractDataSource *dataSource = nullptr;
-    if (d->drag.source) {
-        dataSource = d->drag.source;
+    if (d->drag.mode == SeatInterfacePrivate::Drag::Mode::None) {
+        return;
     }
 
+    AbstractDataSource *dataSource = d->drag.source;
     bool doVerify = false;
     if (dataSource && target) {
         doVerify = d->verifyDrag(surface, target, dataSource);
