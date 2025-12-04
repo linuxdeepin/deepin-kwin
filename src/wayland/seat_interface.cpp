@@ -298,6 +298,34 @@ void SeatInterfacePrivate::endDrag()
     Q_EMIT q->dragEnded();
 }
 
+bool SeatInterfacePrivate::dragInhibitsPointer(SurfaceInterface *surface) const
+{
+    // data device will handle it directly
+    // for xwayland cases we still want to send pointer events
+    if (drag.mode != SeatInterfacePrivate::Drag::Mode::Pointer) {
+        return false;
+    }
+    const bool targetHasDataDevice = !dataDevicesForSurface(surface).isEmpty();
+    return targetHasDataDevice;
+}
+
+QPointF SeatInterfacePrivate::focusedPointerLocalPosition() const
+{
+    QPointF localPosition = globalPointer.focus.transformation.map(globalPointer.pos);
+    SurfaceInterface *focusedSurface = globalPointer.focus.surface;
+    if (!focusedSurface) {
+        return QPointF();
+    }
+    SurfaceInterface *effectiveFocusedSurface = focusedSurface->inputSurfaceAt(localPosition);
+    if (!effectiveFocusedSurface) {
+        effectiveFocusedSurface = focusedSurface;
+    }
+    if (focusedSurface != effectiveFocusedSurface) {
+        localPosition = focusedSurface->mapToChild(effectiveFocusedSurface, localPosition);
+    }
+    return localPosition;
+}
+
 void SeatInterfacePrivate::updateSelection(DataDeviceInterface *dataDevice)
 {
     // if the update is from the focussed window we should inform the active client
@@ -648,11 +676,8 @@ void SeatInterface::notifyPointerMotion(const QPointF &pos)
     if (!focusedSurface) {
         return;
     }
-    if (isDragPointer()) {
-        // data device will handle it directly
-        // for xwayland cases we still want to send pointer events
-        if (!d->dataDevicesForSurface(focusedSurface).isEmpty())
-            return;
+    if (d->dragInhibitsPointer(focusedSurface)) {
+        return;
     }
     if (focusedSurface->lockedPointer() && focusedSurface->lockedPointer()->isLocked()) {
         return;
@@ -986,25 +1011,18 @@ void SeatInterface::notifyPointerButton(quint32 button, PointerButtonState state
                 // not our drag button - ignore
                 return;
             }
+            SurfaceInterface *focusedSurface = focusedPointerSurface();
+            if (focusedSurface && !d->dragInhibitsPointer(focusedSurface)) {
+                d->pointer->sendButton(button, state, serial, d->focusedPointerLocalPosition());
+            }
             d->endDrag();
             return;
         }
     }
-
-    QPointF localPosition = focusedPointerSurfaceTransformation().map(d->globalPointer.pos);
-    SurfaceInterface *focusedSurface = focusedPointerSurface();
-    if (!focusedSurface) {
+    if (!focusedPointerSurface()) {
         return;
     }
-
-    SurfaceInterface *effectiveFocusedSurface = focusedSurface->inputSurfaceAt(localPosition);
-    if (!effectiveFocusedSurface) {
-        effectiveFocusedSurface = focusedSurface;
-    }
-    if (focusedSurface != effectiveFocusedSurface) {
-        localPosition = focusedSurface->mapToChild(effectiveFocusedSurface, localPosition);
-    }
-    d->pointer->sendButton(button, state, serial, localPosition);
+    d->pointer->sendButton(button, state, serial, d->focusedPointerLocalPosition());
 }
 
 void SeatInterface::notifyPointerFrame()

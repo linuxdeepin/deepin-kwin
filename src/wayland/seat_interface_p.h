@@ -59,6 +59,8 @@ public:
     void registerDataControlDevice(DataControlDeviceV1Interface *dataDevice);
     void endDrag();
     void cancelDrag();
+    bool dragInhibitsPointer(SurfaceInterface *surface) const;
+    QPointF focusedPointerLocalPosition() const;
 
     bool verifySelection(AbstractDataDevice* dataDevice, AbstractDataSource *dataSource);
     uint32_t verifySelectionForX11(AbstractDataSource *source, int target);
