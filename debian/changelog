@@ -1,3 +1,13 @@
+deepin-kwin (4:6.0.15) unstable; urgency=medium
+
+  * fix: wayland relax selection propagation filter while preserving security checks
+  * fix: use qreal for interactive move/resize to improve touch precision
+  * fix: plasma shell surface set_position does not take effect
+  * chore: update the maintainer information
+  * fix: disable krunner loading
+
+ -- shining <shining@uniontech.com>  Wed, 10 Dec 2025 16:11:02 +0800
+
 deepin-kwin (4:6.0.14) unstable; urgency=medium
 
   * chore(x11): add debug logging for window configuration events
