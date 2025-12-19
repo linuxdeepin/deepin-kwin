@@ -140,6 +140,7 @@ private:
 
     bool m_propertyIsSet = false;
     bool m_flushPropertyOnDelete = false;
+    uint32_t m_originalEventMask = 0;
 
     Q_DISABLE_COPY(TransferWltoX)
 };
