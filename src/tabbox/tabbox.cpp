@@ -744,8 +744,6 @@ void TabBox::show()
     if (!currentClientList().isEmpty()) {
         m_isMinisized = currentClientList().first()->isMinimized();
     }
-
-    m_lastKeyPress = QDateTime::currentDateTime();
 }
 
 void TabBox::hide(bool abort)
@@ -1380,7 +1378,8 @@ void TabBox::keyPress(int keyQt)
     };
 
     // tests whether a shortcut matches and handles pitfalls on ShiftKey invocation
-    auto directionFor = [keyQt, contains, mods](const QKeySequence &forward, const QKeySequence &backward) -> TabBoxConfig::TabBoxSwitchPosition {
+    auto directionFor = [keyQt, contains](const QKeySequence &forward, const QKeySequence &backward) -> TabBoxConfig::TabBoxSwitchPosition {
+        Qt::KeyboardModifiers mods = Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier|Qt::MetaModifier|Qt::KeypadModifier|Qt::GroupSwitchModifier;
         if (contains(forward, keyQt)) {
             TabBoxConfig::Forward;
         }
@@ -1393,6 +1392,8 @@ void TabBox::keyPress(int keyQt)
 
         // Before testing the unshifted key (Ctrl+A vs. Ctrl+Shift+a etc.), see whether this is +Shift+Tab
         // and check that against +Shift+Backtab (as well)
+
+        mods &= keyQt;
 
         if ((keyQt & ~mods) == Qt::Key_Tab) {
             if (contains(forward, mods | Qt::Key_Backtab))
