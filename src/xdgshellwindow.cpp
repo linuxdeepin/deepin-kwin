@@ -522,6 +522,9 @@ void XdgSurfaceWindow::installPlasmaShellSurface(PlasmaShellSurfaceInterface *sh
             return;
         }
         move(shellSurface->position());
+        if (shellSurface->position().x() < 0 || shellSurface->position().y() < 0) {
+            keepInArea(workspace()->clientArea(PlacementArea, this));
+        }
     };
     auto moveUnderCursor = [this] {
         // Wait for the first commit
