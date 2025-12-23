@@ -1350,16 +1350,6 @@ void TabBox::oneStepThroughDesktopList(bool forward)
 
 void TabBox::keyPress(int keyQt)
 {
-    Qt::KeyboardModifiers mods = Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier|Qt::MetaModifier|Qt::KeypadModifier|Qt::GroupSwitchModifier;
-    mods &= keyQt;
-    if ((keyQt & ~mods) == Qt::Key_Tab || (keyQt & ~mods) == Qt::Key_Backtab
-            || (keyQt & ~mods) == Qt::Key_Left || (keyQt & ~mods) == Qt::Key_Right
-            || (keyQt & ~mods) == Qt::Key_AsciiTilde || (keyQt & ~mods) == Qt::Key_QuoteLeft) {
-        const QDateTime current = QDateTime::currentDateTime();
-        if (m_lastKeyPress.msecsTo(current) < 200)
-            return;
-        m_lastKeyPress = current;
-    }
     // enum Direction {
     //     Backward = -1,
     //     Steady = 0,
