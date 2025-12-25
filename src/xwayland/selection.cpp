@@ -31,12 +31,6 @@ namespace Xwl
 
 xcb_atom_t Selection::mimeTypeToAtom(const QString &mimeType)
 {
-    if (mimeType == QLatin1String("text/plain;charset=utf-8")) {
-        return atoms->utf8_string;
-    }
-    if (mimeType == QLatin1String("text/plain")) {
-        return atoms->text;
-    }
     if (mimeType == QLatin1String("text/x-uri")) {
         return atoms->uri_list;
     }
