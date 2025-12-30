@@ -494,25 +494,24 @@ bool GlxBackend::initFbConfig()
         GLX_DOUBLEBUFFER, true,
         0};
 
-    // Removed sRGB framebuffer config for better compatibility with ZX GPUs.
-    // const int attribs_srgb[] = {
-    //     GLX_RENDER_TYPE, GLX_RGBA_BIT,
-    //     GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-    //     GLX_RED_SIZE, 1,
-    //     GLX_GREEN_SIZE, 1,
-    //     GLX_BLUE_SIZE, 1,
-    //     GLX_ALPHA_SIZE, 0,
-    //     GLX_DEPTH_SIZE, 0,
-    //     GLX_STENCIL_SIZE, 0,
-    //     GLX_CONFIG_CAVEAT, GLX_NONE,
-    //     GLX_DOUBLEBUFFER, true,
-    //     GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, true,
-    //     0};
+    const int attribs_srgb[] = {
+        GLX_RENDER_TYPE, GLX_RGBA_BIT,
+        GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+        GLX_RED_SIZE, 1,
+        GLX_GREEN_SIZE, 1,
+        GLX_BLUE_SIZE, 1,
+        GLX_ALPHA_SIZE, 0,
+        GLX_DEPTH_SIZE, 0,
+        GLX_STENCIL_SIZE, 0,
+        GLX_CONFIG_CAVEAT, GLX_NONE,
+        GLX_DOUBLEBUFFER, true,
+        GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, true,
+        0};
 
     // Only request sRGB configurations with default depth 24 as it can cause problems with other default depths. See bugs #408594 and #423014.
-    // if (Xcb::defaultDepth() == 24) {
-    //     fbconfig = chooseGlxFbConfig(display(), attribs_srgb);
-    // }
+    if (Xcb::defaultDepth() == 24) {
+        fbconfig = chooseGlxFbConfig(display(), attribs_srgb);
+    }
     if (!fbconfig) {
         fbconfig = chooseGlxFbConfig(display(), attribs);
     }
