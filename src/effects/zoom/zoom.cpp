@@ -264,7 +264,6 @@ ZoomEffect::OffscreenData *ZoomEffect::ensureOffscreenData(EffectScreen *screen)
 
     if (!data.texture || data.texture->size() != nativeSize) {
         data.texture.reset(new GLTexture(GL_RGBA8, nativeSize));
-        data.texture->setFilter(GL_LINEAR);
         data.texture->setWrapMode(GL_CLAMP_TO_EDGE);
         data.framebuffer = std::make_unique<GLFramebuffer>(data.texture.get());
     }
