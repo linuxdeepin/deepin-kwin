@@ -7,19 +7,16 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if (NOT DEFINED BUILD_ON_V25)
-    find_package(QT NAMES Qt6 QUIET)
-    if(NOT QT_FOUND)
-        message(STATUS "Not found qt6, will build with v20 interface")
-        set(BUILD_ON_V25 OFF)
-        find_package(QT NAMES Qt5 REQUIRED)
-    else()
-        message(STATUS "Has found qt6, will build with v25 interface")
-        set(BUILD_ON_V25 ON)
-    endif()
+find_package(QT NAMES Qt6 QUIET)
+if(NOT QT_FOUND)
+    message(STATUS "Not found qt6, will build with v20 interface")
+    set(BUILD_ON_V25 OFF)
+    find_package(QT NAMES Qt5 REQUIRED)
 else()
-    message(STATUS "Build On v25: \"${BUILD_ON_V25}\"")
+    message(STATUS "Has found qt6, will build with v25 interface")
+    set(BUILD_ON_V25 ON)
 endif()
+message(STATUS "Build On v25: \"${BUILD_ON_V25}\"")
 
 option(BUILD_TESTING "Build the testing tree" OFF)
 
@@ -148,14 +145,25 @@ else()
 endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
-    find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS X11Extras)
+    find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+        X11Extras
+        LinguistTools
+    )
     find_package(Qt5XkbCommonSupport REQUIRED)
-    set(LUPDATE_EXECUTABLE "lupdate")
-    set(LRELEASE_EXECUTABLE "lrelease")
+
+    # 使用导入目标的属性获取路径，避免直接调用系统命令
+    get_target_property(LUPDATE_EXECUTABLE Qt5::lupdate IMPORTED_LOCATION)
+    get_target_property(LRELEASE_EXECUTABLE Qt5::lrelease IMPORTED_LOCATION)
+
     add_library(KFWaylandClient ALIAS KF5::WaylandClient)
 else()
-    find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient ShaderTools)
+    find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+        WaylandClient
+        ShaderTools
+        LinguistTools
+    )
     find_package(KWayland REQUIRED)
+
     if (Qt6WaylandClient_VERSION VERSION_LESS "6.4.1") # TODO Plasma 6: Drop once minimum Qt version is 6.4.1+
         include(Qt6WaylandClientMacrosKde)
     endif()

@@ -6,7 +6,7 @@ usr/share/kconf_update/kwin*.pl
 usr/share/kconf_update/kwin*.py
 usr/share/kconf_update/kwin*.sh
 usr/share/kconf_update/kwin*.upd
-usr/share/knotifications6/kwin.notifyrc
+usr/share/knotifications*/kwin.notifyrc
 usr/share/kwin/
 usr/share/locale/
-usr/share/qlogging-categories6/
+usr/share/qlogging-categories*/

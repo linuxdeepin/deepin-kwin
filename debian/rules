@@ -2,7 +2,6 @@
 # -*- makefile -*-
 
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
-export QT_SELECT=6
 
 libpkgs_gen_strict_local_shlibs = $(libpkgs_all_packages) kwin-common
 include /usr/share/pkg-kde-tools/qt-kde-team/2/library-packages.mk
@@ -17,8 +16,7 @@ override_dh_python3:
 
 
 override_dh_auto_configure:
-	dh_auto_configure -Skf6 -- \
-		-DBUILD_ON_V25=ON \
+	dh_auto_configure -- \
 		-DENABLE_WERROR=ON \
 		-DBUILD_TESTING=OFF \
 		-DKWIN_BUILD_KCMS=OFF
