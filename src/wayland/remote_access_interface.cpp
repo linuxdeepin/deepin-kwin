@@ -349,7 +349,7 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
 
     auto rbuf = new RemoteBufferInterface(bh.buf, RbiResource);
 
-    QObject::connect(rbuf, &QObject::destroyed, [resource, internal_buffer_id, this] {
+    QObject::connect(rbuf, &QObject::destroyed, q, [resource, internal_buffer_id, this] {
         if (!clientResources.contains(resource) || !bufferPool.contains(internal_buffer_id)) {
             // remote buffer destroy confirmed after client is already gone
             // all relevant buffers are already unreferenced
