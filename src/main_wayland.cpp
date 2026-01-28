@@ -70,17 +70,14 @@ Q_IMPORT_PLUGIN(ScreencastManagerFactory)
 
 Q_LOGGING_CATEGORY(KWIN_LWL, "kwin_lwl", QtWarningMsg);
 
-// Remove the timestamp from the libwayland debug log message
-#define TIME_STR_LENGTH 22
-
 void waylandLogHandler(const char *fmt, va_list args)
 {
-    qCInfo(KWIN_LWL).noquote() << "[libwayland]" << QString::vasprintf(fmt, args).trimmed().mid(TIME_STR_LENGTH);
+    qCInfo(KWIN_LWL).noquote() << "[libwayland]" << QString::vasprintf(fmt, args);
 }
 
 void waylandDebugHandler(const char *fmt, va_list args)
 {
-    qCDebug(KWIN_LWL).noquote() << "[libwayland]" << QString::vasprintf(fmt, args).trimmed().mid(TIME_STR_LENGTH);
+    qCDebug(KWIN_LWL).noquote() << "[libwayland]" << QString::vasprintf(fmt, args);
 }
 
 namespace KWin
