@@ -128,6 +128,8 @@ bool Unmanaged::track(xcb_window_t w)
     detectShape(w);
     getWmOpaqueRegion();
     getSkipCloseAnimation();
+    setupWindowRules(false);
+    setSkipZoom(false);
     setupCompositing();
 
     if (QWindow *internalWindow = findInternalWindow()) {

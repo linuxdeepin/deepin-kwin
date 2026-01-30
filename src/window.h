@@ -935,6 +935,13 @@ public:
         return m_icon;
     }
 
+    virtual bool skipZoom() const
+    {
+        return m_skipZoom;
+    }
+
+    void setSkipZoom(bool set);
+
     bool isZombie() const;
     bool isActive() const
     {
@@ -1635,6 +1642,7 @@ Q_SIGNALS:
     void skipTaskbarChanged();
     void skipPagerChanged();
     void skipSwitcherChanged();
+    void skipZoomChanged();
     void iconChanged();
     void activeChanged();
     void keepAboveChanged(bool);
@@ -1801,6 +1809,7 @@ protected:
     virtual void doSetSkipSwitcher();
     virtual void doSetDemandsAttention();
     virtual void doSetQuickTileMode();
+    virtual void doSetSkipZoom();
 
     void setupWindowManagementInterface();
     void updateColorScheme();
@@ -2087,6 +2096,7 @@ private:
      */
     bool m_originalSkipTaskbar = false;
     bool m_skipPager = false;
+    bool m_skipZoom = false;
     bool m_skipSwitcher = false;
     QIcon m_icon;
     bool m_active = false;

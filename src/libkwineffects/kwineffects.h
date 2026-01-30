@@ -2364,6 +2364,11 @@ class KWINEFFECTS_EXPORT EffectWindow : public QObject
 
     Q_PROPERTY(bool borderRedrawable READ borderRedrawable CONSTANT)
 
+    /**
+     * Whether the window should be excluded from screen zoom effects.
+     */
+    Q_PROPERTY(bool skipZoom READ isSkipZoom)
+
 public:
     /**  Flags explaining why painting should be disabled  */
     enum {
@@ -2625,6 +2630,11 @@ public:
      * @since 4.5
      */
     virtual bool isSkipSwitcher() const = 0;
+
+    /**
+     * Returns whether the window should be excluded from screen zoom effects.
+     */
+    virtual bool isSkipZoom() const = 0;
 
     void setMinimized(bool minimize);
     virtual void minimize() = 0;

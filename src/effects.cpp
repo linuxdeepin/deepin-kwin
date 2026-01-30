@@ -2487,6 +2487,7 @@ MANAGED_HELPER(bool, isUnresponsive, unresponsive, false)
     }
 
 MANAGED_HELPEREX(QString, captionNormal, captionNormal, QString());
+MANAGED_HELPEREX(bool, isSkipZoom, skipZoom, false);
 
 #undef MANAGED_HELPEREX
 

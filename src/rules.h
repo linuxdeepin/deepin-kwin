@@ -85,6 +85,7 @@ public:
     bool checkDisableCorner(bool cancel, bool init = false) const;
     bool checkDisableSplitpreview(bool cancel, bool init = false) const;
     bool checkEnableWindowShadow(bool enable, bool init = false) const;
+    bool checkSkipZoom(bool skip, bool init = false) const;
 
 private:
     MaximizeMode checkMaximizeVert(MaximizeMode mode, bool init) const;
@@ -120,6 +121,7 @@ public:
         Activity = 1 << 16,
         Screen = 1 << 17,
         DesktopFile = 1 << 18,
+        SkipZoom = 1 << 19,
         All = 0xffffffff
     };
     Q_DECLARE_FLAGS(Types, Type)
@@ -199,6 +201,7 @@ public:
     bool applyDisableCorner(bool &cancel, bool init) const;
     bool applyDisableSplitpreview(bool &cancel, bool init) const;
     bool applyEnableWindowShadow(bool &enable, bool init) const;
+    bool applySkipZoom(bool &skip, bool init) const;
 
 private:
 #endif
@@ -311,6 +314,8 @@ private:
     SetRule disablesplitpreviewrule;
     bool enablewindowshadow;
     SetRule enablewindowshadowrule;
+    bool skipzoom;
+    SetRule skipzoomrule;
     friend QDebug &operator<<(QDebug &stream, const Rules *);
 };
 

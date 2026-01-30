@@ -46,6 +46,7 @@ public:
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
     void postPaintScreen() override;
+    void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
     bool isActive() const override;
     int requestedEffectChainPosition() const override;
     // for properties
@@ -131,6 +132,7 @@ private:
     double moveFactor;
     std::chrono::milliseconds lastPresentTime;
     std::map<EffectScreen *, OffscreenData> m_offscreenData;
+    bool inSkipZoom;
 };
 
 } // namespace

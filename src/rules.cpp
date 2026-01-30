@@ -81,6 +81,7 @@ Rules::Rules()
     , disablecornerrule(UnusedSetRule)
     , disablesplitpreviewrule(UnusedSetRule)
     , enablewindowshadowrule(UnusedSetRule)
+    , skipzoom(UnusedSetRule)
 {
 }
 
@@ -188,6 +189,7 @@ void Rules::readFromSettings(const RuleSettings *settings)
     READ_SET_RULE(disablecorner);
     READ_SET_RULE(disablesplitpreview);
     READ_SET_RULE(enablewindowshadow);
+    READ_SET_RULE(skipzoom);
     // disable minmize rule for uos
     minimize = false;
     minimizerule = UnusedSetRule;
@@ -552,6 +554,10 @@ bool Rules::update(Window *c, int selection)
         updated = updated || desktopfile != c->desktopFileName();
         desktopfile = c->desktopFileName();
     }
+    if NOW_REMEMBER (SkipZoom, skipzoom) {
+        updated = updated || skipzoom != c->skipZoom();
+        skipzoom = c->skipZoom();
+    }
     return updated;
 }
 
@@ -685,6 +691,7 @@ APPLY_RULE(desktopfile, DesktopFile, QString)
 APPLY_RULE(disablecorner, DisableCorner, bool)
 APPLY_RULE(disablesplitpreview, DisableSplitpreview, bool)
 APPLY_RULE(enablewindowshadow, EnableWindowShadow, bool)
+APPLY_RULE(skipzoom, SkipZoom, bool)
 
 #undef APPLY_RULE
 #undef APPLY_FORCE_RULE
@@ -932,6 +939,7 @@ CHECK_RULE(DesktopFile, QString)
 CHECK_RULE(DisableCorner, bool)
 CHECK_RULE(DisableSplitpreview, bool)
 CHECK_RULE(EnableWindowShadow, bool)
+CHECK_RULE(SkipZoom, bool)
 
 #undef CHECK_RULE
 #undef CHECK_FORCE_RULE

@@ -49,6 +49,22 @@ public:
     explicit WorkspaceScene(std::unique_ptr<ItemRenderer> renderer);
     ~WorkspaceScene() override;
 
+    // saved data for 2nd pass of optimized screen painting
+    struct Phase2Data
+    {
+        WindowItem *item = nullptr;
+        QRegion region;
+        QRegion opaque;
+        int mask = 0;
+    };
+
+    struct PaintContext
+    {
+        QRegion damage;
+        int mask = 0;
+        QVector<Phase2Data> phase2Data;
+    };
+
     void initialize();
 
     QRegion damage() const override;
@@ -88,6 +104,10 @@ public:
 
     void printFPS(SceneDelegate *delegate);
 
+    PaintContext paintContext() const {
+        return m_paintContext;
+    }
+
 Q_SIGNALS:
     void preFrameRender();
     void frameRendered();
@@ -111,22 +131,6 @@ protected:
     void paintWindow(WindowItem *w, int mask, const QRegion &region);
     // called after all effects had their drawWindow() called
     void finalDrawWindow(EffectWindowImpl *w, int mask, const QRegion &region, WindowPaintData &data);
-
-    // saved data for 2nd pass of optimized screen painting
-    struct Phase2Data
-    {
-        WindowItem *item = nullptr;
-        QRegion region;
-        QRegion opaque;
-        int mask = 0;
-    };
-
-    struct PaintContext
-    {
-        QRegion damage;
-        int mask = 0;
-        QVector<Phase2Data> phase2Data;
-    };
 
     // The screen that is being currently painted
     Output *painted_screen = nullptr;

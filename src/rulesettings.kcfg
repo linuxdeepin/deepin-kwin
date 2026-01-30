@@ -475,5 +475,16 @@
       <max code="true">static_cast&lt;Rules::SetRule&gt;(Rules::ForceTemporarily)</max>
       <default code="true">Rules::UnusedSetRule</default>
     </entry>
+
+    <entry name="skipzoom" type="Bool">
+      <label>Skip zoom</label>
+      <default>false</default>
+    </entry>
+    <entry name="skipzoomrule" type="Int">
+      <label>Skip zoom rule type</label>
+      <min code="true">Rules::UnusedSetRule</min>
+      <max code="true">static_cast&lt;Rules::SetRule&gt;(Rules::ForceTemporarily)</max>
+      <default code="true">Rules::UnusedSetRule</default>
+    </entry>
   </group>
 </kcfg>

@@ -150,6 +150,7 @@ public:
     {
         return m_wasWindowMenu;
     }
+    bool skipZoom() const override { return m_skipZoom; }
 
 private Q_SLOTS:
     void mainWindowClosed(KWin::Window *window);
@@ -192,6 +193,7 @@ private:
     bool m_wasSplitMenu;
     bool m_wasSwitcherWin;
     bool m_wasWindowMenu;
+    bool m_skipZoom = false;
 };
 
 inline void Deleted::refWindow()

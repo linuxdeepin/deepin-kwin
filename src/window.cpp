@@ -843,6 +843,23 @@ void Window::doSetSkipPager()
 {
 }
 
+void Window::setSkipZoom(bool b)
+{
+    b = rules()->checkSkipZoom(b);
+    if (b == skipZoom()) {
+        return;
+    }
+    m_skipZoom = b;
+    doSetSkipZoom();
+    updateWindowRules(Rules::SkipZoom);
+    Q_EMIT skipZoomChanged();
+}
+
+void Window::doSetSkipZoom()
+{
+
+}
+
 void Window::setSkipTaskbar(bool b)
 {
     int was_wants_tab_focus = wantsTabFocus();
@@ -4838,6 +4855,7 @@ void Window::applyWindowRules()
         setOpacity(rules()->checkOpacityInactive(qRound(opacity() * 100.0)) / 100.0);
     }
     setDesktopFileName(rules()->checkDesktopFile(desktopFileName()));
+    setSkipZoom(rules()->checkSkipZoom(skipZoom()));
 }
 
 void Window::setLastUsageSerial(quint32 serial)

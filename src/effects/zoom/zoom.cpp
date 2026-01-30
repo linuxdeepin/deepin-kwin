@@ -10,7 +10,11 @@
 
 #include "zoom.h"
 // KConfigSkeleton
+#include "effects.h"
+#include "scene/windowitem.h"
 #include "zoomconfig.h"
+#include "scene/workspacescene.h"
+#include "scene/itemrenderer.h"
 
 #if HAVE_ACCESSIBILITY
 #include "accessibilityintegration.h"
@@ -25,6 +29,8 @@
 #include <kstandardaction.h>
 
 #include <kwinglutils.h>
+
+#include <utility>
 
 namespace KWin
 {
@@ -43,6 +49,7 @@ ZoomEffect::ZoomEffect()
     , yMove(0)
     , moveFactor(20.0)
     , lastPresentTime(std::chrono::milliseconds::zero())
+    , inSkipZoom(false)
 {
     initConfig<ZoomConfig>();
     QAction *a = nullptr;
@@ -362,6 +369,30 @@ void ZoomEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &d
     }
     ShaderManager::instance()->popShader();
 
+    if (zoom != 1.0) {
+        ItemRenderer *renderer = static_cast<EffectsHandlerImpl *>(effects)->scene()->renderer();
+        WorkspaceScene *scene = static_cast<EffectsHandlerImpl *>(effects)->scene();
+        const WorkspaceScene::PaintContext &paintContext = scene->paintContext();
+        WindowPaintData wdata(renderer->renderTargetProjectionMatrix());
+        wdata.setZTranslation(1.0f);
+
+        for (const WorkspaceScene::Phase2Data &paintData : std::as_const(paintContext.phase2Data)) {
+            EffectWindow *window = paintData.item->window()->effectWindow();
+            if (!window->isSkipZoom()) {
+                continue;
+            }
+
+            if (!window->isVisible() || !region.intersects(window->frameGeometry().toRect())) {
+                continue;
+            }
+
+            // Flag to distinguish paintWindow calls from effects subsystem (flag=false) vs zoom internal calls (flag=true)
+            inSkipZoom = true;
+            effects->paintWindow(window, paintData.mask, paintData.region, wdata);
+            inSkipZoom = false;
+        }
+    }
+
     if (mousePointer != MousePointerHide) {
         // Draw the mouse-texture at the position matching to zoomed-in image of the desktop. Hiding the
         // previous mouse-cursor and drawing our own fake mouse-cursor is needed to be able to scale the
@@ -405,6 +436,15 @@ void ZoomEffect::postPaintScreen()
     }
 
     effects->postPaintScreen();
+}
+
+void ZoomEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
+{
+    if (!inSkipZoom && zoom != 1.0 && w->isSkipZoom()) {
+        return;
+    }
+
+    effects->paintWindow(w, mask, region,data);
 }
 
 void ZoomEffect::zoomIn(double to)
