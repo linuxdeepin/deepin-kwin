@@ -1,3 +1,16 @@
+deepin-kwin (4:6.0.16) unstable; urgency=medium
+
+  * fix(x11): restore sRGB framebuffer config to fix crash issue
+  * fix: fix transparency issues in the Control Center window sidebar and taskbar
+  * fix: remove key press frequency limiting in tabbox
+  * fix: preserve event mask when enabling PROPERTY_CHANGE for INCR transfer
+  * fix: xdg shell does not provide window fixation
+  * fix: drag hangs in Qt
+  * fix: assertion failed when set drag target
+  * fix: fix display issues when exiting fullscreen launcher
+
+ -- Guo Yao <guoyao@uniontech.com>  Fri, 30 Jan 2026 10:46:17 +0800
+
 deepin-kwin (4:6.0.15) unstable; urgency=medium
 
   * fix: wayland relax selection propagation filter while preserving security checks
