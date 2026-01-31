@@ -232,7 +232,9 @@ Workspace::Workspace()
     new DBusInterface(this);
 #ifdef BUILD_ON_V25
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "TileActiveWindowChanged", this, SLOT(tileActiveWindow(int)));
-    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "ToggleActiveWindowMaximizeChanged", this, SLOT(toggleActiveMaximize()));
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "ToggleActiveWindowMaximizeChanged", this, SLOT(slotToggleWindowMaximize()));
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "MaximizeActiveWindowChanged", this, SLOT(slotWindowMaximize()));
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "UnMaximizeActiveWindowChanged", this, SLOT(slotWindowUnMaximize()));
 #else
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "QuickTileWindow", this, SLOT(tileActiveWindow(uint)));
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "WindowMaximize", this, SLOT(toggleActiveMaximize()));
@@ -2628,11 +2630,6 @@ void Workspace::tileActiveWindow(uint side)
 #endif
 {
     quickTileWindow((QuickTileMode)side);
-}
-
-void Workspace::toggleActiveMaximize()
-{
-    slotWindowMaximize();
 }
 
 void Workspace::showSplitMenu(const QRect &rect, uint32_t client_id)

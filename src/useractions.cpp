@@ -1147,9 +1147,9 @@ void Workspace::initShortcuts()
     initShortcut("Window Close", i18n("Close Window"),
                  Qt::ALT | Qt::Key_F4, &Workspace::slotWindowClose);
     initShortcut("Window Absolute Maximize", i18n("Maximize Window"),
-                 Qt::META | Qt::Key_Up, &Workspace::slotWindowMaximizeByShortcut);
+                 Qt::META | Qt::Key_Up, &Workspace::slotWindowMaximize);
     initShortcut("Window Unmaximize", i18n("Maximize Window"),
-                 Qt::META | Qt::Key_Down, &Workspace::slotWindowUnMaximizeByShortcut);
+                 Qt::META | Qt::Key_Down, &Workspace::slotWindowUnMaximize);
     initShortcut("Window Maximize Vertical", i18n("Maximize Window Vertically"),
                  0, &Workspace::slotWindowMaximizeVertical);
     initShortcut("Window Maximize Horizontal", i18n("Maximize Window Horizontally"),
@@ -1399,9 +1399,7 @@ void Workspace::performWindowOperation(Window *window, Options::WindowOperation 
         QMetaObject::invokeMethod(window, &Window::closeWindow, Qt::QueuedConnection);
         break;
     case Options::MaximizeOp:
-        window->maximize(window->maximizeMode() == MaximizeFull
-                             ? MaximizeRestore
-                             : MaximizeFull);
+        window->maximize(MaximizeFull);
         takeActivity(window, ActivityFocus | ActivityRaise);
         break;
     case Options::HMaximizeOp:
@@ -1617,6 +1615,22 @@ void Workspace::slotWindowMaximize()
     }
 }
 
+void Workspace::slotWindowUnMaximize()
+{
+    if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
+        performWindowOperation(m_activeWindow, Options::RestoreOp);
+    }
+}
+
+void Workspace::slotToggleWindowMaximize()
+{
+    if (USABLE_ACTIVE_WINDOW) {
+        resetInteractiveMoveResize();
+        performWindowOperation(m_activeWindow, m_activeWindow->maximizeMode() == MaximizeFull ? Options::RestoreOp : Options::MaximizeOp);
+    }
+}
+
 /**
  * Maximizes the active window vertically.
  */
@@ -1625,24 +1639,6 @@ void Workspace::slotWindowMaximizeVertical()
     if (USABLE_ACTIVE_WINDOW) {
         resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, Options::VMaximizeOp);
-    }
-}
-
-void Workspace::slotWindowMaximizeByShortcut()
-{
-    if (USABLE_ACTIVE_WINDOW && m_activeWindow->isMaximizable()) {
-        resetInteractiveMoveResize();
-        m_activeWindow->maximize(MaximizeFull);
-        takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
-    }
-}
-
-void Workspace::slotWindowUnMaximizeByShortcut()
-{
-    if (USABLE_ACTIVE_WINDOW) {
-        resetInteractiveMoveResize();
-        m_activeWindow->maximize(MaximizeRestore);
-        takeActivity(m_activeWindow, ActivityFocus | ActivityRaise);
     }
 }
 

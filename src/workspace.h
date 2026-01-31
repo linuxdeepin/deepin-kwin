@@ -674,6 +674,8 @@ public Q_SLOTS:
     void slotToggleShowDesktop();
 
     void slotWindowMaximize();
+    void slotWindowUnMaximize();
+    void slotToggleWindowMaximize();
     void slotWindowMaximizeVertical();
     void slotWindowMaximizeHorizontal();
     void slotWindowMinimize();
@@ -682,9 +684,6 @@ public Q_SLOTS:
     void slotWindowLower();
     void slotWindowRaiseOrLower();
     void slotActivateAttentionWindow();
-
-    void slotWindowMaximizeByShortcut();
-    void slotWindowUnMaximizeByShortcut();
 
     void slotWindowCenter();
 
@@ -742,7 +741,6 @@ public Q_SLOTS:
 #else
     void tileActiveWindow(uint);
 #endif
-    void toggleActiveMaximize();
 
 #ifndef BUILD_ON_V25
     void slotDockPositionChanged();
