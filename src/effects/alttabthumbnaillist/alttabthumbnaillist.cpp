@@ -206,6 +206,10 @@ AltTabThumbnailListEffect::AltTabThumbnailListEffect()
 
     connect(effects, &EffectsHandler::windowClosed, this, &AltTabThumbnailListEffect::slotWindowRemoved);
     connect(effects, &EffectsHandler::windowDeleted, this, &AltTabThumbnailListEffect::slotWindowRemoved);
+
+    connect(Workspace::self(), &Workspace::activeColorChanged, this, [this] {
+        m_selectedFrame.reset();
+    });
 }
 
 AltTabThumbnailListEffect::~AltTabThumbnailListEffect()

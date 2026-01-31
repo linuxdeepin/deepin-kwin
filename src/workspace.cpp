@@ -2593,8 +2593,14 @@ QString Workspace::ActiveColor()
 
 void Workspace::setActiveColor(QString color)
 {
+    if (m_activeColor == color) {
+        return;
+    }
+
     m_activeColor = color;
     outline()->setActiveColor(m_activeColor);
+
+    Q_EMIT activeColorChanged(color);
 }
 
 #ifdef BUILD_ON_V25

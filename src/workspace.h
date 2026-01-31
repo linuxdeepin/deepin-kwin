@@ -831,6 +831,7 @@ Q_SIGNALS:
     void osRadiusChanged();
     void osThemeChanged();
     void iconThemeChanged();
+    void activeColorChanged(const QString &color);
 
 private:
     void init();
