@@ -27,7 +27,7 @@ const blacklist = [
 const whitelist = [
     "dde-lock org.deepin.dde.lock",
     "dde-launcher dde-launcher",
-    "Fullscreen Launchpad",
+    "org.deepin.ds.launchpad.fullscreen",
     "dde-polkit-agent dde-polkit-agent"
 ];
 
@@ -112,7 +112,7 @@ var scaleEffect = {
         var scaleDuration = scaleEffect.addDuration;
         if (window.windowClass == "dde-launcher dde-launcher" ||
             window.startEffectType == 16 ||
-            window.caption == "Fullscreen Launchpad") {
+            window.caption == "org.deepin.ds.launchpad.fullscreen") {
             scaleSize = scaleEffect.addLauncherSize;
             scaleDuration = scaleEffect.addLauncherDuration;
         }
@@ -165,7 +165,7 @@ var scaleEffect = {
         var scaleDuration = scaleEffect.closedDuration;
         if (window.windowClass == "dde-launcher dde-launcher" ||
             window.windowClass == "dde-lock org.deepin.dde.lock" ||
-            window.caption == "Fullscreen Launchpad") {
+            window.caption == "org.deepin.ds.launchpad.fullscreen") {
             scaleSize = scaleEffect.closedLauncherSize;
             scaleDuration = scaleEffect.closedLauncherDuration;
         }
