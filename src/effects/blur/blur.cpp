@@ -579,7 +579,12 @@ void BlurEffect::blur(EffectWindow *w, int mask, const QRegion &region, WindowPa
         renderInfo.textures.clear();
 
         for (size_t i = 0; i <= static_cast<size_t>(m_iterationCount); ++i) {
-            auto texture = std::make_unique<GLTexture>(textureFormat, backgroundRect.size() / (1 << i));
+            QSize textureSize = backgroundRect.size() / (1 << i);
+            // Avoid creating textures with size 0
+            if (textureSize.isEmpty()) {
+                continue;
+            }
+            auto texture = std::make_unique<GLTexture>(textureFormat, textureSize);
             if (!texture) {
                 qCWarning(KWIN_BLUR) << "Failed to allocate an offscreen texture";
                 return;
