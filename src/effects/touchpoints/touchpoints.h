@@ -19,10 +19,6 @@ class TouchPointsEffect
     : public Effect
 {
     Q_OBJECT
-    Q_PROPERTY(qreal lineWidth READ lineWidth)
-    Q_PROPERTY(int ringLife READ ringLife)
-    Q_PROPERTY(int ringSize READ ringSize)
-    Q_PROPERTY(int ringCount READ ringCount)
 public:
     TouchPointsEffect();
     ~TouchPointsEffect() override;
@@ -34,56 +30,37 @@ public:
     bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;
     bool touchUp(qint32 id, std::chrono::microseconds time) override;
 
-    // for properties
-    qreal lineWidth() const
-    {
-        return m_lineWidth;
-    }
-    int ringLife() const
-    {
-        return m_ringLife;
-    }
-    int ringSize() const
-    {
-        return m_ringMaxSize;
-    }
-    int ringCount() const
-    {
-        return m_ringCount;
-    }
-
 private:
-    inline void drawCircle(const QColor &color, float cx, float cy, float r);
+    inline void drawCircle(float alpha, float cx, float cy, float r);
     inline void paintScreenSetup(int mask, QRegion region, ScreenPaintData &data);
     inline void paintScreenFinish(int mask, QRegion region, ScreenPaintData &data);
 
     void repaint();
 
-    float computeAlpha(int time, int ring);
-    float computeRadius(int time, bool press, int ring);
-    void drawCircleGl(const QColor &color, float cx, float cy, float r);
-    void drawCircleQPainter(const QColor &color, float cx, float cy, float r);
+    void drawCircleGl(float alpha, float cx, float cy, float r);
+    void drawCircleQPainter(float alpha, float cx, float cy, float r);
     void paintScreenSetupGl(int mask, QRegion region, ScreenPaintData &data);
     void paintScreenFinishGl(int mask, QRegion region, ScreenPaintData &data);
-
-    Qt::GlobalColor colorForId(quint32 id);
-
-    int m_ringCount = 2;
-    float m_lineWidth = 1.0;
-    int m_ringLife = 300;
-    float m_ringMaxSize = 20.0;
+    std::chrono::milliseconds currentTime() const;
+    static constexpr float PointSize = 12.0;
+    static constexpr float LineWidth = 1.0;
+    static constexpr float PointAlpha = 0.2;
+    static constexpr std::chrono::milliseconds PointLife = std::chrono::milliseconds(300);
 
     struct TouchPoint
     {
+        qint32 id;
         QPointF pos;
-        int time = 0;
-        bool press;
-        QColor color;
     };
+
+    struct DyingTouchPoint
+    {
+        QPointF pos;
+        std::chrono::milliseconds expiration;
+    };
+
     QVector<TouchPoint> m_points;
-    QHash<quint32, QPointF> m_latestPositions;
-    QHash<quint32, Qt::GlobalColor> m_colors;
-    std::chrono::milliseconds m_lastPresentTime = std::chrono::milliseconds::zero();
+    QVector<DyingTouchPoint> m_dyingPoints;
 };
 
 } // namespace
