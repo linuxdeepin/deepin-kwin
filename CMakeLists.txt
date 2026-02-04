@@ -210,14 +210,8 @@ set_package_properties(KF${KF_MAJOR_VERSION}Kirigami2 PROPERTIES
 if (BUILD_ON_V25)
     add_definitions(-DBUILD_ON_V25)
     add_definitions(-DBUILD_WITHOUT_V20_PATCH)
-    add_subdirectory(kdecoration)
-else()
-  find_package(KDecoration2 ${PROJECT_VERSION} CONFIG)
-  set_package_properties(KDecoration2 PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Required for server side decoration support"
-  )
 endif()
+add_subdirectory(kdecoration)
 
 find_package(KF${KF_MAJOR_VERSION}KCMUtils ${PROJECT_VERSION} CONFIG)
 find_package(KF${KF_MAJOR_VERSION}Service ${PROJECT_VERSION} CONFIG)
@@ -534,7 +528,7 @@ ecm_find_qmlmodule(org.kde.plasma.components 2.0)
 option(KWIN_BUILD_DECORATIONS "Enable building of KWin decorations." ON)
 option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." OFF)
 option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications support" ON)
-option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" ON)
+option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" OFF)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
 option(KWIN_BUILD_XRENDER_COMPOSITING "Enable building of KWin with XRender Compositing support" ON)
 cmake_dependent_option(KWIN_BUILD_ACTIVITIES "Enable building of KWin with kactivities support" ON "KFActivities_FOUND" OFF)

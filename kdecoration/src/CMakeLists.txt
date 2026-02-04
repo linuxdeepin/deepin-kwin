@@ -42,8 +42,8 @@ set_target_properties(kdecorations2 PROPERTIES
 
 target_link_libraries(kdecorations2
     PUBLIC
-        Qt::Core
-        Qt::Gui
+        Qt${QT_MAJOR_VERSION}::Core
+        Qt${QT_MAJOR_VERSION}::Gui
     PRIVATE
         kdecorations2private
         KF${KF_MAJOR_VERSION}::I18n

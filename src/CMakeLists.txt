@@ -283,8 +283,8 @@ if (QT_MAJOR_VERSION EQUAL "5")
         Qt5::X11Extras
         Qt5XkbCommonSupport::Qt5XkbCommonSupport
         KF5::GlobalAccelPrivate
-        KDecoration2::KDecoration
-        KDecoration2::KDecoration2Private
+        kdecorations2
+        kdecorations2private
     )
 else()
     find_package(KGlobalAccelD REQUIRED)

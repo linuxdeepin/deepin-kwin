@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.16)
 project(decoration-api)
 set(PROJECT_VERSION "5.27.5")
 
-set(QT_MIN_VERSION "5.15.2")
-set(KF5_MIN_VERSION "5.102.0")
-set(KDE_COMPILERSETTINGS_LEVEL "5.82")
+set(QT_MIN_VERSION "5.11.2")
+set(KF5_MIN_VERSION "5.54.0")
+set(KDE_COMPILERSETTINGS_LEVEL "5.54")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked

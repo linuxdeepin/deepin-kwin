@@ -385,7 +385,11 @@ void Decoration::mouseReleaseEvent(QMouseEvent *event)
 void Decoration::wheelEvent(QWheelEvent *event)
 {
     for (DecorationButton *button : d->buttons) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        if (button->contains(event->pos())) {
+#else
         if (button->contains(event->position())) {
+#endif
             QCoreApplication::instance()->sendEvent(button, event);
             event->setAccepted(true);
         }
