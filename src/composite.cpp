@@ -51,7 +51,6 @@
 #include <kwinglplatform.h>
 #include <kwingltexture.h>
 
-#include <KCrash>
 #include <KGlobalAccel>
 #include <KLocalizedString>
 #if KWIN_BUILD_NOTIFICATIONS
@@ -1578,7 +1577,6 @@ void X11Compositor::createOpenGLSafePoint(OpenGLSafePoint safePoint)
                     auto group = KConfigGroup(KSharedConfig::openConfig(configName), "Compositing");
                     group.writeEntry(QLatin1String("LastFailureTimestamp"), QDateTime::currentSecsSinceEpoch());
                     group.sync();
-                    KCrash::setDrKonqiEnabled(false);
                     qFatal("Freeze in OpenGL initialization detected");
                 },
                 Qt::DirectConnection);

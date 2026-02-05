@@ -30,7 +30,6 @@
 #include "xwayland/xwaylandlauncher.h"
 
 // KDE
-#include <KCrash>
 #include <KDesktopFile>
 #include <KLocalizedString>
 #include <KShell>
@@ -122,14 +121,6 @@ static void restoreNofileLimit()
         std::cerr << "Failed to restore RLIMIT_NOFILE limit, legacy apps might be broken" << std::endl;
     }
 }
-
-void disableDrKonqi()
-{
-    KCrash::setDrKonqiEnabled(false);
-}
-// run immediately, before Q_CORE_STARTUP functions
-// that would enable drkonqi
-Q_CONSTRUCTOR_FUNCTION(disableDrKonqi)
 
 //************************************
 // ApplicationWayland

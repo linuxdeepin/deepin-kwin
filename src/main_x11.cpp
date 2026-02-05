@@ -24,7 +24,6 @@
 #include "workspace.h"
 
 #include <KConfigGroup>
-#include <KCrash>
 #include <KGlobalAccel>
 #include <KLocalizedString>
 #include <KSelectionOwner>
@@ -254,7 +253,6 @@ void ApplicationX11::lostSelection()
 
 void ApplicationX11::performStartup()
 {
-    crashChecking();
     setUseXRecord(true);
     owner.reset(new KWinSelectionOwner());
     connect(owner.get(), &KSelectionOwner::failedToClaimOwnership, [] {
@@ -321,38 +319,6 @@ void ApplicationX11::performStartup()
     createTabletModeManager();
 }
 
-void ApplicationX11::setupCrashHandler()
-{
-    KCrash::setEmergencySaveFunction(ApplicationX11::crashHandler);
-}
-
-void ApplicationX11::crashChecking()
-{
-    setupCrashHandler();
-    if (crashes >= 4) {
-        // Something has gone seriously wrong
-        AlternativeWMDialog dialog;
-        QString cmd = QStringLiteral("kwin_x11");
-        if (dialog.exec() == QDialog::Accepted) {
-            cmd = dialog.selectedWM();
-        } else {
-            ::exit(1);
-        }
-        if (cmd.length() > 500) {
-            qCDebug(KWIN_CORE) << "Command is too long, truncating";
-            cmd = cmd.left(500);
-        }
-        qCDebug(KWIN_CORE) << "Starting" << cmd << "and exiting";
-        char buf[1024];
-        sprintf(buf, "%s &", cmd.toLatin1().data());
-        auto ret = system(buf);
-        Q_UNUSED(ret);
-        ::exit(1);
-    }
-    // Reset crashes count if we stay up for more that 15 seconds
-    QTimer::singleShot(15 * 1000, this, &Application::resetCrashesCount);
-}
-
 void ApplicationX11::notifyKSplash()
 {
     // Tell KSplash that KWin has started
@@ -362,20 +328,6 @@ void ApplicationX11::notifyKSplash()
                                                                          QStringLiteral("setStage"));
     ksplashProgressMessage.setArguments(QList<QVariant>() << QStringLiteral("wm"));
     QDBusConnection::sessionBus().asyncCall(ksplashProgressMessage);
-}
-
-void ApplicationX11::crashHandler(int signal)
-{
-    crashes++;
-
-    fprintf(stderr, "Application::crashHandler() called with signal %d; recent crashes: %d\n", signal, crashes);
-    char cmd[1024];
-    sprintf(cmd, "%s --crashes %d &",
-            QFile::encodeName(QCoreApplication::applicationFilePath()).constData(), crashes);
-
-    sleep(1);
-    auto ret = system(cmd);
-    Q_UNUSED(ret);
 }
 
 } // namespace

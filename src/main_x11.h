@@ -38,11 +38,7 @@ private Q_SLOTS:
     void lostSelection();
 
 private:
-    void crashChecking();
-    void setupCrashHandler();
     void notifyKSplash();
-
-    static void crashHandler(int signal);
 
     std::unique_ptr<KWinSelectionOwner> owner;
     bool m_replace;
