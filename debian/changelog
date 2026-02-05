@@ -1,3 +1,21 @@
+kwin (4:6.1.1) unstable; urgency=medium
+
+  * fix: garbled content dropped on wechat
+  * fix: keep result consistent in sendFinished
+  * build: remove KCrash dependency
+  * fix(build): resolve compilation errors in V20 environment
+  * build: support Qt5/Qt6 auto-detection for V20 and V25 merge
+  * refactor: rename deepin-kwin to kwin
+  * feat(zoom): disabling anti-aliasing
+  * feat(effects): change zoom default shortcut from Meta+0 to Meta+Escape
+  * fix(alttab): active color not syncing properly
+  * fix(blur): prevent creating textures with invalid size
+  * chore: log raw libwayland messages
+  * fix(workspace): refactor window maximization logic and shortcuts
+  * fix: fix Qt slot lifecycle issue causing crash
+
+ -- Dingyuan Zhang <zhangdingyuan@uniontech.com>  Thu, 05 Feb 2026 13:50:10 +0800
+
 kwin (4:6.1.0) unstable; urgency=medium
 
   * rename deepin-kwin to kwin
