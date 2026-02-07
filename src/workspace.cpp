@@ -1060,6 +1060,7 @@ void Workspace::addToStack(Window *window)
     if (!stacking_order.contains(window)) {
         stacking_order.append(window);
     }
+    connect(window, &Window::windowShown, this, &Workspace::windowShown, Qt::UniqueConnection);
 }
 
 void Workspace::replaceInStack(Window *original, Deleted *deleted)
@@ -1081,6 +1082,7 @@ void Workspace::replaceInStack(Window *original, Deleted *deleted)
             constraint->above = deleted;
         }
     }
+    disconnect(original, &Window::windowShown, this, &Workspace::windowShown);
 }
 
 void Workspace::removeFromStack(Window *window)
@@ -1106,6 +1108,7 @@ void Workspace::removeFromStack(Window *window)
         }
         delete m_constraints.takeAt(i);
     }
+    disconnect(window, &Window::windowShown, this, &Workspace::windowShown);
 }
 
 X11Window *Workspace::createX11Window(xcb_window_t windowId, bool is_mapped)

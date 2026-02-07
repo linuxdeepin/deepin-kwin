@@ -832,6 +832,7 @@ Q_SIGNALS:
     void osThemeChanged();
     void iconThemeChanged();
     void activeColorChanged(const QString &color);
+    void windowShown(KWin::Window *);
 
 private:
     void init();

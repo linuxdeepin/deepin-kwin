@@ -3753,6 +3753,10 @@ void InputDeviceHandler::init()
 {
     connect(workspace(), &Workspace::stackingOrderChanged, this, &InputDeviceHandler::update);
     connect(workspace(), &Workspace::windowMinimizedChanged, this, &InputDeviceHandler::update);
+    // X windows are added to stacking order before they are readyForPainting.
+    // It might cause X windows not getting focus on first mapping. See BUG-347643.
+    // When a window is readyForPainting, we should update the input device focus.
+    connect(workspace(), &Workspace::windowShown, this, &InputDeviceHandler::update);
     connect(VirtualDesktopManager::self(), &VirtualDesktopManager::currentChanged, this, &InputDeviceHandler::update);
 }
 

@@ -79,13 +79,10 @@ std::unique_ptr<WindowItem> Unmanaged::createItem(Scene *scene)
 
 void Unmanaged::associate()
 {
-    if (surface()->isMapped()) {
-        initialize();
-    } else {
-        // Queued connection because we want to mark the window ready for painting after
-        // the associated surface item has processed the new surface state.
-        connect(surface(), &SurfaceInterface::mapped, this, &Unmanaged::initialize, Qt::QueuedConnection);
-    }
+    // Should initialize unmanaged window when the surface is associated.
+    // Unmanaged windows are created when KWin receive MapNotify.
+    // MapNotify means that the window is mapped and ready for painting.
+    initialize();
 }
 
 void Unmanaged::initialize()
