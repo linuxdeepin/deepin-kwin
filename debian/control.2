@@ -112,8 +112,8 @@ Depends: hwdata,
          qml6-module-org-kde-ksvg,
          ${misc:Depends},
          ${shlibs:Depends},
-Replaces: deepin-kwin-common (<= 4:6.0.15),
-Breaks: plasma-workspace (<< 4:5.14), plasma-workspace-dev (<< 4:5.14), deepin-kwin-common (<= 4:6.0.15),
+Replaces: deepin-kwin-common (< 4:6.1.0),
+Breaks: plasma-workspace (<< 4:5.14), plasma-workspace-dev (<< 4:5.14), deepin-kwin-common (< 4:6.1.0),
 Provides: deepin-kwin-common,
 Description: KDE window manager, common files
  KWin (pronounced as one syllable "kwin") is the window
@@ -136,8 +136,8 @@ Recommends: qml6-module-qtmultimedia,
             qml6-module-qtquick-virtualkeyboard,
             qml6-module-qtquick-window,
             qml6-module-qtquick,
-Replaces: dde-deepin-kwin (<< 5.8.4.-1), deepin-kwin-data (<= 4:6.0.15),
-Breaks: dde-deepin-kwin (<< 5.8.4.-1), deepin-kwin-data (<= 4:6.0.15),
+Replaces: dde-deepin-kwin (<< 5.8.4.-1), deepin-kwin-data (< 4:6.1.0),
+Breaks: dde-deepin-kwin (<< 5.8.4.-1), deepin-kwin-data (< 4:6.1.0),
 Provides: deepin-kwin-data,
 Description: KDE window manager data files
  KWin (pronounced as one syllable "deepin-kwin") is the window
@@ -163,8 +163,8 @@ Depends: kwin-common (= ${binary:Version}),
          qt6-base-dev (>= 6.7.0),
          ${misc:Depends},
          ${shlibs:Depends},
-Breaks: kde-workspace-dev, deepin-kwin-dev (<= 4:6.0.15),
-Replaces: kde-workspace-dev, deepin-kwin-dev (<= 4:6.0.15),
+Breaks: kde-workspace-dev, deepin-kwin-dev (< 4:6.1.0),
+Replaces: kde-workspace-dev, deepin-kwin-dev (< 4:6.1.0),
 Provides: deepin-kwin-dev,
 Description: KDE window manager - devel files
  KWin (pronounced as one syllable "kwin") is the window
@@ -183,8 +183,8 @@ Depends: libcap2-bin [linux-any],
          xwayland,
          ${misc:Depends},
          ${shlibs:Depends},
-Replaces: deepin-kwin-wayland (<= 4:6.0.15),
-Breaks: plasma-workspace-wayland (<< 4:5.14), deepin-kwin-wayland (<= 4:6.0.15),
+Replaces: deepin-kwin-wayland (< 4:6.1.0),
+Breaks: plasma-workspace-wayland (<< 4:5.14), deepin-kwin-wayland (< 4:6.1.0),
 Provides: deepin-kwin, deepin-kwin-wayland,
 Description: KDE window manager, wayland version, PREVIEW release
  KWin (pronounced as one syllable "kwin") is the window
@@ -202,8 +202,8 @@ Description: KDE window manager, wayland version, PREVIEW release
 Package: kwin-x11
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends},
-Replaces: deepin-kwin-x11 (<= 4:6.0.15),
-Breaks: deepin-kwin-addons (<< 4:5.14), deepin-kwin-x11 (<= 4:6.0.15),
+Replaces: deepin-kwin-x11 (< 4:6.1.0),
+Breaks: deepin-kwin-addons (<< 4:5.14), deepin-kwin-x11 (< 4:6.1.0),
 Provides: deepin-kwin, x-window-manager, deepin-kwin-x11,
 Description: KDE window manager, X11 version
  KWin (pronounced as one syllable "kwin") is the window
@@ -220,8 +220,8 @@ Package: libkwineffects14
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends},
-Breaks: libkwin4-effect-builtins1, libkwineffects13, libdeepin-kwineffects14 (<= 4:6.0.15),
-Replaces: libkwineffects13, libdeepin-kwineffects14 (<= 4:6.0.15),
+Breaks: libkwin4-effect-builtins1, libkwineffects13, libdeepin-kwineffects14 (< 4:6.1.0),
+Replaces: libkwineffects13, libdeepin-kwineffects14 (< 4:6.1.0),
 Provides: libdeepin-kwineffects14,
 Description: KDE window manager effects library
  KWin (pronounced as one syllable "kwin") is the window
@@ -238,8 +238,8 @@ Package: libkwinglutils14
 Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends},
-Breaks: libkwin4-effect-builtins1, libkwinglutils13, libdeepin-kwinglutils14 (<= 4:6.0.15),
-Replaces: libkwinglutils13, libdeepin-kwinglutils14 (<= 4:6.0.15),
+Breaks: libkwin4-effect-builtins1, libkwinglutils13, libdeepin-kwinglutils14 (< 4:6.1.0),
+Replaces: libkwinglutils13, libdeepin-kwinglutils14 (< 4:6.1.0),
 Provides: libdeepin-kwinglutils14,
 Description: KDE window manager gl utils library
  KWin (pronounced as one syllable "kwin") is the window
