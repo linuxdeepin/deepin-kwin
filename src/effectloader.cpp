@@ -116,7 +116,10 @@ bool ScriptedEffectLoader::loadEffect(const KPluginMetaData &effect, LoadEffectF
 {
     const QString name = effect.pluginId();
     if (!effects->waylandDisplay()) {
-        if (effectsEx->effectType() == EffectType::OpenGLNoMotion && EffectsHandlerEx::motionEffectList.contains(name)) {
+        if (effectsEx->effectType() >= EffectType::OpenGLNoMotion && EffectsHandlerEx::motionEffectList.contains(name)) {
+            return false;
+        }
+        if (effectsEx->effectType() >= EffectType::OpenGLNoScissor && name == QLatin1String("scissor")) {
             return false;
         }
         if (name == "kwin4_effect_squash" || name == "kwin4_effect_maximize"
@@ -297,7 +300,10 @@ bool PluginEffectLoader::loadEffect(const KPluginMetaData &info, LoadEffectFlags
     }
     const QString name = info.pluginId();
     if (!effects->waylandDisplay()) {
-        if (effectsEx->effectType() == EffectType::OpenGLNoMotion && EffectsHandlerEx::motionEffectList.contains(name)) {
+        if (effectsEx->effectType() >= EffectType::OpenGLNoMotion && EffectsHandlerEx::motionEffectList.contains(name)) {
+            return false;
+        }
+        if (effectsEx->effectType() >= EffectType::OpenGLNoScissor && name == QLatin1String("scissor")) {
             return false;
         }
         if (name == "magiclamp" || name == "slide") {
