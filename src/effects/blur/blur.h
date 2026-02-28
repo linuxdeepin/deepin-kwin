@@ -114,6 +114,18 @@ private:
         int noiseTextureStength = 0;
     } m_noisePass;
 
+    struct
+    {
+        std::unique_ptr<GLShader> shader;
+        int mvpMatrixLocation;
+        int colorMatrixLocation;
+        int offsetLocation;
+        int halfpixelLocation;
+        int boxLocation;
+        int cornerRadiusLocation;
+        int opacityLocation;
+    } m_roundedOnscreenPass;
+
     bool m_valid = false;
     long net_wm_blur_region = 0;
     QRegion m_paintedArea; // keeps track of all painted areas (from bottom to top)

@@ -408,12 +408,6 @@ void ChameleonConfig::updateWindowBlurArea(KWin::EffectWindow *window, int role)
         window->setProperty("__dde__blur_behind_role", blur_area);
     }
 
-    // 优先使用窗口裁剪区域，如裁剪区域无效时使用窗口圆角属性
-    if (path.isEmpty()) {
-        // 模糊区域的圆角处不会进行多采样，此处应该减小区域，防止和窗口border叠加处出现圆角锯齿
-        path.addRoundedRect(QRectF(window->rect()), radius.x(), radius.y());
-    }
-
     QPainterPath blur_path;
     QRegion blur_region = qvariant_cast<QRegion>(blur_area);
 

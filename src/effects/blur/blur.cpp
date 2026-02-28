@@ -10,11 +10,13 @@
 // KConfigSkeleton
 #include "blurconfig.h"
 
+#include "kwineffectsex.h"
 #include "libkwineffects/kwinglplatform.h"
 #include "utils/xcbutils.h"
 #include "wayland/blur_interface.h"
 #include "wayland/display.h"
 #include "wayland/surface_interface.h"
+#include "window.h"
 
 #include <QGuiApplication>
 #include <QMatrix4x4>
@@ -22,6 +24,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QWindow>
+#include <QMatrix4x4>
 #include <cmath> // for ceil()
 #include <cstdlib>
 
@@ -73,6 +76,22 @@ BlurEffect::BlurEffect()
         m_upsamplePass.mvpMatrixLocation = m_upsamplePass.shader->uniformLocation("modelViewProjectionMatrix");
         m_upsamplePass.offsetLocation = m_upsamplePass.shader->uniformLocation("offset");
         m_upsamplePass.halfpixelLocation = m_upsamplePass.shader->uniformLocation("halfpixel");
+    }
+
+    m_roundedOnscreenPass.shader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture,
+                                                                                     QStringLiteral(":/effects/blur/shaders/onscreen_rounded.vert"),
+                                                                                     QStringLiteral(":/effects/blur/shaders/onscreen_rounded.frag"));
+    if (!m_roundedOnscreenPass.shader) {
+        qCWarning(KWIN_BLUR) << "Failed to load onscreen pass shader";
+        return;
+    } else {
+        m_roundedOnscreenPass.mvpMatrixLocation = m_roundedOnscreenPass.shader->uniformLocation("modelViewProjectionMatrix");
+        m_roundedOnscreenPass.colorMatrixLocation = m_roundedOnscreenPass.shader->uniformLocation("colorMatrix");
+        m_roundedOnscreenPass.offsetLocation = m_roundedOnscreenPass.shader->uniformLocation("offset");
+        m_roundedOnscreenPass.halfpixelLocation = m_roundedOnscreenPass.shader->uniformLocation("halfpixel");
+        m_roundedOnscreenPass.boxLocation = m_roundedOnscreenPass.shader->uniformLocation("box");
+        m_roundedOnscreenPass.cornerRadiusLocation = m_roundedOnscreenPass.shader->uniformLocation("cornerRadius");
+        m_roundedOnscreenPass.opacityLocation = m_roundedOnscreenPass.shader->uniformLocation("opacity");
     }
 
     m_noisePass.shader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture,
@@ -570,6 +589,7 @@ void BlurEffect::blur(EffectWindow *w, int mask, const QRegion &region, WindowPa
 
     const QRect backgroundRect = blurShape.boundingRect();
     const QRect deviceBackgroundRect = scaledRect(backgroundRect, effects->renderTargetScale()).toRect();
+    const auto opacity = w->opacity() * data.opacity();
 
     if (renderInfo.framebuffers.size() != static_cast<std::vector<std::unique_ptr<GLFramebuffer>>::size_type>(m_iterationCount + 1)
      || renderInfo.textures[0]->size() != backgroundRect.size()
@@ -756,9 +776,6 @@ void BlurEffect::blur(EffectWindow *w, int mask, const QRegion &region, WindowPa
             GLFramebuffer::popFramebuffer();
             const auto &read = renderInfo.framebuffers[i];
 
-            if (!read->colorAttachment())
-                continue;
-
             const QVector2D halfpixel(0.5 / read->colorAttachment()->width(),
                                       0.5 / read->colorAttachment()->height());
             m_upsamplePass.shader->setUniform(m_upsamplePass.halfpixelLocation, halfpixel);
@@ -768,35 +785,103 @@ void BlurEffect::blur(EffectWindow *w, int mask, const QRegion &region, WindowPa
             vbo->draw(GL_TRIANGLES, 0, 6);
         }
 
-        // The last upsampling pass is rendered on the screen, not in framebuffers[0].
+        ShaderManager::instance()->popShader();
+    }
+
+    const float modulation = opacity * opacity;
+
+    const QVariant valueRadius = w->data(WindowRadiusRole);
+    if (valueRadius.isValid() || w->isScissorForce()) {
+        ShaderManager::instance()->pushShader(m_roundedOnscreenPass.shader.get());
+
+        QMatrix4x4 projectionMatrix = data.projectionMatrix();
+        projectionMatrix.translate(deviceBackgroundRect.x(), deviceBackgroundRect.y());
+
         GLFramebuffer::popFramebuffer();
         const auto &read = renderInfo.framebuffers[1];
 
-        if (read->colorAttachment()) {
-            projectionMatrix = data.projectionMatrix();
-            projectionMatrix.translate(deviceBackgroundRect.x(), deviceBackgroundRect.y());
-            m_upsamplePass.shader->setUniform(m_upsamplePass.mvpMatrixLocation, projectionMatrix);
+        const QVector2D halfpixel(0.5 / read->colorAttachment()->width(),
+                                  0.5 / read->colorAttachment()->height());
 
-            const QVector2D halfpixel(0.5 / read->colorAttachment()->width(),
-                                    0.5 / read->colorAttachment()->height());
-            m_upsamplePass.shader->setUniform(m_upsamplePass.halfpixelLocation, halfpixel);
+        const QRectF transformedRect = QRectF{
+            w->frameGeometry().x() + data.xTranslation(),
+            w->frameGeometry().y() + data.yTranslation(),
+            w->frameGeometry().width() * data.xScale(),
+            w->frameGeometry().height() * data.yScale(),
+        };
+        const QRectF nativeBox = scaledRect(transformedRect, effects->renderTargetScale())
+                                     .translated(-deviceBackgroundRect.topLeft());
+        QPointF cornerRadius;
+        if (valueRadius.isValid()) {
+            cornerRadius = valueRadius.toPointF();
+            const qreal xMin{ std::min(cornerRadius.x(), w->width() / 2.0) };
+            const qreal yMin{ std::min(cornerRadius.y(), w->height() / 2.0) };
+            const qreal minRadius{ std::min(xMin, yMin) };
+            cornerRadius = QPointF(minRadius, minRadius);
+        } else if (w->isScissorForce()) {
+            float r = effectsEx->getOsRadius() * effectsEx->getOsScale();
+            cornerRadius = QPointF(r, r);
+        }
 
-            read->colorAttachment()->bind();
+        const int radius = cornerRadius.x();
 
-            // Modulate the blurred texture with the window opacity if the window isn't opaque
-            if (data.opacity() < 1.0) {
-                glEnable(GL_BLEND);
-                float o = 1.0f - data.opacity();
-                o = 1.0f - o * o;
-                glBlendColor(0, 0, 0, o);
-                glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
-            }
+        m_roundedOnscreenPass.shader->setUniform(m_roundedOnscreenPass.mvpMatrixLocation, projectionMatrix);
+        m_roundedOnscreenPass.shader->setUniform(m_roundedOnscreenPass.halfpixelLocation, halfpixel);
+        m_roundedOnscreenPass.shader->setUniform(m_roundedOnscreenPass.offsetLocation, float(m_offset));
+        m_roundedOnscreenPass.shader->setUniform(m_roundedOnscreenPass.boxLocation, QVector4D(nativeBox.x() + nativeBox.width() * 0.5, nativeBox.y() + nativeBox.height() * 0.5, nativeBox.width() * 0.5, nativeBox.height() * 0.5));
+        m_roundedOnscreenPass.shader->setUniform(m_roundedOnscreenPass.cornerRadiusLocation, QVector4D(radius, radius, radius, radius));
+        m_roundedOnscreenPass.shader->setUniform(m_roundedOnscreenPass.opacityLocation, modulation);
 
-            vbo->draw(GL_TRIANGLES, 6, vertexCount);
+        read->colorAttachment()->bind();
 
-            if (data.opacity() < 1.0) {
-                glDisable(GL_BLEND);
-            }
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+        vbo->draw(GL_TRIANGLES, 6, vertexCount);
+
+        glDisable(GL_BLEND);
+
+        ShaderManager::instance()->popShader();
+    } else {
+        ShaderManager::instance()->pushShader(m_upsamplePass.shader.get());
+
+        QMatrix4x4 projectionMatrix = data.projectionMatrix();
+        projectionMatrix.translate(deviceBackgroundRect.x(), deviceBackgroundRect.y());
+
+        GLFramebuffer::popFramebuffer();
+        const auto &read = renderInfo.framebuffers[1];
+
+        const QVector2D halfpixel(0.5 / read->colorAttachment()->width(),
+                                  0.5 / read->colorAttachment()->height());
+
+        projectionMatrix = data.projectionMatrix();
+        projectionMatrix.translate(deviceBackgroundRect.x(), deviceBackgroundRect.y());
+        m_upsamplePass.shader->setUniform(m_upsamplePass.mvpMatrixLocation, projectionMatrix);
+        m_upsamplePass.shader->setUniform(m_upsamplePass.halfpixelLocation, halfpixel);
+        m_upsamplePass.shader->setUniform(m_upsamplePass.offsetLocation, float(m_offset));
+
+        read->colorAttachment()->bind();
+
+        if (modulation < 1.0) {
+            glEnable(GL_BLEND);
+            glBlendColor(0, 0, 0, modulation);
+            glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
+        }
+
+        vbo->draw(GL_TRIANGLES, 6, vertexCount);
+
+        if (modulation < 1.0) {
+            glEnable(GL_BLEND);
+            float o = 1.0f - (opacity);
+            o = 1.0f - o * o;
+            glBlendColor(0, 0, 0, o);
+            glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
+        }
+
+        vbo->draw(GL_TRIANGLES, 6, vertexCount);
+
+        if (modulation < 1.0) {
+            glDisable(GL_BLEND);
         }
 
         ShaderManager::instance()->popShader();

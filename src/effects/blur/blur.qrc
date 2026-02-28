@@ -8,5 +8,9 @@
   <file>shaders/upsample_core.frag</file>
   <file>shaders/vertex.vert</file>
   <file>shaders/vertex_core.vert</file>
+  <file>shaders/onscreen_rounded_core.frag</file>
+  <file>shaders/onscreen_rounded.frag</file>
+  <file>shaders/onscreen_rounded_core.vert</file>
+  <file>shaders/onscreen_rounded.vert</file>
 </qresource>
 </RCC>
