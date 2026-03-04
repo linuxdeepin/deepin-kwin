@@ -1,3 +1,10 @@
+kwin (4:6.1.5) unstable; urgency=medium
+
+  * feat: new touchpoints effect
+  * fix: unmanaged windows not getting pointer focus
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 04 Mar 2026 15:45:23 +0800
+
 kwin (4:6.1.4) unstable; urgency=medium
 
   * fix: resolve unexpected visual effects caused by inadequate loading condition checks
