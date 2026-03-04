@@ -1,3 +1,10 @@
+kwin (4:6.1.4) unstable; urgency=medium
+
+  * fix: resolve unexpected visual effects caused by inadequate loading condition checks
+  * fix(blur): add anti-aliasing support for rounded corners in blur effect
+
+ -- justforlxz <justforlxz@gmail.com>  Wed, 04 Mar 2026 11:16:42 +0800
+
 kwin (4:6.1.3) unstable; urgency=medium
 
   * fix(debian): add Conflicts field to resolve V25 upgrade failure
