@@ -394,7 +394,9 @@ int main(int argc, char *argv[])
     parser.addOption(noActivitiesOption);
 #endif
 
-    parser.process(a);
+    if (!parser.parse(a.arguments())) {
+        qCWarning(KWIN_CORE) << qPrintable(parser.errorText());
+    }
     a.processCommandLine(&parser);
     a.setReplace(parser.isSet(replaceOption));
 #if KWIN_BUILD_ACTIVITIES

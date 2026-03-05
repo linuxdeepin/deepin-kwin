@@ -469,7 +469,9 @@ int main(int argc, char *argv[])
                                  i18n("Applications to start once Wayland and Xwayland server are started"),
                                  QStringLiteral("[/path/to/application...]"));
 
-    parser.process(a);
+    if (!parser.parse(a.arguments())) {
+        qCWarning(KWIN_CORE) << qPrintable(parser.errorText());
+    }
     a.processCommandLine(&parser);
 
 #if KWIN_BUILD_ACTIVITIES
