@@ -395,7 +395,7 @@ int main(int argc, char *argv[])
 #endif
 
     if (!parser.parse(a.arguments())) {
-        qCWarning(KWIN_CORE) << qPrintable(parser.errorText());
+        qWarning() << qPrintable(parser.errorText());
     }
     a.processCommandLine(&parser);
     a.setReplace(parser.isSet(replaceOption));

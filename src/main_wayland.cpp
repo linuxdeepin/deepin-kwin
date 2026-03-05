@@ -470,7 +470,7 @@ int main(int argc, char *argv[])
                                  QStringLiteral("[/path/to/application...]"));
 
     if (!parser.parse(a.arguments())) {
-        qCWarning(KWIN_CORE) << qPrintable(parser.errorText());
+        qWarning() << qPrintable(parser.errorText());
     }
     a.processCommandLine(&parser);
 
