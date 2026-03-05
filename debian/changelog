@@ -1,3 +1,9 @@
+kwin (4:6.1.6) unstable; urgency=medium
+
+  * fix: do not exit when option is not supported
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Thu, 05 Mar 2026 14:49:22 +0800
+
 kwin (4:6.1.5) unstable; urgency=medium
 
   * feat: new touchpoints effect
