@@ -1637,9 +1637,193 @@ QRectF Window::keepInArea(QRectF geometry, QRectF area, bool partial)
     return geometry;
 }
 
+static QRectF snapToVisibleArea(const QList<QRectF> &screens,
+                                const QRectF &window)
+{
+    if (screens.isEmpty())
+        return window;
+
+    const double w = window.width();
+    const double h = window.height();
+    const QPointF originalTopLeft = window.topLeft();
+
+    // ----------------------------
+    // Step 1: collect unique edges
+    // ----------------------------
+    QSet<double> xSet, ySet;
+    for (const QRectF &s : screens) {
+        xSet.insert(s.left());
+        xSet.insert(s.right());
+        ySet.insert(s.top());
+        ySet.insert(s.bottom());
+    }
+
+    QVector<double> xs = xSet.values().toVector();
+    QVector<double> ys = ySet.values().toVector();
+
+    std::sort(xs.begin(), xs.end());
+    std::sort(ys.begin(), ys.end());
+
+    const int nx = xs.size() - 1;
+    const int ny = ys.size() - 1;
+
+    if (nx <= 0 || ny <= 0)
+        return window;
+
+    // ----------------------------
+    // Step 2: mark valid cells
+    // ----------------------------
+    QVector<QVector<bool>> valid(nx, QVector<bool>(ny, false));
+
+    for (int i = 0; i < nx; ++i) {
+        for (int j = 0; j < ny; ++j) {
+            QRectF cell(xs[i], ys[j],
+                        xs[i + 1] - xs[i],
+                        ys[j + 1] - ys[j]);
+
+            for (const QRectF &s : screens) {
+                if (s.contains(cell)) {
+                    valid[i][j] = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    // ----------------------------
+    // Step 3: compute rightRun
+    // ----------------------------
+    QVector<QVector<int>> rightRun(nx, QVector<int>(ny, 0));
+
+    for (int j = 0; j < ny; ++j) {
+        for (int i = nx - 1; i >= 0; --i) {
+            if (!valid[i][j])
+                rightRun[i][j] = 0;
+            else
+                rightRun[i][j] = 1 + (i + 1 < nx ? rightRun[i + 1][j] : 0);
+        }
+    }
+
+    // ----------------------------
+    // Step 4: build allowed regions R
+    // (legal top-left rectangles)
+    // ----------------------------
+    QList<QRectF> allowed;
+
+    for (int i = 0; i < nx; ++i) {
+        for (int j = 0; j < ny; ++j) {
+            if (!valid[i][j])
+                continue;
+
+            double minWidth = std::numeric_limits<double>::max();
+            double heightAccum = 0;
+
+            for (int k = j; k < ny; ++k) {
+                if (!valid[i][k])
+                    break;
+
+                // update minimal width in cells
+                minWidth = std::min(minWidth,
+                                    (double)rightRun[i][k]);
+
+                heightAccum += ys[k + 1] - ys[k];
+
+                double actualWidth = 0;
+                for (int t = 0; t < minWidth; ++t)
+                    actualWidth += xs[i + 1 + t] - xs[i + t];
+
+                if (actualWidth >= w && heightAccum >= h) {
+                    QRectF r(xs[i],
+                             ys[j],
+                             actualWidth - w,
+                             heightAccum - h);
+
+                    if (r.width() >= 0 && r.height() >= 0)
+                        allowed.append(r);
+                }
+            }
+        }
+    }
+
+    if (allowed.isEmpty())
+        return window; // nowhere to snap
+
+    // ----------------------------
+    // Step 5: if already valid
+    // ----------------------------
+    for (const QRectF &r : allowed) {
+        if (r.contains(originalTopLeft))
+            return window;
+    }
+
+    // ----------------------------
+    // Step 6: project to nearest allowed
+    // ----------------------------
+    double bestDist2 = std::numeric_limits<double>::max();
+    QRectF bestRect = window;
+
+    for (const QRectF &r : allowed) {
+        double clampedX = std::clamp(originalTopLeft.x(),
+                                     r.left(),
+                                     r.right());
+        double clampedY = std::clamp(originalTopLeft.y(),
+                                     r.top(),
+                                     r.bottom());
+
+        double dx = clampedX - originalTopLeft.x();
+        double dy = clampedY - originalTopLeft.y();
+        double dist2 = dx * dx + dy * dy;
+
+        double area = r.width() * r.height();
+
+        if (dist2 < bestDist2 || (qFuzzyCompare(dist2, bestDist2) && area > bestRect.width() * bestRect.height())) {
+            bestDist2 = dist2;
+            bestRect = QRectF(QPointF(clampedX, clampedY),
+                              window.size());
+        }
+    }
+
+    return bestRect;
+}
+
+QRectF Window::keepInRectsArea(QRectF geometry, QList<QRectF> rects, bool partial)
+{
+    // Expand rects when partial.
+    QList<QRectF> working = rects;
+    if (partial) {
+        const QRectF origGeometry = moveResizeGeometry();
+        const qreal dx = std::max<qreal>(0, origGeometry.width() - 100);
+        const qreal dy = std::max<qreal>(0, origGeometry.height() - 100);
+        working.clear();
+        for (const QRectF &r : rects) {
+            working.append(r.adjusted(-dx, -dy, dx, dy));
+        }
+    }
+
+    geometry = snapToVisibleArea(working, geometry);
+
+    bool covers = rectsAreaCovers(working, geometry);
+
+    if (!covers && !partial) {
+        QRectF workArea = workspace()->clientArea(WorkArea, this);
+        // WorkArea is the most common area of the all output placement rects, bounded to this rect
+        geometry = resizeWithChecks(geometry, geometry.size().boundedTo(workArea.size()));
+        geometry = snapToVisibleArea(working, geometry);
+    } else if (!covers) {
+        qCWarning(KWIN_CORE) << "Even partial keepInRectsArea failed to find a position for" << geometry << ". Work area is too small.";
+    }
+
+    return geometry;
+}
+
 void Window::keepInArea(QRectF area, bool partial)
 {
     moveResize(keepInArea(moveResizeGeometry(), area, partial));
+}
+
+void Window::keepInRectsArea(QList<QRectF> rects, bool partial)
+{
+    moveResize(keepInRectsArea(moveResizeGeometry(), rects, partial));
 }
 
 /**

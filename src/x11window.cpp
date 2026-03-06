@@ -3848,9 +3848,9 @@ void X11Window::getWmNormalHints()
                 if (area.contains(origClientGeometry)) {
                     keepInArea(area);
                 }
-                area = workspace()->clientArea(WorkArea, this, moveResizeOutput());
-                if (area.contains(origClientGeometry)) {
-                    keepInArea(area);
+                QList<QRectF> rects = workspace()->clientPlacementRects(this);
+                if (rectsAreaCovers(rects, origClientGeometry)) {
+                    keepInRectsArea(rects);
                 }
             }
         }
@@ -4057,13 +4057,13 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
         GeometryUpdatesBlocker blocker(this);
         move(new_pos);
         resize(requestedFrameSize);
-        QRectF area = workspace()->clientArea(WorkArea, this, moveResizeOutput());
+        QList<QRectF> placementRects = workspace()->clientPlacementRects(this);
         if (!from_tool && (!isSpecialWindow() || isToolbar()) && !isFullScreen()
-            && area.contains(origClientGeometry)) {
-                if(keepAbove())
-                    keepInArea(workspace()->clientArea(FullArea, this));
-                else
-                    keepInArea(area);
+            && rectsAreaCovers(placementRects, origClientGeometry)) {
+            if (keepAbove())
+                keepInArea(workspace()->clientArea(FullArea, this));
+            else
+                keepInRectsArea(placementRects);
         }
 
         // this is part of the kicker-xinerama-hack... it should be
@@ -4103,9 +4103,9 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
                 if (area.contains(origClientGeometry)) {
                     keepInArea(area);
                 }
-                area = workspace()->clientArea(WorkArea, this, moveResizeOutput());
-                if (area.contains(origClientGeometry)) {
-                    keepInArea(area);
+                QList<QRectF> placementRects = workspace()->clientPlacementRects(this);
+                if (rectsAreaCovers(placementRects, origClientGeometry)) {
+                    keepInRectsArea(placementRects);
                 }
             }
         }

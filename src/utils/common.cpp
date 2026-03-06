@@ -242,6 +242,40 @@ QPointF popupOffset(const QRectF &anchorRect, const Qt::Edges anchorEdge, const 
     return anchorPoint + popupPosAdjust;
 }
 
+bool rectsAreaCovers(const QList<QRectF> &rectList, const QRectF &rect)
+{
+    QList<QRectF> remaining;
+    remaining.append(rect);
+    for (const QRectF &area : rectList) {
+        QList<QRectF> next;
+        for (const QRectF &rem : std::as_const(remaining)) {
+            QRectF inter = rem.intersected(area);
+            if (inter.isEmpty()) {
+                next.append(rem);
+            } else {
+                // Split rem into up to 4 pieces excluding inter
+                if (inter.top() > rem.top()) {
+                    next.append(QRectF(rem.left(), rem.top(), rem.width(), inter.top() - rem.top()));
+                }
+                if (inter.bottom() < rem.bottom()) {
+                    next.append(QRectF(rem.left(), inter.bottom(), rem.width(), rem.bottom() - inter.bottom()));
+                }
+                if (inter.left() > rem.left()) {
+                    next.append(QRectF(rem.left(), inter.top(), inter.left() - rem.left(), inter.height()));
+                }
+                if (inter.right() < rem.right()) {
+                    next.append(QRectF(inter.right(), inter.top(), rem.right() - inter.right(), inter.height()));
+                }
+            }
+        }
+        remaining = std::move(next);
+        if (remaining.isEmpty()) {
+            return true;
+        }
+    }
+    return remaining.isEmpty();
+}
+
 } // namespace
 
 #ifndef KCMRULES

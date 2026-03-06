@@ -3201,6 +3201,15 @@ QRectF Workspace::clientArea(clientAreaOption opt, const Window *window, const Q
     return clientArea(opt, window, outputAt(pos));
 }
 
+QList<QRectF> Workspace::clientPlacementRects(const Window *window) const
+{
+    QList<QRectF> ret;
+    for (const Output *output : std::as_const(m_outputs)) {
+        ret.append(clientArea(PlacementArea, window, output));
+    }
+    return ret;
+}
+
 QRect Workspace::geometry() const
 {
     return m_geometry;

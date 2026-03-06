@@ -210,6 +210,7 @@ public:
     QRectF clientArea(clientAreaOption, const Window *window) const;
     QRectF clientArea(clientAreaOption, const Window *window, const Output *output) const;
     QRectF clientArea(clientAreaOption, const Window *window, const QPointF &pos) const;
+    QList<QRectF> clientPlacementRects(const Window *window) const;
 
     /**
      * Returns the geometry of this Workspace, i.e. the bounding rectangle of all outputs.

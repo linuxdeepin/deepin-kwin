@@ -163,6 +163,8 @@ Qt::MouseButtons KWIN_EXPORT x11ToQtMouseButtons(int state);
 Qt::KeyboardModifiers KWIN_EXPORT x11ToQtKeyboardModifiers(int state);
 
 KWIN_EXPORT QPointF popupOffset(const QRectF &anchorRect, const Qt::Edges anchorEdge, const Qt::Edges gravity, const QSizeF popupSize);
+// Check whether rect is fully covered by some combination of the rects in rectList
+KWIN_EXPORT bool rectsAreaCovers(const QList<QRectF> &rectList, const QRectF &rect);
 
 namespace Internal
 {
