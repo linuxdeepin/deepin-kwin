@@ -1,3 +1,10 @@
+kwin (4:6.1.8) unstable; urgency=medium
+
+  * feat(zoom): add skip zoom effect rule for specific windows
+  * release: version 4:6.1.7
+
+ -- justforlxz <justforlxz@gmail.com>  Fri, 06 Mar 2026 10:29:38 +0800
+
 kwin (4:6.1.7) unstable; urgency=medium
 
   * fix: link error for logging category
