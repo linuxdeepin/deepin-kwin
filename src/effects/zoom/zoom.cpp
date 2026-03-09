@@ -26,6 +26,9 @@
 #include <QAction>
 #include <QStyle>
 #include <QVector2D>
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusPendingCall>
 #include <kstandardaction.h>
 
 #include <kwinglutils.h>
@@ -455,6 +458,18 @@ void ZoomEffect::zoomIn(double to)
     } else {
         target_zoom = to;
     }
+
+    if (zoom == 1.0) {
+        QDBusMessage msg = QDBusMessage::createMethodCall(
+            QStringLiteral("com.deepin.dde.osd"),
+            QStringLiteral("/"),
+            QStringLiteral("com.deepin.dde.osd"),
+            QStringLiteral("ShowOSD")
+        );
+        msg << QStringLiteral("magnifier");
+        QDBusConnection::sessionBus().asyncCall(msg);
+    }
+
     if (!polling) {
         polling = true;
         effects->startMousePolling();
