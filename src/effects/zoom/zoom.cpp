@@ -227,7 +227,7 @@ void ZoomEffect::reconfigure(ReconfigureFlags)
     if (source_zoom < 0) {
         // Load the saved zoom value.
         source_zoom = 1.0;
-        target_zoom = ZoomConfig::initialZoom();
+        target_zoom = std::min(ZoomConfig::initialZoom(), ZoomConfig::maxZoom());
         if (target_zoom > 1.0) {
             zoomIn(target_zoom);
         }
@@ -454,9 +454,10 @@ void ZoomEffect::zoomIn(double to)
 {
     source_zoom = zoom;
     if (to < 0.0) {
-        target_zoom *= zoomFactor;
+        double new_target_zoom = target_zoom * zoomFactor;
+        target_zoom = std::min(new_target_zoom, ZoomConfig::maxZoom());
     } else {
-        target_zoom = to;
+        target_zoom = std::min(to, ZoomConfig::maxZoom());
     }
 
     if (zoom == 1.0) {

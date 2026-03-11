@@ -29,5 +29,8 @@
         <entry name="InitialZoom" type="Double">
             <default>1.0</default>
         </entry>
+        <entry name="MaxZoom" type="Double">
+            <default>16.0</default>
+        </entry>
     </group>
 </kcfg>
