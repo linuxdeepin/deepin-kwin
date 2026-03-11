@@ -620,15 +620,15 @@ void Workspace::cleanupX11()
     // Use stacking_order, so that kwin --replace keeps stacking order.
     const QList<X11Window *> orderedClients = ensureStackingOrder(m_x11Clients);
     for (X11Window *client : orderedClients) {
-        client->releaseWindow(true);
         removeFromStack(client);
+        client->releaseWindow(true);
     }
 
     // We need a shadow copy because windows get removed as we go through them.
     const QList<Unmanaged *> unmanaged = m_unmanaged;
     for (Unmanaged *overrideRedirect : unmanaged) {
-        overrideRedirect->release(ReleaseReason::KWinShutsDown);
         removeFromStack(overrideRedirect);
+        overrideRedirect->release(ReleaseReason::KWinShutsDown);
     }
 
     manual_overlays.clear();
