@@ -1,32 +1,38 @@
-# translation of kwin.po to Persian
-# Nasim Daniarzadeh <daniarzadeh@itland.ir>, 2006, 2007.
-# Nazanin Kazemi <kazemi@itland.ir>, 2006, 2007.
-# Tahereh Dadkhahfar <dadkhahfar@itland.ir>, 2006.
-# MaryamSadat Razavi <razavi@itland.ir>, 2006.
+# translation of kwin.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# sunny boy <avaomcom@gmail.com>, 2025
+# AmirHosein Lesani <xenups@outlook.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
-"PO-Revision-Date: 2007-07-31 19:27+0330\n"
-"Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
-"Language-Team: Persian <kde-i18n-fa@kde.org>\n"
-"Language: fa\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: AmirHosein Lesani <xenups@outlook.com>, 2025\n"
+"Language-Team: Persian (https://app.transifex.com/linuxdeepin/teams/3617/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: fa\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "نسیم دانیارزاده"
+msgstr ""
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "daniarzadeh@itland.ir"
+msgstr ""
 
 #: composite.cpp:646
 #, kde-format
@@ -43,16 +49,17 @@ msgstr ""
 #: composite.cpp:1064
 #, kde-format
 msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></p>"
+"<b>OpenGL compositing (the default) has crashed KWin in the "
+"past.</b><br>This was most likely due to a driver bug.<p>If you think that "
+"you have meanwhile upgraded to a stable driver,<br>you can reset this "
+"protection but <b>be aware that this might result in an immediate "
+"crash!</b></p>"
 msgstr ""
 
 #: composite.cpp:1071
 #, kde-format
 msgid "Required X extensions (XComposite and XDamage) are not available."
-msgstr "گسترش‌های الزامی X‏ (XComposite و XDamage) موجود نیستند."
+msgstr ""
 
 #: composite.cpp:1074
 #, kde-format
@@ -70,18 +77,16 @@ msgid "Timestamp (µsec)"
 msgstr ""
 
 #: debug_console.cpp:101
-#, fuzzy, kde-format
-#| msgid "Top-left"
+#, kde-format
 msgctxt "A mouse button"
 msgid "Left"
-msgstr "چپ بالا"
+msgstr ""
 
 #: debug_console.cpp:103
-#, fuzzy, kde-format
-#| msgid "Top-right"
+#, kde-format
 msgctxt "A mouse button"
 msgid "Right"
-msgstr "راست بالا"
+msgstr ""
 
 #: debug_console.cpp:105
 #, kde-format
@@ -99,7 +104,7 @@ msgstr ""
 #, kde-format
 msgctxt "A mouse button"
 msgid "Forward"
-msgstr ""
+msgstr "پیش‌سو"
 
 #: debug_console.cpp:111
 #, kde-format
@@ -539,11 +544,10 @@ msgid "Swipe cancelled"
 msgstr ""
 
 #: debug_console.cpp:471
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "سودهی به پرده ۰"
+msgstr ""
 
 #: debug_console.cpp:477
 #, kde-format
@@ -558,11 +562,10 @@ msgid "Tablet mode"
 msgstr ""
 
 #: debug_console.cpp:481
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr "سودهی به پرده ۰"
+msgstr ""
 
 #: debug_console.cpp:485
 #, kde-format
@@ -613,10 +616,9 @@ msgid "Pressure"
 msgstr ""
 
 #: debug_console.cpp:516
-#, fuzzy, kde-format
-#| msgid "Mouse Emulation"
+#, kde-format
 msgid "Buttons"
-msgstr "تقلید موشی"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
 #: debug_console.cpp:517 debug_console.ui:356
@@ -630,16 +632,14 @@ msgid "Tablet Tool Button"
 msgstr ""
 
 #: debug_console.cpp:527 debug_console.cpp:541
-#, fuzzy, kde-format
-#| msgid "Mouse Emulation"
+#, kde-format
 msgid "Button"
-msgstr "تقلید موشی"
+msgstr ""
 
 #: debug_console.cpp:528 debug_console.cpp:542
-#, fuzzy, kde-format
-#| msgid "Mouse Emulation"
+#, kde-format
 msgid "Pressed"
-msgstr "تقلید موشی"
+msgstr ""
 
 #: debug_console.cpp:529 debug_console.cpp:543 debug_console.cpp:557
 #: debug_console.cpp:571
@@ -673,10 +673,9 @@ msgid "Tablet Pad Ring"
 msgstr ""
 
 #: debug_console.cpp:797
-#, fuzzy, kde-format
-#| msgid "Mouse Emulation"
+#, kde-format
 msgid "No Mouse Buttons"
-msgstr "تقلید موشی"
+msgstr ""
 
 #: debug_console.cpp:801
 #, kde-format
@@ -685,11 +684,10 @@ msgid "left"
 msgstr ""
 
 #: debug_console.cpp:804
-#, fuzzy, kde-format
-#| msgid "Top-right"
+#, kde-format
 msgctxt "Mouse Button"
 msgid "right"
-msgstr "راست بالا"
+msgstr ""
 
 #: debug_console.cpp:807
 #, kde-format
@@ -860,10 +858,9 @@ msgid "task"
 msgstr ""
 
 #: debug_console.cpp:1222
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "X11 Windows"
-msgstr "پنجره‌ها"
+msgstr ""
 
 #: debug_console.cpp:1224
 #, kde-format
@@ -871,16 +868,14 @@ msgid "X11 Unmanaged Windows"
 msgstr ""
 
 #: debug_console.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Shade Window"
+#, kde-format
 msgid "Wayland Windows"
-msgstr "سایه‌دار کردن پنجره"
+msgstr ""
 
 #: debug_console.cpp:1228
-#, fuzzy, kde-format
-#| msgid "Raise Window"
+#, kde-format
 msgid "Internal Windows"
-msgstr "بالا بردن پنجره"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, quitButton)
 #: debug_console.ui:32
@@ -892,7 +887,7 @@ msgstr ""
 #: debug_console.ui:45
 #, kde-format
 msgid "Windows"
-msgstr "پنجره‌ها"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, surfaces)
 #: debug_console.ui:59
@@ -1004,10 +999,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: debug_console.ui:337
-#, fuzzy, kde-format
-#| msgid "Configur&e Window Behavior..."
+#, kde-format
 msgid "Current Layout:"
-msgstr "&پیکر‌بندی رفتار پنجره...‌"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
 #: debug_console.ui:372
@@ -1041,15 +1035,14 @@ msgid "Primary Selection"
 msgstr ""
 
 #: helpers/killer/killer.cpp:34
-#, fuzzy, kde-format
-#| msgid "KDE window manager"
+#, kde-format
 msgid "Window Manager"
-msgstr "مدیر پنجره KDE"
+msgstr ""
 
 #: helpers/killer/killer.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "PID of the application to terminate"
-msgstr "شناسه فرآیند کاربرد برای پایان دادن."
+msgstr ""
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
@@ -1057,9 +1050,9 @@ msgid "pid"
 msgstr ""
 
 #: helpers/killer/killer.cpp:40
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hostname on which the application is running"
-msgstr "نام میزبانی که کاربرد روی آن در حال اجراست."
+msgstr ""
 
 #: helpers/killer/killer.cpp:40
 #, kde-format
@@ -1067,9 +1060,9 @@ msgid "hostname"
 msgstr ""
 
 #: helpers/killer/killer.cpp:42
-#, fuzzy, kde-format
+#, kde-format
 msgid "Caption of the window to be terminated"
-msgstr "عنوان پنجره‌ای که باید پایان داده شود."
+msgstr ""
 
 #: helpers/killer/killer.cpp:42
 #, kde-format
@@ -1077,9 +1070,9 @@ msgid "caption"
 msgstr ""
 
 #: helpers/killer/killer.cpp:44
-#, fuzzy, kde-format
+#, kde-format
 msgid "Name of the application to be terminated"
-msgstr "نام کاربردی که باید پایان داده شود."
+msgstr ""
 
 #: helpers/killer/killer.cpp:44
 #, kde-format
@@ -1087,9 +1080,9 @@ msgid "name"
 msgstr ""
 
 #: helpers/killer/killer.cpp:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "ID of resource belonging to the application"
-msgstr "شناسه منبع متعلق به کاربرد."
+msgstr ""
 
 #: helpers/killer/killer.cpp:46
 #, kde-format
@@ -1097,9 +1090,9 @@ msgid "id"
 msgstr ""
 
 #: helpers/killer/killer.cpp:48
-#, fuzzy, kde-format
+#, kde-format
 msgid "Time of user action causing termination"
-msgstr "زمان کنش کاربر که موجب کشتن می‌شود."
+msgstr ""
 
 #: helpers/killer/killer.cpp:48
 #, kde-format
@@ -1109,12 +1102,12 @@ msgstr ""
 #: helpers/killer/killer.cpp:50
 #, kde-format
 msgid "KWin helper utility"
-msgstr "برنامه سودمند کمک‌کننده KWin"
+msgstr ""
 
 #: helpers/killer/killer.cpp:74
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr "این برنامه سودمند کمک‌کننده برای فراخوانی مستقیم فرض نمی‌شود."
+msgstr ""
 
 #: helpers/killer/killer.cpp:84
 #, kde-format
@@ -1142,9 +1135,9 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Do you want to terminate this application?</"
-"para><para><warning>Terminating the application will close all of its child "
-"windows. Any unsaved data will be lost.</warning></para>"
+"<para>Do you want to terminate this "
+"application?</para><para><warning>Terminating the application will close all"
+" of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
 
 #: helpers/killer/killer.cpp:94
@@ -1192,38 +1185,37 @@ msgstr ""
 #: main.cpp:179
 #, kde-format
 msgid "KWin"
-msgstr "KWin"
+msgstr ""
 
 #: main.cpp:181 main.cpp:204
 #, kde-format
 msgid "KDE window manager"
-msgstr "مدیر پنجره KDE"
+msgstr ""
 
 #: main.cpp:183
-#, fuzzy, kde-format
-#| msgid "(c) 1999-2005, The KDE Developers"
+#, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
-msgstr "(ح) ۲۰۰۵-۱۹۹۹، توسعه‌دهندگان KDE"
+msgstr ""
 
 #: main.cpp:185
 #, kde-format
 msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
+msgstr ""
 
 #: main.cpp:186
 #, kde-format
 msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
+msgstr ""
 
 #: main.cpp:187
 #, kde-format
 msgid "Daniel M. Duley"
-msgstr "Daniel M. Duley"
+msgstr ""
 
 #: main.cpp:188
 #, kde-format
 msgid "Luboš Luňák"
-msgstr "Luboš Luňák"
+msgstr ""
 
 #: main.cpp:189
 #, kde-format
@@ -1248,12 +1240,12 @@ msgstr ""
 #: main.cpp:201
 #, kde-format
 msgid "Disable configuration options"
-msgstr "غیرفعال کردن گزینه‌های پیکربندی"
+msgstr ""
 
 #: main.cpp:202
 #, kde-format
 msgid "Indicate that KWin has recently crashed n times"
-msgstr "Indicate that KWin has recently crashed n times"
+msgstr ""
 
 #: main_wayland.cpp:314
 #, kde-format
@@ -1262,8 +1254,7 @@ msgstr ""
 
 #: main_wayland.cpp:316
 #, kde-format
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 
 #: main_wayland.cpp:319
@@ -1299,14 +1290,15 @@ msgstr ""
 #: main_wayland.cpp:340
 #, kde-format
 msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
+"The number of windows to open as outputs in windowed mode. Default value is "
+"1"
 msgstr ""
 
 #: main_wayland.cpp:345
 #, kde-format
 msgid ""
-"Wayland socket to use for incoming connections. This can be combined with --"
-"socket to name the socket"
+"Wayland socket to use for incoming connections. This can be combined with "
+"--socket to name the socket"
 msgstr ""
 
 #: main_wayland.cpp:349
@@ -1384,33 +1376,23 @@ msgid ""
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
-"KWin ناپایدار است.\n"
-"به نظر می‌رسد چند بار پشت سر هم دچار سانحه شده است.\n"
-"می‌توانید مدیر پنجرهٔ دیگری برای اجرا انتخاب کنید:"
 
 #: main_x11.cpp:259
 #, kde-format
 msgid ""
-"kwin: unable to claim manager selection, another wm running? (try using --"
-"replace)\n"
+"kwin: unable to claim manager selection, another wm running? (try using "
+"--replace)\n"
 msgstr ""
-"kwin:ناتوانی در درخواست گزینش مدیر، wm دیگری در حال اجراست؟ )استفاده از --"
-"replace را امتحان کنید(\n"
 
 #: main_x11.cpp:280
-#, fuzzy, kde-format
-#| msgid ""
-#| "kwin: unable to claim manager selection, another wm running? (try using --"
-#| "replace)\n"
+#, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
-"kwin:ناتوانی در درخواست گزینش مدیر، wm دیگری در حال اجراست؟ )استفاده از --"
-"replace را امتحان کنید(\n"
 
 #: main_x11.cpp:411
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
-msgstr "جایگزینی مدیر پنجره تابع ICCCM2.0 که در حال حاضر در حال اجراست"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:49
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:51
@@ -1421,11 +1403,10 @@ msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:52
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:54
-#, fuzzy, kde-format
-#| msgid "&Close"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "close"
-msgstr "&بستن‌"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:55
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:57
@@ -1436,11 +1417,10 @@ msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:58
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:60
-#, fuzzy, kde-format
-#| msgid "Minimize"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "minimize"
-msgstr "کمینه‌سازی"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:61
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:63
@@ -1451,50 +1431,44 @@ msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:64
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:66
-#, fuzzy, kde-format
-#| msgid "Maximize"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "maximize"
-msgstr "بیشینه‌سازی"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:67
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:69
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "fullscreen"
-msgstr "&تمام پرده‌"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:70
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:72
-#, fuzzy, kde-format
-#| msgid "Unshade"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "shade"
-msgstr "بدون سایه کردن"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:73
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:75
-#, fuzzy, kde-format
-#| msgid "Keep above others"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep above"
-msgstr "نگه داشتن بالای بقیه"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:76
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:78
-#, fuzzy, kde-format
-#| msgid "Keep below others"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep below"
-msgstr "نگه داشتن زیر بقیه"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:83
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "window"
-msgstr "پنجره‌ها"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:93
 #, kde-format
@@ -1510,17 +1484,15 @@ msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:97
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:150
-#, fuzzy, kde-format
-#| msgid "&All Desktops"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "desktop"
-msgstr "&تمام رومیزیها‌"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:255
-#, fuzzy, kde-format
-#| msgid "Switch to Desktop 1"
+#, kde-format
 msgid "Switch to desktop %1"
-msgstr "سودهی به رومیزی ۱"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:296
 #, kde-format
@@ -1604,7 +1576,8 @@ msgstr ""
 msgid "Rule description"
 msgstr ""
 
-#. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (descriptionLegacy), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
@@ -1628,7 +1601,8 @@ msgstr ""
 msgid "Window class string match type"
 msgstr ""
 
-#. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (wmclasscomplete), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
@@ -1636,12 +1610,12 @@ msgstr ""
 
 #. i18n: ectx: label, entry (windowrole), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:34
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Window role"
-msgstr "پنجره‌ها"
+msgstr ""
 
-#. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (windowrolematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
@@ -1649,10 +1623,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (title), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:44
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Window title"
-msgstr "پنجره‌ها"
+msgstr ""
 
 #. i18n: ectx: label, entry (titlematch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:47
@@ -1660,13 +1633,15 @@ msgstr "پنجره‌ها"
 msgid "Window title string match type"
 msgstr ""
 
-#. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachine), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
 msgstr ""
 
-#. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachinematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
@@ -1684,33 +1659,30 @@ msgstr ""
 msgid "Initial placement"
 msgstr ""
 
-#. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (placementrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Initial placement rule type"
-msgstr "&تمام پرده‌"
+msgstr ""
 
 #. i18n: ectx: label, entry (position), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:79
-#, fuzzy, kde-format
-#| msgid "Window Operations Menu"
+#, kde-format
 msgid "Window position"
-msgstr "گزینگان عملیات پنجره"
+msgstr ""
 
 #. i18n: ectx: label, entry (positionrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:83
-#, fuzzy, kde-format
-#| msgid "Window to Screen 0"
+#, kde-format
 msgid "Window position rule type"
-msgstr "پنجره در پرده ۰"
+msgstr ""
 
 #. i18n: ectx: label, entry (size), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:90
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "Window size"
-msgstr "پنجره‌ها"
+msgstr ""
 
 #. i18n: ectx: label, entry (sizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:93
@@ -1742,37 +1714,43 @@ msgstr ""
 msgid "Window maximum size rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
 msgstr ""
 
-#. i18n: ectx: label, entry (opacityactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
 msgstr ""
 
-#. i18n: ectx: label, entry (opacityinactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr ""
 
-#. i18n: ectx: label, entry (ignoregeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
@@ -1780,17 +1758,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Switch to Desktop 2"
+#, kde-format
 msgid "List of Desktop Ids"
-msgstr "سودهی به رومیزی ۲"
+msgstr ""
 
 #. i18n: ectx: label, entry (desktopsrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:155
-#, fuzzy, kde-format
-#| msgid "Desktop %1"
+#, kde-format
 msgid "Desktop Ids rule type"
-msgstr "رومیزی %1"
+msgstr ""
 
 #. i18n: ectx: label, entry (screen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:162
@@ -1818,10 +1794,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (type), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:183
-#, fuzzy, kde-format
-#| msgid "Setup Window Shortcut"
+#, kde-format
 msgid "Set window type to"
-msgstr "برپایی میان‌بر پنجره"
+msgstr ""
 
 #. i18n: ectx: label, entry (typerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:189
@@ -1831,38 +1806,36 @@ msgstr ""
 
 #. i18n: ectx: label, entry (maximizevert), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:194
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Maximized vertically"
-msgstr "بیشینه‌سازی عمودی پنجره"
+msgstr ""
 
-#. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizevertrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Maximized vertically rule type"
-msgstr "بیشینه‌سازی عمودی پنجره"
+msgstr ""
 
-#. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehoriz), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Maximized horizontally"
-msgstr "بیشینه‌سازی افقی پنجره"
+msgstr ""
 
-#. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehorizrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Maximized horizontally rule type"
-msgstr "بیشینه‌سازی افقی پنجره"
+msgstr ""
 
 #. i18n: ectx: label, entry (minimize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:216
-#, fuzzy, kde-format
-#| msgid "Minimize"
+#, kde-format
 msgid "Minimized"
-msgstr "کمینه‌سازی"
+msgstr ""
 
 #. i18n: ectx: label, entry (minimizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:220
@@ -1872,10 +1845,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (shade), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:227
-#, fuzzy, kde-format
-#| msgid "Shade"
+#, kde-format
 msgid "Shaded"
-msgstr "سایه‌دار کردن"
+msgstr ""
 
 #. i18n: ectx: label, entry (shaderule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:231
@@ -1889,7 +1861,8 @@ msgstr ""
 msgid "Skip taskbar"
 msgstr ""
 
-#. i18n: ectx: label, entry (skiptaskbarrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skiptaskbarrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
@@ -1901,7 +1874,8 @@ msgstr ""
 msgid "Skip pager"
 msgstr ""
 
-#. i18n: ectx: label, entry (skippagerrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skippagerrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
@@ -1909,12 +1883,12 @@ msgstr ""
 
 #. i18n: ectx: label, entry (skipswitcher), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:260
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgid "Skip switcher"
-msgstr "سودهی به پرده ۰"
+msgstr ""
 
-#. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skipswitcherrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
@@ -1922,45 +1896,40 @@ msgstr ""
 
 #. i18n: ectx: label, entry (above), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:271
-#, fuzzy, kde-format
-#| msgid "Keep above others"
+#, kde-format
 msgid "Keep above"
-msgstr "نگه داشتن بالای بقیه"
+msgstr ""
 
 #. i18n: ectx: label, entry (aboverule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:275
-#, fuzzy, kde-format
-#| msgid "Keep above others"
+#, kde-format
 msgid "Keep above rule type"
-msgstr "نگه داشتن بالای بقیه"
+msgstr ""
 
 #. i18n: ectx: label, entry (below), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:282
-#, fuzzy, kde-format
-#| msgid "Keep below others"
+#, kde-format
 msgid "Keep below"
-msgstr "نگه داشتن زیر بقیه"
+msgstr ""
 
 #. i18n: ectx: label, entry (belowrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:286
-#, fuzzy, kde-format
-#| msgid "Keep below others"
+#, kde-format
 msgid "Keep below rule type"
-msgstr "نگه داشتن زیر بقیه"
+msgstr ""
 
 #. i18n: ectx: label, entry (fullscreen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:293
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Fullscreen"
-msgstr "&تمام پرده‌"
+msgstr ""
 
-#. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (fullscreenrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Fullscreen rule type"
-msgstr "&تمام پرده‌"
+msgstr ""
 
 #. i18n: ectx: label, entry (noborder), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:304
@@ -1980,19 +1949,22 @@ msgstr ""
 msgid "Titlebar color and scheme"
 msgstr ""
 
-#. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (decocolorrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositing), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
 msgstr ""
 
-#. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositingrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
@@ -2028,7 +2000,8 @@ msgstr ""
 msgid "Accept Focus"
 msgstr ""
 
-#. i18n: ectx: label, entry (acceptfocusrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (acceptfocusrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
@@ -2036,12 +2009,12 @@ msgstr ""
 
 #. i18n: ectx: label, entry (closeable), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:363
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Closeable"
-msgstr "بستن"
+msgstr ""
 
-#. i18n: ectx: label, entry (closeablerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (closeablerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
@@ -2053,7 +2026,8 @@ msgstr ""
 msgid "Autogroup with identical"
 msgstr ""
 
-#. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogrouprule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
@@ -2065,7 +2039,8 @@ msgstr ""
 msgid "Autogroup in foreground"
 msgstr ""
 
-#. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupfgrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
@@ -2077,19 +2052,22 @@ msgstr ""
 msgid "Autogroup by ID"
 msgstr ""
 
-#. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupidrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr ""
 
-#. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
@@ -2107,14 +2085,15 @@ msgstr ""
 msgid "Shortcut rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (disableglobalshortcuts), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcuts), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
-#, fuzzy, kde-format
-#| msgid "Block Global Shortcuts"
+#, kde-format
 msgid "Ignore global shortcuts"
-msgstr "بلوک کردن میان‌برهای سراسری"
+msgstr ""
 
-#. i18n: ectx: label, entry (disableglobalshortcutsrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcutsrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
@@ -2122,12 +2101,12 @@ msgstr ""
 
 #. i18n: ectx: label, entry (desktopfile), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:426
-#, fuzzy, kde-format
-#| msgid "Desktop %1"
+#, kde-format
 msgid "Desktop file name"
-msgstr "رومیزی %1"
+msgstr ""
 
-#. i18n: ectx: label, entry (desktopfilerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopfilerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
@@ -2154,10 +2133,9 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ShortcutDialog)
 #: shortcutdialog.ui:14
-#, fuzzy, kde-format
-#| msgid "Dialogs:"
+#, kde-format
 msgid "Dialog"
-msgstr "محاوره‌ها:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, clearButton)
 #: shortcutdialog.ui:25
@@ -2166,71 +2144,58 @@ msgid "..."
 msgstr ""
 
 #: tabbox/tabbox.cpp:381
-#, fuzzy, kde-format
-#| msgid "Show Desktop Grid"
+#, kde-format
 msgctxt "Special entry in alt+tab list for minimizing all windows"
 msgid "Show Desktop"
-msgstr "نمایش توری رومیزی"
+msgstr ""
 
 #: tabbox/tabbox.cpp:521
 msgid "Walk Through Windows"
-msgstr "گردش در میان پنجره‌ها"
+msgstr ""
 
 #: tabbox/tabbox.cpp:522
 msgid "Walk Through Windows (Reverse)"
-msgstr "گردش در میان پنجره‌ها )معکوس("
+msgstr ""
 
 #: tabbox/tabbox.cpp:523
-#, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows Alternative"
-msgstr "گردش در میان پنجره‌ها )معکوس("
+msgstr ""
 
 #: tabbox/tabbox.cpp:524
-#, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "گردش در میان پنجره‌ها )معکوس("
+msgstr ""
 
 #: tabbox/tabbox.cpp:525
-#, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows of Current Application"
-msgstr "گردش در میان پنجره‌ها )معکوس("
+msgstr ""
 
 #: tabbox/tabbox.cpp:526
-#, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows of Current Application (Reverse)"
-msgstr "گردش در میان پنجره‌ها )معکوس("
+msgstr ""
 
 #: tabbox/tabbox.cpp:527
-#, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative"
-msgstr "گردش در میان پنجره‌ها )معکوس("
+msgstr ""
 
 #: tabbox/tabbox.cpp:528
-#, fuzzy
-#| msgid "Walk Through Windows (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-msgstr "گردش در میان پنجره‌ها )معکوس("
+msgstr ""
 
 #: tabbox/tabbox.cpp:529
 msgid "Walk Through Desktops"
-msgstr "گردش در میان رومیزیها"
+msgstr ""
 
 #: tabbox/tabbox.cpp:530
 msgid "Walk Through Desktops (Reverse)"
-msgstr "گردش در میان رومیزیها )معکوس("
+msgstr ""
 
 #: tabbox/tabbox.cpp:531
 msgid "Walk Through Desktop List"
-msgstr "گردش در میان فهرست رومیزی"
+msgstr ""
 
 #: tabbox/tabbox.cpp:532
 msgid "Walk Through Desktop List (Reverse)"
-msgstr "گردش در میان فهرست رومیزی )معکوس("
+msgstr ""
 
 #: tabbox/tabboxhandler.cpp:290
 #, kde-format
@@ -2243,58 +2208,45 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
-"Without the border, you will not be able to enable the border again using "
-"the mouse: use the window operations menu instead, activated using the %1 "
-"keyboard shortcut."
+"Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
-"نمایش یک پنجره بدون لبه‌اش را برگزیده‌اید. \n"
-"بدون لبه، دوباره قادر به فعال‌سازی لبه با استفاده از موشی نمی‌باشید: به جای "
-"استفاده فعال از میان‌بر %1 صفحه کلید، از گزینگان عملیات پنجره استفاده کنید."
 
 #: useractions.cpp:168
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
-"If the application itself does not have an option to turn the fullscreen "
-"mode off you will not be able to disable it again using the mouse: use the "
-"window operations menu instead, activated using the %1 keyboard shortcut."
+"If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
-"نمایش یک پنجره در حالت تمام پرده را برگزیده‌اید.\n"
-"اگر خودکاربرد گزینه‌ای برای خاموش کردن حالت تمام پرده نداشته باشد، دوباره "
-"قادر به غیرفعال‌سازی آن با استفاده از موشی نمی‌باشید: به جای استفاده فعال از "
-"میان‌بر %1 صفحه کلید، از گزینگان عملیات پنجره استفاده کنید."
 
 #: useractions.cpp:238
 #, kde-format
 msgid "&Move"
-msgstr "&حرکت‌"
+msgstr ""
 
 #: useractions.cpp:243
-#, fuzzy, kde-format
-#| msgid "Re&size"
+#, kde-format
 msgid "&Resize"
-msgstr "&تغییر اندازه‌"
+msgstr ""
 
 #: useractions.cpp:248
 #, kde-format
 msgid "Keep &Above Others"
-msgstr "نگه داشتن &بالای بقیه‌"
+msgstr ""
 
 #: useractions.cpp:254
 #, kde-format
 msgid "Keep &Below Others"
-msgstr "نگه داشتن &زیر بقیه‌"
+msgstr ""
 
 #: useractions.cpp:260
 #, kde-format
 msgid "&Fullscreen"
-msgstr "&تمام پرده‌"
+msgstr ""
 
 #: useractions.cpp:266
-#, fuzzy, kde-format
-#| msgid "Shade"
+#, kde-format
 msgid "&Shade"
-msgstr "سایه‌دار کردن"
+msgstr ""
 
 #: useractions.cpp:272
 #, kde-format
@@ -2302,41 +2254,37 @@ msgid "&No Titlebar and Frame"
 msgstr ""
 
 #: useractions.cpp:280
-#, fuzzy, kde-format
-#| msgid "Window &Shortcut..."
+#, kde-format
 msgid "Set Window Short&cut..."
-msgstr "&میان‌بر پنجره...‌"
+msgstr ""
 
 #: useractions.cpp:286
-#, fuzzy, kde-format
-#| msgid "&Special Window Settings..."
+#, kde-format
 msgid "Configure Special &Window Settings..."
-msgstr "تنظیمات &ویژه پنجره...‌"
+msgstr ""
 
 #: useractions.cpp:291
-#, fuzzy, kde-format
-#| msgid "&Special Application Settings..."
+#, kde-format
 msgid "Configure S&pecial Application Settings..."
-msgstr "تنظیمات &ویژه کاربرد...‌"
+msgstr ""
 
 #: useractions.cpp:298
-#, fuzzy, kde-format
-#| msgid "KDE window manager"
+#, kde-format
 msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Configure W&indow Manager..."
-msgstr "مدیر پنجره KDE"
+msgstr ""
 
 #: useractions.cpp:325
 #, kde-format
 msgid "Ma&ximize"
-msgstr "&بیشینه‌‌‌سازی‌"
+msgstr ""
 
 #: useractions.cpp:331
 #, kde-format
 msgid "Mi&nimize"
-msgstr "&کمینه‌سازی‌"
+msgstr ""
 
 #: useractions.cpp:337
 #, kde-format
@@ -2346,7 +2294,7 @@ msgstr ""
 #: useractions.cpp:340
 #, kde-format
 msgid "&Close"
-msgstr "&بستن‌"
+msgstr ""
 
 #: useractions.cpp:410
 #, kde-format
@@ -2354,22 +2302,19 @@ msgid "&Extensions"
 msgstr ""
 
 #: useractions.cpp:461
-#, fuzzy, kde-format
-#| msgid "&All Desktops"
+#, kde-format
 msgid "&Desktops"
-msgstr "&تمام رومیزیها‌"
+msgstr ""
 
 #: useractions.cpp:475
-#, fuzzy, kde-format
-#| msgid "To &Desktop"
+#, kde-format
 msgid "Move to &Desktop"
-msgstr "به &رومیزی‌"
+msgstr ""
 
 #: useractions.cpp:492
-#, fuzzy, kde-format
-#| msgid "To &Desktop"
+#, kde-format
 msgid "Move to &Screen"
-msgstr "به &رومیزی‌"
+msgstr ""
 
 #: useractions.cpp:508
 #, kde-format
@@ -2377,22 +2322,20 @@ msgid "Show in &Activities"
 msgstr ""
 
 #: useractions.cpp:525
-#, fuzzy, kde-format
-#| msgid "To &Desktop"
+#, kde-format
 msgid "Move &To Current Desktop"
-msgstr "به &رومیزی‌"
+msgstr ""
 
 #: useractions.cpp:535 useractions.cpp:602
 #, kde-format
 msgid "&All Desktops"
-msgstr "&تمام رومیزیها‌"
+msgstr ""
 
 #: useractions.cpp:575
-#, fuzzy, kde-format
-#| msgid "Show Desktop Grid"
+#, kde-format
 msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
-msgstr "نمایش توری رومیزی"
+msgstr ""
 
 #: useractions.cpp:646
 #, kde-format
@@ -2400,27 +2343,24 @@ msgid "Move to %1 %2"
 msgstr ""
 
 #: useractions.cpp:659
-#, fuzzy, kde-format
-#| msgid "Show Desktop Grid"
+#, kde-format
 msgctxt "Create a new desktop and add the window to that desktop"
 msgid "Add to &New Desktop"
-msgstr "نمایش توری رومیزی"
+msgstr ""
 
 #: useractions.cpp:671
-#, fuzzy, kde-format
-#| msgid "To &Desktop"
+#, kde-format
 msgctxt "Create a new desktop and move the window to that desktop"
 msgid "Move to New Desktop"
-msgstr "به &رومیزی‌"
+msgstr ""
 
 #: useractions.cpp:702
-#, fuzzy, kde-format
-#| msgid "Window to Screen 1"
+#, kde-format
 msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
 "number, second the output identifier. E.g. Screen 1 (HDMI1)"
 msgid "Screen &%1 (%2)"
-msgstr "پنجره در پرده ۱"
+msgstr ""
 
 #: useractions.cpp:728
 #, kde-format
@@ -2428,10 +2368,9 @@ msgid "&All Activities"
 msgstr ""
 
 #: useractions.cpp:776
-#, fuzzy, kde-format
-#| msgid "To &Desktop"
+#, kde-format
 msgid "Move to %1"
-msgstr "به &رومیزی‌"
+msgstr ""
 
 #: useractions.cpp:901
 #, kde-format
@@ -2448,219 +2387,197 @@ msgstr ""
 #: useractions.cpp:983
 #, kde-format
 msgid "Window Operations Menu"
-msgstr "گزینگان عملیات پنجره"
+msgstr ""
 
 #: useractions.cpp:985
 #, kde-format
 msgid "Close Window"
-msgstr "بستن پنجره"
+msgstr ""
 
 #: useractions.cpp:987
 #, kde-format
 msgid "Maximize Window"
-msgstr "بیشینه‌سازی پنجره"
+msgstr ""
 
 #: useractions.cpp:989
 #, kde-format
 msgid "Maximize Window Vertically"
-msgstr "بیشینه‌سازی عمودی پنجره"
+msgstr ""
 
 #: useractions.cpp:991
 #, kde-format
 msgid "Maximize Window Horizontally"
-msgstr "بیشینه‌سازی افقی پنجره"
+msgstr ""
 
 #: useractions.cpp:993
 #, kde-format
 msgid "Minimize Window"
-msgstr "کمینه‌سازی پنجره"
+msgstr ""
 
 #: useractions.cpp:995
 #, kde-format
 msgid "Shade Window"
-msgstr "سایه‌دار کردن پنجره"
+msgstr ""
 
 #: useractions.cpp:997
 #, kde-format
 msgid "Move Window"
-msgstr "حرکت پنجره"
+msgstr ""
 
 #: useractions.cpp:999
 #, kde-format
 msgid "Resize Window"
-msgstr "تغییر اندازه پنجره"
+msgstr ""
 
 #: useractions.cpp:1001
 #, kde-format
 msgid "Raise Window"
-msgstr "بالا بردن پنجره"
+msgstr ""
 
 #: useractions.cpp:1003
 #, kde-format
 msgid "Lower Window"
-msgstr "پایین آوردن پنجره"
+msgstr ""
 
 #: useractions.cpp:1005
 #, kde-format
 msgid "Toggle Window Raise/Lower"
-msgstr "زدن ضامن بالا بردن/پایین آوردن پنجره"
+msgstr ""
 
 #: useractions.cpp:1007
 #, kde-format
 msgid "Make Window Fullscreen"
-msgstr "تمام پرده کردن پنجره"
+msgstr ""
 
 #: useractions.cpp:1009
-#, fuzzy, kde-format
-#| msgid "Hide Window Border"
+#, kde-format
 msgid "Toggle Window Titlebar and Frame"
-msgstr "مخفی کردن لبه پنجره"
+msgstr ""
 
 #: useractions.cpp:1011
 #, kde-format
 msgid "Keep Window Above Others"
-msgstr "نگه داشتن پنجره بالای پنجره‌های دیگر"
+msgstr ""
 
 #: useractions.cpp:1013
 #, kde-format
 msgid "Keep Window Below Others"
-msgstr "نگه داشتن پنجره زیر پنجره‌های دیگر"
+msgstr ""
 
 #: useractions.cpp:1015
 #, kde-format
 msgid "Activate Window Demanding Attention"
-msgstr "فعال کردن پنجره تقاضای توجه"
+msgstr ""
 
 #: useractions.cpp:1017
 #, kde-format
 msgid "Setup Window Shortcut"
-msgstr "برپایی میان‌بر پنجره"
+msgstr ""
 
 #: useractions.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Move Window"
+#, kde-format
 msgid "Move Window to the Center"
-msgstr "حرکت پنجره"
+msgstr ""
 
 #: useractions.cpp:1021
-#, fuzzy, kde-format
-#| msgid "Move Window"
+#, kde-format
 msgid "Move Window Right"
-msgstr "حرکت پنجره"
+msgstr ""
 
 #: useractions.cpp:1023
-#, fuzzy, kde-format
-#| msgid "Move Window"
+#, kde-format
 msgid "Move Window Left"
-msgstr "حرکت پنجره"
+msgstr ""
 
 #: useractions.cpp:1025
-#, fuzzy, kde-format
-#| msgid "Move Window"
+#, kde-format
 msgid "Move Window Up"
-msgstr "حرکت پنجره"
+msgstr ""
 
 #: useractions.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Move Window"
+#, kde-format
 msgid "Move Window Down"
-msgstr "حرکت پنجره"
+msgstr ""
 
 #: useractions.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Expand Window Horizontally"
-msgstr "بیشینه‌سازی افقی پنجره"
+msgstr ""
 
 #: useractions.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Expand Window Vertically"
-msgstr "بیشینه‌سازی عمودی پنجره"
+msgstr ""
 
 #: useractions.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Pack Shrink Window Horizontally"
+#, kde-format
 msgid "Shrink Window Horizontally"
-msgstr "فشردن پنجره جمع‌شده به طور افقی"
+msgstr ""
 
 #: useractions.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Pack Shrink Window Vertically"
+#, kde-format
 msgid "Shrink Window Vertically"
-msgstr "فشردن پنجره جمع‌شده به طور عمودی"
+msgstr ""
 
 #: useractions.cpp:1037
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Left"
+#, kde-format
 msgid "Quick Tile Window to the Left"
-msgstr "فشردن پنجره به چپ"
+msgstr ""
 
 #: useractions.cpp:1039
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Right"
+#, kde-format
 msgid "Quick Tile Window to the Right"
-msgstr "فشردن پنجره به راست"
+msgstr ""
 
 #: useractions.cpp:1041
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Left"
+#, kde-format
 msgid "Quick Tile Window to the Top"
-msgstr "فشردن پنجره به چپ"
+msgstr ""
 
 #: useractions.cpp:1043
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Left"
+#, kde-format
 msgid "Quick Tile Window to the Bottom"
-msgstr "فشردن پنجره به چپ"
+msgstr ""
 
 #: useractions.cpp:1045
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Left"
+#, kde-format
 msgid "Quick Tile Window to the Top Left"
-msgstr "فشردن پنجره به چپ"
+msgstr ""
 
 #: useractions.cpp:1047
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Left"
+#, kde-format
 msgid "Quick Tile Window to the Bottom Left"
-msgstr "فشردن پنجره به چپ"
+msgstr ""
 
 #: useractions.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Right"
+#, kde-format
 msgid "Quick Tile Window to the Top Right"
-msgstr "فشردن پنجره به راست"
+msgstr ""
 
 #: useractions.cpp:1051
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Right"
+#, kde-format
 msgid "Quick Tile Window to the Bottom Right"
-msgstr "فشردن پنجره به راست"
+msgstr ""
 
 #: useractions.cpp:1053
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgid "Switch to Window Above"
-msgstr "سودهی به پرده ۰"
+msgstr ""
 
 #: useractions.cpp:1055
-#, fuzzy, kde-format
-#| msgid "Switch to Previous Desktop"
+#, kde-format
 msgid "Switch to Window Below"
-msgstr "سودهی به رومیزی قبلی"
+msgstr ""
 
 #: useractions.cpp:1057
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Right"
+#, kde-format
 msgid "Switch to Window to the Right"
-msgstr "فشردن پنجره به راست"
+msgstr ""
 
 #: useractions.cpp:1059
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Left"
+#, kde-format
 msgid "Switch to Window to the Left"
-msgstr "فشردن پنجره به چپ"
+msgstr ""
 
 #: useractions.cpp:1061
 #, kde-format
@@ -2675,136 +2592,122 @@ msgstr ""
 #: useractions.cpp:1066
 #, kde-format
 msgid "Keep Window on All Desktops"
-msgstr "نگه داشتن پنجره روی تمام رومیزیها"
+msgstr ""
 
 #: useractions.cpp:1077
-#, fuzzy, kde-format
-#| msgid "Window to Desktop 1"
+#, kde-format
 msgid "Window to Desktop %1"
-msgstr "پنجره در رومیزی ۱"
+msgstr ""
 
 #: useractions.cpp:1079
 #, kde-format
 msgid "Window to Next Desktop"
-msgstr "پنجره در رومیزی بعدی"
+msgstr ""
 
 #: useractions.cpp:1080
 #, kde-format
 msgid "Window to Previous Desktop"
-msgstr "پنجره در رومیزی قبلی"
+msgstr ""
 
 #: useractions.cpp:1081
 #, kde-format
 msgid "Window One Desktop to the Right"
-msgstr "پنجره یک رومیزی به راست"
+msgstr ""
 
 #: useractions.cpp:1083
 #, kde-format
 msgid "Window One Desktop to the Left"
-msgstr "پنجره یک رومیزی به چپ"
+msgstr ""
 
 #: useractions.cpp:1085
 #, kde-format
 msgid "Window One Desktop Up"
-msgstr "پنجره یک رومیزی به بالا"
+msgstr ""
 
 #: useractions.cpp:1087
 #, kde-format
 msgid "Window One Desktop Down"
-msgstr "پنجره یک رومیزی به پایین"
+msgstr ""
 
 #: useractions.cpp:1091
-#, fuzzy, kde-format
-#| msgid "Window to Screen 1"
+#, kde-format
 msgid "Window to Screen %1"
-msgstr "پنجره در پرده ۱"
+msgstr ""
 
 #: useractions.cpp:1098
 #, kde-format
 msgid "Window to Next Screen"
-msgstr "پنجره در پرده بعدی"
+msgstr ""
 
 #: useractions.cpp:1100
-#, fuzzy, kde-format
-#| msgid "Window to Previous Desktop"
+#, kde-format
 msgid "Window to Previous Screen"
-msgstr "پنجره در رومیزی قبلی"
+msgstr ""
 
 #: useractions.cpp:1102
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Right"
+#, kde-format
 msgid "Window One Screen to the Right"
-msgstr "پنجره یک رومیزی به راست"
+msgstr ""
 
 #: useractions.cpp:1104
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Left"
+#, kde-format
 msgid "Window One Screen to the Left"
-msgstr "پنجره یک رومیزی به چپ"
+msgstr ""
 
 #: useractions.cpp:1106
-#, fuzzy, kde-format
-#| msgid "Window to Screen 2"
+#, kde-format
 msgid "Window One Screen Up"
-msgstr "پنجره در پرده ۲"
+msgstr ""
 
 #: useractions.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Window One Desktop Down"
+#, kde-format
 msgid "Window One Screen Down"
-msgstr "پنجره یک رومیزی به پایین"
+msgstr ""
 
 #: useractions.cpp:1112
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 1"
+#, kde-format
 msgid "Switch to Screen %1"
-msgstr "سودهی به پرده ۱"
+msgstr ""
 
 #: useractions.cpp:1119
 #, kde-format
 msgid "Switch to Next Screen"
-msgstr "سودهی به پرده بعدی"
+msgstr ""
 
 #: useractions.cpp:1120
-#, fuzzy, kde-format
-#| msgid "Switch to Previous Desktop"
+#, kde-format
 msgid "Switch to Previous Screen"
-msgstr "سودهی به رومیزی قبلی"
+msgstr ""
 
 #: useractions.cpp:1121
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Right"
+#, kde-format
 msgid "Switch to Screen to the Right"
-msgstr "فشردن پنجره به راست"
+msgstr ""
 
 #: useractions.cpp:1123
-#, fuzzy, kde-format
-#| msgid "Pack Window to the Left"
+#, kde-format
 msgid "Switch to Screen to the Left"
-msgstr "فشردن پنجره به چپ"
+msgstr ""
 
 #: useractions.cpp:1125
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgid "Switch to Screen Above"
-msgstr "سودهی به پرده ۰"
+msgstr ""
 
 #: useractions.cpp:1127
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgid "Switch to Screen Below"
-msgstr "سودهی به پرده ۰"
+msgstr ""
 
 #: useractions.cpp:1130
-#, fuzzy, kde-format
-#| msgid "To &Desktop"
+#, kde-format
 msgid "Peek at Desktop"
-msgstr "به &رومیزی‌"
+msgstr ""
 
 #: useractions.cpp:1133
 #, kde-format
 msgid "Kill Window"
-msgstr "کشتن پنجره"
+msgstr ""
 
 #: useractions.cpp:1134
 #, kde-format
@@ -2819,51 +2722,49 @@ msgstr ""
 #: useractions.cpp:1332
 #, kde-format
 msgid ""
-"The window manager is configured to consider the screen with the mouse on it "
-"as active one.\n"
+"The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
 
 #: virtualdesktops.cpp:693 virtualdesktops.cpp:764
 #, kde-format
 msgid "Desktop %1"
-msgstr "رومیزی %1"
+msgstr ""
 
 #: virtualdesktops.cpp:800
 #, kde-format
 msgid "Switch to Next Desktop"
-msgstr "سودهی به رومیزی بعدی"
+msgstr ""
 
 #: virtualdesktops.cpp:801
 #, kde-format
 msgid "Switch to Previous Desktop"
-msgstr "سودهی به رومیزی قبلی"
+msgstr ""
 
 #: virtualdesktops.cpp:804
 #, kde-format
 msgid "Switch One Desktop to the Right"
-msgstr "سودهی یک رومیزی به راست"
+msgstr ""
 
 #: virtualdesktops.cpp:806
 #, kde-format
 msgid "Switch One Desktop to the Left"
-msgstr "سودهی یک رومیزی به چپ"
+msgstr ""
 
 #: virtualdesktops.cpp:808
 #, kde-format
 msgid "Switch One Desktop Up"
-msgstr "سودهی یک رومیزی به بالا"
+msgstr ""
 
 #: virtualdesktops.cpp:810
 #, kde-format
 msgid "Switch One Desktop Down"
-msgstr "سودهی یک رومیزی به پایین"
+msgstr ""
 
 #: virtualdesktops.cpp:899
-#, fuzzy, kde-format
-#| msgid "Switch to Desktop 1"
+#, kde-format
 msgid "Switch to Desktop %1"
-msgstr "سودهی به رومیزی ۱"
+msgstr ""
 
 #: window.cpp:3470
 #, kde-format
@@ -2876,591 +2777,763 @@ msgstr ""
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
 "what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 
 #~ msgid "&No Border"
-#~ msgstr "&بدون لبه‌"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Show Desktop Grid"
+#~ msgid "Toggle Window Border"
+#~ msgstr ""
+
+#~ msgctxt "Error message"
+#~ msgid "Plugin does not provide configuration file in expected location"
+#~ msgstr ""
+
+#~ msgid "Invert Screen Colors"
+#~ msgstr ""
+
+#~ msgid "List all available backends and quit."
+#~ msgstr ""
+
 #~ msgid "Show Desktop"
-#~ msgstr "نمایش توری رومیزی"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Close Window"
 #~ msgid "X11 Client Windows"
-#~ msgstr "بستن پنجره"
+#~ msgstr ""
+
+#~ msgid "unknown"
+#~ msgstr ""
+
+#~ msgid "Render to framebuffer."
+#~ msgstr ""
+
+#~ msgid "The framebuffer device to render to."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enable libinput support for input events processing. Note: never use in a "
+#~ "nested session.\t(deprecated)"
+#~ msgstr ""
 
 #~ msgid "Pack Window to the Right"
-#~ msgstr "فشردن پنجره به راست"
+#~ msgstr ""
 
 #~ msgid "Pack Window to the Left"
-#~ msgstr "فشردن پنجره به چپ"
+#~ msgstr ""
 
 #~ msgid "Pack Window Up"
-#~ msgstr "فشردن پنجره به بالا"
+#~ msgstr ""
 
 #~ msgid "Pack Window Down"
-#~ msgstr "فشردن پنجره به پایین"
+#~ msgstr ""
 
 #~ msgid "Pack Grow Window Horizontally"
-#~ msgstr "فشردن پنجره بزرگ‌شده به طور افقی"
+#~ msgstr ""
 
 #~ msgid "Pack Grow Window Vertically"
-#~ msgstr "فشردن پنجره بزرگ‌شده به طور عمودی"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Desktop %1"
 #~ msgid "Desktop number"
-#~ msgstr "رومیزی %1"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Configur&e Window Behavior..."
 #~ msgid "Configure virtual keyboards..."
-#~ msgstr "&پیکر‌بندی رفتار پنجره...‌"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Walk Through Windows"
-#~ msgid "Walk Through Window Tabs"
-#~ msgstr "گردش در میان پنجره‌ها"
+#~ msgid "Virtual Keyboard"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Walk Through Windows (Reverse)"
-#~ msgid "Walk Through Window Tabs (Reverse)"
-#~ msgstr "گردش در میان پنجره‌ها )معکوس("
+#~ msgid "Whether to show the virtual keyboard on demand."
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Switch to Screen 0"
-#~ msgid "Switch to Tab"
-#~ msgstr "سودهی به پرده ۰"
+#~ msgid "Virtual Keyboard: enabled"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "&Special Window Settings..."
+#~ msgid "Virtual Keyboard: disabled"
+#~ msgstr ""
+
+#~ msgctxt "Assertion failed in KWin script with given value"
+#~ msgid "Assertion failed: %1 is not null"
+#~ msgstr ""
+
+#~ msgctxt "Assertion failed in KWin script"
+#~ msgid "Assertion failed: argument is null"
+#~ msgstr ""
+
+#~ msgctxt "Error in KWin Script"
+#~ msgid ""
+#~ "Invalid number of arguments. At least service, path, interface and method "
+#~ "need to be provided"
+#~ msgstr ""
+
+#~ msgctxt "Error in KWin Script"
+#~ msgid ""
+#~ "Invalid type. Service, path, interface and method need to be string values"
+#~ msgstr ""
+
+#~ msgctxt "syntax error in KWin script"
+#~ msgid "Invalid number of arguments"
+#~ msgstr ""
+
 #~ msgctxt ""
-#~ "Entry in context menu of window decoration to open the configuration "
-#~ "module of KWin"
-#~ msgid "Window Manager S&ettings..."
-#~ msgstr "تنظیمات &ویژه پنجره...‌"
+#~ "KWin Scripting function received incorrect value for an expected type"
+#~ msgid "%1 is not a variant type"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid ""
-#~| "kwin: unable to claim manager selection, another wm running? (try using "
-#~| "--replace)\n"
+#~ msgid "Pressed Buttons"
+#~ msgstr ""
+
+#~ msgid "Use libhybris hwcomposer"
+#~ msgstr ""
+
+#~ msgid "Allow Rotation"
+#~ msgstr ""
+
+#~ msgid "Automatic screen rotation is enabled"
+#~ msgstr ""
+
+#~ msgid "Undefined"
+#~ msgstr ""
+
+#~ msgctxt "Portrait oriented display"
+#~ msgid "Vertical"
+#~ msgstr ""
+
+#~ msgctxt "Landscape oriented display"
+#~ msgid "Horizontal"
+#~ msgstr ""
+
+#~ msgid "Automatic screen rotation is disabled"
+#~ msgstr ""
+
+#~ msgid "Walk Through Window Tabs"
+#~ msgstr ""
+
+#~ msgid "Walk Through Window Tabs (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Remove Window From Group"
+#~ msgstr ""
+
+#~ msgid "&Untab"
+#~ msgstr ""
+
+#~ msgid "Close Entire &Group"
+#~ msgstr ""
+
+#~ msgctxt "Switch to tab -> Previous"
+#~ msgid "Previous"
+#~ msgstr ""
+
+#~ msgctxt "Switch to tab -> Next"
+#~ msgid "Next"
+#~ msgstr ""
+
+#~ msgctxt "There's no window available to be attached as tab to this one"
+#~ msgid "None available"
+#~ msgstr ""
+
+#~ msgid "Switch to Tab"
+#~ msgstr ""
+
+#~ msgid "&Attach as tab to"
+#~ msgstr ""
+
+#~ msgctxt ""
+#~ "Entry in context menu of window decoration to open the configuration module "
+#~ "of KWin"
+#~ msgid "Window Manager S&ettings..."
+#~ msgstr ""
+
+#~ msgid "Automatic Screen Rotation"
+#~ msgstr ""
+
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
-#~ "kwin:ناتوانی در درخواست گزینش مدیر، wm دیگری در حال اجراست؟ )استفاده از --"
-#~ "replace را امتحان کنید(\n"
+
+#~ msgid "Martin Gräßlin"
+#~ msgstr ""
 
 #~ msgid "Maintainer"
-#~ msgstr "نگه‌دارنده"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+#~ "OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+#~ "select the XRender backend, but it might be very slow for this resolution as"
+#~ " well.<br>Alternatively, lower the combined resolution of all screens to "
+#~ "%1x%2 "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+#~ "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+#~ "does not know such limitation, but the performance will usually be impacted "
+#~ "by the hardware limitations that restrict the OpenGL viewport size."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+#~ "the current resolution are supported but might be exceptionally "
+#~ "slow.<br>Also large windows will turn entirely black.<br><br>Consider to "
+#~ "suspend compositing, switch to the XRender backend or lower the resolution "
+#~ "to %1x%1."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+#~ "GPU, thus windows of that size cannot be assigned to textures and will be "
+#~ "entirely black.<br>Also this limit will often be a performance level barrier"
+#~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+#~ "software rendering in this case."
+#~ msgstr ""
+
+#~ msgid "Use a nested compositor in windowed mode."
+#~ msgstr ""
+
+#~ msgctxt "notification about mouse pointer confined"
+#~ msgid ""
+#~ "Pointer motion confined to the current window.\n"
+#~ "To release pointer hold Escape for 3 seconds."
+#~ msgstr ""
+
+#~ msgctxt "notification about mouse pointer locked"
+#~ msgid ""
+#~ "Pointer locked to current position.\n"
+#~ "To end pointer lock hold Escape for 3 seconds."
+#~ msgstr ""
+
+#~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+#~ msgstr ""
 
 #~ msgid "Sh&ade"
-#~ msgstr "&سایه‌‌‌دار کردن‌"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
+#~ " set.\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The X11 Display to connect to. If not set next free number will be picked."
+#~ msgstr ""
 
 #~ msgid "KWin: "
-#~ msgstr "KWin: "
+#~ msgstr ""
 
 #~ msgid "System"
-#~ msgstr "سیستم"
+#~ msgstr ""
 
 #~ msgid "Navigation"
-#~ msgstr "ناوش"
+#~ msgstr ""
 
 #~ msgid "Window & Desktop"
-#~ msgstr "پنجره و رومیزی"
+#~ msgstr ""
 
 #~ msgid "Miscellaneous"
-#~ msgstr "متفرقه"
+#~ msgstr ""
 
 #~ msgid "Desktop Switching"
-#~ msgstr "سودهی رومیزی"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
 #~ "started.\n"
 #~ msgstr ""
-#~ "kwin: به نظر می‌رسد که در حال حاضر مدیر پنجره در حال اجراست. kwin آغاز "
-#~ "نشده.\n"
 
-#, fuzzy
-#~| msgid ""
-#~| "<p>Window with title \"<b>%2</b>\" is not responding. This window "
-#~| "belongs to application <b>%1</b> (PID=%3, hostname=%4).</p><p>Do you "
-#~| "wish to terminate this application? (All unsaved data in this "
-#~| "application will be lost.)</p>"
 #~ msgid ""
-#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the "
-#~ "application <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish "
-#~ "to terminate the application process <em>including <b>all</b> of its "
-#~ "child windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
+#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
+#~ " <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish to terminate "
+#~ "the application process <em>including <b>all</b> of its child "
+#~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
 #~ msgstr ""
-#~ "<p>پنجره با عنوان »<b>%2</b>« پاسخ نمی‌دهد. این پنجره به کاربرد <b>%1</b> "
-#~ "تعلق دارد )شناسه فرآیند=%3، نام میزبان=%4(.</p><p>مایل هستید که به این "
-#~ "کاربرد پایان دهید؟ )تمام داده ذخیره‌نشده در این کاربرد از بین خواهد رفت.(</"
-#~ "p>"
 
 #~ msgid "Window '%1' demands attention."
-#~ msgstr "پنجره »%1« مستلزم توجه می‌باشد."
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Close Window"
+#~ msgid "Layout changed to %1"
+#~ msgstr ""
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr ""
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr ""
+
 #~ msgctxt "Floating layout, windows aren't tiled at all"
 #~ msgid "Floating"
-#~ msgstr "بستن پنجره"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Close Window"
 #~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
 #~ msgid "&Float Window"
-#~ msgstr "بستن پنجره"
+#~ msgstr ""
 
 #~ msgid "Ad&vanced"
-#~ msgstr "&پیشرفته‌"
+#~ msgstr ""
 
 #~ msgid "*** No Windows ***"
-#~ msgstr "*** پنجره‌ای وجود ندارد ***"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Left"
+#~ msgid "Load the script testing dialog"
+#~ msgstr ""
+
+#~ msgid "Remove &From Group"
+#~ msgstr ""
+
 #~ msgid "To the Left"
-#~ msgstr "چپ"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Right"
 #~ msgid "To the Right"
-#~ msgstr "راست"
+#~ msgstr ""
 
 #~ msgid "&Opacity"
-#~ msgstr "&تاری‌"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Switch to Desktop 1"
+#~ msgid ""
+#~ "XRender/XFixes extensions are not available and only XRender support is "
+#~ "compiled."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Compositing was disabled at compile time.\n"
+#~ "It is likely Xorg development headers were not installed."
+#~ msgstr ""
+
+#~ msgid "Tiling"
+#~ msgstr ""
+
+#~ msgid "Enable/Disable Tiling"
+#~ msgstr ""
+
+#~ msgid "Toggle Floating"
+#~ msgstr ""
+
 #~ msgid "Switch Focus Left"
-#~ msgstr "سودهی به رومیزی ۱"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Switch One Desktop Up"
+#~ msgid "Switch Focus Right"
+#~ msgstr ""
+
 #~ msgid "Switch Focus Up"
-#~ msgstr "سودهی یک رومیزی به بالا"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Switch One Desktop Down"
 #~ msgid "Switch Focus Down"
-#~ msgstr "سودهی یک رومیزی به پایین"
+#~ msgstr ""
+
+#~ msgid "Tiling Disabled"
+#~ msgstr ""
+
+#~ msgid "Tiling Enabled"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
 
 #~ msgid ""
 #~ "\n"
 #~ "KWin will now exit..."
 #~ msgstr ""
-#~ "\n"
-#~ "KWin اکنون خارج می‌شود..."
 
 #~ msgid "Window to Desktop 2"
-#~ msgstr "پنجره در رومیزی ۲"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 3"
-#~ msgstr "پنجره در رومیزی ۳"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 4"
-#~ msgstr "پنجره در رومیزی ۴"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 5"
-#~ msgstr "پنجره در رومیزی ۵"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 6"
-#~ msgstr "پنجره در رومیزی ۶"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 7"
-#~ msgstr "پنجره در رومیزی ۷"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 8"
-#~ msgstr "پنجره در رومیزی ۸"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 9"
-#~ msgstr "پنجره در رومیزی ۹"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 10"
-#~ msgstr "پنجره در رومیزی ۱۰"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 11"
-#~ msgstr "پنجره در رومیزی ۱۱"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 12"
-#~ msgstr "پنجره در رومیزی ۱۲"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 13"
-#~ msgstr "پنجره در رومیزی ۱۳"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 14"
-#~ msgstr "پنجره در رومیزی ۱۴"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 15"
-#~ msgstr "پنجره در رومیزی ۱۵"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 16"
-#~ msgstr "پنجره در رومیزی ۱۶"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 17"
-#~ msgstr "پنجره در رومیزی ۱۷"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 18"
-#~ msgstr "پنجره در رومیزی ۱۸"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 19"
-#~ msgstr "پنجره در رومیزی ۱۹"
+#~ msgstr ""
 
 #~ msgid "Window to Desktop 20"
-#~ msgstr "پنجره در رومیزی ۲۰"
+#~ msgstr ""
 
 #~ msgid "Window to Screen 3"
-#~ msgstr "پنجره در پرده ۳"
+#~ msgstr ""
 
 #~ msgid "Window to Screen 4"
-#~ msgstr "پنجره در پرده ۴"
+#~ msgstr ""
 
 #~ msgid "Window to Screen 5"
-#~ msgstr "پنجره در پرده ۵"
+#~ msgstr ""
 
 #~ msgid "Window to Screen 6"
-#~ msgstr "پنجره در پرده ۶"
+#~ msgstr ""
 
 #~ msgid "Window to Screen 7"
-#~ msgstr "پنجره در پرده ۷"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 3"
-#~ msgstr "سودهی به رومیزی ۳"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 4"
-#~ msgstr "سودهی به رومیزی ۴"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 5"
-#~ msgstr "سودهی به رومیزی ۵"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 6"
-#~ msgstr "سودهی به رومیزی ۶"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 7"
-#~ msgstr "سودهی به رومیزی ۷"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 8"
-#~ msgstr "سودهی به رومیزی ۸"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 9"
-#~ msgstr "سودهی به رومیزی ۹"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 10"
-#~ msgstr "سودهی به رومیزی ۱۰"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 11"
-#~ msgstr "سودهی به رومیزی ۱۱"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 12"
-#~ msgstr "سودهی به رومیزی ۱۲"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 13"
-#~ msgstr "سودهی به رومیزی ۱۳"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 14"
-#~ msgstr "سودهی به رومیزی ۱۴"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 15"
-#~ msgstr "سودهی به رومیزی ۱۵"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 16"
-#~ msgstr "سودهی به رومیزی ۱۶"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 17"
-#~ msgstr "سودهی به رومیزی ۱۷"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 18"
-#~ msgstr "سودهی به رومیزی ۱۸"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 19"
-#~ msgstr "سودهی به رومیزی ۱۹"
+#~ msgstr ""
 
 #~ msgid "Switch to Desktop 20"
-#~ msgstr "سودهی به رومیزی ۲۰"
+#~ msgstr ""
 
 #~ msgid "Switch to Screen 2"
-#~ msgstr "سودهی به پرده ۲"
+#~ msgstr ""
 
 #~ msgid "Switch to Screen 3"
-#~ msgstr "سودهی به پرده ۳"
+#~ msgstr ""
 
 #~ msgid "Switch to Screen 4"
-#~ msgstr "سودهی به پرده ۴"
+#~ msgstr ""
 
 #~ msgid "Switch to Screen 5"
-#~ msgstr "سودهی به پرده ۵"
+#~ msgstr ""
 
 #~ msgid "Switch to Screen 6"
-#~ msgstr "سودهی به پرده ۶"
+#~ msgstr ""
 
 #~ msgid "Switch to Screen 7"
-#~ msgstr "سودهی به پرده ۷"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "<center><b>%1 preview</b></center>"
 #~ msgid "<center><b>%1</b></center>"
-#~ msgstr "<center><b>پیش‌نمایش %1</b></center>"
+#~ msgstr ""
 
 #~ msgid "Menu"
-#~ msgstr "گزینگان"
+#~ msgstr ""
 
 #~ msgid "Not on all desktops"
-#~ msgstr "نه روی تمام رومیزیها"
+#~ msgstr ""
 
 #~ msgid "On all desktops"
-#~ msgstr "روی تمام رومیزیها"
+#~ msgstr ""
 
 #~ msgid "Help"
-#~ msgstr "کمک"
+#~ msgstr ""
 
 #~ msgid "Restore"
-#~ msgstr "باز گرداندن"
+#~ msgstr ""
 
 #~ msgid "Do not keep above others"
-#~ msgstr "نگه نداشتن بالای بقیه"
+#~ msgstr ""
 
 #~ msgid "Do not keep below others"
-#~ msgstr "نگه نداشتن زیر بقیه"
+#~ msgstr ""
 
 #~ msgid "No window decoration plugin library was found."
-#~ msgstr "هیچ کتابخانه وصله تزئین پنجره‌ای یافت نشد."
+#~ msgstr ""
 
 #~ msgid "The default decoration plugin is corrupt and could not be loaded."
-#~ msgstr "وصله تزئین پیش‌فرض خراب است و نمی‌توان آن را بارگذاری کرد."
+#~ msgstr ""
 
 #~ msgid "The library %1 is not a KWin plugin."
-#~ msgstr "کتابخانه %1 یک وصله KWin نیست."
+#~ msgstr ""
 
-#, fuzzy
 #~ msgid "Window Screenshot to Clipboard"
-#~ msgstr "تصویر پرده پنجره در تخته یادداشت"
+#~ msgstr ""
 
-#, fuzzy
 #~ msgid "Desktop Screenshot to Clipboard"
-#~ msgstr "تصویر پرده رومیزی در تخته یادداشت"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Toggle Video Recording"
 #~ msgid "Toggle Tiling"
-#~ msgstr "زدن ضامن ضبط ویدئو"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Decorations:"
+#~ msgid "Increase Ratio"
+#~ msgstr ""
+
 #~ msgid "Decrease Ratio"
-#~ msgstr "تزئینات:"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Left"
 #~ msgid "Move Left"
-#~ msgstr "چپ"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Right"
 #~ msgid "Move Right"
-#~ msgstr "راست"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "&Move"
 #~ msgid "Move Up"
-#~ msgstr "&حرکت‌"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Move Window"
 #~ msgid "Move Down"
-#~ msgstr "حرکت پنجره"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Walk Through Windows"
+#~ msgid "Test Dump tiles"
+#~ msgstr ""
+
+#~ msgid "Test Below Cursor"
+#~ msgstr ""
+
 #~ msgid "Walk Through Grouped Windows"
-#~ msgstr "گردش در میان پنجره‌ها"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Walk Through Windows (Reverse)"
 #~ msgid "Walk Through Grouped Windows (Reverse)"
-#~ msgstr "گردش در میان پنجره‌ها )معکوس("
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Switch to Screen 0"
 #~ msgid "Switch to group window"
-#~ msgstr "سودهی به پرده ۰"
+#~ msgstr ""
 
 #~ msgid "kwin: failure during initialization; aborting"
-#~ msgstr "kwin: خرابی طی مقداردهی اولیه؛ ساقط کردن"
+#~ msgstr ""
 
 #~ msgid "Terminate"
-#~ msgstr "پایان دادن"
+#~ msgstr ""
 
 #~ msgid "Keep Running"
-#~ msgstr "نگه داشتن در حال اجرا"
-
-#, fuzzy
-#~| msgid "Ad&vanced"
-#~ msgctxt "@title:tab Advanced Settings"
-#~ msgid "Advanced"
-#~ msgstr "&پیشرفته‌"
+#~ msgstr ""
 
 #~ msgid "Top"
-#~ msgstr "بالا"
-
-#, fuzzy
-#~| msgid "Bottom-right"
-#~ msgid "Bottom-Right"
-#~ msgstr "راست پایین"
+#~ msgstr ""
 
 #~ msgid "Bottom"
-#~ msgstr "پایین"
+#~ msgstr ""
 
-#, fuzzy
-#~| msgid "Bottom-left"
-#~ msgid "Bottom-Left"
-#~ msgstr "چپ پایین"
-
-#, fuzzy
 #~ msgid "Toggle Invert Effect"
-#~ msgstr "زدن ضامن جلوه معکوس"
+#~ msgstr ""
 
-#, fuzzy
-#~ msgid "Toggle Invert Effect on Window"
-#~ msgstr "زدن ضامن جلوه معکوس"
+#~ msgid "Clear All Mouse Marks"
+#~ msgstr ""
+
+#~ msgid "Clear Last Mouse Mark"
+#~ msgstr ""
 
 #~ msgid "Clear Mouse Marks"
-#~ msgstr "پاک‌سازی نشان‌های موشی"
-
-#, fuzzy
-#~| msgid "for windows on current desktop: "
-#~ msgid "Toggle Present Windows (Current desktop)"
-#~ msgstr "برای پنجره‌های روی رومیزی جاری: "
-
-#, fuzzy
-#~| msgid "Keep Window on All Desktops"
-#~ msgid "Toggle Present Windows (All desktops)"
-#~ msgstr "نگه داشتن پنجره روی تمام رومیزیها"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
-#~ "صافی:\n"
-#~ "%1"
 
-#, fuzzy
-#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
-#~ msgid "Toggle Sharpen Effect"
-#~ msgstr "زدن ضامن جلوه تیز کردن"
+#~ msgid "Snow"
+#~ msgstr ""
 
-#, fuzzy
 #~ msgid "Toggle Snow on Desktop"
-#~ msgstr "زدن ضامن جلوه در معرض گذاشتن )شامل سایر رومیزیها("
+#~ msgstr ""
 
 #~ msgid "Toggle Thumbnail for Current Window"
-#~ msgstr "زدن ضامن ریزنقش برای پنجره جاری"
+#~ msgstr ""
 
 #~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
-#~ msgstr "برای دیدن مکان موشی، کلید‌های Ctrl+Meta را نگه دارید."
+#~ msgstr ""
+
+#~ msgid "Path to save video:"
+#~ msgstr ""
 
 #~ msgid "None"
-#~ msgstr "هیچ‌کدام"
+#~ msgstr ""
 
 #~ msgid "X offset:"
-#~ msgstr "انحراف X:"
+#~ msgstr ""
 
 #~ msgid "Y offset:"
-#~ msgstr "انحراف Y:"
+#~ msgstr ""
 
 #~ msgid "Shadow opacity:"
-#~ msgstr "تاری سایه:"
+#~ msgstr ""
 
-#, fuzzy
 #~ msgid "Shadow fuzziness:"
-#~ msgstr "نادقیقی سایه:"
+#~ msgstr ""
 
 #~ msgid "Shadow size (relative to window):"
-#~ msgstr "اندازهٔ سایه (نسبت به پنجره):"
+#~ msgstr ""
 
-#, fuzzy
 #~ msgid "Shadow color:"
-#~ msgstr "تاری سایه:"
+#~ msgstr ""
 
 #~ msgid "Active window has stronger shadow"
-#~ msgstr "پنجرهٔ فعال، سایهٔ شدیدتری دارد"
+#~ msgstr ""
 
 #~ msgid "Toggle Expose Effect"
-#~ msgstr "زدن ضامن جلوهٔ افشاگری"
+#~ msgstr ""
 
-#, fuzzy
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
-#~ msgstr "زدن ضامن جلوه در معرض گذاشتن )شامل سایر رومیزیها("
+#~ msgstr ""
+
+#~ msgid "Draw window caption on top of window"
+#~ msgstr ""
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
-#~ msgstr "فعال کردن هنگامی که مکان‌نما در لبه مشخص یا گوشه پرده است:"
+#~ msgstr ""
 
 #~ msgid "for windows on all desktops: "
-#~ msgstr "برای پنجره‌های روی همهٔ رومیزی‌ها: "
+#~ msgstr ""
 
 #~ msgid "Animate desktop changes"
-#~ msgstr "متحرک‌سازی تغییرات رومیزی"
+#~ msgstr ""
 
-#~ msgid "Moved/resized windows:"
-#~ msgstr "پنجره‌هایی که منتقل شدند/تغییراندازه دادند:"
+#~ msgid "Reset opacity to default value"
+#~ msgstr ""
+
+#~ msgid "Slide this to set the window's opacity"
+#~ msgstr ""
 
 #~ msgid ""
-#~ "Compositing was disabled at compile time.\n"
-#~ "Probably Xorg development headers were not installed."
+#~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
+#~ " in a $PATH directory."
 #~ msgstr ""
-#~ "ترکیب‌گری هنگام ترجمه غیرفعال شده بود.\n"
-#~ "احتمالاً سرآیندهای توسعهٔ Xorg نصب نشده بوده‌اند."
 
-#~ msgid "Window Screenshot To Clipboard"
-#~ msgstr "تصویر پرده پنجره در تخته یادداشت"
+#~ msgid ""
+#~ "The Composite Manager crashed twice within a minute and is therefore "
+#~ "disabled for this session."
+#~ msgstr ""
 
-#~ msgid "Desktop Screenshot To Clipboard"
-#~ msgstr "تصویر پرده رومیزی در تخته یادداشت"
+#~ msgid "Composite Manager Failure"
+#~ msgstr ""
 
-#~ msgid "Toggle Invert effect"
-#~ msgstr "زدن ضامن جلوه معکوس"
+#~ msgid ""
+#~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
+#~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
+#~ msgstr ""
 
-#~ msgid "Changes opacity of following elements:"
-#~ msgstr "کدری عناصر زیر را تغییر می‌دهد:"
+#~ msgid ""
+#~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
+#~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
+#~ "www.freedesktop.org.<br></qt>"
+#~ msgstr ""
 
-#~ msgid "Toggle Expose effect (incl other desktops)"
-#~ msgstr "زدن ضامن جلوه در معرض گذاشتن )شامل سایر رومیزیها("
+#~ msgid ""
+#~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
+#~ "6.8 for translucency and shadows to work.<br>Additionally, you need to add a"
+#~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
+#~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
+#~ msgstr ""
 
-#~ msgid "Shadow fuzzyness:"
-#~ msgstr "نادقیقی سایه:"
+#~ msgid ""
+#~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
 
-#~ msgid "Toggle Sharpen effect"
-#~ msgstr "زدن ضامن جلوه تیز کردن"
+#~ msgid ""
+#~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
 
-#~ msgid "PID of the application to terminate."
-#~ msgstr "شناسه فرآیند کاربرد برای پایان دادن."
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr ""
 
-#~ msgid "Hostname on which the application is running."
-#~ msgstr "نام میزبانی که کاربرد روی آن در حال اجراست."
+msgid "Minimize"
+msgstr "کمینه"
 
-#~ msgid "Caption of the window to be terminated."
-#~ msgstr "عنوان پنجره‌ای که باید پایان داده شود."
+msgid "Unmaximize"
+msgstr "غیر بیشینه"
 
-#~ msgid "Name of the application to be terminated."
-#~ msgstr "نام کاربردی که باید پایان داده شود."
+msgid "Maximize"
+msgstr "بزرگ"
 
-#~ msgid "ID of resource belonging to the application."
-#~ msgstr "شناسه منبع متعلق به کاربرد."
+msgid "Move"
+msgstr "حرکت"
 
-#~ msgid "Time of user action causing killing."
-#~ msgstr "زمان کنش کاربر که موجب کشتن می‌شود."
+msgid "Resize"
+msgstr "تغییر اندازه"
 
-#, fuzzy
-#~| msgid "Keep Window on All Desktops"
-#~ msgid "for windows on all desktops: Ctrl+F11"
-#~ msgstr "نگه داشتن پنجره روی تمام رومیزیها"
+msgid "Always on Top"
+msgstr "همیشه روی صفحه"
+
+msgid "Always on Visible Workspace"
+msgstr "همیشه در فضای کار قابل مشاهده باشد"
+
+msgid "Move to Workspace Left"
+msgstr "حرکت به فضای کاری چپ"
+
+msgid "Move to Workspace Right"
+msgstr "حرکت به فضای کاری راست"
+
+msgid "Close"
+msgstr "بستن"
