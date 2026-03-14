@@ -1,37 +1,42 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR This file is copyright:
-# This file is distributed under the same license as the kwin package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# translation of kwin.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Beka Gvazava <beka.gvazava95@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
-"PO-Revision-Date: 2023-02-08 08:23+0100\n"
-"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
-"Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
-"Language: ka\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Beka Gvazava <beka.gvazava95@gmail.com>, 2025\n"
+"Language-Team: Georgian (https://app.transifex.com/linuxdeepin/teams/3617/ka/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"Language: ka\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Temuri Doghonadze"
+msgstr ""
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "Temuri.doghonadze@gmail.com"
+msgstr ""
 
 #: composite.cpp:646
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
-msgstr "სამუშაო მაგიდის ეფექტები დარესტარტდა გრაფიკის გადატვირთვის გამო"
+msgstr ""
 
 #: composite.cpp:875
 #, kde-format
@@ -39,65 +44,60 @@ msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr ""
-"სამუშაო მაგიდის ეფექტები სხვა აპლიკაციამ აიღო თავის თავზე.<br/>შეგიძლიათ "
-"გააგრძელოთ '%1'-ის მალსახმობის გამოყენება."
 
 #: composite.cpp:1064
 #, kde-format
 msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></p>"
+"<b>OpenGL compositing (the default) has crashed KWin in the "
+"past.</b><br>This was most likely due to a driver bug.<p>If you think that "
+"you have meanwhile upgraded to a stable driver,<br>you can reset this "
+"protection but <b>be aware that this might result in an immediate "
+"crash!</b></p>"
 msgstr ""
-"<b>OpenGL-ის კომპოზიტირება (ნაგულისხმები) KWin-სთვის წარსულში ავარიულად "
-"დასრულდა.</b><b>დიდი შანსია, ეს დრაივერის შეცდომის ბრალი იყოს.<p>თუ ფიქრობთ, "
-"რომ დრაივერი უკვე განაახლეთ, ეს დაცვა <b>შეგიძლიათ გამორთოთ, მაგრამ "
-"გაითვალისწინეთ, რომ ის შეიძლება ავარიულად დასრულდეს!</b></p>"
 
 #: composite.cpp:1071
 #, kde-format
 msgid "Required X extensions (XComposite and XDamage) are not available."
-msgstr "X-ის აუცილებელი გაფართოებები (XComposite და XDamage) აღმოჩენილი არაა."
+msgstr ""
 
 #: composite.cpp:1074
 #, kde-format
 msgid "GLX/OpenGL is not available."
-msgstr "GLX/OpenGL ხელმიუწვდომელია."
+msgstr ""
 
 #: debug_console.cpp:79 debug_console.cpp:84
 #, kde-format
 msgid "Timestamp"
-msgstr "დროის შტამპი"
+msgstr ""
 
 #: debug_console.cpp:89 debug_console.cpp:94
 #, kde-format
 msgid "Timestamp (µsec)"
-msgstr "დროის შტამპი (µწმ)"
+msgstr ""
 
 #: debug_console.cpp:101
 #, kde-format
 msgctxt "A mouse button"
 msgid "Left"
-msgstr "მარცხენა"
+msgstr ""
 
 #: debug_console.cpp:103
 #, kde-format
 msgctxt "A mouse button"
 msgid "Right"
-msgstr "მარჯვნივ"
+msgstr ""
 
 #: debug_console.cpp:105
 #, kde-format
 msgctxt "A mouse button"
 msgid "Middle"
-msgstr "შუა"
+msgstr ""
 
 #: debug_console.cpp:107
 #, kde-format
 msgctxt "A mouse button"
 msgid "Back"
-msgstr "უკან"
+msgstr ""
 
 #: debug_console.cpp:109
 #, kde-format
@@ -109,1010 +109,1010 @@ msgstr "წინ"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Task"
-msgstr "ამოცანა"
+msgstr ""
 
 #: debug_console.cpp:113
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 4"
-msgstr "დამატებითი ღილაკი 4"
+msgstr ""
 
 #: debug_console.cpp:115
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 5"
-msgstr "დამატებითი ღილაკი 5"
+msgstr ""
 
 #: debug_console.cpp:117
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 6"
-msgstr "დამატებითი ღილაკი 6"
+msgstr ""
 
 #: debug_console.cpp:119
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 7"
-msgstr "დამატებითი ღილაკი 7"
+msgstr ""
 
 #: debug_console.cpp:121
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 8"
-msgstr "დამატებითი ღილაკი 8"
+msgstr ""
 
 #: debug_console.cpp:123
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 9"
-msgstr "დამატებითი ღილაკი 9"
+msgstr ""
 
 #: debug_console.cpp:125
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 10"
-msgstr "დამატებითი ღილაკი 10"
+msgstr ""
 
 #: debug_console.cpp:127
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 11"
-msgstr "დამატებითი ღილაკი 11"
+msgstr ""
 
 #: debug_console.cpp:129
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 12"
-msgstr "დამატებითი ღილაკი 12"
+msgstr ""
 
 #: debug_console.cpp:131
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 13"
-msgstr "დამატებითი ღილაკი 13"
+msgstr ""
 
 #: debug_console.cpp:133
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 14"
-msgstr "დამატებითი ღილაკი 14"
+msgstr ""
 
 #: debug_console.cpp:135
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 15"
-msgstr "დამატებითი ღილაკი 15"
+msgstr ""
 
 #: debug_console.cpp:137
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 16"
-msgstr "დამატებითი ღილაკი 16"
+msgstr ""
 
 #: debug_console.cpp:139
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 17"
-msgstr "დამატებითი ღილაკი 17"
+msgstr ""
 
 #: debug_console.cpp:141
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 18"
-msgstr "დამატებითი ღილაკი 18"
+msgstr ""
 
 #: debug_console.cpp:143
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 19"
-msgstr "დამატებითი ღილაკი 19"
+msgstr ""
 
 #: debug_console.cpp:145
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 20"
-msgstr "დამატებითი ღილაკი 20"
+msgstr ""
 
 #: debug_console.cpp:147
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 21"
-msgstr "დამატებითი ღილაკი 21"
+msgstr ""
 
 #: debug_console.cpp:149
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 22"
-msgstr "დამატებითი ღილაკი 22"
+msgstr ""
 
 #: debug_console.cpp:151
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 23"
-msgstr "დამატებითი ღილაკი 23"
+msgstr ""
 
 #: debug_console.cpp:153
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 24"
-msgstr "დამატებითი ღილაკი 24"
+msgstr ""
 
 #: debug_console.cpp:162 debug_console.cpp:164
 #, kde-format
 msgid "Input Device"
-msgstr "შეყვანის მოწყობილობა"
+msgstr ""
 
 #: debug_console.cpp:162
 #, kde-format
 msgctxt "The input device of the event is not known"
 msgid "Unknown"
-msgstr "უცნობი"
+msgstr ""
 
 #: debug_console.cpp:199
 #, kde-format
 msgctxt "A mouse pointer motion event"
 msgid "Pointer Motion"
-msgstr "კურსორის მოძრაობა"
+msgstr ""
 
 #: debug_console.cpp:204
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta"
-msgstr "დელტა"
+msgstr ""
 
 #: debug_console.cpp:208
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta (not accelerated)"
-msgstr "დელტა(არა-აჩქარებული)"
+msgstr ""
 
 #: debug_console.cpp:211
 #, kde-format
 msgctxt "The global mouse pointer position"
 msgid "Global Position"
-msgstr "გლობალური პოზიცია"
+msgstr ""
 
 #: debug_console.cpp:215
 #, kde-format
 msgctxt "A mouse pointer button press event"
 msgid "Pointer Button Press"
-msgstr "მაჩვენებლის ღილაკის დაწოლა"
+msgstr ""
 
 #: debug_console.cpp:218 debug_console.cpp:226
 #, kde-format
 msgctxt "A button in a mouse press/release event"
 msgid "Button"
-msgstr "ღილაკს"
+msgstr ""
 
 #: debug_console.cpp:219 debug_console.cpp:227
 #, kde-format
 msgctxt "A button in a mouse press/release event"
 msgid "Native Button code"
-msgstr "ღილაკის ნამდვილი კოდი"
+msgstr ""
 
 #: debug_console.cpp:220 debug_console.cpp:228
 #, kde-format
 msgctxt "All currently pressed buttons in a mouse press/release event"
 msgid "Pressed Buttons"
-msgstr "დაწოლილი ღილაკები"
+msgstr ""
 
 #: debug_console.cpp:223
 #, kde-format
 msgctxt "A mouse pointer button release event"
 msgid "Pointer Button Release"
-msgstr "მაჩვენებლის ღილაკის აშვება"
+msgstr ""
 
 #: debug_console.cpp:243
 #, kde-format
 msgctxt "A mouse pointer axis (wheel) event"
 msgid "Pointer Axis"
-msgstr "კურსორის ღერძი"
+msgstr ""
 
 #: debug_console.cpp:247
 #, kde-format
 msgctxt "The orientation of a pointer axis event"
 msgid "Orientation"
-msgstr "ორიენტაცია"
+msgstr ""
 
 #: debug_console.cpp:248
 #, kde-format
 msgctxt "An orientation of a pointer axis event"
 msgid "Horizontal"
-msgstr "ჰორიზონტალური"
+msgstr ""
 
 #: debug_console.cpp:249
 #, kde-format
 msgctxt "An orientation of a pointer axis event"
 msgid "Vertical"
-msgstr "ვერტიკალური"
+msgstr ""
 
 #: debug_console.cpp:250
 #, kde-format
 msgctxt "The angle delta of a pointer axis event"
 msgid "Delta"
-msgstr "დელტა"
+msgstr ""
 
 #: debug_console.cpp:265
 #, kde-format
 msgctxt "A key press event"
 msgid "Key Press"
-msgstr "ღილაკის დაწოლა"
+msgstr ""
 
 #: debug_console.cpp:268
 #, kde-format
 msgctxt "A key release event"
 msgid "Key Release"
-msgstr "ღილაკის არჩევა"
+msgstr ""
 
 #: debug_console.cpp:277
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Shift"
-msgstr "Shift"
+msgstr ""
 
 #: debug_console.cpp:281
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Control"
-msgstr "კონტროლი"
+msgstr ""
 
 #: debug_console.cpp:285
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Alt"
-msgstr "Alt"
+msgstr ""
 
 #: debug_console.cpp:289
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Meta"
-msgstr "Meta"
+msgstr ""
 
 #: debug_console.cpp:293
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Keypad"
-msgstr "ციფრული კლავიატურა"
+msgstr ""
 
 #: debug_console.cpp:297
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Group-switch"
-msgstr "ჯგუფის-გადართვა"
+msgstr ""
 
 #: debug_console.cpp:303
 #, kde-format
 msgctxt "Whether the event is an automatic key repeat"
 msgid "Repeat"
-msgstr "გამეორება"
+msgstr ""
 
 #: debug_console.cpp:307
 #, kde-format
 msgctxt "The code as read from the input device"
 msgid "Scan code"
-msgstr "სკანირების კოდი"
+msgstr ""
 
 #: debug_console.cpp:308
 #, kde-format
 msgctxt "Key according to Qt"
 msgid "Qt::Key code"
-msgstr "Qt::Key კოდი"
+msgstr ""
 
 #: debug_console.cpp:310
 #, kde-format
 msgctxt "The translated code to an Xkb symbol"
 msgid "Xkb symbol"
-msgstr "Xkb სიმბოლო"
+msgstr ""
 
 #: debug_console.cpp:311
 #, kde-format
 msgctxt "The translated code interpreted as text"
 msgid "Utf8"
-msgstr "Utf8"
+msgstr ""
 
 #: debug_console.cpp:312
 #, kde-format
 msgctxt "The currently active modifiers"
 msgid "Modifiers"
-msgstr "მოდიფიკატორები"
+msgstr ""
 
 #: debug_console.cpp:324
 #, kde-format
 msgctxt "A touch down event"
 msgid "Touch down"
-msgstr "თითით შეხება"
+msgstr ""
 
 #: debug_console.cpp:326 debug_console.cpp:341 debug_console.cpp:356
 #, kde-format
 msgctxt "The id of the touch point in the touch event"
 msgid "Point identifier"
-msgstr "წერტილის იდენტიფიკატორი"
+msgstr ""
 
 #: debug_console.cpp:327 debug_console.cpp:342
 #, kde-format
 msgctxt "The global position of the touch point"
 msgid "Global position"
-msgstr "გლობალური პოზიცია"
+msgstr ""
 
 #: debug_console.cpp:339
 #, kde-format
 msgctxt "A touch motion event"
 msgid "Touch Motion"
-msgstr "შეხების გამოძრავება"
+msgstr ""
 
 #: debug_console.cpp:354
 #, kde-format
 msgctxt "A touch up event"
 msgid "Touch Up"
-msgstr "შეხების მოხსნა"
+msgstr ""
 
 #: debug_console.cpp:367
 #, kde-format
 msgctxt "A pinch gesture is started"
 msgid "Pinch start"
-msgstr "გასმის დაწყება"
+msgstr ""
 
 #: debug_console.cpp:369
 #, kde-format
 msgctxt "Number of fingers in this pinch gesture"
 msgid "Finger count"
-msgstr "თითების რაოდენობა"
+msgstr ""
 
 #: debug_console.cpp:380
 #, kde-format
 msgctxt "A pinch gesture is updated"
 msgid "Pinch update"
-msgstr "გასმის განახლება"
+msgstr ""
 
 #: debug_console.cpp:382
 #, kde-format
 msgctxt "Current scale in pinch gesture"
 msgid "Scale"
-msgstr "მასშტაბირება"
+msgstr ""
 
 #: debug_console.cpp:383
 #, kde-format
 msgctxt "Current angle in pinch gesture"
 msgid "Angle delta"
-msgstr "კუთხის დელტა"
+msgstr ""
 
 #: debug_console.cpp:384
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta x"
-msgstr "დელტა X"
+msgstr ""
 
 #: debug_console.cpp:385
 #, kde-format
 msgctxt "Current delta in pinch gesture"
 msgid "Delta y"
-msgstr "დელტა Y"
+msgstr ""
 
 #: debug_console.cpp:396
 #, kde-format
 msgctxt "A pinch gesture ended"
 msgid "Pinch end"
-msgstr "გასმის დასასრული"
+msgstr ""
 
 #: debug_console.cpp:408
 #, kde-format
 msgctxt "A pinch gesture got cancelled"
 msgid "Pinch cancelled"
-msgstr "გასმა გაუქმდა"
+msgstr ""
 
 #: debug_console.cpp:420
 #, kde-format
 msgctxt "A swipe gesture is started"
 msgid "Swipe start"
-msgstr "გასმის დაწყება"
+msgstr ""
 
 #: debug_console.cpp:422
 #, kde-format
 msgctxt "Number of fingers in this swipe gesture"
 msgid "Finger count"
-msgstr "თითების რაოდენობა"
+msgstr ""
 
 #: debug_console.cpp:433
 #, kde-format
 msgctxt "A swipe gesture is updated"
 msgid "Swipe update"
-msgstr "გასმის განახლება"
+msgstr ""
 
 #: debug_console.cpp:435
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta x"
-msgstr "დელტა X"
+msgstr ""
 
 #: debug_console.cpp:436
 #, kde-format
 msgctxt "Current delta in swipe gesture"
 msgid "Delta y"
-msgstr "დელტა Y"
+msgstr ""
 
 #: debug_console.cpp:447
 #, kde-format
 msgctxt "A swipe gesture ended"
 msgid "Swipe end"
-msgstr "გასმის დასრულება"
+msgstr ""
 
 #: debug_console.cpp:459
 #, kde-format
 msgctxt "A swipe gesture got cancelled"
 msgid "Swipe cancelled"
-msgstr "გასმა გაუქმდა"
+msgstr ""
 
 #: debug_console.cpp:471
 #, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr "გასმა გადაირთო"
+msgstr ""
 
 #: debug_console.cpp:477
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Notebook lid"
-msgstr "ნოუთბუქის სახურავი"
+msgstr ""
 
 #: debug_console.cpp:479
 #, kde-format
 msgctxt "Name of a hardware switch"
 msgid "Tablet mode"
-msgstr "ტაბლეტის რეჟიმი"
+msgstr ""
 
 #: debug_console.cpp:481
 #, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr "გადართვა"
+msgstr ""
 
 #: debug_console.cpp:485
 #, kde-format
 msgctxt "The hardware switch got turned off"
 msgid "Off"
-msgstr "გამორთული"
+msgstr ""
 
 #: debug_console.cpp:488
 #, kde-format
 msgctxt "The hardware switch got turned on"
 msgid "On"
-msgstr "ჩართული"
+msgstr ""
 
 #: debug_console.cpp:493
 #, kde-format
 msgctxt "State of a hardware switch (on/off)"
 msgid "State"
-msgstr "State"
+msgstr ""
 
 #: debug_console.cpp:508
 #, kde-format
 msgid "Tablet Tool"
-msgstr "ტაბლეტის პროგრამა"
+msgstr ""
 
 #: debug_console.cpp:509
 #, kde-format
 msgid "EventType"
-msgstr "მოვლენისტიპი"
+msgstr ""
 
 #: debug_console.cpp:510 debug_console.cpp:555 debug_console.cpp:569
 #, kde-format
 msgid "Position"
-msgstr "თანამდებობა"
+msgstr ""
 
 #: debug_console.cpp:512
 #, kde-format
 msgid "Tilt"
-msgstr "მოხრა"
+msgstr ""
 
 #: debug_console.cpp:514
 #, kde-format
 msgid "Rotation"
-msgstr "შემობრუნება"
+msgstr ""
 
 #: debug_console.cpp:515
 #, kde-format
 msgid "Pressure"
-msgstr "წნევა"
+msgstr ""
 
 #: debug_console.cpp:516
 #, kde-format
 msgid "Buttons"
-msgstr "ღილაკები"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, modifiersBox)
 #: debug_console.cpp:517 debug_console.ui:356
 #, kde-format
 msgid "Modifiers"
-msgstr "მოდიფიკატორები"
+msgstr ""
 
 #: debug_console.cpp:526
 #, kde-format
 msgid "Tablet Tool Button"
-msgstr "ტაბლეტის ხელსაწყოს ღილაკი"
+msgstr ""
 
 #: debug_console.cpp:527 debug_console.cpp:541
 #, kde-format
 msgid "Button"
-msgstr "ღილაკი"
+msgstr ""
 
 #: debug_console.cpp:528 debug_console.cpp:542
 #, kde-format
 msgid "Pressed"
-msgstr "დაწოლილი"
+msgstr ""
 
 #: debug_console.cpp:529 debug_console.cpp:543 debug_console.cpp:557
 #: debug_console.cpp:571
 #, kde-format
 msgid "Tablet"
-msgstr "ტაბლეტი"
+msgstr ""
 
 #: debug_console.cpp:540
 #, kde-format
 msgid "Tablet Pad Button"
-msgstr "ტაბლეტის ხელსაწყოს ღილაკი"
+msgstr ""
 
 #: debug_console.cpp:553
 #, kde-format
 msgid "Tablet Pad Strip"
-msgstr "ტაბლეტის ხელსაწყოს ზოლი"
+msgstr ""
 
 #: debug_console.cpp:554 debug_console.cpp:568
 #, kde-format
 msgid "Number"
-msgstr "რიცხვი"
+msgstr ""
 
 #: debug_console.cpp:556 debug_console.cpp:570
 #, kde-format
 msgid "isFinger"
-msgstr "თითია"
+msgstr ""
 
 #: debug_console.cpp:567
 #, kde-format
 msgid "Tablet Pad Ring"
-msgstr "ტაბლეტის ხელსაწყოს რგოლი"
+msgstr ""
 
 #: debug_console.cpp:797
 #, kde-format
 msgid "No Mouse Buttons"
-msgstr "თაგუნის ღილაკების გარეშე"
+msgstr ""
 
 #: debug_console.cpp:801
 #, kde-format
 msgctxt "Mouse Button"
 msgid "left"
-msgstr "მარცხნივ"
+msgstr ""
 
 #: debug_console.cpp:804
 #, kde-format
 msgctxt "Mouse Button"
 msgid "right"
-msgstr "მარჯვენა"
+msgstr ""
 
 #: debug_console.cpp:807
 #, kde-format
 msgctxt "Mouse Button"
 msgid "middle"
-msgstr "შუა"
+msgstr ""
 
 #: debug_console.cpp:810
 #, kde-format
 msgctxt "Mouse Button"
 msgid "back"
-msgstr "უკან"
+msgstr ""
 
 #: debug_console.cpp:813
 #, kde-format
 msgctxt "Mouse Button"
 msgid "forward"
-msgstr "forward"
+msgstr ""
 
 #: debug_console.cpp:816
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 1"
-msgstr "დამატებითი 1"
+msgstr ""
 
 #: debug_console.cpp:819
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 2"
-msgstr "დამატებითი 2"
+msgstr ""
 
 #: debug_console.cpp:822
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 3"
-msgstr "დამატებითი 3"
+msgstr ""
 
 #: debug_console.cpp:825
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 4"
-msgstr "დამატებითი 4"
+msgstr ""
 
 #: debug_console.cpp:828
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 5"
-msgstr "დამატებითი 5"
+msgstr ""
 
 #: debug_console.cpp:831
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 6"
-msgstr "დამატებითი 6"
+msgstr ""
 
 #: debug_console.cpp:834
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 7"
-msgstr "დამატებითი 7"
+msgstr ""
 
 #: debug_console.cpp:837
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 8"
-msgstr "დამატებითი 8"
+msgstr ""
 
 #: debug_console.cpp:840
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 9"
-msgstr "დამატებითი 9"
+msgstr ""
 
 #: debug_console.cpp:843
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 10"
-msgstr "დამატებითი 10"
+msgstr ""
 
 #: debug_console.cpp:846
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 11"
-msgstr "დამატებითი 11"
+msgstr ""
 
 #: debug_console.cpp:849
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 12"
-msgstr "დამატებითი 12"
+msgstr ""
 
 #: debug_console.cpp:852
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 13"
-msgstr "დამატებითი 13"
+msgstr ""
 
 #: debug_console.cpp:855
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 14"
-msgstr "დამატებითი 14"
+msgstr ""
 
 #: debug_console.cpp:858
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 15"
-msgstr "დამატებითი 15"
+msgstr ""
 
 #: debug_console.cpp:861
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 16"
-msgstr "დამატებითი 16"
+msgstr ""
 
 #: debug_console.cpp:864
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 17"
-msgstr "დამატებითი 17"
+msgstr ""
 
 #: debug_console.cpp:867
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 18"
-msgstr "დამატებითი 18"
+msgstr ""
 
 #: debug_console.cpp:870
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 19"
-msgstr "დამატებითი 19"
+msgstr ""
 
 #: debug_console.cpp:873
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 20"
-msgstr "დამატებითი 20"
+msgstr ""
 
 #: debug_console.cpp:876
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 21"
-msgstr "დამატებითი 21"
+msgstr ""
 
 #: debug_console.cpp:879
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 22"
-msgstr "დამატებითი 22"
+msgstr ""
 
 #: debug_console.cpp:882
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 23"
-msgstr "დამატებითი 23"
+msgstr ""
 
 #: debug_console.cpp:885
 #, kde-format
 msgctxt "Mouse Button"
 msgid "extra 24"
-msgstr "დამატებითი 24"
+msgstr ""
 
 #: debug_console.cpp:888
 #, kde-format
 msgctxt "Mouse Button"
 msgid "task"
-msgstr "ამოცანა"
+msgstr ""
 
 #: debug_console.cpp:1222
 #, kde-format
 msgid "X11 Windows"
-msgstr "X11 ფანჯრები"
+msgstr ""
 
 #: debug_console.cpp:1224
 #, kde-format
 msgid "X11 Unmanaged Windows"
-msgstr "X11 უმართავი ფანჯრები"
+msgstr ""
 
 #: debug_console.cpp:1226
 #, kde-format
 msgid "Wayland Windows"
-msgstr "Wayland -ის ფანჯრები"
+msgstr ""
 
 #: debug_console.cpp:1228
 #, kde-format
 msgid "Internal Windows"
-msgstr "შიდა ფანჯრები"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, quitButton)
 #: debug_console.ui:32
 #, kde-format
 msgid "Quit Debug Console"
-msgstr "გამართვის კონსოლიდან გასვლა"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, windows)
 #: debug_console.ui:45
 #, kde-format
 msgid "Windows"
-msgstr "ფანჯრები"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, surfaces)
 #: debug_console.ui:59
 #, kde-format
 msgid "Surfaces"
-msgstr "ზედაპირები"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, input)
 #: debug_console.ui:69
 #, kde-format
 msgid "Input Events"
-msgstr "შეყვანის მოვლენები"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, inputDevices)
 #: debug_console.ui:86
 #, kde-format
 msgid "Input Devices"
-msgstr "შემომტანი მოწყობილობები"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: debug_console.ui:96
 #, kde-format
 msgid "OpenGL"
-msgstr "OpenGL"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, noOpenGLLabel)
 #: debug_console.ui:102
 #, kde-format
 msgid "No OpenGL compositor running"
-msgstr "OpenGL კომპოზიტორი გაშვებული არაა"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, driverInfoBox)
 #: debug_console.ui:130
 #, kde-format
 msgid "OpenGL (ES) driver information"
-msgstr "OpenGL (ES) დრაივერის ინფორმაცია"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:136
 #, kde-format
 msgid "Vendor:"
-msgstr "მომწოდებელი:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: debug_console.ui:143
 #, kde-format
 msgid "Renderer:"
-msgstr "რენდერერი:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: debug_console.ui:150
 #, kde-format
 msgid "Version:"
-msgstr "ვერსია:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: debug_console.ui:157
 #, kde-format
 msgid "Shading Language Version:"
-msgstr "დაჩრდილვის ენის ვერსია:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: debug_console.ui:164
 #, kde-format
 msgid "Driver:"
-msgstr "დრაივერი:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: debug_console.ui:171
 #, kde-format
 msgid "GPU class:"
-msgstr "GPU -ის კლასი:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: debug_console.ui:178
 #, kde-format
 msgid "OpenGL Version:"
-msgstr "OpenGL -ის ვერსია:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: debug_console.ui:185
 #, kde-format
 msgid "GLSL Version:"
-msgstr "GLSL -ის ვერსია:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, platformExtensionsBox)
 #: debug_console.ui:251
 #, kde-format
 msgid "Platform Extensions"
-msgstr "პლატფორმის გაფართოებები"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, glExtensionsBox)
 #: debug_console.ui:267
 #, kde-format
 msgid "OpenGL (ES) Extensions"
-msgstr "OpenGL (ES) -ის გაფართოებები"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, keyboard)
 #: debug_console.ui:288
 #, kde-format
 msgid "Keyboard"
-msgstr "კლავიატურა"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, layoutBox)
 #: debug_console.ui:315
 #, kde-format
 msgid "Keymap Layouts"
-msgstr "კლავიატურის განლაგებები"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: debug_console.ui:337
 #, kde-format
 msgid "Current Layout:"
-msgstr "მიმდინარე განლაგება:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeModifiersBox)
 #: debug_console.ui:372
 #, kde-format
 msgid "Active Modifiers"
-msgstr "აქტიური მოდიფიკატორები"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, ledsBox)
 #: debug_console.ui:388
 #, kde-format
 msgid "LEDs"
-msgstr "LED-ები"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, activeLedsBox)
 #: debug_console.ui:404
 #, kde-format
 msgid "Active LEDs"
-msgstr "აქტიური LED-ები"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, clipboard)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:425 debug_console.ui:445
 #, kde-format
 msgid "Clipboard"
-msgstr "გაცვლის ბაფერი"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: debug_console.ui:491
 #, kde-format
 msgid "Primary Selection"
-msgstr "ძირითადი არჩევანი"
+msgstr ""
 
 #: helpers/killer/killer.cpp:34
 #, kde-format
 msgid "Window Manager"
-msgstr "ფანჯრის მმართველი"
+msgstr ""
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
 msgid "PID of the application to terminate"
-msgstr "შესაწყვეტი აპლიკაციის PID"
+msgstr ""
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
 msgid "pid"
-msgstr "pid"
+msgstr ""
 
 #: helpers/killer/killer.cpp:40
 #, kde-format
 msgid "Hostname on which the application is running"
-msgstr "ჰოსტის სახელი, რომელზეც გაშვებულია აპლიკაცია"
+msgstr ""
 
 #: helpers/killer/killer.cpp:40
 #, kde-format
 msgid "hostname"
-msgstr "ჰოსტის სახელი"
+msgstr ""
 
 #: helpers/killer/killer.cpp:42
 #, kde-format
 msgid "Caption of the window to be terminated"
-msgstr "შესაწყვეტი ფანჯრის სათაური"
+msgstr ""
 
 #: helpers/killer/killer.cpp:42
 #, kde-format
 msgid "caption"
-msgstr "პროგრამა"
+msgstr ""
 
 #: helpers/killer/killer.cpp:44
 #, kde-format
 msgid "Name of the application to be terminated"
-msgstr "შესაწყვეტი აპლიკაციის სახელი"
+msgstr ""
 
 #: helpers/killer/killer.cpp:44
 #, kde-format
 msgid "name"
-msgstr "name"
+msgstr ""
 
 #: helpers/killer/killer.cpp:46
 #, kde-format
 msgid "ID of resource belonging to the application"
-msgstr "რესურსის ID, რომელიც აპლიკაციას ეკუთვნის"
+msgstr ""
 
 #: helpers/killer/killer.cpp:46
 #, kde-format
 msgid "id"
-msgstr "id"
+msgstr ""
 
 #: helpers/killer/killer.cpp:48
 #, kde-format
 msgid "Time of user action causing termination"
-msgstr "ავარიის გამომწვევი მომხმარებლის ქმედების დრო"
+msgstr ""
 
 #: helpers/killer/killer.cpp:48
 #, kde-format
 msgid "time"
-msgstr "დრო"
+msgstr ""
 
 #: helpers/killer/killer.cpp:50
 #, kde-format
 msgid "KWin helper utility"
-msgstr "KWin -ის დამხმარე პროგრამა"
+msgstr ""
 
 #: helpers/killer/killer.cpp:74
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr "დამხმარე პროგრამა ცალკე არ უნდა გამოიძახოთ."
+msgstr ""
 
 #: helpers/killer/killer.cpp:84
 #, kde-format
 msgctxt "@info"
 msgid "<b>Application \"%1\" is not responding</b>"
-msgstr "<b>აპლიკაცია \"%1\" არ პასუხობს</b>"
+msgstr ""
 
 #: helpers/killer/killer.cpp:86
 #, kde-kuit-format
@@ -1121,8 +1121,6 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3) but the application is not responding.</para>"
 msgstr ""
-"<para>სცადეთ დაგეხურათ ფანჯარა \"%1\" აპლიკაციიდან \"%2\" (პროცესის ID: %3) "
-"მაგრამ აპლიკაცია არ პასუხობს.</para>"
 
 #: helpers/killer/killer.cpp:88
 #, kde-kuit-format
@@ -1131,55 +1129,50 @@ msgid ""
 "<para>You tried to close window \"%1\" from application \"%2\" (Process ID: "
 "%3), running on host \"%4\", but the application is not responding.</para>"
 msgstr ""
-"<para>სცადეთ დაგეხურათ ფანჯარა \"%1\" აპლიკაციიდან \"%2\" (პროცესის ID: %3), "
-"გაშვებული ჰოსტზე \"%4\", მაგრამ აპლიკაცია არ პასუხობს.</para>"
 
 #: helpers/killer/killer.cpp:91
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Do you want to terminate this application?</"
-"para><para><warning>Terminating the application will close all of its child "
-"windows. Any unsaved data will be lost.</warning></para>"
+"<para>Do you want to terminate this "
+"application?</para><para><warning>Terminating the application will close all"
+" of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
-"<para>გნებავთ, მოკლათ ეს აპლიკაცია?</para><para><warning>აპლიკაციის დახურვა "
-"მისი ფანჯრების დახურვასაც გამოიწვევს და ნებისმიერი შეუნახავი რამ "
-"დაგეკარგებათ.</warning></para>"
 
 #: helpers/killer/killer.cpp:94
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr "&შეჩერდება აპლიკაცია %1"
+msgstr ""
 
 #: helpers/killer/killer.cpp:95
 #, kde-format
 msgid "Wait Longer"
-msgstr "Wait Longer"
+msgstr ""
 
 #: input.cpp:2009
 #, kde-format
 msgid "Move the tablet to the next output"
-msgstr "ტაბლეტის შემდეგ გამოტანაზე გადატანა"
+msgstr ""
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablet moved to %1"
-msgstr "ტაბლეტი გადატანილია %1-ზე"
+msgstr ""
 
 #: input.cpp:2088
 #, kde-format
 msgid "Tablets switched outputs"
-msgstr "ტაბლეტებმა გამოტანები გადართეს"
+msgstr ""
 
 #: input.cpp:3065
 #, kde-format
 msgid "Touchpad"
-msgstr "თაჩპედი"
+msgstr ""
 
 #: keyboard_layout.cpp:45
 #, kde-format
 msgid "Keyboard Layout Switcher"
-msgstr "კლავიატურის განლაგების გადამრთველი"
+msgstr ""
 
 #: killwindow.cpp:32
 #, kde-format
@@ -1187,8 +1180,6 @@ msgid ""
 "Select window to force close with left click or enter.\n"
 "Escape or right click to cancel."
 msgstr ""
-"აირჩიეთ ფანჯარა, რომლის ძალით დახურვაც გნებავთ მარცხენა წკაპით ან Enter-ით.\n"
-"გასაუქმებლად Esc ან მარჯვენა წკაპი."
 
 #: main.cpp:179
 #, kde-format
@@ -1198,122 +1189,116 @@ msgstr "KWin"
 #: main.cpp:181 main.cpp:204
 #, kde-format
 msgid "KDE window manager"
-msgstr "KDE -ის ფანჯართმმართველი"
+msgstr ""
 
 #: main.cpp:183
 #, kde-format
 msgid "(c) 1999-2019, The KDE Developers"
-msgstr "(c) 1999-2019, KDE -ის პროგრამისტები, ყველა უფლება დაცულია"
+msgstr ""
 
 #: main.cpp:185
 #, kde-format
 msgid "Matthias Ettrich"
-msgstr "Matthias Ettrich"
+msgstr ""
 
 #: main.cpp:186
 #, kde-format
 msgid "Cristian Tibirna"
-msgstr "Cristian Tibirna"
+msgstr ""
 
 #: main.cpp:187
 #, kde-format
 msgid "Daniel M. Duley"
-msgstr "Daniel M. Duley"
+msgstr ""
 
 #: main.cpp:188
 #, kde-format
 msgid "Luboš Luňák"
-msgstr "Luboš Luňák"
+msgstr ""
 
 #: main.cpp:189
 #, kde-format
 msgid "Martin Flöser"
-msgstr "Martin Flöser"
+msgstr ""
 
 #: main.cpp:190
 #, kde-format
 msgid "David Edmundson"
-msgstr "დავიდ ედმუნდსონი"
+msgstr ""
 
 #: main.cpp:191
 #, kde-format
 msgid "Roman Gilg"
-msgstr "Roman Gilg"
+msgstr ""
 
 #: main.cpp:192
 #, kde-format
 msgid "Vlad Zahorodnii"
-msgstr "Vlad Zahorodnii"
+msgstr ""
 
 #: main.cpp:201
 #, kde-format
 msgid "Disable configuration options"
-msgstr "კონფიგურაციის პარამეტრების გათიშვა"
+msgstr ""
 
 #: main.cpp:202
 #, kde-format
 msgid "Indicate that KWin has recently crashed n times"
-msgstr "მითითება, რომ KWin ცოტა ხნის წინ n-ჯერ გაითიშა"
+msgstr ""
 
 #: main_wayland.cpp:314
 #, kde-format
 msgid "Start a rootless Xwayland server."
-msgstr "Xwayland სერვერის საწყისი საქაღალდის გარეშე გაშვება."
+msgstr ""
 
 #: main_wayland.cpp:316
 #, kde-format
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
-"Wayland-ის მოსასმენი სოკეტის სახელი. თუ მითითებული არაა, გამოიყენება "
-"'wayland-0'."
 
 #: main_wayland.cpp:319
 #, kde-format
 msgid "The X11 Display to use in windowed mode on platform X11."
-msgstr "X11 პლატფორმაზე გამოყენებული ფანჯრული რეჟიმის საჩვენებელი X11 ეკრანი."
+msgstr ""
 
 #: main_wayland.cpp:322
 #, kde-format
 msgid "The Wayland Display to use in windowed mode on platform Wayland."
 msgstr ""
-"Wayland პლატფორმაზე გამოყენებული ფანჯრული რეჟიმის საჩვენებელი Wayland ეკრანი."
 
 #: main_wayland.cpp:324
 #, kde-format
 msgid "Render to a virtual framebuffer."
-msgstr "ვირტუალურ Framebuffer-ში რენდერი."
+msgstr ""
 
 #: main_wayland.cpp:326
 #, kde-format
 msgid "The width for windowed mode. Default width is 1024."
-msgstr "ფანჯრის რეჟიმის სიგანე. ნაგულისხმები მნიშვნელობაა 1024."
+msgstr ""
 
 #: main_wayland.cpp:330
 #, kde-format
 msgid "The height for windowed mode. Default height is 768."
-msgstr "ფანჯრის რეჟიმის სიმაღლე. ნაგულისხმები მნიშვნელობაა 768."
+msgstr ""
 
 #: main_wayland.cpp:335
 #, kde-format
 msgid "The scale for windowed mode. Default value is 1."
-msgstr "ფანჯრის რეჟიმის გადიდება. ნაგულისხმები მნიშვნელობაა 1."
+msgstr ""
 
 #: main_wayland.cpp:340
 #, kde-format
 msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
+"The number of windows to open as outputs in windowed mode. Default value is "
+"1"
 msgstr ""
-"ფანჯრულ რეჟიმში გამოტანილი ფანჯრების რაოდენობა. ნაგულისხმები მნიშვნელობაა 1"
 
 #: main_wayland.cpp:345
 #, kde-format
 msgid ""
-"Wayland socket to use for incoming connections. This can be combined with --"
-"socket to name the socket"
+"Wayland socket to use for incoming connections. This can be combined with "
+"--socket to name the socket"
 msgstr ""
-"Wayland-ის სოკეტი შემომავალი მიერთებებისთვის. შეგიძლიათ მიუთითოთ --socket-"
-"თან ერთად, რათა მისი სახელი მიუთითოთ"
 
 #: main_wayland.cpp:349
 #, kde-format
@@ -1321,70 +1306,67 @@ msgid ""
 "XWayland socket to use for Xwayland's incoming connections. This can be set "
 "multiple times"
 msgstr ""
-"XWayland-ის სოკეტი XWayland-ის შემომავალი შეერთებებისთვის. მრავალჯერ "
-"მითითება შესაძლებელია"
 
 #: main_wayland.cpp:353
 #, kde-format
 msgid "Name of the xwayland display that has been pre-set up"
-msgstr "XWayland-ის ეკრანის სახელი, რომელიც წინასწარ გაეშვა"
+msgstr ""
 
 #: main_wayland.cpp:357
 #, kde-format
 msgid "Name of the xauthority file "
-msgstr "Xauthority ფაილის სახელი "
+msgstr ""
 
 #: main_wayland.cpp:361
 #, kde-format
 msgid "Exits this instance so it can be restarted by kwin_wayland_wrapper."
-msgstr "გავა ამ ასლიდან, რათა ის kwin_wayland_wrapper-მა თავიდან გაუშვას."
+msgstr ""
 
 #: main_wayland.cpp:363
 #, kde-format
 msgid "Render through drm node."
-msgstr "DRM კვანძით რენდერი."
+msgstr ""
 
 #: main_wayland.cpp:364
 #, kde-format
 msgid ""
 "Extract locale information from locale1 rather than the user's configuration"
-msgstr "ენის ინფორმაციის მომხმარებლის კონფიგურაციის მაგიერ locale1-დან აღება"
+msgstr ""
 
 #: main_wayland.cpp:386
 #, kde-format
 msgid "Input method that KWin starts."
-msgstr "KWin-ის მიერ გაშვებული შეყვანის მეთოდი."
+msgstr ""
 
 #: main_wayland.cpp:392
 #, kde-format
 msgid "Starts the session in locked mode."
-msgstr "სესიის დაბლოკილ რეჟიმში გაშვება."
+msgstr ""
 
 #: main_wayland.cpp:396
 #, kde-format
 msgid "Starts the session without lock screen support."
-msgstr "სესიის დაბლოკილი ეკრანის მხარდაჭერის გარეშე გაშვება."
+msgstr ""
 
 #: main_wayland.cpp:401
 #, kde-format
 msgid "Starts the session without global shortcuts support."
-msgstr "სესის გლობალური მალსახმობების მხარდაჭერის გარეშე გაშვება."
+msgstr ""
 
 #: main_wayland.cpp:406 main_x11.cpp:418
 #, kde-format
 msgid "Disable KActivities integration."
-msgstr "KActivities-ის ინტეგრაციის გამორთვა."
+msgstr ""
 
 #: main_wayland.cpp:411
 #, kde-format
 msgid "Exit after the session application, which is started by KWin, closed."
-msgstr "გასვლა KWin-ის მიერ დაყენებული სესიის აპლიკაციის დასრულების შემდეგ."
+msgstr ""
 
 #: main_wayland.cpp:416
 #, kde-format
 msgid "Applications to start once Wayland and Xwayland server are started"
 msgstr ""
-"აპლიკაციები, რომლებიც Wayland-ის და Xwayland-ის გაშვებასთან ერთად ეშვებიან"
 
 #: main_x11.cpp:67
 #, kde-format
@@ -1393,746 +1375,772 @@ msgid ""
 "It seems to have crashed several times in a row.\n"
 "You can select another window manager to run:"
 msgstr ""
-"KWin- არასტაბილურია.\n"
-"როგორც ჩანს ზედიზედ რამდენჯერმე გაფშიკა ფეხები.\n"
-"შეგიძლიათ ფანჯრების სხვა მმართველი გამოიყენოთ:"
 
 #: main_x11.cpp:259
 #, kde-format
 msgid ""
-"kwin: unable to claim manager selection, another wm running? (try using --"
-"replace)\n"
+"kwin: unable to claim manager selection, another wm running? (try using "
+"--replace)\n"
 msgstr ""
-"kwin: მმართველის არჩევნის შეცდომა. არის სხვა ფმ გაშვებული? (სცადეთ --replace "
-"გამოიყენოთ)\n"
 
 #: main_x11.cpp:280
 #, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
-"kwin: გაშვებულია სხვა ფანჯრების მმართველი (სცადეთ გამოიყენოთ --replace)\n"
 
 #: main_x11.cpp:411
 #, kde-format
 msgid "Replace already-running ICCCM2.0-compliant window manager"
-msgstr "უკვე გაშვებული ICCCM2.0-თან თავსებადი ფანჯრების მმართველის ჩნაცვლება"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:49
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:51
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "activate"
-msgstr "აქტივაცია"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:52
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:54
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "close"
-msgstr "დახურვა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:55
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:57
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "min"
-msgstr "წთ"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:58
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:60
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "minimize"
-msgstr "ჩაკეცვა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:61
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:63
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "max"
-msgstr "მაქსიმუმი"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:64
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:66
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "maximize"
-msgstr "გადიდება"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:67
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:69
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "fullscreen"
-msgstr "მთელ ეკრანზე"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:70
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:72
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "shade"
-msgstr "დაჩრდილვა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:73
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:75
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep above"
-msgstr "ზემოდან დატოვება"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:76
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:78
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep below"
-msgstr "ქვემოდან დატოვება"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:83
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "window"
-msgstr "ფანჯარა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:93
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "name"
-msgstr "name"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:95
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "appname"
-msgstr "სახელი"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:97
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:150
 #, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "desktop"
-msgstr "სამუშაო მაგიდა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:255
 #, kde-format
 msgid "Switch to desktop %1"
-msgstr "სამუშაო მაგიდის გადართვა %1-ზე"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:296
 #, kde-format
 msgid "Close running window on %1"
-msgstr "გაშვებულ ფანჯრის დახურვა %1-ზე"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:299
 #, kde-format
 msgid "(Un)minimize running window on %1"
-msgstr "%1-ზე გაშვებული ფანჯრის ჩაკეცვა/აღდგენა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:302
 #, kde-format
 msgid "Maximize/restore running window on %1"
-msgstr "%1-ზე გაშვებული ფანჯრის მთელ ეკრანზე გადიდება/აღდგენა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:305
 #, kde-format
 msgid "Toggle fullscreen for running window on %1"
-msgstr "%1-ზე გაშვებული ფანჯრის მთელ ეკრანზე გაშვების გადართვა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:308
 #, kde-format
 msgid "(Un)shade running window on %1"
-msgstr "%1-ზე გაშვებული ფანჯრის დაჩრდილვის გადართვა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:311
 #, kde-format
 msgid "Toggle keep above for running window on %1"
-msgstr "%1-ზე გაშვებული ფანჯრის ყველაზე ზემოთ ქონის გადართვა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:314
 #, kde-format
 msgid "Toggle keep below running window on %1"
-msgstr "%1-ზე გაშვებული ფანჯრის ყველაზე ქვემოთ ქონის გადართვა"
+msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:318
 #, kde-format
 msgid "Activate running window on %1"
-msgstr "გაშვებული ფანჯრის გააქტიურება %1-ზე"
+msgstr ""
 
 #: plugins/nightcolor/nightcolormanager.cpp:63
 #, kde-format
 msgctxt "Night Color was disabled"
 msgid "Night Color Off"
-msgstr "ღამის ფერები გათიშულია"
+msgstr ""
 
 #: plugins/nightcolor/nightcolormanager.cpp:64
 #, kde-format
 msgctxt "Night Color was enabled"
 msgid "Night Color On"
-msgstr "ღამის ფერები ჩართულია"
+msgstr ""
 
 #: plugins/nightcolor/nightcolormanager.cpp:84
 #: plugins/nightcolor/nightcolormanager.cpp:87
 #: plugins/nightcolor/nightcolormanager.cpp:94
 #, kde-format
 msgid "Toggle Night Color"
-msgstr "ღამის ფერების გადართვა"
+msgstr ""
 
 #: plugins/nightcolor/nightcolormanager.cpp:471
 #, kde-format
 msgid "Color Temperature Preview"
-msgstr "ფერის ტემპერატურის გადახედვა"
+msgstr ""
 
 #. i18n: ectx: label, entry (count), group (General)
 #: rulebooksettingsbase.kcfg:9
 #, kde-format
 msgid "Total rules count (legacy)"
-msgstr "წესების ჯამური რაოდენობა (მოძველებული)"
+msgstr ""
 
 #. i18n: ectx: label, entry (ruleGroupList), group (General)
 #: rulebooksettingsbase.kcfg:13
 #, kde-format
 msgid "Ordered list of rules groups"
-msgstr "წესების ჯგუფების დალაგებული სია"
+msgstr ""
 
 #. i18n: ectx: label, entry (description), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:10
 #, kde-format
 msgid "Rule description"
-msgstr "წესის აღწერა"
+msgstr ""
 
-#. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (descriptionLegacy), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
-msgstr "წესის აღწერა (მოძველებული)"
+msgstr ""
 
 #. i18n: ectx: label, entry (DeleteRule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:16
 #, kde-format
 msgid "Delete this rule (for use in imports)"
-msgstr "ამ წესის წაშლა (შემოტანებში გამოსაყენებლად)"
+msgstr ""
 
 #. i18n: ectx: label, entry (wmclass), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:20
 #, kde-format
 msgid "Window class (application)"
-msgstr "ფანჯრის კლასი (აპლიკაცია)"
+msgstr ""
 
 #. i18n: ectx: label, entry (wmclassmatch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:23
 #, kde-format
 msgid "Window class string match type"
-msgstr "ფანჯრის კლასის სტრიქონის დამთხვევის ტიპი"
+msgstr ""
 
-#. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (wmclasscomplete), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
-msgstr "მთლიანი ფანჯრის კლასის დამთხვევა"
+msgstr ""
 
 #. i18n: ectx: label, entry (windowrole), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:34
 #, kde-format
 msgid "Window role"
-msgstr "ფანჯრის როლი"
+msgstr ""
 
-#. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (windowrolematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
-msgstr "ფანჯრის როლის სტრიქონის დამთხვევის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (title), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:44
 #, kde-format
 msgid "Window title"
-msgstr "ფანჯრის სათაური"
+msgstr ""
 
 #. i18n: ectx: label, entry (titlematch), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:47
 #, kde-format
 msgid "Window title string match type"
-msgstr "ფანჯრის სათაურის სტრიქონის დამთხვევის ტიპი"
+msgstr ""
 
-#. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachine), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
-msgstr "მანქანა (ჰოსტის სახელი)"
+msgstr ""
 
-#. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachinematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
-msgstr "მანქანის სტრიქონის დამთხვევის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (types), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:64
 #, kde-format
 msgid "Window types that match"
-msgstr "ფანჯრის ტიპები, რომლებიც ემთხვევა"
+msgstr ""
 
 #. i18n: ectx: label, entry (placement), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:69
 #, kde-format
 msgid "Initial placement"
-msgstr "საწყისი განთავსება"
+msgstr ""
 
-#. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (placementrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
 #, kde-format
 msgid "Initial placement rule type"
-msgstr "საწყისი მდებარეობის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (position), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:79
 #, kde-format
 msgid "Window position"
-msgstr "ფანჯრის მდებარეობა"
+msgstr ""
 
 #. i18n: ectx: label, entry (positionrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:83
 #, kde-format
 msgid "Window position rule type"
-msgstr "ფანჯრის მდებარეობის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (size), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:90
 #, kde-format
 msgid "Window size"
-msgstr "ფანჯრის ზომა"
+msgstr ""
 
 #. i18n: ectx: label, entry (sizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:93
 #, kde-format
 msgid "Window size rule type"
-msgstr "ფანჯრის ზომის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (minsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:100
 #, kde-format
 msgid "Window minimum size"
-msgstr "ფანჯრის მინიმალური ზომა"
+msgstr ""
 
 #. i18n: ectx: label, entry (minsizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:104
 #, kde-format
 msgid "Window minimum size rule type"
-msgstr "ფანჯრის მინიმალური ზომის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (maxsize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:109
 #, kde-format
 msgid "Window maximum size"
-msgstr "ფანჯრის მაქსიმალური ზომა"
+msgstr ""
 
 #. i18n: ectx: label, entry (maxsizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:113
 #, kde-format
 msgid "Window maximum size rule type"
-msgstr "ფანჯრის მაქსიმალური ზომის წესის ტიპი"
+msgstr ""
 
-#. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
-msgstr "აქტიური გაუმჭვირვალობა"
+msgstr ""
 
-#. i18n: ectx: label, entry (opacityactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
-msgstr "აქტიური გაუმჭვირვალობის წესის ტიპი"
+msgstr ""
 
-#. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
-msgstr "არააქტიური გაუმჭვირვალობა"
+msgstr ""
 
-#. i18n: ectx: label, entry (opacityinactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
-msgstr "არააქტიური გაუმჭვირვალობის წესის ტიპი"
+msgstr ""
 
-#. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
-msgstr "მოთხოვნილი გეომეტრიის უგულებელყოფა"
+msgstr ""
 
-#. i18n: ectx: label, entry (ignoregeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
-msgstr "მოთხოვნილი გეომეტრიის წესის ტიპის უგულებელყოფა"
+msgstr ""
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
 #, kde-format
 msgid "List of Desktop Ids"
-msgstr "სამუშაო მაგიდების ID-ების სია"
+msgstr ""
 
 #. i18n: ectx: label, entry (desktopsrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:155
 #, kde-format
 msgid "Desktop Ids rule type"
-msgstr "სამუშაო მაგიდის ID-ების წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (screen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:162
 #, kde-format
 msgid "Screen number"
-msgstr "ეკრანის ნომერი"
+msgstr ""
 
 #. i18n: ectx: label, entry (screenrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:166
 #, kde-format
 msgid "Screen number rule type"
-msgstr "ეკრანის ნომრის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (activity), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:173
 #, kde-format
 msgid "Activity"
-msgstr "აქტივობა"
+msgstr ""
 
 #. i18n: ectx: label, entry (activityrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:176
 #, kde-format
 msgid "Activity rule type"
-msgstr "აქტივობის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (type), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:183
 #, kde-format
 msgid "Set window type to"
-msgstr "ფანჯრის ტიპის დაყენება"
+msgstr ""
 
 #. i18n: ectx: label, entry (typerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:189
 #, kde-format
 msgid "Set window type rule type"
-msgstr "ფანჯრის ტიპის წესის ტიპის დაყენება"
+msgstr ""
 
 #. i18n: ectx: label, entry (maximizevert), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:194
 #, kde-format
 msgid "Maximized vertically"
-msgstr "ვერტიკალურად გაშლილი"
+msgstr ""
 
-#. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizevertrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
-msgstr "ვერტიკალურად გაშლის წესის ტიპი"
+msgstr ""
 
-#. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehoriz), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
 #, kde-format
 msgid "Maximized horizontally"
-msgstr "ჰორიზონტალურად გაშლილი"
+msgstr ""
 
-#. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehorizrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
-msgstr "ჰორიზონტალურად გაშლის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (minimize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:216
 #, kde-format
 msgid "Minimized"
-msgstr "ჩაკეცვა"
+msgstr ""
 
 #. i18n: ectx: label, entry (minimizerule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:220
 #, kde-format
 msgid "Minimized rule type"
-msgstr "ჩაკეცვლის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (shade), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:227
 #, kde-format
 msgid "Shaded"
-msgstr "დაჩრდილული"
+msgstr ""
 
 #. i18n: ectx: label, entry (shaderule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:231
 #, kde-format
 msgid "Shaded rule type"
-msgstr "დაჩრდილვის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (skiptaskbar), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:238
 #, kde-format
 msgid "Skip taskbar"
-msgstr "დავალებების პანელის გამოტოვება"
+msgstr ""
 
-#. i18n: ectx: label, entry (skiptaskbarrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skiptaskbarrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
-msgstr "დავალებების პანელის გამოტოვებს წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (skippager), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:249
 #, kde-format
 msgid "Skip pager"
-msgstr "პეიჯერის გამოტოვება"
+msgstr ""
 
-#. i18n: ectx: label, entry (skippagerrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skippagerrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
-msgstr "პეიჯერის გამოტოვების წესის ტპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (skipswitcher), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:260
 #, kde-format
 msgid "Skip switcher"
-msgstr "გადამრთველის გამოტოვება"
+msgstr ""
 
-#. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skipswitcherrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
-msgstr "გადამრთველის გამოტოვების წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (above), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:271
 #, kde-format
 msgid "Keep above"
-msgstr "ზემოდან დატოვება"
+msgstr ""
 
 #. i18n: ectx: label, entry (aboverule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:275
 #, kde-format
 msgid "Keep above rule type"
-msgstr "წესის ტიპის წემოთ ქონა"
+msgstr ""
 
 #. i18n: ectx: label, entry (below), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:282
 #, kde-format
 msgid "Keep below"
-msgstr "ქვემოთ ქონა"
+msgstr ""
 
 #. i18n: ectx: label, entry (belowrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:286
 #, kde-format
 msgid "Keep below rule type"
-msgstr "ქვემოთ ქონის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (fullscreen), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:293
 #, kde-format
 msgid "Fullscreen"
-msgstr "მთელ ეკრანზე"
+msgstr ""
 
-#. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (fullscreenrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
 #, kde-format
 msgid "Fullscreen rule type"
-msgstr "სრული ეკრანის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (noborder), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:304
 #, kde-format
 msgid "No titlebar and frame"
-msgstr "სათაურისა და ჩარჩოს გარეშე"
+msgstr ""
 
 #. i18n: ectx: label, entry (noborderrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:308
 #, kde-format
 msgid "No titlebar rule type"
-msgstr "სათაურის წესის ტიპის გარეშე"
+msgstr ""
 
 #. i18n: ectx: label, entry (decocolor), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:315
 #, kde-format
 msgid "Titlebar color and scheme"
-msgstr "სათაურის ზოლის ფერი და სქემა"
+msgstr ""
 
-#. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (decocolorrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
-msgstr "სათაურის ზოლის წესის ტიპი"
+msgstr ""
 
-#. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositing), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
-msgstr "კომპოზიტირების დაბლოკვა"
+msgstr ""
 
-#. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositingrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
-msgstr "კომპოზიტირების წესის ტიპის დაბლოკვა"
+msgstr ""
 
 #. i18n: ectx: label, entry (fsplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:332
 #, kde-format
 msgid "Focus stealing prevention"
-msgstr "ფოკუსის მოპარვის აცილება"
+msgstr ""
 
 #. i18n: ectx: label, entry (fsplevelrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:338
 #, kde-format
 msgid "Focus stealing prevention rule type"
-msgstr "ფოკუსის მოპარვის აცილების წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (fpplevel), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:343
 #, kde-format
 msgid "Focus protection"
-msgstr "ფოკუსის დაცვა"
+msgstr ""
 
 #. i18n: ectx: label, entry (fpplevelrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:349
 #, kde-format
 msgid "Focus protection rule type"
-msgstr "ფოკუსის დაცვის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (acceptfocus), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:354
 #, kde-format
 msgid "Accept Focus"
-msgstr "ფოკუსის მიღება"
+msgstr ""
 
-#. i18n: ectx: label, entry (acceptfocusrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (acceptfocusrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
-msgstr "ფოკუსის მიღების წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (closeable), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:363
 #, kde-format
 msgid "Closeable"
-msgstr "დახურვადი"
+msgstr ""
 
-#. i18n: ectx: label, entry (closeablerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (closeablerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
-msgstr "დახურვადი წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (autogroup), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:372
 #, kde-format
 msgid "Autogroup with identical"
-msgstr "ერთნაირების ავტომატური დაჯგუფება"
+msgstr ""
 
-#. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogrouprule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
-msgstr "ერთნაირი წესის ტიპების მქონეების ავტომატური დაჯგუფება"
+msgstr ""
 
 #. i18n: ectx: label, entry (autogroupfg), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:381
 #, kde-format
 msgid "Autogroup in foreground"
-msgstr "ავტომატური დაჯგუფება წინა პლანზე"
+msgstr ""
 
-#. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupfgrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
-msgstr "წინა პლანზე ავტომატური დაჯგუფების წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (autogroupid), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:390
 #, kde-format
 msgid "Autogroup by ID"
-msgstr "ავტომატური დაჯგუფება ID-ის მიხედვით"
+msgstr ""
 
-#. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupidrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
-msgstr "ID-ის მიხედვით ავტომატური დაჯგუფების წესის ტიპი"
+msgstr ""
 
-#. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
-msgstr "გეომეტრიის შეზღუდვების დაცვა"
+msgstr ""
 
-#. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
-msgstr "გეომეტრიის შეზღუდვების დაცვის წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (shortcut), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:407
 #, kde-format
 msgid "Shortcut"
-msgstr "მალსახმობი"
+msgstr ""
 
 #. i18n: ectx: label, entry (shortcutrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:410
 #, kde-format
 msgid "Shortcut rule type"
-msgstr "მალსახმობის წესის ტიპი"
+msgstr ""
 
-#. i18n: ectx: label, entry (disableglobalshortcuts), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcuts), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
-msgstr "გლობალური მალსახმობების უგულებელყოფა"
+msgstr ""
 
-#. i18n: ectx: label, entry (disableglobalshortcutsrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcutsrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
-msgstr "იგნორირებული გლობალური მალსახმობების წესის ტიპი"
+msgstr ""
 
 #. i18n: ectx: label, entry (desktopfile), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:426
 #, kde-format
 msgid "Desktop file name"
-msgstr "სამუშაო მაგიდის ფაილის სახელი"
+msgstr ""
 
-#. i18n: ectx: label, entry (desktopfilerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopfilerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
-msgstr "სამუშაო მაგიდის ფაილის სახელის წესის ტიპი"
+msgstr ""
 
 #: scripting/genericscriptedconfig.cpp:70
 #, kde-format
 msgctxt "Error message"
 msgid "Could not locate package metadata"
-msgstr "პაკეტის მეტამონაცემები ვერ ვიპოვე"
+msgstr ""
 
 #: scripting/genericscriptedconfig.cpp:84
 #, kde-format
 msgctxt "Required file does not exist"
 msgid "%1 does not contain a valid metadata.json file"
-msgstr "%1 metadata.json ფაილს არ შეიცავს"
+msgstr ""
 
 #: scripting/genericscriptedconfig.cpp:90
 #: scripting/genericscriptedconfig.cpp:96
 #, kde-format
 msgctxt "Required file does not exist"
 msgid "%1 does not exist"
-msgstr "%1 არ არსებობს"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ShortcutDialog)
 #: shortcutdialog.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr "ფანჯარა"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, clearButton)
 #: shortcutdialog.ui:25
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr ""
 
 #: tabbox/tabbox.cpp:381
 #, kde-format
@@ -2142,51 +2150,51 @@ msgstr "სამუშაო მაგიდის ჩვენება"
 
 #: tabbox/tabbox.cpp:521
 msgid "Walk Through Windows"
-msgstr "ფანჯრებში გავლა"
+msgstr ""
 
 #: tabbox/tabbox.cpp:522
 msgid "Walk Through Windows (Reverse)"
-msgstr "ფანჯრებში გავლა (პირიქით)"
+msgstr ""
 
 #: tabbox/tabbox.cpp:523
 msgid "Walk Through Windows Alternative"
-msgstr "ფანჯრებში ალტერნატიული გავლა"
+msgstr ""
 
 #: tabbox/tabbox.cpp:524
 msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "ფანჯრებში ალტერნატიული გავლა (პირიქით)"
+msgstr ""
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Windows of Current Application"
-msgstr "მიმდინარე აპლიკაციის ფანჯრებში გავლა"
+msgstr ""
 
 #: tabbox/tabbox.cpp:526
 msgid "Walk Through Windows of Current Application (Reverse)"
-msgstr "მიმდინარე აპლიკაციის ფანჯრებში გავლა (პირიქით)"
+msgstr ""
 
 #: tabbox/tabbox.cpp:527
 msgid "Walk Through Windows of Current Application Alternative"
-msgstr "მიმდინარე აპლიკაციის ფანჯრებში ალტერნატიული გავლა"
+msgstr ""
 
 #: tabbox/tabbox.cpp:528
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
-msgstr "მიმდინარე აპლიკაციის ფანჯრებში ალტერნატიული გავლა (პირიქით)"
+msgstr ""
 
 #: tabbox/tabbox.cpp:529
 msgid "Walk Through Desktops"
-msgstr "სამუშაო მაგიდებში გავლა"
+msgstr ""
 
 #: tabbox/tabbox.cpp:530
 msgid "Walk Through Desktops (Reverse)"
-msgstr "სამუშაო მაგიდებში გავლა (პირიქით)"
+msgstr ""
 
 #: tabbox/tabbox.cpp:531
 msgid "Walk Through Desktop List"
-msgstr "სამუშაო მაგიდების სია"
+msgstr ""
 
 #: tabbox/tabbox.cpp:532
 msgid "Walk Through Desktop List (Reverse)"
-msgstr "სამუშაო მაგიდების სია (პირიქით)"
+msgstr ""
 
 #: tabbox/tabboxhandler.cpp:290
 #, kde-format
@@ -2194,84 +2202,70 @@ msgid ""
 "The Window Switcher installation is broken, resources are missing.\n"
 "Contact your distribution about this."
 msgstr ""
-"ფანჯრების გადამრთველის დაყენება გაფუჭებულია. რესურსები ვერ ვიპოვე.\n"
-"დაუკავშირდით დისტრიბუტორს."
 
 #: useractions.cpp:161
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
-"Without the border, you will not be able to enable the border again using "
-"the mouse: use the window operations menu instead, activated using the %1 "
-"keyboard shortcut."
+"Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
-"აირჩიეთ, რომ ფანჯრები მისი საზღვრის გარეშე იყოს ნაჩვენები.\n"
-"საზღვრის გარეშე საზღვარს თაგუნას გამოყენებით ვეღარ ჩართავთ. ამის მაგიერ "
-"გამოიყენეთ ფანჯრის ოპერაციების მენიუ, რომელიც კლავიატურის მალსახმობით (%1) "
-"აქტიურდება."
 
 #: useractions.cpp:168
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
-"If the application itself does not have an option to turn the fullscreen "
-"mode off you will not be able to disable it again using the mouse: use the "
-"window operations menu instead, activated using the %1 keyboard shortcut."
+"If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
-"აირჩიეთ, რომ ფანჯარა სრულ ეკრანზე გამოჩნდეს.\n"
-"თუ აპლიკაციას თვითონ არ გააჩნია შესაძლებლობა, სრულეკრანიანი რეჟიმი გამორთოს, "
-"თქვენ მას თაგუნას გამოყენებით ვერ გამორთავთ. სჯობს გამოიყენოთ ფანჯრის "
-"ოპერაციების მენიუ, რომელიც კლავიატურის მალსახმობით %1 შეგიძლიათ გამოიძახოთ."
 
 #: useractions.cpp:238
 #, kde-format
 msgid "&Move"
-msgstr "&გადატანა"
+msgstr ""
 
 #: useractions.cpp:243
 #, kde-format
 msgid "&Resize"
-msgstr "&ზომის შეცვლა"
+msgstr ""
 
 #: useractions.cpp:248
 #, kde-format
 msgid "Keep &Above Others"
-msgstr "დანარჩენი ფანჯრების ზემოთ &ქონა"
+msgstr ""
 
 #: useractions.cpp:254
 #, kde-format
 msgid "Keep &Below Others"
-msgstr "სხვა ფანჯრების &ქვემოთ ქონა"
+msgstr ""
 
 #: useractions.cpp:260
 #, kde-format
 msgid "&Fullscreen"
-msgstr "&მთელ ეკრანზე"
+msgstr ""
 
 #: useractions.cpp:266
 #, kde-format
 msgid "&Shade"
-msgstr "&დაჩრდილვა"
+msgstr ""
 
 #: useractions.cpp:272
 #, kde-format
 msgid "&No Titlebar and Frame"
-msgstr "&სათაურისა და ჩარჩოს გარეშე"
+msgstr ""
 
 #: useractions.cpp:280
 #, kde-format
 msgid "Set Window Short&cut..."
-msgstr "ფანჯრის &მალსახობის დაყენება..."
+msgstr ""
 
 #: useractions.cpp:286
 #, kde-format
 msgid "Configure Special &Window Settings..."
-msgstr "&ფანჯრის სპეციალური პარამეტრების მორგება..."
+msgstr ""
 
 #: useractions.cpp:291
 #, kde-format
 msgid "Configure S&pecial Application Settings..."
-msgstr "აპლიკაციის ს&პეციალური პარამეტრების მორგება..."
+msgstr ""
 
 #: useractions.cpp:298
 #, kde-format
@@ -2279,85 +2273,85 @@ msgctxt ""
 "Entry in context menu of window decoration to open the configuration module "
 "of KWin"
 msgid "Configure W&indow Manager..."
-msgstr "&ფანჯრების მმართველის მორგება..."
+msgstr ""
 
 #: useractions.cpp:325
 #, kde-format
 msgid "Ma&ximize"
-msgstr "&აკეცვა"
+msgstr ""
 
 #: useractions.cpp:331
 #, kde-format
 msgid "Mi&nimize"
-msgstr "&ჩაკეცვა"
+msgstr ""
 
 #: useractions.cpp:337
 #, kde-format
 msgid "&More Actions"
-msgstr "&მეტი ქმედება"
+msgstr ""
 
 #: useractions.cpp:340
 #, kde-format
 msgid "&Close"
-msgstr "დაკე&ტვა"
+msgstr ""
 
 #: useractions.cpp:410
 #, kde-format
 msgid "&Extensions"
-msgstr "&გაფართოებები"
+msgstr ""
 
 #: useractions.cpp:461
 #, kde-format
 msgid "&Desktops"
-msgstr "&სამუშაო მაგიდები"
+msgstr ""
 
 #: useractions.cpp:475
 #, kde-format
 msgid "Move to &Desktop"
-msgstr "სამუშაო მაგიდაზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:492
 #, kde-format
 msgid "Move to &Screen"
-msgstr "&ეკრანზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:508
 #, kde-format
 msgid "Show in &Activities"
-msgstr "აქტივობებში &ჩვენება"
+msgstr ""
 
 #: useractions.cpp:525
 #, kde-format
 msgid "Move &To Current Desktop"
-msgstr "მიმდინარე სამუშაო მაგიდაზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:535 useractions.cpp:602
 #, kde-format
 msgid "&All Desktops"
-msgstr "&ყველა სამუშაო მაგიდა"
+msgstr ""
 
 #: useractions.cpp:575
 #, kde-format
 msgctxt "Create a new desktop and move the window there"
 msgid "&New Desktop"
-msgstr "&ახალი სამუშაო მაგიდა"
+msgstr ""
 
 #: useractions.cpp:646
 #, kde-format
 msgid "Move to %1 %2"
-msgstr "%1-ის %2-ზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:659
 #, kde-format
 msgctxt "Create a new desktop and add the window to that desktop"
 msgid "Add to &New Desktop"
-msgstr "&ახალ სამუშაო მაგიდაზე დამატება"
+msgstr ""
 
 #: useractions.cpp:671
 #, kde-format
 msgctxt "Create a new desktop and move the window to that desktop"
 msgid "Move to New Desktop"
-msgstr "ახალ სამუშაო მაგიდაზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:702
 #, kde-format
@@ -2365,458 +2359,1180 @@ msgctxt ""
 "@item:inmenu List of all Screens to send a window to. First argument is a "
 "number, second the output identifier. E.g. Screen 1 (HDMI1)"
 msgid "Screen &%1 (%2)"
-msgstr "ეკრანი &%1 (%2)"
+msgstr ""
 
 #: useractions.cpp:728
 #, kde-format
 msgid "&All Activities"
-msgstr "&ყველა აქტივობა"
+msgstr ""
 
 #: useractions.cpp:776
 #, kde-format
 msgid "Move to %1"
-msgstr "%1-ზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:901
 #, kde-format
 msgctxt "'%1' is a keyboard shortcut like 'ctrl+w'"
 msgid "<b>%1</b> is already in use"
-msgstr "<b>%1</b> უკვე გამოიყენება"
+msgstr ""
 
 #: useractions.cpp:903
 #, kde-format
 msgctxt "keyboard shortcut '%1' is used by action '%2' in application '%3'"
 msgid "<b>%1</b> is used by %2 in %3"
-msgstr "<b>%1</b> გამოიყენება %2 -ის მიერ %3-ში"
+msgstr ""
 
 #: useractions.cpp:983
 #, kde-format
 msgid "Window Operations Menu"
-msgstr "ფანჯრის ოპერაციების მენიუ"
+msgstr ""
 
 #: useractions.cpp:985
 #, kde-format
 msgid "Close Window"
-msgstr "ფანჯრის დახურვა"
+msgstr ""
 
 #: useractions.cpp:987
 #, kde-format
 msgid "Maximize Window"
-msgstr "ფანჯრის გადიდება"
+msgstr ""
 
 #: useractions.cpp:989
 #, kde-format
 msgid "Maximize Window Vertically"
-msgstr "ფანჯრის გადიდება ვერტიკალურად"
+msgstr ""
 
 #: useractions.cpp:991
 #, kde-format
 msgid "Maximize Window Horizontally"
-msgstr "ფანჯრის გადიდება ჰორიზონტალურად"
+msgstr ""
 
 #: useractions.cpp:993
 #, kde-format
 msgid "Minimize Window"
-msgstr "ფანჯრის ჩაკეცვა"
+msgstr ""
 
 #: useractions.cpp:995
 #, kde-format
 msgid "Shade Window"
-msgstr "ფანჯრის დაჩრდილვა"
+msgstr ""
 
 #: useractions.cpp:997
 #, kde-format
 msgid "Move Window"
-msgstr "ფანჯრის გადაადგილება"
+msgstr ""
 
 #: useractions.cpp:999
 #, kde-format
 msgid "Resize Window"
-msgstr "ფანჯრის ზომის შეცვლა"
+msgstr ""
 
 #: useractions.cpp:1001
 #, kde-format
 msgid "Raise Window"
-msgstr "ფანჯრის ამოწევა"
+msgstr ""
 
 #: useractions.cpp:1003
 #, kde-format
 msgid "Lower Window"
-msgstr "ფანჯრის ჩაწევა"
+msgstr ""
 
 #: useractions.cpp:1005
 #, kde-format
 msgid "Toggle Window Raise/Lower"
-msgstr "ფანრის ჩაწევა/აწევის გადართვა"
+msgstr ""
 
 #: useractions.cpp:1007
 #, kde-format
 msgid "Make Window Fullscreen"
-msgstr "ფანჯრის მთელ ეკრანზე გატანა"
+msgstr ""
 
 #: useractions.cpp:1009
 #, kde-format
 msgid "Toggle Window Titlebar and Frame"
-msgstr "ფანჯრის სათაურის ზოლისა და ჩარჩოს ხილვადობის გადართვა"
+msgstr ""
 
 #: useractions.cpp:1011
 #, kde-format
 msgid "Keep Window Above Others"
-msgstr "ფანჯრის დანარჩენი ფანჯრების ზემოთ &ქონა"
+msgstr ""
 
 #: useractions.cpp:1013
 #, kde-format
 msgid "Keep Window Below Others"
-msgstr "ფანჯრის დანარჩენი ფანჯრების ქვემოთ &ქონა"
+msgstr ""
 
 #: useractions.cpp:1015
 #, kde-format
 msgid "Activate Window Demanding Attention"
-msgstr "ყურადღების მომთხოვნ ფანჯარაზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1017
 #, kde-format
 msgid "Setup Window Shortcut"
-msgstr "ფანჯრის მალსახმობის მორგება"
+msgstr ""
 
 #: useractions.cpp:1019
 #, kde-format
 msgid "Move Window to the Center"
-msgstr "ფანჯრის ცენტრისკენ გადატანა"
+msgstr ""
 
 #: useractions.cpp:1021
 #, kde-format
 msgid "Move Window Right"
-msgstr "ფანჯრის მარჯვენივ გადატანა"
+msgstr ""
 
 #: useractions.cpp:1023
 #, kde-format
 msgid "Move Window Left"
-msgstr "ფანჯრის მარცხნივ გადატანა"
+msgstr ""
 
 #: useractions.cpp:1025
 #, kde-format
 msgid "Move Window Up"
-msgstr "ფანჯრის მაღლა ატანა"
+msgstr ""
 
 #: useractions.cpp:1027
 #, kde-format
 msgid "Move Window Down"
-msgstr "ფანჯრის დაბლა ჩამოტანა"
+msgstr ""
 
 #: useractions.cpp:1029
 #, kde-format
 msgid "Expand Window Horizontally"
-msgstr "ფანჯრის ჰორიზონტალური გაფართოება"
+msgstr ""
 
 #: useractions.cpp:1031
 #, kde-format
 msgid "Expand Window Vertically"
-msgstr "ფანჯრის ვერტიკალური გაფართოება"
+msgstr ""
 
 #: useractions.cpp:1033
 #, kde-format
 msgid "Shrink Window Horizontally"
-msgstr "ფანჯრის ჰორიზონტალურად შემცირება"
+msgstr ""
 
 #: useractions.cpp:1035
 #, kde-format
 msgid "Shrink Window Vertically"
-msgstr "ფანჯრის ვერტიკალურად შემცირება"
+msgstr ""
 
 #: useractions.cpp:1037
 #, kde-format
 msgid "Quick Tile Window to the Left"
-msgstr "ფანჯრის ეკრანის მარცხენა მხარეს გაშლა"
+msgstr ""
 
 #: useractions.cpp:1039
 #, kde-format
 msgid "Quick Tile Window to the Right"
-msgstr "ფანჯრის ეკრანის მარჯვენა მხარეს გაშლა"
+msgstr ""
 
 #: useractions.cpp:1041
 #, kde-format
 msgid "Quick Tile Window to the Top"
-msgstr "ფანჯრის ეკრანის ზედა მხარეს გაშლა"
+msgstr ""
 
 #: useractions.cpp:1043
 #, kde-format
 msgid "Quick Tile Window to the Bottom"
-msgstr "ფანჯრის ეკრანის ქვედა მხარეს გაშლა"
+msgstr ""
 
 #: useractions.cpp:1045
 #, kde-format
 msgid "Quick Tile Window to the Top Left"
-msgstr "ფანჯრის ეკრანის ზედა მარცხენა მხარეს გაშლა"
+msgstr ""
 
 #: useractions.cpp:1047
 #, kde-format
 msgid "Quick Tile Window to the Bottom Left"
-msgstr "ფანჯრის ეკრანის ქვედა მარცხენა მხარეს გაშლა"
+msgstr ""
 
 #: useractions.cpp:1049
 #, kde-format
 msgid "Quick Tile Window to the Top Right"
-msgstr "ფანჯრის ეკრანის ზედა მარჯვენა მხარეს გაშლა"
+msgstr ""
 
 #: useractions.cpp:1051
 #, kde-format
 msgid "Quick Tile Window to the Bottom Right"
-msgstr "ფანჯრის ეკრანის ქვედა მარჯვენა მხარეს გაშლა"
+msgstr ""
 
 #: useractions.cpp:1053
 #, kde-format
 msgid "Switch to Window Above"
-msgstr "ზედა ფანჯარაზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1055
 #, kde-format
 msgid "Switch to Window Below"
-msgstr "ქვედა ფანჯარაზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1057
 #, kde-format
 msgid "Switch to Window to the Right"
-msgstr "მარჯვენა ფანჯარაზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1059
 #, kde-format
 msgid "Switch to Window to the Left"
-msgstr "მარცხენა ფანჯარაზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1061
 #, kde-format
 msgid "Increase Opacity of Active Window by 5%"
-msgstr "აქტიური ფანჯრის გაუმჭვირვალობის 5%-ით გაზრდა"
+msgstr ""
 
 #: useractions.cpp:1063
 #, kde-format
 msgid "Decrease Opacity of Active Window by 5%"
-msgstr "აქტიური ფანჯრის გაუმჭვირვალობის 5%-ით შემცირება"
+msgstr ""
 
 #: useractions.cpp:1066
 #, kde-format
 msgid "Keep Window on All Desktops"
-msgstr "ფანჯრის ყველა სამუშაო მაგიდაზე ჩვენება"
+msgstr ""
 
 #: useractions.cpp:1077
 #, kde-format
 msgid "Window to Desktop %1"
-msgstr "ფანჯრის გადატანა მაგიდაზე %1"
+msgstr ""
 
 #: useractions.cpp:1079
 #, kde-format
 msgid "Window to Next Desktop"
-msgstr "ფანჯრის შემდეგ სამუშაო მაგიდაზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:1080
 #, kde-format
 msgid "Window to Previous Desktop"
-msgstr "ფანჯრის წინა სამუშაო მაგიდაზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:1081
 #, kde-format
 msgid "Window One Desktop to the Right"
-msgstr "ფანჯარა ერთი სამუშაო მაგიდით მარჯვნივ"
+msgstr ""
 
 #: useractions.cpp:1083
 #, kde-format
 msgid "Window One Desktop to the Left"
-msgstr "ფანჯარა ერთი სამუშაო მაგიდით მარცხნივ"
+msgstr ""
 
 #: useractions.cpp:1085
 #, kde-format
 msgid "Window One Desktop Up"
-msgstr "ფანჯარა ერთი სამუშაო მაგიდით ზემოთ"
+msgstr ""
 
 #: useractions.cpp:1087
 #, kde-format
 msgid "Window One Desktop Down"
-msgstr "ფანჯარა ერთი სამუშაო მაგიდით ქვემოთ"
+msgstr ""
 
 #: useractions.cpp:1091
 #, kde-format
 msgid "Window to Screen %1"
-msgstr "ფანჯრის %1-ე ეკრანზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:1098
 #, kde-format
 msgid "Window to Next Screen"
-msgstr "ფანჯრის შემდეგ ეკრანზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:1100
 #, kde-format
 msgid "Window to Previous Screen"
-msgstr "ფანჯრის წინა ეკრანზე გადატანა"
+msgstr ""
 
 #: useractions.cpp:1102
 #, kde-format
 msgid "Window One Screen to the Right"
-msgstr "ფანჯარა ერთი ეკრანით მარჯვნივ"
+msgstr ""
 
 #: useractions.cpp:1104
 #, kde-format
 msgid "Window One Screen to the Left"
-msgstr "ფანჯარა ერთი ეკრანით მარცხნივ"
+msgstr ""
 
 #: useractions.cpp:1106
 #, kde-format
 msgid "Window One Screen Up"
-msgstr "ფანჯარა ერთი ეკრანით მაღლა"
+msgstr ""
 
 #: useractions.cpp:1108
 #, kde-format
 msgid "Window One Screen Down"
-msgstr "ფანჯარა ერთი ეკრანით დაბლა"
+msgstr ""
 
 #: useractions.cpp:1112
 #, kde-format
 msgid "Switch to Screen %1"
-msgstr "%1-ე ეკრანზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1119
 #, kde-format
 msgid "Switch to Next Screen"
-msgstr "შემდეგ ეკრანზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1120
 #, kde-format
 msgid "Switch to Previous Screen"
-msgstr "წინა ეკრანზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1121
 #, kde-format
 msgid "Switch to Screen to the Right"
-msgstr "მარჯვნივ მდებარე ეკრანზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1123
 #, kde-format
 msgid "Switch to Screen to the Left"
-msgstr "მარცხნივ მდებარე ეკრანზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1125
 #, kde-format
 msgid "Switch to Screen Above"
-msgstr "ზემო ეკრანზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1127
 #, kde-format
 msgid "Switch to Screen Below"
-msgstr "ქვედა ეკრანზე გადართვა"
+msgstr ""
 
 #: useractions.cpp:1130
 #, kde-format
 msgid "Peek at Desktop"
-msgstr "სამუშაო მაგიდაზე გაჭვრეტა"
+msgstr ""
 
 #: useractions.cpp:1133
 #, kde-format
 msgid "Kill Window"
-msgstr "ფანჯრის ნაძალადევი დაღუპვა"
+msgstr ""
 
 #: useractions.cpp:1134
 #, kde-format
 msgid "Suspend Compositing"
-msgstr "კომპოზიტური გაფართოების შეჩერება"
+msgstr ""
 
 #: useractions.cpp:1195
 #, kde-format
 msgid "Activate Window (%1)"
-msgstr "ფანჯრის გააქტიურება (%1)"
+msgstr ""
 
 #: useractions.cpp:1332
 #, kde-format
 msgid ""
-"The window manager is configured to consider the screen with the mouse on it "
-"as active one.\n"
+"The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
-"ფანჯრების მმართველს მითითებული აქვს, რომ ეკრანი, რომელზეც თაგუნა იმყოფება, "
-"აქტიურად ჩათვალოს.\n"
-"ამიტომ ეკრანის პირდაპირ გადართვას ვერ შეძლებთ."
 
 #: virtualdesktops.cpp:693 virtualdesktops.cpp:764
 #, kde-format
 msgid "Desktop %1"
-msgstr "სამუშაო მაგიდა %1"
+msgstr "%1 სამუშაო მაგიდა"
 
 #: virtualdesktops.cpp:800
 #, kde-format
 msgid "Switch to Next Desktop"
-msgstr "შემდეგ სამუშაო მაგიდაზე გადართვა"
+msgstr ""
 
 #: virtualdesktops.cpp:801
 #, kde-format
 msgid "Switch to Previous Desktop"
-msgstr "წინა სამუშაო მაგიდზე გადართვა"
+msgstr ""
 
 #: virtualdesktops.cpp:804
 #, kde-format
 msgid "Switch One Desktop to the Right"
-msgstr "ერთი სამუშაო მაგიდის მარჯვნივ გადართვა"
+msgstr ""
 
 #: virtualdesktops.cpp:806
 #, kde-format
 msgid "Switch One Desktop to the Left"
-msgstr "ერთი სამუშაო მაგიდის მარცხნივ გადართვა"
+msgstr ""
 
 #: virtualdesktops.cpp:808
 #, kde-format
 msgid "Switch One Desktop Up"
-msgstr "ერთი სამუშაო მაგიდის მაღლა გადართვა"
+msgstr ""
 
 #: virtualdesktops.cpp:810
 #, kde-format
 msgid "Switch One Desktop Down"
-msgstr "ერთი სამუშაო მაგიდის დაბლა გადართვა"
+msgstr ""
 
 #: virtualdesktops.cpp:899
 #, kde-format
 msgid "Switch to Desktop %1"
-msgstr "%1-ე სამუშაო მაგიდაზე გადართვა"
+msgstr ""
 
 #: window.cpp:3470
 #, kde-format
 msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
-msgstr "(არ პასუხობს)"
+msgstr ""
 
 #: workspace.cpp:1846
 #, kde-format
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
 "what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
-"KWin-ის მხარდაჭერის ინფორმაცია:\n"
-"ეს ინფორმაცია გამოიყენება პრობლემის შესახებ მიწერისას, მაგალითად, https://"
-"forum.kde.org -ზე.\n"
-"ის მოგაწოდებთ ინფორმაციას ამჟამად გაშვებულ ასლზე, რომელი პარამეტრები "
-"გამოიყენება,\n"
-"რომელი OpenGL-ის დრაივერია ჩატვირთული, რომელი ეფექტებით და ა.შ.\n"
-"დააკოპირეთ ინფორმაცია, რომელიც ამ ტექსტის ქვეშაა, სადმე დასაკოპირებელ "
-"სერვისში, როგორიცაა, მაგალითად,\n"
-"https://paste.kde.org . სრულად ტექსტს ფორუმზე ნუ დააკოპირებთ.\n"
 
 #~ msgid "&No Border"
-#~ msgstr "&საზღვრის გარეშე"
+#~ msgstr ""
 
 #~ msgid "Toggle Window Border"
-#~ msgstr "ფანჯრის საზღვრის გადართვა"
+#~ msgstr ""
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"
-#~ msgstr "დამატება მოსალოდნელ ადგილას კონფიგურაციის ფაილს არ იძლევა"
+#~ msgstr ""
 
-#~ msgid "unknown"
-#~ msgstr "unknown"
+#~ msgid "Invert Screen Colors"
+#~ msgstr ""
+
+#~ msgid "List all available backends and quit."
+#~ msgstr ""
 
 #~ msgid "Show Desktop"
 #~ msgstr "სამუშაო მაგიდის ჩვენება"
+
+#~ msgid "X11 Client Windows"
+#~ msgstr ""
+
+#~ msgid "unknown"
+#~ msgstr ""
+
+#~ msgid "Render to framebuffer."
+#~ msgstr ""
+
+#~ msgid "The framebuffer device to render to."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enable libinput support for input events processing. Note: never use in a "
+#~ "nested session.\t(deprecated)"
+#~ msgstr ""
+
+#~ msgid "Pack Window to the Right"
+#~ msgstr ""
+
+#~ msgid "Pack Window to the Left"
+#~ msgstr ""
+
+#~ msgid "Pack Window Up"
+#~ msgstr ""
+
+#~ msgid "Pack Window Down"
+#~ msgstr ""
+
+#~ msgid "Pack Grow Window Horizontally"
+#~ msgstr ""
+
+#~ msgid "Pack Grow Window Vertically"
+#~ msgstr ""
+
+#~ msgid "Desktop number"
+#~ msgstr ""
+
+#~ msgid "Configure virtual keyboards..."
+#~ msgstr ""
+
+#~ msgid "Virtual Keyboard"
+#~ msgstr ""
+
+#~ msgid "Whether to show the virtual keyboard on demand."
+#~ msgstr ""
+
+#~ msgid "Virtual Keyboard: enabled"
+#~ msgstr ""
+
+#~ msgid "Virtual Keyboard: disabled"
+#~ msgstr ""
+
+#~ msgctxt "Assertion failed in KWin script with given value"
+#~ msgid "Assertion failed: %1 is not null"
+#~ msgstr ""
+
+#~ msgctxt "Assertion failed in KWin script"
+#~ msgid "Assertion failed: argument is null"
+#~ msgstr ""
+
+#~ msgctxt "Error in KWin Script"
+#~ msgid ""
+#~ "Invalid number of arguments. At least service, path, interface and method "
+#~ "need to be provided"
+#~ msgstr ""
+
+#~ msgctxt "Error in KWin Script"
+#~ msgid ""
+#~ "Invalid type. Service, path, interface and method need to be string values"
+#~ msgstr ""
+
+#~ msgctxt "syntax error in KWin script"
+#~ msgid "Invalid number of arguments"
+#~ msgstr ""
+
+#~ msgctxt ""
+#~ "KWin Scripting function received incorrect value for an expected type"
+#~ msgid "%1 is not a variant type"
+#~ msgstr ""
+
+#~ msgid "Pressed Buttons"
+#~ msgstr ""
+
+#~ msgid "Use libhybris hwcomposer"
+#~ msgstr ""
+
+#~ msgid "Allow Rotation"
+#~ msgstr ""
+
+#~ msgid "Automatic screen rotation is enabled"
+#~ msgstr ""
+
+#~ msgid "Undefined"
+#~ msgstr ""
+
+#~ msgctxt "Portrait oriented display"
+#~ msgid "Vertical"
+#~ msgstr ""
+
+#~ msgctxt "Landscape oriented display"
+#~ msgid "Horizontal"
+#~ msgstr ""
+
+#~ msgid "Automatic screen rotation is disabled"
+#~ msgstr ""
+
+#~ msgid "Walk Through Window Tabs"
+#~ msgstr ""
+
+#~ msgid "Walk Through Window Tabs (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Remove Window From Group"
+#~ msgstr ""
+
+#~ msgid "&Untab"
+#~ msgstr ""
+
+#~ msgid "Close Entire &Group"
+#~ msgstr ""
+
+#~ msgctxt "Switch to tab -> Previous"
+#~ msgid "Previous"
+#~ msgstr ""
+
+#~ msgctxt "Switch to tab -> Next"
+#~ msgid "Next"
+#~ msgstr ""
+
+#~ msgctxt "There's no window available to be attached as tab to this one"
+#~ msgid "None available"
+#~ msgstr ""
+
+#~ msgid "Switch to Tab"
+#~ msgstr ""
+
+#~ msgid "&Attach as tab to"
+#~ msgstr ""
+
+#~ msgctxt ""
+#~ "Entry in context menu of window decoration to open the configuration module "
+#~ "of KWin"
+#~ msgid "Window Manager S&ettings..."
+#~ msgstr ""
+
+#~ msgid "Automatic Screen Rotation"
+#~ msgstr ""
+
+#~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
+#~ msgstr ""
+
+#~ msgid "Martin Gräßlin"
+#~ msgstr ""
+
+#~ msgid "Maintainer"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+#~ "OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+#~ "select the XRender backend, but it might be very slow for this resolution as"
+#~ " well.<br>Alternatively, lower the combined resolution of all screens to "
+#~ "%1x%2 "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+#~ "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+#~ "does not know such limitation, but the performance will usually be impacted "
+#~ "by the hardware limitations that restrict the OpenGL viewport size."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+#~ "the current resolution are supported but might be exceptionally "
+#~ "slow.<br>Also large windows will turn entirely black.<br><br>Consider to "
+#~ "suspend compositing, switch to the XRender backend or lower the resolution "
+#~ "to %1x%1."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+#~ "GPU, thus windows of that size cannot be assigned to textures and will be "
+#~ "entirely black.<br>Also this limit will often be a performance level barrier"
+#~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+#~ "software rendering in this case."
+#~ msgstr ""
+
+#~ msgid "Use a nested compositor in windowed mode."
+#~ msgstr ""
+
+#~ msgctxt "notification about mouse pointer confined"
+#~ msgid ""
+#~ "Pointer motion confined to the current window.\n"
+#~ "To release pointer hold Escape for 3 seconds."
+#~ msgstr ""
+
+#~ msgctxt "notification about mouse pointer locked"
+#~ msgid ""
+#~ "Pointer locked to current position.\n"
+#~ "To end pointer lock hold Escape for 3 seconds."
+#~ msgstr ""
+
+#~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
+#~ msgstr ""
+
+#~ msgid "Sh&ade"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
+#~ " set.\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The X11 Display to connect to. If not set next free number will be picked."
+#~ msgstr ""
+
+#~ msgid "KWin: "
+#~ msgstr ""
+
+#~ msgid "System"
+#~ msgstr ""
+
+#~ msgid "Navigation"
+#~ msgstr ""
+
+#~ msgid "Window & Desktop"
+#~ msgstr ""
+
+#~ msgid "Miscellaneous"
+#~ msgstr ""
+
+#~ msgid "Desktop Switching"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "kwin: it looks like there's already a window manager running. kwin not "
+#~ "started.\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
+#~ " <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish to terminate "
+#~ "the application process <em>including <b>all</b> of its child "
+#~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
+#~ msgstr ""
+
+#~ msgid "Window '%1' demands attention."
+#~ msgstr ""
+
+#~ msgid "Layout changed to %1"
+#~ msgstr ""
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr ""
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr ""
+
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr ""
+
+#~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
+#~ msgid "&Float Window"
+#~ msgstr ""
+
+#~ msgid "Ad&vanced"
+#~ msgstr ""
+
+#~ msgid "*** No Windows ***"
+#~ msgstr ""
+
+#~ msgid "Load the script testing dialog"
+#~ msgstr ""
+
+#~ msgid "Remove &From Group"
+#~ msgstr ""
+
+#~ msgid "To the Left"
+#~ msgstr ""
+
+#~ msgid "To the Right"
+#~ msgstr ""
+
+#~ msgid "&Opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "XRender/XFixes extensions are not available and only XRender support is "
+#~ "compiled."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Compositing was disabled at compile time.\n"
+#~ "It is likely Xorg development headers were not installed."
+#~ msgstr ""
+
+#~ msgid "Tiling"
+#~ msgstr ""
+
+#~ msgid "Enable/Disable Tiling"
+#~ msgstr ""
+
+#~ msgid "Toggle Floating"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Left"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Right"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Up"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Down"
+#~ msgstr ""
+
+#~ msgid "Tiling Disabled"
+#~ msgstr ""
+
+#~ msgid "Tiling Enabled"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "KWin will now exit..."
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 2"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 3"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 4"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 5"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 6"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 7"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 8"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 9"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 10"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 11"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 12"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 13"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 14"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 15"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 16"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 17"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 18"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 19"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 20"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 3"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 4"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 5"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 6"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 7"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 3"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 4"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 5"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 6"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 7"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 8"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 9"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 10"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 11"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 12"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 13"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 14"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 15"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 16"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 17"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 18"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 19"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 20"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 2"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 3"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 4"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 5"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 6"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 7"
+#~ msgstr ""
+
+#~ msgid "<center><b>%1</b></center>"
+#~ msgstr ""
+
+#~ msgid "Menu"
+#~ msgstr ""
+
+#~ msgid "Not on all desktops"
+#~ msgstr ""
+
+#~ msgid "On all desktops"
+#~ msgstr ""
+
+#~ msgid "Help"
+#~ msgstr ""
+
+#~ msgid "Restore"
+#~ msgstr ""
+
+#~ msgid "Do not keep above others"
+#~ msgstr ""
+
+#~ msgid "Do not keep below others"
+#~ msgstr ""
+
+#~ msgid "No window decoration plugin library was found."
+#~ msgstr ""
+
+#~ msgid "The default decoration plugin is corrupt and could not be loaded."
+#~ msgstr ""
+
+#~ msgid "The library %1 is not a KWin plugin."
+#~ msgstr ""
+
+#~ msgid "Window Screenshot to Clipboard"
+#~ msgstr ""
+
+#~ msgid "Desktop Screenshot to Clipboard"
+#~ msgstr ""
+
+#~ msgid "Toggle Tiling"
+#~ msgstr ""
+
+#~ msgid "Increase Ratio"
+#~ msgstr ""
+
+#~ msgid "Decrease Ratio"
+#~ msgstr ""
+
+#~ msgid "Move Left"
+#~ msgstr ""
+
+#~ msgid "Move Right"
+#~ msgstr ""
+
+#~ msgid "Move Up"
+#~ msgstr ""
+
+#~ msgid "Move Down"
+#~ msgstr ""
+
+#~ msgid "Test Dump tiles"
+#~ msgstr ""
+
+#~ msgid "Test Below Cursor"
+#~ msgstr ""
+
+#~ msgid "Walk Through Grouped Windows"
+#~ msgstr ""
+
+#~ msgid "Walk Through Grouped Windows (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Switch to group window"
+#~ msgstr ""
+
+#~ msgid "kwin: failure during initialization; aborting"
+#~ msgstr ""
+
+#~ msgid "Terminate"
+#~ msgstr ""
+
+#~ msgid "Keep Running"
+#~ msgstr ""
+
+#~ msgid "Top"
+#~ msgstr ""
+
+#~ msgid "Bottom"
+#~ msgstr ""
+
+#~ msgid "Toggle Invert Effect"
+#~ msgstr ""
+
+#~ msgid "Clear All Mouse Marks"
+#~ msgstr ""
+
+#~ msgid "Clear Last Mouse Mark"
+#~ msgstr ""
+
+#~ msgid "Clear Mouse Marks"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+
+#~ msgid "Snow"
+#~ msgstr ""
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr ""
+
+#~ msgid "Toggle Thumbnail for Current Window"
+#~ msgstr ""
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+
+#~ msgid "Path to save video:"
+#~ msgstr ""
+
+#~ msgid "None"
+#~ msgstr "არაფერის"
+
+#~ msgid "X offset:"
+#~ msgstr ""
+
+#~ msgid "Y offset:"
+#~ msgstr ""
+
+#~ msgid "Shadow opacity:"
+#~ msgstr ""
+
+#~ msgid "Shadow fuzziness:"
+#~ msgstr ""
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr ""
+
+#~ msgid "Shadow color:"
+#~ msgstr ""
+
+#~ msgid "Active window has stronger shadow"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr ""
+
+#~ msgid "Draw window caption on top of window"
+#~ msgstr ""
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr ""
+
+#~ msgid "for windows on all desktops: "
+#~ msgstr ""
+
+#~ msgid "Animate desktop changes"
+#~ msgstr ""
+
+#~ msgid "Reset opacity to default value"
+#~ msgstr ""
+
+#~ msgid "Slide this to set the window's opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
+#~ " in a $PATH directory."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager crashed twice within a minute and is therefore "
+#~ "disabled for this session."
+#~ msgstr ""
+
+#~ msgid "Composite Manager Failure"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
+#~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
+#~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
+#~ "www.freedesktop.org.<br></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
+#~ "6.8 for translucency and shadows to work.<br>Additionally, you need to add a"
+#~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
+#~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr ""
+
+msgid "Minimize"
+msgstr "დაპატარვება"
+
+msgid "Unmaximize"
+msgstr "დაპატარავება"
+
+msgid "Maximize"
+msgstr "გადიდება"
+
+msgid "Move"
+msgstr "გადაადგილება"
+
+msgid "Resize"
+msgstr "ზომის შეცვლა"
+
+msgid "Always on Top"
+msgstr "ყოველთვის წინა ფლანგზე"
+
+msgid "Always on Visible Workspace"
+msgstr "ყოველთვის არჩეულ სამუშაო ეკრანზე"
+
+msgid "Move to Workspace Left"
+msgstr "მარცხენა სამუშაო ეკრანზე გადატანა"
+
+msgid "Move to Workspace Right"
+msgstr "მარჯვენა სამუშაო ეკრანზე გადატანა"
+
+msgid "Close"
+msgstr "დახურვა"
