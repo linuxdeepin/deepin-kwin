@@ -723,7 +723,7 @@ MultitaskViewEffect::MultitaskViewEffect()
     m_opacityTimeLine.setDuration(std::chrono::milliseconds(2*EFFECT_DURATION_DEFAULT));
 
     QString qm = QString(":/effects/multitaskview/translations/multitasking_%1.qm").arg(QLocale::system().name());
-    QTranslator *tran = new QTranslator();
+    QTranslator *tran = new QTranslator(this);
     if (tran->load(qm)) {
         qApp->installTranslator(tran);
     }

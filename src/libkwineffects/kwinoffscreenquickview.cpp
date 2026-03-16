@@ -86,10 +86,10 @@ public:
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QList<QTouchEvent::TouchPoint> touchPoints;
     Qt::TouchPointStates touchState;
-    QTouchDevice *touchDevice;
+    std::unique_ptr<QTouchDevice> touchDevice;
 #else
     QList<QEventPoint> touchPoints;
-    QPointingDevice *touchDevice;
+    std::unique_ptr<QPointingDevice> touchDevice;
 #endif
 
     ulong lastMousePressTime = 0;
@@ -206,12 +206,12 @@ OffscreenQuickView::OffscreenQuickView(QObject *parent, QWindow *renderWindow, E
     connect(d->m_renderControl.get(), &QQuickRenderControl::sceneChanged, this, &OffscreenQuickView::handleSceneChanged);
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    d->touchDevice = new QTouchDevice{};
+    d->touchDevice.reset(new QTouchDevice{});
     d->touchDevice->setCapabilities(QTouchDevice::Position);
     d->touchDevice->setType(QTouchDevice::TouchScreen);
     d->touchDevice->setMaximumTouchPoints(10);
 #else
-    d->touchDevice = new QPointingDevice(QStringLiteral("ForwardingTouchDevice"), {}, QInputDevice::DeviceType::TouchScreen, QPointingDevice::PointerType::Finger, QInputDevice::Capability::Position, 10, {});
+    d->touchDevice.reset(new QPointingDevice(QStringLiteral("ForwardingTouchDevice"), {}, QInputDevice::DeviceType::TouchScreen, QPointingDevice::PointerType::Finger, QInputDevice::Capability::Position, 10, {}));
 #endif
 }
 
@@ -411,9 +411,9 @@ bool OffscreenQuickView::forwardTouchDown(qint32 id, const QPointF &pos, std::ch
     d->updateTouchState(Qt::TouchPointPressed, id, pos);
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QTouchEvent event(QEvent::TouchBegin, d->touchDevice, Qt::NoModifier, d->touchState, d->touchPoints);
+    QTouchEvent event(QEvent::TouchBegin, d->touchDevice.get(), Qt::NoModifier, d->touchState, d->touchPoints);
 #else
-    QTouchEvent event(QEvent::TouchBegin, d->touchDevice, Qt::NoModifier, d->touchPoints);
+    QTouchEvent event(QEvent::TouchBegin, d->touchDevice.get(), Qt::NoModifier, d->touchPoints);
 #endif
     event.setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
     QCoreApplication::sendEvent(d->m_view.get(), &event);
@@ -426,9 +426,9 @@ bool OffscreenQuickView::forwardTouchMotion(qint32 id, const QPointF &pos, std::
     d->updateTouchState(Qt::TouchPointMoved, id, pos);
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QTouchEvent event(QEvent::TouchUpdate, d->touchDevice, Qt::NoModifier, d->touchState, d->touchPoints);
+    QTouchEvent event(QEvent::TouchUpdate, d->touchDevice.get(), Qt::NoModifier, d->touchState, d->touchPoints);
 #else
-    QTouchEvent event(QEvent::TouchUpdate, d->touchDevice, Qt::NoModifier, d->touchPoints);
+    QTouchEvent event(QEvent::TouchUpdate, d->touchDevice.get(), Qt::NoModifier, d->touchPoints);
 #endif
     event.setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
     QCoreApplication::sendEvent(d->m_view.get(), &event);
@@ -441,9 +441,9 @@ bool OffscreenQuickView::forwardTouchUp(qint32 id, std::chrono::microseconds tim
     d->updateTouchState(Qt::TouchPointReleased, id, QPointF{});
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QTouchEvent event(QEvent::TouchEnd, d->touchDevice, Qt::NoModifier, d->touchState, d->touchPoints);
+    QTouchEvent event(QEvent::TouchEnd, d->touchDevice.get(), Qt::NoModifier, d->touchState, d->touchPoints);
 #else
-    QTouchEvent event(QEvent::TouchEnd, d->touchDevice, Qt::NoModifier, d->touchPoints);
+    QTouchEvent event(QEvent::TouchEnd, d->touchDevice.get(), Qt::NoModifier, d->touchPoints);
 #endif
     event.setTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(time).count());
     QCoreApplication::sendEvent(d->m_view.get(), &event);

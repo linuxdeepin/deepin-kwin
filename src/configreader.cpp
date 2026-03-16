@@ -141,6 +141,7 @@ ConfigReader::ConfigReader(const QString &service, const QString &path, const QS
 {
     ConfigReaderThread *thread = new ConfigReaderThread(service, path, interface, propertyName);
     connect(thread, SIGNAL(propertyFound(QVariant)), this, SLOT(slotSetProperty(QVariant)));
+    connect(thread, &QThread::finished, thread, &QObject::deleteLater);
 
     thread->start();
 
