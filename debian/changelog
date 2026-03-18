@@ -1,3 +1,14 @@
+kwin (4:6.1.9) unstable; urgency=medium
+
+  * feat(zoom): add OSD notification for zoom shortcuts
+  * fix: x11 window cannot move to nonrectangular area
+  * Revert "feat(effects): change zoom default shortcut from Meta+0 to Meta+Escape"
+  * feat(zoom): add max zoom limit to prevent excessive zooming
+  * fix: crash during cleanupX11 when destroying X11 windows
+  * fix: memory leaks for kwin_x11
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 18 Mar 2026 14:29:45 +0800
+
 kwin (4:6.1.8) unstable; urgency=medium
 
   * feat(zoom): add skip zoom effect rule for specific windows
