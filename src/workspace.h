@@ -824,9 +824,9 @@ Q_SIGNALS:
 
     void splitBarCursorChanged();
 
-    void touchDownByRecord(double x, double y, unsigned int time);
-    void touchMotionByRecord(double x, double y, unsigned int time);
-    void touchUpByRecord(unsigned int time);
+    void touchDownByRecord(unsigned int touchId, double x, double y, unsigned int time);
+    void touchMotionByRecord(unsigned int touchId, double x, double y, unsigned int time);
+    void touchUpByRecord(unsigned int touchId, unsigned int time);
     void buttonReleaseByRecord();
     void motionByRecord();
     void osRadiusChanged();

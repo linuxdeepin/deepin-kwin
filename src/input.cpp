@@ -3015,7 +3015,7 @@ void InputRedirection::setupWorkspace()
     } else if (Application::useXRecord()) {
         pEventMonitor = new RecordEventMonitor(this);
         connect(pEventMonitor, &RecordEventMonitor::touchDown, this, &InputRedirection::touchDown);
-        connect(pEventMonitor, &RecordEventMonitor::touchUp, this, &InputRedirection::touchEnd);
+        connect(pEventMonitor, &RecordEventMonitor::touchUp, this, &InputRedirection::touchUp);
         connect(pEventMonitor, &RecordEventMonitor::touchMotion, this, &InputRedirection::touchMotion);
         connect(pEventMonitor, &RecordEventMonitor::buttonRelease, this, &InputRedirection::buttonRelease);
         connect(pEventMonitor, &RecordEventMonitor::motion, this, &InputRedirection::motion);
@@ -3059,8 +3059,11 @@ void InputRedirection::motion()
     movingClient->updateInteractiveMoveResize(QCursor::pos());
 }
 
-void InputRedirection::touchDown()
+void InputRedirection::touchDown(unsigned int touchId, double x, double y, unsigned int time)
 {
+    if (effects) {
+        static_cast<EffectsHandlerImpl *>(effects)->touchDown(touchId, QPointF(x, y), std::chrono::microseconds(time * 1000));
+    }
     Window *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {
         return;
@@ -3069,8 +3072,11 @@ void InputRedirection::touchDown()
     workspace()->setTouchToMovingClientStatus(true);
 }
 
-void InputRedirection::touchMotion()
+void InputRedirection::touchMotion(unsigned int touchId, double x, double y, unsigned int time)
 {
+    if (effects) {
+        static_cast<EffectsHandlerImpl *>(effects)->touchMotion(touchId, QPointF(x, y), std::chrono::microseconds(time * 1000));
+    }
     Window *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {
         return ;
@@ -3079,8 +3085,11 @@ void InputRedirection::touchMotion()
     touchMovingClient->updateInteractiveMoveResize(QCursor::pos());
 }
 
-void InputRedirection::touchEnd()
+void InputRedirection::touchUp(unsigned int touchId, unsigned int time)
 {
+    if (effects) {
+        static_cast<EffectsHandlerImpl *>(effects)->touchUp(touchId, std::chrono::microseconds(time * 1000));
+    }
     workspace()->handleReleaseMouseCommand();
     Window *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {

@@ -137,22 +137,38 @@ void handleRecordEvent(XRecordInterceptData* data)
             // This event is raised when the TabletTool device is left.
             m_bFlag = false;
             break;
-        case TOUCHDOWN:
+        case TOUCHDOWN: {
             // sometimes, xrecord extend will get repeated touch down event(maybe send to the real client).
             // but, those touch down event is belong to same ancestors.
             // so, if you need, you can use (event->u.keyButtonPointer.time)
             // to filter out the repeated touh down event.
             if (m_eventTime != event->u.keyButtonPointer.time) {
-                Q_EMIT KWin::Workspace::self()->touchDownByRecord(event->u.keyButtonPointer.rootX, event->u.keyButtonPointer.rootY, event->u.keyButtonPointer.time);
-                m_eventTime = event->u.keyButtonPointer.time;
+                double x = event->u.keyButtonPointer.rootX;
+                double y = event->u.keyButtonPointer.rootY;
+                unsigned int time = event->u.keyButtonPointer.time;
+                unsigned int touchId = static_cast<unsigned int>(event->u.u.detail);
+                qCDebug(KWIN_RECORDEVENTMONITOR) << "TOUCHDOWN: touchId=" << touchId << " x=" << x << " y=" << y;
+                Q_EMIT KWin::Workspace::self()->touchDownByRecord(touchId, x, y, time);
+                m_eventTime = time;
             }
             break;
-        case TOUCHMOTION:
-            Q_EMIT KWin::Workspace::self()->touchMotionByRecord(event->u.keyButtonPointer.rootX, event->u.keyButtonPointer.rootY, event->u.keyButtonPointer.time);
+        }
+        case TOUCHMOTION: {
+            double x = event->u.keyButtonPointer.rootX;
+            double y = event->u.keyButtonPointer.rootY;
+            unsigned int time = event->u.keyButtonPointer.time;
+            unsigned int touchId = static_cast<unsigned int>(event->u.u.detail);
+            qCDebug(KWIN_RECORDEVENTMONITOR) << "TOUCHMOTION: touchId=" << touchId << "pos=(" << x << "," << y << ") time=" << time;
+            Q_EMIT KWin::Workspace::self()->touchMotionByRecord(touchId, x, y, time);
             break;
-        case TOUCHUP:
-            Q_EMIT KWin::Workspace::self()->touchUpByRecord(event->u.keyButtonPointer.time);
+        }
+        case TOUCHUP: {
+            unsigned int time = event->u.keyButtonPointer.time;
+            unsigned int touchId = static_cast<unsigned int>(event->u.u.detail);
+            qCDebug(KWIN_RECORDEVENTMONITOR) << "TOUCHUP: touchId=" << touchId;
+            Q_EMIT KWin::Workspace::self()->touchUpByRecord(touchId, time);
             break;
+        }
         default:
             break;
         }

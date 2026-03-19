@@ -20,9 +20,9 @@ public:
 Q_SIGNALS:
     void buttonRelease();
     void motion();
-    void touchDown(double x, double y, unsigned int time);
-    void touchMotion(double x, double y, unsigned int time);
-    void touchUp(unsigned int time);
+    void touchDown(unsigned int touchId, double x, double y, unsigned int time);
+    void touchMotion(unsigned int touchId, double x, double y, unsigned int time);
+    void touchUp(unsigned int touchId, unsigned int time);
 
 public Q_SLOTS:
 

@@ -314,9 +314,9 @@ public Q_SLOTS:
     void removeInputDevice(InputDevice *device);
     void buttonRelease();
     void motion();
-    void touchDown();
-    void touchMotion();
-    void touchEnd();
+    void touchDown(unsigned int touchId, double x, double y, unsigned int time);
+    void touchMotion(unsigned int touchId, double x, double y, unsigned int time);
+    void touchUp(unsigned int touchId, unsigned int time);
 
 private Q_SLOTS:
     void handleInputConfigChanged(const KConfigGroup &group);
