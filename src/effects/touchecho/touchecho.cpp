@@ -8,7 +8,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "touchpoints.h"
+#include "touchecho.h"
 
 #include <QAction>
 #include <kwinglutils.h>
@@ -23,15 +23,15 @@
 namespace KWin
 {
 
-TouchPointsEffect::TouchPointsEffect()
+TouchEchoEffect::TouchEchoEffect()
     : Effect()
 {
 }
 
-TouchPointsEffect::~TouchPointsEffect() = default;
+TouchEchoEffect::~TouchEchoEffect() = default;
 
 
-bool TouchPointsEffect::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+bool TouchEchoEffect::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
     TouchPoint point;
     point.id = id;
@@ -41,7 +41,7 @@ bool TouchPointsEffect::touchDown(qint32 id, const QPointF &pos, std::chrono::mi
     return false;
 }
 
-bool TouchPointsEffect::touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+bool TouchEchoEffect::touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
     auto pointIt = std::find_if(m_points.begin(), m_points.end(), [id](const TouchPoint &p) {
         return p.id == id;
@@ -55,7 +55,7 @@ bool TouchPointsEffect::touchMotion(qint32 id, const QPointF &pos, std::chrono::
     return false;
 }
 
-bool TouchPointsEffect::touchUp(qint32 id, std::chrono::microseconds time)
+bool TouchEchoEffect::touchUp(qint32 id, std::chrono::microseconds time)
 {
     auto pointIt = std::find_if(m_points.begin(), m_points.end(), [id](const TouchPoint &p) {
         return p.id == id;
@@ -73,7 +73,7 @@ bool TouchPointsEffect::touchUp(qint32 id, std::chrono::microseconds time)
     return false;
 }
 
-void TouchPointsEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
+void TouchEchoEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
 {
     auto it = m_dyingPoints.begin();
     while (it != m_dyingPoints.end()) {
@@ -86,7 +86,7 @@ void TouchPointsEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::mi
     effects->prePaintScreen(data, presentTime);
 }
 
-void TouchPointsEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
+void TouchEchoEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
 {
     effects->paintScreen(mask, region, data);
 
@@ -104,13 +104,13 @@ void TouchPointsEffect::paintScreen(int mask, const QRegion &region, ScreenPaint
     paintScreenFinish(mask, region, data);
 }
 
-void TouchPointsEffect::postPaintScreen()
+void TouchEchoEffect::postPaintScreen()
 {
     effects->postPaintScreen();
     repaint();
 }
 
-void TouchPointsEffect::repaint()
+void TouchEchoEffect::repaint()
 {
     QRegion dirtyRegion;
     constexpr int radius = PointSize + LineWidth;
@@ -123,12 +123,12 @@ void TouchPointsEffect::repaint()
     effects->addRepaint(dirtyRegion);
 }
 
-bool TouchPointsEffect::isActive() const
+bool TouchEchoEffect::isActive() const
 {
     return !m_points.isEmpty() || !m_dyingPoints.isEmpty();
 }
 
-void TouchPointsEffect::drawCircle(float alpha, float cx, float cy, float r)
+void TouchEchoEffect::drawCircle(float alpha, float cx, float cy, float r)
 {
     if (effects->isOpenGLCompositing()) {
         drawCircleGl(alpha, cx, cy, r);
@@ -137,21 +137,21 @@ void TouchPointsEffect::drawCircle(float alpha, float cx, float cy, float r)
     }
 }
 
-void TouchPointsEffect::paintScreenSetup(int mask, QRegion region, ScreenPaintData &data)
+void TouchEchoEffect::paintScreenSetup(int mask, QRegion region, ScreenPaintData &data)
 {
     if (effects->isOpenGLCompositing()) {
         paintScreenSetupGl(mask, region, data);
     }
 }
 
-void TouchPointsEffect::paintScreenFinish(int mask, QRegion region, ScreenPaintData &data)
+void TouchEchoEffect::paintScreenFinish(int mask, QRegion region, ScreenPaintData &data)
 {
     if (effects->isOpenGLCompositing()) {
         paintScreenFinishGl(mask, region, data);
     }
 }
 
-void TouchPointsEffect::drawCircleGl(float alpha, float cx, float cy, float r)
+void TouchEchoEffect::drawCircleGl(float alpha, float cx, float cy, float r)
 {
     // Draw filled translucent white circle with 1px inner white border (30% opacity)
     // and 1px outer black border (8% opacity). No shadow.
@@ -229,7 +229,7 @@ void TouchPointsEffect::drawCircleGl(float alpha, float cx, float cy, float r)
     }
 }
 
-void TouchPointsEffect::drawCircleQPainter(float alpha, float cx, float cy, float r)
+void TouchEchoEffect::drawCircleQPainter(float alpha, float cx, float cy, float r)
 {
     QPainter *painter = effects->scenePainter();
     painter->save();
@@ -257,7 +257,7 @@ void TouchPointsEffect::drawCircleQPainter(float alpha, float cx, float cy, floa
     painter->restore();
 }
 
-void TouchPointsEffect::paintScreenSetupGl(int, QRegion, ScreenPaintData &data)
+void TouchEchoEffect::paintScreenSetupGl(int, QRegion, ScreenPaintData &data)
 {
     GLShader *shader = ShaderManager::instance()->pushShader(ShaderTrait::UniformColor);
     shader->setUniform(GLShader::ModelViewProjectionMatrix, data.projectionMatrix());
@@ -267,13 +267,13 @@ void TouchPointsEffect::paintScreenSetupGl(int, QRegion, ScreenPaintData &data)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void TouchPointsEffect::paintScreenFinishGl(int, QRegion, ScreenPaintData &)
+void TouchEchoEffect::paintScreenFinishGl(int, QRegion, ScreenPaintData &)
 {
     glDisable(GL_BLEND);
 
     ShaderManager::instance()->popShader();
 }
-std::chrono::milliseconds TouchPointsEffect::currentTime() const
+std::chrono::milliseconds TouchEchoEffect::currentTime() const
 {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 }

@@ -4,12 +4,12 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "touchpoints.h"
+#include "touchecho.h"
 
 namespace KWin
 {
 
-KWIN_EFFECT_FACTORY(TouchPointsEffect,
+KWIN_EFFECT_FACTORY(TouchEchoEffect,
                     "metadata.json.stripped")
 
 } // namespace KWin

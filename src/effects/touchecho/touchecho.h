@@ -15,13 +15,13 @@
 namespace KWin
 {
 
-class TouchPointsEffect
+class TouchEchoEffect
     : public Effect
 {
     Q_OBJECT
 public:
-    TouchPointsEffect();
-    ~TouchPointsEffect() override;
+    TouchEchoEffect();
+    ~TouchEchoEffect() override;
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
     void postPaintScreen() override;
