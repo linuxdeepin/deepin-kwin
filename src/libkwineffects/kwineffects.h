@@ -191,6 +191,18 @@ enum EffectFrameStyle {
     EffectFrameStyled ///< Displays a Plasma-styled frame around the contents.
 };
 
+struct BlockEffectData {
+    Effect *request{ nullptr };
+    QString effect;
+    EffectWindow *window{ nullptr };
+
+    bool operator==(const BlockEffectData &other) const noexcept {
+        return request == other.request &&
+               effect == other.effect &&
+               window == other.window;
+    }
+};
+
 /**
  * Scale a rect by a scalar.
  */
@@ -1461,6 +1473,10 @@ public:
 
     virtual GLTexture* getWinPreviousTexture(KWin::EffectWindow *) = 0;
 
+    QVector<BlockEffectData> blockEffects() const;
+    void setBlockEffects(Effect *effect, const QString &name, EffectWindow *window);
+    void setUnBlockEffects(Effect *effect, const QString &name, EffectWindow *window);
+
 Q_SIGNALS:
     /**
      * This signal is emitted whenever a new @a screen is added to the system.
@@ -1970,6 +1986,8 @@ protected:
     QVector<EffectPair> loaded_effects;
     // QHash< QString, EffectFactory* > effect_factories;
     CompositingType compositing_type;
+
+    QVector<BlockEffectData> blockedEffects;
 };
 
 /**

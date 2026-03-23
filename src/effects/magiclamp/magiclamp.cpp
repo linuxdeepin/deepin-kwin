@@ -305,6 +305,7 @@ void MagicLampEffect::postPaintScreen()
     auto animationIt = m_animations.begin();
     while (animationIt != m_animations.end()) {
         if ((*animationIt).timeLine.done()) {
+            effects->setUnBlockEffects(this, "blur", animationIt.key());
             unredirect(animationIt.key());
             animationIt = m_animations.erase(animationIt);
         } else {
@@ -340,6 +341,8 @@ void MagicLampEffect::slotWindowMinimized(EffectWindow *w)
         animation.timeLine.setEasingCurve(QEasingCurve::Linear);
     }
 
+    effects->setBlockEffects(this, "blur", w);
+
     redirect(w);
     effects->addRepaintFull();
 }
@@ -360,6 +363,8 @@ void MagicLampEffect::slotWindowUnminimized(EffectWindow *w)
         animation.timeLine.setDuration(m_duration);
         animation.timeLine.setEasingCurve(QEasingCurve::Linear);
     }
+
+    effects->setBlockEffects(this, "blur", w);
 
     redirect(w);
     effects->addRepaintFull();

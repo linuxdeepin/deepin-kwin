@@ -475,6 +475,12 @@ void BlurEffect::prePaintWindow(EffectWindow *w, WindowPrePaintData &data, std::
 
 bool BlurEffect::shouldBlur(const EffectWindow *w, int mask, const WindowPaintData &data) const
 {
+    for (const auto &data : effects->blockEffects()) {
+        if (data.effect == "blur" && data.window == w) {
+            return false;
+        }
+    }
+
     if (effects->activeFullScreenEffect() && !w->data(WindowForceBlurRole).toBool()) {
         return false;
     }

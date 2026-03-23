@@ -27,6 +27,8 @@
 
 #include <optional>
 
+Q_LOGGING_CATEGORY(KWIN_EFFECTS, "kwin_effects", QtWarningMsg)
+
 namespace KWin
 {
 
@@ -704,6 +706,40 @@ QRegion EffectsHandler::mapToRenderTarget(const QRegion &region) const
         result += mapToRenderTarget(QRectF(rect)).toRect();
     }
     return result;
+}
+
+QVector<BlockEffectData> EffectsHandler::blockEffects() const
+{
+    return blockedEffects;
+}
+
+void EffectsHandler::setBlockEffects(Effect *effect, const QString &name, EffectWindow *window)
+{
+    assert(effect);
+
+    if (window) {
+        if (blockedEffects.contains({effect, name, window})) {
+            return;
+        }
+        qDebug(KWIN_EFFECTS) << "[setBlockEffects] " << effect->metaObject()->className() << "is blocking window " << window->windowClass() << " for effect " << name;
+        blockedEffects.append({effect, name, window});
+    } else {
+        qCWarning(KWIN_EFFECTS) << "[setBlockEffects] " << effect->metaObject()->className() << " want block effect " << name << " but window is null";
+    }
+}
+
+void EffectsHandler::setUnBlockEffects(Effect *effect, const QString &name, EffectWindow *window)
+{
+    assert(effect);
+
+    if (window) {
+        auto result = blockedEffects.removeIf([effect, name, window](const BlockEffectData &data) {
+            return data.request == effect && (!window || data.effect == name);
+        });
+        if (result > 0) {
+            qDebug(KWIN_EFFECTS) << "[setBlockEffects] " << effect->metaObject()->className() << " clears block for effect " << name;
+        }
+    }
 }
 
 EffectsHandler *effects = nullptr;
