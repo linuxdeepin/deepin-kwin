@@ -336,8 +336,10 @@ endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
     qt5_add_dbus_interface(kwin_dbus_SRCS org.freedesktop.DBus.Properties.xml dbusproperties_interface)
+    qt5_add_dbus_interface(kwin_dbus_SRCS com.deepin.dde.daemon.Dock.xml ddedock_interface)
 else()
     qt_add_dbus_interface(kwin_dbus_SRCS org.freedesktop.DBus.Properties.xml dbusproperties_interface)
+    qt_add_dbus_interface(kwin_dbus_SRCS org.deepin.dde.Dock1.xml ddedock_interface)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)

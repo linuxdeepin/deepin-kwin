@@ -1,0 +1,100 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+         "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+    <interface name="com.deepin.dde.daemon.Dock">
+        <method name="ActivateWindow">
+            <arg name="win" type="u" direction="in"></arg>
+        </method>
+        <method name="CancelPreviewWindow"></method>
+        <method name="CloseWindow">
+            <arg name="win" type="u" direction="in"></arg>
+        </method>
+        <method name="GetDockedAppsDesktopFiles">
+            <arg name="desktopFiles" type="as" direction="out"></arg>
+        </method>
+        <method name="GetEntryIDs">
+            <arg name="list" type="as" direction="out"></arg>
+        </method>
+        <method name="GetPluginSettings">
+            <arg name="jsonStr" type="s" direction="out"></arg>
+        </method>
+        <method name="IsDocked">
+            <arg name="desktopFile" type="s" direction="in"></arg>
+            <arg name="docked" type="b" direction="out"></arg>
+        </method>
+        <method name="IsOnDock">
+            <arg name="desktopFile" type="s" direction="in"></arg>
+            <arg name="onDock" type="b" direction="out"></arg>
+        </method>
+        <method name="MakeWindowAbove">
+            <arg name="win" type="u" direction="in"></arg>
+        </method>
+        <method name="MaximizeWindow">
+            <arg name="win" type="u" direction="in"></arg>
+        </method>
+        <method name="MergePluginSettings">
+            <arg name="jsonStr" type="s" direction="in"></arg>
+        </method>
+        <method name="MinimizeWindow">
+            <arg name="win" type="u" direction="in"></arg>
+        </method>
+        <method name="MoveEntry">
+            <arg name="index" type="i" direction="in"></arg>
+            <arg name="newIndex" type="i" direction="in"></arg>
+        </method>
+        <method name="MoveWindow">
+            <arg name="win" type="u" direction="in"></arg>
+        </method>
+        <method name="PreviewWindow">
+            <arg name="win" type="u" direction="in"></arg>
+        </method>
+        <method name="QueryWindowIdentifyMethod">
+            <arg name="wid" type="u" direction="in"></arg>
+            <arg name="method" type="s" direction="out"></arg>
+        </method>
+        <method name="RemovePluginSettings">
+            <arg name="key1" type="s" direction="in"></arg>
+            <arg name="key2List" type="as" direction="in"></arg>
+        </method>
+        <method name="RequestDock">
+            <arg name="desktopFile" type="s" direction="in"></arg>
+            <arg name="index" type="i" direction="in"></arg>
+            <arg name="docked" type="b" direction="out"></arg>
+        </method>
+        <method name="RequestUndock">
+            <arg name="desktopFile" type="s" direction="in"></arg>
+            <arg name="undocked" type="b" direction="out"></arg>
+        </method>
+        <method name="SetFrontendWindowRect">
+            <arg name="x" type="i" direction="in"></arg>
+            <arg name="y" type="i" direction="in"></arg>
+            <arg name="width" type="u" direction="in"></arg>
+            <arg name="height" type="u" direction="in"></arg>
+        </method>
+        <method name="SetPluginSettings">
+            <arg name="jsonStr" type="s" direction="in"></arg>
+        </method>
+        <signal name="ServiceRestarted"></signal>
+        <signal name="EntryAdded">
+            <arg name="path" type="o"></arg>
+            <arg name="index" type="i"></arg>
+        </signal>
+        <signal name="EntryRemoved">
+            <arg name="entryId" type="s"></arg>
+        </signal>
+        <signal name="PluginSettingsSynced"></signal>
+        <signal name="DockAppSettingsSynced"></signal>
+        <property name="DockedApps" type="as" access="read"></property>
+        <property name="FrontendWindowRect" type="(iiuu)" access="read"></property>
+        <property name="Position" type="i" access="readwrite"></property>
+        <property name="WindowSizeEfficient" type="u" access="readwrite"></property>
+        <property name="WindowSizeFashion" type="u" access="readwrite"></property>
+        <property name="HideTimeout" type="u" access="readwrite"></property>
+        <property name="Opacity" type="d" access="read"></property>
+        <property name="HideState" type="i" access="read"></property>
+        <property name="Entries" type="ao" access="read"></property>
+        <property name="HideMode" type="i" access="readwrite"></property>
+        <property name="DisplayMode" type="i" access="readwrite"></property>
+        <property name="IconSize" type="u" access="readwrite"></property>
+    </interface>
+</node>

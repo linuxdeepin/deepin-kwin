@@ -69,6 +69,7 @@
 #include "windowstyle/windowstylemanager.h"
 #include "utils/dconfig_reader.h"
 #include "debugpixmap.h"
+#include "ddedock_interface.h"
 
 // KDE
 #include <KConfig>
@@ -382,13 +383,11 @@ void Workspace::init()
     m_fontFamilyConfigReader = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "StandardFont");
 
     DconfigRead<QString>("org.kde.kwin.cursor", "perferredOutput", m_perferredCursorOutput);
-#ifndef BUILD_ON_V25
     m_dockInter = new DBusDock();
     if (m_dockInter) {
         slotDockPositionChanged();
         connect(m_dockInter, &DBusDock::FrontendRectChanged, this, &Workspace::slotDockPositionChanged);
     }
-#endif
     setProcessSessionPath();
 
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
@@ -4062,7 +4061,6 @@ bool Workspace::previewingClient(const Window *c) const
     return previewClients.contains(const_cast<Window*>(c));
 }
 
-#ifndef BUILD_ON_V25
 void Workspace::setDockLastPosition(QRectF rect)
 {
     m_lastDockPos = rect;
@@ -4082,7 +4080,6 @@ void Workspace::slotDockPositionChanged()
         }
     }
 }
-#endif
 
 void Workspace::checkIfFirstWindowOfProcess(Window *client)
 {
@@ -4106,11 +4103,13 @@ void Workspace::reportTimeToSpanEventTracking(struct timeval createTimeval, Wind
 
 int Workspace::getDockDirection()
 {
-#ifndef BUILD_ON_V25
-    if (m_dockInter)
+    if (m_dockInter){
         return m_dockInter->position();
-#endif
-    return 2;
+    }
+    else{
+        qCDebug(KWIN_CORE) << "[Workspace] getDockDirection error, use bottom";
+        return 2;
+    }
 }
 
 bool Workspace::getBlurStatus()

@@ -1,0 +1,91 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.deepin.dde.Dock1">
+    <property access="read" type="(iiii)" name="geometry">
+      <annotation value="QRect" name="org.qtproject.QtDBus.QtTypeName"/>
+    </property>
+    <property access="readwrite" type="b" name="showInPrimary"/>
+    <method name="callShow"/>
+    <method name="ReloadPlugins"/>
+    <method name="GetLoadedPlugins">
+      <arg direction="out" type="as" name="list"/>
+    </method>
+    <method name="resizeDock">
+      <arg direction="in" type="i" name="offset"/>
+      <arg direction="in" type="b" name="dragging"/>
+    </method>
+    <method name="getPluginKey">
+      <arg direction="in" type="s" name="pluginName"/>
+      <arg direction="out" type="s" name="key"/>
+    </method>
+    <method name="getPluginVisible">
+      <arg direction="in" type="s" name="pluginName"/>
+      <arg direction="out" type="b" name="visible"/>
+    </method>
+    <method name="setPluginVisible">
+      <arg direction="in" type="s" name="pluginName"/>
+      <arg direction="in" type="b" name="visible"/>
+    </method>
+    <method name="setItemOnDock">
+      <arg direction="in" type="s" name="settingKey"/>
+      <arg direction="in" type="s" name="itemKey"/>
+      <arg direction="in" type="b" name="visible"/>
+    </method>
+    <signal name="pluginVisibleChanged">
+      <arg type="s"/>
+      <arg type="b"/>
+    </signal>
+    <signal name="pluginsChanged"/>
+  </interface>
+  <interface name="org.deepin.dde.daemon.Dock1">
+    <method name="RequestDock">
+      <arg direction="in" type="s" name="desktopFile"/>
+      <arg direction="in" type="i" name="index"/>
+      <arg direction="out" type="b" name="docked"/>
+    </method>
+    <method name="IsDocked">
+      <arg direction="in" type="s" name="desktopFile"/>
+      <arg direction="out" type="b" name="docked"/>
+    </method>
+    <method name="RequestUndock">
+      <arg direction="in" type="s" name="desktopFile"/>
+      <arg direction="out" type="b" name="docked"/>
+    </method>
+    <method name="ActivateWindow">
+      <arg direction="in" type="u" name="win"/>
+    </method>
+    <property access="readwrite" type="u" name="WindowSizeEfficient"/>
+    <property access="readwrite" type="u" name="WindowSizeFashion"/>
+    <property access="readwrite" type="i" name="DisplayMode"/>
+    <property access="readwrite" type="i" name="HideMode"/>
+    <property access="readwrite" type="i" name="Position"/>
+    <property access="read" type="i" name="HideState"/>
+    <property access="readwrite" type="b" name="Locked"/>
+    <property access="read" type="(iiii)" name="FrontendWindowRect">
+      <annotation value="QRect" name="org.qtproject.QtDBus.QtTypeName"/>
+    </property>
+    <signal name="FrontendWindowRectChanged">
+      <arg direction="out" type="(iiii)" name="FrontendWindowRect"/>
+      <annotation value="QRect" name="org.qtproject.QtDBus.QtTypeName.Out0"/>
+    </signal>
+    <signal name="PositionChanged">
+      <arg direction="out" type="i" name="Position"/>
+    </signal>
+    <signal name="WindowSizeEfficientChanged">
+      <arg direction="out" type="u" name="size"/>
+    </signal>
+    <signal name="WindowSizeFashionChanged">
+      <arg direction="out" type="u" name="size"/>
+    </signal>
+    <signal name="DisplayModeChanged">
+      <arg direction="out" type="i" name="displaymode"/>
+    </signal>
+    <signal name="HideModeChanged">
+      <arg direction="out" type="i" name="hideMode"/>
+    </signal>
+    <signal name="LockedChanged">
+      <arg direction="out" type="b" name="locked"/>
+    </signal>
+  </interface>
+</node>

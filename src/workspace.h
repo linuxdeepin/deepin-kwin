@@ -63,6 +63,30 @@ class KStartupInfo;
 class KStartupInfoData;
 class KStartupInfoId;
 
+#ifdef BUILD_ON_V25
+namespace org {
+  namespace deepin {
+    namespace dde {
+        class OrgDeepinDdeDock1Interface;
+    }
+  }
+}
+using DBusDock = org::deepin::dde::OrgDeepinDdeDock1Interface;
+
+#else
+namespace com {
+  namespace deepin {
+    namespace dde {
+      namespace daemon {
+        class ComDeepinDdeDaemonDockInterface;
+      }
+    }
+  }
+}
+
+using DBusDock = com::deepin::dde::daemon::ComDeepinDdeDaemonDockInterface;
+#endif
+
 namespace KWin
 {
 
@@ -633,10 +657,8 @@ public:
         return m_pids;
     }
 
-#ifndef BUILD_ON_V25
     void setDockLastPosition(QRectF rect);
     QRectF getDockLastPosition();
-#endif
     int getDockDirection();
 
     bool getBlurStatus();
@@ -743,9 +765,7 @@ public Q_SLOTS:
     void tileActiveWindow(uint);
 #endif
 
-#ifndef BUILD_ON_V25
     void slotDockPositionChanged();
-#endif
     void slotShowingDesktopEffectChanged(bool);
 
     void setCurrentPaintingScreen(Output *output) {
@@ -1037,10 +1057,8 @@ private:
 
     bool m_forceDisableRadius = false;
 
-#ifndef BUILD_ON_V25
     QRectF m_lastDockPos = QRectF();
     DBusDock *m_dockInter = nullptr;
-#endif
     QString m_perferredCursorOutput = "";
 
     xcb_window_t m_clientIDHandlingMouseCommand = 0;
