@@ -18,6 +18,7 @@ const blacklist = [
     "ksplashqml ksplashqml",
     "dde-blackwidget dde-blackwidget",
     "dde-desktop dde-desktop",
+    "dde-shell/launchpad",
     "deepin-screen-recorder deepin-screen-recorder",
     "plasmashell plasmashell",
     "plasmashell org.kde.plasmashell"
@@ -44,10 +45,7 @@ var scaleEffect = {
         scaleEffect.closedCurve = effect.readConfig("closedCurve", 10);
     },
     isScaleWindow: function (window) {
-        if (window.windowClass == "dde-lock org.deepin.dde.lock")
-            return true;
-
-        if (blacklist.indexOf(window.windowClass) != -1) {
+        if ((blacklist.indexOf(window.windowClass) != -1) || (blacklist.indexOf(window.caption) !== -1)) {
             return false;
         }
 

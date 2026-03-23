@@ -22,6 +22,10 @@ var blacklist = [
     "wechat wechat",
 ];
 
+const whitelist = [
+    "dde-shell/launchpad"
+];
+
 var dockPos = 2;
 
 function calcDis(x1, x2, y1, y2) {
@@ -81,6 +85,10 @@ function isPopupWindow(window) {
     // If the window is blacklisted, don't animate it.
     if (blacklist.indexOf(window.windowClass) != -1) {
         return false;
+    }
+
+    if (whitelist.indexOf(window.caption) !== -1) {
+        return true;
     }
 
     // Animate combo box popups, tooltips, popup menus, etc.
@@ -178,7 +186,7 @@ var fadingPopupsEffect = {
         var width = windowRect.width;
         var height = windowRect.height;
         var padding = 5;
-        if (window.windowClass == "dde-launcher dde-launcher" && !window.popupMenu) {
+        if ((window.windowClass == "dde-launcher dde-launcher" && !window.popupMenu) || (whitelist.indexOf(window.caption) !== -1) ) {
             point = calDockPos(windowRect);
             point = calcDiagonalPosPadding(point, windowRect, padding);
             return point;
@@ -242,6 +250,11 @@ var fadingPopupsEffect = {
         window.setData(Effect.WindowForceBackgroundContrastRole, null);
         window.setData(Effect.WindowForceBlurRole, null);
     },
+    slotCheckWindowAdded: function (window) {
+        if (whitelist.indexOf(window.caption) !== -1) {
+            fadingPopupsEffect.slotWindowAdded(window, effects.cursorPos);
+        }
+    },
     slotWindowAdded: function (window, cursorpos) {
         if (effects.hasActiveFullScreenEffect) {
             return;
@@ -258,9 +271,10 @@ var fadingPopupsEffect = {
         if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
             return;
         }
-        if (window.startEffectType == 0
+        if ((whitelist.indexOf(window.caption) === -1) &&
+            (window.startEffectType == 0
             || window.startEffectType == 1
-            || window.startEffectType == 16) {
+            || window.startEffectType == 16)) {
             return;
         }
         fadingPopupsEffect.setupForcedRoles(window);
@@ -344,7 +358,7 @@ var fadingPopupsEffect = {
         fadingPopupsEffect.setupForcedRoles(window);
         var windowRect = window.geometry;
         window.fadeOutAnimation;
-        if (window.windowClass != "dde-launcher dde-launcher") {
+        if ((window.windowClass != "dde-launcher dde-launcher") && (whitelist.indexOf(window.caption) === -1)){
             window.fadeOutAnimation = animate({
             window: window,
             curve: fadingPopupsEffect.closedUnmanagedCurve,
@@ -422,6 +436,7 @@ var fadingPopupsEffect = {
 
         effect.configChanged.connect(fadingPopupsEffect.loadConfig);
         effects.unmanagedAddedAnimation.connect(fadingPopupsEffect.slotWindowAdded);
+        effects.windowAdded.connect(fadingPopupsEffect.slotCheckWindowAdded);
         effect.animationEnded.connect(fadingPopupsEffect.cleanupForcedRoles);
         effects.windowClosed.connect(fadingPopupsEffect.slotWindowClosed);
         effects.windowDataChanged.connect(fadingPopupsEffect.slotWindowDataChanged);
