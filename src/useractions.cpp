@@ -1399,7 +1399,9 @@ void Workspace::performWindowOperation(Window *window, Options::WindowOperation 
         QMetaObject::invokeMethod(window, &Window::closeWindow, Qt::QueuedConnection);
         break;
     case Options::MaximizeOp:
-        window->maximize(MaximizeFull);
+        window->maximize(window->maximizeMode() == MaximizeFull
+                            ? MaximizeRestore
+                            : MaximizeFull);
         takeActivity(window, ActivityFocus | ActivityRaise);
         break;
     case Options::HMaximizeOp:
@@ -1610,8 +1612,10 @@ void Workspace::slotWindowToNextScreen()
 void Workspace::slotWindowMaximize()
 {
     if (USABLE_ACTIVE_WINDOW) {
-        resetInteractiveMoveResize();
-        performWindowOperation(m_activeWindow, Options::MaximizeOp);
+        if (m_activeWindow->maximizeMode() != MaximizeFull) {
+            resetInteractiveMoveResize();
+            performWindowOperation(m_activeWindow, Options::MaximizeOp);
+        }
     }
 }
 
