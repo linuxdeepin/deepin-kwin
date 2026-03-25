@@ -9,8 +9,12 @@
 namespace KWin
 {
 
-KWIN_EFFECT_FACTORY(ZoomEffect,
-                    "metadata.json.stripped")
+KWIN_EFFECT_FACTORY_SUPPORTED_ENABLED(ZoomEffect,
+                    "metadata.json.stripped",
+                    return ZoomEffect::supported();
+                    ,
+                    return ZoomEffect::enabledByDefault();
+                    )
 
 } // namespace KWin
 

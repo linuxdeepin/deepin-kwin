@@ -58,6 +58,10 @@ public:
     int configuredFocusDelay() const;
     qreal configuredMoveFactor() const;
     qreal targetZoom() const;
+
+    static bool supported();
+    static bool enabledByDefault();
+
 private Q_SLOTS:
     inline void zoomIn()
     {

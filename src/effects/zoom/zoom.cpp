@@ -11,6 +11,7 @@
 #include "zoom.h"
 // KConfigSkeleton
 #include "effects.h"
+#include "kwinglplatform.h"
 #include "scene/windowitem.h"
 #include "zoomconfig.h"
 #include "scene/workspacescene.h"
@@ -136,6 +137,33 @@ ZoomEffect::~ZoomEffect()
     // Save the zoom value.
     ZoomConfig::setInitialZoom(target_zoom);
     ZoomConfig::self()->save();
+}
+
+
+bool ZoomEffect::supported()
+{
+    return effects->isOpenGLCompositing() && GLFramebuffer::supported() && GLFramebuffer::blitSupported();
+}
+
+bool ZoomEffect::enabledByDefault()
+{
+    GLPlatform *gl = GLPlatform::instance();
+
+    if (gl->isIntel() && gl->chipClass() < SandyBridge) {
+        return false;
+    }
+    if (gl->isPanfrost() && gl->chipClass() <= MaliT8XX) {
+        return false;
+    }
+    // The blur effect works, but is painfully slow (FPS < 5) on Mali and VideoCore
+    if (gl->isLima() || gl->isVideoCore4() || gl->isVideoCore3D()) {
+        return false;
+    }
+    if (gl->isSoftwareEmulation()) {
+        return false;
+    }
+
+    return true;
 }
 
 bool ZoomEffect::isFocusTrackingEnabled() const
