@@ -11,5 +11,5 @@ target_link_libraries(kwin4_effect_touchecho PRIVATE
     kwineffects
     kwinglutils
 
-    KF5::GlobalAccel
+    KF${KF_MAJOR_VERSION}::GlobalAccel
 )
