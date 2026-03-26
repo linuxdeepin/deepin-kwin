@@ -1,3 +1,13 @@
+kwin (4:6.1.10) unstable; urgency=medium
+
+  * feat(touchecho): make GlobalAccel compatibility with KF5/KF6
+  * fix(decorations): handle maximize toggle correctly for already maximized windows
+  * fix(effects): temporarily disable window blur during magiclamp animation
+  * fix: enable touchecho effect on X11
+  * feat: rename touchpoints effect to touchecho
+
+ -- justforlxz <justforlxz@gmail.com>  Thu, 26 Mar 2026 13:05:51 +0800
+
 kwin (4:6.1.9) unstable; urgency=medium
 
   * feat(zoom): add OSD notification for zoom shortcuts
@@ -368,7 +378,7 @@ kwin (4:5.27.2.200-deepin200-1) unstable; urgency=medium
 kwin (4:5.27.2.99-deepin99-1) unstable; urgency=medium
 
   [ zhangyu ]
-  * fix\feat .
+  * fixeat .
 
  -- zhangyu <zhangyud@uniontech.com>  Fri, 19 Apr 2024 17:36:47 +0800
 
