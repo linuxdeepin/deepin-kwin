@@ -733,10 +733,13 @@ void EffectsHandler::setUnBlockEffects(Effect *effect, const QString &name, Effe
     assert(effect);
 
     if (window) {
-        auto result = blockedEffects.removeIf([effect, name, window](const BlockEffectData &data) {
-            return data.request == effect && (!window || data.effect == name);
-        });
-        if (result > 0) {
+        auto it = std::remove_if(blockedEffects.begin(), blockedEffects.end(),
+                                 [effect, name, window](const BlockEffectData &data) {
+                                     return data.request == effect && data.effect == name && data.window == window;
+                                 });
+        bool removed = it != blockedEffects.end();
+        blockedEffects.erase(it, blockedEffects.end());
+        if (removed) {
             qDebug(KWIN_EFFECTS) << "[setBlockEffects] " << effect->metaObject()->className() << " clears block for effect " << name;
         }
     }
