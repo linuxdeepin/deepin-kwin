@@ -85,7 +85,9 @@
         <signal name="PluginSettingsSynced"></signal>
         <signal name="DockAppSettingsSynced"></signal>
         <property name="DockedApps" type="as" access="read"></property>
-        <property name="FrontendWindowRect" type="(iiuu)" access="read"></property>
+        <property name="FrontendWindowRect" type="(iiuu)" access="read">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="QRect"/>
+        </property>
         <property name="Position" type="i" access="readwrite"></property>
         <property name="WindowSizeEfficient" type="u" access="readwrite"></property>
         <property name="WindowSizeFashion" type="u" access="readwrite"></property>
