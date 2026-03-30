@@ -238,7 +238,7 @@ Workspace::Workspace()
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "UnMaximizeActiveWindowChanged", this, SLOT(slotWindowUnMaximize()));
 #else
     QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "QuickTileWindow", this, SLOT(tileActiveWindow(uint)));
-    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "WindowMaximize", this, SLOT(toggleActiveMaximize()));
+    QDBusConnection::sessionBus().connect(QString(), QString(), DBUS_DEEPIN_WM_INTF, "WindowMaximize", this, SLOT(slotToggleWindowMaximize()));
 #endif
 
     QTimer::singleShot(3000, [] {
