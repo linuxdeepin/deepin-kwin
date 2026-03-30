@@ -34,6 +34,7 @@ private:
     inline void drawCircle(float alpha, float cx, float cy, float r);
     inline void paintScreenSetup(int mask, QRegion region, ScreenPaintData &data);
     inline void paintScreenFinish(int mask, QRegion region, ScreenPaintData &data);
+    static inline qreal effectScaleFactor();
 
     void repaint();
 
@@ -45,7 +46,12 @@ private:
     static constexpr float PointSize = 12.0;
     static constexpr float LineWidth = 1.0;
     static constexpr float PointAlpha = 0.2;
+    static constexpr float OuterBorderAlpha = 0.08;
+    static constexpr float InnerBorderAlpha = 0.30;
     static constexpr std::chrono::milliseconds PointLife = std::chrono::milliseconds(300);
+    static inline const QColor CircleFillColor = QColor(232, 232, 232);
+    static inline const QColor OuterBorderColor = QColor(0, 0, 0);
+    static inline const QColor InnerBorderColor = QColor(255, 255, 255);
 
     struct TouchPoint
     {

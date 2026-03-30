@@ -11,6 +11,8 @@
 #include "touchecho.h"
 
 #include <QAction>
+#include <QGuiApplication>
+#include <QScreen>
 #include <kwinglutils.h>
 
 #include <KConfigGroup>
@@ -151,78 +153,79 @@ void TouchEchoEffect::paintScreenFinish(int mask, QRegion region, ScreenPaintDat
     }
 }
 
+qreal TouchEchoEffect::effectScaleFactor()
+{
+    return qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
+}
+
 void TouchEchoEffect::drawCircleGl(float alpha, float cx, float cy, float r)
 {
-    // Draw filled translucent white circle with 1px inner white border (30% opacity)
-    // and 1px outer black border (8% opacity). No shadow.
     static const int num_segments = 80;
     static const float theta = 2 * 3.1415926f / float(num_segments);
-    const auto scale = effects->renderTargetScale();
+    const float scaledR = r * effectScaleFactor();
+    const float penWidth = 1.0 * effectScaleFactor();
+    const float innerOuterR = scaledR;
+    const float innerInnerR = std::max(0.0f, scaledR - penWidth);
+    const float outerInnerR = scaledR;
+    const float outerOuterR = scaledR + penWidth;
 
     GLVertexBuffer *vbo = GLVertexBuffer::streamingBuffer();
     vbo->reset();
     vbo->setUseColor(true);
 
-    // Clamp radii
-    const float pixelThickness = std::max(1.0 / scale, 1.0 / 4.0);
-    const float innerOuterR = r;
-    const float innerInnerR = std::max(0.0f, r - pixelThickness);
-    const float outerInnerR = r;
-    const float outerOuterR = r + pixelThickness;
-
-    // Filled circle (triangle fan)
+    // Filled circle
     {
         QVector<float> verts;
         verts.reserve((num_segments + 2) * 2);
-        verts << cx * scale << cy * scale;
+        verts << cx << cy;
         for (int i = 0; i <= num_segments; ++i) {
             const float ang = theta * i;
-            const float vx = (cx + r * cosf(ang)) * scale;
-            const float vy = (cy + r * sinf(ang)) * scale;
+            const float vx = cx + scaledR * cosf(ang);
+            const float vy = cy + scaledR * sinf(ang);
             verts << vx << vy;
         }
-        QColor fill(232, 232, 232);
+        QColor fill(CircleFillColor);
         fill.setAlphaF(std::max(0.0f, std::min(1.0f, alpha)));
         vbo->setColor(fill);
         vbo->setData(verts.size() / 2, 2, verts.data(), nullptr);
         vbo->render(GL_TRIANGLE_FAN);
     }
 
-    // Inner 1px white border (draw as a thin ring using triangle strip)
+    // Inner white border
     if (innerInnerR < innerOuterR) {
         QVector<float> verts;
         verts.reserve((num_segments + 1) * 4);
         for (int i = 0; i <= num_segments; ++i) {
             const float ang = theta * i;
-            const float ox = (cx + innerOuterR * cosf(ang)) * scale;
-            const float oy = (cy + innerOuterR * sinf(ang)) * scale;
-            const float ix = (cx + innerInnerR * cosf(ang)) * scale;
-            const float iy = (cy + innerInnerR * sinf(ang)) * scale;
+            const float ox = cx + innerOuterR * cosf(ang);
+            const float oy = cy + innerOuterR * sinf(ang);
+            const float ix = cx + innerInnerR * cosf(ang);
+            const float iy = cy + innerInnerR * sinf(ang);
             verts << ox << oy;
             verts << ix << iy;
         }
-        QColor innerCol(255, 255, 255);
-        innerCol.setAlphaF(0.30f);
+        QColor innerCol(InnerBorderColor);
+        innerCol.setAlphaF(std::max(0.0f, std::min(1.0f, alpha * InnerBorderAlpha)));
         vbo->setColor(innerCol);
         vbo->setData(verts.size() / 2, 2, verts.data(), nullptr);
         vbo->render(GL_TRIANGLE_STRIP);
     }
 
-    // Outer 1px black border
+    // Outer black border
     {
         QVector<float> verts;
         verts.reserve((num_segments + 1) * 4);
         for (int i = 0; i <= num_segments; ++i) {
             const float ang = theta * i;
-            const float ix = (cx + outerInnerR * cosf(ang)) * scale;
-            const float iy = (cy + outerInnerR * sinf(ang)) * scale;
-            const float ox = (cx + outerOuterR * cosf(ang)) * scale;
-            const float oy = (cy + outerOuterR * sinf(ang)) * scale;
+            const float ix = cx + outerInnerR * cosf(ang);
+            const float iy = cy + outerInnerR * sinf(ang);
+            const float ox = cx + outerOuterR * cosf(ang);
+            const float oy = cy + outerOuterR * sinf(ang);
             verts << ix << iy;
             verts << ox << oy;
         }
-        QColor outerCol(0, 0, 0);
-        outerCol.setAlphaF(0.08f);
+        QColor outerCol(OuterBorderColor);
+        outerCol.setAlphaF(std::max(0.0f, std::min(1.0f, alpha * OuterBorderAlpha)));
         vbo->setColor(outerCol);
         vbo->setData(verts.size() / 2, 2, verts.data(), nullptr);
         vbo->render(GL_TRIANGLE_STRIP);
@@ -232,28 +235,44 @@ void TouchEchoEffect::drawCircleGl(float alpha, float cx, float cy, float r)
 void TouchEchoEffect::drawCircleQPainter(float alpha, float cx, float cy, float r)
 {
     QPainter *painter = effects->scenePainter();
+    const float scaledR = r * effectScaleFactor();
+    const float penWidth = 1.0 * effectScaleFactor();
+    const float innerR = scaledR;
+    const float outerR = scaledR + penWidth;
+
     painter->save();
-    // Filled translucent (RGB 232,232,232)
-    QColor fill(232, 232, 232);
-    fill.setAlphaF(std::max(0.0f, std::min(1.0f, alpha)));
-    painter->setBrush(fill);
-    painter->setPen(Qt::NoPen);
-    painter->drawEllipse(cx - r, cy - r, r * 2, r * 2);
 
-    // Outer 1px black border (centered on edge)
-    QColor outer(0, 0, 0, static_cast<int>(0.08f * 255));
-    QPen penOuter(outer);
-    penOuter.setWidthF(1.0);
-    painter->setPen(penOuter);
-    painter->setBrush(Qt::NoBrush);
-    painter->drawEllipse(cx - r - 0.5, cy - r - 0.5, (r + 0.5) * 2, (r + 0.5) * 2);
+    // Filled circle
+    {
+        QColor fill(CircleFillColor);
+        fill.setAlphaF(std::max(0.0f, std::min(1.0f, alpha)));
+        painter->setBrush(fill);
+        painter->setPen(Qt::NoPen);
+        painter->drawEllipse(QPointF(cx, cy), scaledR, scaledR);
+    }
 
-    // Inner 1px white border (inside edge)
-    QColor inner(255, 255, 255, static_cast<int>(0.30f * 255));
-    QPen penInner(inner);
-    penInner.setWidthF(1.0);
-    painter->setPen(penInner);
-    painter->drawEllipse(cx - r + 0.5, cy - r + 0.5, (r - 0.5) * 2, (r - 0.5) * 2);
+    // Inner white border
+    {
+        QColor inner(InnerBorderColor);
+        inner.setAlphaF(std::max(0.0f, std::min(1.0f, alpha * InnerBorderAlpha)));
+        QPen penInner(inner);
+        penInner.setWidthF(1.0 * effectScaleFactor());
+        painter->setPen(penInner);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawEllipse(QPointF(cx, cy), innerR, innerR);
+    }
+
+    // Outer black border
+    {
+        QColor outer(OuterBorderColor);
+        outer.setAlphaF(std::max(0.0f, std::min(1.0f, alpha * OuterBorderAlpha)));
+        QPen penOuter(outer);
+        penOuter.setWidthF(1.0 * effectScaleFactor());
+        painter->setPen(penOuter);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawEllipse(QPointF(cx, cy), outerR, outerR);
+    }
+
     painter->restore();
 }
 
@@ -262,7 +281,7 @@ void TouchEchoEffect::paintScreenSetupGl(int, QRegion, ScreenPaintData &data)
     GLShader *shader = ShaderManager::instance()->pushShader(ShaderTrait::UniformColor);
     shader->setUniform(GLShader::ModelViewProjectionMatrix, data.projectionMatrix());
 
-    glLineWidth(2);
+    glLineWidth(1.0);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
