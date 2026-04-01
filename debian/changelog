@@ -1,3 +1,17 @@
+kwin (4:6.1.11) unstable; urgency=medium
+
+  * fix: fix the small launcher effect to maintain consistency with V20's
+    behavior
+  * fix: improve the acquisition function of taskbar position info for V25
+  * fix(dock): add Qt D-Bus annotation for FrontendWindowRect property
+  * fix: compilation on v20
+  * fix(zoom): add hardware support checks for zoom effect
+  * fix: three-finger swipe gesture not working on v20
+  * fix: scale for touchecho effect
+  * chore: add comprehensive input event debugging logs
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 01 Apr 2026 15:16:53 +0800
+
 kwin (4:6.1.10) unstable; urgency=medium
 
   * feat(touchecho): make GlobalAccel compatibility with KF5/KF6
