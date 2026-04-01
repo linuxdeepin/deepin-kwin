@@ -570,17 +570,27 @@ Outputs WaylandBackend::outputs() const
 
 void WaylandBackend::createDpmsFilter()
 {
+    qInfo() << "[WaylandBackend::createDpmsFilter] ENTER";
     if (m_dpmsFilter) {
         // already another output is off
+        qInfo() << "[WaylandBackend::createDpmsFilter] Filter already exists, returning";
         return;
     }
     m_dpmsFilter = std::make_unique<DpmsInputEventFilter>();
     input()->prependInputEventFilter(m_dpmsFilter.get());
+    qInfo() << "[WaylandBackend::createDpmsFilter] EXIT - DpmsInputEventFilter created and prepended to input filters";
 }
 
 void WaylandBackend::clearDpmsFilter()
 {
-    m_dpmsFilter.reset();
+    qInfo() << "[WaylandBackend::clearDpmsFilter] ENTER";
+    if (m_dpmsFilter) {
+        qInfo() << "[WaylandBackend::clearDpmsFilter] Removing DpmsInputEventFilter - input events will pass through";
+        m_dpmsFilter.reset();
+    } else {
+        qInfo() << "[WaylandBackend::clearDpmsFilter] No filter exists";
+    }
+    qInfo() << "[WaylandBackend::clearDpmsFilter] EXIT";
 }
 
 Output *WaylandBackend::createVirtualOutput(const QString &name, const QSize &size, double scale)

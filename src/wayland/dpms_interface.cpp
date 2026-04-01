@@ -107,7 +107,9 @@ void DpmsInterface::org_kde_kwin_dpms_destroy_resource(Resource *resource)
 
 void DpmsInterface::org_kde_kwin_dpms_set(Resource *resource, uint32_t mode)
 {
+    qInfo() << "[DpmsInterface::org_kde_kwin_dpms_set] ENTER - mode:" << mode;
     if (!m_output || m_output->isRemoved()) {
+        qInfo() << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT - No output or output removed";
         return;
     }
 
@@ -126,14 +128,17 @@ void DpmsInterface::org_kde_kwin_dpms_set(Resource *resource, uint32_t mode)
         dpmsMode = Output::DpmsMode::Off;
         break;
     default:
+        qInfo() << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT - Invalid mode:" << mode;
         return;
     }
 
     if (m_output->display()) {
         auto connection = m_output->display()->getConnection(resource->client());
-        qCDebug(KWIN_CORE) << "KWin Dpms Interface protocol:" << connection->executablePath() << "set mode:" << mode;
+        qInfo() << "[DpmsInterface::org_kde_kwin_dpms_set] Client:" << connection->executablePath() << "set DPMS mode to:" << mode << "(will block input if Off)";
     }
+    qInfo() << "[DpmsInterface::org_kde_kwin_dpms_set] Calling setDpmsMode on output:" << m_output->handle()->name() << "to mode:" << dpmsMode;
     m_output->handle()->setDpmsMode(dpmsMode);
+    qInfo() << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT";
 }
 
 void DpmsInterface::sendSupported()

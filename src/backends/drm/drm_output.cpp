@@ -256,7 +256,9 @@ QList<std::shared_ptr<OutputMode>> DrmOutput::getModes() const
 
 void DrmOutput::setDpmsMode(DpmsMode mode)
 {
+    qInfo() << "[DrmOutput::setDpmsMode] ENTER - Output:" << name() << "RequestedMode:" << mode << "CurrentMode:" << dpmsMode() << "Enabled:" << isEnabled();
     if (mode == DpmsMode::Off) {
+        qInfo() << "[DrmOutput::setDpmsMode] DPMS mode set to Off - creating input filter to block events";
         if (!m_turnOffTimer.isActive()) {
             Q_EMIT aboutToTurnOff(std::chrono::milliseconds(m_turnOffTimer.interval()));
             m_turnOffTimer.start();
@@ -296,10 +298,12 @@ bool DrmOutput::setDrmDpmsMode(DpmsMode mode)
         qCDebug(KWIN_DRM) << "On GPU drm commit pipelines success: " << mode;
         updateDpmsMode(mode);
         if (active) {
+            qInfo() << "[DrmOutput::setDrmDpmsMode] Output turning ON - unblocking rendering and input";
             m_gpu->platform()->checkOutputsAreOn();
             m_renderLoop->uninhibit();
             m_renderLoop->scheduleRepaint();
         } else {
+            qInfo() << "[DrmOutput::setDrmDpmsMode] Output turning OFF - inhibiting rendering and creating input filter";
             m_renderLoop->inhibit();
             m_gpu->platform()->createDpmsFilter();
         }
