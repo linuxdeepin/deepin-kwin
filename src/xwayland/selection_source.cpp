@@ -86,15 +86,18 @@ bool WlSource::handleSelectionRequest(xcb_selection_request_event_t *event)
 void WlSource::sendTargets(xcb_selection_request_event_t *event, bool success)
 {
     QVector<xcb_atom_t> targets;
-    targets.resize(m_offers.size() + 2);
-    targets[0] = atoms->timestamp;
-    targets[1] = atoms->targets;
+    targets << atoms->timestamp << atoms->targets;
 
-    size_t cnt = 2;
     if (success) {
         for (const auto &mime : std::as_const(m_offers)) {
-            targets[cnt] = Selection::mimeTypeToAtom(mime);
-            cnt++;
+            const auto atom = Selection::mimeTypeToAtom(mime);
+            if (atom != XCB_ATOM_NONE) {
+                targets.append(atom);
+            }
+            const auto rawAtom = Selection::mimeTypeToAtomLiteral(mime);
+            if (rawAtom != atom && rawAtom != XCB_ATOM_NONE) {
+                targets.append(rawAtom);
+            }
         }
     }
 
@@ -103,7 +106,7 @@ void WlSource::sendTargets(xcb_selection_request_event_t *event, bool success)
                         event->requestor,
                         event->property,
                         XCB_ATOM_ATOM,
-                        32, cnt, targets.data());
+                        32, targets.size(), targets.data());
     qCWarning(KWIN_XWL) << "send targets from " << (m_dsi ? m_dsi->processId() : -1)
             << " to requestor " << event->requestor << selection()->getWindowPID(event->requestor);
     sendSelectionNotify(event, success);

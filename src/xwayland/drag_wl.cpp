@@ -258,14 +258,15 @@ void Xvisit::sendEnter()
         data.data32[1] |= 1;
 
         QVector<xcb_atom_t> targets;
-        targets.resize(mimesCount);
 
-        size_t cnt = 0;
         for (const auto &mimeName : mimeTypesNames) {
             const auto atom = Selection::mimeTypeToAtom(mimeName);
+            const auto rawAtom = Selection::mimeTypeToAtomLiteral(mimeName);
             if (atom != XCB_ATOM_NONE) {
-                targets[cnt] = atom;
-                cnt++;
+                targets.append(atom);
+            }
+            if (rawAtom != XCB_ATOM_NONE && rawAtom != atom) {
+                targets.append(rawAtom);
             }
         }
 
@@ -274,7 +275,7 @@ void Xvisit::sendEnter()
                             m_dnd->window(),
                             atoms->xdnd_type_list,
                             XCB_ATOM_ATOM,
-                            32, cnt, targets.data());
+                            32, targets.size(), targets.data());
     }
     Drag::sendClientMessage(m_target->window(), atoms->xdnd_enter, &data);
 }
