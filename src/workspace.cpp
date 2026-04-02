@@ -27,7 +27,6 @@
 #include "cursor.h"
 #include "dbusinterface.h"
 #include "deleted.h"
-#include "dockrect.h"
 #include "effects.h"
 #include "focuschain.h"
 #include "group.h"
@@ -77,8 +76,13 @@
 #include <KLocalizedString>
 #include <KStartupInfo>
 // Qt
+#include <QDBusConnection>
+#include <QDBusPendingCall>
+#include <QDBusPendingReply>
+#include <QFuture>
+#include <QFutureWatcher>
 #include <QtConcurrentRun>
-#include <qscreen.h>
+#include <QScreen>
 #include <QPainter>
 #include <QFont>
 
@@ -98,6 +102,14 @@
 #define CONFIGMANAGER_SERVICE   "org.desktopspec.ConfigManager"
 #define CONFIGMANAGER_INTERFACE "org.desktopspec.ConfigManager"
 #define CONFIGMANAGER_MANAGER_INTERFACE "org.desktopspec.ConfigManager.Manager"
+
+#ifdef BUILD_ON_V25
+#define DOCK_SERVICE_NAME "org.deepin.dde.daemon.Dock1"
+#define DOCK_OBJECT_NAME "/org/deepin/dde/Daemon/Dock1"
+#else
+#define DOCK_SERVICE_NAME "com.deepin.dde.daemon.Dock"
+#define DOCK_OBJECT_NAME "/com/deepin/dde/daemon/Dock"
+#endif
 
 namespace KWin
 {
@@ -383,11 +395,23 @@ void Workspace::init()
     m_fontFamilyConfigReader = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "StandardFont");
 
     DconfigRead<QString>("org.kde.kwin.cursor", "perferredOutput", m_perferredCursorOutput);
-    m_dockInter = new DBusDock();
-    if (m_dockInter) {
-        slotDockPositionChanged();
-        connect(m_dockInter, &DBusDock::FrontendRectChanged, this, &Workspace::slotDockPositionChanged);
+
+    m_dockServiceWatcher = new QDBusServiceWatcher(
+        DOCK_SERVICE_NAME,
+        QDBusConnection::sessionBus(),
+        QDBusServiceWatcher::WatchForRegistration | QDBusServiceWatcher::WatchForUnregistration,
+        this
+    );
+
+    connect(m_dockServiceWatcher, &QDBusServiceWatcher::serviceRegistered,
+            this, &Workspace::slotDockServiceRegistered);
+    connect(m_dockServiceWatcher, &QDBusServiceWatcher::serviceUnregistered,
+            this, &Workspace::slotDockServiceUnregistered);
+
+    if (QDBusConnection::sessionBus().interface()->isServiceRegistered(DOCK_SERVICE_NAME)) {
+        slotDockServiceRegistered(DOCK_SERVICE_NAME);
     }
+
     setProcessSessionPath();
 
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
@@ -4061,24 +4085,99 @@ bool Workspace::previewingClient(const Window *c) const
     return previewClients.contains(const_cast<Window*>(c));
 }
 
-void Workspace::setDockLastPosition(QRectF rect)
+#ifndef BUILD_ON_V25
+void Workspace::slotDockGeometryChanged()
 {
-    m_lastDockPos = rect;
-}
+    QFutureWatcher<QRect> *watcher = new QFutureWatcher<QRect>(this);
 
-QRectF Workspace::getDockLastPosition()
-{
-    return m_lastDockPos;
+    connect(watcher, &QFutureWatcher<QRect>::finished, this, [watcher, this] {
+        QRect rect = watcher->result();
+        m_lastDockGeometry = rect;
+    });
+    connect(watcher, &QFutureWatcher<QRect>::finished,
+            watcher, &QFutureWatcher<QRect>::deleteLater);
+
+    QFuture<QRect> future = QtConcurrent::run([this]() -> QRect {
+        DBusDock dockInter(DOCK_SERVICE_NAME, DOCK_OBJECT_NAME, QDBusConnection::sessionBus());
+        return dockInter.frontendWindowRect();
+    });
+
+    watcher->setFuture(future);
 }
+#endif
 
 void Workspace::slotDockPositionChanged()
 {
-    if (m_dockInter) {
-        QRect rect = m_dockInter->frontendRect();
-        if (rect != QRect()) {
-            setDockLastPosition(rect);
-        }
+    QFutureWatcher<int> *watcher = new QFutureWatcher<int>(this);
+
+    connect(watcher, &QFutureWatcher<int>::finished, this, [watcher, this] {
+        int pos = watcher->result();
+        m_dockDirection = pos;
+    });
+    connect(watcher, &QFutureWatcher<int>::finished,
+            watcher, &QFutureWatcher<int>::deleteLater);
+
+    QFuture<int> future = QtConcurrent::run([this]() -> int {
+        DBusDock dockInter(DOCK_SERVICE_NAME, DOCK_OBJECT_NAME, QDBusConnection::sessionBus());
+        return dockInter.position();
+    });
+
+    watcher->setFuture(future);
+}
+
+void Workspace::slotDockPropertiesChanged(const QDBusMessage &msg)
+{
+    QList<QVariant> arguments = msg.arguments();
+    if (3 != arguments.count())
+        return;
+
+    const QVariantMap changedProps = qdbus_cast<QVariantMap>(arguments.at(1).value<QDBusArgument>());
+
+#ifndef BUILD_ON_V25
+    if (changedProps.contains("FrontendWindowRect")) {
+        slotDockGeometryChanged();
     }
+#endif
+
+    if (changedProps.contains("Position")) {
+        slotDockPositionChanged();
+    }
+}
+
+void Workspace::slotDockServiceRegistered(const QString &serviceName)
+{
+    Q_UNUSED(serviceName);
+
+    // Connect to standard DBus PropertiesChanged signal
+    QDBusConnection::sessionBus().connect(
+        DOCK_SERVICE_NAME,
+        DOCK_OBJECT_NAME,
+        QStringLiteral("org.freedesktop.DBus.Properties"),
+        QStringLiteral("PropertiesChanged"),
+        this,
+        SLOT(slotDockPropertiesChanged(const QDBusMessage&))
+    );
+
+#ifndef BUILD_ON_V25
+    slotDockGeometryChanged();
+#endif
+
+    slotDockPositionChanged();
+}
+
+void Workspace::slotDockServiceUnregistered(const QString &serviceName)
+{
+    Q_UNUSED(serviceName);
+
+    // Disconnect from DBus PropertiesChanged signal
+    QDBusConnection::sessionBus().disconnect(
+        DOCK_SERVICE_NAME,
+        DOCK_OBJECT_NAME,
+        QStringLiteral("org.freedesktop.DBus.Properties"),
+        QStringLiteral("PropertiesChanged"),
+        this,
+        SLOT(slotDockPropertiesChanged(const QDBusMessage&))
+    );
 }
 
 void Workspace::checkIfFirstWindowOfProcess(Window *client)
@@ -4101,15 +4200,16 @@ void Workspace::reportTimeToSpanEventTracking(struct timeval createTimeval, Wind
     }
 }
 
-int Workspace::getDockDirection()
+#ifndef BUILD_ON_V25
+QRectF Workspace::getDockLastGeometry() const
 {
-    if (m_dockInter){
-        return m_dockInter->position();
-    }
-    else{
-        qCDebug(KWIN_CORE) << "[Workspace] getDockDirection error, use bottom";
-        return 2;
-    }
+    return m_lastDockGeometry;
+}
+#endif
+
+int Workspace::getDockDirection() const
+{
+    return m_dockDirection;
 }
 
 bool Workspace::getBlurStatus()

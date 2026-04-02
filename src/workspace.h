@@ -57,6 +57,8 @@
 #define DBUS_PROHIBITSCREENSHOT_OBJ       "/com/deepin/prohibitscreenshot"
 #define DBUS_PROHIBITSCREENSHOT_INTF      "deepin.prohibitscreenshot.interface"
 
+class QDBusMessage;
+class QDBusServiceWatcher;
 class KConfig;
 class KConfigGroup;
 class KStartupInfo;
@@ -64,27 +66,11 @@ class KStartupInfoData;
 class KStartupInfoId;
 
 #ifdef BUILD_ON_V25
-namespace org {
-  namespace deepin {
-    namespace dde {
-        class OrgDeepinDdeDock1Interface;
-    }
-  }
-}
-using DBusDock = org::deepin::dde::OrgDeepinDdeDock1Interface;
-
+class OrgDeepinDdeDaemonDock1Interface;
+using DBusDock = OrgDeepinDdeDaemonDock1Interface;
 #else
-namespace com {
-  namespace deepin {
-    namespace dde {
-      namespace daemon {
-        class ComDeepinDdeDaemonDockInterface;
-      }
-    }
-  }
-}
-
-using DBusDock = com::deepin::dde::daemon::ComDeepinDdeDaemonDockInterface;
+class ComDeepinDdeDaemonDockInterface;
+using DBusDock = ComDeepinDdeDaemonDockInterface;
 #endif
 
 namespace KWin
@@ -111,7 +97,6 @@ class Output;
 class ColorMapper;
 class Compositor;
 class Deleted;
-class DBusDock;
 class Group;
 class InternalWindow;
 class KillWindow;
@@ -657,9 +642,6 @@ public:
         return m_pids;
     }
 
-    void setDockLastPosition(QRectF rect);
-    QRectF getDockLastPosition();
-    int getDockDirection();
 
     bool getBlurStatus();
     bool isEffectDuring() { return m_isEffectDuring; }
@@ -765,7 +747,17 @@ public Q_SLOTS:
     void tileActiveWindow(uint);
 #endif
 
+#ifndef BUILD_ON_V25
+    void slotDockGeometryChanged();
+    QRectF getDockLastGeometry() const;
+#endif
+
     void slotDockPositionChanged();
+    int getDockDirection() const;
+
+    void slotDockPropertiesChanged(const QDBusMessage &msg);
+    void slotDockServiceRegistered(const QString &serviceName);
+    void slotDockServiceUnregistered(const QString &serviceName);
     void slotShowingDesktopEffectChanged(bool);
 
     void setCurrentPaintingScreen(Output *output) {
@@ -1057,8 +1049,9 @@ private:
 
     bool m_forceDisableRadius = false;
 
-    QRectF m_lastDockPos = QRectF();
-    DBusDock *m_dockInter = nullptr;
+    QRectF m_lastDockGeometry;
+    int m_dockDirection = 2;
+    QDBusServiceWatcher *m_dockServiceWatcher = nullptr;
     QString m_perferredCursorOutput = "";
 
     xcb_window_t m_clientIDHandlingMouseCommand = 0;

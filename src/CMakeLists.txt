@@ -213,7 +213,6 @@ target_sources(kwin PRIVATE
     windowstyle/decorationstyle.cpp
     resources.qrc
     configreader.cpp
-    dockrect.cpp
     debugpixmap.cpp
 )
 
