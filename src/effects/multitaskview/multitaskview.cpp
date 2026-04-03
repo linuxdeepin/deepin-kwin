@@ -159,7 +159,7 @@ void MultiViewBackgroundManager::setWorkspaceBackgroundForMonitor(const int inde
 #else
     KConfig m_deepinWMConfig("deepinwmrc", KConfig::CascadeConfig);
     KConfigGroup m_deepinWMWorkspaceBackgroundGroup(m_deepinWMConfig.group("WorkspaceBackground"));
-    m_deepinWMWorkspaceBackgroundGroup.writeEntry(QString("%1%2%3").arg(index).arg("@" ,strMonitorName), uri);
+    m_deepinWMWorkspaceBackgroundGroup.writeEntry(QString("%1%2%3").arg(index).arg("@", strMonitorName), uri, KConfig::Notify);
     m_deepinWMConfig.sync();
 
     QStringList allWallpaper = _gsettings_dde_appearance->get(GsettingsBackgroundUri).toStringList();
