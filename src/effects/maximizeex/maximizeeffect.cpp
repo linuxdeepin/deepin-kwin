@@ -173,10 +173,12 @@ void MaximizeEffect::cleanup()
     if (m_activated)
         return;
 
+    effects->makeOpenGLContextCurrent();
     m_maxiWin = nullptr;
     m_texture.reset();
     m_fbo.reset();
     effects->setActiveFullScreenEffect(nullptr);
+    effects->doneOpenGLContextCurrent();
 }
 
 void MaximizeEffect::slotWindowMaximizedStateChanged(EffectWindow *window, bool horizontal, bool vertical)
