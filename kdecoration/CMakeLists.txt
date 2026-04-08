@@ -20,8 +20,8 @@ include(ECMGenerateExportHeader)
 include(FeatureSummary)
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
-include(KDEClangFormat)
-include(KDEGitCommitHooks)
+# include(KDEClangFormat)
+# include(KDEGitCommitHooks)
 
 ecm_setup_version(${PROJECT_VERSION} VARIABLE_PREFIX KDECORATION2
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kdecoration2_version.h"
@@ -60,9 +60,9 @@ if(BUILD_TESTING)
 endif()
 
 # add clang-format target for all our real source files
-file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
-kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
-kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
+# file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
+# kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+# kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
 # create a Config.cmake and a ConfigVersion.cmake file and install them
 #set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KDecoration2")
