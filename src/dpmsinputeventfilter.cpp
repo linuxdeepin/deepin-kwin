@@ -9,6 +9,7 @@
 #include "dpmsinputeventfilter.h"
 #include "core/output.h"
 #include "input_event.h"
+#include "input_filter_logging.h"
 #include "main.h"
 #include "wayland/seat_interface.h"
 #include "wayland_server.h"
@@ -25,7 +26,7 @@ DpmsInputEventFilter::DpmsInputEventFilter()
 {
     KSharedConfig::Ptr kwinSettings = kwinApp()->config();
     m_enableDoubleTap = kwinSettings->group("Wayland").readEntry<bool>("DoubleTapWakeup", true);
-    qInfo() << "[DpmsInputEventFilter::DpmsInputEventFilter] Constructor called - will block all input events";
+    qCWarning(KWIN_INPUT_FILTER) << "[DpmsInputEventFilter::DpmsInputEventFilter] Constructor called - will block all input events";
 }
 
 DpmsInputEventFilter::~DpmsInputEventFilter() = default;
@@ -44,14 +45,14 @@ bool DpmsInputEventFilter::wheelEvent(WheelEvent *event)
 
 bool DpmsInputEventFilter::keyEvent(KeyEvent *event)
 {
-    qInfo() << "[DpmsInputEventFilter::keyEvent] ENTER - Key:" << event->key()
-            << "Text:" << event->text()
-            << "Type:" << (event->type() == QKeyEvent::KeyPress ? "KeyPress" : "KeyRelease")
-            << "Modifiers:" << Qt::KeyboardModifiers(event->modifiers());
+    qCWarning(KWIN_INPUT_FILTER) << "[DpmsInputEventFilter::keyEvent] ENTER - Key:" << event->key()
+                                 << "Text:" << event->text()
+                                 << "Type:" << (event->type() == QKeyEvent::KeyPress ? "KeyPress" : "KeyRelease")
+                                 << "Modifiers:" << Qt::KeyboardModifiers(event->modifiers());
     if (event->type() == QKeyEvent::KeyPress) {
         notify();
     }
-    qInfo() << "[DpmsInputEventFilter::keyEvent] EXIT - Returning true (event blocked)";
+    qCWarning(KWIN_INPUT_FILTER) << "[DpmsInputEventFilter::keyEvent] EXIT - Returning true (event blocked)";
     return true;
 }
 

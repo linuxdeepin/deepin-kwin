@@ -11,7 +11,6 @@
 #pragma once
 #include <config-kwin.h>
 
-#include <QDebug>
 #include <QObject>
 #include <QPoint>
 #include <QPointer>
@@ -195,9 +194,7 @@ public:
     template<class UnaryPredicate>
     void processFilters(UnaryPredicate function)
     {
-        qInfo() << "[InputRedirection::processFilters] ENTER - Filter count:" << m_filters.size();
-        bool result = std::any_of(m_filters.constBegin(), m_filters.constEnd(), function);
-        qInfo() << "[InputRedirection::processFilters] EXIT - Any filter returned true:" << result;
+        std::any_of(m_filters.constBegin(), m_filters.constEnd(), function);
     }
 
     /**

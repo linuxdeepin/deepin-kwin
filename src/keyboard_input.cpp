@@ -7,6 +7,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "keyboard_input.h"
+#include "input_filter_logging.h"
 
 #include <config-kwin.h>
 
@@ -260,7 +261,7 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         Q_UNREACHABLE();
     }
 
-    qInfo() << "[KeyboardInputRedirection::processKey] ENTER - KeyCode:" << key << "State:" << state << "Type:" << (type == QEvent::KeyPress ? "Press" : "Release") << "AutoRepeat:" << autoRepeat << "Inited:" << m_inited;
+    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] ENTER - KeyCode:" << key << "State:" << state << "Type:" << (type == QEvent::KeyPress ? "Press" : "Release") << "AutoRepeat:" << autoRepeat << "Inited:" << m_inited;
 
     const quint32 previousLayout = m_xkb->currentLayout();
     if (!autoRepeat) {
@@ -269,7 +270,7 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
 
     const xkb_keysym_t keySym = m_xkb->currentKeysym();
     const Qt::KeyboardModifiers globalShortcutsModifiers = m_xkb->modifiersRelevantForGlobalShortcuts(key);
-    qInfo() << "[KeyboardInputRedirection::processKey] KeySym:" << keySym << "QtModifiers:" << m_xkb->modifiers() << "GlobalShortcutsModifiers:" << globalShortcutsModifiers;
+    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] KeySym:" << keySym << "QtModifiers:" << m_xkb->modifiers() << "GlobalShortcutsModifiers:" << globalShortcutsModifiers;
     KeyEvent event(type,
                    m_xkb->toQtKey(keySym, key, globalShortcutsModifiers ? Qt::ControlModifier : Qt::KeyboardModifiers()),
                    m_xkb->modifiers(),
@@ -281,28 +282,28 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
                    device);
     event.setModifiersRelevantForGlobalShortcuts(globalShortcutsModifiers);
 
-    qInfo() << "[KeyboardInputRedirection::processKey] KeyEvent created - KeyQt:" << event.key() << "Modifiers:" << event.modifiers();
+    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] KeyEvent created - KeyQt:" << event.key() << "Modifiers:" << event.modifiers();
 
-    qInfo() << "[KeyboardInputRedirection::processKey] Calling processSpies";
+    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Calling processSpies";
     m_input->processSpies(std::bind(&InputEventSpy::keyEvent, std::placeholders::_1, &event));
 
     if (!m_inited) {
-        qInfo() << "[KeyboardInputRedirection::processKey] EXIT - Not inited yet";
+        qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] EXIT - Not inited yet";
         return;
     }
 
-    qInfo() << "[KeyboardInputRedirection::processKey] Checking grab";
+    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Checking grab";
     if (m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event)) && !isTopScreen()) {
-        qInfo() << "[KeyboardInputRedirection::processKey] EXIT - Grab handled the event";
+        qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] EXIT - Grab handled the event";
         m_xkb->forwardModifiers();
         return;
     }
-    qInfo() << "[KeyboardInputRedirection::processKey] Grab not handled, proceeding to filters";
+    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Grab not handled, proceeding to filters";
 
     input()->setLastInputHandler(this);
-    qInfo() << "[KeyboardInputRedirection::processKey] Calling processFilters";
+    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Calling processFilters";
     m_input->processFilters(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event));
-    qInfo() << "[KeyboardInputRedirection::processKey] Filters processing completed";
+    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Filters processing completed";
 
     m_xkb->forwardModifiers();
     if (auto *inputmethod = kwinApp()->inputMethod()) {

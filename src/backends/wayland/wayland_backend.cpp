@@ -17,6 +17,7 @@
 
 #include "dpmsinputeventfilter.h"
 #include "input.h"
+#include "input_filter_logging.h"
 
 #include <KWayland/Client/keyboard.h>
 #include <KWayland/Client/pointer.h>
@@ -570,27 +571,27 @@ Outputs WaylandBackend::outputs() const
 
 void WaylandBackend::createDpmsFilter()
 {
-    qInfo() << "[WaylandBackend::createDpmsFilter] ENTER";
+    qCWarning(KWIN_INPUT_FILTER) << "[WaylandBackend::createDpmsFilter] ENTER";
     if (m_dpmsFilter) {
         // already another output is off
-        qInfo() << "[WaylandBackend::createDpmsFilter] Filter already exists, returning";
+        qCWarning(KWIN_INPUT_FILTER) << "[WaylandBackend::createDpmsFilter] Filter already exists, returning";
         return;
     }
     m_dpmsFilter = std::make_unique<DpmsInputEventFilter>();
     input()->prependInputEventFilter(m_dpmsFilter.get());
-    qInfo() << "[WaylandBackend::createDpmsFilter] EXIT - DpmsInputEventFilter created and prepended to input filters";
+    qCWarning(KWIN_INPUT_FILTER) << "[WaylandBackend::createDpmsFilter] EXIT - DpmsInputEventFilter created and prepended to input filters";
 }
 
 void WaylandBackend::clearDpmsFilter()
 {
-    qInfo() << "[WaylandBackend::clearDpmsFilter] ENTER";
+    qCWarning(KWIN_INPUT_FILTER) << "[WaylandBackend::clearDpmsFilter] ENTER";
     if (m_dpmsFilter) {
-        qInfo() << "[WaylandBackend::clearDpmsFilter] Removing DpmsInputEventFilter - input events will pass through";
+        qCWarning(KWIN_INPUT_FILTER) << "[WaylandBackend::clearDpmsFilter] Removing DpmsInputEventFilter - input events will pass through";
         m_dpmsFilter.reset();
     } else {
-        qInfo() << "[WaylandBackend::clearDpmsFilter] No filter exists";
+        qCWarning(KWIN_INPUT_FILTER) << "[WaylandBackend::clearDpmsFilter] No filter exists";
     }
-    qInfo() << "[WaylandBackend::clearDpmsFilter] EXIT";
+    qCWarning(KWIN_INPUT_FILTER) << "[WaylandBackend::clearDpmsFilter] EXIT";
 }
 
 Output *WaylandBackend::createVirtualOutput(const QString &name, const QSize &size, double scale)

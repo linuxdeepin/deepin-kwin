@@ -26,6 +26,7 @@
 #include "drm_render_backend.h"
 #include "drm_virtual_output.h"
 #include "gbm_dmabuf.h"
+#include "input_filter_logging.h"
 #include "utils/udev.h"
 // KF
 #include <KCoreAddons>
@@ -100,45 +101,45 @@ Outputs DrmBackend::outputs() const
 
 void DrmBackend::createDpmsFilter()
 {
-    qInfo() << "[DrmBackend::createDpmsFilter] ENTER";
+    qCWarning(KWIN_INPUT_FILTER) << "[DrmBackend::createDpmsFilter] ENTER";
     if (m_dpmsFilter) {
         // already another output is off
-        qInfo() << "[DrmBackend::createDpmsFilter] Filter already exists, returning";
+        qCWarning(KWIN_INPUT_FILTER) << "[DrmBackend::createDpmsFilter] Filter already exists, returning";
         return;
     }
     m_dpmsFilter = std::make_unique<DpmsInputEventFilter>();
     input()->prependInputEventFilter(m_dpmsFilter.get());
-    qInfo() << "[DrmBackend::createDpmsFilter] EXIT - DpmsInputEventFilter created and prepended to input filters";
+    qCWarning(KWIN_INPUT_FILTER) << "[DrmBackend::createDpmsFilter] EXIT - DpmsInputEventFilter created and prepended to input filters";
 }
 
 void DrmBackend::turnOutputsOn()
 {
-    qInfo() << "[DrmBackend::turnOutputsOn] ENTER";
+    qCWarning(KWIN_INPUT_FILTER) << "[DrmBackend::turnOutputsOn] ENTER";
     m_dpmsFilter.reset();
     qCInfo(KWIN_DRM) << "Turn outputs on";
     for (Output *output : std::as_const(m_outputs)) {
         qCDebug(KWIN_DRM) << "Current output info:" << output->name() << " enabled:" << output->isEnabled() << " dpms:" << output->dpmsMode();
         if (output->isEnabled()) {
-            qInfo() << "[DrmBackend::turnOutputsOn] Setting output" << output->name() << "to DPMS On";
+            qCWarning(KWIN_INPUT_FILTER) << "[DrmBackend::turnOutputsOn] Setting output" << output->name() << "to DPMS On";
             output->setDpmsMode(Output::DpmsMode::On);
         }
     }
-    qInfo() << "[DrmBackend::turnOutputsOn] EXIT";
+    qCWarning(KWIN_INPUT_FILTER) << "[DrmBackend::turnOutputsOn] EXIT";
 }
 
 void DrmBackend::turnOutputsOff()
 {
-    qInfo() << "[DrmBackend::turnOutputsOff] ENTER";
+    qCWarning(KWIN_INPUT_FILTER) << "[DrmBackend::turnOutputsOff] ENTER";
     qCInfo(KWIN_DRM) << "Turn outputs off";
     for (Output *output : std::as_const(m_outputs)) {
         qCDebug(KWIN_DRM) << " Current output info:" << output->name() << " enabled:" << output->isEnabled() << " dpms:" << output->dpmsMode();
         auto drmOutput = qobject_cast<DrmOutput *>(output);
         if (drmOutput && drmOutput->isEnabled()) {
-            qInfo() << "[DrmBackend::turnOutputsOff] Setting output" << output->name() << "to DPMS Off (will create input filter)";
+            qCWarning(KWIN_INPUT_FILTER) << "[DrmBackend::turnOutputsOff] Setting output" << output->name() << "to DPMS Off (will create input filter)";
             drmOutput->setDrmDpmsMode(Output::DpmsMode::Off);
         }
     }
-    qInfo() << "[DrmBackend::turnOutputsOff] EXIT";
+    qCWarning(KWIN_INPUT_FILTER) << "[DrmBackend::turnOutputsOff] EXIT";
 }
 
 void DrmBackend::checkOutputsAreOn()
