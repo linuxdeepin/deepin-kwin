@@ -85,6 +85,7 @@ target_sources(kwin PRIVATE
     decorations/settings.cpp
     deleted.cpp
     dmabuftexture.cpp
+    dockrect.cpp
     dpmsinputeventfilter.cpp
     effectloader.cpp
     effects.cpp
@@ -335,11 +336,14 @@ else()
 endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
+    set_source_files_properties(com.deepin.dde.daemon.Dock.xml PROPERTIES
+        INCLUDE dockrect.h
+    )
     qt5_add_dbus_interface(kwin_dbus_SRCS org.freedesktop.DBus.Properties.xml dbusproperties_interface)
     qt5_add_dbus_interface(kwin_dbus_SRCS com.deepin.dde.daemon.Dock.xml ddedock_interface)
 else()
     qt_add_dbus_interface(kwin_dbus_SRCS org.freedesktop.DBus.Properties.xml dbusproperties_interface)
-    qt_add_dbus_interface(kwin_dbus_SRCS org.deepin.dde.Dock1.xml ddedock_interface)
+    qt_add_dbus_interface(kwin_dbus_SRCS org.deepin.dde.daemon.Dock1.xml ddedock_interface)
 endif()
 
 if (KWIN_BUILD_SCREENLOCKER)

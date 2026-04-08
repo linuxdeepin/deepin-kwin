@@ -550,11 +550,11 @@ void EffectsHandlerImpl::toggleMinimizedAnimation(Window *window)
 #ifdef BUILD_ON_V25
     Q_EMIT windowMinimizedAnimation(window->effectWindow(), window->iconGeometry().center());
 #else
-    QRectF dockLastPosition = Workspace::self()->getDockLastGeometry();
-    if (window->iconGeometry() != QRectF() && dockLastPosition.contains(window->iconGeometry())) {
+    QRectF dockLastGeometry = Workspace::self()->getDockLastGeometry();
+    if (window->iconGeometry() != QRectF() && dockLastGeometry.contains(window->iconGeometry())) {
         Q_EMIT windowMinimizedAnimation(window->effectWindow(), window->iconGeometry().center());
     } else {
-        Q_EMIT windowMinimizedAnimation(window->effectWindow(), dockLastPosition.center());
+        Q_EMIT windowMinimizedAnimation(window->effectWindow(), dockLastGeometry.center());
     }
 #endif
 }

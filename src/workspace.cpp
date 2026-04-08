@@ -44,6 +44,7 @@
 #include "syncalarmx11filter.h"
 #include "tiles/tilemanager.h"
 #include "x11window.h"
+#include "dockrect.h"
 #if KWIN_BUILD_TABBOX
 #include "tabbox.h"
 #endif
@@ -105,7 +106,8 @@
 
 #ifdef BUILD_ON_V25
 #define DOCK_SERVICE_NAME "org.deepin.dde.daemon.Dock1"
-#define DOCK_OBJECT_NAME "/org/deepin/dde/Daemon/Dock1"
+#define DOCK_OBJECT_NAME "/org/deepin/dde/Dock1"
+#define DOCK_INTERFACE_NAME "org.deepin.dde.daemon.Dock1"
 #else
 #define DOCK_SERVICE_NAME "com.deepin.dde.daemon.Dock"
 #define DOCK_OBJECT_NAME "/com/deepin/dde/daemon/Dock"
@@ -4086,6 +4088,23 @@ bool Workspace::previewingClient(const Window *c) const
 }
 
 #ifndef BUILD_ON_V25
+void Workspace::slotDockPropertiesChanged(const QDBusMessage &msg)
+{
+    QList<QVariant> arguments = msg.arguments();
+    if (3 != arguments.count())
+        return;
+
+    const QVariantMap changedProps = qdbus_cast<QVariantMap>(arguments.at(1).value<QDBusArgument>());
+
+    if (changedProps.contains("FrontendWindowRect")) {
+        slotDockGeometryChanged();
+    }
+
+    if (changedProps.contains("Position")) {
+        slotDockPositionChanged();
+    }
+}
+
 void Workspace::slotDockGeometryChanged()
 {
     QFutureWatcher<QRect> *watcher = new QFutureWatcher<QRect>(this);
@@ -4098,6 +4117,8 @@ void Workspace::slotDockGeometryChanged()
             watcher, &QFutureWatcher<QRect>::deleteLater);
 
     QFuture<QRect> future = QtConcurrent::run([this]() -> QRect {
+        qRegisterMetaType<DockRect>("DockRect");
+        qDBusRegisterMetaType<DockRect>();
         DBusDock dockInter(DOCK_SERVICE_NAME, DOCK_OBJECT_NAME, QDBusConnection::sessionBus());
         return dockInter.frontendWindowRect();
     });
@@ -4125,30 +4146,11 @@ void Workspace::slotDockPositionChanged()
     watcher->setFuture(future);
 }
 
-void Workspace::slotDockPropertiesChanged(const QDBusMessage &msg)
-{
-    QList<QVariant> arguments = msg.arguments();
-    if (3 != arguments.count())
-        return;
-
-    const QVariantMap changedProps = qdbus_cast<QVariantMap>(arguments.at(1).value<QDBusArgument>());
-
-#ifndef BUILD_ON_V25
-    if (changedProps.contains("FrontendWindowRect")) {
-        slotDockGeometryChanged();
-    }
-#endif
-
-    if (changedProps.contains("Position")) {
-        slotDockPositionChanged();
-    }
-}
-
 void Workspace::slotDockServiceRegistered(const QString &serviceName)
 {
     Q_UNUSED(serviceName);
 
-    // Connect to standard DBus PropertiesChanged signal
+#ifndef BUILD_ON_V25
     QDBusConnection::sessionBus().connect(
         DOCK_SERVICE_NAME,
         DOCK_OBJECT_NAME,
@@ -4158,26 +4160,45 @@ void Workspace::slotDockServiceRegistered(const QString &serviceName)
         SLOT(slotDockPropertiesChanged(const QDBusMessage&))
     );
 
-#ifndef BUILD_ON_V25
     slotDockGeometryChanged();
-#endif
+    slotDockPositionChanged();
+#else
+    QDBusConnection::sessionBus().connect(
+        DOCK_SERVICE_NAME,
+        DOCK_OBJECT_NAME,
+        DOCK_INTERFACE_NAME,
+        QStringLiteral("PositionChanged"),
+        this,
+        SLOT(slotDockPositionChanged())
+    );
 
     slotDockPositionChanged();
+#endif
 }
 
 void Workspace::slotDockServiceUnregistered(const QString &serviceName)
 {
     Q_UNUSED(serviceName);
 
-    // Disconnect from DBus PropertiesChanged signal
+#ifndef BUILD_ON_V25
     QDBusConnection::sessionBus().disconnect(
         DOCK_SERVICE_NAME,
         DOCK_OBJECT_NAME,
-        QStringLiteral("org.freedesktop.DBus.Properties"),
+        DOCK_INTERFACE_NAME,
         QStringLiteral("PropertiesChanged"),
         this,
         SLOT(slotDockPropertiesChanged(const QDBusMessage&))
     );
+#else
+    QDBusConnection::sessionBus().disconnect(
+        DOCK_SERVICE_NAME,
+        DOCK_OBJECT_NAME,
+        DOCK_INTERFACE_NAME,
+        QStringLiteral("PositionChanged"),
+        this,
+        SLOT(slotDockPositionChanged())
+    );
+#endif
 }
 
 void Workspace::checkIfFirstWindowOfProcess(Window *client)

@@ -86,7 +86,7 @@
         <signal name="DockAppSettingsSynced"></signal>
         <property name="DockedApps" type="as" access="read"></property>
         <property name="FrontendWindowRect" type="(iiuu)" access="read">
-            <annotation name="org.qtproject.QtDBus.QtTypeName" value="QRect"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="DockRect"/>
         </property>
         <property name="Position" type="i" access="readwrite"></property>
         <property name="WindowSizeEfficient" type="u" access="readwrite"></property>

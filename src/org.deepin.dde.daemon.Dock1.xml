@@ -1,0 +1,50 @@
+<interface name="org.deepin.dde.daemon.Dock1">
+    <method name="RequestDock">
+      <arg direction="in" type="s" name="desktopFile"/>
+      <arg direction="in" type="i" name="index"/>
+      <arg direction="out" type="b" name="docked"/>
+    </method>
+    <method name="IsDocked">
+      <arg direction="in" type="s" name="desktopFile"/>
+      <arg direction="out" type="b" name="docked"/>
+    </method>
+    <method name="RequestUndock">
+      <arg direction="in" type="s" name="desktopFile"/>
+      <arg direction="out" type="b" name="docked"/>
+    </method>
+    <method name="ActivateWindow">
+      <arg direction="in" type="u" name="win"/>
+    </method>
+    <property access="readwrite" type="u" name="WindowSizeEfficient"/>
+    <property access="readwrite" type="u" name="WindowSizeFashion"/>
+    <property access="readwrite" type="i" name="DisplayMode"/>
+    <property access="readwrite" type="i" name="HideMode"/>
+    <property access="readwrite" type="i" name="Position"/>
+    <property access="read" type="i" name="HideState"/>
+    <property access="readwrite" type="b" name="Locked"/>
+    <property access="read" type="(iiii)" name="FrontendWindowRect">
+      <annotation value="QRect" name="org.qtproject.QtDBus.QtTypeName"/>
+    </property>
+    <signal name="FrontendWindowRectChanged">
+      <arg direction="out" type="(iiii)" name="FrontendWindowRect"/>
+      <annotation value="QRect" name="org.qtproject.QtDBus.QtTypeName.Out0"/>
+    </signal>
+    <signal name="PositionChanged">
+      <arg direction="out" type="i" name="Position"/>
+    </signal>
+    <signal name="WindowSizeEfficientChanged">
+      <arg direction="out" type="u" name="size"/>
+    </signal>
+    <signal name="WindowSizeFashionChanged">
+      <arg direction="out" type="u" name="size"/>
+    </signal>
+    <signal name="DisplayModeChanged">
+      <arg direction="out" type="i" name="displaymode"/>
+    </signal>
+    <signal name="HideModeChanged">
+      <arg direction="out" type="i" name="hideMode"/>
+    </signal>
+    <signal name="LockedChanged">
+      <arg direction="out" type="b" name="locked"/>
+    </signal>
+</interface>

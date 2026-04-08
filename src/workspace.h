@@ -750,12 +750,13 @@ public Q_SLOTS:
 #ifndef BUILD_ON_V25
     void slotDockGeometryChanged();
     QRectF getDockLastGeometry() const;
+    void slotDockPropertiesChanged(const QDBusMessage &msg);
+
 #endif
 
     void slotDockPositionChanged();
     int getDockDirection() const;
 
-    void slotDockPropertiesChanged(const QDBusMessage &msg);
     void slotDockServiceRegistered(const QString &serviceName);
     void slotDockServiceUnregistered(const QString &serviceName);
     void slotShowingDesktopEffectChanged(bool);
