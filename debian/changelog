@@ -1,3 +1,16 @@
+kwin (4:6.1.12) unstable; urgency=medium
+
+  * refactor(dock): migrate to Qt D-Bus auto-generated proxy class
+  * feat: extend X11 compatibility for drag and drop mime types
+  * fix(multitaskview): add KConfig::Notify to sync deepinwmrc to processes
+  * feat(input): add kwin_input_filter logging category for debugging
+  * chore: disable kdecoration clang-format and git hook generation
+  * bugfix(maximizeex): ensure OpenGL context during cleanup
+  * fix: fix abnormal position issue when desktop windows are minimized
+  * fix: update header guard to pragma once and fix DBus interface name
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 08 Apr 2026 21:21:25 +0800
+
 kwin (4:6.1.11) unstable; urgency=medium
 
   * fix: fix the small launcher effect to maintain consistency with V20's
