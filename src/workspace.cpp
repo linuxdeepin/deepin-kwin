@@ -4184,11 +4184,10 @@ void Workspace::slotDockServiceUnregistered(const QString &serviceName)
     QDBusConnection::sessionBus().disconnect(
         DOCK_SERVICE_NAME,
         DOCK_OBJECT_NAME,
-        DOCK_INTERFACE_NAME,
+        QStringLiteral("org.freedesktop.DBus.Properties"),
         QStringLiteral("PropertiesChanged"),
         this,
-        SLOT(slotDockPropertiesChanged(const QDBusMessage&))
-    );
+        SLOT(slotDockPropertiesChanged(const QDBusMessage &)));
 #else
     QDBusConnection::sessionBus().disconnect(
         DOCK_SERVICE_NAME,

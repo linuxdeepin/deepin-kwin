@@ -1,5 +1,4 @@
-#ifndef DOCKRECT_H
-#define DOCKRECT_H
+#pragma once
 
 #include <QRect>
 #include <QDBusArgument>
@@ -30,5 +29,3 @@ private:
 };
 
 Q_DECLARE_METATYPE(DockRect)
-
-#endif DOCKRECT_H
