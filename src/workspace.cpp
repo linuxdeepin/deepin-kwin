@@ -4112,9 +4112,8 @@ void Workspace::slotDockGeometryChanged()
     connect(watcher, &QFutureWatcher<QRect>::finished, this, [watcher, this] {
         QRect rect = watcher->result();
         m_lastDockGeometry = rect;
+        watcher->deleteLater();
     });
-    connect(watcher, &QFutureWatcher<QRect>::finished,
-            watcher, &QFutureWatcher<QRect>::deleteLater);
 
     QFuture<QRect> future = QtConcurrent::run([this]() -> QRect {
         qRegisterMetaType<DockRect>("DockRect");
@@ -4134,9 +4133,8 @@ void Workspace::slotDockPositionChanged()
     connect(watcher, &QFutureWatcher<int>::finished, this, [watcher, this] {
         int pos = watcher->result();
         m_dockDirection = pos;
+        watcher->deleteLater();
     });
-    connect(watcher, &QFutureWatcher<int>::finished,
-            watcher, &QFutureWatcher<int>::deleteLater);
 
     QFuture<int> future = QtConcurrent::run([this]() -> int {
         DBusDock dockInter(DOCK_SERVICE_NAME, DOCK_OBJECT_NAME, QDBusConnection::sessionBus());
