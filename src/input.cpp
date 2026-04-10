@@ -1059,6 +1059,11 @@ public:
     }
     bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override
     {
+        // Check if touchscreen swipes are disabled via environment variable
+        static const bool noSwipes = qEnvironmentVariable("KWIN_NO_TOUCHSCREEN_SWIPES").toInt() == 1;
+        if (noSwipes) {
+            return false;
+        }
         if (m_gestureTaken) {
             input()->shortcuts()->processSwipeCancel(DeviceType::Touchscreen);
             m_gestureCancelled = true;
