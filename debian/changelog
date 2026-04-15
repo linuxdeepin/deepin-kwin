@@ -1,3 +1,9 @@
+kwin (4:6.1.14) unstable; urgency=medium
+
+  * fix(alt-tab): remove animation reset on rapid window switching
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 15 Apr 2026 16:28:55 +0800
+
 kwin (4:6.1.13) unstable; urgency=medium
 
   * fix: Change the name of the fullscreen launcher
