@@ -1,3 +1,11 @@
+kwin (4:6.1.13) unstable; urgency=medium
+
+  * fix: Change the name of the fullscreen launcher
+  * refactor(workspace): integrate deleteLater into lambda callback for QFutureWatcher
+  * feat: add environment variable to disable touchscreen swipes
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Tue, 15 Apr 2026 12:00:00 +0800
+
 kwin (4:6.1.12) unstable; urgency=medium
 
   * refactor(dock): migrate to Qt D-Bus auto-generated proxy class
