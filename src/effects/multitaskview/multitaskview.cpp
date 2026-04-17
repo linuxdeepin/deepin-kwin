@@ -3276,7 +3276,6 @@ void MultitaskViewEffect::addNewDesktop()
         return;
 
     m_isShieldEvent = true;
-    effects->setNumberOfDesktops(count + 1);
     if (!getWinManagerObject(count - 1))
         return;
     QList<QString> list = m_screenInfoList.keys();
@@ -3339,6 +3338,7 @@ void MultitaskViewEffect::addNewDesktop()
     }
 
     changeCurrentDesktop(effects->numberOfDesktops());
+    effects->setNumberOfDesktops(count + 1);
     m_isShieldEvent = false;
 }
 
