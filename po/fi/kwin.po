@@ -672,7 +672,7 @@ msgstr "Numero"
 #: debug_console.cpp:556 debug_console.cpp:570
 #, kde-format
 msgid "isFinger"
-msgstr ""
+msgstr "sormella"
 
 #: debug_console.cpp:567
 #, kde-format
