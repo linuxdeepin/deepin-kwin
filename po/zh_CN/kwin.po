@@ -2765,6 +2765,27 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(未响应)"
 
+#: workspace.cpp:1846
+#, kde-format
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. "
+"https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options "
+"are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a "
+"paste bin service\n"
+"like https://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"KWin 支持信息：\n"
+"以下信息应当被用于请求支持，例如在 https://forum.kde.org 上请求支持。\n"
+"它提供了当前运行实例的信息，包括使用了哪些选项，\n"
+"正在使用什么 OpenGL 驱动，和哪些特效正在运行。\n"
+"请将此本文下面的信息贴至一个剪贴板服务，\n"
+"例如 https://paste.kde.org ，而不是直接贴到请求支持的贴子中。\n"
+
 #: workspace.cpp:2507
 #, kde-format
 msgid "The confidential file cannot be displayed"

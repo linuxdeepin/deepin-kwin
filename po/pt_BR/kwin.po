@@ -2827,6 +2827,24 @@ msgctxt "Application is not responding, appended to window title"
 msgid "(Not Responding)"
 msgstr "(Não respondendo)"
 
+#: workspace.cpp:1846
+#, kde-format
+msgctxt "Introductory text shown in the support information."
+msgid ""
+"KWin Support Information:\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
+"what OpenGL driver and which effects are running.\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
+"like https://paste.kde.org instead of pasting into support threads.\n"
+msgstr ""
+"Informações de suporte do KWin:\n"
+"As seguintes informações devem ser usadas ao solicitar suporte em e.g. https://forum.kde.org.\n"
+"Ele fornece informações sobre a instância em execução no momento, quais opções são usadas,\n"
+"qual driver OpenGL e quais efeitos estão sendo executados.\n"
+"Por favor, publique as informações fornecidas abaixo deste texto introdutório em um serviço de colagem.\n"
+"like https://paste.kde.org em vez de colar em tópicos de suporte.\n"
+
 #~ msgid "&No Border"
 #~ msgstr "Sem borda"
 
