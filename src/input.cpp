@@ -2967,6 +2967,26 @@ public:
     }
 };
 
+class EffectsEventSpy : public InputEventSpy
+{
+public:
+    void touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override {
+        if (effects) {
+            static_cast<EffectsHandlerImpl *>(effects)->touchDownNotify(id, pos, time);
+        }
+    }
+    void touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time) override {
+        if (effects) {
+            static_cast<EffectsHandlerImpl *>(effects)->touchMotionNotify(id, pos, time);
+        }
+    }
+    void touchUp(qint32 id, std::chrono::microseconds time) override {
+        if (effects) {
+            static_cast<EffectsHandlerImpl *>(effects)->touchUpNotify(id, time);
+        }
+    }
+};
+
 KWIN_SINGLETON_FACTORY(InputRedirection)
 
 static const QString s_touchpadComponent = QStringLiteral("kcm_touchpad");
@@ -3103,7 +3123,7 @@ void InputRedirection::motion()
 void InputRedirection::touchDown(unsigned int touchId, double x, double y, unsigned int time)
 {
     if (effects) {
-        static_cast<EffectsHandlerImpl *>(effects)->touchDown(touchId, QPointF(x, y), std::chrono::microseconds(time * 1000));
+        static_cast<EffectsHandlerImpl *>(effects)->touchDownNotify(touchId, QPointF(x, y), std::chrono::microseconds(time * 1000));
     }
     Window *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {
@@ -3116,7 +3136,7 @@ void InputRedirection::touchDown(unsigned int touchId, double x, double y, unsig
 void InputRedirection::touchMotion(unsigned int touchId, double x, double y, unsigned int time)
 {
     if (effects) {
-        static_cast<EffectsHandlerImpl *>(effects)->touchMotion(touchId, QPointF(x, y), std::chrono::microseconds(time * 1000));
+        static_cast<EffectsHandlerImpl *>(effects)->touchMotionNotify(touchId, QPointF(x, y), std::chrono::microseconds(time * 1000));
     }
     Window *touchMovingClient = workspace()->getRequestToMovingClient();
     if (!touchMovingClient) {
@@ -3129,7 +3149,7 @@ void InputRedirection::touchMotion(unsigned int touchId, double x, double y, uns
 void InputRedirection::touchUp(unsigned int touchId, unsigned int time)
 {
     if (effects) {
-        static_cast<EffectsHandlerImpl *>(effects)->touchUp(touchId, std::chrono::microseconds(time * 1000));
+        static_cast<EffectsHandlerImpl *>(effects)->touchUpNotify(touchId, std::chrono::microseconds(time * 1000));
     }
     workspace()->handleReleaseMouseCommand();
     Window *touchMovingClient = workspace()->getRequestToMovingClient();
@@ -3319,6 +3339,7 @@ void InputRedirection::setupInputFilters()
     installInputEventSpy(new GlobalEventSpy);
     installInputEventSpy(new UserActivitySpy);
     installInputEventSpy(new WindowInteractedSpy);
+    installInputEventSpy(new EffectsEventSpy);
     installInputEventFilter(new LongPressFilter);
     if (hasGlobalShortcutSupport) {
         installInputEventFilter(new TerminateServerFilter);

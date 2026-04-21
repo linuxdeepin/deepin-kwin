@@ -33,17 +33,16 @@ TouchEchoEffect::TouchEchoEffect()
 TouchEchoEffect::~TouchEchoEffect() = default;
 
 
-bool TouchEchoEffect::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+void TouchEchoEffect::touchDownNotify(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
     TouchPoint point;
     point.id = id;
     point.pos = pos;
     m_points << point;
     repaint();
-    return false;
 }
 
-bool TouchEchoEffect::touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+void TouchEchoEffect::touchMotionNotify(qint32 id, const QPointF &pos, std::chrono::microseconds time)
 {
     auto pointIt = std::find_if(m_points.begin(), m_points.end(), [id](const TouchPoint &p) {
         return p.id == id;
@@ -54,10 +53,9 @@ bool TouchEchoEffect::touchMotion(qint32 id, const QPointF &pos, std::chrono::mi
     } else {
         qWarning() << "Received touchMotion for unknown id" << id;
     }
-    return false;
 }
 
-bool TouchEchoEffect::touchUp(qint32 id, std::chrono::microseconds time)
+void TouchEchoEffect::touchUpNotify(qint32 id, std::chrono::microseconds time)
 {
     auto pointIt = std::find_if(m_points.begin(), m_points.end(), [id](const TouchPoint &p) {
         return p.id == id;
@@ -72,7 +70,6 @@ bool TouchEchoEffect::touchUp(qint32 id, std::chrono::microseconds time)
     } else {
         qWarning() << "Received touchUp for unknown id" << id;
     }
-    return false;
 }
 
 void TouchEchoEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)

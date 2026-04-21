@@ -697,6 +697,48 @@ public:
 public Q_SLOTS:
     virtual bool borderActivated(ElectricBorder border);
 
+public:
+    /**
+     * Notify the effect that a touch point was pressed.
+     *
+     * The effect should choose this one only if it always needs events but doesn't excusively use them.
+     *
+     * @param id The unique id of the touch point
+     * @param pos The position of the touch point in global coordinates
+     * @param time Timestamp
+     *
+     * @see touchDown
+     * @since 5.8
+     */
+    virtual void touchDownNotify(qint32 id, const QPointF &pos, std::chrono::microseconds time) {}
+
+    /**
+     * Notify the effect that a touch point moved.
+     *
+     * The effect should choose this one only if it always needs events but doesn't excusively use them.
+     *
+     * @param id The unique id of the touch point
+     * @param pos The position of the touch point in global coordinates
+     * @param time Timestamp
+     *
+     * @see touchMotion
+     * @since 5.8
+     */
+    virtual void touchMotionNotify(qint32 id, const QPointF &pos, std::chrono::microseconds time) {}
+
+    /**
+     * Notify the effect that a touch point was released.
+     *
+     * The effect should choose this one only if it always needs events but doesn't excusively use them.
+     *
+     * @param id The unique id of the touch point
+     * @param time Timestamp
+     *
+     * @see touchUp
+     * @since 5.8
+     */
+    virtual void touchUpNotify(qint32 id, std::chrono::microseconds time) {}
+
 protected:
     xcb_connection_t *xcbConnection() const;
     xcb_window_t x11RootWindow() const;

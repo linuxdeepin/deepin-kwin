@@ -796,6 +796,27 @@ bool EffectsHandlerImpl::touchUp(qint32 id, std::chrono::microseconds time)
     return false;
 }
 
+void EffectsHandlerImpl::touchDownNotify(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+{
+    for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
+        it->second->touchDownNotify(id, pos, time);
+    }
+}
+
+void EffectsHandlerImpl::touchMotionNotify(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+{
+    for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
+        it->second->touchMotionNotify(id, pos, time);
+    }
+}
+
+void EffectsHandlerImpl::touchUpNotify(qint32 id, std::chrono::microseconds time)
+{
+    for (auto it = loaded_effects.constBegin(); it != loaded_effects.constEnd(); ++it) {
+        it->second->touchUpNotify(id, time);
+    }
+}
+
 bool EffectsHandlerImpl::tabletToolEvent(TabletEvent *event)
 {
     // TODO: reverse call order?
