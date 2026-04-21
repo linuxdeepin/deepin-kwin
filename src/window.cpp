@@ -344,7 +344,14 @@ void Window::getResourceClass()
     if (!info) {
         return;
     }
-    setResourceClass(QString::fromLatin1(info->windowClassName()).toLower(), QString::fromLatin1(info->windowClassClass()).toLower());
+    
+    const char* name = info->windowClassName();
+    const char* className = info->windowClassClass();
+    
+    setResourceClass(
+        QString::fromLatin1(name ? name : "").toLower(),
+        QString::fromLatin1(className ? className : "").toLower()
+    );
 }
 
 void Window::setResourceClass(const QString &name, const QString &className)
