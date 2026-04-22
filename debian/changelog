@@ -1,3 +1,11 @@
+kwin (4:6.1.15) unstable; urgency=medium
+
+  * fix(multitaskview): fix race condition when quickly adding and removing desktops
+  * fix(effects): touchecho not clearing during drag operations
+  * fix: workspace list layout not correct
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 22 Apr 2026 10:50:16 +0800
+
 kwin (4:6.1.14) unstable; urgency=medium
 
   * fix(alt-tab): remove animation reset on rapid window switching
