@@ -3298,6 +3298,7 @@ void MultitaskViewEffect::addNewDesktop()
         b->setScreenDesktop(st.screen, count + 1);
         m_workspaceBackgrounds[st.screen].push_back(b);
     }
+    effects->setNumberOfDesktops(count + 1);
 
     {
         m_workspaceSlidingStatus = true;
@@ -3338,7 +3339,6 @@ void MultitaskViewEffect::addNewDesktop()
     }
 
     changeCurrentDesktop(effects->numberOfDesktops());
-    effects->setNumberOfDesktops(count + 1);
     m_isShieldEvent = false;
 }
 
