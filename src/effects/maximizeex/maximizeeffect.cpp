@@ -24,6 +24,7 @@ MaximizeEffect::MaximizeEffect()
 {
     connect(effects, &EffectsHandler::windowMaximizedStateChanged, this, &MaximizeEffect::slotWindowMaximizedStateChanged);
     connect(effects, &EffectsHandler::windowMaximizedStateAboutToChange, this, &MaximizeEffect::slotWindowMaximizedStateAboutToChange);
+    connect(effects, &EffectsHandler::windowDeleted, this, &MaximizeEffect::slotWindowDeleted);
 
     m_animationTime.setDuration(std::chrono::milliseconds(static_cast<int>(animationTime(MaxiConsts::FADE_DURATION))));
     m_animationTime.setDirection(TimeLine::Forward);
@@ -117,7 +118,10 @@ void MaximizeEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region
     effects->drawWindow(w, mask, region, data);
 
     float t = m_animationTime.value();
-    if (m_maxiWin != w || !m_texture || m_texture->isNull() || t > (effects->waylandDisplay() ? 0.2 : 0.7) || !m_isMaximized)
+    auto it = m_textures.find(m_maxiWin);
+    GLTexture *texture = (it != m_textures.end()) ? it->second.get() : nullptr;
+
+    if (m_maxiWin != w || !texture || texture->isNull() || t > (effects->waylandDisplay() ? 0.2 : 0.7) || !m_isMaximized)
         return;
 
     QPoint p0 = QPoint(w->x(), w->y());
@@ -132,7 +136,7 @@ void MaximizeEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region
     float h1 = m_oldGeo.height();
     float ht = (h0 - h1) * t + h1;
 
-    m_texture->bind();
+    texture->bind();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     auto s = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
@@ -141,9 +145,9 @@ void MaximizeEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region
     s->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
     const qreal scale = 1;
     const QRectF rect = QRect(p, QSize(wt, ht));
-    m_texture->render(rect.toRect(), scale);
+    texture->render(rect.toRect(), scale);
     ShaderManager::instance()->popShader();
-    m_texture->unbind();
+    texture->unbind();
     glDisable(GL_BLEND);
 }
 
@@ -173,12 +177,8 @@ void MaximizeEffect::cleanup()
     if (m_activated)
         return;
 
-    effects->makeOpenGLContextCurrent();
     m_maxiWin = nullptr;
-    m_texture.reset();
-    m_fbo.reset();
     effects->setActiveFullScreenEffect(nullptr);
-    effects->doneOpenGLContextCurrent();
 }
 
 void MaximizeEffect::slotWindowMaximizedStateChanged(EffectWindow *window, bool horizontal, bool vertical)
@@ -207,13 +207,20 @@ void MaximizeEffect::slotWindowMaximizedStateAboutToChange(EffectWindow *window,
 
     effects->makeOpenGLContextCurrent();
 
-    m_texture = std::make_unique<GLTexture>(GL_RGBA8, w->size().toSize());
-    m_texture->setFilter(GL_LINEAR);
-    m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
-    m_texture->setYInverted(true);
+    const QSize textureSize = w->size().toSize();
+    auto &texture = m_textures[window];
+    auto &fbo = m_fbos[window];
 
-    if (m_fbo = std::make_unique<GLFramebuffer>(m_texture.get())) {
-        GLFramebuffer::pushFramebuffer(m_fbo.get());
+    if (!texture || texture->size() != textureSize) {
+        texture = std::make_unique<GLTexture>(GL_RGBA8, textureSize);
+        texture->setFilter(GL_LINEAR);
+        texture->setWrapMode(GL_CLAMP_TO_EDGE);
+        texture->setYInverted(true);
+        fbo = std::make_unique<GLFramebuffer>(texture.get());
+    }
+
+    if (fbo && fbo->valid()) {
+        GLFramebuffer::pushFramebuffer(fbo.get());
 
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -235,6 +242,19 @@ void MaximizeEffect::slotWindowMaximizedStateAboutToChange(EffectWindow *window,
     }
 
     effects->doneOpenGLContextCurrent();
+}
+
+void MaximizeEffect::slotWindowDeleted(EffectWindow *window)
+{
+    auto texIt = m_textures.find(window);
+    auto fboIt = m_fbos.find(window);
+    if (texIt != m_textures.end() || fboIt != m_fbos.end()) {
+        effects->makeOpenGLContextCurrent();
+        if (texIt != m_textures.end())
+            m_textures.erase(texIt);
+        if (fboIt != m_fbos.end())
+            m_fbos.erase(fboIt);
+    }
 }
 
 }

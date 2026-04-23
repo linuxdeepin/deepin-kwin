@@ -12,6 +12,8 @@
 #include <kwineffects.h>
 #include <kwineffectsex.h>
 
+#include <unordered_map>
+
 namespace KWin
 {
 
@@ -38,6 +40,7 @@ private:
 public Q_SLOTS:
     void slotWindowMaximizedStateChanged(EffectWindow *window, bool horizontal, bool vertical);
     void slotWindowMaximizedStateAboutToChange(EffectWindow *window, bool horizontal, bool vertical);
+    void slotWindowDeleted(EffectWindow *window);
 
 private:
     bool                        m_activated = false;
@@ -47,8 +50,8 @@ private:
     TimeLine                    m_animationTime;
     bool                        m_isMaximized = false;
 
-    std::unique_ptr<GLFramebuffer> m_fbo;
-    std::unique_ptr<GLTexture> m_texture;
+    std::unordered_map<EffectWindow *, std::unique_ptr<GLTexture>> m_textures;
+    std::unordered_map<EffectWindow *, std::unique_ptr<GLFramebuffer>> m_fbos;
 };
 }
 #endif
