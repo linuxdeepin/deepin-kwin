@@ -1,3 +1,12 @@
+kwin (4:6.1.16) unstable; urgency=medium
+
+  * fix(maximizeex): fix texture and FBO resource leak on window deletion
+  * perf: notify systemd ready in Workspace instead of ApplicationX11
+  * chore(i18n): update kwin.po translation files for multiple languages
+  * fix(window): add null pointer check for windowClassName and windowClassClass
+
+ -- justforlxz <justforlxz@gmail.com>  Fri, 24 Apr 2026 15:08:14 +0800
+
 kwin (4:6.1.15) unstable; urgency=medium
 
   * fix(multitaskview): fix race condition when quickly adding and removing desktops
