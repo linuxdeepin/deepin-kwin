@@ -125,6 +125,9 @@ void Chameleon::init()
     connect(c, &KDecoration2::DecoratedClient::maximizedVerticallyChanged, this, &Chameleon::updateBorderPath);
     connect(c, &KDecoration2::DecoratedClient::captionChanged, this, &Chameleon::updateTitleGeometry);
     connect(c, &KDecoration2::DecoratedClient::maximizeableChanged, this, &Chameleon::updateTitleBarArea);
+    connect(c, &QObject::destroyed, this, [this]() {
+        disconnect(settings().data(), nullptr, this, nullptr);
+    });
     connect(this, &Chameleon::noTitleBarChanged, this, &Chameleon::updateTitleBarArea, Qt::QueuedConnection);
     connect(m_theme, &ChameleonWindowTheme::themeChanged, this, &Chameleon::updateTheme);
     connect(m_theme, &ChameleonWindowTheme::windowRadiusChanged, this, &Chameleon::updateBorderPath);
