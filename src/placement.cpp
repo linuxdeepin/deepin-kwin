@@ -150,7 +150,8 @@ static inline bool isIrrelevant(const Window *window, const Window *regarding, V
         || window->isShade()
         || !window->isOnDesktop(desktop)
         || !window->isOnCurrentActivity()
-        || window->isDesktop();
+        || window->isDesktop()
+        || window->isOverride();
 };
 
 /**
