@@ -1631,14 +1631,21 @@ void MultitaskViewEffect::renderDragWorkspacePrompt(EffectScreen *screen)
         font.setPointSize(13);
         QFontMetrics metrics(font);
         auto metricsRect = metrics.boundingRect(tr("Drag upwards to remove"));
+        QSize iconSize = m_dragTipsFrameShadow->iconSize();
+
         const int spacing = 13;
-        int width = m_dragTipsFrameShadow->iconSize().width() + metricsRect.width() + spacing;
-        int height = qMax(qMax(m_dragTipsFrameShadow->iconSize().height(), metricsRect.height()), 28);
+        bool showText = rect.width() >= iconSize.width() + metricsRect.width() + spacing;
+        int width = showText ? iconSize.width() + metricsRect.width() + spacing : iconSize.width();
+        int height = qMax(qMax(iconSize.height(), showText ? metricsRect.height() : 0), 28);
+        QString text = showText ? tr("Drag upwards to remove") : QString();
+        QRect tipRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, height);
 
         m_dragTipsFrameShadow->setFont(font);
-        m_dragTipsFrameShadow->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, height));
+        m_dragTipsFrameShadow->setText(text);
+        m_dragTipsFrameShadow->setGeometry(tipRect);
         m_dragTipsFrame->setFont(font);
-        m_dragTipsFrame->setGeometry(QRect(rect.x() + (rect.width() - width) / 2, rect.y() + (rect.height() / 2), width, height));
+        m_dragTipsFrame->setText(text);
+        m_dragTipsFrame->setGeometry(tipRect);
 
         m_dragTipsFrameShadow->render(infiniteRegion(), 1, 0);
         m_dragTipsFrame->render(infiniteRegion(), 1, 0);
