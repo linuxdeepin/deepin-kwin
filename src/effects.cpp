@@ -24,6 +24,7 @@
 #include "deleted.h"
 #include "group.h"
 #include "input_event.h"
+#include "keyboard_input.h"
 #include "internalwindow.h"
 #include "osd.h"
 #include "pointer_input.h"
@@ -692,6 +693,9 @@ void EffectsHandlerImpl::ungrabKeyboard()
     doUngrabKeyboard();
     keyboard_grab_effect = nullptr;
     qCDebug(KWIN_CORE) << "Effects ungrabKeyboard";
+    if (input()->keyboard()) {
+        input()->keyboard()->update();
+    }
 }
 
 void EffectsHandlerImpl::doUngrabKeyboard()
