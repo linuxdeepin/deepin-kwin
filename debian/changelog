@@ -1,3 +1,12 @@
+kwin (4:6.1.17) unstable; urgency=medium
+
+  * fix(decoration): disconnect settings signals on client destruction
+  * fix(multitaskview): skip utility windows in onWindowAdded Wayland path
+  * fix(multitaskview): hide drag tips text when workspace width is insufficient
+  * fix(placement): exclude override windows from overlap calculations
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 29 Apr 2026 09:54:14 +0800
+
 kwin (4:6.1.16) unstable; urgency=medium
 
   * fix(maximizeex): fix texture and FBO resource leak on window deletion
