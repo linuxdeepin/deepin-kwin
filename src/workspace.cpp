@@ -4044,7 +4044,7 @@ bool Workspace::getDraggingWithContentStatus()
 
 bool Workspace::isDraggingWithContent() const
 {
-    if (Compositor::compositing())
+    if (Compositor::self()->isOpenGLCompositing())
         return true;
     return m_clientDraggingWithContent;
 }
