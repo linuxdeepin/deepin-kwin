@@ -17,6 +17,8 @@
 #include "surface_interface.h"
 #include "surfacerole_p.h"
 
+#include <QPointer>
+
 namespace KWaylandServer
 {
 class DragAndDropIconPrivate : public SurfaceRole
@@ -272,7 +274,7 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
         }
         // don't update serial, we need it
     }
-    auto dragSource = d->seat->dragSource();
+    QPointer<AbstractDataSource> dragSource = d->seat->dragSource();
     if (!surface || !dragSource) {
         if (auto s = dragSource) {
             s->dndAction(DataDeviceManagerInterface::DnDAction::None);
@@ -283,7 +285,7 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
     if (dragSource) {
         dragSource->accept(QString());
     }
-    DataOfferInterface *offer = d->createDataOffer(dragSource);
+    QPointer<DataOfferInterface> offer = d->createDataOffer(dragSource);
     d->drag.surface = surface;
     if (d->seat->isDragPointer()) {
         d->drag.posConnection = connect(d->seat, &SeatInterface::pointerPosChanged, this, [this] {
@@ -326,7 +328,10 @@ void DataDeviceInterface::updateDragTarget(SurfaceInterface *surface, quint32 se
     d->send_enter(serial, surface->resource(), wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()), offer ? offer->resource() : nullptr);
     if (offer) {
         auto matchOffers = [dragSource, offer] {
-            const DataDeviceManagerInterface::DnDAction action = chooseDndAction(dragSource, offer);
+            if (!dragSource || !offer) {
+                return;
+            }
+            const DataDeviceManagerInterface::DnDAction action = chooseDndAction(dragSource.data(), offer.data());
             offer->dndAction(action);
             dragSource->dndAction(action);
         };
