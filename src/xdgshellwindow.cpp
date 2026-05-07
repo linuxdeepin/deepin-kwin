@@ -1373,6 +1373,11 @@ bool XdgToplevelWindow::takeFocus()
                     c->minimize(true);
                 }
             }
+            for (Window *c : workspace()->allClientList()) {
+                if (!c->isMinimized() && c->transientFor() && c->transientFor()->isMinimized()) {
+                    c->transientFor()->unminimize();
+                }
+            }
             workspace()->setShowingDesktop(false);
         }
     }
