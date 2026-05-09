@@ -17,6 +17,11 @@
 #include "kwinglplatform.h"
 #include "logging_p.h"
 
+#include <epoxy/egl.h>
+#if HAVE_EPOXY_GLX
+#include <epoxy/glx.h>
+#endif
+
 #include <QFile>
 #include <QHash>
 #include <QImage>
@@ -46,6 +51,21 @@ namespace KWin
 // Variables
 // List of all supported GL extensions
 static QList<QByteArray> glExtensions;
+static OpenGLPlatformInterface s_platformInterface = NoOpenGLPlatformInterface;
+
+bool hasGLContext()
+{
+    switch (s_platformInterface) {
+    case EglPlatformInterface:
+        return eglGetCurrentContext() != EGL_NO_CONTEXT;
+#if HAVE_EPOXY_GLX
+    case GlxPlatformInterface:
+        return glXGetCurrentContext() != nullptr;
+#endif
+    default:
+        return false;
+    }
+}
 
 // Functions
 
@@ -130,6 +150,8 @@ static void initDebugOutput()
 
 void initGL(const std::function<resolveFuncPtr(const char *)> &resolveFunction)
 {
+    s_platformInterface = GLPlatform::instance()->platformInterface();
+
     // Get list of supported OpenGL extensions
     if (hasGLVersion(3, 0)) {
         int count;
@@ -244,6 +266,11 @@ GLShader::GLShader(const QString &vertexfile, const QString &fragmentfile, unsig
 
 GLShader::~GLShader()
 {
+    if (!hasGLContext()) {
+        qCWarning(LIBKWINGLUTILS) << "Could not delete shader because no context is current";
+        return;
+    }
+
     if (mProgram) {
         glDeleteProgram(mProgram);
     }
@@ -1021,6 +1048,11 @@ GLFramebuffer::GLFramebuffer(GLuint handle, const QSize &size)
 
 GLFramebuffer::~GLFramebuffer()
 {
+    if (!hasGLContext()) {
+        qCWarning(LIBKWINGLUTILS) << "Could not delete framebuffer because no context is current";
+        return;
+    }
+
     if (!mForeign && mValid) {
         glDeleteFramebuffers(1, &mFramebuffer);
     }
@@ -1381,6 +1413,11 @@ IndexBuffer::IndexBuffer()
 
 IndexBuffer::~IndexBuffer()
 {
+    if (!hasGLContext()) {
+        qCWarning(LIBKWINGLUTILS) << "Could not delete index buffer because no context is current";
+        return;
+    }
+
     glDeleteBuffers(1, &m_buffer);
 }
 
@@ -1619,6 +1656,11 @@ public:
 
     ~GLVertexBufferPrivate()
     {
+        if (!hasGLContext()) {
+            qCWarning(LIBKWINGLUTILS) << "Could not delete vertex buffer because no context is current";
+            return;
+        }
+
         deleteAll(fences);
 
         if (buffer != 0) {

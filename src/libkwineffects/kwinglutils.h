@@ -45,6 +45,8 @@ void KWINGLUTILS_EXPORT initGL(const std::function<resolveFuncPtr(const char *)>
 // Cleans up all resources hold by the GL Context
 void KWINGLUTILS_EXPORT cleanupGL();
 
+bool KWINGLUTILS_EXPORT hasGLContext();
+
 bool KWINGLUTILS_EXPORT hasGLVersion(int major, int minor, int release = 0);
 // use for both OpenGL and GLX extensions
 bool KWINGLUTILS_EXPORT hasGLExtension(const QByteArray &extension);

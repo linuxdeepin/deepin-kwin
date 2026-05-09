@@ -14,6 +14,7 @@
 #include "kwinglplatform.h"
 #include "kwinglutils.h"
 #include "kwinglutils_funcs.h"
+#include "logging_p.h"
 
 #include "kwingltexture_p.h"
 
@@ -298,6 +299,11 @@ GLTexturePrivate::GLTexturePrivate()
 
 GLTexturePrivate::~GLTexturePrivate()
 {
+    if (!hasGLContext()) {
+        qCWarning(LIBKWINGLTEXTURE) << "Could not delete texture because no context is current";
+        return;
+    }
+
     if (m_texture != 0 && !m_foreign) {
         glDeleteTextures(1, &m_texture);
     }
@@ -335,7 +341,11 @@ void GLTexturePrivate::cleanup()
     s_supportsFramebufferObjects = false;
     s_supportsARGB32 = false;
     if (s_fbo) {
-        glDeleteFramebuffers(1, &s_fbo);
+        if (!hasGLContext()) {
+            qCWarning(LIBKWINGLTEXTURE) << "Could not delete texture framebuffer because no context is current";
+        } else {
+            glDeleteFramebuffers(1, &s_fbo);
+        }
         s_fbo = 0;
     }
 }

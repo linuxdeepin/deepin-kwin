@@ -9,3 +9,4 @@
 #include "logging_p.h"
 Q_LOGGING_CATEGORY(LIBKWINEFFECTS, "kwin_effects", QtWarningMsg)
 Q_LOGGING_CATEGORY(LIBKWINGLUTILS, "kwin_glutils", QtWarningMsg)
+Q_LOGGING_CATEGORY(LIBKWINGLTEXTURE, "kwin_gltexture", QtWarningMsg)
