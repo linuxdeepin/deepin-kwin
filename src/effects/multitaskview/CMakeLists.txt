@@ -4,6 +4,7 @@
 # Source files
 set(multitaskview_SOURCES
     multitaskview.cpp
+    multitaskmodel.cpp
     multitaskview.qrc
     main.cpp
 )
