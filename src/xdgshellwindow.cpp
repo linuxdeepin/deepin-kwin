@@ -32,6 +32,7 @@
 #include "wayland/xdgdecoration_v1_interface.h"
 #include "wayland/ddeshell_interface.h"
 #include "wayland_server.h"
+#include "eventlog.h"
 #include "workspace.h"
 #include "useractions.h"
 #include "wayland/dderestrict_interface.h"
@@ -2138,7 +2139,7 @@ void XdgToplevelWindow::maximize(MaximizeMode mode, bool animated)
 
     if (oldQuickTileMode != quickTileMode()) {
         doSetQuickTileMode();
-        Q_EMIT quickTileModeChanged();
+        Q_EMIT quickTileModeChanged(LaunchTypeWindowButton);
     }
 
     doSetMaximized();

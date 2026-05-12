@@ -71,7 +71,7 @@ private:
     };
 
 private:
-    void handleQuickTile();
+    void handleQuickTile(int launchType);
     void windowScreenChange();
     void windowDesktopChange();
     void windowFrameSizeChange();

@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.13)
 set(DVERSION "5.27.2" CACHE STRING "define project version")
 project(KWin VERSION ${DVERSION})
 
+set(EVENTLOG_VERSION "${PROJECT_VERSION}" CACHE STRING "version string for event logging")
+
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

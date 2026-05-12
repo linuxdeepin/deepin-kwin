@@ -52,6 +52,7 @@
 #include "windowstyle/decorationstyle.h"
 #include "platformsupport/scenes/opengl/openglsurfacetexture.h"
 #include "splitscreen/splitmanage.h"
+#include "eventlog.h"
 #include "composite.h"
 
 #include <KDecoration2/DecoratedClient>
@@ -4340,8 +4341,12 @@ QRectF Window::quickTileGeometryRestore() const
     }
 }
 
-void Window::setQuickTileMode(QuickTileMode mode, bool keyboard, bool animated)
+void Window::setQuickTileMode(QuickTileMode mode, bool keyboard, bool animated, int launchType)
 {
+    if (launchType == 0) {
+        launchType = keyboard ? LaunchTypeKeyboard : LaunchTypeMouseDrag;
+    }
+
     // Only allow quick tile on a regular window.
     if (!isResizable()) {
         return;
@@ -4367,7 +4372,7 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard, bool animated)
             setGeometryRestore(effectiveGeometryRestore);
         }
         doSetQuickTileMode();
-        Q_EMIT quickTileModeChanged();
+        Q_EMIT quickTileModeChanged(launchType);
         return;
     }
 
@@ -4400,7 +4405,7 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard, bool animated)
             Tile *tile = workspace()->tileManager(output())->quickTile(QuickTileFlag(m_quickTileMode));
             setTile(tile);
         }
-        Q_EMIT quickTileModeChanged();
+        Q_EMIT quickTileModeChanged(launchType);
 
         return;
     }
@@ -4444,7 +4449,7 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard, bool animated)
     }
 
     doSetQuickTileMode();
-    Q_EMIT quickTileModeChanged();
+    Q_EMIT quickTileModeChanged(launchType);
 }
 
 void Window::setTile(Tile *tile)
@@ -5108,7 +5113,7 @@ void Window::maybeSendFrameCallback()
 
 void Window::setQuickTileFromMenu(QuickTileMode mode, bool isShowPreview)
 {
-    setQuickTileMode(mode, false, false);
+    setQuickTileMode(mode, false, false, LaunchTypeWindowButton);
     if (workspace()->activeWindow() != this)
         workspace()->activateWindow(this, true);
     if (isShowPreview)

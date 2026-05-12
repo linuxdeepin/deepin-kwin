@@ -1193,7 +1193,7 @@ public:
      * @param mode The tile mode (left/right) to give this window.
      * @param keyboard Defines whether to take keyboard cursor into account.
      */
-    void setQuickTileMode(QuickTileMode mode, bool keyboard = false, bool animated = true);
+    void setQuickTileMode(QuickTileMode mode, bool keyboard = false, bool animated = true, int launchType = 0);
     QuickTileMode quickTileMode() const
     {
         return QuickTileMode(m_quickTileMode);
@@ -1668,7 +1668,7 @@ Q_SIGNALS:
     void clientMaximizedStateChanged(KWin::Window *c, bool h, bool v);
     void transientChanged();
     void modalChanged();
-    void quickTileModeChanged();
+    void quickTileModeChanged(int launchType);
     void moveResizedChanged();
     void moveResizeCursorChanged(CursorShape);
     void clientStartUserMovedResized(KWin::Window *);

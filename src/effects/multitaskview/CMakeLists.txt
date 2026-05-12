@@ -10,6 +10,7 @@ set(multitaskview_SOURCES
 )
 kwin4_add_effect_module(multitaskview ${multitaskview_SOURCES})
 target_link_libraries(multitaskview PRIVATE
+    KWinEventLog
     kwineffects
     kwinglutils
     KF${KF_MAJOR_VERSION}::GlobalAccel

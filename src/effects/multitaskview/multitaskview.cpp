@@ -38,6 +38,7 @@
 #include <QTranslator>
 
 #include "workspace.h"
+#include "eventlog.h"
 #include "multitaskmodel.h"
 #include <QGSettings>
 #include <QImageReader>
@@ -1195,6 +1196,8 @@ bool MultitaskViewEffect::isActive() const
 
 void MultitaskViewEffect::toggle()
 {
+    const bool reportMultitaskView = sender() == m_showActions && !m_activated;
+
     if (!QX11Info::isPlatformX11()) { // MultitaskView cannot be opened without login in Wayland mode
         if(qgetenv("DISPLAY").isEmpty()) {
             return;
@@ -1210,6 +1213,9 @@ void MultitaskViewEffect::toggle()
             });
         } else {
             setActive(!m_activated);
+        }
+        if (reportMultitaskView) {
+            EventLog::reportMultitaskView();
         }
     }
 }

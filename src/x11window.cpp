@@ -33,6 +33,7 @@
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "eventlog.h"
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
 // KDE
@@ -3997,7 +3998,7 @@ void X11Window::configureRequest(int value_mask, qreal rx, qreal ry, qreal rw, q
     ignore = rules()->checkIgnoreGeometry(ignore);
     if (!ignore) { // either we're not max'd / q'tiled or the user allowed the client to break that - so break it.
         updateQuickTileMode(QuickTileFlag::None);
-        Q_EMIT quickTileModeChanged();
+        Q_EMIT quickTileModeChanged(LaunchTypeWindowButton);
     } else if (!app_noborder && quickTileMode() == QuickTileMode(QuickTileFlag::None) && (maximizeMode() == MaximizeVertical || maximizeMode() == MaximizeHorizontal)) {
         // ignoring can be, because either we do, or the user does explicitly not want it.
         // for partially maximized windows we want to allow configures in the other dimension.
@@ -4684,7 +4685,7 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
     blockGeometryUpdates(false);
     updateAllowedActions();
     updateWindowRules(Rules::MaximizeVert | Rules::MaximizeHoriz | Rules::Position | Rules::Size);
-    Q_EMIT quickTileModeChanged();
+    Q_EMIT quickTileModeChanged(LaunchTypeWindowButton);
 
     if (max_mode != old_mode) {
         setMaximized(max_mode & MaximizeHorizontal && max_mode & MaximizeVertical);

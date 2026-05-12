@@ -8,6 +8,7 @@
 */
 
 #include "splitmanage.h"
+#include "eventlog.h"
 #include "window.h"
 #include "virtualdesktops.h"
 #include "../core/output.h"
@@ -117,7 +118,7 @@ bool SplitManage::isSplitWindow(Window *window)
     return (window != nullptr) && ((window->quickTileMode() == int(QuickTileFlag::Left)) || (window->quickTileMode() == int(QuickTileFlag::Right)));
 }
 
-void SplitManage::handleQuickTile()
+void SplitManage::handleQuickTile(int launchType)
 {
     QMutexLocker locker(&m_mutex);
     inhibit();
@@ -132,6 +133,7 @@ void SplitManage::handleQuickTile()
     if (isSplitWindow(window)) {
         addQuickTile(desktop, screenName, window);
         createSplitBar(screenName);
+        EventLog::reportSplitScreen(launchType, window);
         {
             m_data[window].desktop = desktop;
             m_data[window].screenName = screenName;

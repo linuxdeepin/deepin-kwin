@@ -13,6 +13,10 @@ set_property(TARGET KWinEffectsInterface PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_link_libraries(KWinEffectsInterface Qt${QT_MAJOR_VERSION}::DBus)
 
+add_library(KWinEventLog STATIC eventlog.cpp)
+set_property(TARGET KWinEventLog PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(KWinEventLog Qt${QT_MAJOR_VERSION}::DBus)
+
 if (ECM_GLOBAL_FIND_VERSION VERSION_LESS ${KDE_COMPILERSETTINGS_LEVEL})
     set(ECM_GLOBAL_FIND_VERSION ${KF_CURRENT_VERSION})
 endif()
@@ -365,6 +369,8 @@ endif()
 target_sources(kwin PRIVATE
     ${kwin_dbus_SRCS}
 )
+
+target_link_libraries(kwin KWinEventLog)
 
 add_subdirectory(backends)
 add_subdirectory(utils)
