@@ -82,6 +82,7 @@ Rules::Rules()
     , disablesplitpreviewrule(UnusedSetRule)
     , enablewindowshadowrule(UnusedSetRule)
     , skipzoom(UnusedSetRule)
+    , usefullscreenarearule(UnusedSetRule)
 {
 }
 
@@ -190,6 +191,7 @@ void Rules::readFromSettings(const RuleSettings *settings)
     READ_SET_RULE(disablesplitpreview);
     READ_SET_RULE(enablewindowshadow);
     READ_SET_RULE(skipzoom);
+    READ_SET_RULE(usefullscreenarea);
     // disable minmize rule for uos
     minimize = false;
     minimizerule = UnusedSetRule;
@@ -275,6 +277,7 @@ void Rules::write(RuleSettings *settings) const
     WRITE_SET_RULE(disablecorner, Disablecorner, );
     WRITE_SET_RULE(disablesplitpreview, Disablesplitpreview, );
     WRITE_SET_RULE(enablewindowshadow, Enablewindowshadow, );
+    WRITE_SET_RULE(usefullscreenarea, Usefullscreenarea, );
 }
 
 #undef WRITE_MATCH_STRING
@@ -323,7 +326,8 @@ bool Rules::isEmpty() const
             && desktopfilerule == UnusedSetRule
             && disablecornerrule == UnusedSetRule
             && disablesplitpreviewrule == UnusedSetRule
-            && enablewindowshadowrule == UnusedSetRule);
+            && enablewindowshadowrule == UnusedSetRule
+            && usefullscreenarearule == UnusedSetRule);
 }
 
 Rules::ForceRule Rules::convertForceRule(int v)
@@ -692,6 +696,7 @@ APPLY_RULE(disablecorner, DisableCorner, bool)
 APPLY_RULE(disablesplitpreview, DisableSplitpreview, bool)
 APPLY_RULE(enablewindowshadow, EnableWindowShadow, bool)
 APPLY_RULE(skipzoom, SkipZoom, bool)
+APPLY_RULE(usefullscreenarea, UseFullScreenArea, bool)
 
 #undef APPLY_RULE
 #undef APPLY_FORCE_RULE
@@ -771,6 +776,7 @@ bool Rules::discardUsed(bool withdrawn)
     DISCARD_USED_SET_RULE(disablecorner);
     DISCARD_USED_SET_RULE(disablesplitpreview);
     DISCARD_USED_SET_RULE(enablewindowshadow);
+    DISCARD_USED_SET_RULE(usefullscreenarea);
     return changed;
 }
 #undef DISCARD_USED_SET_RULE
@@ -940,6 +946,7 @@ CHECK_RULE(DisableCorner, bool)
 CHECK_RULE(DisableSplitpreview, bool)
 CHECK_RULE(EnableWindowShadow, bool)
 CHECK_RULE(SkipZoom, bool)
+CHECK_RULE(UseFullScreenArea, bool)
 
 #undef CHECK_RULE
 #undef CHECK_FORCE_RULE

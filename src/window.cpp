@@ -4571,6 +4571,17 @@ void Window::checkWorkspacePosition(QRectF oldGeometry, const VirtualDesktop *ol
         return;
     }
 
+    // Special handling for maximized windows configured to use fullscreen area.
+    // These windows (e.g. launchers) should cover the entire screen while keeping
+    // their stacking order below docks/panels, so docks remain visible on top.
+    if (rules()->checkUseFullScreenArea(false)) {
+        QRectF fullScreenGeom = workspace()->clientArea(FullScreenArea, this, moveResizeOutput());
+        if (moveResizeGeometry() != fullScreenGeom) {
+            moveResize(fullScreenGeom);
+        }
+        return;
+    }
+
     QRectF newGeom = moveResizeGeometry();
 
     if (!oldGeometry.isValid()) {

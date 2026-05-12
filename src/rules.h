@@ -86,6 +86,7 @@ public:
     bool checkDisableSplitpreview(bool cancel, bool init = false) const;
     bool checkEnableWindowShadow(bool enable, bool init = false) const;
     bool checkSkipZoom(bool skip, bool init = false) const;
+    bool checkUseFullScreenArea(bool use, bool init = false) const;
 
 private:
     MaximizeMode checkMaximizeVert(MaximizeMode mode, bool init) const;
@@ -202,6 +203,7 @@ public:
     bool applyDisableSplitpreview(bool &cancel, bool init) const;
     bool applyEnableWindowShadow(bool &enable, bool init) const;
     bool applySkipZoom(bool &skip, bool init) const;
+    bool applyUseFullScreenArea(bool &use, bool init) const;
 
 private:
 #endif
@@ -316,6 +318,8 @@ private:
     SetRule enablewindowshadowrule;
     bool skipzoom;
     SetRule skipzoomrule;
+    bool usefullscreenarea;
+    SetRule usefullscreenarearule;
     friend QDebug &operator<<(QDebug &stream, const Rules *);
 };
 

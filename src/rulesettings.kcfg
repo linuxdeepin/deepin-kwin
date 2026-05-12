@@ -486,5 +486,16 @@
       <max code="true">static_cast&lt;Rules::SetRule&gt;(Rules::ForceTemporarily)</max>
       <default code="true">Rules::UnusedSetRule</default>
     </entry>
+
+    <entry name="usefullscreenarea" type="Bool">
+      <label>Use fullscreen area when maximized</label>
+      <default>false</default>
+    </entry>
+    <entry name="usefullscreenarearule" type="Int">
+      <label>Use fullscreen area rule type</label>
+      <min code="true">Rules::UnusedSetRule</min>
+      <max code="true">static_cast&lt;Rules::SetRule&gt;(Rules::ForceTemporarily)</max>
+      <default code="true">Rules::UnusedSetRule</default>
+    </entry>
   </group>
 </kcfg>
