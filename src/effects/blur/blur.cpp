@@ -213,7 +213,7 @@ void BlurEffect::initBlurStrengthValues()
     }
 }
 
-void BlurEffect::reconfigure(ReconfigureFlags flags)
+void BlurEffect::reconfigure([[maybe_unused]] ReconfigureFlags flags)
 {
     BlurConfig::self()->read();
 
@@ -516,7 +516,7 @@ GLTexture *BlurEffect::ensureNoiseTexture()
     const qreal scale = std::max(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
     if (!m_noisePass.noiseTexture || m_noisePass.noiseTextureScale != scale || m_noisePass.noiseTextureStength != m_noiseStrength) {
         // Init randomness based on time
-        std::srand((uint)QTime::currentTime().msec());
+        std::srand(static_cast<unsigned int>(QTime::currentTime().msec()));
 
         QImage noiseImage(QSize(256, 256), QImage::Format_Grayscale8);
 

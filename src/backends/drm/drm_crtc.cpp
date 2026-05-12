@@ -27,6 +27,7 @@ DrmCrtc::DrmCrtc(DrmGpu *gpu, uint32_t crtcId, int pipeIndex, DrmPlane *primaryP
 {
     if (gpu->isHisi()) {
         m_ctmEnabled = (qEnvironmentVariableIntValue("KWIN_CTM_DISABLED") == 1) ? false : true;
+        m_colorModeEnabled = (qEnvironmentVariableIntValue("KWIN_COLOR_MODE_DISABLED") == 1) ? false : true;
     } else {
         //非华为机器默认关闭，遗留后续解决。初步推断是驱动问题导致
         m_ctmEnabled = qEnvironmentVariableIntValue("KWIN_CTM_ENABLED") == 1;
@@ -125,6 +126,9 @@ bool DrmCrtc::hasCTM() const
 
 bool DrmCrtc::hasColorMode() const
 {
+    if (!m_colorModeEnabled) {
+        return false;
+    }
     // FlemingX机器通过GAMMA_LUT传递色彩模式标签，华为drm内核驱动规定GAMMA_LUT_SIZE == 1
     return gammaRampSize() == 1 && getProp(PropertyIndex::Gamma_LUT);
 }

@@ -134,9 +134,6 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
     }
 
     Window * win = surfaceItemX11->window();
-    WindowItem * winItem = win->windowItem();
-    const DecorationItem *decItem = winItem->decorationItem();
-    const ShadowItem *shadowItem = winItem->shadowItem();
 
     WorkspaceSceneXRender * xrenderScene = static_cast<WorkspaceSceneXRender *>(surfaceItem->scene());
     if ( win->window() == xrenderScene->backend()->overlayWindow()->window() ) {
@@ -204,11 +201,6 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
     xcb_xfixes_set_picture_clip_region(connection(), pic, XFixesRegion(transformed_shape), 0, 0);
 
     xcb_render_transform_t xform = {
-        DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0),
-        DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0),
-        DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1)
-    };
-    static const xcb_render_transform_t identity = {
         DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0),
         DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1), DOUBLE_TO_FIXED(0),
         DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(0), DOUBLE_TO_FIXED(1)

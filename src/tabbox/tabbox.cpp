@@ -551,10 +551,10 @@ static constexpr const auto s_desktopListRev = kli18n("Walk Through Desktop List
 
 void TabBox::initShortcuts()
 {
-    key(s_windows, &TabBox::slotWalkThroughWindows, Qt::ALT | Qt::Key_Tab);
-    key(s_windowsRev, &TabBox::slotWalkBackThroughWindows, Qt::ALT | Qt::SHIFT | Qt::Key_Backtab);
-    key(s_app, &TabBox::slotWalkThroughCurrentAppWindows, Qt::ALT | Qt::Key_QuoteLeft);
-    key(s_appRev, &TabBox::slotWalkBackThroughCurrentAppWindows, Qt::ALT | Qt::Key_AsciiTilde);
+    key(s_windows, &TabBox::slotWalkThroughWindows, QKeySequence(Qt::ALT, Qt::Key_Tab));
+    key(s_windowsRev, &TabBox::slotWalkBackThroughWindows, QKeySequence(Qt::ALT, Qt::SHIFT, Qt::Key_Backtab));
+    key(s_app, &TabBox::slotWalkThroughCurrentAppWindows, QKeySequence(Qt::ALT, Qt::Key_QuoteLeft));
+    key(s_appRev, &TabBox::slotWalkBackThroughCurrentAppWindows, QKeySequence(Qt::ALT, Qt::Key_AsciiTilde));
     key(s_windowsAlt, &TabBox::slotWalkThroughWindowsAlternative);
     key(s_windowsAltRev, &TabBox::slotWalkBackThroughWindowsAlternative);
     key(s_appAlt, &TabBox::slotWalkThroughCurrentAppWindowsAlternative);
@@ -1371,7 +1371,7 @@ void TabBox::keyPress(int keyQt)
     auto directionFor = [keyQt, contains](const QKeySequence &forward, const QKeySequence &backward) -> TabBoxConfig::TabBoxSwitchPosition {
         Qt::KeyboardModifiers mods = Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier|Qt::MetaModifier|Qt::KeypadModifier|Qt::GroupSwitchModifier;
         if (contains(forward, keyQt)) {
-            TabBoxConfig::Forward;
+            return TabBoxConfig::Forward;
         }
         if (contains(backward, keyQt)) {
             return TabBoxConfig::Backward;

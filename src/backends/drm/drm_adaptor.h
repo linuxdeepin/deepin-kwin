@@ -18,7 +18,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
-#if HAVE_SYS_SYSCTL_H
+#if defined(HAVE_SYS_SYSCTL_H)
 #ifdef __FreeBSD__
 #include <sys/types.h>
 #endif

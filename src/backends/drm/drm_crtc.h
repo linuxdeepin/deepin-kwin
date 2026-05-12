@@ -67,6 +67,7 @@ private:
     DrmPlane *m_primaryPlane;
     DrmPlane *m_cursorPlane;
     bool m_ctmEnabled = false;
+    bool m_colorModeEnabled = false;
 };
 
 class DrmGammaRamp : public DrmBlob<DrmCrtc, DrmCrtc::PropertyIndex::Gamma_LUT>
