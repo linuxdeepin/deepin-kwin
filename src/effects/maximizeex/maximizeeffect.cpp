@@ -158,14 +158,12 @@ bool MaximizeEffect::isActive() const
 
 void MaximizeEffect::setActive(bool active)
 {
-    if (effects->activeFullScreenEffect() && effects->activeFullScreenEffect() != this)
+    if (effects->activeFullScreenEffect())
         return;
 
     m_activated = active;
 
-    if (active) {
-        effects->setActiveFullScreenEffect(this);
-    } else {
+    if (!active) {
         cleanup();
     }
 
@@ -178,7 +176,6 @@ void MaximizeEffect::cleanup()
         return;
 
     m_maxiWin = nullptr;
-    effects->setActiveFullScreenEffect(nullptr);
 }
 
 void MaximizeEffect::slotWindowMaximizedStateChanged(EffectWindow *window, bool horizontal, bool vertical)
