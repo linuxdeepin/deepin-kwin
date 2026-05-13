@@ -7,6 +7,7 @@
 
 #include <QDBusConnection>
 #include <QDBusInterface>
+#include <QDBusPendingCall>
 #include <QDateTime>
 #include <QJsonDocument>
 #include <QJsonObject>
