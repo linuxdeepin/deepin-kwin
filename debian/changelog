@@ -1,3 +1,18 @@
+kwin (4:6.1.18) unstable; urgency=medium
+
+  * feat(eventlog): add split screen and multitask view event logging
+  * fix: restore changes reverted by commit 3ed4fd3d
+  * fix(maximize): prevent MaximizeEffect from blocking SplitPreviewEffect
+  * refactor(multitaskview): async DBus loading with Model and caching
+  * fix(opengl): disable debug GL framebuffer logging
+  * fix: restore dialog parent when breaking show desktop
+  * fix(workspace): restrict dragging with content to OpenGL backend only
+  * fix: prevent notification center flash during show desktop
+  * fix: use QPointer to prevent UAF in matchOffers lambda
+  * fix: restore keyboard focus when effect releases keyboard grab
+
+ -- justforlxz <justforlxz@gmail.com>  Wed, 13 May 2026 13:45:45 +0800
+
 kwin (4:6.1.17) unstable; urgency=medium
 
   * fix(decoration): disconnect settings signals on client destruction
