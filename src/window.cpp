@@ -2210,6 +2210,19 @@ void Window::handleInteractiveMoveResize(qreal x, qreal y, qreal x_root, qreal y
         return; // we're still waiting for the client or the timeout
     }
 
+    /* NOTE:
+    * xcb_warp_pointer() is asynchronous, but KWin updates m_pos immediately.
+    * When resize is initiated from the titlebar context menu, stale
+    * EnterNotify events carrying pre-warp coordinates may later be processed
+    * as motion events, causing the window to shrink unexpectedly.
+    *
+    * Skip stale motion events after resize starts via menu/shortcut path using startPending flag.
+    */
+    if (m_interactiveMoveResize.startPending) {
+        m_interactiveMoveResize.startPending = false;
+        return;
+    }
+
     const Gravity gravity = interactiveMoveResizeGravity();
     if ((gravity == Gravity::None && !isMovableAcrossScreens())
         || (gravity != Gravity::None && (isShade() || !isResizable()))) {
@@ -3006,6 +3019,8 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
                                               || cmd == Options::MouseUnrestrictedMove));
         if (!startInteractiveMoveResize()) {
             setInteractiveMoveResizePointerButtonDown(false);
+        } else {
+            m_interactiveMoveResize.startPending = true;
         }
         updateCursor();
         break;
@@ -3039,6 +3054,8 @@ bool Window::performMouseCommand(Options::MouseCommand cmd, const QPointF &globa
         setUnrestrictedInteractiveMoveResize((cmd == Options::MouseUnrestrictedResize));
         if (!startInteractiveMoveResize()) {
             setInteractiveMoveResizePointerButtonDown(false);
+        } else {
+            m_interactiveMoveResize.startPending = true;
         }
         updateCursor();
         break;

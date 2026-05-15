@@ -2151,6 +2151,7 @@ private:
     {
         bool enabled = false;
         bool unrestricted = false;
+        bool startPending = false;
         QPointF offset;
         QPointF invertedOffset;
         QRectF initialGeometry;
