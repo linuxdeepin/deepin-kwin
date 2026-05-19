@@ -20,7 +20,7 @@ override_dh_auto_configure:
 		-DENABLE_WERROR=ON \
 		-DBUILD_TESTING=OFF \
 		-DKWIN_BUILD_KCMS=OFF \
-		-DEVENTLOG_VERSION=$(DEB_VERSION_UPSTREAM)
+		-DEVENTLOG_VERSION=$(DEB_VERSION)
 
 override_dh_auto_test:
 	# Disable auto tests at build time
