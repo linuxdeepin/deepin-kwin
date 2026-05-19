@@ -2511,6 +2511,10 @@ void MultitaskViewEffect::setActive(bool active)
         return ;
     }
 
+    if (!active && m_isRemoveWorkspace) {
+        cleanDesktopData(m_lastDesktopIndex);
+    }
+
     m_activated = active;
 
     QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "MultitaskStateChanged");
