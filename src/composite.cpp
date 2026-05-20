@@ -926,7 +926,9 @@ void Compositor::handleDConfigUserTypeChanged(const QString &type)
         if (m_effectType == EffectType::AutoSelect && effectType != EffectType::AutoSelect) {
             qCInfo(KWIN_CORE) << "default effectType is AutoSelect, change to" << effectType;
             m_effectType = effectType;
-            QMetaObject::invokeMethod(this, "reinitialize", Qt::QueuedConnection);
+            if (m_state == State::On) {
+                QMetaObject::invokeMethod(this, "reinitialize", Qt::QueuedConnection);
+            }
             return;
         }
 
