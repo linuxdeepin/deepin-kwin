@@ -1,3 +1,14 @@
+kwin (4:6.1.20) unstable; urgency=medium
+
+  * fix: protect OpenGL resource cleanup with context existence checks
+  * feat(window): add usefullscreenarea rule for maximized windows
+  * fix(window): skip stale motion event after warp in menu resize
+  * fix(build): use full Debian version for eventlog version
+  * Revert "refactor(multitaskview): async DBus loading with Model and caching"
+  * fix(multitaskview): complete pending desktop removal on premature exit
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 20 May 2026 13:19:50 +0800
+
 kwin (4:6.1.19) unstable; urgency=medium
 
   * fix: missing QDBusPendingCall header
