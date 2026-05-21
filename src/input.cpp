@@ -2605,11 +2605,16 @@ public:
     {
         auto seat = waylandServer()->seat();
         auto ddeSeat = waylandServer()->ddeSeat();
-        if (!seat->isDragPointer()) {
-            return false;
-        }
+        // isDragTouch must precede isDragPointer: Drag::Mode is
+        // mutually exclusive (None/Pointer/Touch). During touch-initiated
+        // DnD, isDragPointer is false, so checking !isDragPointer first
+        // would skip the touch check entirely and let pointer button events
+        // leak to clients, causing Qt's drag eventFilter to exit early.
         if (seat->isDragTouch()) {
             return true;
+        }
+        if (!seat->isDragPointer()) {
+            return false;
         }
         seat->setTimestamp(event->timestamp());
         switch (event->type()) {
