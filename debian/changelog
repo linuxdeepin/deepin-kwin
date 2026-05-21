@@ -1,3 +1,10 @@
+kwin (4:6.1.21) unstable; urgency=medium
+
+  * Revert "fix: prevent notification center flash during show desktop"
+  * fix(compositor): avoid premature reinitialize during startup
+
+ -- justforlxz <justforlxz@gmail.com>  Thu, 21 May 2026 21:42:07 +0800
+
 kwin (4:6.1.20) unstable; urgency=medium
 
   * fix: protect OpenGL resource cleanup with context existence checks
