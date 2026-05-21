@@ -62,3 +62,11 @@ if (TARGET Qt6::Gui)
     add_executable(xdgactivationtest-qt6 xdgactivationtest-qt6.cpp)
     target_link_libraries(xdgactivationtest-qt6 Qt6::Widgets)
 endif()
+
+# MultitaskView ref/unref assert reproduction (manual; requires a running
+# Wayland + XWayland session). Only needs libxcb, so build it whenever XCB
+# is available. See test_mtview_assert.c for usage and mechanism.
+if (TARGET XCB::XCB)
+    add_executable(test_mtview_assert test_mtview_assert.c)
+    target_link_libraries(test_mtview_assert XCB::XCB)
+endif()

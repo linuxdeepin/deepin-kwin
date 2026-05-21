@@ -1712,6 +1712,11 @@ void MultitaskViewEffect::onWindowDeleted(EffectWindow *w)
     if (!m_activated)
         return;
 
+    // setActive() refs every window in the stacking order, regardless of type,
+    // so any window can hold a visible ref here. Remove it before the early
+    // returns below, otherwise cleanup() will unref a dangling EffectWindow.
+    m_windowVisibleRefs.remove(w);
+
     if (w->isDock()) {
         m_dock = nullptr;
         m_dockRect.setSize(QSize(0, 0));
@@ -1742,7 +1747,7 @@ void MultitaskViewEffect::onWindowAdded(EffectWindow *w)
     if (!m_activated)
         return;
 
-    w->refVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP);
+    m_windowVisibleRefs.insert(w, EffectWindowVisibleRef(w, EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP));
 
     if (w->isDock()) {
         m_dockRect = w->frameGeometry().toRect();
@@ -2499,9 +2504,7 @@ void MultitaskViewEffect::cleanup()
     m_notificationList.clear();
     MultiViewBackgroundManager::instance()->clearCurrentBackgroundList();
 
-    for (EffectWindow *w : effects->stackingOrder()) {
-        w->unrefVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP);
-    }
+    m_windowVisibleRefs.clear();
 }
 
 void MultitaskViewEffect::setActive(bool active)
@@ -2585,7 +2588,7 @@ void MultitaskViewEffect::setActive(bool active)
         }
 
         for (EffectWindow *w : windowsList) {
-            w->refVisibleEx(EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP);
+            m_windowVisibleRefs.insert(w, EffectWindowVisibleRef(w, EffectWindow::PAINT_DISABLED_BY_MINIMIZE | EffectWindow::PAINT_DISABLED_BY_DESKTOP));
         }
 
         effects->addRepaintFull();

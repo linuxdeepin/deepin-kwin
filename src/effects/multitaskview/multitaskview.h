@@ -543,6 +543,7 @@ private:
     QList<QKeySequence> shortcutw;
     QList<QKeySequence> shortcuta;
     QList<EffectWindow *> m_notificationList;
+    QHash<EffectWindow *, EffectWindowVisibleRef> m_windowVisibleRefs;
 
     EffectWindow *m_windowMove = nullptr;
     EffectWindow *m_dock = nullptr;
