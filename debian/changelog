@@ -1,3 +1,9 @@
+kwin (4:6.1.22) unstable; urgency=medium
+
+  * Revert "perf: notify systemd ready in Workspace instead of ApplicationX11"
+
+ -- justforlxz <justforlxz@gmail.com>  Fri, 22 May 2026 16:38:45 +0800
+
 kwin (4:6.1.21) unstable; urgency=medium
 
   * Revert "fix: prevent notification center flash during show desktop"
