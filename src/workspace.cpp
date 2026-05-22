@@ -91,10 +91,6 @@
 #include <xcb/xinerama.h>
 
 #ifdef BUILD_ON_V25
-#include <systemd/sd-daemon.h>
-#endif
-
-#ifdef BUILD_ON_V25
 #define DBUS_APPEARANCE_SERVICE "org.deepin.dde.Appearance1"
 #define DBUS_APPEARANCE_OBJ "/org/deepin/dde/Appearance1"
 #define DBUS_APPEARANCE_INTF "org.deepin.dde.Appearance1"
@@ -235,11 +231,6 @@ Workspace::Workspace()
     if (!Compositor::self()) {
         Q_ASSERT(kwinApp()->operationMode() == Application::OperationMode::OperationModeX11);
         X11Compositor::create(this);
-
-#ifdef BUILD_ON_V25
-        // Notify systemd as early as possible - compositor is ready to manage windows
-        sd_notify(0, "READY=1");
-#endif
     }
     m_windowStyleManager = std::make_unique<WindowStyleManager>();
     m_debugPixmapManager = std::make_unique<DebugPixmap>();
