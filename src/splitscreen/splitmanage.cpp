@@ -133,7 +133,9 @@ void SplitManage::handleQuickTile(int launchType)
     if (isSplitWindow(window)) {
         addQuickTile(desktop, screenName, window);
         createSplitBar(screenName);
-        EventLog::reportSplitScreen(launchType, window);
+        if (launchType == LaunchTypeWindowButton || launchType == LaunchTypeMouseDrag) {
+            EventLog::reportSplitScreen(launchType, window);
+        }
         {
             m_data[window].desktop = desktop;
             m_data[window].screenName = screenName;
