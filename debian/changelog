@@ -1,3 +1,9 @@
+kwin (4:6.1.23) unstable; urgency=medium
+
+  * fix(input): filter pointer events during touch drag-and-drop
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Tue, 27 May 2026 14:26:12 +0800
+
 kwin (4:6.1.22) unstable; urgency=medium
 
   * Revert "perf: notify systemd ready in Workspace instead of ApplicationX11"
