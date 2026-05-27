@@ -8,11 +8,16 @@
 // client
 #include "KWayland/Client/connection_thread.h"
 #include "KWayland/Client/event_queue.h"
-#include "KWayland/Client/fakeinput.h"
 #include "KWayland/Client/registry.h"
 // server
 #include "wayland/display.h"
 #include "wayland/fakeinput_interface.h"
+
+// Use the generated C protocol header directly to bypass KWayland client
+// library version checks. The system libKWaylandClient silently drops
+// requests for protocol messages added in newer versions (touch_down v2,
+// pointer_motion_absolute v3, keyboard_key v4).
+#include "wayland-fake-input-client-protocol.h"
 
 #include <linux/input.h>
 
@@ -47,7 +52,7 @@ private:
     KWayland::Client::ConnectionThread *m_connection = nullptr;
     QThread *m_thread = nullptr;
     KWayland::Client::EventQueue *m_queue = nullptr;
-    KWayland::Client::FakeInput *m_fakeInput = nullptr;
+    org_kde_kwin_fake_input *m_native = nullptr;
 };
 
 static const QString s_socketName = QStringLiteral("kwayland-test-fake-input-0");
@@ -86,9 +91,18 @@ void FakeInputTest::init()
     registry.setup();
     QVERIFY(interfacesAnnouncedSpy.wait());
 
-    m_fakeInput =
-        registry.createFakeInput(registry.interface(KWayland::Client::Registry::Interface::FakeInput).name, registry.interface(KWayland::Client::Registry::Interface::FakeInput).version, this);
-    QVERIFY(m_fakeInput->isValid());
+    const quint32 name = registry.interface(KWayland::Client::Registry::Interface::FakeInput).name;
+    const quint32 version = std::max<quint32>(
+        registry.interface(KWayland::Client::Registry::Interface::FakeInput).version, 4);
+
+    // Bind directly via C API with version 4 to avoid KWayland client
+    // library version gating that drops newer protocol requests.
+    m_native = static_cast<org_kde_kwin_fake_input *>(wl_registry_bind(
+        registry.registry(),
+        name,
+        &org_kde_kwin_fake_input_interface,
+        version));
+    QVERIFY(m_native);
 
     QVERIFY(deviceCreatedSpy.wait());
     m_device = deviceCreatedSpy.first().first().value<FakeInputDevice *>();
@@ -102,7 +116,10 @@ void FakeInputTest::cleanup()
         delete variable;    \
         variable = nullptr; \
     }
-    CLEANUP(m_fakeInput)
+    if (m_native) {
+        org_kde_kwin_fake_input_destroy(m_native);
+        m_native = nullptr;
+    }
     CLEANUP(m_queue)
     if (m_connection) {
         m_connection->deleteLater();
@@ -128,7 +145,7 @@ void FakeInputTest::testAuthenticate()
     QVERIFY(!m_device->isAuthenticated());
     QSignalSpy authenticationRequestedSpy(m_device, &FakeInputDevice::authenticationRequested);
 
-    m_fakeInput->authenticate(QStringLiteral("test-case"), QStringLiteral("to test"));
+    org_kde_kwin_fake_input_authenticate(m_native, "test-case", "to test");
     QVERIFY(authenticationRequestedSpy.wait());
     QCOMPARE(authenticationRequestedSpy.count(), 1);
     QCOMPARE(authenticationRequestedSpy.first().at(0).toString(), QStringLiteral("test-case"));
@@ -144,18 +161,18 @@ void FakeInputTest::testMotion()
     QSignalSpy motionSpy(m_device, &FakeInputDevice::pointerMotionRequested);
 
     // without an authentication we shouldn't get the signals
-    m_fakeInput->requestPointerMove(QSizeF(1, 2));
+    org_kde_kwin_fake_input_pointer_motion(m_native, wl_fixed_from_double(1), wl_fixed_from_double(2));
     QVERIFY(!motionSpy.wait(100));
 
     // now let's authenticate the interface
     m_device->setAuthentication(true);
-    m_fakeInput->requestPointerMove(QSizeF(1, 2));
+    org_kde_kwin_fake_input_pointer_motion(m_native, wl_fixed_from_double(1), wl_fixed_from_double(2));
     QVERIFY(motionSpy.wait());
     QCOMPARE(motionSpy.count(), 1);
     QCOMPARE(motionSpy.last().first().toPointF(), QPointF(1, 2));
 
     // just for the fun: once more
-    m_fakeInput->requestPointerMove(QSizeF(0, 0));
+    org_kde_kwin_fake_input_pointer_motion(m_native, wl_fixed_from_double(0), wl_fixed_from_double(0));
     QVERIFY(motionSpy.wait());
     QCOMPARE(motionSpy.count(), 2);
     QCOMPARE(motionSpy.last().first().toPointF(), QPointF(0, 0));
@@ -168,18 +185,18 @@ void FakeInputTest::testMotionAbsolute()
     QSignalSpy motionSpy(m_device, &FakeInputDevice::pointerMotionAbsoluteRequested);
 
     // without an authentication we shouldn't get the signals
-    m_fakeInput->requestPointerMoveAbsolute(QPointF(1, 2));
+    org_kde_kwin_fake_input_pointer_motion_absolute(m_native, wl_fixed_from_double(1), wl_fixed_from_double(2));
     QVERIFY(!motionSpy.wait(100));
 
     // now let's authenticate the interface
     m_device->setAuthentication(true);
-    m_fakeInput->requestPointerMoveAbsolute(QPointF(1, 2));
+    org_kde_kwin_fake_input_pointer_motion_absolute(m_native, wl_fixed_from_double(1), wl_fixed_from_double(2));
     QVERIFY(motionSpy.wait());
     QCOMPARE(motionSpy.count(), 1);
     QCOMPARE(motionSpy.last().first().toPointF(), QPointF(1, 2));
 
     // just for the fun: once more
-    m_fakeInput->requestPointerMoveAbsolute(QPointF(0, 0));
+    org_kde_kwin_fake_input_pointer_motion_absolute(m_native, wl_fixed_from_double(0), wl_fixed_from_double(0));
     QVERIFY(motionSpy.wait());
     QCOMPARE(motionSpy.count(), 2);
     QCOMPARE(motionSpy.last().first().toPointF(), QPointF(0, 0));
@@ -204,7 +221,10 @@ void FakeInputTest::testPointerButtonQt()
 
     // without an authentication we shouldn't get the signals
     QFETCH(Qt::MouseButton, qtButton);
-    m_fakeInput->requestPointerButtonClick(qtButton);
+    QFETCH(quint32, linuxButton);
+    Q_UNUSED(qtButton);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_PRESSED);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_RELEASED);
     QVERIFY(!pressedSpy.wait(100));
     QVERIFY(pressedSpy.isEmpty());
     QVERIFY(releasedSpy.isEmpty());
@@ -212,7 +232,8 @@ void FakeInputTest::testPointerButtonQt()
     // now authenticate
     m_device->setAuthentication(true);
     // now our click should work
-    m_fakeInput->requestPointerButtonClick(qtButton);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_PRESSED);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_RELEASED);
     QVERIFY(releasedSpy.wait());
     QCOMPARE(pressedSpy.count(), 1);
     QCOMPARE(releasedSpy.count(), 1);
@@ -220,13 +241,13 @@ void FakeInputTest::testPointerButtonQt()
     QTEST(releasedSpy.last().first().value<quint32>(), "linuxButton");
 
     // and a press/release "manually"
-    m_fakeInput->requestPointerButtonPress(qtButton);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_PRESSED);
     QVERIFY(pressedSpy.wait());
     QCOMPARE(pressedSpy.count(), 2);
     QCOMPARE(releasedSpy.count(), 1);
     QTEST(pressedSpy.last().first().value<quint32>(), "linuxButton");
     // and release
-    m_fakeInput->requestPointerButtonRelease(qtButton);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_RELEASED);
     QVERIFY(releasedSpy.wait());
     QCOMPARE(pressedSpy.count(), 2);
     QCOMPARE(releasedSpy.count(), 2);
@@ -249,14 +270,15 @@ void FakeInputTest::testPointerButtonLinux_data()
 
 void FakeInputTest::testPointerButtonLinux()
 {
-    // this test verifies that pointer button events are properly passed to the server with Qt button codes
+    // this test verifies that pointer button events are properly passed to the server with Linux button codes
     QVERIFY(!m_device->isAuthenticated());
     QSignalSpy pressedSpy(m_device, &FakeInputDevice::pointerButtonPressRequested);
     QSignalSpy releasedSpy(m_device, &FakeInputDevice::pointerButtonReleaseRequested);
 
     // without an authentication we shouldn't get the signals
     QFETCH(quint32, linuxButton);
-    m_fakeInput->requestPointerButtonClick(linuxButton);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_PRESSED);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_RELEASED);
     QVERIFY(!pressedSpy.wait(100));
     QVERIFY(pressedSpy.isEmpty());
     QVERIFY(releasedSpy.isEmpty());
@@ -264,7 +286,8 @@ void FakeInputTest::testPointerButtonLinux()
     // now authenticate
     m_device->setAuthentication(true);
     // now our click should work
-    m_fakeInput->requestPointerButtonClick(linuxButton);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_PRESSED);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_RELEASED);
     QVERIFY(releasedSpy.wait());
     QCOMPARE(pressedSpy.count(), 1);
     QCOMPARE(releasedSpy.count(), 1);
@@ -272,13 +295,13 @@ void FakeInputTest::testPointerButtonLinux()
     QTEST(releasedSpy.last().first().value<quint32>(), "linuxButton");
 
     // and a press/release "manually"
-    m_fakeInput->requestPointerButtonPress(linuxButton);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_PRESSED);
     QVERIFY(pressedSpy.wait());
     QCOMPARE(pressedSpy.count(), 2);
     QCOMPARE(releasedSpy.count(), 1);
     QTEST(pressedSpy.last().first().value<quint32>(), "linuxButton");
     // and release
-    m_fakeInput->requestPointerButtonRelease(linuxButton);
+    org_kde_kwin_fake_input_button(m_native, linuxButton, WL_POINTER_BUTTON_STATE_RELEASED);
     QVERIFY(releasedSpy.wait());
     QCOMPARE(pressedSpy.count(), 2);
     QCOMPARE(releasedSpy.count(), 2);
@@ -304,15 +327,16 @@ void FakeInputTest::testAxis()
 
     QFETCH(Qt::Orientation, orientation);
     QFETCH(qreal, delta);
+    const uint32_t wlAxis = (orientation == Qt::Horizontal) ? WL_POINTER_AXIS_HORIZONTAL_SCROLL : WL_POINTER_AXIS_VERTICAL_SCROLL;
     // without an authentication we shouldn't get the signals
-    m_fakeInput->requestPointerAxis(orientation, delta);
+    org_kde_kwin_fake_input_axis(m_native, wlAxis, wl_fixed_from_double(delta));
     QVERIFY(!axisSpy.wait(100));
 
     // now authenticate
     m_device->setAuthentication(true);
 
     // now we can properly test
-    m_fakeInput->requestPointerAxis(orientation, delta);
+    org_kde_kwin_fake_input_axis(m_native, wlAxis, wl_fixed_from_double(delta));
     QVERIFY(axisSpy.wait());
     QCOMPARE(axisSpy.count(), 1);
     QCOMPARE(axisSpy.first().at(0).value<Qt::Orientation>(), orientation);
@@ -329,66 +353,66 @@ void FakeInputTest::testTouch()
     QSignalSpy touchCancelSpy(m_device, &FakeInputDevice::touchCancelRequested);
 
     // without an authentication we shouldn't get the signals
-    m_fakeInput->requestTouchDown(0, QPointF(1, 2));
+    org_kde_kwin_fake_input_touch_down(m_native, 0, wl_fixed_from_double(1), wl_fixed_from_double(2));
     QVERIFY(!touchDownSpy.wait(100));
 
-    m_fakeInput->requestTouchMotion(0, QPointF(3, 4));
+    org_kde_kwin_fake_input_touch_motion(m_native, 0, wl_fixed_from_double(3), wl_fixed_from_double(4));
     QVERIFY(!touchMotionSpy.wait(100));
 
-    m_fakeInput->requestTouchUp(0);
+    org_kde_kwin_fake_input_touch_up(m_native, 0);
     QVERIFY(!touchUpSpy.wait(100));
 
-    m_fakeInput->requestTouchDown(1, QPointF(5, 6));
+    org_kde_kwin_fake_input_touch_down(m_native, 1, wl_fixed_from_double(5), wl_fixed_from_double(6));
     QVERIFY(!touchDownSpy.wait(100));
 
-    m_fakeInput->requestTouchFrame();
+    org_kde_kwin_fake_input_touch_frame(m_native);
     QVERIFY(!touchFrameSpy.wait(100));
 
-    m_fakeInput->requestTouchCancel();
+    org_kde_kwin_fake_input_touch_cancel(m_native);
     QVERIFY(!touchCancelSpy.wait(100));
 
     // now let's authenticate the interface
     m_device->setAuthentication(true);
-    m_fakeInput->requestTouchDown(0, QPointF(1, 2));
+    org_kde_kwin_fake_input_touch_down(m_native, 0, wl_fixed_from_double(1), wl_fixed_from_double(2));
     QVERIFY(touchDownSpy.wait());
     QCOMPARE(touchDownSpy.count(), 1);
     QCOMPARE(touchDownSpy.last().at(0).value<quint32>(), quint32(0));
     QCOMPARE(touchDownSpy.last().at(1).toPointF(), QPointF(1, 2));
 
     // Same id should not trigger another touchDown.
-    m_fakeInput->requestTouchDown(0, QPointF(5, 6));
+    org_kde_kwin_fake_input_touch_down(m_native, 0, wl_fixed_from_double(5), wl_fixed_from_double(6));
     QVERIFY(!touchDownSpy.wait(100));
 
-    m_fakeInput->requestTouchMotion(0, QPointF(3, 4));
+    org_kde_kwin_fake_input_touch_motion(m_native, 0, wl_fixed_from_double(3), wl_fixed_from_double(4));
     QVERIFY(touchMotionSpy.wait());
     QCOMPARE(touchMotionSpy.count(), 1);
     QCOMPARE(touchMotionSpy.last().at(0).value<quint32>(), quint32(0));
     QCOMPARE(touchMotionSpy.last().at(1).toPointF(), QPointF(3, 4));
 
     // touchMotion with bogus id should not trigger signal.
-    m_fakeInput->requestTouchMotion(1, QPointF(3, 4));
+    org_kde_kwin_fake_input_touch_motion(m_native, 1, wl_fixed_from_double(3), wl_fixed_from_double(4));
     QVERIFY(!touchMotionSpy.wait(100));
 
-    m_fakeInput->requestTouchUp(0);
+    org_kde_kwin_fake_input_touch_up(m_native, 0);
     QVERIFY(touchUpSpy.wait());
     QCOMPARE(touchUpSpy.count(), 1);
     QCOMPARE(touchUpSpy.last().at(0).value<quint32>(), quint32(0));
 
     // touchUp with bogus id should not trigger signal.
-    m_fakeInput->requestTouchUp(1);
+    org_kde_kwin_fake_input_touch_up(m_native, 1);
     QVERIFY(!touchUpSpy.wait(100));
 
-    m_fakeInput->requestTouchDown(1, QPointF(5, 6));
+    org_kde_kwin_fake_input_touch_down(m_native, 1, wl_fixed_from_double(5), wl_fixed_from_double(6));
     QVERIFY(touchDownSpy.wait());
     QCOMPARE(touchDownSpy.count(), 2);
     QCOMPARE(touchDownSpy.last().at(0).value<quint32>(), quint32(1));
     QCOMPARE(touchDownSpy.last().at(1).toPointF(), QPointF(5, 6));
 
-    m_fakeInput->requestTouchFrame();
+    org_kde_kwin_fake_input_touch_frame(m_native);
     QVERIFY(touchFrameSpy.wait());
     QCOMPARE(touchFrameSpy.count(), 1);
 
-    m_fakeInput->requestTouchCancel();
+    org_kde_kwin_fake_input_touch_cancel(m_native);
     QVERIFY(touchCancelSpy.wait());
     QCOMPARE(touchCancelSpy.count(), 1);
 }
@@ -405,15 +429,15 @@ void FakeInputTest::testKeyboardKeyLinux_data()
 
 void FakeInputTest::testKeyboardKeyLinux()
 {
-    // this test verifies that keyboard key events are properly passed to the server with Qt button codes
+    // this test verifies that keyboard key events are properly passed to the server with Linux key codes
     QVERIFY(!m_device->isAuthenticated());
     QSignalSpy pressedSpy(m_device, &FakeInputDevice::keyboardKeyPressRequested);
     QSignalSpy releasedSpy(m_device, &FakeInputDevice::keyboardKeyReleaseRequested);
 
     // without an authentication we shouldn't get the signals
     QFETCH(quint32, linuxKey);
-    m_fakeInput->requestKeyboardKeyPress(linuxKey);
-    m_fakeInput->requestKeyboardKeyRelease(linuxKey);
+    org_kde_kwin_fake_input_keyboard_key(m_native, linuxKey, WL_KEYBOARD_KEY_STATE_PRESSED);
+    org_kde_kwin_fake_input_keyboard_key(m_native, linuxKey, WL_KEYBOARD_KEY_STATE_RELEASED);
     QVERIFY(!pressedSpy.wait(100));
     QVERIFY(pressedSpy.isEmpty());
     QVERIFY(releasedSpy.isEmpty());
@@ -421,8 +445,8 @@ void FakeInputTest::testKeyboardKeyLinux()
     // now authenticate
     m_device->setAuthentication(true);
     // now our click should work
-    m_fakeInput->requestKeyboardKeyPress(linuxKey);
-    m_fakeInput->requestKeyboardKeyRelease(linuxKey);
+    org_kde_kwin_fake_input_keyboard_key(m_native, linuxKey, WL_KEYBOARD_KEY_STATE_PRESSED);
+    org_kde_kwin_fake_input_keyboard_key(m_native, linuxKey, WL_KEYBOARD_KEY_STATE_RELEASED);
     QVERIFY(releasedSpy.wait());
     QCOMPARE(pressedSpy.count(), 1);
     QCOMPARE(releasedSpy.count(), 1);
@@ -430,13 +454,13 @@ void FakeInputTest::testKeyboardKeyLinux()
     QTEST(releasedSpy.last().first().value<quint32>(), "linuxKey");
 
     // and a press/release "manually"
-    m_fakeInput->requestKeyboardKeyPress(linuxKey);
+    org_kde_kwin_fake_input_keyboard_key(m_native, linuxKey, WL_KEYBOARD_KEY_STATE_PRESSED);
     QVERIFY(pressedSpy.wait());
     QCOMPARE(pressedSpy.count(), 2);
     QCOMPARE(releasedSpy.count(), 1);
     QTEST(pressedSpy.last().first().value<quint32>(), "linuxKey");
     // and release
-    m_fakeInput->requestKeyboardKeyRelease(linuxKey);
+    org_kde_kwin_fake_input_keyboard_key(m_native, linuxKey, WL_KEYBOARD_KEY_STATE_RELEASED);
     QVERIFY(releasedSpy.wait());
     QCOMPARE(pressedSpy.count(), 2);
     QCOMPARE(releasedSpy.count(), 2);

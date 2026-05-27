@@ -596,18 +596,18 @@ void TestVirtualDesktops::load()
     // no config yet, load should not change anything
     vds->load();
     QCOMPARE(vds->count(), (uint)0);
-    // empty config should create one desktop
+    // empty config should create desktops with default number
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     vds->setConfig(config);
     vds->load();
-    QCOMPARE(vds->count(), (uint)1);
+    QCOMPARE(vds->count(), (uint)2);
     // setting a sensible number
-    config->group("Desktops").writeEntry("Number", 4);
+    config->group("VirtualDesktops").writeEntry("Number", 4);
     vds->load();
     QCOMPARE(vds->count(), (uint)4);
 
     // setting the config value and reloading should update
-    config->group("Desktops").writeEntry("Number", 5);
+    config->group("VirtualDesktops").writeEntry("Number", 5);
     vds->load();
     QCOMPARE(vds->count(), (uint)5);
 }
@@ -621,11 +621,11 @@ void TestVirtualDesktops::save()
     KSharedConfig::Ptr config = KSharedConfig::openConfig(QString(), KConfig::SimpleConfig);
     vds->setConfig(config);
 
-    // now save should create the group "Desktops"
-    QCOMPARE(config->hasGroup("Desktops"), false);
+    // now save should create the group "VirtualDesktops"
+    QCOMPARE(config->hasGroup("VirtualDesktops"), false);
     vds->save();
-    QCOMPARE(config->hasGroup("Desktops"), true);
-    KConfigGroup desktops = config->group("Desktops");
+    QCOMPARE(config->hasGroup("VirtualDesktops"), true);
+    KConfigGroup desktops = config->group("VirtualDesktops");
     QCOMPARE(desktops.readEntry<int>("Number", 1), 4);
     QCOMPARE(desktops.hasKey("Name_1"), false);
     QCOMPARE(desktops.hasKey("Name_2"), false);
