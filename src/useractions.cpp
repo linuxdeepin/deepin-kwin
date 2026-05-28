@@ -1611,7 +1611,7 @@ void Workspace::slotWindowToNextScreen()
  */
 void Workspace::slotWindowMaximize()
 {
-    if (USABLE_ACTIVE_WINDOW) {
+    if (USABLE_ACTIVE_WINDOW && m_activeWindow->isMaximizable()) {
         if (m_activeWindow->maximizeMode() != MaximizeFull) {
             resetInteractiveMoveResize();
             performWindowOperation(m_activeWindow, Options::MaximizeOp);
@@ -1629,7 +1629,7 @@ void Workspace::slotWindowUnMaximize()
 
 void Workspace::slotToggleWindowMaximize()
 {
-    if (USABLE_ACTIVE_WINDOW) {
+    if (USABLE_ACTIVE_WINDOW && m_activeWindow->isMaximizable()) {
         resetInteractiveMoveResize();
         performWindowOperation(m_activeWindow, m_activeWindow->maximizeMode() == MaximizeFull ? Options::RestoreOp : Options::MaximizeOp);
     }
