@@ -1657,7 +1657,14 @@ public:
     ~GLVertexBufferPrivate()
     {
         if (!hasGLContext()) {
-            qCWarning(LIBKWINGLUTILS) << "Could not delete vertex buffer because no context is current";
+            return;
+        }
+
+        // When cleanupGL() was called during normal shutdown, s_cleanupDone is
+        // true and the GL context is still valid, so GL cleanup is safe.
+        // When s_cleanupDone is false (abnormal exit via X I/O error → exit() →
+        // __cxa_finalize), the GL context is likely broken, skip all GL calls.
+        if (!s_cleanupDone) {
             return;
         }
 
@@ -1687,6 +1694,7 @@ public:
     static bool haveSyncFences;
     static bool hasMapBufferRange;
     static bool supportsIndexedQuads;
+    static bool s_cleanupDone;
     QByteArray dataStore;
     bool persistent;
     bool useColor;
@@ -1711,6 +1719,7 @@ std::unique_ptr<GLVertexBuffer> GLVertexBufferPrivate::streamingBuffer;
 bool GLVertexBufferPrivate::haveBufferStorage = false;
 bool GLVertexBufferPrivate::haveSyncFences = false;
 std::unique_ptr<IndexBuffer> GLVertexBufferPrivate::s_indexBuffer;
+bool GLVertexBufferPrivate::s_cleanupDone = false;
 
 void GLVertexBufferPrivate::interleaveArrays(float *dst, int dim,
                                              const float *vertices, const float *texcoords,
@@ -2218,6 +2227,7 @@ void GLVertexBuffer::initStatic()
 
 void GLVertexBuffer::cleanup()
 {
+    GLVertexBufferPrivate::s_cleanupDone = true;
     GLVertexBufferPrivate::s_indexBuffer.reset();
     GLVertexBufferPrivate::hasMapBufferRange = false;
     GLVertexBufferPrivate::supportsIndexedQuads = false;
