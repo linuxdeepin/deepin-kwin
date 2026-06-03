@@ -137,9 +137,6 @@ void PlasmaShellSurfaceInterfacePrivate::org_kde_plasma_surface_set_output(Resou
 
 void PlasmaShellSurfaceInterfacePrivate::org_kde_plasma_surface_set_position(Resource *resource, int32_t x, int32_t y)
 {
-    if (m_positionSet && m_globalPos == QPoint(x, y)) {
-        return;
-    }
     m_positionSet = true;
     m_globalPos = QPoint(x, y);
     Q_EMIT q->positionChanged();

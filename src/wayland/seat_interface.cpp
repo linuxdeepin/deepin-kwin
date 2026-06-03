@@ -383,13 +383,8 @@ bool SeatInterfacePrivate::skipVerify(pid_t pid)
 
 bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, AbstractDataSource *dataSource)
 {
-    if (!dataDevice) {
-        qCWarning(KWIN_CORE) << "verify selection bad device...";
-        return false;
-    }
-    if (!dataSource) {
-        qCWarning(KWIN_CORE) << "verify selection null source, clearing selection";
-        dataDevice->sendSelection(nullptr);
+    if (!dataDevice || !dataSource) {
+        qCWarning(KWIN_CORE) << "verify selection bad source or device...";
         return false;
     }
 
@@ -407,15 +402,6 @@ bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, Abstr
 
     qCWarning(KWIN_CORE) << "set_cp:verify selection from " << dataSource << "@"
             << dataSource->processId() << " to " << dataDevice << " @ " << dataDevice->processId();
-    if (!ddeSecurity) {
-        if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl &&
-                dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
-            dataDevice->sendPrimarySelection(dataSource);
-        } else {
-            dataDevice->sendSelection(dataSource);
-        }
-        return false;
-    }
     int serial = ddeSecurity->doVerifySecurity(DDESecurityInterface::SecurityType::SEC_CLIPBOARD_COPY, dataSource->processId(), dataDevice->processId());
     if (serial > 0) {
         VerifyState* state = new VerifyState(dataSource);

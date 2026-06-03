@@ -603,15 +603,6 @@ double libinput_event_pointer_get_scroll_value(struct libinput_event_pointer *ev
     }
 }
 
-double libinput_event_pointer_get_axis_value(struct libinput_event_pointer *event, enum libinput_pointer_axis axis)
-{
-    if (axis == LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL) {
-        return event->verticalScrollValue;
-    } else {
-        return event->horizontalScrollValue;
-    }
-}
-
 double libinput_event_pointer_get_scroll_value_v120(struct libinput_event_pointer *event, enum libinput_pointer_axis axis)
 {
     if (axis == LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL) {
