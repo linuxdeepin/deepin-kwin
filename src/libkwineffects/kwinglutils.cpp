@@ -2196,6 +2196,7 @@ void GLVertexBuffer::beginFrame()
 
 void GLVertexBuffer::initStatic()
 {
+    GLVertexBufferPrivate::s_cleanupDone = false;
     if (GLPlatform::instance()->isGLES()) {
         bool haveBaseVertex = hasGLExtension(QByteArrayLiteral("GL_OES_draw_elements_base_vertex"));
         bool haveCopyBuffer = hasGLVersion(3, 0);
