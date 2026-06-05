@@ -872,6 +872,9 @@ bool Workspace::applyOutputConfiguration(const OutputConfiguration &config, cons
     } else {
         qCDebug(KWIN_CORE) << "[Workspace]Skipping updateOutputs: only cosmetic changes detected.";
     }
+    if (config.primaryOutput()) {
+        m_primaryOutput = config.primaryOutput();
+    }
     return true;
 }
 
@@ -1742,7 +1745,8 @@ Output *Workspace::outputAt(const QPointF &pos) const
 
         const QPointF ray = closestPoint - pos;
         const qreal distance = ray.x() * ray.x() + ray.y() * ray.y();
-        if (!bestOutput || distance < minDistance) {
+        if (!bestOutput || distance < minDistance
+            || (distance == minDistance && output == m_primaryOutput)) {
             minDistance = distance;
             bestOutput = output;
         }
@@ -1839,6 +1843,9 @@ void Workspace::updateOutputs(const QVector<Output *> &outputOrder)
 
     if (!m_activeOutput || !m_outputs.contains(m_activeOutput)) {
         setActiveOutput(m_outputs[0]);
+    }
+    if (m_primaryOutput && !m_outputs.contains(m_primaryOutput)) {
+        m_primaryOutput = nullptr;
     }
     if (!m_outputs.contains(m_activeCursorOutput)) {
         m_activeCursorOutput = nullptr;

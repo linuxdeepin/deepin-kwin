@@ -46,6 +46,7 @@ std::shared_ptr<OutputChangeSet> OutputConfiguration::constChangeSet(Output *out
 
 void OutputConfiguration::reset() {
     m_properties.clear();
+    m_primaryOutput = nullptr;
 }
 
 bool OutputChangeSet::hasStructuralChanges() const
@@ -56,5 +57,15 @@ bool OutputChangeSet::hasStructuralChanges() const
         || scale.has_value()
         || transform.has_value()
         || overscan.has_value();
+}
+
+Output *OutputConfiguration::primaryOutput() const
+{
+    return m_primaryOutput;
+}
+
+void OutputConfiguration::setPrimaryOutput(Output *output)
+{
+    m_primaryOutput = output;
 }
 }

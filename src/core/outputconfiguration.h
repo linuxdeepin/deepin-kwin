@@ -12,6 +12,8 @@
 
 #include "output.h"
 
+#include <QPointer>
+
 namespace KWin
 {
 
@@ -55,8 +57,12 @@ public:
     std::shared_ptr<OutputChangeSet> constChangeSet(Output *output) const;
     void reset();
 
+    Output *primaryOutput() const;
+    void setPrimaryOutput(Output *output);
+
 private:
     QMap<Output *, std::shared_ptr<OutputChangeSet>> m_properties;
+    QPointer<Output> m_primaryOutput;
 };
 
 }

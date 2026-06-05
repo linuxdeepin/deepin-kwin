@@ -8,6 +8,7 @@
 #include "outputmanagement_v1_interface.h"
 #include "utils/common.h"
 
+#include "core/output.h"
 #include "core/outputbackend.h"
 #include "core/outputconfiguration.h"
 #include "main.h"
@@ -59,6 +60,7 @@ protected:
     void org_kde_kwin_outputconfiguration_brightness(Resource *resource, wl_resource *outputdevice, int32_t brightness) override;
     void org_kde_kwin_outputconfiguration_ctm(Resource *resource, wl_resource *outputdevice, int32_t red, int32_t green, int32_t blue) override;
     void org_kde_kwin_outputconfiguration_set_color_mode(Resource *resource, wl_resource *outputdevice, uint32_t color_mode) override;
+    void org_kde_kwin_outputconfiguration_set_primary_output(Resource *resource, wl_resource *output) override;
 
 private:
     bool applied = false;
@@ -346,6 +348,25 @@ void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_set_color_mo
 
     const auto mode = static_cast<Output::ColorMode>(color_mode);
     config.changeSet(output->handle())->colorModeValue = mode;
+}
+
+void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_set_primary_output(Resource *resource, wl_resource *output)
+{
+    if (resource->version() < ORG_KDE_KWIN_OUTPUTCONFIGURATION_SET_PRIMARY_OUTPUT_SINCE_VERSION) {
+        return;
+    }
+
+    if (invalid) {
+        return;
+    }
+
+    OutputDeviceInterface *outputDevice = OutputDeviceInterface::get(output);
+    if (!outputDevice || outputDevice->invalid()) {
+        invalid = true;
+        return;
+    }
+
+    config.setPrimaryOutput(outputDevice->handle());
 }
 
 void OutputConfigurationInterface::org_kde_kwin_outputconfiguration_destroy(Resource *resource)

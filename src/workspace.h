@@ -18,11 +18,12 @@
 #include "sm.h"
 #include "utils/common.h"
 // Qt
+#include <QImage>
+#include <QPointer>
+#include <QSize>
 #include <QStringList>
 #include <QTimer>
 #include <QVector>
-#include <QSize>
-#include <QImage>
 // std
 #include <functional>
 #include <memory>
@@ -923,6 +924,7 @@ private:
     Output *m_activeCursorOutput = nullptr;
     QString m_outputsHash;
     QVector<Output *> m_outputOrder;
+    QPointer<Output> m_primaryOutput;
 
     Window *m_activeWindow;
     Window *m_lastActiveWindow;
