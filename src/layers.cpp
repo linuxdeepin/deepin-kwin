@@ -573,8 +573,19 @@ QList<Window *> Workspace::constrainedStackingOrder()
         if (belowIndex == -1 || aboveIndex == -1) {
             continue;
         } else if (aboveIndex < belowIndex) {
-            stacking.removeAt(aboveIndex);
-            stacking.insert(belowIndex, constraint->above);
+            //Don't allow constraint to place a lower-layer window above a higher-layer window.
+            Layer aboveLayer = constraint->above->layer();
+            bool layerViolation = false;
+            for (int i = aboveIndex + 1; i <= belowIndex; i++) {
+                if (stacking[i]->layer() > aboveLayer) {
+                    layerViolation = true;
+                    break;
+                }
+            }
+            if (!layerViolation) {
+                stacking.removeAt(aboveIndex);
+                stacking.insert(belowIndex, constraint->above);
+            }
         }
 
         for (Constraint *child : std::as_const(constraint->children)) {
