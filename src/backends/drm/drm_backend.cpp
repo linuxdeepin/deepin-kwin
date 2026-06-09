@@ -242,7 +242,11 @@ void DrmBackend::handleUdevEvent()
             }
             if (gpu && gpu->isActive()) {
                 qCDebug(KWIN_DRM) << "Received change event for monitored drm device:" << device->devNode();
-                m_updateOutputTimer->start();
+                if (qEnvironmentVariableIsSet("KWIN_UPDATE_OUTPUTS_WITH_TIMER")) {
+                    m_updateOutputTimer->start();
+                } else {
+                    updateOutputs();
+                }
             }
         }
     }
