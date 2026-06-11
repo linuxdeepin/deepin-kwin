@@ -185,6 +185,7 @@ private:
     void hideInfoMessage();
 
     bool isProhibitScreenshot(qulonglong winid = 0);
+    bool isGlobalProhibitScreenshot();
 
     QImage getProhibitShotImage(QSize size);
 

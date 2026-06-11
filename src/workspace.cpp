@@ -3909,51 +3909,18 @@ QImage Workspace::getProhibitShotImage(QSize size)
     m_prohibitShotImage = QImage(size, QImage::Format_ARGB32);
     m_prohibitShotImage.fill(QColor(0xD4, 0xD4, 0xD4));
 
-    QString imageText = i18n("The confidential file cannot be displayed");
-
-    // 为这个QImage构造一个QPainter
     QPainter painter(&m_prohibitShotImage);
+    QImage prohibitImage(":/resources/themes/icon-lock.svg");
 
-    // 改变画笔和字体
-    QPen pen = painter.pen();
-    // 设置画笔的颜色
-    pen.setColor(QColor(65, 77, 104));
+    const qreal maxIconRatio = 0.5;
+    QSize iconSize = prohibitImage.size();
+    const qreal scale = qMin(size.width() / qreal(iconSize.width()),
+                             size.height() / qreal(iconSize.height())) * maxIconRatio;
+    iconSize *= qBound(0.1, scale, 1.0);
 
-    painter.setPen(pen);
-    QFont font;
-    // 设置显示字体的大小
-    font.setPixelSize(14);
-    // 采用系统的字体
-    // painter.setFont(font);
-
-    QImage prohibitImage(":/resources/themes/prohibited.svg");
-    QImage scaledImage = prohibitImage;
-
-    QFontMetrics fm(font);
-    int textHeight = fm.height();
-
-    if (size.width() < prohibitImage.width()) {
-        scaledImage = prohibitImage.scaled(size.width(), size.width());
-    } else if (size.height() < (prohibitImage.height() + textHeight)) {
-        scaledImage = prohibitImage.scaled((size.height() - textHeight) * 0.75, (size.height() - textHeight) * 0.75);
-    }
-
-    int nWidth = (size.width() - scaledImage.width()) / 2;
-    int nHeight = (size.height()  - (scaledImage.height() + textHeight)) / 2;
-
-    if (nWidth < 0) {
-        nWidth = 0;
-    } else if (nHeight < 0) {
-        nHeight = 0;
-    }
-
-    QPoint position(nWidth, nHeight);
-    painter.drawImage(position, scaledImage);
-
-    // 将文字写在Image的中心
-    QRect rect = m_prohibitShotImage.rect();
-    rect.setTop(scaledImage.height());
-    painter.drawText(rect, Qt::AlignCenter, imageText);
+    QPoint position((size.width() - iconSize.width()) / 2,
+                    (size.height() - iconSize.height()) / 2);
+    painter.drawImage(QRect(position, iconSize), prohibitImage, prohibitImage.rect());
 
     return m_prohibitShotImage;
 }

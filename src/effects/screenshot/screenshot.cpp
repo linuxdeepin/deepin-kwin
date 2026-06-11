@@ -190,15 +190,8 @@ QFuture<QImage> ScreenShotEffect::scheduleScreenShot(EffectWindow *window, Scree
     data.window = window;
     data.flags = flags;
 
-    if (isProhibitScreenshot(window->windowId())) {
-        QMetaObject::invokeMethod(this, [&](){
-            data.promise.reportResult(getProhibitShotImage());
-            data.promise.reportFinished();
-        });
-    } else {
-        m_windowScreenShots.append(data);
-        window->addRepaintFull();
-    }
+    m_windowScreenShots.append(data);
+    window->addRepaintFull();
 
     data.promise.reportStarted();
     return data.promise.future();
@@ -217,15 +210,8 @@ QFuture<QImage> ScreenShotEffect::scheduleScreenShot(EffectWindow *window, const
     data.flags = flags;
     data.size = size;
 
-    if (isProhibitScreenshot(window->windowId())) {
-        QMetaObject::invokeMethod(this, [&](){
-            data.promise.reportResult(getProhibitShotImage());
-            data.promise.reportFinished();
-        });
-    } else {
-        m_windowScreenSizedShots.append(data);
-        window->addRepaintFull();
-    }
+    m_windowScreenSizedShots.append(data);
+    window->addRepaintFull();
 
     data.promise.reportStarted();
     return data.promise.future();
@@ -290,13 +276,13 @@ void ScreenShotEffect::paintScreen(int mask, const QRegion &region, ScreenPaintD
 
 void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
 {
-    if (!QX11Info::isPlatformX11()) {
-        if (isProhibitScreenshot()) {
-            screenshot->promise.reportCanceled();
-            return;
-        }
-    }
     EffectWindow *window = screenshot->window;
+
+    if (isGlobalProhibitScreenshot() || isProhibitScreenshot(window->windowId())) {
+        screenshot->promise.reportResult(getProhibitShotImage());
+        screenshot->promise.reportFinished();
+        return;
+    }
 
     QRect geometry = window->expandedGeometry().toRect();
     if (window->hasDecoration() && !(screenshot->flags & ScreenShotIncludeDecoration)) {
@@ -315,6 +301,12 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
 void ScreenShotEffect::takeScreenShot(ScreenShotWindowSizedData *screenshot)
 {
     EffectWindow *window = screenshot->window;
+
+    if (isGlobalProhibitScreenshot() || isProhibitScreenshot(window->windowId())) {
+        screenshot->promise.reportResult(getProhibitShotImage());
+        screenshot->promise.reportFinished();
+        return;
+    }
 
     WindowPaintData d;
     QRectF geometry = window->frameGeometry();
@@ -389,16 +381,13 @@ void ScreenShotEffect::takeScreenShot(ScreenShotWindowSizedData *screenshot)
 
 bool ScreenShotEffect::takeScreenShot(ScreenShotAreaData *screenshot)
 {
-    if (!QX11Info::isPlatformX11()) {
-        if (isProhibitScreenshot())
-            return true;
-    }
     if (!effects->waylandDisplay()) {
         // On X11, all screens are painted simultaneously and there is no native HiDPI support.
         QImage snapshot = blitScreenshot(screenshot->area);
         if (screenshot->flags & ScreenShotIncludeCursor) {
             grabPointerImage(snapshot, screenshot->area.x(), screenshot->area.y());
         }
+        maskProtectedWindows(snapshot, screenshot->area);
         screenshot->promise.reportResult(snapshot);
         screenshot->promise.reportFinished();
     } else {
@@ -426,6 +415,7 @@ bool ScreenShotEffect::takeScreenShot(ScreenShotAreaData *screenshot)
             if (screenshot->flags & ScreenShotIncludeCursor) {
                 grabPointerImage(screenshot->result, screenshot->area.x(), screenshot->area.y());
             }
+            maskProtectedWindows(screenshot->result, screenshot->area);
             screenshot->promise.reportResult(screenshot->result);
             screenshot->promise.reportFinished();
         }
@@ -436,28 +426,31 @@ bool ScreenShotEffect::takeScreenShot(ScreenShotAreaData *screenshot)
 
 bool ScreenShotEffect::takeScreenShot(ScreenShotScreenData *screenshot)
 {
-    if (!QX11Info::isPlatformX11()) {
-        if (isProhibitScreenshot())
-            return true;
-    }
-    if (!m_paintedScreen || screenshot->screen == m_paintedScreen) {
-        qreal devicePixelRatio = 1.0;
-        if (screenshot->flags & ScreenShotNativeResolution) {
-            devicePixelRatio = screenshot->screen->devicePixelRatio();
-        }
-
-        QImage snapshot = blitScreenshot(screenshot->screen->geometry(), devicePixelRatio);
-        if (screenshot->flags & ScreenShotIncludeCursor) {
-            const int xOffset = screenshot->screen->geometry().x();
-            const int yOffset = screenshot->screen->geometry().y();
-            grabPointerImage(snapshot, xOffset, yOffset);
-        }
-
-        screenshot->promise.reportResult(snapshot);
-        screenshot->promise.reportFinished();
+    if (!m_paintedScreen) {
+        return false;
     }
 
-    return screenshot->promise.isFinished();
+    if (!QX11Info::isPlatformX11() && screenshot->screen != m_paintedScreen) {
+        return false;
+    }
+
+    qreal devicePixelRatio = 1.0;
+    if (screenshot->flags & ScreenShotNativeResolution) {
+        devicePixelRatio = screenshot->screen->devicePixelRatio();
+    }
+
+    QImage snapshot = blitScreenshot(screenshot->screen->geometry(), devicePixelRatio);
+    if (screenshot->flags & ScreenShotIncludeCursor) {
+        const int xOffset = screenshot->screen->geometry().x();
+        const int yOffset = screenshot->screen->geometry().y();
+        grabPointerImage(snapshot, xOffset, yOffset);
+    }
+
+    maskProtectedWindows(snapshot, screenshot->screen->geometry());
+
+    screenshot->promise.reportResult(snapshot);
+    screenshot->promise.reportFinished();
+    return true;
 }
 
 QImage ScreenShotEffect::blitScreenshot(const QRect &geometry, qreal devicePixelRatio) const
@@ -478,8 +471,18 @@ QImage ScreenShotEffect::blitScreenshot(const QRect &geometry, qreal devicePixel
                           static_cast<GLvoid *>(image.bits()));
             texture.unbind();
         } else {
+            const QRect mappedRect = effects->mapToRenderTarget(QRectF(geometry)).toRect();
+            const QSize fboSize = GLFramebuffer::currentFramebuffer()
+                                ? GLFramebuffer::currentFramebuffer()->size()
+                                : nativeSize;
+
             image = QImage(nativeSize.width(), nativeSize.height(), QImage::Format_ARGB32);
-            glReadPixels(0, 0, nativeSize.width(), nativeSize.height(), GL_RGBA,
+
+            // glReadPixels reads from current framebuffer (GL coords: Y=0 at bottom)
+            // Convert screen Y (0 at top) to GL Y (0 at bottom): glY = fboHeight - screenY - height
+            GLint glY = fboSize.height() - mappedRect.y() - mappedRect.height();
+
+            glReadPixels(mappedRect.x(), glY, nativeSize.width(), nativeSize.height(), GL_RGBA,
                          GL_UNSIGNED_BYTE, static_cast<GLvoid *>(image.bits()));
         }
         convertFromGLImage(image, nativeSize.width(), nativeSize.height());
@@ -550,6 +553,83 @@ void ScreenShotEffect::handleWindowClosed(EffectWindow *window)
     }
 }
 
+void ScreenShotEffect::maskProtectedWindows(QImage &image, const QRect &captureGeometry)
+{
+    const EffectWindowList windows = effects->stackingOrder();
+    QPainter painter(&image);
+
+    const QRect imageWindow(QPoint(0, 0), captureGeometry.size());
+    painter.setWindow(imageWindow);
+
+    const QImage lockIcon(QStringLiteral(":/resources/themes/icon-lock.svg"));
+
+    bool globalProhibit = isGlobalProhibitScreenshot();
+    if (globalProhibit) {
+        painter.fillRect(imageWindow, QColor(0xD4, 0xD4, 0xD4));
+
+        if (!lockIcon.isNull()) {
+            QSize iconSize = lockIcon.size();
+            const qreal maxIconRatio = 0.125;
+            const qreal scale = qMin(imageWindow.width() / qreal(iconSize.width()),
+                                     imageWindow.height() / qreal(iconSize.height())) * maxIconRatio;
+            iconSize *= qBound(0.1, scale, 1.0);
+            const QPoint iconPos(imageWindow.x() + (imageWindow.width() - iconSize.width()) / 2,
+                                 imageWindow.y() + (imageWindow.height() - iconSize.height()) / 2);
+            painter.drawImage(QRect(iconPos, iconSize), lockIcon, lockIcon.rect());
+        }
+
+        painter.end();
+        return;
+    }
+
+    for (const EffectWindow *window : windows) {
+        if (window->isMinimized() || window->isDeleted() || !window->isOnCurrentDesktop()) {
+            continue;
+        }
+        qulonglong winId = window->windowId();
+        if (!isProhibitScreenshot(winId)) {
+            continue;
+        }
+
+        QRect winRect = window->frameGeometry().toRect();
+        QRect clippedWinRect = winRect.intersected(captureGeometry);
+        if (clippedWinRect.isEmpty()) {
+            continue;
+        }
+
+        QRect imageWinRect = clippedWinRect.translated(-captureGeometry.topLeft());
+
+        painter.fillRect(imageWinRect, QColor(0xD4, 0xD4, 0xD4));
+
+        if (!lockIcon.isNull() && imageWinRect.width() >= 32 && imageWinRect.height() >= 32) {
+            QSize iconSize = lockIcon.size();
+            const qreal scale = qMin(imageWinRect.width() / qreal(iconSize.width()),
+                                     imageWinRect.height() / qreal(iconSize.height())) * 0.5;
+            iconSize *= qBound(0.1, scale, 1.0);
+            QPoint windowCenter = imageWinRect.center();
+            const QPoint iconPos(windowCenter.x() - iconSize.width() / 2,
+                                 windowCenter.y() - iconSize.height() / 2);
+            painter.drawImage(QRect(iconPos, iconSize), lockIcon, lockIcon.rect());
+        }
+    }
+    painter.end();
+}
+
+bool ScreenShotEffect::isGlobalProhibitScreenshot()
+{
+    QDBusConnection sessionBus = QDBusConnection::sessionBus();
+    if (sessionBus.interface()->isServiceRegistered(ProhibitScreenshotDBusService)) {
+        QDBusInterface remoteApp(ProhibitScreenshotDBusService, ProhibitScreenshotDBusPath,
+                                 ProhibitScreenshotDBusInterface);
+        remoteApp.setTimeout(500);
+        QDBusReply<bool> reply = remoteApp.call("prohibited");
+        if (reply.isValid() && reply.value()) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool ScreenShotEffect::isProhibitScreenshot(qulonglong winid)
 {
     if(static_cast<EffectsHandlerImpl*>(effects)->prohibitScreenshot(winid)) {
@@ -563,7 +643,7 @@ bool ScreenShotEffect::isProhibitScreenshot(qulonglong winid)
             QDBusInterface remoteApp(ProhibitScreenshotDBusService, ProhibitScreenshotDBusPath, ProhibitScreenshotDBusInterface);
             remoteApp.setTimeout(1000);
             QDBusReply<bool> reply = remoteApp.call("queryProhibitWindowState", (int)winid);
-            if (reply.value())
+            if (reply.isValid() && reply.value())
                 return true;
         }
     }

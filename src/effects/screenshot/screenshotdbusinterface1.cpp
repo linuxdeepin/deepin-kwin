@@ -603,7 +603,7 @@ void ScreenShotDBusInterface1::screenshotWindowUnderCursor(int mask)
     }
 
     if (hoveredWindow) {
-        if (!QX11Info::isPlatformX11() && isProhibitScreenshot(hoveredWindow->windowId())) {
+        if (isProhibitScreenshot(hoveredWindow->windowId())) {
             QDBusConnection::sessionBus().send(message().createReply(getProhibitShotImage(QSize(hoveredWindow->width(), hoveredWindow->height()))));
             return;
         }
@@ -622,7 +622,7 @@ void ScreenShotDBusInterface1::screenshotForWindow(qulonglong winId, int mask)
         return;
     }
 
-    if (!QX11Info::isPlatformX11() && isProhibitScreenshot(winId)) {
+    if (isProhibitScreenshot(winId)) {
         sendReplyImage(getProhibitShotImage(QSize(window->width(), window->height())));
         return;
     }
@@ -632,50 +632,16 @@ void ScreenShotDBusInterface1::screenshotForWindow(qulonglong winId, int mask)
 
 QString ScreenShotDBusInterface1::screenshotForWindowExtend(qulonglong winid, unsigned int width,unsigned int height,int mask)
 {
-    if (QX11Info::isPlatformX11()) {
-        QDBusConnection sessionBus = QDBusConnection::sessionBus();
-        if (sessionBus.interface()->isServiceRegistered(ProhibitScreenshotDBusService)) {
-            QDBusInterface remoteApp(ProhibitScreenshotDBusService, ProhibitScreenshotDBusPath, ProhibitScreenshotDBusInterface);
-            remoteApp.setTimeout(1000);
-            QDBusReply<bool> reply = remoteApp.call("queryProhibitWindowState", (int)winid);
-            if (reply.value())
-                return prohibitImagePath(width, height);
+    if (isProhibitScreenshot(winid)) {
+        if (QX11Info::isPlatformX11()) {
+            return prohibitImagePath(width, height);
         }
+        sendReplyImage(getProhibitShotImage(QSize(width, height)));
+        return QString();
     }
 
     EffectWindow *window = effects->findWindow(winid);
     if (!window || window->isDeleted()) {
-        return QString();
-    }
-
-     QDBusReply<uint> reply = connection().interface()->servicePid(message().service());
-     pid_t pid = reply.value();
-
-     pid_t nDockPid = 0;
-     EffectWindowList windowsList = effects->stackingOrder();
-     for (int i = 0; i < windowsList.count(); i++) {
-         EffectWindow *pWindow = windowsList.at(i);
-         if (pWindow->isDock()) {
-             nDockPid = static_cast<EffectsHandlerImpl *>(effectsEx)->windowPId(pWindow);
-             break;
-         }
-     }
-
-     if (!QX11Info::isPlatformX11() && nDockPid == pid) {
-        QDBusConnection sessionBus = QDBusConnection::sessionBus();
-        if (sessionBus.interface()->isServiceRegistered(ProhibitScreenshotDBusService)) {
-            QDBusInterface remoteApp(ProhibitScreenshotDBusService, ProhibitScreenshotDBusPath, ProhibitScreenshotDBusInterface);
-            remoteApp.setTimeout(1000);
-            QDBusReply<bool> reply = remoteApp.call("queryProhibitWindowState", (int)winid);
-            if (reply.value()) {
-                sendReplyImage(getProhibitShotImage(QSize(width, height)));
-                return QString();
-            }
-        }
-    }
-
-    if (!QX11Info::isPlatformX11() && isProhibitScreenshot(winid)) {
-        sendReplyImage(getProhibitShotImage(QSize(width, height)));
         return QString();
     }
 
@@ -698,8 +664,9 @@ void ScreenShotDBusInterface1::screenshotForWindowExtend(QDBusUnixFileDescriptor
         return;
     }
 
-     if (!QX11Info::isPlatformX11() && isProhibitScreenshot(winid)) {
+     if (isProhibitScreenshot(winid)) {
         sendReplyImage(getProhibitShotImage(QSize(window->width(), window->height())));
+        close(fileDescriptor);
         return;
     }
 
@@ -709,10 +676,8 @@ void ScreenShotDBusInterface1::screenshotForWindowExtend(QDBusUnixFileDescriptor
 
 QString ScreenShotDBusInterface1::interactive(int mask)
 {
-    if (!QX11Info::isPlatformX11()) {
-        if (isProhibitScreenshot())
+    if (isGlobalProhibitScreenshot())
         return QString();
-    }
     if (!calledFromDBus()) {
         return QString();
     }
@@ -740,10 +705,8 @@ QString ScreenShotDBusInterface1::interactive(int mask)
 
 void ScreenShotDBusInterface1::interactive(QDBusUnixFileDescriptor fd, int mask)
 {
-    if (!QX11Info::isPlatformX11()) {
-        if (isProhibitScreenshot())
+    if (isGlobalProhibitScreenshot())
         return;
-    }
     if (!calledFromDBus()) {
         return;
     }
@@ -782,11 +745,6 @@ QString ScreenShotDBusInterface1::screenshotFullscreen(bool captureCursor)
         flags |= ScreenShotIncludeCursor;
     }
 
-    if (!QX11Info::isPlatformX11() && isProhibitScreenshot()) {
-        sendReplyImage(getProhibitShotImage(QSize(effects->virtualScreenGeometry().width(), effects->virtualScreenGeometry().height())));
-        return QString();
-    }
-
     takeScreenShot(effects->virtualScreenGeometry(), flags, new ScreenShotSinkFile1(this, message()));
 
     setDelayedReply(true);
@@ -814,11 +772,6 @@ void ScreenShotDBusInterface1::screenshotFullscreen(QDBusUnixFileDescriptor fd,
         flags |= ScreenShotNativeResolution;
     }
 
-    if (!QX11Info::isPlatformX11() && isProhibitScreenshot()) {
-        sendReplyImage(getProhibitShotImage(QSize(effects->virtualScreenGeometry().width(), effects->virtualScreenGeometry().height())));
-        return;
-    }
-
     takeScreenShot(effects->virtualScreenGeometry(), flags,
                    new ScreenShotSinkPipe1(this, fileDescriptor));
 }
@@ -838,11 +791,6 @@ QString ScreenShotDBusInterface1::screenshotScreen(int screenId, bool captureCur
     ScreenShotFlags flags = ScreenShotNativeResolution;
     if (captureCursor) {
         flags |= ScreenShotIncludeCursor;
-    }
-
-    if (!QX11Info::isPlatformX11() && isProhibitScreenshot()) {
-        sendReplyImage(getProhibitShotImage(QSize(screen->geometry().width(), screen->geometry().height())));
-        return QString();
     }
 
     takeScreenShot(screen, flags, new ScreenShotSinkFile1(this, message()));
@@ -879,10 +827,6 @@ void ScreenShotDBusInterface1::screenshotScreen(QDBusUnixFileDescriptor fd, bool
                 return;
             }
 
-            if (!QX11Info::isPlatformX11() && isProhibitScreenshot()) {
-                sendReplyImage(getProhibitShotImage(QSize(screen->geometry().width(), screen->geometry().height())));
-                return;
-            }
             takeScreenShot(screen, flags, new ScreenShotSinkPipe1(this, fileDescriptor));
         }
     });
@@ -924,11 +868,6 @@ void ScreenShotDBusInterface1::screenshotScreens(QDBusUnixFileDescriptor fd,
         screens.append(screen);
     }
 
-    if (!QX11Info::isPlatformX11() && isProhibitScreenshot()) {
-        // sendReplyImage(getProhibitShotImage(m_scheduledGeometry.size()));
-        return;
-    }
-
     ScreenShotSinkPipe1 *sink = new ScreenShotSinkPipe1(this, fileDescriptor);
     takeScreenShot(screens, flags, sink);
 }
@@ -948,11 +887,6 @@ QString ScreenShotDBusInterface1::screenshotArea(int x, int y, int width, int he
     ScreenShotFlags flags = ScreenShotFlags();
     if (captureCursor) {
         flags |= ScreenShotIncludeCursor;
-    }
-
-    if (!QX11Info::isPlatformX11() && isProhibitScreenshot()) {
-        sendReplyImage(getProhibitShotImage(QSize(width, height)));
-        return QString();
     }
 
     takeScreenShot(area, flags, new ScreenShotSinkFile1(this, message()));
@@ -1050,11 +984,12 @@ void ScreenShotDBusInterface1::takeScreenShot(EffectWindow *window, const QSize 
 
 bool ScreenShotDBusInterface1::isProhibitScreenshot(qulonglong winid)
 {
-    if(static_cast<EffectsHandlerImpl*>(effects)->prohibitScreenshot(winid)) {
-        return true;
-    }
+    return m_effect->isProhibitScreenshot(winid);
+}
 
-    return false;
+bool ScreenShotDBusInterface1::isGlobalProhibitScreenshot()
+{
+    return m_effect->isGlobalProhibitScreenshot();
 }
 
 QString ScreenShotDBusInterface1::prohibitImagePath(int nWidth, int nHeight)
