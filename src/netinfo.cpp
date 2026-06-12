@@ -151,9 +151,20 @@ void RootInfo::changeActiveWindow(xcb_window_t w, NET::RequestSource src, xcb_ti
 {
     Workspace *workspace = Workspace::self();
     if (X11Window *c = workspace->findClient(Predicate::WindowMatch, w)) {
-        qCDebug(KWIN_CORE) << "RootInfo::changeActiveWindow:" << c->resourceName() << "; from:" << src;
+        qCDebug(KWIN_CORE) << "RootInfo::changeActiveWindow:" << c->resourceName() << "; from:" << src << "; timestamp:" << timestamp;
         if (timestamp == XCB_CURRENT_TIME) {
             timestamp = c->userTime();
+        }
+        // Ignore requests with timestamps older than current X time to prevent focus loops.
+        if (options->focusStealingPreventionLevel() > 0) {
+            if (X11Window *ac = dynamic_cast<X11Window *>(Workspace::self()->mostRecentlyActivatedWindow()); ac != nullptr && timestamp != -1U) {
+                if (NET::timestampCompare(timestamp, ac->userTime()) < 0) {
+                    qCWarning(KWIN_CORE) << "RootInfo::changeActiveWindow: ignoring stale request for" << c->resourceName()
+                                        << "timestamp" << timestamp << "is older than" << ac->resourceName() << "timestamp" << ac->userTime();
+                    c->demandAttention();
+                    return;
+                }
+            }
         }
         if (src != NET::FromApplication && src != FromTool) {
             src = NET::FromTool;

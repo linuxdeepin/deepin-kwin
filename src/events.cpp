@@ -721,6 +721,7 @@ void X11Window::configureRequestEvent(xcb_configure_request_event_t *e)
         m_client.setBorderWidth(0);
     }
 
+    bool sizeChanged = false;
     if (e->value_mask & (XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y | XCB_CONFIG_WINDOW_HEIGHT | XCB_CONFIG_WINDOW_WIDTH)) {
         const int x = Xcb::fromXNative(e->x);
         const int y = Xcb::fromXNative(e->y);
@@ -730,19 +731,21 @@ void X11Window::configureRequestEvent(xcb_configure_request_event_t *e)
         qCDebug(KWIN_CORE) << "Frame Geometry Before configureRequest:" << frameGeometry() << "size:" << frameGeometry().size();
         qCDebug(KWIN_CORE) << "Client Geometry Before configureRequest:" << clientGeometry() << "size:" << clientGeometry().size();
 
+        const QRectF oldGeometry = frameGeometry();
         configureRequest(e->value_mask, x, y, width, height, 0, false);
+        sizeChanged = (frameGeometry().size() != oldGeometry.size());
     }
     if (e->value_mask & XCB_CONFIG_WINDOW_STACK_MODE) {
         restackWindow(e->sibling, e->stack_mode, NET::FromApplication, userTime(), false);
     }
 
-    // Sending a synthetic configure notify always is fine, even in cases where
-    // the ICCCM doesn't require this - it can be though of as 'the WM decided to move
-    // the window later'. The window should not cause that many configure request,
-    // so this should not have any significant impact. With user moving/resizing
-    // the it should be optimized though (see also X11Window::setGeometry()/resize()/move()).
-    qCDebug(KWIN_CORE) << "Sending synthetic configure notify after handling configure request";
-    sendSyntheticConfigureNotify();
+    // https://tronche.com/gui/x/icccm/sec-4.html#s-4.1.5
+    // Per ICCCM 4.1.5: if the configure request was not honored, send a synthetic
+    // ConfigureNotify so the client knows its current geometry. If geometry was
+    // actually changed, the X server generates ConfigureNotify automatically.
+    if (!sizeChanged) {
+        sendSyntheticConfigureNotify();
+    }
 
     // SELI TODO accept configure requests for isDesktop windows (because kdesktop
     // may get XRANDR resize event before kwin), but check it's still at the bottom?
@@ -1116,7 +1119,6 @@ bool X11Window::buttonPressEvent(xcb_window_t w, int button, int state, int x, i
 // return value matters only when filtering events before decoration gets them
 bool X11Window::buttonReleaseEvent(xcb_window_t w, int button, int state, int x, int y, int x_root, int y_root)
 {
-    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     if (waylandServer()) {
         return true;
     }
@@ -1140,7 +1142,7 @@ bool X11Window::buttonReleaseEvent(xcb_window_t w, int button, int state, int x,
         xcb_allow_events(kwinApp()->x11Connection(), XCB_ALLOW_SYNC_POINTER, XCB_TIME_CURRENT_TIME); // xTime());
         return true;
     }
-    if (w != frameId() && w != inputId() && w != moveResizeGrabWindow()) {
+    if (w != frameId() && w != inputId()) {
         return true;
     }
     if (w == frameId() && workspace()->userActionsMenu() && workspace()->userActionsMenu()->isShown()) {
@@ -1178,7 +1180,7 @@ bool X11Window::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
         QHoverEvent event(QEvent::HoverMove, QPointF(x, y), QPointF(x, y));
         QCoreApplication::instance()->sendEvent(decoration(), &event);
     }
-    if (w != frameId() && w != inputId() && w != moveResizeGrabWindow()) {
+    if (w != frameId() && w != inputId()) {
         return true; // care only about the whole frame
     }
     if (!isInteractiveMoveResizePointerButtonDown()) {
@@ -1200,11 +1202,6 @@ bool X11Window::motionNotifyEvent(xcb_window_t w, int state, int x, int y, int x
         }
         return false;
     }
-    if (w == moveResizeGrabWindow()) {
-        x = this->x(); // translate from grab window to local coords
-        y = this->y();
-    }
-
     handleInteractiveMoveResize(QPoint(x, y), QPoint(x_root, y_root));
     if (isInteractiveMove()) {
         workspace()->screenEdges()->check(QPoint(x_root, y_root), QDateTime::fromMSecsSinceEpoch(xTime(), Qt::UTC));
@@ -1296,7 +1293,6 @@ void X11Window::focusOutEvent(xcb_focus_out_event_t *e)
 // performs _NET_WM_MOVERESIZE
 void X11Window::NETMoveResize(qreal x_root, qreal y_root, NET::Direction direction)
 {
-    FUNC_DEBUG_LOG(Q_FUNC_INFO, window());
     if (direction == NET::Move) {
         workspace()->setRequestToMovingClient(this);
         // move cursor to the provided position to prevent the window jumping there on first movement
