@@ -14,6 +14,8 @@
 namespace KWin
 {
 
+class SplitIcon;
+
 class SplitMenu : public QWidget
 {
     Q_OBJECT
@@ -26,8 +28,6 @@ public:
 #endif
 
     void leaveEvent(QEvent *event) override;
-
-    bool eventFilter(QObject *obj, QEvent *event) override;
 
     void paintEvent(QPaintEvent *event) override;
 
@@ -42,26 +42,20 @@ private:
 
     void findClient(uint32_t client_id);
 
-    void checkTheme();
     void checkArea(const QRect &button_rect);
-
-    QPixmap getLabelPixmap(const QString &file, const QSize &size);
 
     void stopTime();
 
     bool m_isShow = false;
     bool m_keepShowing = false;
-    bool m_isDark = false;
     bool m_entered = false;
     bool m_upside = false;
     QPointer<Window> m_client = nullptr;
 
-    QColor m_color;
-    QColor m_borderColor;
     QHBoxLayout *layout;
-    QLabel *llabel;
-    QLabel *clabel;
-    QLabel *rlabel;
+    SplitIcon *llabel;
+    SplitIcon *clabel;
+    SplitIcon *rlabel;
     QRect m_hump, m_rect;  // relative rectangle
     float   m_scale = 1.0;
 
