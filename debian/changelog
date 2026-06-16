@@ -1,3 +1,9 @@
+kwin (4:6.1.26) unstable; urgency=medium
+
+  * feat(screenshot): add per-window prohibit screenshot masking
+
+ -- qinhuafa <qinhuafa@uniontech.com>  Tue, 16 Jun 2026 16:20:36 +0800
+
 kwin (4:6.1.25) unstable; urgency=medium
 
   * Revert "fix: resolve test failures across Wayland and input subsystems"
