@@ -1,4 +1,5 @@
 target_sources(kwin PRIVATE
+    prohibitmask.cpp
     abstract_opengl_context_attribute_builder.cpp
     common.cpp
     edid.cpp

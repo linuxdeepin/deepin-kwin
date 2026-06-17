@@ -332,6 +332,8 @@ public:
 
     int dupShmRemoteProhibitBufferFd();
 
+    void *shmRemoteProhibitBufferData();
+
     void freeShmRemoteProhibitBuffer();
 
     QSize shmRemoteProhibitBufferSize();

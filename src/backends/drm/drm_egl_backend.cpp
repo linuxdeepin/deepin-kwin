@@ -11,7 +11,6 @@
 #include "basiceglsurfacetexture_wayland.h"
 #include "remoteaccess_manager.h"
 // kwin
-#include "core/renderloop_p.h"
 #include "drm_abstract_output.h"
 #include "drm_backend.h"
 #include "drm_buffer_gbm.h"
@@ -23,26 +22,20 @@
 #include "drm_logging.h"
 #include "drm_output.h"
 #include "drm_pipeline.h"
-#include "drm_shadow_buffer.h"
 #include "drm_virtual_egl_layer.h"
-#include "egl_dmabuf.h"
 #include "gbm_adaptor.h"
 #include "gbm_dmabuf.h"
 #include "kwineglutils_p.h"
-#include "linux_dmabuf.h"
-#include "options.h"
 #include "scene/surfaceitem_wayland.h"
-#include "wayland/clientconnection.h"
-#include "wayland/linuxdmabufv1clientbuffer.h"
-#include "wayland/remote_access_interface.h"
-#include "wayland/surface_interface.h"
+#include "utils/prohibitmask.h"
+#include "wayland/dderestrict_interface.h"
+#include "wayland_server.h"
 #include "workspace.h"
 // kwin libs
 #include <kwineglimagetexture.h>
 #include <kwinglplatform.h>
 // system
 #include <drm_fourcc.h>
-#include <errno.h>
 #include <gbm.h>
 #include <unistd.h>
 
@@ -250,9 +243,91 @@ void EglGbmBackend::passRemotePresent(Output *output)
             m_dmaActualStride = gbm_bo_get_stride(bo);
         }
         if (m_remoteaccessManager) {
+            if (!m_remoteaccessManager->hasConnections()) {
+                return;
+            }
+
+            auto dde_restrict = waylandServer()->ddeRestrict();
+            const bool globalProhibit = dde_restrict && dde_restrict->prohibitScreencast();
+
+            bool hasProtected = globalProhibit || (workspace() && workspace()->hasProtectedWindow());
+            if (hasProtected) {
+                QImage maskedFrame;
+                if (renderMaskedProhibitFrame(output, maskedFrame)) {
+                    m_remoteaccessManager->passProhibitMaskBuffer(output, maskedFrame);
+                    return;
+                }
+            }
             m_remoteaccessManager->passBuffer(output, buffer->buffer());
         }
     }
+}
+
+bool EglGbmBackend::renderMaskedProhibitFrame(Output *output, QImage &outImage)
+{
+    EglGbmLayer* gbmLayer = dynamic_cast<EglGbmLayer *>(primaryLayer(output));
+    if (!gbmLayer)
+        return false;
+
+    auto framebuf = gbmLayer->currentBuffer();
+    if (!framebuf)
+        return false;
+
+    auto gbmbuf = std::dynamic_pointer_cast<GbmBuffer>(framebuf->buffer());
+    if (!gbmbuf)
+        return false;
+
+    auto bo = gbmbuf->bo();
+    if (!bo)
+        return false;
+
+    QSize size(gbm_bo_get_width(bo), gbm_bo_get_height(bo));
+    if (size.isEmpty())
+        return false;
+
+    auto tex = importBufferObjectAsTexture(bo);
+    if (!tex)
+        return false;
+
+    GLTexture tempTex(GL_RGBA8, size);
+    tempTex.setFilter(GL_LINEAR);
+    tempTex.setWrapMode(GL_CLAMP_TO_EDGE);
+    GLFramebuffer tempFbo(&tempTex);
+    if (!tempFbo.valid())
+        return false;
+
+    GLFramebuffer::pushFramebuffer(&tempFbo);
+
+    auto shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
+    QMatrix4x4 mvp;
+    mvp.ortho(QRect(QPoint(0, 0), size));
+    shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+
+    glDisable(GL_BLEND);
+    tex->bind();
+    tex->render(QRect(QPoint(0, 0), size), 1.0);
+    tex->unbind();
+    ShaderManager::instance()->popShader();
+
+    auto regions = computeProtectedRegions(output->geometry(), output->scale());
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict && dde_restrict->prohibitScreencast()) {
+        regions.maskAll = true;
+        regions.rects = QRegion();
+    }
+    applyProhibitMaskGL(regions, size, true, false);
+
+    outImage = QImage(size, QImage::Format_ARGB32);
+    glReadPixels(0, 0, size.width(), size.height(), GL_BGRA, GL_UNSIGNED_BYTE, outImage.bits());
+
+    GLFramebuffer::popFramebuffer();
+
+    // Draw lock icons on the CPU side, using QPainter with top-left coordinates
+    // that match the QImage orientation. This avoids the Y-axis inversion issues
+    // that the GPU icon path (drawLockIconGL) has with flipped FBO images.
+    applyProhibitMaskCPU(outImage, regions);
+
+    return true;
 }
 
 void EglGbmBackend::present(Output *output)
@@ -268,11 +343,6 @@ OutputLayer *EglGbmBackend::primaryLayer(Output *output)
 
 std::shared_ptr<GLTexture> EglGbmBackend::textureForOutput(Output *output) const
 {
-    if (workspace() && workspace()->hasProtectedWindow()) {
-        GLTexture texture(workspace()->getProhibitShotImage(QSize(workspace()->geometry().width(), workspace()->geometry().height())).mirrored(false, true));
-        std::shared_ptr<GLTexture> sharedTexture = std::make_shared<GLTexture>(texture);
-        return sharedTexture;
-    }
     const auto drmOutput = static_cast<DrmAbstractOutput *>(output);
     return static_cast<EglGbmLayer *>(drmOutput->primaryLayer())->texture();
 }

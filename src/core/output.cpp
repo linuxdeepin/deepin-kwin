@@ -611,6 +611,14 @@ int Output::dupShmRemoteProhibitBufferFd()
     return fcntl(m_shm_rp_buffer->fd, F_DUPFD, 0);
 }
 
+void *Output::shmRemoteProhibitBufferData()
+{
+    if (!m_shm_rp_buffer) {
+        return nullptr;
+    }
+    return m_shm_rp_buffer->data;
+}
+
 void Output::freeShmRemoteProhibitBuffer()
 {
     if (m_shm_rp_buffer && m_shm_rp_buffer->fd != -1) {

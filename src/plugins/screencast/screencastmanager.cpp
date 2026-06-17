@@ -103,13 +103,19 @@ void ScreencastManager::streamWindow(KWaylandServer::ScreencastStreamV1Interface
                                      KWaylandServer::ScreencastV1Interface::CursorMode mode)
 {
     auto dde_restrict = waylandServer()->ddeRestrict();
-    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
+    if (dde_restrict && dde_restrict->prohibitScreencast()) {
         return;
     }
 
     auto window = Workspace::self()->findToplevel(QUuid(winid));
     if (!window) {
         waylandStream->sendFailed(i18n("Could not find window id %1", winid));
+        return;
+    }
+
+    if (static_cast<EffectsHandlerImpl*>(effects)->prohibitScreenshot(
+            static_cast<qulonglong>(window->window()))) {
+        waylandStream->sendFailed(i18n("Window is prohibited from screencast"));
         return;
     }
 
@@ -130,11 +136,6 @@ void ScreencastManager::streamVirtualOutput(KWaylandServer::ScreencastStreamV1In
                                             double scale,
                                             KWaylandServer::ScreencastV1Interface::CursorMode mode)
 {
-    auto dde_restrict = waylandServer()->ddeRestrict();
-    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
-        return;
-    }
-
     auto output = kwinApp()->outputBackend()->createVirtualOutput(name, size, scale);
     streamOutput(stream, output, mode);
     connect(stream, &KWaylandServer::ScreencastStreamV1Interface::finished, output, [output] {
@@ -153,11 +154,6 @@ void ScreencastManager::streamOutput(KWaylandServer::ScreencastStreamV1Interface
                                      Output *streamOutput,
                                      KWaylandServer::ScreencastV1Interface::CursorMode mode)
 {
-    auto dde_restrict = waylandServer()->ddeRestrict();
-    if (dde_restrict && dde_restrict->prohibitScreencast() && waylandServer()->hasProhibitWindows()) {
-        return;
-    }
-
     if (!streamOutput) {
         waylandStream->sendFailed(i18n("Could not find output"));
         return;
@@ -165,7 +161,11 @@ void ScreencastManager::streamOutput(KWaylandServer::ScreencastStreamV1Interface
 
     auto stream = new ScreenCastStream(new OutputScreenCastSource(streamOutput), this);
     stream->setObjectName(streamOutput->name());
+
+    stream->setMaskViewport(streamOutput->geometry(), streamOutput->scale());
+
     stream->setCursorMode(mode, streamOutput->scale(), streamOutput->geometry());
+
     auto bufferToStream = [stream, streamOutput](const QRegion &damagedRegion) {
         if (!damagedRegion.isEmpty()) {
             stream->recordFrame(scaleRegion(damagedRegion, streamOutput->scale()));
@@ -185,6 +185,7 @@ static QString rectToString(const QRect &rect)
 
 void ScreencastManager::streamRegion(KWaylandServer::ScreencastStreamV1Interface *waylandStream, const QRect &geometry, qreal scale, KWaylandServer::ScreencastV1Interface::CursorMode mode)
 {
+
     if (!geometry.isValid()) {
         waylandStream->sendFailed(i18n("Invalid region"));
         return;
@@ -193,6 +194,9 @@ void ScreencastManager::streamRegion(KWaylandServer::ScreencastStreamV1Interface
     auto source = new RegionScreenCastSource(geometry, scale);
     auto stream = new ScreenCastStream(source, this);
     stream->setObjectName(rectToString(geometry));
+
+    stream->setMaskViewport(geometry, scale);
+
     stream->setCursorMode(mode, scale, geometry);
 
     connect(stream, &ScreenCastStream::startStreaming, waylandStream, [geometry, stream, source] {

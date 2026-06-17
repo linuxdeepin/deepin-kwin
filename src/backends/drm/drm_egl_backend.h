@@ -83,6 +83,9 @@ public:
 
     EGLImageKHR importBufferObjectAsImage(gbm_bo *bo);
     std::shared_ptr<GLTexture> importBufferObjectAsTexture(gbm_bo *bo);
+
+    bool renderMaskedProhibitFrame(Output *output, QImage &outImage);
+
     unsigned int getFrameFd() const {
         return m_dmaFd;
     }
