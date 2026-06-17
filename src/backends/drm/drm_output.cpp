@@ -489,6 +489,7 @@ void DrmOutput::applyQueuedChanges(const std::shared_ptr<OutputChangeSet> &props
     next.colorCurves = props->colorCurves.value_or(m_state.colorCurves);
     next.colorModeValue = props->colorModeValue.value_or(m_state.colorModeValue);
 
+    const bool wasEnabled = m_state.enabled;
     setState(next);
     setVrrPolicy(props->vrrPolicy.value_or(vrrPolicy()));
 
@@ -501,8 +502,11 @@ void DrmOutput::applyQueuedChanges(const std::shared_ptr<OutputChangeSet> &props
 
     Q_EMIT changed();
 
-    if (isEnabled() && dpmsMode() == DpmsMode::On) {
-        qCDebug(KWIN_DRM) << "Turning outputs on, because output got enabled";
+    // Only turn outputs on when this output transitions from disabled to enabled.
+    // For cosmetic changes (brightness, color, etc.) the output was already enabled
+    // and turnOutputsOn() is redundant — it would iterate all outputs unnecessarily.
+    if (!wasEnabled && isEnabled() && dpmsMode() == DpmsMode::On) {
+        qCDebug(KWIN_DRM) << "Output transitioned from disabled to enabled, turning outputs on";
         m_gpu->platform()->turnOutputsOn();
     }
 }

@@ -848,6 +848,28 @@ std::shared_ptr<OutputMode> parseMode(Output *output, const QJsonObject &modeInf
 }
 }
 
+static bool hasStructuralOutputChanges(const OutputConfiguration &config, const QVector<Output *> &outputs)
+{
+    // Check if any output change set modifies fields that affect output topology:
+    // mode, enabled, pos, scale, transform, and overscan are "structural"
+    // — they change the compositor's output layout and require updateOutputs().
+    // Fields like brightness, rgbRange, vrrPolicy, ctmValue, colorCurves, and
+    // colorModeValue are "cosmetic" — they only affect the display hardware
+    // and do NOT require the workspace to resynchronize its output list.
+    return std::any_of(outputs.begin(), outputs.end(), [&config](Output *output) {
+        const auto changeset = config.constChangeSet(output);
+        if (!changeset) {
+            return false;
+        }
+        return changeset->mode.has_value()
+            || changeset->enabled.has_value()
+            || changeset->pos.has_value()
+            || changeset->scale.has_value()
+            || changeset->transform.has_value()
+            || changeset->overscan.has_value();
+    });
+}
+
 bool Workspace::applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder)
 {
     qCDebug(KWIN_CORE) << "[Workspace]Applying output configuration: outputOrder size: " << outputOrder.size();
@@ -855,7 +877,13 @@ bool Workspace::applyOutputConfiguration(const OutputConfiguration &config, cons
         qCWarning(KWIN_CORE) << "[Workspace]Apply output changes failed!";
         return false;
     }
-    updateOutputs(outputOrder);
+    // Skip updateOutputs when only cosmetic properties (brightness, color, etc.)
+    // were changed — no output topology resynchronization is needed.
+    if (!outputOrder.isEmpty() || hasStructuralOutputChanges(config, kwinApp()->outputBackend()->outputs())) {
+        updateOutputs(outputOrder);
+    } else {
+        qCDebug(KWIN_CORE) << "[Workspace]Skipping updateOutputs: only cosmetic changes detected.";
+    }
     return true;
 }
 
