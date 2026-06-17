@@ -30,6 +30,14 @@ struct KWIN_EXPORT OutputChangeSet
     std::optional<Output::ColorCurves> colorCurves;
     std::optional<Output::ColorMode> colorModeValue;
     void dump() const;
+
+    /**
+     * Returns true if any structural field (mode, enabled, pos, scale,
+     * transform, overscan) is set. Structural changes affect output topology
+     * and require the workspace to resynchronize its output list.
+     * Cosmetic-only changes (brightness, color curves, etc.) return false.
+     */
+    bool hasStructuralChanges() const;
 };
 
 class KWIN_EXPORT OutputConfiguration

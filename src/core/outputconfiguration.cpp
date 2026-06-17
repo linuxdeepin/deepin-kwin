@@ -48,4 +48,13 @@ void OutputConfiguration::reset() {
     m_properties.clear();
 }
 
+bool OutputChangeSet::hasStructuralChanges() const
+{
+    return mode.has_value()
+        || enabled.has_value()
+        || pos.has_value()
+        || scale.has_value()
+        || transform.has_value()
+        || overscan.has_value();
+}
 }
