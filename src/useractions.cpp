@@ -94,7 +94,9 @@ static QList<MenuItem> getMenuItemInfos(Window *cl)
         {"move-right", i18n("Move to Workspace Right"),
          cl->desktop() < VirtualDesktopManager::self()->count(), false, false},
         {"close", i18n("Close"),
-         cl->isCloseable(), false, false}
+         cl->isCloseable(), false, false},
+        {"privacy-protection", i18n("Privacy Protection"),
+         true, true, Workspace::self()->isWindowPrivacyProtected(cl->internalId())}
     };
 
     return menu_items;
@@ -138,6 +140,8 @@ void MenuSlot::onMenuItemInvoked(const QString &id, bool checked, Window *cl)
         cl->setDesktop(cl->desktop()+1);
     } else if (id == "close") {
         cl->closeWindow();
+    } else if (id == "privacy-protection") {
+        Workspace::self()->setWindowPrivacyProtected(cl->internalId(), checked);
     }
 }
 

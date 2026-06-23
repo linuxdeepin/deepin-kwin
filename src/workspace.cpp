@@ -363,6 +363,8 @@ void Workspace::init()
     connect(this, &Workspace::unmanagedAdded, m_splitManage.get(), &SplitManage::add);
     connect(this, &Workspace::internalWindowAdded, m_splitManage.get(), &SplitManage::add);
     connect(this, &Workspace::preRemoveInternalWindow, m_splitManage.get(), &SplitManage::removeInternal);
+
+    connect(this, &Workspace::windowRemoved, this, &Workspace::slotMeetingPrivacyWindowClosed);
 #ifdef BUILD_ON_V25
     m_colorConfigReader = std::make_unique<ConfigReader>(DBUS_APPEARANCE_SERVICE, DBUS_APPEARANCE_OBJ, DBUS_APPEARANCE_INTF, "QtActiveColor");
     connect(m_colorConfigReader.get(), &ConfigReader::sigPropertyChanged, this, &Workspace::slotActiveColorChanged);

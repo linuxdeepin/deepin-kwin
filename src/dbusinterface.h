@@ -107,8 +107,15 @@ public Q_SLOTS: // METHODS
 
     void printKwinFps(bool isFps);
 
+    void setMeetingPrivacyMode(bool enabled);
+    bool isMeetingPrivacyMode();
+    void setWindowPrivacyProtected(const QString &windowId, bool protected_);
+    bool isWindowPrivacyProtected(const QString &windowId);
+
 Q_SIGNALS:
     void showingDesktopChanged(bool showing);
+    void meetingPrivacyModeChanged(bool enabled);
+    void windowPrivacyProtectionChanged(const QString &windowId, bool protected_);
 
 private Q_SLOTS:
     void onShowingDesktopChanged(bool show, bool /*animated*/);
