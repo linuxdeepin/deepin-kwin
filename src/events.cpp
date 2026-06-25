@@ -203,6 +203,49 @@ bool Workspace::hasProtectedWindow()
     return hasProtectedWindow;
 }
 
+bool Workspace::isMeetingPrivacyMode() const
+{
+    return m_meetingPrivacyMode;
+}
+
+void Workspace::setMeetingPrivacyMode(bool enabled)
+{
+    if (m_meetingPrivacyMode == enabled) {
+        return;
+    }
+    m_meetingPrivacyMode = enabled;
+    if (enabled) {
+        m_unprotectedWindows.clear();
+    }
+    Q_EMIT meetingPrivacyModeChanged(enabled);
+}
+
+bool Workspace::isWindowPrivacyProtected(const QUuid &windowId) const
+{
+    if (!m_meetingPrivacyMode) {
+        return false;
+    }
+    return !m_unprotectedWindows.contains(windowId);
+}
+
+void Workspace::setWindowPrivacyProtected(const QUuid &windowId, bool protected_)
+{
+    if (protected_) {
+        m_unprotectedWindows.remove(windowId);
+    } else {
+        m_unprotectedWindows.insert(windowId);
+    }
+    Q_EMIT windowPrivacyProtectionChanged(windowId, protected_);
+}
+
+void Workspace::slotMeetingPrivacyWindowClosed(KWin::Window *window)
+{
+    if (!window) {
+        return;
+    }
+    m_unprotectedWindows.remove(window->internalId());
+}
+
 /**
  * Handles workspace specific XCB event
  */

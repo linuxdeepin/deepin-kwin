@@ -376,6 +376,11 @@ public:
 
     bool hasProtectedWindow();
 
+    bool isMeetingPrivacyMode() const;
+    void setMeetingPrivacyMode(bool enabled);
+    bool isWindowPrivacyProtected(const QUuid &windowId) const;
+    void setWindowPrivacyProtected(const QUuid &windowId, bool protected_);
+
     void setWinSplitState(Window *w, bool isSplit);
 
      Window* getRequestToMovingClient() {
@@ -406,6 +411,8 @@ private:
     bool m_isDDESessionRegister = false;
     QImage m_prohibitShotImage;
     Output *m_paintingScreen = nullptr;
+    bool m_meetingPrivacyMode = false;
+    QSet<QUuid> m_unprotectedWindows;
 
     //-------------------------------------------------
     // Unsorted
@@ -758,6 +765,7 @@ public Q_SLOTS:
     }
 
     void slotProhibitScreenShot(int pid, bool bProhibited);
+    void slotMeetingPrivacyWindowClosed(KWin::Window *window);
 
 
 private Q_SLOTS:
@@ -833,6 +841,8 @@ Q_SIGNALS:
     void osRadiusChanged();
     void osThemeChanged();
     void iconThemeChanged();
+    void meetingPrivacyModeChanged(bool enabled);
+    void windowPrivacyProtectionChanged(const QUuid &windowId, bool protected_);
 
 private:
     void init();

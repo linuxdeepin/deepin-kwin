@@ -54,6 +54,11 @@ DBusInterface::DBusInterface(QObject *parent)
                  Workspace::self(), SLOT(slotReloadConfig()));
 
     connect(Workspace::self(), &Workspace::showingDesktopChanged, this, &DBusInterface::onShowingDesktopChanged);
+    connect(Workspace::self(), &Workspace::meetingPrivacyModeChanged, this, &DBusInterface::meetingPrivacyModeChanged);
+    connect(Workspace::self(), &Workspace::windowPrivacyProtectionChanged, this,
+            [this](const QUuid &windowId, bool protected_) {
+                Q_EMIT windowPrivacyProtectionChanged(windowId.toString(), protected_);
+            });
 }
 
 DBusInterface::~DBusInterface()
@@ -339,6 +344,26 @@ bool DBusInterface::xwaylandGrabed()
 void DBusInterface::saveDebugPixmap(uint64_t id)
 {
     workspace()->saveDebugPixmap(id);
+}
+
+void DBusInterface::setMeetingPrivacyMode(bool enabled)
+{
+    workspace()->setMeetingPrivacyMode(enabled);
+}
+
+bool DBusInterface::isMeetingPrivacyMode()
+{
+    return workspace()->isMeetingPrivacyMode();
+}
+
+void DBusInterface::setWindowPrivacyProtected(const QString &windowId, bool protected_)
+{
+    workspace()->setWindowPrivacyProtected(QUuid::fromString(windowId), protected_);
+}
+
+bool DBusInterface::isWindowPrivacyProtected(const QString &windowId)
+{
+    return workspace()->isWindowPrivacyProtected(QUuid::fromString(windowId));
 }
 
 CompositorDBusInterface::CompositorDBusInterface(Compositor *parent)

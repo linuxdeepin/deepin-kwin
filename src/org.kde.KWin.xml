@@ -91,5 +91,26 @@
     <method name="saveDebugPixmap">
       <arg type="u" direction="in"/>
     </method>
+    <method name="setMeetingPrivacyMode">
+      <arg name="enabled" type="b" direction="in"/>
+    </method>
+    <method name="isMeetingPrivacyMode">
+      <arg name="enabled" type="b" direction="out"/>
+    </method>
+    <method name="setWindowPrivacyProtected">
+      <arg name="windowId" type="s" direction="in"/>
+      <arg name="protected_" type="b" direction="in"/>
+    </method>
+    <method name="isWindowPrivacyProtected">
+      <arg name="windowId" type="s" direction="in"/>
+      <arg name="protected_" type="b" direction="out"/>
+    </method>
+    <signal name="meetingPrivacyModeChanged">
+      <arg name="enabled" type="b"/>
+    </signal>
+    <signal name="windowPrivacyProtectionChanged">
+      <arg name="windowId" type="s"/>
+      <arg name="protected_" type="b"/>
+    </signal>
   </interface>
 </node>

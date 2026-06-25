@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Category": "Accessibility",
+        "Description": "Show privacy mask on protected windows when mirroring to external screens",
+        "Description[zh_CN]": "会议投屏隐私模式，在外部屏幕上为受保护窗口显示遮罩",
+        "EnabledByDefault": true,
+        "Id": "meetingprivacy",
+        "License": "GPL",
+        "Name": "MeetingPrivacy",
+        "Name[zh_CN]": "会议隐私模式"
+    },
+    "org.kde.kwin.effect": {
+        "enabledByDefaultMethod": true
+    }
+}
