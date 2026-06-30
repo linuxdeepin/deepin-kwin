@@ -1,3 +1,10 @@
+kwin (4:6.1.28) unstable; urgency=medium
+
+  * fix(activation): skip focus queue for active window
+  * Revert "fix(layers): prevent constraint BFS from violating window layer ordering"
+
+ -- shining <shining@uniontech.com>  Tue, 23 Jun 2026 11:14:33 +0800
+
 kwin (4:6.1.27) unstable; urgency=medium
 
   * feat(prohibit): add per-window prohibit mask for screencast and remote access
