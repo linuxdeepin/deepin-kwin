@@ -100,8 +100,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
         QRect corner2(w->frameGeometry().topRight().x() - radiusX, w->frameGeometry().topRight().y(), radiusX, radiusY);
         QRect corner3(w->frameGeometry().bottomLeft().x() , w->frameGeometry().bottomLeft().y() - radiusY, radiusX, radiusY);
         QRect corner4(w->frameGeometry().bottomRight().x() - radiusX, w->frameGeometry().bottomRight().y()- radiusY, radiusX, radiusY);
-        const QRect corners = corner1 | corner2 | corner3 | corner4;
-        data.opaque -= corners;
+        data.opaque = data.opaque - corner1 - corner2 - corner3 - corner4;
     }
     effects->prePaintWindow(w, data, time);
 }
