@@ -141,7 +141,7 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
         return;
     }
 
-    bool opaque = !surfaceItemX11->opaque().isEmpty();
+    QRegion opaqueRegion = surfaceItemX11->opaque();
 
     XRenderSurfaceTextureX11 *platformSurfaceTexture =
             static_cast<XRenderSurfaceTextureX11 *>(surfacePixmap->texture());
@@ -180,6 +180,8 @@ void ItemRendererXRender::renderSurfaceItem(SurfaceItem *surfaceItem, int mask, 
 
     QRectF cr = QRectF(win->clientPos(), win->clientSize());
     QRectF dr = surfaceItem->mapToGlobal(cr).toAlignedRect();
+
+    bool opaque = win->hasAlpha() ? (opaqueRegion == QRegion(cr.toRect())) : true;
 
     // clipping image by shape bounding
     QRegion transformed_shape;
