@@ -1,3 +1,11 @@
+kwin (4:6.1.29) unstable; urgency=medium
+
+  * fix: wrong scissor opaque region
+  * fix(splitscreen): filter duplicate reportSplitScreen by launchType
+  * fix: _GTK_FRAME_EXTENTS support
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 08 Jul 2026 13:12:26 +0800
+
 kwin (4:6.1.28) unstable; urgency=medium
 
   * fix(activation): skip focus queue for active window
