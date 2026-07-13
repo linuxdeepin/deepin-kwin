@@ -261,7 +261,7 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         Q_UNREACHABLE();
     }
 
-    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] ENTER - KeyCode:" << key << "State:" << state << "Type:" << (type == QEvent::KeyPress ? "Press" : "Release") << "AutoRepeat:" << autoRepeat << "Inited:" << m_inited;
+    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] ENTER - KeyCode:" << key << "State:" << state << "Type:" << (type == QEvent::KeyPress ? "Press" : "Release") << "AutoRepeat:" << autoRepeat << "Inited:" << m_inited;
 
     const quint32 previousLayout = m_xkb->currentLayout();
     if (!autoRepeat) {
@@ -270,7 +270,7 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
 
     const xkb_keysym_t keySym = m_xkb->currentKeysym();
     const Qt::KeyboardModifiers globalShortcutsModifiers = m_xkb->modifiersRelevantForGlobalShortcuts(key);
-    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] KeySym:" << keySym << "QtModifiers:" << m_xkb->modifiers() << "GlobalShortcutsModifiers:" << globalShortcutsModifiers;
+    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] KeySym:" << keySym << "QtModifiers:" << m_xkb->modifiers() << "GlobalShortcutsModifiers:" << globalShortcutsModifiers;
     KeyEvent event(type,
                    m_xkb->toQtKey(keySym, key, globalShortcutsModifiers ? Qt::ControlModifier : Qt::KeyboardModifiers()),
                    m_xkb->modifiers(),
@@ -282,28 +282,28 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
                    device);
     event.setModifiersRelevantForGlobalShortcuts(globalShortcutsModifiers);
 
-    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] KeyEvent created - KeyQt:" << event.key() << "Modifiers:" << event.modifiers();
+    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] KeyEvent created - KeyQt:" << event.key() << "Modifiers:" << event.modifiers();
 
-    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Calling processSpies";
+    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Calling processSpies";
     m_input->processSpies(std::bind(&InputEventSpy::keyEvent, std::placeholders::_1, &event));
 
     if (!m_inited) {
-        qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] EXIT - Not inited yet";
+        qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] EXIT - Not inited yet";
         return;
     }
 
-    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Checking grab";
+    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Checking grab";
     if (m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event)) && !isTopScreen()) {
-        qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] EXIT - Grab handled the event";
+        qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] EXIT - Grab handled the event";
         m_xkb->forwardModifiers();
         return;
     }
-    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Grab not handled, proceeding to filters";
+    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Grab not handled, proceeding to filters";
 
     input()->setLastInputHandler(this);
-    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Calling processFilters";
+    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Calling processFilters";
     m_input->processFilters(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event));
-    qCWarning(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Filters processing completed";
+    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Filters processing completed";
 
     m_xkb->forwardModifiers();
     if (auto *inputmethod = kwinApp()->inputMethod()) {

@@ -108,9 +108,9 @@ void DpmsInterface::org_kde_kwin_dpms_destroy_resource(Resource *resource)
 
 void DpmsInterface::org_kde_kwin_dpms_set(Resource *resource, uint32_t mode)
 {
-    qCWarning(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] ENTER - mode:" << mode;
+    qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] ENTER - mode:" << mode;
     if (!m_output || m_output->isRemoved()) {
-        qCWarning(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT - No output or output removed";
+        qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT - No output or output removed";
         return;
     }
 
@@ -129,17 +129,17 @@ void DpmsInterface::org_kde_kwin_dpms_set(Resource *resource, uint32_t mode)
         dpmsMode = Output::DpmsMode::Off;
         break;
     default:
-        qCWarning(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT - Invalid mode:" << mode;
+        qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT - Invalid mode:" << mode;
         return;
     }
 
     if (m_output->display()) {
         auto connection = m_output->display()->getConnection(resource->client());
-        qCWarning(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] Client:" << connection->executablePath() << "set DPMS mode to:" << mode << "(will block input if Off)";
+        qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] Client:" << connection->executablePath() << "set DPMS mode to:" << mode << "(will block input if Off)";
     }
-    qCWarning(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] Calling setDpmsMode on output:" << m_output->handle()->name() << "to mode:" << dpmsMode;
+    qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] Calling setDpmsMode on output:" << m_output->handle()->name() << "to mode:" << dpmsMode;
     m_output->handle()->setDpmsMode(dpmsMode);
-    qCWarning(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT";
+    qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT";
 }
 
 void DpmsInterface::sendSupported()

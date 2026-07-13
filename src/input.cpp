@@ -283,18 +283,18 @@ class VirtualTerminalFilter : public InputEventFilter
 public:
     bool keyEvent(KeyEvent *event) override
     {
-        qCWarning(KWIN_INPUT_FILTER) << "[VirtualTerminalFilter::keyEvent] ENTER - Key:" << event->key() << "Type:" << (event->type() == QEvent::KeyPress ? "Press" : "Release") << "AutoRepeat:" << event->isAutoRepeat();
+        qCDebug(KWIN_INPUT_FILTER) << "[VirtualTerminalFilter::keyEvent] ENTER - Key:" << event->key() << "Type:" << (event->type() == QEvent::KeyPress ? "Press" : "Release") << "AutoRepeat:" << event->isAutoRepeat();
         // really on press and not on release? X11 switches on press.
         if (event->type() == QEvent::KeyPress && !event->isAutoRepeat()) {
             const xkb_keysym_t keysym = event->nativeVirtualKey();
             if (keysym >= XKB_KEY_XF86Switch_VT_1 && keysym <= XKB_KEY_XF86Switch_VT_12) {
-                qCWarning(KWIN_INPUT_FILTER) << "[VirtualTerminalFilter::keyEvent] VT switch detected, switching to:" << (keysym - XKB_KEY_XF86Switch_VT_1 + 1);
+                qCDebug(KWIN_INPUT_FILTER) << "[VirtualTerminalFilter::keyEvent] VT switch detected, switching to:" << (keysym - XKB_KEY_XF86Switch_VT_1 + 1);
                 kwinApp()->session()->switchTo(keysym - XKB_KEY_XF86Switch_VT_1 + 1);
-                qCWarning(KWIN_INPUT_FILTER) << "[VirtualTerminalFilter::keyEvent] EXIT - Returning true";
+                qCDebug(KWIN_INPUT_FILTER) << "[VirtualTerminalFilter::keyEvent] EXIT - Returning true";
                 return true;
             }
         }
-        qCWarning(KWIN_INPUT_FILTER) << "[VirtualTerminalFilter::keyEvent] EXIT - Returning false";
+        qCDebug(KWIN_INPUT_FILTER) << "[VirtualTerminalFilter::keyEvent] EXIT - Returning false";
         return false;
     }
 };
@@ -304,16 +304,16 @@ class TerminateServerFilter : public InputEventFilter
 public:
     bool keyEvent(KeyEvent *event) override
     {
-        qCWarning(KWIN_INPUT_FILTER) << "[TerminateServerFilter::keyEvent] ENTER - Key:" << event->key() << "VirtualKey:" << event->nativeVirtualKey();
+        qCDebug(KWIN_INPUT_FILTER) << "[TerminateServerFilter::keyEvent] ENTER - Key:" << event->key() << "VirtualKey:" << event->nativeVirtualKey();
         if (event->type() == QEvent::KeyPress && !event->isAutoRepeat()) {
             if (event->nativeVirtualKey() == XKB_KEY_Terminate_Server) {
                 qCWarning(KWIN_CORE) << "Request to terminate server";
                 QMetaObject::invokeMethod(QCoreApplication::instance(), &QCoreApplication::quit, Qt::QueuedConnection);
-                qCWarning(KWIN_INPUT_FILTER) << "[TerminateServerFilter::keyEvent] EXIT - Terminating, returning true";
+                qCDebug(KWIN_INPUT_FILTER) << "[TerminateServerFilter::keyEvent] EXIT - Terminating, returning true";
                 return true;
             }
         }
-        qCWarning(KWIN_INPUT_FILTER) << "[TerminateServerFilter::keyEvent] EXIT - Returning false";
+        qCDebug(KWIN_INPUT_FILTER) << "[TerminateServerFilter::keyEvent] EXIT - Returning false";
         return false;
     }
 };
@@ -376,14 +376,14 @@ public:
     }
     bool keyEvent(KeyEvent *event) override
     {
-        qCWarning(KWIN_INPUT_FILTER) << "[LockScreenFilter::keyEvent] ENTER - ScreenLocked:" << waylandServer()->isScreenLocked() << "AutoRepeat:" << event->isAutoRepeat();
+        qCDebug(KWIN_INPUT_FILTER) << "[LockScreenFilter::keyEvent] ENTER - ScreenLocked:" << waylandServer()->isScreenLocked() << "AutoRepeat:" << event->isAutoRepeat();
         if (!waylandServer()->isScreenLocked()) {
-            qCWarning(KWIN_INPUT_FILTER) << "[LockScreenFilter::keyEvent] EXIT - Screen not locked, returning false";
+            qCDebug(KWIN_INPUT_FILTER) << "[LockScreenFilter::keyEvent] EXIT - Screen not locked, returning false";
             return false;
         }
         if (event->isAutoRepeat()) {
             // wayland client takes care of it
-            qCWarning(KWIN_INPUT_FILTER) << "[LockScreenFilter::keyEvent] EXIT - Auto repeat, returning true (handled)";
+            qCDebug(KWIN_INPUT_FILTER) << "[LockScreenFilter::keyEvent] EXIT - Auto repeat, returning true (handled)";
             return true;
         }
         // send event to KSldApp for global accel
@@ -549,15 +549,15 @@ public:
     }
     bool keyEvent(KeyEvent *event) override
     {
-        qCWarning(KWIN_INPUT_FILTER) << "[EffectsFilter::keyEvent] ENTER - Effects exists:" << (effects != nullptr) << "Has keyboard grab:" << (effects ? static_cast<EffectsHandlerImpl *>(effects)->hasKeyboardGrab() : false);
+        qCDebug(KWIN_INPUT_FILTER) << "[EffectsFilter::keyEvent] ENTER - Effects exists:" << (effects != nullptr) << "Has keyboard grab:" << (effects ? static_cast<EffectsHandlerImpl *>(effects)->hasKeyboardGrab() : false);
         if (!effects || !static_cast<EffectsHandlerImpl *>(effects)->hasKeyboardGrab()) {
-            qCWarning(KWIN_INPUT_FILTER) << "[EffectsFilter::keyEvent] EXIT - No effects or keyboard grab, returning false";
+            qCDebug(KWIN_INPUT_FILTER) << "[EffectsFilter::keyEvent] EXIT - No effects or keyboard grab, returning false";
             return false;
         }
         waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
         passToWaylandServer(event);
         static_cast<EffectsHandlerImpl *>(effects)->grabbedKeyboardEvent(event);
-        qCWarning(KWIN_INPUT_FILTER) << "[EffectsFilter::keyEvent] EXIT - Effects handled, returning true";
+        qCDebug(KWIN_INPUT_FILTER) << "[EffectsFilter::keyEvent] EXIT - Effects handled, returning true";
         return true;
     }
     bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override
@@ -649,10 +649,10 @@ public:
     }
     bool keyEvent(KeyEvent *event) override
     {
-        qCWarning(KWIN_INPUT_FILTER) << "[MoveResizeFilter::keyEvent] ENTER - Key:" << event->key() << "Type:" << (event->type() == QEvent::KeyPress ? "Press" : "Release");
+        qCDebug(KWIN_INPUT_FILTER) << "[MoveResizeFilter::keyEvent] ENTER - Key:" << event->key() << "Type:" << (event->type() == QEvent::KeyPress ? "Press" : "Release");
         Window *window = workspace()->moveResizeWindow();
         if (!window) {
-            qCWarning(KWIN_INPUT_FILTER) << "[MoveResizeFilter::keyEvent] EXIT - No move/resize window, returning false";
+            qCDebug(KWIN_INPUT_FILTER) << "[MoveResizeFilter::keyEvent] EXIT - No move/resize window, returning false";
             return false;
         }
         if (event->type() == QEvent::KeyPress) {
@@ -661,9 +661,9 @@ public:
                 // only update if mode didn't end
                 window->updateInteractiveMoveResize(input()->globalPointer());
             }
-            qCWarning(KWIN_INPUT_FILTER) << "[MoveResizeFilter::keyEvent] EXIT - Move/resize active, returning true";
+            qCDebug(KWIN_INPUT_FILTER) << "[MoveResizeFilter::keyEvent] EXIT - Move/resize active, returning true";
         } else {
-            qCWarning(KWIN_INPUT_FILTER) << "[MoveResizeFilter::keyEvent] EXIT - KeyRelease, returning true";
+            qCDebug(KWIN_INPUT_FILTER) << "[MoveResizeFilter::keyEvent] EXIT - KeyRelease, returning true";
         }
         return true;
     }
@@ -764,9 +764,9 @@ public:
     }
     bool keyEvent(KeyEvent *event) override
     {
-        qCWarning(KWIN_INPUT_FILTER) << "[WindowSelectorFilter::keyEvent] ENTER - Active:" << m_active << "Key:" << event->key();
+        qCDebug(KWIN_INPUT_FILTER) << "[WindowSelectorFilter::keyEvent] ENTER - Active:" << m_active << "Key:" << event->key();
         if (!m_active) {
-            qCWarning(KWIN_INPUT_FILTER) << "[WindowSelectorFilter::keyEvent] EXIT - Not active, returning false";
+            qCDebug(KWIN_INPUT_FILTER) << "[WindowSelectorFilter::keyEvent] EXIT - Not active, returning false";
             return false;
         }
         waylandServer()->seat()->setFocusedKeyboardSurface(nullptr);
@@ -938,49 +938,49 @@ public:
     }
     bool keyEvent(KeyEvent *event) override
     {
-        qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] ENTER - Key:" << event->key() << "Type:" << (event->type() == QEvent::KeyPress ? "Press" : "Release") << "Modifiers:" << event->modifiers() << "AutoRepeat:" << event->isAutoRepeat();
+        qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] ENTER - Key:" << event->key() << "Type:" << (event->type() == QEvent::KeyPress ? "Press" : "Release") << "Modifiers:" << event->modifiers() << "AutoRepeat:" << event->isAutoRepeat();
 
         if (event->key() == Qt::Key_PowerOff) {
             const auto modifiers = static_cast<KeyEvent *>(event)->modifiersRelevantForGlobalShortcuts();
             if (event->type() == QEvent::KeyPress && !event->isAutoRepeat()) {
-                qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] PowerOff key pressed, starting powerDown timer";
+                qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] PowerOff key pressed, starting powerDown timer";
                 QObject::connect(&m_powerDown, &QTimer::timeout, input()->shortcuts(), [this, modifiers] {
                     QObject::disconnect(&m_powerDown, &QTimer::timeout, input()->shortcuts(), nullptr);
                     m_powerDown.stop();
                     input()->shortcuts()->processKey(modifiers, Qt::Key_PowerDown);
                 });
                 m_powerDown.start();
-                qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - PowerOff press, returning false";
+                qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - PowerOff press, returning false";
                 return false;
             } else if (event->type() == QEvent::KeyRelease) {
                 const bool ret = !m_powerDown.isActive() || input()->shortcuts()->processKey(modifiers, event->key());
                 m_powerDown.stop();
-                qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - PowerOff release, powerDownActive:" << m_powerDown.isActive() << "result:" << ret;
+                qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - PowerOff release, powerDownActive:" << m_powerDown.isActive() << "result:" << ret;
                 return ret;
             }
         } else if (event->type() == QEvent::KeyPress) {
             static auto user = QProcessEnvironment::systemEnvironment().value("USER");
             if (user == "lightdm") {
-                qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - User is lightdm, ignoring";
+                qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - User is lightdm, ignoring";
                 return false;
             }
             bool inhibited = waylandServer()->isKeyboardShortcutsInhibited();
-            qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] KeyboardShortcutsInhibited:" << inhibited;
+            qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] KeyboardShortcutsInhibited:" << inhibited;
             if (!inhibited) {
                 bool result = input()->shortcuts()->processKey(static_cast<KeyEvent *>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
-                qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - processKey returned:" << result;
+                qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - processKey returned:" << result;
                 return result;
             }
         } else if (event->type() == QEvent::KeyRelease) {
             bool inhibited = waylandServer()->isKeyboardShortcutsInhibited();
-            qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] KeyRelease - KeyboardShortcutsInhibited:" << inhibited;
+            qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] KeyRelease - KeyboardShortcutsInhibited:" << inhibited;
             if (!inhibited) {
                 bool result = input()->shortcuts()->processKeyRelease(static_cast<KeyEvent *>(event)->modifiersRelevantForGlobalShortcuts(), event->key());
-                qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - processKeyRelease returned:" << result;
+                qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - processKeyRelease returned:" << result;
                 return result;
             }
         }
-        qCWarning(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - No action taken, returning false";
+        qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutFilter::keyEvent] EXIT - No action taken, returning false";
         return false;
     }
     bool swipeGestureBegin(int fingerCount, std::chrono::microseconds time) override

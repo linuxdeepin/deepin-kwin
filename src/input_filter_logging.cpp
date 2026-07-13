@@ -7,4 +7,4 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "input_filter_logging.h"
-Q_LOGGING_CATEGORY(KWIN_INPUT_FILTER, "kwin_input_filter", QtWarningMsg)
+Q_LOGGING_CATEGORY(KWIN_INPUT_FILTER, "kwin_input_filter", QtInfoMsg)

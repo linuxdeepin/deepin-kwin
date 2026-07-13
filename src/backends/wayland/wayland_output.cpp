@@ -293,16 +293,16 @@ void WaylandOutput::resize(const QSize &pixelSize)
 
 void WaylandOutput::setDpmsMode(DpmsMode mode)
 {
-    qCWarning(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] ENTER - Output:" << name() << "RequestedMode:" << mode << "CurrentMode:" << dpmsMode();
+    qCDebug(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] ENTER - Output:" << name() << "RequestedMode:" << mode << "CurrentMode:" << dpmsMode();
     if (mode == DpmsMode::Off) {
-        qCWarning(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] DPMS mode set to Off - creating input filter to block events";
+        qCDebug(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] DPMS mode set to Off - creating input filter to block events";
         if (!m_turnOffTimer.isActive()) {
             Q_EMIT aboutToTurnOff(std::chrono::milliseconds(m_turnOffTimer.interval()));
             m_turnOffTimer.start();
         }
         m_backend->createDpmsFilter();
     } else {
-        qCWarning(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] DPMS mode set to non-Off - clearing input filter to allow events";
+        qCDebug(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] DPMS mode set to non-Off - clearing input filter to allow events";
         m_turnOffTimer.stop();
         m_backend->clearDpmsFilter();
 
@@ -311,7 +311,7 @@ void WaylandOutput::setDpmsMode(DpmsMode mode)
             Q_EMIT wakeUp();
         }
     }
-    qCWarning(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] EXIT";
+    qCDebug(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] EXIT";
 }
 
 void WaylandOutput::updateDpmsMode(DpmsMode dpmsMode)
