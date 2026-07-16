@@ -209,8 +209,10 @@ void PointerInterface::sendButton(quint32 button, PointerButtonState state, quin
 #ifndef BUILD_WITHOUT_V20_PATCH
         if (d->lastPosition != position) {
             d->lastPosition = position;
-            const QPointF localPos = d->focusedSurface->toSurfaceLocal(position);
-            d->send_warp(resource->handle, wl_fixed_from_double(localPos.x()), wl_fixed_from_double(localPos.y()));
+            if (resource->version() >= WL_POINTER_WARP_SINCE_VERSION) {
+                const QPointF localPos = d->focusedSurface->toSurfaceLocal(position);
+                d->send_warp(resource->handle, wl_fixed_from_double(localPos.x()), wl_fixed_from_double(localPos.y()));
+            }
         }
 #endif
         d->send_button(resource->handle, serial, d->seat->timestamp().count(), button, quint32(state));
