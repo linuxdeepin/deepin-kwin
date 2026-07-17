@@ -75,9 +75,11 @@ void ShowFpsEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::millis
         const auto url = QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kwin/effects/showfps/qml/main.qml")));
         m_scene->setSource(url, {{QStringLiteral("effect"), QVariant::fromValue(this)}});
     }
-
     const auto rect = effects->renderTargetRect();
-    m_scene->setGeometry(QRect(rect.x() + rect.width() - 300, 0, 300, 150));
+    const int padding = 10;
+    const int fpsWidth = 500;
+    const int fpsHeight = 150;
+    m_scene->setGeometry(QRect(rect.x() + rect.width() - fpsWidth - padding, rect.y() + padding, fpsWidth, fpsHeight));
 }
 
 void ShowFpsEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
