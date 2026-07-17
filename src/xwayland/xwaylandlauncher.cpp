@@ -227,10 +227,20 @@ bool XwaylandLauncher::startInternal()
     if (qEnvironmentVariableIsSet("KWIN_XWAYLAND_DEBUG")) {
         env.insert("WAYLAND_DEBUG", QByteArrayLiteral("1"));
     }
-    bool forceGlamorSupport = false;
-    if (DconfigRead(QStringLiteral("org.kde.kwin.xwayland"), QStringLiteral("forceGlamorSupport"), forceGlamorSupport) == DconfigReaderRetCode::DCONF_SUCCESS) {
-        if (forceGlamorSupport) {
-            env.insert("XWAYLAND_FORCE_SUPPORT_GLAMOR", QByteArrayLiteral("1"));
+    // KWIN_XWAYLAND_DISABLE_GLAMOR: debug env var with highest priority.
+    // When set to "1", Xwayland glamor is disabled: XWAYLAND_NO_GLAMOR=1
+    // is passed to Xwayland to skip glamor initialization, and the -shm
+    // argument is added so that disabling glamor is visible in the
+    // Xwayland process command line (e.g. ps).
+    if (qgetenv("KWIN_XWAYLAND_DISABLE_GLAMOR") == "1") {
+        env.insert("XWAYLAND_NO_GLAMOR", QByteArrayLiteral("1"));
+        arguments << QStringLiteral("-shm");
+    } else {
+        bool forceGlamorSupport = false;
+        if (DconfigRead(QStringLiteral("org.kde.kwin.xwayland"), QStringLiteral("forceGlamorSupport"), forceGlamorSupport) == DconfigReaderRetCode::DCONF_SUCCESS) {
+            if (forceGlamorSupport) {
+                env.insert("XWAYLAND_FORCE_SUPPORT_GLAMOR", QByteArrayLiteral("1"));
+            }
         }
     }
     m_xwaylandProcess->setProcessEnvironment(env);
