@@ -157,7 +157,7 @@ void RootInfo::changeActiveWindow(xcb_window_t w, NET::RequestSource src, xcb_ti
             timestamp = c->userTime();
         }
         // Ignore requests with timestamps older than current X time to prevent focus loops.
-        if (options->focusStealingPreventionLevel() > 0) {
+        if (src == NET::FromApplication && options->focusStealingPreventionLevel() > 0) {
             if (X11Window *ac = dynamic_cast<X11Window *>(Workspace::self()->mostRecentlyActivatedWindow()); ac != nullptr && timestamp != -1U) {
                 if (NET::timestampCompare(timestamp, ac->userTime()) < 0) {
                     qCWarning(KWIN_CORE) << "RootInfo::changeActiveWindow: ignoring stale request for" << c->resourceName()
