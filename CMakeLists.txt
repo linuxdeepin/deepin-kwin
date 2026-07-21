@@ -283,12 +283,22 @@ set_package_properties(WaylandProtocols PROPERTIES
     URL "https://gitlab.freedesktop.org/wayland/wayland-protocols/"
 )
 
-find_package(PlasmaWaylandProtocols 1.9.0 CONFIG)
-set_package_properties(PlasmaWaylandProtocols PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Collection of Plasma-specific Wayland protocols"
-    URL "https://invent.kde.org/libraries/plasma-wayland-protocols/"
-)
+if(BUILD_ON_V25)
+    find_package(DeepinWaylandProtocols 1.9.0 CONFIG)
+    set_package_properties(DeepinWaylandProtocols PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Collection of Deepin-specific Wayland protocols"
+        URL "https://github.com/linuxdeepin/deepin-wayland-protocols/"
+    )
+    set(PLASMA_WAYLAND_PROTOCOLS_DIR ${DEEPIN_WAYLAND_PROTOCOLS_DIR})
+else()
+    find_package(PlasmaWaylandProtocols 1.9.0 CONFIG)
+    set_package_properties(PlasmaWaylandProtocols PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Collection of Plasma-specific Wayland protocols"
+        URL "https://invent.kde.org/libraries/plasma-wayland-protocols/"
+    )
+endif()
 
 if (QT_MAJOR_VERSION EQUAL "5")
     find_package(QtWaylandScanner)
