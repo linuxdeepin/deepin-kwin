@@ -19,8 +19,6 @@
 #include "workspace.h"
 #include "effects.h"
 
-#include "wayland/xwaylandkeyboardgrab_v1_interface.h"
-
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusPendingCall>
@@ -42,9 +40,6 @@ ModifierOnlyShortcuts::~ModifierOnlyShortcuts() = default;
 void ModifierOnlyShortcuts::keyEvent(KeyEvent *event)
 {
     if (event->isAutoRepeat()) {
-        return;
-    }
-    if (waylandServer() && waylandServer()->XWaylandKeyboardGrabClientV1()) {
         return;
     }
     if (event->type() == QEvent::KeyPress) {

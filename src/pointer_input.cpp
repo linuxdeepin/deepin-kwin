@@ -311,9 +311,7 @@ void PointerInputRedirection::processButton(uint32_t button, InputRedirection::P
         return;
     }
 
-    if (!input()->processGrab(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event, button))) {
-        input()->processFilters(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event, button));
-    }
+    input()->processFilters(std::bind(&InputEventFilter::pointerEvent, std::placeholders::_1, &event, button));
 
     if (state == InputRedirection::PointerButtonReleased) {
         update();
