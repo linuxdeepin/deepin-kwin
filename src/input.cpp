@@ -77,6 +77,8 @@
 #include <QThread>
 #include <qpa/qwindowsysteminterface.h>
 
+// xcb
+#include <xcb/xtest.h>
 #include <xkbcommon/xkbcommon.h>
 
 #include "osd.h"
