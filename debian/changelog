@@ -1,3 +1,16 @@
+kwin (4:6.1.30) unstable; urgency=medium
+
+  * refactor(log): downgrade input filter logs from warning to debug
+  * feat: integrate primary output into outputmanagement-v1 and outputAt
+  * fix(wayland): guard wl_pointer.warp by client-bound version in sendButton
+  * feat: support KWIN_XWAYLAND_DISABLE_GLAMOR to disable glamor
+  * fix(showfps): fix position off-screen at high DPI scaling
+  * fix: restrict focus stealing prevention to application requests
+  * Revert "fix: x11 grab window cannot recieve pointer press"
+  * fix: add missing xcb/xtest.h header to fix build failure
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 22 Jul 2026 14:12:54 +0800
+
 kwin (4:6.1.29) unstable; urgency=medium
 
   * fix: wrong scissor opaque region
