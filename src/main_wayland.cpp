@@ -49,9 +49,12 @@
 #include <sched.h>
 #include <sys/resource.h>
 
+#include <cerrno>
+#include <cstring>
 #include <iostream>
 #include <wayland-server-core.h>
 #if HAVE_SYS_PRCTL_H
+#include <linux/capability.h>
 #include <sys/prctl.h>
 #endif
 #if HAVE_SYS_PROCCTL_H
@@ -67,6 +70,7 @@ Q_IMPORT_PLUGIN(KWinIdleTimePoller)
 Q_IMPORT_PLUGIN(ScreencastManagerFactory)
 #endif
 
+Q_LOGGING_CATEGORY(KWIN_WAYLAND, "kwin_wayland", QtWarningMsg)
 Q_LOGGING_CATEGORY(KWIN_LWL, "kwin_lwl", QtWarningMsg);
 
 void waylandLogHandler(const char *fmt, va_list args)
@@ -307,6 +311,18 @@ XwaylandInterface *ApplicationWayland::xwayland() const
 
 int main(int argc, char *argv[])
 {
+#if defined(Q_OS_LINUX) && HAVE_SYS_PRCTL_H
+    // Some Linux distros may set ambient capabilities, so clear CAP_SYS_NICE here to avoid
+    // leaking it to all child processes.
+    if (prctl(PR_CAP_AMBIENT, PR_CAP_AMBIENT_LOWER, CAP_SYS_NICE, 0, 0) == 0) {
+        qCInfo(KWIN_WAYLAND) << "Cleared ambient CAP_SYS_NICE to prevent leaking it to child processes";
+    } else {
+        qCWarning(KWIN_WAYLAND) << "Failed to clear ambient CAP_SYS_NICE:" << strerror(errno);
+    }
+#else
+    qCDebug(KWIN_WAYLAND) << "Skipping ambient CAP_SYS_NICE clear: prctl or Linux not available";
+#endif
+
     // libwayland debug information needs to be captured by kwin,
     // and kwin uses logging rules to decide whether to enable libwayland debug information.
     KWin::Logger::instance()->installMessageHandler();
