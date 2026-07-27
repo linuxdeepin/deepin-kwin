@@ -319,7 +319,7 @@ int main(int argc, char *argv[])
     for (int i = 0; i < argc; ++i) {
         args << QString::fromLocal8Bit(argv[i]);
     }
-    qInfo() << "kwin_wayland started, version:" << KWIN_DVERSION << ", args:" << args;
+    qInfo() << "kwin_wayland started, version:" << KWIN_EVENTLOG_VERSION << ", args:" << args;
     KWin::Application::setupMalloc();
     KWin::Application::setupLocalizedString();
     KWin::gainRealTime();
