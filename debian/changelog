@@ -1,3 +1,10 @@
+kwin (4:6.1.31) unstable; urgency=medium
+
+  * fix(sched): resolve kwin failing to set realtime scheduling
+  * fix(log): print release version at kwin_wayland startup
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 29 Jul 2026 13:21:08 +0800
+
 kwin (4:6.1.30) unstable; urgency=medium
 
   * refactor(log): downgrade input filter logs from warning to debug
