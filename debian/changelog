@@ -1,3 +1,9 @@
+kwin (4:6.1.32) unstable; urgency=medium
+
+  * fix: correct buffer recycling when buffer pool is full in multi-screen
+
+ -- liuheng <liuhenga@uniontech.com>  Thu, 30 Jul 2026 14:07:07 +0800
+
 kwin (4:6.1.31) unstable; urgency=medium
 
   * fix(sched): resolve kwin failing to set realtime scheduling
