@@ -1,3 +1,9 @@
+kwin (4:6.1.34) unstable; urgency=medium
+
+  * fix: remove incorrectly reverted grab logic
+
+ -- liuheng <liuhenga@uniontech.com>  Fri, 31 Jul 2026 18:32:21 +0800
+
 kwin (4:6.1.33) unstable; urgency=medium
 
   * fix(multitaskview): key mirror-mode background table off primary output
