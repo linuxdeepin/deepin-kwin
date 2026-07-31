@@ -30,6 +30,7 @@
 #include "wayland_server.h"
 #include "workspace.h"
 #include "x11window.h"
+#include "wayland/xwaylandkeyboardgrab_v1_interface.h"
 // KDecoration
 #include <KDecoration2/Decoration>
 // screenlocker
@@ -513,6 +514,20 @@ bool PointerInputRedirection::focusUpdatesBlocked()
     }
     if (areButtonsPressed()) {
         return true;
+    }
+    // When an X11 window has an active keyboard grab (xwayland-keyboard-grab-v1),
+    // keep the pointer focus on the grab window so that pointer events outside
+    // its geometry are still delivered to it. GrabInputFilter forwards those
+    // events through the Wayland seat; blocking focus updates here prevents
+    // update() from racing the filter and flip-flopping the pointer surface.
+    if (auto grabClient = waylandServer()->XWaylandKeyboardGrabClientV1()) {
+        if (auto surface = grabClient->surface()) {
+            Window *toplevel = workspace()->findToplevel(
+                [surface](const Window *w) -> bool { return w->surface() == surface; });
+            if (toplevel && !toplevel->frameGeometry().contains(m_pos)) {
+                return true;
+            }
+        }
     }
     return false;
 }

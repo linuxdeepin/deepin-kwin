@@ -216,13 +216,6 @@ public:
         std::for_each(m_spies.constBegin(), m_spies.constEnd(), function);
     }
 
-    template <class UnaryFunction>
-    bool processGrab(UnaryFunction function) {
-        if (m_grabFilter == nullptr) {
-            return false;
-        }
-        return function(*m_grabFilter);
-    }
 
     KeyboardInputRedirection *keyboard() const
     {
@@ -358,7 +351,6 @@ private:
     bool m_hasTabletModeSwitch = false;
     bool m_touchpadsEnabled = true;
 
-    InputEventFilter* m_grabFilter = nullptr;
 
     InputEventFilter *m_firstFilter = nullptr;
     RecordEventMonitor *pEventMonitor = nullptr;

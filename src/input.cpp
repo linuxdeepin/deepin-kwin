@@ -2495,6 +2495,89 @@ public:
 
         return true;
     }
+
+    bool pointerEvent(MouseEvent *event, quint32 nativeButton) override {
+        auto grabClient = waylandServer()->XWaylandKeyboardGrabClientV1();
+        if (!grabClient) {
+            return false;
+        }
+        KWaylandServer::SurfaceInterface *surface = grabClient->surface();
+        KWaylandServer::SeatInterface *seat = grabClient->seat();
+        if (!surface || !seat) {
+            return false;
+        }
+
+        Window *toplevel = workspace()->findToplevel(
+            [surface](const Window *w) -> bool { return w->surface() == surface; });
+        if (!toplevel) {
+            return false;
+        }
+
+        // When the pointer is inside the grab window, let normal delivery handle it.
+        if (toplevel->frameGeometry().contains(event->globalPos())) {
+            return false;
+        }
+
+        // Forward pointer events to the grab surface through the Wayland seat
+        // (instead of faking X11 events via XTest). focusUpdatesBlocked()
+        // keeps the pointer focus on the grab surface while the pointer is
+        // outside, so we only need to switch focus on the first event.
+        seat->setTimestamp(event->timestamp());
+        // Ensure the pointer focus is on the grab surface before forwarding
+        // any event. This handles the case where the grab just started and
+        // the first event is a button press (not a motion).
+        if (seat->focusedPointerSurface() != surface) {
+            seat->notifyPointerEnter(surface, event->globalPos(), toplevel->inputTransformation());
+        }
+        switch (event->type()) {
+        case QEvent::MouseMove:
+            seat->notifyPointerMotion(event->globalPos());
+            seat->notifyPointerFrame();
+            break;
+        case QEvent::MouseButtonPress:
+            seat->notifyPointerButton(nativeButton, KWaylandServer::PointerButtonState::Pressed);
+            seat->notifyPointerFrame();
+            break;
+        case QEvent::MouseButtonRelease:
+            seat->notifyPointerButton(nativeButton, KWaylandServer::PointerButtonState::Released);
+            seat->notifyPointerFrame();
+            break;
+        default:
+            break;
+        }
+        return true;
+    }
+
+    bool wheelEvent(WheelEvent *event) override {
+        auto grabClient = waylandServer()->XWaylandKeyboardGrabClientV1();
+        if (!grabClient) {
+            return false;
+        }
+        KWaylandServer::SurfaceInterface *surface = grabClient->surface();
+        KWaylandServer::SeatInterface *seat = grabClient->seat();
+        if (!surface || !seat) {
+            return false;
+        }
+
+        Window *toplevel = workspace()->findToplevel(
+            [surface](const Window *w) -> bool { return w->surface() == surface; });
+        if (!toplevel) {
+            return false;
+        }
+        if (toplevel->frameGeometry().contains(input()->globalPointer())) {
+            return false;
+        }
+
+        seat->setTimestamp(event->timestamp());
+        if (seat->focusedPointerSurface() != surface) {
+            seat->notifyPointerEnter(surface, input()->globalPointer(), toplevel->inputTransformation());
+        }
+        auto _event = static_cast<WheelEvent *>(event);
+        seat->notifyPointerAxis(_event->orientation(), _event->delta(), _event->deltaV120(),
+                                kwinAxisSourceToKWaylandAxisSource(_event->axisSource()));
+        seat->notifyPointerFrame();
+        return true;
+    }
 };
 
 class DragAndDropInputFilter : public QObject, public InputEventFilter
@@ -3245,8 +3328,6 @@ void InputRedirection::setupInputFilters()
         installInputEventFilter(new VirtualTerminalFilter);
     }
 
-    m_grabFilter = new GrabInputFilter;
-
     installInputEventSpy(new HideCursorSpy);
     installInputEventSpy(new GlobalEventSpy);
     installInputEventSpy(new UserActivitySpy);
@@ -3258,6 +3339,7 @@ void InputRedirection::setupInputFilters()
     }
     installInputEventFilter(new DragAndDropInputFilter);
     installInputEventFilter(new LockScreenFilter);
+    installInputEventFilter(new GrabInputFilter);
     m_windowSelector = new WindowSelectorFilter;
     installInputEventFilter(m_windowSelector);
     if (hasGlobalShortcutSupport) {
