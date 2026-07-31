@@ -1,3 +1,10 @@
+kwin (4:6.1.33) unstable; urgency=medium
+
+  * fix(multitaskview): key mirror-mode background table off primary output
+  * revert: remove kwin_input_filter debugging logs
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Fri, 31 Jul 2026 17:48:30 +0800
+
 kwin (4:6.1.32) unstable; urgency=medium
 
   * fix: correct buffer recycling when buffer pool is full in multi-screen
