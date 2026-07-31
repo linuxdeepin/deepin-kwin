@@ -8,7 +8,6 @@
 */
 // own
 #include "globalshortcuts.h"
-#include "input_filter_logging.h"
 // config
 #include <config-kwin.h>
 // kwin
@@ -217,11 +216,8 @@ void GlobalShortcutsManager::forceRegisterTouchscreenSwipe(QAction *action, std:
 
 bool GlobalShortcutsManager::processKey(Qt::KeyboardModifiers mods, int keyQt)
 {
-    qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutsManager::processKey] ENTER - Mods:" << mods << "KeyQt:" << keyQt << "Combined:" << (int(mods) | keyQt);
-
     if (m_kglobalAccelInterface) {
         if (!keyQt && !mods) {
-            qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutsManager::processKey] EXIT - No key and no modifiers";
             return false;
         }
         auto check = [this](Qt::KeyboardModifiers mods, int keyQt) {
@@ -231,14 +227,11 @@ bool GlobalShortcutsManager::processKey(Qt::KeyboardModifiers mods, int keyQt)
                                       Qt::DirectConnection,
                                       Q_RETURN_ARG(bool, retVal),
                                       Q_ARG(int, int(mods) | keyQt));
-            qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutsManager::processKey] KGlobalAccel returned:" << retVal << "for mods:" << mods << "keyQt:" << keyQt;
             return retVal;
         };
         if (check(mods, keyQt)) {
-            qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutManager::processKey] EXIT - Shortcut matched";
             return true;
         } else if (keyQt == Qt::Key_Backtab) {
-            qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutsManager::processKey] Backtab key, trying variants";
             // KGlobalAccel on X11 has some workaround for Backtab
             // see kglobalaccel/src/runtime/plugins/xcb/kglobalccel_x11.cpp method x11KeyPress
             // Apparently KKeySequenceWidget captures Shift+Tab instead of Backtab
@@ -247,16 +240,13 @@ bool GlobalShortcutsManager::processKey(Qt::KeyboardModifiers mods, int keyQt)
             // this should be changed to either Alt+Backtab or Alt+Shift+Tab to match KKeySequenceWidget
             // trying the variants
             if (check(mods | Qt::ShiftModifier, keyQt)) {
-                qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutsManager::processKey] EXIT - Backtab variant 1 matched";
                 return true;
             }
             if (check(mods | Qt::ShiftModifier, Qt::Key_Tab)) {
-                qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutsManager::processKey] EXIT - Backtab variant 2 matched";
                 return true;
             }
         }
     }
-    qCDebug(KWIN_INPUT_FILTER) << "[GlobalShortcutsManager::processKey] EXIT - No shortcut matched";
     return false;
 }
 

@@ -106,7 +106,6 @@ target_sources(kwin PRIVATE
     recordeventmonitor.cpp
     input_event.cpp
     input_event_spy.cpp
-    input_filter_logging.cpp
     inputmethod.cpp
     inputpanelv1integration.cpp
     inputpanelv1window.cpp

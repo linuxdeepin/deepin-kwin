@@ -10,7 +10,6 @@
 #include "composite.h"
 #include "core/renderloop_p.h"
 #include "cursorsource.h"
-#include "input_filter_logging.h"
 #include "utils/common.h"
 #include "wayland_backend.h"
 #include "wayland_display.h"
@@ -293,16 +292,13 @@ void WaylandOutput::resize(const QSize &pixelSize)
 
 void WaylandOutput::setDpmsMode(DpmsMode mode)
 {
-    qCDebug(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] ENTER - Output:" << name() << "RequestedMode:" << mode << "CurrentMode:" << dpmsMode();
     if (mode == DpmsMode::Off) {
-        qCDebug(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] DPMS mode set to Off - creating input filter to block events";
         if (!m_turnOffTimer.isActive()) {
             Q_EMIT aboutToTurnOff(std::chrono::milliseconds(m_turnOffTimer.interval()));
             m_turnOffTimer.start();
         }
         m_backend->createDpmsFilter();
     } else {
-        qCDebug(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] DPMS mode set to non-Off - clearing input filter to allow events";
         m_turnOffTimer.stop();
         m_backend->clearDpmsFilter();
 
@@ -311,7 +307,6 @@ void WaylandOutput::setDpmsMode(DpmsMode mode)
             Q_EMIT wakeUp();
         }
     }
-    qCDebug(KWIN_INPUT_FILTER) << "[WaylandOutput::setDpmsMode] EXIT";
 }
 
 void WaylandOutput::updateDpmsMode(DpmsMode dpmsMode)

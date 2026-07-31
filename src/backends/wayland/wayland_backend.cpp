@@ -17,7 +17,6 @@
 
 #include "dpmsinputeventfilter.h"
 #include "input.h"
-#include "input_filter_logging.h"
 
 #include <KWayland/Client/keyboard.h>
 #include <KWayland/Client/pointer.h>
@@ -571,27 +570,17 @@ Outputs WaylandBackend::outputs() const
 
 void WaylandBackend::createDpmsFilter()
 {
-    qCDebug(KWIN_INPUT_FILTER) << "[WaylandBackend::createDpmsFilter] ENTER";
     if (m_dpmsFilter) {
         // already another output is off
-        qCDebug(KWIN_INPUT_FILTER) << "[WaylandBackend::createDpmsFilter] Filter already exists, returning";
         return;
     }
     m_dpmsFilter = std::make_unique<DpmsInputEventFilter>();
     input()->prependInputEventFilter(m_dpmsFilter.get());
-    qCDebug(KWIN_INPUT_FILTER) << "[WaylandBackend::createDpmsFilter] EXIT - DpmsInputEventFilter created and prepended to input filters";
 }
 
 void WaylandBackend::clearDpmsFilter()
 {
-    qCDebug(KWIN_INPUT_FILTER) << "[WaylandBackend::clearDpmsFilter] ENTER";
-    if (m_dpmsFilter) {
-        qCDebug(KWIN_INPUT_FILTER) << "[WaylandBackend::clearDpmsFilter] Removing DpmsInputEventFilter - input events will pass through";
-        m_dpmsFilter.reset();
-    } else {
-        qCDebug(KWIN_INPUT_FILTER) << "[WaylandBackend::clearDpmsFilter] No filter exists";
-    }
-    qCDebug(KWIN_INPUT_FILTER) << "[WaylandBackend::clearDpmsFilter] EXIT";
+    m_dpmsFilter.reset();
 }
 
 Output *WaylandBackend::createVirtualOutput(const QString &name, const QSize &size, double scale)

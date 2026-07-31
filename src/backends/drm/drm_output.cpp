@@ -23,7 +23,6 @@
 #include "drm_layer.h"
 #include "drm_logging.h"
 #include "drm_restorer.h"
-#include "input_filter_logging.h"
 #include "kwinglutils.h"
 // Qt
 #include <QCryptographicHash>
@@ -257,9 +256,7 @@ QList<std::shared_ptr<OutputMode>> DrmOutput::getModes() const
 
 void DrmOutput::setDpmsMode(DpmsMode mode)
 {
-    qCDebug(KWIN_INPUT_FILTER) << "[DrmOutput::setDpmsMode] ENTER - Output:" << name() << "RequestedMode:" << mode << "CurrentMode:" << dpmsMode() << "Enabled:" << isEnabled();
     if (mode == DpmsMode::Off) {
-        qCDebug(KWIN_INPUT_FILTER) << "[DrmOutput::setDpmsMode] DPMS mode set to Off - creating input filter to block events";
         if (!m_turnOffTimer.isActive()) {
             Q_EMIT aboutToTurnOff(std::chrono::milliseconds(m_turnOffTimer.interval()));
             m_turnOffTimer.start();
@@ -299,12 +296,10 @@ bool DrmOutput::setDrmDpmsMode(DpmsMode mode)
         qCDebug(KWIN_DRM) << "On GPU drm commit pipelines success: " << mode;
         updateDpmsMode(mode);
         if (active) {
-            qCDebug(KWIN_INPUT_FILTER) << "[DrmOutput::setDrmDpmsMode] Output turning ON - unblocking rendering and input";
             m_gpu->platform()->checkOutputsAreOn();
             m_renderLoop->uninhibit();
             m_renderLoop->scheduleRepaint();
         } else {
-            qCDebug(KWIN_INPUT_FILTER) << "[DrmOutput::setDrmDpmsMode] Output turning OFF - inhibiting rendering and creating input filter";
             m_renderLoop->inhibit();
             m_gpu->platform()->createDpmsFilter();
         }

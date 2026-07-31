@@ -7,7 +7,6 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "keyboard_input.h"
-#include "input_filter_logging.h"
 
 #include <config-kwin.h>
 
@@ -261,8 +260,6 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         Q_UNREACHABLE();
     }
 
-    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] ENTER - KeyCode:" << key << "State:" << state << "Type:" << (type == QEvent::KeyPress ? "Press" : "Release") << "AutoRepeat:" << autoRepeat << "Inited:" << m_inited;
-
     const quint32 previousLayout = m_xkb->currentLayout();
     if (!autoRepeat) {
         m_xkb->updateKey(key, state);
@@ -270,7 +267,6 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
 
     const xkb_keysym_t keySym = m_xkb->currentKeysym();
     const Qt::KeyboardModifiers globalShortcutsModifiers = m_xkb->modifiersRelevantForGlobalShortcuts(key);
-    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] KeySym:" << keySym << "QtModifiers:" << m_xkb->modifiers() << "GlobalShortcutsModifiers:" << globalShortcutsModifiers;
     KeyEvent event(type,
                    m_xkb->toQtKey(keySym, key, globalShortcutsModifiers ? Qt::ControlModifier : Qt::KeyboardModifiers()),
                    m_xkb->modifiers(),
@@ -282,28 +278,18 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
                    device);
     event.setModifiersRelevantForGlobalShortcuts(globalShortcutsModifiers);
 
-    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] KeyEvent created - KeyQt:" << event.key() << "Modifiers:" << event.modifiers();
-
-    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Calling processSpies";
     m_input->processSpies(std::bind(&InputEventSpy::keyEvent, std::placeholders::_1, &event));
-
     if (!m_inited) {
-        qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] EXIT - Not inited yet";
         return;
     }
 
-    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Checking grab";
     if (m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event)) && !isTopScreen()) {
-        qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] EXIT - Grab handled the event";
         m_xkb->forwardModifiers();
         return;
     }
-    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Grab not handled, proceeding to filters";
 
     input()->setLastInputHandler(this);
-    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Calling processFilters";
     m_input->processFilters(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event));
-    qCDebug(KWIN_INPUT_FILTER) << "[KeyboardInputRedirection::processKey] Filters processing completed";
 
     m_xkb->forwardModifiers();
     if (auto *inputmethod = kwinApp()->inputMethod()) {

@@ -5,7 +5,6 @@
 */
 #include "dpms_interface.h"
 #include "display.h"
-#include "input_filter_logging.h"
 #include "output_interface.h"
 #include "utils/common.h"
 
@@ -108,9 +107,7 @@ void DpmsInterface::org_kde_kwin_dpms_destroy_resource(Resource *resource)
 
 void DpmsInterface::org_kde_kwin_dpms_set(Resource *resource, uint32_t mode)
 {
-    qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] ENTER - mode:" << mode;
     if (!m_output || m_output->isRemoved()) {
-        qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT - No output or output removed";
         return;
     }
 
@@ -129,17 +126,14 @@ void DpmsInterface::org_kde_kwin_dpms_set(Resource *resource, uint32_t mode)
         dpmsMode = Output::DpmsMode::Off;
         break;
     default:
-        qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT - Invalid mode:" << mode;
         return;
     }
 
     if (m_output->display()) {
         auto connection = m_output->display()->getConnection(resource->client());
-        qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] Client:" << connection->executablePath() << "set DPMS mode to:" << mode << "(will block input if Off)";
+        qCDebug(KWIN_CORE) << "KWin Dpms Interface protocol:" << connection->executablePath() << "set mode:" << mode;
     }
-    qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] Calling setDpmsMode on output:" << m_output->handle()->name() << "to mode:" << dpmsMode;
     m_output->handle()->setDpmsMode(dpmsMode);
-    qCDebug(KWIN_INPUT_FILTER) << "[DpmsInterface::org_kde_kwin_dpms_set] EXIT";
 }
 
 void DpmsInterface::sendSupported()
