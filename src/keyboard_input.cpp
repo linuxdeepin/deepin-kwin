@@ -283,11 +283,6 @@ void KeyboardInputRedirection::processKey(uint32_t key, InputRedirection::Keyboa
         return;
     }
 
-    if (m_input->processGrab(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event)) && !isTopScreen()) {
-        m_xkb->forwardModifiers();
-        return;
-    }
-
     input()->setLastInputHandler(this);
     m_input->processFilters(std::bind(&InputEventFilter::keyEvent, std::placeholders::_1, &event));
 
