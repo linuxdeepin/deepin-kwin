@@ -3364,6 +3364,14 @@ QVector<Output *> Workspace::outputOrder() const
     return m_outputOrder;
 }
 
+Output *Workspace::preferredOutput() const
+{
+    if (m_primaryOutput && m_outputs.contains(m_primaryOutput)) {
+        return m_primaryOutput;
+    }
+    return m_outputs.isEmpty() ? nullptr : m_outputs.first();
+}
+
 Output *Workspace::activeOutput() const
 {
     if (options->activeMouseScreen()) {

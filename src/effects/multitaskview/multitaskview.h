@@ -492,6 +492,11 @@ private:
     bool checkConfig(EffectWindow *w);
     bool isExtensionMode() const;
     int getNumScreens();
+    // Screen to key off in mirror mode: the primary output's EffectScreen
+    // (falls back to the first screen when no primary is set), matching
+    // Workspace::outputAt() tie-breaking so windows and the background table
+    // land on the same screen.
+    EffectScreen *preferredScreen() const;
     QVector<int>desktopList(const EffectWindow *w) const;
 
     void renderWorkspaceMove(KWin::ScreenPaintData &data);

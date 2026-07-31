@@ -236,6 +236,9 @@ public:
     QVector<Output *> outputOrder() const;
 
     Output *activeOutput() const;
+    // Preferred output for effects that key off a single screen in mirror mode:
+    // the user-designated primary output when set, otherwise the first output.
+    Output *preferredOutput() const;
     void setActiveOutput(Output *output);
     void setActiveOutput(const QPointF &pos);
     void setActiveCursorOutput(Output *output);

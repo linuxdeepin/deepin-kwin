@@ -1302,7 +1302,11 @@ void MultitaskViewEffect::paintWindow(EffectWindow *w, int mask, QRegion region,
 
                 d += QPoint(qRound(geo.x() - w->x()), qRound(geo.y() - w->y()));
                 d.setScale(QVector2D((float)geo.width() / w->width(), (float)geo.height() / w->height()));
-                geo &= m_workspaceBackgrounds[w->screen()][paintingDesktop - 1]->getGeometry();
+                const auto it = m_workspaceBackgrounds.constFind(w->screen());
+                Q_ASSERT_X(it != m_workspaceBackgrounds.constEnd() && paintingDesktop - 1 < it.value().size(),
+                           "MultitaskViewEffect::paintWindow",
+                           "background geometry missing for screen/desktop — screen table out of sync with window assignment");
+                geo &= it.value().at(paintingDesktop - 1)->getGeometry();
                 effects->paintWindow(w, mask, geo, d);
             }
         }
@@ -2562,7 +2566,7 @@ void MultitaskViewEffect::setActive(bool active)
         EffectWindowList windowsList = effects->stackingOrder();
         int ncurrentDesktop = effects->currentDesktop();
 
-        m_backgroundRect = effects->clientArea(MaximizeFullArea, effects->findScreen(0), ncurrentDesktop).toRect();
+        m_backgroundRect = effects->clientArea(MaximizeFullArea, preferredScreen(), ncurrentDesktop).toRect();
         m_curDesktopIndex = ncurrentDesktop;
 
         for (int i = 1; i <= effects->numberOfDesktops(); i++) {        //number of desktops
@@ -3209,9 +3213,19 @@ void MultitaskViewEffect::updateWorkspacePos(int removedesktop)
 void MultitaskViewEffect::getScreenInfo()
 {
     m_screenInfoList.clear();
-    m_allFullArea = effects->clientArea(FullArea, effects->screens().first(), effects->currentDesktop()).toRect();
+    m_allFullArea = effects->clientArea(FullArea, preferredScreen(), effects->currentDesktop()).toRect();
 
-    for (Output *output : workspace()->outputs()) {
+    // In mirror mode every output shares geometry; key the single background
+    // table off preferredOutput() (the primary, matching Workspace::outputAt()
+    // tie-breaking) so windows and m_workspaceBackgrounds land on the same
+    // screen. In extension mode, iterate all outputs as before.
+    const QList<Output *> outs = isExtensionMode()
+        ? workspace()->outputs()
+        : QList<Output *>{workspace()->preferredOutput()};
+    for (Output *output : outs) {
+        if (!output) {
+            continue;
+        }
         EffectScreen *effectScreen = effectsEx->findScreen(output);
         QRect rect = effects->clientArea(FullScreenArea, effectScreen, effects->currentDesktop()).toRect();
         QRect maxRect = effects->clientArea(MaximizeArea, effectScreen, effects->currentDesktop()).toRect();
@@ -3238,10 +3252,6 @@ void MultitaskViewEffect::getScreenInfo()
 
         if (m_maxHeight < rect.y() + rect.height())
             m_maxHeight = rect.y() + rect.height();
-        if (!isExtensionMode()) {
-            break;
-        }
-
     }
 }
 
@@ -3256,10 +3266,22 @@ int MultitaskViewEffect::getNumScreens()
     return num;
 }
 
+EffectScreen *MultitaskViewEffect::preferredScreen() const
+{
+    Output *out = workspace()->preferredOutput();
+    if (out) {
+        EffectScreen *s = effectsEx->findScreen(out);
+        if (s) {
+            return s;
+        }
+    }
+    return effects->screens().isEmpty() ? nullptr : effects->screens().first();
+}
+
 bool MultitaskViewEffect::isExtensionMode() const
 {
     if (effects->screens().size() >= 2) {
-        QRect rect = effects->clientArea(FullScreenArea, effects->findScreen(0), effects->currentDesktop()).toRect();
+        QRect rect = effects->clientArea(FullScreenArea, preferredScreen(), effects->currentDesktop()).toRect();
         if (effects->virtualScreenGeometry() != rect) {
             return true;
         }
