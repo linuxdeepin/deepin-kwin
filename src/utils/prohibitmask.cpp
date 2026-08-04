@@ -88,11 +88,12 @@ static void ensureLockTexture()
     }
 }
 
-static void drawLockIconGL(const QRect &rect, const QSize &fboSize)
+static void drawLockIconGL(const QRect &rect, const QSize &fboSize, bool yInverted)
 {
     ensureLockTexture();
     if (!s_lockTexture)
         return;
+    s_lockTexture->setYInverted(yInverted);
 
     QSize iconSize = s_lockTexture->size();
     qreal s = qMin(rect.width() / qreal(iconSize.width()),
@@ -135,7 +136,7 @@ void applyProhibitMaskGL(const ProtectedRegions &regions, const QSize &fboSize, 
         glDisable(GL_SCISSOR_TEST);
         glClear(GL_COLOR_BUFFER_BIT);
         if (drawIcon)
-            drawLockIconGL(QRect(QPoint(0, 0), fboSize), fboSize);
+            drawLockIconGL(QRect(QPoint(0, 0), fboSize), fboSize, !flipped);
     } else {
         glEnable(GL_SCISSOR_TEST);
         for (const QRect &r : regions.rects) {
@@ -143,7 +144,7 @@ void applyProhibitMaskGL(const ProtectedRegions &regions, const QSize &fboSize, 
             glScissor(r.x(), scissorY, r.width(), r.height());
             glClear(GL_COLOR_BUFFER_BIT);
             if (drawIcon && r.width() >= 32 && r.height() >= 32)
-                drawLockIconGL(r, fboSize);
+                drawLockIconGL(r, fboSize, !flipped);
         }
     }
 

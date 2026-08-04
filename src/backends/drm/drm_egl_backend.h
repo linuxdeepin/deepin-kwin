@@ -85,6 +85,8 @@ public:
     std::shared_ptr<GLTexture> importBufferObjectAsTexture(gbm_bo *bo);
 
     bool renderMaskedProhibitFrame(Output *output, QImage &outImage);
+    std::shared_ptr<GbmBuffer> renderMaskedProhibitFrameGpu(Output *output);
+    std::shared_ptr<GbmSurface> getOrCreateProhibitSurface(const QSize &size);
 
     unsigned int getFrameFd() const {
         return m_dmaFd;
@@ -107,6 +109,7 @@ private:
     QHash<uint32_t, GbmFormat> m_formats;
     QHash<uint32_t, EGLConfig> m_configs;
     std::shared_ptr<RemoteAccessManager> m_remoteaccessManager;
+    std::shared_ptr<GbmSurface> m_prohibitSurface;
     unsigned int m_dmaFd;
     uint m_dmaActualStride;
 

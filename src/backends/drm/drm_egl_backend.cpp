@@ -252,6 +252,13 @@ void EglGbmBackend::passRemotePresent(Output *output)
 
             bool hasProtected = globalProhibit || (workspace() && workspace()->hasProtectedWindow());
             if (hasProtected) {
+                // GPU渲染遮罩帧到专用 GbmSurface，走 dma-buf 零拷贝
+                auto gbmbuf = renderMaskedProhibitFrameGpu(output);
+                if (gbmbuf) {
+                    m_remoteaccessManager->passGbmBuffer(output, gbmbuf);
+                    return;
+                }
+                // GPU路径失败，退回 CPU 路径（glReadPixels + shm）作兜底
                 QImage maskedFrame;
                 if (renderMaskedProhibitFrame(output, maskedFrame)) {
                     m_remoteaccessManager->passProhibitMaskBuffer(output, maskedFrame);
@@ -330,10 +337,129 @@ bool EglGbmBackend::renderMaskedProhibitFrame(Output *output, QImage &outImage)
     return true;
 }
 
+std::shared_ptr<GbmSurface> EglGbmBackend::getOrCreateProhibitSurface(const QSize &size)
+{
+    if (m_prohibitSurface && m_prohibitSurface->size() == size) {
+        return m_prohibitSurface;
+    }
+    m_prohibitSurface.reset();
+
+    uint32_t format = DRM_FORMAT_ARGB8888;
+    EGLConfig cfg = config(format);
+    if (cfg == EGL_NO_CONFIG_KHR) {
+        format = DRM_FORMAT_XRGB8888;
+        cfg = config(format);
+    }
+    if (cfg == EGL_NO_CONFIG_KHR) {
+        // fallback: 用第一个可用的 config
+        if (!m_configs.isEmpty()) {
+            auto it = m_configs.constBegin();
+            format = it.key();
+            cfg = it.value();
+        }
+    }
+    if (cfg == EGL_NO_CONFIG_KHR) {
+        return nullptr;
+    }
+
+    auto gbmDev = gpu()->gbmDevice();
+    if (!gbmDev) {
+        return nullptr;
+    }
+
+    auto result = GbmSurface::createSurface(this, size, format, GBM_BO_USE_RENDERING, cfg);
+    if (std::holds_alternative<std::shared_ptr<GbmSurface>>(result)) {
+        m_prohibitSurface = std::get<std::shared_ptr<GbmSurface>>(result);
+    }
+    return m_prohibitSurface;
+}
+
+std::shared_ptr<GbmBuffer> EglGbmBackend::renderMaskedProhibitFrameGpu(Output *output)
+{
+    EglGbmLayer* gbmLayer = dynamic_cast<EglGbmLayer *>(primaryLayer(output));
+    if (!gbmLayer) {
+        return nullptr;
+    }
+
+    auto framebuf = gbmLayer->currentBuffer();
+    if (!framebuf) {
+        return nullptr;
+    }
+
+    auto gbmbuf = std::dynamic_pointer_cast<GbmBuffer>(framebuf->buffer());
+    if (!gbmbuf) {
+        return nullptr;
+    }
+
+    auto bo = gbmbuf->bo();
+    if (!bo) {
+        return nullptr;
+    }
+
+    QSize size(gbm_bo_get_width(bo), gbm_bo_get_height(bo));
+    if (size.isEmpty()) {
+        return nullptr;
+    }
+
+    // 1. 获取或创建专用 GbmSurface
+    auto surface = getOrCreateProhibitSurface(size);
+    if (!surface) {
+        return nullptr;
+    }
+
+    // 2. 导入当前帧为纹理
+    auto tex = importBufferObjectAsTexture(bo);
+    if (!tex) {
+        return nullptr;
+    }
+
+    // 3. 切换 EGL context 到禁屏 surface
+    const EGLSurface previousSurface = eglGetCurrentSurface(EGL_DRAW);
+    if (!surface->makeContextCurrent()) {
+        return nullptr;
+    }
+
+    // 4. 渲染当前帧到 GbmSurface 的 FBO
+    GLFramebuffer::pushFramebuffer(surface->fbo());
+
+    auto shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
+    QMatrix4x4 mvp;
+    mvp.ortho(QRect(QPoint(0, 0), size));
+    shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
+
+    glDisable(GL_BLEND);
+    tex->setYInverted(true);
+    tex->bind();
+    tex->render(QRect(QPoint(0, 0), size), 1.0);
+    tex->unbind();
+    ShaderManager::instance()->popShader();
+
+    // 5. GPU 画黑框 + 锁图标
+    auto regions = computeProtectedRegions(output->geometry(), output->scale());
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (dde_restrict && dde_restrict->prohibitScreencast()) {
+        regions.maskAll = true;
+        regions.rects = QRegion();
+    }
+    applyProhibitMaskGL(regions, size, false, true);
+
+    GLFramebuffer::popFramebuffer();
+
+    // 6. swapBuffers 获取 GbmBuffer (dma-buf)
+    auto result = surface->swapBuffers(QRegion());
+
+    // 7. 恢复原 EGL surface，避免 context 停留在禁屏 surface 上
+    if (previousSurface != EGL_NO_SURFACE) {
+        eglMakeCurrent(eglDisplay(), previousSurface, previousSurface, context());
+    }
+    return result;
+}
+
 void EglGbmBackend::present(Output *output)
 {
-    passRemotePresent(output);
+    // 先异步翻片，再走passRemotePresent，避免后者中对禁屏处理产生的延迟影响帧率
     static_cast<DrmAbstractOutput *>(output)->present();
+    passRemotePresent(output);
 }
 
 OutputLayer *EglGbmBackend::primaryLayer(Output *output)
