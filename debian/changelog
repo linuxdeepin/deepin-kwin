@@ -1,3 +1,10 @@
+kwin (4:6.1.35) unstable; urgency=medium
+
+  * fix: 在华为主机上设置防截屏窗口后，鼠标移动延迟的问题
+  * fix: recognize dde-lock as lockscreen to prevent X11 focus issues
+
+ -- lijunjie <lijunjie@uniontech.com>  Wed, 05 Aug 2026 16:49:04 +0800
+
 kwin (4:6.1.34) unstable; urgency=medium
 
   * fix: remove incorrectly reverted grab logic
