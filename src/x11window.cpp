@@ -2115,6 +2115,22 @@ QStringList X11Window::activities() const
  */
 bool X11Window::takeFocus()
 {
+     // If the screen is covered by an application lock window (dde-lock),
+     // do not actively set X input focus for this X11 window: a bare
+     // XSetInputFocus here would synthesize a FocusIn + EnterNotify to a
+     // fullscreen X11 window even though dde-lock stays on top in Wayland
+     // stacking, letting the X11 app grab the keyboard. Skip set_input_focus
+     // so focus stays with the lock window.
+
+     if (waylandServer() && waylandServer()->isScreenLocked()) {
+         workspace()->setShouldGetFocus(this);
+         if (info->supportsProtocol(NET::TakeFocusProtocol)) {
+             kwinApp()->updateXTime();
+             sendClientMessage(window(), atoms->wm_protocols, atoms->wm_take_focus);
+         }
+         return true;
+     }
+
     if (rules()->checkAcceptFocus(info->input())) {
         xcb_void_cookie_t cookie = xcb_set_input_focus_checked(kwinApp()->x11Connection(),
                                                                XCB_INPUT_FOCUS_POINTER_ROOT,

@@ -103,7 +103,15 @@ bool WaylandWindow::isClient() const
 
 bool WaylandWindow::isLockScreen() const
 {
-    return surface()->client() == waylandServer()->screenLockerClientConnection();
+    if (surface()->client() == waylandServer()->screenLockerClientConnection()) {
+        return true;
+    }
+    // Heuristic: dde-lock is an ordinary Wayland client that intentionally
+    // does not use kscreenlocker, so identify it by window title/resource name.
+    const bool titleMatch = m_captionNormal.compare(QLatin1String("dde-lock"), Qt::CaseInsensitive) == 0
+        || m_captionNormal.contains(QLatin1String("dde-lock"), Qt::CaseInsensitive);
+    const bool resourceMatch = resourceName().compare(QLatin1String("dde-lock"), Qt::CaseInsensitive) == 0;
+    return titleMatch || resourceMatch;
 }
 
 bool WaylandWindow::isLocalhost() const

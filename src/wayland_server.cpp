@@ -1130,14 +1130,26 @@ quint16 WaylandServer::createClientId(ClientConnection *c)
 
 bool WaylandServer::isScreenLocked() const
 {
+    bool kscreenLockerLocked = false;
 #if KWIN_BUILD_SCREENLOCKER
-    if (!hasScreenLockerIntegration()) {
-        return false;
+    if (hasScreenLockerIntegration()) {
+        const auto state = ScreenLocker::KSldApp::self()->lockState();
+        kscreenLockerLocked = state == ScreenLocker::KSldApp::Locked || state == ScreenLocker::KSldApp::AcquiringLock;
     }
-    return ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::Locked || ScreenLocker::KSldApp::self()->lockState() == ScreenLocker::KSldApp::AcquiringLock;
-#else
-    return false;
 #endif
+    if (kscreenLockerLocked) {
+        return true;
+    }
+    // Heuristic: a non-kscreenlocker application lock window (dde-lock) is present.
+    if (Workspace::self()) {
+        const auto &clients = Workspace::self()->allClientList();
+        for (Window *w : clients) {
+            if (!w->isDeleted() && w->isLockScreen()) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool WaylandServer::hasScreenLockerIntegration() const
