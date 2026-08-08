@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>Unmaximize</source>
-        <translation>Repor</translation>
+        <translation>Desmaximizar</translation>
     </message>
 </context>
 </TS>
