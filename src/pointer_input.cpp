@@ -143,6 +143,11 @@ void PointerInputRedirection::init()
         setFocus(nullptr);
         update();
     });
+    connect(waylandServer(), &WaylandServer::xwaylandKeyboardGrabChanged, this, [this]() {
+        // need to force a focused pointer change
+        setFocus(nullptr);
+        update();
+    });
     // connect the move resize of all window
     auto setupMoveResizeConnection = [this](Window *window) {
         connect(window, &Window::clientStartUserMovedResized, this, &PointerInputRedirection::updateOnStartMoveResize);

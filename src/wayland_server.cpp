@@ -632,6 +632,7 @@ bool WaylandServer::init(InitializationFlags flags)
         [this] () {
             m_grabClient = nullptr;
             qDebug() << "grab destroyed";
+            Q_EMIT xwaylandKeyboardGrabChanged();
         }
     );
 

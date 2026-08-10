@@ -300,6 +300,7 @@ Q_SIGNALS:
     void initialized();
     void foreignTransientChanged(KWaylandServer::SurfaceInterface *child);
     void lockStateChanged();
+    void xwaylandKeyboardGrabChanged();
 
 private:
     int createScreenLockerConnection();
