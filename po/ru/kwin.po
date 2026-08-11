@@ -8,6 +8,7 @@
 # Gary Wang <wzc782970009@gmail.com>, 2025
 # Валерий Владимирович, 2025
 # Михаил Комаров, 2025
+# Dumitru Ciloci, 2026
 # 
 msgid ""
 msgstr ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
 "PO-Revision-Date: 2025-06-24 07:00+0000\n"
-"Last-Translator: Михаил Комаров, 2025\n"
+"Last-Translator: Dumitru Ciloci, 2026\n"
 "Language-Team: Russian (https://app.transifex.com/linuxdeepin/teams/3617/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,12 +28,14 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Кен Найт, Дуэйн Бейли, Стив Аллевелл"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
+"anarchist_tomato@herzeleid.net, dwayne@translate.org.za, "
+"steve.allewell@gmail.com"
 
 #: composite.cpp:646
 #, kde-format
@@ -66,7 +69,7 @@ msgstr ""
 #: composite.cpp:1071
 #, kde-format
 msgid "Required X extensions (XComposite and XDamage) are not available."
-msgstr ""
+msgstr "Необходимые расширения X (XComposite и XDamage) недоступны."
 
 #: composite.cpp:1074
 #, kde-format
@@ -76,12 +79,12 @@ msgstr "GLX/OpenGL не доступны."
 #: debug_console.cpp:79 debug_console.cpp:84
 #, kde-format
 msgid "Timestamp"
-msgstr ""
+msgstr "Временная метка"
 
 #: debug_console.cpp:89 debug_console.cpp:94
 #, kde-format
 msgid "Timestamp (µsec)"
-msgstr ""
+msgstr "Временная метка (мкс)"
 
 #: debug_console.cpp:101
 #, kde-format
@@ -117,7 +120,7 @@ msgstr "Вперёд:"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Task"
-msgstr ""
+msgstr "Задача"
 
 #: debug_console.cpp:113
 #, kde-format
@@ -266,19 +269,19 @@ msgstr "Перемещение указателя"
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta"
-msgstr ""
+msgstr "Дельта"
 
 #: debug_console.cpp:208
 #, kde-format
 msgctxt "The relative mouse movement"
 msgid "Delta (not accelerated)"
-msgstr ""
+msgstr "«Дельта» (не ускоренный)"
 
 #: debug_console.cpp:211
 #, kde-format
 msgctxt "The global mouse pointer position"
 msgid "Global Position"
-msgstr ""
+msgstr "Глобальное положение"
 
 #: debug_console.cpp:215
 #, kde-format
@@ -338,7 +341,7 @@ msgstr "Вертикальная"
 #, kde-format
 msgctxt "The angle delta of a pointer axis event"
 msgid "Delta"
-msgstr ""
+msgstr "Дельта"
 
 #: debug_console.cpp:265
 #, kde-format
@@ -380,7 +383,7 @@ msgstr ""
 #, kde-format
 msgctxt "A keyboard modifier"
 msgid "Keypad"
-msgstr ""
+msgstr "Клавиатура"
 
 #: debug_console.cpp:297
 #, kde-format
@@ -554,7 +557,7 @@ msgstr ""
 #, kde-format
 msgctxt "A hardware switch (e.g. notebook lid) got toggled"
 msgid "Switch toggled"
-msgstr ""
+msgstr "Переключатель переключен"
 
 #: debug_console.cpp:477
 #, kde-format
@@ -572,7 +575,7 @@ msgstr "Режим планшета"
 #, kde-format
 msgctxt "A hardware switch"
 msgid "Switch"
-msgstr ""
+msgstr "Переключатель"
 
 #: debug_console.cpp:485
 #, kde-format
@@ -595,12 +598,12 @@ msgstr "Состояние"
 #: debug_console.cpp:508
 #, kde-format
 msgid "Tablet Tool"
-msgstr ""
+msgstr "Инструмент для планшетов"
 
 #: debug_console.cpp:509
 #, kde-format
 msgid "EventType"
-msgstr ""
+msgstr "Тип события"
 
 #: debug_console.cpp:510 debug_console.cpp:555 debug_console.cpp:569
 #, kde-format
@@ -610,17 +613,17 @@ msgstr "Позиция"
 #: debug_console.cpp:512
 #, kde-format
 msgid "Tilt"
-msgstr ""
+msgstr "Наклон"
 
 #: debug_console.cpp:514
 #, kde-format
 msgid "Rotation"
-msgstr ""
+msgstr "Вращение"
 
 #: debug_console.cpp:515
 #, kde-format
 msgid "Pressure"
-msgstr ""
+msgstr "Давление"
 
 #: debug_console.cpp:516
 #, kde-format
@@ -636,7 +639,7 @@ msgstr "Модификаторы"
 #: debug_console.cpp:526
 #, kde-format
 msgid "Tablet Tool Button"
-msgstr ""
+msgstr "Кнопка «Инструменты планшета»"
 
 #: debug_console.cpp:527 debug_console.cpp:541
 #, kde-format
