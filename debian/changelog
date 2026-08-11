@@ -1,3 +1,9 @@
+kwin (4:6.1.36) unstable; urgency=medium
+
+  * fix: XWayland键盘grab结束后鼠标事件无响应
+
+ -- lijunjie <lijunjie@uniontech.com>  Tue, 11 Aug 2026 16:28:55 +0800
+
 kwin (4:6.1.35) unstable; urgency=medium
 
   * fix: 在华为主机上设置防截屏窗口后，鼠标移动延迟的问题
