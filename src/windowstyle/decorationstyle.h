@@ -207,7 +207,7 @@ public:
     void parseWinCustomRadius() override {};
     void parseWinCustomShadow() override {};
     void parseWinStartUpEffect() override {};
-public Q_SLOT:
+public Q_SLOTS:
     void onUpdateWindowRadiusByWayland(QPointF);
     void onUpdateShadowColorByWayland(QString);
     void onUpdateBorderWidthByWayland(qint32);
