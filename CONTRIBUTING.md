@@ -117,7 +117,7 @@ bash ~/kde/build/plasma-workspace/login-sessions/install-sessions.sh
 ```
 Then you can select the develop session in the sddm login screen.
 
-You can look up the current boot kwin log via `journalctl --user-unit plasma-kwin_wayland --boot 0`.
+You can look up the current boot kwin log via `journalctl -t kwin_wayland --boot 0`.
 
 ## Using A Debugger
 
