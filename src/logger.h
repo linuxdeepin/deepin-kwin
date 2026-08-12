@@ -31,15 +31,14 @@ private:
     Logger(QObject *parent = nullptr);
     ~Logger() = default;
 
-    void setLoggingRules(const QString &rules = QString());
-
-    void appendRules(const QString &rules);
+    void setLoggingRules();
 
     void initDBus();
     void setLogRulesFromDBus();
 
     QMutex m_mutex;
-    QString m_rules;
+    QString m_envRules;
+    QString m_dconfigRules;
     QString m_configManagerPath;
 };
 

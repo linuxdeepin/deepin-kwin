@@ -311,6 +311,11 @@ XwaylandInterface *ApplicationWayland::xwayland() const
 
 int main(int argc, char *argv[])
 {
+    // Must instantiate Logger (which clears QT_LOGGING_RULES) before any
+    // QLoggingCategory is used, to prevent QLoggingRegistry from caching
+    // env rules that would override our setFilterRules() calls.
+    KWin::Logger::instance()->installMessageHandler();
+
 #if defined(Q_OS_LINUX) && HAVE_SYS_PRCTL_H
     // Some Linux distros may set ambient capabilities, so clear CAP_SYS_NICE here to avoid
     // leaking it to all child processes.
@@ -325,7 +330,6 @@ int main(int argc, char *argv[])
 
     // libwayland debug information needs to be captured by kwin,
     // and kwin uses logging rules to decide whether to enable libwayland debug information.
-    KWin::Logger::instance()->installMessageHandler();
     wl_log_set_handler_server(waylandLogHandler);
 #ifndef BUILD_WITHOUT_V20_PATCH
     wl_debug_set_handler_server(waylandDebugHandler);

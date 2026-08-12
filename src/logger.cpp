@@ -58,11 +58,12 @@ static void qtLoggerMessageHandler(QtMsgType type, const QMessageLogContext& con
 Logger::Logger(QObject *parent)
     : QObject(parent)
 {
-    QByteArray logRules = qgetenv("QT_LOGGING_RULES");
+    m_envRules = QString::fromLocal8Bit(qgetenv("QT_LOGGING_RULES"));
+    m_envRules.replace(";", "\n");
     qunsetenv("QT_LOGGING_RULES");
 
     // set env
-    setLoggingRules(logRules);
+    setLoggingRules();
     initDBus();
 }
 
@@ -77,73 +78,19 @@ void Logger::installMessageHandler()
     qInstallMessageHandler(qtLoggerMessageHandler);
 }
 
-void Logger::setLoggingRules(const QString &rules)
+void Logger::setLoggingRules()
 {
-    if (!rules.isEmpty()) {
-        QString tmpRules = rules;
-        m_rules = tmpRules.replace(";", "\n");
-    }
-    qCInfo(KWIN_LOGGER) << "Setting logging rules: " << m_rules;
-    QLoggingCategory::setFilterRules(m_rules);
-}
-
-void Logger::appendRules(const QString &rules)
-{
-    // Convert rules string to QMap for processing
-    QMap<QString, QString> rulesMap;
-
-    // Process existing rules
-    if (!m_rules.isEmpty()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        const QStringList currentRules = m_rules.split('\n', QString::SkipEmptyParts);
-#else
-        const QStringList currentRules = m_rules.split('\n', Qt::SkipEmptyParts);
-#endif
-        for (const QString &rule : currentRules) {
-            const int equalPos = rule.indexOf('=');
-            if (equalPos > 0) {
-                QString key = rule.left(equalPos).trimmed();
-                QString value = rule.mid(equalPos + 1).trimmed();
-                rulesMap[key] = value;
-            }
+    // env rules first, dconfig rules second — Qt filter rules are
+    // last-wins, so dconfig values take precedence over the env.
+    QString rules = m_envRules;
+    if (!m_dconfigRules.isEmpty()) {
+        if (!rules.isEmpty()) {
+            rules += QLatin1Char('\n');
         }
+        rules += m_dconfigRules;
     }
-
-    // Process new rules
-    QString tmpRules = rules;
-    tmpRules.replace(";", "\n");
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    const QStringList newRules = tmpRules.split('\n', QString::SkipEmptyParts);
-#else
-    const QStringList newRules = tmpRules.split('\n', Qt::SkipEmptyParts);
-#endif
-    bool hasNewRules = false;
-
-    for (const QString &rule : newRules) {
-        const int equalPos = rule.indexOf('=');
-        if (equalPos > 0) {
-            QString key = rule.left(equalPos).trimmed();
-            QString value = rule.mid(equalPos + 1).trimmed();
-
-            // Update if it's a new rule or the value has changed
-            if (!rulesMap.contains(key) || rulesMap[key] != value) {
-                rulesMap[key] = value;
-                hasNewRules = true;
-            }
-        }
-    }
-
-    if (!hasNewRules) {
-        return;
-    }
-
-    // Convert QMap back to rules string
-    QStringList resultRules;
-    for (auto it = rulesMap.constBegin(); it != rulesMap.constEnd(); ++it) {
-        resultRules.append(QString("%1=%2").arg(it.key(), it.value()));
-    }
-
-    m_rules = resultRules.join("\n");
+    qCInfo(KWIN_LOGGER) << "Setting logging rules: " << rules;
+    QLoggingCategory::setFilterRules(rules);
 }
 
 void Logger::initDBus()
@@ -216,7 +163,8 @@ void Logger::setLogRulesFromDBus()
         }
         if (reply.isValid()) {
             qCInfo(KWIN_LOGGER) << "Get log_rules value from dconfig: " << reply.value().toString();
-            appendRules(reply.value().toString());
+            m_dconfigRules = reply.value().toString();
+            m_dconfigRules.replace(";", "\n");
             setLoggingRules();
         }
         watcher->deleteLater();
