@@ -9,9 +9,9 @@ void main() {
     if (texcoord0.t > 0.5) {
         vec2 tc = texcoord0 * k - vec2(0, k.t - 1.0);
         tc.t = 1.0 - tc.t;
-        vec4 m1 = texture(msk1, tc);
+        vec4 m1 = texture2D(msk1, tc);
         tc = 1.0 - ((texcoord0 - 1.0) * k + 1.0);
-        vec4 m3 = texture(msk1, tc);
+        vec4 m3 = texture2D(msk1, tc);
         c *= (m1.a * m3.a);
     }
     if (texcoord0.s < clip_left || texcoord0.s > clip_right)
