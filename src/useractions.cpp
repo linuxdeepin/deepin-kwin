@@ -258,7 +258,7 @@ void UserActionsMenu::prepareMenu(Window *cl)
         action->setChecked(item.checked);
         action->setEnabled(item.enable);
         if (item.checked) {
-            if (backgroundColor == "black") {
+            if (workspace()->self()->isDarkTheme()) {
                 action->setIcon(QIcon(":/resources/themes/active.svg"));
             } else {
                 action->setIcon(QIcon(":/resources/themes/inactive.svg"));
