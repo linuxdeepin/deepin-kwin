@@ -88,6 +88,52 @@ var scaleEffect = {
         window.setData(Effect.WindowForceBackgroundContrastRole, null);
         window.setData(Effect.WindowForceBlurRole, null);
     },
+    // Tracks Deleted windows currently running their scale-out (close) animation,
+    // keyed by windowClass. Populated only from slotWindowClosed (the close path,
+    // which receives the Deleted), so minimize/unminimize is never recorded here.
+    scaleOutWindows: {},
+    registerScaleOut: function (window, animation) {
+        var windowClass = window.windowClass;
+        if (!scaleEffect.scaleOutWindows[windowClass]) {
+            scaleEffect.scaleOutWindows[windowClass] = [];
+        }
+        scaleEffect.scaleOutWindows[windowClass].push({
+            window: window,
+            animation: animation
+        });
+    },
+    unregisterScaleOut: function (window) {
+        var windowClass = window.windowClass;
+        var entries = scaleEffect.scaleOutWindows[windowClass];
+        if (!entries) {
+            return;
+        }
+        scaleEffect.scaleOutWindows[windowClass] = entries.filter(function (entry) {
+            return entry.window !== window;
+        });
+        if (scaleEffect.scaleOutWindows[windowClass].length === 0) {
+            delete scaleEffect.scaleOutWindows[windowClass];
+        }
+    },
+    // When a window is added while a Deleted window of the same windowClass is
+    // still running its scale-out animation (close+reopen race, e.g. quickly
+    // toggling the control center icon), cancel the pending scale-out so the old
+    // render object stops being painted and is released early instead of
+    // overlapping the freshly scaling-in window. Only Deleted windows recorded
+    // via slotWindowClosed are ever cancelled here.
+    cancelPendingScaleOut: function (windowClass) {
+        var entries = scaleEffect.scaleOutWindows[windowClass];
+        if (!entries || entries.length === 0) {
+            return;
+        }
+        for (var i = 0; i < entries.length; i++) {
+            var entry = entries[i];
+            cancel(entry.animation);
+            delete entry.window.scaleOutAnimation;
+            scaleEffect.cleanupForcedRoles(entry.window);
+        }
+        delete scaleEffect.scaleOutWindows[windowClass];
+    },
     slotWindowAdded: function (window) {
         if (effects.hasActiveFullScreenEffect) {
             return;
@@ -111,6 +157,10 @@ var scaleEffect = {
             || window.appletPopup) {
             return ;
         }
+        // Drop any still-running scale-out of a Deleted window sharing the same
+        // windowClass so the old render object is not painted alongside this one
+        // when an application is closed and reopened quickly (WM-91).
+        scaleEffect.cancelPendingScaleOut(window.windowClass);
         scaleEffect.setupForcedRoles(window);
         var windowRect = window.geometry;
         var scaleSize = scaleEffect.addSize;
@@ -190,6 +240,7 @@ var scaleEffect = {
                 },
             ]
         });
+        scaleEffect.registerScaleOut(window, window.scaleOutAnimation);
     },
     slotWindowDataChanged: function (window, role) {
         if (role == Effect.WindowAddedGrabRole) {
@@ -202,15 +253,24 @@ var scaleEffect = {
             if (window.scaleOutAnimation && effect.isGrabbed(window, role)) {
                 cancel(window.scaleOutAnimation);
                 delete window.scaleOutAnimation;
+                scaleEffect.unregisterScaleOut(window);
                 scaleEffect.cleanupForcedRoles(window);
             }
         }
+    },
+    slotAnimationEnded: function (window) {
+        // Fires for both scale-in and scale-out animations reaching their natural
+        // end. Drop any tracked scale-out entry for this window (a no-op for the
+        // scale-in of a freshly added window) and release the forced roles as the
+        // original handler did.
+        scaleEffect.unregisterScaleOut(window);
+        scaleEffect.cleanupForcedRoles(window);
     },
     init: function () {
         scaleEffect.loadConfig();
 
         effect.configChanged.connect(scaleEffect.loadConfig);
-        effect.animationEnded.connect(scaleEffect.cleanupForcedRoles);
+        effect.animationEnded.connect(scaleEffect.slotAnimationEnded);
         effects.windowAdded.connect(scaleEffect.slotWindowAdded);
         effects.windowClosed.connect(scaleEffect.slotWindowClosed);
         effects.windowDataChanged.connect(scaleEffect.slotWindowDataChanged);
