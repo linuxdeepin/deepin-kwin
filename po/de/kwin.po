@@ -2352,7 +2352,7 @@ msgstr "Verschiebe zu %1 %2"
 #, kde-format
 msgctxt "Create a new desktop and add the window to that desktop"
 msgid "Add to &New Desktop"
-msgstr ""
+msgstr "Verschiebe zu &neuem Schreibtisch"
 
 #: useractions.cpp:671
 #, kde-format
@@ -2438,37 +2438,37 @@ msgstr "Fenstergröße ändern"
 #: useractions.cpp:1001
 #, kde-format
 msgid "Raise Window"
-msgstr ""
+msgstr "Fenster vergrößern"
 
 #: useractions.cpp:1003
 #, kde-format
 msgid "Lower Window"
-msgstr ""
+msgstr "Fenster verkleinern"
 
 #: useractions.cpp:1005
 #, kde-format
 msgid "Toggle Window Raise/Lower"
-msgstr ""
+msgstr "Fenstergröße umschalten"
 
 #: useractions.cpp:1007
 #, kde-format
 msgid "Make Window Fullscreen"
-msgstr ""
+msgstr "Fenster auf ganzen Bildschirm ziehen"
 
 #: useractions.cpp:1009
 #, kde-format
 msgid "Toggle Window Titlebar and Frame"
-msgstr ""
+msgstr "Titelzeile und Rahmen umschalten"
 
 #: useractions.cpp:1011
 #, kde-format
 msgid "Keep Window Above Others"
-msgstr ""
+msgstr "Fenster oberhalb der anderen halten"
 
 #: useractions.cpp:1013
 #, kde-format
 msgid "Keep Window Below Others"
-msgstr ""
+msgstr "Fenster unterhalb der ánderen halten"
 
 #: useractions.cpp:1015
 #, kde-format
