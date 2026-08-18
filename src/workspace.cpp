@@ -68,6 +68,7 @@
 #include "composite.h"
 #include "windowstyle/windowstylemanager.h"
 #include "utils/dconfig_reader.h"
+#include "utils/prohibitmask.h"
 #include "debugpixmap.h"
 #include "ddedock_interface.h"
 
@@ -1525,6 +1526,13 @@ void Workspace::slotReconfigure()
 
 void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
 {
+    const bool protect = hasAnyProhibitWindow();
+    const bool inMultitask = effects
+        && static_cast<EffectsHandlerImpl *>(effects)->isEffectActived(QStringLiteral("multitaskview"));
+    if (protect && !inMultitask) {
+        dbusRootWindowProtect(true);
+    }
+
     closeActivePopup();
     ++block_focus;
     StackingUpdatesBlocker blocker(this);
@@ -1536,6 +1544,21 @@ void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
     kwinApp()->config()->group("Workspace").writeEntry("CurrentDesktop", newDesktop);
     kwinApp()->config()->sync();
     Q_EMIT currentDesktopChanged(oldDesktop, m_moveResizeWindow);
+
+    if (protect && !inMultitask) {
+        dbusRootWindowProtect(false);
+    }
+}
+
+// 判断系统是否存在受保护窗口（无论是否最小化/在其他桌面/效果是否激活）。
+bool Workspace::hasAnyProhibitWindow()
+{
+    for (Window *win : std::as_const(m_allClients)) {
+        if (win->isProhibitScreenshotWindow()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void Workspace::slotCurrentDesktopChanging(uint currentDesktop, QPointF offset)

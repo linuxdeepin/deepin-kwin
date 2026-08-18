@@ -389,6 +389,7 @@ public:
     void registerDDESession() const;
 
     bool hasProtectedWindow();
+    bool hasAnyProhibitWindow();
 
     void setWinSplitState(Window *w, bool isSplit);
 

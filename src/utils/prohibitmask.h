@@ -52,4 +52,17 @@ KWIN_EXPORT void applyProhibitMaskGL(const ProtectedRegions &regions, const QSiz
  */
 KWIN_EXPORT void applyProhibitMaskCPU(QImage &image, const ProtectedRegions &regions);
 
+/**
+ * Call displayjack to enable/disable global protection of the root window via DBus.
+ * @param protect  true to enable global protection, false to release it.
+ */
+KWIN_EXPORT void dbusRootWindowProtect(bool protect);
+
+/**
+ * Whether global protection currently open was opened by KWin itself.
+ * Used when releasing global protection: only close it if there are no protected windows
+ * anymore, or if the global protection was opened by KWin (so KWin is responsible for closing it).
+ */
+KWIN_EXPORT bool protectionOpenedByKWin();
+
 } // namespace KWin

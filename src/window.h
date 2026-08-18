@@ -626,6 +626,7 @@ class KWIN_EXPORT Window : public QObject
 public:
     ~Window() override;
 
+    virtual bool isProhibitScreenshotWindow();
     virtual xcb_window_t frameId() const;
     virtual xcb_window_t window() const;
     /**
@@ -2042,7 +2043,6 @@ protected:
 
     static std::unique_ptr<PlaceholderWindow> s_placeholderWindow;
 
-    virtual bool isProhibitScreenshotWindow();
     virtual void recordShape(xcb_window_t id, xcb_shape_kind_t kind);
     void updateExtendWindowSection(const QPointF &pos);
 

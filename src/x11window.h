@@ -471,6 +471,7 @@ private:
     int m_activityUpdatesBlocked;
     bool m_blockedActivityUpdatesRequireTransients;
     bool move_resize_has_keyboard_grab;
+    bool m_moveResizeProtecting = false;
     bool m_managed;
 
     Xcb::GeometryHints m_geometryHints;

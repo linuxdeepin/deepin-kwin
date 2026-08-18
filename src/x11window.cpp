@@ -33,6 +33,7 @@
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "workspace.h"
+#include "utils/prohibitmask.h"
 #include "eventlog.h"
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/Decoration>
@@ -490,6 +491,22 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     auto activitiesCookie = fetchActivities();
     auto applicationMenuServiceNameCookie = fetchApplicationMenuServiceName();
     auto applicationMenuObjectPathCookie = fetchApplicationMenuObjectPath();
+
+    // 主动读取一次 _DEEPIN_PROHIBIT_SCREENSHOT 属性，防止窗口在 KWin 管理之前
+    // 就被 displayjack 注册（如 GTK 的 realize 信号阶段设置的属性）
+    // 导致 PropertyNotify 事件被 KWin 漏掉，m_isProhibitScreenshotWindow 一直为 false。
+    {
+        auto cookie = xcb_get_property(kwinApp()->x11Connection(), false, w,
+                                        atoms->deepin_prohibit_screenshot, XCB_ATOM_CARDINAL, 0, 1);
+        UniqueCPtr<xcb_get_property_reply_t> reply(xcb_get_property_reply(kwinApp()->x11Connection(), cookie, nullptr));
+
+        bool isProhibit = false;
+        if (reply && reply->type == XCB_ATOM_CARDINAL && reply->format == 32 && reply->value_len > 0) {
+            const uint32_t value = *static_cast<const uint32_t *>(xcb_get_property_value(reply.get()));
+            isProhibit = value != 0;
+        }
+        updateProhibitScreenshot(isProhibit);
+    }
 
     m_geometryHints.init(window());
     m_motif.init(window());
@@ -1594,7 +1611,17 @@ void X11Window::doMinimize()
     updateVisibility();
     if (old_preview || hiddenPreview()) {
         if (isMinimized()) {
-            exportMappingState(XCB_ICCCM_WM_STATE_ICONIC);
+            // 对于受保护窗口，立刻设置Iconic会导致受保护区域先于窗口消失，从而内容泄露。延迟设置它
+            if (isProhibitScreenshotWindow()) {
+                QTimer::singleShot(500, this, [this]() {
+                    if (!isMinimized()) {
+                        return;
+                    }
+                    exportMappingState(XCB_ICCCM_WM_STATE_ICONIC);
+                });
+            } else {
+                exportMappingState(XCB_ICCCM_WM_STATE_ICONIC);
+            }
         } else {
             exportMappingState(XCB_ICCCM_WM_STATE_NORMAL);
         }
@@ -4448,6 +4475,12 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         return;
     }
 
+    // 受保护窗口的最大化与还原动画会导致内容泄露，禁用它
+    const bool protect = isProhibitScreenshotWindow();
+    if (protect) {
+        animated = false;
+    }
+
     QRectF clientArea;
     if (isElectricBorderMaximizing()) {
         clientArea = workspace()->clientArea(MaximizeArea, this, Cursors::self()->mouse()->pos());
@@ -4556,6 +4589,9 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
     switch (max_mode) {
 
     case MaximizeVertical: {
+        if (protect) {
+            dbusRootWindowProtect(true);
+        }
         if (old_mode & MaximizeHorizontal) { // actually restoring from MaximizeFull
             if (geometryRestore().width() == 0 || !clientArea.contains(geometryRestore().center())) {
                 // needs placement
@@ -4572,10 +4608,16 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             moveResize(r);
         }
         info->setState(NET::MaxVert, NET::Max);
+        if (protect) {
+            dbusRootWindowProtect(false);
+        }
         break;
     }
 
     case MaximizeHorizontal: {
+        if (protect) {
+            dbusRootWindowProtect(true);
+        }
         if (old_mode & MaximizeVertical) { // actually restoring from MaximizeFull
             if (geometryRestore().height() == 0 || !clientArea.contains(geometryRestore().center())) {
                 // needs placement
@@ -4592,10 +4634,17 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             moveResize(r);
         }
         info->setState(NET::MaxHoriz, NET::Max);
+        if (protect) {
+            dbusRootWindowProtect(false);
+        }
         break;
     }
 
     case MaximizeRestore: {
+        if (protect) {
+            dbusRootWindowProtect(true);
+        }
+
         QRectF restore = moveResizeGeometry();
         // when only partially maximized, geom_restore may not have the other dimension remembered
         if (old_mode & MaximizeVertical) {
@@ -4634,10 +4683,18 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         }
         info->setState(NET::States(), NET::Max);
         updateQuickTileMode(QuickTileFlag::None);
+
+        if (protect) {
+            dbusRootWindowProtect(false);
+        }
         break;
     }
 
     case MaximizeFull: {
+        if (protect) {
+            dbusRootWindowProtect(true);
+        }
+
         QRectF r(clientArea);
         r.setTopLeft(rules()->checkPosition(r.topLeft()));
         r.setSize(constrainFrameSize(r.size(), SizeModeMax));
@@ -4691,6 +4748,10 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             updateQuickTileMode(QuickTileFlag::None);
         }
         info->setState(NET::Max, NET::Max);
+
+        if (protect) {
+            dbusRootWindowProtect(false);
+        }
         break;
     }
     default:
@@ -4821,11 +4882,20 @@ bool X11Window::doStartInteractiveMoveResize()
     message << bool(true) << int(this->window());
     QDBusConnection::sessionBus().send(message);
 
+    if (isProhibitScreenshotWindow()) {
+        m_moveResizeProtecting = true;
+        dbusRootWindowProtect(true);
+    }
+
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
         bool has_grab = false;
         kwinApp()->updateXTime();
 
         if (workspace()->touchToMovingClientStatus()) {
+            if (m_moveResizeProtecting) {
+                m_moveResizeProtecting = false;
+                dbusRootWindowProtect(false);
+            }
             return true;
         }
         const xcb_grab_pointer_cookie_t cookie = xcb_grab_pointer_unchecked(kwinApp()->x11Connection(), false, frameId(),
@@ -4839,6 +4909,10 @@ bool X11Window::doStartInteractiveMoveResize()
             has_grab = move_resize_has_keyboard_grab = true;
         }
         if (!has_grab) { // at least one grab is necessary in order to be able to finish move/resize
+            if (m_moveResizeProtecting) {
+                m_moveResizeProtecting = false;
+                dbusRootWindowProtect(false);
+            }
             return false;
         }
     }
@@ -4859,6 +4933,11 @@ void X11Window::leaveInteractiveMoveResize()
         xcb_ungrab_pointer(kwinApp()->x11Connection(), xTime());
     }
     Window::leaveInteractiveMoveResize();
+
+    if (m_moveResizeProtecting) {
+        m_moveResizeProtecting = false;
+        dbusRootWindowProtect(false);
+    }
 }
 
 bool X11Window::isWaitingForInteractiveMoveResizeSync() const

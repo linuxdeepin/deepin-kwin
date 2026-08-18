@@ -31,6 +31,7 @@
 #include "pointer_input.h"
 #include "screenedge.h"
 #include "unmanaged.h"
+#include "utils/prohibitmask.h"
 #include "utils/xcbutils.h"
 #include "virtualdesktops.h"
 #include "workspace.h"
@@ -728,6 +729,10 @@ void TabBox::setCurrentIndex(QModelIndex index, bool notifyEffects)
 
 void TabBox::show()
 {
+    if (workspace() && workspace()->hasAnyProhibitWindow()) {
+        dbusRootWindowProtect(true);
+    }
+
     Q_EMIT tabBoxAdded(m_tabBoxMode);
     if (isDisplayed()) {
         m_isShown = false;
@@ -1501,6 +1506,10 @@ void TabBox::close(bool abort)
 
     QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "tabboxClosed");
     QDBusConnection::sessionBus().send(message);
+
+    if (workspace() && protectionOpenedByKWin()) {
+        dbusRootWindowProtect(false);
+    }
 }
 
 void TabBox::accept(bool closeTabBox)

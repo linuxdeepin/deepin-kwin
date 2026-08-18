@@ -16,6 +16,8 @@
 #include "kwingltexture.h"
 #include "kwinglutils.h"
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QPainter>
 
 namespace KWin
@@ -194,6 +196,36 @@ void applyProhibitMaskCPU(QImage &image, const ProtectedRegions &regions)
         }
     }
     p.end();
+}
+
+// 引用计数：记录 KWin 当前打开着的、由 KWin 负责关闭的全局保护数量
+static int s_protectionCount = 0;
+
+// 同步调用 displayjack 的设置全局保护方法，严格防止窗口内容泄露
+// TODO: 同步调用会阻塞 kwin，后续可能需要重新设计防截屏功能实现
+void dbusRootWindowProtect(bool protect)
+{
+    QDBusMessage msg = QDBusMessage::createMethodCall(
+        QStringLiteral("com.deepin.prohibitscreenshot"),
+        QStringLiteral("/com/deepin/prohibitscreenshot"),
+        QStringLiteral("deepin.prohibitscreenshot.interface"),
+        QStringLiteral("setProhibited"));
+    msg << protect;
+
+    if (protect) {
+        QDBusConnection::sessionBus().call(msg, QDBus::Block, 1000);
+        s_protectionCount++;
+    } else if (s_protectionCount > 0) {
+        s_protectionCount--;
+        if (s_protectionCount == 0) {
+            QDBusConnection::sessionBus().call(msg, QDBus::Block, 1000);
+        }
+    }
+}
+
+bool protectionOpenedByKWin()
+{
+    return s_protectionCount > 0;
 }
 
 } // namespace KWin

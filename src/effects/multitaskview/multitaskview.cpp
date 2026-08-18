@@ -37,6 +37,7 @@
 
 #include "workspace.h"
 #include "eventlog.h"
+#include "utils/prohibitmask.h"
 #include <QGSettings>
 #include <QImageReader>
 #include <QtConcurrent>
@@ -2524,6 +2525,16 @@ void MultitaskViewEffect::setActive(bool active)
     QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "MultitaskStateChanged");
     message << bool(m_activated);
     QDBusConnection::sessionBus().send(message);
+
+    if (active) {
+        if (workspace() && workspace()->hasAnyProhibitWindow()) {
+            dbusRootWindowProtect(true);
+        }
+    } else {
+        if (workspace() && protectionOpenedByKWin()) {
+            dbusRootWindowProtect(false);
+        }
+    }
 
     if(!active) {
         m_popStatus = false;
