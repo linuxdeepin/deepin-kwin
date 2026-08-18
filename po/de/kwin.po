@@ -2473,12 +2473,12 @@ msgstr "Fenster unterhalb der ánderen halten"
 #: useractions.cpp:1015
 #, kde-format
 msgid "Activate Window Demanding Attention"
-msgstr ""
+msgstr "Aktiviere Fenster, das Beachtung einfordert"
 
 #: useractions.cpp:1017
 #, kde-format
 msgid "Setup Window Shortcut"
-msgstr ""
+msgstr "Fenstereinstellungen-Tastenkürzel"
 
 #: useractions.cpp:1019
 #, kde-format
