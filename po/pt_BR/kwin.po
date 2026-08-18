@@ -7,7 +7,7 @@
 # Translators:
 # Gary Wang <wzc782970009@gmail.com>, 2025
 # 380125ae2590f93d3e1eff2258abdf75_6979c31, 2025
-# Alex, 2025
+# Alex W., 2025
 # Wislley Marçal, 2025
 # 
 msgid ""

@@ -1,34 +1,27 @@
-# translation of kwin.po to Dutch
-# translation of kwin.po to
-# translation of kwin.po to
-# KTranslator Generated File
-# Nederlandse vertaling van kwin
-# Copyright (C) 2000, 2001, 2002 KDE e.v.
-# Proefgelezen door Onno Zweers, 2-7-2002.
-# Rinse de Vries <i18n@kde.nl>, 2000, 2001, 2002.
-# Rinse de Vries <rinse@kde.nl>, 2003, 2004.
-# Wilbert Berendsen <wbsoft@xs4all.nl>, 2003.
-# Tom Albers <tomalbers@kde.nl>, 2004.
-# Rinse de Vries <rinsedevries@kde.nl>, 2004, 2005, 2007, 2008, 2010.
-# Bram Schoenmakers <bramschoenmakers@kde.nl>, 2005.
-# Rinse de Vries <RinseDeVries@home.nl>, 2005.
-# Kristof Bal <kristof.bal@gmail.com>, 2008.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2009.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# translation of kwin.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Alex Rutenfrans <alexrutenfrans@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
-"PO-Revision-Date: 2023-01-10 13:58+0100\n"
-"Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
-"Language: nl\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Alex Rutenfrans <alexrutenfrans@gmail.com>, 2025\n"
+"Language-Team: Dutch (https://app.transifex.com/linuxdeepin/teams/3617/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.1\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -58,10 +51,11 @@ msgstr ""
 #: composite.cpp:1064
 #, kde-format
 msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></p>"
+"<b>OpenGL compositing (the default) has crashed KWin in the "
+"past.</b><br>This was most likely due to a driver bug.<p>If you think that "
+"you have meanwhile upgraded to a stable driver,<br>you can reset this "
+"protection but <b>be aware that this might result in an immediate "
+"crash!</b></p>"
 msgstr ""
 "<b>OpenGL compositing (de standaard) heeft KWin in het verleden laten "
 "crashen.</b><br>Dit lag het meest waarschijnlijk aan een bug in het "
@@ -94,13 +88,13 @@ msgstr "Tijdstempel (µsec)"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Left"
-msgstr "Linkse"
+msgstr "Links"
 
 #: debug_console.cpp:103
 #, kde-format
 msgctxt "A mouse button"
 msgid "Right"
-msgstr "Rechtse"
+msgstr "Rechts"
 
 #: debug_console.cpp:105
 #, kde-format
@@ -1154,9 +1148,9 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Do you want to terminate this application?</"
-"para><para><warning>Terminating the application will close all of its child "
-"windows. Any unsaved data will be lost.</warning></para>"
+"<para>Do you want to terminate this "
+"application?</para><para><warning>Terminating the application will close all"
+" of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
 "<para>Wilt u deze toepassing beëindigen?</para><para><warning>Beëindigen van "
 "de toepassing zal alle onderliggende vensters sluiten. Alle niet opgeslagen "
@@ -1279,8 +1273,7 @@ msgstr "Een Xwayland-server zonder root starten."
 
 #: main_wayland.cpp:316
 #, kde-format
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Naam van het Wayland-socket waarop te luisteren. Indien niet ingesteld, "
 "wordt \"wayland-0\" gebruikt."
@@ -1319,7 +1312,8 @@ msgstr "De schaal voor modus met vensters. Standaard waarde is 1."
 #: main_wayland.cpp:340
 #, kde-format
 msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
+"The number of windows to open as outputs in windowed mode. Default value is "
+"1"
 msgstr ""
 "Het aantal te openen vensters als uitvoer in venstermodus. Standaard waarde "
 "is 1"
@@ -1327,8 +1321,8 @@ msgstr ""
 #: main_wayland.cpp:345
 #, kde-format
 msgid ""
-"Wayland socket to use for incoming connections. This can be combined with --"
-"socket to name the socket"
+"Wayland socket to use for incoming connections. This can be combined with "
+"--socket to name the socket"
 msgstr ""
 "Wayland-socket om te gebruiken voor inkomende verbindingen. Dit kan "
 "gecombineerd worden met -- socket om de socket een naam te geven"
@@ -1422,8 +1416,8 @@ msgstr ""
 #: main_x11.cpp:259
 #, kde-format
 msgid ""
-"kwin: unable to claim manager selection, another wm running? (try using --"
-"replace)\n"
+"kwin: unable to claim manager selection, another wm running? (try using "
+"--replace)\n"
 msgstr ""
 "KWin: de managerselectie kon niet worden opgeëist. Draait er reeds een "
 "andere window manager? (probeer --replace te gebruiken).\n"
@@ -1622,7 +1616,8 @@ msgstr "Geordende lijst met groepen regels"
 msgid "Rule description"
 msgstr "Beschrijving van regel"
 
-#. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (descriptionLegacy), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
@@ -1646,7 +1641,8 @@ msgstr "Vensterklasse (toepassing)"
 msgid "Window class string match type"
 msgstr "Vensterklasse type tekenreeks overeenkomst"
 
-#. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (wmclasscomplete), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
@@ -1658,7 +1654,8 @@ msgstr "Op hele vensterklasse overeen laten komen"
 msgid "Window role"
 msgstr "Vensterrol"
 
-#. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (windowrolematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
@@ -1676,13 +1673,15 @@ msgstr "Venstertitel"
 msgid "Window title string match type"
 msgstr "Venstertitel type tekenreeks overeenkomst"
 
-#. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachine), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Machine (hostnaam)"
 
-#. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachinematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
@@ -1700,7 +1699,8 @@ msgstr "Venstertypen die overeenkomen"
 msgid "Initial placement"
 msgstr "Initiële plaatsing"
 
-#. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (placementrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
 #, kde-format
 msgid "Initial placement rule type"
@@ -1754,37 +1754,43 @@ msgstr "Maximum grootte venster"
 msgid "Window maximum size rule type"
 msgstr "Maximum grootte venster type regel"
 
-#. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
 msgstr "Actieve ondoorzichtigheid"
 
-#. i18n: ectx: label, entry (opacityactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
 msgstr "Actieve ondoorzichtigheid type regel"
 
-#. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
 msgstr "Inactieve ondoorzichtigheid"
 
-#. i18n: ectx: label, entry (opacityinactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
 msgstr "Inactieve ondoorzichtigheid type regel"
 
-#. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr "Aangevraagde geometrie negeren"
 
-#. i18n: ectx: label, entry (ignoregeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
@@ -1844,19 +1850,22 @@ msgstr "Venstertype instellen type regel"
 msgid "Maximized vertically"
 msgstr "Verticaal gemaximaliseerd"
 
-#. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizevertrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
 msgstr "Verticaal gemaximaliseerd type regel"
 
-#. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehoriz), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
 #, kde-format
 msgid "Maximized horizontally"
 msgstr "Horizontaal gemaximaliseerd"
 
-#. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehorizrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
@@ -1892,7 +1901,8 @@ msgstr "Opgerold type regel"
 msgid "Skip taskbar"
 msgstr "Niet in taakbalk"
 
-#. i18n: ectx: label, entry (skiptaskbarrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skiptaskbarrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
@@ -1904,7 +1914,8 @@ msgstr "Taakbalk type regel overslaan"
 msgid "Skip pager"
 msgstr "Niet in pager"
 
-#. i18n: ectx: label, entry (skippagerrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skippagerrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
@@ -1916,7 +1927,8 @@ msgstr "Pager type regel overslaan"
 msgid "Skip switcher"
 msgstr "Niet in omschakelaar"
 
-#. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skipswitcherrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
@@ -1952,7 +1964,8 @@ msgstr "Altijd op achtergrond type regel"
 msgid "Fullscreen"
 msgstr "Volledig scherm"
 
-#. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (fullscreenrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
 #, kde-format
 msgid "Fullscreen rule type"
@@ -1976,19 +1989,22 @@ msgstr "Geen titelbalk type regel"
 msgid "Titlebar color and scheme"
 msgstr "Titelbalk kleur en schema"
 
-#. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (decocolorrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
 msgstr "Titelbalkkleur type regel"
 
-#. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositing), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
 msgstr "Compositing blokkeren"
 
-#. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositingrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
@@ -2024,7 +2040,8 @@ msgstr "Bescherming van focus type regel"
 msgid "Accept Focus"
 msgstr "Focus accepteren"
 
-#. i18n: ectx: label, entry (acceptfocusrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (acceptfocusrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
@@ -2036,7 +2053,8 @@ msgstr "Focus accepteren type regel"
 msgid "Closeable"
 msgstr "Af te sluiten"
 
-#. i18n: ectx: label, entry (closeablerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (closeablerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
@@ -2048,7 +2066,8 @@ msgstr "Af te sluiten type regel"
 msgid "Autogroup with identical"
 msgstr "Automatisch groeperen met identieken"
 
-#. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogrouprule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
@@ -2060,7 +2079,8 @@ msgstr "Automatisch groeperen met identieken type regel"
 msgid "Autogroup in foreground"
 msgstr "Automatisch groeperen op de voorgrond"
 
-#. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupfgrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
@@ -2072,19 +2092,22 @@ msgstr "Automatisch groeperen op de voorgrond type regel"
 msgid "Autogroup by ID"
 msgstr "Automatisch groeperen per ID"
 
-#. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupidrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
 msgstr "Automatisch groeperen op ID type regel"
 
-#. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Beperkingen van afmetingen naleven"
 
-#. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
@@ -2102,13 +2125,15 @@ msgstr "Sneltoets"
 msgid "Shortcut rule type"
 msgstr "Sneltoets type regel"
 
-#. i18n: ectx: label, entry (disableglobalshortcuts), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcuts), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Globale snelkoppelingen negeren"
 
-#. i18n: ectx: label, entry (disableglobalshortcutsrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcutsrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
@@ -2120,7 +2145,8 @@ msgstr "Globale snelkoppelingen negeren type regel"
 msgid "Desktop file name"
 msgstr "Bureaubladbestandsnaam"
 
-#. i18n: ectx: label, entry (desktopfilerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopfilerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
@@ -2173,11 +2199,11 @@ msgstr "Door vensters wandelen (omgekeerd)"
 
 #: tabbox/tabbox.cpp:523
 msgid "Walk Through Windows Alternative"
-msgstr "Alternatief door vensters wandelen"
+msgstr "Alternatief voor lopen door vensters "
 
 #: tabbox/tabbox.cpp:524
 msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "Alternatief door vensters wandelen (omgekeerd)"
+msgstr "Alternatief voor lopen door vensters (omgekeerd)"
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Windows of Current Application"
@@ -2225,9 +2251,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
-"Without the border, you will not be able to enable the border again using "
-"the mouse: use the window operations menu instead, activated using the %1 "
-"keyboard shortcut."
+"Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "U hebt opdracht gegeven een venster zonder rand weer te geven.\n"
 "Zonder rand kunt u het venstermenu niet meer met de muis oproepen. U kunt "
@@ -2237,9 +2261,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
-"If the application itself does not have an option to turn the fullscreen "
-"mode off you will not be able to disable it again using the mouse: use the "
-"window operations menu instead, activated using the %1 keyboard shortcut."
+"If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "U hebt opdracht gegeven een venster schermvullend weer te geven.\n"
 "Als de toepassing zelf geen mogelijkheid biedt deze modus weer te verlaten, "
@@ -2750,8 +2772,7 @@ msgstr "Venster (%1) activeren"
 #: useractions.cpp:1332
 #, kde-format
 msgid ""
-"The window manager is configured to consider the screen with the mouse on it "
-"as active one.\n"
+"The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
 "De windowmanager is ingesteld om het scherm met de muis erop als de actieve "
@@ -2809,13 +2830,10 @@ msgstr "(Reageert niet)"
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
 "what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 "Informatie over ondersteuning van KWin:\n"
@@ -2902,9 +2920,6 @@ msgstr ""
 
 #~ msgid "Virtual Keyboard: disabled"
 #~ msgstr "Virtueel toetsenbord: uitgeschakeld"
-
-#~ msgid "No Virtual Keyboard configured"
-#~ msgstr "Geen virtueel toetsenbord geconfigureerd"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
@@ -2997,8 +3012,8 @@ msgstr ""
 #~ msgstr "Als tabblad &vastmaken aan"
 
 #~ msgctxt ""
-#~ "Entry in context menu of window decoration to open the configuration "
-#~ "module of KWin"
+#~ "Entry in context menu of window decoration to open the configuration module "
+#~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Instellingen van v&ensterbeheerder..."
 
@@ -3018,9 +3033,9 @@ msgstr ""
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
 #~ "OpenGL Desktop Effects at the current resolution<br><br>You can try to "
-#~ "select the XRender backend, but it might be very slow for this resolution "
-#~ "as well.<br>Alternatively, lower the combined resolution of all screens "
-#~ "to %1x%2 "
+#~ "select the XRender backend, but it might be very slow for this resolution as"
+#~ " well.<br>Alternatively, lower the combined resolution of all screens to "
+#~ "%1x%2 "
 #~ msgstr ""
 #~ "<h1>Bureaubladeffecten van OpenGL zijn niet mogelijk</h1>Uw systeem kan "
 #~ "geen Bureaubladeffecten van OpenGL uitvoeren op de huidige "
@@ -3029,11 +3044,10 @@ msgstr ""
 #~ "alternatief de gecombineerde resolutie van alle schermen tot %1x%2 "
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of "
-#~ "your GPU and is therefore not compatible with the OpenGL compositor."
-#~ "<br>XRender does not know such limitation, but the performance will "
-#~ "usually be impacted by the hardware limitations that restrict the OpenGL "
-#~ "viewport size."
+#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+#~ "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+#~ "does not know such limitation, but the performance will usually be impacted "
+#~ "by the hardware limitations that restrict the OpenGL viewport size."
 #~ msgstr ""
 #~ "De gevraagde resolutie overstijgt de limiet GL_MAX_VIEWPORT_DIMS van uw "
 #~ "GPU en is daarom niet compatibel met de OpenGL compositor.<br>XRender "
@@ -3042,11 +3056,11 @@ msgstr ""
 #~ "OpenGL beperken."
 
 #~ msgid ""
-#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects "
-#~ "at the current resolution are supported but might be exceptionally slow."
-#~ "<br>Also large windows will turn entirely black.<br><br>Consider to "
-#~ "suspend compositing, switch to the XRender backend or lower the "
-#~ "resolution to %1x%1."
+#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+#~ "the current resolution are supported but might be exceptionally "
+#~ "slow.<br>Also large windows will turn entirely black.<br><br>Consider to "
+#~ "suspend compositing, switch to the XRender backend or lower the resolution "
+#~ "to %1x%1."
 #~ msgstr ""
 #~ "<h1>Bureaubladeffecten van OpenGL kunnen onbruikbaar zijn</"
 #~ "h1>Bureaubladeffecten op de huidige resolutie worden ondersteund maar "
@@ -3055,11 +3069,11 @@ msgstr ""
 #~ "naar de XRender-backend of verlaag de resolutie naar %1x%1."
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of "
-#~ "your GPU, thus windows of that size cannot be assigned to textures and "
-#~ "will be entirely black.<br>Also this limit will often be a performance "
-#~ "level barrier despite below GL_MAX_VIEWPORT_DIMS, because the driver "
-#~ "might fall back to software rendering in this case."
+#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+#~ "GPU, thus windows of that size cannot be assigned to textures and will be "
+#~ "entirely black.<br>Also this limit will often be a performance level barrier"
+#~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+#~ "software rendering in this case."
 #~ msgstr ""
 #~ "De gevraagde resolutie overstijgt de limiet GL_MAX_TEXTURE_SIZE van uw "
 #~ "GPU, vensters van die grootte kunnen niet aan textures worden toegekend "
@@ -3067,9 +3081,6 @@ msgstr ""
 #~ "bereiken in de performance ondanks dat GL_MAX_VIEWPORT_DIMS niet wordt "
 #~ "bereikt, omdat het apparaatstuurprogramma in dit geval terug zou kunnen "
 #~ "vallen tot rendering in software."
-
-#~ msgid "Form"
-#~ msgstr "Formulier"
 
 #~ msgid "Use a nested compositor in windowed mode."
 #~ msgstr "Een geneste opsteller in modus met vensters gebruiken."
@@ -3100,8 +3111,8 @@ msgstr ""
 #~ msgstr "&Oprollen"
 
 #~ msgid ""
-#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
-#~ "is set.\n"
+#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
+#~ " set.\n"
 #~ msgstr ""
 #~ "kwin_wayland: kon niet verbinden met de Wayland-server, ga na dat "
 #~ "WAYLAND_DISPLAY is ingesteld.\n"
@@ -3138,55 +3149,10 @@ msgstr ""
 #~ "niet opgestart.\n"
 
 #~ msgid ""
-#~ "Defines whether windows from the current desktop or from all desktops are "
-#~ "included. Default:OnlyCurrentDesktopClients"
-#~ msgstr ""
-#~ "Definieert of vensters van het huidige bureaublad of van alle "
-#~ "bureaubladen zijn inbegrepen. Standaard:OnlyCurrentDesktopClients"
-
-#~ msgid ""
-#~ "Defines whether windows from the current activity or from all activities "
-#~ "are included.Default:OnlyCurrentActivityClients"
-#~ msgstr ""
-#~ "Definieert of vensters van de huidige activiteit of van alle activiteiten "
-#~ "zijn inbegrepen. Standaard:OnlyCurrentActivityClients"
-
-#~ msgid ""
-#~ "Defines which windows from the current application or from all "
-#~ "applications are included.Default:AllWindowsAllApplications"
-#~ msgstr ""
-#~ "Definieert of vensters van de huidige toepassing of van alle toepassingen "
-#~ "zijn inbegrepen. Standaard:AllWindowsAllApplications"
-
-#~ msgid ""
-#~ "Defines which windows are included based on whether they are minimized or "
-#~ "not.Default:IgnoreMinimizedStatus"
-#~ msgstr ""
-#~ "Definieert of vensters zijn inbegrepen gebaseerd op of ze geminimaliseerd "
-#~ "zijn of niet. Standaard:IgnoreMinimizedStatus"
-
-#~ msgid ""
-#~ "Defines whether a TabBoxClient representing the desktop is included."
-#~ "Default:DoNotShowDesktopClient"
-#~ msgstr ""
-#~ "Definieert of een TabBoxClient die het bureaublad representeert is "
-#~ "inbegrepen. Standaard:DoNotShowDesktopClient"
-
-#~ msgid "Default:IgnoreMultiScreen"
-#~ msgstr "Standaard:IgnoreMultiScreen"
-
-#~ msgid ""
-#~ "Defines the sorting of the TabBoxClients in the TabBoxClientModel.Default:"
-#~ "FocusChainSwitching"
-#~ msgstr ""
-#~ "Definieert de sortering van de TabBoxClients in het TabBoxClientModel. "
-#~ "Standaard:FocusChainSwitching"
-
-#~ msgid ""
-#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the "
-#~ "application <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish "
-#~ "to terminate the application process <em>including <b>all</b> of its "
-#~ "child windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
+#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
+#~ " <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish to terminate "
+#~ "the application process <em>including <b>all</b> of its child "
+#~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
 #~ msgstr ""
 #~ "<p>Het venster \"<b>%2</b>\" reageert niet. Het behoort toe aan "
 #~ "toepassing <b>%1</b> (Proces-ID = %3, hostnaam = %4).</p><p>Wilt u deze "
@@ -3214,9 +3180,6 @@ msgstr ""
 #~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
 #~ msgid "&Float Window"
 #~ msgstr "Venster laten &zweven"
-
-#~ msgid "Tab behind"
-#~ msgstr "Tabblad achter"
 
 #~ msgid "Ad&vanced"
 #~ msgstr "Ge&avanceerd"
@@ -3283,8 +3246,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
-#~ "You can disable functionality checks in System Settings (on the Advanced "
-#~ "tab in Desktop Effects)."
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
 #~ "Bureaublad-effecten waren te traag en zijn daarom uitgeschakeld.\n"
 #~ "U kunt functionaliteitcontroles uitschakelen in systeeminstellingen "
@@ -3292,10 +3254,8 @@ msgstr ""
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
-#~ "If this was only a temporary problem, you can resume using the '%1' "
-#~ "shortcut.\n"
-#~ "You can disable functionality checks in System Settings (on the Advanced "
-#~ "tab in Desktop Effects)."
+#~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
 #~ "Bureaublad-effecten waren te traag en zijn daarom onderbroken.\n"
 #~ "Als dit een tijdelijk probleem was, dan kunt u het weer inschakelen met "
@@ -3504,6 +3464,12 @@ msgstr ""
 #~ msgid "Decrease Ratio"
 #~ msgstr "Verhouding verlagen"
 
+#~ msgid "Move Left"
+#~ msgstr ""
+
+#~ msgid "Move Right"
+#~ msgstr ""
+
 #~ msgid "Move Up"
 #~ msgstr "Naar omhoog verplaatsen"
 
@@ -3515,3 +3481,237 @@ msgstr ""
 
 #~ msgid "Test Below Cursor"
 #~ msgstr "Onder cursor testen"
+
+#~ msgid "Walk Through Grouped Windows"
+#~ msgstr ""
+
+#~ msgid "Walk Through Grouped Windows (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Switch to group window"
+#~ msgstr ""
+
+#~ msgid "kwin: failure during initialization; aborting"
+#~ msgstr ""
+
+#~ msgid "Terminate"
+#~ msgstr ""
+
+#~ msgid "Keep Running"
+#~ msgstr ""
+
+#~ msgid "Top"
+#~ msgstr "Boven"
+
+#~ msgid "Bottom"
+#~ msgstr "Onder"
+
+#~ msgid "Toggle Invert Effect"
+#~ msgstr ""
+
+#~ msgid "Clear All Mouse Marks"
+#~ msgstr ""
+
+#~ msgid "Clear Last Mouse Mark"
+#~ msgstr ""
+
+#~ msgid "Clear Mouse Marks"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+
+#~ msgid "Snow"
+#~ msgstr ""
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr ""
+
+#~ msgid "Toggle Thumbnail for Current Window"
+#~ msgstr ""
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+
+#~ msgid "Path to save video:"
+#~ msgstr ""
+
+#~ msgid "None"
+#~ msgstr "Geen"
+
+#~ msgid "X offset:"
+#~ msgstr ""
+
+#~ msgid "Y offset:"
+#~ msgstr ""
+
+#~ msgid "Shadow opacity:"
+#~ msgstr ""
+
+#~ msgid "Shadow fuzziness:"
+#~ msgstr ""
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr ""
+
+#~ msgid "Shadow color:"
+#~ msgstr ""
+
+#~ msgid "Active window has stronger shadow"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr ""
+
+#~ msgid "Draw window caption on top of window"
+#~ msgstr ""
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr ""
+
+#~ msgid "for windows on all desktops: "
+#~ msgstr ""
+
+#~ msgid "Animate desktop changes"
+#~ msgstr ""
+
+#~ msgid "Reset opacity to default value"
+#~ msgstr ""
+
+#~ msgid "Slide this to set the window's opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
+#~ " in a $PATH directory."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager crashed twice within a minute and is therefore "
+#~ "disabled for this session."
+#~ msgstr ""
+
+#~ msgid "Composite Manager Failure"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
+#~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
+#~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
+#~ "www.freedesktop.org.<br></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
+#~ "6.8 for translucency and shadows to work.<br>Additionally, you need to add a"
+#~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
+#~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr ""
+
+msgid "Minimize"
+msgstr "Minimaliseren"
+
+msgid "Unmaximize"
+msgstr "Verkleinen"
+
+msgid "Maximize"
+msgstr "Maximaliseren"
+
+msgid "Move"
+msgstr "Verplaatsen"
+
+msgid "Resize"
+msgstr "Formaat wijzigen"
+
+msgid "Always on Top"
+msgstr "Altijd op voorgrond"
+
+msgid "Always on Visible Workspace"
+msgstr "Altijd op zichtbare bureaublad"
+
+msgid "Move to Workspace Left"
+msgstr "Verplaatsen naar linker bureaublad"
+
+msgid "Move to Workspace Right"
+msgstr "Verplaatsen naar rechter bureaublad"
+
+msgid "Close"
+msgstr "Sluiten"
+
+#~ msgid "No Virtual Keyboard configured"
+#~ msgstr "Geen virtueel toetsenbord geconfigureerd"
+
+#~ msgid "Form"
+#~ msgstr "Formulier"
+
+#~ msgid ""
+#~ "Defines whether windows from the current desktop or from all desktops are "
+#~ "included. Default:OnlyCurrentDesktopClients"
+#~ msgstr ""
+#~ "Definieert of vensters van het huidige bureaublad of van alle "
+#~ "bureaubladen zijn inbegrepen. Standaard:OnlyCurrentDesktopClients"
+
+#~ msgid ""
+#~ "Defines whether windows from the current activity or from all activities "
+#~ "are included.Default:OnlyCurrentActivityClients"
+#~ msgstr ""
+#~ "Definieert of vensters van de huidige activiteit of van alle activiteiten "
+#~ "zijn inbegrepen. Standaard:OnlyCurrentActivityClients"
+
+#~ msgid ""
+#~ "Defines which windows from the current application or from all "
+#~ "applications are included.Default:AllWindowsAllApplications"
+#~ msgstr ""
+#~ "Definieert of vensters van de huidige toepassing of van alle toepassingen "
+#~ "zijn inbegrepen. Standaard:AllWindowsAllApplications"
+
+#~ msgid ""
+#~ "Defines which windows are included based on whether they are minimized or "
+#~ "not.Default:IgnoreMinimizedStatus"
+#~ msgstr ""
+#~ "Definieert of vensters zijn inbegrepen gebaseerd op of ze geminimaliseerd "
+#~ "zijn of niet. Standaard:IgnoreMinimizedStatus"
+
+#~ msgid ""
+#~ "Defines whether a TabBoxClient representing the desktop is included."
+#~ "Default:DoNotShowDesktopClient"
+#~ msgstr ""
+#~ "Definieert of een TabBoxClient die het bureaublad representeert is "
+#~ "inbegrepen. Standaard:DoNotShowDesktopClient"
+
+#~ msgid "Default:IgnoreMultiScreen"
+#~ msgstr "Standaard:IgnoreMultiScreen"
+
+#~ msgid ""
+#~ "Defines the sorting of the TabBoxClients in the TabBoxClientModel.Default:"
+#~ "FocusChainSwitching"
+#~ msgstr ""
+#~ "Definieert de sortering van de TabBoxClients in het TabBoxClientModel. "
+#~ "Standaard:FocusChainSwitching"
+
+#~ msgid "Tab behind"
+#~ msgstr "Tabblad achter"

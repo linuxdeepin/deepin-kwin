@@ -1,0 +1,80 @@
+[main]
+host = https://www.transifex.com
+
+[o:linuxdeepin:p:treeland:r:gerrit-kwin-main]
+file_filter = po/<lang>/kwin.po
+source_file = po/en_GB/kwin.po
+source_lang = en_GB
+type = PO
+
+[o:linuxdeepin:p:treeland:r:gerrit-kwin-multitaskview]
+file_filter = src/effects/multitaskview/translations/multitasking_<lang>.ts
+source_file = src/effects/multitaskview/translations/multitasking.ts
+source_lang = en
+type = QT
+
+[o:linuxdeepin:p:treeland:r:gerrit-kwin-splitmenu]
+file_filter = src/splitscreen/translations/splitmenu_<lang>.ts
+source_file = src/splitscreen/translations/splitmenu.ts
+source_lang = en
+type = QT
+
+filters:
+  # KDecoration .po files
+  - filter_type: file
+    source_file: kdecoration/po/en_GB/kdecoration.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: kdecoration/po/<lang>/kdecoration.po
+
+  # KWin core
+  - filter_type: file
+    source_file: po/en_GB/kwin.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin.po
+
+  # KWin clients
+  - filter_type: file
+    source_file: po/en_GB/kwin_clients.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin_clients.po
+
+  # KWin effects
+  - filter_type: file
+    source_file: po/en_GB/kwin_effects.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin_effects.po
+
+  # KWin scripting
+  - filter_type: file
+    source_file: po/en_GB/kwin_scripting.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin_scripting.po
+
+  # KWin scripts
+  - filter_type: file
+    source_file: po/en_GB/kwin_scripts.po
+    file_format: PO
+    source_language: en_GB
+    translation_files_expression: po/<lang>/kwin_scripts.po
+
+  # Multitask view effect .ts files
+  - filter_type: file
+    source_file: src/effects/multitaskview/translations/multitasking.ts
+    file_format: QT
+    source_language: en
+    translation_files_expression: src/effects/multitaskview/translations/multitasking_<lang>.ts
+
+  # Split screen menu .ts files
+  - filter_type: file
+    source_file: src/splitscreen/translations/splitmenu.ts
+    file_format: QT
+    source_language: en
+    translation_files_expression: src/splitscreen/translations/splitmenu_<lang>.ts
+
+settings:
+  pr_branch_name: transifex_update_<br_unique_id>

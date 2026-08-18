@@ -1,24 +1,26 @@
-# Traducerea kwin.po în Română
-# Copyright (C) 2008 This_file_is_part_of_KDE
-# This file is distributed under the same license as the kwrite package.
-# Laurenţiu Buzdugan <lbuz@rolix.org>, 2008, 2009".
-# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2011, 2012, 2013, 2020, 2022.
-# Cristian Oneț <onet.cristian@gmail.com>, 2011.
-#
+# translation of kwin.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Serban Iordache <iordache.serban2002@gmail.com>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
-"PO-Revision-Date: 2022-12-28 21:14+0000\n"
-"Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
-"Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
-"Language: ro\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Serban Iordache <iordache.serban2002@gmail.com>, 2025\n"
+"Language-Team: Romanian (https://app.transifex.com/linuxdeepin/teams/3617/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 "X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
@@ -46,19 +48,13 @@ msgstr ""
 "utilizând scurtătura „%1”."
 
 #: composite.cpp:1064
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-#| "b><br>This was most likely due to a driver bug.<p>If you think that you "
-#| "have meanwhile upgraded to a stable driver,<br>you can reset this "
-#| "protection but <b>be aware that this might result in an immediate crash!</"
-#| "b></p><p>Alternatively, you might want to use the XRender backend instead."
-#| "</p>"
+#, kde-format
 msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></p>"
+"<b>OpenGL compositing (the default) has crashed KWin in the "
+"past.</b><br>This was most likely due to a driver bug.<p>If you think that "
+"you have meanwhile upgraded to a stable driver,<br>you can reset this "
+"protection but <b>be aware that this might result in an immediate "
+"crash!</b></p>"
 msgstr ""
 "<b>Compoziția OpenGL (implicită) a făcut KWin să eșueze în trecut.</"
 "b><br>Este foarte probabil că aceasta se datorează unei erori de driver."
@@ -68,13 +64,12 @@ msgstr ""
 "suportul XRender.</p>"
 
 #: composite.cpp:1071
-#, fuzzy, kde-format
+#, kde-format
 msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr "Extensiile X necesare (XComposite și XDamage) nu sunt disponibile."
 
 #: composite.cpp:1074
-#, fuzzy, kde-format
-#| msgid "GLX/OpenGL and XRender/XFixes are not available."
+#, kde-format
 msgid "GLX/OpenGL is not available."
 msgstr "GLX/OpenGL și XRender/XFixes nu sunt disponibile."
 
@@ -92,13 +87,13 @@ msgstr "Amprentă temporală (µsec)"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Left"
-msgstr "Stâng"
+msgstr "Stânga"
 
 #: debug_console.cpp:103
 #, kde-format
 msgctxt "A mouse button"
 msgid "Right"
-msgstr "Drept"
+msgstr "Dreapta"
 
 #: debug_console.cpp:105
 #, kde-format
@@ -1151,9 +1146,9 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Do you want to terminate this application?</"
-"para><para><warning>Terminating the application will close all of its child "
-"windows. Any unsaved data will be lost.</warning></para>"
+"<para>Do you want to terminate this "
+"application?</para><para><warning>Terminating the application will close all"
+" of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
 "<para>Doriți să terminați această aplicație?</para><para><warning>Terminarea "
 "aplicației va închide toate ferestrele acesteia. Datele nesalvate se vor "
@@ -1175,9 +1170,7 @@ msgid "Move the tablet to the next output"
 msgstr ""
 
 #: input.cpp:2088
-#, fuzzy, kde-format
-#| msgctxt "Name of a hardware switch"
-#| msgid "Tablet mode"
+#, kde-format
 msgid "Tablet moved to %1"
 msgstr "Regim tabletă"
 
@@ -1277,8 +1270,7 @@ msgstr "Pornește un server Xwayland fără root."
 
 #: main_wayland.cpp:316
 #, kde-format
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 
 #: main_wayland.cpp:319
@@ -1315,14 +1307,15 @@ msgstr "Scara regimului de fereastră. Valoarea implicită e 1."
 #: main_wayland.cpp:340
 #, kde-format
 msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
+"The number of windows to open as outputs in windowed mode. Default value is "
+"1"
 msgstr ""
 
 #: main_wayland.cpp:345
 #, kde-format
 msgid ""
-"Wayland socket to use for incoming connections. This can be combined with --"
-"socket to name the socket"
+"Wayland socket to use for incoming connections. This can be combined with "
+"--socket to name the socket"
 msgstr ""
 
 #: main_wayland.cpp:349
@@ -1408,17 +1401,14 @@ msgstr ""
 #: main_x11.cpp:259
 #, kde-format
 msgid ""
-"kwin: unable to claim manager selection, another wm running? (try using --"
-"replace)\n"
+"kwin: unable to claim manager selection, another wm running? (try using "
+"--replace)\n"
 msgstr ""
 "kwin: nu pot cere selecția gestionarului de ferestre. Rulează alt gestionar? "
 "(încercați să folosiți opțiunea --replace)\n"
 
 #: main_x11.cpp:280
-#, fuzzy, kde-format
-#| msgid ""
-#| "kwin: unable to claim manager selection, another wm running? (try using --"
-#| "replace)\n"
+#, kde-format
 msgid "kwin: another window manager is running (try using --replace)\n"
 msgstr ""
 "kwin: nu pot cere selecția gestionarului de ferestre. Rulează alt gestionar? "
@@ -1613,7 +1603,8 @@ msgstr "Listă ordonată cu grupuri de reguli"
 msgid "Rule description"
 msgstr "Descriere regulă"
 
-#. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (descriptionLegacy), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
@@ -1637,7 +1628,8 @@ msgstr "Clasa ferestrei (aplicație)"
 msgid "Window class string match type"
 msgstr ""
 
-#. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (wmclasscomplete), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
@@ -1649,7 +1641,8 @@ msgstr "Se potrivește cu toată clasa ferestrei"
 msgid "Window role"
 msgstr "Rol fereastră"
 
-#. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (windowrolematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
@@ -1667,13 +1660,15 @@ msgstr "Titlu fereastră"
 msgid "Window title string match type"
 msgstr ""
 
-#. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachine), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Mașină (nume gazdă):"
 
-#. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachinematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
@@ -1691,10 +1686,10 @@ msgstr ""
 msgid "Initial placement"
 msgstr "Plasament inițial"
 
-#. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (placementrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Initial placement rule type"
 msgstr "&Ecran complet"
 
@@ -1706,8 +1701,7 @@ msgstr "Poziție fereastră"
 
 #. i18n: ectx: label, entry (positionrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:83
-#, fuzzy, kde-format
-#| msgid "Window to Screen 0"
+#, kde-format
 msgid "Window position rule type"
 msgstr "Fereastră în biroul 10"
 
@@ -1747,37 +1741,43 @@ msgstr "Dimensiune maximă fereastră"
 msgid "Window maximum size rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
 msgstr "Opacitate activă"
 
-#. i18n: ectx: label, entry (opacityactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
 msgstr "Opacitate inactivă"
 
-#. i18n: ectx: label, entry (opacityinactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr "Ignoră geometria cerută"
 
-#. i18n: ectx: label, entry (ignoregeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
@@ -1785,15 +1785,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Switch to Desktop 2"
+#, kde-format
 msgid "List of Desktop Ids"
 msgstr "Comută la biroul 2"
 
 #. i18n: ectx: label, entry (desktopsrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:155
-#, fuzzy, kde-format
-#| msgid "Desktop Cube"
+#, kde-format
 msgid "Desktop Ids rule type"
 msgstr "Cub de birou"
 
@@ -1839,23 +1837,24 @@ msgstr ""
 msgid "Maximized vertically"
 msgstr "Maximizat pe verticală"
 
-#. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizevertrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Maximized vertically rule type"
 msgstr "Maximizează fereastra pe verticală"
 
-#. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehoriz), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
 #, kde-format
 msgid "Maximized horizontally"
 msgstr "Maximizat pe orizontală"
 
-#. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehorizrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Maximized horizontally rule type"
 msgstr "Maximizează fereastra pe orizontală"
 
@@ -1889,7 +1888,8 @@ msgstr ""
 msgid "Skip taskbar"
 msgstr "Sari bara de sarcini"
 
-#. i18n: ectx: label, entry (skiptaskbarrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skiptaskbarrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
@@ -1901,7 +1901,8 @@ msgstr ""
 msgid "Skip pager"
 msgstr "Sari paginatorul"
 
-#. i18n: ectx: label, entry (skippagerrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skippagerrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
@@ -1913,7 +1914,8 @@ msgstr ""
 msgid "Skip switcher"
 msgstr "Sari comutatorul"
 
-#. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skipswitcherrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
@@ -1927,8 +1929,7 @@ msgstr "Ține deasupra"
 
 #. i18n: ectx: label, entry (aboverule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:275
-#, fuzzy, kde-format
-#| msgid "Keep above others"
+#, kde-format
 msgid "Keep above rule type"
 msgstr "Ține deasupra celorlalte"
 
@@ -1940,8 +1941,7 @@ msgstr "Ține dedesubt"
 
 #. i18n: ectx: label, entry (belowrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:286
-#, fuzzy, kde-format
-#| msgid "Keep below others"
+#, kde-format
 msgid "Keep below rule type"
 msgstr "Ține sub celelalte"
 
@@ -1951,10 +1951,10 @@ msgstr "Ține sub celelalte"
 msgid "Fullscreen"
 msgstr "Ecran complet"
 
-#. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (fullscreenrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Fullscreen rule type"
 msgstr "&Ecran complet"
 
@@ -1976,19 +1976,22 @@ msgstr ""
 msgid "Titlebar color and scheme"
 msgstr ""
 
-#. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (decocolorrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositing), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
 msgstr "Blochează compoziționarea"
 
-#. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositingrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
@@ -2024,7 +2027,8 @@ msgstr ""
 msgid "Accept Focus"
 msgstr "Acceptă focalizare"
 
-#. i18n: ectx: label, entry (acceptfocusrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (acceptfocusrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
@@ -2036,7 +2040,8 @@ msgstr ""
 msgid "Closeable"
 msgstr "Poate fi închisă"
 
-#. i18n: ectx: label, entry (closeablerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (closeablerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
@@ -2048,7 +2053,8 @@ msgstr ""
 msgid "Autogroup with identical"
 msgstr "Auto-grupare cu cele identice"
 
-#. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogrouprule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
@@ -2060,7 +2066,8 @@ msgstr ""
 msgid "Autogroup in foreground"
 msgstr "Auto-grupare în prim plan"
 
-#. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupfgrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
@@ -2072,19 +2079,22 @@ msgstr ""
 msgid "Autogroup by ID"
 msgstr "Auto-grupare după ID"
 
-#. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupidrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Respectă restricțiile geometrice"
 
-#. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
@@ -2102,13 +2112,15 @@ msgstr "Scurtătură"
 msgid "Shortcut rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (disableglobalshortcuts), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcuts), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Ignoră scurtăturile globale"
 
-#. i18n: ectx: label, entry (disableglobalshortcutsrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcutsrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
@@ -2120,7 +2132,8 @@ msgstr ""
 msgid "Desktop file name"
 msgstr "Denumire fișier de birou"
 
-#. i18n: ectx: label, entry (desktopfilerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopfilerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
@@ -2173,11 +2186,11 @@ msgstr "Comută printre ferestre (invers)"
 
 #: tabbox/tabbox.cpp:523
 msgid "Walk Through Windows Alternative"
-msgstr "Comută printre alternative ferestre"
+msgstr "Comută printre ferestre alternativ"
 
 #: tabbox/tabbox.cpp:524
 msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "Comută printre alternative ferestre (invers)"
+msgstr "Comută printre ferestre alternativ (invers)"
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Windows of Current Application"
@@ -2188,14 +2201,10 @@ msgid "Walk Through Windows of Current Application (Reverse)"
 msgstr "Comută printre ferestrele aplicației curente (invers)"
 
 #: tabbox/tabbox.cpp:527
-#, fuzzy
-#| msgid "Walk Through Windows Alternative"
 msgid "Walk Through Windows of Current Application Alternative"
 msgstr "Comută printre ferestrele aplicației curente "
 
 #: tabbox/tabbox.cpp:528
-#, fuzzy
-#| msgid "Walk Through Windows Alternative (Reverse)"
 msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 msgstr "Comută printre alternative ferestre (invers)"
 
@@ -2228,9 +2237,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
-"Without the border, you will not be able to enable the border again using "
-"the mouse: use the window operations menu instead, activated using the %1 "
-"keyboard shortcut."
+"Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Ați optat pentru afișarea ferestrei fără chenar.\n"
 "Fără chenar la fereastră, nu veți mai putea să activați chenarul din nou "
@@ -2241,9 +2248,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
-"If the application itself does not have an option to turn the fullscreen "
-"mode off you will not be able to disable it again using the mouse: use the "
-"window operations menu instead, activated using the %1 keyboard shortcut."
+"If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Ați optat pentru afișarea ferestrei pe tot ecranul.\n"
 "Dacă aplicația nu are o opțiune de dezactivare a regimului de afișare pe tot "
@@ -2282,8 +2287,7 @@ msgid "&Shade"
 msgstr "&Strânge"
 
 #: useractions.cpp:272
-#, fuzzy, kde-format
-#| msgid "No titlebar and frame"
+#, kde-format
 msgid "&No Titlebar and Frame"
 msgstr "Fără bară de titlu și cadru"
 
@@ -2356,9 +2360,7 @@ msgid "Show in &Activities"
 msgstr "&Arată în activități"
 
 #: useractions.cpp:525
-#, fuzzy, kde-format
-#| msgctxt "Create a new desktop and move the window to that desktop"
-#| msgid "Move to New Desktop"
+#, kde-format
 msgid "Move &To Current Desktop"
 msgstr "Mută la birou nou"
 
@@ -2404,8 +2406,7 @@ msgid "&All Activities"
 msgstr "Toate &activitățile"
 
 #: useractions.cpp:776
-#, fuzzy, kde-format
-#| msgid "Move to %1 %2"
+#, kde-format
 msgid "Move to %1"
 msgstr "Mută la %1 %2"
 
@@ -2487,8 +2488,7 @@ msgid "Make Window Fullscreen"
 msgstr "Ocupă tot biroul"
 
 #: useractions.cpp:1009
-#, fuzzy, kde-format
-#| msgid "No titlebar and frame"
+#, kde-format
 msgid "Toggle Window Titlebar and Frame"
 msgstr "Fără bară de titlu și cadru"
 
@@ -2618,14 +2618,12 @@ msgid "Switch to Window to the Left"
 msgstr "Schimbă la fereastra din stânga"
 
 #: useractions.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Increase Opacity of Active Window by 5 %"
+#, kde-format
 msgid "Increase Opacity of Active Window by 5%"
 msgstr "Crește opacitatea ferestrei active cu 5%"
 
 #: useractions.cpp:1063
-#, fuzzy, kde-format
-#| msgid "Decrease Opacity of Active Window by 5 %"
+#, kde-format
 msgid "Decrease Opacity of Active Window by 5%"
 msgstr "Scade opacitatea ferestrei active cu 5%"
 
@@ -2685,26 +2683,22 @@ msgid "Window to Previous Screen"
 msgstr "Fereastră către ecranul precedent"
 
 #: useractions.cpp:1102
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Right"
+#, kde-format
 msgid "Window One Screen to the Right"
 msgstr "Fereastra cu un birou la dreapta"
 
 #: useractions.cpp:1104
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Left"
+#, kde-format
 msgid "Window One Screen to the Left"
 msgstr "Fereastra cu un birou la stânga"
 
 #: useractions.cpp:1106
-#, fuzzy, kde-format
-#| msgid "Window to Screen 2"
+#, kde-format
 msgid "Window One Screen Up"
 msgstr "Fereastră în biroul 2"
 
 #: useractions.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Window One Desktop Down"
+#, kde-format
 msgid "Window One Screen Down"
 msgstr "Fereastra cu un birou mai jos"
 
@@ -2724,32 +2718,27 @@ msgid "Switch to Previous Screen"
 msgstr "Schimbă la ecranul precedent"
 
 #: useractions.cpp:1121
-#, fuzzy, kde-format
-#| msgid "Switch to Window to the Right"
+#, kde-format
 msgid "Switch to Screen to the Right"
 msgstr "Schimbă la fereastra din dreapta"
 
 #: useractions.cpp:1123
-#, fuzzy, kde-format
-#| msgid "Switch to Window to the Left"
+#, kde-format
 msgid "Switch to Screen to the Left"
 msgstr "Schimbă la fereastra din stânga"
 
 #: useractions.cpp:1125
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgid "Switch to Screen Above"
 msgstr "Comută la biroul 0"
 
 #: useractions.cpp:1127
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgid "Switch to Screen Below"
 msgstr "Comută la biroul 0"
 
 #: useractions.cpp:1130
-#, fuzzy, kde-format
-#| msgid "Move to &Desktop"
+#, kde-format
 msgid "Peek at Desktop"
 msgstr "M&ută la biroul"
 
@@ -2771,8 +2760,7 @@ msgstr "Activează fereastra (%1)"
 #: useractions.cpp:1332
 #, kde-format
 msgid ""
-"The window manager is configured to consider the screen with the mouse on it "
-"as active one.\n"
+"The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
 "Gestionarul de ferestre e configurat să considere ecranul cu mausul ca fiind "
@@ -2830,21 +2818,16 @@ msgstr "(nu răspunde)"
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
 "what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 
 #~ msgid "&No Border"
 #~ msgstr "Fără che&nar"
 
-#, fuzzy
-#~| msgid "Hide Window Border"
 #~ msgid "Toggle Window Border"
 #~ msgstr "Ascunde marginea ferestrei"
 
@@ -2867,6 +2850,17 @@ msgstr ""
 #~ msgid "unknown"
 #~ msgstr "necunoscut"
 
+#~ msgid "Render to framebuffer."
+#~ msgstr ""
+
+#~ msgid "The framebuffer device to render to."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enable libinput support for input events processing. Note: never use in a "
+#~ "nested session.\t(deprecated)"
+#~ msgstr ""
+
 #~ msgid "Pack Window to the Right"
 #~ msgstr "Așează fereastra la dreapta"
 
@@ -2888,24 +2882,20 @@ msgstr ""
 #~ msgid "Desktop number"
 #~ msgstr "Numărul biroului"
 
-#, fuzzy
-#~| msgid "Configure Layouts..."
 #~ msgid "Configure virtual keyboards..."
 #~ msgstr "Configurare aranjamente..."
 
 #~ msgid "Virtual Keyboard"
 #~ msgstr "Tastatură virtuală"
 
+#~ msgid "Whether to show the virtual keyboard on demand."
+#~ msgstr ""
+
 #~ msgid "Virtual Keyboard: enabled"
 #~ msgstr "Tastatură virtuală: activă"
 
 #~ msgid "Virtual Keyboard: disabled"
 #~ msgstr "Tastatură virtuală: inactivă"
-
-#, fuzzy
-#~| msgid "Virtual Keyboard: enabled"
-#~ msgid "No Virtual Keyboard configured"
-#~ msgstr "Tastatură virtuală: activă"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
@@ -2945,6 +2935,26 @@ msgstr ""
 #~ msgid "Use libhybris hwcomposer"
 #~ msgstr "Folosește hwcomposer libhybris"
 
+#~ msgid "Allow Rotation"
+#~ msgstr ""
+
+#~ msgid "Automatic screen rotation is enabled"
+#~ msgstr ""
+
+#~ msgid "Undefined"
+#~ msgstr ""
+
+#~ msgctxt "Portrait oriented display"
+#~ msgid "Vertical"
+#~ msgstr "Vertical"
+
+#~ msgctxt "Landscape oriented display"
+#~ msgid "Horizontal"
+#~ msgstr "Orizontal"
+
+#~ msgid "Automatic screen rotation is disabled"
+#~ msgstr ""
+
 #~ msgid "Walk Through Window Tabs"
 #~ msgstr "Comută printre filele ferestrei"
 
@@ -2978,21 +2988,15 @@ msgstr ""
 #~ msgid "&Attach as tab to"
 #~ msgstr "&Atașează ca filă la"
 
-#, fuzzy
-#~| msgctxt ""
-#~| "Entry in context menu of window decoration to open the configuration "
-#~| "module of KWin"
-#~| msgid "Window &Manager Settings..."
 #~ msgctxt ""
-#~ "Entry in context menu of window decoration to open the configuration "
-#~ "module of KWin"
+#~ "Entry in context menu of window decoration to open the configuration module "
+#~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Configurare &gestionar de ferestre..."
 
-#, fuzzy
-#~| msgid ""
-#~| "kwin: unable to claim manager selection, another wm running? (try using "
-#~| "--replace)\n"
+#~ msgid "Automatic Screen Rotation"
+#~ msgstr ""
+
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
 #~ "kwin: nu pot cere selecția gestionarului de ferestre. Rulează alt "
@@ -3004,12 +3008,67 @@ msgstr ""
 #~ msgid "Maintainer"
 #~ msgstr "Responsabil"
 
+#~ msgid ""
+#~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+#~ "OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+#~ "select the XRender backend, but it might be very slow for this resolution as"
+#~ " well.<br>Alternatively, lower the combined resolution of all screens to "
+#~ "%1x%2 "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+#~ "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+#~ "does not know such limitation, but the performance will usually be impacted "
+#~ "by the hardware limitations that restrict the OpenGL viewport size."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+#~ "the current resolution are supported but might be exceptionally "
+#~ "slow.<br>Also large windows will turn entirely black.<br><br>Consider to "
+#~ "suspend compositing, switch to the XRender backend or lower the resolution "
+#~ "to %1x%1."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+#~ "GPU, thus windows of that size cannot be assigned to textures and will be "
+#~ "entirely black.<br>Also this limit will often be a performance level barrier"
+#~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+#~ "software rendering in this case."
+#~ msgstr ""
+
+#~ msgid "Use a nested compositor in windowed mode."
+#~ msgstr ""
+
+#~ msgctxt "notification about mouse pointer confined"
+#~ msgid ""
+#~ "Pointer motion confined to the current window.\n"
+#~ "To release pointer hold Escape for 3 seconds."
+#~ msgstr ""
+
+#~ msgctxt "notification about mouse pointer locked"
+#~ msgid ""
+#~ "Pointer locked to current position.\n"
+#~ "To end pointer lock hold Escape for 3 seconds."
+#~ msgstr ""
+
 #~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 #~ msgstr ""
 #~ "GLX/OpenGL nu sunt disponibile și numai suportul OpenGL este compilat."
 
 #~ msgid "Sh&ade"
 #~ msgstr "&Strânge"
+
+#~ msgid ""
+#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
+#~ " set.\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The X11 Display to connect to. If not set next free number will be picked."
+#~ msgstr ""
 
 #~ msgid "KWin: "
 #~ msgstr "KWin: "
@@ -3037,10 +3096,10 @@ msgstr ""
 #~ "execută.\n"
 
 #~ msgid ""
-#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the "
-#~ "application <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish "
-#~ "to terminate the application process <em>including <b>all</b> of its "
-#~ "child windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
+#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
+#~ " <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish to terminate "
+#~ "the application process <em>including <b>all</b> of its child "
+#~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
 #~ msgstr ""
 #~ "<p>Fereastra „<b>%2</b>” nu răspunde. Această fereastră aparține "
 #~ "aplicației <b>%1</b> (Id. proces = %3, nume gazdă = %4).</p><p>Doriți să "
@@ -3131,14 +3190,9 @@ msgstr ""
 #~ msgid "Tiling Enabled"
 #~ msgstr "Mozaic activat"
 
-#, fuzzy
-#~| msgid ""
-#~| "Compositing was too slow and has been suspended.\n"
-#~| "You can disable functionality checks in advanced compositing settings."
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
-#~ "You can disable functionality checks in System Settings (on the Advanced "
-#~ "tab in Desktop Effects)."
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
 #~ "Compoziționarea rula prea încet și a fost suspendată.\n"
 #~ "Puteți să dezactivați verificările de funcționalitate în configurările de "
@@ -3146,10 +3200,8 @@ msgstr ""
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
-#~ "If this was only a temporary problem, you can resume using the '%1' "
-#~ "shortcut.\n"
-#~ "You can disable functionality checks in System Settings (on the Advanced "
-#~ "tab in Desktop Effects)."
+#~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
 #~ "Efectele de birou rulau prea încet și au fost suspendate.\n"
 #~ " Dacă a fost doar o problemă temporară, puteți relua folosind scurtătura "
@@ -3349,48 +3401,39 @@ msgstr ""
 #~ msgid "Desktop Screenshot to Clipboard"
 #~ msgstr "Capturează imagine birou în clipboard"
 
-#, fuzzy
-#~| msgid "Toggle Video Recording"
 #~ msgid "Toggle Tiling"
 #~ msgstr "Comută Înregistrare video"
 
-#, fuzzy
-#~| msgid "Decorations:"
+#~ msgid "Increase Ratio"
+#~ msgstr ""
+
 #~ msgid "Decrease Ratio"
 #~ msgstr "Decorații:"
 
-#, fuzzy
-#~| msgid "Left"
 #~ msgid "Move Left"
 #~ msgstr "Stânga"
 
-#, fuzzy
-#~| msgid "Right"
 #~ msgid "Move Right"
 #~ msgstr "Dreapta"
 
-#, fuzzy
-#~| msgid "&Move"
 #~ msgid "Move Up"
 #~ msgstr "M&ută"
 
-#, fuzzy
-#~| msgid "Move Window"
 #~ msgid "Move Down"
 #~ msgstr "Mută fereastra"
 
-#, fuzzy
-#~| msgid "Walk Through Windows"
+#~ msgid "Test Dump tiles"
+#~ msgstr ""
+
+#~ msgid "Test Below Cursor"
+#~ msgstr ""
+
 #~ msgid "Walk Through Grouped Windows"
 #~ msgstr "Comută printre ferestre"
 
-#, fuzzy
-#~| msgid "Walk Through Windows (Reverse)"
 #~ msgid "Walk Through Grouped Windows (Reverse)"
 #~ msgstr "Comută printre ferestre (invers)"
 
-#, fuzzy
-#~| msgid "Switch to Window Above"
 #~ msgid "Switch to group window"
 #~ msgstr "Comută la fereastra de deasupra"
 
@@ -3403,34 +3446,14 @@ msgstr ""
 #~ msgid "Keep Running"
 #~ msgstr "Continuă rularea"
 
-#~ msgctxt "@title:tab Basic Settings"
-#~ msgid "Basic"
-#~ msgstr "De bază"
-
-#~ msgctxt "@title:tab Advanced Settings"
-#~ msgid "Advanced"
-#~ msgstr "Avansate"
-
 #~ msgid "Top"
 #~ msgstr "Sus"
-
-#~ msgid "Bottom-Right"
-#~ msgstr "Dreapta-jos"
 
 #~ msgid "Bottom"
 #~ msgstr "Jos"
 
-#~ msgid "Bottom-Left"
-#~ msgstr "Stânga-jos"
-
-#~ msgid "Center"
-#~ msgstr "Centrat"
-
 #~ msgid "Toggle Invert Effect"
 #~ msgstr "Comută inversare efect"
-
-#~ msgid "Toggle Invert Effect on Window"
-#~ msgstr "Comută efect de inversare asupra ferestrei"
 
 #~ msgid "Clear All Mouse Marks"
 #~ msgstr "Curăță toate urmele mausului"
@@ -3441,22 +3464,12 @@ msgstr ""
 #~ msgid "Clear Mouse Marks"
 #~ msgstr "Curăță urmele mausului"
 
-#~ msgid "Toggle Present Windows (Current desktop)"
-#~ msgstr "Comută ferestre prezente (biroul curent)"
-
-#~ msgid "Toggle Present Windows (All desktops)"
-#~ msgstr "Comută ferestre prezente (toate birourile)"
-
 #~ msgid ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
 #~ "Filtru:\n"
 #~ "%1"
-
-#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
-#~ msgid "Toggle Sharpen Effect"
-#~ msgstr "Comută efectul de Ascuțire"
 
 #~ msgid "Snow"
 #~ msgstr "Zăpadă"
@@ -3474,7 +3487,7 @@ msgstr ""
 #~ msgstr "Calea de salvat înregistrarea:"
 
 #~ msgid "None"
-#~ msgstr "Nici unul"
+#~ msgstr "Niciuna"
 
 #~ msgid "X offset:"
 #~ msgstr "Deplasare X:"
@@ -3497,9 +3510,6 @@ msgstr ""
 #~ msgid "Active window has stronger shadow"
 #~ msgstr "Fereastra activă are umbră mai pronunțată"
 
-#~ msgid "Empty"
-#~ msgstr "Gol"
-
 #~ msgid "Toggle Expose Effect"
 #~ msgstr "Comută efectul de expunere"
 
@@ -3518,6 +3528,124 @@ msgstr ""
 
 #~ msgid "Animate desktop changes"
 #~ msgstr "Animează schimbările biroului"
+
+#~ msgid "Reset opacity to default value"
+#~ msgstr ""
+
+#~ msgid "Slide this to set the window's opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
+#~ " in a $PATH directory."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager crashed twice within a minute and is therefore "
+#~ "disabled for this session."
+#~ msgstr ""
+
+#~ msgid "Composite Manager Failure"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
+#~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
+#~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
+#~ "www.freedesktop.org.<br></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
+#~ "6.8 for translucency and shadows to work.<br>Additionally, you need to add a"
+#~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
+#~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr ""
+
+msgid "Minimize"
+msgstr "Minimizare"
+
+msgid "Unmaximize"
+msgstr "Demaximizare"
+
+msgid "Maximize"
+msgstr "Maximizare"
+
+msgid "Move"
+msgstr "Mută"
+
+msgid "Resize"
+msgstr "Redimensionează"
+
+msgid "Always on Top"
+msgstr "Mereu Deasupra"
+
+msgid "Always on Visible Workspace"
+msgstr "Mereu pe Spațiul Activ"
+
+msgid "Move to Workspace Left"
+msgstr "Mută la Spațiul din Stânga"
+
+msgid "Move to Workspace Right"
+msgstr "Mută la Spațiul din Dreapta"
+
+msgid "Close"
+msgstr "Închide"
+
+#~ msgid "No Virtual Keyboard configured"
+#~ msgstr "Tastatură virtuală: activă"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "De bază"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Avansate"
+
+#~ msgid "Bottom-Right"
+#~ msgstr "Dreapta-jos"
+
+#~ msgid "Bottom-Left"
+#~ msgstr "Stânga-jos"
+
+#~ msgid "Center"
+#~ msgstr "Centrat"
+
+#~ msgid "Toggle Invert Effect on Window"
+#~ msgstr "Comută efect de inversare asupra ferestrei"
+
+#~ msgid "Toggle Present Windows (Current desktop)"
+#~ msgstr "Comută ferestre prezente (biroul curent)"
+
+#~ msgid "Toggle Present Windows (All desktops)"
+#~ msgstr "Comută ferestre prezente (toate birourile)"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Comută efectul de Ascuțire"
+
+#~ msgid "Empty"
+#~ msgstr "Gol"
 
 #~ msgid "Changes opacity of following elements:"
 #~ msgstr "Schimbă opacitatea următoarelor elemente:"

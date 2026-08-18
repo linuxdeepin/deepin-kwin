@@ -1,24 +1,27 @@
-# translation of kwin.po to
-# Donatas Glodenis <dgvirtual@akl.lt>, 2004-2009, 2012.
-# Tomas Straupis <tomasstraupis@gmail.com>, 2010, 2011.
-# Remigijus Jarmalavičius <remigijus@jarmalavicius.lt>, 2011.
-# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2012, 2015.
-# Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>, 2017.
+# translation of kwin.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Moo, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
-"PO-Revision-Date: 2022-12-12 22:06+0200\n"
-"Last-Translator: Moo <<>>\n"
-"Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
-"Language: lt\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Moo, 2025\n"
+"Language-Team: Lithuanian (https://app.transifex.com/linuxdeepin/teams/3617/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
-"%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.2.2\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -45,19 +48,13 @@ msgstr ""
 "naudodami spartųjį klavišą „%1“."
 
 #: composite.cpp:1064
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-#| "b><br>This was most likely due to a driver bug.<p>If you think that you "
-#| "have meanwhile upgraded to a stable driver,<br>you can reset this "
-#| "protection but <b>be aware that this might result in an immediate crash!</"
-#| "b></p><p>Alternatively, you might want to use the XRender backend instead."
-#| "</p>"
+#, kde-format
 msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></p>"
+"<b>OpenGL compositing (the default) has crashed KWin in the "
+"past.</b><br>This was most likely due to a driver bug.<p>If you think that "
+"you have meanwhile upgraded to a stable driver,<br>you can reset this "
+"protection but <b>be aware that this might result in an immediate "
+"crash!</b></p>"
 msgstr ""
 "<b>OpenGL komponuoklis (numatytasis) praeityje yra nulaužęs Kwin.</b><br>Tai "
 "greičiausiai įvyko dėl tvarkyklės klaidos.<p>Jei manote, kad nuo to laiko "
@@ -72,8 +69,7 @@ msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr "Privaloma X praplėtimai  (XComposite and XDamage) nerasti."
 
 #: composite.cpp:1074
-#, fuzzy, kde-format
-#| msgid "GLX/OpenGL and XRender/XFixes are not available."
+#, kde-format
 msgid "GLX/OpenGL is not available."
 msgstr "GLX/OpenGL ir XRender/XFixes nerasti."
 
@@ -648,8 +644,7 @@ msgid "Button"
 msgstr "Mygtukas"
 
 #: debug_console.cpp:528 debug_console.cpp:542
-#, fuzzy, kde-format
-#| msgid "Pressure"
+#, kde-format
 msgid "Pressed"
 msgstr "Spaudimas"
 
@@ -1152,9 +1147,9 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Do you want to terminate this application?</"
-"para><para><warning>Terminating the application will close all of its child "
-"windows. Any unsaved data will be lost.</warning></para>"
+"<para>Do you want to terminate this "
+"application?</para><para><warning>Terminating the application will close all"
+" of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
 "<para>Ar norite baigti šios programos darbą?</para><para><warning>Baigus "
 "programos darbą, bus užverti visi jos antriniai langai. Bet kokie neįrašyti "
@@ -1278,8 +1273,7 @@ msgstr "Paleisti bešaknį Xwayland serverį."
 
 #: main_wayland.cpp:316
 #, kde-format
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Wayland lizdo, kurio klausytis, pavadinimas. Jei nenustatyta, bus naudojamas "
 "\"wayland-0\"."
@@ -1317,7 +1311,8 @@ msgstr "Lango veiksenos mastelis. Numatytoji reikšmė yra 1."
 #: main_wayland.cpp:340
 #, kde-format
 msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
+"The number of windows to open as outputs in windowed mode. Default value is "
+"1"
 msgstr ""
 "Langų, kuriuos atverti kaip išvestis lango veiksenoje, skaičius. Numatytoji "
 "reiškmė yra 1"
@@ -1325,8 +1320,8 @@ msgstr ""
 #: main_wayland.cpp:345
 #, kde-format
 msgid ""
-"Wayland socket to use for incoming connections. This can be combined with --"
-"socket to name the socket"
+"Wayland socket to use for incoming connections. This can be combined with "
+"--socket to name the socket"
 msgstr ""
 
 #: main_wayland.cpp:349
@@ -1413,8 +1408,8 @@ msgstr ""
 #: main_x11.cpp:259
 #, kde-format
 msgid ""
-"kwin: unable to claim manager selection, another wm running? (try using --"
-"replace)\n"
+"kwin: unable to claim manager selection, another wm running? (try using "
+"--replace)\n"
 msgstr ""
 "kwin: nepavyksta rezervuoti tvarkytuvės pasirinkimo, gal veikia kita langų "
 "tvarkytuvė? (pabandykite naudoti --replace)\n"
@@ -1480,24 +1475,21 @@ msgstr "visas ekranas"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:70
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:72
-#, fuzzy, kde-format
-#| msgid "Shaded"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "shade"
 msgstr "Pridengtas"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:73
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:75
-#, fuzzy, kde-format
-#| msgid "Keep above"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep above"
 msgstr "Laikyti aukščiau"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:76
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:78
-#, fuzzy, kde-format
-#| msgid "Keep below"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "keep below"
 msgstr "Laikyti žemiau"
@@ -1515,8 +1507,7 @@ msgid "name"
 msgstr "pavadinimas"
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:95
-#, fuzzy, kde-format
-#| msgid "name"
+#, kde-format
 msgctxt "Note this is a KRunner keyword"
 msgid "appname"
 msgstr "pavadinimas"
@@ -1569,8 +1560,7 @@ msgid "Toggle keep below running window on %1"
 msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:318
-#, fuzzy, kde-format
-#| msgid "Activate Window (%1)"
+#, kde-format
 msgid "Activate running window on %1"
 msgstr "Aktyvuoti langą (%1)"
 
@@ -1600,8 +1590,7 @@ msgstr "Spalvos temperatūros peržiūra"
 
 #. i18n: ectx: label, entry (count), group (General)
 #: rulebooksettingsbase.kcfg:9
-#, fuzzy, kde-format
-#| msgid "Total rules count"
+#, kde-format
 msgid "Total rules count (legacy)"
 msgstr "Bendras taisyklių skaičius"
 
@@ -1617,7 +1606,8 @@ msgstr ""
 msgid "Rule description"
 msgstr "Taisyklės aprašas"
 
-#. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (descriptionLegacy), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
@@ -1641,7 +1631,8 @@ msgstr "Lango klasė (programa)"
 msgid "Window class string match type"
 msgstr "Lango klasės eilutės atitikimo tipas"
 
-#. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (wmclasscomplete), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
@@ -1653,7 +1644,8 @@ msgstr "Atitikti visą lango klasę"
 msgid "Window role"
 msgstr "Lango vaidmuo"
 
-#. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (windowrolematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
@@ -1671,13 +1663,15 @@ msgstr "Lango antraštė"
 msgid "Window title string match type"
 msgstr "Lango antraštės eilutės atitikimo tipas"
 
-#. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachine), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Kompiuteris (mazgo pavadinimas)"
 
-#. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachinematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
@@ -1695,7 +1689,8 @@ msgstr "Lango tipai, kurie atitinka"
 msgid "Initial placement"
 msgstr "Pradinis išdėstymas"
 
-#. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (placementrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
 #, kde-format
 msgid "Initial placement rule type"
@@ -1749,37 +1744,43 @@ msgstr "Didžiausias lango dydis"
 msgid "Window maximum size rule type"
 msgstr "Didžiausio lango dydžio taisyklės tipas"
 
-#. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
 msgstr "Aktyvaus nepermatomumas"
 
-#. i18n: ectx: label, entry (opacityactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
 msgstr "Aktyvaus nepermatomumo taisyklės tipas"
 
-#. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
 msgstr "Pasyvaus nepermatomumas"
 
-#. i18n: ectx: label, entry (opacityinactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
 msgstr "Pasyvaus nepermatomumo taisyklės tipas"
 
-#. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr "Nepaisyti užklaustos geometrijos"
 
-#. i18n: ectx: label, entry (ignoregeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
@@ -1787,15 +1788,13 @@ msgstr "Užklaustos geometrijos nepaisymo taisyklės tipas"
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Switch to Desktop %1"
+#, kde-format
 msgid "List of Desktop Ids"
 msgstr "Perjungti į darbalaukį %1"
 
 #. i18n: ectx: label, entry (desktopsrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:155
-#, fuzzy, kde-format
-#| msgid "Desktop number rule type"
+#, kde-format
 msgid "Desktop Ids rule type"
 msgstr "Darbalaukio numerio taisyklės tipas"
 
@@ -1841,19 +1840,22 @@ msgstr "Lango tipo nustatymo taisyklės tipas"
 msgid "Maximized vertically"
 msgstr "Išskleistas vertikaliai"
 
-#. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizevertrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
 msgstr "Išskleidimo vertikaliai taisyklės tipas"
 
-#. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehoriz), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
 #, kde-format
 msgid "Maximized horizontally"
 msgstr "Išskleistas horizontaliai"
 
-#. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehorizrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
@@ -1889,7 +1891,8 @@ msgstr "Pridengimo taisyklės tipas"
 msgid "Skip taskbar"
 msgstr "Praleisti užduočių juostą"
 
-#. i18n: ectx: label, entry (skiptaskbarrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skiptaskbarrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
@@ -1901,7 +1904,8 @@ msgstr "Užduočių juostos praleidimo taisyklės tipas"
 msgid "Skip pager"
 msgstr "Praleisti darbalaukių perjungiklį"
 
-#. i18n: ectx: label, entry (skippagerrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skippagerrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
@@ -1913,7 +1917,8 @@ msgstr "Praleidimo darbalaukių perjungiklyje taisyklės tipas"
 msgid "Skip switcher"
 msgstr "Praleisti perjungiklį"
 
-#. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skipswitcherrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
@@ -1949,7 +1954,8 @@ msgstr "Laikymo žemiau taisyklės tipas"
 msgid "Fullscreen"
 msgstr "Visas ekranas"
 
-#. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (fullscreenrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
 #, kde-format
 msgid "Fullscreen rule type"
@@ -1973,19 +1979,22 @@ msgstr "Be antraštės juostos taisyklės tipas"
 msgid "Titlebar color and scheme"
 msgstr "Antraštės juostos spalva ir rinkinys"
 
-#. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (decocolorrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
 msgstr "Antraštės juostos spalvos taisyklės tipas"
 
-#. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositing), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
 msgstr "Blokuoti komponavimą"
 
-#. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositingrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
@@ -2021,7 +2030,8 @@ msgstr "Fokusavimo apsaugos taisyklės tipas"
 msgid "Accept Focus"
 msgstr "Priimti fokusavimą"
 
-#. i18n: ectx: label, entry (acceptfocusrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (acceptfocusrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
@@ -2033,7 +2043,8 @@ msgstr "Fokusavimo priėmimo taisyklės tipas"
 msgid "Closeable"
 msgstr "Užveriamas"
 
-#. i18n: ectx: label, entry (closeablerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (closeablerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
@@ -2045,7 +2056,8 @@ msgstr "Užveriamo taisyklės tipas"
 msgid "Autogroup with identical"
 msgstr "Automatiškai grupuoti su identiškais"
 
-#. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogrouprule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
@@ -2057,7 +2069,8 @@ msgstr "Automatinio grupavimo su identiškais taisyklės tipas"
 msgid "Autogroup in foreground"
 msgstr "Automatiškai grupuoti priekiniame plane"
 
-#. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupfgrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
@@ -2069,19 +2082,22 @@ msgstr "Automatinio grupavimo priekiniame plane taisyklės tipas"
 msgid "Autogroup by ID"
 msgstr "Automatiškai grupuoti pagal ID"
 
-#. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupidrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
 msgstr "Automatinio grupavimo pagal ID taisyklės tipas"
 
-#. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Paklusti geometrijos apribojimams"
 
-#. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
@@ -2099,13 +2115,15 @@ msgstr "Spartusis klavišas"
 msgid "Shortcut rule type"
 msgstr "Sparčiojo klavišo taisyklės tipas"
 
-#. i18n: ectx: label, entry (disableglobalshortcuts), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcuts), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Nepaisyti visuotinių sparčiųjų klavišų"
 
-#. i18n: ectx: label, entry (disableglobalshortcutsrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcutsrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
@@ -2117,7 +2135,8 @@ msgstr "Visuotinių sparčiųjų klavišų nepaisymo taisyklės tipas"
 msgid "Desktop file name"
 msgstr "Darbalaukio failo pavadinimas"
 
-#. i18n: ectx: label, entry (desktopfilerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopfilerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
@@ -2194,19 +2213,19 @@ msgstr "Pereiti per esamos programos langus alternatyviai (atvirkščiai)"
 
 #: tabbox/tabbox.cpp:529
 msgid "Walk Through Desktops"
-msgstr "Pereiti per darbalaukius"
+msgstr "Eiti per darbalaukius"
 
 #: tabbox/tabbox.cpp:530
 msgid "Walk Through Desktops (Reverse)"
-msgstr "Pereiti per darbalaukius (atvirkščiai)"
+msgstr "Eiti per darbalaukius (atvirkščiai)"
 
 #: tabbox/tabbox.cpp:531
 msgid "Walk Through Desktop List"
-msgstr "Pereiti per darbalaukių sąrašą"
+msgstr "Eiti per darbalaukių sąrašą"
 
 #: tabbox/tabbox.cpp:532
 msgid "Walk Through Desktop List (Reverse)"
-msgstr "Pereiti per darbalaukių sąrašą (atvirkščiai)"
+msgstr "Eiti per darbalaukių sąrašą (atvirkščiai)"
 
 #: tabbox/tabboxhandler.cpp:290
 #, kde-format
@@ -2221,9 +2240,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
-"Without the border, you will not be able to enable the border again using "
-"the mouse: use the window operations menu instead, activated using the %1 "
-"keyboard shortcut."
+"Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Jūs pasirinkote rodyti langą be rėmelio.\n"
 "Be rėmelio, negalėsite vėl įjungti rėmelį, naudodami pelę: vietoje pelės, "
@@ -2234,9 +2251,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
-"If the application itself does not have an option to turn the fullscreen "
-"mode off you will not be able to disable it again using the mouse: use the "
-"window operations menu instead, activated using the %1 keyboard shortcut."
+"If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Jūs pasirinkote rodyti langą visame ekrane.\n"
 "Jei pati programa neturi parinkties išjungti viso ekrano veikseną, tuomet "
@@ -2274,8 +2289,7 @@ msgid "&Shade"
 msgstr "Pri&dengti"
 
 #: useractions.cpp:272
-#, fuzzy, kde-format
-#| msgid "No titlebar and frame"
+#, kde-format
 msgid "&No Titlebar and Frame"
 msgstr "Be antraštės juostos ir rėmelio"
 
@@ -2394,8 +2408,7 @@ msgid "&All Activities"
 msgstr "Vi&sos veiklos"
 
 #: useractions.cpp:776
-#, fuzzy, kde-format
-#| msgid "Move to %1 %2"
+#, kde-format
 msgid "Move to %1"
 msgstr "Perkelti į %1 %2"
 
@@ -2477,8 +2490,7 @@ msgid "Make Window Fullscreen"
 msgstr "Išskleisti langą per visą ekraną"
 
 #: useractions.cpp:1009
-#, fuzzy, kde-format
-#| msgid "No titlebar and frame"
+#, kde-format
 msgid "Toggle Window Titlebar and Frame"
 msgstr "Be antraštės juostos ir rėmelio"
 
@@ -2528,26 +2540,22 @@ msgid "Move Window Down"
 msgstr "Perkelti langą žemyn"
 
 #: useractions.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Expand Window Horizontally"
 msgstr "Išskleisti langą horizontaliai"
 
 #: useractions.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Expand Window Vertically"
 msgstr "Išskleisti langą vertikaliai"
 
 #: useractions.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Pack Shrink Window Horizontally"
+#, kde-format
 msgid "Shrink Window Horizontally"
 msgstr "Pakuoti langą suskleidžiant horizontaliai"
 
 #: useractions.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Pack Shrink Window Vertically"
+#, kde-format
 msgid "Shrink Window Vertically"
 msgstr "Pakuoti langą suskleidžiant vertikaliai"
 
@@ -2612,14 +2620,12 @@ msgid "Switch to Window to the Left"
 msgstr "Perjungti į langą kairėje"
 
 #: useractions.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Increase Opacity of Active Window by 5 %"
+#, kde-format
 msgid "Increase Opacity of Active Window by 5%"
 msgstr "Padidinti aktyvaus lango nepermatomumą 5 %"
 
 #: useractions.cpp:1063
-#, fuzzy, kde-format
-#| msgid "Decrease Opacity of Active Window by 5 %"
+#, kde-format
 msgid "Decrease Opacity of Active Window by 5%"
 msgstr "Sumažinti aktyvaus lango nepermatomumą 5 %"
 
@@ -2679,26 +2685,22 @@ msgid "Window to Previous Screen"
 msgstr "Langą į ankstesnį ekraną"
 
 #: useractions.cpp:1102
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Right"
+#, kde-format
 msgid "Window One Screen to the Right"
 msgstr "Langą vienu darbalaukiu į dešinę"
 
 #: useractions.cpp:1104
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Left"
+#, kde-format
 msgid "Window One Screen to the Left"
 msgstr "Langą vienu darbalaukiu į kairę"
 
 #: useractions.cpp:1106
-#, fuzzy, kde-format
-#| msgid "Window to Screen %1"
+#, kde-format
 msgid "Window One Screen Up"
 msgstr "Langą į ekraną %1"
 
 #: useractions.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Window One Desktop Down"
+#, kde-format
 msgid "Window One Screen Down"
 msgstr "Langą vienu darbalaukiu į apačią"
 
@@ -2760,8 +2762,7 @@ msgstr "Aktyvuoti langą (%1)"
 #: useractions.cpp:1332
 #, kde-format
 msgid ""
-"The window manager is configured to consider the screen with the mouse on it "
-"as active one.\n"
+"The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
 "Langų tvarkytuvė yra sukonfigūruota taip, kad laikytų ekraną, kuriame yra "
@@ -2776,37 +2777,37 @@ msgstr "Darbalaukis %1"
 #: virtualdesktops.cpp:800
 #, kde-format
 msgid "Switch to Next Desktop"
-msgstr "Perjungti į kitą darbalaukį"
+msgstr "Pereiti į kitą darbalaukį"
 
 #: virtualdesktops.cpp:801
 #, kde-format
 msgid "Switch to Previous Desktop"
-msgstr "Perjungti į ankstesnį darbalaukį"
+msgstr "Pereiti į ankstesnį darbalaukį"
 
 #: virtualdesktops.cpp:804
 #, kde-format
 msgid "Switch One Desktop to the Right"
-msgstr "Perjungti vienu darbalaukiu į dešinę"
+msgstr "Pereiti į darbalaukį dešiniau"
 
 #: virtualdesktops.cpp:806
 #, kde-format
 msgid "Switch One Desktop to the Left"
-msgstr "Perjungti vienu darbalaukiu į kairę"
+msgstr "Pereiti į darbalaukį kairiau"
 
 #: virtualdesktops.cpp:808
 #, kde-format
 msgid "Switch One Desktop Up"
-msgstr "Perjungti vienu darbalaukiu į viršų"
+msgstr "Pereiti į darbalaukį aukščiau"
 
 #: virtualdesktops.cpp:810
 #, kde-format
 msgid "Switch One Desktop Down"
-msgstr "Perjungti vienu darbalaukiu į apačią"
+msgstr "Pereiti į darbalaukį žemiau"
 
 #: virtualdesktops.cpp:899
 #, kde-format
 msgid "Switch to Desktop %1"
-msgstr "Perjungti į darbalaukį %1"
+msgstr "Pereiti į %1 darbalaukį"
 
 #: window.cpp:3470
 #, kde-format
@@ -2819,13 +2820,10 @@ msgstr "(Neatsako)"
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
 "what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 "KWin palaikymo informacija:\n"
@@ -2871,10 +2869,6 @@ msgstr ""
 #~ msgid "The framebuffer device to render to."
 #~ msgstr "Vaizdų atnaujinimo buferis, į kurį atvaizduoti."
 
-#, fuzzy
-#~| msgid ""
-#~| "Enable libinput support for input events processing. Note: never use in "
-#~| "a nested session."
 #~ msgid ""
 #~ "Enable libinput support for input events processing. Note: never use in a "
 #~ "nested session.\t(deprecated)"
@@ -2903,8 +2897,6 @@ msgstr ""
 #~ msgid "Desktop number"
 #~ msgstr "Darbalaukio numeris"
 
-#, fuzzy
-#~| msgid "Configure Layouts..."
 #~ msgid "Configure virtual keyboards..."
 #~ msgstr "Konfigūruoti išdėstymus..."
 
@@ -2919,11 +2911,6 @@ msgstr ""
 
 #~ msgid "Virtual Keyboard: disabled"
 #~ msgstr "Virtuali klaviatūra: išjungta"
-
-#, fuzzy
-#~| msgid "Virtual Keyboard: enabled"
-#~ msgid "No Virtual Keyboard configured"
-#~ msgstr "Virtuali klaviatūra: įjungta"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
@@ -3017,15 +3004,14 @@ msgstr ""
 #~ msgstr "&Pridėti kaip kortelę į"
 
 #~ msgctxt ""
-#~ "Entry in context menu of window decoration to open the configuration "
-#~ "module of KWin"
+#~ "Entry in context menu of window decoration to open the configuration module "
+#~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Langų tvarkytuvės &nuostatos..."
 
-#, fuzzy
-#~| msgid ""
-#~| "kwin: unable to claim manager selection, another wm running? (try using "
-#~| "--replace)\n"
+#~ msgid "Automatic Screen Rotation"
+#~ msgstr ""
+
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
 #~ "kwin: nepavyksta rezervuoti tvarkyklės pasirinkimo, gal veikia kita langų "
@@ -3037,9 +3023,583 @@ msgstr ""
 #~ msgid "Maintainer"
 #~ msgstr "Prižiūrėtojas"
 
+#~ msgid ""
+#~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
+#~ "OpenGL Desktop Effects at the current resolution<br><br>You can try to "
+#~ "select the XRender backend, but it might be very slow for this resolution as"
+#~ " well.<br>Alternatively, lower the combined resolution of all screens to "
+#~ "%1x%2 "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+#~ "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+#~ "does not know such limitation, but the performance will usually be impacted "
+#~ "by the hardware limitations that restrict the OpenGL viewport size."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+#~ "the current resolution are supported but might be exceptionally "
+#~ "slow.<br>Also large windows will turn entirely black.<br><br>Consider to "
+#~ "suspend compositing, switch to the XRender backend or lower the resolution "
+#~ "to %1x%1."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+#~ "GPU, thus windows of that size cannot be assigned to textures and will be "
+#~ "entirely black.<br>Also this limit will often be a performance level barrier"
+#~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+#~ "software rendering in this case."
+#~ msgstr ""
+
+#~ msgid "Use a nested compositor in windowed mode."
+#~ msgstr ""
+
+#~ msgctxt "notification about mouse pointer confined"
+#~ msgid ""
+#~ "Pointer motion confined to the current window.\n"
+#~ "To release pointer hold Escape for 3 seconds."
+#~ msgstr ""
+
+#~ msgctxt "notification about mouse pointer locked"
+#~ msgid ""
+#~ "Pointer locked to current position.\n"
+#~ "To end pointer lock hold Escape for 3 seconds."
+#~ msgstr ""
+
 #~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 #~ msgstr ""
 #~ "GLX/OpenGL yra nerasti ir tiktai OpenGL palaikymas ir sukompiliuotas."
 
 #~ msgid "Sh&ade"
 #~ msgstr "&Tik antraštės juosta"
+
+#~ msgid ""
+#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
+#~ " set.\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The X11 Display to connect to. If not set next free number will be picked."
+#~ msgstr ""
+
+#~ msgid "KWin: "
+#~ msgstr ""
+
+#~ msgid "System"
+#~ msgstr ""
+
+#~ msgid "Navigation"
+#~ msgstr ""
+
+#~ msgid "Window & Desktop"
+#~ msgstr ""
+
+#~ msgid "Miscellaneous"
+#~ msgstr ""
+
+#~ msgid "Desktop Switching"
+#~ msgstr "Darbalaukio keitimas"
+
+#~ msgid ""
+#~ "kwin: it looks like there's already a window manager running. kwin not "
+#~ "started.\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
+#~ " <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish to terminate "
+#~ "the application process <em>including <b>all</b> of its child "
+#~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
+#~ msgstr ""
+
+#~ msgid "Window '%1' demands attention."
+#~ msgstr ""
+
+#~ msgid "Layout changed to %1"
+#~ msgstr ""
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr ""
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr ""
+
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr ""
+
+#~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
+#~ msgid "&Float Window"
+#~ msgstr ""
+
+#~ msgid "Ad&vanced"
+#~ msgstr ""
+
+#~ msgid "*** No Windows ***"
+#~ msgstr ""
+
+#~ msgid "Load the script testing dialog"
+#~ msgstr ""
+
+#~ msgid "Remove &From Group"
+#~ msgstr ""
+
+#~ msgid "To the Left"
+#~ msgstr ""
+
+#~ msgid "To the Right"
+#~ msgstr ""
+
+#~ msgid "&Opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "XRender/XFixes extensions are not available and only XRender support is "
+#~ "compiled."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Compositing was disabled at compile time.\n"
+#~ "It is likely Xorg development headers were not installed."
+#~ msgstr ""
+
+#~ msgid "Tiling"
+#~ msgstr ""
+
+#~ msgid "Enable/Disable Tiling"
+#~ msgstr ""
+
+#~ msgid "Toggle Floating"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Left"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Right"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Up"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Down"
+#~ msgstr ""
+
+#~ msgid "Tiling Disabled"
+#~ msgstr ""
+
+#~ msgid "Tiling Enabled"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "KWin will now exit..."
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 2"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 3"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 4"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 5"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 6"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 7"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 8"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 9"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 10"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 11"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 12"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 13"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 14"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 15"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 16"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 17"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 18"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 19"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 20"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 3"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 4"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 5"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 6"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 7"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 3"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 4"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 5"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 6"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 7"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 8"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 9"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 10"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 11"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 12"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 13"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 14"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 15"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 16"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 17"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 18"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 19"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 20"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 2"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 3"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 4"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 5"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 6"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 7"
+#~ msgstr ""
+
+#~ msgid "<center><b>%1</b></center>"
+#~ msgstr ""
+
+#~ msgid "Menu"
+#~ msgstr ""
+
+#~ msgid "Not on all desktops"
+#~ msgstr ""
+
+#~ msgid "On all desktops"
+#~ msgstr ""
+
+#~ msgid "Help"
+#~ msgstr ""
+
+#~ msgid "Restore"
+#~ msgstr ""
+
+#~ msgid "Do not keep above others"
+#~ msgstr ""
+
+#~ msgid "Do not keep below others"
+#~ msgstr ""
+
+#~ msgid "No window decoration plugin library was found."
+#~ msgstr ""
+
+#~ msgid "The default decoration plugin is corrupt and could not be loaded."
+#~ msgstr ""
+
+#~ msgid "The library %1 is not a KWin plugin."
+#~ msgstr ""
+
+#~ msgid "Window Screenshot to Clipboard"
+#~ msgstr ""
+
+#~ msgid "Desktop Screenshot to Clipboard"
+#~ msgstr ""
+
+#~ msgid "Toggle Tiling"
+#~ msgstr ""
+
+#~ msgid "Increase Ratio"
+#~ msgstr ""
+
+#~ msgid "Decrease Ratio"
+#~ msgstr ""
+
+#~ msgid "Move Left"
+#~ msgstr ""
+
+#~ msgid "Move Right"
+#~ msgstr ""
+
+#~ msgid "Move Up"
+#~ msgstr ""
+
+#~ msgid "Move Down"
+#~ msgstr ""
+
+#~ msgid "Test Dump tiles"
+#~ msgstr ""
+
+#~ msgid "Test Below Cursor"
+#~ msgstr ""
+
+#~ msgid "Walk Through Grouped Windows"
+#~ msgstr ""
+
+#~ msgid "Walk Through Grouped Windows (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Switch to group window"
+#~ msgstr ""
+
+#~ msgid "kwin: failure during initialization; aborting"
+#~ msgstr ""
+
+#~ msgid "Terminate"
+#~ msgstr ""
+
+#~ msgid "Keep Running"
+#~ msgstr ""
+
+#~ msgid "Top"
+#~ msgstr ""
+
+#~ msgid "Bottom"
+#~ msgstr ""
+
+#~ msgid "Toggle Invert Effect"
+#~ msgstr ""
+
+#~ msgid "Clear All Mouse Marks"
+#~ msgstr ""
+
+#~ msgid "Clear Last Mouse Mark"
+#~ msgstr ""
+
+#~ msgid "Clear Mouse Marks"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+
+#~ msgid "Snow"
+#~ msgstr ""
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr ""
+
+#~ msgid "Toggle Thumbnail for Current Window"
+#~ msgstr ""
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+
+#~ msgid "Path to save video:"
+#~ msgstr ""
+
+#~ msgid "None"
+#~ msgstr "Nėra"
+
+#~ msgid "X offset:"
+#~ msgstr ""
+
+#~ msgid "Y offset:"
+#~ msgstr ""
+
+#~ msgid "Shadow opacity:"
+#~ msgstr ""
+
+#~ msgid "Shadow fuzziness:"
+#~ msgstr ""
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr ""
+
+#~ msgid "Shadow color:"
+#~ msgstr ""
+
+#~ msgid "Active window has stronger shadow"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr ""
+
+#~ msgid "Draw window caption on top of window"
+#~ msgstr ""
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr ""
+
+#~ msgid "for windows on all desktops: "
+#~ msgstr ""
+
+#~ msgid "Animate desktop changes"
+#~ msgstr ""
+
+#~ msgid "Reset opacity to default value"
+#~ msgstr ""
+
+#~ msgid "Slide this to set the window's opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
+#~ " in a $PATH directory."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager crashed twice within a minute and is therefore "
+#~ "disabled for this session."
+#~ msgstr ""
+
+#~ msgid "Composite Manager Failure"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
+#~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
+#~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
+#~ "www.freedesktop.org.<br></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
+#~ "6.8 for translucency and shadows to work.<br>Additionally, you need to add a"
+#~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
+#~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr ""
+
+msgid "Minimize"
+msgstr "Suskleisti"
+
+msgid "Unmaximize"
+msgstr "Grąžinti iš išskleidimo"
+
+msgid "Maximize"
+msgstr "Išskleisti"
+
+msgid "Move"
+msgstr "Perkelti"
+
+msgid "Resize"
+msgstr "Keisti dydį"
+
+msgid "Always on Top"
+msgstr "Visada viršuje"
+
+msgid "Always on Visible Workspace"
+msgstr "Visada matomoje darbo srityje"
+
+msgid "Move to Workspace Left"
+msgstr "Perkelti į darbo sritį kairėje"
+
+msgid "Move to Workspace Right"
+msgstr "Perkelti į darbo sritį dešinėje"
+
+msgid "Close"
+msgstr "Užverti"
+
+#~ msgid "No Virtual Keyboard configured"
+#~ msgstr "Virtuali klaviatūra: įjungta"

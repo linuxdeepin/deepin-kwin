@@ -1,28 +1,27 @@
-# translation of kwin.po to Slovak
-# Stanislav Visnovsky <stano@ms.mff.cuni.cz>, 2002.
-# Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>, 2002.
-# Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2002.
-# Stanislav Visnovsky <visnovsky@kde.org>, 2003, 2004.
-# Richard Fric <Richard.Fric@kdemail.net>, 2006.
-# Michal Sulek <misurel@gmail.com>, 2009, 2010, 2011.
-# Roman Paholík <wizzardsk@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2019.
-# Mthw <jari_45@hotmail.com>, 2018.
-# Matej Mrenica <matejm98mthw@gmail.com>, 2019, 2020, 2021, 2023.
-# Dušan Kazik <prescott66@gmail.com>, 2020.
+# translation of kwin.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Jozef Gaal <preklady@mayday.sk>, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
-"PO-Revision-Date: 2023-02-22 20:38+0100\n"
-"Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
-"Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
-"Language: sk\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Jozef Gaal <preklady@mayday.sk>, 2025\n"
+"Language-Team: Slovak (https://app.transifex.com/linuxdeepin/teams/3617/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.2\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -52,19 +51,13 @@ msgstr ""
 "obnoviť pomocou klávesovej skratky '%1'."
 
 #: composite.cpp:1064
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-#| "b><br>This was most likely due to a driver bug.<p>If you think that you "
-#| "have meanwhile upgraded to a stable driver,<br>you can reset this "
-#| "protection but <b>be aware that this might result in an immediate crash!</"
-#| "b></p><p>Alternatively, you might want to use the XRender backend instead."
-#| "</p>"
+#, kde-format
 msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></p>"
+"<b>OpenGL compositing (the default) has crashed KWin in the "
+"past.</b><br>This was most likely due to a driver bug.<p>If you think that "
+"you have meanwhile upgraded to a stable driver,<br>you can reset this "
+"protection but <b>be aware that this might result in an immediate "
+"crash!</b></p>"
 msgstr ""
 "<b>Kompozícia OpenGL (predvolené) zhodila KWin niekedy v minulosti.</"
 "b><br>Je to pravdepodobne kvôli chybe ovládača.<p>Ak si myslíte, že ste "
@@ -78,8 +71,7 @@ msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr "Požadované X rozšírenia (XComposite a XDamage) nie sú dostupné."
 
 #: composite.cpp:1074
-#, fuzzy, kde-format
-#| msgid "GLX/OpenGL and XRender/XFixes are not available."
+#, kde-format
 msgid "GLX/OpenGL is not available."
 msgstr "GLX/OpenGL a XRender/XFixes nie sú dostupné."
 
@@ -1156,9 +1148,9 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Do you want to terminate this application?</"
-"para><para><warning>Terminating the application will close all of its child "
-"windows. Any unsaved data will be lost.</warning></para>"
+"<para>Do you want to terminate this "
+"application?</para><para><warning>Terminating the application will close all"
+" of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
 "<para>Chcete ukončiť túto aplikáciu?</para><para><warning>Ukončením "
 "aplikácie sa zatvoria všetky jej podradené okná. Všetky neuložené údaje budú "
@@ -1180,9 +1172,7 @@ msgid "Move the tablet to the next output"
 msgstr ""
 
 #: input.cpp:2088
-#, fuzzy, kde-format
-#| msgctxt "Name of a hardware switch"
-#| msgid "Tablet mode"
+#, kde-format
 msgid "Tablet moved to %1"
 msgstr "Režim tabletu"
 
@@ -1282,8 +1272,7 @@ msgstr "Spustí rootless Xwayland server."
 
 #: main_wayland.cpp:316
 #, kde-format
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Názov Wayland socketu, kde počúvať. Ak nie je nastavené, použije sa "
 "\"wayland-0\"."
@@ -1321,15 +1310,16 @@ msgstr "Mierka pre režim v okne. Predvolená hodnota je 1."
 #: main_wayland.cpp:340
 #, kde-format
 msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
+"The number of windows to open as outputs in windowed mode. Default value is "
+"1"
 msgstr ""
 "Počet okien na otvorenie ako výstupov v režime okna. Predvolená hodnota je 1"
 
 #: main_wayland.cpp:345
 #, kde-format
 msgid ""
-"Wayland socket to use for incoming connections. This can be combined with --"
-"socket to name the socket"
+"Wayland socket to use for incoming connections. This can be combined with "
+"--socket to name the socket"
 msgstr ""
 "Wayland socket na použitie pre prichádzajúce spojenia. To je možné "
 "skombinovať s --socket na pomenovanie socketu"
@@ -1420,8 +1410,8 @@ msgstr ""
 #: main_x11.cpp:259
 #, kde-format
 msgid ""
-"kwin: unable to claim manager selection, another wm running? (try using --"
-"replace)\n"
+"kwin: unable to claim manager selection, another wm running? (try using "
+"--replace)\n"
 msgstr ""
 "kwin: nie je možné získať výber správcu okien, beží už nejaké wm? (skúste "
 "použiť --replace)\n"
@@ -1618,7 +1608,8 @@ msgstr "Usporiadaný zoznam skupín pravidiel"
 msgid "Rule description"
 msgstr "Popis pravidla"
 
-#. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (descriptionLegacy), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
@@ -1642,7 +1633,8 @@ msgstr "Trieda okna (aplikácia)"
 msgid "Window class string match type"
 msgstr "Typ zhody reťazca triedy okna"
 
-#. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (wmclasscomplete), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
@@ -1654,7 +1646,8 @@ msgstr "Zodpovedá celej triede okna"
 msgid "Window role"
 msgstr "Úloha okna"
 
-#. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (windowrolematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
@@ -1672,13 +1665,15 @@ msgstr "Nadpis okna"
 msgid "Window title string match type"
 msgstr "Typ zhody reťazca názvu okna"
 
-#. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachine), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Počítač (názov hostiteľa)"
 
-#. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachinematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
@@ -1696,7 +1691,8 @@ msgstr "Typy okna, ktoré sa zhodujú"
 msgid "Initial placement"
 msgstr "Počiatočné umiestnenie"
 
-#. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (placementrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
 #, kde-format
 msgid "Initial placement rule type"
@@ -1750,37 +1746,43 @@ msgstr "Maximálna veľkosť okna"
 msgid "Window maximum size rule type"
 msgstr "Typ pravidla pre maximálnu veľkosť okna"
 
-#. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
 msgstr "Krytie aktívneho okna"
 
-#. i18n: ectx: label, entry (opacityactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
 msgstr "Typ pravidla pre krytie aktívneho okna"
 
-#. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
 msgstr "Krytie neaktívneho okna"
 
-#. i18n: ectx: label, entry (opacityinactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
 msgstr "Typ pravidla pre krytie neaktívneho okna"
 
-#. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr "Ignorovať požadovanú geometriu"
 
-#. i18n: ectx: label, entry (ignoregeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
@@ -1840,19 +1842,22 @@ msgstr "Nastavenie typu okna typ pravidla"
 msgid "Maximized vertically"
 msgstr "Maximalizované zvislo"
 
-#. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizevertrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
 msgstr "Typ pravidla pre zvislé maximalizovanie"
 
-#. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehoriz), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
 #, kde-format
 msgid "Maximized horizontally"
 msgstr "Maximalizované vodorovne"
 
-#. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehorizrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
@@ -1888,7 +1893,8 @@ msgstr "Zrolovaný typ pravidla"
 msgid "Skip taskbar"
 msgstr "Preskočiť panel úloh"
 
-#. i18n: ectx: label, entry (skiptaskbarrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skiptaskbarrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
@@ -1900,7 +1906,8 @@ msgstr "Vynechať panel úloh typ pravidla"
 msgid "Skip pager"
 msgstr "Neuvádzať v prepínači plôch"
 
-#. i18n: ectx: label, entry (skippagerrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skippagerrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
@@ -1912,7 +1919,8 @@ msgstr "Preskočiť pager typ pravidla"
 msgid "Skip switcher"
 msgstr "Preskočiť prepínač"
 
-#. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skipswitcherrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
@@ -1948,7 +1956,8 @@ msgstr "Držať pod typ pravidla"
 msgid "Fullscreen"
 msgstr "Na celú obrazovku"
 
-#. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (fullscreenrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
 #, kde-format
 msgid "Fullscreen rule type"
@@ -1972,19 +1981,22 @@ msgstr "Typ pravidla pre žiadne záhlavie"
 msgid "Titlebar color and scheme"
 msgstr "Farba a schéma záhlavia"
 
-#. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (decocolorrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
 msgstr "Typ pravidla pre farbu záhlavia"
 
-#. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositing), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
 msgstr "Bloková kompozícia"
 
-#. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositingrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
@@ -2020,7 +2032,8 @@ msgstr "Ochrana zamerania typ pravidla"
 msgid "Accept Focus"
 msgstr "Akceptovať zameranie"
 
-#. i18n: ectx: label, entry (acceptfocusrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (acceptfocusrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
@@ -2032,7 +2045,8 @@ msgstr "Prijať zameranie typ pravidla"
 msgid "Closeable"
 msgstr "Zatvoriteľné"
 
-#. i18n: ectx: label, entry (closeablerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (closeablerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
@@ -2044,7 +2058,8 @@ msgstr "Typ pravidla pre umožnenie zatvorenia"
 msgid "Autogroup with identical"
 msgstr "Zoskupiť z rovnakými"
 
-#. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogrouprule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
@@ -2056,7 +2071,8 @@ msgstr "Automaticky zoskupiť s rovnakými typ pravidla"
 msgid "Autogroup in foreground"
 msgstr "Zoskupiť v popredí"
 
-#. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupfgrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
@@ -2068,19 +2084,22 @@ msgstr "Automaticky zoskupiť v popredí typ pravidla"
 msgid "Autogroup by ID"
 msgstr "Zoskupiť podľa ID"
 
-#. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupidrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
 msgstr "Automaticky zoskupiť podľa ID typ pravidla"
 
-#. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Dodržiavať obmedzenia geometrie"
 
-#. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
@@ -2098,13 +2117,15 @@ msgstr "Skratka"
 msgid "Shortcut rule type"
 msgstr "Typ pravidla pre skratku"
 
-#. i18n: ectx: label, entry (disableglobalshortcuts), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcuts), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Ignorovať globálne skratky"
 
-#. i18n: ectx: label, entry (disableglobalshortcutsrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcutsrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
@@ -2116,7 +2137,8 @@ msgstr "Typ pravidla pre ignorovanie globálnych skratiek"
 msgid "Desktop file name"
 msgstr "Názov súboru pracovnej plochy"
 
-#. i18n: ectx: label, entry (desktopfilerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopfilerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
@@ -2220,9 +2242,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
-"Without the border, you will not be able to enable the border again using "
-"the mouse: use the window operations menu instead, activated using the %1 "
-"keyboard shortcut."
+"Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Rozhodli ste sa zobraziť okno bez okrajov.\n"
 "Bez nich nebude možné okraje zase zapnúť pomocou myši. Musíte použiť ponuku "
@@ -2232,9 +2252,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
-"If the application itself does not have an option to turn the fullscreen "
-"mode off you will not be able to disable it again using the mouse: use the "
-"window operations menu instead, activated using the %1 keyboard shortcut."
+"If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Rozhodli ste sa zobraziť okno v režime na celú obrazovku.\n"
 "Ak aplikácia sama neposkytuje možnosť tento režim vypnúť, nebudete sa môcť "
@@ -2473,8 +2491,7 @@ msgid "Make Window Fullscreen"
 msgstr "Okno na celú obrazovku"
 
 #: useractions.cpp:1009
-#, fuzzy, kde-format
-#| msgid "No titlebar and frame"
+#, kde-format
 msgid "Toggle Window Titlebar and Frame"
 msgstr "Bez záhlavia a rámu"
 
@@ -2604,14 +2621,12 @@ msgid "Switch to Window to the Left"
 msgstr "Prepnúť na okno doľava"
 
 #: useractions.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Increase Opacity of Active Window by 5 %"
+#, kde-format
 msgid "Increase Opacity of Active Window by 5%"
 msgstr "Zvýšiť krytie aktívneho okna o 5 %"
 
 #: useractions.cpp:1063
-#, fuzzy, kde-format
-#| msgid "Decrease Opacity of Active Window by 5 %"
+#, kde-format
 msgid "Decrease Opacity of Active Window by 5%"
 msgstr "Znížiť krytie aktívneho okna o 5 %"
 
@@ -2671,26 +2686,22 @@ msgid "Window to Previous Screen"
 msgstr "Okno na predošlú obrazovku"
 
 #: useractions.cpp:1102
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Right"
+#, kde-format
 msgid "Window One Screen to the Right"
 msgstr "Okno o jednu pracovnú plochu doprava"
 
 #: useractions.cpp:1104
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Left"
+#, kde-format
 msgid "Window One Screen to the Left"
 msgstr "Okno o jednu pracovnú plochu doľava"
 
 #: useractions.cpp:1106
-#, fuzzy, kde-format
-#| msgid "Window to Screen %1"
+#, kde-format
 msgid "Window One Screen Up"
 msgstr "Okno na obrazovku %1"
 
 #: useractions.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Window One Desktop Down"
+#, kde-format
 msgid "Window One Screen Down"
 msgstr "Okno o jednu pracovnú plochu dolu"
 
@@ -2710,26 +2721,22 @@ msgid "Switch to Previous Screen"
 msgstr "Prepnúť na predošlú obrazovku"
 
 #: useractions.cpp:1121
-#, fuzzy, kde-format
-#| msgid "Switch to Window to the Right"
+#, kde-format
 msgid "Switch to Screen to the Right"
 msgstr "Prepnúť na okno doprava"
 
 #: useractions.cpp:1123
-#, fuzzy, kde-format
-#| msgid "Switch to Window to the Left"
+#, kde-format
 msgid "Switch to Screen to the Left"
 msgstr "Prepnúť na okno doľava"
 
 #: useractions.cpp:1125
-#, fuzzy, kde-format
-#| msgid "Switch to Screen %1"
+#, kde-format
 msgid "Switch to Screen Above"
 msgstr "Prepnúť na obrazovku %1"
 
 #: useractions.cpp:1127
-#, fuzzy, kde-format
-#| msgid "Switch to Screen %1"
+#, kde-format
 msgid "Switch to Screen Below"
 msgstr "Prepnúť na obrazovku %1"
 
@@ -2756,8 +2763,7 @@ msgstr "Aktivovať okno (%1)"
 #: useractions.cpp:1332
 #, kde-format
 msgid ""
-"The window manager is configured to consider the screen with the mouse on it "
-"as active one.\n"
+"The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
 "Správca okien je nastavený na posúdenie obrazovky s myšou za aktívnu.\n"
@@ -2814,13 +2820,10 @@ msgstr "(Neodpovedá)"
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
 "what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 "Podporná informácia KWin:\n"
@@ -2835,8 +2838,6 @@ msgstr ""
 #~ msgid "&No Border"
 #~ msgstr "&Bez okraja"
 
-#, fuzzy
-#~| msgid "Hide Window Border"
 #~ msgid "Toggle Window Border"
 #~ msgstr "Skryť okraj okna"
 
@@ -2907,9 +2908,6 @@ msgstr ""
 
 #~ msgid "Virtual Keyboard: disabled"
 #~ msgstr "Virtuálna klávesnica: zakázaná"
-
-#~ msgid "No Virtual Keyboard configured"
-#~ msgstr "Nie je nakonfigurovaná žiadna virtuálna klávesnica"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
@@ -3001,8 +2999,8 @@ msgstr ""
 #~ msgstr "Pripojiť ako kartu ku"
 
 #~ msgctxt ""
-#~ "Entry in context menu of window decoration to open the configuration "
-#~ "module of KWin"
+#~ "Entry in context menu of window decoration to open the configuration module "
+#~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Nastavenia správcu okien..."
 
@@ -3021,9 +3019,9 @@ msgstr ""
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
 #~ "OpenGL Desktop Effects at the current resolution<br><br>You can try to "
-#~ "select the XRender backend, but it might be very slow for this resolution "
-#~ "as well.<br>Alternatively, lower the combined resolution of all screens "
-#~ "to %1x%2 "
+#~ "select the XRender backend, but it might be very slow for this resolution as"
+#~ " well.<br>Alternatively, lower the combined resolution of all screens to "
+#~ "%1x%2 "
 #~ msgstr ""
 #~ "<h1>Efekty plochy OpenGL nie sú možné</h1>Váš systém nedokáže "
 #~ "vykonaťOpenGL efekty plochy v aktuálnom rozlíšení<br><br>Môžete skúsiť "
@@ -3032,11 +3030,10 @@ msgstr ""
 #~ "na %1x%2 "
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of "
-#~ "your GPU and is therefore not compatible with the OpenGL compositor."
-#~ "<br>XRender does not know such limitation, but the performance will "
-#~ "usually be impacted by the hardware limitations that restrict the OpenGL "
-#~ "viewport size."
+#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+#~ "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+#~ "does not know such limitation, but the performance will usually be impacted "
+#~ "by the hardware limitations that restrict the OpenGL viewport size."
 #~ msgstr ""
 #~ "Požadované rozlíšenie presahuje obmedzenie GL_MAX_VIEWPORT_DIMS vášho GPU "
 #~ "a teda nie je kompatibilné s kompozítorom OpenGL.<br>XRender nevie o "
@@ -3044,11 +3041,11 @@ msgstr ""
 #~ "obmedzeniami ktoré obmedzujú veľkosť viewportu OpenGL."
 
 #~ msgid ""
-#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects "
-#~ "at the current resolution are supported but might be exceptionally slow."
-#~ "<br>Also large windows will turn entirely black.<br><br>Consider to "
-#~ "suspend compositing, switch to the XRender backend or lower the "
-#~ "resolution to %1x%1."
+#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+#~ "the current resolution are supported but might be exceptionally "
+#~ "slow.<br>Also large windows will turn entirely black.<br><br>Consider to "
+#~ "suspend compositing, switch to the XRender backend or lower the resolution "
+#~ "to %1x%1."
 #~ msgstr ""
 #~ "<h1>Efekty plochy OpenGL môžu byť nepoužiteľné</h1>Efekty plochy OpenGL v "
 #~ "aktuálnom rozlíšení sú podporované, ale môžu byť veľmi pomalé.<br>Okrem "
@@ -3056,20 +3053,17 @@ msgstr ""
 #~ "prepnite na XRender backend alebo znížte rozlíšenie na %1x%1."
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of "
-#~ "your GPU, thus windows of that size cannot be assigned to textures and "
-#~ "will be entirely black.<br>Also this limit will often be a performance "
-#~ "level barrier despite below GL_MAX_VIEWPORT_DIMS, because the driver "
-#~ "might fall back to software rendering in this case."
+#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+#~ "GPU, thus windows of that size cannot be assigned to textures and will be "
+#~ "entirely black.<br>Also this limit will often be a performance level barrier"
+#~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+#~ "software rendering in this case."
 #~ msgstr ""
 #~ "Požadované rozlíšenie presahuje obmedzenie GL_MAX_TEXTURE_SIZE vášho GPU, "
 #~ "teda okná tejto veľkosti nemôžu byť textúrované a budú úplne čierne. "
 #~ "<br>Toto obmedzenie je tiež často výkonnostná bariéra cez nižšie "
 #~ "GL_MAX_VIEWPORT_DIMS, pretože ovládač môže spadnúť do softvérového "
 #~ "vykresľovania v tomto prípade."
-
-#~ msgid "Form"
-#~ msgstr "Formulár"
 
 #~ msgid "Use a nested compositor in windowed mode."
 #~ msgstr "Použiť vnorený kompozítor pre režim v okne."
@@ -3097,8 +3091,8 @@ msgstr ""
 #~ msgstr "Za&baliť"
 
 #~ msgid ""
-#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
-#~ "is set.\n"
+#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
+#~ " set.\n"
 #~ msgstr ""
 #~ "kwin_wayland: nemôžem sa pripojiť k serveru Wayland, uistite sa, že "
 #~ "WAYLAND_DISPLAY je nastavený.\n"
@@ -3111,3 +3105,522 @@ msgstr ""
 
 #~ msgid "KWin: "
 #~ msgstr "KWin: "
+
+#~ msgid "System"
+#~ msgstr ""
+
+#~ msgid "Navigation"
+#~ msgstr ""
+
+#~ msgid "Window & Desktop"
+#~ msgstr ""
+
+#~ msgid "Miscellaneous"
+#~ msgstr ""
+
+#~ msgid "Desktop Switching"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "kwin: it looks like there's already a window manager running. kwin not "
+#~ "started.\n"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
+#~ " <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish to terminate "
+#~ "the application process <em>including <b>all</b> of its child "
+#~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
+#~ msgstr ""
+
+#~ msgid "Window '%1' demands attention."
+#~ msgstr ""
+
+#~ msgid "Layout changed to %1"
+#~ msgstr ""
+
+#~ msgctxt "Spiral tiling layout"
+#~ msgid "Spiral"
+#~ msgstr ""
+
+#~ msgctxt "Two-column horizontal tiling layout"
+#~ msgid "Columns"
+#~ msgstr ""
+
+#~ msgctxt "Floating layout, windows aren't tiled at all"
+#~ msgid "Floating"
+#~ msgstr ""
+
+#~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
+#~ msgid "&Float Window"
+#~ msgstr ""
+
+#~ msgid "Ad&vanced"
+#~ msgstr ""
+
+#~ msgid "*** No Windows ***"
+#~ msgstr ""
+
+#~ msgid "Load the script testing dialog"
+#~ msgstr ""
+
+#~ msgid "Remove &From Group"
+#~ msgstr ""
+
+#~ msgid "To the Left"
+#~ msgstr ""
+
+#~ msgid "To the Right"
+#~ msgstr ""
+
+#~ msgid "&Opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "XRender/XFixes extensions are not available and only XRender support is "
+#~ "compiled."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Compositing was disabled at compile time.\n"
+#~ "It is likely Xorg development headers were not installed."
+#~ msgstr ""
+
+#~ msgid "Tiling"
+#~ msgstr ""
+
+#~ msgid "Enable/Disable Tiling"
+#~ msgstr ""
+
+#~ msgid "Toggle Floating"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Left"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Right"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Up"
+#~ msgstr ""
+
+#~ msgid "Switch Focus Down"
+#~ msgstr ""
+
+#~ msgid "Tiling Disabled"
+#~ msgstr ""
+
+#~ msgid "Tiling Enabled"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Desktop effects were too slow and have been suspended.\n"
+#~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "KWin will now exit..."
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 2"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 3"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 4"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 5"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 6"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 7"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 8"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 9"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 10"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 11"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 12"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 13"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 14"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 15"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 16"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 17"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 18"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 19"
+#~ msgstr ""
+
+#~ msgid "Window to Desktop 20"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 3"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 4"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 5"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 6"
+#~ msgstr ""
+
+#~ msgid "Window to Screen 7"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 3"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 4"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 5"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 6"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 7"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 8"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 9"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 10"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 11"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 12"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 13"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 14"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 15"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 16"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 17"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 18"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 19"
+#~ msgstr ""
+
+#~ msgid "Switch to Desktop 20"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 2"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 3"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 4"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 5"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 6"
+#~ msgstr ""
+
+#~ msgid "Switch to Screen 7"
+#~ msgstr ""
+
+#~ msgid "<center><b>%1</b></center>"
+#~ msgstr ""
+
+#~ msgid "Menu"
+#~ msgstr ""
+
+#~ msgid "Not on all desktops"
+#~ msgstr ""
+
+#~ msgid "On all desktops"
+#~ msgstr ""
+
+#~ msgid "Help"
+#~ msgstr ""
+
+#~ msgid "Restore"
+#~ msgstr ""
+
+#~ msgid "Do not keep above others"
+#~ msgstr ""
+
+#~ msgid "Do not keep below others"
+#~ msgstr ""
+
+#~ msgid "No window decoration plugin library was found."
+#~ msgstr ""
+
+#~ msgid "The default decoration plugin is corrupt and could not be loaded."
+#~ msgstr ""
+
+#~ msgid "The library %1 is not a KWin plugin."
+#~ msgstr ""
+
+#~ msgid "Window Screenshot to Clipboard"
+#~ msgstr ""
+
+#~ msgid "Desktop Screenshot to Clipboard"
+#~ msgstr ""
+
+#~ msgid "Toggle Tiling"
+#~ msgstr ""
+
+#~ msgid "Increase Ratio"
+#~ msgstr ""
+
+#~ msgid "Decrease Ratio"
+#~ msgstr ""
+
+#~ msgid "Move Left"
+#~ msgstr ""
+
+#~ msgid "Move Right"
+#~ msgstr ""
+
+#~ msgid "Move Up"
+#~ msgstr ""
+
+#~ msgid "Move Down"
+#~ msgstr ""
+
+#~ msgid "Test Dump tiles"
+#~ msgstr ""
+
+#~ msgid "Test Below Cursor"
+#~ msgstr ""
+
+#~ msgid "Walk Through Grouped Windows"
+#~ msgstr ""
+
+#~ msgid "Walk Through Grouped Windows (Reverse)"
+#~ msgstr ""
+
+#~ msgid "Switch to group window"
+#~ msgstr ""
+
+#~ msgid "kwin: failure during initialization; aborting"
+#~ msgstr ""
+
+#~ msgid "Terminate"
+#~ msgstr ""
+
+#~ msgid "Keep Running"
+#~ msgstr ""
+
+#~ msgid "Top"
+#~ msgstr ""
+
+#~ msgid "Bottom"
+#~ msgstr ""
+
+#~ msgid "Toggle Invert Effect"
+#~ msgstr ""
+
+#~ msgid "Clear All Mouse Marks"
+#~ msgstr ""
+
+#~ msgid "Clear Last Mouse Mark"
+#~ msgstr ""
+
+#~ msgid "Clear Mouse Marks"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+
+#~ msgid "Snow"
+#~ msgstr ""
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr ""
+
+#~ msgid "Toggle Thumbnail for Current Window"
+#~ msgstr ""
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+
+#~ msgid "Path to save video:"
+#~ msgstr ""
+
+#~ msgid "None"
+#~ msgstr "Nič"
+
+#~ msgid "X offset:"
+#~ msgstr ""
+
+#~ msgid "Y offset:"
+#~ msgstr ""
+
+#~ msgid "Shadow opacity:"
+#~ msgstr ""
+
+#~ msgid "Shadow fuzziness:"
+#~ msgstr ""
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr ""
+
+#~ msgid "Shadow color:"
+#~ msgstr ""
+
+#~ msgid "Active window has stronger shadow"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr ""
+
+#~ msgid "Draw window caption on top of window"
+#~ msgstr ""
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr ""
+
+#~ msgid "for windows on all desktops: "
+#~ msgstr ""
+
+#~ msgid "Animate desktop changes"
+#~ msgstr ""
+
+#~ msgid "Reset opacity to default value"
+#~ msgstr ""
+
+#~ msgid "Slide this to set the window's opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
+#~ " in a $PATH directory."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager crashed twice within a minute and is therefore "
+#~ "disabled for this session."
+#~ msgstr ""
+
+#~ msgid "Composite Manager Failure"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
+#~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
+#~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
+#~ "www.freedesktop.org.<br></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
+#~ "6.8 for translucency and shadows to work.<br>Additionally, you need to add a"
+#~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
+#~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr ""
+
+msgid "Minimize"
+msgstr "Minimalizovať"
+
+msgid "Unmaximize"
+msgstr "Obnoviť"
+
+msgid "Maximize"
+msgstr " Maximalizovať"
+
+msgid "Move"
+msgstr "Presunúť"
+
+msgid "Resize"
+msgstr "Zmeniť veľkosť"
+
+msgid "Always on Top"
+msgstr "Vždy na vrchu"
+
+msgid "Always on Visible Workspace"
+msgstr "Vždy na viditeľnej pracovnej ploche"
+
+msgid "Move to Workspace Left"
+msgstr "Presunúť na pracovnú plochu vľavo"
+
+msgid "Move to Workspace Right"
+msgstr "Presunúť na pracovnú plochu vpravo"
+
+msgid "Close"
+msgstr "Zavrieť"
+
+#~ msgid "No Virtual Keyboard configured"
+#~ msgstr "Nie je nakonfigurovaná žiadna virtuálna klávesnica"
+
+#~ msgid "Form"
+#~ msgstr "Formulár"

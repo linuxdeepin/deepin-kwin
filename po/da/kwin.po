@@ -1,21 +1,28 @@
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
-# Martin Schlander <mschlander@opensuse.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2020, 2022.
-# scootergrisen, 2019.
+# translation of kwin.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Martin Juul <code@juul.xyz>, 2025
+# scootergrisen, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
-"PO-Revision-Date: 2022-05-14 17:24+0200\n"
-"Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
-"Language-Team: Danish <kde-i18n-doc@kde.org>\n"
-"Language: da\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: scootergrisen, 2025\n"
+"Language-Team: Danish (https://app.transifex.com/linuxdeepin/teams/3617/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.04.2\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -42,19 +49,13 @@ msgstr ""
 "genoptage ved brug af genvejen \"%1\"."
 
 #: composite.cpp:1064
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-#| "b><br>This was most likely due to a driver bug.<p>If you think that you "
-#| "have meanwhile upgraded to a stable driver,<br>you can reset this "
-#| "protection but <b>be aware that this might result in an immediate crash!</"
-#| "b></p><p>Alternatively, you might want to use the XRender backend instead."
-#| "</p>"
+#, kde-format
 msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></p>"
+"<b>OpenGL compositing (the default) has crashed KWin in the "
+"past.</b><br>This was most likely due to a driver bug.<p>If you think that "
+"you have meanwhile upgraded to a stable driver,<br>you can reset this "
+"protection but <b>be aware that this might result in an immediate "
+"crash!</b></p>"
 msgstr ""
 "<b>OpenGL compositing (standard) har tidligere fået KWin til at bryde sammen."
 "</b><br>Dette skyldtes sandsynligvis en fejl i driveren.<p>Hvis du tror at "
@@ -69,8 +70,7 @@ msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr "Påkrævede X-udvidelser (XComposite og XDamage) er ikke tilgængelige."
 
 #: composite.cpp:1074
-#, fuzzy, kde-format
-#| msgid "GLX/OpenGL and XRender/XFixes are not available."
+#, kde-format
 msgid "GLX/OpenGL is not available."
 msgstr "GLX/OpenGL og XRender/XFixes er ikke tilgængelige."
 
@@ -866,8 +866,7 @@ msgid "task"
 msgstr "opgave"
 
 #: debug_console.cpp:1222
-#, fuzzy, kde-format
-#| msgid "Windows"
+#, kde-format
 msgid "X11 Windows"
 msgstr "Vinduer"
 
@@ -1148,9 +1147,9 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Do you want to terminate this application?</"
-"para><para><warning>Terminating the application will close all of its child "
-"windows. Any unsaved data will be lost.</warning></para>"
+"<para>Do you want to terminate this "
+"application?</para><para><warning>Terminating the application will close all"
+" of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
 "<para>Vil du afslutte dette program?</para><para><warning>Afslutning af "
 "programmet vil lukke alle dets undervinduer. Alle ikke gemte data vil gå "
@@ -1172,9 +1171,7 @@ msgid "Move the tablet to the next output"
 msgstr ""
 
 #: input.cpp:2088
-#, fuzzy, kde-format
-#| msgctxt "Name of a hardware switch"
-#| msgid "Tablet mode"
+#, kde-format
 msgid "Tablet moved to %1"
 msgstr "Tablet-tilstand"
 
@@ -1274,8 +1271,7 @@ msgstr "Start en rodløs Xwayland-server."
 
 #: main_wayland.cpp:316
 #, kde-format
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Navnet på den Wayland-sokkel der skal lyttes på. Hvis ikke angivet bruges "
 "\"wayland-0\"."
@@ -1314,7 +1310,8 @@ msgstr "Skala for vinduestilstand. Standardværdien er 1."
 #: main_wayland.cpp:340
 #, kde-format
 msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
+"The number of windows to open as outputs in windowed mode. Default value is "
+"1"
 msgstr ""
 "Antallet af vinduer der skal åbnes som output i vinduestilstand. "
 "Standardværdien er 1"
@@ -1322,8 +1319,8 @@ msgstr ""
 #: main_wayland.cpp:345
 #, kde-format
 msgid ""
-"Wayland socket to use for incoming connections. This can be combined with --"
-"socket to name the socket"
+"Wayland socket to use for incoming connections. This can be combined with "
+"--socket to name the socket"
 msgstr ""
 
 #: main_wayland.cpp:349
@@ -1409,8 +1406,8 @@ msgstr ""
 #: main_x11.cpp:259
 #, kde-format
 msgid ""
-"kwin: unable to claim manager selection, another wm running? (try using --"
-"replace)\n"
+"kwin: unable to claim manager selection, another wm running? (try using "
+"--replace)\n"
 msgstr ""
 "kwin: kunne ikke overtage håndteringsvalget, kører en anden "
 "vindueshåndtering? (prøv at bruge --replace)\n"
@@ -1561,8 +1558,7 @@ msgid "Toggle keep below running window on %1"
 msgstr ""
 
 #: plugins/krunner-integration/windowsrunnerinterface.cpp:318
-#, fuzzy, kde-format
-#| msgid "Activate Window (%1)"
+#, kde-format
 msgid "Activate running window on %1"
 msgstr "Aktivér vindue (%1)"
 
@@ -1608,7 +1604,8 @@ msgstr ""
 msgid "Rule description"
 msgstr ""
 
-#. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (descriptionLegacy), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
@@ -1632,7 +1629,8 @@ msgstr "Vinduesklasse (program)"
 msgid "Window class string match type"
 msgstr ""
 
-#. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (wmclasscomplete), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
@@ -1644,7 +1642,8 @@ msgstr "Match hel vinduesklasse"
 msgid "Window role"
 msgstr "Vinduesrolle"
 
-#. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (windowrolematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
@@ -1662,13 +1661,15 @@ msgstr "Vinduestitel"
 msgid "Window title string match type"
 msgstr ""
 
-#. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachine), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Maskine (værtsnavn)"
 
-#. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachinematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
@@ -1686,10 +1687,10 @@ msgstr ""
 msgid "Initial placement"
 msgstr ""
 
-#. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (placementrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Initial placement rule type"
 msgstr "&Fuldskærm"
 
@@ -1701,8 +1702,7 @@ msgstr "Vinduesplacering"
 
 #. i18n: ectx: label, entry (positionrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:83
-#, fuzzy, kde-format
-#| msgid "Window to Screen 0"
+#, kde-format
 msgid "Window position rule type"
 msgstr "Vindue til skærm 0"
 
@@ -1742,38 +1742,43 @@ msgstr ""
 msgid "Window maximum size rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
-#, fuzzy, kde-format
-#| msgid "Active Modifiers"
+#, kde-format
 msgid "Active opacity"
 msgstr "Aktive ændringstaster"
 
-#. i18n: ectx: label, entry (opacityactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
 msgstr ""
 
-#. i18n: ectx: label, entry (opacityinactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr ""
 
-#. i18n: ectx: label, entry (ignoregeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
@@ -1781,15 +1786,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (desktops), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:151
-#, fuzzy, kde-format
-#| msgid "Switch to Desktop 2"
+#, kde-format
 msgid "List of Desktop Ids"
 msgstr "Skift til skrivebord 2"
 
 #. i18n: ectx: label, entry (desktopsrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:155
-#, fuzzy, kde-format
-#| msgid "Keep above others"
+#, kde-format
 msgid "Desktop Ids rule type"
 msgstr "Behold over andre"
 
@@ -1819,8 +1822,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (type), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:183
-#, fuzzy, kde-format
-#| msgid "Setup Window Shortcut"
+#, kde-format
 msgid "Set window type to"
 msgstr "Opsætning af vinduesgenveje"
 
@@ -1832,36 +1834,34 @@ msgstr ""
 
 #. i18n: ectx: label, entry (maximizevert), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:194
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Maximized vertically"
 msgstr "Maksimér vindue lodret"
 
-#. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizevertrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Maximized vertically rule type"
 msgstr "Maksimér vindue lodret"
 
-#. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehoriz), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Maximized horizontally"
 msgstr "Maksimér vindue vandret"
 
-#. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehorizrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Maximized horizontally rule type"
 msgstr "Maksimér vindue vandret"
 
 #. i18n: ectx: label, entry (minimize), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:216
-#, fuzzy, kde-format
-#| msgid "Minimize"
+#, kde-format
 msgid "Minimized"
 msgstr "Minimér"
 
@@ -1873,8 +1873,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (shade), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:227
-#, fuzzy, kde-format
-#| msgid "&Shade"
+#, kde-format
 msgid "Shaded"
 msgstr "&Rul ind"
 
@@ -1890,7 +1889,8 @@ msgstr ""
 msgid "Skip taskbar"
 msgstr ""
 
-#. i18n: ectx: label, entry (skiptaskbarrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skiptaskbarrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
@@ -1902,7 +1902,8 @@ msgstr ""
 msgid "Skip pager"
 msgstr ""
 
-#. i18n: ectx: label, entry (skippagerrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skippagerrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
@@ -1910,13 +1911,12 @@ msgstr ""
 
 #. i18n: ectx: label, entry (skipswitcher), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:260
-#, fuzzy, kde-format
-#| msgctxt "A hardware switch"
-#| msgid "Switch"
+#, kde-format
 msgid "Skip switcher"
 msgstr "Kontakt"
 
-#. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skipswitcherrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
@@ -1930,8 +1930,7 @@ msgstr "Hold over"
 
 #. i18n: ectx: label, entry (aboverule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:275
-#, fuzzy, kde-format
-#| msgid "Keep above others"
+#, kde-format
 msgid "Keep above rule type"
 msgstr "Behold over andre"
 
@@ -1943,8 +1942,7 @@ msgstr "Hold under"
 
 #. i18n: ectx: label, entry (belowrule), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:286
-#, fuzzy, kde-format
-#| msgid "Keep below others"
+#, kde-format
 msgid "Keep below rule type"
 msgstr "Hold under andre"
 
@@ -1954,10 +1952,10 @@ msgstr "Hold under andre"
 msgid "Fullscreen"
 msgstr "Fuldskærm"
 
-#. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (fullscreenrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
-#, fuzzy, kde-format
-#| msgid "&Fullscreen"
+#, kde-format
 msgid "Fullscreen rule type"
 msgstr "&Fuldskærm"
 
@@ -1979,20 +1977,22 @@ msgstr ""
 msgid "Titlebar color and scheme"
 msgstr ""
 
-#. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (decocolorrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositing), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
-#, fuzzy, kde-format
-#| msgid "Suspend Compositing"
+#, kde-format
 msgid "Block Compositing"
 msgstr "Suspendér compositing"
 
-#. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositingrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
@@ -2028,7 +2028,8 @@ msgstr ""
 msgid "Accept Focus"
 msgstr ""
 
-#. i18n: ectx: label, entry (acceptfocusrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (acceptfocusrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
@@ -2036,12 +2037,12 @@ msgstr ""
 
 #. i18n: ectx: label, entry (closeable), group ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:363
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Closeable"
 msgstr "Luk"
 
-#. i18n: ectx: label, entry (closeablerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (closeablerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
@@ -2053,7 +2054,8 @@ msgstr ""
 msgid "Autogroup with identical"
 msgstr ""
 
-#. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogrouprule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
@@ -2065,7 +2067,8 @@ msgstr ""
 msgid "Autogroup in foreground"
 msgstr ""
 
-#. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupfgrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
@@ -2077,19 +2080,22 @@ msgstr ""
 msgid "Autogroup by ID"
 msgstr ""
 
-#. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupidrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Adlyd begrænsninger af geometri"
 
-#. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
@@ -2107,13 +2113,15 @@ msgstr "Genvej"
 msgid "Shortcut rule type"
 msgstr ""
 
-#. i18n: ectx: label, entry (disableglobalshortcuts), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcuts), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Ignorér globale genveje"
 
-#. i18n: ectx: label, entry (disableglobalshortcutsrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcutsrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
@@ -2125,7 +2133,8 @@ msgstr ""
 msgid "Desktop file name"
 msgstr "Navn på desktop-fil"
 
-#. i18n: ectx: label, entry (desktopfilerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopfilerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
@@ -2230,9 +2239,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
-"Without the border, you will not be able to enable the border again using "
-"the mouse: use the window operations menu instead, activated using the %1 "
-"keyboard shortcut."
+"Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Du har valgt at vise et vindue uden dets kanter.\n"
 "Uden kanten, vil du ikke kunne aktivere kanten igen ved brug af musen. Brug "
@@ -2243,9 +2250,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
-"If the application itself does not have an option to turn the fullscreen "
-"mode off you will not be able to disable it again using the mouse: use the "
-"window operations menu instead, activated using the %1 keyboard shortcut."
+"If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Du har valgt at vise et vindue i fuldskærmstilstand.\n"
 "Uden kanten, vil du ikke kunne slå fuldskærmstilstand fra igen ved brug af "
@@ -2356,8 +2361,7 @@ msgid "Show in &Activities"
 msgstr "Vis i &aktiviteter"
 
 #: useractions.cpp:525
-#, fuzzy, kde-format
-#| msgid "Move to &Desktop"
+#, kde-format
 msgid "Move &To Current Desktop"
 msgstr "Flyt til &skrivebord"
 
@@ -2378,16 +2382,13 @@ msgid "Move to %1 %2"
 msgstr ""
 
 #: useractions.cpp:659
-#, fuzzy, kde-format
-#| msgctxt "Create a new desktop and move there the window"
-#| msgid "&New Desktop"
+#, kde-format
 msgctxt "Create a new desktop and add the window to that desktop"
 msgid "Add to &New Desktop"
 msgstr "&Nyt skrivebord"
 
 #: useractions.cpp:671
-#, fuzzy, kde-format
-#| msgid "Move to &Desktop"
+#, kde-format
 msgctxt "Create a new desktop and move the window to that desktop"
 msgid "Move to New Desktop"
 msgstr "Flyt til &skrivebord"
@@ -2406,9 +2407,7 @@ msgid "&All Activities"
 msgstr "&Alle aktiviteter"
 
 #: useractions.cpp:776
-#, fuzzy, kde-format
-#| msgctxt "Name of a hardware switch"
-#| msgid "Tablet mode"
+#, kde-format
 msgid "Move to %1"
 msgstr "Tablet-tilstand"
 
@@ -2490,8 +2489,7 @@ msgid "Make Window Fullscreen"
 msgstr "Gør vindue til fuld skærm"
 
 #: useractions.cpp:1009
-#, fuzzy, kde-format
-#| msgid "Hide Window Border"
+#, kde-format
 msgid "Toggle Window Titlebar and Frame"
 msgstr "Skjul vindueskant"
 
@@ -2516,8 +2514,7 @@ msgid "Setup Window Shortcut"
 msgstr "Opsætning af vinduesgenveje"
 
 #: useractions.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Move Window to Group"
+#, kde-format
 msgid "Move Window to the Center"
 msgstr "Flyt vindue til gruppe"
 
@@ -2542,26 +2539,22 @@ msgid "Move Window Down"
 msgstr "Flyt vindue nedad"
 
 #: useractions.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Maximize Window Horizontally"
+#, kde-format
 msgid "Expand Window Horizontally"
 msgstr "Maksimér vindue vandret"
 
 #: useractions.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Maximize Window Vertically"
+#, kde-format
 msgid "Expand Window Vertically"
 msgstr "Maksimér vindue lodret"
 
 #: useractions.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Pack Shrink Window Horizontally"
+#, kde-format
 msgid "Shrink Window Horizontally"
 msgstr "Gør vindue mindre vandret og pak"
 
 #: useractions.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Pack Shrink Window Vertically"
+#, kde-format
 msgid "Shrink Window Vertically"
 msgstr "Gør vindue mindre lodret og pak"
 
@@ -2626,14 +2619,12 @@ msgid "Switch to Window to the Left"
 msgstr "Skift til vinduet til venstre"
 
 #: useractions.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Increase Opacity of Active Window by 5 %"
+#, kde-format
 msgid "Increase Opacity of Active Window by 5%"
 msgstr "Forøg ugennemsigtighed af aktivt vindue med 5%"
 
 #: useractions.cpp:1063
-#, fuzzy, kde-format
-#| msgid "Decrease Opacity of Active Window by 5 %"
+#, kde-format
 msgid "Decrease Opacity of Active Window by 5%"
 msgstr "Formindsk ugennemsigtighed af aktivt vindue med 5%"
 
@@ -2693,26 +2684,22 @@ msgid "Window to Previous Screen"
 msgstr "Vindue til forrige skærm"
 
 #: useractions.cpp:1102
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Right"
+#, kde-format
 msgid "Window One Screen to the Right"
 msgstr "Vindue ét skrivebord til højre"
 
 #: useractions.cpp:1104
-#, fuzzy, kde-format
-#| msgid "Window One Desktop to the Left"
+#, kde-format
 msgid "Window One Screen to the Left"
 msgstr "Vindue ét skrivebord til venstre"
 
 #: useractions.cpp:1106
-#, fuzzy, kde-format
-#| msgid "Window to Screen 2"
+#, kde-format
 msgid "Window One Screen Up"
 msgstr "Vindue til skærm 2"
 
 #: useractions.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Window One Desktop Down"
+#, kde-format
 msgid "Window One Screen Down"
 msgstr "Vindue ét skrivebord nedad"
 
@@ -2732,32 +2719,27 @@ msgid "Switch to Previous Screen"
 msgstr "Skift til forrige skærm"
 
 #: useractions.cpp:1121
-#, fuzzy, kde-format
-#| msgid "Switch to Window to the Right"
+#, kde-format
 msgid "Switch to Screen to the Right"
 msgstr "Skift til vinduet til højre"
 
 #: useractions.cpp:1123
-#, fuzzy, kde-format
-#| msgid "Switch to Window to the Left"
+#, kde-format
 msgid "Switch to Screen to the Left"
 msgstr "Skift til vinduet til venstre"
 
 #: useractions.cpp:1125
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgid "Switch to Screen Above"
 msgstr "Skift til skærm 0"
 
 #: useractions.cpp:1127
-#, fuzzy, kde-format
-#| msgid "Switch to Screen 0"
+#, kde-format
 msgid "Switch to Screen Below"
 msgstr "Skift til skærm 0"
 
 #: useractions.cpp:1130
-#, fuzzy, kde-format
-#| msgid "Move to &Desktop"
+#, kde-format
 msgid "Peek at Desktop"
 msgstr "Flyt til &skrivebord"
 
@@ -2779,8 +2761,7 @@ msgstr "Aktivér vindue (%1)"
 #: useractions.cpp:1332
 #, kde-format
 msgid ""
-"The window manager is configured to consider the screen with the mouse on it "
-"as active one.\n"
+"The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
 "Vindueshåndteringen er konfigureret til at anse skærmen med musen på som den "
@@ -2838,13 +2819,10 @@ msgstr "(Svarer ikke)"
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
 "what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 "Information til KWin-support:\n"
@@ -2860,6 +2838,9 @@ msgstr ""
 
 #~ msgid "&No Border"
 #~ msgstr "Uden kant"
+
+#~ msgid "Toggle Window Border"
+#~ msgstr ""
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"
@@ -2887,10 +2868,6 @@ msgstr ""
 #~ msgid "The framebuffer device to render to."
 #~ msgstr "Framebuffer-enheder der skal renderes til."
 
-#, fuzzy
-#~| msgid ""
-#~| "Enable libinput support for input events processing. Note: never use in "
-#~| "a nested session."
 #~ msgid ""
 #~ "Enable libinput support for input events processing. Note: never use in a "
 #~ "nested session.\t(deprecated)"
@@ -2916,13 +2893,9 @@ msgstr ""
 #~ msgid "Pack Grow Window Vertically"
 #~ msgstr "Lad vindue vokse lodret og pak"
 
-#, fuzzy
-#~| msgid "Desktop %1"
 #~ msgid "Desktop number"
 #~ msgstr "Skrivebord %1"
 
-#, fuzzy
-#~| msgid "Configure Layouts..."
 #~ msgid "Configure virtual keyboards..."
 #~ msgstr "Indstil layouts..."
 
@@ -2937,11 +2910,6 @@ msgstr ""
 
 #~ msgid "Virtual Keyboard: disabled"
 #~ msgstr "Virtuelt tastatur: Deaktiveret"
-
-#, fuzzy
-#~| msgid "Virtual Keyboard: enabled"
-#~ msgid "No Virtual Keyboard configured"
-#~ msgstr "Virtuelt tastatur: Aktiveret"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
@@ -3034,8 +3002,8 @@ msgstr ""
 #~ msgstr "&Tilknyt som faneblad til"
 
 #~ msgctxt ""
-#~ "Entry in context menu of window decoration to open the configuration "
-#~ "module of KWin"
+#~ "Entry in context menu of window decoration to open the configuration module "
+#~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Indstillinger for vindues&håndtering..."
 
@@ -3054,9 +3022,9 @@ msgstr ""
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
 #~ "OpenGL Desktop Effects at the current resolution<br><br>You can try to "
-#~ "select the XRender backend, but it might be very slow for this resolution "
-#~ "as well.<br>Alternatively, lower the combined resolution of all screens "
-#~ "to %1x%2 "
+#~ "select the XRender backend, but it might be very slow for this resolution as"
+#~ " well.<br>Alternatively, lower the combined resolution of all screens to "
+#~ "%1x%2 "
 #~ msgstr ""
 #~ "<h1>OpenGL-skrivebordseffekter er ikke mulige</h1>Dit systemet kan ikke "
 #~ "udføre OpenGL-skrivebordseffekter ved den aktuelle opløsning<br><br>Du "
@@ -3065,11 +3033,10 @@ msgstr ""
 #~ "opløsning af alle skærme til %1x%2 "
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of "
-#~ "your GPU and is therefore not compatible with the OpenGL compositor."
-#~ "<br>XRender does not know such limitation, but the performance will "
-#~ "usually be impacted by the hardware limitations that restrict the OpenGL "
-#~ "viewport size."
+#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+#~ "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+#~ "does not know such limitation, but the performance will usually be impacted "
+#~ "by the hardware limitations that restrict the OpenGL viewport size."
 #~ msgstr ""
 #~ "Den ønskede opløsning overstiger GL_MAX_VIEWPORT_DIMS-begrænsningen for "
 #~ "din GPU og er derfor ikke kompatibel med OpenGL-compositoren.<br>XRender "
@@ -3077,11 +3044,11 @@ msgstr ""
 #~ "af de hardwarebegrænsninger der begrænser størrelsen på OpenGL-viewporten."
 
 #~ msgid ""
-#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects "
-#~ "at the current resolution are supported but might be exceptionally slow."
-#~ "<br>Also large windows will turn entirely black.<br><br>Consider to "
-#~ "suspend compositing, switch to the XRender backend or lower the "
-#~ "resolution to %1x%1."
+#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+#~ "the current resolution are supported but might be exceptionally "
+#~ "slow.<br>Also large windows will turn entirely black.<br><br>Consider to "
+#~ "suspend compositing, switch to the XRender backend or lower the resolution "
+#~ "to %1x%1."
 #~ msgstr ""
 #~ "<h1>OpenGL-skrivebordseffekter vil måske ikke kunne bruges</h1>OpenGL-"
 #~ "skrivebordseffekter er understøttet ved den aktuelle opløsning, men kan "
@@ -3090,11 +3057,11 @@ msgstr ""
 #~ "eller sænk opløsningen til %1x%1."
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of "
-#~ "your GPU, thus windows of that size cannot be assigned to textures and "
-#~ "will be entirely black.<br>Also this limit will often be a performance "
-#~ "level barrier despite below GL_MAX_VIEWPORT_DIMS, because the driver "
-#~ "might fall back to software rendering in this case."
+#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+#~ "GPU, thus windows of that size cannot be assigned to textures and will be "
+#~ "entirely black.<br>Also this limit will often be a performance level barrier"
+#~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+#~ "software rendering in this case."
 #~ msgstr ""
 #~ "Den ønskede opløsning overstiger GL_MAX_TEXTURE_SIZE-begrænsningen for "
 #~ "din GPU, således kan vinduer af den størrelse ikke tildeles til teksturer "
@@ -3130,14 +3097,12 @@ msgstr ""
 #~ msgstr "Sk&yg"
 
 #~ msgid ""
-#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
-#~ "is set.\n"
+#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
+#~ " set.\n"
 #~ msgstr ""
 #~ "kwin_wayland: Kunne ikke forbinde til Wayland-server, kontrollér at "
 #~ "WAYLAND_DISPLAY er sat.\n"
 
-#, fuzzy
-#~| msgid "The X11 Display to connect to, required if option x-server is used."
 #~ msgid ""
 #~ "The X11 Display to connect to. If not set next free number will be picked."
 #~ msgstr ""
@@ -3160,7 +3125,7 @@ msgstr ""
 #~ msgstr "Diverse"
 
 #~ msgid "Desktop Switching"
-#~ msgstr "Skrivebordsskift"
+#~ msgstr "Skift af skrivebord"
 
 #~ msgid ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
@@ -3170,10 +3135,10 @@ msgstr ""
 #~ "kører. kwin blev ikke startet.\n"
 
 #~ msgid ""
-#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the "
-#~ "application <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish "
-#~ "to terminate the application process <em>including <b>all</b> of its "
-#~ "child windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
+#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
+#~ " <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish to terminate "
+#~ "the application process <em>including <b>all</b> of its child "
+#~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
 #~ msgstr ""
 #~ "<p>Vinduet \"<b>%2</b>\" svarer ikke. Dette vindue tilhører programmet <b>"
 #~ "%1</b> (proces-id = %3, værtsnavn = %4).</p><p>Vil du afslutte "
@@ -3266,8 +3231,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
-#~ "You can disable functionality checks in System Settings (on the Advanced "
-#~ "tab in Desktop Effects)."
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
 #~ "Skrivebordseffekterne var for langsomme og er blevet suspenderet\n"
 #~ "Du kan også deaktivere funktionalitetstjek i Systemindstillinger "
@@ -3275,10 +3239,8 @@ msgstr ""
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
-#~ "If this was only a temporary problem, you can resume using the '%1' "
-#~ "shortcut.\n"
-#~ "You can disable functionality checks in System Settings (on the Advanced "
-#~ "tab in Desktop Effects)."
+#~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
 #~ "Skrivebordseffekterne var for langsomme og er blevet suspenderet.\n"
 #~ "Hvis dette kun var et midlertidigt problem, kan du genoptage med genvejen "
@@ -3476,28 +3438,39 @@ msgstr ""
 #~ msgid "Desktop Screenshot to Clipboard"
 #~ msgstr "Skærmbillede af skrivebordet til udklipsholderen"
 
-#, fuzzy
-#~| msgid "&Move"
+#~ msgid "Toggle Tiling"
+#~ msgstr ""
+
+#~ msgid "Increase Ratio"
+#~ msgstr ""
+
+#~ msgid "Decrease Ratio"
+#~ msgstr ""
+
+#~ msgid "Move Left"
+#~ msgstr ""
+
+#~ msgid "Move Right"
+#~ msgstr ""
+
 #~ msgid "Move Up"
 #~ msgstr "&Flyt"
 
-#, fuzzy
-#~| msgid "Move Window"
 #~ msgid "Move Down"
 #~ msgstr "Flyt vindue"
 
-#, fuzzy
-#~| msgid "Walk Through Windows"
+#~ msgid "Test Dump tiles"
+#~ msgstr ""
+
+#~ msgid "Test Below Cursor"
+#~ msgstr ""
+
 #~ msgid "Walk Through Grouped Windows"
 #~ msgstr "Gå gennem vinduer"
 
-#, fuzzy
-#~| msgid "Walk Through Windows (Reverse)"
 #~ msgid "Walk Through Grouped Windows (Reverse)"
 #~ msgstr "Gå gennem vinduer (baglæns)"
 
-#, fuzzy
-#~| msgid "Switch to Screen 0"
 #~ msgid "Switch to group window"
 #~ msgstr "Skift til skærm 0"
 
@@ -3509,3 +3482,168 @@ msgstr ""
 
 #~ msgid "Keep Running"
 #~ msgstr "Hold kørende"
+
+#~ msgid "Top"
+#~ msgstr "Øverst"
+
+#~ msgid "Bottom"
+#~ msgstr "Nederst"
+
+#~ msgid "Toggle Invert Effect"
+#~ msgstr ""
+
+#~ msgid "Clear All Mouse Marks"
+#~ msgstr ""
+
+#~ msgid "Clear Last Mouse Mark"
+#~ msgstr ""
+
+#~ msgid "Clear Mouse Marks"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Filter:\n"
+#~ "%1"
+#~ msgstr ""
+
+#~ msgid "Snow"
+#~ msgstr ""
+
+#~ msgid "Toggle Snow on Desktop"
+#~ msgstr ""
+
+#~ msgid "Toggle Thumbnail for Current Window"
+#~ msgstr ""
+
+#~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
+#~ msgstr ""
+
+#~ msgid "Path to save video:"
+#~ msgstr ""
+
+#~ msgid "None"
+#~ msgstr "Ingen"
+
+#~ msgid "X offset:"
+#~ msgstr ""
+
+#~ msgid "Y offset:"
+#~ msgstr ""
+
+#~ msgid "Shadow opacity:"
+#~ msgstr ""
+
+#~ msgid "Shadow fuzziness:"
+#~ msgstr ""
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr ""
+
+#~ msgid "Shadow color:"
+#~ msgstr ""
+
+#~ msgid "Active window has stronger shadow"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr ""
+
+#~ msgid "Draw window caption on top of window"
+#~ msgstr ""
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr ""
+
+#~ msgid "for windows on all desktops: "
+#~ msgstr ""
+
+#~ msgid "Animate desktop changes"
+#~ msgstr ""
+
+#~ msgid "Reset opacity to default value"
+#~ msgstr ""
+
+#~ msgid "Slide this to set the window's opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
+#~ " in a $PATH directory."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager crashed twice within a minute and is therefore "
+#~ "disabled for this session."
+#~ msgstr ""
+
+#~ msgid "Composite Manager Failure"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
+#~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
+#~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
+#~ "www.freedesktop.org.<br></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
+#~ "6.8 for translucency and shadows to work.<br>Additionally, you need to add a"
+#~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
+#~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr ""
+
+msgid "Minimize"
+msgstr "Minimer"
+
+msgid "Unmaximize"
+msgstr "Gendan"
+
+msgid "Maximize"
+msgstr "Maksimer"
+
+msgid "Move"
+msgstr "Flyt"
+
+msgid "Resize"
+msgstr "Tilpas størrelse"
+
+msgid "Always on Top"
+msgstr "Altid øverst"
+
+msgid "Always on Visible Workspace"
+msgstr "Altid på synligt arbejdsområde"
+
+msgid "Move to Workspace Left"
+msgstr "Flyt til venstre arbejdsområde"
+
+msgid "Move to Workspace Right"
+msgstr "Flyt til højre arbejdsområde"
+
+msgid "Close"
+msgstr "Luk"
+
+#~ msgid "No Virtual Keyboard configured"
+#~ msgstr "Virtuelt tastatur: Aktiveret"

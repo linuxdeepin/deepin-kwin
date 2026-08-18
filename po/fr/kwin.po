@@ -1,65 +1,49 @@
-# translation of kwin.po to
-# traduction de kwin.po en français
-# translation of kwin.po to Français
-# traduction de kwin.po en Français
-# Traduction de kwin en Français
-# Copyright (C) 2002,2003, 2004, 2005, 2008 Free Software Foundation, Inc.
-# Gérard Delafond <gerard@delafond.org>, 2002, 2003, 2004.
-# Gilles CAULIER <caulier.gilles@free.fr>, 2003.
-# Matthieu Robin <kde@macolu.org>, 2003, 2004.
-# Matthieu Robin <kde@macolu.org>, 2004.
-# Yann Verley <yann.verley@free.fr>, 2004, 2005.
-# Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2005, 2008, 2010.
-# Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008.
-# Anne-Marie Mahfouf <annemarie.mahfouf@free.fr>, 2009, 2011, 2012.
-# xavier <ktranslator31@yahoo.fr>, 2013.
-# Sebastien Renard <renard@kde.org>, 2013, 2014, 2015.
-# Vincent Pinon <vpinon@kde.org>, 2016, 2017.
-# Yoann Laissus <yoann.laissus@gmail.com>, 2017, 2018.
-# Simon Depiets <sdepiets@gmail.com>, 2018, 2019, 2020.
-# Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
-#
-# Xavier BESNARD <xavier.besnard]neuf.fr>, 2022, 2023.
+# translation of kwin.po to British English
+# Copyright (C) 2003, 2004, 2005, 2008 Free Software Foundation, Inc.
+# 
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2008.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Translators:
+# Gary Wang <wzc782970009@gmail.com>, 2025
+# Kristien <kristien@mailo.com>, 2025
+# roxfr, 2025
+# Ldm Public <ldmpub@gmail.com>, 2025
+# Sykhasamann, 2025
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: kwin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 03:03+0000\n"
-"PO-Revision-Date: 2023-01-14 19:43+0100\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
-"Language-Team: fr\n"
-"Language: fr\n"
+"PO-Revision-Date: 2025-06-24 07:00+0000\n"
+"Last-Translator: Sykhasamann, 2025\n"
+"Language-Team: French (https://app.transifex.com/linuxdeepin/teams/3617/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
-"X-Environment: kde\n"
-"X-Accelerator-Marker: &\n"
-"X-Text-Markup: kde4\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
-"Xavier Besnard, François-Xavier Duranceau,Gilles Caulier, Thibaut Cousin, "
-"Gérard Delafond, Yann Verley, Nicolas Ternisien, Sébastien Renard, Simon "
-"Depiets"
+msgstr "Ken Knight, Dwayne Bailey, Steve Allewell"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"xavier.besnard@neuf.fr, duranceau@kde.org, caulier.gilles@free.fr, "
-"cousin@kde.org,gerard@delafond.org, yann.verley@free.fr, nicolas."
-"ternisien@gmail.com,renard@kde.org,sdepiets@gmail.com"
+"anarchist_tomato@herzeleid.net, dwayne@translate.org.za, "
+"steve.allewell@gmail.com"
 
 #: composite.cpp:646
 #, kde-format
 msgid "Desktop effects were restarted due to a graphics reset"
 msgstr ""
-"Les effets de bureau ont été ré-initialisés suite à une ré-initialisation du "
-"module graphique"
+"Les effets du bureau ont été redémarrés en raison d'une réinitialisation "
+"graphique."
 
 #: composite.cpp:875
 #, kde-format
@@ -67,34 +51,34 @@ msgid ""
 "Desktop effects have been suspended by another application.<br/>You can "
 "resume using the '%1' shortcut."
 msgstr ""
-"Les effets de bureau ont été suspendus par une autre application.<br />Vous "
-"pouvez les reprendre en utilisant le raccourci clavier « %1 »."
+"Les effets du bureau ont été désactivés par une autre application. <br/>Vous"
+" pouvez les réactiver à l'aide du raccourci « %1 »."
 
 #: composite.cpp:1064
 #, kde-format
 msgid ""
-"<b>OpenGL compositing (the default) has crashed KWin in the past.</"
-"b><br>This was most likely due to a driver bug.<p>If you think that you have "
-"meanwhile upgraded to a stable driver,<br>you can reset this protection but "
-"<b>be aware that this might result in an immediate crash!</b></p>"
+"<b>OpenGL compositing (the default) has crashed KWin in the "
+"past.</b><br>This was most likely due to a driver bug.<p>If you think that "
+"you have meanwhile upgraded to a stable driver,<br>you can reset this "
+"protection but <b>be aware that this might result in an immediate "
+"crash!</b></p>"
 msgstr ""
-"<b>La composition avec OpenGL (Par défaut) s'est arrêté brutalement KWin par "
-"le passé.</b><br>Ceci était probablement dû à un bogue dans le pilote.<p>Si "
-"vous pensez que vous avez néanmoins mis à jour celui-ci vers une version "
-"stable,<br> vous pouvez réinitialiser cette protection, <b>mais soyez "
-"conscient que cela peut aboutir à un plantage immédiat !</b></p>"
+"<b>La composition OpenGL (par défaut) a déjà provoqué le plantage de KWin "
+"par le passé.</b><br>Cela était très probablement dû à un bogue du "
+"pilote.<p>Si vous pensez avoir entre-temps mis à jour votre pilote vers une "
+"version stable,<br>vous pouvez réinitialiser cette protection, mais<b>sachez"
+" que cela pourrait entraîner un crash immédiat !</b></p>"
 
 #: composite.cpp:1071
 #, kde-format
 msgid "Required X extensions (XComposite and XDamage) are not available."
 msgstr ""
-"Les extensions X (« XComposite » et « XDamage ») nécessaires ne sont pas "
-"disponibles."
+"Les extensions X requises (XComposite et XDamage) ne sont pas disponibles."
 
 #: composite.cpp:1074
 #, kde-format
 msgid "GLX/OpenGL is not available."
-msgstr "L'extension « GLX / OpenGL » n'est pas disponible."
+msgstr "GLX/OpenGL n'est pas disponible."
 
 #: debug_console.cpp:79 debug_console.cpp:84
 #, kde-format
@@ -128,13 +112,13 @@ msgstr "Milieu"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Back"
-msgstr "Précédent"
+msgstr "Retour"
 
 #: debug_console.cpp:109
 #, kde-format
 msgctxt "A mouse button"
 msgid "Forward"
-msgstr "Suivant"
+msgstr "En avant"
 
 #: debug_console.cpp:111
 #, kde-format
@@ -248,7 +232,7 @@ msgstr "Bouton supplémentaire 20"
 #, kde-format
 msgctxt "A mouse button"
 msgid "Extra Button 21"
-msgstr "Bouton supplémentaire 1"
+msgstr "Bouton supplémentaire 21"
 
 #: debug_console.cpp:149
 #, kde-format
@@ -307,7 +291,7 @@ msgstr "Position globale"
 #, kde-format
 msgctxt "A mouse pointer button press event"
 msgid "Pointer Button Press"
-msgstr "Appui du bouton de pointeur"
+msgstr "Bouton de pointeur enfoncé"
 
 #: debug_console.cpp:218 debug_console.cpp:226
 #, kde-format
@@ -325,13 +309,13 @@ msgstr "Code natif du bouton"
 #, kde-format
 msgctxt "All currently pressed buttons in a mouse press/release event"
 msgid "Pressed Buttons"
-msgstr "Bouton appuyé"
+msgstr "Boutons enfoncés"
 
 #: debug_console.cpp:223
 #, kde-format
 msgctxt "A mouse pointer button release event"
 msgid "Pointer Button Release"
-msgstr "Libération du bouton de pointeur"
+msgstr "Relâchement du bouton du pointeur"
 
 #: debug_console.cpp:243
 #, kde-format
@@ -349,13 +333,13 @@ msgstr "Orientation"
 #, kde-format
 msgctxt "An orientation of a pointer axis event"
 msgid "Horizontal"
-msgstr "Horizontal"
+msgstr "Horizontale"
 
 #: debug_console.cpp:249
 #, kde-format
 msgctxt "An orientation of a pointer axis event"
 msgid "Vertical"
-msgstr "Vertical"
+msgstr "Verticale"
 
 #: debug_console.cpp:250
 #, kde-format
@@ -1137,7 +1121,7 @@ msgstr "Utilitaire d'aide de KWin"
 #: helpers/killer/killer.cpp:74
 #, kde-format
 msgid "This helper utility is not supposed to be called directly."
-msgstr "Cet utilitaire d'assistant n'est pas supposé être appelé directement."
+msgstr "Cet utilitaire d'aide n'est pas censé être appelé directement."
 
 #: helpers/killer/killer.cpp:84
 #, kde-format
@@ -1171,9 +1155,9 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"<para>Do you want to terminate this application?</"
-"para><para><warning>Terminating the application will close all of its child "
-"windows. Any unsaved data will be lost.</warning></para>"
+"<para>Do you want to terminate this "
+"application?</para><para><warning>Terminating the application will close all"
+" of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
 "<para>Voulez-vous fermer cette application ? </para><para><warning> La "
 "fermeture de l'application fermera toutes les fenêtres filles. Toutes les "
@@ -1295,8 +1279,7 @@ msgstr "Démarrer un serveur Xwayland rootless."
 
 #: main_wayland.cpp:316
 #, kde-format
-msgid ""
-"Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
+msgid "Name of the Wayland socket to listen on. If not set \"wayland-0\" is used."
 msgstr ""
 "Nom du socket Wayland sur lequel écouter. Si non défini, « wayland-0 » sera "
 "utilisé."
@@ -1335,15 +1318,16 @@ msgstr "L'échelle du mode fenêtré. Par défaut à 1."
 #: main_wayland.cpp:340
 #, kde-format
 msgid ""
-"The number of windows to open as outputs in windowed mode. Default value is 1"
+"The number of windows to open as outputs in windowed mode. Default value is "
+"1"
 msgstr ""
 "Le nombre de fenêtres à ouvrir en sortie en mode fenêtré. Par défaut 1."
 
 #: main_wayland.cpp:345
 #, kde-format
 msgid ""
-"Wayland socket to use for incoming connections. This can be combined with --"
-"socket to name the socket"
+"Wayland socket to use for incoming connections. This can be combined with "
+"--socket to name the socket"
 msgstr ""
 "Le socket « Wayland » à utiliser pour les connexions entrantes. Ceci peut "
 "être combiné avec le paramètre « --socket » pour nommer le socket."
@@ -1439,8 +1423,8 @@ msgstr ""
 #: main_x11.cpp:259
 #, kde-format
 msgid ""
-"kwin: unable to claim manager selection, another wm running? (try using --"
-"replace)\n"
+"kwin: unable to claim manager selection, another wm running? (try using "
+"--replace)\n"
 msgstr ""
 "KWin : impossible d'obtenir la sélection du gestionnaire, un autre "
 "gestionnaire de fenêtres est il en fonctionnement ? (essayez d'utiliser « --"
@@ -1646,7 +1630,8 @@ msgstr "Liste ordonnées de groupes de règles"
 msgid "Rule description"
 msgstr "Description d'une règle"
 
-#. i18n: ectx: label, entry (descriptionLegacy), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (descriptionLegacy), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:13
 #, kde-format
 msgid "Rule description (legacy)"
@@ -1670,7 +1655,8 @@ msgstr "Classe de fenêtre (application)"
 msgid "Window class string match type"
 msgstr "Type de correspondance par chaîne avec la classe de la fenêtre "
 
-#. i18n: ectx: label, entry (wmclasscomplete), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (wmclasscomplete), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:29
 #, kde-format
 msgid "Match whole window class"
@@ -1682,7 +1668,8 @@ msgstr "Faire correspondre avec toute classe de fenêtre complète"
 msgid "Window role"
 msgstr "Rôle de fenêtre"
 
-#. i18n: ectx: label, entry (windowrolematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (windowrolematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:37
 #, kde-format
 msgid "Window role string match type"
@@ -1700,13 +1687,15 @@ msgstr "Titre de fenêtre"
 msgid "Window title string match type"
 msgstr "Type de correspondance par chaîne avec le titre de la fenêtre"
 
-#. i18n: ectx: label, entry (clientmachine), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachine), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:54
 #, kde-format
 msgid "Machine (hostname)"
 msgstr "Ordinateur (nom d'hôte)"
 
-#. i18n: ectx: label, entry (clientmachinematch), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (clientmachinematch), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:57
 #, kde-format
 msgid "Machine string match type"
@@ -1724,7 +1713,8 @@ msgstr "Types de fenêtres correspondants"
 msgid "Initial placement"
 msgstr "Placement initial"
 
-#. i18n: ectx: label, entry (placementrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (placementrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:74
 #, kde-format
 msgid "Initial placement rule type"
@@ -1778,37 +1768,43 @@ msgstr "Type de règles sur la taille maximale de fenêtre"
 msgid "Window maximum size rule type"
 msgstr "Type de règles sur la taille maximale de fenêtre"
 
-#. i18n: ectx: label, entry (opacityactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:118
 #, kde-format
 msgid "Active opacity"
 msgstr "Opacité active"
 
-#. i18n: ectx: label, entry (opacityactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:124
 #, kde-format
 msgid "Active opacity rule type"
 msgstr "Type de règle sur l'opacité active"
 
-#. i18n: ectx: label, entry (opacityinactive), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactive), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:129
 #, kde-format
 msgid "Inactive opacity"
 msgstr "Opacité inactive"
 
-#. i18n: ectx: label, entry (opacityinactiverule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (opacityinactiverule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:135
 #, kde-format
 msgid "Inactive opacity rule type"
 msgstr "Type de règle sur l'opacité inactive"
 
-#. i18n: ectx: label, entry (ignoregeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:140
 #, kde-format
 msgid "Ignore requested geometry"
 msgstr "Ignorer la géométrie demandée"
 
-#. i18n: ectx: label, entry (ignoregeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (ignoregeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:144
 #, kde-format
 msgid "Ignore requested geometry rule type"
@@ -1868,19 +1864,22 @@ msgstr "Définir un type de règle sur le type de fenêtre"
 msgid "Maximized vertically"
 msgstr "Maximiser verticalement"
 
-#. i18n: ectx: label, entry (maximizevertrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizevertrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:198
 #, kde-format
 msgid "Maximized vertically rule type"
 msgstr "Type de règle pour maximiser verticalement"
 
-#. i18n: ectx: label, entry (maximizehoriz), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehoriz), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:205
 #, kde-format
 msgid "Maximized horizontally"
 msgstr "Maximiser horizontalement"
 
-#. i18n: ectx: label, entry (maximizehorizrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (maximizehorizrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:209
 #, kde-format
 msgid "Maximized horizontally rule type"
@@ -1916,7 +1915,8 @@ msgstr "Type de règle sur l'ombrage"
 msgid "Skip taskbar"
 msgstr "Ignorer la barre de tâches"
 
-#. i18n: ectx: label, entry (skiptaskbarrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skiptaskbarrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:242
 #, kde-format
 msgid "Skip taskbar rule type"
@@ -1928,7 +1928,8 @@ msgstr "Ignorer le type de règle sur la barre de tâches"
 msgid "Skip pager"
 msgstr "Ignorer la pagination"
 
-#. i18n: ectx: label, entry (skippagerrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skippagerrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:253
 #, kde-format
 msgid "Skip pager rule type"
@@ -1940,7 +1941,8 @@ msgstr "Ignorer le type de règle sur la pagination"
 msgid "Skip switcher"
 msgstr "Ignorer le changeur de tâches"
 
-#. i18n: ectx: label, entry (skipswitcherrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (skipswitcherrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:264
 #, kde-format
 msgid "Skip switcher rule type"
@@ -1976,7 +1978,8 @@ msgstr "Type de règle pour conserver en dessous"
 msgid "Fullscreen"
 msgstr "Plein écran"
 
-#. i18n: ectx: label, entry (fullscreenrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (fullscreenrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:297
 #, kde-format
 msgid "Fullscreen rule type"
@@ -2000,19 +2003,22 @@ msgstr "Aucun type de règle de barre de titre"
 msgid "Titlebar color and scheme"
 msgstr "Couleur et thème pour la barre de titre"
 
-#. i18n: ectx: label, entry (decocolorrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (decocolorrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:318
 #, kde-format
 msgid "Titlebar color rule type"
 msgstr "Type de règle de couleur de barre de titre"
 
-#. i18n: ectx: label, entry (blockcompositing), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositing), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:323
 #, kde-format
 msgid "Block Compositing"
 msgstr "Composition par blocs"
 
-#. i18n: ectx: label, entry (blockcompositingrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (blockcompositingrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:327
 #, kde-format
 msgid "Block Compositing rule type"
@@ -2048,7 +2054,8 @@ msgstr "Type de règle pour la protection du focus"
 msgid "Accept Focus"
 msgstr "Accepter le focus"
 
-#. i18n: ectx: label, entry (acceptfocusrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (acceptfocusrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:358
 #, kde-format
 msgid "Accept Focus rule type"
@@ -2060,7 +2067,8 @@ msgstr "Accepter un type de règle pour le focus"
 msgid "Closeable"
 msgstr "Pouvant être fermé"
 
-#. i18n: ectx: label, entry (closeablerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (closeablerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:367
 #, kde-format
 msgid "Closeable rule type"
@@ -2072,7 +2080,8 @@ msgstr "Type de règle sur la fermeture"
 msgid "Autogroup with identical"
 msgstr "Regrouper automatiquement de façon identique"
 
-#. i18n: ectx: label, entry (autogrouprule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogrouprule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:376
 #, kde-format
 msgid "Autogroup with identical rule type"
@@ -2084,7 +2093,8 @@ msgstr "Regrouper automatiquement avec un type de règle identique"
 msgid "Autogroup in foreground"
 msgstr "Regroupement automatique à l'arrière plan"
 
-#. i18n: ectx: label, entry (autogroupfgrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupfgrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:385
 #, kde-format
 msgid "Autogroup in foreground rule type"
@@ -2096,19 +2106,22 @@ msgstr "Regroupement automatique par type de règle d'arrière plan"
 msgid "Autogroup by ID"
 msgstr "Regroupement automatique par identifiant"
 
-#. i18n: ectx: label, entry (autogroupidrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (autogroupidrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:393
 #, kde-format
 msgid "Autogroup by ID rule type"
 msgstr "Regroupement automatique par type de règle d'identifiant"
 
-#. i18n: ectx: label, entry (strictgeometry), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometry), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:398
 #, kde-format
 msgid "Obey geometry restrictions"
 msgstr "Se conformer aux restrictions géométriques"
 
-#. i18n: ectx: label, entry (strictgeometryrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (strictgeometryrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:402
 #, kde-format
 msgid "Obey geometry restrictions rule type"
@@ -2126,13 +2139,15 @@ msgstr "Raccourci"
 msgid "Shortcut rule type"
 msgstr "Type de règle de raccourcis"
 
-#. i18n: ectx: label, entry (disableglobalshortcuts), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcuts), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:417
 #, kde-format
 msgid "Ignore global shortcuts"
 msgstr "Ignorer les raccourcis globaux"
 
-#. i18n: ectx: label, entry (disableglobalshortcutsrule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (disableglobalshortcutsrule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:421
 #, kde-format
 msgid "Ignore global shortcuts rule type"
@@ -2144,7 +2159,8 @@ msgstr "Ignorer le type de règle pour raccourcis globaux"
 msgid "Desktop file name"
 msgstr "Nom du fichier de bureau"
 
-#. i18n: ectx: label, entry (desktopfilerule), group ($(ruleDescriptionOrNumber))
+#. i18n: ectx: label, entry (desktopfilerule), group
+#. ($(ruleDescriptionOrNumber))
 #: rulesettings.kcfg:429
 #, kde-format
 msgid "Desktop file name rule type"
@@ -2189,19 +2205,19 @@ msgstr "Afficher un bureau"
 
 #: tabbox/tabbox.cpp:521
 msgid "Walk Through Windows"
-msgstr "Naviguer parmi les fenêtres"
+msgstr "Traverser les fenêtres"
 
 #: tabbox/tabbox.cpp:522
 msgid "Walk Through Windows (Reverse)"
-msgstr "Naviguer parmi les fenêtres (en ordre inverse)"
+msgstr "Traverser les fenêtres (à l'envers)"
 
 #: tabbox/tabbox.cpp:523
 msgid "Walk Through Windows Alternative"
-msgstr "Naviguer parmi les alternatives de fenêtres"
+msgstr "Alternative pour traverser les fenêtre"
 
 #: tabbox/tabbox.cpp:524
 msgid "Walk Through Windows Alternative (Reverse)"
-msgstr "Naviguer parmi les alternatives de fenêtres (en ordre inverse)"
+msgstr "Alternative pour traverser les fenêtres (à l'envers)"
 
 #: tabbox/tabbox.cpp:525
 msgid "Walk Through Windows of Current Application"
@@ -2252,9 +2268,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window without its border.\n"
-"Without the border, you will not be able to enable the border again using "
-"the mouse: use the window operations menu instead, activated using the %1 "
-"keyboard shortcut."
+"Without the border, you will not be able to enable the border again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Vous avez choisi d'afficher une fenêtre sans sa bordure.\n"
 "Sans la bordure, vous ne pourrez plus retrouver la bordure au moyen de la "
@@ -2265,9 +2279,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "You have selected to show a window in fullscreen mode.\n"
-"If the application itself does not have an option to turn the fullscreen "
-"mode off you will not be able to disable it again using the mouse: use the "
-"window operations menu instead, activated using the %1 keyboard shortcut."
+"If the application itself does not have an option to turn the fullscreen mode off you will not be able to disable it again using the mouse: use the window operations menu instead, activated using the %1 keyboard shortcut."
 msgstr ""
 "Vous avez choisi d'afficher une fenêtre en mode « Plein écran ».\n"
 "Si l'application elle-même n'a pas d'option pour annuler le mode « Plein "
@@ -2779,8 +2791,7 @@ msgstr "Activer la fenêtre (%1)"
 #: useractions.cpp:1332
 #, kde-format
 msgid ""
-"The window manager is configured to consider the screen with the mouse on it "
-"as active one.\n"
+"The window manager is configured to consider the screen with the mouse on it as active one.\n"
 "Therefore it is not possible to switch to a screen explicitly."
 msgstr ""
 "Le gestionnaire de fenêtres est configuré pour considérer l'écran actif "
@@ -2838,13 +2849,10 @@ msgstr "(Ne répond plus)"
 msgctxt "Introductory text shown in the support information."
 msgid ""
 "KWin Support Information:\n"
-"The following information should be used when requesting support on e.g. "
-"https://forum.kde.org.\n"
-"It provides information about the currently running instance, which options "
-"are used,\n"
+"The following information should be used when requesting support on e.g. https://forum.kde.org.\n"
+"It provides information about the currently running instance, which options are used,\n"
 "what OpenGL driver and which effects are running.\n"
-"Please post the information provided underneath this introductory text to a "
-"paste bin service\n"
+"Please post the information provided underneath this introductory text to a paste bin service\n"
 "like https://paste.kde.org instead of pasting into support threads.\n"
 msgstr ""
 "Informations de prise en charge sur KWin :\n"
@@ -2935,9 +2943,6 @@ msgstr ""
 #~ msgid "Virtual Keyboard: disabled"
 #~ msgstr "Clavier virtuel : désactivé"
 
-#~ msgid "No Virtual Keyboard configured"
-#~ msgstr "Aucun clavier virtuel configuré"
-
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
 #~ msgstr "Vérification échouée : %1 n'est pas null"
@@ -2971,7 +2976,7 @@ msgstr ""
 #~ msgstr "%1 n'est pas de type variant"
 
 #~ msgid "Pressed Buttons"
-#~ msgstr "Boutons appuyés"
+#~ msgstr "Boutons enfoncés"
 
 #~ msgid "Use libhybris hwcomposer"
 #~ msgstr "Utiliser le compositeur libhybris"
@@ -2987,11 +2992,11 @@ msgstr ""
 
 #~ msgctxt "Portrait oriented display"
 #~ msgid "Vertical"
-#~ msgstr "Vertical"
+#~ msgstr "Verticale"
 
 #~ msgctxt "Landscape oriented display"
 #~ msgid "Horizontal"
-#~ msgstr "Horizontal"
+#~ msgstr "Horizontale"
 
 #~ msgid "Automatic screen rotation is disabled"
 #~ msgstr "La rotation automatique de l'écran est désactivée"
@@ -3030,8 +3035,8 @@ msgstr ""
 #~ msgstr "&Attacher comme onglet à"
 
 #~ msgctxt ""
-#~ "Entry in context menu of window decoration to open the configuration "
-#~ "module of KWin"
+#~ "Entry in context menu of window decoration to open the configuration module "
+#~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
 #~ msgstr "Réglages du g&estionnaire de fenêtres..."
 
@@ -3052,9 +3057,9 @@ msgstr ""
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
 #~ "OpenGL Desktop Effects at the current resolution<br><br>You can try to "
-#~ "select the XRender backend, but it might be very slow for this resolution "
-#~ "as well.<br>Alternatively, lower the combined resolution of all screens "
-#~ "to %1x%2 "
+#~ "select the XRender backend, but it might be very slow for this resolution as"
+#~ " well.<br>Alternatively, lower the combined resolution of all screens to "
+#~ "%1x%2 "
 #~ msgstr ""
 #~ "<h1>Effets de bureau OpenGL desktop impossibles</h1> Votre système ne "
 #~ "peut exécuter les effets de bureau OpenGL avec la résolution "
@@ -3064,11 +3069,10 @@ msgstr ""
 #~ "%1 x %2"
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of "
-#~ "your GPU and is therefore not compatible with the OpenGL compositor."
-#~ "<br>XRender does not know such limitation, but the performance will "
-#~ "usually be impacted by the hardware limitations that restrict the OpenGL "
-#~ "viewport size."
+#~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
+#~ "GPU and is therefore not compatible with the OpenGL compositor.<br>XRender "
+#~ "does not know such limitation, but the performance will usually be impacted "
+#~ "by the hardware limitations that restrict the OpenGL viewport size."
 #~ msgstr ""
 #~ "La résolution demandée dépasse les limitations « GL_MAX_VIEWPORT_DIMS » "
 #~ "de votre processeur graphique et est donc non compatible avec le module "
@@ -3077,11 +3081,11 @@ msgstr ""
 #~ "limitations du matériel, réduisant la taille de la fenêtre OpenGL."
 
 #~ msgid ""
-#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects "
-#~ "at the current resolution are supported but might be exceptionally slow."
-#~ "<br>Also large windows will turn entirely black.<br><br>Consider to "
-#~ "suspend compositing, switch to the XRender backend or lower the "
-#~ "resolution to %1x%1."
+#~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
+#~ "the current resolution are supported but might be exceptionally "
+#~ "slow.<br>Also large windows will turn entirely black.<br><br>Consider to "
+#~ "suspend compositing, switch to the XRender backend or lower the resolution "
+#~ "to %1x%1."
 #~ msgstr ""
 #~ "<h1>Les effets de bureau OpenGL peuvent être inutilisables</h1>Les effets "
 #~ "de bureau OpenGL avec la résolution actuelles sont pris en charge mais "
@@ -3091,11 +3095,11 @@ msgstr ""
 #~ "résolution à %1 x %1."
 
 #~ msgid ""
-#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of "
-#~ "your GPU, thus windows of that size cannot be assigned to textures and "
-#~ "will be entirely black.<br>Also this limit will often be a performance "
-#~ "level barrier despite below GL_MAX_VIEWPORT_DIMS, because the driver "
-#~ "might fall back to software rendering in this case."
+#~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
+#~ "GPU, thus windows of that size cannot be assigned to textures and will be "
+#~ "entirely black.<br>Also this limit will often be a performance level barrier"
+#~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
+#~ "software rendering in this case."
 #~ msgstr ""
 #~ "La résolution demandée dépasse la limitation « GL_MAX_TEXTURE_SIZE » de "
 #~ "votre processeur graphique. Ainsi, les fenêtres de cette taille ne "
@@ -3103,9 +3107,6 @@ msgstr ""
 #~ "Cette limite sera aussi souvent une barrière pour le niveau de "
 #~ "performances, même si en dessous de « GL_MAX_VIEWPORT_DIMS », car le "
 #~ "pilote pourrait revenir dans ce cas à un rendu logiciel."
-
-#~ msgid "Form"
-#~ msgstr "Formulaire"
 
 #~ msgid "Use a nested compositor in windowed mode."
 #~ msgstr "Utiliser un compositeur imbriqué en mode fenêtré."
@@ -3135,8 +3136,8 @@ msgstr ""
 #~ msgstr "E&nrouler / Dérouler"
 
 #~ msgid ""
-#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY "
-#~ "is set.\n"
+#~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
+#~ " set.\n"
 #~ msgstr ""
 #~ "kwin_wayland : impossible de se connecter au serveur Wayland. Vérifiez "
 #~ "que WAYLAND_DISPLAY est défini.\n"
@@ -3173,55 +3174,10 @@ msgstr ""
 #~ "actuellement. KWin n'a donc pas démarré.\n"
 
 #~ msgid ""
-#~ "Defines whether windows from the current desktop or from all desktops are "
-#~ "included. Default:OnlyCurrentDesktopClients"
-#~ msgstr ""
-#~ "Définit si les fenêtres du bureau actuel ou de tous les bureaux sont "
-#~ "prises en compte. Par défaut = OnlyCurrentDesktopClients"
-
-#~ msgid ""
-#~ "Defines whether windows from the current activity or from all activities "
-#~ "are included.Default:OnlyCurrentActivityClients"
-#~ msgstr ""
-#~ "Définit si les fenêtres de l'activité actuelle ou de toutes les activités "
-#~ "sont prises en compte. Par défaut = OnlyCurrentActivityClients"
-
-#~ msgid ""
-#~ "Defines which windows from the current application or from all "
-#~ "applications are included.Default:AllWindowsAllApplications"
-#~ msgstr ""
-#~ "Définit si les fenêtres de l'application actuelle ou de toutes les "
-#~ "applications sont prises en compte. Par défaut = AllWindowsAllApplications"
-
-#~ msgid ""
-#~ "Defines which windows are included based on whether they are minimized or "
-#~ "not.Default:IgnoreMinimizedStatus"
-#~ msgstr ""
-#~ "Définit quelles fenêtres sont prises en compte, selon qu'elles ont été "
-#~ "réduites ou pas. Par défaut = IgnoreMinimizedStatus"
-
-#~ msgid ""
-#~ "Defines whether a TabBoxClient representing the desktop is included."
-#~ "Default:DoNotShowDesktopClient"
-#~ msgstr ""
-#~ "Définit si un onglet TabBoxClient représentant le bureau est pris en "
-#~ "compte. Par défaut = DoNotShowDesktopClient"
-
-#~ msgid "Default:IgnoreMultiScreen"
-#~ msgstr "Défaut = IgnoreMultiScreen"
-
-#~ msgid ""
-#~ "Defines the sorting of the TabBoxClients in the TabBoxClientModel.Default:"
-#~ "FocusChainSwitching"
-#~ msgstr ""
-#~ "Définit le tri des TabBoxClients dans le TabBoxClientModel. Par défaut = "
-#~ "FocusChainSwitching"
-
-#~ msgid ""
-#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the "
-#~ "application <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish "
-#~ "to terminate the application process <em>including <b>all</b> of its "
-#~ "child windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
+#~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
+#~ " <b>%1</b> (Process ID = %3, hostname = %4).</p><p>Do you wish to terminate "
+#~ "the application process <em>including <b>all</b> of its child "
+#~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
 #~ msgstr ""
 #~ "<p>La fenêtre nommée « <b>%2</b> » ne répond pas. Cette fenêtre "
 #~ "correspond à l'application <b>%1</b> (identifiant : %3, machine %4).</"
@@ -3315,8 +3271,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
-#~ "You can disable functionality checks in System Settings (on the Advanced "
-#~ "tab in Desktop Effects)."
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
 #~ "Les effets du bureau étaient trop lents et ont été suspendus.\n"
 #~ "Vous pouvez désactiver la vérification des fonctionnalités dans la "
@@ -3324,10 +3279,8 @@ msgstr ""
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
-#~ "If this was only a temporary problem, you can resume using the '%1' "
-#~ "shortcut.\n"
-#~ "You can disable functionality checks in System Settings (on the Advanced "
-#~ "tab in Desktop Effects)."
+#~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
+#~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
 #~ "Les effets du bureau étaient trop lents et ont été suspendus.\n"
 #~ "Si ce n'est qu'un problème temporaire, vous pouvez reprendre leur "
@@ -3529,43 +3482,39 @@ msgstr ""
 #~ msgid "Desktop Screenshot to Clipboard"
 #~ msgstr "Capture du bureau dans le presse-papiers"
 
-#, fuzzy
-#~| msgid "Toggle Video Recording"
 #~ msgid "Toggle Tiling"
 #~ msgstr "Activer / Désactiver l'enregistrement vidéo"
 
-#, fuzzy
-#~| msgid "Left"
+#~ msgid "Increase Ratio"
+#~ msgstr ""
+
+#~ msgid "Decrease Ratio"
+#~ msgstr ""
+
 #~ msgid "Move Left"
 #~ msgstr "Gauche"
 
-#, fuzzy
-#~| msgid "Right"
 #~ msgid "Move Right"
 #~ msgstr "Droite"
 
-#, fuzzy
-#~| msgid "&Move"
 #~ msgid "Move Up"
 #~ msgstr "&Déplacer"
 
-#, fuzzy
-#~| msgid "Move Window"
 #~ msgid "Move Down"
 #~ msgstr "Déplacer la fenêtre"
 
-#, fuzzy
-#~| msgid "Walk Through Windows"
+#~ msgid "Test Dump tiles"
+#~ msgstr ""
+
+#~ msgid "Test Below Cursor"
+#~ msgstr ""
+
 #~ msgid "Walk Through Grouped Windows"
 #~ msgstr "Circuler parmi les fenêtres"
 
-#, fuzzy
-#~| msgid "Walk Through Windows (Reverse)"
 #~ msgid "Walk Through Grouped Windows (Reverse)"
 #~ msgstr "Circuler parmi les fenêtres (en ordre inverse)"
 
-#, fuzzy
-#~| msgid "Switch to Screen 0"
 #~ msgid "Switch to group window"
 #~ msgstr "Aller sur l'écran 0"
 
@@ -3578,34 +3527,14 @@ msgstr ""
 #~ msgid "Keep Running"
 #~ msgstr "Laisser démarré"
 
-#~ msgctxt "@title:tab Basic Settings"
-#~ msgid "Basic"
-#~ msgstr "Basique"
-
-#~ msgctxt "@title:tab Advanced Settings"
-#~ msgid "Advanced"
-#~ msgstr "Avancé"
-
 #~ msgid "Top"
-#~ msgstr "En haut"
-
-#~ msgid "Bottom-Right"
-#~ msgstr "En bas à droite"
+#~ msgstr "Haut"
 
 #~ msgid "Bottom"
 #~ msgstr "Bas"
 
-#~ msgid "Bottom-Left"
-#~ msgstr "En bas à gauche"
-
-#~ msgid "Center"
-#~ msgstr "Centre"
-
 #~ msgid "Toggle Invert Effect"
 #~ msgstr "Activer/désactiver l'effet d'inversion"
-
-#~ msgid "Toggle Invert Effect on Window"
-#~ msgstr "Activer/désactiver l'effet d'inversion sur les fenêtres"
 
 #~ msgid "Clear All Mouse Marks"
 #~ msgstr "Effacer toutes les traces de souris"
@@ -3616,22 +3545,12 @@ msgstr ""
 #~ msgid "Clear Mouse Marks"
 #~ msgstr "Effacer les traces de souris"
 
-#~ msgid "Toggle Present Windows (Current desktop)"
-#~ msgstr "Activer/désactiver les fenêtres présentes (bureau actuel)"
-
-#~ msgid "Toggle Present Windows (All desktops)"
-#~ msgstr "Activer/désactiver les fenêtres présentes (tous les bureaux)"
-
 #~ msgid ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
 #~ "Filtre :\n"
 #~ "%1"
-
-#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
-#~ msgid "Toggle Sharpen Effect"
-#~ msgstr "Activer/désactiver l'effet d'accentuation"
 
 #~ msgid "Snow"
 #~ msgstr "Neige"
@@ -3649,3 +3568,208 @@ msgstr ""
 
 #~ msgid "Path to save video:"
 #~ msgstr "Emplacement pour enregistrer la vidéo :"
+
+#~ msgid "None"
+#~ msgstr "Aucun"
+
+#~ msgid "X offset:"
+#~ msgstr ""
+
+#~ msgid "Y offset:"
+#~ msgstr ""
+
+#~ msgid "Shadow opacity:"
+#~ msgstr ""
+
+#~ msgid "Shadow fuzziness:"
+#~ msgstr ""
+
+#~ msgid "Shadow size (relative to window):"
+#~ msgstr ""
+
+#~ msgid "Shadow color:"
+#~ msgstr ""
+
+#~ msgid "Active window has stronger shadow"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect"
+#~ msgstr ""
+
+#~ msgid "Toggle Expose Effect (incl. other desktops)"
+#~ msgstr ""
+
+#~ msgid "Draw window caption on top of window"
+#~ msgstr ""
+
+#~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
+#~ msgstr ""
+
+#~ msgid "for windows on all desktops: "
+#~ msgstr ""
+
+#~ msgid "Animate desktop changes"
+#~ msgstr ""
+
+#~ msgid "Reset opacity to default value"
+#~ msgstr ""
+
+#~ msgid "Slide this to set the window's opacity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
+#~ " in a $PATH directory."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Composite Manager crashed twice within a minute and is therefore "
+#~ "disabled for this session."
+#~ msgstr ""
+
+#~ msgid "Composite Manager Failure"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
+#~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
+#~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
+#~ "www.freedesktop.org.<br></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
+#~ "6.8 for translucency and shadows to work.<br>Additionally, you need to add a"
+#~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
+#~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
+#~ "for translucency and shadows to work.</qt>"
+#~ msgstr ""
+
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr ""
+
+msgid "Minimize"
+msgstr "Réduire"
+
+msgid "Unmaximize"
+msgstr "Restaurer"
+
+msgid "Maximize"
+msgstr "Agrandir"
+
+msgid "Move"
+msgstr "Déplacer"
+
+msgid "Resize"
+msgstr "Redimensionner"
+
+msgid "Always on Top"
+msgstr "Toujours au-dessus"
+
+msgid "Always on Visible Workspace"
+msgstr "Toujours sur l'espace de travail visible"
+
+msgid "Move to Workspace Left"
+msgstr "Déplacer vers l'espace de travail à gauche"
+
+msgid "Move to Workspace Right"
+msgstr "Déplacer vers l'espace de travail à droite"
+
+msgid "Close"
+msgstr "Fermer"
+
+#~ msgid "No Virtual Keyboard configured"
+#~ msgstr "Aucun clavier virtuel configuré"
+
+#~ msgid "Form"
+#~ msgstr "Formulaire"
+
+#~ msgid ""
+#~ "Defines whether windows from the current desktop or from all desktops are "
+#~ "included. Default:OnlyCurrentDesktopClients"
+#~ msgstr ""
+#~ "Définit si les fenêtres du bureau actuel ou de tous les bureaux sont "
+#~ "prises en compte. Par défaut = OnlyCurrentDesktopClients"
+
+#~ msgid ""
+#~ "Defines whether windows from the current activity or from all activities "
+#~ "are included.Default:OnlyCurrentActivityClients"
+#~ msgstr ""
+#~ "Définit si les fenêtres de l'activité actuelle ou de toutes les activités "
+#~ "sont prises en compte. Par défaut = OnlyCurrentActivityClients"
+
+#~ msgid ""
+#~ "Defines which windows from the current application or from all "
+#~ "applications are included.Default:AllWindowsAllApplications"
+#~ msgstr ""
+#~ "Définit si les fenêtres de l'application actuelle ou de toutes les "
+#~ "applications sont prises en compte. Par défaut = AllWindowsAllApplications"
+
+#~ msgid ""
+#~ "Defines which windows are included based on whether they are minimized or "
+#~ "not.Default:IgnoreMinimizedStatus"
+#~ msgstr ""
+#~ "Définit quelles fenêtres sont prises en compte, selon qu'elles ont été "
+#~ "réduites ou pas. Par défaut = IgnoreMinimizedStatus"
+
+#~ msgid ""
+#~ "Defines whether a TabBoxClient representing the desktop is included."
+#~ "Default:DoNotShowDesktopClient"
+#~ msgstr ""
+#~ "Définit si un onglet TabBoxClient représentant le bureau est pris en "
+#~ "compte. Par défaut = DoNotShowDesktopClient"
+
+#~ msgid "Default:IgnoreMultiScreen"
+#~ msgstr "Défaut = IgnoreMultiScreen"
+
+#~ msgid ""
+#~ "Defines the sorting of the TabBoxClients in the TabBoxClientModel.Default:"
+#~ "FocusChainSwitching"
+#~ msgstr ""
+#~ "Définit le tri des TabBoxClients dans le TabBoxClientModel. Par défaut = "
+#~ "FocusChainSwitching"
+
+#~ msgctxt "@title:tab Basic Settings"
+#~ msgid "Basic"
+#~ msgstr "Basique"
+
+#~ msgctxt "@title:tab Advanced Settings"
+#~ msgid "Advanced"
+#~ msgstr "Avancé"
+
+#~ msgid "Bottom-Right"
+#~ msgstr "En bas à droite"
+
+#~ msgid "Bottom-Left"
+#~ msgstr "En bas à gauche"
+
+#~ msgid "Center"
+#~ msgstr "Centre"
+
+#~ msgid "Toggle Invert Effect on Window"
+#~ msgstr "Activer/désactiver l'effet d'inversion sur les fenêtres"
+
+#~ msgid "Toggle Present Windows (Current desktop)"
+#~ msgstr "Activer/désactiver les fenêtres présentes (bureau actuel)"
+
+#~ msgid "Toggle Present Windows (All desktops)"
+#~ msgstr "Activer/désactiver les fenêtres présentes (tous les bureaux)"
+
+#~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
+#~ msgid "Toggle Sharpen Effect"
+#~ msgstr "Activer/désactiver l'effet d'accentuation"

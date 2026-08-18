@@ -1052,7 +1052,7 @@ msgstr "Gestor de finestres"
 #: helpers/killer/killer.cpp:38
 #, kde-format
 msgid "PID of the application to terminate"
-msgstr "PID de l'aplicació a finalitzar"
+msgstr "PID de l'aplicació per acabar"
 
 #: helpers/killer/killer.cpp:38
 #, kde-format
@@ -1072,7 +1072,7 @@ msgstr "nom de l'amfitrió"
 #: helpers/killer/killer.cpp:42
 #, kde-format
 msgid "Caption of the window to be terminated"
-msgstr "Llegenda de la finestra a finalitzar"
+msgstr "Llegenda de la finestra per acabar"
 
 #: helpers/killer/killer.cpp:42
 #, kde-format
@@ -1154,14 +1154,14 @@ msgid ""
 "application?</para><para><warning>Terminating the application will close all"
 " of its child windows. Any unsaved data will be lost.</warning></para>"
 msgstr ""
-"<para>Voleu finalitzar aquesta aplicació?</para><para><warning>La terminació"
-" de l'aplicació tancarà totes les seves finestres filles. Es perdran totes "
-"les dades sense desar.</warning></para>"
+"<para>Voleu acabar aquesta aplicació?</para><para><warning>La terminació de "
+"l'aplicació tancarà totes les seves finestres filles. Es perdran totes les "
+"dades sense desar.</warning></para>"
 
 #: helpers/killer/killer.cpp:94
 #, kde-format
 msgid "&Terminate Application %1"
-msgstr "Finalitza l'aplicació %1"
+msgstr "Aca&ba l'aplicació %1"
 
 #: helpers/killer/killer.cpp:95
 #, kde-format
@@ -2837,10 +2837,10 @@ msgstr ""
 "com https://paste.kde.org en lloc d'enganxar-se en fils de suport.\n"
 
 #~ msgid "&No Border"
-#~ msgstr ""
+#~ msgstr "Se&nse vora"
 
 #~ msgid "Toggle Window Border"
-#~ msgstr ""
+#~ msgstr "Commuta la vora de la finestra"
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"
@@ -2852,63 +2852,65 @@ msgstr ""
 #~ msgstr "Inverteix els colors de la pantalla"
 
 #~ msgid "List all available backends and quit."
-#~ msgstr ""
+#~ msgstr "Llista tots els rerefons disponibles i surt."
 
 #~ msgid "Show Desktop"
 #~ msgstr "Mostra l'escriptori"
 
 #~ msgid "X11 Client Windows"
-#~ msgstr ""
+#~ msgstr "Finestres del client X11"
 
 #~ msgid "unknown"
-#~ msgstr ""
+#~ msgstr "desconegut"
 
 #~ msgid "Render to framebuffer."
-#~ msgstr ""
+#~ msgstr "Renderitza al marc de la memòria intermèdia."
 
 #~ msgid "The framebuffer device to render to."
-#~ msgstr ""
+#~ msgstr "El dispositiu de marc de memòria intermèdia on es renderitzarà."
 
 #~ msgid ""
 #~ "Enable libinput support for input events processing. Note: never use in a "
 #~ "nested session.\t(deprecated)"
 #~ msgstr ""
+#~ "Habilita la compatibilitat amb libinput per al processament d'esdeveniments "
+#~ "d'entrada. Nota: no s'ha d'usar mai en una sessió imbricada.\t(obsolet)"
 
 #~ msgid "Pack Window to the Right"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres a la dreta"
 
 #~ msgid "Pack Window to the Left"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres a l'esquerra"
 
 #~ msgid "Pack Window Up"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres a dalt"
 
 #~ msgid "Pack Window Down"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres a baix"
 
 #~ msgid "Pack Grow Window Horizontally"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres de creixement horitzontal"
 
 #~ msgid "Pack Grow Window Vertically"
-#~ msgstr ""
+#~ msgstr "Paquet de finestres de creixement vertical"
 
 #~ msgid "Desktop number"
-#~ msgstr ""
+#~ msgstr "Número d'escriptori"
 
 #~ msgid "Configure virtual keyboards..."
-#~ msgstr ""
+#~ msgstr "Configureu teclats virtuals..."
 
 #~ msgid "Virtual Keyboard"
 #~ msgstr "Teclat virtual"
 
 #~ msgid "Whether to show the virtual keyboard on demand."
-#~ msgstr ""
+#~ msgstr "Si s'ha de mostrar el teclat virtual segons es demani."
 
 #~ msgid "Virtual Keyboard: enabled"
-#~ msgstr ""
+#~ msgstr "Teclat virtual: habilitat"
 
 #~ msgid "Virtual Keyboard: disabled"
-#~ msgstr ""
+#~ msgstr "Teclat virtual: inhabilitat"
 
 #~ msgctxt "Assertion failed in KWin script with given value"
 #~ msgid "Assertion failed: %1 is not null"
@@ -2946,16 +2948,16 @@ msgstr ""
 #~ msgstr "Botons premuts"
 
 #~ msgid "Use libhybris hwcomposer"
-#~ msgstr ""
+#~ msgstr "Usa l'hwcomposer libhybris "
 
 #~ msgid "Allow Rotation"
-#~ msgstr ""
+#~ msgstr "Permet la rotació"
 
 #~ msgid "Automatic screen rotation is enabled"
-#~ msgstr ""
+#~ msgstr "La rotació automàtica de la pantalla està habilitada."
 
 #~ msgid "Undefined"
-#~ msgstr ""
+#~ msgstr "Sense definir"
 
 #~ msgctxt "Portrait oriented display"
 #~ msgid "Vertical"
@@ -2966,58 +2968,59 @@ msgstr ""
 #~ msgstr "Horitzontal"
 
 #~ msgid "Automatic screen rotation is disabled"
-#~ msgstr ""
+#~ msgstr "La rotació automàtica de la pantalla està inhabilitada."
 
 #~ msgid "Walk Through Window Tabs"
-#~ msgstr ""
+#~ msgstr "Passeig per les pestanyes de les finestres"
 
 #~ msgid "Walk Through Window Tabs (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig per les pestanyes de les finestres (invers)"
 
 #~ msgid "Remove Window From Group"
-#~ msgstr ""
+#~ msgstr "Elimina la finestra del grup"
 
 #~ msgid "&Untab"
-#~ msgstr ""
+#~ msgstr "Se&nse pestanya"
 
 #~ msgid "Close Entire &Group"
-#~ msgstr ""
+#~ msgstr "Tanca tot el &grup"
 
 #~ msgctxt "Switch to tab -> Previous"
 #~ msgid "Previous"
-#~ msgstr ""
+#~ msgstr "Anterior"
 
 #~ msgctxt "Switch to tab -> Next"
 #~ msgid "Next"
-#~ msgstr ""
+#~ msgstr "Següent"
 
 #~ msgctxt "There's no window available to be attached as tab to this one"
 #~ msgid "None available"
-#~ msgstr ""
+#~ msgstr "Sense disponibilitat"
 
 #~ msgid "Switch to Tab"
-#~ msgstr ""
+#~ msgstr "Canvia a pestanya"
 
 #~ msgid "&Attach as tab to"
-#~ msgstr ""
+#~ msgstr "&Adjunta com a pestanya a"
 
 #~ msgctxt ""
 #~ "Entry in context menu of window decoration to open the configuration module "
 #~ "of KWin"
 #~ msgid "Window Manager S&ettings..."
-#~ msgstr ""
+#~ msgstr "Paràmetres del &gestor de finestres..."
 
 #~ msgid "Automatic Screen Rotation"
-#~ msgstr ""
+#~ msgstr "Rotació automàtica de la pantalla"
 
 #~ msgid "kwin_wayland: an X11 window manager is running on the X11 Display.\n"
 #~ msgstr ""
+#~ "kwiver_wayland: s'executa un gestor de finestres X11 a la pantalla X11.\n"
 
 #~ msgid "Martin Gräßlin"
-#~ msgstr ""
+#~ msgstr "Martin Gräßlin"
 
 #~ msgid "Maintainer"
-#~ msgstr ""
+#~ msgstr "Mantenidor"
 
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects not possible</h1>Your system cannot perform "
@@ -3026,6 +3029,11 @@ msgstr ""
 #~ " well.<br>Alternatively, lower the combined resolution of all screens to "
 #~ "%1x%2 "
 #~ msgstr ""
+#~ "<h1>Efectes d'escriptori d'OpenGL no possibles!</h1> El vostre sistema no "
+#~ "pot executar els efectes d'escriptori d'OpenGL a la resolució "
+#~ "actual<br><br>Podeu intentar seleccionar el rerefons XRender, però també pot"
+#~ " ser molt lent per a aquesta resolució.<br>Alternativament, reduïu la "
+#~ "resolució combinada de totes les pantalles a %1x %2"
 
 #~ msgid ""
 #~ "The demanded resolution exceeds the GL_MAX_VIEWPORT_DIMS limitation of your "
@@ -3033,6 +3041,11 @@ msgstr ""
 #~ "does not know such limitation, but the performance will usually be impacted "
 #~ "by the hardware limitations that restrict the OpenGL viewport size."
 #~ msgstr ""
+#~ "La resolució sol·licitada supera la limitació GL_MAX_VIEWPORT_DIMS de la GPU"
+#~ " i, per tant, no és compatible amb el compositor d'OpenGL. <br>XRender no "
+#~ "coneix tal limitació, però el rendiment normalment es veurà afectat per les "
+#~ "limitacions de maquinari que restringeixen la mida de la finestra gràfica "
+#~ "d'OpenGL."
 
 #~ msgid ""
 #~ "<h1>OpenGL desktop effects might be unusable</h1>OpenGL Desktop Effects at "
@@ -3041,6 +3054,11 @@ msgstr ""
 #~ "suspend compositing, switch to the XRender backend or lower the resolution "
 #~ "to %1x%1."
 #~ msgstr ""
+#~ "<h1>Els efectes d'escriptori d'OpenGL poden ser inutilitzables!</h1> Els "
+#~ "efectes d'escriptori d'OpenGL a la resolució actual són compatibles, però "
+#~ "poden ser excepcionalment lents.<br> A més, les finestres grans es tornaran "
+#~ "completament negres.<br><br> Considereu suspendre la composició, canviar al "
+#~ "rerefons XRender o reduir la resolució a %1x %1."
 
 #~ msgid ""
 #~ "The demanded resolution exceeds the GL_MAX_TEXTURE_SIZE limitation of your "
@@ -3049,51 +3067,66 @@ msgstr ""
 #~ " despite below GL_MAX_VIEWPORT_DIMS, because the driver might fall back to "
 #~ "software rendering in this case."
 #~ msgstr ""
+#~ "La resolució demanada supera la limitació GL_MAX_TEXTURE_SIZE de la GPU, per"
+#~ " tant, les finestres d'aquesta mida no es poden assignar a textures i seran "
+#~ "completament negres.<br>A més, aquest límit sovint serà una barrera de "
+#~ "nivell de rendiment tot i que sigui inferior al valor de "
+#~ "GL_MAX_VIEWPORT_DIMS, perquè el controlador podria recórrer a la "
+#~ "renderització de programari en aquest cas."
 
 #~ msgid "Use a nested compositor in windowed mode."
-#~ msgstr ""
+#~ msgstr "Usa un compositor imbricat en mode de finestres."
 
 #~ msgctxt "notification about mouse pointer confined"
 #~ msgid ""
 #~ "Pointer motion confined to the current window.\n"
 #~ "To release pointer hold Escape for 3 seconds."
 #~ msgstr ""
+#~ "Moviment del punter limitat a la finestra actual.\n"
+#~ "Per deixar anar el punter, manteniu premuda la tecla Esc durant 3 segons."
 
 #~ msgctxt "notification about mouse pointer locked"
 #~ msgid ""
 #~ "Pointer locked to current position.\n"
 #~ "To end pointer lock hold Escape for 3 seconds."
 #~ msgstr ""
+#~ "Punter blocat a la posició actual.\n"
+#~ "Per eliminar el blocatge del punter, manteniu premuda la tecla Esc durant 3 segons."
 
 #~ msgid "GLX/OpenGL are not available and only OpenGL support is compiled."
 #~ msgstr ""
+#~ "GLX / OpenGL no estan disponibles i només es compila el suport per a OpenGL."
 
 #~ msgid "Sh&ade"
-#~ msgstr ""
+#~ msgstr "&Ombreja"
 
 #~ msgid ""
 #~ "kwin_wayland: could not connect to Wayland Server, ensure WAYLAND_DISPLAY is"
 #~ " set.\n"
 #~ msgstr ""
+#~ "kwit_wayland: no s'ha pogut connectar amb el servidor Wayland, assegureu-vos"
+#~ " que WAYLAND_DISPLAY estigui definit.\n"
 
 #~ msgid ""
 #~ "The X11 Display to connect to. If not set next free number will be picked."
 #~ msgstr ""
+#~ "La pantalla X11 a la qual connectar-se. Si no es defineix, es triarà el "
+#~ "número lliure següent."
 
 #~ msgid "KWin: "
-#~ msgstr ""
+#~ msgstr "KWin: "
 
 #~ msgid "System"
-#~ msgstr ""
+#~ msgstr "Sistema"
 
 #~ msgid "Navigation"
-#~ msgstr ""
+#~ msgstr "Navegació"
 
 #~ msgid "Window & Desktop"
-#~ msgstr ""
+#~ msgstr "Finestres i escriptori"
 
 #~ msgid "Miscellaneous"
-#~ msgstr ""
+#~ msgstr "Diversos"
 
 #~ msgid "Desktop Switching"
 #~ msgstr "Canvi d'escriptori"
@@ -3102,6 +3135,8 @@ msgstr ""
 #~ "kwin: it looks like there's already a window manager running. kwin not "
 #~ "started.\n"
 #~ msgstr ""
+#~ "kwiv: sembla que ja hi ha un gestor de finestres en execució. No s'ha "
+#~ "iniciat kwiv.\n"
 
 #~ msgid ""
 #~ "<p>The window \"<b>%2</b>\" is not responding. It belongs to the application"
@@ -3109,294 +3144,311 @@ msgstr ""
 #~ "the application process <em>including <b>all</b> of its child "
 #~ "windows</em>?<br /><b>Any unsaved data will be lost.</b></p>"
 #~ msgstr ""
+#~ "<p>La finestra <b>%2</b> no respon. Pertany a l'aplicació <b>%1</b> (ID del "
+#~ "procés = %3, nom de l'amfitrió = %4).</p></p>Voleu acabar el procés de "
+#~ "l'aplicació <em>incloses <b>totes</b> les seves finestres filles</em>?<br "
+#~ "/></b>Es perdrà qualsevol dada no desada.</b></p>"
 
 #~ msgid "Window '%1' demands attention."
-#~ msgstr ""
+#~ msgstr "La finestra %1 requereix atenció."
 
 #~ msgid "Layout changed to %1"
-#~ msgstr ""
+#~ msgstr "La disposició ha canviat a %1"
 
 #~ msgctxt "Spiral tiling layout"
 #~ msgid "Spiral"
-#~ msgstr ""
+#~ msgstr "Espiral"
 
 #~ msgctxt "Two-column horizontal tiling layout"
 #~ msgid "Columns"
-#~ msgstr ""
+#~ msgstr "Columnes"
 
 #~ msgctxt "Floating layout, windows aren't tiled at all"
 #~ msgid "Floating"
-#~ msgstr ""
+#~ msgstr "Flotar"
 
 #~ msgctxt "When in tiling mode, toggle's the window's floating/tiled state"
 #~ msgid "&Float Window"
-#~ msgstr ""
+#~ msgstr "Finestra &flotant"
 
 #~ msgid "Ad&vanced"
-#~ msgstr ""
+#~ msgstr "A&vançat"
 
 #~ msgid "*** No Windows ***"
-#~ msgstr ""
+#~ msgstr "*** Sense finestres ***"
 
 #~ msgid "Load the script testing dialog"
-#~ msgstr ""
+#~ msgstr "Carrega el diàleg de prova de script"
 
 #~ msgid "Remove &From Group"
-#~ msgstr ""
+#~ msgstr "Elimina del &grup"
 
 #~ msgid "To the Left"
-#~ msgstr ""
+#~ msgstr "A l'esquerra"
 
 #~ msgid "To the Right"
-#~ msgstr ""
+#~ msgstr "A la dreta"
 
 #~ msgid "&Opacity"
-#~ msgstr ""
+#~ msgstr "&Opacitat"
 
 #~ msgid ""
 #~ "XRender/XFixes extensions are not available and only XRender support is "
 #~ "compiled."
 #~ msgstr ""
+#~ "Les extensions XRender / XFixes no estan disponibles i només s'ha compilat "
+#~ "la compatibilitat amb XRender."
 
 #~ msgid ""
 #~ "Compositing was disabled at compile time.\n"
 #~ "It is likely Xorg development headers were not installed."
 #~ msgstr ""
+#~ "La composició s'ha desactivat al moment de la compilació.\n"
+#~ "És probable que les capçaleres de desenvolupament de Xorg no estiguessin instal·lades."
 
 #~ msgid "Tiling"
-#~ msgstr ""
+#~ msgstr "Mosaic"
 
 #~ msgid "Enable/Disable Tiling"
-#~ msgstr ""
+#~ msgstr "Activa / desactiva el mosaic"
 
 #~ msgid "Toggle Floating"
-#~ msgstr ""
+#~ msgstr "Commuta la flotació"
 
 #~ msgid "Switch Focus Left"
-#~ msgstr ""
+#~ msgstr "Canvia el focus a l'esquerra"
 
 #~ msgid "Switch Focus Right"
-#~ msgstr ""
+#~ msgstr "Canvia el focus a la dreta"
 
 #~ msgid "Switch Focus Up"
-#~ msgstr ""
+#~ msgstr "Canvia el focus amunt"
 
 #~ msgid "Switch Focus Down"
-#~ msgstr ""
+#~ msgstr "Canvia el focus avall"
 
 #~ msgid "Tiling Disabled"
-#~ msgstr ""
+#~ msgstr "Mosaic inhabilitat"
 
 #~ msgid "Tiling Enabled"
-#~ msgstr ""
+#~ msgstr "Mosaic habilitat"
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
 #~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
+#~ "Els efectes d'escriptori eren massa lents i s'han suspès.\n"
+#~ "Podeu desactivar les comprovacions de funcionalitat a la Configuració del sistema (a la pestanya d'Avançat a Efectes de l'escriptori)."
 
 #~ msgid ""
 #~ "Desktop effects were too slow and have been suspended.\n"
 #~ "If this was only a temporary problem, you can resume using the '%1' shortcut.\n"
 #~ "You can disable functionality checks in System Settings (on the Advanced tab in Desktop Effects)."
 #~ msgstr ""
+#~ "Els efectes d'escriptori eren massa lents i s'han suspès.\n"
+#~ "Si només es tractava d'un problema temporal, podeu reprendre-ho amb la drecera %1'\n"
+#~ "Podeu desactivar les comprovacions de funcionalitat a la Configuració del sistema (a la pestanya d'Avançat a Efectes de l'escriptori)."
 
 #~ msgid ""
 #~ "\n"
 #~ "KWin will now exit..."
 #~ msgstr ""
+#~ "\n"
+#~ "El KWin ara es tancarà..."
 
 #~ msgid "Window to Desktop 2"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 2"
 
 #~ msgid "Window to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 3"
 
 #~ msgid "Window to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 4"
 
 #~ msgid "Window to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 5"
 
 #~ msgid "Window to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 6"
 
 #~ msgid "Window to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 7"
 
 #~ msgid "Window to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 8"
 
 #~ msgid "Window to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 9"
 
 #~ msgid "Window to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 10"
 
 #~ msgid "Window to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 11"
 
 #~ msgid "Window to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 12"
 
 #~ msgid "Window to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 13"
 
 #~ msgid "Window to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 14"
 
 #~ msgid "Window to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 15"
 
 #~ msgid "Window to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 16"
 
 #~ msgid "Window to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 17"
 
 #~ msgid "Window to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 18"
 
 #~ msgid "Window to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 19"
 
 #~ msgid "Window to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Finestra a l'escriptori 20"
 
 #~ msgid "Window to Screen 3"
-#~ msgstr ""
+#~ msgstr "Finestra a la pantalla 3"
 
 #~ msgid "Window to Screen 4"
-#~ msgstr ""
+#~ msgstr "Finestra a la pantalla 4"
 
 #~ msgid "Window to Screen 5"
-#~ msgstr ""
+#~ msgstr "Finestra a la pantalla 5"
 
 #~ msgid "Window to Screen 6"
-#~ msgstr ""
+#~ msgstr "Finestra a la pantalla 6"
 
 #~ msgid "Window to Screen 7"
-#~ msgstr ""
+#~ msgstr "Finestra a la pantalla 7"
 
 #~ msgid "Switch to Desktop 3"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 3"
 
 #~ msgid "Switch to Desktop 4"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 4"
 
 #~ msgid "Switch to Desktop 5"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 5"
 
 #~ msgid "Switch to Desktop 6"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 6"
 
 #~ msgid "Switch to Desktop 7"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 7"
 
 #~ msgid "Switch to Desktop 8"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 8"
 
 #~ msgid "Switch to Desktop 9"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 9"
 
 #~ msgid "Switch to Desktop 10"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 10"
 
 #~ msgid "Switch to Desktop 11"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 11"
 
 #~ msgid "Switch to Desktop 12"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 12"
 
 #~ msgid "Switch to Desktop 13"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 13"
 
 #~ msgid "Switch to Desktop 14"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 14"
 
 #~ msgid "Switch to Desktop 15"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 15"
 
 #~ msgid "Switch to Desktop 16"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 16"
 
 #~ msgid "Switch to Desktop 17"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 17"
 
 #~ msgid "Switch to Desktop 18"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 18"
 
 #~ msgid "Switch to Desktop 19"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 19"
 
 #~ msgid "Switch to Desktop 20"
-#~ msgstr ""
+#~ msgstr "Canvia a l'escriptori 20"
 
 #~ msgid "Switch to Screen 2"
-#~ msgstr ""
+#~ msgstr "Canvia a la pantalla 2"
 
 #~ msgid "Switch to Screen 3"
-#~ msgstr ""
+#~ msgstr "Canvia a la pantalla 3"
 
 #~ msgid "Switch to Screen 4"
-#~ msgstr ""
+#~ msgstr "Canvia a la pantalla 4"
 
 #~ msgid "Switch to Screen 5"
-#~ msgstr ""
+#~ msgstr "Canvia a la pantalla 5"
 
 #~ msgid "Switch to Screen 6"
-#~ msgstr ""
+#~ msgstr "Canvia a la pantalla 6"
 
 #~ msgid "Switch to Screen 7"
-#~ msgstr ""
+#~ msgstr "Canvia a la pantalla 7"
 
 #~ msgid "<center><b>%1</b></center>"
-#~ msgstr ""
+#~ msgstr "<center><b>%1</b></center>"
 
 #~ msgid "Menu"
 #~ msgstr "Menú"
 
 #~ msgid "Not on all desktops"
-#~ msgstr ""
+#~ msgstr "No a tots els escriptoris"
 
 #~ msgid "On all desktops"
 #~ msgstr "A tots els escriptoris"
 
 #~ msgid "Help"
-#~ msgstr ""
+#~ msgstr "Ajuda"
 
 #~ msgid "Restore"
 #~ msgstr "Restaura"
 
 #~ msgid "Do not keep above others"
-#~ msgstr ""
+#~ msgstr "No ho mantinguis per damunt d'altres"
 
 #~ msgid "Do not keep below others"
-#~ msgstr ""
+#~ msgstr "No ho mantinguis per sota d'altres"
 
 #~ msgid "No window decoration plugin library was found."
 #~ msgstr ""
+#~ "No s'ha trobat cap biblioteca de complements de decoració de finestres."
 
 #~ msgid "The default decoration plugin is corrupt and could not be loaded."
 #~ msgstr ""
+#~ "El connector de decoració per defecte està malmès i no s'ha pogut carregar."
 
 #~ msgid "The library %1 is not a KWin plugin."
-#~ msgstr ""
+#~ msgstr "La biblioteca %1 no és un complement del KWin."
 
 #~ msgid "Window Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Captura de pantalla de la finestra al porta-retalls"
 
 #~ msgid "Desktop Screenshot to Clipboard"
-#~ msgstr ""
+#~ msgstr "Captura de pantalla de l'escriptori al porta-retalls"
 
 #~ msgid "Toggle Tiling"
-#~ msgstr ""
+#~ msgstr "Commuta el mosaic"
 
 #~ msgid "Increase Ratio"
-#~ msgstr ""
+#~ msgstr "Augmenta la ràtio"
 
 #~ msgid "Decrease Ratio"
-#~ msgstr ""
+#~ msgstr "Redueix la ràtio"
 
 #~ msgid "Move Left"
 #~ msgstr "Mou a l'esquerra"
@@ -3411,28 +3463,28 @@ msgstr ""
 #~ msgstr "Mou avall"
 
 #~ msgid "Test Dump tiles"
-#~ msgstr ""
+#~ msgstr "Mosaic de prova"
 
 #~ msgid "Test Below Cursor"
-#~ msgstr ""
+#~ msgstr "Prova sota el cursor"
 
 #~ msgid "Walk Through Grouped Windows"
-#~ msgstr ""
+#~ msgstr "Passeig per finestres agrupades"
 
 #~ msgid "Walk Through Grouped Windows (Reverse)"
-#~ msgstr ""
+#~ msgstr "Passeig per finestres agrupades (invers)"
 
 #~ msgid "Switch to group window"
-#~ msgstr ""
+#~ msgstr "Canvia a la finestra del grup"
 
 #~ msgid "kwin: failure during initialization; aborting"
-#~ msgstr ""
+#~ msgstr "kwiv: error durant l'inici; s'avorta"
 
 #~ msgid "Terminate"
-#~ msgstr ""
+#~ msgstr "Acaba"
 
 #~ msgid "Keep Running"
-#~ msgstr ""
+#~ msgstr "Mantén l'execució"
 
 #~ msgid "Top"
 #~ msgstr "A dalt"
@@ -3456,93 +3508,107 @@ msgstr ""
 #~ "Filter:\n"
 #~ "%1"
 #~ msgstr ""
+#~ "Filtre:\n"
+#~ "%1"
 
 #~ msgid "Snow"
-#~ msgstr ""
+#~ msgstr "Neu"
 
 #~ msgid "Toggle Snow on Desktop"
-#~ msgstr ""
+#~ msgstr "Commuta la neu a l'escriptori"
 
 #~ msgid "Toggle Thumbnail for Current Window"
 #~ msgstr "Commuta la miniatura per a la finestra actual"
 
 #~ msgid "Hold Ctrl+Meta keys to see where the mouse cursor is."
 #~ msgstr ""
+#~ "Mantingueu premudes les tecles Ctrl+Meta per veure on és el cursor del "
+#~ "ratolí."
 
 #~ msgid "Path to save video:"
-#~ msgstr ""
+#~ msgstr "Camí per desar-hi el vídeo:"
 
 #~ msgid "None"
 #~ msgstr "Cap"
 
 #~ msgid "X offset:"
-#~ msgstr ""
+#~ msgstr "Desplaçament X:"
 
 #~ msgid "Y offset:"
-#~ msgstr ""
+#~ msgstr "Desplaçament Y:"
 
 #~ msgid "Shadow opacity:"
-#~ msgstr ""
+#~ msgstr "Opacitat de l'ombra:"
 
 #~ msgid "Shadow fuzziness:"
-#~ msgstr ""
+#~ msgstr "Borrositat de l'ombra:"
 
 #~ msgid "Shadow size (relative to window):"
-#~ msgstr ""
+#~ msgstr "Mida de l'ombra (relativa a la finestra):"
 
 #~ msgid "Shadow color:"
-#~ msgstr ""
+#~ msgstr "Color de l'ombra:"
 
 #~ msgid "Active window has stronger shadow"
-#~ msgstr ""
+#~ msgstr "La finestra activa té una ombra més forta."
 
 #~ msgid "Toggle Expose Effect"
-#~ msgstr ""
+#~ msgstr "Commuta l'efecte d'exposició"
 
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
-#~ msgstr ""
+#~ msgstr "Commuta l'efecte d'exposició (inclosos altres escriptoris)"
 
 #~ msgid "Draw window caption on top of window"
-#~ msgstr ""
+#~ msgstr "Dibuixa el títol de la finestra a la part superior de la finestra"
 
 #~ msgid "Activate when cursor is at a specific edge or corner of the screen:"
 #~ msgstr ""
+#~ "Activa quan el cursor és en una vora o cantó específic de la pantalla:"
 
 #~ msgid "for windows on all desktops: "
-#~ msgstr ""
+#~ msgstr "per a les finestres a tots els escriptoris:"
 
 #~ msgid "Animate desktop changes"
-#~ msgstr ""
+#~ msgstr "Anima els canvis de l'escriptori"
 
 #~ msgid "Reset opacity to default value"
-#~ msgstr ""
+#~ msgstr "Restableix l'opacitat al valor predeterminat."
 
 #~ msgid "Slide this to set the window's opacity"
-#~ msgstr ""
+#~ msgstr "Feu lliscar això per definir l'opacitat de la finestra."
 
 #~ msgid ""
 #~ "The Composite Manager could not be started.\\nMake sure you have \"kompmgr\""
 #~ " in a $PATH directory."
 #~ msgstr ""
+#~ "No s'ha pogut iniciar el Gestor de composcició.\\nAssegureu-vos que teniu el"
+#~ " kompmgr en un directori $PATH."
 
 #~ msgid ""
 #~ "The Composite Manager crashed twice within a minute and is therefore "
 #~ "disabled for this session."
 #~ msgstr ""
+#~ "El Gestor de composició s'ha blocat dues vegades en un minut i, per tant, "
+#~ "s'ha desactivat per a aquesta sessió."
 
 #~ msgid "Composite Manager Failure"
-#~ msgstr ""
+#~ msgstr "Fallada del gestor composició"
 
 #~ msgid ""
 #~ "<qt><b>kompmgr failed to open the display</b><br>There is probably an "
 #~ "invalid display entry in your ~/.xcompmgrrc.</qt>"
 #~ msgstr ""
+#~ "<qt><b>kompmgr no ha pogut obrir la pantalla</b><br> Probablement hi ha una "
+#~ "entrada de pantalla no vàlida a ~/.xcompmgrrc.</qt>"
 
 #~ msgid ""
 #~ "<qt><b>kompmgr cannot find the Xrender extension</b><br>You are using either"
 #~ " an outdated or a crippled version of XOrg.<br>Get XOrg &ge; 6.8 from "
 #~ "www.freedesktop.org.<br></qt>"
 #~ msgstr ""
+#~ "<qt><b>kompmgr no pot trobar l'extensió Xrender</b><br>Useu una versió "
+#~ "obsoleta o danyada de XOrg.<br>Obteniu XOrg > 6.8 de "
+#~ "www.freedesktop.org.<br></qt>"
 
 #~ msgid ""
 #~ "<qt><b>Composite extension not found</b><br>You <i>must</i> use XOrg &ge; "
@@ -3550,16 +3616,24 @@ msgstr ""
 #~ " new section to your X config file:<br><i>Section \"Extensions\"<br>Option "
 #~ "\"Composite\" \"Enable\"<br>EndSection</i></qt>"
 #~ msgstr ""
+#~ "<qt><b>No s'ha trobat l'extensió del compostor</b><br><i>Heu</i> de fer "
+#~ "servir XOrg > 6.8 perquè la translucidesa i les ombres funcionin.<br>A més, "
+#~ "heu d'afegir una secció nova al fitxer de configuració d'X:<br></i>Secció "
+#~ "\"Extensions\"<br>Opció \"Composte\" \"Enable\"<br>EndSection</i></qt>"
 
 #~ msgid ""
 #~ "<qt><b>Damage extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
 #~ "for translucency and shadows to work.</qt>"
 #~ msgstr ""
+#~ "<qt><b>No s'ha trobat l'extensió de danys</b><br><i>Heu</i> de fer servir "
+#~ "XOrg > 6.8 perquè la translucidesa i les ombres funcionin.</qt>"
 
 #~ msgid ""
 #~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
 #~ "for translucency and shadows to work.</qt>"
 #~ msgstr ""
+#~ "<qt><b>No s'ha trobat l'extensió XFixes</b><br><i>Heu</i> de fer servir XOrg"
+#~ " > 6.8 perquè la translucidesa i les ombres funcionin.</qt>"
 
 #: workspace.cpp:2507
 #, kde-format
