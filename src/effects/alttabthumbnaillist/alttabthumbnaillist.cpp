@@ -476,6 +476,8 @@ void AltTabThumbnailListEffect::updateSelected()
         m_nextSelectedRect.adjust(-margin, -margin, margin, margin);
         if (m_prevSelectedRect != m_nextSelectedRect) {
             if (m_prevSelectedRect.isValid() && m_selectAnimation.enable) {
+                if (m_selectAnimation.timeLine.done())
+                    m_selectAnimation.timeLine.reset();
                 m_selectAnimation.active = true;
             } else {
                 m_selectedRect = m_prevSelectedRect = m_nextSelectedRect;
@@ -547,6 +549,8 @@ void AltTabThumbnailListEffect::updateVisibleRect()
         // process scroll animation
         if (m_nextVisibleRect.isValid() && m_prevVisibleRect != m_nextVisibleRect) {
             if (m_prevVisibleRect.isValid() && m_scrollAnimation.enable) {
+                if (m_scrollAnimation.timeLine.done())
+                    m_scrollAnimation.timeLine.reset();
                 m_scrollAnimation.active = true;
             } else {
                 m_visibleRect = m_prevVisibleRect = m_nextVisibleRect;
