@@ -82,6 +82,7 @@ public:
     Xcb::Atom deepin_split_window;
     Xcb::Atom deepin_scissor_window;
     Xcb::Atom deepin_prohibit_screenshot;
+    Xcb::Atom deepin_secure_input;
     Xcb::Atom deepin_net_supported;
     Xcb::Atom deepin_net_effect;
     Xcb::Atom deepin_net_startup;

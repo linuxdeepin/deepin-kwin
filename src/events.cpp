@@ -770,6 +770,8 @@ void X11Window::propertyNotifyEvent(xcb_property_notify_event_t *e)
             checkApplicationMenuObjectPath();
         } else if (e->atom == atoms->deepin_prohibit_screenshot) {
             updateProhibitScreenshot(!e->state);
+        } else if (e->atom == atoms->deepin_secure_input) {
+            updateSecureInput(!e->state);
         }
         break;
     }
