@@ -37,10 +37,13 @@ public:
     void setClientWhitelists(const QList<QByteArray> &whitelists);
     void setProtectedWindow(int32_t window);
     void removeProtectedWindow(int32_t window);
+    void setSecureInputWindow(int32_t window);
+    void removeSecureInputWindow(int32_t window);
 
     bool m_prohibitScreencast = false;
     QList<QByteArray> m_clientWhitelists;
     QList<int32_t> m_protectedWindowIdLists;
+    QList<int32_t> m_secureInputWindowIdLists;
 
 private:
     // void bind(wl_client *client, uint32_t version, uint32_t id) override;
@@ -159,6 +162,24 @@ void DDERestrictInterfacePrivate::removeProtectedWindow(int32_t window)
     }
 }
 
+void DDERestrictInterfacePrivate::setSecureInputWindow(int32_t window)
+{
+    if (m_secureInputWindowIdLists.contains(window)) {
+        return;
+    }
+    m_secureInputWindowIdLists.append(window);
+}
+
+void DDERestrictInterfacePrivate::removeSecureInputWindow(int32_t window)
+{
+    for (int i = 0; i < m_secureInputWindowIdLists.length(); i++) {
+        if (m_secureInputWindowIdLists[i] == window) {
+            m_secureInputWindowIdLists.removeAt(i);
+            break;
+        }
+    }
+}
+
 // void DDERestrictInterfacePrivate::bind(wl_client *client, uint32_t version, uint32_t id)
 // {
 //     auto c = display->getConnection(client);
@@ -207,6 +228,16 @@ QList<int32_t> DDERestrictInterface::protectedWindowIdLists()
 void DDERestrictInterface::removeProtectedWindow(int32_t window)
 {
     d->removeProtectedWindow(window);
+}
+
+QList<int32_t> DDERestrictInterface::secureInputWindowIdLists()
+{
+    return d->m_secureInputWindowIdLists;
+}
+
+void DDERestrictInterface::removeSecureInputWindow(int32_t window)
+{
+    d->removeSecureInputWindow(window);
 }
 
 }

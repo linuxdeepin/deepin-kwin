@@ -295,7 +295,14 @@ public:
     void readApplicationMenuObjectPath(Xcb::StringProperty &property);
     void checkApplicationMenuObjectPath();
     void updateProhibitScreenshot(bool isProhibit) { m_isProhibitScreenshotWindow = isProhibit; }
+    void updateSecureInput(bool isSecure) {
+        m_isSecureInputWindow = isSecure;
+        /* Capture the XID while the window is still alive; the destructor
+         * runs after m_client is reset to XCB_WINDOW_NONE. */
+        m_secureInputWindowId = isSecure ? window() : XCB_WINDOW_NONE;
+    }
     bool isProhibitScreenshotWindow() override;
+    bool isSecureInputWindow() override;
     struct SyncRequest
     {
         xcb_sync_counter_t counter;
@@ -550,6 +557,8 @@ private:
     std::unique_ptr<X11DecorationRenderer> m_decorationRenderer;
 
     bool m_isProhibitScreenshotWindow = false;
+    bool m_isSecureInputWindow = false;
+    xcb_window_t m_secureInputWindowId = XCB_WINDOW_NONE;
     xcb_timestamp_t m_timestamp = XCB_TIME_CURRENT_TIME;
     mutable pid_t m_pid = 0;
 };

@@ -4948,6 +4948,22 @@ bool Window::isProhibitScreenshotWindow()
     return false;
 }
 
+bool Window::isSecureInputWindow()
+{
+    if (!waylandServer()) {
+        return false;
+    }
+    auto dde_restrict = waylandServer()->ddeRestrict();
+    if (!dde_restrict)
+        return false;
+
+    auto secureInputWindowIdLists = dde_restrict->secureInputWindowIdLists();
+    if (secureInputWindowIdLists.contains(window())) {
+        return true;
+    }
+    return false;
+}
+
 WindowRadius *Window::windowRadiusObj() const
 {
     return m_windowRadiusObj.get();

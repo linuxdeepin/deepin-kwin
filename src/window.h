@@ -2032,6 +2032,7 @@ protected:
     static std::unique_ptr<PlaceholderWindow> s_placeholderWindow;
 
     virtual bool isProhibitScreenshotWindow();
+    virtual bool isSecureInputWindow();
     virtual void recordShape(xcb_window_t id, xcb_shape_kind_t kind);
     void updateExtendWindowSection(const QPointF &pos);
 

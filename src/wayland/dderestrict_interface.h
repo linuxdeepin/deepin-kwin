@@ -51,6 +51,9 @@ public:
     QList<int32_t> protectedWindowIdLists();
     void removeProtectedWindow(int32_t window);
 
+    QList<int32_t> secureInputWindowIdLists();
+    void removeSecureInputWindow(int32_t window);
+
 Q_SIGNALS:
 
 private:

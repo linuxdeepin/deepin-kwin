@@ -311,6 +311,19 @@ X11Window::X11Window()
  */
 X11Window::~X11Window()
 {
+    /* Clean up the secure-input window list as a double insurance: if
+     * the restrict daemon missed the DestroyNotify, remove the stale
+     * entry here so secure-input mode can be cleared.  window() is
+     * already XCB_WINDOW_NONE at this point, so use the XID captured
+     * when the property was set. */
+    if (m_isSecureInputWindow && m_secureInputWindowId != XCB_WINDOW_NONE) {
+        if (waylandServer()) {
+            auto dde_restrict = waylandServer()->ddeRestrict();
+            if (dde_restrict) {
+                dde_restrict->removeSecureInputWindow(m_secureInputWindowId);
+            }
+        }
+    }
     if (m_killHelperPID && !::kill(m_killHelperPID, 0)) { // means the process is alive
         ::kill(m_killHelperPID, SIGTERM);
         m_killHelperPID = 0;
@@ -5014,6 +5027,14 @@ bool X11Window::isProhibitScreenshotWindow()
         return Window::isProhibitScreenshotWindow();
     }
     return m_isProhibitScreenshotWindow;
+}
+
+bool X11Window::isSecureInputWindow()
+{
+    if (waylandServer()) {
+        return Window::isSecureInputWindow();
+    }
+    return m_isSecureInputWindow;
 }
 
 void X11Window::getForceDecorate()
