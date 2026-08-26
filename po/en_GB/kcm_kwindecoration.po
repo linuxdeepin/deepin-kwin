@@ -319,7 +319,6 @@ msgstr "Oversized"
 #~ msgid "Use theme's default window border size"
 #~ msgstr "Use theme's default window border size"
 
-#, fuzzy
 #~| msgid "Search"
 #~ msgid "Search..."
 #~ msgstr "Search"

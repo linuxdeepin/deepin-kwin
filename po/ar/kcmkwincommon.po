@@ -34,49 +34,49 @@ msgstr "zayed.alsaidi@gmail.com"
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Accessibility"
-msgstr ""
+msgstr "الإتاحة"
 
 #: effectsmodel.cpp:53
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Appearance"
-msgstr ""
+msgstr "المظهر"
 
 #: effectsmodel.cpp:54
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Focus"
-msgstr ""
+msgstr "التركيز"
 
 #: effectsmodel.cpp:55
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Peek at Desktop Animation"
-msgstr ""
+msgstr "تحريكات إلقاء النظرة على سطح المكتب"
 
 #: effectsmodel.cpp:56
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Tools"
-msgstr ""
+msgstr "الأدوات"
 
 #: effectsmodel.cpp:57
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Virtual Desktop Switching Animation"
-msgstr ""
+msgstr "الرسوم المتحركة لتبديل سطح المكتب الافتراضية"
 
 #: effectsmodel.cpp:58
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Management"
-msgstr ""
+msgstr "إدارة النّوافذ"
 
 #: effectsmodel.cpp:59
 #, kde-format
 msgctxt "Category of Desktop Effects, used as section header"
 msgid "Window Open/Close Animation"
-msgstr ""
+msgstr "حركات فتح/غلق النوافذ"
 
 #: effectsmodel.cpp:241
 #, kde-format

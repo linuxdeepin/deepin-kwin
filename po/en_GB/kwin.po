@@ -2879,7 +2879,6 @@ msgstr ""
 #~ msgid "Virtual Keyboard: disabled"
 #~ msgstr "Virtual Keyboard: disabled"
 
-#, fuzzy
 #~| msgid "Virtual Keyboard: enabled"
 #~ msgid "No Virtual Keyboard configured"
 #~ msgstr "Virtual Keyboard: enabled"
@@ -3459,7 +3458,6 @@ msgstr ""
 #~ msgid "Keep Running"
 #~ msgstr "Keep Running"
 
-#, fuzzy
 #~| msgid "Ad&vanced"
 #~ msgctxt "@title:tab Advanced Settings"
 #~ msgid "Advanced"
@@ -3468,7 +3466,6 @@ msgstr ""
 #~ msgid "Top"
 #~ msgstr "Top"
 
-#, fuzzy
 #~| msgid "Bottom-right"
 #~ msgid "Bottom-Right"
 #~ msgstr "Bottom-right"
@@ -3476,7 +3473,6 @@ msgstr ""
 #~ msgid "Bottom"
 #~ msgstr "Bottom"
 
-#, fuzzy
 #~| msgid "Bottom-left"
 #~ msgid "Bottom-Left"
 #~ msgstr "Bottom-left"
@@ -3484,7 +3480,6 @@ msgstr ""
 #~ msgid "Toggle Invert Effect"
 #~ msgstr "Toggle Invert Effect"
 
-#, fuzzy
 #~| msgid "Toggle Invert Effect"
 #~ msgid "Toggle Invert Effect on Window"
 #~ msgstr "Toggle Invert Effect"
@@ -3498,12 +3493,10 @@ msgstr ""
 #~ msgid "Clear Mouse Marks"
 #~ msgstr "Clear Mouse Marks"
 
-#, fuzzy
 #~| msgid "for windows on current desktop: "
 #~ msgid "Toggle Present Windows (Current desktop)"
 #~ msgstr "for windows on current desktop: "
 
-#, fuzzy
 #~| msgid "Keep Window on All Desktops"
 #~ msgid "Toggle Present Windows (All desktops)"
 #~ msgstr "Keep Window on All Desktops"
@@ -3515,7 +3508,6 @@ msgstr ""
 #~ "Filter:\n"
 #~ "%1"
 
-#, fuzzy
 #~| msgid "Toggle Sharpen Effect"
 #~ msgctxt "@action Enables/Disables an effect that makes windows more sharp"
 #~ msgid "Toggle Sharpen Effect"
@@ -3578,12 +3570,10 @@ msgstr ""
 #~ msgid "Animate desktop changes"
 #~ msgstr "Animate desktop changes"
 
-#, fuzzy
 #~| msgid "Resize Window"
 #~ msgid "Moved/resized windows:"
 #~ msgstr "Resize Window"
 
-#, fuzzy
 #~| msgid "Keep Window on All Desktops"
 #~ msgid "for windows on all desktops: Ctrl+F11"
 #~ msgstr "Keep Window on All Desktops"

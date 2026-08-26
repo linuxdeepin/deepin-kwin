@@ -34,19 +34,19 @@ msgstr "zayed.alsaidi@gmail.com"
 #, kde-format
 msgctxt "Error message"
 msgid "Could not locate package metadata"
-msgstr ""
+msgstr "تعذّر تحديد موقع البيانات الوصفية للحزمة"
 
 #: genericscriptedconfig.cpp:84
 #, kde-format
 msgctxt "Required file does not exist"
 msgid "%1 does not contain a valid metadata.json file"
-msgstr ""
+msgstr "لا يحوي %1 على ملف metadata.json صالح"
 
 #: genericscriptedconfig.cpp:90 genericscriptedconfig.cpp:96
 #, kde-format
 msgctxt "Required file does not exist"
 msgid "%1 does not exist"
-msgstr ""
+msgstr "%1 غير موجود"
 
 #~ msgctxt "Error message"
 #~ msgid "Plugin does not provide configuration file in expected location"

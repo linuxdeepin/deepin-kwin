@@ -1408,22 +1408,18 @@ msgstr ""
 #~ msgid "Maximizing"
 #~ msgstr "أقصى حد"
 
-#, fuzzy
 #~| msgid "Zero-Cornered"
 #~ msgid "Zero-cornered"
 #~ msgstr "في زاوِيَة صفرية"
 
-#, fuzzy
 #~| msgid "Switch to Window Tab to the Left/Right"
 #~ msgid "Switch to window tab to the left/right"
 #~ msgstr "بدل إلى لسان النافذة إلى اليسار/اليمين"
 
-#, fuzzy
 #~| msgid "Window Tabbing"
 #~ msgid "Window tabbing:"
 #~ msgstr "ألسنة النوافذ"
 
-#, fuzzy
 #~| msgid "Switch to automatically grouped windows immediately"
 #~ msgid "&Switch to automatically grouped windows immediately"
 #~ msgstr "بدل إلى الجمع التلقائي للنوافذ فورا"
@@ -1431,7 +1427,6 @@ msgstr ""
 #~ msgid "When turned on hide all tabs that are not active from the taskbar."
 #~ msgstr "عندما يفعل تخفى كل الألسنة غير نشطة من شريط المهام."
 
-#, fuzzy
 #~| msgid "Hide inactive window tabs from the taskbar"
 #~ msgid "&Hide inactive window tabs from the taskbar"
 #~ msgstr "اخف ألسنة النوافذ الخاملة من شريط المهام"
@@ -1443,32 +1438,25 @@ msgstr ""
 #~ "عندما يفعل سيتم اكتشاف إذا ما كانت النافذة الجديدة ترتبط بالموجودة مسبقا "
 #~ "بشكل آلي ، و ستضم إلى نفس مجموعة النوافذ."
 
-#, fuzzy
 #~| msgid "Start Window Tab Drag"
 #~ msgid "Start window tab drag"
 #~ msgstr "ابدأ سحب لسان النافذة"
 
-#, fuzzy
 #~ msgid "Ri&ght button:"
 #~ msgstr "الزر الأيمن:"
 
-#, fuzzy
 #~ msgid "&Wheel"
 #~ msgstr "العجلة"
 
-#, fuzzy
 #~ msgid "&Left button:"
 #~ msgstr "الزر الأيسر:"
 
-#, fuzzy
 #~ msgid "&Right button:"
 #~ msgstr "الزر الأيمن:"
 
-#, fuzzy
 #~ msgid "M&iddle button:"
 #~ msgstr "الزر الأوسط:"
 
-#, fuzzy
 #~ msgid "Left &button"
 #~ msgstr "الزر الأيسر:"
 
@@ -1484,18 +1472,15 @@ msgstr ""
 #~ msgid "&Enable hover"
 #~ msgstr "مكّ&ن التمرير"
 
-#, fuzzy
 #~ msgid "Activating windows"
 #~ msgstr "النوافذ"
 
-#, fuzzy
 #~ msgid "Policy"
 #~ msgstr "ال&سياسة:"
 
 #~ msgid "&Moving"
 #~ msgstr "ت&حريك"
 
-#, fuzzy
 #~ msgid "Wheel event:"
 #~ msgstr "حدث العجلة على شريط العنوان:"
 
@@ -1539,23 +1524,18 @@ msgstr ""
 #~ "السلوك عند النقر بالزر <em>الأيمن</em> في شريط العنوان أو إطار نافذة "
 #~ "<em>نشِطة</em>."
 
-#, fuzzy
 #~ msgid "Titlebar & Frame"
 #~ msgstr "شريط العنوان و الإ&طار"
 
-#, fuzzy
 #~ msgid "Titlebar"
 #~ msgstr "إج&راءات شريط العنوان"
 
-#, fuzzy
 #~ msgid "no center snap zone"
 #~ msgstr "منطقة ال&جذب للوسط:"
 
-#, fuzzy
 #~ msgid "no window snap zone"
 #~ msgstr "منطقة جذب للن&افذة:"
 
-#, fuzzy
 #~ msgid "no border snap zone"
 #~ msgstr "منطقة ال&جذب للحدود:"
 
@@ -1585,7 +1565,6 @@ msgstr ""
 #~ msgid "Minimize"
 #~ msgstr "صغّر"
 
-#, fuzzy
 #~| msgid "Close"
 #~ msgctxt "@item:inlistbox behavior on double click"
 #~ msgid "Close"

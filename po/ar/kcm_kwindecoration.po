@@ -295,7 +295,6 @@ msgstr "ضخم جدًّا"
 msgid "Oversized"
 msgstr "فوق الطّبيعيّ"
 
-#, fuzzy
 #~| msgid ""
 #~| "Close by double clicking:\n"
 #~| " To open the menu, keep the button pressed until it appears."
@@ -314,12 +313,10 @@ msgstr "فوق الطّبيعيّ"
 #~ msgid "Keep above"
 #~ msgstr "أبقها بالأعلى"
 
-#, fuzzy
 #~| msgid "Get New Decorations..."
 #~ msgid "Download New Window Decorations"
 #~ msgstr "اجلب زخرفة جديدة..."
 
-#, fuzzy
 #~| msgid "Search"
 #~ msgid "Search..."
 #~ msgstr "ابحث"
@@ -330,12 +327,10 @@ msgstr "فوق الطّبيعيّ"
 #~ msgid "Buttons"
 #~ msgstr "الأ&زرار"
 
-#, fuzzy
 #~| msgid "Configure Buttons..."
 #~ msgid "Configure %1..."
 #~ msgstr "اضبط الأزرار..."
 
-#, fuzzy
 #~| msgid "Normal"
 #~ msgid "Form"
 #~ msgstr "عادي"

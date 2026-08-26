@@ -1804,13 +1804,11 @@ msgstr "تتبّع الفأرة:"
 #~ msgid "Darkens the entire screen when requesting root privileges"
 #~ msgstr "يعتم الشاشة كاملةً عند طلب صلاحيات الجذر"
 
-#, fuzzy
 #~| msgid "Scale"
 #~ msgctxt "Name of a KWin Effect"
 #~ msgid "Scale"
 #~ msgstr "حجّم"
 
-#, fuzzy
 #~| msgctxt "Comment describing the KWin Effect"
 #~| msgid ""
 #~| "Make modal dialogs smoothly fly in and out when they are shown or hidden"
@@ -1844,7 +1842,6 @@ msgstr "تتبّع الفأرة:"
 #~ msgid "90"
 #~ msgstr "90"
 
-#, fuzzy
 #~| msgctxt "Duration of rotation"
 #~| msgid "Default"
 #~ msgctxt "Duration of the slide animation"
@@ -1883,7 +1880,6 @@ msgstr "تتبّع الفأرة:"
 #~ msgid "Gray"
 #~ msgstr "رمادية"
 
-#, fuzzy
 #~ msgid "Duration of the fade:"
 #~ msgstr "مدّة ال"
 

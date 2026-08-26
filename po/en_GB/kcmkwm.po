@@ -1417,17 +1417,14 @@ msgstr ""
 #~ msgid "Maximizing"
 #~ msgstr "Maximising"
 
-#, fuzzy
 #~| msgid "Zero-Cornered"
 #~ msgid "Zero-cornered"
 #~ msgstr "Zero-Cornered"
 
-#, fuzzy
 #~| msgid "Switch to Window Tab to the Left/Right"
 #~ msgid "Switch to window tab to the left/right"
 #~ msgstr "Switch to Window Tab to the Left/Right"
 
-#, fuzzy
 #~| msgid "Window Tabbing"
 #~ msgid "Window tabbing:"
 #~ msgstr "Window Tabbing"
@@ -1439,7 +1436,6 @@ msgstr ""
 #~ "When turned on immediately switch to any new window tabs that were "
 #~ "automatically added to the current group."
 
-#, fuzzy
 #~| msgid "Switch to automatically grouped windows immediately"
 #~ msgid "&Switch to automatically grouped windows immediately"
 #~ msgstr "Switch to automatically grouped windows immediately"
@@ -1447,7 +1443,6 @@ msgstr ""
 #~ msgid "When turned on hide all tabs that are not active from the taskbar."
 #~ msgstr "When turned on hide all tabs that are not active from the taskbar."
 
-#, fuzzy
 #~| msgid "Hide inactive window tabs from the taskbar"
 #~ msgid "&Hide inactive window tabs from the taskbar"
 #~ msgstr "Hide inactive window tabs from the taskbar"
@@ -1459,7 +1454,6 @@ msgstr ""
 #~ "When turned on attempt to automatically detect when a newly opened window "
 #~ "is related to an existing one and place them in the same window group."
 
-#, fuzzy
 #~| msgid "Start Window Tab Drag"
 #~ msgid "Start window tab drag"
 #~ msgstr "Start Window Tab Drag"
@@ -1605,7 +1599,6 @@ msgstr ""
 #~ msgid "kcmkwinoptions"
 #~ msgstr "kcmkwinoptions"
 
-#, fuzzy
 #~| msgid ""
 #~| "The focus policy is used to determine the active window, i.e. the window "
 #~| "you can work in. <ul> <li><em>Click to focus:</em> A window becomes "
@@ -1829,7 +1822,6 @@ msgstr ""
 #~ msgid "Two-column horizontal tiling layout"
 #~ msgstr "Two-column horizontal tiling layout"
 
-#, fuzzy
 #~| msgctxt "Window Raising Policy"
 #~| msgid "Floating windows are always on top"
 #~ msgctxt "Floating"
@@ -2000,7 +1992,6 @@ msgstr ""
 #~ msgid "&Translucency"
 #~ msgstr "&Translucency"
 
-#, fuzzy
 #~ msgid ""
 #~ "<qt><b>It seems that alpha channel support is not available.</"
 #~ "b><br><br>Please make sure you have <a href=\"http://www.freedesktop.org/"

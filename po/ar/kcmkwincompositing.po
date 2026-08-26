@@ -221,16 +221,13 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgstr ""
 #~ "\"إعادة استخدام محتوى الشاشة\" يسبب مشاكل أداء فادحة على معرفات MESA."
 
-#, fuzzy
 #~ msgid "Rendering backend:"
 #~ msgstr "خلفية التصيير:"
 
-#, fuzzy
 #~| msgid "OpenGL"
 #~ msgid "OpenGL 3.1"
 #~ msgstr "OpenGL"
 
-#, fuzzy
 #~| msgid "OpenGL"
 #~ msgid "OpenGL 2.0"
 #~ msgstr "OpenGL"
@@ -265,12 +262,10 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgstr ""
 #~ "تلميحة: لإيجاد أو لضبط كيفية تفعيل هذا التأثير ، انظر إلى إعدادات التأثير"
 
-#, fuzzy
 #~| msgid "Search"
 #~ msgid "Search..."
 #~ msgstr "بحث"
 
-#, fuzzy
 #~| msgid "Texture filter:"
 #~ msgid "Configure filter"
 #~ msgstr "مرشح النسيج:"
@@ -281,7 +276,6 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgid "Exclude internal Desktop Effects"
 #~ msgstr "استثنِ مؤثرات سطح المكتب الداخلية"
 
-#, fuzzy
 #~| msgid "Get New Effects ..."
 #~ msgid "Get New Desktop Effects..."
 #~ msgstr "احصل على مؤثرات جديدة ..."
@@ -310,7 +304,6 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgid "Focus"
 #~ msgstr "التركيز"
 
-#, fuzzy
 #~| msgctxt "Category of Desktop Effects, used as section header"
 #~| msgid "Virtual Desktop Switching Animation"
 #~ msgctxt "Category of Desktop Effects, used as section header"
@@ -329,7 +322,6 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgid "Window Management"
 #~ msgstr "إدارة النوافذ"
 
-#, fuzzy
 #~| msgctxt "Category of Desktop Effects, used as section header"
 #~| msgid "Virtual Desktop Switching Animation"
 #~ msgctxt "Category of Desktop Effects, used as section header"
@@ -351,7 +343,6 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgid "Suspend compositor for full screen windows"
 #~ msgstr "أوقف تأثيرات سطح المكتب للنوافذ المالئة للشاشة"
 
-#, fuzzy
 #~| msgid "OpenGL Platform Interface:"
 #~ msgid "OpenGL interface:"
 #~ msgstr "واجهة منصة OpenGL:"
@@ -413,7 +404,6 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgid "Rivo Laks"
 #~ msgstr "Rivo Laks"
 
-#, fuzzy
 #~| msgid "No Effect"
 #~ msgid "No effect"
 #~ msgstr "بدون تأثير"
@@ -454,7 +444,6 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ "\n"
 #~ "الرجاء الخروج من وضع السقوط الآمن لتفعيل تأثيرات سطح المكتب."
 
-#, fuzzy
 #~| msgid "The following desktop effects could not be activated:"
 #~ msgctxt "Error Message shown when a desktop effect could not be loaded"
 #~ msgid "One desktop effect could not be loaded."
@@ -466,13 +455,11 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgstr[4] "تأثيرات سطح المكتب التالية لا يمكن تنشيطها:"
 #~ msgstr[5] "تأثيرات سطح المكتب التالية لا يمكن تنشيطها:"
 
-#, fuzzy
 #~| msgid "The following desktop effects could not be activated:"
 #~ msgctxt "Window title"
 #~ msgid "List of effects which could not be loaded"
 #~ msgstr "تأثيرات سطح المكتب التالية لا يمكن تنشيطها:"
 
-#, fuzzy
 #~| msgid "Desktop effects are active"
 #~ msgctxt ""
 #~ "Error Message shown when compositing is not active after tried activation"
@@ -522,12 +509,10 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgid "OpenGL Options"
 #~ msgstr "خيارات OpenGL "
 
-#, fuzzy
 #~| msgid "XRender Options"
 #~ msgid "General Options"
 #~ msgstr "خيارات XRender"
 
-#, fuzzy
 #~| msgid "OpenGL"
 #~ msgid "OpenGL 1.2"
 #~ msgstr "OpenGL"
@@ -615,7 +600,6 @@ msgstr "أعد تفعيل اكتشاف OpenGL"
 #~ msgid "Current Desktop"
 #~ msgstr "سطح المكتب الحالي"
 
-#, fuzzy
 #~| msgid "Bilinear"
 #~ msgid "Cylinder"
 #~ msgstr "ثنائي خطّي"

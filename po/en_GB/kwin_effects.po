@@ -1913,7 +1913,6 @@ msgstr "Mouse Tracking:"
 #~ msgid "90"
 #~ msgstr "90"
 
-#, fuzzy
 #~| msgctxt "Duration of rotation"
 #~| msgid "Default"
 #~ msgctxt "Duration of the slide animation"
@@ -2098,17 +2097,14 @@ msgstr "Mouse Tracking:"
 #~ msgid "&Active windows have stronger shadows"
 #~ msgstr "&Active windows have stronger shadows"
 
-#, fuzzy
 #~| msgid "Background"
 #~ msgid "Background brightness"
 #~ msgstr "Background"
 
-#, fuzzy
 #~| msgid "Background"
 #~ msgid "Background saturation"
 #~ msgstr "Background"
 
-#, fuzzy
 #~| msgid "End effect"
 #~ msgid "Effects"
 #~ msgstr "End effect"
@@ -2159,7 +2155,6 @@ msgstr "Mouse Tracking:"
 #~ msgid "Shadow size (relative to window):"
 #~ msgstr "Shadow size (relative to window):"
 
-#, fuzzy
 #~| msgid "Animate desktop changes"
 #~ msgid "Show cube when desktop changed"
 #~ msgstr "Animate desktop changes"
@@ -2170,7 +2165,6 @@ msgstr "Mouse Tracking:"
 #~ msgid "Set individual opacity for different menu types"
 #~ msgstr "Set individual opacity for different menu types"
 
-#, fuzzy
 #~| msgid "Velocity Stop"
 #~ msgid "&Velocity filter:"
 #~ msgstr "Velocity Stop"
@@ -2181,12 +2175,10 @@ msgstr "Mouse Tracking:"
 #~ msgid "Mean With Median"
 #~ msgstr "Mean With Median"
 
-#, fuzzy
 #~| msgid "Acceleration Stop"
 #~ msgid "Acceleration &filter:"
 #~ msgstr "Acceleration Stop"
 
-#, fuzzy
 #~| msgid "&Opacity:"
 #~ msgid "Cube &opacity:"
 #~ msgstr "&Opacity:"
@@ -2197,7 +2189,6 @@ msgstr "Mouse Tracking:"
 #~ msgid "Toggle Expose Effect (incl. other desktops)"
 #~ msgstr "Toggle Expose Effect (incl. other desktops)"
 
-#, fuzzy
 #~| msgid "WobblyWindows"
 #~ msgid "WobblyWindowsEffectConfigForm"
 #~ msgstr "WobblyWindows"
@@ -2237,11 +2228,9 @@ msgstr "Mouse Tracking:"
 #~ msgid "Max Acceleration"
 #~ msgstr "Max Acceleration"
 
-#, fuzzy
 #~ msgid "Raideur :"
 #~ msgstr "Raideur :"
 
-#, fuzzy
 #~ msgid "Amortissement :"
 #~ msgstr "Amortissement :"
 
@@ -2264,7 +2253,6 @@ msgstr "Mouse Tracking:"
 #~ msgid "GLX/OpenGL and XRender/XFixes are not available."
 #~ msgstr "GLX/OpenGL and XRender/XFixes are not available."
 
-#, fuzzy
 #~ msgid ""
 #~ "Compositing was disabled at compile time.\n"
 #~ "Probably Xorg development headers were not installed."
@@ -2727,7 +2715,6 @@ msgstr "Mouse Tracking:"
 #~ msgid "ID of resource belonging to the application."
 #~ msgstr "ID of resource belonging to the application."
 
-#, fuzzy
 #~ msgid "Time of user action causing killing."
 #~ msgstr "Time of user action causing killing."
 
@@ -2798,7 +2785,6 @@ msgstr "Mouse Tracking:"
 #~ msgid "The library %1 is not a KWin plugin."
 #~ msgstr "The library %1 is not a KWin plugin."
 
-#, fuzzy
 #~| msgid "Keep Window on All Desktops"
 #~ msgid "for windows on all desktops: Ctrl+F11"
 #~ msgstr "Keep Window on All Desktops"

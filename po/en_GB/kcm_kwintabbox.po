@@ -236,7 +236,6 @@ msgstr ""
 msgid "Show selected window"
 msgstr "Show selected window"
 
-#, fuzzy
 #~| msgid "Show outline of selected window"
 #~ msgid "Outline selected window"
 #~ msgstr "Show outline of selected window"
@@ -260,22 +259,18 @@ msgstr "Show selected window"
 #~ msgid "Walk Through Windows Alternative (Reverse)"
 #~ msgstr "Walk Through Windows Alternative (Reverse)"
 
-#, fuzzy
 #~| msgid "Walk Through Windows Alternative"
 #~ msgid "Walk Through Windows of Current Application"
 #~ msgstr "Walk Through Windows Alternative"
 
-#, fuzzy
 #~| msgid "Walk Through Windows Alternative (Reverse)"
 #~ msgid "Walk Through Windows of Current Application (Reverse)"
 #~ msgstr "Walk Through Windows Alternative (Reverse)"
 
-#, fuzzy
 #~| msgid "Walk Through Windows Alternative"
 #~ msgid "Walk Through Windows of Current Application Alternative"
 #~ msgstr "Walk Through Windows Alternative"
 
-#, fuzzy
 #~| msgid "Walk Through Windows Alternative (Reverse)"
 #~ msgid "Walk Through Windows of Current Application Alternative (Reverse)"
 #~ msgstr "Walk Through Windows Alternative (Reverse)"
@@ -294,17 +289,14 @@ msgstr "Show selected window"
 #~ msgid "These settings are used by the \"Walk Through Windows\" actions."
 #~ msgstr "These settings are used by the \"Walk Through Windows\" actions."
 
-#, fuzzy
 #~| msgid "All Desktops Grouped by Applications"
 #~ msgid "All windows from all applications"
 #~ msgstr "All Desktops Grouped by Applications"
 
-#, fuzzy
 #~| msgid "Adds an entry to minimize all windows."
 #~ msgid "Exclude minimized windows"
 #~ msgstr "Adds an entry to minimise all windows."
 
-#, fuzzy
 #~| msgid "Adds an entry to minimize all windows."
 #~ msgid "Show desktop to minimize all windows"
 #~ msgstr "Adds an entry to minimise all windows."
@@ -318,31 +310,26 @@ msgstr "Show selected window"
 #~ msgid "Display list while switching"
 #~ msgstr "Display list while switching"
 
-#, fuzzy
 #~| msgid "Informative"
 #~ msgctxt "Name for a window switcher layout showing icon, name and desktop"
 #~ msgid "Informative"
 #~ msgstr "Informative"
 
-#, fuzzy
 #~| msgid "Compact"
 #~ msgctxt "Name for a window switcher layout showing only icon and name"
 #~ msgid "Compact"
 #~ msgstr "Compact"
 
-#, fuzzy
 #~| msgid "Text Only"
 #~ msgctxt "Name for a window switcher layout showing only the name"
 #~ msgid "Text"
 #~ msgstr "Text Only"
 
-#, fuzzy
 #~| msgid "Large Icons"
 #~ msgctxt "Name for a window switcher layout showing large icons"
 #~ msgid "Large Icons"
 #~ msgstr "Large Icons"
 
-#, fuzzy
 #~| msgid "Small Icons"
 #~ msgctxt "Name for a window switcher layout showing small icons"
 #~ msgid "Small Icons"

@@ -136,27 +136,22 @@ msgstr "Animate buttons"
 #~ msgid "Use shadowed &text"
 #~ msgstr "Use shadowed &text"
 
-#, fuzzy
 #~| msgid "Enable animations"
 #~ msgid "Title transitions"
 #~ msgstr "Enable animations"
 
-#, fuzzy
 #~| msgid "Basic window decoration configuration options"
 #~ msgid "Hide Advanced Configuration Options"
 #~ msgstr "Basic window decoration configuration options"
 
-#, fuzzy
 #~| msgid "Basic window decoration configuration options"
 #~ msgid "Show Advanced Configuration Options"
 #~ msgstr "Basic window decoration configuration options"
 
-#, fuzzy
 #~| msgid "Animate buttons"
 #~ msgid "Animations"
 #~ msgstr "Animate buttons"
 
-#, fuzzy
 #~| msgid "Actions Settings"
 #~ msgid "Question - Oxygen Settings"
 #~ msgstr "Actions Settings"
@@ -185,19 +180,16 @@ msgstr "Animate buttons"
 #~ msgid "General"
 #~ msgstr "General"
 
-#, fuzzy
 #~| msgid "Border size:"
 #~ msgid "Border si&ze:"
 #~ msgstr "Border size:"
 
-#, fuzzy
 #~| msgctxt "@item:inlistbox Border size:"
 #~| msgid "No Border"
 #~ msgctxt "@item:inlistbox Border size:"
 #~ msgid "No Border"
 #~ msgstr "No Border"
 
-#, fuzzy
 #~| msgctxt "@item:inlistbox Border size:"
 #~| msgid "No Side Border"
 #~ msgctxt "@item:inlistbox Border size:"
@@ -220,7 +212,6 @@ msgstr "Animate buttons"
 #~ msgid "Huge"
 #~ msgstr "Huge"
 
-#, fuzzy
 #~| msgid "Title alignment:"
 #~ msgid "Tit&le alignment:"
 #~ msgstr "Title alignment:"
@@ -250,7 +241,6 @@ msgstr "Animate buttons"
 #~ msgid "Always Draw Separator"
 #~ msgstr "Always Draw Separator"
 
-#, fuzzy
 #~| msgid "Separator display:"
 #~ msgid "Separator disp&lay:"
 #~ msgstr "Separator display:"
@@ -273,7 +263,6 @@ msgstr "Animate buttons"
 #~ msgid "Window-Specific Overrides"
 #~ msgstr "Window-Specific Overrides"
 
-#, fuzzy
 #~| msgid "Config Dialog"
 #~ msgid "Dialog"
 #~ msgstr "Config Dialogue"
@@ -331,13 +320,11 @@ msgstr "Animate buttons"
 #~ msgid "Hide window title bar"
 #~ msgstr "Hide window title bar"
 
-#, fuzzy
 #~| msgid "Disabled"
 #~ msgctxt "Add handle to resize windows with no border"
 #~ msgid "Disabled"
 #~ msgstr "Disabled"
 
-#, fuzzy
 #~| msgctxt "outline window title"
 #~| msgid "Enabled"
 #~ msgctxt "Add handle to resize windows with no border"
@@ -374,7 +361,6 @@ msgstr "Animate buttons"
 #~ msgid "Oxygen"
 #~ msgstr "Oxygen"
 
-#, fuzzy
 #~| msgid "Window Identification"
 #~ msgid "Window Actions Menu"
 #~ msgstr "Window Identification"
@@ -489,7 +475,6 @@ msgstr "Animate buttons"
 #~ msgid "Laptop"
 #~ msgstr "Laptop"
 
-#, fuzzy
 #~| msgid "Background style: "
 #~ msgid "Bac&kground style: "
 #~ msgstr "Background style: "
@@ -596,7 +581,6 @@ msgstr "Animate buttons"
 #~ msgid "Display window icons"
 #~ msgstr "Display window icons"
 
-#, fuzzy
 #~| msgid "Outer Color:"
 #~ msgid "O&utline Color:"
 #~ msgstr "Outer Colour:"
@@ -891,7 +875,6 @@ msgstr "Animate buttons"
 #~ msgid "Configure window decoration option overrides for specific windows"
 #~ msgstr "Configure window decoration option overrides for specific windows"
 
-#, fuzzy
 #~| msgid "Oxygen"
 #~ msgid "Oxygen team"
 #~ msgstr "Oxygen"
@@ -906,7 +889,6 @@ msgstr "Animate buttons"
 #~ msgid "Show stripes next to the title"
 #~ msgstr "Show stripes next to the title"
 
-#, fuzzy
 #~| msgid ""
 #~| "When enabled, this option increases the visibility of the window "
 #~| "titlebar by showing stripes"
@@ -917,17 +899,14 @@ msgstr "Animate buttons"
 #~ "When enabled, this option increases the visibility of the window titlebar "
 #~ "by showing stripes"
 
-#, fuzzy
 #~| msgid "Blend title bar colors with window contents"
 #~ msgid "Draw separator between title bar and window contents"
 #~ msgstr "Blend title bar colours with window contents"
 
-#, fuzzy
 #~| msgid "Show stripes next to the title"
 #~ msgid "Show stripes next to the title:"
 #~ msgstr "Show stripes next to the title"
 
-#, fuzzy
 #~| msgid "Blend title bar colors with window contents"
 #~ msgid "Blend title bar colors with window content:"
 #~ msgstr "Blend title bar colours with window contents"
@@ -938,7 +917,6 @@ msgstr "Animate buttons"
 #~ msgid "Ozone"
 #~ msgstr "Ozone"
 
-#, fuzzy
 #~| msgid "Draw window frames using &titlebar colors"
 #~ msgid "Overwrite default title bar colors:"
 #~ msgstr "Draw window frames using &titlebar colours"
@@ -953,12 +931,10 @@ msgstr "Animate buttons"
 #~ msgid "Use thin borders"
 #~ msgstr "Use thin borders"
 
-#, fuzzy
 #~| msgid "<b><center>B II preview</center></b>"
 #~ msgid "<b><center>Oxygen preview! =)</center></b>"
 #~ msgstr "<b><center>B II preview</center></b>"
 
-#, fuzzy
 #~| msgid "Unsticky"
 #~ msgid "Un-Sticky"
 #~ msgstr "Unsticky"

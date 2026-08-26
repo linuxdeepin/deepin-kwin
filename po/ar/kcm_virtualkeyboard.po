@@ -33,12 +33,12 @@ msgstr "zayed.alsaidi@gmail.com"
 #: kcmvirtualkeyboard.cpp:29
 #, kde-format
 msgid "Virtual Keyboard"
-msgstr ""
+msgstr "لوحة المفاتيح الافتراضية"
 
 #: kcmvirtualkeyboard.cpp:31
 #, kde-format
 msgid "Choose Virtual Keyboard"
-msgstr ""
+msgstr "اختر لوحة المفاتيح الافتراضية"
 
 #: kcmvirtualkeyboard.cpp:68
 #, kde-format
@@ -48,9 +48,9 @@ msgstr "بدون"
 #: kcmvirtualkeyboard.cpp:72
 #, kde-format
 msgid "Do not use any virtual keyboard"
-msgstr ""
+msgstr "لا تستخدم أي لوحة مفاتيح افتراضية"
 
 #: package/contents/ui/main.qml:16
 #, kde-format
 msgid "This module lets you choose the virtual keyboard to use."
-msgstr ""
+msgstr "تتيح لك هذه الوحدة اختيار لوحة المفاتيح الافتراضية التي تريد استخدامها."

@@ -2827,6 +2827,41 @@ msgstr ""
 "اللصق \n"
 "مثل https://paste.kde.org بدلاً من اللصق في موضوع الدعم. \n"
 
+#: workspace.cpp:2507
+#, kde-format
+msgid "The confidential file cannot be displayed"
+msgstr "لا يمكن عرض الملف السري"
+
+msgid "Minimize"
+msgstr "صغّر"
+
+msgid "Unmaximize"
+msgstr "ألغِ التكبير"
+
+msgid "Maximize"
+msgstr "كبّر"
+
+msgid "Move"
+msgstr "انقل"
+
+msgid "Resize"
+msgstr "غيّر الحجم"
+
+msgid "Always on Top"
+msgstr "دائمًا في المقدمة"
+
+msgid "Always on Visible Workspace"
+msgstr "دائمًا في مساحة العمل المرئية"
+
+msgid "Move to Workspace Left"
+msgstr "انقل إلى مساحة العمل اليسرى"
+
+msgid "Move to Workspace Right"
+msgstr "انقل إلى مساحة العمل اليمنى"
+
+msgid "Close"
+msgstr "أغلق"
+
 #~ msgid "&No Border"
 #~ msgstr "&بلا حدّ"
 

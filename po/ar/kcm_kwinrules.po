@@ -966,12 +966,10 @@ msgstr "لا يمكن اكتشاف خواص النافذة. لا تدار الن
 #~ msgid "Cascaded"
 #~ msgstr "متتالي"
 
-#, fuzzy
 #~| msgid "Keep &above"
 #~ msgid "Keep above"
 #~ msgstr "أبقهِ أ&على"
 
-#, fuzzy
 #~| msgid "Keep &below"
 #~ msgid "Keep below"
 #~ msgstr "أبقهِ أ&سفل"
@@ -982,7 +980,6 @@ msgstr "لا يمكن اكتشاف خواص النافذة. لا تدار الن
 #~ msgid "KWin helper utility"
 #~ msgstr "أداة مساعدة كِون"
 
-#, fuzzy
 #~| msgid "&Detect Window Properties"
 #~ msgid "Select properties"
 #~ msgstr "ا&كشف خصائص النافذة"
@@ -1089,7 +1086,6 @@ msgstr "لا يمكن اكتشاف خواص النافذة. لا تدار الن
 #~ msgid "&Moving/resizing"
 #~ msgstr "ح&رّك/أعد تحجيم"
 
-#, fuzzy
 #~| msgid "Title:"
 #~ msgid "Tiled"
 #~ msgstr "العنوان:"

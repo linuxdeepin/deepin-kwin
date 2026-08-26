@@ -33,12 +33,12 @@ msgstr "zayed.alsaidi@gmail.com"
 #: kcm.cpp:35
 #, kde-format
 msgid "Desktop Effects"
-msgstr ""
+msgstr "تأثيرات سطح المكتب"
 
 #: kcm.cpp:39
 #, kde-format
 msgid "Vlad Zahorodnii"
-msgstr ""
+msgstr "Vlad Zahorodnii"
 
 #: package/contents/ui/Effect.qml:92
 #, kde-format
@@ -46,23 +46,25 @@ msgid ""
 "Author: %1\n"
 "License: %2"
 msgstr ""
+"المؤلف: %1\n"
+"الترخيص: %2"
 
 #: package/contents/ui/Effect.qml:121
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show/Hide Video"
-msgstr ""
+msgstr "أظهر/أخفِ الفيديو"
 
 #: package/contents/ui/Effect.qml:128
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Configure..."
-msgstr ""
+msgstr "اضبط..."
 
 #: package/contents/ui/main.qml:20
 #, kde-format
 msgid "This module lets you configure desktop effects."
-msgstr ""
+msgstr "تتيح لك هذه الوحدة ضبط تأثيرات سطح المكتب."
 
 #: package/contents/ui/main.qml:27
 #, kde-format
@@ -70,26 +72,28 @@ msgid ""
 "Hint: To find out or configure how to activate an effect, look at the "
 "effect's settings."
 msgstr ""
+"تلميح: لمعرفة كيفية تفعيل التأثير أو ضبطه، اطّلع على إعدادات "
+"التأثير."
 
 #: package/contents/ui/main.qml:47
 #, kde-format
 msgid "Configure Filter"
-msgstr ""
+msgstr "اضبط عامل التصفية"
 
 #: package/contents/ui/main.qml:59
 #, kde-format
 msgid "Exclude unsupported effects"
-msgstr ""
+msgstr "استبعد التأثيرات غير المدعومة"
 
 #: package/contents/ui/main.qml:67
 #, kde-format
 msgid "Exclude internal effects"
-msgstr ""
+msgstr "استبعد التأثيرات الداخلية"
 
 #: package/contents/ui/main.qml:125
 #, kde-format
 msgid "Get New Desktop Effects..."
-msgstr ""
+msgstr "احصل على تأثيرات جديدة..."
 
 #~ msgid "Download New Desktop Effects"
 #~ msgstr ""

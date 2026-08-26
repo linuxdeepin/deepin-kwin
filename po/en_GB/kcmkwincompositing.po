@@ -261,7 +261,6 @@ msgstr "Re-enable OpenGL detection"
 #~ "Hint: To find out or configure how to activate an effect, look at the "
 #~ "effect's settings."
 
-#, fuzzy
 #~| msgid "Search"
 #~ msgid "Search..."
 #~ msgstr "Search"
@@ -413,7 +412,6 @@ msgstr "Re-enable OpenGL detection"
 #~ msgid "Rivo Laks"
 #~ msgstr "Rivo Laks"
 
-#, fuzzy
 #~| msgid "No Effect"
 #~ msgid "No effect"
 #~ msgstr "No Effect"
@@ -455,7 +453,6 @@ msgstr "Re-enable OpenGL detection"
 #~ "\n"
 #~ "Please exit failsafe mode to enable desktop effects."
 
-#, fuzzy
 #~| msgid "The following desktop effects could not be activated:"
 #~ msgctxt "Error Message shown when a desktop effect could not be loaded"
 #~ msgid "One desktop effect could not be loaded."
@@ -463,13 +460,11 @@ msgstr "Re-enable OpenGL detection"
 #~ msgstr[0] "The following desktop effects could not be activated:"
 #~ msgstr[1] "The following desktop effects could not be activated:"
 
-#, fuzzy
 #~| msgid "The following desktop effects could not be activated:"
 #~ msgctxt "Window title"
 #~ msgid "List of effects which could not be loaded"
 #~ msgstr "The following desktop effects could not be activated:"
 
-#, fuzzy
 #~| msgid "Desktop effects are active"
 #~ msgctxt ""
 #~ "Error Message shown when compositing is not active after tried activation"
@@ -583,7 +578,6 @@ msgstr "Re-enable OpenGL detection"
 #~ "decoration: underline;\">very</span> slow, you will have to try it.</p></"
 #~ "body></html>"
 
-#, fuzzy
 #~| msgid ""
 #~| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/"
 #~| "TR/REC-html40/strict.dtd\">\n"
@@ -708,12 +702,10 @@ msgstr "Re-enable OpenGL detection"
 #~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Fall back to \"Smooth\" "
 #~ "if you have problems.</p></body></html>"
 
-#, fuzzy
 #~| msgid "OpenGL"
 #~ msgid "OpenGL 1.2"
 #~ msgstr "OpenGL"
 
-#, fuzzy
 #~| msgid ""
 #~| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/"
 #~| "TR/REC-html40/strict.dtd\">\n"
@@ -798,7 +790,6 @@ msgstr "Re-enable OpenGL detection"
 #~ "decoration: underline;\">very</span> slow, you will have to try it.</p></"
 #~ "body></html>"
 
-#, fuzzy
 #~| msgid "Use GLSL shaders"
 #~ msgid "Use OpenGL 2 Shaders"
 #~ msgstr "Use GLSL shaders"

@@ -251,7 +251,6 @@ msgstr "يمكنك تشغيل إجراء عن طريق التمرير من حا�
 #~ msgid "%1 - Sphere"
 #~ msgstr "%1 - كرة"
 
-#, fuzzy
 #~| msgid "Active Screen Edge Actions"
 #~ msgid "Active Screen Corners and Edges"
 #~ msgstr "إجراءات حواف الشّاشة النّشطة"
@@ -259,7 +258,6 @@ msgstr "يمكنك تشغيل إجراء عن طريق التمرير من حا�
 #~ msgid "Window Management"
 #~ msgstr "إدارة النّوافذ"
 
-#, fuzzy
 #~| msgid "Maximize windows by dragging them to the top of the screen"
 #~ msgid "Maximize windows by dragging them to the top edge of the screen"
 #~ msgstr "كبّر النّوافذ بسحبها أعلى الشّاشة"
