@@ -1016,6 +1016,11 @@ void WaylandServer::removeWindow(Window *c)
         Q_EMIT windowRemoved(c);
         qCInfo(KWIN_CORE) << "Window ready for painting, removed. Window id:" << c->window();
     }
+
+    // dde-lock 解锁时不会发送信号，导致桌面可见性未被计算从而黑屏，此处做信号补发
+    if (c->isLockScreen()) {
+        Q_EMIT lockStateChanged();
+    }
 }
 
 static Window *findWindowInList(const QList<Window *> &windows, quint32 id)
