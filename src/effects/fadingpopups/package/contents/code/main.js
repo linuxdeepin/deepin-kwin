@@ -20,6 +20,8 @@ var blacklist = [
     "ksplashqml ksplashqml",
     // Ignore wechat screenshot window
     "wechat wechat",
+    // Ignore input method candidate window (fcitx)
+    "fcitx fcitx",
 ];
 
 const whitelist = [
@@ -95,14 +97,7 @@ function isPopupWindow(window) {
     // concepts that are expected to be animated by this effect, e.g.
     // popups that contain window thumbnails on X11, etc.
     if (!window.managed) {
-        // Some utility windows can look like popup windows (e.g. the
-        // address bar dropdown in Firefox), but we don't want to fade
-        // them because the fade effect didn't do that.
-        if (window.utility) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     // Previously, there was a "monolithic" fade effect, which tried to
