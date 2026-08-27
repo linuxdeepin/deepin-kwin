@@ -1,3 +1,16 @@
+kwin (4:6.1.37) unstable; urgency=medium
+
+  * chore: remove unused systemd service files
+  * fix(windowstyle): correct Q_SLOT to Q_SLOTS in DecorationStyle
+  * fix(log): fix dconfig log_rules not matching actual rules and not real-t…
+  * fix(alttabthumbnaillist): use texture2D in legacy GLSL 1.20 scissor shader
+  * fix(useractions): pick checked menu icon via isDarkTheme()
+  * fix(i18n): sync translations to fix French context menu
+  * fix(alt-tab): restart select and scroll animation on completed timeline
+  * fix: 修复锁屏界面热插拔HDMI后解锁桌面黑屏的问题
+
+ -- lijunjie <lijunjie@uniontech.com>  Thu, 27 Aug 2026 10:47:10 +0800
+
 kwin (4:6.1.36) unstable; urgency=medium
 
   * fix: XWayland键盘grab结束后鼠标事件无响应
