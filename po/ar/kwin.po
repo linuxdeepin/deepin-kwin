@@ -3580,38 +3580,3 @@ msgstr "أغلق"
 #~ "<qt><b>XFixes extension not found</b><br>You <i>must</i> use XOrg &ge; 6.8 "
 #~ "for translucency and shadows to work.</qt>"
 #~ msgstr ""
-
-#: workspace.cpp:2507
-#, kde-format
-msgid "The confidential file cannot be displayed"
-msgstr ""
-
-msgid "Minimize"
-msgstr "تصغير"
-
-msgid "Unmaximize"
-msgstr "إلغاء التكبير"
-
-msgid "Maximize"
-msgstr "تكبير"
-
-msgid "Move"
-msgstr "نقل"
-
-msgid "Resize"
-msgstr "تغيير الحجم"
-
-msgid "Always on Top"
-msgstr "دائما فوق"
-
-msgid "Always on Visible Workspace"
-msgstr "دائما فوق مساحة العمل الظاهرة"
-
-msgid "Move to Workspace Left"
-msgstr "نقل إلى مساحة العمل اليسرى"
-
-msgid "Move to Workspace Right"
-msgstr "نقل إلى مساحة العمل اليمنى"
-
-msgid "Close"
-msgstr "إغلاق"
