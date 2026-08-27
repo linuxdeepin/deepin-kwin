@@ -152,34 +152,6 @@ Description: KDE window manager data files
  .
  This package contains the data files
 
-Package: kwin-dev
-Section: libdevel
-Architecture: any
-Depends: kwin-common (= ${binary:Version}),
-         libegl1-mesa-dev (>= 1.2~),
-         libepoxy-dev (>= 1.3),
-         libkf6config-dev (>= 6.0.0),
-         libkf6coreaddons-dev (>= 6.0.0),
-         libkf6windowsystem-dev (>= 6.0.0),
-         libxcb-xfixes0-dev (>= 1.10~),
-         qt6-base-dev (>= 6.7.0),
-         ${misc:Depends},
-         ${shlibs:Depends},
-Breaks: kde-workspace-dev, deepin-kwin-dev (< 4:6.1.0),
-Conflicts: deepin-kwin-dev (< 4:6.1.0),
-Replaces: kde-workspace-dev, deepin-kwin-dev (< 4:6.1.0),
-Provides: deepin-kwin-dev,
-Description: KDE window manager - devel files
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module.
-
 Package: kwin-wayland
 Architecture: any
 Depends: libcap2-bin [linux-any],

@@ -148,33 +148,6 @@ Description: KDE window manager data files
  .
  This package contains the data files
 
-Package: kwin-dev
-Section: libdevel
-Architecture: any
-Depends: kwin-common (= ${binary:Version}),
-         libegl1-mesa-dev (>= 1.2~),
-         libepoxy-dev (>= 1.3),
-         libkf5config-dev (>= 5.54.0~),
-         libkf5coreaddons-dev (>= 5.54.0~),
-         libkf5windowsystem-dev (>= 5.54.0~),
-         libqt5x11extras5-dev (>= 5.11.3~),
-         libxcb-xfixes0-dev (>= 1.10~),
-         qtbase5-dev (>= 5.11.3~),
-         ${misc:Depends},
-         ${shlibs:Depends},
-Breaks: kde-workspace-dev,
-Replaces: kde-workspace-dev,
-Description: KDE window manager - devel files
- KWin (pronounced as one syllable "kwin") is the window
- manager for the KDE Plasma Desktop. It gives you complete
- control over your windows, making sure they're not in the way
- but aid you in your task. It paints the window decoration,
- the bar on top of every window with (configurable) buttons
- like close, maximize and minimize. It also handles placing
- of windows and switching between them.
- .
- This package is part of the KDE base workspace module.
-
 Package: kwin-wayland
 Architecture: any
 Depends: kwayland-integration (>= 5.14.5),
