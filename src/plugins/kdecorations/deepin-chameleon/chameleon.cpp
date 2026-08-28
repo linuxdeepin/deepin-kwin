@@ -111,7 +111,8 @@ void Chameleon::init()
 
     connect(global_config, &ChameleonConfig::themeChanged, this, &Chameleon::updateTheme);
     connect(global_config, &ChameleonConfig::windowNoTitlebarPropertyChanged, this, &Chameleon::onNoTitlebarPropertyChanged);
-    connect(settings().data(), &KDecoration2::DecorationSettings::alphaChannelSupportedChanged, this, &Chameleon::updateConfig);
+    connect(settings().data(), &KDecoration2::DecorationSettings::alphaChannelSupportedChanged,
+            this, &Chameleon::updateConfig, Qt::QueuedConnection);
     connect(c, &KDecoration2::DecoratedClient::activeChanged, this, &Chameleon::updateConfig);
     connect(c, &KDecoration2::DecoratedClient::widthChanged, this, &Chameleon::onClientWidthChanged);
     connect(c, &KDecoration2::DecoratedClient::heightChanged, this, &Chameleon::onClientHeightChanged);
@@ -502,7 +503,11 @@ void Chameleon::updateTheme()
 
 void Chameleon::updateConfig()
 {
-    auto c = client().toStrongRef().data();
+    auto strongClient = client().toStrongRef();
+    if (strongClient.isNull()) {
+        return;
+    }
+    auto c = strongClient.data();
 
     bool active = c->isActive();
 
