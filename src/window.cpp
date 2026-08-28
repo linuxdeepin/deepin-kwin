@@ -2001,6 +2001,9 @@ void Window::finishInteractiveMoveResize(bool cancel)
 
     bool needTrigger = false;
     if (isElectricBorderMaximizing()) {
+        if (electricBorderMode() == QuickTileFlag::Left || electricBorderMode() == QuickTileFlag::Right) {
+            EventLog::reportSplitScreen(LaunchTypeMouseDrag, this);
+        }
         setQuickTileMode(electricBorderMode());
         setElectricBorderMaximizing(false);
         needTrigger = true;
@@ -5141,6 +5144,9 @@ void Window::maybeSendFrameCallback()
 
 void Window::setQuickTileFromMenu(QuickTileMode mode, bool isShowPreview)
 {
+    if (mode == QuickTileFlag::Left || mode == QuickTileFlag::Right) {
+        EventLog::reportSplitScreen(LaunchTypeWindowButton, this);
+    }
     setQuickTileMode(mode, false, false, LaunchTypeWindowButton);
     if (workspace()->activeWindow() != this)
         workspace()->activateWindow(this, true);

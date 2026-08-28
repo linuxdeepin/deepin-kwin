@@ -14,6 +14,7 @@
 
 #ifndef KCMRULES
 #include "cursor.h"
+#include "eventlog.h"
 #include "options.h"
 #include "rules.h"
 #include "virtualdesktops.h"
@@ -832,6 +833,9 @@ void Workspace::quickTileWindow(QuickTileMode mode)
 {
     if (!m_activeWindow) {
         return;
+    }
+    if (mode == QuickTileFlag::Left || mode == QuickTileFlag::Right) {
+        EventLog::reportSplitScreen(LaunchTypeKeyboard, m_activeWindow);
     }
 
     // If the user invokes two of these commands in a one second period, try to

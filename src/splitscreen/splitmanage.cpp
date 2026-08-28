@@ -8,7 +8,6 @@
 */
 
 #include "splitmanage.h"
-#include "eventlog.h"
 #include "window.h"
 #include "virtualdesktops.h"
 #include "../core/output.h"
@@ -133,9 +132,6 @@ void SplitManage::handleQuickTile(int launchType)
     if (isSplitWindow(window)) {
         addQuickTile(desktop, screenName, window);
         createSplitBar(screenName);
-        if (launchType == LaunchTypeWindowButton || launchType == LaunchTypeMouseDrag) {
-            EventLog::reportSplitScreen(launchType, window);
-        }
         {
             m_data[window].desktop = desktop;
             m_data[window].screenName = screenName;
