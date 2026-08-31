@@ -488,6 +488,7 @@ void ZoomEffect::zoomIn(double to)
         target_zoom = std::min(to, ZoomConfig::maxZoom());
     }
 
+#ifndef BUILD_ON_V25
     if (zoom == 1.0) {
         QDBusMessage msg = QDBusMessage::createMethodCall(
             QStringLiteral("com.deepin.dde.osd"),
@@ -498,6 +499,7 @@ void ZoomEffect::zoomIn(double to)
         msg << QStringLiteral("magnifier");
         QDBusConnection::sessionBus().asyncCall(msg);
     }
+#endif
 
     if (!polling) {
         polling = true;
