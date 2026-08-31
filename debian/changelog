@@ -1,3 +1,13 @@
+kwin (4:6.1.38) unstable; urgency=medium
+
+  * fix(splitscreen): move event log reporting from execution point to entry points
+  * fix(decoration): guard chameleon config update against dangling client
+  * fix(i18n): remove duplicate msgid entries in Arabic translation
+  * fix(fadingpopups): disable fade for input method and global search
+  * feat(i18n): complete Arabic translations for KWin
+
+ -- justforlxz <justforlxz@gmail.com>  Mon, 31 Aug 2026 11:45:01 +0800
+
 kwin (4:6.1.37) unstable; urgency=medium
 
   * chore: remove unused systemd service files
