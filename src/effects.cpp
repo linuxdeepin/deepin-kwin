@@ -2158,7 +2158,7 @@ void EffectsHandlerImpl::setQuickTileWindow(KWin::EffectWindow *w, int mode)
     auto window = static_cast<EffectWindowImpl *>(w)->window();
     if (window->isClient()) {
         QuickTileMode tileMode = (QuickTileMode)mode;
-        if (tileMode == QuickTileFlag::Left || tileMode == QuickTileFlag::Right) {
+        if (tileMode == QuickTileMode(QuickTileFlag::Left) || tileMode == QuickTileMode(QuickTileFlag::Right)) {
             EventLog::reportSplitScreen(LaunchTypeWindowButton, window);
         }
         return window->setQuickTileMode((QuickTileMode)mode);

@@ -834,7 +834,7 @@ void Workspace::quickTileWindow(QuickTileMode mode)
     if (!m_activeWindow) {
         return;
     }
-    if (mode == QuickTileFlag::Left || mode == QuickTileFlag::Right) {
+    if (mode == QuickTileMode(QuickTileFlag::Left) || mode == QuickTileMode(QuickTileFlag::Right)) {
         EventLog::reportSplitScreen(LaunchTypeKeyboard, m_activeWindow);
     }
 
