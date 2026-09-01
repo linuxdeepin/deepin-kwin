@@ -1,3 +1,9 @@
+kwin (4:6.1.39) unstable; urgency=medium
+
+  * fix: 修复防截屏功能在部分情景不生效的问题
+
+ -- lijunjie <lijunjie@uniontech.com>  Tue, 01 Sep 2026 11:02:06 +0800
+
 kwin (4:6.1.38) unstable; urgency=medium
 
   * fix(splitscreen): move event log reporting from execution point to entry points
