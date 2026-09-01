@@ -22,6 +22,8 @@ class BlurManagerInterface;
 namespace KWin
 {
 
+class BackgroundEffectItem;
+
 struct BlurRenderData
 {
     /// Temporary render targets needed for the Dual Kawase algorithm, the first texture
@@ -34,6 +36,9 @@ struct BlurEffectData
 {
     /// The region that should be blurred behind the window
     QRegion region;
+
+    /// Scene item tracking the blur region for damage expansion
+    std::unique_ptr<BackgroundEffectItem> effectItem;
 
     /// The render data per screen. Screens can have different color spaces.
     std::unordered_map<EffectScreen *, BlurRenderData> render;
@@ -84,6 +89,7 @@ private:
     void updateBlurRegion(EffectWindow *w);
     void blur(EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data);
     GLTexture *ensureNoiseTexture();
+    void updateBackgroundEffectItem(EffectWindow *w, const QRegion &region, bool valid);
 
 private:
     struct

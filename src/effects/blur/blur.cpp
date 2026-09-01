@@ -10,6 +10,9 @@
 // KConfigSkeleton
 #include "blurconfig.h"
 
+#include "effects.h"
+#include "scene/backgroundeffectitem.h"
+#include "scene/windowitem.h"
 #include "kwineffectsex.h"
 #include "libkwineffects/kwinglplatform.h"
 #include "utils/xcbutils.h"
@@ -149,6 +152,12 @@ BlurEffect::BlurEffect()
 
 BlurEffect::~BlurEffect()
 {
+    // Clean up background effect items and clear blur role data.
+    for (auto &[window, data] : m_windows) {
+        data.effectItem.reset();
+        window->setData(WindowBlurBehindRole, QVariant());
+    }
+
     // When compositing is restarted, avoid removing the manager immediately.
     if (s_blurManager) {
         s_blurManagerRemoveTimer->start(1000);
@@ -223,6 +232,13 @@ void BlurEffect::reconfigure([[maybe_unused]] ReconfigureFlags flags)
     m_expandSize = blurOffsets[m_iterationCount - 1].expandSize;
     m_noiseStrength = BlurConfig::noiseStrength();
 
+    // Sync expand size to existing background effect items.
+    for (auto &[window, data] : m_windows) {
+        if (data.effectItem) {
+            data.effectItem->setExpandSize(m_expandSize);
+        }
+    }
+
     // Update all windows for the blur to take effect
     effects->addRepaintFull();
 }
@@ -271,11 +287,45 @@ void BlurEffect::updateBlurRegion(EffectWindow *w)
         } else {
             w->setData(WindowBlurBehindRole, region);
         }
+        updateBackgroundEffectItem(w, region, true);
     } else {
         if (auto it = m_windows.find(w); it != m_windows.end()) {
+            updateBackgroundEffectItem(w, QRegion(), false);
+            w->setData(WindowBlurBehindRole, QVariant());
             effects->makeOpenGLContextCurrent();
             m_windows.erase(it);
         }
+    }
+}
+
+void BlurEffect::updateBackgroundEffectItem(EffectWindow *w, const QRegion &region, bool valid)
+{
+    auto it = m_windows.find(w);
+    if (it == m_windows.end()) {
+        return;
+    }
+
+    BlurEffectData &data = it->second;
+
+    if (valid) {
+        QRegion effectiveRegion = region;
+        if (effectiveRegion.isEmpty()) {
+            // Empty region means blur the whole window.
+            effectiveRegion = w->rect().toRect();
+        }
+
+        if (!data.effectItem) {
+            auto *windowItem = static_cast<EffectWindowImpl *>(w)->windowItem();
+            if (windowItem) {
+                data.effectItem = std::make_unique<BackgroundEffectItem>(windowItem->scene(), windowItem);
+            }
+        }
+        if (data.effectItem) {
+            data.effectItem->setExpandSize(m_expandSize);
+            data.effectItem->setRegion(effectiveRegion);
+        }
+    } else {
+        data.effectItem.reset();
     }
 }
 

@@ -62,6 +62,7 @@
 #include "internalwindow.h"
 #include "scene/dndiconitem.h"
 #include "scene/itemrenderer.h"
+#include "scene/backgroundeffectitem.h"
 #include "scene/shadowitem.h"
 #include "scene/surfaceitem.h"
 #include "scene/windowitem.h"
@@ -258,6 +259,20 @@ static void accumulateRepaints(Item *item, SceneDelegate *delegate, QRegion *rep
     const auto childItems = item->childItems();
     for (Item *childItem : childItems) {
         accumulateRepaints(childItem, delegate, repaints);
+    }
+
+    // After accumulating repaints from all children, check if any BackgroundEffectItem
+    // child has an expanded region that intersects the accumulated damage. If so, extend
+    // the damage to cover the full expanded sampling area. This breaks the pre-paint /
+    // repaint dependency cycle where partial damage inside the blur region would not
+    // trigger a repaint of the full sampling area.
+    for (Item *childItem : childItems) {
+        if (auto *bgItem = qobject_cast<BackgroundEffectItem *>(childItem)) {
+            const QRegion expandedGlobal = bgItem->mapToGlobal(bgItem->expandedRegion());
+            if (repaints->intersects(expandedGlobal)) {
+                *repaints |= expandedGlobal;
+            }
+        }
     }
 }
 

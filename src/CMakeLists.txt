@@ -143,6 +143,7 @@ target_sources(kwin PRIVATE
     rules.cpp
     scene/cursoritem.cpp
     scene/cursorscene.cpp
+    scene/backgroundeffectitem.cpp
     scene/decorationitem.cpp
     scene/dndiconitem.cpp
     scene/imageitem.cpp
