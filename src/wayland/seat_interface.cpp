@@ -365,6 +365,22 @@ void SeatInterfacePrivate::addSecurityInterface(DDESecurityInterface* new_securi
     );
 }
 
+void SeatInterfacePrivate::purgeVerifyState(AbstractDataSource *source)
+{
+    if (!source) {
+        return;
+    }
+    auto it = verifyingState.begin();
+    while (it != verifyingState.end()) {
+        if (it.value()->dataSource == source) {
+            delete it.value();
+            it = verifyingState.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
 bool SeatInterfacePrivate::skipVerify(pid_t pid)
 {
     char proc_pid_path[BUF_SIZE];
@@ -476,7 +492,7 @@ void SeatInterfacePrivate::handleCopySecurityVerified(uint32_t serial, uint32_t 
             handleDragSecurityVerified(serial, permission);
             return;
         }
-        if (state->dataSource != currentVerifySelection && state->dataSource != primaryVerifySelection) {
+        if (!state->dataSource || (state->dataSource != currentVerifySelection && state->dataSource != primaryVerifySelection)) {
             qWarning() << "handle copy security verified, but find no verify selection  " << serial;
             verifyingState.remove(serial);
             return;
@@ -484,13 +500,15 @@ void SeatInterfacePrivate::handleCopySecurityVerified(uint32_t serial, uint32_t 
 
         switch (state->deviceType) {
         case AbstractDataDevice::DeviceType::DeviceType_Data:
-            if (globalKeyboard.focus.selections.contains(static_cast<DataDeviceInterface*>(state->dataDevice)) ||
-                state->dataDevice->processId() == state->dataSource->pid) {
+            if (state->dataDevice &&
+                (globalKeyboard.focus.selections.contains(static_cast<DataDeviceInterface*>(state->dataDevice.data())) ||
+                state->dataDevice->processId() == state->dataSource->pid)) {
                 state->dataDevice->sendSelection(state->dataSource);
             }
             break;
         case AbstractDataDevice::DeviceType::DeviceType_DataControl:
-            if (dataControlDevices.contains(static_cast<DataControlDeviceV1Interface *>(state->dataDevice))) {
+            if (state->dataDevice &&
+                dataControlDevices.contains(static_cast<DataControlDeviceV1Interface *>(state->dataDevice.data()))) {
                 if (state->dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
                     state->dataDevice->sendPrimarySelection(state->dataSource);
                 } else {
@@ -499,7 +517,8 @@ void SeatInterfacePrivate::handleCopySecurityVerified(uint32_t serial, uint32_t 
             }
             break;
         case AbstractDataDevice::DeviceType::DeviceType_Primary:
-            if (primarySelectionDevices.contains(static_cast<PrimarySelectionDeviceV1Interface*>(state->dataDevice))) {
+            if (state->dataDevice &&
+                primarySelectionDevices.contains(static_cast<PrimarySelectionDeviceV1Interface*>(state->dataDevice.data()))) {
                 state->dataDevice->sendSelection(state->dataSource);
             }
             break;
@@ -1593,7 +1612,8 @@ void SeatInterface::setSelection(AbstractDataSource *selection, bool sendControl
     }
 
     if (selection) {
-        auto cleanup = [this]() {
+        auto cleanup = [this, selection]() {
+            d->purgeVerifyState(selection);
             setSelection(nullptr);
         };
         connect(selection, &AbstractDataSource::aboutToBeDestroyed, this, cleanup);
@@ -1636,7 +1656,8 @@ void SeatInterface::setPrimarySelection(AbstractDataSource *selection)
     }
 
     if (selection) {
-        auto cleanup = [this]() {
+        auto cleanup = [this, selection]() {
+            d->purgeVerifyState(selection);
             setPrimarySelection(nullptr);
         };
         connect(selection, &AbstractDataSource::aboutToBeDestroyed, this, cleanup);

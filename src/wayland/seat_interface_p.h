@@ -8,7 +8,9 @@
 
 // KWayland
 #include "abstract_data_device.h"
+#include "abstract_data_source.h"
 #include "seat_interface.h"
+#include "surface_interface.h"
 // Qt
 #include <QHash>
 #include <QMap>
@@ -39,9 +41,9 @@ class VerifyState : public QObject
 public:
     VerifyState(QObject *parent) : QObject(parent) {}
     uint32_t serial;
-    AbstractDataSource *dataSource;
-    AbstractDataDevice *dataDevice;
-    SurfaceInterface *dragSurface = nullptr;
+    QPointer<AbstractDataSource> dataSource;
+    QPointer<AbstractDataDevice> dataDevice;
+    QPointer<SurfaceInterface> dragSurface = nullptr;
     int deviceType = AbstractDataDevice::DeviceType_Unknown;
 };
 
@@ -68,6 +70,7 @@ public:
     void handleCopySecurityVerified(uint32_t serial, uint32_t permission);
     void handleDragSecurityVerified(uint32_t serial, uint32_t permission);
     void addSecurityInterface(DDESecurityInterface* security);
+    void purgeVerifyState(AbstractDataSource *source);
 
     SeatInterface *q;
     QPointer<Display> display;
@@ -90,10 +93,10 @@ public:
     QMetaObject::Connection focusedSurfaceDestroyConnection;
 
     // the last thing copied into the clipboard content
-    AbstractDataSource *currentSelection = nullptr;
-    AbstractDataSource *currentPrimarySelection = nullptr;
-    AbstractDataSource *currentVerifySelection = nullptr;
-    AbstractDataSource *primaryVerifySelection = nullptr;
+    QPointer<AbstractDataSource> currentSelection = nullptr;
+    QPointer<AbstractDataSource> currentPrimarySelection = nullptr;
+    QPointer<AbstractDataSource> currentVerifySelection = nullptr;
+    QPointer<AbstractDataSource> primaryVerifySelection = nullptr;
 
     DDESecurityInterface* ddeSecurity = nullptr;
 
