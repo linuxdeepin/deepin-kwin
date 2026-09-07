@@ -50,6 +50,9 @@ class FadeEffect {
         if (w.outline) {
             return false;
         }
+        if (w.switcherwin) {
+            return false;
+        }
         if (w.deleted && effect.isGrabbed(w, Effect.WindowClosedGrabRole)) {
             return false;
         } else if (!w.deleted && effect.isGrabbed(w, Effect.WindowAddedGrabRole)) {
