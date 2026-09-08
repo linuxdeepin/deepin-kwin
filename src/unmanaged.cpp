@@ -9,8 +9,10 @@
 
 #include "unmanaged.h"
 
+#include "atoms.h"
 #include "deleted.h"
 #include "effects.h"
+#include "composite.h"
 #include "scene/surfaceitem_x11.h"
 #include "scene/windowitem.h"
 #include "utils/common.h"
@@ -87,7 +89,55 @@ void Unmanaged::associate()
 
 void Unmanaged::initialize()
 {
-    setReadyForPainting();
+    updateIsUsingBackingPixmap(window());
+    setIsUsingBackingPixmap(isUsingBackingPixmap());
+}
+
+void Unmanaged::propertyNotifyEvent(xcb_property_notify_event_t *e)
+{
+    if (e->window == window() && e->atom == atoms->dde_net_wm_backing_pixmap_state) {
+        updateIsUsingBackingPixmap(e->window);
+    }
+
+    Window::propertyNotifyEvent(e); 
+}
+
+bool Unmanaged::isUsingBackingPixmap () const
+{
+    return m_isUsingBackingPixmap;
+}
+
+void Unmanaged::setIsUsingBackingPixmap(bool usingBackingPixmap)
+{
+    if (usingBackingPixmap != m_isUsingBackingPixmap) {
+        m_isUsingBackingPixmap = usingBackingPixmap;
+    }
+
+    if (!isUsingBackingPixmap()) {
+        setReadyForPainting();
+    }
+}
+
+void Unmanaged::updateIsUsingBackingPixmap(xcb_window_t window)
+{
+    const xcb_atom_t atom = atoms->dde_net_wm_backing_pixmap_state;
+    if (atom == XCB_ATOM_NONE) {
+        return;
+    }
+
+    xcb_get_property_cookie_t cookie = xcb_get_property(kwinApp()->x11Connection(), false,
+                                                        window, atom, XCB_ATOM_CARDINAL, 0, 1);
+    xcb_get_property_reply_t *reply = xcb_get_property_reply(kwinApp()->x11Connection(),
+                                                             cookie, nullptr);
+    if (!reply) {
+        return;
+    }
+
+    if (reply->type == XCB_ATOM_CARDINAL && reply->format == 32 && reply->value_len >= 1) {
+        setIsUsingBackingPixmap(*reinterpret_cast<const uint32_t *>(xcb_get_property_value(reply)) == 0);
+    }
+
+    free(reply);
 }
 
 bool Unmanaged::track(xcb_window_t w)
