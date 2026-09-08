@@ -234,7 +234,7 @@ void SurfacePixmapX11::create()
     Xcb::WindowAttributes windowAttributes(frame);
     Xcb::WindowGeometry windowGeometry(frame);
     if (xcb_generic_error_t *error = xcb_request_check(connection, namePixmapCookie)) {
-        qCritical("Failed to create window pixmap for window 0x%x (error code %d)",
+        qCDebug(KWIN_CORE, "Failed to create window pixmap for window 0x%x (error code %d)",
                 window->window(), error->error_code);
         free(error);
         return;
@@ -242,14 +242,14 @@ void SurfacePixmapX11::create()
     // check that the received pixmap is valid and actually matches what we
     // know about the window (i.e. size)
     if (!windowAttributes || windowAttributes->map_state != XCB_MAP_STATE_VIEWABLE) {
-        qCritical("Failed to create window pixmap for window 0x%x (not viewable)",
+        qCDebug(KWIN_CORE, "Failed to create window pixmap for window 0x%x (not viewable)",
                 window->window());
         xcb_free_pixmap(connection, pixmap);
         return;
     }
     const QRectF bufferGeometry = window->bufferGeometry();
     if (windowGeometry.size() != bufferGeometry.size()) {
-        qCritical("Failed to create window pixmap for window 0x%x: window size (%fx%f) != buffer size (%fx%f)", window->window(),
+        qCDebug(KWIN_CORE, "Failed to create window pixmap for window 0x%x: window size (%fx%f) != buffer size (%fx%f)", window->window(),
                 windowGeometry.size().width(), windowGeometry.size().height(), bufferGeometry.width(), bufferGeometry.height());
         xcb_free_pixmap(connection, pixmap);
         return;

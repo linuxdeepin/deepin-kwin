@@ -1111,6 +1111,13 @@ void GLFramebuffer::initFBO(GLTexture *colorAttachment)
         qCCritical(LIBKWINGLUTILS) << "Error status when entering GLFramebuffer::initFBO: " << formatGLError(err);
 #endif
 
+    // Defense-in-depth: reject invalid GL textures before creating the FBO.
+    // This prevents GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT when a zero-size or
+    // invalid texture is passed as the color attachment.
+    if (!glIsTexture(colorAttachment->texture())) {
+        qCWarning(LIBKWINGLUTILS) << "Invalid texture passed to GLFramebuffer::initFBO";
+        return;
+    }
     GLuint prevFbo = 0;
     if (const GLFramebuffer *current = currentFramebuffer()) {
         prevFbo = current->handle();
