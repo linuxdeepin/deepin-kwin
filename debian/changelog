@@ -1,3 +1,12 @@
+kwin (4:6.1.41) unstable; urgency=medium
+
+  * fix(blur): fix flicker when toggling background blur after adjusting opacity
+  * feat(zoom): guard OSD D-Bus call with #ifndef BUILD_ON_V25
+  * fix(effect): skip tabbox switcher window in Scale and Fade effects
+  * fix(multitaskview): RAII ref/unref prevents assert
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 09 Sep 2026 00:00:00 +0800
+
 kwin (4:6.1.40) unstable; urgency=medium
 
   * fix: 修复 Qt5 下 QuickTileMode 比较编译错误
