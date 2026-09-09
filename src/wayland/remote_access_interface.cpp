@@ -266,8 +266,6 @@ void RemoteAccessManagerInterfacePrivate::sendBufferReady(const OutputInterface 
                 *forceReplaceIt = {buf->fd(), false};
                 holder.refcount++;
                 send_buffer_ready(res->handle, buf->fd(), boundScreens[0]);
-            } else {
-                qCWarning(KWIN_CORE) << "[kwin-remote] sendBufferReady: queue full but no inUse slot to replace, fd=" << buf->fd();
             }
             if (frame == 1) {
                 lastFrames[res->handle] = buf->fd();
@@ -372,8 +370,6 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
             }
         }
     }
-    qCDebug(KWIN_CORE) << "[kwin-remote] get_buffer: fd=" << internal_buffer_id << "slotIndex=" << slotIndex;
-
     auto rbuf = new RemoteBufferInterface(bh.buf, RbiResource);
 
     // 用 slotIndex 精确清除，但需验证槽位未被 force-replace 覆盖
@@ -387,7 +383,6 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
                 }
                 clientQueue[slotIndex].fd = -1;
                 clientQueue[slotIndex].inUse = false;
-                qCDebug(KWIN_CORE) << "[kwin-remote] buffer destroyed: slotIndex=" << slotIndex << "fd=" << internal_buffer_id;
             } else {
                 // fallback: 槽位已被 force-replace 覆盖或 slotIndex 无效，通过 fd 遍历查找
                 if (bufferPool.contains(internal_buffer_id)) {
@@ -413,7 +408,6 @@ void RemoteAccessManagerInterfacePrivate::org_kde_kwin_remote_access_manager_get
     // 用 slotIndex 直接设置 inUse
     if (slotIndex >= 0) {
         clientResources[resource][slotIndex].inUse = true;
-        qCDebug(KWIN_CORE) << "[kwin-remote] get_buffer: marked inUse slotIndex=" << slotIndex << "fd=" << internal_buffer_id;
     }
 
     gsScreenRecord.setObjectName(SCREEN_RECORDING_START);
