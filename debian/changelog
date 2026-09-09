@@ -1,3 +1,11 @@
+kwin (4:6.1.42) unstable; urgency=medium
+
+  * chore: remove kwin-remote debug logging
+  * chore: update version to 4:6.1.41
+  * fix(multitaskview): RAII ref/unref prevents assert
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Wed, 09 Sep 2026 13:32:02 +0800
+
 kwin (4:6.1.41) unstable; urgency=medium
 
   * fix(blur): fix flicker when toggling background blur after adjusting opacity
