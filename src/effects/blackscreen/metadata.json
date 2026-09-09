@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Category": "Appearance",
+        "Description": "Draw a black background covering the whole screen",
+        "Description[zh_CN]": "绘制覆盖整个屏幕的黑色背景",
+        "EnabledByDefault": true,
+        "Id": "blackscreen",
+        "License": "GPL-2.0-or-later",
+        "Name": "Black Screen",
+        "Name[zh_CN]": "黑屏"
+    },
+    "org.kde.kwin.effect": {
+        "enabledByDefaultMethod": true
+    }
+}
