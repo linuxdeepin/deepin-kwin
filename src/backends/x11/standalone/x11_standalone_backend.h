@@ -63,6 +63,9 @@ public:
     void createEffectsHandler(Compositor *compositor, WorkspaceScene *scene);
 
     X11Keyboard *keyboard() const;
+#if HAVE_X11_XINPUT
+    XInputIntegration *xinputIntegration() const;
+#endif
     RenderLoop *renderLoop() const;
     Outputs outputs() const override;
 

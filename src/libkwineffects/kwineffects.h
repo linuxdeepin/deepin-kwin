@@ -946,6 +946,15 @@ public:
     virtual void stopMouseInterception(Effect *effect) = 0;
 
     /**
+     * Sets the input transformation matrix for touch input devices.
+     * This compensates for visual transformations (e.g. zoom) so that
+     * touch coordinates map to the correct logical position.
+     * Passing an identity matrix restores the devices' original state.
+     * @param transform The inverse visual transform in normalized [0,1] coordinate space.
+     */
+    virtual void setInputTransform(const QMatrix4x4 &transform) = 0;
+
+    /**
      * @brief Registers a global pointer shortcut with the provided @p action.
      *
      * @param modifiers The keyboard modifiers which need to be holded

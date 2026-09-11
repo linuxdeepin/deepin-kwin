@@ -34,6 +34,7 @@ protected:
 
     void doStartMouseInterception(Qt::CursorShape shape) override;
     void doStopMouseInterception() override;
+    void doSetInputTransform(const QMatrix4x4 &transform) override;
 
     void doCheckInputWindowStacking() override;
 

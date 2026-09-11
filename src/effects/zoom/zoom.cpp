@@ -134,6 +134,8 @@ ZoomEffect::~ZoomEffect()
 {
     // switch off and free resources
     showCursor();
+    // Reset touch input transform to identity when the effect is destroyed.
+    effects->setInputTransform(QMatrix4x4());
     // Save the zoom value.
     ZoomConfig::setInitialZoom(target_zoom);
     ZoomConfig::self()->save();
@@ -381,6 +383,9 @@ void ZoomEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &d
         }
     }
 
+    // Store translations for postPaintScreen to compute the input transform.
+    m_xTranslation = xTranslation;
+    m_yTranslation = yTranslation;
     // Render transformed offscreen texture.
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -465,7 +470,22 @@ void ZoomEffect::postPaintScreen()
         // Either animation is running or the zoom effect has stopped.
         effects->addRepaintFull();
     }
-
+    // Update touch input transform to match the current zoom visual transform.
+    // The inverse of the visual transform maps display coordinates back to
+    // logical coordinates, correcting touch input alignment under zoom.
+    QMatrix4x4 inputTransform;
+    if (zoom != 1.0) {
+        const QSize screenSize = effects->virtualScreenSize();
+        // Qt QMatrix4x4 right-multiplies: scale then translate yields S(1/zoom) * T(-t/screen),
+        // so that v' = (v - t/screen) / zoom, the correct inverse of display = logical * zoom + t.
+        inputTransform.scale(1.0 / zoom, 1.0 / zoom, 1.0);
+        inputTransform.translate(-m_xTranslation / screenSize.width(), -m_yTranslation / screenSize.height(), 0);
+    }
+    // Skip the X11 round trip when the transform hasn't changed.
+    if (inputTransform != m_lastInputTransform) {
+        m_lastInputTransform = inputTransform;
+        effects->setInputTransform(inputTransform);
+    }
     effects->postPaintScreen();
 }
 

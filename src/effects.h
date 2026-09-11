@@ -103,6 +103,7 @@ public:
     // not performing XGrabPointer
     void startMouseInterception(Effect *effect, Qt::CursorShape shape) override;
     void stopMouseInterception(Effect *effect) override;
+    void setInputTransform(const QMatrix4x4 &transform) override;
     bool isMouseInterception() const;
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action) override;
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action) override;
@@ -359,6 +360,11 @@ protected:
      * Default implementation removes the Effects override cursor on the PointerInputRedirection.
      */
     virtual void doStopMouseInterception();
+
+    /**
+     * Default implementation does nothing.
+     */
+    virtual void doSetInputTransform(const QMatrix4x4 &transform);
 
     /**
      * Default implementation does nothing

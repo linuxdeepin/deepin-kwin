@@ -16,6 +16,9 @@
 #include "x11_standalone_effects_keyboard_interception_filter.h"
 #include "x11_standalone_effects_mouse_interception_filter.h"
 #include "x11_standalone_keyboard.h"
+#if HAVE_X11_XINPUT
+#include "x11_standalone_xinputintegration.h"
+#endif
 
 namespace KWin
 {
@@ -91,6 +94,16 @@ void EffectsHandlerImplX11::doStopMouseInterception()
     m_mouseInterceptionWindow.unmap();
     m_x11MouseInterception.reset();
     Workspace::self()->stackScreenEdgesUnderOverrideRedirect();
+}
+
+void EffectsHandlerImplX11::doSetInputTransform(const QMatrix4x4 &transform)
+{
+#if HAVE_X11_XINPUT
+    auto backend = static_cast<X11StandaloneBackend *>(kwinApp()->outputBackend());
+    if (auto *xinput = backend->xinputIntegration()) {
+        xinput->setInputTransform(transform);
+    }
+#endif
 }
 
 void EffectsHandlerImplX11::defineCursor(Qt::CursorShape shape)

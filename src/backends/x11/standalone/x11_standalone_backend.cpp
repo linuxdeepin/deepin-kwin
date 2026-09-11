@@ -462,6 +462,13 @@ X11Keyboard *X11StandaloneBackend::keyboard() const
     return m_keyboard.get();
 }
 
+#if HAVE_X11_XINPUT
+XInputIntegration *X11StandaloneBackend::xinputIntegration() const
+{
+    return m_xinputIntegration.get();
+}
+#endif
+
 RenderLoop *X11StandaloneBackend::renderLoop() const
 {
     return m_renderLoop.get();

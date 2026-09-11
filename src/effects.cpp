@@ -763,6 +763,15 @@ void EffectsHandlerImpl::doStopMouseInterception()
     input()->pointer()->removeEffectsOverrideCursor();
 }
 
+void EffectsHandlerImpl::setInputTransform(const QMatrix4x4 &transform)
+{
+    doSetInputTransform(transform);
+}
+
+void EffectsHandlerImpl::doSetInputTransform(const QMatrix4x4 &transform)
+{
+}
+
 bool EffectsHandlerImpl::isMouseInterception() const
 {
     return m_grabbedMouseEffects.count() > 0;

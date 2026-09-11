@@ -30,6 +30,8 @@
 
 #include <linux/input.h>
 
+#include <QMatrix4x4>
+
 namespace KWin
 {
 
@@ -42,7 +44,7 @@ class XInputEventFilter : public X11EventFilter
 {
 public:
     XInputEventFilter(int xi_opcode)
-        : X11EventFilter(XCB_GE_GENERIC, xi_opcode, QVector<int>{XI_RawMotion, XI_RawButtonPress, XI_RawButtonRelease, XI_RawKeyPress, XI_RawKeyRelease, XI_TouchBegin, XI_TouchUpdate, XI_TouchOwnership, XI_TouchEnd})
+        : X11EventFilter(XCB_GE_GENERIC, xi_opcode, QVector<int>{XI_RawMotion, XI_RawButtonPress, XI_RawButtonRelease, XI_RawKeyPress, XI_RawKeyRelease, XI_TouchBegin, XI_TouchUpdate, XI_TouchOwnership, XI_TouchEnd, XI_PropertyEvent, XI_HierarchyChanged})
     {
     }
     ~XInputEventFilter() override = default;
@@ -150,6 +152,27 @@ public:
             }
             break;
         }
+        case XI_PropertyEvent: {
+            auto pe = reinterpret_cast<xXIPropertyEvent *>(event);
+            if (m_integration && m_ctmAtom != 0 && pe->property == static_cast<Atom>(m_ctmAtom)) {
+                m_integration->handleCtmPropertyEvent(pe->deviceid);
+            }
+            break;
+        }
+        case XI_HierarchyChanged: {
+            auto he = reinterpret_cast<xXIHierarchyEvent *>(event);
+            if (m_integration && he->num_info > 0) {
+                // The xXIHierarchyInfo array is stored directly after the
+                // fixed part of the event structure.
+                const auto *info = reinterpret_cast<const xXIHierarchyInfo *>(he + 1);
+                for (int i = 0; i < he->num_info; ++i) {
+                    if (info[i].flags & (XIMasterRemoved | XISlaveRemoved)) {
+                        m_integration->handleDeviceRemoved(info[i].deviceid);
+                    }
+                }
+            }
+            break;
+        }
         default:
             if (m_x11Cursor) {
                 m_x11Cursor->schedulePoll();
@@ -163,6 +186,14 @@ public:
     {
         m_x11Cursor = cursor;
     }
+    void setIntegration(XInputIntegration *integration)
+    {
+        m_integration = integration;
+    }
+    void setCtmAtom(unsigned long atom)
+    {
+        m_ctmAtom = atom;
+    }
     void setDisplay(Display *display)
     {
         m_x11Display = display;
@@ -175,6 +206,8 @@ private:
     }
 
     QPointer<X11Cursor> m_x11Cursor;
+    XInputIntegration *m_integration = nullptr;
+    unsigned long m_ctmAtom = 0;
     Display *m_x11Display = nullptr;
     uint32_t m_trackingTouchId = 0;
     QHash<uint32_t, QPointF> m_lastTouchPositions;
@@ -279,14 +312,234 @@ void XInputIntegration::startListening()
     evmasks[0].mask = mask1;
     XISelectEvents(display(), rootWindow(), evmasks, 1);
 
+    // Select XI_PropertyEvent on all devices to monitor external CTM changes.
+    // CTM lives on slave/hardware devices, not master devices, so we must
+    // select on XIAllDevices rather than XIAllMasterDevices.
+    if (m_ctmAtom == 0) {
+        m_ctmAtom = XInternAtom(display(), "Coordinate Transformation Matrix", False);
+    }
+    if (m_ctmAtom != 0) {
+        XIEventMask propMask[1];
+        unsigned char propMaskBits[XIMaskLen(XI_LASTEVENT)];
+        memset(propMaskBits, 0, sizeof(propMaskBits));
+        XISetMask(propMaskBits, XI_PropertyEvent);
+        // Device add/remove notifications are needed to drop per-device CTM
+        // state; without selecting the event the handler below never runs.
+        XISetMask(propMaskBits, XI_HierarchyChanged);
+        propMask[0].deviceid = XIAllDevices;
+        propMask[0].mask_len = sizeof(propMaskBits);
+        propMask[0].mask = propMaskBits;
+        XISelectEvents(display(), rootWindow(), propMask, 1);
+    }
+
     m_xiEventFilter = std::make_unique<XInputEventFilter>(m_xiOpcode);
     m_xiEventFilter->setCursor(m_x11Cursor);
+    m_xiEventFilter->setIntegration(this);
+    m_xiEventFilter->setCtmAtom(m_ctmAtom);
     m_xiEventFilter->setDisplay(display());
     m_keyPressFilter = std::make_unique<XKeyPressReleaseEventFilter>(XCB_KEY_PRESS);
     m_keyReleaseFilter = std::make_unique<XKeyPressReleaseEventFilter>(XCB_KEY_RELEASE);
 
     // install the input event spies also relevant for X11 platform
     input()->installInputEventSpy(new ModifierOnlyShortcuts);
+}
+
+void XInputIntegration::updateDeviceCtm(int deviceId, const QMatrix4x4 &transform, unsigned long ctmAtom)
+{
+    Display *dpy = display();
+
+    Atom typeReturn;
+    int formatReturn;
+    unsigned long numItemsReturn;
+    unsigned long bytesAfterReturn;
+    unsigned char *data = nullptr;
+
+    // The CTM property is specified as a FLOAT array. Request that type
+    // explicitly so a property carrying another 32-bit type (e.g. INTEGER) is
+    // not reinterpreted as float data.
+    const unsigned long expectedType = floatAtom();
+    if (expectedType == 0) {
+        return;
+    }
+    if (XIGetProperty(dpy, deviceId, ctmAtom, 0, 9, False,
+                      expectedType, &typeReturn, &formatReturn,
+                      &numItemsReturn, &bytesAfterReturn, &data) != Success) {
+        return;
+    }
+
+    // Skip devices without a well-formed FLOAT CTM property.
+    if (typeReturn == None || typeReturn != expectedType || numItemsReturn != 9 || formatReturn != 32) {
+        if (data) {
+            XFree(data);
+        }
+        return;
+    }
+
+    // Cache the original CTM on first access for each device.
+    if (!m_originalCtms.contains(deviceId)) {
+        QVector<float> originalCtm(9);
+        const float *ctm = reinterpret_cast<const float *>(data);
+        for (int j = 0; j < 9; j++) {
+            originalCtm[j] = ctm[j];
+        }
+        m_originalCtms[deviceId] = originalCtm;
+    }
+
+    const QVector<float> &original = m_originalCtms[deviceId];
+
+    float newCtm[9];
+    if (transform.isIdentity()) {
+        // Restore the exact original CTM.
+        for (int j = 0; j < 9; j++) {
+            newCtm[j] = original[j];
+        }
+    } else {
+        // CTM and QMatrix4x4 both use v' = M * v (column-vector) convention.
+        // CTM 3x3: [c1 c2 c3; c4 c5 c6; 0 0 1] → QMatrix4x4 with m03=c3, m13=c6.
+        QMatrix4x4 origMatrix(
+            original[0], original[1], 0, original[2],
+            original[3], original[4], 0, original[5],
+            0, 0, 1, 0,
+            0, 0, 0, 1);
+
+        // Compose: new_ctm = inverse_zoom * original_ctm.
+        // CTM maps raw→screen; inverse zoom maps screen→logical.
+        // So new_ctm = inverse_zoom * original_ctm maps raw→logical.
+        QMatrix4x4 newMatrix = transform * origMatrix;
+
+        // Convert back to CTM 9 floats: c1=m00, c2=m01, c3=m03, c4=m10, c5=m11, c6=m13.
+        newCtm[0] = newMatrix(0, 0);
+        newCtm[1] = newMatrix(0, 1);
+        newCtm[2] = newMatrix(0, 3);
+        newCtm[3] = newMatrix(1, 0);
+        newCtm[4] = newMatrix(1, 1);
+        newCtm[5] = newMatrix(1, 3);
+        newCtm[6] = 0;
+        newCtm[7] = 0;
+        newCtm[8] = 1;
+    }
+    // Mark this as a self-caused change so the resulting XI_PropertyEvent
+    // is not treated as an external CTM update (avoids feedback loop).
+    m_pendingSelfChangeCount[deviceId]++;
+    XIChangeProperty(dpy, deviceId, ctmAtom, typeReturn, 32,
+                     PropModeReplace, reinterpret_cast<unsigned char *>(newCtm), 9);
+
+    XFree(data);
+}
+
+void XInputIntegration::setInputTransform(const QMatrix4x4 &transform)
+{
+    if (!m_hasXInput) {
+        return;
+    }
+
+    // Cache the CTM atom to avoid a round trip on every call.
+    if (m_ctmAtom == None) {
+        m_ctmAtom = XInternAtom(display(), "Coordinate Transformation Matrix", False);
+    }
+    if (m_xiEventFilter) {
+        m_xiEventFilter->setCtmAtom(m_ctmAtom);
+    }
+    if (m_ctmAtom == None) {
+        return;
+    }
+    m_lastInputTransform = transform;
+
+    int numDevices = 0;
+    XIDeviceInfo *devices = XIQueryDevice(display(), XIAllDevices, &numDevices);
+    if (!devices) {
+        return;
+    }
+
+    for (int i = 0; i < numDevices; i++) {
+        updateDeviceCtm(devices[i].deviceid, transform, m_ctmAtom);
+    }
+
+    XIFreeDeviceInfo(devices);
+}
+
+void XInputIntegration::handleCtmPropertyEvent(int deviceId)
+{
+    // If this event was caused by kwin's own XIChangeProperty, consume one
+    // count and skip cache update to avoid a feedback loop.
+    auto it = m_pendingSelfChangeCount.find(deviceId);
+    if (it != m_pendingSelfChangeCount.end() && it.value() > 0) {
+        if (--it.value() == 0) {
+            m_pendingSelfChangeCount.erase(it);
+        }
+        return;
+    }
+    qCDebug(KWIN_X11STANDALONE) << "External CTM change for device" << deviceId << ", refreshing cached baseline";
+
+    // External component changed the CTM. Re-read and update the cached
+    // original so the next setInputTransform composes against the correct
+    // baseline instead of the stale value captured on first access.
+    if (m_ctmAtom == 0) {
+        return;
+    }
+
+    Display *dpy = display();
+    Atom typeReturn;
+    int formatReturn;
+    unsigned long numItemsReturn;
+    unsigned long bytesAfterReturn;
+    unsigned char *data = nullptr;
+
+    const unsigned long expectedType = floatAtom();
+    if (expectedType == 0) {
+        return;
+    }
+    if (XIGetProperty(dpy, deviceId, m_ctmAtom, 0, 9, False,
+                      expectedType, &typeReturn, &formatReturn,
+                      &numItemsReturn, &bytesAfterReturn, &data) != Success) {
+        return;
+    }
+
+    if (typeReturn == None || typeReturn != expectedType || numItemsReturn != 9 || formatReturn != 32) {
+        if (data) {
+            XFree(data);
+        }
+        return;
+    }
+
+    QVector<float> originalCtm(9);
+    const float *ctm = reinterpret_cast<const float *>(data);
+    for (int j = 0; j < 9; j++) {
+        originalCtm[j] = ctm[j];
+    }
+    qCDebug(KWIN_X11STANDALONE) << "Refreshed cached CTM for device" << deviceId;
+
+    m_originalCtms[deviceId] = originalCtm;
+
+    XFree(data);
+
+    // Re-apply the current zoom transform so the device CTM reflects the
+    // updated baseline composed with zoom correction. An external CTM change
+    // overwrites the zoom-adjusted CTM with the raw baseline; without this
+    // re-apply, touch input loses zoom correction until the next zoom change.
+    if (!m_lastInputTransform.isIdentity()) {
+        updateDeviceCtm(deviceId, m_lastInputTransform, m_ctmAtom);
+    }
+}
+
+unsigned long XInputIntegration::floatAtom()
+{
+    if (m_floatAtom == 0) {
+        m_floatAtom = XInternAtom(display(), "FLOAT", False);
+    }
+    return m_floatAtom;
+}
+
+void XInputIntegration::handleDeviceRemoved(int deviceId)
+{
+    // Drop per-device caches: a device that later reuses this id must start
+    // from a clean baseline instead of a stale CTM and a stale pending counter
+    // that would swallow the next legitimate property event.
+    const int droppedCtms = m_originalCtms.remove(deviceId);
+    const int droppedPending = m_pendingSelfChangeCount.remove(deviceId);
+    if (droppedCtms > 0 || droppedPending > 0) {
+        qCDebug(KWIN_X11STANDALONE) << "Dropped cached CTM state for removed device" << deviceId;
+    }
 }
 
 }

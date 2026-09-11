@@ -15,6 +15,7 @@
 #include <QTime>
 #include <QTimeLine>
 #include <kwineffects.h>
+#include <QMatrix4x4>
 
 namespace KWin
 {
@@ -135,6 +136,9 @@ private:
     int xMove, yMove;
     double moveFactor;
     std::chrono::milliseconds lastPresentTime;
+    qreal m_xTranslation = 0;
+    qreal m_yTranslation = 0;
+    QMatrix4x4 m_lastInputTransform;
     std::map<EffectScreen *, OffscreenData> m_offscreenData;
     bool inSkipZoom;
 };
