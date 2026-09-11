@@ -330,7 +330,7 @@ int SplitSwapEffect::paintWinPos(EffectWindow *w, QuickTileMode mode, int calcul
         break;
     case 1:
         coef = 1.0;
-        break;
+        [[fallthrough]];
     case 2:
         x = (mode & QuickTileFlag::Left) ? m_workarea.x() + m_workarea.width() - w->width() : m_workarea.x();
         epos = m_workarea.width() - w->width();
