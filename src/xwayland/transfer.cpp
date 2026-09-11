@@ -24,6 +24,8 @@
 #include <xcb/xfixes.h>
 
 #include <algorithm>
+#include <cerrno>
+#include <fcntl.h>
 #include <unistd.h>
 
 #include <xwayland_logging.h>
@@ -268,6 +270,15 @@ TransferXtoWl::TransferXtoWl(xcb_atom_t selection, xcb_atom_t target, qint32 fd,
                              QObject *parent)
     : Transfer(selection, fd, timestamp, parent)
 {
+    // Set the pipe fd to non-blocking so that write() returns EAGAIN instead
+    // of blocking the event loop when the reader is stalled and the pipe
+    // buffer is full. The fd is provided by the Wayland client; KWin must set
+    // the flag itself.
+    int flags = fcntl(fd, F_GETFL);
+    if (flags != -1) {
+        fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+    }
+
     // create transfer window
     xcb_connection_t *xcbConn = kwinApp()->x11Connection();
     m_window = xcb_generate_id(xcbConn);
@@ -456,9 +467,15 @@ void TransferXtoWl::dataSourceWrite()
 
     ssize_t len = write(fd(), property.constData(), property.size());
     if (len == -1) {
-        qCWarning(KWIN_XWL) << "X11 to Wayland write error on fd:" << fd();
-        endTransfer();
-        return;
+        if (errno != EAGAIN) {
+            qCWarning(KWIN_XWL) << "X11 to Wayland write error on fd:" << fd();
+            endTransfer();
+            return;
+        }
+        // EAGAIN on non-blocking fd: pipe buffer is full, no bytes written.
+        // Treat as a 0-byte partial write so the existing else branch below
+        // sets up QSocketNotifier::Write to retry when the pipe is writable.
+        len = 0;
     }
 
     m_receiver->partRead(len);
