@@ -200,7 +200,7 @@ void SplitManage::updateStorage(Window *window)
     removeQuickTile(window);
     int desktop = window->desktop();
     QString screenName = window->output()->name() + "splitbar";
-    if (isSplitWindow(window)) {
+    if (isSplitWindow(window) && !window->isMinimized() && !window->isFullScreen()) {
         addQuickTile(desktop, screenName, window);
         createSplitBar(screenName);
     }
