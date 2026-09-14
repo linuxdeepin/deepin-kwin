@@ -686,6 +686,18 @@ MultitaskViewEffect::MultitaskViewEffect()
     connect(w, SIGNAL(triggered(bool)), this, SLOT(toggle()));
     connect(a, SIGNAL(triggered(bool)), this, SLOT(toggle()));
 
+    // 快捷键被修改时刷新本地缓存
+    connect(KGlobalAccel::self(), &KGlobalAccel::globalShortcutChanged, this,
+    [this](QAction *action) {
+        if (action == m_showActions) {
+            shortcut = KGlobalAccel::self()->shortcut(m_showActions);
+        } else if (action == m_showActionw) {
+            shortcutw = KGlobalAccel::self()->shortcut(m_showActionw);
+        } else if (action == m_showActiona) {
+            shortcuta = KGlobalAccel::self()->shortcut(m_showActiona);
+        }
+    });
+
     connect(effects, &EffectsHandler::windowAdded, this, &MultitaskViewEffect::onWindowAdded);
     connect(effects, &EffectsHandler::windowDeleted, this, &MultitaskViewEffect::onWindowDeleted);
     connect(effects, &EffectsHandler::windowClosed, this, &MultitaskViewEffect::onWindowClosed);
