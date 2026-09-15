@@ -5345,11 +5345,8 @@ QVariant Window::createTimespanDBusMessage(struct timeval createTimeval, int tid
     } else {
         timespan = compositeTimeval.tv_usec - createTimeval.tv_usec;
     }
-    QFile file(QString("/proc/%1/cmdline").arg(pid()));
-    if (file.open(QFile::ReadOnly)) {
-        qtProcessFullPath = file.readLine();
-        file.close();
-    } else {
+    qtProcessFullPath = QFile::symLinkTarget(QString("/proc/%1/exe").arg(pid()));
+    if (qtProcessFullPath.isEmpty()) {
         return QVariant();
     }
 
