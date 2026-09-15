@@ -210,7 +210,6 @@ void UserActionsMenu::prepareMenu(Window *cl)
     QString disableFontColor = "rgba(0,0,0,40%)";
     qreal scalingFactor = qMax(1.0, QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0);
     QString fontSize = QString::number(int(fontScale * 14.0 * scalingFactor)) + "px";
-    QString rightPadding = QString::number(45 * fontScale * fontScale * scalingFactor) + "px";
     if (workspace()->self()->isDarkTheme()) {
         backgroundColor = "#cc141414";
         fontColor = "white";
@@ -223,6 +222,64 @@ void UserActionsMenu::prepareMenu(Window *cl)
     }
     m_menu->clear();
     disconnect(m_menu, &QMenu::triggered, m_menu, 0);
+
+    const bool darkTheme = workspace()->self()->isDarkTheme();
+    const auto createCheckedIcon = [darkTheme] {
+        const QString activeCheckIconPath = QStringLiteral(":/resources/themes/active.svg");
+        QIcon icon(darkTheme ? activeCheckIconPath : QStringLiteral(":/resources/themes/inactive.svg"));
+        icon.addFile(activeCheckIconPath, {}, QIcon::Active);
+        icon.addFile(activeCheckIconPath, {}, QIcon::Selected);
+        return icon;
+    };
+    static bool cachedDarkTheme = !darkTheme;
+    static QIcon checkedIcon;
+    if (cachedDarkTheme != darkTheme) {
+        checkedIcon = createCheckedIcon();
+        cachedDarkTheme = darkTheme;
+    }
+
+#ifdef BUILD_ON_V25
+    m_menu->setStyleSheet(QString("\
+            QMenu {\
+            background-color: %1;\
+            border-radius: 12px;\
+            }\
+            QMenu::item {\
+            font-family: %5;\
+            font-size: %4;\
+            font-weight: 400;\
+            padding: 4px 0px 4px 10px;\
+            margin: 0 0 3px 0;\
+            color: %3;\
+            border-radius: 6px;\
+            border-bottom: 1px solid transparent;\
+            }\
+            QMenu::item:enabled {\
+            color: %2;\
+            }\
+            QMenu::icon {\
+            left: 10px;\
+            }\
+            QMenu::icon:checked {\
+            background: transparent;\
+            }\
+            QMenu::icon:checked:selected {\
+            background-color: transparent;\
+            }\
+            QMenu::item:selected {\
+            background-color: %6;\
+            color: white;\
+            border-bottom: 1px solid rgba(0, 0, 0, 51);}")
+                              .arg(backgroundColor)
+                              .arg(fontColor)
+                              .arg(disableFontColor)
+                              .arg(fontSize)
+                              .arg(fontFamily)
+                              .arg(workspace()->self()->ActiveColor()));
+    m_menu->setContentsMargins(6, 6, 6, 3); // 6px outer margins, 3px bottom content margin
+    m_menu->setMinimumWidth(int(172 * scalingFactor)); // 172px menu base width
+#else
+    QString rightPadding = QString::number(45 * fontScale * fontScale * scalingFactor) + "px";
     m_menu->setStyleSheet(QString("\
             QMenu {\
             background-color: %1;\
@@ -250,6 +307,7 @@ void UserActionsMenu::prepareMenu(Window *cl)
             background-color: %4;\
             color: white;}").arg(backgroundColor).arg(fontColor).arg(disableFontColor).arg(workspace()->self()->ActiveColor()).arg(fontSize).arg(rightPadding).arg(fontFamily));
     m_menu->setContentsMargins(0,8,0,8);
+#endif
     for (const MenuItem &item : getMenuItemInfos(cl)) {
         QAction *action = m_menu->addAction(item.text);
 
@@ -258,11 +316,7 @@ void UserActionsMenu::prepareMenu(Window *cl)
         action->setChecked(item.checked);
         action->setEnabled(item.enable);
         if (item.checked) {
-            if (workspace()->self()->isDarkTheme()) {
-                action->setIcon(QIcon(":/resources/themes/active.svg"));
-            } else {
-                action->setIcon(QIcon(":/resources/themes/inactive.svg"));
-            }
+            action->setIcon(checkedIcon);
         }
     }
 
