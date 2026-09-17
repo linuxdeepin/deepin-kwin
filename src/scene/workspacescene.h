@@ -18,6 +18,7 @@
 #include <optional>
 
 #include <QElapsedTimer>
+#include <QHash>
 #include <QMatrix4x4>
 
 namespace KWin
@@ -143,7 +144,14 @@ private:
     void createDndIconItem();
     void destroyDndIconItem();
 
+    // The timestamp that is handed to the effects. It has to be monotonic across all screens,
+    // because effects share their animation state between them and TimeLine::advance() aborts if
+    // it is advanced with a smaller value than before.
     std::chrono::milliseconds m_expectedPresentTimestamp = std::chrono::milliseconds::zero();
+    // The last timestamp of each screen. The timestamp of one screen may legitimately be behind
+    // the one of another screen, so this is only used to detect and report a screen whose own
+    // presentation timestamps went backwards.
+    QHash<Output *, std::chrono::milliseconds> m_screenPresentTimestamps;
     // how many times finalPaintScreen() has been called
     int m_paintScreenCount = 0;
     PaintContext m_paintContext;

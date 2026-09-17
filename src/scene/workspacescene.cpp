@@ -100,6 +100,12 @@ WorkspaceScene::~WorkspaceScene()
 void WorkspaceScene::initialize()
 {
     connect(workspace(), &Workspace::stackingOrderChanged, this, &WorkspaceScene::addRepaintFull);
+    // The expected presentation time is tracked per screen, so drop the entry together with the
+    // output. Otherwise the map keeps growing on hotplug, and a recycled Output pointer would
+    // inherit a stale timestamp.
+    connect(workspace(), &Workspace::outputRemoved, this, [this](Output *output) {
+        m_screenPresentTimestamps.remove(output);
+    });
 
     setGeometry(workspace()->geometry());
     connect(workspace(), &Workspace::geometryChanged, this, [this]() {
@@ -209,12 +215,18 @@ void WorkspaceScene::prePaint(SceneDelegate *delegate)
     const std::chrono::milliseconds presentTime =
         std::chrono::duration_cast<std::chrono::milliseconds>(renderLoop->nextPresentationTimestamp());
 
-    if (Q_UNLIKELY(presentTime < m_expectedPresentTimestamp)) {
+    std::chrono::milliseconds &screenPresentTime = m_screenPresentTimestamps[painted_screen];
+    if (Q_UNLIKELY(presentTime < screenPresentTime)) {
         qCDebug(KWIN_CORE,
                 "Provided presentation timestamp is invalid: %lld (current: %lld)",
                 static_cast<long long>(presentTime.count()),
-                static_cast<long long>(m_expectedPresentTimestamp.count()));
+                static_cast<long long>(screenPresentTime.count()));
     } else {
+        screenPresentTime = presentTime;
+    }
+    // The effects get a timestamp that is monotonic across all screens, as they share their
+    // animation state between screens and TimeLine::advance() aborts on a smaller value.
+    if (presentTime > m_expectedPresentTimestamp) {
         m_expectedPresentTimestamp = presentTime;
     }
 

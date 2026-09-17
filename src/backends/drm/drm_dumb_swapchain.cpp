@@ -69,6 +69,14 @@ void DumbSwapchain::releaseBuffer(const std::shared_ptr<DrmDumbBuffer> &buffer, 
     m_damageJournal.add(damage);
 }
 
+void DumbSwapchain::reset()
+{
+    m_damageJournal.clear();
+    for (Slot &slot : m_slots) {
+        slot.age = 0;
+    }
+}
+
 uint32_t DumbSwapchain::drmFormat() const
 {
     return m_format;

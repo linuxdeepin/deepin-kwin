@@ -1062,6 +1062,15 @@ void Compositor::composite(RenderLoop *renderLoop)
             auto &[renderTarget, repaint] = beginInfo.value();
             renderTarget.setDevicePixelRatio(output->scale());
 
+            // The un-expanded damage only describes the pixels that change when the frame is
+            // composited one to one: scaling bleeds outside of it, and rotation rewrites the whole
+            // shadow buffer. Those outputs have to keep the conservative region, otherwise their
+            // damage journal misses pixels and the residue becomes permanent.
+            // TODO: relax once rotated / scaled DisplayLink outputs have been validated.
+            const bool dlPartialDamage = output->isDlink()
+                && output->transform() == Output::Transform::Normal
+                && output->scale() == 1.0;
+            const QRegion copyDamage = surfaceDamage;
             const QRegion bufferDamage = surfaceDamage.united(repaint).intersected(superLayer->rect());
             primaryLayer->aboutToStartPainting(bufferDamage);
 
@@ -1070,7 +1079,7 @@ void Compositor::composite(RenderLoop *renderLoop)
                 surfaceDamage = bufferDamage;
             }
             paintPass(superLayer, &renderTarget, bufferDamage);
-            primaryLayer->endFrame(bufferDamage, surfaceDamage);
+            primaryLayer->endFrame(bufferDamage, dlPartialDamage ? copyDamage : surfaceDamage);
         }
     } else {
         m_cursorlessTextures.remove(output);

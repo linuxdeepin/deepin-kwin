@@ -302,6 +302,12 @@ public:
      */
     static QMatrix4x4 logicalToNativeMatrix(const QRect &rect, qreal scale, Transform transform);
 
+    /**
+     * Maps a region from the output's logical coordinates to native pixels, taking the
+     * output's scale and transform into account. The infinite region is returned as is.
+     */
+    QRegion logicalToNativeRegion(const QRegion &region) const;
+
     void setVrrPolicy(RenderLoop::VrrPolicy policy);
     RenderLoop::VrrPolicy vrrPolicy() const;
     RgbRange rgbRange() const;

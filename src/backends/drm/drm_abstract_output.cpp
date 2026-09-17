@@ -19,6 +19,10 @@ DrmAbstractOutput::DrmAbstractOutput(DrmGpu *gpu)
     , m_renderLoop(std::make_unique<RenderLoop>())
     , m_gpu(gpu)
 {
+    // DisplayLink sinks (udl, evdi) complete page flips immediately instead of at the next
+    // vertical blank, so their timestamps cannot be used to pace the render loop. Use a grid
+    // derived from the refresh rate for them; all other sinks keep using the kernel timestamps.
+    m_renderLoop->setSyntheticPresentationTimestamp(gpu->isDlink());
 }
 
 RenderLoop *DrmAbstractOutput::renderLoop() const

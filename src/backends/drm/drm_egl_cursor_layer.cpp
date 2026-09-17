@@ -9,6 +9,7 @@
 #include "drm_egl_cursor_layer.h"
 #include "drm_egl_backend.h"
 #include "drm_gpu.h"
+#include "drm_output.h"
 #include "drm_pipeline.h"
 
 #include <gbm.h>
@@ -34,7 +35,8 @@ void EglGbmCursorLayer::aboutToStartPainting(const QRegion &damagedRegion)
 
 bool EglGbmCursorLayer::endFrame(const QRegion &renderedRegion, const QRegion &damagedRegion)
 {
-    return m_surface.endRendering(m_pipeline->renderOrientation(), damagedRegion);
+    const QRegion nativeDamage = m_pipeline->output()->logicalToNativeRegion(damagedRegion);
+    return m_surface.endRendering(m_pipeline->renderOrientation(), damagedRegion, nativeDamage);
 }
 
 QRegion EglGbmCursorLayer::currentDamage() const

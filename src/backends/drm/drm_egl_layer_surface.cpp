@@ -130,7 +130,7 @@ void EglGbmLayerSurface::aboutToStartPainting(DrmOutput *output, const QRegion &
     }
 }
 
-bool EglGbmLayerSurface::endRendering(DrmPlane::Transformations renderOrientation, const QRegion &damagedRegion)
+bool EglGbmLayerSurface::endRendering(DrmPlane::Transformations renderOrientation, const QRegion &damagedRegion, const QRegion &nativeDamage)
 {
     if (m_shadowBuffer) {
         GLFramebuffer::pushFramebuffer(m_surface.gbmSurface->fbo());
@@ -143,7 +143,7 @@ bool EglGbmLayerSurface::endRendering(DrmPlane::Transformations renderOrientatio
     if (!gbmBuffer) {
         return false;
     }
-    const auto buffer = importBuffer(m_surface, gbmBuffer);
+    const auto buffer = importBuffer(m_surface, gbmBuffer, nativeDamage);
     if (buffer) {
         m_surface.currentBuffer = gbmBuffer;
         m_surface.currentFramebuffer = buffer;
@@ -225,14 +225,30 @@ bool EglGbmLayerSurface::checkSurface(const QSize &size, const QMap<uint32_t, QV
     }
     if (doesSurfaceFit(m_oldSurface, size, formats)) {
         m_surface = m_oldSurface;
+        resetImportSwapchain();
         return true;
     }
     if (const auto newSurface = createSurface(size, formats)) {
         m_oldSurface = m_surface;
         m_surface = newSurface.value();
+        resetImportSwapchain();
         return true;
     }
     return false;
+}
+
+void EglGbmLayerSurface::resetImportSwapchain()
+{
+    // The partial CPU copy relies on the import swapchain's damage journal covering every frame
+    // that was rendered since a buffer was last presented. That only holds as long as the
+    // surface stays the current one: a surface sitting in m_oldSurface has no record of the
+    // frames that were presented on the other surface meanwhile, and a freshly created one has
+    // no record at all (it also got a full damage test frame rendered into it, see
+    // doRenderTestBuffer()). Whenever a surface becomes the current one, forget the recorded
+    // damage and buffer ages so that its first frame is copied in full.
+    if (m_surface.importSwapchain) {
+        m_surface.importSwapchain->reset();
+    }
 }
 
 bool EglGbmLayerSurface::doesSurfaceFit(const Surface &surface, const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats) const
@@ -353,6 +369,9 @@ std::shared_ptr<GbmSurface> EglGbmLayerSurface::createGbmSurface(const QSize &si
     }
     uint32_t gbmFlags = GBM_BO_USE_RENDERING;
     if (m_gpu == m_eglBackend->gpu()) {
+        // The buffer is allocated on the EGL backend's GPU (see GbmSurface::createSurface), so
+        // scanout is only needed when that is also the GPU this layer belongs to. For multi-gpu
+        // usage GBM_BO_USE_SCANOUT is added while importing, see importDmabuf().
         gbmFlags |= GBM_BO_USE_SCANOUT;
     }
     if ((forceLinear || m_gpu != m_eglBackend->gpu()) && !m_gpu->isDlink() && !m_eglBackend->gpu()->isDlink()) {
@@ -378,19 +397,22 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::doRenderTestBuffer(Surface &
     if (!buffer) {
         return nullptr;
     }
-    if (const auto ret = importBuffer(surface, buffer)) {
+    const auto ret = importBuffer(surface, buffer, infiniteRegion());
+    // The test frame was rendered with full damage into the surface's import swapchain and is
+    // then thrown away, which leaves its buffer ages and damage journal describing a frame that
+    // will never be presented. This is undone by resetImportSwapchain() when the surface is
+    // activated; createSurface() is only ever called from checkSurface() for that purpose.
+    if (ret) {
         surface.currentBuffer = buffer;
         surface.currentFramebuffer = ret;
-        return ret;
-    } else {
-        return nullptr;
     }
+    return ret;
 }
 
-std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importBuffer(Surface &surface, const std::shared_ptr<GbmBuffer> &sourceBuffer) const
+std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importBuffer(Surface &surface, const std::shared_ptr<GbmBuffer> &sourceBuffer, const QRegion &nativeDamage) const
 {
     if (m_bufferTarget == BufferTarget::Dumb || surface.importMode == MultiGpuImportMode::DumbBuffer) {
-        return importWithCpu(surface, sourceBuffer.get(), true);
+        return importWithCpu(surface, sourceBuffer.get(), true, nativeDamage);
     } else if (m_gpu != m_eglBackend->gpu()) {
         return importDmabuf(sourceBuffer.get());
     } else {
@@ -416,29 +438,87 @@ std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importDmabuf(GbmBuffer *sour
     return ret;
 }
 
-std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithCpu(Surface &surface, GbmBuffer *sourceBuffer, bool isDump) const
+static void copyRows(const char *srcBase, uint32_t srcStride, char *dstBase, uint32_t dstStride,
+                     int width, int height, const QRegion &region)
+{
+    const QRect copyRect = region.boundingRect();
+    if (srcStride == dstStride && copyRect.top() == 0 && copyRect.bottom() == height - 1
+        && copyRect.left() == 0 && copyRect.right() == width - 1) {
+        memcpy(dstBase, srcBase, size_t(dstStride) * height);
+        return;
+    }
+    int y = copyRect.top();
+    while (y <= copyRect.bottom()) {
+        if (!region.intersects(QRect(0, y, width, 1))) {
+            y++;
+            continue;
+        }
+        const int spanStart = y;
+        while (y <= copyRect.bottom() && region.intersects(QRect(0, y, width, 1))) {
+            y++;
+        }
+        const int rows = y - spanStart;
+        if (rows > 0) {
+            if (srcStride == dstStride) {
+                memcpy(dstBase + size_t(spanStart) * dstStride, srcBase + size_t(spanStart) * srcStride, size_t(dstStride) * rows);
+            } else {
+                for (int r = spanStart; r < y; r++) {
+                    memcpy(dstBase + size_t(r) * dstStride, srcBase + size_t(r) * srcStride, dstStride);
+                }
+            }
+        }
+    }
+}
+
+std::shared_ptr<DrmFramebuffer> EglGbmLayerSurface::importWithCpu(Surface &surface, GbmBuffer *sourceBuffer, bool isDump, const QRegion &nativeDamage) const
 {
     Q_ASSERT(surface.importSwapchain && !surface.importSwapchain->isEmpty());
     if (!sourceBuffer->map(GBM_BO_TRANSFER_READ, isDump)) {
         qCWarning(KWIN_DRM, "mapping a %s gbm_bo failed: %s", formatName(sourceBuffer->format()).name, strerror(errno));
         return nullptr;
     }
-    const auto importBuffer = surface.importSwapchain->acquireBuffer();
+    QRegion needsRepaint;
+    const auto importBuffer = surface.importSwapchain->acquireBuffer(&needsRepaint);
     if (sourceBuffer->planeCount() != 1 || sourceBuffer->strides()[0] < importBuffer->strides()[0]) {
         qCCritical(KWIN_DRM, "stride of gbm_bo (%d) and dumb buffer (%d) with format %s don't match!",
                    sourceBuffer->strides()[0], importBuffer->strides()[0], formatName(sourceBuffer->format()).name);
+        surface.importSwapchain->releaseBuffer(importBuffer, nativeDamage);
         return nullptr;
     }
     const auto dstStride = importBuffer->strides()[0];
     const auto srcStride = sourceBuffer->strides()[0];
-    for (int i = 0; i < importBuffer->size().height(); i++) {
-        void *dst_row = (char *)importBuffer->data() + i * dstStride;
-        void *src_row = (char *)sourceBuffer->mappedData() + i * srcStride;
-        if(!memcpy(dst_row, src_row, dstStride)) {
-            qCCritical(KWIN_DRM, "memcpy gbm_bo to dumb buffer failed!");
-            return nullptr;
+    const int width = std::min(importBuffer->size().width(), sourceBuffer->size().width());
+    const int height = std::min(importBuffer->size().height(), sourceBuffer->size().height());
+    auto *dstBase = (char *)importBuffer->data();
+    auto *srcBase = (char *)sourceBuffer->mappedData();
+
+    // Only a partial region of each dumb buffer is written per frame. For a double buffered
+    // swapchain, a reused buffer still holds stale content for any region that changed while
+    // the other buffer was being presented. Include the damage that accumulated since this
+    // buffer was last presented (needsRepaint) so the presented frame is always complete.
+    const QRegion copyRegion = nativeDamage.united(needsRepaint).intersected(QRect(0, 0, width, height));
+    const QRect copyRect = copyRegion.boundingRect();
+    if (!copyRegion.isEmpty()) {
+        if (srcStride == dstStride && copyRect.top() == 0 && copyRect.bottom() == height - 1 && copyRect.left() == 0 && copyRect.right() == width - 1) {
+            // full frame copy in a single bulk memcpy
+            memcpy(dstBase, srcBase, size_t(dstStride) * height);
+        } else {
+            // Two-pass copy: interleaving the slow write-combined reads with
+            // writes to the dumb buffer is much slower than separating them.
+            // Pass 1 reads the damaged rows into cacheable staging, pass 2
+            // memcpys staging into the dumb buffer (cached-to-cached).
+            if (!surface.cpuStaging || surface.cpuStaging->size < size_t(dstStride) * height) {
+                auto staging = std::make_shared<CpuStaging>();
+                staging->size = size_t(dstStride) * height;
+                staging->data.reset(new char[staging->size]);
+                surface.cpuStaging = std::move(staging);
+            }
+            auto *stageBase = surface.cpuStaging->data.get();
+            copyRows(srcBase, srcStride, stageBase, dstStride, width, height, copyRegion);
+            copyRows(stageBase, dstStride, dstBase, dstStride, width, height, copyRegion);
         }
     }
+    surface.importSwapchain->releaseBuffer(importBuffer, nativeDamage);
 
     const auto ret = DrmFramebuffer::createFramebuffer(importBuffer);
     if (!ret) {

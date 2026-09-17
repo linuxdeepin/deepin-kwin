@@ -592,8 +592,14 @@ void DrmGpu::pageFlipHandler(int fd, unsigned int sequence, unsigned int sec, un
     std::chrono::nanoseconds timestamp = convertTimestamp(gpu->presentationClock(), CLOCK_MONOTONIC,
                                                           {static_cast<time_t>(sec), static_cast<long>(usec * 1000)});
     if (timestamp == std::chrono::nanoseconds::zero()) {
-        qCDebug(KWIN_DRM, "Got invalid timestamp (sec: %u, usec: %u) on gpu %s",
-                sec, usec, qPrintable(gpu->devNode()));
+        // DisplayLink sinks (udl, evdi) never report a valid flip timestamp. The render loop
+        // uses a grid derived from the refresh rate for them, so this fallback is expected
+        // there and must not be logged for every single flip; for any other sink it points at
+        // a driver problem and is worth reporting.
+        if (!gpu->isDlink()) {
+            qCDebug(KWIN_DRM, "Got invalid timestamp (sec: %u, usec: %u) on gpu %s",
+                    sec, usec, qPrintable(gpu->devNode()));
+        }
         timestamp = std::chrono::steady_clock::now().time_since_epoch();
     }
     const auto pipelines = gpu->pipelines();

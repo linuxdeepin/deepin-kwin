@@ -39,6 +39,7 @@ public:
     QTimer benchmarkTimer;
     RenderJournal renderJournal;
     int refreshRate = 60000;
+    bool syntheticPresentationTimestamp = false;
     int pendingFrameCount = 0;
     int inhibitCount = 0;
     bool pendingReschedule = false;

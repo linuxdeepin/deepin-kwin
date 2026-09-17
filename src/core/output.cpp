@@ -447,6 +447,19 @@ QMatrix4x4 Output::logicalToNativeMatrix(const QRect &rect, qreal scale, Transfo
     return matrix;
 }
 
+QRegion Output::logicalToNativeRegion(const QRegion &region) const
+{
+    if (region.boundingRect() == infiniteRegion()) {
+        return region;
+    }
+    const QMatrix4x4 matrix = logicalToNativeMatrix(rect(), scale(), transform());
+    QRegion nativeRegion;
+    for (const QRect &rect : region) {
+        nativeRegion += matrix.mapRect(QRectF(rect)).toAlignedRect();
+    }
+    return nativeRegion;
+}
+
 uint32_t Output::overscan() const
 {
     return m_state.overscan;

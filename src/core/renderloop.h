@@ -70,6 +70,15 @@ public:
     void setRefreshRate(int refreshRate);
 
     /**
+     * Sets whether the presentation timestamps reported by the sink should be replaced with a
+     * grid derived from the refresh rate. Some sinks (for example evdi) complete page flips
+     * immediately instead of at the next vertical blank, so their timestamps would let the
+     * render loop present frames much faster than the display can actually show them. For all
+     * other sinks the reported timestamps are used as is, which is the default.
+     */
+    void setSyntheticPresentationTimestamp(bool synthetic);
+
+    /**
      * Schedules a compositing cycle at the next available moment.
      */
     void scheduleRepaint(Item *item = nullptr);

@@ -32,6 +32,7 @@ class ShadowBuffer;
 class EglGbmBackend;
 class SurfaceItem;
 class GLTexture;
+class GLFramebuffer;
 class GbmBuffer;
 
 class EglGbmLayerSurface : public QObject
@@ -48,7 +49,7 @@ public:
 
     std::optional<OutputLayerBeginFrameInfo> startRendering(const QSize &bufferSize, DrmPlane::Transformations renderOrientation, DrmPlane::Transformations bufferOrientation, const QMap<uint32_t, QVector<uint64_t>> &formats);
     void aboutToStartPainting(DrmOutput *output, const QRegion &damagedRegion);
-    bool endRendering(DrmPlane::Transformations renderOrientation, const QRegion &damagedRegion);
+    bool endRendering(DrmPlane::Transformations renderOrientation, const QRegion &damagedRegion, const QRegion &nativeDamage);
 
     bool doesSurfaceFit(const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats) const;
     std::shared_ptr<GLTexture> texture() const;
@@ -65,6 +66,15 @@ private:
         Dmabuf,
         DumbBuffer
     };
+    // Two-pass copy staging: reading the write-combined gbm bo interleaved
+    // with writes to the dumb buffer is much slower (measured 300MB/s) than
+    // separating the passes (a pure read into cacheable memory at 800MB/s,
+    // then a cached-to-cached memcpy).
+    struct CpuStaging
+    {
+        std::unique_ptr<char[]> data;
+        size_t size = 0;
+    };
     struct Surface
     {
         std::shared_ptr<GbmSurface> gbmSurface;
@@ -72,18 +82,20 @@ private:
         MultiGpuImportMode importMode;
         std::shared_ptr<GbmBuffer> currentBuffer;
         std::shared_ptr<DrmFramebuffer> currentFramebuffer;
+        std::shared_ptr<CpuStaging> cpuStaging;
         bool forceLinear = false;
     };
     bool checkSurface(const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats);
+    void resetImportSwapchain();
     bool doesSurfaceFit(const Surface &surface, const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats) const;
     std::optional<Surface> createSurface(const QSize &size, const QMap<uint32_t, QVector<uint64_t>> &formats) const;
     std::optional<Surface> createSurface(const QSize &size, uint32_t format, const QVector<uint64_t> &modifiers, MultiGpuImportMode importMode) const;
     std::shared_ptr<GbmSurface> createGbmSurface(const QSize &size, uint32_t format, const QVector<uint64_t> &modifiers, bool forceLinear) const;
 
     std::shared_ptr<DrmFramebuffer> doRenderTestBuffer(Surface &surface) const;
-    std::shared_ptr<DrmFramebuffer> importBuffer(Surface &surface, const std::shared_ptr<GbmBuffer> &sourceBuffer) const;
+    std::shared_ptr<DrmFramebuffer> importBuffer(Surface &surface, const std::shared_ptr<GbmBuffer> &sourceBuffer, const QRegion &nativeDamage) const;
     std::shared_ptr<DrmFramebuffer> importDmabuf(GbmBuffer *sourceBuffer) const;
-    std::shared_ptr<DrmFramebuffer> importWithCpu(Surface &surface, GbmBuffer *sourceBuffer, bool isDump = false) const;
+    std::shared_ptr<DrmFramebuffer> importWithCpu(Surface &surface, GbmBuffer *sourceBuffer, bool isDump, const QRegion &nativeDamage) const;
 
     Surface m_surface;
     Surface m_oldSurface;

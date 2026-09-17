@@ -31,6 +31,12 @@ public:
     std::shared_ptr<DrmDumbBuffer> currentBuffer() const;
     void releaseBuffer(const std::shared_ptr<DrmDumbBuffer> &buffer, const QRegion &damage = {});
 
+    /**
+     * Forgets all recorded damage and buffer ages, as if no buffer had ever been presented.
+     * The next acquired buffer is then treated as containing stale content and gets a full copy.
+     */
+    void reset();
+
     qsizetype slotCount() const;
     QSize size() const;
     bool isEmpty() const;

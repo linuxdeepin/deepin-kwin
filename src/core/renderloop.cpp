@@ -12,6 +12,8 @@
 #include "wayland/surface_interface.h"
 #include "composite.h"
 
+#include <algorithm>
+
 namespace KWin
 {
 
@@ -139,7 +141,16 @@ void RenderLoopPrivate::notifyFrameCompleted(std::chrono::nanoseconds timestamp)
     Q_ASSERT(pendingFrameCount > 0);
     pendingFrameCount--;
 
-    if (lastPresentationTimestamp <= timestamp) {
+    if (syntheticPresentationTimestamp && refreshRate > 0 && lastPresentationTimestamp != std::chrono::nanoseconds::zero()) {
+        // Advance the presentation time on a grid defined by the refresh rate. Some sinks (for
+        // example evdi) complete page flips immediately instead of at the next vertical blank,
+        // so adopting their timestamp would anchor the pacing to the moment the frame was
+        // handed over and let the compositor present frames much faster than the display can
+        // actually show them. The grid is only resynchronized when the sink reports a later
+        // timestamp, which means the display is the limiting factor.
+        const std::chrono::nanoseconds vblankInterval(1'000'000'000'000ull / refreshRate);
+        lastPresentationTimestamp = std::max(lastPresentationTimestamp + vblankInterval, timestamp);
+    } else if (lastPresentationTimestamp <= timestamp) {
         lastPresentationTimestamp = timestamp;
     } else {
         qCDebug(KWIN_CORE,
@@ -230,6 +241,11 @@ void RenderLoop::setRefreshRate(int refreshRate)
     }
     d->refreshRate = refreshRate;
     Q_EMIT refreshRateChanged();
+}
+
+void RenderLoop::setSyntheticPresentationTimestamp(bool synthetic)
+{
+    d->syntheticPresentationTimestamp = synthetic;
 }
 
 void RenderLoop::scheduleRepaint(Item *item)
