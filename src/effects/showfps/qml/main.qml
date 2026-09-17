@@ -13,36 +13,67 @@ Rectangle {
 
     property QtObject effect
 
+    // The C++ side sizes the overlay to this implicit size, which only changes
+    // if the font environment changes. The FPS value sits in a fixed-width
+    // slot sized for four digits and is left-aligned, so every text position
+    // stays constant while the reported values change.
+    implicitWidth: grid.implicitWidth + 2
+    implicitHeight: grid.implicitHeight + 2
+
     color: "transparent"
-    ColumnLayout {
-        anchors.fill: parent
+
+    FontMetrics {
+        id: valueMetrics
+        font.bold: true
+        font.pointSize: 20
+    }
+
+    GridLayout {
+        id: grid
+        anchors.right: parent.right
+        anchors.top: parent.top
+        columns: 3
+        columnSpacing: 6
+        rowSpacing: 2
 
         Label {
-            Layout.fillWidth: true
-
-            Text {
-                id: fpsText
-                text: root.effect ? "Current FPS: " + root.effect.fps : "Current FPS: N/A"
-                font.bold: true
-                font.pointSize: 20
-                width: parent.width
-            }
+            text: "Current"
+            font.bold: true
+            font.pointSize: 20
+        }
+        Label {
+            text: "FPS:"
+            font.bold: true
+            font.pointSize: 20
+        }
+        Label {
+            text: root.effect ? root.effect.fps : "N/A"
+            horizontalAlignment: Text.AlignLeft
+            Layout.preferredWidth: valueMetrics.advanceWidth("000")
+            font.bold: true
+            font.pointSize: 20
         }
 
         Label {
-            Layout.fillWidth: true
-
-            Text {
-                id: maxFpsText
-                text: root.effect ? "Maximum FPS: " + root.effect.maximumFps : "Maximum FPS: N/A"
-                font.bold: true
-                font.pointSize: 20
-                width: parent.width
-            }
+            text: "Maximum"
+            font.bold: true
+            font.pointSize: 20
+        }
+        Label {
+            text: "FPS:"
+            font.bold: true
+            font.pointSize: 20
+        }
+        Label {
+            text: root.effect ? root.effect.maximumFps : "N/A"
+            horizontalAlignment: Text.AlignLeft
+            Layout.preferredWidth: valueMetrics.advanceWidth("000")
+            font.bold: true
+            font.pointSize: 20
         }
 
         Label {
-            Layout.fillWidth: true
+            Layout.columnSpan: 3
             text: i18nc("@label", "This effect is not a benchmark")
         }
     }

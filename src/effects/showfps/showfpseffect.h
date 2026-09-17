@@ -12,11 +12,17 @@
 #include <kwinoffscreenquickview.h>
 
 #include <QElapsedTimer>
+#include <QHash>
 
 namespace KWin
 {
 
-class ShowFpsEffect : public Effect
+// Per-screen FPS statistics exposed to the overlay QML scene of one screen. The
+// compositor runs a separate paint pass per screen, so all state lives here
+// instead of on the effect itself; otherwise the reported value is the sum over
+// all screens and can be several times higher than the frame rate of the screen
+// the overlay is shown on.
+class ScreenFps : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int fps READ fps NOTIFY fpsChanged)
@@ -26,14 +32,43 @@ class ShowFpsEffect : public Effect
     Q_PROPERTY(QColor paintColor READ paintColor NOTIFY paintChanged)
 
 public:
-    ShowFpsEffect();
-    ~ShowFpsEffect() override;
+    explicit ScreenFps(QObject *parent = nullptr);
 
     int fps() const;
     int maximumFps() const;
     int paintDuration() const;
     int paintAmount() const;
     QColor paintColor() const;
+
+    void countFrame();
+    void updateFps(int maximumFps);
+    void beginPaint();
+    void endPaint();
+    void addPaintAmount(int amount);
+
+Q_SIGNALS:
+    void fpsChanged();
+    void maximumFpsChanged();
+    void paintChanged();
+
+private:
+    int m_frames = 0;
+    int m_fps = 0;
+    int m_maximumFps = 0;
+    std::chrono::steady_clock::time_point m_lastUpdate;
+
+    int m_paintDuration = 0;
+    int m_paintAmount = 0;
+    QElapsedTimer m_paintDurationTimer;
+};
+
+class ShowFpsEffect : public Effect
+{
+    Q_OBJECT
+
+public:
+    ShowFpsEffect();
+    ~ShowFpsEffect() override;
 
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
@@ -42,24 +77,22 @@ public:
 
     static bool supported();
 
-Q_SIGNALS:
-    void fpsChanged();
-    void maximumFpsChanged();
-    void paintChanged();
-
 private:
+    // One overlay scene and one data object per screen. On X11 all screens are
+    // painted at once and data.screen() is always the first output, so only
+    // that entry is counted and rendered, matching the old single-overlay
+    // behavior.
+    struct ScreenEntry
+    {
+        std::unique_ptr<ScreenFps> data;
+        std::unique_ptr<OffscreenQuickScene> scene;
+    };
+
+    ScreenEntry *ensureScreenEntry(EffectScreen *screen);
+
     std::unique_ptr<QWindow> m_window;
-    std::unique_ptr<OffscreenQuickScene> m_scene;
-
-    int m_maximumFps = 0;
-
-    int m_fps = 0;
-    int m_newFps = 0;
-    std::chrono::steady_clock::time_point m_lastFpsTime;
-
-    int m_paintDuration = 0;
-    int m_paintAmount = 0;
-    QElapsedTimer m_paintDurationTimer;
+    QHash<EffectScreen *, ScreenEntry *> m_screenEntries;
+    EffectScreen *m_paintedScreen = nullptr;
 };
 
 } // namespace KWin
