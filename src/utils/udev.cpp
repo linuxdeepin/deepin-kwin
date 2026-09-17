@@ -227,8 +227,8 @@ bool UdevDevice::isBootVga() const
 
 bool UdevDevice::isHotpluggable() const
 {
-    QString devPath = QString::fromUtf8(udev_device_get_devpath(m_device));
-    return devPath.toLower().contains("usb");
+    const QString devPath = QString::fromUtf8(udev_device_get_devpath(m_device)).toLower();
+    return devPath.contains("usb") || devPath.contains("evdi");
 }
 
 QString UdevDevice::seat() const

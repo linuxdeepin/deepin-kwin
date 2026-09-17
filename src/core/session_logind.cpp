@@ -310,9 +310,10 @@ void LogindSession::updateActive(bool active)
 
 void LogindSession::handlePauseDevice(uint major, uint minor, const QString &type)
 {
-    Q_EMIT devicePaused(makedev(major, minor));
+    const Session::PauseDeviceType pauseType = Session::pauseDeviceTypeFromString(type);
+    Q_EMIT devicePaused(makedev(major, minor), pauseType);
 
-    if (type == QLatin1String("pause")) {
+    if (pauseType == Session::PauseDeviceType::Pause) {
         QDBusMessage message = QDBusMessage::createMethodCall(s_serviceName, m_sessionPath,
                                                               s_sessionInterface,
                                                               QStringLiteral("PauseDeviceComplete"));

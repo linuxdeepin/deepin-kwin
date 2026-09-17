@@ -46,6 +46,27 @@ public:
     };
     Q_DECLARE_FLAGS(Capabilities, Capability)
 
+    /**
+     * This enum type is used to specify why a device has been paused.
+     */
+    enum class PauseDeviceType {
+        /**
+         * The device is temporarily unavailable, for example when switching between
+         * virtual terminals. It will be resumed later.
+         */
+        Pause,
+        /**
+         * Like @c Pause, but the device was taken away because it wasn't released in time.
+         */
+        Force,
+        /**
+         * The device has been removed. It will not be resumed.
+         */
+        Gone,
+    };
+
+    static PauseDeviceType pauseDeviceTypeFromString(const QString &type);
+
     static std::unique_ptr<Session> create();
     static std::unique_ptr<Session> create(Type type);
 
@@ -114,7 +135,7 @@ Q_SIGNALS:
      * Note that when this signal is emitted for a DRM device, master permissions can
      * be already revoked.
      */
-    void devicePaused(dev_t deviceId);
+    void devicePaused(dev_t deviceId, PauseDeviceType type);
 
 protected:
     explicit Session() = default;

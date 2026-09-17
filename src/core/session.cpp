@@ -43,4 +43,14 @@ std::unique_ptr<Session> Session::create(Type type)
     return nullptr;
 }
 
+Session::PauseDeviceType Session::pauseDeviceTypeFromString(const QString &type)
+{
+    if (type == QLatin1String("gone")) {
+        return PauseDeviceType::Gone;
+    } else if (type == QLatin1String("force")) {
+        return PauseDeviceType::Force;
+    }
+    return PauseDeviceType::Pause;
+}
+
 } // namespace KWin

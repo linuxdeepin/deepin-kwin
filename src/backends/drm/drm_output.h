@@ -59,6 +59,8 @@ public:
 
     void setColorTransformation(const std::shared_ptr<ColorTransformation> &transformation) override;
 
+    bool isDlink() const override;
+
     bool setDrmDpmsMode(DpmsMode mode);
 private:
     void setDpmsMode(DpmsMode mode) override;

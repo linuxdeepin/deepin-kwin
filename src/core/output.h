@@ -322,6 +322,11 @@ public:
     virtual bool setCursor(CursorSource *source);
     virtual bool moveCursor(const QPoint &position);
 
+    virtual bool isDlink() const
+    {
+        return false;
+    }
+
     void creatShmRemoteProhibitBuffer();
 
     shm_rp_buffer* creatForDumpBuffer(QSize size, void *data = nullptr);

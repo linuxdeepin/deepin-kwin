@@ -13,6 +13,7 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+#include "core/session.h"
 #include "utils/ramfile.h"
 
 #include <QtTest>
@@ -25,6 +26,7 @@ class TestUtils : public QObject
 private Q_SLOTS:
     void testRamFile();
     void testSealedRamFile();
+    void testPauseDeviceType();
 };
 
 static const QByteArray s_testByteArray = QByteArrayLiteral("Test Data \0\1\2\3");
@@ -65,6 +67,17 @@ void TestUtils::testSealedRamFile()
 #else
     QSKIP("Sealing requires memfd suport.");
 #endif
+}
+
+void TestUtils::testPauseDeviceType()
+{
+    // devicePaused() only skips deactivating the gpu for "gone", since that one is never
+    // resumed. Everything that is not recognized has to stay on the resumable path.
+    QVERIFY(Session::pauseDeviceTypeFromString(QStringLiteral("gone")) == Session::PauseDeviceType::Gone);
+    QVERIFY(Session::pauseDeviceTypeFromString(QStringLiteral("force")) == Session::PauseDeviceType::Force);
+    QVERIFY(Session::pauseDeviceTypeFromString(QStringLiteral("pause")) == Session::PauseDeviceType::Pause);
+    QVERIFY(Session::pauseDeviceTypeFromString(QString()) == Session::PauseDeviceType::Pause);
+    QVERIFY(Session::pauseDeviceTypeFromString(QStringLiteral("bogus")) == Session::PauseDeviceType::Pause);
 }
 
 QTEST_MAIN(TestUtils)

@@ -150,7 +150,16 @@ void DrmBackend::checkOutputsAreOn()
 
 bool DrmBackend::initialize()
 {
-    connect(m_session, &Session::devicePaused, this, [this](dev_t deviceId) {
+    connect(m_session, &Session::devicePaused, this, [this](dev_t deviceId, Session::PauseDeviceType type) {
+        // Deactivating a GPU inhibits the render loops of its outputs and is only undone by
+        // Session::deviceResumed. A device that is "gone" will never be resumed, so inhibiting
+        // here could leave the outputs permanently frozen. The device is torn down by the hotplug
+        // path instead: DrmBackend::updateOutputs() drops removed GPUs, which removes the outputs
+        // and with them their render loops, so nothing keeps presenting to the dead device.
+        if (type == Session::PauseDeviceType::Gone) {
+            qCDebug(KWIN_DRM) << "Device" << deviceId << "is gone, waiting for it to be removed";
+            return;
+        }
         if (auto gpu = findGpu(deviceId)) {
             gpu->setActive(false);
         }

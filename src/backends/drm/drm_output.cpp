@@ -527,4 +527,9 @@ void DrmOutput::setColorTransformation(const std::shared_ptr<ColorTransformation
     }
 }
 
+bool DrmOutput::isDlink() const
+{
+    return m_connector->gpu()->isDlink();
+}
+
 }
