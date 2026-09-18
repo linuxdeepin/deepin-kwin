@@ -11,6 +11,7 @@
 
 #include <kwinglobals.h>
 
+#include <QHash>
 #include <QObject>
 #include <QRegion>
 #include <QTimer>
@@ -23,6 +24,8 @@ class Output;
 class CompositorSelectionOwner;
 class CursorScene;
 class CursorView;
+class GLTexture;
+class GLFramebuffer;
 class RenderBackend;
 class RenderLayer;
 class RenderLoop;
@@ -94,6 +97,10 @@ public:
     {
         return m_benchWindowNum > 0;
     }
+
+    void addCursorlessCaptureClient(Output *output);
+    void removeCursorlessCaptureClient(Output *output);
+    std::shared_ptr<GLTexture> screencastFrameForOutput(Output *output) const;
 
     /**
      * @brief Static check to test whether the Compositor is available and active.
@@ -233,6 +240,8 @@ private:
     void preparePaintPass(RenderLayer *layer, QRegion *repaint);
     void paintPass(RenderLayer *layer, RenderTarget *target, const QRegion &region);
 
+    void updateCursorlessFrame(Output *output, RenderTarget *target, const QRegion &region);
+
     quint32 m_benchWindowNum = 0;
     State m_state = State::Off;
     std::unique_ptr<CompositorSelectionOwner> m_selectionOwner;
@@ -243,6 +252,10 @@ private:
     std::unique_ptr<CursorScene> m_cursorScene;
     std::unique_ptr<RenderBackend> m_backend;
     QHash<RenderLoop *, RenderLayer *> m_superlayers;
+    QHash<RenderLoop *, RenderLayer *> m_cursorLayers;
+    QHash<Output *, int> m_cursorlessCounts;
+    QHash<Output *, std::shared_ptr<GLTexture>> m_cursorlessTextures;
+    QHash<Output *, std::shared_ptr<GLFramebuffer>> m_cursorlessFramebuffers;
     CompositingType m_selectedCompositor = NoCompositing;
     bool m_edgeSoftCursor = false;
     bool m_screenShotRunning = false;

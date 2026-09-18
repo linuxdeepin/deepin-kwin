@@ -12,12 +12,6 @@
 
 #include <spa/buffer/buffer.h>
 #include <spa/param/video/raw.h>
-#include "../../backends/drm/drm_egl_backend.h"
-#include "composite.h"
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
-
 
 namespace KWin
 {
@@ -34,6 +28,7 @@ static void mirrorVertically(uchar *data, int height, int stride)
         memcpy(dest, temp.data(), stride);
     }
 }
+
 static GLenum closestGLType(spa_video_format format)
 {
     switch (format) {
@@ -53,10 +48,28 @@ static GLenum closestGLType(spa_video_format format)
     }
 }
 
+// Reads the whole @p texture back into @p spa through the GPU. Uses glReadPixels via an offscreen
+// framebuffer on GLES, glGetTextureImage on OpenGL >= 4.5 and glGetTexImage otherwise.
+static void readTextureFromGPU(GLTexture *texture, spa_data *spa, spa_video_format format, const QSize &size)
+{
+    const bool isGLES = GLPlatform::instance()->isGLES();
+    if (isGLES) {
+        texture->bind();
+        GLFramebuffer fbo(texture);
+        GLFramebuffer::pushFramebuffer(&fbo);
+        glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+        GLFramebuffer::popFramebuffer();
+    } else if (GLPlatform::instance()->glVersion() >= kVersionNumber(4, 5)) {
+        glGetTextureImage(texture->texture(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->chunk->size, spa->data);
+    } else {
+        texture->bind();
+        glGetTexImage(texture->target(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
+    }
+}
+
 static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format format)
 {
     const QSize size = texture->size();
-    const bool isGLES = GLPlatform::instance()->isGLES();
     const bool invertNeeded = texture->isYInverted();
     const bool invertNeededAndSupported = invertNeeded && GLPlatform::instance()->supports(PackInvert);
     GLboolean prev;
@@ -67,48 +80,8 @@ static void grabTexture(GLTexture *texture, spa_data *spa, spa_video_format form
     const uint stride = SPA_ROUND_UP_N (size.width() * 4, 4);
     spa->chunk->stride = stride;
     spa->chunk->size = spa->maxsize;
-    EglGbmBackend * eglGbmBackend = static_cast<EglGbmBackend *>(Compositor::self()->backend());
-    spa->fd = eglGbmBackend ? eglGbmBackend->getFrameFd() : 0;
-    const uint actualStride = eglGbmBackend ? eglGbmBackend->dmaActualStride() : stride;
 
-    if (spa->fd) {
-        uint8_t *map_data = static_cast<uint8_t *>((mmap(NULL, actualStride * size.height(), PROT_READ, MAP_SHARED, spa->fd, 0)));
-        if (map_data != MAP_FAILED) {
-            if (actualStride > stride) {
-                for (int y = 0; y < size.height(); ++y)
-                    memcpy((uint8_t*)spa->data + y * stride, map_data + y * actualStride, stride);
-            } else {
-                memcpy(spa->data, map_data, actualStride * size.height());
-            }
-            munmap(map_data, actualStride * size.height());
-            map_data = NULL;
-        } else {
-            texture->bind();
-            if (isGLES) {
-                GLFramebuffer fbo(texture);
-                GLFramebuffer::pushFramebuffer(&fbo);
-                glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
-                GLFramebuffer::popFramebuffer();
-            } else if (GLPlatform::instance()->glVersion() >= kVersionNumber(4, 5)) {
-                glGetTextureImage(texture->texture(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->chunk->size, spa->data);
-            } else {
-                glGetTexImage(texture->target(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
-            }
-        }
-
-    } else {
-        texture->bind();
-        if (isGLES) {
-            GLFramebuffer fbo(texture);
-            GLFramebuffer::pushFramebuffer(&fbo);
-            glReadPixels(0, 0, size.width(), size.height(), closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
-            GLFramebuffer::popFramebuffer();
-        } else if (GLPlatform::instance()->glVersion() >= kVersionNumber(4, 5)) {
-            glGetTextureImage(texture->texture(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->chunk->size, spa->data);
-        } else {
-            glGetTexImage(texture->target(), 0, closestGLType(format), GL_UNSIGNED_BYTE, spa->data);
-        }
-    }
+    readTextureFromGPU(texture, spa, format, size);
 
     if (invertNeededAndSupported) {
         if (!prev) {

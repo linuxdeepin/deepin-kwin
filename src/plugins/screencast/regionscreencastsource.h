@@ -9,6 +9,8 @@
 #include "screencastsource.h"
 
 #include <QImage>
+#include <QPointer>
+#include <QVector>
 #include <kwingltexture.h>
 #include <kwinglutils.h>
 
@@ -22,6 +24,7 @@ class RegionScreenCastSource : public ScreenCastSource
 
 public:
     explicit RegionScreenCastSource(const QRect &region, qreal scale, QObject *parent = nullptr);
+    ~RegionScreenCastSource() override;
 
     bool hasAlphaChannel() const override;
     QSize textureSize() const override;
@@ -43,6 +46,7 @@ public:
 private:
     const QRect m_region;
     const qreal m_scale;
+    QVector<QPointer<Output>> m_capturedOutputs;
     std::unique_ptr<GLFramebuffer> m_target;
     std::unique_ptr<GLTexture> m_renderedTexture;
     std::chrono::nanoseconds m_last;

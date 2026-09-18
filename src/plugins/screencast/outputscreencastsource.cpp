@@ -27,6 +27,17 @@ OutputScreenCastSource::OutputScreenCastSource(Output *output, QObject *parent)
             Q_EMIT closed();
         }
     });
+
+    if (Compositor::self()) {
+        Compositor::self()->addCursorlessCaptureClient(m_output);
+    }
+}
+
+OutputScreenCastSource::~OutputScreenCastSource()
+{
+    if (m_output && Compositor::self()) {
+        Compositor::self()->removeCursorlessCaptureClient(m_output);
+    }
 }
 
 bool OutputScreenCastSource::hasAlphaChannel() const
@@ -41,7 +52,11 @@ QSize OutputScreenCastSource::textureSize() const
 
 void OutputScreenCastSource::render(spa_data *spa, spa_video_format format)
 {
-    const std::shared_ptr<GLTexture> outputTexture = Compositor::self()->scene()->textureForOutput(m_output);
+    Compositor *compositor = Compositor::self();
+    if (!compositor) {
+        return;
+    }
+    const std::shared_ptr<GLTexture> outputTexture = compositor->screencastFrameForOutput(m_output);
     if (outputTexture) {
         grabTexture(outputTexture.get(), spa, format);
     }
@@ -49,7 +64,11 @@ void OutputScreenCastSource::render(spa_data *spa, spa_video_format format)
 
 void OutputScreenCastSource::render(GLFramebuffer *target)
 {
-    const std::shared_ptr<GLTexture> outputTexture = Compositor::self()->scene()->textureForOutput(m_output);
+    Compositor *compositor = Compositor::self();
+    if (!compositor) {
+        return;
+    }
+    const std::shared_ptr<GLTexture> outputTexture = compositor->screencastFrameForOutput(m_output);
     if (!outputTexture) {
         return;
     }

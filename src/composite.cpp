@@ -50,6 +50,7 @@
 
 #include <kwinglplatform.h>
 #include <kwingltexture.h>
+#include <kwinglutils.h>
 
 #include <KGlobalAccel>
 #include <KLocalizedString>
@@ -77,6 +78,8 @@
 #include <xcb/composite.h>
 #include <xcb/damage.h>
 
+#include <algorithm>
+#include <chrono>
 #include <cstdio>
 #include <dlfcn.h>
 #include <unistd.h>
@@ -646,6 +649,7 @@ void Compositor::addOutput(Output *output)
     }
     cursorLayer->setParent(workspaceLayer);
     cursorLayer->setSuperlayer(workspaceLayer);
+    m_cursorLayers.insert(output->renderLoop(), cursorLayer);
 
     auto updateCursorLayer = [output, cursorLayer, this]() {
         const Cursor *cursor = Cursors::self()->currentCursor();
@@ -715,6 +719,10 @@ void Compositor::addOutput(Output *output)
 void Compositor::removeOutput(Output *output)
 {
     removeSuperLayer(m_superlayers[output->renderLoop()]);
+    m_cursorLayers.remove(output->renderLoop());
+    m_cursorlessCounts.remove(output);
+    m_cursorlessTextures.remove(output);
+    m_cursorlessFramebuffers.remove(output);
 }
 
 void Compositor::addSuperLayer(RenderLayer *layer)
@@ -796,6 +804,10 @@ void Compositor::stop()
     for (auto it = superlayers.begin(); it != superlayers.end(); ++it) {
         removeSuperLayer(*it);
     }
+
+    m_cursorlessTextures.clear();
+    m_cursorlessFramebuffers.clear();
+    m_cursorLayers.clear();
 
     m_scene.reset();
     m_cursorScene.reset();
@@ -1060,6 +1072,9 @@ void Compositor::composite(RenderLoop *renderLoop)
             paintPass(superLayer, &renderTarget, bufferDamage);
             primaryLayer->endFrame(bufferDamage, surfaceDamage);
         }
+    } else {
+        m_cursorlessTextures.remove(output);
+        m_cursorlessFramebuffers.remove(output);
     }
 
     postPaintPass(superLayer);
@@ -1121,10 +1136,104 @@ void Compositor::paintPass(RenderLayer *layer, RenderTarget *target, const QRegi
 {
     layer->delegate()->paint(target, region);
 
+    const bool isSuperLayer = layer == m_superlayers.value(layer->loop());
+    // Capture the frame before the cursor layer is composited, so the stream stays cursor-free.
+    RenderLayer *cursorLayer = isSuperLayer ? m_cursorLayers.value(layer->loop()) : nullptr;
+
     const auto sublayers = layer->sublayers();
     for (RenderLayer *sublayer : sublayers) {
-        if (sublayer->isVisible()) {
+        if (sublayer->isVisible() && sublayer != cursorLayer) {
             paintPass(sublayer, target, region);
+        }
+    }
+
+    if (isSuperLayer) {
+        if (Output *output = findOutput(layer->loop())) {
+            updateCursorlessFrame(output, target, region);
+        }
+        if (cursorLayer && cursorLayer->isVisible()) {
+            paintPass(cursorLayer, target, region);
+        }
+    }
+}
+
+void Compositor::addCursorlessCaptureClient(Output *output)
+{
+    m_cursorlessCounts[output] += 1;
+}
+
+void Compositor::removeCursorlessCaptureClient(Output *output)
+{
+    const auto it = m_cursorlessCounts.find(output);
+    if (it == m_cursorlessCounts.end()) {
+        return;
+    }
+    it.value() -= 1;
+    if (it.value() <= 0) {
+        m_cursorlessCounts.erase(it);
+        m_cursorlessTextures.remove(output);
+        m_cursorlessFramebuffers.remove(output);
+    }
+}
+
+std::shared_ptr<GLTexture> Compositor::screencastFrameForOutput(Output *output) const
+{
+    const auto it = m_cursorlessTextures.constFind(output);
+    if (it != m_cursorlessTextures.constEnd() && it.value()) {
+        return it.value();
+    }
+    WorkspaceScene *workspaceScene = scene();
+    return workspaceScene ? workspaceScene->textureForOutput(output) : nullptr;
+}
+
+// Captures the frame currently in @p target into the per-output cursor-free texture. It is called
+// after the workspace scene and every other non-cursor sublayer have been painted but before the
+// cursor layer is composited, so the copy never contains the software cursor. Only @p region is
+// refreshed; a freshly created texture gets one full copy.
+void Compositor::updateCursorlessFrame(Output *output, RenderTarget *target, const QRegion &region)
+{
+    if (m_cursorlessCounts.value(output, 0) <= 0) {
+        return;
+    }
+
+    const auto nativeHandle = target->nativeHandle();
+    const auto *sourceFbo = std::get_if<GLFramebuffer *>(&nativeHandle);
+    if (!sourceFbo || !*sourceFbo) {
+        return;
+    }
+
+    const QSize size = output->pixelSize();
+    const QRegion blitRegion = region & QRegion(0, 0, size.width(), size.height());
+
+    auto &texture = m_cursorlessTextures[output];
+    const bool needsFullCopy = !texture || texture->size() != size;
+    if (needsFullCopy) {
+        texture = std::make_shared<GLTexture>(GL_RGBA8, size);
+        // Cache the framebuffer together with the texture instead of recreating it every frame.
+        m_cursorlessFramebuffers[output] = std::make_shared<GLFramebuffer>(texture.get());
+    }
+    GLFramebuffer *cursorlessFramebuffer = m_cursorlessFramebuffers.value(output).get();
+    if (!cursorlessFramebuffer) {
+        return;
+    }
+    if (!needsFullCopy && blitRegion.isEmpty()) {
+        return;
+    }
+
+    GLFramebuffer::pushFramebuffer(*sourceFbo);
+    const auto popFramebuffer = qScopeGuard([]() {
+        GLFramebuffer::popFramebuffer();
+    });
+    if (needsFullCopy) {
+        // The render target is bottom-up while the copy is stored top-down, so the negative source
+        // height is used to flip it vertically.
+        cursorlessFramebuffer->blitFromFramebuffer(QRect(0, texture->height(), texture->width(), -texture->height()));
+    } else {
+        const int height = texture->height();
+        for (const QRect &rect : blitRegion) {
+            // Same vertical flip as the full copy, restricted to the damaged rectangle.
+            cursorlessFramebuffer->blitFromFramebuffer(QRect(rect.x(), rect.y() + rect.height(), rect.width(), -rect.height()),
+                                                       QRect(rect.x(), height - rect.y() - rect.height(), rect.width(), rect.height()));
         }
     }
 }

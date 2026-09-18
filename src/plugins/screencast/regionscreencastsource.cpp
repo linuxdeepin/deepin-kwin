@@ -26,6 +26,27 @@ RegionScreenCastSource::RegionScreenCastSource(const QRect &region, qreal scale,
 {
     Q_ASSERT(m_region.isValid());
     Q_ASSERT(m_scale > 0);
+
+    if (Compositor::self() && workspace()) {
+        const auto allOutputs = workspace()->outputs();
+        for (Output *output : allOutputs) {
+            if (output->geometry().intersects(m_region)) {
+                m_capturedOutputs.append(output);
+                Compositor::self()->addCursorlessCaptureClient(output);
+            }
+        }
+    }
+}
+
+RegionScreenCastSource::~RegionScreenCastSource()
+{
+    if (Compositor::self()) {
+        for (const QPointer<Output> &output : std::as_const(m_capturedOutputs)) {
+            if (output) {
+                Compositor::self()->removeCursorlessCaptureClient(output);
+            }
+        }
+    }
 }
 
 QSize RegionScreenCastSource::textureSize() const
@@ -43,7 +64,11 @@ void RegionScreenCastSource::updateOutput(Output *output)
     m_last = output->renderLoop()->lastPresentationTimestamp();
 
     if (m_renderedTexture) {
-        const std::shared_ptr<GLTexture> outputTexture = Compositor::self()->scene()->textureForOutput(output);
+        Compositor *compositor = Compositor::self();
+        if (!compositor) {
+            return;
+        }
+        const std::shared_ptr<GLTexture> outputTexture = compositor->screencastFrameForOutput(output);
         const auto outputGeometry = output->geometry();
         if (!outputTexture || !m_region.intersects(output->geometry())) {
             return;
