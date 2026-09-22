@@ -29,6 +29,7 @@ public:
 
     bool provides(Feature feature) override;
     bool perform(Feature feature, const QVariantList &arguments) override;
+    void paintWindow(KWin::EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
     Q_SCRIPTABLE void highlightWindows(const QStringList &windows);
 
 public Q_SLOTS:
@@ -55,7 +56,7 @@ private:
     int m_fadeDuration;
     EffectWindow *m_monitorWindow;
     QList<WId> m_highlightedIds;
-    float m_ghostOpacity = 0.1;
+    float m_ghostOpacity = 0;
 };
 
 } // namespace

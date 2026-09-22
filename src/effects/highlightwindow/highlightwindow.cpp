@@ -168,23 +168,23 @@ void HighlightWindowEffect::prepareHighlighting()
             continue;
         }
         if (isHighlighted(window)) {
-            startHighlightAnimation(window);
+            complete(startHighlightAnimation(window));
         } else {
-            startGhostAnimation(window);
+            complete(startGhostAnimation(window));
         }
     }
 }
 
+void HighlightWindowEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
+{
+    if (!m_highlightedWindows.isEmpty() && !isHighlighted(w) && isHighlightWindow(w)) {
+        return;
+    }
+    AnimationEffect::paintWindow(w, mask, region, data);
+}
+
 void HighlightWindowEffect::finishHighlighting()
 {
-    const EffectWindowList windows = effects->stackingOrder();
-    for (EffectWindow *window : windows) {
-        if (isHighlightWindow(window)) {
-            startRevertAnimation(window);
-        }
-    }
-
-    // Sanity check, ideally, this should never happen.
     if (!m_animations.isEmpty()) {
         for (quint64 &animationId : m_animations) {
             cancel(animationId);
