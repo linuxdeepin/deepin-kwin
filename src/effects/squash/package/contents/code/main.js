@@ -47,6 +47,7 @@ var squashEffect = {
             window: window,
             curve: squashEffect.miniCurve,
             duration: animationTime(squashEffect.miniDuration),
+            keepAlive: false,
             animations: [
                 {
                     type: Effect.Size,
@@ -108,6 +109,7 @@ var squashEffect = {
             window: window,
             curve: squashEffect.unminiCurve,
             duration: animationTime(squashEffect.unminiDuration),
+            keepAlive: false,
             animations: [
                 {
                     type: Effect.Size,
