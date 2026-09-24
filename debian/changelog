@@ -1,3 +1,17 @@
+kwin (4:6.1.44) unstable; urgency=medium
+
+  * fix(splitscreen): skip minimized windows in split storage update
+  * fix: 快捷键变更时同步本地缓存
+  * fix: resolve truncated timespan in DBus paint event signal
+  * fix(scale): cancel pending scale-out on same-class reopen to avoid doubl…
+  * fix(xwayland/clipboard): make dataSourceWrite fully async to prevent fre…
+  * fix: restore qCDebug and guard FBO with glIsTexture
+  * fix: Alt+Tab 预览时完全隐藏非选中窗口
+  * fix: 避免 Squash 特效保留已关闭窗口
+  * fix(screencast): 修复截屏流包含鼠标指针的问题与性能优化
+
+ -- lijunjie <lijunjie@uniontech.com>  Thu, 24 Sep 2026 16:08:07 +0800
+
 kwin (4:6.1.43) unstable; urgency=medium
 
   * chore: remove kwin-dev package
