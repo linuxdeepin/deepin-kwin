@@ -1,3 +1,12 @@
+kwin (4:6.1.45) unstable; urgency=medium
+
+  * fix: 优化 V25 标题栏菜单样式和勾选图标
+  * perf(drm): speed up DisplayLink rendering
+  * fix(drm): recognize evdi and fix display freeze
+  * fix(showfps): count frames per output
+
+ -- Yixue Wang <wangyixue@uniontech.com>  Thu, 08 Oct 2026 00:00:00 +0800
+
 kwin (4:6.1.44) unstable; urgency=medium
 
   * fix(splitscreen): skip minimized windows in split storage update
