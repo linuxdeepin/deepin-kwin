@@ -33,7 +33,6 @@
 #include "wayland/surface_interface.h"
 #include "wayland/xwaylandshell_v1_interface.h"
 #include "wayland_server.h"
-#include "wayland/dderestrict_interface.h"
 
 #include <KDecoration2/Decoration>
 
@@ -157,50 +156,6 @@ void Workspace::registerDDESession() const
     if (!cookie.isEmpty()) {
         QDBusInterface("com.deepin.SessionManager", "/com/deepin/SessionManager").call("Register", cookie);
     }
-}
-
-bool Workspace::hasProtectedWindow()
-{
-    bool hasProtectedWindow = false;
-
-    if (!waylandServer())
-        return false;
-    auto dde_restrict = waylandServer()->ddeRestrict();
-    if (!dde_restrict)
-        return false;
-
-    auto protectedWindowIdLists = dde_restrict->protectedWindowIdLists();
-    if (!protectedWindowIdLists.isEmpty()) {
-        if (protectedWindowIdLists.contains(-1)) {
-            hasProtectedWindow = true;
-        } else if (effects) {
-            if (static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("multitaskview")
-                || static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("presentwindows")
-                || static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("highlightwindow")
-                || static_cast<EffectsHandlerImpl*>(effects)->isEffectActived("splitscreen")){
-                hasProtectedWindow = true;
-            }
-        }
-
-        if (!hasProtectedWindow) {
-            for (int i = 0; i < protectedWindowIdLists.count(); i++) {
-                for (int j = 0; j < stacking_order.count(); j++) {
-                    Window *win = stacking_order.at(j);
-                    if (!win || m_allClients.indexOf(win) < 0 || win->window() == 0)
-                        continue;
-
-                    if ((static_cast<xcb_window_t>(protectedWindowIdLists[i]) == win->window()) && !win->isMinimized() && win->isOnCurrentDesktop()) {
-                        hasProtectedWindow = true;
-                        break;
-                    }
-                }
-
-                if (hasProtectedWindow)
-                    break;
-            }
-        }
-    }
-    return hasProtectedWindow;
 }
 
 /**

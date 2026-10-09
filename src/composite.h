@@ -98,9 +98,10 @@ public:
         return m_benchWindowNum > 0;
     }
 
-    void addCursorlessCaptureClient(Output *output);
-    void removeCursorlessCaptureClient(Output *output);
-    std::shared_ptr<GLTexture> screencastFrameForOutput(Output *output) const;
+    void addCaptureClient(Output *output);
+    void removeCaptureClient(Output *output);
+    std::shared_ptr<GLTexture> captureFrameForOutput(Output *output) const;
+    void paintCaptureCursor(Output *output, RenderTarget *target);
 
     /**
      * @brief Static check to test whether the Compositor is available and active.
@@ -172,6 +173,7 @@ Q_SIGNALS:
     void aboutToDestroy();
     void aboutToToggleCompositing();
     void sceneCreated();
+    void captureFrameReady(Output *output, const QRegion &damage);
 
 protected:
     explicit Compositor(QObject *parent = nullptr);
@@ -240,7 +242,17 @@ private:
     void preparePaintPass(RenderLayer *layer, QRegion *repaint);
     void paintPass(RenderLayer *layer, RenderTarget *target, const QRegion &region);
 
-    void updateCursorlessFrame(Output *output, RenderTarget *target, const QRegion &region);
+    bool needsCaptureFrame(Output *output) const;
+    void invalidateCaptureFrames();
+    QRegion prepareCaptureFrame(Output *output, const QRegion &region);
+    void updateCaptureFrame(Output *output, RenderTarget *target, const QRegion &region);
+
+    struct CaptureFrame
+    {
+        std::shared_ptr<GLTexture> texture;
+        std::shared_ptr<GLFramebuffer> framebuffer;
+        quint64 generation = 0;
+    };
 
     quint32 m_benchWindowNum = 0;
     State m_state = State::Off;
@@ -253,9 +265,10 @@ private:
     std::unique_ptr<RenderBackend> m_backend;
     QHash<RenderLoop *, RenderLayer *> m_superlayers;
     QHash<RenderLoop *, RenderLayer *> m_cursorLayers;
-    QHash<Output *, int> m_cursorlessCounts;
-    QHash<Output *, std::shared_ptr<GLTexture>> m_cursorlessTextures;
-    QHash<Output *, std::shared_ptr<GLFramebuffer>> m_cursorlessFramebuffers;
+    QHash<Output *, int> m_captureCounts;
+    QHash<Output *, CaptureFrame> m_captureFrames;
+    quint64 m_captureGeneration = 1;
+    bool m_prohibitActive = false;
     CompositingType m_selectedCompositor = NoCompositing;
     bool m_edgeSoftCursor = false;
     bool m_screenShotRunning = false;

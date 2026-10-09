@@ -1863,16 +1863,11 @@ bool EffectsHandlerImpl::prohibitScreenshot(qulonglong winid) const
     if (!dde_restrict)
         return false;
 
-    auto protectedWindowIdLists = dde_restrict->protectedWindowIdLists();
     if (winid) {
-        for (int i = 0; i < protectedWindowIdLists.length(); i++) {
-            if (static_cast<qulonglong>(protectedWindowIdLists[i]) == winid)
-                return true;
-        }
-        return false;
+        return dde_restrict->protectedWindowIdLists().contains(static_cast<int32_t>(winid));
     }
 
-    if (workspace()->hasProtectedWindow()) {
+    if (workspace()->hasAnyProhibitWindow() || dde_restrict->protectedWindowIdLists().contains(-1)) {
         return true;
     }
 

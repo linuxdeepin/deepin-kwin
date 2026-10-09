@@ -497,7 +497,7 @@ bool X11Window::manage(xcb_window_t w, bool isMapped)
     // 主动读取一次 _DEEPIN_PROHIBIT_SCREENSHOT 属性，防止窗口在 KWin 管理之前
     // 就被 displayjack 注册（如 GTK 的 realize 信号阶段设置的属性）
     // 导致 PropertyNotify 事件被 KWin 漏掉，m_isProhibitScreenshotWindow 一直为 false。
-    {
+    if (kwinApp()->operationMode() == Application::OperationModeX11) {
         auto cookie = xcb_get_property(kwinApp()->x11Connection(), false, w,
                                         atoms->deepin_prohibit_screenshot, XCB_ATOM_CARDINAL, 0, 1);
         UniqueCPtr<xcb_get_property_reply_t> reply(xcb_get_property_reply(kwinApp()->x11Connection(), cookie, nullptr));
@@ -1614,7 +1614,7 @@ void X11Window::doMinimize()
     if (old_preview || hiddenPreview()) {
         if (isMinimized()) {
             // 对于受保护窗口，立刻设置Iconic会导致受保护区域先于窗口消失，从而内容泄露。延迟设置它
-            if (isProhibitScreenshotWindow()) {
+            if (kwinApp()->operationMode() == Application::OperationModeX11 && isProhibitScreenshotWindow()) {
                 QTimer::singleShot(500, this, [this]() {
                     if (!isMinimized()) {
                         return;
@@ -4501,8 +4501,7 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         return;
     }
 
-    // 受保护窗口的最大化与还原动画会导致内容泄露，禁用它
-    const bool protect = isProhibitScreenshotWindow();
+    const bool protect = kwinApp()->operationMode() == Application::OperationModeX11 && isProhibitScreenshotWindow();
     if (protect) {
         animated = false;
     }
@@ -4590,12 +4589,13 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         }
     }
 
+    if (protect) {
+        dbusRootWindowProtect(true);
+    }
+
     switch (max_mode) {
 
     case MaximizeVertical: {
-        if (protect) {
-            dbusRootWindowProtect(true);
-        }
         if (old_mode & MaximizeHorizontal) { // actually restoring from MaximizeFull
             if (geometryRestore().width() == 0) {
                 // needs placement
@@ -4610,16 +4610,10 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             moveResize(QRectF(x(), clientArea.top(), width(), clientArea.height()));
         }
         info->setState(NET::MaxVert, NET::Max);
-        if (protect) {
-            dbusRootWindowProtect(false);
-        }
         break;
     }
 
     case MaximizeHorizontal: {
-        if (protect) {
-            dbusRootWindowProtect(true);
-        }
         if (old_mode & MaximizeVertical) { // actually restoring from MaximizeFull
             if (geometryRestore().height() == 0) {
                 // needs placement
@@ -4634,17 +4628,10 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             moveResize(QRectF(clientArea.left(), y(), clientArea.width(), height()));
         }
         info->setState(NET::MaxHoriz, NET::Max);
-        if (protect) {
-            dbusRootWindowProtect(false);
-        }
         break;
     }
 
     case MaximizeRestore: {
-        if (protect) {
-            dbusRootWindowProtect(true);
-        }
-
         QRectF restore = moveResizeGeometry();
         // when only partially maximized, geom_restore may not have the other dimension remembered
         if (old_mode & MaximizeVertical) {
@@ -4678,18 +4665,10 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
         moveResize(restore);
         info->setState(NET::States(), NET::Max);
         updateQuickTileMode(QuickTileFlag::None);
-
-        if (protect) {
-            dbusRootWindowProtect(false);
-        }
         break;
     }
 
     case MaximizeFull: {
-        if (protect) {
-            dbusRootWindowProtect(true);
-        }
-
         moveResize(clientArea);
         if (options->electricBorderMaximize()) {
             updateQuickTileMode(QuickTileFlag::Maximize);
@@ -4697,14 +4676,14 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             updateQuickTileMode(QuickTileFlag::None);
         }
         info->setState(NET::Max, NET::Max);
-
-        if (protect) {
-            dbusRootWindowProtect(false);
-        }
         break;
     }
     default:
         break;
+    }
+
+    if (protect) {
+        dbusRootWindowProtect(false);
     }
 
     blockGeometryUpdates(false);
@@ -4831,12 +4810,12 @@ bool X11Window::doStartInteractiveMoveResize()
     message << bool(true) << int(this->window());
     QDBusConnection::sessionBus().send(message);
 
-    if (isProhibitScreenshotWindow()) {
-        m_moveResizeProtecting = true;
-        dbusRootWindowProtect(true);
-    }
-
     if (kwinApp()->operationMode() == Application::OperationModeX11) {
+        if (isProhibitScreenshotWindow()) {
+            m_moveResizeProtecting = true;
+            dbusRootWindowProtect(true);
+        }
+
         bool has_grab = false;
         kwinApp()->updateXTime();
 

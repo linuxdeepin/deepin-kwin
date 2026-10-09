@@ -28,6 +28,7 @@ public:
 
     bool hasAlphaChannel() const override;
     QSize textureSize() const override;
+    bool isFrameReady() const override;
 
     void render(GLFramebuffer *target) override;
     void render(spa_data *spa, spa_video_format format) override;
@@ -44,11 +45,14 @@ public:
     void updateOutput(Output *output);
 
 private:
+    void updateOutputs();
+
     const QRect m_region;
     const qreal m_scale;
     QVector<QPointer<Output>> m_capturedOutputs;
     std::unique_ptr<GLFramebuffer> m_target;
     std::unique_ptr<GLTexture> m_renderedTexture;
+    bool m_outputsDirty = true;
     std::chrono::nanoseconds m_last;
 };
 

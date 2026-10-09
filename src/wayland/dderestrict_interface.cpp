@@ -132,6 +132,7 @@ void DDERestrictInterfacePrivate::setProhibitScreencast(bool set)
         return;
 
     m_prohibitScreencast = set;
+    Q_EMIT q->protectionChanged();
 }
 
 void DDERestrictInterfacePrivate::setClientWhitelists(const QList<QByteArray> &whitelists)
@@ -148,6 +149,7 @@ void DDERestrictInterfacePrivate::setProtectedWindow(int32_t window)
         return;
     }
     m_protectedWindowIdLists.append(window);
+    Q_EMIT q->protectionChanged();
 }
 
 void DDERestrictInterfacePrivate::removeProtectedWindow(int32_t window)
@@ -155,6 +157,7 @@ void DDERestrictInterfacePrivate::removeProtectedWindow(int32_t window)
     for (int i = 0; i < m_protectedWindowIdLists.length(); i++) {
         if (m_protectedWindowIdLists[i] == window) {
             m_protectedWindowIdLists.removeAt(i);
+            Q_EMIT q->protectionChanged();
             break;
         }
     }

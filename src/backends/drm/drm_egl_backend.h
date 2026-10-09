@@ -66,6 +66,8 @@ public:
     std::unique_ptr<SurfaceTexture> createSurfaceTextureWayland(SurfacePixmapWayland *pixmap) override;
 
     void present(Output *output) override;
+    bool needsCaptureFrame() const override;
+    void presentCapture(Output *output) override;
     OutputLayer *primaryLayer(Output *output) override;
 
     void init() override;
@@ -84,9 +86,8 @@ public:
     EGLImageKHR importBufferObjectAsImage(gbm_bo *bo);
     std::shared_ptr<GLTexture> importBufferObjectAsTexture(gbm_bo *bo);
 
-    bool renderMaskedProhibitFrame(Output *output, QImage &outImage);
-    std::shared_ptr<GbmBuffer> renderMaskedProhibitFrameGpu(Output *output);
-    std::shared_ptr<GbmSurface> getOrCreateProhibitSurface(const QSize &size);
+    std::shared_ptr<GbmBuffer> renderMaskedProhibitFrameGpu(Output *output, GLTexture *tex);
+    std::shared_ptr<GbmSurface> getOrCreateProhibitSurface(Output *output, const QSize &size);
 
     unsigned int getFrameFd() const {
         return m_dmaFd;
@@ -109,7 +110,7 @@ private:
     QHash<uint32_t, GbmFormat> m_formats;
     QHash<uint32_t, EGLConfig> m_configs;
     std::shared_ptr<RemoteAccessManager> m_remoteaccessManager;
-    std::shared_ptr<GbmSurface> m_prohibitSurface;
+    QHash<Output *, std::shared_ptr<GbmSurface>> m_prohibitSurfaces;
     unsigned int m_dmaFd;
     uint m_dmaActualStride;
 

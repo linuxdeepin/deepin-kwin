@@ -389,7 +389,6 @@ public:
     // from dde-kwin: let startdde know that dde has started
     void registerDDESession() const;
 
-    bool hasProtectedWindow();
     bool hasAnyProhibitWindow();
 
     void setWinSplitState(Window *w, bool isSplit);
@@ -622,7 +621,6 @@ public:
      */
     bool applyOutputConfiguration(const OutputConfiguration &config, const QVector<Output *> &outputOrder = {});
 
-    void forceDisableRadius(bool disable);
     float getWindowRadius() const;
     float getOsScreenScale() const;
 
@@ -1054,8 +1052,6 @@ private:
     bool m_printKwinFps = false;
     bool m_isEffectDuring = false;
     int m_debugPixmapState = 0x0;
-
-    bool m_forceDisableRadius = false;
 
     QRectF m_lastDockGeometry;
     int m_dockDirection = 2;

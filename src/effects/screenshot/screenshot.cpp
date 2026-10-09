@@ -12,6 +12,11 @@
 #include "screenshotdbusinterface1.h"
 #include "screenshotdbusinterface2.h"
 
+#include "composite.h"
+#include "core/output.h"
+#include "wayland/dderestrict_interface.h"
+#include "wayland_server.h"
+
 #include <kwinglplatform.h>
 #include <kwinglutils.h>
 
@@ -111,6 +116,11 @@ ScreenShotEffect::ScreenShotEffect()
     connect(effects, &EffectsHandler::screenAdded, this, &ScreenShotEffect::handleScreenAdded);
     connect(effects, &EffectsHandler::screenRemoved, this, &ScreenShotEffect::handleScreenRemoved);
     connect(effects, &EffectsHandler::windowClosed, this, &ScreenShotEffect::handleWindowClosed);
+    if (waylandServer()) {
+        connect(Compositor::self(), &Compositor::captureFrameReady, this, [this](Output *output) {
+            takeScreenShots(effectsEx->findScreen(output));
+        });
+    }
 }
 
 ScreenShotEffect::~ScreenShotEffect()
@@ -248,25 +258,33 @@ void ScreenShotEffect::cancelScreenScreenShots()
 
 void ScreenShotEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
 {
-    m_paintedScreen = data.screen();
+    const bool captureFrame = effects->captureFrameGeneration();
     effects->paintScreen(mask, region, data);
 
-    while (!m_windowScreenShots.isEmpty()) {
-        ScreenShotWindowData screenshot = m_windowScreenShots.takeLast();
-        takeScreenShot(&screenshot);
-    }
+    if (!captureFrame) {
+        while (!m_windowScreenShots.isEmpty()) {
+            ScreenShotWindowData screenshot = m_windowScreenShots.takeLast();
+            takeScreenShot(&screenshot);
+        }
 
-    while (!m_windowScreenSizedShots.isEmpty()) {
-        ScreenShotWindowSizedData screenshot = m_windowScreenSizedShots.takeLast();
-        takeScreenShot(&screenshot);
+        while (!m_windowScreenSizedShots.isEmpty()) {
+            ScreenShotWindowSizedData screenshot = m_windowScreenSizedShots.takeLast();
+            takeScreenShot(&screenshot);
+        }
+        if (!waylandServer()) {
+            takeScreenShots(data.screen());
+        }
     }
+}
 
+void ScreenShotEffect::takeScreenShots(EffectScreen *screen)
+{
+    m_paintedScreen = screen;
     for (int i = m_areaScreenShots.count() - 1; i >= 0; --i) {
         if (takeScreenShot(&m_areaScreenShots[i])) {
             m_areaScreenShots.removeAt(i);
         }
     }
-
     for (int i = m_screenScreenShots.count() - 1; i >= 0; --i) {
         if (takeScreenShot(&m_screenScreenShots[i])) {
             m_screenScreenShots.removeAt(i);
@@ -277,12 +295,6 @@ void ScreenShotEffect::paintScreen(int mask, const QRegion &region, ScreenPaintD
 void ScreenShotEffect::takeScreenShot(ScreenShotWindowData *screenshot)
 {
     EffectWindow *window = screenshot->window;
-
-    if (isGlobalProhibitScreenshot() || isProhibitScreenshot(window->windowId())) {
-        screenshot->promise.reportResult(getProhibitShotImage());
-        screenshot->promise.reportFinished();
-        return;
-    }
 
     QRect geometry = window->expandedGeometry().toRect();
     if (window->hasDecoration() && !(screenshot->flags & ScreenShotIncludeDecoration)) {
@@ -460,6 +472,20 @@ QImage ScreenShotEffect::blitScreenshot(const QRect &geometry, qreal devicePixel
     if (effects->isOpenGLCompositing()) {
         const QSize nativeSize = geometry.size() * devicePixelRatio;
 
+        std::shared_ptr<GLTexture> captureTexture;
+        std::unique_ptr<GLFramebuffer> captureFramebuffer;
+        if (waylandServer()) {
+            captureTexture = Compositor::self()->captureFrameForOutput(effectsEx->getCurrentPaintingScreen());
+            if (!captureTexture) {
+                return image;
+            }
+            captureFramebuffer = std::make_unique<GLFramebuffer>(captureTexture.get());
+            if (!captureFramebuffer->valid()) {
+                return image;
+            }
+            GLFramebuffer::pushFramebuffer(captureFramebuffer.get());
+        }
+
         if (GLFramebuffer::blitSupported() && !GLPlatform::instance()->isGLES()) {
             image = QImage(nativeSize.width(), nativeSize.height(), QImage::Format_ARGB32);
             GLTexture texture(GL_RGBA8, nativeSize.width(), nativeSize.height());
@@ -484,6 +510,9 @@ QImage ScreenShotEffect::blitScreenshot(const QRect &geometry, qreal devicePixel
 
             glReadPixels(mappedRect.x(), glY, nativeSize.width(), nativeSize.height(), GL_RGBA,
                          GL_UNSIGNED_BYTE, static_cast<GLvoid *>(image.bits()));
+        }
+        if (captureFramebuffer) {
+            GLFramebuffer::popFramebuffer();
         }
         convertFromGLImage(image, nativeSize.width(), nativeSize.height());
     }
@@ -555,6 +584,10 @@ void ScreenShotEffect::handleWindowClosed(EffectWindow *window)
 
 void ScreenShotEffect::maskProtectedWindows(QImage &image, const QRect &captureGeometry)
 {
+    if (waylandServer()) {
+        return;
+    }
+
     const EffectWindowList windows = effects->stackingOrder();
     QPainter painter(&image);
 
@@ -617,6 +650,11 @@ void ScreenShotEffect::maskProtectedWindows(QImage &image, const QRect &captureG
 
 bool ScreenShotEffect::isGlobalProhibitScreenshot()
 {
+    if (waylandServer()) {
+        auto *ddeRestrict = waylandServer()->ddeRestrict();
+        return !ddeRestrict || ddeRestrict->prohibitScreencast();
+    }
+
     QDBusConnection sessionBus = QDBusConnection::sessionBus();
     if (sessionBus.interface()->isServiceRegistered(ProhibitScreenshotDBusService)) {
         QDBusInterface remoteApp(ProhibitScreenshotDBusService, ProhibitScreenshotDBusPath,
@@ -632,8 +670,8 @@ bool ScreenShotEffect::isGlobalProhibitScreenshot()
 
 bool ScreenShotEffect::isProhibitScreenshot(qulonglong winid)
 {
-    if(static_cast<EffectsHandlerImpl*>(effects)->prohibitScreenshot(winid)) {
-        return true;
+    if (waylandServer()) {
+        return effects->prohibitScreenshot(winid);
     }
 
     if (QX11Info::isPlatformX11()) {

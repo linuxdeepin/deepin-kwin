@@ -98,6 +98,7 @@ private Q_SLOTS:
     void handleScreenRemoved(EffectScreen *screen);
 
 private:
+    void takeScreenShots(EffectScreen *screen);
     void takeScreenShot(ScreenShotWindowData *screenshot);
     bool takeScreenShot(ScreenShotAreaData *screenshot);
     bool takeScreenShot(ScreenShotScreenData *screenshot);

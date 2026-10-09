@@ -12,6 +12,7 @@
 
 #include <QVector>
 
+#include <array>
 #include <unordered_map>
 
 namespace KWaylandServer
@@ -40,8 +41,8 @@ struct BlurEffectData
     /// Scene item tracking the blur region for damage expansion
     std::unique_ptr<BackgroundEffectItem> effectItem;
 
-    /// The render data per screen. Screens can have different color spaces.
-    std::unordered_map<EffectScreen *, BlurRenderData> render;
+    /// Keep ordinary and protected background caches separate for each screen.
+    std::unordered_map<EffectScreen *, std::array<BlurRenderData, 2>> render;
 };
 
 class BlurEffect : public KWin::Effect

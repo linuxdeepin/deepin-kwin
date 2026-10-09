@@ -96,6 +96,7 @@ void Deleted::copyToDeleted(Window *window)
                                       decoration_bottom);
     }
     m_wasClient = true;
+    m_prohibitScreenshotSnapshot = window->isProhibitScreenshotWindow();
     m_minimized = window->isMinimized();
     m_modal = window->isModal();
     m_mainWindows = window->mainWindows();

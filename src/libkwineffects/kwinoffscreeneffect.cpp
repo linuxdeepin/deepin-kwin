@@ -8,6 +8,8 @@
 #include "kwingltexture.h"
 #include "kwinglutils.h"
 
+#include <array>
+
 namespace KWin
 {
 
@@ -25,9 +27,15 @@ public:
     void maybeRender(EffectWindow *window);
 
 private:
-    std::unique_ptr<GLTexture> m_texture;
-    std::unique_ptr<GLFramebuffer> m_fbo;
-    bool m_isDirty = true;
+    struct RenderData
+    {
+        std::unique_ptr<GLTexture> texture;
+        std::unique_ptr<GLFramebuffer> fbo;
+        bool dirty = true;
+        quint64 generation = 0;
+    };
+    RenderData &renderData();
+    std::array<RenderData, 2> m_renderData;
     GLShader *m_shader = nullptr;
     RenderGeometry::VertexSnappingMode m_vertexSnappingMode = RenderGeometry::VertexSnappingMode::Round;
 };
@@ -89,21 +97,23 @@ void OffscreenEffect::apply(EffectWindow *window, int mask, WindowPaintData &dat
 
 void OffscreenData::maybeRender(EffectWindow *window)
 {
+    const quint64 generation = effects->captureFrameGeneration();
+    RenderData &render = renderData();
     QRectF logicalGeometry = window->expandedGeometry();
     QRectF deviceGeometry = scaledRect(logicalGeometry, effects->renderTargetScale());
 
     QSize textureSize = deviceGeometry.toAlignedRect().size();
 
-    if (!m_texture || m_texture->size() != textureSize) {
-        m_texture.reset(new GLTexture(GL_RGBA8, textureSize));
-        m_texture->setFilter(GL_LINEAR);
-        m_texture->setWrapMode(GL_CLAMP_TO_EDGE);
-        m_fbo.reset(new GLFramebuffer(m_texture.get()));
-        m_isDirty = true;
+    if (!render.texture || render.texture->size() != textureSize) {
+        render.texture.reset(new GLTexture(GL_RGBA8, textureSize));
+        render.texture->setFilter(GL_LINEAR);
+        render.texture->setWrapMode(GL_CLAMP_TO_EDGE);
+        render.fbo.reset(new GLFramebuffer(render.texture.get()));
+        render.dirty = true;
     }
 
-    if (m_isDirty) {
-        GLFramebuffer::pushFramebuffer(m_fbo.get());
+    if (render.dirty || render.generation != generation) {
+        GLFramebuffer::pushFramebuffer(render.fbo.get());
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -120,7 +130,8 @@ void OffscreenData::maybeRender(EffectWindow *window)
         effects->drawWindow(window, mask, infiniteRegion(), data);
 
         GLFramebuffer::popFramebuffer();
-        m_isDirty = false;
+        render.dirty = false;
+        render.generation = generation;
     }
 }
 
@@ -130,7 +141,14 @@ OffscreenData::~OffscreenData()
 
 void OffscreenData::setDirty()
 {
-    m_isDirty = true;
+    for (auto &render : m_renderData) {
+        render.dirty = true;
+    }
+}
+
+OffscreenData::RenderData &OffscreenData::renderData()
+{
+    return m_renderData[effects->captureFrameGeneration() != 0];
 }
 
 void OffscreenData::setShader(GLShader *newShader)
@@ -146,6 +164,10 @@ void OffscreenData::setVertexSnappingMode(RenderGeometry::VertexSnappingMode mod
 void OffscreenData::paint(EffectWindow *window, const QRegion &region,
                           const WindowPaintData &data, const WindowQuadList &quads)
 {
+    if (effects->captureFrameGeneration()) {
+        maybeRender(window);
+    }
+    GLTexture *texture = renderData().texture.get();
     GLShader *shader = m_shader ? m_shader : ShaderManager::instance()->shader(ShaderTrait::MapTexture | ShaderTrait::Modulate | ShaderTrait::AdjustSaturation);
     ShaderBinder binder(shader);
 
@@ -160,7 +182,7 @@ void OffscreenData::paint(EffectWindow *window, const QRegion &region,
     for (auto &quad : quads) {
         geometry.appendWindowQuad(quad, scale);
     }
-    geometry.postProcessTextureCoordinates(m_texture->matrix(NormalizedCoordinates));
+    geometry.postProcessTextureCoordinates(texture->matrix(NormalizedCoordinates));
 
     GLVertex2D *map = static_cast<GLVertex2D *>(vbo->map(geometry.count() * sizeof(GLVertex2D)));
     geometry.copy(map, geometry.count());
@@ -177,8 +199,8 @@ void OffscreenData::paint(EffectWindow *window, const QRegion &region,
     shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp * data.toMatrix(effects->renderTargetScale()));
     shader->setUniform(GLShader::ModulationConstant, QVector4D(rgb, rgb, rgb, a));
     shader->setUniform(GLShader::Saturation, data.saturation());
-    shader->setUniform(GLShader::TextureWidth, m_texture->width());
-    shader->setUniform(GLShader::TextureHeight, m_texture->height());
+    shader->setUniform(GLShader::TextureWidth, texture->width());
+    shader->setUniform(GLShader::TextureHeight, texture->height());
 
     const bool clipping = region != infiniteRegion();
     const QRegion clipRegion = clipping ? effects->mapToRenderTarget(region) : infiniteRegion();
@@ -190,9 +212,9 @@ void OffscreenData::paint(EffectWindow *window, const QRegion &region,
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_texture->bind();
+    texture->bind();
     vbo->draw(clipRegion, GL_TRIANGLES, 0, geometry.count(), clipping);
-    m_texture->unbind();
+    texture->unbind();
 
     glDisable(GL_BLEND);
     if (clipping) {

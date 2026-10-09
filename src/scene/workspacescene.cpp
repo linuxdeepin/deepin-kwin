@@ -391,7 +391,9 @@ void WorkspaceScene::paint(RenderTarget *renderTarget, const QRegion &region)
     ScreenPaintData data(m_renderer->renderTargetProjectionMatrix(), EffectScreenImpl::get(painted_screen));
     effects->paintScreen(m_paintContext.mask, region, data);
     m_paintScreenCount = 0;
-    Q_EMIT frameRendered();
+    if (!effects->captureFrameGeneration()) {
+        Q_EMIT frameRendered();
+    }
 
     m_renderer->endFrame();
 }
@@ -497,7 +499,7 @@ void WorkspaceScene::paintWindow(WindowItem *item, int mask, const QRegion &regi
         return;
     }
 
-    if (item->window() && !item->window()->isDeleted() && item->window()->firstComposite() == EventTrackingState::Ready) {
+    if (!effects->captureFrameGeneration() && item->window() && !item->window()->isDeleted() && item->window()->firstComposite() == EventTrackingState::Ready) {
         qCDebug(KWIN_CORE) << "BeginDrawWindow" << item->window()->resourceName() << item->window()->window();
         item->window()->setFirstComposite(EventTrackingState::SendAddRepaintFull);
         QDBusMessage message = QDBusMessage::createSignal("/KWin", "org.kde.KWin", "timeToDisplay");

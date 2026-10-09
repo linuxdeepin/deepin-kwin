@@ -52,6 +52,7 @@ public:
     void removeProtectedWindow(int32_t window);
 
 Q_SIGNALS:
+    void protectionChanged();
 
 private:
     friend class DDERestrictInterfacePrivate;

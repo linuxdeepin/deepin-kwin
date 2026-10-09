@@ -267,6 +267,9 @@ void AltTabThumbnailListEffect::prePaintScreen(ScreenPrePaintData &data, std::ch
     if (m_selectAnimation.active)
         m_selectAnimation.timeLine.advance(presentTime);
 
+    const QRect repaint = m_viewRect.united(m_prevSelectedRect).united(m_nextSelectedRect);
+    data.paint += repaint.adjusted(-1, -1, 1, 1);
+
     effects->prePaintScreen(data, presentTime);
 }
 
@@ -295,7 +298,6 @@ void AltTabThumbnailListEffect::paintScreen(int mask, const QRegion &region, Scr
 
     renderSelectedFrame(data);
 
-    workspace()->forceDisableRadius(true);
     for (ItemView &item : m_itemList) {
         if (item.frameRect().intersects(m_visibleRect)) {
             renderItemView(item, data);
@@ -303,7 +305,6 @@ void AltTabThumbnailListEffect::paintScreen(int mask, const QRegion &region, Scr
             item.clearTexture();
         }
     }
-    workspace()->forceDisableRadius(false);
 
     // paint watermark
     if (m_waterMarkWindow) {

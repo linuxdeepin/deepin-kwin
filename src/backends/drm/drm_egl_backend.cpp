@@ -11,6 +11,8 @@
 #include "basiceglsurfacetexture_wayland.h"
 #include "remoteaccess_manager.h"
 // kwin
+#include "composite.h"
+#include "core/rendertarget.h"
 #include "drm_abstract_output.h"
 #include "drm_backend.h"
 #include "drm_buffer_gbm.h"
@@ -27,7 +29,6 @@
 #include "gbm_dmabuf.h"
 #include "kwineglutils_p.h"
 #include "scene/surfaceitem_wayland.h"
-#include "utils/prohibitmask.h"
 #include "wayland/dderestrict_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -50,11 +51,15 @@ EglGbmBackend::EglGbmBackend(DrmBackend *drmBackend)
 {
     drmBackend->setRenderBackend(this);
     setIsDirectRendering(true);
+    connect(drmBackend, &DrmBackend::outputRemoved, this, [this](Output *output) {
+        m_prohibitSurfaces.remove(output);
+    });
 }
 
 EglGbmBackend::~EglGbmBackend()
 {
     m_backend->releaseBuffers();
+    m_prohibitSurfaces.clear();
     cleanup();
     m_backend->setRenderBackend(nullptr);
 }
@@ -250,99 +255,31 @@ void EglGbmBackend::passRemotePresent(Output *output)
             auto dde_restrict = waylandServer()->ddeRestrict();
             const bool globalProhibit = dde_restrict && dde_restrict->prohibitScreencast();
 
-            bool hasProtected = globalProhibit || (workspace() && workspace()->hasProtectedWindow());
+            const bool hasProtected = globalProhibit || (workspace() && workspace()->hasAnyProhibitWindow());
             if (hasProtected) {
-                // GPU渲染遮罩帧到专用 GbmSurface，走 dma-buf 零拷贝
-                auto gbmbuf = renderMaskedProhibitFrameGpu(output);
-                if (gbmbuf) {
-                    m_remoteaccessManager->passGbmBuffer(output, gbmbuf);
-                    return;
+                // Hand out the security frame only; never the unmasked scanout buffer.
+                const auto frame = Compositor::self()->captureFrameForOutput(output);
+                if (frame) {
+                    auto gbmbuf = renderMaskedProhibitFrameGpu(output, frame.get());
+                    if (gbmbuf) {
+                        m_remoteaccessManager->passGbmBuffer(output, gbmbuf);
+                        return;
+                    }
                 }
-                // GPU路径失败，退回 CPU 路径（glReadPixels + shm）作兜底
-                QImage maskedFrame;
-                if (renderMaskedProhibitFrame(output, maskedFrame)) {
-                    m_remoteaccessManager->passProhibitMaskBuffer(output, maskedFrame);
-                    return;
-                }
+                return;
             }
             m_remoteaccessManager->passBuffer(output, buffer->buffer());
         }
     }
 }
 
-bool EglGbmBackend::renderMaskedProhibitFrame(Output *output, QImage &outImage)
+std::shared_ptr<GbmSurface> EglGbmBackend::getOrCreateProhibitSurface(Output *output, const QSize &size)
 {
-    EglGbmLayer* gbmLayer = dynamic_cast<EglGbmLayer *>(primaryLayer(output));
-    if (!gbmLayer)
-        return false;
-
-    auto framebuf = gbmLayer->currentBuffer();
-    if (!framebuf)
-        return false;
-
-    auto gbmbuf = std::dynamic_pointer_cast<GbmBuffer>(framebuf->buffer());
-    if (!gbmbuf)
-        return false;
-
-    auto bo = gbmbuf->bo();
-    if (!bo)
-        return false;
-
-    QSize size(gbm_bo_get_width(bo), gbm_bo_get_height(bo));
-    if (size.isEmpty())
-        return false;
-
-    auto tex = importBufferObjectAsTexture(bo);
-    if (!tex)
-        return false;
-
-    GLTexture tempTex(GL_RGBA8, size);
-    tempTex.setFilter(GL_LINEAR);
-    tempTex.setWrapMode(GL_CLAMP_TO_EDGE);
-    GLFramebuffer tempFbo(&tempTex);
-    if (!tempFbo.valid())
-        return false;
-
-    GLFramebuffer::pushFramebuffer(&tempFbo);
-
-    auto shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
-    QMatrix4x4 mvp;
-    mvp.ortho(QRect(QPoint(0, 0), size));
-    shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
-
-    glDisable(GL_BLEND);
-    tex->bind();
-    tex->render(QRect(QPoint(0, 0), size), 1.0);
-    tex->unbind();
-    ShaderManager::instance()->popShader();
-
-    auto regions = computeProtectedRegions(output->geometry(), output->scale());
-    auto dde_restrict = waylandServer()->ddeRestrict();
-    if (dde_restrict && dde_restrict->prohibitScreencast()) {
-        regions.maskAll = true;
-        regions.rects = QRegion();
+    auto &surface = m_prohibitSurfaces[output];
+    if (surface && surface->size() == size) {
+        return surface;
     }
-    applyProhibitMaskGL(regions, size, true, false);
-
-    outImage = QImage(size, QImage::Format_ARGB32);
-    glReadPixels(0, 0, size.width(), size.height(), GL_BGRA, GL_UNSIGNED_BYTE, outImage.bits());
-
-    GLFramebuffer::popFramebuffer();
-
-    // Draw lock icons on the CPU side, using QPainter with top-left coordinates
-    // that match the QImage orientation. This avoids the Y-axis inversion issues
-    // that the GPU icon path (drawLockIconGL) has with flipped FBO images.
-    applyProhibitMaskCPU(outImage, regions);
-
-    return true;
-}
-
-std::shared_ptr<GbmSurface> EglGbmBackend::getOrCreateProhibitSurface(const QSize &size)
-{
-    if (m_prohibitSurface && m_prohibitSurface->size() == size) {
-        return m_prohibitSurface;
-    }
-    m_prohibitSurface.reset();
+    surface.reset();
 
     uint32_t format = DRM_FORMAT_ARGB8888;
     EGLConfig cfg = config(format);
@@ -369,86 +306,51 @@ std::shared_ptr<GbmSurface> EglGbmBackend::getOrCreateProhibitSurface(const QSiz
 
     auto result = GbmSurface::createSurface(this, size, format, GBM_BO_USE_RENDERING, cfg);
     if (std::holds_alternative<std::shared_ptr<GbmSurface>>(result)) {
-        m_prohibitSurface = std::get<std::shared_ptr<GbmSurface>>(result);
+        surface = std::get<std::shared_ptr<GbmSurface>>(result);
     }
-    return m_prohibitSurface;
+    return surface;
 }
 
-std::shared_ptr<GbmBuffer> EglGbmBackend::renderMaskedProhibitFrameGpu(Output *output)
+std::shared_ptr<GbmBuffer> EglGbmBackend::renderMaskedProhibitFrameGpu(Output *output, GLTexture *tex)
 {
-    EglGbmLayer* gbmLayer = dynamic_cast<EglGbmLayer *>(primaryLayer(output));
-    if (!gbmLayer) {
-        return nullptr;
-    }
+    const QSize size = tex->size();
 
-    auto framebuf = gbmLayer->currentBuffer();
-    if (!framebuf) {
-        return nullptr;
-    }
-
-    auto gbmbuf = std::dynamic_pointer_cast<GbmBuffer>(framebuf->buffer());
-    if (!gbmbuf) {
-        return nullptr;
-    }
-
-    auto bo = gbmbuf->bo();
-    if (!bo) {
-        return nullptr;
-    }
-
-    QSize size(gbm_bo_get_width(bo), gbm_bo_get_height(bo));
-    if (size.isEmpty()) {
-        return nullptr;
-    }
-
-    // 1. 获取或创建专用 GbmSurface
-    auto surface = getOrCreateProhibitSurface(size);
+    auto surface = getOrCreateProhibitSurface(output, size);
     if (!surface) {
         return nullptr;
     }
 
-    // 2. 导入当前帧为纹理
-    auto tex = importBufferObjectAsTexture(bo);
-    if (!tex) {
-        return nullptr;
-    }
-
-    // 3. 切换 EGL context 到禁屏 surface
     const EGLSurface previousSurface = eglGetCurrentSurface(EGL_DRAW);
     if (!surface->makeContextCurrent()) {
         return nullptr;
     }
 
-    // 4. 渲染当前帧到 GbmSurface 的 FBO
     GLFramebuffer::pushFramebuffer(surface->fbo());
 
     auto shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
     QMatrix4x4 mvp;
     mvp.ortho(QRect(QPoint(0, 0), size));
+    if (tex->isYInverted()) {
+        mvp.translate(0, size.height());
+        mvp.scale(1, -1);
+    }
     shader->setUniform(GLShader::ModelViewProjectionMatrix, mvp);
 
     glDisable(GL_BLEND);
-    tex->setYInverted(true);
     tex->bind();
     tex->render(QRect(QPoint(0, 0), size), 1.0);
     tex->unbind();
-    ShaderManager::instance()->popShader();
 
-    // 5. GPU 画黑框 + 锁图标
-    auto regions = computeProtectedRegions(output->geometry(), output->scale());
-    auto dde_restrict = waylandServer()->ddeRestrict();
-    if (dde_restrict && dde_restrict->prohibitScreencast()) {
-        regions.maskAll = true;
-        regions.rects = QRegion();
-    }
-    applyProhibitMaskGL(regions, size, false, true);
+    ShaderManager::instance()->popShader();
 
     GLFramebuffer::popFramebuffer();
 
-    // 6. swapBuffers 获取 GbmBuffer (dma-buf)
+    RenderTarget target(surface->fbo());
+    target.setDevicePixelRatio(output->scale());
+    Compositor::self()->paintCaptureCursor(output, &target);
+
     auto result = surface->swapBuffers(QRegion());
 
-    // 7. 恢复原 EGL surface，避免 context 停留在禁屏 surface 上
     if (previousSurface != EGL_NO_SURFACE) {
         eglMakeCurrent(eglDisplay(), previousSurface, previousSurface, context());
     }
@@ -457,8 +359,16 @@ std::shared_ptr<GbmBuffer> EglGbmBackend::renderMaskedProhibitFrameGpu(Output *o
 
 void EglGbmBackend::present(Output *output)
 {
-    // 先异步翻片，再走passRemotePresent，避免后者中对禁屏处理产生的延迟影响帧率
     static_cast<DrmAbstractOutput *>(output)->present();
+}
+
+bool EglGbmBackend::needsCaptureFrame() const
+{
+    return m_remoteaccessManager && m_remoteaccessManager->hasConnections();
+}
+
+void EglGbmBackend::presentCapture(Output *output)
+{
     passRemotePresent(output);
 }
 

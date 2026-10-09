@@ -600,8 +600,10 @@ void BlurEffect::blur(EffectWindow *w, int mask, const QRegion &region, WindowPa
         return;
     }
 
+    constexpr int NORMAL_FRAME = 0;
+    constexpr int PROTECTED_FRAME = 1;
     BlurEffectData &blurInfo = it->second;
-    BlurRenderData &renderInfo = blurInfo.render[m_currentScreen];
+    BlurRenderData &renderInfo = blurInfo.render[m_currentScreen][effects->captureFrameGeneration() ? PROTECTED_FRAME : NORMAL_FRAME];
     if (!shouldBlur(w, mask, data)) {
         return;
     }

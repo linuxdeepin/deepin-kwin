@@ -662,6 +662,18 @@ bool EffectPluginFactory::isSupported() const
 // EffectsHandler
 //****************************************
 
+static thread_local quint64 s_captureFrameGeneration = 0;
+
+quint64 EffectsHandler::captureFrameGeneration()
+{
+    return s_captureFrameGeneration;
+}
+
+void EffectsHandler::setCaptureFrameGeneration(quint64 generation)
+{
+    s_captureFrameGeneration = generation;
+}
+
 EffectsHandler::EffectsHandler(CompositingType type)
     : compositing_type(type)
 {

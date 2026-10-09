@@ -24,6 +24,10 @@ public:
 
     virtual bool hasAlphaChannel() const = 0;
     virtual QSize textureSize() const = 0;
+    virtual bool isFrameReady() const
+    {
+        return true;
+    }
 
     virtual void render(GLFramebuffer *target) = 0;
     virtual void render(spa_data *spa, spa_video_format format) = 0;

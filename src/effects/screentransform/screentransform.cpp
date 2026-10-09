@@ -181,7 +181,8 @@ void ScreenTransformEffect::paintScreen(int mask, const QRegion &region, KWin::S
     EffectScreen *screen = data.screen();
 
     auto it = m_states.find(screen);
-    if (it == m_states.end() || !it->m_captured) {
+    // The transition snapshots contain display pixels, not protected capture pixels.
+    if (effects->captureFrameGeneration() || it == m_states.end() || !it->m_captured) {
         effects->paintScreen(mask, region, data);
         return;
     }

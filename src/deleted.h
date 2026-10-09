@@ -126,6 +126,11 @@ public:
     {
         return m_wasOutline;
     }
+
+    bool isProhibitScreenshotWindow() override
+    {
+        return m_prohibitScreenshotSnapshot || Window::isProhibitScreenshotWindow();
+    }
     bool isLockScreen() const override
     {
         return m_wasLockScreen;
@@ -161,6 +166,7 @@ private:
     ~Deleted() override; // deleted only using unrefWindow()
 
     QMargins m_frameMargins;
+    bool m_prohibitScreenshotSnapshot = false;
 
     int delete_refcount;
     int desk;

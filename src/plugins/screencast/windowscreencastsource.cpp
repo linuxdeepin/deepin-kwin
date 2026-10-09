@@ -11,13 +11,14 @@
 #include "core/output.h"
 #include "core/renderloop.h"
 #include "deleted.h"
-#include "effects.h"
 #include "kwineffects.h"
 #include "kwingltexture.h"
 #include "kwinglutils.h"
-#include "scene/itemrenderer.h"
+#include "scene/itemrenderer_opengl.h"
 #include "scene/windowitem.h"
 #include "scene/workspacescene.h"
+#include "wayland/dderestrict_interface.h"
+#include "wayland_server.h"
 
 namespace KWin
 {
@@ -60,11 +61,31 @@ void WindowScreenCastSource::render(GLFramebuffer *target)
     data.setProjectionMatrix(projectionMatrix);
     data.setRenderTargetScale(1.0);
 
+    auto *ddeRestrict = waylandServer()->ddeRestrict();
+    const bool protectedContent = !ddeRestrict || ddeRestrict->prohibitScreencast()
+        || m_window->isProhibitScreenshotWindow();
+    auto *renderer = Compositor::self()->scene()->renderer();
+
     GLFramebuffer::pushFramebuffer(target);
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+    const GLboolean scissorEnabled = glIsEnabled(GL_SCISSOR_TEST);
+    glDisable(GL_SCISSOR_TEST);
+    const float background = protectedContent ? 0xD4 / 255.f : 0.f;
+    glClearColor(background, background, background, protectedContent ? 1.f : 0.f);
     glClear(GL_COLOR_BUFFER_BIT);
-    Compositor::self()->scene()->renderer()->renderItem(m_window->windowItem(), Scene::PAINT_WINDOW_TRANSFORMED, infiniteRegion(), data);
+    if (protectedContent) {
+        if (auto *glRenderer = dynamic_cast<ItemRendererOpenGL *>(renderer)) {
+            QMatrix4x4 projection;
+            projection.ortho(0, target->size().width(), 0, target->size().height(), -1, 1);
+            glRenderer->renderProhibitMask(target->size(), projection);
+        }
+    } else {
+        renderer->renderItem(m_window->windowItem(), Scene::PAINT_WINDOW_TRANSFORMED, infiniteRegion(), data);
+    }
+    if (scissorEnabled) {
+        glEnable(GL_SCISSOR_TEST);
+    }
     GLFramebuffer::popFramebuffer();
+    Q_EMIT frameRendered();
 }
 
 std::chrono::nanoseconds WindowScreenCastSource::clock() const

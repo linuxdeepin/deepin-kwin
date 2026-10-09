@@ -10,6 +10,10 @@
 #include "kwinglutils.h"
 #include "scene/itemrenderer.h"
 
+#include <QCache>
+
+#include <memory>
+
 namespace KWin
 {
 
@@ -27,6 +31,7 @@ public:
         bool hasAlpha = false;
         TextureCoordinateType coordinateType = UnnormalizedCoordinates;
         qreal scale = 1.0;
+        std::shared_ptr<GLTexture> captureTexture = nullptr;
     };
 
     struct RenderContext
@@ -37,6 +42,7 @@ public:
         const QRegion clip;
         const bool hardwareClipping;
         const qreal renderTargetScale;
+        bool captureSubstitute = false;
     };
 
     ItemRendererOpenGL();
@@ -48,13 +54,16 @@ public:
     void renderItem(Item *item, int mask, const QRegion &region, const WindowPaintData &data) override;
 
     ImageItem *createImageItem(Scene *scene, Item *parent = nullptr) override;
+    void renderProhibitMask(const QSize &size, const QMatrix4x4 &projection);
 
 private:
+    std::shared_ptr<GLTexture> prohibitLockTexture(const QSize &size);
     QVector4D modulate(float opacity, float brightness) const;
     void setBlendEnabled(bool enabled);
     void createRenderNode(Item *item, RenderContext *context);
 
     bool m_blendingEnabled = false;
+    QCache<quint64, std::shared_ptr<GLTexture>> m_prohibitTextures{64 * 1024};
 };
 
 } // namespace KWin

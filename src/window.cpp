@@ -1496,7 +1496,7 @@ void Window::minimize(bool avoid_animation)
     }
 
     // TODO: merge signal with s_minimized
-    Q_EMIT clientMinimized(this, !(avoid_animation || isProhibitScreenshotWindow()));
+    Q_EMIT clientMinimized(this, !(avoid_animation || (kwinApp()->operationMode() == Application::OperationModeX11 && isProhibitScreenshotWindow())));
     Q_EMIT minimizedChanged();
 }
 
@@ -1514,7 +1514,7 @@ void Window::unminimize(bool avoid_animation)
     doMinimize();
 
     updateWindowRules(Rules::Minimize);
-    Q_EMIT clientUnminimized(this, !(avoid_animation || isProhibitScreenshotWindow()));
+    Q_EMIT clientUnminimized(this, !(avoid_animation || (kwinApp()->operationMode() == Application::OperationModeX11 && isProhibitScreenshotWindow())));
     Q_EMIT minimizedChanged();
 }
 
@@ -5213,11 +5213,7 @@ bool Window::isProhibitScreenshotWindow()
     if (!dde_restrict)
         return false;
 
-    auto protectedWindowIdLists = dde_restrict->protectedWindowIdLists();
-    if (protectedWindowIdLists.contains(window())) {
-        return true;
-    }
-    return false;
+    return dde_restrict->protectedWindowIdLists().contains(window());
 }
 
 WindowRadius *Window::windowRadiusObj() const

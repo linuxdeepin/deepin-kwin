@@ -29,6 +29,9 @@ public:
     void render(spa_data *spa, spa_video_format format) override;
     std::chrono::nanoseconds clock() const override;
 
+Q_SIGNALS:
+    void frameRendered();
+
 private:
     QPointer<Window> m_window;
     WindowOffscreenRenderRef m_offscreenRef;

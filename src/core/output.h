@@ -129,9 +129,7 @@ public:
 
     struct shm_rp_buffer {
         int64_t fd = -1;        /**< optional fd for data */
-        uint32_t mapOffset;     /**< offset to map fd at */
         uint32_t maxSize;       /**< max size of data */
-        QSize outputSize;       /**< last frame output size */
         void *data;
     };
 
@@ -333,21 +331,9 @@ public:
         return false;
     }
 
-    void creatShmRemoteProhibitBuffer();
-
     shm_rp_buffer* creatForDumpBuffer(QSize size, void *data = nullptr);
 
     void destroyForDumpBuffer(shm_rp_buffer* shmbuf);
-
-    int shmRemoteProhibitBufferFd();
-
-    int dupShmRemoteProhibitBufferFd();
-
-    void *shmRemoteProhibitBufferData();
-
-    void freeShmRemoteProhibitBuffer();
-
-    QSize shmRemoteProhibitBufferSize();
 
     void setPosition(QPoint pos);
 
@@ -412,7 +398,6 @@ Q_SIGNALS:
     void colorModeChanged();
 
 private:
-    shm_rp_buffer* m_shm_rp_buffer = nullptr;
 
 protected:
     struct Information

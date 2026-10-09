@@ -10,7 +10,13 @@
 #include "scene/imageitem.h"
 #include "scene/shadowitem.h"
 #include "scene/surfaceitem.h"
+#include "scene/windowitem.h"
 #include "scene/workspacescene_opengl.h"
+#include "window.h"
+
+#include <QPainter>
+
+#include <memory>
 
 namespace KWin
 {
@@ -84,6 +90,48 @@ static GLTexture *bindSurfaceTexture(SurfaceItem *surfaceItem)
     }
 
     return platformSurfaceTexture->texture();
+}
+
+std::shared_ptr<GLTexture> ItemRendererOpenGL::prohibitLockTexture(const QSize &size)
+{
+    const quint64 cacheKey = (quint64(size.width()) << 32) | quint32(size.height());
+    if (const auto texture = m_prohibitTextures.object(cacheKey)) {
+        return *texture;
+    }
+
+    QImage image(size, QImage::Format_ARGB32_Premultiplied);
+    if (image.isNull()) {
+        return nullptr;
+    }
+    image.fill(QColor(0xD4, 0xD4, 0xD4));
+
+    const QImage lock(QStringLiteral(":/resources/themes/icon-lock.svg"));
+    if (!lock.isNull()) {
+        QPainter painter(&image);
+        QSize iconSize = lock.size();
+        iconSize *= qBound(0.1, qMin(size.width() / qreal(iconSize.width()),
+                                     size.height() / qreal(iconSize.height())) * 0.5, 1.0);
+        const QPoint iconPos((size.width() - iconSize.width()) / 2,
+                             (size.height() - iconSize.height()) / 2);
+        painter.drawImage(QRect(iconPos, iconSize), lock, lock.rect());
+    }
+
+    auto texture = std::make_shared<GLTexture>(image);
+    // Cache cost is in KiB; render nodes retain textures after eviction.
+    const int cost = qMax(1, int(image.sizeInBytes() / 1024));
+    m_prohibitTextures.insert(cacheKey, new std::shared_ptr<GLTexture>(texture), cost);
+    return texture;
+}
+
+void ItemRendererOpenGL::renderProhibitMask(const QSize &size, const QMatrix4x4 &projection)
+{
+    if (const auto texture = prohibitLockTexture(size)) {
+        ShaderBinder shaderBinder(ShaderTrait::MapTexture);
+        shaderBinder.shader()->setUniform(GLShader::ModelViewProjectionMatrix, projection);
+        texture->bind();
+        texture->render(QRect(QPoint(), size), 1);
+        texture->unbind();
+    }
 }
 
 static QRectF logicalRectToDeviceRect(const QRectF &logical, qreal deviceScale)
@@ -184,17 +232,35 @@ void ItemRendererOpenGL::createRenderNode(Item *item, RenderContext *context)
             });
         }
     } else if (auto surfaceItem = qobject_cast<SurfaceItem *>(item)) {
-        SurfacePixmap *pixmap = surfaceItem->pixmap();
-        if (pixmap) {
-            if (!geometry.isEmpty()) {
+        if (!geometry.isEmpty()) {
+            SurfacePixmap *pixmap = surfaceItem->pixmap();
+            std::shared_ptr<GLTexture> captureTexture;
+            if (context->captureSubstitute) {
+                const auto *windowItem = qobject_cast<WindowItem *>(surfaceItem->parentItem());
+                const auto *window = windowItem ? windowItem->window() : nullptr;
+                const QRectF clientRect = window
+                    ? window->clientGeometry().translated(-window->bufferGeometry().topLeft()) : surfaceItem->rect();
+                captureTexture = prohibitLockTexture(clientRect.size().toSize());
+                if (window && captureTexture) {
+                    // Convert device-pixel vertices to normalized client-area coordinates so the
+                    // mask icon is centered in the content, excluding server-side decorations.
+                    for (auto &vertex : geometry) {
+                        vertex.texcoord = QVector2D((vertex.position.x() / scale - clientRect.x()) / clientRect.width(),
+                                                   (vertex.position.y() / scale - clientRect.y()) / clientRect.height());
+                    }
+                }
+            }
+            GLTexture *texture = context->captureSubstitute ? captureTexture.get() : (pixmap ? bindSurfaceTexture(surfaceItem) : nullptr);
+            if (texture) {
                 context->renderNodes.append(RenderNode{
-                    .texture = bindSurfaceTexture(surfaceItem),
+                    .texture = texture,
                     .geometry = geometry,
                     .transformMatrix = context->transformStack.top(),
                     .opacity = context->opacityStack.top(),
-                    .hasAlpha = surfaceItem->getScissorAlpha() ? true : pixmap->hasAlphaChannel(),
+                    .hasAlpha = surfaceItem->getScissorAlpha() || (!context->captureSubstitute && pixmap->hasAlphaChannel()),
                     .coordinateType = NormalizedCoordinates,
                     .scale = scale,
+                    .captureTexture = std::move(captureTexture),
                 });
             }
         }
@@ -238,7 +304,7 @@ void ItemRendererOpenGL::renderBackground(const QRegion &region)
         const auto targetRect = scaledRect(renderTargetRect(), scale).toRect();
 
         for (const QRect &r : region) {
-            auto deviceRect = scaledRect(r, scale).toAlignedRect();
+            auto deviceRect = scaledRect(r, scale).toAlignedRect().translated(-targetRect.topLeft());
             glScissor(deviceRect.x(), targetRect.height() - (deviceRect.y() + deviceRect.height()), deviceRect.width(), deviceRect.height());
             glClear(GL_COLOR_BUFFER_BIT);
         }
@@ -253,6 +319,7 @@ void ItemRendererOpenGL::renderItem(Item *item, int mask, const QRegion &region,
         return;
     }
 
+    const auto *windowItem = effects->captureFrameGeneration() ? qobject_cast<WindowItem *>(item) : nullptr;
     RenderContext renderContext{
         .renderNodes = {},
         .transformStack = {},
@@ -260,6 +327,7 @@ void ItemRendererOpenGL::renderItem(Item *item, int mask, const QRegion &region,
         .clip = region,
         .hardwareClipping = region != infiniteRegion() && ((mask & Scene::PAINT_WINDOW_TRANSFORMED) || (mask & Scene::PAINT_SCREEN_TRANSFORMED)),
         .renderTargetScale = data.renderTargetScale().value_or(renderTargetScale()),
+        .captureSubstitute = windowItem && windowItem->window() && windowItem->window()->isProhibitScreenshotWindow(),
     };
 
     renderContext.transformStack.push(QMatrix4x4());

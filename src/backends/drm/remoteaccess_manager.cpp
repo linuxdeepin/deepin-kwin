@@ -31,11 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "core/output.h"
 #include "wayland/output_interface.h"
 #include <gbm.h>
-#include "libdrm/drm_fourcc.h"
-#include <unistd.h>
-#include <cstring>
-
-#include <cerrno>
 
 namespace KWin
 {
@@ -98,41 +93,6 @@ bool RemoteAccessManager::hasConnections() const
     return m_interface && m_interface->isBound();
 }
 
-void RemoteAccessManager::passProhibitMaskBuffer(Output *output, const QImage &image)
-{
-    if (image.isNull())
-        return;
-
-    if (!hasConnections())
-        return;
-
-    const QSize size = image.size();
-
-
-    if (output->shmRemoteProhibitBufferFd() == -1
-        || output->shmRemoteProhibitBufferSize() != output->modeSize()) {
-        output->freeShmRemoteProhibitBuffer();
-        output->creatShmRemoteProhibitBuffer();
-    }
-
-    void *data = output->shmRemoteProhibitBufferData();
-    if (!data)
-        return;
-    std::memcpy(data, image.constBits(), size.width() * size.height() * 4);
-
-    auto buf = new BufferHandle;
-    buf->setSize(size.width(), size.height());
-    buf->setFormat(DRM_FORMAT_ARGB8888);
-    buf->setStride(size.width() * 4);
-    buf->setFd(output->dupShmRemoteProhibitBufferFd());
-    if (buf->fd() == -1) {
-        delete buf;
-        return;
-    }
-
-    m_interface->sendBufferReady(waylandServer()->findWaylandOutput(output), buf);
-}
-
 void RemoteAccessManager::passGbmBuffer(Output *output, std::shared_ptr<GbmBuffer> gbmbuf)
 {
     auto bo = gbmbuf->bo();
@@ -187,30 +147,6 @@ void RemoteAccessManager::passDumBuffer(Output *output, std::shared_ptr<DrmDumbB
             m_removedOutput = output;
         }
     });
-
-    m_interface->sendBufferReady(waylandServer()->findWaylandOutput(output), buf);
-}
-
-void RemoteAccessManager::passProhibitBuffer(Output *output, std::shared_ptr<DrmGpuBuffer> buffer)
-{
-    auto buf = new BufferHandle;
-    buf->setSize(buffer->size().width(), buffer->size().height());
-    buf->setFormat(buffer->format());
-
-
-    if (output->shmRemoteProhibitBufferFd() == -1) {
-        output->creatShmRemoteProhibitBuffer();
-    } else if (output->modeSize() != output->shmRemoteProhibitBufferSize()) {
-        output->freeShmRemoteProhibitBuffer();
-        output->creatShmRemoteProhibitBuffer();
-    }
-    buf->setFd(output->dupShmRemoteProhibitBufferFd());
-    buf->setStride(output->modeSize().width() * 4);
-
-    if (buf->fd() == -1) {
-        delete buf;
-        return;
-    }
 
     m_interface->sendBufferReady(waylandServer()->findWaylandOutput(output), buf);
 }

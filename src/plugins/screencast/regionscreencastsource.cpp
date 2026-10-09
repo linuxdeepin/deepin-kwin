@@ -28,13 +28,8 @@ RegionScreenCastSource::RegionScreenCastSource(const QRect &region, qreal scale,
     Q_ASSERT(m_scale > 0);
 
     if (Compositor::self() && workspace()) {
-        const auto allOutputs = workspace()->outputs();
-        for (Output *output : allOutputs) {
-            if (output->geometry().intersects(m_region)) {
-                m_capturedOutputs.append(output);
-                Compositor::self()->addCursorlessCaptureClient(output);
-            }
-        }
+        connect(workspace(), &Workspace::outputsChanged, this, &RegionScreenCastSource::updateOutputs);
+        updateOutputs();
     }
 }
 
@@ -43,10 +38,33 @@ RegionScreenCastSource::~RegionScreenCastSource()
     if (Compositor::self()) {
         for (const QPointer<Output> &output : std::as_const(m_capturedOutputs)) {
             if (output) {
-                Compositor::self()->removeCursorlessCaptureClient(output);
+                Compositor::self()->removeCaptureClient(output);
             }
         }
     }
+}
+
+void RegionScreenCastSource::updateOutputs()
+{
+    auto *compositor = Compositor::self();
+    if (!compositor) {
+        return;
+    }
+    for (const QPointer<Output> &output : std::as_const(m_capturedOutputs)) {
+        if (output) {
+            compositor->removeCaptureClient(output);
+        }
+    }
+    m_capturedOutputs.clear();
+    const auto allOutputs = workspace()->outputs();
+    for (Output *output : allOutputs) {
+        if (output->geometry().intersects(m_region)) {
+            m_capturedOutputs.append(output);
+            compositor->addCaptureClient(output);
+        }
+    }
+    m_outputsDirty = true;
+    compositor->scene()->addRepaint(m_region);
 }
 
 QSize RegionScreenCastSource::textureSize() const
@@ -59,6 +77,20 @@ bool RegionScreenCastSource::hasAlphaChannel() const
     return true;
 }
 
+bool RegionScreenCastSource::isFrameReady() const
+{
+    const auto *compositor = Compositor::self();
+    if (!compositor || m_capturedOutputs.isEmpty()) {
+        return false;
+    }
+    for (const QPointer<Output> &output : m_capturedOutputs) {
+        if (!output || !compositor->captureFrameForOutput(output)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void RegionScreenCastSource::updateOutput(Output *output)
 {
     m_last = output->renderLoop()->lastPresentationTimestamp();
@@ -68,7 +100,7 @@ void RegionScreenCastSource::updateOutput(Output *output)
         if (!compositor) {
             return;
         }
-        const std::shared_ptr<GLTexture> outputTexture = compositor->screencastFrameForOutput(output);
+        const std::shared_ptr<GLTexture> outputTexture = compositor->captureFrameForOutput(output);
         const auto outputGeometry = output->geometry();
         if (!outputTexture || !m_region.intersects(output->geometry())) {
             return;
@@ -101,12 +133,21 @@ void RegionScreenCastSource::render(GLFramebuffer *target)
     if (!m_renderedTexture) {
         m_renderedTexture.reset(new GLTexture(hasAlphaChannel() ? GL_RGBA8 : GL_RGB8, textureSize()));
         m_target.reset(new GLFramebuffer(m_renderedTexture.get()));
-        const auto allOutputs = workspace()->outputs();
-        for (auto output : allOutputs) {
-            if (output->geometry().intersects(m_region)) {
-                updateOutput(output);
-            }
+    }
+    if (m_outputsDirty) {
+        GLFramebuffer::pushFramebuffer(m_target.get());
+        const GLboolean scissorEnabled = glIsEnabled(GL_SCISSOR_TEST);
+        glDisable(GL_SCISSOR_TEST);
+        glClearColor(0, 0, 0, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        if (scissorEnabled) {
+            glEnable(GL_SCISSOR_TEST);
         }
+        GLFramebuffer::popFramebuffer();
+        for (const QPointer<Output> &output : std::as_const(m_capturedOutputs)) {
+            updateOutput(output);
+        }
+        m_outputsDirty = false;
     }
 
     GLFramebuffer::pushFramebuffer(target);

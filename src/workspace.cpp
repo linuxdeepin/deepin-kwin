@@ -1526,10 +1526,10 @@ void Workspace::slotReconfigure()
 
 void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
 {
-    const bool protect = hasAnyProhibitWindow();
-    const bool inMultitask = effects
-        && static_cast<EffectsHandlerImpl *>(effects)->isEffectActived(QStringLiteral("multitaskview"));
-    if (protect && !inMultitask) {
+    const bool protect = kwinApp()->operationMode() == Application::OperationModeX11
+        && hasAnyProhibitWindow()
+        && !(effects && static_cast<EffectsHandlerImpl *>(effects)->isEffectActived(QStringLiteral("multitaskview")));
+    if (protect) {
         dbusRootWindowProtect(true);
     }
 
@@ -1545,7 +1545,7 @@ void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
     kwinApp()->config()->sync();
     Q_EMIT currentDesktopChanged(oldDesktop, m_moveResizeWindow);
 
-    if (protect && !inMultitask) {
+    if (protect) {
         dbusRootWindowProtect(false);
     }
 }
@@ -1554,6 +1554,15 @@ void Workspace::slotCurrentDesktopChanged(uint oldDesktop, uint newDesktop)
 bool Workspace::hasAnyProhibitWindow()
 {
     for (Window *win : std::as_const(m_allClients)) {
+        if (win->isProhibitScreenshotWindow()) {
+            return true;
+        }
+    }
+    if (!waylandServer()) {
+        return false;
+    }
+    // Closing windows remain visible during their animation.
+    for (Deleted *win : std::as_const(deleted)) {
         if (win->isProhibitScreenshotWindow()) {
             return true;
         }
@@ -4004,18 +4013,8 @@ void Workspace::setWinSplitState(Window *w, bool isSplit)
     }
 }
 
-void Workspace::forceDisableRadius(bool disable)
-{
-    if (m_forceDisableRadius == disable)
-        return;
-    m_forceDisableRadius = disable;
-    Q_EMIT osRadiusChanged();
-}
-
 float Workspace::getWindowRadius() const
 {
-    if (m_forceDisableRadius)
-        return 0;
     return m_windowStyleManager.get()->getOsRadius();
 }
 

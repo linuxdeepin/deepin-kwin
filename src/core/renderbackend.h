@@ -41,6 +41,14 @@ public:
 
     virtual OutputLayer *primaryLayer(Output *output) = 0;
     virtual void present(Output *output) = 0;
+    virtual bool needsCaptureFrame() const
+    {
+        return false;
+    }
+    // Export capture buffers after the display frame has been submitted.
+    virtual void presentCapture(Output *)
+    {
+    }
 
     virtual QHash<uint32_t, QVector<uint64_t>> supportedFormats() const; // 非纯虚
 

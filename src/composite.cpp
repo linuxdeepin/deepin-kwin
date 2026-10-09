@@ -28,6 +28,7 @@
 #include "openglbackend.h"
 #include "qpainterbackend.h"
 #include "scene/cursorscene.h"
+#include "scene/itemrenderer.h"
 #include "scene/itemrenderer_opengl.h"
 #include "scene/itemrenderer_qpainter.h"
 #include "scene/itemrenderer_xrender.h"
@@ -41,6 +42,7 @@
 #include "utils/common.h"
 #include "utils/dconfig_reader.h"
 #include "utils/xcbutils.h"
+#include "wayland/dderestrict_interface.h"
 #include "wayland/surface_interface.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -284,6 +286,8 @@ Compositor::Compositor(QObject *workspace)
     }
 
     if (waylandServer()) {
+        connect(waylandServer()->ddeRestrict(), &KWaylandServer::DDERestrictInterface::protectionChanged,
+                this, &Compositor::invalidateCaptureFrames);
         if (!QDBusConnection::sessionBus().connect(SCREENSHOT_SERVICE, SCREENSHOT_OBJECT, SCREENSHOT_INTERFACE,
                 "start", this, SLOT(handleScreenShotStart()))) {
             qCWarning(KWIN_CORE) << "Failed to connect screen shot signal start";
@@ -720,9 +724,8 @@ void Compositor::removeOutput(Output *output)
 {
     removeSuperLayer(m_superlayers[output->renderLoop()]);
     m_cursorLayers.remove(output->renderLoop());
-    m_cursorlessCounts.remove(output);
-    m_cursorlessTextures.remove(output);
-    m_cursorlessFramebuffers.remove(output);
+    m_captureCounts.remove(output);
+    m_captureFrames.remove(output);
 }
 
 void Compositor::addSuperLayer(RenderLayer *layer)
@@ -805,9 +808,9 @@ void Compositor::stop()
         removeSuperLayer(*it);
     }
 
-    m_cursorlessTextures.clear();
-    m_cursorlessFramebuffers.clear();
+    m_captureFrames.clear();
     m_cursorLayers.clear();
+    m_prohibitActive = false;
 
     m_scene.reset();
     m_cursorScene.reset();
@@ -1037,13 +1040,22 @@ void Compositor::composite(RenderLoop *renderLoop)
     prePaintPass(superLayer);
     superLayer->setOutputLayer(primaryLayer);
 
+    auto ddeRestrict = waylandServer() ? waylandServer()->ddeRestrict() : nullptr;
+    const bool prohibitActive = waylandServer()
+        && ((ddeRestrict && ddeRestrict->prohibitScreencast()) || workspace()->hasAnyProhibitWindow());
+    if (m_prohibitActive != prohibitActive) {
+        m_prohibitActive = prohibitActive;
+        invalidateCaptureFrames();
+    }
+
     SurfaceItem *scanoutCandidate = superLayer->delegate()->scanoutCandidate();
     renderLoop->setFullscreenSurface(scanoutCandidate);
     output->setContentType(scanoutCandidate ? scanoutCandidate->contentType() : ContentType::None);
 
     renderLoop->beginFrame();
     bool directScanout = false;
-    if (scanoutCandidate) {
+    QRegion captureDamage;
+    if (scanoutCandidate && !needsCaptureFrame(output)) {
         const auto sublayers = superLayer->sublayers();
         const bool scanoutPossible = std::none_of(sublayers.begin(), sublayers.end(), [](RenderLayer *sublayer) {
             return sublayer->isVisible();
@@ -1078,23 +1090,46 @@ void Compositor::composite(RenderLoop *renderLoop)
             if (waylandServer() && workspace()->outputs().size() > 1) {
                 surfaceDamage = bufferDamage;
             }
+
+            captureDamage = prepareCaptureFrame(output, copyDamage);
             paintPass(superLayer, &renderTarget, bufferDamage);
             primaryLayer->endFrame(bufferDamage, dlPartialDamage ? copyDamage : surfaceDamage);
         }
     } else {
-        m_cursorlessTextures.remove(output);
-        m_cursorlessFramebuffers.remove(output);
+        m_captureFrames.remove(output);
     }
 
+    m_backend->present(output);
+    if (!captureDamage.isEmpty()) {
+        auto it = m_captureFrames.find(output);
+        if (it != m_captureFrames.end()) {
+            CaptureFrame &frame = it.value();
+            if (m_prohibitActive && frame.generation != m_captureGeneration) {
+                RenderTarget target(frame.framebuffer.get());
+                const quint64 previousGeneration = effects->captureFrameGeneration();
+                const auto restoreGeneration = qScopeGuard([previousGeneration] {
+                    EffectsHandler::setCaptureFrameGeneration(previousGeneration);
+                });
+                effects->setCaptureFrameGeneration(m_captureGeneration);
+                m_scene->paint(&target, captureDamage);
+                frame.generation = m_captureGeneration;
+            }
+            if (captureFrameForOutput(output)) {
+                Q_EMIT captureFrameReady(output, captureDamage);
+            }
+        }
+    }
+    m_backend->presentCapture(output);
+
     postPaintPass(superLayer);
-    renderLoop->endFrame();
 
     if (workspace()->getDebugPixmapState() & 0x01) {
         workspace()->setDebugPixmaState(workspace()->getDebugPixmapState() ^ 0x01);
         workspace()->getDebugPixmapPtr()->saveCompositePixmap();
     }
 
-    m_backend->present(output);
+    // Remote capture can swap another EGL surface; include that work in the next-frame estimate.
+    renderLoop->endFrame();
 
     // TODO: Put it inside the cursor layer once the cursor layer can be backed by a real output layer.
     if (waylandServer()) {
@@ -1158,7 +1193,7 @@ void Compositor::paintPass(RenderLayer *layer, RenderTarget *target, const QRegi
 
     if (isSuperLayer) {
         if (Output *output = findOutput(layer->loop())) {
-            updateCursorlessFrame(output, target, region);
+            updateCaptureFrame(output, target, region);
         }
         if (cursorLayer && cursorLayer->isVisible()) {
             paintPass(cursorLayer, target, region);
@@ -1166,85 +1201,137 @@ void Compositor::paintPass(RenderLayer *layer, RenderTarget *target, const QRegi
     }
 }
 
-void Compositor::addCursorlessCaptureClient(Output *output)
+void Compositor::addCaptureClient(Output *output)
 {
-    m_cursorlessCounts[output] += 1;
+    m_captureCounts[output] += 1;
 }
 
-void Compositor::removeCursorlessCaptureClient(Output *output)
+void Compositor::removeCaptureClient(Output *output)
 {
-    const auto it = m_cursorlessCounts.find(output);
-    if (it == m_cursorlessCounts.end()) {
-        return;
-    }
-    it.value() -= 1;
-    if (it.value() <= 0) {
-        m_cursorlessCounts.erase(it);
-        m_cursorlessTextures.remove(output);
-        m_cursorlessFramebuffers.remove(output);
+    auto it = m_captureCounts.find(output);
+    if (it != m_captureCounts.end() && --it.value() <= 0) {
+        m_captureCounts.erase(it);
     }
 }
 
-std::shared_ptr<GLTexture> Compositor::screencastFrameForOutput(Output *output) const
+std::shared_ptr<GLTexture> Compositor::captureFrameForOutput(Output *output) const
 {
-    const auto it = m_cursorlessTextures.constFind(output);
-    if (it != m_cursorlessTextures.constEnd() && it.value()) {
-        return it.value();
+    const auto it = m_captureFrames.constFind(output);
+    if (!waylandServer() || !output || it == m_captureFrames.constEnd() || it->generation != m_captureGeneration
+        || !it->texture || it->texture->size() != output->pixelSize()) {
+        return nullptr;
     }
-    WorkspaceScene *workspaceScene = scene();
-    return workspaceScene ? workspaceScene->textureForOutput(output) : nullptr;
+    return it->texture;
 }
 
-// Captures the frame currently in @p target into the per-output cursor-free texture. It is called
-// after the workspace scene and every other non-cursor sublayer have been painted but before the
-// cursor layer is composited, so the copy never contains the software cursor. Only @p region is
-// refreshed; a freshly created texture gets one full copy.
-void Compositor::updateCursorlessFrame(Output *output, RenderTarget *target, const QRegion &region)
+void Compositor::paintCaptureCursor(Output *output, RenderTarget *target)
 {
-    if (m_cursorlessCounts.value(output, 0) <= 0) {
-        return;
+    RenderLayer *cursorLayer = m_cursorLayers.value(output->renderLoop());
+    if (m_screenShotRunning && cursorLayer && !Cursors::self()->isCursorHidden()) {
+        cursorLayer->delegate()->paint(target, output->rect());
+    }
+}
+
+bool Compositor::needsCaptureFrame(Output *output) const
+{
+    return waylandServer()
+        && (m_captureCounts.value(output, 0) > 0 || (m_prohibitActive && m_backend->needsCaptureFrame())
+            || (effects && static_cast<EffectsHandlerImpl *>(effects)->isEffectActived(QStringLiteral("screenshot"))));
+}
+
+void Compositor::invalidateCaptureFrames()
+{
+    ++m_captureGeneration;
+    if (m_scene) {
+        m_scene->addRepaintFull();
+    }
+}
+
+QRegion Compositor::prepareCaptureFrame(Output *output, const QRegion &region)
+{
+    auto *server = waylandServer();
+    if (!server || !isOpenGLCompositing() || !needsCaptureFrame(output)) {
+        m_captureFrames.remove(output);
+        return {};
     }
 
-    const auto nativeHandle = target->nativeHandle();
-    const auto *sourceFbo = std::get_if<GLFramebuffer *>(&nativeHandle);
-    if (!sourceFbo || !*sourceFbo) {
-        return;
-    }
-
+    CaptureFrame &frame = m_captureFrames[output];
+    const QRect geometry = output->geometry();
     const QSize size = output->pixelSize();
-    const QRegion blitRegion = region & QRegion(0, 0, size.width(), size.height());
-
-    auto &texture = m_cursorlessTextures[output];
-    const bool needsFullCopy = !texture || texture->size() != size;
-    if (needsFullCopy) {
-        texture = std::make_shared<GLTexture>(GL_RGBA8, size);
-        // Cache the framebuffer together with the texture instead of recreating it every frame.
-        m_cursorlessFramebuffers[output] = std::make_shared<GLFramebuffer>(texture.get());
+    if (!frame.texture || frame.texture->size() != size) {
+        frame.generation = 0;
+        frame.texture = std::make_shared<GLTexture>(GL_RGBA8, size);
+        frame.texture->setYInverted(true);
+        frame.framebuffer = std::make_shared<GLFramebuffer>(frame.texture.get());
     }
-    GLFramebuffer *cursorlessFramebuffer = m_cursorlessFramebuffers.value(output).get();
-    if (!cursorlessFramebuffer) {
-        return;
-    }
-    if (!needsFullCopy && blitRegion.isEmpty()) {
-        return;
+    if (!frame.framebuffer->valid()) {
+        return {};
     }
 
-    GLFramebuffer::pushFramebuffer(*sourceFbo);
-    const auto popFramebuffer = qScopeGuard([]() {
+    const QRegion paintRegion = frame.generation != m_captureGeneration
+        ? QRegion(geometry) : region.translated(geometry.topLeft()).intersected(geometry);
+    if (!m_prohibitActive || paintRegion.isEmpty()) {
+        return paintRegion;
+    }
+
+    auto *ddeRestrict = server->ddeRestrict();
+    const bool globalProhibit = ddeRestrict && ddeRestrict->prohibitScreencast();
+    // A full security refresh must not retain pixels from an ordinary capture.
+    if (frame.generation != m_captureGeneration) {
+        GLFramebuffer::pushFramebuffer(frame.framebuffer.get());
+        GLfloat clearColor[4];
+        glGetFloatv(GL_COLOR_CLEAR_VALUE, clearColor);
+        const GLboolean scissorEnabled = glIsEnabled(GL_SCISSOR_TEST);
+        glDisable(GL_SCISSOR_TEST);
+        glClearColor(0xD4 / 255.f, 0xD4 / 255.f, 0xD4 / 255.f, 1.f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
+        if (globalProhibit) {
+            if (auto *renderer = dynamic_cast<ItemRendererOpenGL *>(m_scene->renderer())) {
+                QMatrix4x4 projection;
+                projection.ortho(QRect(QPoint(), size));
+                renderer->renderProhibitMask(size, projection);
+            }
+        }
+        if (scissorEnabled) {
+            glEnable(GL_SCISSOR_TEST);
+        }
         GLFramebuffer::popFramebuffer();
-    });
-    if (needsFullCopy) {
-        // The render target is bottom-up while the copy is stored top-down, so the negative source
-        // height is used to flip it vertically.
-        cursorlessFramebuffer->blitFromFramebuffer(QRect(0, texture->height(), texture->width(), -texture->height()));
+    }
+    frame.generation = globalProhibit ? m_captureGeneration : 0;
+    return paintRegion;
+}
+
+// Copy after non-cursor layers and before the software cursor. Both capture modes
+// keep native framebuffer pixels and expose their orientation through GLTexture.
+void Compositor::updateCaptureFrame(Output *output, RenderTarget *target, const QRegion &region)
+{
+    auto it = m_captureFrames.find(output);
+    if (m_prohibitActive || it == m_captureFrames.end() || !it->framebuffer->valid()) {
+        return;
+    }
+    const auto nativeHandle = target->nativeHandle();
+    const auto *source = std::get_if<GLFramebuffer *>(&nativeHandle);
+    if (!source || !*source) {
+        return;
+    }
+
+    CaptureFrame &frame = it.value();
+    const QRect bounds(QPoint(), frame.texture->size());
+    QRegion copyRegion;
+    if (frame.generation != m_captureGeneration) {
+        copyRegion = bounds;
     } else {
-        const int height = texture->height();
-        for (const QRect &rect : blitRegion) {
-            // Same vertical flip as the full copy, restricted to the damaged rectangle.
-            cursorlessFramebuffer->blitFromFramebuffer(QRect(rect.x(), rect.y() + rect.height(), rect.width(), -rect.height()),
-                                                       QRect(rect.x(), height - rect.y() - rect.height(), rect.width(), rect.height()));
+        for (const QRect &rect : region) {
+            copyRegion += scaledRect(rect, m_scene->renderer()->renderTargetScale()).toAlignedRect() & bounds;
         }
     }
+    GLFramebuffer::pushFramebuffer(*source);
+    for (const QRect &rect : copyRegion) {
+        frame.framebuffer->blitFromFramebuffer(rect, rect);
+    }
+    GLFramebuffer::popFramebuffer();
+    frame.generation = m_captureGeneration;
 }
 
 bool Compositor::isActive()

@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "wayland/remote_access_interface.h"
 
 // Qt
-#include <QImage>
 #include <QObject>
 #include <memory>
 #include <map>
@@ -56,8 +55,6 @@ public:
     void passBuffer(Output *output, std::shared_ptr<DrmGpuBuffer> buffer);
     void passGbmBuffer(Output *output, std::shared_ptr<GbmBuffer> buffer);
     void passDumBuffer(Output *output, std::shared_ptr<DrmDumbBuffer> buffer);
-    void passProhibitBuffer(Output *output, std::shared_ptr<DrmGpuBuffer> buffer);
-    void passProhibitMaskBuffer(Output *output, const QImage &image);
     void incrementRenderSequence();
 
     /** @return true if the RemoteAccess interface exists and has clients bound */

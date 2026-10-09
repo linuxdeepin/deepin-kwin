@@ -105,10 +105,7 @@ Output::Output(QObject *parent)
 {
 }
 
-Output::~Output()
-{
-    freeShmRemoteProhibitBuffer();
-}
+Output::~Output() = default;
 
 void Output::ref()
 {
@@ -545,9 +542,7 @@ bool Output::moveCursor(const QPoint &position)
 Output::shm_rp_buffer *Output::creatForDumpBuffer(QSize size, void *data)
 {
     shm_rp_buffer *buffer = new shm_rp_buffer();
-    buffer->mapOffset = 0;
     buffer->maxSize = size.width() * size.height() * 4;
-    buffer->outputSize = size;
 
     buffer->fd = memfd_create("kwin-remote-prohibit-memfd", MFD_CLOEXEC | MFD_ALLOW_SEALING);
     if (buffer->fd == -1) {
@@ -573,7 +568,7 @@ Output::shm_rp_buffer *Output::creatForDumpBuffer(QSize size, void *data)
                         PROT_READ | PROT_WRITE,
                         MAP_SHARED,
                         buffer->fd,
-                        buffer->mapOffset);
+                        0);
     if (buffer->data == MAP_FAILED) {
         qCCritical(KWIN_CORE) << "memfd: Failed to mmap memory";
         close(buffer->fd);
@@ -601,54 +596,6 @@ void Output::destroyForDumpBuffer(shm_rp_buffer* shmbuf)
         delete shmbuf;
         shmbuf = nullptr;
     }
-}
-
-void Output::creatShmRemoteProhibitBuffer()
-{
-    m_shm_rp_buffer = creatForDumpBuffer(modeSize());
-}
-
-int Output::shmRemoteProhibitBufferFd()
-{
-    if (!m_shm_rp_buffer) {
-        return -1;
-    }
-    return m_shm_rp_buffer->fd;
-}
-
-int Output::dupShmRemoteProhibitBufferFd()
-{
-    if (!m_shm_rp_buffer) {
-        return -1;
-    }
-    return fcntl(m_shm_rp_buffer->fd, F_DUPFD, 0);
-}
-
-void *Output::shmRemoteProhibitBufferData()
-{
-    if (!m_shm_rp_buffer) {
-        return nullptr;
-    }
-    return m_shm_rp_buffer->data;
-}
-
-void Output::freeShmRemoteProhibitBuffer()
-{
-    if (m_shm_rp_buffer && m_shm_rp_buffer->fd != -1) {
-        memset(m_shm_rp_buffer->data, 0, m_shm_rp_buffer->maxSize);
-        munmap(m_shm_rp_buffer->data, m_shm_rp_buffer->maxSize);
-        close(m_shm_rp_buffer->fd);
-        delete m_shm_rp_buffer;
-        m_shm_rp_buffer = nullptr;
-    }
-}
-
-QSize Output::shmRemoteProhibitBufferSize()
-{
-    if (!m_shm_rp_buffer) {
-        return QSize();
-    }
-    return m_shm_rp_buffer->outputSize;
 }
 
 void Output::setPosition(QPoint pos)

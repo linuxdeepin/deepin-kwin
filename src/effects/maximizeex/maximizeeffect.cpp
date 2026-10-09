@@ -117,6 +117,11 @@ void MaximizeEffect::drawWindow(EffectWindow *w, int mask, const QRegion &region
 {
     effects->drawWindow(w, mask, region, data);
 
+    // The old snapshot contains the unmasked display content.
+    if (effects->captureFrameGeneration()) {
+        return;
+    }
+
     float t = m_animationTime.value();
     auto it = m_textures.find(m_maxiWin);
     GLTexture *texture = (it != m_textures.end()) ? it->second.get() : nullptr;

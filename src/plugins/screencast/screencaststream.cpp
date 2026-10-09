@@ -12,7 +12,6 @@
 #include "core/renderbackend.h"
 #include "cursor.h"
 #include "dmabuftexture.h"
-#include "effects.h"
 #include "eglnativefence.h"
 #include "kwineffects.h"
 #include "kwingltexture.h"
@@ -23,10 +22,6 @@
 #include "pipewirecore.h"
 #include "scene/workspacescene.h"
 #include "screencastsource.h"
-#include "utils/prohibitmask.h"
-#include "wayland/dderestrict_interface.h"
-#include "wayland_server.h"
-#include "workspace.h"
 
 #include <KLocalizedString>
 
@@ -388,6 +383,10 @@ void ScreenCastStream::recordFrame(const QRegion &_damagedRegion)
     QRegion damagedRegion = _damagedRegion;
     Q_ASSERT(!m_stopped);
 
+    if (!m_source->isFrameReady()) {
+        return;
+    }
+
      if (videoFormat.max_framerate.num != 0 && !m_lastSent.isNull()) {
         auto frameInterval = (1000. * videoFormat.max_framerate.denom / videoFormat.max_framerate.num);
         auto lastSentAgo = m_lastSent.msecsTo(QDateTime::currentDateTimeUtc());
@@ -457,8 +456,6 @@ void ScreenCastStream::recordFrame(const QRegion &_damagedRegion)
 
         m_source->render(spa_data, videoFormat.format);
 
-        maskProhibitedWindowsMemfd(data, size, stride);
-
         auto cursor = Cursors::self()->currentCursor();
         if (m_cursor.mode == KWaylandServer::ScreencastV1Interface::Embedded && m_cursor.viewport.contains(cursor->pos())) {
             QImage dest(data, size.width(), size.height(), stride, hasAlpha ? QImage::Format_RGBA8888_Premultiplied : QImage::Format_RGB888);
@@ -479,8 +476,6 @@ void ScreenCastStream::recordFrame(const QRegion &_damagedRegion)
         spa_data->chunk->size = spa_data->maxsize;
 
         m_source->render(buf->framebuffer());
-
-        maskProhibitedWindows(buf->framebuffer());
 
         auto cursor = Cursors::self()->currentCursor();
         if (m_cursor.mode == KWaylandServer::ScreencastV1Interface::Embedded && m_cursor.viewport.contains(cursor->pos())) {
@@ -790,55 +785,6 @@ void ScreenCastStream::setCursorMode(KWaylandServer::ScreencastV1Interface::Curs
     m_cursor.mode = mode;
     m_cursor.scale = scale;
     m_cursor.viewport = viewport;
-}
-
-void ScreenCastStream::setMaskViewport(const QRect &viewport, qreal scale)
-{
-    m_maskViewport = viewport;
-    m_maskScale = scale;
-    m_needsMask = true;
-
-}
-
-
-
-void ScreenCastStream::maskProhibitedWindows(GLFramebuffer *target)
-{
-    if (!m_needsMask || !workspace())
-        return;
-
-    auto regions = computeProtectedRegions(m_maskViewport, m_maskScale);
-    auto dde_restrict = waylandServer()->ddeRestrict();
-    if (dde_restrict && dde_restrict->prohibitScreencast()) {
-        regions.maskAll = true;
-        regions.rects = QRegion();
-    }
-    if (!regions.maskAll && regions.rects.isEmpty())
-        return;
-
-    GLFramebuffer::pushFramebuffer(target);
-    applyProhibitMaskGL(regions, m_resolution);
-    GLFramebuffer::popFramebuffer();
-}
-
-void ScreenCastStream::maskProhibitedWindowsMemfd(uint8_t *data, const QSize &size, uint stride)
-{
-    if (!m_needsMask || !workspace())
-        return;
-
-    auto regions = computeProtectedRegions(m_maskViewport, m_maskScale);
-    auto dde_restrict = waylandServer()->ddeRestrict();
-    if (dde_restrict && dde_restrict->prohibitScreencast()) {
-        regions.maskAll = true;
-        regions.rects = QRegion();
-    }
-    if (!regions.maskAll && regions.rects.isEmpty())
-        return;
-
-    const bool hasAlpha = m_source->hasAlphaChannel();
-    QImage img(data, size.width(), size.height(), stride,
-               hasAlpha ? QImage::Format_ARGB32_Premultiplied : QImage::Format_RGB888);
-    applyProhibitMaskCPU(img, regions);
 }
 
 } // namespace KWin

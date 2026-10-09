@@ -64,8 +64,6 @@ public:
 
     void setCursorMode(KWaylandServer::ScreencastV1Interface::CursorMode mode, qreal scale, const QRect &viewport);
 
-    void setMaskViewport(const QRect &viewport, qreal scale);
-
 public Q_SLOTS:
     void recordCursor();
 
@@ -89,8 +87,6 @@ private:
     void addHeader(spa_buffer *spaBuffer);
     void addDamage(spa_buffer *spaBuffer, const QRegion &damagedRegion);
 
-    void maskProhibitedWindows(GLFramebuffer *target);
-    void maskProhibitedWindowsMemfd(uint8_t *data, const QSize &size, uint stride);
     void newStreamParams();
     void tryEnqueue(pw_buffer *buffer);
     void enqueue();
@@ -139,10 +135,6 @@ private:
     bool m_waitForNewBuffers = false;
 
     QDateTime m_lastSent;
-
-    QRect m_maskViewport;
-    qreal m_maskScale = 1.0;
-    bool m_needsMask = false;
 
 };
 

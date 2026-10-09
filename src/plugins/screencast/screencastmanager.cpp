@@ -11,7 +11,6 @@
 #include "core/output.h"
 #include "core/outputbackend.h"
 #include "deleted.h"
-#include "effects.h"
 #include "kwingltexture.h"
 #include "outputscreencastsource.h"
 #include "regionscreencastsource.h"
@@ -59,8 +58,8 @@ static QRegion scaleRegion(const QRegion &_region, qreal scale)
 class WindowStream : public ScreenCastStream
 {
 public:
-    WindowStream(Window *window, QObject *parent)
-        : ScreenCastStream(new WindowScreenCastSource(window), parent)
+    WindowStream(Window *window, WindowScreenCastSource *source, QObject *parent)
+        : ScreenCastStream(source, parent)
         , m_window(window)
     {
         m_timer.setInterval(0);
@@ -69,24 +68,47 @@ public:
         connect(&m_timer, &QTimer::timeout, this, &WindowStream::bufferToStream);
         connect(this, &ScreenCastStream::startStreaming, this, &WindowStream::startFeeding);
         connect(this, &ScreenCastStream::stopStreaming, this, &WindowStream::stopFeeding);
+        connect(source, &WindowScreenCastSource::frameRendered, this, [this] {
+            m_timer.stop();
+            m_timer.setSingleShot(true);
+            m_timer.setInterval(0);
+        });
     }
 
 private:
+    void updateProtection()
+    {
+        // Retry if rate limiting or a pending PipeWire buffer prevents the refresh.
+        m_timer.setSingleShot(false);
+        m_timer.start(16);
+        bufferToStream();
+    }
+
     void startFeeding()
     {
         connect(m_window, &Window::damaged, this, &WindowStream::markDirty);
+        if (auto *ddeRestrict = waylandServer()->ddeRestrict()) {
+            connect(ddeRestrict, &KWaylandServer::DDERestrictInterface::protectionChanged,
+                    this, &WindowStream::updateProtection);
+        }
         markDirty();
     }
 
     void stopFeeding()
     {
         disconnect(m_window, &Window::damaged, this, &WindowStream::markDirty);
+        if (auto *ddeRestrict = waylandServer()->ddeRestrict()) {
+            disconnect(ddeRestrict, &KWaylandServer::DDERestrictInterface::protectionChanged,
+                       this, &WindowStream::updateProtection);
+        }
         m_timer.stop();
     }
 
     void markDirty()
     {
-        m_timer.start();
+        if (!m_timer.isActive()) {
+            m_timer.start();
+        }
     }
 
     void bufferToStream()
@@ -102,24 +124,14 @@ void ScreencastManager::streamWindow(KWaylandServer::ScreencastStreamV1Interface
                                      const QString &winid,
                                      KWaylandServer::ScreencastV1Interface::CursorMode mode)
 {
-    auto dde_restrict = waylandServer()->ddeRestrict();
-    if (dde_restrict && dde_restrict->prohibitScreencast()) {
-        return;
-    }
-
     auto window = Workspace::self()->findToplevel(QUuid(winid));
     if (!window) {
         waylandStream->sendFailed(i18n("Could not find window id %1", winid));
         return;
     }
 
-    if (static_cast<EffectsHandlerImpl*>(effects)->prohibitScreenshot(
-            static_cast<qulonglong>(window->window()))) {
-        waylandStream->sendFailed(i18n("Window is prohibited from screencast"));
-        return;
-    }
-
-    auto stream = new WindowStream(window, this);
+    auto source = new WindowScreenCastSource(window);
+    auto stream = new WindowStream(window, source, this);
     stream->setCursorMode(mode, 1, window->clientGeometry().toRect());
     if (mode != KWaylandServer::ScreencastV1Interface::CursorMode::Hidden) {
         connect(window, &Window::clientGeometryChanged, stream, [window, stream, mode]() {
@@ -162,18 +174,16 @@ void ScreencastManager::streamOutput(KWaylandServer::ScreencastStreamV1Interface
     auto stream = new ScreenCastStream(new OutputScreenCastSource(streamOutput), this);
     stream->setObjectName(streamOutput->name());
 
-    stream->setMaskViewport(streamOutput->geometry(), streamOutput->scale());
-
     stream->setCursorMode(mode, streamOutput->scale(), streamOutput->geometry());
 
-    auto bufferToStream = [stream, streamOutput](const QRegion &damagedRegion) {
-        if (!damagedRegion.isEmpty()) {
-            stream->recordFrame(scaleRegion(damagedRegion, streamOutput->scale()));
+    auto bufferToStream = [stream, streamOutput](Output *output, const QRegion &damagedRegion) {
+        if (output == streamOutput) {
+            stream->recordFrame(scaleRegion(damagedRegion.translated(-streamOutput->geometry().topLeft()), streamOutput->scale()));
         }
     };
     connect(stream, &ScreenCastStream::startStreaming, waylandStream, [streamOutput, stream, bufferToStream] {
         Compositor::self()->scene()->addRepaint(streamOutput->geometry());
-        connect(streamOutput, &Output::outputChange, stream, bufferToStream);
+        connect(Compositor::self(), &Compositor::captureFrameReady, stream, bufferToStream);
     });
     integrateStreams(waylandStream, stream);
 }
@@ -195,29 +205,21 @@ void ScreencastManager::streamRegion(KWaylandServer::ScreencastStreamV1Interface
     auto stream = new ScreenCastStream(source, this);
     stream->setObjectName(rectToString(geometry));
 
-    stream->setMaskViewport(geometry, scale);
-
     stream->setCursorMode(mode, scale, geometry);
 
     connect(stream, &ScreenCastStream::startStreaming, waylandStream, [geometry, stream, source] {
         Compositor::self()->scene()->addRepaint(geometry);
 
-        const auto allOutputs = workspace()->outputs();
-        for (auto output : allOutputs) {
-            if (output->geometry().intersects(geometry)) {
-                auto bufferToStream = [output, stream, source](const QRegion &damagedRegion) {
-                    if (damagedRegion.isEmpty()) {
-                        return;
-                    }
-
-                    const QRect streamRegion = source->region();
-                    const QRegion region = output->pixelSize() != output->modeSize() ? output->geometry() : damagedRegion;
-                    source->updateOutput(output);
-                    stream->recordFrame(scaleRegion(region.translated(-streamRegion.topLeft()).intersected(streamRegion), source->scale()));
-                };
-                connect(output, &Output::outputChange, stream, bufferToStream);
+        connect(Compositor::self(), &Compositor::captureFrameReady, stream,
+                [stream, source](Output *output, const QRegion &damagedRegion) {
+            const QRect streamRegion = source->region();
+            const QRegion region = damagedRegion & streamRegion;
+            if (!output->geometry().intersects(streamRegion) || region.isEmpty()) {
+                return;
             }
-        }
+            source->updateOutput(output);
+            stream->recordFrame(scaleRegion(region.translated(-streamRegion.topLeft()), source->scale()));
+        });
     });
     integrateStreams(waylandStream, stream);
 }

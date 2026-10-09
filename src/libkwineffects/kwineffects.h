@@ -1333,6 +1333,10 @@ public:
      */
     virtual bool isScreenLocked() const = 0;
 
+    // Zero for display painting; otherwise the generation of the capture protection policy.
+    static quint64 captureFrameGeneration();
+    static void setCaptureFrameGeneration(quint64 generation);
+
     virtual bool prohibitScreenshot(qulonglong winid) const = 0;
     virtual int windowPId(KWin::EffectWindow *w) = 0;
     // virtual quint32 windowId() const = 0;
