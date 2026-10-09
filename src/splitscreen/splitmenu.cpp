@@ -23,7 +23,6 @@
 #define USE_V25_SPLITMENU 0     // 默认使用V20样式
 #endif
 
-#define LONG_PRESS_TIME 500
 #define HIDE_DELAY_TIME 300
 
 namespace KWin
@@ -437,13 +436,6 @@ SplitMenu::SplitMenu()
         qCDebug(SPLIT_MENU) << "load" << qm << "failed";
     }
 
-    show_timer.setSingleShot(true);
-    connect(&show_timer, &QTimer::timeout, this, [this] {
-        m_isShow = true;
-        adjustSize();
-        show();
-    });
-
     hide_timer.setSingleShot(true);
     connect(&hide_timer, &QTimer::timeout, this, [this] {
         m_isShow = false;
@@ -481,7 +473,9 @@ void SplitMenu::Show(const QRect &button_rect, uint32_t client_id)
     clabel->setTooltipText(maximized ? tr("Unmaximize") : tr("Maximize"));
 #endif
 
-    show_timer.start(LONG_PRESS_TIME);
+    m_isShow = true;
+    adjustSize();
+    show();
 }
 
 void SplitMenu::Hide(bool delay, bool internal)
@@ -656,7 +650,6 @@ void SplitMenu::findClient(uint32_t client_id)
 
 void SplitMenu::stopTime()
 {
-    show_timer.stop();
     hide_timer.stop();
 }
 

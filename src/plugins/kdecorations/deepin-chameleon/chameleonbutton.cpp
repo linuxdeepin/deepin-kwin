@@ -35,6 +35,7 @@
 
 #include "workspace.h"
 
+#define HOVER_DELAY_TIME    500
 #define LONG_PRESS_TIME     300
 #define OUT_RELEASE_EVENT   100
 
@@ -160,14 +161,33 @@ void ChameleonButton::hoverEnterEvent(QHoverEvent *event)
                     return;
                 }
                 if (m_type == KDecoration2::DecorationButtonType::Maximize) {
-                    if (KWinUtils::instance()->isCompositing()) {
-                        auto c = decoration->client().toStrongRef().data();
-                        if (c) {
-                            uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
-                            QRect button_rect(QPoint(geometry().x() + effect->pos().x(), effect->pos().y()),
-                                              QSize(geometry().width(), decoration->titleBarHeight()));
-                            KWinUtils::showSplitMenu(button_rect, wid);
+                    if (KWinUtils::workspace() && !KWinUtils::isShowSplitMenu()) {
+                        if (!max_hover_timer) {
+                            max_hover_timer = new QTimer(this);
+                            max_hover_timer->setSingleShot(true);
+                            connect(max_hover_timer, &QTimer::timeout, this, [this] {
+                                if (!isHovered() || !isVisible() || !isEnabled() || !KWinUtils::instance()->isCompositing()) {
+                                    return;
+                                }
+                                auto *decoration = qobject_cast<Chameleon *>(this->decoration());
+                                if (!decoration) {
+                                    return;
+                                }
+                                effect = decoration->effect();
+                                if (!effect || effect->isUserMove()) {
+                                    return;
+                                }
+                                auto c = decoration->client().toStrongRef();
+                                if (!c) {
+                                    return;
+                                }
+                                uint32_t wid = effect->isWaylandClient() ? c->decorationId() : c->windowId();
+                                QRect button_rect(QPoint(geometry().x() + effect->pos().x(), effect->pos().y()),
+                                                  QSize(geometry().width(), decoration->titleBarHeight()));
+                                KWinUtils::showSplitMenu(button_rect, wid);
+                            });
                         }
+                        max_hover_timer->start(HOVER_DELAY_TIME);
                     }
                     decoration->requestHideToolTip();
                 }

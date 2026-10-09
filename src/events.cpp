@@ -47,7 +47,7 @@
 #include <QStyleHints>
 #include <QWheelEvent>
 #include <QProcess>
-#include <QDBusInterface>
+#include <QScreen>
 #include <unistd.h>
 
 #include <kkeyserver.h>
@@ -672,8 +672,18 @@ void X11Window::clientMessageEvent(xcb_client_message_event_t *e)
     } else if (e->type == atoms->wm_toggle_split_menu) {
         if (e->data.data32[0] == 1) {
             QRect botton_rect(e->data.data32[1], e->data.data32[2], e->data.data32[3], e->data.data32[4]);
-            if (botton_rect.isValid())
+            if (botton_rect.isValid()) {
+                if (!waylandServer()) {
+                    if (QScreen *targetScreen = qGuiApp->screenAt(botton_rect.center())) {
+                        // DTK 发送的是逻辑坐标，X11 下 KWin 使用原生屏幕坐标，需换算。
+                        const QPoint origin = targetScreen->geometry().topLeft();
+                        botton_rect = scaledRect(QRectF(botton_rect).translated(-origin), targetScreen->logicalDotsPerInch() / 96.0)
+                                          .translated(origin)
+                                          .toRect();
+                    }
+                }
                 workspace()->showSplitMenu(botton_rect, e->window);
+            }
         } else {
             workspace()->hideSplitMenu(e->data.data32[1]);
         }

@@ -2717,6 +2717,11 @@ void Workspace::showSplitMenu(const QRect &rect, uint32_t client_id)
     SplitMenu::instance()->Show(rect, client_id);
 }
 
+bool Workspace::isSplitMenuVisible() const
+{
+    return SplitMenu::instance()->isVisible();
+}
+
 void Workspace::hideSplitMenu(bool delay)
 {
     SplitMenu::instance()->Hide(delay);

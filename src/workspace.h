@@ -356,6 +356,7 @@ public:
     QString getProcessSessionPath() const;
 
     void showSplitMenu(const QRect &rect, uint32_t client_id);
+    bool isSplitMenuVisible() const;
     void hideSplitMenu(bool delay);
     void setSplitMenuKeepShowing(bool keep);
 

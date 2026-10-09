@@ -454,7 +454,7 @@ bool KWinUtils::isShowSplitMenu()
     if (!workspace())
         return false;
 
-    return true;
+    return workspace()->isSplitMenuVisible();
 }
 
 void KWinUtils::showSplitMenu(const QRect &rect, uint32_t client_id)

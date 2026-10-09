@@ -59,7 +59,7 @@ private:
     QRect m_hump, m_rect;  // relative rectangle
     float   m_scale = 1.0;
 
-    QTimer show_timer, hide_timer;
+    QTimer hide_timer;
 
     QGraphicsDropShadowEffect *shadow = nullptr;
 };
