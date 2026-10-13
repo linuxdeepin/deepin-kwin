@@ -4490,28 +4490,6 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
 
     MaximizeMode old_mode = max_mode;
 
-    // if the client insist on a fix aspect ratio, we check whether the maximizing will get us
-    // out of screen bounds and take that as a "full maximization with aspect check" then
-    if (m_geometryHints.hasAspect() && // fixed aspect
-        (mode == MaximizeVertical || mode == MaximizeHorizontal) && // ondimensional maximization
-        rules()->checkStrictGeometry(true)) { // obey aspect
-        const QSize minAspect = m_geometryHints.minAspect();
-        const QSize maxAspect = m_geometryHints.maxAspect();
-        if (mode == MaximizeVertical || (old_mode & MaximizeVertical)) {
-            const double fx = minAspect.width(); // use doubles, because the values can be MAX_INT
-            const double fy = maxAspect.height(); // use doubles, because the values can be MAX_INT
-            if (fx * clientArea.height() / fy > clientArea.width()) { // too big
-                mode = old_mode & MaximizeHorizontal ? MaximizeRestore : MaximizeFull;
-            }
-        } else { // mode == MaximizeHorizontal
-            const double fx = maxAspect.width();
-            const double fy = minAspect.height();
-            if (fy * clientArea.width() / fx > clientArea.height()) { // too big
-                mode = old_mode & MaximizeVertical ? MaximizeRestore : MaximizeFull;
-            }
-        }
-    }
-
     mode = rules()->checkMaximize(mode);
     if (max_mode == mode) {
         return;
@@ -4593,19 +4571,17 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             dbusRootWindowProtect(true);
         }
         if (old_mode & MaximizeHorizontal) { // actually restoring from MaximizeFull
-            if (geometryRestore().width() == 0 || !clientArea.contains(geometryRestore().center())) {
+            if (geometryRestore().width() == 0) {
                 // needs placement
-                resize(constrainFrameSize(QSize(width() * 2 / 3, clientArea.height()), SizeModeFixedH));
+                const QSizeF constraintedSize = constrainFrameSize(QSizeF(width() * 2 / 3, clientArea.height()), SizeModeFixedH);
+                resize(QSizeF(constraintedSize.width(), clientArea.height()));
                 workspace()->placement()->placeSmart(this, clientArea);
             } else {
                 moveResize(QRectF(QPointF(geometryRestore().x(), clientArea.top()),
-                                  constrainFrameSize(QSize(geometryRestore().width(), clientArea.height()), SizeModeFixedH)));
+                                  QSizeF(geometryRestore().width(), clientArea.height())));
             }
         } else {
-            QRectF r(x(), clientArea.top(), width(), clientArea.height());
-            r.setTopLeft(rules()->checkPosition(r.topLeft()));
-            r.setSize(constrainFrameSize(r.size(), SizeModeFixedH));
-            moveResize(r);
+            moveResize(QRectF(x(), clientArea.top(), width(), clientArea.height()));
         }
         info->setState(NET::MaxVert, NET::Max);
         if (protect) {
@@ -4619,19 +4595,17 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             dbusRootWindowProtect(true);
         }
         if (old_mode & MaximizeVertical) { // actually restoring from MaximizeFull
-            if (geometryRestore().height() == 0 || !clientArea.contains(geometryRestore().center())) {
+            if (geometryRestore().height() == 0) {
                 // needs placement
-                resize(constrainFrameSize(QSize(clientArea.width(), height() * 2 / 3), SizeModeFixedW));
+                const QSizeF constraintedSize = constrainFrameSize(QSizeF(clientArea.width(), height() * 2 / 3), SizeModeFixedW);
+                resize(QSizeF(clientArea.width(), constraintedSize.height()));
                 workspace()->placement()->placeSmart(this, clientArea);
             } else {
-                moveResize(QRectF(QPoint(clientArea.left(), geometryRestore().y()),
-                                  constrainFrameSize(QSize(clientArea.width(), geometryRestore().height()), SizeModeFixedW)));
+                moveResize(QRectF(QPointF(clientArea.left(), geometryRestore().y()),
+                                  QSizeF(clientArea.width(), geometryRestore().height())));
             }
         } else {
-            QRectF r(clientArea.left(), y(), clientArea.width(), height());
-            r.setTopLeft(rules()->checkPosition(r.topLeft()));
-            r.setSize(constrainFrameSize(r.size(), SizeModeFixedW));
-            moveResize(r);
+            moveResize(QRectF(clientArea.left(), y(), clientArea.width(), height()));
         }
         info->setState(NET::MaxHoriz, NET::Max);
         if (protect) {
@@ -4674,13 +4648,8 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             }
             setGeometryRestore(restore); // relevant for mouse pos calculation, bug #298646
         }
-        if (m_geometryHints.hasAspect()) {
-            restore.setSize(constrainFrameSize(restore.size(), SizeModeAny));
-        }
+        restore.setSize(constrainFrameSize(restore.size(), SizeModeAny));
         moveResize(restore);
-        if (!clientArea.contains(geometryRestore().center())) { // Not restoring to the same screen
-            workspace()->placement()->place(this, clientArea);
-        }
         info->setState(NET::States(), NET::Max);
         updateQuickTileMode(QuickTileFlag::None);
 
@@ -4695,54 +4664,8 @@ void X11Window::maximize(MaximizeMode mode, bool animated)
             dbusRootWindowProtect(true);
         }
 
-        QRectF r(clientArea);
-        r.setTopLeft(rules()->checkPosition(r.topLeft()));
-        r.setSize(constrainFrameSize(r.size(), SizeModeMax));
-        if (r.size() != clientArea.size()) { // to avoid off-by-one errors...
-            if (isElectricBorderMaximizing() && r.width() < clientArea.width()) {
-                r.moveLeft(std::max(clientArea.left(), Cursors::self()->mouse()->pos().x() - r.width() / 2));
-                r.moveRight(std::min(clientArea.right(), r.right()));
-            } else {
-                r.moveCenter(clientArea.center());
-                const bool closeHeight = r.height() > 97 * clientArea.height() / 100;
-                const bool closeWidth = r.width() > 97 * clientArea.width() / 100;
-                const bool overHeight = r.height() > clientArea.height();
-                const bool overWidth = r.width() > clientArea.width();
-                if (closeWidth || closeHeight) {
-                    Qt::Edge titlePos = titlebarPosition();
-                    const QRectF screenArea = workspace()->clientArea(ScreenArea, this, clientArea.center());
-                    if (closeHeight) {
-                        bool tryBottom = titlePos == Qt::BottomEdge;
-                        if ((overHeight && titlePos == Qt::TopEdge) || screenArea.top() == clientArea.top()) {
-                            r.setTop(clientArea.top());
-                        } else {
-                            tryBottom = true;
-                        }
-                        if (tryBottom && (overHeight || screenArea.bottom() == clientArea.bottom())) {
-                            r.setBottom(clientArea.bottom());
-                        }
-                    }
-                    if (closeWidth) {
-                        bool tryLeft = titlePos == Qt::LeftEdge;
-                        if ((overWidth && titlePos == Qt::RightEdge) || screenArea.right() == clientArea.right()) {
-                            r.setRight(clientArea.right());
-                        } else {
-                            tryLeft = true;
-                        }
-                        if (tryLeft && (overWidth || screenArea.left() == clientArea.left())) {
-                            r.setLeft(clientArea.left());
-                        }
-                    }
-                }
-            }
-            r.moveTopLeft(rules()->checkPosition(r.topLeft()));
-        }
-        // The above code tries to center align the window followed by setting top and bottom
-        // it's possible that we're in between two pixels
-        r = Xcb::nativeFloor(r);
-
-        moveResize(r);
-        if (options->electricBorderMaximize() && r.top() == clientArea.top()) {
+        moveResize(clientArea);
+        if (options->electricBorderMaximize()) {
             updateQuickTileMode(QuickTileFlag::Maximize);
         } else {
             updateQuickTileMode(QuickTileFlag::None);
