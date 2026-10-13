@@ -91,6 +91,11 @@ public:
         setFixedSize(QSize(ICON_WIDTH, ICON_HEIGHT) * m_scale);
     }
 
+    void setTooltipText(const QString &text)
+    {
+        m_tooltipText = text;
+    }
+
 Q_SIGNALS:
     void clicked();
 
@@ -103,6 +108,10 @@ protected:
     {
         m_hovered = true;
         update();
+        if (!m_tooltipText.isEmpty()) {
+            int yOffset = ICON_HEIGHT * m_scale - 2 * LABEL_SPACING * m_scale;
+            QToolTip::showText(mapToGlobal(QPoint(width() / 2, yOffset)), m_tooltipText, this);
+        }
         QWidget::enterEvent(event);
     }
 
@@ -110,6 +119,7 @@ protected:
     {
         m_hovered = false;
         update();
+        QToolTip::hideText();
         QWidget::leaveEvent(event);
     }
 
@@ -161,6 +171,7 @@ private:
     qreal m_scale;
     bool m_hovered = false;
     bool m_pressed = false;
+    QString m_tooltipText;
 };
 
 #else
@@ -460,16 +471,13 @@ void SplitMenu::Show(const QRect &button_rect, uint32_t client_id)
         return;
     stopTime();
 
+    checkArea(button_rect);
+    llabel->setTooltipText(tr("Tile window to left of screen"));
+    rlabel->setTooltipText(tr("Tile window to right of screen"));
+
 #if !USE_V25_SPLITMENU
     bool maximized = m_client && m_client->maximizeMode() == MaximizeMode::MaximizeFull;
     clabel->setMaximized(maximized);
-#endif
-
-    checkArea(button_rect);
-
-#if !USE_V25_SPLITMENU
-    llabel->setTooltipText(tr("Tile window to left of screen"));
-    rlabel->setTooltipText(tr("Tile window to right of screen"));
     clabel->setTooltipText(maximized ? tr("Unmaximize") : tr("Maximize"));
 #endif
 
