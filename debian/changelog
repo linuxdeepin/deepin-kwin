@@ -1,3 +1,9 @@
+kwin (4:6.1.46) unstable; urgency=medium
+
+  * fix: 修正分屏菜单缩放坐标并避免重复等待
+
+ -- justforlxz <justforlxz@gmail.com>  Tue, 13 Oct 2026 14:54:42 +0800
+
 kwin (4:6.1.45) unstable; urgency=medium
 
   * fix: 优化 V25 标题栏菜单样式和勾选图标
