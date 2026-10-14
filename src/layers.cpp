@@ -672,13 +672,36 @@ bool Workspace::updateXStackingOrder()
     xcb_window_t *windows = tree.children();
 
     const auto count = tree.data()->children_len;
+    QHash<Window *, int> xOrder;
+    int rank = 0;
     for (unsigned int i = 0; i < count; ++i) {
         auto window = findUnmanaged(windows[i]);
         if (window) {
-            return true;
+            xOrder.insert(window, rank++);
         }
     }
-    return false;
+    if (xOrder.isEmpty()) {
+        return false;
+    }
+    QList<Window *> newOrder = unconstrained_stacking_order;
+    QVector<int> slots;
+    slots.reserve(xOrder.size());
+    for (int i = 0; i < newOrder.size(); ++i) {
+        if (xOrder.contains(newOrder[i])) {
+            slots.append(i);
+        }
+    }
+    Q_ASSERT(slots.size() == xOrder.size());
+    for (auto it = xOrder.constBegin(); it != xOrder.constEnd(); ++it) {
+        if (it.value() < slots.size()) {
+            newOrder[slots.at(it.value())] = it.key();
+        }
+    }
+    if (newOrder == unconstrained_stacking_order) {
+        return false;
+    }
+    unconstrained_stacking_order = newOrder;
+    return true;
 }
 
 //*******************************
