@@ -4410,7 +4410,7 @@ void Window::setQuickTileMode(QuickTileMode mode, bool keyboard, bool animated, 
         if (mode != QuickTileMode(QuickTileFlag::None)) {
             m_quickTileMode = int(QuickTileFlag::None); // Temporary, so the maximize code doesn't get all confused
 
-            setMaximize(false, false, animated);
+            setMaximize(false, false, false);
 
             moveResize(quickTileGeometry(mode, keyboard ? moveResizeGeometry().center() : Cursors::self()->mouse()->pos()));
             // Store the mode change
