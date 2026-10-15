@@ -2521,8 +2521,7 @@ void X11Window::sendSyncRequest()
                 return;
             }
             // failed during resize
-            m_syncRequest.isPending = false;
-            m_syncRequest.interactiveResize = false;
+            setSyncRequestState(false, false);
             m_syncRequest.counter = XCB_NONE;
             m_syncRequest.alarm = XCB_NONE;
             delete m_syncRequest.timeout;
@@ -2552,8 +2551,7 @@ void X11Window::sendSyncRequest()
     // Send the message to client
     sendClientMessage(window(), atoms->wm_protocols, atoms->net_wm_sync_request,
                       m_syncRequest.value.lo, m_syncRequest.value.hi);
-    m_syncRequest.isPending = true;
-    m_syncRequest.interactiveResize = isInteractiveResize();
+    setSyncRequestState(true, isInteractiveResize());
     m_syncRequest.lastTimestamp = xTime();
 }
 
@@ -2999,14 +2997,14 @@ void X11Window::checkApplicationMenuObjectPath()
 void X11Window::handleSync()
 {
     setReadyForPainting();
-    m_syncRequest.isPending = false;
+    setSyncRequestState(false, m_syncRequest.interactiveResize);
     if (m_syncRequest.failsafeTimeout) {
         m_syncRequest.failsafeTimeout->stop();
     }
 
     // Sync request can be acknowledged shortly after finishing resize.
     if (m_syncRequest.interactiveResize) {
-        m_syncRequest.interactiveResize = false;
+        setSyncRequestState(m_syncRequest.isPending, false);
         if (m_syncRequest.timeout) {
             m_syncRequest.timeout->stop();
         }
@@ -4337,6 +4335,24 @@ bool X11Window::isMaximizable() const
  */
 void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool immediateResize)
 {
+    // Synchronize visible X11 split-window resizes regardless of their layout caller.
+    // Window::moveResize() handles placeholders; SplitManage throttles split-bar input.
+    const bool syncSplitWindow = !waylandServer() && isSplitWindow() && isShown() && isOnCurrentDesktop()
+        && !isInteractiveMoveResize() && workspace()->isDraggingWithContent()
+        && !isShade();
+    const bool syncAvailable = m_syncRequest.counter != XCB_NONE && m_syncRequest.alarm != XCB_NONE
+        && !m_syncRequest.isPending;
+    const bool resizeRequested = !immediateResize && mode == MoveResizeMode::MoveResize
+        && !areGeometryUpdatesBlocked() && pendingMoveResizeMode() == MoveResizeMode::None
+        && rect.size() != m_lastFrameGeometry.size();
+    if (syncSplitWindow && syncAvailable && resizeRequested) {
+        doInteractiveResizeSync(rect);
+        // Layout-driven resizes don't set isInteractiveResize(). Mark this request
+        // for the existing interactive sync ACK and timeout handling.
+        setSyncRequestState(m_syncRequest.isPending, true);
+        return;
+    }
+
     // Ok, the shading geometry stuff. Generally, code doesn't care about shaded geometry,
     // simply because there are too many places dealing with geometry. Those places
     // ignore shaded state and use normal geometry, which they usually should get
@@ -4347,8 +4363,6 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool
     // setGeometry( geometry()) - geometry() will return the shaded frame geometry.
     // Such code is wrong and should be changed to handle the case when the window is shaded,
     // for example using X11Window::clientSize()
-    Q_UNUSED(immediateResize);
-
     QRectF frameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
 
     if (shade_geometry_change) {
@@ -4863,6 +4877,17 @@ void X11Window::leaveInteractiveMoveResize()
     }
 }
 
+void X11Window::setSyncRequestState(bool pending, bool interactiveResize)
+{
+    const bool wasWaiting = isWaitingForInteractiveMoveResizeSync();
+    m_syncRequest.isPending = pending;
+    m_syncRequest.interactiveResize = interactiveResize;
+    const bool waiting = isWaitingForInteractiveMoveResizeSync();
+    if (waiting != wasWaiting) {
+        Q_EMIT interactiveResizeSyncChanged(waiting);
+    }
+}
+
 bool X11Window::isWaitingForInteractiveMoveResizeSync() const
 {
     return m_syncRequest.isPending && m_syncRequest.interactiveResize;
@@ -4885,8 +4910,7 @@ void X11Window::doInteractiveResizeSync(const QRectF &rect)
         // For clients not supporting the XSYNC protocol, we limit the resizes to 30Hz
         // to take pointless load from X11 and the client, the mouse is still moved at
         // full speed and no human can control faster resizes anyway.
-        m_syncRequest.isPending = true;
-        m_syncRequest.interactiveResize = true;
+        setSyncRequestState(true, true);
         m_syncRequest.timeout->start(33);
     }
 
@@ -4905,8 +4929,8 @@ void X11Window::doInteractiveResizeSync(const QRectF &rect)
 void X11Window::handleSyncTimeout()
 {
     if (m_syncRequest.counter == XCB_NONE) { // client w/o XSYNC support. allow the next resize event
-        m_syncRequest.isPending = false; // NEVER do this for clients with a valid counter
-        m_syncRequest.interactiveResize = false; // (leads to sync request races in some clients)
+        // NEVER clear a valid counter's pending request: it causes sync request races.
+        setSyncRequestState(false, false);
     }
     performInteractiveResize();
 }

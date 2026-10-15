@@ -309,6 +309,7 @@ public:
         return m_syncRequest;
     }
     virtual bool wantsSyncCounter() const;
+    bool isWaitingForInteractiveMoveResizeSync() const override;
     void handleSync();
     void handleSyncTimeout();
 
@@ -355,7 +356,6 @@ protected:
     void doSetDemandsAttention() override;
     bool belongsToDesktop() const override;
     bool doStartInteractiveMoveResize() override;
-    bool isWaitingForInteractiveMoveResizeSync() const override;
     void doInteractiveResizeSync(const QRectF &rect) override;
     QSizeF resizeIncrements() const override;
     bool acceptsFocus() const override;
@@ -413,6 +413,7 @@ private:
     int checkShadeGeometry(int w, int h);
     void getSyncCounter();
     void sendSyncRequest();
+    void setSyncRequestState(bool pending, bool interactiveResize);
     void leaveInteractiveMoveResize() override;
     void performInteractiveResize();
     void establishCommandWindowGrab(uint8_t button);

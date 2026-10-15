@@ -1494,6 +1494,9 @@ public:
 
     uint32_t interactiveMoveResizeCount() const;
 
+    /** Whether the window is waiting for a resize synchronization response. */
+    virtual bool isWaitingForInteractiveMoveResizeSync() const;
+
     void setTile(Tile *tile);
 
     void refOffscreenRendering();
@@ -1553,6 +1556,7 @@ protected Q_SLOTS:
     void setReadyForPainting();
 
 Q_SIGNALS:
+    void interactiveResizeSyncChanged(bool pending);
     void stackingOrderChanged();
     void shadeChanged();
     void opacityChanged(KWin::Window *window, qreal oldOpacity);
@@ -1971,11 +1975,6 @@ protected:
      */
     void checkQuickTilingMaximizationZones(int xroot, int yroot);
     void resetQuickTilingMaximizationZones();
-    /**
-     * Whether a sync request is still pending.
-     * Default implementation returns @c false.
-     */
-    virtual bool isWaitingForInteractiveMoveResizeSync() const;
     /**
      * Called during handling a resize. Implementing subclasses can use this
      * method to perform windowing system specific syncing.

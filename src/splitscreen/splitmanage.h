@@ -28,11 +28,14 @@ public:
     void storeSplitWindow(Window *);
     void deleteSplitWindow(Window *);
     void getSplitWindow(QVector<Window *> &);
+    bool hasPendingResizeRequests() const;
+    void updatePendingResizeRequests(Window *window, bool pending);
     int getNumSplitWin() {return m_splitGroup.size();}
 
 private:
     int m_desktop;
     QVector<Window *> m_splitGroup;
+    int m_pendingResizeRequests = 0;
 };
 
 class SplitManage : public QObject
@@ -75,6 +78,7 @@ private:
     void windowScreenChange();
     void windowDesktopChange();
     void windowFrameSizeChange();
+    void windowResizeSyncChanged(bool pending);
     void windowKeepAboveChange(bool);
     void removeQuickTile(Window *window);
     void addQuickTile(int desktop, QString screenName, Window *window);

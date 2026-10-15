@@ -30,19 +30,40 @@ void SplitGroup::setDesktop(int d)
 
 void SplitGroup::storeSplitWindow(Window *w)
 {
-    if (!m_splitGroup.contains(w))
+    if (!m_splitGroup.contains(w)) {
         m_splitGroup.push_back(w);
+        if (w->isWaitingForInteractiveMoveResizeSync()) {
+            ++m_pendingResizeRequests;
+        }
+    }
 }
 
 void SplitGroup::deleteSplitWindow(Window *w)
 {
-    if (m_splitGroup.contains(w))
+    if (m_splitGroup.contains(w)) {
+        if (w->isWaitingForInteractiveMoveResizeSync()) {
+            --m_pendingResizeRequests;
+        }
         m_splitGroup.removeOne(w);
+    }
 }
 
 void SplitGroup::getSplitWindow(QVector<Window *> &vec)
 {
     vec = m_splitGroup;
+}
+
+bool SplitGroup::hasPendingResizeRequests() const
+{
+    return m_pendingResizeRequests != 0;
+}
+
+void SplitGroup::updatePendingResizeRequests(Window *window, bool pending)
+{
+    if (m_splitGroup.contains(window)) {
+        m_pendingResizeRequests += pending ? 1 : -1;
+        Q_ASSERT(m_pendingResizeRequests >= 0);
+    }
 }
 
 /*********************************************/
@@ -72,6 +93,7 @@ void SplitManage::add(Window *window)
     connect(window, &Window::keepAboveChanged, this, &SplitManage::windowKeepAboveChange);
     WindowData data = dataForWindow(window);
     m_data[window] = data;
+    connect(window, &Window::interactiveResizeSyncChanged, this, &SplitManage::windowResizeSyncChanged);
 }
 
 void SplitManage::remove(Window *window)
@@ -86,6 +108,7 @@ void SplitManage::remove(Window *window)
         disconnect(window, &Window::frameGeometryChanged, this, &SplitManage::windowFrameSizeChange);
         disconnect(window, &Window::keepAboveChanged, this, &SplitManage::windowKeepAboveChange);
         removeQuickTile(window);
+        disconnect(window, &Window::interactiveResizeSyncChanged, this, &SplitManage::windowResizeSyncChanged);
         m_data.remove(window);
     }
     uninhibit();
@@ -140,6 +163,20 @@ void SplitManage::handleQuickTile(int launchType)
     m_lastWin = window;
     uninhibit();
     workspace()->updateStackingOrder();
+}
+
+void SplitManage::windowResizeSyncChanged(bool pending)
+{
+    Window *window = qobject_cast<Window *>(sender());
+    const auto it = m_data.constFind(window);
+    if (it == m_data.cend()) {
+        return;
+    }
+    // A window on all desktops can be a member of more than one group.
+    const auto groups = m_splitGroupManage.value(it->screenName);
+    for (SplitGroup *group : groups) {
+        group->updatePendingResizeRequests(window, pending);
+    }
 }
 
 void SplitManage::windowFrameSizeChange()
@@ -351,9 +388,15 @@ void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w
 {
     if (isfinish || w == nullptr) {
         m_isCreatePlaceHolder = false;
-        if (!workspace()->isDraggingWithContent()) {
+        if (!workspace()->isDraggingWithContent() && m_activeWin) {
             m_activeWin->destroyPlaceHolder();
         }
+        return;
+    }
+
+    int desktop = VirtualDesktopManager::self()->current();
+    SplitGroup *group = !waylandServer() && workspace()->isDraggingWithContent() ? getGroup(desktop, name) : nullptr;
+    if (group && group->hasPendingResizeRequests()) {
         return;
     }
 
