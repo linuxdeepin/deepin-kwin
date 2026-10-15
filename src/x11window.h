@@ -414,6 +414,7 @@ private:
     void getSyncCounter();
     void sendSyncRequest();
     void setSyncRequestState(bool pending, bool interactiveResize);
+    void finishSplitResize();
     void leaveInteractiveMoveResize() override;
     void performInteractiveResize();
     void establishCommandWindowGrab(uint8_t button);

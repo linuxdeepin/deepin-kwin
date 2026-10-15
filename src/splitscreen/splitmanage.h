@@ -50,6 +50,9 @@ public:
     void remove(Window *window);
     void getSplitWindows(QHash<QString, QVector<Window *>> &);
     void getSplitBarWindow(QHash<QString, Window *> &);
+    bool isSplitResizeScheduled(Window *window) const;
+    void startSplitResize(Window *window, bool waitingForAck);
+    bool finishSplitResize(Window *window);
 
     void inhibit();
     void uninhibit();
@@ -65,15 +68,24 @@ public Q_SLOTS:
     void updateSplitWindowGeometry(QString, QPointF, Window *, bool);
 
 private:
+    enum class SplitResizeState {
+        None,
+        Scheduled,
+        WaitingForAck,
+        Ready
+    };
+
     struct WindowData
     {
         QRectF geometry;
         QuickTileMode quickTile;
         QString screenName;
         int desktop;
+        SplitResizeState resizeState = SplitResizeState::None;
     };
 
 private:
+    void commitSplitResize(SplitGroup *group);
     void handleQuickTile(int launchType);
     void windowScreenChange();
     void windowDesktopChange();

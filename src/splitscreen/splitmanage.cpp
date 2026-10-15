@@ -16,6 +16,8 @@
 #include "wayland_server.h"
 #include <QThread>
 
+#include <algorithm>
+
 namespace KWin {
 
 SplitGroup::SplitGroup(int d)
@@ -283,16 +285,24 @@ void SplitManage::addQuickTile(int desktop, QString screenName, Window *window)
 
 void SplitManage::removeQuickTile(Window *window)
 {
+    if (m_data.value(window).resizeState != SplitResizeState::None) {
+        m_data[window].resizeState = SplitResizeState::None;
+        Q_EMIT window->splitResizeCommitRequested();
+    }
     if (m_data[window].desktop == -1) {
         for (int i = 1; i <= static_cast<int>(VirtualDesktopManager::self()->count()); ++i) {
             SplitGroup *splitgroup = getGroup(i, m_data[window].screenName);
-            if (splitgroup)
+            if (splitgroup) {
                 splitgroup->deleteSplitWindow(window);
+                commitSplitResize(splitgroup);
+            }
         }
     } else {
         SplitGroup *splitgroup = getGroup(m_data[window].desktop, m_data[window].screenName);
-        if (splitgroup)
+        if (splitgroup) {
             splitgroup->deleteSplitWindow(window);
+            commitSplitResize(splitgroup);
+        }
     }
     if (m_topWin == window)
         m_topWin = nullptr;
@@ -384,6 +394,62 @@ void SplitManage::getSplitBarWindow(QHash<QString, Window *> &hash)
     hash = m_splitBarWindows;
 }
 
+bool SplitManage::isSplitResizeScheduled(Window *window) const
+{
+    return m_data.value(window).resizeState == SplitResizeState::Scheduled;
+}
+
+void SplitManage::startSplitResize(Window *window, bool waitingForAck)
+{
+    if (isSplitResizeScheduled(window)) {
+        m_data[window].resizeState = waitingForAck
+            ? SplitResizeState::WaitingForAck
+            : SplitResizeState::Ready;
+    }
+}
+
+bool SplitManage::finishSplitResize(Window *window)
+{
+    auto it = m_data.find(window);
+    if (it == m_data.end() || (it->resizeState != SplitResizeState::WaitingForAck && it->resizeState != SplitResizeState::Ready)) {
+        return false;
+    }
+    it->resizeState = SplitResizeState::Ready;
+    int desktop = it->desktop == -1 ? VirtualDesktopManager::self()->current() : it->desktop;
+    QString name = it->screenName;
+    if (SplitGroup *group = getGroup(desktop, name)) {
+        commitSplitResize(group);
+    } else {
+        it->resizeState = SplitResizeState::None;
+        Q_EMIT window->splitResizeCommitRequested();
+    }
+    return true;
+}
+
+void SplitManage::commitSplitResize(SplitGroup *group)
+{
+    QVector<Window *> windows;
+    group->getSplitWindow(windows);
+    if (std::any_of(windows.cbegin(), windows.cend(), [this](Window *window) {
+            return m_data.value(window).resizeState == SplitResizeState::WaitingForAck;
+        })) {
+        return;
+    }
+    // The last ACK commits both sides before returning to the event loop.
+    for (Window *window : std::as_const(windows)) {
+        // A previous geometry update can remove another member through its signals.
+        auto it = m_data.find(window);
+        if (it == m_data.end()) {
+            continue;
+        }
+        const auto state = it->resizeState;
+        it->resizeState = SplitResizeState::None;
+        if (state == SplitResizeState::Ready) {
+            Q_EMIT window->splitResizeCommitRequested();
+        }
+    }
+}
+
 void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w, bool isfinish)
 {
     if (isfinish || w == nullptr) {
@@ -422,7 +488,17 @@ void SplitManage::updateSplitWindowGeometry(QString name, QPointF pos, Window *w
         m_isCreatePlaceHolder = true;
         m_activeWin->createPlaceHolder();
     }
+    if (group) {
+        QVector<Window *> windows;
+        group->getSplitWindow(windows);
+        for (Window *window : std::as_const(windows)) {
+            m_data[window].resizeState = SplitResizeState::Scheduled;
+        }
+    }
     w->resizeSplitWindow(pos);
+    if (group) {
+        commitSplitResize(group);
+    }
 }
 
 void SplitManage::resetNumSplitWin(Window *window)

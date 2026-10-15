@@ -1557,6 +1557,7 @@ protected Q_SLOTS:
 
 Q_SIGNALS:
     void interactiveResizeSyncChanged(bool pending);
+    void splitResizeCommitRequested();
     void stackingOrderChanged();
     void shadeChanged();
     void opacityChanged(KWin::Window *window, qreal oldOpacity);

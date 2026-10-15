@@ -30,6 +30,7 @@
 #include "scene/windowitem.h"
 #include "screenedge.h"
 #include "shadow.h"
+#include "splitscreen/splitmanage.h"
 #include "virtualdesktops.h"
 #include "wayland_server.h"
 #include "workspace.h"
@@ -270,6 +271,7 @@ X11Window::X11Window()
     m_syncRequest.lastTimestamp = xTime();
     m_syncRequest.isPending = false;
     m_syncRequest.interactiveResize = false;
+    connect(this, &Window::splitResizeCommitRequested, this, &X11Window::finishSplitResize);
 
     // Set the initial mapping state
     mapping_state = Withdrawn;
@@ -2521,6 +2523,7 @@ void X11Window::sendSyncRequest()
                 return;
             }
             // failed during resize
+            workspace()->getSplitManage()->finishSplitResize(this);
             setSyncRequestState(false, false);
             m_syncRequest.counter = XCB_NONE;
             m_syncRequest.alarm = XCB_NONE;
@@ -3004,10 +3007,13 @@ void X11Window::handleSync()
 
     // Sync request can be acknowledged shortly after finishing resize.
     if (m_syncRequest.interactiveResize) {
-        setSyncRequestState(m_syncRequest.isPending, false);
         if (m_syncRequest.timeout) {
             m_syncRequest.timeout->stop();
         }
+        if (workspace()->getSplitManage()->finishSplitResize(this)) {
+            return;
+        }
+        setSyncRequestState(m_syncRequest.isPending, false);
         performInteractiveResize();
         updateWindowPixmap();
     }
@@ -4340,8 +4346,10 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool
     const bool syncSplitWindow = !waylandServer() && isSplitWindow() && isShown() && isOnCurrentDesktop()
         && !isInteractiveMoveResize() && workspace()->isDraggingWithContent()
         && !isShade();
-    const bool syncAvailable = m_syncRequest.counter != XCB_NONE && m_syncRequest.alarm != XCB_NONE
-        && !m_syncRequest.isPending;
+    // Clients without XSync are configured now and committed with the split group.
+    const bool syncAvailable = ((m_syncRequest.counter != XCB_NONE && m_syncRequest.alarm != XCB_NONE)
+                                || (m_syncRequest.counter == XCB_NONE && workspace()->getSplitManage()->isSplitResizeScheduled(this)))
+        && !m_syncRequest.isPending && !m_syncRequest.interactiveResize;
     const bool resizeRequested = !immediateResize && mode == MoveResizeMode::MoveResize
         && !areGeometryUpdatesBlocked() && pendingMoveResizeMode() == MoveResizeMode::None
         && rect.size() != m_lastFrameGeometry.size();
@@ -4350,6 +4358,10 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool
         // Layout-driven resizes don't set isInteractiveResize(). Mark this request
         // for the existing interactive sync ACK and timeout handling.
         setSyncRequestState(m_syncRequest.isPending, true);
+        workspace()->getSplitManage()->startSplitResize(this, m_syncRequest.counter != XCB_NONE);
+        if (m_syncRequest.counter == XCB_NONE) {
+            m_syncRequest.timeout->stop();
+        }
         return;
     }
 
@@ -4928,11 +4940,28 @@ void X11Window::doInteractiveResizeSync(const QRectF &rect)
 
 void X11Window::handleSyncTimeout()
 {
+    if (workspace()->getSplitManage()->finishSplitResize(this)) {
+        return;
+    }
     if (m_syncRequest.counter == XCB_NONE) { // client w/o XSYNC support. allow the next resize event
         // NEVER clear a valid counter's pending request: it causes sync request races.
         setSyncRequestState(false, false);
     }
     performInteractiveResize();
+}
+
+void X11Window::finishSplitResize()
+{
+    if (m_syncRequest.timeout) {
+        m_syncRequest.timeout->stop();
+    }
+    // A real request that timed out must remain pending until its ACK or failsafe.
+    const bool pending = m_syncRequest.counter != XCB_NONE && m_syncRequest.isPending;
+    setSyncRequestState(pending, pending);
+    if (!isZombie()) {
+        performInteractiveResize();
+        updateWindowPixmap();
+    }
 }
 
 NETExtendedStrut X11Window::strut() const
