@@ -49,6 +49,8 @@ public:
     void postPaintScreen() override;
     void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
     bool isActive() const override;
+    void touchDownNotify(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;
+    void touchUpNotify(qint32 id, std::chrono::microseconds time) override;
     int requestedEffectChainPosition() const override;
     // for properties
     qreal configuredZoomFactor() const;
@@ -141,6 +143,8 @@ private:
     QMatrix4x4 m_lastInputTransform;
     std::map<EffectScreen *, OffscreenData> m_offscreenData;
     bool inSkipZoom;
+    int m_activeTouchPoints = 0;
+    bool m_lastInteractionWasTouch = false;
 };
 
 } // namespace

@@ -235,6 +235,32 @@ void ZoomEffect::hideCursor()
     }
 }
 
+void ZoomEffect::touchDownNotify(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+{
+    Q_UNUSED(id)
+    Q_UNUSED(pos)
+    Q_UNUSED(time)
+    if (m_activeTouchPoints == 0) {
+        // Touch interaction started — request a repaint so the custom cursor disappears.
+        effects->addRepaintFull();
+    }
+    m_activeTouchPoints++;
+}
+
+void ZoomEffect::touchUpNotify(qint32 id, std::chrono::microseconds time)
+{
+    Q_UNUSED(id)
+    Q_UNUSED(time)
+    if (m_activeTouchPoints > 0) {
+        m_activeTouchPoints--;
+    }
+    if (m_activeTouchPoints == 0) {
+        // All touch points released — keep zoom custom cursor hidden until next real mouse movement.
+        m_lastInteractionWasTouch = true;
+        effects->addRepaintFull();
+    }
+}
+
 void ZoomEffect::reconfigure([[maybe_unused]] ReconfigureFlags flags)
 {
     ZoomConfig::self()->read();
@@ -285,6 +311,7 @@ void ZoomEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseco
 
     if (zoom == 1.0) {
         showCursor();
+        m_lastInteractionWasTouch = false;
     } else {
         hideCursor();
         data.mask |= PAINT_SCREEN_TRANSFORMED;
@@ -428,8 +455,7 @@ void ZoomEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &d
             inSkipZoom = false;
         }
     }
-
-    if (mousePointer != MousePointerHide) {
+    if (mousePointer != MousePointerHide && m_activeTouchPoints == 0 && !m_lastInteractionWasTouch) {
         // Draw the mouse-texture at the position matching to zoomed-in image of the desktop. Hiding the
         // previous mouse-cursor and drawing our own fake mouse-cursor is needed to be able to scale the
         // mouse-cursor up and to re-position those mouse-cursor to match to the chosen zoom-level.
@@ -632,6 +658,15 @@ void ZoomEffect::slotMouseChanged(const QPoint &pos, const QPoint &old, Qt::Mous
     if (zoom == 1.0) {
         return;
     }
+    // During active touch interaction, do not update cursorPoint from
+    // emulated mouse motion events. Touch generates X11 pointer motion
+    // which would otherwise shift the zoom view away from where the user
+    // is touching, making all three zoom-related fixes appear broken.
+    if (m_activeTouchPoints > 0) {
+        return;
+    }
+    // Real mouse movement — clear touch flag so zoom custom cursor can reappear.
+    m_lastInteractionWasTouch = false;
     cursorPoint = pos;
     if (pos != old) {
         lastMouseEvent = QTime::currentTime();
