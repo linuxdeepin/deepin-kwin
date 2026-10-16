@@ -91,14 +91,16 @@ void TouchEchoEffect::paintScreen(int mask, const QRegion &region, ScreenPaintDa
 
     paintScreenSetup(mask, region, data);
     for (const auto &point : m_points) {
-        drawCircle(PointAlpha, point.pos.x(), point.pos.y(), PointSize);
+        const QPointF pos = mapToDisplay(point.pos);
+        drawCircle(PointAlpha, pos.x(), pos.y(), PointSize);
     }
     for (const auto &dyingPoint : m_dyingPoints) {
         std::chrono::milliseconds life = dyingPoint.expiration - currentTime();
         float dyingFactor = life.count() / static_cast<float>(PointLife.count());
         float alpha = PointAlpha * dyingFactor;
         float radius = PointSize * dyingFactor;
-        drawCircle(alpha, dyingPoint.pos.x(), dyingPoint.pos.y(), radius);
+        const QPointF pos = mapToDisplay(dyingPoint.pos);
+        drawCircle(alpha, pos.x(), pos.y(), radius);
     }
     paintScreenFinish(mask, region, data);
 }
@@ -109,6 +111,34 @@ void TouchEchoEffect::postPaintScreen()
     repaint();
 }
 
+QPointF TouchEchoEffect::mapToDisplay(const QPointF &logicalPos) const
+{
+    const QMatrix4x4 transform = effects->inputTransform();
+    if (transform.isIdentity()) {
+        return logicalPos;
+    }
+    // inputTransform is the CTM in normalized [0,1] space.  Touch coordinates
+    // arrive in logical pixel space; normalize, apply the inverse (logical→display),
+    // then denormalize back to pixels.
+    const QSize screenSize = effects->virtualScreenSize();
+    if (screenSize.isEmpty()) {
+        // Nothing to normalize against; fall back to the unmodified position.
+        return logicalPos;
+    }
+    bool invertible = false;
+    const QMatrix4x4 inverse = transform.inverted(&invertible);
+    if (!invertible) {
+        // A singular transform has no meaningful logical→display mapping.
+        return logicalPos;
+    }
+    const QPointF normalized(logicalPos.x() / screenSize.width(),
+                             logicalPos.y() / screenSize.height());
+    const QPointF displayNorm = inverse.map(normalized);
+    const QPointF display(displayNorm.x() * screenSize.width(),
+                          displayNorm.y() * screenSize.height());
+    return display;
+}
+
 void TouchEchoEffect::repaint()
 {
     QRegion dirtyRegion;
@@ -116,10 +146,14 @@ void TouchEchoEffect::repaint()
     // Scale the full painted bounds and round outwards.
     const qreal radius = (PointSize + 1.5 * LineWidth) * effectScaleFactor();
     for (const auto &p : m_points) {
-        dirtyRegion |= QRectF(p.pos.x() - radius, p.pos.y() - radius, 2 * radius, 2 * radius).toAlignedRect();
+        // The circle is painted at its display position, so the damage has to
+        // use the same mapping; the bounds keep the display scale factor.
+        const QPointF pos = mapToDisplay(p.pos);
+        dirtyRegion |= QRectF(pos.x() - radius, pos.y() - radius, 2 * radius, 2 * radius).toAlignedRect();
     }
     for (const auto &p : m_dyingPoints) {
-        dirtyRegion |= QRectF(p.pos.x() - radius, p.pos.y() - radius, 2 * radius, 2 * radius).toAlignedRect();
+        const QPointF pos = mapToDisplay(p.pos);
+        dirtyRegion |= QRectF(pos.x() - radius, pos.y() - radius, 2 * radius, 2 * radius).toAlignedRect();
     }
     effects->addRepaint(dirtyRegion);
 }

@@ -104,6 +104,7 @@ public:
     void startMouseInterception(Effect *effect, Qt::CursorShape shape) override;
     void stopMouseInterception(Effect *effect) override;
     void setInputTransform(const QMatrix4x4 &transform) override;
+    QMatrix4x4 inputTransform() const override;
     bool isMouseInterception() const;
     void registerPointerShortcut(Qt::KeyboardModifiers modifiers, Qt::MouseButton pointerButtons, QAction *action) override;
     void registerAxisShortcut(Qt::KeyboardModifiers modifiers, PointerAxisDirection axis, QAction *action) override;
@@ -398,6 +399,7 @@ private:
     int m_trackingCursorChanges;
     std::unique_ptr<WindowPropertyNotifyX11Filter> m_x11WindowPropertyNotify;
     QList<EffectScreen *> m_effectScreens;
+    QMatrix4x4 m_inputTransform;
 };
 
 class EffectScreenImpl : public EffectScreen

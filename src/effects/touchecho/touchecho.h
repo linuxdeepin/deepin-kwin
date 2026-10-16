@@ -37,6 +37,7 @@ private:
     static inline qreal effectScaleFactor();
 
     void repaint();
+    QPointF mapToDisplay(const QPointF &logicalPos) const;
 
     void drawCircleGl(float alpha, float cx, float cy, float r);
     void drawCircleQPainter(float alpha, float cx, float cy, float r);

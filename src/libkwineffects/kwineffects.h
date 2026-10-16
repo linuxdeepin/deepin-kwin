@@ -955,6 +955,12 @@ public:
     virtual void setInputTransform(const QMatrix4x4 &transform) = 0;
 
     /**
+     * Returns the last input transformation matrix set via setInputTransform().
+     * Effects can use this to map between logical and display coordinate spaces.
+     */
+    virtual QMatrix4x4 inputTransform() const { return {}; }
+
+    /**
      * @brief Registers a global pointer shortcut with the provided @p action.
      *
      * @param modifiers The keyboard modifiers which need to be holded

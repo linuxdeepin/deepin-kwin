@@ -765,7 +765,13 @@ void EffectsHandlerImpl::doStopMouseInterception()
 
 void EffectsHandlerImpl::setInputTransform(const QMatrix4x4 &transform)
 {
+    m_inputTransform = transform;
     doSetInputTransform(transform);
+}
+
+QMatrix4x4 EffectsHandlerImpl::inputTransform() const
+{
+    return m_inputTransform;
 }
 
 void EffectsHandlerImpl::doSetInputTransform(const QMatrix4x4 &transform)
