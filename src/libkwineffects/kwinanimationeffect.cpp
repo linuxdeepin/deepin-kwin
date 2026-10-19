@@ -309,6 +309,7 @@ bool AnimationEffect::retarget(quint64 animationId, FPx2 newTarget, int newRemai
                 if (anim->attribute == CrossFadePrevious) {
                     CrossFadeEffect::redirect(entry.key());
                 }
+                triggerRepaint();
                 return true;
             }
         }
@@ -410,7 +411,9 @@ bool AnimationEffect::cancel(quint64 animationId)
     for (AniMap::iterator entry = d->m_animations.begin(), mapEnd = d->m_animations.end(); entry != mapEnd; ++entry) {
         for (QList<AniData>::iterator anim = entry->first.begin(), animEnd = entry->first.end(); anim != animEnd; ++anim) {
             if (anim->id == animationId) {
-                if (anim->shader && std::none_of(entry->first.begin(), entry->first.end(), [animationId] (const auto &anim) { return anim.id != animationId && anim.shader; })) {
+                if (std::none_of(entry->first.begin(), entry->first.end(), [animationId](const auto &other) {
+                        return other.id != animationId && (other.shader || other.attribute == CrossFadePrevious);
+                    })) {
                     unredirect(entry.key());
                 }
                 entry->first.erase(anim); // remove the animation
@@ -689,10 +692,11 @@ void AnimationEffect::postPaintScreen()
             }
             EffectWindow *window = entry.key();
             d->m_justEndedAnimation = anim->id;
-            if (anim->shader && std::none_of(entry->first.begin(), entry->first.end(), [anim] (const auto &other) { return anim->id != other.id && other.shader; })) {
+            if (std::none_of(entry->first.begin(), entry->first.end(), [anim](const auto &other) {
+                    return anim->id != other.id && (other.shader || other.attribute == CrossFadePrevious);
+                })) {
                 unredirect(window);
             }
-            unredirect(window);
             animationEnded(window, anim->attribute, anim->meta);
             d->m_justEndedAnimation = 0;
             // NOTICE animationEnded is an external call and might have called "::animate"
