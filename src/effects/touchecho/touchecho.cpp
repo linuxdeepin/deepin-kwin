@@ -112,12 +112,14 @@ void TouchEchoEffect::postPaintScreen()
 void TouchEchoEffect::repaint()
 {
     QRegion dirtyRegion;
-    constexpr int radius = PointSize + LineWidth;
+    // QPainter's outer border extends half a pen width beyond its radius.
+    // Scale the full painted bounds and round outwards.
+    const qreal radius = (PointSize + 1.5 * LineWidth) * effectScaleFactor();
     for (const auto &p : m_points) {
-        dirtyRegion |= QRect(p.pos.x() - radius, p.pos.y() - radius, 2 * radius, 2 * radius);
+        dirtyRegion |= QRectF(p.pos.x() - radius, p.pos.y() - radius, 2 * radius, 2 * radius).toAlignedRect();
     }
     for (const auto &p : m_dyingPoints) {
-        dirtyRegion |= QRect(p.pos.x() - radius, p.pos.y() - radius, 2 * radius, 2 * radius);
+        dirtyRegion |= QRectF(p.pos.x() - radius, p.pos.y() - radius, 2 * radius, 2 * radius).toAlignedRect();
     }
     effects->addRepaint(dirtyRegion);
 }
