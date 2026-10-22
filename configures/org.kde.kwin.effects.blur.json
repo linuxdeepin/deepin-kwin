@@ -1,0 +1,28 @@
+{
+    "magic": "dsg.config.meta",
+    "version": "1.0",
+    "contents": {
+        "iterationCount": {
+            "value": 4,
+            "serial": 0,
+            "flags": [],
+            "name": "Downsample passes",
+            "name[zh_CN]": "降采样次数",
+            "description": "Number of downsample passes (1-4). Lower values mean faster but lower quality blur.",
+            "description[zh_CN]": "降采样次数（1-4）。值越低速度越快但模糊质量越低。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        },
+        "disableNormalWindowBlur": {
+            "value": false,
+            "serial": 0,
+            "flags": [],
+            "name": "Disable blur on normal windows",
+            "name[zh_CN]": "普通窗口禁用模糊",
+            "description": "When enabled, ordinary (NET::Normal) windows are not blurred; docks, dialogs and other window kinds keep their blur.",
+            "description[zh_CN]": "开启后普通（NET::Normal）窗口不再模糊；任务栏、对话框等其它类型窗口保留模糊。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        }
+    }
+}

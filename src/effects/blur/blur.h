@@ -10,6 +10,7 @@
 #include "libkwineffects/kwineffects.h"
 #include "libkwineffects/kwinglutils.h"
 
+#include <QDBusObjectPath>
 #include <QVector>
 
 #include <array>
@@ -81,6 +82,9 @@ public Q_SLOTS:
     void setupDecorationConnections(EffectWindow *w);
     void slotWindowGeometryShapeChanged(KWin::EffectWindow *w, const QRectF &old);
 
+private Q_SLOTS:
+    void onDConfigChanged(const QString &key);
+
 private:
     void initBlurStrengthValues();
     QRegion blurRegion(EffectWindow *w) const;
@@ -91,6 +95,9 @@ private:
     void blur(EffectWindow *w, int mask, const QRegion &region, WindowPaintData &data);
     GLTexture *ensureNoiseTexture();
     void updateBackgroundEffectItem(EffectWindow *w, const QRegion &region, bool valid);
+    void initDConfig();
+    template <typename T>
+    T readDConfig(const QString &key, const T &defaultValue);
 
 private:
     struct
@@ -143,6 +150,8 @@ private:
     int m_offset;
     int m_expandSize;
     int m_noiseStrength;
+    bool m_disableNormalWindowBlur = false;
+    QDBusObjectPath m_dconfigPath;
 
     struct OffsetStruct
     {

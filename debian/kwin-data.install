@@ -1,6 +1,7 @@
 usr/share/config.kcfg/kwin*.kcfg
 usr/share/config.kcfg/nightcolorsettings.kcfg
 usr/share/doc/*/*/kcontrol/
+usr/share/dsg/
 usr/share/icons/*/*/apps/kwin.*
 usr/share/kconf_update/kwin*.pl
 usr/share/kconf_update/kwin*.py

@@ -15,6 +15,7 @@
 #include "scene/windowitem.h"
 #include "kwineffectsex.h"
 #include "libkwineffects/kwinglplatform.h"
+#include "utils/dconfig_reader.h"
 #include "utils/xcbutils.h"
 #include "wayland/blur_interface.h"
 #include "wayland/display.h"
@@ -30,6 +31,7 @@
 #include <QMatrix4x4>
 #include <cmath> // for ceil()
 #include <cstdlib>
+#include <algorithm>
 
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -55,6 +57,7 @@ QTimer *BlurEffect::s_blurManagerRemoveTimer = nullptr;
 BlurEffect::BlurEffect()
 {
     initConfig<BlurConfig>();
+    initDConfig();
     ensureResources();
 
     m_downsamplePass.shader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture,
@@ -224,12 +227,30 @@ void BlurEffect::initBlurStrengthValues()
 
 void BlurEffect::reconfigure([[maybe_unused]] ReconfigureFlags flags)
 {
+    // initBlurStrengthValues() is what fills these; a caller that runs before
+    // it (a DConfig signal after a failed shader load, or a reconfigure from
+    // the effect framework) must not index empty tables.
+    if (blurStrengthValues.isEmpty() || blurOffsets.isEmpty()) {
+        return;
+    }
+
     BlurConfig::self()->read();
 
-    int blurStrength = BlurConfig::blurStrength() - 1;
-    m_iterationCount = blurStrengthValues[blurStrength].iteration;
+    // The downsample count comes from DConfig so a low-end machine can lower
+    // it without a restart; the offset and noise level still come from KConfig.
+    m_iterationCount = std::clamp(readDConfig<int>(QStringLiteral("iterationCount"), 4), 1, 4);
+    m_disableNormalWindowBlur = readDConfig<bool>(QStringLiteral("disableNormalWindowBlur"), false);
+
+    // BlurConfig::blurStrength() comes from kwinrc and can be set out of range
+    // from outside, so bound it before it indexes blurStrengthValues.
+    const int blurStrength = std::clamp(BlurConfig::blurStrength() - 1, 0, int(blurStrengthValues.size()) - 1);
     m_offset = blurStrengthValues[blurStrength].offset;
-    m_expandSize = blurOffsets[m_iterationCount - 1].expandSize;
+    // Keep the offset inside the range that is safe for the selected number of
+    // downsample passes: beyond it the dual Kawase blur shows blocky or
+    // diagonal artifacts.
+    const OffsetStruct &limits = blurOffsets[m_iterationCount - 1];
+    m_offset = std::clamp(m_offset, int(std::ceil(limits.minOffset)), int(limits.maxOffset));
+    m_expandSize = limits.expandSize;
     m_noiseStrength = BlurConfig::noiseStrength();
 
     // Sync expand size to existing background effect items.
@@ -242,6 +263,42 @@ void BlurEffect::reconfigure([[maybe_unused]] ReconfigureFlags flags)
     // Update all windows for the blur to take effect
     effects->addRepaintFull();
 }
+
+void BlurEffect::initDConfig()
+{
+    QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
+    interfaceRequire.setTimeout(DBUS_TIMEOUT);
+    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin", "org.kde.kwin.effects.blur", "");
+    if (!reply.isValid()) {
+        qCWarning(KWIN_BLUR) << "Failed to acquire DConfig manager for blur:" << reply.error();
+        return;
+    }
+    m_dconfigPath = reply.value();
+
+    QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, m_dconfigPath.path(),
+            CONFIGMANAGER_MANAGER_INTERFACE, "valueChanged", this, SLOT(onDConfigChanged(QString)));
+}
+
+void BlurEffect::onDConfigChanged(const QString &key)
+{
+    qCDebug(KWIN_BLUR) << "DConfig changed:" << key;
+    reconfigure(ReconfigureAll);
+}
+
+template <typename T>
+T BlurEffect::readDConfig(const QString &key, const T &defaultValue)
+{
+    T value = defaultValue;
+    DconfigReaderRetCode ret = DconfigRead<T>(QStringLiteral("org.kde.kwin.effects.blur"), key, value);
+    if (ret != DconfigReaderRetCode::DCONF_SUCCESS) {
+        qCDebug(KWIN_BLUR) << "DConfig read failed for" << key << "ret=" << static_cast<int>(ret);
+    }
+    return value;
+}
+
+// Explicit template instantiations needed because readDConfig is called across translation units.
+template int BlurEffect::readDConfig<int>(const QString &, const int &);
+template bool BlurEffect::readDConfig<bool>(const QString &, const bool &);
 
 void BlurEffect::updateBlurRegion(EffectWindow *w)
 {
@@ -536,6 +593,13 @@ bool BlurEffect::shouldBlur(const EffectWindow *w, int mask, const WindowPaintDa
     }
 
     if (w->isDesktop()) {
+        return false;
+    }
+
+    // The switch only suppresses the blur of ordinary windows; every other
+    // window kind (docks, dialogs, ...) keeps the blur the user asked for, and
+    // a fullscreen effect forcing the blur role still wins.
+    if (m_disableNormalWindowBlur && w->isNormalWindow() && !w->data(WindowForceBlurRole).toBool()) {
         return false;
     }
 
