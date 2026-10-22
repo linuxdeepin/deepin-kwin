@@ -24,15 +24,18 @@ var eyeOnScreenEffect = {
         }
     },
     slurp: function(showing, w) {
-        if (!w.visible || !(showing || w.slurpedByEyeOnScreen)) {
+        var lateWindow = !showing && !w.slurpedByEyeOnScreen && !(w.normalWindow || w.dialog);
+        if (!w.visible || !(showing || w.slurpedByEyeOnScreen || lateWindow)) {
             return;
         }
         w.slurpedByEyeOnScreen = showing;
         if (w.desktopWindow || w.dock) {
             return;
         } else {
-            if (showing) {
-                w.elevatedByEyeOnScreen = true;
+            if (showing || lateWindow) {
+                effect.grab(w, Effect.WindowAddedGrabRole, true);
+                effect.grab(w, Effect.WindowClosedGrabRole, true);
+                w.elevatedByEyeOnScreen = !lateWindow;
                 var windowRect = w.geometry;
                 var scaleSize = 70;
                 animate({
@@ -62,6 +65,8 @@ var eyeOnScreenEffect = {
                     ]
                 });
             } else {
+                effect.ungrab(w, Effect.WindowAddedGrabRole);
+                effect.ungrab(w, Effect.WindowClosedGrabRole);
                 w.elevatedByEyeOnScreen = false;
                 var windowRect = w.geometry;
                 var scaleSize = 70;
@@ -95,6 +100,12 @@ var eyeOnScreenEffect = {
     init: function () {
         eyeOnScreenEffect.loadConfig();
         effect.animationEnded.connect(eyeOnScreenEffect.delevateWindow);
+        effects.windowActivated.connect(function (window) {
+            if (window) {
+                effect.ungrab(window, Effect.WindowAddedGrabRole);
+                effect.ungrab(window, Effect.WindowClosedGrabRole);
+            }
+        });
         effects.showingDesktopChangedEx.connect(eyeOnScreenEffect.slurp);
     }
 };

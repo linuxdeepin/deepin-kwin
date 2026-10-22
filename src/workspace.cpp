@@ -2105,7 +2105,7 @@ void Workspace::focusToNull()
     }
 }
 
-void Workspace::setShowingDesktop(bool showing, bool animated)
+void Workspace::setShowingDesktop(bool showing, bool animated, bool fromActivation)
 {
     const bool changed = showing != showing_desktop;
 
@@ -2122,11 +2122,9 @@ void Workspace::setShowingDesktop(bool showing, bool animated)
 
     if (showing_desktop && topDesk) {
         requestFocus(topDesk);
-    } else if (!showing_desktop && changed) {
+    } else if (!showing_desktop && changed && !fromActivation) {
         const auto window = m_focusChain->getForActivation(VirtualDesktopManager::self()->currentDesktop());
-        if (window) {
-            activateWindow(window);
-        }
+        activateWindow(window ? window : findDesktop(true, VirtualDesktopManager::self()->currentDesktop()));
     }
 
     if (changed) {

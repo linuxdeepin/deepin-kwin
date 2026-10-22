@@ -500,8 +500,9 @@ public:
      *
      * @param showing @c true to show the desktop, @c false to restore the window positions
      * @param animated @c true if the "Show Desktop Animation" should be played, otherwise @c false
+     * @param fromActivation @c true if a window activation ended the "Show Desktop" state
      */
-    void setShowingDesktop(bool showing, bool animated = true);
+    void setShowingDesktop(bool showing, bool animated = true, bool fromActivation = false);
     bool showingDesktop() const;
     Window *updateDesktopLayer(bool showing);
     xcb_timestamp_t showingDesktopTimestamp() const;

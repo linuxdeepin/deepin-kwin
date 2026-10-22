@@ -2215,7 +2215,7 @@ bool X11Window::takeFocus()
                     c->transientFor()->unminimize();
                 }
             }
-            workspace()->setShowingDesktop(false);
+            workspace()->setShowingDesktop(false, isNormalWindow(), true);
         }
         workspace()->setPreviewClientList({});
     }
