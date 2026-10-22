@@ -260,6 +260,16 @@ MultiViewBackgroundManager::~MultiViewBackgroundManager()
     }
 }
 
+void MultiViewBackgroundManager::clearCachedPixmaps()
+{
+    // The pixmaps are reused between activations; release them on effect unload.
+    // They are filled from worker threads, so take the same lock as
+    // cacheWorkspaceBg() before dropping them.
+    QMutexLocker locker(&m_bgmutex);
+    m_wpCachedPixmaps.clear();
+    m_bgCachedPixmaps.clear();
+}
+
 static QString toRealPath(const QString &path)
 {
     // QString res = path;
@@ -363,10 +373,20 @@ void MultiViewBackgroundManager::cacheWorkspaceBg(BgInfo_st &st)
 
         if (!backgroundUri.isEmpty()) {
             backgroundUri = toRealPath(backgroundUri);
+            const QString cacheKey = backgroundUri + strBackgroundPathkey;
+            // Reuse the pixmaps prepared for this desktop/screen. Re-cutting them on
+            // every activation allocates new X pixmaps and the reused pixels are
+            // identical, so skip the whole step when the cache already matches both
+            // the source and the requested sizes (the screen may have been resized).
+            if (m_wpCachedPixmaps.contains(cacheKey) && m_bgCachedPixmaps.contains(cacheKey)
+                && m_wpCachedPixmaps.value(cacheKey).first == st.workspaceSize
+                && m_bgCachedPixmaps.value(cacheKey).first == st.desktopSize) {
+                return;
+            }
             QPixmap pixmap = cutBackgroundPix(st.desktopSize, backgroundUri);
-            m_bgCachedPixmaps[backgroundUri + strBackgroundPathkey] = qMakePair(st.desktopSize, pixmap);
+            m_bgCachedPixmaps[cacheKey] = qMakePair(st.desktopSize, pixmap);
             pixmap = cutBackgroundPix(st.workspaceSize, backgroundUri);
-            m_wpCachedPixmaps[backgroundUri + strBackgroundPathkey] = qMakePair(st.workspaceSize, pixmap);
+            m_wpCachedPixmaps[cacheKey] = qMakePair(st.workspaceSize, pixmap);
         }
     }
 }
@@ -607,10 +627,16 @@ void MultiViewWorkspace::setImage(const QPixmap &bgPix, const QPixmap &wpPix, co
     m_backGroundFrame->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_backGroundFrame->setGeometry(m_fullArea);
     m_backGroundFrame->setPosition(m_fullArea.topLeft());
-    m_backGroundFrame->setPixmap(bgPix);
+    if (m_bgPixKey != bgPix.cacheKey()) {
+        m_bgPixKey = bgPix.cacheKey();
+        m_backGroundFrame->setPixmap(bgPix);
+    }
 
     m_workspaceBgFrame->setGeometry(rect);
-    m_workspaceBgFrame->setImage(wpPix);
+    if (m_wpPixKey != wpPix.cacheKey()) {
+        m_wpPixKey = wpPix.cacheKey();
+        m_workspaceBgFrame->setImage(wpPix);
+    }
 }
 
 void MultiViewWorkspace::setRect(const QRect rect)
@@ -761,6 +787,42 @@ MultitaskViewEffect::MultitaskViewEffect()
 
 MultitaskViewEffect::~MultitaskViewEffect()
 {
+    // The pooled frames and their render targets are destroyed here. Unloading
+    // the effect does not run inside a paint pass, so make the GL context
+    // current first to ensure the texture objects are really deleted instead
+    // of being stranded until the process exits.
+    if (effects) {
+        effects->makeOpenGLContextCurrent();
+    }
+    for (auto iter = m_workspaceBackgrounds.begin(); iter != m_workspaceBackgrounds.end(); ++iter) {
+        for (MultiViewWorkspace *workspace : iter.value()) {
+            delete workspace;
+        }
+    }
+    m_workspaceBackgrounds.clear();
+    for (MultiViewAddButton *button : m_addWorkspaceButton) {
+        delete button;
+    }
+    m_addWorkspaceButton.clear();
+    m_tipFrames.clear();
+
+    // The per-window fill managers are kept alive between activations so that
+    // their frames are reused instead of recreated. They have no QObject parent,
+    // so release them when the effect itself goes away.
+    qDeleteAll(m_motionManagers);
+    m_motionManagers.clear();
+    qDeleteAll(m_workspaceWinMgr);
+    m_workspaceWinMgr.clear();
+
+    // The background manager caches cut workspace/desktop pixmaps for reuse
+    // between activations; nothing clears them at runtime, so drop them here
+    // when the effect is unloaded.
+    MultiViewBackgroundManager::instance()->clearCachedPixmaps();
+
+    if (effects) {
+        effects->doneOpenGLContextCurrent();
+    }
+
     if (m_showActions) {
         delete m_showActions;
         m_showActions = nullptr;
@@ -2465,53 +2527,22 @@ void MultitaskViewEffect::cleanup()
     effects->stopMouseInterception(this);
     effects->setActiveFullScreenEffect(0);
 
-    while (m_motionManagers.size() > 0) {
-        m_motionManagers.first()->clearMotion();
-        delete m_motionManagers.first();
-        m_motionManagers.removeFirst();
+    for (MultiViewWinManager *manager : m_motionManagers) {
+        manager->clearMotion();
+    }
+    for (MultiViewWinManager *manager : m_workspaceWinMgr) {
+        manager->clearMotion();
     }
 
-    while (m_workspaceWinMgr.size() > 0) {
-        m_workspaceWinMgr.first()->clearMotion();
-        delete m_workspaceWinMgr.first();
-        m_workspaceWinMgr.removeFirst();
-    }
-
-    for (auto iter = m_addWorkspaceButton.begin(); iter != m_addWorkspaceButton.end(); iter++) {
-        if (iter.value()) {
-            delete m_addWorkspaceButton[iter.key()];
-            m_addWorkspaceButton[iter.key()] = nullptr;
-        }
-    }
-
-    for (auto iter = m_workspaceBackgrounds.begin(); iter != m_workspaceBackgrounds.end(); iter++) {
-        QList<MultiViewWorkspace *> list = m_workspaceBackgrounds[iter.key()];
-        for (int j = 0; j < list.size(); j++) {
-            delete list[j];
-            list[j] = nullptr;
-        }
-    }
-
+    // The frames and background pixmaps are kept alive between activations and
+    // reused on the next one. Destroying and recreating them on every toggle
+    // allocates a fresh set of X pixmaps each time, so only drop the transient
+    // per-activation state here.
     m_maxHeight = 0;
     m_windowMove = nullptr;
     m_hoverWin = nullptr;
     m_hoverWinBtn = nullptr;
 
-    m_hoverWinFrame = nullptr;
-    m_closeWinFrame = nullptr;
-    m_topWinFrame = nullptr;
-    m_textWinFrame = nullptr;
-    m_textWinBgFrame = nullptr;
-    m_previewFrame = nullptr;
-    m_closeWorkspaceFrame = nullptr;
-    m_dragTipsFrame = nullptr;
-    m_dragTipsFrameShadow = nullptr;
-
-    m_motionManagers.clear();
-    m_workspaceWinMgr.clear();
-    m_addWorkspaceButton.clear();
-    m_workspaceBackgrounds.clear();
-    m_tipFrames.clear();
     m_flyingWinList.clear();
     m_notificationList.clear();
     MultiViewBackgroundManager::instance()->clearCurrentBackgroundList();
@@ -2613,11 +2644,22 @@ void MultitaskViewEffect::setActive(bool active)
 
 void MultitaskViewEffect::setWinLayout(int desktop, const EffectWindowList &windows)
 {
-    MultiViewWinManager *wmofDesktop = new MultiViewWinManager();
-    MultiViewWinManager *wmofWorkspace = new MultiViewWinManager();
+    // The managers own the per-window fill frames. They are kept across
+    // activations and reused by desktop index, so a toggle no longer
+    // recreates one QML frame per window.
+    const int index = desktop - 1;
+    MultiViewWinManager *wmofDesktop = index < m_motionManagers.size() ? m_motionManagers[index] : nullptr;
+    if (!wmofDesktop) {
+        wmofDesktop = new MultiViewWinManager();
+        m_motionManagers.append(wmofDesktop);
+    }
+    MultiViewWinManager *wmofWorkspace = index < m_workspaceWinMgr.size() ? m_workspaceWinMgr[index] : nullptr;
+    if (!wmofWorkspace) {
+        wmofWorkspace = new MultiViewWinManager();
+        m_workspaceWinMgr.append(wmofWorkspace);
+    }
 
     wmofDesktop->setdesktop(desktop);
-    m_motionManagers.append(wmofDesktop);
 
     MultiViewWinManager *wmobj = getWinManagerObject(desktop - 1);
 
@@ -2646,7 +2688,17 @@ void MultitaskViewEffect::setWinLayout(int desktop, const EffectWindowList &wind
     }
 
     wmofWorkspace->setdesktop(desktop);
-    m_workspaceWinMgr.append(wmofWorkspace);
+
+    // Drop fill frames of windows that no longer live on this desktop, so
+    // the reused managers never keep frames for windows that left or closed.
+    EffectWindowList desktopWindows;
+    for (EffectWindow *w : windows) {
+        if (w->isOnDesktop(desktop)) {
+            desktopWindows.append(w);
+        }
+    }
+    wmofDesktop->pruneWindowFills(desktopWindows);
+    wmofWorkspace->pruneWindowFills(desktopWindows);
 }
 
 void MultitaskViewEffect::updateWorkspaceWinLayout(int numDesktops)
@@ -3077,9 +3129,15 @@ void MultitaskViewEffect::initWorkspaceBackground()
     int count = effects->numberOfDesktops();
     QHash<QString, ScreenInfo_st>::iterator it = m_screenInfoList.begin();
     for (; it != m_screenInfoList.end(); ++it) {
-        QList<MultiViewWorkspace *> list;
+        QList<MultiViewWorkspace *> &list = m_workspaceBackgrounds[it.value().screen];
+        while (list.size() > count) {
+            delete list.takeLast();
+        }
+        while (list.size() < count) {
+            list.push_back(new MultiViewWorkspace());
+        }
         for (int i = 1; i <= count; i++) {
-            MultiViewWorkspace *b = new MultiViewWorkspace();
+            MultiViewWorkspace *b = list[i - 1];
             QRect rect = calculateWorkspaceRect(i, it.value().screen, it.value().rect);
             BgInfo_st st;
             st.desktop = i;
@@ -3092,35 +3150,42 @@ void MultitaskViewEffect::initWorkspaceBackground()
             b->setMaxHeight(m_maxHeight);
             b->setImage(bgPix, wpPix, rect);
             b->setScreenDesktop(it.value().screen, i);
-            list.push_back(b);
         }
-        m_workspaceBackgrounds[it.value().screen] = list;
 
         {
-            std::unique_ptr<EffectFrameEx> bgframe = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
-            bgframe->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-            bgframe->setColor("#E0E0E0");
-            bgframe->setRadius(5);
-            std::unique_ptr<EffectFrameEx> frame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
-            frame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-            QFont font;
-            font.setPointSize(12);
-            frame->setFont(font);
-            frame->setText(tr("No windows"));
-            frame->setPosition(QPoint(it.value().screenrect.width() / 2 + it.value().screenrect.x(), it.value().screenrect.height() / 2 + it.value().screenrect.y()));
-            m_tipFrames[it.value().screen].push_back(std::move(bgframe));
-            m_tipFrames[it.value().screen].push_back(std::move(frame));
+            std::vector<std::unique_ptr<EffectFrameEx>> &tipFrames = m_tipFrames[it.value().screen];
+            if (tipFrames.empty()) {
+                std::unique_ptr<EffectFrameEx> bgframe = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/hoverbg.qml", false);
+                bgframe->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+                bgframe->setColor("#E0E0E0");
+                bgframe->setRadius(5);
+                std::unique_ptr<EffectFrameEx> frame = effectsEx->effectFrameEx("kwin/effects/multitaskview/qml/text.qml", false);
+                frame->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+                QFont font;
+                font.setPointSize(12);
+                frame->setFont(font);
+                frame->setText(tr("No windows"));
+                tipFrames.push_back(std::move(bgframe));
+                tipFrames.push_back(std::move(frame));
+            }
+            if (tipFrames.size() >= 2) {
+                tipFrames[1]->setPosition(QPoint(it.value().screenrect.width() / 2 + it.value().screenrect.x(), it.value().screenrect.height() / 2 + it.value().screenrect.y()));
+            }
 
-            MultiViewAddButton *addButton = new MultiViewAddButton();
+            MultiViewAddButton *addButton = m_addWorkspaceButton.value(it.value().screen, nullptr);
             QRect buttonRect(it.value().rect.x() + it.value().rect.width() - it.value().rect.width() * ADDBTN_W_SCALE,
                              it.value().rect.y() + it.value().rect.height() * ADDBTN_H_SCALE,
                              it.value().rect.width() * ADDBTN_SIZE_SCALE,
                              it.value().rect.width() * ADDBTN_SIZE_SCALE);
-            QString buttonImage = QLatin1String(add_workspace_png);
+            if (!addButton) {
+                addButton = new MultiViewAddButton();
+                addButton->setImage(QLatin1String(add_workspace_png), buttonRect);
+                m_addWorkspaceButton[it.value().screen] = addButton;
+            } else {
+                addButton->setRect(buttonRect);
+            }
             addButton->setArea(it.value().rect, it.value().screenrect);
             addButton->setMaxHeight(m_maxHeight);
-            addButton->setImage(buttonImage, buttonRect);
-            m_addWorkspaceButton[it.value().screen] = addButton;
         }
     }
 

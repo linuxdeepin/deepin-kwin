@@ -115,6 +115,9 @@ public:
     QPixmap cutBackgroundPix(const QSize &size, const QString &file);
     QPixmap getCachePix(const QSize &size, QPair<QSize, QPixmap> &pair);
     void clearCurrentBackgroundList();
+    // Drop the cached background pixmaps; kept for reuse between activations,
+    // only released when the effect is unloaded.
+    void clearCachedPixmaps();
     QString getRandBackground();
 
     void setMonitorInfo(QList<QMap<QString,QVariant>> monitorInfoList);
@@ -214,6 +217,8 @@ private:
     QRect m_clientArea;
     QRect m_fullArea;
     QString m_image;
+    qint64 m_bgPixKey = -1;
+    qint64 m_wpPixKey = -1;
 
 public:
     workspaceMoveDirection m_posStatus = mvNone; // 0 restore; 1 left; 2 right;
@@ -254,6 +259,17 @@ public:
     };
 
     void setdesktop(int desktop) {m_desktop = desktop;}
+
+    void pruneWindowFills(const EffectWindowList &alive) {
+        for (auto it = m_windowFill.begin(); it != m_windowFill.end();) {
+            if (!alive.contains(it.key())) {
+                delete it.value();
+                it = m_windowFill.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
     void setworkspaceCurrentRect(QRect rect) {m_currentShowRect = rect;}
     QRect getworkspaceCurrentRect() {return m_currentShowRect;}
     void setWinManager(EffectScreen *screen, WindowMotionManager &wm) {
