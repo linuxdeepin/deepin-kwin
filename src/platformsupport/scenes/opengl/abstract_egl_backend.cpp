@@ -476,7 +476,9 @@ EGLImageKHR AbstractEglBackend::importDmaBufAsImage(const DmaBufAttributes &dmab
     if (!eglGetCurrentContext()) {
         eglMakeCurrent(m_display, m_surface, m_surface, m_context);
     }
-    return eglCreateImageKHR(m_display, s_globalShareContext, EGL_LINUX_DMA_BUF_EXT, nullptr, attribs.data());
+    // Per EGL_EXT_image_dma_buf_import, ctx must be EGL_NO_CONTEXT when target is
+    // EGL_LINUX_DMA_BUF_EXT; a real context makes Mesa reject DCC multi-plane imports.
+    return eglCreateImageKHR(m_display, EGL_NO_CONTEXT, EGL_LINUX_DMA_BUF_EXT, nullptr, attribs.data());
 }
 
 std::shared_ptr<GLTexture> AbstractEglBackend::importDmaBufAsTexture(const DmaBufAttributes &attributes) const
