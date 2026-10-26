@@ -1,3 +1,22 @@
+kwin (4:6.1.51) unstable; urgency=medium
+
+  * fix: 补齐 V25 分屏菜单图标悬停提示
+  * fix: 修复分数缩放下 X11 窗口最大化边缘缝隙
+  * fix(split): snap maximized window to side instead of center
+  * fix: synchronize X11 split-window resizing
+  * fix: coordinate X11 split-window resize commits
+  * fix(stacking): sync unmanaged window stacking order with X
+  * fix: Fix touch indicator repaint bounds on scaled displays
+  * fix: Prevent flicker during rapid fullscreen toggles
+  * feat(zoom): fix touch input alignment under X11 zoom effect
+  * fix(touchecho): correct circle position under zoom effect
+  * fix(zoom): keep zoom cursor and view stable during touch
+  * fix: pass EGL_NO_CONTEXT to eglCreateImageKHR for dmabuf
+  * feat: 按窗口层级渲染 Wayland 防截屏画面
+  * fix(multitaskview): reuse frames and pixmaps across activations
+
+ -- justforlxz <justforlxz@gmail.com>  Mon, 26 Oct 2026 15:24:45 +0800
+
 kwin (4:6.1.46) unstable; urgency=medium
 
   * fix: 修正分屏菜单缩放坐标并避免重复等待
