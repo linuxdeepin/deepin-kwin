@@ -1,0 +1,72 @@
+{
+    "magic": "dsg.config.meta",
+    "version": "1.0",
+    "contents": {
+        "useBlurEffect": {
+            "value": false,
+            "serial": 0,
+            "flags": [],
+            "name": "Use blur effect",
+            "name[zh_CN]": "使用模糊效果",
+            "description": "Whether the multitask view applies the blur effect to windows while the view is active. Disabled by default because blurring many full-size windows while the view is closing drops frames.",
+            "description[zh_CN]": "多任务视图激活期间是否对窗口应用模糊效果。默认关闭，因为视图退出时对大量全尺寸窗口做模糊会导致掉帧。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        },
+        "maxWorkspaces": {
+            "value": 6,
+            "serial": 0,
+            "flags": [],
+            "name": "Maximum workspaces",
+            "name[zh_CN]": "最大工作区数量",
+            "description": "Maximum number of workspaces allowed (1-64). When the limit is reached the add button is hidden and no further workspace can be created.",
+            "description[zh_CN]": "允许的最大工作区数量（1-64）。达到上限后添加按钮不再显示，且无法继续新建工作区。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        },
+        "animationSpeedMultiplier": {
+            "value": 1.0,
+            "serial": 0,
+            "flags": [],
+            "name": "Animation speed multiplier",
+            "name[zh_CN]": "动画速度倍率",
+            "description": "Uniform speed multiplier applied to every animation (0.1-5.0). 2.0 makes animations twice as fast (duration halved); 0.5 halves the speed (duration doubled).",
+            "description[zh_CN]": "作用于所有动画的统一速度倍率（0.1-5.0）。2.0 让动画快一倍（时长减半）；0.5 让速度减半（时长加倍）。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        },
+        "workspaceMoveDurationMs": {
+            "value": 400,
+            "serial": 0,
+            "flags": [],
+            "name": "Workspace move duration",
+            "name[zh_CN]": "工作区移动时长",
+            "description": "Base duration in milliseconds (16-5000) of workspace move animations such as workspace switching and sliding.",
+            "description[zh_CN]": "工作区切换、滑动等工作区移动动画的基准时长，单位毫秒（16-5000）。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        },
+        "windowChangeDurationMs": {
+            "value": 300,
+            "serial": 0,
+            "flags": [],
+            "name": "Window change duration",
+            "name[zh_CN]": "窗口变化时长",
+            "description": "Base duration in milliseconds (16-5000) of window animations such as appearing, changing and aligning.",
+            "description[zh_CN]": "窗口出现、变化、对齐等窗口类动画的基准时长，单位毫秒（16-5000）。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        },
+        "viewEnterDurationMs": {
+            "value": 400,
+            "serial": 0,
+            "flags": [],
+            "name": "View enter duration",
+            "name[zh_CN]": "多任务视图进场时长",
+            "description": "Base duration in milliseconds (16-5000) of the multitask view enter and exit animation.",
+            "description[zh_CN]": "多任务视图进场/退场动画的基准时长，单位毫秒（16-5000）。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        }
+    }
+}

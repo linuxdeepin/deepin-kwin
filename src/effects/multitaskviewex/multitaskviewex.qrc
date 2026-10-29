@@ -1,0 +1,15 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/effects/multitaskviewex/">
+  <file>buttons/add-light.svg</file>
+  <file>buttons/multiview_delete.svg</file>
+  <file>buttons/multiview_top.svg</file>
+  <file>buttons/multiview_top_active.svg</file>
+  <file>buttons/workspace_delete.svg</file>
+  <file>shaders/glpaint.vert</file>
+  <file>shaders/glpaint_tex.frag</file>
+  <file>shaders/glpaint_color.frag</file>
+  <file>shaders/glpaint_core.vert</file>
+  <file>shaders/glpaint_tex_core.frag</file>
+  <file>shaders/glpaint_color_core.frag</file>
+</qresource>
+</RCC>

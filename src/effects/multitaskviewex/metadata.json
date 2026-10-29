@@ -1,0 +1,16 @@
+{
+    "KPlugin": {
+        "Category": "Window Management",
+        "Description": "Multitask view with native GL rendering pipeline (multi-window effect chain preserved)",
+        "Description[zh_CN]": "多任务视图 —— 原生 GL 渲染管线（完整保留窗口效果链）",
+        "EnabledByDefault": false,
+        "Id": "multitaskviewex",
+        "License": "GPL-2.0-or-later",
+        "Name": "MultitaskView Ex",
+        "Name[zh_CN]": "多任务视图增强"
+    },
+    "org.kde.kwin.effect": {
+        "exclusiveGroup": "multiskview-group",
+        "video": ""
+    }
+}

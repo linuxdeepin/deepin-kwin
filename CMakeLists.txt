@@ -619,6 +619,7 @@ if (KF${KF_MAJOR_VERSION}DocTools_FOUND)
 endif()
 
 add_subdirectory(data)
+add_subdirectory(configures)
 add_subdirectory(kconf_update)
 add_subdirectory(src)
 
