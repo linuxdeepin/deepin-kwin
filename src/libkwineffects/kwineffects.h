@@ -333,6 +333,12 @@ public:
          * Clear whole background as the very first step, without optimizing it
          */
         PAINT_SCREEN_BACKGROUND_FIRST = 1 << 6,
+        /**
+         * Do not render the desktop background at all. Effects that paint
+         * their own opaque full-screen background may set this to skip the
+         * redundant wallpaper pass.
+         */
+        PAINT_SCREEN_NO_BACKGROUND = 1 << 7,
     };
 
     enum Feature {

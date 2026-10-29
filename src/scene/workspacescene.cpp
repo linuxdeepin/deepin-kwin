@@ -413,11 +413,12 @@ void WorkspaceScene::finalPaintScreen(int mask, const QRegion &region, ScreenPai
 // It simply paints bottom-to-top.
 void WorkspaceScene::paintGenericScreen(int, const ScreenPaintData &)
 {
-    if (m_paintContext.mask & PAINT_SCREEN_BACKGROUND_FIRST) {
+    const bool skipBackground = m_paintContext.mask & PAINT_SCREEN_NO_BACKGROUND;
+    if (!skipBackground && (m_paintContext.mask & PAINT_SCREEN_BACKGROUND_FIRST)) {
         if (m_paintScreenCount == 1) {
             m_renderer->renderBackground(infiniteRegion());
         }
-    } else {
+    } else if (!skipBackground) {
         m_renderer->renderBackground(infiniteRegion());
     }
 
@@ -446,7 +447,7 @@ void WorkspaceScene::paintSimpleScreen(int, const QRegion &region)
         }
     }
 
-    if (!visible.isEmpty()) {
+    if (!(m_paintContext.mask & PAINT_SCREEN_NO_BACKGROUND) && !visible.isEmpty()) {
         m_renderer->renderBackground(visible);
     }
 

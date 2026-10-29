@@ -517,6 +517,30 @@ void VirtualDesktopManager::removeVirtualDesktop(VirtualDesktop *desktop)
     desktop->deleteLater();
 }
 
+void VirtualDesktopManager::moveDesktop(uint fromPosition, uint toPosition)
+{
+    const uint desktopCount = m_desktops.count();
+    if (fromPosition >= desktopCount || toPosition >= desktopCount || fromPosition == toPosition) {
+        return;
+    }
+
+    VirtualDesktop *desktop = m_desktops.takeAt(fromPosition);
+    m_desktops.insert(toPosition, desktop);
+
+    for (uint i = 0; i < desktopCount; ++i) {
+        m_desktops[i]->setX11DesktopNumber(i + 1);
+        if (m_rootInfo) {
+            m_rootInfo->setDesktopName(i + 1, m_desktops[i]->name().toUtf8().data());
+        }
+    }
+
+    save();
+    updateRootInfo();
+    if (m_rootInfo && currentDesktop()) {
+        m_rootInfo->setCurrentDesktop(currentDesktop()->x11DesktopNumber());
+    }
+}
+
 uint VirtualDesktopManager::current() const
 {
     return m_current ? m_current->x11DesktopNumber() : 0;

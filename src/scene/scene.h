@@ -64,6 +64,8 @@ public:
         PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS = 1 << 5,
         // Clear whole background as the very first step, without optimizing it
         PAINT_SCREEN_BACKGROUND_FIRST = 1 << 6,
+        // Do not render the desktop background at all
+        PAINT_SCREEN_NO_BACKGROUND = 1 << 7,
     };
 
     explicit Scene(std::unique_ptr<ItemRenderer> &&renderer);

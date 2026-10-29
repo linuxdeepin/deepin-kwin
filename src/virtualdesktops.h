@@ -288,6 +288,14 @@ public:
     void removeVirtualDesktop(VirtualDesktop *desktop);
 
     /**
+     * Move the virtual desktop at @a fromPosition to @a toPosition.
+     * The order of the desktops defines their position, following desktops are renumbered.
+     * @param fromPosition The current position of the desktop, in range [0, count).
+     * @param toPosition The new position of the desktop, in range [0, count).
+     */
+    void moveDesktop(uint fromPosition, uint toPosition);
+
+    /**
      * Updates the net root info for new number of desktops
      */
     void updateRootInfo();
