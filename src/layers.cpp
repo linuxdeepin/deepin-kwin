@@ -86,6 +86,7 @@
 
 #include <QDebug>
 #include <QQueue>
+#include <QSet>
 
 namespace KWin
 {
@@ -527,18 +528,27 @@ static Layer computeLayer(const Window *window)
  */
 QList<Window *> Workspace::constrainedStackingOrder()
 {
+    // The split bar has to stay in unconstrained_stacking_order: updateXStackingOrder() matches
+    // that list against the X root tree and breaks on any unmanaged window found in X but absent
+    // here, which aborted the whole compositor. Hide it from the compositor by filtering it out
+    // while building the constrained order instead of mutating the unconstrained list.
     QHash<QString, Window *> splitBarWindow;
     m_splitManage->getSplitBarWindow(splitBarWindow);
-    QHash<QString, Window *>::const_iterator sit = splitBarWindow.constBegin();
-    while (sit != splitBarWindow.constEnd()) {
-        unconstrained_stacking_order.removeAll(sit.value());
-        ++sit;
+    QSet<Window *> splitBarWindows;
+    splitBarWindows.reserve(splitBarWindow.size());
+    for (Window *splitBar : std::as_const(splitBarWindow)) {
+        if (splitBar) {
+            splitBarWindows.insert(splitBar);
+        }
     }
 
     // Sort the windows based on their layers while preserving their relative order in the
     // unconstrained stacking order.
     std::array<QList<Window *>, NumLayers> windows;
     for (Window *window : std::as_const(unconstrained_stacking_order)) {
+        if (splitBarWindows.contains(window)) {
+            continue;
+        }
         const Layer layer = computeLayer(window);
         windows[layer] << window;
     }
@@ -595,8 +605,8 @@ QList<Window *> Workspace::constrainedStackingOrder()
             if ((j = stacking.indexOf(val)) > i)
                 i = j;
         }
-        if (splitBarWindow[it.key()]) {
-            stacking.insert(i + 1, splitBarWindow[it.key()]);
+        if (Window *splitBar = splitBarWindow.value(it.key())) {
+            stacking.insert(i + 1, splitBar);
         }
         ++it;
     }
@@ -690,6 +700,14 @@ bool Workspace::updateXStackingOrder()
         if (xOrder.contains(newOrder[i])) {
             slots.append(i);
         }
+    }
+    if (slots.size() != xOrder.size()) {
+        // An unmanaged window can be alive in the X root tree while missing from
+        // unconstrained_stacking_order, e.g. when a window is filtered out destructively.
+        // Report the counts so such a mismatch is identifiable before the assert aborts.
+        qCCritical(KWIN_CORE) << "[XStacking] unmanaged windows in X but missing from unconstrained_stacking_order:"
+                             << "xOrderSize" << xOrder.size() << "slots" << slots.size()
+                             << "unconstrainedSize" << newOrder.size();
     }
     Q_ASSERT(slots.size() == xOrder.size());
     for (auto it = xOrder.constBegin(); it != xOrder.constEnd(); ++it) {
