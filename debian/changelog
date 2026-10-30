@@ -1,3 +1,9 @@
+kwin (4:6.1.52) unstable; urgency=medium
+
+  * fix(stacking): keep split bar in unconstrained stacking order
+
+ -- justforlxz <justforlxz@gmail.com>  Fri, 30 Oct 2026 10:13:07 +0800
+
 kwin (4:6.1.51) unstable; urgency=medium
 
   * fix: 补齐 V25 分屏菜单图标悬停提示
