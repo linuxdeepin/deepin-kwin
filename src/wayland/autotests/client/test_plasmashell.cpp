@@ -226,13 +226,17 @@ void TestPlasmaShell::testPosition()
     QVERIFY(sps->isPositionSet());
     QCOMPARE(sps->position(), QPoint(1, 2));
 
-    // let's try to set same position, should not trigger an update
+    // the same position must be forwarded as well: this interface does not know the
+    // window's real position, so a repeated set_position may still need to move the
+    // window (e.g. after a seat-driven move), see da429fdd
     ps->setPosition(QPoint(1, 2));
-    QVERIFY(!positionChangedSpy.wait(100));
-    // different point should work, though
-    ps->setPosition(QPoint(3, 4));
     QVERIFY(positionChangedSpy.wait());
     QCOMPARE(positionChangedSpy.count(), 2);
+    QCOMPARE(sps->position(), QPoint(1, 2));
+    // different point should work, too
+    ps->setPosition(QPoint(3, 4));
+    QVERIFY(positionChangedSpy.wait());
+    QCOMPARE(positionChangedSpy.count(), 3);
     QCOMPARE(sps->position(), QPoint(3, 4));
 }
 
