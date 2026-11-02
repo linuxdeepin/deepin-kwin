@@ -185,6 +185,8 @@ set( testFakeInput_SRCS
         test_fake_input.cpp
     )
 add_executable(testFakeInput ${testFakeInput_SRCS})
+# wayland-fake-input-client-protocol.h is generated into src/wayland, see comment in the test.
+target_include_directories(testFakeInput PRIVATE ${CMAKE_BINARY_DIR}/src/wayland)
 target_link_libraries( testFakeInput Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Gui KFWaylandClient kwin)
 add_test(NAME kwayland-testFakeInput COMMAND testFakeInput)
 ecm_mark_as_test(testFakeInput)

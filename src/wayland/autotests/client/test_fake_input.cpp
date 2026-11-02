@@ -8,7 +8,6 @@
 // client
 #include "KWayland/Client/connection_thread.h"
 #include "KWayland/Client/event_queue.h"
-#include "KWayland/Client/fakeinput.h"
 #include "KWayland/Client/registry.h"
 // server
 #include "wayland/display.h"
@@ -16,9 +15,127 @@
 
 #include <linux/input.h>
 
+// Generated from the same fake-input.xml the server is generated from. The
+// KWayland client library ships its own copy of that protocol, which does not
+// have the Deepin request org_kde_kwin_fake_input.axis_for_capture: it sits in
+// the middle of the request list, so every request after "axis" (touch_*,
+// pointer_motion_absolute, keyboard_key) has a different opcode there. Driving
+// the server through KWayland::Client::FakeInput therefore drops or
+// mis-dispatches exactly those requests.
+#include "wayland-fake-input-client-protocol.h"
+
 using namespace KWaylandServer;
 
 Q_DECLARE_METATYPE(Qt::MouseButton)
+
+namespace
+{
+quint32 linuxButton(Qt::MouseButton button)
+{
+    // Same mapping KWayland::Client::FakeInput applies, other buttons are not sent.
+    switch (button) {
+    case Qt::LeftButton:
+        return BTN_LEFT;
+    case Qt::RightButton:
+        return BTN_RIGHT;
+    case Qt::MiddleButton:
+        return BTN_MIDDLE;
+    default:
+        return 0;
+    }
+}
+
+class FakeInputClient
+{
+public:
+    explicit FakeInputClient(org_kde_kwin_fake_input *native)
+        : m_native(native)
+    {
+    }
+    ~FakeInputClient()
+    {
+        org_kde_kwin_fake_input_destroy(m_native);
+    }
+
+    void authenticate(const QString &application, const QString &reason)
+    {
+        org_kde_kwin_fake_input_authenticate(m_native, qPrintable(application), qPrintable(reason));
+    }
+    void requestPointerMove(const QSizeF &delta)
+    {
+        org_kde_kwin_fake_input_pointer_motion(m_native, wl_fixed_from_double(delta.width()), wl_fixed_from_double(delta.height()));
+    }
+    void requestPointerMoveAbsolute(const QPointF &pos)
+    {
+        org_kde_kwin_fake_input_pointer_motion_absolute(m_native, wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
+    }
+    void requestPointerButtonPress(Qt::MouseButton button)
+    {
+        requestPointerButtonPress(linuxButton(button));
+    }
+    void requestPointerButtonRelease(Qt::MouseButton button)
+    {
+        requestPointerButtonRelease(linuxButton(button));
+    }
+    void requestPointerButtonClick(Qt::MouseButton button)
+    {
+        requestPointerButtonClick(linuxButton(button));
+    }
+    void requestPointerButtonPress(quint32 button)
+    {
+        if (button) {
+            org_kde_kwin_fake_input_button(m_native, button, WL_POINTER_BUTTON_STATE_PRESSED);
+        }
+    }
+    void requestPointerButtonRelease(quint32 button)
+    {
+        if (button) {
+            org_kde_kwin_fake_input_button(m_native, button, WL_POINTER_BUTTON_STATE_RELEASED);
+        }
+    }
+    void requestPointerButtonClick(quint32 button)
+    {
+        requestPointerButtonPress(button);
+        requestPointerButtonRelease(button);
+    }
+    void requestPointerAxis(Qt::Orientation orientation, qreal delta)
+    {
+        const uint32_t axis = orientation == Qt::Horizontal ? WL_POINTER_AXIS_HORIZONTAL_SCROLL : WL_POINTER_AXIS_VERTICAL_SCROLL;
+        org_kde_kwin_fake_input_axis(m_native, axis, wl_fixed_from_double(delta));
+    }
+    void requestTouchDown(quint32 id, const QPointF &pos)
+    {
+        org_kde_kwin_fake_input_touch_down(m_native, id, wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
+    }
+    void requestTouchMotion(quint32 id, const QPointF &pos)
+    {
+        org_kde_kwin_fake_input_touch_motion(m_native, id, wl_fixed_from_double(pos.x()), wl_fixed_from_double(pos.y()));
+    }
+    void requestTouchUp(quint32 id)
+    {
+        org_kde_kwin_fake_input_touch_up(m_native, id);
+    }
+    void requestTouchCancel()
+    {
+        org_kde_kwin_fake_input_touch_cancel(m_native);
+    }
+    void requestTouchFrame()
+    {
+        org_kde_kwin_fake_input_touch_frame(m_native);
+    }
+    void requestKeyboardKeyPress(quint32 key)
+    {
+        org_kde_kwin_fake_input_keyboard_key(m_native, key, WL_KEYBOARD_KEY_STATE_PRESSED);
+    }
+    void requestKeyboardKeyRelease(quint32 key)
+    {
+        org_kde_kwin_fake_input_keyboard_key(m_native, key, WL_KEYBOARD_KEY_STATE_RELEASED);
+    }
+
+private:
+    org_kde_kwin_fake_input *m_native;
+};
+}
 
 class FakeInputTest : public QObject
 {
@@ -47,7 +164,7 @@ private:
     KWayland::Client::ConnectionThread *m_connection = nullptr;
     QThread *m_thread = nullptr;
     KWayland::Client::EventQueue *m_queue = nullptr;
-    KWayland::Client::FakeInput *m_fakeInput = nullptr;
+    FakeInputClient *m_fakeInput = nullptr;
 };
 
 static const QString s_socketName = QStringLiteral("kwayland-test-fake-input-0");
@@ -86,9 +203,12 @@ void FakeInputTest::init()
     registry.setup();
     QVERIFY(interfacesAnnouncedSpy.wait());
 
-    m_fakeInput =
-        registry.createFakeInput(registry.interface(KWayland::Client::Registry::Interface::FakeInput).name, registry.interface(KWayland::Client::Registry::Interface::FakeInput).version, this);
-    QVERIFY(m_fakeInput->isValid());
+    const auto fakeInputInterface = registry.interface(KWayland::Client::Registry::Interface::FakeInput);
+    QVERIFY(fakeInputInterface.version >= ORG_KDE_KWIN_FAKE_INPUT_KEYBOARD_KEY_SINCE_VERSION);
+    m_fakeInput = new FakeInputClient(static_cast<org_kde_kwin_fake_input *>(wl_registry_bind(registry.registry(),
+                                                                                           fakeInputInterface.name,
+                                                                                           &org_kde_kwin_fake_input_interface,
+                                                                                           fakeInputInterface.version)));
 
     QVERIFY(deviceCreatedSpy.wait());
     m_device = deviceCreatedSpy.first().first().value<FakeInputDevice *>();
