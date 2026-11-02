@@ -119,11 +119,7 @@ void DataDeviceInterfacePrivate::data_device_start_drag(Resource *resource,
 void DataDeviceInterfacePrivate::data_device_set_selection(Resource *resource, wl_resource *source, uint32_t serial)
 {
     DataSourceInterface *dataSource = DataSourceInterface::get(source);
-    if (!dataSource) {
-        qDebug() << "selection is null,ignore!";
-        return;
-    }
-
+    // a null source is wl_data_device's way to clear the selection, do not ignore it
     if (dataSource && dataSource->supportedDragAndDropActions() && wl_resource_get_version(dataSource->resource()) >= WL_DATA_SOURCE_ACTION_SINCE_VERSION) {
         wl_resource_post_error(dataSource->resource(), QtWaylandServer::wl_data_source::error_invalid_source, "Data source is for drag and drop");
         return;
