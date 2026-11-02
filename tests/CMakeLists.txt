@@ -29,11 +29,11 @@ endif()
 target_include_directories(x11shadowreader PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
 add_executable(pointerconstraints pointerconstraintstest.cpp)
-add_definitions(-DDIR="${CMAKE_CURRENT_SOURCE_DIR}")
+target_compile_definitions(pointerconstraints PRIVATE DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(pointerconstraints XCB::XCB Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Quick KFWaylandClient)
 
 add_executable(pointergestures pointergesturestest.cpp)
-add_definitions(-DDIR="${CMAKE_CURRENT_SOURCE_DIR}")
+target_compile_definitions(pointergestures PRIVATE DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(pointergestures Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Quick KFWaylandClient)
 
 add_executable(cursorhotspottest cursorhotspottest.cpp)
