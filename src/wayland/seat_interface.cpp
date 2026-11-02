@@ -383,18 +383,30 @@ bool SeatInterfacePrivate::skipVerify(pid_t pid)
 
 bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, AbstractDataSource *dataSource)
 {
-    if (!dataDevice || !dataSource) {
-        qCWarning(KWIN_CORE) << "verify selection bad source or device...";
+    if (!dataDevice) {
+        qCWarning(KWIN_CORE) << "verify selection bad device...";
         return false;
     }
 
+    // A null source is the protocol's way of clearing the selection, it has to
+    // be forwarded to the device instead of being dropped here.
+    if (!dataSource) {
+        dataDevice->sendSelection(nullptr);
+        return false;
+    }
+
+    const auto sendToDevice = [dataDevice](AbstractDataSource *source) {
+        if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl
+            && source->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
+            dataDevice->sendPrimarySelection(source);
+        } else {
+            dataDevice->sendSelection(source);
+        }
+    };
+
     if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl) {
         if (skipVerify(dataDevice->processId())) {
-            if (dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
-                dataDevice->sendPrimarySelection(dataSource);
-            } else {
-                dataDevice->sendSelection(dataSource);
-            }
+            sendToDevice(dataSource);
             qCWarning(KWIN_CORE) << "sec_cp:skip verify for " << dataDevice << "@" << dataDevice->processId();
             return false;
         }
@@ -404,12 +416,7 @@ bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, Abstr
             << dataSource->processId() << " to " << dataDevice << " @ " << dataDevice->processId();
 
     if (!ddeSecurity) {
-        if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl &&
-                dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
-            dataDevice->sendPrimarySelection(dataSource);
-        } else {
-            dataDevice->sendSelection(dataSource);
-        }
+        sendToDevice(dataSource);
         qCWarning(KWIN_CORE) << "sec_cp:skip verify, no security interface";
         return false;
     }
@@ -423,12 +430,7 @@ bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, Abstr
         verifyingState.insert(serial, state);
         return true;
     }
-    if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl &&
-            dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
-        dataDevice->sendPrimarySelection(dataSource);
-    } else {
-        dataDevice->sendSelection(dataSource);
-    }
+    sendToDevice(dataSource);
     return false;
 }
 
