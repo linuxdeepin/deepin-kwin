@@ -402,6 +402,17 @@ bool SeatInterfacePrivate::verifySelection(AbstractDataDevice *dataDevice, Abstr
 
     qCWarning(KWIN_CORE) << "set_cp:verify selection from " << dataSource << "@"
             << dataSource->processId() << " to " << dataDevice << " @ " << dataDevice->processId();
+
+    if (!ddeSecurity) {
+        if (dataDevice->deviceType() == AbstractDataDevice::DeviceType::DeviceType_DataControl &&
+                dataSource->extSourceType() == AbstractDataSource::SourceType::FromPrimary) {
+            dataDevice->sendPrimarySelection(dataSource);
+        } else {
+            dataDevice->sendSelection(dataSource);
+        }
+        qCWarning(KWIN_CORE) << "sec_cp:skip verify, no security interface";
+        return false;
+    }
     int serial = ddeSecurity->doVerifySecurity(DDESecurityInterface::SecurityType::SEC_CLIPBOARD_COPY, dataSource->processId(), dataDevice->processId());
     if (serial > 0) {
         VerifyState* state = new VerifyState(dataSource);
