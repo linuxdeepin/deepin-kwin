@@ -599,7 +599,13 @@ Qt::Key Xkb::toQtKey(xkb_keysym_t keySym,
                      bool superAsMeta) const
 {
     // FIXME: passing superAsMeta doesn't have impact due to bug in the Qt function, so handle it below
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    // Qt >= 6.6 defaults hyperAsMeta to true, which turns XKB_KEY_Hyper_L/R into Qt::Key_Meta
+    // regardless of our own MetaModifier handling, so opt out explicitly
+    Qt::Key qtKey = Qt::Key(QXkbCommon::keysymToQtKey(keySym, modifiers, m_state, scanCode + EVDEV_OFFSET, superAsMeta, false));
+#else
     Qt::Key qtKey = Qt::Key(QXkbCommon::keysymToQtKey(keySym, modifiers, m_state, scanCode + EVDEV_OFFSET, superAsMeta));
+#endif
 
     // FIXME: workarounds for symbols currently wrong/not mappable via keysymToQtKey()
     if (superAsMeta && (qtKey == Qt::Key_Super_L || qtKey == Qt::Key_Super_R)) {
