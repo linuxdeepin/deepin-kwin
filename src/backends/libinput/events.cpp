@@ -224,20 +224,35 @@ QVector<InputRedirection::PointerAxis> PointerEvent::axis() const
 
 qreal PointerEvent::scrollValue(InputRedirection::PointerAxis axis) const
 {
-    Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_AXIS);
+    Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_AXIS
+             || type() == LIBINPUT_EVENT_POINTER_SCROLL_WHEEL
+             || type() == LIBINPUT_EVENT_POINTER_SCROLL_FINGER
+             || type() == LIBINPUT_EVENT_POINTER_SCROLL_CONTINUOUS);
     const libinput_pointer_axis a = axis == InputRedirection::PointerAxisHorizontal
         ? LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL
         : LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL;
+#ifdef HAVE_LIBINPUT_HIGH_RESOLUTION_SCROLL
+    // the legacy getter returns 0 for the SCROLL_WHEEL/FINGER/CONTINUOUS events
+    return libinput_event_pointer_get_scroll_value(m_pointerEvent, a) * device()->scrollFactor();
+#else
     return libinput_event_pointer_get_axis_value(m_pointerEvent, a) * device()->scrollFactor();
+#endif
 }
 
 qint32 PointerEvent::scrollValueV120(InputRedirection::PointerAxis axis) const
 {
-    Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_AXIS);
+    Q_ASSERT(type() == LIBINPUT_EVENT_POINTER_AXIS
+             || type() == LIBINPUT_EVENT_POINTER_SCROLL_WHEEL
+             || type() == LIBINPUT_EVENT_POINTER_SCROLL_FINGER
+             || type() == LIBINPUT_EVENT_POINTER_SCROLL_CONTINUOUS);
     const libinput_pointer_axis a = (axis == InputRedirection::PointerAxisHorizontal)
         ? LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL
         : LIBINPUT_POINTER_AXIS_SCROLL_VERTICAL;
+#ifdef HAVE_LIBINPUT_HIGH_RESOLUTION_SCROLL
+    return libinput_event_pointer_get_scroll_value_v120(m_pointerEvent, a);
+#else
     return libinput_event_pointer_get_axis_value(m_pointerEvent, a);
+#endif
 }
 
 TouchEvent::TouchEvent(libinput_event *event, libinput_event_type type)

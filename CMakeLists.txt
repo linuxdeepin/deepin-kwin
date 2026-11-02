@@ -325,6 +325,11 @@ add_feature_info(XKBX11 XKBX11_FOUND "Required for handling keyboard events in X
 
 find_package(Libinput 1.12)
 set_package_properties(Libinput PROPERTIES TYPE REQUIRED PURPOSE "Required for input handling on Wayland.")
+# High resolution scroll events and their getters need libinput >= 1.19;
+# older libinput only delivers the legacy LIBINPUT_EVENT_POINTER_AXIS event.
+if(Libinput_VERSION VERSION_GREATER_EQUAL 1.19)
+  add_definitions(-DHAVE_LIBINPUT_HIGH_RESOLUTION_SCROLL)
+endif()
 try_compile(USE_GESTURE_HOLD
         ${CMAKE_CURRENT_BINARY_DIR}/try_compile
     SOURCES
