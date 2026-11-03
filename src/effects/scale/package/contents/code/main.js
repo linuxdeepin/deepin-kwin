@@ -28,7 +28,8 @@ const whitelist = [
     "dde-lock org.deepin.dde.lock",
     "dde-launcher dde-launcher",
     "org.deepin.ds.launchpad.fullscreen",
-    "dde-polkit-agent dde-polkit-agent"
+    "dde-polkit-agent dde-polkit-agent",
+    "dde-shell org.deepin.dde-shell"
 ];
 
 var scaleEffect = {
@@ -145,7 +146,8 @@ var scaleEffect = {
             return;
         }
         if (window.startEffectType != 1
-            && window.startEffectType != 16) {
+            && window.startEffectType != 16
+            && window.windowClass != "dde-shell org.deepin.dde-shell") {
             return;
         }
         if (!effect.grab(window, Effect.WindowAddedGrabRole)) {
@@ -198,7 +200,9 @@ var scaleEffect = {
         if (!window.visible) {
             return;
         }
-        if (window.startEffectType != 1 && window.startEffectType != 16) {
+        if (window.startEffectType != 1
+            && window.startEffectType != 16
+            && window.windowClass != "dde-shell org.deepin.dde-shell") {
             return;
         }
         if (!effect.grab(window, Effect.WindowClosedGrabRole)) {
