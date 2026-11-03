@@ -186,7 +186,8 @@ void GLPlatformTest::testPriorDetect()
 
     QCOMPARE(gl->isLooseBinding(), false);
     QCOMPARE(gl->isGLES(), false);
-    QCOMPARE(gl->recommendedCompositor(), QPainterCompositing);
+    // XRenderCompositing matches the ctor default in GLPlatform (src/libkwineffects/kwinglplatform.cpp)
+    QCOMPARE(gl->recommendedCompositor(), XRenderCompositing);
     QCOMPARE(gl->preferBufferSubData(), false);
     QCOMPARE(gl->platformInterface(), NoOpenGLPlatformInterface);
 }
