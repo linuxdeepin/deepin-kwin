@@ -523,6 +523,7 @@ void Workspace::initializeX11()
         m_wasUserInteractionFilter.reset(new WasUserInteractionX11Filter);
         m_movingClientFilter.reset(new MovingClientX11Filter);
     }
+    initMirrorMode();
     if (Xcb::Extensions::self()->isSyncAvailable()) {
         m_syncAlarmFilter.reset(new SyncAlarmX11Filter);
     }
@@ -3019,6 +3020,11 @@ void Workspace::desktopResized()
         }
     }
 
+    // The primary output may have changed (e.g. output hotplug), and the mode may
+    // have been waiting for an output to enter on: re-apply, then refresh the set.
+    applyMirrorMode();
+    updateMirrorModeMirrors();
+
     saveOldScreenSizes(); // after updateClientArea(), so that one still uses the previous one
 
     // TODO: emit a signal instead and remove the deep function calls into edges and effects
@@ -3270,6 +3276,10 @@ QRectF Workspace::clientArea(clientAreaOption opt, const Window *window) const
 
 QRectF Workspace::clientArea(clientAreaOption opt, const Window *window, const Output *output) const
 {
+    // Mirror mode: window placement always resolves to the primary screen.
+    if (m_mirrorMode && m_mirrorModePrimary) {
+        output = m_mirrorModePrimary;
+    }
     const VirtualDesktop *desktop;
     if (window->isOnCurrentDesktop()) {
         desktop = VirtualDesktopManager::self()->currentDesktop();
@@ -3286,6 +3296,10 @@ QRectF Workspace::clientArea(clientAreaOption opt, const Window *window, const Q
 
 QList<QRectF> Workspace::clientPlacementRects(const Window *window) const
 {
+    // Mirror mode: windows can only be placed on the primary screen.
+    if (m_mirrorMode && m_mirrorModePrimary) {
+        return {clientArea(PlacementArea, window, m_mirrorModePrimary)};
+    }
     QList<QRectF> ret;
     for (const Output *output : std::as_const(m_outputs)) {
         ret.append(clientArea(PlacementArea, window, output));
@@ -3407,8 +3421,275 @@ Output *Workspace::preferredOutput() const
     return m_outputs.isEmpty() ? nullptr : m_outputs.first();
 }
 
+bool Workspace::isMirrorMode() const
+{
+    return m_mirrorMode;
+}
+
+Output *Workspace::mirrorModePrimaryOutput() const
+{
+    return m_mirrorModePrimary;
+}
+
+const QVector<Output *> &Workspace::mirrorModeMirrors() const
+{
+    return m_mirrorModeMirrors;
+}
+
+Workspace::MirrorModePolicy Workspace::mirrorModePolicyFromString(const QString &policy)
+{
+    if (policy == QLatin1String("whitelist")) {
+        return MirrorModePolicy::Whitelist;
+    }
+    if (policy == QLatin1String("passthrough")) {
+        return MirrorModePolicy::Passthrough;
+    }
+    return MirrorModePolicy::Blacklist;
+}
+
+Workspace::MirrorModePolicy Workspace::mirrorModePolicy() const
+{
+    return m_mirrorModePolicy;
+}
+
+bool Workspace::shouldMirrorWindow(const Window *window) const
+{
+    if (!window) {
+        return false;
+    }
+    switch (m_mirrorModePolicy) {
+    case MirrorModePolicy::Passthrough:
+        // Full clone of the primary output, the desktop window included.
+        return true;
+    case MirrorModePolicy::Whitelist:
+        return window->isMirrorModeListed();
+    case MirrorModePolicy::Blacklist:
+        // The desktop and the docks are shell chrome, not application content, so
+        // they stay out of the mirror unless the whole screen is cloned.
+        return !window->isMirrorModeListed() && !window->isDesktop() && !window->isDock();
+    }
+    return false;
+}
+
+void Workspace::initMirrorMode()
+{
+    // Mirror mode is implemented for the X11 session only.
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
+        return;
+    }
+
+    QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, QStringLiteral("/"), CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
+    interfaceRequire.setTimeout(DBUS_TIMEOUT);
+    const QDBusReply<QDBusObjectPath> reply = interfaceRequire.call(QStringLiteral("acquireManager"),
+                                                                  QStringLiteral("org.kde.kwin"),
+                                                                  QStringLiteral("org.kde.kwin.mirrormode"),
+                                                                  QString());
+    if (!reply.isValid()) {
+        qCWarning(KWIN_CORE) << "Mirror mode: failed to acquire DConfig manager:" << reply.error();
+    } else {
+        QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, reply.value().path(),
+                                             CONFIGMANAGER_MANAGER_INTERFACE, QStringLiteral("valueChanged"),
+                                             this, SLOT(updateMirrorMode()));
+    }
+    updateMirrorMode();
+    updateMirrorModeProperty();
+}
+
+void Workspace::updateMirrorMode()
+{
+    // Mirror mode is implemented for the X11 session only.
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
+        return;
+    }
+
+    bool enabled = false;
+    const DconfigReaderRetCode ret = DconfigRead<bool>(QStringLiteral("org.kde.kwin.mirrormode"), QStringLiteral("enabled"), enabled);
+    if (ret != DconfigReaderRetCode::DCONF_SUCCESS) {
+        // The switch is unreachable, so the mode stays off rather than being kept
+        // on by a stale value.
+        qCDebug(KWIN_CORE) << "Mirror mode: failed to read the DConfig switch" << static_cast<int>(ret);
+        enabled = false;
+    }
+
+    QString policy = QStringLiteral("blacklist");
+    if (DconfigRead<QString>(QStringLiteral("org.kde.kwin.mirrormode"), QStringLiteral("policy"), policy) != DconfigReaderRetCode::DCONF_SUCCESS) {
+        // An unreachable policy falls back to the default instead of leaving the mode
+        // in an undefined state.
+        policy = QStringLiteral("blacklist");
+    }
+    const MirrorModePolicy parsedPolicy = mirrorModePolicyFromString(policy);
+    const bool policyChanged = parsedPolicy != m_mirrorModePolicy;
+    m_mirrorModePolicy = parsedPolicy;
+
+    m_mirrorModeEnabled = enabled;
+    applyMirrorMode();
+    if (policyChanged && m_mirrorMode && Compositor::compositing() && Compositor::self()->scene()) {
+        // The set of mirrored windows changed, so every output has to be redrawn.
+        Compositor::self()->scene()->addRepaintFull();
+    }
+}
+
+void Workspace::applyMirrorMode()
+{
+    if (m_mirrorModeEnabled && !m_mirrorMode) {
+        // Entering needs a primary output; it can be missing at startup or while
+        // the outputs are being reconfigured, so this is retried on every output
+        // change instead of only when the switch changes.
+        enterMirrorMode();
+    } else if (!m_mirrorModeEnabled && m_mirrorMode) {
+        exitMirrorMode();
+    }
+    updateMirrorModeProperty();
+}
+
+void Workspace::updateMirrorModeProperty()
+{
+    xcb_connection_t *connection = kwinApp()->x11Connection();
+    if (!connection || !atoms->deepin_net_mirror_mode.isValid()) {
+        return;
+    }
+    // Single CARDINAL: 0 while the mode is off, otherwise the policy
+    // (1 blacklist, 2 whitelist, 3 passthrough).
+    uint32_t value = 0;
+    if (m_mirrorMode) {
+        switch (m_mirrorModePolicy) {
+        case MirrorModePolicy::Blacklist:
+            value = 1;
+            break;
+        case MirrorModePolicy::Whitelist:
+            value = 2;
+            break;
+        case MirrorModePolicy::Passthrough:
+            value = 3;
+            break;
+        }
+    }
+    xcb_change_property(connection, XCB_PROP_MODE_REPLACE, kwinApp()->x11RootWindow(),
+                        atoms->deepin_net_mirror_mode, XCB_ATOM_CARDINAL, 32, 1, &value);
+}
+
+void Workspace::enterMirrorMode()
+{
+    Output *primary = preferredOutput();
+    if (m_mirrorMode || !primary) {
+        return;
+    }
+
+    m_mirrorMode = true;
+    m_mirrorModePrimary = primary;
+    m_mirrorModeMirrors.clear();
+    for (Output *output : std::as_const(m_outputs)) {
+        if (output != primary && output->isEnabled()) {
+            m_mirrorModeMirrors.append(output);
+        }
+    }
+
+    const QRectF primaryArea = primary->fractionalGeometry();
+    const QList<Window *> windows = stackingOrder();
+    for (Window *window : windows) {
+        if (!window || window->isDeleted()) {
+            continue;
+        }
+        window->beginMirrorMode(primaryArea);
+    }
+
+    // Panel struts moved to the primary screen: refresh the work areas and let the
+    // special-state windows (maximized / fullscreen / tiled) settle on the new areas.
+    updateClientArea();
+    for (Window *window : windows) {
+        if (!window || window->isDeleted() || window->isUnmanaged()) {
+            continue;
+        }
+        window->checkWorkspacePosition();
+    }
+
+    setActiveOutput(primary);
+    setActiveCursorOutput(primary);
+    if (!primaryArea.contains(Cursors::self()->mouse()->pos())) {
+        Cursors::self()->mouse()->setPos(primaryArea.center());
+    }
+
+    if (Compositor::compositing() && Compositor::self()->scene()) {
+        Compositor::self()->scene()->addRepaintFull();
+    }
+    Q_EMIT mirrorModeChanged(true);
+}
+
+void Workspace::exitMirrorMode()
+{
+    if (!m_mirrorMode) {
+        return;
+    }
+
+    // Clear the mode first: the restore must not be clamped back onto the primary screen.
+    m_mirrorMode = false;
+    m_mirrorModePrimary = nullptr;
+    m_mirrorModeMirrors.clear();
+
+    const QList<Window *> windows = stackingOrder();
+    for (Window *window : windows) {
+        if (!window || window->isDeleted()) {
+            continue;
+        }
+        window->endMirrorMode();
+    }
+
+    updateClientArea();
+    for (Window *window : windows) {
+        if (!window || window->isDeleted() || window->isUnmanaged()) {
+            continue;
+        }
+        window->checkWorkspacePosition();
+    }
+
+    if (Compositor::compositing() && Compositor::self()->scene()) {
+        Compositor::self()->scene()->addRepaintFull();
+    }
+    Q_EMIT mirrorModeChanged(false);
+}
+
+void Workspace::updateMirrorModeMirrors()
+{
+    if (!m_mirrorMode) {
+        return;
+    }
+    Output *primary = preferredOutput();
+    if (!primary) {
+        return;
+    }
+
+    m_mirrorModePrimary = primary;
+    m_mirrorModeMirrors.clear();
+    for (Output *output : std::as_const(m_outputs)) {
+        if (output != primary && output->isEnabled()) {
+            m_mirrorModeMirrors.append(output);
+        }
+    }
+
+    const QRectF primaryArea = primary->fractionalGeometry();
+    const QList<Window *> windows = stackingOrder();
+    for (Window *window : windows) {
+        if (!window || window->isDeleted()) {
+            continue;
+        }
+        window->keepInArea(primaryArea, true);
+    }
+
+    if (!primaryArea.contains(Cursors::self()->mouse()->pos())) {
+        Cursors::self()->mouse()->setPos(primaryArea.center());
+    }
+
+    if (Compositor::compositing() && Compositor::self()->scene()) {
+        Compositor::self()->scene()->addRepaintFull();
+    }
+}
+
 Output *Workspace::activeOutput() const
 {
+    // Mirror mode: the active output is locked to the primary screen.
+    if (m_mirrorMode && m_mirrorModePrimary) {
+        return m_mirrorModePrimary;
+    }
     if (options->activeMouseScreen()) {
         if (m_activeCursorOutput) {
             return m_activeCursorOutput;

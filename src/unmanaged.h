@@ -61,10 +61,7 @@ public:
     void setIsUsingBackingPixmap(bool contentReady);
     void updateIsUsingBackingPixmap(xcb_window_t window);
     bool belongsToSameApplication(const Window *other, SameApplicationChecks /*checks*/) const override { return other == this; }
-    void moveResizeInternal(const QRectF & /*rect*/, KWin::Window::MoveResizeMode /*mode*/, bool immediateResize = false) override
-    { /* nothing to do */
-        Q_UNUSED(immediateResize);
-    }
+    void moveResizeInternal(const QRectF &rect, KWin::Window::MoveResizeMode mode, bool immediateResize = false) override;
     void updateCaption() override { /* nothing to do */ }
     QRectF resizeWithChecks(const QRectF &geometry, const QSizeF &) override
     { /* nothing to do */

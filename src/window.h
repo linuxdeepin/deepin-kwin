@@ -969,7 +969,23 @@ public:
     {
         return m_keepBelow;
     }
+    // Mirror mode: remember the current geometry and move the window onto
+    // the primary screen. The frame geometry is authoritative, so the visual
+    // position matches the input hit position.
+    void beginMirrorMode(const QRectF &primaryArea);
+    // Mirror mode: restore the geometry captured by beginMirrorMode().
+    void endMirrorMode();
     void setKeepBelow(bool);
+    // Whether a geometry captured for the mirror mode is still pending, so the
+    // restore must not be dropped by the mode check in Unmanaged::moveResizeInternal().
+    bool isMirrorModeRestorePending() const
+    {
+        return m_mirrorModeRestoreValid;
+    }
+    // Whether mirror mode constrains this window's geometry: everything is kept on the
+    // primary output, except the desktop and the docks, which keep their own per-output
+    // geometry.
+    bool mirrorModeClampsGeometry() const;
 
     void demandAttention(bool set = true);
     bool isDemandingAttention() const
@@ -2105,6 +2121,8 @@ private:
     bool m_zombie = false;
     bool m_keepAbove = false;
     bool m_keepBelow = false;
+    QRectF m_mirrorModeRestoreGeometry;
+    bool m_mirrorModeRestoreValid = false;
     bool m_demandsAttention = false;
     bool m_minimized = false;
     bool m_maximized = false;

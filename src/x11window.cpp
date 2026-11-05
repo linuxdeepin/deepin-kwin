@@ -4375,7 +4375,21 @@ void X11Window::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool
     // setGeometry( geometry()) - geometry() will return the shaded frame geometry.
     // Such code is wrong and should be changed to handle the case when the window is shaded,
     // for example using X11Window::clientSize()
-    QRectF frameGeometry = Xcb::fromXNative(Xcb::toXNative(rect));
+    QRectF requestedGeometry = rect;
+    if (mirrorModeClampsGeometry()) {
+        // Every geometry change initiated by the user, the client or the window
+        // manager keeps at least 100px of the window on the primary screen.
+        const Output *primary = workspace()->mirrorModePrimaryOutput();
+        if (primary) {
+            const QRectF primaryArea = primary->fractionalGeometry();
+            requestedGeometry = keepInArea(requestedGeometry, primaryArea, true);
+            if (isRequestedFullScreen()) {
+                requestedGeometry = primaryArea;
+            }
+        }
+    }
+
+    QRectF frameGeometry = Xcb::fromXNative(Xcb::toXNative(requestedGeometry));
 
     if (shade_geometry_change) {
         ; // nothing

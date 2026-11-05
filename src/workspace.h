@@ -239,6 +239,31 @@ public:
     // Preferred output for effects that key off a single screen in mirror mode:
     // the user-designated primary output when set, otherwise the first output.
     Output *preferredOutput() const;
+
+    // Mirror mode (X11 only): switched on by the DConfig keys
+    // org.kde.kwin.mirrormode:enabled and :policy. All windows are moved to the
+    // primary output and the other outputs render a scaled mirror of it. The root
+    // window property _DEEPIN_NET_MIRROR_MODE reports the state to the other
+    // components: 0 off, 1 blacklist, 2 whitelist, 3 passthrough.
+    enum class MirrorModePolicy {
+        // Mirror every window except the listed ones (the default).
+        Blacklist,
+        // Mirror only the listed windows.
+        Whitelist,
+        // Clone the whole primary output; the per-window list is ignored.
+        Passthrough,
+    };
+
+    // Parses the DConfig policy value; anything unknown yields Blacklist.
+    static MirrorModePolicy mirrorModePolicyFromString(const QString &policy);
+
+    bool isMirrorMode() const;
+    MirrorModePolicy mirrorModePolicy() const;
+    // Whether \a window is part of what the mirror outputs show under the current
+    // policy. The desktop and the docks can never be listed, so they follow the policy.
+    bool shouldMirrorWindow(const Window *window) const;
+    Output *mirrorModePrimaryOutput() const;
+    const QVector<Output *> &mirrorModeMirrors() const;
     void setActiveOutput(Output *output);
     void setActiveOutput(const QPointF &pos);
     void setActiveCursorOutput(Output *output);
@@ -791,6 +816,8 @@ private Q_SLOTS:
     void slotDesktopAdded(VirtualDesktop *desktop);
     void slotDesktopRemoved(VirtualDesktop *desktop);
     void slotOutputBackendOutputsQueried();
+    // Re-reads the meeting privacy DConfig switch and applies it.
+    void updateMirrorMode();
 
 Q_SIGNALS:
     /**
@@ -799,6 +826,8 @@ Q_SIGNALS:
      */
     void workspaceInitialized();
     void geometryChanged();
+    // Emitted when the mirror mode is entered or left.
+    void mirrorModeChanged(bool enabled);
 
     // Signals required for the scripting interface
     void desktopPresenceChanged(KWin::Window *, int);
@@ -960,6 +989,22 @@ private:
 
     QList<Group *> groups;
 
+    void initMirrorMode();
+    // Enters or leaves the mode so that it matches the DConfig switch, then
+    // publishes the resulting state on the root window.
+    void applyMirrorMode();
+    void enterMirrorMode();
+    void exitMirrorMode();
+    void updateMirrorModeMirrors();
+    // Publishes the mode on the root window so the other components can query it.
+    void updateMirrorModeProperty();
+    // Value of the DConfig switch, kept apart from m_mirrorMode because
+    // entering needs a primary output that may not be there yet.
+    bool m_mirrorModeEnabled = false;
+    bool m_mirrorMode = false;
+    MirrorModePolicy m_mirrorModePolicy = MirrorModePolicy::Blacklist;
+    Output *m_mirrorModePrimary = nullptr;
+    QVector<Output *> m_mirrorModeMirrors;
     bool was_user_interaction;
     std::unique_ptr<X11EventFilter> m_wasUserInteractionFilter;
 

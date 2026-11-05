@@ -16,6 +16,7 @@
 #include "scene/surfaceitem_x11.h"
 #include "scene/windowitem.h"
 #include "utils/common.h"
+#include "utils/xcbutils.h"
 #include "wayland/surface_interface.h"
 #include "workspace.h"
 
@@ -194,6 +195,20 @@ bool Unmanaged::track(xcb_window_t w)
         static_cast<EffectsHandlerImpl *>(effects)->checkInputWindowStacking();
     }
     return true;
+}
+
+void Unmanaged::moveResizeInternal(const QRectF &rect, MoveResizeMode mode, bool immediateResize)
+{
+    Q_UNUSED(mode);
+    Q_UNUSED(immediateResize);
+    // Override-redirect windows are positioned by their client, so a normal
+    // moveResize() is a no-op. Mirror mode still has to move them onto the
+    // primary screen to keep every window inside it, and the restore runs after the
+    // mode has been switched off, so the pending restore counts as well.
+    if (!workspace()->isMirrorMode() && !isMirrorModeRestorePending()) {
+        return;
+    }
+    Xcb::moveResizeWindow(window(), rect.toAlignedRect());
 }
 
 void Unmanaged::release(ReleaseReason releaseReason)

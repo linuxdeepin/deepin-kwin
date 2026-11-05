@@ -1109,6 +1109,41 @@ void Window::doSetKeepBelow()
 {
 }
 
+void Window::beginMirrorMode(const QRectF &primaryArea)
+{
+    // The desktop and the docks are never mirrored, so moving them would only displace
+    // them: keepInArea(primaryArea, true) rewrites the area to
+    // (left - width + 100, ...) and shifts a window that does not intersect the primary
+    // screen by that amount, which shows up as a displaced wallpaper.
+    if (isDesktop() || isDock()) {
+        return;
+    }
+
+    if (!m_mirrorModeRestoreValid) {
+        m_mirrorModeRestoreGeometry = frameGeometry();
+        m_mirrorModeRestoreValid = true;
+    }
+
+    if (isRequestedFullScreen() || requestedMaximizeMode() != MaximizeRestore
+        || quickTileMode() != QuickTileMode(QuickTileFlag::None)) {
+        moveResize(ensureSpecialStateGeometry(frameGeometry()));
+    }
+    // At least 100px of the frame stays visible on the primary screen.
+    keepInArea(primaryArea, true);
+}
+
+void Window::endMirrorMode()
+{
+    if (!m_mirrorModeRestoreValid) {
+        return;
+    }
+    // Move before clearing the flag: an Unmanaged window only forwards a geometry
+    // request while it still holds a mirror mode geometry, and the mode itself is
+    // already switched off when the restore runs.
+    moveResize(m_mirrorModeRestoreGeometry);
+    m_mirrorModeRestoreValid = false;
+}
+
 void Window::startAutoRaise()
 {
     delete m_autoRaiseTimer;
@@ -1612,8 +1647,18 @@ void Window::handlePaletteChange()
     Q_EMIT paletteChanged(palette());
 }
 
+bool Window::mirrorModeClampsGeometry() const
+{
+    return workspace()->isMirrorMode() && !isDesktop() && !isDock();
+}
+
 QRectF Window::keepInArea(QRectF geometry, QRectF area, bool partial)
 {
+    // In mirror mode the window has to stay on the primary output, so only a small part of
+    // it is kept inside the area instead of resizing it to fit. The flag lives here so the
+    // callers do not have to know about the mode.
+    partial = partial || mirrorModeClampsGeometry();
+
     if (partial) {
         // increase the area so that can have only 100 pixels in the area
         const QRectF geometry = moveResizeGeometry();
@@ -1796,6 +1841,9 @@ static QRectF snapToVisibleArea(const QList<QRectF> &screens,
 
 QRectF Window::keepInRectsArea(QRectF geometry, QList<QRectF> rects, bool partial)
 {
+    // See keepInArea(): mirror mode only ever keeps a small part of the window inside.
+    partial = partial || mirrorModeClampsGeometry();
+
     // Expand rects when partial.
     QList<QRectF> working = rects;
     if (partial) {

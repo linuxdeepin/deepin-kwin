@@ -88,6 +88,9 @@ public:
     Xcb::Atom deepin_net_startup;
     Xcb::Atom deepin_net_radius;
     Xcb::Atom deepin_net_shadow;
+    // Root window property published by KWin: 0 while the mirror mode is off,
+    // otherwise the active policy (1 blacklist, 2 whitelist, 3 passthrough).
+    Xcb::Atom deepin_net_mirror_mode;
 
     /**
      * @internal

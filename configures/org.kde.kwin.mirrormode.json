@@ -1,0 +1,28 @@
+{
+    "magic": "dsg.config.meta",
+    "version": "1.0",
+    "contents": {
+        "enabled": {
+            "value": false,
+            "serial": 0,
+            "flags": [],
+            "name": "Mirror mode",
+            "name[zh_CN]": "镜像模式",
+            "description": "When enabled, every window is kept on the primary output, the other outputs mirror the primary output and the pointer stays on the primary output. What is mirrored is chosen by the policy key. Only effective in the X11 session; the resulting state is published on the root window property _DEEPIN_NET_MIRROR_MODE (0 off, 1 blacklist, 2 whitelist, 3 passthrough).",
+            "description[zh_CN]": "开启后所有窗口都留在主屏内，其余输出镜像主屏，指针锁定在主屏内。镜像内容由 policy 决定。仅在 X11 会话生效，实际状态通过根窗口属性 _DEEPIN_NET_MIRROR_MODE 对外公布（0 关，1 黑名单，2 白名单，3 直通）。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        },
+        "policy": {
+            "value": "blacklist",
+            "serial": 0,
+            "flags": [],
+            "name": "Mirror mode policy",
+            "name[zh_CN]": "镜像模式策略",
+            "description": "What the other outputs show while the mode is enabled. blacklist mirrors every window except the listed ones (the default), whitelist mirrors only the listed ones, passthrough clones the whole primary output. The desktop and the docks are never listed; they are mirrored only under passthrough.",
+            "description[zh_CN]": "模式开启时其余输出显示什么。blacklist 镜像除名单外的所有窗口（默认），whitelist 只镜像名单内的窗口，passthrough 整屏克隆主屏。桌面与任务栏不参与名单，仅在 passthrough 下被镜像。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        }
+    }
+}
