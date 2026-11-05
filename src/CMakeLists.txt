@@ -121,6 +121,7 @@ target_sources(kwin PRIVATE
     linux_dmabuf.cpp
     logger.cpp
     main.cpp
+    mirrormodecursor.cpp
     modifier_only_shortcuts.cpp
     mousebuttons.cpp
     moving_client_x11_filter.cpp

@@ -77,6 +77,8 @@ using DBusDock = ComDeepinDdeDaemonDockInterface;
 namespace KWin
 {
 
+class MirrorModeCursor;
+
 namespace Decoration
 {
 class DecorationBridge;
@@ -264,6 +266,9 @@ public:
     bool shouldMirrorWindow(const Window *window) const;
     Output *mirrorModePrimaryOutput() const;
     const QVector<Output *> &mirrorModeMirrors() const;
+    // Pointer side of the mode: confinement and the cursor image shown on the mirrored
+    // outputs. Null outside of the X11 session.
+    MirrorModeCursor *mirrorModeCursor() const;
     // Maps \a rect (primary screen coordinates) to the scaled, centered mirror of
     // \a mirrorGeometry, keeping the primary screen aspect ratio (letterbox).
     static QRectF mirrorModeMirrorRect(const QRectF &rect, const QRectF &primaryGeometry, const QRectF &mirrorGeometry);
@@ -826,7 +831,7 @@ private Q_SLOTS:
     void slotDesktopAdded(VirtualDesktop *desktop);
     void slotDesktopRemoved(VirtualDesktop *desktop);
     void slotOutputBackendOutputsQueried();
-    // Re-reads the meeting privacy DConfig switch and applies it.
+    // Re-reads the mirror mode DConfig values and applies it.
     void updateMirrorMode();
 
 Q_SIGNALS:
@@ -1015,6 +1020,7 @@ private:
     MirrorModePolicy m_mirrorModePolicy = MirrorModePolicy::Blacklist;
     Output *m_mirrorModePrimary = nullptr;
     QVector<Output *> m_mirrorModeMirrors;
+    std::unique_ptr<MirrorModeCursor> m_mirrorModeCursor;
     bool was_user_interaction;
     std::unique_ptr<X11EventFilter> m_wasUserInteractionFilter;
 

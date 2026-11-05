@@ -50,6 +50,7 @@
 #endif
 #include "decorations/decorationbridge.h"
 #include "main.h"
+#include "mirrormodecursor.h"
 #include "placeholderinputeventfilter.h"
 #include "placeholderoutput.h"
 #include "placementtracker.h"
@@ -3464,11 +3465,18 @@ bool Workspace::shouldMirrorWindow(const Window *window) const
     case MirrorModePolicy::Whitelist:
         return window->isMirrorModeListed();
     case MirrorModePolicy::Blacklist:
-        // The desktop and the docks are shell chrome, not application content, so
-        // they stay out of the mirror unless the whole screen is cloned.
+        // The desktop and the docks are shell chrome, not application content, so they
+        // stay out of the mirror unless the whole screen is cloned.
         return !window->isMirrorModeListed() && !window->isDesktop() && !window->isDock();
     }
     return false;
+}
+
+MirrorModeCursor *Workspace::mirrorModeCursor() const
+{
+    return m_mirrorModeCursor.get();
+}
+
 QRectF Workspace::mirrorModeMirrorRect(const QRectF &rect, const QRectF &primaryGeometry, const QRectF &mirrorGeometry)
 {
     if (primaryGeometry.isEmpty() || mirrorGeometry.isEmpty()) {
@@ -3535,6 +3543,10 @@ void Workspace::initMirrorMode()
                                              CONFIGMANAGER_MANAGER_INTERFACE, QStringLiteral("valueChanged"),
                                              this, SLOT(updateMirrorMode()));
     }
+    // The cursor side of the mode lives in its own class: it keeps the pointer on the
+    // primary output and provides the cursor image the mirror outputs draw.
+    m_mirrorModeCursor = std::make_unique<MirrorModeCursor>(this);
+
     updateMirrorMode();
     updateMirrorModeProperty();
 }
@@ -3557,8 +3569,8 @@ void Workspace::updateMirrorMode()
 
     QString policy = QStringLiteral("blacklist");
     if (DconfigRead<QString>(QStringLiteral("org.kde.kwin.mirrormode"), QStringLiteral("policy"), policy) != DconfigReaderRetCode::DCONF_SUCCESS) {
-        // An unreachable policy falls back to the default instead of leaving the mode
-        // in an undefined state.
+        // Unknown policy falls back to the default instead of leaving the mode in an
+        // undefined state.
         policy = QStringLiteral("blacklist");
     }
     const MirrorModePolicy parsedPolicy = mirrorModePolicyFromString(policy);
