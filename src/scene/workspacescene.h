@@ -34,6 +34,7 @@ class Deleted;
 class DragAndDropIconItem;
 class EffectWindowImpl;
 class GLTexture;
+class ImageItem;
 class Item;
 class RenderLoop;
 class WorkspaceScene;
@@ -49,6 +50,9 @@ class KWIN_EXPORT WorkspaceScene : public Scene
 public:
     explicit WorkspaceScene(std::unique_ptr<ItemRenderer> renderer);
     ~WorkspaceScene() override;
+
+    void addRepaint(const QRegion &region) override;
+    using Scene::addRepaint;
 
     // saved data for 2nd pass of optimized screen painting
     struct Phase2Data
@@ -143,6 +147,12 @@ protected:
 private:
     void createDndIconItem();
     void destroyDndIconItem();
+    // Mirror mode: secondary outputs show a scaled, letterboxed copy of the
+    // listed windows of the primary screen.
+    void paintMirrorModeMirrors(const QRegion &region);
+
+    std::unique_ptr<ImageItem> m_mirrorBackground;
+    std::unique_ptr<ImageItem> m_mirrorCursor;
 
     // The timestamp that is handed to the effects. It has to be monotonic across all screens,
     // because effects share their animation state between them and TimeLine::advance() aborts if

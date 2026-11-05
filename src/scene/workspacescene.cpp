@@ -55,12 +55,16 @@
 #include "scene/workspacescene.h"
 #include "composite.h"
 #include "core/output.h"
+#include "core/renderbackend.h"
 #include "core/renderlayer.h"
 #include "core/renderloop.h"
 #include "deleted.h"
 #include "effects.h"
 #include "internalwindow.h"
+#include "main.h"
+#include "mirrormodecursor.h"
 #include "scene/dndiconitem.h"
+#include "scene/imageitem.h"
 #include "scene/itemrenderer.h"
 #include "scene/backgroundeffectitem.h"
 #include "scene/shadowitem.h"
@@ -390,6 +394,7 @@ void WorkspaceScene::paint(RenderTarget *renderTarget, const QRegion &region)
 
     ScreenPaintData data(m_renderer->renderTargetProjectionMatrix(), EffectScreenImpl::get(painted_screen));
     effects->paintScreen(m_paintContext.mask, region, data);
+    paintMirrorModeMirrors(region);
     m_paintScreenCount = 0;
     if (!effects->captureFrameGeneration()) {
         Q_EMIT frameRendered();
@@ -573,6 +578,114 @@ void WorkspaceScene::printFPS(SceneDelegate *delegate)
             m_frames[delegate] = 0;
         }
         m_frames[delegate]++;
+    }
+}
+
+void WorkspaceScene::addRepaint(const QRegion &region)
+{
+    Scene::addRepaint(region);
+    // Damage reported outside Item::scheduleRepaintInternal() (e.g. window geometry
+    // changes or effect repaints) must also dirty the mirrored copy.
+    Workspace *ws = workspace();
+    if (ws && ws->isMirrorMode()) {
+        const QRegion mirrors = ws->mirrorModeMirrorRegion(region);
+        if (!mirrors.isEmpty()) {
+            Scene::addRepaint(mirrors);
+        }
+    }
+}
+
+void WorkspaceScene::paintMirrorModeMirrors(const QRegion &region)
+{
+    if (kwinApp()->operationMode() != Application::OperationModeX11) {
+        return;
+    }
+    Workspace *ws = workspace();
+    if (!ws || !ws->isMirrorMode() || !Compositor::compositing()) {
+        return;
+    }
+    Output *primary = ws->mirrorModePrimaryOutput();
+    const QVector<Output *> mirrors = ws->mirrorModeMirrors();
+    if (!primary || mirrors.isEmpty() || !Compositor::self()->backend()) {
+        return;
+    }
+
+    // The XRender renderer ignores the WindowPaintData transform, so it can only
+    // provide the black backfill there. The constraints still hold.
+    const bool canMirror = Compositor::self()->backend()->compositingType() == OpenGLCompositing;
+    const QRectF primaryGeometry = primary->fractionalGeometry();
+    const QMatrix4x4 projection = m_renderer->renderTargetProjectionMatrix();
+
+    if (canMirror && !m_mirrorBackground) {
+        QImage black(1, 1, QImage::Format_RGB32);
+        black.fill(Qt::black);
+        m_mirrorBackground = std::unique_ptr<ImageItem>(m_renderer->createImageItem(this));
+        m_mirrorBackground->setImage(black);
+    }
+
+    for (Output *mirror : mirrors) {
+        const QRectF mirrorGeometry = mirror->fractionalGeometry();
+        const QRegion mirrorDamage = region & mirrorGeometry.toAlignedRect();
+        if (mirrorDamage.isEmpty()) {
+            continue;
+        }
+
+        if (!canMirror) {
+            m_renderer->renderBackground(mirrorDamage);
+            continue;
+        }
+
+        // Everything the policy leaves out stays black on the mirror output.
+        m_mirrorBackground->setPosition(mirrorGeometry.topLeft());
+        m_mirrorBackground->setSize(mirrorGeometry.size());
+        m_renderer->renderItem(m_mirrorBackground.get(), PAINT_WINDOW_TRANSFORMED, mirrorDamage, WindowPaintData(projection));
+
+        const QRectF target = Workspace::mirrorModeMirrorRect(primaryGeometry, primaryGeometry, mirrorGeometry);
+        if (target.isEmpty()) {
+            continue;
+        }
+        const qreal scale = target.width() / primaryGeometry.width();
+
+        for (WindowItem *item : std::as_const(stacking_order)) {
+            if (!ws->shouldMirrorWindow(item->window())) {
+                continue;
+            }
+            const QPointF offset = Workspace::mirrorModeMirrorOffset(item->position(), primaryGeometry, mirrorGeometry);
+            WindowPaintData data(projection);
+            data.translate(offset.x(), offset.y());
+            data.setScale(QVector3D(scale, scale, 1));
+            // Same entry point as paintWindow(): effects (rounded corners, blur, dim,
+            // animations) must also apply to the mirrored copy.
+            if (EffectWindowImpl *w = item->window()->effectWindow()) {
+                // BlurEffect refuses transformed windows unless this role is set, so
+                // without it the mirrored window has no background blur at all.
+                const QVariant forceBlur = w->data(WindowForceBlurRole);
+                w->setData(WindowForceBlurRole, QVariant(true));
+                effects->paintWindow(w, PAINT_WINDOW_TRANSFORMED, mirrorDamage, data);
+                w->setData(WindowForceBlurRole, forceBlur);
+            }
+        }
+
+        MirrorModeCursor *mirrorModeCursor = ws->mirrorModeCursor();
+        if (!mirrorModeCursor) {
+            continue;
+        }
+        const QImage image = mirrorModeCursor->image();
+        if (image.isNull()) {
+            continue;
+        }
+        if (!m_mirrorCursor) {
+            m_mirrorCursor = std::unique_ptr<ImageItem>(m_renderer->createImageItem(this));
+        }
+        m_mirrorCursor->setImage(image);
+        // The mapped rect keeps the hotspot aligned with the primary pointer.
+        const QRectF cursorRect = mirrorModeCursor->mirroredCursorRect(mirrorGeometry);
+        m_mirrorCursor->setPosition(cursorRect.topLeft());
+        m_mirrorCursor->setSize(cursorRect.size());
+        const QRegion cursorRegion = QRegion(cursorRect.toAlignedRect()) & mirrorDamage;
+        if (!cursorRegion.isEmpty()) {
+            m_renderer->renderItem(m_mirrorCursor.get(), 0, cursorRegion, WindowPaintData(projection));
+        }
     }
 }
 

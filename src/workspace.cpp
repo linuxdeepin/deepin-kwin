@@ -3469,6 +3469,50 @@ bool Workspace::shouldMirrorWindow(const Window *window) const
         return !window->isMirrorModeListed() && !window->isDesktop() && !window->isDock();
     }
     return false;
+QRectF Workspace::mirrorModeMirrorRect(const QRectF &rect, const QRectF &primaryGeometry, const QRectF &mirrorGeometry)
+{
+    if (primaryGeometry.isEmpty() || mirrorGeometry.isEmpty()) {
+        return QRectF();
+    }
+    // Keep the primary screen aspect ratio and center the result in the mirror output.
+    const qreal scale = std::min(mirrorGeometry.width() / primaryGeometry.width(),
+                                 mirrorGeometry.height() / primaryGeometry.height());
+    const QSizeF targetSize(primaryGeometry.width() * scale, primaryGeometry.height() * scale);
+    const QPointF targetTopLeft = mirrorGeometry.center() - QPointF(targetSize.width() / 2, targetSize.height() / 2);
+    return QRectF(targetTopLeft + (rect.topLeft() - primaryGeometry.topLeft()) * scale,
+                  rect.size() * scale);
+}
+
+QPointF Workspace::mirrorModeMirrorOffset(const QPointF &itemPosition, const QRectF &primaryGeometry, const QRectF &mirrorGeometry)
+{
+    const QRectF target = mirrorModeMirrorRect(primaryGeometry, primaryGeometry, mirrorGeometry);
+    if (target.isEmpty()) {
+        return QPointF();
+    }
+    // createRenderNode() applies the item position before the paint transform, so the
+    // position itself is not scaled by WindowPaintData. Compensate for that here.
+    const qreal scale = target.width() / primaryGeometry.width();
+    return target.topLeft() - primaryGeometry.topLeft() * scale + itemPosition * (scale - 1);
+}
+
+QRegion Workspace::mirrorModeMirrorRegion(const QRegion &region) const
+{
+    QRegion ret;
+    if (!m_mirrorMode || !m_mirrorModePrimary || region.isEmpty()) {
+        return ret;
+    }
+    const QRectF primaryGeometry = m_mirrorModePrimary->fractionalGeometry();
+    const QRegion primaryDamage = region & primaryGeometry.toAlignedRect();
+    if (primaryDamage.isEmpty()) {
+        return ret;
+    }
+    for (const Output *mirror : m_mirrorModeMirrors) {
+        const QRectF mirrorGeometry = mirror->fractionalGeometry();
+        for (const QRect &rect : primaryDamage) {
+            ret += mirrorModeMirrorRect(rect, primaryGeometry, mirrorGeometry).toAlignedRect();
+        }
+    }
+    return ret;
 }
 
 void Workspace::initMirrorMode()
@@ -3582,6 +3626,11 @@ void Workspace::enterMirrorMode()
         if (output != primary && output->isEnabled()) {
             m_mirrorModeMirrors.append(output);
         }
+    }
+
+    if (Compositor::self() && Compositor::self()->backend()
+        && Compositor::self()->backend()->compositingType() != OpenGLCompositing) {
+        qCWarning(KWIN_CORE) << "Mirror mode: mirroring requires OpenGL compositing, secondary screens stay black";
     }
 
     const QRectF primaryArea = primary->fractionalGeometry();

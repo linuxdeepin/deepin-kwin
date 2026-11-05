@@ -97,6 +97,16 @@ static QList<MenuItem> getMenuItemInfos(Window *cl)
          cl->isCloseable(), false, false}
     };
 
+    // The list only drives the blacklist and whitelist policies; under passthrough the
+    // whole screen is cloned and the entry would do nothing.
+    if (workspace()->isMirrorMode() && workspace()->mirrorModePolicy() != Workspace::MirrorModePolicy::Passthrough
+        && !cl->isDesktop() && !cl->isDock()) {
+        const bool listed = cl->isMirrorModeListed();
+        const bool whitelist = workspace()->mirrorModePolicy() == Workspace::MirrorModePolicy::Whitelist;
+        menu_items.append({"mirror-mode-list", whitelist ? i18n("Show on Mirror Screens") : i18n("Hide on Mirror Screens"),
+                           true, true, listed});
+    }
+
     return menu_items;
 }
 
@@ -138,6 +148,8 @@ void MenuSlot::onMenuItemInvoked(const QString &id, bool checked, Window *cl)
         cl->setDesktop(cl->desktop()+1);
     } else if (id == "close") {
         cl->closeWindow();
+    } else if (id == "mirror-mode-list") {
+        cl->setMirrorModeListed(checked);
     }
 }
 

@@ -5,10 +5,12 @@
 */
 
 #include "scene/item.h"
+#include "core/output.h"
 #include "core/renderlayer.h"
 #include "core/renderloop.h"
 #include "scene/scene.h"
 #include "utils/common.h"
+#include "workspace.h"
 
 namespace KWin
 {
@@ -299,8 +301,14 @@ void Item::scheduleRepaintInternal(const QRegion &region)
 {
     const QRegion globalRegion = mapToGlobal(region);
     const QList<SceneDelegate *> delegates = m_scene->delegates();
+
+    // Mirror mode: the mirror outputs show a scaled copy of the primary screen, so
+    // damage in primary screen coordinates must also dirty the corresponding area of
+    // every mirror output.
+    const QRegion mirrorDamage = workspace() ? workspace()->mirrorModeMirrorRegion(globalRegion) : QRegion();
+
     for (SceneDelegate *delegate : delegates) {
-        const QRegion dirtyRegion = globalRegion & delegate->viewport();
+        const QRegion dirtyRegion = (globalRegion | mirrorDamage) & delegate->viewport();
         if (!dirtyRegion.isEmpty()) {
             m_repaints[delegate] += dirtyRegion;
             delegate->layer()->loop()->scheduleRepaint(this);

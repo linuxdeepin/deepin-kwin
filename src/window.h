@@ -414,6 +414,12 @@ class KWIN_EXPORT Window : public QObject
     Q_PROPERTY(bool keepBelow READ keepBelow WRITE setKeepBelow NOTIFY keepBelowChanged)
 
     /**
+     * Whether the Window is in the policy list that decides what the mirror outputs show
+     * (mirrored under the whitelist policy, excluded under the blacklist one).
+     */
+    Q_PROPERTY(bool mirrorModeListed READ isMirrorModeListed WRITE setMirrorModeListed NOTIFY mirrorModeListedChanged)
+
+    /**
      * Whether the Window can be shaded. The property is evaluated each time it is invoked.
      * Because of that there is no notify signal.
      */
@@ -969,13 +975,18 @@ public:
     {
         return m_keepBelow;
     }
+    void setKeepBelow(bool);
+    bool isMirrorModeListed() const
+    {
+        return m_mirrorModeListed;
+    }
+    void setMirrorModeListed(bool);
     // Mirror mode: remember the current geometry and move the window onto
     // the primary screen. The frame geometry is authoritative, so the visual
     // position matches the input hit position.
     void beginMirrorMode(const QRectF &primaryArea);
     // Mirror mode: restore the geometry captured by beginMirrorMode().
     void endMirrorMode();
-    void setKeepBelow(bool);
     // Whether a geometry captured for the mirror mode is still pending, so the
     // restore must not be dropped by the mode check in Unmanaged::moveResizeInternal().
     bool isMirrorModeRestorePending() const
@@ -1671,6 +1682,7 @@ Q_SIGNALS:
     void activeChanged();
     void keepAboveChanged(bool);
     void keepBelowChanged(bool);
+    void mirrorModeListedChanged(bool);
     /**
      * Emitted whenever the demands attention state changes.
      */
@@ -2121,6 +2133,7 @@ private:
     bool m_zombie = false;
     bool m_keepAbove = false;
     bool m_keepBelow = false;
+    bool m_mirrorModeListed = false;
     QRectF m_mirrorModeRestoreGeometry;
     bool m_mirrorModeRestoreValid = false;
     bool m_demandsAttention = false;

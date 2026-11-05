@@ -264,6 +264,16 @@ public:
     bool shouldMirrorWindow(const Window *window) const;
     Output *mirrorModePrimaryOutput() const;
     const QVector<Output *> &mirrorModeMirrors() const;
+    // Maps \a rect (primary screen coordinates) to the scaled, centered mirror of
+    // \a mirrorGeometry, keeping the primary screen aspect ratio (letterbox).
+    static QRectF mirrorModeMirrorRect(const QRectF &rect, const QRectF &primaryGeometry, const QRectF &mirrorGeometry);
+    // Maps every rectangle of \a region that lies on the primary screen to the
+    // mirror outputs, so damage done on the primary repaints the mirrored copy too.
+    QRegion mirrorModeMirrorRegion(const QRegion &region) const;
+    // Translation to pass to WindowPaintData for a window item at \a itemPosition:
+    // the item position is applied before the paint transform, so it has to be
+    // scaled explicitly to keep the mirrored layout equal to the primary layout.
+    static QPointF mirrorModeMirrorOffset(const QPointF &itemPosition, const QRectF &primaryGeometry, const QRectF &mirrorGeometry);
     void setActiveOutput(Output *output);
     void setActiveOutput(const QPointF &pos);
     void setActiveCursorOutput(Output *output);

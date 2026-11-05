@@ -1109,6 +1109,24 @@ void Window::doSetKeepBelow()
 {
 }
 
+void Window::setMirrorModeListed(bool b)
+{
+    // The desktop and the docks are shell chrome: listing them would put the whole
+    // desktop on the mirror outputs, so they never take part in the list.
+    if (b && (isDesktop() || isDock())) {
+        return;
+    }
+    if (b == m_mirrorModeListed) {
+        return;
+    }
+    m_mirrorModeListed = b;
+    Q_EMIT mirrorModeListedChanged(m_mirrorModeListed);
+    // Trigger repaint on the non-primary outputs so the list change is visible at once.
+    if (Compositor::compositing()) {
+        Compositor::self()->scene()->addRepaintFull();
+    }
+}
+
 void Window::beginMirrorMode(const QRectF &primaryArea)
 {
     // The desktop and the docks are never mirrored, so moving them would only displace
@@ -1116,6 +1134,7 @@ void Window::beginMirrorMode(const QRectF &primaryArea)
     // (left - width + 100, ...) and shifts a window that does not intersect the primary
     // screen by that amount, which shows up as a displaced wallpaper.
     if (isDesktop() || isDock()) {
+        setMirrorModeListed(false);
         return;
     }
 
