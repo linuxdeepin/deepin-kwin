@@ -911,7 +911,7 @@ public:
     }
     static XwaylandEavesdropsMode defaultXwaylandEavesdrops()
     {
-        return None;
+        return Combinations;
     }
     static LatencyPolicy defaultLatencyPolicy()
     {

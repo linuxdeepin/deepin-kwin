@@ -43,6 +43,7 @@
 #include <QFile>
 #include <QHostInfo>
 #include <QRandomGenerator>
+#include <QSet>
 #if (QT_VERSION > QT_VERSION_CHECK(5, 11, 3))
 #include <QScopeGuard>
 #else
@@ -57,6 +58,7 @@
 #include <input_event.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <utility>
 #include <xkbcommon/xkbcommon-keysyms.h>
 
 namespace KWin
@@ -105,12 +107,10 @@ public:
                         // there can be a mismatch in both states.
                         // This loop makes sure all key press events are reset before we switch back to the
                         // Xwayland client and the state is correctly restored.
-                        for (auto it = m_states.constBegin(); it != m_states.constEnd(); ++it) {
-                            if (it.value() == KWaylandServer::KeyboardKeyState::Pressed) {
-                                keyboard->sendKey(it.key(), KWaylandServer::KeyboardKeyState::Released, waylandServer()->xWaylandConnection());
-                            }
+                        for (const quint32 &scanCode : std::as_const(m_pressedKeys)) {
+                            keyboard->sendKey(scanCode, KWaylandServer::KeyboardKeyState::Released, waylandServer()->xWaylandConnection());
                         }
-                        m_states.clear();
+                        m_pressedKeys.clear();
                     }
                 });
     }
@@ -153,8 +153,19 @@ public:
         }
 
         Window *window = workspace()->activeWindow();
-        if (!m_filter || !m_filter(event->key(), event->modifiers()) || (window && window->isLockScreen())) {
+        if (window && window->isLockScreen()) {
             return;
+        }
+
+        // If there's an active keystroke, keep sending events regardless what the key filter says.
+        if (!m_pressedKeys.contains(event->nativeScanCode()) && (!m_filter || !m_filter(event->key(), event->modifiers()))) {
+            return;
+        }
+
+        if (event->type() == QEvent::KeyRelease) {
+            if (!m_pressedKeys.remove(event->nativeScanCode())) {
+                return;
+            }
         }
 
         auto keyboard = waylandServer()->seat()->keyboard();
@@ -166,8 +177,11 @@ public:
         auto client = surface->client();
         if (waylandServer()->xWaylandConnection() != client) {
             KWaylandServer::KeyboardKeyState state{event->type() == QEvent::KeyPress};
-            if (!updateKey(event->nativeScanCode(), state)) {
-                return;
+            if (event->type() == QEvent::KeyPress) {
+                if (m_pressedKeys.contains(event->nativeScanCode())) {
+                    return;
+                }
+                m_pressedKeys.insert(event->nativeScanCode());
             }
 
             auto xkb = input()->keyboard()->xkb();
@@ -180,21 +194,7 @@ public:
         }
     }
 
-    bool updateKey(quint32 key, KWaylandServer::KeyboardKeyState state)
-    {
-        auto it = m_states.find(key);
-        if (it == m_states.end()) {
-            m_states.insert(key, state);
-            return true;
-        }
-        if (it.value() == state) {
-            return false;
-        }
-        it.value() = state;
-        return true;
-    }
-
-    QHash<quint32, KWaylandServer::KeyboardKeyState> m_states;
+    QSet<quint32> m_pressedKeys;
     std::function<bool(int key, Qt::KeyboardModifiers)> m_filter;
 };
 
