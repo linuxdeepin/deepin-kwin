@@ -161,6 +161,19 @@ BlurEffect::~BlurEffect()
         window->setData(WindowBlurBehindRole, QVariant());
     }
 
+    // Drop the DConfig manager reference this effect acquired; the daemon keeps
+    // the manager object alive until every holder has released it.
+    if (!m_dconfigPath.path().isEmpty()) {
+        QDBusConnection::systemBus().disconnect(CONFIGMANAGER_SERVICE, m_dconfigPath.path(),
+                                                CONFIGMANAGER_MANAGER_INTERFACE, "valueChanged",
+                                                this, SLOT(onDConfigChanged(QString)));
+        QDBusInterface manager(CONFIGMANAGER_SERVICE, m_dconfigPath.path(),
+                               CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+        manager.setTimeout(DBUS_TIMEOUT);
+        manager.call(QStringLiteral("release"));
+        m_dconfigPath = QDBusObjectPath();
+    }
+
     // When compositing is restarted, avoid removing the manager immediately.
     if (s_blurManager) {
         s_blurManagerRemoveTimer->start(1000);
@@ -288,17 +301,27 @@ void BlurEffect::onDConfigChanged(const QString &key)
 template <typename T>
 T BlurEffect::readDConfig(const QString &key, const T &defaultValue)
 {
-    T value = defaultValue;
-    DconfigReaderRetCode ret = DconfigRead<T>(QStringLiteral("org.kde.kwin.effects.blur"), key, value);
-    if (ret != DconfigReaderRetCode::DCONF_SUCCESS) {
-        qCDebug(KWIN_BLUR) << "DConfig read failed for" << key << "ret=" << static_cast<int>(ret);
+    // Reuse the manager object acquired in initDConfig(); acquiring a new one
+    // for every read costs an extra D-Bus round trip per key.
+    if (m_dconfigPath.path().isEmpty()) {
+        return defaultValue;
     }
-    return value;
-}
 
-// Explicit template instantiations needed because readDConfig is called across translation units.
-template int BlurEffect::readDConfig<int>(const QString &, const int &);
-template bool BlurEffect::readDConfig<bool>(const QString &, const bool &);
+    QDBusInterface manager(CONFIGMANAGER_SERVICE, m_dconfigPath.path(),
+                           CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+    manager.setTimeout(DBUS_TIMEOUT);
+    const QDBusReply<QDBusVariant> reply = manager.call(QStringLiteral("value"), key);
+    if (!reply.isValid()) {
+        qCDebug(KWIN_BLUR) << "DConfig read failed for" << key << reply.error();
+        return defaultValue;
+    }
+    const QVariant value = reply.value().variant();
+    if (!value.canConvert<T>()) {
+        qCDebug(KWIN_BLUR) << "DConfig value has an unexpected type for" << key << value;
+        return defaultValue;
+    }
+    return value.value<T>();
+}
 
 void BlurEffect::updateBlurRegion(EffectWindow *w)
 {
