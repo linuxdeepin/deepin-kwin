@@ -1,3 +1,38 @@
+kwin (4:6.1.57) unstable; urgency=medium
+
+  * fix: 修复 Wayland 下 XWayland 全局快捷键失效
+  * fix: handle high resolution scroll events in libinput
+  * fix: forward cleared selection to data devices
+  * fix: honor null data source when clearing selection
+  * fix(blur): release the DConfig manager and reuse it for reads
+  * fix: restore focus and animate panels on leaving show desktop
+  * fix: keep Hyper keysyms as Hyper on Qt 6.6+
+  * test: expect XRender fallback in GLPlatform pre-detect state
+  * test(wayland): drop the stale same-position assert
+  * test: drive fake input test with the server's protocol
+  * fix: guard null security interface in selection verify
+  * test: fix virtual desktop load/save expectations
+  * fix: scope DIR macro to pointer test targets only
+  * feat(blur): blur pass count and window switch
+  * chore(tests): drop the mtview assert reproducer
+  * docs(effect): document multitaskviewex layout and domain terms
+  * test(effect): add multitaskviewex scene tests
+  * test(effect): add multitaskviewex model tests
+  * feat(effect): wire up the multitaskviewex plugin
+  * feat(effect): add multitaskviewex effect controller
+  * feat(effect): add multitaskviewex controller collaborators
+  * feat(effect): add multitaskviewex scene
+  * feat(effect): add multitaskviewex item layers
+  * feat(effect): add multitaskviewex control widgets
+  * feat(effect): add multitaskviewex texture provider
+  * feat(effect): add multitaskviewex GL paint primitives
+  * feat(effect): add multitaskviewex data layer
+  * feat(effect): add multitaskviewex model layer
+  * feat(effect): add multitaskviewex animation primitives
+  * feat(scene): add PAINT_SCREEN_NO_BACKGROUND and desktop reordering
+
+ -- lijunjie <lijunjie@uniontech.com>  Mon, 09 Nov 2026 11:14:08 +0800
+
 kwin (4:6.1.52) unstable; urgency=medium
 
   * fix(stacking): keep split bar in unconstrained stacking order
