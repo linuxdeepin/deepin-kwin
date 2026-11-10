@@ -27,13 +27,17 @@ GLScene::GLScene(QObject *parent)
     : QObject(parent)
     , m_background(new BackgroundControl)
     , m_cells(new WindowCellControl)
+    , m_emptyHint(new HintControl)
     , m_bar(new WorkspaceBarControl)
     , m_overlay(new WindowOverlayControl)
+    , m_windowInfo(new HintControl)
     , m_ghost(new DragGhostControl)
 {
     m_background->setParent(this);
     m_cells->setParent(this);
+    m_emptyHint->setParent(this);
     m_overlay->setParent(this);
+    m_windowInfo->setParent(this);
     m_bar->setParent(this);
     m_ghost->setParent(this);
 }
@@ -59,7 +63,7 @@ GLScene::~GLScene() = default;
 
 std::vector<GLControl *> GLScene::renderQueue() const
 {
-    std::vector<GLControl *> queue = {m_background.get(), m_cells.get(), m_bar.get(), m_overlay.get(), m_ghost.get()};
+    std::vector<GLControl *> queue = {m_background.get(), m_cells.get(), m_emptyHint.get(), m_windowInfo.get(), m_bar.get(), m_overlay.get(), m_ghost.get()};
     std::sort(queue.begin(), queue.end(), [](GLControl *a, GLControl *b) {
         return a->z() < b->z();
     });

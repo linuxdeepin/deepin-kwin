@@ -24,6 +24,7 @@ set(multitaskviewex_SOURCES
     view/workspacebarcontrol.cpp
     view/windowcellcontrol.cpp
     view/windowoverlaycontrol.cpp
+    view/hintcontrol.cpp
     view/dragghostcontrol.cpp
     view/imageprovider.cpp
     model/windowgrid.cpp

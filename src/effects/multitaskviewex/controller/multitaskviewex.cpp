@@ -10,11 +10,14 @@
 #include "helpers.h"
 #include "model/bardraglayout.h"
 #include "model/barpredicates.h"
+#include "model/hintvisibility.h"
 #include "model/keynav.h"
+#include "model/scenemodel.h"
 #include "view/backgroundcontrol.h"
 #include "view/glpaintrenderer.h"
 #include "view/imageprovider.h"
 #include "view/layers.h"
+#include "view/textutils.h"
 #include "view/windowcellcontrol.h"
 #include "view/workspacebarcontrol.h"
 #include "wallpapermanager.h"
@@ -55,6 +58,21 @@ namespace KWin
 {
 
 Q_LOGGING_CATEGORY(KWIN_MTVEX, "kwin_effects.multitaskviewex", QtInfoMsg)
+
+namespace
+{
+constexpr qreal kWindowInfoBottomCenterOffset = 40.0;
+
+bool hasRetiringItems(const QVector<WindowItem> &items)
+{
+    for (const WindowItem &item : items) {
+        if (item.retiring) {
+            return true;
+        }
+    }
+    return false;
+}
+}
 
 MultitaskViewExEffect::MultitaskViewExEffect()
 {
@@ -275,6 +293,8 @@ void MultitaskViewExEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono
                                   v.scene->workspaceBar()->hoveredSlot());
             v.scene->syncWindowLayer();
             v.scene->advance(delta);
+            updateEmptyHint(v);
+            updateWindowInfoHint(v);
             for (const WindowNode &n : v.scene->windowItemLayer().nodes()) {
                 if (n.retiring && !n.animating() && n.opacity() <= 0.01) {
                     v.model.finishRetiringWindow(n.window);
@@ -309,6 +329,56 @@ void MultitaskViewExEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono
         }
     }
     effects->prePaintScreen(data, presentTime);
+}
+
+void MultitaskViewExEffect::updateEmptyHint(ScreenView &view)
+{
+    HintControl *hint = view.scene->emptyHint();
+    if (!shouldShowEmptyHint(!view.model.windows().isEmpty(),
+                             hasRetiringItems(view.model.windowItems()),
+                             view.model.dragActive(),
+                             view.model.ghostReturning())) {
+        hint->setText(QString());
+        return;
+    }
+    hint->setText(i18n("No windows"));
+}
+
+void MultitaskViewExEffect::updateWindowInfoHint(ScreenView &view)
+{
+    HintControl *hint = view.scene->windowInfo();
+    const SceneFrame frame = view.scene->currentFrame();
+    const qreal s = view.model.osScale();
+    const int hoverCell = view.model.hoverCell();
+    const WindowNode *hovered = nullptr;
+    if (hoverCell >= 0) {
+        for (const WindowNode &node : view.scene->windowItemLayer().nodes()) {
+            if (node.cellIndex == hoverCell && !node.retiring) {
+                hovered = &node;
+                break;
+            }
+        }
+    }
+    if (!hovered || !hovered->window) {
+        hint->setText(QString());
+        return;
+    }
+    if (!shouldShowWindowInfoHint(frame.enterProgress, frame.bgSliding,
+                                  view.model.dragActive(), view.model.barDragModel().isActive(),
+                                  view.model.ghostReturning(), true,
+                                  hovered->overlayOpacity())) {
+        hint->setText(QString());
+        return;
+    }
+    const QString text = TextUtils::effectiveText(
+        hovered->window->caption(), hovered->window->windowClass());
+    if (text.isEmpty()) {
+        hint->setText(QString());
+        return;
+    }
+    hint->setText(text);
+    hint->setAnchor(QPointF(hovered->rect().center().x(),
+                            hovered->rect().bottom() - kWindowInfoBottomCenterOffset * s));
 }
 
 namespace
@@ -455,9 +525,8 @@ void MultitaskViewExEffect::postPaintScreen()
     }
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
         if (m_running && owned->model.ghostReturning() && !owned->scene->ghostLayer().animating()) {
-            const int idx = owned->model.dragPlaceholder();
             owned->scene->ghostLayer().clear();
-            owned->model.setDragPlaceholder(-1, false);
+            owned->model.finishGhostReturn();
             effects->addRepaintFull();
         }
         if (m_running && m_pendingPreviewShow) {

@@ -162,6 +162,12 @@ void SceneModel::endDrag()
     m_dragSession.end();
 }
 
+void SceneModel::finishGhostReturn()
+{
+    m_ghostReturning = false;
+    m_dragPlaceholder = -1;
+}
+
 void SceneModel::finishRetiringWindow(EffectWindow *w)
 {
     for (int i = m_windowItems.size() - 1; i >= 0; --i) {

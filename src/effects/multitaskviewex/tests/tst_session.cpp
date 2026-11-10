@@ -60,6 +60,7 @@ class TestSession : public QObject
     Q_OBJECT
 private Q_SLOTS:
     void windowItemFirstEnterEqualsReenter();
+    void windowNodeKeepsWindowReference();
     void windowItemSetTargetSameValueDoesNotRestart();
     void elevationPrefersSelectedWindow();
     void elevationNeverSurvivesInterrupt();
@@ -79,6 +80,20 @@ void TestSession::windowItemFirstEnterEqualsReenter()
                                    {"win.0.retiring", "0"},
                                    {"win.0.cellIndex", "-1"},
                                }));
+}
+
+void TestSession::windowNodeKeepsWindowReference()
+{
+    WindowItem item;
+    item.window = fakeWindow(7);
+    item.source = QRectF(0, 0, 100, 100);
+    item.cellIndex = 0;
+
+    WindowItemLayer layer;
+    WindowItemLayer::AlignInput in;
+    layer.apply({item}, 0, Easing::Linear, in);
+    QCOMPARE(layer.nodes().size(), 1);
+    QCOMPARE(layer.nodes().at(0).window, item.window);
 }
 
 void TestSession::windowItemSetTargetSameValueDoesNotRestart()

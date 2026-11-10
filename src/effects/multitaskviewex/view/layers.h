@@ -19,6 +19,7 @@ enum class SceneLayer {
     Background = 0,
     Cells = 5,
     Windows = 10,
+    Hint = 15,
     Bar = 60,
     Overlay = 70,
     Ghost = 100,
@@ -38,10 +39,10 @@ inline constexpr int layerZ(SceneLayer layer)
  * @brief Returns the scene layers ordered back to front.
  * @return The layer order used for painting.
  */
-inline constexpr std::array<SceneLayer, 6> sceneLayerOrder()
+inline constexpr std::array<SceneLayer, 7> sceneLayerOrder()
 {
     return {SceneLayer::Background, SceneLayer::Cells, SceneLayer::Windows,
-            SceneLayer::Bar, SceneLayer::Overlay, SceneLayer::Ghost};
+            SceneLayer::Hint, SceneLayer::Bar, SceneLayer::Overlay, SceneLayer::Ghost};
 }
 
 enum class WindowLayer {

@@ -4,6 +4,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
+#include "model/hintvisibility.h"
 #include "model/keynav.h"
 #include "model/scenemodel.h"
 #include "model/screenlayout.h"
@@ -45,10 +46,13 @@ private Q_SLOTS:
     void restoreSnapsVisibleInSameFrame();
     void sessionResetClearsPlaceholderAndEnterState();
     void dragSessionOwnsCellAndPos();
+    void ghostReturnFinishClearsState();
     void quickSwitchBackRevivesWindows();
     void windowOpsLeaveBarUntouched();
     void barOpsLeaveGridUntouched();
     void barOpsLeaveWindowsUntouched();
+    void emptyHintVisibilityPredicate();
+    void windowInfoHintVisibilityPredicate();
 };
 
 void TestSceneModel::hoverButtonsAnchorAtWindowCorners()
@@ -322,6 +326,24 @@ void TestSceneModel::dragSessionOwnsCellAndPos()
     }
 }
 
+void TestSceneModel::ghostReturnFinishClearsState()
+{
+    SceneModel model;
+    const QRectF cell(100, 100, 800, 600);
+    model.beginDrag(cell);
+    model.dragTo(QPointF(500, 500));
+    model.endDrag();
+
+    model.setGhostReturning(true);
+    model.setDragPlaceholder(0, true);
+    QVERIFY(model.ghostReturning());
+    QCOMPARE(model.dragPlaceholder(), 0);
+
+    model.finishGhostReturn();
+    QVERIFY(!model.ghostReturning());
+    QCOMPARE(model.dragPlaceholder(), -1);
+}
+
 void TestSceneModel::quickSwitchBackRevivesWindows()
 {
     SceneModel model;
@@ -450,6 +472,30 @@ void TestSceneModel::keyNavMapsKeysToActions()
     QCOMPARE(A(Qt::Key_Space, Qt::AltModifier).type, K::Consume);
     QCOMPARE(A(Qt::Key_Space, Qt::NoModifier).type, K::None);
     QCOMPARE(A(Qt::Key_A, Qt::NoModifier).type, K::None);
+}
+
+void TestSceneModel::emptyHintVisibilityPredicate()
+{
+    QVERIFY(shouldShowEmptyHint(false, false, false, false));
+    QVERIFY(!shouldShowEmptyHint(true, false, false, false));
+    QVERIFY(!shouldShowEmptyHint(false, true, false, false));
+    QVERIFY(!shouldShowEmptyHint(false, false, true, false));
+    QVERIFY(!shouldShowEmptyHint(false, false, false, true));
+}
+
+void TestSceneModel::windowInfoHintVisibilityPredicate()
+{
+    QVERIFY(shouldShowWindowInfoHint(1.0, false, false, false, false, true, 1.0));
+    QVERIFY(!shouldShowWindowInfoHint(0.0, false, false, false, false, true, 1.0));
+    QVERIFY(!shouldShowWindowInfoHint(0.01, false, false, false, false, true, 1.0));
+    QVERIFY(shouldShowWindowInfoHint(0.011, false, false, false, false, true, 1.0));
+    QVERIFY(!shouldShowWindowInfoHint(1.0, true, false, false, false, true, 1.0));
+    QVERIFY(!shouldShowWindowInfoHint(1.0, false, true, false, false, true, 1.0));
+    QVERIFY(!shouldShowWindowInfoHint(1.0, false, false, true, false, true, 1.0));
+    QVERIFY(!shouldShowWindowInfoHint(1.0, false, false, false, true, true, 1.0));
+    QVERIFY(!shouldShowWindowInfoHint(1.0, false, false, false, false, false, 1.0));
+    QVERIFY(!shouldShowWindowInfoHint(1.0, false, false, false, false, true, 0.01));
+    QVERIFY(shouldShowWindowInfoHint(1.0, false, false, false, false, true, 0.011));
 }
 
 QTEST_MAIN(TestSceneModel)

@@ -17,6 +17,7 @@
 #include "view/glpaintcontext.h"
 #include "view/glpaintrenderer.h"
 #include "view/glscene.h"
+#include "view/hintcontrol.h"
 #include "view/imageprovider.h"
 #include "view/layers.h"
 #include "view/screenview.h"
@@ -28,6 +29,18 @@
 #include <QtTest>
 
 using namespace KWin;
+
+namespace KWin
+{
+class HintControlTestAccess
+{
+public:
+    static QRectF capsuleRect(const QPointF &anchor, const QSizeF &textSize, const QRectF &bounds)
+    {
+        return HintControl::capsuleRect(anchor, textSize, bounds);
+    }
+};
+}
 
 inline QVector<int> orderNums(const QVector<QPair<QString, int>> &kn)
 {
@@ -48,6 +61,10 @@ private Q_SLOTS:
     void needsFrameReflectsBarLayerAnimation();
     void barAnimConvergesUnderPerFrameSync();
     void sceneLayerOrderIsUniqueAndControlLayersMatch();
+    void emptyHintNeverSwallowsClicks();
+    void windowInfoNeverSwallowsClicks();
+    void hintControlStoresValues();
+    void hintCapsuleRectClampsOrCenters();
     void wallpaperFadesWithEnterProgress();
     void dragDeleteSwitchKeepsConsistency();
     void hoverHitIncludesCornerButtons();
@@ -248,7 +265,7 @@ void TestScene::barAnimConvergesUnderPerFrameSync()
 void TestScene::sceneLayerOrderIsUniqueAndControlLayersMatch()
 {
     const auto order = sceneLayerOrder();
-    QCOMPARE(order.size(), 6u);
+    QCOMPARE(order.size(), 7u);
     for (size_t i = 1; i < order.size(); ++i) {
         QVERIFY2(layerZ(order[i - 1]) < layerZ(order[i]),
                  qPrintable(QStringLiteral("layer order is not strictly ascending: %1 >= %2")
@@ -261,22 +278,96 @@ void TestScene::sceneLayerOrderIsUniqueAndControlLayersMatch()
         }
     }
     QVERIFY(layerZ(SceneLayer::Cells) < layerZ(SceneLayer::Windows));
-    QVERIFY(layerZ(SceneLayer::Windows) < layerZ(SceneLayer::Bar));
+    QVERIFY(layerZ(SceneLayer::Windows) < layerZ(SceneLayer::Hint));
+    QVERIFY(layerZ(SceneLayer::Hint) < layerZ(SceneLayer::Bar));
+    QVERIFY(layerZ(SceneLayer::Bar) < layerZ(SceneLayer::Overlay));
+    QVERIFY(layerZ(SceneLayer::Overlay) < layerZ(SceneLayer::Ghost));
 
     SceneModel sceneModel;
     GLScene scene;
     scene.setModel(&sceneModel);
     QCOMPARE(scene.background()->layer(), SceneLayer::Background);
     QCOMPARE(scene.windowCells()->layer(), SceneLayer::Cells);
+    QCOMPARE(scene.emptyHint()->layer(), SceneLayer::Hint);
     QCOMPARE(scene.workspaceBar()->layer(), SceneLayer::Bar);
     QCOMPARE(scene.windowOverlay()->layer(), SceneLayer::Overlay);
+    QCOMPARE(scene.windowInfo()->layer(), SceneLayer::Hint);
+    QVERIFY(scene.emptyHint()->z() > scene.windowCells()->z());
+    QVERIFY(scene.windowInfo()->z() > scene.windowCells()->z());
+    QVERIFY(scene.workspaceBar()->z() > scene.emptyHint()->z());
+    QVERIFY(scene.workspaceBar()->z() > scene.windowInfo()->z());
     QVERIFY(scene.workspaceBar()->z() > scene.windowCells()->z());
     QVERIFY(scene.windowOverlay()->z() > scene.workspaceBar()->z());
+    QVERIFY(scene.windowOverlay()->z() > scene.windowInfo()->z());
     QCOMPARE(scene.background()->z(), layerZ(SceneLayer::Background));
     QCOMPARE(scene.windowCells()->z(), layerZ(SceneLayer::Cells));
+    QCOMPARE(scene.emptyHint()->z(), layerZ(SceneLayer::Hint));
     QCOMPARE(scene.workspaceBar()->z(), layerZ(SceneLayer::Bar));
     QCOMPARE(scene.windowOverlay()->z(), layerZ(SceneLayer::Overlay));
+    QCOMPARE(scene.windowInfo()->z(), layerZ(SceneLayer::Hint));
     QCOMPARE(scene.background()->hitTest(QPointF(0, 0)), false);
+}
+
+void TestScene::emptyHintNeverSwallowsClicks()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    scene.model()->syncScreen(QPointF(0, 0), QSizeF(1920, 1080),
+                              QRectF(0, 0, 1920, 1080), QRectF(0, 0, 1920, 1080), {});
+    scene.emptyHint()->setGeometry(scene.model()->layout().gridArea);
+    QVERIFY(!scene.emptyHint()->geometry().isEmpty());
+    QCOMPARE(scene.emptyHint()->hitTest(scene.model()->layout().gridArea.center()), false);
+    QCOMPARE(scene.emptyHint()->hitTest(QPointF(-10, -10)), false);
+
+    QSignalSpy blankSpy(&scene, &GLScene::blankClicked);
+    scene.dispatchPress(scene.model()->layout().gridArea.center());
+    scene.dispatchRelease(scene.model()->layout().gridArea.center());
+    QCOMPARE(blankSpy.count(), 1);
+}
+
+void TestScene::windowInfoNeverSwallowsClicks()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    scene.model()->syncScreen(QPointF(0, 0), QSizeF(1920, 1080),
+                              QRectF(0, 0, 1920, 1080), QRectF(0, 0, 1920, 1080), {});
+    scene.windowInfo()->setGeometry(scene.model()->layout().fullRect);
+    QCOMPARE(scene.windowInfo()->hitTest(scene.model()->layout().gridArea.center()), false);
+    QCOMPARE(scene.windowInfo()->hitTest(QPointF(-10, -10)), false);
+}
+
+void TestScene::hintControlStoresValues()
+{
+    HintControl hint;
+    QVERIFY(hint.text().isEmpty());
+
+    hint.setText(QStringLiteral("Hint text"));
+    hint.setAnchor(QPointF(60, 35));
+
+    QCOMPARE(hint.text(), QStringLiteral("Hint text"));
+    QCOMPARE(hint.anchor(), QPointF(60, 35));
+
+    hint.setText(QString());
+    QVERIFY(hint.text().isEmpty());
+}
+
+void TestScene::hintCapsuleRectClampsOrCenters()
+{
+    const QSizeF textSize(50, 20);
+    const QRectF bounds(0, 0, 200, 200);
+
+    QCOMPARE(HintControlTestAccess::capsuleRect(QPointF(100, 100), textSize, bounds),
+             QRectF(59, 82, 82, 36));
+    QCOMPARE(HintControlTestAccess::capsuleRect(QPointF(0, 0), textSize, bounds),
+             QRectF(0, 0, 82, 36));
+    QCOMPARE(HintControlTestAccess::capsuleRect(QPointF(200, 200), textSize, bounds),
+             QRectF(118, 164, 82, 36));
+    QCOMPARE(HintControlTestAccess::capsuleRect(QPointF(100, 100), textSize, QRectF()),
+             QRectF(59, 82, 82, 36));
+    QCOMPARE(HintControlTestAccess::capsuleRect(QPointF(5, 5), textSize, QRectF(0, 0, 10, 10)),
+             QRectF(-36, -13, 82, 36));
 }
 
 void TestScene::wallpaperFadesWithEnterProgress()

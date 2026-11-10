@@ -206,6 +206,9 @@ private:
     void slideByWheel(int wheelY);
     void gridScrollBy(ScreenView &view, qreal angleDeltaY);
 
+    void updateEmptyHint(ScreenView &view);
+    void updateWindowInfoHint(ScreenView &view);
+
     EffectWindow *hoverWindow(ScreenView &view) const;
     void setHoverWindow(ScreenView &view, EffectWindow *w);
     EffectWindow *stepWindow(ScreenView &view, EffectWindow *w, int step) const;

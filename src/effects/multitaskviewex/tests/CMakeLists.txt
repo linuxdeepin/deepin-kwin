@@ -74,6 +74,7 @@ add_executable(tst_multiscreen
     ${MTO_SRC}/view/backgroundcontrol.cpp
     ${MTO_SRC}/view/windowcellcontrol.cpp
     ${MTO_SRC}/view/windowoverlaycontrol.cpp
+    ${MTO_SRC}/view/hintcontrol.cpp
     ${MTO_SRC}/view/workspacebarcontrol.cpp
     ${MTO_SRC}/view/dragghostcontrol.cpp
     ${MTO_SRC}/view/imageprovider.cpp
@@ -96,6 +97,14 @@ target_link_libraries(tst_scenemodel PRIVATE Qt${QT_MAJOR_VERSION}::Core Qt${QT_
 set_target_properties(tst_scenemodel PROPERTIES AUTOMOC ON)
 add_test(NAME multitaskviewex_tst_scenemodel COMMAND tst_scenemodel)
 
+add_executable(tst_textutils
+    tst_textutils.cpp
+)
+target_include_directories(tst_textutils PRIVATE ${MTO_SRC})
+target_link_libraries(tst_textutils PRIVATE Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Gui Qt${QT_MAJOR_VERSION}::Test)
+set_target_properties(tst_textutils PROPERTIES AUTOMOC ON)
+add_test(NAME multitaskviewex_tst_textutils COMMAND tst_textutils -platform offscreen)
+
 add_executable(tst_scene
     tst_scene.cpp
     ${MTO_SRC}/model/scenemodel.cpp
@@ -107,6 +116,7 @@ add_executable(tst_scene
     ${MTO_SRC}/view/backgroundcontrol.cpp
     ${MTO_SRC}/view/windowcellcontrol.cpp
     ${MTO_SRC}/view/windowoverlaycontrol.cpp
+    ${MTO_SRC}/view/hintcontrol.cpp
     ${MTO_SRC}/view/workspacebarcontrol.cpp
     ${MTO_SRC}/view/dragghostcontrol.cpp
     ${MTO_SRC}/view/imageprovider.cpp

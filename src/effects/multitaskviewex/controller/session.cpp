@@ -20,6 +20,7 @@
 #include "view/backgroundcontrol.h"
 #include "view/dragghostcontrol.h"
 #include "view/glpaintrenderer.h"
+#include "view/hintcontrol.h"
 #include "view/imageprovider.h"
 #include "view/layers.h"
 #include "view/windowcellcontrol.h"
@@ -55,6 +56,11 @@
 
 namespace KWin
 {
+namespace
+{
+constexpr qreal kWindowInfoCanvasMargin = 8.0;
+}
+
 void MultitaskViewExEffect::wireGlobalTimers()
 {
     if (auto *primary = QGuiApplication::primaryScreen()) {
@@ -101,6 +107,8 @@ void MultitaskViewExEffect::wireAllScreenViews()
         s->workspaceBar()->setImageProvider(m_imgProvider);
         s->workspaceBar()->setDragTipText(i18n("Drag upwards to remove"));
         s->windowOverlay()->setImageProvider(m_imgProvider);
+        s->windowInfo()->setImageProvider(m_imgProvider);
+        s->emptyHint()->setImageProvider(m_imgProvider);
     }
 }
 
@@ -371,6 +379,10 @@ void MultitaskViewExEffect::applyViewGeometry(ScreenView &view)
     view.scene->workspaceBar()->setGeometry(canvas);
     view.scene->windowCells()->setGeometry(canvas);
     view.scene->windowCells()->setClipRect(view.model.layout().gridArea);
+    view.scene->emptyHint()->setGeometry(view.model.layout().gridArea);
+    view.scene->emptyHint()->setAnchor(view.model.layout().gridArea.center());
+    const qreal margin = kWindowInfoCanvasMargin * view.model.osScale();
+    view.scene->windowInfo()->setGeometry(canvas.adjusted(margin, margin, -margin, -margin));
 }
 
 ScreenView *MultitaskViewExEffect::viewAtGlobal(const QPointF &globalPos) const
@@ -718,6 +730,7 @@ void MultitaskViewExEffect::onWindowClosed(EffectWindow *w)
     closing.deletedRef = EffectWindowDeletedRef(w);
     closing.visibleRef = EffectWindowVisibleRef(w, EffectWindow::PAINT_DISABLED_BY_DELETE);
     m_closing.insert(w, closing);
+    EffectWindow *hovered = view->model.windows().value(view->model.hoverCell(), nullptr);
     view->model.windows().removeAll(w);
     if (view->model.draggedWindow() == w) {
         view->model.setDraggedWindow(nullptr);
@@ -726,6 +739,8 @@ void MultitaskViewExEffect::onWindowClosed(EffectWindow *w)
         m_selectedWindow = nullptr;
     }
     syncSessionItems();
+    view->model.setHoverCell(view->model.windows().indexOf(hovered));
+    view->scene->syncWindowLayer();
     effects->addRepaintFull();
 }
 
@@ -734,10 +749,13 @@ void MultitaskViewExEffect::onWindowDeleted(EffectWindow *w)
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
         owned->model.dropWindow(w);
         owned->scene->outgoingLayer().removeWindow(w);
+        EffectWindow *hovered = owned->model.windows().value(owned->model.hoverCell(), nullptr);
         if (owned->model.windows().removeAll(w) > 0) {
             if (owned->model.draggedWindow() == w) {
                 owned->model.setDraggedWindow(nullptr);
             }
+            owned->model.setHoverCell(owned->model.windows().indexOf(hovered));
+            owned->scene->syncWindowLayer();
         }
     }
     m_closing.remove(w);

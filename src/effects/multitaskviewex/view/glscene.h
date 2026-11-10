@@ -10,6 +10,7 @@
 #include "ghostlayer.h"
 #include "glcontrol.h"
 #include "glpaintcontext.h"
+#include "hintcontrol.h"
 #include "model/backgrounditem.h"
 #include "model/bardragmodel.h"
 #include "model/baritem.h"
@@ -23,6 +24,7 @@
 #include <QHash>
 #include <QObject>
 #include <QPointF>
+#include <QString>
 #include <QVector>
 
 #include <memory>
@@ -96,12 +98,30 @@ public:
     }
 
     /**
+     * @brief Returns the empty-workspace hint control.
+     * @return The empty-workspace hint control.
+     */
+    HintControl *emptyHint() const
+    {
+        return m_emptyHint.get();
+    }
+
+    /**
      * @brief Returns the window overlay control.
      * @return The window overlay control.
      */
     WindowOverlayControl *windowOverlay() const
     {
         return m_overlay.get();
+    }
+
+    /**
+     * @brief Returns the hover window information hint control.
+     * @return The hover window information hint control.
+     */
+    HintControl *windowInfo() const
+    {
+        return m_windowInfo.get();
     }
 
     /**
@@ -413,9 +433,11 @@ private:
 
     std::unique_ptr<BackgroundControl> m_background;
     std::unique_ptr<WindowCellControl> m_cells;
+    std::unique_ptr<HintControl> m_emptyHint;
     std::unique_ptr<WorkspaceBarControl> m_bar;
     std::unique_ptr<DragGhostControl> m_ghost;
     std::unique_ptr<WindowOverlayControl> m_overlay;
+    std::unique_ptr<HintControl> m_windowInfo;
     SceneModel *m_model = nullptr;
     BarLayer m_barLayer;
     GhostLayer m_ghostLayer;

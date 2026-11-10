@@ -414,6 +414,11 @@ public:
     }
 
     /**
+     * @brief Clears the returning ghost state and its drag placeholder.
+     */
+    void finishGhostReturn();
+
+    /**
      * @brief Returns the screen this model is bound to.
      * @return The bound screen, or nullptr when unbound.
      */
