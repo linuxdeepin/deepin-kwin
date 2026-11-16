@@ -99,21 +99,16 @@ void MultitaskViewExEffect::wireGlobalTimers()
     });
 }
 
-void MultitaskViewExEffect::wireAllScreenViews()
-{
-    for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-        GLScene *s = owned->scene.get();
-        s->background()->setImageProvider(m_imgProvider);
-        s->workspaceBar()->setImageProvider(m_imgProvider);
-        s->workspaceBar()->setDragTipText(i18n("Drag upwards to remove"));
-        s->windowOverlay()->setImageProvider(m_imgProvider);
-        s->windowInfo()->setImageProvider(m_imgProvider);
-        s->emptyHint()->setImageProvider(m_imgProvider);
-    }
-}
-
 void MultitaskViewExEffect::wireScreenView(ScreenView &view)
 {
+    GLScene *s = view.scene.get();
+    s->background()->setImageProvider(m_imgProvider);
+    s->workspaceBar()->setImageProvider(m_imgProvider);
+    s->workspaceBar()->setDragTipText(i18n("Drag upwards to remove"));
+    s->windowOverlay()->setImageProvider(m_imgProvider);
+    s->windowInfo()->setImageProvider(m_imgProvider);
+    s->emptyHint()->setImageProvider(m_imgProvider);
+
     connect(view.scene->workspaceBar(), &WorkspaceBarControl::slotHoverChanged, view.scene.get(),
             [this](int slot) {
                 effects->addRepaintFull();

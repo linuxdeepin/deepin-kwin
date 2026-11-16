@@ -157,7 +157,6 @@ private:
     void clearElevatedWindow();
 
     void syncViews();
-    void wireAllScreenViews();
     void wireGlobalTimers();
     void wireScreenView(ScreenView &view);
     ScreenView *ensureScreenView(EffectScreen *screen);
