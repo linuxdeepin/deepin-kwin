@@ -422,6 +422,11 @@ public:
                             QRegion(QRect(-1, -1, 0x7FFFFFFF, 0x7FFFFFFF)), d);
     }
 
+    bool isKeepAbove(EffectWindow *w) const override
+    {
+        return w && w->keepAbove();
+    }
+
 private:
     int m_mask;
     QRegion m_region;

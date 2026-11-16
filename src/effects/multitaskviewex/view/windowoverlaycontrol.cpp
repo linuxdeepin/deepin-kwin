@@ -98,7 +98,8 @@ void WindowOverlayControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
         if (!m_provider) {
             continue;
         }
-        const auto top = m_provider->textureFor(topIconPath(), QSize(int(kButtonIcon), int(kButtonIcon)));
+        const bool pinned = ctx.isKeepAbove(n.window);
+        const auto top = m_provider->textureFor(topIconPath(pinned), QSize(int(kButtonIcon), int(kButtonIcon)));
         const auto close = m_provider->textureFor(deleteIconPath(), QSize(int(kButtonIcon), int(kButtonIcon)));
         const QRectF topBtn = n.topButtonRect(s);
         const QRectF closeBtn = n.closeButtonRect(s);

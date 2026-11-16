@@ -44,11 +44,13 @@ inline QString shaderPath(const QString &name)
 
 /**
  * @brief Returns the path of the "top" toolbar icon.
+ * @param active Whether the window is kept above.
  * @return The asset path.
  */
-inline QString topIconPath()
+inline QString topIconPath(bool active)
 {
-    return assetPath(QStringLiteral("multiview_top.svg"));
+    return assetPath(active ? QStringLiteral("multiview_top_active.svg")
+                            : QStringLiteral("multiview_top.svg"));
 }
 
 /**

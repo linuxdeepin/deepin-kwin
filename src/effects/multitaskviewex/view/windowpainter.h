@@ -30,6 +30,13 @@ public:
      */
     virtual void paintWindow(EffectWindow *w, const QRectF &from, const QRectF &to,
                              qreal opacity) const = 0;
+
+    /**
+     * @brief Returns whether a window is kept above.
+     * @param w Window to query.
+     * @return True when the window is kept above.
+     */
+    virtual bool isKeepAbove(EffectWindow *w) const = 0;
 };
 
 }

@@ -72,6 +72,16 @@ public:
         m_painter->paintWindow(w, from, to, opacity);
     }
 
+    /**
+     * @brief Returns whether a window is kept above.
+     * @param w Window to query.
+     * @return True when the window is kept above.
+     */
+    bool isKeepAbove(EffectWindow *w) const
+    {
+        return m_painter && m_painter->isKeepAbove(w);
+    }
+
 private:
     QMatrix4x4 m_projection;
     const WindowPainter *m_painter;
