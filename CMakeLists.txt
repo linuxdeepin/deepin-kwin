@@ -115,6 +115,7 @@ find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     I18n
     IdleTime
     Package
+    Service # KApplicationTrader in ServiceUtils / XdgActivation / X11Window
     WidgetsAddons
     WindowSystem
 )
@@ -123,15 +124,18 @@ if (KF_MAJOR_VERSION EQUAL "5")
   find_package(KF5 REQUIRED COMPONENTS Plasma)
 endif()
 
+option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." OFF)
+
 # required frameworks by config modules
-find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
-    Declarative
-    KCMUtils
-    NewStuff
-    Service
-    XmlGui
-    ItemViews
-)
+if (KWIN_BUILD_KCMS)
+    find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
+        Declarative
+        ItemViews
+        KCMUtils
+        NewStuff
+        XmlGui
+    )
+endif()
 
 if (BUILD_TESTING)
     find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG REQUIRED)
@@ -220,9 +224,6 @@ if (BUILD_ON_V25)
     add_definitions(-DBUILD_WITHOUT_V20_PATCH)
 endif()
 add_subdirectory(kdecoration)
-
-find_package(KF${KF_MAJOR_VERSION}KCMUtils ${PROJECT_VERSION} CONFIG)
-find_package(KF${KF_MAJOR_VERSION}Service ${PROJECT_VERSION} CONFIG)
 
 
 # find_package(Breeze 6.0.0 CONFIG)
@@ -436,7 +437,6 @@ find_package(XCB 1.10 REQUIRED COMPONENTS
     DAMAGE
     GLX
     ICCCM
-    IMAGE
     KEYSYMS
     PRESENT
     RANDR
@@ -539,7 +539,6 @@ ecm_find_qmlmodule(org.kde.plasma.components 2.0)
 
 ########### configure tests ###############
 option(KWIN_BUILD_DECORATIONS "Enable building of KWin decorations." ON)
-option(KWIN_BUILD_KCMS "Enable building of KWin configuration modules." OFF)
 option(KWIN_BUILD_NOTIFICATIONS "Enable building of KWin with knotifications support" ON)
 option(KWIN_BUILD_SCREENLOCKER "Enable building of KWin lockscreen functionality" OFF)
 option(KWIN_BUILD_TABBOX "Enable building of KWin Tabbox functionality" ON)
