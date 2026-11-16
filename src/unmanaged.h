@@ -57,9 +57,6 @@ public:
     void destroyWindow() override { /* nothing to do */ }
     void closeWindow() override { /* nothing to do */ }
     bool acceptsFocus() const override { return false; }
-    bool isUsingBackingPixmap() const;
-    void setIsUsingBackingPixmap(bool contentReady);
-    void updateIsUsingBackingPixmap(xcb_window_t window);
     bool belongsToSameApplication(const Window *other, SameApplicationChecks /*checks*/) const override { return other == this; }
     void moveResizeInternal(const QRectF &rect, KWin::Window::MoveResizeMode mode, bool immediateResize = false) override;
     void updateCaption() override { /* nothing to do */ }
@@ -68,7 +65,6 @@ public:
         return geometry;
     }
     std::unique_ptr<WindowItem> createItem(Scene *scene) override;
-    void propertyNotifyEvent(xcb_property_notify_event_t *e) override;
 
 public Q_SLOTS:
     void release(ReleaseReason releaseReason = ReleaseReason::Release);
@@ -90,7 +86,6 @@ private:
     bool m_switcherwin = false;
     bool m_scheduledRelease = false;
     bool m_windowMenu = false;
-    bool m_isUsingBackingPixmap = false;
     QString wm_name;
 };
 
