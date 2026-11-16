@@ -220,10 +220,16 @@ void MultitaskViewExEffect::wireScreenView(ScreenView &view)
     });
     connect(view.scene->windowOverlay(), &WindowOverlayControl::topClicked, view.scene.get(), [this, &view](int index) {
         if (EffectWindow *w = overlayWindowAt(view, index)) {
+            const bool wasAbove = w->keepAbove();
             if (auto *impl = static_cast<EffectWindowImpl *>(w)) {
                 if (Window *win = impl->window()) {
-                    win->setKeepAbove(!w->keepAbove());
+                    win->setKeepAbove(!wasAbove);
                 }
+            }
+            if (!wasAbove && w->keepAbove()) {
+                m_selectedWindow = w;
+                requestExit();
+                return;
             }
             effects->addRepaintFull();
         }
