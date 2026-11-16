@@ -90,4 +90,29 @@ inline bool pointerBelongsToDock(const QVector<QRectF> &dockAreas, const QPointF
     return false;
 }
 
+/**
+ * @brief Tests whether a mouse button triggers a dock click.
+ * @param button Mouse button to test.
+ * @return True when the button is relayed to the dock, that is, the left or
+ *         the right one. The middle button and every other button are ignored.
+ */
+inline bool isDockClickButton(Qt::MouseButton button)
+{
+    return button == Qt::LeftButton || button == Qt::RightButton;
+}
+
+/**
+ * @brief Tests whether a button release completes a dock click.
+ * @param pressButton Button recorded when the pointer was pressed inside the dock.
+ * @param releaseButton Button of the release event.
+ * @param sameView Whether the release happened on the screen that received the press.
+ * @param releaseInDock Whether the release happened inside a dock area.
+ * @return True when the view must exit and relay the click to the dock.
+ */
+inline bool isDockClickRelease(Qt::MouseButton pressButton, Qt::MouseButton releaseButton, bool sameView, bool releaseInDock)
+{
+    return pressButton != Qt::NoButton && pressButton == releaseButton && sameView && releaseInDock
+        && isDockClickButton(pressButton);
+}
+
 }

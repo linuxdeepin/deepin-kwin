@@ -314,4 +314,18 @@ bool GLScene::animating() const
         || m_enterAnim.running();
 }
 
+bool GLScene::hasPressedControl() const
+{
+    return m_pressedControl != nullptr;
+}
+
+void GLScene::cancelPress()
+{
+    if (!m_pressedControl) {
+        return;
+    }
+    m_pressedControl->cancel();
+    m_pressedControl = nullptr;
+}
+
 }

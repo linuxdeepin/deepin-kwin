@@ -341,6 +341,16 @@ void MultitaskViewExEffect::syncViews()
         if (!view || screens.contains(view->model.screen())) {
             continue;
         }
+        if (m_dockPressView == view) {
+            m_dockPressButton = Qt::NoButton;
+            m_dockPressView = nullptr;
+        }
+        if (m_dragView == view) {
+            m_dragView = nullptr;
+            if (m_running) {
+                effects->defineCursor(Qt::ArrowCursor);
+            }
+        }
         if (m_running) {
             restoreWindowRoles();
             releaseBackground(*view);
@@ -389,6 +399,16 @@ ScreenView *MultitaskViewExEffect::viewAtGlobal(const QPointF &globalPos) const
 {
     EffectScreen *screen = effects->screenAt(globalPos.toPoint());
     return screen ? m_views.find(screen) : nullptr;
+}
+
+ScreenView *MultitaskViewExEffect::viewWithActivePress() const
+{
+    for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
+        if (owned->model.dragActive() || owned->model.barDragModel().isActive() || owned->scene->hasPressedControl()) {
+            return owned.get();
+        }
+    }
+    return nullptr;
 }
 
 bool MultitaskViewExEffect::inDockArea(const QPointF &pos) const

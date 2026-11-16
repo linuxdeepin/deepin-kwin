@@ -122,4 +122,10 @@ void WindowCellControl::release(const QPointF &pos)
     m_pressCell = -1;
 }
 
+void WindowCellControl::cancel()
+{
+    GLControl::cancel();
+    m_pressCell = -1;
+}
+
 }

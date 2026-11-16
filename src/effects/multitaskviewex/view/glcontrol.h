@@ -119,6 +119,16 @@ public:
         Q_UNUSED(pos)
     }
 
+    /**
+     * @brief Cancels an active press without emitting any click.
+     *
+     * Controls reset their own pressed index on top of this base implementation.
+     */
+    virtual void cancel()
+    {
+        clearInputState();
+    }
+
 protected:
     bool m_pressed = false;
     bool m_dragging = false;

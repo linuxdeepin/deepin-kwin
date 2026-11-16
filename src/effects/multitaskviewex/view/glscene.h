@@ -405,6 +405,17 @@ public:
      */
     void dispatchRelease(const QPointF &pos);
 
+    /**
+     * @brief Tests whether a control is currently pressed.
+     * @return True when a pressed control exists.
+     */
+    bool hasPressedControl() const;
+
+    /**
+     * @brief Cancels the active press without emitting any click.
+     */
+    void cancelPress();
+
 public:
     /**
      * @brief Tests whether another frame is needed.

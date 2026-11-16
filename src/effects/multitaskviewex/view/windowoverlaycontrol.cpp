@@ -65,6 +65,12 @@ void WindowOverlayControl::release(const QPointF &pos)
     m_pressTop = m_pressClose = -1;
 }
 
+void WindowOverlayControl::cancel()
+{
+    GLControl::cancel();
+    m_pressTop = m_pressClose = -1;
+}
+
 void WindowOverlayControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
 {
     const qreal fade = frame.enterProgress;

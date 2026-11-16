@@ -123,6 +123,11 @@ public:
      */
     void release(const QPointF &pos) override;
 
+    /**
+     * @brief Cancels the pending press without clicking an overlay button.
+     */
+    void cancel() override;
+
 Q_SIGNALS:
     /**
      * @brief Emitted when a window's top button is clicked.

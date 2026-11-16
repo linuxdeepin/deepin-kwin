@@ -31,9 +31,25 @@ namespace KWin
 
 void MultitaskViewExEffect::finishBarDragIfButtonReleased()
 {
-    if (dragView() && dragView()->model.barDragModel().isActive() && !leftButtonPhysicallyDown()) {
+    if (dragView() && dragView()->model.barDragModel().isActive() && !leftButtonPhysicallyDown()
+        && !inDockArea(effects->cursorPos())) {
         finishBarDrag();
     }
+}
+
+void MultitaskViewExEffect::cancelBarDrag(ScreenView &view)
+{
+    if (!view.model.barDragModel().isActive()) {
+        return;
+    }
+    view.model.barDragModel().end();
+    view.scene->workspaceBar()->resetInput();
+    view.scene->cancelPress();
+    if (m_dragView == &view) {
+        m_dragView = nullptr;
+    }
+    effects->defineCursor(Qt::ArrowCursor);
+    effects->addRepaintFull();
 }
 
 void MultitaskViewExEffect::finishBarDrag()

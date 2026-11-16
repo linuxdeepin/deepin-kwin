@@ -37,6 +37,8 @@ private Q_SLOTS:
     void wallpaperCacheMergeKeepsMissingEntries();
     void wallpaperSnapshotDebounceSkipsUnchanged();
     void dockPointerIsNotConsumedByView();
+    void dockClickButtonIsLeftOrRight();
+    void dockClickReleaseRequiresSameButtonAndDock();
     void keyNavMapsKeysToActions();
     void screenLayoutPerScreenIsConsistent();
     void screenLocalLayoutNormalizesToScreenOrigin();
@@ -127,6 +129,26 @@ void TestSceneModel::dockPointerIsNotConsumedByView()
     QVERIFY(pointerBelongsToDock(docks, QPointF(1000, 2050)));
     QVERIFY(!pointerBelongsToDock(docks, QPointF(1000, 500)));
     QVERIFY(!pointerBelongsToDock({}, QPointF(1000, 2050)));
+}
+
+void TestSceneModel::dockClickButtonIsLeftOrRight()
+{
+    QVERIFY(isDockClickButton(Qt::LeftButton));
+    QVERIFY(isDockClickButton(Qt::RightButton));
+    QVERIFY(!isDockClickButton(Qt::MiddleButton));
+    QVERIFY(!isDockClickButton(Qt::NoButton));
+    QVERIFY(!isDockClickButton(Qt::BackButton));
+}
+
+void TestSceneModel::dockClickReleaseRequiresSameButtonAndDock()
+{
+    QVERIFY(isDockClickRelease(Qt::LeftButton, Qt::LeftButton, true, true));
+    QVERIFY(isDockClickRelease(Qt::RightButton, Qt::RightButton, true, true));
+    QVERIFY(!isDockClickRelease(Qt::LeftButton, Qt::LeftButton, false, true));
+    QVERIFY(!isDockClickRelease(Qt::LeftButton, Qt::LeftButton, true, false));
+    QVERIFY(!isDockClickRelease(Qt::LeftButton, Qt::RightButton, true, true));
+    QVERIFY(!isDockClickRelease(Qt::MiddleButton, Qt::MiddleButton, true, true));
+    QVERIFY(!isDockClickRelease(Qt::NoButton, Qt::LeftButton, true, true));
 }
 
 void TestSceneModel::screenLayoutPerScreenIsConsistent()

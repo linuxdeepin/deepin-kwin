@@ -164,6 +164,8 @@ void MultitaskViewExEffect::requestExit()
         return;
     }
     m_exitRequested = true;
+    m_dockPressButton = Qt::NoButton;
+    m_dockPressView = nullptr;
     elevateForExit();
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
         owned->scene->setEntered(false);
@@ -236,6 +238,8 @@ void MultitaskViewExEffect::stop()
 void MultitaskViewExEffect::setRunning(bool run)
 {
     clearElevatedWindow();
+    m_dockPressButton = Qt::NoButton;
+    m_dockPressView = nullptr;
     m_hoverSwitchTimer.stop();
     m_hoverSwitchSlot = -1;
     m_selectedWindow = nullptr;
@@ -672,16 +676,53 @@ void MultitaskViewExEffect::windowInputMouseEvent(QEvent *event)
         return;
     }
     const QPointF pos = globalPos - view->model.origin();
-    if (pointerBelongsToDock(view->model.dockAreas(), pos)) {
-        if (event->type() == QEvent::MouseButtonPress && !view->model.dragActive()) {
-            m_dockRelay.remember(globalPos, static_cast<QMouseEvent *>(event)->button());
+    if (event->type() == QEvent::MouseButtonRelease && m_dockPressButton != Qt::NoButton) {
+        const Qt::MouseButton button = static_cast<QMouseEvent *>(event)->button();
+        const bool releaseInDock = pointerBelongsToDock(view->model.dockAreas(), pos);
+        const bool sameView = (view == m_dockPressView);
+        const bool clicked = isDockClickRelease(m_dockPressButton, button, sameView, releaseInDock);
+        m_dockPressButton = Qt::NoButton;
+        m_dockPressView = nullptr;
+        if (clicked) {
+            m_dockRelay.remember(globalPos, button);
             requestExit();
         }
         event->accept();
         return;
     }
+    if (pointerBelongsToDock(view->model.dockAreas(), pos)) {
+        if (event->type() == QEvent::MouseMove) {
+            if (ScreenView *pressView = viewWithActivePress()) {
+                const QPointF pressPos = globalPos - pressView->model.origin();
+                pressView->scene->dispatchMove(pressPos);
+            }
+            event->accept();
+            return;
+        }
+        if (event->type() == QEvent::MouseButtonPress && !view->model.dragActive()) {
+            const Qt::MouseButton button = static_cast<QMouseEvent *>(event)->button();
+            m_dockPressButton = button;
+            m_dockPressView = view;
+        } else if (event->type() == QEvent::MouseButtonRelease) {
+            if (ScreenView *pressView = viewWithActivePress()) {
+                const QPointF pressPos = globalPos - pressView->model.origin();
+                if (pressView->model.dragActive()) {
+                    pressView->scene->dispatchRelease(pressPos);
+                } else if (pressView->model.barDragModel().isActive()) {
+                    cancelBarDrag(*pressView);
+                } else {
+                    pressView->scene->cancelPress();
+                }
+            }
+        }
+        event->accept();
+        return;
+    }
+
     switch (event->type()) {
     case QEvent::MouseButtonPress:
+        m_dockPressButton = Qt::NoButton;
+        m_dockPressView = nullptr;
         finishBarDrag();
         view->scene->dispatchPress(pos);
         event->accept();
@@ -746,9 +787,58 @@ void MultitaskViewExEffect::relayDockClick()
     const QPointF pos = m_dockRelay.pos();
     const Qt::MouseButton button = m_dockRelay.button();
     m_dockRelay.clear();
+    if (onX11Platform()) {
+        xcb_connection_t *connection = x11Connection();
+        if (!connection || !isDockClickButton(button)) {
+            return;
+        }
+        EffectWindow *dock = nullptr;
+        for (EffectWindow *window : effects->stackingOrder()) {
+            if (window->isDock() && window->frameGeometry().contains(pos)) {
+                dock = window;
+                break;
+            }
+        }
+        if (!dock) {
+            return;
+        }
+        auto *impl = static_cast<EffectWindowImpl *>(dock);
+        Window *window = impl->window();
+        if (!window) {
+            return;
+        }
+        const uint8_t detail = button == Qt::RightButton ? 3 : 1;
+        const QPointF localPos = pos - dock->frameGeometry().topLeft();
+        xcb_button_press_event_t press{};
+        press.response_type = XCB_BUTTON_PRESS;
+        press.event = window->window();
+        press.root = effects->x11RootWindow();
+        press.event_x = static_cast<int16_t>(qRound(localPos.x()));
+        press.event_y = static_cast<int16_t>(qRound(localPos.y()));
+        press.root_x = static_cast<int16_t>(qRound(pos.x()));
+        press.root_y = static_cast<int16_t>(qRound(pos.y()));
+        press.detail = detail;
+        press.same_screen = 1;
+        xcb_send_event(connection, false, press.event, XCB_EVENT_MASK_BUTTON_PRESS, reinterpret_cast<const char *>(&press));
+
+        xcb_button_release_event_t release{};
+        release.response_type = XCB_BUTTON_RELEASE;
+        release.event = window->window();
+        release.root = effects->x11RootWindow();
+        release.event_x = static_cast<int16_t>(qRound(localPos.x()));
+        release.event_y = static_cast<int16_t>(qRound(localPos.y()));
+        release.root_x = static_cast<int16_t>(qRound(pos.x()));
+        release.root_y = static_cast<int16_t>(qRound(pos.y()));
+        release.detail = detail;
+        release.same_screen = 1;
+        xcb_send_event(connection, false, release.event, XCB_EVENT_MASK_BUTTON_RELEASE, reinterpret_cast<const char *>(&release));
+        xcb_flush(connection);
+        return;
+    }
     if (effectsEx) {
         effectsEx->sendPointer(pos, button);
     }
+
 }
 
 void MultitaskViewExEffect::grabbedKeyboardEvent(QKeyEvent *keyEvent)

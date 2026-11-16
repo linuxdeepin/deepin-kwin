@@ -296,4 +296,10 @@ void WorkspaceBarControl::release(const QPointF &pos)
     }
 }
 
+void WorkspaceBarControl::cancel()
+{
+    GLControl::cancel();
+    m_pressSlot = -1;
+}
+
 }

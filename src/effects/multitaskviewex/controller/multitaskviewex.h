@@ -164,6 +164,7 @@ private:
     void applyViewGeometry(ScreenView &view);
     QVector<ScreenView *> paintTargetViews(const QRectF &renderTargetRect) const;
     ScreenView *viewAtGlobal(const QPointF &globalPos) const;
+    ScreenView *viewWithActivePress() const;
     bool inDockArea(const QPointF &pos) const;
     void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
     void windowInputMouseEvent(QEvent *event) override;
@@ -181,6 +182,7 @@ private:
 
     void finishBarDragIfButtonReleased();
     void finishBarDrag();
+    void cancelBarDrag(ScreenView &view);
     QVector<int> barOrder() const;
     void syncBarModel();
     void applyBarOrder(ScreenView &view);
@@ -241,6 +243,8 @@ private:
     ImageProvider *m_imgProvider = nullptr;
     WindowRoles m_roles;
     DockRelay m_dockRelay;
+    Qt::MouseButton m_dockPressButton = Qt::NoButton;
+    ScreenView *m_dockPressView = nullptr;
 
     ScreenViewSet m_views;
     QString m_newWorkspaceWallpaper;

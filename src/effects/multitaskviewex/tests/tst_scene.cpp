@@ -62,6 +62,11 @@ private Q_SLOTS:
     void barAnimConvergesUnderPerFrameSync();
     void sceneLayerOrderIsUniqueAndControlLayersMatch();
     void emptyHintNeverSwallowsClicks();
+    void cancelPressDropsPendingClick();
+    void windowCellCancelStopsActiveDrag();
+    void workspaceBarCancelDropsPendingClick();
+    void workspaceBarCancelStopsActiveDrag();
+    void windowOverlayCancelDropsButtonClick();
     void windowInfoNeverSwallowsClicks();
     void hintControlStoresValues();
     void hintCapsuleRectClampsOrCenters();
@@ -324,6 +329,203 @@ void TestScene::emptyHintNeverSwallowsClicks()
     scene.dispatchPress(scene.model()->layout().gridArea.center());
     scene.dispatchRelease(scene.model()->layout().gridArea.center());
     QCOMPARE(blankSpy.count(), 1);
+}
+
+void TestScene::cancelPressDropsPendingClick()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    scene.model()->syncScreen(QPointF(0, 0), QSizeF(3840, 2160),
+                              QRectF(0, 0, 3840, 2160), QRectF(0, 0, 3840, 2160), {});
+    scene.setEntered(true);
+    const QVector<QRectF> cells{QRectF(100, 400, 800, 300)};
+    scene.model()->syncCellItems(cells, 705.0);
+    scene.setGridScrollTarget(0.0);
+    scene.advance(600);
+
+    QSignalSpy cellSpy(scene.windowCells(), &WindowCellControl::cellClicked);
+    QSignalSpy dragSpy(scene.windowCells(), &WindowCellControl::cellDragStarted);
+    QSignalSpy blankSpy(&scene, &GLScene::blankClicked);
+
+    const QPointF center = cells[0].center();
+    scene.dispatchPress(center);
+    QVERIFY(scene.hasPressedControl());
+
+    scene.cancelPress();
+    QVERIFY(!scene.hasPressedControl());
+
+    scene.dispatchMove(center + QPointF(200, 100));
+    scene.dispatchRelease(center);
+
+    QCOMPARE(cellSpy.count(), 0);
+    QCOMPARE(dragSpy.count(), 0);
+    QCOMPARE(blankSpy.count(), 0);
+
+    scene.dispatchPress(center);
+    scene.dispatchRelease(center);
+    QCOMPARE(cellSpy.count(), 1);
+}
+
+void TestScene::windowCellCancelStopsActiveDrag()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    scene.model()->syncScreen(QPointF(0, 0), QSizeF(3840, 2160),
+                              QRectF(0, 0, 3840, 2160), QRectF(0, 0, 3840, 2160), {});
+    scene.setEntered(true);
+    const QVector<QRectF> cells{QRectF(100, 400, 800, 300)};
+    scene.model()->syncCellItems(cells, 705.0);
+    scene.setGridScrollTarget(0.0);
+    scene.advance(600);
+
+    QSignalSpy clickSpy(scene.windowCells(), &WindowCellControl::cellClicked);
+    QSignalSpy dragStartedSpy(scene.windowCells(), &WindowCellControl::cellDragStarted);
+    QSignalSpy dragFinishedSpy(scene.windowCells(), &WindowCellControl::cellDragFinished);
+
+    const QPointF center = cells[0].center();
+    scene.dispatchPress(center);
+    scene.dispatchMove(center + QPointF(200, 100));
+    QCOMPARE(dragStartedSpy.count(), 1);
+    QVERIFY(scene.windowCells()->dragging());
+
+    scene.cancelPress();
+    QVERIFY(!scene.windowCells()->dragging());
+    QVERIFY(!scene.hasPressedControl());
+
+    scene.dispatchRelease(center + QPointF(200, 100));
+    QCOMPARE(dragFinishedSpy.count(), 0);
+    QCOMPARE(clickSpy.count(), 0);
+}
+
+void TestScene::workspaceBarCancelDropsPendingClick()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    scene.model()->syncScreen(QPointF(0, 0), QSizeF(3840, 2160),
+                              QRectF(0, 0, 3840, 2160), QRectF(0, 0, 3840, 2160), {});
+    scene.setEntered(true);
+    WorkspaceBarDragModel::Config cfg;
+    cfg.workspaceWidth = 480;
+    cfg.workspaceHeight = 338;
+    cfg.spacing = 80;
+    cfg.listX = 1120;
+    WorkspaceBarDragModel drag;
+    drag.setConfig(cfg);
+    const QVector<QPair<QString, int>> order{{"d1", 1}, {"d2", 2}};
+    scene.model()->syncBarItems(order, QHash<QString, QString>());
+    scene.model()->barDragModel() = drag;
+    scene.syncBarLayer({1, 2}, 1, -1);
+    scene.advance(400);
+
+    const QRectF item = scene.barLayer().nodes()[0].rect();
+    QVERIFY(!item.isEmpty());
+    QSignalSpy clickSpy(scene.workspaceBar(), &WorkspaceBarControl::slotClicked);
+    QSignalSpy dragStartedSpy(scene.workspaceBar(), &WorkspaceBarControl::slotDragStarted);
+    QSignalSpy dragFinishedSpy(scene.workspaceBar(), &WorkspaceBarControl::slotDragFinished);
+
+    scene.dispatchPress(item.center());
+    QVERIFY(scene.hasPressedControl());
+
+    scene.cancelPress();
+    QVERIFY(!scene.hasPressedControl());
+
+    scene.dispatchRelease(item.center());
+    QCOMPARE(clickSpy.count(), 0);
+    QCOMPARE(dragStartedSpy.count(), 0);
+    QCOMPARE(dragFinishedSpy.count(), 0);
+
+    scene.dispatchPress(item.center());
+    scene.dispatchRelease(item.center());
+    QCOMPARE(clickSpy.count(), 1);
+}
+
+void TestScene::workspaceBarCancelStopsActiveDrag()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    scene.model()->syncScreen(QPointF(0, 0), QSizeF(3840, 2160),
+                              QRectF(0, 0, 3840, 2160), QRectF(0, 0, 3840, 2160), {});
+    scene.setEntered(true);
+    WorkspaceBarDragModel::Config cfg;
+    cfg.workspaceWidth = 480;
+    cfg.workspaceHeight = 338;
+    cfg.spacing = 80;
+    cfg.listX = 1120;
+    WorkspaceBarDragModel drag;
+    drag.setConfig(cfg);
+    const QVector<QPair<QString, int>> order{{"d1", 1}, {"d2", 2}};
+    scene.model()->syncBarItems(order, QHash<QString, QString>());
+    scene.model()->barDragModel() = drag;
+    scene.syncBarLayer({1, 2}, 1, -1);
+    scene.advance(400);
+
+    const QRectF item = scene.barLayer().nodes()[0].rect();
+    QVERIFY(!item.isEmpty());
+    QSignalSpy clickSpy(scene.workspaceBar(), &WorkspaceBarControl::slotClicked);
+    QSignalSpy dragStartedSpy(scene.workspaceBar(), &WorkspaceBarControl::slotDragStarted);
+    QSignalSpy dragMovedSpy(scene.workspaceBar(), &WorkspaceBarControl::slotDragMoved);
+    QSignalSpy dragFinishedSpy(scene.workspaceBar(), &WorkspaceBarControl::slotDragFinished);
+
+    scene.dispatchPress(item.center());
+    scene.dispatchMove(item.center() + QPointF(100, 0));
+    QCOMPARE(dragStartedSpy.count(), 1);
+    QVERIFY(dragMovedSpy.count() >= 1);
+    QVERIFY(scene.workspaceBar()->dragging());
+
+    const int movedBeforeCancel = dragMovedSpy.count();
+    scene.cancelPress();
+    QVERIFY(!scene.workspaceBar()->dragging());
+    QVERIFY(!scene.hasPressedControl());
+
+    scene.dispatchMove(item.center() + QPointF(200, 0));
+    QCOMPARE(dragMovedSpy.count(), movedBeforeCancel);
+    scene.dispatchRelease(item.center() + QPointF(200, 0));
+    QCOMPARE(dragFinishedSpy.count(), 0);
+    QCOMPARE(clickSpy.count(), 0);
+}
+
+void TestScene::windowOverlayCancelDropsButtonClick()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    scene.setEntered(true);
+    const QVector<QRectF> cells{QRectF(100, 400, 800, 300)};
+    EffectWindow *w0 = reinterpret_cast<EffectWindow *>(0x7000);
+    const QVector<EffectWindow *> wins{w0};
+    const QVector<QRectF> sources{QRectF(0, 0, 1600, 900)};
+    scene.model()->syncCellItems(cells, 300.0);
+    scene.model()->syncWindows(wins, sources);
+    scene.setGridScrollTarget(0.0);
+    scene.model()->setHoverCell(0);
+    scene.syncWindowLayer();
+    scene.advance(800);
+
+    auto *ov = scene.windowOverlay();
+    QVERIFY(ov->hasItems());
+    const QRectF cb = scene.windowItemLayer().nodes()[0].closeButtonRect();
+    QVERIFY2(ov->hitTest(cb.center()), "precondition: the close button must be hit");
+
+    QSignalSpy topSpy(ov, &WindowOverlayControl::topClicked);
+    QSignalSpy closeSpy(ov, &WindowOverlayControl::closeClicked);
+
+    scene.dispatchPress(cb.center());
+    QVERIFY(scene.hasPressedControl());
+
+    scene.cancelPress();
+    QVERIFY(!scene.hasPressedControl());
+
+    scene.dispatchRelease(cb.center());
+    QCOMPARE(topSpy.count(), 0);
+    QCOMPARE(closeSpy.count(), 0);
+
+    scene.dispatchPress(cb.center());
+    scene.dispatchRelease(cb.center());
+    QCOMPARE(closeSpy.count(), 1);
 }
 
 void TestScene::windowInfoNeverSwallowsClicks()

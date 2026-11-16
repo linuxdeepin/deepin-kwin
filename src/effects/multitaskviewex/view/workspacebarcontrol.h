@@ -211,6 +211,11 @@ public:
      */
     void release(const QPointF &pos) override;
 
+    /**
+     * @brief Cancels the pending press without switching or reordering desktops.
+     */
+    void cancel() override;
+
 Q_SIGNALS:
     /**
      * @brief Emitted when the hovered slot changes.

@@ -202,6 +202,11 @@ public:
      */
     void release(const QPointF &pos) override;
 
+    /**
+     * @brief Cancels the pending press without selecting a window.
+     */
+    void cancel() override;
+
 Q_SIGNALS:
     /**
      * @brief Emitted when a cell is clicked.
