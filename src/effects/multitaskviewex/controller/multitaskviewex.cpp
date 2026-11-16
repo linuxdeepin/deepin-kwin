@@ -62,6 +62,7 @@ Q_LOGGING_CATEGORY(KWIN_MTVEX, "kwin_effects.multitaskviewex", QtInfoMsg)
 namespace
 {
 constexpr qreal kWindowInfoBottomCenterOffset = 40.0;
+constexpr qint64 kAddDesktopCooldownMs = 200;
 
 bool hasRetiringItems(const QVector<WindowItem> &items)
 {
@@ -938,8 +939,10 @@ void MultitaskViewExEffect::grabbedKeyboardEvent(QKeyEvent *keyEvent)
         }
         break;
     case NavActionType::AddDesktop:
-        if (!m_addDesktopTimer.isActive()) {
-            m_addDesktopTimer.start();
+        if (!m_addDesktopCooldown.isValid()
+            || m_addDesktopCooldown.elapsed() >= kAddDesktopCooldownMs) {
+            m_addDesktopCooldown.restart();
+            addDesktop();
         }
         break;
     case NavActionType::RemoveDesktop:

@@ -99,7 +99,7 @@ inline NavAction navActionFor(int key, Qt::KeyboardModifiers mods)
     case Qt::Key_Equal:
         return alt ? NavAction{NavActionType::AddDesktop, 0} : NavAction{};
     case Qt::Key_Plus:
-        return altKeypad ? NavAction{NavActionType::AddDesktop, 0} : NavAction{};
+        return (altKeypad || altShift) ? NavAction{NavActionType::AddDesktop, 0} : NavAction{};
     case Qt::Key_Minus:
         return (alt || altKeypad) ? NavAction{NavActionType::RemoveDesktop, 0} : NavAction{};
     case Qt::Key_Tab:

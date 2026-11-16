@@ -17,6 +17,7 @@
 
 #include <kwineffects.h>
 
+#include <QElapsedTimer>
 #include <QHash>
 #include <QKeySequence>
 #include <QList>
@@ -269,7 +270,7 @@ private:
 
     QTimer m_hoverSwitchTimer;
     int m_hoverSwitchSlot = -1;
-    QTimer m_addDesktopTimer;
+    QElapsedTimer m_addDesktopCooldown;
 };
 
 }

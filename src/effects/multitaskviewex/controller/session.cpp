@@ -69,13 +69,6 @@ void MultitaskViewExEffect::wireGlobalTimers()
         });
     }
     m_hoverSwitchTimer.setSingleShot(true);
-    m_addDesktopTimer.setInterval(200);
-    m_addDesktopTimer.setSingleShot(true);
-    connect(&m_addDesktopTimer, &QTimer::timeout, this, [this]() {
-        if (m_running) {
-            addDesktop();
-        }
-    });
     connect(&m_hoverSwitchTimer, &QTimer::timeout, this, [this]() {
         const int slot = m_hoverSwitchSlot;
         m_hoverSwitchSlot = -1;

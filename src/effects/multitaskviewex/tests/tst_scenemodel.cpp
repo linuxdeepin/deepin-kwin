@@ -479,6 +479,7 @@ void TestSceneModel::keyNavMapsKeysToActions()
 
     QCOMPARE(A(Qt::Key_Equal, Qt::AltModifier).type, K::AddDesktop);
     QCOMPARE(A(Qt::Key_Plus, Qt::AltModifier | Qt::KeypadModifier).type, K::AddDesktop);
+    QCOMPARE(A(Qt::Key_Plus, Qt::AltModifier | Qt::ShiftModifier).type, K::AddDesktop);
     QCOMPARE(A(Qt::Key_Minus, Qt::AltModifier).type, K::RemoveDesktop);
     QCOMPARE(A(Qt::Key_Minus, Qt::AltModifier | Qt::KeypadModifier).type, K::RemoveDesktop);
 

@@ -4,6 +4,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
+#include "data/wallpaperprovider.h"
 #include "data/workspacebarmetrics.h"
 #include "data/workspacemodel.h"
 #include "effectconfig.h"
@@ -165,11 +166,14 @@ void MultitaskViewExEffect::applyBarOrder(ScreenView &view)
 
 void MultitaskViewExEffect::addDesktop()
 {
+    if (m_newWorkspaceWallpaper.isEmpty()) {
+        m_newWorkspaceWallpaper = randomWallpaperPath();
+    }
     if (!m_workspaces->addDesktop(m_newWorkspaceWallpaper, m_config->maxWorkspaces())) {
         return;
     }
     m_newWorkspaceWallpaper.clear();
-    syncBarModel();
+    slideToDesktop(int(workspaces()->count()));
 }
 
 void MultitaskViewExEffect::removeDesktop(int desktopNumber)
