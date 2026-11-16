@@ -134,6 +134,7 @@ private Q_SLOTS:
     void barCellSkeletonStaysPutDuringDrag();
     void endKeepsOrder();
     void hoverSwitchRequiresIdleOnOtherDesktop();
+    void desktopClickExitsOnlyOnCurrentWhenIdle();
     void dragSessionKeepsCellAcrossResync();
     void dropTargetDecidesByPosition();
     void inputGateClosesDuringExit();
@@ -757,6 +758,16 @@ void TestBarDragModel::hoverSwitchRequiresIdleOnOtherDesktop()
     QVERIFY(shouldSwitchDesktop(1, 2, 3));
     QVERIFY(!shouldSwitchDesktop(0, 1, 0));
     QCOMPARE(kDragHoverSwitchMs, 1000);
+}
+
+void TestBarDragModel::desktopClickExitsOnlyOnCurrentWhenIdle()
+{
+    QVERIFY(!shouldExitDesktopOnClick(0, 1, false));
+    QVERIFY(!shouldExitDesktopOnClick(-1, 1, false));
+    QVERIFY(!shouldExitDesktopOnClick(2, 1, false));
+    QVERIFY(shouldExitDesktopOnClick(1, 1, false));
+    QVERIFY(!shouldExitDesktopOnClick(1, 1, true));
+    QVERIFY(!shouldExitDesktopOnClick(2, 1, true));
 }
 
 void TestBarDragModel::dragSessionKeepsCellAcrossResync()

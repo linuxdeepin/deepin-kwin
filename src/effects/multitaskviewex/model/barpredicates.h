@@ -35,6 +35,18 @@ inline bool shouldSwitchDesktop(int hoverSlot, int currentNumber, int slotNumber
     return hoverSlot >= 0 && slotNumber > 0 && slotNumber != currentNumber;
 }
 
+/**
+ * @brief Decides whether clicking a workspace slot should leave the view.
+ * @param slotNumber Desktop number of the clicked slot.
+ * @param currentNumber Current desktop number.
+ * @param slideAnimating Whether the background slide is still running.
+ * @return True when the slot is the current desktop and no slide is running.
+ */
+inline bool shouldExitDesktopOnClick(int slotNumber, int currentNumber, bool slideAnimating)
+{
+    return slotNumber > 0 && slotNumber == currentNumber && !slideAnimating;
+}
+
 struct GhostDrop
 {
     QRectF rect;

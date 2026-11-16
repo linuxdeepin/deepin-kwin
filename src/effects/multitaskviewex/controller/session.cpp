@@ -121,6 +121,10 @@ void MultitaskViewExEffect::wireScreenView(ScreenView &view)
             });
     connect(view.scene->workspaceBar(), &WorkspaceBarControl::slotClicked, view.scene.get(), [this, &view](int slot) {
         const int num = workspaces()->numAt(slot);
+        if (shouldExitDesktopOnClick(num, workspaces()->currentNumber(), view.scene->slideAnimating())) {
+            requestExit();
+            return;
+        }
         slideToDesktop(num);
     });
     connect(view.scene->workspaceBar(), &WorkspaceBarControl::addClicked, view.scene.get(), [this, &view]() {
