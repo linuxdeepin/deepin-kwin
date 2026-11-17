@@ -25,6 +25,7 @@ inline constexpr double kMaxAnimationSpeedMultiplier = 5.0;
 
 inline constexpr int kMinAnimationDurationMs = 16;
 
+inline constexpr int kBarEnterFadeMs = 100;
 inline constexpr int kOutgoingSlideMs = 300;
 inline constexpr int kWindowQuickMs = 120;
 inline constexpr int kOverlayFadeMs = 120;

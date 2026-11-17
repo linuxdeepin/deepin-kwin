@@ -103,6 +103,7 @@ SceneFrame GLScene::currentFrame() const
 {
     SceneFrame frame;
     frame.enterProgress = m_enterValue;
+    frame.barOpacity = m_barOpacity;
     frame.barShiftY = m_model ? -m_model->metrics().workspaceHeight() * (1.0 - frame.enterProgress) : 0.0;
     frame.bgSliding = m_sliding;
     frame.bgSlideProgress = m_slide;
@@ -173,6 +174,13 @@ bool GLScene::advance(int dtMs)
             m_enterValue = m_enterTo;
         }
     }
+    if (m_barEnterAnim.running()) {
+        m_barEnterAnim.advance(dtMs);
+        m_barOpacity = m_barEnterFrom + (m_barEnterTo - m_barEnterFrom) * m_barEnterAnim.value();
+        if (m_barEnterAnim.done()) {
+            m_barOpacity = m_barEnterTo;
+        }
+    }
     if (m_model) {
         m_barLayer.advance(dtMs);
         m_ghostLayer.advance(dtMs);
@@ -238,6 +246,8 @@ void GLScene::setEntered(bool entered)
     m_entered = entered;
     const qreal to = entered ? 1.0 : 0.0;
     if (qFuzzyCompare(m_enterValue, to)) {
+        m_barEnterAnim.reset();
+        m_barOpacity = to;
         return;
     }
     m_enterFrom = m_enterValue;
@@ -245,6 +255,19 @@ void GLScene::setEntered(bool entered)
     const MotionOptions motion = motionOf(m_model);
     m_enterAnim.configure(int(resolveMs(motion.viewEnterDurationMs, motion.animationSpeedMultiplier) * qAbs(to - m_enterValue)), Easing::OutQuint);
     m_enterAnim.start();
+
+    const qreal barDistance = entered ? qAbs(to - m_barOpacity) : qAbs(to - m_enterValue);
+    const int barDurationMs = entered ? kBarEnterFadeMs : motion.viewEnterDurationMs;
+    const int barTimelineMs = int(resolveMs(barDurationMs, motion.animationSpeedMultiplier) * barDistance);
+    m_barEnterFrom = m_barOpacity;
+    m_barEnterTo = to;
+    if (barTimelineMs > 0) {
+        m_barEnterAnim.configure(barTimelineMs, Easing::OutQuint);
+        m_barEnterAnim.start();
+    } else {
+        m_barEnterAnim.reset();
+        m_barOpacity = to;
+    }
 }
 
 void GLScene::resetEnter()
@@ -252,6 +275,8 @@ void GLScene::resetEnter()
     m_enterAnim.reset();
     m_enterValue = 0.0;
     m_entered = false;
+    m_barEnterAnim.reset();
+    m_barOpacity = 0.0;
 }
 
 int GLScene::windowAnimDuration() const
@@ -333,7 +358,8 @@ bool GLScene::animating() const
         || m_outgoingLayer.animating()
         || m_windowItemLayer.animating()
         || m_slideAnim.running()
-        || m_enterAnim.running();
+        || m_enterAnim.running()
+        || m_barEnterAnim.running();
 }
 
 bool GLScene::hasPressedControl() const

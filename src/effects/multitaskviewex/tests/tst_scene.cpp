@@ -71,6 +71,8 @@ private Q_SLOTS:
     void hintControlStoresValues();
     void hintCapsuleRectClampsOrCenters();
     void wallpaperFadesWithEnterProgress();
+    void barFadesInBeforeViewEnter();
+    void barFadeHandlesSameFrameReversal();
     void dragDeleteSwitchKeepsConsistency();
     void hoverHitIncludesCornerButtons();
     void overlayButtonsSkipRetiring();
@@ -627,6 +629,58 @@ void TestScene::wallpaperFadesWithEnterProgress()
                                              }),
                "17-exit-done");
     QCOMPARE(scene.enterProgress(), 0.0);
+}
+
+void TestScene::barFadesInBeforeViewEnter()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    scene.setEntered(true);
+
+    scene.advance(30);
+    const qreal barMid = scene.currentFrame().barOpacity;
+    QVERIFY2(barMid > 0.8 && barMid < 0.9,
+             qPrintable(QStringLiteral("bar opacity at 30ms should be ~0.83, got %1").arg(barMid)));
+    QVERIFY2(scene.enterProgress() < 0.5,
+             qPrintable(QStringLiteral("view enter at 30ms should still be early, got %1").arg(scene.enterProgress())));
+
+    scene.advance(70);
+    QCOMPARE(scene.currentFrame().barOpacity, 1.0);
+    QVERIFY2(scene.enterProgress() < 1.0, "view enter must still be running when the bar fade has finished");
+
+    scene.advance(300);
+    QCOMPARE(scene.enterProgress(), 1.0);
+
+    scene.setEntered(false);
+    scene.advance(120);
+    const qreal barExitMid = scene.currentFrame().barOpacity;
+    QVERIFY2(barExitMid > 0.1 && barExitMid < 0.25,
+             qPrintable(QStringLiteral("bar opacity at 120ms of exit should be ~0.17, got %1").arg(barExitMid)));
+
+    scene.advance(400);
+    QCOMPARE(scene.currentFrame().barOpacity, 0.0);
+}
+
+void TestScene::barFadeHandlesSameFrameReversal()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    scene.setEntered(true);
+    scene.advance(200);
+
+    QCOMPARE(scene.currentFrame().barOpacity, 1.0);
+    QVERIFY2(scene.enterProgress() < 1.0, "the view enter must still be running before the reversal");
+
+    scene.setEntered(false);
+    scene.setEntered(true);
+    scene.advance(1);
+    QCOMPARE(scene.currentFrame().barOpacity, 1.0);
+
+    scene.advance(400);
+    QCOMPARE(scene.enterProgress(), 1.0);
+    QCOMPARE(scene.currentFrame().barOpacity, 1.0);
 }
 
 void TestScene::overlayButtonsSkipRetiring()

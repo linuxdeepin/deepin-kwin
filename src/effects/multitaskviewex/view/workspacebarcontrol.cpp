@@ -108,7 +108,7 @@ void WorkspaceBarControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
         return;
     }
     auto &r = GLPaintRenderer::instance();
-    const qreal opacity = frame.enterProgress;
+    const qreal opacity = frame.barOpacity;
     const qreal barShiftY = frame.barShiftY;
     const qreal s = m_model ? m_model->osScale() : 1.0;
     const int draggedId = m_dragModel ? m_dragModel->draggedId() : -1;

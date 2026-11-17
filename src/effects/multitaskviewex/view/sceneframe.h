@@ -14,6 +14,7 @@ namespace KWin
 struct SceneFrame
 {
     qreal enterProgress = 1.0;
+    qreal barOpacity = 1.0;
     qreal barShiftY = 0.0;
     bool bgSliding = false;
     qreal bgSlideProgress = 1.0;

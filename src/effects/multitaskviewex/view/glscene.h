@@ -489,6 +489,10 @@ private:
     qreal m_enterTo = 0.0;
     qreal m_enterValue = 0.0;
     bool m_entered = false;
+    Animation m_barEnterAnim;
+    qreal m_barEnterFrom = 0.0;
+    qreal m_barEnterTo = 0.0;
+    qreal m_barOpacity = 0.0;
     WindowItemLayer m_windowItemLayer;
     OutgoingLayer m_outgoingLayer;
     qreal m_barScrollOffset = 0.0;
