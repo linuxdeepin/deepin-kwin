@@ -97,6 +97,13 @@ find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     LinguistTools
 )
 
+# Qt >= 6.10 ships private targets in standalone CMake packages (e.g. Qt6GuiPrivate)
+# instead of creating them from the metapackage, so find it explicitly. Needed by the
+# kwin target, the effects and by KGlobalAccelD's exported link interface.
+if (QT_MAJOR_VERSION EQUAL 6 AND NOT TARGET Qt6::GuiPrivate)
+    find_package(Qt6GuiPrivate REQUIRED NO_MODULE)
+endif()
+
 # required frameworks by Core
 find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Auth

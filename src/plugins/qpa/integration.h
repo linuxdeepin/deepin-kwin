@@ -14,8 +14,12 @@
 #include <QObject>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtServiceSupport/private/qgenericunixservices_p.h>
-#else
+#elif QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
 #include <QtGui/private/qgenericunixservices_p.h>
+#else
+// QGenericUnixServices was renamed to QDesktopUnixServices in Qt 6.10
+#include <QtGui/private/qdesktopunixservices_p.h>
+#define KWIN_USE_DESKTOP_UNIX_SERVICES 1
 #endif
 #include <qpa/qplatformintegration.h>
 
@@ -63,7 +67,11 @@ private:
     std::unique_ptr<QPlatformNativeInterface> m_nativeInterface;
     QPlatformScreen *m_dummyScreen = nullptr;
     QHash<Output *, Screen *> m_screens;
+#ifdef KWIN_USE_DESKTOP_UNIX_SERVICES
+    std::unique_ptr<QDesktopUnixServices> m_services;
+#else
     std::unique_ptr<QGenericUnixServices> m_services;
+#endif
 };
 
 }

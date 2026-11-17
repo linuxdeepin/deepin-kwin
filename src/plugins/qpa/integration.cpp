@@ -32,10 +32,16 @@
 #include <QtEventDispatcherSupport/private/qunixeventdispatcher_qpa_p.h>
 #include <QtFontDatabaseSupport/private/qgenericunixfontdatabase_p.h>
 #include <QtThemeSupport/private/qgenericunixthemes_p.h>
-#else
+#elif QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
 #include <QtGui/private/qgenericunixeventdispatcher_p.h>
 #include <QtGui/private/qgenericunixfontdatabase_p.h>
 #include <QtGui/private/qgenericunixthemes_p.h>
+#include <QtGui/private/qunixeventdispatcher_qpa_p.h>
+#else
+// Qt 6.10 renamed qgenericunixthemes_p.h to qgenericunixtheme_p.h
+#include <QtGui/private/qgenericunixeventdispatcher_p.h>
+#include <QtGui/private/qgenericunixfontdatabase_p.h>
+#include <QtGui/private/qgenericunixtheme_p.h>
 #include <QtGui/private/qunixeventdispatcher_qpa_p.h>
 #endif
 
@@ -61,7 +67,11 @@ Integration::Integration()
     , QPlatformIntegration()
     , m_fontDb(new QGenericUnixFontDatabase())
     , m_nativeInterface(new QPlatformNativeInterface())
+#ifdef KWIN_USE_DESKTOP_UNIX_SERVICES
+    , m_services(new QDesktopUnixServices())
+#else
     , m_services(new QGenericUnixServices())
+#endif
 {
 }
 
@@ -148,7 +158,9 @@ QPlatformWindow *Integration::createPlatformWindow(QWindow *window) const
 
 QPlatformOffscreenSurface *Integration::createPlatformOffscreenSurface(QOffscreenSurface *surface) const
 {
-    return new OffscreenSurface(surface);
+    // Qualify the name: QPlatformIntegration::Capability gained an OffscreenSurface
+    // enumerator in Qt 6.10, which hides KWin::QPA::OffscreenSurface here.
+    return new ::KWin::QPA::OffscreenSurface(surface);
 }
 
 QPlatformFontDatabase *Integration::fontDatabase() const
