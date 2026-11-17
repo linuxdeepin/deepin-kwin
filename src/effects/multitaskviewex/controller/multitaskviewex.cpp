@@ -626,7 +626,7 @@ void MultitaskViewExEffect::paintWindow(EffectWindow *w, int mask, QRegion regio
             return;
         }
         src = n->source;
-        cur = n->rect();
+        cur = view->scene->windowItemLayer().paintedRect(*n);
         op = n->opacity();
     } else {
         bool found = false;

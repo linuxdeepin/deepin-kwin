@@ -312,7 +312,7 @@ void MultitaskViewExEffect::wireScreenView(ScreenView &view)
         if (movedAway && view.model.draggedWindow()) {
             view.model.dropWindow(view.model.draggedWindow());
         }
-        syncSessionItems(0.0);
+        syncSessionItems();
         const QRectF ghostNow = view.scene->ghostLayer().rect();
         const QRectF cell = view.model.dragCell();
         const GhostDrop drop = ghostDropBehavior(movedAway, ghostNow, cell);
@@ -459,7 +459,7 @@ void MultitaskViewExEffect::releaseBackground(ScreenView &view)
     view.acquiredBgSize = QSize();
 }
 
-void MultitaskViewExEffect::syncSessionItems(qreal windowEnterOffsetX)
+void MultitaskViewExEffect::syncSessionItems()
 {
     auto *vds = VirtualDesktopManager::self();
     const int currentNum = vds && vds->currentDesktop() ? int(vds->currentDesktop()->x11DesktopNumber()) : 1;
@@ -503,12 +503,12 @@ void MultitaskViewExEffect::syncSessionItems(qreal windowEnterOffsetX)
         for (int index : group) {
             wins.append(candidates.at(index));
         }
-        syncScreenItems(*owned, wins, docks.value(owned->model.screen()), windowEnterOffsetX);
+        syncScreenItems(*owned, wins, docks.value(owned->model.screen()));
     }
 }
 
 void MultitaskViewExEffect::syncScreenItems(ScreenView &view, const QVector<EffectWindow *> &wins,
-                                                const QVector<QRectF> &absDocks, qreal windowEnterOffsetX)
+                                            const QVector<QRectF> &absDocks)
 {
     const QRectF fullRect = effects->clientArea(MaximizeFullArea, view.model.screen(), m_sessionDesktop);
     const QRectF screenGeo = effects->clientArea(MaximizeArea, view.model.screen(), m_sessionDesktop);
@@ -560,7 +560,7 @@ void MultitaskViewExEffect::syncScreenItems(ScreenView &view, const QVector<Effe
     view.model.syncCellItems(cells, scaleH);
     m_roles.apply(view);
     view.model.syncWindows(view.model.windows(), sources);
-    view.scene->syncWindowLayer(windowEnterOffsetX);
+    view.scene->syncWindowLayer();
     applyViewGeometry(view);
 }
 
@@ -576,13 +576,13 @@ void MultitaskViewExEffect::refreshOsScale()
     effects->addRepaintFull();
 }
 
-void MultitaskViewExEffect::setupSession(qreal windowEnterOffsetX)
+void MultitaskViewExEffect::setupSession()
 {
     refreshOsScale();
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
         owned->model.setOsScale(m_osScale);
     }
-    syncSessionItems(windowEnterOffsetX);
+    syncSessionItems();
     syncBarModel();
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
         applyViewGeometry(*owned);
@@ -687,7 +687,7 @@ void MultitaskViewExEffect::slideToDesktop(int num, int fromOverride)
                     owned->model.setDragPlaceholder(-1, false);
                 }
             }
-            syncSessionItems(slideOffset);
+            syncSessionItems();
             syncBarModel();
             for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
                 const QString wp = m_wallpapers->backgroundFor(num, owned->model.screen());

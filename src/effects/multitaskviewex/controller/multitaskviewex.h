@@ -197,10 +197,10 @@ private:
     void warmWallpapers();
     void restoreWindowRoles();
 
-    void syncSessionItems(qreal windowEnterOffsetX = 0.0);
+    void syncSessionItems();
     void syncScreenItems(ScreenView &view, const QVector<EffectWindow *> &wins,
-                         const QVector<QRectF> &absDocks, qreal windowEnterOffsetX);
-    void setupSession(qreal windowEnterOffsetX = 0.0);
+                         const QVector<QRectF> &absDocks);
+    void setupSession();
     void teardownSession();
     void refreshOsScale();
     void slideToDesktop(int num, int fromOverride = -1);

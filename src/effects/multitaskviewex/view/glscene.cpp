@@ -14,6 +14,7 @@
 #include "workspacebarcontrol.h"
 
 #include <algorithm>
+#include <cmath>
 
 namespace KWin
 {
@@ -185,6 +186,7 @@ bool GLScene::advance(int dtMs)
             }
         }
         m_outgoingLayer.advance(dtMs);
+        syncSlideOffset();
     }
     return animating();
 }
@@ -200,6 +202,7 @@ void GLScene::startSlide(const QString &fromUri, const QString &toUri, int dir)
     const MotionOptions motion = motionOf(m_model);
     m_slideAnim.configure(resolveMs(motion.workspaceMoveDurationMs, motion.animationSpeedMultiplier), Easing::OutCubic);
     m_slideAnim.start();
+    syncSlideOffset();
 }
 
 void GLScene::resetSlide()
@@ -208,6 +211,26 @@ void GLScene::resetSlide()
     m_sliding = false;
     m_slideFrom = 1.0;
     m_slide = 1.0;
+    syncSlideOffset();
+}
+
+qreal GLScene::slideOffsetX() const
+{
+    return m_windowItemLayer.slideOffset();
+}
+
+void GLScene::syncSlideOffset()
+{
+    m_windowItemLayer.setSlideOffset(gridSlideDx());
+}
+
+qreal GLScene::gridSlideDx() const
+{
+    if (!m_sliding || !m_model) {
+        return 0.0;
+    }
+    const qreal progress = qBound(qreal(0.0), m_slide, qreal(1.0));
+    return std::round(m_slideDir * m_model->layout().fullRect.width() * (1.0 - progress));
 }
 
 void GLScene::setEntered(bool entered)
@@ -285,7 +308,7 @@ void GLScene::syncBarLayer(const QVector<int> &order, int currentNum, int hovere
     m_barLayer.apply(items, preview, dur, ease, dragActive, in);
 }
 
-void GLScene::syncWindowLayer(qreal enterOffsetX)
+void GLScene::syncWindowLayer()
 {
     if (!m_model) {
         return;
@@ -296,7 +319,6 @@ void GLScene::syncWindowLayer(qreal enterOffsetX)
     in.scrollOffset = m_gridScrollTarget;
     in.hoveredIndex = m_model->hoverCell();
     in.entered = entered();
-    in.enterOffsetX = enterOffsetX;
     in.placeholderCell = m_model->dragPlaceholder();
     const MotionOptions motion = motionOf(m_model);
     in.retireMs = resolveMs(motion.windowChangeDurationMs, motion.animationSpeedMultiplier);

@@ -60,6 +60,13 @@ public:
      * @param closeIndex Output window index for the close button, or -1.
      * @return The hit button code, or 0 when none.
      */
+    /**
+     * @brief Returns the rect where a retiring window is painted this frame.
+     * @param n Window node.
+     * @return Painted rect, including the grid slide offset.
+     */
+    QRectF retiringRect(const WindowNode &n) const;
+
     int buttonAt(const QPointF &pos, int &topIndex, int &closeIndex) const;
 
     /**

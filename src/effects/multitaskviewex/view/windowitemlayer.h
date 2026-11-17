@@ -25,7 +25,6 @@ public:
         qreal scrollOffset = 0.0;
         int hoveredIndex = -1;
         bool entered = false;
-        qreal enterOffsetX = 0.0;
         int placeholderCell = -1;
         int retireMs = kDefaultWindowChangeDurationMs;
         int overlayMs = kOverlayFadeMs;
@@ -72,7 +71,7 @@ public:
             if (old) {
                 n.setTarget(target, op, durationMs, easing);
             } else {
-                const QRectF start = in.entered ? base.translated(in.enterOffsetX, 0.0) : item.source;
+                const QRectF start = in.entered ? base : item.source;
                 n.interp.snap(VisualState{start.x(), start.y(), start.width(), start.height(), op});
                 n.overlay = 0.0;
                 n.setTarget(target, op, durationMs, easing);
@@ -164,8 +163,42 @@ public:
         m_nodes.clear();
     }
 
+    /**
+     * @brief Sets the horizontal offset applied to every node while a workspace slide runs.
+     *
+     * The offset belongs to the layer, not to individual nodes: a workspace switch must
+     * translate the whole grid as one block, so every window is painted at its resting
+     * rect plus this single offset.
+     *
+     * @param dx Offset in canvas coordinates.
+     */
+    void setSlideOffset(qreal dx)
+    {
+        m_slideOffset = dx;
+    }
+
+    /**
+     * @brief Returns the slide offset applied to the whole grid this frame.
+     * @return Offset in canvas coordinates; 0 when no slide is running.
+     */
+    qreal slideOffset() const
+    {
+        return m_slideOffset;
+    }
+
+    /**
+     * @brief Returns the rect where a window is actually painted this frame.
+     * @param n Window node.
+     * @return Painted rect: the resting rect translated by the layer slide offset.
+     */
+    QRectF paintedRect(const WindowNode &n) const
+    {
+        return n.rect().translated(m_slideOffset, 0.0);
+    }
+
 private:
     QVector<WindowNode> m_nodes;
+    qreal m_slideOffset = 0.0;
 };
 
 }

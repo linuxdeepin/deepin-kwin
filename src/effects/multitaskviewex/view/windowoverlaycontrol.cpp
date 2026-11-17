@@ -71,6 +71,11 @@ void WindowOverlayControl::cancel()
     m_pressTop = m_pressClose = -1;
 }
 
+QRectF WindowOverlayControl::retiringRect(const WindowNode &n) const
+{
+    return m_layer ? m_layer->paintedRect(n) : n.rect();
+}
+
 void WindowOverlayControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
 {
     const qreal fade = frame.enterProgress;
@@ -82,7 +87,7 @@ void WindowOverlayControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
     for (const WindowNode &n : m_layer->nodes()) {
         if (n.retiring) {
             if (n.window && n.opacity() > 0.01) {
-                ctx.drawEffectWindow(n.window, n.source, n.rect(), n.opacity() * fade);
+                ctx.drawEffectWindow(n.window, n.source, retiringRect(n), n.opacity() * fade);
             }
             continue;
         }

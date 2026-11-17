@@ -225,6 +225,32 @@ public:
     }
 
     /**
+     * @brief Horizontal offset applied to the incoming workspace grid while sliding.
+     *
+     * Windows and cells translate by this single offset so the whole workspace moves as
+     * one block, instead of each window sliding inside its own cell.
+     *
+     * @return Offset in canvas coordinates; 0 when no slide is running.
+     */
+    qreal gridSlideDx() const;
+
+    /**
+     * @brief Returns the x offset the whole grid is painted with this frame.
+     *
+     * This is the single value every consumer reads: window nodes, retiring windows and
+     * cells. It is written once per frame by the scene, so no consumer can observe a
+     * different offset than another in the same frame.
+     *
+     * @return Offset in canvas coordinates; 0 when no slide is running.
+     */
+    qreal slideOffsetX() const;
+
+    /**
+     * @brief Recomputes and publishes the grid slide offset for the current frame.
+     */
+    void syncSlideOffset();
+
+    /**
      * @brief Starts entering or leaving the view.
      * @param entered True to enter, false to leave.
      */
@@ -376,9 +402,8 @@ public:
 
     /**
      * @brief Rebuilds the window item layer from the model.
-     * @param enterOffsetX Horizontal offset used while entering.
      */
-    void syncWindowLayer(qreal enterOffsetX = 0.0);
+    void syncWindowLayer();
 
     /**
      * @brief Returns the topmost control containing a point.

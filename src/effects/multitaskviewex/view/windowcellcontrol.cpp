@@ -25,7 +25,8 @@ QRectF WindowCellControl::cellRect(int i) const
         return QRectF();
     }
     const qreal scroll = m_scene ? m_scene->gridScrollTarget() : 0.0;
-    return m_cellBase->at(i).translated(0, scroll);
+    const qreal slideDx = m_scene ? m_scene->slideOffsetX() : 0.0;
+    return m_cellBase->at(i).translated(slideDx, scroll);
 }
 
 QRectF WindowCellControl::coverRect(int i) const
@@ -36,9 +37,10 @@ QRectF WindowCellControl::coverRect(int i) const
     QRectF basis = cellRect(i);
     const int placeholder = m_model ? m_model->dragPlaceholder() : -1;
     if (m_windowLayer && i != placeholder) {
+        const qreal slideDx = m_scene ? m_scene->slideOffsetX() : 0.0;
         for (const WindowNode &n : m_windowLayer->nodes()) {
             if (n.cellIndex == i && !n.retiring) {
-                basis = n.rect();
+                basis = n.rect().translated(slideDx, 0.0);
                 break;
             }
         }

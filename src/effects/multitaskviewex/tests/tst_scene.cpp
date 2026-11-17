@@ -90,6 +90,7 @@ private Q_SLOTS:
     void windowInGridCoverDerivesFromWindow();
     void placeholderHidesWindowCoverAndOverlay();
     void backgroundSlideProgressAndReset();
+    void workspaceSlideKeepsWindowsInOwnCells();
     void barScrollClampedByViewport();
 };
 
@@ -1349,6 +1350,9 @@ void TestScene::backgroundSlideProgressAndReset()
     scene.startSlide(QStringLiteral("from.png"), QStringLiteral("to.png"), 1);
     QVERIFY2(scene.slideAnimating(), "after startSlide the slide must be running");
     QCOMPARE(scene.slideProgress(), 0.0);
+    // The grid offset is published in the very frame the slide starts, so a paint between
+    // startSlide() and the next advance() cannot show windows and cells at different offsets.
+    QCOMPARE(scene.slideOffsetX(), scene.gridSlideDx());
 
     scene.advance(200);
     QVERIFY2(scene.slideProgress() > 0.0 && scene.slideProgress() < 1.0, "mid-slide progress must be in (0,1)");
@@ -1361,6 +1365,157 @@ void TestScene::backgroundSlideProgressAndReset()
     scene.resetSlide();
     QVERIFY2(!scene.slideAnimating(), "after resetSlide the slide must stop");
     QCOMPARE(scene.slideProgress(), 1.0);
+}
+
+void TestScene::workspaceSlideKeepsWindowsInOwnCells()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    sceneModel.syncScreen(QPointF(0, 0), QSizeF(1920, 1080),
+                          QRectF(0, 0, 1920, 1080), QRectF(0, 0, 1920, 1080), {});
+    scene.setEntered(true);
+
+    const QVector<QRectF> cells{QRectF(100, 300, 400, 300),
+                                QRectF(700, 300, 400, 300),
+                                QRectF(1300, 300, 400, 300)};
+    const qreal rowHeight = 300.0;
+    QVector<EffectWindow *> windows{reinterpret_cast<EffectWindow *>(0x9100),
+                                    reinterpret_cast<EffectWindow *>(0x9101)};
+    const QVector<QRectF> sources{QRectF(0, 0, 1600, 900), QRectF(0, 0, 1600, 900),
+                                  QRectF(0, 0, 1600, 900)};
+
+    scene.model()->syncCellItems(cells, rowHeight);
+    scene.model()->syncWindows(windows, sources.mid(0, windows.size()));
+    scene.syncWindowLayer();
+    scene.advance(800);
+
+    const qreal canvasWidth = sceneModel.layout().fullRect.width();
+    QVERIFY2(canvasWidth > 0.0, "the canvas must have a width");
+
+    // Production frame order is syncWindowLayer() then advance(delta) then paint, so every
+    // assertion below reads the scene after exactly that pair, never after advance alone.
+    const auto frame = [&](int dtMs) {
+        scene.syncWindowLayer();
+        scene.advance(dtMs);
+    };
+
+    const auto checkRigid = [&]() {
+        const qreal dx = scene.gridSlideDx();
+        QCOMPARE(dx, std::round(dx));
+        // Windows read the layer offset, cells read the scene offset: both must be the very
+        // same value in the same frame, otherwise they move at different speeds.
+        QCOMPARE(scene.slideOffsetX(), dx);
+        for (int i = 0; i < windows.size(); ++i) {
+            const WindowNode *n = scene.windowItemLayer().nodeFor(windows.at(i));
+            QVERIFY2(n != nullptr, "every window must own a node");
+            QCOMPARE(n->rect(), cells.at(i));
+            const QRectF painted = scene.windowItemLayer().paintedRect(*n);
+            QCOMPARE(painted, cells.at(i).translated(dx, 0.0));
+            QCOMPARE(painted.topLeft() - n->rect().topLeft(), QPointF(dx, 0.0));
+            QCOMPARE(painted, scene.windowCells()->cellRectAt(i));
+            QCOMPARE(scene.windowCells()->coverRectAt(i), coverFor(painted, rowHeight));
+        }
+    };
+
+    const auto checkEmptyCellFollowsSlide = [&]() {
+        const qreal dx = scene.gridSlideDx();
+        QVERIFY2(dx != 0.0, "the slide must still be running");
+        QCOMPARE(scene.windowCells()->cellRectAt(2), cells.at(2).translated(dx, 0.0));
+        QCOMPARE(scene.windowCells()->cellAt(scene.windowCells()->cellRectAt(2).center()), 2);
+        QVERIFY2(scene.windowCells()->cellAt(cells.at(2).center()) != 2,
+                 "the empty cell must no longer be hit at its resting position");
+    };
+
+    checkRigid();
+
+    // The defect: windows read the offset the scene published, while cells read the animation
+    // state directly, so any slide state change that did not publish left the two disagreeing
+    // for one frame. Every entry point that changes slide state must therefore leave windows
+    // and cells at the same offset, with no advance() in between.
+    const auto checkOffsetPublished = [&]() {
+        QCOMPARE(scene.slideOffsetX(), scene.gridSlideDx());
+        for (int i = 0; i < windows.size(); ++i) {
+            const WindowNode *n = scene.windowItemLayer().nodeFor(windows.at(i));
+            QVERIFY2(n != nullptr, "every window must own a node");
+            QCOMPARE(scene.windowItemLayer().paintedRect(*n), scene.windowCells()->cellRectAt(i));
+        }
+    };
+
+    scene.startSlide(QStringLiteral("from.png"), QStringLiteral("to.png"), 1);
+    QCOMPARE(scene.gridSlideDx(), canvasWidth);
+
+    // The bug this test pins down: windows read the slide offset the scene published, cells
+    // used to read the animation state directly, so a paint between startSlide() and the next
+    // advance() moved the cells a full canvas width while the windows stayed in their cells.
+    // In that first frame of the slide both must already agree.
+    QCOMPARE(scene.slideOffsetX(), canvasWidth);
+    checkOffsetPublished();
+
+    frame(16);
+    QVERIFY2(scene.gridSlideDx() > 0.0, "dir=1 must offset the grid to the right");
+    QVERIFY2(scene.gridSlideDx() < canvasWidth, "the first frame must already have moved");
+    checkRigid();
+    checkEmptyCellFollowsSlide();
+
+    // A window of the incoming workspace appears mid-slide: its node must start at its own
+    // cell, not at a per-window entry offset, so the whole grid keeps moving as one block.
+    QVERIFY2(scene.gridSlideDx() != 0.0, "the add below must happen while the slide runs");
+    const qreal dxBeforeAdd = scene.gridSlideDx();
+    windows.append(reinterpret_cast<EffectWindow *>(0x9102));
+    scene.model()->syncWindows(windows, sources.mid(0, windows.size()));
+    scene.syncWindowLayer();
+
+    const WindowNode *fresh = scene.windowItemLayer().nodeFor(windows.last());
+    QVERIFY2(fresh != nullptr, "the new window must own a node");
+    QCOMPARE(fresh->rect(), cells.at(2));
+    QCOMPARE(scene.windowItemLayer().paintedRect(*fresh), cells.at(2).translated(dxBeforeAdd, 0.0));
+
+    frame(16);
+    checkRigid();
+
+    for (int i = 0; i < 40; ++i) {
+        frame(16);
+    }
+    QVERIFY2(!scene.slideAnimating(), "the slide must have finished");
+    QCOMPARE(scene.gridSlideDx(), 0.0);
+    QCOMPARE(scene.slideOffsetX(), 0.0);
+    checkRigid();
+
+    scene.startSlide(QStringLiteral("b.png"), QStringLiteral("c.png"), -1);
+    QCOMPARE(scene.gridSlideDx(), -canvasWidth);
+    QCOMPARE(scene.slideOffsetX(), -canvasWidth);
+    checkOffsetPublished();
+    frame(16);
+    QVERIFY2(scene.gridSlideDx() < 0.0, "dir=-1 must offset the grid to the left");
+    checkRigid();
+
+    // Leaving a populated workspace turns its windows into retiring nodes, which are painted by
+    // WindowOverlayControl instead of paintWindow(). They must travel with the grid as well.
+    scene.model()->syncWindows({}, {});
+    scene.syncWindowLayer();
+    frame(16);
+    const qreal retiringDx = scene.gridSlideDx();
+    QVERIFY2(qAbs(retiringDx) > 1.0, "precondition: the grid must still be sliding");
+    WindowOverlayControl overlay;
+    overlay.setWindowItemLayer(&scene.windowItemLayer());
+    int retiringCount = 0;
+    for (const WindowNode &n : scene.windowItemLayer().nodes()) {
+        if (!n.retiring) {
+            continue;
+        }
+        ++retiringCount;
+        QCOMPARE(overlay.retiringRect(n), n.rect().translated(retiringDx, 0.0));
+    }
+    QVERIFY2(retiringCount > 0, "leaving the workspace must leave retiring windows behind");
+
+    // resetSlide() is the other entry point that changes slide state; it must publish too,
+    // otherwise the windows stay offset while the cells snap back (or the reverse).
+    scene.startSlide(QStringLiteral("d.png"), QStringLiteral("e.png"), 1);
+    QCOMPARE(scene.slideOffsetX(), canvasWidth);
+    scene.resetSlide();
+    QCOMPARE(scene.gridSlideDx(), 0.0);
+    QCOMPARE(scene.slideOffsetX(), 0.0);
 }
 
 void TestScene::barScrollClampedByViewport()
