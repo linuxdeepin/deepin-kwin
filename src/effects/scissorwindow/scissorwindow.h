@@ -57,7 +57,7 @@ protected Q_SLOTS:
     void windowDeleted(EffectWindow *window);
 
 private:
-    bool shouldScissor(EffectWindow *w) const;
+    bool shouldScissor(EffectWindow *w, const WindowPaintData *data = nullptr) const;
 
     enum { TopLeft = 0, TopRight, BottomRight, BottomLeft, NCorners };
     static const QColor s_contentColor;

@@ -106,7 +106,7 @@ void ScissorWindow::prePaintWindow(EffectWindow *w, WindowPrePaintData &data,
 }
 
 void ScissorWindow::drawWindow(EffectWindow *w, int mask, const QRegion& region, WindowPaintData &data) {
-    if (!shouldScissor(w)) {
+    if (!shouldScissor(w, &data)) {
         return effects->drawWindow(w, mask, region, data);
     }
 
@@ -239,14 +239,15 @@ bool ScissorWindow::isMaximized(EffectWindow *w) {
 bool ScissorWindow::isMaximized(EffectWindow *w, const PaintData& data)
 {
     auto geom = effects->findScreen(w->screen()->name())->geometry();
-    return (w->x() + data.xTranslation() == geom.x() && w->width() * data.xScale() == geom.width()) ||
+    return (w->x() + data.xTranslation() == geom.x() && w->width() * data.xScale() == geom.width()) &&
             (w->y() + data.yTranslation() == geom.y() && w->height() * data.yScale() == geom.height());
 }
 
-bool ScissorWindow::shouldScissor(EffectWindow *w) const
+bool ScissorWindow::shouldScissor(EffectWindow *w, const WindowPaintData *data) const
 {
+    const bool fillsOutput = data ? isMaximized(w, *data) : isMaximized(w);
     if (w->isDesktop() || w->isOutline() || w->isSplitBar()
-            || effectsEx->isSplitWin(w) || isMaximized(w) || w->isFullScreen()) {
+            || effectsEx->isSplitWin(w) || fillsOutput || (!data && w->isFullScreen())) {
         return false;
     }
 
