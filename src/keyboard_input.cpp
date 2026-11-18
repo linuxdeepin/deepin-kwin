@@ -210,6 +210,9 @@ void KeyboardInputRedirection::update()
     // TODO: this needs better integration
     Window *found = nullptr;
     if (waylandServer()->isScreenLocked()) {
+        // Overlay windows take the keyboard only after a click activated them, so that a
+        // notification bubble popping up doesn't steal the focus from the lock screen.
+        const Window *active = workspace()->activeWindow();
         const QList<Window *> &stacking = Workspace::self()->stackingOrder();
         if (!stacking.isEmpty()) {
             auto it = stacking.end();
@@ -220,7 +223,7 @@ void KeyboardInputRedirection::update()
                     // a deleted window doesn't get mouse events
                     continue;
                 }
-                if (!t->isLockScreen()) {
+                if (!t->isLockScreen() && !(t == active && t->isLockScreenOverlay())) {
                     continue;
                 }
                 if (!t->readyForPainting()) {

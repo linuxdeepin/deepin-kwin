@@ -320,7 +320,9 @@ public:
         }
 
         auto window = input()->findToplevel(event->globalPos());
-        if (window && window->isClient() && window->isLockScreen()) {
+        // Activate windows that are allowed above the lock screen, so that a click on e.g. the
+        // reset password dialog also gives it the keyboard focus.
+        if (window && window->isClient() && (window->isLockScreen() || window->isLockScreenOverlay())) {
             workspace()->activateWindow(window);
         }
 
