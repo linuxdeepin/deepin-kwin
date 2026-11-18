@@ -539,6 +539,18 @@ msgstr "&Colour:"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 
+#: multitaskviewex/controller/multitaskviewex.cpp:82
+msgid "Show Multitasking View"
+msgstr "Show Multitasking View"
+
+#: multitaskviewex/controller/multitaskviewex.cpp:362
+msgid "No windows"
+msgstr "No windows"
+
+#: multitaskviewex/controller/session.cpp:107
+msgid "Drag upwards to remove"
+msgstr "Drag upwards to remove"
+
 #: outputlocator/outputlocator.cpp:48
 #, kde-format
 msgctxt "@label"

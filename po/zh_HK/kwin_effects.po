@@ -542,6 +542,18 @@ msgstr "顏色(&C)："
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "按住 Shift+Meta 鍵並移動滑鼠時繪製"
 
+#: multitaskviewex/controller/multitaskviewex.cpp:82
+msgid "Show Multitasking View"
+msgstr "顯示多任務視圖"
+
+#: multitaskviewex/controller/multitaskviewex.cpp:362
+msgid "No windows"
+msgstr "無打開的窗口"
+
+#: multitaskviewex/controller/session.cpp:107
+msgid "Drag upwards to remove"
+msgstr "向上拖拽刪除"
+
 #: outputlocator/outputlocator.cpp:48
 #, kde-format
 msgctxt "@label"

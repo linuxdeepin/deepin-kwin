@@ -560,6 +560,18 @@ msgstr "رەڭ(&C):"
 msgid "Draw with the mouse by holding Shift+Meta keys and moving the mouse."
 msgstr "Shift+Meta نى بېسىپ تۇرۇپ چاشقىنەكنى يۆتكەش ئارقىلىق سىزىدۇ."
 
+#: multitaskviewex/controller/multitaskviewex.cpp:82
+msgid "Show Multitasking View"
+msgstr "كۆپ ۋەزىپىلىك كۆرۈنۈشنى كۆرسەت"
+
+#: multitaskviewex/controller/multitaskviewex.cpp:362
+msgid "No windows"
+msgstr "كۆزنەك يوق"
+
+#: multitaskviewex/controller/session.cpp:107
+msgid "Drag upwards to remove"
+msgstr "ئۈستىگە سىيرىپ تازىلاش"
+
 #: outputlocator/outputlocator.cpp:48
 #, kde-format
 msgctxt "@label"

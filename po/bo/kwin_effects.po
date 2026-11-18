@@ -1,0 +1,29 @@
+# Tibetan translation for kwin_effects.
+# Copyright (C) 2026 This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin_effects\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2023-02-03 03:02+0000\n"
+"PO-Revision-Date: 2026-11-18 12:00+0800\n"
+"Last-Translator: \n"
+"Language-Team: Tibetan (https://app.transifex.com/linuxdeepin/teams/3617/bo/)\n"
+"Language: bo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: multitaskviewex/controller/multitaskviewex.cpp:82
+msgid "Show Multitasking View"
+msgstr "འགན་མང་མཐོང་རིས་མངོན་སྟོན།"
+
+#: multitaskviewex/controller/multitaskviewex.cpp:362
+msgid "No windows"
+msgstr "སྒེའུ་ཁུང་མེད་པ།"
+
+#: multitaskviewex/controller/session.cpp:107
+msgid "Drag upwards to remove"
+msgstr "སྟེང་དུ་དྲུད་ནས་བསུབ་པ།"
