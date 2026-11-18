@@ -725,6 +725,37 @@ void MultitaskViewExEffect::gridScrollBy(ScreenView &view, qreal angleDeltaY)
     effects->addRepaintFull();
 }
 
+bool MultitaskViewExEffect::isLockScreenWindow(EffectWindow *w)
+{
+    if (!w) {
+        return false;
+    }
+    if (w->isLockScreen()) {
+        return true;
+    }
+    return w->captionNormal() == QLatin1String("org.deepin.dde.lock")
+        || w->windowClass() == QLatin1String("dde-lock org.deepin.dde.lock");
+}
+
+bool MultitaskViewExEffect::sessionLocked() const
+{
+    const EffectWindowList stacking = effects->stackingOrder();
+    for (EffectWindow *w : stacking) {
+        if (isLockScreenWindow(w)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void MultitaskViewExEffect::onWindowAdded(EffectWindow *w)
+{
+    if (!m_running || !isLockScreenWindow(w)) {
+        return;
+    }
+    setRunning(false);
+}
+
 void MultitaskViewExEffect::onWindowClosed(EffectWindow *w)
 {
     if (!m_running || !w || m_closing.contains(w)) {

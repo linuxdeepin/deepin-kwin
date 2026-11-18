@@ -107,6 +107,7 @@ MultitaskViewExEffect::MultitaskViewExEffect()
 
     connect(effects, &EffectsHandler::windowClosed, this, &MultitaskViewExEffect::onWindowClosed);
     connect(effects, &EffectsHandler::windowDeleted, this, &MultitaskViewExEffect::onWindowDeleted);
+    connect(effects, &EffectsHandler::windowAdded, this, &MultitaskViewExEffect::onWindowAdded);
 
     const auto resyncViews = [this] {
         if (m_running) {
@@ -255,6 +256,9 @@ void MultitaskViewExEffect::setRunning(bool run)
     m_hoverSwitchSlot = -1;
     m_selectedWindow = nullptr;
     if (m_running == run) {
+        return;
+    }
+    if (run && sessionLocked()) {
         return;
     }
     m_running = run;

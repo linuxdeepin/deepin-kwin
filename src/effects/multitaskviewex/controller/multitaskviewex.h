@@ -223,6 +223,9 @@ private:
 
     void onWindowClosed(EffectWindow *w);
     void onWindowDeleted(EffectWindow *w);
+    void onWindowAdded(EffectWindow *w);
+    static bool isLockScreenWindow(EffectWindow *w);
+    bool sessionLocked() const;
     void relayDockClick();
     void applyConfigToViews();
 

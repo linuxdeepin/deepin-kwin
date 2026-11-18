@@ -50,6 +50,14 @@
 - `KGlobalAccel::setShortcut()` 默认 `Autoloading`：会沿用 `~/.config/kglobalshortcutsrc` 里已保存的值（含空值）。因此**不要注册会被丢弃的键**——一旦 active 列被写成 `none`，之后重启也不会自己恢复，需在系统设置里重设。
 - 依赖系统默认键位时需要同步 dde-kwin 的 `/etc/xdg/kglobalshortcutsrc`；本仓库不提供该文件。
 
+## 会话锁屏
+
+- 视图运行时同时持有整屏 effect、鼠标拦截和键盘抓取。锁屏窗口出现后视图必须立即 `setRunning(false)`（不播退场动画），否则锁屏拿不到键鼠，用户无法解锁。
+- 两个方向都要守：`setRunning(true)` 在 `sessionLocked()` 为真时拒绝进入；`onWindowAdded` 收到锁屏窗口时退出。`m_running` 只在 `setRunning()` 赋值，守卫放这里可覆盖 Meta+S、D-Bus `activate()` 与后续新增入口。
+- 识别顺序：先认 `EffectWindow::isLockScreen()`；X11 的 dde-lock 是 override-redirect 的 `Unmanaged`，`Window::isLockScreen()` 恒为 false，只能按身份字符串精确匹配——`captionNormal() == "org.deepin.dde.lock"` 或 `windowClass() == "dde-lock org.deepin.dde.lock"`。禁止子串匹配：普通窗口标题可能包含该路径，会误判为锁屏并拒绝进入。
+- DDE 的 dde-lock 不实现 `org.freedesktop.ScreenSaver` 的 `/ScreenSaver`（GetActive 返回 `UnknownInterface`），`effects->isScreenLocked()` 在 DDE 下不可依赖，不能作为唯一判据。
+- 手工验证矩阵：自动锁屏到点、合盖再开盖、锁屏期间按 Meta+S / 点任务栏多任务图标。三项都要确认锁屏界面可正常输入，解锁后视图已退出。
+
 ## 资源
 
 - 素材与 shader 统一编译进二进制（`multitaskviewex.qrc`），路径见 `view/assetpaths.h`。
