@@ -108,17 +108,13 @@ MultitaskViewExEffect::MultitaskViewExEffect()
     connect(effects, &EffectsHandler::windowClosed, this, &MultitaskViewExEffect::onWindowClosed);
     connect(effects, &EffectsHandler::windowDeleted, this, &MultitaskViewExEffect::onWindowDeleted);
 
-    // 屏集合变化时立即重建视图集合，保证 views 恒等于 effects->screens()（AGENTS.md「多屏不变量」）。
     const auto resyncViews = [this] {
-        syncViews();
         if (m_running) {
-            setupSession();
-            for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-                owned->scene->setEntered(true);
-                owned->frameClock.reset();
-            }
+            setRunning(false);
+        } else {
+            syncViews();
+            effects->addRepaintFull();
         }
-        effects->addRepaintFull();
     };
     connect(effects, &EffectsHandler::screenAdded, this, resyncViews);
     connect(effects, &EffectsHandler::screenRemoved, this, resyncViews);

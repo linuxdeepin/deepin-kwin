@@ -349,10 +349,8 @@ void MultitaskViewExEffect::syncViews()
                 effects->defineCursor(Qt::ArrowCursor);
             }
         }
-        if (m_running) {
-            restoreWindowRoles();
-            releaseBackground(*view);
-        }
+        restoreWindowRoles();
+        releaseBackground(*view);
         m_views.remove(view->model.screen());
     }
     for (EffectScreen *screen : screens) {
