@@ -10,6 +10,7 @@
 
 #include <kwinglutils.h>
 
+#include <QHash>
 #include <QImage>
 #include <QPainter>
 #include <QVector2D>
@@ -22,12 +23,14 @@ namespace KWin
 
 namespace
 {
+constexpr auto SwitcherDuration = std::chrono::milliseconds(300);
 constexpr auto ThumbnailCaptureInterval = std::chrono::milliseconds(40);
 constexpr int THUMBNAIL_HEIGHT = 118;
 constexpr int THUMBNAIL_HOVER_WIDTH = 4;
 constexpr int THUMBNAIL_HOVER_MARGIN = 7;
 constexpr int THUMBNAIL_ICON_SIZE = 24;
 constexpr int THUMBNAIL_RADIUS = 12;
+constexpr int THUMBNAIL_SPACING = 14;
 constexpr int THUMBNAIL_TITLE_HEIGHT = 40;
 constexpr int THUMBNAIL_TITLE_MARGIN = 8;
 constexpr int THUMBNAIL_TEXT_SIZE = 14;
@@ -54,9 +57,129 @@ ThumbnailStrip::~ThumbnailStrip()
     effects->makeOpenGLContextCurrent();
 }
 
+ThumbnailStrip::Change ThumbnailStrip::sync(const EffectWindowList &windows, EffectWindow *selected)
+{
+    const bool sameSize = windows.size() == qsizetype(m_items.size());
+    const bool unchanged = sameSize && std::equal(windows.cbegin(), windows.cend(), m_items.cbegin(), [](EffectWindow *window, const Item &item) {
+                               return window == item.window;
+                           });
+    const bool selectionChanged = m_selected != selected;
+
+    if (!unchanged) {
+        rebuildItems(windows);
+    }
+
+    m_selected = selected;
+
+    const bool layoutChanged = !unchanged || m_layoutDirty;
+    if (layoutChanged) {
+        updateItemGeometries();
+        layoutItems();
+    }
+    if (layoutChanged || selectionChanged) {
+        select();
+    }
+
+    if (!unchanged) {
+        return Change::Windows;
+    }
+    return selectionChanged ? Change::Selection : Change::None;
+}
+
+void ThumbnailStrip::setRect(const QRect &rect)
+{
+    if (m_availableRect == rect) {
+        return;
+    }
+
+    if (m_availableRect.height() != rect.height() && !m_items.empty()) {
+        // The strip height follows the system scale, as do the card textures.
+        updateItemGeometries();
+    }
+    m_availableRect = rect;
+    layoutItems();
+    select();
+}
+
+void ThumbnailStrip::appear()
+{
+    m_fromOffset = m_offset;
+    m_toOffset = 0;
+    m_fromOpacity = m_opacity;
+    m_toOpacity = 1;
+    m_animation.start(SwitcherDuration);
+    m_state = State::Appearing;
+}
+
+void ThumbnailStrip::disappear()
+{
+    if (m_state == State::Hidden) {
+        return;
+    }
+
+    m_fromOffset = m_offset;
+    m_toOffset = m_rect.height() + scale(THUMBNAIL_VIEW_BOTTOM_MARGIN);
+    m_fromOpacity = m_opacity;
+    m_toOpacity = 0;
+    m_animation.start(SwitcherDuration);
+    m_state = State::Disappearing;
+}
+
+void ThumbnailStrip::hideImmediately()
+{
+    m_animation.running = false;
+    m_scrollAnimation.running = false;
+    m_selectAnimation.running = false;
+    m_offset = m_rect.height() + scale(THUMBNAIL_VIEW_BOTTOM_MARGIN);
+    m_opacity = 0;
+    m_state = State::Hidden;
+}
+
+void ThumbnailStrip::advance(std::chrono::milliseconds time)
+{
+    m_backgroundCaptureAvailable = true;
+    m_animation.advance(time);
+    m_scrollAnimation.advance(time);
+    m_selectAnimation.advance(time);
+
+    updateValues();
+
+    if (m_animation.finishIfDone()) {
+        if (m_state == State::Appearing) {
+            m_state = State::Visible;
+            m_offset = 0;
+            m_opacity = 1;
+        } else if (m_state == State::Disappearing) {
+            m_state = State::Hidden;
+        }
+    }
+    if (m_selectAnimation.finishIfDone()) {
+        m_selectedRect = m_toSelectedRect;
+    }
+
+    if (m_scrollAnimation.finishIfDone()) {
+        m_visible = m_toVisible;
+    }
+}
+
 bool ThumbnailStrip::active() const
 {
     return m_state != State::Hidden;
+}
+
+bool ThumbnailStrip::needsRepaint() const
+{
+    return m_animation.running || m_scrollAnimation.running || m_selectAnimation.running || hasPendingCapture();
+}
+
+qreal ThumbnailStrip::opacity() const
+{
+    return m_opacity;
+}
+
+int ThumbnailStrip::offset() const
+{
+    return m_offset;
 }
 
 void ThumbnailStrip::dirty(EffectWindow *window)
@@ -70,6 +193,80 @@ void ThumbnailStrip::dirty(EffectWindow *window)
     if (!window) {
         m_selection.reset();
     }
+}
+
+void ThumbnailStrip::geometryChanged(EffectWindow *window, bool resized)
+{
+    Item *item = findItem(window);
+    if (!item) {
+        return;
+    }
+
+    item->needsCapture = true;
+    item->dirty = true;
+    if (!active()) {
+        m_layoutDirty |= resized;
+        return;
+    }
+    if (resized) {
+        updateItemGeometries();
+        layoutItems();
+        select();
+    }
+    effects->addRepaint(repaintArea());
+}
+
+void ThumbnailStrip::decorationChanged(EffectWindow *window)
+{
+    if (Item *item = findItem(window)) {
+        item->decorationDirty = true;
+        if (active() && item->frame.intersects(m_visible)) {
+            effects->addRepaint(repaintArea());
+        }
+    }
+}
+
+void ThumbnailStrip::remove(EffectWindow *window)
+{
+    if (!findItem(window)) {
+        return;
+    }
+
+    const bool contextCurrent = effects->makeOpenGLContextCurrent();
+    const auto firstRemoved = std::remove_if(m_items.begin(), m_items.end(), [window](const Item &item) {
+        return item.window == window;
+    });
+    m_items.erase(firstRemoved, m_items.end());
+    if (m_selected == window) {
+        m_selected = nullptr;
+        m_selection.reset();
+        m_selectedRect = {};
+        m_fromSelectedRect = {};
+        m_toSelectedRect = {};
+    }
+
+    updateItemGeometries();
+    layoutItems();
+    select();
+
+    if (contextCurrent) {
+        effects->doneOpenGLContextCurrent();
+    }
+}
+
+EffectWindow *ThumbnailStrip::hit(const QPoint &point) const
+{
+    if (m_state != State::Visible) {
+        return nullptr;
+    }
+
+    for (const Item &item : m_items) {
+        if (onScreen(item.frame).translated(0, m_offset).contains(point)) {
+            return item.window;
+        }
+    }
+
+    return nullptr;
 }
 
 void ThumbnailStrip::paint(ScreenPaintData &data)
@@ -106,12 +303,159 @@ void ThumbnailStrip::paint(ScreenPaintData &data)
     }
 }
 
+QRect ThumbnailStrip::repaintArea() const
+{
+    if (!active() || !m_rect.isValid()) {
+        return {};
+    }
+
+    // 条带会沿 y 方向滑动，覆盖从静止位置到当前位置之间的范围，避免动画残影。
+    const int startY = qMin(0, m_offset);
+    const int endY = qMax(0, m_offset);
+    return m_rect.adjusted(0, startY, 0, endY);
+}
+
 ThumbnailStrip::Item *ThumbnailStrip::findItem(EffectWindow *window)
 {
     const auto it = std::find_if(m_items.begin(), m_items.end(), [window](const Item &item) {
         return item.window == window;
     });
     return it == m_items.end() ? nullptr : &*it;
+}
+
+void ThumbnailStrip::rebuildItems(const EffectWindowList &windows)
+{
+    QHash<EffectWindow *, Item *> cachedItems;
+    cachedItems.reserve(m_items.size());
+    for (Item &item : m_items) {
+        cachedItems.insert(item.window.data(), &item);
+    }
+
+    std::vector<Item> items;
+    items.reserve(windows.size());
+    auto remaining = m_items.size();
+    for (EffectWindow *window : windows) {
+        if (!window) {
+            continue;
+        }
+        if (Item *cached = cachedItems.take(window)) {
+            Item &item = items.emplace_back(std::move(*cached));
+            // 窗口仍在列表中，补刷此前延后的后台内容。
+            item.needsCapture |= item.dirty;
+            --remaining;
+        } else {
+            items.emplace_back().window = window;
+        }
+    }
+
+    const bool contextCurrent = remaining != 0 && effects->makeOpenGLContextCurrent();
+    m_items = std::move(items);
+    m_visible = {};
+    m_fromVisible = {};
+    m_toVisible = {};
+    m_selectedRect = {};
+    m_fromSelectedRect = {};
+    m_toSelectedRect = {};
+
+    if (contextCurrent) {
+        effects->doneOpenGLContextCurrent();
+    }
+}
+
+bool ThumbnailStrip::hasPendingCapture() const
+{
+    return m_state != State::Hidden && m_state != State::Disappearing && std::any_of(m_items.cbegin(), m_items.cend(), [this](const Item &item) {
+               return item.frame.intersects(m_visible) && !item.thumbnail.isEmpty() && item.needsCapture;
+           });
+}
+
+void ThumbnailStrip::updateValues()
+{
+    if (m_animation.running) {
+        const qreal t = m_animation.value();
+        m_offset = qRound(m_fromOffset + (m_toOffset - m_fromOffset) * t);
+        m_opacity = m_fromOpacity + (m_toOpacity - m_fromOpacity) * t;
+    }
+
+    if (m_selectAnimation.running) {
+        const qreal progress = m_selectAnimation.value();
+        m_selectedRect = interpolateRect(m_fromSelectedRect, m_toSelectedRect, progress);
+    }
+
+    if (m_scrollAnimation.running) {
+        const qreal progress = m_scrollAnimation.value();
+        m_visible = interpolateRect(m_fromVisible, m_toVisible, progress);
+    }
+}
+
+void ThumbnailStrip::layoutItems()
+{
+    updateViewport();
+    if (m_items.empty() || !m_rect.isValid()) {
+        return;
+    }
+
+    const int width = listWidth();
+    const int visibleWidth = qMin(width, m_rect.width());
+    if (!m_visible.isValid()) {
+        m_visible = {0, 0, visibleWidth, m_rect.height()};
+    } else {
+        m_visible.setSize({visibleWidth, m_rect.height()});
+        m_visible.moveLeft(qBound(0, m_visible.left(), qMax(0, width - visibleWidth)));
+    }
+
+    m_fromVisible = m_visible;
+    m_toVisible = m_visible;
+    effects->setTabBoxViewRect(m_rect.adjusted(-1, -1, 1, 1));
+}
+
+void ThumbnailStrip::updateViewport()
+{
+    if (!m_availableRect.isValid()) {
+        m_rect = {};
+        return;
+    }
+
+    const int width = m_items.empty()
+        ? m_availableRect.width()
+        : qMin(listWidth(), m_availableRect.width());
+    m_rect = {m_availableRect.left() + (m_availableRect.width() - width) / 2,
+              m_availableRect.top(),
+              width,
+              m_availableRect.height()};
+}
+
+void ThumbnailStrip::updateItemGeometries()
+{
+    m_layoutDirty = false;
+    int x = scale(THUMBNAIL_SIDE_MARGIN);
+    const int imageHeight = scale(THUMBNAIL_HEIGHT);
+
+    for (Item &item : m_items) {
+        const QRect source = item.window ? item.window->frameGeometry().toRect() : QRect();
+        const int sourceHeight = qMax(1, source.height());
+        const int contentHeight = qMin(imageHeight, sourceHeight);
+        const int width = sourceHeight > imageHeight
+            ? qCeil(source.width() * qreal(imageHeight) / sourceHeight)
+            : source.width();
+
+        if (item.thumbnail.size() != QSize(width, contentHeight)) {
+            item.decorationDirty = true;
+            item.needsCapture = true;
+            item.dirty = true;
+        }
+        item.frame = {x, 0, width, scale(THUMBNAIL_TITLE_HEIGHT) + imageHeight};
+        item.thumbnail = {x,
+                          scale(THUMBNAIL_TITLE_HEIGHT) + (imageHeight - contentHeight) / 2,
+                          width,
+                          contentHeight};
+        x += width + scale(THUMBNAIL_SPACING);
+    }
+}
+
+int ThumbnailStrip::listWidth() const
+{
+    return m_items.empty() ? 0 : m_items.back().frame.right() + 1 + scale(THUMBNAIL_SIDE_MARGIN);
 }
 
 QRect ThumbnailStrip::onScreen(const QRect &rect, const QRect &visible) const
@@ -136,6 +480,44 @@ void ThumbnailStrip::setStripUniforms(GLShader *shader, const QRect &rect) const
     shader->setUniform("clip_right", float(right));
     shader->setUniform("clip_fade", qMin(1.0f, float(scale(THUMBNAIL_CLIP_FADE_WIDTH)) / rect.width()));
     shader->setUniform("opacity", float(m_opacity));
+}
+
+void ThumbnailStrip::select()
+{
+    const Item *selected = findItem(m_selected);
+    if (!selected) {
+        m_selectedRect = {};
+        m_fromSelectedRect = {};
+        m_toSelectedRect = {};
+        return;
+    }
+
+    updateValues();
+    QRect targetVisible = m_visible;
+    const int spacing = scale(THUMBNAIL_SPACING);
+    if (selected->frame.left() - spacing < targetVisible.left()) {
+        targetVisible.moveLeft(selected->frame.left() - spacing);
+    } else if (selected->frame.right() + spacing > targetVisible.right()) {
+        targetVisible.moveLeft(selected->frame.right() + spacing - targetVisible.width() + 1);
+    }
+
+    targetVisible.moveLeft(qBound(0, targetVisible.left(), qMax(0, listWidth() - targetVisible.width())));
+
+    m_fromVisible = m_visible;
+    m_toVisible = targetVisible;
+    if (m_fromVisible != m_toVisible) {
+        m_scrollAnimation.start(SwitcherDuration);
+    }
+
+    m_fromSelectedRect = m_selectedRect;
+    const int margin = scale(THUMBNAIL_HOVER_MARGIN);
+    m_toSelectedRect = onScreen(selected->frame, targetVisible).adjusted(-margin, -margin, margin, margin);
+    if (!m_selectedRect.isValid()) {
+        m_selectedRect = m_toSelectedRect;
+        m_fromSelectedRect = m_toSelectedRect;
+    } else if (m_toSelectedRect.isValid() && m_fromSelectedRect != m_toSelectedRect) {
+        m_selectAnimation.start(SwitcherDuration);
+    }
 }
 
 void ThumbnailStrip::refresh(Item &item)
