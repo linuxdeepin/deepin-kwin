@@ -6,8 +6,9 @@
 namespace KWin
 {
 
-KWIN_EFFECT_FACTORY(AltTabThumbnailListEffect,
-                    "metadata.json.stripped")
+KWIN_EFFECT_FACTORY_SUPPORTED(AltTabThumbnailListEffect,
+                              "metadata.json.stripped",
+                              return effects->isOpenGLCompositing();)
 
 } // namespace KWin
 

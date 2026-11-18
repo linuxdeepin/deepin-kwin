@@ -6,6 +6,7 @@ set(alttabthumbnaillist_SOURCES
     alttabthumbnaillist.cpp
     alttabthumbnaillist.qrc
     main.cpp
+    thumbnailstrip.cpp
 )
 kwin4_add_effect_module(alttabthumbnaillist ${alttabthumbnaillist_SOURCES})
 target_link_libraries(alttabthumbnaillist PRIVATE
