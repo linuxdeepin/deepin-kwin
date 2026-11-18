@@ -744,7 +744,10 @@ void TabBox::show()
     workspace()->setPreviewClientList({});
     reference();
     m_isShown = true;
-    m_tabBox->show();
+    // The thumbnail preview blends the old and new windows itself. The stock
+    // highlight would hide the old window before the first blended frame.
+    const bool previewing = effects && static_cast<EffectsHandlerImpl *>(effects)->isEffectActived(QStringLiteral("alttabthumbnaillist"));
+    m_tabBox->show(!previewing);
 
     m_isMinisized = false;
     if (!currentClientList().isEmpty()) {
@@ -1497,6 +1500,9 @@ void TabBox::close(bool abort)
 {
     if (isGrabbed()) {
         removeTabBoxGrab();
+    }
+    if (abort) {
+        Q_EMIT tabBoxAborted();
     }
     hide(abort);
     input()->pointer()->setEnableConstraints(true);

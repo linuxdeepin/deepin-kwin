@@ -2,7 +2,8 @@
 
 uniform sampler2D sampler, msk1;
 uniform vec2 k;
-uniform float clip_left, clip_right;
+uniform float clip_left, clip_right, clip_fade;
+uniform float opacity;
 
 in vec2 texcoord0;
 out vec4 fragColor;
@@ -17,7 +18,15 @@ void main() {
         vec4 m3 = texture(msk1, tc);
         c *= (m1.a * m3.a);
     }
-    if (texcoord0.s < clip_left || texcoord0.s > clip_right)
+    if (clip_left >= clip_right) {
         c = vec4(0, 0, 0, 0);
-    fragColor = c;
+    } else {
+        float alpha = 1.0;
+        if (clip_left > 0.0)
+            alpha *= smoothstep(clip_left, min(clip_left + clip_fade, clip_right), texcoord0.s);
+        if (clip_right < 1.0)
+            alpha *= 1.0 - smoothstep(max(clip_right - clip_fade, clip_left), clip_right, texcoord0.s);
+        c *= alpha;
+    }
+    fragColor = c * opacity;
 }

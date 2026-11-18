@@ -298,6 +298,7 @@ public Q_SLOTS:
 Q_SIGNALS:
     void tabBoxAdded(int);
     void tabBoxClosed();
+    void tabBoxAborted();
     void tabBoxUpdated();
     void tabBoxKeyEvent(QKeyEvent *);
 

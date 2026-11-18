@@ -3,12 +3,17 @@
 
 #include "alttabthumbnaillist.h"
 
+#include "alttabhelpers.h"
+#include "previewanimator.h"
+#include "thumbnailstrip.h"
+
 #include <QPainter>
 
-#include <effects.h>
+#include "effects.h"
 #include <kwinglutils.h>
 #include "scene/itemrenderer.h"
 #include "scene/windowitem.h"
+#include "window.h"
 #include "workspace.h"
 
 #define THUMBNAIL_HEIGHT        (118 * effectsEx->getOsScale())
@@ -16,15 +21,9 @@
 #define THUMBNAIL_HOVER_MARGIN  (7 * effectsEx->getOsScale())
 #define THUMBNAIL_ICON_SIZE     (24 * effectsEx->getOsScale())
 #define THUMBNAIL_RADIUS        (12 * effectsEx->getOsScale())
-#define THUMBNAIL_SPACING       (14 * effectsEx->getOsScale())
-#define THUMBNAIL_SIDE_MARGIN   (20 * effectsEx->getOsScale())
 #define THUMBNAIL_TITLE_HEIGHT  (40 * effectsEx->getOsScale())
 #define THUMBNAIL_TITLE_MARGIN  (8 * effectsEx->getOsScale())
 #define THUMBNAIL_TEXT_SIZE     (14 * effectsEx->getOsScale())
-
-#define THUMBNAIL_VIEW_BOTTOM_MARGIN    (100 * effectsEx->getOsScale())
-#define THUMBNAIL_VIEW_HEIGHT           (198 * effectsEx->getOsScale())
-#define THUMBNAIL_VIEW_SIDE_MARGIN      (10 * effectsEx->getOsScale())
 
 Q_LOGGING_CATEGORY(KWIN_ALTTABTHUMBNAILLIST, "kwin_effect_alttabthumbnaillist", QtWarningMsg)
 
@@ -182,49 +181,55 @@ void ItemView::clearTexture()
 EffectWindow *AltTabThumbnailListEffect::s_dockWindow = nullptr;
 
 AltTabThumbnailListEffect::AltTabThumbnailListEffect()
+    : m_thumbnailStrip(std::make_unique<ThumbnailStrip>())
+    , m_previewAnimator(std::make_unique<PreviewAnimator>())
 {
     ensureResources();
-    reconfigure(ReconfigureFlag::ReconfigureAll);
-
-    m_clipShader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture,
-                                                                     QByteArray(),
-                                                                     ":/effects/alttabthumbnaillist/shaders/clip.frag");
-    if (!m_clipShader)
-        qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to load filled clip shader";
-
-    m_scissorShader = ShaderManager::instance()->generateShaderFromFile(ShaderTrait::MapTexture,
-                                                                        QByteArray(),
-                                                                        ":/effects/alttabthumbnaillist/shaders/scissor.frag");
-    if (!m_scissorShader)
-        qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to load thumbnail scissor shader";
 
     connect(effects, &EffectsHandler::tabBoxAdded, this, &AltTabThumbnailListEffect::slotTabboxAdded);
     connect(effects, &EffectsHandler::tabBoxClosed, this, &AltTabThumbnailListEffect::slotTabboxClosed);
+    connect(effects, &EffectsHandler::tabBoxAborted, this, &AltTabThumbnailListEffect::slotTabboxAborted);
     connect(effects, &EffectsHandler::tabBoxUpdated, this, &AltTabThumbnailListEffect::slotTabboxUpdated);
-
     connect(effects, &EffectsHandler::mouseChanged, this, &AltTabThumbnailListEffect::slotMouseChanged);
-
     connect(effects, &EffectsHandler::windowClosed, this, &AltTabThumbnailListEffect::slotWindowRemoved);
     connect(effects, &EffectsHandler::windowDeleted, this, &AltTabThumbnailListEffect::slotWindowRemoved);
 
+    connect(effects, &EffectsHandler::windowDamaged, this, [this](EffectWindow *window) {
+        m_thumbnailStrip->dirty(window);
+    });
+    connect(effects, &EffectsHandler::windowGeometryShapeChanged, this, [this](EffectWindow *window, const QRectF &old) {
+        if (old == window->frameGeometry()) {
+            m_thumbnailStrip->geometryChanged(window, false);
+        }
+    });
+    connect(effects, &EffectsHandler::windowFrameGeometryChanged, this, [this](EffectWindow *window, const QRectF &old) {
+        if (old.size() != window->frameGeometry().size()) {
+            m_thumbnailStrip->geometryChanged(window, true);
+            m_previewAnimator->windowResized(window);
+        }
+    });
+    const auto watchDecoration = [this](EffectWindow *window) {
+        Window *client = static_cast<EffectWindowImpl *>(window)->window();
+        const auto invalidate = [this, window] {
+            m_thumbnailStrip->decorationChanged(window);
+        };
+        connect(client, &Window::captionChanged, this, invalidate);
+        connect(client, &Window::iconChanged, this, invalidate);
+    };
+    connect(effects, &EffectsHandler::windowAdded, this, watchDecoration);
+    for (EffectWindow *window : effects->stackingOrder()) {
+        watchDecoration(window);
+    }
     connect(Workspace::self(), &Workspace::activeColorChanged, this, [this] {
-        m_selectedFrame.reset();
+        m_thumbnailStrip->dirty(nullptr);
     });
 }
 
-AltTabThumbnailListEffect::~AltTabThumbnailListEffect()
-{
-    setActive(false);
-
-    m_scissorShader.reset();
-    m_clipShader.reset();
-    m_scissorMask.reset();
-    m_selectedFrame.reset();
-}
+AltTabThumbnailListEffect::~AltTabThumbnailListEffect() = default;
 
 bool AltTabThumbnailListEffect::isActive() const
 {
-    return m_isActive;
+    return m_thumbnailStrip->active() || m_previewAnimator->active();
 }
 
 void AltTabThumbnailListEffect::reconfigure(ReconfigureFlags flags)
@@ -242,167 +247,190 @@ void AltTabThumbnailListEffect::reconfigure(ReconfigureFlags flags)
     m_selectAnimation.timeLine.setEasingCurve(QEasingCurve::OutExpo);
 }
 
-void AltTabThumbnailListEffect::paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data)
+/**
+ * @brief 计算焦点屏及任务栏避让后的切换器和预览区。
+ *
+ * 切换器垂直位置只受底部任务栏影响，侧边任务栏仅缩减横向 PlacementArea。
+ */
+void AltTabThumbnailListEffect::updateLayout()
 {
-    if (w->isDock()) {
-        s_dockWindow = w;
-    } else if (w->isDesktop()) {
-        data.setBrightness(0.4);
-    } else if (w->isWaterMark()) {
-        // paint later
-        if (!m_paintingWaterMark) {
-            m_waterMarkWindow = w;
-            return;
-        }
+    EffectScreen *screen = effects->activeScreen();
+    if (!screen) {
+        return;
     }
 
-    effects->paintWindow(w, mask, region, data);
+    const QRect screenGeometry = screen->geometry();
+    const QRect placementArea = effects->clientArea(PlacementArea, screen, effects->currentDesktop()).toRect();
+
+    const int bottom = qMin(placementArea.bottom(), screenGeometry.bottom()) - scale(THUMBNAIL_VIEW_BOTTOM_MARGIN);
+    const int height = scale(THUMBNAIL_VIEW_HEIGHT);
+
+    const QRect view(placementArea.left() + scale(THUMBNAIL_VIEW_SIDE_MARGIN), bottom - height + 1,
+                     placementArea.width() - scale(2 * THUMBNAIL_VIEW_SIDE_MARGIN), height);
+
+    const int previewTop = screenGeometry.top() + scale(PREVIEW_TOP_MARGIN);
+    const int previewBottom = view.top() - scale(PREVIEW_TOP_MARGIN);
+
+    const QRect previewArea{placementArea.left() + scale(THUMBNAIL_SIDE_MARGIN), previewTop,
+                            placementArea.width() - scale(2 * THUMBNAIL_SIDE_MARGIN),
+                            qMax(0, previewBottom - previewTop)};
+
+    m_thumbnailStrip->setRect(view);
+    m_previewAnimator->setLayout(screen, previewArea);
 }
 
-void AltTabThumbnailListEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime)
+void AltTabThumbnailListEffect::prePaintWindow(EffectWindow *window, WindowPrePaintData &data, std::chrono::milliseconds time)
 {
-    if (m_scrollAnimation.active)
-        m_scrollAnimation.timeLine.advance(presentTime);
+    m_previewAnimator->prePaint(window, data);
+    effects->prePaintWindow(window, data, time);
+}
 
-    if (m_selectAnimation.active)
-        m_selectAnimation.timeLine.advance(presentTime);
+void AltTabThumbnailListEffect::paintWindow(EffectWindow *window, int mask, QRegion region, WindowPaintData &data)
+{
+    if (window->isDesktop()) {
+        data.setBrightness(m_previewAnimator->active() ? m_previewAnimator->brightness() : 1);
+    } else if (window->isWaterMark() && !m_paintingWaterMark) {
+        m_waterMarkWindow = window;
+        return;
+    }
 
-    const QRect repaint = m_viewRect.united(m_prevSelectedRect).united(m_nextSelectedRect);
-    data.paint += repaint.adjusted(-1, -1, 1, 1);
+    if (!m_previewAnimator->paint(window, mask, region, data)) {
+        effects->paintWindow(window, mask, region, data);
+    }
+}
 
-    effects->prePaintScreen(data, presentTime);
+void AltTabThumbnailListEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds time)
+{
+    if (isActive()) {
+        updateLayout();
+    }
+
+    m_thumbnailStrip->advance(time);
+    m_previewAnimator->advance(time);
+    if (m_previewAnimator->active()) {
+        data.mask |= PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS;
+    }
+
+    if (m_thumbnailStrip->active()) {
+        data.paint += m_thumbnailStrip->repaintArea().adjusted(-1, -1, 1, 1);
+    }
+
+    effects->prePaintScreen(data, time);
 }
 
 void AltTabThumbnailListEffect::paintScreen(int mask, const QRegion &region, ScreenPaintData &data)
 {
     effects->paintScreen(mask, region, data);
-
-    if (m_scrollAnimation.active) {
-        QPoint pos_diff = m_nextVisibleRect.topLeft() - m_prevVisibleRect.topLeft();
-        pos_diff *= m_scrollAnimation.timeLine.value();
-        m_visibleRect = m_prevVisibleRect.translated(pos_diff);
-    }
-
-    if (m_selectAnimation.active) {
-        // repaint last frame
-        if (m_selectedRect.isValid())
-            effects->addRepaint(m_selectedRect);
-
-        QPoint pos_diff = m_nextSelectedRect.topLeft() - m_prevSelectedRect.topLeft();
-        pos_diff *= m_selectAnimation.timeLine.value();
-        QSize size_diff = m_nextSelectedRect.size() - m_prevSelectedRect.size();
-        size_diff *= m_selectAnimation.timeLine.value();
-        m_selectedRect = QRect(m_prevSelectedRect.topLeft() + pos_diff,
-                               m_prevSelectedRect.size() + size_diff);
-    }
-
-    renderSelectedFrame(data);
-
-    for (ItemView &item : m_itemList) {
-        if (item.frameRect().intersects(m_visibleRect)) {
-            renderItemView(item, data);
-        } else {
-            item.clearTexture();
-        }
-    }
-
-    // paint watermark
-    if (m_waterMarkWindow) {
+    m_previewAnimator->paintClosingSnapshot(data);
+    m_thumbnailStrip->paint(data);
+    if (m_waterMarkWindow && m_thumbnailStrip->active()) {
         m_paintingWaterMark = true;
         ItemRenderer *renderer = static_cast<EffectsHandlerImpl *>(effects)->scene()->renderer();
-        WindowPaintData window_data(renderer->renderTargetProjectionMatrix());
-        effects->paintWindow(m_waterMarkWindow, 0, region, window_data);
+        WindowPaintData watermark(renderer->renderTargetProjectionMatrix());
+
+        watermark.setOpacity(m_thumbnailStrip->opacity());
+        watermark.translate(0, m_thumbnailStrip->offset());
+
+        effects->paintWindow(m_waterMarkWindow, 0, region, watermark);
         m_paintingWaterMark = false;
     }
 }
 
 void AltTabThumbnailListEffect::postPaintScreen()
 {
-    if (m_scrollAnimation.timeLine.done()) {
-        m_visibleRect = m_prevVisibleRect = m_nextVisibleRect;
-        m_scrollAnimation.active = false;
+    if (m_previewAnimator->animating()) {
+        effects->addRepaintFull();
+    } else if (m_thumbnailStrip->needsRepaint()) {
+        effects->addRepaint(m_thumbnailStrip->repaintArea());
     }
 
-    if (m_selectAnimation.timeLine.done()) {
-        m_selectedRect = m_prevSelectedRect = m_nextSelectedRect;
-        m_selectAnimation.active = false;
+    if (!isActive()) {
+        m_waterMarkWindow = nullptr;
+        m_paintingWaterMark = false;
     }
-
     effects->postPaintScreen();
 }
 
 void AltTabThumbnailListEffect::slotTabboxAdded(int)
 {
-    updateItemList();
-    if (m_itemList.empty() || (m_itemList.size() == 1 && m_itemList.front().window()->isDesktop())) {
+    m_tabBoxAborted = false;
+    const EffectWindowList windows = effects->currentTabBoxWindowList();
+
+    if (windows.empty() || (windows.size() == 1 && windows.front()->isDesktop())) {
         effects->closeTabBox();
         return;
     }
 
-    // init visible rect
-    const int list_width = (m_itemList.back().frameRect().right() + 1) + THUMBNAIL_SIDE_MARGIN;
-    m_visibleRect = QRect(0, 0, m_viewRect.width(), m_viewRect.height());
-    if (m_visibleRect.width() < list_width) {
-        for (ItemView &item : m_itemList) {
-            const QRect rect = item.frameRect();
-            const int offset = rect.width() < 40 ? rect.width() / 2 : 20;
-            if (rect.right() < m_visibleRect.right() + offset)
-                continue;
-            // ensure the last visible thumbnail is truncated
-            if (rect.left() > (m_visibleRect.right() + 1) - offset)
-                m_visibleRect.translate(rect.left() - ((m_visibleRect.right() + 1) - offset), 0);
-            break;
-        }
-    }
-    m_prevVisibleRect = m_nextVisibleRect = m_visibleRect;
+    updateLayout();
+    EffectWindow *selected = effects->currentTabBoxWindow();
 
-    updateSelected();
-    setActive(true);
+    m_thumbnailStrip->sync(windows, selected);
+    m_previewAnimator->begin(windows, selected, effects->activeScreen());
+    m_thumbnailStrip->appear();
+
+    effects->addRepaintFull();
 }
 
 void AltTabThumbnailListEffect::slotTabboxClosed()
 {
-    if (!isActive())
-        return;
+    EffectWindow *selected = effects->currentTabBoxWindow();
+    const bool selectedDesktop = selected && selected->isDesktop();
+    if (m_tabBoxAborted || selectedDesktop) {
+        m_tabBoxAborted = false;
+        m_thumbnailStrip->hideImmediately();
+        m_previewAnimator->cancel();
+    } else {
+        m_thumbnailStrip->disappear();
+        m_previewAnimator->close();
+    }
+    effects->addRepaintFull();
+}
 
-    setActive(false);
+void AltTabThumbnailListEffect::slotTabboxAborted()
+{
+    m_tabBoxAborted = true;
 }
 
 void AltTabThumbnailListEffect::slotTabboxUpdated()
 {
-    if (!isActive())
+    if (!isActive()) {
         return;
+    }
 
-    updateItemList();
-    updateSelected();
+    const EffectWindowList windows = effects->currentTabBoxWindowList();
+    EffectWindow *selected = effects->currentTabBoxWindow();
+    const auto change = m_thumbnailStrip->sync(windows, selected);
+    if (change == ThumbnailStrip::Change::Windows) {
+        m_previewAnimator->syncWindows(windows);
+    }
+    if (m_previewAnimator->select(selected) || change == ThumbnailStrip::Change::Windows) {
+        effects->addRepaintFull();
+    } else if (change == ThumbnailStrip::Change::Selection) {
+        effects->addRepaint(m_thumbnailStrip->repaintArea());
+    }
 }
 
-void AltTabThumbnailListEffect::slotMouseChanged(const QPoint &pos, const QPoint &old,
-                                           Qt::MouseButtons buttons, Qt::MouseButtons oldbuttons,
-                                           Qt::KeyboardModifiers modifiers, Qt::KeyboardModifiers oldmodifiers)
+void AltTabThumbnailListEffect::slotMouseChanged(const QPoint &pos, const QPoint &, Qt::MouseButtons buttons, Qt::MouseButtons, Qt::KeyboardModifiers, Qt::KeyboardModifiers)
 {
-    if (!isActive() || buttons != Qt::MouseButton::LeftButton)
-        return;
-
-    for (ItemView &item : m_itemList) {
-        if (rectOnScreen(item.frameRect(), m_visibleRect).contains(pos)) {
-            effects->setTabBoxWindow(item.window());
-            updateSelected();
-            return;
+    if (buttons == Qt::LeftButton) {
+        if (EffectWindow *window = m_thumbnailStrip->hit(pos)) {
+            effects->setTabBoxWindow(window);
         }
     }
 }
 
-void AltTabThumbnailListEffect::slotWindowRemoved(EffectWindow *w)
+void AltTabThumbnailListEffect::slotWindowRemoved(EffectWindow *window)
 {
-    if (!isActive())
-        return;
-
-    if (s_dockWindow == w) {
-        s_dockWindow = nullptr;
-    } else if (m_waterMarkWindow == w) {
+    const bool wasActive = isActive();
+    if (window == m_waterMarkWindow) {
         m_waterMarkWindow = nullptr;
         m_paintingWaterMark = false;
+    }
+
+    m_thumbnailStrip->remove(window);
+    m_previewAnimator->remove(window);
+    if (wasActive) {
+        effects->addRepaintFull();
     }
 }
 
@@ -431,134 +459,6 @@ void AltTabThumbnailListEffect::setActive(bool active)
         effects->makeOpenGLContextCurrent();
         m_itemList.clear();
         return;
-    }
-}
-
-void AltTabThumbnailListEffect::updateItemList()
-{
-    EffectWindowList list = effects->currentTabBoxWindowList();
-    const bool equal = std::equal(m_itemList.begin(), m_itemList.end(), list.begin(), list.end(),
-        [] (ItemView &a, EffectWindow *b) { return a.window() == b; }
-    );
-    if (equal)
-        return;
-
-    m_itemList.clear();
-    int x = THUMBNAIL_SIDE_MARGIN;
-    for (EffectWindow *w : list) {
-        if (Q_UNLIKELY(!w))
-            continue;
-        m_itemList.emplace_back(w, x);
-        x += m_itemList.back().frameRect().width() + THUMBNAIL_SPACING;
-    }
-    if (m_itemList.empty()) {
-        qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Empty thumbnail window list";
-        return;
-    }
-
-    updateViewRect();
-}
-
-void AltTabThumbnailListEffect::updateSelected()
-{
-    m_selectedWindow = effects->currentTabBoxWindow();
-    if (!m_selectedWindow)
-        return;
-
-    updateVisibleRect();
-
-    // process select animation
-    m_prevSelectedRect = m_selectedRect;
-    auto it = std::find_if(m_itemList.begin(), m_itemList.end(),
-            [this] (ItemView &item) { return item.window() == m_selectedWindow; });
-    m_nextSelectedRect = (it == m_itemList.end()) ? QRect() : rectOnScreen(it->frameRect(), m_nextVisibleRect);
-    if (m_nextSelectedRect.isValid()) {
-        const int margin = THUMBNAIL_HOVER_MARGIN;
-        m_nextSelectedRect.adjust(-margin, -margin, margin, margin);
-        if (m_prevSelectedRect != m_nextSelectedRect) {
-            if (m_prevSelectedRect.isValid() && m_selectAnimation.enable) {
-                if (m_selectAnimation.timeLine.done())
-                    m_selectAnimation.timeLine.reset();
-                m_selectAnimation.active = true;
-            } else {
-                m_selectedRect = m_prevSelectedRect = m_nextSelectedRect;
-            }
-        }
-    } else {
-        m_nextSelectedRect = m_selectedRect;
-    }
-}
-
-void AltTabThumbnailListEffect::updateViewRect()
-{
-    const QRect client = effects->clientArea(
-            clientAreaOption::PlacementArea, effects->activeScreen(), effects->currentDesktop()).toRect();
-    const QRect full = effects->activeScreen()->geometry();
-    const QRect screen_geometry(client.x(), full.y(), client.width(), full.height());
-
-    // top and bottom of view are fixed
-    m_viewRect.setBottom(screen_geometry.bottom() - THUMBNAIL_VIEW_BOTTOM_MARGIN);
-    m_viewRect.setTop(m_viewRect.bottom() - THUMBNAIL_VIEW_HEIGHT + 1);
-
-    if (m_itemList.empty())
-        return;
-    const int list_width = (m_itemList.back().frameRect().right() + 1) + THUMBNAIL_SIDE_MARGIN;
-    if (list_width <= screen_geometry.width() - THUMBNAIL_VIEW_SIDE_MARGIN * 2) {
-        const int left = screen_geometry.left() + (screen_geometry.width() - list_width) / 2;
-        m_viewRect.setLeft(left);
-        m_viewRect.setWidth(list_width);
-    } else {
-        m_viewRect.setLeft(screen_geometry.left() + THUMBNAIL_VIEW_SIDE_MARGIN);
-        m_viewRect.setRight((screen_geometry.right() + 1) - THUMBNAIL_VIEW_SIDE_MARGIN);
-    }
-
-    effects->setTabBoxViewRect(m_viewRect.adjusted(-1, -1, 1, 1));  // adjust border
-
-    m_visibleRect.setWidth(m_viewRect.width());
-    if (m_visibleRect.right() + 1 > list_width)
-        m_visibleRect.translate(list_width - (m_visibleRect.right() + 1), 0);
-    updateVisibleRect();
-}
-
-void AltTabThumbnailListEffect::updateVisibleRect()
-{
-    auto it = std::find_if(m_itemList.begin(), m_itemList.end(),
-            [this] (ItemView &item) { return item.window() == m_selectedWindow; });
-    if (it == m_itemList.end()) {
-        qWarning(KWIN_ALTTABTHUMBNAILLIST) << "Failed to find selected client in list";
-    } else {
-        const QRect selected_rect = it->frameRect();
-        const int spacing = (it == m_itemList.begin() || it == m_itemList.end() - 1) ? THUMBNAIL_SIDE_MARGIN : THUMBNAIL_SPACING;
-
-        m_prevVisibleRect = m_nextVisibleRect = m_visibleRect;
-        // scroll left
-        if (selected_rect.left() - spacing < m_visibleRect.left()) {
-            if (it == m_itemList.begin()) {
-                m_nextVisibleRect.moveTo(0, m_nextVisibleRect.top());
-            } else {
-                m_nextVisibleRect.moveTo((it - 1)->frameRect().center().x(), m_nextVisibleRect.top());
-            }
-        // scroll right
-        } else if (selected_rect.right() + spacing > m_visibleRect.right()) {
-            if (it == m_itemList.end() - 1) {
-                m_nextVisibleRect.moveTo((selected_rect.right() + 1) + THUMBNAIL_SIDE_MARGIN - m_nextVisibleRect.width(), m_nextVisibleRect.top());
-            } else {
-                m_nextVisibleRect.moveTo((it + 1)->frameRect().center().x() - m_nextVisibleRect.width(), m_nextVisibleRect.top());
-            }
-        }
-
-        // process scroll animation
-        if (m_nextVisibleRect.isValid() && m_prevVisibleRect != m_nextVisibleRect) {
-            if (m_prevVisibleRect.isValid() && m_scrollAnimation.enable) {
-                if (m_scrollAnimation.timeLine.done())
-                    m_scrollAnimation.timeLine.reset();
-                m_scrollAnimation.active = true;
-            } else {
-                m_visibleRect = m_prevVisibleRect = m_nextVisibleRect;
-            }
-        } else {
-            m_nextVisibleRect = m_visibleRect;
-        }
     }
 }
 
@@ -731,4 +631,4 @@ QRect AltTabThumbnailListEffect::rectOnScreen(const QRect &rectInList, const QRe
     return item_rect;
 }
 
-}
+} // namespace KWin

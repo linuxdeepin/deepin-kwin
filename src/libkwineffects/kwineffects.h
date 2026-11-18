@@ -1809,6 +1809,11 @@ Q_SIGNALS:
      */
     void tabBoxClosed();
     /**
+     * Signal emitted before a TabBox is closed because its selection was aborted.
+     * @since 6.1
+     */
+    void tabBoxAborted();
+    /**
      * Signal emitted when the selected TabBox window changed or the TabBox List changed.
      * An effect should only response to this signal if it referenced the TabBox with refTabBox.
      * @see refTabBox

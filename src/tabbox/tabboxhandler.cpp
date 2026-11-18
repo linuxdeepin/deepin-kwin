@@ -85,6 +85,7 @@ public:
      * Indicates if the tabbox is shown.
      */
     bool isShown;
+    bool allowHighlight = true;
     TabBoxClient *lastRaisedClient, *lastRaisedClientSucc;
     int wheelAngleDelta = 0;
     bool m_lastRaisedClientWasMinimized;
@@ -160,7 +161,7 @@ bool TabBoxHandlerPrivate::isHighlightWindows() const
     if (w && w->visibility() == QWindow::FullScreen) {
         return false;
     }
-    return config.isHighlightWindows();
+    return allowHighlight && config.isHighlightWindows();
 }
 
 void TabBoxHandlerPrivate::updateHighlightWindows()
@@ -465,8 +466,9 @@ void TabBoxHandler::setConfig(const TabBoxConfig &config)
     Q_EMIT configChanged();
 }
 
-void TabBoxHandler::show()
+void TabBoxHandler::show(bool allowHighlight)
 {
+    d->allowHighlight = allowHighlight;
     d->isShown = true;
     d->lastRaisedClient = nullptr;
     d->lastRaisedClientSucc = nullptr;

@@ -4,7 +4,9 @@
 #pragma once
 
 #include <kwineffects.h>
-#include <kwineffectsex.h>
+
+#include <chrono>
+#include <memory>
 
 namespace KWin
 {
@@ -38,6 +40,9 @@ private:
     std::unique_ptr<GLTexture> m_filledTexture = nullptr;
 };
 
+class ThumbnailStrip;
+class PreviewAnimator;
+
 class AltTabThumbnailListEffect : public Effect
 {
     Q_OBJECT
@@ -49,7 +54,8 @@ public:
     bool isActive() const override;
     void reconfigure(ReconfigureFlags flags) override;
 
-    void paintWindow(EffectWindow *w, int mask, QRegion region, WindowPaintData &data) override;
+    void prePaintWindow(EffectWindow *window, WindowPrePaintData &data, std::chrono::milliseconds presentTime) override;
+    void paintWindow(EffectWindow *window, int mask, QRegion region, WindowPaintData &data) override;
     void prePaintScreen(ScreenPrePaintData &data, std::chrono::milliseconds presentTime) override;
     void paintScreen(int mask, const QRegion &region, ScreenPaintData &data) override;
     void postPaintScreen() override;
@@ -59,27 +65,30 @@ public:
 public Q_SLOTS:
     void slotTabboxAdded(int);
     void slotTabboxClosed();
+    void slotTabboxAborted();
     void slotTabboxUpdated();
 
     void slotMouseChanged(const QPoint &pos, const QPoint &old,
                           Qt::MouseButtons buttons, Qt::MouseButtons oldbuttons,
                           Qt::KeyboardModifiers modifiers, Qt::KeyboardModifiers oldmodifiers);
 
-    void slotWindowRemoved(EffectWindow *w);
+    void slotWindowRemoved(EffectWindow *window);
 
 private:
     void setActive(bool active);
 
-    void updateItemList();
-    void updateSelected();
-    void updateViewRect();
-    void updateVisibleRect();
+    /** @brief 根据焦点输出与工作区，计算切换器和大预览的本帧布局。 */
+    void updateLayout();
 
     void renderSelectedFrame(ScreenPaintData &data);
     void renderItemView(ItemView &item, ScreenPaintData &data);
 
     QRect rectOnScreen(const QRect &rectInList, const QRect &visible) const;
 
+    std::unique_ptr<ThumbnailStrip> m_thumbnailStrip;
+    std::unique_ptr<PreviewAnimator> m_previewAnimator;
+
+    bool m_tabBoxAborted = false;
 private:
     struct Animation
     {
@@ -111,4 +120,4 @@ private:
     static EffectWindow *s_dockWindow;
 };
 
-}
+} // namespace KWin

@@ -225,13 +225,13 @@ public:
     /**
      * Call this method to show the TabBoxView. Depending on current
      * configuration this method might not do anything.
-     * If highlight windows effect is to be used it will be activated.
      * Highlight windows and outline are not shown if
      * TabBoxConfig::TabBoxMode is TabBoxConfig::DesktopTabBox.
+     * @param allowHighlight Whether to allow the configured window highlight for this session.
      * @see TabBoxConfig::isShowTabBox
      * @see TabBoxConfig::isHighlightWindows
      */
-    void show();
+    void show(bool allowHighlight = true);
     /**
      * Hides the TabBoxView if shown.
      * Deactivates highlight windows effect if active.
