@@ -33,6 +33,5 @@ void main(void)
     } else {
         alpha = inner;
     }
-    float a = c.a * opacity * alpha;
-    fragColor = vec4(c.rgb * a, a);
+    fragColor = c * (opacity * alpha);
 }

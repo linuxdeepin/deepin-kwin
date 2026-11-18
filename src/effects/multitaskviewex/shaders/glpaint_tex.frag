@@ -31,6 +31,5 @@ void main(void)
     } else {
         alpha = inner;
     }
-    float a = c.a * opacity * alpha;
-    gl_FragColor = vec4(c.rgb * a, a);
+    gl_FragColor = c * (opacity * alpha);
 }

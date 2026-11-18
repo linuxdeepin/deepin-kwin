@@ -20,6 +20,17 @@
 namespace KWin
 {
 
+namespace
+{
+constexpr qreal kDragTipIconWidth = 24.0;
+constexpr qreal kDragTipIconHeight = 25.0;
+constexpr qreal kDragTipSpacing = 8.0;
+constexpr qreal kDragTipTopMargin = 10.0;
+constexpr qreal kDashStep = 10.0;
+constexpr qreal kDashSegWidth = 6.0;
+constexpr qreal kDashSegHeight = 2.0;
+}
+
 WorkspaceBarControl::WorkspaceBarControl()
     : GLControl(SceneLayer::Bar)
 {
@@ -215,20 +226,27 @@ void WorkspaceBarControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
             const auto textInfo = m_provider->textTexture(m_dragTipText, tipFont, QColor(Qt::white));
             const qreal textW = textInfo.imageSize.width();
             const qreal textH = textInfo.imageSize.height();
-            const qreal icon = kDragTipIconSize * s;
-            const auto tip = dragTipLayout(box, icon, textW, textH);
-            r.drawColor(QColor(0xff, 0xff, 0xff, 150), box.adjusted(-1 * s, -1 * s, 1 * s, 1 * s), 10 * s, opacity,
-                        ctx.projection(), 2.0 * s);
-            const auto ic = m_provider->textureFor(workspaceDeleteIconPath(), QSize(int(icon), int(icon)));
+            const qreal icon = kDragTipIconWidth * s;
+            const qreal iconHeight = kDragTipIconHeight * s;
+            const qreal spacing = kDragTipSpacing * s;
+            auto tip = dragTipLayout(box, icon, textW, textH, spacing, iconHeight);
+            const qreal underlineY = qRound((dn->cell.y() + dn->cell.height()) / 2.0 + barShiftY);
+            tip.rect.moveTop(underlineY + kDragTipTopMargin * s);
+            for (qreal x = box.left(); x < box.right(); x += kDashStep * s) {
+                r.drawColor(QColor(Qt::white),
+                            QRectF(qRound(x), underlineY, qMin(kDashSegWidth * s, box.right() - x), kDashSegHeight * s),
+                            0, opacity, ctx.projection());
+            }
+            const auto ic = m_provider->textureFor(workspaceDeleteIconPath(), QSize(qRound(icon), qRound(iconHeight)));
             if (ic.texture) {
                 r.drawTexture(ic.texture,
-                              QRectF(tip.rect.x(), tip.rect.y() + (tip.rect.height() - icon) / 2.0, icon, icon),
+                              QRectF(qRound(tip.rect.x()), qRound(tip.rect.center().y() - iconHeight / 2.0), icon, iconHeight),
                               0, opacity, ctx.projection());
             }
             if (tip.showText && textInfo.texture) {
-                r.drawTexture(textInfo.texture,
-                              QRectF(tip.rect.x() + icon + 13.0 * s, tip.rect.y(), textW, tip.rect.height()),
-                              0, opacity, ctx.projection());
+                const QRectF textRect(qRound(tip.rect.x() + icon + spacing),
+                                      qRound(tip.rect.center().y() - textH / 2.0), textW, textH);
+                r.drawTexture(textInfo.texture, textRect, 0, opacity, ctx.projection());
             }
         }
     }
