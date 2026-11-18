@@ -22,6 +22,7 @@ constexpr int THUMBNAIL_SIDE_MARGIN = 20;
 constexpr int THUMBNAIL_VIEW_BOTTOM_MARGIN = 60;
 constexpr int THUMBNAIL_VIEW_HEIGHT = 198;
 constexpr int THUMBNAIL_VIEW_SIDE_MARGIN = 10;
+constexpr int PREVIEW_TOP_MARGIN = 30;
 
 inline int scale(int value)
 {
