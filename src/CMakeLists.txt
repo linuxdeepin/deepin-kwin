@@ -122,6 +122,7 @@ target_sources(kwin PRIVATE
     logger.cpp
     main.cpp
     mirrormodecursor.cpp
+    mirrormodedbus.cpp
     modifier_only_shortcuts.cpp
     mousebuttons.cpp
     moving_client_x11_filter.cpp

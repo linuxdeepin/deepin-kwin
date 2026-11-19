@@ -149,7 +149,7 @@ private:
     void destroyDndIconItem();
     // Mirror mode: secondary outputs show a scaled, letterboxed copy of the
     // listed windows of the primary screen.
-    void paintMirrorModeMirrors(const QRegion &region);
+    void paintMirrorModeMirrors();
 
     std::unique_ptr<ImageItem> m_mirrorBackground;
     std::unique_ptr<ImageItem> m_mirrorCursor;

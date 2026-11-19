@@ -394,7 +394,7 @@ void WorkspaceScene::paint(RenderTarget *renderTarget, const QRegion &region)
 
     ScreenPaintData data(m_renderer->renderTargetProjectionMatrix(), EffectScreenImpl::get(painted_screen));
     effects->paintScreen(m_paintContext.mask, region, data);
-    paintMirrorModeMirrors(region);
+    paintMirrorModeMirrors();
     m_paintScreenCount = 0;
     if (!effects->captureFrameGeneration()) {
         Q_EMIT frameRendered();
@@ -595,7 +595,7 @@ void WorkspaceScene::addRepaint(const QRegion &region)
     }
 }
 
-void WorkspaceScene::paintMirrorModeMirrors(const QRegion &region)
+void WorkspaceScene::paintMirrorModeMirrors()
 {
     if (kwinApp()->operationMode() != Application::OperationModeX11) {
         return;
@@ -625,7 +625,9 @@ void WorkspaceScene::paintMirrorModeMirrors(const QRegion &region)
 
     for (Output *mirror : mirrors) {
         const QRectF mirrorGeometry = mirror->fractionalGeometry();
-        const QRegion mirrorDamage = region & mirrorGeometry.toAlignedRect();
+        // The region this paint was given is clipped to the primary output viewport, so
+        // it never reaches a mirror output; the mirror outputs are refreshed in full.
+        const QRegion mirrorDamage = mirrorGeometry.toAlignedRect();
         if (mirrorDamage.isEmpty()) {
             continue;
         }
@@ -639,6 +641,10 @@ void WorkspaceScene::paintMirrorModeMirrors(const QRegion &region)
         m_mirrorBackground->setPosition(mirrorGeometry.topLeft());
         m_mirrorBackground->setSize(mirrorGeometry.size());
         m_renderer->renderItem(m_mirrorBackground.get(), PAINT_WINDOW_TRANSFORMED, mirrorDamage, WindowPaintData(projection));
+
+        if (ws->isMirrorModeLocked()) {
+            continue;
+        }
 
         const QRectF target = Workspace::mirrorModeMirrorRect(primaryGeometry, primaryGeometry, mirrorGeometry);
         if (target.isEmpty()) {

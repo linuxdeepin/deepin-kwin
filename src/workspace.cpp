@@ -51,6 +51,7 @@
 #include "decorations/decorationbridge.h"
 #include "main.h"
 #include "mirrormodecursor.h"
+#include "mirrormodedbus.h"
 #include "placeholderinputeventfilter.h"
 #include "placeholderoutput.h"
 #include "placementtracker.h"
@@ -80,6 +81,8 @@
 #include <KStartupInfo>
 // Qt
 #include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusObjectPath>
 #include <QDBusPendingCall>
 #include <QDBusPendingReply>
 #include <QFuture>
@@ -1277,6 +1280,9 @@ void Workspace::removeUnmanaged(Unmanaged *window)
     Q_ASSERT(m_unmanaged.contains(window));
     m_unmanaged.removeAll(window);
     removeFromStack(window);
+    if (m_mirrorModeListed.remove(window->window())) {
+        Q_EMIT mirrorModeListChanged();
+    }
     Q_EMIT unmanagedRemoved(window);
 }
 
@@ -1349,6 +1355,10 @@ void Workspace::removeWindow(Window *window)
     }
     if (m_userActionsMenu->isMenuWindow(window)) {
         m_userActionsMenu->close();
+    }
+
+    if (m_mirrorModeListed.remove(window->window())) {
+        Q_EMIT mirrorModeListChanged();
     }
 
     m_allClients.removeAll(window);
@@ -3442,10 +3452,13 @@ Workspace::MirrorModePolicy Workspace::mirrorModePolicyFromString(const QString 
     if (policy == QLatin1String("whitelist")) {
         return MirrorModePolicy::Whitelist;
     }
+    if (policy == QLatin1String("blacklist")) {
+        return MirrorModePolicy::Blacklist;
+    }
     if (policy == QLatin1String("passthrough")) {
         return MirrorModePolicy::Passthrough;
     }
-    return MirrorModePolicy::Blacklist;
+    return MirrorModePolicy::Whitelist;
 }
 
 Workspace::MirrorModePolicy Workspace::mirrorModePolicy() const
@@ -3453,23 +3466,79 @@ Workspace::MirrorModePolicy Workspace::mirrorModePolicy() const
     return m_mirrorModePolicy;
 }
 
+
+bool Workspace::mirrorModeShouldMirror(MirrorModePolicy policy, bool listed)
+{
+    switch (policy) {
+    case MirrorModePolicy::Passthrough:
+        return true;
+    case MirrorModePolicy::Whitelist:
+        return listed;
+    case MirrorModePolicy::Blacklist:
+        return !listed;
+    }
+    return false;
+}
+
+// FIXME: dde-lock does not report its state yet, so the window it maps stands in for it.
+static bool isLockScreenWindow(const Window *window)
+{
+    const bool lockWindow = window->isLockScreen()
+        || window->resourceName().compare(QLatin1String("dde-lock"), Qt::CaseInsensitive) == 0;
+    if (!lockWindow) {
+        return false;
+    }
+    // dde-lock unmaps rather than destroys, so being listed is not the same as being shown.
+    if (qobject_cast<const Unmanaged *>(window)) {
+        return true;
+    }
+    return window->isShown();
+}
+
+bool Workspace::isMirrorModeListable(const Window *window)
+{
+    return !window->isDeleted() && !window->isDesktop() && !window->isDock() && !isLockScreenWindow(window);
+}
+
 bool Workspace::shouldMirrorWindow(const Window *window) const
 {
     if (!window) {
         return false;
     }
-    switch (m_mirrorModePolicy) {
-    case MirrorModePolicy::Passthrough:
-        // Full clone of the primary output, the desktop window included.
-        return true;
-    case MirrorModePolicy::Whitelist:
-        return window->isMirrorModeListed();
-    case MirrorModePolicy::Blacklist:
-        // The desktop and the docks are shell chrome, not application content, so they
-        // stay out of the mirror unless the whole screen is cloned.
-        return !window->isMirrorModeListed() && !window->isDesktop() && !window->isDock();
+    return mirrorModeShouldMirror(m_mirrorModePolicy, window->isMirrorModeListed());
+}
+
+bool Workspace::isMirrorModeListed(quintptr windowId) const
+{
+    return m_mirrorModeListed.contains(windowId);
+}
+
+bool Workspace::setMirrorModeListed(quintptr windowId, bool listed)
+{
+    if (listed) {
+        const Window *window = nullptr;
+        const auto windows = stackingOrder();
+        for (const Window *candidate : windows) {
+            if (candidate->window() == windowId) {
+                window = candidate;
+                break;
+            }
+        }
+        if (!window || !isMirrorModeListable(window)) {
+            return false;
+        }
     }
-    return false;
+
+    const bool changed = listed ? !m_mirrorModeListed.contains(windowId) : m_mirrorModeListed.remove(windowId);
+    if (!changed) {
+        return false;
+    }
+    if (listed) {
+        m_mirrorModeListed.insert(windowId);
+    }
+    Q_EMIT mirrorModeListChanged();
+    damageMirrorOutputs();
+    return true;
 }
 
 MirrorModeCursor *Workspace::mirrorModeCursor() const
@@ -3530,6 +3599,10 @@ void Workspace::initMirrorMode()
         return;
     }
 
+    if (!m_mirrorModeDBus) {
+        m_mirrorModeDBus = new MirrorModeDBus(this);
+    }
+
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, QStringLiteral("/"), CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
     interfaceRequire.setTimeout(DBUS_TIMEOUT);
     const QDBusReply<QDBusObjectPath> reply = interfaceRequire.call(QStringLiteral("acquireManager"),
@@ -3567,12 +3640,8 @@ void Workspace::updateMirrorMode()
         enabled = false;
     }
 
-    QString policy = QStringLiteral("blacklist");
-    if (DconfigRead<QString>(QStringLiteral("org.kde.kwin.mirrormode"), QStringLiteral("policy"), policy) != DconfigReaderRetCode::DCONF_SUCCESS) {
-        // Unknown policy falls back to the default instead of leaving the mode in an
-        // undefined state.
-        policy = QStringLiteral("blacklist");
-    }
+    QString policy = QStringLiteral("whitelist");
+    DconfigRead<QString>(QStringLiteral("org.kde.kwin.mirrormode"), QStringLiteral("policy"), policy);
     const MirrorModePolicy parsedPolicy = mirrorModePolicyFromString(policy);
     const bool policyChanged = parsedPolicy != m_mirrorModePolicy;
     m_mirrorModePolicy = parsedPolicy;
@@ -3624,12 +3693,66 @@ void Workspace::updateMirrorModeProperty()
                         atoms->deepin_net_mirror_mode, XCB_ATOM_CARDINAL, 32, 1, &value);
 }
 
+void Workspace::initMirrorModeLockWatch()
+{
+    if (m_mirrorModeLockWatched) {
+        return;
+    }
+    m_mirrorModeLockWatched = true;
+
+    // FIXME: until dde-lock publishes its own state, the window it maps blanks the mirrors.
+    connect(this, &Workspace::windowAdded, this, &Workspace::syncMirrorModeLocked);
+    connect(this, &Workspace::windowRemoved, this, &Workspace::syncMirrorModeLocked);
+    connect(this, &Workspace::unmanagedAdded, this, &Workspace::syncMirrorModeLocked);
+    connect(this, &Workspace::unmanagedRemoved, this, &Workspace::syncMirrorModeLocked);
+    syncMirrorModeLocked();
+}
+
+void Workspace::updateMirrorModeLocked(bool locked)
+{
+    if (m_mirrorModeLocked == locked) {
+        return;
+    }
+    m_mirrorModeLocked = locked;
+    if (!locked) {
+        // Windows mapped while the lock screen was up were never clamped to the primary.
+        updateMirrorModeMirrors();
+    }
+    damageMirrorOutputs();
+}
+
+
+void Workspace::damageMirrorOutputs()
+{
+    if (!Compositor::compositing() || !Compositor::self() || !Compositor::self()->scene()) {
+        return;
+    }
+    Compositor::self()->scene()->addRepaintFull();
+    Compositor::self()->scheduleRepaint();
+}
+
+
+bool Workspace::hasLockScreenWindow() const
+{
+    const auto windows = stackingOrder(); // clients, unmanaged and internal windows
+    return std::any_of(windows.cbegin(), windows.cend(), isLockScreenWindow);
+}
+
+void Workspace::syncMirrorModeLocked()
+{
+    const bool locked = hasLockScreenWindow();
+    updateMirrorModeLocked(locked);
+}
+
+
 void Workspace::enterMirrorMode()
 {
     Output *primary = preferredOutput();
     if (m_mirrorMode || !primary) {
         return;
     }
+
+    initMirrorModeLockWatch();
 
     m_mirrorMode = true;
     m_mirrorModePrimary = primary;
@@ -3729,8 +3852,17 @@ void Workspace::updateMirrorModeMirrors()
 
     const QRectF primaryArea = primary->fractionalGeometry();
     const QList<Window *> windows = stackingOrder();
+    const bool mirrorLocked = m_mirrorModeLocked;
     for (Window *window : windows) {
         if (!window || window->isDeleted()) {
+            continue;
+        }
+        // The desktop and the docks must not be moved; see Window::beginMirrorMode().
+        if (window->isDesktop() || window->isDock()) {
+            continue;
+        }
+        // The lock screen covers every output, so nothing is clamped onto the primary area.
+        if (mirrorLocked) {
             continue;
         }
         window->keepInArea(primaryArea, true);

@@ -1109,22 +1109,20 @@ void Window::doSetKeepBelow()
 {
 }
 
+bool Window::isMirrorModeListed() const
+{
+    return workspace()->isMirrorModeListed(window());
+}
+
 void Window::setMirrorModeListed(bool b)
 {
-    // The desktop and the docks are shell chrome: listing them would put the whole
-    // desktop on the mirror outputs, so they never take part in the list.
-    if (b && (isDesktop() || isDock())) {
+    if (b == isMirrorModeListed()) {
         return;
     }
-    if (b == m_mirrorModeListed) {
+    if (!workspace()->setMirrorModeListed(window(), b)) {
         return;
     }
-    m_mirrorModeListed = b;
-    Q_EMIT mirrorModeListedChanged(m_mirrorModeListed);
-    // Trigger repaint on the non-primary outputs so the list change is visible at once.
-    if (Compositor::compositing()) {
-        Compositor::self()->scene()->addRepaintFull();
-    }
+    Q_EMIT mirrorModeListedChanged(isMirrorModeListed());
 }
 
 void Window::beginMirrorMode(const QRectF &primaryArea)

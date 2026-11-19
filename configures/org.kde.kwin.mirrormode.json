@@ -14,13 +14,13 @@
             "visibility": "public"
         },
         "policy": {
-            "value": "blacklist",
+            "value": "whitelist",
             "serial": 0,
             "flags": [],
             "name": "Mirror mode policy",
             "name[zh_CN]": "镜像模式策略",
-            "description": "What the other outputs show while the mode is enabled. blacklist mirrors every window except the listed ones (the default), whitelist mirrors only the listed ones, passthrough clones the whole primary output. The desktop and the docks are never listed; they are mirrored only under passthrough.",
-            "description[zh_CN]": "模式开启时其余输出显示什么。blacklist 镜像除名单外的所有窗口（默认），whitelist 只镜像名单内的窗口，passthrough 整屏克隆主屏。桌面与任务栏不参与名单，仅在 passthrough 下被镜像。",
+            "description": "What the other outputs show while the mode is enabled. whitelist mirrors only the listed windows (the default), blacklist mirrors every window except the listed ones, passthrough clones the whole primary output. While the session is locked the mirror outputs stay black.",
+            "description[zh_CN]": "模式开启时其余输出显示什么。whitelist 只镜像名单内的窗口（默认），blacklist 镜像除名单外的所有窗口，passthrough 整屏克隆主屏。锁屏显示期间镜像屏保持全黑。",
             "permissions": "readwrite",
             "visibility": "public"
         }

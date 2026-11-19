@@ -20,6 +20,7 @@
 // Qt
 #include <QImage>
 #include <QPointer>
+#include <QSet>
 #include <QSize>
 #include <QStringList>
 #include <QTimer>
@@ -78,6 +79,7 @@ namespace KWin
 {
 
 class MirrorModeCursor;
+class MirrorModeDBus;
 
 namespace Decoration
 {
@@ -238,46 +240,39 @@ public:
     QVector<Output *> outputOrder() const;
 
     Output *activeOutput() const;
-    // Preferred output for effects that key off a single screen in mirror mode:
-    // the user-designated primary output when set, otherwise the first output.
     Output *preferredOutput() const;
 
-    // Mirror mode (X11 only): switched on by the DConfig keys
-    // org.kde.kwin.mirrormode:enabled and :policy. All windows are moved to the
-    // primary output and the other outputs render a scaled mirror of it. The root
-    // window property _DEEPIN_NET_MIRROR_MODE reports the state to the other
-    // components: 0 off, 1 blacklist, 2 whitelist, 3 passthrough.
+    // Mirror mode (X11 only), driven by the DConfig keys org.kde.kwin.mirrormode:enabled
+    // and :policy. All windows are moved to the primary output and the other outputs
+    // render a scaled mirror of it; _DEEPIN_NET_MIRROR_MODE reports 0/1/2/3 to others.
     enum class MirrorModePolicy {
-        // Mirror every window except the listed ones (the default).
         Blacklist,
-        // Mirror only the listed windows.
         Whitelist,
-        // Clone the whole primary output; the per-window list is ignored.
         Passthrough,
     };
 
-    // Parses the DConfig policy value; anything unknown yields Blacklist.
     static MirrorModePolicy mirrorModePolicyFromString(const QString &policy);
 
+    static bool mirrorModeShouldMirror(MirrorModePolicy policy, bool listed);
+
+    bool isMirrorModeLocked() const { return m_mirrorModeLocked; }
     bool isMirrorMode() const;
     MirrorModePolicy mirrorModePolicy() const;
-    // Whether \a window is part of what the mirror outputs show under the current
-    // policy. The desktop and the docks can never be listed, so they follow the policy.
     bool shouldMirrorWindow(const Window *window) const;
+    bool isMirrorModeListed(quintptr windowId) const;
+    static bool isMirrorModeListable(const Window *window);
+    bool setMirrorModeListed(quintptr windowId, bool listed);
     Output *mirrorModePrimaryOutput() const;
     const QVector<Output *> &mirrorModeMirrors() const;
-    // Pointer side of the mode: confinement and the cursor image shown on the mirrored
-    // outputs. Null outside of the X11 session.
+    void damageMirrorOutputs();
+    // Null outside of the X11 session.
     MirrorModeCursor *mirrorModeCursor() const;
-    // Maps \a rect (primary screen coordinates) to the scaled, centered mirror of
-    // \a mirrorGeometry, keeping the primary screen aspect ratio (letterbox).
+    // Maps \a rect on the primary screen to its scaled, letterboxed place on a mirror.
     static QRectF mirrorModeMirrorRect(const QRectF &rect, const QRectF &primaryGeometry, const QRectF &mirrorGeometry);
-    // Maps every rectangle of \a region that lies on the primary screen to the
-    // mirror outputs, so damage done on the primary repaints the mirrored copy too.
+    // Maps the primary part of \a region to the mirror outputs, so damage reaches them.
     QRegion mirrorModeMirrorRegion(const QRegion &region) const;
-    // Translation to pass to WindowPaintData for a window item at \a itemPosition:
-    // the item position is applied before the paint transform, so it has to be
-    // scaled explicitly to keep the mirrored layout equal to the primary layout.
+    // The translation for a window item: the item position is applied before the paint
+    // transform, so it has to be scaled by hand to keep the mirrored layout unchanged.
     static QPointF mirrorModeMirrorOffset(const QPointF &itemPosition, const QRectF &primaryGeometry, const QRectF &mirrorGeometry);
     void setActiveOutput(Output *output);
     void setActiveOutput(const QPointF &pos);
@@ -819,6 +814,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void desktopResized();
+    void syncMirrorModeLocked();
     void selectWmInputEventMask();
     void slotUpdateToolWindows();
     void delayFocus();
@@ -843,6 +839,7 @@ Q_SIGNALS:
     void geometryChanged();
     // Emitted when the mirror mode is entered or left.
     void mirrorModeChanged(bool enabled);
+    void mirrorModeListChanged();
 
     // Signals required for the scripting interface
     void desktopPresenceChanged(KWin::Window *, int);
@@ -1005,22 +1002,28 @@ private:
     QList<Group *> groups;
 
     void initMirrorMode();
-    // Enters or leaves the mode so that it matches the DConfig switch, then
-    // publishes the resulting state on the root window.
+    // Enters or leaves the mode so that it matches the DConfig switch.
     void applyMirrorMode();
     void enterMirrorMode();
     void exitMirrorMode();
     void updateMirrorModeMirrors();
-    // Publishes the mode on the root window so the other components can query it.
     void updateMirrorModeProperty();
+    // Watches the lock screen window, once per process.
+    void initMirrorModeLockWatch();
+    void updateMirrorModeLocked(bool locked);
+    bool hasLockScreenWindow() const;
     // Value of the DConfig switch, kept apart from m_mirrorMode because
     // entering needs a primary output that may not be there yet.
     bool m_mirrorModeEnabled = false;
     bool m_mirrorMode = false;
-    MirrorModePolicy m_mirrorModePolicy = MirrorModePolicy::Blacklist;
+    bool m_mirrorModeLocked = false;
+    bool m_mirrorModeLockWatched = false;
+    QSet<quintptr> m_mirrorModeListed;
+    MirrorModePolicy m_mirrorModePolicy = MirrorModePolicy::Whitelist;
     Output *m_mirrorModePrimary = nullptr;
     QVector<Output *> m_mirrorModeMirrors;
     std::unique_ptr<MirrorModeCursor> m_mirrorModeCursor;
+    MirrorModeDBus *m_mirrorModeDBus = nullptr;
     bool was_user_interaction;
     std::unique_ptr<X11EventFilter> m_wasUserInteractionFilter;
 

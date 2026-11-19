@@ -19,6 +19,7 @@ private Q_SLOTS:
     void testItemOffset();
     void testEmptyGeometries();
     void testPolicyParsing();
+    void testShouldMirrorDecision();
 };
 
 void TestMirrorModeMapping::testSameAspect()
@@ -69,9 +70,20 @@ void TestMirrorModeMapping::testPolicyParsing()
     QCOMPARE(Workspace::mirrorModePolicyFromString(QStringLiteral("blacklist")), Policy::Blacklist);
     QCOMPARE(Workspace::mirrorModePolicyFromString(QStringLiteral("whitelist")), Policy::Whitelist);
     QCOMPARE(Workspace::mirrorModePolicyFromString(QStringLiteral("passthrough")), Policy::Passthrough);
-    // The default has to survive a missing or unexpected value.
-    QCOMPARE(Workspace::mirrorModePolicyFromString(QString()), Policy::Blacklist);
-    QCOMPARE(Workspace::mirrorModePolicyFromString(QStringLiteral("bogus")), Policy::Blacklist);
+    QCOMPARE(Workspace::mirrorModePolicyFromString(QString()), Policy::Whitelist);
+    QCOMPARE(Workspace::mirrorModePolicyFromString(QStringLiteral("bogus")), Policy::Whitelist);
+}
+
+void TestMirrorModeMapping::testShouldMirrorDecision()
+{
+    using Policy = Workspace::MirrorModePolicy;
+    QVERIFY(!Workspace::mirrorModeShouldMirror(Policy::Blacklist, true));
+    QVERIFY(Workspace::mirrorModeShouldMirror(Policy::Blacklist, false));
+    QVERIFY(Workspace::mirrorModeShouldMirror(Policy::Whitelist, true));
+    QVERIFY(!Workspace::mirrorModeShouldMirror(Policy::Whitelist, false));
+    QVERIFY(Workspace::mirrorModeShouldMirror(Policy::Passthrough, true));
+    QVERIFY(Workspace::mirrorModeShouldMirror(Policy::Passthrough, false));
+
 }
 
 QTEST_GUILESS_MAIN(TestMirrorModeMapping)

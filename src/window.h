@@ -976,10 +976,7 @@ public:
         return m_keepBelow;
     }
     void setKeepBelow(bool);
-    bool isMirrorModeListed() const
-    {
-        return m_mirrorModeListed;
-    }
+    bool isMirrorModeListed() const;
     void setMirrorModeListed(bool);
     // Mirror mode: remember the current geometry and move the window onto
     // the primary screen. The frame geometry is authoritative, so the visual
@@ -2133,7 +2130,6 @@ private:
     bool m_zombie = false;
     bool m_keepAbove = false;
     bool m_keepBelow = false;
-    bool m_mirrorModeListed = false;
     QRectF m_mirrorModeRestoreGeometry;
     bool m_mirrorModeRestoreValid = false;
     bool m_demandsAttention = false;
