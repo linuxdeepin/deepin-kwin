@@ -519,6 +519,7 @@ TabBox::~TabBox() = default;
 
 void TabBox::handlerReady()
 {
+    m_tabBox->initSwitcherConfig();
     m_tabBox->setConfig(m_defaultConfig);
     reconfigure();
     m_ready = true;

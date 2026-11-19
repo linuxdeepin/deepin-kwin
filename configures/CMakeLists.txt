@@ -9,3 +9,7 @@ install(FILES org.kde.kwin.effects.blur.json
 install(FILES org.kde.kwin.mirrormode.json
     DESTINATION ${CMAKE_INSTALL_DATADIR}/dsg/configs/org.kde.kwin/
 )
+
+install(FILES org.kde.kwin.switcher.json
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/dsg/configs/org.kde.kwin/
+)

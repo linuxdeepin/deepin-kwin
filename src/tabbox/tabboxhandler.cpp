@@ -17,6 +17,7 @@
 #include "scripting/scripting.h"
 #include "switcheritem.h"
 #include "tabbox_logging.h"
+#include "utils/dconfig_reader.h"
 #include "utils/xcbutils.h"
 #include "wayland_server.h"
 #include <kwinglobals.h>
@@ -70,6 +71,7 @@ public:
     TabBoxHandler *q; // public pointer
     // members
     TabBoxConfig config;
+    bool includingDesktop = true;
     std::unique_ptr<QQmlContext> m_qmlContext;
     std::unique_ptr<QQmlComponent> m_qmlComponent;
     QObject *m_mainItem;
@@ -419,6 +421,42 @@ TabBoxHandler::~TabBoxHandler()
 const KWin::TabBox::TabBoxConfig &TabBoxHandler::config() const
 {
     return d->config;
+}
+
+void TabBoxHandler::initSwitcherConfig()
+{
+    const QString key = QStringLiteral("includingDesktop");
+    // The first change can arrive after startup, before we have a manager path.
+    QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, {}, CONFIGMANAGER_MANAGER_INTERFACE,
+                                         QStringLiteral("valueChanged"), {key}, QStringLiteral("s"),
+                                         this, SLOT(updateIncludingDesktop(QString)));
+    updateIncludingDesktop(key);
+}
+
+void TabBoxHandler::updateIncludingDesktop(const QString &key)
+{
+    auto bus = QDBusConnection::systemBus();
+    QDBusInterface configManager(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, bus);
+    configManager.setTimeout(DBUS_TIMEOUT);
+    const QDBusReply<QDBusObjectPath> reply = configManager.call("acquireManager", "org.kde.kwin", "org.kde.kwin.switcher", "");
+    if (!reply.isValid()) {
+        return;
+    }
+    QDBusInterface manager(CONFIGMANAGER_SERVICE, reply.value().path(), CONFIGMANAGER_MANAGER_INTERFACE, bus);
+    manager.setTimeout(DBUS_TIMEOUT);
+    const QDBusReply<QVariant> value = manager.call("value", key);
+    manager.asyncCall(QStringLiteral("release"));
+    if (value.isValid() && value.value().userType() == QMetaType::Bool) {
+        d->includingDesktop = value.value().toBool();
+    }
+}
+
+bool TabBoxHandler::includesDesktop(bool noWindows) const
+{
+    if (d->config.tabBoxMode() == TabBoxConfig::ClientTabBox) {
+        return d->includingDesktop;
+    }
+    return d->config.showDesktopMode() == TabBoxConfig::ShowDesktopClient || noWindows;
 }
 
 void TabBoxHandler::setConfig(const TabBoxConfig &config)

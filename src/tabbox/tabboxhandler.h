@@ -204,6 +204,7 @@ public:
      * @return The first desktop window in the stacking order.
      */
     virtual QWeakPointer<TabBoxClient> desktopClient() const = 0;
+    bool includesDesktop(bool noWindows) const;
     /**
      * Activates the currently selected client and closes the TabBox.
      */
@@ -219,6 +220,7 @@ public:
      * @param config Updates the currently used TabBoxConfig to config
      */
     void setConfig(const TabBoxConfig &config);
+    void initSwitcherConfig();
 
     /**
      * Call this method to show the TabBoxView. Depending on current
@@ -344,6 +346,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void initHighlightWindows();
+    void updateIncludingDesktop(const QString &key);
 
 private:
     friend class TabBoxHandlerPrivate;
