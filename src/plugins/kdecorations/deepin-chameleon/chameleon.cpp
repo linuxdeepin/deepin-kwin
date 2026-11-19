@@ -19,12 +19,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "chameleon.h"
-#include "chameleonshadow.h"
 #include "chameleonbutton.h"
 #include "chameleonconfig.h"
+#include "chameleonshadow.h"
 #include "chameleontheme.h"
 #include "chameleonwindowtheme.h"
 #include "kwinutils.h"
+#include "windowmenu.h"
+
+#include <KDecoration2/DecorationButton>
+#include <KLocalizedString>
 
 #include <KDecoration2/DecoratedClient>
 #include <KDecoration2/DecorationButtonGroup>
@@ -53,6 +57,41 @@
 
 Q_DECLARE_METATYPE(QPainterPath)
 
+namespace
+{
+class MenuButton : public KDecoration2::DecorationButton
+{
+public:
+    MenuButton(KDecoration2::Decoration *decoration, QAction *action)
+        : DecorationButton(KDecoration2::DecorationButtonType::Custom, decoration)
+        , m_action(action)
+    {
+        setEnabled(action->isEnabled());
+    }
+
+    void paint(QPainter *painter, const QRect &) override
+    {
+        if (!m_action) {
+            return;
+        }
+        if (isHovered() || isPressed()) {
+            QColor color = painter->pen().color();
+            color.setAlpha(35);
+            painter->fillRect(geometry(), color);
+        }
+        painter->drawText(geometry(), Qt::AlignCenter | Qt::TextHideMnemonic, m_action->text());
+    }
+
+    QAction *menuAction() const
+    {
+        return m_action.data();
+    }
+
+private:
+    QPointer<QAction> m_action;
+};
+}
+
 Chameleon::Chameleon(QObject *parent, const QVariantList &args)
     : KDecoration2::Decoration(parent, args)
     , m_client(parent)
@@ -61,6 +100,7 @@ Chameleon::Chameleon(QObject *parent, const QVariantList &args)
 
 Chameleon::~Chameleon()
 {
+    delete m_overflow;
 }
 
 void Chameleon::init()
@@ -79,6 +119,25 @@ void Chameleon::init()
 
     // 要放到updateTheme调用之前初始化此对象
     auto global_config = ChameleonConfig::instance();
+    if (auto *window = qobject_cast<KWin::Window *>(m_client); window && global_config->globalMenuEnabled()) {
+        m_menuButtons = new KDecoration2::DecorationButtonGroup(this);
+        m_overflow = new QMenu(i18nd("kwin_clients", "More"));
+        m_applicationMenu = new WindowMenu(window, this);
+        connect(m_applicationMenu, &WindowMenu::changed, this, &Chameleon::rebuildMenuButtons);
+        connect(c, &KDecoration2::DecoratedClient::activeChanged, this, [this](bool active) {
+            if (!active && m_openMenu) {
+                m_openMenu->close();
+            }
+        });
+        // Open windows drop the menu immediately. New windows pick up the setting in init().
+        connect(global_config, &ChameleonConfig::globalMenuEnabledChanged, this, [this](bool enabled) {
+            if (!enabled) {
+                delete m_applicationMenu;
+                m_applicationMenu = nullptr;
+                rebuildMenuButtons();
+            }
+        });
+    }
     m_theme = new ChameleonWindowTheme(m_client, this);
 
     m_font = qGuiApp->font();
@@ -194,6 +253,9 @@ void Chameleon::paint(QPainter *painter, const QRect &repaintArea)
         painter->setPen(getTextColor());
         painter->drawText(m_titleArea, Qt::AlignCenter, m_title);
 
+        if (m_menuButtons) {
+            m_menuButtons->paint(painter, repaintArea);
+        }
         // draw all buttons
         m_leftButtons->paint(painter, repaintArea);
         m_rightButtons->paint(painter, repaintArea);
@@ -409,6 +471,76 @@ void Chameleon::updateButtonsGeometry()
     updateTitleGeometry();
 }
 
+void Chameleon::rebuildMenuButtons()
+{
+    for (const auto &button : m_menuButtons->buttons()) {
+        m_menuButtons->removeButton(button);
+        delete button.data();
+    }
+    if (m_applicationMenu) {
+        auto actions = m_applicationMenu->actions();
+        if (!actions.isEmpty()) {
+            actions.append(m_overflow->menuAction());
+        }
+        for (auto *action : actions) {
+            auto *button = new MenuButton(this, action);
+            m_menuButtons->addButton(button);
+            connect(button, &KDecoration2::DecorationButton::clicked, this, [this, button] {
+                auto *action = button->menuAction();
+                auto *window = qobject_cast<KWin::Window *>(m_client);
+                if (!action || !window) {
+                    return;
+                }
+                KWin::Workspace::self()->activateWindow(window);
+                m_openMenu = action->menu();
+                if (m_openMenu) {
+                    m_applicationMenu->popup(m_openMenu, (window->pos() + button->geometry().bottomLeft()).toPoint());
+                } else {
+                    action->trigger();
+                }
+            });
+        }
+    }
+    updateTitleGeometry();
+}
+
+void Chameleon::layoutMenuButtons(QRect &area)
+{
+    const auto buttons = m_menuButtons->buttons();
+    const QFontMetrics metrics(m_font);
+    const int padding = 2 * settings()->smallSpacing();
+    auto widthOf = [&](const QPointer<KDecoration2::DecorationButton> &button) {
+        const auto action = static_cast<MenuButton *>(button.data())->menuAction();
+        return action ? metrics.size(Qt::TextHideMnemonic, action->text()).width() + padding : 0;
+    };
+    const int budget = area.width() - qMin(area.width() / 2, metrics.horizontalAdvance(m_title) + padding);
+    int total = 0;
+    for (int i = 0; i + 1 < buttons.size(); ++i) {
+        total += widthOf(buttons[i]);
+    }
+    const bool overflow = total > budget;
+    int remaining = budget - (overflow ? widthOf(buttons.last()) : 0);
+    m_overflow->clear();
+    for (int i = 0; i < buttons.size(); ++i) {
+        const auto &button = buttons[i];
+        const int width = widthOf(button);
+        const bool more = i == buttons.size() - 1;
+        const bool visible = more ? overflow : remaining >= width;
+        button->setVisible(visible);
+        button->setGeometry(QRectF(button->geometry().topLeft(), QSizeF(width, area.height())));
+        if (!more) {
+            remaining -= width;
+            if (!visible) {
+                if (auto *action = static_cast<MenuButton *>(button.data())->menuAction()) {
+                    m_overflow->addAction(action);
+                }
+            }
+        }
+    }
+    m_menuButtons->setPos(area.topLeft());
+    area.setLeft(area.left() + qRound(m_menuButtons->geometry().width()) + padding);
+}
+
 void Chameleon::updateTitleGeometry()
 {
     auto s = settings();
@@ -430,6 +562,13 @@ void Chameleon::updateTitleGeometry()
 
         m_titleArea.setWidth(m_titleArea.width() - buttons_width);
         m_titleArea.moveLeft(m_leftButtons->geometry().right() + s->smallSpacing());
+
+        if (m_menuButtons && !m_menuButtons->buttons().isEmpty()) {
+            layoutMenuButtons(m_titleArea);
+            m_title = fontMetrics.elidedText(m_title, Qt::ElideRight, qMax(0, m_titleArea.width()));
+            update();
+            return;
+        }
 
         if (full_width < (m_titleArea.right() - titleBar().center().x()) * 2) {
             m_titleArea.setWidth(full_width);

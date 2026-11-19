@@ -71,9 +71,17 @@ ChameleonConfig::ChameleonConfig(QObject *parent)
 
     QTimer::singleShot(100, this, [this]() { init(); });
 
-    QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, DConfigDecorationReplyPath(), CONFIGMANAGER_MANAGER_INTERFACE,
+    QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, DConfigDecorationReplyPath(QStringLiteral("org.kde.kwin.decoration.titlebar")), CONFIGMANAGER_MANAGER_INTERFACE,
                                          "valueChanged", this, SLOT(updateTitlebarHeight(QString)));
     updateTitlebarHeightPrivate();
+    if (QX11Info::isPlatformX11()) {
+        m_menuConfigPath = DConfigDecorationReplyPath(QStringLiteral("org.kde.kwin.decoration.appmenu"));
+        if (!m_menuConfigPath.isEmpty()) {
+            QDBusConnection::systemBus().connect(CONFIGMANAGER_SERVICE, m_menuConfigPath, CONFIGMANAGER_MANAGER_INTERFACE,
+                                                 "valueChanged", this, SLOT(readGlobalMenu(QString)));
+            readGlobalMenu(QStringLiteral("global-menu"));
+        }
+    }
 }
 
 ChameleonConfig *ChameleonConfig::instance()
@@ -956,10 +964,29 @@ void ChameleonConfig::updateTitlebarHeight(const QString& type)
     }
 }
 
-QString ChameleonConfig::DConfigDecorationReplyPath()
+void ChameleonConfig::readGlobalMenu(const QString &key)
+{
+    if (key != QLatin1String("global-menu")) {
+        return;
+    }
+    QDBusInterface values(CONFIGMANAGER_SERVICE, m_menuConfigPath, CONFIGMANAGER_MANAGER_INTERFACE, QDBusConnection::systemBus());
+    QDBusReply<QDBusVariant> result = values.call("value", key);
+    if (!result.isValid()) {
+        qCWarning(CHAMELEON) << "Failed to read global-menu:" << result.error();
+        return;
+    }
+    const bool enabled = result.value().variant().toBool();
+    if (m_globalMenuEnabled == enabled) {
+        return;
+    }
+    m_globalMenuEnabled = enabled;
+    Q_EMIT globalMenuEnabledChanged(m_globalMenuEnabled);
+}
+
+QString ChameleonConfig::DConfigDecorationReplyPath(const QString &resource)
 {
     QDBusInterface interfaceRequire(CONFIGMANAGER_SERVICE, "/", CONFIGMANAGER_INTERFACE, QDBusConnection::systemBus());
-    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin.decoration", "org.kde.kwin.decoration.titlebar", "");
+    QDBusReply<QDBusObjectPath> reply = interfaceRequire.call("acquireManager", "org.kde.kwin.decoration", resource, "");
     if (!reply.isValid()) {
         qCWarning(CHAMELEON) << "Error in DConfig reply:" << reply.error();
         return "";

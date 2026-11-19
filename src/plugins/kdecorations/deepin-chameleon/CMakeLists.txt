@@ -11,6 +11,8 @@ find_package(KF${KF_MAJOR_VERSION}Config REQUIRED)
 find_package(KF${KF_MAJOR_VERSION}WindowSystem REQUIRED)
 find_package(Qt${QT_MAJOR_VERSION}LinguistTools REQUIRED)
 
+pkg_check_modules(GIO REQUIRED IMPORTED_TARGET gio-2.0)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOMOC ON)
@@ -29,6 +31,9 @@ add_library(
     main.cpp
     chameleon.cpp
     chameleontheme.cpp
+    appmenuregistrar.cpp
+    gtkmenuimporter.cpp
+    windowmenu.cpp
     chameleonbutton.cpp
     chameleonshadow.cpp
     chameleonconfig.cpp
@@ -47,6 +52,9 @@ target_link_libraries(
     Qt${QT_MAJOR_VERSION}::Core
     Qt${QT_MAJOR_VERSION}::DBus
     Qt${QT_MAJOR_VERSION}::Qml
+    Qt${QT_MAJOR_VERSION}::Widgets
+    PkgConfig::GIO
+    PkgConfig::XRES
     X11
     XCB::XCB
     kwineffects

@@ -82,6 +82,10 @@ public:
     quint32 atomDeepinScissorWindow() const;
 
     bool isActivated() const;
+    bool globalMenuEnabled() const
+    {
+        return m_globalMenuEnabled;
+    }
 
     QString theme() const;
 
@@ -96,6 +100,7 @@ Q_SIGNALS:
     void windowScissorWindowPropertyChanged(quint32 windowId);
     void windowTypeChanged(QObject *window);
     void titlebarHeightChanged();
+    void globalMenuEnabledChanged(bool enabled);
 
 protected:
     explicit ChameleonConfig(QObject *parent = nullptr);
@@ -124,6 +129,7 @@ private Q_SLOTS:
     void onShellClientAdded(KWin::WaylandWindow *client);
     void updateWindowRadius();
     void updateTitlebarHeight(const QString& type);
+    void readGlobalMenu(const QString &key);
 
 private:
     void init();
@@ -136,9 +142,11 @@ private:
     void enforceWindowProperties(QObject *client);
     void enforcePropertiesForWindows(bool enable);
     bool setWindowOverrideType(QObject *client, bool enable);
-    QString DConfigDecorationReplyPath();
+    QString DConfigDecorationReplyPath(const QString &resource);
     void updateTitlebarHeightPrivate();
 
+    QString m_menuConfigPath;
+    bool m_globalMenuEnabled = false;
     bool m_activated = false;
     QString m_theme;
 

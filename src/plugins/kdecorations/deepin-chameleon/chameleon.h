@@ -36,6 +36,8 @@
 #include <QSettings>
 #include <QVariant>
 
+class WindowMenu;
+class QMenu;
 class Settings;
 class ChameleonWindowTheme;
 class Chameleon : public KDecoration2::Decoration
@@ -89,6 +91,8 @@ private:
     void updateButtonsGeometry();
 
     void updateTitleGeometry();
+    void rebuildMenuButtons();
+    void layoutMenuButtons(QRect &area);
 
     void updateTheme();
     void updateConfig();
@@ -121,6 +125,11 @@ private:
     ChameleonTheme::ConfigGroup* m_configGroup = nullptr;
     ChameleonTheme::ThemeConfig *m_config = nullptr;
     ChameleonWindowTheme *m_theme = nullptr;
+
+    WindowMenu *m_applicationMenu = nullptr;
+    KDecoration2::DecorationButtonGroup *m_menuButtons = nullptr;
+    QMenu *m_overflow = nullptr;
+    QPointer<QMenu> m_openMenu;
 
     QString m_title;
     QRect m_titleArea;

@@ -13,3 +13,7 @@ install(FILES org.kde.kwin.mirrormode.json
 install(FILES org.kde.kwin.switcher.json
     DESTINATION ${CMAKE_INSTALL_DATADIR}/dsg/configs/org.kde.kwin/
 )
+
+install(FILES org.kde.kwin.decoration.appmenu.json
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/dsg/configs/org.kde.kwin.decoration/
+)

@@ -1,0 +1,17 @@
+{
+    "magic": "dsg.config.meta",
+    "version": "1.0",
+    "contents": {
+        "global-menu": {
+            "value": false,
+            "serial": 0,
+            "flags": [],
+            "name": "Titlebar application menu",
+            "name[zh_CN]": "标题栏应用菜单",
+            "description": "Show the window's exported application menu in the titlebar.",
+            "description[zh_CN]": "在标题栏中显示当前窗口导出的应用菜单。",
+            "permissions": "readwrite",
+            "visibility": "public"
+        }
+    }
+}
