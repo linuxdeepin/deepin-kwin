@@ -16,6 +16,8 @@
 #include "utils/common.h"
 #include "workspace.h"
 
+#include <QtMath>
+
 #include <xcb/xcb.h>
 
 #include <algorithm>
