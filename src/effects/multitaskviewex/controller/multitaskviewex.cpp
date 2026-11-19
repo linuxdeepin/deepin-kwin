@@ -109,6 +109,9 @@ MultitaskViewExEffect::MultitaskViewExEffect()
     connect(effects, &EffectsHandler::windowDeleted, this, &MultitaskViewExEffect::onWindowDeleted);
     connect(effects, &EffectsHandler::windowAdded, this, &MultitaskViewExEffect::onWindowAdded);
 
+    QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
+                                          "ShowWorkspaceChanged", this, SLOT(toggle()));
+
     const auto resyncViews = [this] {
         if (m_running) {
             setRunning(false);
