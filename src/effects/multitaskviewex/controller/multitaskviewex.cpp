@@ -19,6 +19,7 @@
 #include "view/layers.h"
 #include "view/textutils.h"
 #include "view/windowcellcontrol.h"
+#include "view/windowpainttransform.h"
 #include "view/workspacebarcontrol.h"
 #include "wallpapermanager.h"
 #include "workspacemanager.h"
@@ -427,12 +428,13 @@ public:
 
     void paintWindow(EffectWindow *w, const QRectF &from, const QRectF &to, qreal opacity) const override
     {
-        WindowPaintData d(m_data.projectionMatrix());
-        d.setOpacity(opacity);
-        d *= QVector2D(float(to.width() / from.width()), float(to.height() / from.height()));
-        d += QPoint(int(to.x() - from.x()), int(to.y() - from.y()));
-        effects->drawWindow(w, m_mask | Effect::PAINT_WINDOW_TRANSFORMED,
-                            QRegion(QRect(-1, -1, 0x7FFFFFFF, 0x7FFFFFFF)), d);
+        draw(w, from, to, opacity, m_data.projectionMatrix(), QPointF());
+    }
+
+    void paintWindowInCanvas(EffectWindow *w, const QRectF &from, const QRectF &to, qreal opacity,
+                             const WindowCanvas &canvas) const override
+    {
+        draw(w, from, to, opacity, canvas.projection, canvas.origin);
     }
 
     bool isKeepAbove(EffectWindow *w) const override
@@ -441,6 +443,18 @@ public:
     }
 
 private:
+    void draw(EffectWindow *w, const QRectF &from, const QRectF &to, qreal opacity,
+              const QMatrix4x4 &projection, const QPointF &canvasOrigin) const
+    {
+        const WindowPaintPlacement placement = windowPaintPlacement(from, to, canvasOrigin);
+        WindowPaintData d(projection);
+        d.setOpacity(opacity);
+        d *= placement.scale;
+        d += QPoint(qRound(placement.translation.x()), qRound(placement.translation.y()));
+        effects->drawWindow(w, m_mask | Effect::PAINT_WINDOW_TRANSFORMED,
+                            QRegion(QRect(-1, -1, 0x7FFFFFFF, 0x7FFFFFFF)), d);
+    }
+
     int m_mask;
     QRegion m_region;
     ScreenPaintData m_data;

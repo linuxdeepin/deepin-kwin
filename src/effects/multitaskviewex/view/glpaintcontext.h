@@ -69,7 +69,10 @@ public:
      */
     void drawEffectWindow(EffectWindow *w, const QRectF &from, const QRectF &to, qreal opacity) const
     {
-        m_painter->paintWindow(w, from, to, opacity);
+        WindowCanvas canvas;
+        canvas.projection = m_projection;
+        canvas.origin = origin;
+        m_painter->paintWindowInCanvas(w, from, to, opacity, canvas);
     }
 
     /**
