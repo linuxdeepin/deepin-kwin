@@ -1,3 +1,39 @@
+kwin (4:6.1.60) unstable; urgency=medium
+
+  * build: build the tests by default
+  * fix(effect): slide from the removed workspace on deletion
+  * fix(effect): open the multitask view from the dock icon
+  * fix: give keyboard focus to lock screen overlay windows on click
+  * fix(effect): follow the system font in the multitask view
+  * feat: Show application menus in X11 window titlebars
+  * fix(mirror-mode): mirror only the listed windows
+  * build: 删除 KCMS 专用的无用构建依赖与 XCB IMAGE 组件
+  * fix(effect): exit the multitask view when the session locks
+  * feat: Make the Alt+Tab desktop entry configurable
+  * feat(effect): scale-in/out animation for the panel popup
+  * fix: include QtMath for mirror mode cursor barriers
+  * fix(effect): polish the workspace delete-drag hint
+  * fix(effect): exit the multitask view on screen hotplug
+  * fix(i18n): add missing multitaskviewex translations
+  * feat: fade the workspace bar in over 100ms
+  * fix: show the pinned state on the keep-above button
+  * feat: add and switch to a new workspace at once
+  * fix: adapt to Qt 6.12 private API changes
+  * fix(effect): slide the whole workspace grid as one block
+  * fix: 修复拷贝安全校验期间数据源销毁导致的崩溃
+  * fix(effect): wire the image provider on every screen view
+  * Revert "fix(x11): gate unmanaged first frame on backing residue state"
+  * feat: promote and activate window from the multitask view
+  * feat: exit multitask view on current desktop click
+  * fix: deliver dock clicks on release in multitask view
+  * feat: add empty and hover hints to multitask view
+  * test(mirrormode): cover the mirror mapping math
+  * feat(x11): keep the pointer on the primary output in mirror mode
+  * feat(scene): mirror the listed windows on the secondary outputs
+  * feat(x11): add a DConfig switch for the mirror mode
+
+ -- justforlxz <justforlxz@gmail.com>  Fri, 20 Nov 2026 17:34:18 +0800
+
 kwin (4:6.1.57) unstable; urgency=medium
 
   * fix: 修复 Wayland 下 XWayland 全局快捷键失效
