@@ -84,13 +84,4 @@ void WorkspaceModel::setNum(const QString &id, int num)
     m_workspaces[row].num = num;
 }
 
-void WorkspaceModel::setWallpaper(const QString &id, const QString &uri)
-{
-    const int row = indexOfId(id);
-    if (row < 0) {
-        return;
-    }
-    m_workspaces[row].wallpaper = uri;
-}
-
 }

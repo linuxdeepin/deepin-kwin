@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "model/wallpaperdata.h"
+
 #include <QObject>
 #include <QString>
 #include <QStringList>
@@ -48,28 +50,34 @@ public:
     void warm();
 
     /**
+     * @brief Returns the cached clear wallpaper URIs of every workspace and monitor.
+     * @return Wallpaper URIs, indexed by workspace number and monitor name.
+     */
+    const WallpaperMap &wallpapers() const;
+
+    /**
      * @brief Returns the raw cached clear wallpaper URI for a workspace and monitor.
      * @param desktopNum Desktop number.
-     * @param monitor Monitor to query, or nullptr for the first monitor with a wallpaper.
-     * @return The cached URI, or an empty string when no wallpaper is cached.
+     * @param monitor Screen to query.
+     * @return The cached URI, or an empty string when no wallpaper is cached for that monitor.
      */
-    QString clearUri(int desktopNum, EffectScreen *monitor = nullptr) const;
+    QString clearUri(int desktopNum, EffectScreen *monitor) const;
 
     /**
      * @brief Returns the clear wallpaper path for a workspace and monitor.
      * @param desktopNum Desktop number.
-     * @param monitor Monitor to query, or nullptr for the first monitor with a wallpaper.
+     * @param monitor Screen to query.
      * @return The wallpaper path, falling back to the built-in wallpaper.
      */
-    QString clearPath(int desktopNum, EffectScreen *monitor = nullptr) const;
+    QString clearPath(int desktopNum, EffectScreen *monitor) const;
 
     /**
      * @brief Returns the full-screen background for a workspace and monitor.
      * @param desktopNum Desktop number.
-     * @param monitor Monitor to query, or nullptr for the first monitor with a wallpaper.
+     * @param monitor Screen to query.
      * @return The clear wallpaper path.
      */
-    QString backgroundFor(int desktopNum, EffectScreen *monitor = nullptr) const;
+    QString backgroundFor(int desktopNum, EffectScreen *monitor) const;
 
     /**
      * @brief Collects the background of every workspace for preloading.

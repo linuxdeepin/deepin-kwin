@@ -58,22 +58,17 @@ WallpaperManager::WallpaperManager(QObject *parent)
 
 WallpaperManager::~WallpaperManager() = default;
 
+const WallpaperMap &WallpaperManager::wallpapers() const
+{
+    return m_source->wallpapers();
+}
+
 QString WallpaperManager::wallpaperFor(int desktopNum, EffectScreen *monitor) const
 {
-    if (!m_source) {
+    if (!m_source || !monitor) {
         return QString();
     }
-    const QString monName = monitor ? monitor->name() : QString();
-    if (monName.isEmpty()) {
-        for (EffectScreen *s : effects->screens()) {
-            const QString uri = wallpaperFor(desktopNum, s);
-            if (!uri.isEmpty()) {
-                return uri;
-            }
-        }
-        return QString();
-    }
-    return m_source->clearUri(desktopNum, monName);
+    return m_source->clearUri(desktopNum, monitor->name());
 }
 
 QString WallpaperManager::clearUri(int desktopNum, EffectScreen *monitor) const

@@ -65,13 +65,6 @@ public:
     void setCurrent(const QString &id);
 
     /**
-     * @brief Sets the wallpaper URI of a workspace.
-     * @param id Workspace id.
-     * @param uri Wallpaper URI.
-     */
-    void setWallpaper(const QString &id, const QString &uri);
-
-    /**
      * @brief Sets the desktop number of a workspace.
      * @param id Workspace id.
      * @param num New desktop number.
@@ -92,7 +85,6 @@ private:
     {
         QString id;
         int num = 0;
-        QString wallpaper;
     };
 
     int indexOfId(const QString &id) const;

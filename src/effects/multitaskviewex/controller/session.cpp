@@ -13,6 +13,7 @@
 #include "model/barpredicates.h"
 #include "model/keynav.h"
 #include "model/screenlayout.h"
+#include "model/slideplan.h"
 #include "model/wallpaperdata.h"
 #include "model/windowgrid.h"
 #include "model/windowgrouping.h"
@@ -121,7 +122,7 @@ void MultitaskViewExEffect::wireScreenView(ScreenView &view)
         if (showAddButton(workspaces()->count(), m_config->maxWorkspaces())) {
             QString uri = randomWallpaperPath();
             if (uri.isEmpty()) {
-                uri = m_wallpapers->clearPath(workspaces()->currentNumber());
+                uri = m_wallpapers->clearPath(workspaces()->currentNumber(), effects->activeScreen());
             }
             m_newWorkspaceWallpaper = uri;
             if (m_imgProvider && !uri.isEmpty()) {
@@ -151,7 +152,7 @@ void MultitaskViewExEffect::wireScreenView(ScreenView &view)
         if (hovered && showAddButton(workspaces()->count(), m_config->maxWorkspaces())) {
             QString uri = randomWallpaperPath();
             if (uri.isEmpty()) {
-                uri = m_wallpapers->clearPath(workspaces()->currentNumber());
+                uri = m_wallpapers->clearPath(workspaces()->currentNumber(), view.model.screen());
             }
             m_newWorkspaceWallpaper = uri;
             if (m_imgProvider && !uri.isEmpty()) {
@@ -632,29 +633,42 @@ void MultitaskViewExEffect::slideToDesktop(int num, int fromOverride)
     if (num <= 0 || num == from) {
         return;
     }
-    slideTo(num, m_wallpapers->backgroundFor(from), num > from ? 1 : -1);
+    slideTo(num, from, num > from ? 1 : -1);
 }
 
-void MultitaskViewExEffect::slideTo(int num, const QString &fromWall, int dir)
+void MultitaskViewExEffect::slideTo(int num, int fromNum, int dir, const QString &outgoingWallpaper)
 {
     if (num <= 0) {
         return;
     }
     const int slideDir = dir < 0 ? -1 : 1;
     m_inSlideTransition = true;
-    const QString toWall = m_wallpapers->backgroundFor(num);
+    QVector<SlideScreenInput> screens;
+    screens.reserve(m_views.count());
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-        owned->scene->startSlide(fromWall, toWall, slideDir);
+        screens.append(SlideScreenInput{owned->model.screen()->name(),
+                                        owned->model.metrics().size().width()});
+    }
+    QVector<ScreenSlide> slides = composeSlide(screens, slideDir, m_wallpapers->wallpapers(), fromNum, num,
+                                              toRealPath(QLatin1String(fallback_background_name)));
+    if (!outgoingWallpaper.isEmpty()) {
+        // 被删除的工作区已不在壁纸缓存里，离场壁纸由调用方在删除前捕获。
+        for (ScreenSlide &slide : slides) {
+            slide.fromWallpaper = outgoingWallpaper;
+        }
+    }
+    for (int i = 0; i < slides.size(); ++i) {
+        ScreenView *view = m_views.at(i);
+        view->scene->startSlide(slides.at(i).fromWallpaper, slides.at(i).toWallpaper, slideDir);
+        qCDebug(KWIN_MTVEX) << "slide to workspace" << num << "on screen" << screens.at(i).monitor
+                            << "from" << slides.at(i).fromWallpaper << "to" << slides.at(i).toWallpaper
+                            << "outgoing offset" << slides.at(i).outgoingOffset;
     }
     auto *vds = VirtualDesktopManager::self();
     if (vds) {
         if (VirtualDesktop *d = vds->desktopForX11Id(num)) {
-            qreal slideOffset = 0.0;
-            for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-                slideOffset = (slideDir > 0 ? 1.0 : -1.0) * owned->model.metrics().size().width();
-                break;
-            }
-            for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
+            for (int i = 0; i < m_views.count(); ++i) {
+                ScreenView *owned = m_views.at(i);
                 QVector<OutgoingWindowInput> wins;
                 wins.reserve(owned->model.windowItems().size());
                 for (const WindowItem &it : owned->model.windowItems()) {
@@ -669,7 +683,7 @@ void MultitaskViewExEffect::slideTo(int num, const QString &fromWall, int dir)
                     wi.op = n ? n->opacity() : 1.0;
                     wins.append(wi);
                 }
-                owned->scene->outgoingLayer().snapshot(slideOffset, wins, owned->model.cellBase(),
+                owned->scene->outgoingLayer().snapshot(slides.at(i).outgoingOffset, wins, owned->model.cellBase(),
                                                        owned->model.rowHeight(), owned->model.osScale(),
                                                        resolveMs(kOutgoingSlideMs, m_config->motion().animationSpeedMultiplier));
                 for (const OutgoingGrid &snap : owned->scene->outgoingLayer().grids()) {

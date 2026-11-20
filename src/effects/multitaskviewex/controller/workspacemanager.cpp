@@ -34,16 +34,6 @@ WorkspaceManager::WorkspaceManager(WallpaperManager *wallpapers, QObject *parent
 
 WorkspaceManager::~WorkspaceManager() = default;
 
-QString WorkspaceManager::currentFallbackUri() const
-{
-    if (!m_wallpapers) {
-        return QString();
-    }
-    auto *vds = VirtualDesktopManager::self();
-    const int num = vds && vds->currentDesktop() ? int(vds->currentDesktop()->x11DesktopNumber()) : 1;
-    return m_wallpapers->clearPath(num);
-}
-
 void WorkspaceManager::refresh()
 {
     auto *vds = VirtualDesktopManager::self();
@@ -67,7 +57,6 @@ void WorkspaceManager::refresh()
     for (const VirtualDesktop *d : desktops) {
         const QString id = d->id();
         const int num = int(d->x11DesktopNumber());
-        const QString wp = m_wallpapers ? m_wallpapers->clearUri(num) : QString();
         bool present = false;
         for (int k = 0; k < m_model->count(); ++k) {
             if (m_model->idAt(k) == id) {
@@ -80,7 +69,6 @@ void WorkspaceManager::refresh()
         } else {
             m_model->setNum(id, num);
         }
-        m_model->setWallpaper(id, wp);
     }
     for (int target = 0; target < desktops.size(); ++target) {
         const QString id = desktops.at(target)->id();
@@ -122,21 +110,25 @@ bool WorkspaceManager::addDesktop(const QString &previewUri, int maxWorkspaces)
     if (int(vds->count()) >= maxWorkspaces) {
         return false;
     }
-    const QString uri = pickNewWorkspaceWallpaper(previewUri, currentFallbackUri());
+    const int currentNum = vds->currentDesktop() ? int(vds->currentDesktop()->x11DesktopNumber()) : 1;
     {
         m_inOwnMutation = true;
         VirtualDesktop *nd = vds->createVirtualDesktop(addDesktopPosition(vds->count()));
         m_inOwnMutation = false;
         if (nd) {
             const int newNum = int(nd->x11DesktopNumber());
-            if (!uri.isEmpty() && m_wallpapers) {
+            if (m_wallpapers) {
                 for (EffectScreen *s : effects->screens()) {
+                    const QString fallback = m_wallpapers->clearPath(currentNum, s);
+                    const QString uri = pickNewWorkspaceWallpaper(previewUri, fallback);
+                    if (uri.isEmpty()) {
+                        continue;
+                    }
                     m_wallpapers->setWorkspaceBackground(newNum, s->name(), uri);
                 }
             }
             refresh();
-            m_model->setWallpaper(nd->id(), uri);
-            qCInfo(KWIN_MTVEX) << "created workspace" << newNum << "wallpaper=" << uri
+            qCInfo(KWIN_MTVEX) << "created workspace" << newNum << "preview=" << previewUri
                                << "source=" << (previewUri.isEmpty() ? "current workspace fallback" : "preview selection")
                                << "screens written=" << int(effects->screens().size());
             return true;

@@ -46,6 +46,22 @@ inline QString workspaceBackgroundOrFallback(const QString &uri)
 using WallpaperMap = QHash<int, QHash<QString, QString>>;
 
 /**
+ * @brief Returns the cached clear wallpaper URI of one monitor.
+ * @param cache Cached wallpaper URIs, indexed by workspace number and monitor name.
+ * @param desktopNum Desktop number.
+ * @param monitor Monitor name.
+ * @return The URI cached for that monitor, or an empty string when the cache has none.
+ */
+inline QString wallpaperForMonitor(const WallpaperMap &cache, int desktopNum, const QString &monitor)
+{
+    const auto desktop = cache.constFind(desktopNum);
+    if (desktop == cache.constEnd()) {
+        return QString();
+    }
+    return desktop->value(monitor);
+}
+
+/**
  * @brief Tests whether two wallpaper snapshots are identical.
  * @param before Earlier wallpaper map.
  * @param after Later wallpaper map.

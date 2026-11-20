@@ -98,8 +98,6 @@ public:
     void handleVirtualDesktopsChanged();
 
 private:
-    QString currentFallbackUri() const;
-
     std::unique_ptr<WorkspaceModel> m_model;
     WallpaperManager *m_wallpapers = nullptr;
     bool m_inOwnMutation = false;

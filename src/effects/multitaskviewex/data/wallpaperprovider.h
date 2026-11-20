@@ -92,6 +92,15 @@ public:
      */
     void setWorkspaceBackground(int desktopNum, const QString &monitor, const QString &uri);
 
+    /**
+     * @brief Returns the cached wallpaper URIs of every workspace and monitor.
+     * @return Wallpaper URIs, indexed by workspace number and monitor name.
+     */
+    const WallpaperMap &wallpapers() const
+    {
+        return m_cachedClear;
+    }
+
 Q_SIGNALS:
     /**
      * @brief Emitted when a refresh has completed and the caches were replaced.

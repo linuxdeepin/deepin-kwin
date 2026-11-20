@@ -181,13 +181,13 @@ void MultitaskViewExEffect::removeDesktop(int desktopNumber)
     auto *vds = VirtualDesktopManager::self();
     const bool removingCurrent = vds && int(vds->current()) == desktopNumber;
     const QString removedWall = (m_running && removingCurrent)
-        ? m_wallpapers->backgroundFor(desktopNumber)
+        ? m_wallpapers->backgroundFor(desktopNumber, effects->activeScreen())
         : QString();
 
     const int newCurrent = m_workspaces->removeDesktop(desktopNumber);
 
     if (m_running && removingCurrent && newCurrent > 0) {
-        slideTo(newCurrent, removedWall, removalSlideDirection(desktopNumber, newCurrent));
+        slideTo(newCurrent, desktopNumber, removalSlideDirection(desktopNumber, newCurrent), removedWall);
     } else {
         if (m_running) {
             syncSessionItems();
