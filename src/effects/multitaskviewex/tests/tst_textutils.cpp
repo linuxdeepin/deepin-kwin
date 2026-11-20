@@ -7,6 +7,7 @@
 #include "view/textutils.h"
 
 #include <QFontMetricsF>
+#include <QGuiApplication>
 #include <QtTest>
 
 using namespace KWin;
@@ -63,6 +64,7 @@ private Q_SLOTS:
     void normalizesText();
     void selectsEffectiveText();
     void elidesToCapsuleWidth();
+    void scalesDesignSizeToSystemFont();
 };
 
 void TestTextUtils::truncatesLongTitles()
@@ -158,6 +160,19 @@ void TestTextUtils::elidesToCapsuleWidth()
     QVERIFY(!chineseElided.isEmpty());
     QVERIFY(chineseElided.endsWith(QChar(0x2026)));
     QVERIFY(QFontMetricsF(font).horizontalAdvance(chineseElided) <= kTestMaxCapsuleWidth - 2.0 * paddingX);
+}
+
+void TestTextUtils::scalesDesignSizeToSystemFont()
+{
+    const QFont systemFont = QGuiApplication::font();
+    const QFont hintFont = TextUtils::systemFont(kTestFontPointSize);
+    QCOMPARE(hintFont.family(), systemFont.family());
+
+    const qreal systemPointSize = systemFont.pointSizeF() > 0.0
+        ? systemFont.pointSizeF()
+        : TextUtils::kDefaultFontPointSize;
+    QCOMPARE(hintFont.pointSize(),
+             qRound(kTestFontPointSize * systemPointSize / TextUtils::kDefaultFontPointSize));
 }
 
 QTEST_MAIN(TestTextUtils)

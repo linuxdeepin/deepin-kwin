@@ -28,9 +28,7 @@ constexpr qreal kBackgroundOpacityRatio = 0.8;
 
 QFont hintFont()
 {
-    QFont font;
-    font.setPointSize(kHintFontPointSize);
-    return font;
+    return TextUtils::systemFont(kHintFontPointSize);
 }
 
 void clampRect(QRectF &rect, const QRectF &bounds)

@@ -8,6 +8,7 @@
 
 #include <QFont>
 #include <QFontMetricsF>
+#include <QGuiApplication>
 #include <QString>
 #include <QTextBoundaryFinder>
 
@@ -20,6 +21,25 @@ namespace TextUtils
  * @brief Maximum number of grapheme clusters kept before an ellipsis is appended.
  */
 inline constexpr int kMaxTitleLength = 25;
+
+/**
+ * @brief Point size the design values assume for the system font.
+ */
+inline constexpr qreal kDefaultFontPointSize = 10.5;
+
+/**
+ * @brief Builds a UI font that tracks the system font family and size.
+ * @param designPointSize Point size at the default system font size.
+ * @return System font scaled from kDefaultFontPointSize to designPointSize.
+ */
+inline QFont systemFont(qreal designPointSize)
+{
+    QFont font = QGuiApplication::font();
+    const qreal systemPointSize = font.pointSizeF();
+    const qreal scale = systemPointSize > 0.0 ? systemPointSize / kDefaultFontPointSize : 1.0;
+    font.setPointSize(qRound(designPointSize * scale));
+    return font;
+}
 
 /**
  * @brief Selects a non-empty single-line text, falling back when the caption is blank.

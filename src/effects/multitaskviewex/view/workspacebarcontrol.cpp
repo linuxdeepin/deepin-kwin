@@ -10,6 +10,7 @@
 #include "imageprovider.h"
 #include "model/bardraglayout.h"
 #include "model/barpredicates.h"
+#include "textutils.h"
 #include "workspacebarcontrol.h"
 
 #include <QColor>
@@ -24,6 +25,7 @@ namespace
 {
 constexpr qreal kDragTipIconWidth = 24.0;
 constexpr qreal kDragTipIconHeight = 25.0;
+constexpr qreal kDragTipFontPointSize = 13.0;
 constexpr qreal kDragTipSpacing = 8.0;
 constexpr qreal kDragTipTopMargin = 10.0;
 constexpr qreal kDashStep = 10.0;
@@ -221,8 +223,7 @@ void WorkspaceBarControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
                 return;
             }
             const QRectF box = dn->cell.translated(0, barShiftY);
-            QFont tipFont;
-            tipFont.setPointSize(13);
+            const QFont tipFont = TextUtils::systemFont(kDragTipFontPointSize);
             const auto textInfo = m_provider->textTexture(m_dragTipText, tipFont, QColor(Qt::white));
             const qreal textW = textInfo.imageSize.width();
             const qreal textH = textInfo.imageSize.height();
