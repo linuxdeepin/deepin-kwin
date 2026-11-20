@@ -9,6 +9,7 @@
 #include "model/bardragmodel.h"
 #include "model/motionoptions.h"
 #include "model/screenlayout.h"
+#include "model/slideplan.h"
 #include "model/wallpaperdata.h"
 #include "model/windowgrid.h"
 #include "model/windowgrouping.h"
@@ -24,9 +25,13 @@
 #include "view/screenviewset.h"
 #include "view/windowcellcontrol.h"
 #include "view/windowoverlaycontrol.h"
+#include "view/windowpainttransform.h"
 #include "view/workspacebarcontrol.h"
 
 #include <QtTest>
+
+#include <memory>
+#include <vector>
 
 using namespace KWin;
 
@@ -41,6 +46,49 @@ public:
     }
 };
 }
+
+/**
+ * @brief Window painter that records the canvas it is asked to paint into.
+ *
+ * A window is drawn by KWin at the window's own screen geometry, moved by the translation of the
+ * paint data: the painter therefore only has to report the placement it composes together with the
+ * canvas projection, and the recorded data is enough to check where the window lands.
+ */
+class RecordingWindowPainter : public WindowPainter
+{
+public:
+    struct Draw
+    {
+        EffectWindow *window = nullptr;
+        QRectF from;
+        QRectF to;
+        qreal opacity = 1.0;
+        WindowCanvas canvas;
+    };
+
+    void paintWindow(EffectWindow *w, const QRectF &from, const QRectF &to, qreal opacity) const override
+    {
+        // Screen coordinates: the desktop pass draws windows this way and is not under test here.
+        Q_UNUSED(w)
+        Q_UNUSED(from)
+        Q_UNUSED(to)
+        Q_UNUSED(opacity)
+    }
+
+    void paintWindowInCanvas(EffectWindow *w, const QRectF &from, const QRectF &to, qreal opacity,
+                             const WindowCanvas &canvas) const override
+    {
+        draws.append({w, from, to, opacity, canvas});
+    }
+
+    bool isKeepAbove(EffectWindow *w) const override
+    {
+        Q_UNUSED(w)
+        return false;
+    }
+
+    mutable QVector<Draw> draws;
+};
 
 inline QVector<int> orderNums(const QVector<QPair<QString, int>> &kn)
 {
@@ -94,6 +142,9 @@ private Q_SLOTS:
     void backgroundSlideProgressAndReset();
     void workspaceSlideKeepsWindowsInOwnCells();
     void barScrollClampedByViewport();
+    void twoScreensSlideTheirOwnWallpaperAndOffset();
+    void overlayRetiringWindowLandsOnItsOwnCanvas();
+    void outgoingGridsShareOneMotion();
 };
 
 void TestScene::hitRangeUsesCellNotCover()
@@ -1342,6 +1393,186 @@ void TestScene::localCoordsOriginAndBarShiftY()
     }
 }
 
+void TestScene::twoScreensSlideTheirOwnWallpaperAndOffset()
+{
+    // Two screens with different widths, each workspace holding a wallpaper per screen.
+    WallpaperMap wallpapers;
+    wallpapers[1][QStringLiteral("HDMI-1")] = QStringLiteral("file:///left-ws1.jpg");
+    wallpapers[2][QStringLiteral("HDMI-1")] = QStringLiteral("file:///left-ws2.jpg");
+    wallpapers[1][QStringLiteral("DP-1")] = QStringLiteral("file:///right-ws1.jpg");
+    wallpapers[2][QStringLiteral("DP-1")] = QStringLiteral("file:///right-ws2.jpg");
+    const QVector<SlideScreenInput> screens{
+        {QStringLiteral("HDMI-1"), 1920.0},
+        {QStringLiteral("DP-1"), 2560.0},
+    };
+    const QVector<ScreenSlide> slides = composeSlide(screens, 1, wallpapers, 1, 2,
+                                                     QStringLiteral("/fallback.jpg"));
+    QCOMPARE(slides.size(), 2);
+
+    const QVector<QSize> sizes{QSize(1920, 1080), QSize(2560, 1440)};
+    std::vector<std::unique_ptr<SceneModel>> models;
+    std::vector<std::unique_ptr<GLScene>> scenes;
+    for (int i = 0; i < screens.size(); ++i) {
+        models.push_back(std::make_unique<SceneModel>());
+        scenes.push_back(std::make_unique<GLScene>());
+        GLScene &scene = *scenes.back();
+        scene.setModel(models.back().get());
+        const QRectF rect(QPointF(0, 0), QSizeF(sizes.at(i)));
+        scene.model()->syncScreen(QPointF(0, 0), QSizeF(sizes.at(i)), rect, rect, {});
+        scene.setEntered(true);
+        scene.startSlide(slides.at(i).fromWallpaper, slides.at(i).toWallpaper, 1);
+
+        // Every component of this screen must carry this screen's own data.
+        const auto state = backgroundState(scene);
+        QCOMPARE(state.value(QStringLiteral("bg.slideFromUri")), slides.at(i).fromWallpaper);
+        QCOMPARE(state.value(QStringLiteral("bg.slideToUri")), slides.at(i).toWallpaper);
+        QCOMPARE(state.value(QStringLiteral("bg.slideDir")), QStringLiteral("1"));
+        QCOMPARE(slides.at(i).fromWallpaper, wallpapers.value(1).value(screens.at(i).monitor));
+        QCOMPARE(slides.at(i).toWallpaper, wallpapers.value(2).value(screens.at(i).monitor));
+
+        // The outgoing cover of this screen must travel this screen's own width.
+        OutgoingWindowInput in;
+        in.window = reinterpret_cast<EffectWindow *>(0x9102);
+        in.source = QRectF(100, 100, 400, 300);
+        in.cur = in.source;
+        in.op = 1.0;
+        scene.outgoingLayer().snapshot(slides.at(i).outgoingOffset, {in},
+                                      scene.model()->cellBase(), scene.model()->rowHeight(),
+                                      scene.model()->osScale(), 300);
+        QCOMPARE(scene.outgoingLayer().grids().size(), 1);
+        QCOMPARE(scene.outgoingLayer().grids().first().slideDx, -screens.at(i).width);
+    }
+
+    // The report: screen 2 must not show screen 1's wallpaper nor screen 1's slide distance.
+    QCOMPARE(slides.at(0).fromWallpaper, QStringLiteral("file:///left-ws1.jpg"));
+    QCOMPARE(slides.at(1).fromWallpaper, QStringLiteral("file:///right-ws1.jpg"));
+    QCOMPARE(slides.at(0).outgoingOffset, 1920.0);
+    QCOMPARE(slides.at(1).outgoingOffset, 2560.0);
+}
+
+void TestScene::overlayRetiringWindowLandsOnItsOwnCanvas()
+{
+    // A window that leaves a workspace keeps fading out as a retiring node, and the overlay paints it
+    // through KWin. KWin draws the quad at the window's own screen geometry and only moves it by the
+    // translation of the paint data, while the canvas of a screen is projected onto one viewport of
+    // the render target. The translation therefore has to bring the window into the canvas as well,
+    // otherwise the window lands one canvas origin away, outside of its own screen.
+    const QVector<QSize> sizes{QSize(1920, 1080), QSize(2560, 1440)};
+    const QVector<QPoint> origins{QPoint(0, 0), QPoint(1920, 0)};
+    const QVector<QRectF> cells{QRectF(100, 200, 400, 300)};
+
+    for (int i = 0; i < sizes.size(); ++i) {
+        SceneModel sceneModel;
+        GLScene scene;
+        scene.setModel(&sceneModel);
+        const QPoint origin = origins.at(i);
+        const QRectF canvas(QPointF(0, 0), QSizeF(sizes.at(i)));
+        sceneModel.syncScreen(QPointF(origin), QSizeF(sizes.at(i)), canvas, canvas, {});
+        scene.setEntered(true);
+
+        // A source geometry is screen local, exactly like the one the controller collects.
+        const QRectF source(QPointF(60, 40), QSizeF(900, 700));
+        auto *window = reinterpret_cast<EffectWindow *>(0xA100 + i);
+        sceneModel.syncCellItems(cells, 300.0);
+        sceneModel.syncWindows({window}, {source});
+        scene.syncWindowLayer();
+        scene.advance(800);
+
+        // Leaving the workspace retires the window: it keeps its node and fades out in place.
+        sceneModel.syncWindows({}, {});
+        scene.syncWindowLayer();
+        scene.advance(16);
+        const WindowNode *node = scene.windowItemLayer().nodeFor(window);
+        QVERIFY2(node != nullptr, "a window leaving the workspace must keep its node");
+        QVERIFY2(node->retiring, "a window leaving the workspace must be retiring");
+
+        RecordingWindowPainter painter;
+        GLPaintContext ctx(&painter);
+        ctx.viewportSize = sizes.at(i);
+        ctx.setProjection(canvas);
+        ctx.origin = QPointF(origin);
+        scene.paintLayer(ctx, SceneLayer::Overlay);
+
+        QCOMPARE(painter.draws.size(), 1);
+        const RecordingWindowPainter::Draw draw = painter.draws.first();
+        QCOMPARE(draw.window, window);
+        QCOMPARE(draw.from, source);
+        QCOMPARE(draw.to, cells.at(0));
+
+        // The overlay must hand the canvas of the screen to the painter, not the screen projection
+        // of the desktop pass: only the canvas projection together with the canvas origin puts the
+        // window onto this screen's viewport.
+        QCOMPARE(draw.canvas.origin, QPointF(origin));
+        QVERIFY2(draw.canvas.projection == ctx.projection(),
+                 "the window must be painted with the projection of the canvas it belongs to");
+
+        // KWin positions the quad at its own screen geometry and moves it by the placement, so the
+        // canvas position the window lands on must be exactly the destination cell of the canvas.
+        const WindowPaintPlacement placement = windowPaintPlacement(draw.from, draw.to, draw.canvas.origin);
+        const QPointF landed = draw.from.topLeft() + draw.canvas.origin + placement.translation;
+        QCOMPARE(landed, cells.at(0).topLeft());
+        QVERIFY2(canvas.contains(QRectF(landed, draw.to.size())),
+                 "the retiring window must land inside the canvas of its own screen");
+    }
+}
+
+void TestScene::outgoingGridsShareOneMotion()
+{
+    // The grid that enters, the grid that leaves and the windows that retire with it are one
+    // motion. Every frame they therefore have to move by the same amount: a second clock, or a
+    // second offset, lets the old windows drift off their own cells while they slide away.
+    const QSize size(1920, 1080);
+    const QRectF canvas(QPointF(0, 0), QSizeF(size));
+    const QVector<QRectF> cells{QRectF(100, 200, 400, 300)};
+    const qreal rowHeight = 300.0;
+
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    sceneModel.syncScreen(QPointF(0, 0), QSizeF(size), canvas, canvas, {});
+    scene.setEntered(true);
+
+    auto *window = reinterpret_cast<EffectWindow *>(0xB200);
+    sceneModel.syncCellItems(cells, rowHeight);
+    sceneModel.syncWindows({window}, {QRectF(150, 250, 300, 200)});
+    scene.syncWindowLayer();
+    scene.advance(800);
+
+    scene.startSlide(QStringLiteral("a.png"), QStringLiteral("b.png"), 1);
+    const int duration = scene.slideDurationMs();
+    QVERIFY2(duration > 0, "the slide must publish the duration every participant has to use");
+    QCOMPARE(scene.gridSlideDx(), canvas.width());
+
+    // The controller drops the windows of the workspace that was left behind: they retire into the
+    // outgoing grid and stay painted by the overlay while they fade out.
+    sceneModel.syncWindows({}, {});
+    scene.syncWindowLayer();
+    const WindowNode *retiring = scene.windowItemLayer().nodeFor(window);
+    QVERIFY2(retiring != nullptr && retiring->retiring, "the window must retire into the outgoing grid");
+
+    OutgoingWindowInput input;
+    input.window = window;
+    input.source = retiring->source;
+    input.cur = retiring->rect();
+    input.op = 1.0;
+    scene.snapshotOutgoing({input});
+
+    scene.advance(duration / 4);
+    const qreal outgoingDx = scene.gridOutgoingDx();
+    QVERIFY2(qAbs(outgoingDx) > 1.0, "precondition: the slide must still be running");
+
+    const WindowNode *painted = scene.windowItemLayer().nodeFor(window);
+    QVERIFY2(painted != nullptr, "the retiring window must still own a node");
+    QCOMPARE(scene.windowItemLayer().paintedRect(*painted).left() - painted->rect().left(), outgoingDx);
+
+    QCOMPARE(scene.outgoingLayer().grids().size(), 1);
+    const OutgoingGrid &grid = scene.outgoingLayer().grids().first();
+    QVERIFY2(!grid.cells.isEmpty(), "the outgoing grid must carry the cells of the grid that left");
+    const qreal cellDx = grid.cells.at(0).rect().left() - coverFor(cells.at(0), rowHeight).left();
+    QVERIFY2(qAbs(cellDx - outgoingDx) < 1.5,
+             "the windows that retire and the cells that leave must travel on the same clock");
+}
+
 QTEST_MAIN(TestScene)
 #include "tst_scene.moc"
 
@@ -1545,12 +1776,16 @@ void TestScene::workspaceSlideKeepsWindowsInOwnCells()
     checkRigid();
 
     // Leaving a populated workspace turns its windows into retiring nodes, which are painted by
-    // WindowOverlayControl instead of paintWindow(). They must travel with the grid as well.
+    // WindowOverlayControl instead of paintWindow(). They belong to the grid that is leaving, so
+    // they must travel the opposite way of the incoming cells and stay exactly one canvas apart
+    // from them: otherwise the old grid is painted where the new grid is entering.
     scene.model()->syncWindows({}, {});
     scene.syncWindowLayer();
     frame(16);
-    const qreal retiringDx = scene.gridSlideDx();
-    QVERIFY2(qAbs(retiringDx) > 1.0, "precondition: the grid must still be sliding");
+    const qreal incomingDx = scene.slideOffsetX();
+    QVERIFY2(qAbs(incomingDx) > 1.0, "precondition: the grid must still be sliding");
+    constexpr int retiringDir = -1; // the slide that retired these windows
+    const qreal outgoingDx = incomingDx - retiringDir * canvasWidth;
     WindowOverlayControl overlay;
     overlay.setWindowItemLayer(&scene.windowItemLayer());
     int retiringCount = 0;
@@ -1559,7 +1794,7 @@ void TestScene::workspaceSlideKeepsWindowsInOwnCells()
             continue;
         }
         ++retiringCount;
-        QCOMPARE(overlay.retiringRect(n), n.rect().translated(retiringDx, 0.0));
+        QCOMPARE(overlay.retiringRect(n), n.rect().translated(outgoingDx, 0.0));
     }
     QVERIFY2(retiringCount > 0, "leaving the workspace must leave retiring windows behind");
 

@@ -54,6 +54,14 @@ target_link_libraries(tst_wallpaperdata PRIVATE Qt${QT_MAJOR_VERSION}::Core Qt${
 set_target_properties(tst_wallpaperdata PROPERTIES AUTOMOC ON)
 add_test(NAME multitaskviewex_tst_wallpaperdata COMMAND tst_wallpaperdata)
 
+add_executable(tst_slideplan
+    tst_slideplan.cpp
+)
+target_include_directories(tst_slideplan PRIVATE ${MTO_SRC})
+target_link_libraries(tst_slideplan PRIVATE Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Test)
+set_target_properties(tst_slideplan PROPERTIES AUTOMOC ON)
+add_test(NAME multitaskviewex_tst_slideplan COMMAND tst_slideplan)
+
 add_executable(tst_session
     tst_session.cpp
     ${MTO_SRC}/animation/animation.cpp

@@ -208,7 +208,10 @@ void GLScene::startSlide(const QString &fromUri, const QString &toUri, int dir)
     m_slideFrom = 0.0;
     m_slide = 0.0;
     const MotionOptions motion = motionOf(m_model);
-    m_slideAnim.configure(resolveMs(motion.workspaceMoveDurationMs, motion.animationSpeedMultiplier), Easing::OutCubic);
+    // The whole slide - the grid that enters and the grid that leaves - is one motion, so its
+    // duration is published once and every participant reads it instead of repeating the value.
+    m_slideDurationMs = resolveMs(motion.workspaceMoveDurationMs, motion.animationSpeedMultiplier);
+    m_slideAnim.configure(m_slideDurationMs, Easing::OutCubic);
     m_slideAnim.start();
     syncSlideOffset();
 }
@@ -224,12 +227,34 @@ void GLScene::resetSlide()
 
 qreal GLScene::slideOffsetX() const
 {
-    return m_windowItemLayer.slideOffset();
+    return m_windowItemLayer.slideOffsets().incoming;
+}
+
+qreal GLScene::slideOutgoingDx() const
+{
+    return m_windowItemLayer.slideOffsets().outgoing;
+}
+
+int GLScene::slideDurationMs() const
+{
+    return m_slideDurationMs;
+}
+
+void GLScene::snapshotOutgoing(const QVector<OutgoingWindowInput> &wins)
+{
+    if (!m_model) {
+        return;
+    }
+    // The snapshot starts one canvas width away from the incoming grid, on the side the slide
+    // pushes it to, and travels for exactly as long as the slide lasts: one motion, one clock.
+    const qreal canvasWidth = m_model->layout().fullRect.width();
+    m_outgoingLayer.snapshot(m_slideDir * canvasWidth, wins, m_model->cellBase(), m_model->rowHeight(),
+                             m_model->osScale(), m_slideDurationMs);
 }
 
 void GLScene::syncSlideOffset()
 {
-    m_windowItemLayer.setSlideOffset(gridSlideDx());
+    m_windowItemLayer.setSlideOffsets({gridSlideDx(), gridOutgoingDx()});
 }
 
 qreal GLScene::gridSlideDx() const
@@ -239,6 +264,16 @@ qreal GLScene::gridSlideDx() const
     }
     const qreal progress = qBound(qreal(0.0), m_slide, qreal(1.0));
     return std::round(m_slideDir * m_model->layout().fullRect.width() * (1.0 - progress));
+}
+
+qreal GLScene::gridOutgoingDx() const
+{
+    // The outgoing grid is the mirror of the incoming one: over the whole slide both travel one
+    // canvas width, in opposite directions, so they stay exactly one canvas apart in every frame.
+    if (!m_sliding || !m_model) {
+        return 0.0;
+    }
+    return gridSlideDx() - m_slideDir * m_model->layout().fullRect.width();
 }
 
 void GLScene::setEntered(bool entered)

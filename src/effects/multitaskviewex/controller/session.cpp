@@ -683,9 +683,7 @@ void MultitaskViewExEffect::slideTo(int num, int fromNum, int dir, const QString
                     wi.op = n ? n->opacity() : 1.0;
                     wins.append(wi);
                 }
-                owned->scene->outgoingLayer().snapshot(slides.at(i).outgoingOffset, wins, owned->model.cellBase(),
-                                                       owned->model.rowHeight(), owned->model.osScale(),
-                                                       resolveMs(kOutgoingSlideMs, m_config->motion().animationSpeedMultiplier));
+                owned->scene->snapshotOutgoing(wins);
                 for (const OutgoingGrid &snap : owned->scene->outgoingLayer().grids()) {
                     for (const OutgoingWindow &gw : snap.windows) {
                         EffectWindow *w = gw.window;

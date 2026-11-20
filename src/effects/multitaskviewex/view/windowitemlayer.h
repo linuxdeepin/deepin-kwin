@@ -164,41 +164,55 @@ public:
     }
 
     /**
-     * @brief Sets the horizontal offset applied to every node while a workspace slide runs.
+     * @brief Horizontal offsets of the two grids a workspace slide moves, in canvas coordinates.
      *
-     * The offset belongs to the layer, not to individual nodes: a workspace switch must
-     * translate the whole grid as one block, so every window is painted at its resting
-     * rect plus this single offset.
-     *
-     * @param dx Offset in canvas coordinates.
+     * A workspace switch slides two grids past each other: the grid of the incoming workspace
+     * enters from one side while the grid of the outgoing workspace leaves on the other side.
+     * Expressing both in the same space - the canvas of this screen - keeps them exactly one
+     * canvas width apart, so no consumer has to know how far the animation has progressed.
      */
-    void setSlideOffset(qreal dx)
+    struct GridSlideOffsets
     {
-        m_slideOffset = dx;
+        qreal incoming = 0.0; ///< Offset of the grid that is entering; 0 when nothing slides.
+        qreal outgoing = 0.0; ///< Offset of the grid that is leaving; 0 when nothing slides.
+    };
+
+    /**
+     * @brief Sets the offsets of both grids for this frame.
+     * @param offsets Offsets in canvas coordinates.
+     */
+    void setSlideOffsets(const GridSlideOffsets &offsets)
+    {
+        m_slideOffsets = offsets;
     }
 
     /**
-     * @brief Returns the slide offset applied to the whole grid this frame.
-     * @return Offset in canvas coordinates; 0 when no slide is running.
+     * @brief Returns the offsets of both grids for this frame.
+     * @return Offsets in canvas coordinates; both 0 when no slide is running.
      */
-    qreal slideOffset() const
+    GridSlideOffsets slideOffsets() const
     {
-        return m_slideOffset;
+        return m_slideOffsets;
     }
 
     /**
      * @brief Returns the rect where a window is actually painted this frame.
+     *
+     * A retiring window is still part of the workspace that is leaving, every other window
+     * already belongs to the workspace that is entering. Which of the two offsets applies is
+     * therefore decided by the node itself, not by the layer.
+     *
      * @param n Window node.
-     * @return Painted rect: the resting rect translated by the layer slide offset.
+     * @return Painted rect: the resting rect translated by the offset of the node's own grid.
      */
     QRectF paintedRect(const WindowNode &n) const
     {
-        return n.rect().translated(m_slideOffset, 0.0);
+        return n.rect().translated(n.retiring ? m_slideOffsets.outgoing : m_slideOffsets.incoming, 0.0);
     }
 
 private:
     QVector<WindowNode> m_nodes;
-    qreal m_slideOffset = 0.0;
+    GridSlideOffsets m_slideOffsets;
 };
 
 }

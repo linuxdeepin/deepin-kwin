@@ -235,18 +235,50 @@ public:
     qreal gridSlideDx() const;
 
     /**
-     * @brief Returns the x offset the whole grid is painted with this frame.
+     * @brief Horizontal offset of the grid that is leaving while sliding.
      *
-     * This is the single value every consumer reads: window nodes, retiring windows and
-     * cells. It is written once per frame by the scene, so no consumer can observe a
-     * different offset than another in the same frame.
+     * A workspace switch slides two grids past each other: the incoming grid enters from one side
+     * while the outgoing grid leaves on the other. Both offsets are therefore mirrors of each
+     * other and always exactly one canvas width apart.
+     *
+     * @return Offset in canvas coordinates; 0 when no slide is running.
+     */
+    qreal gridOutgoingDx() const;
+
+    /**
+     * @brief Returns the x offset the incoming grid is painted with this frame.
+     *
+     * Every consumer of the grid that is entering reads this value: window nodes and their cells.
+     * It is written once per frame by the scene, so no consumer can observe a different offset
+     * than another in the same frame.
      *
      * @return Offset in canvas coordinates; 0 when no slide is running.
      */
     qreal slideOffsetX() const;
 
     /**
-     * @brief Recomputes and publishes the grid slide offset for the current frame.
+     * @brief Returns the x offset the outgoing grid is painted with this frame.
+     *
+     * Retiring windows are still part of the workspace that is leaving and read this value, so
+     * they travel together with the outgoing cells instead of entering with the new grid.
+     *
+     * @return Offset in canvas coordinates; 0 when no slide is running.
+     */
+    qreal slideOutgoingDx() const;
+
+    /**
+     * @brief Duration of the current slide, in milliseconds.
+     *
+     * Both grids, the layers that fade them out and the nodes that retire with them are one
+     * motion. Publishing its duration here keeps every participant on the same clock instead of
+     * each one repeating - and drifting from - the same configuration value.
+     *
+     * @return Duration of the current or last slide in milliseconds.
+     */
+    int slideDurationMs() const;
+
+    /**
+     * @brief Recomputes and publishes the offsets of both grids for the current frame.
      */
     void syncSlideOffset();
 
@@ -319,7 +351,20 @@ public:
     const OutgoingLayer &outgoingLayer() const
     {
         return m_outgoingLayer;
+
     }
+
+    /**
+     * @brief Freezes the current grid into the outgoing snapshot that slides away.
+     *
+     * The snapshot is part of the same motion as the grid that enters, so the scene - which owns
+     * that motion - is the only place that knows where the snapshot starts and how long it
+     * travels. Every value the layer needs comes from the scene's own model and slide state,
+     * which is why the caller cannot get them wrong.
+     *
+     * @param wins Windows of the grid that is leaving, with their current geometry.
+     */
+    void snapshotOutgoing(const QVector<OutgoingWindowInput> &wins);
 
     /**
      * @brief Returns the workspace bar horizontal scroll offset.
@@ -484,6 +529,7 @@ private:
     QString m_slideToUri;
     qreal m_slideDir = 1.0;
     bool m_sliding = false;
+    int m_slideDurationMs = 0;
     Animation m_enterAnim;
     qreal m_enterFrom = 0.0;
     qreal m_enterTo = 0.0;
