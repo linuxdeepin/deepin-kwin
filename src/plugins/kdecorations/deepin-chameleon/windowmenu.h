@@ -22,7 +22,7 @@ public:
     explicit WindowMenu(KWin::Window *window, QObject *parent);
     ~WindowMenu() override;
     QList<QAction *> actions() const;
-    void popup(QMenu *menu, const QPoint &position);
+    void popup(QMenu *menu, const QPoint &position, const std::function<bool()> &beforePopup);
 Q_SIGNALS:
     void changed();
 private Q_SLOTS:

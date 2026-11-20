@@ -122,15 +122,17 @@ void WindowMenu::layoutUpdated(uint, int parentId)
     }
 }
 
-void WindowMenu::popup(QMenu *menu, const QPoint &position)
+void WindowMenu::popup(QMenu *menu, const QPoint &position, const std::function<bool()> &beforePopup)
 {
     const QVariant id = menu->property("dbusMenuId");
     if (!id.isValid()) {
-        menu->popup(position);
+        if (beforePopup()) {
+            menu->popup(position);
+        }
         return;
     }
-    prepareSubmenu(menu, id.toInt(), [this, menu, position] {
-        if (m_window->isActive() && !menu->isEmpty()) {
+    prepareSubmenu(menu, id.toInt(), [this, menu, position, beforePopup] {
+        if (m_window->isActive() && !menu->isEmpty() && beforePopup()) {
             menu->setProperty("prepared", true);
             menu->popup(position);
         }

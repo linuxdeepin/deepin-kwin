@@ -37,6 +37,8 @@
 #include <KConfig>
 #include <KConfigGroup>
 
+#include <QApplication>
+#include <QMouseEvent>
 #include <QObject>
 #include <QPainter>
 #include <QDebug>
@@ -100,6 +102,7 @@ Chameleon::Chameleon(QObject *parent, const QVariantList &args)
 
 Chameleon::~Chameleon()
 {
+    closeApplicationMenu();
     delete m_overflow;
 }
 
@@ -125,13 +128,14 @@ void Chameleon::init()
         m_applicationMenu = new WindowMenu(window, this);
         connect(m_applicationMenu, &WindowMenu::changed, this, &Chameleon::rebuildMenuButtons);
         connect(c, &KDecoration2::DecoratedClient::activeChanged, this, [this](bool active) {
-            if (!active && m_openMenu) {
-                m_openMenu->close();
+            if (!active) {
+                closeApplicationMenu();
             }
         });
         // Open windows drop the menu immediately. New windows pick up the setting in init().
         connect(global_config, &ChameleonConfig::globalMenuEnabledChanged, this, [this](bool enabled) {
             if (!enabled) {
+                closeApplicationMenu();
                 delete m_applicationMenu;
                 m_applicationMenu = nullptr;
                 rebuildMenuButtons();
@@ -492,9 +496,8 @@ void Chameleon::rebuildMenuButtons()
                     return;
                 }
                 KWin::Workspace::self()->activateWindow(window);
-                m_openMenu = action->menu();
-                if (m_openMenu) {
-                    m_applicationMenu->popup(m_openMenu, (window->pos() + button->geometry().bottomLeft()).toPoint());
+                if (auto *menu = action->menu()) {
+                    popupApplicationMenu(menu, (window->pos() + button->geometry().bottomLeft()).toPoint());
                 } else {
                     action->trigger();
                 }
@@ -502,6 +505,81 @@ void Chameleon::rebuildMenuButtons()
         }
     }
     updateTitleGeometry();
+}
+
+void Chameleon::popupApplicationMenu(QMenu *menu, const QPoint &position)
+{
+    m_pendingMenu = menu;
+    const auto request = ++m_menuRequest;
+    m_applicationMenu->popup(menu, position, [this, request] {
+        if (request != m_menuRequest || !m_pendingMenu) {
+            return false;
+        }
+        const QPointer<QMenu> pendingMenu = m_pendingMenu;
+        closeApplicationMenu();
+        m_openMenu = pendingMenu;
+        qApp->installEventFilter(this);
+        return true;
+    });
+}
+
+void Chameleon::closeApplicationMenu()
+{
+    ++m_menuRequest;
+    m_pendingMenu.clear();
+    qApp->removeEventFilter(this);
+    if (auto *menu = m_openMenu.data()) {
+        m_openMenu.clear();
+        menu->close();
+    }
+}
+
+bool Chameleon::eventFilter(QObject *watched, QEvent *event)
+{
+    if (event->type() == QEvent::Hide && watched == m_openMenu.data()) {
+        m_openMenu.clear();
+        closeApplicationMenu();
+    }
+    if (event->type() != QEvent::MouseMove || !m_openMenu) {
+        return false;
+    }
+    const auto *popup = qobject_cast<QMenu *>(watched);
+    if (!popup || popup != QApplication::activePopupWidget()) {
+        return false;
+    }
+
+    const auto *mouse = static_cast<QMouseEvent *>(event);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    const QPoint globalPos = mouse->globalPos();
+#else
+    const QPoint globalPos = mouse->globalPosition().toPoint();
+#endif
+    if (popup->geometry().contains(globalPos)) {
+        return false;
+    }
+
+    // While a popup has the pointer grab, the decoration receives no hover events.
+    const auto *window = qobject_cast<KWin::Window *>(m_client);
+    if (!window) {
+        return false;
+    }
+    const QPointF pos = globalPos - window->pos();
+    for (const auto &button : m_menuButtons->buttons()) {
+        if (!button->isVisible() || !button->isEnabled() || !button->contains(pos)) {
+            continue;
+        }
+        auto *action = static_cast<MenuButton *>(button.data())->menuAction();
+        auto *menu = action ? action->menu() : nullptr;
+        if (menu == m_openMenu && m_pendingMenu) {
+            ++m_menuRequest;
+            m_pendingMenu.clear();
+        } else if (menu && menu != m_pendingMenu && menu != m_openMenu) {
+            popupApplicationMenu(menu, (window->pos() + button->geometry().bottomLeft()).toPoint());
+            return true;
+        }
+        break;
+    }
+    return false;
 }
 
 void Chameleon::layoutMenuButtons(QRect &area)

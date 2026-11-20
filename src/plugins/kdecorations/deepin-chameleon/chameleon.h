@@ -93,6 +93,9 @@ private:
     void updateTitleGeometry();
     void rebuildMenuButtons();
     void layoutMenuButtons(QRect &area);
+    void popupApplicationMenu(QMenu *menu, const QPoint &position);
+    void closeApplicationMenu();
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
     void updateTheme();
     void updateConfig();
@@ -130,6 +133,8 @@ private:
     KDecoration2::DecorationButtonGroup *m_menuButtons = nullptr;
     QMenu *m_overflow = nullptr;
     QPointer<QMenu> m_openMenu;
+    QPointer<QMenu> m_pendingMenu;
+    quint64 m_menuRequest = 0;
 
     QString m_title;
     QRect m_titleArea;
