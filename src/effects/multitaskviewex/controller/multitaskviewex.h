@@ -205,6 +205,7 @@ private:
     void teardownSession();
     void refreshOsScale();
     void slideToDesktop(int num, int fromOverride = -1);
+    void slideTo(int num, const QString &fromWall, int dir);
     void slideByWheel(int wheelY);
     void gridScrollBy(ScreenView &view, qreal angleDeltaY);
 

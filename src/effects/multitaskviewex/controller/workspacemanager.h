@@ -82,8 +82,9 @@ public:
     /**
      * @brief Removes a workspace.
      * @param desktopNumber Desktop number to remove.
+     * @return The desktop number that is current after the removal, or 0 when nothing was removed.
      */
-    void removeDesktop(int desktopNumber);
+    int removeDesktop(int desktopNumber);
 
     /**
      * @brief Reorders the desktops to match the workspace bar order.

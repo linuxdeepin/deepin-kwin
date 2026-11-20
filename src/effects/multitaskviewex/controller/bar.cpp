@@ -178,11 +178,22 @@ void MultitaskViewExEffect::addDesktop()
 
 void MultitaskViewExEffect::removeDesktop(int desktopNumber)
 {
-    m_workspaces->removeDesktop(desktopNumber);
-    if (m_running) {
-        syncSessionItems();
+    auto *vds = VirtualDesktopManager::self();
+    const bool removingCurrent = vds && int(vds->current()) == desktopNumber;
+    const QString removedWall = (m_running && removingCurrent)
+        ? m_wallpapers->backgroundFor(desktopNumber)
+        : QString();
+
+    const int newCurrent = m_workspaces->removeDesktop(desktopNumber);
+
+    if (m_running && removingCurrent && newCurrent > 0) {
+        slideTo(newCurrent, removedWall, removalSlideDirection(desktopNumber, newCurrent));
+    } else {
+        if (m_running) {
+            syncSessionItems();
+        }
+        syncBarModel();
     }
-    syncBarModel();
     effects->addRepaintFull();
 }
 

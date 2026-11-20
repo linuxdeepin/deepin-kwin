@@ -47,6 +47,17 @@ inline bool shouldExitDesktopOnClick(int slotNumber, int currentNumber, bool sli
     return slotNumber > 0 && slotNumber == currentNumber && !slideAnimating;
 }
 
+/**
+ * @brief Resolves the slide direction played after the current workspace is removed.
+ * @param removedNumber Desktop number that was removed.
+ * @param newCurrentNumber Desktop number that became current after the removal.
+ * @return +1 when the view slides forward, -1 when it slides back.
+ */
+inline int removalSlideDirection(int removedNumber, int newCurrentNumber)
+{
+    return newCurrentNumber < removedNumber ? -1 : 1;
+}
+
 struct GhostDrop
 {
     QRectF rect;

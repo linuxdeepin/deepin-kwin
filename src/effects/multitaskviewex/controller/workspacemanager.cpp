@@ -145,15 +145,15 @@ bool WorkspaceManager::addDesktop(const QString &previewUri, int maxWorkspaces)
     return false;
 }
 
-void WorkspaceManager::removeDesktop(int desktopNumber)
+int WorkspaceManager::removeDesktop(int desktopNumber)
 {
     auto *vds = VirtualDesktopManager::self();
     if (!vds || vds->count() == 1 || desktopNumber <= 0 || desktopNumber > int(vds->count())) {
-        return;
+        return 0;
     }
     VirtualDesktop *removed = vds->desktopForX11Id(desktopNumber);
     if (!removed) {
-        return;
+        return 0;
     }
     const int currentNumber = int(vds->current());
     const bool removingCurrent = (currentNumber == desktopNumber);
@@ -179,14 +179,12 @@ void WorkspaceManager::removeDesktop(int desktopNumber)
     }
     m_inOwnMutation = true;
     vds->removeVirtualDesktop(removed);
-    if (!removingCurrent && activateTarget) {
+    if (activateTarget) {
         vds->setCurrent(activateTarget);
     }
     m_inOwnMutation = false;
-    if (removingCurrent && activateTarget) {
-        vds->setCurrent(activateTarget);
-    }
     refresh();
+    return int(vds->current());
 }
 
 void WorkspaceManager::applyOrder(const QVector<int> &finalOrder)

@@ -42,6 +42,7 @@
 - Model 只产出稳态目标（纯函数，可单测）；插值状态归 Scene。
 - 插值节点持有 `cur/from/to + 时间线`：`from=cur` 实现可打断过渡；`sameCore` 短路（目标未变不重启时间线——否则每帧 apply 会反复 start，永不收敛）。
 - 帧增量由每屏一份的 `FrameDeltaClock` 换算：首帧 16ms 起步；时间戳倒退 → 0；间隔 > 100ms 钳到 100。
+- 删除当前工作区必须显式播一次切换滑动：`MultitaskViewExEffect::removeDesktop()` 在删除前抓取被删工作区的壁纸，删除后以新当前编号调用 `slideTo()`；`WorkspaceManager::removeDesktop()` 在自有变更区间内完成 current 切换并返回新编号，使 `currentChanged` 不再触发第二条滑动。方向由 `removalSlideDirection()` 决定——删首位的 `newCurrent` 与被删编号相等时仍向前滑（新内容从左入）。
 
 ## 全局快捷键
 

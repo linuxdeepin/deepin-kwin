@@ -134,6 +134,7 @@ private Q_SLOTS:
     void barCellSkeletonStaysPutDuringDrag();
     void endKeepsOrder();
     void hoverSwitchRequiresIdleOnOtherDesktop();
+    void removalSlideDirectionFollowsTheRemainingNeighbour();
     void desktopClickExitsOnlyOnCurrentWhenIdle();
     void dragSessionKeepsCellAcrossResync();
     void dropTargetDecidesByPosition();
@@ -758,6 +759,14 @@ void TestBarDragModel::hoverSwitchRequiresIdleOnOtherDesktop()
     QVERIFY(shouldSwitchDesktop(1, 2, 3));
     QVERIFY(!shouldSwitchDesktop(0, 1, 0));
     QCOMPARE(kDragHoverSwitchMs, 1000);
+}
+
+void TestBarDragModel::removalSlideDirectionFollowsTheRemainingNeighbour()
+{
+    QCOMPARE(removalSlideDirection(2, 1), -1);
+    QCOMPARE(removalSlideDirection(3, 2), -1);
+    QCOMPARE(removalSlideDirection(6, 5), -1);
+    QCOMPARE(removalSlideDirection(1, 1), 1);
 }
 
 void TestBarDragModel::desktopClickExitsOnlyOnCurrentWhenIdle()

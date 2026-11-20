@@ -631,18 +631,26 @@ void MultitaskViewExEffect::slideToDesktop(int num, int fromOverride)
     if (num <= 0 || num == from) {
         return;
     }
+    slideTo(num, m_wallpapers->backgroundFor(from), num > from ? 1 : -1);
+}
+
+void MultitaskViewExEffect::slideTo(int num, const QString &fromWall, int dir)
+{
+    if (num <= 0) {
+        return;
+    }
+    const int slideDir = dir < 0 ? -1 : 1;
     m_inSlideTransition = true;
-    const QString fromWall = m_wallpapers->backgroundFor(from);
     const QString toWall = m_wallpapers->backgroundFor(num);
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-        owned->scene->startSlide(fromWall, toWall, num > from ? 1 : -1);
+        owned->scene->startSlide(fromWall, toWall, slideDir);
     }
     auto *vds = VirtualDesktopManager::self();
     if (vds) {
         if (VirtualDesktop *d = vds->desktopForX11Id(num)) {
             qreal slideOffset = 0.0;
             for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-                slideOffset = (num > from ? 1.0 : -1.0) * owned->model.metrics().size().width();
+                slideOffset = (slideDir > 0 ? 1.0 : -1.0) * owned->model.metrics().size().width();
                 break;
             }
             for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
