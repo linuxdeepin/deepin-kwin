@@ -6,17 +6,16 @@
 
 #include "imageprovider.h"
 #include "glpaintrenderer.h"
+#include "imagedecoder.h"
 
-#include <QFileInfo>
+#include "model/imagepath.h"
+
 #include <QFontMetricsF>
 #include <QGuiApplication>
 #include <QImage>
-#include <QImageReader>
 #include <QPainter>
 #include <QScreen>
-#include <QSvgRenderer>
 #include <QThreadPool>
-#include <QUrl>
 #include <QtConcurrent>
 #include <QtMath>
 
@@ -26,59 +25,14 @@ namespace KWin
 ImageProvider::ImageProvider(QObject *parent)
     : QObject(parent)
 {
-}
-
-static QString stripPrefix(const QString &path)
-{
-    QString p = path;
-    if (p.startsWith(QStringLiteral("file://"))) {
-        p = p.mid(7);
-    }
-    return p;
+    m_predecodePool.setMaxThreadCount(1);
 }
 
 static QString textureKey(const QString &source, const QSize &size)
 {
-    return QStringLiteral("%1@%2x%3").arg(stripPrefix(source)).arg(size.width()).arg(size.height());
+    return QStringLiteral("%1@%2x%3").arg(toRealPath(source)).arg(size.width()).arg(size.height());
 }
 
-static QImage loadSourceImage(const QString &path, const QSize &targetSize)
-{
-    QImage img;
-    if (path.endsWith(QStringLiteral(".svg"))) {
-        QSvgRenderer renderer(path);
-        if (renderer.isValid()) {
-            QSize want = targetSize.isValid() ? targetSize : QSize(32, 32);
-            if (!renderer.defaultSize().isEmpty()) {
-                want = renderer.defaultSize().scaled(want, Qt::KeepAspectRatio);
-            }
-            img = QImage(want, QImage::Format_RGBA8888);
-            img.fill(Qt::transparent);
-            QPainter painter(&img);
-            renderer.render(&painter, QRectF(0, 0, want.width(), want.height()));
-            painter.end();
-        }
-    } else {
-        img = QImage(path);
-        if (img.isNull()) {
-            QImageReader reader(path);
-            reader.setDecideFormatFromContent(true);
-            reader.read(&img);
-        }
-        if (img.isNull()) {
-            const QString real = QFileInfo(path).symLinkTarget();
-            if (!real.isEmpty() && real != path) {
-                img = QImage(real);
-                if (img.isNull()) {
-                    QImageReader reader2(real);
-                    reader2.setDecideFormatFromContent(true);
-                    reader2.read(&img);
-                }
-            }
-        }
-    }
-    return img;
-}
 
 ImageProvider::TextureInfo ImageProvider::textureFor(const QString &source, const QSize &targetSize)
 {
@@ -98,7 +52,7 @@ QString ImageProvider::textureKeyFor(const QString &source, const QSize &size)
 ImageProvider::TextureInfo ImageProvider::textureForImpl(const QString &source, const QSize &targetSize,
                                                          bool allowSyncLoad, bool smooth)
 {
-    const QString path = stripPrefix(source);
+    const QString path = toRealPath(source);
     const QString key = textureKey(path, targetSize);
     TextureInfo info;
     info.source = path;
@@ -106,14 +60,11 @@ ImageProvider::TextureInfo ImageProvider::textureForImpl(const QString &source, 
     auto it = m_resources.find(key);
     if (it == m_resources.end() || it.value().image.isNull()) {
         const auto scaledCached = m_decodedScaled.constFind(key);
-        const auto decoded = m_decoded.constFind(path);
         QImage img;
         if (scaledCached != m_decodedScaled.constEnd()) {
             img = scaledCached.value();
-        } else if (decoded != m_decoded.constEnd()) {
-            img = decoded.value();
         } else if (allowSyncLoad) {
-            img = loadSourceImage(path, targetSize);
+            img = decodeImage(path, targetSize);
         } else {
             return info;
         }
@@ -164,7 +115,7 @@ void ImageProvider::acquireTexture(const QString &source, const QSize &targetSiz
     auto it = m_resources.find(key);
     if (it == m_resources.end()) {
         Resource res;
-        res.source = stripPrefix(source);
+        res.source = toRealPath(source);
         it = m_resources.insert(key, std::move(res));
     }
     it.value().useCount++;
@@ -188,7 +139,7 @@ void ImageProvider::pin(const QString &source, const QSize &targetSize)
     auto it = m_resources.find(key);
     if (it == m_resources.end()) {
         Resource res;
-        res.source = stripPrefix(source);
+        res.source = toRealPath(source);
         res.pinned = true;
         m_resources.insert(key, std::move(res));
     } else {
@@ -286,13 +237,6 @@ void ImageProvider::trimUnused()
     for (auto it = m_resources.constBegin(); it != m_resources.constEnd(); ++it) {
         inUse.insert(it.value().source);
     }
-    for (auto it = m_decoded.begin(); it != m_decoded.end();) {
-        if (inUse.contains(it.key())) {
-            ++it;
-        } else {
-            it = m_decoded.erase(it);
-        }
-    }
     for (auto it = m_decodedScaled.begin(); it != m_decodedScaled.end();) {
         const int sep = it.key().lastIndexOf(QLatin1Char('@'));
         const QString source = sep < 0 ? it.key() : it.key().left(sep);
@@ -320,35 +264,10 @@ void ImageProvider::ensureTexture(Resource *res)
     res->dirty = false;
 }
 
-void ImageProvider::predecode(const QStringList &sources)
-{
-    for (const QString &raw : sources) {
-        const QString path = stripPrefix(raw);
-        if (path.isEmpty() || m_decoded.contains(path) || m_predecoding.contains(path)) {
-            continue;
-        }
-        m_predecoding.append(path);
-        QFuture<void> f = QtConcurrent::run(QThreadPool::globalInstance(), [this, path]() {
-            const QImage img = loadSourceImage(path, QSize());
-            QMetaObject::invokeMethod(
-                this,
-                [this, path, img]() {
-                    m_predecoding.removeAll(path);
-                    if (!img.isNull()) {
-                        m_decoded.insert(path, img);
-                        Q_EMIT predecoded(path);
-                    }
-                },
-                Qt::QueuedConnection);
-        });
-        m_predecodeSync.addFuture(f);
-    }
-}
-
 void ImageProvider::predecode(const QStringList &sources, const QSize &targetSize)
 {
     for (const QString &raw : sources) {
-        const QString path = stripPrefix(raw);
+        const QString path = toRealPath(raw);
         if (path.isEmpty() || !targetSize.isValid() || targetSize.isEmpty()) {
             continue;
         }
@@ -357,8 +276,8 @@ void ImageProvider::predecode(const QStringList &sources, const QSize &targetSiz
             continue;
         }
         m_predecoding.append(key);
-        QFuture<void> f = QtConcurrent::run(QThreadPool::globalInstance(), [this, path, key, targetSize]() {
-            QImage img = loadSourceImage(path, targetSize);
+        QFuture<void> f = QtConcurrent::run(&m_predecodePool, [this, path, key, targetSize]() {
+            QImage img = decodeImage(path, targetSize);
             if (!img.isNull()) {
                 const QSize scaled = img.size().scaled(targetSize, Qt::KeepAspectRatio);
                 if (scaled.width() < img.width() || scaled.height() < img.height()) {

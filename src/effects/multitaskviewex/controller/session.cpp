@@ -12,6 +12,7 @@
 #include "model/bardraglayout.h"
 #include "model/barpredicates.h"
 #include "model/keynav.h"
+#include "model/locksurface.h"
 #include "model/screenlayout.h"
 #include "model/slideplan.h"
 #include "model/wallpaperdata.h"
@@ -582,16 +583,16 @@ void MultitaskViewExEffect::setupSession()
     }
     if (m_imgProvider) {
         const QStringList allUris = m_wallpapers->allUris();
-        QStringList preload;
-        preload.reserve(allUris.size());
-        for (const QString &uri : allUris) {
-            preload.append(uri);
-            for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-                m_imgProvider->pin(uri, owned->scene->background()->geometry().size().toSize());
-            }
-        }
+        const int currentNum = workspaces() ? workspaces()->currentNumber() : 1;
         for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-            m_imgProvider->predecode(preload, owned->scene->background()->geometry().size().toSize());
+            const QSize bgSize = owned->scene->background()->geometry().size().toSize();
+            for (const QString &uri : allUris) {
+                m_imgProvider->pin(uri, bgSize);
+            }
+            // The wallpaper on screen is needed right now; the rest only when the user slides to
+            // it, so it warms up behind the current one instead of competing with the first frame.
+            m_imgProvider->predecode({m_wallpapers->backgroundFor(currentNum, owned->model.screen())}, bgSize);
+            m_imgProvider->predecode(allUris, bgSize);
         }
     }
     const int currentNum = workspaces() ? workspaces()->currentNumber() : 1;
@@ -752,11 +753,11 @@ bool MultitaskViewExEffect::isLockScreenWindow(EffectWindow *w)
     if (!w) {
         return false;
     }
-    if (w->isLockScreen()) {
-        return true;
-    }
-    return w->captionNormal() == QLatin1String("org.deepin.dde.lock")
-        || w->windowClass() == QLatin1String("dde-lock org.deepin.dde.lock");
+    LockSurfaceState state;
+    state.kwinLockScreen = w->isLockScreen();
+    state.ddeLockWindow = ddeLockWindowCaption(w->captionNormal()) || ddeLockWindowClass(w->windowClass());
+    state.shown = w->isVisible();
+    return lockSurfaceLocksSession(state);
 }
 
 bool MultitaskViewExEffect::sessionLocked() const

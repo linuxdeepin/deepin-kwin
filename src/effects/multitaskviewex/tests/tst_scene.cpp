@@ -6,6 +6,7 @@
 
 #include "data/workspacebarmetrics.h"
 #include "model/bardraglayout.h"
+#include "model/locksurface.h"
 #include "model/bardragmodel.h"
 #include "model/motionoptions.h"
 #include "model/screenlayout.h"
@@ -19,6 +20,7 @@
 #include "view/glpaintrenderer.h"
 #include "view/glscene.h"
 #include "view/hintcontrol.h"
+#include "view/imagedecoder.h"
 #include "view/imageprovider.h"
 #include "view/layers.h"
 #include "view/screenview.h"
@@ -111,6 +113,9 @@ private Q_SLOTS:
     void sceneLayerOrderIsUniqueAndControlLayersMatch();
     void emptyHintNeverSwallowsClicks();
     void cancelPressDropsPendingClick();
+    void imageDecoderDecodesAtTheRequestedSize();
+    void lockSurfaceNeedsAShownWindow();
+    void predecodedBatchMakesEveryBackgroundPainting();
     void windowCellCancelStopsActiveDrag();
     void workspaceBarCancelDropsPendingClick();
     void workspaceBarCancelStopsActiveDrag();
@@ -387,6 +392,131 @@ void TestScene::emptyHintNeverSwallowsClicks()
     scene.dispatchPress(scene.model()->layout().gridArea.center());
     scene.dispatchRelease(scene.model()->layout().gridArea.center());
     QCOMPARE(blankSpy.count(), 1);
+}
+
+void TestScene::predecodedBatchMakesEveryBackgroundPainting()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    QStringList uris;
+    for (int i = 0; i < 2; ++i) {
+        QImage img(200, 100, QImage::Format_RGB32);
+        img.fill(i == 0 ? QColor(200, 30, 60) : QColor(30, 60, 200));
+        const QString p = dir.filePath(QStringLiteral("wp%1.png").arg(i));
+        QVERIFY(img.save(p));
+        uris.append(p);
+    }
+
+    ImageProvider provider;
+    const QSize size(100, 50);
+    QSignalSpy spy(&provider, &ImageProvider::predecoded);
+    provider.predecode(uris, size);
+
+    int waited = 0;
+    while (spy.count() < uris.size() && waited < 200) {
+        QCoreApplication::processEvents();
+        QTest::qWait(5);
+        ++waited;
+    }
+    // Everything a background paints comes out of the batch: no uri may be left for the
+    // paint thread to decode.
+    for (const QString &uri : uris) {
+        const auto info = provider.textureForReady(uri, size, true);
+        QVERIFY2(info.imageSize == size, "a predecoded background is usable without a synchronous decode");
+    }
+}
+
+void TestScene::lockSurfaceNeedsAShownWindow()
+{
+    // dde-lock unmaps its window instead of destroying it, so a window that is
+    // still listed in the stacking order must not keep the session "locked".
+    const auto state = [](bool kwinLock, bool ddeLock, bool shown) {
+        LockSurfaceState s;
+        s.kwinLockScreen = kwinLock;
+        s.ddeLockWindow = ddeLock;
+        s.shown = shown;
+        return s;
+    };
+    QVERIFY(!lockSurfaceLocksSession(state(false, false, true)));
+    QVERIFY(!lockSurfaceLocksSession(state(true, false, false)));
+    QVERIFY(!lockSurfaceLocksSession(state(false, true, false)));
+    QVERIFY(!lockSurfaceLocksSession(state(true, true, false)));
+    QVERIFY(lockSurfaceLocksSession(state(true, false, true)));
+    QVERIFY(lockSurfaceLocksSession(state(false, true, true)));
+
+    // Only the greeter's own names may lock the session: a lookalike belongs to something else.
+    QVERIFY(ddeLockWindowCaption(QStringLiteral("org.deepin.dde.lock")));
+    QVERIFY(ddeLockWindowClass(QStringLiteral("dde-lock org.deepin.dde.lock")));
+    QVERIFY(!ddeLockWindowCaption(QStringLiteral("org.deepin.dde.lock-helper")));
+    QVERIFY(!ddeLockWindowCaption(QStringLiteral("dde-lock")));
+    QVERIFY(!ddeLockWindowClass(QStringLiteral("dde-lock")));
+    QVERIFY(!ddeLockWindowClass(QStringLiteral("xdde-lock org.deepin.dde.lock")));
+}
+
+void TestScene::predecodedEntryIsFoundUnderTheUriThePaintSideAsks()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    QImage img(200, 100, QImage::Format_RGB32);
+    img.fill(QColor(40, 120, 200));
+    const QString target = dir.filePath(QStringLiteral("wp 壁纸.png"));
+    QVERIFY(img.save(target));
+    const QString link = dir.filePath(QStringLiteral("link 壁纸.png"));
+    QVERIFY(QFile::link(target, link));
+
+    // The wallpaper service hands out an encoded URI of a symlink; whoever paints asks with
+    // the plain path. Both name the same file, so they must name the same cache entry.
+    const QString announced = QString::fromUtf8(QUrl::fromLocalFile(link).toEncoded());
+    QVERIFY2(announced.contains(QLatin1String("%")), "the service hands out a percent-encoded URI");
+
+    ImageProvider provider;
+    const QSize size(100, 50);
+    QSignalSpy spy(&provider, &ImageProvider::predecoded);
+    provider.predecode({announced}, size);
+    int waited = 0;
+    while (spy.count() < 1 && waited < 200) {
+        QCoreApplication::processEvents();
+        QTest::qWait(5);
+        ++waited;
+    }
+    QCOMPARE(spy.count(), 1);
+
+    const auto info = provider.textureForReady(link, size, true);
+    QVERIFY2(info.imageSize == size, "the predecoded entry must be found under the plain path too");
+}
+
+void TestScene::imageDecoderDecodesAtTheRequestedSize()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    QImage source(400, 300, QImage::Format_ARGB32_Premultiplied);
+    source.fill(Qt::red);
+    const QString path = dir.filePath(QStringLiteral("source.png"));
+    QVERIFY(source.save(path));
+
+    // The decoder is told the size the caller draws at, so it must come back with
+    // exactly that size and never with the full picture the caller would throw away.
+    QCOMPARE(decodeImage(path, QSize(100, 75)).size(), QSize(100, 75));
+    // A target wider than the source is not an invitation to upscale.
+    QCOMPARE(decodeImage(path, QSize(2000, 1500)).size(), QSize(400, 300));
+    // A square target keeps the aspect ratio of the source.
+    QCOMPARE(decodeImage(path, QSize(100, 100)).size(), QSize(100, 75));
+    QVERIFY(decodeImage(path, QSize()).size() == QSize(400, 300));
+
+    // A JPEG decoder may answer with a fraction of the source instead of the exact size;
+    // the contract still has to hold, which is what the settle-on-target scale is for.
+    const QString jpg = dir.filePath(QStringLiteral("source.jpg"));
+    QVERIFY(source.save(jpg, "JPEG"));
+    QCOMPARE(decodeImage(jpg, QSize(100, 75)).size(), QSize(100, 75));
+
+    // A vector source is rendered at the requested size, and a target it can keep up with.
+    const QString svg = dir.filePath(QStringLiteral("icon.svg"));
+    QFile f(svg);
+    QVERIFY(f.open(QIODevice::WriteOnly));
+    f.write("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"20\"></svg>");
+    f.close();
+    QCOMPARE(decodeImage(svg, QSize(80, 40)).size(), QSize(80, 40));
+    QCOMPARE(decodeImage(svg, QSize(20, 20)).size(), QSize(20, 10));
 }
 
 void TestScene::cancelPressDropsPendingClick()
@@ -944,8 +1074,9 @@ void TestScene::predecodeFeedsTextureForAndDeduplicates()
     QVERIFY(img.save(p));
 
     ImageProvider provider;
-    provider.predecode({p});
-    (void)provider.textureFor(p, QSize(32, 32));
+    const QSize target(32, 32);
+    provider.predecode({p}, target);
+    (void)provider.textureFor(p, target);
 
     const int maxWait = 200;
     int waited = 0;
@@ -956,11 +1087,11 @@ void TestScene::predecodeFeedsTextureForAndDeduplicates()
     }
     QCOMPARE(provider.decodedCount(), 1);
 
-    provider.predecode({p, p, dir.filePath(QStringLiteral("missing.png"))});
+    provider.predecode({p, p, dir.filePath(QStringLiteral("missing.png"))}, target);
     QCOMPARE(provider.decodedCount(), 1);
 
     QFile::remove(p);
-    const auto info = provider.textureFor(p, QSize(32, 32));
+    const auto info = provider.textureFor(p, target);
     QVERIFY2(!info.imageSize.isEmpty(), "hits the predecoded original; an image is produced even after the source file is deleted");
 }
 
@@ -981,7 +1112,7 @@ void TestScene::textureForReadyIsNonBlocking()
     QVERIFY2(notReady.imageSize.isEmpty(), "imageSize must be empty before predecode");
     QCOMPARE(provider.cachedCount(), 0);
 
-    provider.predecode({p});
+    provider.predecode({p}, QSize(40, 20));
     const int maxWait = 200;
     int waited = 0;
     while (provider.decodedCount() == 0 && waited < maxWait) {

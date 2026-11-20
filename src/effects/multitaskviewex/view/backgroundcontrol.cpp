@@ -23,7 +23,7 @@ void BackgroundControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
     auto &r = GLPaintRenderer::instance();
     const QString wallpaper = m_model ? m_model->backgroundItem().wallpaper : QString();
     if (m_provider && !wallpaper.isEmpty()) {
-        const auto info = m_provider->textureFor(wallpaper, geometry().size().toSize());
+        const auto info = m_provider->textureForReady(wallpaper, geometry().size().toSize(), true);
         if (info.texture) {
             r.drawTexture(info.texture, geometry(), 0, bgOpacity, ctx.projection());
         } else {
@@ -36,8 +36,8 @@ void BackgroundControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
         const qreal t = frame.bgSlideProgress;
         const qreal dir = frame.bgSlideDir;
         const QSize sz = geometry().size().toSize();
-        const auto oldInfo = m_provider->textureFor(frame.bgSlideFromUri, sz);
-        const auto newInfo = m_provider->textureFor(frame.bgSlideToUri, sz);
+        const auto oldInfo = m_provider->textureForReady(frame.bgSlideFromUri, sz, true);
+        const auto newInfo = m_provider->textureForReady(frame.bgSlideToUri, sz, true);
         if (oldInfo.texture) {
             r.drawTexture(oldInfo.texture,
                           geometry().translated(-dir * geometry().width() * t, 0),

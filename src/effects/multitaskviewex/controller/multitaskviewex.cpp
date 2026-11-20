@@ -38,7 +38,6 @@
 #include <QDBusPendingCallWatcher>
 #include <QDBusReply>
 #include <QDebug>
-#include <QElapsedTimer>
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QLoggingCategory>
@@ -342,6 +341,14 @@ void MultitaskViewExEffect::prePaintScreen(ScreenPrePaintData &data, std::chrono
             }
         }
     }
+    // The next frame is requested here, not in postPaintScreen: asking for a repaint while the
+    // screen is already being painted is what keeps an animation running at the refresh rate.
+    for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
+        if (owned->scene->needsFrame() || owned->model.barDragModel().isActive()) {
+            effects->addRepaintFull();
+            break;
+        }
+    }
     data.mask |= Effect::PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS;
     data.mask |= Effect::PAINT_SCREEN_BACKGROUND_FIRST;
     const auto &views = m_views.all();
@@ -625,12 +632,6 @@ void MultitaskViewExEffect::postPaintScreen()
         }
         effects->postPaintScreen();
         return;
-    }
-    for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-        if (owned->scene->needsFrame() || owned->model.barDragModel().isActive()) {
-            effects->addRepaintFull();
-            break;
-        }
     }
     effects->postPaintScreen();
 }

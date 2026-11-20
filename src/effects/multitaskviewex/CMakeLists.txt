@@ -27,6 +27,7 @@ set(multitaskviewex_SOURCES
     view/hintcontrol.cpp
     view/dragghostcontrol.cpp
     view/imageprovider.cpp
+    view/imagedecoder.cpp
     model/windowgrid.cpp
     animation/animation.cpp
     data/workspacemodel.cpp

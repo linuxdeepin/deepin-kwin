@@ -134,7 +134,7 @@ void WorkspaceBarControl::paint(GLPaintContext &ctx, const SceneFrame &frame)
         for (int i = 0; i < m_items->size(); ++i) {
             const QString &uri = (*m_items)[i].uri;
             if (!uri.isEmpty()) {
-                itemTex[i] = m_provider->textureFor(uri, thumbCell).texture;
+                itemTex[i] = m_provider->textureForReady(uri, thumbCell, true).texture;
             }
         }
     }

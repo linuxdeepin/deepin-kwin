@@ -6,9 +6,9 @@
 
 #pragma once
 
+#include "model/imagepath.h"
 #include "model/wallpaperdata.h"
 
-#include <QFileInfo>
 #include <QHash>
 #include <QObject>
 #include <QString>
@@ -22,23 +22,6 @@ class QTimer;
 namespace KWin
 {
 
-/**
- * @brief Normalizes a wallpaper URI into a real filesystem path.
- * @param uri Wallpaper URI, possibly percent-encoded.
- * @return The decoded path with symlinks resolved.
- */
-inline QString toRealPath(const QString &uri)
-{
-    QString path = QUrl::fromPercentEncoding(uri.toUtf8());
-    if (path.startsWith(QStringLiteral("file:///"))) {
-        path.remove(QStringLiteral("file://"));
-    }
-    const QFileInfo info(path);
-    if (info.isSymLink()) {
-        path = info.symLinkTarget();
-    }
-    return path;
-}
 
 /**
  * @brief Returns a random wallpaper path from the system wallpaper pool.

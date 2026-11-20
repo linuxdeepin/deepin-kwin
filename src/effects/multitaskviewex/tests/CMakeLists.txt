@@ -86,6 +86,7 @@ add_executable(tst_multiscreen
     ${MTO_SRC}/view/workspacebarcontrol.cpp
     ${MTO_SRC}/view/dragghostcontrol.cpp
     ${MTO_SRC}/view/imageprovider.cpp
+    ${MTO_SRC}/view/imagedecoder.cpp
     ${MTO_SRC}/model/windowgrid.cpp
     ${MTO_SRC}/animation/animation.cpp
 )
@@ -126,6 +127,7 @@ add_executable(tst_scene
     ${MTO_SRC}/view/windowoverlaycontrol.cpp
     ${MTO_SRC}/view/hintcontrol.cpp
     ${MTO_SRC}/view/workspacebarcontrol.cpp
+    ${MTO_SRC}/view/imagedecoder.cpp
     ${MTO_SRC}/view/dragghostcontrol.cpp
     ${MTO_SRC}/view/imageprovider.cpp
     ${MTO_SRC}/model/windowgrid.cpp

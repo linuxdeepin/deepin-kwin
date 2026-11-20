@@ -11,6 +11,7 @@
 #include <QColor>
 #include <QFont>
 #include <QFutureSynchronizer>
+#include <QThreadPool>
 #include <QHash>
 #include <QImage>
 #include <QObject>
@@ -123,15 +124,13 @@ public:
     void unpin(const QString &source, const QSize &targetSize);
 
     /**
-     * @brief Predecodes a batch of sources off the UI thread.
-     * @param sources Image sources to decode.
-     */
-    void predecode(const QStringList &sources);
-
-    /**
      * @brief Predecodes and downscales a batch of sources off the UI thread.
      * @param sources Image sources to decode.
      * @param targetSize Target size the decoded image is scaled to before first use.
+     *
+     * Decoding is CPU bound and the compositor needs the core, so the pool behind this
+     * runs one image at a time, and nothing here is ever waited for: the paint side asks
+     * with textureForReady() and paints a plain colour until the entry lands.
      */
     void predecode(const QStringList &sources, const QSize &targetSize);
 
@@ -141,7 +140,7 @@ public:
      */
     int decodedCount() const
     {
-        return m_decoded.size();
+        return m_decodedScaled.size();
     }
 
     /**
@@ -179,10 +178,10 @@ private:
 
     QHash<QString, Resource> m_resources;
     GLPaintRenderer *m_renderer = nullptr;
-    QHash<QString, QImage> m_decoded;
     QHash<QString, QImage> m_decodedScaled;
     QStringList m_predecoding;
     QFutureSynchronizer<void> m_predecodeSync;
+    QThreadPool m_predecodePool;
 };
 
 }

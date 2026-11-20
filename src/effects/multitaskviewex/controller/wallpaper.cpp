@@ -9,6 +9,7 @@
 #include "effectconfig.h"
 #include "helpers.h"
 #include "multitaskviewex.h"
+#include "view/backgroundcontrol.h"
 #include "view/imageprovider.h"
 #include "view/screenview.h"
 #include "wallpapermanager.h"
@@ -57,6 +58,12 @@ void MultitaskViewExEffect::prewarmTextures()
     }
     QStringList clears;
     QStringList backgrounds;
+    for (const QString &uri : m_wallpapers->allUris()) {
+        const QString path = toRealPath(uri);
+        if (!path.isEmpty() && !backgrounds.contains(path)) {
+            backgrounds.append(path);
+        }
+    }
     auto *vds = VirtualDesktopManager::self();
     if (vds) {
         for (const VirtualDesktop *d : vds->desktops()) {
@@ -75,7 +82,7 @@ void MultitaskViewExEffect::prewarmTextures()
     }
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
         const WorkspaceBarMetrics &metrics = owned->model.metrics();
-        const QSize bgSize = metrics.size().toSize();
+        const QSize bgSize = owned->scene->background()->geometry().size().toSize();
         const QSize thumbSize = QSizeF(metrics.workspaceWidth(), metrics.workspaceHeight()).toSize();
         m_imgProvider->predecode(backgrounds, bgSize);
         m_imgProvider->predecode(clears, thumbSize);
