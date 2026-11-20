@@ -21,6 +21,7 @@
 #include <QHash>
 #include <QKeySequence>
 #include <QList>
+#include <QSet>
 #include <QTimer>
 
 #include <chrono>
@@ -225,7 +226,13 @@ private:
     void onWindowClosed(EffectWindow *w);
     void onWindowDeleted(EffectWindow *w);
     void onWindowAdded(EffectWindow *w);
+    void onWindowShown(EffectWindow *w);
+    void onWindowHidden(EffectWindow *w);
     static bool isLockScreenWindow(EffectWindow *w);
+    static bool isScreenCaptureWindow(EffectWindow *w);
+    void reconcileCaptureWindows();
+    void suspendViewInputForCapture();
+    void resumeViewInputAfterCapture();
     bool sessionLocked() const;
     void relayDockClick();
     void applyConfigToViews();
@@ -240,6 +247,9 @@ private:
     QHash<EffectWindow *, ClosingWindow> m_closing;
     QHash<EffectWindow *, EffectWindowVisibleRef> m_visibleRefs;
     QHash<EffectWindow *, EffectWindowVisibleRef> m_gridMinimizeRefs;
+    QVector<EffectWindow *> m_captureWindows;
+    QSet<EffectWindow *> m_captureWindowsHidden;
+    bool m_captureInputSuspended = false;
 
     WorkspaceManager *m_workspaces = nullptr;
     WallpaperManager *m_wallpapers = nullptr;

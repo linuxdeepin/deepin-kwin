@@ -465,7 +465,7 @@ void MultitaskViewExEffect::syncSessionItems()
             docks[w->screen()].append(w->frameGeometry());
         }
         if (w->isDock() || w->isDesktop() || w->isNotification() || w->isOutline()
-            || w->isSplash() || w->isSpecialWindow()) {
+            || w->isSplash() || w->isSpecialWindow() || isScreenCaptureWindow(w)) {
             continue;
         }
         if (!w->isOnCurrentActivity()) {
@@ -496,6 +496,7 @@ void MultitaskViewExEffect::syncSessionItems()
         }
         syncScreenItems(*owned, wins, docks.value(owned->model.screen()));
     }
+    reconcileCaptureWindows();
 }
 
 void MultitaskViewExEffect::syncScreenItems(ScreenView &view, const QVector<EffectWindow *> &wins,
@@ -756,17 +757,124 @@ bool MultitaskViewExEffect::sessionLocked() const
     return false;
 }
 
+bool MultitaskViewExEffect::isScreenCaptureWindow(EffectWindow *w)
+{
+    if (!w) {
+        return false;
+    }
+    const QString windowClass = w->windowClass();
+    return windowClass == QLatin1String("deepin-screen-recorder deepin-screen-recorder")
+        || windowClass == QLatin1String("deepin-screen-recorder");
+}
+
+void MultitaskViewExEffect::reconcileCaptureWindows()
+{
+    if (!m_running) {
+        m_captureWindows.clear();
+        m_captureInputSuspended = false;
+        return;
+    }
+    QVector<EffectWindow *> windows;
+    for (EffectWindow *w : effects->stackingOrder()) {
+        if (!isScreenCaptureWindow(w) || m_captureWindowsHidden.contains(w) || w->isDeleted()
+            || w->isMinimized() || !w->isVisible() || !w->isOnCurrentDesktop() || !w->isOnCurrentActivity()) {
+            continue;
+        }
+        windows.append(w);
+    }
+    m_captureWindows = windows;
+    if (!m_captureWindows.isEmpty()) {
+        if (!m_captureInputSuspended) {
+            suspendViewInputForCapture();
+        }
+    } else if (m_captureInputSuspended && !m_exitRequested) {
+        resumeViewInputAfterCapture();
+    }
+    effects->addRepaintFull();
+}
+
+void MultitaskViewExEffect::suspendViewInputForCapture()
+{
+    m_captureInputSuspended = true;
+    if (m_hasKeyboardGrab) {
+        effects->ungrabKeyboard();
+        m_hasKeyboardGrab = false;
+    }
+    effects->stopMouseInterception(this);
+    m_hoverSwitchTimer.stop();
+    m_hoverSwitchSlot = -1;
+    m_dockPressButton = Qt::NoButton;
+    m_dockPressView = nullptr;
+    for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
+        owned->model.setHoverCell(-1);
+    }
+    effects->addRepaintFull();
+}
+
+void MultitaskViewExEffect::resumeViewInputAfterCapture()
+{
+    m_captureInputSuspended = false;
+    effects->startMouseInterception(this, Qt::PointingHandCursor);
+    m_hasKeyboardGrab = effects->grabKeyboard(this);
+    effects->addRepaintFull();
+}
+
 void MultitaskViewExEffect::onWindowAdded(EffectWindow *w)
 {
-    if (!m_running || !isLockScreenWindow(w)) {
+    if (isScreenCaptureWindow(w)) {
+        m_captureWindowsHidden.remove(w);
+        if (m_running) {
+            reconcileCaptureWindows();
+        }
+        return;
+    }
+    if (!m_running) {
+        return;
+    }
+    if (!isLockScreenWindow(w)) {
         return;
     }
     setRunning(false);
 }
 
+void MultitaskViewExEffect::onWindowShown(EffectWindow *w)
+{
+    if (!isScreenCaptureWindow(w)) {
+        return;
+    }
+    m_captureWindowsHidden.remove(w);
+    if (m_running) {
+        reconcileCaptureWindows();
+    }
+}
+
+void MultitaskViewExEffect::onWindowHidden(EffectWindow *w)
+{
+    if (!isScreenCaptureWindow(w)) {
+        return;
+    }
+    m_captureWindowsHidden.insert(w);
+    if (m_running) {
+        reconcileCaptureWindows();
+    }
+}
+
 void MultitaskViewExEffect::onWindowClosed(EffectWindow *w)
 {
-    if (!m_running || !w || m_closing.contains(w)) {
+    if (!w) {
+        return;
+    }
+    if (isScreenCaptureWindow(w)) {
+        m_captureWindowsHidden.insert(w);
+        if (m_running) {
+            reconcileCaptureWindows();
+        }
+        return;
+    }
+    if (!m_running) {
+        return;
+    }
+    if (m_closing.contains(w)) {
         return;
     }
     ScreenView *view = nullptr;
@@ -801,6 +909,8 @@ void MultitaskViewExEffect::onWindowClosed(EffectWindow *w)
 
 void MultitaskViewExEffect::onWindowDeleted(EffectWindow *w)
 {
+    m_captureWindowsHidden.remove(w);
+    reconcileCaptureWindows();
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
         owned->model.dropWindow(w);
         owned->scene->outgoingLayer().removeWindow(w);

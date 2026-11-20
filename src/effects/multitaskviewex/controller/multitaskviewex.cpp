@@ -108,6 +108,8 @@ MultitaskViewExEffect::MultitaskViewExEffect()
     connect(effects, &EffectsHandler::windowClosed, this, &MultitaskViewExEffect::onWindowClosed);
     connect(effects, &EffectsHandler::windowDeleted, this, &MultitaskViewExEffect::onWindowDeleted);
     connect(effects, &EffectsHandler::windowAdded, this, &MultitaskViewExEffect::onWindowAdded);
+    connect(effects, &EffectsHandler::windowShown, this, &MultitaskViewExEffect::onWindowShown);
+    connect(effects, &EffectsHandler::windowHidden, this, &MultitaskViewExEffect::onWindowHidden);
 
     QDBusConnection::sessionBus().connect(DBUS_DEEPIN_WM_SERVICE, DBUS_DEEPIN_WM_OBJ, DBUS_DEEPIN_WM_INTF,
                                           "ShowWorkspaceChanged", this, SLOT(toggle()));
@@ -200,6 +202,7 @@ void MultitaskViewExEffect::toggle()
         for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
             owned->scene->setEntered(true);
         }
+        reconcileCaptureWindows();
     } else {
         m_exitRequested = true;
         elevateForExit();
@@ -266,6 +269,8 @@ void MultitaskViewExEffect::setRunning(bool run)
     }
     m_running = run;
     if (run) {
+        m_captureWindows.clear();
+        m_captureInputSuspended = false;
         syncViews();
         m_exitRequested = false;
         m_newWorkspaceWallpaper.clear();
@@ -280,10 +285,15 @@ void MultitaskViewExEffect::setRunning(bool run)
             owned->frameClock.reset();
         }
         effects->setActiveFullScreenEffect(this);
-        effects->startMouseInterception(this, Qt::PointingHandCursor);
-        m_hasKeyboardGrab = effects->grabKeyboard(this);
+        reconcileCaptureWindows();
+        if (!m_captureInputSuspended) {
+            effects->startMouseInterception(this, Qt::PointingHandCursor);
+            m_hasKeyboardGrab = effects->grabKeyboard(this);
+        }
     } else {
         m_exitRequested = false;
+        m_captureWindows.clear();
+        m_captureInputSuspended = false;
         for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
             owned->scene->resetSession();
         }
@@ -539,6 +549,12 @@ void MultitaskViewExEffect::paintScreen(int mask, const QRegion &region, ScreenP
     else
         glDisable(GL_BLEND);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, savedFbo);
+    for (EffectWindow *w : effects->stackingOrder()) {
+        if (!m_captureWindows.contains(w) || w->isDeleted() || !w->isVisible()) {
+            continue;
+        }
+        painter.paintWindow(w, w->frameGeometry(), w->frameGeometry(), 1.0);
+    }
 }
 
 void MultitaskViewExEffect::postPaintScreen()
@@ -612,6 +628,9 @@ void MultitaskViewExEffect::paintWindow(EffectWindow *w, int mask, QRegion regio
         return;
     }
     if (m_consumeBackgroundPass) {
+        return;
+    }
+    if (m_captureWindows.contains(w)) {
         return;
     }
     switch (windowLayerOf(w->isDesktop(), w->isDock(), w->isNotification(), w->isOutline())) {
