@@ -250,6 +250,9 @@ void TestSceneModel::placeholderHidesCoverThenRestores()
 {
     SceneModel model;
     model.syncCellItems(twoCells(), 705.0);
+    // The placeholder only means something inside a drag session: outside one it is stale state
+    // and must not hide a window behind its cell cover. Start from a drag already in flight.
+    model.beginDrag(twoCells()[1]);
     const auto baseline = merge({gridModelState(model), sessionModelState(model)});
 
     const auto before = merge({gridModelState(model), sessionModelState(model)});
@@ -274,9 +277,11 @@ void TestSceneModel::restoreSnapsVisibleInSameFrame()
 {
     SceneModel model;
     model.syncCellItems(twoCells(), 705.0);
+    model.beginDrag(twoCells()[0]);
     model.setDragPlaceholder(0, true);
 
     const int idx = model.dragPlaceholder();
+    QCOMPARE(idx, 0);
 
     const auto before = merge({gridModelState(model), sessionModelState(model)});
     model.setDragPlaceholder(-1, false);
@@ -291,11 +296,15 @@ void TestSceneModel::sessionResetClearsPlaceholderAndEnterState()
 {
     SceneModel model;
     model.syncCellItems(twoCells(), 705.0);
+    model.beginDrag(twoCells()[0]);
     model.setDragPlaceholder(0, true);
 
     const auto before = merge({gridModelState(model), sessionModelState(model)});
     model.resetItems();
+    // Tearing the session down ends the drag as well: nothing of it may reach the next session.
     expectDiff(before, merge({gridModelState(model), sessionModelState(model)}), changes({
+                                                                                     {"scene.dragActive", "0"},
+                                                                                     {"scene.dragCell", "0.00,0.00,0.00,0.00"},
                                                                                      {"scene.dragPlaceholder", "-1"},
                                                                                  }),
                "5-resetSession");

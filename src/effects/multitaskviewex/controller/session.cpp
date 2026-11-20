@@ -620,9 +620,10 @@ void MultitaskViewExEffect::teardownSession()
     m_visibleRefs.clear();
     m_gridMinimizeRefs.clear();
     for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-        owned->model.syncWindows({}, {});
-        owned->model.windows().clear();
-        owned->model.setDraggedWindow(nullptr);
+        // Tearing the session down returns the model to its initial state. Windows, the drag
+        // session, the placeholder and the ghost all belong to the session that is ending, so
+        // leaking any of them into the next one would hide a window behind its cell cover.
+        owned->model.resetItems();
         owned->model.setHoverCell(-1);
     }
 }

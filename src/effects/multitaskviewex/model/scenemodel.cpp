@@ -180,13 +180,19 @@ void SceneModel::finishRetiringWindow(EffectWindow *w)
     }
 }
 
+void SceneModel::cancelDrag()
+{
+    m_dragSession.end();
+    m_ghostReturning = false;
+    m_dragPlaceholder = -1;
+    m_draggedWindow = nullptr;
+    m_lastDragPos = QPointF();
+}
+
 void SceneModel::resetItems()
 {
     resetBar();
-    m_ghostReturning = false;
-    m_dragPlaceholder = -1;
-    m_dragSession.end();
-    m_lastDragPos = QPointF();
+    cancelDrag();
     m_finishedRetiring.clear();
     clearWindows();
 }

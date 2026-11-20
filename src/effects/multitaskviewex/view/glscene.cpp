@@ -276,9 +276,52 @@ qreal GLScene::gridOutgoingDx() const
     return gridSlideDx() - m_slideDir * m_model->layout().fullRect.width();
 }
 
+GLScene::WindowPaintGeometry GLScene::windowPaintGeometry(EffectWindow *w) const
+{
+    WindowPaintGeometry geometry;
+    if (!w) {
+        return geometry;
+    }
+    if (const WindowNode *node = m_windowItemLayer.nodeFor(w)) {
+        if (!node->retiring) {
+            if (node->opacity() <= 0.01) {
+                return geometry;
+            }
+            geometry.visible = true;
+            geometry.source = node->source;
+            geometry.painted = m_windowItemLayer.paintedRect(*node);
+            geometry.opacity = node->opacity();
+            return geometry;
+        }
+        // A retiring node belongs to the workspace that is leaving, and the snapshot below
+        // owns that grid's geometry: falling through keeps the window travelling with its
+        // grid instead of dropping it for the frames it is still on screen.
+    }
+    // A window of the workspace that is leaving has no node any more: it is painted from the
+    // snapshot taken when the slide started, so it keeps travelling with that grid.
+    for (const OutgoingGrid &grid : m_outgoingLayer.grids()) {
+        for (const OutgoingWindow &window : grid.windows) {
+            if (window.window != w || window.interp.cur.opacity <= 0.01) {
+                continue;
+            }
+            geometry.visible = true;
+            geometry.source = window.source;
+            geometry.painted = window.interp.rect();
+            geometry.opacity = window.interp.cur.opacity;
+            return geometry;
+        }
+    }
+    return geometry;
+}
+
 void GLScene::setEntered(bool entered)
 {
     m_entered = entered;
+    if (!entered && m_model) {
+        cancelPress();
+        m_model->cancelDrag();
+        m_ghostLayer.clear();
+    }
     const qreal to = entered ? 1.0 : 0.0;
     if (qFuzzyCompare(m_enterValue, to)) {
         m_barEnterAnim.reset();

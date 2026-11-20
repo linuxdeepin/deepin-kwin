@@ -135,10 +135,14 @@ private Q_SLOTS:
     void gridOpsLeaveBarUntouched();
     void predecodeFeedsTextureForAndDeduplicates();
     void textureForReadyIsNonBlocking();
+    void predecodedEntryIsFoundUnderTheUriThePaintSideAsks();
     void screenViewSetLifecycleIsStable();
     void projectionDoesNotAccumulateAcrossPasses();
     void windowInGridCoverDerivesFromWindow();
     void placeholderHidesWindowCoverAndOverlay();
+    void placeholderNeverOutlivesItsDrag();
+    void exitDuringDragPutsTheWindowBack();
+    void windowPaintGeometryFollowsTheNodeNotTheScreen();
     void backgroundSlideProgressAndReset();
     void workspaceSlideKeepsWindowsInOwnCells();
     void barScrollClampedByViewport();
@@ -1276,10 +1280,12 @@ void TestScene::gridOpsLeaveBarUntouched()
     scene.advance(600);
     QCOMPARE(scene.windowCells()->cellAt(scene.windowCells()->cellRectAt(0).center()), 0);
 
+    scene.model()->beginDrag(scene.windowCells()->cellRectAt(0));
     scene.model()->setDragPlaceholder(0, true);
     scene.setGridScrollTarget(120.0);
     scene.advance(600);
     scene.model()->setDragPlaceholder(-1, false);
+    scene.model()->endDrag();
 
     scene.setGridScrollTarget(120.0);
     scene.advance(600);
@@ -1612,6 +1618,9 @@ void TestScene::placeholderHidesWindowCoverAndOverlay()
     scene.syncWindowLayer();
     scene.advance(800);
 
+    // A placeholder only exists as part of a drag: the window body is replaced by the ghost for
+    // as long as the drag (and its return) lasts, and the cell cover stands in for it.
+    scene.model()->beginDrag(cells.at(0));
     scene.model()->setDragPlaceholder(0, true);
     scene.setGridScrollTarget(0.0);
     scene.syncWindowLayer();
@@ -1624,6 +1633,167 @@ void TestScene::placeholderHidesWindowCoverAndOverlay()
     QVERIFY2(nodes[1].opacity() > 0.99, "other windows must be visible");
     QVERIFY2(nodes[1].overlayOpacity() < 0.01, "a window that is not hovered must not show buttons");
     QCOMPARE(nodes[1].rect(), cells[1]);
+}
+
+void TestScene::placeholderNeverOutlivesItsDrag()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    sceneModel.syncScreen(QPointF(0, 0), QSizeF(1920, 1080), QRectF(0, 0, 1920, 1080),
+                          QRectF(0, 0, 1920, 1080), {});
+    scene.setEntered(true);
+
+    const QVector<QRectF> cells{QRectF(100, 300, 400, 300), QRectF(700, 300, 400, 300)};
+    const QVector<EffectWindow *> windows{reinterpret_cast<EffectWindow *>(0xC100),
+                                          reinterpret_cast<EffectWindow *>(0xC101)};
+    const QVector<QRectF> sources{QRectF(0, 0, 1600, 900), QRectF(0, 0, 1600, 900)};
+
+    scene.model()->syncCellItems(cells, 300.0);
+    scene.model()->syncWindows(windows, sources);
+    scene.syncWindowLayer();
+    scene.advance(800);
+
+    // A drag starts on cell 1: the window body is replaced by the ghost and the cell keeps its
+    // cover, which is exactly what a placeholder is for.
+    sceneModel.setDragPlaceholder(1, true);
+    sceneModel.beginDrag(cells.at(1));
+    scene.syncWindowLayer();
+    scene.advance(800);
+    QCOMPARE(sceneModel.dragPlaceholder(), 1);
+    QVERIFY2(scene.windowItemLayer().nodeFor(windows.at(1))->opacity() < 0.01,
+             "the window being dragged is represented by the ghost, not by its cell");
+
+    // The drop is interrupted: the view is torn down before the ghost flies home, so
+    // finishGhostReturn() never runs and the placeholder index stays behind in the model. The
+    // next session must not keep honouring it, otherwise the window stays gone and only its
+    // cover is left - the reported defect.
+    sceneModel.endDrag();
+    QCOMPARE(sceneModel.dragPlaceholder(), -1);
+
+    scene.syncWindowLayer();
+    scene.advance(800);
+    const WindowNode *restored = scene.windowItemLayer().nodeFor(windows.at(1));
+    QVERIFY2(restored != nullptr, "the window must still own a node");
+    QVERIFY2(restored->opacity() > 0.99, "a stale placeholder must not keep the window hidden");
+    QCOMPARE(restored->rect(), cells.at(1));
+    QCOMPARE(scene.windowCells()->coverRectAt(1), coverFor(cells.at(1), 300.0));
+
+    // Tearing a session down must return the model to its initial state, transient interaction
+    // state included, so nothing of it can leak into the next session.
+    sceneModel.setDragPlaceholder(1, true);
+    sceneModel.beginDrag(cells.at(1));
+    sceneModel.setGhostReturning(true);
+    sceneModel.resetItems();
+    QCOMPARE(sceneModel.dragPlaceholder(), -1);
+    QVERIFY2(!sceneModel.ghostReturning(), "the ghost return must not survive a teardown");
+    QVERIFY2(!sceneModel.dragActive(), "the drag session must not survive a teardown");
+}
+
+void TestScene::exitDuringDragPutsTheWindowBack()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    sceneModel.syncScreen(QPointF(0, 0), QSizeF(1920, 1080), QRectF(0, 0, 1920, 1080),
+                          QRectF(0, 0, 1920, 1080), {});
+    scene.setEntered(true);
+
+    const QVector<QRectF> cells{QRectF(100, 300, 400, 300), QRectF(700, 300, 400, 300)};
+    const QVector<EffectWindow *> windows{reinterpret_cast<EffectWindow *>(0xD100),
+                                          reinterpret_cast<EffectWindow *>(0xD101)};
+    const QVector<QRectF> sources{QRectF(0, 0, 1600, 900), QRectF(300, 200, 1200, 800)};
+
+    scene.model()->syncCellItems(cells, 300.0);
+    scene.model()->syncWindows(windows, sources);
+    scene.syncWindowLayer();
+    scene.advance(800);
+
+    // The second window is picked up and dragged away from its cell.
+    sceneModel.setDraggedWindow(windows.at(1));
+    sceneModel.beginDrag(cells.at(1));
+    sceneModel.setDragPlaceholder(1, true);
+    scene.ghostLayer().setSource(windows.at(1), sources.at(1));
+    scene.ghostLayer().snap(cells.at(1), 0.6);
+    scene.syncWindowLayer();
+    scene.advance(800);
+    QVERIFY2(scene.ghostLayer().active(), "the drag ghost must be in flight");
+    QVERIFY2(scene.windowItemLayer().nodeFor(windows.at(1))->opacity() < 0.01,
+             "while dragging, the ghost stands in for the window body");
+
+    // Leaving the view is a transition of its own: the drag is interrupted, so the window body
+    // comes back and flies home together with the other windows instead of staying on screen as
+    // a ghost that no longer follows anything.
+    scene.setEntered(false);
+    QVERIFY2(!scene.ghostLayer().active(), "the drag ghost must not survive leaving the view");
+    QCOMPARE(sceneModel.dragPlaceholder(), -1);
+    QVERIFY2(!sceneModel.dragActive(), "no drag may stay in flight after the view leaves");
+    QVERIFY2(sceneModel.draggedWindow() == nullptr, "the dragged window must be released");
+    QVERIFY2(!scene.hasPressedControl(), "the pressed control must be dropped with the drag");
+
+    scene.syncWindowLayer();
+    scene.advance(16);
+    QVERIFY2(scene.windowItemLayer().nodeFor(windows.at(1))->opacity() > 0.01,
+             "the interrupted drag must give the window body back");
+
+    for (int i = 0; i < 60; ++i) {
+        scene.syncWindowLayer();
+        scene.advance(16);
+    }
+    const WindowNode *node = scene.windowItemLayer().nodeFor(windows.at(1));
+    QVERIFY2(node != nullptr, "the window must still own a node");
+    QVERIFY2(node->opacity() > 0.99, "the window must be fully back after leaving the view");
+    QCOMPARE(node->rect(), sources.at(1));
+}
+
+void TestScene::windowPaintGeometryFollowsTheNodeNotTheScreen()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    sceneModel.syncScreen(QPointF(0, 0), QSizeF(1920, 1080), QRectF(0, 0, 1920, 1080),
+                          QRectF(0, 0, 1920, 1080), {});
+    scene.setEntered(true);
+
+    const QVector<QRectF> cells{QRectF(100, 300, 400, 300), QRectF(700, 300, 400, 300)};
+    const QVector<EffectWindow *> windows{reinterpret_cast<EffectWindow *>(0xE100),
+                                          reinterpret_cast<EffectWindow *>(0xE101)};
+    const QVector<QRectF> sources{QRectF(0, 0, 1600, 900), QRectF(300, 200, 1200, 800)};
+
+    scene.model()->syncCellItems(cells, 300.0);
+    scene.model()->syncWindows(windows, sources);
+    scene.syncWindowLayer();
+    scene.advance(800);
+
+    // A live node is what makes a window paintable, and the node's own geometry is where it
+    // lands - not the rectangle the window happens to have on its screen.
+    const GLScene::WindowPaintGeometry live = scene.windowPaintGeometry(windows.at(0));
+    QVERIFY2(live.visible, "a window with a live node must be painted");
+    QCOMPARE(live.painted, scene.windowItemLayer().nodeFor(windows.at(0))->rect());
+
+    // A window the model is retiring has no body left to paint: its cell draws the cover.
+    scene.model()->syncWindows({windows.at(0)}, {sources.at(0)});
+    scene.syncWindowLayer();
+    scene.advance(16);
+    const WindowNode *retiringNode = scene.windowItemLayer().nodeFor(windows.at(1));
+    QVERIFY2(retiringNode == nullptr || retiringNode->retiring, "the dropped window must be retiring");
+    QVERIFY2(!scene.windowPaintGeometry(windows.at(1)).visible,
+             "a retiring window must not be painted over its cover");
+
+    // A window that only exists in the snapshot of the workspace that is leaving is painted
+    // where that snapshot animates it to, which is the outgoing offset, not the incoming one.
+    OutgoingWindowInput wi;
+    wi.window = reinterpret_cast<EffectWindow *>(0xE102);
+    wi.source = QRectF(200, 100, 900, 600);
+    wi.cur = wi.source;
+    wi.op = 1.0;
+    scene.startSlide(QStringLiteral("a.png"), QStringLiteral("b.png"), 1);
+    scene.snapshotOutgoing({wi});
+    scene.advance(150);
+    const GLScene::WindowPaintGeometry outgoing = scene.windowPaintGeometry(wi.window);
+    QVERIFY2(outgoing.visible, "the window of the leaving workspace must be painted");
+    QVERIFY2(outgoing.painted.left() < wi.source.left(),
+             "and it must follow the outgoing slide instead of the incoming one");
 }
 
 void TestScene::backgroundSlideProgressAndReset()

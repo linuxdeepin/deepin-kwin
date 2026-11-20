@@ -657,57 +657,42 @@ void MultitaskViewExEffect::paintWindow(EffectWindow *w, int mask, QRegion regio
     case WindowLayer::Normal:
         break;
     }
-    ScreenView *view = m_views.find(w->screen());
-    if (!view) {
+    // 窗口归属由场景决定：谁的 model 或离场快照里有这个窗口，就画在谁的画布上。
+    // 按 w->screen() 找视图会在 screen() 为空（最小化、跨屏移动中）或指向没有视图的屏幕时
+    // 静默丢掉整次绘制，格子里就只剩下 cover。
+    ScreenView *owner = nullptr;
+    GLScene::WindowPaintGeometry geometry;
+    for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
+        const GLScene::WindowPaintGeometry candidate = owned->scene->windowPaintGeometry(w);
+        if (candidate.visible) {
+            owner = owned.get();
+            geometry = candidate;
+            break;
+        }
+    }
+    if (!owner || geometry.source.width() <= 0 || geometry.source.height() <= 0) {
         return;
     }
-    QRectF src, cur;
-    qreal op = 0.0;
-    if (WindowNode *n = view->scene->windowItemLayer().nodeFor(w)) {
-        if (n->retiring || n->opacity() <= 0.01) {
-            return;
-        }
-        src = n->source;
-        cur = view->scene->windowItemLayer().paintedRect(*n);
-        op = n->opacity();
-    } else {
-        bool found = false;
-        for (const OutgoingGrid &snap : view->scene->outgoingLayer().grids()) {
-            for (const OutgoingWindow &gw : snap.windows) {
-                if (gw.window == w) {
-                    src = gw.source;
-                    cur = gw.interp.rect();
-                    op = gw.interp.cur.opacity;
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                break;
-            }
-        }
-        if (!found || op <= 0.01) {
-            return;
-        }
-    }
-    if (src.width() <= 0 || src.height() <= 0) {
-        return;
-    }
+    const QRectF src = geometry.source;
+    const QRectF cur = geometry.painted;
+    // Same placement math as the canvas path, so a window lands on the same pixel whether the
+    // screen projection or a sub-viewport canvas paints it.
+    const WindowPaintPlacement placement = windowPaintPlacement(src, cur, QPointF());
     WindowPaintData d(data);
-    d.multiplyOpacity(op);
-    d *= QVector2D(float(cur.width() / src.width()), float(cur.height() / src.height()));
-    d += QPoint(int(cur.x() - src.x()), int(cur.y() - src.y()));
-    const QRectF canvas = view->scene->background()->geometry();
+    d.multiplyOpacity(geometry.opacity);
+    d *= placement.scale;
+    d += QPoint(qRound(placement.translation.x()), qRound(placement.translation.y()));
+    const QRectF canvas = owner->scene->background()->geometry();
     const QRectF frameGeo = w->frameGeometry();
     const QRectF expandedGeo = w->expandedGeometry();
-    const qreal sx = src.width() > 0.0 ? cur.width() / src.width() : 1.0;
-    const qreal sy = src.height() > 0.0 ? cur.height() / src.height() : 1.0;
+    const qreal sx = placement.scale.x();
+    const qreal sy = placement.scale.y();
     const qreal padL = qMax<qreal>(0.0, (frameGeo.left() - expandedGeo.left()) * sx);
     const qreal padT = qMax<qreal>(0.0, (frameGeo.top() - expandedGeo.top()) * sy);
     const qreal padR = qMax<qreal>(0.0, (expandedGeo.right() - frameGeo.right()) * sx);
     const qreal padB = qMax<qreal>(0.0, (expandedGeo.bottom() - frameGeo.bottom()) * sy);
     const QRectF shadowRect = cur.adjusted(-padL, -padT, padR, padB);
-    const QRegion clip = (QRegion(shadowRect.toRect()) & QRegion(canvas.toRect())).translated(view->model.origin().toPoint());
+    const QRegion clip = (QRegion(shadowRect.toRect()) & QRegion(canvas.toRect())).translated(owner->model.origin().toPoint());
     if (!clip.isEmpty()) {
         effects->paintWindow(w, mask | Effect::PAINT_WINDOW_TRANSFORMED, clip, d);
     }

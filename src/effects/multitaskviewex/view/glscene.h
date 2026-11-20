@@ -278,6 +278,29 @@ public:
     int slideDurationMs() const;
 
     /**
+     * @brief Paint geometry of one window, in canvas coordinates.
+     */
+    struct WindowPaintGeometry {
+        bool visible = false;
+        QRectF source;
+        QRectF painted;
+        qreal opacity = 1.0;
+    };
+
+    /**
+     * @brief Resolves how a window owned by this scene must be painted.
+     *
+     * The scene owns this decision: a window is painted only while one of its own objects is
+     * visible, either a live node or the snapshot of the workspace that is leaving. Keeping the
+     * lookup here lets the paint pass and the tests read the same rule, instead of a paint pass
+     * that dropped windows while their cell still drew a cover underneath.
+     *
+     * @param w Window to look up.
+     * @return Geometry whose visible member is false when nothing of this window is painted.
+     */
+    WindowPaintGeometry windowPaintGeometry(EffectWindow *w) const;
+
+    /**
      * @brief Recomputes and publishes the offsets of both grids for the current frame.
      */
     void syncSlideOffset();
@@ -285,6 +308,11 @@ public:
     /**
      * @brief Starts entering or leaving the view.
      * @param entered True to enter, false to leave.
+     *
+     * Leaving cancels the interaction in flight. A view that is going away has no drag to
+     * finish, so its pressed control and the dragged window's placeholder are dropped, and the
+     * window gets its body back: it then flies home with every other window instead of staying
+     * on screen as a ghost that no longer follows anything.
      */
     void setEntered(bool entered);
 

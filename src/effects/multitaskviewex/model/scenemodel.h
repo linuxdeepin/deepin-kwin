@@ -335,6 +335,15 @@ public:
     void endDrag();
 
     /**
+     * @brief Cancels drag interaction, keeping every window item.
+     *
+     * Leaving the view interrupts a drag: the dragged window must get its body back and fly home
+     * with the others, so its placeholder and the returning ghost both stop being honoured while
+     * the window items themselves stay, unlike resetItems().
+     */
+    void cancelDrag();
+
+    /**
      * @brief Tests whether a window drag is active.
      * @return True while a drag is in progress.
      */
@@ -374,7 +383,10 @@ public:
      */
     int dragPlaceholder() const
     {
-        return m_dragPlaceholder;
+        // The placeholder may only outlive endDrag() while the ghost is still flying back to its
+        // cell. Once both are over it is stale state, and honouring it would keep a window hidden
+        // behind its cell cover for as long as the session holds that index.
+        return (m_dragSession.active() || m_ghostReturning) ? m_dragPlaceholder : -1;
     }
 
     /**
