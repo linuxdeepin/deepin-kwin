@@ -75,7 +75,7 @@ QRectF WorkspaceBarControl::buttonRect() const
 
 QSize WorkspaceBarControl::thumbCellSize() const
 {
-    return m_metrics ? QSizeF(m_metrics->workspaceWidth(), m_metrics->workspaceHeight()).toSize() : QSize();
+    return m_model ? barThumbSizeFor(m_model->layout().fullRect.size()) : QSize();
 }
 
 int WorkspaceBarControl::slotAt(const QPointF &pos) const

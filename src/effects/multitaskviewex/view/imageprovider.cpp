@@ -233,14 +233,20 @@ void ImageProvider::trimUnused()
         }
         it = m_resources.erase(it);
     }
-    QSet<QString> inUse;
-    for (auto it = m_resources.constBegin(); it != m_resources.constEnd(); ++it) {
-        inUse.insert(it.value().source);
+}
+
+QString ImageProvider::decodeKey(const QString &source, const QSize &targetSize)
+{
+    return textureKey(source, targetSize);
+}
+
+void ImageProvider::retainDecoded(const QSet<QString> &liveKeys)
+{
+    if (liveKeys.isEmpty()) {
+        return;
     }
     for (auto it = m_decodedScaled.begin(); it != m_decodedScaled.end();) {
-        const int sep = it.key().lastIndexOf(QLatin1Char('@'));
-        const QString source = sep < 0 ? it.key() : it.key().left(sep);
-        if (inUse.contains(source)) {
+        if (liveKeys.contains(it.key())) {
             ++it;
         } else {
             it = m_decodedScaled.erase(it);
@@ -276,7 +282,7 @@ void ImageProvider::predecode(const QStringList &sources, const QSize &targetSiz
             continue;
         }
         m_predecoding.append(key);
-        QFuture<void> f = QtConcurrent::run(&m_predecodePool, [this, path, key, targetSize]() {
+        const auto decode = [this, path, key, targetSize]() {
             QImage img = decodeImage(path, targetSize);
             if (!img.isNull()) {
                 const QSize scaled = img.size().scaled(targetSize, Qt::KeepAspectRatio);
@@ -294,8 +300,14 @@ void ImageProvider::predecode(const QStringList &sources, const QSize &targetSiz
                     }
                 },
                 Qt::QueuedConnection);
-        });
-        m_predecodeSync.addFuture(f);
+        };
+        // Rendering an SVG touches the font database, which is GUI-thread only; raster
+        // decoding is what the first frame waits for and is safe on the pool.
+        if (path.endsWith(QStringLiteral(".svg"))) {
+            QMetaObject::invokeMethod(this, decode, Qt::QueuedConnection);
+        } else {
+            m_predecodeSync.addFuture(QtConcurrent::run(&m_predecodePool, decode));
+        }
     }
 }
 

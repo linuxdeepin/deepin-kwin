@@ -23,6 +23,7 @@ namespace KWin
  * hands out percent-encoded URIs of symlinks, while the caller that paints asks
  * with whatever it was given. Both sides run through this one function so a cache
  * entry written by one is found by the other.
+ *
  */
 inline QString toRealPath(const QString &uri)
 {

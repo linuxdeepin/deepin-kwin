@@ -154,6 +154,8 @@ private Q_SLOTS:
     void twoScreensSlideTheirOwnWallpaperAndOffset();
     void overlayRetiringWindowLandsOnItsOwnCanvas();
     void outgoingGridsShareOneMotion();
+    void barThumbnailIsSizedFromTheFullScreen();
+    void trimKeepsPredecodedImages();
 };
 
 void TestScene::hitRangeUsesCellNotCover()
@@ -483,6 +485,34 @@ void TestScene::predecodedEntryIsFoundUnderTheUriThePaintSideAsks()
 
     const auto info = provider.textureForReady(link, size, true);
     QVERIFY2(info.imageSize == size, "the predecoded entry must be found under the plain path too");
+}
+
+void TestScene::trimKeepsPredecodedImages()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    QImage img(200, 100, QImage::Format_RGB32);
+    img.fill(QColor(40, 120, 200));
+    const QString path = dir.filePath(QStringLiteral("wp.png"));
+    QVERIFY(img.save(path));
+
+    ImageProvider provider;
+    const QSize size(100, 50);
+    QSignalSpy spy(&provider, &ImageProvider::predecoded);
+    provider.predecode({path}, size);
+    QVERIFY(spy.count() == 1 || spy.wait(5000));
+
+    // A warm-up batch is decoded for every screen at once, so on the very first painted
+    // frame no scene has taken a texture for it yet. Trimming at that moment must keep the
+    // decode: throwing it away is what left the second screen drawing plain covers until it
+    // was opened again.
+    provider.trimUnused();
+    QVERIFY2(provider.decodedCount() > 0, "a predecoded image must survive a trim");
+
+    // The paint side never decodes on its own, so a non-empty imageSize can only come from
+    // the decode that survived the trim.
+    const auto info = provider.textureForReady(path, size);
+    QVERIFY2(info.imageSize == size, "the surviving decode must answer the paint side");
 }
 
 void TestScene::imageDecoderDecodesAtTheRequestedSize()
@@ -2135,4 +2165,46 @@ void TestScene::barScrollClampedByViewport()
     scene.resetBarScroll();
     QVERIFY2(!scene.scrollBarBy(120.0, 1920.0), "few items, no overflow: cannot scroll");
     QCOMPARE(scene.barScrollOffset(), 0.0);
+}
+
+void TestScene::barThumbnailIsSizedFromTheFullScreen()
+{
+    SceneModel sceneModel;
+    GLScene scene;
+    scene.setModel(&sceneModel);
+    // A 1920x1080 screen with a 46px panel leaves a 1920x1034 client area.
+    sceneModel.syncScreen(QPointF(0, 0), QSizeF(1920, 1034), QRectF(0, 0, 1920, 1080),
+                          QRectF(0, 0, 1920, 1034), {});
+    QCOMPARE(scene.workspaceBar()->thumbCellSize(), QSize(240, 135));
+
+    // A 3840x2160 screen with a 40px panel.
+    sceneModel.syncScreen(QPointF(0, 0), QSizeF(3840, 2120), QRectF(0, 0, 3840, 2160),
+                          QRectF(0, 0, 3840, 2120), {});
+    QCOMPARE(scene.workspaceBar()->thumbCellSize(), QSize(480, 270));
+
+    // The panel goes away again: a decoded thumbnail must survive that, so the size
+    // may not follow the client area.
+    sceneModel.syncScreen(QPointF(0, 0), QSizeF(1920, 1080), QRectF(0, 0, 1920, 1080),
+                          QRectF(0, 0, 1920, 1080), {});
+    QCOMPARE(scene.workspaceBar()->thumbCellSize(), QSize(240, 135));
+
+    // Warm-up runs before any view exists and reads only the screen rectangle, so it
+    // has to arrive at exactly the sizes the paint side asks for above.
+    QCOMPARE(barThumbSizeFor(QSizeF(1920, 1080)), QSize(240, 135));
+    QCOMPARE(barThumbSizeFor(QSizeF(3840, 2160)), QSize(480, 270));
+
+    // The layout scales the same item out of the same reference size; a drift between the
+    // two would decode at a size the paint side never asks for.
+    WorkspaceBarMetrics metrics;
+    metrics.setSize(QSizeF(1920, 1080));
+    QCOMPARE(barThumbSizeFor(metrics.size()),
+             QSizeF(metrics.workspaceWidth(), metrics.workspaceHeight()).toSize());
+    // A fractional scale rounds, and both sides have to round the same way: 1366x768 scales
+    // to 170.75x96.0, so truncating on one side only would decode at 170x96 and never be
+    // found by the paint side.
+    metrics.setSize(QSizeF(1366, 768));
+    QCOMPARE(barThumbSizeFor(metrics.size()), QSize(171, 96));
+    sceneModel.syncScreen(QPointF(0, 0), QSizeF(1366, 768), QRectF(0, 0, 1366, 768),
+                          QRectF(0, 0, 1366, 768), {});
+    QCOMPARE(scene.workspaceBar()->thumbCellSize(), QSize(171, 96));
 }

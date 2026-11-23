@@ -7,6 +7,7 @@
 #pragma once
 
 #include <QRectF>
+#include <QSize>
 #include <QSizeF>
 
 #include <cmath>
@@ -143,5 +144,26 @@ public:
 private:
     QSizeF m_size;
 };
+
+/**
+ * @brief Returns the decode size of a workspace bar thumbnail.
+ * @param screenSize Full screen size the thumbnail previews.
+ * @return Thumbnail size in device pixels.
+ *
+ * The thumbnail previews the wallpaper of a whole workspace, so it is sized from the full
+ * screen and not from the client area: struts appear and disappear while a screen runs, and
+ * a cache keyed on them would be thrown away on every panel change. Warm-up runs before any
+ * view knows its geometry and reads the same screen rectangle, so the two sides ask for one
+ * and the same decode.
+ *
+ * Scaled through WorkspaceBarMetrics so the decode size and the painted item cannot drift
+ * apart; the scene test asserts that the two agree.
+ */
+inline QSize barThumbSizeFor(const QSizeF &screenSize)
+{
+    WorkspaceBarMetrics metrics;
+    metrics.setSize(screenSize);
+    return QSizeF(metrics.workspaceWidth(), metrics.workspaceHeight()).toSize();
+}
 
 }

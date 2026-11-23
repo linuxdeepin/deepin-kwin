@@ -5,6 +5,7 @@
 */
 
 #include "data/wallpaperprovider.h"
+#include "data/workspacebarmetrics.h"
 #include "data/workspacemodel.h"
 #include "effectconfig.h"
 #include "helpers.h"
@@ -19,6 +20,7 @@
 
 #include <QDebug>
 #include <QLoggingCategory>
+#include <QSet>
 #include <QSizeF>
 
 namespace KWin
@@ -53,7 +55,7 @@ void MultitaskViewExEffect::reapplyBackgrounds()
 
 void MultitaskViewExEffect::prewarmTextures()
 {
-    if (!m_imgProvider) {
+    if (!m_imgProvider || effects->screens().isEmpty()) {
         return;
     }
     QStringList clears;
@@ -80,13 +82,32 @@ void MultitaskViewExEffect::prewarmTextures()
             }
         }
     }
-    for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
-        const WorkspaceBarMetrics &metrics = owned->model.metrics();
-        const QSize bgSize = owned->scene->background()->geometry().size().toSize();
-        const QSize thumbSize = QSizeF(metrics.workspaceWidth(), metrics.workspaceHeight()).toSize();
+    // The decode sizes come from the screens, not from the views: warm-up runs when
+    // the effect is created, before any view knows its geometry, and a view only
+    // learns it when it is first shown. Both sides read the same screen rectangle,
+    // so the paint side asks for exactly what was decoded here.
+    QSet<QString> liveKeys;
+    for (EffectScreen *screen : effects->screens()) {
+        // MaximizeFullArea is the same rectangle on every desktop, so the desktop argument
+        // only documents intent: the full screen, not the client area.
+        const QRectF fullRect = effects->clientArea(MaximizeFullArea, screen, effects->currentDesktop());
+        const QSize bgSize = fullRect.size().toSize();
+        const QSize thumbSize = barThumbSizeFor(fullRect.size());
+        if (bgSize.isEmpty() || thumbSize.isEmpty()) {
+            continue;
+        }
+        for (const QString &source : backgrounds) {
+            liveKeys.insert(ImageProvider::decodeKey(source, bgSize));
+        }
+        for (const QString &source : clears) {
+            liveKeys.insert(ImageProvider::decodeKey(source, thumbSize));
+        }
         m_imgProvider->predecode(backgrounds, bgSize);
         m_imgProvider->predecode(clears, thumbSize);
     }
+    // A decode no screen can ask for is dead memory; everything a screen can still ask for
+    // stays, so this cannot repeat the bug of evicting the warm-up before it is painted.
+    m_imgProvider->retainDecoded(liveKeys);
 }
 
 }

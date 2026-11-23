@@ -119,6 +119,7 @@ MultitaskViewExEffect::MultitaskViewExEffect()
             setRunning(false);
         } else {
             syncViews();
+            prewarmTextures();
             effects->addRepaintFull();
         }
     };

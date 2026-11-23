@@ -127,10 +127,7 @@ void MultitaskViewExEffect::wireScreenView(ScreenView &view)
             }
             m_newWorkspaceWallpaper = uri;
             if (m_imgProvider && !uri.isEmpty()) {
-                m_imgProvider->predecode({uri},
-                                         QSizeF(view.model.metrics().workspaceWidth(),
-                                                view.model.metrics().workspaceHeight())
-                                             .toSize());
+                m_imgProvider->predecode({uri}, barThumbSizeFor(view.model.layout().fullRect.size()));
             }
             m_pendingPreviewShow = true;
         } else {
@@ -157,10 +154,7 @@ void MultitaskViewExEffect::wireScreenView(ScreenView &view)
             }
             m_newWorkspaceWallpaper = uri;
             if (m_imgProvider && !uri.isEmpty()) {
-                m_imgProvider->predecode({uri},
-                                         QSizeF(view.model.metrics().workspaceWidth(),
-                                                view.model.metrics().workspaceHeight())
-                                             .toSize());
+                m_imgProvider->predecode({uri}, barThumbSizeFor(view.model.layout().fullRect.size()));
             }
             view.model.setBarPreview(true, uri);
         } else {
@@ -586,6 +580,7 @@ void MultitaskViewExEffect::setupSession()
         const int currentNum = workspaces() ? workspaces()->currentNumber() : 1;
         for (const std::unique_ptr<ScreenView> &owned : m_views.all()) {
             const QSize bgSize = owned->scene->background()->geometry().size().toSize();
+            const QSize thumbSize = barThumbSizeFor(owned->scene->background()->geometry().size());
             for (const QString &uri : allUris) {
                 m_imgProvider->pin(uri, bgSize);
             }
@@ -593,6 +588,9 @@ void MultitaskViewExEffect::setupSession()
             // it, so it warms up behind the current one instead of competing with the first frame.
             m_imgProvider->predecode({m_wallpapers->backgroundFor(currentNum, owned->model.screen())}, bgSize);
             m_imgProvider->predecode(allUris, bgSize);
+            // The bar asks for the same thumbnails the warm-up decodes; a resolution change
+            // produces a new size here, and this is the only place that produces it.
+            m_imgProvider->predecode(allUris, thumbSize);
         }
     }
     const int currentNum = workspaces() ? workspaces()->currentNumber() : 1;

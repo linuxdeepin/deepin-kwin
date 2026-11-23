@@ -17,6 +17,7 @@
 #include <QObject>
 #include <QRect>
 #include <QRectF>
+#include <QSet>
 #include <QSize>
 #include <QString>
 #include <QVector>
@@ -91,9 +92,34 @@ public:
     void invalidate();
 
     /**
-     * @brief Evicts unused, unpinned resources.
+     * @brief Evicts unused, unpinned textures.
+     *
+     * Decoded images are kept: a warm-up batch is decoded for every screen at once, so on
+     * the first painted frame no scene has taken a texture for it yet, and evicting by
+     * "is a texture using it" would throw away exactly what the screens are about to draw.
+     * Decodes are bounded by the wallpapers and screens that exist, and they are dropped
+     * with the provider itself.
      */
     void trimUnused();
+
+    /**
+     * @brief Returns the cache key a source is decoded under.
+     * @param source Image source path or URI.
+     * @param targetSize Target downsampled size.
+     * @return Key of the decoded image.
+     */
+    static QString decodeKey(const QString &source, const QSize &targetSize);
+
+    /**
+     * @brief Evicts decoded images no screen can ask for any more.
+     * @param liveKeys Keys the current wallpapers and screen sizes can produce.
+     *
+     * A decode is reachable as long as some screen can ask for its key, so a key nothing can
+     * produce is dead memory: a wallpaper that left the set, or a screen that changed
+     * resolution. Everything a screen can still ask for survives, which is what makes this
+     * safe where evicting by "is a texture using it" was not.
+     */
+    void retainDecoded(const QSet<QString> &liveKeys);
 
     /**
      * @brief Marks a texture as in use, reserving its slot without loading it.
@@ -183,5 +209,4 @@ private:
     QFutureSynchronizer<void> m_predecodeSync;
     QThreadPool m_predecodePool;
 };
-
 }
