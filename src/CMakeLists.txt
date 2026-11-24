@@ -123,6 +123,7 @@ target_sources(kwin PRIVATE
     main.cpp
     mirrormodecursor.cpp
     mirrormodedbus.cpp
+    mirrormodelayout.cpp
     modifier_only_shortcuts.cpp
     mousebuttons.cpp
     moving_client_x11_filter.cpp

@@ -90,6 +90,17 @@ bool OutputBackend::applyOutputChanges(const OutputConfiguration &config)
     return true;
 }
 
+bool OutputBackend::applyMirrorModeLayout()
+{
+    // Only a platform that owns the output layout can make the real layout match the
+    // screen clients are shown.
+    return false;
+}
+
+void OutputBackend::restoreMirrorModeLayout()
+{
+}
+
 Output *OutputBackend::findOutput(const QString &name) const
 {
     const auto candidates = outputs();

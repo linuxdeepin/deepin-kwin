@@ -270,3 +270,14 @@ target_link_libraries(testMirrorModeMapping
 )
 add_test(NAME kwin-testMirrorModeMapping COMMAND testMirrorModeMapping)
 ecm_mark_as_test(testMirrorModeMapping)
+
+########################################################
+# Test mirror mode layout
+########################################################
+add_executable(testMirrorModeLayout test_mirror_mode_layout.cpp)
+target_link_libraries(testMirrorModeLayout
+    Qt${QT_MAJOR_VERSION}::Test
+    kwin
+)
+add_test(NAME kwin-testMirrorModeLayout COMMAND testMirrorModeLayout)
+ecm_mark_as_test(testMirrorModeLayout)

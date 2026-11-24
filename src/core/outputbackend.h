@@ -103,6 +103,21 @@ public:
      */
     virtual bool applyOutputChanges(const OutputConfiguration &config);
 
+    /**
+     * Applies the layout the mirror mode needs: the anchor output is moved to the
+     * origin and the other outputs are packed left to right, so the real layout
+     * matches the screen clients are shown.
+     *
+     * Returns @c false when the platform cannot drive the output layout, in which case
+     * nothing was changed and the caller has to keep the mode off.
+     */
+    virtual bool applyMirrorModeLayout();
+
+    /**
+     * Puts the layout applyMirrorModeLayout() replaced back.
+     */
+    virtual void restoreMirrorModeLayout();
+
     virtual void disableMultiScreens() {}
 
 public Q_SLOTS:

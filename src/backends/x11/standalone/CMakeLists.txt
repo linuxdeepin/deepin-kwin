@@ -8,6 +8,7 @@ set(X11PLATFORM_SOURCES
     x11_standalone_egl_backend.cpp
     x11_standalone_keyboard.cpp
     x11_standalone_logging.cpp
+    x11_standalone_mirrorlayout.cpp
     x11_standalone_non_composited_outline.cpp
     x11_standalone_output.cpp
     x11_standalone_overlaywindow.cpp

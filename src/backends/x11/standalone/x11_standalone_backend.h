@@ -36,6 +36,7 @@ class OutlineVisual;
 class Compositor;
 class WorkspaceScene;
 class Window;
+class X11MirrorModeLayout;
 
 class KWIN_EXPORT X11StandaloneBackend : public OutputBackend
 {
@@ -69,6 +70,9 @@ public:
     RenderLoop *renderLoop() const;
     Outputs outputs() const override;
 
+    bool applyMirrorModeLayout() override;
+    void restoreMirrorModeLayout() override;
+
 private:
     /**
      * Tests whether GLX is supported and returns @c true
@@ -98,6 +102,7 @@ private:
     std::unique_ptr<X11Keyboard> m_keyboard;
     std::unique_ptr<RenderLoop> m_renderLoop;
     QVector<Output *> m_outputs;
+    std::unique_ptr<X11MirrorModeLayout> m_mirrorModeLayout;
 };
 
 }

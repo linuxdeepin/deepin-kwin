@@ -3599,6 +3599,9 @@ void Workspace::initMirrorMode()
         return;
     }
 
+    // A run that ended while the mode was on left the real layout where the mode put
+    // it: put it back before anything reads the outputs.
+    kwinApp()->outputBackend()->restoreMirrorModeLayout();
     if (!m_mirrorModeDBus) {
         m_mirrorModeDBus = new MirrorModeDBus(this);
     }
@@ -3753,6 +3756,15 @@ void Workspace::enterMirrorMode()
     }
 
     initMirrorModeLockWatch();
+    // Clients are shown the primary screen anchored at the origin, so the real anchor
+    // has to sit there too: the panel places itself against the screen it is told
+    // about, and a primary that keeps its position would put the panel on an area no
+    // output scans out.
+    if (!kwinApp()->outputBackend()->applyMirrorModeLayout()) {
+        qCWarning(KWIN_CORE) << "Mirror mode: the output layout cannot be normalized, keeping the mode off";
+        return;
+    }
+
 
     m_mirrorMode = true;
     m_mirrorModePrimary = primary;
@@ -3809,6 +3821,12 @@ void Workspace::exitMirrorMode()
     m_mirrorMode = false;
     m_mirrorModePrimary = nullptr;
     m_mirrorModeMirrors.clear();
+
+    // Tell clients the real layout is back before restoring it: while the property is
+    // still set they are shown the primary screen anchored at the origin, and moving
+    // the outputs first would drag the panel across screens.
+    updateMirrorModeProperty();
+    kwinApp()->outputBackend()->restoreMirrorModeLayout();
 
     const QList<Window *> windows = stackingOrder();
     for (Window *window : windows) {

@@ -33,6 +33,7 @@
 #include "x11_standalone_egl_backend.h"
 #include "x11_standalone_keyboard.h"
 #include "x11_standalone_logging.h"
+#include "x11_standalone_mirrorlayout.h"
 #include "x11_standalone_non_composited_outline.h"
 #include "x11_standalone_output.h"
 #include "x11_standalone_screenedges_filter.h"
@@ -455,6 +456,21 @@ X11Output *X11StandaloneBackend::findX11Output(const QString &name) const
 Outputs X11StandaloneBackend::outputs() const
 {
     return m_outputs;
+}
+
+bool X11StandaloneBackend::applyMirrorModeLayout()
+{
+    if (!m_mirrorModeLayout) {
+        m_mirrorModeLayout = std::make_unique<X11MirrorModeLayout>(kwinApp()->x11Connection());
+    }
+    return m_mirrorModeLayout->apply();
+}
+
+void X11StandaloneBackend::restoreMirrorModeLayout()
+{
+    if (m_mirrorModeLayout) {
+        m_mirrorModeLayout->restore();
+    }
 }
 
 X11Keyboard *X11StandaloneBackend::keyboard() const
