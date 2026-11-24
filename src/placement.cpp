@@ -580,7 +580,7 @@ void Placement::placeMaximizing(Window *c, const QRect &area, PlacementPolicy ne
 }
 
 /**
- * Cascade the window until it no longer fully overlaps any other window
+ * Cascade the window until it no longer fully overlaps any other non-notification window.
  */
 void Placement::cascadeIfCovering(Window *window, const QRectF &area)
 {
@@ -593,6 +593,9 @@ void Placement::cascadeIfCovering(Window *window, const QRectF &area)
     QRectF possibleGeo = window->frameGeometry();
     for (auto l = workspace()->stackingOrder().crbegin(); l != workspace()->stackingOrder().crend(); ++l) {
         auto other = *l;
+        if (other->isNotification() || other->isCriticalNotification()) {
+            continue;
+        }
         if (isIrrelevant(other, window, desktop) || !other->frameGeometry().intersects(possibleGeo)) {
             continue;
         }
