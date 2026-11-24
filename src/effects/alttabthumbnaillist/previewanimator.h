@@ -122,9 +122,9 @@ private:
     QPointer<EffectWindow> m_selected;
     EffectScreen *m_focus = nullptr;
     QRect m_previewArea; // 保留最近布局，即使在两次 TabBox 会话之间。
-    Animation m_animation;
-    Animation m_gather;
-    Animation m_close;
+    AltTabAnimation m_animation;
+    AltTabAnimation m_gather;
+    AltTabAnimation m_close;
     ClosingSnapshot m_snapshot;
     State m_state = State::Inactive;
 };

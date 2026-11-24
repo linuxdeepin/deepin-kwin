@@ -331,7 +331,7 @@ void PreviewAnimator::advance(std::chrono::milliseconds time)
 {
     // Cold composition can take longer than a whole switch. Resume the fade
     // from the last painted state instead of skipping straight to its endpoint.
-    const auto advancePreview = [time](Animation &animation) {
+    const auto advancePreview = [time](AltTabAnimation &animation) {
         const auto elapsed = animation.timeline.elapsed();
         animation.advance(time);
         if (animation.timeline.elapsed() - elapsed > MaxPreviewFrameStep) {

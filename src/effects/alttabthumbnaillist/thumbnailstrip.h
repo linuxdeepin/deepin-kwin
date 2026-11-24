@@ -113,9 +113,9 @@ private:
     QRect m_selectedRect;
     QRect m_fromSelectedRect;
     QRect m_toSelectedRect;
-    Animation m_animation;
-    Animation m_scrollAnimation;
-    Animation m_selectAnimation;
+    AltTabAnimation m_animation;
+    AltTabAnimation m_scrollAnimation;
+    AltTabAnimation m_selectAnimation;
     State m_state = State::Hidden;
     int m_fromOffset = 0;
     int m_toOffset = 0;

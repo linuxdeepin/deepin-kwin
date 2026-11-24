@@ -55,7 +55,7 @@ inline QRect interpolateRect(const QRect &from, const QRect &to, qreal t)
     return {x, y, width, height};
 }
 
-struct Animation
+struct AltTabAnimation
 {
     TimeLine timeline;
     bool running = false;
