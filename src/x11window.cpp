@@ -3888,9 +3888,12 @@ void X11Window::getWmNormalHints()
         maximize(max_mode);
     }
     if (isManaged()) {
+        // "maximized" and quick-tiling are user settings -> hint changes must not
+        // resize the window away from them (see configureRequest())
+        const bool ignoreGeometry = quickTileMode() != QuickTileMode(QuickTileFlag::None) || maximizeMode() != MaximizeRestore;
         // update to match restrictions
         QSizeF new_size = clientSizeToFrameSize(constrainClientSize(clientSize()));
-        if (new_size != size() && !isFullScreen()) {
+        if (new_size != size() && !isFullScreen() && !ignoreGeometry) {
             QRectF origClientGeometry = m_clientGeometry;
             moveResize(resizeWithChecks(moveResizeGeometry(), new_size));
             if ((!isSpecialWindow() || isToolbar()) && !isFullScreen()) {
