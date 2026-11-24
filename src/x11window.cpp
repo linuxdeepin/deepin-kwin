@@ -4995,7 +4995,12 @@ NETExtendedStrut X11Window::strut() const
 StrutRect X11Window::strutRect(StrutArea area) const
 {
     Q_ASSERT(area != StrutAreaAll); // Not valid
-    const QSize displaySize = workspace()->geometry().size();
+    // A strut is given in the coordinates of the screen the client that set it sees. While
+    // the mirror mode is on clients are shown the primary output alone, so the strut has to
+    // be resolved against that screen: the size of the real layout would put it below every
+    // output, where it is treated as offscreen and the work area keeps the reserved strip.
+    const Output *strutReference = workspace()->isMirrorMode() ? workspace()->mirrorModePrimaryOutput() : nullptr;
+    const QSize displaySize = strutReference ? strutReference->geometry().size() : workspace()->geometry().size();
     NETExtendedStrut strutArea = strut();
     switch (area) {
     case StrutAreaTop:
