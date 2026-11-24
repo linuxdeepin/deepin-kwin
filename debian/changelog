@@ -1,3 +1,30 @@
+kwin (4:6.1.61) unstable; urgency=medium
+
+  * docs: add the local build runtime skill
+  * docs: add the kwin layer debug skill
+  * fix(mirrormode): write the mirror layout without aborting, and check it
+  * fix(x11): resolve struts in the screen clients see while mirroring
+  * feat(x11): give the mirror mode a single coordinate space
+  * fix: Skip notifications when cascading new windows
+  * fix(x11): ignore WM_NORMAL_HINTS geometry resize when quick-tiled or maximized
+  * fix: Avoid Alt+Tab animation type name collision
+  * refactor: Remove the legacy Alt+Tab thumbnail renderer
+  * feat: Enable animated previews in the Alt+Tab switcher
+  * feat: Add window preview painting and restore snapshots
+  * feat: Add Alt+Tab preview tracks across outputs
+  * feat: Add thumbnail strip layout and animations
+  * feat: Add cached Alt+Tab thumbnail rendering
+  * fix: Support hover switching and Flatpak titlebar menus
+  * fix(multitaskviewex): size workspace bar thumbnails from the screen
+  * perf(multitaskviewex): stop waiting for image decodes before the first frame
+  * fix(multitaskviewex): paint each window through the view that owns it
+  * fix(multitaskviewex): keep a separate slide offset for the leaving grid
+  * fix(multitaskviewex): project retiring windows into their own screen canvas
+  * fix(multitaskviewex): give every screen its own workspace wallpaper
+  * fix(effect): hand off input to screen capture windows
+
+ -- justforlxz <justforlxz@gmail.com>  Tue, 24 Nov 2026 19:13:02 +0800
+
 kwin (4:6.1.60) unstable; urgency=medium
 
   * build: build the tests by default
