@@ -491,7 +491,8 @@ void VirtualDesktopManager::removeVirtualDesktop(VirtualDesktop *desktop)
         return;
     }
 
-    const uint oldCurrent = m_current->x11DesktopNumber();
+    const auto oldCurrentDesktop = m_current;
+    const uint oldCurrent = oldCurrentDesktop->x11DesktopNumber();
     const uint i = desktop->x11DesktopNumber() - 1;
     m_desktops.remove(i);
 
@@ -504,7 +505,7 @@ void VirtualDesktopManager::removeVirtualDesktop(VirtualDesktop *desktop)
 
     const uint newCurrent = std::min(oldCurrent, (uint)m_desktops.count());
     m_current = m_desktops.at(newCurrent - 1);
-    if (oldCurrent != newCurrent) {
+    if (oldCurrentDesktop != m_current || oldCurrent != newCurrent) {
         Q_EMIT currentChanged(oldCurrent, newCurrent);
     }
 

@@ -394,6 +394,7 @@ Q_SIGNALS:
 
     /**
      * Signal emitted whenever the current desktop changes.
+     * The desktop numbers can be equal if removing a desktop changes the current desktop's identity.
      * @param previousDesktop The virtual desktop changed from
      * @param newDesktop The virtual desktop changed to
      */

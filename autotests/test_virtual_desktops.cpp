@@ -56,6 +56,10 @@ private Q_SLOTS:
     void current();
     void currentChangeOnCountChange_data();
     void currentChangeOnCountChange();
+    void currentChangeOnDesktopRemoval_data();
+    void currentChangeOnDesktopRemoval();
+    void selectTargetAfterDesktopRemoval_data();
+    void selectTargetAfterDesktopRemoval();
     void next_data();
     void next();
     void previous_data();
@@ -261,6 +265,122 @@ void TestVirtualDesktops::currentChangeOnCountChange()
     vds->setCount(request);
     QCOMPARE(vds->current(), current);
     QCOMPARE(spy.isEmpty(), !signal);
+}
+
+void TestVirtualDesktops::currentChangeOnDesktopRemoval_data()
+{
+    QTest::addColumn<uint>("initCount");
+    QTest::addColumn<uint>("initCurrent");
+    QTest::addColumn<uint>("removedDesktop");
+    QTest::addColumn<uint>("expectedOriginalDesktop");
+    QTest::addColumn<uint>("expectedCurrent");
+    QTest::addColumn<int>("expectedSignals");
+
+    QTest::newRow("remove current first of two") << 2u << 1u << 1u << 2u << 1u << 1;
+    QTest::newRow("remove current first of three") << 3u << 1u << 1u << 2u << 1u << 1;
+    QTest::newRow("remove current middle") << 3u << 2u << 2u << 3u << 2u << 1;
+    QTest::newRow("remove current last of two") << 2u << 2u << 2u << 1u << 1u << 1;
+    QTest::newRow("remove current last of three") << 3u << 3u << 3u << 2u << 2u << 1;
+    QTest::newRow("remove non-current after current") << 3u << 1u << 3u << 1u << 1u << 0;
+    QTest::newRow("remove non-current before current middle") << 3u << 2u << 1u << 3u << 2u << 1;
+    QTest::newRow("renumber current last") << 3u << 3u << 1u << 3u << 2u << 1;
+    QTest::newRow("keep only desktop") << 1u << 1u << 1u << 1u << 1u << 0;
+}
+
+void TestVirtualDesktops::currentChangeOnDesktopRemoval()
+{
+    QFETCH(uint, initCount);
+    QFETCH(uint, initCurrent);
+    QFETCH(uint, removedDesktop);
+    QFETCH(uint, expectedOriginalDesktop);
+    QFETCH(uint, expectedCurrent);
+    QFETCH(int, expectedSignals);
+
+    VirtualDesktopManager *vds = VirtualDesktopManager::self();
+    vds->setCount(initCount);
+    vds->setCurrent(initCurrent);
+
+    auto expectedDesktops = vds->desktops();
+    VirtualDesktop *removed = expectedDesktops.at(removedDesktop - 1);
+    VirtualDesktop *expectedDesktop = expectedDesktops.at(expectedOriginalDesktop - 1);
+    const QString expectedId = expectedDesktop->id();
+    if (initCount > 1) {
+        expectedDesktops.removeOne(removed);
+    }
+
+    QSignalSpy spy(vds, &VirtualDesktopManager::currentChanged);
+    QVERIFY(spy.isValid());
+    connect(vds, &VirtualDesktopManager::currentChanged, this, [vds, expectedDesktop, expectedCurrent](uint, uint) {
+        QCOMPARE(vds->currentDesktop(), expectedDesktop);
+        QCOMPARE(vds->current(), expectedCurrent);
+    });
+
+    vds->removeVirtualDesktop(removed);
+
+    QCOMPARE(vds->desktops(), expectedDesktops);
+    QCOMPARE(vds->currentDesktop(), expectedDesktop);
+    QCOMPARE(vds->currentDesktop()->id(), expectedId);
+    QCOMPARE(vds->current(), expectedCurrent);
+    QCOMPARE(spy.count(), expectedSignals);
+    if (expectedSignals > 0) {
+        const QList<QVariant> arguments = spy.first();
+        QCOMPARE(arguments.at(0).toUInt(), initCurrent);
+        QCOMPARE(arguments.at(1).toUInt(), expectedCurrent);
+    }
+
+    QVERIFY(!vds->setCurrent(expectedDesktop));
+    QCOMPARE(spy.count(), expectedSignals);
+}
+
+void TestVirtualDesktops::selectTargetAfterDesktopRemoval_data()
+{
+    QTest::addColumn<uint>("removedDesktop");
+    QTest::addColumn<uint>("targetOriginalDesktop");
+
+    QTest::newRow("remove current middle then select previous") << 2u << 1u;
+    QTest::newRow("remove first then restore current middle") << 1u << 2u;
+}
+
+void TestVirtualDesktops::selectTargetAfterDesktopRemoval()
+{
+    QFETCH(uint, removedDesktop);
+    QFETCH(uint, targetOriginalDesktop);
+
+    VirtualDesktopManager *vds = VirtualDesktopManager::self();
+    vds->setCount(3);
+    QVERIFY(vds->setCurrent(2));
+
+    VirtualDesktop *removed = vds->desktopForX11Id(removedDesktop);
+    VirtualDesktop *target = vds->desktopForX11Id(targetOriginalDesktop);
+    VirtualDesktop *intermediate = vds->desktopForX11Id(3);
+    QVector<VirtualDesktop *> notifiedDesktops;
+    QObject observer;
+    connect(vds, &VirtualDesktopManager::currentChanged, &observer, [vds, &notifiedDesktops](uint, uint) {
+        notifiedDesktops.append(vds->currentDesktop());
+    });
+    QSignalSpy spy(vds, &VirtualDesktopManager::currentChanged);
+    QVERIFY(spy.isValid());
+
+    vds->removeVirtualDesktop(removed);
+
+    QCOMPARE(vds->currentDesktop(), intermediate);
+    QCOMPARE(vds->current(), 2u);
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy.at(0).at(0).toUInt(), 2u);
+    QCOMPARE(spy.at(0).at(1).toUInt(), 2u);
+
+    QVERIFY(vds->setCurrent(target));
+
+    QCOMPARE(vds->currentDesktop(), target);
+    QCOMPARE(vds->current(), 1u);
+    QCOMPARE(spy.count(), 2);
+    QCOMPARE(spy.at(1).at(0).toUInt(), 2u);
+    QCOMPARE(spy.at(1).at(1).toUInt(), 1u);
+    const QVector<VirtualDesktop *> expectedDesktops{intermediate, target};
+    QCOMPARE(notifiedDesktops, expectedDesktops);
+
+    QVERIFY(!vds->setCurrent(target));
+    QCOMPARE(spy.count(), 2);
 }
 
 void TestVirtualDesktops::addDirectionColumns()
