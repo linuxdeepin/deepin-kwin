@@ -14,6 +14,7 @@ KWin 是 KDE 窗口管理器，deepin 版本维护在 `develop/snipe` 分支（G
 | [pkg-spec](.agents/skills/pkg-spec/SKILL.md) | Debian 打包规范 | 打包构建 .deb 前 |
 | [logging-spec](.agents/skills/logging-spec/SKILL.md) | Qt Category Logging 规范 | 增加日志打印前 |
 | [kwin-layer-debug](.agents/skills/kwin-layer-debug/SKILL.md) | 窗口层级与锁屏可见性调试 | 排查锁屏下窗口不可见 / 快捷键失效 |
+| [local-build-runtime](.agents/skills/local-build-runtime/SKILL.md) | 本地构建在真机运行的 systemd 覆盖与自证 | 改完要在真机验收 / 怀疑「改了没生效」 |
 
 ## 仓库概况
 
