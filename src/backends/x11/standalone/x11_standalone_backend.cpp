@@ -468,9 +468,13 @@ bool X11StandaloneBackend::applyMirrorModeLayout()
 
 void X11StandaloneBackend::restoreMirrorModeLayout()
 {
-    if (m_mirrorModeLayout) {
-        m_mirrorModeLayout->restore();
+    // The layout object is created on demand: a run that ended while the mode was on
+    // left the real layout where the mode put it, and putting it back at startup does
+    // not go through apply() first.
+    if (!m_mirrorModeLayout) {
+        m_mirrorModeLayout = std::make_unique<X11MirrorModeLayout>(kwinApp()->x11Connection());
     }
+    m_mirrorModeLayout->restore();
 }
 
 X11Keyboard *X11StandaloneBackend::keyboard() const

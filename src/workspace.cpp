@@ -3497,7 +3497,11 @@ static bool isLockScreenWindow(const Window *window)
 
 bool Workspace::isMirrorModeListable(const Window *window)
 {
-    return !window->isDeleted() && !window->isDesktop() && !window->isDock() && !isLockScreenWindow(window);
+    // The list is addressed by X11 window id, so a window without one (internal windows
+    // all report XCB_WINDOW_NONE) cannot be listed: listing it would make every internal
+    // window share the entry and publish a bogus "0" to the clients.
+    return window && window->window() != XCB_WINDOW_NONE
+        && !window->isDeleted() && !window->isDesktop() && !window->isDock() && !isLockScreenWindow(window);
 }
 
 bool Workspace::shouldMirrorWindow(const Window *window) const

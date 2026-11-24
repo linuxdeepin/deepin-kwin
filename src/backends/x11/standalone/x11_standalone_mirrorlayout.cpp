@@ -9,13 +9,15 @@
 #include "x11_standalone_mirrorlayout.h"
 
 #include "main.h"
-
+#include "mirrormode_logging.h"
 #include "utils/xcbutils.h"
 
 #include <KConfigGroup>
 #include <KSharedConfig>
-
+#include <QDebug>
 #include <QString>
+
+#include <cmath>
 
 
 namespace KWin
@@ -46,7 +48,9 @@ QVector<X11MirrorModeLayout::CrtcState> X11MirrorModeLayout::readCrtcs() const
         CrtcState state;
         state.crtc = resources.crtcs()[i];
 
-        Xcb::RandR::CrtcInfo info(state.crtc, resources->config_timestamp);
+        // Ask for the state as it is now: the callers write a layout and then read it
+        // back, so a config timestamp from before the write would hand them the old one.
+        Xcb::RandR::CrtcInfo info(state.crtc, XCB_CURRENT_TIME);
         if (!info.isNull() && info->mode != XCB_NONE) {
             state.mode = info->mode;
             state.rotation = info->rotation;
@@ -59,6 +63,20 @@ QVector<X11MirrorModeLayout::CrtcState> X11MirrorModeLayout::readCrtcs() const
         crtcs.append(state);
     }
     return crtcs;
+}
+
+// RandR rejects a zero physical size, and a layout change is only about pixels: scale the
+// millimetres per pixel the screen reports onto the requested size, so the reported DPI does
+// not jump when the mode packs the outputs tighter than the layout it replaces.
+static QSize physicalSizeFor(xcb_connection_t *connection, const QSize &pixels)
+{
+    const xcb_screen_t *screen = xcb_setup_roots_iterator(xcb_get_setup(connection)).data;
+    if (!screen || screen->width_in_pixels == 0 || screen->height_in_pixels == 0
+        || screen->width_in_millimeters == 0 || screen->height_in_millimeters == 0) {
+        return pixels;
+    }
+    return QSize(qMax(1, int(std::lround(double(screen->width_in_millimeters) * pixels.width() / screen->width_in_pixels))),
+                 qMax(1, int(std::lround(double(screen->height_in_millimeters) * pixels.height() / screen->height_in_pixels))));
 }
 
 bool X11MirrorModeLayout::writeCrtcs(const QVector<CrtcState> &crtcs) const
@@ -77,9 +95,29 @@ bool X11MirrorModeLayout::writeCrtcs(const QVector<CrtcState> &crtcs) const
         return false;
     }
 
-    // The screen has to be large enough for the new positions before the CRTCs move:
-    // the X server rejects a CRTC that ends up outside of it.
-    xcb_randr_set_screen_size(m_connection, kwinApp()->x11RootWindow(), bounds.width(), bounds.height(), 0, 0);
+    // The screen has to cover the CRTCs both at their current positions, which is where
+    // they still are, and at the new ones: the X server rejects a CRTC that ends up
+    // outside of it, and it rejects a size that leaves an existing CRTC outside too.
+    // Going straight to bounds therefore fails whenever the mode packs the outputs
+    // smaller than the layout it replaces, and the server silently keeps the old, larger
+    // screen. Stage through the union and shrink to the packed layout once they moved.
+    QRect staging = bounds;
+    for (const CrtcState &state : readCrtcs()) {
+        if (state.mode != XCB_NONE) {
+            staging = staging.united(state.geometry);
+        }
+    }
+
+    // The requests are asynchronous and a rejected one leaves the layout where it was.
+    // They are not collected through cookies: RandR hands back a typed cookie for the CRTC
+    // request and rebuilding that as an xcb_void_cookie_t drops the wide request sequence,
+    // which asserts inside xcb instead of reporting the error. Read the result back from
+    // the server, which is the same answer without depending on cookie bookkeeping.
+    const QSize stagingPhysical = physicalSizeFor(m_connection, staging.size());
+    const QSize boundsPhysical = physicalSizeFor(m_connection, bounds.size());
+
+    xcb_randr_set_screen_size(m_connection, kwinApp()->x11RootWindow(), staging.width(), staging.height(),
+                              stagingPhysical.width(), stagingPhysical.height());
 
     for (const CrtcState &state : crtcs) {
         if (state.mode == XCB_NONE) {
@@ -87,16 +125,35 @@ bool X11MirrorModeLayout::writeCrtcs(const QVector<CrtcState> &crtcs) const
         }
         // A panned CRTC scans out a window of the framebuffer that is not the view
         // rectangle, so the two would disagree again. Clearing the panning means
-        // zeroing the view rectangle, the tracking area and the border.
+        // zeroing the view rectangle, the tracking area and the border. Panning is
+        // optional for a driver, so a failure here is not a failed move.
         xcb_randr_set_panning(m_connection, state.crtc, XCB_CURRENT_TIME,
                               0, 0, 0, 0,
                               0, 0, 0, 0,
                               0, 0, 0, 0);
         xcb_randr_set_crtc_config(m_connection, state.crtc, XCB_CURRENT_TIME, XCB_CURRENT_TIME,
-                                  state.geometry.x(), state.geometry.y(), state.mode, state.rotation,
-                                  state.outputs.size(), state.outputs.constData());
+                                   state.geometry.x(), state.geometry.y(), state.mode, state.rotation,
+                                   state.outputs.size(), state.outputs.constData());
     }
+
+    xcb_randr_set_screen_size(m_connection, kwinApp()->x11RootWindow(), bounds.width(), bounds.height(),
+                              boundsPhysical.width(), boundsPhysical.height());
     xcb_flush(m_connection);
+
+    const QVector<CrtcState> applied = readCrtcs();
+    if (applied.size() != crtcs.size()) {
+        return false;
+    }
+    for (int i = 0; i < crtcs.size(); ++i) {
+        if (crtcs[i].mode == XCB_NONE) {
+            continue;
+        }
+        if (applied[i].crtc != crtcs[i].crtc || applied[i].mode != crtcs[i].mode || applied[i].geometry != crtcs[i].geometry) {
+            qCWarning(KWIN_MIRRORMODE) << "layout write did not take for crtc" << crtcs[i].crtc
+                               << "wanted" << crtcs[i].geometry << "have" << applied[i].geometry;
+            return false;
+        }
+    }
     return true;
 }
 
@@ -137,7 +194,14 @@ bool X11MirrorModeLayout::apply()
         target[i].geometry = geometries[i];
     }
 
+    for (const QRect &geometry : geometries) {
+        qCDebug(KWIN_MIRRORMODE) << "normalized geometry" << geometry;
+    }
     if (!writeCrtcs(target)) {
+        // Hand the layout back before saying the mode stays off: the failed write may
+        // have moved some of the CRTCs already, and the mode is only honest while the
+        // screens the clients are shown and the ones they are scanned out on agree.
+        writeCrtcs(current);
         return false;
     }
 
@@ -157,9 +221,15 @@ void X11MirrorModeLayout::restore()
         return;
     }
 
-    writeCrtcs(m_snapshot);
+    const bool restored = writeCrtcs(m_snapshot);
+    // Drop the in-memory copy either way so a later apply() is not blocked by it.
     m_snapshot.clear();
-
+    if (!restored) {
+        // The screens did not go back. Leave the record in the config so the next start
+        // can try again instead of losing the only way back.
+        qCWarning(KWIN_MIRRORMODE) << "The layout cannot be restored, keeping the record for the next start";
+        return;
+    }
     KConfigGroup group(kwinApp()->config(), QString::fromLatin1(s_snapshotGroup));
     group.deleteEntry(QString::fromLatin1(s_snapshotKey));
     kwinApp()->config()->sync();
@@ -178,7 +248,13 @@ void X11MirrorModeLayout::restoreSnapshot(xcb_connection_t *connection)
     }
 
     X11MirrorModeLayout layout(connection);
-    layout.writeCrtcs(snapshot);
+    if (!layout.writeCrtcs(snapshot)) {
+        // The layout a previous run captured no longer fits this hardware, so the screens
+        // stay where the mode left them. Keep the record instead of throwing away the only
+        // way back, and say so.
+        qCWarning(KWIN_MIRRORMODE) << "The layout captured before the mode cannot be restored";
+        return;
+    }
 
     KConfigGroup writableGroup(kwinApp()->config(), QString::fromLatin1(s_snapshotGroup));
     writableGroup.deleteEntry(QString::fromLatin1(s_snapshotKey));
